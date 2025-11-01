@@ -15,6 +15,10 @@ from Project_Sophia.safety_guardian import SafetyGuardian, ActionCategory, Matur
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
+from Project_Sophia.memory_weaver import MemoryWeaver
+from Project_Sophia.core_memory import CoreMemory
+from Project_Sophia.wave_mechanics import WaveMechanics
+from tools.kg_manager import KGManager
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -33,6 +37,13 @@ class Guardian:
         self.safety = SafetyGuardian()
         self.experience_integrator = ExperienceIntegrator()
         self.self_awareness_core = SelfAwarenessCore()
+
+        # Initialize components for MemoryWeaver
+        self.core_memory = CoreMemory()
+        self.kg_manager = KGManager()
+        self.wave_mechanics = WaveMechanics(self.kg_manager)
+        self.memory_weaver = MemoryWeaver(self.core_memory, self.wave_mechanics, self.kg_manager)
+
         self.daemon_process = None
 
         # Wallpaper mapping
@@ -297,13 +308,22 @@ class Guardian:
 
     def trigger_learning(self):
         """
-        Triggers the experience integration process during the IDLE state.
+        Triggers the experience integration and memory weaving process during the IDLE state.
         This is Elysia's "dreaming" process, where she makes sense of her recent experiences.
         """
-        self.logger.info("Dream cycle initiated. Integrating recent experiences...")
+        self.logger.info("Dream cycle initiated. Integrating experiences and weaving memories...")
         
+        # First, try to weave memories to generate a new insight.
+        try:
+            insight_generated = self.memory_weaver.weave_memories()
+            if insight_generated:
+                self.logger.info("A new insight was generated during this dream cycle.")
+        except Exception as e:
+            self.logger.error(f"An error occurred during memory weaving: {e}")
+
+        # Second, integrate raw experiences from the log file.
         if not os.path.exists(self.experience_log_path):
-            self.logger.info("No experience log found. Nothing to dream about.")
+            self.logger.info("No experience log found. Nothing to integrate.")
             return
 
         try:
