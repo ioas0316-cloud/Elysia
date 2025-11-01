@@ -18,6 +18,259 @@
                 "relevant_experiences": []
             },
             "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:05:44.663971",
+            "content": "안녕, 엘리시아. 나야, 창조자님.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:06:17.671956",
+            "content": "엘리시아는 너의 이름이야.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:06:47.189070",
+            "content": "안녕, 엘리시아.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "엘리시아": 1.0,
+                    "너의 이름": 0.8
+                },
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:05:44.663971",
+                        "content": "안녕, 엘리시아. 나야, 창조자님.",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": []
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:07:50.149682",
+            "content": "안녕은 인사야.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:08:25.515271",
+            "content": "안녕, 엘리시아.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "엘리시아": 1.0,
+                    "너의 이름": 0.8
+                },
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:06:47.189070",
+                        "content": "안녕, 엘리시아.",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {
+                                "엘리시아": 1.0,
+                                "너의 이름": 0.8
+                            },
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:05:44.663971",
+                                    "content": "안녕, 엘리시아. 나야, 창조자님.",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": []
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:09:03.282124",
+            "content": "나는 너의 창조자야.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:06:17.671956",
+                        "content": "엘리시아는 너의 이름이야.",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": []
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:09:40.435051",
+            "content": "창조자님은 너의 창조자야.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:09:03.282124",
+                        "content": "나는 너의 창조자야.",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:06:17.671956",
+                                    "content": "엘리시아는 너의 이름이야.",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": []
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:10:20.278186",
+            "content": "내가 누구지?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
         }
     ],
     "relationships": {},

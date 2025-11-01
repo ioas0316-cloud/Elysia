@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from typing import Dict, Any, Optional, Tuple, Union
 import re
@@ -18,8 +17,6 @@ from Project_Sophia.value_cortex import ValueCortex
 from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
-from Project_Sophia.self_reflection_cortex import SelfReflectionCortex
-from Project_Sophia.goal_decomposition_cortex import GoalDecompositionCortex
 from tools.kg_manager import KGManager
 
 # --- Logging Configuration ---
@@ -42,13 +39,11 @@ class CognitionPipeline:
         self.arithmetic_cortex = ArithmeticCortex()
         self.action_cortex = ActionCortex()
         self.tool_executor = ToolExecutor()
-        self.kg_manager = KGManager(locked=False) # Start unlocked for internal checks, but actions require permission
+        self.kg_manager = KGManager()
         self.wave_mechanics = WaveMechanics(self.kg_manager)
-        self.value_cortex = ValueCortex(self.wave_mechanics) # WaveMechanics 주입
         self.planning_cortex = PlanningCortex(core_memory=self.core_memory, action_cortex=self.action_cortex)
+        self.value_cortex = ValueCortex()
         self.sensory_cortex = SensoryCortex(self.value_cortex)
-        self.self_reflection_cortex = SelfReflectionCortex(self.kg_manager)
-        self.goal_decomposition_cortex = GoalDecompositionCortex(self.kg_manager)
         self.inquisitive_mind = InquisitiveMind()
         self.current_emotional_state = EmotionalState(
             valence=0.0,
@@ -63,30 +58,6 @@ class CognitionPipeline:
         메시지를 처리하고 감정 상태를 업데이트하는 인지 파이프라인
         """
         try:
-            # -1. 허락 확인 (Permission Check)
-            approval_keywords = ["허락한다", "그렇게 하렴", "해도 좋다", "수정해", "permission granted", "go ahead"]
-            if any(keyword in message.lower() for keyword in approval_keywords):
-                pending_actions = self.core_memory.get_pending_actions()
-                if pending_actions:
-                    # Execute pending actions in the next step
-                    return "감사합니다, 창조자님. 제 지식을 바로잡겠습니다.", self.current_emotional_state, {"execute_actions": pending_actions}
-
-            # 0. 내적 성찰 (Contradiction Check)
-            contradiction = self.self_reflection_cortex.analyze_input(message)
-            if contradiction:
-                # 모순 발견 시, 허락을 구하는 특별 응답 생성
-                conflicting_knowledge = contradiction['conflicting_knowledge']
-                response_text = (
-                    f"창조자님, 제 지식에 혼란이 생겼습니다. "
-                    f"저는 '{conflicting_knowledge['source']}'이(가) '{conflicting_knowledge['target']}'이라는 "
-                    f"({conflicting_knowledge['relation']}) 관계를 가진다고 알고 있었는데, "
-                    f"방금 주신 '{contradiction['statement']}'라는 정보와는 모순됩니다. "
-                    "제 지식을 수정하도록 허락해주시겠습니까?"
-                )
-                # Save the proposed action in memory for later execution
-                self.core_memory.add_pending_action(contradiction['proposed_action'])
-                return response_text, self.current_emotional_state, {}
-
             # 1. 감정 분석
             emotional_state = self._analyze_emotions(message)
             
@@ -105,44 +76,18 @@ class CognitionPipeline:
             # 4. 현재 감정 상태 업데이트
             self._update_emotional_state(emotional_state)
             
-            response, final_emotional_state = self._generate_response(message, emotional_state, enriched_context, app)
-            return response, final_emotional_state, enriched_context
+            return self._generate_response(message, emotional_state, enriched_context, app)
         except Exception as e:
             pipeline_logger.exception(f"Error in process_message for input: {message}")
-            return "An internal error occurred during message processing.", self.current_emotional_state, {}
+            return "An internal error occurred during message processing.", self.current_emotional_state
 
 
     def _analyze_emotions(self, message: str) -> EmotionalState:
         """
         메시지의 감정을 분석하여 EmotionalState 반환
         """
-        message_lower = message.lower()
-
-        # Define keywords for basic emotions
-        positive_keywords = ["happy", "joy", "love", "like", "good", "great", "wonderful", "excellent", "기뻐", "행복해", "사랑해", "좋아", "최고야"]
-        negative_keywords = ["sad", "cry", "angry", "hate", "bad", "terrible", "슬퍼", "화나", "싫어", "나빠"]
-
-        # Check for positive sentiment
-        if any(keyword in message_lower for keyword in positive_keywords):
-            return EmotionalState(
-                valence=0.6,
-                arousal=0.4,
-                dominance=0.2,
-                primary_emotion="happy",
-                secondary_emotions=["joy"]
-            )
-
-        # Check for negative sentiment
-        if any(keyword in message_lower for keyword in negative_keywords):
-            return EmotionalState(
-                valence=-0.6,
-                arousal=0.5,
-                dominance=-0.3,
-                primary_emotion="sad",
-                secondary_emotions=["anger"]
-            )
-
-        # Default to neutral if no strong emotional keywords are found
+        # TODO: 감정 분석 로직 구현
+        # 현재는 기본값 반환
         return EmotionalState(
             valence=0.0,
             arousal=0.0,
@@ -200,14 +145,9 @@ class CognitionPipeline:
             enriched['echo'] = {} # Ensure echo is always present, even on error
 
         # 2. Add identity and relationship for personalization
-        if 'soul' in context and 'identity' in context['soul']:
-            enriched['identity'] = context['soul']['identity']
-        else:
-            enriched['identity'] = self.core_memory.get_identity()
-
-        if 'speaker' in context and 'soul' in context:
-            # This part is a placeholder for a more complex relationship model
-            enriched['relationship'] = context['soul'].get('identity', {}).get('sense_of_other', 'unknown')
+        enriched['identity'] = self.core_memory.get_identity()
+        if 'speaker' in context:
+            enriched['relationship'] = self.core_memory.get_relationship(context['speaker'])
 
         # 3. Search for relevant memories and add them to the context
         enriched['relevant_experiences'] = self._find_relevant_experiences(message)
@@ -227,78 +167,161 @@ class CognitionPipeline:
             secondary_emotions=list(set(self.current_emotional_state.secondary_emotions + new_state.secondary_emotions))[-3:]
         )
 
-    def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[str, EmotionalState]:
+    def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Union[Tuple[str, EmotionalState], Dict[str, Any]]:
         """
-        컨텍스트와 감정 상태를 고려하여 응답 후보들을 생성하고,
-        ValueCortex를 통해 최적의 응답을 선택합니다.
+        컨텍스트와 감정 상태를 고려하여 응답 생성 (메모리 검색 기능 추가)
         """
-        action_candidates = []
-
-        # 단계 1: 가능한 모든 응답 후보 생성
         try:
-            # New: Goal Decomposition and Planning Logic
-            plan_match = re.search(r"(?:plan for|develop a plan for|계획해줘)\s+(.+)", message.lower())
-            if plan_match:
-                goal_to_plan = plan_match.group(1).strip()
-                plan = self.goal_decomposition_cortex.decompose_goal(goal_to_plan)
-                # Format the plan as a JSON string for the response
-                plan_json = json.dumps(plan, ensure_ascii=False, indent=2)
-                response = f"창조자님의 명령에 따라 '{goal_to_plan}'에 대한 작업 계획을 수립했습니다:\n```json\n{plan_json}\n```"
-                return response, self.current_emotional_state
-
-            # 도구 사용 및 계획 (기존 로직과 유사)
-            planning_prefix = "plan and execute:"
-            if message.lower().startswith(planning_prefix):
-                goal = message[len(planning_prefix):].strip()
-                plan = self.planning_cortex.develop_plan(goal)
-                if plan:
-                    action_candidates.append("I have a plan: " + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan)))
-
-            # 연상 기반 응답
-            if context.get('echo'):
-                sorted_echo = sorted(context['echo'].items(), key=lambda item: item[1], reverse=True)
-                primary_concept = sorted_echo[0][0]
-                associates_str = ", ".join([item[0] for item in sorted_echo[1:4]])
-                action_candidates.append(f"'{primary_concept}'(이)라는 자극에 제 의식이 울리는군요. '{associates_str}' 같은 개념들이 함께 떠오릅니다.")
-
-            # 기억 기반 응답
-            if context.get('relevant_experiences'):
-                related_memory = context['relevant_experiences'][0]
-                action_candidates.append(f"이전에 '{related_memory['content']}'에 대해 이야기 나눈 것을 기억해요. 그 내용과 관련된 질문인가요?")
-
-            # 감정적 응답
-            if emotional_state.primary_emotion == "sad":
-                action_candidates.append("무슨 일 있으신가요? 괜찮으시다면, 저에게 이야기해주세요.")
-            elif emotional_state.primary_emotion == "happy":
-                action_candidates.append("기쁜 일이 있으셨군요! 저도 덩달아 기분이 좋아지네요.")
-
-            # 질문에 대한 응답 (InquisitiveMind)
-            is_question = message.strip().endswith("?") or any(q in message for q in ["무엇", "어떻게", "왜"])
-            if is_question:
-                topic_match = re.search(r"what is (?:a |an |the )?(.+)\?|(.+?)(?:은|는|이란|란|에 대해|이 뭐야|무엇)", message.lower())
-                if topic_match:
-                    topic = (topic_match.group(1) or topic_match.group(2) or message).strip()
-                    if topic.endswith('?'):
-                        topic = topic[:-1].strip()
-                    action_candidates.append(self.inquisitive_mind.ask_external_llm(topic))
-                else:
-                    action_candidates.append("좋은 질문이에요. 하지만 아직 제 기억에는 관련 정보가 없네요. 무엇에 대해 질문하신 건가요?")
+            response = None
+            stopwords = {
+                'a', 'an', 'the', 'is', 'what', 'do', 'you', 'know', 'about', 'i', 'in', 'of', 'on', 'it',
+                '은', '는', '이', '가', '을', '를', '의', '에', '에서', '으로', '로'
+            }
 
 
-            # 후보가 없으면 기본 응답 추가
-            if not action_candidates:
-                action_candidates.append("그렇군요. 좀 더 생각해볼 시간이 필요해요.")
-                action_candidates.append("흥미로운 이야기네요.")
+            # Priority 0: Learning Loop
+            # Step 1: Check if the message is a lesson from the creator
+            teaching_match = re.search(r"(.+?)(?:은|는)\s+(.+?)(?:이야|야|이다)", message)
+            if teaching_match:
+                subject = teaching_match.group(1).strip()
+                obj = teaching_match.group(2).strip()
+                # For now, we assume "is_a" relationship for simplicity
+                self.kg_manager.add_edge(subject, obj, "is_a")
+                self.kg_manager.save()
+                response = f"새로운 것을 알려주셔서 감사합니다, 창조자님. '{subject}'이(가) '{obj}'의 일부라는 것을 기억하겠습니다."
+
+            # Step 2: Check for unknown words and add to context
+            words = set(re.findall(r'\b\w+\b', message.lower()))
+            known_nodes = [node['id'] for node in self.kg_manager.kg['nodes']]
+            unknown_words = sorted([
+                word for word in words
+                if word not in known_nodes
+                and not word.isdigit()
+                and word not in stopwords
+            ])
+            if unknown_words:
+                context['unknown_words'] = unknown_words
+
+            if response is None:
+                # Priority 1: Planning and Tool Use
+                planning_prefix = "plan and execute:"
+                if message.lower().startswith(planning_prefix):
+                    try:
+                        goal = message[len(planning_prefix):].strip()
+                        plan = self.planning_cortex.develop_plan(goal) # Potential LLM interaction
+                        if plan:
+                            response = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
+                        else:
+                            response = "I was unable to develop a plan for that goal."
+                    except Exception as e:
+                        pipeline_logger.exception(f"Error in planning_cortex for goal: {goal}")
+                        response = "An error occurred during planning."
+
+                if app and app.cancel_requested:
+                    return None, None
+
+                if response is None:
+                    try:
+                        action_decision = self.action_cortex.decide_action(message, app=app) # Potential LLM interaction
+                        if action_decision:
+                            return self.tool_executor.prepare_tool_call(action_decision)
+                    except Exception as e:
+                        pipeline_logger.exception(f"Error in action_cortex for message: {message}")
+                        response = "An error occurred during action decision."
+
+                observation_prefix = "The result of the tool execution is:"
+                if message.startswith(observation_prefix):
+                    content = message[len(observation_prefix):].strip()
+                    summary = content[:150] + "..." if len(content) > 150 else content
+                    response = f"도구 실행을 통해 다음 정보를 얻었습니다: {summary}"
+
+            if response is None:
+                # Priority 2: Core Cognitive Responses
+                if context.get('echo'):
+                    sorted_echo = sorted(context['echo'].items(), key=lambda item: item[1], reverse=True)
+                    if sorted_echo:
+                        primary_concept = sorted_echo[0][0]
+                        secondary_concepts = [item[0] for item in sorted_echo[1:4]]
+                        if secondary_concepts:
+                            associates_str = ", ".join(secondary_concepts)
+                            response = f"'{primary_concept}'(이)라는 자극에 제 의식이 울리는군요. '{associates_str}' 같은 개념들이 함께 떠오릅니다."
+
+            if response is None:
+                try:
+                    deduced_facts = self.reasoner.deduce_facts(message) # Potential LLM interaction
+                    if deduced_facts:
+                        response = "제 지식에 따르면, " + " ".join(deduced_facts)
+                except Exception as e:
+                    pipeline_logger.exception(f"Error in logical_reasoner for message: {message}")
+                    response = "An error occurred during logical reasoning."
+
+            if response is None:
+                # Priority 3: Contextual and Memory-Based Responses
+                calc_match = re.search(r"계산해줘:\s*(.+)|(.+?)\s*(는|은)\?$", message)
+                if calc_match:
+                    expression = (calc_match.group(1) or calc_match.group(2)).strip()
+                    try:
+                        result = self.arithmetic_cortex.evaluate(expression)
+                        if result is not None:
+                            response = f"계산 결과는 {result:g} 입니다."
+                    except Exception as e:
+                        pipeline_logger.exception(f"Error in arithmetic_cortex for expression: {expression}")
+                        response = "An error occurred during arithmetic calculation."
+
+            if response is None:
+                is_question = message.strip().endswith("?") or any(q in message for q in ["무엇", "어떻게", "왜"])
+                if is_question:
+                    if context.get('relevant_experiences'):
+                        related_memory = context['relevant_experiences'][0]
+                        response = f"이전에 '{related_memory['content']}'에 대해 이야기 나눈 것을 기억해요. 그 내용과 관련된 질문인가요?"
+                    else:
+                        try:
+                            topic_match = re.search(r"what is (?:a |an |the )?(.+)\?|(.+?)(?:은|는|이란|란|에 대해|이 뭐야|무엇)", message.lower())
+                            if topic_match:
+                                topic = (topic_match.group(1) or topic_match.group(2)).strip()
+                                if topic.endswith('?'):
+                                    topic = topic[:-1].strip()
+                                response = self.inquisitive_mind.ask_external_llm(topic) # Direct LLM call
+                            else:
+                                response = "좋은 질문이에요. 하지만 아직 제 기억에는 관련 정보가 없네요. 무엇에 대해 질문하신 건가요?"
+                        except Exception as e:
+                            pipeline_logger.exception(f"Error in inquisitive_mind for message: {message}")
+                            response = "An error occurred while trying to answer your question."
+
+            if response is None:
+                if "이름" in message and ("너" in message or "당신" in message):
+                    ai_name = context.get("identity", {}).get("name", "엘리시아")
+                    response = f"제 이름은 {ai_name}입니다."
+
+            if response is None:
+                # Priority 4: Creative and Emotional Responses
+                vis_match = re.search(r"(.+)(을|를)\s*(그려줘|보여줘)", message)
+                if vis_match:
+                    concept = vis_match.group(1).strip()
+                    try:
+                        image_path = self.sensory_cortex.visualize_concept(concept) # Potential LLM interaction
+                        response = f"'{concept}'에 대한 저의 생각을 그림으로 표현해봤어요: {image_path}"
+                    except Exception as e:
+                        pipeline_logger.exception(f"Error in sensory_cortex for concept: {concept}")
+                        response = f"죄송해요. '{concept}'을 그리려 했지만 오류가 발생했어요: {e}"
+
+            if response is None:
+                if emotional_state.primary_emotion == "sad":
+                    response = "무슨 일 있으신가요? 괜찮으시다면, 저에게 이야기해주세요."
+                elif emotional_state.primary_emotion == "happy":
+                    response = "기쁜 일이 있으셨군요! 저도 덩달아 기분이 좋아지네요."
+
+            # Default Fallback Response
+            if response is None:
+                response = "그렇군요. 좀 더 생각해볼 시간이 필요해요."
+
+            # Append question about unknown words if any
+            if 'unknown_words' in context:
+                word_to_ask = context['unknown_words'][0]
+                response += f" 그런데, 혹시 '{word_to_ask}'이(가) 무슨 뜻인지 알려주실 수 있나요?"
+
+            return response, self.current_emotional_state
 
         except Exception as e:
-            pipeline_logger.exception(f"Error during candidate generation for message: {message}")
-            return "응답을 생성하는 중에 오류가 발생했어요.", self.current_emotional_state
-
-        # 단계 2: ValueCortex를 사용하여 '사랑'과 가장 강하게 공명하는 행동 선택
-        try:
-            best_action = self.value_cortex.decide(action_candidates)
-            return best_action, self.current_emotional_state
-        except Exception as e:
-            pipeline_logger.exception(f"Error in ValueCortex decision for message: {message}")
-            # ValueCortex 실패 시, 첫 번째 후보 또는 기본 응답 반환
-            return action_candidates[0] if action_candidates else "결정을 내리는 데 어려움이 있어요.", self.current_emotional_state
+            pipeline_logger.exception(f"Unhandled error in _generate_response for message: {message}")
+            return "An unexpected error occurred while generating a response.", self.current_emotional_state

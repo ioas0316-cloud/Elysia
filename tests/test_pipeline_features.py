@@ -31,7 +31,7 @@ class TestPipelineFeatures(unittest.TestCase):
     def test_conversational_memory_is_retrieved(self):
         """
         Tests if the pipeline can retrieve a relevant past experience and use
-        it in a response.
+        it in a response, while also asking about unknown words.
         """
         # 1. Add a relevant memory to the core memory
         past_experience = Memory(
@@ -42,30 +42,36 @@ class TestPipelineFeatures(unittest.TestCase):
         self.pipeline.core_memory.add_experience(past_experience)
 
         # 2. Ask a question related to the past experience
-        response, _, _ = self.pipeline.process_message("What do you know about black holes?")
+        response, _ = self.pipeline.process_message("What do you know about black holes?")
 
-        # 3. Assert that the response references the past conversation
-        self.assertIn("이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요.", response)
+        # 3. Assert that the response references the past conversation and asks about the alphabetically first unknown word
+        expected_memory_part = "이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요."
+        expected_question_part = "그런데, 혹시 'black'이(가) 무슨 뜻인지 알려주실 수 있나요?"
+        self.assertIn(expected_memory_part, response)
+        self.assertIn(expected_question_part, response)
 
     @patch('Project_Sophia.inquisitive_mind.generate_text')
     def test_inquisitive_mind_is_triggered(self, mock_generate_text):
         """
-        Tests if the InquisitiveMind is triggered when the pipeline encounters
-        a question it cannot answer from memory or internal knowledge.
+        Tests if the InquisitiveMind is triggered and also asks about unknown words.
         """
         # 1. Mock the external LLM call to avoid actual API usage
         mock_response = "A supermassive black hole is the largest type of black hole."
         mock_generate_text.return_value = mock_response
 
         # 2. Ask a question about a topic that is not in the memory
-        response, _, _ = self.pipeline.process_message("What is a supermassive black hole?")
+        response, _ = self.pipeline.process_message("What is a supermassive black hole?")
 
         # 3. Assert that the mock was called, meaning the InquisitiveMind was activated
         mock_generate_text.assert_called_once()
 
-        # 4. Assert that the response is the formatted output from the InquisitiveMind
-        expected_response = f"I have learned that 'supermassive black hole' is: '{mock_response.strip()}'. Is this correct?"
-        self.assertEqual(response, expected_response)
+        # 4. Assert that the response contains both the formatted output from InquisitiveMind and the question
+        expected_inquisitive_part = f"'supermassive black hole'에 대한 흥미로운 사실을 발견했습니다: {mock_response} 이 정보가 정확하다면, '네'라고 답해주시겠어요?"
+        expected_question_part = "그런데, 혹시 'black'이(가) 무슨 뜻인지 알려주실 수 있나요?"
+
+        # We check for containment because the exact combined string might be fragile
+        self.assertIn(expected_inquisitive_part, response)
+        self.assertIn(expected_question_part, response)
 
 
 if __name__ == '__main__':

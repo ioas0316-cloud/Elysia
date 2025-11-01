@@ -45,22 +45,20 @@ class InquisitiveMind:
         prompt = f"Please provide a brief, one-sentence explanation of what '{topic}' is."
 
         max_retries = 3
-        initial_delay = 1  # seconds
-        backoff_factor = 2
+        delay = 1  # seconds
         
         for attempt in range(max_retries):
             try:
                 external_knowledge = generate_text(prompt)
                 if external_knowledge:
                     # Format the finding as a question for the user to verify
-                    return f"I have learned that '{topic}' is: '{external_knowledge.strip()}'. Is this correct?"
+                    return f"'{topic}'에 대한 흥미로운 사실을 발견했습니다: {external_knowledge} 이 정보가 정확하다면, '네'라고 답해주시겠어요?"
             except Exception as e:
-                inquisitive_logger.warning(f"Attempt {attempt + 1} to query LLM failed: {e}")
+                inquisitive_logger.error(f"Error querying external LLM for '{topic}' on attempt {attempt + 1}: {e}")
                 if attempt < max_retries - 1:
-                    delay = initial_delay * (backoff_factor ** attempt)
                     time.sleep(delay)
+                    delay *= 2  # Exponential backoff
                 else:
-                    inquisitive_logger.error("All retries to query LLM failed.")
-                    return "I tried to look up the information, but I encountered an error."
+                    return f"'{topic}'에 대한 정보를 찾는 데 어려움을 겪고 있습니다. 잠시 후에 다시 시도해 주시겠어요?"
 
-        return "I'm sorry, I couldn't find any information on that topic."
+        return f"'{topic}'에 대한 외부 정보를 조회하는 데 실패했습니다."

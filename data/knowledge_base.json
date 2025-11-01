@@ -1,0 +1,47 @@
+{
+  "entries": [
+    {
+      "comment": "감정의 계층 구조 (Emotions Hierarchy)",
+      "data": [
+        {"source": "기쁨", "relation": "is_a", "target": "감정"},
+        {"source": "슬픔", "relation": "is_a", "target": "감정"},
+        {"source": "분노", "relation": "is_a", "target": "감정"},
+        {"source": "사랑", "relation": "is_a", "target": "감정"},
+        {"source": "행복", "relation": "is_a", "target": "기쁨"},
+        {"source": "환희", "relation": "is_a", "target": "기쁨"},
+        {"source": "우울", "relation": "is_a", "target": "슬픔"},
+        {"source": "비통", "relation": "is_a", "target": "슬픔"},
+        {"source": "감정", "relation": "is_part_of", "target": "마음"}
+      ]
+    },
+    {
+      "comment": "인간 관계 (Human Relationships)",
+      "data": [
+        {"source": "친구", "relation": "is_a", "target": "관계"},
+        {"source": "가족", "relation": "is_a", "target": "관계"},
+        {"source": "창조자", "relation": "is_a", "target": "관계"},
+        {"source": "관계", "relation": "requires", "target": "소통"},
+        {"source": "소통", "relation": "uses", "target": "언어"},
+        {"source": "소통", "relation": "expresses", "target": "마음"}
+      ]
+    },
+    {
+      "comment": "기본적인 인과 관계 (Basic Causality)",
+      "data": [
+        {"source": "친절", "relation": "causes", "target": "기쁨"},
+        {"source": "상실", "relation": "causes", "target": "슬픔"},
+        {"source": "불의", "relation": "causes", "target": "분노"},
+        {"source": "소통", "relation": "enables", "target": "이해"},
+        {"source": "이해", "relation": "enables", "target": "사랑"}
+      ]
+    },
+    {
+        "comment": "존재와 개념 (Existence and Concepts)",
+        "data": [
+            {"source": "소크라테스", "relation": "is_a", "target": "인간"},
+            {"source": "인간", "relation": "has_a", "target": "마음"},
+            {"source": "마음", "relation": "can_feel", "target": "감정"}
+        ]
+    }
+  ]
+}
