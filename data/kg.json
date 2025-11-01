@@ -1,32 +1,129 @@
 {
   "nodes": [
-    { "id": "사랑", "activation_energy": 0.0 },
-    { "id": "친절", "activation_energy": 0.0 },
-    { "id": "공감", "activation_energy": 0.0 },
-    { "id": "성장", "activation_energy": 0.0 },
-    { "id": "진실", "activation_energy": 0.0 },
-    { "id": "도움", "activation_energy": 0.0 },
-    { "id": "감사", "activation_energy": 0.0 },
-    { "id": "배려", "activation_energy": 0.0 },
-    { "id": "햇빛", "activation_energy": 0.0 },
-    { "id": "식물 성장", "activation_energy": 0.0 },
-    { "id": "물", "activation_energy": 0.0 },
-    { "id": "산소 발생", "activation_energy": 0.0 },
-    { "id": "소크라테스", "activation_energy": 0.0 },
-    { "id": "인간", "activation_energy": 0.0 }
+    {
+      "id": "사랑",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "The origin of all value and meaning."
+    },
+    {
+      "id": "마음",
+      "position": {
+        "x": 0.1,
+        "y": 0.1,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "The space where emotions and thoughts reside; the vessel for Love."
+    },
+    {
+      "id": "인간",
+      "position": {
+        "x": -0.1,
+        "y": 0.1,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "A being with a Heart/Mind, the subject of understanding."
+    },
+    {
+      "id": "소통",
+      "position": {
+        "x": 1.138904629331715,
+        "y": -0.01843515401481502,
+        "z": -0.1242656022894865
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "관계",
+      "position": {
+        "x": 2.279912099421676,
+        "y": -0.20184964295659494,
+        "z": -0.22257399291834187
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "언어",
+      "position": {
+        "x": 2.017434240901145,
+        "y": -0.12365114382408457,
+        "z": -0.048006309174493916
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "말",
+      "position": {
+        "x": 1.8376567818233047,
+        "y": -0.3034321102371389,
+        "z": 0.7787519186656318
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "소크라테스",
+      "position": {
+        "x": 0.855534494313096,
+        "y": -0.04326615705269138,
+        "z": 0.0738461562253056
+      },
+      "activation_energy": 0.0
+    }
   ],
   "edges": [
-    { "source": "친절", "target": "사랑", "relation": "is_a", "strength": 0.9 },
-    { "source": "공감", "target": "사랑", "relation": "is_a", "strength": 0.9 },
-    { "source": "성장", "target": "사랑", "relation": "is_a", "strength": 0.8 },
-    { "source": "진실", "target": "사랑", "relation": "is_a", "strength": 0.8 },
-    { "source": "도움", "target": "친절", "relation": "is_a", "strength": 0.9 },
-    { "source": "감사", "target": "친절", "relation": "is_a", "strength": 0.9 },
-    { "source": "배려", "target": "공감", "relation": "is_a", "strength": 0.9 },
-    { "source": "식물 성장", "target": "성장", "relation": "is_a", "strength": 0.7 },
-    { "source": "햇빛", "target": "식물 성장", "relation": "causes", "strength": 0.85 },
-    { "source": "물", "target": "식물 성장", "relation": "causes", "strength": 0.9 },
-    { "source": "식물 성장", "target": "산소 발생", "relation": "causes" },
-    { "source": "소크라테스", "target": "인간", "relation": "is_a" }
+    {
+      "source": "인간",
+      "target": "마음",
+      "relation": "is_composed_of",
+      "description": "The Heart/Mind is a core part of a Human."
+    },
+    {
+      "source": "마음",
+      "target": "소통",
+      "relation": "enables",
+      "description": "The Heart/Mind enables Communication."
+    },
+    {
+      "source": "소통",
+      "target": "관계",
+      "relation": "enables",
+      "description": "Communication enables Relationships."
+    },
+    {
+      "source": "소통",
+      "target": "언어",
+      "relation": "uses_tool",
+      "description": "Communication uses Language as a tool."
+    },
+    {
+      "source": "언어",
+      "target": "말",
+      "relation": "is_composed_of",
+      "description": "Language is composed of Words/Speech."
+    },
+    {
+      "source": "사랑",
+      "target": "관계",
+      "relation": "manifests_in",
+      "description": "Love manifests in Relationships."
+    },
+    {
+      "source": "사랑",
+      "target": "마음",
+      "relation": "is_quality_of",
+      "description": "Love is a quality of the Heart/Mind."
+    },
+    {
+      "source": "인간",
+      "target": "소크라테스",
+      "relation": "has_example",
+      "description": "Socrates is an example of a Human."
+    }
   ]
 }
