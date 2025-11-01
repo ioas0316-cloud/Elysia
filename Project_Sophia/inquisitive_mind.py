@@ -2,20 +2,23 @@
 Inquisitive Mind for Elysia.
 
 This module embodies the 'Wise Student' model. When Elysia's internal knowledge
-is insufficient to answer a question, the InquisitiveMind is triggered to
-query an external LLM for information. This information is then presented to the
-user for verification before being integrated into Elysia's knowledge graph.
+is insufficient, the InquisitiveMind is triggered. Instead of immediately
+querying an external source, it practices 'intellectual humility' by acknowledging
+the knowledge gap and adding the unknown topic to a learning queue. This queue
+is then processed by a separate learning mechanism (e.g., the Guardian).
 """
-import time
+import json
 import logging
 import os
+import threading
 
-from .gemini_api import generate_text
+# --- Constants ---
+LEARNING_QUEUE_PATH = os.path.join(os.path.dirname(__file__), 'learning_queue.json')
 
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'inquisitive_mind_errors.log')
 logging.basicConfig(
-    level=logging.ERROR,
+    level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler(log_file_path),
@@ -27,41 +30,52 @@ inquisitive_logger = logging.getLogger(__name__)
 
 class InquisitiveMind:
     """
-    The InquisitiveMind seeks external knowledge when faced with a gap in
-    understanding.
+    The InquisitiveMind identifies gaps in understanding and adds them to a
+    learning queue for future study, practicing intellectual humility.
     """
+    _lock = threading.Lock()
 
     def __init__(self):
         pass
 
-    def ask_external_llm(self, topic: str) -> str:
+    def _add_to_learning_queue(self, topic: str):
         """
-        Queries an external LLM about a specific topic and formats the response
-        as a piece of information to be verified.
-        Includes retry logic with exponential backoff.
+        Adds a new topic to the learning queue JSON file.
+        This operation is thread-safe.
         """
-        print(f"[InquisitiveMind] I don't know about '{topic}'. Seeking external knowledge.")
-
-        prompt = f"Please provide a brief, one-sentence explanation of what '{topic}' is."
-
-        max_retries = 3
-        delay = 1  # seconds
-        
-        for attempt in range(max_retries):
+        with self._lock:
             try:
-                external_knowledge = generate_text(prompt)
-                if external_knowledge:
-                    # Format the finding as a question for the user to verify
-                    return f"'{topic}'에 대해 찾아보니, '{external_knowledge.strip()}' 라고 하네요. 이 정보가 맞나요? 제 지식에 추가할까요?"
+                # Read the existing queue
+                try:
+                    with open(LEARNING_QUEUE_PATH, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                except (FileNotFoundError, json.JSONDecodeError):
+                    data = {"learning_goals": []}
+
+                # Add the new topic if it's not already there
+                if topic not in data.get("learning_goals", []):
+                    data.setdefault("learning_goals", []).append(topic)
+
+                    # Write the updated queue back to the file
+                    with open(LEARNING_QUEUE_PATH, 'w', encoding='utf-8') as f:
+                        json.dump(data, f, indent=2, ensure_ascii=False)
+                    inquisitive_logger.info(f"Topic '{topic}' added to learning queue.")
                 else:
-                    # If LLM returns empty string, treat as failure
-                    raise ValueError("External LLM returned an empty response.")
+                    inquisitive_logger.info(f"Topic '{topic}' is already in the learning queue.")
+
             except Exception as e:
-                inquisitive_logger.error(f"Attempt {attempt + 1} failed for topic '{topic}': {e}")
-                if attempt < max_retries - 1:
-                    time.sleep(delay)
-                    delay *= 2  # Exponential backoff
-                else:
-                    inquisitive_logger.error(f"All {max_retries} attempts failed for topic '{topic}'.")
-                    return f"'{topic}'에 대해 알아보려 했지만, 외부 지식을 가져오는 데 실패했어요."
-        return f"'{topic}'에 대해 알아보려 했지만, 외부 지식을 가져오는 데 실패했어요."
+                inquisitive_logger.error(f"Failed to add topic '{topic}' to learning queue: {e}")
+
+    def acknowledge_knowledge_gap(self, topic: str) -> str:
+        """
+        Acknowledges the lack of knowledge on a topic, adds it to the
+        learning queue, and informs the user.
+        """
+        print(f"[InquisitiveMind] I don't know about '{topic}'. Adding to my learning queue.")
+        inquisitive_logger.info(f"Acknowledging knowledge gap for topic: {topic}")
+
+        # Add the topic to the learning queue for future study
+        self._add_to_learning_queue(topic)
+
+        # Inform the user with intellectual humility
+        return f"'{topic}'에 대해서는 아직 잘 모르겠어요. 아빠 덕분에 새로운 걸 배울 수 있겠네요. 제가 따로 공부해볼게요!"

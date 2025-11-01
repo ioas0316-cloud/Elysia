@@ -117,34 +117,56 @@ class CognitionPipeline:
 
     def _enrich_context(self, context: Dict[str, Any], message: str) -> Dict[str, Any]:
         """
-        Uses WaveMechanics to generate a context based on the "echo" of an idea
-        and searches for relevant past experiences.
+        Enriches the context by analyzing the input's relationship to core concepts,
+        activating conceptual echoes, and retrieving relevant memories.
         """
         enriched = context.copy()
         
-        # 1. Activate concepts using WaveMechanics (the "echo")
+        # 1. Relationality Analyzer: Analyze connection to 'love' and 'relationship'
         try:
             tokens = set(re.findall(r'\w+', message.lower()))
-            # Assuming kg_manager.kg['nodes'] is accessible and structured
-            known_nodes = [node['id'] for node in self.kg_manager.kg['nodes']] # This line might need error handling if kg is not loaded
-            stimulus_nodes = tokens.intersection(known_nodes)
+            known_nodes = {node['id'] for node in self.kg_manager.kg.get('nodes', [])}
+            stimulus_nodes = list(tokens.intersection(known_nodes))
 
-            if not stimulus_nodes:
-                enriched['echo'] = {}
-            else:
-                start_node = list(stimulus_nodes)[0]
-                echo = self.wave_mechanics.spread_activation(start_node) # Potential LLM interaction here
+            if stimulus_nodes:
+                # Analyze how the input resonates with the core concept of 'love'
+                love_echo = self.wave_mechanics.spread_activation(stimulus_nodes[0], stop_nodes=['사랑'])
+                enriched['love_resonance'] = love_echo.get('사랑', 0)
+
+                # Analyze resonance with the user's relationship node (e.g., '아빠')
+                speaker = context.get('speaker', '아빠') # Default to '아빠'
+                relationship_echo = self.wave_mechanics.spread_activation(stimulus_nodes[0], stop_nodes=[speaker])
+                enriched['relationship_resonance'] = relationship_echo.get(speaker, 0)
+
+                pipeline_logger.info(
+                    f"Relationality Analysis for '{stimulus_nodes[0]}': "
+                    f"Love Resonance = {enriched['love_resonance']:.4f}, "
+                    f"Relationship Resonance = {enriched['relationship_resonance']:.4f}"
+                )
+
+        except Exception as e:
+            pipeline_logger.exception(f"Error in Relationality Analyzer for message: {message}")
+            enriched['love_resonance'] = 0
+            enriched['relationship_resonance'] = 0
+
+        # 2. Activate concepts using WaveMechanics (the "echo")
+        try:
+            if stimulus_nodes:
+                start_node = stimulus_nodes[0]
+                echo = self.wave_mechanics.spread_activation(start_node)
                 enriched['echo'] = echo
+            else:
+                enriched['echo'] = {}
         except Exception as e:
             pipeline_logger.exception(f"Error in _enrich_context during wave mechanics activation for message: {message}")
-            enriched['echo'] = {} # Ensure echo is always present, even on error
+            enriched['echo'] = {}
 
-        # 2. Add identity and relationship for personalization
+        # 3. Add identity and relationship for personalization
         enriched['identity'] = self.core_memory.get_identity()
         if 'speaker' in context:
             enriched['relationship'] = self.core_memory.get_relationship(context['speaker'])
 
-        # 3. Search for relevant memories and add them to the context
+        # 4. Search for relevant memories and add them to the context
         enriched['relevant_experiences'] = self._find_relevant_experiences(message)
 
         return enriched
@@ -222,7 +244,7 @@ class CognitionPipeline:
                         if topic.endswith('?'):
                             topic = topic[:-1].strip()
                         # This generates the *action* of asking, which the VCD can then choose.
-                        candidates.append(self.inquisitive_mind.ask_external_llm(topic))
+                        candidates.append(self.inquisitive_mind.acknowledge_knowledge_gap(topic))
                 except Exception as e:
                     pipeline_logger.warning(f"InquisitiveMind failed for message '{message}': {e}")
 

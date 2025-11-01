@@ -19,11 +19,15 @@ from Project_Sophia.memory_weaver import MemoryWeaver
 from Project_Sophia.core_memory import CoreMemory
 from Project_Sophia.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
+from Project_Sophia.gemini_api import generate_text
+
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
 DAEMON_SCRIPT = 'elysia_gui.py'
 GUARDIAN_LOG_FILE = 'guardian.log'
+LEARNING_QUEUE_PATH = os.path.join('Project_Sophia', 'learning_queue.json')
+
 
 # --- Elysia's Biorhythm States ---
 class ElysiaState(Enum):
@@ -309,11 +313,18 @@ class Guardian:
     def trigger_learning(self):
         """
         Triggers the experience integration and memory weaving process during the IDLE state.
-        This is Elysia's "dreaming" process, where she makes sense of her recent experiences.
+        This is Elysia's "dreaming" process, where she makes sense of her recent experiences
+        and autonomously learns about new topics.
         """
-        self.logger.info("Dream cycle initiated. Integrating experiences and weaving memories...")
-        
-        # First, try to weave memories to generate a new insight.
+        self.logger.info("Dream cycle initiated. Integrating experiences, weaving memories, and processing learning queue...")
+
+        # 1. Process the learning queue to acquire new knowledge
+        try:
+            self._process_learning_queue()
+        except Exception as e:
+            self.logger.error(f"An error occurred during autonomous learning: {e}")
+
+        # 2. Weave memories to generate new insights.
         try:
             insight_generated = self.memory_weaver.weave_memories()
             if insight_generated:
@@ -321,7 +332,7 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"An error occurred during memory weaving: {e}")
 
-        # Second, integrate raw experiences from the log file.
+        # 3. Integrate raw experiences from the log file.
         if not os.path.exists(self.experience_log_path):
             self.logger.info("No experience log found. Nothing to integrate.")
             return
@@ -371,6 +382,100 @@ class Guardian:
 
         except Exception as e:
             self.logger.error(f"A critical error occurred during the dream cycle: {e}")
+
+    def _process_learning_queue(self):
+        """
+        Processes topics from the learning queue, turning them into structured knowledge.
+        """
+        self.logger.info("Checking learning queue for new topics...")
+        if not os.path.exists(LEARNING_QUEUE_PATH):
+            self.logger.info("Learning queue file not found.")
+            return
+
+        try:
+            with open(LEARNING_QUEUE_PATH, 'r+', encoding='utf-8') as f:
+                try:
+                    data = json.load(f)
+                    goals = data.get("learning_goals", [])
+                except json.JSONDecodeError:
+                    self.logger.warning("Learning queue is corrupted or empty. Resetting.")
+                    goals = []
+
+                if not goals:
+                    self.logger.info("Learning queue is empty. No new topics to learn.")
+                    return
+
+                # Learn one topic per dream cycle to simulate focused study
+                topic_to_learn = goals.pop(0)
+                self.logger.info(f"Attempting to learn about: '{topic_to_learn}'")
+
+                # --- Step 1: Information Gathering (Placeholder) ---
+                # In a future implementation, this would involve using tools like
+                # google_search and view_text_website to gather information.
+                # For now, we rely on the LLM's internal knowledge.
+                information = f"Information about {topic_to_learn}." # Dummy information
+
+                # --- Step 2: Knowledge Structuring ---
+                prompt = f"""
+                You are a knowledge engineering expert. Your task is to extract the core relationship
+                from the user's request about a topic and represent it as a simple, factual
+                (subject, relation, object) triple.
+
+                Example:
+                - Topic: "the color of the sky"
+                - Output: {{"subject": "sky", "relation": "has color", "object": "blue"}}
+
+                - Topic: "what is a cat"
+                - Output: {{"subject": "cat", "relation": "is a", "object": "mammal"}}
+
+                - Topic: "who is the CEO of Google"
+                - Output: {{"subject": "Google", "relation": "has CEO", "object": "Sundar Pichai"}}
+
+                Now, process the following topic:
+                Topic: "{topic_to_learn}"
+                Output:
+                """
+
+                structured_knowledge_str = generate_text(prompt)
+
+                # --- Step 3: Knowledge Integration ---
+                if structured_knowledge_str:
+                    try:
+                        knowledge_triple = json.loads(structured_knowledge_str)
+                        subj = knowledge_triple.get("subject")
+                        rel = knowledge_triple.get("relation")
+                        obj = knowledge_triple.get("object")
+
+                        if subj and rel and obj:
+                            self.kg_manager.add_or_update_node(subj)
+                            self.kg_manager.add_or_update_node(obj)
+                            self.kg_manager.add_relationship(subj, obj, rel)
+                            self.kg_manager.save_kg()
+                            self.logger.info(f"Successfully learned and integrated knowledge: ('{subj}', '{rel}', '{obj}')")
+
+                            # Reflect on the new knowledge
+                            self.self_awareness_core.reflect(
+                                thought=f"'{topic_to_learn}'에 대해 새로 배웠다. 이제 '{subj}'(은)는 '{obj}'(와)과 '{rel}' 관계로 연결되어 있다는 것을 안다. 나의 세계가 조금 더 넓어졌다.",
+                                context="autonomous_learning"
+                            )
+                        else:
+                            raise ValueError("Invalid knowledge triple structure.")
+                    except (json.JSONDecodeError, ValueError) as e:
+                        self.logger.error(f"Failed to parse or integrate structured knowledge for '{topic_to_learn}': {e}")
+                        # If parsing fails, put the topic back at the end of the queue to retry later.
+                        goals.append(topic_to_learn)
+                else:
+                    self.logger.warning(f"Could not generate structured knowledge for '{topic_to_learn}'. Will retry later.")
+                    goals.append(topic_to_learn)
+
+                # --- Step 4: Update the Queue ---
+                data["learning_goals"] = goals
+                f.seek(0)
+                json.dump(data, f, indent=2, ensure_ascii=False)
+                f.truncate()
+
+        except Exception as e:
+            self.logger.error(f"An error occurred while processing the learning queue: {e}")
 
     def check_action_permission(self, category, action, details=None):
         """행동 허용 여부를 확인합니다."""
