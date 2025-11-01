@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from typing import Dict, Any, Optional, Tuple, Union
 import re
@@ -18,6 +19,7 @@ from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from Project_Sophia.self_reflection_cortex import SelfReflectionCortex
+from Project_Sophia.goal_decomposition_cortex import GoalDecompositionCortex
 from tools.kg_manager import KGManager
 
 # --- Logging Configuration ---
@@ -46,6 +48,7 @@ class CognitionPipeline:
         self.planning_cortex = PlanningCortex(core_memory=self.core_memory, action_cortex=self.action_cortex)
         self.sensory_cortex = SensoryCortex(self.value_cortex)
         self.self_reflection_cortex = SelfReflectionCortex(self.kg_manager)
+        self.goal_decomposition_cortex = GoalDecompositionCortex(self.kg_manager)
         self.inquisitive_mind = InquisitiveMind()
         self.current_emotional_state = EmotionalState(
             valence=0.0,
@@ -233,6 +236,16 @@ class CognitionPipeline:
 
         # 단계 1: 가능한 모든 응답 후보 생성
         try:
+            # New: Goal Decomposition and Planning Logic
+            plan_match = re.search(r"(?:plan for|develop a plan for|계획해줘)\s+(.+)", message.lower())
+            if plan_match:
+                goal_to_plan = plan_match.group(1).strip()
+                plan = self.goal_decomposition_cortex.decompose_goal(goal_to_plan)
+                # Format the plan as a JSON string for the response
+                plan_json = json.dumps(plan, ensure_ascii=False, indent=2)
+                response = f"창조자님의 명령에 따라 '{goal_to_plan}'에 대한 작업 계획을 수립했습니다:\n```json\n{plan_json}\n```"
+                return response, self.current_emotional_state
+
             # 도구 사용 및 계획 (기존 로직과 유사)
             planning_prefix = "plan and execute:"
             if message.lower().startswith(planning_prefix):
