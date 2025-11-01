@@ -42,7 +42,7 @@ class TestPipelineFeatures(unittest.TestCase):
         self.pipeline.core_memory.add_experience(past_experience)
 
         # 2. Ask a question related to the past experience
-        response, _ = self.pipeline.process_message("What do you know about black holes?")
+        response, _, _ = self.pipeline.process_message("What do you know about black holes?")
 
         # 3. Assert that the response references the past conversation
         self.assertIn("이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요.", response)
@@ -58,13 +58,13 @@ class TestPipelineFeatures(unittest.TestCase):
         mock_generate_text.return_value = mock_response
 
         # 2. Ask a question about a topic that is not in the memory
-        response, _ = self.pipeline.process_message("What is a supermassive black hole?")
+        response, _, _ = self.pipeline.process_message("What is a supermassive black hole?")
 
         # 3. Assert that the mock was called, meaning the InquisitiveMind was activated
         mock_generate_text.assert_called_once()
 
         # 4. Assert that the response is the formatted output from the InquisitiveMind
-        expected_response = f"'supermassive black hole'에 대해 외부에서 이런 정보를 찾았어요: \"{mock_response}\". 이 정보가 정확한가요?"
+        expected_response = f"I have learned that 'supermassive black hole' is: '{mock_response.strip()}'. Is this correct?"
         self.assertEqual(response, expected_response)
 
 

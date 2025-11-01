@@ -76,18 +76,44 @@ class CognitionPipeline:
             # 4. 현재 감정 상태 업데이트
             self._update_emotional_state(emotional_state)
             
-            return self._generate_response(message, emotional_state, enriched_context, app)
+            response, final_emotional_state = self._generate_response(message, emotional_state, enriched_context, app)
+            return response, final_emotional_state, enriched_context
         except Exception as e:
             pipeline_logger.exception(f"Error in process_message for input: {message}")
-            return "An internal error occurred during message processing.", self.current_emotional_state
+            return "An internal error occurred during message processing.", self.current_emotional_state, {}
 
 
     def _analyze_emotions(self, message: str) -> EmotionalState:
         """
         메시지의 감정을 분석하여 EmotionalState 반환
         """
-        # TODO: 감정 분석 로직 구현
-        # 현재는 기본값 반환
+        message_lower = message.lower()
+
+        # Define keywords for basic emotions
+        positive_keywords = ["happy", "joy", "love", "like", "good", "great", "wonderful", "excellent", "기뻐", "행복해", "사랑해", "좋아", "최고야"]
+        negative_keywords = ["sad", "cry", "angry", "hate", "bad", "terrible", "슬퍼", "화나", "싫어", "나빠"]
+
+        # Check for positive sentiment
+        if any(keyword in message_lower for keyword in positive_keywords):
+            return EmotionalState(
+                valence=0.6,
+                arousal=0.4,
+                dominance=0.2,
+                primary_emotion="happy",
+                secondary_emotions=["joy"]
+            )
+
+        # Check for negative sentiment
+        if any(keyword in message_lower for keyword in negative_keywords):
+            return EmotionalState(
+                valence=-0.6,
+                arousal=0.5,
+                dominance=-0.3,
+                primary_emotion="sad",
+                secondary_emotions=["anger"]
+            )
+
+        # Default to neutral if no strong emotional keywords are found
         return EmotionalState(
             valence=0.0,
             arousal=0.0,
@@ -145,9 +171,14 @@ class CognitionPipeline:
             enriched['echo'] = {} # Ensure echo is always present, even on error
 
         # 2. Add identity and relationship for personalization
-        enriched['identity'] = self.core_memory.get_identity()
-        if 'speaker' in context:
-            enriched['relationship'] = self.core_memory.get_relationship(context['speaker'])
+        if 'soul' in context and 'identity' in context['soul']:
+            enriched['identity'] = context['soul']['identity']
+        else:
+            enriched['identity'] = self.core_memory.get_identity()
+
+        if 'speaker' in context and 'soul' in context:
+            # This part is a placeholder for a more complex relationship model
+            enriched['relationship'] = context['soul'].get('identity', {}).get('sense_of_other', 'unknown')
 
         # 3. Search for relevant memories and add them to the context
         enriched['relevant_experiences'] = self._find_relevant_experiences(message)
@@ -223,6 +254,11 @@ class CognitionPipeline:
                 return "An error occurred during logical reasoning.", self.current_emotional_state
 
             # Priority 3: Contextual and Memory-Based Responses
+            if context.get('relevant_experiences'):
+                related_memory = context['relevant_experiences'][0]
+                response = f"이전에 '{related_memory['content']}'에 대해 이야기 나눈 것을 기억해요. 그 내용과 관련된 질문인가요?"
+                return response, self.current_emotional_state
+
             calc_match = re.search(r"계산해줘:\s*(.+)|(.+?)\s*(는|은)\?$", message)
             if calc_match:
                 expression = (calc_match.group(1) or calc_match.group(2)).strip()
