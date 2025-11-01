@@ -52,8 +52,23 @@ class CoreMemory:
                 'values': [],
                 'experiences': [],
                 'relationships': {},
-                'rules': []
+                'rules': [],
+                'pending_actions': []
             }
+
+    def add_pending_action(self, action: Dict[str, Any]):
+        """Adds an action to be executed upon creator's approval."""
+        if 'pending_actions' not in self.data:
+            self.data['pending_actions'] = []
+        self.data['pending_actions'].append(action)
+        self._save_memory()
+
+    def get_pending_actions(self) -> list:
+        """Retrieves and clears all pending actions."""
+        actions = self.data.get('pending_actions', [])
+        self.data['pending_actions'] = []
+        self._save_memory()
+        return actions
 
     def update_identity(self, key: str, value: Any):
         """신원 정보 업데이트 (이름, 선호도 등)"""

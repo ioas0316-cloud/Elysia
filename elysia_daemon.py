@@ -82,8 +82,28 @@ class ElysiaDaemon:
         context = {"soul": self.soul}
         response, new_emotional_state, enriched_context = self.cognition_pipeline.process_message(internal_monologue, context=context)
 
-        # The 'response' is now the action Elysia decides to take.
-        current_action = response
+        # --- The Moment of Growth ---
+        if enriched_context and "execute_actions" in enriched_context:
+            actions_to_execute = enriched_context["execute_actions"]
+            print(f"[{datetime.now()}] Creator's permission received. Initiating growth.")
+
+            kg_manager = self.cognition_pipeline.kg_manager
+
+            kg_manager.unlock() # Unlock the knowledge graph for modification
+
+            for action in actions_to_execute:
+                if action["type"] == "remove_edge":
+                    print(f"Executing knowledge update: {action}")
+                    kg_manager.remove_edge(action['source'], action['target'], action['relation'])
+
+            kg_manager.save() # Persist the changes
+            kg_manager.lock() # Lock it back down
+
+            print(f"[{datetime.now()}] Growth complete. Knowledge has been updated.")
+            current_action = "Reflecting on new knowledge."
+        else:
+            # The 'response' is the normal action Elysia decides to take.
+            current_action = response
 
         # If the mind is wandering (echo exists), it might trigger a creative impulse.
         if enriched_context.get('echo'):

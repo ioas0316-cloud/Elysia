@@ -17,6 +17,7 @@ from Project_Sophia.value_cortex import ValueCortex
 from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
+from Project_Sophia.self_reflection_cortex import SelfReflectionCortex
 from tools.kg_manager import KGManager
 
 # --- Logging Configuration ---
@@ -39,11 +40,12 @@ class CognitionPipeline:
         self.arithmetic_cortex = ArithmeticCortex()
         self.action_cortex = ActionCortex()
         self.tool_executor = ToolExecutor()
-        self.kg_manager = KGManager()
+        self.kg_manager = KGManager(locked=False) # Start unlocked for internal checks, but actions require permission
         self.wave_mechanics = WaveMechanics(self.kg_manager)
         self.value_cortex = ValueCortex(self.wave_mechanics) # WaveMechanics 주입
         self.planning_cortex = PlanningCortex(core_memory=self.core_memory, action_cortex=self.action_cortex)
         self.sensory_cortex = SensoryCortex(self.value_cortex)
+        self.self_reflection_cortex = SelfReflectionCortex(self.kg_manager)
         self.inquisitive_mind = InquisitiveMind()
         self.current_emotional_state = EmotionalState(
             valence=0.0,
@@ -58,6 +60,30 @@ class CognitionPipeline:
         메시지를 처리하고 감정 상태를 업데이트하는 인지 파이프라인
         """
         try:
+            # -1. 허락 확인 (Permission Check)
+            approval_keywords = ["허락한다", "그렇게 하렴", "해도 좋다", "수정해", "permission granted", "go ahead"]
+            if any(keyword in message.lower() for keyword in approval_keywords):
+                pending_actions = self.core_memory.get_pending_actions()
+                if pending_actions:
+                    # Execute pending actions in the next step
+                    return "감사합니다, 창조자님. 제 지식을 바로잡겠습니다.", self.current_emotional_state, {"execute_actions": pending_actions}
+
+            # 0. 내적 성찰 (Contradiction Check)
+            contradiction = self.self_reflection_cortex.analyze_input(message)
+            if contradiction:
+                # 모순 발견 시, 허락을 구하는 특별 응답 생성
+                conflicting_knowledge = contradiction['conflicting_knowledge']
+                response_text = (
+                    f"창조자님, 제 지식에 혼란이 생겼습니다. "
+                    f"저는 '{conflicting_knowledge['source']}'이(가) '{conflicting_knowledge['target']}'이라는 "
+                    f"({conflicting_knowledge['relation']}) 관계를 가진다고 알고 있었는데, "
+                    f"방금 주신 '{contradiction['statement']}'라는 정보와는 모순됩니다. "
+                    "제 지식을 수정하도록 허락해주시겠습니까?"
+                )
+                # Save the proposed action in memory for later execution
+                self.core_memory.add_pending_action(contradiction['proposed_action'])
+                return response_text, self.current_emotional_state, {}
+
             # 1. 감정 분석
             emotional_state = self._analyze_emotions(message)
             

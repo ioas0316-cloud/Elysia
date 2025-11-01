@@ -14,7 +14,8 @@ DATA_DIR = Path("data")
 KG_PATH = DATA_DIR / 'kg.json'
 
 class KGManager:
-    def __init__(self):
+    def __init__(self, locked=True):
+        self.locked = locked
         DATA_DIR.mkdir(exist_ok=True)
         if KG_PATH.exists():
             with open(KG_PATH, 'r', encoding='utf-8') as f:
@@ -22,8 +23,28 @@ class KGManager:
         else:
             self.kg = {"nodes": [], "edges": []}
 
+    def lock(self):
+        self.locked = True
+        print("KGManager is locked. Write operations are disabled.")
+
+    def unlock(self):
+        self.locked = False
+        print("KGManager is unlocked. Write operations are enabled.")
+
     def save(self):
-        with open(KG_PATH, 'w', encoding='utf-8') as f:
+        """Saves to the default KG path."""
+        self.save_to(KG_PATH)
+
+    def save_to(self, filepath: str):
+        """Saves the current KG to a specific file."""
+        if self.locked:
+            print(f"Cannot save to {filepath}: KGManager is locked.")
+            return
+
+        path_obj = Path(filepath)
+        path_obj.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(path_obj, 'w', encoding='utf-8') as f:
             json.dump(self.kg, f, ensure_ascii=False, indent=2)
 
     def get_node(self, node_id: str) -> Optional[Dict]:
@@ -33,8 +54,22 @@ class KGManager:
                 return node
         return None
 
-    def add_node(self, node_id: str, position: Optional[Dict] = None, properties: Optional[Dict] = None) -> Dict:
-        """Adds a new node. If it exists, returns the existing node."""
+    def get_edge(self, source_id: str, target_id: str, relation: str) -> Optional[Dict]:
+        """Finds a specific edge."""
+        for edge in self.kg['edges']:
+            if edge['source'] == source_id and edge['target'] == target_id and edge['relation'] == relation:
+                return edge
+        return None
+
+    def add_node(self, node_id: str, position: Optional[Dict] = None, properties: Optional[Dict] = None) -> Optional[Dict]:
+        """Adds a new node. If locked, does nothing."""
+        if self.locked:
+            print("Cannot add node: KGManager is locked.")
+            return None
+        return self._add_node_unlocked(node_id, position, properties)
+
+    def _add_node_unlocked(self, node_id: str, position: Optional[Dict] = None, properties: Optional[Dict] = None) -> Dict:
+        """Internal function to add a node without the lock check."""
         existing_node = self.get_node(node_id)
         if existing_node:
             if properties:
@@ -53,18 +88,19 @@ class KGManager:
         return new_node
 
     def add_edge(self, source_id: str, target_id: str, relation: str, properties: Optional[Dict[str, Any]] = None):
-        """
-        Adds a directional edge with optional properties.
-        This enables the creation of a property graph.
-        """
+        """Adds a directional edge. If locked, does nothing."""
+        if self.locked:
+            print("Cannot add edge: KGManager is locked.")
+            return
+
         if any(e['source'] == source_id and e['target'] == target_id and e['relation'] == relation for e in self.kg['edges']):
             return
 
-        source_node = self.add_node(source_id)
+        source_node = self._add_node_unlocked(source_id) # Use unlocked version internally
         target_node = self.get_node(target_id)
 
         if not target_node or target_node['position'] == {"x": 0, "y": 0, "z": 0}:
-            target_node = self.add_node(target_id)
+            target_node = self._add_node_unlocked(target_id)
             pos = source_node['position'].copy()
 
             if relation == "is_composed_of":
@@ -87,6 +123,36 @@ class KGManager:
             new_edge.update(properties)
 
         self.kg['edges'].append(new_edge)
+
+    def update_edge_property(self, source_id: str, target_id: str, relation: str, prop_key: str, prop_value: Any):
+        """Updates a property of a specific edge. If locked, does nothing."""
+        if self.locked:
+            print("Cannot update edge: KGManager is locked.")
+            return
+
+        edge = self.get_edge(source_id, target_id, relation)
+        if edge:
+            edge[prop_key] = prop_value
+            print(f"Updated edge ({source_id}-{target_id}) property '{prop_key}' to '{prop_value}'.")
+        else:
+            print("Edge not found for update.")
+
+    def remove_edge(self, source_id: str, target_id: str, relation: str):
+        """Removes a specific edge from the graph. If locked, does nothing."""
+        if self.locked:
+            print("Cannot remove edge: KGManager is locked.")
+            return
+
+        initial_edge_count = len(self.kg['edges'])
+        self.kg['edges'] = [
+            edge for edge in self.kg['edges']
+            if not (edge['source'] == source_id and edge['target'] == target_id and edge['relation'] == relation)
+        ]
+
+        if len(self.kg['edges']) < initial_edge_count:
+            print(f"Successfully removed edge: {source_id} -[{relation}]-> {target_id}")
+        else:
+            print(f"Edge not found for removal: {source_id} -[{relation}]-> {target_id}")
 
     def find_causes(self, target_id: str) -> List[Dict[str, Any]]:
         """Finds all causes for a given target node."""
