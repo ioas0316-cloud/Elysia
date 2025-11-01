@@ -1,0 +1,29 @@
+{
+  "title": "Triangle Definition",
+  "concepts": [
+    {
+      "id": "geom_composite_triangle",
+      "name": "Triangle",
+      "kr_name": "삼각형",
+      "description": "A polygon with three edges and three vertices.",
+      "type": "composite_shape",
+      "properties": {
+        "edge_count": 3,
+        "vertex_count": 3,
+        "area": "0.5 * base * height",
+        "perimeter": "side_a + side_b + side_c"
+      },
+      "relationships": [
+        {
+          "type": "composed_of",
+          "target_id": "geom_primitive_line",
+          "cardinality": 3
+        },
+        {
+          "type": "is_a",
+          "target_id": "geom_concept_polygon"
+        }
+      ]
+    }
+  ]
+}

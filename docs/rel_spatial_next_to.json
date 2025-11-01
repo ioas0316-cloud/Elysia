@@ -1,0 +1,21 @@
+{
+  "title": "Spatial Relationship: Next To",
+  "concepts": [
+    {
+      "id": "rel_spatial_next_to",
+      "name": "Next To",
+      "kr_name": "옆에",
+      "description": "Describes a relationship where two objects are adjacent to each other, typically on a horizontal plane.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {"role": "object_a"},
+        {"role": "object_b"}
+      ],
+      "properties": [
+        { "name": "transitive", "value": false },
+        { "name": "symmetric", "value": true },
+        { "name": "irreflexive", "value": true }
+      ]
+    }
+  ]
+}

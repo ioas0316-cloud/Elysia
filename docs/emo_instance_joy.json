@@ -1,0 +1,22 @@
+{
+  "title": "Emotion Instance: Joy",
+  "concepts": [
+    {
+      "id": "emo_instance_joy",
+      "name": "Joy",
+      "kr_name": "기쁨",
+      "description": "A feeling of great pleasure and happiness.",
+      "type": "emotion_instance",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "emo_concept_emotion"
+        }
+      ],
+      "properties": {
+        "valence": "positive",
+        "arousal": "high"
+      }
+    }
+  ]
+}

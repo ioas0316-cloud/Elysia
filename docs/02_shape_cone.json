@@ -1,0 +1,25 @@
+{
+  "title": "Cone Definition",
+  "concepts": [
+    {
+      "id": "geom_shape_cone",
+      "name": "Cone",
+      "kr_name": "원뿔",
+      "description": "A three-dimensional geometric shape that tapers smoothly from a flat base (frequently, though not necessarily, circular) to a point called the apex or vertex.",
+      "type": "shape_3d",
+      "properties": {
+        "radius": "number",
+        "height": "number",
+        "volume": "(1/3) * pi * radius^2 * height"
+      },
+      "relationships": [
+        {
+          "type": "composed_of",
+          "target_id": "geom_shape_circle",
+          "cardinality": 1,
+          "role": "base"
+        }
+      ]
+    }
+  ]
+}

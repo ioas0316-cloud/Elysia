@@ -1,0 +1,22 @@
+{
+  "title": "Relationship Type: Creator/Creation",
+  "concepts": [
+    {
+      "id": "rel_type_creator_creation",
+      "name": "Creator/Creation",
+      "kr_name": "창조주/피조물",
+      "description": "A fundamental, asymmetric relationship where one agent (the creator) brings another entity (the creation) into existence.",
+      "type": "relationship_type",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "rel_concept_relationship"
+        }
+      ],
+      "properties": {
+        "is_symmetric": false,
+        "roles": ["creator", "creation"]
+      }
+    }
+  ]
+}

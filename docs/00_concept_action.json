@@ -1,0 +1,22 @@
+{
+  "title": "Concept: Action",
+  "concepts": [
+    {
+      "id": "concept_action",
+      "name": "Action",
+      "kr_name": "행동",
+      "description": "A thing done; an act. An intentional process initiated by an agent.",
+      "type": "abstract_concept",
+      "properties": {
+        "agent": "The entity performing the action.",
+        "intent": "The goal the action is intended to achieve."
+      },
+      "relationships": [
+        {
+          "type": "can_cause",
+          "target_id": "concept_event"
+        }
+      ]
+    }
+  ]
+}

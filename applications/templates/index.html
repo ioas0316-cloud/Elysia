@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            height: 90vh;
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            overflow: hidden;
+        }
+        .chat-panel {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .visualization-panel {
+            flex: 1;
+            background-color: #202020;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            margin-bottom: 15px;
+        }
+        .message.user {
+            text-align: right;
+            color: #88c0d0;
+        }
+        .message.elysia {
+            color: #b48ead;
+        }
+        .input-area {
+            display: flex;
+        }
+        input[type="text"] {
+            flex-grow: 1;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: #e0e0e0;
+            padding: 10px;
+            outline: none;
+        }
+        button {
+            background-color: #81a1c1;
+            color: #2e3440;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #image-display {
+            max-width: 100%;
+            max-height: 80%;
+            border-radius: 5px;
+        }
+        #image-placeholder {
+            color: #555;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="chat-panel">
+            <div class="messages" id="messages"></div>
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Ask Elysia anything..." autocomplete="off">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        <div class="visualization-panel">
+            <div id="image-placeholder">
+                <p>Generated images will appear here.</p>
+            </div>
+            <img id="image-display" src="" alt="Visualization" style="display:none;">
+        </div>
+    </div>
+
+    <script>
+        const messagesDiv = document.getElementById('messages');
+        const userInput = document.getElementById('userInput');
+        const imageDisplay = document.getElementById('image-display');
+        const imagePlaceholder = document.getElementById('image-placeholder');
+
+        userInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function addMessage(text, sender) {
+            const message = document.createElement('div');
+            message.classList.add('message', sender);
+            message.textContent = text;
+            messagesDiv.appendChild(message);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const message = userInput.value;
+            if (!message.trim()) return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            // Check if it's a visualization command
+            const visRegex = /(.+)(을|를)\s*(그려줘|보여줘)/;
+            const match = message.match(visRegex);
+
+            if (match) {
+                const concept = match[1].trim();
+                await handleVisualization(concept);
+            } else {
+                await handleChat(message);
+            }
+        }
+
+        async function handleChat(message) {
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                addMessage(data.response, 'elysia');
+            } catch (error) {
+                addMessage('Sorry, I seem to be disconnected.', 'elysia');
+            }
+        }
+
+        async function handleVisualization(concept) {
+            addMessage(`Okay, I will try to visualize "${concept}"...`, 'elysia');
+            try {
+                const response = await fetch('/visualize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ concept: concept })
+                });
+                const data = await response.json();
+                if (data.image_path) {
+                    // Use a timestamp to bypass browser cache
+                    imageDisplay.src = data.image_path + '?t=' + new Date().getTime();
+                    imageDisplay.style.display = 'block';
+                    imagePlaceholder.style.display = 'none';
+                    addMessage(`I've visualized it for you. See the panel on the right.`, 'elysia');
+                } else {
+                    addMessage(data.error || 'I failed to create the visualization.', 'elysia');
+                }
+            } catch (error) {
+                addMessage('Sorry, the visualization tool seems to be broken.', 'elysia');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "title": "Concept: State",
+  "concepts": [
+    {
+      "id": "concept_state",
+      "name": "State",
+      "kr_name": "상태",
+      "description": "A particular condition that something or someone is in at a specific time.",
+      "type": "abstract_concept"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Concept: Utterance",
+  "concepts": [
+    {
+      "id": "conv_concept_utterance",
+      "name": "Utterance",
+      "kr_name": "발화",
+      "description": "A spoken word, statement, or vocal sound. A single unit of speech.",
+      "type": "abstract_event",
+      "properties": {
+        "speaker": "The agent who produces the utterance.",
+        "content": "The textual or semantic content of the utterance."
+      }
+    }
+  ]
+}

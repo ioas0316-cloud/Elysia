@@ -1,0 +1,17 @@
+{
+  "title": "Size Instance: Large",
+  "concepts": [
+    {
+      "id": "size_large",
+      "name": "Large",
+      "kr_name": "큰",
+      "type": "size_instance",
+      "relationships": [
+        { "type": "is_a", "target_id": "prop_size" }
+      ],
+      "properties": {
+        "relative_value": 1
+      }
+    }
+  ]
+}

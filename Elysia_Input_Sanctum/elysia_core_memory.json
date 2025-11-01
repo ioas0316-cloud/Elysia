@@ -1,0 +1,25 @@
+{
+    "identity": {},
+    "values": [],
+    "experiences": [
+        {
+            "timestamp": "2025-10-31T16:07:55.447830",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        }
+    ],
+    "relationships": {},
+    "rules": []
+}

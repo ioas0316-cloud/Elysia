@@ -1,0 +1,21 @@
+{
+  "title": "Biological Part: Branches",
+  "concepts": [
+    {
+      "id": "bio_part_branches",
+      "name": "Branches",
+      "kr_name": "가지",
+      "description": "A woody structural member connected to but not part of the central trunk of a tree.",
+      "type": "biological_part",
+      "properties": {
+        "function": ["support_leaves", "transport_of_water_and_nutrients"]
+      },
+      "relationships": [
+        {
+          "type": "grows_from",
+          "target_id": "bio_part_trunk"
+        }
+      ]
+    }
+  ]
+}

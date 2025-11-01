@@ -1,0 +1,21 @@
+{
+  "title": "Causal Relationship: Prevents",
+  "concepts": [
+    {
+      "id": "rel_causal_prevents",
+      "name": "Prevents",
+      "kr_name": "막다",
+      "description": "Describes a relationship where an agent or event stops an outcome from happening.",
+      "type": "causal_relationship",
+      "arguments": [
+        {"role": "preventing_agent"},
+        {"role": "prevented_outcome"}
+      ],
+      "properties": [
+        { "name": "transitive", "value": true },
+        { "name": "asymmetric", "value": true },
+        { "name": "irreflexive", "value": true }
+      ]
+    }
+  ]
+}

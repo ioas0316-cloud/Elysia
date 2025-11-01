@@ -1,0 +1,22 @@
+{
+  "title": "Concept: Conversation",
+  "concepts": [
+    {
+      "id": "conv_concept_conversation",
+      "name": "Conversation",
+      "kr_name": "대화",
+      "description": "A talk, especially an informal one, between two or more people, in which news and ideas are exchanged.",
+      "type": "abstract_process",
+      "properties": {
+        "participants": "A list of agents involved in the conversation.",
+        "topic": "The subject of the conversation."
+      },
+      "relationships": [
+        {
+          "type": "composed_of",
+          "target_id": "conv_concept_utterance"
+        }
+      ]
+    }
+  ]
+}

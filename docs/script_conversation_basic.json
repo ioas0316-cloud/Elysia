@@ -1,0 +1,31 @@
+{
+  "title": "Procedural Script: Basic Conversation",
+  "script": [
+    {
+      "id": "script_conv_basic",
+      "name": "Basic Conversation Script",
+      "kr_name": "기본 대화 스크립트",
+      "description": "A simple, two-turn conversational exchange.",
+      "type": "procedural_script",
+      "steps": [
+        {
+          "step": 1,
+          "action": "conv_type_question",
+          "properties": {
+            "speaker": "agent_A",
+            "listener": "agent_B"
+          }
+        },
+        {
+          "step": 2,
+          "action": "conv_type_answer",
+          "properties": {
+            "speaker": "agent_B",
+            "listener": "agent_A",
+            "in_response_to_step": 1
+          }
+        }
+      ]
+    }
+  ]
+}

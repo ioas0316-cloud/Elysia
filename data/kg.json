@@ -1,0 +1,110 @@
+{
+  "nodes": [
+    {
+      "id": "햇빛",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "식물 성장",
+      "position": {
+        "x": 1.3767769622915778,
+        "y": 0.18746098698683517,
+        "z": 0.012791003210932905
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "물",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "산소 발생",
+      "position": {
+        "x": 2.9085982997018665,
+        "y": 0.03035163604363475,
+        "z": 0.19720212215100297
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "소크라테스",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "인간",
+      "position": {
+        "x": -0.11640779690251515,
+        "y": 1.170267845075383,
+        "z": -0.15088271370188405
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "color",
+      "position": {
+        "x": -0.17691376352243335,
+        "y": 1.0448347577461459,
+        "z": 0.13335905039506157
+      },
+      "activation_energy": 0.0,
+      "description": "The property possessed by an object of producing different sensations on the eye as a result of the way the object reflects or emits light."
+    },
+    {
+      "id": "red",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "hex": "#FF0000"
+    }
+  ],
+  "edges": [
+    {
+      "source": "햇빛",
+      "target": "식물 성장",
+      "relation": "causes",
+      "strength": 0.85
+    },
+    {
+      "source": "물",
+      "target": "식물 성장",
+      "relation": "causes",
+      "strength": 0.9,
+      "conditions": [
+        "적절한 온도"
+      ]
+    },
+    {
+      "source": "식물 성장",
+      "target": "산소 발생",
+      "relation": "causes"
+    },
+    {
+      "source": "소크라테스",
+      "target": "인간",
+      "relation": "is_a"
+    },
+    {
+      "source": "red",
+      "target": "color",
+      "relation": "is_a"
+    }
+  ]
+}

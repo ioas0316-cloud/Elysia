@@ -1,0 +1,26 @@
+{
+  "title": "Relationship Type: Romantic Love",
+  "concepts": [
+    {
+      "id": "rel_type_romantic_love",
+      "name": "Romantic Love",
+      "kr_name": "낭만적 사랑",
+      "description": "A type of love characterized by intimacy and passion.",
+      "type": "relationship_type",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "rel_concept_relationship"
+        },
+        {
+          "type": "is_a_specific_kind_of",
+          "target_id": "emo_concept_love"
+        }
+      ],
+      "properties": {
+        "is_symmetric": true,
+        "components": ["intimacy", "passion", "commitment"]
+      }
+    }
+  ]
+}

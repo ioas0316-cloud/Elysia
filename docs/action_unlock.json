@@ -1,0 +1,25 @@
+{
+  "title": "Action Definition: Unlock",
+  "concepts": [
+    {
+      "id": "action_unlock",
+      "name": "Unlock",
+      "kr_name": "잠금 해제",
+      "description": "The action of opening a lock, typically with a key.",
+      "type": "action_instance",
+      "relationships": [
+        { "type": "is_a", "target_id": "concept_action" }
+      ],
+      "arguments": [
+        {"role": "agent"},
+        {"role": "object_to_unlock", "concept": "object_lock"}
+      ],
+      "preconditions": [
+        { "type": "has_tool", "agent": "agent", "tool": "object_key" }
+      ],
+      "effects": [
+        { "type": "changes_state_of", "object": "object_to_unlock", "to_state": "unlocked" }
+      ]
+    }
+  ]
+}

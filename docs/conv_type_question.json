@@ -1,0 +1,18 @@
+{
+  "title": "Utterance Type: Question",
+  "concepts": [
+    {
+      "id": "conv_type_question",
+      "name": "Question",
+      "kr_name": "질문",
+      "description": "An utterance that elicits information.",
+      "type": "utterance_type",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "conv_concept_utterance"
+        }
+      ]
+    }
+  ]
+}

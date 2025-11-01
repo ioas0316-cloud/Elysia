@@ -1,0 +1,18 @@
+{
+  "title": "Sphere Definition",
+  "concepts": [
+    {
+      "id": "geom_composite_sphere",
+      "name": "Sphere",
+      "kr_name": "구",
+      "description": "A round solid figure, or its surface, with every point on its surface equidistant from its center.",
+      "type": "composite_shape_3d",
+      "properties": {
+        "center": "geom_primitive_point",
+        "radius": "number",
+        "volume": "(4/3) * pi * radius^3",
+        "surface_area": "4 * pi * radius^2"
+      }
+    }
+  ]
+}

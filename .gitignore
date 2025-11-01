@@ -1,0 +1,9 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Elysia's state file - should not be version controlled
+elysia_state.json
+
+# Log files
+*.log

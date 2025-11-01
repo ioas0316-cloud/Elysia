@@ -1,0 +1,24 @@
+{
+  "title": "Rectangle Definition",
+  "concepts": [
+    {
+      "id": "geom_composite_rectangle",
+      "name": "Rectangle",
+      "kr_name": "직사각형",
+      "description": "A polygon with four right angles.",
+      "type": "composite_shape",
+      "properties": {
+        "edge_count": 4,
+        "vertex_count": 4,
+        "area": "width * height",
+        "perimeter": "2 * (width + height)"
+      },
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "geom_concept_polygon"
+        }
+      ]
+    }
+  ]
+}

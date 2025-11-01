@@ -1,0 +1,21 @@
+{
+  "title": "Object Definition: Lock",
+  "concepts": [
+    {
+      "id": "object_lock",
+      "name": "Lock",
+      "kr_name": "자물쇠",
+      "description": "A mechanism for keeping a door, lid, etc., fastened, typically operated by a key.",
+      "type": "object_part",
+      "properties": {
+        "state": ["locked", "unlocked"]
+      },
+      "relationships": [
+        {
+          "type": "is_operated_by",
+          "target_id": "object_key"
+        }
+      ]
+    }
+  ]
+}

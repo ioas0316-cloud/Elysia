@@ -1,0 +1,33 @@
+{
+  "title": "Pyramid Definition",
+  "concepts": [
+    {
+      "id": "geom_composite_pyramid",
+      "name": "Pyramid",
+      "kr_name": "각뿔",
+      "description": "A polyhedron formed by connecting a polygonal base and a point, called the apex. Each base edge and the apex form a triangle, called a lateral face.",
+      "type": "composite_shape_3d",
+      "properties": {
+        "volume": "(1/3) * base_area * height"
+      },
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "geom_concept_polyhedron"
+        },
+        {
+          "type": "composed_of",
+          "target_id": "geom_concept_polygon",
+          "cardinality": 1,
+          "role": "base"
+        },
+        {
+          "type": "composed_of",
+          "target_id": "geom_composite_triangle",
+          "cardinality": "n (number of base sides)",
+          "role": "lateral_faces"
+        }
+      ]
+    }
+  ]
+}

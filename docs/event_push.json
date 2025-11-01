@@ -1,0 +1,22 @@
+{
+  "title": "Event Instance: Push",
+  "concepts": [
+    {
+      "id": "event_push",
+      "name": "Push",
+      "kr_name": "밀기",
+      "description": "The event of applying force to an object in order to move it away.",
+      "type": "event_instance",
+      "arguments": [
+        {"role": "agent", "description": "The one doing the pushing."},
+        {"role": "object", "description": "The one being pushed."}
+      ],
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "concept_event"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Causal Relationship: Causes",
+  "concepts": [
+    {
+      "id": "rel_causal_causes",
+      "name": "Causes",
+      "kr_name": "유발하다",
+      "description": "Describes a relationship where a cause (an event, state, or object) brings about an effect (another event, state, or object).",
+      "type": "causal_relationship",
+      "arguments": [
+        {"role": "cause"},
+        {"role": "effect"}
+      ],
+      "properties": [
+        { "name": "transitive", "value": true },
+        { "name": "asymmetric", "value": true },
+        { "name": "irreflexive", "value": true }
+      ]
+    }
+  ]
+}

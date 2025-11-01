@@ -1,0 +1,15 @@
+{
+  "title": "Biological Part: Trunk",
+  "concepts": [
+    {
+      "id": "bio_part_trunk",
+      "name": "Trunk",
+      "kr_name": "줄기",
+      "description": "The main woody stem of a tree as distinct from its branches and roots.",
+      "type": "biological_part",
+      "properties": {
+        "function": ["support", "transport_of_water_and_nutrients"]
+      }
+    }
+  ]
+}

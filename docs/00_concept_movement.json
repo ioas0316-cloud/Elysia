@@ -1,0 +1,23 @@
+{
+  "title": "Concept: Movement",
+  "concepts": [
+    {
+      "id": "concept_movement",
+      "name": "Movement",
+      "kr_name": "움직임",
+      "description": "An act of changing physical location or position over time.",
+      "type": "abstract_concept",
+      "properties": {
+        "speed": "The rate at which an object covers distance.",
+        "velocity": "The rate and direction of an object's change in position.",
+        "acceleration": "The rate of change of velocity."
+      },
+      "conceptual_dependencies": [
+        {
+          "type": "depends_on",
+          "target_id": "concept_time"
+        }
+      ]
+    }
+  ]
+}

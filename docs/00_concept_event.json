@@ -1,0 +1,17 @@
+{
+  "title": "Concept: Event",
+  "concepts": [
+    {
+      "id": "concept_event",
+      "name": "Event",
+      "kr_name": "사건",
+      "description": "An occurrence or happening, something that takes place in time.",
+      "type": "abstract_concept",
+      "properties": {
+        "duration": "number",
+        "start_time": "timestamp",
+        "end_time": "timestamp"
+      }
+    }
+  ]
+}

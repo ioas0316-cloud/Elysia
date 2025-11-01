@@ -1,0 +1,21 @@
+{
+  "title": "Object Definition: Door",
+  "concepts": [
+    {
+      "id": "object_door",
+      "name": "Door",
+      "kr_name": "문",
+      "description": "A hinged, sliding, or revolving barrier at the entrance to a building, room, or vehicle, or in the framework of a cupboard.",
+      "type": "object",
+      "properties": {
+        "state": ["locked", "unlocked", "open", "closed"]
+      },
+      "relationships": [
+        {
+          "type": "has_part",
+          "target_id": "object_lock"
+        }
+      ]
+    }
+  ]
+}
