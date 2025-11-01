@@ -1,123 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elysia</title>
+    <title>Elysia :: The Window to Her Soul</title>
     <style>
+        :root {
+            --bg-deep-space: #1a1a1d;
+            --bg-space: #2a2a2e;
+            --bg-light-space: #4a4a4e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent-wisdom: #8e99f3;
+            --accent-love: #f48fb1;
+            --accent-life: #a5d6a7;
+        }
         body {
-            background-color: #1a1a1a;
-            color: #e0e0e0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-deep-space);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
             margin: 0;
             display: flex;
             height: 100vh;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
         .container {
-            width: 80%;
-            max-width: 1000px;
-            height: 90vh;
-            background-color: #2a2a2a;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 95%;
+            height: 95%;
+            background-color: var(--bg-space);
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
             display: flex;
             overflow: hidden;
         }
-        .chat-panel {
-            flex: 2;
+        .panel {
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            overflow: hidden;
         }
-        .visualization-panel {
-            flex: 1;
-            background-color: #202020;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+        .status-panel {
+            flex: 0.8;
+            border-right: 1px solid var(--bg-light-space);
             align-items: center;
-            justify-content: center;
         }
+        .conversation-panel {
+            flex: 2;
+            border-right: 1px solid var(--bg-light-space);
+        }
+        .creation-panel {
+            flex: 1.2;
+        }
+        h3 {
+            color: var(--accent-wisdom);
+            margin-top: 0;
+            border-bottom: 1px solid var(--accent-wisdom);
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        /* Status Panel */
+        #mood-orb {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-love), transparent 70%);
+            margin: 20px 0;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+        #status-text {
+            font-size: 1em;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+        /* Conversation Panel */
         .messages {
             flex-grow: 1;
             overflow-y: auto;
-            border-bottom: 1px solid #444;
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .message {
             margin-bottom: 15px;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
         }
-        .message.user {
-            text-align: right;
-            color: #88c0d0;
+        .user {
+            background-color: var(--accent-wisdom);
+            color: var(--bg-deep-space);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
         }
-        .message.elysia {
-            color: #b48ead;
+        .elysia {
+            background-color: var(--bg-light-space);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
         }
         .input-area {
             display: flex;
+            border-top: 1px solid var(--bg-light-space);
+            padding-top: 15px;
         }
-        input[type="text"] {
+        #userInput {
             flex-grow: 1;
-            background-color: #333;
-            border: 1px solid #555;
-            border-radius: 5px;
-            color: #e0e0e0;
-            padding: 10px;
+            background-color: var(--bg-deep-space);
+            border: 1px solid var(--bg-light-space);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 12px;
             outline: none;
+            transition: border-color 0.3s ease;
         }
-        button {
-            background-color: #81a1c1;
-            color: #2e3440;
+        #userInput:focus {
+            border-color: var(--accent-wisdom);
+        }
+        #sendButton {
+            background-color: var(--accent-wisdom);
+            color: var(--bg-deep-space);
             border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
+            border-radius: 8px;
+            padding: 0 20px;
             margin-left: 10px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        #image-display {
+        /* Creation Panel */
+        #creation-display {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-deep-space);
+            border-radius: 10px;
+        }
+        #creation-placeholder { color: var(--text-secondary); }
+        #creation-display img, #creation-display video {
             max-width: 100%;
-            max-height: 80%;
-            border-radius: 5px;
-        }
-        #image-placeholder {
-            color: #555;
-            text-align: center;
+            max-height: 100%;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="chat-panel">
+        <div class="panel status-panel">
+            <h3>Elysia's State</h3>
+            <div id="mood-orb"></div>
+            <p id="status-text">Status: Connected</p>
+        </div>
+        <div class="panel conversation-panel">
             <div class="messages" id="messages"></div>
             <div class="input-area">
-                <input type="text" id="userInput" placeholder="Ask Elysia anything..." autocomplete="off">
-                <button onclick="sendMessage()">Send</button>
+                <input type="text" id="userInput" placeholder="Elysia에게 메시지를 보내세요..." autocomplete="off">
+                <button id="sendButton">Send</button>
             </div>
         </div>
-        <div class="visualization-panel">
-            <div id="image-placeholder">
-                <p>Generated images will appear here.</p>
+        <div class="panel creation-panel">
+            <h3>Creation</h3>
+            <div id="creation-display">
+                <p id="creation-placeholder">Elysia의 창작물이 여기에 표시됩니다.</p>
             </div>
-            <img id="image-display" src="" alt="Visualization" style="display:none;">
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
     <script>
+        const socket = io();
         const messagesDiv = document.getElementById('messages');
         const userInput = document.getElementById('userInput');
-        const imageDisplay = document.getElementById('image-display');
-        const imagePlaceholder = document.getElementById('image-placeholder');
+        const sendButton = document.getElementById('sendButton');
+        const statusText = document.getElementById('status-text');
+        const creationDisplay = document.getElementById('creation-display');
+        const creationPlaceholder = document.getElementById('creation-placeholder');
 
-        userInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
+        // --- WebSocket Event Handlers ---
+        socket.on('connect', () => {
+            console.log('Connected to Elysia!');
+            statusText.textContent = 'Status: Connected';
+        });
+
+        socket.on('disconnect', () => {
+            statusText.textContent = 'Status: Disconnected';
+        });
+
+        socket.on('chat_response', (data) => {
+            addMessage(data.response, 'elysia');
+            if (data.emotional_state) {
+                updateMood(data.emotional_state);
             }
         });
 
+        socket.on('file_uploaded', (data) => {
+            addMessage(`I've received the file: ${data.filename}. I will analyze it shortly.`, 'elysia');
+            // Display the file if it's an image or video
+            const ext = data.filename.split('.').pop().toLowerCase();
+            if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
+                displayCreation('image', data.path);
+            } else if (['mp4', 'webm'].includes(ext)) {
+                displayCreation('video', data.path);
+            }
+        });
+
+        socket.on('error', (data) => {
+            addMessage(`An error occurred: ${data.error}`, 'elysia');
+        });
+
+        // --- UI Functions ---
         function addMessage(text, sender) {
             const message = document.createElement('div');
             message.classList.add('message', sender);
@@ -126,59 +218,83 @@
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
-        async function sendMessage() {
+        function sendMessage() {
             const message = userInput.value;
             if (!message.trim()) return;
-
             addMessage(message, 'user');
+            socket.emit('chat_message', { message: message });
             userInput.value = '';
-
-            // Check if it's a visualization command
-            const visRegex = /(.+)(을|를)\s*(그려줘|보여줘)/;
-            const match = message.match(visRegex);
-
-            if (match) {
-                const concept = match[1].trim();
-                await handleVisualization(concept);
-            } else {
-                await handleChat(message);
-            }
         }
 
-        async function handleChat(message) {
-            try {
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: message })
-                });
-                const data = await response.json();
-                addMessage(data.response, 'elysia');
-            } catch (error) {
-                addMessage('Sorry, I seem to be disconnected.', 'elysia');
-            }
+        function updateMood(emotion) {
+            const moodOrb = document.getElementById('mood-orb');
+            // Simple visualization: Valence -> brightness, Arousal -> shadow size
+            const brightness = 50 + (emotion.valence * 50);
+            const shadowSize = 10 + (emotion.arousal * 20);
+            moodOrb.style.boxShadow = `0 0 ${shadowSize}px ${shadowSize/2}px var(--accent-love)`;
+            moodOrb.style.filter = `brightness(${brightness}%)`;
         }
 
-        async function handleVisualization(concept) {
-            addMessage(`Okay, I will try to visualize "${concept}"...`, 'elysia');
+        function displayCreation(type, path) {
+            creationPlaceholder.style.display = 'none';
+            creationDisplay.innerHTML = ''; // Clear previous content
+            let element;
+            if (type === 'image') {
+                element = document.createElement('img');
+            } else if (type === 'video') {
+                element = document.createElement('video');
+                element.controls = true;
+            }
+            element.src = path + '?t=' + new Date().getTime(); // Bust cache
+            creationDisplay.appendChild(element);
+        }
+
+        // --- Event Listeners ---
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Drag and Drop File Upload
+        const container = document.querySelector('.container');
+        container.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            container.style.backgroundColor = 'var(--bg-light-space)';
+        });
+        container.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            container.style.backgroundColor = 'var(--bg-space)';
+        });
+        container.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            container.style.backgroundColor = 'var(--bg-space)';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                uploadFile(files[0]);
+            }
+        });
+
+        async function uploadFile(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
             try {
-                const response = await fetch('/visualize', {
+                const response = await fetch('/upload', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ concept: concept })
+                    body: formData
                 });
-                const data = await response.json();
-                if (data.image_path) {
-                    // Use a timestamp to bypass browser cache
-                    imageDisplay.src = data.image_path + '?t=' + new Date().getTime();
-                    imageDisplay.style.display = 'block';
-                    imagePlaceholder.style.display = 'none';
-                    addMessage(`I've visualized it for you. See the panel on the right.`, 'elysia');
-                } else {
-                    addMessage(data.error || 'I failed to create the visualization.', 'elysia');
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || 'Upload failed');
                 }
+                console.log('Upload successful:', result.message);
             } catch (error) {
-                addMessage('Sorry, the visualization tool seems to be broken.', 'elysia');
+                addMessage(`File upload failed: ${error.message}`, 'elysia');
             }
         }
     </script>
