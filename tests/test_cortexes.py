@@ -3,8 +3,7 @@ from unittest.mock import patch
 import os
 import json
 from pathlib import Path
-from Project_Sophia.value_cortex import ValueCortex
-from Project_Sophia.sensory_cortex import SensoryCortex
+from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.action_cortex import ActionCortex
 
 class TestCortexes(unittest.TestCase):
@@ -50,8 +49,7 @@ class TestCortexes(unittest.TestCase):
         with open(self.test_tools_kg_path, 'w', encoding='utf-8') as f:
             json.dump(dummy_tools_kg, f)
 
-        self.value_cortex = ValueCortex(kg_path=str(self.test_kg_path))
-        self.sensory_cortex = SensoryCortex(self.value_cortex)
+        self.sensory_cortex = SensoryCortex()
         self.action_cortex = ActionCortex()
 
     def tearDown(self):
@@ -65,11 +63,6 @@ class TestCortexes(unittest.TestCase):
             self.backup_kg_path.rename(self.original_kg_path)
         if self.backup_tools_kg_path.exists():
             self.backup_tools_kg_path.rename(self.test_tools_kg_path)
-
-    def test_value_cortex_finds_path(self):
-        """Test that the ValueCortex can find a path to a core value."""
-        path = self.value_cortex.find_meaning_connection("test_concept")
-        self.assertEqual(path, ["test_concept", "love"])
 
     def test_sensory_cortex_visualizes_concept(self):
         """Test that the SensoryCortex can generate an image."""

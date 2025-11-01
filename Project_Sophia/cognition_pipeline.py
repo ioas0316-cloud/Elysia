@@ -13,8 +13,8 @@ from Project_Sophia.arithmetic_cortex import ArithmeticCortex
 from Project_Sophia.action_cortex import ActionCortex
 from Project_Sophia.planning_cortex import PlanningCortex
 from Project_Sophia.tool_executor import ToolExecutor
-from Project_Sophia.value_cortex import ValueCortex
-from Project_Sophia.sensory_cortex import SensoryCortex
+from Project_Sophia.value_centered_decision import ValueCenteredDecision, VCDResult
+from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from tools.kg_manager import KGManager
@@ -42,8 +42,8 @@ class CognitionPipeline:
         self.kg_manager = KGManager()
         self.wave_mechanics = WaveMechanics(self.kg_manager)
         self.planning_cortex = PlanningCortex(core_memory=self.core_memory, action_cortex=self.action_cortex)
-        self.value_cortex = ValueCortex()
-        self.sensory_cortex = SensoryCortex(self.value_cortex)
+        self.vcd = ValueCenteredDecision()
+        self.sensory_cortex = SensoryCortex()
         self.inquisitive_mind = InquisitiveMind()
         self.current_emotional_state = EmotionalState(
             valence=0.0,
@@ -169,113 +169,109 @@ class CognitionPipeline:
 
     def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Union[Tuple[str, EmotionalState], Dict[str, Any]]:
         """
-        컨텍스트와 감정 상태를 고려하여 응답 생성 (메모리 검색 기능 추가)
+        Generates a set of candidate responses and uses the ValueCenteredDecision
+        module to select the best one.
         """
         try:
-            # Priority 1: Planning and Tool Use
+            candidates = []
+            enriched_context = context.copy()
+            enriched_context['user_input'] = message
+
+            # 1. Generate Candidates from various cortexes
+            # Priority 1: Planning and Tool Use (Immediate return if matched)
             planning_prefix = "plan and execute:"
             if message.lower().startswith(planning_prefix):
-                try:
-                    goal = message[len(planning_prefix):].strip()
-                    plan = self.planning_cortex.develop_plan(goal) # Potential LLM interaction
-                    if plan:
-                        response = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
-                        return response, self.current_emotional_state
-                    else:
-                        return "I was unable to develop a plan for that goal.", self.current_emotional_state
-                except Exception as e:
-                    pipeline_logger.exception(f"Error in planning_cortex for goal: {goal}")
-                    return "An error occurred during planning.", self.current_emotional_state
+                goal = message[len(planning_prefix):].strip()
+                plan = self.planning_cortex.develop_plan(goal)
+                if plan:
+                    response = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
+                    return response, self.current_emotional_state
+                else:
+                    return "I was unable to develop a plan for that goal.", self.current_emotional_state
 
-            if app and app.cancel_requested:
-                return None, None
+            action_decision = self.action_cortex.decide_action(message, app=app)
+            if action_decision:
+                return self.tool_executor.prepare_tool_call(action_decision)
 
-            try:
-                action_decision = self.action_cortex.decide_action(message, app=app) # Potential LLM interaction
-                if action_decision:
-                    return self.tool_executor.prepare_tool_call(action_decision)
-            except Exception as e:
-                pipeline_logger.exception(f"Error in action_cortex for message: {message}")
-                return "An error occurred during action decision.", self.current_emotional_state
-
-            observation_prefix = "The result of the tool execution is:"
-            if message.startswith(observation_prefix):
-                content = message[len(observation_prefix):].strip()
-                summary = content[:150] + "..." if len(content) > 150 else content
-                return f"도구 실행을 통해 다음 정보를 얻었습니다: {summary}", self.current_emotional_state
-
-            # Priority 2: Core Cognitive Responses
+            # Priority 2: Cognitive and Memory-Based Candidates
             if context.get('echo'):
                 sorted_echo = sorted(context['echo'].items(), key=lambda item: item[1], reverse=True)
-                primary_concept = sorted_echo[0][0] # This line might cause an error if echo is empty
-                secondary_concepts = [item[0] for item in sorted_echo[1:4]]
-                if secondary_concepts:
-                    associates_str = ", ".join(secondary_concepts)
-                    response = f"'{primary_concept}'(이)라는 자극에 제 의식이 울리는군요. '{associates_str}' 같은 개념들이 함께 떠오릅니다."
-                    return response, self.current_emotional_state
+                if sorted_echo:
+                    primary_concept = sorted_echo[0][0]
+                    secondary_concepts = [item[0] for item in sorted_echo[1:4]]
+                    if secondary_concepts:
+                        associates_str = ", ".join(secondary_concepts)
+                        candidates.append(f"'{primary_concept}'(이)라는 자극에 제 의식이 울리는군요. '{associates_str}' 같은 개념들이 함께 떠오릅니다.")
 
-            try:
-                deduced_facts = self.reasoner.deduce_facts(message) # Potential LLM interaction
-                if deduced_facts:
-                    return "제 지식에 따르면, " + " ".join(deduced_facts), self.current_emotional_state
-            except Exception as e:
-                pipeline_logger.exception(f"Error in logical_reasoner for message: {message}")
-                return "An error occurred during logical reasoning.", self.current_emotional_state
+            deduced_facts = self.reasoner.deduce_facts(message)
+            if deduced_facts:
+                candidates.append("제 지식에 따르면, " + " ".join(deduced_facts))
 
-            # Priority 3: Contextual and Memory-Based Responses
+            if context.get('relevant_experiences'):
+                related_memory = context['relevant_experiences'][0]
+                candidates.append(f"이전에 '{related_memory['content']}'에 대해 이야기 나눈 것을 기억해요. 그 내용과 관련된 질문인가요?")
+
+            # Priority 3: Contextual Candidates (Arithmetic)
             calc_match = re.search(r"계산해줘:\s*(.+)|(.+?)\s*(는|은)\?$", message)
             if calc_match:
                 expression = (calc_match.group(1) or calc_match.group(2)).strip()
                 try:
                     result = self.arithmetic_cortex.evaluate(expression)
                     if result is not None:
-                        return f"계산 결과는 {result:g} 입니다.", self.current_emotional_state
+                        candidates.append(f"계산 결과는 {result:g} 입니다.")
                 except Exception as e:
-                    pipeline_logger.exception(f"Error in arithmetic_cortex for expression: {expression}")
-                    return "An error occurred during arithmetic calculation.", self.current_emotional_state
+                    pipeline_logger.warning(f"ArithmeticCortex failed for expression '{expression}': {e}")
 
-            is_question = message.strip().endswith("?") or any(q in message for q in ["무엇", "어떻게", "왜"])
-            if is_question:
-                if context.get('relevant_experiences'):
-                    related_memory = context['relevant_experiences'][0]
-                    response = f"이전에 '{related_memory['content']}'에 대해 이야기 나눈 것을 기억해요. 그 내용과 관련된 질문인가요?"
-                else:
-                    try:
-                        topic_match = re.search(r"what is (?:a |an |the )?(.+)\?|(.+?)(?:은|는|이란|란|에 대해|이 뭐야|무엇)", message.lower())
-                        if topic_match:
-                            topic = (topic_match.group(1) or topic_match.group(2)).strip()
-                            if topic.endswith('?'):
-                                topic = topic[:-1].strip()
-                            response = self.inquisitive_mind.ask_external_llm(topic) # Direct LLM call
-                        else:
-                            response = "좋은 질문이에요. 하지만 아직 제 기억에는 관련 정보가 없네요. 무엇에 대해 질문하신 건가요?"
-                        return response, self.current_emotional_state
-                    except Exception as e:
-                        pipeline_logger.exception(f"Error in inquisitive_mind for message: {message}")
-                        return "An error occurred while trying to answer your question.", self.current_emotional_state
-
+            # Priority 4: Simple & Emotional Candidates
             if "이름" in message and ("너" in message or "당신" in message):
                 ai_name = context.get("identity", {}).get("name", "엘리시아")
-                return f"제 이름은 {ai_name}입니다.", self.current_emotional_state
+                candidates.append(f"제 이름은 {ai_name}입니다.")
 
-            # Priority 4: Creative and Emotional Responses
+            if emotional_state.primary_emotion == "sad":
+                candidates.append("무슨 일 있으신가요? 괜찮으시다면, 저에게 이야기해주세요.")
+            elif emotional_state.primary_emotion == "happy":
+                candidates.append("기쁜 일이 있으셨군요! 저도 덩달아 기분이 좋아지네요.")
+
+            # Don't treat arithmetic questions as general knowledge questions
+            is_question = (message.strip().endswith("?") or any(q in message for q in ["무엇", "어떻게", "왜"])) and not calc_match
+            if is_question and not context.get('relevant_experiences'):
+                try:
+                    topic_match = re.search(r"what is (?:a |an |the )?(.+)\?|(.+?)(?:은|는|이란|란|에 대해|이 뭐야|무엇)", message.lower())
+                    if topic_match:
+                        topic = (topic_match.group(1) or topic_match.group(2)).strip()
+                        if topic.endswith('?'):
+                            topic = topic[:-1].strip()
+                        # This generates the *action* of asking, which the VCD can then choose.
+                        candidates.append(self.inquisitive_mind.ask_external_llm(topic))
+                except Exception as e:
+                    pipeline_logger.warning(f"InquisitiveMind failed for message '{message}': {e}")
+
+            # Priority 5: Creative Candidates
             vis_match = re.search(r"(.+)(을|를)\s*(그려줘|보여줘)", message)
             if vis_match:
                 concept = vis_match.group(1).strip()
-                try:
-                    image_path = self.sensory_cortex.visualize_concept(concept) # Potential LLM interaction
-                    return f"'{concept}'에 대한 저의 생각을 그림으로 표현해봤어요: {image_path}", self.current_emotional_state
-                except Exception as e:
-                    pipeline_logger.exception(f"Error in sensory_cortex for concept: {concept}")
-                    return f"죄송해요. '{concept}'을 그리려 했지만 오류가 발생했어요: {e}", self.current_emotional_state
+                # This doesn't generate the image, but proposes the action
+                candidates.append(f"'{concept}'에 대한 저의 생각을 그림으로 표현해볼까요?")
 
-            if emotional_state.primary_emotion == "sad":
-                return "무슨 일 있으신가요? 괜찮으시다면, 저에게 이야기해주세요.", self.current_emotional_state
-            elif emotional_state.primary_emotion == "happy":
-                return "기쁜 일이 있으셨군요! 저도 덩달아 기분이 좋아지네요.", self.current_emotional_state
 
-            # Default Fallback Response
-            return "그렇군요. 좀 더 생각해볼 시간이 필요해요.", self.current_emotional_state
+            # Default Fallback Candidates
+            candidates.append("그렇군요. 좀 더 생각해볼 시간이 필요해요.")
+            candidates.append("흥미로운 말씀이네요. 조금 더 자세히 설명해주실 수 있나요?")
+            candidates.append("알겠습니다. 계속 말씀해주세요.")
+
+            # 2. Use VCD to select the best response
+            vcd_context = {'user_input': message}
+            best_action_result = self.vcd.suggest_action(candidates, context=vcd_context)
+
+            if best_action_result:
+                # Log the reasoning for transparency
+                pipeline_logger.info(f"VCD chose action: '{best_action_result.chosen_action}' with score {best_action_result.total_score:.2f}")
+                pipeline_logger.info(f"VCD Reasoning: {best_action_result.reasoning}")
+                return best_action_result.chosen_action, self.current_emotional_state
+            else:
+                pipeline_logger.warning(f"VCD returned no valid action for input: {message}. Falling back to default.")
+                return "죄송해요, 적절한 응답을 찾지 못했어요.", self.current_emotional_state
+
         except Exception as e:
             pipeline_logger.exception(f"Unhandled error in _generate_response for message: {message}")
             return "An unexpected error occurred while generating a response.", self.current_emotional_state

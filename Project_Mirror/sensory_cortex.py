@@ -4,11 +4,9 @@ import json
 import math
 from datetime import datetime
 from tools.canvas_tool import Canvas
-from Project_Sophia.value_cortex import ValueCortex
 
 class SensoryCortex:
-    def __init__(self, value_cortex: ValueCortex):
-        self.value_cortex = value_cortex
+    def __init__(self):
         self.output_dir = "data/generated_images"
         os.makedirs(self.output_dir, exist_ok=True)
         self.textbooks = {}
@@ -24,18 +22,18 @@ class SensoryCortex:
         return self.textbooks[subject]
 
     def _get_color_palette(self, concept: str) -> list:
-        # ... (rest of the method is unchanged)
-        connections = self.value_cortex.find_meaning_connection(concept)
-        if not connections: return [(100, 100, 150), (150, 100, 100), (100, 150, 100)]
-        palette, base_colors = [], {"love": (255, 105, 180), "growth": (50, 205, 50), "creation": (138, 43, 226), "truth-seeking": (0, 191, 255)}
-        base_color = base_colors.get(connections[-1].lower(), (200, 200, 200))
-        for i, node in enumerate(connections):
-            factor = 1.0 - (i / len(connections)) * 0.5
-            r = int(base_color[0] * factor + random.randint(-20, 20))
-            g = int(base_color[1] * factor + random.randint(-20, 20))
-            b = int(base_color[2] * factor + random.randint(-20, 20))
+        """Returns a deterministic, concept-based but simplified color palette."""
+        seed = sum(ord(c) for c in concept)
+        random.seed(seed)
+
+        base_color = (random.randint(100, 200), random.randint(100, 200), random.randint(100, 200))
+        palette = []
+        for _ in range(5):
+            r = int(base_color[0] + random.randint(-50, 50))
+            g = int(base_color[1] + random.randint(-50, 50))
+            b = int(base_color[2] + random.randint(-50, 50))
             palette.append((max(0, min(255, r)), max(0, min(255, g)), max(0, min(255, b))))
-        return palette if palette else [(200, 200, 200)]
+        return palette
 
     def visualize_concept(self, concept: str) -> str:
         # Check all textbooks for the concept
