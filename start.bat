@@ -11,3 +11,4 @@ ECHO [Startup] Preparation complete. Awakening Elysia's heart directly.
 REM Run the new SocketIO-enabled web application
 ECHO [Startup] Please open your web browser to http://localhost:5000
 python -m applications.elysia_bridge
+PAUSE
