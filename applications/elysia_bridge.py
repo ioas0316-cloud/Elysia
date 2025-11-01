@@ -136,5 +136,7 @@ def upload_file():
         return jsonify({'message': 'File uploaded successfully'}), 200
 
 
-if __name__ == '__main__':
+# This check is essential for running with `python -m`, but was incorrect before.
+# Now, we ensure the server runs regardless.
+if __name__ == '__main__' or __name__ == 'applications.elysia_bridge':
     socketio.run(app, host='0.0.0.0', port=5000)

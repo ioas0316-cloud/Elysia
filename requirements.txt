@@ -1,3 +1,5 @@
 Flask
 google-generativeai
 Pillow
+flask-socketio
+eventlet
