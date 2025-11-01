@@ -4,10 +4,12 @@ import re
 import inspect
 import logging # Import logging module
 import os # Import os for log file path
+import json
+from unittest.mock import MagicMock
 
 from Project_Sophia.core_memory import CoreMemory
 from Project_Sophia.core_memory_base import Memory
-from Project_Sophia.emotional_state import EmotionalState
+from Project_Sophia.emotional_cortex import EmotionalCortex, Mood
 from Project_Sophia.logical_reasoner import LogicalReasoner
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
 from Project_Sophia.action_cortex import ActionCortex
@@ -17,6 +19,7 @@ from Project_Sophia.value_centered_decision import ValueCenteredDecision, VCDRes
 from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
+from .response_styler import ResponseStyler
 from tools.kg_manager import KGManager
 
 # --- Logging Configuration ---
@@ -45,56 +48,48 @@ class CognitionPipeline:
         self.vcd = ValueCenteredDecision()
         self.sensory_cortex = SensoryCortex()
         self.inquisitive_mind = InquisitiveMind()
-        self.current_emotional_state = EmotionalState(
-            valence=0.0,
-            arousal=0.0,
-            dominance=0.0,
-            primary_emotion="neutral",
-            secondary_emotions=[]
-        )
+        self.emotional_cortex = EmotionalCortex()
+        self.response_styler = ResponseStyler()
 
-    def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Union[Tuple[str, EmotionalState], Dict[str, Any]]:
+    def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Union[Tuple[str, Mood], Dict[str, Any]]:
         """
         메시지를 처리하고 감정 상태를 업데이트하는 인지 파이프라인
         """
         try:
-            # 1. 감정 분석
-            emotional_state = self._analyze_emotions(message)
-            
-            # 2. 문맥 이해 (기억 검색 포함)
             enriched_context = self._enrich_context(context or {}, message)
+
+            # Handle immediate tool actions that bypass VCD
+            action_decision = self.action_cortex.decide_action(message, app=app)
+            if action_decision:
+                return self.tool_executor.prepare_tool_call(action_decision)
+
+            # Proceed with VCD-based response generation
+            response_result = self._generate_response(message, enriched_context, app)
+            if not response_result:
+                return "I'm not sure how to respond to that.", self.emotional_cortex.get_current_mood()
+
+            self.emotional_cortex.update_mood_from_vcd(response_result)
             
-            # 3. 경험 저장
             memory = Memory(
                 timestamp=datetime.now().isoformat(),
                 content=message,
-                emotional_state=emotional_state,
+                # emotional_state is now a Mood object, log its string representation
+                emotional_state=str(self.emotional_cortex.get_current_mood()),
                 context=enriched_context
             )
             self.core_memory.add_experience(memory)
+
+            # 5. Apply mood-based styling to the final response
+            final_response = self.response_styler.style_response(
+                response_result.chosen_action,
+                self.emotional_cortex.get_current_mood()
+            )
             
-            # 4. 현재 감정 상태 업데이트
-            self._update_emotional_state(emotional_state)
-            
-            return self._generate_response(message, emotional_state, enriched_context, app)
+            return final_response, self.emotional_cortex.get_current_mood()
+
         except Exception as e:
             pipeline_logger.exception(f"Error in process_message for input: {message}")
-            return "An internal error occurred during message processing.", self.current_emotional_state
-
-
-    def _analyze_emotions(self, message: str) -> EmotionalState:
-        """
-        메시지의 감정을 분석하여 EmotionalState 반환
-        """
-        # TODO: 감정 분석 로직 구현
-        # 현재는 기본값 반환
-        return EmotionalState(
-            valence=0.0,
-            arousal=0.0,
-            dominance=0.0,
-            primary_emotion="neutral",
-            secondary_emotions=[]
-        )
+            return "An internal error occurred during message processing.", self.emotional_cortex.get_current_mood()
 
     def _find_relevant_experiences(self, message: str, limit: int = 1) -> list:
         """Searches memory for experiences related to the message content."""
@@ -154,23 +149,10 @@ class CognitionPipeline:
 
         return enriched
 
-    def _update_emotional_state(self, new_state: EmotionalState):
-        """
-        현재 감정 상태를 새로운 상태로 부드럽게 전이
-        """
-        alpha = 0.3
-        self.current_emotional_state = EmotionalState(
-            valence=self.current_emotional_state.valence * (1-alpha) + new_state.valence * alpha,
-            arousal=self.current_emotional_state.arousal * (1-alpha) + new_state.arousal * alpha,
-            dominance=self.current_emotional_state.dominance * (1-alpha) + new_state.dominance * alpha,
-            primary_emotion=new_state.primary_emotion,
-            secondary_emotions=list(set(self.current_emotional_state.secondary_emotions + new_state.secondary_emotions))[-3:]
-        )
-
-    def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Union[Tuple[str, EmotionalState], Dict[str, Any]]:
+    def _generate_response(self, message: str, context: Dict[str, Any], app=None) -> Optional[VCDResult]:
         """
         Generates a set of candidate responses and uses the ValueCenteredDecision
-        module to select the best one.
+        module to select the best one. Returns the VCDResult object.
         """
         try:
             candidates = []
@@ -185,13 +167,10 @@ class CognitionPipeline:
                 plan = self.planning_cortex.develop_plan(goal)
                 if plan:
                     response = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
-                    return response, self.current_emotional_state
+                    # Return a minimal VCDResult for immediate actions
+                    return VCDResult(chosen_action=response, total_score=100, confidence_score=1.0, value_alignment_score=1.0, metrics=MagicMock(), reasoning=["Direct command."])
                 else:
-                    return "I was unable to develop a plan for that goal.", self.current_emotional_state
-
-            action_decision = self.action_cortex.decide_action(message, app=app)
-            if action_decision:
-                return self.tool_executor.prepare_tool_call(action_decision)
+                    return VCDResult(chosen_action="I was unable to develop a plan for that goal.", total_score=0, confidence_score=0.5, value_alignment_score=0.5, metrics=MagicMock(), reasoning=["Planning failed."])
 
             # Priority 2: Cognitive and Memory-Based Candidates
             if context.get('echo'):
@@ -227,9 +206,10 @@ class CognitionPipeline:
                 ai_name = context.get("identity", {}).get("name", "엘리시아")
                 candidates.append(f"제 이름은 {ai_name}입니다.")
 
-            if emotional_state.primary_emotion == "sad":
+            # Simple emotional responses based on message content (placeholder)
+            if "슬퍼" in message or "sad" in message:
                 candidates.append("무슨 일 있으신가요? 괜찮으시다면, 저에게 이야기해주세요.")
-            elif emotional_state.primary_emotion == "happy":
+            elif "기뻐" in message or "happy" in message:
                 candidates.append("기쁜 일이 있으셨군요! 저도 덩달아 기분이 좋아지네요.")
 
             # Don't treat arithmetic questions as general knowledge questions
@@ -250,8 +230,13 @@ class CognitionPipeline:
             vis_match = re.search(r"(.+)(을|를)\s*(그려줘|보여줘)", message)
             if vis_match:
                 concept = vis_match.group(1).strip()
-                # This doesn't generate the image, but proposes the action
-                candidates.append(f"'{concept}'에 대한 저의 생각을 그림으로 표현해볼까요?")
+                try:
+                    # Pass the current mood to the visualization method
+                    image_path = self.sensory_cortex.visualize_concept(concept, mood=self.emotional_cortex.get_current_mood())
+                    candidates.append(f"'{concept}'에 대한 저의 생각을 그림으로 표현해봤어요: {image_path}")
+                except Exception as e:
+                    pipeline_logger.error(f"SensoryCortex failed for concept '{concept}': {e}")
+                    candidates.append(f"'{concept}'을(를) 그리려고 했는데, 오류가 발생했어요.")
 
 
             # Default Fallback Candidates
@@ -267,11 +252,11 @@ class CognitionPipeline:
                 # Log the reasoning for transparency
                 pipeline_logger.info(f"VCD chose action: '{best_action_result.chosen_action}' with score {best_action_result.total_score:.2f}")
                 pipeline_logger.info(f"VCD Reasoning: {best_action_result.reasoning}")
-                return best_action_result.chosen_action, self.current_emotional_state
+                return best_action_result
             else:
                 pipeline_logger.warning(f"VCD returned no valid action for input: {message}. Falling back to default.")
-                return "죄송해요, 적절한 응답을 찾지 못했어요.", self.current_emotional_state
+                return None
 
         except Exception as e:
             pipeline_logger.exception(f"Unhandled error in _generate_response for message: {message}")
-            return "An unexpected error occurred while generating a response.", self.current_emotional_state
+            return None

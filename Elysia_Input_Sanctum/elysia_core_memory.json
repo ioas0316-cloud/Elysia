@@ -3,15 +3,9 @@
     "values": [],
     "experiences": [
         {
-            "timestamp": "2025-11-01T13:02:06.537997",
+            "timestamp": "2025-11-01T14:19:46.553050",
             "content": "소크라테스에 대해 알려줘",
-            "emotional_state": {
-                "valence": 0.0,
-                "arousal": 0.0,
-                "dominance": 0.0,
-                "primary_emotion": "neutral",
-                "secondary_emotions": []
-            },
+            "emotional_state": "Feeling focused (Intensity: 0.21) with hints of curiosity.",
             "context": {
                 "echo": {},
                 "identity": {},
