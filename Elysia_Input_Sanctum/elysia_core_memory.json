@@ -271,6 +271,807 @@
                 "relevant_experiences": []
             },
             "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:43:32.047623",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:45:10.114977",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:43:32.047623",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": []
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:46:59.612519",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:45:10.114977",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:43:32.047623",
+                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": []
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:48:12.883243",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:46:59.612519",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:45:10.114977",
+                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-01T09:43:32.047623",
+                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": []
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:54:25.986473",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:48:12.883243",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:46:59.612519",
+                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-01T09:45:10.114977",
+                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-01T09:43:32.047623",
+                                                            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": []
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:55:17.435284",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:54:25.986473",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:48:12.883243",
+                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-01T09:46:59.612519",
+                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-01T09:45:10.114977",
+                                                            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-01T09:43:32.047623",
+                                                                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": []
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:56:41.841905",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:55:17.435284",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:54:25.986473",
+                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-01T09:48:12.883243",
+                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-01T09:46:59.612519",
+                                                            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-01T09:45:10.114977",
+                                                                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": [
+                                                                                {
+                                                                                    "timestamp": "2025-11-01T09:43:32.047623",
+                                                                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                                    "emotional_state": {
+                                                                                        "valence": 0.0,
+                                                                                        "arousal": 0.0,
+                                                                                        "dominance": 0.0,
+                                                                                        "primary_emotion": "neutral",
+                                                                                        "secondary_emotions": []
+                                                                                    },
+                                                                                    "context": {
+                                                                                        "echo": {},
+                                                                                        "identity": {},
+                                                                                        "relevant_experiences": []
+                                                                                    },
+                                                                                    "value_alignment": null
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T09:58:28.715055",
+            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:56:41.841905",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:55:17.435284",
+                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-01T09:54:25.986473",
+                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-01T09:48:12.883243",
+                                                            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-01T09:46:59.612519",
+                                                                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": [
+                                                                                {
+                                                                                    "timestamp": "2025-11-01T09:45:10.114977",
+                                                                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                                    "emotional_state": {
+                                                                                        "valence": 0.0,
+                                                                                        "arousal": 0.0,
+                                                                                        "dominance": 0.0,
+                                                                                        "primary_emotion": "neutral",
+                                                                                        "secondary_emotions": []
+                                                                                    },
+                                                                                    "context": {
+                                                                                        "echo": {},
+                                                                                        "identity": {},
+                                                                                        "relevant_experiences": [
+                                                                                            {
+                                                                                                "timestamp": "2025-11-01T09:43:32.047623",
+                                                                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                                                "emotional_state": {
+                                                                                                    "valence": 0.0,
+                                                                                                    "arousal": 0.0,
+                                                                                                    "dominance": 0.0,
+                                                                                                    "primary_emotion": "neutral",
+                                                                                                    "secondary_emotions": []
+                                                                                                },
+                                                                                                "context": {
+                                                                                                    "echo": {},
+                                                                                                    "identity": {},
+                                                                                                    "relevant_experiences": []
+                                                                                                },
+                                                                                                "value_alignment": null
+                                                                                            }
+                                                                                        ]
+                                                                                    },
+                                                                                    "value_alignment": null
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-01T10:34:40.841923",
+            "content": "목표: docs/ELYSIAS_FUTURE_PLAN.md 파일을 읽고 요약해줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-01T09:58:28.715055",
+                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-01T09:56:41.841905",
+                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-01T09:55:17.435284",
+                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-01T09:54:25.986473",
+                                                            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-01T09:48:12.883243",
+                                                                        "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": [
+                                                                                {
+                                                                                    "timestamp": "2025-11-01T09:46:59.612519",
+                                                                                    "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                                    "emotional_state": {
+                                                                                        "valence": 0.0,
+                                                                                        "arousal": 0.0,
+                                                                                        "dominance": 0.0,
+                                                                                        "primary_emotion": "neutral",
+                                                                                        "secondary_emotions": []
+                                                                                    },
+                                                                                    "context": {
+                                                                                        "echo": {},
+                                                                                        "identity": {},
+                                                                                        "relevant_experiences": [
+                                                                                            {
+                                                                                                "timestamp": "2025-11-01T09:45:10.114977",
+                                                                                                "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                                                "emotional_state": {
+                                                                                                    "valence": 0.0,
+                                                                                                    "arousal": 0.0,
+                                                                                                    "dominance": 0.0,
+                                                                                                    "primary_emotion": "neutral",
+                                                                                                    "secondary_emotions": []
+                                                                                                },
+                                                                                                "context": {
+                                                                                                    "echo": {},
+                                                                                                    "identity": {},
+                                                                                                    "relevant_experiences": [
+                                                                                                        {
+                                                                                                            "timestamp": "2025-11-01T09:43:32.047623",
+                                                                                                            "content": "목표: 웹에서 인공지능의 역사에 대한 정보를 찾아줘",
+                                                                                                            "emotional_state": {
+                                                                                                                "valence": 0.0,
+                                                                                                                "arousal": 0.0,
+                                                                                                                "dominance": 0.0,
+                                                                                                                "primary_emotion": "neutral",
+                                                                                                                "secondary_emotions": []
+                                                                                                            },
+                                                                                                            "context": {
+                                                                                                                "echo": {},
+                                                                                                                "identity": {},
+                                                                                                                "relevant_experiences": []
+                                                                                                            },
+                                                                                                            "value_alignment": null
+                                                                                                        }
+                                                                                                    ]
+                                                                                                },
+                                                                                                "value_alignment": null
+                                                                                            }
+                                                                                        ]
+                                                                                    },
+                                                                                    "value_alignment": null
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
         }
     ],
     "relationships": {},

@@ -7,3 +7,6 @@ elysia_state.json
 
 # Log files
 *.log
+
+# Configuration file with sensitive data
+config.json
