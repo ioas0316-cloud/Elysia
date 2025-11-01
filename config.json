@@ -2,7 +2,8 @@
   "guardian": {
     "time_to_idle_sec": 300,
     "idle_check_interval_sec": 10,
-    "learning_interval_sec": 60
+    "learning_interval_sec": 60,
+    "guardian_level": 3
   },
   "personality": {
     "core_value": "사랑",
