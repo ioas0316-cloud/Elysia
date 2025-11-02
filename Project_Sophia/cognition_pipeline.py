@@ -235,24 +235,25 @@ class CognitionPipeline:
                     return "An error occurred during arithmetic calculation.", self.current_emotional_state
 
             is_question = message.strip().endswith("?") or any(q in message for q in ["무엇", "어떻게", "왜"])
+            if context.get('relevant_experiences'):
+                related_memory = context['relevant_experiences'][0]
+                response = f"이전에 '{related_memory['content']}'에 대해 이야기 나눈 것을 기억해요. 그 내용과 관련된 질문인가요?"
+                return response, self.current_emotional_state
+
             if is_question:
-                if context.get('relevant_experiences'):
-                    related_memory = context['relevant_experiences'][0]
-                    response = f"이전에 '{related_memory['content']}'에 대해 이야기 나눈 것을 기억해요. 그 내용과 관련된 질문인가요?"
-                else:
-                    try:
-                        topic_match = re.search(r"what is (?:a |an |the )?(.+)\?|(.+?)(?:은|는|이란|란|에 대해|이 뭐야|무엇)", message.lower())
-                        if topic_match:
-                            topic = (topic_match.group(1) or topic_match.group(2)).strip()
-                            if topic.endswith('?'):
-                                topic = topic[:-1].strip()
-                            response = self.inquisitive_mind.ask_external_llm(topic) # Direct LLM call
-                        else:
-                            response = "좋은 질문이에요. 하지만 아직 제 기억에는 관련 정보가 없네요. 무엇에 대해 질문하신 건가요?"
-                        return response, self.current_emotional_state
-                    except Exception as e:
-                        pipeline_logger.exception(f"Error in inquisitive_mind for message: {message}")
-                        return "An error occurred while trying to answer your question.", self.current_emotional_state
+                try:
+                    topic_match = re.search(r"what is (?:a |an |the )?(.+)\?|(.+?)(?:은|는|이란|란|에 대해|이 뭐야|무엇)", message.lower())
+                    if topic_match:
+                        topic = (topic_match.group(1) or topic_match.group(2)).strip()
+                        if topic.endswith('?'):
+                            topic = topic[:-1].strip()
+                        response = self.inquisitive_mind.ask_external_llm(topic) # Direct LLM call
+                    else:
+                        response = "좋은 질문이에요. 하지만 아직 제 기억에는 관련 정보가 없네요. 무엇에 대해 질문하신 건가요?"
+                    return response, self.current_emotional_state
+                except Exception as e:
+                    pipeline_logger.exception(f"Error in inquisitive_mind for message: {message}")
+                    return "An error occurred while trying to answer your question.", self.current_emotional_state
 
             if "이름" in message and ("너" in message or "당신" in message):
                 ai_name = context.get("identity", {}).get("name", "엘리시아")

@@ -53,4 +53,13 @@ class InquisitiveMind:
                 external_knowledge = generate_text(prompt)
                 if external_knowledge:
                     # Format the finding as a question for the user to verify
-                    return f
+                    return f"'{topic}'에 대해 외부에서 이런 정보를 찾았어요: \"{external_knowledge}\". 이 정보가 정확한가요?"
+            except Exception as e:
+                inquisitive_logger.error(f"Error calling Gemini API on attempt {attempt + 1}: {e}")
+                if attempt < max_retries - 1:
+                    delay = initial_delay * (backoff_factor ** attempt)
+                    print(f"[InquisitiveMind] Retrying in {delay} seconds...")
+                    time.sleep(delay)
+                else:
+                    print("[InquisitiveMind] Max retries reached. Could not get external knowledge.")
+                    return "I tried to look that up, but I encountered an error."
