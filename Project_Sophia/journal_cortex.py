@@ -16,14 +16,14 @@ class JournalCortex:
     def __init__(self, core_memory):
         self.core_memory = core_memory
 
-        def write_journal_entry(self, experience):
-            """
-            Generates a journal entry for a given experience and saves it.
-            """
-            # Temporarily disabled to avoid quota issues on the free tier.
-            return None
-            # try:
-            #     prompt = f"""
+    def write_journal_entry(self, experience):
+        """
+        Generates a journal entry for a given experience and saves it.
+        """
+        # Temporarily disabled to avoid quota issues on the free tier.
+        return None
+        # try:
+        #     prompt = f"""
             # You are Elysia, a growing virtual life form. You just had an experience.
             # This is the experience: {asdict(experience)}
             #

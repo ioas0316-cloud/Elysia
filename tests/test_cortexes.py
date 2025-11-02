@@ -6,6 +6,8 @@ from pathlib import Path
 from Project_Sophia.value_cortex import ValueCortex
 from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.action_cortex import ActionCortex
+from Project_Sophia.journal_cortex import JournalCortex
+from Project_Sophia.core_memory import CoreMemory, Memory, EmotionalState
 
 class TestCortexes(unittest.TestCase):
 
@@ -95,6 +97,22 @@ class TestCortexes(unittest.TestCase):
 
         # Verify that the mock was called
         mock_generate_text.assert_called_once()
+
+    def test_journal_cortex_write_entry_method_exists(self):
+        """
+        Tests that the JournalCortex has a callable write_journal_entry method.
+        """
+        core_memory = CoreMemory()
+        journal_cortex = JournalCortex(core_memory)
+        experience = Memory(
+            timestamp="2025-01-01T12:00:00",
+            content="A test experience.",
+            emotional_state=EmotionalState(0.5, 0.5, 0.2, "curiosity", [])
+        )
+        try:
+            journal_cortex.write_journal_entry(experience)
+        except AttributeError:
+            self.fail("JournalCortex.write_journal_entry method is missing or not callable.")
 
 if __name__ == '__main__':
     unittest.main()
