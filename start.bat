@@ -9,5 +9,4 @@ python -m pip install -r requirements.txt
 ECHO [Startup] Preparation complete. Awakening Elysia's heart directly.
 
 REM Run the Flask web application
-set FLASK_APP=applications/elysia_bridge.py
-python -m flask run --host=0.0.0.0
+python -m applications.elysia_bridge
