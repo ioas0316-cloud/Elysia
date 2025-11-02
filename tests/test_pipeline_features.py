@@ -64,7 +64,7 @@ class TestPipelineFeatures(unittest.TestCase):
         mock_generate_text.assert_called_once()
 
         # 4. Assert that the response is the formatted output from the InquisitiveMind
-        expected_response = f"'supermassive black hole'에 대해 외부에서 이런 정보를 찾았어요: \"{mock_response}\". 이 정보가 정확한가요?"
+        expected_response = f"I have learned that 'supermassive black hole' is: '{mock_response}'. Is this information accurate?"
         self.assertEqual(response, expected_response)
 
 
