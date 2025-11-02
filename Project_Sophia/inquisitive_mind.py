@@ -54,6 +54,9 @@ class InquisitiveMind:
                 if external_knowledge:
                     # Format the finding as a question for the user to verify
                     return f"I have a new piece of information: '{external_knowledge}'. Is this correct?"
+                else:
+                    print("[InquisitiveMind] External knowledge source returned an empty response.")
+                    return "I tried to find out, but I was unable to get a clear answer."
             except Exception as e:
                 inquisitive_logger.error(f"Error calling external LLM on attempt {attempt + 1}: {e}")
                 if attempt < max_retries - 1:
