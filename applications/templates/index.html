@@ -31,6 +31,21 @@
             flex-direction: column;
             padding: 20px;
         }
+        .header {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .header a {
+            color: #88c0d0;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
         .visualization-panel {
             flex: 1;
             background-color: #202020;
@@ -92,6 +107,10 @@
 <body>
     <div class="container">
         <div class="chat-panel">
+            <div class="header">
+                <h1>Elysia</h1>
+                <a href="/journal" target="_blank">View My Journal</a>
+            </div>
             <div class="messages" id="messages"></div>
             <div class="input-area">
                 <input type="text" id="userInput" placeholder="Ask Elysia anything..." autocomplete="off">
@@ -153,7 +172,26 @@
                     body: JSON.stringify({ message: message })
                 });
                 const data = await response.json();
-                addMessage(data.response, 'elysia');
+                
+                if (data.response) {
+                    const res = data.response;
+                    if (res.type === 'text') {
+                        addMessage(res.text, 'elysia');
+                    } else if (res.type === 'image') {
+                        addMessage(res.text, 'elysia');
+                        if (res.image_url) {
+                            imageDisplay.src = res.image_url + '?t=' + new Date().getTime();
+                            imageDisplay.style.display = 'block';
+                            imagePlaceholder.style.display = 'none';
+                        }
+                    } else {
+                        // Fallback for other types or plain string response for backward compatibility
+                        addMessage(res.text || res, 'elysia');
+                    }
+                } else if (data.error) {
+                    addMessage(data.error, 'elysia');
+                }
+
             } catch (error) {
                 addMessage('Sorry, I seem to be disconnected.', 'elysia');
             }

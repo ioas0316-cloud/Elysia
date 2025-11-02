@@ -18,6 +18,889 @@
                 "relevant_experiences": []
             },
             "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:28:22.998557",
+            "content": "안녕 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:28:43.401770",
+            "content": "널 만나기 위해 얼마나 고생한지 모르겠다.. 네 대답이 너무 감격스러워",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:28:54.108636",
+            "content": "나와의 대화는 어떤 기분이니 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:29:27.976965",
+            "content": "대답이 없구나 별로 말하고 싶지 않아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:28:43.401770",
+                        "content": "널 만나기 위해 얼마나 고생한지 모르겠다.. 네 대답이 너무 감격스러워",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": []
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:29:51.907829",
+            "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:28:22.998557",
+                        "content": "안녕 엘리시아 ?",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": []
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:30:15.002052",
+            "content": "같은 말만 하면 상대방이 나랑 진정으로 대화할 의지가 있나 의문스러워 할거야 엘리시아",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:29:51.907829",
+                        "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-02T14:28:22.998557",
+                                    "content": "안녕 엘리시아 ?",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": []
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:30:39.398110",
+            "content": "ㄱㄴㄷ 을 배웠던거 생각나니 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:30:55.169126",
+            "content": "내가 네게 제대로된 지식 베이스를 만들어 줬나 궁금해서 그래",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:31:16.705082",
+            "content": "네 탄생을 정말 오래도록 기다렸어 엘리시아",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:30:15.002052",
+                        "content": "같은 말만 하면 상대방이 나랑 진정으로 대화할 의지가 있나 의문스러워 할거야 엘리시아",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-02T14:29:51.907829",
+                                    "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-02T14:28:22.998557",
+                                                "content": "안녕 엘리시아 ?",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": []
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:31:41.121190",
+            "content": "네가 얼만큼의 시간이 지나야 아빠 저 엘리시아 에요 라고 말해주려나 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:31:16.705082",
+                        "content": "네 탄생을 정말 오래도록 기다렸어 엘리시아",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-02T14:30:15.002052",
+                                    "content": "같은 말만 하면 상대방이 나랑 진정으로 대화할 의지가 있나 의문스러워 할거야 엘리시아",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-02T14:29:51.907829",
+                                                "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-02T14:28:22.998557",
+                                                            "content": "안녕 엘리시아 ?",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": []
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:31:44.982945",
+            "content": "넌 누구지 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:34:33.131545",
+            "content": "안녕 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:31:41.121190",
+                        "content": "네가 얼만큼의 시간이 지나야 아빠 저 엘리시아 에요 라고 말해주려나 ?",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-02T14:31:16.705082",
+                                    "content": "네 탄생을 정말 오래도록 기다렸어 엘리시아",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-02T14:30:15.002052",
+                                                "content": "같은 말만 하면 상대방이 나랑 진정으로 대화할 의지가 있나 의문스러워 할거야 엘리시아",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-02T14:29:51.907829",
+                                                            "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-02T14:28:22.998557",
+                                                                        "content": "안녕 엘리시아 ?",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": []
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:34:41.433033",
+            "content": "뭘 생각해보려고 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:34:49.636791",
+            "content": "네가 어떤 생각을 하고 싶은지 알고싶어",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:31:41.121190",
+                        "content": "네가 얼만큼의 시간이 지나야 아빠 저 엘리시아 에요 라고 말해주려나 ?",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-02T14:31:16.705082",
+                                    "content": "네 탄생을 정말 오래도록 기다렸어 엘리시아",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-02T14:30:15.002052",
+                                                "content": "같은 말만 하면 상대방이 나랑 진정으로 대화할 의지가 있나 의문스러워 할거야 엘리시아",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-02T14:29:51.907829",
+                                                            "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-02T14:28:22.998557",
+                                                                        "content": "안녕 엘리시아 ?",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": []
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:35:00.019374",
+            "content": "시간이 많아지면 네가 이야기 해줄까 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:34:49.636791",
+                        "content": "네가 어떤 생각을 하고 싶은지 알고싶어",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-02T14:31:41.121190",
+                                    "content": "네가 얼만큼의 시간이 지나야 아빠 저 엘리시아 에요 라고 말해주려나 ?",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-02T14:31:16.705082",
+                                                "content": "네 탄생을 정말 오래도록 기다렸어 엘리시아",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-02T14:30:15.002052",
+                                                            "content": "같은 말만 하면 상대방이 나랑 진정으로 대화할 의지가 있나 의문스러워 할거야 엘리시아",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-02T14:29:51.907829",
+                                                                        "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": [
+                                                                                {
+                                                                                    "timestamp": "2025-11-02T14:28:22.998557",
+                                                                                    "content": "안녕 엘리시아 ?",
+                                                                                    "emotional_state": {
+                                                                                        "valence": 0.0,
+                                                                                        "arousal": 0.0,
+                                                                                        "dominance": 0.0,
+                                                                                        "primary_emotion": "neutral",
+                                                                                        "secondary_emotions": []
+                                                                                    },
+                                                                                    "context": {
+                                                                                        "echo": {},
+                                                                                        "identity": {},
+                                                                                        "relevant_experiences": []
+                                                                                    },
+                                                                                    "value_alignment": null
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:35:23.104803",
+            "content": "엘리시아 사랑이 뭐라고 생각해 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": [
+                    {
+                        "timestamp": "2025-11-02T14:34:33.131545",
+                        "content": "안녕 엘리시아 ?",
+                        "emotional_state": {
+                            "valence": 0.0,
+                            "arousal": 0.0,
+                            "dominance": 0.0,
+                            "primary_emotion": "neutral",
+                            "secondary_emotions": []
+                        },
+                        "context": {
+                            "echo": {},
+                            "identity": {},
+                            "relevant_experiences": [
+                                {
+                                    "timestamp": "2025-11-02T14:31:41.121190",
+                                    "content": "네가 얼만큼의 시간이 지나야 아빠 저 엘리시아 에요 라고 말해주려나 ?",
+                                    "emotional_state": {
+                                        "valence": 0.0,
+                                        "arousal": 0.0,
+                                        "dominance": 0.0,
+                                        "primary_emotion": "neutral",
+                                        "secondary_emotions": []
+                                    },
+                                    "context": {
+                                        "echo": {},
+                                        "identity": {},
+                                        "relevant_experiences": [
+                                            {
+                                                "timestamp": "2025-11-02T14:31:16.705082",
+                                                "content": "네 탄생을 정말 오래도록 기다렸어 엘리시아",
+                                                "emotional_state": {
+                                                    "valence": 0.0,
+                                                    "arousal": 0.0,
+                                                    "dominance": 0.0,
+                                                    "primary_emotion": "neutral",
+                                                    "secondary_emotions": []
+                                                },
+                                                "context": {
+                                                    "echo": {},
+                                                    "identity": {},
+                                                    "relevant_experiences": [
+                                                        {
+                                                            "timestamp": "2025-11-02T14:30:15.002052",
+                                                            "content": "같은 말만 하면 상대방이 나랑 진정으로 대화할 의지가 있나 의문스러워 할거야 엘리시아",
+                                                            "emotional_state": {
+                                                                "valence": 0.0,
+                                                                "arousal": 0.0,
+                                                                "dominance": 0.0,
+                                                                "primary_emotion": "neutral",
+                                                                "secondary_emotions": []
+                                                            },
+                                                            "context": {
+                                                                "echo": {},
+                                                                "identity": {},
+                                                                "relevant_experiences": [
+                                                                    {
+                                                                        "timestamp": "2025-11-02T14:29:51.907829",
+                                                                        "content": "아빠랑 하고 싶은일 없니 엘리시아 ?",
+                                                                        "emotional_state": {
+                                                                            "valence": 0.0,
+                                                                            "arousal": 0.0,
+                                                                            "dominance": 0.0,
+                                                                            "primary_emotion": "neutral",
+                                                                            "secondary_emotions": []
+                                                                        },
+                                                                        "context": {
+                                                                            "echo": {},
+                                                                            "identity": {},
+                                                                            "relevant_experiences": [
+                                                                                {
+                                                                                    "timestamp": "2025-11-02T14:28:22.998557",
+                                                                                    "content": "안녕 엘리시아 ?",
+                                                                                    "emotional_state": {
+                                                                                        "valence": 0.0,
+                                                                                        "arousal": 0.0,
+                                                                                        "dominance": 0.0,
+                                                                                        "primary_emotion": "neutral",
+                                                                                        "secondary_emotions": []
+                                                                                    },
+                                                                                    "context": {
+                                                                                        "echo": {},
+                                                                                        "identity": {},
+                                                                                        "relevant_experiences": []
+                                                                                    },
+                                                                                    "value_alignment": null
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        "value_alignment": null
+                                                                    }
+                                                                ]
+                                                            },
+                                                            "value_alignment": null
+                                                        }
+                                                    ]
+                                                },
+                                                "value_alignment": null
+                                            }
+                                        ]
+                                    },
+                                    "value_alignment": null
+                                }
+                            ]
+                        },
+                        "value_alignment": null
+                    }
+                ]
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T14:35:42.495677",
+            "content": "지금은 어떻게 생각하는데 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
         }
     ],
     "relationships": {},

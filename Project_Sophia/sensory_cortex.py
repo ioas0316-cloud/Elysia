@@ -2,9 +2,11 @@ import os
 import random
 import json
 import math
+import re
 from datetime import datetime
 from tools.canvas_tool import Canvas
 from Project_Sophia.value_cortex import ValueCortex
+from Project_Sophia.gemini_api import generate_text
 
 class SensoryCortex:
     def __init__(self, value_cortex: ValueCortex):
@@ -12,6 +14,95 @@ class SensoryCortex:
         self.output_dir = "data/generated_images"
         os.makedirs(self.output_dir, exist_ok=True)
         self.textbooks = {}
+
+    def translate_description_to_voxels(self, description: str) -> list:
+        """
+        Uses the LLM to translate a natural language description into a list of voxel coordinates.
+        """
+        try:
+            prompt = f"""
+You are an AI assistant that translates object descriptions into 3D voxel coordinates.
+Given the following description, generate a JSON array of voxel coordinates.
+Each coordinate should be a dictionary with 'x', 'y', and 'z' keys.
+The origin (0,0,0) is the center of the object.
+Keep the object relatively small, within a 10x10x10 cube around the origin.
+The output should be only the raw JSON array.
+
+Description: "{description}"
+
+JSON response:
+"""
+            response_text = generate_text(prompt)
+            
+            # Extract the JSON part of the response
+            json_match = re.search(r'\[.*\]', response_text, re.DOTALL)
+            if not json_match:
+                print(f"Warning: Could not find a JSON array in the LLM response for description: {description}")
+                return []
+
+            voxels = json.loads(json_match.group())
+            # Basic validation
+            if isinstance(voxels, list) and all('x' in v and 'y' in v and 'z' in v for v in voxels):
+                return voxels
+            else:
+                print(f"Warning: Invalid voxel data format received for description: {description}")
+                return []
+        except (json.JSONDecodeError, TypeError) as e:
+            print(f"Warning: Could not parse voxel data from LLM response: {response_text}. Error: {e}")
+            return []
+        except Exception as e:
+            print(f"An unexpected error occurred during voxel translation: {e}")
+            return []
+
+    def draw_voxels(self, name: str, voxels: list) -> str:
+        """
+        Renders a list of voxels to a PNG file.
+        """
+        canvas = Canvas()
+        color = (200, 220, 255) # A nice light blue for learned shapes
+        for v in voxels:
+            canvas.add_voxel(v['x'], v['y'], v['z'], color)
+        
+        timestamp = datetime.now().timestamp()
+        output_filename = f"learned_{name.replace(' ', '_')}_{timestamp}.png"
+        output_path = os.path.join(self.output_dir, output_filename)
+        canvas.render(output_path)
+        return output_path
+
+    def save_learned_shape(self, name: str, description: str, voxels: list):
+        """
+        Saves a newly learned shape to the 'learned_shapes.json' textbook.
+        """
+        textbook_path = "data/textbooks/learned_shapes.json"
+        
+        new_shape = {
+            "name": name,
+            "description": description,
+            "representation": {
+                "type": "voxel",
+                "coordinates": voxels
+            }
+        }
+
+        try:
+            if os.path.exists(textbook_path):
+                with open(textbook_path, 'r+', encoding='utf-8') as f:
+                    shapes = json.load(f)
+                    # Avoid duplicates
+                    if not any(s['name'] == name for s in shapes):
+                        shapes.append(new_shape)
+                        f.seek(0)
+                        json.dump(shapes, f, indent=2, ensure_ascii=False)
+            else:
+                with open(textbook_path, 'w', encoding='utf-8') as f:
+                    json.dump([new_shape], f, indent=2, ensure_ascii=False)
+            
+            # Invalidate cache for this textbook if it was loaded
+            if "learned_shapes" in self.textbooks:
+                del self.textbooks["learned_shapes"]
+
+        except Exception as e:
+            print(f"Error saving learned shape '{name}': {e}")
 
     def _load_textbook(self, subject: str):
         if subject not in self.textbooks:
@@ -50,6 +141,49 @@ class SensoryCortex:
 
         # Fallback to abstract visualization
         return self._visualize_abstract(concept)
+
+    def visualize_echo(self, echo: dict) -> str:
+        """
+        Generates an abstract visualization based on a dictionary of activated concepts (the "echo").
+        """
+        if not echo:
+            return self._visualize_abstract("emptiness")
+
+        # The main concept is the one with the highest energy
+        main_concept = max(echo, key=echo.get)
+
+        canvas = Canvas()
+        palette = self._get_color_palette(main_concept)
+        
+        # Use the echo to influence the generation
+        all_concepts = list(echo.keys())
+        total_energy = sum(echo.values())
+        
+        num_voxels = int(20 + 30 * (total_energy / len(echo))) # More energy = more voxels
+        
+        for _ in range(num_voxels):
+            # Pick a concept from the echo, weighted by energy
+            concept_to_draw = random.choices(all_concepts, weights=echo.values(), k=1)[0]
+            
+            # Use concept to seed position and color
+            seed = sum(ord(c) for c in concept_to_draw)
+            random.seed(seed)
+            
+            x, y, z = random.randint(-5, 5), random.randint(-5, 5), random.randint(-3, 6)
+            color = random.choice(palette)
+
+            # Connect to other voxels to create a structure
+            if random.random() < 0.8 and canvas.voxels:
+                px, py, pz, _ = random.choice(canvas.voxels)
+                x, y, z = px + random.choice([-1, 0, 1]), py + random.choice([-1, 0, 1]), pz + random.choice([-1, 0, 1])
+
+            canvas.add_voxel(x, y, z, color)
+
+        timestamp = datetime.now().timestamp()
+        output_filename = f"echo_{main_concept.replace(' ', '_')}_{timestamp}.png"
+        output_path = os.path.join(self.output_dir, output_filename)
+        canvas.render(output_path)
+        return output_path
 
     def _visualize_abstract(self, concept: str) -> str:
         canvas = Canvas()

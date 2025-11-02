@@ -61,7 +61,7 @@ def embed_texts(texts: List[str]) -> List[List[float]]:
     """Try to use sentence-transformers, otherwise fallback to hash-based vectors."""
     ModelClass = try_import_sentence_transformer()
     if ModelClass:
-        model = ModelClass('all-MiniLM-L6-v2')
+        model = ModelClass('jhgan/ko-sroberta-multitask')
         embeddings = model.encode(texts, convert_to_numpy=True)
         return embeddings.tolist()
 

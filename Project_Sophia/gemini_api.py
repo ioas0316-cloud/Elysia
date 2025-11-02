@@ -1,6 +1,20 @@
 
 import os
 import google.generativeai as genai
+import logging
+from google.api_core import exceptions as api_core_exceptions
+
+# --- Logging Configuration ---
+log_file_path = os.path.join(os.path.dirname(__file__), 'gemini_api_errors.log')
+logging.basicConfig(
+    level=logging.ERROR,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_file_path)
+    ]
+)
+gemini_logger = logging.getLogger(__name__)
+# --- End Logging Configuration ---
 
 _is_configured = False
 
@@ -22,8 +36,13 @@ def get_text_embedding(text: str, model="models/text-embedding-004"):
     _configure_genai_if_needed()
     try:
         return genai.embed_content(model=model, content=text)["embedding"]
+    except (api_core_exceptions.InternalServerError,
+            api_core_exceptions.ServiceUnavailable,
+            api_core_exceptions.DeadlineExceeded) as e:
+        gemini_logger.exception(f"A specific API error occurred during embedding: {e}")
+        return None
     except Exception as e:
-        print(f"An error occurred during embedding: {e}")
+        gemini_logger.exception(f"An unexpected error occurred during embedding: {e}")
         return None
 
 def generate_text(prompt: str, model_name="gemini-1.5-pro"):
@@ -33,6 +52,11 @@ def generate_text(prompt: str, model_name="gemini-1.5-pro"):
     try:
         response = model.generate_content(prompt)
         return response.text
+    except (api_core_exceptions.InternalServerError,
+            api_core_exceptions.ServiceUnavailable,
+            api_core_exceptions.DeadlineExceeded) as e:
+        gemini_logger.exception(f"A specific API error occurred during text generation: {e}")
+        return None
     except Exception as e:
-        print(f"An error occurred during text generation: {e}")
+        gemini_logger.exception(f"An unexpected error occurred during text generation: {e}")
         return None

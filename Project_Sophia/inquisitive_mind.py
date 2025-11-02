@@ -53,4 +53,13 @@ class InquisitiveMind:
                 external_knowledge = generate_text(prompt)
                 if external_knowledge:
                     # Format the finding as a question for the user to verify
-                    return f
+                    return f"I have a new piece of information: '{external_knowledge}'. Is this correct?"
+            except Exception as e:
+                inquisitive_logger.error(f"Error calling external LLM on attempt {attempt + 1}: {e}")
+                if attempt < max_retries - 1:
+                    delay = initial_delay * (backoff_factor ** attempt)
+                    print(f"[InquisitiveMind] Retrying in {delay} seconds...")
+                    time.sleep(delay)
+                else:
+                    print("[InquisitiveMind] Max retries reached. Failed to get external knowledge.")
+                    return "I tried to find out, but I was unable to get a clear answer."

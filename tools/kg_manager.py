@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 
 DATA_DIR = Path("data")
-KG_PATH = DATA_DIR / 'kg.json'
+KG_PATH = DATA_DIR / 'kg_with_embeddings.json'
 
 class KGManager:
     def __init__(self):

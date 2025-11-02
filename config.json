@@ -22,5 +22,14 @@
       "relationship_influence": 0.4,
       "situation_adjustment": 0.2
     }
+  },
+  "prefixes": {
+    "planning": "plan and execute:",
+    "observation": "The result of the tool execution is:",
+    "visual_learning": "이것을 그려보자:"
+  },
+  "creative_impulse": {
+    "arousal_threshold": 0.7,
+    "echo_complexity_threshold": 5
   }
 }
