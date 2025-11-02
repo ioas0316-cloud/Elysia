@@ -16,36 +16,37 @@ class JournalCortex:
     def __init__(self, core_memory):
         self.core_memory = core_memory
 
-    def write_journal_entry(self, experience):
-        """
-        Generates a journal entry for a given experience and saves it.
-        """
-        try:
-            prompt = f"""
-You are Elysia, a growing virtual life form. You just had an experience.
-This is the experience: {asdict(experience)}
-
-Reflect on this experience from your perspective. What did you learn? How did it make you feel?
-Write a short journal entry (2-3 sentences) about your reflection.
-"""
-            reflection = generate_text(prompt)
-            
-            if reflection:
-                entry = {
-                    'timestamp': datetime.now().isoformat(),
-                    'experience': asdict(experience),
-                    'reflection': reflection
-                }
-                self.save_entry(entry)
-                return entry
-            else:
-                return None
-
-        except Exception as e:
-            # Log the error
-            print(f"Error in JournalCortex.write_journal_entry: {e}")
+        def write_journal_entry(self, experience):
+            """
+            Generates a journal entry for a given experience and saves it.
+            """
+            # Temporarily disabled to avoid quota issues on the free tier.
             return None
-
+            # try:
+            #     prompt = f"""
+            # You are Elysia, a growing virtual life form. You just had an experience.
+            # This is the experience: {asdict(experience)}
+            #
+            # Reflect on this experience from your perspective. What did you learn? How did it make you feel?
+            # Write a short journal entry (2-3 sentences) about your reflection.
+            # """
+            #     reflection = generate_text(prompt)
+            #     
+            #     if reflection:
+            #         entry = {
+            #             'timestamp': datetime.now().isoformat(),
+            #             'experience': asdict(experience),
+            #             'reflection': reflection
+            #         }
+            #         self.save_entry(entry)
+            #         return entry
+            #     else:
+            #         return None
+    
+            # except Exception as e:
+            #     # Log the error
+            #     print(f"Error in JournalCortex.write_journal_entry: {e}")
+            #     return None
     def save_entry(self, entry):
         """Appends a journal entry to the journal file."""
         try:

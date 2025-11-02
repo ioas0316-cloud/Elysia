@@ -82,13 +82,15 @@ def chat():
                 'dominance': emotional_state.dominance
             }
 
+        print(f"!!! FINAL PAYLOAD TO FRONTEND: {{'response': {final_response}, 'emotional_state': {emotion_dict}}}") # DEBUGGING PRINT
         return jsonify({
             'response': final_response,
             'emotional_state': emotion_dict
         })
     except Exception as e:
+        print("!!! elysia_bridge.py 에서 예외 발생을 포착함 !!!") # DEBUGGING PRINT
         app_logger.exception(f"Error processing chat message: {user_input}")
-        return jsonify({'error': 'An internal server error occurred during chat processing.'}), 500
+        return jsonify({'error': '백엔드 오류 코드: 알파-7'}), 500
 
 
 @app.route('/journal')

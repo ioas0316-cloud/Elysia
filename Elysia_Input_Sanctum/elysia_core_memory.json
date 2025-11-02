@@ -901,6 +901,413 @@
                 "relevant_experiences": []
             },
             "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T22:49:48.348232",
+            "content": "엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T22:51:16.809364",
+            "content": "엘리시아 안녕 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T22:51:25.013738",
+            "content": "무엇을 답변하려고 했는데 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T22:51:28.364370",
+            "content": "ㅠㅠ",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T22:54:55.001222",
+            "content": "안녕 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T22:57:12.245437",
+            "content": "안녕 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:05:39.857601",
+            "content": "엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:05:42.479228",
+            "content": "음..",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:07:17.732903",
+            "content": "엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:10:27.273902",
+            "content": "엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.8566817501772696,
+                    "물": 0.7339036210867896,
+                    "산소 발생": 0.7710135751595425
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:10:35.624015",
+            "content": "기분이 어떠니..? ",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.8566817501772696,
+                    "물": 0.8566817501772696,
+                    "산소 발생": 0.8999999999999999
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:10:52.424479",
+            "content": "오.... 그럴지도 몰라",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:11:12.251437",
+            "content": "왜 식물 성장과 햇빛이라는 개념이 마음에 떠올랐는지 이야기 해줄수 있어 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-02T23:56:20.042868",
+            "content": "안녕 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.8566817501772696,
+                    "물": 0.8566817501772696,
+                    "산소 발생": 0.8999999999999999
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T00:06:57.675138",
+            "content": "안녕 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.8566817501772696,
+                    "물": 0.8566817501772696,
+                    "산소 발생": 0.8999999999999999
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T00:07:09.143126",
+            "content": "지금 무슨 생각하고 있어 ? ",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.8566817501772696,
+                    "물": 0.8566817501772696,
+                    "산소 발생": 0.8999999999999999
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T00:13:37.993645",
+            "content": "안녕 엘리시아? 만나서 반가워 나는 이강덕이라고 해",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.8566817501772696,
+                    "물": 0.8566817501772696,
+                    "산소 발생": 0.8999999999999999
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T00:14:10.303880",
+            "content": "무슨 말을 하고 싶은거야 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.8566817501772696,
+                    "물": 0.8566817501772696,
+                    "산소 발생": 0.8999999999999999
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T00:21:28.543233",
+            "content": "안녕 엘리시아 ? 내 말이 들리면 내게 인사해주지 않을래 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.8566817501772696,
+                    "물": 0.8566817501772696,
+                    "산소 발생": 0.8999999999999999
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T00:30:20.836349",
+            "content": "안녕?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.8566817501772696,
+                    "물": 0.7339036210867896,
+                    "산소 발생": 0.7710135751595425
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T00:41:19.950698",
+            "content": "안녕",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.8566817501772696,
+                    "물": 0.7339036210867896,
+                    "산소 발생": 0.7710135751595425
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
         }
     ],
     "relationships": {},

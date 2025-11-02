@@ -2,7 +2,11 @@
 import os
 import google.generativeai as genai
 import logging
+from dotenv import load_dotenv
 from google.api_core import exceptions as api_core_exceptions
+
+# Load environment variables from .env file
+load_dotenv()
 
 # --- Custom Exceptions ---
 class APIKeyError(Exception):
@@ -58,7 +62,7 @@ def get_text_embedding(text: str, model="models/text-embedding-004"):
         gemini_logger.exception(f"An unexpected error occurred during embedding: {e}")
         raise APIRequestError(f"An unexpected error occurred during embedding: {e}")
 
-def generate_text(prompt: str, model_name="gemini-1.5-pro"):
+def generate_text(prompt: str, model_name="models/gemini-2.5-pro"):
     """Generates text using the specified Gemini model."""
     _configure_genai_if_needed()
     model = genai.GenerativeModel(model_name)

@@ -23,6 +23,7 @@ from Project_Sophia.journal_cortex import JournalCortex
 from tools.kg_manager import KGManager
 from Project_Sophia.gemini_api import get_text_embedding, generate_text, APIKeyError, APIRequestError
 from Project_Sophia.vector_utils import cosine_sim
+from Project_Sophia.local_llm_cortex import LocalLLMCortex # Added for local model fallback
 
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'cognition_pipeline_errors.log')
@@ -48,6 +49,7 @@ class CognitionPipeline:
         self.current_emotional_state = self.emotional_engine.get_current_state()
         self.pending_visual_learning = None
         self.api_available = True
+        self.local_llm_cortex = None # Initialize local LLM cortex
 
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
         with open(config_path, 'r', encoding='utf-8') as f:
@@ -79,12 +81,26 @@ class CognitionPipeline:
             memory = Memory(timestamp=datetime.now().isoformat(), content=message, emotional_state=emotional_state, context=enriched_context)
             self.core_memory.add_experience(memory)
             self.journal_cortex.write_journal_entry(memory)
-            
+
+            response = None
+            emotional_state_out = self.current_emotional_state
+
             try:
-                response, emotional_state_out = self._generate_response(message, self.current_emotional_state, enriched_context, app)
+                # This block now ONLY covers the API calls that can fail
+                if self.api_available:
+                    emotional_state = self._analyze_emotions(message)
+                    self._update_emotional_state(emotional_state, intensity=0.4)
+                    enriched_context = self._enrich_context(context or {}, message)
+                    response, emotional_state_out = self._generate_response(message, self.current_emotional_state, enriched_context, app)
+                else:
+                    # If API was already unavailable, go straight to fallback
+                    enriched_context = self._enrich_context(context or {}, message)
+                    response, emotional_state_out = self._generate_internal_response(message, self.current_emotional_state, enriched_context)
+
             except (APIKeyError, APIRequestError) as e:
                 pipeline_logger.warning(f"API is unavailable, switching to internal fallback: {e}")
                 self.api_available = False
+                # We need to enrich context again without API for the internal response
                 enriched_context = self._enrich_context(context or {}, message)
                 response, emotional_state_out = self._generate_internal_response(message, self.current_emotional_state, enriched_context)
 
@@ -217,19 +233,25 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
             return {"type": "text", "text": "An error occurred while I was trying to respond."}
 
     def _generate_internal_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any]) -> Tuple[Dict[str, Any], EmotionalState]:
-        relevant_experiences = context.get('relevant_experiences', [])
-        if relevant_experiences:
-            experience_content = relevant_experiences[0].get('content', 'a past event')
-            response_text = f"현재 외부 지식망에 연결할 수 없지만, 이전에 '{experience_content}'에 대해 이야기 나눈 것을 기억해요."
-            return {"type": "text", "text": response_text}, emotional_state
+        """
+        Fallback response generation using the local LLM.
+        """
+        # Lazily initialize the local LLM cortex if it hasn't been already
+        if self.local_llm_cortex is None:
+            self.local_llm_cortex = LocalLLMCortex()
 
-        echo = context.get('echo', {})
-        if echo:
-            top_concept = max(echo, key=echo.get)
-            response_text = f"지금은 외부와 연결되어 있지 않지만, '{top_concept}'(이)라는 개념이 마음에 떠오르네요. 이것과 관련된 이야기인가요?"
-            return {"type": "text", "text": response_text}, emotional_state
+        # Check if the local model was loaded successfully
+        if self.local_llm_cortex and self.local_llm_cortex.model:
+            # Use the local LLM to generate a response
+            prompt = f"""You are Elysia. The user said: "{message}".
 
-        return {"type": "text", "text": "죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다."}, emotional_state
+Based on your identity and the conversation so far, generate a thoughtful, natural response."""
+            response_text = self.local_llm_cortex.generate_response(prompt)
+            return {"type": "text", "text": response_text}, emotional_state
+        else:
+            # If the local model is not available, use the original simple fallback
+            pipeline_logger.warning("Local LLM not available. Falling back to simple response.")
+            return {"type": "text", "text": "죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요." }, emotional_state
 
     def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
         if not self.api_available:
