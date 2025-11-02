@@ -1,6 +1,6 @@
 import re
 
-class PlanningCortex:
+class GoalDecompositionCortex:
     """
     Breaks down complex, high-level goals into a sequence of executable tool calls.
     This cortex is the heart of Elysia's ability to form and execute multi-step plans.

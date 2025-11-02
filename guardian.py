@@ -15,6 +15,7 @@ from Project_Sophia.safety_guardian import SafetyGuardian, ActionCategory, Matur
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
+from Project_Sophia.cognition_pipeline import CognitionPipeline
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -34,6 +35,7 @@ class Guardian:
         self.experience_integrator = ExperienceIntegrator()
         self.self_awareness_core = SelfAwarenessCore()
         self.daemon_process = None
+        self.cognition_pipeline = CognitionPipeline()
 
         # Wallpaper mapping
         self.faces_dir = os.path.join(os.path.dirname(__file__), 'faces')
@@ -300,8 +302,29 @@ class Guardian:
         Triggers the experience integration process during the IDLE state.
         This is Elysia's "dreaming" process, where she makes sense of her recent experiences.
         """
-        self.logger.info("Dream cycle initiated. Integrating recent experiences...")
+        self.logger.info("Dream cycle initiated. Integrating recent experiences and learning new concepts...")
         
+        # 1. Process learning queue
+        learning_queue_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Project_Sophia', 'learning_queue.json'))
+        if os.path.exists(learning_queue_path):
+            with open(learning_queue_path, 'r+', encoding='utf-8') as f:
+                try:
+                    learning_queue = json.load(f)
+                    if learning_queue:
+                        self.logger.info(f"Found {len(learning_queue)} concepts to learn.")
+                        # Learn one concept per dream cycle to distribute the load.
+                        concept_to_learn = learning_queue.pop(0)
+                        self.cognition_pipeline.tutor_cortex.learn_concept(concept_to_learn)
+
+                        # Go back to the beginning of the file to overwrite it.
+                        f.seek(0)
+                        json.dump(learning_queue, f, ensure_ascii=False, indent=4)
+                        f.truncate()
+                        self.logger.info(f"Learned '{concept_to_learn}'. {len(learning_queue)} concepts remaining.")
+                except (json.JSONDecodeError, IndexError):
+                    self.logger.warning("Learning queue is empty or corrupted.")
+
+        # 2. Integrate experiences from log
         if not os.path.exists(self.experience_log_path):
             self.logger.info("No experience log found. Nothing to dream about.")
             return

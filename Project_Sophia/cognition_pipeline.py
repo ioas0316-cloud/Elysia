@@ -13,9 +13,10 @@ from Project_Sophia.emotional_engine import EmotionalEngine, EmotionalState
 from Project_Sophia.logical_reasoner import LogicalReasoner
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
 from Project_Sophia.action_cortex import ActionCortex
-from Project_Sophia.planning_cortex import PlanningCortex
+from Project_Sophia.goal_decomposition_cortex import GoalDecompositionCortex
 from Project_Sophia.tool_executor import ToolExecutor
 from Project_Sophia.value_cortex import ValueCortex
+from Project_Sophia.tutor_cortex import TutorCortex
 from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
@@ -40,7 +41,7 @@ class CognitionPipeline:
         self.tool_executor = ToolExecutor()
         self.kg_manager = KGManager()
         self.wave_mechanics = WaveMechanics(self.kg_manager)
-        self.planning_cortex = PlanningCortex(core_memory=self.core_memory, action_cortex=self.action_cortex)
+        self.goal_decomposition_cortex = GoalDecompositionCortex(core_memory=self.core_memory, action_cortex=self.action_cortex)
         self.value_cortex = ValueCortex()
         self.sensory_cortex = SensoryCortex(self.value_cortex)
         self.inquisitive_mind = InquisitiveMind()
@@ -49,7 +50,8 @@ class CognitionPipeline:
         self.current_emotional_state = self.emotional_engine.get_current_state()
         self.pending_visual_learning = None
         self.api_available = True
-        self.local_llm_cortex = None # Initialize local LLM cortex
+        self.local_llm_cortex = LocalLLMCortex()
+        self.tutor_cortex = TutorCortex(self.kg_manager, self.local_llm_cortex)
 
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
         with open(config_path, 'r', encoding='utf-8') as f:
@@ -236,11 +238,6 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
         """
         Fallback response generation using the local LLM.
         """
-        # Lazily initialize the local LLM cortex if it hasn't been already
-        if self.local_llm_cortex is None:
-            self.local_llm_cortex = LocalLLMCortex()
-
-        # Check if the local model was loaded successfully
         if self.local_llm_cortex and self.local_llm_cortex.model:
             # Use the local LLM to generate a response
             prompt = f"""You are Elysia. The user said: "{message}".
@@ -285,14 +282,14 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
         if message.lower().startswith(self.planning_prefix):
             try:
                 goal = message[len(self.planning_prefix):].strip()
-                plan = self.planning_cortex.develop_plan(goal)
+                plan = self.goal_decomposition_cortex.develop_plan(goal)
                 if plan:
                     response_text = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
                     return {"type": "text", "text": response_text}, emotional_state
                 else:
                     return {"type": "text", "text": "I was unable to develop a plan for that goal."}, emotional_state
             except Exception as e:
-                pipeline_logger.exception(f"Error in planning_cortex for goal: {goal}")
+                pipeline_logger.exception(f"Error in goal_decomposition_cortex for goal: {goal}")
                 return {"type": "text", "text": "An error occurred during planning."}, emotional_state
 
         if app and app.cancel_requested:

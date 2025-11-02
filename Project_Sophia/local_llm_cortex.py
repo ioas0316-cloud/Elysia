@@ -9,8 +9,8 @@ class LocalLLMCortex:
     """
     def __init__(self):
         self.model = None
-        self.model_name = "TheBloke/gemma-2b-it-GGUF"
-        self.model_file = "gemma-2b-it.Q4_K_M.gguf"
+        self.model_name = "QuantFactory/Qwen2.5-3B-GGUF"
+        self.model_file = "Qwen2.5-3B.Q2_K.gguf"
         self.n_gpu_layers = -1 # Offload all possible layers to GPU
 
         try:
@@ -68,17 +68,19 @@ class LocalLLMCortex:
         try:
             print(f"[LocalLLMCortex] Generating response for prompt: '{prompt[:50]}...'")
             
-            # Create a chat prompt structure
-            chat_prompt = f'''<start_of_turn>user
-{prompt}<end_of_turn>
-<start_of_turn>model
+            # Create a chat prompt structure for ChatML
+            chat_prompt = f'''<|im_start|>system
+You are a helpful assistant.<|im_end|>
+<|im_start|>user
+{prompt}<|im_end|>
+<|im_start|>assistant
 '''
 
             output = self.model(
                 chat_prompt,
                 max_tokens=max_tokens,
                 echo=False,
-                stop=["<end_of_turn>"] 
+                stop=["<|im_end|>"]
             )
             
             response_text = output['choices'][0]['text'].strip()
