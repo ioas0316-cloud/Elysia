@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 import os
 import sys
 
@@ -39,7 +40,8 @@ class TestArithmeticCortex(unittest.TestCase):
         self.assertFalse(self.cortex.verify_truth("10 / 2 = 4"))
         self.assertTrue(self.cortex.verify_truth("(2 + 3) * 4 = 20"))
 
-    def test_pipeline_integration_question(self):
+    @patch('Project_Sophia.local_llm_cortex.LocalLLMCortex.generate_response', return_value="계산 결과는 15 입니다.")
+    def test_pipeline_integration_question(self, mock_local_llm_response):
         """Test the pipeline integration for calculation questions."""
         # Clean up potentially corrupted memory file before test
         main_memory_path = 'Elysia_Input_Sanctum/elysia_core_memory.json'
@@ -48,9 +50,10 @@ class TestArithmeticCortex(unittest.TestCase):
         
         pipeline = CognitionPipeline() # Re-initialize with clean memory
         response, _ = pipeline.process_message("5 * 3는?")
-        self.assertEqual(response, "계산 결과는 15 입니다.")
+        self.assertEqual(response['text'], "계산 결과는 15 입니다.")
 
-    def test_pipeline_integration_command(self):
+    @patch('Project_Sophia.local_llm_cortex.LocalLLMCortex.generate_response', return_value="계산 결과는 25 입니다.")
+    def test_pipeline_integration_command(self, mock_local_llm_response):
         """Test the pipeline integration for calculation commands."""
         # Clean up potentially corrupted memory file before test
         main_memory_path = 'Elysia_Input_Sanctum/elysia_core_memory.json'
@@ -59,7 +62,7 @@ class TestArithmeticCortex(unittest.TestCase):
 
         pipeline = CognitionPipeline() # Re-initialize with clean memory
         response, _ = pipeline.process_message("계산해줘: 100 / 4")
-        self.assertEqual(response, "계산 결과는 25 입니다.")
+        self.assertEqual(response['text'], "계산 결과는 25 입니다.")
 
 if __name__ == '__main__':
     unittest.main()

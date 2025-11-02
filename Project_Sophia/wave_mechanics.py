@@ -16,7 +16,7 @@ class WaveMechanics:
         activated_nodes = {}
 
         start_node = self.kg_manager.get_node(start_node_id)
-        if not start_node or 'embedding' not in start_node:
+        if not start_node:
             return activated_nodes
 
         # Queue for BFS-like spreading: (node_id, energy)
@@ -31,39 +31,28 @@ class WaveMechanics:
 
             activated_nodes[current_id] = current_energy
 
-            current_node = self.kg_manager.get_node(current_id)
-            if not current_node or 'embedding' not in current_node:
-                continue
-
-            current_embedding = current_node['embedding']
-
-            # Find neighbors
-            neighbors = []
+            # Find neighbors and spread energy based on relation type
             for edge in self.kg_manager.kg['edges']:
-                if edge['source'] == current_id and edge['target'] not in visited:
-                    neighbors.append(edge['target'])
-                elif edge['target'] == current_id and edge['source'] not in visited:
-                    neighbors.append(edge['source'])
+                source, target = edge['source'], edge['target']
+                neighbor_id = None
+                if source == current_id and target not in visited:
+                    neighbor_id = target
+                elif target == current_id and source not in visited:
+                    neighbor_id = source
 
-            for neighbor_id in neighbors:
-                if neighbor_id not in visited:
-                    visited.add(neighbor_id)
+                if neighbor_id:
+                    relation_type = edge.get('relation', 'related_to')
                     
-                    neighbor_node = self.kg_manager.get_node(neighbor_id)
-                    if not neighbor_node or 'embedding' not in neighbor_node:
-                        continue
+                    # Energy transfer logic based on relation
+                    if relation_type == 'activates':
+                        transfer_factor = 1.0
+                    else:
+                        transfer_factor = 0.5 # Other relations transfer less
                         
-                    neighbor_embedding = neighbor_node['embedding']
-                    
-                    # Calculate similarity and transfer energy
-                    similarity = cosine_sim(current_embedding, neighbor_embedding)
-                    
-                    # Ensure similarity is non-negative
-                    similarity = max(0, similarity)
-
-                    new_energy = current_energy * similarity * decay_factor
+                    new_energy = current_energy * transfer_factor * decay_factor
                     
                     if new_energy >= threshold:
+                        visited.add(neighbor_id)
                         queue.append((neighbor_id, new_energy))
 
         return activated_nodes

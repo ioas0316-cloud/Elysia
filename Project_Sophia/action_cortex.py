@@ -23,19 +23,10 @@ class ActionCortex:
     """
 
     def __init__(self):
-        self.tools_kg_manager = KGManager()
-        self.tools_kg_manager.kg = self._load_tools_kg()
+        tools_kg_path = Path("data/tools_kg.json")
+        self.tools_kg_manager = KGManager(kg_path=tools_kg_path)
         self.wave_mechanics = WaveMechanics(self.tools_kg_manager)
         self.tool_schemas = self._load_tool_schemas()
-
-    def _load_tools_kg(self) -> Dict:
-        """Loads the dedicated knowledge graph for tools."""
-        tools_kg_path = Path("data/tools_kg.json")
-        if not tools_kg_path.exists():
-            print("[ActionCortex] WARNING: data/tools_kg.json not found.")
-            return {"nodes": [], "edges": []}
-        with open(tools_kg_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
 
     def _load_tool_schemas(self) -> Dict:
         """Loads the schemas for tools that define their parameters."""
@@ -54,6 +45,32 @@ class ActionCortex:
                     },
                     "required": ["filepath"],
                 },
+            },
+            "calculate": {
+                "description": "Calculates the result of a mathematical expression.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "expression": {
+                            "type": "string",
+                            "description": "The mathematical expression to evaluate.",
+                        }
+                    },
+                    "required": ["expression"],
+                },
+            },
+            "summarize_text": {
+                "description": "Summarizes a given text.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "text": {
+                            "type": "string",
+                            "description": "The text to be summarized.",
+                        }
+                    },
+                    "required": ["text"],
+                },
             }
         }
 
@@ -65,13 +82,15 @@ class ActionCortex:
         prompt_tokens = set(re.findall(r'\w+', prompt.lower()))
         all_node_ids = {node['id'] for node in self.tools_kg_manager.kg['nodes']}
 
-        stimulus_nodes = prompt_tokens.intersection(all_node_ids)
+        stimulus_nodes = set()
+        for token in prompt_tokens:
+            for node_id in all_node_ids:
+                if node_id in token:
+                    stimulus_nodes.add(node_id)
         if not stimulus_nodes:
             return None
 
         tool_ids = {edge['target'] for edge in self.tools_kg_manager.kg['edges'] if edge.get('relation') == 'activates'}
-        source_ids = {edge['source'] for edge in self.tools_kg_manager.kg['edges'] if edge.get('relation') == 'activates'}
-        tool_ids.update(all_node_ids - source_ids)
 
         final_echo = {}
         for start_node in stimulus_nodes:

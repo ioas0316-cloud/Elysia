@@ -75,8 +75,9 @@ class TestPipelineFeatures(unittest.TestCase):
         # 3. Assert that the mock was called, meaning the InquisitiveMind was activated
         mock_inquisitive_generate_text.assert_called_once()
 
+    @patch('Project_Sophia.local_llm_cortex.LocalLLMCortex.generate_response', return_value="죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.")
     @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIKeyError("Test API Key Error"))
-    def test_fallback_mechanism_on_api_key_error(self, mock_generate_text):
+    def test_fallback_mechanism_on_api_key_error(self, mock_generate_text, mock_local_llm_response):
         """
         Tests that the pipeline's fallback mechanism is triggered on APIKeyError.
         """
@@ -84,8 +85,9 @@ class TestPipelineFeatures(unittest.TestCase):
 
         self.assertIn("죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.", response['text'])
 
+    @patch('Project_Sophia.local_llm_cortex.LocalLLMCortex.generate_response', return_value="죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.")
     @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIRequestError("Test API Request Error"))
-    def test_fallback_mechanism_on_api_request_error(self, mock_generate_text):
+    def test_fallback_mechanism_on_api_request_error(self, mock_generate_text, mock_local_llm_response):
         """
         Tests that the pipeline's fallback mechanism is triggered on APIRequestError.
         """

@@ -22,7 +22,8 @@ class LocalLLMCortex:
                 model_path=model_path,
                 n_gpu_layers=self.n_gpu_layers,
                 n_ctx=2048, # Context window size
-                verbose=True
+                verbose=True,
+                chat_format="chatml" # Explicitly set the chat format
             )
             print("[LocalLLMCortex] Model loaded successfully.")
 
@@ -68,22 +69,18 @@ class LocalLLMCortex:
         try:
             print(f"[LocalLLMCortex] Generating response for prompt: '{prompt[:50]}...'")
             
-            # Create a chat prompt structure for ChatML
-            chat_prompt = f'''<|im_start|>system
-You are a helpful assistant.<|im_end|>
-<|im_start|>user
-{prompt}<|im_end|>
-<|im_start|>assistant
-'''
+            messages = [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ]
 
-            output = self.model(
-                chat_prompt,
+            output = self.model.create_chat_completion(
+                messages=messages,
                 max_tokens=max_tokens,
-                echo=False,
                 stop=["<|im_end|>"]
             )
             
-            response_text = output['choices'][0]['text'].strip()
+            response_text = output['choices'][0]['message']['content'].strip()
             print(f"[LocalLLMCortex] Generated response: '{response_text[:50]}...'")
             return response_text
 
