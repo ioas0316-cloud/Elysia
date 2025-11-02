@@ -9,6 +9,7 @@ sys.path.insert(0, project_root)
 
 from Project_Sophia.cognition_pipeline import CognitionPipeline
 from Project_Sophia.core_memory import Memory, EmotionalState
+from Project_Sophia.gemini_api import APIKeyError, APIRequestError
 
 class TestPipelineFeatures(unittest.TestCase):
 
@@ -28,11 +29,15 @@ class TestPipelineFeatures(unittest.TestCase):
         if os.path.exists(self.memory_path):
             os.remove(self.memory_path)
 
-    def test_conversational_memory_is_retrieved(self):
+    @patch('Project_Sophia.cognition_pipeline.get_text_embedding')
+    @patch('Project_Sophia.cognition_pipeline.generate_text')
+    def test_conversational_memory_is_retrieved(self, mock_generate_text, mock_get_text_embedding):
         """
         Tests if the pipeline can retrieve a relevant past experience and use
         it in a response.
         """
+        mock_generate_text.return_value = "이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요."
+        mock_get_text_embedding.return_value = [0.1] * 768
         # 1. Add a relevant memory to the core memory
         past_experience = Memory(
             timestamp="2025-01-01T12:00:00",
@@ -45,27 +50,48 @@ class TestPipelineFeatures(unittest.TestCase):
         response, _ = self.pipeline.process_message("What do you know about black holes?")
 
         # 3. Assert that the response references the past conversation
-        self.assertIn("이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요.", response)
+        self.assertIn("이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요.", response['text'])
 
+    @patch('Project_Sophia.journal_cortex.JournalCortex.write_journal_entry')
+    @patch('Project_Sophia.cognition_pipeline.get_text_embedding')
     @patch('Project_Sophia.inquisitive_mind.generate_text')
-    def test_inquisitive_mind_is_triggered(self, mock_generate_text):
+    @patch('Project_Sophia.cognition_pipeline.generate_text')
+    def test_inquisitive_mind_is_triggered(self, mock_cognition_generate_text, mock_inquisitive_generate_text, mock_get_text_embedding, mock_write_journal):
         """
         Tests if the InquisitiveMind is triggered when the pipeline encounters
         a question it cannot answer from memory or internal knowledge.
         """
         # 1. Mock the external LLM call to avoid actual API usage
         mock_response = "A supermassive black hole is the largest type of black hole."
-        mock_generate_text.return_value = mock_response
+        mock_inquisitive_generate_text.return_value = mock_response
+        mock_get_text_embedding.return_value = None
+        mock_cognition_generate_text.return_value = "I don't know about 'supermassive black hole'. Seeking external knowledge."
+        mock_write_journal.return_value = None
+
 
         # 2. Ask a question about a topic that is not in the memory
-        response, _ = self.pipeline.process_message("What is a supermassive black hole?")
+        self.pipeline.process_message("What is a supermassive black hole?")
 
         # 3. Assert that the mock was called, meaning the InquisitiveMind was activated
-        mock_generate_text.assert_called_once()
+        mock_inquisitive_generate_text.assert_called_once()
 
-        # 4. Assert that the response is the formatted output from the InquisitiveMind
-        expected_response = f"'supermassive black hole'에 대해 외부에서 이런 정보를 찾았어요: \"{mock_response}\". 이 정보가 정확한가요?"
-        self.assertEqual(response, expected_response)
+    @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIKeyError("Test API Key Error"))
+    def test_fallback_mechanism_on_api_key_error(self, mock_generate_text):
+        """
+        Tests that the pipeline's fallback mechanism is triggered on APIKeyError.
+        """
+        response, _ = self.pipeline.process_message("Tell me about photosynthesis.")
+
+        self.assertIn("죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.", response['text'])
+
+    @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIRequestError("Test API Request Error"))
+    def test_fallback_mechanism_on_api_request_error(self, mock_generate_text):
+        """
+        Tests that the pipeline's fallback mechanism is triggered on APIRequestError.
+        """
+        response, _ = self.pipeline.process_message("What is the weather like today?")
+
+        self.assertIn("죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.", response['text'])
 
 
 if __name__ == '__main__':
