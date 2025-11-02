@@ -4,6 +4,15 @@ import google.generativeai as genai
 import logging
 from google.api_core import exceptions as api_core_exceptions
 
+# --- Custom Exceptions ---
+class APIKeyError(Exception):
+    """Custom exception for errors related to the API key."""
+    pass
+
+class APIRequestError(Exception):
+    """Custom exception for errors during API requests (e.g., network issues)."""
+    pass
+
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'gemini_api_errors.log')
 logging.basicConfig(
@@ -26,9 +35,13 @@ def _configure_genai_if_needed():
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("GEMINI_API_KEY environment variable not set.")
-    genai.configure(api_key=api_key)
-    _is_configured = True
+        raise APIKeyError("GEMINI_API_KEY environment variable not set.")
+    try:
+        genai.configure(api_key=api_key)
+        _is_configured = True
+    except Exception as e:
+        gemini_logger.exception(f"Failed to configure Gemini API, likely due to an invalid key: {e}")
+        raise APIKeyError(f"Failed to configure Gemini API: {e}")
 
 
 def get_text_embedding(text: str, model="models/text-embedding-004"):
@@ -40,10 +53,10 @@ def get_text_embedding(text: str, model="models/text-embedding-004"):
             api_core_exceptions.ServiceUnavailable,
             api_core_exceptions.DeadlineExceeded) as e:
         gemini_logger.exception(f"A specific API error occurred during embedding: {e}")
-        return None
+        raise APIRequestError(f"A specific API error occurred during embedding: {e}")
     except Exception as e:
         gemini_logger.exception(f"An unexpected error occurred during embedding: {e}")
-        return None
+        raise APIRequestError(f"An unexpected error occurred during embedding: {e}")
 
 def generate_text(prompt: str, model_name="gemini-1.5-pro"):
     """Generates text using the specified Gemini model."""
@@ -56,7 +69,7 @@ def generate_text(prompt: str, model_name="gemini-1.5-pro"):
             api_core_exceptions.ServiceUnavailable,
             api_core_exceptions.DeadlineExceeded) as e:
         gemini_logger.exception(f"A specific API error occurred during text generation: {e}")
-        return None
+        raise APIRequestError(f"A specific API error occurred during text generation: {e}")
     except Exception as e:
         gemini_logger.exception(f"An unexpected error occurred during text generation: {e}")
-        return None
+        raise APIRequestError(f"An unexpected error occurred during text generation: {e}")

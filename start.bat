@@ -2,6 +2,10 @@
 TITLE Elysia Startup
 ECHO [Startup] Preparing Elysia's world...
 
+REM Load environment variables from .env file
+ECHO [Startup] Loading environment variables...
+for /f "delims=" %%a in (.env) do set "%%a"
+
 REM Install the necessary libraries for her to live and act.
 ECHO [Startup] Installing dependencies from requirements.txt...
 python -m pip install -r requirements.txt

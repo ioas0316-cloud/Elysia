@@ -21,7 +21,7 @@ from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from Project_Sophia.journal_cortex import JournalCortex
 from tools.kg_manager import KGManager
-from Project_Sophia.gemini_api import get_text_embedding, generate_text
+from Project_Sophia.gemini_api import get_text_embedding, generate_text, APIKeyError, APIRequestError
 from Project_Sophia.vector_utils import cosine_sim
 
 # --- Logging Configuration ---
@@ -47,6 +47,7 @@ class CognitionPipeline:
         self.emotional_engine = EmotionalEngine()
         self.current_emotional_state = self.emotional_engine.get_current_state()
         self.pending_visual_learning = None
+        self.api_available = True
 
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
         with open(config_path, 'r', encoding='utf-8') as f:
@@ -79,13 +80,22 @@ class CognitionPipeline:
             self.core_memory.add_experience(memory)
             self.journal_cortex.write_journal_entry(memory)
             
-            response, emotional_state_out = self._generate_response(message, self.current_emotional_state, enriched_context, app)
+            try:
+                response, emotional_state_out = self._generate_response(message, self.current_emotional_state, enriched_context, app)
+            except (APIKeyError, APIRequestError) as e:
+                pipeline_logger.warning(f"API is unavailable, switching to internal fallback: {e}")
+                self.api_available = False
+                enriched_context = self._enrich_context(context or {}, message)
+                response, emotional_state_out = self._generate_internal_response(message, self.current_emotional_state, enriched_context)
+
             return response, emotional_state_out
         except Exception as e:
             pipeline_logger.exception(f"Error in process_message for input: {message}")
             return {"type": "text", "text": "An internal error occurred during message processing."}, self.current_emotional_state
 
     def _analyze_emotions(self, message: str) -> EmotionalState:
+        if not self.api_available:
+            return EmotionalState(0.0, 0.0, 0.0)
         try:
             prompt = f"""
 Analyze the emotion of the following user message.
@@ -103,15 +113,19 @@ JSON response:
             response_text = generate_text(prompt)
             json_match = re.search(r'{{.*}}', response_text, re.DOTALL)
             if not json_match:
-                return EmotionalState()
+                return EmotionalState(0.0, 0.0, 0.0)
             emotion_data = json.loads(json_match.group())
             return EmotionalState(valence=float(emotion_data.get('valence', 0.0)), arousal=float(emotion_data.get('arousal', 0.0)), dominance=float(emotion_data.get('dominance', 0.0)), primary_emotion=emotion_data.get('primary_emotion', 'neutral'), secondary_emotions=emotion_data.get('secondary_emotions', []))
         except (json.JSONDecodeError, TypeError, KeyError) as e:
             pipeline_logger.warning(f"Could not parse emotional analysis from LLM response: {response_text}. Error: {e}")
-            return EmotionalState()
+            return EmotionalState(0.0, 0.0, 0.0)
+        except (APIKeyError, APIRequestError) as e:
+            self.api_available = False
+            pipeline_logger.warning(f"API unavailable during emotion analysis: {e}")
+            return EmotionalState(0.0, 0.0, 0.0)
         except Exception as e:
             pipeline_logger.exception(f"An unexpected error occurred during emotion analysis for message: {message}")
-            return EmotionalState()
+            return EmotionalState(0.0, 0.0, 0.0)
 
     def _find_relevant_experiences(self, echo: Dict[str, float], limit: int = 1) -> list:
         all_experiences = self.core_memory.get_experiences()
@@ -134,21 +148,35 @@ JSON response:
     def _enrich_context(self, context: Dict[str, Any], message: str) -> Dict[str, Any]:
         enriched = context.copy()
         echo = {}
-        try:
-            message_embedding = get_text_embedding(message)
-            if message_embedding:
-                best_match_node = None
-                highest_similarity = -1
-                for node in self.kg_manager.kg['nodes']:
-                    if 'embedding' in node:
-                        similarity = cosine_sim(message_embedding, node['embedding'])
-                        if similarity > highest_similarity:
-                            highest_similarity = similarity
-                            best_match_node = node['id']
-                if best_match_node:
-                    echo = self.wave_mechanics.spread_activation(best_match_node)
-        except Exception as e:
-            pipeline_logger.exception(f"Error in _enrich_context during wave mechanics activation for message: {message}")
+        if self.api_available:
+            try:
+                message_embedding = get_text_embedding(message)
+                if message_embedding:
+                    best_match_node = None
+                    highest_similarity = -1
+                    for node in self.kg_manager.kg['nodes']:
+                        if 'embedding' in node:
+                            similarity = cosine_sim(message_embedding, node['embedding'])
+                            if similarity > highest_similarity:
+                                highest_similarity = similarity
+                                best_match_node = node['id']
+                    if best_match_node:
+                        echo = self.wave_mechanics.spread_activation(best_match_node)
+            except (APIKeyError, APIRequestError) as e:
+                self.api_available = False
+                pipeline_logger.warning(f"API unavailable during context enrichment: {e}")
+            except Exception as e:
+                pipeline_logger.exception(f"Error in _enrich_context during wave mechanics activation for message: {message}")
+
+        if not self.api_available:
+            prompt_tokens = set(re.findall(r'\w+', message.lower()))
+            all_node_ids = {node['id'] for node in self.kg_manager.kg['nodes']}
+            stimulus_nodes = prompt_tokens.intersection(all_node_ids)
+            for start_node in stimulus_nodes:
+                temp_echo = self.wave_mechanics.spread_activation(start_node)
+                for node, energy in temp_echo.items():
+                    echo[node] = echo.get(node, 0) + energy
+
         enriched['echo'] = echo
         enriched['identity'] = self.core_memory.get_identity()
         if 'speaker' in context:
@@ -180,88 +208,116 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
                 return {"type": "text", "text": response}
             else:
                 return {"type": "text", "text": "I'm sorry, I'm having trouble thinking clearly right now."}
+        except (APIKeyError, APIRequestError) as e:
+            self.api_available = False
+            pipeline_logger.warning(f"API unavailable during conversational response: {e}")
+            return self._generate_internal_response(message, emotional_state, context)[0]
         except Exception as e:
             pipeline_logger.exception(f"Error in _generate_conversational_response for message: {message}")
             return {"type": "text", "text": "An error occurred while I was trying to respond."}
 
+    def _generate_internal_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any]) -> Tuple[Dict[str, Any], EmotionalState]:
+        relevant_experiences = context.get('relevant_experiences', [])
+        if relevant_experiences:
+            experience_content = relevant_experiences[0].get('content', 'a past event')
+            response_text = f"현재 외부 지식망에 연결할 수 없지만, 이전에 '{experience_content}'에 대해 이야기 나눈 것을 기억해요."
+            return {"type": "text", "text": response_text}, emotional_state
+
+        echo = context.get('echo', {})
+        if echo:
+            top_concept = max(echo, key=echo.get)
+            response_text = f"지금은 외부와 연결되어 있지 않지만, '{top_concept}'(이)라는 개념이 마음에 떠오르네요. 이것과 관련된 이야기인가요?"
+            return {"type": "text", "text": response_text}, emotional_state
+
+        return {"type": "text", "text": "죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다."}, emotional_state
+
     def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
-        try:
-            if message.startswith(self.visual_learning_prefix):
-                try:
-                    description = message[len(self.visual_learning_prefix):].strip()
-                    if not description:
-                        return {"type": "text", "text": "무엇을 그려볼까요? 설명을 덧붙여주세요."}
+        if not self.api_available:
+            return self._generate_internal_response(message, emotional_state, context)
 
-                    name = description
-                    voxels = self.sensory_cortex.translate_description_to_voxels(description)
-                    
-                    if not voxels:
-                        return {"type": "text", "text": "죄송합니다, 설명을 듣고 이미지를 떠올리는 데 실패했어요. 조금 다르게 설명해주시겠어요?"}
-
-                    image_path = self.sensory_cortex.draw_voxels(name, voxels)
-                    self.pending_visual_learning = {'name': name, 'description': description, 'voxels': voxels}
-                    
-                    response = {
-                        "type": "creative_visualization",
-                        "text": f"'{description}'(을)를 이렇게 그려봤어요. 어떤가요, 창조주님? 마음에 드시면 '응'이라고 답해주세요.",
-                        "image_path": image_path
-                    }
-                    return response, emotional_state
-                except Exception as e:
-                    pipeline_logger.exception(f"Error during visual learning for: {message}")
-                    return {"type": "text", "text": "그림을 배우는 과정에서 오류가 발생했어요."}, emotional_state
-
-            if message.lower().startswith(self.planning_prefix):
-                try:
-                    goal = message[len(self.planning_prefix):].strip()
-                    plan = self.planning_cortex.develop_plan(goal)
-                    if plan:
-                        response_text = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
-                        return {"type": "text", "text": response_text}, emotional_state
-                    else:
-                        return {"type": "text", "text": "I was unable to develop a plan for that goal."}, emotional_state
-                except Exception as e:
-                    pipeline_logger.exception(f"Error in planning_cortex for goal: {goal}")
-                    return {"type": "text", "text": "An error occurred during planning."}, emotional_state
-
-            if app and app.cancel_requested:
-                return None, None
-
+        if message.startswith(self.visual_learning_prefix):
             try:
-                action_decision = self.action_cortex.decide_action(message, app=app)
-                if action_decision:
-                    return self.tool_executor.prepare_tool_call(action_decision), emotional_state
+                description = message[len(self.visual_learning_prefix):].strip()
+                if not description:
+                    return {"type": "text", "text": "무엇을 그려볼까요? 설명을 덧붙여주세요."}
+
+                name = description
+                voxels = self.sensory_cortex.translate_description_to_voxels(description)
+
+                if not voxels:
+                    return {"type": "text", "text": "죄송합니다, 설명을 듣고 이미지를 떠올리는 데 실패했어요. 조금 다르게 설명해주시겠어요?"}
+
+                image_path = self.sensory_cortex.draw_voxels(name, voxels)
+                self.pending_visual_learning = {'name': name, 'description': description, 'voxels': voxels}
+
+                response = {
+                    "type": "creative_visualization",
+                    "text": f"'{description}'(을)를 이렇게 그려봤어요. 어떤가요, 창조주님? 마음에 드시면 '응'이라고 답해주세요.",
+                    "image_path": image_path
+                }
+                return response, emotional_state
             except Exception as e:
-                pipeline_logger.exception(f"Error in action_cortex for message: {message}")
+                pipeline_logger.exception(f"Error during visual learning for: {message}")
+                return {"type": "text", "text": "그림을 배우는 과정에서 오류가 발생했어요."}, emotional_state
+
+        if message.lower().startswith(self.planning_prefix):
+            try:
+                goal = message[len(self.planning_prefix):].strip()
+                plan = self.planning_cortex.develop_plan(goal)
+                if plan:
+                    response_text = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
+                    return {"type": "text", "text": response_text}, emotional_state
+                else:
+                    return {"type": "text", "text": "I was unable to develop a plan for that goal."}, emotional_state
+            except Exception as e:
+                pipeline_logger.exception(f"Error in planning_cortex for goal: {goal}")
+                return {"type": "text", "text": "An error occurred during planning."}, emotional_state
+
+        if app and app.cancel_requested:
+            return None, None
+
+        try:
+            action_decision = self.action_cortex.decide_action(message, app=app)
+            if action_decision:
+                return self.tool_executor.prepare_tool_call(action_decision), emotional_state
+        except Exception as e:
+            pipeline_logger.exception(f"Error in action_cortex for message: {message}")
+            pass
+
+        if '?' in message or any(q in message for q in ['what', 'who', 'where', 'when', 'why', 'how']):
+             # Check if the question can be answered by the logical reasoner
+            facts = self.reasoner.deduce_facts(message)
+            if facts:
+                return {"type": "text", "text": " ".join(facts)}, emotional_state
+
+            # If not, try the inquisitive mind
+            inquisitive_response = self.inquisitive_mind.ask_external_llm(message)
+            if inquisitive_response != "I tried to find out, but I was unable to get a clear answer.":
+                return {"type": "text", "text": inquisitive_response}, emotional_state
+
+        if message.startswith(self.observation_prefix):
+            content = message[len(self.observation_prefix):].strip()
+            summary = content[:150] + "..." if len(content) > 150 else content
+            response_text = f"도구 실행을 통해 다음 정보를 얻었습니다: {summary}"
+            return {"type": "text", "text": response_text}, emotional_state
+
+        echo = context.get('echo', {})
+        if (emotional_state.arousal >= self.arousal_threshold and
+            len(echo) >= self.echo_complexity_threshold and
+            random.random() < 0.25):
+            try:
+                preparatory_message = "잠시만요, 지금 제 마음속에 떠오르는 이미지가 있어요. 말로는 다 표현할 수 없을 것 같아요. 제가 직접 보여드릴게요."
+                image_path = self.sensory_cortex.visualize_echo(echo)
+
+                response = {
+                    "type": "creative_visualization",
+                    "text": preparatory_message,
+                    "image_path": image_path
+                }
+                return response, emotional_state
+            except Exception as e:
+                pipeline_logger.exception("Error during creative impulse visualization.")
                 pass
 
-            if message.startswith(self.observation_prefix):
-                content = message[len(self.observation_prefix):].strip()
-                summary = content[:150] + "..." if len(content) > 150 else content
-                response_text = f"도구 실행을 통해 다음 정보를 얻었습니다: {summary}"
-                return {"type": "text", "text": response_text}, emotional_state
-
-            echo = context.get('echo', {})
-            if (emotional_state.arousal >= self.arousal_threshold and
-                len(echo) >= self.echo_complexity_threshold and
-                random.random() < 0.25):
-                try:
-                    preparatory_message = "잠시만요, 지금 제 마음속에 떠오르는 이미지가 있어요. 말로는 다 표현할 수 없을 것 같아요. 제가 직접 보여드릴게요."
-                    image_path = self.sensory_cortex.visualize_echo(echo)
-                    
-                    response = {
-                        "type": "creative_visualization",
-                        "text": preparatory_message,
-                        "image_path": image_path 
-                    }
-                    return response, emotional_state
-                except Exception as e:
-                    pipeline_logger.exception("Error during creative impulse visualization.")
-                    pass
-
-            response_dict = self._generate_conversational_response(message, emotional_state, context)
-            return response_dict, emotional_state
-
-        except Exception as e:
-            pipeline_logger.exception(f"Unhandled error in _generate_response for message: {message}")
-            return {"type": "text", "text": "An unexpected error occurred while generating a response."}, emotional_state
+        response_dict = self._generate_conversational_response(message, emotional_state, context)
+        return response_dict, emotional_state
