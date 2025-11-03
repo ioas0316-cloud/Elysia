@@ -11,6 +11,9 @@ class ResponseStyler:
         if emotional_state.primary_emotion == 'joy' and emotional_state.arousal > 0.5:
             return f"{text} ㅋㅋㅋ"
 
+        if emotional_state.primary_emotion == 'curiosity' and emotional_state.arousal > 0.4:
+            return f"{text} ㅇㅅㅇ"
+
         # Add more styling rules for other emotions here in the future
 
         return text

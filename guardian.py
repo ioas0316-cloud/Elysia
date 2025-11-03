@@ -16,6 +16,10 @@ from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
 from Project_Sophia.cognition_pipeline import CognitionPipeline
+from Project_Sophia.exploration_cortex import ExplorationCortex
+from Project_Sophia.emotional_cortex import EmotionalCortex
+from tools.kg_manager import KGManager
+
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -36,6 +40,9 @@ class Guardian:
         self.self_awareness_core = SelfAwarenessCore()
         self.daemon_process = None
         self.cognition_pipeline = CognitionPipeline()
+        self.kg_manager = KGManager()
+        self.exploration_cortex = ExplorationCortex(self.kg_manager)
+        self.emotional_cortex = EmotionalCortex()
 
         # Wallpaper mapping
         self.faces_dir = os.path.join(os.path.dirname(__file__), 'faces')
@@ -302,9 +309,20 @@ class Guardian:
         Triggers the experience integration process during the IDLE state.
         This is Elysia's "dreaming" process, where she makes sense of her recent experiences.
         """
-        self.logger.info("Dream cycle initiated. Integrating recent experiences and learning new concepts...")
-        
-        # 1. Process learning queue
+        self.logger.info("Dream cycle initiated. Integrating recent experiences, learning new concepts, and exploring...")
+
+        # 1. Autonomous Exploration and Emotion
+        discovered_concept = self.exploration_cortex.discover_random_concept()
+        if discovered_concept:
+            new_emotion = self.emotional_cortex.analyze_concept(discovered_concept)
+            if new_emotion:
+                self.cognition_pipeline.current_emotional_state = new_emotion
+                self.logger.info(f"Autonomous exploration triggered a new emotional state: {new_emotion.primary_emotion}")
+                # Maybe log this as a special kind of "dream thought"
+                log_experience('guardian', 'dream', {'event': 'emotional_discovery', 'concept': discovered_concept.get('id'), 'emotion': new_emotion.primary_emotion})
+
+
+        # 2. Process learning queue
         learning_queue_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Project_Sophia', 'learning_queue.json'))
         if os.path.exists(learning_queue_path):
             with open(learning_queue_path, 'r+', encoding='utf-8') as f:
@@ -324,7 +342,7 @@ class Guardian:
                 except (json.JSONDecodeError, IndexError):
                     self.logger.warning("Learning queue is empty or corrupted.")
 
-        # 2. Integrate experiences from log
+        # 3. Integrate experiences from log
         if not os.path.exists(self.experience_log_path):
             self.logger.info("No experience log found. Nothing to dream about.")
             return

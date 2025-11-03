@@ -10,3 +10,13 @@ elysia_state.json
 
 # Model files
 models/
+
+# Build artifacts
+elysia.egg-info/
+
+# Test outputs
+test_log.json
+*.png
+
+# Runtime data
+Elysia_Input_Sanctum/
