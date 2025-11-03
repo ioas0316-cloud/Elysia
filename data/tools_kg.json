@@ -1,15 +1,15 @@
 {
   "nodes": [
-    {"id": "tool"},
-    {"id": "read_file"},
-    {"id": "write_file"},
-    {"id": "list_files"},
-    {"id": "calculate"},
-    {"id": "summarize_text"},
-    {"id": "read"},
-    {"id": "file"},
-    {"id": "계산"},
-    {"id": "summarize"}
+    {"id": "tool", "x": 0, "y": 0, "z": 0},
+    {"id": "read_file", "x": 1, "y": 0, "z": 0},
+    {"id": "write_file", "x": 2, "y": 0, "z": 0},
+    {"id": "list_files", "x": 3, "y": 0, "z": 0},
+    {"id": "calculate", "x": 4, "y": 0, "z": 0},
+    {"id": "summarize_text", "x": 5, "y": 0, "z": 0},
+    {"id": "read", "x": 1, "y": 1, "z": 0},
+    {"id": "file", "x": 1, "y": 2, "z": 0},
+    {"id": "계산", "x": 4, "y": 1, "z": 0},
+    {"id": "summarize", "x": 5, "y": 1, "z": 0}
   ],
   "edges": [
     {"source": "tool", "target": "read_file", "relation": "is_a"},

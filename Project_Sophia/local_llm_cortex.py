@@ -6,32 +6,49 @@ class LocalLLMCortex:
     """
     Manages a local, quantized GGUF language model for inference.
     Handles model downloading, loading with GPU offloading, and text generation.
+    This class uses a singleton pattern to ensure the model is loaded only once.
     """
+    _instance = None
+    _model = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(LocalLLMCortex, cls).__new__(cls)
+            cls._instance._initialized = False
+        return cls._instance
+
     def __init__(self):
-        self.model = None
-        self.model_name = "QuantFactory/Qwen2.5-3B-GGUF"
-        self.model_file = "Qwen2.5-3B.Q2_K.gguf"
+        if self._initialized:
+            return
+
+        self.model_name = "heegyu/EEVE-Korean-Instruct-10.8B-v1.0-GGUF"
+        self.model_file = "ggml-model-Q4_K_M.gguf"
         self.n_gpu_layers = -1 # Offload all possible layers to GPU
 
-        try:
-            print("[LocalLLMCortex] Initializing...")
-            model_path = self._download_model()
-            
-            print(f"[LocalLLMCortex] Loading model from: {model_path}")
-            self.model = Llama(
-                model_path=model_path,
-                n_gpu_layers=self.n_gpu_layers,
-                n_ctx=2048, # Context window size
-                verbose=True,
-                chat_format="chatml" # Explicitly set the chat format
-            )
-            print("[LocalLLMCortex] Model loaded successfully.")
+        if LocalLLMCortex._model is None:
+            try:
+                print("[LocalLLMCortex] Initializing and loading model for the first time...")
+                model_path = self._download_model()
 
-        except Exception as e:
-            print(f"[LocalLLMCortex] FATAL: Failed to initialize local LLM: {e}")
-            print("[LocalLLMCortex] The 'llama-cpp-python' installation might be incomplete or corrupted.")
-            print("[LocalLLMCortex] Please check the errors from the installation step.")
-            self.model = None
+                print(f"[LocalLLMCortex] Loading model from: {model_path}")
+                LocalLLMCortex._model = Llama(
+                    model_path=model_path,
+                    n_gpu_layers=self.n_gpu_layers,
+                    n_ctx=2048, # Context window size
+                    verbose=True
+                )
+                print("[LocalLLMCortex] Model loaded successfully and cached.")
+
+            except Exception as e:
+                print(f"[LocalLLMCortex] FATAL: Failed to initialize local LLM: {e}")
+                print("[LocalLLMCortex] The 'llama-cpp-python' installation might be incomplete or corrupted.")
+                print("[LocalLLMCortex] Please check the errors from the installation step.")
+                LocalLLMCortex._model = None
+        else:
+            print("[LocalLLMCortex] Using cached model instance.")
+
+        self.model = LocalLLMCortex._model
+        self._initialized = True
 
     def _download_model(self):
         """
@@ -69,18 +86,18 @@ class LocalLLMCortex:
         try:
             print(f"[LocalLLMCortex] Generating response for prompt: '{prompt[:50]}...'")
             
-            messages = [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
+            prompt_template = "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions.\nHuman: {prompt}\nAssistant:\n"
 
-            output = self.model.create_chat_completion(
-                messages=messages,
+            final_prompt = prompt_template.format(prompt=prompt)
+
+            output = self.model(
+                prompt=final_prompt,
                 max_tokens=max_tokens,
-                stop=["<|im_end|>"]
+                stop=["</s>"],
+                echo=False
             )
             
-            response_text = output['choices'][0]['message']['content'].strip()
+            response_text = output['choices'][0]['text'].strip()
             print(f"[LocalLLMCortex] Generated response: '{response_text[:50]}...'")
             return response_text
 

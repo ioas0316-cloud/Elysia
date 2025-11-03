@@ -1,68 +1,40 @@
-import unittest
-from unittest.mock import patch
+import pytest
 import os
-import json
-import sys
 from pathlib import Path
 
-# Add the project root to the Python path to resolve module imports
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, project_root)
-
-from Project_Sophia.cognition_pipeline import CognitionPipeline
 from tools import kg_manager
+from tests.mocks.mock_local_llm_cortex import MockLocalLLMCortex
 
-class TestLogicalReasonerIntegration(unittest.TestCase):
+@pytest.fixture
+def setup_test_kg(tmp_path):
+    """
+    Sets up and tears down a temporary Knowledge Graph for testing.
+    """
+    test_kg_path = tmp_path / "test_kg.json"
+    original_kg_path = kg_manager.KG_PATH
+    kg_manager.KG_PATH = test_kg_path
 
-    def setUp(self):
-        """테스트 전에 환경을 설정합니다."""
-        # 테스트 실행 전, 손상 가능성이 있는 메인 메모리 파일 삭제
-        main_memory_path = 'Elysia_Input_Sanctum/elysia_core_memory.json'
-        if os.path.exists(main_memory_path):
-            os.remove(main_memory_path)
+    kg_instance = kg_manager.KGManager()
+    kg_instance.add_node("소크라테스", properties={"description": "고대 그리스의 철학자"})
+    kg_instance.add_node("인간")
+    kg_instance.add_edge("소크라테스", "인간", "is_a")
+    kg_instance.save()
 
-        # 테스트용 임시 KG 파일 경로 설정
-        self.test_kg_path = Path('data/test_kg.json')
-        # 모듈 레벨 변수에 접근
-        self.original_kg_path = kg_manager.KG_PATH
-        kg_manager.KG_PATH = self.test_kg_path
+    yield kg_instance
 
-        # 임시 지식 그래프에 테스트 데이터 추가
-        # 클래스를 모듈을 통해 접근
-        self.kg_manager_instance = kg_manager.KGManager()
-        self.kg_manager_instance.add_node("소크라테스")
-        self.kg_manager_instance.add_node("인간")
-        self.kg_manager_instance.add_edge("소크라테스", "인간", "is_a")
-        self.kg_manager_instance.save()
+    kg_manager.KG_PATH = original_kg_path
 
-        # CognitionPipeline 인스턴스 생성
-        self.pipeline = CognitionPipeline()
 
-    def tearDown(self):
-        """테스트 후에 환경을 정리합니다."""
-        # 원래 KG 경로로 복원
-        kg_manager.KG_PATH = self.original_kg_path
-        # 임시 KG 파일 삭제
-        if os.path.exists(self.test_kg_path):
-            os.remove(self.test_kg_path)
+def test_reasoning_and_response(shared_pipeline, setup_test_kg):
+    """
+    Tests that the CognitionPipeline can generate a logical response based on the KG.
+    """
+    main_memory_path = 'Elysia_Input_Sanctum/elysia_core_memory.json'
+    if os.path.exists(main_memory_path):
+        os.remove(main_memory_path)
 
-    @patch('Project_Sophia.local_llm_cortex.LocalLLMCortex.generate_response', return_value="소크라테스는 is_a 인간입니다.")
-    def test_reasoning_and_response(self, mock_local_llm_response):
-        """논리 추론과 그에 따른 응답 생성이 올바르게 작동하는지 테스트합니다."""
-        # 테스트할 메시지
-        test_message = "소크라테스에 대해 알려줘"
+    test_message = "소크라테스에 대해 알려줘"
+    response, _ = shared_pipeline.process_message(test_message)
 
-        # 파이프라인을 통해 메시지 처리
-        response, _ = self.pipeline.process_message(test_message)
-
-        # More robust check
-        self.assertIn("소크라테스", response['text'])
-        self.assertIn("인간", response['text'])
-        self.assertIn("is_a", response['text'])
-        print("\n--- 테스트 통과 ---")
-        print(f"입력: '{test_message}'")
-        print(f"응답: {response}")
-        print("-------------------")
-
-if __name__ == '__main__':
-    unittest.main()
+    assert "소크라테스" in response['text']
+    assert "철학자" in response['text']

@@ -3,7 +3,41 @@
     "values": [],
     "experiences": [
         {
-            "timestamp": "2025-11-02T18:39:59.979135",
+            "timestamp": "2025-11-03T08:24:59.285132",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T08:24:59.294679",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T08:24:59.365881",
             "content": "소크라테스에 대해 알려줘",
             "emotional_state": {
                 "valence": 0.0,
@@ -17,6 +51,700 @@
                 "identity": {},
                 "relevant_experiences": []
             },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T08:30:25.533044",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "color": 1.0,
+                    "red": 0.45
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T08:30:25.633267",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "color": 1.0,
+                    "red": 0.45
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T08:30:25.692775",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "color": 1.0,
+                    "red": 0.45
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T09:46:37.388109",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.45,
+                    "물": 0.2025,
+                    "산소 발생": 0.2025
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T09:46:58.025691",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T09:51:56.098241",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.45,
+                    "물": 0.2025,
+                    "산소 발생": 0.2025
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T09:52:08.421938",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:01:08.877692",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.45,
+                    "물": 0.2025,
+                    "산소 발생": 0.2025
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:01:27.323607",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.45,
+                    "물": 0.2025,
+                    "산소 발생": 0.2025
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:01:27.564973",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:05:28.885119",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.45,
+                    "물": 0.2025,
+                    "산소 발생": 0.2025
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:05:38.064589",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "햇빛": 1.0,
+                    "식물 성장": 0.45,
+                    "물": 0.2025,
+                    "산소 발생": 0.2025
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:05:46.871414",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "식물 성장": 1.0,
+                    "햇빛": 0.45,
+                    "물": 0.45,
+                    "산소 발생": 0.45
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:11:14.396701",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:11:14.585789",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:11:44.438305",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:15:55.165595",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:15:55.343468",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:16:24.544049",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:20:14.043221",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:20:14.230063",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:20:42.707913",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:23:44.634530",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:23:44.846702",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:24:18.837069",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:31:42.033968",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:31:42.169580",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:31:42.292765",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:35:06.835426",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:35:07.170990",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:35:07.368979",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:40:35.897642",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:40:35.900641",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:40:35.973943",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:42:08.936219",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:42:08.941978",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:42:09.028920",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:45:52.716094",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:45:52.719365",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:45:52.792049",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:47:56.808910",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:47:56.813512",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T10:47:56.884016",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T11:59:06.976814",
+            "content": "5 * 3는?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T11:59:06.980148",
+            "content": "계산해줘: 100 / 4",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-03T11:59:07.113743",
+            "content": "소크라테스에 대해 알려줘",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": null,
             "value_alignment": null
         }
     ],

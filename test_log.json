@@ -1,0 +1,215 @@
+[
+  {
+    "event": "start_test",
+    "test": "test_action_cortex.TestActionCortex.test_find_best_tool_for_calculation",
+    "timestamp": 1762158926.887923
+  },
+  {
+    "event": "add_success",
+    "test": "test_action_cortex.TestActionCortex.test_find_best_tool_for_calculation",
+    "timestamp": 1762158926.8885846
+  },
+  {
+    "event": "stop_test",
+    "test": "test_action_cortex.TestActionCortex.test_find_best_tool_for_calculation",
+    "timestamp": 1762158926.8887944
+  },
+  {
+    "event": "start_test",
+    "test": "unittest.loader._FailedTest.test_arithmetic_cortex",
+    "timestamp": 1762158926.8896892
+  },
+  {
+    "event": "add_error",
+    "test": "unittest.loader._FailedTest.test_arithmetic_cortex",
+    "error": "(<class 'ImportError'>, ImportError('Failed to import test module: test_arithmetic_cortex\\nTraceback (most recent call last):\\n  File \"/home/jules/.pyenv/versions/3.12.12/lib/python3.12/unittest/loader.py\", line 396, in _find_test_path\\n    module = self._get_module_from_name(name)\\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/jules/.pyenv/versions/3.12.12/lib/python3.12/unittest/loader.py\", line 339, in _get_module_from_name\\n    __import__(name)\\n  File \"/app/tests/test_arithmetic_cortex.py\", line 11, in <module>\\n    from tests.helpers import SHARED_PIPELINE\\nModuleNotFoundError: No module named \\'tests.helpers\\'\\n'), <traceback object at 0x7f6ee51ec7c0>)",
+    "timestamp": 1762158926.8903992
+  },
+  {
+    "event": "stop_test",
+    "test": "unittest.loader._FailedTest.test_arithmetic_cortex",
+    "timestamp": 1762158926.8906431
+  },
+  {
+    "event": "start_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_ambiguous_query_returns_all_related_facts",
+    "timestamp": 1762158926.8912473
+  },
+  {
+    "event": "add_success",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_ambiguous_query_returns_all_related_facts",
+    "timestamp": 1762158926.899152
+  },
+  {
+    "event": "stop_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_ambiguous_query_returns_all_related_facts",
+    "timestamp": 1762158926.899474
+  },
+  {
+    "event": "start_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_causes",
+    "timestamp": 1762158926.9001844
+  },
+  {
+    "event": "add_success",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_causes",
+    "timestamp": 1762158926.9027052
+  },
+  {
+    "event": "stop_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_causes",
+    "timestamp": 1762158926.903008
+  },
+  {
+    "event": "start_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_effects",
+    "timestamp": 1762158926.9035573
+  },
+  {
+    "event": "add_success",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_effects",
+    "timestamp": 1762158926.907602
+  },
+  {
+    "event": "stop_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_effects",
+    "timestamp": 1762158926.9080215
+  },
+  {
+    "event": "start_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_general_non_causal_relationship",
+    "timestamp": 1762158926.9085827
+  },
+  {
+    "event": "add_success",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_general_non_causal_relationship",
+    "timestamp": 1762158926.9114332
+  },
+  {
+    "event": "stop_test",
+    "test": "test_causal_reasoning.TestCausalReasoning.test_deduce_general_non_causal_relationship",
+    "timestamp": 1762158926.912078
+  },
+  {
+    "event": "start_test",
+    "test": "test_cortexes.TestCortexes.test_action_cortex_finds_tool_and_extracts_params",
+    "timestamp": 1762158926.9129136
+  },
+  {
+    "event": "add_success",
+    "test": "test_cortexes.TestCortexes.test_action_cortex_finds_tool_and_extracts_params",
+    "timestamp": 1762158926.916253
+  },
+  {
+    "event": "stop_test",
+    "test": "test_cortexes.TestCortexes.test_action_cortex_finds_tool_and_extracts_params",
+    "timestamp": 1762158926.916591
+  },
+  {
+    "event": "start_test",
+    "test": "test_cortexes.TestCortexes.test_journal_cortex_write_entry_method_exists",
+    "timestamp": 1762158926.9193707
+  },
+  {
+    "event": "add_success",
+    "test": "test_cortexes.TestCortexes.test_journal_cortex_write_entry_method_exists",
+    "timestamp": 1762158926.921192
+  },
+  {
+    "event": "stop_test",
+    "test": "test_cortexes.TestCortexes.test_journal_cortex_write_entry_method_exists",
+    "timestamp": 1762158926.9215326
+  },
+  {
+    "event": "start_test",
+    "test": "test_cortexes.TestCortexes.test_sensory_cortex_visualizes_concept",
+    "timestamp": 1762158926.9224362
+  },
+  {
+    "event": "add_success",
+    "test": "test_cortexes.TestCortexes.test_sensory_cortex_visualizes_concept",
+    "timestamp": 1762158926.9552717
+  },
+  {
+    "event": "stop_test",
+    "test": "test_cortexes.TestCortexes.test_sensory_cortex_visualizes_concept",
+    "timestamp": 1762158926.9557788
+  },
+  {
+    "event": "start_test",
+    "test": "test_cortexes.TestCortexes.test_value_cortex_finds_path",
+    "timestamp": 1762158926.9566846
+  },
+  {
+    "event": "add_success",
+    "test": "test_cortexes.TestCortexes.test_value_cortex_finds_path",
+    "timestamp": 1762158926.9588034
+  },
+  {
+    "event": "stop_test",
+    "test": "test_cortexes.TestCortexes.test_value_cortex_finds_path",
+    "timestamp": 1762158926.9592714
+  },
+  {
+    "event": "start_test",
+    "test": "test_inquisitive_mind.TestInquisitiveMind.test_ask_external_llm_empty_response",
+    "timestamp": 1762158926.9602084
+  },
+  {
+    "event": "add_success",
+    "test": "test_inquisitive_mind.TestInquisitiveMind.test_ask_external_llm_empty_response",
+    "timestamp": 1762158926.9613283
+  },
+  {
+    "event": "stop_test",
+    "test": "test_inquisitive_mind.TestInquisitiveMind.test_ask_external_llm_empty_response",
+    "timestamp": 1762158926.9618614
+  },
+  {
+    "event": "start_test",
+    "test": "test_learning_integration.TestLearningIntegration.test_learn_new_concept_and_relations",
+    "timestamp": 1762158926.9640381
+  },
+  {
+    "event": "add_success",
+    "test": "test_learning_integration.TestLearningIntegration.test_learn_new_concept_and_relations",
+    "timestamp": 1762158926.9692855
+  },
+  {
+    "event": "stop_test",
+    "test": "test_learning_integration.TestLearningIntegration.test_learn_new_concept_and_relations",
+    "timestamp": 1762158926.9698088
+  },
+  {
+    "event": "start_test",
+    "test": "unittest.loader._FailedTest.test_logical_reasoner",
+    "timestamp": 1762158926.9712622
+  },
+  {
+    "event": "add_error",
+    "test": "unittest.loader._FailedTest.test_logical_reasoner",
+    "error": "(<class 'ImportError'>, ImportError('Failed to import test module: test_logical_reasoner\\nTraceback (most recent call last):\\n  File \"/home/jules/.pyenv/versions/3.12.12/lib/python3.12/unittest/loader.py\", line 396, in _find_test_path\\n    module = self._get_module_from_name(name)\\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/jules/.pyenv/versions/3.12.12/lib/python3.12/unittest/loader.py\", line 339, in _get_module_from_name\\n    __import__(name)\\n  File \"/app/tests/test_logical_reasoner.py\", line 12, in <module>\\n    from tests.helpers import SHARED_PIPELINE\\nModuleNotFoundError: No module named \\'tests.helpers\\'\\n'), <traceback object at 0x7f6ee85b63c0>)",
+    "timestamp": 1762158926.9722576
+  },
+  {
+    "event": "stop_test",
+    "test": "unittest.loader._FailedTest.test_logical_reasoner",
+    "timestamp": 1762158926.9728103
+  },
+  {
+    "event": "start_test",
+    "test": "unittest.loader._FailedTest.test_pipeline_features",
+    "timestamp": 1762158926.973587
+  },
+  {
+    "event": "add_error",
+    "test": "unittest.loader._FailedTest.test_pipeline_features",
+    "error": "(<class 'ImportError'>, ImportError('Failed to import test module: test_pipeline_features\\nTraceback (most recent call last):\\n  File \"/home/jules/.pyenv/versions/3.12.12/lib/python3.12/unittest/loader.py\", line 396, in _find_test_path\\n    module = self._get_module_from_name(name)\\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/jules/.pyenv/versions/3.12.12/lib/python3.12/unittest/loader.py\", line 339, in _get_module_from_name\\n    __import__(name)\\n  File \"/app/tests/test_pipeline_features.py\", line 10, in <module>\\n    from tests.helpers import SHARED_PIPELINE\\nModuleNotFoundError: No module named \\'tests.helpers\\'\\n'), <traceback object at 0x7f6ee59a5140>)",
+    "timestamp": 1762158926.9750547
+  },
+  {
+    "event": "stop_test",
+    "test": "unittest.loader._FailedTest.test_pipeline_features",
+    "timestamp": 1762158926.9757104
+  }
+]
