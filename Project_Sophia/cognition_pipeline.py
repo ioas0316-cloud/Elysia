@@ -17,6 +17,7 @@ from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from Project_Sophia.journal_cortex import JournalCortex
+from Project_Sophia.response_styler import ResponseStyler
 from tools.kg_manager import KGManager
 from Project_Sophia.gemini_api import generate_text, APIKeyError, APIRequestError
 from Project_Sophia.local_llm_cortex import LocalLLMCortex
@@ -31,6 +32,7 @@ class CognitionPipeline:
         self.arithmetic_cortex = ArithmeticCortex()
         self.local_llm_cortex = LocalLLMCortex()
         self.inquisitive_mind = InquisitiveMind(llm_cortex=self.local_llm_cortex)
+        self.response_styler = ResponseStyler()
         self.current_emotional_state = EmotionalState(valence=0.0, arousal=0.0, dominance=0.0, primary_emotion='neutral', secondary_emotions=[])
 
     def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, Any], EmotionalState]:
@@ -46,7 +48,12 @@ class CognitionPipeline:
 
         memory = Memory(timestamp=datetime.now().isoformat(), content=message, emotional_state=self.current_emotional_state)
         self.core_memory.add_experience(memory)
-        return response, emotional_state_out
+
+        # Style the final response before returning
+        if response and "text" in response:
+            response["text"] = self.response_styler.style_response(response["text"], self.current_emotional_state)
+
+        return response, self.current_emotional_state
 
     def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
         arithmetic_response = self.arithmetic_cortex.process(message)
