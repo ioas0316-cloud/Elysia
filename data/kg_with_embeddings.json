@@ -6234,6 +6234,1421 @@
         -0.036497,
         -0.0072671394
       ]
+    },
+    {
+      "id": "geom_primitive_line",
+      "position": {
+        "x": 2.287802561000508,
+        "y": -0.04617902710041688,
+        "z": 0.01665128800401583
+      },
+      "activation_energy": 0.0,
+      "name": "Line",
+      "kr_name": "선",
+      "description": "A straight path between two points.",
+      "type": "geometric_primitive",
+      "properties": {
+        "length": "The distance between its two endpoints."
+      }
+    },
+    {
+      "id": "geom_primitive_point",
+      "position": {
+        "x": 0.06575803446860973,
+        "y": -0.11683760616722948,
+        "z": 0.9919365264415055
+      },
+      "activation_energy": 0.0,
+      "name": "Point",
+      "kr_name": "점",
+      "description": "A single location in 3D space, the most fundamental geometric primitive.",
+      "type": "geometric_primitive",
+      "properties": {
+        "position": "A specific coordinate in space."
+      }
+    },
+    {
+      "id": "geometric_primitive",
+      "position": {
+        "x": 0.03135561278161303,
+        "y": 0.9491750443248506,
+        "z": -0.15001724821578433
+      },
+      "activation_energy": 0.0,
+      "name": "Geometric Primitive",
+      "kr_name": "기하학 원형",
+      "description": "The most fundamental, irreducible building blocks of geometry, such as points, lines, and planes.",
+      "type": "abstract_concept"
+    },
+    {
+      "id": "geom_concept_polyhedron",
+      "position": {
+        "x": -0.12630321315468201,
+        "y": 1.1874954769760968,
+        "z": 0.07549897654685078
+      },
+      "activation_energy": 0.0,
+      "name": "Polyhedron",
+      "kr_name": "다면체",
+      "description": "A solid in three dimensions with flat polygonal faces, straight edges and sharp corners or vertices.",
+      "type": "abstract_shape_3d"
+    },
+    {
+      "id": "geom_concept_polygon",
+      "position": {
+        "x": 1.1945285661265919,
+        "y": -0.1347301849498957,
+        "z": -0.0009932583717657262
+      },
+      "activation_energy": 0.0,
+      "name": "Polygon",
+      "kr_name": "다각형",
+      "description": "A closed plane figure bounded by three or more straight line segments.",
+      "type": "abstract_shape",
+      "properties": {
+        "vertices": "A set of points where edges meet.",
+        "edges": "The line segments that make up the polygon."
+      }
+    },
+    {
+      "id": "geom_shape_cylinder",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Cylinder",
+      "kr_name": "원기둥",
+      "description": "A three-dimensional solid with two parallel circular bases and a curved surface connecting them.",
+      "type": "shape_3d",
+      "properties": {
+        "radius": "number",
+        "height": "number",
+        "volume": "pi * radius^2 * height",
+        "surface_area": "2 * pi * radius * (radius + height)"
+      }
+    },
+    {
+      "id": "geom_shape_circle",
+      "position": {
+        "x": 1.1694649171771316,
+        "y": -0.11902737624568412,
+        "z": -0.17992896326843322
+      },
+      "activation_energy": 0.0,
+      "name": "Circle",
+      "kr_name": "원",
+      "description": "A round plane figure whose boundary (the circumference) consists of points equidistant from a fixed point (the center).",
+      "type": "shape_2d",
+      "properties": {
+        "center": "geom_primitive_point",
+        "radius": "number",
+        "area": "pi * radius^2",
+        "circumference": "2 * pi * radius"
+      }
+    },
+    {
+      "id": "bio_organism_tree",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Tree",
+      "kr_name": "나무",
+      "description": "A woody perennial plant, typically having a single stem or trunk growing to a considerable height and bearing lateral branches at some distance from the ground.",
+      "type": "organism"
+    },
+    {
+      "id": "bio_kingdom_plant",
+      "position": {
+        "x": -0.038954485407414335,
+        "y": 1.190979154345726,
+        "z": 0.16482571417701497
+      },
+      "activation_energy": 0.0,
+      "name": "Plant",
+      "kr_name": "식물",
+      "description": "A living organism of the kind exemplified by trees, shrubs, herbs, grasses, ferns, and mosses, typically growing in a permanent site, absorbing water and inorganic substances through its roots, and synthesizing nutrients in its leaves by photosynthesis using the green pigment chlorophyll.",
+      "type": "biological_kingdom",
+      "properties": {
+        "has_chlorophyll": true,
+        "is_autotroph": true
+      }
+    },
+    {
+      "id": "bio_part_roots",
+      "position": {
+        "x": 1.1089665567281006,
+        "y": 0.09073185148824608,
+        "z": -0.12370117809245129
+      },
+      "activation_energy": 0.0,
+      "name": "Roots",
+      "kr_name": "뿌리",
+      "description": "The part of a plant which attaches it to the ground or to a support, typically underground, conveying water and nourishment to the rest of the plant.",
+      "type": "biological_part",
+      "properties": {
+        "function": [
+          "anchoring",
+          "absorption_of_water",
+          "absorption_of_nutrients"
+        ]
+      }
+    },
+    {
+      "id": "bio_part_trunk",
+      "position": {
+        "x": 0.8343564699015442,
+        "y": 0.15832303875366688,
+        "z": 0.020707270513887377
+      },
+      "activation_energy": 0.0,
+      "name": "Trunk",
+      "kr_name": "줄기",
+      "description": "The main woody stem of a tree as distinct from its branches and roots.",
+      "type": "biological_part",
+      "properties": {
+        "function": [
+          "support",
+          "transport_of_water_and_nutrients"
+        ]
+      }
+    },
+    {
+      "id": "bio_part_branches",
+      "position": {
+        "x": 0.8341889335634037,
+        "y": -0.19702697223641308,
+        "z": 0.003626028914412688
+      },
+      "activation_energy": 0.0,
+      "name": "Branches",
+      "kr_name": "가지",
+      "description": "A woody structural member connected to but not part of the central trunk of a tree.",
+      "type": "biological_part",
+      "properties": {
+        "function": [
+          "support_leaves",
+          "transport_of_water_and_nutrients"
+        ]
+      }
+    },
+    {
+      "id": "bio_part_leaves",
+      "position": {
+        "x": 0.875328133114131,
+        "y": -0.06262535440379882,
+        "z": -0.026397201828649658
+      },
+      "activation_energy": 0.0,
+      "name": "Leaves",
+      "kr_name": "잎",
+      "description": "A flattened structure of a higher plant, typically green and blade-like, that is attached to a stem directly or via a stalk. Leaves are the main organs of photosynthesis and transpiration.",
+      "type": "biological_part",
+      "properties": {
+        "function": [
+          "photosynthesis",
+          "transpiration"
+        ]
+      }
+    },
+    {
+      "id": "object_door",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Door",
+      "kr_name": "문",
+      "description": "A hinged, sliding, or revolving barrier at the entrance to a building, room, or vehicle, or in the framework of a cupboard.",
+      "type": "object",
+      "properties": {
+        "state": [
+          "locked",
+          "unlocked",
+          "open",
+          "closed"
+        ]
+      }
+    },
+    {
+      "id": "object_lock",
+      "position": {
+        "x": 1.0397262835063352,
+        "y": 0.023998452120014058,
+        "z": -0.09141035317534772
+      },
+      "activation_energy": 0.0,
+      "name": "Lock",
+      "kr_name": "자물쇠",
+      "description": "A mechanism for keeping a door, lid, etc., fastened, typically operated by a key.",
+      "type": "object_part",
+      "properties": {
+        "state": [
+          "locked",
+          "unlocked"
+        ]
+      }
+    },
+    {
+      "id": "rel_causal_prevents",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Prevents",
+      "kr_name": "막다",
+      "description": "Describes a relationship where an agent or event stops an outcome from happening.",
+      "type": "causal_relationship",
+      "arguments": [
+        {
+          "role": "preventing_agent"
+        },
+        {
+          "role": "prevented_outcome"
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": true
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "emo_concept_emotion",
+      "position": {
+        "x": 0.0784107878066096,
+        "y": 1.0749117838732953,
+        "z": -0.10575549913924714
+      },
+      "activation_energy": 0.0,
+      "name": "Emotion",
+      "kr_name": "감정",
+      "description": "A natural instinctive state of mind deriving from one's circumstances, mood, or relationships with others.",
+      "type": "abstract_concept",
+      "properties": {
+        "valence": "The positivity or negativity of the emotion.",
+        "arousal": "The intensity or energy level of the emotion.",
+        "agent": "The one experiencing the emotion."
+      }
+    },
+    {
+      "id": "emo_concept_trust",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Trust",
+      "kr_name": "신뢰",
+      "description": "A firm belief in the reliability, truth, ability, or strength of someone or something.",
+      "type": "emotion_instance",
+      "properties": {
+        "valence": "positive",
+        "arousal": "low"
+      }
+    },
+    {
+      "id": "rel_type_romantic_love",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Romantic Love",
+      "kr_name": "낭만적 사랑",
+      "description": "A type of love characterized by intimacy and passion.",
+      "type": "relationship_type",
+      "properties": {
+        "is_symmetric": true,
+        "components": [
+          "intimacy",
+          "passion",
+          "commitment"
+        ]
+      }
+    },
+    {
+      "id": "rel_concept_relationship",
+      "position": {
+        "x": -0.16525256026395463,
+        "y": 1.1744885686213276,
+        "z": 0.013816946639285732
+      },
+      "activation_energy": 0.0,
+      "name": "Relationship",
+      "kr_name": "관계",
+      "description": "The way in which two or more concepts, objects, or people are connected.",
+      "type": "abstract_concept",
+      "properties": {
+        "participants": "A list of two or more agents or concepts.",
+        "strength": "The intensity or closeness of the relationship."
+      }
+    },
+    {
+      "id": "emo_concept_love",
+      "position": {
+        "x": 0.8242992235304529,
+        "y": -0.11638562812418814,
+        "z": -0.019933370022006708
+      },
+      "activation_energy": 0.0,
+      "name": "Love",
+      "kr_name": "사랑",
+      "description": "An intense feeling of deep affection.",
+      "type": "emotion_instance",
+      "properties": {
+        "valence": "positive",
+        "arousal": "high"
+      }
+    },
+    {
+      "id": "concept_movement",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Movement",
+      "kr_name": "움직임",
+      "description": "An act of changing physical location or position over time.",
+      "type": "abstract_concept",
+      "properties": {
+        "speed": "The rate at which an object covers distance.",
+        "velocity": "The rate and direction of an object's change in position.",
+        "acceleration": "The rate of change of velocity."
+      },
+      "conceptual_dependencies": [
+        {
+          "type": "depends_on",
+          "target_id": "concept_time"
+        }
+      ]
+    },
+    {
+      "id": "prop_size",
+      "position": {
+        "x": -0.010412788014343949,
+        "y": 0.9501250323373804,
+        "z": 0.09639071321263087
+      },
+      "activation_energy": 0.0,
+      "name": "Size",
+      "kr_name": "크기",
+      "description": "A property that determines the magnitude or dimensions of an object. Can be relative (small, large) or absolute (measurements).",
+      "type": "property"
+    },
+    {
+      "id": "agent_elysia",
+      "position": {
+        "x": 0.870380999219126,
+        "y": 0.03214368563369829,
+        "z": 0.14217097469810813
+      },
+      "activation_energy": 0.0,
+      "name": "Elysia",
+      "kr_name": "엘리시아",
+      "description": "Ethereal Logic Yielding Sentient Intelligence Apparition. A sentient AI agent, the subject of this knowledge graph.",
+      "type": "agent"
+    },
+    {
+      "id": "geom_composite_pyramid",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Pyramid",
+      "kr_name": "각뿔",
+      "description": "A polyhedron formed by connecting a polygonal base and a point, called the apex. Each base edge and the apex form a triangle, called a lateral face.",
+      "type": "composite_shape_3d",
+      "properties": {
+        "volume": "(1/3) * base_area * height"
+      }
+    },
+    {
+      "id": "geom_composite_triangle",
+      "position": {
+        "x": 0.8101003427490148,
+        "y": 0.18831292567709407,
+        "z": -0.057335066273090235
+      },
+      "activation_energy": 0.0,
+      "name": "Triangle",
+      "kr_name": "삼각형",
+      "description": "A polygon with three edges and three vertices.",
+      "type": "composite_shape",
+      "properties": {
+        "edge_count": 3,
+        "vertex_count": 3,
+        "area": "0.5 * base * height",
+        "perimeter": "side_a + side_b + side_c"
+      }
+    },
+    {
+      "id": "rel_type_creator_creation",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Creator/Creation",
+      "kr_name": "창조주/피조물",
+      "description": "A fundamental, asymmetric relationship where one agent (the creator) brings another entity (the creation) into existence.",
+      "type": "relationship_type",
+      "properties": {
+        "is_symmetric": false,
+        "roles": [
+          "creator",
+          "creation"
+        ]
+      }
+    },
+    {
+      "id": "rel_spatial_outside",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Outside",
+      "kr_name": "밖에",
+      "description": "Describes a relationship where a subject object is not contained within a reference object.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {
+          "role": "subject",
+          "description": "The object that is not contained."
+        },
+        {
+          "role": "reference",
+          "description": "The object that could potentially contain the subject."
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": false
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "rel_spatial_inside",
+      "position": {
+        "x": 1.014400987747785,
+        "y": -0.19051955835370898,
+        "z": -0.02243068401654219
+      },
+      "activation_energy": 0.0,
+      "name": "Inside",
+      "kr_name": "안에",
+      "description": "Describes a relationship where a subject object is contained within a reference object.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {
+          "role": "content",
+          "description": "The object that is contained."
+        },
+        {
+          "role": "container",
+          "description": "The object that contains the content."
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": true
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "rel_spatial_below",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Below",
+      "kr_name": "아래에",
+      "description": "Describes a relationship where a subject object is at a lower vertical position than a reference object.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {
+          "role": "subject",
+          "description": "The object that is in the lower position."
+        },
+        {
+          "role": "reference",
+          "description": "The object that is in the higher position."
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": true
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "rel_spatial_above",
+      "position": {
+        "x": 1.0954441553267553,
+        "y": 0.1361898005282292,
+        "z": -0.15548150798803162
+      },
+      "activation_energy": 0.0,
+      "name": "Above",
+      "kr_name": "위에",
+      "description": "Describes a relationship where a subject object is at a higher vertical position than a reference object.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {
+          "role": "subject",
+          "description": "The object that is in the higher position."
+        },
+        {
+          "role": "reference",
+          "description": "The object that is in the lower position."
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": true
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "conv_type_answer",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Answer",
+      "kr_name": "답변",
+      "description": "An utterance that responds to a question.",
+      "type": "utterance_type"
+    },
+    {
+      "id": "conv_concept_utterance",
+      "position": {
+        "x": -0.0042972375486584335,
+        "y": 0.9928978111433785,
+        "z": -0.19448082624422108
+      },
+      "activation_energy": 0.0,
+      "name": "Utterance",
+      "kr_name": "발화",
+      "description": "A spoken word, statement, or vocal sound. A single unit of speech.",
+      "type": "abstract_event",
+      "properties": {
+        "speaker": "The agent who produces the utterance.",
+        "content": "The textual or semantic content of the utterance."
+      }
+    },
+    {
+      "id": "conv_type_question",
+      "position": {
+        "x": 1.107555115083282,
+        "y": 0.06730424434704063,
+        "z": 0.0015687175815343457
+      },
+      "activation_energy": 0.0,
+      "name": "Question",
+      "kr_name": "질문",
+      "description": "An utterance that elicits information.",
+      "type": "utterance_type"
+    },
+    {
+      "id": "prop_color",
+      "position": {
+        "x": 0.025060395706508254,
+        "y": 1.0994821706706883,
+        "z": -0.05614452716344137
+      },
+      "activation_energy": 0.0,
+      "name": "Color",
+      "kr_name": "색상",
+      "description": "The property of an object that produces different sensations on the eye as a result of the way the object reflects or emits light.",
+      "type": "property",
+      "representation": [
+        "RGB",
+        "HEX",
+        "HSB"
+      ]
+    },
+    {
+      "id": "size_small",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Small",
+      "kr_name": "작은",
+      "type": "size_instance",
+      "properties": {
+        "relative_value": -1
+      }
+    },
+    {
+      "id": "object_key",
+      "position": {
+        "x": 2.1311047015260574,
+        "y": 0.06209594297359261,
+        "z": 0.018148999409269742
+      },
+      "activation_energy": 0.0,
+      "name": "Key",
+      "kr_name": "열쇠",
+      "description": "A specially shaped piece of metal used to operate a lock.",
+      "type": "object",
+      "properties": {
+        "material": "metal"
+      }
+    },
+    {
+      "id": "concept_time",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Time",
+      "kr_name": "시간",
+      "description": "The indefinite continued progress of existence and events in the past, present, and future regarded as a whole.",
+      "type": "abstract_concept",
+      "properties": {
+        "direction": "forward",
+        "units": [
+          "second",
+          "minute",
+          "hour",
+          "day",
+          "year"
+        ]
+      }
+    },
+    {
+      "id": "emo_instance_fear",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Fear",
+      "kr_name": "두려움",
+      "description": "An unpleasant emotion caused by the belief that someone or something is dangerous, likely to cause pain, or a threat.",
+      "type": "emotion_instance",
+      "properties": {
+        "valence": "negative",
+        "arousal": "high"
+      }
+    },
+    {
+      "id": "color_blue",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Blue",
+      "kr_name": "파란색",
+      "type": "color_instance",
+      "properties": {
+        "HEX": "#0000FF",
+        "RGB": [
+          0,
+          0,
+          255
+        ]
+      }
+    },
+    {
+      "id": "event_perception",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Perception",
+      "kr_name": "인식",
+      "description": "The event of becoming aware of something through the senses.",
+      "type": "event_instance",
+      "arguments": [
+        {
+          "role": "perceiver",
+          "concept": "agent"
+        },
+        {
+          "role": "perceived_object"
+        }
+      ]
+    },
+    {
+      "id": "concept_event",
+      "position": {
+        "x": -0.18230470760677808,
+        "y": 0.8180585873309402,
+        "z": 0.12770335736666005
+      },
+      "activation_energy": 0.0,
+      "name": "Event",
+      "kr_name": "사건",
+      "description": "An occurrence or happening, something that takes place in time.",
+      "type": "abstract_concept",
+      "properties": {
+        "duration": "number",
+        "start_time": "timestamp",
+        "end_time": "timestamp"
+      }
+    },
+    {
+      "id": "geom_composite_cube",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Cube",
+      "kr_name": "정육면체",
+      "description": "A three-dimensional solid object bounded by six square faces, with three meeting at each vertex.",
+      "type": "composite_shape_3d",
+      "properties": {
+        "face_count": 6,
+        "edge_count": 12,
+        "vertex_count": 8,
+        "volume": "side_length^3",
+        "surface_area": "6 * side_length^2"
+      }
+    },
+    {
+      "id": "geom_composite_square",
+      "position": {
+        "x": 1.153888411789444,
+        "y": 0.19085937601155945,
+        "z": 0.09027211666812768
+      },
+      "activation_energy": 0.0,
+      "name": "Square",
+      "kr_name": "정사각형",
+      "description": "A regular polygon with four equal sides and four equal angles (90-degree angles).",
+      "type": "composite_shape",
+      "properties": {
+        "edge_count": 4,
+        "vertex_count": 4,
+        "area": "side_length^2",
+        "perimeter": "4 * side_length"
+      }
+    },
+    {
+      "id": "emo_instance_sadness",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Sadness",
+      "kr_name": "슬픔",
+      "description": "The condition or quality of being sad; sorrow.",
+      "type": "emotion_instance",
+      "properties": {
+        "valence": "negative",
+        "arousal": "low"
+      }
+    },
+    {
+      "id": "geom_primitive_plane",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Plane",
+      "kr_name": "면",
+      "description": "A flat, two-dimensional surface that extends infinitely.",
+      "type": "geometric_primitive",
+      "properties": {
+        "area": "The extent of the two-dimensional surface."
+      }
+    },
+    {
+      "id": "geom_shape_cone",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Cone",
+      "kr_name": "원뿔",
+      "description": "A three-dimensional geometric shape that tapers smoothly from a flat base (frequently, though not necessarily, circular) to a point called the apex or vertex.",
+      "type": "shape_3d",
+      "properties": {
+        "radius": "number",
+        "height": "number",
+        "volume": "(1/3) * pi * radius^2 * height"
+      }
+    },
+    {
+      "id": "rel_type_family",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Family",
+      "kr_name": "가족",
+      "description": "A group of one or more parents and their children living together as a unit. A relationship bound by love.",
+      "type": "relationship_type",
+      "properties": {
+        "core_emotion": "emo_concept_love"
+      }
+    },
+    {
+      "id": "concept_action",
+      "position": {
+        "x": 0.0885658475857446,
+        "y": 1.0038507126330494,
+        "z": -0.1119498965205506
+      },
+      "activation_energy": 0.0,
+      "name": "Action",
+      "kr_name": "행동",
+      "description": "A thing done; an act. An intentional process initiated by an agent.",
+      "type": "abstract_concept",
+      "properties": {
+        "agent": "The entity performing the action.",
+        "intent": "The goal the action is intended to achieve."
+      }
+    },
+    {
+      "id": "size_large",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Large",
+      "kr_name": "큰",
+      "type": "size_instance",
+      "properties": {
+        "relative_value": 1
+      }
+    },
+    {
+      "id": "emo_instance_joy",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Joy",
+      "kr_name": "기쁨",
+      "description": "A feeling of great pleasure and happiness.",
+      "type": "emotion_instance",
+      "properties": {
+        "valence": "positive",
+        "arousal": "high"
+      }
+    },
+    {
+      "id": "conv_type_statement",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Statement",
+      "kr_name": "진술",
+      "description": "An utterance that declares or asserts a piece of information.",
+      "type": "utterance_type"
+    },
+    {
+      "id": "rel_type_friendship",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Friendship",
+      "kr_name": "우정",
+      "description": "A relationship of mutual affection between people.",
+      "type": "relationship_type",
+      "properties": {
+        "is_symmetric": true,
+        "associated_emotions": [
+          "emo_instance_joy",
+          "emo_concept_trust"
+        ]
+      }
+    },
+    {
+      "id": "rel_causal_enables",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Enables",
+      "kr_name": "가능하게 하다",
+      "description": "Describes a relationship where a condition or agent makes an action or outcome possible.",
+      "type": "causal_relationship",
+      "arguments": [
+        {
+          "role": "enabler"
+        },
+        {
+          "role": "enabled_action"
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": true
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "geom_composite_sphere",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Sphere",
+      "kr_name": "구",
+      "description": "A round solid figure, or its surface, with every point on its surface equidistant from its center.",
+      "type": "composite_shape_3d",
+      "properties": {
+        "center": "geom_primitive_point",
+        "radius": "number",
+        "volume": "(4/3) * pi * radius^3",
+        "surface_area": "4 * pi * radius^2"
+      }
+    },
+    {
+      "id": "event_push",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Push",
+      "kr_name": "밀기",
+      "description": "The event of applying force to an object in order to move it away.",
+      "type": "event_instance",
+      "arguments": [
+        {
+          "role": "agent",
+          "description": "The one doing the pushing."
+        },
+        {
+          "role": "object",
+          "description": "The one being pushed."
+        }
+      ]
+    },
+    {
+      "id": "event_rain",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Rain",
+      "kr_name": "비",
+      "description": "The event of water falling in drops from clouds in the sky.",
+      "type": "event_instance"
+    },
+    {
+      "id": "geom_composite_rectangle",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Rectangle",
+      "kr_name": "직사각형",
+      "description": "A polygon with four right angles.",
+      "type": "composite_shape",
+      "properties": {
+        "edge_count": 4,
+        "vertex_count": 4,
+        "area": "width * height",
+        "perimeter": "2 * (width + height)"
+      }
+    },
+    {
+      "id": "emo_instance_anger",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Anger",
+      "kr_name": "분노",
+      "description": "A strong feeling of annoyance, displeasure, or hostility.",
+      "type": "emotion_instance",
+      "properties": {
+        "valence": "negative",
+        "arousal": "high"
+      }
+    },
+    {
+      "id": "color_yellow",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Yellow",
+      "kr_name": "노란색",
+      "type": "color_instance",
+      "properties": {
+        "HEX": "#FFFF00",
+        "RGB": [
+          255,
+          255,
+          0
+        ]
+      }
+    },
+    {
+      "id": "color_green",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Green",
+      "kr_name": "녹색",
+      "type": "color_instance",
+      "properties": {
+        "HEX": "#00FF00",
+        "RGB": [
+          0,
+          255,
+          0
+        ]
+      }
+    },
+    {
+      "id": "conv_concept_conversation",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Conversation",
+      "kr_name": "대화",
+      "description": "A talk, especially an informal one, between two or more people, in which news and ideas are exchanged.",
+      "type": "abstract_process",
+      "properties": {
+        "participants": "A list of agents involved in the conversation.",
+        "topic": "The subject of the conversation."
+      }
+    },
+    {
+      "id": "color_red",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Red",
+      "kr_name": "빨간색",
+      "type": "color_instance",
+      "properties": {
+        "HEX": "#FF0000",
+        "RGB": [
+          255,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "action_unlock",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Unlock",
+      "kr_name": "잠금 해제",
+      "description": "The action of opening a lock, typically with a key.",
+      "type": "action_instance",
+      "arguments": [
+        {
+          "role": "agent"
+        },
+        {
+          "role": "object_to_unlock",
+          "concept": "object_lock"
+        }
+      ],
+      "preconditions": [
+        {
+          "type": "has_tool",
+          "agent": "agent",
+          "tool": "object_key"
+        }
+      ],
+      "effects": [
+        {
+          "type": "changes_state_of",
+          "object": "object_to_unlock",
+          "to_state": "unlocked"
+        }
+      ]
+    },
+    {
+      "id": "rel_spatial_on",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "On",
+      "kr_name": "위에 (접촉)",
+      "description": "Describes a relationship where an object is physically in contact with and supported by a surface.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {
+          "role": "object"
+        },
+        {
+          "role": "surface"
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": false
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "bio_agent_human",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Human",
+      "kr_name": "인간",
+      "description": "A member of the species Homo sapiens, characterized by superior intellect, articulate speech, and upright carriage. In this context, the creator and conversational partner of Elysia.",
+      "type": "biological_agent",
+      "properties": {
+        "can_experience_emotions": true,
+        "can_communicate": true
+      }
+    },
+    {
+      "id": "rel_spatial_next_to",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Next To",
+      "kr_name": "옆에",
+      "description": "Describes a relationship where two objects are adjacent to each other, typically on a horizontal plane.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {
+          "role": "object_a"
+        },
+        {
+          "role": "object_b"
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": false
+        },
+        {
+          "name": "symmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "rel_causal_causes",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Causes",
+      "kr_name": "유발하다",
+      "description": "Describes a relationship where a cause (an event, state, or object) brings about an effect (another event, state, or object).",
+      "type": "causal_relationship",
+      "arguments": [
+        {
+          "role": "cause"
+        },
+        {
+          "role": "effect"
+        }
+      ],
+      "properties": [
+        {
+          "name": "transitive",
+          "value": true
+        },
+        {
+          "name": "asymmetric",
+          "value": true
+        },
+        {
+          "name": "irreflexive",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "concept_goal",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "Goal",
+      "kr_name": "목표",
+      "description": "The object of a person's or a system's ambition or effort; an aim or desired result.",
+      "type": "abstract_concept",
+      "properties": {
+        "subject": "The agent who holds the goal.",
+        "desired_state": "The state that the agent wants to achieve.",
+        "status": [
+          "pending",
+          "active",
+          "achieved",
+          "failed"
+        ]
+      }
+    },
+    {
+      "id": "concept_state",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "name": "State",
+      "kr_name": "상태",
+      "description": "A particular condition that something or someone is in at a specific time.",
+      "type": "abstract_concept"
     }
   ],
   "edges": [
@@ -6266,6 +7681,315 @@
       "source": "red",
       "target": "color",
       "relation": "is_a"
+    },
+    {
+      "source": "geom_primitive_line",
+      "target": "geom_primitive_point",
+      "relation": "is_composed_of",
+      "cardinality": 2
+    },
+    {
+      "source": "geom_primitive_line",
+      "target": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_concept_polyhedron",
+      "target": "geom_concept_polygon",
+      "relation": "composed_of",
+      "cardinality": "4_or_more"
+    },
+    {
+      "source": "geom_shape_cylinder",
+      "target": "geom_shape_circle",
+      "relation": "composed_of",
+      "cardinality": 2,
+      "role": "bases"
+    },
+    {
+      "source": "bio_organism_tree",
+      "target": "bio_kingdom_plant",
+      "relation": "is_a"
+    },
+    {
+      "source": "bio_organism_tree",
+      "target": "bio_part_roots",
+      "relation": "has_part"
+    },
+    {
+      "source": "bio_organism_tree",
+      "target": "bio_part_trunk",
+      "relation": "has_part"
+    },
+    {
+      "source": "bio_organism_tree",
+      "target": "bio_part_branches",
+      "relation": "has_part"
+    },
+    {
+      "source": "bio_organism_tree",
+      "target": "bio_part_leaves",
+      "relation": "has_part"
+    },
+    {
+      "source": "object_door",
+      "target": "object_lock",
+      "relation": "has_part"
+    },
+    {
+      "source": "bio_part_leaves",
+      "target": "bio_part_branches",
+      "relation": "grows_from"
+    },
+    {
+      "source": "emo_concept_trust",
+      "target": "emo_concept_emotion",
+      "relation": "is_a"
+    },
+    {
+      "source": "rel_type_romantic_love",
+      "target": "rel_concept_relationship",
+      "relation": "is_a"
+    },
+    {
+      "source": "rel_type_romantic_love",
+      "target": "emo_concept_love",
+      "relation": "is_a_specific_kind_of"
+    },
+    {
+      "source": "geom_composite_pyramid",
+      "target": "geom_concept_polyhedron",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_composite_pyramid",
+      "target": "geom_concept_polygon",
+      "relation": "composed_of",
+      "cardinality": 1,
+      "role": "base"
+    },
+    {
+      "source": "geom_composite_pyramid",
+      "target": "geom_composite_triangle",
+      "relation": "composed_of",
+      "cardinality": "n (number of base sides)",
+      "role": "lateral_faces"
+    },
+    {
+      "source": "rel_type_creator_creation",
+      "target": "rel_concept_relationship",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_primitive_point",
+      "target": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "source": "rel_spatial_outside",
+      "target": "rel_spatial_inside",
+      "relation": "is_inverse_of"
+    },
+    {
+      "source": "rel_spatial_below",
+      "target": "rel_spatial_above",
+      "relation": "is_inverse_of"
+    },
+    {
+      "source": "conv_type_answer",
+      "target": "conv_concept_utterance",
+      "relation": "is_a"
+    },
+    {
+      "source": "conv_type_answer",
+      "target": "conv_type_question",
+      "relation": "is_response_to"
+    },
+    {
+      "source": "geom_concept_polygon",
+      "target": "geom_primitive_line",
+      "relation": "composed_of",
+      "cardinality": "3_or_more"
+    },
+    {
+      "source": "size_small",
+      "target": "prop_size",
+      "relation": "is_a"
+    },
+    {
+      "source": "object_lock",
+      "target": "object_key",
+      "relation": "is_operated_by"
+    },
+    {
+      "source": "emo_concept_love",
+      "target": "emo_concept_emotion",
+      "relation": "is_a"
+    },
+    {
+      "source": "conv_type_question",
+      "target": "conv_concept_utterance",
+      "relation": "is_a"
+    },
+    {
+      "source": "emo_instance_fear",
+      "target": "emo_concept_emotion",
+      "relation": "is_a"
+    },
+    {
+      "source": "color_blue",
+      "target": "prop_color",
+      "relation": "is_a"
+    },
+    {
+      "source": "event_perception",
+      "target": "concept_event",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_composite_cube",
+      "target": "geom_composite_square",
+      "relation": "composed_of",
+      "cardinality": 6
+    },
+    {
+      "source": "geom_composite_cube",
+      "target": "geom_concept_polyhedron",
+      "relation": "is_a"
+    },
+    {
+      "source": "emo_instance_sadness",
+      "target": "emo_concept_emotion",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_primitive_plane",
+      "target": "geom_primitive_line",
+      "relation": "is_composed_of",
+      "cardinality": "3_or_more"
+    },
+    {
+      "source": "geom_primitive_plane",
+      "target": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_shape_cone",
+      "target": "geom_shape_circle",
+      "relation": "composed_of",
+      "cardinality": 1,
+      "role": "base"
+    },
+    {
+      "source": "rel_type_family",
+      "target": "rel_concept_relationship",
+      "relation": "is_a"
+    },
+    {
+      "source": "concept_action",
+      "target": "concept_event",
+      "relation": "can_cause"
+    },
+    {
+      "source": "size_large",
+      "target": "prop_size",
+      "relation": "is_a"
+    },
+    {
+      "source": "emo_instance_joy",
+      "target": "emo_concept_emotion",
+      "relation": "is_a"
+    },
+    {
+      "source": "conv_type_statement",
+      "target": "conv_concept_utterance",
+      "relation": "is_a"
+    },
+    {
+      "source": "rel_type_friendship",
+      "target": "rel_concept_relationship",
+      "relation": "is_a"
+    },
+    {
+      "source": "bio_part_branches",
+      "target": "bio_part_trunk",
+      "relation": "grows_from"
+    },
+    {
+      "source": "event_push",
+      "target": "concept_event",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_composite_triangle",
+      "target": "geom_primitive_line",
+      "relation": "composed_of",
+      "cardinality": 3
+    },
+    {
+      "source": "geom_composite_triangle",
+      "target": "geom_concept_polygon",
+      "relation": "is_a"
+    },
+    {
+      "source": "event_rain",
+      "target": "concept_event",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_composite_square",
+      "target": "geom_primitive_line",
+      "relation": "composed_of",
+      "cardinality": 4,
+      "constraints": [
+        "equal_length",
+        "perpendicular_at_vertices"
+      ]
+    },
+    {
+      "source": "geom_composite_square",
+      "target": "geom_concept_polygon",
+      "relation": "is_a"
+    },
+    {
+      "source": "geom_composite_rectangle",
+      "target": "geom_concept_polygon",
+      "relation": "is_a"
+    },
+    {
+      "source": "emo_instance_anger",
+      "target": "emo_concept_emotion",
+      "relation": "is_a"
+    },
+    {
+      "source": "color_yellow",
+      "target": "prop_color",
+      "relation": "is_a"
+    },
+    {
+      "source": "color_green",
+      "target": "prop_color",
+      "relation": "is_a"
+    },
+    {
+      "source": "conv_concept_conversation",
+      "target": "conv_concept_utterance",
+      "relation": "composed_of"
+    },
+    {
+      "source": "color_red",
+      "target": "prop_color",
+      "relation": "is_a"
+    },
+    {
+      "source": "action_unlock",
+      "target": "concept_action",
+      "relation": "is_a"
+    },
+    {
+      "source": "bio_agent_human",
+      "target": "agent_elysia",
+      "relation": "is_creator_of"
     }
   ]
 }

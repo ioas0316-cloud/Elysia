@@ -31,29 +31,52 @@ class KnowledgeHarvester:
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
 
-            # Add nodes
             nodes_added = 0
+            edges_added = 0
+
+            # MODIFICATION 2: Handle 'concepts' format correctly
+            for concept_data in data.get('concepts', []):
+                node_id = concept_data.get('id')
+                if not node_id:
+                    continue
+
+                # FINAL FIX: Collect all other keys into a single 'properties' dictionary.
+                properties = {k: v for k, v in concept_data.items() if k not in ['id', 'relationships']}
+                self.kg_manager.add_node(node_id, properties=properties)
+                nodes_added += 1
+
+                for edge_data in concept_data.get('relationships', []):
+                    source = node_id
+                    target = edge_data.get('target_id')
+                    relation = edge_data.get('type')
+                    if not all([source, target, relation]):
+                        continue
+
+                    edge_properties = {k: v for k, v in edge_data.items() if k not in ['target_id', 'type']}
+                    self.kg_manager.add_edge(source, target, relation, properties=edge_properties)
+                    edges_added += 1
+
+            # Backwards compatibility for the old 'nodes'/'edges' format
             for node_data in data.get('nodes', []):
                 node_id = node_data.get('id')
                 if not node_id:
                     continue
-                properties = node_data.get('properties', {})
+                properties = {k: v for k, v in node_data.items() if k != 'id'}
                 self.kg_manager.add_node(node_id, properties=properties)
                 nodes_added += 1
 
-            # Add edges
-            edges_added = 0
             for edge_data in data.get('edges', []):
                 source = edge_data.get('source')
                 target = edge_data.get('target')
                 relation = edge_data.get('relation')
                 if not all([source, target, relation]):
                     continue
-                properties = edge_data.get('properties', {})
+                properties = {k: v for k, v in edge_data.items() if k not in ['source', 'target', 'relation']}
                 self.kg_manager.add_edge(source, target, relation, properties=properties)
                 edges_added += 1
 
-            print(f"Successfully harvested {nodes_added} nodes and {edges_added} edges.")
+            if nodes_added > 0 or edges_added > 0:
+                print(f"Successfully harvested {nodes_added} nodes and {edges_added} edges.")
 
         except json.JSONDecodeError as e:
             print(f"Error: Could not decode JSON from {file_path.name}. Reason: {e}")
@@ -82,10 +105,8 @@ if __name__ == '__main__':
     # Initialize the manager for the main knowledge graph
     main_kg_manager = KGManager()
 
-    # Create the harvester instance
-    harvester = KnowledgeHarvester(main_kg_manager)
-
     # Run the harvest process
+    harvester = KnowledgeHarvester(main_kg_manager)
     harvester.harvest_all()
 
     # Print a summary of the newly enriched knowledge graph
