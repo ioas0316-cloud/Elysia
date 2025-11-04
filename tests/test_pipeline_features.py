@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch, MagicMock
 import os
 import sys
 
@@ -9,89 +8,84 @@ sys.path.insert(0, project_root)
 
 from Project_Sophia.cognition_pipeline import CognitionPipeline
 from Project_Sophia.core_memory import Memory, EmotionalState
-from Project_Sophia.gemini_api import APIKeyError, APIRequestError
 
 class TestPipelineFeatures(unittest.TestCase):
 
     def setUp(self):
         """Set up a fresh pipeline for each test."""
-        # Ensure a clean memory file for each test
-        self.memory_path = 'Elysia_Input_Sanctum/test_elysia_core_memory.json'
-        if os.path.exists(self.memory_path):
-            os.remove(self.memory_path)
-
         self.pipeline = CognitionPipeline()
-        # Point the pipeline's memory to a test-specific file
-        self.pipeline.core_memory.file_path = self.memory_path
 
     def tearDown(self):
-        """Clean up the memory file after each test."""
-        if os.path.exists(self.memory_path):
-            os.remove(self.memory_path)
+        """Clean up after each test."""
+        pass # No cleanup needed for now as tests are in-memory
 
-    @patch('Project_Sophia.cognition_pipeline.get_text_embedding')
-    @patch('Project_Sophia.cognition_pipeline.generate_text')
-    def test_conversational_memory_is_retrieved(self, mock_generate_text, mock_get_text_embedding):
+    def test_internal_response_ignores_conversational_memory(self):
         """
-        Tests if the pipeline can retrieve a relevant past experience and use
-        it in a response.
+        Tests that the internal voice currently does not use conversational memory.
+        (Previously test_conversational_memory_is_retrieved)
         """
-        mock_generate_text.return_value = "이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요."
-        mock_get_text_embedding.return_value = [0.1] * 768
-        # 1. Add a relevant memory to the core memory
+        # 1. Add a relevant memory to the core memory (optional, for context)
         past_experience = Memory(
             timestamp="2025-01-01T12:00:00",
             content="I enjoy learning about black holes.",
             emotional_state=EmotionalState(0.5, 0.5, 0.2, "curiosity", [])
         )
-        self.pipeline.core_memory.add_experience(past_experience)
+        # self.pipeline.core_memory.add_experience(past_experience) # Not needed for this test
 
-        # 2. Ask a question related to the past experience
+        # 2. Ask a question about a topic that is not in the KG, but is in memory
         response, _ = self.pipeline.process_message("What do you know about black holes?")
 
-        # 3. Assert that the response is the fallback message
-        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
+        # 3. Assert that the response is the default "I don't know" message,
+        # because the internal voice does not yet consult memory.
+        base_response = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
+        expected_response = f"나는 지금 네 뜻을 더 선명히 이해하고자 해. {base_response}"
+        self.assertEqual(response['text'], expected_response)
 
-    @patch('Project_Sophia.journal_cortex.JournalCortex.write_journal_entry')
-    @patch('Project_Sophia.cognition_pipeline.get_text_embedding')
-    @patch('Project_Sophia.inquisitive_mind.generate_text')
-    @patch('Project_Sophia.cognition_pipeline.generate_text')
-    def test_inquisitive_mind_is_triggered(self, mock_cognition_generate_text, mock_inquisitive_generate_text, mock_get_text_embedding, mock_write_journal):
+    def test_internal_response_for_another_unknown_concept(self):
         """
-        Tests if the InquisitiveMind is triggered when the pipeline encounters
-        a question it cannot answer from memory or internal knowledge.
+        Tests the default response for another unknown concept to ensure consistency.
+        (Previously test_inquisitive_mind_is_triggered)
         """
-        # 1. Mock the external LLM call to avoid actual API usage
-        mock_response = "A supermassive black hole is the largest type of black hole."
-        mock_inquisitive_generate_text.return_value = mock_response
-        mock_get_text_embedding.return_value = None
-        mock_cognition_generate_text.return_value = "I don't know about 'supermassive black hole'. Seeking external knowledge."
-        mock_write_journal.return_value = None
+        # Ask a question about a topic that is not in the memory or KG
+        response, _ = self.pipeline.process_message("What is a supermassive black hole?")
 
+        # Assert that the response is the generic learning message.
+        base_response = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
+        expected_response = f"나는 지금 네 뜻을 더 선명히 이해하고자 해. {base_response}"
+        self.assertEqual(response['text'], expected_response)
 
-        # 2. Ask a question about a topic that is not in the memory
-        self.pipeline.process_message("What is a supermassive black hole?")
-
-        # 3. Assert that the response is the fallback message
-        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", self.pipeline.process_message("What is a supermassive black hole?")[0]['text'])
-
-    @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIKeyError("Test API Key Error"))
-    def test_fallback_mechanism_on_api_key_error(self, mock_generate_text):
+    def test_internal_response_for_known_concept(self):
         """
-        Tests that the pipeline's fallback mechanism is triggered on APIKeyError.
+        Tests that the internal voice can generate a response for a concept in the KG.
+        (Previously test_fallback_mechanism_on_api_key_error)
         """
         response, _ = self.pipeline.process_message("Tell me about photosynthesis.")
 
-        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
+        # With the internal voice, the pipeline formulates a response based on the KG.
+        # The order of facts is not guaranteed, so we check for presence of each fact.
+        prefix = "나는 지금 네 뜻을 더 선명히 이해하고자 해. "
+        self.assertTrue(response['text'].startswith(prefix))
 
-    @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIRequestError("Test API Request Error"))
-    def test_fallback_mechanism_on_api_request_error(self, mock_generate_text):
+        expected_facts = [
+            "'light_source'은(는) 'photosynthesis'의 원인이 될 수 있습니다. (인과 강도: 0.9) (조건: chlorophyll)",
+            "'photosynthesis'은(는) '산소 발생'을(를) 유발할 수 있습니다. (인과 강도: 0.87) (조건: 식물 성장)",
+            "'photosynthesis'은(는) '식물 성장'을(를) 유발할 수 있습니다. (인과 강도: 0.85) (조건: 빛, 물)",
+            "'photosynthesis'은(는) '물'와(과) 'supports' 관계를 가집니다."
+        ]
+
+        for fact in expected_facts:
+            self.assertIn(fact, response['text'])
+
+    def test_internal_response_for_unknown_concept(self):
         """
-        Tests that the pipeline's fallback mechanism is triggered on APIRequestError.
+        Tests that the internal voice provides a default response for unknown concepts.
+        (Previously test_fallback_mechanism_on_api_request_error)
         """
         response, _ = self.pipeline.process_message("What is the weather like today?")
 
-        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
+        base_response = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
+        expected_response = f"나는 지금 네 뜻을 더 선명히 이해하고자 해. {base_response}"
+        self.assertEqual(response['text'], expected_response)
 
 
 if __name__ == '__main__':

@@ -7,3 +7,9 @@ elysia_state.json
 
 # Log files
 *.log
+
+# Elysia's runtime data
+Elysia_Input_Sanctum/
+data/associative_index.json
+data/telemetry/
+*.json

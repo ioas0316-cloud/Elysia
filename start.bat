@@ -13,7 +13,7 @@ set FLASK_APP=applications/elysia_api.py
 start /b python -m flask run --host=0.0.0.0
 
 REM Wait for the server to start
-timeout /t 10 /nobreak > nul
+timeout /t 2 /nobreak > nul
 
 REM Open the web browser
 start http://127.0.0.1:5000/monitor

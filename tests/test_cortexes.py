@@ -6,6 +6,7 @@ from pathlib import Path
 from Project_Sophia.value_cortex import ValueCortex
 from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.action_cortex import ActionCortex
+from tools.kg_manager import KGManager
 
 class TestCortexes(unittest.TestCase):
 
@@ -38,9 +39,9 @@ class TestCortexes(unittest.TestCase):
 
         dummy_tools_kg = {
             "nodes": [
-                {"id": "read", "position": {"x": 0, "y": 0, "z": 0}, "activation_energy": 0.0},
-                {"id": "file", "position": {"x": 0, "y": 1, "z": 0}, "activation_energy": 0.0},
-                {"id": "read_file", "position": {"x": 1, "y": 0, "z": 0}, "activation_energy": 0.0}
+                {"id": "read", "position": {"x": 0, "y": 0, "z": 0}, "activation_energy": 0.0, "embedding": [0.1]*8},
+                {"id": "file", "position": {"x": 0, "y": 1, "z": 0}, "activation_energy": 0.0, "embedding": [0.2]*8},
+                {"id": "read_file", "position": {"x": 1, "y": 0, "z": 0}, "activation_energy": 0.0, "embedding": [0.3]*8}
             ],
             "edges": [
                 {"source": "read", "target": "read_file", "relation": "activates"},
@@ -88,10 +89,13 @@ class TestCortexes(unittest.TestCase):
         prompt = "Can you read the file 'data/example.txt' for me?"
         action = self.action_cortex.decide_action(prompt)
 
-        self.assertIsNone(action)
+        self.assertIsNotNone(action)
+        self.assertEqual(action['tool_name'], 'read_file')
+        self.assertIn('filepath', action['parameters'])
+        self.assertEqual(action['parameters']['filepath'], 'data/example.txt')
 
-        # Verify that the mock was NOT called
-        mock_generate_text.assert_not_called()
+        # Verify that the mock was called
+        mock_generate_text.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()

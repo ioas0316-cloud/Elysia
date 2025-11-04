@@ -9,7 +9,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
 from Project_Sophia.cognition_pipeline import CognitionPipeline
-from tools import kg_manager
+from tools.kg_manager import KGManager
 
 class TestLogicalReasonerIntegration(unittest.TestCase):
 
@@ -21,30 +21,27 @@ class TestLogicalReasonerIntegration(unittest.TestCase):
             os.remove(main_memory_path)
 
         # 테스트용 임시 KG 파일 경로 설정
-        self.test_kg_path = Path('data/test_kg.json')
-        # 모듈 레벨 변수에 접근
-        self.original_kg_path = kg_manager.KG_PATH
-        kg_manager.KG_PATH = self.test_kg_path
+        self.test_kg_path = Path('data/test_logical_reasoner_kg.json')
+        if self.test_kg_path.exists():
+            self.test_kg_path.unlink()
 
-        # 임시 지식 그래프에 테스트 데이터 추가
-        # 클래스를 모듈을 통해 접근
-        self.kg_manager_instance = kg_manager.KGManager()
-        self.kg_manager_instance._kg = {"nodes": [], "edges": []}
+        # Create a KGManager instance specifically for this test
+        self.kg_manager_instance = KGManager(filepath=self.test_kg_path)
+
         self.kg_manager_instance.add_node("소크라테스")
         self.kg_manager_instance.add_node("인간")
         self.kg_manager_instance.add_edge("소크라테스", "인간", "is_a")
         self.kg_manager_instance.save()
 
-        # CognitionPipeline 인스턴스 생성
+        # Since CognitionPipeline creates its own KGManager, we must patch it
+        # to use our test-specific one.
         self.pipeline = CognitionPipeline()
+        self.pipeline.kg_manager = self.kg_manager_instance
 
     def tearDown(self):
         """테스트 후에 환경을 정리합니다."""
-        # 원래 KG 경로로 복원
-        kg_manager.KG_PATH = self.original_kg_path
-        # 임시 KG 파일 삭제
-        if os.path.exists(self.test_kg_path):
-            os.remove(self.test_kg_path)
+        if self.test_kg_path.exists():
+            self.test_kg_path.unlink()
 
     def test_reasoning_and_response(self):
         """논리 추론과 그에 따른 응답 생성이 올바르게 작동하는지 테스트합니다."""
@@ -55,7 +52,9 @@ class TestLogicalReasonerIntegration(unittest.TestCase):
         response, _ = self.pipeline.process_message(test_message)
 
         # More robust check
-        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
+        self.assertIn("소크라테스", response['text'])
+        self.assertIn("인간", response['text'])
+        self.assertIn("is_a", response['text'])
         print("\n--- 테스트 통과 ---")
         print(f"입력: '{test_message}'")
         print(f"응답: {response}")
