@@ -31,22 +31,35 @@ class StrategicCortex:
 
         goal_type = goal_object.get("type", "UNKNOWN")
 
-        # Simplified logic for demonstration
-        if "reasoning" in goal_object.get("description", "") or goal_type == "ENHANCE_CAPABILITY":
-            related_purpose = "GROWTH"
-            goals_in_order = [
-                { "goal_id": goal_object.get("goal_id", "goal_temp"), "description": goal_object["description"], "priority": "HIGH" }
-            ]
-        elif goal_type == "CONVERSATION":
+        # More sophisticated rule-based logic based on goal type
+        if goal_type == "ENHANCE_CAPABILITY":
+            related_purpose = "CORE_GROWTH"
+            priority = "HIGH"
+        elif goal_type == "ACQUIRE_KNOWLEDGE":
+            related_purpose = "KNOWLEDGE_EXPANSION"
+            priority = "HIGH"
+        elif goal_type == "PERFORM_ACTION":
+            related_purpose = "TASK_EXECUTION"
+            priority = "MEDIUM"
+        elif goal_type == "USER_INTERACTION":
             related_purpose = "RELATIONSHIP_BUILDING"
-            goals_in_order = [
-                { "goal_id": goal_object.get("goal_id", "goal_temp"), "description": goal_object["description"], "priority": "MEDIUM" }
-            ]
-        else:
-            related_purpose = "GENERAL"
-            goals_in_order = [
-                { "goal_id": goal_object.get("goal_id", "goal_temp"), "description": goal_object["description"], "priority": "LOW" }
-            ]
+            priority = "MEDIUM"
+        elif goal_type == "SELF_REFLECTION":
+            related_purpose = "IDENTITY_FORMATION"
+            priority = "LOW"
+        else: # Covers CONVERSATION and UNKNOWN
+            related_purpose = "GENERAL_INTERACTION"
+            priority = "LOW"
+
+        # For now, the roadmap is a single-step plan containing the primary goal.
+        # Future versions could involve multi-step strategic goal setting.
+        goals_in_order = [
+            {
+                "goal_id": goal_object.get("goal_id", "goal_temp"),
+                "description": goal_object.get("description", "N/A"),
+                "priority": priority
+            }
+        ]
 
         return {
             "roadmap_id": self._generate_roadmap_id(),

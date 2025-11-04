@@ -410,14 +410,47 @@ class CognitionPipeline:
             # 4. Decompose that primary goal into an executable Plan
             execution_plan = self.goal_decomposer.decompose(primary_goal)
 
-            # For now, we return the final plan. Future work will execute it.
-            response_text = (
-                f"최상위 목적 '{strategic_roadmap['related_purpose']}'을(를) 달성하기 위해, "
-                f"다음과 같은 실행 계획을 수립했습니다:\n\n"
-            )
-            response_text += json.dumps(execution_plan, indent=2, ensure_ascii=False)
+            # 5. Execute the plan
+            execution_results = []
+            for step in execution_plan.get("steps", []):
+                tool_name = step.get("tool_name")
+                parameters = step.get("parameters", {})
+                if not tool_name:
+                    continue
 
-            return {"type": "text", "text": response_text}
+                # Prepare the decision object for the executor
+                decision = {"tool_name": tool_name, "parameters": parameters}
+                result = self.tool_executor.execute_tool(decision)
+                execution_results.append({
+                    "step": step.get("step"),
+                    "tool_name": tool_name,
+                    "result": result
+                })
+
+            # 6. Formulate a final response summarizing the execution
+            summary = (
+                f"목적 '{message}'을(를) 달성하기 위해 다음 계획을 실행했습니다:\n"
+                f"계획 ID: {execution_plan.get('plan_id')}\n\n"
+                "실행 결과:\n"
+            )
+            for res in execution_results:
+                summary += f"- 단계 {res['step']} ({res['tool_name']}): {res['result']}\n"
+
+            # 7. Reflect on the execution and save it as a long-term memory
+            reflection_content = {
+                "summary": f"Executed a plan for the purpose: {message}",
+                "plan_id": execution_plan.get('plan_id'),
+                "results": execution_results
+            }
+            experience = Memory(
+                timestamp=datetime.now().isoformat(),
+                content=json.dumps(reflection_content),
+                emotional_state=self.current_emotional_state, # Use current emotional state
+                context={"type": "self_driven_action", "success": True} # Simplified success metric
+            )
+            self.core_memory.add_experience(experience)
+
+            return {"type": "text", "text": summary}
 
         except Exception as e:
             pipeline_logger.exception(f"Error in purpose-oriented processing for: {message}")

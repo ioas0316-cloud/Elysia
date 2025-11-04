@@ -19,19 +19,43 @@ class GoalDecompositionCortex:
         """
         goal_id = goal_object.get("goal_id", "unknown_goal")
         goal_type = goal_object.get("type", "UNKNOWN")
+        parameters = goal_object.get("parameters", {})
 
         steps: List[Dict[str, Any]] = []
 
-        if goal_type == "ENHANCE_CAPABILITY":
-            steps = [
-                {"step": 1, "action": "document_new_architecture", "parameters": {}},
-                {"step": 2, "action": "refactor_reasoning_modules", "parameters": {}},
-                {"step": 3, "action": "run_validation_tests", "parameters": {}}
-            ]
-        else: # Default for CONVERSATION or UNKNOWN
-            steps = [
-                {"step": 1, "action": "generate_conversational_response", "parameters": {}}
-            ]
+        # Decompose goal into tool-executable steps based on type and parameters
+        if goal_type == "ACQUIRE_KNOWLEDGE":
+            topic = parameters.get("topic", "an interesting subject")
+            steps.append({
+                "step": 1,
+                "tool_name": "google_search",
+                "parameters": {"query": f"latest research on {topic}"}
+            })
+            steps.append({
+                "step": 2,
+                "tool_name": "read_website",
+                "parameters": {"url": "placeholder_url_from_step_1"} # Placeholder
+            })
+        elif goal_type == "ENHANCE_CAPABILITY":
+            area = parameters.get("target_area", "a core module")
+            steps.append({
+                "step": 1,
+                "tool_name": "propose_architecture_change", # Hypothetical tool
+                "parameters": {"module": area, "summary": f"Refactor {area} for enhanced performance."}
+            })
+        elif goal_type == "PERFORM_ACTION":
+            action = parameters.get("action", "unknown_action")
+            steps.append({
+                "step": 1,
+                "tool_name": action,
+                "parameters": {k: v for k, v in parameters.items() if k != "action"}
+            })
+        else: # Default for CONVERSATION, SELF_REFLECTION, etc.
+            steps.append({
+                "step": 1,
+                "tool_name": "generate_conversational_response",
+                "parameters": {"user_input": goal_object.get("source_input", "")}
+            })
 
         return {
             "plan_id": self._generate_plan_id(),
