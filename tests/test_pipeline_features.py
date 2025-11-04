@@ -29,16 +29,19 @@ class TestPipelineFeatures(unittest.TestCase):
         if os.path.exists(self.memory_path):
             os.remove(self.memory_path)
 
+    @patch('Project_Sophia.cognition_pipeline.LocalLLMCortex')
     @patch('Project_Sophia.cognition_pipeline.get_text_embedding')
     @patch('Project_Sophia.cognition_pipeline.generate_text')
-    def test_conversational_memory_is_retrieved(self, mock_generate_text, mock_get_text_embedding):
+    def test_conversational_memory_is_retrieved(self, mock_generate_text, mock_get_text_embedding, MockLocalLLMCortex):
         """
         Tests if the pipeline can retrieve a relevant past experience and use
         it in a response.
         """
+        self.pipeline.api_available = True
+        MockLocalLLMCortex.return_value.model = None
         mock_generate_text.return_value = "이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요."
         mock_get_text_embedding.return_value = [0.1] * 768
-        # 1. Add a relevant memory to the core memory
+
         past_experience = Memory(
             timestamp="2025-01-01T12:00:00",
             content="I enjoy learning about black holes.",
@@ -46,52 +49,91 @@ class TestPipelineFeatures(unittest.TestCase):
         )
         self.pipeline.core_memory.add_experience(past_experience)
 
-        # 2. Ask a question related to the past experience
         response, _ = self.pipeline.process_message("What do you know about black holes?")
 
-        # 3. Assert that the response references the past conversation
         self.assertIn("이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요.", response['text'])
 
+    @patch('Project_Sophia.cognition_pipeline.LocalLLMCortex')
     @patch('Project_Sophia.journal_cortex.JournalCortex.write_journal_entry')
     @patch('Project_Sophia.cognition_pipeline.get_text_embedding')
     @patch('Project_Sophia.inquisitive_mind.generate_text')
     @patch('Project_Sophia.cognition_pipeline.generate_text')
-    def test_inquisitive_mind_is_triggered(self, mock_cognition_generate_text, mock_inquisitive_generate_text, mock_get_text_embedding, mock_write_journal):
+    def test_inquisitive_mind_is_triggered(self, mock_cognition_generate_text, mock_inquisitive_generate_text, mock_get_text_embedding, mock_write_journal, MockLocalLLMCortex):
         """
         Tests if the InquisitiveMind is triggered when the pipeline encounters
         a question it cannot answer from memory or internal knowledge.
         """
-        # 1. Mock the external LLM call to avoid actual API usage
+        self.pipeline.api_available = True
+        MockLocalLLMCortex.return_value.model = None
         mock_response = "A supermassive black hole is the largest type of black hole."
         mock_inquisitive_generate_text.return_value = mock_response
         mock_get_text_embedding.return_value = None
         mock_cognition_generate_text.return_value = "I don't know about 'supermassive black hole'. Seeking external knowledge."
         mock_write_journal.return_value = None
 
-
-        # 2. Ask a question about a topic that is not in the memory
         self.pipeline.process_message("What is a supermassive black hole?")
 
-        # 3. Assert that the mock was called, meaning the InquisitiveMind was activated
         mock_inquisitive_generate_text.assert_called_once()
 
+    @patch('Project_Sophia.cognition_pipeline.LocalLLMCortex')
     @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIKeyError("Test API Key Error"))
-    def test_fallback_mechanism_on_api_key_error(self, mock_generate_text):
+    def test_fallback_mechanism_on_api_key_error(self, mock_generate_text, MockLocalLLMCortex):
         """
         Tests that the pipeline's fallback mechanism is triggered on APIKeyError.
         """
+        # Ensure the mock LLM instance reports no model, triggering the simple fallback
+        MockLocalLLMCortex.return_value.model = None
+
         response, _ = self.pipeline.process_message("Tell me about photosynthesis.")
+        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
 
-        self.assertIn("죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.", response['text'])
-
+    @patch('Project_Sophia.cognition_pipeline.LocalLLMCortex')
     @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIRequestError("Test API Request Error"))
-    def test_fallback_mechanism_on_api_request_error(self, mock_generate_text):
+    def test_fallback_mechanism_on_api_request_error(self, mock_generate_text, MockLocalLLMCortex):
         """
         Tests that the pipeline's fallback mechanism is triggered on APIRequestError.
         """
-        response, _ = self.pipeline.process_message("What is the weather like today?")
+        MockLocalLLMCortex.return_value.model = None
 
-        self.assertIn("죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.", response['text'])
+        response, _ = self.pipeline.process_message("What is the weather like today?")
+        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
+
+
+    def test_purpose_oriented_workflow(self):
+        """
+        Tests the full purpose-oriented workflow from '목적:' input to a structured plan.
+        """
+        import json
+        # 1. Define a purpose-oriented message
+        purpose_message = "목적: 엘리시아의 자율 학습 능력을 강화하여 새로운 지식을 스스로 습득하게 한다."
+
+        # 2. Process the message through the pipeline
+        response, _ = self.pipeline.process_message(purpose_message)
+
+        # 3. Assert the response is a structured plan
+        self.assertIsInstance(response, dict)
+        self.assertEqual(response.get('type'), 'text')
+
+        # 4. Parse the JSON plan from the response text
+        response_text = response.get('text', '')
+        try:
+            # The plan is embedded within a descriptive string, find the JSON part
+            json_start_index = response_text.find('{')
+            self.assertNotEqual(json_start_index, -1, "JSON plan not found in the response")
+            plan_json_str = response_text[json_start_index:]
+            plan = json.loads(plan_json_str)
+        except (json.JSONDecodeError, IndexError):
+            self.fail("Failed to parse JSON plan from response text.")
+
+        # 5. Verify the structure of the generated plan
+        self.assertIn('plan_id', plan)
+        self.assertIn('goal_id', plan)
+        self.assertIn('steps', plan)
+        self.assertIsInstance(plan['steps'], list)
+        self.assertGreater(len(plan['steps']), 0, "Plan should have at least one step")
+        first_step = plan['steps'][0]
+        self.assertIn('step', first_step)
+        self.assertIn('action', first_step)
 
 
 if __name__ == '__main__':

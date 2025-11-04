@@ -7,3 +7,8 @@ elysia_state.json
 
 # Log files
 *.log
+
+# Elysia's runtime data - should not be version controlled
+Elysia_Input_Sanctum/
+data/associative_index.json
+data/telemetry/

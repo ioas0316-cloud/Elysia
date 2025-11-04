@@ -32,6 +32,9 @@ from tools.kg_manager import KGManager
 from Project_Sophia.gemini_api import get_text_embedding, generate_text, APIKeyError, APIRequestError
 from Project_Sophia.vector_utils import cosine_sim
 from Project_Sophia.local_llm_cortex import LocalLLMCortex # Added for local model fallback
+from Project_Sophia.intent_analysis_cortex import IntentAnalysisCortex
+from Project_Sophia.goal_decomposition_cortex import GoalDecompositionCortex
+from Project_Sophia.strategic_cortex import StrategicCortex
 from Project_Sophia.core.self_model import SelfModel
 from Project_Sophia.core.stance_manager import StanceManager
 from Project_Sophia.core.self_voice import SelfVoiceFilter
@@ -89,6 +92,7 @@ class CognitionPipeline:
             pass
         self.prefixes = config.get('prefixes', {})
         self.planning_prefix = self.prefixes.get('planning', 'plan and execute:')
+        self.purpose_prefix = self.prefixes.get('purpose', '목적:') # New prefix for purpose-oriented mode
         self.observation_prefix = self.prefixes.get('observation', 'The result of the tool execution is:')
         self.visual_learning_prefix = self.prefixes.get('visual_learning', '이것을 그려보자:')
         creative_impulse_config = config.get('creative_impulse', {})
@@ -149,7 +153,20 @@ class CognitionPipeline:
         except Exception:
             self.api_available = False
 
+        # --- Purpose-Oriented Architecture Components ---
+        self.intent_analyzer = IntentAnalysisCortex()
+        self.goal_decomposer = GoalDecompositionCortex()
+        self.strategic_cortex = StrategicCortex()
+        # --- End Purpose-Oriented Architecture Components ---
+
     def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, Any], EmotionalState]:
+        # --- Purpose-Oriented Architecture Entry Point ---
+        if message.strip().startswith(self.purpose_prefix):
+            purpose_content = message.strip()[len(self.purpose_prefix):].strip()
+            response = self.process_purpose_oriented_message(purpose_content)
+            return response, self.current_emotional_state
+        # --- End Entry Point ---
+
         try:
             if self.pending_visual_learning:
                 pending_data = self.pending_visual_learning
@@ -372,6 +389,39 @@ class CognitionPipeline:
         except Exception as e:
             pipeline_logger.exception(f"Error in process_message for input: {message}")
             return {"type": "text", "text": "An internal error occurred during message processing."}, self.current_emotional_state
+
+    def process_purpose_oriented_message(self, message: str) -> Dict[str, Any]:
+        """
+        Handles the new purpose-oriented workflow: Intent -> Goal -> Strategy -> Plan.
+        """
+        try:
+            # 1. Analyze user input to form a structured Goal
+            goal_object = self.intent_analyzer.analyze(message)
+
+            # 2. Develop a strategic roadmap based on the goal and overarching purpose
+            strategic_roadmap = self.strategic_cortex.develop_strategy(goal_object)
+
+            # 3. Take the highest priority goal from the roadmap
+            if not strategic_roadmap["goals_in_order"]:
+                return {"type": "text", "text": "목표를 분석했지만, 실행할 구체적인 행동 계획을 세우지 못했습니다."}
+
+            primary_goal = strategic_roadmap["goals_in_order"][0]
+
+            # 4. Decompose that primary goal into an executable Plan
+            execution_plan = self.goal_decomposer.decompose(primary_goal)
+
+            # For now, we return the final plan. Future work will execute it.
+            response_text = (
+                f"최상위 목적 '{strategic_roadmap['related_purpose']}'을(를) 달성하기 위해, "
+                f"다음과 같은 실행 계획을 수립했습니다:\n\n"
+            )
+            response_text += json.dumps(execution_plan, indent=2, ensure_ascii=False)
+
+            return {"type": "text", "text": response_text}
+
+        except Exception as e:
+            pipeline_logger.exception(f"Error in purpose-oriented processing for: {message}")
+            return {"type": "text", "text": "목적 기반 처리 중 오류가 발생했습니다."}
 
     def _analyze_emotions(self, message: str) -> EmotionalState:
         if not self.api_available:
@@ -716,3 +766,40 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
 
         response_dict = self._generate_conversational_response(message, emotional_state, context)
         return response_dict, emotional_state
+
+if __name__ == '__main__':
+    print("--- Cognition Pipeline Initialization ---")
+    # Corrected imports to be absolute from the project root
+    from Project_Sophia.intent_analysis_cortex import IntentAnalysisCortex
+    from Project_Sophia.goal_decomposition_cortex import GoalDecompositionCortex
+    from Project_Sophia.strategic_cortex import StrategicCortex
+
+    pipeline = CognitionPipeline()
+    print("Pipeline initialized.")
+
+    def run_pipeline_test(description, test_input):
+        print(f"\n--- {description} ---")
+        print(f"Input: \"{test_input}\"")
+        response, emotional_state = pipeline.process_message(test_input)
+
+        print("\nResponse:")
+        try:
+            plan_text = response.get("text", "")
+            json_start_index = plan_text.find('{')
+            if json_start_index != -1:
+                intro_message = plan_text[:json_start_index].strip()
+                print(f"Message: {intro_message}")
+                plan_json_str = plan_text[json_start_index:]
+                parsed_json = json.loads(plan_json_str)
+                print(json.dumps(parsed_json, indent=2, ensure_ascii=False))
+            else:
+                print(plan_text)
+        except (json.JSONDecodeError, TypeError):
+            print(response.get("text", "No text in response."))
+
+        print(f"\nFinal Emotional State: {emotional_state.primary_emotion if emotional_state else 'N/A'}")
+        print("-" * 30)
+
+    # Test Case 1: Purpose-Oriented Workflow
+    purpose_message = "목적: 엘리시아의 핵심 추론 능력을 강화하여 더 깊이 있는 대화를 가능하게 한다."
+    run_pipeline_test("Test Case 1: Purpose-Oriented Workflow", purpose_message)
