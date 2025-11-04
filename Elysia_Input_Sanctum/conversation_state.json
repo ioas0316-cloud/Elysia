@@ -5,27 +5,82 @@
       {
         "role": "user",
         "keywords": [
-          "안녕",
-          "엘리시아"
+          "tell",
+          "me",
+          "about",
+          "photosynthesis"
+        ]
+      },
+      {
+        "role": "user",
+        "keywords": [
+          "tell",
+          "me",
+          "about",
+          "photosynthesis"
+        ]
+      },
+      {
+        "role": "user",
+        "keywords": [
+          "tell",
+          "me",
+          "about",
+          "photosynthesis"
+        ]
+      },
+      {
+        "role": "user",
+        "keywords": [
+          "tell",
+          "me",
+          "about",
+          "photosynthesis"
         ]
       },
       {
         "role": "assistant",
         "keywords": [
-          "죄송합니다",
-          "현재",
-          "주",
-          "지식망",
-          "및",
-          "보조",
-          "지식망에",
-          "모두"
+          "나는",
+          "지금",
+          "네",
+          "뜻을",
+          "더",
+          "선명히",
+          "이해하고자",
+          "해"
+        ]
+      },
+      {
+        "role": "user",
+        "keywords": [
+          "what",
+          "is",
+          "a",
+          "supermassive",
+          "black",
+          "hole"
+        ]
+      },
+      {
+        "role": "assistant",
+        "keywords": [
+          "나는",
+          "지금",
+          "네",
+          "뜻을",
+          "더",
+          "선명히",
+          "이해하고자",
+          "해"
         ]
       }
     ]
   },
   "topic_tracker": {
     "decay": 0.9,
-    "topics": {}
+    "topics": {
+      "photosynthesis": 2.729526479989218
+    }
   }
 }

@@ -8,6 +8,10 @@ class ArithmeticCortex:
     # A whitelist of safe characters for the expression
     _SAFE_EXPR_PATTERN = re.compile(r"^[0-9\s\+\-\*\/\(\)\.]+$")
 
+    def is_arithmetic_query(self, message: str) -> bool:
+        """Checks if a message is likely an arithmetic query."""
+        return '계산' in message or any(op in message for op in ['+', '-', '*', '/'])
+
     def evaluate(self, expression: str) -> float | None:
         """
         Safely evaluates a mathematical expression string and returns the result,

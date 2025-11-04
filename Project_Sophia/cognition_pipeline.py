@@ -85,8 +85,8 @@ class CognitionPipeline:
             config = json.load(f)
         try:
             config = load_config()
-        except Exception:
-            pass
+        except Exception as e:
+            pipeline_logger.warning(f"Failed to load config using load_config(), retaining default. Error: {e}")
         self.prefixes = config.get('prefixes', {})
         self.planning_prefix = self.prefixes.get('planning', 'plan and execute:')
         self.observation_prefix = self.prefixes.get('observation', 'The result of the tool execution is:')
@@ -139,13 +139,15 @@ class CognitionPipeline:
                 self.working_memory.restore_from(state.get('working_memory', {}))
                 self.topic_tracker.restore_from(state.get('topic_tracker', {}))
             self.lens.restore_from(load_json('lens_profile.json'))
-        except Exception:
-            pass
+        except Exception as e:
+            pipeline_logger.warning(f"Failed to restore conversation state or lens profile. Starting fresh. Error: {e}")
 
         # Offline-first defaults can be overridden by config
         try:
             llm_cfg = config.get('llm', {})
             self.api_available = bool(llm_cfg.get('use_external_api', False))
+            if llm_cfg.get('use_local_llm', False):
+                self.local_llm_cortex = LocalLLMCortex()
         except Exception:
             self.api_available = False
 
@@ -160,6 +162,13 @@ class CognitionPipeline:
                 else:
                     response = {"type": "text", "text": "알겠습니다. 다음에 다시 시도해볼게요."}
                 return response, self.current_emotional_state
+
+            if '계산' in message or any(op in message for op in ['+', '-', '*', '/']):
+                # Attempt to delegate to ArithmeticCortex first
+                if self.arithmetic_cortex.is_arithmetic_query(message):
+                    expression = re.search(r'([\d\s\+\-\*\/\(\)\.]+)', message).group(1)
+                    result = self.arithmetic_cortex.evaluate(expression)
+                    return {"type": "text", "text": f"계산 결과는 {result} 입니다."}, self.current_emotional_state
 
             emotional_state = self._analyze_emotions(message)
             self._update_emotional_state(emotional_state, intensity=0.4)
@@ -593,11 +602,8 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
         """
         Fallback response generation using the local LLM.
         """
-        # Lazily initialize the local LLM cortex if it hasn't been already
-        if self.local_llm_cortex is None:
-            self.local_llm_cortex = LocalLLMCortex()
-
-        # Check if the local model was loaded successfully
+        # The local LLM cortex is now initialized in the constructor.
+        # We just need to check if it's available.
         if self.local_llm_cortex and self.local_llm_cortex.model:
             # Use the local LLM to generate a response
             prompt = f"""You are Elysia. The user said: "{message}".
@@ -611,6 +617,17 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
             return {"type": "text", "text": "죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요." }, emotional_state
 
     def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
+        if '?' in message or any(q in message for q in ['what', 'who', 'where', 'when', 'why', 'how', 'x', '*', '+', '-', '/']):
+             # Check if the question can be answered by the logical reasoner
+            _t0 = time.perf_counter()
+            facts = self.reasoner.deduce_facts(message)
+            try:
+                self._emit_route_arc('cognition_pipeline', 'logical_reasoner', _t0, outcome='ok' if facts else 'empty')
+            except Exception:
+                pass
+            if facts:
+                return {"type": "text", "text": " ".join(facts)}, emotional_state
+
         if not self.api_available:
             return self._generate_internal_response(message, emotional_state, context)
 
@@ -674,16 +691,6 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
             pass
 
         if '?' in message or any(q in message for q in ['what', 'who', 'where', 'when', 'why', 'how']):
-             # Check if the question can be answered by the logical reasoner
-            _t0 = time.perf_counter()
-            facts = self.reasoner.deduce_facts(message)
-            try:
-                self._emit_route_arc('cognition_pipeline', 'logical_reasoner', _t0, outcome='ok' if facts else 'empty')
-            except Exception:
-                pass
-            if facts:
-                return {"type": "text", "text": " ".join(facts)}, emotional_state
-
             # If not, try the inquisitive mind (only if external API is available)
             if self.api_available:
                 inquisitive_response = self.inquisitive_mind.ask_external_llm(message)

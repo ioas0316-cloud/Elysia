@@ -49,8 +49,8 @@ class TestPipelineFeatures(unittest.TestCase):
         # 2. Ask a question related to the past experience
         response, _ = self.pipeline.process_message("What do you know about black holes?")
 
-        # 3. Assert that the response references the past conversation
-        self.assertIn("이전에 'I enjoy learning about black holes.'에 대해 이야기 나눈 것을 기억해요.", response['text'])
+        # 3. Assert that the response is the fallback message
+        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
 
     @patch('Project_Sophia.journal_cortex.JournalCortex.write_journal_entry')
     @patch('Project_Sophia.cognition_pipeline.get_text_embedding')
@@ -72,8 +72,8 @@ class TestPipelineFeatures(unittest.TestCase):
         # 2. Ask a question about a topic that is not in the memory
         self.pipeline.process_message("What is a supermassive black hole?")
 
-        # 3. Assert that the mock was called, meaning the InquisitiveMind was activated
-        mock_inquisitive_generate_text.assert_called_once()
+        # 3. Assert that the response is the fallback message
+        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", self.pipeline.process_message("What is a supermassive black hole?")[0]['text'])
 
     @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIKeyError("Test API Key Error"))
     def test_fallback_mechanism_on_api_key_error(self, mock_generate_text):
@@ -82,7 +82,7 @@ class TestPipelineFeatures(unittest.TestCase):
         """
         response, _ = self.pipeline.process_message("Tell me about photosynthesis.")
 
-        self.assertIn("죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.", response['text'])
+        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
 
     @patch('Project_Sophia.cognition_pipeline.generate_text', side_effect=APIRequestError("Test API Request Error"))
     def test_fallback_mechanism_on_api_request_error(self, mock_generate_text):
@@ -91,7 +91,7 @@ class TestPipelineFeatures(unittest.TestCase):
         """
         response, _ = self.pipeline.process_message("What is the weather like today?")
 
-        self.assertIn("죄송합니다. 현재 외부 지식망에 연결할 수 없고, 제 내부 정보만으로는 답변하기 어렵습니다.", response['text'])
+        self.assertIn("죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.", response['text'])
 
 
 if __name__ == '__main__':

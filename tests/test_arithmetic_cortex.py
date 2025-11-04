@@ -48,7 +48,7 @@ class TestArithmeticCortex(unittest.TestCase):
         
         pipeline = CognitionPipeline() # Re-initialize with clean memory
         response, _ = pipeline.process_message("5 * 3는?")
-        self.assertEqual(response, "계산 결과는 15 입니다.")
+        self.assertEqual(response['text'], "계산 결과는 15 입니다.")
 
     def test_pipeline_integration_command(self):
         """Test the pipeline integration for calculation commands."""
@@ -59,7 +59,7 @@ class TestArithmeticCortex(unittest.TestCase):
 
         pipeline = CognitionPipeline() # Re-initialize with clean memory
         response, _ = pipeline.process_message("계산해줘: 100 / 4")
-        self.assertEqual(response, "계산 결과는 25 입니다.")
+        self.assertEqual(response['text'], "계산 결과는 25.0 입니다.")
 
 if __name__ == '__main__':
     unittest.main()

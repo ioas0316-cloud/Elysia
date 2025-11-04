@@ -15,16 +15,23 @@ KG_PATH = DATA_DIR / 'kg_with_embeddings.json'
 
 class KGManager:
     def __init__(self):
+        self._kg = None
         DATA_DIR.mkdir(exist_ok=True)
-        if KG_PATH.exists():
-            with open(KG_PATH, 'r', encoding='utf-8') as f:
-                self.kg = json.load(f)
-        else:
-            self.kg = {"nodes": [], "edges": []}
+
+    @property
+    def kg(self):
+        if self._kg is None:
+            if KG_PATH.exists():
+                with open(KG_PATH, 'r', encoding='utf-8') as f:
+                    self._kg = json.load(f)
+            else:
+                self._kg = {"nodes": [], "edges": []}
+        return self._kg
 
     def save(self):
-        with open(KG_PATH, 'w', encoding='utf-8') as f:
-            json.dump(self.kg, f, ensure_ascii=False, indent=2)
+        if self._kg is not None:
+            with open(KG_PATH, 'w', encoding='utf-8') as f:
+                json.dump(self.kg, f, ensure_ascii=False, indent=2)
 
     def get_node(self, node_id: str) -> Optional[Dict]:
         """Finds a node by its ID."""

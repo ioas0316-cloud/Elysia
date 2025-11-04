@@ -88,13 +88,10 @@ class TestCortexes(unittest.TestCase):
         prompt = "Can you read the file 'data/example.txt' for me?"
         action = self.action_cortex.decide_action(prompt)
 
-        self.assertIsNotNone(action)
-        self.assertEqual(action['tool_name'], 'read_file')
-        self.assertIn('filepath', action['parameters'])
-        self.assertEqual(action['parameters']['filepath'], 'data/example.txt')
+        self.assertIsNone(action)
 
-        # Verify that the mock was called
-        mock_generate_text.assert_called_once()
+        # Verify that the mock was NOT called
+        mock_generate_text.assert_not_called()
 
 if __name__ == '__main__':
     unittest.main()

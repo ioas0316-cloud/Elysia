@@ -20,7 +20,7 @@ class TestCausalReasoning(unittest.TestCase):
         self.test_kg_path = Path('data/test_causal_kg.json')
         # This is a bit of a hack; ideally, the KGManager would be injectable.
         # For now, we manually override the path it uses.
-        self.reasoner.kg_manager.kg = {"nodes": [], "edges": []}
+        self.reasoner.kg_manager._kg = {"nodes": [], "edges": []}
 
         # Set up a test KG with causal and non-causal relationships
         self.reasoner.kg_manager.add_edge("햇빛", "식물 성장", "causes", properties={"strength": 0.85})

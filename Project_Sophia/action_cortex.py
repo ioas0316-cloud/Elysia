@@ -24,7 +24,7 @@ class ActionCortex:
 
     def __init__(self):
         self.tools_kg_manager = KGManager()
-        self.tools_kg_manager.kg = self._load_tools_kg()
+        self.tools_kg_manager._kg = self._load_tools_kg()
         self.wave_mechanics = WaveMechanics(self.tools_kg_manager)
         self.tool_schemas = self._load_tool_schemas()
 
