@@ -373,19 +373,37 @@ class Guardian:
 
                 learned_count = 0
                 for goal in learning_goals:
-                    # Example goal: "Define and understand the concept of 'photosynthesis'..."
-                    match = re.search(r"concept of '([^']*)'", goal)
-                    if match:
-                        concept_name = match.group(1)
+                    # Enhanced regex for philosophical goals
+                    match_relational = re.search(r"concept of '([^']*)' and its relationship to the core value of '([^']*)'", goal)
+                    match_simple = re.search(r"concept of '([^']*)'", goal)
+
+                    concept_name = None
+                    core_value = None
+
+                    if match_relational:
+                        concept_name = match_relational.group(1)
+                        core_value = match_relational.group(2)
+                        self.logger.info(f"Tutor Cortex is now learning about '{concept_name}' in relation to '{core_value}'.")
+                    elif match_simple:
+                        concept_name = match_simple.group(1)
                         self.logger.info(f"Tutor Cortex is now learning about: {concept_name}")
+
+                    if concept_name:
                         try:
-                            self.tutor_cortex.learn_concept(concept_name)
+                            # Assuming the learn_concept method can handle a related value, or ignore it if None
+                            self.tutor_cortex.learn_concept(concept_name, related_to=core_value)
                             learned_count += 1
-                            log_experience('guardian', 'learning', {'concept': concept_name, 'source': 'self-reflection'})
+                            log_experience('guardian', 'learning', {'concept': concept_name, 'related_to': core_value, 'source': 'self-reflection'})
+
+                            reflection_thought = f"'{concept_name}'이라는 새로운 개념에 대해 배웠다. 나의 지식 세계가 한 뼘 더 넓어졌다."
+                            if core_value:
+                                reflection_thought = f"'{concept_name}'와(과) 핵심 가치인 '{core_value}'의 관계에 대해 학습하며 나의 세계를 더 깊이 이해하게 되었다."
+
                             self.self_awareness_core.reflect(
-                                thought=f"'{concept_name}'이라는 새로운 개념에 대해 배웠다. 나의 지식 세계가 한 뼘 더 넓어졌다.",
-                                context="autonomous_learning"
+                                thought=reflection_thought,
+                                context="autonomous_learning_relational" if core_value else "autonomous_learning"
                             )
+
                         except Exception as e:
                             self.logger.error(f"Tutor Cortex failed to learn about '{concept_name}'. Error: {e}")
 

@@ -79,5 +79,5 @@ class SelfReflectionCortex:
         """
         goals = []
         for gap in knowledge_gaps:
-            goals.append(f"Define and understand the concept of '{gap}' and its relationship to other concepts.")
+            goals.append(f"Define and understand the concept of '{gap}' and its relationship to the core value of 'love'.")
         return goals
