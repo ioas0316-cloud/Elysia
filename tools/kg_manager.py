@@ -104,6 +104,14 @@ class KGManager:
                 effects.append(edge)
         return effects
 
+    def get_connections(self, node_id: str) -> List[Dict]:
+        """Finds all edges connected to a node (both incoming and outgoing)."""
+        connections = []
+        for edge in self.kg['edges']:
+            if edge['source'] == node_id or edge['target'] == node_id:
+                connections.append(edge)
+        return connections
+
     def get_summary(self):
         return {"nodes": len(self.kg['nodes']), "edges": len(self.kg['edges'])}
 

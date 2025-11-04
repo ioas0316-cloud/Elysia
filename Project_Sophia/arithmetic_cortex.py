@@ -68,3 +68,18 @@ class ArithmeticCortex:
         log_experience('arithmetic_cortex', 'cognition', {'step': 'verification_complete', 'thought': thought, 'is_true': is_true})
         
         return is_true
+
+    def is_arithmetic_query(self, message: str) -> bool:
+        """
+        Checks if a message is an arithmetic query.
+        """
+        # Simple check for keywords and numbers
+        return "계산해줘" in message or re.search(r'\d[\s\+\-\*\/]+\d', message)
+
+    def process(self, message: str) -> float | None:
+        """
+        Processes a natural language arithmetic query.
+        """
+        # Extract the expression from the message
+        expression = re.sub(r'계산해줘:|는\?', '', message).strip()
+        return self.evaluate(expression)

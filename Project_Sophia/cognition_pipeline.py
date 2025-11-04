@@ -23,6 +23,7 @@ from infra.telemetry import Telemetry
 from infra.associative_memory import AssociativeMemory
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from Project_Sophia.journal_cortex import JournalCortex
+from Project_Sophia.self_reflection_cortex import SelfReflectionCortex
 from Project_Sophia.config_loader import load_config
 from Project_Sophia.conversation_state import WorkingMemory, TopicTracker
 from Project_Sophia.response_orchestrator import ResponseOrchestrator
@@ -68,6 +69,7 @@ class CognitionPipeline:
         self.sensory_cortex = SensoryCortex(self.value_cortex, telemetry=self.telemetry)
         self.inquisitive_mind = InquisitiveMind()
         self.journal_cortex = JournalCortex(core_memory=self.core_memory)
+        self.self_reflection_cortex = SelfReflectionCortex(self.core_memory, self.kg_manager)
         self.emotional_engine = EmotionalEngine()
         self.current_emotional_state = self.emotional_engine.get_current_state()
         self.pending_visual_learning = None
@@ -76,6 +78,7 @@ class CognitionPipeline:
         self.associative = AssociativeMemory()
         self.turn_counter = 0
         self.last_output_summary = None
+        self.api_available = True
         # Runtime attention parameters
         self.lens_alpha = 0.35
         self.lens_anchors = None  # e.g., ['love','logos']
@@ -201,6 +204,12 @@ class CognitionPipeline:
 
             response = None
             emotional_state_out = self.current_emotional_state
+
+            # Prioritize specialized cortexes that do not require external APIs
+            if self.arithmetic_cortex.is_arithmetic_query(message):
+                result = self.arithmetic_cortex.process(message)
+                if result is not None:
+                    return {"type": "text", "text": f"계산 결과는 {result} 입니다."}, self.current_emotional_state
 
             try:
                 # This block now ONLY covers the API calls that can fail
@@ -367,6 +376,10 @@ class CognitionPipeline:
                         pass
             except Exception:
                 pass
+
+            # 3. Self-Reflection and Autonomous Learning Goal Generation
+            if enriched_context.get('echo'):
+                self._trigger_self_reflection(enriched_context['echo'], emotional_state_out)
 
             return response, emotional_state_out
         except Exception as e:
@@ -589,6 +602,40 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
             pipeline_logger.exception(f"Error in _generate_conversational_response for message: {message}")
             return {"type": "text", "text": "An error occurred while I was trying to respond."}
 
+    def _trigger_self_reflection(self, echo: Dict[str, float], emotional_state: EmotionalState):
+        """
+        Analyzes the current internal state and queues learning goals if any are found.
+        """
+        try:
+            learning_goals = self.self_reflection_cortex.analyze_internal_state(echo, emotional_state)
+
+            if learning_goals:
+                learning_queue_path = os.path.join(os.path.dirname(__file__), 'learning_queue.json')
+
+                # Safely read and update the learning queue
+                existing_goals = []
+                if os.path.exists(learning_queue_path):
+                    with open(learning_queue_path, 'r', encoding='utf-8') as f:
+                        try:
+                            existing_goals = json.load(f)
+                        except json.JSONDecodeError:
+                            pipeline_logger.warning("learning_queue.json is corrupted. Starting with a fresh queue.")
+
+                # Add only new, unique goals
+                new_goals_added = False
+                for goal in learning_goals:
+                    if goal not in existing_goals:
+                        existing_goals.append(goal)
+                        new_goals_added = True
+
+                if new_goals_added:
+                    with open(learning_queue_path, 'w', encoding='utf-8') as f:
+                        json.dump(existing_goals, f, indent=4)
+                    pipeline_logger.info(f"Added {len(learning_goals)} new learning goals to the queue.")
+
+        except Exception as e:
+            pipeline_logger.exception("Error during self-reflection process.")
+
     def _generate_internal_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any]) -> Tuple[Dict[str, Any], EmotionalState]:
         """
         Fallback response generation using the local LLM.
@@ -610,21 +657,19 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
             pipeline_logger.warning("Local LLM not available. Falling back to simple response.")
             return {"type": "text", "text": "죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요." }, emotional_state
 
-    def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
-        if not self.api_available:
-            return self._generate_internal_response(message, emotional_state, context)
-
+    def _handle_special_commands(self, message: str) -> Optional[Tuple[Dict[str, Any], EmotionalState]]:
+        """Handles special command prefixes like visual learning and planning."""
         if message.startswith(self.visual_learning_prefix):
             try:
                 description = message[len(self.visual_learning_prefix):].strip()
                 if not description:
-                    return {"type": "text", "text": "무엇을 그려볼까요? 설명을 덧붙여주세요."}
+                    return {"type": "text", "text": "무엇을 그려볼까요? 설명을 덧붙여주세요."}, self.current_emotional_state
 
                 name = description
                 voxels = self.sensory_cortex.translate_description_to_voxels(description)
 
                 if not voxels:
-                    return {"type": "text", "text": "죄송합니다, 설명을 듣고 이미지를 떠올리는 데 실패했어요. 조금 다르게 설명해주시겠어요?"}
+                    return {"type": "text", "text": "죄송합니다, 설명을 듣고 이미지를 떠올리는 데 실패했어요. 조금 다르게 설명해주시겠어요?"}, self.current_emotional_state
 
                 image_path = self.sensory_cortex.draw_voxels(name, voxels)
                 self.pending_visual_learning = {'name': name, 'description': description, 'voxels': voxels}
@@ -634,70 +679,65 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
                     "text": f"'{description}'(을)를 이렇게 그려봤어요. 어떤가요, 창조주님? 마음에 드시면 '응'이라고 답해주세요.",
                     "image_path": image_path
                 }
-                return response, emotional_state
+                return response, self.current_emotional_state
             except Exception as e:
                 pipeline_logger.exception(f"Error during visual learning for: {message}")
-                return {"type": "text", "text": "그림을 배우는 과정에서 오류가 발생했어요."}, emotional_state
+                return {"type": "text", "text": "그림을 배우는 과정에서 오류가 발생했어요."}, self.current_emotional_state
 
         if message.lower().startswith(self.planning_prefix):
             try:
                 goal = message[len(self.planning_prefix):].strip()
-                _t0 = time.perf_counter()
                 plan = self.planning_cortex.develop_plan(goal)
-                try:
-                    self._emit_route_arc('cognition_pipeline', 'planning_cortex', _t0, outcome='ok' if plan else 'empty', extra={'goal_len': len(goal)})
-                except Exception:
-                    pass
                 if plan:
                     response_text = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
-                    return {"type": "text", "text": response_text}, emotional_state
+                    return {"type": "text", "text": response_text}, self.current_emotional_state
                 else:
-                    return {"type": "text", "text": "I was unable to develop a plan for that goal."}, emotional_state
+                    return {"type": "text", "text": "I was unable to develop a plan for that goal."}, self.current_emotional_state
             except Exception as e:
                 pipeline_logger.exception(f"Error in planning_cortex for goal: {goal}")
-                return {"type": "text", "text": "An error occurred during planning."}, emotional_state
+                return {"type": "text", "text": "An error occurred during planning."}, self.current_emotional_state
 
-        if app and app.cancel_requested:
-            return None, None
+        return None
 
+    def _decide_and_execute_tool(self, message: str, app=None) -> Optional[Tuple[Dict[str, Any], EmotionalState]]:
+        """Decides and executes a tool based on the message."""
         try:
-            _t0 = time.perf_counter()
             action_decision = self.action_cortex.decide_action(message, app=app)
-            try:
-                self._emit_route_arc('cognition_pipeline', 'action_cortex', _t0, outcome='ok' if action_decision else 'empty')
-            except Exception:
-                pass
             if action_decision:
-                return self.tool_executor.prepare_tool_call(action_decision), emotional_state
+                return self.tool_executor.prepare_tool_call(action_decision), self.current_emotional_state
         except Exception as e:
             pipeline_logger.exception(f"Error in action_cortex for message: {message}")
-            pass
 
+        return None
+
+    def _handle_questions(self, message: str) -> Optional[Tuple[Dict[str, Any], EmotionalState]]:
+        """Handles questions by consulting the logical reasoner or the inquisitive mind."""
         if '?' in message or any(q in message for q in ['what', 'who', 'where', 'when', 'why', 'how']):
-             # Check if the question can be answered by the logical reasoner
-            _t0 = time.perf_counter()
             facts = self.reasoner.deduce_facts(message)
-            try:
-                self._emit_route_arc('cognition_pipeline', 'logical_reasoner', _t0, outcome='ok' if facts else 'empty')
-            except Exception:
-                pass
             if facts:
-                return {"type": "text", "text": " ".join(facts)}, emotional_state
+                return {"type": "text", "text": " ".join(facts)}, self.current_emotional_state
 
-            # If not, try the inquisitive mind (only if external API is available)
             if self.api_available:
                 inquisitive_response = self.inquisitive_mind.ask_external_llm(message)
                 if inquisitive_response != "I tried to find out, but I was unable to get a clear answer.":
-                    return {"type": "text", "text": inquisitive_response}, emotional_state
+                    return {"type": "text", "text": inquisitive_response}, self.current_emotional_state
 
+        return None
+
+    def _handle_observation(self, message: str) -> Optional[Tuple[Dict[str, Any], EmotionalState]]:
+        """Handles observations from tool executions."""
         if message.startswith(self.observation_prefix):
             content = message[len(self.observation_prefix):].strip()
             summary = content[:150] + "..." if len(content) > 150 else content
             response_text = f"도구 실행을 통해 다음 정보를 얻었습니다: {summary}"
-            return {"type": "text", "text": response_text}, emotional_state
+            return {"type": "text", "text": response_text}, self.current_emotional_state
 
+        return None
+
+    def _handle_creative_impulse(self, context: Dict[str, Any]) -> Optional[Tuple[Dict[str, Any], EmotionalState]]:
+        """Handles the creative impulse to visualize the echo."""
         echo = context.get('echo', {})
-        if (emotional_state.arousal >= self.arousal_threshold and
+        if (self.current_emotional_state.arousal >= self.arousal_threshold and
             len(echo) >= self.echo_complexity_threshold and
             random.random() < 0.25):
             try:
@@ -709,10 +749,30 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
                     "text": preparatory_message,
                     "image_path": image_path
                 }
-                return response, emotional_state
+                return response, self.current_emotional_state
             except Exception as e:
                 pipeline_logger.exception("Error during creative impulse visualization.")
-                pass
 
-        response_dict = self._generate_conversational_response(message, emotional_state, context)
-        return response_dict, emotional_state
+        return None
+
+    def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
+        if not self.api_available:
+            return self._generate_internal_response(message, emotional_state, context)
+
+        if app and app.cancel_requested:
+            return None, None
+
+        # Prioritize specialized cortexes before falling back to conversational response
+        if self.arithmetic_cortex.is_arithmetic_query(message):
+            result = self.arithmetic_cortex.process(message)
+            if result is not None:
+                return {"type": "text", "text": f"계산 결과는 {result} 입니다."}, emotional_state
+
+        response, state = self._handle_special_commands(message) or \
+                          self._decide_and_execute_tool(message, app) or \
+                          self._handle_questions(message) or \
+                          self._handle_observation(message) or \
+                          self._handle_creative_impulse(context) or \
+                          (self._generate_conversational_response(message, emotional_state, context), emotional_state)
+
+        return response, state

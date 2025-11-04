@@ -5,6 +5,7 @@ import time
 import sys
 import os
 import json
+import re
 import ctypes
 import logging
 from logging.handlers import RotatingFileHandler
@@ -15,6 +16,8 @@ from Project_Sophia.safety_guardian import SafetyGuardian, ActionCategory, Matur
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
+from Project_Sophia.tutor_cortex import TutorCortex
+from tools.kg_manager import KGManager
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -34,6 +37,9 @@ class Guardian:
         self.experience_integrator = ExperienceIntegrator()
         self.self_awareness_core = SelfAwarenessCore()
         self.daemon_process = None
+        self.kg_manager = KGManager()
+        self.tutor_cortex = TutorCortex(self.kg_manager)
+        self.learning_queue_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Project_Sophia', 'learning_queue.json'))
 
         # Wallpaper mapping
         self.faces_dir = os.path.join(os.path.dirname(__file__), 'faces')
@@ -297,11 +303,20 @@ class Guardian:
 
     def trigger_learning(self):
         """
-        Triggers the experience integration process during the IDLE state.
-        This is Elysia's "dreaming" process, where she makes sense of her recent experiences.
+        Triggers the experience integration and autonomous learning process during the IDLE state.
+        This is Elysia's "dreaming" process, where she makes sense of her recent experiences
+        and proactively learns new things.
         """
-        self.logger.info("Dream cycle initiated. Integrating recent experiences...")
+        self.logger.info("Dream cycle initiated. Integrating experiences and checking for new learning goals...")
         
+        # 1. Experience Integration (existing logic)
+        self._integrate_experiences()
+
+        # 2. Autonomous Learning from the Queue
+        self._process_learning_queue()
+
+    def _integrate_experiences(self):
+        """Integrates recent experiences from the log file."""
         if not os.path.exists(self.experience_log_path):
             self.logger.info("No experience log found. Nothing to dream about.")
             return
@@ -316,25 +331,16 @@ class Guardian:
 
             with open(self.experience_log_path, 'r', encoding='utf-8') as f:
                 f.seek(self.last_experience_log_size)
-                
                 new_experiences = f.readlines()
                 integrated_count = 0
-
                 for line in new_experiences:
-                    if not line.strip():
-                        continue
+                    if not line.strip(): continue
                     try:
                         log_entry = json.loads(line)
-                        
                         content = f"Event: {log_entry.get('type')}, Source: {log_entry.get('source')}, Data: {json.dumps(log_entry.get('data', {}))}"
                         category = log_entry.get('type', 'unknown')
                         context = log_entry.get('source', 'unknown')
-                        
-                        self.experience_integrator.add_experience(
-                            content=content,
-                            category=category,
-                            context=context
-                        )
+                        self.experience_integrator.add_experience(content=content, category=category, context=context)
                         integrated_count += 1
                     except json.JSONDecodeError:
                         self.logger.warning(f"Could not parse line in experience log: {line.strip()}")
@@ -342,15 +348,62 @@ class Guardian:
                         self.logger.error(f"Error integrating one experience: {e}")
 
                 self.last_experience_log_size = f.tell()
-                
                 if integrated_count > 0:
-                    self.logger.info(f"Dream cycle completed. Integrated {integrated_count} new experiences.")
+                    self.logger.info(f"Dream cycle part 1 completed. Integrated {integrated_count} new experiences.")
                     self.experience_integrator.save_memory()
                 else:
-                    self.logger.info("Finished dream cycle. No valid new experiences found.")
-
+                    self.logger.info("Finished experience integration. No valid new experiences found.")
         except Exception as e:
-            self.logger.error(f"A critical error occurred during the dream cycle: {e}")
+            self.logger.error(f"A critical error occurred during experience integration: {e}")
+
+    def _process_learning_queue(self):
+        """Processes learning goals from the learning_queue.json."""
+        if not os.path.exists(self.learning_queue_path):
+            self.logger.info("Learning queue not found. No autonomous learning to perform.")
+            return
+
+        try:
+            with open(self.learning_queue_path, 'r+', encoding='utf-8') as f:
+                learning_goals = json.load(f)
+                if not learning_goals:
+                    self.logger.info("Learning queue is empty. No new concepts to learn in this dream.")
+                    return
+
+                self.logger.info(f"Found {len(learning_goals)} new learning goals in the queue. Starting autonomous learning.")
+
+                learned_count = 0
+                for goal in learning_goals:
+                    # Example goal: "Define and understand the concept of 'photosynthesis'..."
+                    match = re.search(r"concept of '([^']*)'", goal)
+                    if match:
+                        concept_name = match.group(1)
+                        self.logger.info(f"Tutor Cortex is now learning about: {concept_name}")
+                        try:
+                            self.tutor_cortex.learn_concept(concept_name)
+                            learned_count += 1
+                            log_experience('guardian', 'learning', {'concept': concept_name, 'source': 'self-reflection'})
+                            self.self_awareness_core.reflect(
+                                thought=f"'{concept_name}'이라는 새로운 개념에 대해 배웠다. 나의 지식 세계가 한 뼘 더 넓어졌다.",
+                                context="autonomous_learning"
+                            )
+                        except Exception as e:
+                            self.logger.error(f"Tutor Cortex failed to learn about '{concept_name}'. Error: {e}")
+
+                if learned_count > 0:
+                    self.logger.info(f"Autonomous learning complete. Learned {learned_count} new concepts.")
+                    # Clear the queue after processing
+                    f.seek(0)
+                    f.truncate()
+                    json.dump([], f)
+                else:
+                    self.logger.info("Finished autonomous learning session, but no new concepts were successfully learned.")
+
+        except json.JSONDecodeError:
+            self.logger.error(f"Could not parse learning queue file at: {self.learning_queue_path}. Clearing the file to prevent future errors.")
+            with open(self.learning_queue_path, 'w', encoding='utf-8') as f:
+                json.dump([], f)
+        except Exception as e:
+            self.logger.error(f"A critical error occurred during autonomous learning: {e}")
 
     def check_action_permission(self, category, action, details=None):
         """행동 허용 여부를 확인합니다."""

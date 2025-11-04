@@ -33,8 +33,10 @@ class WaveMechanics:
         hop_of = {}
 
         start_node = self.kg_manager.get_node(start_node_id)
-        if not start_node or 'embedding' not in start_node:
+        if not start_node:
             return activated_nodes
+
+        use_embeddings = 'embedding' in start_node
 
         # Queue for BFS-like spreading: (node_id, energy, hop)
         queue = deque([(start_node_id, initial_energy * max(0.5, min(2.0, float(emotion_gain))), 0)])
@@ -52,10 +54,8 @@ class WaveMechanics:
             activated_nodes[current_id] = max(activated_nodes.get(current_id, 0.0), current_energy)
 
             current_node = self.kg_manager.get_node(current_id)
-            if not current_node or 'embedding' not in current_node:
+            if not current_node:
                 continue
-
-            current_embedding = current_node['embedding']
 
             # Find neighbors
             all_neighbors = []
@@ -71,10 +71,17 @@ class WaveMechanics:
                 # refractory: skip if seen within refractory_hops
                 if nxt in hop_of and (hop_of[nxt] - hop) <= refractory_hops:
                     continue
+
                 neighbor_node = self.kg_manager.get_node(nxt)
-                if not neighbor_node or 'embedding' not in neighbor_node:
+                if not neighbor_node:
                     continue
-                sim = max(0.0, cosine_sim(current_embedding, neighbor_node['embedding']))
+
+                sim = 1.0  # Default similarity for non-embedding graphs
+                if use_embeddings:
+                    if 'embedding' not in current_node or 'embedding' not in neighbor_node:
+                        continue
+                    sim = max(0.0, cosine_sim(current_node['embedding'], neighbor_node['embedding']))
+
                 lens = 1.0
                 if lens_weights and isinstance(lens_weights, dict):
                     lens = float(lens_weights.get(nxt, 1.0))

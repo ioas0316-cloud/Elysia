@@ -27,6 +27,7 @@ class ActionCortex:
         self.tools_kg_manager.kg = self._load_tools_kg()
         self.wave_mechanics = WaveMechanics(self.tools_kg_manager)
         self.tool_schemas = self._load_tool_schemas()
+        self.api_available = True  # Assume API is available by default
 
     def _load_tools_kg(self) -> Dict:
         """Loads the dedicated knowledge graph for tools."""
@@ -86,12 +87,16 @@ class ActionCortex:
         all_node_ids = {node['id'] for node in self.tools_kg_manager.kg['nodes']}
 
         stimulus_nodes = prompt_tokens.intersection(all_node_ids)
+        print(f"[ActionCortex DEBUG] Prompt tokens: {prompt_tokens}")
+        print(f"[ActionCortex DEBUG] All node IDs: {all_node_ids}")
+        print(f"[ActionCortex DEBUG] Stimulus nodes: {stimulus_nodes}")
         if not stimulus_nodes:
             return None
 
         tool_ids = {edge['target'] for edge in self.tools_kg_manager.kg['edges'] if edge.get('relation') == 'activates'}
         source_ids = {edge['source'] for edge in self.tools_kg_manager.kg['edges'] if edge.get('relation') == 'activates'}
         tool_ids.update(all_node_ids - source_ids)
+        print(f"[ActionCortex DEBUG] Tool IDs: {tool_ids}")
 
         final_echo = {}
         for start_node in stimulus_nodes:
@@ -99,14 +104,18 @@ class ActionCortex:
             for node, energy in echo.items():
                 final_echo[node] = final_echo.get(node, 0) + energy
 
+        print(f"[ActionCortex DEBUG] Final echo: {final_echo}")
+
         if not final_echo:
             return None
 
         tool_echo = {node: energy for node, energy in final_echo.items() if node in tool_ids}
+        print(f"[ActionCortex DEBUG] Tool echo: {tool_echo}")
         if not tool_echo:
             return None
 
         best_tool = max(tool_echo, key=tool_echo.get)
+        print(f"[ActionCortex DEBUG] Best tool: {best_tool}")
         return best_tool
 
     def _extract_parameters(self, prompt: str, tool_name: str) -> Dict[str, Any]:
@@ -158,8 +167,11 @@ class ActionCortex:
 
         print(f"[ActionCortex] Best tool found via Wave Mechanics: {best_tool}")
 
-        # Step 2: Extract parameters for the chosen tool
-        parameters = self._extract_parameters(prompt, best_tool)
+        # Step 2: Extract parameters for the chosen tool, only if the API is available
+        if self.api_available:
+            parameters = self._extract_parameters(prompt, best_tool)
+        else:
+            parameters = {}
 
         return {
             "tool_name": best_tool,
