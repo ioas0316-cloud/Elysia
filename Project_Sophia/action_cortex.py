@@ -54,6 +54,26 @@ class ActionCortex:
                     },
                     "required": ["filepath"],
                 },
+            },
+            "http_request": {
+                "description": "Fetches a URL and returns a simple summary (status, title/text).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "url": {"type": "string", "description": "URL to fetch"}
+                    },
+                    "required": ["url"]
+                }
+            },
+            "fetch_url": {
+                "description": "Alias of http_request",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "url": {"type": "string"}
+                    },
+                    "required": ["url"]
+                }
             }
         }
 

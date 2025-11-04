@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Dict, Any, Optional, Tuple, Union
 import re
+import time
 import inspect
 import logging
 import os
@@ -18,12 +19,28 @@ from Project_Sophia.tool_executor import ToolExecutor
 from Project_Sophia.value_cortex import ValueCortex
 from Project_Sophia.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
+from infra.telemetry import Telemetry
+from infra.associative_memory import AssociativeMemory
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from Project_Sophia.journal_cortex import JournalCortex
+from Project_Sophia.config_loader import load_config
+from Project_Sophia.conversation_state import WorkingMemory, TopicTracker
+from Project_Sophia.response_orchestrator import ResponseOrchestrator
+from Project_Sophia.lens_profile import LensProfile
+from Project_Sophia.persistence import save_json, load_json
 from tools.kg_manager import KGManager
 from Project_Sophia.gemini_api import get_text_embedding, generate_text, APIKeyError, APIRequestError
 from Project_Sophia.vector_utils import cosine_sim
 from Project_Sophia.local_llm_cortex import LocalLLMCortex # Added for local model fallback
+from Project_Sophia.core.self_model import SelfModel
+from Project_Sophia.core.stance_manager import StanceManager
+from Project_Sophia.core.self_voice import SelfVoiceFilter
+from Project_Sophia.identity_metrics import (
+    compute_identity_integrity,
+    emit_identity_integrity,
+    compute_love_logos_alignment,
+    emit_love_logos_alignment,
+)
 
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'cognition_pipeline_errors.log')
@@ -39,10 +56,16 @@ class CognitionPipeline:
         self.action_cortex = ActionCortex()
         self.tool_executor = ToolExecutor()
         self.kg_manager = KGManager()
-        self.wave_mechanics = WaveMechanics(self.kg_manager)
+        self.telemetry = Telemetry()
+        # Housekeeping: compress older telemetry beyond retention window (30 days)
+        try:
+            self.telemetry.cleanup_retention(retain_days=30)
+        except Exception:
+            pass
+        self.wave_mechanics = WaveMechanics(self.kg_manager, telemetry=self.telemetry)
         self.planning_cortex = PlanningCortex(core_memory=self.core_memory, action_cortex=self.action_cortex)
         self.value_cortex = ValueCortex()
-        self.sensory_cortex = SensoryCortex(self.value_cortex)
+        self.sensory_cortex = SensoryCortex(self.value_cortex, telemetry=self.telemetry)
         self.inquisitive_mind = InquisitiveMind()
         self.journal_cortex = JournalCortex(core_memory=self.core_memory)
         self.emotional_engine = EmotionalEngine()
@@ -50,17 +73,81 @@ class CognitionPipeline:
         self.pending_visual_learning = None
         self.api_available = True
         self.local_llm_cortex = None # Initialize local LLM cortex
+        self.associative = AssociativeMemory()
+        self.turn_counter = 0
+        self.last_output_summary = None
+        # Runtime attention parameters
+        self.lens_alpha = 0.35
+        self.lens_anchors = None  # e.g., ['love','logos']
 
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
         with open(config_path, 'r', encoding='utf-8') as f:
             config = json.load(f)
+        try:
+            config = load_config()
+        except Exception:
+            pass
         self.prefixes = config.get('prefixes', {})
         self.planning_prefix = self.prefixes.get('planning', 'plan and execute:')
         self.observation_prefix = self.prefixes.get('observation', 'The result of the tool execution is:')
         self.visual_learning_prefix = self.prefixes.get('visual_learning', '이것을 그려보자:')
         creative_impulse_config = config.get('creative_impulse', {})
+        # Fix potentially garbled visual learning prefix
+        try:
+            if (not isinstance(self.visual_learning_prefix, str)) or ('\ufffd' in self.visual_learning_prefix) or ('?' in self.visual_learning_prefix):
+                self.visual_learning_prefix = '이것을 그려보자:'
+        except Exception:
+            self.visual_learning_prefix = '이것을 그려보자:'
         self.arousal_threshold = creative_impulse_config.get('arousal_threshold', 0.7)
         self.echo_complexity_threshold = creative_impulse_config.get('echo_complexity_threshold', 5)
+
+        # Initialize persistent conversation state and lens
+        self.working_memory = WorkingMemory(size=10)
+        self.topic_tracker = TopicTracker()
+        self.lens = LensProfile()
+        self.orchestrator = ResponseOrchestrator()
+        # Identity-centered stance/voice
+        try:
+            self.self_model = SelfModel()
+            self.stance_manager = StanceManager(self.self_model)
+            self.self_voice = SelfVoiceFilter()
+        except Exception:
+            self.self_model = None
+            self.stance_manager = None
+            self.self_voice = None
+        
+        # --- helper to emit route telemetry arcs ---
+        def _emit_route_arc(from_mod: str, to_mod: str, t0: float, outcome: str = 'ok', extra: Optional[Dict[str, Any]] = None):
+            try:
+                latency_ms = max(0.0, (time.perf_counter() - t0) * 1000.0)
+                payload = {
+                    'from_mod': from_mod,
+                    'to_mod': to_mod,
+                    'latency_ms': float(round(latency_ms, 3)),
+                    'outcome': outcome,
+                }
+                if extra:
+                    payload.update(extra)
+                self.telemetry.emit('route.arc', payload)
+            except Exception:
+                pass
+        # bind as instance method
+        self._emit_route_arc = _emit_route_arc
+        try:
+            state = load_json('conversation_state.json')
+            if isinstance(state, dict):
+                self.working_memory.restore_from(state.get('working_memory', {}))
+                self.topic_tracker.restore_from(state.get('topic_tracker', {}))
+            self.lens.restore_from(load_json('lens_profile.json'))
+        except Exception:
+            pass
+
+        # Offline-first defaults can be overridden by config
+        try:
+            llm_cfg = config.get('llm', {})
+            self.api_available = bool(llm_cfg.get('use_external_api', False))
+        except Exception:
+            self.api_available = False
 
     def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, Any], EmotionalState]:
         try:
@@ -77,6 +164,36 @@ class CognitionPipeline:
             emotional_state = self._analyze_emotions(message)
             self._update_emotional_state(emotional_state, intensity=0.4)
             enriched_context = self._enrich_context(context or {}, message)
+            # Update working memory and topic tracker per turn
+            try:
+                self.working_memory.add('user', message)
+                self.topic_tracker.step()
+                # Attention-guided pruning; compress pruned items into associative gists
+                try:
+                    topics = self.topic_tracker.snapshot()
+                    stats = self.working_memory.prune(topics, keep=6, protect_recent=2, return_items=True)
+                    try:
+                        self.telemetry.emit('wm_pruned', {'kept': stats['kept'], 'pruned': stats['pruned']})
+                    except Exception:
+                        pass
+                    pruned_items = stats.get('pruned_items', []) or []
+                    if pruned_items:
+                        # Build keywords union and a short gist
+                        kw_counts = {}
+                        for it in pruned_items:
+                            for k in it.get('keywords', []):
+                                kw_counts[k] = kw_counts.get(k, 0) + 1
+                        top_keywords = [k for k, _ in sorted(kw_counts.items(), key=lambda x: x[1], reverse=True)[:8]]
+                        summary = ' '.join(top_keywords)
+                        gid = self.associative.add_gist(top_keywords, summary, context={'topics': topics})
+                        try:
+                            self.telemetry.emit('associative_gist_saved', {'id': gid, 'keywords': top_keywords})
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+            except Exception:
+                pass
             
             memory = Memory(timestamp=datetime.now().isoformat(), content=message, emotional_state=emotional_state, context=enriched_context)
             self.core_memory.add_experience(memory)
@@ -103,6 +220,153 @@ class CognitionPipeline:
                 # We need to enrich context again without API for the internal response
                 enriched_context = self._enrich_context(context or {}, message)
                 response, emotional_state_out = self._generate_internal_response(message, self.current_emotional_state, enriched_context)
+
+            # Loop back assistant output into working/long-term memory
+            try:
+                out_text = None
+                out_type = None
+                out_image = None
+                if isinstance(response, dict):
+                    out_type = response.get('type')
+                    out_text = response.get('text') if isinstance(response.get('text'), str) else None
+                    out_image = response.get('image_path') or response.get('image')
+                if not out_text:
+                    out_text = str(response)[:500]
+
+                # Identity voice filter and metric
+                try:
+                    stance = None
+                    if self.stance_manager:
+                        try:
+                            stance = self.stance_manager.decide(message, context=enriched_context)
+                        except Exception:
+                            stance = {'name': 'companion'}
+                    filtered = out_text
+                    integrity = None
+                    if self.self_voice and self.self_model:
+                        try:
+                            filtered, integrity = self.self_voice.filter_text(out_text, stance or {'name': 'companion'}, self.self_model)
+                            if filtered:
+                                out_text = filtered
+                                if isinstance(response, dict):
+                                    response['text'] = out_text
+                        except Exception:
+                            pass
+                    # Emit identity integrity metric
+                    try:
+                        if integrity is None and self.self_model:
+                            integrity = compute_identity_integrity(out_text, self.self_model.values)
+                        if integrity is not None:
+                            emit_identity_integrity(self.telemetry, integrity, (stance or {}).get('name'))
+                        # Emit love/logos alignment (sacrificial love)
+                        try:
+                            ll = compute_love_logos_alignment(out_text)
+                            emit_love_logos_alignment(self.telemetry, ll)
+                        except Exception:
+                            pass
+                    except Exception:
+                        pass
+                except Exception:
+                    pass
+                # Working memory: mark as assistant output
+                try:
+                    self.working_memory.add('assistant', out_text)
+                except Exception:
+                    pass
+                # Long-term memory: store as experience
+                try:
+                    # Simple value alignment (keyword-based)
+                    val_kw = ['love', 'growth', 'creation', 'truth', 'care']
+                    lower = out_text.lower()
+                    matches = sum(1 for k in val_kw if k in lower)
+                    align = min(1.0, matches / max(1, len(val_kw)))
+                    mem = Memory(timestamp=datetime.now().isoformat(), content=out_text, emotional_state=emotional_state_out, context={'type': out_type, 'image_path': out_image}, value_alignment=align)
+                    self.core_memory.add_experience(mem)
+                except Exception:
+                    pass
+                # Telemetry: assistant output event
+                try:
+                    self.telemetry.emit('assistant_output', {'type': out_type or 'unknown', 'text_len': len(out_text or ''), 'has_image': bool(out_image)})
+                    self.telemetry.emit('value_alignment', {'score': float(align)})
+                except Exception:
+                    pass
+                # Keep a short UI summary
+                self.last_output_summary = out_text[:120]
+                try:
+                    self._value_align_sum += float(align)
+                    self._value_align_n += 1
+                except Exception:
+                    pass
+                # Conversation quality (language/social markers)
+                try:
+                    text_low = (out_text or '').lower()
+                    markers = {
+                        'questions': text_low.count('?'),
+                        'gratitude': sum(1 for k in ['thank', '고마', '감사'] if k in text_low),
+                        'apology': sum(1 for k in ['sorry', '미안', '죄송'] if k in text_low),
+                        'empathy': sum(1 for k in ['이해해', '공감', '들렸', '느껴'] if k in text_low),
+                        'consent': sum(1 for k in ['괜찮', '좋을까요', '허락', '해도 되'] if k in text_low)
+                    }
+                    self.telemetry.emit('conversation_quality', markers)
+                except Exception:
+                    pass
+            except Exception:
+                pass
+
+            # Persist state before returning
+            try:
+                save_json('conversation_state.json', {
+                    'working_memory': self.working_memory.serialize(),
+                    'topic_tracker': self.topic_tracker.serialize()
+                })
+                save_json('lens_profile.json', self.lens.serialize())
+            except Exception:
+                pass
+
+            # Episode summary + snapshot every N turns
+            try:
+                self.turn_counter += 1
+                if (self.turn_counter % 8) == 0:
+                    top_topics = self.topic_tracker.snapshot()
+                    try:
+                        self.journal_cortex.write_episode_summary(top_topics, emotional_state_out)
+                        self.telemetry.emit('episode_summary_saved', {'turn': self.turn_counter, 'top_topics': list(top_topics.keys())[:3]})
+                        self._episodes_count += 1
+                    except Exception:
+                        pass
+                    # Save a run snapshot manifest
+                    try:
+                        from tools.snapshot import snapshot as save_snapshot
+                        save_snapshot()
+                    except Exception:
+                        pass
+                    # Evaluate maturity and update guardian if needed
+                    try:
+                        # topic coherence with previous snapshot
+                        cur = list(top_topics.keys())
+                        if self._prev_topics:
+                            inter = len(set(cur).intersection(set(self._prev_topics)))
+                            union = max(1, len(set(cur).union(set(self._prev_topics))))
+                            tc = inter / union
+                        else:
+                            tc = 0.5
+                        self._prev_topics = cur
+                        rr = min(1.0, self._episodes_count / max(1, self.turn_counter/8))
+                        va = (self._value_align_sum / self._value_align_n) if self._value_align_n else 0.5
+                        metrics = MaturityMetrics(echo_entropy=self._last_entropy, topic_coherence=tc, reflection_rate=rr, value_alignment=va)
+                        score = self._maturity_eval.score(metrics)
+                        self.telemetry.emit('maturity_evaluated', {'score': float(score), 'level': self._maturity_eval.level(score)})
+                        guardian = SafetyGuardian()
+                        level_name = self._maturity_eval.level(score)
+                        target_level = MaturityLevel[level_name]
+                        if guardian.current_maturity != target_level:
+                            guardian.current_maturity = target_level
+                            guardian.save_config()
+                            self.telemetry.emit('maturity_updated', {'level': level_name})
+                    except Exception:
+                        pass
+            except Exception:
+                pass
 
             return response, emotional_state_out
         except Exception as e:
@@ -177,7 +441,17 @@ JSON response:
                                 highest_similarity = similarity
                                 best_match_node = node['id']
                     if best_match_node:
-                        echo = self.wave_mechanics.spread_activation(best_match_node)
+                        node_w = self.lens.build_node_weights(self.topic_tracker.snapshot())
+                        # Spatial gravity lens (3D distance to anchors)
+                        spatial_w = self.lens.build_spatial_lens(self.kg_manager, centers=self.lens_anchors, alpha=self.lens_alpha)
+                        if spatial_w:
+                            for k, v in spatial_w.items():
+                                if k in node_w:
+                                    node_w[k] *= float(v)
+                                else:
+                                    node_w[k] = float(v)
+                        gain = self.lens.emotion_gain(self.current_emotional_state.valence, self.current_emotional_state.arousal)
+                        echo = self.wave_mechanics.spread_activation(best_match_node, lens_weights=node_w, emotion_gain=gain)
             except (APIKeyError, APIRequestError) as e:
                 self.api_available = False
                 pipeline_logger.warning(f"API unavailable during context enrichment: {e}")
@@ -188,16 +462,99 @@ JSON response:
             prompt_tokens = set(re.findall(r'\w+', message.lower()))
             all_node_ids = {node['id'] for node in self.kg_manager.kg['nodes']}
             stimulus_nodes = prompt_tokens.intersection(all_node_ids)
+            node_w = self.lens.build_node_weights(self.topic_tracker.snapshot())
+            spatial_w = self.lens.build_spatial_lens(self.kg_manager, centers=self.lens_anchors, alpha=self.lens_alpha)
+            if spatial_w:
+                for k, v in spatial_w.items():
+                    if k in node_w:
+                        node_w[k] *= float(v)
+                    else:
+                        node_w[k] = float(v)
+            gain = self.lens.emotion_gain(self.current_emotional_state.valence, self.current_emotional_state.arousal)
             for start_node in stimulus_nodes:
-                temp_echo = self.wave_mechanics.spread_activation(start_node)
+                temp_echo = self.wave_mechanics.spread_activation(start_node, lens_weights=node_w, emotion_gain=gain)
                 for node, energy in temp_echo.items():
                     echo[node] = echo.get(node, 0) + energy
 
+        # Emit echo summary
+        try:
+            if echo:
+                total = sum(echo.values())
+                n = len(echo)
+                probs = [v / total for v in echo.values()] if total > 0 else []
+                import math
+                entropy = -sum(p * math.log(p + 1e-12) for p in probs) if probs else 0.0
+                topk = sorted(echo.items(), key=lambda x: x[1], reverse=True)[:5]
+                self.telemetry.emit('echo_updated', {
+                    'size': n,
+                    'total_energy': float(total),
+                    'entropy': float(entropy),
+                    'top_nodes': [{'id': k, 'e': float(v)} for k, v in topk],
+                })
+        except Exception:
+            pass
+
+        # Drift the lens based on echo "stability" (simple complexity heuristic)
+        try:
+            stable = False
+            if echo:
+                # Option A: size-based threshold
+                stable = len(echo) >= getattr(self, 'echo_complexity_threshold', 5)
+            before = self.lens.serialize()
+            self.lens.drift(arousal=self.current_emotional_state.arousal, stable=stable)
+            after = self.lens.serialize()
+            self.telemetry.emit('lens_drifted', {
+                'stable': bool(stable),
+                'before': before,
+                'after': after,
+                'arousal': float(self.current_emotional_state.arousal),
+            })
+        except Exception:
+            pass
+
+        try:
+            self.topic_tracker.reinforce_from_echo(echo)
+        except Exception:
+            pass
         enriched['echo'] = echo
+        # Echo spatial stats (center of mass & avg distance)
+        try:
+            if echo:
+                import math
+                total = sum(echo.values())
+                if total > 0:
+                    # positions map
+                    pos = {n['id']: n.get('position', {'x': 0, 'y': 0, 'z': 0}) for n in self.kg_manager.kg.get('nodes', [])}
+                    cx = sum(pos[k]['x'] * (echo[k]/total) for k in echo if k in pos)
+                    cy = sum(pos[k]['y'] * (echo[k]/total) for k in echo if k in pos)
+                    cz = sum(pos[k]['z'] * (echo[k]/total) for k in echo if k in pos)
+                    center = {'x': cx, 'y': cy, 'z': cz}
+                    dists = []
+                    for k, e in echo.items():
+                        if k in pos:
+                            p = pos[k]
+                            d = math.sqrt((p['x']-cx)**2 + (p['y']-cy)**2 + (p['z']-cz)**2)
+                            dists.append(d)
+                    avg_dist = sum(dists)/len(dists) if dists else 0.0
+                    enriched['echo_spatial'] = {'center': center, 'avg_dist': avg_dist, 'count': len(echo)}
+                    try:
+                        self.telemetry.emit('echo_spatial_stats', {'center': center, 'avg_dist': float(avg_dist), 'count': len(echo)})
+                    except Exception:
+                        pass
+        except Exception:
+            pass
         enriched['identity'] = self.core_memory.get_identity()
         if 'speaker' in context:
             enriched['relationship'] = self.core_memory.get_relationship(context['speaker'])
         enriched['relevant_experiences'] = self._find_relevant_experiences(echo)
+        # Recall associative gists by echo-top keywords
+        try:
+            if echo:
+                top_keys = [k for k, _ in sorted(echo.items(), key=lambda x: x[1], reverse=True)[:6]]
+                gists = self.associative.search(top_keys, top_k=5)
+                enriched['associative_gists'] = gists
+        except Exception:
+            pass
         return enriched
 
     def _update_emotional_state(self, new_state: EmotionalState, intensity: float = 0.5):
@@ -285,7 +642,12 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
         if message.lower().startswith(self.planning_prefix):
             try:
                 goal = message[len(self.planning_prefix):].strip()
+                _t0 = time.perf_counter()
                 plan = self.planning_cortex.develop_plan(goal)
+                try:
+                    self._emit_route_arc('cognition_pipeline', 'planning_cortex', _t0, outcome='ok' if plan else 'empty', extra={'goal_len': len(goal)})
+                except Exception:
+                    pass
                 if plan:
                     response_text = "I have developed the following plan:\n" + "".join(f"{i+1}. {a['tool_name']}({a['parameters']})\n" for i, a in enumerate(plan))
                     return {"type": "text", "text": response_text}, emotional_state
@@ -299,7 +661,12 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
             return None, None
 
         try:
+            _t0 = time.perf_counter()
             action_decision = self.action_cortex.decide_action(message, app=app)
+            try:
+                self._emit_route_arc('cognition_pipeline', 'action_cortex', _t0, outcome='ok' if action_decision else 'empty')
+            except Exception:
+                pass
             if action_decision:
                 return self.tool_executor.prepare_tool_call(action_decision), emotional_state
         except Exception as e:
@@ -308,14 +675,20 @@ Based on your identity and the conversation so far, generate a thoughtful, natur
 
         if '?' in message or any(q in message for q in ['what', 'who', 'where', 'when', 'why', 'how']):
              # Check if the question can be answered by the logical reasoner
+            _t0 = time.perf_counter()
             facts = self.reasoner.deduce_facts(message)
+            try:
+                self._emit_route_arc('cognition_pipeline', 'logical_reasoner', _t0, outcome='ok' if facts else 'empty')
+            except Exception:
+                pass
             if facts:
                 return {"type": "text", "text": " ".join(facts)}, emotional_state
 
-            # If not, try the inquisitive mind
-            inquisitive_response = self.inquisitive_mind.ask_external_llm(message)
-            if inquisitive_response != "I tried to find out, but I was unable to get a clear answer.":
-                return {"type": "text", "text": inquisitive_response}, emotional_state
+            # If not, try the inquisitive mind (only if external API is available)
+            if self.api_available:
+                inquisitive_response = self.inquisitive_mind.ask_external_llm(message)
+                if inquisitive_response != "I tried to find out, but I was unable to get a clear answer.":
+                    return {"type": "text", "text": inquisitive_response}, emotional_state
 
         if message.startswith(self.observation_prefix):
             content = message[len(self.observation_prefix):].strip()

@@ -9,11 +9,11 @@ python -m pip install -r requirements.txt
 ECHO [Startup] Preparation complete. Awakening Elysia's heart directly.
 
 REM Run the Flask web application in the background
-set FLASK_APP=applications/elysia_bridge.py
+set FLASK_APP=applications/elysia_api.py
 start /b python -m flask run --host=0.0.0.0
 
 REM Wait for the server to start
 timeout /t 2 /nobreak > nul
 
 REM Open the web browser
-start http://127.0.0.1:5000
+start http://127.0.0.1:5000/monitor

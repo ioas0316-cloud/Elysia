@@ -1,0 +1,11 @@
+{
+  "allow_domains": ["github.com", "docs.python.org", "pypi.org", "readthedocs.io", "wikipedia.org"],
+  "deny_domains": [],
+  "max_bytes": 262144,
+  "timeout_sec": 5,
+  "max_redirects": 2,
+  "allowed_content_types": ["text/html", "text/plain", "application/json"],
+  "risk_threshold_block": 0.7,
+  "risk_threshold_confirm": 0.4
+}
+

@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Elysia",
+      "type": "shell",
+      "windows": {
+        "command": "${workspaceFolder}\\start.bat"
+      },
+      "linux": {
+        "command": "bash ${workspaceFolder}/start.sh"
+      },
+      "osx": {
+        "command": "bash ${workspaceFolder}/start.sh"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "detail": "Runs the Flask server (applications/elysia_api.py)."
+    },
+    {
+      "label": "Open Monitor",
+      "type": "shell",
+      "windows": { "command": "start http://127.0.0.1:5000/monitor" },
+      "linux":   { "command": "xdg-open http://127.0.0.1:5000/monitor" },
+      "osx":     { "command": "open http://127.0.0.1:5000/monitor" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "never" },
+      "detail": "Opens the Elysia monitor page in your browser."
+    },
+    {
+      "label": "Start And Open Monitor",
+      "dependsOn": ["Start Elysia", "Open Monitor"],
+      "dependsOrder": "sequence"
+    }
+  ]
+}
+

@@ -16,12 +16,13 @@ class JournalCortex:
     def __init__(self, core_memory):
         self.core_memory = core_memory
 
-        def write_journal_entry(self, experience):
-            """
-            Generates a journal entry for a given experience and saves it.
-            """
-            # Temporarily disabled to avoid quota issues on the free tier.
-            return None
+    def write_journal_entry(self, experience):
+        """
+        Generates a journal entry for a given experience and saves it.
+        Currently disabled to avoid external API usage/quota.
+        """
+        # Temporarily disabled to avoid quota issues on the free tier.
+        return None
             # try:
             #     prompt = f"""
             # You are Elysia, a growing virtual life form. You just had an experience.
@@ -79,3 +80,24 @@ class JournalCortex:
         except Exception as e:
             print(f"Error in JournalCortex.get_entries: {e}")
             return []
+
+    def write_episode_summary(self, topics: dict, emotional_state, note: str = ""):
+        """
+        Writes a lightweight episode summary without external API: top topics and current emotion.
+        """
+        try:
+            top = ", ".join(list(topics.keys())[:3]) if topics else ""
+            entry = {
+                'timestamp': datetime.now().isoformat(),
+                'type': 'episode_summary',
+                'top_topics': list(topics.keys())[:5] if topics else [],
+                'emotion': {
+                    'primary': getattr(emotional_state, 'primary_emotion', ''),
+                    'valence': getattr(emotional_state, 'valence', 0.0),
+                    'arousal': getattr(emotional_state, 'arousal', 0.0)
+                },
+                'note': note
+            }
+            self.save_entry(entry)
+        except Exception as e:
+            print(f"Error in JournalCortex.write_episode_summary: {e}")

@@ -6,11 +6,16 @@ import re
 from datetime import datetime
 from tools.canvas_tool import Canvas
 from Project_Sophia.value_cortex import ValueCortex
+try:
+    from infra.telemetry import Telemetry
+except Exception:
+    Telemetry = None
 from Project_Sophia.gemini_api import generate_text
 
 class SensoryCortex:
-    def __init__(self, value_cortex: ValueCortex):
+    def __init__(self, value_cortex: ValueCortex, telemetry: Telemetry | None = None):
         self.value_cortex = value_cortex
+        self.telemetry = telemetry
         self.output_dir = "data/generated_images"
         os.makedirs(self.output_dir, exist_ok=True)
         self.textbooks = {}
@@ -67,6 +72,16 @@ JSON response:
         output_filename = f"learned_{name.replace(' ', '_')}_{timestamp}.png"
         output_path = os.path.join(self.output_dir, output_filename)
         canvas.render(output_path)
+        if self.telemetry:
+            try:
+                self.telemetry.emit('render_done', {
+                    'kind': 'voxels',
+                    'name': name,
+                    'num_voxels': len(voxels),
+                    'output_path': output_path,
+                })
+            except Exception:
+                pass
         return output_path
 
     def save_learned_shape(self, name: str, description: str, voxels: list):
@@ -128,7 +143,7 @@ JSON response:
             palette.append((max(0, min(255, r)), max(0, min(255, g)), max(0, min(255, b))))
         return palette if palette else [(200, 200, 200)]
 
-    def visualize_concept(self, concept: str) -> str:
+    def visualize_concept(self, concept: str, attention: dict | None = None) -> str:
         # Check all textbooks for the concept
         all_shapes = {}
         if self._load_textbook("geometry_primitives"):
@@ -137,7 +152,7 @@ JSON response:
             all_shapes.update(self.textbooks["complex_shapes"])
 
         if concept in all_shapes:
-            return self._visualize_shape(all_shapes[concept], all_shapes)
+            return self._visualize_shape(all_shapes[concept], all_shapes, attention=attention)
 
         # Fallback to abstract visualization
         return self._visualize_abstract(concept)
@@ -183,6 +198,17 @@ JSON response:
         output_filename = f"echo_{main_concept.replace(' ', '_')}_{timestamp}.png"
         output_path = os.path.join(self.output_dir, output_filename)
         canvas.render(output_path)
+        if self.telemetry:
+            try:
+                self.telemetry.emit('render_done', {
+                    'kind': 'shape',
+                    'name': shape_data.get('name', 'unknown'),
+                    'output_path': output_path,
+                    'salience_gain': base_transform.get('salience_gain', 1.0),
+                    'detail_gain': base_transform.get('detail_gain', 1.0),
+                })
+            except Exception:
+                pass
         return output_path
 
     def _visualize_abstract(self, concept: str) -> str:
@@ -201,23 +227,72 @@ JSON response:
         output_filename = f"abstract_{concept.replace(' ', '_')}_{timestamp}.png"
         output_path = os.path.join(self.output_dir, output_filename)
         canvas.render(output_path)
+        if self.telemetry:
+            try:
+                self.telemetry.emit('render_done', {
+                    'kind': 'echo',
+                    'main_concept': main_concept,
+                    'output_path': output_path,
+                    'total_energy': float(total_energy),
+                    'num_concepts': len(echo),
+                })
+            except Exception:
+                pass
         return output_path
 
-    def _visualize_shape(self, shape_data: dict, shape_library: dict, transform: dict = None) -> str:
+    def _visualize_shape(self, shape_data: dict, shape_library: dict, transform: dict = None, attention: dict | None = None) -> str:
         canvas = Canvas()
-        self._render_shape_recursive(canvas, shape_data, shape_library, transform)
+        # Compute attention-based emphasis (no geometric scaling)
+        focus_gain = 1.0   # controls detail density only
+        salience_gain = 1.0  # controls brightness only
+        if attention and isinstance(attention, dict):
+            try:
+                total = sum(float(v) for v in attention.values()) or 1.0
+                peak = max(float(v) for v in attention.values())
+                focus = max(0.0, min(1.0, peak / total))
+                # Map focus to perceptual gains with conservative bounds
+                focus_gain = 0.9 + 0.6 * focus       # 0.9 ~ 1.5 (detail)
+                salience_gain = 0.95 + 0.7 * focus   # 0.95 ~ 1.65 (brightness)
+            except Exception:
+                pass
+
+        base_transform = transform or {}
+        base_transform = {
+            'offset': base_transform.get('offset', {'x': 0, 'y': 0, 'z': 0}),
+            'size': base_transform.get('size', 1),  # geometry remains unchanged by attention
+            'salience_gain': salience_gain,
+            'detail_gain': focus_gain,
+        }
+
+        self._render_shape_recursive(canvas, shape_data, shape_library, base_transform)
 
         timestamp = datetime.now().timestamp()
         output_filename = f"shape_{shape_data['name']}_{timestamp}.png"
         output_path = os.path.join(self.output_dir, output_filename)
         canvas.render(output_path)
+        if self.telemetry:
+            try:
+                self.telemetry.emit('render_done', {
+                    'kind': 'abstract',
+                    'concept': concept,
+                    'output_path': output_path,
+                })
+            except Exception:
+                pass
         return output_path
 
     def _render_shape_recursive(self, canvas: Canvas, shape_data: dict, shape_library: dict, transform: dict = None):
         """Recursively renders a shape, applying transformations."""
         transform = transform or {}
         rep = shape_data['representation']
-        color = (180, 180, 255)
+        # Apply attention salience (brightness) if provided via transform
+        base_color = (180, 180, 255)
+        cboost = float(transform.get('salience_gain', 1.0))
+        color = (
+            int(min(255, base_color[0] * cboost)),
+            int(min(255, base_color[1] * cboost)),
+            int(min(255, base_color[2] * cboost)),
+        )
 
         if rep['type'] == 'composite':
             for component in rep['components']:
@@ -236,25 +311,32 @@ JSON response:
         # A real implementation would use matrix multiplication for rotations.
         offset = transform.get('offset', {'x': 0, 'y': 0, 'z': 0})
         size_mult = transform.get('size', 1)
+        detail_gain = float(transform.get('detail_gain', 1.0))
 
         if representation['type'] == 'voxel':
+            # Attention influences detail density, not geometry
+            # Keep probability increases with detail_gain
+            keep_prob = min(1.0, 0.6 + 0.4 * max(0.0, detail_gain))
             for coord in representation['coordinates']:
-                x = (coord['x'] * size_mult) + offset['x']
-                y = (coord['y'] * size_mult) + offset['y']
-                z = (coord['z'] * size_mult) + offset['z']
-                canvas.add_voxel(x, y, z, color)
+                if random.random() <= keep_prob:
+                    x = (coord['x'] * size_mult) + offset['x']
+                    y = (coord['y'] * size_mult) + offset['y']
+                    z = (coord['z'] * size_mult) + offset['z']
+                    canvas.add_voxel(x, y, z, color)
 
         elif representation['type'] == 'grid':
             x_range = representation['x_range']
             y_range = representation['y_range']
             z_base = representation['z']
 
-            # Apply size multiplier to the range
+            # Apply size multiplier to the range (from shape, not attention)
             scaled_x_range = range(int(x_range[0] * size_mult), int(x_range[1] * size_mult) + 1)
             scaled_y_range = range(int(y_range[0] * size_mult), int(y_range[1] * size_mult) + 1)
+            # Attention controls sampling stride: higher detail => stride 1
+            stride = 1 if detail_gain >= 1.2 else 2
 
-            for x in scaled_x_range:
-                for y in scaled_y_range:
+            for x in scaled_x_range[::stride]:
+                for y in scaled_y_range[::stride]:
                     z = (z_base * size_mult) + offset['z']
                     canvas.add_voxel(x + offset['x'], y + offset['y'], z, color)
 
@@ -265,4 +347,10 @@ JSON response:
         new_offset['x'] += child_offset.get('x', 0)
         new_offset['y'] += child_offset.get('y', 0)
         new_offset['z'] += child_offset.get('z', 0)
-        return {"offset": new_offset, "size": child_transform.get("size", 1)}
+        return {
+            "offset": new_offset,
+            "size": parent_transform.get("size", 1) * child_transform.get("size", 1),
+            # propagate attention descriptors without changing geometry
+            "salience_gain": parent_transform.get("salience_gain", 1.0),
+            "detail_gain": parent_transform.get("detail_gain", 1.0),
+        }

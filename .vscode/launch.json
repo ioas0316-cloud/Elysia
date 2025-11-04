@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Open Monitor (after Start Task)",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://127.0.0.1:5000/monitor",
+      "preLaunchTask": "Start Elysia"
+    },
+    {
+      "name": "Flask: Run (elysia_api)",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "env": {
+        "FLASK_APP": "applications/elysia_api.py"
+      },
+      "args": [
+        "run",
+        "--host=0.0.0.0"
+      ],
+      "justMyCode": true
+    }
+  ]
+}
+

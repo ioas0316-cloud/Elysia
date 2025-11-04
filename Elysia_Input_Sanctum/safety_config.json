@@ -1,0 +1,69 @@
+{
+  "maturity": "MATURE",
+  "action_limits": {
+    "MATURE": {
+      "system_control": {
+        "mouse_move": "monitored",
+        "keyboard_input": "monitored",
+        "screen_access": "allowed"
+      },
+      "file_access": {
+        "read": "monitored",
+        "write": "restricted",
+        "execute": "restricted"
+      },
+      "network_access": {
+        "outbound": "monitored",
+        "inbound": "monitored"
+      },
+      "process_control": {
+        "spawn": "restricted",
+        "kill": "restricted"
+      },
+      "memory_access": {
+        "read": "monitored",
+        "write": "monitored"
+      }
+    }
+  },
+  "safety_rules": {
+    "system_control": {
+      "rapid_action_limit": {
+        "max_actions_per_minute": 60,
+        "violation_action": "warning"
+      }
+    },
+    "file_access": {
+      "protected_paths": [
+        "/system/",
+        "/config/",
+        "safety_config.json"
+      ],
+      "max_file_size": 2097152,
+      "allowed_extensions": [".txt", ".json", ".log", ".md"]
+    },
+    "network_access": {
+      "allowed_services": ["gemini", "huggingface"],
+      "rate_limit_per_min": 30
+    },
+    "process_control": {
+      "allowed_binaries": [],
+      "denylist": []
+    }
+  },
+  "override_policy": {
+    "file_access": {
+      "read": "allow",
+      "write": "sandbox",
+      "execute": "deny"
+    },
+    "network_access": {
+      "outbound": "sandbox",
+      "inbound": "sandbox"
+    },
+    "process_control": {
+      "spawn": "sandbox",
+      "kill": "deny"
+    }
+  }
+}

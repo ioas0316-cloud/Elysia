@@ -9,6 +9,7 @@ sys.path.insert(0, project_root)
 from tools.canvas_tool import Canvas
 from tools.kg_manager import KGManager
 from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.lens_profile import LensProfile
 
 
 def visualize_kg(start_node_id: str = None):
@@ -45,14 +46,50 @@ def visualize_kg(start_node_id: str = None):
     center = [(max_coord[i] + min_coord[i]) / 2 for i in range(3)]
     scale = 20
 
-    # Draw edges
+    # Draw edges with traffic coloring if we have activations
+    def energy_to_color(e: float) -> tuple:
+        # e expected in [0,1+] – map to green/yellow/orange/red
+        if e >= 0.75:
+            return (231, 76, 60)   # red (blocked)
+        if e >= 0.5:
+            return (230, 126, 34)  # orange (slow)
+        if e >= 0.25:
+            return (241, 196, 15)  # yellow (moderate)
+        return (46, 204, 113)      # green (free)
+
+    max_e = max(activated_nodes.values()) if activated_nodes else 1.0
     for edge in kg['edges']:
         source_node, target_node = kg_manager.get_node(edge['source']), kg_manager.get_node(edge['target'])
         if source_node and target_node:
             start_pos, end_pos = source_node['position'], target_node['position']
             x1, y1 = canvas._project(*[(start_pos[axis] - center[i]) * scale for i, axis in enumerate(['x','y','z'])])
             x2, y2 = canvas._project(*[(end_pos[axis] - center[i]) * scale for i, axis in enumerate(['x','y','z'])])
-            canvas.draw.line([(x1, y1), (x2, y2)], fill=(80, 80, 120), width=1)
+            if start_node_id or activated_nodes:
+                es = activated_nodes.get(edge['source'], 0.0)
+                et = activated_nodes.get(edge['target'], 0.0)
+                eavg = (es + et) / 2.0
+                norm = eavg / max(1e-6, max_e)
+                color = energy_to_color(norm)
+                width = 2 if norm >= 0.5 else 1
+            else:
+                color = (80, 80, 120)
+                width = 1
+            canvas.draw.line([(x1, y1), (x2, y2)], fill=color, width=width)
+
+    # Prepare anchors and echo center (if any)
+    lens = LensProfile()
+    anchors = lens._pick_anchors(kg)
+    anchor_set = set(anchors)
+
+    # Compute echo center of mass if we have activations
+    echo_center = None
+    if activated_nodes:
+        total_energy = sum(activated_nodes.values())
+        if total_energy > 0:
+            cx = sum(kg_manager.get_node(n)['position']['x'] * (activated_nodes[n]/total_energy) for n in activated_nodes if kg_manager.get_node(n))
+            cy = sum(kg_manager.get_node(n)['position']['y'] * (activated_nodes[n]/total_energy) for n in activated_nodes if kg_manager.get_node(n))
+            cz = sum(kg_manager.get_node(n)['position']['z'] * (activated_nodes[n]/total_energy) for n in activated_nodes if kg_manager.get_node(n))
+            echo_center = {'x': cx, 'y': cy, 'z': cz}
 
     # Draw nodes
     for node in kg['nodes']:
@@ -63,13 +100,45 @@ def visualize_kg(start_node_id: str = None):
 
         # Color interpolation
         base_color = (40, 40, 60)
-        active_color = (180, 180, 255) if not start_node_id else (255, 255, 100)
+        # Highlight anchors in a distinct color
+        if node['id'] in anchor_set:
+            active_color = (255, 120, 120)
+        else:
+            active_color = (180, 180, 255) if not start_node_id else (255, 255, 100)
         color = tuple(int(b + (a - b) * energy) for a, b in zip(active_color, base_color))
 
         canvas.add_voxel(x, y, z, color)
 
+    # Draw echo center as a bright marker
+    if echo_center:
+        ex = (echo_center['x'] - center[0]) * scale
+        ey = (echo_center['y'] - center[1]) * scale
+        ez = (echo_center['z'] - center[2]) * scale
+        canvas.add_voxel(ex, ey, ez, (255, 255, 0))
+
     output_filename = f"wave_visualization_{start_node_id}.png" if start_node_id else "kg_full_structure.png"
     output_path = os.path.join("data", output_filename)
+    # Legend overlay
+    try:
+        legend_x, legend_y = 10, 10
+        box_w, box_h = 14, 14
+        gap = 6
+        items = [
+            ((46,204,113), '원활 (녹색)'),
+            ((241,196,15), '보통 (노랑)'),
+            ((230,126,34), '지연 (주황)'),
+            ((231,76,60),  '혼잡 (빨강)'),
+            ((255,120,120), '앵커'),
+            ((255,255,0),   '초점(에코) 중심')
+        ]
+        y = legend_y
+        for color, label in items:
+            canvas.draw.rectangle([legend_x, y, legend_x+box_w, y+box_h], fill=color)
+            canvas.draw.text((legend_x+box_w+8, y-2), label, fill=(220,220,230))
+            y += box_h + gap
+    except Exception:
+        pass
+
     canvas.render(output_path, voxel_size=8)
     print(f"Visualization saved to: {output_path}")
 
@@ -79,3 +148,71 @@ if __name__ == "__main__":
     else:
         print("No start node provided. Visualizing the full knowledge graph structure.")
         visualize_kg()
+
+
+def render_kg(start_node_id: str | None = None, out_name: str | None = None) -> str:
+    """
+    Programmatic entry: renders KG (optionally with activation from a start node)
+    and returns the image path.
+    """
+    kg_manager = KGManager()
+    kg = kg_manager.kg
+    if not kg.get('nodes'):
+        raise RuntimeError('Knowledge graph is empty')
+
+    activated_nodes = {}
+    if start_node_id:
+        wave_mechanics = WaveMechanics(kg_manager)
+        activated_nodes = wave_mechanics.spread_activation(start_node_id)
+    else:
+        activated_nodes = {node['id']: 1.0 for node in kg['nodes']}
+
+    canvas = Canvas(width=512, height=512, bg_color=(20, 20, 35))
+
+    min_coord, max_coord = [float('inf')] * 3, [float('-inf')] * 3
+    for node in kg['nodes']:
+        pos = node['position']
+        for i, axis in enumerate(['x', 'y', 'z']):
+            min_coord[i], max_coord[i] = min(min_coord[i], pos[axis]), max(max_coord[i], pos[axis])
+    center = [(max_coord[i] + min_coord[i]) / 2 for i in range(3)]
+    scale = 20
+
+    lens = LensProfile()
+    anchors = set(lens._pick_anchors(kg))
+
+    for node in kg['nodes']:
+        pos = node['position']
+        x, y, z = [(pos[axis] - center[i]) * scale for i, axis in enumerate(['x', 'y', 'z'])]
+        energy = activated_nodes.get(node['id'], 0.0)
+        base_color = (40, 40, 60)
+        if node['id'] in anchors:
+            active_color = (255, 120, 120)
+        else:
+            active_color = (180, 180, 255) if not start_node_id else (255, 255, 100)
+        color = tuple(int(b + (a - b) * energy) for a, b in zip(active_color, base_color))
+        canvas.add_voxel(x, y, z, color)
+
+    out = out_name or (f"monitor_wave_{start_node_id}.png" if start_node_id else "monitor_kg.png")
+    out_path = os.path.join("data", out)
+    canvas.render(out_path, voxel_size=8)
+    return out_path
+
+
+def render_placeholder(out_name: str = 'monitor_echo.png', message: str = '아직 표시할 에코가 없어요') -> str:
+    """Renders a simple placeholder image with a helpful message."""
+    canvas = Canvas(width=512, height=512, bg_color=(20, 20, 35))
+    # Draw a soft grid hint
+    try:
+        for i in range(0, 512, 32):
+            canvas.draw.line([(i, 0), (i, 512)], fill=(35, 35, 55))
+            canvas.draw.line([(0, i), (512, i)], fill=(35, 35, 55))
+        # Message box
+        box = [40, 220, 472, 300]
+        canvas.draw.rectangle(box, fill=(30, 30, 50))
+        canvas.draw.text((52, 242), message, fill=(220, 220, 235))
+    except Exception:
+        pass
+    import os
+    out_path = os.path.join("data", out_name)
+    canvas.render(out_path, voxel_size=8)
+    return out_path

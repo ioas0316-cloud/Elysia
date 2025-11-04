@@ -33,6 +33,7 @@ class SafetyGuardian:
         self.current_maturity = MaturityLevel.INFANT
         self.action_limits = {}
         self.safety_rules = {}
+        self.override_policy: Dict[str, Dict[str, str]] = {}
         self.violation_count = {}
         self.load_config()
         self.setup_logging()
@@ -45,6 +46,7 @@ class SafetyGuardian:
                 self.current_maturity = MaturityLevel[config.get("maturity", "INFANT")]
                 self.action_limits = config.get("action_limits", {})
                 self.safety_rules = config.get("safety_rules", {})
+                self.override_policy = config.get("override_policy", {})
         else:
             self.initialize_default_config()
 
@@ -104,6 +106,23 @@ class SafetyGuardian:
             }
         }
         
+        # Default override policy: prefer sandbox; allow for safe reads; deny dangerous ops
+        self.override_policy = {
+            ActionCategory.FILE_ACCESS.value: {
+                "read": "allow",
+                "write": "sandbox",
+                "execute": "deny"
+            },
+            ActionCategory.NETWORK.value: {
+                "outbound": "sandbox",
+                "inbound": "sandbox"
+            },
+            ActionCategory.PROCESS.value: {
+                "spawn": "sandbox",
+                "kill": "deny"
+            }
+        }
+        
         self.save_config()
 
     def save_config(self):
@@ -115,6 +134,7 @@ class SafetyGuardian:
             "safety_rules": self.safety_rules
         }
         with open(self.config_path, 'w', encoding='utf-8') as f:
+            config["override_policy"] = getattr(self, 'override_policy', {})
             json.dump(config, f, ensure_ascii=False, indent=2)
 
     def setup_logging(self):
@@ -176,6 +196,19 @@ class SafetyGuardian:
             return self.check_file_restrictions(action, details)
             
         return False
+
+    # --- Override evaluation ---
+    def evaluate_override(self, category: ActionCategory, action: str, reason: str = "", context: Dict = None) -> str:
+        """
+        Evaluates an override request. Returns one of: 'allow' | 'sandbox' | 'deny'.
+        Uses configured override_policy per category/action; defaults to 'sandbox'.
+        """
+        try:
+            policy = self.override_policy.get(category.value, {})
+            decision = policy.get(action, 'sandbox')
+            return decision
+        except Exception:
+            return 'sandbox'
 
     def check_mouse_restrictions(self, details: Dict) -> bool:
         """마우스 제어 제한을 확인합니다."""

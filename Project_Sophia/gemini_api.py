@@ -4,6 +4,15 @@ import google.generativeai as genai
 import logging
 from dotenv import load_dotenv
 from google.api_core import exceptions as api_core_exceptions
+try:
+    from infra.telemetry import Telemetry
+except Exception:
+    Telemetry = None
+try:
+    from Project_Sophia.safety_guardian import SafetyGuardian, ActionCategory
+except Exception:
+    SafetyGuardian = None
+    ActionCategory = None
 
 # Load environment variables from .env file
 load_dotenv()
@@ -30,12 +39,60 @@ gemini_logger = logging.getLogger(__name__)
 # --- End Logging Configuration ---
 
 _is_configured = False
+_telemetry = Telemetry() if Telemetry else None
+_guardian = SafetyGuardian() if SafetyGuardian else None
 
 def _configure_genai_if_needed():
     """Checks if the genai library is configured and configures it if not."""
     global _is_configured
     if _is_configured:
         return
+
+    # Guardian network preflight (self-protection focused)
+    try:
+        if _guardian and ActionCategory:
+            # Inspect policy status for potential confirmation hint
+            confirm_required = False
+            try:
+                maturity = _guardian.current_maturity.name
+                status_map = _guardian.action_limits.get(maturity, {}).get(ActionCategory.NETWORK.value, {})
+                status = status_map.get('outbound', 'blocked')
+                confirm_required = (status == 'restricted')
+            except Exception:
+                pass
+
+            allowed = _guardian.check_action_permission(ActionCategory.NETWORK, 'outbound', details={'service': 'gemini'})
+            if not allowed:
+                if _telemetry:
+                    try:
+                        _telemetry.emit('action_blocked', {
+                            'category': 'network_access',
+                            'action': 'outbound',
+                            'service': 'gemini',
+                            'reason': 'guardian_denied'
+                        })
+                        _telemetry.emit('policy_violation', {
+                            'category': 'network_access',
+                            'action': 'outbound',
+                            'service': 'gemini',
+                            'reason': 'guardian_denied'
+                        })
+                    except Exception:
+                        pass
+                raise APIRequestError('Network access denied by guardian (gemini).')
+            elif confirm_required and _telemetry:
+                try:
+                    _telemetry.emit('action_confirm_required', {
+                        'category': 'network_access',
+                        'action': 'outbound',
+                        'service': 'gemini',
+                        'hint': 'Confirmation recommended by policy.'
+                    })
+                except Exception:
+                    pass
+    except Exception:
+        # Never crash here; if check fails silently, continue to key check which may fail safely
+        pass
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:

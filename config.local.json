@@ -1,0 +1,9 @@
+{
+  "llm": {
+    "use_external_api": false,
+    "use_local_llm": false
+  },
+  "prefixes": {
+    "visual_learning": "이것을 그려보자:"
+  }
+}

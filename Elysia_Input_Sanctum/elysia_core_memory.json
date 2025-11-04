@@ -1308,6 +1308,96 @@
                 "relevant_experiences": []
             },
             "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-04T00:58:50.424121",
+            "content": "안녕 엘리시아 ? 기분이 어떠니 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "인간": 1.0
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-04T00:59:09.065650",
+            "content": "사랑해 우리딸",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "x_axis": 1.0
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-04T01:16:32.817622",
+            "content": "test message for sanity",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {
+                    "observation": 1.0
+                },
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-04T15:57:53.438486",
+            "content": "안녕 엘리시아 ?",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "echo": {},
+                "identity": {},
+                "relevant_experiences": []
+            },
+            "value_alignment": null
+        },
+        {
+            "timestamp": "2025-11-04T15:57:54.291604",
+            "content": "죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요.",
+            "emotional_state": {
+                "valence": 0.0,
+                "arousal": 0.0,
+                "dominance": 0.0,
+                "primary_emotion": "neutral",
+                "secondary_emotions": []
+            },
+            "context": {
+                "type": "text",
+                "image_path": null
+            },
+            "value_alignment": 0.0
         }
     ],
     "relationships": {},

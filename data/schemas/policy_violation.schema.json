@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "PolicyViolationEvent",
+  "type": "object",
+  "required": ["schema_version", "timestamp", "event_type", "trace_id", "payload"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "event_type": {"type": "string", "const": "policy_violation"},
+    "trace_id": {"type": "string"},
+    "payload": {
+      "type": "object",
+      "properties": {
+        "category": {"type": "string"},
+        "action": {"type": "string"},
+        "reason": {"type": "string"}
+      },
+      "required": ["category", "action", "reason"]
+    }
+  }
+}
+

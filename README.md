@@ -62,6 +62,41 @@ You will be greeted with a chat interface where you can talk to Elysia.
 *   **Request Body:** `{"concept": "The concept to visualize"}`
 *   **Response:** `{"image_path": "path/to/generated/image.png"}`
 
+### `/tool/decide`
+
+*   **Method:** `POST`
+*   **Description:** Given a natural-language prompt, decide a tool and prepare a guarded call.
+*   **Request Body:** `{"prompt": "Read data/example.txt"}`
+*   **Response:** `{"decision": {"tool_name": "read_file", "parameters": {"filepath": "data/example.txt"}, "confirm_required": true? }}`
+
+### `/tool/execute`
+
+*   **Method:** `POST`
+*   **Description:** Execute a prepared decision (safe built-ins only).
+*   **Request Body:** `{"decision": { ... }}`
+*   **Response:** `{"result": {...}}` (may include `blocked` or `confirm_required` hints)
+
+### `/agent/proxy`
+
+*   **Method:** `POST`
+*   **Description:** Forwards a task to an external agent service if `AGENT_PROXY_URL` is set.
+*   **Request Body:** `{"route": "/task", "payload": {...}}`
+*   **Response:** `{"result": {...}}`
+
+### `/web/fetch`
+
+- Method: `POST`
+- Description: Safe web fetch via WebSanctum with risk/trust scoring.
+- Request Body: `{"url": "https://example.com", "confirm": true?}`
+- Response: `{"result": {"sanitized_text": "...", "risk_score": 0.2, "trust_score": 0.6, "decision": "allow"}}` or `{ "confirm_required": true, ... }` or `{ "blocked": true, ... }`
+
+## VSCode Client (Sample)
+
+- See `integrations/vscode/` for a minimal extension.
+- Configure `elysia.baseUrl` (default `http://127.0.0.1:5000`).
+- Use commands: "Elysia: Decide Tool" and "Elysia: Execute Decision".
+ - Build: `npm install && npm run compile`; Package: `npm i -g @vscode/vsce && vsce package`.
+
 ## 5. Visualizing the Mind
 
 You can visualize the structure of Elysia's 3D knowledge graph by running:

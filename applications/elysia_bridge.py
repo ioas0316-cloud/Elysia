@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from Project_Sophia.cognition_pipeline import CognitionPipeline
+from Project_Sophia.response_orchestrator import ResponseOrchestrator
+from Project_Sophia.conversation_state import WorkingMemory, TopicTracker
+from Project_Sophia.config_loader import load_config
 import os
 import logging # Import logging module
 
@@ -18,6 +21,69 @@ app_logger = logging.getLogger(__name__)
 
 app = Flask(__name__, template_folder='templates')
 cognition_pipeline = CognitionPipeline()
+
+# --- Offline-first hardening (no external API / no local model download) ---
+# Avoid flaky external calls without changing core pipeline code.
+try:
+    _cfg = load_config()
+    # Apply optional prefixes from local config
+    _pfx = _cfg.get('prefixes', {}) if isinstance(_cfg, dict) else {}
+    if _pfx and hasattr(cognition_pipeline, 'prefixes'):
+        cognition_pipeline.prefixes.update(_pfx)
+        if 'visual_learning' in _pfx:
+            cognition_pipeline.visual_learning_prefix = _pfx['visual_learning']
+    cognition_pipeline.api_available = False
+    if hasattr(cognition_pipeline, 'use_local_llm'):
+        cognition_pipeline.use_local_llm = False
+    # Ensure a clean Korean prefix for visual learning
+    if hasattr(cognition_pipeline, 'visual_learning_prefix'):
+        cognition_pipeline.visual_learning_prefix = '?�것??그려보자:'
+    # Disable inquisitive mind external lookup
+    if hasattr(cognition_pipeline, 'inquisitive_mind'):
+        def _no_external_llm(topic: str) -> str:
+            return "지금�? ?��? 지??조회가 비활?�화?�어 ?�어?? ?�른 방식?�로 같이 ?�각?�볼까요?"
+        cognition_pipeline.inquisitive_mind.ask_external_llm = _no_external_llm
+except Exception:
+    pass
+
+# Post-override to ensure clean Korean strings regardless of earlier encoding
+try:
+    if hasattr(cognition_pipeline, 'visual_learning_prefix'):
+        cognition_pipeline.visual_learning_prefix = '?�것??그려보자:'
+    if hasattr(cognition_pipeline, 'inquisitive_mind'):
+        cognition_pipeline.inquisitive_mind.ask_external_llm = (
+            lambda topic: "지금�? ?��? 지??조회가 비활?�화?�어 ?�어?? ?�른 방식?�로 같이 ?�각?�볼까요?")
+except Exception:
+    pass
+
+# --- Lightweight conversation state (offline context) ---
+wm = WorkingMemory(size=10)
+topics = TopicTracker()
+orchestrator = ResponseOrchestrator()
+
+# Replace pipeline's internal response generator with offline orchestrator
+def _offline_internal_response(message, emotional_state, context):
+    try:
+        enriched = cognition_pipeline._enrich_context(context or {}, message)
+        echo = enriched.get('echo', {}) or {}
+        topics.step()
+        topics.reinforce_from_echo(echo)
+        wm.add('user', message)
+        text = orchestrator.generate(message, emotional_state, enriched, wm, topics)
+        return {'type': 'text', 'text': text}, emotional_state
+    except Exception:
+        return {
+            'type': 'text',
+            'text': (
+                '지금�? ?��? 모델 ?�이 ?�각???�리?�고 ?�어?? '
+                '조금 ??구체?�으�?말�???주시�? ?��? 가�?경험�?개념?�로 ?�해볼게??'
+            )
+        }, emotional_state
+
+try:
+    cognition_pipeline._generate_internal_response = _offline_internal_response
+except Exception:
+    pass
 
 
 @app.route('/')
@@ -44,14 +110,46 @@ def chat():
     try:
         response_data, emotional_state = cognition_pipeline.process_message(user_input)
 
+        # Update conversation state
+        try:
+            topics.step()
+            wm.add('user', user_input)
+        except Exception:
+            pass
+
         # Prepare the final response based on the type
         final_response = {}
         response_type = response_data.get('type')
 
         if response_type == 'text':
+            clean_text = response_data.get('text', '')
+            # If the text looks like a generic fallback or mojibake, generate a richer offline response
+            generic_markers = [
+                "I'm sorry, I'm having trouble thinking clearly right now.",
+                "An error occurred while I was trying to respond.",
+            ]
+            has_mojibake = (isinstance(clean_text, str) and ('\ufffd' in clean_text))
+            needs_offline = (
+                (isinstance(clean_text, str) and ('�? in clean_text or clean_text in generic_markers))
+            )
+            if has_mojibake:
+                needs_offline = True
+            if needs_offline:
+                try:
+                    enriched = cognition_pipeline._enrich_context({}, user_input)  # private but practical
+                    echo = enriched.get('echo', {}) or {}
+                    topics.reinforce_from_echo(echo)
+                    better = orchestrator.generate(user_input, emotional_state, enriched, wm, topics)
+                    clean_text = better
+                except Exception:
+                    # Fallback to a readable Korean message
+                    clean_text = (
+                        "지금�? ?��? 모델 ?�이 ?�각???�리?�고 ?�어?? "
+                        "조금 ??구체?�으�?말�???주시�? ?��? 가�?경험�?개념?�로 ?�해볼게??"
+                    )
             final_response = {
                 'type': 'text',
-                'text': response_data.get('text', '')
+                'text': clean_text
             }
         elif response_type == 'creative_visualization':
             image_path = response_data.get('image_path', '')
@@ -88,9 +186,9 @@ def chat():
             'emotional_state': emotion_dict
         })
     except Exception as e:
-        print("!!! elysia_bridge.py 에서 예외 발생을 포착함 !!!") # DEBUGGING PRINT
+        print("!!! elysia_bridge.py ?�서 ?�외 발생???�착??!!!") # DEBUGGING PRINT
         app_logger.exception(f"Error processing chat message: {user_input}")
-        return jsonify({'error': '백엔드 오류 코드: 알파-7'}), 500
+        return jsonify({'error': '백엔???�류 코드: ?�파-7'}), 500
 
 
 @app.route('/journal')

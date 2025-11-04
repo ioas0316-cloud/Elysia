@@ -43,5 +43,61 @@
       "y_range": [-2, 2],
       "z": 0
     }
+  },
+  {
+    "name": "volume",
+    "description": "A three-dimensional region of space with thickness (stacked planes).",
+    "causality": [
+      ["volume", "is_composed_of", "plane"],
+      ["volume", "has_property", "thickness"],
+      ["volume", "is_a", "geometric_primitive"]
+    ],
+    "representation": {
+      "type": "voxel",
+      "coordinates": [
+        {"x": 0, "y": 0, "z": 0}
+      ]
+    }
+  },
+  {
+    "name": "cube",
+    "description": "A solid with equal edge lengths (simple volume).",
+    "causality": [
+      ["cube", "is_a", "volume"],
+      ["cube", "has_property", "side_length"]
+    ],
+    "representation": {
+      "type": "voxel",
+      "coordinates": [
+        {"x": -1, "y": -1, "z": -1}, {"x": 0, "y": -1, "z": -1}, {"x": 1, "y": -1, "z": -1},
+        {"x": -1, "y": 0, "z": -1},  {"x": 0, "y": 0, "z": -1},  {"x": 1, "y": 0, "z": -1},
+        {"x": -1, "y": 1, "z": -1},  {"x": 0, "y": 1, "z": -1},  {"x": 1, "y": 1, "z": -1},
+
+        {"x": -1, "y": -1, "z": 0},  {"x": 0, "y": -1, "z": 0},  {"x": 1, "y": -1, "z": 0},
+        {"x": -1, "y": 0, "z": 0},   {"x": 0, "y": 0, "z": 0},   {"x": 1, "y": 0, "z": 0},
+        {"x": -1, "y": 1, "z": 0},   {"x": 0, "y": 1, "z": 0},   {"x": 1, "y": 1, "z": 0},
+
+        {"x": -1, "y": -1, "z": 1},  {"x": 0, "y": -1, "z": 1},  {"x": 1, "y": -1, "z": 1},
+        {"x": -1, "y": 0, "z": 1},   {"x": 0, "y": 0, "z": 1},   {"x": 1, "y": 0, "z": 1},
+        {"x": -1, "y": 1, "z": 1},   {"x": 0, "y": 1, "z": 1},   {"x": 1, "y": 1, "z": 1}
+      ]
+    }
+  },
+  {
+    "name": "sphere",
+    "description": "A solid set of points at or within a fixed distance from a center.",
+    "causality": [
+      ["sphere", "is_a", "volume"],
+      ["sphere", "has_property", "radius"]
+    ],
+    "representation": {
+      "type": "voxel",
+      "coordinates": [
+        {"x": 0, "y": 0, "z": 0},
+        {"x": 1, "y": 0, "z": 0}, {"x": -1, "y": 0, "z": 0},
+        {"x": 0, "y": 1, "z": 0}, {"x": 0, "y": -1, "z": 0},
+        {"x": 0, "y": 0, "z": 1}, {"x": 0, "y": 0, "z": -1}
+      ]
+    }
   }
 ]

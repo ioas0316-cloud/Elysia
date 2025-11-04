@@ -3936,7 +3936,7 @@
       },
       "activation_energy": 0.0,
       "description": "Fundamental unit of space: position without dimension.",
-      "category": "geometry",
+      "category": "textbook",
       "tags": [
         "primitive",
         "seed"
@@ -4710,7 +4710,8 @@
         -0.062699,
         0.118597,
         0.113597
-      ]
+      ],
+      "subject": "geometry_primitives"
     },
     {
       "id": "line",
@@ -4721,7 +4722,7 @@
       },
       "activation_energy": 0.0,
       "description": "Continuous path stretching infinitely through two points.",
-      "category": "geometry",
+      "category": "textbook",
       "tags": [
         "primitive",
         "connection"
@@ -5495,7 +5496,8 @@
         0.063473,
         -0.119815,
         0.029902
-      ]
+      ],
+      "subject": "geometry_primitives"
     },
     {
       "id": "line_segment",
@@ -7076,7 +7078,7 @@
       },
       "activation_energy": 0.0,
       "description": "Infinite flat surface where shapes take form.",
-      "category": "geometry",
+      "category": "textbook",
       "tags": [
         "surface",
         "foundation"
@@ -7850,7 +7852,8 @@
         0.05569,
         0.039714,
         0.052488
-      ]
+      ],
+      "subject": "geometry_primitives"
     },
     {
       "id": "triangle",
@@ -9431,7 +9434,7 @@
       },
       "activation_energy": 0.0,
       "description": "Volume born from squares—order solidified into space.",
-      "category": "geometry",
+      "category": "textbook",
       "tags": [
         "polyhedron",
         "structure"
@@ -10205,7 +10208,8 @@
         -0.116012,
         -0.085079,
         0.002102
-      ]
+      ],
+      "subject": "geometry_primitives"
     },
     {
       "id": "pyramid",
@@ -11001,7 +11005,7 @@
       },
       "activation_energy": 0.0,
       "description": "Boundless symmetry radiating equally in every direction.",
-      "category": "geometry",
+      "category": "textbook",
       "tags": [
         "surface",
         "balance"
@@ -11775,7 +11779,8 @@
         -0.053833,
         0.00552,
         0.074451
-      ]
+      ],
+      "subject": "geometry_primitives"
     },
     {
       "id": "surface_texture",
@@ -42386,6 +42391,305 @@
         -0.075918,
         0.043231
       ]
+    },
+    {
+      "id": "position",
+      "position": {
+        "x": 1.1477726066913838,
+        "y": 0.39013298264971064,
+        "z": 0.05325891372477788
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "geometric_primitive",
+      "position": {
+        "x": 0.14177540155212007,
+        "y": 1.3620724770840997,
+        "z": -0.08129994915577539
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "length",
+      "position": {
+        "x": 2.7323717172673425,
+        "y": 0.28299115464705477,
+        "z": 0.2630762156183219
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "area",
+      "position": {
+        "x": 1.0205850730170867,
+        "y": 2.6454917045533906,
+        "z": 0.174655364636769
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "volume",
+      "position": {
+        "x": -0.7372581910485407,
+        "y": 5.086132451800759,
+        "z": 0.8156151107869389
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "geometry_primitives"
+    },
+    {
+      "id": "thickness",
+      "position": {
+        "x": 0.8031745389143524,
+        "y": -0.1947816646967001,
+        "z": -0.09712916928632156
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "side_length",
+      "position": {
+        "x": 0.07110877952255798,
+        "y": 4.236557740105246,
+        "z": 0.8713711401417623
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "radius",
+      "position": {
+        "x": -0.5984628873538649,
+        "y": 3.2898355613066426,
+        "z": 1.2011436514053264
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "active_listening",
+      "position": {
+        "x": 0.15358063600281247,
+        "y": -0.15207682641239578,
+        "z": 1.0833373248205787
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "attention",
+      "position": {
+        "x": 1.0925157541381827,
+        "y": 0.05627200791607645,
+        "z": 0.03836032657026242
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "rapport_increase",
+      "position": {
+        "x": 1.412333719519762,
+        "y": 0.09818686779952157,
+        "z": 0.16408138946272005
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "social_skill",
+      "position": {
+        "x": 0.09923266380588108,
+        "y": 0.9418927838354918,
+        "z": 0.14893455895480295
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "empathy_reflection",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "trust_increase",
+      "position": {
+        "x": 1.6701004754369206,
+        "y": -0.14470162693795757,
+        "z": -0.12527145269787682
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "open_question",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "dialogue_tool",
+      "position": {
+        "x": 0.10868993791333309,
+        "y": 0.8938321281378637,
+        "z": -0.04302556356670903
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "information_gain",
+      "position": {
+        "x": 1.4124444909518135,
+        "y": 0.18832162540172964,
+        "z": -0.009124482838173936
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "summary_paraphrase",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "clarity_increase",
+      "position": {
+        "x": 1.663309298943251,
+        "y": 0.027104778162278798,
+        "z": 0.040218737889266803
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "consent_check",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "boundary_skill",
+      "position": {
+        "x": -0.08503882240928147,
+        "y": 1.0341497870302312,
+        "z": -0.12169676696400389
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "safety_increase",
+      "position": {
+        "x": 1.6205201963071345,
+        "y": -0.1669734096464242,
+        "z": -0.05192377830361214
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "boundary_setting",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "conflict_reduction",
+      "position": {
+        "x": 1.4382606754461082,
+        "y": 0.038662224316088484,
+        "z": 0.19411543496919514
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "gratitude_expression",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "prosocial_signal",
+      "position": {
+        "x": -0.12383109200458141,
+        "y": 0.8904422931348702,
+        "z": 0.02192887268216087
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "repair_apology",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "repair_skill",
+      "position": {
+        "x": -0.09462563654138259,
+        "y": 1.195920242893479,
+        "z": 0.16919673539991958
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "trust_restore",
+      "position": {
+        "x": 1.4822678499572997,
+        "y": -0.020263449999280952,
+        "z": -0.04573445432995471
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "conflict_deescalation",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "textbook",
+      "subject": "social_interaction"
+    },
+    {
+      "id": "stress_reduction",
+      "position": {
+        "x": 1.4448874090330326,
+        "y": 0.07827920587485737,
+        "z": 0.07299904888007458
+      },
+      "activation_energy": 0.0
     }
   ],
   "edges": [
@@ -42808,6 +43112,181 @@
       "source": "pyramid",
       "target": "world_tree_imagery",
       "relation": "mirrors"
+    },
+    {
+      "source": "point",
+      "target": "position",
+      "relation": "has_property"
+    },
+    {
+      "source": "point",
+      "target": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "source": "line",
+      "target": "point",
+      "relation": "is_composed_of"
+    },
+    {
+      "source": "line",
+      "target": "length",
+      "relation": "has_property"
+    },
+    {
+      "source": "line",
+      "target": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "source": "plane",
+      "target": "line",
+      "relation": "is_composed_of"
+    },
+    {
+      "source": "plane",
+      "target": "area",
+      "relation": "has_property"
+    },
+    {
+      "source": "plane",
+      "target": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "source": "volume",
+      "target": "plane",
+      "relation": "is_composed_of"
+    },
+    {
+      "source": "volume",
+      "target": "thickness",
+      "relation": "has_property"
+    },
+    {
+      "source": "volume",
+      "target": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "source": "cube",
+      "target": "volume",
+      "relation": "is_a"
+    },
+    {
+      "source": "cube",
+      "target": "side_length",
+      "relation": "has_property"
+    },
+    {
+      "source": "sphere",
+      "target": "volume",
+      "relation": "is_a"
+    },
+    {
+      "source": "sphere",
+      "target": "radius",
+      "relation": "has_property"
+    },
+    {
+      "source": "active_listening",
+      "target": "attention",
+      "relation": "has_property"
+    },
+    {
+      "source": "active_listening",
+      "target": "rapport_increase",
+      "relation": "causes"
+    },
+    {
+      "source": "active_listening",
+      "target": "social_skill",
+      "relation": "is_a"
+    },
+    {
+      "source": "empathy_reflection",
+      "target": "social_skill",
+      "relation": "is_a"
+    },
+    {
+      "source": "empathy_reflection",
+      "target": "trust_increase",
+      "relation": "causes"
+    },
+    {
+      "source": "empathy_reflection",
+      "target": "active_listening",
+      "relation": "is_composed_of"
+    },
+    {
+      "source": "open_question",
+      "target": "dialogue_tool",
+      "relation": "is_a"
+    },
+    {
+      "source": "open_question",
+      "target": "information_gain",
+      "relation": "causes"
+    },
+    {
+      "source": "summary_paraphrase",
+      "target": "dialogue_tool",
+      "relation": "is_a"
+    },
+    {
+      "source": "summary_paraphrase",
+      "target": "clarity_increase",
+      "relation": "causes"
+    },
+    {
+      "source": "consent_check",
+      "target": "boundary_skill",
+      "relation": "is_a"
+    },
+    {
+      "source": "consent_check",
+      "target": "safety_increase",
+      "relation": "causes"
+    },
+    {
+      "source": "boundary_setting",
+      "target": "boundary_skill",
+      "relation": "is_a"
+    },
+    {
+      "source": "boundary_setting",
+      "target": "conflict_reduction",
+      "relation": "causes"
+    },
+    {
+      "source": "gratitude_expression",
+      "target": "prosocial_signal",
+      "relation": "is_a"
+    },
+    {
+      "source": "gratitude_expression",
+      "target": "rapport_increase",
+      "relation": "causes"
+    },
+    {
+      "source": "repair_apology",
+      "target": "repair_skill",
+      "relation": "is_a"
+    },
+    {
+      "source": "repair_apology",
+      "target": "trust_restore",
+      "relation": "causes"
+    },
+    {
+      "source": "conflict_deescalation",
+      "target": "repair_skill",
+      "relation": "is_a"
+    },
+    {
+      "source": "conflict_deescalation",
+      "target": "stress_reduction",
+      "relation": "causes"
     }
   ],
   "metadata": {
