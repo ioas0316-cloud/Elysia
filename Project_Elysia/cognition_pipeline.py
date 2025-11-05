@@ -20,12 +20,11 @@ from Project_Sophia.value_cortex import ValueCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from infra.telemetry import Telemetry
-from Project_Sophia.filesystem_cortex import FileSystemCortex, FsConfig
 from infra.associative_memory import AssociativeMemory
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from Project_Sophia.journal_cortex import JournalCortex
 from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
-from Project_Sophia.config_loader import load_config, validate_config
+from Project_Sophia.config_loader import load_config
 from Project_Sophia.conversation_state import WorkingMemory, TopicTracker
 from Project_Sophia.response_orchestrator import ResponseOrchestrator
 from Project_Sophia.lens_profile import LensProfile
@@ -106,11 +105,6 @@ class CognitionPipeline:
                 config = loaded_config
         except Exception:
             pass
-        # Validate/normalize config and emit warnings
-        try:
-            config = validate_config(config, telemetry=self.telemetry)
-        except Exception:
-            pass
         self.prefixes = config.get('prefixes', {})
         self.planning_prefix = self.prefixes.get('planning', 'plan and execute:')
         self.observation_prefix = self.prefixes.get('observation', 'The result of the tool execution is:')
@@ -172,68 +166,6 @@ class CognitionPipeline:
             self.api_available = bool(llm_cfg.get('use_external_api', False))
         except Exception:
             self.api_available = False
-
-        # Optional: FileSystemCortex integration (opt-in via config)
-        # Config example:
-        #   "filesystem": {
-        #       "enabled": true,
-        #       "root": "./",  # or an absolute path
-        #       "read_only": true,
-        #       "allowed_exts": [".md", ".txt"],
-        #       "ignore_globs": ["**/.git/**", "**/__pycache__/**"],
-        #       "max_file_mb": 16,
-        #       "hash_algo": null,
-        #       "auto_index_on_start": false,
-        #       "save_index": null
-        #   }
-        try:
-            fs_cfg = config.get('filesystem', {}) if isinstance(config, dict) else {}
-        except Exception:
-            fs_cfg = {}
-        self.fs = None
-        try:
-            if bool(fs_cfg.get('enabled', False)):
-                root = fs_cfg.get('root')
-                if root:
-                    allowed = fs_cfg.get('allowed_exts')
-                    allowed_exts = set(allowed) if isinstance(allowed, (list, set, tuple)) else None
-                    ignore_globs = fs_cfg.get('ignore_globs')
-                    max_file_mb = int(fs_cfg.get('max_file_mb', 16))
-                    hash_algo = fs_cfg.get('hash_algo') or None
-                    read_only = bool(fs_cfg.get('read_only', True))
-                    cfg = FsConfig(
-                        ignore_globs=ignore_globs if isinstance(ignore_globs, list) else FsConfig().ignore_globs,
-                        allowed_exts=allowed_exts,
-                        max_file_mb=max_file_mb,
-                        hash_algo=hash_algo,
-                        telemetry_namespace="Project_Sophia.FileSystemCortex",
-                    )
-                    t0 = time.perf_counter()
-                    # Bridge FileSystemCortex telemetry into infra.telemetry
-                    self.fs = FileSystemCortex(root, read_only=read_only, config=cfg, telemetry_emitter=lambda e: self.telemetry.emit('fs.op', e))
-                    if bool(fs_cfg.get('auto_index_on_start', False)):
-                        try:
-                            self.fs.index()
-                            latency_ms = (time.perf_counter() - t0) * 1000.0
-                            count = sum(1 for _ in self.fs.indexer.items())
-                            self.telemetry.emit('fs.index', {
-                                'root': str(self.fs.root),
-                                'count': int(count),
-                                'latency_ms': float(round(latency_ms, 3)),
-                            })
-                            save_path = fs_cfg.get('save_index')
-                            if save_path:
-                                outp = self.fs.save_index(save_path)
-                                self.telemetry.emit('fs.index.saved', {'path': str(outp)})
-                        except Exception as e:
-                            self.telemetry.emit('fs.index.error', {'error': str(e)})
-                else:
-                    self.telemetry.emit('fs.init.skipped', {'reason': 'no_root'})
-        except Exception as e:
-            try:
-                self.telemetry.emit('fs.init.error', {'error': str(e), 'root': fs_cfg.get('root')})
-            except Exception:
-                pass
 
     def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, Any], EmotionalState]:
         try:

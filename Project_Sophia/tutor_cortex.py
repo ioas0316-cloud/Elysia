@@ -6,6 +6,7 @@ structured learning materials, such as the "picture books" defined in `data/text
 It orchestrates the learning process by presenting visual information (via SensoryCortex)
 and textual information (via CognitionPipeline) to Elysia.
 """
+import os
 import json
 from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Elysia.cognition_pipeline import CognitionPipeline
@@ -74,13 +75,13 @@ class TutorCortex:
         logger.info(f"Requesting visualization for: '{description}'")
         image_path = self.sensory_cortex.render_storybook_frame(frame, lesson_name)
 
-        if not image_path:
-            logger.error(f"Failed to get image for frame, skipping. Frame: {frame}")
+        if not image_path or not os.path.exists(image_path):
+            logger.error(f"Failed to get a valid image for frame, skipping. Frame: {frame}")
             return
 
         # 2. Process the learning points with the KnowledgeEnhancer.
         logger.info(f"Processing learning points for frame {frame.get('frame_id')}")
-        self.knowledge_enhancer.process_learning_points(learning_points)
+        self.knowledge_enhancer.process_learning_points(learning_points, image_path)
 
         print(f"--- Frame {frame.get('frame_id')} Processed ---")
         print(f"  Visual: {image_path}")

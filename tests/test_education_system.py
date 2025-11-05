@@ -48,9 +48,9 @@ class TestEducationSystem(unittest.TestCase):
                     "description": "A person eats a banana.",
                     "style_prompt": "simple illustration",
                     "learning_points": [
-                        {"concept": "person", "type": "noun"},
-                        {"concept": "banana", "type": "noun"},
-                        {"concept": "eat", "type": "verb", "subject": "person", "object": "banana"}
+                        {"type": "concept", "label": "person"},
+                        {"type": "concept", "label": "banana"},
+                        {"type": "relation", "source": "person", "target": "banana", "label": "eats"}
                     ]
                 }
             ]
@@ -63,22 +63,49 @@ class TestEducationSystem(unittest.TestCase):
         if os.path.exists(self.textbook_path):
             os.remove(self.textbook_path)
 
-    @patch('Project_Sophia.knowledge_enhancer.KnowledgeEnhancer.process_learning_points')
-    def test_full_lesson_flow(self, mock_process_learning):
+    @patch('os.path.exists', return_value=True)
+    def test_full_lesson_flow_with_knowledge_update(self, mock_path_exists):
         """
-        Test the entire lesson flow from starting the lesson to updating the knowledge graph.
+        Test the full flow, ensuring KGManager is called correctly.
         """
+        # More realistic learning points
+        learning_points = [
+            {"type": "concept", "label": "person"},
+            {"type": "concept", "label": "banana"},
+            {"type": "relation", "source": "person", "target": "banana", "label": "eats"}
+        ]
+        self.lesson_data['frames'][0]['learning_points'] = learning_points
+
+        # Re-write the dummy textbook with updated learning points
+        with open(self.textbook_path, 'w', encoding='utf-8') as f:
+            json.dump(self.lesson_data, f)
+
+        # Mock get_node to simulate nodes not existing initially
+        self.mock_kg_manager.get_node.return_value = None
+
         # Start the lesson
         self.tutor_cortex.start_lesson(self.textbook_path)
 
-        # 1. Verify that SensoryCortex was called to render the frame
+        # 1. Verify SensoryCortex was called
         self.mock_sensory_cortex.render_storybook_frame.assert_called_once()
-        call_args = self.mock_sensory_cortex.render_storybook_frame.call_args
-        self.assertEqual(call_args[0][0]['frame_id'], 1)
-        self.assertEqual(call_args[0][1], "test_eating")
 
-        # 2. Verify that KnowledgeEnhancer was called with the correct learning points
-        mock_process_learning.assert_called_once_with(self.lesson_data['frames'][0]['learning_points'])
+        # 2. Verify image file existence check was made (part of a complete test)
+        mock_path_exists.assert_called()
+
+        # 3. Verify KGManager was called to add nodes with visual experience
+        expected_calls = [
+            call('person', description='Concept learned from visual experience: path/to/mock_image.png', category='learned_concept', experience_visual=['path/to/mock_image.png']),
+            call('banana', description='Concept learned from visual experience: path/to/mock_image.png', category='learned_concept', experience_visual=['path/to/mock_image.png'])
+        ]
+        self.mock_kg_manager.add_node.assert_has_calls(expected_calls, any_order=True)
+
+        # 4. Verify KGManager was called to add the edge with visual experience
+        self.mock_kg_manager.add_edge.assert_called_once_with(
+            'person', 'banana', 'eats', experience_visual='path/to/mock_image.png'
+        )
+
+        # 5. Verify that the KG was saved
+        self.mock_kg_manager.save.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()

@@ -138,31 +138,30 @@ class GeminiAPI:
             gemini_logger.exception(f"An unexpected error occurred during text generation: {e}")
             raise APIRequestError(f"An unexpected error occurred during text generation: {e}")
 
-    def generate_image_from_text(self, text: str, output_path: str):
+    def generate_image_from_text(self, text: str, output_path: str) -> bool:
         """
-        Generates an image with the given text.
-        This is a placeholder and does not actually use the Gemini API.
+        Generates a placeholder image with the given text.
+        This does not use the Gemini API and will not raise an APIKeyError.
         """
         try:
             width, height = 800, 600
-            img = Image.new('RGB', (width, height), color = 'white')
+            img = Image.new('RGB', (width, height), color = (20, 20, 40)) # Dark blue background
             d = ImageDraw.Draw(img)
 
-            # Use a truetype font
-            try:
-                font = ImageFont.truetype("arial.ttf", 20)
-            except IOError:
-                font = ImageFont.load_default()
-
-            # Add text to image
-            d.text((10,10), text, fill=(0,0,0), font=font)
+            # Use a default font, handle multiline text
+            font = ImageFont.load_default()
+            lines = text.split('\n')
+            y_text = 10
+            for line in lines:
+                d.text((10, y_text), line, fill=(200, 200, 255), font=font)
+                y_text += 20 # Move to the next line
 
             img.save(output_path)
-            print(f"Placeholder image saved to {output_path}")
-            return output_path
+            print(f"Placeholder image generated at: {output_path}")
+            return True
         except Exception as e:
-            print(f"Error generating placeholder image: {e}")
-            return None
+            gemini_logger.error(f"Failed to create placeholder image: {e}")
+            return False
 
 # For backward compatibility, we can instantiate the class
 gemini_api = GeminiAPI()
