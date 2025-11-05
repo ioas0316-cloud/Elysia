@@ -116,3 +116,17 @@ class WaveMechanics:
                         pass
 
         return activated_nodes
+
+    def get_resonance_between(self, start_node_id: str, end_node_id: str) -> float:
+        """
+        Calculates the conceptual resonance between two nodes by running a
+        targeted activation spread.
+
+        Returns the activation energy that reaches the end_node_id from the
+        start_node_id, or 0.0 if it's unreachable.
+        """
+        activated_nodes = self.spread_activation(
+            start_node_id=start_node_id,
+            threshold=0.1  # Lower threshold for finding faint connections
+        )
+        return activated_nodes.get(end_node_id, 0.0)

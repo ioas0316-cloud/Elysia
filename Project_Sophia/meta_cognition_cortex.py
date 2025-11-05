@@ -47,16 +47,27 @@ class MetaCognitionCortex:
             reflection_text = f"Upon reflecting on '{concept_id}' in the context of '{context}', I've noticed strong connections to the following ideas: "
             reflection_text += ", ".join([f"{node_id} (resonance: {energy:.2f})" for node_id, energy in related_concepts[:5]])
 
-        # 4. Save this reflection as metadata in the knowledge graph, only if a new reflection was generated.
+            # 4. Measure alignment with the core value 'love'
+            spiritual_alignment = self.wave_mechanics.get_resonance_between(concept_id, "love")
+            alignment_text = f"Spiritual Alignment: This concept resonates with my core value of 'love' with a strength of {spiritual_alignment:.2f}."
+            reflection_text += f"\n{alignment_text}"
+
+
+        # 5. Save this reflection as metadata in the knowledge graph, only if a new reflection was generated.
         if reflection_text:
+            properties_to_update = {
+                "reflection": reflection_text,
+                "spiritual_alignment": spiritual_alignment if 'spiritual_alignment' in locals() else 0.0
+            }
             success = self.kg_manager.update_node_properties(
                 node_id=concept_id,
-                properties={"reflection": reflection_text}
+                properties=properties_to_update
             )
             if success:
                 self.kg_manager.save()
 
         return {
             "reflection": reflection_text,
-            "activated_nodes": activated_nodes
+            "activated_nodes": activated_nodes,
+            "spiritual_alignment": spiritual_alignment if 'spiritual_alignment' in locals() else 0.0
         }
