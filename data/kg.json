@@ -861,6 +861,204 @@
       "activation_energy": 0.0,
       "description": "A character representing one or more of the sounds used in speech.",
       "created_at": "2025-11-05T03:29:28.617795"
+    },
+    {
+      "id": "entity",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -1
+      },
+      "activation_energy": 0.0,
+      "description": "Something that exists as a distinct and independent unit.",
+      "created_at": "2025-11-05T05:02:58.014182"
+    },
+    {
+      "id": "matter",
+      "position": {
+        "x": 1,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "The substance or substances of which any physical object consists or is composed.",
+      "created_at": "2025-11-05T05:02:58.014302"
+    },
+    {
+      "id": "liquid",
+      "position": {
+        "x": 2,
+        "y": 1,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "A state of matter that has a definite volume but no fixed shape.",
+      "created_at": "2025-11-05T05:02:58.014318"
+    },
+    {
+      "id": "gas",
+      "position": {
+        "x": 2,
+        "y": -1,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "A state of matter that has no fixed shape and no fixed volume.",
+      "created_at": "2025-11-05T05:02:58.014330"
+    },
+    {
+      "id": "solid",
+      "position": {
+        "x": 2,
+        "y": 0,
+        "z": 1
+      },
+      "activation_energy": 0.0,
+      "description": "A state of matter that has a definite shape and volume.",
+      "created_at": "2025-11-05T05:02:58.014342"
+    },
+    {
+      "id": "water",
+      "position": {
+        "x": 3,
+        "y": 1,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "A colorless, transparent, odorless liquid that forms the seas, lakes, rivers, and rain and is the basis of the fluids of living organisms.",
+      "created_at": "2025-11-05T05:02:58.014354"
+    },
+    {
+      "id": "fire",
+      "position": {
+        "x": 1,
+        "y": 2,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "Combustion or burning, in which substances combine chemically with oxygen from the air and typically give out bright light, heat, and smoke.",
+      "created_at": "2025-11-05T05:02:58.014366"
+    },
+    {
+      "id": "tree",
+      "position": {
+        "x": 3,
+        "y": 0,
+        "z": 2
+      },
+      "activation_energy": 0.0,
+      "description": "A woody perennial plant, typically having a single stem or trunk growing to a considerable height and bearing lateral branches at some distance from the ground.",
+      "created_at": "2025-11-05T05:02:58.014377"
+    },
+    {
+      "id": "metal",
+      "position": {
+        "x": 3,
+        "y": -1,
+        "z": 1
+      },
+      "activation_energy": 0.0,
+      "description": "A solid material that is typically hard, shiny, malleable, fusible, and ductile, with good electrical and thermal conductivity.",
+      "created_at": "2025-11-05T05:02:58.014388"
+    },
+    {
+      "id": "planet",
+      "position": {
+        "x": -2,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "A celestial body moving in an elliptical orbit around a star.",
+      "created_at": "2025-11-05T05:02:58.014400"
+    },
+    {
+      "id": "star",
+      "position": {
+        "x": -3,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "A fixed luminous point in the night sky that is a large, remote incandescent body like the sun.",
+      "created_at": "2025-11-05T05:02:58.014411"
+    },
+    {
+      "id": "hot",
+      "position": {
+        "x": 1,
+        "y": 3,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "description": "Having a high degree of heat or a high temperature.",
+      "created_at": "2025-11-05T05:05:34.606712"
+    },
+    {
+      "id": "human",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 5
+      },
+      "activation_energy": 0.0,
+      "description": "A member of the Homo sapiens species; a person.",
+      "created_at": "2025-11-05T05:20:57.434851"
+    },
+    {
+      "id": "family",
+      "position": {
+        "x": 1,
+        "y": 1,
+        "z": 5
+      },
+      "activation_energy": 0.0,
+      "description": "A group of one or more parents and their children living together as a unit.",
+      "created_at": "2025-11-05T05:20:57.434912"
+    },
+    {
+      "id": "friend",
+      "position": {
+        "x": 1,
+        "y": -1,
+        "z": 5
+      },
+      "activation_energy": 0.0,
+      "description": "A person whom one knows and with whom one has a bond of mutual affection.",
+      "created_at": "2025-11-05T05:20:57.434929"
+    },
+    {
+      "id": "society",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 6
+      },
+      "activation_energy": 0.0,
+      "description": "The aggregate of people living together in a more or less ordered community.",
+      "created_at": "2025-11-05T05:20:57.434943"
+    },
+    {
+      "id": "socrates",
+      "position": {
+        "x": -1,
+        "y": 1,
+        "z": 6
+      },
+      "activation_energy": 0.0,
+      "description": "A Greek philosopher from Athens who is credited as one of the founders of Western philosophy.",
+      "created_at": "2025-11-05T05:20:57.434958"
+    },
+    {
+      "id": "plato",
+      "position": {
+        "x": -1,
+        "y": 2,
+        "z": 6
+      },
+      "activation_energy": 0.0,
+      "description": "A Greek philosopher, a student of Socrates, and a teacher of Aristotle.",
+      "created_at": "2025-11-05T05:20:57.434971"
     }
   ],
   "edges": [
@@ -1318,6 +1516,108 @@
       "relation": "is_a",
       "description": "A meaning is a type of concept.",
       "created_at": "2025-11-05T03:52:42.161130"
+    },
+    {
+      "source": "matter",
+      "target": "entity",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.606854"
+    },
+    {
+      "source": "water",
+      "target": "liquid",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.606887"
+    },
+    {
+      "source": "liquid",
+      "target": "matter",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.606923"
+    },
+    {
+      "source": "gas",
+      "target": "matter",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.606940"
+    },
+    {
+      "source": "solid",
+      "target": "matter",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.606956"
+    },
+    {
+      "source": "tree",
+      "target": "solid",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.606972"
+    },
+    {
+      "source": "metal",
+      "target": "solid",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.606988"
+    },
+    {
+      "source": "fire",
+      "target": "entity",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.607004"
+    },
+    {
+      "source": "planet",
+      "target": "entity",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.607037"
+    },
+    {
+      "source": "star",
+      "target": "entity",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:05:34.607053"
+    },
+    {
+      "source": "fire",
+      "target": "hot",
+      "relation": "has_property",
+      "created_at": "2025-11-05T05:05:34.607020"
+    },
+    {
+      "source": "socrates",
+      "target": "human",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:20:57.435028"
+    },
+    {
+      "source": "plato",
+      "target": "human",
+      "relation": "is_a",
+      "created_at": "2025-11-05T05:20:57.435066"
+    },
+    {
+      "source": "family",
+      "target": "society",
+      "relation": "part_of",
+      "created_at": "2025-11-05T05:20:57.435087"
+    },
+    {
+      "source": "friend",
+      "target": "society",
+      "relation": "part_of",
+      "created_at": "2025-11-05T05:20:57.435106"
+    },
+    {
+      "source": "family",
+      "target": "love",
+      "relation": "based_on",
+      "created_at": "2025-11-05T05:20:57.435131"
+    },
+    {
+      "source": "socrates",
+      "target": "plato",
+      "relation": "teaches",
+      "created_at": "2025-11-05T05:20:57.435153"
     }
   ],
   "metadata": {

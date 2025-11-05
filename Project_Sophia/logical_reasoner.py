@@ -7,7 +7,7 @@ from tools.kg_manager import KGManager
 class LogicalReasoner:
     """
     사용자 입력으로부터 논리적 사실을 추론하고 지식 그래프와 상호작용합니다.
-    (This is a simplified, stable version for robust fact deduction)
+    (This is a stable version that includes description retrieval)
     """
     def __init__(self, kg_manager: KGManager = None):
         """
@@ -34,7 +34,7 @@ class LogicalReasoner:
 
     def deduce_facts(self, message: str) -> List[str]:
         """
-        메시지를 분석하고 지식 그래프를 쿼리하여 관련된 모든 사실을 나열합니다.
+        메시지를 분석하고, 관련된 모든 관계 사실과 함께 노드의 '정의'를 추론합니다.
         """
         final_facts = set()
         mentioned_entities = self._find_mentioned_entities(message)
@@ -43,7 +43,12 @@ class LogicalReasoner:
             return []
 
         for entity in mentioned_entities:
-            # Find all relationships involving the entity
+            # 1. Add the definition of the entity, if it exists.
+            node = self.kg_manager.get_node(entity)
+            if node and node.get('description'):
+                final_facts.add(f"'{entity}'의 정의: {node.get('description')}")
+
+            # 2. Find all relationships involving the entity.
             for edge in self.kg_manager.kg.get('edges', []):
                 source, target, relation = edge.get('source'), edge.get('target'), edge.get('relation')
 
@@ -73,7 +78,7 @@ if __name__ == '__main__':
     test_kg_manager = KGManager()
     test_kg_manager.kg = {"nodes": [], "edges": []}
 
-    test_kg_manager.add_node("socrates")
+    test_kg_manager.add_node("socrates", properties={"description": "A Greek philosopher"})
     test_kg_manager.add_node("human")
     test_kg_manager.add_or_update_edge("socrates", "human", "is_a")
 

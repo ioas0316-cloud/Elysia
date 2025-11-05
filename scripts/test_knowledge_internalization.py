@@ -26,6 +26,14 @@ def run_test_query(message: str):
     print("--------------------------------------------------")
 
 if __name__ == '__main__':
-    # Test query to see if Elysia can explain a concept she just learned.
-    run_test_query("What is a word?")
-    run_test_query("What is a sentence?")
+    # Test queries for the concepts learned from the science textbook
+    print("--- [Verification 1] Science Concepts ---")
+    run_test_query("What is water?")
+    run_test_query("Tell me about fire")
+    run_test_query("What is a tree?")
+
+    # Test queries for concepts learned from the society and relations textbook
+    print("\n--- [Verification 2] Society and Relations Concepts ---")
+    run_test_query("What is family?")
+    run_test_query("Who is Socrates?")
+    run_test_query("Tell me about Plato.")
