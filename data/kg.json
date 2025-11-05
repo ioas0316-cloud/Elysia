@@ -806,6 +806,61 @@
         "dream",
         "worldbuilding"
       ]
+    },
+    {
+      "id": "concept",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "activation_energy": 0.0,
+      "description": "A general idea or notion that represents a class of objects or events.",
+      "created_at": "2025-11-05T03:29:28.617654"
+    },
+    {
+      "id": "meaning",
+      "position": {
+        "x": 0,
+        "y": 1,
+        "z": 1
+      },
+      "activation_energy": 0.0,
+      "description": "The idea or concept that a word or sentence expresses.",
+      "created_at": "2025-11-05T03:29:28.617751"
+    },
+    {
+      "id": "sentence",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "activation_energy": 0.0,
+      "description": "A complete set of words that expresses a thought or an idea.",
+      "created_at": "2025-11-05T03:29:28.617766"
+    },
+    {
+      "id": "word",
+      "position": {
+        "x": 0,
+        "y": 1,
+        "z": 2
+      },
+      "activation_energy": 0.0,
+      "description": "A single distinct meaningful element of speech or writing.",
+      "created_at": "2025-11-05T03:29:28.617777"
+    },
+    {
+      "id": "letter",
+      "position": {
+        "x": 0,
+        "y": 2,
+        "z": 2
+      },
+      "activation_energy": 0.0,
+      "description": "A character representing one or more of the sounds used in speech.",
+      "created_at": "2025-11-05T03:29:28.617795"
     }
   ],
   "edges": [
@@ -1228,6 +1283,41 @@
       "source": "pyramid",
       "target": "world_tree_imagery",
       "relation": "mirrors"
+    },
+    {
+      "source": "letter",
+      "target": "word",
+      "relation": "part_of",
+      "description": "A word is composed of letters.",
+      "created_at": "2025-11-05T03:52:42.160997"
+    },
+    {
+      "source": "word",
+      "target": "sentence",
+      "relation": "part_of",
+      "description": "A sentence is composed of words.",
+      "created_at": "2025-11-05T03:52:42.161079"
+    },
+    {
+      "source": "word",
+      "target": "meaning",
+      "relation": "has_a",
+      "description": "A word has a meaning.",
+      "created_at": "2025-11-05T03:52:42.161099"
+    },
+    {
+      "source": "sentence",
+      "target": "concept",
+      "relation": "expresses",
+      "description": "A sentence expresses a concept.",
+      "created_at": "2025-11-05T03:52:42.161115"
+    },
+    {
+      "source": "meaning",
+      "target": "concept",
+      "relation": "is_a",
+      "description": "A meaning is a type of concept.",
+      "created_at": "2025-11-05T03:52:42.161130"
     }
   ],
   "metadata": {

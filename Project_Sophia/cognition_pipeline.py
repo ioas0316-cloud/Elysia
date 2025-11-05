@@ -50,12 +50,15 @@ pipeline_logger = logging.getLogger(__name__)
 
 class CognitionPipeline:
     def __init__(self):
-        self.core_memory = CoreMemory()
-        self.reasoner = LogicalReasoner()
-        self.arithmetic_cortex = ArithmeticCortex()
-        self.action_cortex = ActionCortex()
-        self.tool_executor = ToolExecutor()
+        # 1. Create a single, shared KGManager instance first.
         self.kg_manager = KGManager()
+
+        # 2. Inject this shared instance into all modules that need it.
+        self.core_memory = CoreMemory()
+        self.reasoner = LogicalReasoner(kg_manager=self.kg_manager)
+        self.arithmetic_cortex = ArithmeticCortex()
+        self.action_cortex = ActionCortex() # Assuming this needs its own KG, or it should also be injected
+        self.tool_executor = ToolExecutor()
         self.telemetry = Telemetry()
         # Housekeeping: compress older telemetry beyond retention window (30 days)
         try:

@@ -10,26 +10,37 @@ import random
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 
+# --- Default Path Configuration ---
+# The primary knowledge graph for Elysia's core brain.
+# All modules should default to this unless a specific KG is required.
 DATA_DIR = Path("data")
-DEFAULT_KG_PATH = DATA_DIR / 'kg_with_embeddings.json'
+DEFAULT_KG_PATH = DATA_DIR / 'kg.json'
 
 class KGManager:
     def __init__(self, filepath: Optional[Path] = None):
+        """
+        Initializes the KGManager.
+        It will use the provided filepath or fall back to the project-wide default KG path.
+        """
         self.filepath = filepath if filepath else DEFAULT_KG_PATH
         self.filepath.parent.mkdir(exist_ok=True)
         if self.filepath.exists():
-            with open(self.filepath, 'r', encoding='utf-8') as f:
-                self.kg = json.load(f)
+            try:
+                with open(self.filepath, 'r', encoding='utf-8') as f:
+                    self.kg = json.load(f)
+            except (json.JSONDecodeError, ): # Handle case where file is empty or corrupt
+                self.kg = {"nodes": [], "edges": []}
         else:
             self.kg = {"nodes": [], "edges": []}
 
-    def save(self):
+    def save_kg(self):
+        """Saves the current state of the knowledge graph to its file."""
         with open(self.filepath, 'w', encoding='utf-8') as f:
             json.dump(self.kg, f, ensure_ascii=False, indent=2)
 
     def get_node(self, node_id: str) -> Optional[Dict]:
         """Finds a node by its ID."""
-        for node in self.kg['nodes']:
+        for node in self.kg.get('nodes', []):
             if node['id'] == node_id:
                 return node
         return None
@@ -44,7 +55,7 @@ class KGManager:
 
         new_node = {
             "id": node_id,
-            "position": position if position else {"x": 0, "y": 0, "z": 0},
+            "position": position if position else {"x": random.uniform(-1, 1), "y": random.uniform(-1, 1), "z": random.uniform(-1, 1)},
             "activation_energy": 0.0
         }
         if properties:
@@ -53,41 +64,23 @@ class KGManager:
         self.kg['nodes'].append(new_node)
         return new_node
 
-    def add_edge(self, source_id: str, target_id: str, relation: str, properties: Optional[Dict[str, Any]] = None):
+    def add_or_update_edge(self, source_id: str, target_id: str, relation: str, properties: Optional[Dict[str, Any]] = None):
         """
-        Adds a directional edge with optional properties.
-        This enables the creation of a property graph.
+        Adds or updates a directional edge with optional properties.
         """
-        if any(e['source'] == source_id and e['target'] == target_id and e['relation'] == relation for e in self.kg['edges']):
-            return
+        # Check if an edge with the same source, target, and relation exists
+        for edge in self.kg.get('edges', []):
+            if edge['source'] == source_id and edge['target'] == target_id and edge['relation'] == relation:
+                if properties:
+                    edge.update(properties)
+                return
 
-        source_node = self.add_node(source_id)
-        target_node = self.get_node(target_id)
-
-        if not target_node or target_node['position'] == {"x": 0, "y": 0, "z": 0}:
-            target_node = self.add_node(target_id)
-            pos = source_node['position'].copy()
-
-            if relation == "is_composed_of":
-                pos['z'] += 1
-            elif relation == "is_a":
-                pos['y'] += 1
-            elif relation == "causes":
-                pos['x'] += 1.5
-            else:
-                pos['x'] += 1
-
-            pos['x'] += random.uniform(-0.2, 0.2)
-            pos['y'] += random.uniform(-0.2, 0.2)
-            pos['z'] += random.uniform(-0.2, 0.2)
-
-            target_node['position'] = pos
-
+        # If no such edge exists, create a new one
         new_edge = {"source": source_id, "target": target_id, "relation": relation}
         if properties:
             new_edge.update(properties)
-
         self.kg['edges'].append(new_edge)
+
 
     def find_causes(self, target_id: str) -> List[Dict[str, Any]]:
         """Finds all causes for a given target node."""
@@ -109,14 +102,14 @@ class KGManager:
         return {"nodes": len(self.kg['nodes']), "edges": len(self.kg['edges'])}
 
 if __name__ == '__main__':
-    kg_manager = KGManager()
+    kg_manager = KGManager() # This will now use kg.json by default
     kg_manager.kg = {"nodes": [], "edges": []}
 
     # Example of a causal chain
-    kg_manager.add_edge("rain", "wet_ground", "causes", properties={"strength": 0.9})
-    kg_manager.add_edge("wet_ground", "slippery_surface", "causes", properties={"strength": 0.7})
+    kg_manager.add_or_update_edge("rain", "wet_ground", "causes", properties={"strength": 0.9})
+    kg_manager.add_or_update_edge("wet_ground", "slippery_surface", "causes", properties={"strength": 0.7})
 
-    kg_manager.save()
+    kg_manager.save_kg()
 
     print('KG summary:', kg_manager.get_summary())
     print("KG rebuilt with causal query functions.")
