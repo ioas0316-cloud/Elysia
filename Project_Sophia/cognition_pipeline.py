@@ -80,11 +80,27 @@ class CognitionPipeline:
         self.lens_alpha = 0.35
         self.lens_anchors = None  # e.g., ['love','logos']
 
+        # Correctly locate config.json relative to this file's location
+        # __file__ -> /app/Project_Sophia/cognition_pipeline.py
+        # os.path.dirname(__file__) -> /app/Project_Sophia
+        # os.path.join(..., '..') -> /app/
+        # final path -> /app/config.json
         config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
-        with open(config_path, 'r', encoding='utf-8') as f:
-            config = json.load(f)
         try:
-            config = load_config()
+            with open(config_path, 'r', encoding='utf-8') as f:
+                config = json.load(f)
+        except FileNotFoundError:
+            print(f"WARNING: config.json not found at {config_path}. Using default settings.")
+            config = {} # Use an empty config if the file is missing
+        except Exception as e:
+            print(f"ERROR: Failed to load or parse config.json from {config_path}: {e}")
+            config = {}
+
+        try:
+            # This custom loader might have more complex logic, we keep it as a fallback
+            loaded_config = load_config()
+            if loaded_config:
+                config = loaded_config
         except Exception:
             pass
         self.prefixes = config.get('prefixes', {})
@@ -151,6 +167,18 @@ class CognitionPipeline:
 
     def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, Any], EmotionalState]:
         try:
+            # --- Specialized Cortex Routing ---
+            # Route to ArithmeticCortex if the message is a calculation request.
+            if message.lower().startswith("calculate:") or message.lower().startswith("계산:"):
+                try:
+                    # The ArithmeticCortex's process method now handles everything.
+                    result_text = self.arithmetic_cortex.process(message)
+                    response = {"type": "text", "text": result_text}
+                    return response, self.current_emotional_state
+                except Exception as e:
+                    pipeline_logger.warning(f"ArithmeticCortex failed for '{message}', falling through. Error: {e}")
+                    # Fall through to the general pipeline if the cortex fails.
+
             if self.pending_visual_learning:
                 pending_data = self.pending_visual_learning
                 self.pending_visual_learning = None
@@ -407,28 +435,31 @@ JSON response:
             pipeline_logger.exception(f"An unexpected error occurred during emotion analysis for message: {message}")
             return EmotionalState(0.0, 0.0, 0.0)
 
-    def _find_relevant_experiences(self, echo: Dict[str, float], limit: int = 1) -> list:
-        all_experiences = self.core_memory.get_experiences()
-        if not all_experiences or not echo:
+    def _find_relevant_experiences(self, message: str, top_k=3) -> list[Memory]:
+        """Finds relevant past experiences from core memory."""
+        if not self.api_available:
             return []
-        activated_concepts = set(echo.keys())
-        scored_experiences = []
-        for exp in all_experiences:
-            content = exp.get('content')
-            if not isinstance(content, str):
-                continue
-            exp_words = set(re.findall(r'\b\w+\b', content.lower()))
-            shared_concepts = activated_concepts.intersection(exp_words)
-            if shared_concepts:
-                score = sum(echo[concept] for concept in shared_concepts)
-                scored_experiences.append((exp, score))
-        scored_experiences.sort(key=lambda x: x[1], reverse=True)
-        return [exp for exp, score in scored_experiences[:limit]]
+        try:
+            message_embedding = get_text_embedding(message)
+            if message_embedding:
+                return self.core_memory.find_relevant_experiences(message_embedding, top_k)
+        except (APIKeyError, APIRequestError) as e:
+            self.api_available = False
+            pipeline_logger.warning(f"API unavailable during experience retrieval: {e}")
+        except Exception as e:
+            pipeline_logger.exception(f"Error finding relevant experiences for: {message}")
+        return []
 
     def _enrich_context(self, context: Dict[str, Any], message: str) -> Dict[str, Any]:
         enriched = context.copy()
         echo = {}
         if self.api_available:
+            # First, find relevant experiences from memory if the API is available.
+            relevant_experiences = self._find_relevant_experiences(message)
+            if relevant_experiences:
+                enriched['relevant_experiences'] = [exp.content for exp in relevant_experiences]
+
+            # Then, proceed with KG-based context enrichment.
             try:
                 message_embedding = get_text_embedding(message)
                 if message_embedding:
@@ -459,9 +490,9 @@ JSON response:
                 pipeline_logger.exception(f"Error in _enrich_context during wave mechanics activation for message: {message}")
 
         if not self.api_available:
-            prompt_tokens = set(re.findall(r'\w+', message.lower()))
-            all_node_ids = {node['id'] for node in self.kg_manager.kg['nodes']}
-            stimulus_nodes = prompt_tokens.intersection(all_node_ids)
+            lower_message = message.lower()
+            all_node_ids = {node['id'] for node in self.kg_manager.kg.get('nodes', [])}
+            stimulus_nodes = {node_id for node_id in all_node_ids if node_id in lower_message}
             node_w = self.lens.build_node_weights(self.topic_tracker.snapshot())
             spatial_w = self.lens.build_spatial_lens(self.kg_manager, centers=self.lens_anchors, alpha=self.lens_alpha)
             if spatial_w:
@@ -546,7 +577,6 @@ JSON response:
         enriched['identity'] = self.core_memory.get_identity()
         if 'speaker' in context:
             enriched['relationship'] = self.core_memory.get_relationship(context['speaker'])
-        enriched['relevant_experiences'] = self._find_relevant_experiences(echo)
         # Recall associative gists by echo-top keywords
         try:
             if echo:
@@ -591,24 +621,16 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
 
     def _generate_internal_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any]) -> Tuple[Dict[str, Any], EmotionalState]:
         """
-        Fallback response generation using the local LLM.
+        Fallback response generation when external APIs are not available.
+        This is the "Writing Room" for Elysia's inner voice.
         """
-        # Lazily initialize the local LLM cortex if it hasn't been already
-        if self.local_llm_cortex is None:
-            self.local_llm_cortex = LocalLLMCortex()
-
-        # Check if the local model was loaded successfully
-        if self.local_llm_cortex and self.local_llm_cortex.model:
-            # Use the local LLM to generate a response
-            prompt = f"""You are Elysia. The user said: "{message}".
-
-Based on your identity and the conversation so far, generate a thoughtful, natural response."""
-            response_text = self.local_llm_cortex.generate_response(prompt)
-            return {"type": "text", "text": response_text}, emotional_state
+        facts = self.reasoner.deduce_facts(message)
+        if facts:
+            response_text = " ".join(facts)
         else:
-            # If the local model is not available, use the original simple fallback
-            pipeline_logger.warning("Local LLM not available. Falling back to simple response.")
-            return {"type": "text", "text": "죄송합니다. 현재 주 지식망 및 보조 지식망에 모두 연결할 수 없습니다. 잠시 후 다시 시도해주세요." }, emotional_state
+            response_text = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
+
+        return {"type": "text", "text": response_text}, emotional_state
 
     def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
         if not self.api_available:

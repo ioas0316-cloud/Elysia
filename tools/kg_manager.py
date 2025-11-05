@@ -11,19 +11,20 @@ from pathlib import Path
 from typing import Dict, List, Optional, Any
 
 DATA_DIR = Path("data")
-KG_PATH = DATA_DIR / 'kg_with_embeddings.json'
+DEFAULT_KG_PATH = DATA_DIR / 'kg_with_embeddings.json'
 
 class KGManager:
-    def __init__(self):
-        DATA_DIR.mkdir(exist_ok=True)
-        if KG_PATH.exists():
-            with open(KG_PATH, 'r', encoding='utf-8') as f:
+    def __init__(self, filepath: Optional[Path] = None):
+        self.filepath = filepath if filepath else DEFAULT_KG_PATH
+        self.filepath.parent.mkdir(exist_ok=True)
+        if self.filepath.exists():
+            with open(self.filepath, 'r', encoding='utf-8') as f:
                 self.kg = json.load(f)
         else:
             self.kg = {"nodes": [], "edges": []}
 
     def save(self):
-        with open(KG_PATH, 'w', encoding='utf-8') as f:
+        with open(self.filepath, 'w', encoding='utf-8') as f:
             json.dump(self.kg, f, ensure_ascii=False, indent=2)
 
     def get_node(self, node_id: str) -> Optional[Dict]:

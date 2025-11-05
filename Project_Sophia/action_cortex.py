@@ -23,19 +23,10 @@ class ActionCortex:
     """
 
     def __init__(self):
-        self.tools_kg_manager = KGManager()
-        self.tools_kg_manager.kg = self._load_tools_kg()
+        tools_kg_path = Path("data/tools_kg.json")
+        self.tools_kg_manager = KGManager(filepath=tools_kg_path)
         self.wave_mechanics = WaveMechanics(self.tools_kg_manager)
         self.tool_schemas = self._load_tool_schemas()
-
-    def _load_tools_kg(self) -> Dict:
-        """Loads the dedicated knowledge graph for tools."""
-        tools_kg_path = Path("data/tools_kg.json")
-        if not tools_kg_path.exists():
-            print("[ActionCortex] WARNING: data/tools_kg.json not found.")
-            return {"nodes": [], "edges": []}
-        with open(tools_kg_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
 
     def _load_tool_schemas(self) -> Dict:
         """Loads the schemas for tools that define their parameters."""

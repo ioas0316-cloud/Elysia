@@ -9,11 +9,12 @@ class LogicalReasoner:
     사용자 입력으로부터 논리적 사실을 추론하고 지식 그래프와 상호작용합니다.
     인과 관계를 포함한 복잡한 추론을 지원합니다.
     """
-    def __init__(self):
+    def __init__(self, kg_manager: KGManager = None):
         """
-        LogicalReasoner를 초기화하고 KGManager를 인스턴스화합니다.
+        LogicalReasoner를 초기화합니다.
+        기존 KGManager를 주입하거나, 제공되지 않으면 새로 생성합니다.
         """
-        self.kg_manager = KGManager()
+        self.kg_manager = kg_manager if kg_manager else KGManager()
 
     def _find_mentioned_entities(self, message: str) -> List[str]:
         """메시지에서 KG에 존재하는 엔티티를 찾습니다."""

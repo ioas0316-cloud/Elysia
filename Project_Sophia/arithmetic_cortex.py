@@ -8,6 +8,42 @@ class ArithmeticCortex:
     # A whitelist of safe characters for the expression
     _SAFE_EXPR_PATTERN = re.compile(r"^[0-9\s\+\-\*\/\(\)\.]+$")
 
+    def process(self, message: str) -> str:
+        """
+        Processes a natural language command for calculation (e.g., "calculate: 5 * 5")
+        and returns a formatted string response.
+        """
+        # Extract the mathematical expression from the command.
+        # It supports both "calculate:" and "계산:" prefixes.
+        expression_match = re.match(r"^(?:calculate|계산):\s*(.*)", message, re.IGNORECASE)
+        if not expression_match:
+            return "계산 형식을 이해하지 못했습니다. '계산: [수식]' 형태로 요청해주세요."
+
+        expression = expression_match.group(1).strip()
+
+        # Security check
+        if not self._SAFE_EXPR_PATTERN.match(expression):
+            thought = f'The expression "{expression}" contains unsafe characters. I cannot evaluate it.'
+            log_experience('arithmetic_cortex', 'cognition', {'step': 'security_fail', 'thought': thought, 'expression': expression})
+            print(f"[{self.__class__.__name__}] {thought}")
+            return f"'{expression}' 에는 안전하지 않은 문자가 포함되어 계산할 수 없습니다."
+
+        try:
+            # Using eval() after a strict security check
+            result = eval(expression)
+            log_experience('arithmetic_cortex', 'action', {'step': 'evaluate_success', 'expression': expression, 'result': result})
+            # Format the result into a user-friendly string
+            return f"계산 결과는 {result} 입니다."
+        except ZeroDivisionError:
+            return "0으로 나눌 수 없습니다."
+        except Exception as e:
+            thought = f'I encountered an error while evaluating "{expression}": {e}.'
+            log_experience('arithmetic_cortex', 'error', {'step': 'evaluate_error', 'expression': expression, 'error': str(e)})
+            log_experience('arithmetic_cortex', 'cognition', {'step': 'evaluate_fail', 'thought': thought})
+            print(f"[{self.__class__.__name__}] {thought}")
+            return f"계산식을 이해하지 못했습니다: {e}"
+
+
     def evaluate(self, expression: str) -> float | None:
         """
         Safely evaluates a mathematical expression string and returns the result,

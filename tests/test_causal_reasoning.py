@@ -9,18 +9,21 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
 from Project_Sophia.logical_reasoner import LogicalReasoner
+from tools.kg_manager import KGManager
 
 class TestCausalReasoning(unittest.TestCase):
 
     def setUp(self):
         """Set up a fresh reasoner and a test KG for each test."""
-        self.reasoner = LogicalReasoner()
-
-        # Override the default KG path to use a test-specific file
         self.test_kg_path = Path('data/test_causal_kg.json')
-        # This is a bit of a hack; ideally, the KGManager would be injectable.
-        # For now, we manually override the path it uses.
-        self.reasoner.kg_manager.kg = {"nodes": [], "edges": []}
+        # Ensure the test KG file doesn't exist from a previous failed run
+        if self.test_kg_path.exists():
+            self.test_kg_path.unlink()
+
+        # Create a dedicated KGManager instance for the test
+        self.test_kg_manager = KGManager(filepath=self.test_kg_path)
+        # Pass the dedicated manager to the reasoner
+        self.reasoner = LogicalReasoner(kg_manager=self.test_kg_manager)
 
         # Set up a test KG with causal and non-causal relationships
         self.reasoner.kg_manager.add_edge("햇빛", "식물 성장", "causes", properties={"strength": 0.85})
