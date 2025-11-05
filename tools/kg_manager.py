@@ -53,6 +53,14 @@ class KGManager:
         self.kg['nodes'].append(new_node)
         return new_node
 
+    def update_node_properties(self, node_id: str, properties: Dict[str, Any]) -> bool:
+        """Updates the properties of an existing node."""
+        node = self.get_node(node_id)
+        if node:
+            node.update(properties)
+            return True
+        return False
+
     def add_edge(self, source_id: str, target_id: str, relation: str, properties: Optional[Dict[str, Any]] = None):
         """
         Adds a directional edge with optional properties.
