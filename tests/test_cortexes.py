@@ -4,7 +4,7 @@ import os
 import json
 from pathlib import Path
 from Project_Sophia.value_cortex import ValueCortex
-from Project_Sophia.sensory_cortex import SensoryCortex
+from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.action_cortex import ActionCortex
 from tools.kg_manager import KGManager
 

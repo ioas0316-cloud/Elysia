@@ -20,7 +20,7 @@ import os
 app = Flask(__name__, template_folder='templates')
 
 # Create a standalone CognitionPipeline without importing elysia_bridge
-from Project_Sophia.cognition_pipeline import CognitionPipeline
+from Project_Elysia.cognition_pipeline import CognitionPipeline
 cognition_pipeline = CognitionPipeline()
 
 tool_executor = ToolExecutor()

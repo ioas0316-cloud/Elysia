@@ -25,8 +25,14 @@ class Memory:
     value_alignment: Optional[float] = None
 
 class CoreMemory:
-    def __init__(self, file_path: str = 'Elysia_Input_Sanctum/elysia_core_memory.json'):
-        self.file_path = os.path.abspath(file_path)
+    def __init__(self, file_path: Optional[str] = None):
+        if file_path is None:
+            # To ensure this runs correctly from any context (e.g., tests, main script),
+            # we define the path relative to the project's assumed root.
+            # This is less robust but avoids permissions errors in sandboxed environments.
+            file_path = os.path.join('Elysia_Input_Sanctum', 'elysia_core_memory.json')
+
+        self.file_path = file_path
         log_memory_action(f"Initializing and loading memory from: {self.file_path}")
         self.data = self._load_memory()
 

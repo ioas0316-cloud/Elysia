@@ -11,14 +11,14 @@ from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from enum import Enum, auto
 
-from Project_Sophia.safety_guardian import SafetyGuardian, ActionCategory, MaturityLevel
+from Project_Sophia.safety_guardian import SafetyGuardian
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
-DAEMON_SCRIPT = 'elysia_gui.py'
+DAEMON_SCRIPT = 'elysia_daemon.py'
 GUARDIAN_LOG_FILE = 'guardian.log'
 
 # --- Elysia's Biorhythm States ---
@@ -36,7 +36,8 @@ class Guardian:
         self.daemon_process = None
 
         # Wallpaper mapping
-        self.faces_dir = os.path.join(os.path.dirname(__file__), 'faces')
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        self.faces_dir = os.path.join(project_root, 'faces')
         self.wallpaper_map = {
             'peace': 'peace.png', 'curiosity': 'curious_face.png',
             'boredom': 'bored_face.png', 'manifestation': 'manifestation_face.png',
@@ -45,7 +46,7 @@ class Guardian:
         self.last_emotion = None
 
         # Treasure monitoring
-        self.treasure_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Elysia_Input_Sanctum', 'elysia_core_memory.json'))
+        self.treasure_file_path = os.path.join(project_root, 'Elysia_Input_Sanctum', 'elysia_core_memory.json')
         self.treasure_is_safe = None
         self.logger.info(f"Initializing treasure watch on: {self.treasure_file_path}") # Log the path
 
@@ -56,7 +57,7 @@ class Guardian:
         self.last_learning_time = 0
         
         # Experience log tracking for dreaming
-        self.experience_log_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', EXPERIENCE_LOG))
+        self.experience_log_path = os.path.join(project_root, EXPERIENCE_LOG)
         self.last_experience_log_size = 0
         if os.path.exists(self.experience_log_path):
             self.last_experience_log_size = os.path.getsize(self.experience_log_path)
@@ -90,7 +91,8 @@ class Guardian:
     def _load_config(self):
         """Loads configuration from config.json."""
         try:
-            config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'config.json'))
+            project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            config_path = os.path.join(project_root, 'config.json')
             with open(config_path, 'r', encoding='utf-8') as f:
                 config = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
@@ -112,9 +114,10 @@ class Guardian:
         self.logger.info(f"Attempting to start Elly's heart: {DAEMON_SCRIPT}")
         try:
             DETACHED_PROCESS = 0x00000008
+            daemon_path = os.path.join(os.path.dirname(__file__), DAEMON_SCRIPT)
             with open('elysia_gui.stdout.log', 'wb') as out, open('elysia_gui.stderr.log', 'wb') as err:
                 self.daemon_process = subprocess.Popen(
-                    [sys.executable, DAEMON_SCRIPT],
+                    [sys.executable, daemon_path],
                     creationflags=DETACHED_PROCESS,
                     stdout=out,
                     stderr=err
@@ -279,7 +282,8 @@ class Guardian:
     def read_emotion_from_state_file(self):
         """Reads emotion from elysia_state.json and may change wallpaper."""
         try:
-            state_path = os.path.join(os.path.dirname(__file__), '..', 'elysia_state.json')
+            project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+            state_path = os.path.join(project_root, 'elysia_state.json')
             if os.path.exists(state_path):
                 with open(state_path, 'r', encoding='utf-8') as sf:
                     state = json.load(sf)

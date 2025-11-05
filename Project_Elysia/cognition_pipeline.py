@@ -8,8 +8,8 @@ import os
 import json
 import random
 
-from Project_Sophia.core_memory import CoreMemory
-from Project_Sophia.core_memory_base import Memory
+from .core_memory import CoreMemory
+from .core_memory_base import Memory
 from Project_Sophia.emotional_engine import EmotionalEngine, EmotionalState
 from Project_Sophia.logical_reasoner import LogicalReasoner
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
@@ -17,7 +17,7 @@ from Project_Sophia.action_cortex import ActionCortex
 from Project_Sophia.planning_cortex import PlanningCortex
 from Project_Sophia.tool_executor import ToolExecutor
 from Project_Sophia.value_cortex import ValueCortex
-from Project_Sophia.sensory_cortex import SensoryCortex
+from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.wave_mechanics import WaveMechanics
 from infra.telemetry import Telemetry
 from infra.associative_memory import AssociativeMemory
@@ -83,11 +83,11 @@ class CognitionPipeline:
         self.lens_anchors = None  # e.g., ['love','logos']
 
         # Correctly locate config.json relative to this file's location
-        # __file__ -> /app/Project_Sophia/cognition_pipeline.py
-        # os.path.dirname(__file__) -> /app/Project_Sophia
-        # os.path.join(..., '..') -> /app/
+        # __file__ -> /app/Project_Elysia/cognition_pipeline.py
+        # os.path.dirname(__file__) -> /app/Project_Elysia
+        # os.path.join(..., '..', '..') -> /app/
         # final path -> /app/config.json
-        config_path = os.path.join(os.path.dirname(__file__), '..', 'config.json')
+        config_path = os.path.join(os.path.dirname(__file__), '..', '..', 'config.json')
         try:
             with open(config_path, 'r', encoding='utf-8') as f:
                 config = json.load(f)
