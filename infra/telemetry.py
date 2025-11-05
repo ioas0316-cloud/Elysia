@@ -2,7 +2,7 @@ import os
 import json
 import uuid
 import shutil
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import Any, Dict, Optional
 
 
@@ -20,7 +20,7 @@ class Telemetry:
         os.makedirs(self.base_dir, exist_ok=True)
 
     def _path_for_today(self) -> str:
-        day = datetime.utcnow().strftime('%Y%m%d')
+        day = datetime.now(UTC).strftime('%Y%m%d')
         day_dir = os.path.join(self.base_dir, day)
         os.makedirs(day_dir, exist_ok=True)
         return os.path.join(day_dir, 'events.jsonl')
@@ -33,7 +33,7 @@ class Telemetry:
         try:
             event = {
                 'schema_version': self.schema_version,
-                'timestamp': datetime.utcnow().isoformat() + 'Z',
+                'timestamp': datetime.now(UTC).isoformat().replace('+00:00', 'Z'),
                 'event_type': event_type,
                 'trace_id': trace_id or self.new_trace_id(),
                 'payload': payload,
@@ -61,7 +61,7 @@ class Telemetry:
             days.sort()
             if not days:
                 return
-            cutoff = (datetime.utcnow() - timedelta(days=retain_days)).strftime('%Y%m%d')
+            cutoff = (datetime.now(UTC) - timedelta(days=retain_days)).strftime('%Y%m%d')
             for day in days:
                 if day < cutoff:
                     dpath = os.path.join(self.base_dir, day)
