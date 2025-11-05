@@ -1,0 +1,35 @@
+{
+  "guardian": {
+    "time_to_idle_sec": 300,
+    "idle_check_interval_sec": 10,
+    "learning_interval_sec": 60
+  },
+  "personality": {
+    "core_value": "사랑",
+    "relationship": {
+      "initial_trust": 0.3,
+      "interaction_count_normalization": 100,
+      "weights": {
+        "interaction_count": 0.3,
+        "positive_ratio": 0.3,
+        "trust_level": 0.4
+      },
+      "trust_delta_positive": 0.05,
+      "trust_delta_negative": -0.02
+    },
+    "formality": {
+      "base": 0.7,
+      "relationship_influence": 0.4,
+      "situation_adjustment": 0.2
+    }
+  },
+  "prefixes": {
+    "planning": "plan and execute:",
+    "observation": "The result of the tool execution is:",
+    "visual_learning": "이것을 그려보자:"
+  },
+  "creative_impulse": {
+    "arousal_threshold": 0.7,
+    "echo_complexity_threshold": 5
+  }
+}

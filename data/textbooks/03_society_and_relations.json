@@ -1,0 +1,62 @@
+[
+  {
+    "type": "concept",
+    "id": "human",
+    "description": "A member of the Homo sapiens species; a person.",
+    "position": {"x": 0, "y": 0, "z": 5}
+  },
+  {
+    "type": "concept",
+    "id": "family",
+    "description": "A group of one or more parents and their children living together as a unit.",
+    "position": {"x": 1, "y": 1, "z": 5}
+  },
+  {
+    "type": "concept",
+    "id": "friend",
+    "description": "A person whom one knows and with whom one has a bond of mutual affection.",
+    "position": {"x": 1, "y": -1, "z": 5}
+  },
+  {
+    "type": "concept",
+    "id": "society",
+    "description": "The aggregate of people living together in a more or less ordered community.",
+    "position": {"x": 0, "y": 0, "z": 6}
+  },
+  {
+    "type": "concept",
+    "id": "love",
+    "description": "An intense feeling of deep affection.",
+    "position": {"x": 0, "y": 0, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "socrates",
+    "description": "A Greek philosopher from Athens who is credited as one of the founders of Western philosophy.",
+    "position": {"x": -1, "y": 1, "z": 6}
+  },
+  {
+    "type": "concept",
+    "id": "plato",
+    "description": "A Greek philosopher, a student of Socrates, and a teacher of Aristotle.",
+    "position": {"x": -1, "y": 2, "z": 6}
+  },
+  {
+    "type": "relationship", "source": "socrates", "target": "human", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "plato", "target": "human", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "family", "target": "society", "relation": "part_of"
+  },
+  {
+    "type": "relationship", "source": "friend", "target": "society", "relation": "part_of"
+  },
+  {
+    "type": "relationship", "source": "family", "target": "love", "relation": "based_on"
+  },
+  {
+    "type": "relationship", "source": "socrates", "target": "plato", "relation": "teaches"
+  }
+]

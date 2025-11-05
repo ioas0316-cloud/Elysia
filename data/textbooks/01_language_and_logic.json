@@ -1,0 +1,77 @@
+[
+  {
+    "type": "concept",
+    "id": "concept",
+    "description": "A general idea or notion that represents a class of objects or events.",
+    "position": {"x": 0, "y": 0, "z": 1}
+  },
+  {
+    "type": "concept",
+    "id": "meaning",
+    "description": "The idea or concept that a word or sentence expresses.",
+    "position": {"x": 0, "y": 1, "z": 1}
+  },
+  {
+    "type": "concept",
+    "id": "sentence",
+    "description": "A complete set of words that expresses a thought or an idea.",
+    "position": {"x": 0, "y": 0, "z": 2}
+  },
+  {
+    "type": "concept",
+    "id": "word",
+    "description": "A single distinct meaningful element of speech or writing.",
+    "position": {"x": 0, "y": 1, "z": 2}
+  },
+  {
+    "type": "concept",
+    "id": "letter",
+    "description": "A character representing one or more of the sounds used in speech.",
+    "position": {"x": 0, "y": 2, "z": 2}
+  },
+  {
+    "type": "relationship",
+    "source": "letter",
+    "target": "word",
+    "relation": "part_of",
+    "properties": {
+      "description": "A word is composed of letters."
+    }
+  },
+  {
+    "type": "relationship",
+    "source": "word",
+    "target": "sentence",
+    "relation": "part_of",
+    "properties": {
+      "description": "A sentence is composed of words."
+    }
+  },
+  {
+    "type": "relationship",
+    "source": "word",
+    "target": "meaning",
+    "relation": "has_a",
+    "properties": {
+      "description": "A word has a meaning."
+    }
+  },
+  {
+    "type": "relationship",
+    "source": "sentence",
+    "target": "concept",
+    "relation": "expresses",
+    "properties": {
+      "description": "A sentence expresses a concept."
+    }
+  },
+  {
+    "type": "relationship",
+    "source": "meaning",
+    "target": "concept",
+    "relation": "is_a",
+    "properties": {
+      "description": "A meaning is a type of concept."
+    }
+  }
+]

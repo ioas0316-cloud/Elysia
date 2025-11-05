@@ -49,12 +49,15 @@ pipeline_logger = logging.getLogger(__name__)
 # --- End Logging Configuration ---
 
 class CognitionPipeline:
-    def __init__(self):
+    def __init__(self, core_memory: Optional[CoreMemory] = None):
         # 1. Create a single, shared KGManager instance first.
         self.kg_manager = KGManager()
 
         # 2. Inject this shared instance into all modules that need it.
-        self.core_memory = CoreMemory()
+        if core_memory:
+            self.core_memory = core_memory
+        else:
+            self.core_memory = CoreMemory()
         self.reasoner = LogicalReasoner(kg_manager=self.kg_manager)
         self.arithmetic_cortex = ArithmeticCortex()
         self.action_cortex = ActionCortex() # Assuming this needs its own KG, or it should also be injected

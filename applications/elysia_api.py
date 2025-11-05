@@ -17,11 +17,43 @@ import math
 import os
 
 
+import atexit
+
 app = Flask(__name__, template_folder='templates')
 
-# Create a standalone CognitionPipeline without importing elysia_bridge
+# --- Elysia Continuity Protocol: Memory Persistence ---
 from Project_Sophia.cognition_pipeline import CognitionPipeline
-cognition_pipeline = CognitionPipeline()
+from Project_Sophia.core_memory import CoreMemory
+
+STATE_FILE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data', 'elysia_state.json'))
+
+def load_persistent_memory() -> Optional[CoreMemory]:
+    """Loads CoreMemory from the state file if it exists."""
+    if os.path.exists(STATE_FILE_PATH):
+        print(f"INFO: Found persistent memory state at {STATE_FILE_PATH}. Loading...")
+        return CoreMemory(file_path=STATE_FILE_PATH)
+    print("INFO: No persistent memory state found. Starting with a fresh memory.")
+    return None
+
+# Load memory from file, or start fresh if no file exists.
+# Then, inject it into the CognitionPipeline.
+persistent_memory = load_persistent_memory()
+cognition_pipeline = CognitionPipeline(core_memory=persistent_memory)
+
+# Set the file path for the new memory object if it was created fresh
+if not persistent_memory:
+    cognition_pipeline.core_memory.file_path = STATE_FILE_PATH
+
+def save_persistent_memory():
+    """Saves the current CoreMemory state to the file."""
+    print(f"INFO: Application shutting down. Saving memory state to {STATE_FILE_PATH}...")
+    cognition_pipeline.core_memory._save_memory()
+    print("INFO: Memory state saved.")
+
+# Register the save function to be called on application exit.
+atexit.register(save_persistent_memory)
+# --- End of Continuity Protocol ---
+
 
 tool_executor = ToolExecutor()
 agent_proxy = AgentProxy()

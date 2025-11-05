@@ -12,4 +12,5 @@ elysia_state.json
 Elysia_Input_Sanctum/
 data/associative_index.json
 data/telemetry/
-*.json
+elysia_logbook.md
+data/elysia_state.json

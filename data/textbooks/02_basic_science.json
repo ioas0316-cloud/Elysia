@@ -1,0 +1,107 @@
+[
+  {
+    "type": "concept",
+    "id": "entity",
+    "description": "Something that exists as a distinct and independent unit.",
+    "position": {"x": 0, "y": 0, "z": -1}
+  },
+  {
+    "type": "concept",
+    "id": "matter",
+    "description": "The substance or substances of which any physical object consists or is composed.",
+    "position": {"x": 1, "y": 0, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "liquid",
+    "description": "A state of matter that has a definite volume but no fixed shape.",
+    "position": {"x": 2, "y": 1, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "gas",
+    "description": "A state of matter that has no fixed shape and no fixed volume.",
+    "position": {"x": 2, "y": -1, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "solid",
+    "description": "A state of matter that has a definite shape and volume.",
+    "position": {"x": 2, "y": 0, "z": 1}
+  },
+  {
+    "type": "concept",
+    "id": "water",
+    "description": "A colorless, transparent, odorless liquid that forms the seas, lakes, rivers, and rain and is the basis of the fluids of living organisms.",
+    "position": {"x": 3, "y": 1, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "fire",
+    "description": "Combustion or burning, in which substances combine chemically with oxygen from the air and typically give out bright light, heat, and smoke.",
+    "position": {"x": 1, "y": 2, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "hot",
+    "description": "Having a high degree of heat or a high temperature.",
+    "position": {"x": 1, "y": 3, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "tree",
+    "description": "A woody perennial plant, typically having a single stem or trunk growing to a considerable height and bearing lateral branches at some distance from the ground.",
+    "position": {"x": 3, "y": 0, "z": 2}
+  },
+  {
+    "type": "concept",
+    "id": "metal",
+    "description": "A solid material that is typically hard, shiny, malleable, fusible, and ductile, with good electrical and thermal conductivity.",
+    "position": {"x": 3, "y": -1, "z": 1}
+  },
+  {
+    "type": "concept",
+    "id": "planet",
+    "description": "A celestial body moving in an elliptical orbit around a star.",
+    "position": {"x": -2, "y": 0, "z": 0}
+  },
+  {
+    "type": "concept",
+    "id": "star",
+    "description": "A fixed luminous point in the night sky that is a large, remote incandescent body like the sun.",
+    "position": {"x": -3, "y": 0, "z": 0}
+  },
+  {
+    "type": "relationship", "source": "matter", "target": "entity", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "water", "target": "liquid", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "liquid", "target": "matter", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "gas", "target": "matter", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "solid", "target": "matter", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "tree", "target": "solid", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "metal", "target": "solid", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "fire", "target": "entity", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "fire", "target": "hot", "relation": "has_property"
+  },
+  {
+    "type": "relationship", "source": "planet", "target": "entity", "relation": "is_a"
+  },
+  {
+    "type": "relationship", "source": "star", "target": "entity", "relation": "is_a"
+  }
+]
