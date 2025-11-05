@@ -15,6 +15,9 @@ from Project_Sophia.safety_guardian import SafetyGuardian
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
+from .memory_weaver import MemoryWeaver
+from .core_memory import CoreMemory
+from tools.kg_manager import KGManager
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -33,6 +36,9 @@ class Guardian:
         self.safety = SafetyGuardian()
         self.experience_integrator = ExperienceIntegrator()
         self.self_awareness_core = SelfAwarenessCore()
+        self.core_memory = CoreMemory()
+        self.kg_manager = KGManager()
+        self.memory_weaver = MemoryWeaver(self.core_memory, self.kg_manager)
         self.daemon_process = None
 
         # Wallpaper mapping
@@ -203,7 +209,7 @@ class Guardian:
 
         # Perform learning (dreaming) if interval has passed
         if (time.time() - self.last_learning_time) > self.learning_interval:
-            self.trigger_learning()
+            self.trigger_learning() # This now calls the weaver
             self.last_learning_time = time.time()
 
         time.sleep(self.idle_check_interval) # Low-frequency check in IDLE state
@@ -301,44 +307,41 @@ class Guardian:
 
     def trigger_learning(self):
         """
-        Triggers the experience integration process during the IDLE state.
-        This is Elysia's "dreaming" process, where she makes sense of her recent experiences.
+        Triggers the experience integration and memory weaving process during the IDLE state.
+        This is Elysia's "dreaming" process.
         """
-        self.logger.info("Dream cycle initiated. Integrating recent experiences...")
-        
+        self.logger.info("Dream cycle initiated. Weaving memories and integrating experiences...")
+
+        # --- Part 1: Weave memories into insights ---
+        try:
+            self.memory_weaver.weave_memories()
+        except Exception as e:
+            self.logger.error(f"A critical error occurred during the memory weaving part of the dream cycle: {e}")
+
+        # --- Part 2: Integrate raw experience logs ---
+        # This part remains to process low-level logs into the CoreMemory knowledge base
         if not os.path.exists(self.experience_log_path):
-            self.logger.info("No experience log found. Nothing to dream about.")
+            self.logger.info("No experience log found. Nothing to integrate.")
             return
 
         try:
             current_size = os.path.getsize(self.experience_log_path)
             if current_size <= self.last_experience_log_size:
-                self.logger.info("No new experiences to integrate. Dream cycle peaceful.")
+                self.logger.info("No new experiences to integrate. Integration part of dream cycle peaceful.")
                 if current_size < self.last_experience_log_size:
-                    self.last_experience_log_size = current_size # Reset if file shrank
+                    self.last_experience_log_size = current_size
                 return
 
             with open(self.experience_log_path, 'r', encoding='utf-8') as f:
                 f.seek(self.last_experience_log_size)
-                
                 new_experiences = f.readlines()
                 integrated_count = 0
-
                 for line in new_experiences:
-                    if not line.strip():
-                        continue
+                    if not line.strip(): continue
                     try:
                         log_entry = json.loads(line)
-                        
                         content = f"Event: {log_entry.get('type')}, Source: {log_entry.get('source')}, Data: {json.dumps(log_entry.get('data', {}))}"
-                        category = log_entry.get('type', 'unknown')
-                        context = log_entry.get('source', 'unknown')
-                        
-                        self.experience_integrator.add_experience(
-                            content=content,
-                            category=category,
-                            context=context
-                        )
+                        self.experience_integrator.add_experience(content=content, category=log_entry.get('type', 'unknown'), context=log_entry.get('source', 'unknown'))
                         integrated_count += 1
                     except json.JSONDecodeError:
                         self.logger.warning(f"Could not parse line in experience log: {line.strip()}")
@@ -346,15 +349,13 @@ class Guardian:
                         self.logger.error(f"Error integrating one experience: {e}")
 
                 self.last_experience_log_size = f.tell()
-                
                 if integrated_count > 0:
-                    self.logger.info(f"Dream cycle completed. Integrated {integrated_count} new experiences.")
+                    self.logger.info(f"Dream cycle integration part completed. Integrated {integrated_count} new experiences.")
                     self.experience_integrator.save_memory()
                 else:
-                    self.logger.info("Finished dream cycle. No valid new experiences found.")
-
+                    self.logger.info("Finished integration part of dream cycle. No valid new experiences found.")
         except Exception as e:
-            self.logger.error(f"A critical error occurred during the dream cycle: {e}")
+            self.logger.error(f"A critical error occurred during the experience integration part of the dream cycle: {e}")
 
     def check_action_permission(self, category, action, details=None):
         """행동 허용 여부를 확인합니다."""
