@@ -21,4 +21,3 @@ World Model: Planet Overlay (View Layer)
 주의
 - Truth 불변: KG/기하/인과/데이터는 바꾸지 않는다.
 - View 전용: 시각화·주의 가중·리포팅에만 사용한다.
-

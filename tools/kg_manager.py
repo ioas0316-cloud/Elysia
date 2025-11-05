@@ -8,14 +8,14 @@ This version supports a property graph model where edges can have attributes.
 import json
 import random
 from pathlib import Path
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Union
 
 DATA_DIR = Path("data")
 DEFAULT_KG_PATH = DATA_DIR / 'kg_with_embeddings.json'
 
 class KGManager:
-    def __init__(self, filepath: Optional[Path] = None):
-        self.filepath = filepath if filepath else DEFAULT_KG_PATH
+    def __init__(self, filepath: Optional[Union[str, Path]] = None):
+        self.filepath = Path(filepath) if filepath else DEFAULT_KG_PATH
         self.filepath.parent.mkdir(exist_ok=True)
         if self.filepath.exists():
             with open(self.filepath, 'r', encoding='utf-8') as f:
@@ -52,6 +52,14 @@ class KGManager:
 
         self.kg['nodes'].append(new_node)
         return new_node
+
+    def update_node_properties(self, node_id: str, properties: Dict[str, Any]) -> bool:
+        """Updates the properties of an existing node."""
+        node = self.get_node(node_id)
+        if node:
+            node.update(properties)
+            return True
+        return False
 
     def add_edge(self, source_id: str, target_id: str, relation: str, properties: Optional[Dict[str, Any]] = None):
         """

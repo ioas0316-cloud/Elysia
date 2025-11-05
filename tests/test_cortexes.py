@@ -4,8 +4,10 @@ import os
 import json
 from pathlib import Path
 from Project_Sophia.value_cortex import ValueCortex
-from Project_Sophia.sensory_cortex import SensoryCortex
+from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.action_cortex import ActionCortex
+from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
+from Project_Sophia.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 class TestCortexes(unittest.TestCase):
@@ -51,6 +53,9 @@ class TestCortexes(unittest.TestCase):
         with open(self.test_tools_kg_path, 'w', encoding='utf-8') as f:
             json.dump(dummy_tools_kg, f)
 
+        self.kg_manager = KGManager(str(self.test_kg_path))
+        self.wave_mechanics = WaveMechanics(self.kg_manager)
+        self.meta_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics)
         self.value_cortex = ValueCortex(kg_path=str(self.test_kg_path))
         self.sensory_cortex = SensoryCortex(self.value_cortex)
         self.action_cortex = ActionCortex()
@@ -96,6 +101,28 @@ class TestCortexes(unittest.TestCase):
 
         # Verify that the mock was called
         mock_generate_text.assert_called_once()
+
+    def test_meta_cognition_cortex_spiritual_alignment(self):
+        """Test that MetaCognitionCortex measures spiritual alignment."""
+        # Mock the spread_activation to return a predictable result
+        with patch.object(self.wave_mechanics, 'spread_activation', return_value={'love': 0.5}) as mock_spread:
+            result = self.meta_cortex.reflect_on_concept("test_concept", "testing context")
+
+            # 1. Check if the alignment score is in the result
+            self.assertIn('spiritual_alignment', result)
+            self.assertGreater(result['spiritual_alignment'], 0)
+            self.assertEqual(result['spiritual_alignment'], 0.5)
+
+            # 2. Check if the reflection text was generated and contains the alignment score
+            self.assertIn("Spiritual Alignment", result['reflection'])
+            self.assertIn("0.50", result['reflection'])
+
+            # 3. Check if the node in the KG was updated
+            updated_node = self.kg_manager.get_node("test_concept")
+            self.assertIsNotNone(updated_node)
+            self.assertIn('reflection', updated_node)
+            self.assertIn('spiritual_alignment', updated_node)
+            self.assertEqual(updated_node['spiritual_alignment'], 0.5)
 
 if __name__ == '__main__':
     unittest.main()

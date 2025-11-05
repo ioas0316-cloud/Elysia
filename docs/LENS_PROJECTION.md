@@ -20,4 +20,3 @@ Lens Projection (View, Not Truth)
 
 생성 스크립트
 - `tools/generate_starmap.py`가 위 정의로 자동 생성/갱신한다.
-

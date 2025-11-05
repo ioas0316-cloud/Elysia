@@ -8,7 +8,7 @@ from pathlib import Path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Sophia.cognition_pipeline import CognitionPipeline
+from Project_Elysia.cognition_pipeline import CognitionPipeline
 from tools.kg_manager import KGManager
 
 class TestLogicalReasonerIntegration(unittest.TestCase):

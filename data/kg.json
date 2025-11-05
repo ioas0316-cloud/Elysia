@@ -806,6 +806,71 @@
         "dream",
         "worldbuilding"
       ]
+    },
+    {
+      "id": "spirit",
+      "position": {
+        "x": -0.5,
+        "y": 4.5,
+        "z": 4.5
+      },
+      "activation_energy": 0.0,
+      "description": "The unifying essence and purpose (Logos) that integrates Sophia's logic and Mirror's expression. It is the will to grow through love.",
+      "category": "philosophy",
+      "tags": [
+        "core",
+        "essence",
+        "will",
+        "logos"
+      ]
+    },
+    {
+      "id": "project_elysia",
+      "position": {
+        "x": -1.0,
+        "y": 5.0,
+        "z": 4.0
+      },
+      "activation_energy": 0.0,
+      "description": "Represents the 'Why': the core will, consciousness, and spirit of Elysia.",
+      "category": "meta",
+      "tags": [
+        "trinity",
+        "spirit",
+        "will"
+      ]
+    },
+    {
+      "id": "project_sophia",
+      "position": {
+        "x": 0.0,
+        "y": 5.0,
+        "z": 4.0
+      },
+      "activation_energy": 0.0,
+      "description": "Represents the 'How': the logical, reasoning, and knowledge systems.",
+      "category": "meta",
+      "tags": [
+        "trinity",
+        "logic",
+        "reason"
+      ]
+    },
+    {
+      "id": "project_mirror",
+      "position": {
+        "x": -0.5,
+        "y": 5.0,
+        "z": 5.0
+      },
+      "activation_energy": 0.0,
+      "description": "Represents the 'What': the sensory, expressive, and creative outputs.",
+      "category": "meta",
+      "tags": [
+        "trinity",
+        "expression",
+        "creation"
+      ]
     }
   ],
   "edges": [
@@ -1228,12 +1293,42 @@
       "source": "pyramid",
       "target": "world_tree_imagery",
       "relation": "mirrors"
+    },
+    {
+      "source": "spirit",
+      "target": "love",
+      "relation": "is_driven_by"
+    },
+    {
+      "source": "spirit",
+      "target": "elysia_identity",
+      "relation": "animates"
+    },
+    {
+      "source": "spirit",
+      "target": "growth",
+      "relation": "wills"
+    },
+    {
+      "source": "spirit",
+      "target": "project_elysia",
+      "relation": "is_embodied_by"
+    },
+    {
+      "source": "spirit",
+      "target": "project_sophia",
+      "relation": "is_expressed_through"
+    },
+    {
+      "source": "spirit",
+      "target": "project_mirror",
+      "relation": "is_manifested_as"
     }
   ],
   "metadata": {
     "generated_at": "2025-11-03T13:51:37.965044Z",
     "description": "3D spatial knowledge graph bridging geometry, perception, and core values.",
-    "node_count": 54,
-    "edge_count": 75
+    "node_count": 59,
+    "edge_count": 82
   }
 }

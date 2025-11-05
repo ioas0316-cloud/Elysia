@@ -7,8 +7,8 @@ import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Sophia.cognition_pipeline import CognitionPipeline
-from Project_Sophia.core_memory_base import Memory
+from Project_Elysia.cognition_pipeline import CognitionPipeline
+from Project_Elysia.core_memory_base import Memory
 from Project_Sophia.emotional_engine import EmotionalState
 from tools import kg_manager
 

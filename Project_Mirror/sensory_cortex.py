@@ -10,14 +10,16 @@ try:
     from infra.telemetry import Telemetry
 except Exception:
     Telemetry = None
-from Project_Sophia.gemini_api import generate_text
+from Project_Sophia.gemini_api import generate_text, generate_image_from_text
 
 class SensoryCortex:
     def __init__(self, value_cortex: ValueCortex, telemetry: Telemetry | None = None):
         self.value_cortex = value_cortex
         self.telemetry = telemetry
         self.output_dir = "data/generated_images"
+        self.storybook_dir = "data/storybook_images"
         os.makedirs(self.output_dir, exist_ok=True)
+        os.makedirs(self.storybook_dir, exist_ok=True)
         self.textbooks = {}
 
     def translate_description_to_voxels(self, description: str) -> list:
@@ -354,3 +356,47 @@ JSON response:
             "salience_gain": parent_transform.get("salience_gain", 1.0),
             "detail_gain": parent_transform.get("detail_gain", 1.0),
         }
+
+    def render_storybook_frame(self, frame_data: dict, lesson_name: str) -> str | None:
+        """
+        Renders a single frame of a storybook using an external image generation API.
+        Acts as a 'curator' by requesting the image and returning its path.
+        """
+        if not all(k in frame_data for k in ['frame_id', 'description', 'style_prompt']):
+            print("Warning: Invalid frame_data provided to render_storybook_frame.")
+            return None
+
+        try:
+            # Create a detailed prompt for the image generation API
+            prompt = (
+                f"Create a visually appealing and clear illustration for a children's storybook. "
+                f"The scene should depict: \"{frame_data['description']}\". "
+                f"The artistic style should be: \"{frame_data['style_prompt']}\"."
+            )
+
+            # Define a unique path for the generated image
+            timestamp = int(datetime.now().timestamp())
+            output_filename = f"{lesson_name}_{frame_data['frame_id']:02d}_{timestamp}.png"
+            output_path = os.path.join(self.storybook_dir, output_filename)
+
+            # Request the image generation
+            success = generate_image_from_text(prompt, output_path)
+
+            if success:
+                if self.telemetry:
+                    try:
+                        self.telemetry.emit('storybook_frame_rendered', {
+                            'lesson': lesson_name,
+                            'frame_id': frame_data['frame_id'],
+                            'output_path': output_path
+                        })
+                    except Exception:
+                        pass
+                return output_path
+            else:
+                print(f"Warning: Failed to generate image for frame {frame_data['frame_id']} of lesson {lesson_name}.")
+                return None
+
+        except Exception as e:
+            print(f"An unexpected error occurred in render_storybook_frame: {e}")
+            return None
