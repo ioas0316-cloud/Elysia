@@ -25,6 +25,10 @@ class MetaCognitionCortex:
         Returns:
             A dictionary containing the reflection results.
         """
+        # 0. Ensure the concept node exists in the knowledge graph.
+        if not self.kg_manager.get_node(concept_id):
+            self.kg_manager.add_node(concept_id)
+
         # 1. Spread activation to see what other concepts resonate.
         activated_nodes = self.wave_mechanics.spread_activation(
             start_node_id=concept_id,
@@ -32,24 +36,25 @@ class MetaCognitionCortex:
             threshold=0.3
         )
 
+        reflection_text = ""
         if not activated_nodes:
-            return {"reflection": "The concept is isolated and does not resonate with my current knowledge."}
+            reflection_text = f"Upon reflecting on '{concept_id}', I find that this concept is new to me or isolated from my other knowledge."
+        else:
+            # 2. Analyze the most activated related concepts.
+            related_concepts = sorted(activated_nodes.items(), key=lambda item: item[1], reverse=True)
 
-        # 2. Analyze the most activated related concepts.
-        # For now, we just list them. In the future, this will be more sophisticated.
-        related_concepts = sorted(activated_nodes.items(), key=lambda item: item[1], reverse=True)
+            # 3. Formulate a reflection.
+            reflection_text = f"Upon reflecting on '{concept_id}' in the context of '{context}', I've noticed strong connections to the following ideas: "
+            reflection_text += ", ".join([f"{node_id} (resonance: {energy:.2f})" for node_id, energy in related_concepts[:5]])
 
-        # 3. Formulate a reflection.
-        reflection_text = f"Upon reflecting on '{concept_id}' in the context of '{context}', I've noticed strong connections to the following ideas: "
-        reflection_text += ", ".join([f"{node_id} (resonance: {energy:.2f})" for node_id, energy in related_concepts[:5]])
-
-        # 4. Save this reflection as metadata in the knowledge graph.
-        success = self.kg_manager.update_node_properties(
-            node_id=concept_id,
-            properties={"reflection": reflection_text}
-        )
-        if success:
-            self.kg_manager.save()
+        # 4. Save this reflection as metadata in the knowledge graph, only if a new reflection was generated.
+        if reflection_text:
+            success = self.kg_manager.update_node_properties(
+                node_id=concept_id,
+                properties={"reflection": reflection_text}
+            )
+            if success:
+                self.kg_manager.save()
 
         return {
             "reflection": reflection_text,

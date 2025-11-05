@@ -23,6 +23,7 @@ from infra.telemetry import Telemetry
 from infra.associative_memory import AssociativeMemory
 from Project_Sophia.inquisitive_mind import InquisitiveMind
 from Project_Sophia.journal_cortex import JournalCortex
+from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 from Project_Sophia.config_loader import load_config
 from Project_Sophia.conversation_state import WorkingMemory, TopicTracker
 from Project_Sophia.response_orchestrator import ResponseOrchestrator
@@ -68,6 +69,7 @@ class CognitionPipeline:
         self.sensory_cortex = SensoryCortex(self.value_cortex, telemetry=self.telemetry)
         self.inquisitive_mind = InquisitiveMind()
         self.journal_cortex = JournalCortex(core_memory=self.core_memory)
+        self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics)
         self.emotional_engine = EmotionalEngine()
         self.current_emotional_state = self.emotional_engine.get_current_state()
         self.pending_visual_learning = None
@@ -226,6 +228,25 @@ class CognitionPipeline:
             memory = Memory(timestamp=datetime.now().isoformat(), content=message, emotional_state=emotional_state, context=enriched_context)
             self.core_memory.add_experience(memory)
             self.journal_cortex.write_journal_entry(memory)
+
+            # --- Self-Reflection Step (MetaCognition) ---
+            try:
+                # For now, we use the message itself as a concept. Future work can extract key nouns.
+                concept_to_reflect = message.strip()
+                if len(concept_to_reflect) > 3: # Reflect on reasonably complex ideas, allowing for core concepts like 'love'.
+                    self.telemetry.emit('reflection_triggered', {'concept': concept_to_reflect})
+                    reflection_result = self.meta_cognition_cortex.reflect_on_concept(
+                        concept_id=concept_to_reflect,
+                        context="User interaction"
+                    )
+                    self.telemetry.emit('reflection_completed', {
+                        'concept': concept_to_reflect,
+                        'reflection': reflection_result.get('reflection', '')[:200] # Log a snippet
+                    })
+            except Exception as e:
+                pipeline_logger.error(f"MetaCognitionCortex failed during reflection: {e}")
+                self.telemetry.emit('reflection_failed', {'concept': message.strip(), 'error': str(e)})
+            # --- End Self-Reflection Step ---
 
             response = None
             emotional_state_out = self.current_emotional_state
