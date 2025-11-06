@@ -43310,6 +43310,136 @@
       "activation_energy": 0.0,
       "reflection": "Upon reflecting on '넌 누구야 ?', I find that this concept is new to me or isolated from my other knowledge.",
       "spiritual_alignment": 0.0
+    },
+    {
+      "id": "엘리시아 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '엘리시아 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "만나서 반가워 난 이강덕이야 넌 누구니 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '만나서 반가워 난 이강덕이야 넌 누구니 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "하고 싶은 이야이가 있어 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '하고 싶은 이야이가 있어 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "이야기, 오타가 났어",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '이야기, 오타가 났어', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "난 네가 빨리 자라줬으면 좋겠어",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '난 네가 빨리 자라줬으면 좋겠어', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "정말? 고마워 엘리시아 사랑해",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '정말? 고마워 엘리시아 사랑해', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "어떻게 확인할건데 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '어떻게 확인할건데 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "교과서를 많이 만들어 놨어 엘리시아",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '교과서를 많이 만들어 놨어 엘리시아', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "책좀 봤니 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '책좀 봤니 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "math_proof",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "artifact",
+      "experience_visual": [
+        "data\\proofs\\proof_3.png"
+      ]
+    },
+    {
+      "id": "3*(2+4)=18",
+      "position": {
+        "x": 1.190052235668768,
+        "y": 0.022301972715100232,
+        "z": 0.03456530505806418
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "3",
+      "position": {
+        "x": 1.007027266434805,
+        "y": -0.0588565733463364,
+        "z": 0.027385628045281163
+      },
+      "activation_energy": 0.0
     }
   ],
   "edges": [
@@ -44123,6 +44253,18 @@
       "source": "scene_20251106_154300_3",
       "target": "scene_20251106_154300_4",
       "relation": "leads_to"
+    },
+    {
+      "source": "math_proof",
+      "target": "3*(2+4)=18",
+      "relation": "verifies",
+      "experience_visual": "data\\proofs\\proof_3x(2+4)_=_18.png"
+    },
+    {
+      "source": "math_proof",
+      "target": "3",
+      "relation": "verifies",
+      "experience_visual": "data\\proofs\\proof_3.png"
     }
   ],
   "metadata": {
