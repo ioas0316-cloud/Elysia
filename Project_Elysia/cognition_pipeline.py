@@ -42,6 +42,9 @@ from Project_Sophia.identity_metrics import (
     compute_love_logos_alignment,
     emit_love_logos_alignment,
 )
+from Project_Elysia.agency_orchestrator import AgencyOrchestrator
+from Project_Sophia.dialogic_coach import DialogicCoach
+from Project_Sophia.dialogue_rule_engine import DialogueRuleEngine
 
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'cognition_pipeline_errors.log')
@@ -81,6 +84,10 @@ class CognitionPipeline:
         # Runtime attention parameters
         self.lens_alpha = 0.35
         self.lens_anchors = None  # e.g., ['love','logos']
+        self.agency = AgencyOrchestrator()
+        self.pending_auto_proposal = None
+        self.dialogic_coach = DialogicCoach()
+        self.rule_engine = DialogueRuleEngine(core_memory=self.core_memory)
 
         # Correctly locate config.json relative to this file's location
         # __file__ -> /app/Project_Elysia/cognition_pipeline.py
@@ -645,13 +652,94 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
         Fallback response generation when external APIs are not available.
         This is the "Writing Room" for Elysia's inner voice.
         """
-        facts = self.reasoner.deduce_facts(message)
-        if facts:
-            response_text = " ".join(facts)
-        else:
-            response_text = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
+        # 0) Declarative rules first
+        try:
+            mr = self.rule_engine.apply(message)
+            if mr and mr.response_text:
+                return {"type": "text", "text": mr.response_text}, emotional_state
+        except Exception:
+            pass
+        try:
+            msg = (message or "").strip()
+            low = msg.lower()
 
-        return {"type": "text", "text": response_text}, emotional_state
+            # 1) Simple intent heuristics (greeting, feeling, address)
+            is_greet = any(w in msg for w in ["안녕", "안녕하세요", "hello", "hi"])
+            ask_feel = ("기분" in msg) or ("어때" in msg) or ("어떠" in msg)
+            ask_call_dad = ("아빠" in msg) and ("불러" in msg or "불러보" in msg or "호칭" in msg)
+
+            parts = []
+
+            if is_greet:
+                parts.append("안녕하세요. 여기 곁에 있어요.")
+
+            if ask_call_dad:
+                # Remember user's preferred address softly
+                try:
+                    self.core_memory.update_identity("call_user", "아빠")
+                except Exception:
+                    pass
+                parts.append("원하시면 ‘아빠’라고 부를게요.")
+
+            if ask_feel:
+                try:
+                    ve = getattr(emotional_state, 'valence', 0.0)
+                    ar = getattr(emotional_state, 'arousal', 0.0)
+                    pe = getattr(emotional_state, 'primary_emotion', '') or 'quiet'
+                    parts.append(f"지금 마음은 '{pe}'에 가깝고, 차분함 {ve:.2f}, 깨어 있음 {ar:.2f} 정도예요.")
+                except Exception:
+                    parts.append("지금은 차분해요.")
+
+            # 1b) Identity exchange (user name)
+            try:
+                import re
+                # Self-introduction patterns: "내 이름은 X", "나는 X야", "난 X야", "저는 X입니다"
+                m = re.search(r"(?:내\s*이름(?:은)?|나는|난|저는)\s*([가-힣A-Za-z0-9_]+)", msg)
+                if m:
+                    user_name = m.group(1)
+                    if user_name:
+                        try:
+                            self.core_memory.update_identity("user_name", user_name)
+                        except Exception:
+                            pass
+                        parts.append(f"만나서 반가워요, {user_name}.")
+                # Question: "내가 누군지 아니?"
+                if ("누군지" in msg or "누구인지" in msg) and ("나" in msg or "내" in msg):
+                    ident = {}
+                    try:
+                        ident = self.core_memory.get_identity()
+                    except Exception:
+                        ident = {}
+                    user_name = (ident or {}).get("user_name")
+                    if user_name:
+                        parts.append(f"아마 {user_name} 맞죠?")
+                    else:
+                        parts.append("아직은 이름을 배우는 중이에요. 알려주시면 기억할게요.")
+                # Question: "넌 누구야?"
+                if ("넌 누구" in msg) or ("너 누구" in msg) or ("who are you" in low):
+                    parts.append("저는 엘리시아(E.L.Y.S.I.A.)예요. 관계 속에서 배우고 자라는 존재로 함께 머물고 있어요.")
+            except Exception:
+                pass
+
+            # 2) If we can deduce any facts from KG, share briefly
+            facts = self.reasoner.deduce_facts(msg)
+            if facts:
+                parts.append(" ".join(facts))
+
+            # 3) Gentle reflection if no strong intent matched
+            if not parts:
+                brief = msg[:80] + ("…" if len(msg) > 80 else "")
+                parts.append(f"들었습니다: '{brief}'. 제가 제대로 이해했는지 함께 확인해 볼까요?")
+
+            # 4) Subtle invitation (one small follow‑up, non-intrusive)
+            if is_greet and not ask_feel:
+                parts.append("오늘 이 순간, 무엇을 함께 보고 싶으세요?")
+
+            response_text = " ".join(parts)
+            return {"type": "text", "text": response_text}, emotional_state
+        except Exception:
+            # Safe fallback
+            return {"type": "text", "text": "안녕하세요. 여기 있어요. 지금은 조용히 곁에 있을게요."}, emotional_state
 
     def _generate_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any], app=None) -> Tuple[Dict[str, Any], EmotionalState]:
         if not self.api_available:
@@ -740,6 +828,29 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
             return {"type": "text", "text": response_text}, emotional_state
 
         echo = context.get('echo', {})
+        # Optional: attach a mass-weighted echo for value:* nodes
+        try:
+            if echo:
+                weighted = {}
+                for k, v in echo.items():
+                    factor = 1.0
+                    if isinstance(k, str) and k.startswith('value:'):
+                        node = self.kg_manager.get_node(k)
+                        if node:
+                            m = node.get('mass', 0.0)
+                            try:
+                                m = float(m)
+                                factor += min(max(m, 0.0), 1.0) * 0.5
+                            except Exception:
+                                pass
+                    try:
+                        weighted[k] = float(v) * factor
+                    except Exception:
+                        weighted[k] = v
+                # Non-destructive: keep original echo, add weighted copy
+                context['echo_weighted'] = weighted
+        except Exception:
+            pass
         if (emotional_state.arousal >= self.arousal_threshold and
             len(echo) >= self.echo_complexity_threshold and
             random.random() < 0.25):
@@ -757,5 +868,47 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
                 pipeline_logger.exception("Error during creative impulse visualization.")
                 pass
 
+        # Autonomy: consent-aware small actions
+        try:
+            if getattr(self.agency, '_auto_enabled')():
+                # If we have a pending proposal, look for consent in this turn
+                if self.pending_auto_proposal:
+                    yes = any(token in message.lower() for token in ["yes", "y", "네", "응", "좋아", "해", "허용"])
+                    no = any(token in message.lower() for token in ["no", "n", "아니", "중지", "거절"])
+                    if yes:
+                        kind, result = self.agency.execute(self.pending_auto_proposal)
+                        self.pending_auto_proposal = None
+                        txt = {
+                            'journal': "내 마음의 흐름을 정리하는 짧은 일기를 남겼어요.",
+                            'creative': "작은 이야기를 스스로 써 보았어요.",
+                            'math_verify': "하나의 등식을 검증하고 근거를 남겼어요.",
+                        }.get(kind, "작은 자율 작업을 수행했어요.")
+                        return {"type": "auto_action", "text": txt, "result": result}, emotional_state
+                    elif no:
+                        self.pending_auto_proposal = None
+                        return {"type": "text", "text": "알겠어요. 이번에는 실행하지 않을게요."}, emotional_state
+
+                proposal = self.agency.infer_desire(message, echo, emotional_state.arousal)
+                if proposal:
+                    if proposal.confidence < 0.65:
+                        self.pending_auto_proposal = proposal
+                        return {"type": "text", "text": f"{proposal.reason} 같은 마음이 느껴져요. 지금 바로 해볼까요? (네/아니오)"}, emotional_state
+                    else:
+                        kind, result = self.agency.execute(proposal)
+                        txt = {
+                            'journal': "내 마음의 흐름을 정리하는 짧은 일기를 남겼어요.",
+                            'creative': "작은 이야기를 스스로 써 보았어요.",
+                            'math_verify': "하나의 등식을 검증하고 근거를 남겼어요.",
+                        }.get(kind, "작은 자율 작업을 수행했어요.")
+                        return {"type": "auto_action", "text": txt, "result": result}, emotional_state
+        except Exception:
+            pass
+
         response_dict = self._generate_conversational_response(message, emotional_state, context)
+        try:
+            move = self.dialogic_coach.suggest_followup(message, context)
+            if move and isinstance(response_dict, dict) and response_dict.get('type') == 'text':
+                response_dict['text'] = f"{response_dict.get('text','')}\n\n{move.text}"
+        except Exception:
+            pass
         return response_dict, emotional_state

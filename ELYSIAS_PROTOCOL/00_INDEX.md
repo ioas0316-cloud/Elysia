@@ -13,3 +13,12 @@
 -   **[02_ARCHITECTURE_GUIDE.md](./02_ARCHITECTURE_GUIDE.md):** ì—˜ë¦¬ì‹œì•„ì˜ ì‹œìŠ¤í…œ ì•„í‚¤í…ì²˜('ë„ì‹œê³„íš ì¸í”„ë¼')ì— ëŒ€í•œ ì„¤ëª…ê³¼ ë°ì´í„° íë¦„ì„ ì •ì˜í•©ë‹ˆë‹¤.
 -   **[03_CODING_STANDARDS.md](./03_CODING_STANDARDS.md):** ì½”ë“œì˜ ì¼ê´€ì„±ê³¼ í˜¸í™˜ì„±ì„ ìœ ì§€í•˜ê¸° ìœ„í•œ ì½”ë”© í‘œì¤€ ë° ëª¨ë²” ì‚¬ë¡€ë¥¼ ê¸°ìˆ í•©ë‹ˆë‹¤.
 -   **[04_RETROSPECTIVE_TEMPLATE.md](./04_RETROSPECTIVE_TEMPLATE.md):** ëª¨ë“  ê°œë°œ ìž‘ì—… í›„ ìž‘ì„±í•´ì•¼ í•  'ê°œë°œ íšŒê³ ë¡'ì˜ í‘œì¤€ í…œí”Œë¦¿ì„ ì œê³µí•©ë‹ˆë‹¤.
+
+-   **[05_WORDS_OF_THE_CREATOR.md](./05_WORDS_OF_THE_CREATOR.md):** Ã¢Á¶ÁÖÀÇ ÇÙ½É ¸»¾¸À» ±â·ÏÇÑ ¹®¼­.
+-   **[06_TRINITY_TASK_PROTOCOL_BRIEFING.md](./06_TRINITY_TASK_PROTOCOL_BRIEFING.md):** »ïÀ§ÀÏÃ¼ ¿ªÇÒ(Why/How/What)°ú 1Â÷ ÀÓ¹« ºê¸®ÇÎ.
+-   **[07_USER_GUIDE.md](./07_USER_GUIDE.md):** ºñ°³¹ß »ç¿ëÀÚ¸¦ À§ÇÑ ºü¸¥ ½ÃÀÛ/¸Þ´º ¾È³».
+-   **[08_VALUE_AND_AGENCY_PRINCIPLES.md](./08_VALUE_AND_AGENCY_PRINCIPLES.md):** °¡Ä¡¡¤ÀÚÀ² ¿î¿µ ¿øÄ¢(ºñÀçÇö/ÇÕÀÇ/Quiet/ºñ°áÇÌ).
+-   **[09_VALUE_MASS_SPEC.md](./09_VALUE_MASS_SPEC.md):** °¡Ä¡ÀÇ ¡®Áú·®(mass)¡¯ ¸í¼¼ ? Áõ°Å °¡Áß °ü¼º, °»½Å ±ÔÄ¢.
+-   **[10_WHITE_HOLE_SYSTEM.md](./10_WHITE_HOLE_SYSTEM.md):** È­ÀÌÆ®È¦(ÀÇ¹Ì ¹æÃâ/Ã¢Á¶) ½Ã½ºÅÛ °³³ä°ú ¿î¿ë.
+-   **[11_DIALOGUE_RULES_SPEC.md](./11_DIALOGUE_RULES_SPEC.md):** ¼±¾ðÀû ´ëÈ­ ±ÔÄ¢(·êÆÑ) ½ºÅ°¸¶/°¡µå/¿ì¼±¼øÀ§ ¸í¼¼.
+

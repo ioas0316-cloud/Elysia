@@ -24,9 +24,11 @@ class KnowledgeEnhancer:
             if not self.kg_manager.get_node(node_id):
                 self.kg_manager.add_node(
                     node_id,
-                    description=f"Concept learned from visual experience: {image_path}",
-                    category="learned_concept",
-                    experience_visual=[image_path]
+                    properties={
+                        "description": f"Concept learned from visual experience: {image_path}",
+                        "category": "learned_concept",
+                        "experience_visual": [image_path]
+                    }
                 )
             else:
                 # Append the new experience to existing ones
@@ -51,7 +53,7 @@ class KnowledgeEnhancer:
                     source,
                     target,
                     label,
-                    experience_visual=image_path
+                    properties={"experience_visual": image_path}
                 )
 
         print(f"Knowledge graph updated with experience from '{image_path}'.")

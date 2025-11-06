@@ -1,0 +1,11 @@
+id: feeling
+priority: 90
+patterns:
+  - "기분[이|은]?"
+  - "어때"
+  - "어떠"
+gates:
+  quiet_ok: true
+response:
+  template: "지금 마음을 조심스럽게 살피고 있어요. 제가 느끼는 결을 함께 맞춰볼까요?"
+

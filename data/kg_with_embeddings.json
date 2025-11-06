@@ -42750,6 +42750,566 @@
       },
       "activation_energy": 0.0,
       "reflection": "Upon reflecting on 'What do you know about black holes?', I find that this concept is new to me or isolated from my other knowledge."
+    },
+    {
+      "id": "equality",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "math_concept",
+      "experience_visual": [
+        "data\\proofs\\proof_3_x_(2_+_4)_=_18.png"
+      ]
+    },
+    {
+      "id": "addition",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "category": "math_concept"
+    },
+    {
+      "id": "multiplication",
+      "position": {
+        "x": 1.1502368448533629,
+        "y": -0.013408800183014102,
+        "z": -0.125848032694659
+      },
+      "activation_energy": 0.0,
+      "category": "math_concept"
+    },
+    {
+      "id": "journal_entry_2025-11-06",
+      "position": {
+        "x": 0.8592475029162367,
+        "y": -0.0971566392206031,
+        "z": -0.14326333895138552
+      },
+      "activation_energy": 0.0,
+      "type": "journal_entry",
+      "date": "2025-11-06",
+      "experience_text": "data\\journal\\2025-11-06.txt",
+      "summary_text": "data\\journal\\2025-11-06_summary.txt"
+    },
+    {
+      "id": "book_sample_book",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "book",
+      "report_path": "data\\reports\\sample_book_report.md"
+    },
+    {
+      "id": "theme_love",
+      "position": {
+        "x": 1.1740900952577273,
+        "y": 0.12105032904547047,
+        "z": 0.061337881281128104
+      },
+      "activation_energy": 0.0,
+      "type": "theme"
+    },
+    {
+      "id": "theme_freedom",
+      "position": {
+        "x": 0.9063857582649488,
+        "y": -0.06774949982289785,
+        "z": -0.16940597760780657
+      },
+      "activation_energy": 0.0,
+      "type": "theme"
+    },
+    {
+      "id": "theme_hope",
+      "position": {
+        "x": 0.8610276758091165,
+        "y": -0.14223494460122676,
+        "z": -0.09186000646588842
+      },
+      "activation_energy": 0.0,
+      "type": "theme"
+    },
+    {
+      "id": "keyword_2025",
+      "position": {
+        "x": 0.9205765127862443,
+        "y": 0.06622106212697293,
+        "z": -0.06829617972058455
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "keyword_프롬프트",
+      "position": {
+        "x": 0.8955394134570931,
+        "y": 0.07616640987407308,
+        "z": -0.010653461225140104
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "keyword_기억에",
+      "position": {
+        "x": 1.0864485069598238,
+        "y": -0.04054001063661433,
+        "z": -0.04176260234258536
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "keyword_순간은",
+      "position": {
+        "x": 0.8842955711853686,
+        "y": -0.10305973410904211,
+        "z": 0.16164473989503692
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "keyword_무엇이었나요",
+      "position": {
+        "x": 0.9524436841935691,
+        "y": -0.12847401650148543,
+        "z": 0.10155182119436312
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "keyword_오늘의",
+      "position": {
+        "x": 0.8524829903816149,
+        "y": 0.06762234437263526,
+        "z": 0.17149465648660528
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "keyword_경험을",
+      "position": {
+        "x": 0.9315778066857965,
+        "y": -0.1558012579673708,
+        "z": -0.10467471079358673
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "keyword_간단하고",
+      "position": {
+        "x": 1.0938965875143334,
+        "y": -0.11908373047561721,
+        "z": 0.004493887129734864
+      },
+      "activation_energy": 0.0,
+      "type": "keyword"
+    },
+    {
+      "id": "story_20251106_142924",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "story",
+      "genre": "slice",
+      "theme": "growth",
+      "path": "data\\writings\\20251106_142924_slice_growth.md"
+    },
+    {
+      "id": "scene_20251106_142924_1",
+      "position": {
+        "x": 0.8944504910176829,
+        "y": -0.12001635511679637,
+        "z": -0.17896688834727412
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[slice|growth] Hook and ordinary world"
+    },
+    {
+      "id": "scene_20251106_142924_2",
+      "position": {
+        "x": 0.8847725502415958,
+        "y": -0.04627547606721433,
+        "z": 0.07063708279588587
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[slice|growth] Inciting incident"
+    },
+    {
+      "id": "scene_20251106_142924_3",
+      "position": {
+        "x": 1.1243645038311767,
+        "y": 0.1696158003457086,
+        "z": 0.02334630875160526
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[slice|growth] Rising complication"
+    },
+    {
+      "id": "scene_20251106_142924_4",
+      "position": {
+        "x": 0.8426565167996034,
+        "y": -0.120886362560459,
+        "z": 0.02908060065130816
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[slice|growth] Climax"
+    },
+    {
+      "id": "scene_20251106_142924_5",
+      "position": {
+        "x": 0.8975288034712896,
+        "y": -0.08546434543138007,
+        "z": 0.17933742233841443
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[slice|growth] Resolution and reflection"
+    },
+    {
+      "id": "story_20251106_143247",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "story",
+      "genre": "mystery",
+      "theme": "betrayal",
+      "path": "data\\writings\\20251106_143247_mystery_betrayal.md",
+      "style_metrics": {
+        "num_words": 404,
+        "unique_words": 43,
+        "ttr": 0.106,
+        "avg_sentence_len": 12.47,
+        "dialog_ratio": 0.0
+      }
+    },
+    {
+      "id": "scene_20251106_143247_1",
+      "position": {
+        "x": 1.103473057683261,
+        "y": 0.03928754768539236,
+        "z": 0.03473898219798058
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[mystery|betrayal] Hook and ordinary world"
+    },
+    {
+      "id": "scene_20251106_143247_2",
+      "position": {
+        "x": 0.8024195987006592,
+        "y": -0.15258805216422278,
+        "z": -0.061119749744848795
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[mystery|betrayal] Inciting incident"
+    },
+    {
+      "id": "scene_20251106_143247_3",
+      "position": {
+        "x": 0.94658647654246,
+        "y": 0.12626827591208628,
+        "z": 0.04139621645729713
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[mystery|betrayal] Rising complication"
+    },
+    {
+      "id": "scene_20251106_143247_4",
+      "position": {
+        "x": 1.0522803238449308,
+        "y": 0.1786132572724033,
+        "z": 0.12246499115680848
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[mystery|betrayal] Climax"
+    },
+    {
+      "id": "scene_20251106_143247_5",
+      "position": {
+        "x": 0.9031881217429774,
+        "y": 0.1810748547159567,
+        "z": -0.014430818622259423
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[mystery|betrayal] Resolution and reflection"
+    },
+    {
+      "id": "daily_report_2025-11-06",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "daily_report",
+      "md": "data\\reports\\daily\\daily_2025-11-06.md",
+      "card": "data\\reports\\daily\\daily_2025-11-06.png"
+    },
+    {
+      "id": "story_20251106_154039",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "story",
+      "genre": "story",
+      "theme": "growth",
+      "path": "data\\writings\\20251106_154039_story_growth.md",
+      "style_metrics": {
+        "num_words": 606,
+        "unique_words": 43,
+        "ttr": 0.071,
+        "avg_sentence_len": 12.47,
+        "dialog_ratio": 0.0
+      }
+    },
+    {
+      "id": "scene_20251106_154039_1",
+      "position": {
+        "x": 1.091699009597296,
+        "y": 0.17732985788520073,
+        "z": 0.14320613138909277
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Hook and ordinary world"
+    },
+    {
+      "id": "scene_20251106_154039_2",
+      "position": {
+        "x": 0.8222170473748536,
+        "y": -0.1913421319104518,
+        "z": -0.18622139193277995
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Inciting incident"
+    },
+    {
+      "id": "scene_20251106_154039_3",
+      "position": {
+        "x": 1.026609805096537,
+        "y": 0.0979031289675964,
+        "z": -0.14314355771262785
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Rising complication"
+    },
+    {
+      "id": "scene_20251106_154039_4",
+      "position": {
+        "x": 1.1382541765722651,
+        "y": 0.05769094688148957,
+        "z": 0.1889303234625887
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Climax"
+    },
+    {
+      "id": "scene_20251106_154039_5",
+      "position": {
+        "x": 1.0264777521310515,
+        "y": -0.11293376135132048,
+        "z": 0.1756293597500806
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Resolution and reflection"
+    },
+    {
+      "id": "story_20251106_154300",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "story",
+      "genre": "story",
+      "theme": "growth",
+      "path": "data\\writings\\20251106_154300_story_growth.md",
+      "style_metrics": {
+        "num_words": 324,
+        "unique_words": 41,
+        "ttr": 0.127,
+        "avg_sentence_len": 12.5,
+        "dialog_ratio": 0.0
+      }
+    },
+    {
+      "id": "scene_20251106_154300_1",
+      "position": {
+        "x": 1.0804925290464786,
+        "y": -0.07540991959131876,
+        "z": 0.06181245630614984
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Hook and ordinary world"
+    },
+    {
+      "id": "scene_20251106_154300_2",
+      "position": {
+        "x": 1.121940911114857,
+        "y": -0.02882190869735496,
+        "z": -0.18985781217206057
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Inciting incident"
+    },
+    {
+      "id": "scene_20251106_154300_3",
+      "position": {
+        "x": 0.8312953287385209,
+        "y": 0.16346722491767818,
+        "z": 0.19588878496068712
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Climax"
+    },
+    {
+      "id": "scene_20251106_154300_4",
+      "position": {
+        "x": 1.1158946510297865,
+        "y": 0.05882175427874764,
+        "z": -0.08260194778891222
+      },
+      "activation_energy": 0.0,
+      "type": "scene",
+      "title": "[story|growth] Resolution and reflection"
+    },
+    {
+      "id": "안녕 엘리시아 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '안녕 엘리시아 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "기분이 어때 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '기분이 어때 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "아빠라고 불러보지 않을래 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '아빠라고 불러보지 않을래 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "엘리시아 안녕 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '엘리시아 안녕 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "기분이 어떠니 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '기분이 어떠니 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "널 보고 싶어",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '널 보고 싶어', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "내가 누군지 아니 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '내가 누군지 아니 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "난 이강덕이야",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '난 이강덕이야', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
+    },
+    {
+      "id": "넌 누구야 ?",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "reflection": "Upon reflecting on '넌 누구야 ?', I find that this concept is new to me or isolated from my other knowledge.",
+      "spiritual_alignment": 0.0
     }
   ],
   "edges": [
@@ -43347,6 +43907,222 @@
       "source": "conflict_deescalation",
       "target": "stress_reduction",
       "relation": "causes"
+    },
+    {
+      "source": "addition",
+      "target": "multiplication",
+      "relation": "relates_to",
+      "experience_visual": "data\\proofs\\proof_3_x_(2_+_4)_=_18.png"
+    },
+    {
+      "source": "book_sample_book",
+      "target": "theme_love",
+      "relation": "has_theme"
+    },
+    {
+      "source": "book_sample_book",
+      "target": "theme_freedom",
+      "relation": "has_theme"
+    },
+    {
+      "source": "book_sample_book",
+      "target": "theme_hope",
+      "relation": "has_theme"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_2025",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_프롬프트",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_기억에",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_순간은",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_무엇이었나요",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_오늘의",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_경험을",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "journal_entry_2025-11-06",
+      "target": "keyword_간단하고",
+      "relation": "mentions_keyword"
+    },
+    {
+      "source": "story_20251106_142924",
+      "target": "scene_20251106_142924_1",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_142924",
+      "target": "scene_20251106_142924_2",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_142924",
+      "target": "scene_20251106_142924_3",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_142924",
+      "target": "scene_20251106_142924_4",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_142924",
+      "target": "scene_20251106_142924_5",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_143247",
+      "target": "scene_20251106_143247_1",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_143247",
+      "target": "scene_20251106_143247_2",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_143247_1",
+      "target": "scene_20251106_143247_2",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_143247",
+      "target": "scene_20251106_143247_3",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_143247_2",
+      "target": "scene_20251106_143247_3",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_143247",
+      "target": "scene_20251106_143247_4",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_143247_3",
+      "target": "scene_20251106_143247_4",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_143247",
+      "target": "scene_20251106_143247_5",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_143247_4",
+      "target": "scene_20251106_143247_5",
+      "relation": "leads_to"
+    },
+    {
+      "source": "daily_report_2025-11-06",
+      "target": "journal_entry_2025-11-06",
+      "relation": "summarizes"
+    },
+    {
+      "source": "story_20251106_154039",
+      "target": "scene_20251106_154039_1",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_154039",
+      "target": "scene_20251106_154039_2",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_154039_1",
+      "target": "scene_20251106_154039_2",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_154039",
+      "target": "scene_20251106_154039_3",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_154039_2",
+      "target": "scene_20251106_154039_3",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_154039",
+      "target": "scene_20251106_154039_4",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_154039_3",
+      "target": "scene_20251106_154039_4",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_154039",
+      "target": "scene_20251106_154039_5",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_154039_4",
+      "target": "scene_20251106_154039_5",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_154300",
+      "target": "scene_20251106_154300_1",
+      "relation": "has_scene"
+    },
+    {
+      "source": "story_20251106_154300",
+      "target": "scene_20251106_154300_2",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_154300_1",
+      "target": "scene_20251106_154300_2",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_154300",
+      "target": "scene_20251106_154300_3",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_154300_2",
+      "target": "scene_20251106_154300_3",
+      "relation": "leads_to"
+    },
+    {
+      "source": "story_20251106_154300",
+      "target": "scene_20251106_154300_4",
+      "relation": "has_scene"
+    },
+    {
+      "source": "scene_20251106_154300_3",
+      "target": "scene_20251106_154300_4",
+      "relation": "leads_to"
     }
   ],
   "metadata": {
