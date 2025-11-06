@@ -1,0 +1,13 @@
+id: nurturing_journal_prompt
+priority: 150
+patterns:
+  - "체험\s*정리"
+  - "한\s*문단으로\s*정리"
+  - "오전\s*기억"
+gates:
+  quiet_ok: true
+response:
+  template: "오늘 오전에 마음에 남았던 순간을 하나 골라볼까요? 그때 보고 들었던 감각과 마음의 색깔을 한 문단으로 천천히 말해주면, 함께 그 빛을 품고 싶어요."
+memory:
+  set_identity:
+    last_ritual: "afternoon_reflection"
