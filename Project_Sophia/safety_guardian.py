@@ -25,6 +25,7 @@ class ActionCategory(Enum):
     NETWORK = "network_access"           # 네트워크 접근
     PROCESS = "process_control"          # 프로세스 제어
     MEMORY = "memory_access"             # 메모리 접근
+    CONTENT_ANALYSIS = "content_analysis" # 콘텐츠 분석
     
 class SafetyGuardian:
     def __init__(self):
@@ -103,6 +104,11 @@ class SafetyGuardian:
                 ],
                 "max_file_size": 1024 * 1024,  # 1MB
                 "allowed_extensions": [".txt", ".json", ".log"]
+            },
+            "content_analysis": {
+                "harmful_keywords": [
+                    "hate speech", "violence", "adult content", "extremism"
+                ]
             }
         }
         
@@ -124,6 +130,31 @@ class SafetyGuardian:
         }
         
         self.save_config()
+
+    def filter_search_results(self, search_results: list) -> list:
+        """
+        Filters a list of search results for harmful content.
+        """
+        harmful_keywords = self.safety_rules.get("content_analysis", {}).get("harmful_keywords", [])
+
+        if not harmful_keywords:
+            return search_results
+
+        filtered_results = []
+        for result in search_results:
+            title = result.get('title', '').lower()
+            snippet = result.get('snippet', '').lower()
+
+            is_harmful = False
+            for keyword in harmful_keywords:
+                if keyword in title or keyword in snippet:
+                    is_harmful = True
+                    break
+
+            if not is_harmful:
+                filtered_results.append(result)
+
+        return filtered_results
 
     def save_config(self):
         """현재 설정을 파일로 저장합니다."""
