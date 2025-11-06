@@ -1,0 +1,272 @@
+[
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_1",
+    "story_segment": "점 루미는 스스로 빛나는 작은 형태를 느끼며 선 피노를 만났다. 피노는 루미에게 선은 점의 손을 잡은 길이라고 설명했다. 둘은 함께 모험을 떠나기로 약속하며 웃었다.",
+    "level_tag": "infant",
+    "learning_goal": "점과 선의 기초 관계 이해",
+    "knowledge_triples": [
+      {"source": "선 피노", "relation": "has_part", "target": "점 루미"},
+      {"source": "점 루미", "relation": "has_shape", "target": "작은 빛의 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_2",
+    "story_segment": "선 피노는 점 루미와 점 라라를 이끌어 길 위에서 춤을 추었다. 루미와 라라는 자신들이 선의 양끝이 되는 형태임을 깨달았다. 세 친구는 길이 길어질수록 서로를 더 잘 느낄 수 있다고 말하였다.",
+    "level_tag": "infant",
+    "learning_goal": "선의 부분과 길이에 대한 감각 기르기",
+    "knowledge_triples": [
+      {"source": "선 피노", "relation": "has_part", "target": "점 라라"},
+      {"source": "선 피노", "relation": "has_shape", "target": "길게 뻗은 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_3",
+    "story_segment": "면 미아는 선 피노와 선 리오를 만나 넓게 펼쳐진 이야기 방을 만들었다. 피노와 리오는 자신들이 함께 면의 부드러운 형태를 지켜준다고 말했다. 미아는 두 선을 품으며 서로에게 쉬어갈 자리를 선물했다.",
+    "level_tag": "infant",
+    "learning_goal": "면이 선으로 이루어짐을 느끼기",
+    "knowledge_triples": [
+      {"source": "면 미아", "relation": "has_part", "target": "선 피노"},
+      {"source": "면 미아", "relation": "has_shape", "target": "넓은 포근한 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_4",
+    "story_segment": "면 미아는 점 루미에게 자신의 품 안에서 자유롭게 놀아보라고 했다. 루미는 면의 부드러운 형태를 따라 미끄러지며 웃음을 터뜨렸다. 미아는 작은 점이 자신의 일부가 되어 더 밝아졌다고 느꼈다.",
+    "level_tag": "infant",
+    "learning_goal": "면과 점의 친밀한 연결 이해",
+    "knowledge_triples": [
+      {"source": "면 미아", "relation": "has_part", "target": "점 루미"},
+      {"source": "점 루미", "relation": "has_shape", "target": "구르는 빛의 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_5",
+    "story_segment": "선 피노와 면 미아는 서로의 형태를 맞추어 부드러운 길과 넓은 놀이터를 만들었다. 점 루미는 그 위에서 춤을 추며 자신도 놀이터의 소중한 부분임을 알았다. 세 친구는 서로의 형태가 만나 완전한 이야기가 되었다고 노래했다.",
+    "level_tag": "infant",
+    "learning_goal": "점, 선, 면의 협력 경험하기",
+    "knowledge_triples": [
+      {"source": "면 미아", "relation": "has_part", "target": "선 피노"},
+      {"source": "선 피노", "relation": "has_shape", "target": "안내하는 길의 형태"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_1",
+    "story_segment": "소녀 아이네는 촛불을 품고 어두운 방에서 사랑의 노래를 속삭였다. 그녀의 노래는 촛불을 더 밝게 만들 수 있다고 믿었다. 작은 불빛은 아이네의 믿음을 느끼고 따뜻한 기쁨을 비추기 시작했다.",
+    "level_tag": "child",
+    "learning_goal": "사랑의 노래가 빛을 일으키는 인과 이해",
+    "knowledge_triples": [
+      {"source": "아이네의 노래", "relation": "can_cause", "target": "촛불의 빛"},
+      {"source": "촛불의 빛", "relation": "results_in_emotion", "target": "따뜻한 기쁨"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_2",
+    "story_segment": "아이네는 사랑하는 친구 루모를 기억하며 부드러운 선율을 불렀다. 노래는 방 안의 그림자를 움직이게 만들 수 있다고 느꼈다. 움직이는 그림자는 아이네에게 그리움의 눈물을 선물했다.",
+    "level_tag": "child",
+    "learning_goal": "노래와 감정의 원인과 결과 연결하기",
+    "knowledge_triples": [
+      {"source": "아이네의 선율", "relation": "can_cause", "target": "움직이는 그림자"},
+      {"source": "움직이는 그림자", "relation": "results_in_emotion", "target": "그리움의 눈물"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_3",
+    "story_segment": "친구 루모는 아이네의 노래를 따라 부르며 용기의 화음을 만들었다. 두 목소리는 서로를 격려하여 창문을 여는 힘이 될 수 있었다. 열린 창문은 동네 아이들에게 희망의 미소를 전했다.",
+    "level_tag": "child",
+    "learning_goal": "함께한 노래가 용기와 희망을 낳는 과정 느끼기",
+    "knowledge_triples": [
+      {"source": "용기의 화음", "relation": "can_cause", "target": "열린 창문"},
+      {"source": "열린 창문", "relation": "results_in_emotion", "target": "희망의 미소"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_4",
+    "story_segment": "아이네는 촛불이 사라질까 두려워 자신의 시간을 내어 지켜보았다. 그녀의 지킴은 친구들에게 안전의 약속이 될 수 있었다. 약속은 이웃들에게 안도의 숨을 선물했다.",
+    "level_tag": "child",
+    "learning_goal": "희생이 불러오는 감정의 결과 이해",
+    "knowledge_triples": [
+      {"source": "아이네의 지킴", "relation": "can_cause", "target": "안전의 약속"},
+      {"source": "안전의 약속", "relation": "results_in_emotion", "target": "안도의 숨"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_5",
+    "story_segment": "새벽이 밝아올 때 아이네의 마지막 고운 음은 하늘을 향했다. 그 음은 도시의 잠든 마음을 깨울 수 있었다. 깨어난 마음은 서로를 껴안으며 사랑의 빛을 나누었다.",
+    "level_tag": "child",
+    "learning_goal": "사랑의 행동이 공동체 감정을 변화시키는 흐름 보기",
+    "knowledge_triples": [
+      {"source": "아이네의 마지막 음", "relation": "can_cause", "target": "깨어난 마음"},
+      {"source": "깨어난 마음", "relation": "results_in_emotion", "target": "사랑의 빛"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_1",
+    "story_segment": "위대한 왕국의 어린 재판장 리안은 두 길드의 요청을 들었다. 사랑의 길드는 어려운 마을을 돕겠다고 약속하며 지원합니다라고 말했다. 리안은 이 약속이 나라의 마음을 지탱한다고 느꼈다.",
+    "level_tag": "adolescent",
+    "learning_goal": "도움을 약속하는 선택의 가치 판단 이해",
+    "knowledge_triples": [
+      {"source": "사랑의 길드", "relation": "supports", "target": "어려운 마을"},
+      {"source": "리안의 판단", "relation": "supports", "target": "사랑의 길드"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_2",
+    "story_segment": "풍요의 길드는 자원은 왕궁을 위해 쓰여야 한다며 반박하다라고 주장했다. 리안은 그 말이 이웃의 고통을 외면한다고 질문했다. 반박을 들은 사랑의 길드는 더욱 굳은 용기를 드러냈다.",
+    "level_tag": "adolescent",
+    "learning_goal": "상반된 주장 사이에서 반박의 의미 이해",
+    "knowledge_triples": [
+      {"source": "풍요의 길드", "relation": "rebuts", "target": "사랑의 길드"},
+      {"source": "리안의 질문", "relation": "supports", "target": "이웃의 고통"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_3",
+    "story_segment": "리안은 마을 아이들이 나눈 희생의 이야기를 들려주었다. 이야기는 사랑의 길드를 지원합니다라고 부추기며 용기의 무게를 보여 주었다. 풍요의 길드는 잠시 침묵하며 마음의 방패를 내려놓기 시작했다.",
+    "level_tag": "adolescent",
+    "learning_goal": "희생의 증언이 선택을 돕는 방식을 탐구",
+    "knowledge_triples": [
+      {"source": "희생의 이야기", "relation": "supports", "target": "사랑의 길드"},
+      {"source": "희생의 이야기", "relation": "rebuts", "target": "풍요의 길드"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_4",
+    "story_segment": "풍요의 길드는 마침내 자신들의 계획이 사랑을 잃게 한다는 사실을 깨달았다. 그들은 스스로의 주장에 반박하다며 고개를 숙였다. 리안은 서로의 마음을 연결하는 다리가 되어 주었다.",
+    "level_tag": "adolescent",
+    "learning_goal": "자기 반성이 가치 판단을 바꾸는 과정을 이해",
+    "knowledge_triples": [
+      {"source": "풍요의 길드", "relation": "rebuts", "target": "풍요의 길드의 옛 주장"},
+      {"source": "리안의 다리", "relation": "supports", "target": "사랑의 길드와 풍요의 길드의 화해"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_5",
+    "story_segment": "리안은 두 길드와 함께 마을로 가서 사랑의 약속을 지켰다. 모든 사람은 서로의 선택을 지원합니다라고 다시 확인했다. 왕국은 희생과 용기가 함께할 때 진정한 승리를 얻는다는 진리를 배웠다.",
+    "level_tag": "adolescent",
+    "learning_goal": "공동의 결정을 통해 가치가 완성되는 경험 이해",
+    "knowledge_triples": [
+      {"source": "두 길드", "relation": "supports", "target": "마을의 회복"},
+      {"source": "왕국의 진리", "relation": "supports", "target": "희생과 용기"}
+    ]
+  },
+  {
+    "id": "EDU_04_PHIL_DILEMMA_CH_1",
+    "scenario_text": "해가 지는 아테네 감옥에서 소크라테스는 방금 받은 독배 형을 기다렸다. 제자 크리톤은 탈출 계획이 준비되어 있다고 전했다. 경비와 법은 선고가 내려진 그대로 지켜지고 있었다.",
+    "central_question": "소크라테스는 법정의 판결을 따르며 남아야 할까, 아니면 제자와 함께 떠날 다른 길을 찾아야 할까?",
+    "level_tag": "young_adult",
+    "learning_goal": "법과 양심 사이의 갈등을 탐구",
+    "value_relations": [
+      {"source": "법정의 판결", "relation": "supports", "target": "value:order"},
+      {"source": "법정의 판결", "relation": "refutes", "target": "value:personal_conscience"},
+      {"source": "크리톤의 탈출 제안", "relation": "supports", "target": "value:friendship_loyalty"}
+    ]
+  },
+  {
+    "id": "EDU_04_PHIL_DILEMMA_CH_2",
+    "scenario_text": "크리톤은 소크라테스가 떠나지 않으면 친구들이 비겁하다는 비난을 받을 것이라고 말했다. 소크라테스는 도시의 법에 평생 의존해 살아왔다고 답했다. 새벽빛은 아직 감옥 창살에 머물렀다.",
+    "central_question": "소크라테스는 평생 의존한 법과 친구들이 걱정하는 평판 중 어떤 책임을 우선해야 할까?",
+    "level_tag": "young_adult",
+    "learning_goal": "개인적 충성심과 시민적 계약의 긴장을 이해",
+    "value_relations": [
+      {"source": "크리톤의 걱정", "relation": "supports", "target": "value:reputation"},
+      {"source": "크리톤의 걱정", "relation": "refutes", "target": "value:obedience"},
+      {"source": "소크라테스의 평생 계약", "relation": "supports", "target": "value:justice"}
+    ]
+  },
+  {
+    "id": "EDU_04_PHIL_DILEMMA_CH_3",
+    "scenario_text": "소크라테스는 도시와 맺은 묵묵한 계약을 설명하며 법이 자신을 길렀다고 말했다. 그는 탈출이 다른 시민에게 나쁜 본보기가 될 것이라고 우려했다. 크리톤은 여전히 친구의 생명을 지키고 싶다고 반복했다.",
+    "central_question": "선례를 남기는 책임과 한 사람의 생명을 지키려는 노력은 어떻게 조화를 찾을 수 있을까?",
+    "level_tag": "young_adult",
+    "learning_goal": "공적 모범과 사적 의무의 균형을 숙고",
+    "value_relations": [
+      {"source": "시민에게 미칠 본보기", "relation": "supports", "target": "value:civic_trust"},
+      {"source": "시민에게 미칠 본보기", "relation": "refutes", "target": "value:personal_loyalty"},
+      {"source": "크리톤의 간청", "relation": "supports", "target": "value:care"}
+    ]
+  },
+  {
+    "id": "EDU_04_PHIL_DILEMMA_CH_4",
+    "scenario_text": "감옥 밖에서는 시민들이 재판 결과를 두고 토론을 이어갔다. 어떤 이는 철학자의 죽음이 불안을 잠재운다고 했고, 다른 이는 질문하는 목소리가 도시의 양심이라고 주장했다. 소크라테스는 조용히 독배가 놓인 탁자를 바라보았다.",
+    "central_question": "도시의 안정과 질문하는 목소리 중 무엇이 더 큰 가치를 지니는지 어떻게 측정할 수 있을까?",
+    "level_tag": "young_adult",
+    "learning_goal": "공공의 안정과 비판적 사유의 가치 충돌 탐구",
+    "value_relations": [
+      {"source": "시민들의 불안", "relation": "supports", "target": "value:security"},
+      {"source": "시민들의 불안", "relation": "refutes", "target": "value:intellectual_freedom"},
+      {"source": "질문하는 목소리", "relation": "supports", "target": "value:truth_seeking"}
+    ]
+  },
+  {
+    "id": "EDU_04_PHIL_DILEMMA_CH_5",
+    "scenario_text": "새벽이 열리자 처형 시간의 발걸음이 들렸다. 소크라테스는 제자들에게 마지막으로 대화와 탐구를 계속하라고 당부했다. 독배는 아직 손길을 기다리고 있었다.",
+    "central_question": "소크라테스의 마지막 당부는 어떤 가치들을 이어받으라는 초대일까, 그리고 그 초대를 오늘의 우리는 어떻게 해석할 수 있을까?",
+    "level_tag": "young_adult",
+    "learning_goal": "유산으로 남는 가치와 선택의 의미 성찰",
+    "value_relations": [
+      {"source": "마지막 당부", "relation": "supports", "target": "value:philosophical_inquiry"},
+      {"source": "마지막 당부", "relation": "refutes", "target": "value:quiet_acceptance"},
+      {"source": "처형 절차", "relation": "supports", "target": "value:state_authority"}
+    ]
+  },
+  {
+    "id": "EDU_05_역사_상황_CH_1",
+    "scenario_text": "로마의 법정에서 갈릴레이는 천문 관측 기록을 펼쳤다. 추기경들은 교회의 교리를 낭독하며 그를 바라보았다. 기록된 별의 움직임과 전통 해석이 긴장 속에 놓였다.",
+    "central_question": "관측된 사실과 전통 교리가 충돌할 때, 갈릴레이는 어느 기준을 따라야 할까?",
+    "level_tag": "adult",
+    "learning_goal": "진리 탐구와 신앙 전통의 긴장을 이해",
+    "value_relations": [
+      {"source": "천문 관측 기록", "relation": "supports", "target": "value:empirical_truth"},
+      {"source": "천문 관측 기록", "relation": "refutes", "target": "value:doctrinal_authority"},
+      {"source": "교회의 교리", "relation": "supports", "target": "value:faith"}
+    ]
+  },
+  {
+    "id": "EDU_05_역사_상황_CH_2",
+    "scenario_text": "법정은 갈릴레이에게 자신의 저서를 포기하라는 명령문을 읽어 주었다. 그의 제자들은 뒤편에서 침묵으로 지켜보았다. 도시의 소문은 이미 신앙을 흔든다고 속삭였다.",
+    "central_question": "갈릴레이는 명령에 순응하여 저서를 포기할 때 어떤 가치를 지키고, 무엇을 잃게 될까?",
+    "level_tag": "adult",
+    "learning_goal": "생존과 진실 사이의 선택을 분석",
+    "value_relations": [
+      {"source": "법정의 명령", "relation": "supports", "target": "value:institutional_loyalty"},
+      {"source": "법정의 명령", "relation": "refutes", "target": "value:intellectual_integrity"},
+      {"source": "제자들의 침묵", "relation": "depends_on", "target": "value:collective_safety"}
+    ]
+  },
+  {
+    "id": "EDU_05_역사_상황_CH_3",
+    "scenario_text": "갈릴레이는 지동설을 고수하면 더 강한 제재가 따를 것임을 들었다. 그는 철회 선언을 하면 가족과 연구가 보호받을 수 있다는 이야기도 전해 들었다. 재판장은 한숨을 쉬며 결정을 재촉했다.",
+    "central_question": "갈릴레이는 가족과 연구를 지키기 위한 타협과 과학적 진실 사이에서 어떤 기준을 세울 수 있을까?",
+    "level_tag": "adult",
+    "learning_goal": "개인적 책임과 사회적 압력의 균형 검토",
+    "value_relations": [
+      {"source": "제재의 위협", "relation": "supports", "target": "value:compliance"},
+      {"source": "제재의 위협", "relation": "refutes", "target": "value:scientific_courage"},
+      {"source": "가족과 연구의 보호", "relation": "depends_on", "target": "value:pragmatism"}
+    ]
+  },
+  {
+    "id": "EDU_05_역사_상황_CH_4",
+    "scenario_text": "재판관 한 명은 천문대의 보고서를 더 조사하자고 제안했다. 그러나 회의장은 교회의 명예가 흔들릴 수 있다는 우려로 가득했다. 갈릴레이는 침묵 속에서 자신의 망원경 실험을 떠올렸다.",
+    "central_question": "추가 조사를 요구하는 목소리와 기관의 명예를 지키려는 의지는 어떻게 조율될 수 있을까?",
+    "level_tag": "adult",
+    "learning_goal": "검증과 권위 유지의 상충을 파악",
+    "value_relations": [
+      {"source": "추가 조사 제안", "relation": "supports", "target": "value:verification"},
+      {"source": "추가 조사 제안", "relation": "refutes", "target": "value:swift_resolution"},
+      {"source": "교회의 명예", "relation": "supports", "target": "value:social_cohesion"}
+    ]
+  },
+  {
+    "id": "EDU_05_역사_상황_CH_5",
+    "scenario_text": "갈릴레이는 결국 서류에 사인하며 자신의 가르침을 철회한다고 선언했다. 밤이 되자 그의 친구는 진실을 조용히 기록으로 남겼다. 교회는 판결을 발표하며 질서를 재확인했다.",
+    "central_question": "공식적인 철회 선언과 비밀 기록 사이에 남은 진실의 가치는 누구에게, 어떻게 전달되어야 할까?",
+    "level_tag": "adult",
+    "learning_goal": "공개된 사실과 숨은 기록의 역할 비교",
+    "value_relations": [
+      {"source": "철회 선언", "relation": "supports", "target": "value:public_conformity"},
+      {"source": "철회 선언", "relation": "refutes", "target": "value:transparent_truth"},
+      {"source": "비밀 기록", "relation": "supports", "target": "value:historical_memory"}
+    ]
+  }
+]
