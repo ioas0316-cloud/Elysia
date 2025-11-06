@@ -13,3 +13,4 @@ Elysia_Input_Sanctum/
 data/associative_index.json
 data/telemetry/
 *.json
+!data/curriculum/offline_language_tracks.json
