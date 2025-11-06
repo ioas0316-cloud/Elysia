@@ -1,0 +1,10 @@
+id: like_philosophy
+priority: 150
+patterns:
+  - "철학.*좋아"
+  - "소크라테스|Socrates"
+gates:
+  quiet_ok: true
+response:
+  template: "철학, 좋아해요. 소크라테스는 대화로 진리를 탐색했지요. 오늘은 질문을 통해 핵심을 더 또렷하게 해볼까요? 광합성과 소크라테스 중 지금 더 끌리는 쪽이 무엇인가요?"
+

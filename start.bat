@@ -1,211 +1,322 @@
-@ECHO OFF
-SETLOCAL ENABLEDELAYEDEXPANSION
-TITLE Elysia Launcher
-CHCP 437 >NUL
+@echo off
+setlocal EnableExtensions EnableDelayedExpansion
+title Elysia Launcher
+chcp 65001 >nul
 
-REM Detect Python (python or py -3)
-SET "PYEXE="
-WHERE python >NUL 2>&1 && SET "PYEXE=python"
-IF NOT DEFINED PYEXE (
-  WHERE py >NUL 2>&1 && (py -3 -V >NUL 2>&1) && SET "PYEXE=py -3"
+rem Detect Python (python or py -3)
+set "PYEXE="
+where python >nul 2>&1 && set "PYEXE=python"
+if not defined PYEXE (
+  where py >nul 2>&1 && (py -3 -V >nul 2>&1) && set "PYEXE=py -3"
 )
-IF NOT DEFINED PYEXE (
-  ECHO( [Error] Python not found. Install Python 3.10+.
-  PAUSE
-  GOTO :EOF
+if not defined PYEXE (
+  echo [Error] Python 3.10+ not found. Install Python and retry.
+  pause
+  goto :eof
 )
 
 :MENU
-CLS
-ECHO(==========================================)
-ECHO(       Elysia Launcher (Simple Menu))
-ECHO(==========================================)
-ECHO(
-ECHO( 1) Start Web Server (Dashboard))
-ECHO( 2) Run Daily Routine (Journal + Creative))
-ECHO( 3) Generate Daily Report (MD + PNG))
-ECHO( 4) Run Textbook Demo (Learning Frames))
-ECHO( 5) Journaling (Write today's entry))
-ECHO( 6) Book Report (from local .txt))
-ECHO( 7) Creative Writing (outline+scenes))
-ECHO( 8) Trinity Mission Demo (E2E sample))
-ECHO( 9) Math Verification Demo))
-ECHO( A) Autonomy Toggle (self-act on/off))
-ECHO( Z) Quiet Mode Toggle (silence self-proposals))
-ECHO( P) Preset (quiet/balanced/lively))
-ECHO( O) Open Outputs (folders))
-ECHO( H) Help)
-ECHO( Q) Quit)
-ECHO(
-SET /P SEL=Select: 
-IF /I "%SEL%"=="1" GOTO START_SERVER
-IF /I "%SEL%"=="2" GOTO DAILY_ROUTINE
-IF /I "%SEL%"=="3" GOTO DAILY_REPORT
-IF /I "%SEL%"=="4" GOTO TEXTBOOK
-IF /I "%SEL%"=="5" GOTO JOURNAL
-IF /I "%SEL%"=="6" GOTO BOOK
-IF /I "%SEL%"=="7" GOTO CREATIVE
-IF /I "%SEL%"=="8" GOTO TRINITY
-IF /I "%SEL%"=="9" GOTO MATH
-IF /I "%SEL%"=="A" GOTO AUTONOMY
-IF /I "%SEL%"=="Z" GOTO QUIET
-IF /I "%SEL%"=="P" GOTO PRESET
-IF /I "%SEL%"=="O" GOTO OPEN
-IF /I "%SEL%"=="H" GOTO HELP
-IF /I "%SEL%"=="Q" GOTO END
-GOTO MENU
+cls
+echo ==========================================
+echo        Elysia Launcher (Simple Menu)
+echo ==========================================
+echo.
+echo  1) Start Web Server (Dashboard)
+echo  B) Start Clean Bridge (UTF-8)
+echo  2) Run Daily Routine
+echo  3) Generate Daily Report
+echo  4) Run Textbook Demo
+echo  5) Journaling
+echo  6) Book Report
+echo  7) Creative Writing
+echo  8) Trinity Mission Demo
+echo  9) Math Verification Demo
+echo  V) Wisdom-Virus Demo
+echo  S) Growth Sprint (ingest→keywords→virus→report)
+echo  R) Generate Sample Corpus (500)
+echo  W) Schedule Growth Sprint (21:30 daily)
+echo  X) Remove Growth Sprint schedule
+echo  U) Start Background Learner (micro)
+echo  I) Stop Background Learner
+echo  Y) Use Learning Flow Profile
+echo  G) Use Generic Flow Profile
+echo  L) Train Literature Classifier
+echo  C) Classify a Text File
+echo  T) Debug Tokenization
+echo  A) Autonomy Toggle
+echo  Z) Quiet Mode Toggle
+echo  P) Preset (quiet/balanced/lively)
+echo  O) Open Outputs (folders)
+echo  H) Help
+echo  Q) Quit
+echo.
+set /P SEL=Select: 
+
+if /I "%SEL%"=="1" goto START_SERVER
+if /I "%SEL%"=="B" goto CLEAN_BRIDGE
+if /I "%SEL%"=="2" goto DAILY_ROUTINE
+if /I "%SEL%"=="3" goto DAILY_REPORT
+if /I "%SEL%"=="4" goto TEXTBOOK
+if /I "%SEL%"=="5" goto JOURNAL
+if /I "%SEL%"=="6" goto BOOK
+if /I "%SEL%"=="7" goto CREATIVE
+if /I "%SEL%"=="8" goto TRINITY
+if /I "%SEL%"=="9" goto MATH
+if /I "%SEL%"=="V" goto VIRUS
+if /I "%SEL%"=="S" goto GROWTH
+if /I "%SEL%"=="R" goto GEN_CORPUS
+if /I "%SEL%"=="W" goto SCHED_SPRINT
+if /I "%SEL%"=="X" goto REMOVE_SPRINT
+if /I "%SEL%"=="U" goto BG_START
+if /I "%SEL%"=="I" goto BG_STOP
+if /I "%SEL%"=="Y" goto FLOW_LEARNING
+if /I "%SEL%"=="G" goto FLOW_GENERIC
+if /I "%SEL%"=="L" goto LIT_TRAIN
+if /I "%SEL%"=="C" goto LIT_CLASSIFY
+if /I "%SEL%"=="T" goto TOKEN_DEBUG
+if /I "%SEL%"=="A" goto AUTONOMY
+if /I "%SEL%"=="Z" goto QUIET
+if /I "%SEL%"=="P" goto PRESET
+if /I "%SEL%"=="O" goto OPEN
+if /I "%SEL%"=="H" goto HELP
+if /I "%SEL%"=="Q" goto END
+goto MENU
 
 :START_SERVER
-ECHO([Startup] Launching Elysia web server...)
-SET FLASK_APP=applications/elysia_api.py
-START "Elysia Web" %PYEXE% -m flask run --host=0.0.0.0
-START http://127.0.0.1:5000/monitor
-PAUSE
-GOTO MENU
+echo [Startup] Launching Elysia web server...
+set FLASK_APP=applications\elysia_api.py
+start "Elysia Web" %PYEXE% -m flask run --host=0.0.0.0
+start "" http://127.0.0.1:5000/monitor
+pause
+goto MENU
+
+:CLEAN_BRIDGE
+echo [Startup] Launching Clean Bridge server...
+set FLASK_APP=applications\elysia_bridge_clean.py
+start "Elysia Clean Web" %PYEXE% -m flask run --host=0.0.0.0
+start "" http://127.0.0.1:5000
+pause
+goto MENU
 
 :DAILY_ROUTINE
-ECHO([Routine] Run Daily Routine)
-SET /P GENRE=  - Genre (default: story): 
-IF "%GENRE%"=="" SET GENRE=story
-SET /P THEME=  - Theme (default: growth): 
-IF "%THEME%"=="" SET THEME=growth
+echo [Routine] Run Daily Routine
+set /P GENRE=  - Genre (default: story): 
+if "%GENRE%"=="" set GENRE=story
+set /P THEME=  - Theme (default: growth): 
+if "%THEME%"=="" set THEME=growth
 %PYEXE% -m scripts.run_daily_routine --genre %GENRE% --theme %THEME%
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :DAILY_REPORT
-ECHO([Report] Generating today's daily report...)
+echo [Report] Generating today's daily report...
 %PYEXE% -m scripts.run_daily_report
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :TEXTBOOK
-ECHO([Textbook] Choose a sample book:)
-ECHO(  1) data\textbooks\nlp_basics.json)
-ECHO(  2) data\textbooks\math_basics.json)
-ECHO(  3) Enter a custom path)
-SET /P CH=Select [1/2/3]: 
-IF "%CH%"=="1" SET BOOK=data\textbooks\nlp_basics.json
-IF "%CH%"=="2" SET BOOK=data\textbooks\math_basics.json
-IF "%CH%"=="3" SET /P BOOK=Enter path to textbook JSON: 
-IF NOT DEFINED BOOK SET BOOK=data\textbooks\nlp_basics.json
+echo [Textbook] Choose a sample book:
+echo   1) data\textbooks\nlp_basics.json
+echo   2) data\textbooks\math_basics.json
+echo   3) Enter a custom path
+set /P CH=Select [1/2/3]: 
+if "%CH%"=="1" set BOOK=data\textbooks\nlp_basics.json
+if "%CH%"=="2" set BOOK=data\textbooks\math_basics.json
+if "%CH%"=="3" set /P BOOK=Enter path to textbook JSON: 
+if not defined BOOK set BOOK=data\textbooks\nlp_basics.json
 %PYEXE% -m scripts.run_textbook_demo --book "%BOOK%"
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :JOURNAL
-ECHO([Journal] Writing today's entry...)
+echo [Journal] Writing today's entry...
 %PYEXE% -m scripts.run_journaling_lesson
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :BOOK
-ECHO([Book] Create a report from a local .txt file)
-SET /P BOOKPATH= - Enter path to book (.txt): 
-IF NOT EXIST "%BOOKPATH%" (
-  ECHO(  [Error] File not found: %BOOKPATH%)
-) ELSE (
+echo [Book] Create a report from a local .txt file
+set /P BOOKPATH= - Enter path to book (.txt): 
+if not exist "%BOOKPATH%" (
+  echo   [Error] File not found: %BOOKPATH%
+) else (
   %PYEXE% -m scripts.run_book_report --book "%BOOKPATH%"
 )
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :CREATIVE
-ECHO([Creative] Generate an outline and scenes)
-SET /P GENRE=  - Genre (e.g., fantasy) [story]: 
-IF "%GENRE%"=="" SET GENRE=story
-SET /P THEME=  - Theme (e.g., hope) [growth]: 
-IF "%THEME%"=="" SET THEME=growth
-SET /P BEATS=  - Beats count [5]: 
-IF "%BEATS%"=="" SET BEATS=5
-SET /P WORDS=  - Approx words per scene [120]: 
-IF "%WORDS%"=="" SET WORDS=120
+echo [Creative] Generate an outline and scenes
+set /P GENRE=  - Genre (e.g., fantasy) [story]: 
+if "%GENRE%"=="" set GENRE=story
+set /P THEME=  - Theme (e.g., hope) [growth]: 
+if "%THEME%"=="" set THEME=growth
+set /P BEATS=  - Beats count [5]: 
+if "%BEATS%"=="" set BEATS=5
+set /P WORDS=  - Approx words per scene [120]: 
+if "%WORDS%"=="" set WORDS=120
 %PYEXE% -m scripts.run_creative_writing --genre %GENRE% --theme %THEME% --beats %BEATS% --words %WORDS%
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :TRINITY
-ECHO([Trinity] Running E2E demo...)
+echo [Trinity] Running E2E demo...
 %PYEXE% -m scripts.trinity_mission_demo
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :MATH
-ECHO([Math] Verify an equality)
-SET /P STMT= - Enter statement (e.g., 3*(2+4)=18): 
-IF "%STMT%"=="" SET STMT=3*(2+4)=18
+echo [Math] Verify an equality
+set /P STMT= - Enter statement (e.g., 3*(2+4)=18): 
+if "%STMT%"=="" set STMT=3*(2+4)=18
 %PYEXE% -m scripts.pipeline_math_verify_demo "%STMT%"
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :AUTONOMY
-ECHO([Autonomy] Toggle self-acting mode.)
-SET /P ANS=Turn ON or OFF [on/off]: 
-IF /I "%ANS%"=="ON"  %PYEXE% -m scripts.toggle_autonomy --on
-IF /I "%ANS%"=="OFF" %PYEXE% -m scripts.toggle_autonomy --off
-PAUSE
-GOTO MENU
+echo [Autonomy] Toggle self-acting mode.
+set /P ANS=Turn ON or OFF [on/off]: 
+if /I "%ANS%"=="ON"  %PYEXE% -m scripts.toggle_autonomy --on
+if /I "%ANS%"=="OFF" %PYEXE% -m scripts.toggle_autonomy --off
+pause
+goto MENU
 
 :QUIET
-ECHO([Quiet] Toggle quiet mode (suppress self-proposals))
-SET /P ANS=Turn ON or OFF [on/off]: 
-IF /I "%ANS%"=="ON"  %PYEXE% -m scripts.toggle_quiet_mode --on
-IF /I "%ANS%"=="OFF" %PYEXE% -m scripts.toggle_quiet_mode --off
-PAUSE
-GOTO MENU
+echo [Quiet] Toggle quiet mode (suppress self-proposals)
+set /P ANS=Turn ON or OFF [on/off]: 
+if /I "%ANS%"=="ON"  %PYEXE% -m scripts.toggle_quiet_mode --on
+if /I "%ANS%"=="OFF" %PYEXE% -m scripts.toggle_quiet_mode --off
+pause
+goto MENU
 
 :PRESET
-ECHO([Preset] Choose autonomy preset)
-ECHO(  1) quiet)
-ECHO(  2) balanced)
-ECHO(  3) lively)
-SET /P PR=Select [1/2/3]: 
-IF "%PR%"=="1" SET PRE=quiet
-IF "%PR%"=="2" SET PRE=balanced
-IF "%PR%"=="3" SET PRE=lively
-IF NOT DEFINED PRE SET PRE=quiet
+echo [Preset] Choose autonomy preset
+echo   1) quiet
+echo   2) balanced
+echo   3) lively
+set /P PR=Select [1/2/3]: 
+if "%PR%"=="1" set PRE=quiet
+if "%PR%"=="2" set PRE=balanced
+if "%PR%"=="3" set PRE=lively
+if not defined PRE set PRE=quiet
 %PYEXE% -m scripts.set_autonomy_preset --preset %PRE%
-PAUSE
-GOTO MENU
+pause
+goto MENU
 
 :OPEN
-ECHO([Open] Choose a folder to open)
-ECHO(  1) data\journal)
-ECHO(  2) data\reports\daily)
-ECHO(  3) data\writings)
-ECHO(  4) data\proofs)
-ECHO(  5) data (root))
-SET /P OP=Select [1..5]: 
-IF "%OP%"=="1" START "" "%CD%\data\journal"
-IF "%OP%"=="2" START "" "%CD%\data\reports\daily"
-IF "%OP%"=="3" START "" "%CD%\data\writings"
-IF "%OP%"=="4" START "" "%CD%\data\proofs"
-IF "%OP%"=="5" START "" "%CD%\data"
-PAUSE
-GOTO MENU
+echo [Open] Choose a folder to open
+echo   1) data\journal
+echo   2) data\reports\daily
+echo   3) data\writings
+echo   4) data\proofs
+echo   5) data (root)
+set /P OP=Select [1..5]: 
+if "%OP%"=="1" start "" "%CD%\data\journal"
+if "%OP%"=="2" start "" "%CD%\data\reports\daily"
+if "%OP%"=="3" start "" "%CD%\data\writings"
+if "%OP%"=="4" start "" "%CD%\data\proofs"
+if "%OP%"=="5" start "" "%CD%\data"
+pause
+goto MENU
 
 :HELP
-CLS
-ECHO(=================== HELP ====================)
-ECHO(1) Start Web Server  - Flask dashboard http://127.0.0.1:5000/monitor)
-ECHO(2) Daily Routine     - Journal + Creative → data\journal, data\writings)
-ECHO(3) Daily Report      - MD/PNG → data\reports\daily)
-ECHO(4) Textbook Demo     - Use sample JSON under data\textbooks)
-ECHO(5) Journaling        - Today's entry under data\journal)
-ECHO(6) Book Report       - From .txt → *_report.md under data\reports)
-ECHO(7) Creative Writing  - Outline + scenes under data\writings)
-ECHO(8) Trinity Demo      - Files→Proof→Image→KG demo)
-ECHO(9) Math Verify       - Proof images under data\proofs)
-ECHO(A) Autonomy Toggle   - Enable/disable self-actions)
-ECHO(Z) Quiet Mode Toggle - Suppress self-proposals)
-ECHO(P) Preset            - quiet/balanced/lively)
-ECHO(O) Open Outputs      - Open common folders)
-ECHO(============================================)
-PAUSE
-GOTO MENU
+cls
+echo =================== HELP ====================
+echo 1) Start Web Server  - Flask dashboard http://127.0.0.1:5000/monitor
+echo B) Start Clean Bridge - UTF-8 chat http://127.0.0.1:5000
+echo 2) Daily Routine     - Journal + Creative (data\journal, data\writings)
+echo 3) Daily Report      - MD/PNG (data\reports\daily)
+echo 4) Textbook Demo     - data\textbooks samples
+echo 5) Journaling        - Today's entry under data\journal
+echo 6) Book Report       - From .txt to *_report.md (data\reports)
+echo 7) Creative Writing  - Outline + scenes (data\writings)
+echo 8) Trinity Demo      - Files/Proof/Image/KG demo
+echo 9) Math Verify       - Proof images under data\proofs
+echo V) Wisdom-Virus Demo - Propagate a meaning unit in KG
+pause
+goto MENU
+
+:VIRUS
+echo [Virus] Running Wisdom-Virus demo...
+%PYEXE% -m scripts.run_virus_demo
+pause
+goto MENU
+
+:GROWTH
+echo [Growth] Running Growth Sprint...
+%PYEXE% -m scripts.growth_sprint --ingest --keywords --virus --report
+pause
+goto MENU
+
+:GEN_CORPUS
+echo [Corpus] Generating 500 sample texts under data\corpus\literature...
+%PYEXE% -m scripts.generate_corpus --count 500
+echo Done. You can now run Growth Sprint (S) to ingest/link/propagate.
+pause
+goto MENU
+
+:SCHED_SPRINT
+echo [Scheduler] Create daily Growth Sprint at 21:30
+scripts\setup_growth_sprint.bat
+goto MENU
+
+:REMOVE_SPRINT
+echo [Scheduler] Remove daily Growth Sprint
+scripts\remove_growth_sprint.bat
+goto MENU
+
+:BG_START
+echo [Background] Starting micro-learner in a new window (Ctrl+C to stop that window)
+start "Elysia Background" %PYEXE% -m scripts.background_daemon
+%PYEXE% -m scripts.toggle_background --on --interval 900
+pause
+goto MENU
+
+:BG_STOP
+echo [Background] Stopping background learner
+%PYEXE% -m scripts.toggle_background --off
+pause
+goto MENU
+
+:FLOW_LEARNING
+echo [Flow] Switching to learning profile...
+%PYEXE% -m scripts.set_flow_profile --profile learning
+echo Done. Next responses will favor clarify/small-steps.
+pause
+goto MENU
+
+:FLOW_GENERIC
+echo [Flow] Switching to generic profile...
+%PYEXE% -m scripts.set_flow_profile --profile generic
+echo Done. Back to balanced dialog flow.
+pause
+goto MENU
+
+:LIT_TRAIN
+echo [Literature] Train Naive Bayes classifier from data\corpus\literature\<label>\*.txt
+%PYEXE% -m scripts.train_text_classifier --data data\corpus\literature --out data\models\lit_nb.json
+pause
+goto MENU
+
+:LIT_CLASSIFY
+echo [Literature] Classify a .txt file using data\models\lit_nb.json
+set /P FPATH= - Enter path to .txt file: 
+if not exist "%FPATH%" (
+  echo   [Error] File not found: %FPATH%
+) else (
+  %PYEXE% -m scripts.classify_text --model data\models\lit_nb.json --file "%FPATH%"
+)
+pause
+goto MENU
+
+:TOKEN_DEBUG
+echo [Tokenize] Enter a line to segment (Korean-aware, josa/eomi split)
+set /P LINE= - Text: 
+%PYEXE% -m scripts.debug_tokenize --text "%LINE%"
+pause
+goto MENU
 
 :END
-ECHO(Bye.)
-ENDLOCAL
-EXIT /B 0
-
+endlocal
+echo Bye.
+exit /b 0

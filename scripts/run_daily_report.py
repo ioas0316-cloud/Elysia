@@ -12,6 +12,9 @@ from pathlib import Path
 from Project_Mirror.report_renderer import ReportRenderer
 from tools.kg_manager import KGManager
 import json
+import os
+from datetime import datetime as _dt
+from scripts.generate_metrics import summarize_kg
 
 
 def _find_today_files(base: Path, date_str: str):
@@ -71,6 +74,50 @@ def main():
         except Exception:
             pass
     md_path.write_text("\n".join(lines), encoding="utf-8")
+
+    # Metrics snapshot (Top concepts, supports/refutes, values)
+    try:
+        kgm = KGManager()
+        summ = summarize_kg(kgm.kg)
+        lines += ["## Metrics Snapshot", ""]
+        lines += [f"- Nodes: {summ['nodes']}  Edges: {summ['edges']}  Supports: {summ['supports']}  Refutes: {summ['refutes']}"]
+        lines += ["- Top Concepts:"]
+        for name, c in summ['top_concepts']:
+            lines.append(f"  - {name}: {c}")
+        lines.append("")
+    except Exception:
+        pass
+
+    # Reasoning snapshot from telemetry (last 50)
+    try:
+        tel_dir = os.path.join('data','telemetry', _dt.utcnow().strftime('%Y%m%d'))
+        tel_path = os.path.join(tel_dir, 'events.jsonl')
+        if os.path.exists(tel_path):
+            with open(tel_path, 'r', encoding='utf-8') as f:
+                lines_json = f.readlines()[-100:]
+            events = []
+            for l in lines_json:
+                try:
+                    events.append(json.loads(l))
+                except Exception:
+                    pass
+            flows = [e for e in events if e.get('event_type') == 'flow.decision']
+            if flows:
+                lines += ["## Reasoning Snapshot (flow decisions)"]
+                # Count top choices
+                from collections import Counter
+                cnt = Counter(e.get('payload',{}).get('top_choice') for e in flows)
+                lines += ["- Top choice counts:"]
+                for k, v in cnt.most_common():
+                    lines.append(f"  - {k}: {v}")
+                # Show last few with echo focus
+                lines += ["- Recent decisions:"]
+                for e in flows[-5:]:
+                    evd = (e.get('payload',{}).get('evidence',{}) or {}).get('echo_top') or []
+                    lines.append(f"  - {e.get('payload',{}).get('top_choice')}  echo:{','.join(evd)}")
+                lines.append("")
+    except Exception:
+        pass
 
     # PNG card
     info = {

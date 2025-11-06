@@ -38,5 +38,19 @@
             "arousal": 0.0
         },
         "note": ""
+    },
+    {
+        "timestamp": "2025-11-06T20:56:47.313877",
+        "type": "episode_summary",
+        "top_topics": [
+            "photosynthesis",
+            "소크라테스"
+        ],
+        "emotion": {
+            "primary": "neutral",
+            "valence": 0.0,
+            "arousal": 0.0
+        },
+        "note": ""
     }
 ]

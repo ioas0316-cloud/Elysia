@@ -1,0 +1,10 @@
+id: learning_summarize
+priority: 152
+patterns:
+  - "(요약|핵심).*([3삼]\s*줄|3줄)"
+  - "핵심만.*(정리|뽑아)"
+gates:
+  quiet_ok: true
+response:
+  template: "좋아요. 3줄 요약 기준으로 볼게요. 1) 정의/과정 2) 근거/예 3) 함의/적용. 본문이나 키워드를 알려주시면 이 틀로 정리해 드릴게요."
+

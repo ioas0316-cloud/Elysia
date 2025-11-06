@@ -1,0 +1,14 @@
+id: cmd_bg_rest
+priority: 183
+patterns:
+  - "(잠깐|조금)?\s*쉬(어|자|고 싶|자고 싶)"
+  - "휴식\s*모드"
+  - "rest\s*mode"
+gates:
+  quiet_ok: true
+response:
+  template: "좋아요. 잠깐 쉬어요. 배경 학습은 잠시 멈출게요. 원하실 때 ‘다시 시작’이라고 해주세요."
+actions:
+  set_pref:
+    background_enabled: false
+

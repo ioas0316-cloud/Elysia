@@ -1,0 +1,14 @@
+id: cmd_bg_resume
+priority: 183
+patterns:
+  - "다시\s*시작(해|하자)?"
+  - "학습\s*(다시|재개)"
+  - "resume\s*learning"
+gates:
+  quiet_ok: true
+response:
+  template: "학습을 다시 시작할게요. 배경 학습을 켜고 가볍게 이어가요."
+actions:
+  set_pref:
+    background_enabled: true
+

@@ -37,6 +37,20 @@
             margin-bottom: 10px;
             text-align: center;
         }
+        .lamp {
+            position: fixed;
+            left: 16px;
+            bottom: 16px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background-color: #444;
+            box-shadow: 0 0 8px rgba(0,0,0,0.6);
+            border: 1px solid #666;
+        }
+        .lamp.on { background-color: #2ecc71; box-shadow: 0 0 10px rgba(46,204,113,0.8); }
+        .lamp.busy { background-color: #f1c40f; box-shadow: 0 0 10px rgba(241,196,15,0.8); }
+        .lamp.off { background-color: #e74c3c; box-shadow: 0 0 10px rgba(231,76,60,0.8); }
         .header h1 {
             margin: 0;
             font-size: 1.5em;
@@ -55,6 +69,21 @@
             align-items: center;
             justify-content: center;
         }
+        .reasoning {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            width: 360px;
+            max-height: 40vh;
+            overflow: auto;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 12px;
+            display: none;
+        }
+        .reasoning h3 { margin: 0 0 6px 0; font-size: 13px; }
         .messages {
             flex-grow: 1;
             overflow-y: auto;
@@ -110,7 +139,15 @@
             <div class="header">
                 <h1>Elysia</h1>
                 <a href="/journal" target="_blank">View My Journal</a>
-            </div>
+                <div style="margin-top:8px; font-size:0.9em; display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap;">
+                    <span id="bg-status">Background: checking…</span>
+                    <button onclick="bgOn()">BG ON</button>
+                    <button onclick="bgOff()">BG OFF</button>
+                    <label style="display:flex; align-items:center; gap:4px;">
+                        <input type="checkbox" id="toggle-reasoning" onchange="toggleReasoning(this.checked)"> Show Reasoning
+                    </label>
+                </div>
+        </div>
             <div class="messages" id="messages"></div>
             <div class="input-area">
                 <input type="text" id="userInput" placeholder="Ask Elysia anything..." autocomplete="off">
@@ -123,6 +160,11 @@
             </div>
             <img id="image-display" src="" alt="Visualization" style="display:none;">
         </div>
+    </div>
+    <div class="lamp off" id="lamp" title="배경 학습 램프\n녹색=활성, 노랑=작업 중, 빨강=정지"></div>
+    <div class="reasoning" id="reasoning">
+        <h3>Reasoning Trace</h3>
+        <div id="trace-body">No data yet.</div>
     </div>
 
     <script>
@@ -218,6 +260,85 @@
             } catch (error) {
                 addMessage('Sorry, the visualization tool seems to be broken.', 'elysia');
             }
+        }
+
+        // Background controls
+        async function refreshBgStatus() {
+            try {
+                const res = await fetch('/self/status');
+                const st = await res.json();
+                const el = document.getElementById('bg-status');
+                const lamp = document.getElementById('lamp');
+                if (st && !st.error) {
+                    const bg = st.background || {};
+                    el.textContent = `Background: ${bg.enabled ? 'ENABLED' : 'DISABLED'} ${bg.running ? '(running)' : '(stopped)'}  interval=${bg.interval_sec}s`;
+                    lamp.classList.remove('on','off','busy');
+                    if (st.busy) {
+                        lamp.classList.add('busy');
+                    } else if (bg.enabled) {
+                        lamp.classList.add('on');
+                    } else {
+                        lamp.classList.add('off');
+                    }
+                    const legend = '배경 학습 램프\n녹색=활성, 노랑=작업 중, 빨강=정지';
+                    const cur = `현재: ${bg.enabled ? (st.busy ? '작업 중' : '활성') : '정지'}  (interval=${bg.interval_sec}s)`;
+                    lamp.setAttribute('title', legend + '\n' + cur);
+                } else {
+                    el.textContent = 'Background: error';
+                    lamp.classList.remove('on','busy');
+                    lamp.classList.add('off');
+                    lamp.setAttribute('title', '배경 학습 램프\n녹색=활성, 노랑=작업 중, 빨강=정지\n현재: 오류');
+                }
+            } catch (e) {
+                document.getElementById('bg-status').textContent = 'Background: error';
+                const lamp = document.getElementById('lamp');
+                lamp.classList.remove('on','busy');
+                lamp.classList.add('off');
+                lamp.setAttribute('title', '배경 학습 램프\n녹색=활성, 노랑=작업 중, 빨강=정지\n현재: 오류');
+            }
+        }
+
+        async function bgOn() {
+            await fetch('/bg/on', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({interval_sec:300})});
+            setTimeout(refreshBgStatus, 500);
+        }
+        async function bgOff() {
+            await fetch('/bg/off', {method:'POST'});
+            setTimeout(refreshBgStatus, 500);
+        }
+
+        refreshBgStatus();
+        setInterval(refreshBgStatus, 10000);
+
+        // Reasoning panel
+        let reasoningVisible = false;
+        function toggleReasoning(on) {
+            reasoningVisible = !!on;
+            document.getElementById('reasoning').style.display = reasoningVisible ? 'block' : 'none';
+            if (reasoningVisible) refreshTrace();
+        }
+        async function refreshTrace() {
+            if (!reasoningVisible) return;
+            try {
+                const res = await fetch('/trace/recent');
+                const data = await res.json();
+                const evs = (data.events || []).slice(-20);
+                const lines = evs.map(e => {
+                    const t = e.event_type;
+                    if (t === 'flow.decision') {
+                        const w = e.payload.weights, s = e.payload.signals;
+                        const evd = (e.payload.evidence && e.payload.evidence.echo_top) ? ` echo:[${e.payload.evidence.echo_top.join(', ')}]` : '';
+                        return `flow: top=${e.payload.top_choice}  w[clarify:${w.clarify.toFixed(2)}, reflect:${w.reflect.toFixed(2)}, suggest:${w.suggest.toFixed(2)}]  s[clarify:${s.clarify.toFixed(2)}, reflect:${s.reflect.toFixed(2)}, suggest:${s.suggest.toFixed(2)}]${evd}`;
+                    } else if (t === 'route.arc') {
+                        return `route: ${e.payload.from_mod} -> ${e.payload.to_mod} (${e.payload.latency_ms}ms)`;
+                    }
+                    return t;
+                });
+                document.getElementById('trace-body').textContent = lines.join('\n');
+            } catch (e) {
+                document.getElementById('trace-body').textContent = 'trace error';
+            }
+            setTimeout(refreshTrace, 3000);
         }
     </script>
 </body>

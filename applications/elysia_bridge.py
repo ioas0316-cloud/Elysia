@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
+﻿from flask import Flask, request, jsonify, render_template, send_from_directory
 from Project_Sophia.cognition_pipeline import CognitionPipeline
 from Project_Sophia.response_orchestrator import ResponseOrchestrator
 from Project_Sophia.conversation_state import WorkingMemory, TopicTracker
@@ -37,11 +37,11 @@ try:
         cognition_pipeline.use_local_llm = False
     # Ensure a clean Korean prefix for visual learning
     if hasattr(cognition_pipeline, 'visual_learning_prefix'):
-        cognition_pipeline.visual_learning_prefix = '?�것??그려보자:'
+        cognition_pipeline.visual_learning_prefix = '?닿쾬??洹몃젮蹂댁옄:'
     # Disable inquisitive mind external lookup
     if hasattr(cognition_pipeline, 'inquisitive_mind'):
         def _no_external_llm(topic: str) -> str:
-            return "지금�? ?��? 지??조회가 비활?�화?�어 ?�어?? ?�른 방식?�로 같이 ?�각?�볼까요?"
+            return "吏�湲덉? ?몃? 吏�??議고쉶媛� 鍮꾪솢?깊솕?섏뼱 ?덉뼱?? ?ㅻⅨ 諛⑹떇?쇰줈 媛숈씠 ?앷컖?대낵源뚯슂?"
         cognition_pipeline.inquisitive_mind.ask_external_llm = _no_external_llm
 except Exception:
     pass
@@ -49,10 +49,10 @@ except Exception:
 # Post-override to ensure clean Korean strings regardless of earlier encoding
 try:
     if hasattr(cognition_pipeline, 'visual_learning_prefix'):
-        cognition_pipeline.visual_learning_prefix = '?�것??그려보자:'
+        cognition_pipeline.visual_learning_prefix = '?닿쾬??洹몃젮蹂댁옄:'
     if hasattr(cognition_pipeline, 'inquisitive_mind'):
         cognition_pipeline.inquisitive_mind.ask_external_llm = (
-            lambda topic: "지금�? ?��? 지??조회가 비활?�화?�어 ?�어?? ?�른 방식?�로 같이 ?�각?�볼까요?")
+            lambda topic: "吏�湲덉? ?몃? 吏�??議고쉶媛� 鍮꾪솢?깊솕?섏뼱 ?덉뼱?? ?ㅻⅨ 諛⑹떇?쇰줈 媛숈씠 ?앷컖?대낵源뚯슂?")
 except Exception:
     pass
 
@@ -75,8 +75,8 @@ def _offline_internal_response(message, emotional_state, context):
         return {
             'type': 'text',
             'text': (
-                '지금�? ?��? 모델 ?�이 ?�각???�리?�고 ?�어?? '
-                '조금 ??구체?�으�?말�???주시�? ?��? 가�?경험�?개념?�로 ?�해볼게??'
+                '吏�湲덉? ?몃? 紐⑤뜽 ?놁씠 ?앷컖???뺣━?섍퀬 ?덉뼱?? '
+                '議곌툑 ??援ъ껜?곸쑝濡?留먯???二쇱떆硫? ?쒓? 媛�吏?寃쏀뿕怨?媛쒕뀗?쇰줈 ?듯빐蹂쇨쾶??'
             )
         }, emotional_state
 
@@ -130,7 +130,7 @@ def chat():
             ]
             has_mojibake = (isinstance(clean_text, str) and ('\ufffd' in clean_text))
             needs_offline = (
-                (isinstance(clean_text, str) and ('�? in clean_text or clean_text in generic_markers))
+                (isinstance(clean_text, str) and ('占? in clean_text or clean_text in generic_markers))
             )
             if has_mojibake:
                 needs_offline = True
@@ -144,8 +144,8 @@ def chat():
                 except Exception:
                     # Fallback to a readable Korean message
                     clean_text = (
-                        "지금�? ?��? 모델 ?�이 ?�각???�리?�고 ?�어?? "
-                        "조금 ??구체?�으�?말�???주시�? ?��? 가�?경험�?개념?�로 ?�해볼게??"
+                        "吏�湲덉? ?몃? 紐⑤뜽 ?놁씠 ?앷컖???뺣━?섍퀬 ?덉뼱?? "
+                        "議곌툑 ??援ъ껜?곸쑝濡?留먯???二쇱떆硫? ?쒓? 媛�吏?寃쏀뿕怨?媛쒕뀗?쇰줈 ?듯빐蹂쇨쾶??"
                     )
             final_response = {
                 'type': 'text',
@@ -186,9 +186,9 @@ def chat():
             'emotional_state': emotion_dict
         })
     except Exception as e:
-        print("!!! elysia_bridge.py ?�서 ?�외 발생???�착??!!!") # DEBUGGING PRINT
+        print("!!! elysia_bridge.py ?먯꽌 ?덉쇅 諛쒖깮???ъ갑??!!!") # DEBUGGING PRINT
         app_logger.exception(f"Error processing chat message: {user_input}")
-        return jsonify({'error': '백엔???�류 코드: ?�파-7'}), 500
+        return jsonify({'error': '諛깆뿏???ㅻ쪟 肄붾뱶: ?뚰뙆-7'}), 500
 
 
 @app.route('/journal')

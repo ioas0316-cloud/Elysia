@@ -45,6 +45,7 @@ from Project_Sophia.identity_metrics import (
 from Project_Elysia.agency_orchestrator import AgencyOrchestrator
 from Project_Sophia.dialogic_coach import DialogicCoach
 from Project_Sophia.dialogue_rule_engine import DialogueRuleEngine
+from Project_Elysia.flow_engine import FlowEngine
 
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'cognition_pipeline_errors.log')
@@ -131,6 +132,19 @@ class CognitionPipeline:
         self.topic_tracker = TopicTracker()
         self.lens = LensProfile()
         self.orchestrator = ResponseOrchestrator()
+        # Flow-based soft arbitration (LLM-free)
+        try:
+            self.flow_engine = FlowEngine(
+                kg_manager=self.kg_manager,
+                orchestrator=self.orchestrator,
+                working_memory=self.working_memory,
+                topic_tracker=self.topic_tracker,
+                value_cortex=self.value_cortex,
+                wave_mechanics=self.wave_mechanics,
+                enabled=True,
+            )
+        except Exception:
+            self.flow_engine = None
         # Identity-centered stance/voice
         try:
             self.self_model = SelfModel()
@@ -657,6 +671,14 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
             mr = self.rule_engine.apply(message)
             if mr and mr.response_text:
                 return {"type": "text", "text": mr.response_text}, emotional_state
+        except Exception:
+            pass
+        # 0b) Flow engine (soft arbitration over operators)
+        try:
+            if getattr(self, 'flow_engine', None):
+                fe_text = self.flow_engine.respond(message, emotional_state, context)
+                if fe_text:
+                    return {"type": "text", "text": fe_text}, emotional_state
         except Exception:
             pass
         try:

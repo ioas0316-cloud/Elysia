@@ -31,7 +31,8 @@ from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
 import yaml
-from tools.preferences import load_prefs, ensure_defaults
+from tools.preferences import load_prefs, ensure_defaults, save_prefs
+import os
 
 
 RULE_DIR = os.path.join("data", "dialogue_rules")
@@ -133,6 +134,31 @@ class DialogueRuleEngine:
                     except Exception:
                         pass
 
+            # Optional actions: set preferences or flow profile for intuitive switches
+            try:
+                actions = rule.get('actions', {}) or {}
+                # set_pref: {key: value}
+                if 'set_pref' in actions and isinstance(actions['set_pref'], dict):
+                    p = ensure_defaults(load_prefs())
+                    changed = False
+                    for k, v in actions['set_pref'].items():
+                        if p.get(k) != v:
+                            p[k] = v
+                            changed = True
+                    if changed:
+                        save_prefs(p)
+                # set_flow_profile: "learning" | "generic" | path
+                prof = actions.get('set_flow_profile')
+                if isinstance(prof, str) and prof.strip():
+                    try:
+                        profile_file = os.path.join('data', 'flows', 'profile.txt')
+                        with open(profile_file, 'w', encoding='utf-8') as pf:
+                            pf.write(prof.strip())
+                    except Exception:
+                        pass
+            except Exception:
+                pass
+
             candidates.append(MatchResult(rule_id=rid, priority=priority, response_text=response_text))
 
         if not candidates:
@@ -140,4 +166,3 @@ class DialogueRuleEngine:
         # Highest priority wins; if tie, first loaded wins
         best = sorted(candidates, key=lambda r: r.priority, reverse=True)[0]
         return best
-
