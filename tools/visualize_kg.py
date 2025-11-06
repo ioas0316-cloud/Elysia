@@ -10,6 +10,49 @@ from tools.canvas_tool import Canvas
 from tools.kg_manager import KGManager
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.lens_profile import LensProfile
+import random
+from datetime import datetime
+
+
+def _draw_starfield(canvas: Canvas, seed_key: str = ""):
+    """Draw a simple starfield background (deterministic by seed_key)."""
+    try:
+        rnd = random.Random(str(seed_key or datetime.utcnow().strftime('%Y%m%d')))
+        w, h = 512, 512
+        for _ in range(120):
+            x = rnd.randint(0, w - 1)
+            y = rnd.randint(0, h - 1)
+            b = rnd.randint(140, 220)
+            canvas.draw.point((x, y), fill=(b, b, min(255, b + 25)))
+    except Exception:
+        pass
+
+
+def _recent_active_edges(max_lines: int = 200):
+    """Return a set of (source, target, relation) for recently added edges."""
+    edges = set()
+    try:
+        day = datetime.utcnow().strftime('%Y%m%d')
+        tel_dir = os.path.join(os.path.dirname(__file__), '..', 'data', 'telemetry', day)
+        tel_path = os.path.abspath(os.path.join(tel_dir, 'events.jsonl'))
+        if not os.path.exists(tel_path):
+            return edges
+        with open(tel_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()[-max_lines:]
+        for l in lines:
+            try:
+                ev = json.loads(l)
+                if ev.get('event_type') == 'concept.update':
+                    p = ev.get('payload', {})
+                    if p.get('op') == 'add_edge':
+                        s, t, r = p.get('source'), p.get('target'), p.get('rel')
+                        if s and t and r:
+                            edges.add((s, t, r))
+            except Exception:
+                continue
+    except Exception:
+        pass
+    return edges
 
 
 def visualize_kg(start_node_id: str = None):
@@ -35,7 +78,9 @@ def visualize_kg(start_node_id: str = None):
         activated_nodes = {node['id']: 1.0 for node in kg['nodes']}
 
 
-    canvas = Canvas(width=512, height=512, bg_color=(20, 20, 35))
+    canvas = Canvas(width=384, height=384, bg_color=(20, 20, 35))
+    canvas = Canvas(width=384, height=384, bg_color=(20, 20, 35))
+    _draw_starfield(canvas, seed_key=start_node_id or 'kg')
 
     min_coord, max_coord = [float('inf')] * 3, [float('-inf')] * 3
     for node in kg['nodes']:
@@ -58,6 +103,7 @@ def visualize_kg(start_node_id: str = None):
         return (46, 204, 113)      # green (free)
 
     max_e = max(activated_nodes.values()) if activated_nodes else 1.0
+    active_edges = set()
     for edge in kg['edges']:
         source_node, target_node = kg_manager.get_node(edge['source']), kg_manager.get_node(edge['target'])
         if source_node and target_node:
@@ -75,6 +121,13 @@ def visualize_kg(start_node_id: str = None):
                 color = (80, 80, 120)
                 width = 1
             canvas.draw.line([(x1, y1), (x2, y2)], fill=color, width=width)
+            # highlight recently added edges
+            try:
+                rel = edge.get('relation')
+                if (edge.get('source'), edge.get('target'), rel) in active_edges:
+                    canvas.draw.line([(x1, y1), (x2, y2)], fill=(180, 220, 255), width=max(3, width + 1))
+            except Exception:
+                pass
 
     # Prepare anchors and echo center (if any)
     lens = LensProfile()
@@ -160,7 +213,7 @@ def visualize_kg(start_node_id: str = None):
     except Exception:
         pass
 
-    canvas.render(output_path, voxel_size=8)
+    canvas.render(output_path, voxel_size=6)
     print(f"Visualization saved to: {output_path}")
 
 if __name__ == "__main__":
@@ -188,7 +241,7 @@ def render_kg(start_node_id: str | None = None, out_name: str | None = None) -> 
     else:
         activated_nodes = {node['id']: 1.0 for node in kg['nodes']}
 
-    canvas = Canvas(width=512, height=512, bg_color=(20, 20, 35))
+    canvas = Canvas(width=384, height=384, bg_color=(20, 20, 35))
 
     min_coord, max_coord = [float('inf')] * 3, [float('-inf')] * 3
     for node in kg['nodes']:
@@ -215,7 +268,7 @@ def render_kg(start_node_id: str | None = None, out_name: str | None = None) -> 
 
     out = out_name or (f"monitor_wave_{start_node_id}.png" if start_node_id else "monitor_kg.png")
     out_path = os.path.join("data", out)
-    canvas.render(out_path, voxel_size=8)
+    canvas.render(out_path, voxel_size=6)
     return out_path
 
 
@@ -230,8 +283,9 @@ def render_placeholder(out_name: str = 'monitor_echo.png', message: str = 'No ec
         pass
     import os
     out_path = os.path.join("data", out_name)
-    canvas.render(out_path, voxel_size=8)
+    canvas.render(out_path, voxel_size=6)
     return out_path
+
 
 
 

@@ -33,16 +33,23 @@
     <div class="chat-panel">
       <div class="header">
         <h1>Elysia</h1>
-        <a href="/journal" target="_blank">View My Journal</a>
+        <a href="/journal" target="_blank">Open Journal (optional)</a>
         <div class="statusbar">
           <span id="bg-status">Background: checking…</span>
-          <button id="bg-on">BG ON</button>
-          <button id="bg-off">BG OFF</button>
+          <button id="bg-on">Start BG</button>
+          <button id="bg-off">Pause BG</button>
         </div>
       </div>
       <div class="messages" id="messages"></div>
       <div class="input-area">
-        <input type="text" id="userInput" placeholder="Type a message... (or 'viz: topic')" autocomplete="off">
+      <div style="margin-top:8px; font-size:0.9em; display:flex; gap:8px; flex-wrap:wrap;">
+        <button id="chip-link"   style="background:#444;color:#ddd;border:1px solid #666;">nano: link</button>
+        <button id="chip-verify" style="background:#444;color:#ddd;border:1px solid #666;">nano: verify</button>
+        <button id="chip-sum"    style="background:#444;color:#ddd;border:1px solid #666;">nano: summarize</button>
+        <button id="chip-comp"   style="background:#444;color:#ddd;border:1px solid #666;">nano: compose</button>
+        <button id="chip-exp"    style="background:#444;color:#ddd;border:1px solid #666;">nano: explain</button>
+      </div>
+        <input type="text" id="userInput" placeholder="Type a message... (viz: topic or nano: link/verify/summarize/compose/explain ...)" autocomplete="off">
         <button id="sendBtn">Send</button>
       </div>
     </div>
@@ -51,7 +58,7 @@
       <img id="image-display" src="" alt="Visualization">
     </div>
   </div>
-  <div class="lamp off" id="lamp" title="Background lamp
+  <div class="lamp off" id="lamp" title="Background learning lamp
 Green=enabled, Yellow=busy, Red=stopped"></div>
 
   <script>
@@ -133,6 +140,12 @@ Green=enabled, Yellow=busy, Red=stopped"></div>
       document.getElementById('bg-on').addEventListener('click', bgOn);
       document.getElementById('bg-off').addEventListener('click', bgOff);
       refreshBgStatus(); setInterval(refreshBgStatus, 10000);
+            function fill(cmd){ userInput.value = cmd; userInput.focus(); }
+      document.getElementById('chip-link').addEventListener('click', ()=>fill("nano: link subject=concept:courage object=role:soldier rel=related_to"));
+      document.getElementById('chip-verify').addEventListener('click', ()=>fill("nano: verify subject=concept:courage object=role:soldier"));
+      document.getElementById('chip-sum').addEventListener('click', ()=>fill("nano: summarize target=concept:courage"));
+      document.getElementById('chip-comp').addEventListener('click', ()=>fill("nano: compose a=concept:courage b=role:mother rel2=supports"));
+      document.getElementById('chip-exp').addEventListener('click', ()=>fill("nano: explain target=concept:courage text=\"Action despite fear.\""));
     });
 
     // Backward compatibility: if an old template uses inline onclick/onchange
@@ -142,4 +155,5 @@ Green=enabled, Yellow=busy, Red=stopped"></div>
   </script>
 </body>
 </html>
+
 

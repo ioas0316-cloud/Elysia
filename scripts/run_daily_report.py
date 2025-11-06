@@ -88,33 +88,58 @@ def main():
     except Exception:
         pass
 
+    # Discoveries & Feelings (gentle, process-centric)
+    try:
+        lines += ["## Discoveries & Feelings", ""]
+        lines += ["- A small thing we noticed today (fill-in)."]
+        lines += ["- How it felt while exploring (fill-in)."]
+        lines += ["- What we might try next (fill-in).", ""]
+    except Exception:
+        pass
+
     # Reasoning snapshot from telemetry (last 50)
     try:
         tel_dir = os.path.join('data','telemetry', _dt.utcnow().strftime('%Y%m%d'))
         tel_path = os.path.join(tel_dir, 'events.jsonl')
         if os.path.exists(tel_path):
             with open(tel_path, 'r', encoding='utf-8') as f:
-                lines_json = f.readlines()[-100:]
+                lines_json = f.readlines()[-300:]
             events = []
             for l in lines_json:
                 try:
                     events.append(json.loads(l))
                 except Exception:
                     pass
+            # Flow decisions snapshot
             flows = [e for e in events if e.get('event_type') == 'flow.decision']
             if flows:
                 lines += ["## Reasoning Snapshot (flow decisions)"]
-                # Count top choices
                 from collections import Counter
                 cnt = Counter(e.get('payload',{}).get('top_choice') for e in flows)
                 lines += ["- Top choice counts:"]
                 for k, v in cnt.most_common():
                     lines.append(f"  - {k}: {v}")
-                # Show last few with echo focus
                 lines += ["- Recent decisions:"]
                 for e in flows[-5:]:
                     evd = (e.get('payload',{}).get('evidence',{}) or {}).get('echo_top') or []
                     lines.append(f"  - {e.get('payload',{}).get('top_choice')}  echo:{','.join(evd)}")
+                lines.append("")
+            # Nano activity snapshot
+            updates = [e for e in events if e.get('event_type') == 'concept.update']
+            summaries = [e for e in events if e.get('event_type') == 'concept.summary']
+            if updates or summaries:
+                lines += ["## Nano Activity", "- Recent concept updates:"]
+                for e in updates[-5:]:
+                    p = e.get('payload', {})
+                    if p.get('op') == 'add_edge':
+                        lines.append(f"  - {p.get('source')} -[{p.get('rel')}]-> {p.get('target')}")
+                    elif p.get('op') == 'add_node':
+                        lines.append(f"  - add {p.get('id')}")
+                if summaries:
+                    lines += ["- Recent summaries:"]
+                    for e in summaries[-3:]:
+                        p = e.get('payload', {})
+                        lines.append(f"  - {p.get('concept')} (neighbors={len(p.get('neighbors', []))})")
                 lines.append("")
     except Exception:
         pass

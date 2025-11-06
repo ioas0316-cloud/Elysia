@@ -10,6 +10,46 @@ from pathlib import Path
 from Project_Elysia.cognition_pipeline import CognitionPipeline
 from Project_Sophia.conversation_state import WorkingMemory, TopicTracker
 from Project_Sophia.response_orchestrator import ResponseOrchestrator
+from nano_core.bus import MessageBus
+from nano_core.registry import ConceptRegistry
+from nano_core.scheduler import Scheduler
+from nano_core.message import Message
+import shlex
+from nano_core.bots.linker import LinkerBot
+from nano_core.bots.validator import ValidatorBot
+from nano_core.bots.summarizer import SummarizerBot
+from nano_core.bots.composer import ComposerBot
+from nano_core.bots.explainer import ExplainerBot
+from nano_core.intent_gate import interpret as interpret_intent
+from nano_core.intent_gate_ko import interpret as interpret_intent_ko
+
+
+def _validate_act(verb: str, slots: dict) -> tuple[bool, str]:
+    verb = (verb or '').lower()
+    s = slots or {}
+    missing = []
+    if verb in ('link', 'verify'):
+        if not s.get('subject'): missing.append('subject=...')
+        if not s.get('object'): missing.append('object=...')
+    elif verb in ('summarize', 'summary'):
+        if not s.get('target'): missing.append('target=...')
+    elif verb in ('compose',):
+        if not s.get('a'): missing.append('a=...')
+        if not s.get('b'): missing.append('b=...')
+    elif verb in ('explain',):
+        if not s.get('target'): missing.append('target=...')
+        if not s.get('text'): missing.append('text="..."')
+    if missing:
+        example = {
+            'link': "nano: link subject=concept:a object=concept:b",
+            'verify': "nano: verify subject=concept:a object=concept:b",
+            'summarize': "nano: summarize target=concept:x",
+            'compose': "nano: compose a=concept:a b=concept:b",
+            'explain': "nano: explain target=concept:x text=\"...\"",
+        }.get(verb, 'nano: link subject=concept:a object=concept:b')
+        hint = f"Missing slots for {verb}: {', '.join(missing)}\nExample: {example}"
+        return False, hint
+    return True, ''
 from tools.bg_control import status as bg_status, start_daemon as bg_start, stop_daemon as bg_stop
 from tools.self_status import aggregate as self_aggregate
 
@@ -85,6 +125,113 @@ def chat():
         return jsonify({'error': 'Invalid request. "message" key is required.'}), 400
 
     user_input = data['message']
+
+    # Nano command(s): "nano: verb key=value ... ; verb2 key=value ..."
+    try:
+        text = user_input.strip() if isinstance(user_input, str) else ''
+        if text.lower().startswith('nano:'):
+            cmd_str = text[5:].strip()
+            commands = [c.strip() for c in cmd_str.split(';') if c.strip()]
+            bus = MessageBus()
+            reg = ConceptRegistry()
+            bots = [LinkerBot(), ValidatorBot(), SummarizerBot(), ComposerBot(), ExplainerBot()]
+            sched = Scheduler(bus, reg, bots)
+            info = []
+            for cmd in commands:
+                # robust tokenization: support quotes ("text with spaces")
+                try:
+                    parts = shlex.split(cmd)
+                except Exception:
+                    parts = [p for p in cmd.split() if p]
+                verb = parts[0].lower() if parts else 'link'
+                kv = {}
+                for p in parts[1:]:
+                    if '=' in p:
+                        k, v = p.split('=', 1)
+                        v = v.strip()
+                        # array syntax: [a,b,c]
+                        if v.startswith('[') and v.endswith(']'):
+                            inner = v[1:-1]
+                            kv[k.strip()] = [t.strip() for t in inner.split(',') if t.strip()]
+                        else:
+                            kv[k.strip()] = v
+                if verb in ('link', 'verify'):
+                    subj = kv.get('subject') or kv.get('subj') or ''
+                    obj = kv.get('object') or kv.get('obj') or ''
+                    rel = kv.get('rel', 'related_to')
+                    slots = {'subject': subj, 'object': obj, 'rel': rel}
+                    ok, msg = _validate_act(verb, slots)
+                    if not ok:
+                        return jsonify({'response': {'type': 'text', 'text': msg}})
+                    bus.post(Message(verb=verb, slots=slots, strength=1.0, ttl=3))
+                    info.append(f"{verb} subject={subj} object={obj} rel={rel}")
+                elif verb in ('summarize', 'summary'):
+                    tgt = kv.get('target') or kv.get('tgt') or ''
+                    ok, msg = _validate_act('summarize', {'target': tgt})
+                    if not ok:
+                        return jsonify({'response': {'type': 'text', 'text': msg}})
+                    bus.post(Message(verb='summarize', slots={'target': tgt}, strength=0.8, ttl=2))
+                    info.append(f"summarize target={tgt}")
+                elif verb in ('compose',):
+                    # allow arrays: a=[x,y] → multiple compose
+                    a_vals = kv.get('a') if isinstance(kv.get('a'), list) else [kv.get('a') or '']
+                    b_vals = kv.get('b') if isinstance(kv.get('b'), list) else [kv.get('b') or '']
+                    rel2 = kv.get('rel2', '')
+                    for a in a_vals:
+                        for b in b_vals:
+                            if not a or not b:
+                                continue
+                            slots = {'a': a, 'b': b}
+                            if rel2:
+                                slots['rel2'] = rel2
+                            ok, msg = _validate_act('compose', slots)
+                            if not ok:
+                                return jsonify({'response': {'type': 'text', 'text': msg}})
+                            bus.post(Message(verb='compose', slots=slots, strength=0.9, ttl=2))
+                            info.append(f"compose a={a} b={b} rel2={rel2}")
+                elif verb in ('explain',):
+                    tgt = kv.get('target') or ''
+                    textv = kv.get('text') or ''
+                    # support multi evidence targets: evidence=[concept:a,concept:b]
+                    ev = kv.get('evidence')
+                    slots = {'target': tgt, 'text': textv}
+                    if ev:
+                        slots['evidence'] = ev
+                    ok, msg = _validate_act('explain', slots)
+                    if not ok:
+                        return jsonify({'response': {'type': 'text', 'text': msg}})
+                    bus.post(Message(verb='explain', slots=slots, strength=0.8, ttl=2))
+                    info.append(f"explain target={tgt}")
+                else:
+                    info.append(f"unknown:{verb}")
+            processed = sched.step(max_steps=100)
+            text_out = "Nano done: " + "; ".join([s for s in info if s]) + f" (processed {processed})"
+            return jsonify({'response': {'type': 'text', 'text': text_out}, 'emotional_state': None})
+    except Exception:
+        pass
+
+    # Intent/DSL gate: natural language → nano messages (EN→KO order)
+    try:
+        utext = user_input if isinstance(user_input, str) else ''
+        acts = interpret_intent(utext) or interpret_intent_ko(utext)
+        if acts:
+            bus = MessageBus()
+            reg = ConceptRegistry()
+            bots = [LinkerBot(), ValidatorBot(), SummarizerBot(), ComposerBot(), ExplainerBot()]
+            sched = Scheduler(bus, reg, bots)
+            info = []
+            for a in acts:
+                ok, msg = _validate_act(a['verb'], a.get('slots', {}))
+                if not ok:
+                    return jsonify({'response': {'type': 'text', 'text': msg}})
+                bus.post(Message(verb=a['verb'], slots=a.get('slots', {}), strength=0.9, ttl=2))
+                # brief
+                info.append(f"{a['verb']}")
+            processed = sched.step(max_steps=50)
+            txt = "Intent mapped: " + ", ".join(info) + f" (processed {processed})"
+            return jsonify({'response': {'type': 'text', 'text': txt}, 'emotional_state': None})
+    except Exception:
+        pass
 
     # Early status (ASCII keywords)
     try:
@@ -223,7 +370,9 @@ def trace_recent():
         day = datetime.utcnow().strftime('%Y%m%d')
         path = os.path.join(base, day, 'events.jsonl')
         events = _tail_file(path, max_lines=100)
-        filtered = [e for e in events if e.get('event_type') in ('flow.decision', 'route.arc')]
+        filtered = [e for e in events if e.get('event_type') in (
+            'flow.decision', 'route.arc', 'bus.message', 'bot.run', 'concept.update', 'concept.summary'
+        )]
         return jsonify({'events': filtered})
     except Exception:
         app_logger.exception("Error reading recent trace")
@@ -247,4 +396,3 @@ def visualize():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-

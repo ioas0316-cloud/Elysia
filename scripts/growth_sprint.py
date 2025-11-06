@@ -10,6 +10,15 @@ from tools.kg_manager import KGManager
 from tools import activity_registry as act
 from tools.text_preprocessor import extract_content_tokens
 from Project_Sophia.wisdom_virus import WisdomVirus, VirusEngine
+from nano_core.bus import MessageBus
+from nano_core.registry import ConceptRegistry
+from nano_core.scheduler import Scheduler
+from nano_core.message import Message
+from nano_core.bots.linker import LinkerBot
+from nano_core.bots.validator import ValidatorBot
+from nano_core.bots.summarizer import SummarizerBot
+from nano_core.bots.composer import ComposerBot
+from nano_core.bots.explainer import ExplainerBot
 
 
 def ingest_literature_root(root: Path, kg: KGManager):
@@ -89,6 +98,28 @@ def link_keywords_to_concepts(kg: KGManager, docs: List[Dict], tf: Dict[str, Cou
     kg.save()
 
 
+def nano_augment_after_keywords(kg: KGManager, df: Dict[str, int]) -> None:
+    """Lightweight nano step: summarize top concepts and compose simple pairs."""
+    try:
+        top = gather_top_concepts(df)[:4]
+        if not top:
+            return
+        bus = MessageBus()
+        reg = ConceptRegistry()
+        bots = [LinkerBot(), ValidatorBot(), SummarizerBot(), ComposerBot(), ExplainerBot()]
+        sched = Scheduler(bus, reg, bots)
+        # Summarize top concepts
+        for t in top[:3]:
+            bus.post(Message(verb='summarize', slots={'target': f'concept:{t}'}, strength=0.6, ttl=1))
+        # Compose first two concepts into a combo
+        if len(top) >= 2:
+            a, b = f'concept:{top[0]}', f'concept:{top[1]}'
+            bus.post(Message(verb='compose', slots={'a': a, 'b': b}, strength=0.8, ttl=2))
+        sched.step(max_steps=50)
+    except Exception:
+        pass
+
+
 def run_simple_viruses(kg: KGManager, top_concepts: List[str]):
     engine = VirusEngine(kg_manager=kg)
     for token in top_concepts[:3]:
@@ -138,6 +169,7 @@ def main():
     if args.keywords and docs:
         tf, df = build_tfidf(docs)
         link_keywords_to_concepts(kg, docs, tf, df, topk=5)
+        nano_augment_after_keywords(kg, df)
         if args.virus:
             top_concepts = gather_top_concepts(df)
             run_simple_viruses(kg, top_concepts)

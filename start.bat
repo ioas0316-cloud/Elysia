@@ -51,6 +51,7 @@ echo  O) Open Outputs (folders)
 echo  F) Quiet-All (stop background, set quiet)
 echo  E) Resume-All (enable background, unset quiet)
 echo  H) Help
+echo  N) Nano Demo (link/verify/summarize)
 echo  Q) Quit
 echo.
 set /P SEL=Select: 
@@ -84,6 +85,7 @@ if /I "%SEL%"=="O" goto OPEN
 if /I "%SEL%"=="F" goto QUIET_ALL
 if /I "%SEL%"=="E" goto RESUME_ALL
 if /I "%SEL%"=="H" goto HELP
+if /I "%SEL%"=="N" goto NANO_DEMO
 if /I "%SEL%"=="Q" goto END
 goto MENU
 
@@ -205,6 +207,11 @@ pause
 goto MENU
 
 :OPEN
+:NANO_DEMO
+echo [Nano] Running nano-core demo...
+%PYEXE% -m scripts.nano_demo --extra
+pause
+goto MENU
 echo [Open] Choose a folder to open
 echo   1) data\journal
 echo   2) data\reports\daily
