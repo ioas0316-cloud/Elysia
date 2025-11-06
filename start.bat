@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 setlocal EnableExtensions EnableDelayedExpansion
 title Elysia Launcher
 chcp 65001 >nul
@@ -32,7 +32,8 @@ echo  7) Creative Writing
 echo  8) Trinity Mission Demo
 echo  9) Math Verification Demo
 echo  V) Wisdom-Virus Demo
-echo  S) Growth Sprint (ingest→keywords→virus→report)
+echo  S) Growth Sprint (ingest->keywords->virus->report)
+rem (cleaned) duplicate menu removed
 echo  R) Generate Sample Corpus (500)
 echo  W) Schedule Growth Sprint (21:30 daily)
 echo  X) Remove Growth Sprint schedule
@@ -47,6 +48,8 @@ echo  A) Autonomy Toggle
 echo  Z) Quiet Mode Toggle
 echo  P) Preset (quiet/balanced/lively)
 echo  O) Open Outputs (folders)
+echo  F) Quiet-All (stop background, set quiet)
+echo  E) Resume-All (enable background, unset quiet)
 echo  H) Help
 echo  Q) Quit
 echo.
@@ -78,24 +81,22 @@ if /I "%SEL%"=="A" goto AUTONOMY
 if /I "%SEL%"=="Z" goto QUIET
 if /I "%SEL%"=="P" goto PRESET
 if /I "%SEL%"=="O" goto OPEN
+if /I "%SEL%"=="F" goto QUIET_ALL
+if /I "%SEL%"=="E" goto RESUME_ALL
 if /I "%SEL%"=="H" goto HELP
 if /I "%SEL%"=="Q" goto END
 goto MENU
 
 :START_SERVER
-echo [Startup] Launching Elysia web server...
+echo [Startup] Launching Elysia web server in this window...
 set FLASK_APP=applications\elysia_api.py
-start "Elysia Web" %PYEXE% -m flask run --host=0.0.0.0
-start "" http://127.0.0.1:5000/monitor
-pause
+%PYEXE% -m flask run --host=0.0.0.0
 goto MENU
 
 :CLEAN_BRIDGE
-echo [Startup] Launching Clean Bridge server...
+echo [Startup] Launching Clean Bridge server in this window...
 set FLASK_APP=applications\elysia_bridge_clean.py
-start "Elysia Clean Web" %PYEXE% -m flask run --host=0.0.0.0
-start "" http://127.0.0.1:5000
-pause
+%PYEXE% -m flask run --host=0.0.0.0
 goto MENU
 
 :DAILY_ROUTINE
@@ -219,6 +220,18 @@ if "%OP%"=="5" start "" "%CD%\data"
 pause
 goto MENU
 
+:QUIET_ALL
+echo [Quiet-All] Stopping background and enabling quiet mode...
+%PYEXE% -m scripts.quiet_all
+pause
+goto MENU
+
+:RESUME_ALL
+echo [Resume-All] Enabling background and disabling quiet mode...
+%PYEXE% -m scripts.resume_all
+pause
+goto MENU
+
 :HELP
 cls
 echo =================== HELP ====================
@@ -320,3 +333,5 @@ goto MENU
 endlocal
 echo Bye.
 exit /b 0
+
+

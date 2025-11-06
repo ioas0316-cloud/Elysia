@@ -19,6 +19,17 @@ import os
 
 app = Flask(__name__, template_folder='templates')
 
+# Prevent browser/template caching to avoid stale JS
+@app.after_request
+def _no_cache(resp):
+    try:
+        resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        resp.headers['Pragma'] = 'no-cache'
+        resp.headers['Expires'] = '0'
+    except Exception:
+        pass
+    return resp
+
 # Create a standalone CognitionPipeline without importing elysia_bridge
 from Project_Elysia.cognition_pipeline import CognitionPipeline
 cognition_pipeline = CognitionPipeline()
@@ -161,8 +172,8 @@ def serve_data(filename):
 # --- Simple Chat UI and API ---
 @app.route('/chat-ui')
 def chat_ui():
-    # Reuse existing chat template if present
-    return render_template('index.html')
+    # Use the clean chat UI template
+    return render_template('chat-ui.html')
 
 
 @app.route('/chat', methods=['POST'])

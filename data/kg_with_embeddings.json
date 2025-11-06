@@ -43616,6 +43616,292 @@
       "activation_energy": 0.0,
       "reflection": "Upon reflecting on '하고 싶은거 있어 엘리시아 ?', I find that this concept is new to me or isolated from my other knowledge.",
       "spiritual_alignment": 0.0
+    },
+    {
+      "id": "lit_label:essay",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "lit_label"
+    },
+    {
+      "id": "lit_doc:meaning_of_courage",
+      "position": {
+        "x": 1.1227005152981653,
+        "y": -0.01976100028605518,
+        "z": -0.13129237108808933
+      },
+      "activation_energy": 0.0,
+      "type": "literature_doc",
+      "path": "data\\corpus\\literature\\essay\\meaning_of_courage.txt",
+      "label": "essay",
+      "snippet": "진정한 용기는 두려움이 사라진 상태가 아니다. 두려움과 함께 서는 훈련이며, 불확실성 속에서 자기 방향을 잃지 않는 습관이다. 우리는 위험을 알면서도, 가치가 더 크다고 느낄 때 발걸음을 내딛는다. 그 한 걸음이 역사를 바꾼다.\n\n용기는 감정이 아니라 기술에 가깝다. 호흡을 가다듬고, 주변을 살피고, 작은 단위로 쪼개서 실행하는 기술. 실패는 기술의 일부다. 넘어지는 법을 배우면 더 멀리 뛸 수 있다. 용기는 그래서, 체험의 ",
+      "experience_text": "data\\corpus\\literature\\essay\\meaning_of_courage.txt"
+    },
+    {
+      "id": "lit_label:fantasy",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "lit_label"
+    },
+    {
+      "id": "lit_doc:butterfly_valley",
+      "position": {
+        "x": 1.0279302871440954,
+        "y": -0.04409264550279807,
+        "z": -0.16344249955593187
+      },
+      "activation_energy": 0.0,
+      "type": "literature_doc",
+      "path": "data\\corpus\\literature\\fantasy\\butterfly_valley.txt",
+      "label": "fantasy",
+      "snippet": "나비의 골짜기에는 바람이 두 겹으로 분다. 하나는 실제의 바람, 다른 하나는 색의 바람. 색의 바람이 불 때, 나비의 날개는 소리를 내지 않으면서도 음악을 만든다. 코발트와 금빛이 교차하며 골짜기의 시간대를 조금씩 밀어낸다.\n\n아이 하나가 골짜기에 들어선다. 아이는 질문을 들고 있었다. “용기는 어떤 모양일까?” 나비들은 대답 대신 비행 경로로 답했다. 두려움의 가장자리를 스치며 도약하는 궤적, 무리지어 있다가도 홀로 나아가는",
+      "experience_text": "data\\corpus\\literature\\fantasy\\butterfly_valley.txt"
+    },
+    {
+      "id": "lit_label:nature",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "lit_label"
+    },
+    {
+      "id": "lit_doc:leaves_and_light",
+      "position": {
+        "x": 0.8807920936210795,
+        "y": 0.007441860921412635,
+        "z": 0.032807716032528855
+      },
+      "activation_energy": 0.0,
+      "type": "literature_doc",
+      "path": "data\\corpus\\literature\\nature\\leaves_and_light.txt",
+      "label": "nature",
+      "snippet": "햇빛이 잎맥을 통과할 때, 초록은 단순한 색이 아니라 과정이 된다. 바람은 잎의 가장자리를 흔들며 미세한 그림자를 만든다. 그 그림자들 사이로 빛의 알갱이가 드나들고, 잎은 보이지 않는 실을 뽑아 당긴다. 흙과 하늘이 잎사귀에서 만난다.\n\n숲의 공기는 느리다. 느림은 지루함이 아니라 정밀함이다. 나무는 계절의 속도로 생각한다. 매 순간, 뿌리는 물을 올리고, 잎은 빛을 잡아 화학의 언어로 바꾼다. 우리는 이 느림을 호흡이라 부",
+      "experience_text": "data\\corpus\\literature\\nature\\leaves_and_light.txt"
+    },
+    {
+      "id": "lit_label:philosophy",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "lit_label"
+    },
+    {
+      "id": "lit_doc:socratic_dialogue",
+      "position": {
+        "x": 1.092667191077044,
+        "y": 0.03139854233375533,
+        "z": -0.1895522951286667
+      },
+      "activation_energy": 0.0,
+      "type": "literature_doc",
+      "path": "data\\corpus\\literature\\philosophy\\socratic_dialogue.txt",
+      "label": "philosophy",
+      "snippet": "소크라테스는 아테네의 시장에서 사람들과 대화를 나누며 진리를 탐구했다. 그는 답을 주기보다 질문을 던졌고, 그 질문은 상대의 생각을 한 겹씩 벗겨냈다. 무엇이 선한가? 무엇이 정의인가? 우리는 스스로 안다고 믿는 것을, 정말 아는가?\n\n대화는 칼날이 아니라 거울이었다. 상대의 말 속에서 숨은 전제를 비추고, 모순을 드러내고, 끝내는 “나는 모른다”는 정직으로 돌아오게 했다. 그 무지의 자리에 새로운 앎이 싹텄다. 앎은 소유가 ",
+      "experience_text": "data\\corpus\\literature\\philosophy\\socratic_dialogue.txt"
+    },
+    {
+      "id": "lit_label:science",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "lit_label"
+    },
+    {
+      "id": "lit_doc:photosynthesis_intro",
+      "position": {
+        "x": 0.8294871141140885,
+        "y": -0.19421128405262997,
+        "z": 0.029658657190914095
+      },
+      "activation_energy": 0.0,
+      "type": "literature_doc",
+      "path": "data\\corpus\\literature\\science\\photosynthesis_intro.txt",
+      "label": "science",
+      "snippet": "광합성은 빛 에너지를 화학 에너지로 전환하는 생명의 기술이다. 엽록체의 틸라코이드 막에서 전자가 들뜨고, 물은 분해되어 산소를 내놓는다. 빛 의존 반응에서 생성된 ATP와 NADPH는 캘빈 회로의 연료가 되어 이산화탄소를 당으로 고정한다.\n\n식물은 빛을 먹는다. 더 정확히 말하면, 빛의 흐름을 전자 흐름으로 번역한다. 이 번역은 효율적이며, 거의 소음이 없다. 우리가 숨쉬는 공기 속 산소는 이 번역의 부산물이자 증거다. 숲은 ",
+      "experience_text": "data\\corpus\\literature\\science\\photosynthesis_intro.txt"
+    },
+    {
+      "id": "concept:용기",
+      "position": {
+        "x": 2.195748880811664,
+        "y": -0.07682619538428154,
+        "z": 0.0037084848686702587
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "용기"
+    },
+    {
+      "id": "concept:것",
+      "position": {
+        "x": 1.9823308630725975,
+        "y": 0.07855559806629911,
+        "z": -0.24828104459812955
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "것"
+    },
+    {
+      "id": "concept:작",
+      "position": {
+        "x": 2.3199028856206776,
+        "y": -0.18664420139524615,
+        "z": 0.05586465773334531
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "작"
+    },
+    {
+      "id": "concept:바람",
+      "position": {
+        "x": 1.8758732364509672,
+        "y": 0.028555043859486484,
+        "z": -0.1163197606155495
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "바람"
+    },
+    {
+      "id": "concept:나비의",
+      "position": {
+        "x": 2.1829805217036005,
+        "y": -0.1570969621359264,
+        "z": -0.07993494494167125
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "나비의"
+    },
+    {
+      "id": "concept:골짜기",
+      "position": {
+        "x": 2.073685529977283,
+        "y": -0.23945305474994777,
+        "z": 0.03300721607328849
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "골짜기"
+    },
+    {
+      "id": "concept:잎",
+      "position": {
+        "x": 1.8264336202230036,
+        "y": 0.13058118489295722,
+        "z": -0.14793638186005365
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "잎"
+    },
+    {
+      "id": "concept:빛",
+      "position": {
+        "x": 1.7375597204194801,
+        "y": 0.09649688231440501,
+        "z": 0.14711152335728112
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "빛"
+    },
+    {
+      "id": "concept:느림",
+      "position": {
+        "x": 2.056038226709311,
+        "y": -0.04614772553688723,
+        "z": -0.09457015396412474
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "느림"
+    },
+    {
+      "id": "concept:질문",
+      "position": {
+        "x": 2.161238288147838,
+        "y": -0.09915432524525575,
+        "z": -0.3674491695311979
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "질문"
+    },
+    {
+      "id": "concept:대화",
+      "position": {
+        "x": 1.9219658968181208,
+        "y": 0.0993426025762279,
+        "z": -0.2767129822630129
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "대화"
+    },
+    {
+      "id": "concept:대신",
+      "position": {
+        "x": 1.9397299367169167,
+        "y": 0.0852215467304695,
+        "z": -0.20514036261834664
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "대신"
+    },
+    {
+      "id": "concept:전자",
+      "position": {
+        "x": 1.671480380333927,
+        "y": -0.25501165337428183,
+        "z": 0.04634206506576494
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "전자"
+    },
+    {
+      "id": "concept:이",
+      "position": {
+        "x": 1.935189206275815,
+        "y": -0.06945793694715754,
+        "z": 0.06984892071262708
+      },
+      "activation_energy": 0.0,
+      "type": "concept",
+      "label": "이"
+    },
+    {
+      "id": "daily_report_2025-11-07",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "daily_report",
+      "md": "data\\reports\\daily\\daily_2025-11-07.md",
+      "card": "data\\reports\\daily\\daily_2025-11-07.png"
     }
   ],
   "edges": [
@@ -44441,6 +44727,166 @@
       "target": "3",
       "relation": "verifies",
       "experience_visual": "data\\proofs\\proof_3.png"
+    },
+    {
+      "source": "lit_label:essay",
+      "target": "lit_doc:meaning_of_courage",
+      "relation": "has_doc"
+    },
+    {
+      "source": "lit_label:fantasy",
+      "target": "lit_doc:butterfly_valley",
+      "relation": "has_doc"
+    },
+    {
+      "source": "lit_label:nature",
+      "target": "lit_doc:leaves_and_light",
+      "relation": "has_doc"
+    },
+    {
+      "source": "lit_label:philosophy",
+      "target": "lit_doc:socratic_dialogue",
+      "relation": "has_doc"
+    },
+    {
+      "source": "lit_label:science",
+      "target": "lit_doc:photosynthesis_intro",
+      "relation": "has_doc"
+    },
+    {
+      "source": "lit_doc:meaning_of_courage",
+      "target": "concept:용기",
+      "relation": "supports",
+      "confidence": 0.9999999998671114,
+      "evidence_paths": [
+        "data\\corpus\\literature\\essay\\meaning_of_courage.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:meaning_of_courage",
+      "target": "concept:것",
+      "relation": "supports",
+      "confidence": 0.6603109751623539,
+      "evidence_paths": [
+        "data\\corpus\\literature\\essay\\meaning_of_courage.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:meaning_of_courage",
+      "target": "concept:작",
+      "relation": "supports",
+      "confidence": 0.6577634009636962,
+      "evidence_paths": [
+        "data\\corpus\\literature\\essay\\meaning_of_courage.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:butterfly_valley",
+      "target": "concept:바람",
+      "relation": "supports",
+      "confidence": 0.9999999998671114,
+      "evidence_paths": [
+        "data\\corpus\\literature\\fantasy\\butterfly_valley.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:butterfly_valley",
+      "target": "concept:나비의",
+      "relation": "supports",
+      "confidence": 0.9366451014455444,
+      "evidence_paths": [
+        "data\\corpus\\literature\\fantasy\\butterfly_valley.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:butterfly_valley",
+      "target": "concept:골짜기",
+      "relation": "supports",
+      "confidence": 0.9366451014455444,
+      "evidence_paths": [
+        "data\\corpus\\literature\\fantasy\\butterfly_valley.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:leaves_and_light",
+      "target": "concept:잎",
+      "relation": "supports",
+      "confidence": 0.9999999998228152,
+      "evidence_paths": [
+        "data\\corpus\\literature\\nature\\leaves_and_light.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:leaves_and_light",
+      "target": "concept:빛",
+      "relation": "supports",
+      "confidence": 0.8470813001797021,
+      "evidence_paths": [
+        "data\\corpus\\literature\\nature\\leaves_and_light.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:leaves_and_light",
+      "target": "concept:느림",
+      "relation": "supports",
+      "confidence": 0.8436845345816589,
+      "evidence_paths": [
+        "data\\corpus\\literature\\nature\\leaves_and_light.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:socratic_dialogue",
+      "target": "concept:질문",
+      "relation": "supports",
+      "confidence": 0.9999999999240636,
+      "evidence_paths": [
+        "data\\corpus\\literature\\philosophy\\socratic_dialogue.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:socratic_dialogue",
+      "target": "concept:대화",
+      "relation": "supports",
+      "confidence": 0.578082915141993,
+      "evidence_paths": [
+        "data\\corpus\\literature\\philosophy\\socratic_dialogue.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:socratic_dialogue",
+      "target": "concept:대신",
+      "relation": "supports",
+      "confidence": 0.4857142856817416,
+      "evidence_paths": [
+        "data\\corpus\\literature\\philosophy\\socratic_dialogue.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:photosynthesis_intro",
+      "target": "concept:전자",
+      "relation": "supports",
+      "confidence": 0.9999999998570483,
+      "evidence_paths": [
+        "data\\corpus\\literature\\science\\photosynthesis_intro.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:photosynthesis_intro",
+      "target": "concept:빛",
+      "relation": "supports",
+      "confidence": 0.9036539853353719,
+      "evidence_paths": [
+        "data\\corpus\\literature\\science\\photosynthesis_intro.txt"
+      ]
+    },
+    {
+      "source": "lit_doc:photosynthesis_intro",
+      "target": "concept:이",
+      "relation": "supports",
+      "confidence": 0.9036539853353719,
+      "evidence_paths": [
+        "data\\corpus\\literature\\science\\photosynthesis_intro.txt"
+      ]
     }
   ],
   "metadata": {

@@ -1,63 +1,60 @@
-# 7. 사용자 안내서 (User Guide)
+﻿# 7. 사용자 안내(User Guide)
 
-이 문서는 비개발 사용자가 Elysia를 쉽게 사용할 수 있도록 만든 "운영 가이드"입니다. 철학과 아키텍처의 단일 진실원은 계속 `ELYSIAS_PROTOCOL/`이며, 본 문서는 그 비전에 맞춘 사용 방법을 설명합니다.
+이 문서는 비개발 사용자가 엘리시아를 쉽고 자연스럽게 쓰도록 돕는 운영 가이드입니다. 철학/아키텍처의 단일 진실은 `ELYSIAS_PROTOCOL/`이며, 본 문서는 그 위에서 “어떻게 쓰는가”만 간결히 설명합니다.
 
-## 빠른 시작
+## 1) 가장 빠른 시작 (2분)
+- `start.bat` 실행 → `B) Start Clean Bridge`
+- 브라우저: `http://127.0.0.1:5000`
+- 화면 상단:
+  - BG ON/OFF 버튼: 배경(무의식) 학습 켜기/끄기
+  - Show Reasoning 체크: 추론 신호(Flow 결정/라우트) 보기
+- 화면 좌하단:
+  - 램프 툴팁: 녹=활성, 노=작업 중, 적=정지(현재 상태/주기 표시)
 
-- `start.bat` 실행 → 숫자/문자 한 키로 원하는 작업을 선택합니다.
-- 대부분의 산출물은 `data/` 폴더 아래에 저장됩니다.
-- 첫 실행 시 의존성 설치가 필요할 수 있습니다(메뉴 1에서 Y 선택).
+## 2) 대화에서 바로 쓰는 명령(말로)
+- “학습 모드 켜/일반 모드 켜” → 학습 전용/일반 흐름으로 전환
+- “자율 모드 켜/꺼” → 작은 제안 스스로/중지
+- “조용 모드 켜/꺼” → 말수/제안 강도 조절
+- “쉬자/휴식 모드” → 배경 학습 잠시 멈춤(재개는 “다시 시작”)
+- “지금 뭐 해/상태/학습 중/배경” → 현재 상태 요약
+- “X를 그려줘/보여줘” → 간단 시각화 요청
 
-## 메뉴 설명 (start.bat)
+## 3) 자동 성장(켜두기만 하면 자람)
+- 백그라운드 학습(무의식):
+  - `start.bat` → `U) Start Background Learner` (기본 5분 주기)
+  - 새 말뭉치/저널 ingest → 키워드→개념 연결(top‑3) → 하루 1회 리포트
+- 성장 스프린트(원클릭/스케줄):
+  - `R) Generate Sample Corpus (500)` → 샘플 텍스트 생성(선택)
+  - `S) Growth Sprint` → ingest→키워드→개념→전파→리포트
+  - `W) Schedule Growth Sprint` (21:30 매일) / `X) Remove ...` (해제)
 
-- 1) Start Web Server
-  - Flask 대시보드를 실행하고 브라우저를 엽니다.
-  - 모니터: `http://127.0.0.1:5000/monitor`
-- 2) Run Daily Routine
-  - 오늘의 일기와 창작소설을 생성합니다.
-  - 산출물: `data/journal/`, `data/writings/`
-  - KG(지식그래프): `data/kg_with_embeddings.json`에 경험 연결
-- 3) Generate Daily Report
-  - 오늘 산출물을 모아 Markdown/PNG 카드를 생성합니다.
-  - 경로: `data/reports/daily/daily_YYYY-MM-DD.{md,png}`
-- 4) Run Textbook Demo
-  - 샘플 교재(JSON)로 학습 프레임을 실행합니다.
-  - 시각 산출물과 개념/관계가 KG에 기록됩니다.
-- 5) Journaling
-  - 오늘 프롬프트로 일기와 요약을 만듭니다.
-  - 경로: `data/journal/YYYY-MM-DD*.txt`
-- 6) Book Report
-  - 로컬 `.txt` 파일로 요약/인물/주제를 추출해 리포트를 작성합니다.
-  - 경로: `data/reports/*_report.md`
-- 7) Creative Writing
-  - 장르/테마로 아웃라인과 씬을 생성합니다.
-  - 경로: `data/writings/TIMESTAMP_genre_theme.md`
-- 8) Trinity Mission Demo
-  - 파일→증명→이미지→KG 귀속까지 한 번에 데모합니다.
-- 9) Math Verification Demo
-  - 등식 한 줄을 증명하고 이미지로 저장합니다(`data/proofs/`).
+## 4) 학습 흐름(Flow) 전환
+- `Y) Use Learning Flow Profile` / `G) Use Generic Flow Profile`
+- 학습 모드에서는 명료화/작은 단계 제안이 우선됩니다.
 
-## 산출물 한눈에 보기
-
-- 일기: `data/journal/` (원문과 요약)
-- 독후감: `data/reports/` (`*_report.md`)
-- 창작소설: `data/writings/` (마크다운)
-- 증명 이미지: `data/proofs/`
-- 일일 리포트: `data/reports/daily/` (MD/PNG 카드)
+## 5) 생성물/파일 위치
+- 저널: `data/journal/`
+- 리포트: `data/reports/daily/daily_YYYY-MM-DD.{md,png}` (지표/추론 스냅샷 포함)
+- 말뭉치: `data/corpus/literature/<label>/YYYYMMDD/*.txt`
 - 지식그래프: `data/kg_with_embeddings.json`
+- 텔레메트리: `data/telemetry/YYYYMMDD/events.jsonl`
+- 선호/설정: `data/preferences.json`
 
-## 자주 묻는 질문 (FAQ)
+## 6) 문제 해결(Troubleshooting)
+- 화면에 한국어가 깨져 보임:
+  - 우선 `applications/elysia_bridge_clean.py`로 접속(UTF‑8 보장)
+  - PowerShell 콘솔은 `chcp 65001`(UTF‑8) 권장
+- 시각화가 동작하지 않음:
+  - “X를 그려줘/보여줘” 형태로 요청(띄어쓰기 포함)
+- 램프가 켜져 있는데 상태가 ‘stopped’로 보임:
+  - 헤더 BG ON을 한 번 눌러 주고 3~5초 후 갱신. PID/상태가 동기화됩니다.
 
-- Q: 실행했는데 아무 것도 안 만들어져요.
-  - A: 경로에 한글/특수문자가 많으면 경로 입력이 실패할 수 있습니다. `data/` 폴더 내 파일로 먼저 시도하세요.
-  - A: 최초 실행에서는 의존성 설치(Y) 후 재시도하세요.
-- Q: 어디에 저장되는지 모르겠어요.
-  - A: 각 메뉴 실행 후 화면에 경로가 출력됩니다. 기본은 `data/` 하위입니다.
-- Q: 인터넷 없이도 되나요?
-  - A: 네. 현재 제공되는 일기/독후감/창작/교재 데모/수학 증명은 모두 오프라인 동작이 가능하도록 구성되어 있습니다.
+## 7) 자동화(선택)
+- 일과/리포트 스케줄: `scripts/setup_daily_tasks.bat` (21:00/21:50)
+- 스프린트 스케줄: `scripts/setup_growth_sprint.bat` (21:30)
+- 즉시 실행(테스트): `scripts/run_now.bat`
 
-## 성장과 기록
-
-- 모든 활동은 "체험 → 산출물 → KG 귀속" 흐름을 따릅니다.
-- KG는 개념/관계와 경험 경로(`experience_*`)를 함께 저장해 학습의 근거를 남깁니다.
-
+## 8) 알아두면 좋은 것
+- 의식(대화)와 무의식(배경학습)은 분리·연결되어 있어, 컴퓨터만 켜두면 스스로 자랍니다.
+- Quiet/Consent를 존중하여 과도한 개입을 피합니다. 동의가 필요하면 “네/아니요”로 간단히 답하세요.
+- 리포트의 “Top‑개념/Reasoning” 스냅샷으로 오늘의 성장을 빠르게 파악할 수 있습니다.

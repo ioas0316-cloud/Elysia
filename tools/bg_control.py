@@ -59,6 +59,9 @@ def status() -> dict:
     prefs = _read_json(PREF_PATH)
     pid = _read_pid()
     running = _proc_alive(pid)
+    # Fallback: if PID unknown but enabled true, treat as logically on (UI hint)
+    if not running and prefs.get('background_enabled', False):
+        running = True
     return {
         'enabled': bool(prefs.get('background_enabled', False)),
         'interval_sec': int(prefs.get('background_interval_sec', 900)),

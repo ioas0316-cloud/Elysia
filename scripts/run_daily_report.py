@@ -1,4 +1,4 @@
-"""
+﻿"""
 Aggregate today's artifacts (journal, summary, optional book report, story),
 write a markdown overview and render a PNG daily card.
 
@@ -69,7 +69,7 @@ def main():
                 top = sorted(todays, key=lambda x: abs(x.get('delta', 0.0)), reverse=True)[:5]
                 lines += ["## Value Mass Changes", "(top by absolute change)"]
                 for e in top:
-                    lines.append(f"- {e.get('value')}: {e.get('before')} -> {e.get('after')} (Δ {round(e.get('delta',0.0), 3)})")
+                    lines.append(f"- {e.get('value')}: {e.get('before')} -> {e.get('after')} (? {round(e.get('delta',0.0), 3)})")
                 lines.append("")
         except Exception:
             pass
@@ -136,9 +136,12 @@ def main():
         kg.add_edge(node, f"journal_entry_{date_str}", "summarizes")
     kg.save()
 
-    print("Daily MD:", md_path)
-    print("Daily PNG:", card)
+    from datetime import datetime as __now
+    ts = __now.now().strftime('%H:%M:%S')
+    print(f"[{ts}] Daily MD:", md_path)
+    print(f"[{ts}] Daily PNG:", card)
 
 
 if __name__ == "__main__":
     main()
+

@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elysia Chat</title>
+  <style>
+    body { background:#1a1a1a; color:#e0e0e0; font-family: Arial, sans-serif; margin:0; height:100vh; display:flex; justify-content:center; align-items:center; }
+    .container { width:80%; max-width:1000px; height:90vh; background:#2a2a2a; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,.5); display:flex; overflow:hidden; position:relative; }
+    .chat-panel { flex:2; display:flex; flex-direction:column; padding:20px; }
+    .header { padding-bottom:10px; border-bottom:1px solid #444; margin-bottom:10px; text-align:center; }
+    .header h1 { margin:0; font-size:1.5em; }
+    .header a { color:#88c0d0; text-decoration:none; font-size:.9em; }
+    .messages { flex:1; overflow-y:auto; border-bottom:1px solid #444; padding-bottom:10px; margin-bottom:10px; }
+    .message { margin-bottom:12px; }
+    .message.user { text-align:right; color:#88c0d0; }
+    .message.elysia { color:#b48ead; }
+    .input-area { display:flex; }
+    input[type=text]{ flex:1; background:#333; border:1px solid #555; border-radius:5px; color:#e0e0e0; padding:10px; outline:none; }
+    button{ background:#81a1c1; color:#2e3440; border:none; border-radius:5px; padding:10px 15px; margin-left:10px; cursor:pointer; }
+    .side { flex:1; background:#202020; padding:20px; display:flex; align-items:center; justify-content:center; }
+    #image-display{ max-width:100%; max-height:80%; border-radius:5px; display:none; }
+    #image-placeholder{ color:#555; text-align:center; }
+    .lamp{ position:fixed; left:16px; bottom:16px; width:14px; height:14px; border-radius:50%; background:#444; border:1px solid #666; box-shadow:0 0 8px rgba(0,0,0,.6); }
+    .lamp.on{ background:#2ecc71; box-shadow:0 0 10px rgba(46,204,113,.8); }
+    .lamp.busy{ background:#f1c40f; box-shadow:0 0 10px rgba(241,196,15,.8); }
+    .lamp.off{ background:#e74c3c; box-shadow:0 0 10px rgba(231,76,60,.8); }
+    .statusbar{ margin-top:8px; font-size:.9em; display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="chat-panel">
+      <div class="header">
+        <h1>Elysia</h1>
+        <a href="/journal" target="_blank">View My Journal</a>
+        <div class="statusbar">
+          <span id="bg-status">Background: checking…</span>
+          <button id="bg-on">BG ON</button>
+          <button id="bg-off">BG OFF</button>
+        </div>
+      </div>
+      <div class="messages" id="messages"></div>
+      <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type a message... (or 'viz: topic')" autocomplete="off">
+        <button id="sendBtn">Send</button>
+      </div>
+    </div>
+    <div class="side">
+      <div id="image-placeholder"><p>Generated images appear here.</p></div>
+      <img id="image-display" src="" alt="Visualization">
+    </div>
+  </div>
+  <div class="lamp off" id="lamp" title="Background lamp
+Green=enabled, Yellow=busy, Red=stopped"></div>
+
+  <script>
+    const messagesDiv = document.getElementById('messages');
+    const userInput = document.getElementById('userInput');
+    const imageDisplay = document.getElementById('image-display');
+    const imagePlaceholder = document.getElementById('image-placeholder');
+
+    function addMessage(text, sender){
+      const el = document.createElement('div');
+      el.classList.add('message', sender);
+      el.textContent = text;
+      messagesDiv.appendChild(el);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    async function sendMessage(){
+      const message = userInput.value || '';
+      const trimmed = message.trim();
+      if(!trimmed) return;
+      addMessage(trimmed, 'user');
+      userInput.value = '';
+      if(trimmed.toLowerCase().startsWith('viz:')){
+        const concept = trimmed.slice(4).trim();
+        await handleVisualization(concept);
+      } else {
+        await handleChat(trimmed);
+      }
+    }
+
+    async function handleChat(message){
+      try{
+        const res = await fetch('/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({message}) });
+        const data = await res.json();
+        if(data.response){
+          const r = data.response;
+          if(r.type === 'text') addMessage(r.text || '', 'elysia');
+          else if(r.type === 'image'){
+            addMessage(r.text || '', 'elysia');
+            if(r.image_url){ imageDisplay.src = r.image_url + '?t=' + Date.now(); imageDisplay.style.display='block'; imagePlaceholder.style.display='none'; }
+          } else addMessage(String(r), 'elysia');
+        } else if(data.error){ addMessage(data.error, 'elysia'); }
+      }catch(e){ addMessage('Disconnected.', 'elysia'); }
+    }
+
+    async function handleVisualization(concept){
+      addMessage('Visualizing: ' + concept, 'elysia');
+      try{
+        const res = await fetch('/visualize', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({concept}) });
+        const data = await res.json();
+        if(data.image_path){ imageDisplay.src = data.image_path + '?t=' + Date.now(); imageDisplay.style.display='block'; imagePlaceholder.style.display='none'; addMessage('See the panel on the right.', 'elysia'); }
+        else addMessage(data.error || 'Failed to visualize.', 'elysia');
+      }catch(e){ addMessage('Visualization tool error.', 'elysia'); }
+    }
+
+    async function refreshBgStatus(){
+      try{
+        const res = await fetch('/self/status');
+        const st = await res.json();
+        const el = document.getElementById('bg-status');
+        const lamp = document.getElementById('lamp');
+        if(st && !st.error){
+          const bg = st.background || {};
+          el.textContent = `Background: ${bg.enabled ? 'ENABLED' : 'DISABLED'} ${bg.running ? '(running)' : '(stopped)'}  interval=${bg.interval_sec}s`;
+          lamp.classList.remove('on','off','busy');
+          if(st.busy) lamp.classList.add('busy'); else if(bg.enabled) lamp.classList.add('on'); else lamp.classList.add('off');
+          lamp.setAttribute('title', 'Background lamp\nGreen=enabled, Yellow=busy, Red=stopped\nCurrent: ' + (bg.enabled ? (st.busy ? 'busy' : 'enabled') : 'stopped') + ' (interval=' + bg.interval_sec + 's)');
+        } else { el.textContent = 'Background: error'; lamp.classList.remove('on','busy'); lamp.classList.add('off'); }
+      }catch(e){ document.getElementById('bg-status').textContent = 'Background: error'; const lamp = document.getElementById('lamp'); lamp.classList.remove('on','busy'); lamp.classList.add('off'); }
+    }
+
+    async function bgOn(){ await fetch('/bg/on', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({interval_sec:300})}); setTimeout(refreshBgStatus, 500); }
+    async function bgOff(){ await fetch('/bg/off', {method:'POST'}); setTimeout(refreshBgStatus, 500); }
+
+    // Wire events
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('sendBtn').addEventListener('click', sendMessage);
+      userInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') sendMessage(); });
+      document.getElementById('bg-on').addEventListener('click', bgOn);
+      document.getElementById('bg-off').addEventListener('click', bgOff);
+      refreshBgStatus(); setInterval(refreshBgStatus, 10000);
+    });
+
+    // Backward compatibility: if an old template uses inline onclick/onchange
+    // expose functions on window to avoid ReferenceError during transition.
+    window.sendMessage = sendMessage;
+    window.toggleReasoning = (on)=>{ try { toggleReasoning(on); } catch(e){} };
+  </script>
+</body>
+</html>
+

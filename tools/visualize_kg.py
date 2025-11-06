@@ -1,4 +1,4 @@
-import json
+﻿import json
 import sys
 import os
 
@@ -48,7 +48,7 @@ def visualize_kg(start_node_id: str = None):
 
     # Draw edges with traffic coloring if we have activations
     def energy_to_color(e: float) -> tuple:
-        # e expected in [0,1+] – map to green/yellow/orange/red
+        # e expected in [0,1+] ??map to green/yellow/orange/red
         if e >= 0.75:
             return (231, 76, 60)   # red (blocked)
         if e >= 0.5:
@@ -123,19 +123,40 @@ def visualize_kg(start_node_id: str = None):
         legend_x, legend_y = 10, 10
         box_w, box_h = 14, 14
         gap = 6
-        items = [
-            ((46,204,113), '원활 (녹색)'),
-            ((241,196,15), '보통 (노랑)'),
-            ((230,126,34), '지연 (주황)'),
-            ((231,76,60),  '혼잡 (빨강)'),
-            ((255,120,120), '앵커'),
-            ((255,255,0),   '초점(에코) 중심')
+                items = [
+            ((46,204,113), 'Free (green)'),
+            ((241,196,15), 'Moderate (yellow)'),
+            ((230,126,34), 'Slow (orange)'),
+            ((231,76,60),  'Blocked (red)'),
+            ((255,120,120), 'Anchor'),
+            ((255,255,0),   'Echo focus')
         ]
         y = legend_y
         for color, label in items:
             canvas.draw.rectangle([legend_x, y, legend_x+box_w, y+box_h], fill=color)
             canvas.draw.text((legend_x+box_w+8, y-2), label, fill=(220,220,230))
             y += box_h + gap
+    except Exception:
+        pass
+
+    # Clean Korean legend overlay (fallback)
+    try:
+        legend_x, legend_y = 10, 110
+        box_w, box_h = 14, 14
+        gap = 6
+                items_clean = [
+            ((46,204,113), 'Free (green)'),
+            ((241,196,15), 'Moderate (yellow)'),
+            ((230,126,34), 'Slow (orange)'),
+            ((231,76,60),  'Blocked (red)'),
+            ((255,120,120), 'Anchor'),
+            ((255,255,0),   'Echo focus')
+        ]
+        y2 = legend_y
+        for color, label in items_clean:
+            canvas.draw.rectangle([legend_x, y2, legend_x+box_w, y2+box_h], fill=color)
+            canvas.draw.text((legend_x+box_w+8, y2-2), label, fill=(220,220,230))
+            y2 += box_h + gap
     except Exception:
         pass
 
@@ -198,12 +219,7 @@ def render_kg(start_node_id: str | None = None, out_name: str | None = None) -> 
     return out_path
 
 
-def render_placeholder(out_name: str = 'monitor_echo.png', message: str = '아직 표시할 에코가 없어요') -> str:
-    """Renders a simple placeholder image with a helpful message."""
-    canvas = Canvas(width=512, height=512, bg_color=(20, 20, 35))
-    # Draw a soft grid hint
-    try:
-        for i in range(0, 512, 32):
+def render_placeholder(out_name: str = 'monitor_echo.png', message: str = 'No echo to display yet') -> str:
             canvas.draw.line([(i, 0), (i, 512)], fill=(35, 35, 55))
             canvas.draw.line([(0, i), (512, i)], fill=(35, 35, 55))
         # Message box
@@ -216,3 +232,7 @@ def render_placeholder(out_name: str = 'monitor_echo.png', message: str = '아�
     out_path = os.path.join("data", out_name)
     canvas.render(out_path, voxel_size=8)
     return out_path
+
+
+
+

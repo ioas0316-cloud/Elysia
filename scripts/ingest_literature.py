@@ -38,9 +38,9 @@ def main():
         if sub.is_dir():
             ingest_folder(sub, kg, label=sub.name)
     kg.save()
-    print("[ingest_literature] Done.")
+    from datetime import datetime
+    print(f"[{datetime.now().strftime('%H:%M:%S')}] [ingest_literature] Done.")
 
 
 if __name__ == "__main__":
     main()
-

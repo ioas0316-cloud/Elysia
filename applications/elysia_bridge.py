@@ -37,7 +37,7 @@ try:
         cognition_pipeline.use_local_llm = False
     # Ensure a clean Korean prefix for visual learning
     if hasattr(cognition_pipeline, 'visual_learning_prefix'):
-        cognition_pipeline.visual_learning_prefix = '?닿쾬??洹몃젮蹂댁옄:'
+        cognition_pipeline.visual_learning_prefix = 'Draw this:'
     # Disable inquisitive mind external lookup
     if hasattr(cognition_pipeline, 'inquisitive_mind'):
         def _no_external_llm(topic: str) -> str:
@@ -49,7 +49,7 @@ except Exception:
 # Post-override to ensure clean Korean strings regardless of earlier encoding
 try:
     if hasattr(cognition_pipeline, 'visual_learning_prefix'):
-        cognition_pipeline.visual_learning_prefix = '?닿쾬??洹몃젮蹂댁옄:'
+        cognition_pipeline.visual_learning_prefix = 'Draw this:'
     if hasattr(cognition_pipeline, 'inquisitive_mind'):
         cognition_pipeline.inquisitive_mind.ask_external_llm = (
             lambda topic: "吏�湲덉? ?몃? 吏�??議고쉶媛� 鍮꾪솢?깊솕?섏뼱 ?덉뼱?? ?ㅻⅨ 諛⑹떇?쇰줈 媛숈씠 ?앷컖?대낵源뚯슂?")
@@ -223,3 +223,4 @@ def visualize():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
