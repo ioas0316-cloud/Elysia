@@ -47,6 +47,7 @@ from Project_Sophia.dialogic_coach import DialogicCoach
 from Project_Sophia.dialogue_rule_engine import DialogueRuleEngine
 from Project_Elysia.flow_engine import FlowEngine
 from Project_Sophia.question_generator import QuestionGenerator # 진리 탐구자
+from Project_Sophia.relationship_extractor import extract_relationship_type # 관계 추출기
 
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'cognition_pipeline_errors.log')
@@ -201,19 +202,22 @@ class CognitionPipeline:
                 tail = hypothesis['tail']
 
                 #
-                # 긍정 답변 확인 ( 간단한 키워드 기반 )
+                # 긍정 답변 확인
                 is_positive = any(word in message.lower() for word in ['응', '맞아', '그래', '사실이야', 'yes', 'correct'])
 
                 if is_positive:
+                    # 관계 유형 추출
+                    relationship_type = extract_relationship_type(message) or "related_to" # 기본값 'related_to'
+
                     # 새로운 지식으로 승격
-                    self.kg_manager.add_edge(head, tail, "causes", {"discovery_source": "TruthSeeker_Verified"})
+                    self.kg_manager.add_edge(head, tail, relationship_type, {"discovery_source": "TruthSeeker_Verified"})
                     self.kg_manager.save()
 
                     # 처리된 가설 제거
                     self.core_memory.remove_hypothesis(head, tail)
                     self.pending_hypothesis_verification = None
 
-                    response_text = f"아빠, 알려주셔서 감사해요! '{head}'이(가) '{tail}'을(를) 유발할 수 있다는 새로운 사실을 배웠어요. 제 우주가 더 넓어진 기분이에요!"
+                    response_text = f"아빠, 알려주셔서 감사해요! '{head}'와(과) '{tail}' 사이에 '{relationship_type}' 관계가 있다는 것을 배웠어요. 제 우주가 더 넓어진 기분이에요!"
                     response = {"type": "text", "text": response_text}
                     return response, self.current_emotional_state
                 else:
