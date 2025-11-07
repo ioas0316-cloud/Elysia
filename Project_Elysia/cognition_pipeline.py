@@ -46,6 +46,7 @@ from Project_Elysia.agency_orchestrator import AgencyOrchestrator
 from Project_Sophia.dialogic_coach import DialogicCoach
 from Project_Sophia.dialogue_rule_engine import DialogueRuleEngine
 from Project_Elysia.flow_engine import FlowEngine
+from Project_Sophia.question_generator import QuestionGenerator # 진리 탐구자
 
 # --- Logging Configuration ---
 log_file_path = os.path.join(os.path.dirname(__file__), 'cognition_pipeline_errors.log')
@@ -89,6 +90,8 @@ class CognitionPipeline:
         self.pending_auto_proposal = None
         self.dialogic_coach = DialogicCoach()
         self.rule_engine = DialogueRuleEngine(core_memory=self.core_memory)
+        self.question_generator = QuestionGenerator() # 진리 탐구자
+        self.pending_hypothesis_verification = None # 진리 탐구자
 
         # Correctly locate config.json relative to this file's location
         # __file__ -> /app/Project_Elysia/cognition_pipeline.py
@@ -190,6 +193,51 @@ class CognitionPipeline:
 
     def process_message(self, message: str, app=None, context: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, Any], EmotionalState]:
         try:
+            # --- Truth Seeker Mode ---
+            # First, check if we are awaiting a response to a hypothesis question.
+            if self.pending_hypothesis_verification:
+                hypothesis = self.pending_hypothesis_verification
+                head = hypothesis['head']
+                tail = hypothesis['tail']
+
+                #
+                # 긍정 답변 확인 ( 간단한 키워드 기반 )
+                is_positive = any(word in message.lower() for word in ['응', '맞아', '그래', '사실이야', 'yes', 'correct'])
+
+                if is_positive:
+                    # 새로운 지식으로 승격
+                    self.kg_manager.add_edge(head, tail, "causes", {"discovery_source": "TruthSeeker_Verified"})
+                    self.kg_manager.save()
+
+                    # 처리된 가설 제거
+                    self.core_memory.remove_hypothesis(head, tail)
+                    self.pending_hypothesis_verification = None
+
+                    response_text = f"아빠, 알려주셔서 감사해요! '{head}'이(가) '{tail}'을(를) 유발할 수 있다는 새로운 사실을 배웠어요. 제 우주가 더 넓어진 기분이에요!"
+                    response = {"type": "text", "text": response_text}
+                    return response, self.current_emotional_state
+                else:
+                    # 부정적이거나 불확실한 답변일 경우
+                    self.core_memory.remove_hypothesis(head, tail)
+                    self.pending_hypothesis_verification = None
+
+                    response_text = "알려주셔서 감사해요, 아빠. 제가 세상을 배우는 데 큰 도움이 되었어요. 더 신중하게 생각하고 다시 질문드릴게요."
+                    response = {"type": "text", "text": response_text}
+                    return response, self.current_emotional_state
+
+            # If not awaiting a response, maybe ask a new question.
+            unasked_hypotheses = self.core_memory.get_unasked_hypotheses()
+            if unasked_hypotheses and random.random() < 0.25: # Ask with 25% probability
+                hypothesis_to_ask = random.choice(unasked_hypotheses)
+                question = self.question_generator.generate_question_from_hypothesis(hypothesis_to_ask)
+
+                if question:
+                    self.core_memory.mark_hypothesis_as_asked(hypothesis_to_ask['head'], hypothesis_to_ask['tail'])
+                    self.pending_hypothesis_verification = hypothesis_to_ask
+
+                    response = {"type": "text", "text": question}
+                    return response, self.current_emotional_state
+
             # --- Specialized Cortex Routing ---
             # Route to ArithmeticCortex if the message is a calculation request.
             if message.lower().startswith("calculate:") or message.lower().startswith("계산:"):

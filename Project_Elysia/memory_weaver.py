@@ -92,8 +92,12 @@ class MemoryWeaver:
         self.core_memory.clear_volatile_memory()
         logger.info("Finished weaving volatile thoughts and cleared volatile memory.")
 
-    def _add_association_rules_to_kg(self, rules):
-        """발견된 연관 규칙을 지식 그래프에 'potential_link'로 추가합니다."""
+    def _add_association_rules_to_kg(self, rules, notable_threshold=0.7):
+        """
+        발견된 연관 규칙을 지식 그래프에 'potential_link'로 추가하고,
+        신뢰도가 높은 가설은 CoreMemory에 '주목할 만한 가설'로 저장합니다.
+        """
+        notable_count = 0
         for head, tail, confidence in rules:
             properties = {
                 "discovery_source": "MemoryWeaver_Volatile",
@@ -102,8 +106,24 @@ class MemoryWeaver:
             }
             # Correctly pass head, tail, relation, and then properties
             self.kg_manager.add_edge(head, tail, "potential_link", properties)
+
+            # --- BUG FIX: 누락된 로직 추가 ---
+            if confidence >= notable_threshold:
+                hypothesis = {
+                    "head": head,
+                    "tail": tail,
+                    "confidence": round(confidence, 3),
+                    "source": "MemoryWeaver_Volatile",
+                    "asked": False
+                }
+                self.core_memory.add_notable_hypothesis(hypothesis)
+                notable_count += 1
+            # --- 수정 완료 ---
+
         self.kg_manager.save()
         logger.info(f"Saved {len(rules)} new potential links to the knowledge graph.")
+        if notable_count > 0:
+            logger.info(f"Saved {notable_count} new notable hypotheses to CoreMemory for the Truth Seeker.")
 
     def _add_insights_to_kg(self, insights: list):
         """Adds insight nodes and their relationships to the Knowledge Graph."""
