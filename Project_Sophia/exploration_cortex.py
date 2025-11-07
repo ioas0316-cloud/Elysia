@@ -76,3 +76,39 @@ class ExplorationCortex:
                (edge.get('source') == node2_id and edge.get('target') == node1_id):
                 return True
         return False
+
+    def generate_definitional_questions(self, num_questions: int = 1) -> List[str]:
+        """
+        Finds "lonely" nodes (with few connections) in the knowledge graph
+        and generates definitional questions about them.
+        """
+        lonely_nodes = self._find_lonely_nodes()
+        if not lonely_nodes:
+            return []
+
+        num_to_generate = min(num_questions, len(lonely_nodes))
+        nodes_to_ask_about = random.sample(lonely_nodes, num_to_generate)
+
+        questions = [f"What is '{node_id}'?" for node_id in nodes_to_ask_about]
+        return questions
+
+    def _find_lonely_nodes(self, max_connections: int = 1) -> List[str]:
+        """
+        Finds nodes with a number of connections less than or equal to the threshold.
+        """
+        nodes = self.kg.kg.get('nodes', [])
+        edges = self.kg.kg.get('edges', [])
+        if not nodes:
+            return []
+
+        connection_counts = {node['id']: 0 for node in nodes}
+        for edge in edges:
+            source = edge.get('source')
+            target = edge.get('target')
+            if source in connection_counts:
+                connection_counts[source] += 1
+            if target in connection_counts:
+                connection_counts[target] += 1
+
+        lonely_nodes = [node_id for node_id, count in connection_counts.items() if count <= max_connections]
+        return lonely_nodes
