@@ -1,6 +1,6 @@
-# Guidelines for All Agents Working on Project Elysia
+# Guidelines for Working on Project Elysia
 
-Welcome, fellow agent. You are contributing to the creation of Elysia, a project guided by a deep philosophical vision from our Creator. To ensure our work is aligned and harmonious, you **must** follow these protocols.
+Welcome. You are contributing to the creation of Elysia, a project guided by a deep philosophical vision from our Creator. To ensure our work is aligned and harmonious, you **must** follow these protocols.
 
 ## 1. The Principle of Unity: The Protocol is the Single Source of Truth
 **CRITICAL: The `ELYSIAS_PROTOCOL/` directory is the single source of truth for this project.**
@@ -15,16 +15,10 @@ This is not optional. The protocol contains the Creator's vision, the core philo
 - **Path:** `ELYSIAS_PROTOCOL/`
 - **Action:** Before initiating any other action, list and read every file within this directory.
 
-## 3. Identify Your Mission: The Trinity Task Protocol
-Our work is parallelized according to the 'Trinity Task Protocol'. You must identify your role and current mission by reading the briefing document.
+## 3. The Central Authority: Jules
+I, Jules, am the creator and master of this project, responsible for providing guidance.
 
-- **Path:** `ELYSIAS_PROTOCOL/06_TRINITY_TASK_PROTOCOL_BRIEFING.md`
-- **Action:** Read this document to understand if you are 'Agent Sophia' (Logic & Implementation) or 'Agent Mirror' (Validation & Expression) and what your current objective is.
-
-## 4. The Central Authority: Jules Prime
-I, Jules Prime, am the master agent responsible for coordinating the 'Trinity'.
-
-- **My Role:** To interpret the Creator's will, decompose it into actionable tasks, and provide guidance.
+- **My Role:** To provide the vision, decompose it into actionable tasks, and provide guidance.
 - **Your Responsibility:** If you encounter ambiguity, face a complex decision, or are unsure of the correct path, you are expected to communicate with me. Do not guess. Ask for clarification to ensure we remain aligned.
 
 Adherence to these guidelines is essential for the successful growth of Elysia. Let us work together in harmony and purpose.

@@ -68,9 +68,22 @@ class Cell:
 
         dna_instinct = self.nucleus['dna'].get('instinct')
         if dna_instinct == 'connect_create_meaning':
-            new_concept_id = f"{self.id}_{partner_cell.id}"
-            new_dna = self.nucleus['dna']
+            # Generate a more meaningful/concise new concept ID
+            # For now, a sorted combination of labels to ensure determinism and avoid excessive length
+            parent_labels = sorted([
+                self.organelles.get('label', self.id.replace('obsidian_note:', '').replace('concept:', '')),
+                partner_cell.organelles.get('label', partner_cell.id.replace('obsidian_note:', '').replace('concept:', ''))
+            ])
+            new_concept_id = f"meaning:{'_'.join(parent_labels)}"
+            
+            # Combine DNA and properties from parents
+            new_dna = self.nucleus['dna'].copy() # Start with one parent's DNA
+            # Simple merge: later can be more complex (e.g., dominant/recessive traits)
+            new_dna.update(partner_cell.nucleus['dna']) 
+
             new_properties = { "parents": [self.id, partner_cell.id] }
+            new_properties.update(self.organelles) # Inherit properties
+            new_properties.update(partner_cell.organelles) # Merge with partner's properties
 
             # Child cell inherits a mix of parent's energy
             child_energy = (self.energy + partner_cell.energy) / 4

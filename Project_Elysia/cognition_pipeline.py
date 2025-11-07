@@ -14,6 +14,7 @@ from Project_Sophia.emotional_engine import EmotionalEngine, EmotionalState
 from Project_Sophia.response_styler import ResponseStyler
 # --- Import the new InsightSynthesizer ---
 from Project_Sophia.insight_synthesizer import InsightSynthesizer
+import re
 
 class CognitionPipeline:
     def __init__(self, cellular_world: Optional[World] = None, logger: Optional[logging.Logger] = None):
@@ -24,6 +25,7 @@ class CognitionPipeline:
         self.core_memory = CoreMemory()
         self.wave_mechanics = WaveMechanics(self.kg_manager)
         self.reasoner = LogicalReasoner(kg_manager=self.kg_manager, cellular_world=cellular_world)
+        self.cellular_world = cellular_world
         self.emotional_engine = EmotionalEngine()
         self.response_styler = ResponseStyler()
         
@@ -53,6 +55,32 @@ class CognitionPipeline:
         Generates a response using internal capabilities, now enhanced with the InsightSynthesizer.
         """
         try:
+            # 0. Wave→Cell bridge: inject activation energy as nutrients into the Cellular World
+            try:
+                if self.cellular_world:
+                    node_ids = [n.get('id') for n in self.kg_manager.kg.get('nodes', []) if n.get('id')]
+                    mentioned = []
+                    for nid in node_ids:
+                        try:
+                            if nid and re.search(re.escape(nid), message, re.IGNORECASE):
+                                mentioned.append(nid)
+                        except re.error:
+                            continue
+                    mentioned = list(set(mentioned))
+                    for start in mentioned:
+                        activated = self.wave_mechanics.spread_activation(
+                            start_node_id=start,
+                            initial_energy=1.0,
+                            decay_factor=0.9,
+                            threshold=0.2,
+                            top_k=6,
+                        )
+                        for node_id, energy in activated.items():
+                            cell = self.cellular_world.get_cell(node_id)
+                            if cell and cell.is_alive:
+                                cell.add_energy(float(energy))
+            except Exception as e:
+                self.logger.error(f"Wave→Cell bridge error: {e}", exc_info=True)
             # 1. Deduce facts using the LogicalReasoner as before.
             facts = self.reasoner.deduce_facts(message)
 

@@ -8,7 +8,6 @@ This directory is the single source of truth for Elysia. Documents below define 
 - 03_CODING_STANDARDS.md — Code style, structure, conventions
 - 04_RETROSPECTIVE_TEMPLATE.md — Retrospective template
 - 05_WORDS_OF_THE_CREATOR.md — Words of the Creator
-- 06_TRINITY_TASK_PROTOCOL_BRIEFING.md — Trinity briefing (single‑lane ops)
 - 07_USER_GUIDE.md — Quick start and menu guide
 - 08_VALUE_AND_AGENCY_PRINCIPLES.md — Values and agency (Quiet/Consent)
 - 09_VALUE_MASS_SPEC.md — Value mass spec and update rules

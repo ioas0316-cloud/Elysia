@@ -44194,6 +44194,981 @@
       "type": "action",
       "description": "새로운 언어나 문자 체계를 만드는 행위.",
       "korean": "언어 창제"
+    },
+    {
+      "id": "obsidian_note:가방",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "가방",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\가방.md"
+    },
+    {
+      "id": "obsidian_note:가족",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "가족",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\가족.md"
+    },
+    {
+      "id": "obsidian_note:감각",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "감각",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\감각.md"
+    },
+    {
+      "id": "obsidian_note:감정",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "감정",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\감정.md"
+    },
+    {
+      "id": "obsidian_note:강",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "강",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\강.md"
+    },
+    {
+      "id": "obsidian_note:계절",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "계절",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\계절.md"
+    },
+    {
+      "id": "obsidian_note:골반",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "골반",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\골반.md"
+    },
+    {
+      "id": "obsidian_note:공간",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "공간",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\공간.md"
+    },
+    {
+      "id": "obsidian_note:귀",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "귀",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\귀.md"
+    },
+    {
+      "id": "obsidian_note:길",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "길",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\길.md"
+    },
+    {
+      "id": "obsidian_note:꿈",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "꿈",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\꿈.md"
+    },
+    {
+      "id": "obsidian_note:낮",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "낮",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\낮.md"
+    },
+    {
+      "id": "obsidian_note:노래",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "노래",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\노래.md"
+    },
+    {
+      "id": "obsidian_note:놀이",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "놀이",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\놀이.md"
+    },
+    {
+      "id": "obsidian_note:눈",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "눈",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\눈.md"
+    },
+    {
+      "id": "obsidian_note:단위",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "단위",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\단위.md"
+    },
+    {
+      "id": "obsidian_note:달",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "달",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\달.md"
+    },
+    {
+      "id": "obsidian_note:동물",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "동물",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\동물.md"
+    },
+    {
+      "id": "obsidian_note:등",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "등",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\등.md"
+    },
+    {
+      "id": "obsidian_note:땅",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "땅",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\땅.md"
+    },
+    {
+      "id": "obsidian_note:말",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "말",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\말.md"
+    },
+    {
+      "id": "obsidian_note:목",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "목",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\목.md"
+    },
+    {
+      "id": "obsidian_note:무제",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "무제",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\무제.md"
+    },
+    {
+      "id": "obsidian_note:바다",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "바다",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\바다.md"
+    },
+    {
+      "id": "obsidian_note:바람",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "바람",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\바람.md"
+    },
+    {
+      "id": "obsidian_note:바퀴",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "바퀴",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\바퀴.md"
+    },
+    {
+      "id": "obsidian_note:발",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "발",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\발.md"
+    },
+    {
+      "id": "obsidian_note:밤",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "밤",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\밤.md"
+    },
+    {
+      "id": "obsidian_note:밥",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "밥",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\밥.md"
+    },
+    {
+      "id": "obsidian_note:배",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "배",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\배.md"
+    },
+    {
+      "id": "obsidian_note:버스",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "버스",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\버스.md"
+    },
+    {
+      "id": "obsidian_note:비행기",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "비행기",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\비행기.md"
+    },
+    {
+      "id": "obsidian_note:빛",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "빛",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\빛.md"
+    },
+    {
+      "id": "obsidian_note:빵",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "빵",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\빵.md"
+    },
+    {
+      "id": "obsidian_note:사랑",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "사랑",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\사랑.md"
+    },
+    {
+      "id": "obsidian_note:산",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "산",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\산.md"
+    },
+    {
+      "id": "obsidian_note:생명",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "생명",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\생명.md"
+    },
+    {
+      "id": "obsidian_note:성경",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "성경",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\성경.md"
+    },
+    {
+      "id": "obsidian_note:세포",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "세포",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\세포.md"
+    },
+    {
+      "id": "obsidian_note:손",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "손",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\손.md"
+    },
+    {
+      "id": "obsidian_note:시간",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "시간",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\시간.md"
+    },
+    {
+      "id": "obsidian_note:식물",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "식물",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\식물.md"
+    },
+    {
+      "id": "obsidian_note:신",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "신",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\신.md"
+    },
+    {
+      "id": "obsidian_note:신발",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "신발",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\신발.md"
+    },
+    {
+      "id": "obsidian_note:어깨",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "어깨",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\어깨.md"
+    },
+    {
+      "id": "obsidian_note:어둠",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "어둠",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\어둠.md"
+    },
+    {
+      "id": "obsidian_note:언어",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "언어",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\언어.md"
+    },
+    {
+      "id": "obsidian_note:얼굴",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "얼굴",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\얼굴.md"
+    },
+    {
+      "id": "obsidian_note:엉덩이",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "엉덩이",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\엉덩이.md"
+    },
+    {
+      "id": "obsidian_note:에너지",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "에너지",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\에너지.md"
+    },
+    {
+      "id": "obsidian_note:역사",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "역사",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\역사.md"
+    },
+    {
+      "id": "obsidian_note:우주",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "우주",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\우주.md"
+    },
+    {
+      "id": "obsidian_note:음악",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "음악",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\음악.md"
+    },
+    {
+      "id": "obsidian_note:의식주",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "의식주",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\의식주.md"
+    },
+    {
+      "id": "obsidian_note:이름",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "이름",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\이름.md"
+    },
+    {
+      "id": "obsidian_note:인사",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "인사",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\인사.md"
+    },
+    {
+      "id": "obsidian_note:일",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "일",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\일.md"
+    },
+    {
+      "id": "obsidian_note:입",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "입",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\입.md"
+    },
+    {
+      "id": "obsidian_note:자동차",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "자동차",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\자동차.md"
+    },
+    {
+      "id": "obsidian_note:자전거",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "자전거",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\자전거.md"
+    },
+    {
+      "id": "obsidian_note:잠",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "잠",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\잠.md"
+    },
+    {
+      "id": "obsidian_note:종아리",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "종아리",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\종아리.md"
+    },
+    {
+      "id": "obsidian_note:종이",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "종이",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\종이.md"
+    },
+    {
+      "id": "obsidian_note:지구",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "지구",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\지구.md"
+    },
+    {
+      "id": "obsidian_note:지하철",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "지하철",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\지하철.md"
+    },
+    {
+      "id": "obsidian_note:집",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "집",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\집.md"
+    },
+    {
+      "id": "obsidian_note:춤",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "춤",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\춤.md"
+    },
+    {
+      "id": "obsidian_note:코",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "코",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\코.md"
+    },
+    {
+      "id": "obsidian_note:태양",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "태양",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\태양.md"
+    },
+    {
+      "id": "obsidian_note:팔",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "팔",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\팔.md"
+    },
+    {
+      "id": "obsidian_note:하늘",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "하늘",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\하늘.md"
+    },
+    {
+      "id": "obsidian_note:허기",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "허기",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\허기.md"
+    },
+    {
+      "id": "obsidian_note:허리",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "허리",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\허리.md"
+    },
+    {
+      "id": "obsidian_note:허벅지",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "허벅지",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\허벅지.md"
+    },
+    {
+      "id": "obsidian_note:혀",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "obsidian_note",
+      "label": "혀",
+      "source": "obsidian",
+      "path": "data\\corpus\\obsidian_vault\\혀.md"
     }
   ],
   "edges": [

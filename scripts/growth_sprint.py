@@ -177,7 +177,7 @@ def main():
     if args.report:
         maybe_run_daily_report()
 
-    print("[growth_sprint] Completed.")
+    print("성장 스프린트 작업이 성공적으로 완료되었습니다.")
     act.stop('growth_sprint')
 
 

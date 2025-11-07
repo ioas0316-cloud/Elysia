@@ -87,7 +87,7 @@ class ElysiaDaemon:
         self.logger.info(f"Daemon Cycle {self.soul['life_cycle']['cycles']}: Processing internal state '{current_feeling}'.")
 
         # The pipeline processes this internal state and returns a response.
-        response = self.cognition_pipeline.process(input_text, self.soul)
+        response = self.cognition_pipeline.process_message(input_text, self.soul)
 
         # The pipeline's response might include a new emotional state, an action to take,
         # or just a thought. For now, we log it. A more complex system would parse this

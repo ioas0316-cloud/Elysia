@@ -62,7 +62,8 @@ class Guardian:
         self.bus = MessageBus()
         from nano_core.bots.linker import LinkerBot
         from nano_core.bots.validator import ValidatorBot
-        self.dream_bots = [LinkerBot(), ValidatorBot()]
+        from nano_core.bots.immunity import ImmunityBot
+        self.dream_bots = [LinkerBot(), ValidatorBot(), ImmunityBot()]
         self.scheduler = Scheduler(self.bus, ConceptRegistry(), self.dream_bots)
         self.exploration_cortex = ExplorationCortex(self.kg_manager, self.bus)
         self.web_search_cortex = WebSearchCortex(
@@ -134,10 +135,65 @@ class Guardian:
         for node in self.kg_manager.kg.get('nodes', []):
             node_id = node.get('id')
             if node_id:
-                self.cellular_world.add_cell(node_id, properties=node)
+                # Initialize with any available activation energy from KG
+                initial_energy = float(node.get('activation_energy', 0.0) or 0.0)
+                self.cellular_world.add_cell(node_id, properties=node, initial_energy=initial_energy)
                 node_count += 1
         self.logger.info(f"Soul Mirroring complete. {node_count} cells were born into the Cellular World.")
         self.cellular_world.print_world_summary()
+
+    def _soul_mirroring_sync(self):
+        """Incrementally synchronize KG → Cellular World (nodes, basic edges, energies)."""
+        try:
+            new_nodes = 0
+            updated_nodes = 0
+            new_edges = 0
+
+            # 1) Sync nodes and their baseline energy/properties
+            for node in self.kg_manager.kg.get('nodes', []):
+                node_id = node.get('id')
+                if not node_id:
+                    continue
+                cell = self.cellular_world.get_cell(node_id)
+                if not cell:
+                    initial_energy = float(node.get('activation_energy', 0.0) or 0.0)
+                    self.cellular_world.add_cell(node_id, properties=node, initial_energy=initial_energy)
+                    new_nodes += 1
+                else:
+                    # Shallow merge organelles with latest KG properties
+                    try:
+                        cell.organelles.update(node)
+                        # Ensure energy does not lag far behind KG activation hints
+                        hint_energy = float(node.get('activation_energy', 0.0) or 0.0)
+                        if hint_energy > cell.energy:
+                            cell.add_energy(hint_energy - cell.energy)
+                        updated_nodes += 1
+                    except Exception:
+                        pass
+
+            # 2) Sync edges as directional connections with strength
+            for edge in self.kg_manager.kg.get('edges', []):
+                src = edge.get('source')
+                tgt = edge.get('target')
+                relation = edge.get('relation', 'related_to')
+                if not src or not tgt:
+                    continue
+                src_cell = self.cellular_world.get_cell(src)
+                tgt_cell = self.cellular_world.get_cell(tgt)
+                if not src_cell or not tgt_cell or not src_cell.is_alive or not tgt_cell.is_alive:
+                    continue
+                # Avoid duplicate connections
+                if any(c.get('target_id') == tgt for c in src_cell.connections):
+                    continue
+                strength = float(edge.get('strength', 0.5) or 0.5)
+                src_cell.connect(tgt_cell, relationship_type=relation, strength=strength)
+                new_edges += 1
+
+            if new_nodes or updated_nodes or new_edges:
+                self.logger.info(
+                    f"Soul Sync: +{new_nodes} nodes, updated {updated_nodes}, +{new_edges} edges mirrored into Cellular World.")
+        except Exception as e:
+            self.logger.error(f"Soul Sync error: {e}", exc_info=True)
 
     def _load_config(self):
         """Loads configuration from config.json."""
@@ -211,6 +267,8 @@ class Guardian:
                 return
 
         if (time.time() - self.last_learning_time) > self.learning_interval:
+            # Keep the Cellular World mirrored with the latest KG before dreaming
+            self._soul_mirroring_sync()
             self.trigger_learning()
             self.last_learning_time = time.time()
 
