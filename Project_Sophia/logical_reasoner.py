@@ -1,139 +1,124 @@
-# c:/Elysia/Project_Sophia/logical_reasoner.py
-
 import re
-from typing import List, Dict, Any
+import copy
+from typing import List, Dict, Any, Optional
+
 from tools.kg_manager import KGManager
+from .core.world import World
 
 class LogicalReasoner:
     """
-    사용자 입력으로부터 논리적 사실을 추론하고 지식 그래프와 상호작용합니다.
-    인과 관계를 포함한 복잡한 추론을 지원합니다.
+    Deduces logical facts from user input by interacting with the knowledge graph
+    and running dynamic simulations in the Cellular World.
     """
-    def __init__(self, kg_manager: KGManager = None):
-        """
-        LogicalReasoner를 초기화합니다.
-        기존 KGManager를 주입하거나, 제공되지 않으면 새로 생성합니다.
-        """
-        self.kg_manager = kg_manager if kg_manager else KGManager()
+
+    def __init__(self, kg_manager: Optional[KGManager] = None, cellular_world: Optional[World] = None):
+        """Initializes the LogicalReasoner with injected dependencies."""
+        self.kg_manager = kg_manager or KGManager()
+        self.cellular_world = cellular_world
 
     def _find_mentioned_entities(self, message: str) -> List[str]:
-        """메시지에서 KG에 존재하는 엔티티를 찾습니다."""
+        """Finds entities from the KG mentioned in a message, handling Korean particles."""
         mentioned_entities = []
-        nodes = self.kg_manager.kg.get('nodes', [])
-        for node in nodes:
-            entity = node['id']
-            if entity in message:
-                mentioned_entities.append(entity)
+        node_ids = {node.get('id') for node in self.kg_manager.kg.get('nodes', [])}
+
+        for entity_id in node_ids:
+            if entity_id and re.search(re.escape(entity_id), message, re.IGNORECASE):
+                mentioned_entities.append(entity_id)
         return list(set(mentioned_entities))
+
+    def _run_causal_simulation(self, cause_entity: str, simulation_steps: int = 5) -> Dict[str, float]:
+        """
+        Runs a causal simulation to infer potential outcomes.
+        Returns a dictionary of affected entities and their final energy levels.
+        """
+        if not self.cellular_world or cause_entity not in self.cellular_world.cells:
+            return {}
+
+        # 1. Create a safe sandbox for the simulation
+        sandbox_world = copy.deepcopy(self.cellular_world)
+
+        # 2. Prime the sandbox with connections from the static KG for this simulation
+        for cell_id, cell in sandbox_world.cells.items():
+            edges = self.kg_manager.find_effects(cell_id)
+            for edge in edges:
+                target_id = edge.get('target')
+                if target_id in sandbox_world.cells:
+                    strength = edge.get('strength', 0.5)
+                    cell.connect(sandbox_world.cells[target_id], strength=strength)
+
+        # 3. Apply a strong stimulus to the cause entity
+        sandbox_world.inject_stimulus(cause_entity, 1.0)
+
+        # 4. Run the simulation for several steps to allow energy to propagate
+        for _ in range(simulation_steps):
+            sandbox_world.run_simulation_step()
+
+        # 5. Analyze results to find significantly affected cells
+        affected_entities = {}
+        for cell_id, cell in sandbox_world.cells.items():
+            original_cell = self.cellular_world.cells.get(cell_id)
+            original_energy = original_cell.energy if original_cell else 0.0
+
+            # A cell is "significantly affected" if its energy has noticeably increased
+            if cell.energy > original_energy + 0.05:
+                # We exclude the cause entity itself from the results
+                if cell_id != cause_entity:
+                    affected_entities[cell_id] = round(cell.energy, 2)
+
+        return affected_entities
 
     def deduce_facts(self, message: str) -> List[str]:
         """
-        메시지를 분석하고 지식 그래프를 쿼리하여 관련 사실을 추론합니다.
-        질문의 의도(원인/결과)를 파악하여 더 정확한 답변을 생성합니다.
+        Analyzes a message to deduce relevant facts from both the static KG
+        and a dynamic simulation in the Cellular World.
         """
         final_facts = set()
         mentioned_entities = self._find_mentioned_entities(message)
 
-        query_is_for_cause = "원인" in message or "이유" in message
-        query_is_for_effect = "결과" in message or "영향" in message
+        query_is_for_effect = "결과" in message or "영향" in message or "만약" in message
 
         if not mentioned_entities:
             return []
 
         for entity in mentioned_entities:
-            # First, gather all possible facts related to the entity
-            all_possible_facts = set()
+            # First, deduce static facts from the Knowledge Graph
+            static_facts = self._deduce_static_facts(entity)
+            final_facts.update(static_facts)
 
-            # Find causes of the entity
-            causes = self.kg_manager.find_causes(entity)
-            for edge in causes:
-                fact = f"'{edge['source']}'은(는) '{entity}'의 원인이 될 수 있습니다."
-                if 'strength' in edge: fact += f" (인과 강도: {edge['strength']})"
-                if 'conditions' in edge: fact += f" (조건: {', '.join(edge['conditions'])})"
-                all_possible_facts.add(fact)
+            # If the query is about consequences, run the dynamic simulation
+            if query_is_for_effect:
+                sim_results = self._run_causal_simulation(entity)
+                if sim_results:
+                    fact_header = f"'{entity}'(으)로 시뮬레이션한 결과, 다음과 같은 동적 영향이 관찰되었습니다:"
+                    final_facts.add(fact_header)
+                    for affected_entity, energy in sorted(sim_results.items()):
+                        dynamic_fact = f"  - '{affected_entity}' 개념이 활성화되었습니다 (에너지: {energy})."
+                        final_facts.add(dynamic_fact)
 
-            # Find effects of the entity
-            effects = self.kg_manager.find_effects(entity)
-            for edge in effects:
-                fact = f"'{entity}'은(는) '{edge['target']}'을(를) 유발할 수 있습니다."
-                if 'strength' in edge: fact += f" (인과 강도: {edge['strength']})"
-                if 'conditions' in edge: fact += f" (조건: {', '.join(edge['conditions'])})"
-                all_possible_facts.add(fact)
+        return sorted(list(final_facts))
 
-            # Find general relationships
-            for edge in self.kg_manager.kg.get('edges', []):
-                if edge.get('relation') == 'causes': continue
+    def _deduce_static_facts(self, entity: str) -> set:
+        """Helper function to get facts from the static Knowledge Graph."""
+        static_facts = set()
 
-                fact_made = False
-                if edge['source'] == entity:
-                    relation = edge['relation']
-                    target = edge['target']
-                    if relation == 'supports':
-                        all_possible_facts.add(f"저는 '{entity}'이(가) '{target}'을(를) 뒷받침한다고 생각해요.")
-                    elif relation == 'is_a':
-                        all_possible_facts.add(f"'{entity}'은(는) '{target}'의 한 종류예요.")
-                    else:
-                        all_possible_facts.add(f"'{entity}'은(는) '{target}'와(과) '{relation}' 관계를 가집니다.")
-                    fact_made = True
+        # Find relationships where the entity is the source
+        for edge in self.kg_manager.kg.get('edges', []):
+            if edge.get('source') == entity:
+                relation, target = edge['relation'], edge['target']
+                if relation == 'is_a':
+                    static_facts.add(f"'{entity}'은(는) '{target}'의 한 종류입니다.")
+                elif relation == 'causes':
+                     static_facts.add(f"[정적] '{entity}'은(는) '{target}'을(를) 유발할 수 있습니다.")
+                else:
+                    static_facts.add(f"'{entity}'은(는) '{target}'와(과) '{relation}' 관계입니다.")
 
-                elif edge['target'] == entity:
-                    relation = edge['relation']
-                    source = edge['source']
-                    if relation == 'is_a': # More natural phrasing
-                        all_possible_facts.add(f"'{source}'은(는) '{entity}'의 한 예시예요.")
-                    else:
-                        # Avoid duplicating 'supports' from the other side
-                        if not fact_made:
-                             all_possible_facts.add(f"'{entity}'은(는) '{source}'와(과) '{relation}' 관계를 가집니다.")
+        # Find relationships where the entity is the target
+        for edge in self.kg_manager.kg.get('edges', []):
+            if edge.get('target') == entity:
+                relation, source = edge['relation'], edge['source']
+                if relation == 'is_a':
+                    static_facts.add(f"'{source}'은(는) '{entity}'의 한 예시입니다.")
+                elif relation == 'causes':
+                    static_facts.add(f"[정적] '{source}'은(는) '{entity}'의 원인이 될 수 있습니다.")
 
-            # Now, filter the facts based on the query
-            if query_is_for_cause and not query_is_for_effect:
-                for fact in all_possible_facts:
-                    if "원인이 될 수 있습니다" in fact:
-                        final_facts.add(fact)
-            elif query_is_for_effect and not query_is_for_cause:
-                 for fact in all_possible_facts:
-                    if "유발할 수 있습니다" in fact:
-                        final_facts.add(fact)
-            else: # Ambiguous or general query
-                final_facts.update(all_possible_facts)
-
-        return list(final_facts)
-
-if __name__ == '__main__':
-    reasoner = LogicalReasoner()
-    # Use a clean in-memory KG for the test run
-    reasoner.kg_manager.kg = {"nodes": [], "edges": []}
-    reasoner.kg_manager.add_edge("햇빛", "식물 성장", "causes", properties={"strength": 0.85})
-    reasoner.kg_manager.add_edge("수분", "식물 성장", "causes", properties={"strength": 0.9, "conditions": ["적절한 온도"]})
-    reasoner.kg_manager.add_edge("식물 성장", "산소 발생", "causes")
-    reasoner.kg_manager.add_node("소크라테스")
-    reasoner.kg_manager.add_node("인간")
-    reasoner.kg_manager.add_edge("소크라테스", "인간", "is_a")
-
-    print("--- '원인' 질문 테스트 ---")
-    test_message_cause = "식물 성장의 원인은 무엇이야?"
-    facts_cause = reasoner.deduce_facts(test_message_cause)
-    if facts_cause:
-        for f in sorted(list(facts_cause)):
-            print(f"- {f}")
-    else:
-        print("추론된 사실이 없습니다.")
-
-    print("\n--- '결과' 질문 테스트 ---")
-    test_message_effect = "식물 성장의 결과는 무엇이야?"
-    facts_effect = reasoner.deduce_facts(test_message_effect)
-    if facts_effect:
-        for f in sorted(list(facts_effect)):
-            print(f"- {f}")
-    else:
-        print("추론된 사실이 없습니다.")
-
-    print("\n--- 일반 질문 테스트 ---")
-    test_message_general = "소크라테스에 대해 알려줘"
-    facts_general = reasoner.deduce_facts(test_message_general)
-    if facts_general:
-        for f in sorted(list(facts_general)):
-            print(f"- {f}")
-    else:
-        print("추론된 사실이 없습니다.")
+        return static_facts

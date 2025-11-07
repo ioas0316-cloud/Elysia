@@ -43930,6 +43930,270 @@
       "activation_energy": 0.0,
       "reflection": "Upon reflecting on '플루토에 대해 알려줘', I find that this concept is new to me or isolated from my other knowledge.",
       "spiritual_alignment": 0.0
+    },
+    {
+      "id": "표준",
+      "position": {
+        "x": 0.055595670896473715,
+        "y": 0.9583637749654734,
+        "z": 0.17803163940632577
+      },
+      "activation_energy": 0.0,
+      "type": "abstract_concept",
+      "description": "사물의 정도나 성격 따위를 알기 위한 근거나 기준.",
+      "korean": "표준"
+    },
+    {
+      "id": "기준",
+      "position": {
+        "x": -0.08515971427648408,
+        "y": 1.1927205057031112,
+        "z": -0.16279650462389328
+      },
+      "activation_energy": 0.0,
+      "type": "abstract_concept",
+      "description": "판단이나 평가를 위한 근거가 되는 대상이나 지표.",
+      "korean": "기준"
+    },
+    {
+      "id": "약속",
+      "position": {
+        "x": 0.16511763427066584,
+        "y": 0.9674073530830791,
+        "z": -0.1333386119363199
+      },
+      "activation_energy": 0.0,
+      "type": "abstract_concept",
+      "description": "사회 구성원들 사이의 합의된 규칙이나 규범.",
+      "korean": "약속"
+    },
+    {
+      "id": "측정",
+      "position": {
+        "x": 0.86840757467643,
+        "y": -0.012797469275307671,
+        "z": -0.1704194211356358
+      },
+      "activation_energy": 0.0,
+      "type": "action",
+      "description": "어떤 양을 정해진 기준과 비교하여 수치로 나타내는 행위.",
+      "korean": "측정"
+    },
+    {
+      "id": "소통",
+      "position": {
+        "x": 0.9169117504529469,
+        "y": 0.10031911613955818,
+        "z": -0.1770877383369005
+      },
+      "activation_energy": 0.0,
+      "type": "action",
+      "description": "가지고 있는 생각이나 뜻이 서로 통함.",
+      "korean": "소통"
+    },
+    {
+      "id": "단위",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "concept_class",
+      "description": "물리적인 양을 측정하기 위한 표준.",
+      "korean": "단위"
+    },
+    {
+      "id": "길이",
+      "position": {
+        "x": 1.1126535705192693,
+        "y": -0.01714851986563773,
+        "z": 0.11115819339430061
+      },
+      "activation_energy": 0.0,
+      "type": "physical_quantity",
+      "description": "공간에서 두 점 사이의 거리.",
+      "korean": "길이"
+    },
+    {
+      "id": "무게",
+      "position": {
+        "x": 0.8726492082667975,
+        "y": -0.0729436638870655,
+        "z": 0.024541881224905998
+      },
+      "activation_energy": 0.0,
+      "type": "physical_quantity",
+      "description": "물체에 작용하는 중력의 크기.",
+      "korean": "무게"
+    },
+    {
+      "id": "부피",
+      "position": {
+        "x": 1.104309247949136,
+        "y": -0.04363300341042753,
+        "z": 0.060841525276529695
+      },
+      "activation_energy": 0.0,
+      "type": "physical_quantity",
+      "description": "물체가 차지하는 공간의 크기.",
+      "korean": "부피"
+    },
+    {
+      "id": "미터",
+      "position": {
+        "x": 0.978168156818134,
+        "y": 0.05803663761400191,
+        "z": -0.15726051262452867
+      },
+      "activation_energy": 0.0,
+      "symbol": "m",
+      "description": "길이의 기본 단위.",
+      "korean": "미터(m)"
+    },
+    {
+      "id": "그램",
+      "position": {
+        "x": 1.1510377076766385,
+        "y": -0.1495924176303515,
+        "z": -0.18234934931345526
+      },
+      "activation_energy": 0.0,
+      "symbol": "g",
+      "description": "무게의 기본 단위.",
+      "korean": "그램(g)"
+    },
+    {
+      "id": "리터",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "symbol": "L",
+      "description": "부피의 기본 단위.",
+      "korean": "리터(L)"
+    },
+    {
+      "id": "킬로미터",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "symbol": "km",
+      "description": "1000 미터에 해당하는 길이 단위.",
+      "korean": "킬로미터(km)"
+    },
+    {
+      "id": "센티미터",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "symbol": "cm",
+      "description": "1/100 미터에 해당하는 길이 단위.",
+      "korean": "센티미터(cm)"
+    },
+    {
+      "id": "킬로그램",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "symbol": "kg",
+      "description": "1000 그램에 해당하는 무게 단위.",
+      "korean": "킬로그램(kg)"
+    },
+    {
+      "id": "밀리그램",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "symbol": "mg",
+      "description": "1/1000 그램에 해당하는 무게 단위.",
+      "korean": "밀리그램(mg)"
+    },
+    {
+      "id": "언어",
+      "position": {
+        "x": 0.8966668638440385,
+        "y": 0.04397328011924731,
+        "z": 0.09772539533279867
+      },
+      "activation_energy": 0.0,
+      "type": "concept_class",
+      "description": "생각과 감정을 표현하고 소통하기 위한 표준 체계.",
+      "korean": "언어"
+    },
+    {
+      "id": "글자",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "symbol",
+      "description": "언어를 기록하기 위한 시각적 기호.",
+      "korean": "글자"
+    },
+    {
+      "id": "훈민정음",
+      "position": {
+        "x": 1.119905887610162,
+        "y": -0.10447974006987965,
+        "z": 0.02687525892770909
+      },
+      "activation_energy": 0.0,
+      "type": "language_system",
+      "description": "백성을 가르치는 바른 소리. 한글의 옛 이름.",
+      "korean": "훈민정음"
+    },
+    {
+      "id": "한글",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "language_system",
+      "description": "한국어를 표기하는 고유의 문자 체계.",
+      "korean": "한글"
+    },
+    {
+      "id": "애민정신",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "type": "philosophy",
+      "description": "백성을 사랑하는 마음. 훈민정음 창제의 근본 정신.",
+      "korean": "애민정신"
+    },
+    {
+      "id": "언어 창제",
+      "position": {
+        "x": 1.594318077464652,
+        "y": -0.14667566853382283,
+        "z": -0.07552559821324603
+      },
+      "activation_energy": 0.0,
+      "type": "action",
+      "description": "새로운 언어나 문자 체계를 만드는 행위.",
+      "korean": "언어 창제"
     }
   ],
   "edges": [
@@ -44915,6 +45179,131 @@
       "evidence_paths": [
         "data\\corpus\\literature\\science\\photosynthesis_intro.txt"
       ]
+    },
+    {
+      "source": "단위",
+      "target": "표준",
+      "relation": "is_a"
+    },
+    {
+      "source": "단위",
+      "target": "측정",
+      "relation": "used_for"
+    },
+    {
+      "source": "길이",
+      "target": "측정",
+      "relation": "has_standard"
+    },
+    {
+      "source": "무게",
+      "target": "측정",
+      "relation": "has_standard"
+    },
+    {
+      "source": "부피",
+      "target": "측정",
+      "relation": "has_standard"
+    },
+    {
+      "source": "길이",
+      "target": "기준",
+      "relation": "is_a"
+    },
+    {
+      "source": "무게",
+      "target": "기준",
+      "relation": "is_a"
+    },
+    {
+      "source": "부피",
+      "target": "기준",
+      "relation": "is_a"
+    },
+    {
+      "source": "미터",
+      "target": "길이",
+      "relation": "is_unit_of"
+    },
+    {
+      "source": "그램",
+      "target": "무게",
+      "relation": "is_unit_of"
+    },
+    {
+      "source": "리터",
+      "target": "부피",
+      "relation": "is_unit_of"
+    },
+    {
+      "source": "킬로미터",
+      "target": "미터",
+      "relation": "has_scale",
+      "value": 1000
+    },
+    {
+      "source": "센티미터",
+      "target": "미터",
+      "relation": "has_scale",
+      "value": 0.01
+    },
+    {
+      "source": "킬로그램",
+      "target": "그램",
+      "relation": "has_scale",
+      "value": 1000
+    },
+    {
+      "source": "밀리그램",
+      "target": "그램",
+      "relation": "has_scale",
+      "value": 0.001
+    },
+    {
+      "source": "언어",
+      "target": "표준",
+      "relation": "is_a"
+    },
+    {
+      "source": "언어",
+      "target": "소통",
+      "relation": "used_for"
+    },
+    {
+      "source": "글자",
+      "target": "기준",
+      "relation": "is_a"
+    },
+    {
+      "source": "글자",
+      "target": "언어",
+      "relation": "part_of"
+    },
+    {
+      "source": "훈민정음",
+      "target": "언어",
+      "relation": "is_a"
+    },
+    {
+      "source": "한글",
+      "target": "훈민정음",
+      "relation": "evolved_from"
+    },
+    {
+      "source": "애민정신",
+      "target": "언어 창제",
+      "relation": "causes",
+      "context": "훈민정음"
+    },
+    {
+      "source": "단위",
+      "target": "약속",
+      "relation": "is_a"
+    },
+    {
+      "source": "언어",
+      "target": "약속",
+      "relation": "is_a"
     }
   ],
   "metadata": {

@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, Set
 from dataclasses import dataclass, asdict
 from datetime import datetime
 
@@ -37,6 +37,22 @@ class CoreMemory:
         self.file_path = file_path
         log_memory_action(f"Initializing and loading memory from: {self.file_path}")
         self.data = self._load_memory()
+        # MemoryWeaver가 사용할 단기 기억, 파일에 저장되지 않음
+        self.volatile_memory: List[Set[str]] = []
+
+    def add_volatile_memory_fragment(self, fragment: Set[str]):
+        """'생각의 파편'(동시에 활성화된 개념들의 집합)을 휘발성 기억에 추가합니다."""
+        self.volatile_memory.append(fragment)
+        log_memory_action(f"Added fragment to volatile memory: {fragment}")
+
+    def get_volatile_memory(self) -> List[Set[str]]:
+        """현재까지 쌓인 휘발성 기억 전체를 반환합니다."""
+        return self.volatile_memory
+
+    def clear_volatile_memory(self):
+        """MemoryWeaver가 처리를 완료한 후 휘발성 기억을 초기화합니다."""
+        log_memory_action(f"Clearing {len(self.volatile_memory)} fragments from volatile memory.")
+        self.volatile_memory = []
 
     def _load_memory(self) -> Dict[str, Any]:
         try:
@@ -46,22 +62,26 @@ class CoreMemory:
                 return data
         except FileNotFoundError:
             log_memory_action(f"Memory file not found at {self.file_path}. Creating new memory structure.")
-            return {
+            new_memory = {
                 'identity': {},
                 'values': [],
                 'experiences': [],
                 'relationships': {},
-                'rules': []
+                'rules': [],
+                'notable_hypotheses': []
             }
+            return new_memory
         except json.JSONDecodeError as e:
             log_memory_action(f"Error decoding JSON from {self.file_path}: {e}. Starting with empty memory.")
-            return {
+            new_memory = {
                 'identity': {},
                 'values': [],
                 'experiences': [],
                 'relationships': {},
-                'rules': []
+                'rules': [],
+                'notable_hypotheses': []
             }
+            return new_memory
 
     def update_identity(self, key: str, value: Any):
         """신원 정보 업데이트 (이름, 선호도 등)"""
@@ -108,6 +128,47 @@ class CoreMemory:
             'timestamp': datetime.now().isoformat()
         })
         self._save_memory()
+
+    def add_notable_hypothesis(self, hypothesis: Dict[str, Any]):
+        """MemoryWeaver가 발견한 주목할 만한 가설을 추가합니다."""
+        if 'notable_hypotheses' not in self.data:
+            self.data['notable_hypotheses'] = []
+
+        # 중복 방지: 동일한 head와 tail을 가진 가설이 이미 있는지 확인
+        exists = any(
+            h.get('head') == hypothesis.get('head') and h.get('tail') == hypothesis.get('tail')
+            for h in self.data['notable_hypotheses']
+        )
+        if not exists:
+            self.data['notable_hypotheses'].append(hypothesis)
+            self._save_memory()
+            log_memory_action(f"Added notable hypothesis: {hypothesis['head']} -> {hypothesis['tail']}")
+
+    def get_unasked_hypotheses(self) -> List[Dict[str, Any]]:
+        """아직 질문하지 않은 가설들을 가져옵니다."""
+        return [h for h in self.data.get('notable_hypotheses', []) if not h.get('asked')]
+
+    def mark_hypothesis_as_asked(self, head: str, tail: str):
+        """특정 가설을 질문했다고 표시합니다."""
+        for hypothesis in self.data.get('notable_hypotheses', []):
+            if hypothesis.get('head') == head and hypothesis.get('tail') == tail:
+                hypothesis['asked'] = True
+                self._save_memory()
+                log_memory_action(f"Marked hypothesis as asked: {head} -> {tail}")
+                break
+
+    def remove_hypothesis(self, head: str, tail: str):
+        """처리된 가설을 목록에서 제거합니다."""
+        hypotheses = self.data.get('notable_hypotheses', [])
+        original_count = len(hypotheses)
+        self.data['notable_hypotheses'] = [
+            h for h in hypotheses
+            if not (h.get('head') == head and h.get('tail') == tail)
+        ]
+        if len(self.data['notable_hypotheses']) < original_count:
+            self._save_memory()
+            log_memory_action(f"Removed hypothesis: {head} -> {tail}")
+
 
     def get_identity(self) -> Dict[str, Any]:
         """신원 정보 조회"""
