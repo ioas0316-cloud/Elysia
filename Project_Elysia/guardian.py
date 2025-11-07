@@ -22,6 +22,16 @@ from nano_core.bus import MessageBus
 from nano_core.scheduler import Scheduler
 from nano_core.registry import ConceptRegistry
 from Project_Sophia.exploration_cortex import ExplorationCortex
+from Project_Sophia.web_search_cortex import WebSearchCortex
+from Project_Sophia.knowledge_distiller import KnowledgeDistiller
+try:
+    from agents.tools import google_search, view_text_website
+except (ImportError, ModuleNotFoundError):
+    # In a testing or CI/CD environment, these tools may not be available.
+    # We can define dummy functions to allow the Guardian to initialize.
+    # The actual tests will mock these components anyway.
+    def google_search(query: str): return []
+    def view_text_website(url: str): return ""
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -50,6 +60,11 @@ class Guardian:
         self.dream_bots = [LinkerBot(), ValidatorBot()]
         self.scheduler = Scheduler(self.bus, ConceptRegistry(), self.dream_bots)
         self.exploration_cortex = ExplorationCortex(self.kg_manager, self.bus)
+        self.web_search_cortex = WebSearchCortex(
+            google_search_func=google_search,
+            view_website_func=view_text_website
+        )
+        self.knowledge_distiller = KnowledgeDistiller()
         self.daemon_process = None
 
         # Wallpaper mapping
@@ -339,7 +354,28 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"A critical error occurred during the exploration part of the dream cycle: {e}")
 
-        # --- Part 3: Integrate raw experience logs ---
+        # --- Part 3: Curiosity-driven web exploration ---
+        try:
+            self.logger.info("Dream cycle: Generating questions about the unknown...")
+            questions = self.exploration_cortex.generate_definitional_questions(num_questions=2)
+            if questions:
+                for question in questions:
+                    self.logger.info(f"Dream cycle: Asking the web: '{question}'")
+                    search_result = self.web_search_cortex.search(question)
+                    if search_result:
+                        # Distill the raw content into a knowledge hypothesis
+                        hypothesis = self.knowledge_distiller.distill(question, search_result)
+                        if hypothesis:
+                            self.bus.post(hypothesis)
+                            self.logger.info(f"Dream cycle: Distilled and posted hypothesis for question '{question}'.")
+                        else:
+                            self.logger.warning(f"Dream cycle: Could not distill knowledge for question '{question}'.")
+            else:
+                self.logger.info("Dream cycle: No lonely concepts found to ask about.")
+        except Exception as e:
+            self.logger.error(f"A critical error occurred during the web exploration part of the dream cycle: {e}")
+
+        # --- Part 4: Integrate raw experience logs ---
         # This part remains to process low-level logs into the CoreMemory knowledge base
         if not os.path.exists(self.experience_log_path):
             self.logger.info("No experience log found. Nothing to integrate.")
