@@ -44726,7 +44726,8 @@
       "type": "obsidian_note",
       "label": "시간",
       "source": "obsidian",
-      "path": "data\\corpus\\obsidian_vault\\시간.md"
+      "path": "data\\corpus\\obsidian_vault\\시간.md",
+      "wound_flag": true
     },
     {
       "id": "obsidian_note:식물",

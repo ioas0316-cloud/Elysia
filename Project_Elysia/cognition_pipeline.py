@@ -15,6 +15,8 @@ from Project_Sophia.response_styler import ResponseStyler
 # --- Import the new InsightSynthesizer ---
 from Project_Sophia.insight_synthesizer import InsightSynthesizer
 import re
+import json as _json
+import os as _os
 
 class CognitionPipeline:
     def __init__(self, cellular_world: Optional[World] = None, logger: Optional[logging.Logger] = None):
@@ -31,6 +33,9 @@ class CognitionPipeline:
         
         # --- Initialize the new InsightSynthesizer ---
         self.insight_synthesizer = InsightSynthesizer()
+        # Aliases (plain word -> canonical token), loaded lazily
+        self._aliases_path = _os.path.join('data', 'lexicon', 'aliases_ko.json')
+        self._aliases = None
 
         self.current_emotional_state = self.emotional_engine.get_current_state()
         # Other components would be initialized here...
@@ -60,12 +65,53 @@ class CognitionPipeline:
                 if self.cellular_world:
                     node_ids = [n.get('id') for n in self.kg_manager.kg.get('nodes', []) if n.get('id')]
                     mentioned = []
+                    # explicit ids present in text
                     for nid in node_ids:
                         try:
                             if nid and re.search(re.escape(nid), message, re.IGNORECASE):
                                 mentioned.append(nid)
                         except re.error:
                             continue
+                    # plain Korean words → ids that end with ":<word>", with simple particle/ending stripping
+                    def _norm(tok: str) -> str:
+                        if not tok:
+                            return tok
+                        suffixes = [
+                            '으로','에서','에게','까지','부터','이라','라서',
+                            '은','는','이','가','을','를','와','과','의','에','로','도','만'
+                        ]
+                        changed = True
+                        while changed and len(tok) > 1:
+                            changed = False
+                            for s in suffixes:
+                                if tok.endswith(s) and len(tok) > len(s):
+                                    tok = tok[:-len(s)]
+                                    changed = True
+                                    break
+                        for v in ['했다','해요','하네','하는','하다','해','했어','했니']:
+                            if tok.endswith(v) and len(tok) > len(v):
+                                tok = tok[:-len(v)]
+                                break
+                        return tok
+                    # load aliases
+                    if self._aliases is None:
+                        try:
+                            with open(self._aliases_path, 'r', encoding='utf-8') as f:
+                                self._aliases = _json.load(f)
+                        except Exception:
+                            self._aliases = {}
+                    words = list(set(re.findall(r"[가-힣]{1,20}", message)))
+                    normed = set(_norm(w) for w in words)
+                    # apply aliases
+                    mapped = set()
+                    for w in list(normed):
+                        if w in (self._aliases or {}):
+                            mapped.add(self._aliases[w])
+                    normed |= mapped
+                    for w in normed:
+                        for nid in node_ids:
+                            if nid.endswith(':' + w):
+                                mentioned.append(nid)
                     mentioned = list(set(mentioned))
                     for start in mentioned:
                         activated = self.wave_mechanics.spread_activation(

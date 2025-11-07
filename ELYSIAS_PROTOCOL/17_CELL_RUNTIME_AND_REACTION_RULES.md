@@ -38,3 +38,9 @@ Defaults
 - Reactions require ≥1 `experience_*` link for conclusions.
 - Operators limited to clarify/link/compose/validate by default for Trial‑001.
 
+Refinement Cycle (Dream)
+- Detect ambiguous sprouts (pattern rules: self‑pairs, generic couplings)
+- Suggest candidates (domain table; see APPENDIX_REFINEMENT_LOOP)
+- Auto‑score (v0): prior tail frequency, KG presence boost
+- Spawn refined meaning with small energy (optional), record hypothesis `{source='Refinement'}`
+- Telemetry: guardian log; recent list via `/emergence/recent`

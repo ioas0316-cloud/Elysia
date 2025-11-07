@@ -106,6 +106,9 @@ class Guardian:
         self.last_experience_log_size = 0
         if os.path.exists(self.experience_log_path):
             self.last_experience_log_size = os.path.getsize(self.experience_log_path)
+        # Config-derived behaviors
+        self.disable_wallpaper = getattr(self, 'disable_wallpaper', False)
+        self._wallpaper_missing_logged = False
 
     def setup_logging(self):
         """Sets up a rotating log for the guardian."""
@@ -210,6 +213,8 @@ class Guardian:
         self.time_to_idle = guardian_config.get('time_to_idle_sec', 300)
         self.idle_check_interval = guardian_config.get('idle_check_interval_sec', 10)
         self.learning_interval = guardian_config.get('learning_interval_sec', 60)
+        self.awake_sleep_sec = guardian_config.get('awake_sleep_sec', 1)
+        self.disable_wallpaper = bool(guardian_config.get('disable_wallpaper', False))
 
     # --- Life Cycle and State Management ---
     def monitor_and_protect(self):
@@ -249,7 +254,7 @@ class Guardian:
             self.logger.info(f"No activity for {self.time_to_idle}s. Transitioning to IDLE to rest and dream.")
             self.change_state(ElysiaState.IDLE)
         
-        time.sleep(1) # High-frequency check in AWAKE state
+        time.sleep(max(0.2, float(getattr(self, 'awake_sleep_sec', 1)))) # configurable heartbeat
 
     def run_idle_cycle(self):
         """Resting and learning state. Low energy, background processing."""
@@ -353,6 +358,28 @@ class Guardian:
                         hypothesis = {"head": head, "tail": tail, "confidence": 0.75, "source": "Cellular_Automata", "asked": False}
                         self.core_memory.add_notable_hypothesis(hypothesis)
                         self.logger.info(f"New hypothesis '{head} -> {tail}' created from emergent insight and sent to Truth Seeker.")
+
+                        # Refinement loop: nudge ambiguous sprouts toward meaningful names
+                        try:
+                            refined_candidates = self._suggest_refinements(head, tail)
+                            if refined_candidates:
+                                # Auto score candidates using simple signals (KG presence, prior hypotheses)
+                                r_head, r_tail = self._pick_best_refinement(refined_candidates)
+                                refined_id = f"meaning:{r_head}_{r_tail}"
+                                if refined_id not in self.cellular_world.cells:
+                                    # spawn refined child with small energy boost
+                                    ref = self.cellular_world.add_cell(refined_id, properties={"parents": [head, tail], "refined_from": child_cell.id}, initial_energy=2.0)
+                                # record refined hypothesis with slightly higher confidence (guided)
+                                self.core_memory.add_notable_hypothesis({
+                                    "head": r_head,
+                                    "tail": r_tail,
+                                    "confidence": 0.8,
+                                    "source": "Refinement",
+                                    "asked": False
+                                })
+                                self.logger.info(f"Refined meaning suggested: '{refined_id}' from '{child_cell.id}'.")
+                        except Exception as _e:
+                            self.logger.error(f"Refinement error: {_e}")
         except Exception as e:
             self.logger.error(f"Error during the cellular automata simulation part of the dream cycle: {e}", exc_info=True)
 
@@ -418,11 +445,82 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Error during the experience integration part of the dream cycle: {e}", exc_info=True)
 
+    def _suggest_refinements(self, a: str, b: str):
+        """Return a list of refined (head, tail) candidates for an ambiguous pair.
+        Heuristics only; keeps with ELYSIAN_CYTOLOGY principle of gentle guidance.
+        """
+        try:
+            # strip namespaces like 'obsidian_note:' if present for readability
+            def _clean(x: str) -> str:
+                return x.split(':', 1)[-1] if ':' in x else x
+            A, B = _clean(a), _clean(b)
+
+            # candidate maps
+            cand = []
+            # self-pair special cases
+            if A == B == '빛':
+                cand = [(A, '반사'), (A, '산란'), (A, '간섭')]
+            # common pairs narrowed by domain hints
+            key = (A, B)
+            table = {
+                ('바다', '빛'): [('바다', '반사'), ('바다', '산란')],
+                ('땅', '빛'): [('땅', '반사'), ('땅', '광합성')],
+                ('빛', '에너지'): [('빛', '광합성'), ('빛', '광전효과')],
+                ('달', '태양'): [('달', '식'), ('달', '위상')],
+                ('산', '하늘'): [('산', '기상경계'), ('산', '등정')],
+                ('언어', '하늘'): [('언어', '울림'), ('언어', '전송'), ('언어', '초월')],
+                ('강', '하늘'): [('강', '증발'), ('강', '물순환')],
+                ('사랑', '태양'): [('사랑', '광휘'), ('사랑', '중심')],
+                ('사랑', '산'): [('사랑', '등정'), ('사랑', '인내')],
+            }
+            if not cand and key in table:
+                cand = table[key]
+            # fallback: if second token is generic '빛', propose '반사'
+            if not cand and B == '빛':
+                cand = [(A, '반사')]
+            return cand
+        except Exception:
+            return []
+
+    def _pick_best_refinement(self, candidates):
+        """Choose the best (head, tail) by simple automatic scoring.
+        Signals: prior hypotheses frequency for tail, KG presence of tail token.
+        """
+        try:
+            from collections import Counter
+            hyps = self.core_memory.data.get('notable_hypotheses', [])
+            tails = [h.get('tail') for h in hyps if h.get('tail')]
+            tail_freq = Counter(tails)
+            # Build a quick KG presence set for id suffixes
+            try:
+                from tools.kg_manager import KGManager
+                kgm = KGManager()
+                id_set = set(n.get('id') for n in kgm.kg.get('nodes', []) if n.get('id'))
+            except Exception:
+                id_set = set()
+
+            def score(pair):
+                h, t = pair
+                s = 0.0
+                s += 1.0 * (tail_freq.get(t, 0))
+                # if KG has an id that endswith :tail, give a small boost
+                if any(nid.endswith(':' + t) for nid in id_set):
+                    s += 0.5
+                return s
+
+            best = max(candidates, key=score)
+            return best
+        except Exception:
+            return candidates[0]
+
     def set_wallpaper_for_emotion(self, emotion_key):
         """Changes the Windows desktop wallpaper based on emotion."""
         # This function is Windows-specific and may not work on other OSes.
         if sys.platform != "win32":
             self.logger.info(f"Wallpaper change skipped: feature is for Windows only.")
+            return
+        if getattr(self, 'disable_wallpaper', False):
+            # Quiet mode: skip wallpaper changes entirely
             return
         try:
             filename = self.wallpaper_map.get(emotion_key)
@@ -431,7 +529,9 @@ class Guardian:
                 return
             img_path = os.path.join(self.faces_dir, filename)
             if not os.path.exists(img_path):
-                self.logger.error(f"Wallpaper image not found: {img_path}")
+                if not self._wallpaper_missing_logged:
+                    self.logger.info(f"Wallpaper image not found (quiet): {img_path}")
+                    self._wallpaper_missing_logged = True
                 return
 
             SPI_SETDESKWALLPAPER = 20

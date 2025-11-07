@@ -79,7 +79,6 @@ def visualize_kg(start_node_id: str = None):
 
 
     canvas = Canvas(width=384, height=384, bg_color=(20, 20, 35))
-    canvas = Canvas(width=384, height=384, bg_color=(20, 20, 35))
     _draw_starfield(canvas, seed_key=start_node_id or 'kg')
 
     min_coord, max_coord = [float('inf')] * 3, [float('-inf')] * 3
@@ -176,7 +175,7 @@ def visualize_kg(start_node_id: str = None):
         legend_x, legend_y = 10, 10
         box_w, box_h = 14, 14
         gap = 6
-                items = [
+        items = [
             ((46,204,113), 'Free (green)'),
             ((241,196,15), 'Moderate (yellow)'),
             ((230,126,34), 'Slow (orange)'),
@@ -197,7 +196,7 @@ def visualize_kg(start_node_id: str = None):
         legend_x, legend_y = 10, 110
         box_w, box_h = 14, 14
         gap = 6
-                items_clean = [
+        items_clean = [
             ((46,204,113), 'Free (green)'),
             ((241,196,15), 'Moderate (yellow)'),
             ((230,126,34), 'Slow (orange)'),
@@ -273,15 +272,19 @@ def render_kg(start_node_id: str | None = None, out_name: str | None = None) -> 
 
 
 def render_placeholder(out_name: str = 'monitor_echo.png', message: str = 'No echo to display yet') -> str:
+    """Render a simple placeholder image with a grid and message."""
+    canvas = Canvas(width=512, height=512, bg_color=(20, 20, 35))
+    try:
+        # subtle grid
+        for i in range(0, 513, 32):
             canvas.draw.line([(i, 0), (i, 512)], fill=(35, 35, 55))
             canvas.draw.line([(0, i), (512, i)], fill=(35, 35, 55))
-        # Message box
+        # message box
         box = [40, 220, 472, 300]
         canvas.draw.rectangle(box, fill=(30, 30, 50))
         canvas.draw.text((52, 242), message, fill=(220, 220, 235))
     except Exception:
         pass
-    import os
     out_path = os.path.join("data", out_name)
     canvas.render(out_path, voxel_size=6)
     return out_path

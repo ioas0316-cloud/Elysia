@@ -6,7 +6,8 @@
   <title>Elysia Chat</title>
   <style>
     body { background:#1a1a1a; color:#e0e0e0; font-family: Arial, sans-serif; margin:0; height:100vh; display:flex; justify-content:center; align-items:center; }
-    .container { width:80%; max-width:1000px; height:90vh; background:#2a2a2a; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,.5); display:flex; overflow:hidden; position:relative; }
+    /* Wider by default and resizable horizontally */
+    .container { width:96%; max-width:1600px; height:90vh; background:#2a2a2a; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,.5); display:flex; overflow:auto; position:relative; resize: horizontal; }
     .chat-panel { flex:2; display:flex; flex-direction:column; padding:20px; }
     .header { padding-bottom:10px; border-bottom:1px solid #444; margin-bottom:10px; text-align:center; }
     .header h1 { margin:0; font-size:1.5em; }
@@ -18,7 +19,8 @@
     .input-area { display:flex; }
     input[type=text]{ flex:1; background:#333; border:1px solid #555; border-radius:5px; color:#e0e0e0; padding:10px; outline:none; }
     button{ background:#81a1c1; color:#2e3440; border:none; border-radius:5px; padding:10px 15px; margin-left:10px; cursor:pointer; }
-    .side { flex:1; background:#202020; padding:20px; display:flex; align-items:center; justify-content:center; }
+    /* Hide side panel for simple chat-only view */
+    .side { display:none; }
     #image-display{ max-width:100%; max-height:80%; border-radius:5px; display:none; }
     #image-placeholder{ color:#555; text-align:center; }
     .lamp{ position:fixed; left:16px; bottom:16px; width:14px; height:14px; border-radius:50%; background:#444; border:1px solid #666; box-shadow:0 0 8px rgba(0,0,0,.6); }
@@ -42,14 +44,7 @@
       </div>
       <div class="messages" id="messages"></div>
       <div class="input-area">
-      <div style="margin-top:8px; font-size:0.9em; display:flex; gap:8px; flex-wrap:wrap;">
-        <button id="chip-link"   style="background:#444;color:#ddd;border:1px solid #666;">nano: link</button>
-        <button id="chip-verify" style="background:#444;color:#ddd;border:1px solid #666;">nano: verify</button>
-        <button id="chip-sum"    style="background:#444;color:#ddd;border:1px solid #666;">nano: summarize</button>
-        <button id="chip-comp"   style="background:#444;color:#ddd;border:1px solid #666;">nano: compose</button>
-        <button id="chip-exp"    style="background:#444;color:#ddd;border:1px solid #666;">nano: explain</button>
-      </div>
-        <input type="text" id="userInput" placeholder="Type a message... (viz: topic or nano: link/verify/summarize/compose/explain ...)" autocomplete="off">
+        <input type="text" id="userInput" placeholder="메시지를 입력하세요..." autocomplete="off">
         <button id="sendBtn">Send</button>
       </div>
     </div>
@@ -58,14 +53,14 @@
       <img id="image-display" src="" alt="Visualization">
     </div>
   </div>
-  <div class="lamp off" id="lamp" title="Background learning lamp
-Green=enabled, Yellow=busy, Red=stopped"></div>
+  <!-- lamp hidden in simple chat-only view -->
 
   <script>
     const messagesDiv = document.getElementById('messages');
     const userInput = document.getElementById('userInput');
     const imageDisplay = document.getElementById('image-display');
     const imagePlaceholder = document.getElementById('image-placeholder');
+    let lastEmergenceSeen = 0;
 
     function addMessage(text, sender){
       const el = document.createElement('div');
@@ -86,6 +81,7 @@ Green=enabled, Yellow=busy, Red=stopped"></div>
         await handleVisualization(concept);
       } else {
         await handleChat(trimmed);
+        try { await showRefinementsSummary(); } catch(e){}
       }
     }
 
@@ -102,6 +98,25 @@ Green=enabled, Yellow=busy, Red=stopped"></div>
           } else addMessage(String(r), 'elysia');
         } else if(data.error){ addMessage(data.error, 'elysia'); }
       }catch(e){ addMessage('Disconnected.', 'elysia'); }
+    }
+
+    async function showRefinementsSummary(){
+      try{
+        const res = await fetch('/emergence/recent');
+        const data = await res.json();
+        const items = (data && data.items) ? data.items : [];
+        if(!Array.isArray(items) || items.length===0){ lastEmergenceSeen = 0; return; }
+        if(lastEmergenceSeen === 0){ lastEmergenceSeen = items.length; return; }
+        if(items.length > lastEmergenceSeen){
+          const newly = items.slice(0, items.length - lastEmergenceSeen);
+          const refined = newly.filter(it=> (it.source||'') === 'Refinement');
+          if(refined.length){
+            const names = refined.map(it=>it.name).join(', ');
+            addMessage('(정제됨: ' + names + ')', 'elysia');
+          }
+          lastEmergenceSeen = items.length;
+        }
+      }catch(e){ /* ignore */ }
     }
 
     async function handleVisualization(concept){
@@ -137,15 +152,8 @@ Green=enabled, Yellow=busy, Red=stopped"></div>
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('sendBtn').addEventListener('click', sendMessage);
       userInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') sendMessage(); });
-      document.getElementById('bg-on').addEventListener('click', bgOn);
-      document.getElementById('bg-off').addEventListener('click', bgOff);
-      refreshBgStatus(); setInterval(refreshBgStatus, 10000);
-            function fill(cmd){ userInput.value = cmd; userInput.focus(); }
-      document.getElementById('chip-link').addEventListener('click', ()=>fill("nano: link subject=concept:courage object=role:soldier rel=related_to"));
-      document.getElementById('chip-verify').addEventListener('click', ()=>fill("nano: verify subject=concept:courage object=role:soldier"));
-      document.getElementById('chip-sum').addEventListener('click', ()=>fill("nano: summarize target=concept:courage"));
-      document.getElementById('chip-comp').addEventListener('click', ()=>fill("nano: compose a=concept:courage b=role:mother rel2=supports"));
-      document.getElementById('chip-exp').addEventListener('click', ()=>fill("nano: explain target=concept:courage text=\"Action despite fear.\""));
+      // BG controls and nano chips hidden in simple view
+      setInterval(showRefinementsSummary, 6000);
     });
 
     // Backward compatibility: if an old template uses inline onclick/onchange

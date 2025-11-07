@@ -20,6 +20,12 @@
         <h2 style="margin:0;">Elysia Brain Monitor</h2>
         <a href="/chat-ui" style="text-decoration:none;">채팅창 열기 →</a>
       </div>
+      <div class="row" style="margin:6px 0;">
+        <button onclick="bgOn()">BG ON</button>
+        <button onclick="bgOff()">BG OFF</button>
+        <button onclick="showRecent()">최근 창발</button>
+        <span id="bgStat" style="font-size:13px; color:#9aa; margin-left:6px;">BG: …</span>
+      </div>
       <div class="row" title="여기서 지도를 그리는 방식을 선택할 수 있어요.">
         <input id="startNode" placeholder="시작 노드(비우면 전체)" title="여기에 개념 이름을 적으면 그 지점에서 파동을 계산해요." />
         <button onclick="renderKG()" title="입력한 시작 노드에서 3D 지식을 그립니다. 비우면 전체 구조를 그립니다.">Render KG</button>
@@ -79,8 +85,17 @@
       (function loop(){
         if (document.getElementById('auto').checked) renderEcho();
         updateStatus();
+        updateBG();
         setTimeout(loop, 4000);
       })();
+      async function updateBG(){
+        try { const r = await fetch('/bg/status'); const s = await r.json(); if (s && !s.error) { document.getElementById('bgStat').innerText = `BG: ${s.enabled?'ON':'OFF'} · running=${s.running}`; } } catch(e){}
+      }
+      async function bgOn(){ try{ await fetch('/bg/on', {method:'POST'}); updateBG(); }catch(e){} }
+      async function bgOff(){ try{ await fetch('/bg/off', {method:'POST'}); updateBG(); }catch(e){} }
+      async function showRecent(){
+        try{ const r = await fetch('/emergence/recent'); const s = await r.json(); if(s.items && s.items.length){ const lines = s.items.map(it=>`- ${it.name}${it.confidence?` (conf=${it.confidence})`:''}`).join('<br/>'); appendMsg('모니터', '최근 창발 meaning:*<br/>'+lines); } else { appendMsg('모니터', '최근 창발 기록이 없어요.'); } }catch(e){ appendMsg('모니터', '최근 창발 조회 실패'); }
+      }
     </script>
 
     <!-- 고정(플로팅) 채팅 위젯 -->

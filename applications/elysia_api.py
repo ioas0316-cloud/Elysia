@@ -13,6 +13,11 @@ except Exception:
     ingest_subject = None
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.lens_profile import LensProfile
+from tools.bg_control import status as bg_status, start_daemon as bg_start, stop_daemon as bg_stop
+from Project_Elysia.core_memory import CoreMemory
+import re
+import json as _json
+import os as _os
 import math
 import os
 
@@ -182,6 +187,113 @@ def chat_api():
     if 'message' not in data:
         return jsonify({'error': 'message required'}), 400
     user_input = data['message']
+    # Teach alias: 'teach: A=B'
+    try:
+        m = re.match(r"^\s*teach\s*:\s*(.+?)\s*[=\-\>]\s*(.+)\s*$", user_input, re.IGNORECASE)
+        if m:
+            a, b = m.group(1).strip(), m.group(2).strip()
+            path = _os.path.join('data','lexicon','aliases_ko.json')
+            _os.makedirs(_os.path.dirname(path), exist_ok=True)
+            data_alias = {}
+            try:
+                with open(path,'r',encoding='utf-8') as f:
+                    data_alias = _json.load(f)
+            except Exception:
+                data_alias = {}
+            data_alias[a] = b
+            try:
+                with open(path,'w',encoding='utf-8') as f:
+                    _json.dump(data_alias,f,ensure_ascii=False,indent=2)
+                return jsonify({'response': {'type': 'text', 'text': f"학습 완료: {a} → {b}"}})
+            except Exception as e:
+                return jsonify({'response': {'type': 'text', 'text': f"저장 실패: {e}"}})
+    except Exception:
+        pass
+    # Gentle, immediate coaching for wounds/contradictions
+    try:
+        if isinstance(user_input, str) and re.search(r'(상처|모순|오류)', user_input):
+            try:
+                # Log a best-effort immune.detect event
+                from nano_core.bus import MessageBus
+                from nano_core.scheduler import Scheduler
+                from nano_core.registry import ConceptRegistry
+                from nano_core.message import Message
+                from nano_core.bots.immunity import ImmunityBot
+                bus = MessageBus(); reg = ConceptRegistry(); sched = Scheduler(bus, reg, [ImmunityBot()])
+                bus.post(Message('immune.detect', {
+                    'cell_id': 'obsidian_note:시간',
+                    'reason': 'user_report',
+                    'evidence_paths': []
+                }))
+                sched.step(2)
+            except Exception:
+                pass
+            coach_text = "상처를 발견했어요. 어떤 부분이 불편했나요? 근거(링크/메모)를 하나 남겨 주시면, 치유(재결합)를 시도할게요."
+            return jsonify({'response': {'type': 'text', 'text': coach_text}})
+    except Exception:
+        pass
+
+    # Acknowledge obsidian_note mentions so users see immediate feedback
+    try:
+        if isinstance(user_input, str) and 'obsidian_note:' in user_input:
+            import re as _re
+            ids = list(set(_re.findall(r'obsidian_note:[^\s\"]+', user_input)))
+            if ids:
+                txt = "에너지를 먹였어요: " + ", ".join(ids) + " — 꿈에서 새 의미를 탐색해볼게요."
+                return jsonify({'response': {'type': 'text', 'text': txt}})
+    except Exception:
+        pass
+
+    # Evidence handoff: accept "증거: <path>" and log an immune.recombine attempt
+    try:
+        if isinstance(user_input, str):
+            m = re.search(r"^\s*증거\s*:\s*(.+)$", user_input.strip())
+            if m:
+                ev = m.group(1).strip()
+                try:
+                    from nano_core.bus import MessageBus
+                    from nano_core.scheduler import Scheduler
+                    from nano_core.registry import ConceptRegistry
+                    from nano_core.message import Message
+                    from nano_core.bots.immunity import ImmunityBot
+                    bus = MessageBus(); reg = ConceptRegistry(); sched = Scheduler(bus, reg, [ImmunityBot()])
+                    bus.post(Message('immune.recombine', {
+                        'participants': ['obsidian_note:시간'],
+                        'outcome': 'pending',
+                        'changes': [],
+                        'evidence_paths': [ev]
+                    }))
+                    sched.step(2)
+                except Exception:
+                    pass
+                ack = f"증거 확인했어요: {ev} — 꿈(IDLE)에서 치유를 시도하고 결과를 기록할게요."
+                return jsonify({'response': {'type': 'text', 'text': ack}})
+    except Exception:
+        pass
+
+    # Recent emergent meanings (simple chat keyword)
+    try:
+        if isinstance(user_input, str) and ('최근 창발' in user_input or 'recent meaning' in user_input.lower()):
+            try:
+                cm = CoreMemory()
+                hyps = cm.data.get('notable_hypotheses', [])[-5:]
+                if not hyps:
+                    txt = '최근 창발 기록이 아직 없어요.'
+                else:
+                    lines = []
+                    for h in hyps[::-1]:
+                        head = h.get('head','?'); tail = h.get('tail','?'); conf = h.get('confidence')
+                        name = f"meaning:{head}_{tail}"
+                        if conf is not None:
+                            lines.append(f"- {name} (conf={conf})")
+                        else:
+                            lines.append(f"- {name}")
+                    txt = '최근 창발 meaning:*\n' + '\n'.join(lines)
+                return jsonify({'response': {'type': 'text', 'text': txt}})
+            except Exception:
+                pass
+    except Exception:
+        pass
     try:
         response, emotional_state = cognition_pipeline.process_message(user_input)
         resp_type = (response or {}).get('type') if isinstance(response, dict) else 'text'
@@ -215,6 +327,55 @@ def chat_api():
         return jsonify(payload)
     except Exception:
         return jsonify({'error': 'chat error'}), 500
+
+
+# ---- Background controls ----
+@app.route('/bg/status')
+def bg_status_api():
+    try:
+        return jsonify(bg_status())
+    except Exception:
+        return jsonify({'error': 'bg status error'}), 500
+
+
+@app.route('/bg/on', methods=['POST'])
+def bg_on_api():
+    try:
+        data = request.get_json(silent=True) or {}
+        interval = data.get('interval')
+        st = bg_start(interval)
+        return jsonify(st)
+    except Exception:
+        return jsonify({'error': 'bg on error'}), 500
+
+
+@app.route('/bg/off', methods=['POST'])
+def bg_off_api():
+    try:
+        st = bg_stop()
+        return jsonify(st)
+    except Exception:
+        return jsonify({'error': 'bg off error'}), 500
+
+
+# ---- Emergence recent API ----
+@app.route('/emergence/recent')
+def emergence_recent():
+    try:
+        cm = CoreMemory()
+        hyps = cm.data.get('notable_hypotheses', [])
+        items = []
+        for h in hyps[-10:][::-1]:
+            items.append({
+                'head': h.get('head'),
+                'tail': h.get('tail'),
+                'confidence': h.get('confidence'),
+                'name': f"meaning:{h.get('head')}_{h.get('tail')}",
+                'source': h.get('source')
+            })
+        return jsonify({'items': items})
+    except Exception:
+        return jsonify({'error': 'emergence error'}), 500
 
 
 @app.route('/monitor/kg')
