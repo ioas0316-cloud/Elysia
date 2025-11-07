@@ -12,7 +12,14 @@ class LinkerBot:
     def handle(self, msg: Message, reg: ConceptRegistry, bus: MessageBus) -> None:
         subj = str(msg.slots.get('subject', '')).strip()
         obj = str(msg.slots.get('object', '')).strip()
-        rel = str(msg.slots.get('rel', 'related_to'))
-        if subj and obj:
-            reg.add_link(subj, obj, rel=rel)
+        rel = str(msg.slots.get('relation', 'related_to'))
+
+        if not subj or not obj:
+            return
+
+        # Pass through any other metadata as properties
+        known_slots = ['subject', 'object', 'relation']
+        properties = {k: v for k, v in msg.slots.items() if k not in known_slots}
+
+        reg.add_link(subj, obj, rel=rel, properties=properties)
 

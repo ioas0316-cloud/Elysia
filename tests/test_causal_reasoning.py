@@ -67,7 +67,8 @@ class TestCausalReasoning(unittest.TestCase):
         facts = self.reasoner.deduce_facts(message)
 
         self.assertEqual(len(facts), 1)
-        expected_fact = "'소크라테스'은(는) '인간'와(과) 'is_a' 관계를 가집니다."
+        # Check for the natural language version of the 'is_a' relationship
+        expected_fact = "'소크라테스'은(는) '인간'의 한 종류예요."
         self.assertIn(expected_fact, facts)
 
     def test_ambiguous_query_returns_all_related_facts(self):
