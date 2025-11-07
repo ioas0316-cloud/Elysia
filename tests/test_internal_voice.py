@@ -54,7 +54,7 @@ class TestInternalVoice(unittest.TestCase):
         """
         Tests if the pipeline provides a learning message when no relevant memory is found.
         """
-        # 1. Process a message with no relevant memory
+        # 1. Process a message with no relevant memory in the KG
         response, _ = self.pipeline.process_message("Tell me about something new.")
 
         # 2. Assert that the response indicates a willingness to learn

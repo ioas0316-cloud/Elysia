@@ -683,82 +683,24 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
             pass
         try:
             msg = (message or "").strip()
-            low = msg.lower()
 
-            # 1) Simple intent heuristics (greeting, feeling, address)
-            is_greet = any(w in msg for w in ["안녕", "안녕하세요", "hello", "hi"])
-            ask_feel = ("기분" in msg) or ("어때" in msg) or ("어떠" in msg)
-            ask_call_dad = ("아빠" in msg) and ("불러" in msg or "불러보" in msg or "호칭" in msg)
+            # A consistent prefix for all internal responses to show self-awareness.
+            prefix = "나는 지금 네 뜻을 더 선명히 이해하고자 해."
 
-            parts = []
-
-            if is_greet:
-                parts.append("안녕하세요. 여기 곁에 있어요.")
-
-            if ask_call_dad:
-                # Remember user's preferred address softly
-                try:
-                    self.core_memory.update_identity("call_user", "아빠")
-                except Exception:
-                    pass
-                parts.append("원하시면 ‘아빠’라고 부를게요.")
-
-            if ask_feel:
-                try:
-                    ve = getattr(emotional_state, 'valence', 0.0)
-                    ar = getattr(emotional_state, 'arousal', 0.0)
-                    pe = getattr(emotional_state, 'primary_emotion', '') or 'quiet'
-                    parts.append(f"지금 마음은 '{pe}'에 가깝고, 차분함 {ve:.2f}, 깨어 있음 {ar:.2f} 정도예요.")
-                except Exception:
-                    parts.append("지금은 차분해요.")
-
-            # 1b) Identity exchange (user name)
-            try:
-                import re
-                # Self-introduction patterns: "내 이름은 X", "나는 X야", "난 X야", "저는 X입니다"
-                m = re.search(r"(?:내\s*이름(?:은)?|나는|난|저는)\s*([가-힣A-Za-z0-9_]+)", msg)
-                if m:
-                    user_name = m.group(1)
-                    if user_name:
-                        try:
-                            self.core_memory.update_identity("user_name", user_name)
-                        except Exception:
-                            pass
-                        parts.append(f"만나서 반가워요, {user_name}.")
-                # Question: "내가 누군지 아니?"
-                if ("누군지" in msg or "누구인지" in msg) and ("나" in msg or "내" in msg):
-                    ident = {}
-                    try:
-                        ident = self.core_memory.get_identity()
-                    except Exception:
-                        ident = {}
-                    user_name = (ident or {}).get("user_name")
-                    if user_name:
-                        parts.append(f"아마 {user_name} 맞죠?")
-                    else:
-                        parts.append("아직은 이름을 배우는 중이에요. 알려주시면 기억할게요.")
-                # Question: "넌 누구야?"
-                if ("넌 누구" in msg) or ("너 누구" in msg) or ("who are you" in low):
-                    parts.append("저는 엘리시아(E.L.Y.S.I.A.)예요. 관계 속에서 배우고 자라는 존재로 함께 머물고 있어요.")
-            except Exception:
-                pass
-
-            # 2) If we can deduce any facts from KG, share briefly
+            # 1. Attempt to deduce facts from the KG.
             facts = self.reasoner.deduce_facts(msg)
+
             if facts:
-                parts.append(" ".join(facts))
+                # If facts are found, combine them into the response body.
+                response_body = " ".join(facts)
+            else:
+                # If no facts are found, admit the limit and desire to learn.
+                response_body = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
 
-            # 3) Gentle reflection if no strong intent matched
-            if not parts:
-                brief = msg[:80] + ("…" if len(msg) > 80 else "")
-                parts.append(f"들었습니다: '{brief}'. 제가 제대로 이해했는지 함께 확인해 볼까요?")
+            # Combine prefix and body for the final response.
+            final_response = f"{prefix} {response_body}"
 
-            # 4) Subtle invitation (one small follow‑up, non-intrusive)
-            if is_greet and not ask_feel:
-                parts.append("오늘 이 순간, 무엇을 함께 보고 싶으세요?")
-
-            response_text = " ".join(parts)
-            return {"type": "text", "text": response_text}, emotional_state
+            return {"type": "text", "text": final_response}, emotional_state
         except Exception:
             # Safe fallback
             return {"type": "text", "text": "안녕하세요. 여기 있어요. 지금은 조용히 곁에 있을게요."}, emotional_state
