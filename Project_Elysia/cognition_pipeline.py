@@ -55,10 +55,13 @@ logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(name)s - %(leve
 pipeline_logger = logging.getLogger(__name__)
 # --- End Logging Configuration ---
 
+from Project_Sophia.core.world import World
+
+
 class CognitionPipeline:
-    def __init__(self):
+    def __init__(self, cellular_world: Optional[World] = None):
         self.core_memory = CoreMemory()
-        self.reasoner = LogicalReasoner()
+        self.reasoner = LogicalReasoner(cellular_world=cellular_world)
         self.arithmetic_cortex = ArithmeticCortex()
         self.action_cortex = ActionCortex()
         self.tool_executor = ToolExecutor()
