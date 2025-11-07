@@ -18,6 +18,10 @@ from Project_Sophia.self_awareness_core import SelfAwarenessCore
 from .memory_weaver import MemoryWeaver
 from .core_memory import CoreMemory
 from tools.kg_manager import KGManager
+from nano_core.bus import MessageBus
+from nano_core.scheduler import Scheduler
+from nano_core.registry import ConceptRegistry
+from Project_Sophia.exploration_cortex import ExplorationCortex
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -39,6 +43,13 @@ class Guardian:
         self.core_memory = CoreMemory()
         self.kg_manager = KGManager()
         self.memory_weaver = MemoryWeaver(self.core_memory, self.kg_manager)
+        self.bus = MessageBus()
+        # Import bots here to avoid circular dependencies if bots use Guardian
+        from nano_core.bots.linker import LinkerBot
+        from nano_core.bots.validator import ValidatorBot
+        self.dream_bots = [LinkerBot(), ValidatorBot()]
+        self.scheduler = Scheduler(self.bus, ConceptRegistry(), self.dream_bots)
+        self.exploration_cortex = ExplorationCortex(self.kg_manager, self.bus)
         self.daemon_process = None
 
         # Wallpaper mapping
@@ -318,7 +329,17 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"A critical error occurred during the memory weaving part of the dream cycle: {e}")
 
-        # --- Part 2: Integrate raw experience logs ---
+        # --- Part 2: Explore the known to hypothesize the unknown ---
+        try:
+            self.logger.info("Dream cycle: Exploring inner cosmos for new connections...")
+            self.exploration_cortex.explore_and_hypothesize(num_hypotheses=3)
+            # Process the hypotheses and any subsequent actions (like linking)
+            processed_in_dream = self.scheduler.step(max_steps=50)
+            self.logger.info(f"Dream cycle: Processed {processed_in_dream} nano-bot actions from exploration.")
+        except Exception as e:
+            self.logger.error(f"A critical error occurred during the exploration part of the dream cycle: {e}")
+
+        # --- Part 3: Integrate raw experience logs ---
         # This part remains to process low-level logs into the CoreMemory knowledge base
         if not os.path.exists(self.experience_log_path):
             self.logger.info("No experience log found. Nothing to integrate.")

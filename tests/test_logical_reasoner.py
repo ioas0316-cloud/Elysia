@@ -51,10 +51,10 @@ class TestLogicalReasonerIntegration(unittest.TestCase):
         # 파이프라인을 통해 메시지 처리
         response, _ = self.pipeline.process_message(test_message)
 
-        # More robust check
+        # More robust check for natural language response
         self.assertIn("소크라테스", response['text'])
         self.assertIn("인간", response['text'])
-        self.assertIn("is_a", response['text'])
+        self.assertIn("의 한 종류예요", response['text'])
         print("\n--- 테스트 통과 ---")
         print(f"입력: '{test_message}'")
         print(f"응답: {response}")

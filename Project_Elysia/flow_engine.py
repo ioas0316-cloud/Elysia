@@ -5,7 +5,10 @@ import os
 import random
 import time
 import yaml
+
 from infra.telemetry import Telemetry
+from nano_core.bus import MessageBus
+from nano_core.message import Message
 
 
 DEFAULT_FLOW_PATH = os.path.join("data", "flows", "generic_dialog.yaml")
@@ -25,6 +28,7 @@ class FlowEngine:
 
     def __init__(
         self,
+        bus: MessageBus,
         kg_manager=None,
         orchestrator=None,
         working_memory=None,
@@ -34,6 +38,7 @@ class FlowEngine:
         flow_path: str = DEFAULT_FLOW_PATH,
         enabled: bool = True,
     ):
+        self.bus = bus
         self.kg = kg_manager
         self.orchestrator = orchestrator
         self.wm = working_memory
@@ -141,6 +146,31 @@ class FlowEngine:
             ("suggest", w_sugg * s_sugg + random.uniform(0, 0.05)),
         ]
         score.sort(key=lambda x: x[1], reverse=True)
+
+        top_choice, top_score = score[0] if score else (None, 0.0)
+
+        # Post to nano_core bus
+        if top_choice:
+            # --- Gravity Well ---
+            gravity_bonus = 0.0
+            if self.kg:
+                # Map operator to a core concept, then get its mass
+                concept_map = {"reflect": "value:love", "clarify": "value:clarity", "suggest": "value:creativity"}
+                concept_id = concept_map.get(top_choice)
+                if concept_id:
+                    node = self.kg.get_node(concept_id)
+                    gravity_bonus = 0.5 * (node.get("mass", 0.0) if node else 0.0)
+            final_strength = float(top_score) + gravity_bonus
+            # --- End Gravity Well ---
+
+            msg = Message(
+                verb=top_choice,
+                slots={"raw_message": message, "context": context},
+                src="FlowEngine",
+                strength=final_strength,
+            )
+            self.bus.post(msg)
+
         # Telemetry: record decision signals (no sensitive content)
         try:
             if self.telemetry:
@@ -151,7 +181,7 @@ class FlowEngine:
                     {
                         'weights': {'clarify': w_clar, 'reflect': w_refl, 'suggest': w_sugg},
                         'signals': {'clarify': s_clar, 'reflect': s_refl, 'suggest': s_sugg},
-                        'top_choice': score[0][0] if score else None,
+                        'top_choice': top_choice,
                         'message_len': len(message or ''),
                         'evidence': {'echo_top': echo_sorted},
                     }

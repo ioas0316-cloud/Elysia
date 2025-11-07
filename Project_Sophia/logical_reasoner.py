@@ -63,10 +63,28 @@ class LogicalReasoner:
             # Find general relationships
             for edge in self.kg_manager.kg.get('edges', []):
                 if edge.get('relation') == 'causes': continue
+
+                fact_made = False
                 if edge['source'] == entity:
-                    all_possible_facts.add(f"'{edge['source']}'은(는) '{edge['target']}'와(과) '{edge['relation']}' 관계를 가집니다.")
+                    relation = edge['relation']
+                    target = edge['target']
+                    if relation == 'supports':
+                        all_possible_facts.add(f"저는 '{entity}'이(가) '{target}'을(를) 뒷받침한다고 생각해요.")
+                    elif relation == 'is_a':
+                        all_possible_facts.add(f"'{entity}'은(는) '{target}'의 한 종류예요.")
+                    else:
+                        all_possible_facts.add(f"'{entity}'은(는) '{target}'와(과) '{relation}' 관계를 가집니다.")
+                    fact_made = True
+
                 elif edge['target'] == entity:
-                    all_possible_facts.add(f"'{entity}'은(는) '{edge['source']}'와(과) '{edge['relation']}' 관계를 가집니다.")
+                    relation = edge['relation']
+                    source = edge['source']
+                    if relation == 'is_a': # More natural phrasing
+                        all_possible_facts.add(f"'{source}'은(는) '{entity}'의 한 예시예요.")
+                    else:
+                        # Avoid duplicating 'supports' from the other side
+                        if not fact_made:
+                             all_possible_facts.add(f"'{entity}'은(는) '{source}'와(과) '{relation}' 관계를 가집니다.")
 
             # Now, filter the facts based on the query
             if query_is_for_cause and not query_is_for_effect:

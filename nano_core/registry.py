@@ -16,11 +16,11 @@ class ConceptRegistry:
             write_event('concept.update', {'op': 'add_node', 'id': concept_id})
         return concept_id
 
-    def add_link(self, source: str, target: str, rel: str = 'related_to') -> None:
+    def add_link(self, source: str, target: str, rel: str = 'related_to', properties: Dict[str, Any] | None = None) -> None:
         self.ensure_concept(source)
         self.ensure_concept(target)
-        self.kg.add_edge(source, target, rel)
-        write_event('concept.update', {'op': 'add_edge', 'source': source, 'target': target, 'rel': rel})
+        self.kg.add_edge(source, target, rel, properties=properties)
+        write_event('concept.update', {'op': 'add_edge', 'source': source, 'target': target, 'rel': rel, 'props': list((properties or {}).keys())})
 
     def save(self) -> None:
         self.kg.save()

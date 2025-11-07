@@ -1,6 +1,9 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Callable, Optional
 
+from nano_core.bus import MessageBus
+from nano_core.message import Message
+
 
 @dataclass
 class WisdomVirus:
@@ -30,7 +33,8 @@ class VirusEngine:
     Integrates with value mass (09_VALUE_MASS_SPEC) by calling an updater.
     """
 
-    def __init__(self, kg_manager, update_value_mass_fn=None):
+    def __init__(self, bus: MessageBus, kg_manager=None, update_value_mass_fn=None):
+        self.bus = bus
         self.kg = kg_manager
         self.update_value_mass = update_value_mass_fn
 
@@ -42,6 +46,9 @@ class VirusEngine:
         from collections import deque
 
         for seed in virus.seed_hosts:
+            if not self.kg:
+                continue
+
             visited = {seed: 0}
             q = deque([seed])
             while q:
@@ -59,6 +66,8 @@ class VirusEngine:
 
                 # apply supports to neighbors
                 for nb in neighbors:
+                    if nb in visited and visited[nb] < depth + 1:
+                        continue
                     conf = max(0.0, virus.reinforce * (1.0 - virus.decay * depth))
                     text = virus.statement
                     if virus.mutate:
@@ -66,7 +75,27 @@ class VirusEngine:
                             text = virus.mutate(nb, text)
                         except Exception:
                             pass
-                    self._support_edge(cur, nb, conf, text, context_tag)
+
+                    # --- Gravity Well ---
+                    node1_mass = (self.kg.get_node(cur) or {}).get("mass", 0.0)
+                    node2_mass = (self.kg.get_node(nb) or {}).get("mass", 0.0)
+                    gravity_bonus = 0.5 * (node1_mass + node2_mass) # Factor can be tuned
+                    final_strength = conf + gravity_bonus
+                    # --- End Gravity Well ---
+
+                    msg = Message(
+                        verb="validate",
+                        slots={
+                            "subject": cur,
+                            "object": nb,
+                            "relation": "supports",
+                            "confidence": conf,
+                            "evidence_text": text
+                        },
+                        src="WisdomVirus",
+                        strength=final_strength,
+                    )
+                    self.bus.post(msg)
 
     def _support_edge(self, source: str, target: str, confidence: float, evidence_text: str, context_tag: str):
         try:

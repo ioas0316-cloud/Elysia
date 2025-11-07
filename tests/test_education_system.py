@@ -94,14 +94,14 @@ class TestEducationSystem(unittest.TestCase):
 
         # 3. Verify KGManager was called to add nodes with visual experience
         expected_calls = [
-            call('person', description='Concept learned from visual experience: path/to/mock_image.png', category='learned_concept', experience_visual=['path/to/mock_image.png']),
-            call('banana', description='Concept learned from visual experience: path/to/mock_image.png', category='learned_concept', experience_visual=['path/to/mock_image.png'])
+            call('person', properties={'description': 'Concept learned from visual experience: path/to/mock_image.png', 'category': 'learned_concept', 'experience_visual': ['path/to/mock_image.png']}),
+            call('banana', properties={'description': 'Concept learned from visual experience: path/to/mock_image.png', 'category': 'learned_concept', 'experience_visual': ['path/to/mock_image.png']})
         ]
         self.mock_kg_manager.add_node.assert_has_calls(expected_calls, any_order=True)
 
         # 4. Verify KGManager was called to add the edge with visual experience
         self.mock_kg_manager.add_edge.assert_called_once_with(
-            'person', 'banana', 'eats', experience_visual='path/to/mock_image.png'
+            'person', 'banana', 'eats', properties={'experience_visual': 'path/to/mock_image.png'}
         )
 
         # 5. Verify that the KG was saved
