@@ -8,6 +8,7 @@ the Knowledge Graph, allowing Elysia to learn and grow from her experiences auto
 
 import itertools
 from collections import defaultdict
+from datetime import datetime
 
 from Project_Elysia.core_memory import CoreMemory, Memory
 from tools.kg_manager import KGManager
@@ -27,18 +28,113 @@ class MemoryWeaver:
         self.core_memory = core_memory
         self.kg_manager = kg_manager
 
-    def weave_memories(self):
+    def run_weaving_cycle(self):
         """
-        The main process of weaving memories into insights.
-        This process should be triggered periodically (e.g., during an idle cycle).
+        전체 위빙 사이클을 실행합니다.
+        장기 기억과 휘발성 기억 모두를 처리합니다.
         """
-        logger.info("MemoryWeaver starting a new weaving cycle.")
+        logger.info("MemoryWeaver starting a new full weaving cycle.")
+        self.weave_long_term_memories()
+        self.weave_volatile_thoughts()
+        logger.info("MemoryWeaver full weaving cycle complete.")
+
+    def weave_volatile_thoughts(self, min_support=2, min_confidence=0.5):
+        """
+        휘발성 기억('생각의 파편')을 분석하여 새로운 연관 규칙(통찰)을 발견합니다.
+        """
+        logger.info("Starting to weave volatile thoughts.")
+        fragments = self.core_memory.get_volatile_memory()
+
+        if not fragments or len(fragments) < min_support:
+            logger.info("Not enough volatile thought fragments to weave.")
+            self.core_memory.clear_volatile_memory() # Clear to prevent buildup
+            return
+
+        logger.info(f"Weaving {len(fragments)} volatile thought fragments.")
+
+        item_counts = defaultdict(int)
+        for fragment in fragments:
+            for item in fragment:
+                item_counts[item] += 1
+
+        # 지지도가 min_support 이상인 아이템만 고려 (자주 등장하는 개념)
+        frequent_items = {item for item, count in item_counts.items() if count >= min_support}
+
+        rules = []
+        # 2-아이템 쌍에 대한 연관 규칙 생성
+        for item_a, item_b in itertools.combinations(frequent_items, 2):
+            support_a = item_counts[item_a]
+            support_ab = 0
+            for fragment in fragments:
+                if item_a in fragment and item_b in fragment:
+                    support_ab += 1
+
+            # 신뢰도 계산: (A와 B가 함께 등장한 횟수) / (A가 등장한 횟수)
+            if support_a > 0:
+                confidence_a_to_b = support_ab / support_a
+                if confidence_a_to_b >= min_confidence:
+                    rules.append((item_a, item_b, confidence_a_to_b))
+
+            # 반대 방향 규칙도 계산
+            support_b = item_counts[item_b]
+            if support_b > 0:
+                confidence_b_to_a = support_ab / support_b
+                if confidence_b_to_a >= min_confidence:
+                    rules.append((item_b, item_a, confidence_b_to_a))
+
+        if rules:
+            logger.info(f"Discovered {len(rules)} potential new association rules from volatile thoughts.")
+            self._add_association_rules_to_kg(rules)
+        else:
+            logger.info("No new significant association rules were found.")
+
+        # 분석이 끝나면 휘발성 기억을 비웁니다.
+        self.core_memory.clear_volatile_memory()
+        logger.info("Finished weaving volatile thoughts and cleared volatile memory.")
+
+    def _add_association_rules_to_kg(self, rules):
+        """발견된 연관 규칙을 지식 그래프에 'potential_link'로 추가합니다."""
+        for head, tail, confidence in rules:
+            properties = {
+                "discovery_source": "MemoryWeaver_Volatile",
+                "confidence": round(confidence, 3),
+                "discovered_at": datetime.now().isoformat()
+            }
+            # Correctly pass head, tail, relation, and then properties
+            self.kg_manager.add_edge(head, tail, "potential_link", properties)
+        self.kg_manager.save()
+        logger.info(f"Saved {len(rules)} new potential links to the knowledge graph.")
+
+    def _add_insights_to_kg(self, insights: list):
+        """Adds insight nodes and their relationships to the Knowledge Graph."""
+        for insight in insights:
+            # Create a unique ID for the insight based on the primary evidence
+            insight_node_id = f"Insight_{insight['evidence'][0]}"
+            self.kg_manager.add_node(insight_node_id, properties={"type": "insight", "text": insight['text']})
+
+            # Link the insight to the experiences it was derived from
+            for timestamp in insight['evidence']:
+                # Experiences are not in the KG by default, so we create a simple node for them
+                experience_node_id = f"Experience_{timestamp}"
+                self.kg_manager.add_node(experience_node_id, properties={"type": "experience_log"})
+                # Pass an empty dictionary for properties for clarity and future-proofing
+                self.kg_manager.add_edge(insight_node_id, experience_node_id, "derived_from", {})
+
+        self.kg_manager.save()
+        logger.info(f"Saved {len(insights)} new insights to the knowledge graph.")
+
+    def weave_long_term_memories(self):
+        """
+        장기 기억(경험)을 분석하여 통찰을 생성합니다.
+        (기존의 weave_memories 메소드)
+        """
+        logger.info("MemoryWeaver starting a new long-term weaving cycle.")
 
         # Step 1: Get unprocessed experiences from CoreMemory.
         new_experiences = self.core_memory.get_unprocessed_experiences()
 
         if not new_experiences or len(new_experiences) < 2:
-            logger.info("Not enough new experiences to weave. Cycle ending.")
+            logger.info("Not enough new experiences to weave. Long-term cycle ending.")
             return
 
         logger.info(f"Found {len(new_experiences)} new experiences to weave.")
@@ -48,11 +144,11 @@ class MemoryWeaver:
         logger.info(f"Grouped experiences into {len(related_clusters)} clusters.")
 
         # Step 3: Generate insights from each cluster.
-        insights = self._generate_insights(related_clusters)
-        logger.info(f"Generated {len(insights)} new insights.")
+        insights = self._generate_insights_from_clusters(related_clusters)
+        logger.info(f"Generated {len(insights)} new insights from long-term memory.")
 
         if not insights:
-            logger.info("No insights were generated from the clusters. Cycle ending.")
+            logger.info("No insights were generated from the clusters. Long-term cycle ending.")
             # Still mark experiences as processed to avoid re-evaluating them fruitlessly
             processed_timestamps = [exp.timestamp for exp in new_experiences]
             self.core_memory.mark_experiences_as_processed(processed_timestamps)
@@ -65,18 +161,23 @@ class MemoryWeaver:
         processed_timestamps = [exp.timestamp for exp in new_experiences]
         self.core_memory.mark_experiences_as_processed(processed_timestamps)
 
-        logger.info(f"Successfully generated and stored {len(insights)} new insights. Weaving cycle complete.")
+        logger.info(f"Successfully stored {len(insights)} new insights from long-term memory.")
 
     def _find_related_clusters(self, experiences: list[Memory]) -> list[list[Memory]]:
         """
         Groups experiences into clusters based on shared keywords.
         A simple, non-hierarchical clustering approach.
         """
-        # Extract keywords from each experience (simple space-separated words for now)
-        exp_keywords = {
-            exp.timestamp: set(exp.content.lower().split())
-            for exp in experiences
-        }
+        # Define a simple list of stopwords
+        stopwords = set(['a', 'an', 'the', 'is', 'in', 'on', 'of', 'for', 'to', 'and', 'about', 'be', 'can', 'heard', 'for', 'miles'])
+
+        exp_keywords = {}
+        for exp in experiences:
+            # Remove punctuation and convert to lower case
+            clean_content = ''.join(c for c in exp.content if c.isalnum() or c.isspace()).lower()
+            # Tokenize and remove stopwords
+            keywords = {word for word in clean_content.split() if word not in stopwords and word}
+            exp_keywords[exp.timestamp] = keywords
 
         # Create a graph where experiences are nodes and shared keywords are edges
         adj = defaultdict(list)
@@ -108,7 +209,7 @@ class MemoryWeaver:
         ts_to_memory = {exp.timestamp: exp for exp in experiences}
         return [[ts_to_memory[ts] for ts in cluster] for cluster in clusters]
 
-    def _generate_insights(self, clusters: list[list[Memory]]) -> list:
+    def _generate_insights_from_clusters(self, clusters: list[list[Memory]]) -> list:
         """Generates a summary insight for each cluster of related memories."""
         insights = []
         for cluster in clusters:

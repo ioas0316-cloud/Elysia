@@ -590,6 +590,17 @@ JSON response:
         except Exception:
             pass
         enriched['echo'] = echo
+
+        # --- '생각의 파편'을 휘발성 기억에 기록 ---
+        try:
+            if echo:
+                # echo의 key는 활성화된 개념의 ID. 이것이 바로 '생각의 파편'
+                thought_fragment = set(echo.keys())
+                self.core_memory.add_volatile_memory_fragment(thought_fragment)
+        except Exception as e:
+            pipeline_logger.error(f"Failed to record thought fragment to volatile memory: {e}")
+        # --- 휘발성 기억 기록 완료 ---
+
         # Echo spatial stats (center of mass & avg distance)
         try:
             if echo:

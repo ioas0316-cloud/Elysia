@@ -340,7 +340,8 @@ class Guardian:
 
         # --- Part 1: Weave memories into insights ---
         try:
-            self.memory_weaver.weave_memories()
+            # 이제 장기 기억과 휘발성 기억을 모두 처리하는 통합 사이클을 호출합니다.
+            self.memory_weaver.run_weaving_cycle()
         except Exception as e:
             self.logger.error(f"A critical error occurred during the memory weaving part of the dream cycle: {e}")
 

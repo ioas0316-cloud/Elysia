@@ -5,7 +5,6 @@ from Project_Elysia.core_memory import CoreMemory, Memory, EmotionalState
 from Project_Elysia.memory_weaver import MemoryWeaver
 from tools.kg_manager import KGManager
 
-@unittest.skip("MemoryWeaver is being redesigned based on a new architectural approach.")
 class TestMemoryWeaver(unittest.TestCase):
 
     def setUp(self):
@@ -94,14 +93,15 @@ class TestMemoryWeaver(unittest.TestCase):
         self.assertTrue(cluster2_contents == relativity_contents or cluster2_contents == lion_contents)
 
 
-    def test_weave_memories_full_cycle(self):
-        """Test the full weave_memories cycle."""
+    def test_weave_long_term_memories_full_cycle(self):
+        """Test the full weave_long_term_memories cycle."""
         # Run the weaver
-        self.weaver.weave_memories()
+        self.weaver.weave_long_term_memories()
 
         # 1. Verify insights were created in the KG
         kg_nodes = self.kg_manager.kg.get('nodes', [])
-        insight_nodes = [node for node in kg_nodes if node.get('properties', {}).get('type') == 'insight']
+        # The 'type' property is at the top level of the node, not in a nested 'properties' dict.
+        insight_nodes = [node for node in kg_nodes if node.get('type') == 'insight']
         self.assertEqual(len(insight_nodes), 2)
 
         # 2. Verify experiences were linked to insights
@@ -112,6 +112,62 @@ class TestMemoryWeaver(unittest.TestCase):
         # 3. Verify all experiences are now marked as processed
         unprocessed = self.core_memory.get_unprocessed_experiences()
         self.assertEqual(len(unprocessed), 0)
+
+    def test_weave_volatile_thoughts_creates_potential_links(self):
+        """Verify that weaving volatile thoughts creates potential_link edges in the KG."""
+        # Add some mock thought fragments
+        self.core_memory.add_volatile_memory_fragment({"사랑", "슬픔", "기쁨"})
+        self.core_memory.add_volatile_memory_fragment({"사랑", "성장"})
+        self.core_memory.add_volatile_memory_fragment({"슬픔", "극복"})
+        self.core_memory.add_volatile_memory_fragment({"사랑", "슬픔", "성장"})
+        self.core_memory.add_volatile_memory_fragment({"사랑", "기쁨"})
+
+        # "사랑" appears 4 times.
+        # "슬픔" appears 3 times.
+        # "성장" appears 2 times.
+        # "사랑" and "슬픔" appear together 2 times.
+        # "사랑" and "성장" appear together 2 times.
+        # Expected confidence:
+        # 사랑 -> 슬픔: 2/4 = 0.5
+        # 슬픔 -> 사랑: 2/3 = 0.667
+        # 사랑 -> 성장: 2/4 = 0.5
+        # 성장 -> 사랑: 2/2 = 1.0
+
+        # Run the weaver with a confidence threshold of 0.5
+        self.weaver.weave_volatile_thoughts(min_support=2, min_confidence=0.5)
+
+        # 1. Verify that the correct potential_link edges were created
+        edges = self.kg_manager.kg.get('edges', [])
+        potential_links = [edge for edge in edges if edge['relation'] == 'potential_link']
+        self.assertEqual(len(potential_links), 8)
+
+        rules_found = {}
+        for link in potential_links:
+            key = (link['source'], link['target'])
+            # The 'confidence' property is at the top level of the edge.
+            rules_found[key] = link['confidence']
+
+        self.assertIn(('사랑', '슬픔'), rules_found)
+        self.assertEqual(rules_found[('사랑', '슬픔')], 0.5)
+
+        self.assertIn(('슬픔', '사랑'), rules_found)
+        self.assertEqual(rules_found[('슬픔', '사랑')], 0.667)
+
+        self.assertIn(('사랑', '성장'), rules_found)
+        self.assertEqual(rules_found[('사랑', '성장')], 0.5)
+
+        self.assertIn(('성장', '사랑'), rules_found)
+        self.assertEqual(rules_found[('성장', '사랑')], 1.0)
+
+        self.assertIn(('사랑', '기쁨'), rules_found)
+        self.assertEqual(rules_found[('사랑', '기쁨')], 0.5)
+
+        self.assertIn(('기쁨', '사랑'), rules_found)
+        self.assertEqual(rules_found[('기쁨', '사랑')], 1.0)
+
+        # 2. Verify that volatile memory was cleared
+        self.assertEqual(len(self.core_memory.get_volatile_memory()), 0)
+
 
 if __name__ == '__main__':
     unittest.main()

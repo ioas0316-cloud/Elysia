@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List, Set
 from dataclasses import dataclass, asdict
 from datetime import datetime
 
@@ -37,6 +37,22 @@ class CoreMemory:
         self.file_path = file_path
         log_memory_action(f"Initializing and loading memory from: {self.file_path}")
         self.data = self._load_memory()
+        # MemoryWeaver가 사용할 단기 기억, 파일에 저장되지 않음
+        self.volatile_memory: List[Set[str]] = []
+
+    def add_volatile_memory_fragment(self, fragment: Set[str]):
+        """'생각의 파편'(동시에 활성화된 개념들의 집합)을 휘발성 기억에 추가합니다."""
+        self.volatile_memory.append(fragment)
+        log_memory_action(f"Added fragment to volatile memory: {fragment}")
+
+    def get_volatile_memory(self) -> List[Set[str]]:
+        """현재까지 쌓인 휘발성 기억 전체를 반환합니다."""
+        return self.volatile_memory
+
+    def clear_volatile_memory(self):
+        """MemoryWeaver가 처리를 완료한 후 휘발성 기억을 초기화합니다."""
+        log_memory_action(f"Clearing {len(self.volatile_memory)} fragments from volatile memory.")
+        self.volatile_memory = []
 
     def _load_memory(self) -> Dict[str, Any]:
         try:
