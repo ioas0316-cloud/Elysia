@@ -84,7 +84,7 @@ class VirusEngine:
                     # --- End Gravity Well ---
 
                     msg = Message(
-                        verb="link",
+                        verb="validate",
                         slots={
                             "subject": cur,
                             "object": nb,
