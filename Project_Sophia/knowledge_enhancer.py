@@ -1,60 +1,59 @@
 from tools.kg_manager import KGManager
+from typing import List, Dict, Any
 
 class KnowledgeEnhancer:
     def __init__(self, kg_manager: KGManager):
         self.kg_manager = kg_manager
 
-    def process_learning_points(self, learning_points: list, image_path: str):
+    def process_learning_points(self, learning_data: Any, image_path: str):
         """
-        Processes learning points and associates them with a visual experience.
-
-        Args:
-            learning_points: A list of knowledge dictionaries (concepts and relations).
-            image_path: The path to the image associated with this learning experience.
+        Processes learning data from various textbook formats and integrates it into the KG.
         """
-        concepts = [p for p in learning_points if p.get('type') == 'concept']
-        relations = [p for p in learning_points if p.get('type') == 'relation']
+        concepts = []
+        relations = []
 
-        # Ensure all concept nodes exist before creating relations
-        for concept in concepts:
-            node_id = concept.get('label')
+        if isinstance(learning_data, dict) and 'concepts' in learning_data and 'relationships' in learning_data:
+            concepts = learning_data.get('concepts', [])
+            relations = learning_data.get('relationships', [])
+        elif isinstance(learning_data, list):
+            concepts = [p for p in learning_data if p.get('type') == 'concept']
+            relations = [p for p in learning_data if p.get('type') == 'relation']
+        else:
+            print(f"Warning: Unknown learning data format. Skipping. Data: {learning_data}")
+            return
+
+        # --- Process Concepts ---
+        for concept_info in concepts:
+            # FIX: Prioritize the 'id' field as the node identifier for consistency.
+            node_id = concept_info.get('id') or concept_info.get('korean') or concept_info.get('label')
             if not node_id:
                 continue
 
-            if not self.kg_manager.get_node(node_id):
-                self.kg_manager.add_node(
-                    node_id,
-                    properties={
-                        "description": f"Concept learned from visual experience: {image_path}",
-                        "category": "learned_concept",
-                        "experience_visual": [image_path]
-                    }
-                )
-            else:
-                # Append the new experience to existing ones
-                existing_node = self.kg_manager.get_node(node_id)
-                experiences = existing_node.get('experience_visual', [])
-                if not isinstance(experiences, list):
-                    experiences = [experiences]
-                if image_path not in experiences:
-                    experiences.append(image_path)
-                self.kg_manager.update_node_properties(
-                    node_id,
-                    properties={'experience_visual': experiences}
-                )
+            properties = concept_info.get('properties', {})
+            properties['description'] = concept_info.get('description', properties.get('description'))
+            # Ensure the Korean label is stored if available
+            if 'korean' in concept_info:
+                properties['korean'] = concept_info['korean']
 
-        # Create relations, now that nodes are guaranteed to exist
-        for relation in relations:
-            source = relation.get('source')
-            target = relation.get('target')
-            label = relation.get('label')
+            if not self.kg_manager.get_node(node_id):
+                print(f"Adding new node: '{node_id}'")
+                self.kg_manager.add_node(node_id, properties=properties)
+            else:
+                print(f"Node '{node_id}' already exists. Skipping creation.")
+
+        # --- Process Relationships ---
+        for relation_info in relations:
+            source = relation_info.get('source')
+            target = relation_info.get('target')
+            label = relation_info.get('relation') or relation_info.get('label')
+
             if source and target and label:
+                print(f"Adding new edge: {source} -> {target} ({label})")
                 self.kg_manager.add_edge(
                     source,
                     target,
                     label,
-                    properties={"experience_visual": image_path}
+                    properties=relation_info.get('properties', {})
                 )
 
-        print(f"Knowledge graph updated with experience from '{image_path}'.")
-        self.kg_manager.save()
+        print(f"Knowledge graph processing complete for this lesson.")
