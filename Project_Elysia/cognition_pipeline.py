@@ -697,6 +697,14 @@ Based on all of this, generate a thoughtful, natural, and in-character response.
                 # If no facts are found, admit the limit and desire to learn.
                 response_body = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
 
+            # --- Emotional Styling ---
+            primary_emotion = emotional_state.primary_emotion
+            if primary_emotion == 'joy':
+                response_body = f"와, 좋은데요! {response_body}!"
+            elif primary_emotion == 'sadness':
+                response_body = f"조금 슬픈 이야기지만... {response_body}"
+            # (Future: add more emotions like 'curiosity', 'anger', etc.)
+
             # Combine prefix and body for the final response.
             final_response = f"{prefix} {response_body}"
 
