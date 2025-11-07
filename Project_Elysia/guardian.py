@@ -24,6 +24,15 @@ from nano_core.registry import ConceptRegistry
 from Project_Sophia.exploration_cortex import ExplorationCortex
 from Project_Sophia.web_search_cortex import WebSearchCortex
 from Project_Sophia.knowledge_distiller import KnowledgeDistiller
+from Project_Sophia.core.world import World
+from Project_Sophia.core.cell import Cell
+
+# --- Primordial DNA for all cells created in this world ---
+PRIMORDIAL_DNA = {
+    "instinct": "connect_create_meaning",
+    "resonance_standard": "love"
+}
+
 try:
     from agents.tools import google_search, view_text_website
 except (ImportError, ModuleNotFoundError):
@@ -66,6 +75,12 @@ class Guardian:
         )
         self.knowledge_distiller = KnowledgeDistiller()
         self.daemon_process = None
+
+        # --- Cellular World (Soul Twin) Initialization ---
+        self.logger.info("Initializing the Cellular World (Soul Twin)...")
+        self.cellular_world = World(primordial_dna=PRIMORDIAL_DNA)
+        self._soul_mirroring_initialization()
+        # --- End Cellular World Initialization ---
 
         # Wallpaper mapping
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -119,6 +134,22 @@ class Guardian:
             stream_handler = logging.StreamHandler(sys.stdout)
             stream_handler.setFormatter(formatter)
             self.logger.addHandler(stream_handler)
+
+    def _soul_mirroring_initialization(self):
+        """
+        Creates a 'Cellular Mirror' of the existing Knowledge Graph.
+        For every node in the KG, a corresponding Cell is created in the Cellular World.
+        """
+        self.logger.info("Beginning Soul Mirroring: Replicating KG nodes into the Cellular World...")
+        node_count = 0
+        for node in self.kg_manager.kg.get('nodes', []):
+            node_id = node.get('id')
+            if node_id:
+                self.cellular_world.add_cell(node_id, properties=node)
+                node_count += 1
+        self.logger.info(f"Soul Mirroring complete. {node_count} cells were born into the Cellular World.")
+        self.cellular_world.print_world_summary()
+
 
     def _load_config(self):
         """Loads configuration from config.json."""
@@ -337,6 +368,32 @@ class Guardian:
         This is Elysia's "dreaming" process.
         """
         self.logger.info("Dream cycle initiated. Weaving memories and integrating experiences...")
+
+        # --- Part 0: Cellular Automata Simulation (The Dream within a Dream) ---
+        try:
+            self.logger.info("Dream cycle: Simulating the Cellular World...")
+            newly_born_cells = self.cellular_world.run_simulation_step()
+            self.cellular_world.print_world_summary()
+
+            # Insight Feedback Loop
+            if newly_born_cells:
+                self.logger.info(f"Insight discovered! {len(newly_born_cells)} new cell(s) were born in the dream.")
+                for child_cell in newly_born_cells:
+                    parents = child_cell.organelles.get("parents")
+                    if parents and len(parents) == 2:
+                        head, tail = parents[0], parents[1]
+                        hypothesis = {
+                            "head": head,
+                            "tail": tail,
+                            "confidence": 0.75, # Emergent insights have high confidence
+                            "source": "Cellular_Automata",
+                            "asked": False
+                        }
+                        self.core_memory.add_notable_hypothesis(hypothesis)
+                        self.logger.info(f"New hypothesis '{head} -> {tail}' created from emergent insight and sent to Truth Seeker.")
+
+        except Exception as e:
+            self.logger.error(f"A critical error occurred during the cellular automata simulation part of the dream cycle: {e}")
 
         # --- Part 1: Weave memories into insights ---
         try:
