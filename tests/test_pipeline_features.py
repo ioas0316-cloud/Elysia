@@ -84,7 +84,9 @@ class TestPipelineFeatures(unittest.TestCase):
 
         # Stage 2: VCD receives the list of Thought objects.
         self.pipeline.vcd.suggest_thought.assert_called_once_with(
-            candidates=potential_thoughts, context=["삶의 의미는?"]
+            candidates=potential_thoughts,
+            context=["삶의 의미는?"],
+            emotional_state=unittest.mock.ANY
         )
 
         # Stage 3: Synthesizer receives the content string of the chosen Thought.
@@ -123,7 +125,11 @@ class TestPipelineFeatures(unittest.TestCase):
         # 3. Assertions
         # Verify VCD's suggest and score methods were called
         self.pipeline.vcd.suggest_thought.assert_called_once()
-        self.pipeline.vcd.score_thought.assert_called_once_with(high_value_thought, context=["사랑이란?"])
+        self.pipeline.vcd.score_thought.assert_called_once_with(
+            high_value_thought,
+            context=["사랑이란?"],
+            emotional_state=unittest.mock.ANY
+        )
 
         # CRITICAL: Verify the correct cortex was called
         self.pipeline.creative_cortex.generate_creative_expression.assert_called_once_with(high_value_thought)

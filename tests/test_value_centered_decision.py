@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from Project_Elysia.value_centered_decision import VCD
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.thought import Thought
+from Project_Sophia.emotional_engine import EmotionalState
 from tools.kg_manager import KGManager
 
 class TestValueCenteredDecision(unittest.TestCase):
@@ -102,7 +103,7 @@ class TestValueCenteredDecision(unittest.TestCase):
 
         # Mock the scoring function to return predictable scores
         with patch.object(self.vcd, 'score_thought') as mock_score:
-            def score_side_effect(candidate, context=None):
+            def score_side_effect(candidate, *args, **kwargs):
                 if "희망" in candidate.content:
                     return 3.0
                 return 1.0
@@ -113,6 +114,32 @@ class TestValueCenteredDecision(unittest.TestCase):
             # Verify the VCD chooses the thought with the higher mocked score.
             self.assertIs(best_thought, thought_high_score)
             self.assertEqual(mock_score.call_count, 2)
+
+    def test_emotional_state_adjusts_thought_selection(self):
+        """
+        Tests that the primary emotion changes the weights and alters the outcome.
+        """
+        # A highly confident, static thought.
+        thought_confident = Thought(content="태양은 빛난다.", source='kg', confidence=0.98, energy=1.0)
+        # A less confident but highly energetic, dynamic thought.
+        thought_energetic = Thought(content="사랑은 우주를 만든다.", source='lrs', confidence=0.6, energy=200.0)
+
+        candidates = [thought_confident, thought_energetic]
+
+        # Mock resonance and entity extraction to be neutral for this test
+        self.mock_wave_mechanics.get_resonance_between.return_value = 0.5
+        with patch.object(self.vcd, '_find_mentioned_entities', return_value=['태양', '사랑']):
+
+            # Case 1: "calm" emotional state (should prefer confidence)
+            calm_state = EmotionalState(0.5, 0.2, 0.5, primary_emotion='calm')
+            best_thought_calm = self.vcd.suggest_thought(candidates, emotional_state=calm_state)
+            self.assertIs(best_thought_calm, thought_confident)
+
+            # Case 2: "joy" emotional state (should prefer energy)
+            joy_state = EmotionalState(0.8, 0.7, 0.6, primary_emotion='joy')
+            best_thought_joy = self.vcd.suggest_thought(candidates, emotional_state=joy_state)
+            self.assertIs(best_thought_joy, thought_energetic)
+
 
 if __name__ == '__main__':
     unittest.main()

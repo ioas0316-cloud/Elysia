@@ -85,9 +85,13 @@ class CognitionPipeline:
             if not potential_thoughts:
                 insightful_text = "흥미로운 관점이네요. 조금 더 생각해볼게요."
             else:
-                self.logger.info(f"VCD evaluating {len(potential_thoughts)} potential thoughts...")
-                # 2. VCD selects the best Thought object
-                chosen_thought = self.vcd.suggest_thought(candidates=potential_thoughts, context=[message])
+                self.logger.info(f"VCD evaluating {len(potential_thoughts)} potential thoughts with emotion: {emotional_state.primary_emotion}")
+                # 2. VCD selects the best Thought object, now considering emotion
+                chosen_thought = self.vcd.suggest_thought(
+                    candidates=potential_thoughts,
+                    context=[message],
+                    emotional_state=emotional_state
+                )
 
                 # --- Failsafe Logic ---
                 # If VCD is indecisive (returns None), default to the first (often most direct) thought.
@@ -99,8 +103,8 @@ class CognitionPipeline:
                     self.logger.info(f"Pipeline proceeding with thought: {chosen_thought}")
 
                     # 3. Decide between logical synthesis and creative expression
-                    thought_score = self.vcd.score_thought(chosen_thought, context=[message])
-                    self.logger.info(f"Final thought score: {thought_score:.2f}")
+                    thought_score = self.vcd.score_thought(chosen_thought, context=[message], emotional_state=emotional_state)
+                    self.logger.info(f"Final thought score (emotionally adjusted): {thought_score:.2f}")
 
                     if thought_score > self.creative_expression_threshold:
                         self.logger.info("High value thought detected! Triggering Creative Cortex.")
