@@ -69,7 +69,7 @@ class LogicalReasoner:
                 content = f"'{cause_entity}'의 영향으로 '{cell_id}' 개념이 활성화될 수 있습니다."
                 thought = Thought(
                     content=content,
-                    source='living_reason_system',
+                    source='flesh',  # '살'에서 비롯된 생각
                     confidence=0.7,  # Simulation results are less certain than static KG facts
                     energy=final_energy,
                     evidence=[{'cell_id': cell_id, 'initial_energy': initial_energy, 'final_energy': final_energy}]
@@ -133,7 +133,7 @@ class LogicalReasoner:
                 if content:
                     thought = Thought(
                         content=content,
-                        source='knowledge_graph',
+                        source='bone',  # '뼈'에서 비롯된 생각
                         confidence=0.95, # Static facts are highly confident
                         evidence=[edge]
                     )
@@ -149,7 +149,7 @@ class LogicalReasoner:
                 if content:
                     thought = Thought(
                         content=content,
-                        source='knowledge_graph',
+                        source='bone',  # '뼈'에서 비롯된 생각
                         confidence=0.9, # Inferred relationships are slightly less confident
                         evidence=[edge]
                     )

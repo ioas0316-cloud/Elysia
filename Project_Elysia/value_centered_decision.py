@@ -150,6 +150,11 @@ class VCD:
             weights['freshness'] * freshness_score
         )
 
+        # --- Wisdom Bonus for thoughts from the 'Bone' ---
+        if candidate.source == 'bone':
+            wisdom_bonus = 0.5  # A significant bonus for foundational knowledge
+            final_score += wisdom_bonus
+
         final_score += random.random() * 0.01  # Small random tie-breaker
         return final_score
 
