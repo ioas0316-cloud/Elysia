@@ -5,14 +5,31 @@ This module enables Elysia to reflect upon her own knowledge,
 understanding the relationships between concepts and generating insights.
 It forms the core of the 'self-growth engine'.
 """
+import logging
+from typing import Dict, Any
 
 from tools.kg_manager import KGManager
 from Project_Sophia.wave_mechanics import WaveMechanics
 
 class MetaCognitionCortex:
-    def __init__(self, kg_manager: KGManager, wave_mechanics: WaveMechanics):
+    def __init__(self, kg_manager: KGManager, wave_mechanics: WaveMechanics, logger: logging.Logger):
         self.kg_manager = kg_manager
         self.wave_mechanics = wave_mechanics
+        self.logger = logger
+        self.logger.info("MetaCognitionCortex initialized.")
+
+    def log_event(self, event_type: str, data: Dict[str, Any]):
+        """
+        Receives an event from the EventBus and logs it.
+        This is the entry point for metacognitive observation.
+        """
+        self.logger.info(f"[Metacognition] Observed event '{event_type}': {data}")
+        # In the future, this method could trigger more complex reflections
+        # based on the event content, e.g., if a surprising thought was generated.
+        if event_type == "message_processed":
+            # Example of a more complex reaction:
+            # self.reflect_on_thought(data)
+            pass
 
     def reflect_on_concept(self, concept_id: str, context: str):
         """
@@ -37,6 +54,8 @@ class MetaCognitionCortex:
         )
 
         reflection_text = ""
+        spiritual_alignment = 0.0 # Default value
+
         if not activated_nodes:
             reflection_text = f"Upon reflecting on '{concept_id}', I find that this concept is new to me or isolated from my other knowledge."
         else:
@@ -57,7 +76,7 @@ class MetaCognitionCortex:
         if reflection_text:
             properties_to_update = {
                 "reflection": reflection_text,
-                "spiritual_alignment": spiritual_alignment if 'spiritual_alignment' in locals() else 0.0
+                "spiritual_alignment": spiritual_alignment
             }
             success = self.kg_manager.update_node_properties(
                 node_id=concept_id,
@@ -69,5 +88,5 @@ class MetaCognitionCortex:
         return {
             "reflection": reflection_text,
             "activated_nodes": activated_nodes,
-            "spiritual_alignment": spiritual_alignment if 'spiritual_alignment' in locals() else 0.0
+            "spiritual_alignment": spiritual_alignment
         }

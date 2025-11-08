@@ -26,6 +26,7 @@ from Project_Sophia.knowledge_distiller import KnowledgeDistiller
 from Project_Sophia.core.world import World
 from Project_Sophia.core.cell import Cell
 from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 # --- Import the refactored ElysiaDaemon ---
 from .elysia_daemon import ElysiaDaemon
 
@@ -73,6 +74,8 @@ class Guardian:
             view_website_func=view_text_website
         )
         self.knowledge_distiller = KnowledgeDistiller()
+        self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.logger)
+
 
         # --- Cellular World (Soul Twin) Initialization ---
         self.logger.info("Initializing the Cellular World (Soul Twin)...")
@@ -87,6 +90,7 @@ class Guardian:
             core_memory=self.core_memory,
             wave_mechanics=self.wave_mechanics, # Assuming wave_mechanics is needed by pipeline
             cellular_world=self.cellular_world,
+            meta_cognition_cortex=self.meta_cognition_cortex, # Pass the new cortex
             logger=self.logger
         )
         self.logger.info("ElysiaDaemon (heart) is now beating within the Guardian.")

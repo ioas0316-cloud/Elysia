@@ -4,6 +4,7 @@ import json
 import os
 from datetime import datetime
 from typing import Optional
+import logging
 
 # The daemon now uses the central pipeline for all cognitive tasks.
 from .cognition_pipeline import CognitionPipeline
@@ -11,7 +12,7 @@ from tools.kg_manager import KGManager
 from .core_memory import CoreMemory
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.world import World
-import logging
+from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 
 
 STATE_FILE = 'elysia_state.json'
@@ -27,6 +28,7 @@ class ElysiaDaemon:
         core_memory: CoreMemory,
         wave_mechanics: WaveMechanics,
         cellular_world: Optional[World],
+        meta_cognition_cortex: MetaCognitionCortex, # Added MetaCognitionCortex
         logger: logging.Logger
     ):
         """
@@ -41,6 +43,18 @@ class ElysiaDaemon:
             cellular_world=cellular_world,
             logger=logger
         )
+
+        # --- Register MetaCognitionCortex as an event listener ---
+        self.cognition_pipeline.event_bus.subscribe(
+            "message_processed",
+            lambda result: meta_cognition_cortex.log_event("message_processed", {"result": result})
+        )
+        self.cognition_pipeline.event_bus.subscribe(
+            "error_occurred",
+            lambda error: meta_cognition_cortex.log_event("error_occurred", {"error": str(error)})
+        )
+        self.logger.info("MetaCognitionCortex has been subscribed to pipeline events.")
+
         self.soul = {}
         self.is_alive = True
         self.load_soul()

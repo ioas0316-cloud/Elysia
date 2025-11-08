@@ -48,11 +48,15 @@ class TestCellAscension(unittest.TestCase):
             self.guardian.core_memory = self.core_memory
 
         # --- Instantiate a real daemon and get the pipeline from it ---
+        from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
+        mock_meta_cortex = MagicMock(spec=MetaCognitionCortex)
+
         daemon = ElysiaDaemon(
             kg_manager=self.kg_manager,
             core_memory=self.core_memory,
             wave_mechanics=self.wave_mechanics,
             cellular_world=self.cellular_world,
+            meta_cognition_cortex=mock_meta_cortex,
             logger=MagicMock()
         )
         self.pipeline = daemon.cognition_pipeline
