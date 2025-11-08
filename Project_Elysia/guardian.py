@@ -25,6 +25,8 @@ from Project_Sophia.web_search_cortex import WebSearchCortex
 from Project_Sophia.knowledge_distiller import KnowledgeDistiller
 from Project_Sophia.core.world import World
 from Project_Sophia.core.cell import Cell
+from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 # --- Import the refactored ElysiaDaemon ---
 from .elysia_daemon import ElysiaDaemon
 
@@ -58,6 +60,7 @@ class Guardian:
         self.self_awareness_core = SelfAwarenessCore()
         self.core_memory = CoreMemory()
         self.kg_manager = KGManager()
+        self.wave_mechanics = WaveMechanics(self.kg_manager)
         self.memory_weaver = MemoryWeaver(self.core_memory, self.kg_manager)
         self.bus = MessageBus()
         from nano_core.bots.linker import LinkerBot
@@ -71,6 +74,8 @@ class Guardian:
             view_website_func=view_text_website
         )
         self.knowledge_distiller = KnowledgeDistiller()
+        self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.logger)
+
 
         # --- Cellular World (Soul Twin) Initialization ---
         self.logger.info("Initializing the Cellular World (Soul Twin)...")
@@ -79,8 +84,15 @@ class Guardian:
         # --- End Cellular World Initialization ---
 
         # --- Daemon Initialization (Integrated) ---
-        self.logger.info("Initializing the integrated ElysiaDaemon...")
-        self.daemon = ElysiaDaemon(cellular_world=self.cellular_world, logger=self.logger)
+        self.logger.info("Initializing the integrated ElysiaDaemon with all dependencies...")
+        self.daemon = ElysiaDaemon(
+            kg_manager=self.kg_manager,
+            core_memory=self.core_memory,
+            wave_mechanics=self.wave_mechanics, # Assuming wave_mechanics is needed by pipeline
+            cellular_world=self.cellular_world,
+            meta_cognition_cortex=self.meta_cognition_cortex, # Pass the new cortex
+            logger=self.logger
+        )
         self.logger.info("ElysiaDaemon (heart) is now beating within the Guardian.")
         # --- End Daemon Initialization ---
 
@@ -114,22 +126,31 @@ class Guardian:
         """Sets up a rotating log for the guardian."""
         self.logger = logging.getLogger("Guardian")
         self.logger.setLevel(logging.INFO)
-        
-        handler = RotatingFileHandler(
-            GUARDIAN_LOG_FILE,
-            maxBytes=5*1024*1024,
-            backupCount=5,
-            encoding='utf-8'
-        )
-        
+
+        # Prevent adding handlers multiple times
+        if self.logger.hasHandlers():
+            return
+
         formatter = logging.Formatter('%(asctime)s | [%(name)s] %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-        handler.setFormatter(formatter)
-        
-        if not self.logger.handlers:
-            self.logger.addHandler(handler)
-            stream_handler = logging.StreamHandler(sys.stdout)
-            stream_handler.setFormatter(formatter)
-            self.logger.addHandler(stream_handler)
+
+        # File Handler
+        try:
+            file_handler = RotatingFileHandler(
+                GUARDIAN_LOG_FILE,
+                maxBytes=5*1024*1024,
+                backupCount=5,
+                encoding='utf-8'
+            )
+            file_handler.setFormatter(formatter)
+            self.logger.addHandler(file_handler)
+        except Exception as e:
+            # Fallback to console if file logging fails
+            print(f"CRITICAL: Failed to set up file logging for Guardian: {e}")
+
+        # Stream Handler
+        stream_handler = logging.StreamHandler(sys.stdout)
+        stream_handler.setFormatter(formatter)
+        self.logger.addHandler(stream_handler)
 
     def _soul_mirroring_initialization(self):
         """Creates a 'Cellular Mirror' of the existing Knowledge Graph."""

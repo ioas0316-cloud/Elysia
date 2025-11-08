@@ -12,7 +12,10 @@ class ArithmeticCortex:
     """A safe evaluator for arithmetic expressions."""
 
     def _eval(self, node):
-        if isinstance(node, ast.Num):  # <number>
+        # Note: ast.Num is deprecated in favor of ast.Constant in Python 3.8+
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+            return node.value
+        elif isinstance(node, ast.Num):  # Backwards compatibility for older Python versions
             return node.n
         elif isinstance(node, ast.BinOp):  # <left> <operator> <right>
             return _supported_operators[type(node.op)](self._eval(node.left), self._eval(node.right))

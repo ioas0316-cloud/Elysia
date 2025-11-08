@@ -55,7 +55,10 @@ class TestCortexes(unittest.TestCase):
 
         self.kg_manager = KGManager(str(self.test_kg_path))
         self.wave_mechanics = WaveMechanics(self.kg_manager)
-        self.meta_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics)
+        # Add a mock logger for MetaCognitionCortex
+        from unittest.mock import MagicMock
+        mock_logger = MagicMock()
+        self.meta_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, mock_logger)
         self.value_cortex = ValueCortex(kg_path=str(self.test_kg_path))
         self.sensory_cortex = SensoryCortex(self.value_cortex)
         self.action_cortex = ActionCortex()

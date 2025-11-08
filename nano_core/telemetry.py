@@ -15,12 +15,12 @@ def write_event(event_type: str, payload: Dict[str, Any]) -> None:
     try:
         base = os.path.join(os.path.dirname(__file__), '..', 'data', 'telemetry')
         base = os.path.abspath(base)
-        day = datetime.utcnow().strftime('%Y%m%d')
+        day = datetime.now(datetime.UTC).strftime('%Y%m%d')
         out_dir = os.path.join(base, day)
         _ensure_dir(out_dir)
         out_path = os.path.join(out_dir, 'events.jsonl')
         rec = {
-            'ts': datetime.utcnow().isoformat() + 'Z',
+            'ts': datetime.now(datetime.UTC).isoformat() + 'Z',
             'event_type': event_type,
             'payload': payload,
         }
