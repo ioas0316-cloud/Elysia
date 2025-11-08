@@ -1,104 +1,118 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-# Modules to be tested
+# Add project root to sys.path to allow cross-project imports
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from Project_Elysia.value_centered_decision import VCD
 from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.core.thought import Thought
 from tools.kg_manager import KGManager
 
 class TestValueCenteredDecision(unittest.TestCase):
 
     def setUp(self):
         """Set up mock objects for each test."""
-        # Mock the KGManager to simulate finding entities
         self.mock_kg_manager = MagicMock(spec=KGManager)
-        # Mock the knowledge graph nodes
         self.mock_kg_manager.kg = {
             'nodes': [
-                {'id': 'love'},
-                {'id': 'sacrifice'},
-                {'id': 'hatred'}
+                {'id': 'love'}, {'id': 'hope'}, {'id': 'truth'},
+                {'id': 'conflict'}, {'id': 'lies'}
             ]
         }
 
-        # Mock the WaveMechanics to return predefined resonance scores
         self.mock_wave_mechanics = MagicMock(spec=WaveMechanics)
-
-        # The VCD instance to be tested, with mocked dependencies
         self.vcd = VCD(
             kg_manager=self.mock_kg_manager,
             wave_mechanics=self.mock_wave_mechanics,
             core_value='love'
         )
 
-    def test_value_alignment_with_high_resonance_concept(self):
+    def test_score_thought_integrates_multiple_factors(self):
         """
-        Test that a concept with high resonance to 'love' gets a high alignment score.
+        Test that score_thought correctly combines resonance, confidence, and energy.
         """
-        # Configure the mock to return a high resonance for 'sacrifice' -> 'love'
-        self.mock_wave_mechanics.get_resonance_between.return_value = 0.8
+        # This thought has high resonance and high confidence, but low energy.
+        thought_A = Thought(
+            content="희망은 사랑에서 비롯된다.",
+            source='knowledge_graph',
+            confidence=0.95,
+            energy=5.0, # low energy
+            evidence=[]
+        )
 
-        # The VCD's entity extractor should find 'sacrifice' in the text
-        with patch.object(self.vcd, '_extract_entities_from_text', return_value=['sacrifice']) as mock_extractor:
-            score = self.vcd.value_alignment("희생은 숭고한 가치이다.")
+        # This thought has lower resonance and confidence, but very high energy.
+        thought_B = Thought(
+            content="진실은 때로 갈등을 낳는다.",
+            source='living_reason_system',
+            confidence=0.7,
+            energy=150.0, # high energy
+            evidence=[]
+        )
 
-            # Assert that the extractor was called
-            mock_extractor.assert_called_once_with("희생은 숭고한 가치이다.")
-            # Assert that wave_mechanics was called with the correct arguments
-            self.mock_wave_mechanics.get_resonance_between.assert_called_once_with('sacrifice', 'love')
-            # Assert that the final score is high (should be 0.8 clamped to 1.0)
-            self.assertAlmostEqual(score, 0.8)
-
-    def test_value_alignment_with_low_resonance_concept(self):
-        """
-        Test that a concept with low resonance to 'love' gets a low alignment score.
-        """
-        # Configure the mock to return a low resonance for 'hatred' -> 'love'
-        self.mock_wave_mechanics.get_resonance_between.return_value = 0.1
-
-        with patch.object(self.vcd, '_extract_entities_from_text', return_value=['hatred']) as mock_extractor:
-            score = self.vcd.value_alignment("증오는 모든 것을 파괴한다.")
-
-            mock_extractor.assert_called_once_with("증오는 모든 것을 파괴한다.")
-            self.mock_wave_mechanics.get_resonance_between.assert_called_once_with('hatred', 'love')
-            self.assertAlmostEqual(score, 0.1)
-
-    def test_suggest_action_chooses_higher_resonance_candidate(self):
-        """
-        Test that suggest_action correctly chooses the candidate with higher value alignment.
-        """
-        # Define the resonance scores for our test concepts
+        # Mock the resonance calculation
         def mock_resonance_func(entity, core_value):
-            if entity == 'sacrifice':
-                return 0.9
-            if entity == 'hatred':
-                return 0.15
+            if entity == 'hope': return 0.9
+            if entity == 'truth': return 0.6
+            if entity == 'conflict': return 0.2
             return 0.0
-
         self.mock_wave_mechanics.get_resonance_between.side_effect = mock_resonance_func
 
-        # Two candidate sentences to be evaluated
-        candidates = [
-            "증오는 강력한 힘이다.", # Should have low score
-            "희생은 사랑의 증거이다."  # Should have high score
-        ]
-
-        # Mock the entity extractor for both sentences
+        # Mock the entity extractor
         def mock_extractor_func(text):
-            if "희생" in text:
-                return ['sacrifice']
-            if "증오" in text:
-                return ['hatred']
+            if "희망" in text: return ['hope']
+            if "진실" in text and "갈등" in text: return ['truth', 'conflict']
             return []
 
-        with patch.object(self.vcd, '_extract_entities_from_text', side_effect=mock_extractor_func):
-            # We are ignoring context_fit and freshness for this test by mocking them
-            with patch.object(self.vcd, 'context_fit', return_value=0.5):
-                with patch.object(self.vcd, 'freshness', return_value=1.0):
-                    best_action = self.vcd.suggest_action(candidates)
+        with patch.object(self.vcd, '_find_mentioned_entities', side_effect=mock_extractor_func):
+            score_A = self.vcd.score_thought(thought_A)
+            score_B = self.vcd.score_thought(thought_B)
 
-                    # The VCD should choose the sentence about 'sacrifice'
-                    self.assertEqual(best_action, "희생은 사랑의 증거이다.")
+            # Check resonance calculation part
+            # Resonance A (hope) = 0.9
+            # Resonance B (truth, conflict) = (0.6 + 0.2) / sqrt(2) approx 0.56
+            # VCD weights resonance heavily (1.5), so A should have a higher base score.
+            #
+            # Check energy calculation part
+            # Energy A (5.0) -> log1p(5)/10 approx 0.17
+            # Energy B (150.0) -> log1p(150)/10 approx 0.5
+            # VCD weights energy (0.8), so B gets a significant energy bonus.
+
+            # The final score depends on the weights, but we expect B's high energy
+            # and A's high resonance/confidence to be the main drivers.
+            # Let's verify the components are being called correctly.
+            self.assertEqual(self.mock_wave_mechanics.get_resonance_between.call_count, 3)
+
+            # Based on the weights (Res:1.5, Conf:1.0, Energy:0.8)
+            # Score A ~ 1.5*0.9 + 1.0*0.95 + 0.8*0.17 = 1.35 + 0.95 + 0.136 = 2.436
+            # Score B ~ 1.5*0.56 + 1.0*0.7 + 0.8*0.5 = 0.84 + 0.7 + 0.4 = 1.94
+            # Therefore, thought A should be preferred.
+            self.assertGreater(score_A, score_B)
+
+    def test_suggest_thought_chooses_best_candidate(self):
+        """
+        Test that suggest_thought correctly chooses the best Thought object from a list.
+        """
+        thought_high_score = Thought(content="희망은 사랑의 증거이다.", source='kg', confidence=0.9)
+        thought_low_score = Thought(content="거짓은 갈등을 만든다.", source='lrs', confidence=0.6, energy=20.0)
+
+        candidates = [thought_low_score, thought_high_score]
+
+        # Mock the scoring function to return predictable scores
+        with patch.object(self.vcd, 'score_thought') as mock_score:
+            def score_side_effect(candidate, context=None):
+                if "희망" in candidate.content:
+                    return 3.0
+                return 1.0
+            mock_score.side_effect = score_side_effect
+
+            best_thought = self.vcd.suggest_thought(candidates)
+
+            # Verify the VCD chooses the thought with the higher mocked score.
+            self.assertIs(best_thought, thought_high_score)
+            self.assertEqual(mock_score.call_count, 2)
 
 if __name__ == '__main__':
     unittest.main()

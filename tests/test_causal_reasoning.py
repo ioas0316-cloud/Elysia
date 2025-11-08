@@ -34,43 +34,43 @@ class TestCausalReasoning(unittest.TestCase):
 
     def test_deduce_causes(self):
         """Tests if the reasoner correctly identifies causes."""
-        # Ambiguous query should find causes
-        facts = self.reasoner.deduce_facts("식물 성장")
+        thoughts = self.reasoner.deduce_facts("식물 성장")
+        fact_contents = [t.content for t in thoughts]
 
         expected_causes = [
-            "[정적] '햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다.",
-            "[정적] '수분'은(는) '식물 성장'의 원인이 될 수 있습니다."
+            "'햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다.",
+            "'수분'은(는) '식물 성장'의 원인이 될 수 있습니다."
         ]
-        # Check that all expected causes are present in the facts found
         for cause in expected_causes:
-            self.assertIn(cause, facts)
+            self.assertIn(cause, fact_contents)
 
     def test_deduce_effects(self):
         """Tests if the reasoner correctly identifies effects."""
-        facts = self.reasoner.deduce_facts("식물 성장")
-        expected_effect = "[정적] '식물 성장'은(는) '산소 발생'을(를) 유발할 수 있습니다."
-        self.assertIn(expected_effect, facts)
+        thoughts = self.reasoner.deduce_facts("식물 성장")
+        fact_contents = [t.content for t in thoughts]
+        expected_effect = "'식물 성장'은(는) '산소 발생'을(를) 유발할 수 있습니다."
+        self.assertIn(expected_effect, fact_contents)
 
     def test_deduce_general_non_causal_relationship(self):
         """Tests if the reasoner handles general, non-causal queries correctly."""
-        facts = self.reasoner.deduce_facts("소크라테스")
-        # Updated to match the current output format
+        thoughts = self.reasoner.deduce_facts("소크라테스")
+        fact_contents = [t.content for t in thoughts]
         expected_fact = "'소크라테스'은(는) '인간'의 한 종류입니다."
-        self.assertIn(expected_fact, facts)
+        self.assertIn(expected_fact, fact_contents)
 
     def test_ambiguous_query_returns_all_related_facts(self):
         """
         Tests if a general query about an entity returns all related facts (causes, effects, etc.).
         """
-        facts = self.reasoner.deduce_facts("식물 성장")
+        thoughts = self.reasoner.deduce_facts("식물 성장")
+        fact_contents = [t.content for t in thoughts]
 
-        # The exact number can be brittle; instead, check for presence of all expected facts
         expected_facts = [
-            "[정적] '햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다.",
-            "[정적] '수분'은(는) '식물 성장'의 원인이 될 수 있습니다.",
-            "[정적] '식물 성장'은(는) '산소 발생'을(를) 유발할 수 있습니다."
+            "'햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다.",
+            "'수분'은(는) '식물 성장'의 원인이 될 수 있습니다.",
+            "'식물 성장'은(는) '산소 발생'을(를) 유발할 수 있습니다."
         ]
-        self.assertCountEqual(facts, expected_facts)
+        self.assertCountEqual(fact_contents, expected_facts)
 
 
 if __name__ == '__main__':
