@@ -17,6 +17,8 @@ from Project_Sophia.insight_synthesizer import InsightSynthesizer
 from .value_centered_decision import VCD
 # --- Import Cortexes for routing ---
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
+from Project_Mirror.creative_cortex import CreativeCortex
+
 
 import json as _json
 import os as _os
@@ -38,6 +40,10 @@ class CognitionPipeline:
 
         # --- Initialize Specialized Cortexes for Routing ---
         self.arithmetic_cortex = ArithmeticCortex()
+        self.creative_cortex = CreativeCortex()
+
+        # --- Configuration for Expression Trigger ---
+        self.creative_expression_threshold = 2.5
 
         self._aliases_path = _os.path.join('data', 'lexicon', 'aliases_ko.json')
         self._aliases = None
@@ -91,8 +97,17 @@ class CognitionPipeline:
 
                 if chosen_thought:
                     self.logger.info(f"Pipeline proceeding with thought: {chosen_thought}")
-                    # 3. Synthesizer works with the content of the chosen thought
-                    insightful_text = self.insight_synthesizer.synthesize([chosen_thought.content])
+
+                    # 3. Decide between logical synthesis and creative expression
+                    thought_score = self.vcd.score_thought(chosen_thought, context=[message])
+                    self.logger.info(f"Final thought score: {thought_score:.2f}")
+
+                    if thought_score > self.creative_expression_threshold:
+                        self.logger.info("High value thought detected! Triggering Creative Cortex.")
+                        insightful_text = self.creative_cortex.generate_creative_expression(chosen_thought)
+                    else:
+                        self.logger.info("Proceeding with standard logical synthesis.")
+                        insightful_text = self.insight_synthesizer.synthesize([chosen_thought.content])
                 else:
                     # This case should now be rare
                     self.logger.error("No potential thoughts were generated or selected.")
