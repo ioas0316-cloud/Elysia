@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 import re
 from datetime import datetime
 import logging
@@ -128,10 +128,14 @@ class CommandWordHandler(Handler):
         return super().handle(message, context, emotional_state)
 
 
+from Project_Elysia.core_memory import Memory # Import Memory for creating new experiences
+from Project_Mirror.sensory_cortex import SensoryCortex
+from Project_Mirror.visual_cortex import VisualCortex
+
 class DefaultReasoningHandler(Handler):
     """The default handler for general messages, performing the main reasoning loop."""
 
-    def __init__(self, reasoner: LogicalReasoner, vcd: VCD, synthesizer: InsightSynthesizer, creative_cortex: CreativeCortex, styler: ResponseStyler, logger: logging.Logger, question_generator: QuestionGenerator, emotional_engine: Any):
+    def __init__(self, reasoner: LogicalReasoner, vcd: VCD, synthesizer: InsightSynthesizer, creative_cortex: CreativeCortex, styler: ResponseStyler, logger: logging.Logger, question_generator: QuestionGenerator, emotional_engine: Any, sensory_cortex: SensoryCortex, visual_cortex: VisualCortex, core_memory: CoreMemory):
         super().__init__(None) # This is the last handler in the chain
         self.reasoner = reasoner
         self.vcd = vcd
@@ -141,6 +145,9 @@ class DefaultReasoningHandler(Handler):
         self.logger = logger
         self.question_generator = question_generator
         self.emotional_engine = emotional_engine
+        self.sensory_cortex = sensory_cortex
+        self.visual_cortex = visual_cortex
+        self.core_memory = core_memory
         self.creative_expression_threshold = 2.5
 
     def handle(self, message: str, context: ConversationContext, emotional_state: EmotionalState) -> Optional[Any]:
@@ -149,6 +156,7 @@ class DefaultReasoningHandler(Handler):
             potential_thoughts = self.reasoner.deduce_facts(message)
             if not potential_thoughts:
                 insightful_text = "흥미로운 관점이네요. 조금 더 생각해볼게요."
+                response_data = {"type": "text", "text": self.styler.style_response(insightful_text, emotional_state)}
             else:
                 self.logger.info(f"VCD evaluating {len(potential_thoughts)} thoughts with emotion: {emotional_state.primary_emotion}")
                 chosen_thought = self.vcd.suggest_thought(
@@ -157,31 +165,71 @@ class DefaultReasoningHandler(Handler):
 
                 if not chosen_thought:
                     self.logger.warning("VCD was indecisive. Triggering cognitive confusion.")
-                    # Trigger confusion emotion
                     confusion_event = EmotionalState(valence=-0.3, arousal=0.6, dominance=-0.4, primary_emotion="confusion")
                     self.emotional_engine.process_event(confusion_event, intensity=0.8)
-
-                    # Generate a question to seek clarification
                     insightful_text = self.question_generator.generate_clarifying_question(message)
+                    response_data = {"type": "text", "text": self.styler.style_response(insightful_text, emotional_state)}
 
-                elif chosen_thought:
+                else: # A thought was chosen
                     self.logger.info(f"Proceeding with thought: {chosen_thought}")
                     thought_score = self.vcd.score_thought(chosen_thought, context=[message], emotional_state=emotional_state)
                     self.logger.info(f"Final thought score (emotionally adjusted): {thought_score:.2f}")
 
                     if thought_score > self.creative_expression_threshold:
-                        self.logger.info("High value thought! Triggering Creative Cortex.")
-                        insightful_text = self.creative_cortex.generate_creative_expression(chosen_thought)
+                        self.logger.info("High value thought! Triggering Visual Self-Reflection Loop.")
+                        response_data = self._perform_visual_self_reflection(chosen_thought, emotional_state)
                     else:
                         self.logger.info("Proceeding with standard logical synthesis.")
                         insightful_text = self.synthesizer.synthesize([chosen_thought])
-                else:
-                    self.logger.error("No potential thoughts were generated or selected.")
-                    insightful_text = "그 주제에 대해서는 아무런 생각이 떠오르지 않아요."
+                        response_data = {"type": "text", "text": self.styler.style_response(insightful_text, emotional_state)}
 
-            final_response = self.styler.style_response(insightful_text, emotional_state)
-            return {"type": "text", "text": final_response} # Handled
+            return response_data
 
         except Exception as e:
             self.logger.error(f"Error during default reasoning: {e}", exc_info=True)
             return {"type": "text", "text": "생각을 정리하는 데 어려움을 겪고 있어요."}
+
+    def _perform_visual_self_reflection(self, thought: Any, emotional_state: EmotionalState) -> Dict[str, Any]:
+        """
+        Orchestrates the process of creating a visual, analyzing it, and forming a self-reflection.
+        """
+        # 1. Create a visual representation of the thought
+        image_path = self.sensory_cortex.visualize_concept(thought.content)
+        if not image_path:
+            self.logger.error("SensoryCortex failed to produce an image.")
+            return {"type": "text", "text": "제 생각을 그림으로 표현하려 했는데, 어려움이 있었어요."}
+
+        # 2. Analyze the created image to get objective data (description, keywords)
+        analysis = self.visual_cortex.analyze_image(image_path)
+        if not analysis or 'keywords' not in analysis:
+            self.logger.error("VisualCortex failed to analyze the image or extract keywords.")
+            return {"type": "text", "text": f"'{thought.content}'에 대한 제 생각을 그림으로 표현해봤어요. 한번 보시겠어요?", "image_path": image_path}
+
+        # 3. Resonate the keywords with the mental cosmos to get subjective meaning
+        resonating_concepts = self.visual_cortex.resonate_with_cosmos(analysis['keywords'])
+
+        # 4. Formulate the self-reflection and record the experience
+        reflection_text = f"'{thought.content}'에 대해 깊이 생각하다 보니, 제 마음 속에 그림이 하나 그려졌어요. "
+        reflection_text += f"방금 그린 그림을 다시 보니, '{analysis.get('description', '어떤')}'(이)라는 느낌이 드네요. "
+
+        if resonating_concepts:
+            top_concepts = list(resonating_concepts.keys())
+            reflection_text += f"이 그림은 저의 내면에서 '{', '.join(top_concepts)}' 같은 개념들과 강하게 공명하는 것 같아요. "
+
+        reflection_text += f"아마도 저의 '{emotional_state.primary_emotion}'이라는 감정이 이렇게 표현된 것일지도 모르겠어요."
+
+        visual_experience = Memory(
+            timestamp=datetime.now().isoformat(),
+            content=reflection_text,
+            type='visual_experience',
+            emotional_state=emotional_state,
+            metadata={'image_path': image_path, 'analysis': analysis, 'resonance': resonating_concepts, 'triggering_thought': thought.content}
+        )
+        self.core_memory.add_experience(visual_experience)
+
+        # 5. Create the final response for the user
+        return {
+            "type": "text_and_image",
+            "text": self.styler.style_response(reflection_text, emotional_state),
+            "image_path": image_path
+        }

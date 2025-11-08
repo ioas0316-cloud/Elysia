@@ -22,6 +22,9 @@ from .value_centered_decision import VCD
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
 from Project_Sophia.question_generator import QuestionGenerator
+from Project_Mirror.sensory_cortex import SensoryCortex
+from Project_Mirror.visual_cortex import VisualCortex
+from Project_Sophia.value_cortex import ValueCortex # Dependency for SensoryCortex
 
 class CognitionPipeline:
     """
@@ -56,12 +59,19 @@ class CognitionPipeline:
         self.cortex_registry.register("creative", creative_cortex)
 
 
+        # --- Instantiate Cortexes for Self-Reflection Loop ---
+        value_cortex = ValueCortex(kg_manager=kg_manager)
+        sensory_cortex = SensoryCortex(value_cortex=value_cortex)
+        visual_cortex = VisualCortex(wave_mechanics=wave_mechanics)
+
+
         # --- Build the Chain of Responsibility ---
         # The chain is built in reverse order: the last handler is created first.
         default_handler = DefaultReasoningHandler(
             reasoner=reasoner, vcd=vcd, synthesizer=insight_synthesizer,
             creative_cortex=creative_cortex, styler=response_styler, logger=self.logger,
-            question_generator=question_generator, emotional_engine=emotional_engine
+            question_generator=question_generator, emotional_engine=emotional_engine,
+            sensory_cortex=sensory_cortex, visual_cortex=visual_cortex, core_memory=core_memory
         )
         command_handler = CommandWordHandler(
             successor=default_handler, cortex_registry=self.cortex_registry, logger=self.logger

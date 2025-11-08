@@ -20,11 +20,13 @@ class EmotionalState:
 class Memory:
     timestamp: str
     content: str
+    type: str = "general" # Type of memory, e.g., 'general', 'visual_experience'
     emotional_state: Optional[EmotionalState] = None
     context: Optional[Dict[str, Any]] = None
     value_alignment: Optional[float] = None
     processed_by_weaver: bool = False
     tags: Optional[list[str]] = None
+    metadata: Optional[Dict[str, Any]] = None # For storing extra data like image_path
 
 class CoreMemory:
     def __init__(self, file_path: Optional[str] = None):

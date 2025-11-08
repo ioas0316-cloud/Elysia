@@ -1,6 +1,6 @@
 import json
 from collections import deque
-from pathlib import Path
+from tools.kg_manager import KGManager
 
 class ValueCortex:
     """
@@ -9,15 +9,8 @@ class ValueCortex:
     """
     CORE_VALUES = ["love", "growth", "creation", "truth-seeking"]
 
-    def __init__(self, kg_path: str = 'data/kg.json'):
-        self.kg_path = Path(kg_path)
-        self.graph = self._load_kg()
-
-    def _load_kg(self):
-        if not self.kg_path.exists():
-            return {"nodes": [], "edges": []}
-        with open(self.kg_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
+    def __init__(self, kg_manager: KGManager):
+        self.kg_manager = kg_manager
 
     def find_meaning_connection(self, concept: str) -> list:
         """
@@ -29,8 +22,9 @@ class ValueCortex:
         if concept in self.CORE_VALUES:
             return [concept]
 
-        if not any(node['id'] == concept for node in self.graph['nodes']):
-            return [] # Concept not in KG
+        graph = self.kg_manager.kg
+        if not self.kg_manager.get_node(concept):
+             return [] # Concept not in KG
 
         # BFS implementation
         queue = deque([[concept]])
@@ -45,11 +39,11 @@ class ValueCortex:
 
             # Find neighbors in the graph
             neighbors = []
-            for edge in self.graph['edges']:
-                if edge['source'] == node and edge['target'] not in visited:
+            for edge in graph.get('edges', []):
+                if edge.get('source') == node and edge.get('target') not in visited:
                     neighbors.append(edge['target'])
                     visited.add(edge['target'])
-                elif edge['target'] == node and edge['source'] not in visited:
+                elif edge.get('target') == node and edge.get('source') not in visited:
                     neighbors.append(edge['source'])
                     visited.add(edge['source'])
 
