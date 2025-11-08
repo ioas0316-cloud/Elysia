@@ -18,46 +18,42 @@ class TestArithmeticCortex(unittest.TestCase):
 
     def test_safe_addition(self):
         """Test basic addition."""
-        response = self.cortex.process("calculate: 5 + 3")
+        response = self.cortex.process("5 + 3")
         self.assertEqual(response, "계산 결과는 8 입니다.")
 
     def test_safe_subtraction(self):
         """Test basic subtraction."""
-        response = self.cortex.process("calculate: 10 - 4")
+        response = self.cortex.process("10 - 4")
         self.assertEqual(response, "계산 결과는 6 입니다.")
 
     def test_safe_multiplication(self):
         """Test basic multiplication."""
-        response = self.cortex.process("calculate: 6 * 7")
+        response = self.cortex.process("6 * 7")
         self.assertEqual(response, "계산 결과는 42 입니다.")
 
     def test_safe_division(self):
         """Test basic division."""
-        response = self.cortex.process("calculate: 20 / 4")
+        response = self.cortex.process("20 / 4")
         self.assertEqual(response, "계산 결과는 5.0 입니다.")
 
     def test_division_by_zero(self):
         """Test division by zero error handling."""
-        response = self.cortex.process("calculate: 10 / 0")
+        response = self.cortex.process("10 / 0")
         self.assertEqual(response, "0으로 나눌 수 없습니다.")
 
     def test_invalid_expression(self):
         """Test invalid expression error handling."""
-        response = self.cortex.process("calculate: 5 +")
-        # The exact error message from eval can vary slightly.
-        # We check for the core part of the message.
-        self.assertIn("계산식을 이해하지 못했습니다:", response)
-        self.assertIn("invalid syntax", response)
-
+        response = self.cortex.process("5 +")
+        self.assertEqual(response, "계산 형식을 이해하지 못했습니다. '계산: [수식]' 형태로 요청해주세요.")
 
     def test_unsafe_expression_import(self):
         """Test detection of unsafe code (import)."""
-        response = self.cortex.process("calculate: __import__('os').system('echo unsafe')")
+        response = self.cortex.process("__import__('os').system('echo unsafe')")
         self.assertIn("안전하지 않은 문자가 포함되어 계산할 수 없습니다", response)
 
     def test_unsafe_expression_variable(self):
         """Test detection of unsafe code (variables)."""
-        response = self.cortex.process("calculate: a + b")
+        response = self.cortex.process("a + b")
         self.assertIn("안전하지 않은 문자가 포함되어 계산할 수 없습니다", response)
 
     def test_korean_command(self):

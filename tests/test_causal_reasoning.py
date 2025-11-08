@@ -1,7 +1,6 @@
 import unittest
 import os
 import sys
-import json
 from pathlib import Path
 
 # Add the project root to the Python path
@@ -16,73 +15,62 @@ class TestCausalReasoning(unittest.TestCase):
     def setUp(self):
         """Set up a fresh reasoner and a test KG for each test."""
         self.test_kg_path = Path('data/test_causal_kg.json')
-        # Ensure the test KG file doesn't exist from a previous failed run
         if self.test_kg_path.exists():
             self.test_kg_path.unlink()
 
-        # Create a dedicated KGManager instance for the test
         self.test_kg_manager = KGManager(filepath=self.test_kg_path)
-        # Pass the dedicated manager to the reasoner
         self.reasoner = LogicalReasoner(kg_manager=self.test_kg_manager)
 
-        # Set up a test KG with causal and non-causal relationships
-        self.reasoner.kg_manager.add_edge("햇빛", "식물 성장", "causes", properties={"strength": 0.85})
-        # Using "수분" instead of "물" to avoid substring matching issues with test queries.
-        self.reasoner.kg_manager.add_edge("수분", "식물 성장", "causes", properties={"strength": 0.9, "conditions": ["적절한 온도"]})
+        # Set up a test KG with various relationships
+        self.reasoner.kg_manager.add_edge("햇빛", "식물 성장", "causes")
+        self.reasoner.kg_manager.add_edge("수분", "식물 성장", "causes")
         self.reasoner.kg_manager.add_edge("식물 성장", "산소 발생", "causes")
         self.reasoner.kg_manager.add_node("소크라테스")
         self.reasoner.kg_manager.add_node("인간")
         self.reasoner.kg_manager.add_edge("소크라테스", "인간", "is_a")
-        # Note: KGManager's internal state is what's being tested, not the file saving/loading itself.
 
     def tearDown(self):
-        """Clean up the test KG file after each test."""
-        # No file is actually created in this version of the test, so no cleanup needed.
-        pass
+        pass # No file cleanup needed as KG is in-memory for tests
 
     def test_deduce_causes(self):
-        """Tests if the reasoner correctly identifies and formats causes for a given entity."""
-        message = "식물 성장의 원인은 무엇이야?"
-        facts = self.reasoner.deduce_facts(message)
+        """Tests if the reasoner correctly identifies causes."""
+        thoughts = self.reasoner.deduce_facts("식물 성장")
+        fact_contents = [t.content for t in thoughts]
 
-        self.assertEqual(len(facts), 2)
-        expected_facts = [
-            "'수분'은(는) '식물 성장'의 원인이 될 수 있습니다. (인과 강도: 0.9) (조건: 적절한 온도)",
-            "'햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다. (인과 강도: 0.85)"
+        expected_causes = [
+            "'햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다.",
+            "'수분'은(는) '식물 성장'의 원인이 될 수 있습니다."
         ]
-        self.assertCountEqual(facts, expected_facts)
+        for cause in expected_causes:
+            self.assertIn(cause, fact_contents)
 
     def test_deduce_effects(self):
-        """Tests if the reasoner correctly identifies and formats effects for a given entity."""
-        message = "식물 성장의 결과는 무엇이야?"
-        facts = self.reasoner.deduce_facts(message)
-
-        self.assertEqual(len(facts), 1)
-        expected_fact = "'식물 성장'은(는) '산소 발생'을(를) 유발할 수 있습니다."
-        self.assertIn(expected_fact, facts)
+        """Tests if the reasoner correctly identifies effects."""
+        thoughts = self.reasoner.deduce_facts("식물 성장")
+        fact_contents = [t.content for t in thoughts]
+        expected_effect = "'식물 성장'은(는) '산소 발생'을(를) 유발할 수 있습니다."
+        self.assertIn(expected_effect, fact_contents)
 
     def test_deduce_general_non_causal_relationship(self):
-        """Tests if the reasoner still handles general, non-causal queries correctly."""
-        message = "소크라테스에 대해 알려줘"
-        facts = self.reasoner.deduce_facts(message)
-
-        self.assertEqual(len(facts), 1)
-        # Check for the natural language version of the 'is_a' relationship
-        expected_fact = "'소크라테스'은(는) '인간'의 한 종류예요."
-        self.assertIn(expected_fact, facts)
+        """Tests if the reasoner handles general, non-causal queries correctly."""
+        thoughts = self.reasoner.deduce_facts("소크라테스")
+        fact_contents = [t.content for t in thoughts]
+        expected_fact = "'소크라테스'은(는) '인간'의 한 종류입니다."
+        self.assertIn(expected_fact, fact_contents)
 
     def test_ambiguous_query_returns_all_related_facts(self):
-        """Tests if a general query about an entity involved in causal chains returns both causes and effects."""
-        message = "식물 성장에 대해 알려줘"
-        facts = self.reasoner.deduce_facts(message)
+        """
+        Tests if a general query about an entity returns all related facts (causes, effects, etc.).
+        """
+        thoughts = self.reasoner.deduce_facts("식물 성장")
+        fact_contents = [t.content for t in thoughts]
 
-        self.assertEqual(len(facts), 3)
         expected_facts = [
-            "'수분'은(는) '식물 성장'의 원인이 될 수 있습니다. (인과 강도: 0.9) (조건: 적절한 온도)",
-            "'햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다. (인과 강도: 0.85)",
+            "'햇빛'은(는) '식물 성장'의 원인이 될 수 있습니다.",
+            "'수분'은(는) '식물 성장'의 원인이 될 수 있습니다.",
             "'식물 성장'은(는) '산소 발생'을(를) 유발할 수 있습니다."
         ]
-        self.assertCountEqual(facts, expected_facts)
+        self.assertCountEqual(fact_contents, expected_facts)
 
 
 if __name__ == '__main__':

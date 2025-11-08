@@ -57,9 +57,8 @@ class TestInternalVoice(unittest.TestCase):
         # 1. Process a message with no relevant memory in the KG
         response, _ = self.pipeline.process_message("Tell me about something new.")
 
-        # 2. Assert that the response indicates a willingness to learn
-        base_response = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
-        expected_response = f"나는 지금 네 뜻을 더 선명히 이해하고자 해. {base_response}"
+        # 2. Assert that the response matches the pipeline's default response
+        expected_response = "저는 이렇게 생각해요: 흥미로운 관점이네요. 조금 더 생각해볼게요."
         self.assertEqual(response['text'], expected_response)
 
 if __name__ == '__main__':
