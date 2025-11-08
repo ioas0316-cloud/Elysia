@@ -22,6 +22,8 @@ class TestPipelineFeatures(unittest.TestCase):
         self.pipeline.response_styler = MagicMock()
         self.pipeline.creative_cortex = MagicMock() # Mock the new cortex
         self.pipeline.core_memory.add_experience = MagicMock()
+        # Disable hypothesis checking for these tests
+        self.pipeline._check_and_verify_hypotheses = MagicMock(return_value=None)
 
     def tearDown(self):
         pass
@@ -89,8 +91,8 @@ class TestPipelineFeatures(unittest.TestCase):
             emotional_state=unittest.mock.ANY
         )
 
-        # Stage 3: Synthesizer receives the content string of the chosen Thought.
-        self.pipeline.insight_synthesizer.synthesize.assert_called_once_with([chosen_thought.content])
+        # Stage 3: Synthesizer receives the entire chosen Thought object.
+        self.pipeline.insight_synthesizer.synthesize.assert_called_once_with([chosen_thought])
 
         # Stage 4: Styler receives the synthesized text.
         self.pipeline.response_styler.style_response.assert_called_once_with(

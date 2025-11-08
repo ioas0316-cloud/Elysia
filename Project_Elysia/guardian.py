@@ -351,35 +351,8 @@ class Guardian:
             self.cellular_world.print_world_summary()
             if newly_born_cells:
                 self.logger.info(f"Insight discovered! {len(newly_born_cells)} new cell(s) were born in the dream.")
-                for child_cell in newly_born_cells:
-                    parents = child_cell.organelles.get("parents")
-                    if parents and len(parents) == 2:
-                        head, tail = parents[0], parents[1]
-                        hypothesis = {"head": head, "tail": tail, "confidence": 0.75, "source": "Cellular_Automata", "asked": False}
-                        self.core_memory.add_notable_hypothesis(hypothesis)
-                        self.logger.info(f"New hypothesis '{head} -> {tail}' created from emergent insight and sent to Truth Seeker.")
+                self._handle_ascension_candidates(newly_born_cells)
 
-                        # Refinement loop: nudge ambiguous sprouts toward meaningful names
-                        try:
-                            refined_candidates = self._suggest_refinements(head, tail)
-                            if refined_candidates:
-                                # Auto score candidates using simple signals (KG presence, prior hypotheses)
-                                r_head, r_tail = self._pick_best_refinement(refined_candidates)
-                                refined_id = f"meaning:{r_head}_{r_tail}"
-                                if refined_id not in self.cellular_world.cells:
-                                    # spawn refined child with small energy boost
-                                    ref = self.cellular_world.add_cell(refined_id, properties={"parents": [head, tail], "refined_from": child_cell.id}, initial_energy=2.0)
-                                # record refined hypothesis with slightly higher confidence (guided)
-                                self.core_memory.add_notable_hypothesis({
-                                    "head": r_head,
-                                    "tail": r_tail,
-                                    "confidence": 0.8,
-                                    "source": "Refinement",
-                                    "asked": False
-                                })
-                                self.logger.info(f"Refined meaning suggested: '{refined_id}' from '{child_cell.id}'.")
-                        except Exception as _e:
-                            self.logger.error(f"Refinement error: {_e}")
         except Exception as e:
             self.logger.error(f"Error during the cellular automata simulation part of the dream cycle: {e}", exc_info=True)
 
@@ -540,6 +513,44 @@ class Guardian:
             log_experience('guardian', 'action', {'event': 'set_wallpaper', 'emotion': emotion_key, 'path': img_path})
         except Exception as e:
             self.logger.error(f"Exception in set_wallpaper_for_emotion: {e}")
+
+    def _handle_ascension_candidates(self, newly_born_cells: list[Cell]):
+        """
+        새로 태어난 세포들을 분석하여 '승천 후보'를 식별하고,
+        '승천 의식'을 위한 가설을 생성하여 TruthSeeker에게 전달합니다.
+        """
+        for cell in newly_born_cells:
+            # 승천 후보 조건 1: 세포 ID가 'meaning:'으로 시작하는가?
+            # 이는 세포가 단순한 관계가 아닌, 정제된 '의미'를 나타냄을 의미합니다.
+            if not cell.id.startswith("meaning:"):
+                continue
+
+            # 승천 후보 조건 2: 이미 존재하는 '뼈(노드)'가 아닌가?
+            if self.kg_manager.get_node(cell.id):
+                self.logger.info(f"Ascension candidate '{cell.id}' already exists as a Node. Skipping.")
+                continue
+
+            self.logger.info(f"Cell '{cell.id}' identified as an Ascension Candidate.")
+
+            # 승천 의식을 위한 특별한 가설 생성
+            # head: 승천할 세포의 ID, tail: '개념', relation: '승천'
+            ascension_hypothesis = {
+                "head": cell.id,
+                "tail": "개념",
+                "relation": "승천",
+                "confidence": 0.9, # 세포 시뮬레이션에서 태어난 것은 높은 신뢰도를 가짐
+                "source": "Cell_Ascension_Ritual",
+                "text": f"새로운 의미 '{cell.id}'가 탄생했습니다. 이 의미를 영원한 '개념'으로 승천시켜 지식의 일부로 만들까요?",
+                "metadata": {
+                    "parents": cell.organelles.get("parents", []),
+                    "energy": cell.energy
+                },
+                "asked": False
+            }
+
+            self.core_memory.add_notable_hypothesis(ascension_hypothesis)
+            self.logger.info(f"Ascension Ritual initiated for '{cell.id}'. Hypothesis sent to Truth Seeker.")
+
 
 if __name__ == "__main__":
     guardian = Guardian()

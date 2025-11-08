@@ -18,6 +18,8 @@ from .value_centered_decision import VCD
 # --- Import Cortexes for routing ---
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
+from Project_Sophia.question_generator import QuestionGenerator
+from Project_Sophia.relationship_extractor import extract_relationship_type
 
 
 import json as _json
@@ -41,6 +43,7 @@ class CognitionPipeline:
         # --- Initialize Specialized Cortexes for Routing ---
         self.arithmetic_cortex = ArithmeticCortex()
         self.creative_cortex = CreativeCortex()
+        self.question_generator = QuestionGenerator()
 
         # --- Configuration for Expression Trigger ---
         self.creative_expression_threshold = 2.5
@@ -48,6 +51,70 @@ class CognitionPipeline:
         self._aliases_path = _os.path.join('data', 'lexicon', 'aliases_ko.json')
         self._aliases = None
         self.current_emotional_state = self.emotional_engine.get_current_state()
+        self.pending_hypothesis = None
+
+    def _check_and_verify_hypotheses(self, message: str) -> Optional[str]:
+        """Checks for and handles the verification of a single pending hypothesis, including Ascension Rituals."""
+        # 1. If a hypothesis was pending, process the user's answer
+        if self.pending_hypothesis:
+            hypothesis = self.pending_hypothesis
+            response_text = ""
+
+            # Case A: Handle Cell Ascension Ritual
+            if hypothesis.get('relation') == '승천':
+                self.logger.info(f"Processing user response for Ascension hypothesis: {hypothesis['head']}")
+                if any(word in message for word in ["응", "맞아", "그래", "승천시켜", "승인"]):
+                    self.logger.info(f"User approved Ascension. Creating new Node '{hypothesis['head']}' in Knowledge Graph.")
+                    metadata = hypothesis.get('metadata', {})
+                    properties = {
+                        "type": "concept",
+                        "discovery_source": "Cell_Ascension_Ritual",
+                        "parents": metadata.get("parents", []),
+                        "ascended_at": datetime.now().isoformat()
+                    }
+                    self.kg_manager.add_node(hypothesis['head'], properties=properties)
+                    response_text = f"알겠습니다. 새로운 개념 '{hypothesis['head']}'이(가) 지식의 일부로 승천했습니다."
+                else:
+                    self.logger.info("User denied Ascension. Discarding hypothesis.")
+                    response_text = f"알겠습니다. 개념 '{hypothesis['head']}'의 승천을 보류합니다."
+
+            # Case B: Handle standard relationship hypothesis
+            else:
+                self.logger.info(f"Processing user response for relationship hypothesis: {hypothesis['head']} -> {hypothesis['tail']}")
+                relation = extract_relationship_type(message)
+                if relation is None and any(word in message for word in ["응", "맞아", "그래"]):
+                    relation = "related_to"
+
+                if relation:
+                    self.logger.info(f"User confirmed relationship: {relation}. Adding edge to KG.")
+                    self.kg_manager.add_edge(hypothesis['head'], hypothesis['tail'], relation)
+                    response_text = f"알겠습니다. '{hypothesis['head']}'와(과) '{hypothesis['tail']}'의 관계를 기록했습니다."
+                else:
+                    self.logger.info("User denied or provided an unclear answer. Discarding hypothesis.")
+                    response_text = f"알겠습니다. 가설({hypothesis['head']} -> {hypothesis['tail']})에 대한 답변을 기록했습니다."
+
+            # Universal Cleanup
+            self.core_memory.remove_hypothesis(hypothesis['head'], hypothesis['tail'])
+            self.pending_hypothesis = None
+            return response_text
+
+        # 2. If no hypothesis is pending, check if a new one should be asked
+        else:
+            hypotheses = self.core_memory.get_unasked_hypotheses()
+            if hypotheses:
+                hypothesis_to_ask = hypotheses[0]
+                self.pending_hypothesis = hypothesis_to_ask
+                self.core_memory.mark_hypothesis_as_asked(hypothesis_to_ask['head'], hypothesis_to_ask['tail'])
+
+                # Generate question based on hypothesis type
+                if hypothesis_to_ask.get('relation') == '승천':
+                    self.logger.info(f"Found unasked Ascension hypothesis: {hypothesis_to_ask}")
+                    return hypothesis_to_ask.get('text', f"새로운 개념 '{hypothesis_to_ask['head']}'을(를) 지식의 일부로 만들까요?")
+                else:
+                    self.logger.info(f"Found unasked relationship hypothesis: {hypothesis_to_ask}")
+                    return self.question_generator.generate_question_from_hypothesis(hypothesis_to_ask)
+
+        return None
 
     def process_message(self, message: str, context: Optional[Dict[str, Any]] = None) -> Tuple[Dict[str, Any], EmotionalState]:
         """Processes an incoming message through the cognitive pipeline."""
@@ -74,6 +141,13 @@ class CognitionPipeline:
 
     def _generate_internal_response(self, message: str, emotional_state: EmotionalState, context: Dict[str, Any]) -> Tuple[Dict[str, Any], EmotionalState]:
         """Generates a response using the main VCD-guided path with Thought objects."""
+        # --- Autonomous Hypothesis Verification ---
+        # Before generating new thoughts, check if we need to verify a hypothesis.
+        hypothesis_response = self._check_and_verify_hypotheses(message)
+        if hypothesis_response:
+            final_response = self.response_styler.style_response(hypothesis_response, emotional_state)
+            return {"type": "text", "text": final_response}, emotional_state
+
         potential_thoughts = []
         chosen_thought = None
         try:
@@ -111,7 +185,7 @@ class CognitionPipeline:
                         insightful_text = self.creative_cortex.generate_creative_expression(chosen_thought)
                     else:
                         self.logger.info("Proceeding with standard logical synthesis.")
-                        insightful_text = self.insight_synthesizer.synthesize([chosen_thought.content])
+                        insightful_text = self.insight_synthesizer.synthesize([chosen_thought])
                 else:
                     # This case should now be rare
                     self.logger.error("No potential thoughts were generated or selected.")

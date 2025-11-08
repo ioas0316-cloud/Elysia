@@ -24,14 +24,24 @@ class KnowledgeEnhancer:
 
         # --- Process Concepts ---
         for concept_info in concepts:
-            # FIX: Prioritize the 'id' field as the node identifier for consistency.
             node_id = concept_info.get('id') or concept_info.get('korean') or concept_info.get('label')
             if not node_id:
                 continue
 
             properties = concept_info.get('properties', {})
-            properties['description'] = concept_info.get('description', properties.get('description'))
-            # Ensure the Korean label is stored if available
+
+            # If learning from a visual source, enrich the properties
+            if image_path and image_path != "conceptual_learning":
+                properties['description'] = f"Concept learned from visual experience: {image_path}"
+                properties['category'] = 'learned_concept'
+                # Ensure experience_visual is a list and append the new path
+                if 'experience_visual' not in properties:
+                    properties['experience_visual'] = []
+                if image_path not in properties['experience_visual']:
+                    properties['experience_visual'].append(image_path)
+            else:
+                 properties['description'] = concept_info.get('description', properties.get('description'))
+
             if 'korean' in concept_info:
                 properties['korean'] = concept_info['korean']
 
@@ -39,7 +49,9 @@ class KnowledgeEnhancer:
                 print(f"Adding new node: '{node_id}'")
                 self.kg_manager.add_node(node_id, properties=properties)
             else:
-                print(f"Node '{node_id}' already exists. Skipping creation.")
+                print(f"Node '{node_id}' already exists. Updating properties.")
+                self.kg_manager.update_node_properties(node_id, properties)
+
 
         # --- Process Relationships ---
         for relation_info in relations:
@@ -48,12 +60,16 @@ class KnowledgeEnhancer:
             label = relation_info.get('relation') or relation_info.get('label')
 
             if source and target and label:
+                relation_properties = relation_info.get('properties', {})
+                if image_path and image_path != "conceptual_learning":
+                    relation_properties['experience_visual'] = image_path
+
                 print(f"Adding new edge: {source} -> {target} ({label})")
                 self.kg_manager.add_edge(
                     source,
                     target,
                     label,
-                    properties=relation_info.get('properties', {})
+                    properties=relation_properties
                 )
 
         print(f"Knowledge graph processing complete for this lesson.")

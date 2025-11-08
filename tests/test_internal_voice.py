@@ -43,6 +43,7 @@ class TestInternalVoice(unittest.TestCase):
         self.pipeline = CognitionPipeline()
         self.pipeline.kg_manager = self.kg_manager_instance
         self.pipeline.api_available = False # Ensure we are testing the internal response
+        self.pipeline._check_and_verify_hypotheses = unittest.mock.MagicMock(return_value=None)
 
     def tearDown(self):
         """Clean up the test KG file after each test."""
