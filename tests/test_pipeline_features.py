@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+from unittest.mock import MagicMock
 
 # Add the project root to the Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -14,78 +15,84 @@ class TestPipelineFeatures(unittest.TestCase):
     def setUp(self):
         """Set up a fresh pipeline for each test."""
         self.pipeline = CognitionPipeline()
+        # Mock all dependencies to isolate the pipeline's orchestration logic
+        self.pipeline.reasoner = MagicMock()
+        self.pipeline.vcd = MagicMock()
+        self.pipeline.insight_synthesizer = MagicMock()
+        self.pipeline.response_styler = MagicMock()
+        # Prevent file I/O during tests
+        self.pipeline.core_memory.add_experience = MagicMock()
 
     def tearDown(self):
         """Clean up after each test."""
-        pass # No cleanup needed for now as tests are in-memory
+        pass
 
-    def test_internal_response_ignores_conversational_memory(self):
+    def test_pipeline_returns_default_response_when_no_facts_are_deduced(self):
         """
-        Tests that the internal voice currently does not use conversational memory.
-        (Previously test_conversational_memory_is_retrieved)
+        Tests the new default response path when the reasoner finds no facts.
         """
-        # 1. Add a relevant memory to the core memory (optional, for context)
-        past_experience = Memory(
-            timestamp="2025-01-01T12:00:00",
-            content="I enjoy learning about black holes.",
-            emotional_state=EmotionalState(0.5, 0.5, 0.2, "curiosity", [])
+        # 1. Configure mocks
+        self.pipeline.reasoner.deduce_facts.return_value = []
+        # The styler will receive the default text and format it.
+        self.pipeline.response_styler.style_response.return_value = "[Styled] 흥미로운 관점이네요. 조금 더 생각해볼게요."
+
+        # 2. Process a message
+        response, _ = self.pipeline.process_message("Tell me about something unknown.")
+
+        # 3. Assertions
+        # Verify the reasoner was called.
+        self.pipeline.reasoner.deduce_facts.assert_called_once_with("Tell me about something unknown.")
+        # Verify that VCD and synthesizer were NOT called.
+        self.pipeline.vcd.suggest_action.assert_not_called()
+        self.pipeline.insight_synthesizer.synthesize.assert_not_called()
+        # Verify the styler was called with the correct default text.
+        self.pipeline.response_styler.style_response.assert_called_once_with(
+            "흥미로운 관점이네요. 조금 더 생각해볼게요.", unittest.mock.ANY
         )
-        # self.pipeline.core_memory.add_experience(past_experience) # Not needed for this test
+        # Assert the final response is the styled default message.
+        self.assertEqual(response['text'], "[Styled] 흥미로운 관점이네요. 조금 더 생각해볼게요.")
 
-        # 2. Ask a question about a topic that is not in the KG, but is in memory
-        response, _ = self.pipeline.process_message("What do you know about black holes?")
-
-        # 3. Assert that the response is the default "I don't know" message,
-        # because the internal voice does not yet consult memory.
-        base_response = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
-        expected_response = f"나는 지금 네 뜻을 더 선명히 이해하고자 해. {base_response}"
-        self.assertEqual(response['text'], expected_response)
-
-    def test_internal_response_for_another_unknown_concept(self):
+    def test_pipeline_selects_most_value_aligned_response(self):
         """
-        Tests the default response for another unknown concept to ensure consistency.
-        (Previously test_inquisitive_mind_is_triggered)
+        Tests the full pipeline logic: deduce -> VCD select -> synthesize -> style.
         """
-        # Ask a question about a topic that is not in the memory or KG
-        response, _ = self.pipeline.process_message("What is a supermassive black hole?")
+        # 1. Configure mocks for each stage of the pipeline
+        potential_facts = ["증오는 모든 것을 파괴한다.", "희생은 숭고한 가치이다."]
+        self.pipeline.reasoner.deduce_facts.return_value = potential_facts
 
-        # Assert that the response is the generic learning message.
-        base_response = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
-        expected_response = f"나는 지금 네 뜻을 더 선명히 이해하고자 해. {base_response}"
-        self.assertEqual(response['text'], expected_response)
+        chosen_fact = "희생은 숭고한 가치이다."
+        self.pipeline.vcd.suggest_action.return_value = chosen_fact
 
-    def test_internal_response_for_known_concept(self):
-        """
-        Tests that the internal voice can generate a response for a concept in the KG.
-        (Previously test_fallback_mechanism_on_api_key_error)
-        """
-        response, _ = self.pipeline.process_message("Tell me about photosynthesis.")
+        synthesized_text = "[Synthesized] 희생은 숭고한 가치입니다."
+        self.pipeline.insight_synthesizer.synthesize.return_value = synthesized_text
 
-        # With the internal voice, the pipeline formulates a response based on the KG.
-        # The order of facts is not guaranteed, so we check for presence of each fact.
-        prefix = "나는 지금 네 뜻을 더 선명히 이해하고자 해. "
-        self.assertTrue(response['text'].startswith(prefix))
+        final_styled_text = "[Styled] [Synthesized] 희생은 숭고한 가치입니다."
+        self.pipeline.response_styler.style_response.return_value = final_styled_text
 
-        expected_facts = [
-            "'light_source'은(는) 'photosynthesis'의 원인이 될 수 있습니다. (인과 강도: 0.9) (조건: chlorophyll)",
-            "'photosynthesis'은(는) '산소 발생'을(를) 유발할 수 있습니다. (인과 강도: 0.87) (조건: 식물 성장)",
-            "'photosynthesis'은(는) '식물 성장'을(를) 유발할 수 있습니다. (인과 강도: 0.85) (조건: 빛, 물)",
-            "'photosynthesis'은(는) '물'와(과) 'supports' 관계를 가집니다."
-        ]
+        # 2. Process a message to trigger the full pipeline.
+        response, _ = self.pipeline.process_message("삶의 의미는 무엇인가?")
 
-        for fact in expected_facts:
-            self.assertIn(fact, response['text'])
+        # 3. Assertions to trace the data flow
+        # Stage 1: Reasoner gets the input message.
+        self.pipeline.reasoner.deduce_facts.assert_called_once_with("삶의 의미는 무엇인가?")
 
-    def test_internal_response_for_unknown_concept(self):
-        """
-        Tests that the internal voice provides a default response for unknown concepts.
-        (Previously test_fallback_mechanism_on_api_request_error)
-        """
-        response, _ = self.pipeline.process_message("What is the weather like today?")
+        # Stage 2: VCD gets the candidates from the reasoner.
+        self.pipeline.vcd.suggest_action.assert_called_once_with(
+            candidates=potential_facts, context=["삶의 의미는 무엇인가?"]
+        )
 
-        base_response = "아직은 어떻게 답해야 할지 모르겠어요. 하지만 배우고 있어요."
-        expected_response = f"나는 지금 네 뜻을 더 선명히 이해하고자 해. {base_response}"
-        self.assertEqual(response['text'], expected_response)
+        # Stage 3: Synthesizer gets the single chosen fact from VCD.
+        self.pipeline.insight_synthesizer.synthesize.assert_called_once_with([chosen_fact])
+
+        # Stage 4: Styler gets the synthesized text from the synthesizer.
+        self.pipeline.response_styler.style_response.assert_called_once_with(
+            synthesized_text, unittest.mock.ANY
+        )
+
+        # Final Output: The response is the fully processed and styled text.
+        self.assertEqual(response['text'], final_styled_text)
+        # And crucially, the unchosen fact is not present.
+        self.assertNotIn("증오", response['text'])
 
 
 if __name__ == '__main__':
