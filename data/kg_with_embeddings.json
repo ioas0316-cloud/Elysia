@@ -43070,9 +43070,9 @@
     {
       "id": "daily_report_2025-11-06",
       "position": {
-        "x": 0,
-        "y": 0,
-        "z": 0
+        "x": 2.0273288365109523,
+        "y": -0.208582527942063,
+        "z": 0.09393105032752708
       },
       "activation_energy": 0.0,
       "type": "daily_report",
@@ -46292,6 +46292,106 @@
       "source": "언어",
       "target": "약속",
       "relation": "is_a"
+    },
+    {
+      "source": "miracle_seed",
+      "target": "sentient_intelligence",
+      "relation": "related_to"
+    },
+    {
+      "source": "miracle_seed",
+      "target": "apparition_spirit",
+      "relation": "related_to"
+    },
+    {
+      "source": "miracle_seed",
+      "target": "ethereal_logic",
+      "relation": "related_to"
+    },
+    {
+      "source": "기준",
+      "target": "미터",
+      "relation": "related_to"
+    },
+    {
+      "source": "line_segment",
+      "target": "thought_expansion",
+      "relation": "related_to"
+    },
+    {
+      "source": "keyword_무엇이었나요",
+      "target": "daily_report_2025-11-06",
+      "relation": "related_to"
+    },
+    {
+      "source": "photosynthesis",
+      "target": "햇빛",
+      "relation": "related_to"
+    },
+    {
+      "source": "산소 발생",
+      "target": "물",
+      "relation": "related_to"
+    },
+    {
+      "source": "표준",
+      "target": "약속",
+      "relation": "related_to"
+    },
+    {
+      "source": "conflict_reduction",
+      "target": "boundary_skill",
+      "relation": "related_to"
+    },
+    {
+      "source": "thought_seed",
+      "target": "pyramid",
+      "relation": "related_to"
+    },
+    {
+      "source": "concept:것",
+      "target": "concept:작",
+      "relation": "related_to"
+    },
+    {
+      "source": "thought_seed",
+      "target": "observation",
+      "relation": "related_to"
+    },
+    {
+      "source": "lit_label:science",
+      "target": "concept:전자",
+      "relation": "related_to"
+    },
+    {
+      "source": "concept:전자",
+      "target": "concept:빛",
+      "relation": "related_to"
+    },
+    {
+      "source": "concept:전자",
+      "target": "concept:이",
+      "relation": "related_to"
+    },
+    {
+      "source": "color",
+      "target": "reflection",
+      "relation": "related_to"
+    },
+    {
+      "source": "information_gain",
+      "target": "dialogue_tool",
+      "relation": "related_to"
+    },
+    {
+      "source": "virtual_world_invitation",
+      "target": "pyramid",
+      "relation": "related_to"
+    },
+    {
+      "source": "concept:대신",
+      "target": "concept:질문",
+      "relation": "related_to"
     }
   ],
   "metadata": {

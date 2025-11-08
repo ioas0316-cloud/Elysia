@@ -2,88 +2,101 @@ import unittest
 import os
 import sys
 from unittest.mock import patch, MagicMock
+import time
 
 # Ensure the project root is in the Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-# Mock dependencies before they are imported by the pipeline
-# We use real KGManager for this integration test, but mock external APIs
-mock_telemetry = MagicMock()
-patch_modules = {
-    'infra.telemetry.Telemetry': MagicMock(return_value=mock_telemetry),
-    'Project_Sophia.persistence.load_json': MagicMock(return_value={}),
-    'Project_Sophia.persistence.save_json': MagicMock(),
-    'Project_Sophia.config_loader.load_config': MagicMock(return_value={
-        'llm': {'use_external_api': False}
-    })
-}
-
-patches = [patch(name, new) for name, new in patch_modules.items()]
-for p in patches:
-    p.start()
-
-from Project_Elysia.cognition_pipeline import CognitionPipeline
 from tools.kg_manager import KGManager
+from Project_Elysia.core_memory import CoreMemory
 
-@unittest.skip("Skipping self-growth tests as MetaCognitionCortex is no longer part of the pipeline.")
 class TestSelfGrowthInfrastructure(unittest.TestCase):
 
     def setUp(self):
         """Set up a clean environment for each test."""
-        # Use a temporary, in-memory-like KG for testing
         self.test_kg_path = 'data/test_kg_self_growth.json'
-        # Clean up any old test KG file before the test
+        self.test_memory_path = 'data/test_core_memory_self_growth.json'
+
+        # Clean up old files
         if os.path.exists(self.test_kg_path):
             os.remove(self.test_kg_path)
+        if os.path.exists(self.test_memory_path):
+            os.remove(self.test_memory_path)
 
-        # We need a real KGManager to verify writes
         self.kg_manager = KGManager(filepath=self.test_kg_path)
+        self.core_memory = CoreMemory(file_path=self.test_memory_path)
 
-        # Patch the KGManager instance inside the pipeline to use our test KG
-        with patch('Project_Elysia.cognition_pipeline.KGManager', return_value=self.kg_manager):
-            # The MetaCognitionCortex is no longer directly in the pipeline,
-            # so this patch is no longer valid in its current form.
-            # For now, we skip these tests.
-            self.pipeline = CognitionPipeline()
-            # Disable external APIs for predictable behavior
-            self.pipeline.api_available = False
+        # We need real components for this integration test
+        from Project_Elysia.memory_weaver import MemoryWeaver
+        self.memory_weaver = MemoryWeaver(self.core_memory, self.kg_manager)
 
-        mock_telemetry.reset_mock()
+        # Import Guardian after setting up paths
+        from Project_Elysia.guardian import Guardian
+        self.guardian = Guardian()
+
+        # Inject our real components into the Guardian instance
+        self.guardian.kg_manager = self.kg_manager
+        self.guardian.core_memory = self.core_memory
+        self.guardian.memory_weaver = self.memory_weaver
+        # Mock components that are not under test to isolate behavior
+        self.guardian.daemon = MagicMock()
+        self.guardian.exploration_cortex = MagicMock()
+        self.guardian.web_search_cortex = MagicMock()
+        self.guardian.knowledge_distiller = MagicMock()
 
 
     def tearDown(self):
-        """Clean up the test KG file after each test."""
+        """Clean up the test files after each test."""
         if os.path.exists(self.test_kg_path):
             os.remove(self.test_kg_path)
+        if os.path.exists(self.test_memory_path):
+            os.remove(self.test_memory_path)
 
-
-    def test_reflection_on_new_concept(self):
+    def test_guardian_idle_cycle_triggers_reflection_and_creates_hypothesis(self):
         """
-        Scenario A: Verify reflection process for a completely new concept.
+        Verify that the Guardian's idle cycle triggers the self-reflection process
+        (via MemoryWeaver's volatile thought weaving), leading to the creation of a
+        new high-confidence hypothesis in CoreMemory.
         """
-        new_concept = "the concept of algorithmic serendipity"
+        # 1. Set up the KG with some initial data (optional but good practice)
+        self.kg_manager.add_node("AI")
+        self.kg_manager.add_node("consciousness")
+        self.kg_manager.add_node("tool")
+        self.kg_manager.save()
 
-        # Process the message to trigger reflection
-        self.pipeline.process_message(new_concept)
-        # Further assertions would be needed here based on the new architecture.
+        # 2. Add volatile thought fragments designed to create a high-confidence link
+        self.core_memory.add_volatile_memory_fragment(["AI", "consciousness", "tool"])
+        self.core_memory.add_volatile_memory_fragment(["AI", "consciousness", "ethics"])
+        self.core_memory.add_volatile_memory_fragment(["AI", "consciousness", "future"])
+        self.core_memory.add_volatile_memory_fragment(["AI", "tool", "development"])
 
-    def test_reflection_on_existing_concept(self):
-        """
-        Scenario B: Verify reflection process for a pre-existing concept.
-        """
-        existing_concept = "love"
+        # 3. Set the Guardian's state to be ready for an idle cycle that triggers memory weaving
+        from Project_Elysia.guardian import ElysiaState
+        self.guardian.current_state = ElysiaState.IDLE
+        self.guardian.treasure_is_safe = True
+        self.guardian.last_learning_time = 0
+        self.guardian.last_activity_time = time.time() - (self.guardian.time_to_idle + 1)
+        self.guardian.daemon.is_alive = True
 
-        # Process a message to trigger a new reflection on the same concept
-        self.pipeline.process_message(existing_concept)
-        # Further assertions would be needed here based on the new architecture.
+        # 4. Run the Guardian's idle cycle, which should trigger learning
+        self.guardian.run_idle_cycle()
 
+        # 5. Assert that a new hypothesis has been created in CoreMemory
+        hypotheses = self.core_memory.get_unasked_hypotheses()
+        self.assertGreater(len(hypotheses), 0, "At least one notable hypothesis should have been created.")
 
-    @classmethod
-    def tearDownClass(cls):
-        """Stop all patches after the test class is done."""
-        for p in patches:
-            p.stop()
+        # Check if the specific hypothesis we expect is in the list
+        found_expected_hypothesis = False
+        for h in hypotheses:
+            if (h['head'] == 'AI' and h['tail'] == 'consciousness') or \
+               (h['head'] == 'consciousness' and h['tail'] == 'AI'):
+                self.assertGreaterEqual(h['confidence'], 0.7)
+                self.assertEqual(h['source'], 'MemoryWeaver_Volatile')
+                found_expected_hypothesis = True
+                break
+
+        self.assertTrue(found_expected_hypothesis, "The expected hypothesis (AI <-> consciousness) was not found.")
 
 
 if __name__ == '__main__':

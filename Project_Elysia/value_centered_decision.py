@@ -6,6 +6,7 @@ from typing import Optional, List
 # Cross-project import for the standardized Thought data structure
 from Project_Sophia.core.thought import Thought
 from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.emotional_engine import EmotionalState
 from tools.kg_manager import KGManager
 
 class VCD:
@@ -13,7 +14,8 @@ class VCD:
     Value-Centered Decision (VCD) module, upgraded to process Thought objects.
 
     This module evaluates candidate Thoughts based on a holistic score including
-    value alignment (resonance), confidence, energy, context, and novelty.
+    value alignment (resonance), confidence, energy, context, and novelty,
+    dynamically adjusted by the current emotional state.
     """
     def __init__(self, kg_manager: KGManager, wave_mechanics: WaveMechanics, core_value: str = 'love'):
         """
@@ -23,12 +25,14 @@ class VCD:
         self.wave_mechanics = wave_mechanics
         self.core_value = core_value.lower()
 
-        # Tunable weights for the multi-faceted scoring function
-        self.w_resonance = 1.5  # Weight for alignment with core values
-        self.w_confidence = 1.0 # Weight for the thought's intrinsic confidence
-        self.w_energy = 0.8     # Weight for the thought's activation energy (from LRS)
-        self.w_context = 0.5    # Weight for contextual relevance
-        self.w_freshness = 1.0  # Weight for novelty to avoid repetition
+        # Base weights for the multi-faceted scoring function
+        self.base_weights = {
+            'resonance': 1.5,
+            'confidence': 1.0,
+            'energy': 0.8,
+            'context': 0.5,
+            'freshness': 1.0
+        }
 
         self.recent_history = []  # To penalize repetition
 
@@ -98,8 +102,33 @@ class VCD:
         # log1p is used to handle energy=0 gracefully (log(1)=0)
         return math.log1p(energy) / 10.0 # Scaled down to be in a similar range as other scores
 
-    def score_thought(self, candidate: Thought, context: Optional[List[str]] = None) -> float:
-        """Scores a single Thought object based on multiple criteria."""
+    def _get_emotionally_adjusted_weights(self, emotional_state: Optional[EmotionalState]) -> dict:
+        """Adjusts scoring weights based on the current primary emotion."""
+        weights = self.base_weights.copy()
+        if not emotional_state:
+            return weights
+
+        primary_emotion = emotional_state.primary_emotion
+
+        if primary_emotion == 'joy':
+            weights['energy'] *= 1.3 # Value dynamic, energetic thoughts more
+            weights['confidence'] *= 0.8 # Be less cautious
+        elif primary_emotion == 'sadness':
+            weights['resonance'] *= 1.2 # Seek more value-aligned, comforting thoughts
+            weights['energy'] *= 0.7 # Less interested in high-energy thoughts
+        elif primary_emotion == 'fear':
+            weights['confidence'] *= 1.4 # Prioritize certainty and safety
+            weights['energy'] *= 0.6
+        elif primary_emotion == 'calm':
+            weights['confidence'] *= 1.2
+            weights['freshness'] *= 0.8 # Less need for novelty
+
+        return weights
+
+    def score_thought(self, candidate: Thought, context: Optional[List[str]] = None, emotional_state: Optional[EmotionalState] = None) -> float:
+        """Scores a single Thought object based on multiple criteria, adjusted for emotion."""
+
+        weights = self._get_emotionally_adjusted_weights(emotional_state)
 
         # 1. Value Alignment (Soul)
         resonance_score = self._calculate_value_alignment(candidate.content)
@@ -114,25 +143,26 @@ class VCD:
 
         # 4. Final Weighted Score
         final_score = (
-            self.w_resonance * resonance_score +
-            self.w_confidence * confidence_score +
-            self.w_energy * energy_score +
-            self.w_context * context_score +
-            self.w_freshness * freshness_score
+            weights['resonance'] * resonance_score +
+            weights['confidence'] * confidence_score +
+            weights['energy'] * energy_score +
+            weights['context'] * context_score +
+            weights['freshness'] * freshness_score
         )
 
         final_score += random.random() * 0.01  # Small random tie-breaker
         return final_score
 
-    def suggest_thought(self, candidates: List[Thought], context: Optional[List[str]] = None) -> Optional[Thought]:
+    def suggest_thought(self, candidates: List[Thought], context: Optional[List[str]] = None, emotional_state: Optional[EmotionalState] = None) -> Optional[Thought]:
         """
-        Suggests the best Thought from a list of candidates by scoring each one.
+        Suggests the best Thought from a list of candidates by scoring each one,
+        considering the current emotional state.
         """
         if not candidates:
             return None
 
         scored_candidates = [
-            (self.score_thought(c, context), c) for c in candidates
+            (self.score_thought(c, context, emotional_state), c) for c in candidates
         ]
 
         # Sort by score in descending order

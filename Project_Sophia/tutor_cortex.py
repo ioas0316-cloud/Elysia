@@ -50,7 +50,10 @@ class TutorCortex:
         else:
             logger.warning(f"Skipping unknown textbook format in {textbook_path}")
 
-        logger.info(f"Lesson '{lesson_name}' completed.")
+        # --- Finalize Lesson ---
+        # Save all the accumulated changes to the knowledge graph
+        self.kg_manager.save()
+        logger.info(f"Lesson '{lesson_name}' completed and knowledge saved.")
 
     def _process_storybook_lesson(self, textbook: dict, lesson_name: str):
         """Processes a lesson with visual frames."""

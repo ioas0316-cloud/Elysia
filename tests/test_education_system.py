@@ -63,7 +63,6 @@ class TestEducationSystem(unittest.TestCase):
         if os.path.exists(self.textbook_path):
             os.remove(self.textbook_path)
 
-    @unittest.skip("Skipping due to complex, unrelated failure in knowledge_enhancer. Will be addressed separately.")
     @patch('os.path.exists', return_value=True)
     def test_full_lesson_flow_with_knowledge_update(self, mock_path_exists):
         """
@@ -94,11 +93,11 @@ class TestEducationSystem(unittest.TestCase):
         mock_path_exists.assert_called()
 
         # 3. Verify KGManager was called to add nodes with visual experience
-        expected_calls = [
+        expected_node_calls = [
             call('person', properties={'description': 'Concept learned from visual experience: path/to/mock_image.png', 'category': 'learned_concept', 'experience_visual': ['path/to/mock_image.png']}),
             call('banana', properties={'description': 'Concept learned from visual experience: path/to/mock_image.png', 'category': 'learned_concept', 'experience_visual': ['path/to/mock_image.png']})
         ]
-        self.mock_kg_manager.add_node.assert_has_calls(expected_calls, any_order=True)
+        self.mock_kg_manager.add_node.assert_has_calls(expected_node_calls, any_order=True)
 
         # 4. Verify KGManager was called to add the edge with visual experience
         self.mock_kg_manager.add_edge.assert_called_once_with(
