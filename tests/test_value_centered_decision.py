@@ -141,5 +141,48 @@ class TestValueCenteredDecision(unittest.TestCase):
             self.assertIs(best_thought_joy, thought_energetic)
 
 
+    def test_wisdom_bonus_prefers_bone_source(self):
+        """
+        Tests that the 'Wisdom Bonus' correctly prefers thoughts from 'bone' (KG)
+        over thoughts from 'flesh' (LRS) when other factors are equal.
+        """
+        # A thought from the foundational knowledge graph ('bone')
+        thought_from_bone = Thought(
+            content="사랑은 중요한 가치이다.",
+            source='bone',
+            confidence=0.9,
+            energy=10.0
+        )
+
+        # An almost identical thought, but from the dynamic simulation ('flesh')
+        thought_from_flesh = Thought(
+            content="사랑은 중요한 가치이다.",
+            source='flesh',
+            confidence=0.9,
+            energy=10.0
+        )
+
+        candidates = [thought_from_flesh, thought_from_bone]
+
+        # Mock resonance and context to be identical for both thoughts
+        self.mock_wave_mechanics.get_resonance_between.return_value = 0.8
+        with patch.object(self.vcd, '_find_mentioned_entities', return_value=['사랑']):
+
+            # Use a neutral emotional state to not bias the weights
+            neutral_state = EmotionalState(0.5, 0.5, 0.5, primary_emotion='neutral')
+
+            # Score both thoughts
+            score_bone = self.vcd.score_thought(thought_from_bone, emotional_state=neutral_state)
+            score_flesh = self.vcd.score_thought(thought_from_flesh, emotional_state=neutral_state)
+
+            # Assert that the score from 'bone' is significantly higher due to the bonus
+            self.assertGreater(score_bone, score_flesh)
+            self.assertAlmostEqual(score_bone, score_flesh + 0.5, delta=0.02) # Check if bonus is ~0.5
+
+            # Verify that suggest_thought chooses the 'bone' thought
+            best_thought = self.vcd.suggest_thought(candidates, emotional_state=neutral_state)
+            self.assertIs(best_thought, thought_from_bone)
+
+
 if __name__ == '__main__':
     unittest.main()

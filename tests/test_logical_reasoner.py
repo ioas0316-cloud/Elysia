@@ -65,7 +65,7 @@ class TestLogicalReasoner(unittest.TestCase):
 
         # Check static thought from KG
         static_thought_found = any(
-            t.source == 'knowledge_graph' and
+            t.source == 'bone' and
             "'햇빛'은(는) '식물 성장'을(를) 유발할 수 있습니다." in t.content and
             t.confidence > 0.9
             for t in thoughts
@@ -75,7 +75,7 @@ class TestLogicalReasoner(unittest.TestCase):
         # Check dynamic thought from simulation
         # The exact text might vary, so we check for key elements.
         dynamic_thought_found = any(
-            t.source == 'living_reason_system' and
+            t.source == 'flesh' and
             "햇빛" in t.content and
             "식물 성장" in t.content and
             "활성화" in t.content and
