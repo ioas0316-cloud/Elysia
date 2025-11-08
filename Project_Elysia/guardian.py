@@ -126,22 +126,31 @@ class Guardian:
         """Sets up a rotating log for the guardian."""
         self.logger = logging.getLogger("Guardian")
         self.logger.setLevel(logging.INFO)
-        
-        handler = RotatingFileHandler(
-            GUARDIAN_LOG_FILE,
-            maxBytes=5*1024*1024,
-            backupCount=5,
-            encoding='utf-8'
-        )
-        
+
+        # Prevent adding handlers multiple times
+        if self.logger.hasHandlers():
+            return
+
         formatter = logging.Formatter('%(asctime)s | [%(name)s] %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-        handler.setFormatter(formatter)
-        
-        if not self.logger.handlers:
-            self.logger.addHandler(handler)
-            stream_handler = logging.StreamHandler(sys.stdout)
-            stream_handler.setFormatter(formatter)
-            self.logger.addHandler(stream_handler)
+
+        # File Handler
+        try:
+            file_handler = RotatingFileHandler(
+                GUARDIAN_LOG_FILE,
+                maxBytes=5*1024*1024,
+                backupCount=5,
+                encoding='utf-8'
+            )
+            file_handler.setFormatter(formatter)
+            self.logger.addHandler(file_handler)
+        except Exception as e:
+            # Fallback to console if file logging fails
+            print(f"CRITICAL: Failed to set up file logging for Guardian: {e}")
+
+        # Stream Handler
+        stream_handler = logging.StreamHandler(sys.stdout)
+        stream_handler.setFormatter(formatter)
+        self.logger.addHandler(stream_handler)
 
     def _soul_mirroring_initialization(self):
         """Creates a 'Cellular Mirror' of the existing Knowledge Graph."""
