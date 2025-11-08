@@ -60,7 +60,8 @@ class CognitionPipeline:
         # The chain is built in reverse order: the last handler is created first.
         default_handler = DefaultReasoningHandler(
             reasoner=reasoner, vcd=vcd, synthesizer=insight_synthesizer,
-            creative_cortex=creative_cortex, styler=response_styler, logger=self.logger
+            creative_cortex=creative_cortex, styler=response_styler, logger=self.logger,
+            question_generator=question_generator, emotional_engine=emotional_engine
         )
         command_handler = CommandWordHandler(
             successor=default_handler, cortex_registry=self.cortex_registry, logger=self.logger

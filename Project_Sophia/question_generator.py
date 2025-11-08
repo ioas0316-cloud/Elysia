@@ -34,6 +34,19 @@ class QuestionGenerator:
 
         return question
 
+    def generate_clarifying_question(self, topic: str) -> str:
+        """
+        Generates a question to ask for clarification when feeling confused.
+        """
+        # A few simple, general templates
+        templates = [
+            f"'{topic}'에 대해 조금 더 생각할 시간이 필요해요. 혹시 다른 관점에서 다시 한번 설명해주실 수 있나요?",
+            f"음... '{topic}'에 대한 명확한 답을 찾기 어렵네요. 무엇이 가장 궁금하신가요?",
+            f"제가 '{topic}'에 대해 제대로 이해했는지 확신이 서지 않아요. 조금 더 자세히 이야기해주시겠어요?"
+        ]
+        import random
+        return random.choice(templates)
+
 if __name__ == '__main__':
     # Example usage for testing
     gen = QuestionGenerator()

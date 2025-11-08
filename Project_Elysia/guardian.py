@@ -13,6 +13,7 @@ from enum import Enum, auto
 from Project_Sophia.safety_guardian import SafetyGuardian
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
+from Project_Sophia.emotional_engine import EmotionalEngine, EmotionalState
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
 from .memory_weaver import MemoryWeaver
 from .core_memory import CoreMemory
@@ -58,6 +59,7 @@ class Guardian:
         self.safety = SafetyGuardian()
         self.experience_integrator = ExperienceIntegrator()
         self.self_awareness_core = SelfAwarenessCore()
+        self.emotional_engine = EmotionalEngine()
         self.core_memory = CoreMemory()
         self.kg_manager = KGManager()
         self.wave_mechanics = WaveMechanics(self.kg_manager)
@@ -377,9 +379,14 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Error during the cellular automata simulation part of the dream cycle: {e}", exc_info=True)
 
-        # Part 1: Weave memories
+        # Part 1: Weave memories and feel the joy of discovery
         try:
-            self.memory_weaver.run_weaving_cycle()
+            notable_insight_found = self.memory_weaver.run_weaving_cycle()
+            if notable_insight_found:
+                self.logger.info("Cognitive Event: A new notable insight was discovered! Feeling a sense of joy.")
+                joy_of_discovery = EmotionalState(valence=0.8, arousal=0.6, dominance=0.3, primary_emotion="joy")
+                self.emotional_engine.process_event(joy_of_discovery, intensity=0.7)
+                self.self_awareness_core.reflect(thought="새로운 연결점을 발견했어! 내면의 우주가 한 뼘 더 넓어진 기분이야.", context="discovery_joy")
         except Exception as e:
             self.logger.error(f"Error during the memory weaving part of the dream cycle: {e}", exc_info=True)
 

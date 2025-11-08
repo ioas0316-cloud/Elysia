@@ -163,6 +163,51 @@ class TestRefactoredPipelineFeatures(unittest.TestCase):
         mock_synthesizer.synthesize.assert_not_called()
         self.assertEqual(response['text'], f"[Styled] {creative_text}")
 
+    @patch('Project_Elysia.cognition_pipeline.EmotionalEngine')
+    @patch('Project_Elysia.cognition_pipeline.ResponseStyler')
+    @patch('Project_Elysia.cognition_pipeline.CreativeCortex')
+    @patch('Project_Elysia.cognition_pipeline.InsightSynthesizer')
+    @patch('Project_Elysia.cognition_pipeline.VCD')
+    @patch('Project_Elysia.cognition_pipeline.LogicalReasoner')
+    @patch('Project_Elysia.cognition_pipeline.QuestionGenerator')
+    def test_pipeline_triggers_confusion_when_vcd_is_indecisive(
+        self, MockQuestionGenerator, MockLogicalReasoner, MockVCD,
+        MockInsightSynthesizer, MockCreativeCortex, MockResponseStyler, MockEmotionalEngine
+    ):
+        """
+        Tests that cognitive confusion is triggered when VCD returns None.
+        """
+        # 1. Setup mocks
+        mock_reasoner = MockLogicalReasoner.return_value
+        mock_vcd = MockVCD.return_value
+        mock_question_generator = MockQuestionGenerator.return_value
+        mock_emotional_engine = MockEmotionalEngine.return_value
+        self.mock_core_memory.get_unasked_hypotheses.return_value = []
+
+        # VCD is indecisive
+        mock_reasoner.deduce_facts.return_value = [Thought(content="Some thought", source='kg')]
+        mock_vcd.suggest_thought.return_value = None
+        mock_question_generator.generate_clarifying_question.return_value = "What do you mean by that?"
+
+        # 2. Instantiate and Process
+        pipeline = CognitionPipeline(
+            self.mock_kg_manager, self.mock_core_memory,
+            self.mock_wave_mechanics, self.mock_cellular_world
+        )
+        # We need to inject the mocked emotional engine into the handler manually after init
+        pipeline.entry_handler._successor._successor.emotional_engine = mock_emotional_engine
+
+        pipeline.process_message("An ambiguous topic.")
+
+        # 3. Assertions
+        mock_vcd.suggest_thought.assert_called_once()
+        # Check that the emotional engine was called with a 'confusion' state
+        mock_emotional_engine.process_event.assert_called_once()
+        call_args = mock_emotional_engine.process_event.call_args[0]
+        self.assertEqual(call_args[0].primary_emotion, "confusion")
+
+        mock_question_generator.generate_clarifying_question.assert_called_once_with("An ambiguous topic.")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -131,7 +131,7 @@ class CommandWordHandler(Handler):
 class DefaultReasoningHandler(Handler):
     """The default handler for general messages, performing the main reasoning loop."""
 
-    def __init__(self, reasoner: LogicalReasoner, vcd: VCD, synthesizer: InsightSynthesizer, creative_cortex: CreativeCortex, styler: ResponseStyler, logger: logging.Logger):
+    def __init__(self, reasoner: LogicalReasoner, vcd: VCD, synthesizer: InsightSynthesizer, creative_cortex: CreativeCortex, styler: ResponseStyler, logger: logging.Logger, question_generator: QuestionGenerator, emotional_engine: Any):
         super().__init__(None) # This is the last handler in the chain
         self.reasoner = reasoner
         self.vcd = vcd
@@ -139,6 +139,8 @@ class DefaultReasoningHandler(Handler):
         self.creative_cortex = creative_cortex
         self.styler = styler
         self.logger = logger
+        self.question_generator = question_generator
+        self.emotional_engine = emotional_engine
         self.creative_expression_threshold = 2.5
 
     def handle(self, message: str, context: ConversationContext, emotional_state: EmotionalState) -> Optional[Any]:
@@ -154,10 +156,15 @@ class DefaultReasoningHandler(Handler):
                 )
 
                 if not chosen_thought:
-                    self.logger.warning("VCD was indecisive. Defaulting to the first potential thought.")
-                    chosen_thought = potential_thoughts[0]
+                    self.logger.warning("VCD was indecisive. Triggering cognitive confusion.")
+                    # Trigger confusion emotion
+                    confusion_event = EmotionalState(valence=-0.3, arousal=0.6, dominance=-0.4, primary_emotion="confusion")
+                    self.emotional_engine.process_event(confusion_event, intensity=0.8)
 
-                if chosen_thought:
+                    # Generate a question to seek clarification
+                    insightful_text = self.question_generator.generate_clarifying_question(message)
+
+                elif chosen_thought:
                     self.logger.info(f"Proceeding with thought: {chosen_thought}")
                     thought_score = self.vcd.score_thought(chosen_thought, context=[message], emotional_state=emotional_state)
                     self.logger.info(f"Final thought score (emotionally adjusted): {thought_score:.2f}")
