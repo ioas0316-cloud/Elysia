@@ -3,9 +3,16 @@
 import json
 import os
 from datetime import datetime
+from typing import Optional
 
 # The daemon now uses the central pipeline for all cognitive tasks.
 from .cognition_pipeline import CognitionPipeline
+from tools.kg_manager import KGManager
+from .core_memory import CoreMemory
+from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.core.world import World
+import logging
+
 
 STATE_FILE = 'elysia_state.json'
 
@@ -14,21 +21,30 @@ class ElysiaDaemon:
     ElysiaDaemon is no longer an independent process, but a class managed by the Guardian.
     It hosts the primary cognitive engine (CognitionPipeline) and manages Elysia's core state.
     """
-    def __init__(self, cellular_world, logger):
+    def __init__(
+        self,
+        kg_manager: KGManager,
+        core_memory: CoreMemory,
+        wave_mechanics: WaveMechanics,
+        cellular_world: Optional[World],
+        logger: logging.Logger
+    ):
         """
-        Initializes the daemon, injecting the critical Cellular World and logger from the Guardian.
-
-        Args:
-            cellular_world: The instance of the World simulation, representing the "Soul Twin".
-            logger: The shared logger instance from the Guardian.
+        Initializes the daemon, injecting critical components from the Guardian.
         """
         self.logger = logger
-        # The CognitionPipeline is the central brain, now aware of the Cellular World.
-        self.cognition_pipeline = CognitionPipeline(cellular_world=cellular_world, logger=logger)
+        # The CognitionPipeline is the central brain, now initialized with all dependencies.
+        self.cognition_pipeline = CognitionPipeline(
+            kg_manager=kg_manager,
+            core_memory=core_memory,
+            wave_mechanics=wave_mechanics,
+            cellular_world=cellular_world,
+            logger=logger
+        )
         self.soul = {}
         self.is_alive = True
         self.load_soul()
-        self.logger.info("ElysiaDaemon initialized and integrated with the CognitionPipeline and Cellular World.")
+        self.logger.info("ElysiaDaemon initialized and integrated with the CognitionPipeline.")
 
     def load_soul(self):
         """Loads Elysia's core state from the state file."""
@@ -78,23 +94,17 @@ class ElysiaDaemon:
         """
         self.soul['life_cycle']['cycles'] += 1
 
-        # The core logic is now delegated to the CognitionPipeline.
-        # The daemon's role is to provide the current state as context for the "thought".
-        # The input is the current feeling, representing an internal monologue or state of being.
         current_feeling = self.soul.get('emotional_state', {}).get('current_feeling', 'AWAKE')
         input_text = f"현재 상태: {current_feeling}"
 
         self.logger.info(f"Daemon Cycle {self.soul['life_cycle']['cycles']}: Processing internal state '{current_feeling}'.")
 
         # The pipeline processes this internal state and returns a response.
-        response = self.cognition_pipeline.process_message(input_text, self.soul)
+        # Note: The second argument from the old pipeline (context) is now managed internally by the pipeline's ConversationContext
+        response, _ = self.cognition_pipeline.process_message(input_text)
 
-        # The pipeline's response might include a new emotional state, an action to take,
-        # or just a thought. For now, we log it. A more complex system would parse this
-        # response and update the soul state or trigger actions.
         self.log_heartbeat(f"Cognitive Pipeline Output: {response}")
 
-        # Save the updated state after the cognitive cycle.
         self.save_soul()
 
     def shutdown(self):

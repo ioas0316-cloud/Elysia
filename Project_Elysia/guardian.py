@@ -25,6 +25,7 @@ from Project_Sophia.web_search_cortex import WebSearchCortex
 from Project_Sophia.knowledge_distiller import KnowledgeDistiller
 from Project_Sophia.core.world import World
 from Project_Sophia.core.cell import Cell
+from Project_Sophia.wave_mechanics import WaveMechanics
 # --- Import the refactored ElysiaDaemon ---
 from .elysia_daemon import ElysiaDaemon
 
@@ -58,6 +59,7 @@ class Guardian:
         self.self_awareness_core = SelfAwarenessCore()
         self.core_memory = CoreMemory()
         self.kg_manager = KGManager()
+        self.wave_mechanics = WaveMechanics(self.kg_manager)
         self.memory_weaver = MemoryWeaver(self.core_memory, self.kg_manager)
         self.bus = MessageBus()
         from nano_core.bots.linker import LinkerBot
@@ -79,8 +81,14 @@ class Guardian:
         # --- End Cellular World Initialization ---
 
         # --- Daemon Initialization (Integrated) ---
-        self.logger.info("Initializing the integrated ElysiaDaemon...")
-        self.daemon = ElysiaDaemon(cellular_world=self.cellular_world, logger=self.logger)
+        self.logger.info("Initializing the integrated ElysiaDaemon with all dependencies...")
+        self.daemon = ElysiaDaemon(
+            kg_manager=self.kg_manager,
+            core_memory=self.core_memory,
+            wave_mechanics=self.wave_mechanics, # Assuming wave_mechanics is needed by pipeline
+            cellular_world=self.cellular_world,
+            logger=self.logger
+        )
         self.logger.info("ElysiaDaemon (heart) is now beating within the Guardian.")
         # --- End Daemon Initialization ---
 
