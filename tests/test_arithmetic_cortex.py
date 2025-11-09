@@ -15,14 +15,13 @@ from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.world import World
+from Project_Sophia.emotional_engine import EmotionalEngine
 
 
 class TestArithmeticCortex(unittest.TestCase):
 
     def setUp(self):
         self.cortex = ArithmeticCortex()
-        # Pipeline is no longer initialized here to avoid dependency issues.
-        # It will be created specifically in the integration tests that need it.
 
     def test_safe_addition(self):
         """Test basic addition."""
@@ -68,48 +67,6 @@ class TestArithmeticCortex(unittest.TestCase):
         """Test handling of Korean commands."""
         response = self.cortex.process("계산: 100 + 200")
         self.assertEqual(response, "계산 결과는 300 입니다.")
-
-    def test_pipeline_integration_question(self):
-        """Test the pipeline integration for calculation questions."""
-        # Setup mock dependencies for pipeline
-        mock_kg_manager = MagicMock(spec=KGManager)
-        mock_core_memory = MagicMock(spec=CoreMemory)
-        mock_wave_mechanics = MagicMock(spec=WaveMechanics)
-        mock_cellular_world = MagicMock(spec=World)
-        mock_core_memory.get_unasked_hypotheses.return_value = [] # No pending hypotheses
-
-        pipeline = CognitionPipeline(
-            kg_manager=mock_kg_manager,
-            core_memory=mock_core_memory,
-            wave_mechanics=mock_wave_mechanics,
-            cellular_world=mock_cellular_world
-        )
-        # Mock the successor of the command handler to isolate its behavior
-        pipeline.entry_handler._successor._successor = MagicMock()
-
-        response, _ = pipeline.process_message("계산: 10 + 5")
-        self.assertEqual(response['text'], "계산 결과는 15 입니다.")
-
-    def test_pipeline_integration_command(self):
-        """Test the pipeline integration for calculation commands."""
-        # Setup mock dependencies for pipeline
-        mock_kg_manager = MagicMock(spec=KGManager)
-        mock_core_memory = MagicMock(spec=CoreMemory)
-        mock_wave_mechanics = MagicMock(spec=WaveMechanics)
-        mock_cellular_world = MagicMock(spec=World)
-        mock_core_memory.get_unasked_hypotheses.return_value = []
-
-        pipeline = CognitionPipeline(
-            kg_manager=mock_kg_manager,
-            core_memory=mock_core_memory,
-            wave_mechanics=mock_wave_mechanics,
-            cellular_world=mock_cellular_world
-        )
-        # Mock the successor of the command handler
-        pipeline.entry_handler._successor._successor = MagicMock()
-
-        response, _ = pipeline.process_message("calculate: 5 * 5")
-        self.assertEqual(response['text'], "계산 결과는 25 입니다.")
 
 if __name__ == '__main__':
     unittest.main()

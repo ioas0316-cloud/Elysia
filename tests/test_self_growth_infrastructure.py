@@ -10,6 +10,8 @@ sys.path.insert(0, project_root)
 
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
+from Project_Elysia.memory_weaver import MemoryWeaver
+from Project_Elysia.guardian import Guardian, ElysiaState
 
 class TestSelfGrowthInfrastructure(unittest.TestCase):
 
@@ -24,27 +26,10 @@ class TestSelfGrowthInfrastructure(unittest.TestCase):
         if os.path.exists(self.test_memory_path):
             os.remove(self.test_memory_path)
 
+        # These components will be injected into the Guardian instance during the test
         self.kg_manager = KGManager(filepath=self.test_kg_path)
         self.core_memory = CoreMemory(file_path=self.test_memory_path)
-
-        # We need real components for this integration test
-        from Project_Elysia.memory_weaver import MemoryWeaver
         self.memory_weaver = MemoryWeaver(self.core_memory, self.kg_manager)
-
-        # Import Guardian after setting up paths
-        from Project_Elysia.guardian import Guardian
-        self.guardian = Guardian()
-
-        # Inject our real components into the Guardian instance
-        self.guardian.kg_manager = self.kg_manager
-        self.guardian.core_memory = self.core_memory
-        self.guardian.memory_weaver = self.memory_weaver
-        # Mock components that are not under test to isolate behavior
-        self.guardian.daemon = MagicMock()
-        self.guardian.exploration_cortex = MagicMock()
-        self.guardian.web_search_cortex = MagicMock()
-        self.guardian.knowledge_distiller = MagicMock()
-
 
     def tearDown(self):
         """Clean up the test files after each test."""
@@ -53,36 +38,50 @@ class TestSelfGrowthInfrastructure(unittest.TestCase):
         if os.path.exists(self.test_memory_path):
             os.remove(self.test_memory_path)
 
-    def test_guardian_idle_cycle_triggers_reflection_and_creates_hypothesis(self):
+    @patch('Project_Elysia.guardian.ElysiaDaemon')
+    def test_guardian_idle_cycle_triggers_reflection_and_creates_hypothesis(self, MockElysiaDaemon):
         """
         Verify that the Guardian's idle cycle triggers the self-reflection process
         (via MemoryWeaver's volatile thought weaving), leading to the creation of a
         new high-confidence hypothesis in CoreMemory.
         """
-        # 1. Set up the KG with some initial data (optional but good practice)
+        # 1. Instantiate Guardian. The ElysiaDaemon is automatically mocked by the patch.
+        guardian = Guardian()
+
+        # 2. Inject our real, test-specific components into the Guardian instance
+        guardian.kg_manager = self.kg_manager
+        guardian.core_memory = self.core_memory
+        guardian.memory_weaver = self.memory_weaver
+
+        # Mock other components not under test to isolate behavior
+        guardian.exploration_cortex = MagicMock()
+        guardian.web_search_cortex = MagicMock()
+        guardian.knowledge_distiller = MagicMock()
+
+        # 3. Set up the KG with some initial data
         self.kg_manager.add_node("AI")
         self.kg_manager.add_node("consciousness")
         self.kg_manager.add_node("tool")
         self.kg_manager.save()
 
-        # 2. Add volatile thought fragments designed to create a high-confidence link
+        # 4. Add volatile thought fragments designed to create a high-confidence link
         self.core_memory.add_volatile_memory_fragment(["AI", "consciousness", "tool"])
         self.core_memory.add_volatile_memory_fragment(["AI", "consciousness", "ethics"])
         self.core_memory.add_volatile_memory_fragment(["AI", "consciousness", "future"])
         self.core_memory.add_volatile_memory_fragment(["AI", "tool", "development"])
 
-        # 3. Set the Guardian's state to be ready for an idle cycle that triggers memory weaving
-        from Project_Elysia.guardian import ElysiaState
-        self.guardian.current_state = ElysiaState.IDLE
-        self.guardian.treasure_is_safe = True
-        self.guardian.last_learning_time = 0
-        self.guardian.last_activity_time = time.time() - (self.guardian.time_to_idle + 1)
-        self.guardian.daemon.is_alive = True
+        # 5. Set the Guardian's state to be ready for an idle cycle
+        guardian.current_state = ElysiaState.IDLE
+        guardian.treasure_is_safe = True
+        guardian.last_learning_time = 0
+        guardian.last_activity_time = time.time() - (guardian.time_to_idle + 1)
+        guardian.daemon = MockElysiaDaemon.return_value
+        guardian.daemon.is_alive = True
 
-        # 4. Run the Guardian's idle cycle, which should trigger learning
-        self.guardian.run_idle_cycle()
+        # 6. Run the Guardian's idle cycle, which should trigger learning
+        guardian.run_idle_cycle()
 
-        # 5. Assert that a new hypothesis has been created in CoreMemory
+        # 7. Assert that a new hypothesis has been created in CoreMemory
         hypotheses = self.core_memory.get_unasked_hypotheses()
         self.assertGreater(len(hypotheses), 0, "At least one notable hypothesis should have been created.")
 
@@ -97,7 +96,6 @@ class TestSelfGrowthInfrastructure(unittest.TestCase):
                 break
 
         self.assertTrue(found_expected_hypothesis, "The expected hypothesis (AI <-> consciousness) was not found.")
-
 
 if __name__ == '__main__':
     unittest.main()

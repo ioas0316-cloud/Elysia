@@ -148,26 +148,46 @@ class CoreMemory:
         """아직 질문하지 않은 가설들을 가져옵니다."""
         return [h for h in self.data.get('notable_hypotheses', []) if not h.get('asked')]
 
-    def mark_hypothesis_as_asked(self, head: str, tail: str):
-        """특정 가설을 질문했다고 표시합니다."""
+    def mark_hypothesis_as_asked(self, head: str, tail: Optional[str] = None):
+        """특정 가설을 질문했다고 표시합니다. tail이 없으면 승천 가설로 간주합니다."""
         for hypothesis in self.data.get('notable_hypotheses', []):
-            if hypothesis.get('head') == head and hypothesis.get('tail') == tail:
+            is_match = (
+                hypothesis.get('head') == head and
+                (tail is not None and hypothesis.get('tail') == tail) or
+                (tail is None and hypothesis.get('relation') == '승천')
+            )
+            if is_match:
                 hypothesis['asked'] = True
                 self._save_memory()
-                log_memory_action(f"Marked hypothesis as asked: {head} -> {tail}")
+                log_action = f"Marked hypothesis as asked: {head}"
+                if tail:
+                    log_action += f" -> {tail}"
+                log_memory_action(log_action)
                 break
 
-    def remove_hypothesis(self, head: str, tail: str):
-        """처리된 가설을 목록에서 제거합니다."""
+    def remove_hypothesis(self, head: str, tail: Optional[str] = None):
+        """처리된 가설을 목록에서 제거합니다. tail이 없으면 승천 가설로 간주합니다."""
         hypotheses = self.data.get('notable_hypotheses', [])
         original_count = len(hypotheses)
-        self.data['notable_hypotheses'] = [
-            h for h in hypotheses
-            if not (h.get('head') == head and h.get('tail') == tail)
-        ]
+
+        if tail is not None:
+            # Standard relationship hypothesis
+            self.data['notable_hypotheses'] = [
+                h for h in hypotheses
+                if not (h.get('head') == head and h.get('tail') == tail)
+            ]
+            log_msg = f"Removed hypothesis: {head} -> {tail}"
+        else:
+            # Ascension hypothesis (no tail)
+            self.data['notable_hypotheses'] = [
+                h for h in hypotheses
+                if not (h.get('head') == head and h.get('relation') == '승천')
+            ]
+            log_msg = f"Removed ascension hypothesis: {head}"
+
         if len(self.data['notable_hypotheses']) < original_count:
             self._save_memory()
-            log_memory_action(f"Removed hypothesis: {head} -> {tail}")
+            log_memory_action(log_msg)
 
 
     def get_identity(self) -> Dict[str, Any]:

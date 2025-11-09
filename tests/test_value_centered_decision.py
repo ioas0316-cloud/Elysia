@@ -6,7 +6,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Elysia.value_centered_decision import VCD
+from Project_Elysia.value_centered_decision import ValueCenteredDecision
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.thought import Thought
 from Project_Sophia.emotional_engine import EmotionalState
@@ -25,7 +25,7 @@ class TestValueCenteredDecision(unittest.TestCase):
         }
 
         self.mock_wave_mechanics = MagicMock(spec=WaveMechanics)
-        self.vcd = VCD(
+        self.vcd = ValueCenteredDecision(
             kg_manager=self.mock_kg_manager,
             wave_mechanics=self.mock_wave_mechanics,
             core_value='love'
@@ -109,7 +109,7 @@ class TestValueCenteredDecision(unittest.TestCase):
                 return 1.0
             mock_score.side_effect = score_side_effect
 
-            best_thought = self.vcd.suggest_thought(candidates)
+            best_thought = self.vcd.select_thought(candidates)
 
             # Verify the VCD chooses the thought with the higher mocked score.
             self.assertIs(best_thought, thought_high_score)
@@ -132,12 +132,12 @@ class TestValueCenteredDecision(unittest.TestCase):
 
             # Case 1: "calm" emotional state (should prefer confidence)
             calm_state = EmotionalState(0.5, 0.2, 0.5, primary_emotion='calm')
-            best_thought_calm = self.vcd.suggest_thought(candidates, emotional_state=calm_state)
+            best_thought_calm = self.vcd.select_thought(candidates, emotional_state=calm_state)
             self.assertIs(best_thought_calm, thought_confident)
 
             # Case 2: "joy" emotional state (should prefer energy)
             joy_state = EmotionalState(0.8, 0.7, 0.6, primary_emotion='joy')
-            best_thought_joy = self.vcd.suggest_thought(candidates, emotional_state=joy_state)
+            best_thought_joy = self.vcd.select_thought(candidates, emotional_state=joy_state)
             self.assertIs(best_thought_joy, thought_energetic)
 
 
@@ -180,7 +180,7 @@ class TestValueCenteredDecision(unittest.TestCase):
             self.assertAlmostEqual(score_bone, score_flesh + 0.5, delta=0.02) # Check if bonus is ~0.5
 
             # Verify that suggest_thought chooses the 'bone' thought
-            best_thought = self.vcd.suggest_thought(candidates, emotional_state=neutral_state)
+            best_thought = self.vcd.select_thought(candidates, emotional_state=neutral_state)
             self.assertIs(best_thought, thought_from_bone)
 
 

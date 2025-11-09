@@ -9,7 +9,7 @@ from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.emotional_engine import EmotionalState
 from tools.kg_manager import KGManager
 
-class VCD:
+class ValueCenteredDecision:
     """
     Value-Centered Decision (VCD) module, upgraded to process Thought objects.
 
@@ -158,10 +158,10 @@ class VCD:
         final_score += random.random() * 0.01  # Small random tie-breaker
         return final_score
 
-    def suggest_thought(self, candidates: List[Thought], context: Optional[List[str]] = None, emotional_state: Optional[EmotionalState] = None) -> Optional[Thought]:
+    def select_thought(self, candidates: List[Thought], context: Optional[List[str]] = None, emotional_state: Optional[EmotionalState] = None, guiding_intention: Optional[str] = None) -> Optional[Thought]:
         """
-        Suggests the best Thought from a list of candidates by scoring each one,
-        considering the current emotional state.
+        Selects the best Thought from a list of candidates by scoring each one,
+        considering the current emotional state and a guiding intention.
         """
         if not candidates:
             return None

@@ -26,6 +26,7 @@ from Project_Sophia.knowledge_distiller import KnowledgeDistiller
 from Project_Sophia.core.world import World
 from Project_Sophia.core.cell import Cell
 from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.emotional_engine import EmotionalEngine
 from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 # --- Import the refactored ElysiaDaemon ---
 from .elysia_daemon import ElysiaDaemon
@@ -83,14 +84,19 @@ class Guardian:
         self._soul_mirroring_initialization()
         # --- End Cellular World Initialization ---
 
+        # --- Emotional Engine Initialization ---
+        self.emotional_engine = EmotionalEngine()
+        self.logger.info("Emotional Engine initialized.")
+
         # --- Daemon Initialization (Integrated) ---
         self.logger.info("Initializing the integrated ElysiaDaemon with all dependencies...")
         self.daemon = ElysiaDaemon(
             kg_manager=self.kg_manager,
             core_memory=self.core_memory,
-            wave_mechanics=self.wave_mechanics, # Assuming wave_mechanics is needed by pipeline
+            wave_mechanics=self.wave_mechanics,
             cellular_world=self.cellular_world,
-            meta_cognition_cortex=self.meta_cognition_cortex, # Pass the new cortex
+            emotional_engine=self.emotional_engine, # Inject the emotional engine
+            meta_cognition_cortex=self.meta_cognition_cortex,
             logger=self.logger
         )
         self.logger.info("ElysiaDaemon (heart) is now beating within the Guardian.")
