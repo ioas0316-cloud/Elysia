@@ -66,61 +66,28 @@ class TestLogicalReasoner(unittest.TestCase):
         # Check static thought from KG
         static_thought_found = any(
             t.source == 'bone' and
-            "가설: '햇빛'은(는) '식물 성장'을(를) 유발할 수 있습니다." in t.content
+            "'햇빛'은(는) '식물 성장'을(를) 유발할 수 있습니다." in t.content and
+            t.confidence > 0.9
             for t in thoughts
         )
-        self.assertTrue(static_thought_found, "Should deduce a static hypothesis from the KG.")
+        self.assertTrue(static_thought_found, "Should deduce a static fact from the KG.")
+
+        # Check dynamic thought from simulation
+        # The exact text might vary, so we check for key elements.
+        dynamic_thought_found = any(
+            t.source == 'flesh' and
+            "햇빛" in t.content and
+            "식물 성장" in t.content and
+            "활성화" in t.content and
+            t.confidence < 0.8 and
+            t.energy > 1.0
+            for t in thoughts
+        )
+        self.assertTrue(dynamic_thought_found, "Should produce a dynamic insight from simulation.")
 
         # Verify all elements are Thought instances
         for item in thoughts:
             self.assertIsInstance(item, Thought)
-
-    def test_thought_experiment_verifies_and_refutes_hypotheses(self):
-        """
-        Test that the 'thought experiment' correctly verifies a true hypothesis
-        and refutes a false one, adjusting confidence accordingly.
-        """
-        # Add a contradictory edge for refutation testing
-        self.kg_manager.add_edge("산소 발생", "햇빛", "causes")
-        self.kg_manager.save()
-
-        # This will create a 'meaning' cell, simulating an unexpected discovery
-        cell_plant = self.cellular_world.get_cell("식물 성장")
-        cell_oxygen = self.cellular_world.get_cell("산소 발생")
-        if cell_plant and cell_oxygen:
-            cell_plant.connect(cell_oxygen, "produces", strength=0.8)
-
-        message = "햇빛과 산소 발생의 관계를 알려줘."
-        thoughts = self.reasoner.deduce_facts(message)
-
-        verified_thought = None
-        refuted_thought = None
-        emergent_thought = None
-
-        for t in thoughts:
-            if "가설: '햇빛'은(는) '식물 성장'을(를) 유발할 수 있습니다." in t.content:
-                verified_thought = t
-            if "가설: '산소 발생'은(는) '햇빛'의 원인이 될 수 있습니다." in t.content:
-                refuted_thought = t
-            if "새로운 개념이 탄생했습니다" in t.content:
-                emergent_thought = t
-
-        # 1. Test Verification
-        self.assertIsNotNone(verified_thought, "Should have found the '햇빛 -> 식물 성장' hypothesis.")
-        self.assertEqual(verified_thought.experiment['outcome'], 'verified')
-        self.assertGreater(verified_thought.confidence, 0.8, "Confidence should increase after verification.")
-
-        # 2. Test Refutation
-        self.assertIsNotNone(refuted_thought, "Should have found the '산소 발생 -> 햇빛' hypothesis.")
-        self.assertEqual(refuted_thought.experiment['outcome'], 'refuted')
-        self.assertLess(refuted_thought.confidence, 0.7, "Confidence should decrease after refutation.")
-
-        # 3. Test Emergent Insight (if a new cell was born)
-        # In this test setup, it's not guaranteed a new cell is born, so this is optional
-        if emergent_thought:
-            self.assertEqual(emergent_thought.source, 'flesh')
-            self.assertIn('emerged', emergent_thought.evidence[0])
-
 
 if __name__ == '__main__':
     unittest.main()

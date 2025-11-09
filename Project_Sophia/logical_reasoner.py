@@ -27,63 +27,66 @@ class LogicalReasoner:
             return []
 
         node_ids = {node.get('id') for node in nodes if node.get('id')}
+
+        # Sort by length descending to match longer names first (e.g., "black hole" before "hole")
         sorted_node_ids = sorted(list(node_ids), key=len, reverse=True)
+
         lower_message = message.lower()
         for entity_id in sorted_node_ids:
             if entity_id.lower() in lower_message:
                 mentioned_entities.append(entity_id)
+
         return list(set(mentioned_entities))
 
-    def _run_thought_experiment(self, hypothesis: Thought, simulation_steps: int = 3) -> Dict[str, Any]:
+    def _run_causal_simulation(self, cause_entity: str, simulation_steps: int = 5) -> List[Thought]:
         """
-        Runs a 'thought experiment' in the Cellular World to test a hypothesis (a Thought object).
-        Returns a dictionary summarizing the experiment's results.
+        Runs a dynamic simulation in the Cellular World to find potential causal effects.
         """
-        if not self.cellular_world or not isinstance(hypothesis.evidence, list) or not hypothesis.evidence:
-            return {"outcome": "not_applicable", "reason": "No cellular world or evidence to test."}
+        if not self.cellular_world:
+            return []
 
-        edge = hypothesis.evidence[0]
-        if not isinstance(edge, dict) or 'source' not in edge or 'target' not in edge:
-            return {"outcome": "not_applicable", "reason": "Evidence is not a valid edge."}
-
-        cause_entity, expected_effect = edge['source'], edge['target']
-
-        sim_world = copy.deepcopy(self.cellular_world)
-
-        initial_effect_energy = sim_world.get_cell(expected_effect).energy if sim_world.get_cell(expected_effect) else 0.0
-        initial_total_energy = sim_world.get_total_energy()
-
-        # Stimulate the cause entity
-        sim_world.inject_stimulus(cause_entity, energy_boost=100.0)
-
-        # Run the simulation
-        newly_born_cells = []
-        for _ in range(simulation_steps):
-            newly_born_cells.extend(sim_world.run_simulation_step())
-
-        final_effect_energy = sim_world.get_cell(expected_effect).energy if sim_world.get_cell(expected_effect) else 0.0
-        final_total_energy = sim_world.get_total_energy()
-
-        energy_increase = final_effect_energy - initial_effect_energy
-        outcome = "inconclusive"
-        if energy_increase > 10.0:
-            outcome = "verified"
-        elif energy_increase < 1.0:
-            outcome = "refuted"
-
-        return {
-            "outcome": outcome,
-            "cause": cause_entity,
-            "expected_effect": expected_effect,
-            "actual_energy_change": round(energy_increase, 2),
-            "newly_born_cells": [cell.id for cell in newly_born_cells],
-            "simulation_narrative": f"Stimulated '{cause_entity}'. Energy of '{expected_effect}' changed by {energy_increase:.2f}. {len(newly_born_cells)} new cells born."
+        # 1. Store initial state to find changes
+        initial_energies: Dict[str, float] = {
+            cell_id: cell.energy for cell_id, cell in self.cellular_world.cells.items()
         }
+
+        # 2. Inject stimulus
+        self.cellular_world.inject_stimulus(cause_entity, energy_boost=100.0)
+
+        # 3. Run simulation
+        for _ in range(simulation_steps):
+            self.cellular_world.run_simulation_step()
+
+        # 4. Analyze results and generate thoughts
+        simulation_thoughts: List[Thought] = []
+        for cell_id, cell in self.cellular_world.cells.items():
+            initial_energy = initial_energies.get(cell_id, 0.0)
+            final_energy = cell.energy
+
+            # Consider a cell "activated" if its energy significantly increased
+            # and it's not the cause_entity itself.
+            if final_energy > initial_energy + 10.0 and cell_id != cause_entity:
+                content = f"'{cause_entity}'의 영향으로 '{cell_id}' 개념이 활성화될 수 있습니다."
+                thought = Thought(
+                    content=content,
+                    source='flesh',  # '살'에서 비롯된 생각
+                    confidence=0.7,  # Simulation results are less certain than static KG facts
+                    energy=final_energy,
+                    evidence=[{'cell_id': cell_id, 'initial_energy': initial_energy, 'final_energy': final_energy}]
+                )
+                simulation_thoughts.append(thought)
+
+        # Sort by energy for relevance
+        simulation_thoughts.sort(key=lambda t: t.energy, reverse=True)
+
+        return simulation_thoughts
+
 
     def deduce_facts(self, message: str) -> List[Thought]:
         """
-        Analyzes a message, deduces hypotheses from the static KG ('bone'),
-        and then verifies them through 'thought experiments' in the Cellular World ('flesh').
+        Analyzes a message to deduce relevant facts from both the static KG
+        and a dynamic simulation in the Cellular World.
+        Returns a list of Thought objects.
         """
         all_thoughts: List[Thought] = []
         mentioned_entities = self._find_mentioned_entities(message)
@@ -91,64 +94,67 @@ class LogicalReasoner:
         if not mentioned_entities:
             return []
 
+        query_is_for_effect = "결과" in message or "영향" in message or "만약" in message
+
         for entity in mentioned_entities:
-            # 1. Generate hypotheses from the static KG ('bone')
-            hypotheses = self._deduce_static_hypotheses(entity)
+            # 1. Get static facts from KG
+            static_thoughts = self._deduce_static_facts(entity)
+            all_thoughts.extend(static_thoughts)
 
-            # 2. Run thought experiments for each hypothesis
-            for hypo in hypotheses:
-                experiment_result = self._run_thought_experiment(hypo)
-                hypo.experiment = experiment_result
+            # 2. Get dynamic insights from simulation if relevant
+            if query_is_for_effect and self.cellular_world:
+                # Create a deep copy of the world to run a clean simulation
+                # without affecting the main instance.
+                sim_world = copy.deepcopy(self.cellular_world)
+                reasoner_for_sim = LogicalReasoner(self.kg_manager, sim_world)
+                dynamic_thoughts = reasoner_for_sim._run_causal_simulation(entity)
+                all_thoughts.extend(dynamic_thoughts)
 
-                # Update confidence based on experiment outcome
-                if experiment_result['outcome'] == 'verified':
-                    hypo.confidence = min(0.99, hypo.confidence * 1.2) # Increase confidence
-                elif experiment_result['outcome'] == 'refuted':
-                    hypo.confidence *= 0.5 # Decrease confidence
-
-                # Create a new thought if an unexpected outcome occurred
-                if experiment_result['newly_born_cells']:
-                    for new_cell_id in experiment_result['newly_born_cells']:
-                        new_content = f"'{experiment_result['cause']}'에 대한 사고 실험 중, 예상치 못하게 '{new_cell_id}'라는 새로운 개념이 탄생했습니다."
-                        emergent_thought = Thought(
-                            content=new_content,
-                            source='flesh',
-                            confidence=0.75,
-                            evidence=[{'source': experiment_result['cause'], 'emerged': new_cell_id}],
-                            experiment=experiment_result
-                        )
-                        all_thoughts.append(emergent_thought)
-
-                all_thoughts.append(hypo)
-
+        # Remove duplicate thoughts based on content
         unique_thoughts_dict = {t.content: t for t in all_thoughts}
         return list(unique_thoughts_dict.values())
 
-    def _deduce_static_hypotheses(self, entity: str) -> List[Thought]:
-        """Deduces hypotheses from the static KG and returns them as Thought objects."""
-        hypotheses: List[Thought] = []
+
+    def _deduce_static_facts(self, entity: str) -> List[Thought]:
+        """Deduces facts from the static KG and returns them as Thought objects."""
+        static_thoughts: List[Thought] = []
         for edge in self.kg_manager.kg.get('edges', []):
             thought = None
-            content = ""
-
             if edge.get('source') == entity:
                 relation, target = edge.get('relation', 'related_to'), edge.get('target')
-                if relation == 'is_a': content = f"'{entity}'은(는) '{target}'의 한 종류일 수 있습니다."
-                elif relation == 'causes': content = f"가설: '{entity}'은(는) '{target}'을(를) 유발할 수 있습니다."
-                else: content = f"'{entity}'은(는) '{target}'와(과) '{relation}' 관계일 수 있습니다."
+                content = ""
+                if relation == 'is_a':
+                    content = f"'{entity}'은(는) '{target}'의 한 종류입니다."
+                elif relation == 'causes':
+                     content = f"'{entity}'은(는) '{target}'을(를) 유발할 수 있습니다."
+                else:
+                    content = f"'{entity}'은(는) '{target}'와(과) '{relation}' 관계입니다."
 
                 if content:
-                    thought = Thought(content=content, source='bone', confidence=0.8, evidence=[edge])
+                    thought = Thought(
+                        content=content,
+                        source='bone',  # '뼈'에서 비롯된 생각
+                        confidence=0.95, # Static facts are highly confident
+                        evidence=[edge]
+                    )
 
             elif edge.get('target') == entity:
                 relation, source = edge.get('relation', 'related_to'), edge.get('source')
-                if relation == 'is_a': content = f"'{source}'은(는) '{entity}'의 한 예시일 수 있습니다."
-                elif relation == 'causes': content = f"가설: '{source}'은(는) '{entity}'의 원인이 될 수 있습니다."
+                content = ""
+                if relation == 'is_a':
+                    content = f"'{source}'은(는) '{entity}'의 한 예시입니다."
+                elif relation == 'causes':
+                    content = f"'{source}'은(는) '{entity}'의 원인이 될 수 있습니다."
 
                 if content:
-                    thought = Thought(content=content, source='bone', confidence=0.7, evidence=[edge])
+                    thought = Thought(
+                        content=content,
+                        source='bone',  # '뼈'에서 비롯된 생각
+                        confidence=0.9, # Inferred relationships are slightly less confident
+                        evidence=[edge]
+                    )
 
             if thought:
-                hypotheses.append(thought)
+                static_thoughts.append(thought)
 
-        return hypotheses
+        return static_thoughts

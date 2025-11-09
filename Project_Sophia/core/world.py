@@ -151,10 +151,6 @@ class World:
         if cell and cell.is_alive:
             cell.add_energy(energy_boost)
 
-    def get_total_energy(self) -> float:
-        """Calculates the sum of energy of all living cells in the world."""
-        return sum(cell.energy for cell in self.cells.values() if cell.is_alive)
-
     def print_world_summary(self):
         """Prints a summary of the world state for debugging."""
         print(f"\n--- World State (Time: {self.time_step}) ---")

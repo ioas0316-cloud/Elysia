@@ -13,76 +13,96 @@ from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.world import World
+from Project_Sophia.emotional_engine import EmotionalEngine
 
-class TestInternalVoice(unittest.TestCase):
+from Project_Elysia.architecture.handlers import DefaultReasoningHandler
+from Project_Sophia.core.thought import Thought
+from Project_Elysia.architecture.context import ConversationContext
+from Project_Sophia.emotional_engine import EmotionalState
+from Project_Sophia.logical_reasoner import LogicalReasoner
+from Project_Elysia.value_centered_decision import ValueCenteredDecision
+from Project_Sophia.insight_synthesizer import InsightSynthesizer
+from Project_Sophia.response_styler import ResponseStyler
+from Project_Mirror.creative_cortex import CreativeCortex
+from Project_Mirror.perspective_cortex import PerspectiveCortex
+from Project_Sophia.question_generator import QuestionGenerator
+import logging
+
+class TestDefaultReasoningHandler(unittest.TestCase):
 
     def setUp(self):
-        """Set up a fresh pipeline with a real KGManager and mocked dependencies."""
-        self.test_kg_path = Path('data/test_internal_voice_kg.json')
-        if self.test_kg_path.exists():
-            self.test_kg_path.unlink()
+        """Set up mock components for the handler for each test."""
+        self.mock_reasoner = MagicMock(spec=LogicalReasoner)
+        self.mock_vcd = MagicMock(spec=ValueCenteredDecision)
+        self.mock_synthesizer = MagicMock(spec=InsightSynthesizer)
+        self.mock_styler = MagicMock(spec=ResponseStyler)
+        self.mock_logger = MagicMock(spec=logging.Logger)
+        self.mock_creative_cortex = MagicMock(spec=CreativeCortex)
+        self.mock_perspective_cortex = MagicMock(spec=PerspectiveCortex)
+        self.mock_question_generator = MagicMock(spec=QuestionGenerator)
+        self.mock_emotional_engine = MagicMock(spec=EmotionalEngine)
 
-        # Use a real KGManager for this test to verify KG-based reasoning
-        self.kg_manager_instance = KGManager(filepath=str(self.test_kg_path))
-        self.kg_manager_instance.add_edge("black hole", "gravity", "related_to")
-        self.kg_manager_instance.add_edge("black hole", "celestial body", "is_a")
-        self.kg_manager_instance.save()
-
-        # Mock other major dependencies
-        self.mock_core_memory = MagicMock(spec=CoreMemory)
-        self.mock_wave_mechanics = MagicMock(spec=WaveMechanics)
-        self.mock_cellular_world = MagicMock(spec=World)
-        self.mock_core_memory.get_unasked_hypotheses.return_value = []
-
-        # Add basic behavior to the mocks to prevent errors in handlers
-        self.mock_cellular_world.get_cell.return_value = None
-        self.mock_cellular_world.run_simulation_step.return_value = []
-        self.mock_wave_mechanics.get_resonance_between.return_value = 0.5 # Prevent VCD from crashing
-
-        # Instantiate the pipeline with the real KG and mocked components
-        self.pipeline = CognitionPipeline(
-            kg_manager=self.kg_manager_instance,
-            core_memory=self.mock_core_memory,
-            wave_mechanics=self.mock_wave_mechanics,
-            cellular_world=self.mock_cellular_world
+        # Instantiate the handler with all dependencies mocked
+        self.handler = DefaultReasoningHandler(
+            reasoner=self.mock_reasoner,
+            vcd=self.mock_vcd,
+            synthesizer=self.mock_synthesizer,
+            creative_cortex=self.mock_creative_cortex,
+            styler=self.mock_styler,
+            logger=self.mock_logger,
+            perspective_cortex=self.mock_perspective_cortex,
+            question_generator=self.mock_question_generator,
+            emotional_engine=self.mock_emotional_engine
         )
 
-    def tearDown(self):
-        """Clean up the test KG file after each test."""
-        if self.test_kg_path.exists():
-            self.test_kg_path.unlink()
-
-    def test_generates_response_from_kg(self):
+    def test_handler_orchestrates_thought_flow_correctly(self):
         """
-        Tests that the pipeline can generate a response based on facts in its KG.
+        Tests the handler's main logic: deduce -> select -> synthesize -> style.
         """
-        # 1. Process a message that should trigger a KG lookup
-        # We patch the styler to get a predictable output without emotional variance
-        with patch.object(self.pipeline.entry_handler._successor._successor, 'styler') as mock_styler:
-            mock_styler.style_response.side_effect = lambda text, state: f"[Styled] {text}"
+        # 1. Configure mock behaviors
+        thought = Thought(content="블랙홀은 중력과 관련이 있다.", source='kg', confidence=0.9)
+        potential_thoughts = [thought]
+        self.mock_reasoner.deduce_facts.return_value = potential_thoughts
+        self.mock_vcd.select_thought.return_value = thought
+        self.mock_synthesizer.synthesize.return_value = "블랙홀에 대한 합성된 생각."
+        self.mock_styler.style_response.return_value = "[Styled] 블랙홀 생각."
 
-            response, _ = self.pipeline.process_message("black hole")
+        # 2. Call the handler
+        context = ConversationContext()
+        emotional_state = MagicMock(spec=EmotionalState)
+        result = self.handler.handle("블랙홀에 대해 알려줘", context, emotional_state)
 
-            # 2. Assert that the response contains content derived from the KG
-            # The exact sentence can vary, so we check for key concepts.
-            self.assertIn("[Styled]", response['text'])
-            self.assertTrue(
-                "black hole" in response['text'] and ("gravity" in response['text'] or "celestial body" in response['text']),
-                f"Response did not contain expected KG facts. Got: {response['text']}"
-            )
+        # 3. Assert the interactions and final result
+        self.mock_reasoner.deduce_facts.assert_called_once_with("블랙홀에 대해 알려줘")
+        self.mock_vcd.select_thought.assert_called_once_with(
+            candidates=potential_thoughts,
+            context=["블랙홀에 대해 알려줘"],
+            emotional_state=emotional_state,
+            guiding_intention=None
+        )
+        self.mock_synthesizer.synthesize.assert_called_once_with([thought])
+        self.mock_styler.style_response.assert_called_once_with("블랙홀에 대한 합성된 생각.", emotional_state)
+        self.assertEqual(result['text'], "[Styled] 블랙홀 생각.")
 
-    def test_response_with_no_relevant_kg_facts(self):
+    def test_handler_returns_default_response_when_no_thoughts_deduced(self):
         """
-        Tests if the pipeline provides a default response when the KG has no relevant info.
+        Tests the handler's behavior when the reasoner returns no thoughts.
         """
-        # 1. Process a message with no relevant memory in the KG
-        with patch.object(self.pipeline.entry_handler._successor._successor, 'styler') as mock_styler:
-            mock_styler.style_response.side_effect = lambda text, state: f"[Styled] {text}"
-            response, _ = self.pipeline.process_message("Tell me about something new.")
+        # 1. Configure mock behaviors
+        self.mock_reasoner.deduce_facts.return_value = []
+        self.mock_styler.style_response.return_value = "[Styled] 흥미로운 관점."
 
-            # 2. Assert that the response matches the pipeline's default response
-            expected_response = "[Styled] 흥미로운 관점이네요. 조금 더 생각해볼게요."
-            self.assertEqual(response['text'], expected_response)
+        # 2. Call the handler
+        context = ConversationContext()
+        emotional_state = MagicMock(spec=EmotionalState)
+        result = self.handler.handle("알 수 없는 주제", context, emotional_state)
+
+        # 3. Assert the interactions and final result
+        self.mock_reasoner.deduce_facts.assert_called_once_with("알 수 없는 주제")
+        self.mock_vcd.select_thought.assert_not_called()
+        self.mock_synthesizer.synthesize.assert_not_called()
+        self.mock_styler.style_response.assert_called_once_with("흥미로운 관점이네요. 조금 더 생각해볼게요.", emotional_state)
+        self.assertEqual(result['text'], "[Styled] 흥미로운 관점.")
 
 
 if __name__ == '__main__':

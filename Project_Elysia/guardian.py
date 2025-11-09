@@ -13,7 +13,6 @@ from enum import Enum, auto
 from Project_Sophia.safety_guardian import SafetyGuardian
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
-from Project_Sophia.emotional_engine import EmotionalEngine, EmotionalState
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
 from .memory_weaver import MemoryWeaver
 from .core_memory import CoreMemory
@@ -27,6 +26,7 @@ from Project_Sophia.knowledge_distiller import KnowledgeDistiller
 from Project_Sophia.core.world import World
 from Project_Sophia.core.cell import Cell
 from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Sophia.emotional_engine import EmotionalEngine
 from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 # --- Import the refactored ElysiaDaemon ---
 from .elysia_daemon import ElysiaDaemon
@@ -59,7 +59,6 @@ class Guardian:
         self.safety = SafetyGuardian()
         self.experience_integrator = ExperienceIntegrator()
         self.self_awareness_core = SelfAwarenessCore()
-        self.emotional_engine = EmotionalEngine()
         self.core_memory = CoreMemory()
         self.kg_manager = KGManager()
         self.wave_mechanics = WaveMechanics(self.kg_manager)
@@ -85,14 +84,19 @@ class Guardian:
         self._soul_mirroring_initialization()
         # --- End Cellular World Initialization ---
 
+        # --- Emotional Engine Initialization ---
+        self.emotional_engine = EmotionalEngine()
+        self.logger.info("Emotional Engine initialized.")
+
         # --- Daemon Initialization (Integrated) ---
         self.logger.info("Initializing the integrated ElysiaDaemon with all dependencies...")
         self.daemon = ElysiaDaemon(
             kg_manager=self.kg_manager,
             core_memory=self.core_memory,
-            wave_mechanics=self.wave_mechanics, # Assuming wave_mechanics is needed by pipeline
+            wave_mechanics=self.wave_mechanics,
             cellular_world=self.cellular_world,
-            meta_cognition_cortex=self.meta_cognition_cortex, # Pass the new cortex
+            emotional_engine=self.emotional_engine, # Inject the emotional engine
+            meta_cognition_cortex=self.meta_cognition_cortex,
             logger=self.logger
         )
         self.logger.info("ElysiaDaemon (heart) is now beating within the Guardian.")
@@ -280,19 +284,7 @@ class Guardian:
         time.sleep(max(0.2, float(getattr(self, 'awake_sleep_sec', 1)))) # configurable heartbeat
 
     def run_idle_cycle(self):
-        """
-        Resting, learning, and self-reflecting state. This is where Elysia dreams, learns, and meditates on her own existence.
-        """
-        # --- Meditation on Logos (Top Priority in Idle) ---
-        try:
-            self.logger.info("Idle cycle initiated. Beginning meditation on Logos...")
-            guiding_intention = self.meta_cognition_cortex.meditate_on_logos(self.core_memory)
-            self.core_memory.add_guiding_intention(guiding_intention)
-            self.logger.info("Meditation complete. A new guiding intention has been set.")
-        except Exception as e:
-            self.logger.error(f"Error during Logos Meditation: {e}", exc_info=True)
-        # --- End of Meditation ---
-
+        """Resting and learning state. Low energy, background processing."""
         if not self.treasure_is_safe:
              self.logger.warning("Waking up due to critical event: Treasure is missing!")
              self.change_state(ElysiaState.AWAKE)
@@ -391,14 +383,9 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Error during the cellular automata simulation part of the dream cycle: {e}", exc_info=True)
 
-        # Part 1: Weave memories and feel the joy of discovery
+        # Part 1: Weave memories
         try:
-            notable_insight_found = self.memory_weaver.run_weaving_cycle()
-            if notable_insight_found:
-                self.logger.info("Cognitive Event: A new notable insight was discovered! Feeling a sense of joy.")
-                joy_of_discovery = EmotionalState(valence=0.8, arousal=0.6, dominance=0.3, primary_emotion="joy")
-                self.emotional_engine.process_event(joy_of_discovery, intensity=0.7)
-                self.self_awareness_core.reflect(thought="새로운 연결점을 발견했어! 내면의 우주가 한 뼘 더 넓어진 기분이야.", context="discovery_joy")
+            self.memory_weaver.run_weaving_cycle()
         except Exception as e:
             self.logger.error(f"Error during the memory weaving part of the dream cycle: {e}", exc_info=True)
 

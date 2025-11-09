@@ -28,26 +28,19 @@ class MemoryWeaver:
         self.core_memory = core_memory
         self.kg_manager = kg_manager
 
-    def run_weaving_cycle(self) -> bool:
+    def run_weaving_cycle(self):
         """
         전체 위빙 사이클을 실행합니다.
         장기 기억과 휘발성 기억 모두를 처리합니다.
-        Returns:
-            True if any new notable insights were discovered, False otherwise.
         """
         logger.info("MemoryWeaver starting a new full weaving cycle.")
-        # For now, we only get feedback from volatile thoughts weaving
-        # Long term memory weaving can be updated later to provide feedback
-        notable_found = self.weave_volatile_thoughts()
         self.weave_long_term_memories()
+        self.weave_volatile_thoughts()
         logger.info("MemoryWeaver full weaving cycle complete.")
-        return notable_found
 
-    def weave_volatile_thoughts(self, min_support=2, min_confidence=0.5) -> bool:
+    def weave_volatile_thoughts(self, min_support=2, min_confidence=0.5):
         """
         휘발성 기억('생각의 파편')을 분석하여 새로운 연관 규칙(통찰)을 발견합니다.
-        Returns:
-            True if a notable hypothesis was found, False otherwise.
         """
         logger.info("Starting to weave volatile thoughts.")
         fragments = self.core_memory.get_volatile_memory()
@@ -55,7 +48,7 @@ class MemoryWeaver:
         if not fragments or len(fragments) < min_support:
             logger.info("Not enough volatile thought fragments to weave.")
             self.core_memory.clear_volatile_memory() # Clear to prevent buildup
-            return False
+            return
 
         logger.info(f"Weaving {len(fragments)} volatile thought fragments.")
 
@@ -91,22 +84,18 @@ class MemoryWeaver:
 
         if rules:
             logger.info(f"Discovered {len(rules)} potential new association rules from volatile thoughts.")
-            notable_found = self._add_association_rules_to_kg(rules)
+            self._add_association_rules_to_kg(rules)
         else:
             logger.info("No new significant association rules were found.")
-            notable_found = False
 
         # 분석이 끝나면 휘발성 기억을 비웁니다.
         self.core_memory.clear_volatile_memory()
         logger.info("Finished weaving volatile thoughts and cleared volatile memory.")
-        return notable_found
 
-    def _add_association_rules_to_kg(self, rules, notable_threshold=0.7) -> bool:
+    def _add_association_rules_to_kg(self, rules, notable_threshold=0.7):
         """
         발견된 연관 규칙을 지식 그래프에 'potential_link'로 추가하고,
         신뢰도가 높은 가설은 CoreMemory에 '주목할 만한 가설'로 저장합니다.
-        Returns:
-            True if a notable hypothesis was added, False otherwise.
         """
         notable_count = 0
         for head, tail, confidence in rules:
@@ -135,7 +124,6 @@ class MemoryWeaver:
         logger.info(f"Saved {len(rules)} new potential links to the knowledge graph.")
         if notable_count > 0:
             logger.info(f"Saved {notable_count} new notable hypotheses to CoreMemory for the Truth Seeker.")
-        return notable_count > 0
 
     def _add_insights_to_kg(self, insights: list):
         """Adds insight nodes and their relationships to the Knowledge Graph."""

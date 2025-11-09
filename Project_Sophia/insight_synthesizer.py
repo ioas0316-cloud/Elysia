@@ -1,28 +1,26 @@
 from typing import List, Dict, Tuple
-from Project_Sophia.core.thought import Thought
 
 class InsightSynthesizer:
     """
-    Synthesizes lists of Thought objects from the LogicalReasoner
+    Synthesizes lists of static and dynamic facts from the LogicalReasoner
     into a coherent, natural language insight.
     """
 
-    def synthesize(self, thoughts: List[Thought]) -> str:
+    def synthesize(self, facts: List[str]) -> str:
         """
-        Takes a list of Thought objects and synthesizes them into a single, insightful paragraph.
+        Takes a list of facts and synthesizes them into a single, insightful paragraph.
 
         Args:
-            thoughts: A list of Thought objects.
+            facts: A list of strings, where each string is a fact.
+                   Facts can be prefixed with "[정적]" or be part of a simulation result block.
 
         Returns:
             A natural language string representing the synthesized insight.
         """
-        if not thoughts:
+        if not facts:
             return "그 주제에 대해서는 아직 깊이 생각해본 적이 없어요. 더 배우고 탐구해야 할 것 같아요."
 
-        # Extract content from Thought objects for processing
-        fact_contents = [t.content for t in thoughts]
-        static_facts, dynamic_facts, sim_header = self._classify_facts(fact_contents)
+        static_facts, dynamic_facts, sim_header = self._classify_facts(facts)
 
         if static_facts and dynamic_facts:
             # Both static knowledge and dynamic simulation results are present
@@ -58,9 +56,6 @@ class InsightSynthesizer:
                 # Clean up the static fact
                 clean_fact = fact.replace("[정적]", "").strip()
                 static_facts.append(clean_fact)
-            elif not is_dynamic_block:
-                # Treat any other non-dynamic-block text as a static fact
-                static_facts.append(fact.strip())
 
         return static_facts, dynamic_facts, sim_header
 

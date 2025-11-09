@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Any, Optional, Dict
+from typing import List, Any
 
 @dataclass
 class Thought:
@@ -13,7 +13,6 @@ class Thought:
     confidence: float = 0.9  # The certainty of the thought's validity (0.0 to 1.0)
     energy: float = 0.0      # The activation energy from the cell simulation
     evidence: List[Any] = field(default_factory=list) # Supporting nodes/edges/cells
-    experiment: Optional[Dict[str, Any]] = None # Record of the thought experiment that verified/refuted this thought
 
     def __str__(self):
         return f"Thought(content='{self.content}', source='{self.source}', confidence={self.confidence:.2f}, energy={self.energy:.2f})"

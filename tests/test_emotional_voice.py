@@ -9,7 +9,7 @@ sys.path.insert(0, project_root)
 
 # Import the class we are testing and its dependencies
 from Project_Elysia.cognition_pipeline import CognitionPipeline
-from Project_Sophia.emotional_engine import EmotionalState
+from Project_Sophia.emotional_engine import EmotionalState, EmotionalEngine
 from Project_Sophia.core.thought import Thought
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
@@ -44,7 +44,8 @@ class TestEmotionalVoice(unittest.TestCase):
         # --- Test Execution ---
         pipeline = CognitionPipeline(
             self.mock_kg_manager, self.mock_core_memory,
-            self.mock_wave_mechanics, self.mock_cellular_world
+            self.mock_wave_mechanics, self.mock_cellular_world,
+            mock_emotional_engine
         )
         response, _ = pipeline.process_message("소크라테스에 대해 알려줘")
 
@@ -67,7 +68,8 @@ class TestEmotionalVoice(unittest.TestCase):
 
         pipeline = CognitionPipeline(
             self.mock_kg_manager, self.mock_core_memory,
-            self.mock_wave_mechanics, self.mock_cellular_world
+            self.mock_wave_mechanics, self.mock_cellular_world,
+            mock_emotional_engine
         )
         response, _ = pipeline.process_message("플루토에 대해 알려줘")
 
@@ -88,7 +90,8 @@ class TestEmotionalVoice(unittest.TestCase):
 
         pipeline = CognitionPipeline(
             self.mock_kg_manager, self.mock_core_memory,
-            self.mock_wave_mechanics, self.mock_cellular_world
+            self.mock_wave_mechanics, self.mock_cellular_world,
+            mock_emotional_engine
         )
         response, _ = pipeline.process_message("물에 대해 알려줘")
 

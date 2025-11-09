@@ -12,6 +12,7 @@ from tools.kg_manager import KGManager
 from .core_memory import CoreMemory
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.world import World
+from Project_Sophia.emotional_engine import EmotionalEngine
 from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 
 
@@ -28,7 +29,8 @@ class ElysiaDaemon:
         core_memory: CoreMemory,
         wave_mechanics: WaveMechanics,
         cellular_world: Optional[World],
-        meta_cognition_cortex: MetaCognitionCortex, # Added MetaCognitionCortex
+        emotional_engine: EmotionalEngine, # Added EmotionalEngine
+        meta_cognition_cortex: MetaCognitionCortex,
         logger: logging.Logger
     ):
         """
@@ -41,6 +43,7 @@ class ElysiaDaemon:
             core_memory=core_memory,
             wave_mechanics=wave_mechanics,
             cellular_world=cellular_world,
+            emotional_engine=emotional_engine, # Pass the engine to the pipeline
             logger=logger
         )
 

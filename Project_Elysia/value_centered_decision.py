@@ -7,10 +7,9 @@ from typing import Optional, List
 from Project_Sophia.core.thought import Thought
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.emotional_engine import EmotionalState
-import logging
 from tools.kg_manager import KGManager
 
-class VCD:
+class ValueCenteredDecision:
     """
     Value-Centered Decision (VCD) module, upgraded to process Thought objects.
 
@@ -18,14 +17,13 @@ class VCD:
     value alignment (resonance), confidence, energy, context, and novelty,
     dynamically adjusted by the current emotional state.
     """
-    def __init__(self, kg_manager: KGManager, wave_mechanics: WaveMechanics, core_value: str = 'love', logger: Optional[logging.Logger] = None):
+    def __init__(self, kg_manager: KGManager, wave_mechanics: WaveMechanics, core_value: str = 'love'):
         """
         Initializes the VCD module with dependencies.
         """
         self.kg_manager = kg_manager
         self.wave_mechanics = wave_mechanics
         self.core_value = core_value.lower()
-        self.logger = logger or logging.getLogger(__name__)
 
         # Base weights for the multi-faceted scoring function
         self.base_weights = {
@@ -160,30 +158,13 @@ class VCD:
         final_score += random.random() * 0.01  # Small random tie-breaker
         return final_score
 
-    def select_thought(
-        self,
-        candidates: List[Thought],
-        context: Optional[List[str]] = None,
-        emotional_state: Optional[EmotionalState] = None,
-        guiding_intention: Optional[Thought] = None
-    ) -> Optional[Thought]:
+    def select_thought(self, candidates: List[Thought], context: Optional[List[str]] = None, emotional_state: Optional[EmotionalState] = None, guiding_intention: Optional[str] = None) -> Optional[Thought]:
         """
-        Selects the best Thought from a list, prioritizing any Thought that aligns
-        with the guiding intention from the Logos Engine.
+        Selects the best Thought from a list of candidates by scoring each one,
+        considering the current emotional state and a guiding intention.
         """
         if not candidates:
             return None
-
-        # --- Intention Alignment Check ---
-        if guiding_intention and guiding_intention.evidence:
-            intention_focus = guiding_intention.evidence[0] # e.g., '연결'
-            for candidate in candidates:
-                if candidate.evidence and candidate.evidence[0] == intention_focus:
-                    self.logger.info(f"Intention Match: Prioritizing thought '{candidate.content[:30]}...' due to alignment with '{intention_focus}'.")
-                    # Intentionally select the first match to strongly adhere to the will
-                    return candidate
-        # --- End Intention Alignment ---
-
 
         scored_candidates = [
             (self.score_thought(c, context, emotional_state), c) for c in candidates

@@ -18,13 +18,11 @@ from Project_Sophia.core.world import World
 from Project_Sophia.emotional_engine import EmotionalEngine, EmotionalState
 from Project_Sophia.response_styler import ResponseStyler
 from Project_Sophia.insight_synthesizer import InsightSynthesizer
-from .value_centered_decision import VCD
+from .value_centered_decision import ValueCenteredDecision
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
 from Project_Sophia.question_generator import QuestionGenerator
-from Project_Mirror.sensory_cortex import SensoryCortex
-from Project_Mirror.visual_cortex import VisualCortex
-from Project_Sophia.value_cortex import ValueCortex # Dependency for SensoryCortex
+from Project_Mirror.perspective_cortex import PerspectiveCortex
 
 class CognitionPipeline:
     """
@@ -37,92 +35,99 @@ class CognitionPipeline:
         core_memory: CoreMemory,
         wave_mechanics: WaveMechanics,
         cellular_world: Optional[World],
-        logger: Optional[logging.Logger] = None
+        emotional_engine: EmotionalEngine, # Explicitly injected
+        logger: Optional[logging.Logger] = None,
+        **kwargs
     ):
         self.logger = logger or logging.getLogger(__name__)
-        self.core_memory = core_memory # Store core_memory instance
         self.event_bus = EventBus()
         self.cortex_registry = CortexRegistry()
         self.conversation_context = ConversationContext() # Manages conversation state
+        self.emotional_engine = emotional_engine # Store for later use
 
         # --- Instantiate Components (dependencies for handlers) ---
-        emotional_engine = EmotionalEngine()
-        response_styler = ResponseStyler()
-        insight_synthesizer = InsightSynthesizer()
-        question_generator = QuestionGenerator()
-        reasoner = LogicalReasoner(kg_manager=kg_manager, cellular_world=cellular_world)
-        vcd = VCD(kg_manager=kg_manager, wave_mechanics=wave_mechanics, core_value='love', logger=self.logger)
-        creative_cortex = CreativeCortex()
+        # Allow injecting mocks for testing, otherwise create real instances.
+        # This is a common pattern to make code more testable without a full DI framework.
+        response_styler = kwargs.get('response_styler') or ResponseStyler()
+        insight_synthesizer = kwargs.get('insight_synthesizer') or InsightSynthesizer()
+        question_generator = kwargs.get('question_generator') or QuestionGenerator()
+        reasoner = kwargs.get('reasoner') or LogicalReasoner(kg_manager=kg_manager, cellular_world=cellular_world)
+        vcd = kwargs.get('vcd') or ValueCenteredDecision(kg_manager=kg_manager, wave_mechanics=wave_mechanics, core_value='love')
+        creative_cortex = kwargs.get('creative_cortex') or CreativeCortex()
 
         # --- Register Cortexes ---
         self.cortex_registry.register("arithmetic", ArithmeticCortex())
-        # Note: creative_cortex is used directly by a handler, but could be registered for other uses.
         self.cortex_registry.register("creative", creative_cortex)
 
-
-        # --- Instantiate Cortexes for Self-Reflection Loop ---
-        value_cortex = ValueCortex(kg_manager=kg_manager)
-        sensory_cortex = SensoryCortex(value_cortex=value_cortex)
-        visual_cortex = VisualCortex(wave_mechanics=wave_mechanics)
-
-
-        # --- Build the Chain of Responsibility ---
-        # The chain is built in reverse order: the last handler is created first.
-        default_handler = DefaultReasoningHandler(
-            reasoner=reasoner, vcd=vcd, synthesizer=insight_synthesizer,
-            creative_cortex=creative_cortex, styler=response_styler, logger=self.logger,
-            question_generator=question_generator, emotional_engine=emotional_engine,
-            sensory_cortex=sensory_cortex, visual_cortex=visual_cortex, core_memory=core_memory
+        # --- Instantiate the new PerspectiveCortex with clear dependencies ---
+        perspective_cortex = PerspectiveCortex(
+            logger=self.logger, core_memory=core_memory,
+            wave_mechanics=wave_mechanics, kg_manager=kg_manager,
+            emotional_engine=self.emotional_engine
         )
-        command_handler = CommandWordHandler(
-            successor=default_handler, cortex_registry=self.cortex_registry, logger=self.logger
-        )
-        self.entry_handler: Handler = HypothesisHandler(
-            successor=command_handler, core_memory=core_memory, kg_manager=kg_manager,
+
+        # --- Store Handlers and Cortexes directly as members ---
+        self.hypothesis_handler = HypothesisHandler(
+            core_memory=core_memory, kg_manager=kg_manager,
             question_generator=question_generator, response_styler=response_styler, logger=self.logger
         )
+        self.command_handler = CommandWordHandler(
+            cortex_registry=self.cortex_registry, logger=self.logger
+        )
+        self.default_reasoning_handler = DefaultReasoningHandler(
+            reasoner=reasoner, vcd=vcd, synthesizer=insight_synthesizer,
+            creative_cortex=creative_cortex, styler=response_styler,
+            logger=self.logger, perspective_cortex=perspective_cortex,
+            question_generator=question_generator, emotional_engine=self.emotional_engine
+        )
 
-        self.logger.info("CognitionPipeline initialized with Chain of Responsibility.")
-        # Setup event logging
+        self.logger.info("CognitionPipeline initialized with Central Dispatch Model.")
         self._setup_event_listeners()
 
     def _setup_event_listeners(self):
-        """Subscribe to events to log them."""
-        # This is a placeholder for where more complex event handling could go
+        """Subscribe to events for logging and telemetry."""
         self.event_bus.subscribe("message_processed", lambda result: self.logger.info(f"Event: Message processing completed. Result: {result.get('text', 'N/A')}"))
-        self.event_bus.subscribe("error_occurred", lambda error: self.logger.error(f"Event: An error occurred in a handler: {error}"))
+        self.event_bus.subscribe("error_occurred", lambda error: self.logger.error(f"Event: An error occurred: {error}"))
 
     def process_message(self, message: str) -> Tuple[Dict[str, Any], EmotionalState]:
         """
-        Processes a message by passing it through the handler chain.
-        The pipeline itself is now stateless.
+        Processes a message using the Central Dispatch model.
+        It analyzes the message and explicitly routes it to the correct handler.
         """
-        # In a real scenario, emotional_state would also be part of the context
-        # For now, we'll fetch it here.
-        current_emotional_state = EmotionalEngine().get_current_state()
+        current_emotional_state = self.emotional_engine.get_current_state()
+        result = None
 
         try:
-            # --- Inject Guiding Intention into Context ---
-            guiding_intention = self.core_memory.get_guiding_intention()
-            self.conversation_context.guiding_intention = guiding_intention
-            if guiding_intention:
-                self.logger.info(f"Processing with guiding intention: {guiding_intention.evidence}")
-            # --- End Injection ---
-
             self.logger.debug(f"Processing message: '{message}' with context: {self.conversation_context}")
 
-            # The message and context are passed to the first handler
-            result = self.entry_handler.handle(message, self.conversation_context, current_emotional_state)
+            # 1. --- Analysis and Routing ---
+            if self.conversation_context.pending_hypothesis:
+                self.logger.info("Routing to HypothesisHandler (pending hypothesis).")
+                result = self.hypothesis_handler.handle_response(message, self.conversation_context, current_emotional_state)
 
-            if result:
-                self.event_bus.publish("message_processed", result)
-                return result, current_emotional_state
+            # Check for command words (e.g., "계산:")
+            elif self.command_handler.can_handle(message):
+                self.logger.info("Routing to CommandWordHandler.")
+                result = self.command_handler.handle(message, self.conversation_context, current_emotional_state)
+
+            # Check if a new hypothesis should be asked
+            elif self.hypothesis_handler.should_ask_new_hypothesis():
+                 self.logger.info("Routing to HypothesisHandler (ask new hypothesis).")
+                 result = self.hypothesis_handler.handle_ask(self.conversation_context, current_emotional_state)
+
+            # Default to general reasoning
             else:
-                # This should ideally not be reached if the default handler always returns something
-                self.logger.error("Handler chain completed without generating a response.")
-                error_response = {"type": "text", "text": "I'm not sure how to respond to that."}
-                self.event_bus.publish("error_occurred", "No response from handler chain")
-                return error_response, current_emotional_state
+                self.logger.info("Routing to DefaultReasoningHandler.")
+                result = self.default_reasoning_handler.handle(message, self.conversation_context, current_emotional_state)
+
+            # --- Finalization ---
+            if not result:
+                self.logger.error("No handler returned a result.")
+                result = {"type": "text", "text": "I'm not sure how to respond to that."}
+                self.event_bus.publish("error_occurred", "No result from handlers")
+
+            self.event_bus.publish("message_processed", result)
+            return result, current_emotional_state
 
         except Exception as e:
             self.logger.error(f"Critical error in CognitionPipeline: {e}", exc_info=True)

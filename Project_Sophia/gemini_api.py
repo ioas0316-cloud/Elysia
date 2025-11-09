@@ -163,24 +163,6 @@ class GeminiAPI:
             gemini_logger.error(f"Failed to create placeholder image: {e}")
             return False
 
-    def generate_text_from_image(self, prompt: str, image_path: str, model_name="models/gemini-pro-vision") -> str:
-        """
-        Generates text based on a prompt and an image using a vision model.
-        """
-        self._configure_genai_if_needed()
-
-        try:
-            img = Image.open(image_path)
-            model = genai.GenerativeModel(model_name)
-            response = model.generate_content([prompt, img])
-            return response.text
-        except FileNotFoundError:
-            gemini_logger.error(f"Image file not found at path: {image_path}")
-            raise APIRequestError(f"Image file not found: {image_path}")
-        except Exception as e:
-            gemini_logger.exception(f"An unexpected error occurred during image-based text generation: {e}")
-            raise APIRequestError(f"An unexpected error occurred during image-based text generation: {e}")
-
 # For backward compatibility, we can instantiate the class
 gemini_api = GeminiAPI()
 
