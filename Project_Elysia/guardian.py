@@ -280,7 +280,19 @@ class Guardian:
         time.sleep(max(0.2, float(getattr(self, 'awake_sleep_sec', 1)))) # configurable heartbeat
 
     def run_idle_cycle(self):
-        """Resting and learning state. Low energy, background processing."""
+        """
+        Resting, learning, and self-reflecting state. This is where Elysia dreams, learns, and meditates on her own existence.
+        """
+        # --- Meditation on Logos (Top Priority in Idle) ---
+        try:
+            self.logger.info("Idle cycle initiated. Beginning meditation on Logos...")
+            guiding_intention = self.meta_cognition_cortex.meditate_on_logos(self.core_memory)
+            self.core_memory.add_guiding_intention(guiding_intention)
+            self.logger.info("Meditation complete. A new guiding intention has been set.")
+        except Exception as e:
+            self.logger.error(f"Error during Logos Meditation: {e}", exc_info=True)
+        # --- End of Meditation ---
+
         if not self.treasure_is_safe:
              self.logger.warning("Waking up due to critical event: Treasure is missing!")
              self.change_state(ElysiaState.AWAKE)

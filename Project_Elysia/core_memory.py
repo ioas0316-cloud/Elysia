@@ -29,16 +29,19 @@ class Memory:
     metadata: Optional[Dict[str, Any]] = None # For storing extra data like image_path
 
 class CoreMemory:
-    def __init__(self, file_path: Optional[str] = None):
-        if file_path is None:
-            # To ensure this runs correctly from any context (e.g., tests, main script),
-            # we define the path relative to the project's assumed root.
-            # This is less robust but avoids permissions errors in sandboxed environments.
+    def __init__(self, file_path: Optional[str] = 'default'):
+        if file_path == 'default':
             file_path = os.path.join('Elysia_Input_Sanctum', 'elysia_core_memory.json')
 
-        self.file_path = file_path
-        log_memory_action(f"Initializing and loading memory from: {self.file_path}")
-        self.data = self._load_memory()
+        self.file_path = file_path # Can be None for in-memory mode
+
+        if self.file_path:
+            log_memory_action(f"Initializing and loading memory from: {self.file_path}")
+            self.data = self._load_memory()
+        else:
+            log_memory_action("Initializing CoreMemory in IN-MEMORY mode.")
+            self.data = self._get_new_memory_structure()
+
         # MemoryWeaver가 사용할 단기 기억, 파일에 저장되지 않음
         self.volatile_memory: List[Set[str]] = []
 
@@ -56,6 +59,18 @@ class CoreMemory:
         log_memory_action(f"Clearing {len(self.volatile_memory)} fragments from volatile memory.")
         self.volatile_memory = []
 
+    def _get_new_memory_structure(self) -> Dict[str, Any]:
+        """Returns a dictionary representing a fresh, empty memory structure."""
+        return {
+            'identity': {},
+            'values': [],
+            'experiences': [],
+            'relationships': {},
+            'rules': [],
+            'notable_hypotheses': [],
+            'guiding_intention': None
+        }
+
     def _load_memory(self) -> Dict[str, Any]:
         try:
             with open(self.file_path, 'r', encoding='utf-8') as f:
@@ -64,26 +79,31 @@ class CoreMemory:
                 return data
         except FileNotFoundError:
             log_memory_action(f"Memory file not found at {self.file_path}. Creating new memory structure.")
-            new_memory = {
-                'identity': {},
-                'values': [],
-                'experiences': [],
-                'relationships': {},
-                'rules': [],
-                'notable_hypotheses': []
-            }
-            return new_memory
+            return self._get_new_memory_structure()
         except json.JSONDecodeError as e:
             log_memory_action(f"Error decoding JSON from {self.file_path}: {e}. Starting with empty memory.")
-            new_memory = {
-                'identity': {},
-                'values': [],
-                'experiences': [],
-                'relationships': {},
-                'rules': [],
-                'notable_hypotheses': []
-            }
-            return new_memory
+            return self._get_new_memory_structure()
+
+    def add_guiding_intention(self, intention: 'Thought'):
+        """Saves the guiding intention from a Logos meditation cycle."""
+        # HACK: Deferred import to prevent circular dependency issues at startup.
+        from Project_Sophia.core.thought import Thought
+        if isinstance(intention, Thought):
+             # Convert dataclass to dict for JSON serialization
+            self.data['guiding_intention'] = asdict(intention)
+            self._save_memory()
+            log_memory_action(f"Saved new guiding intention: {intention.content[:50]}...")
+        else:
+            log_memory_action(f"Error: Provided intention is not a Thought object.")
+
+    def get_guiding_intention(self) -> Optional['Thought']:
+        """Retrieves the current guiding intention."""
+        # HACK: Deferred import
+        from Project_Sophia.core.thought import Thought
+        intention_data = self.data.get('guiding_intention')
+        if intention_data:
+            return Thought(**intention_data)
+        return None
 
     def update_identity(self, key: str, value: Any):
         """신원 정보 업데이트 (이름, 선호도 등)"""
@@ -226,7 +246,13 @@ class CoreMemory:
         self._save_memory()
 
     def _save_memory(self):
-        """메모리 데이터를 파일에 저장합니다."""
+        """
+        Saves the memory data to file, if not in in-memory mode.
+        """
+        if not self.file_path:
+            # In-memory mode, do not save to disk.
+            return
+
         try:
             # 파일이 위치할 디렉토리가 존재하는지 확인하고, 없으면 생성합니다.
             os.makedirs(os.path.dirname(self.file_path), exist_ok=True)

@@ -89,9 +89,9 @@ class HypothesisHandler(Handler):
             final_response = self.response_styler.style_response(response_text, emotional_state)
             return {"type": "text", "text": final_response} # Handled
 
-        # 2. If no hypothesis is pending, check if a new one should be asked
+        # 2. If no hypothesis is pending, and there is NO guiding intention, check if a new hypothesis should be asked
         hypotheses = self.core_memory.get_unasked_hypotheses()
-        if hypotheses:
+        if hypotheses and not context.guiding_intention:
             hypothesis_to_ask = hypotheses[0]
             context.pending_hypothesis = hypothesis_to_ask
             self.core_memory.mark_hypothesis_as_asked(hypothesis_to_ask['head'], hypothesis_to_ask['tail'])
@@ -159,8 +159,11 @@ class DefaultReasoningHandler(Handler):
                 response_data = {"type": "text", "text": self.styler.style_response(insightful_text, emotional_state)}
             else:
                 self.logger.info(f"VCD evaluating {len(potential_thoughts)} thoughts with emotion: {emotional_state.primary_emotion}")
-                chosen_thought = self.vcd.suggest_thought(
-                    candidates=potential_thoughts, context=[message], emotional_state=emotional_state
+                chosen_thought = self.vcd.select_thought(
+                    candidates=potential_thoughts,
+                    context=[message],
+                    emotional_state=emotional_state,
+                    guiding_intention=context.guiding_intention
                 )
 
                 if not chosen_thought:

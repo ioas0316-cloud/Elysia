@@ -40,6 +40,7 @@ class CognitionPipeline:
         logger: Optional[logging.Logger] = None
     ):
         self.logger = logger or logging.getLogger(__name__)
+        self.core_memory = core_memory # Store core_memory instance
         self.event_bus = EventBus()
         self.cortex_registry = CortexRegistry()
         self.conversation_context = ConversationContext() # Manages conversation state
@@ -50,7 +51,7 @@ class CognitionPipeline:
         insight_synthesizer = InsightSynthesizer()
         question_generator = QuestionGenerator()
         reasoner = LogicalReasoner(kg_manager=kg_manager, cellular_world=cellular_world)
-        vcd = VCD(kg_manager=kg_manager, wave_mechanics=wave_mechanics, core_value='love')
+        vcd = VCD(kg_manager=kg_manager, wave_mechanics=wave_mechanics, core_value='love', logger=self.logger)
         creative_cortex = CreativeCortex()
 
         # --- Register Cortexes ---
@@ -101,6 +102,13 @@ class CognitionPipeline:
         current_emotional_state = EmotionalEngine().get_current_state()
 
         try:
+            # --- Inject Guiding Intention into Context ---
+            guiding_intention = self.core_memory.get_guiding_intention()
+            self.conversation_context.guiding_intention = guiding_intention
+            if guiding_intention:
+                self.logger.info(f"Processing with guiding intention: {guiding_intention.evidence}")
+            # --- End Injection ---
+
             self.logger.debug(f"Processing message: '{message}' with context: {self.conversation_context}")
 
             # The message and context are passed to the first handler
