@@ -54,6 +54,8 @@ class ElysiaState(Enum):
 
 class Guardian:
     def __init__(self):
+        # Initialize logger early to prevent AttributeError in other initializations
+        self.logger = logging.getLogger("Guardian")
         self.setup_logging()
         self._load_config() # Load config first
         self.safety = SafetyGuardian()
@@ -374,8 +376,22 @@ class Guardian:
         # Part 0: Cellular Automata Simulation & Tissue Formation
         try:
             self.logger.info("Dream cycle: Simulating the Cellular World...")
-            newly_born_cells = self.cellular_world.run_simulation_step()
+            self.cellular_world.run_simulation_step()
             self.cellular_world.print_world_summary()
+
+            # --- Insight Ascension: Identify stable, mature molecule cells ---
+            STABILITY_AGE_THRESHOLD = 10  # Cell must survive this many cycles
+            STABILITY_ENERGY_THRESHOLD = 1.0 # Cell must have at least this much energy
+
+            stable_new_molecules = []
+            for cell in self.cellular_world.cells.values():
+                is_molecule = cell.element_type == 'molecule'
+                is_meaningful = cell.id.startswith('meaning:')
+                is_mature = cell.age > STABILITY_AGE_THRESHOLD
+                is_energetic = cell.energy > STABILITY_ENERGY_THRESHOLD
+
+                if cell.is_alive and is_molecule and is_meaningful and is_mature and is_energetic:
+                    stable_new_molecules.append(cell)
 
             # --- Law of Growth: Tissue Formation ---
             import networkx as nx
@@ -396,11 +412,11 @@ class Guardian:
             self.logger.info(f"Dream cycle: Identified {len(stable_tissues)} stable cell tissues.")
 
             ascension_candidates = {
-                "cells": newly_born_cells,
+                "cells": stable_new_molecules,
                 "tissues": stable_tissues
             }
-            if newly_born_cells or stable_tissues:
-                self.logger.info(f"Insight discovered! {len(newly_born_cells)} new cells and {len(stable_tissues)} tissues are candidates for ascension.")
+            if stable_new_molecules or stable_tissues:
+                self.logger.info(f"Insight discovered! {len(stable_new_molecules)} stable new cells and {len(stable_tissues)} tissues are candidates for ascension.")
                 self._handle_ascension_candidates(ascension_candidates)
 
         except Exception as e:
@@ -566,33 +582,39 @@ class Guardian:
 
     def _handle_ascension_candidates(self, candidates: dict):
         """
-        Handles ascension candidates for both individual cells and cell tissues.
+        Handles ascension candidates by creating structured hypotheses for them.
         """
-        # 1. Handle newly born individual cells
+        # 1. Handle stable, mature molecule cells
         for cell in candidates.get("cells", []):
-            if not cell.id.startswith("meaning:"):
-                continue
-            if self.kg_manager.get_node(cell.id):
-                self.logger.info(f"Ascension candidate '{cell.id}' already exists as a Node. Skipping.")
+            parents = cell.organelles.get("parents", [])
+            if len(parents) < 2:
+                self.logger.warning(f"Molecule cell '{cell.id}' is a candidate but has insufficient parent data. Skipping.")
                 continue
 
-            self.logger.info(f"Cell '{cell.id}' identified as an Ascension Candidate.")
-            ascension_hypothesis = {
-                "head": cell.id,
-                "tail": "개념",
-                "relation": "승천",
-                "confidence": 0.9,
-                "source": "Cell_Ascension_Ritual",
-                "text": f"새로운 의미 '{cell.id}'가 탄생했습니다. 이 의미를 영원한 '개념'으로 승천시켜 지식의 일부로 만들까요?",
+            # Ensure the new concept doesn't already exist in the KG
+            if self.kg_manager.get_node(cell.id):
+                self.logger.info(f"Insight candidate '{cell.id}' already exists as a Node. Skipping.")
+                continue
+
+            parent_a, parent_b = parents[0], parents[1]
+
+            # Construct the hypothesis based on the defined structure
+            insight_hypothesis = {
+                "head": parent_a,
+                "tail": parent_b,
+                "relation": "forms_new_concept",
+                "new_concept_id": cell.id,
+                "confidence": round(0.7 + (cell.energy / 100), 2), # Base 0.7 + energy bonus
+                "source": "CellularGenesis",
+                "text": f"세포 세계에서 '{parent_a}'와 '{parent_b}'가 결합하여 '{cell.id}'라는 새로운 의미가 탄생했습니다. 이 통찰을 지식의 일부로 받아들일까요?",
                 "metadata": {
-                    "type": "cell",
-                    "parents": cell.organelles.get("parents", []),
-                    "energy": cell.energy
+                    "energy": round(cell.energy, 2),
+                    "age": cell.age
                 },
                 "asked": False
             }
-            self.core_memory.add_notable_hypothesis(ascension_hypothesis)
-            self.logger.info(f"Ascension Ritual initiated for cell '{cell.id}'.")
+            self.core_memory.add_notable_hypothesis(insight_hypothesis)
+            self.logger.info(f"Insight Ascension hypothesis generated for '{cell.id}' from parents '{parent_a}' and '{parent_b}'.")
 
         # 2. Handle stable cell tissues
         for tissue_cells in candidates.get("tissues", []):

@@ -104,6 +104,11 @@ class World:
         Runs a single simulation step using optimized NumPy and SciPy operations.
         """
         self.time_step += 1
+
+        # Increment age for all living cells
+        for cell in self.cells.values():
+            cell.increment_age()
+
         num_cells = len(self.cell_ids)
         if num_cells == 0:
             return []

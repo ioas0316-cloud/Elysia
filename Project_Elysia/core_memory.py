@@ -134,9 +134,11 @@ class CoreMemory:
         if 'notable_hypotheses' not in self.data:
             self.data['notable_hypotheses'] = []
 
-        # 중복 방지: 동일한 head와 tail을 가진 가설이 이미 있는지 확인
+        # 중복 방지: 동일한 head, tail, relation을 가진 가설이 이미 있는지 확인
         exists = any(
-            h.get('head') == hypothesis.get('head') and h.get('tail') == hypothesis.get('tail')
+            h.get('head') == hypothesis.get('head') and
+            h.get('tail') == hypothesis.get('tail') and
+            h.get('relation') == hypothesis.get('relation')
             for h in self.data['notable_hypotheses']
         )
         if not exists:
