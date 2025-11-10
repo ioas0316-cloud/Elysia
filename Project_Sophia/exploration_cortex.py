@@ -113,3 +113,40 @@ class ExplorationCortex:
 
         lonely_nodes = [node_id for node_id, count in connection_counts.items() if count <= max_connections]
         return lonely_nodes
+
+    def get_random_highly_connected_node(self) -> Optional[str]:
+        """
+        Finds a random node from the top quintile (20%) of most-connected nodes.
+        This provides a good candidate for a "thought experiment" seed.
+        """
+        nodes = self.kg.kg.get('nodes', [])
+        edges = self.kg.kg.get('edges', [])
+        if not nodes or len(nodes) < 5: # Need a reasonable number of nodes to calculate quintile
+            return None
+
+        connection_counts = {node['id']: 0 for node in nodes}
+        for edge in edges:
+            source, target = edge.get('source'), edge.get('target')
+            if source in connection_counts:
+                connection_counts[source] += 1
+            if target in connection_counts:
+                connection_counts[target] += 1
+
+        if not connection_counts:
+            return None
+
+        # Sort nodes by connection count, descending
+        sorted_nodes = sorted(connection_counts.items(), key=lambda item: item[1], reverse=True)
+
+        # Calculate the index for the top 20%
+        top_quintile_index = len(sorted_nodes) // 5
+
+        # Get the list of candidate nodes (top 20%)
+        candidate_nodes = sorted_nodes[:top_quintile_index]
+
+        if not candidate_nodes:
+            # Fallback for very small graphs
+            return sorted_nodes[0][0] if sorted_nodes else None
+
+        # Return the ID of a random node from the candidates
+        return random.choice(candidate_nodes)[0]

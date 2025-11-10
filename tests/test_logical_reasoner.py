@@ -43,11 +43,12 @@ class TestLogicalReasoner(unittest.TestCase):
         for node in self.kg_manager.kg['nodes']:
             self.cellular_world.add_cell(node['id'], initial_energy=1.0)
 
-        # Manually add connections for predictable simulation
-        cell_sun = self.cellular_world.get_cell("햇빛")
-        cell_plant = self.cellular_world.get_cell("식물 성장")
-        if cell_sun and cell_plant:
-            cell_sun.connect(cell_plant, "energy_transfer", strength=0.5)
+        # NOTE: Manual connection is removed. The new design requires the simulation
+        # to build connections dynamically based on the KG relationships within the
+        # "attention bubble". The test `test_deduce_facts_returns_thought_objects`
+        # will now rely on this dynamic behavior.
+        self.cellular_world.materialize_cell("햇빛")
+        self.cellular_world.materialize_cell("식물 성장")
 
         # 3. Instantiate Reasoner
         self.reasoner = LogicalReasoner(
@@ -95,6 +96,49 @@ class TestLogicalReasoner(unittest.TestCase):
         # Verify all elements are Thought instances
         for item in thoughts:
             self.assertIsInstance(item, Thought)
+
+    def test_quantum_observation_simulation(self):
+        """
+        Verify that the simulation runs only on a focused "attention bubble"
+        and not on the entire world state.
+        """
+        # 1. Setup a more complex KG for this specific test
+        self.kg_manager.add_node("물")
+        self.kg_manager.add_node("증기")
+        self.kg_manager.add_node("얼음")
+        self.kg_manager.add_node("무관한_개념") # This should NOT be in the simulation
+        self.kg_manager.add_edge("물", "증기", "becomes")
+        self.kg_manager.add_edge("물", "얼음", "becomes")
+        self.kg_manager.save()
+
+        # 2. Setup a main_world with only QUANTUM STATES, no materialized cells
+        main_world = World(self.cellular_world.primordial_dna, self.cellular_world.wave_mechanics)
+        main_world.add_cell("물", initial_energy=10)
+        main_world.add_cell("증기", initial_energy=10)
+        main_world.add_cell("얼음", initial_energy=10)
+        main_world.add_cell("무관한_개념", initial_energy=10)
+
+        # 3. Instantiate a new reasoner with this quantum world
+        reasoner = LogicalReasoner(self.kg_manager, main_world)
+
+        # 4. Run deduction for a query that triggers simulation
+        message = "만약 물에 에너지를 가하면 어떤 결과가 나오나요?"
+        thoughts = reasoner.deduce_facts(message)
+
+        # 5. Verification
+        self.assertGreater(len(thoughts), 0, "Should produce thoughts from the simulation.")
+
+        # Find the specific simulation thought for "증기"
+        steam_thought = next((t for t in thoughts if t.source == 'flesh' and '증기' in t.content), None)
+
+        self.assertIsNotNone(steam_thought, "Should have a simulation thought about '증기' being activated.")
+        self.assertGreater(steam_thought.energy, 20, "Energy of '증기' should have significantly increased.")
+
+        # Crucially, verify that "무관한_개념" was not part of the simulation.
+        # We can infer this by checking if there's any thought about it.
+        unrelated_thought = next((t for t in thoughts if '무관한_개념' in t.content), None)
+        self.assertIsNone(unrelated_thought, "Unrelated concepts should not be part of the attention bubble.")
+
 
 if __name__ == '__main__':
     unittest.main()

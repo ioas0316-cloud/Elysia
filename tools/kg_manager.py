@@ -139,6 +139,16 @@ class KGManager:
     def get_summary(self):
         return {"nodes": len(self.kg['nodes']), "edges": len(self.kg['edges'])}
 
+    def get_neighbors(self, node_id: str) -> List[str]:
+        """Finds all neighbors of a given node."""
+        neighbors = []
+        for edge in self.kg.get('edges', []):
+            if edge.get('source') == node_id:
+                neighbors.append(edge.get('target'))
+            elif edge.get('target') == node_id:
+                neighbors.append(edge.get('source'))
+        return neighbors
+
 if __name__ == '__main__':
     kg_manager = KGManager()
     kg_manager.kg = {"nodes": [], "edges": []}

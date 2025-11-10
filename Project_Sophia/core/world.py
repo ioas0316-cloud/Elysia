@@ -20,8 +20,13 @@ class World:
         self.time_step = 0
         self.logger = logger or logging.getLogger(__name__)
 
-        # --- Cell Management ---
-        self.cells: Dict[str, Cell] = {}
+        # --- Quantum State Management ---
+        # Stores the potential state of all cells, not their full object representation.
+        self.quantum_states: Dict[str, Dict[str, float]] = {}
+
+        # --- Materialized Cell Management ---
+        # Stores the actual, fully instantiated Cell objects that are currently being observed.
+        self.materialized_cells: Dict[str, Cell] = {}
         self.graveyard: List[Cell] = []
 
         # --- NumPy Data Structures for Optimization ---
@@ -54,15 +59,17 @@ class World:
             new_adj[:current_size, :current_size] = self.adjacency_matrix
         self.adjacency_matrix = new_adj
 
-    def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0) -> Cell:
-        """Adds a new cell to the world, updating all data structures."""
-        if concept_id in self.cells:
-            return self.cells[concept_id]
+    def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0):
+        """Adds a new cell's quantum state to the world. Does not create a full Cell object."""
+        if concept_id in self.quantum_states:
+            return
 
-        # --- Create Cell Object ---
-        cell_dna = dna or self.primordial_dna
-        cell = Cell(concept_id, cell_dna, properties, initial_energy=initial_energy)
-        self.cells[concept_id] = cell
+        # --- Create and store the quantum state ---
+        self.quantum_states[concept_id] = {
+            'existence_probability': 1.0,
+            'energy_potential': initial_energy,
+            'age': 0
+        }
 
         # --- Update Optimized Data Structures ---
         idx = len(self.cell_ids)
@@ -72,30 +79,51 @@ class World:
         self.cell_ids.append(concept_id)
         self.id_to_idx[concept_id] = idx
 
-        self.energy[idx] = cell.energy
-        self.is_alive_mask[idx] = cell.is_alive
-        self.connection_counts[idx] = len(cell.connections) # Initially 0 but good practice
+        self.energy[idx] = initial_energy
+        self.is_alive_mask[idx] = True  # A new quantum state is considered "alive"
+        self.connection_counts[idx] = 0 # No connections initially
 
-        # Add connections for the new cell to the adjacency matrix
-        for conn in cell.connections:
-            target_id = conn.get('target_id')
-            if target_id in self.id_to_idx:
-                target_idx = self.id_to_idx[target_id]
-                strength = conn.get('strength', 0.5)
-                self.adjacency_matrix[idx, target_idx] = strength
-                self.connection_counts[idx] += 1
+        # Connections are not handled at the quantum state level in this design.
+        # They are established when cells are materialized and interact.
 
-        return cell
+    def materialize_cell(self, concept_id: str) -> Optional[Cell]:
+        """
+        Retrieves a materialized cell. If not materialized, it 'collapses' the quantum state
+        into a full Cell object.
+        """
+        if concept_id in self.materialized_cells:
+            return self.materialized_cells[concept_id]
 
-    def get_cell(self, concept_id: str) -> Optional[Cell]:
-        """Retrieves a cell by its ID."""
-        return self.cells.get(concept_id)
+        if concept_id in self.quantum_states:
+            idx = self.id_to_idx.get(concept_id)
+            # This should always be found if a quantum state exists, but we check for safety.
+            if idx is None:
+                self.logger.error(f"Quantum state for '{concept_id}' exists, but it has no index in the world.")
+                return None
+
+            # Collapse the state using the MOST RECENT data from the NumPy arrays
+            state = self.quantum_states[concept_id]
+            current_energy = self.energy[idx]
+            is_currently_alive = self.is_alive_mask[idx]
+
+            cell = Cell(
+                concept_id,
+                self.primordial_dna,
+                initial_energy=current_energy
+            )
+            cell.age = state.get('age', 0)
+            cell.is_alive = is_currently_alive
+
+            self.materialized_cells[concept_id] = cell
+            return cell
+
+        return None
 
     def _sync_states_to_objects(self):
         """Syncs the state from NumPy arrays back to the Cell objects."""
         for i, cell_id in enumerate(self.cell_ids):
-            if cell_id in self.cells:
-                cell = self.cells[cell_id]
+            if cell_id in self.materialized_cells:
+                cell = self.materialized_cells[cell_id]
                 cell.energy = self.energy[i]
                 cell.is_alive = self.is_alive_mask[i]
 
@@ -105,9 +133,9 @@ class World:
         """
         self.time_step += 1
 
-        # Increment age for all living cells
-        for cell in self.cells.values():
-            cell.increment_age()
+        # Increment age for all quantum states
+        for state in self.quantum_states.values():
+            state['age'] += 1
 
         num_cells = len(self.cell_ids)
         if num_cells == 0:
@@ -162,7 +190,7 @@ class World:
 
         # The rest of the logic (chemical reactions, generic interactions, etc.)
         # requires the object representation. It is less of a bottleneck.
-        living_cells = [self.cells[self.cell_ids[i]] for i in range(num_cells) if self.is_alive_mask[i] and self.energy[i] > 1.0]
+        living_cells = [self.materialized_cells[self.cell_ids[i]] for i in range(num_cells) if self.is_alive_mask[i] and self.energy[i] > 1.0 and self.cell_ids[i] in self.materialized_cells]
 
         # --- Chemical Reactions & Generic Interactions ---
         newly_born_molecules = self._run_chemical_reactions(living_cells)
@@ -202,9 +230,11 @@ class World:
         # This is inefficient, but necessary for compatibility. A full refactor would change this.
         dead_cell_ids = [self.cell_ids[i] for i in range(num_cells) if not self.is_alive_mask[i]]
         for cell_id in dead_cell_ids:
-            if cell_id in self.cells:
-                self.graveyard.append(self.cells[cell_id])
-                del self.cells[cell_id]
+            if cell_id in self.materialized_cells:
+                self.graveyard.append(self.materialized_cells[cell_id])
+                del self.materialized_cells[cell_id]
+            if cell_id in self.quantum_states:
+                self.quantum_states[cell_id]['existence_probability'] = 0.0
 
         # Note: This implementation does not yet rebuild the numpy arrays after cell death.
         # For a long-running simulation, this would lead to memory bloat.
@@ -212,6 +242,14 @@ class World:
         # This version focuses on optimizing the hot path (energy calculation).
 
         return newly_born_cells
+
+    def add_connection(self, source_id: str, target_id: str, strength: float = 0.5):
+        """Adds a directed connection to the adjacency matrix."""
+        if source_id in self.id_to_idx and target_id in self.id_to_idx:
+            source_idx = self.id_to_idx[source_id]
+            target_idx = self.id_to_idx[target_id]
+            self.adjacency_matrix[source_idx, target_idx] = strength
+            self.connection_counts[source_idx] += 1
 
     # --- Other methods remain largely the same, but need to be compatible ---
     def inject_stimulus(self, concept_id: str, energy_boost: float):
@@ -234,8 +272,8 @@ class World:
                 if not elements_map['emotion']: continue
                 emotion_cell = random.choice(elements_map['emotion'])
                 new_molecule = existence_cell.create_meaning(emotion_cell, "ionic_bond")
-                if new_molecule and new_molecule.id not in self.cells:
-                    # self.cells[new_molecule.id] = new_molecule # Will be handled by add_cell
+                if new_molecule and new_molecule.id not in self.materialized_cells and new_molecule.id not in self.quantum_states:
+                    # self.materialized_cells[new_molecule.id] = new_molecule # Will be handled by add_cell
                     newly_born_molecules.append(new_molecule)
                     self.logger.info(f"[Ionic Bond] '{existence_cell.id}' ({existence_cell.element_type}) and '{emotion_cell.id}' ({emotion_cell.element_type}) created '{new_molecule.id}'.")
 
@@ -247,7 +285,7 @@ class World:
         self._sync_states_to_objects()
 
         print(f"\n--- World State (Time: {self.time_step}) ---")
-        living_cells = [c for c in self.cells.values() if c.is_alive]
+        living_cells = [c for c in self.materialized_cells.values() if c.is_alive]
         print(f"Living Cells: {len(living_cells)}, Dead Cells (Archived): {len(self.graveyard)}")
         for cell in sorted(living_cells, key=lambda x: x.id):
             status_indicator = ""

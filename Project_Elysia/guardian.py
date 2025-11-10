@@ -17,6 +17,7 @@ from Project_Sophia.self_awareness_core import SelfAwarenessCore
 from .memory_weaver import MemoryWeaver
 from .core_memory import CoreMemory
 from tools.kg_manager import KGManager
+from Project_Sophia.logical_reasoner import LogicalReasoner # Import LogicalReasoner
 from nano_core.bus import MessageBus
 from nano_core.scheduler import Scheduler
 from nano_core.registry import ConceptRegistry
@@ -79,7 +80,7 @@ class Guardian:
             view_website_func=view_text_website
         )
         self.knowledge_distiller = KnowledgeDistiller()
-        self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.logger)
+        self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.core_memory, self.logger)
         self.self_verifier = SelfVerifier(self.kg_manager, self.logger)
 
 
@@ -88,6 +89,10 @@ class Guardian:
         self.cellular_world = World(primordial_dna=PRIMORDIAL_DNA, wave_mechanics=self.wave_mechanics, logger=self.logger)
         self._soul_mirroring_initialization()
         # --- End Cellular World Initialization ---
+
+        # --- Logical Reasoner for internal thought experiments (Depends on Cellular World) ---
+        self.logical_reasoner = LogicalReasoner(self.kg_manager, self.cellular_world)
+        self.logger.info("Logical Reasoner initialized for dream cycle simulations.")
 
         # --- Emotional Engine Initialization ---
         self.emotional_engine = EmotionalEngine()
@@ -307,6 +312,7 @@ class Guardian:
             # Keep the Cellular World mirrored with the latest KG before dreaming
             self._soul_mirroring_sync()
             self.trigger_learning()
+            self._perform_tuning_phase() # New tuning phase
             self._process_high_confidence_hypotheses() # New autonomous processing step
             self.last_learning_time = time.time()
 
@@ -484,6 +490,52 @@ class Guardian:
             self.memory_weaver.run_weaving_cycle()
         except Exception as e:
             self.logger.error(f"Error during the memory weaving part of the dream cycle: {e}", exc_info=True)
+
+        # Part 1.5: Autonomous Thought Experiments (Quantum Observation in Dreams)
+        try:
+            self.logger.info("Dream cycle: Initiating autonomous thought experiment.")
+            # 1. Select a concept to focus on (the "seed" for the thought experiment)
+            # We can use the exploration cortex to find an interesting, well-connected concept.
+            focus_concept = self.exploration_cortex.get_random_highly_connected_node()
+
+            if focus_concept:
+                self.logger.info(f"Dream cycle: Focusing attention on '{focus_concept}' for simulation.")
+
+                # 2. Formulate a question to trigger the simulation
+                dream_query = f"만약 '{focus_concept}'에 에너지를 가하면 어떤 결과가 나올까?"
+
+                # 3. Run the simulation via the LogicalReasoner
+                simulation_thoughts = self.logical_reasoner.deduce_facts(dream_query)
+
+                # 4. Process the results
+                new_insights_count = 0
+                for thought in simulation_thoughts:
+                    # We only care about new insights from the "flesh" (simulation)
+                    if thought.source == 'flesh':
+                        insight_hypothesis = {
+                            "head": focus_concept,
+                            "tail": thought.evidence[0]['cell_id'] if thought.evidence else 'unknown', # Extract the affected cell
+                            "relation": "potentially_activates",
+                            "confidence": thought.confidence,
+                            "source": "DreamSimulation",
+                            "text": thought.content,
+                            "metadata": {
+                                "energy": thought.energy,
+                                "evidence": thought.evidence
+                            },
+                            "asked": False
+                        }
+                        self.core_memory.add_notable_hypothesis(insight_hypothesis)
+                        new_insights_count += 1
+
+                if new_insights_count > 0:
+                    self.logger.info(f"Dream cycle: Generated {new_insights_count} new hypotheses from simulating '{focus_concept}'.")
+            else:
+                self.logger.info("Dream cycle: Could not find a suitable concept to dream about.")
+
+        except Exception as e:
+            self.logger.error(f"Error during the autonomous thought experiment part of the dream cycle: {e}", exc_info=True)
+
 
         # Part 2: Explore inner cosmos by launching starships
         try:

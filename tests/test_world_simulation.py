@@ -39,7 +39,7 @@ class TestWorldSimulation(unittest.TestCase):
         # Expected boost = (resonance * love_energy * 0.5) + 0.5 (nurturing for isolated cell)
         # = (0.5 * 2.0 * 0.5) + 0.5 = 0.5 + 0.5 = 1.0
         # The cell starts with 10, gets the boost. We check if the final energy is close to 11.0
-        cell_A_after_step1 = self.world.get_cell('cell_A')
+        cell_A_after_step1 = self.world.materialize_cell('cell_A')
         self.assertAlmostEqual(cell_A_after_step1.energy, 11.0, delta=0.1)
 
         # --- SCENARIO 2: Love node has high energy ---
@@ -65,7 +65,7 @@ class TestWorldSimulation(unittest.TestCase):
         # Verification for Scenario 2
         # Expected boost = (resonance * love_energy * 0.5) + 0.5 (nurturing)
         # = (0.5 * 10.0 * 0.5) + 0.5 = 2.5 + 0.5 = 3.0
-        cell_A_after_step2 = self.world.get_cell('cell_A')
+        cell_A_after_step2 = self.world.materialize_cell('cell_A')
         self.assertAlmostEqual(cell_A_after_step2.energy, 13.0, delta=0.1)
 
 if __name__ == '__main__':
