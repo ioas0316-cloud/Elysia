@@ -25,6 +25,18 @@ class Canvas:
         """Adds a voxel to the canvas."""
         self.voxels.append((x, y, z, color))
 
+    def draw_dotted_line(self, start_pos, end_pos, fill, width, gap):
+        """Draws a dotted line between two points."""
+        dx, dy = end_pos[0] - start_pos[0], end_pos[1] - start_pos[1]
+        distance = (dx**2 + dy**2)**0.5
+        if distance == 0: return
+
+        dots = int(distance / gap)
+        for i in range(dots):
+            x = int(start_pos[0] + (dx * i / dots))
+            y = int(start_pos[1] + (dy * i / dots))
+            self.draw.ellipse((x - width//2, y - width//2, x + width//2, y + width//2), fill=fill)
+
     def render(self, output_path: str, voxel_size: int = 10, shadow_offset: int = 2):
         """
         Renders the voxels to a 2D PNG image with shadows and depth.

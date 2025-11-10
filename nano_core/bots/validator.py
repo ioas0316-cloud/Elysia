@@ -39,8 +39,17 @@ class ValidatorBot:
                 target = edge.get('target')
                 relation = edge.get('relation')
 
-                # Check for duplicates
-                if source == subj and target == obj and relation == rel:
+                # --- Expanded Duplicate Check ---
+                # A->B is the same as A->B
+                is_direct_duplicate = (source == subj and target == obj and relation == rel)
+
+                # For symmetric relations, B->A is the same as A->B
+                is_reciprocal_duplicate = False
+                symmetric_relations = {"supports", "refutes", "related_to"} # Define relations that are symmetric
+                if rel in symmetric_relations:
+                    is_reciprocal_duplicate = (source == obj and target == subj and relation == rel)
+
+                if is_direct_duplicate or is_reciprocal_duplicate:
                     is_duplicate = True
                     break
 

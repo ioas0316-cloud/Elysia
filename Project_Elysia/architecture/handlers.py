@@ -34,6 +34,7 @@ class HypothesisHandler:
         self.question_generator = question_generator
         self.response_styler = response_styler
         self.logger = logger
+        self.ask_user_via_ui = None # Callback for pushing questions to the UI
 
     def should_ask_new_hypothesis(self) -> bool:
         """Check if there are any unasked hypotheses."""
@@ -74,6 +75,17 @@ class HypothesisHandler:
         if not question:
             question = self.question_generator.generate_question_from_hypothesis(hypothesis_to_ask)
 
+        # --- Push question to UI if callback is available ---
+        if self.ask_user_via_ui:
+            # Add the question text to the hypothesis payload for the UI
+            payload = hypothesis_to_ask.copy()
+            payload['text'] = question
+            self.ask_user_via_ui(payload)
+            # When pushing to UI, the handler's job is done for this cycle.
+            # It doesn't return a direct text response, as the response comes via WebSocket.
+            return {"type": "system_action", "action": "hypothesis_pushed_to_ui"}
+
+        # Fallback for environments without a UI callback (e.g., tests, CLI)
         return {"type": "text", "text": question}
 
     def handle_response(self, message: str, context: ConversationContext, emotional_state: EmotionalState) -> Optional[Any]:

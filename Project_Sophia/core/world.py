@@ -120,14 +120,19 @@ class World:
         # For simplicity, this remains a loop for now as it involves external calls.
         # Can be optimized further if wave_mechanics supports batch operations.
         energy_boost = np.zeros_like(self.energy, dtype=np.float32)
-        if self.wave_mechanics:
+        if self.wave_mechanics and self.wave_mechanics.kg_manager:
+            # Get the 'love' node's value mass (activation_energy) to use as a multiplier
+            love_node = self.wave_mechanics.kg_manager.get_node('love')
+            love_energy_multiplier = love_node.get('activation_energy', 1.0) if love_node else 1.0
+
             # Iterate only up to the current number of valid cells
             for i in range(num_cells):
-                 if self.is_alive_mask[i]:
+                if self.is_alive_mask[i]:
                     cell_id = self.cell_ids[i]
                     try:
                         resonance = self.wave_mechanics.get_resonance_between(cell_id, 'love')
-                        energy_boost[i] = resonance * 0.5
+                        # The Arc Reactor: energy boost is proportional to resonance and love's own energy
+                        energy_boost[i] = resonance * love_energy_multiplier * 0.5
                     except Exception:
                         pass # Ignore if resonance fails
 
