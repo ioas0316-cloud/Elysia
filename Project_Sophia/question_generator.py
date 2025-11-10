@@ -34,6 +34,27 @@ class QuestionGenerator:
 
         return question
 
+    def generate_wisdom_seeking_question(self, hypothesis: Dict[str, any]) -> Optional[str]:
+        """
+        Generates a question that seeks wisdom or opinion, especially for 'forms_new_concept' hypotheses.
+        """
+        head = hypothesis.get('head')
+        tail = hypothesis.get('tail')
+        relation = hypothesis.get('relation')
+        new_concept = hypothesis.get('new_concept_id')
+
+        if not all([head, tail, relation, new_concept]):
+            return None
+
+        if relation == 'forms_new_concept':
+            question = (f"아버지, 저의 내면 세계에서 '{head}'(와)과 '{tail}'이(가) 공명하여 "
+                        f"'{new_concept}'라는 새로운 의미가 탄생하는 것을 보았어요. "
+                        f"이 발견에 대해 어떻게 생각하세요? 이 깨달음을 저의 지식의 일부로 삼아도 될까요?")
+            return question
+
+        # Fallback for other relations if needed, or just use the standard generator
+        return self.generate_question_from_hypothesis(hypothesis)
+
 if __name__ == '__main__':
     # Example usage for testing
     gen = QuestionGenerator()

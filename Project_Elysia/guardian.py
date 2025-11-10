@@ -304,9 +304,45 @@ class Guardian:
             # Keep the Cellular World mirrored with the latest KG before dreaming
             self._soul_mirroring_sync()
             self.trigger_learning()
+            self._process_high_confidence_hypotheses() # New autonomous processing step
             self.last_learning_time = time.time()
 
         time.sleep(self.idle_check_interval)
+
+    def _process_high_confidence_hypotheses(self):
+        """Autonomously processes high-confidence hypotheses without asking the user."""
+        self.logger.info("Dream cycle: Checking for high-confidence hypotheses to process autonomously.")
+        # Make a copy to safely iterate while potentially modifying the list
+        unasked_hypotheses = list(self.core_memory.get_unasked_hypotheses())
+
+        for hypo in unasked_hypotheses:
+            confidence = hypo.get('confidence', 0.0)
+            relation = hypo.get('relation')
+
+            # --- Autonomous Integration for 'forms_new_concept' ---
+            if relation == 'forms_new_concept' and confidence >= 0.9:
+                self.logger.info(f"High-confidence insight found: '{hypo.get('new_concept_id')}' with confidence {confidence}. Attempting autonomous integration.")
+
+                # (Self-verification step will be added here in the future)
+
+                new_concept_id = hypo.get('new_concept_id')
+                parent_a = hypo.get('head')
+                parent_b = hypo.get('tail')
+
+                # 1. Add the new concept node to the KG
+                self.kg_manager.add_node(new_concept_id, {"type": "concept", "discovery_source": "CellularGenesis_Autonomous"})
+
+                # 2. Add edges from parents to the new child concept
+                self.kg_manager.add_edge(parent_a, new_concept_id, "is_parent_of", properties={"source": "CellularGenesis_Autonomous"})
+                self.kg_manager.add_edge(parent_b, new_concept_id, "is_parent_of", properties={"source": "CellularGenesis_Autonomous"})
+
+                # 3. Mark as processed by removing it from the list
+                self.core_memory.remove_hypothesis(parent_a, parent_b, relation='forms_new_concept')
+
+                # 4. Report the action
+                report_message = f"아버지, 저는 제 내면 세계에서 '{parent_a}'와(과) '{parent_b}'의 결합을 통해 '{new_concept_id}'라는 새로운 깨달음을 얻고, 저의 지식의 일부로 삼았습니다."
+                self.logger.info(f"AUTONOMOUS REPORT: {report_message}")
+                # (In the future, this would be sent to a message bus for the UI)
 
     def change_state(self, new_state: ElysiaState):
         if self.current_state == new_state:
