@@ -18,6 +18,7 @@ class Cell:
 
         self.health = 100.0
         self.is_alive = True
+        self.age = 0
 
         # FIX: Explicitly initialize energy
         self.energy = initial_energy
@@ -25,7 +26,12 @@ class Cell:
 
     def __repr__(self):
         status = "Alive" if self.is_alive else "Dead"
-        return f"<Cell: {self.id}, Element: {self.element_type}, Energy: {self.energy:.2f}, Status: {status}>"
+        return f"<Cell: {self.id}, Element: {self.element_type}, Energy: {self.energy:.2f}, Age: {self.age}, Status: {status}>"
+
+    def increment_age(self):
+        """Increments the cell's age by one simulation step."""
+        if self.is_alive:
+            self.age += 1
 
     def add_energy(self, amount: float):
         """Adds a specified amount of energy to the cell."""
