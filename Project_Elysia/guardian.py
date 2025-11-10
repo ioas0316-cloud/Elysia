@@ -70,7 +70,8 @@ class Guardian:
         from nano_core.bots.linker import LinkerBot
         from nano_core.bots.validator import ValidatorBot
         from nano_core.bots.immunity import ImmunityBot
-        self.dream_bots = [LinkerBot(), ValidatorBot(), ImmunityBot()]
+        from nano_core.bots.explorer import ExplorerBot
+        self.dream_bots = [LinkerBot(), ValidatorBot(), ImmunityBot(), ExplorerBot()]
         self.scheduler = Scheduler(self.bus, ConceptRegistry(), self.dream_bots)
         self.exploration_cortex = ExplorationCortex(self.kg_manager, self.bus)
         self.web_search_cortex = WebSearchCortex(
@@ -484,12 +485,12 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Error during the memory weaving part of the dream cycle: {e}", exc_info=True)
 
-        # Part 2: Explore inner cosmos
+        # Part 2: Explore inner cosmos by launching starships
         try:
-            self.logger.info("Dream cycle: Exploring inner cosmos for new connections...")
-            self.exploration_cortex.explore_and_hypothesize(num_hypotheses=3)
+            self.logger.info("Dream cycle: Launching exploration missions to chart the unknown...")
+            self.exploration_cortex.launch_exploration_mission(num_missions=1)
             processed_in_dream = self.scheduler.step(max_steps=50)
-            self.logger.info(f"Dream cycle: Processed {processed_in_dream} nano-bot actions from exploration.")
+            self.logger.info(f"Dream cycle: Processed {processed_in_dream} nano-bot actions from exploration missions.")
         except Exception as e:
             self.logger.error(f"Error during the exploration part of the dream cycle: {e}", exc_info=True)
 

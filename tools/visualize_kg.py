@@ -60,7 +60,7 @@ def visualize_kg(start_node_id: str = None):
     Visualizes the KG. If a start_node_id is provided, it shows
     the activation wave. Otherwise, it shows the entire structure.
     """
-    kg_manager = KGManager()
+    kg_manager = KGManager('data/kg.json')
     kg = kg_manager.kg
 
     if not kg['nodes']:
@@ -109,17 +109,26 @@ def visualize_kg(start_node_id: str = None):
             start_pos, end_pos = source_node['position'], target_node['position']
             x1, y1 = canvas._project(*[(start_pos[axis] - center[i]) * scale for i, axis in enumerate(['x','y','z'])])
             x2, y2 = canvas._project(*[(end_pos[axis] - center[i]) * scale for i, axis in enumerate(['x','y','z'])])
-            if start_node_id or activated_nodes:
-                es = activated_nodes.get(edge['source'], 0.0)
-                et = activated_nodes.get(edge['target'], 0.0)
-                eavg = (es + et) / 2.0
-                norm = eavg / max(1e-6, max_e)
-                color = energy_to_color(norm)
-                width = 2 if norm >= 0.5 else 1
+
+            # --- Edge and Hyperlink Rendering ---
+            relation = edge.get('relation')
+            if relation == 'hyperlink':
+                # Render hyperlink as a special dotted line
+                canvas.draw_dotted_line((x1, y1), (x2, y2), fill=(255, 255, 100), width=2, gap=6)
             else:
-                color = (80, 80, 120)
-                width = 1
-            canvas.draw.line([(x1, y1), (x2, y2)], fill=color, width=width)
+                # Standard edge rendering
+                if start_node_id or activated_nodes:
+                    es = activated_nodes.get(edge['source'], 0.0)
+                    et = activated_nodes.get(edge['target'], 0.0)
+                    eavg = (es + et) / 2.0
+                    norm = eavg / max(1e-6, max_e)
+                    color = energy_to_color(norm)
+                    width = 2 if norm >= 0.5 else 1
+                else:
+                    color = (80, 80, 120)
+                    width = 1
+                canvas.draw.line([(x1, y1), (x2, y2)], fill=color, width=width)
+
             # highlight recently added edges
             try:
                 rel = edge.get('relation')
@@ -144,21 +153,33 @@ def visualize_kg(start_node_id: str = None):
             echo_center = {'x': cx, 'y': cy, 'z': cz}
 
     # Draw nodes
+    # --- Namespace Color Mapping ---
+    namespace_colors = {
+        "concept": (100, 180, 255), # Light Blue for Concepts
+        "value": (255, 215, 100),   # Gold for Values
+        "role": (180, 150, 255),    # Lavender for Roles
+        "default": (180, 180, 255) # Default color
+    }
+
     for node in kg['nodes']:
         pos = node['position']
         x, y, z = [(pos[axis] - center[i]) * scale for i, axis in enumerate(['x','y','z'])]
 
         energy = activated_nodes.get(node['id'], 0.0)
 
-        # Color interpolation
+        # --- Color Logic with Namespace ---
         base_color = (40, 40, 60)
-        # Highlight anchors in a distinct color
+        node_id = node.get('id', '')
+
+        # Determine active color based on namespace
+        namespace = node_id.split(':')[0] if ':' in node_id else 'default'
+        active_color = namespace_colors.get(namespace, namespace_colors['default'])
+
+        # Anchors override the namespace color for emphasis
         if node['id'] in anchor_set:
             active_color = (255, 120, 120)
-        else:
-            active_color = (180, 180, 255) if not start_node_id else (255, 255, 100)
-        color = tuple(int(b + (a - b) * energy) for a, b in zip(active_color, base_color))
 
+        color = tuple(int(b + (a - b) * energy) for a, b in zip(active_color, base_color))
         canvas.add_voxel(x, y, z, color)
 
     # Draw echo center as a bright marker
@@ -228,7 +249,7 @@ def render_kg(start_node_id: str | None = None, out_name: str | None = None) -> 
     Programmatic entry: renders KG (optionally with activation from a start node)
     and returns the image path.
     """
-    kg_manager = KGManager()
+    kg_manager = KGManager('data/kg.json')
     kg = kg_manager.kg
     if not kg.get('nodes'):
         raise RuntimeError('Knowledge graph is empty')
@@ -253,15 +274,28 @@ def render_kg(start_node_id: str | None = None, out_name: str | None = None) -> 
     lens = LensProfile()
     anchors = set(lens._pick_anchors(kg))
 
+    # --- Namespace Color Mapping ---
+    namespace_colors = {
+        "concept": (100, 180, 255),
+        "value": (255, 215, 100),
+        "role": (180, 150, 255),
+        "default": (180, 180, 255)
+    }
+
     for node in kg['nodes']:
         pos = node['position']
         x, y, z = [(pos[axis] - center[i]) * scale for i, axis in enumerate(['x', 'y', 'z'])]
         energy = activated_nodes.get(node['id'], 0.0)
+
         base_color = (40, 40, 60)
+        node_id = node.get('id', '')
+
+        namespace = node_id.split(':')[0] if ':' in node_id else 'default'
+        active_color = namespace_colors.get(namespace, namespace_colors['default'])
+
         if node['id'] in anchors:
             active_color = (255, 120, 120)
-        else:
-            active_color = (180, 180, 255) if not start_node_id else (255, 255, 100)
+
         color = tuple(int(b + (a - b) * energy) for a, b in zip(active_color, base_color))
         canvas.add_voxel(x, y, z, color)
 

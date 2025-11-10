@@ -95,5 +95,23 @@ class TestValidatorBot(unittest.TestCase):
         self.validator.handle(msg_no_obj, self.mock_registry, self.bus)
         self.assertTrue(self.bus.empty())
 
+    def test_handle_reciprocal_link_is_ignored(self):
+        """Test that a reciprocal link (B->A) is ignored if the original link (A->B) exists."""
+        # Setup: KG already has the A -> B edge
+        self.mock_registry.kg.kg = {'edges': [
+            {'source': 'A', 'target': 'B', 'relation': 'supports'}
+        ]}
+
+        # Attempt to validate the reciprocal link B -> A
+        validate_msg = Message(
+            verb='validate',
+            slots={'subject': 'B', 'object': 'A', 'relation': 'supports'}
+        )
+
+        self.validator.handle(validate_msg, self.mock_registry, self.bus)
+
+        # Verification: The bus should be empty as this is a redundant reciprocal link
+        self.assertTrue(self.bus.empty())
+
 if __name__ == '__main__':
     unittest.main()

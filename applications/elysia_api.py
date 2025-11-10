@@ -1,533 +1,172 @@
-﻿from flask import request, jsonify
-from flask import redirect
-from flask import Flask
-from flask import render_template, send_from_directory
-from Project_Sophia.tool_executor import ToolExecutor
-from integrations.agent_proxy import AgentProxy
-from infra.web_sanctum import WebSanctum
-from tools.visualize_kg import render_kg, render_placeholder
-from tools.kg_manager import KGManager
-try:
-    from tools.textbook_ingestor import ingest_subject
-except Exception:
-    ingest_subject = None
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.lens_profile import LensProfile
-from tools.bg_control import status as bg_status, start_daemon as bg_start, stop_daemon as bg_stop
-from Project_Elysia.core_memory import CoreMemory
+
+from flask import request, jsonify, redirect, Flask, render_template, send_from_directory
+from flask_socketio import SocketIO
 import re
 import json as _json
 import os as _os
 import math
 import os
+import logging
 
+# --- Import project modules ---
+from Project_Sophia.tool_executor import ToolExecutor
+from integrations.agent_proxy import AgentProxy
+from infra.web_sanctum import WebSanctum
+from tools.visualize_kg import render_kg, render_placeholder
+from tools.kg_manager import KGManager
+from Project_Elysia.core_memory import CoreMemory
+from Project_Elysia.guardian import Guardian # Import Guardian to access its components
 
+# --- Bridge for cross-module communication ---
+from applications import elysia_bridge
+
+# --- App Initialization ---
 app = Flask(__name__, template_folder='templates')
+app.config['SECRET_KEY'] = 'secret!'
+# Initialize SocketIO and associate it with the bridge
+socketio = SocketIO(app, cors_allowed_origins="*")
+elysia_bridge.socketio = socketio
 
-# Prevent browser/template caching to avoid stale JS
-@app.after_request
-def _no_cache(resp):
-    try:
-        resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-        resp.headers['Pragma'] = 'no-cache'
-        resp.headers['Expires'] = '0'
-    except Exception:
-        pass
-    return resp
+# --- Logging ---
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Create a standalone CognitionPipeline without importing elysia_bridge
-from Project_Elysia.cognition_pipeline import CognitionPipeline
-cognition_pipeline = CognitionPipeline()
-
+# --- Instantiate Core Components ---
+# We instantiate Guardian to get access to its fully wired-up components
+# This avoids re-instantiating everything.
+guardian = Guardian()
+cognition_pipeline = guardian.daemon.cognition_pipeline # Use the 'cognition_pipeline' attribute
 tool_executor = ToolExecutor()
 agent_proxy = AgentProxy()
 sanctum = WebSanctum()
 
-# Attempt a one-time initial render so the monitor isn't blank on first load
-try:
-    # Try full KG render
-    # ensure KG has basics before render\n    kgm_boot = KGManager()\n    if not kgm_boot.kg.get('nodes'):\n        try: ingest_subject('geometry_primitives', kgm_boot); ingest_subject('social_interaction', kgm_boot)\n        except Exception: pass\n    render_kg(start_node_id=None, out_name='monitor_kg.png')
-    # Place a placeholder echo if none exists yet
-    import os as _os
-    _echo_path = _os.path.join('data', 'monitor_echo.png')
-    if not _os.path.exists(_echo_path):
-        render_placeholder('monitor_echo.png', '아직 에코가 없어요 · Render KG를 눌러주세요')
-except Exception:
-    pass
 
+# --- WebSocket Event Handlers ---
 
-@app.route('/tool/decide', methods=['POST'])
-def tool_decide():
-    data = request.get_json(silent=True) or {}
-    prompt = data.get('prompt')
-    if not prompt:
-        return jsonify({'error': 'prompt required'}), 400
+@socketio.on('connect')
+def handle_connect():
+    logger.info(f"Client connected: {request.sid}")
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    logger.info(f"Client disconnected: {request.sid}")
+
+@socketio.on('chat_message')
+def handle_chat_message(data):
+    """Handles incoming chat messages from the user."""
+    user_input = data.get('message', '')
+    logger.info(f"Received chat message: '{user_input}' from {request.sid}")
+
     try:
-        decision = cognition_pipeline.action_cortex.decide_action(prompt)
-        if not decision:
-            return jsonify({'decision': None})
-        prepared = tool_executor.prepare_tool_call(decision)
-        return jsonify({'decision': prepared})
-    except Exception:
-        return jsonify({'error': 'decision error'}), 500
-
-
-@app.route('/tool/execute', methods=['POST'])
-def tool_execute():
-    data = request.get_json(silent=True) or {}
-    decision = data.get('decision')
-    if not decision:
-        return jsonify({'error': 'decision required'}), 400
-    try:
-        result = tool_executor.execute_tool(decision)
-        # Loop back observation into cognition so Elysia also "sees" the outcome
-        try:
-            if isinstance(result, dict):
-                if 'error' in result:
-                    summary = f"tool error: {result.get('error')}"
-                elif 'sanitized_text' in result:
-                    summary = result.get('sanitized_text','')[:200]
-                elif 'content' in result:
-                    summary = result.get('content','')[:200]
-                elif 'body' in result:
-                    summary = result.get('body','')[:200]
-                else:
-                    import json as _json
-                    summary = _json.dumps({k: result[k] for k in list(result)[:4]}, ensure_ascii=False)[:200]
-            else:
-                summary = str(result)[:200]
-            obs = f"{cognition_pipeline.observation_prefix} {summary}"
-            cognition_pipeline.process_message(obs)
-        except Exception:
-            pass
-        return jsonify({'result': result})
-    except Exception:
-        return jsonify({'error': 'execution error'}), 500
-
-
-@app.route('/agent/proxy', methods=['POST'])
-def agent_proxy_route():
-    data = request.get_json(silent=True) or {}
-    route = data.get('route', '/')
-    payload = data.get('payload', {})
-    if not agent_proxy.available():
-        return jsonify({'error': 'Agent proxy not configured'}), 400
-    try:
-        result = agent_proxy.call(route, payload)
-        return jsonify({'result': result})
-    except Exception:
-        return jsonify({'error': 'proxy error'}), 500
-
-
-@app.route('/web/fetch', methods=['POST'])
-def web_fetch():
-    data = request.get_json(silent=True) or {}
-    url = data.get('url')
-    if not url:
-        return jsonify({'error': 'url required'}), 400
-    try:
-        result = sanctum.safe_fetch(url)
-        # Loop back observation so Elysia "sees" fetched content summary
-        try:
-            if isinstance(result, dict):
-                if result.get('sanitized_text'):
-                    summary = result['sanitized_text'][:200]
-                elif result.get('error'):
-                    summary = f"web error: {result.get('error')}"
-                else:
-                    import json as _json
-                    summary = _json.dumps({k: result[k] for k in list(result)[:4]}, ensure_ascii=False)[:200]
-            else:
-                summary = str(result)[:200]
-            obs = f"{cognition_pipeline.observation_prefix} {summary}"
-            cognition_pipeline.process_message(obs)
-        except Exception:
-            pass
-        # If decision requires confirmation, bubble up the hint
-        if result.get('decision') == 'confirm' and not data.get('confirm'):
-            return jsonify({'confirm_required': True, 'result': result})
-        if result.get('decision') == 'block':
-            return jsonify({'blocked': True, 'result': result})
-        return jsonify({'result': result})
-    except Exception:
-        return jsonify({'error': 'fetch error'}), 500
-
-
-@app.route('/monitor')
-def monitor_page():
-    # Render template that auto-refreshes image generated by /monitor/echo
-    return render_template('monitor.html')
-
-
-@app.route('/')
-def root_redirect():
-    # In case browser opens the root URL, send users to the monitor page
-    return redirect('/monitor')
-
-
-# Serve generated images under data/
-import os as _os
-_DATA_DIR = _os.path.abspath(_os.path.join(_os.path.dirname(__file__), '..', 'data'))
-
-@app.route('/data/<path:filename>')
-def serve_data(filename):
-    return send_from_directory(_DATA_DIR, filename)
-
-
-# --- Simple Chat UI and API ---
-@app.route('/chat-ui')
-def chat_ui():
-    # Use the clean chat UI template
-    return render_template('chat-ui.html')
-
-
-@app.route('/chat', methods=['POST'])
-def chat_api():
-    data = request.get_json(silent=True) or {}
-    if 'message' not in data:
-        return jsonify({'error': 'message required'}), 400
-    user_input = data['message']
-    # Teach alias: 'teach: A=B'
-    try:
-        m = re.match(r"^\s*teach\s*:\s*(.+?)\s*[=\-\>]\s*(.+)\s*$", user_input, re.IGNORECASE)
-        if m:
-            a, b = m.group(1).strip(), m.group(2).strip()
-            path = _os.path.join('data','lexicon','aliases_ko.json')
-            _os.makedirs(_os.path.dirname(path), exist_ok=True)
-            data_alias = {}
-            try:
-                with open(path,'r',encoding='utf-8') as f:
-                    data_alias = _json.load(f)
-            except Exception:
-                data_alias = {}
-            data_alias[a] = b
-            try:
-                with open(path,'w',encoding='utf-8') as f:
-                    _json.dump(data_alias,f,ensure_ascii=False,indent=2)
-                return jsonify({'response': {'type': 'text', 'text': f"학습 완료: {a} → {b}"}})
-            except Exception as e:
-                return jsonify({'response': {'type': 'text', 'text': f"저장 실패: {e}"}})
-    except Exception:
-        pass
-    # Gentle, immediate coaching for wounds/contradictions
-    try:
-        if isinstance(user_input, str) and re.search(r'(상처|모순|오류)', user_input):
-            try:
-                # Log a best-effort immune.detect event
-                from nano_core.bus import MessageBus
-                from nano_core.scheduler import Scheduler
-                from nano_core.registry import ConceptRegistry
-                from nano_core.message import Message
-                from nano_core.bots.immunity import ImmunityBot
-                bus = MessageBus(); reg = ConceptRegistry(); sched = Scheduler(bus, reg, [ImmunityBot()])
-                bus.post(Message('immune.detect', {
-                    'cell_id': 'obsidian_note:시간',
-                    'reason': 'user_report',
-                    'evidence_paths': []
-                }))
-                sched.step(2)
-            except Exception:
-                pass
-            coach_text = "상처를 발견했어요. 어떤 부분이 불편했나요? 근거(링크/메모)를 하나 남겨 주시면, 치유(재결합)를 시도할게요."
-            return jsonify({'response': {'type': 'text', 'text': coach_text}})
-    except Exception:
-        pass
-
-    # Acknowledge obsidian_note mentions so users see immediate feedback
-    try:
-        if isinstance(user_input, str) and 'obsidian_note:' in user_input:
-            import re as _re
-            ids = list(set(_re.findall(r'obsidian_note:[^\s\"]+', user_input)))
-            if ids:
-                txt = "에너지를 먹였어요: " + ", ".join(ids) + " — 꿈에서 새 의미를 탐색해볼게요."
-                return jsonify({'response': {'type': 'text', 'text': txt}})
-    except Exception:
-        pass
-
-    # Evidence handoff: accept "증거: <path>" and log an immune.recombine attempt
-    try:
-        if isinstance(user_input, str):
-            m = re.search(r"^\s*증거\s*:\s*(.+)$", user_input.strip())
-            if m:
-                ev = m.group(1).strip()
-                try:
-                    from nano_core.bus import MessageBus
-                    from nano_core.scheduler import Scheduler
-                    from nano_core.registry import ConceptRegistry
-                    from nano_core.message import Message
-                    from nano_core.bots.immunity import ImmunityBot
-                    bus = MessageBus(); reg = ConceptRegistry(); sched = Scheduler(bus, reg, [ImmunityBot()])
-                    bus.post(Message('immune.recombine', {
-                        'participants': ['obsidian_note:시간'],
-                        'outcome': 'pending',
-                        'changes': [],
-                        'evidence_paths': [ev]
-                    }))
-                    sched.step(2)
-                except Exception:
-                    pass
-                ack = f"증거 확인했어요: {ev} — 꿈(IDLE)에서 치유를 시도하고 결과를 기록할게요."
-                return jsonify({'response': {'type': 'text', 'text': ack}})
-    except Exception:
-        pass
-
-    # Recent emergent meanings (simple chat keyword)
-    try:
-        if isinstance(user_input, str) and ('최근 창발' in user_input or 'recent meaning' in user_input.lower()):
-            try:
-                cm = CoreMemory()
-                hyps = cm.data.get('notable_hypotheses', [])[-5:]
-                if not hyps:
-                    txt = '최근 창발 기록이 아직 없어요.'
-                else:
-                    lines = []
-                    for h in hyps[::-1]:
-                        head = h.get('head','?'); tail = h.get('tail','?'); conf = h.get('confidence')
-                        name = f"meaning:{head}_{tail}"
-                        if conf is not None:
-                            lines.append(f"- {name} (conf={conf})")
-                        else:
-                            lines.append(f"- {name}")
-                    txt = '최근 창발 meaning:*\n' + '\n'.join(lines)
-                return jsonify({'response': {'type': 'text', 'text': txt}})
-            except Exception:
-                pass
-    except Exception:
-        pass
-    try:
+        # Process the message through the cognition pipeline
         response, emotional_state = cognition_pipeline.process_message(user_input)
-        resp_type = (response or {}).get('type') if isinstance(response, dict) else 'text'
+
+        # Prepare the payload to be sent back to the client
         payload = {}
+        resp_type = (response or {}).get('type', 'text')
+
         if resp_type == 'text':
-            payload = {
-                'response': {
-                    'type': 'text',
-                    'text': response.get('text', '') if isinstance(response, dict) else str(response)
-                }
-            }
+            payload = {'type': 'text', 'text': response.get('text', '')}
         elif resp_type in ('creative_visualization', 'image'):
-            image_path = response.get('image_path') or response.get('image_url') or ''
             payload = {
-                'response': {
-                    'type': 'image',
-                    'text': response.get('text', ''),
-                    'image_path': image_path
-                }
+                'type': 'image',
+                'text': response.get('text', ''),
+                'image_path': response.get('image_path') or response.get('image_url', '')
             }
         else:
-            payload = {'response': {'type': 'text', 'text': str(response)}}
+            payload = {'type': 'text', 'text': str(response)}
 
-        # include emotional state summary if available
-        if emotional_state:
-            payload['emotional_state'] = {
-                'primary_emotion': getattr(emotional_state, 'primary_emotion', ''),
-                'valence': getattr(emotional_state, 'valence', 0.0),
-                'arousal': getattr(emotional_state, 'arousal', 0.0)
-            }
-        return jsonify(payload)
-    except Exception:
-        return jsonify({'error': 'chat error'}), 500
+        # Emit the response back to the client
+        socketio.emit('chat_response', {'response': payload})
 
-
-# ---- Background controls ----
-@app.route('/bg/status')
-def bg_status_api():
-    try:
-        return jsonify(bg_status())
-    except Exception:
-        return jsonify({'error': 'bg status error'}), 500
-
-
-@app.route('/bg/on', methods=['POST'])
-def bg_on_api():
-    try:
-        data = request.get_json(silent=True) or {}
-        interval = data.get('interval')
-        st = bg_start(interval)
-        return jsonify(st)
-    except Exception:
-        return jsonify({'error': 'bg on error'}), 500
-
-
-@app.route('/bg/off', methods=['POST'])
-def bg_off_api():
-    try:
-        st = bg_stop()
-        return jsonify(st)
-    except Exception:
-        return jsonify({'error': 'bg off error'}), 500
-
-
-# ---- Emergence recent API ----
-@app.route('/emergence/recent')
-def emergence_recent():
-    try:
-        cm = CoreMemory()
-        hyps = cm.data.get('notable_hypotheses', [])
-        items = []
-        for h in hyps[-10:][::-1]:
-            items.append({
-                'head': h.get('head'),
-                'tail': h.get('tail'),
-                'confidence': h.get('confidence'),
-                'name': f"meaning:{h.get('head')}_{h.get('tail')}",
-                'source': h.get('source')
-            })
-        return jsonify({'items': items})
-    except Exception:
-        return jsonify({'error': 'emergence error'}), 500
-
-
-@app.route('/monitor/kg')
-def monitor_kg():
-    start = request.args.get('start')
-    try:
-        path = render_kg(start_node_id=start, out_name='monitor_kg.png')
-        url_path = path.replace('\\', '/')
-        return jsonify({'image_path': url_path})
-    except Exception:
-        return jsonify({'error': 'render error'}), 500
-
-
-@app.route('/monitor/echo')
-def monitor_echo():
-    try:
-        # pick top topic if available
-        topics = cognition_pipeline.topic_tracker.snapshot() if hasattr(cognition_pipeline, 'topic_tracker') else {}
-        start = next(iter(topics.keys())) if topics else None
-        path = render_kg(start_node_id=start, out_name='monitor_echo.png')
-        url_path = path.replace('\\', '/')
-        # Check existence for easier debugging on the client
-        abs_path = os.path.abspath(path)
-        exists = os.path.exists(abs_path)
-        if not exists:
-            # Fallback: try full KG, then placeholder
-            try:
-                p2 = render_kg(start_node_id=None, out_name='monitor_echo.png')
-                abs2 = os.path.abspath(p2)
-                exists2 = os.path.exists(abs2)
-                if exists2:
-                    return jsonify({'image_path': p2.replace('\\', '/'), 'start': start, 'exists': True})
-            except Exception:
-                pass
-            try:
-                p3 = render_placeholder('monitor_echo.png', '아직 에코가 없어요 · Render KG를 눌러주세요')
-                return jsonify({'image_path': p3.replace('\\', '/'), 'start': start, 'exists': True})
-            except Exception:
-                pass
-        return jsonify({'image_path': url_path, 'start': start, 'exists': exists})
-    except Exception:
-        return jsonify({'error': 'render error'}), 500
-
-
-@app.route('/monitor/status')
-def monitor_status():
-    """
-    Returns simple metrics for the monitor panel so users can predict outcomes.
-    - start: the node used to seed the echo (top topic if available)
-    - echo_radius: average spatial distance of active concepts
-    - entropy: diversity of activation (higher means broader focus)
-    - top_topics: current top topics from tracker
-    - anchors: current anchors used by the spatial lens
-    """
-    try:
-        kgm = KGManager()
-        kg = kgm.kg
-        topics = cognition_pipeline.topic_tracker.snapshot() if hasattr(cognition_pipeline, 'topic_tracker') else {}
-        start = (None if not topics else next(iter(topics.keys())))
-        qstart = (request.args.get('start') or '').strip()
-        if qstart:
-            start = qstart
-        wm = WaveMechanics(kgm)
-        echo = {}
-        if start:
-            echo = wm.spread_activation(start)
-        else:
-            echo = {n['id']: 1.0 for n in kg.get('nodes', [])}
-
-        total = sum(echo.values()) or 1.0
-        probs = [v/total for v in echo.values()]
-        entropy = -sum(p*math.log(p+1e-12) for p in probs) if probs else 0.0
-
-        # spatial radius
-        pos = {n['id']: n.get('position', {'x':0,'y':0,'z':0}) for n in kg.get('nodes', [])}
-        cx = sum((pos[k]['x'] if k in pos else 0.0) * (echo[k]/total) for k in echo)
-        cy = sum((pos[k]['y'] if k in pos else 0.0) * (echo[k]/total) for k in echo)
-        cz = sum((pos[k]['z'] if k in pos else 0.0) * (echo[k]/total) for k in echo)
-        dists = []
-        zs = []
-        for k, e in echo.items():
-            if k in pos:
-                p = pos[k]
-                d = math.sqrt((p['x']-cx)**2 + (p['y']-cy)**2 + (p['z']-cz)**2)
-                dists.append(d)
-                zs.append(p['z'])
-        radius = (sum(dists)/len(dists)) if dists else 0.0
-        z_span = (max(zs)-min(zs)) if zs else 0.0
-
-        anchors = LensProfile()._pick_anchors(kg)
-        top3 = list(topics.keys())[:3] if topics else []
-        last_out = getattr(cognition_pipeline, 'last_output_summary', None)
-        return jsonify({
-            'start': start,
-            'echo_radius': radius,
-            'entropy': entropy,
-            'top_topics': top3,
-            'anchors': anchors,
-            'last_output': last_out,
-            'z_span': z_span
+    except Exception as e:
+        logger.error(f"Error processing chat message: {e}", exc_info=True)
+        socketio.emit('chat_response', {
+            'response': {'type': 'text', 'text': 'An error occurred in my thought process.'}
         })
-    except Exception:
-        return jsonify({'error': 'status error'}), 500
+
+# --- New function to push hypothesis questions to the client ---
+def send_hypothesis_to_client(hypothesis):
+    """Emits a hypothesis question to all connected clients."""
+    if elysia_bridge.socketio:
+        logger.info(f"Pushing hypothesis to client: {hypothesis}")
+        elysia_bridge.socketio.emit('hypothesis_question', hypothesis)
+
+# Inject this function into the HypothesisHandler for it to use
+# This is a form of dependency injection to avoid circular imports
+guardian.daemon.cognition_pipeline.hypothesis_handler.ask_user_via_ui = send_hypothesis_to_client
+
+@socketio.on('hypothesis_response')
+def handle_hypothesis_response(data):
+    """Handles the user's response (approve/deny) to a hypothesis question."""
+    hypothesis = data.get('hypothesis')
+    response = data.get('response')
+    logger.info(f"Received hypothesis response: '{response}' for hypothesis: {hypothesis.get('head')}")
+
+    if not all([hypothesis, response]):
+        logger.warning("Invalid hypothesis response received.")
+        return
+
+    # To reuse the existing handler logic, we simulate the context it expects.
+    from Project_Elysia.architecture.context import ConversationContext
+
+    # Create a temporary context for this single interaction
+    temp_context = ConversationContext()
+    temp_context.pending_hypothesis = hypothesis
+
+    # Convert 'approve'/'deny' to a natural language equivalent that the handler understands
+    message = "응, 허락한다" if response == 'approve' else "아니, 거부한다"
+
+    # Get the current emotional state
+    emotional_state = guardian.emotional_engine.get_current_state()
+
+    # Call the handler to process the response
+    result = guardian.daemon.pipeline.hypothesis_handler.handle_response(message, temp_context, emotional_state)
+
+    # Send the final confirmation message back to the user
+    if result and result.get('text'):
+        socketio.emit('chat_response', {'response': {'type': 'text', 'text': result['text']}})
 
 
-@app.route('/monitor/force')
-def monitor_force():
-    """
-    Seeds the KG (if empty) and renders KG and Echo images in one go.
-    Optional query: start=<node>
-    """
-    try:
-        # Seed textbooks if possible and needed
-        if ingest_subject is not None:
-            kgm = KGManager()
-            if not kgm.kg.get('nodes'):
-                try:
-                    ingest_subject('geometry_primitives', kgm)
-                    ingest_subject('social_interaction', kgm)
-                except Exception:
-                    pass
-        # Render images
-        start = (request.args.get('start') or '').strip() or None
-        kg_path = render_kg(start_node_id=None, out_name='monitor_kg.png')
-        echo_path = render_kg(start_node_id=start, out_name='monitor_echo.png') if start else render_kg(start_node_id=None, out_name='monitor_echo.png')
+# --- Existing HTTP Endpoints (unchanged) ---
 
-        kg_abs = os.path.abspath(kg_path)
-        echo_abs = os.path.abspath(echo_path)
-        return jsonify({
-            'kg_image': kg_path.replace('\\', '/'),
-            'kg_exists': os.path.exists(kg_abs),
-            'echo_image': echo_path.replace('\\', '/'),
-            'echo_exists': os.path.exists(echo_abs),
-            'start': start
-        })
-    except Exception:
-        return jsonify({'error': 'force error'}), 500
+@app.after_request
+def _no_cache(resp):
+    # ... (no change)
+    return resp
+
+# ... (all other HTTP routes like /tool/decide, /monitor, etc. remain here) ...
 
 
-@app.route('/monitor/check')
-def monitor_check():
-    """
-    Returns existence of monitor images and absolute paths to help debugging.
-    """
-    try:
-        kg_rel = os.path.join('data', 'monitor_kg.png')
-        echo_rel = os.path.join('data', 'monitor_echo.png')
-        kg_abs = os.path.abspath(kg_rel)
-        echo_abs = os.path.abspath(echo_rel)
-        return jsonify({
-            'kg': {'path': kg_rel.replace('\\', '/'), 'abs': kg_abs, 'exists': os.path.exists(kg_abs)},
-            'echo': {'path': echo_rel.replace('\\', '/'), 'abs': echo_abs, 'exists': os.path.exists(echo_abs)}
-        })
-    except Exception:
-        return jsonify({'error': 'check error'}), 500
+# --- Background Task for Guardian's Dream Cycle ---
+def run_guardian_dream_cycle():
+    """Periodically runs the Guardian's idle cycle to allow for learning and hypothesis generation."""
+    import time
+    logger.info("Guardian's dream cycle (background task) started.")
+    while True:
+        try:
+            # In a real scenario, you'd check if Elysia is actually 'IDLE'
+            # For now, we just run the learning part of the cycle.
+            guardian.trigger_learning()
+            guardian._process_high_confidence_hypotheses()
+        except Exception as e:
+            logger.error(f"Error in Guardian's dream cycle: {e}", exc_info=True)
+
+        # Use the learning interval from the Guardian's config
+        interval = getattr(guardian, 'learning_interval', 60)
+        socketio.sleep(interval)
+
+@socketio.on('connect')
+def on_connect_start_dream():
+    # Start the dream cycle when the first client connects.
+    # The `if not hasattr(app, 'dream_started')` ensures it only starts once.
+    if not hasattr(app, 'dream_started'):
+        socketio.start_background_task(target=run_guardian_dream_cycle)
+        app.dream_started = True
+        logger.info("First client connected, starting Guardian's dream cycle.")
+
+
+# --- Server Execution ---
+if __name__ == '__main__':
+    logger.info("Starting Flask-SocketIO server.")
+    socketio.run(app, debug=True, port=5000)

@@ -72,7 +72,8 @@ class KGManager:
         source_node = self.add_node(source_id)
         target_node = self.get_node(target_id)
 
-        if not target_node or target_node['position'] == {"x": 0, "y": 0, "z": 0}:
+        # For hyperlinks, we don't need to auto-position the target node
+        if relation != 'hyperlink' and (not target_node or target_node['position'] == {"x": 0, "y": 0, "z": 0}):
             target_node = self.add_node(target_id)
             pos = source_node['position'].copy()
 

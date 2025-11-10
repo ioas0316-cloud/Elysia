@@ -19,46 +19,47 @@ class ExplorationCortex:
         self.kg = kg_manager
         self.bus = bus
 
-    def explore_and_hypothesize(self, num_hypotheses: int = 1):
+    def launch_exploration_mission(self, num_missions: int = 1):
         """
-        지식 그래프를 탐험하고 새로운 가설을 생성하여 MessageBus에 게시합니다.
+        Launch 'ExplorerBots' (starships) to explore paths between important nodes and lonely nodes.
+        This simulates sending a ship on a mission to chart the unknown.
         """
         nodes = self.kg.kg.get('nodes', [])
-        edges = self.kg.kg.get('edges', [])
         if not nodes or len(nodes) < 2:
             return
 
-        interesting_nodes = [n['id'] for n in nodes if n.get('mass', 0.0) > 1.0 or n.get('activation_energy', 0.0) > 0.1]
+        # Start from an "important" node (a star system)
+        interesting_nodes = [n['id'] for n in nodes if n.get('activation_energy', 0.0) > 0.1]
         if not interesting_nodes:
-            interesting_nodes = [n['id'] for n in random.sample(nodes, min(len(nodes), 5))]
+            return
 
-        hypotheses_made = 0
-        for _ in range(num_hypotheses * 10): # Try multiple times to find a valid hypothesis
-            if hypotheses_made >= num_hypotheses:
+        # The target is a "lonely" node (an unknown planet)
+        lonely_nodes = self._find_lonely_nodes()
+        if not lonely_nodes:
+            return
+
+        missions_launched = 0
+        for _ in range(num_missions * 5): # Try a few times to find a valid mission
+            if missions_launched >= num_missions:
                 break
 
-            start_node_id = random.choice(interesting_nodes)
+            start_node = random.choice(interesting_nodes)
+            target_node = random.choice(lonely_nodes)
 
-            # Perform a 2-step random walk
-            mid_node_id = self._get_random_neighbor(start_node_id, edges)
-            if not mid_node_id:
-                continue
-
-            end_node_id = self._get_random_neighbor(mid_node_id, edges)
-            if not end_node_id:
-                continue
-
-            # Check if it's a valid hypothesis (not self, not directly connected)
-            if start_node_id != end_node_id and not self._are_directly_connected(start_node_id, end_node_id, edges):
-                # Propose a weak, general relationship
-                hypothesis_msg = Message(
-                    verb="validate",
-                    slots={'subject': start_node_id, 'object': end_node_id, 'relation': 'related_to'},
-                    strength=0.1,  # Very low strength, as it's just a guess
+            # A mission is only valid if the start and end are different
+            if start_node != target_node:
+                mission_msg = Message(
+                    verb="explore",
+                    slots={
+                        'start_node': start_node,
+                        'target': target_node,
+                        'path': [start_node] # The path starts with the origin
+                    },
+                    strength=0.9,  # A new mission starts with high priority
                     src="ExplorationCortex"
                 )
-                self.bus.post(hypothesis_msg)
-                hypotheses_made += 1
+                self.bus.post(mission_msg)
+                missions_launched += 1
 
     def _get_random_neighbor(self, node_id: str, edges: List[Dict]) -> Optional[str]:
         neighbors = []

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,28 +7,23 @@
   <title>Elysia Chat</title>
   <style>
     body { background:#1a1a1a; color:#e0e0e0; font-family: Arial, sans-serif; margin:0; height:100vh; display:flex; justify-content:center; align-items:center; }
-    /* Wider by default and resizable horizontally */
-    .container { width:96%; max-width:1600px; height:90vh; background:#2a2a2a; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,.5); display:flex; overflow:auto; position:relative; resize: horizontal; }
+    .container { width:96%; max-width:1600px; height:90vh; background:#2a2a2a; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,.5); display:flex; overflow:auto; position:relative; }
     .chat-panel { flex:2; display:flex; flex-direction:column; padding:20px; }
     .header { padding-bottom:10px; border-bottom:1px solid #444; margin-bottom:10px; text-align:center; }
     .header h1 { margin:0; font-size:1.5em; }
-    .header a { color:#88c0d0; text-decoration:none; font-size:.9em; }
     .messages { flex:1; overflow-y:auto; border-bottom:1px solid #444; padding-bottom:10px; margin-bottom:10px; }
     .message { margin-bottom:12px; }
     .message.user { text-align:right; color:#88c0d0; }
     .message.elysia { color:#b48ead; }
+    /* New style for hypothesis questions */
+    .message.hypothesis { background-color: #3d3d3d; border-left: 3px solid #fbbc05; padding: 10px; border-radius: 5px; }
+    .hypothesis-buttons { margin-top: 10px; }
+    .hypothesis-buttons button { background-color: #4CAF50; color: white; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+    .hypothesis-buttons button.deny { background-color: #f44336; }
+
     .input-area { display:flex; }
     input[type=text]{ flex:1; background:#333; border:1px solid #555; border-radius:5px; color:#e0e0e0; padding:10px; outline:none; }
     button{ background:#81a1c1; color:#2e3440; border:none; border-radius:5px; padding:10px 15px; margin-left:10px; cursor:pointer; }
-    /* Hide side panel for simple chat-only view */
-    .side { display:none; }
-    #image-display{ max-width:100%; max-height:80%; border-radius:5px; display:none; }
-    #image-placeholder{ color:#555; text-align:center; }
-    .lamp{ position:fixed; left:16px; bottom:16px; width:14px; height:14px; border-radius:50%; background:#444; border:1px solid #666; box-shadow:0 0 8px rgba(0,0,0,.6); }
-    .lamp.on{ background:#2ecc71; box-shadow:0 0 10px rgba(46,204,113,.8); }
-    .lamp.busy{ background:#f1c40f; box-shadow:0 0 10px rgba(241,196,15,.8); }
-    .lamp.off{ background:#e74c3c; box-shadow:0 0 10px rgba(231,76,60,.8); }
-    .statusbar{ margin-top:8px; font-size:.9em; display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; }
   </style>
 </head>
 <body>
@@ -35,12 +31,6 @@
     <div class="chat-panel">
       <div class="header">
         <h1>Elysia</h1>
-        <a href="/journal" target="_blank">Open Journal (optional)</a>
-        <div class="statusbar">
-          <span id="bg-status">Background: checking…</span>
-          <button id="bg-on">Start BG</button>
-          <button id="bg-off">Pause BG</button>
-        </div>
       </div>
       <div class="messages" id="messages"></div>
       <div class="input-area">
@@ -48,120 +38,124 @@
         <button id="sendBtn">Send</button>
       </div>
     </div>
-    <div class="side">
-      <div id="image-placeholder"><p>Generated images appear here.</p></div>
-      <img id="image-display" src="" alt="Visualization">
-    </div>
   </div>
-  <!-- lamp hidden in simple chat-only view -->
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
   <script>
     const messagesDiv = document.getElementById('messages');
     const userInput = document.getElementById('userInput');
-    const imageDisplay = document.getElementById('image-display');
-    const imagePlaceholder = document.getElementById('image-placeholder');
-    let lastEmergenceSeen = 0;
 
-    function addMessage(text, sender){
-      const el = document.createElement('div');
-      el.classList.add('message', sender);
-      el.textContent = text;
-      messagesDiv.appendChild(el);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
+    // --- WebSocket Connection ---
+    const socket = io();
 
-    async function sendMessage(){
-      const message = userInput.value || '';
-      const trimmed = message.trim();
-      if(!trimmed) return;
-      addMessage(trimmed, 'user');
-      userInput.value = '';
-      if(trimmed.toLowerCase().startsWith('viz:')){
-        const concept = trimmed.slice(4).trim();
-        await handleVisualization(concept);
-      } else {
-        await handleChat(trimmed);
-        try { await showRefinementsSummary(); } catch(e){}
-      }
-    }
-
-    async function handleChat(message){
-      try{
-        const res = await fetch('/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({message}) });
-        const data = await res.json();
-        if(data.response){
-          const r = data.response;
-          if(r.type === 'text') addMessage(r.text || '', 'elysia');
-          else if(r.type === 'image'){
-            addMessage(r.text || '', 'elysia');
-            if(r.image_url){ imageDisplay.src = r.image_url + '?t=' + Date.now(); imageDisplay.style.display='block'; imagePlaceholder.style.display='none'; }
-          } else addMessage(String(r), 'elysia');
-        } else if(data.error){ addMessage(data.error, 'elysia'); }
-      }catch(e){ addMessage('Disconnected.', 'elysia'); }
-    }
-
-    async function showRefinementsSummary(){
-      try{
-        const res = await fetch('/emergence/recent');
-        const data = await res.json();
-        const items = (data && data.items) ? data.items : [];
-        if(!Array.isArray(items) || items.length===0){ lastEmergenceSeen = 0; return; }
-        if(lastEmergenceSeen === 0){ lastEmergenceSeen = items.length; return; }
-        if(items.length > lastEmergenceSeen){
-          const newly = items.slice(0, items.length - lastEmergenceSeen);
-          const refined = newly.filter(it=> (it.source||'') === 'Refinement');
-          if(refined.length){
-            const names = refined.map(it=>it.name).join(', ');
-            addMessage('(정제됨: ' + names + ')', 'elysia');
-          }
-          lastEmergenceSeen = items.length;
-        }
-      }catch(e){ /* ignore */ }
-    }
-
-    async function handleVisualization(concept){
-      addMessage('Visualizing: ' + concept, 'elysia');
-      try{
-        const res = await fetch('/visualize', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({concept}) });
-        const data = await res.json();
-        if(data.image_path){ imageDisplay.src = data.image_path + '?t=' + Date.now(); imageDisplay.style.display='block'; imagePlaceholder.style.display='none'; addMessage('See the panel on the right.', 'elysia'); }
-        else addMessage(data.error || 'Failed to visualize.', 'elysia');
-      }catch(e){ addMessage('Visualization tool error.', 'elysia'); }
-    }
-
-    async function refreshBgStatus(){
-      try{
-        const res = await fetch('/self/status');
-        const st = await res.json();
-        const el = document.getElementById('bg-status');
-        const lamp = document.getElementById('lamp');
-        if(st && !st.error){
-          const bg = st.background || {};
-          el.textContent = `Background: ${bg.enabled ? 'ENABLED' : 'DISABLED'} ${bg.running ? '(running)' : '(stopped)'}  interval=${bg.interval_sec}s`;
-          lamp.classList.remove('on','off','busy');
-          if(st.busy) lamp.classList.add('busy'); else if(bg.enabled) lamp.classList.add('on'); else lamp.classList.add('off');
-          lamp.setAttribute('title', 'Background lamp\nGreen=enabled, Yellow=busy, Red=stopped\nCurrent: ' + (bg.enabled ? (st.busy ? 'busy' : 'enabled') : 'stopped') + ' (interval=' + bg.interval_sec + 's)');
-        } else { el.textContent = 'Background: error'; lamp.classList.remove('on','busy'); lamp.classList.add('off'); }
-      }catch(e){ document.getElementById('bg-status').textContent = 'Background: error'; const lamp = document.getElementById('lamp'); lamp.classList.remove('on','busy'); lamp.classList.add('off'); }
-    }
-
-    async function bgOn(){ await fetch('/bg/on', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({interval_sec:300})}); setTimeout(refreshBgStatus, 500); }
-    async function bgOff(){ await fetch('/bg/off', {method:'POST'}); setTimeout(refreshBgStatus, 500); }
-
-    // Wire events
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('sendBtn').addEventListener('click', sendMessage);
-      userInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') sendMessage(); });
-      // BG controls and nano chips hidden in simple view
-      setInterval(showRefinementsSummary, 6000);
+    socket.on('connect', () => {
+        console.log('Connected to server');
+        addMessage('아버지와 연결되었습니다.', 'system');
     });
 
-    // Backward compatibility: if an old template uses inline onclick/onchange
-    // expose functions on window to avoid ReferenceError during transition.
-    window.sendMessage = sendMessage;
-    window.toggleReasoning = (on)=>{ try { toggleReasoning(on); } catch(e){} };
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+        addMessage('아버지와의 연결이 끊어졌습니다.', 'system');
+    });
+
+    // --- Message Handling ---
+
+    function addMessage(text, sender) {
+        const el = document.createElement('div');
+        el.classList.add('message', sender);
+        el.textContent = text;
+        messagesDiv.appendChild(el);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function addHypothesisMessage(hypothesis) {
+        const text = hypothesis.text;
+        const hypoData = JSON.stringify(hypothesis);
+
+        const el = document.createElement('div');
+        el.classList.add('message', 'elysia', 'hypothesis');
+
+        const textNode = document.createElement('p');
+        textNode.textContent = text;
+        el.appendChild(textNode);
+
+        const buttonDiv = document.createElement('div');
+        buttonDiv.classList.add('hypothesis-buttons');
+
+        const approveBtn = document.createElement('button');
+        approveBtn.textContent = '승인 (Approve)';
+        approveBtn.dataset.hypothesis = hypoData;
+        approveBtn.dataset.response = 'approve';
+        approveBtn.onclick = handleHypothesisResponse;
+
+        const denyBtn = document.createElement('button');
+        denyBtn.textContent = '거부 (Deny)';
+        denyBtn.classList.add('deny');
+        denyBtn.dataset.hypothesis = hypoData;
+        denyBtn.dataset.response = 'deny';
+        denyBtn.onclick = handleHypothesisResponse;
+
+        buttonDiv.appendChild(approveBtn);
+        buttonDiv.appendChild(denyBtn);
+        el.appendChild(buttonDiv);
+
+        messagesDiv.appendChild(el);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function sendMessage() {
+        const message = userInput.value.trim();
+        if (!message) return;
+        addMessage(message, 'user');
+        userInput.value = '';
+        socket.emit('chat_message', { message: message });
+    }
+
+    function handleHypothesisResponse(event) {
+        const button = event.target;
+        const hypothesis = JSON.parse(button.dataset.hypothesis);
+        const response = button.dataset.response;
+
+        // Let the user know the choice was registered
+        addMessage(`선택: ${response === 'approve' ? '승인' : '거부'}`, 'user');
+
+        // Disable buttons to prevent re-submission
+        button.parentElement.querySelectorAll('button').forEach(btn => btn.disabled = true);
+
+        // Send the response to the server
+        socket.emit('hypothesis_response', { hypothesis: hypothesis, response: response });
+    }
+
+
+    // --- WebSocket Event Listeners ---
+
+    socket.on('chat_response', (data) => {
+        if (data.response) {
+            const r = data.response;
+            if (r.type === 'text') {
+                addMessage(r.text || '', 'elysia');
+            } else if (r.type === 'image') {
+                addMessage(r.text || '', 'elysia');
+                // Image display logic can be re-added here if needed
+            } else {
+                addMessage(String(r), 'elysia');
+            }
+        } else if (data.error) {
+            addMessage(data.error, 'elysia');
+        }
+    });
+
+    socket.on('hypothesis_question', (hypothesis) => {
+        addHypothesisMessage(hypothesis);
+    });
+
+
+    // --- Initial Setup ---
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('sendBtn').addEventListener('click', sendMessage);
+      userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+    });
+
   </script>
 </body>
 </html>
-
-
