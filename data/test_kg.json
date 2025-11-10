@@ -1,0 +1,1 @@
+{"nodes": [{"id": "test_concept", "position": {"x": 0, "y": 0, "z": 0}}, {"id": "love", "position": {"x": 1, "y": 0, "z": 0}}], "edges": [{"source": "test_concept", "target": "love", "relation": "is_related_to"}]}
