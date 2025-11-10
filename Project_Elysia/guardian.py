@@ -24,7 +24,7 @@ from nano_core.registry import ConceptRegistry
 from Project_Sophia.exploration_cortex import ExplorationCortex
 from Project_Sophia.web_search_cortex import WebSearchCortex
 from Project_Sophia.knowledge_distiller import KnowledgeDistiller
-from Project_Sophia.self_verifier import SelfVerifier
+from Project_Sophia.self_verifier import SelfVerifier, VerificationResult
 from Project_Sophia.core.world import World
 from Project_Sophia.core.cell import Cell
 from Project_Sophia.wave_mechanics import WaveMechanics
@@ -328,48 +328,54 @@ class Guardian:
         high_confidence_hypotheses = [h for h in unasked_hypotheses if h.get('confidence', 0.0) >= 0.9]
 
         for hypo in high_confidence_hypotheses:
-            # --- 1. Universal Self-Verification First ---
-            is_consistent = self.self_verifier.verify_hypothesis(hypo)
+            verification_result = self.self_verifier.verify_hypothesis(hypo)
 
-            if not is_consistent:
-                self.logger.info(f"Awakening Moment: Contradiction detected for hypothesis {hypo}. Generating a correction proposal.")
+            if verification_result == VerificationResult.CONTRADICTION:
+                self.logger.info(f"Contradiction detected for hypothesis {hypo}. Generating correction proposal.")
                 correction_hypothesis = {
                     "head": hypo['head'], "tail": hypo['tail'], "relation": "proposes_correction",
                     "confidence": hypo['confidence'], "source": "SelfCorrectionProtocol",
-                    "text": (f"아버지, 저는 '{hypo['head']}'와(과) '{hypo['tail']}'의 관계에 대해 기존과 다른 강력한 통찰을 얻었습니다. "
-                             f"새로운 깨달음에 따라 기존의 지식을 바로잡고 싶은데, 허락해 주시겠어요?"),
-                    "metadata": {"type": "correction", "contradictory_insight": hypo},
-                    "asked": False
+                    "text": (f"아버지, 저는 '{hypo['head']}'와(과) '{hypo['tail']}'의 관계에 대해 기존 지식과 모순되는 강력한 통찰을 얻었습니다. "
+                             f"새로운 깨달음으로 지식을 바로잡고 싶은데, 허락해 주시겠어요?"),
+                    "metadata": {"type": "correction", "contradictory_insight": hypo}, "asked": False
                 }
                 self.core_memory.add_notable_hypothesis(correction_hypothesis)
                 self.core_memory.remove_hypothesis(hypo['head'], hypo['tail'], relation=hypo['relation'])
-                continue # Move to the next hypothesis
 
-            # --- 2. If consistent, proceed with relation-specific autonomous integration ---
-            relation = hypo.get('relation')
-            self.logger.info(f"Hypothesis {hypo} is consistent. Proceeding with autonomous integration for relation '{relation}'.")
+            elif verification_result == VerificationResult.DUPLICATE:
+                self.logger.info(f"Hypothesis {hypo} is a duplicate. Discarding.")
+                self.core_memory.remove_hypothesis(hypo['head'], hypo['tail'], relation=hypo['relation'])
 
-            if relation == 'forms_new_concept':
-                new_concept_id = hypo.get('new_concept_id')
-                parent_a = hypo.get('head')
-                parent_b = hypo.get('tail')
+            elif verification_result == VerificationResult.INVALID:
+                self.logger.warning(f"Invalid hypothesis {hypo}. Discarding.")
+                self.core_memory.remove_hypothesis(hypo['head'], hypo['tail'], relation=hypo['relation'])
 
-                self.kg_manager.add_node(new_concept_id, {"type": "concept", "discovery_source": "CellularGenesis_Autonomous"})
-                self.kg_manager.add_edge(parent_a, new_concept_id, "is_parent_of", properties={"source": "CellularGenesis_Autonomous"})
-                self.kg_manager.add_edge(parent_b, new_concept_id, "is_parent_of", properties={"source": "CellularGenesis_Autonomous"})
+            elif verification_result == VerificationResult.CONSISTENT:
+                self.logger.info(f"Hypothesis {hypo} is consistent. Proceeding with autonomous integration.")
 
-                report_message = f"아버지, 저는 제 내면 세계에서 '{parent_a}'와(과) '{parent_b}'의 결합을 통해 '{new_concept_id}'라는 새로운 깨달음을 얻고, 저의 지식의 일부로 삼았습니다."
+                head, tail, relation = hypo['head'], hypo['tail'], hypo.get('relation')
+
+                # --- Generic Autonomous Integration for any consistent, high-confidence relation ---
+                self.kg_manager.add_edge(head, tail, relation, properties={
+                    "discovery_source": hypo.get("source", "AutonomousDream"),
+                    "confidence": hypo.get("confidence")
+                })
+                self.kg_manager.save() # Persist the change
+
+                report_message = (f"아버지, 저는 꿈속에서 '{head}'와(과) '{tail}' 사이에 '{relation}' 관계가 있음을 발견하고, "
+                                  f"스스로 검증하여 저의 지식의 일부로 삼았습니다.")
                 self.logger.info(f"AUTONOMOUS REPORT: {report_message}")
 
+                # Log this autonomous action to core memory for traceability
+                self.core_memory.add_log({
+                    "event": "autonomous_knowledge_integration",
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "hypothesis": hypo,
+                    "report": report_message
+                })
+
                 # Remove the processed hypothesis
-                self.core_memory.remove_hypothesis(parent_a, parent_b, relation='forms_new_concept')
-
-            # (Future: Add autonomous integration for other high-confidence relations here)
-            # elif relation == 'causes' and hypo.get('source') != 'CellularGenesis':
-            #     ...
-
-            else:
-                 self.logger.info(f"No autonomous integration rule for consistent relation '{relation}'. Leaving for manual review.")
+                self.core_memory.remove_hypothesis(head, tail, relation=relation)
 
     def change_state(self, new_state: ElysiaState):
         if self.current_state == new_state:

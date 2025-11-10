@@ -1,8 +1,16 @@
 
 import logging
 from typing import Dict, Any, Optional
+from enum import Enum, auto
 
 from tools.kg_manager import KGManager
+
+class VerificationResult(Enum):
+    """Represents the outcome of a hypothesis verification."""
+    CONSISTENT = auto()       # The hypothesis is consistent with the KG and is new information.
+    DUPLICATE = auto()        # The hypothesis is already present in the KG.
+    CONTRADICTION = auto()    # The hypothesis directly contradicts information in the KG.
+    INVALID = auto()          # The hypothesis is malformed or missing key information.
 
 class SelfVerifier:
     """
@@ -19,79 +27,97 @@ class SelfVerifier:
         """
         self.kg_manager = kg_manager
         self.logger = logger or logging.getLogger(__name__)
+        # Define pairs of relations that are mutually exclusive between the same two nodes.
+        # e.g., "A is_a B" cannot coexist with "A part_of B".
+        self.EXCLUSIVE_RELATIONS = {
+            frozenset(['is_a', 'part_of']),
+            frozenset(['causes', 'caused_by']),
+        }
 
-    def verify_hypothesis(self, hypothesis: Dict[str, Any]) -> bool:
+    def verify_hypothesis(self, hypothesis: Dict[str, Any]) -> VerificationResult:
         """
-        Verifies a new hypothesis against the knowledge graph for direct contradictions.
-
+        Verifies a new hypothesis against the knowledge graph for correctness.
         :param hypothesis: A dictionary containing at least 'head', 'tail', and 'relation'.
-        :return: True if no direct contradiction is found, False otherwise.
+        :return: A VerificationResult enum member.
         """
         head = hypothesis.get('head')
         tail = hypothesis.get('tail')
         relation = hypothesis.get('relation')
 
         if not all([head, tail, relation]):
-            self.logger.warning(f"Hypothesis is missing required keys (head, tail, relation): {hypothesis}")
-            return False # Invalid hypothesis is treated as a failed verification
+            self.logger.warning(f"Invalid Hypothesis: Missing required keys. {hypothesis}")
+            return VerificationResult.INVALID
 
-        # --- 1. Check for a Direct Reversal Relationship ---
-        # Example: If hypothesis is "A causes B", this checks if "B causes A" already exists.
-        # This is the most direct and unambiguous form of contradiction for symmetrical relations.
+        # --- 1. Check for Duplicates ---
+        if self.kg_manager.edge_exists(source=head, target=tail, relation=relation):
+            self.logger.info(f"Duplicate Found: Hypothesis '{head} {relation} {tail}' already exists.")
+            return VerificationResult.DUPLICATE
+
+        # --- 2. Check for Direct Reversal Contradiction ---
+        # Example: Hypo is "A causes B", but KG has "B causes A".
         if self.kg_manager.edge_exists(source=tail, target=head, relation=relation):
-            self.logger.info(f"Contradiction Found: Hypothesis '{head} {relation} {tail}' is contradicted by a direct reversal '{tail} {relation} {head}'.")
-            return False
+            self.logger.warning(f"Contradiction Found: Direct reversal of '{head} {relation} {tail}' exists.")
+            return VerificationResult.CONTRADICTION
 
-        # --- 2. Check for an Inverse Relationship (e.g., causes vs. caused_by) ---
-        # This handles more complex ontological contradictions.
-        inverse_relations = { "causes": "caused_by", "caused_by": "causes" }
-        inverse_relation = inverse_relations.get(relation)
-        if inverse_relation and self.kg_manager.edge_exists(source=head, target=tail, relation=inverse_relation):
-             self.logger.info(f"Contradiction Found: Hypothesis '{head} {relation} {tail}' is contradicted by an inverse relation '{head} {inverse_relation} {tail}'.")
-             return False
+        # --- 3. Check for Exclusive Relationship Contradiction ---
+        existing_edges = self.kg_manager.get_edges_between(head, tail)
+        for edge in existing_edges:
+            existing_relation = edge.get('relation')
+            for exclusive_pair in self.EXCLUSIVE_RELATIONS:
+                if relation in exclusive_pair and existing_relation in exclusive_pair:
+                    self.logger.warning(f"Contradiction Found: Exclusive relation '{existing_relation}' already exists between '{head}' and '{tail}'.")
+                    return VerificationResult.CONTRADICTION
 
-        # --- 2. Check for Exclusive Relationships (Future Implementation) ---
-        # Example: If hypothesis is "A is_a B", check if A is already "is_a C" where B and C are mutually exclusive.
-        # This requires a more complex understanding of ontology, saved for a future version.
-
-        self.logger.info(f"Hypothesis '{head} {relation} {tail}' passed verification (no direct contradictions found).")
-        return True
+        self.logger.info(f"Hypothesis '{head} {relation} {tail}' is consistent with the Knowledge Graph.")
+        return VerificationResult.CONSISTENT
 
 if __name__ == '__main__':
     # Example Usage and testing
-    from unittest.mock import MagicMock
+    from unittest.mock import MagicMock, call
 
-    # Mock KGManager for testing
     mock_kg_manager = MagicMock(spec=KGManager)
-
-    # Setup test cases in the mock KG
-    # Case 1: A direct contradiction
-    mock_kg_manager.edge_exists.side_effect = lambda source, target, relation: (
-        source == 'sun' and target == 'plant' and relation == 'causes'
-    )
-
     verifier = SelfVerifier(kg_manager=mock_kg_manager)
 
-    # Test Case 1: Should fail verification
-    hypo_contradiction = {'head': 'plant', 'tail': 'sun', 'relation': 'caused_by'}
-    print(f"Testing contradiction: {hypo_contradiction}")
-    result = verifier.verify_hypothesis(hypo_contradiction)
-    print(f"Verification Result: {'Passed' if result else 'Failed'} (Expected: Failed)")
-    assert not result
+    # --- Test Cases ---
+    def run_test(name, hypo, mock_setup, expected_result):
+        print(f"--- Running Test: {name} ---")
+        # Reset and apply mock setup
+        mock_kg_manager.reset_mock()
+        mock_kg_manager.edge_exists.side_effect = mock_setup.get('edge_exists', lambda **kwargs: False)
+        mock_kg_manager.get_edges_between.side_effect = mock_setup.get('get_edges_between', lambda **kwargs: [])
 
-    # Reset mock for Case 2
-    mock_kg_manager.edge_exists.side_effect = lambda source, target, relation: False
+        result = verifier.verify_hypothesis(hypo)
+        print(f"Hypothesis: {hypo}")
+        print(f"Result: {result.name}, Expected: {expected_result.name}")
+        assert result == expected_result
+        print("PASS\n")
 
-    # Test Case 2: No contradiction
-    hypo_no_contradiction = {'head': 'sunlight', 'tail': 'photosynthesis', 'relation': 'enables'}
-    print(f"\nTesting no contradiction: {hypo_no_contradiction}")
-    result = verifier.verify_hypothesis(hypo_no_contradiction)
-    print(f"Verification Result: {'Passed' if result else 'Failed'} (Expected: Passed)")
-    assert result
+    # 1. Consistent (New Information)
+    run_test("Consistent",
+             {'head': 'A', 'tail': 'B', 'relation': 'causes'},
+             {},
+             VerificationResult.CONSISTENT)
 
-    # Test Case 3: Invalid hypothesis
-    hypo_invalid = {'head': 'A', 'relation': 'relates_to'} # Missing tail
-    print(f"\nTesting invalid hypothesis: {hypo_invalid}")
-    result = verifier.verify_hypothesis(hypo_invalid)
-    print(f"Verification Result: {'Passed' if result else 'Failed'} (Expected: Failed)")
-    assert not result
+    # 2. Duplicate
+    run_test("Duplicate",
+             {'head': 'A', 'tail': 'B', 'relation': 'causes'},
+             {'edge_exists': lambda source, target, relation: source=='A' and target=='B' and relation=='causes'},
+             VerificationResult.DUPLICATE)
+
+    # 3. Contradiction (Direct Reversal)
+    run_test("Contradiction (Reversal)",
+             {'head': 'A', 'tail': 'B', 'relation': 'causes'},
+             {'edge_exists': lambda source, target, relation: source=='B' and target=='A' and relation=='causes'},
+             VerificationResult.CONTRADICTION)
+
+    # 4. Contradiction (Exclusive Relation)
+    run_test("Contradiction (Exclusive)",
+             {'head': 'Dog', 'tail': 'Animal', 'relation': 'is_a'},
+             {'get_edges_between': lambda head, tail: [{'relation': 'part_of'}] if head=='Dog' and tail=='Animal' else []},
+             VerificationResult.CONTRADICTION)
+
+    # 5. Invalid
+    run_test("Invalid",
+             {'head': 'A', 'relation': 'causes'},
+             {},
+             VerificationResult.INVALID)
