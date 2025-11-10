@@ -7,18 +7,26 @@ import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
 
 from .cell import Cell
+from .chronicle import Chronicle
 from ..wave_mechanics import WaveMechanics
 
 
 class World:
     """Represents the universe where cells exist, interact, and evolve, optimized with NumPy."""
 
-    def __init__(self, primordial_dna: Dict, wave_mechanics: WaveMechanics, logger: Optional[logging.Logger] = None):
+    def __init__(self, primordial_dna: Dict, wave_mechanics: WaveMechanics,
+                 chronicle: Optional[Chronicle] = None, logger: Optional[logging.Logger] = None,
+                 branch_id: str = "main", parent_event_id: Optional[str] = None):
         # --- Core Attributes ---
         self.primordial_dna = primordial_dna
         self.wave_mechanics = wave_mechanics
+        self.chronicle = chronicle
         self.time_step = 0
         self.logger = logger or logging.getLogger(__name__)
+
+        # --- Chronos Engine Attributes ---
+        self.branch_id = branch_id
+        self.parent_event_id = parent_event_id
 
         # --- Quantum State Management ---
         # Stores the potential state of all cells, not their full object representation.
@@ -59,10 +67,16 @@ class World:
             new_adj[:current_size, :current_size] = self.adjacency_matrix
         self.adjacency_matrix = new_adj
 
-    def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0):
+    def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0, _record_event: bool = True):
         """Adds a new cell's quantum state to the world. Does not create a full Cell object."""
         if concept_id in self.quantum_states:
             return
+
+        if self.chronicle and _record_event:
+            details = {'concept_id': concept_id, 'initial_energy': initial_energy, 'properties': properties or {}}
+            scopes = [concept_id]
+            event = self.chronicle.record_event('cell_added', details, scopes, self.branch_id, self.parent_event_id)
+            self.parent_event_id = event['id']
 
         # --- Create and store the quantum state ---
         self.quantum_states[concept_id] = {
@@ -131,6 +145,12 @@ class World:
         """
         Runs a single simulation step using optimized NumPy and SciPy operations.
         """
+        if self.chronicle:
+            # A simulation step is a global event affecting many scopes.
+            # We pass an empty scope list to represent this.
+            event = self.chronicle.record_event('simulation_step_run', {}, [], self.branch_id, self.parent_event_id)
+            self.parent_event_id = event['id']
+
         self.time_step += 1
 
         # Increment age for all quantum states
@@ -243,18 +263,30 @@ class World:
 
         return newly_born_cells
 
-    def add_connection(self, source_id: str, target_id: str, strength: float = 0.5):
+    def add_connection(self, source_id: str, target_id: str, strength: float = 0.5, _record_event: bool = True):
         """Adds a directed connection to the adjacency matrix."""
         if source_id in self.id_to_idx and target_id in self.id_to_idx:
+            if self.chronicle and _record_event:
+                details = {'source': source_id, 'target': target_id, 'strength': strength}
+                scopes = [source_id, target_id]
+                event = self.chronicle.record_event('connection_added', details, scopes, self.branch_id, self.parent_event_id)
+                self.parent_event_id = event['id']
+
             source_idx = self.id_to_idx[source_id]
             target_idx = self.id_to_idx[target_id]
             self.adjacency_matrix[source_idx, target_idx] = strength
             self.connection_counts[source_idx] += 1
 
     # --- Other methods remain largely the same, but need to be compatible ---
-    def inject_stimulus(self, concept_id: str, energy_boost: float):
+    def inject_stimulus(self, concept_id: str, energy_boost: float, _record_event: bool = True):
         """Injects energy into a specific cell."""
         if concept_id in self.id_to_idx:
+            if self.chronicle and _record_event:
+                details = {'concept_id': concept_id, 'energy_boost': energy_boost}
+                scopes = [concept_id]
+                event = self.chronicle.record_event('stimulus_injected', details, scopes, self.branch_id, self.parent_event_id)
+                self.parent_event_id = event['id']
+
             idx = self.id_to_idx[concept_id]
             if self.is_alive_mask[idx]:
                 self.energy[idx] += energy_boost
