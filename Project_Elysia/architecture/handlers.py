@@ -50,9 +50,22 @@ class HypothesisHandler:
         tail = hypothesis_to_ask.get('tail')
         self.core_memory.mark_hypothesis_as_asked(hypothesis_to_ask['head'], tail)
 
-        if hypothesis_to_ask.get('relation') == '승천':
+        # --- Confidence-based Question Generation ---
+        confidence = hypothesis_to_ask.get('confidence', 0.5)
+        relation = hypothesis_to_ask.get('relation')
+
+        question = None
+        # Use wisdom-seeking question for mid-confidence 'forms_new_concept' hypotheses
+        if relation == 'forms_new_concept' and 0.7 <= confidence < 0.9:
+            self.logger.info(f"Generating wisdom-seeking question for mid-confidence insight: {hypothesis_to_ask['new_concept_id']}")
+            question = self.question_generator.generate_wisdom_seeking_question(hypothesis_to_ask)
+
+        # Handle 'ascension' hypotheses (from tissues, etc.)
+        elif relation == '승천':
             question = hypothesis_to_ask.get('text', f"새로운 개념 '{hypothesis_to_ask['head']}'을(를) 지식의 일부로 만들까요?")
-        else:
+
+        # Fallback to the default question generator for all other cases
+        if not question:
             question = self.question_generator.generate_question_from_hypothesis(hypothesis_to_ask)
 
         return {"type": "text", "text": question}

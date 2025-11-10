@@ -167,20 +167,29 @@ class CoreMemory:
                 log_memory_action(log_action)
                 break
 
-    def remove_hypothesis(self, head: str, tail: Optional[str] = None):
-        """처리된 가설을 목록에서 제거합니다. tail이 없으면 승천 가설로 간주합니다."""
+    def remove_hypothesis(self, head: str, tail: str, relation: Optional[str] = None):
+        """
+        Removes a processed hypothesis from the list.
+        If relation is provided, it's used for a more specific match.
+        """
         hypotheses = self.data.get('notable_hypotheses', [])
         original_count = len(hypotheses)
 
-        if tail is not None:
-            # Standard relationship hypothesis
+        if relation:
+            # More specific removal: matches head, tail, AND relation
+            self.data['notable_hypotheses'] = [
+                h for h in hypotheses
+                if not (h.get('head') == head and h.get('tail') == tail and h.get('relation') == relation)
+            ]
+            log_msg = f"Removed hypothesis: {head} -[{relation}]-> {tail}"
+        elif tail is not None:
+            # Standard relationship hypothesis (backward compatibility)
             self.data['notable_hypotheses'] = [
                 h for h in hypotheses
                 if not (h.get('head') == head and h.get('tail') == tail)
             ]
             log_msg = f"Removed hypothesis: {head} -> {tail}"
-        else:
-            # Ascension hypothesis (no tail)
+        else: # tail is None, indicating an ascension hypothesis
             self.data['notable_hypotheses'] = [
                 h for h in hypotheses
                 if not (h.get('head') == head and h.get('relation') == '승천')
