@@ -6,7 +6,7 @@ from Project_Elysia.architecture.context import ConversationContext
 from Project_Elysia.architecture.cortex_registry import CortexRegistry
 from Project_Elysia.architecture.event_bus import EventBus
 from Project_Elysia.architecture.handlers import (
-    Handler, HypothesisHandler, CommandWordHandler, DefaultReasoningHandler
+    HypothesisHandler, CommandWordHandler, DefaultReasoningHandler
 )
 
 # --- Existing Component Dependencies (for dependency injection) ---
@@ -26,8 +26,9 @@ from Project_Mirror.perspective_cortex import PerspectiveCortex
 
 class CognitionPipeline:
     """
-    A refactored, stateless pipeline that processes messages using a
-    Chain of Responsibility and Event Bus architecture.
+    A stateless pipeline that processes messages using a Central Dispatch model.
+    It analyzes incoming messages and routes them to the appropriate handler
+    (e.g., for hypotheses, commands, or default reasoning).
     """
     def __init__(
         self,

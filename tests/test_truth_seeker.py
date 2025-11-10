@@ -8,13 +8,9 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
 # Import the class we are testing and its dependencies
-from Project_Elysia.cognition_pipeline import CognitionPipeline
 from Project_Elysia.core_memory import CoreMemory
 from tools.kg_manager import KGManager
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.world import World
 from Project_Sophia.emotional_engine import EmotionalEngine
-
 from Project_Elysia.architecture.handlers import HypothesisHandler
 from Project_Elysia.architecture.context import ConversationContext
 from Project_Sophia.question_generator import QuestionGenerator

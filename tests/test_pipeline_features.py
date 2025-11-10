@@ -15,8 +15,7 @@ from Project_Elysia.core_memory import CoreMemory
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.world import World
 from Project_Sophia.emotional_engine import EmotionalEngine
-# Import Thought for type mocking
-from Project_Sophia.core.thought import Thought
+
 
 class TestCentralDispatchPipeline(unittest.TestCase):
 

@@ -1,21 +1,14 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 import os
 import sys
-from pathlib import Path
 
 # Add the project root to the Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Elysia.cognition_pipeline import CognitionPipeline
-from tools.kg_manager import KGManager
-from Project_Elysia.core_memory import CoreMemory
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.world import World
-from Project_Sophia.emotional_engine import EmotionalEngine
-
 from Project_Elysia.architecture.handlers import DefaultReasoningHandler
+from Project_Sophia.emotional_engine import EmotionalEngine
 from Project_Sophia.core.thought import Thought
 from Project_Elysia.architecture.context import ConversationContext
 from Project_Sophia.emotional_engine import EmotionalState

@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from typing import Optional, Any
 import re
 from datetime import datetime
@@ -20,14 +19,6 @@ from Project_Sophia.insight_synthesizer import InsightSynthesizer
 from Project_Mirror.creative_cortex import CreativeCortex
 from Project_Sophia.emotional_engine import EmotionalState
 
-
-class Handler(ABC):
-    """Abstract base class for standalone handlers."""
-
-    @abstractmethod
-    def handle(self, message: str, context: ConversationContext, emotional_state: EmotionalState) -> Optional[Any]:
-        """Handles a specific task and returns a result."""
-        pass
 
 # --------------------------------------------------------------------------------
 # --- Concrete Handler Implementations for Central Dispatch ---
