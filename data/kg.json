@@ -785,6 +785,270 @@
         -0.02804,
         0.080904
       ]
+    },
+    {
+      "id": "i",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "existence",
+      "label": "i"
+    },
+    {
+      "id": "you",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "existence",
+      "label": "you"
+    },
+    {
+      "id": "object",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "existence",
+      "label": "object"
+    },
+    {
+      "id": "concept",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "existence",
+      "label": "concept"
+    },
+    {
+      "id": "place",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "space",
+      "label": "place"
+    },
+    {
+      "id": "direction",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "space",
+      "label": "direction"
+    },
+    {
+      "id": "distance",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "space",
+      "label": "distance"
+    },
+    {
+      "id": "begin",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "time",
+      "label": "begin"
+    },
+    {
+      "id": "end",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "time",
+      "label": "end"
+    },
+    {
+      "id": "process",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "time",
+      "label": "process"
+    },
+    {
+      "id": "moment",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "time",
+      "label": "moment"
+    },
+    {
+      "id": "joy",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "emotion",
+      "label": "joy"
+    },
+    {
+      "id": "sadness",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "emotion",
+      "label": "sadness"
+    },
+    {
+      "id": "love",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "emotion",
+      "label": "love"
+    },
+    {
+      "id": "fear",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "emotion",
+      "label": "fear"
+    },
+    {
+      "id": "cause",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "relation",
+      "label": "cause"
+    },
+    {
+      "id": "effect",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "relation",
+      "label": "effect"
+    },
+    {
+      "id": "similarity",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "relation",
+      "label": "similarity"
+    },
+    {
+      "id": "difference",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "relation",
+      "label": "difference"
+    },
+    {
+      "id": "true",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "logic",
+      "label": "true"
+    },
+    {
+      "id": "false",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "logic",
+      "label": "false"
+    },
+    {
+      "id": "and",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "logic",
+      "label": "and"
+    },
+    {
+      "id": "or",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "logic",
+      "label": "or"
+    },
+    {
+      "id": "not",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "element_type": "logic",
+      "label": "not"
     }
   ],
   "edges": [
