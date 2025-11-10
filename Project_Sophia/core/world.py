@@ -157,7 +157,7 @@ class World:
 
         # The rest of the logic (chemical reactions, generic interactions, etc.)
         # requires the object representation. It is less of a bottleneck.
-        living_cells = [self.cells[self.cell_ids[i]] for i, is_alive in enumerate(self.is_alive_mask) if is_alive and self.energy[i] > 1.0]
+        living_cells = [self.cells[self.cell_ids[i]] for i in range(num_cells) if self.is_alive_mask[i] and self.energy[i] > 1.0]
 
         # --- Chemical Reactions & Generic Interactions ---
         newly_born_molecules = self._run_chemical_reactions(living_cells)

@@ -97,6 +97,28 @@ class KGManager:
 
         self.kg['edges'].append(new_edge)
 
+    def edge_exists(self, source: str, target: str, relation: str) -> bool:
+        """Checks if a specific edge exists in the graph."""
+        return any(
+            e.get('source') == source and e.get('target') == target and e.get('relation') == relation
+            for e in self.kg.get('edges', [])
+        )
+
+    def remove_edge(self, source_id: str, target_id: str, relation: str) -> bool:
+        """Removes a directional edge from the graph."""
+        initial_edge_count = len(self.kg['edges'])
+
+        # Create a new list excluding the edge to be removed
+        self.kg['edges'] = [
+            edge for edge in self.kg['edges']
+            if not (edge.get('source') == source_id and
+                    edge.get('target') == target_id and
+                    edge.get('relation') == relation)
+        ]
+
+        # Return True if an edge was removed, False otherwise
+        return len(self.kg['edges']) < initial_edge_count
+
     def find_causes(self, target_id: str) -> List[Dict[str, Any]]:
         """Finds all causes for a given target node."""
         causes = []

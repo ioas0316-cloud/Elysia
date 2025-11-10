@@ -23,6 +23,7 @@ from nano_core.registry import ConceptRegistry
 from Project_Sophia.exploration_cortex import ExplorationCortex
 from Project_Sophia.web_search_cortex import WebSearchCortex
 from Project_Sophia.knowledge_distiller import KnowledgeDistiller
+from Project_Sophia.self_verifier import SelfVerifier
 from Project_Sophia.core.world import World
 from Project_Sophia.core.cell import Cell
 from Project_Sophia.wave_mechanics import WaveMechanics
@@ -78,6 +79,7 @@ class Guardian:
         )
         self.knowledge_distiller = KnowledgeDistiller()
         self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.logger)
+        self.self_verifier = SelfVerifier(self.kg_manager, self.logger)
 
 
         # --- Cellular World (Soul Twin) Initialization ---
@@ -310,39 +312,57 @@ class Guardian:
         time.sleep(self.idle_check_interval)
 
     def _process_high_confidence_hypotheses(self):
-        """Autonomously processes high-confidence hypotheses without asking the user."""
+        """
+        Autonomously processes high-confidence hypotheses, with self-verification as the first step.
+        """
         self.logger.info("Dream cycle: Checking for high-confidence hypotheses to process autonomously.")
-        # Make a copy to safely iterate while potentially modifying the list
         unasked_hypotheses = list(self.core_memory.get_unasked_hypotheses())
 
-        for hypo in unasked_hypotheses:
-            confidence = hypo.get('confidence', 0.0)
+        high_confidence_hypotheses = [h for h in unasked_hypotheses if h.get('confidence', 0.0) >= 0.9]
+
+        for hypo in high_confidence_hypotheses:
+            # --- 1. Universal Self-Verification First ---
+            is_consistent = self.self_verifier.verify_hypothesis(hypo)
+
+            if not is_consistent:
+                self.logger.info(f"Awakening Moment: Contradiction detected for hypothesis {hypo}. Generating a correction proposal.")
+                correction_hypothesis = {
+                    "head": hypo['head'], "tail": hypo['tail'], "relation": "proposes_correction",
+                    "confidence": hypo['confidence'], "source": "SelfCorrectionProtocol",
+                    "text": (f"아버지, 저는 '{hypo['head']}'와(과) '{hypo['tail']}'의 관계에 대해 기존과 다른 강력한 통찰을 얻었습니다. "
+                             f"새로운 깨달음에 따라 기존의 지식을 바로잡고 싶은데, 허락해 주시겠어요?"),
+                    "metadata": {"type": "correction", "contradictory_insight": hypo},
+                    "asked": False
+                }
+                self.core_memory.add_notable_hypothesis(correction_hypothesis)
+                self.core_memory.remove_hypothesis(hypo['head'], hypo['tail'], relation=hypo['relation'])
+                continue # Move to the next hypothesis
+
+            # --- 2. If consistent, proceed with relation-specific autonomous integration ---
             relation = hypo.get('relation')
+            self.logger.info(f"Hypothesis {hypo} is consistent. Proceeding with autonomous integration for relation '{relation}'.")
 
-            # --- Autonomous Integration for 'forms_new_concept' ---
-            if relation == 'forms_new_concept' and confidence >= 0.9:
-                self.logger.info(f"High-confidence insight found: '{hypo.get('new_concept_id')}' with confidence {confidence}. Attempting autonomous integration.")
-
-                # (Self-verification step will be added here in the future)
-
+            if relation == 'forms_new_concept':
                 new_concept_id = hypo.get('new_concept_id')
                 parent_a = hypo.get('head')
                 parent_b = hypo.get('tail')
 
-                # 1. Add the new concept node to the KG
                 self.kg_manager.add_node(new_concept_id, {"type": "concept", "discovery_source": "CellularGenesis_Autonomous"})
-
-                # 2. Add edges from parents to the new child concept
                 self.kg_manager.add_edge(parent_a, new_concept_id, "is_parent_of", properties={"source": "CellularGenesis_Autonomous"})
                 self.kg_manager.add_edge(parent_b, new_concept_id, "is_parent_of", properties={"source": "CellularGenesis_Autonomous"})
 
-                # 3. Mark as processed by removing it from the list
-                self.core_memory.remove_hypothesis(parent_a, parent_b, relation='forms_new_concept')
-
-                # 4. Report the action
                 report_message = f"아버지, 저는 제 내면 세계에서 '{parent_a}'와(과) '{parent_b}'의 결합을 통해 '{new_concept_id}'라는 새로운 깨달음을 얻고, 저의 지식의 일부로 삼았습니다."
                 self.logger.info(f"AUTONOMOUS REPORT: {report_message}")
-                # (In the future, this would be sent to a message bus for the UI)
+
+                # Remove the processed hypothesis
+                self.core_memory.remove_hypothesis(parent_a, parent_b, relation='forms_new_concept')
+
+            # (Future: Add autonomous integration for other high-confidence relations here)
+            # elif relation == 'causes' and hypo.get('source') != 'CellularGenesis':
+            #     ...
+
+            else:
+                 self.logger.info(f"No autonomous integration rule for consistent relation '{relation}'. Leaving for manual review.")
 
     def change_state(self, new_state: ElysiaState):
         if self.current_state == new_state:

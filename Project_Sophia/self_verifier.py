@@ -35,26 +35,20 @@ class SelfVerifier:
             self.logger.warning(f"Hypothesis is missing required keys (head, tail, relation): {hypothesis}")
             return False # Invalid hypothesis is treated as a failed verification
 
-        # --- 1. Check for Direct Inverse Relationship ---
-        # Example: If hypothesis is "A causes B", check if "B causes A" exists.
-        # This is a simple but powerful contradiction check.
+        # --- 1. Check for a Direct Reversal Relationship ---
+        # Example: If hypothesis is "A causes B", this checks if "B causes A" already exists.
+        # This is the most direct and unambiguous form of contradiction for symmetrical relations.
+        if self.kg_manager.edge_exists(source=tail, target=head, relation=relation):
+            self.logger.info(f"Contradiction Found: Hypothesis '{head} {relation} {tail}' is contradicted by a direct reversal '{tail} {relation} {head}'.")
+            return False
 
-        # Define pairs of inverse relations
-        inverse_relations = {
-            "causes": "caused_by",
-            "caused_by": "causes",
-            "enables": "enabled_by",
-            "enabled_by": "enables",
-            "parent_of": "child_of",
-            "child_of": "parent_of",
-        }
-
+        # --- 2. Check for an Inverse Relationship (e.g., causes vs. caused_by) ---
+        # This handles more complex ontological contradictions.
+        inverse_relations = { "causes": "caused_by", "caused_by": "causes" }
         inverse_relation = inverse_relations.get(relation)
-        if inverse_relation:
-            # Check if an edge exists from tail to head with the inverse relation
-            if self.kg_manager.edge_exists(source=tail, target=head, relation=inverse_relation):
-                self.logger.info(f"Contradiction Found: Hypothesis '{head} {relation} {tail}' is contradicted by existing knowledge '{tail} {inverse_relation} {head}'.")
-                return False
+        if inverse_relation and self.kg_manager.edge_exists(source=head, target=tail, relation=inverse_relation):
+             self.logger.info(f"Contradiction Found: Hypothesis '{head} {relation} {tail}' is contradicted by an inverse relation '{head} {inverse_relation} {tail}'.")
+             return False
 
         # --- 2. Check for Exclusive Relationships (Future Implementation) ---
         # Example: If hypothesis is "A is_a B", check if A is already "is_a C" where B and C are mutually exclusive.

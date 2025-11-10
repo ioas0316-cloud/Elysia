@@ -1,3 +1,4 @@
+
 from typing import Optional, Any
 import re
 from datetime import datetime
@@ -64,6 +65,11 @@ class HypothesisHandler:
         elif relation == '승천':
             question = hypothesis_to_ask.get('text', f"새로운 개념 '{hypothesis_to_ask['head']}'을(를) 지식의 일부로 만들까요?")
 
+        # Handle correction proposals
+        elif relation == 'proposes_correction':
+            self.logger.info(f"Generating correction proposal question for: {hypothesis_to_ask['head']} <-> {hypothesis_to_ask['tail']}")
+            question = self.question_generator.generate_correction_proposal_question(hypothesis_to_ask)
+
         # Fallback to the default question generator for all other cases
         if not question:
             question = self.question_generator.generate_question_from_hypothesis(hypothesis_to_ask)
@@ -77,8 +83,10 @@ class HypothesisHandler:
             return None # Should not happen if routed correctly
 
         response_text = ""
-        # (The detailed logic for processing ascension and relationship remains the same)
-        if hypothesis.get('relation') == '승천':
+        relation = hypothesis.get('relation')
+
+        # --- Route response handling based on relation type ---
+        if relation == '승천':
             self.logger.info(f"Processing user response for Ascension hypothesis: {hypothesis['head']}")
             if any(word in message for word in ["응", "맞아", "그래", "승천시켜", "승인"]):
                 self.logger.info(f"User approved Ascension. Creating new Node '{hypothesis['head']}' in KG.")
@@ -89,20 +97,57 @@ class HypothesisHandler:
             else:
                 self.logger.info("User denied Ascension. Discarding hypothesis.")
                 response_text = f"알겠습니다. 개념 '{hypothesis['head']}'의 승천을 보류합니다."
-        else:
+
+        elif relation == 'proposes_correction':
+            self.logger.info(f"Processing user response for Correction proposal: {hypothesis['head']} <-> {hypothesis['tail']}")
+            if any(word in message for word in ["응", "맞아", "그래", "수정해", "허락한다"]):
+                insight = hypothesis.get('metadata', {}).get('contradictory_insight')
+                if insight:
+                    # Logic Correction: Find what to remove based on the new insight.
+                    # The verifier found a contradiction, so we assume an inverse or reversal exists.
+                    # Let's explicitly find what's there and remove it.
+
+                    new_head = insight.get('head')
+                    new_tail = insight.get('tail')
+                    new_relation = insight.get('relation')
+
+                    # Case 1: Direct Reversal (A->B contradicts existing B->A)
+                    # We need to remove B->A
+                    if self.kg_manager.edge_exists(source=new_tail, target=new_head, relation=new_relation):
+                        self.kg_manager.remove_edge(new_tail, new_head, new_relation)
+                        self.logger.info(f"Correcting KG: Removed direct reversal edge '{new_tail} -> {new_head}' with relation '{new_relation}'.")
+
+                    # Case 2: Inverse Relation (A 'causes' B contradicts existing A 'caused_by' B)
+                    inverse_relations = {"causes": "caused_by", "caused_by": "causes"}
+                    inverse_of_new = inverse_relations.get(new_relation)
+                    if inverse_of_new and self.kg_manager.edge_exists(source=new_head, target=new_tail, relation=inverse_of_new):
+                        self.kg_manager.remove_edge(new_head, new_tail, inverse_of_new)
+                        self.logger.info(f"Correcting KG: Removed inverse edge '{new_head} -> {new_tail}' with relation '{inverse_of_new}'.")
+
+                    # Now, add the new, correct edge
+                    self.kg_manager.add_edge(new_head, new_tail, new_relation)
+                    self.logger.info(f"Correcting KG: Added new edge '{new_head} -> {new_tail}' with relation '{new_relation}'.")
+
+                    response_text = "아버지의 지혜에 따라 저의 지식을 바로잡았습니다. 감사합니다."
+                else:
+                    response_text = "수정을 진행하려 했으나, 원본 통찰 정보가 부족하여 실패했습니다."
+            else:
+                self.logger.info("User denied Correction. Discarding proposal.")
+                response_text = "알겠습니다. 기존의 지식을 그대로 유지합니다."
+
+        else: # Default handling for standard relationship hypotheses
             self.logger.info(f"Processing user response for relationship hypothesis: {hypothesis['head']} -> {hypothesis['tail']}")
-            relation = extract_relationship_type(message) or ("related_to" if any(word in message for word in ["응", "맞아", "그래"]) else None)
-            if relation:
-                self.logger.info(f"User confirmed relationship: {relation}. Adding edge to KG.")
-                self.kg_manager.add_edge(hypothesis['head'], hypothesis['tail'], relation)
+            confirmed_relation = extract_relationship_type(message) or ("related_to" if any(word in message for word in ["응", "맞아", "그래"]) else None)
+            if confirmed_relation:
+                self.logger.info(f"User confirmed relationship: {confirmed_relation}. Adding edge to KG.")
+                self.kg_manager.add_edge(hypothesis['head'], hypothesis['tail'], confirmed_relation)
                 response_text = f"알겠습니다. '{hypothesis['head']}'와(과) '{hypothesis['tail']}'의 관계를 기록했습니다."
             else:
                 self.logger.info("User denied or provided an unclear answer. Discarding hypothesis.")
                 response_text = f"알겠습니다. 가설({hypothesis['head']} -> {hypothesis['tail']})에 대한 답변을 기록했습니다."
 
-        # Use updated remove_hypothesis that handles ascension (tail=None)
-        tail = hypothesis.get('tail')
-        self.core_memory.remove_hypothesis(hypothesis['head'], tail)
+        # --- Clean up after processing ---
+        self.core_memory.remove_hypothesis(hypothesis['head'], hypothesis.get('tail'), relation=relation)
         context.pending_hypothesis = None
         final_response = self.response_styler.style_response(response_text, emotional_state)
         return {"type": "text", "text": final_response}
