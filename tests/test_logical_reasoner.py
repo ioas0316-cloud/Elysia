@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import MagicMock
 import os
 import sys
 from pathlib import Path
@@ -31,8 +32,14 @@ class TestLogicalReasoner(unittest.TestCase):
         self.kg_manager.add_edge("식물 성장", "산소 발생", "causes")
         self.kg_manager.save()
 
-        # 2. Setup Cellular World
-        self.cellular_world = World(primordial_dna={"instinct": "grow"})
+        # 2. Setup Mocks and Cellular World
+        mock_wave_mechanics = MagicMock()
+        mock_wave_mechanics.get_resonance_between.return_value = 0.5  # Mock the resonance value
+
+        self.cellular_world = World(
+            primordial_dna={"instinct": "grow"},
+            wave_mechanics=mock_wave_mechanics
+        )
         for node in self.kg_manager.kg['nodes']:
             self.cellular_world.add_cell(node['id'], initial_energy=1.0)
 
