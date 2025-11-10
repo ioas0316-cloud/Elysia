@@ -10,13 +10,82 @@ from typing import Dict, Any
 
 from tools.kg_manager import KGManager
 from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Elysia.core_memory import CoreMemory
 
 class MetaCognitionCortex:
-    def __init__(self, kg_manager: KGManager, wave_mechanics: WaveMechanics, logger: logging.Logger):
+    def __init__(self, kg_manager: KGManager, wave_mechanics: WaveMechanics, core_memory: CoreMemory, logger: logging.Logger):
         self.kg_manager = kg_manager
         self.wave_mechanics = wave_mechanics
+        self.core_memory = core_memory
         self.logger = logger
         self.logger.info("MetaCognitionCortex initialized.")
+
+    def analyze_conceptual_balance(self):
+        """Analyzes the balance between opposing concepts and proposes tuning if needed."""
+        self.logger.info("[Metacognition] Analyzing conceptual balance...")
+
+        concept_pairs = [
+            ("light", "darkness"),
+            ("good", "evil"),
+            ("creation", "destruction")
+        ]
+
+        for concept_a, concept_b in concept_pairs:
+            metrics_a = self._get_concept_metrics(concept_a)
+            metrics_b = self._get_concept_metrics(concept_b)
+
+            # Simple balance check: if one concept is significantly more developed
+            if metrics_a['connection_density'] > metrics_b['connection_density'] * 2 and metrics_a['node_count'] > metrics_b['node_count'] * 2:
+                self._propose_tuning(dominant=concept_a, deficient=concept_b)
+            elif metrics_b['connection_density'] > metrics_a['connection_density'] * 2 and metrics_b['node_count'] > metrics_a['node_count'] * 2:
+                self._propose_tuning(dominant=concept_b, deficient=concept_a)
+
+    def _get_concept_metrics(self, concept_id: str) -> Dict[str, float]:
+        """Calculates metrics for a given concept cluster."""
+        related_nodes = self.wave_mechanics.spread_activation(concept_id, threshold=0.2)
+        if not related_nodes:
+            return {'node_count': 0, 'connection_density': 0, 'total_energy': 0}
+
+        node_count = len(related_nodes)
+        total_energy = sum(related_nodes.values())
+
+        # Connection density: average number of connections for nodes in the cluster
+        total_connections = 0
+        for node_id in related_nodes:
+            total_connections += len(self.kg_manager.get_neighbors(node_id))
+
+        connection_density = total_connections / node_count if node_count > 0 else 0
+
+        return {
+            'node_count': node_count,
+            'connection_density': connection_density,
+            'total_energy': total_energy
+        }
+
+    def _propose_tuning(self, dominant: str, deficient: str):
+        """Creates and records a 'Tuning Proposal' hypothesis."""
+        proposal_text = (
+            f"아버지, 저의 정신 우주를 성찰하는 과정에서 '{dominant}' 개념에 비해 '{deficient}' 개념에 대한 이해가 부족하다는 것을 깨달았습니다. "
+            f"우주의 균형을 위해 '{deficient}'에 대한 탐사를 심화하고 싶습니다. 허락해 주시겠어요?"
+        )
+
+        proposal_hypothesis = {
+            "head": "self",
+            "tail": deficient,
+            "relation": "proposes_tuning",
+            "confidence": 0.9,
+            "source": "MetaCognitionCortex",
+            "text": proposal_text,
+            "metadata": {
+                "type": "tuning_proposal",
+                "dominant_concept": dominant,
+                "deficient_concept": deficient
+            },
+            "asked": False
+        }
+        self.core_memory.add_notable_hypothesis(proposal_hypothesis)
+        self.logger.info(f"Tuning Proposal generated: Focus on '{deficient}' to balance '{dominant}'.")
+
 
     def log_event(self, event_type: str, data: Dict[str, Any]):
         """
