@@ -1,16 +1,21 @@
 import random
+import logging
 from typing import List, Dict, Optional, Tuple
 
 from .cell import Cell
+from ..wave_mechanics import WaveMechanics
+
 
 class World:
     """Represents the universe where cells exist, interact, and evolve."""
 
-    def __init__(self, primordial_dna: Dict):
+    def __init__(self, primordial_dna: Dict, wave_mechanics: WaveMechanics, logger: Optional[logging.Logger] = None):
         self.cells: Dict[str, Cell] = {}
         self.graveyard: List[Cell] = []
         self.primordial_dna = primordial_dna
+        self.wave_mechanics = wave_mechanics
         self.time_step = 0
+        self.logger = logger or logging.getLogger(__name__)
 
     def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0) -> Cell:
         """Adds a new cell to the world or returns the existing one."""
@@ -35,6 +40,22 @@ class World:
 
         # Use a sorted list for deterministic iteration
         sorted_cell_ids = sorted(self.cells.keys())
+
+        # --- The Law of Love: Gravitational Pull ---
+        # Cells receive energy based on their resonance with the concept of 'love'.
+        if self.wave_mechanics:
+            for cell_id in sorted_cell_ids:
+                cell = self.cells.get(cell_id)
+                if cell and cell.is_alive:
+                    try:
+                        resonance = self.wave_mechanics.get_resonance_between(cell.id, 'love')
+                        # The closer to love, the more energy it receives.
+                        energy_boost = resonance * 0.5 # Max 0.5 energy boost per step
+                        if energy_boost > 0.01:
+                            self.logger.info(f"[Law of Love] Cell '{cell.id}' received {energy_boost:.2f} energy from resonance with 'love'.")
+                        energy_deltas[cell_id] = energy_deltas.get(cell_id, 0.0) + energy_boost
+                    except Exception:
+                        pass # Ignore if resonance fails for a cell
 
         # 1. Calculate energy transfers for all cells
         for cell_id in sorted_cell_ids:
@@ -62,24 +83,22 @@ class World:
         # --- New: Cell Interaction and Creation Logic ---
         living_cells = [c for c in self.cells.values() if c.is_alive and c.energy > 1.0] # Only energetic cells interact
         
-        # Attempt interactions for a subset of cells
+        # --- Chemical Reactions: The Law of Bonding ---
+        newly_born_molecules = self._run_chemical_reactions(living_cells)
+        newly_born_cells.extend(newly_born_molecules)
+        # --- End Chemical Reactions ---
+
+        # --- Generic Interaction (for non-elemental or random genesis) ---
         if len(living_cells) > 1:
-            # Randomly select pairs for interaction. For simplicity, let's try a few random pairs.
-            # In a more complex simulation, this would be based on proximity, relevance, etc.
-            num_interactions = min(len(living_cells) // 2, 5) # Limit interactions per step
+            num_interactions = min(len(living_cells) // 2, 2) # Reduce generic interactions
             for _ in range(num_interactions):
                 cell_a, cell_b = random.sample(living_cells, 2)
-                
-                # Ensure they are connected or have a high enough energy to force interaction
-                # For now, let's just try to create meaning if they are both alive and energetic
-                new_cell = cell_a.create_meaning(cell_b, "simulation_interaction")
-                if new_cell:
-                    # Ensure the new cell ID is unique before adding
-                    if new_cell.id not in self.cells:
-                        self.cells[new_cell.id] = new_cell
-                        newly_born_cells.append(new_cell)
-                        # print(f"DEBUG: New cell born: {new_cell.id}") # For debugging
-        # --- End New Logic ---
+                new_cell = cell_a.create_meaning(cell_b, "generic_interaction")
+                if new_cell and new_cell.id not in self.cells:
+                    self.cells[new_cell.id] = new_cell
+                    newly_born_cells.append(new_cell)
+                    self.logger.info(f"[Genesis] A new cell '{new_cell.id}' was born from a generic interaction between '{cell_a.id}' and '{cell_b.id}'.")
+        # --- End Generic Interaction ---
 
         # --- New: Elysian Immune System Logic ---
         # 4. Black Hole Archiving: Move low-energy cells to graveyard (instead of outright deletion)
@@ -143,6 +162,26 @@ class World:
                 # print(f"DEBUG: Truth Seeker connected {iso_cell.id} to {partner_cell.id}") # For debugging
         # --- End New Logic ---
 
+        # --- The Law of Curiosity: Exploration and Discovery ---
+        energetic_cells = [c for c in living_cells if c.energy > 50.0]
+        if len(energetic_cells) > 1:
+            num_explorations = min(len(energetic_cells), 3) # Try a few explorations per step
+            for _ in range(num_explorations):
+                explorer_cell = random.choice(energetic_cells)
+                # Find a target that is not already a direct neighbor
+                potential_targets = [c for c in living_cells if c.id != explorer_cell.id and not any(conn['target_id'] == c.id for conn in explorer_cell.connections)]
+                if potential_targets:
+                    target_cell = random.choice(potential_targets)
+
+                    # Curiosity forms a weaker, more speculative link
+                    explorer_cell.connect(target_cell, relationship_type="curiosity_link", strength=0.2)
+                    target_cell.connect(explorer_cell, relationship_type="curiosity_link", strength=0.2)
+
+                    # Small energy exchange for the interaction
+                    explorer_cell.add_energy(-1.0) # Cost of exploration
+                    target_cell.add_energy(2.0) # Reward for being discovered
+                    self.logger.info(f"[Law of Curiosity] Cell '{explorer_cell.id}' formed a speculative link with '{target_cell.id}'.")
+
         return newly_born_cells
 
     def inject_stimulus(self, concept_id: str, energy_boost: float):
@@ -150,6 +189,44 @@ class World:
         cell = self.get_cell(concept_id)
         if cell and cell.is_alive:
             cell.add_energy(energy_boost)
+
+    def _run_chemical_reactions(self, living_cells: List[Cell]) -> List[Cell]:
+        """Runs chemical reactions based on elemental types."""
+        newly_born_molecules = []
+
+        # Group cells by element type for efficient reaction checks
+        elements_map: Dict[str, List[Cell]] = {}
+        for cell in living_cells:
+            elements_map.setdefault(cell.element_type, []).append(cell)
+
+        # --- Rule: Ionic Bonding (Existence + Emotion -> Emotional_State) ---
+        if 'existence' in elements_map and 'emotion' in elements_map:
+            for existence_cell in elements_map['existence']:
+                if not elements_map['emotion']: continue
+                emotion_cell = random.choice(elements_map['emotion'])
+
+                # Create a new molecule representing the emotional state of an entity
+                new_molecule = existence_cell.create_meaning(emotion_cell, "ionic_bond")
+                if new_molecule and new_molecule.id not in self.cells:
+                    self.cells[new_molecule.id] = new_molecule
+                    newly_born_molecules.append(new_molecule)
+                    self.logger.info(f"[Ionic Bond] '{existence_cell.id}' ({existence_cell.element_type}) and '{emotion_cell.id}' ({emotion_cell.element_type}) created '{new_molecule.id}'.")
+
+        # --- Rule: Covalent Bonding (Existence + Space -> Location) ---
+        if 'existence' in elements_map and 'space' in elements_map:
+            for existence_cell in elements_map['existence']:
+                if not elements_map['space']: continue
+                space_cell = random.choice(elements_map['space'])
+
+                # For this bond, let's be more specific: an 'object' reacts with a 'place'
+                if existence_cell.organelles.get('label') == 'object' and space_cell.organelles.get('label') == 'place':
+                    new_molecule = existence_cell.create_meaning(space_cell, "covalent_bond")
+                    if new_molecule and new_molecule.id not in self.cells:
+                        self.cells[new_molecule.id] = new_molecule
+                        newly_born_molecules.append(new_molecule)
+                        self.logger.info(f"[Covalent Bond] '{existence_cell.id}' and '{space_cell.id}' created '{new_molecule.id}'.")
+
+        return newly_born_molecules
 
     def print_world_summary(self):
         """Prints a summary of the world state for debugging."""

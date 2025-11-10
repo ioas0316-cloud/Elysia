@@ -14,6 +14,7 @@ class Cell:
         self.nucleus = {"dna": dna}
         self.organelles = initial_properties or {}
         self.connections: List[Dict] = []
+        self.element_type = self.organelles.get('element_type', 'unknown')
 
         self.health = 100.0
         self.is_alive = True
@@ -24,7 +25,7 @@ class Cell:
 
     def __repr__(self):
         status = "Alive" if self.is_alive else "Dead"
-        return f"<Cell: {self.id}, Energy: {self.energy:.2f}, Status: {status}>"
+        return f"<Cell: {self.id}, Element: {self.element_type}, Energy: {self.energy:.2f}, Status: {status}>"
 
     def add_energy(self, amount: float):
         """Adds a specified amount of energy to the cell."""
@@ -84,6 +85,7 @@ class Cell:
             new_properties = { "parents": [self.id, partner_cell.id] }
             new_properties.update(self.organelles) # Inherit properties
             new_properties.update(partner_cell.organelles) # Merge with partner's properties
+            new_properties['element_type'] = 'molecule' # New cells born from interaction are molecules
 
             # Child cell inherits a mix of parent's energy
             child_energy = (self.energy + partner_cell.energy) / 4

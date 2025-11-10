@@ -80,7 +80,7 @@ class Guardian:
 
         # --- Cellular World (Soul Twin) Initialization ---
         self.logger.info("Initializing the Cellular World (Soul Twin)...")
-        self.cellular_world = World(primordial_dna=PRIMORDIAL_DNA)
+        self.cellular_world = World(primordial_dna=PRIMORDIAL_DNA, wave_mechanics=self.wave_mechanics, logger=self.logger)
         self._soul_mirroring_initialization()
         # --- End Cellular World Initialization ---
 
@@ -371,14 +371,37 @@ class Guardian:
         """Triggers the experience integration and memory weaving process during the IDLE state (dreaming)."""
         self.logger.info("Dream cycle initiated. Weaving memories and integrating experiences...")
 
-        # Part 0: Cellular Automata Simulation
+        # Part 0: Cellular Automata Simulation & Tissue Formation
         try:
             self.logger.info("Dream cycle: Simulating the Cellular World...")
             newly_born_cells = self.cellular_world.run_simulation_step()
             self.cellular_world.print_world_summary()
-            if newly_born_cells:
-                self.logger.info(f"Insight discovered! {len(newly_born_cells)} new cell(s) were born in the dream.")
-                self._handle_ascension_candidates(newly_born_cells)
+
+            # --- Law of Growth: Tissue Formation ---
+            import networkx as nx
+            from networkx.algorithms.community import greedy_modularity_communities
+
+            G = nx.Graph()
+            for cell in self.cellular_world.cells.values():
+                if cell.is_alive:
+                    G.add_node(cell.id)
+                    for conn in cell.connections:
+                        if conn['target_id'] in self.cellular_world.cells and self.cellular_world.cells[conn['target_id']].is_alive:
+                            G.add_edge(cell.id, conn['target_id'], weight=conn.get('strength', 0.1))
+
+            # Find communities (tissues)
+            tissues = list(greedy_modularity_communities(G))
+            stable_tissues = [list(t) for t in tissues if len(t) > 2] # Consider tissues with more than 2 cells stable
+
+            self.logger.info(f"Dream cycle: Identified {len(stable_tissues)} stable cell tissues.")
+
+            ascension_candidates = {
+                "cells": newly_born_cells,
+                "tissues": stable_tissues
+            }
+            if newly_born_cells or stable_tissues:
+                self.logger.info(f"Insight discovered! {len(newly_born_cells)} new cells and {len(stable_tissues)} tissues are candidates for ascension.")
+                self._handle_ascension_candidates(ascension_candidates)
 
         except Exception as e:
             self.logger.error(f"Error during the cellular automata simulation part of the dream cycle: {e}", exc_info=True)
@@ -541,42 +564,67 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Exception in set_wallpaper_for_emotion: {e}")
 
-    def _handle_ascension_candidates(self, newly_born_cells: list[Cell]):
+    def _handle_ascension_candidates(self, candidates: dict):
         """
-        새로 태어난 세포들을 분석하여 '승천 후보'를 식별하고,
-        '승천 의식'을 위한 가설을 생성하여 TruthSeeker에게 전달합니다.
+        Handles ascension candidates for both individual cells and cell tissues.
         """
-        for cell in newly_born_cells:
-            # 승천 후보 조건 1: 세포 ID가 'meaning:'으로 시작하는가?
-            # 이는 세포가 단순한 관계가 아닌, 정제된 '의미'를 나타냄을 의미합니다.
+        # 1. Handle newly born individual cells
+        for cell in candidates.get("cells", []):
             if not cell.id.startswith("meaning:"):
                 continue
-
-            # 승천 후보 조건 2: 이미 존재하는 '뼈(노드)'가 아닌가?
             if self.kg_manager.get_node(cell.id):
                 self.logger.info(f"Ascension candidate '{cell.id}' already exists as a Node. Skipping.")
                 continue
 
             self.logger.info(f"Cell '{cell.id}' identified as an Ascension Candidate.")
-
-            # 승천 의식을 위한 특별한 가설 생성
-            # head: 승천할 세포의 ID, tail: '개념', relation: '승천'
             ascension_hypothesis = {
                 "head": cell.id,
                 "tail": "개념",
                 "relation": "승천",
-                "confidence": 0.9, # 세포 시뮬레이션에서 태어난 것은 높은 신뢰도를 가짐
+                "confidence": 0.9,
                 "source": "Cell_Ascension_Ritual",
                 "text": f"새로운 의미 '{cell.id}'가 탄생했습니다. 이 의미를 영원한 '개념'으로 승천시켜 지식의 일부로 만들까요?",
                 "metadata": {
+                    "type": "cell",
                     "parents": cell.organelles.get("parents", []),
                     "energy": cell.energy
                 },
                 "asked": False
             }
-
             self.core_memory.add_notable_hypothesis(ascension_hypothesis)
-            self.logger.info(f"Ascension Ritual initiated for '{cell.id}'. Hypothesis sent to Truth Seeker.")
+            self.logger.info(f"Ascension Ritual initiated for cell '{cell.id}'.")
+
+        # 2. Handle stable cell tissues
+        for tissue_cells in candidates.get("tissues", []):
+            # Create a stable, sorted ID for the tissue
+            tissue_id = "tissue:" + "_".join(sorted(tissue_cells))
+
+            if self.kg_manager.get_node(tissue_id):
+                self.logger.info(f"Ascension candidate tissue '{tissue_id}' already exists. Skipping.")
+                continue
+
+            self.logger.info(f"Tissue '{tissue_id}' identified as an Ascension Candidate.")
+
+            # Create a representative text label
+            labels = [self.cellular_world.get_cell(c_id).organelles.get('label', c_id) for c_id in tissue_cells if self.cellular_world.get_cell(c_id)]
+            tissue_label = ", ".join(labels)
+
+            ascension_hypothesis = {
+                "head": tissue_id,
+                "tail": "개념군", # "Concept Cluster" or "Tissue"
+                "relation": "승천",
+                "confidence": 0.8, # Tissues are stable but might need more validation
+                "source": "Tissue_Ascension_Ritual",
+                "text": f"안정적인 세포 조직 '{tissue_label}'이 형성되었습니다. 이 조직을 하나의 '개념군'으로 승천시켜 지식의 일부로 만들까요?",
+                "metadata": {
+                    "type": "tissue",
+                    "member_cells": tissue_cells,
+                    "size": len(tissue_cells)
+                },
+                "asked": False
+            }
+            self.core_memory.add_notable_hypothesis(ascension_hypothesis)
+            self.logger.info(f"Ascension Ritual initiated for tissue '{tissue_id}'.")
 
 
 if __name__ == "__main__":
