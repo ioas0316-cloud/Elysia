@@ -45,6 +45,7 @@ class World:
         self.energy = np.array([], dtype=np.float32)
         self.is_alive_mask = np.array([], dtype=bool)
         self.connection_counts = np.array([], dtype=np.int32)
+        self.element_types = np.array([], dtype='<U10') # For storing strings like 'life', 'nature'
 
         # --- SciPy Sparse Matrix for Connections ---
         # Using lil_matrix for efficient row-wise additions
@@ -60,6 +61,7 @@ class World:
         self.energy = np.pad(self.energy, (0, new_size - current_size), 'constant')
         self.is_alive_mask = np.pad(self.is_alive_mask, (0, new_size - current_size), 'constant', constant_values=False)
         self.connection_counts = np.pad(self.connection_counts, (0, new_size - current_size), 'constant')
+        self.element_types = np.pad(self.element_types, (0, new_size - current_size), 'constant')
 
         # Resize SciPy sparse matrix
         new_adj = lil_matrix((new_size, new_size), dtype=np.float32)
@@ -94,28 +96,34 @@ class World:
         self.id_to_idx[concept_id] = idx
 
         self.energy[idx] = initial_energy
-        self.is_alive_mask[idx] = True  # A new quantum state is considered "alive"
-        self.connection_counts[idx] = 0 # No connections initially
+        self.is_alive_mask[idx] = True
+        self.connection_counts[idx] = 0
 
-        # Connections are not handled at the quantum state level in this design.
-        # They are established when cells are materialized and interact.
+        # We need to materialize the cell briefly to get its element_type
+        temp_cell = self.materialize_cell(concept_id, force_materialize=True)
+        if temp_cell:
+            self.element_types[idx] = temp_cell.element_type
+        else:
+            # Fallback if materialization fails
+            self.element_types[idx] = 'unknown'
 
-    def materialize_cell(self, concept_id: str) -> Optional[Cell]:
+
+    def materialize_cell(self, concept_id: str, force_materialize: bool = False) -> Optional[Cell]:
         """
         Retrieves a materialized cell. If not materialized, it 'collapses' the quantum state
         into a full Cell object.
+        The `force_materialize` flag is for internal use when we need the object's properties
+        even if it's already represented in NumPy.
         """
-        if concept_id in self.materialized_cells:
+        if not force_materialize and concept_id in self.materialized_cells:
             return self.materialized_cells[concept_id]
 
         if concept_id in self.quantum_states:
             idx = self.id_to_idx.get(concept_id)
-            # This should always be found if a quantum state exists, but we check for safety.
             if idx is None:
                 self.logger.error(f"Quantum state for '{concept_id}' exists, but it has no index in the world.")
                 return None
 
-            # Collapse the state using the MOST RECENT data from the NumPy arrays
             state = self.quantum_states[concept_id]
             current_energy = self.energy[idx]
             is_currently_alive = self.is_alive_mask[idx]
@@ -127,6 +135,9 @@ class World:
             )
             cell.age = state.get('age', 0)
             cell.is_alive = is_currently_alive
+
+            # This is the key update: sync the element type back to the numpy array
+            self.element_types[idx] = cell.element_type
 
             self.materialized_cells[concept_id] = cell
             return cell
@@ -199,7 +210,35 @@ class World:
         # 4. Calculate the net change in energy
         energy_deltas = total_energy_in - total_energy_out + energy_boost
 
-        # 5. Apply the energy changes
+        # --- Vectorized Law of Sunlight & Nurturing Environment ---
+        if self.wave_mechanics and self.wave_mechanics.kg_manager:
+            sun_node = self.wave_mechanics.kg_manager.get_node('sun')
+            if sun_node:
+                sunlight_energy = sun_node.get('activation_energy', 2.0)
+
+                # Create a boolean mask for all 'life' element types
+                life_mask = (self.element_types == 'life') & self.is_alive_mask
+
+                # Apply sunlight energy boost to all life cells
+                energy_deltas[life_mask] += sunlight_energy
+
+                # Create masks for nurturing elements
+                water_mask = (self.element_types == 'water')
+                earth_mask = (self.element_types == 'earth')
+                nurturing_mask = water_mask | earth_mask
+
+                # Find connections from 'life' cells to 'nurturing' cells
+                # This gives a matrix where non-zero values are connections from life to nurturers
+                life_to_nurture_connections = adj_matrix_csr[life_mask][:, nurturing_mask]
+
+                # Count how many nurturing connections each life cell has
+                nurturing_counts = np.array(life_to_nurture_connections.sum(axis=1)).flatten()
+
+                # Apply the bonus (0.5 for each nurturing connection)
+                nurturing_bonus = nurturing_counts * 0.5
+                energy_deltas[life_mask] += nurturing_bonus
+
+        # 5. Apply all energy changes at once
         self.energy += energy_deltas
 
         # --- Logic that is harder to vectorize remains similar ---
