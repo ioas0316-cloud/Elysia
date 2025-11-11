@@ -130,3 +130,27 @@ class WaveMechanics:
             threshold=0.1  # Lower threshold for finding faint connections
         )
         return activated_nodes.get(end_node_id, 0.0)
+
+    def inject_stimulus(self, concept_id: str, energy_boost: float):
+        """
+        Injects a small amount of activation energy directly into a concept node
+        in the knowledge graph. This is used for the simulation to influence
+        Elysia's core consciousness.
+        """
+        node = self.kg_manager.get_node(concept_id)
+        if node:
+            current_energy = node.get('activation_energy', 0.0)
+            new_energy = current_energy + energy_boost
+            self.kg_manager.update_node(concept_id, {'activation_energy': new_energy})
+            if self.telemetry:
+                try:
+                    self.telemetry.emit(
+                        'stimulus_injected',
+                        {
+                            'concept_id': concept_id,
+                            'energy_boost': float(energy_boost),
+                            'new_total_energy': float(new_energy)
+                        }
+                    )
+                except Exception:
+                    pass

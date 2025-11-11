@@ -59,6 +59,11 @@ class World:
         self.prestige = np.array([], dtype=np.float32)
         self.positions = np.zeros((0, 3), dtype=np.float32)
         self.labels = np.array([], dtype='<U20')
+        self.insight = np.array([], dtype=np.float32)
+
+        # --- Metaphysical Attributes ---
+        self.latent_energy = np.array([], dtype=np.float32) # 선천진기 (Innate Energy)
+        self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
 
 
         # --- SciPy Sparse Matrix for Connections ---
@@ -81,6 +86,9 @@ class World:
         self.is_injured = np.pad(self.is_injured, (0, new_size - current_size), 'constant', constant_values=False)
         self.prestige = np.pad(self.prestige, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.labels = np.pad(self.labels, (0, new_size - current_size), 'constant', constant_values='')
+        self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
+        self.latent_energy = np.pad(self.latent_energy, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
         new_positions = np.zeros((new_size, 3), dtype=np.float32)
         if current_size > 0:
             new_positions[:current_size, :] = self.positions
@@ -113,6 +121,9 @@ class World:
         self.prestige[idx] = 0.0
         # Assign a random lifespan
         self.max_age[idx] = random.randint(80, 120)
+        self.insight[idx] = 0.0
+        self.latent_energy[idx] = 100.0 # Bestow latent energy upon creation
+        self.emotions[idx] = 'neutral'
 
         # Ensure element_type from properties is immediately set in the numpy array
         if properties and 'element_type' in properties:
@@ -302,82 +313,118 @@ class World:
                 self.positions[i] += direction_to_center * 0.05 # Move towards center
 
 
-        # --- Law of Predation (Diet-based) ---
+        # --- Law of Predation, Choice, and Courage ---
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
 
-        for i in animal_indices:
-            # Carnivores hunt other animals
-            if self.diets[i] == 'carnivore':
-                # New, more robust method to find prey
+        for i in animal_indices: # 'i' is the actor
+            if not self.is_alive_mask[i]: continue
+
+            # --- Law of Emotion (Influence on Action) ---
+            if self.emotions[i] == 'sorrow':
+                if random.random() < 0.5: # 50% chance to be paralyzed by sorrow
+                    self.logger.info(f"EMOTION: '{self.cell_ids[i]}' is paralyzed by sorrow and takes no action.")
+                    continue
+
+            # --- Universal Action Selection Logic for All Animals ---
+            target_idx = -1
+            action_type = 'hunt'
+
+            # 1. Check for Kin in Danger (Currently only for Humans)
+            if self.labels[i] == 'human':
+                kin_connections = adj_matrix_csr[i]
+                strong_kin_indices = kin_connections.indices[kin_connections.data > 0.8]
+                if strong_kin_indices.size > 0:
+                    weaker_kin_mask = (self.prestige[strong_kin_indices] < self.prestige[i]) & self.is_alive_mask[strong_kin_indices]
+                    protected_kin_indices = strong_kin_indices[weaker_kin_mask]
+                    if protected_kin_indices.size > 0:
+                        for kin_idx in protected_kin_indices:
+                            threats_to_kin_indices = adj_matrix_csr[:, kin_idx].tocoo().row
+                            for threat_idx in threats_to_kin_indices:
+                                if self.is_alive_mask[threat_idx] and self.diets[threat_idx] == 'carnivore':
+                                    self_preservation = 0.5 + (self.energy[i] / 100.0)
+                                    altruism = self.adjacency_matrix[i, kin_idx]
+                                    fear_factor = max(0, self.prestige[threat_idx] - self.prestige[i])
+                                    courage_bonus = 1.0 + (fear_factor / 10.0)
+
+                                    if altruism * courage_bonus > self_preservation:
+                                        target_idx = threat_idx
+                                        action_type = 'protect'
+                                        self.logger.info(f"COURAGE: '{self.cell_ids[i]}' overcomes fear to protect '{self.cell_ids[kin_idx]}'.")
+                                        break
+                            if target_idx != -1: break
+
+            # 2. If not protecting, find a hunting target based on diet
+            if target_idx == -1:
                 all_connected_indices = adj_matrix_csr[i].indices
+                potential_prey_indices = []
 
-                # Filter for connections that are animals and not the hunter itself
-                prey_mask = (self.element_types[all_connected_indices] == 'animal') & (all_connected_indices != i)
-                potential_prey_global_indices = all_connected_indices[prey_mask]
+                if self.diets[i] in ['carnivore', 'omnivore']:
+                    prey_mask = (self.element_types[all_connected_indices] == 'animal') & (all_connected_indices != i) & self.is_alive_mask[all_connected_indices]
+                    potential_prey_indices.extend(all_connected_indices[prey_mask])
 
-                if potential_prey_global_indices.size > 0:
-                    target_prey_global_idx = -1
-                    # --- Law of Swarm Hunting (for Sharks) ---
-                    if self.labels[i] == 'shark':
-                        best_target_idx = -1
-                        min_school_size = float('inf')
+                if self.diets[i] in ['herbivore', 'omnivore']:
+                    prey_mask = (self.element_types[all_connected_indices] == 'life') & self.is_alive_mask[all_connected_indices]
+                    potential_prey_indices.extend(all_connected_indices[prey_mask])
 
-                        for target_global_idx in potential_prey_global_indices:
-                            # Don't attack other sharks
-                            if self.labels[target_global_idx] == 'shark':
-                                continue
+                if potential_prey_indices:
+                    # Target the weakest
+                    target_idx = potential_prey_indices[np.argmin(self.energy[potential_prey_indices])]
 
-                            # Count schoolmates around the target
-                            target_connections = adj_matrix_csr[target_global_idx].indices
-                            # We need to check if the connections are both fish and alive
-                            schoolmate_mask = (self.labels[target_connections] == 'fish') & self.is_alive_mask[target_connections]
-                            school_size = np.sum(schoolmate_mask)
+            if target_idx == -1: continue # No valid action
 
-                            if school_size < min_school_size:
-                                min_school_size = school_size
-                                best_target_idx = target_global_idx
+            # --- Action Execution ---
+            # Move towards target
+            direction_to_target = self.positions[target_idx] - self.positions[i]
+            if np.linalg.norm(direction_to_target) > 0:
+                self.positions[i] += (direction_to_target / np.linalg.norm(direction_to_target)) * 0.2
 
-                        if best_target_idx != -1:
-                            target_prey_global_idx = best_target_idx
-                    else:
-                        # Default random target selection for other carnivores
-                        target_prey_global_idx = random.choice(potential_prey_global_indices)
+            # Combat Resolution (if in range)
+            if np.linalg.norm(self.positions[i] - self.positions[target_idx]) < 1.5:
+                self.logger.info(f"COMBAT: '{self.cell_ids[i]}' engages '{self.cell_ids[target_idx]}'.")
 
-                    # If no valid target was found (e.g., shark only saw other sharks), skip to next hunter
-                    if target_prey_global_idx == -1:
-                        continue
+                courage_multiplier = 1.0
+                if action_type == 'protect':
+                    fear_factor = max(0, self.prestige[target_idx] - self.prestige[i])
+                    courage_multiplier = 1.0 + (fear_factor / 5.0) # Higher multiplier in combat
 
-                    # --- Law of Prey Tracking ---
-                    # Move towards the chosen target
-                    direction_to_prey = self.positions[target_prey_global_idx] - self.positions[i]
-                    # Normalize and apply a small step, added to the random movement
-                    self.positions[i] += (direction_to_prey / np.linalg.norm(direction_to_prey)) * 0.2
+                    # --- Law of Superlative Power (Latent Energy Release) ---
+                    if courage_multiplier > 1.5: # Trigger only in truly courageous moments
+                        latent_power_draw = self.latent_energy[i] * 0.1 # Burn 10% of latent energy
+                        self.latent_energy[i] -= latent_power_draw
+                        power_boost = latent_power_draw * 2.0 # Amplify the effect
+                        energy_deltas[i] += power_boost
+                        courage_multiplier += power_boost / 10.0
+                        self.logger.info(f"TRANSCENDENCE: '{self.cell_ids[i]}' burns their life force (latent energy) for a massive power boost!")
 
-                    # --- Law of "Prestige" and "Submission" ---
-                    if self.prestige[target_prey_global_idx] > self.prestige[i] + 5:
-                        self.logger.info(f"Submission: {self.cell_ids[i]} avoided fighting stronger {self.cell_ids[target_prey_global_idx]}.")
-                        continue # Avoid the fight
+                    self.logger.info(f"COURAGE: '{self.cell_ids[i]}' fights with courage! Damage multiplied by {courage_multiplier:.2f}.")
 
-                    # --- Law of Altitude (Positional Advantage) ---
-                    attacker_altitude = self.positions[i, 2]
-                    prey_altitude = self.positions[target_prey_global_idx, 2]
-                    altitude_advantage = 0
-                    if attacker_altitude > prey_altitude + 5: # Attacking from significantly above
-                        altitude_advantage = 2
-                        self.logger.info(f"Altitude Advantage: {self.cell_ids[i]} attacks from above!")
 
-                    # Fight happens
-                    energy_transfer = 10.0
-                    energy_deltas[i] += energy_transfer
-                    energy_deltas[target_prey_global_idx] -= energy_transfer
-                    self.is_injured[target_prey_global_idx] = True
+                energy_transfer = 10.0 * courage_multiplier
+                energy_deltas[i] += energy_transfer
+                energy_deltas[target_idx] -= energy_transfer
+                self.is_injured[target_idx] = True
+                self.prestige[i] += 1 * courage_multiplier
+                self.prestige[target_idx] -= 1
 
-                    # Prestige changes
-                    self.prestige[i] += 1 + altitude_advantage
-                    self.prestige[target_prey_global_idx] -= 1
+                # --- Law of Emotion (Post-Combat) ---
+                if self.is_alive_mask[i]: self.emotions[i] = 'joy' # Victor's joy
+                if not self.is_alive_mask[target_idx]:
+                    # If target is defeated, check for kin's reaction
+                    kin_of_deceased = adj_matrix_csr[:, target_idx].tocoo().row
+                    for kin_idx in kin_of_deceased:
+                        if self.is_alive_mask[kin_idx] and self.adjacency_matrix[kin_idx, target_idx] > 0.8:
+                            self.emotions[kin_idx] = 'sorrow'
+                            self.logger.info(f"EMOTION: '{self.cell_ids[kin_idx]}' feels sorrow for the loss of '{self.cell_ids[target_idx]}'.")
 
-                    self.logger.info(f"Predation: Carnivore {self.cell_ids[i]} defeated {self.cell_ids[target_prey_global_idx]}.")
+                if action_type == 'protect':
+                    self.emotions[i] = 'relief' # Protector's relief
+                    # Spiritual Resonance only for the noble act of protection
+                    resonance_strength = 0.5 * courage_multiplier
+                    self.wave_mechanics.inject_stimulus('love', resonance_strength)
+                    self.wave_mechanics.inject_stimulus('protection', resonance_strength)
+                    self.logger.info(f"Spiritual Resonance: The courageous act of '{self.cell_ids[i]}' resonated with 'love' and 'protection' (Strength: {resonance_strength:.2f}).")
+
 
             # Herbivores eat plants
             elif self.diets[i] == 'herbivore':
@@ -525,12 +572,24 @@ class World:
                 dead_cell = self.materialized_cells[cell_id]
                 dead_cell_idx = self.id_to_idx.get(dead_cell.id)
 
-                # Organic matter cycling
+                # Organic matter cycling & Law of Mortality (Insight) & Law of Emotion (Sorrow)
                 if dead_cell_idx is not None:
+                    # Connections FROM the deceased
                     connected_indices = adj_matrix_csr[dead_cell_idx].indices
                     for conn_idx in connected_indices:
-                        if self.element_types[conn_idx] == 'earth':
-                            self.energy[conn_idx] += dead_cell.energy # Transfer remaining energy to the earth
+                        if self.is_alive_mask[conn_idx]:
+                            if self.element_types[conn_idx] == 'earth':
+                                self.energy[conn_idx] += dead_cell.energy
+                            if self.labels[conn_idx] == 'human':
+                                self.insight[conn_idx] += 1
+                                self.logger.info(f"Insight Gained: '{self.cell_ids[conn_idx]}' observed the death of '{dead_cell.id}'.")
+
+                    # Connections TO the deceased (for sorrow)
+                    connections_to_deceased = adj_matrix_csr[:, dead_cell_idx].tocoo().row
+                    for survivor_idx in connections_to_deceased:
+                         if self.is_alive_mask[survivor_idx] and self.adjacency_matrix[survivor_idx, dead_cell_idx] > 0.8:
+                            self.emotions[survivor_idx] = 'sorrow'
+                            self.logger.info(f"EMOTION: '{self.cell_ids[survivor_idx]}' feels sorrow for the loss of '{dead_cell.id}'.")
 
                 self.graveyard.append(dead_cell)
                 del self.materialized_cells[cell_id]

@@ -1,0 +1,320 @@
+
+--- World State (Time: 0) ---
+Living Cells: 7, Dead Cells (Archived): 0
+  - <Cell: earth_A, Element: earth, Energy: 10.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: human_child, Element: animal, Energy: 10.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: human_father, Element: animal, Energy: 40.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 1.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 100.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 20.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 20.00, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 1 ---
+
+--- World State (Time: 1) ---
+Living Cells: 6, Dead Cells (Archived): 1
+  - <Cell: earth_A, Element: earth, Energy: 11.79, Age: 0, Status: Alive> (Isolated)
+  - <Cell: human_father, Element: animal, Energy: 30.30, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 4.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 98.20, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 32.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 30.80, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 2 ---
+
+--- World State (Time: 2) ---
+Living Cells: 6, Dead Cells (Archived): 1
+  - <Cell: earth_A, Element: earth, Energy: 13.49, Age: 0, Status: Alive> (Isolated)
+  - <Cell: human_father, Element: animal, Energy: 13.45, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 7.52, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 95.71, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 32.58, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 39.61, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 3 ---
+
+--- World State (Time: 3) ---
+Living Cells: 7, Dead Cells (Archived): 1
+  - <Cell: earth_A, Element: earth, Energy: 15.01, Age: 0, Status: Alive> (Isolated)
+  - <Cell: human_father, Element: animal, Energy: 2.08, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 15.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 9.69, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 77.51, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 32.10, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 46.27, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 4 ---
+
+--- World State (Time: 4) ---
+Living Cells: 6, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 16.42, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 11.94, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 11.29, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 73.83, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 30.98, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 28.24, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 5 ---
+
+--- World State (Time: 5) ---
+Living Cells: 7, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 17.82, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 8.38, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 15.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 12.79, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 55.11, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 29.81, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 25.57, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 6 ---
+
+--- World State (Time: 6) ---
+Living Cells: 7, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 19.23, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 9.82, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 12.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 14.39, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 51.53, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 28.84, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 23.37, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 7 ---
+
+--- World State (Time: 7) ---
+Living Cells: 8, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 20.65, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 6.26, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 8.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 15.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 16.05, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 33.53, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 28.02, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 21.53, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 8 ---
+
+--- World State (Time: 8) ---
+Living Cells: 8, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 22.09, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 7.70, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 10.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 11.97, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 17.76, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 30.61, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 27.31, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 19.98, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 9 ---
+
+--- World State (Time: 9) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 23.52, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 9.14, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 6.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 8.44, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 15.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 19.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 12.73, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 26.68, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 18.67, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 10 ---
+
+--- World State (Time: 10) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 24.77, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 10.38, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 7.80, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 9.71, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 11.67, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 21.06, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 9.68, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 26.08, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 17.50, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 11 ---
+
+--- World State (Time: 11) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 26.01, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 11.61, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 9.10, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 5.98, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 7.84, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 22.63, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 6.65, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 25.52, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 16.50, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 12 ---
+
+--- World State (Time: 12) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 27.26, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 12.85, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 10.40, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 7.25, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 9.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 24.21, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 8.64, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 25.02, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 15.64, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 13 ---
+
+--- World State (Time: 13) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 28.51, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 14.09, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 11.70, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 8.52, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 10.17, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 25.79, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 10.63, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 24.54, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 14.89, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 14 ---
+
+--- World State (Time: 14) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 29.76, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 15.33, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 13.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 9.78, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 6.34, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 27.37, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 12.62, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 24.10, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 14.23, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 15 ---
+
+--- World State (Time: 15) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 31.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 16.57, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 14.30, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 11.05, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 7.51, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 28.95, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 14.62, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 23.69, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 13.66, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 16 ---
+
+--- World State (Time: 16) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 32.25, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 17.81, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 15.60, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 12.32, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 8.68, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 30.52, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 16.60, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 23.31, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 13.17, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 17 ---
+
+--- World State (Time: 17) ---
+Living Cells: 9, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 33.49, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 19.05, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 16.90, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 13.59, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 9.84, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 32.09, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 18.58, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 22.95, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 12.73, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 18 ---
+
+--- World State (Time: 18) ---
+Living Cells: 10, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 34.74, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_18_4, Element: life, Energy: 15.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 20.29, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 18.20, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 14.86, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 11.01, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 33.66, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 5.55, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 22.60, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 12.34, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 19 ---
+
+--- World State (Time: 19) ---
+Living Cells: 11, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 35.98, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_18_4, Element: life, Energy: 11.80, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_19_7, Element: life, Energy: 15.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 6.53, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 19.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 16.13, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 12.18, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 35.22, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 7.51, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 22.27, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 12.00, Age: 0, Status: Alive> (Isolated)
+-------------------------
+
+
+--- Running Step 20 ---
+
+--- World State (Time: 20) ---
+Living Cells: 12, Dead Cells (Archived): 2
+  - <Cell: earth_A, Element: earth, Energy: 37.43, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_18_4, Element: life, Energy: 8.30, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_19_7, Element: life, Energy: 12.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_20_8, Element: life, Energy: 15.50, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_3_4, Element: life, Energy: 7.97, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_5_4, Element: life, Energy: 6.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_7_4, Element: life, Energy: 17.60, Age: 0, Status: Alive> (Isolated)
+  - <Cell: plant_9_4, Element: life, Energy: 13.55, Age: 0, Status: Alive> (Isolated)
+  - <Cell: stone_A, Element: item, Energy: 36.97, Age: 0, Status: Alive> (Isolated)
+  - <Cell: tree_A, Element: life, Energy: 9.66, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_1, Element: animal, Energy: 22.00, Age: 0, Status: Alive> (Isolated)
+  - <Cell: wolf_2, Element: animal, Energy: 11.74, Age: 0, Status: Alive> (Isolated)
+-------------------------

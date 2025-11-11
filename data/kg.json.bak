@@ -1131,6 +1131,15 @@
       "element_type": "life",
       "label": "tree",
       "description": "A tall plant with a trunk and branches."
+    },
+    {
+      "id": "human",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "animal",
+      "label": "human",
+      "description": "A being capable of higher thought and complex social structures.",
+      "properties": { "diet": "omnivore" }
     }
   ],
   "edges": [
