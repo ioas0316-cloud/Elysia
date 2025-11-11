@@ -1081,12 +1081,56 @@
       "description": "A material from trees, can be used to create tools."
     },
     {
+      "id": "fish",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "animal",
+      "label": "fish",
+      "description": "A small aquatic animal that often forms schools.",
+      "properties": { "diet": "herbivore", "habitat": "water" }
+    },
+    {
+      "id": "shark",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "animal",
+      "label": "shark",
+      "description": "A large predatory fish.",
+      "properties": { "diet": "carnivore", "habitat": "water" }
+    },
+    {
       "id": "stone",
       "position": { "x": 0, "y": 0, "z": 0 },
       "activation_energy": 0.0,
       "element_type": "item",
       "label": "stone",
       "description": "A hard solid material, can be used to create tools."
+    },
+    {
+      "id": "eagle",
+      "position": { "x": 0, "y": 0, "z": 50 },
+      "activation_energy": 0.0,
+      "element_type": "animal",
+      "label": "eagle",
+      "description": "A large bird of prey.",
+      "properties": { "diet": "carnivore", "habitat": "sky" }
+    },
+    {
+      "id": "sparrow",
+      "position": { "x": 0, "y": 0, "z": 20 },
+      "activation_energy": 0.0,
+      "element_type": "animal",
+      "label": "sparrow",
+      "description": "A small bird.",
+      "properties": { "diet": "herbivore", "habitat": "sky" }
+    },
+    {
+      "id": "tree",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "life",
+      "label": "tree",
+      "description": "A tall plant with a trunk and branches."
     }
   ],
   "edges": [
