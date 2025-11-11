@@ -1049,6 +1049,14 @@
       "activation_energy": 0.0,
       "element_type": "logic",
       "label": "not"
+    },
+    {
+      "id": "wolf",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "animal",
+      "label": "wolf",
+      "description": "A form of life that hunts other life forms for energy."
     }
   ],
   "edges": [
