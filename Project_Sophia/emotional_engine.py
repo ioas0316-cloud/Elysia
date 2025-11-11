@@ -15,6 +15,14 @@ class EmotionalEngine:
     Manages the dynamics of Elysia's emotional state, including transitions
     and the influence of events.
     """
+    FEELING_PRESETS: Dict[str, EmotionalState] = {
+        "neutral": EmotionalState(valence=0.0, arousal=0.2, dominance=0.0, primary_emotion="neutral"),
+        "calm": EmotionalState(valence=0.2, arousal=0.1, dominance=0.1, primary_emotion="calm"),
+        "hopeful": EmotionalState(valence=0.6, arousal=0.4, dominance=0.2, primary_emotion="hopeful", secondary_emotions=["joy"]),
+        "focused": EmotionalState(valence=0.1, arousal=0.6, dominance=0.4, primary_emotion="focused"),
+        "introspective": EmotionalState(valence=-0.2, arousal=0.3, dominance=-0.1, primary_emotion="introspective", secondary_emotions=["sadness"]),
+        "empty": EmotionalState(valence=-0.5, arousal=0.1, dominance=-0.3, primary_emotion="empty"),
+    }
 
     def __init__(self, initial_state: EmotionalState = None):
         if initial_state is None:
@@ -66,3 +74,10 @@ class EmotionalEngine:
     def get_current_state(self) -> EmotionalState:
         """Returns the current emotional state."""
         return self.current_state
+
+    def create_state_from_feeling(self, feeling: str) -> EmotionalState:
+        """
+        Creates a new EmotionalState object from a feeling string using the presets.
+        This is a factory method, it does not affect the engine's current state.
+        """
+        return self.FEELING_PRESETS.get(feeling.lower(), self.FEELING_PRESETS["neutral"])

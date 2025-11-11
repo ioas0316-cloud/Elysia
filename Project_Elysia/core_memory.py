@@ -27,16 +27,16 @@ class Memory:
     tags: Optional[list[str]] = None
 
 class CoreMemory:
-    def __init__(self, file_path: Optional[str] = None):
-        if file_path is None:
-            # To ensure this runs correctly from any context (e.g., tests, main script),
-            # we define the path relative to the project's assumed root.
-            # This is less robust but avoids permissions errors in sandboxed environments.
-            file_path = os.path.join('Elysia_Input_Sanctum', 'elysia_core_memory.json')
-
+    def __init__(self, file_path: Optional[str] = 'Elysia_Input_Sanctum/elysia_core_memory.json'):
         self.file_path = file_path
-        log_memory_action(f"Initializing and loading memory from: {self.file_path}")
-        self.data = self._load_memory()
+
+        if self.file_path:
+            log_memory_action(f"Initializing and loading memory from: {self.file_path}")
+            self.data = self._load_memory()
+        else:
+            log_memory_action("Initializing in-memory CoreMemory. No data will be loaded or saved.")
+            self.data = self._get_new_memory_structure()
+
         # MemoryWeaver가 사용할 단기 기억, 파일에 저장되지 않음
         self.volatile_memory: List[Set[str]] = []
 
@@ -54,34 +54,26 @@ class CoreMemory:
         log_memory_action(f"Clearing {len(self.volatile_memory)} fragments from volatile memory.")
         self.volatile_memory = []
 
+    def _get_new_memory_structure(self):
+        return {
+            'identity': {},
+            'values': [],
+            'experiences': [],
+            'relationships': {},
+            'rules': [],
+            'notable_hypotheses': [],
+            'logs': [] # Added for autonomous action logging
+        }
+
     def _load_memory(self) -> Dict[str, Any]:
         try:
             with open(self.file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 log_memory_action(f"Successfully loaded memory from {self.file_path}")
                 return data
-        except FileNotFoundError:
-            log_memory_action(f"Memory file not found at {self.file_path}. Creating new memory structure.")
-            new_memory = {
-                'identity': {},
-                'values': [],
-                'experiences': [],
-                'relationships': {},
-                'rules': [],
-                'notable_hypotheses': []
-            }
-            return new_memory
-        except json.JSONDecodeError as e:
-            log_memory_action(f"Error decoding JSON from {self.file_path}: {e}. Starting with empty memory.")
-            new_memory = {
-                'identity': {},
-                'values': [],
-                'experiences': [],
-                'relationships': {},
-                'rules': [],
-                'notable_hypotheses': []
-            }
-            return new_memory
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            log_memory_action(f"Memory file not found or invalid at {self.file_path}. Creating new memory structure. Error: {e}")
+            return self._get_new_memory_structure()
 
     def update_identity(self, key: str, value: Any):
         """신원 정보 업데이트 (이름, 선호도 등)"""
@@ -254,13 +246,21 @@ class CoreMemory:
                 exp_data['processed_by_weaver'] = True
         self._save_memory()
 
+    def add_log(self, log_entry: Dict):
+        """Adds a generic log entry for traceability."""
+        if 'logs' not in self.data:
+            self.data['logs'] = []
+        self.data['logs'].append(log_entry)
+        self._save_memory()
+
     def _save_memory(self):
-        """메모리 데이터를 파일에 저장합니다."""
+        """메모리 데이터를 파일에 저장합니다. file_path가 None이면 아무것도 하지 않습니다."""
+        if not self.file_path:
+            return # In-memory mode, do not save.
+
         try:
-            # 파일이 위치할 디렉토리가 존재하는지 확인하고, 없으면 생성합니다.
             os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
 
-            # dataclasses를 JSON 직렬화 가능한 dict로 변환
             import dataclasses
             class EnhancedJSONEncoder(json.JSONEncoder):
                 def default(self, o):
