@@ -15,7 +15,7 @@ from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
 from Project_Sophia.experience_integrator import ExperienceIntegrator
 from Project_Sophia.self_awareness_core import SelfAwarenessCore
 from .memory_weaver import MemoryWeaver
-from .core_memory import CoreMemory
+from .core_memory import CoreMemory, Memory
 from tools.kg_manager import KGManager
 from Project_Sophia.logical_reasoner import LogicalReasoner # Import LogicalReasoner
 from nano_core.bus import MessageBus
@@ -30,8 +30,12 @@ from Project_Sophia.core.cell import Cell
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.emotional_engine import EmotionalEngine
 from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
+from Project_Mirror.sensory_cortex import SensoryCortex
+from Project_Sophia.value_cortex import ValueCortex
+from Project_Elysia.core_memory import EmotionalState
 # --- Import the refactored ElysiaDaemon ---
 from .elysia_daemon import ElysiaDaemon
+from .dream_observer import DreamObserver
 
 # --- Primordial DNA for all cells created in this world ---
 PRIMORDIAL_DNA = {
@@ -82,6 +86,9 @@ class Guardian:
         self.knowledge_distiller = KnowledgeDistiller()
         self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.core_memory, self.logger)
         self.self_verifier = SelfVerifier(self.kg_manager, self.logger)
+        self.dream_observer = DreamObserver()
+        self.value_cortex = ValueCortex(self.kg_manager)
+        self.sensory_cortex = SensoryCortex(self.value_cortex)
 
 
         # --- Cellular World (Soul Twin) Initialization ---
@@ -312,6 +319,63 @@ class Guardian:
             # Keep the Cellular World mirrored with the latest KG before dreaming
             self._soul_mirroring_sync()
             self.trigger_learning()
+
+            # --- Dream Journal Entry Creation ---
+            try:
+                self.logger.info("Dream Journal: Observing dream state...")
+                dream_digest = self.dream_observer.observe_dream(self.cellular_world)
+                self.logger.info(f"Dream Journal: Captured dream summary - {dream_digest.get('summary')}")
+
+                # Step 2: Generate Image from Dream
+                if dream_digest and dream_digest.get('key_concepts'):
+                    self.logger.info("Dream Journal: Translating dream into a visual representation...")
+
+                    # Create a mood object for the SensoryCortex
+                    primary_emotion = dream_digest.get('emotional_landscape', 'neutral')
+                    mood = self.emotional_engine.create_state_from_feeling(primary_emotion)
+
+                    # Create a prompt for the image generation
+                    image_prompt = (
+                        f"An abstract, dreamlike digital painting representing the concept of '{', '.join(dream_digest['key_concepts'])}'. "
+                        f"The mood is {primary_emotion}. "
+                        f"Style: ethereal, glowing energy, soft focus, intricate details, cosmic."
+                    )
+
+                    # Define where to save the dream image
+                    dreams_dir = "data/dreams"
+                    os.makedirs(dreams_dir, exist_ok=True)
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    dream_image_path = os.path.join(dreams_dir, f"dream_{timestamp}.png")
+
+                    # Generate the image
+                    # Note: Using a simplified, direct call based on SensoryCortex's capabilities.
+                    # A more mature implementation might use a dedicated method in SensoryCortex.
+                    from Project_Sophia.gemini_api import generate_image_from_text
+                    success = generate_image_from_text(image_prompt, dream_image_path)
+
+                    if success:
+                        self.logger.info(f"Dream Journal: Successfully saved dream image to {dream_image_path}")
+
+                        # Step 3: Record the dream in Core Memory
+                        dream_memory = Memory(
+                            timestamp=datetime.now().isoformat(),
+                            content=dream_digest.get('summary'),
+                            emotional_state=mood,
+                            context={
+                                "type": "dream_journal",
+                                "image_path": dream_image_path,
+                                "key_concepts": dream_digest.get('key_concepts'),
+                            },
+                            tags=["dream", primary_emotion] + dream_digest.get('key_concepts', [])
+                        )
+                        self.core_memory.add_experience(dream_memory)
+                        self.logger.info("Dream Journal: Dream recorded in Core Memory.")
+                    else:
+                        self.logger.error("Dream Journal: Failed to generate dream image.")
+            except Exception as e:
+                self.logger.error(f"Error during Dream Journal creation pipeline: {e}", exc_info=True)
+            # --- End Dream Journal ---
+
             self._perform_tuning_phase() # New tuning phase
             self._process_high_confidence_hypotheses() # New autonomous processing step
             self.last_learning_time = time.time()
