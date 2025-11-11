@@ -61,8 +61,14 @@ class World:
         self.labels = np.array([], dtype='<U20')
         self.insight = np.array([], dtype=np.float32)
 
+        # --- Civilization Attributes ---
+        self.continent = np.array([], dtype='<U10') # e.g., 'East', 'West'
+        self.culture = np.array([], dtype='<U10') # e.g., 'wuxia', 'knight'
+
         # --- Metaphysical Attributes ---
+        self.aether = np.array([], dtype=np.float32) # 에테르 (Primordial Energy)
         self.latent_energy = np.array([], dtype=np.float32) # 선천진기 (Innate Energy)
+        self.mana = np.array([], dtype=np.float32) # 마나 (Mystical Energy)
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
 
 
@@ -87,8 +93,12 @@ class World:
         self.prestige = np.pad(self.prestige, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.labels = np.pad(self.labels, (0, new_size - current_size), 'constant', constant_values='')
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
+        self.continent = np.pad(self.continent, (0, new_size - current_size), 'constant', constant_values='')
+        self.culture = np.pad(self.culture, (0, new_size - current_size), 'constant', constant_values='')
         self.latent_energy = np.pad(self.latent_energy, (0, new_size - current_size), 'constant', constant_values=100.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
+        self.mana = np.pad(self.mana, (0, new_size - current_size), 'constant', constant_values=0.0)
+        self.aether = np.pad(self.aether, (0, new_size - current_size), 'constant', constant_values=100.0)
         new_positions = np.zeros((new_size, 3), dtype=np.float32)
         if current_size > 0:
             new_positions[:current_size, :] = self.positions
@@ -122,7 +132,9 @@ class World:
         # Assign a random lifespan
         self.max_age[idx] = random.randint(80, 120)
         self.insight[idx] = 0.0
+        self.aether[idx] = 100.0 # Bestow aether upon creation
         self.latent_energy[idx] = 100.0 # Bestow latent energy upon creation
+        self.mana[idx] = 0.0 # Mana is cultivated, not granted
         self.emotions[idx] = 'neutral'
 
         # Ensure element_type from properties is immediately set in the numpy array
@@ -163,6 +175,10 @@ class World:
                 self.labels[idx] = properties['label']
             if 'gender' in properties:
                 self.genders[idx] = properties['gender']
+            if 'continent' in properties:
+                self.continent[idx] = properties['continent']
+            if 'culture' in properties:
+                self.culture[idx] = properties['culture']
 
     def materialize_cell(self, concept_id: str, force_materialize: bool = False, explicit_properties: Optional[Dict] = None) -> Optional[Cell]:
         if not force_materialize and concept_id in self.materialized_cells:
@@ -261,6 +277,19 @@ class World:
         altitude = self.positions[flying_mask, 2]
         energy_deltas[flying_mask] -= altitude * 0.02
 
+        # --- Metaphysical Energy Conversion ---
+        # Wuxia culture converts aether to latent energy (Jingi)
+        wuxia_mask = (self.culture == 'wuxia') & self.is_alive_mask & (self.aether > 0)
+        conversion_amount_wuxia = np.minimum(self.aether[wuxia_mask], 0.1)
+        self.aether[wuxia_mask] -= conversion_amount_wuxia
+        self.latent_energy[wuxia_mask] += conversion_amount_wuxia * 1.1 # More efficient conversion
+
+        # Knight culture converts aether to mana
+        knight_mask = (self.culture == 'knight') & self.is_alive_mask & (self.aether > 0)
+        conversion_amount_knight = np.minimum(self.aether[knight_mask], 0.1)
+        self.aether[knight_mask] -= conversion_amount_knight
+        self.mana[knight_mask] += conversion_amount_knight
+
         return energy_deltas
 
     def _process_animal_actions(self, energy_deltas: np.ndarray):
@@ -329,7 +358,7 @@ class World:
         # --- THE KINSHIP TABOO ---
         # A sacred law: one does not hunt their own kin (strong bond).
         kin_connections = adj_matrix_csr[actor_idx]
-        kin_indices = set(kin_connections.indices[kin_connections.data > 0.8])
+        kin_indices = set(kin_connections.indices[kin_connections.data >= 0.8])
         # ---
 
         prey_indices = []
@@ -543,12 +572,31 @@ class World:
         self._sync_states_to_objects()
         print(f"\n--- World State (Time: {self.time_step}) ---")
         living_cells = [c for c in self.materialized_cells.values() if c.is_alive]
-        print(f"Living Cells: {len(living_cells)}, Dead Cells (Archived): {len(self.graveyard)}")
-        for cell in sorted(living_cells, key=lambda x: x.id):
-            status_indicator = ""
-            if cell.energy < 1.0:
-                status_indicator = " (Low Energy)"
-            elif len(cell.connections) == 0:
-                status_indicator = " (Isolated)"
-            print(f"  - {cell}{status_indicator}")
+        print(f"Living Cells: {len(self.is_alive_mask[self.is_alive_mask].tolist())}, Dead Cells (Archived): {len(self.graveyard)}")
+
+        # This is inefficient for large worlds, but invaluable for debugging small scenarios.
+        for i, cell_id in enumerate(self.cell_ids):
+            if not self.is_alive_mask[i]:
+                continue
+
+            label = self.labels[i]
+            energy = self.energy[i]
+            age = self.age[i]
+            culture = self.culture[i]
+            aether = self.aether[i]
+            latent_energy = self.latent_energy[i]
+            mana = self.mana[i]
+
+            status_parts = [
+                f"<Cell: {label} ({cell_id})",
+                f"Energy: {energy:.2f}",
+                f"Age: {age}",
+                f"Culture: {culture}",
+                f"Aether: {aether:.2f}",
+                f"Jingi: {latent_energy:.2f}",
+                f"Mana: {mana:.2f}",
+                "Status: Alive>"
+            ]
+            print(f"  - {' | '.join(status_parts)}")
+
         print("-------------------------\n")
