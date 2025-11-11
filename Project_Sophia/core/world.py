@@ -28,6 +28,9 @@ class World:
         self.day_length = 20
         self.time_of_day = 'day'
 
+        # --- Atmosphere ---
+        self.oxygen_level = 100.0
+
         # --- Chronos Engine Attributes ---
         self.branch_id = branch_id
         self.parent_event_id = parent_event_id
@@ -50,6 +53,12 @@ class World:
         self.growth_stages = np.array([], dtype=np.int8)
         self.genders = np.array([], dtype='<U6')  # male, female
         self.mating_readiness = np.array([], dtype=np.float32)
+        self.age = np.array([], dtype=np.int32)
+        self.max_age = np.array([], dtype=np.int32)
+        self.is_injured = np.array([], dtype=bool)
+        self.prestige = np.array([], dtype=np.float32)
+        self.positions = np.zeros((0, 3), dtype=np.float32)
+        self.labels = np.array([], dtype='<U20')
 
 
         # --- SciPy Sparse Matrix for Connections ---
@@ -67,6 +76,15 @@ class World:
         self.growth_stages = np.pad(self.growth_stages, (0, new_size - current_size), 'constant', constant_values=0)
         self.genders = np.pad(self.genders, (0, new_size - current_size), 'constant', constant_values='')
         self.mating_readiness = np.pad(self.mating_readiness, (0, new_size - current_size), 'constant', constant_values=0.0)
+        self.age = np.pad(self.age, (0, new_size - current_size), 'constant', constant_values=0)
+        self.max_age = np.pad(self.max_age, (0, new_size - current_size), 'constant', constant_values=100)
+        self.is_injured = np.pad(self.is_injured, (0, new_size - current_size), 'constant', constant_values=False)
+        self.prestige = np.pad(self.prestige, (0, new_size - current_size), 'constant', constant_values=0.0)
+        self.labels = np.pad(self.labels, (0, new_size - current_size), 'constant', constant_values='')
+        new_positions = np.zeros((new_size, 3), dtype=np.float32)
+        if current_size > 0:
+            new_positions[:current_size, :] = self.positions
+        self.positions = new_positions
         new_adj = lil_matrix((new_size, new_size), dtype=np.float32)
         if self.adjacency_matrix.shape[0] > 0:
             new_adj[:current_size, :current_size] = self.adjacency_matrix
@@ -90,18 +108,50 @@ class World:
         self.is_alive_mask[idx] = True
         self.connection_counts[idx] = 0
         self.growth_stages[idx] = 0 # Start at seed stage
+        self.age[idx] = 0
+        self.is_injured[idx] = False
+        self.prestige[idx] = 0.0
+        # Assign a random lifespan
+        self.max_age[idx] = random.randint(80, 120)
+
+        # Ensure element_type from properties is immediately set in the numpy array
+        if properties and 'element_type' in properties:
+            self.element_types[idx] = properties['element_type']
+        else:
+            # Fallback if not provided, though materialize_cell should handle it
+            self.element_types[idx] = 'unknown'
+
+
         # Pass the explicit properties from the call to materialization
         temp_cell = self.materialize_cell(concept_id, force_materialize=True, explicit_properties=properties)
+
+        # Set position
+        pos_dict = temp_cell.organelles.get('position', {'x': random.uniform(-10, 10), 'y': random.uniform(-10, 10), 'z': random.uniform(-10, 10)})
+        self.positions[idx] = [pos_dict.get('x', 0), pos_dict.get('y', 0), pos_dict.get('z', 0)]
         if temp_cell:
             # Now that the cell is materialized and has its organelles, update the numpy arrays
             self.element_types[idx] = temp_cell.element_type
             self.diets[idx] = temp_cell.organelles.get('diet', 'omnivore')
             self.genders[idx] = temp_cell.organelles.get('gender', '')
+            self.labels[idx] = temp_cell.organelles.get('label', concept_id)
         else:
-            # Fallback if materialization fails
-            self.element_types[idx] = 'unknown'
+            # Fallback if materialization fails, but we've already set element_type above
             self.diets[idx] = 'omnivore'
             self.genders[idx] = ''
+            self.labels[idx] = concept_id
+
+        # --- Final Override ---
+        # Ensure that properties passed directly to add_cell take ultimate precedence,
+        # especially for controlled setups like genesis_simulator.
+        if properties:
+            if 'element_type' in properties:
+                self.element_types[idx] = properties['element_type']
+            if 'diet' in properties:
+                self.diets[idx] = properties['diet']
+            if 'label' in properties:
+                self.labels[idx] = properties['label']
+            if 'gender' in properties:
+                self.genders[idx] = properties['gender']
 
     def materialize_cell(self, concept_id: str, force_materialize: bool = False, explicit_properties: Optional[Dict] = None) -> Optional[Cell]:
         if not force_materialize and concept_id in self.materialized_cells:
@@ -149,6 +199,19 @@ class World:
         num_cells = len(self.cell_ids)
         if num_cells == 0:
             return []
+
+        # --- Law of Atmosphere (Oxygen Cycle) ---
+        num_plants = np.sum((self.element_types == 'life') & self.is_alive_mask)
+        num_animals = np.sum((self.element_types == 'animal') & self.is_alive_mask)
+
+        # Plants produce oxygen during the day
+        if self.time_of_day == 'day':
+            self.oxygen_level += num_plants * 0.1
+
+        # Animals consume oxygen
+        self.oxygen_level -= num_animals * 0.05
+        self.oxygen_level = max(0, min(200, self.oxygen_level)) # Clamp oxygen level
+
         adj_matrix_csr = self.adjacency_matrix.tocsr()
         energy_boost = np.zeros_like(self.energy, dtype=np.float32)
         if self.wave_mechanics and self.wave_mechanics.kg_manager:
@@ -166,6 +229,14 @@ class World:
         total_energy_out = np.array(energy_out_matrix.sum(axis=1)).flatten()
         total_energy_in = np.array(energy_out_matrix.sum(axis=0)).flatten()
         energy_deltas = total_energy_in - total_energy_out + energy_boost
+
+        # Oxygen level effect on animal energy
+        animal_mask_for_o2 = (self.element_types == 'animal') & self.is_alive_mask
+        if self.oxygen_level > 120.0:
+            energy_deltas[animal_mask_for_o2] += 0.1 # Energy efficiency boost
+        elif self.oxygen_level < 80.0:
+            energy_deltas[animal_mask_for_o2] -= 0.2 # Energy drain from hypoxia
+
         cycle_position = self.time_step % self.day_length
         self.time_of_day = 'day' if cycle_position < self.day_length / 2 else 'night'
         if self.time_of_day == 'day':
@@ -193,6 +264,44 @@ class World:
             animal_mask = (self.element_types == 'animal') & self.is_alive_mask
             energy_deltas[animal_mask] += 0.15 # Effectively making their decay -0.05
 
+        # --- Laws of Deprivation (Aging, Injury, Hunger) ---
+        self.age[self.is_alive_mask] += 1
+
+        # Aging effect
+        old_age_mask = (self.age > self.max_age * 0.8) & self.is_alive_mask
+        energy_deltas[old_age_mask] -= 0.5
+
+        # Injury effect
+        energy_deltas[self.is_injured] -= 1.0
+
+        # Hunger effect on mating readiness
+        hungry_mask = (self.energy < 15.0) & (self.element_types == 'animal')
+        self.mating_readiness[hungry_mask] = 0
+
+        # --- Law of Gravity (Energy cost for flying) ---
+        flying_mask = (self.positions[:, 2] > 0) & self.is_alive_mask
+        altitude = self.positions[flying_mask, 2]
+        energy_deltas[flying_mask] -= altitude * 0.02 # Energy cost proportional to height
+
+        # --- Law of Movement and Swarming ---
+        # Basic random movement for all animals
+        animal_mask = (self.element_types == 'animal') & self.is_alive_mask
+        movement_vectors = np.random.randn(np.sum(animal_mask), 3) * 0.1
+        self.positions[animal_mask] += movement_vectors
+
+        # Cohesion for fish
+        fish_mask = (self.labels == 'fish') & self.is_alive_mask
+        fish_indices = np.where(fish_mask)[0]
+        for i in fish_indices:
+            connected_indices = adj_matrix_csr[i].indices
+            school_mask = fish_mask[connected_indices]
+            schoolmates = connected_indices[school_mask]
+            if schoolmates.size > 0:
+                center_of_mass = self.positions[schoolmates].mean(axis=0)
+                direction_to_center = center_of_mass - self.positions[i]
+                self.positions[i] += direction_to_center * 0.05 # Move towards center
+
+
         # --- Law of Predation (Diet-based) ---
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
@@ -200,20 +309,75 @@ class World:
         for i in animal_indices:
             # Carnivores hunt other animals
             if self.diets[i] == 'carnivore':
-                # Find connected animals to prey on
-                connections_to_animals = adj_matrix_csr[i, :][:, animal_mask]
-                prey_indices = connections_to_animals.indices
-                if prey_indices.size > 0:
-                    # Exclude self from potential prey
-                    prey_indices = prey_indices[prey_indices != i]
-                    if prey_indices.size > 0:
-                        target_prey_local_idx = random.choice(prey_indices)
-                        target_prey_global_idx = animal_indices[target_prey_local_idx]
+                # New, more robust method to find prey
+                all_connected_indices = adj_matrix_csr[i].indices
 
-                        energy_transfer = 10.0 # Carnivores get more energy
-                        energy_deltas[i] += energy_transfer
-                        energy_deltas[target_prey_global_idx] -= energy_transfer
-                        self.logger.info(f"Predation: Carnivore {self.cell_ids[i]} hunted animal {self.cell_ids[target_prey_global_idx]}.")
+                # Filter for connections that are animals and not the hunter itself
+                prey_mask = (self.element_types[all_connected_indices] == 'animal') & (all_connected_indices != i)
+                potential_prey_global_indices = all_connected_indices[prey_mask]
+
+                if potential_prey_global_indices.size > 0:
+                    target_prey_global_idx = -1
+                    # --- Law of Swarm Hunting (for Sharks) ---
+                    if self.labels[i] == 'shark':
+                        best_target_idx = -1
+                        min_school_size = float('inf')
+
+                        for target_global_idx in potential_prey_global_indices:
+                            # Don't attack other sharks
+                            if self.labels[target_global_idx] == 'shark':
+                                continue
+
+                            # Count schoolmates around the target
+                            target_connections = adj_matrix_csr[target_global_idx].indices
+                            # We need to check if the connections are both fish and alive
+                            schoolmate_mask = (self.labels[target_connections] == 'fish') & self.is_alive_mask[target_connections]
+                            school_size = np.sum(schoolmate_mask)
+
+                            if school_size < min_school_size:
+                                min_school_size = school_size
+                                best_target_idx = target_global_idx
+
+                        if best_target_idx != -1:
+                            target_prey_global_idx = best_target_idx
+                    else:
+                        # Default random target selection for other carnivores
+                        target_prey_global_idx = random.choice(potential_prey_global_indices)
+
+                    # If no valid target was found (e.g., shark only saw other sharks), skip to next hunter
+                    if target_prey_global_idx == -1:
+                        continue
+
+                    # --- Law of Prey Tracking ---
+                    # Move towards the chosen target
+                    direction_to_prey = self.positions[target_prey_global_idx] - self.positions[i]
+                    # Normalize and apply a small step, added to the random movement
+                    self.positions[i] += (direction_to_prey / np.linalg.norm(direction_to_prey)) * 0.2
+
+                    # --- Law of "Prestige" and "Submission" ---
+                    if self.prestige[target_prey_global_idx] > self.prestige[i] + 5:
+                        self.logger.info(f"Submission: {self.cell_ids[i]} avoided fighting stronger {self.cell_ids[target_prey_global_idx]}.")
+                        continue # Avoid the fight
+
+                    # --- Law of Altitude (Positional Advantage) ---
+                    attacker_altitude = self.positions[i, 2]
+                    prey_altitude = self.positions[target_prey_global_idx, 2]
+                    altitude_advantage = 0
+                    if attacker_altitude > prey_altitude + 5: # Attacking from significantly above
+                        altitude_advantage = 2
+                        self.logger.info(f"Altitude Advantage: {self.cell_ids[i]} attacks from above!")
+
+                    # Fight happens
+                    energy_transfer = 10.0
+                    energy_deltas[i] += energy_transfer
+                    energy_deltas[target_prey_global_idx] -= energy_transfer
+                    self.is_injured[target_prey_global_idx] = True
+
+                    # Prestige changes
+                    self.prestige[i] += 1 + altitude_advantage
+                    self.prestige[target_prey_global_idx] -= 1
+
+                    self.logger.info(f"Predation: Carnivore {self.cell_ids[i]} defeated {self.cell_ids[target_prey_global_idx]}.")
 
             # Herbivores eat plants
             elif self.diets[i] == 'herbivore':
