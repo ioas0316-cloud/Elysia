@@ -21,18 +21,9 @@ def main():
     # --- 1. Initialization ---
     logger.info("Initializing Genesis Simulator...")
 
-    # Use a temporary KG file for this simulation to avoid side-effects
-    temp_kg_path = "temp_genesis_kg.json"
-    kg_manager = KGManager(filepath=temp_kg_path)
-    kg_manager.kg = {"nodes": [], "edges": []} # Start with a clean slate
-
-    # Populate the KG with the essential nodes for our simulation
-    kg_manager.add_node('sun', properties={'activation_energy': 2.0, 'element_type': 'nature'})
-    kg_manager.add_node('love', properties={'activation_energy': 1.0, 'element_type': 'emotion'})
-    kg_manager.add_node('plant', properties={'element_type': 'life'})
-    kg_manager.add_node('water', properties={'element_type': 'nature'})
-    kg_manager.add_node('earth', properties={'element_type': 'nature'})
-    kg_manager.add_node('wolf', properties={'element_type': 'animal'})
+    # Use the main KG file to get all node properties including 'diet'
+    kg_path = os.path.join(project_root, "data", "kg.json.bak")
+    kg_manager = KGManager(filepath=kg_path)
 
     wave_mechanics = WaveMechanics(kg_manager)
     world = World(
@@ -42,27 +33,46 @@ def main():
     )
 
     # --- 2. World Creation ---
-    logger.info("Creating a micro-world for the experiment...")
-    world.add_cell('plant_A', initial_energy=10.0)
-    world.add_cell('water_A', initial_energy=10.0)
-    world.add_cell('earth_A', initial_energy=10.0)
-    world.add_cell('wolf_A', initial_energy=20.0) # Start with more energy
+    logger.info("Creating a micro-ecosystem with mating pairs...")
+    # Pass element_type and gender in properties to ensure correct initialization
+    world.add_cell('plant_A', properties={'element_type': 'life'}, initial_energy=20.0)
+    world.add_cell('plant_B', properties={'element_type': 'life'}, initial_energy=20.0)
+    world.add_cell('earth_A', properties={'element_type': 'earth'}, initial_energy=10.0)
 
-    world.add_connection('plant_A', 'water_A', strength=0.5)
+    # Create mating pairs
+    world.add_cell('rabbit_male', properties={'element_type': 'animal', 'diet': 'herbivore', 'gender': 'male'}, initial_energy=25.0)
+    world.add_cell('rabbit_female', properties={'element_type': 'animal', 'diet': 'herbivore', 'gender': 'female'}, initial_energy=25.0)
+    world.add_cell('wolf_male', properties={'element_type': 'animal', 'diet': 'carnivore', 'gender': 'male'}, initial_energy=30.0)
+    world.add_cell('wolf_female', properties={'element_type': 'animal', 'diet': 'carnivore', 'gender': 'female'}, initial_energy=30.0)
+
+    # Connections
+    # Nurturing
     world.add_connection('plant_A', 'earth_A', strength=0.5)
-    world.add_connection('wolf_A', 'plant_A', strength=0.5) # The wolf is near the plant
-
-    # Manually set element types for the simulation
-    world.element_types[world.id_to_idx['plant_A']] = 'life'
-    world.element_types[world.id_to_idx['water_A']] = 'nature'
-    world.element_types[world.id_to_idx['earth_A']] = 'nature'
-    world.element_types[world.id_to_idx['wolf_A']] = 'animal'
+    world.add_connection('plant_B', 'earth_A', strength=0.5)
+    # Herbivores eating plants (more connections)
+    world.add_connection('rabbit_male', 'plant_A', strength=0.5)
+    world.add_connection('rabbit_male', 'plant_B', strength=0.5)
+    world.add_connection('rabbit_female', 'plant_A', strength=0.5)
+    world.add_connection('rabbit_female', 'plant_B', strength=0.5)
+    # Carnivores hunting herbivores (more connections)
+    world.add_connection('wolf_male', 'rabbit_male', strength=0.5)
+    world.add_connection('wolf_male', 'rabbit_female', strength=0.5)
+    world.add_connection('wolf_female', 'rabbit_male', strength=0.5)
+    world.add_connection('wolf_female', 'rabbit_female', strength=0.5)
+    # Mating connections
+    world.add_connection('rabbit_male', 'rabbit_female', strength=0.8)
+    world.add_connection('wolf_male', 'wolf_female', strength=0.8)
+    # Decay connections
+    world.add_connection('rabbit_male', 'earth_A', strength=0.2)
+    world.add_connection('rabbit_female', 'earth_A', strength=0.2)
+    world.add_connection('wolf_male', 'earth_A', strength=0.2)
+    world.add_connection('wolf_female', 'earth_A', strength=0.2)
 
     logger.info("Initial world state:")
     world.print_world_summary()
 
     # --- 3. Simulation Loop ---
-    num_steps = 5
+    num_steps = 100 # Increased steps for long-term stability test
     logger.info(f"Running simulation for {num_steps} steps...")
     for i in range(num_steps):
         print(f"\n--- Running Step {i+1} ---")
