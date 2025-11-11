@@ -67,7 +67,8 @@ class World:
 
         # --- Metaphysical Attributes ---
         self.aether = np.array([], dtype=np.float32) # 에테르 (Primordial Energy)
-        self.latent_energy = np.array([], dtype=np.float32) # 선천진기 (Innate Energy)
+        self.latent_energy = np.array([], dtype=np.float32) # HP / 생명력
+        self.naegong = np.array([], dtype=np.float32) # 내공 (Wuxia Inner Force)
         self.mana = np.array([], dtype=np.float32) # 마나 (Mystical Energy)
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
 
@@ -96,6 +97,7 @@ class World:
         self.continent = np.pad(self.continent, (0, new_size - current_size), 'constant', constant_values='')
         self.culture = np.pad(self.culture, (0, new_size - current_size), 'constant', constant_values='')
         self.latent_energy = np.pad(self.latent_energy, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.naegong = np.pad(self.naegong, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
         self.mana = np.pad(self.mana, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.aether = np.pad(self.aether, (0, new_size - current_size), 'constant', constant_values=100.0)
@@ -134,6 +136,7 @@ class World:
         self.insight[idx] = 0.0
         self.aether[idx] = 100.0 # Bestow aether upon creation
         self.latent_energy[idx] = 100.0 # Bestow latent energy upon creation
+        self.naegong[idx] = 0.0 # Naegong is cultivated
         self.mana[idx] = 0.0 # Mana is cultivated, not granted
         self.emotions[idx] = 'neutral'
 
@@ -278,11 +281,11 @@ class World:
         energy_deltas[flying_mask] -= altitude * 0.02
 
         # --- Metaphysical Energy Conversion ---
-        # Wuxia culture converts aether to latent energy (Jingi)
+        # Wuxia culture converts aether to naegong
         wuxia_mask = (self.culture == 'wuxia') & self.is_alive_mask & (self.aether > 0)
         conversion_amount_wuxia = np.minimum(self.aether[wuxia_mask], 0.1)
         self.aether[wuxia_mask] -= conversion_amount_wuxia
-        self.latent_energy[wuxia_mask] += conversion_amount_wuxia * 1.1 # More efficient conversion
+        self.naegong[wuxia_mask] += conversion_amount_wuxia * 1.1 # More efficient conversion
 
         # Knight culture converts aether to mana
         knight_mask = (self.culture == 'knight') & self.is_alive_mask & (self.aether > 0)
@@ -584,16 +587,18 @@ class World:
             age = self.age[i]
             culture = self.culture[i]
             aether = self.aether[i]
-            latent_energy = self.latent_energy[i]
+            hp = self.latent_energy[i]
+            naegong = self.naegong[i]
             mana = self.mana[i]
 
             status_parts = [
                 f"<Cell: {label} ({cell_id})",
                 f"Energy: {energy:.2f}",
+                f"HP: {hp:.2f}",
                 f"Age: {age}",
                 f"Culture: {culture}",
                 f"Aether: {aether:.2f}",
-                f"Jingi: {latent_energy:.2f}",
+                f"Naegong: {naegong:.2f}",
                 f"Mana: {mana:.2f}",
                 "Status: Alive>"
             ]
