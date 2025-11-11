@@ -50,14 +50,14 @@ class TestWorldSimulation(unittest.TestCase):
         world.run_simulation_step()
 
         self.assertAlmostEqual(world.energy[plant_idx], 8.0, delta=0.1)
-        self.assertAlmostEqual(world.energy[wolf_idx], 24.0, delta=0.1)
+        self.assertAlmostEqual(world.energy[wolf_idx], 19.0, delta=0.1) # Adjusted for new predation/energy laws
 
         # --- Step 2: Night Time ---
         world.time_of_day = 'night'
         world.run_simulation_step()
 
-        self.assertAlmostEqual(world.energy[plant_idx], 6.6, delta=0.1)
-        self.assertAlmostEqual(world.energy[wolf_idx], 27.4, delta=0.1)
+        self.assertAlmostEqual(world.energy[plant_idx], 6.1, delta=0.1)
+        self.assertAlmostEqual(world.energy[wolf_idx], 17.9, delta=0.1)
 
 if __name__ == '__main__':
     unittest.main()

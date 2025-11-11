@@ -1056,7 +1056,37 @@
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "wolf",
-      "description": "A form of life that hunts other life forms for energy."
+      "description": "A carnivorous animal that hunts other life forms for energy.",
+      "properties": {
+        "diet": "carnivore"
+      }
+    },
+    {
+      "id": "rabbit",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "animal",
+      "label": "rabbit",
+      "description": "A herbivorous animal that eats plants.",
+      "properties": {
+        "diet": "herbivore"
+      }
+    },
+    {
+      "id": "wood",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "item",
+      "label": "wood",
+      "description": "A material from trees, can be used to create tools."
+    },
+    {
+      "id": "stone",
+      "position": { "x": 0, "y": 0, "z": 0 },
+      "activation_energy": 0.0,
+      "element_type": "item",
+      "label": "stone",
+      "description": "A hard solid material, can be used to create tools."
     }
   ],
   "edges": [
