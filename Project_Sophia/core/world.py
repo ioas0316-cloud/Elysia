@@ -205,102 +205,73 @@ class World:
             event = self.chronicle.record_event('simulation_step_run', {}, [], self.branch_id, self.parent_event_id)
             self.parent_event_id = event['id']
         self.time_step += 1
-        for state in self.quantum_states.values():
-            state['age'] += 1
-        num_cells = len(self.cell_ids)
-        if num_cells == 0:
+
+        if len(self.cell_ids) == 0:
             return []
 
-        # --- Law of Atmosphere (Oxygen Cycle) ---
-        num_plants = np.sum((self.element_types == 'life') & self.is_alive_mask)
-        num_animals = np.sum((self.element_types == 'animal') & self.is_alive_mask)
+        # Calculate energy changes from all sources
+        energy_deltas = self._calculate_energy_deltas()
 
-        # Plants produce oxygen during the day
-        if self.time_of_day == 'day':
-            self.oxygen_level += num_plants * 0.1
+        # Process major state changes and actions
+        newly_born_cells = []
+        self._process_animal_actions(energy_deltas)
+        newly_born_cells.extend(self._process_life_cycles(energy_deltas))
 
-        # Animals consume oxygen
-        self.oxygen_level -= num_animals * 0.05
-        self.oxygen_level = max(0, min(200, self.oxygen_level)) # Clamp oxygen level
+        # Apply final physics and cleanup
+        self._apply_physics_and_cleanup(energy_deltas, newly_born_cells)
 
+        return newly_born_cells
+
+    def _calculate_energy_deltas(self) -> np.ndarray:
+        """Calculates all passive energy changes for the step."""
+        num_cells = len(self.cell_ids)
         adj_matrix_csr = self.adjacency_matrix.tocsr()
-        energy_boost = np.zeros_like(self.energy, dtype=np.float32)
-        if self.wave_mechanics and self.wave_mechanics.kg_manager:
-            love_node = self.wave_mechanics.kg_manager.get_node('love')
-            love_energy_multiplier = love_node.get('activation_energy', 1.0) if love_node else 1.0
-            for i in range(num_cells):
-                if self.is_alive_mask[i]:
-                    cell_id = self.cell_ids[i]
-                    try:
-                        resonance = self.wave_mechanics.get_resonance_between(cell_id, 'love')
-                        energy_boost[i] = resonance * love_energy_multiplier * 0.5
-                    except Exception:
-                        pass
-        energy_out_matrix = adj_matrix_csr.multiply(self.energy[:, np.newaxis]) * 0.1
-        total_energy_out = np.array(energy_out_matrix.sum(axis=1)).flatten()
-        total_energy_in = np.array(energy_out_matrix.sum(axis=0)).flatten()
-        energy_deltas = total_energy_in - total_energy_out + energy_boost
+        energy_deltas = np.zeros_like(self.energy, dtype=np.float32)
 
-        # Oxygen level effect on animal energy
-        animal_mask_for_o2 = (self.element_types == 'animal') & self.is_alive_mask
-        if self.oxygen_level > 120.0:
-            energy_deltas[animal_mask_for_o2] += 0.1 # Energy efficiency boost
-        elif self.oxygen_level < 80.0:
-            energy_deltas[animal_mask_for_o2] -= 0.2 # Energy drain from hypoxia
-
+        # Environmental effects (Sunlight, Night decay)
         cycle_position = self.time_step % self.day_length
         self.time_of_day = 'day' if cycle_position < self.day_length / 2 else 'night'
         if self.time_of_day == 'day':
-            if self.wave_mechanics and self.wave_mechanics.kg_manager:
-                sun_node = self.wave_mechanics.kg_manager.get_node('sun')
-                if sun_node:
-                    sunlight_energy = sun_node.get('activation_energy', 3.0) # Increased sunlight energy
-                    life_mask = (self.element_types == 'life') & self.is_alive_mask
-                    energy_deltas[life_mask] += sunlight_energy
-        life_mask = (self.element_types == 'life') & self.is_alive_mask
-        if np.any(life_mask):
-            water_mask = self.element_types == 'water'
-            earth_mask = self.element_types == 'earth'
-            nurturing_mask = water_mask | earth_mask
-            if np.any(nurturing_mask):
-                life_to_nurture_connections = adj_matrix_csr[life_mask][:, nurturing_mask]
-                nurturing_counts = np.array(life_to_nurture_connections.sum(axis=1)).flatten()
-                energy_deltas[life_mask] += nurturing_counts * 0.5
-
-        # --- Law of Sleep (Energy Conservation at Night) ---
-        if self.time_of_day == 'night':
-            # General energy decay for all living things
+            sun_node = self.wave_mechanics.kg_manager.get_node('sun')
+            if sun_node:
+                sunlight_energy = sun_node.get('activation_energy', 3.0)
+                life_mask = (self.element_types == 'life') & self.is_alive_mask
+                energy_deltas[life_mask] += sunlight_energy
+        else: # Night
             energy_deltas[self.is_alive_mask] -= 0.2
-            # Animals conserve more energy by 'sleeping' (reduced decay)
             animal_mask = (self.element_types == 'animal') & self.is_alive_mask
-            energy_deltas[animal_mask] += 0.15 # Effectively making their decay -0.05
+            energy_deltas[animal_mask] += 0.15
 
-        # --- Laws of Deprivation (Aging, Injury, Hunger) ---
+        # Nurturing for plants
+        life_mask = (self.element_types == 'life') & self.is_alive_mask
+        nurturing_mask = (self.element_types == 'water') | (self.element_types == 'earth')
+        if np.any(life_mask) and np.any(nurturing_mask):
+            life_to_nurture_connections = adj_matrix_csr[life_mask][:, nurturing_mask]
+            nurturing_counts = np.array(life_to_nurture_connections.sum(axis=1)).flatten()
+            energy_deltas[life_mask] += nurturing_counts * 0.5
+
+        # Physiological effects (Aging, Injury)
         self.age[self.is_alive_mask] += 1
-
-        # Aging effect
         old_age_mask = (self.age > self.max_age * 0.8) & self.is_alive_mask
         energy_deltas[old_age_mask] -= 0.5
-
-        # Injury effect
         energy_deltas[self.is_injured] -= 1.0
 
-        # Hunger effect on mating readiness
-        hungry_mask = (self.energy < 15.0) & (self.element_types == 'animal')
-        self.mating_readiness[hungry_mask] = 0
-
-        # --- Law of Gravity (Energy cost for flying) ---
+        # Physical laws (Gravity)
         flying_mask = (self.positions[:, 2] > 0) & self.is_alive_mask
         altitude = self.positions[flying_mask, 2]
-        energy_deltas[flying_mask] -= altitude * 0.02 # Energy cost proportional to height
+        energy_deltas[flying_mask] -= altitude * 0.02
 
-        # --- Law of Movement and Swarming ---
-        # Basic random movement for all animals
+        return energy_deltas
+
+    def _process_animal_actions(self, energy_deltas: np.ndarray):
+        """Handles all AI, decision-making, and actions for animals."""
+        adj_matrix_csr = self.adjacency_matrix.tocsr()
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
+        animal_indices = np.where(animal_mask)[0]
+
+        # Basic random movement & cohesion
         movement_vectors = np.random.randn(np.sum(animal_mask), 3) * 0.1
         self.positions[animal_mask] += movement_vectors
-
-        # Cohesion for fish
         fish_mask = (self.labels == 'fish') & self.is_alive_mask
         fish_indices = np.where(fish_mask)[0]
         for i in fish_indices:
@@ -309,293 +280,226 @@ class World:
             schoolmates = connected_indices[school_mask]
             if schoolmates.size > 0:
                 center_of_mass = self.positions[schoolmates].mean(axis=0)
-                direction_to_center = center_of_mass - self.positions[i]
-                self.positions[i] += direction_to_center * 0.05 # Move towards center
+                self.positions[i] += (center_of_mass - self.positions[i]) * 0.05
 
-
-        # --- Law of Predation, Choice, and Courage ---
-        animal_mask = (self.element_types == 'animal') & self.is_alive_mask
-        animal_indices = np.where(animal_mask)[0]
-
-        for i in animal_indices: # 'i' is the actor
+        # AI Action Loop
+        for i in animal_indices:
             if not self.is_alive_mask[i]: continue
 
-            # --- Law of Emotion (Influence on Action) ---
-            if self.emotions[i] == 'sorrow':
-                if random.random() < 0.5: # 50% chance to be paralyzed by sorrow
-                    self.logger.info(f"EMOTION: '{self.cell_ids[i]}' is paralyzed by sorrow and takes no action.")
-                    continue
+            if self.emotions[i] == 'sorrow' and random.random() < 0.5:
+                self.logger.info(f"EMOTION: '{self.cell_ids[i]}' is paralyzed by sorrow.")
+                continue
 
-            # --- Universal Action Selection Logic for All Animals ---
-            target_idx = -1
-            action_type = 'hunt'
+            target_idx, action_type = self._select_animal_action(i, adj_matrix_csr)
 
-            # 1. Check for Kin in Danger (Currently only for Humans)
-            if self.labels[i] == 'human':
-                kin_connections = adj_matrix_csr[i]
-                strong_kin_indices = kin_connections.indices[kin_connections.data > 0.8]
-                if strong_kin_indices.size > 0:
-                    weaker_kin_mask = (self.prestige[strong_kin_indices] < self.prestige[i]) & self.is_alive_mask[strong_kin_indices]
-                    protected_kin_indices = strong_kin_indices[weaker_kin_mask]
-                    if protected_kin_indices.size > 0:
-                        for kin_idx in protected_kin_indices:
-                            threats_to_kin_indices = adj_matrix_csr[:, kin_idx].tocoo().row
-                            for threat_idx in threats_to_kin_indices:
-                                if self.is_alive_mask[threat_idx] and self.diets[threat_idx] == 'carnivore':
-                                    self_preservation = 0.5 + (self.energy[i] / 100.0)
-                                    altruism = self.adjacency_matrix[i, kin_idx]
-                                    fear_factor = max(0, self.prestige[threat_idx] - self.prestige[i])
-                                    courage_bonus = 1.0 + (fear_factor / 10.0)
+            if target_idx != -1:
+                self._execute_animal_action(i, target_idx, action_type, energy_deltas)
 
-                                    if altruism * courage_bonus > self_preservation:
-                                        target_idx = threat_idx
-                                        action_type = 'protect'
-                                        self.logger.info(f"COURAGE: '{self.cell_ids[i]}' overcomes fear to protect '{self.cell_ids[kin_idx]}'.")
-                                        break
-                            if target_idx != -1: break
+    def _select_animal_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Tuple[int, str]:
+        """Selects the best action (hunt or protect) for an animal."""
+        # Default action
+        target_idx = -1
+        action_type = 'hunt'
 
-            # 2. If not protecting, find a hunting target based on diet
-            if target_idx == -1:
-                all_connected_indices = adj_matrix_csr[i].indices
-                potential_prey_indices = []
+        # Protection check for humans
+        if self.labels[actor_idx] == 'human':
+            kin_connections = adj_matrix_csr[actor_idx]
+            strong_kin_indices = kin_connections.indices[kin_connections.data > 0.8]
+            if strong_kin_indices.size > 0:
+                # The strong protect the weak (or equals, like a child)
+                weaker_kin_mask = (self.prestige[strong_kin_indices] <= self.prestige[actor_idx]) & \
+                                  (strong_kin_indices != actor_idx) & \
+                                  self.is_alive_mask[strong_kin_indices]
+                protected_kin_indices = strong_kin_indices[weaker_kin_mask]
+                if protected_kin_indices.size > 0:
+                    for kin_idx in protected_kin_indices:
+                        threats_to_kin = adj_matrix_csr[:, kin_idx].tocoo().row
+                        for threat_idx in threats_to_kin:
+                            if self.is_alive_mask[threat_idx] and self.diets[threat_idx] == 'carnivore':
+                                self_preservation = 0.5 + (self.energy[actor_idx] / 100.0)
+                                altruism = self.adjacency_matrix[actor_idx, kin_idx]
+                                fear = max(0, self.prestige[threat_idx] - self.prestige[actor_idx])
+                                courage = 1.0 + (fear / 10.0)
+                                if altruism * courage > self_preservation:
+                                    return threat_idx, 'protect'
 
-                if self.diets[i] in ['carnivore', 'omnivore']:
-                    prey_mask = (self.element_types[all_connected_indices] == 'animal') & (all_connected_indices != i) & self.is_alive_mask[all_connected_indices]
-                    potential_prey_indices.extend(all_connected_indices[prey_mask])
+        # Hunting target selection
+        all_connected = adj_matrix_csr[actor_idx].indices
 
-                if self.diets[i] in ['herbivore', 'omnivore']:
-                    prey_mask = (self.element_types[all_connected_indices] == 'life') & self.is_alive_mask[all_connected_indices]
-                    potential_prey_indices.extend(all_connected_indices[prey_mask])
+        # --- THE KINSHIP TABOO ---
+        # A sacred law: one does not hunt their own kin (strong bond).
+        kin_connections = adj_matrix_csr[actor_idx]
+        kin_indices = set(kin_connections.indices[kin_connections.data > 0.8])
+        # ---
 
-                if potential_prey_indices:
-                    # Target the weakest
-                    target_idx = potential_prey_indices[np.argmin(self.energy[potential_prey_indices])]
+        prey_indices = []
+        actor_diet = self.diets[actor_idx]
 
-            if target_idx == -1: continue # No valid action
+        if actor_diet in ['carnivore', 'omnivore']:
+            # Potential prey are animals...
+            mask = (self.element_types[all_connected] == 'animal') & \
+                   (all_connected != actor_idx) & \
+                   self.is_alive_mask[all_connected]
+            potential_prey = all_connected[mask]
+            # ...that are NOT kin.
+            non_kin_prey = [p for p in potential_prey if p not in kin_indices]
+            prey_indices.extend(non_kin_prey)
 
-            # --- Action Execution ---
-            # Move towards target
-            direction_to_target = self.positions[target_idx] - self.positions[i]
-            if np.linalg.norm(direction_to_target) > 0:
-                self.positions[i] += (direction_to_target / np.linalg.norm(direction_to_target)) * 0.2
+        if actor_diet in ['herbivore', 'omnivore']:
+            mask = (self.element_types[all_connected] == 'life') & self.is_alive_mask[all_connected]
+            prey_indices.extend(all_connected[mask])
 
-            # Combat Resolution (if in range)
-            if np.linalg.norm(self.positions[i] - self.positions[target_idx]) < 1.5:
-                self.logger.info(f"COMBAT: '{self.cell_ids[i]}' engages '{self.cell_ids[target_idx]}'.")
+        if prey_indices:
+            # Select the weakest among the valid (non-kin) targets
+            target_idx = prey_indices[np.argmin(self.energy[np.array(prey_indices)])]
 
-                courage_multiplier = 1.0
-                if action_type == 'protect':
-                    fear_factor = max(0, self.prestige[target_idx] - self.prestige[i])
-                    courage_multiplier = 1.0 + (fear_factor / 5.0) # Higher multiplier in combat
+        return target_idx, action_type
 
-                    # --- Law of Superlative Power (Latent Energy Release) ---
-                    if courage_multiplier > 1.5: # Trigger only in truly courageous moments
-                        latent_power_draw = self.latent_energy[i] * 0.1 # Burn 10% of latent energy
-                        self.latent_energy[i] -= latent_power_draw
-                        power_boost = latent_power_draw * 2.0 # Amplify the effect
-                        energy_deltas[i] += power_boost
-                        courage_multiplier += power_boost / 10.0
-                        self.logger.info(f"TRANSCENDENCE: '{self.cell_ids[i]}' burns their life force (latent energy) for a massive power boost!")
+    def _execute_animal_action(self, actor_idx: int, target_idx: int, action_type: str, energy_deltas: np.ndarray):
+        """Executes the chosen action (move, hunt, etc.)."""
+        # Move towards target
+        direction = self.positions[target_idx] - self.positions[actor_idx]
+        if np.linalg.norm(direction) > 0:
+            self.positions[actor_idx] += (direction / np.linalg.norm(direction)) * 0.2
 
-                    self.logger.info(f"COURAGE: '{self.cell_ids[i]}' fights with courage! Damage multiplied by {courage_multiplier:.2f}.")
+        # Resolve combat if in range
+        if np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
+            self.logger.info(f"COMBAT: '{self.cell_ids[actor_idx]}' engages '{self.cell_ids[target_idx]}'.")
+
+            courage_multiplier = 1.0
+            if action_type == 'protect':
+                fear = max(0, self.prestige[target_idx] - self.prestige[actor_idx])
+                courage_multiplier = 1.0 + (fear / 5.0)
+                if courage_multiplier > 1.5:
+                    draw = self.latent_energy[actor_idx] * 0.1
+                    self.latent_energy[actor_idx] -= draw
+                    boost = draw * 2.0
+                    energy_deltas[actor_idx] += boost
+                    courage_multiplier += boost / 10.0
+                    self.logger.info(f"TRANSCENDENCE: '{self.cell_ids[actor_idx]}' burns life force for power!")
+                self.logger.info(f"COURAGE: '{self.cell_ids[actor_idx]}' fights with {courage_multiplier:.2f}x power.")
+
+            energy_transfer = 10.0 * courage_multiplier
+            energy_deltas[actor_idx] += energy_transfer
+            energy_deltas[target_idx] -= energy_transfer
+            self.is_injured[target_idx] = True
+            self.prestige[actor_idx] += 1 * courage_multiplier
+            self.prestige[target_idx] -= 1
+
+            # Post-combat emotions
+            if self.is_alive_mask[actor_idx]: self.emotions[actor_idx] = 'joy'
+            if action_type == 'protect': self.emotions[actor_idx] = 'relief'
+
+            # Spiritual Resonance
+            if action_type == 'protect':
+                resonance = 0.5 * courage_multiplier
+                self.wave_mechanics.inject_stimulus('love', resonance)
+                self.wave_mechanics.inject_stimulus('protection', resonance)
+                self.logger.info(f"Spiritual Resonance: Courageous act resonated (Strength: {resonance:.2f}).")
 
 
-                energy_transfer = 10.0 * courage_multiplier
-                energy_deltas[i] += energy_transfer
-                energy_deltas[target_idx] -= energy_transfer
-                self.is_injured[target_idx] = True
-                self.prestige[i] += 1 * courage_multiplier
-                self.prestige[target_idx] -= 1
-
-                # --- Law of Emotion (Post-Combat) ---
-                if self.is_alive_mask[i]: self.emotions[i] = 'joy' # Victor's joy
-                if not self.is_alive_mask[target_idx]:
-                    # If target is defeated, check for kin's reaction
-                    kin_of_deceased = adj_matrix_csr[:, target_idx].tocoo().row
-                    for kin_idx in kin_of_deceased:
-                        if self.is_alive_mask[kin_idx] and self.adjacency_matrix[kin_idx, target_idx] > 0.8:
-                            self.emotions[kin_idx] = 'sorrow'
-                            self.logger.info(f"EMOTION: '{self.cell_ids[kin_idx]}' feels sorrow for the loss of '{self.cell_ids[target_idx]}'.")
-
-                if action_type == 'protect':
-                    self.emotions[i] = 'relief' # Protector's relief
-                    # Spiritual Resonance only for the noble act of protection
-                    resonance_strength = 0.5 * courage_multiplier
-                    self.wave_mechanics.inject_stimulus('love', resonance_strength)
-                    self.wave_mechanics.inject_stimulus('protection', resonance_strength)
-                    self.logger.info(f"Spiritual Resonance: The courageous act of '{self.cell_ids[i]}' resonated with 'love' and 'protection' (Strength: {resonance_strength:.2f}).")
-
-
-            # Herbivores eat plants
-            elif self.diets[i] == 'herbivore':
-                plant_mask = (self.element_types == 'life') & self.is_alive_mask
-                if np.any(plant_mask):
-                    connections_to_plants = adj_matrix_csr[i, :][:, plant_mask]
-                    prey_indices = connections_to_plants.indices
-                    if prey_indices.size > 0:
-                        target_prey_local_idx = random.choice(prey_indices)
-                        target_prey_global_idx = np.where(plant_mask)[0][target_prey_local_idx]
-
-                        energy_transfer = 5.0
-                        energy_deltas[i] += energy_transfer
-                        energy_deltas[target_prey_global_idx] -= energy_transfer
-                        self.logger.info(f"Grazing: Herbivore {self.cell_ids[i]} ate plant {self.cell_ids[target_prey_global_idx]}.")
-
-            # Reproduction for animals
-            if self.energy[i] + energy_deltas[i] > 50.0:
-                energy_deltas[i] -= self.energy[i] / 2
-
-        self.energy += energy_deltas
+    def _process_life_cycles(self, energy_deltas: np.ndarray) -> List[Cell]:
+        """Handles birth, growth, and reproduction for all entities."""
         newly_born_cells = []
+        adj_matrix_csr = self.adjacency_matrix.tocsr()
 
-        # --- Law of Life's Cycles (Growth, Fruiting, Reproduction) for Plants ---
+        # --- Plant Life Cycle ---
         plant_mask = (self.element_types == 'life') & self.is_alive_mask
         plant_indices = np.where(plant_mask)[0]
-
-        # Growth Stage Advancement
-        # Stage 0: Seed, 1: Growing, 2: Flowering, 3: Fruiting
         can_grow = (self.energy[plant_indices] > 10.0) & (self.growth_stages[plant_indices] < 3)
         self.growth_stages[plant_indices[can_grow]] += 1
-        self.energy[plant_indices[can_grow]] -= 5 # Energy cost to grow
-
-        # Reproduction for Fruiting Plants
+        energy_deltas[plant_indices[can_grow]] -= 5
         fruiting_mask = (self.growth_stages[plant_indices] == 3) & (self.energy[plant_indices] > 20.0)
         fruiting_indices = plant_indices[fruiting_mask]
-
-        # Temp list to handle connections for new cells
-        new_seeds_to_connect = []
-
         for i in fruiting_indices:
-            self.energy[i] -= 15 # Energy cost to reproduce
-
+            energy_deltas[i] -= 15
             new_seed_id = f"plant_{self.time_step}_{i}"
-            # Create the cell object but don't add to world yet, just to newly_born_cells
             new_cell = Cell(new_seed_id, self.primordial_dna, initial_properties={'element_type': 'life'}, initial_energy=10.0)
             newly_born_cells.append(new_cell)
+            self.growth_stages[i] = 1
 
-            # Seed dispersal mechanism: find nearby earth
-            connected_indices = adj_matrix_csr[i].indices
-            earth_mask = self.element_types[connected_indices] == 'earth'
-            fertile_ground_indices = connected_indices[earth_mask]
-
-            if fertile_ground_indices.size > 0:
-                # Connect the new seed to a random patch of fertile ground
-                target_earth_idx = random.choice(fertile_ground_indices)
-                new_seeds_to_connect.append((new_seed_id, self.cell_ids[target_earth_idx]))
-
-            self.logger.info(f"Reproduction: Plant {self.cell_ids[i]} produced a new seed {new_seed_id}.")
-            self.growth_stages[i] = 1 # Reset to growing stage after fruiting
-
-        # --- Law of Mating (Hormones and Reproduction) for Animals ---
+        # --- Animal Mating and Reproduction ---
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
+        # Mating readiness increases if not hungry
+        not_hungry_mask = self.energy[animal_indices] > 25.0
+        self.mating_readiness[animal_indices[not_hungry_mask]] += 0.1
+        # Hunger reduces readiness
+        hungry_mask = self.energy[animal_indices] < 15.0
+        self.mating_readiness[animal_indices[hungry_mask]] = 0
 
-        # Hormone (Mating Readiness) Increase, considering food availability
-        for idx in animal_indices:
-            if self.energy[idx] > 25.0:
-                has_food = False
-                connected_indices = adj_matrix_csr[idx].indices
-                if self.diets[idx] == 'carnivore':
-                    # Check for nearby animals to eat
-                    animal_prey_mask = self.element_types[connected_indices] == 'animal'
-                    if np.any(animal_prey_mask):
-                        has_food = True
-                elif self.diets[idx] == 'herbivore':
-                    # Check for nearby plants to eat
-                    plant_prey_mask = self.element_types[connected_indices] == 'life'
-                    if np.any(plant_prey_mask):
-                        has_food = True
-
-                if has_food:
-                    self.mating_readiness[idx] += 0.1
-
-        # Mating and Reproduction
         female_mask = (self.genders[animal_indices] == 'female') & (self.mating_readiness[animal_indices] >= 1.0)
         fertile_female_indices = animal_indices[female_mask]
-
         for i in fertile_female_indices:
-            # Find connected, ready males
             connected_indices = adj_matrix_csr[i].indices
             male_mask = (self.genders[connected_indices] == 'male') & (self.mating_readiness[connected_indices] >= 1.0)
             potential_mates = connected_indices[male_mask]
-
             if potential_mates.size > 0:
                 mate_idx = random.choice(potential_mates)
-
-                # Energy cost and birth
-                self.energy[i] -= 15.0
-                new_animal_id = f"{self.cell_ids[i].split('_')[0]}_{self.time_step}"
-                new_gender = random.choice(['male', 'female'])
-
-                # Get parent properties to pass to child
+                energy_deltas[i] -= 15.0
+                new_animal_id = f"{self.labels[i]}_{self.time_step}"
                 parent_cell = self.materialize_cell(self.cell_ids[i])
-                child_properties = parent_cell.organelles.copy()
-                child_properties['gender'] = new_gender
-
-                new_cell = Cell(new_animal_id, self.primordial_dna, initial_properties=child_properties, initial_energy=10.0)
+                child_props = parent_cell.organelles.copy()
+                child_props['gender'] = random.choice(['male', 'female'])
+                new_cell = Cell(new_animal_id, self.primordial_dna, initial_properties=child_props, initial_energy=10.0)
                 newly_born_cells.append(new_cell)
-
-                # Reset readiness
                 self.mating_readiness[i] = 0.0
                 self.mating_readiness[mate_idx] = 0.0
+                self.logger.info(f"Mating: '{self.cell_ids[i]}' and '{self.cell_ids[mate_idx]}' produced '{new_animal_id}'.")
+                break
 
-                self.logger.info(f"Mating: {self.cell_ids[i]} and {self.cell_ids[mate_idx]} produced offspring {new_animal_id}.")
-                break # One offspring per step per female
+        return newly_born_cells
 
-        self._sync_states_to_objects()
-        living_cells = [self.materialized_cells[self.cell_ids[i]] for i in range(num_cells) if self.is_alive_mask[i] and self.energy[i] > 1.0 and self.cell_ids[i] in self.materialized_cells]
-        newly_born_molecules = self._run_chemical_reactions(living_cells)
-        newly_born_cells.extend(newly_born_molecules)
+
+    def _apply_physics_and_cleanup(self, energy_deltas: np.ndarray, newly_born_cells: List[Cell]):
+        """Applies final energy changes, handles death, and integrates new cells."""
+        adj_matrix_csr = self.adjacency_matrix.tocsr()
+        num_cells = len(self.cell_ids)
+
+        # Apply all energy deltas calculated during the step
+        self.energy += energy_deltas
+
+        # Add newly born cells to the world
         for cell in newly_born_cells:
             if cell.id not in self.id_to_idx:
-                 self.add_cell(cell.id, dna=cell.nucleus['dna'], properties=cell.organelles, initial_energy=cell.energy)
+                self.add_cell(cell.id, dna=cell.nucleus['dna'], properties=cell.organelles, initial_energy=cell.energy)
 
-        # Connect new seeds to fertile ground after they have been added to the world
-        for seed_id, earth_id in new_seeds_to_connect:
-            self.add_connection(seed_id, earth_id, strength=0.5)
-
+        # Process death for cells with low energy
         apoptosis_mask = (self.energy < 0.1) & self.is_alive_mask
         self.is_alive_mask[apoptosis_mask] = False
         self.energy[apoptosis_mask] = 0.0
-        for cell in newly_born_cells:
-            idx = self.id_to_idx.get(cell.id)
-            if idx is not None:
-                self.energy[idx] += 5.0
-        maintenance_mask = (self.energy > 50.0) & (self.connection_counts > 0) & self.is_alive_mask
-        self.energy[maintenance_mask] += 1.0
-        nurture_mask = (self.connection_counts == 0) & (self.energy < 50.0) & self.is_alive_mask
-        self.energy[nurture_mask] += 0.5
-        self._sync_states_to_objects()
-        dead_cell_ids = [self.cell_ids[i] for i in range(num_cells) if not self.is_alive_mask[i]]
-        for cell_id in dead_cell_ids:
+
+        dead_cell_indices = np.where(apoptosis_mask)[0]
+        for dead_idx in dead_cell_indices:
+            cell_id = self.cell_ids[dead_idx]
             if cell_id in self.materialized_cells:
                 dead_cell = self.materialized_cells[cell_id]
-                dead_cell_idx = self.id_to_idx.get(dead_cell.id)
 
-                # Organic matter cycling & Law of Mortality (Insight) & Law of Emotion (Sorrow)
-                if dead_cell_idx is not None:
-                    # Connections FROM the deceased
-                    connected_indices = adj_matrix_csr[dead_cell_idx].indices
-                    for conn_idx in connected_indices:
-                        if self.is_alive_mask[conn_idx]:
-                            if self.element_types[conn_idx] == 'earth':
-                                self.energy[conn_idx] += dead_cell.energy
-                            if self.labels[conn_idx] == 'human':
-                                self.insight[conn_idx] += 1
-                                self.logger.info(f"Insight Gained: '{self.cell_ids[conn_idx]}' observed the death of '{dead_cell.id}'.")
+                # Organic matter cycling
+                connected_indices = adj_matrix_csr[dead_idx].indices
+                for conn_idx in connected_indices:
+                    if self.is_alive_mask[conn_idx] and self.element_types[conn_idx] == 'earth':
+                        self.energy[conn_idx] += dead_cell.energy
 
-                    # Connections TO the deceased (for sorrow)
-                    connections_to_deceased = adj_matrix_csr[:, dead_cell_idx].tocoo().row
-                    for survivor_idx in connections_to_deceased:
-                         if self.is_alive_mask[survivor_idx] and self.adjacency_matrix[survivor_idx, dead_cell_idx] > 0.8:
+                # Law of Mortality (Insight) & Law of Emotion (Sorrow)
+                connections_to_deceased = adj_matrix_csr[:, dead_idx].tocoo().row
+                for survivor_idx in connections_to_deceased:
+                    if self.is_alive_mask[survivor_idx]:
+                        if self.labels[survivor_idx] == 'human':
+                            self.insight[survivor_idx] += 1
+                            self.logger.info(f"Insight Gained: '{self.cell_ids[survivor_idx]}' observed the death of '{cell_id}'.")
+                        if self.adjacency_matrix[survivor_idx, dead_idx] > 0.8:
                             self.emotions[survivor_idx] = 'sorrow'
-                            self.logger.info(f"EMOTION: '{self.cell_ids[survivor_idx]}' feels sorrow for the loss of '{dead_cell.id}'.")
+                            self.logger.info(f"EMOTION: '{self.cell_ids[survivor_idx]}' feels sorrow for the loss of '{cell_id}'.")
 
                 self.graveyard.append(dead_cell)
                 del self.materialized_cells[cell_id]
+
             if cell_id in self.quantum_states:
                 self.quantum_states[cell_id]['existence_probability'] = 0.0
-        return newly_born_cells
+
+        # Final state synchronization
+        self._sync_states_to_objects()
 
     def add_connection(self, source_id: str, target_id: str, strength: float = 0.5, _record_event: bool = True):
         if source_id in self.id_to_idx and target_id in self.id_to_idx:
