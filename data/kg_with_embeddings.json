@@ -1,37 +1,4 @@
 {
-  "nodes": [
-    {
-      "id": "sun",
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "activation_energy": 2.0,
-      "element_type": "nature",
-      "label": "sun",
-      "description": "The primary source of energy for the world."
-    },
-    {
-      "id": "water",
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "activation_energy": 0.0,
-      "element_type": "nature",
-      "label": "water",
-      "description": "A fundamental element for life."
-    },
-    {
-      "id": "earth",
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "activation_energy": 0.0,
-      "element_type": "nature",
-      "label": "earth",
-      "description": "The ground, providing substance and nutrients."
-    },
-    {
-      "id": "plant",
-      "position": { "x": 0, "y": 0, "z": 0 },
-      "activation_energy": 0.0,
-      "element_type": "life",
-      "label": "plant",
-      "description": "A form of life that grows using energy from the sun."
-    }
-  ],
+  "nodes": [],
   "edges": []
 }

@@ -24,128 +24,86 @@ class World:
         self.time_step = 0
         self.logger = logger or logging.getLogger(__name__)
 
+        # --- Celestial Cycle ---
+        self.day_length = 20
+        self.time_of_day = 'day'
+
         # --- Chronos Engine Attributes ---
         self.branch_id = branch_id
         self.parent_event_id = parent_event_id
 
         # --- Quantum State Management ---
-        # Stores the potential state of all cells, not their full object representation.
         self.quantum_states: Dict[str, Dict[str, float]] = {}
 
         # --- Materialized Cell Management ---
-        # Stores the actual, fully instantiated Cell objects that are currently being observed.
         self.materialized_cells: Dict[str, Cell] = {}
         self.graveyard: List[Cell] = []
 
         # --- NumPy Data Structures for Optimization ---
         self.cell_ids: List[str] = []
         self.id_to_idx: Dict[str, int] = {}
-
-        # --- Dynamic-size arrays for cell properties ---
         self.energy = np.array([], dtype=np.float32)
         self.is_alive_mask = np.array([], dtype=bool)
         self.connection_counts = np.array([], dtype=np.int32)
-        self.element_types = np.array([], dtype='<U10') # For storing strings like 'life', 'nature'
+        self.element_types = np.array([], dtype='<U10')
 
         # --- SciPy Sparse Matrix for Connections ---
-        # Using lil_matrix for efficient row-wise additions
         self.adjacency_matrix = lil_matrix((0, 0), dtype=np.float32)
 
     def _resize_matrices(self, new_size: int):
-        """Resizes all NumPy arrays and the sparse matrix to accommodate more cells."""
         current_size = len(self.cell_ids)
         if new_size <= current_size:
             return
-
-        # Resize NumPy arrays
         self.energy = np.pad(self.energy, (0, new_size - current_size), 'constant')
         self.is_alive_mask = np.pad(self.is_alive_mask, (0, new_size - current_size), 'constant', constant_values=False)
         self.connection_counts = np.pad(self.connection_counts, (0, new_size - current_size), 'constant')
         self.element_types = np.pad(self.element_types, (0, new_size - current_size), 'constant')
-
-        # Resize SciPy sparse matrix
         new_adj = lil_matrix((new_size, new_size), dtype=np.float32)
         if self.adjacency_matrix.shape[0] > 0:
             new_adj[:current_size, :current_size] = self.adjacency_matrix
         self.adjacency_matrix = new_adj
 
     def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0, _record_event: bool = True):
-        """Adds a new cell's quantum state to the world. Does not create a full Cell object."""
         if concept_id in self.quantum_states:
             return
-
         if self.chronicle and _record_event:
             details = {'concept_id': concept_id, 'initial_energy': initial_energy, 'properties': properties or {}}
             scopes = [concept_id]
             event = self.chronicle.record_event('cell_added', details, scopes, self.branch_id, self.parent_event_id)
             self.parent_event_id = event['id']
-
-        # --- Create and store the quantum state ---
-        self.quantum_states[concept_id] = {
-            'existence_probability': 1.0,
-            'energy_potential': initial_energy,
-            'age': 0
-        }
-
-        # --- Update Optimized Data Structures ---
+        self.quantum_states[concept_id] = {'existence_probability': 1.0, 'energy_potential': initial_energy, 'age': 0}
         idx = len(self.cell_ids)
         if idx >= self.adjacency_matrix.shape[0]:
-            self._resize_matrices(max(idx + 1, idx + 100)) # Grow by a chunk to reduce re-allocations
-
+            self._resize_matrices(max(idx + 1, 100))
         self.cell_ids.append(concept_id)
         self.id_to_idx[concept_id] = idx
-
         self.energy[idx] = initial_energy
         self.is_alive_mask[idx] = True
         self.connection_counts[idx] = 0
-
-        # We need to materialize the cell briefly to get its element_type
         temp_cell = self.materialize_cell(concept_id, force_materialize=True)
         if temp_cell:
             self.element_types[idx] = temp_cell.element_type
         else:
-            # Fallback if materialization fails
             self.element_types[idx] = 'unknown'
 
-
     def materialize_cell(self, concept_id: str, force_materialize: bool = False) -> Optional[Cell]:
-        """
-        Retrieves a materialized cell. If not materialized, it 'collapses' the quantum state
-        into a full Cell object.
-        The `force_materialize` flag is for internal use when we need the object's properties
-        even if it's already represented in NumPy.
-        """
         if not force_materialize and concept_id in self.materialized_cells:
             return self.materialized_cells[concept_id]
-
         if concept_id in self.quantum_states:
             idx = self.id_to_idx.get(concept_id)
             if idx is None:
                 self.logger.error(f"Quantum state for '{concept_id}' exists, but it has no index in the world.")
                 return None
-
             state = self.quantum_states[concept_id]
-            current_energy = self.energy[idx]
-            is_currently_alive = self.is_alive_mask[idx]
-
-            cell = Cell(
-                concept_id,
-                self.primordial_dna,
-                initial_energy=current_energy
-            )
+            cell = Cell(concept_id, self.primordial_dna, initial_energy=self.energy[idx])
             cell.age = state.get('age', 0)
-            cell.is_alive = is_currently_alive
-
-            # This is the key update: sync the element type back to the numpy array
+            cell.is_alive = self.is_alive_mask[idx]
             self.element_types[idx] = cell.element_type
-
             self.materialized_cells[concept_id] = cell
             return cell
-
         return None
 
     def _sync_states_to_objects(self):
-        """Syncs the state from NumPy arrays back to the Cell objects."""
         for i, cell_id in enumerate(self.cell_ids):
             if cell_id in self.materialized_cells:
                 cell = self.materialized_cells[cell_id]
@@ -153,140 +111,88 @@ class World:
                 cell.is_alive = self.is_alive_mask[i]
 
     def run_simulation_step(self) -> List[Cell]:
-        """
-        Runs a single simulation step using optimized NumPy and SciPy operations.
-        """
         if self.chronicle:
-            # A simulation step is a global event affecting many scopes.
-            # We pass an empty scope list to represent this.
             event = self.chronicle.record_event('simulation_step_run', {}, [], self.branch_id, self.parent_event_id)
             self.parent_event_id = event['id']
-
         self.time_step += 1
-
-        # Increment age for all quantum states
         for state in self.quantum_states.values():
             state['age'] += 1
-
         num_cells = len(self.cell_ids)
         if num_cells == 0:
             return []
-
-        # Convert to CSR for efficient arithmetic
         adj_matrix_csr = self.adjacency_matrix.tocsr()
-
-        # --- Vectorized Law of Love ---
-        # For simplicity, this remains a loop for now as it involves external calls.
-        # Can be optimized further if wave_mechanics supports batch operations.
         energy_boost = np.zeros_like(self.energy, dtype=np.float32)
         if self.wave_mechanics and self.wave_mechanics.kg_manager:
-            # Get the 'love' node's value mass (activation_energy) to use as a multiplier
             love_node = self.wave_mechanics.kg_manager.get_node('love')
             love_energy_multiplier = love_node.get('activation_energy', 1.0) if love_node else 1.0
-
-            # Iterate only up to the current number of valid cells
             for i in range(num_cells):
                 if self.is_alive_mask[i]:
                     cell_id = self.cell_ids[i]
                     try:
                         resonance = self.wave_mechanics.get_resonance_between(cell_id, 'love')
-                        # The Arc Reactor: energy boost is proportional to resonance and love's own energy
                         energy_boost[i] = resonance * love_energy_multiplier * 0.5
                     except Exception:
-                        pass # Ignore if resonance fails
-
-        # --- Vectorized Energy Propagation ---
-        # 1. Calculate energy to be transferred out from each cell
-        transfer_rate = 0.1
-        # Element-wise multiplication of the adjacency matrix with the energy vector
-        energy_out_matrix = adj_matrix_csr.multiply(self.energy[:, np.newaxis]) * transfer_rate
-
-        # 2. Sum up the energy transferred out for each cell
+                        pass
+        energy_out_matrix = adj_matrix_csr.multiply(self.energy[:, np.newaxis]) * 0.1
         total_energy_out = np.array(energy_out_matrix.sum(axis=1)).flatten()
-
-        # 3. Sum up the energy transferred in for each cell (transpose of the out matrix)
         total_energy_in = np.array(energy_out_matrix.sum(axis=0)).flatten()
-
-        # 4. Calculate the net change in energy
         energy_deltas = total_energy_in - total_energy_out + energy_boost
-
-        # --- Vectorized Law of Sunlight & Nurturing Environment ---
-        if self.wave_mechanics and self.wave_mechanics.kg_manager:
-            sun_node = self.wave_mechanics.kg_manager.get_node('sun')
-            if sun_node:
-                sunlight_energy = sun_node.get('activation_energy', 2.0)
-
-                # Create a boolean mask for all 'life' element types
-                life_mask = (self.element_types == 'life') & self.is_alive_mask
-
-                # Apply sunlight energy boost to all life cells
-                energy_deltas[life_mask] += sunlight_energy
-
-                # Create masks for nurturing elements
-                water_mask = (self.element_types == 'water')
-                earth_mask = (self.element_types == 'earth')
-                nurturing_mask = water_mask | earth_mask
-
-                # Find connections from 'life' cells to 'nurturing' cells
-                # This gives a matrix where non-zero values are connections from life to nurturers
+        cycle_position = self.time_step % self.day_length
+        self.time_of_day = 'day' if cycle_position < self.day_length / 2 else 'night'
+        if self.time_of_day == 'day':
+            if self.wave_mechanics and self.wave_mechanics.kg_manager:
+                sun_node = self.wave_mechanics.kg_manager.get_node('sun')
+                if sun_node:
+                    sunlight_energy = sun_node.get('activation_energy', 2.0)
+                    life_mask = (self.element_types == 'life') & self.is_alive_mask
+                    energy_deltas[life_mask] += sunlight_energy
+        life_mask = (self.element_types == 'life') & self.is_alive_mask
+        if np.any(life_mask):
+            water_mask = self.element_types == 'water'
+            earth_mask = self.element_types == 'earth'
+            nurturing_mask = water_mask | earth_mask
+            if np.any(nurturing_mask):
                 life_to_nurture_connections = adj_matrix_csr[life_mask][:, nurturing_mask]
-
-                # Count how many nurturing connections each life cell has
                 nurturing_counts = np.array(life_to_nurture_connections.sum(axis=1)).flatten()
-
-                # Apply the bonus (0.5 for each nurturing connection)
-                nurturing_bonus = nurturing_counts * 0.5
-                energy_deltas[life_mask] += nurturing_bonus
-
-        # 5. Apply all energy changes at once
+                energy_deltas[life_mask] += nurturing_counts * 0.5
+        if self.time_of_day == 'night':
+            energy_deltas[self.is_alive_mask] -= 0.2
+        animal_mask = (self.element_types == 'animal') & self.is_alive_mask
+        eco_life_mask = (self.element_types == 'life') & self.is_alive_mask
+        if np.any(animal_mask) and np.any(eco_life_mask):
+            animal_indices = np.where(animal_mask)[0]
+            for i in animal_indices:
+                connections_to_life = adj_matrix_csr[i, :][:, eco_life_mask]
+                prey_indices = connections_to_life.indices
+                if prey_indices.size > 0:
+                    target_prey_local_idx = random.choice(prey_indices)
+                    target_prey_global_idx = np.where(eco_life_mask)[0][target_prey_local_idx]
+                    energy_transfer = 5.0
+                    energy_deltas[i] += energy_transfer
+                    energy_deltas[target_prey_global_idx] -= energy_transfer
+                if self.energy[i] + energy_deltas[i] > 50.0:
+                    energy_deltas[i] -= self.energy[i] / 2
         self.energy += energy_deltas
-
-        # --- Logic that is harder to vectorize remains similar ---
-        newly_born_cells: List[Cell] = []
-
-        # Sync state before complex, non-vectorized logic
+        newly_born_cells = []
         self._sync_states_to_objects()
-
-        # The rest of the logic (chemical reactions, generic interactions, etc.)
-        # requires the object representation. It is less of a bottleneck.
         living_cells = [self.materialized_cells[self.cell_ids[i]] for i in range(num_cells) if self.is_alive_mask[i] and self.energy[i] > 1.0 and self.cell_ids[i] in self.materialized_cells]
-
-        # --- Chemical Reactions & Generic Interactions ---
         newly_born_molecules = self._run_chemical_reactions(living_cells)
         newly_born_cells.extend(newly_born_molecules)
-        # (Generic interaction logic remains the same)
-
-        # Sync back any new cells created
         for cell in newly_born_cells:
             if cell.id not in self.id_to_idx:
                  self.add_cell(cell.id, cell.nucleus['dna'], cell.organelles, cell.energy)
-
-        # --- Vectorized Cell State Updates (Apoptosis, Reinforcement, etc.) ---
-        
-        # Apoptosis: Mark cells with very low energy as dead
         apoptosis_mask = (self.energy < 0.1) & self.is_alive_mask
         self.is_alive_mask[apoptosis_mask] = False
         self.energy[apoptosis_mask] = 0.0
-
-        # Reinforcement for newly born cells
         for cell in newly_born_cells:
             idx = self.id_to_idx.get(cell.id)
             if idx is not None:
                 self.energy[idx] += 5.0
-
-        # Maintenance for highly energetic, connected cells
         maintenance_mask = (self.energy > 50.0) & (self.connection_counts > 0) & self.is_alive_mask
         self.energy[maintenance_mask] += 1.0
-
-        # Nurturing isolated cells
         nurture_mask = (self.connection_counts == 0) & (self.energy < 50.0) & self.is_alive_mask
         self.energy[nurture_mask] += 0.5
-
-        # --- Final Sync ---
         self._sync_states_to_objects()
-
-        # Update the main cells dictionary by removing dead cells
-        # This is inefficient, but necessary for compatibility. A full refactor would change this.
         dead_cell_ids = [self.cell_ids[i] for i in range(num_cells) if not self.is_alive_mask[i]]
         for cell_id in dead_cell_ids:
             if cell_id in self.materialized_cells:
@@ -294,67 +200,48 @@ class World:
                 del self.materialized_cells[cell_id]
             if cell_id in self.quantum_states:
                 self.quantum_states[cell_id]['existence_probability'] = 0.0
-
-        # Note: This implementation does not yet rebuild the numpy arrays after cell death.
-        # For a long-running simulation, this would lead to memory bloat.
-        # A full implementation would require re-indexing, which is a major change.
-        # This version focuses on optimizing the hot path (energy calculation).
-
         return newly_born_cells
 
     def add_connection(self, source_id: str, target_id: str, strength: float = 0.5, _record_event: bool = True):
-        """Adds a directed connection to the adjacency matrix."""
         if source_id in self.id_to_idx and target_id in self.id_to_idx:
             if self.chronicle and _record_event:
                 details = {'source': source_id, 'target': target_id, 'strength': strength}
                 scopes = [source_id, target_id]
                 event = self.chronicle.record_event('connection_added', details, scopes, self.branch_id, self.parent_event_id)
                 self.parent_event_id = event['id']
-
             source_idx = self.id_to_idx[source_id]
             target_idx = self.id_to_idx[target_id]
             self.adjacency_matrix[source_idx, target_idx] = strength
             self.connection_counts[source_idx] += 1
 
-    # --- Other methods remain largely the same, but need to be compatible ---
     def inject_stimulus(self, concept_id: str, energy_boost: float, _record_event: bool = True):
-        """Injects energy into a specific cell."""
         if concept_id in self.id_to_idx:
             if self.chronicle and _record_event:
                 details = {'concept_id': concept_id, 'energy_boost': energy_boost}
                 scopes = [concept_id]
                 event = self.chronicle.record_event('stimulus_injected', details, scopes, self.branch_id, self.parent_event_id)
                 self.parent_event_id = event['id']
-
             idx = self.id_to_idx[concept_id]
             if self.is_alive_mask[idx]:
                 self.energy[idx] += energy_boost
 
     def _run_chemical_reactions(self, living_cells: List[Cell]) -> List[Cell]:
-        """Runs chemical reactions based on elemental types. (Logic unchanged)"""
         newly_born_molecules = []
-
         elements_map: Dict[str, List[Cell]] = {}
         for cell in living_cells:
             elements_map.setdefault(cell.element_type, []).append(cell)
-
         if 'existence' in elements_map and 'emotion' in elements_map:
             for existence_cell in elements_map['existence']:
                 if not elements_map['emotion']: continue
                 emotion_cell = random.choice(elements_map['emotion'])
                 new_molecule = existence_cell.create_meaning(emotion_cell, "ionic_bond")
                 if new_molecule and new_molecule.id not in self.materialized_cells and new_molecule.id not in self.quantum_states:
-                    # self.materialized_cells[new_molecule.id] = new_molecule # Will be handled by add_cell
                     newly_born_molecules.append(new_molecule)
                     self.logger.info(f"[Ionic Bond] '{existence_cell.id}' ({existence_cell.element_type}) and '{emotion_cell.id}' ({emotion_cell.element_type}) created '{new_molecule.id}'.")
-
         return newly_born_molecules
 
     def print_world_summary(self):
-        """Prints a summary of the world state for debugging."""
-        # Ensure object states are up-to-date before printing
         self._sync_states_to_objects()
-
         print(f"\n--- World State (Time: {self.time_step}) ---")
         living_cells = [c for c in self.materialized_cells.values() if c.is_alive]
         print(f"Living Cells: {len(living_cells)}, Dead Cells (Archived): {len(self.graveyard)}")
