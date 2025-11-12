@@ -58,17 +58,17 @@ def main():
     root_logger.info("Creating a scene for the dawn of humanity...")
 
     # The Family
-    world.add_cell('human_father', properties={'element_type': 'animal', 'label': 'human', 'diet': 'omnivore'}, initial_energy=40.0)
-    world.add_cell('human_child', properties={'element_type': 'animal', 'label': 'human', 'diet': 'omnivore'}, initial_energy=10.0)
+    world.add_cell('human_father', properties={'element_type': 'animal', 'label': 'human', 'diet': 'omnivore', 'hp': 40.0, 'max_hp': 40.0})
+    world.add_cell('human_child', properties={'element_type': 'animal', 'label': 'human', 'diet': 'omnivore', 'hp': 10.0, 'max_hp': 10.0})
 
     # The Threat
-    world.add_cell('wolf_1', properties={'element_type': 'animal', 'label': 'wolf', 'diet': 'carnivore'}, initial_energy=20.0)
-    world.add_cell('wolf_2', properties={'element_type': 'animal', 'label': 'wolf', 'diet': 'carnivore'}, initial_energy=20.0) # A second threat
+    world.add_cell('wolf_1', properties={'element_type': 'animal', 'label': 'wolf', 'diet': 'carnivore', 'hp': 20.0, 'max_hp': 20.0})
+    world.add_cell('wolf_2', properties={'element_type': 'animal', 'label': 'wolf', 'diet': 'carnivore', 'hp': 20.0, 'max_hp': 20.0})
 
     # The Environment & Tools
-    world.add_cell('tree_A', properties={'element_type': 'life', 'label': 'tree'}, initial_energy=100.0)
-    world.add_cell('stone_A', properties={'element_type': 'item', 'label': 'stone'}, initial_energy=1.0)
-    world.add_cell('earth_A', properties={'element_type': 'earth'}, initial_energy=10.0)
+    world.add_cell('tree_A', properties={'element_type': 'life', 'label': 'tree', 'hp': 100.0, 'max_hp': 100.0})
+    world.add_cell('stone_A', properties={'element_type': 'item', 'label': 'stone', 'hp': 1.0, 'max_hp': 1.0})
+    world.add_cell('earth_A', properties={'element_type': 'earth', 'hp': 10.0, 'max_hp': 10.0})
 
 
     # --- 3. Connections ---

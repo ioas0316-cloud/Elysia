@@ -66,7 +66,7 @@ class TestChronosV2Engine(unittest.TestCase):
         control.mock_wave_mechanics = self.mock_wave_mechanics # Inject controlled mock
 
         # Record history
-        evt1 = chronicle.record_event("cell_added", {"concept_id": "A", "initial_energy": 10, "properties": {}}, ["A"], "main", None)
+        evt1 = chronicle.record_event("cell_added", {"concept_id": "A", "properties": {'hp': 10.0, 'max_hp': 10.0}}, ["A"], "main", None)
         chronicle.record_event("stimulus_injected", {"concept_id": "A", "energy_boost": 50}, ["A"], "main", evt1['id'])
 
         # Observe the state at the first event
@@ -89,8 +89,8 @@ class TestChronosV2Engine(unittest.TestCase):
         control.mock_wave_mechanics = self.mock_wave_mechanics
 
         # 1. Setup initial history on main
-        evt1 = chronicle.record_event("cell_added", {"concept_id": "A", "initial_energy": 10, "properties": {}}, ["A"], "main", None)
-        evt2 = chronicle.record_event("cell_added", {"concept_id": "B", "initial_energy": 10, "properties": {}}, ["B"], "main", evt1['id'])
+        evt1 = chronicle.record_event("cell_added", {"concept_id": "A", "properties": {'hp': 10.0, 'max_hp': 10.0}}, ["A"], "main", None)
+        evt2 = chronicle.record_event("cell_added", {"concept_id": "B", "properties": {'hp': 10.0, 'max_hp': 10.0}}, ["B"], "main", evt1['id'])
         evt_conn = chronicle.record_event("connection_added", {"source": "B", "target": "A", "strength": 0.1}, ["A", "B"], "main", evt2['id'])
         # Original fate: A gets stimulus
         chronicle.record_event("stimulus_injected", {"concept_id": "A", "energy_boost": 100}, ["A"], "main", evt_conn['id'])

@@ -39,7 +39,8 @@ class TestCudaPerformance(unittest.TestCase):
 
         # 많은 수의 세포 추가
         for i in range(self.num_cells):
-            self.world.add_cell(f"cell_{i}", initial_energy=np.random.rand() * 100)
+            energy = np.random.rand() * 100
+            self.world.add_cell(f"cell_{i}", properties={'hp': energy, 'max_hp': 100.0})
 
         # 무작위 연결 추가
         source_indices = np.random.randint(0, self.num_cells, self.num_connections)

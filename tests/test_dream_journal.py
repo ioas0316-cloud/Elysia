@@ -22,14 +22,6 @@ class TestDreamJournal(unittest.TestCase):
             shutil.rmtree(self.test_dir)
         self.test_dir.mkdir()
 
-        self.dreams_dir = self.test_dir / "dreams"
-        self.dreams_dir.mkdir()
-
-        # We need a minimal config for the Guardian to initialize
-        self.config_path = self.test_dir / "config.json"
-        with open(self.config_path, 'w') as f:
-            f.write('{"guardian": {}}')
-
         # Mock dependencies that are not central to this test
         self.mock_kg_manager = MagicMock()
         self.mock_wave_mechanics = MagicMock()
@@ -42,8 +34,7 @@ class TestDreamJournal(unittest.TestCase):
             shutil.rmtree(self.test_dir)
 
     @patch('Project_Sophia.gemini_api.generate_image_from_text')
-    @patch('Project_Elysia.guardian.Guardian._load_config')
-    def test_dream_journal_pipeline(self, mock_load_config, mock_generate_image):
+    def test_dream_journal_pipeline(self, mock_generate_image):
         """
         Verify the full pipeline: Guardian's idle cycle triggers DreamObserver,
         calls image generation, and adds a structured Memory to CoreMemory.
@@ -51,20 +42,28 @@ class TestDreamJournal(unittest.TestCase):
         # --- Setup ---
         mock_generate_image.return_value = True
 
+        # We patch Guardian's dependencies during its initialization
         with patch('Project_Elysia.guardian.KGManager', return_value=self.mock_kg_manager), \
              patch('Project_Elysia.guardian.WaveMechanics', return_value=self.mock_wave_mechanics), \
-             patch('Project_Elysia.guardian.CoreMemory', return_value=self.core_memory):
+             patch('Project_Elysia.guardian.CoreMemory', return_value=self.core_memory), \
+             patch('Project_Elysia.guardian.Guardian.setup_logging'), \
+             patch('Project_Elysia.guardian.Guardian._load_config'):
 
             guardian = Guardian()
+            # Manually set attributes that would have been loaded by _load_config
+            guardian.kg_path = 'data/dummy_kg.json'  # Provide a dummy path
+            guardian.time_to_idle = 300
+            guardian.disable_wallpaper = True
+
 
             # Create a world with some activity
             world = guardian.cellular_world
-            world.add_cell("love", initial_energy=100.0, properties={'label': 'Love'})
-            world.add_cell("creation", initial_energy=80.0, properties={'label': 'Creation'})
+            # Fix: Use the new 'properties' argument for add_cell
+            world.add_cell("love", properties={'label': 'Love', 'hp': 100.0, 'max_hp': 100.0})
+            world.add_cell("creation", properties={'label': 'Creation', 'hp': 80.0, 'max_hp': 80.0})
 
         # --- Execution ---
         # Manually trigger the core logic of the dream journal creation.
-        # This avoids running the full idle cycle and isolates the test.
         try:
             dream_digest = guardian.dream_observer.observe_dream(guardian.cellular_world)
 
@@ -98,13 +97,12 @@ class TestDreamJournal(unittest.TestCase):
         # --- Verification ---
         self.assertTrue(mock_generate_image.called)
 
-        # Note: CoreMemory doesn't have a 'get_by_type' method. We get all experiences.
         memories = self.core_memory.get_experiences()
         self.assertEqual(len(memories), 1)
 
         dream_memory = memories[0]
-        self.assertIn("love", dream_memory.content)
-        self.assertIn("creation", dream_memory.content)
+        self.assertIn("Love", dream_memory.content)
+        self.assertIn("Creation", dream_memory.content)
         self.assertEqual(dream_memory.emotional_state.primary_emotion, 'hopeful')
         self.assertEqual(dream_memory.context.get('type'), 'dream_journal')
         self.assertEqual(dream_memory.context.get('image_path'), "data/dreams/dream_test.png")

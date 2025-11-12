@@ -57,7 +57,7 @@ class TestHypothesisHandler(unittest.TestCase):
         self.handler.handle_response("응, 생각이 원인이야.", self.context, self.emotional_state)
 
         self.mock_kg_manager.add_edge.assert_called_once_with('생각', '감정', 'causes')
-        self.mock_core_memory.remove_hypothesis.assert_called_once_with('생각', '감정')
+        self.mock_core_memory.remove_hypothesis.assert_called_once_with('생각', '감정', relation=None)
         self.assertIsNone(self.context.pending_hypothesis)
 
     def test_handle_response_denies_relationship(self):
@@ -68,7 +68,7 @@ class TestHypothesisHandler(unittest.TestCase):
         self.handler.handle_response("아니야.", self.context, self.emotional_state)
 
         self.mock_kg_manager.add_edge.assert_not_called()
-        self.mock_core_memory.remove_hypothesis.assert_called_once_with('생각', '감정')
+        self.mock_core_memory.remove_hypothesis.assert_called_once_with('생각', '감정', relation=None)
         self.assertIsNone(self.context.pending_hypothesis)
 
     def test_handle_response_confirms_ascension(self):
@@ -91,7 +91,7 @@ class TestHypothesisHandler(unittest.TestCase):
         self.assertEqual(call_args[1]['properties']['discovery_source'], 'Cell_Ascension_Ritual')
         self.assertEqual(call_args[1]['properties']['parents'], ['사랑', '성장'])
 
-        self.mock_core_memory.remove_hypothesis.assert_called_once_with('meaning:사랑_성장', None)
+        self.mock_core_memory.remove_hypothesis.assert_called_once_with('meaning:사랑_성장', None, relation='승천')
         self.assertIsNone(self.context.pending_hypothesis)
 
 if __name__ == '__main__':

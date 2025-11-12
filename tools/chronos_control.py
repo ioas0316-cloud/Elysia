@@ -55,7 +55,12 @@ class ChronosControl:
         world.branch_id = event['branch_id']
 
         if event_type == 'cell_added':
-            world.add_cell(details['concept_id'], initial_energy=details['initial_energy'], properties=details['properties'], _record_event=False)
+            # The 'initial_energy' from old events is now mapped to 'hp' in properties
+            properties = details.get('properties', {})
+            if 'initial_energy' in details:
+                properties['hp'] = details['initial_energy']
+                properties['max_hp'] = details.get('max_hp', details['initial_energy']) # Default max_hp
+            world.add_cell(details['concept_id'], properties=properties, _record_event=False)
         elif event_type == 'connection_added':
             world.add_connection(details['source'], details['target'], details['strength'], _record_event=False)
         elif event_type == 'stimulus_injected':
