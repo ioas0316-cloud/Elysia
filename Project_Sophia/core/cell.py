@@ -4,8 +4,10 @@ from typing import Dict, Any, Optional, List
 class Cell:
     """
     Represents a single, living conceptual cell in Elysia's cognitive architecture.
+    The Cell object itself is lightweight, holding core identity and structural info.
+    Most dynamic stats (HP, MP, etc.) are managed in the World's NumPy arrays for performance.
     """
-    def __init__(self, concept_id: str, dna: Dict[str, Any], initial_properties: Optional[Dict[str, Any]] = None, initial_energy: float = 0.0):
+    def __init__(self, concept_id: str, dna: Dict[str, Any], initial_properties: Optional[Dict[str, Any]] = None):
         """
         Initializes a new Cell.
         """
@@ -16,26 +18,20 @@ class Cell:
         self.connections: List[Dict] = []
         self.element_type = self.organelles.get('element_type', 'unknown')
 
-        self.health = 100.0
         self.is_alive = True
         self.age = 0
+        # HP is now managed by the World class, but a local health might be useful for non-world contexts
+        self.health = 100.0
 
-        # FIX: Explicitly initialize energy
-        self.energy = initial_energy
-        self.activation_energy = 0.0 # Kept for compatibility, but self.energy is primary
 
     def __repr__(self):
         status = "Alive" if self.is_alive else "Dead"
-        return f"<Cell: {self.id}, Element: {self.element_type}, Energy: {self.energy:.2f}, Age: {self.age}, Status: {status}>"
+        return f"<Cell: {self.id}, Element: {self.element_type}, Age: {self.age}, Status: {status}>"
 
     def increment_age(self):
         """Increments the cell's age by one simulation step."""
         if self.is_alive:
             self.age += 1
-
-    def add_energy(self, amount: float):
-        """Adds a specified amount of energy to the cell."""
-        self.energy += amount
 
     def connect(self, other_cell: Cell, relationship_type: str = "related_to", strength: float = 0.5) -> Optional[Dict[str, Any]]:
         """
@@ -66,11 +62,12 @@ class Cell:
         """Programmed cell death."""
         if self.is_alive:
             self.is_alive = False
-            self.energy = 0
-            self.activation_energy = 0
 
     def create_meaning(self, partner_cell: Cell, interaction_context: str) -> Optional[Cell]:
-        """Creates a new cell from the interaction of two existing cells."""
+        """
+        Creates a new cell from the interaction of two existing cells.
+        Energy/HP cost for creation is now handled by the World simulation, not the Cell itself.
+        """
         if not self.is_alive or not partner_cell.is_alive: return None
 
         dna_instinct = self.nucleus['dna'].get('instinct')
@@ -93,10 +90,7 @@ class Cell:
             new_properties.update(partner_cell.organelles) # Merge with partner's properties
             new_properties['element_type'] = 'molecule' # New cells born from interaction are molecules
 
-            # Child cell inherits a mix of parent's energy
-            child_energy = (self.energy + partner_cell.energy) / 4
-            self.energy /= 2
-            partner_cell.energy /= 2
-
-            return Cell(new_concept_id, new_dna, new_properties, initial_energy=child_energy)
+            # The World is now responsible for setting the initial HP of the new cell
+            # and deducting any cost from the parents.
+            return Cell(new_concept_id, new_dna, new_properties)
         return None
