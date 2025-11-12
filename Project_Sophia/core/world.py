@@ -8,6 +8,7 @@ from scipy.sparse import lil_matrix, csr_matrix
 
 from .cell import Cell
 from .chronicle import Chronicle
+from .game_objects import Inventory, Item, Recipe
 from ..wave_mechanics import WaveMechanics
 
 
@@ -45,7 +46,6 @@ class World:
         # --- NumPy Data Structures for Optimization ---
         self.cell_ids: List[str] = []
         self.id_to_idx: Dict[str, int] = {}
-        self.energy = np.array([], dtype=np.float32)
         self.is_alive_mask = np.array([], dtype=bool)
         self.connection_counts = np.array([], dtype=np.int32)
         self.element_types = np.array([], dtype='<U10')
@@ -65,22 +65,50 @@ class World:
         self.continent = np.array([], dtype='<U10') # e.g., 'East', 'West'
         self.culture = np.array([], dtype='<U10') # e.g., 'wuxia', 'knight'
 
+        # --- Game System Attributes ---
+        self.hp = np.array([], dtype=np.float32)
+        self.max_hp = np.array([], dtype=np.float32)
+        self.mp = np.array([], dtype=np.float32)
+        self.max_mp = np.array([], dtype=np.float32)
+        self.power_system = np.array([], dtype='<U10') # e.g., 'aura', 'mana', 'none'
+        self.power_system_awakened = np.array([], dtype=bool)
+        self.hunger = np.array([], dtype=np.float32)
+        self.max_hunger = np.array([], dtype=np.float32)
+        self.strength = np.array([], dtype=np.float32)
+        self.intelligence = np.array([], dtype=np.float32)
+        self.max_strength = np.array([], dtype=np.float32)
+        self.max_intelligence = np.array([], dtype=np.float32)
+        self.wisdom = np.array([], dtype=np.float32)
+        self.max_wisdom = np.array([], dtype=np.float32)
+        self.talent_strength = np.array([], dtype=np.float32)
+        self.talent_intelligence = np.array([], dtype=np.float32)
+        self.talent_wisdom = np.array([], dtype=np.float32)
+        self.rank = np.array([], dtype=np.int8) # The Starlight Hierarchy (1-7)
+
         # --- Metaphysical Attributes ---
         self.aether = np.array([], dtype=np.float32) # 에테르 (Primordial Energy)
-        self.latent_energy = np.array([], dtype=np.float32) # HP / 생명력
-        self.naegong = np.array([], dtype=np.float32) # 내공 (Wuxia Inner Force)
-        self.mana = np.array([], dtype=np.float32) # 마나 (Mystical Energy)
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
 
 
         # --- SciPy Sparse Matrix for Connections ---
         self.adjacency_matrix = lil_matrix((0, 0), dtype=np.float32)
 
+        # --- Game Object Management ---
+        self.inventories: List[Optional[Inventory]] = []
+        self.recipes: Dict[str, Recipe] = {}
+        self._initialize_recipes()
+
+        # --- Farmland Attributes ---
+        self.farmland_state = np.array([], dtype='<U10') # e.g., 'none', 'tilled', 'planted'
+        self.water_level = np.array([], dtype=np.float32)
+        self.crop_type = np.array([], dtype='<U20') # e.g., 'wheat', 'bean'
+        self.crop_growth_stage = np.array([], dtype=np.int8)
+
+
     def _resize_matrices(self, new_size: int):
         current_size = len(self.cell_ids)
         if new_size <= current_size:
             return
-        self.energy = np.pad(self.energy, (0, new_size - current_size), 'constant')
         self.is_alive_mask = np.pad(self.is_alive_mask, (0, new_size - current_size), 'constant', constant_values=False)
         self.connection_counts = np.pad(self.connection_counts, (0, new_size - current_size), 'constant')
         self.element_types = np.pad(self.element_types, (0, new_size - current_size), 'constant')
@@ -96,92 +124,149 @@ class World:
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.continent = np.pad(self.continent, (0, new_size - current_size), 'constant', constant_values='')
         self.culture = np.pad(self.culture, (0, new_size - current_size), 'constant', constant_values='')
-        self.latent_energy = np.pad(self.latent_energy, (0, new_size - current_size), 'constant', constant_values=100.0)
-        self.naegong = np.pad(self.naegong, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
-        self.mana = np.pad(self.mana, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.aether = np.pad(self.aether, (0, new_size - current_size), 'constant', constant_values=100.0)
+
+        # Game System Attributes Padding
+        self.hp = np.pad(self.hp, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.max_hp = np.pad(self.max_hp, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.mp = np.pad(self.mp, (0, new_size - current_size), 'constant', constant_values=10.0)
+        self.max_mp = np.pad(self.max_mp, (0, new_size - current_size), 'constant', constant_values=10.0)
+        self.power_system = np.pad(self.power_system, (0, new_size - current_size), 'constant', constant_values='none')
+        self.power_system_awakened = np.pad(self.power_system_awakened, (0, new_size - current_size), 'constant', constant_values=False)
+        self.hunger = np.pad(self.hunger, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.max_hunger = np.pad(self.max_hunger, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.strength = np.pad(self.strength, (0, new_size - current_size), 'constant', constant_values=5.0)
+        self.intelligence = np.pad(self.intelligence, (0, new_size - current_size), 'constant', constant_values=5.0)
+        self.max_strength = np.pad(self.max_strength, (0, new_size - current_size), 'constant', constant_values=50.0)
+        self.max_intelligence = np.pad(self.max_intelligence, (0, new_size - current_size), 'constant', constant_values=50.0)
+        self.wisdom = np.pad(self.wisdom, (0, new_size - current_size), 'constant', constant_values=5.0)
+        self.max_wisdom = np.pad(self.max_wisdom, (0, new_size - current_size), 'constant', constant_values=50.0)
+        self.talent_strength = np.pad(self.talent_strength, (0, new_size - current_size), 'constant', constant_values=0.1)
+        self.talent_intelligence = np.pad(self.talent_intelligence, (0, new_size - current_size), 'constant', constant_values=0.1)
+        self.talent_wisdom = np.pad(self.talent_wisdom, (0, new_size - current_size), 'constant', constant_values=0.1)
+        self.rank = np.pad(self.rank, (0, new_size - current_size), 'constant', constant_values=1)
+
         new_positions = np.zeros((new_size, 3), dtype=np.float32)
         if current_size > 0:
             new_positions[:current_size, :] = self.positions
         self.positions = new_positions
+
         new_adj = lil_matrix((new_size, new_size), dtype=np.float32)
         if self.adjacency_matrix.shape[0] > 0:
             new_adj[:current_size, :current_size] = self.adjacency_matrix
         self.adjacency_matrix = new_adj
 
-    def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0, _record_event: bool = True):
+        # Resize inventories list
+        if new_size > len(self.inventories):
+            self.inventories.extend([None] * (new_size - len(self.inventories)))
+
+        # Farmland Attributes Padding
+        self.farmland_state = np.pad(self.farmland_state, (0, new_size - current_size), 'constant', constant_values='none')
+        self.water_level = np.pad(self.water_level, (0, new_size - current_size), 'constant', constant_values=0.0)
+        self.crop_type = np.pad(self.crop_type, (0, new_size - current_size), 'constant', constant_values='')
+        self.crop_growth_stage = np.pad(self.crop_growth_stage, (0, new_size - current_size), 'constant', constant_values=0)
+
+    def _initialize_recipes(self):
+        """Initializes all available crafting recipes in the world."""
+        stone_axe = Recipe(
+            name='stone_axe',
+            ingredients={'wood': 1, 'stone': 1},
+            output=Item(name='stone_axe', weight=3.0)
+        )
+        self.recipes[stone_axe.name] = stone_axe
+
+        cloth_armor = Recipe(
+            name='cloth_armor',
+            ingredients={'fiber': 5},
+            output=Item(name='cloth_armor', weight=2.0)
+        )
+        self.recipes[cloth_armor.name] = cloth_armor
+
+    def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, _record_event: bool = True):
         if concept_id in self.quantum_states:
             return
         if self.chronicle and _record_event:
-            details = {'concept_id': concept_id, 'initial_energy': initial_energy, 'properties': properties or {}}
+            details = {'concept_id': concept_id, 'properties': properties or {}}
             scopes = [concept_id]
             event = self.chronicle.record_event('cell_added', details, scopes, self.branch_id, self.parent_event_id)
             self.parent_event_id = event['id']
-        self.quantum_states[concept_id] = {'existence_probability': 1.0, 'energy_potential': initial_energy, 'age': 0}
+        self.quantum_states[concept_id] = {'existence_probability': 1.0, 'age': 0}
         idx = len(self.cell_ids)
         if idx >= self.adjacency_matrix.shape[0]:
             self._resize_matrices(max(idx + 1, 100))
         self.cell_ids.append(concept_id)
         self.id_to_idx[concept_id] = idx
-        self.energy[idx] = initial_energy
         self.is_alive_mask[idx] = True
         self.connection_counts[idx] = 0
         self.growth_stages[idx] = 0 # Start at seed stage
         self.age[idx] = 0
         self.is_injured[idx] = False
         self.prestige[idx] = 0.0
-        # Assign a random lifespan
         self.max_age[idx] = random.randint(80, 120)
         self.insight[idx] = 0.0
-        self.aether[idx] = 100.0 # Bestow aether upon creation
-        self.latent_energy[idx] = 100.0 # Bestow latent energy upon creation
-        self.naegong[idx] = 0.0 # Naegong is cultivated
-        self.mana[idx] = 0.0 # Mana is cultivated, not granted
+        self.aether[idx] = 100.0
         self.emotions[idx] = 'neutral'
 
-        # Ensure element_type from properties is immediately set in the numpy array
-        if properties and 'element_type' in properties:
-            self.element_types[idx] = properties['element_type']
-        else:
-            # Fallback if not provided, though materialize_cell should handle it
-            self.element_types[idx] = 'unknown'
-
+        # Initialize Game System Attributes
+        # TODO: Base these initial values on species, dna, properties etc.
+        self.max_hp[idx] = 100.0
+        self.hp[idx] = self.max_hp[idx]
+        self.max_mp[idx] = 10.0
+        self.mp[idx] = self.max_mp[idx]
+        self.power_system[idx] = 'none'
+        self.power_system_awakened[idx] = False
+        self.max_hunger[idx] = 100.0
+        self.hunger[idx] = self.max_hunger[idx]
+        self.strength[idx] = 5.0
+        self.intelligence[idx] = 5.0
+        self.talent_strength[idx] = random.uniform(0.05, 0.2) # Natural talent variation
+        self.talent_intelligence[idx] = random.uniform(0.05, 0.2)
+        self.wisdom[idx] = 5.0
+        self.talent_wisdom[idx] = random.uniform(0.05, 0.2)
+        self.max_strength[idx] = 50.0 + (self.talent_strength[idx] * 100) # Talent affects max potential
+        self.max_intelligence[idx] = 50.0 + (self.talent_intelligence[idx] * 100)
+        self.max_wisdom[idx] = 50.0 + (self.talent_wisdom[idx] * 100)
+        self.rank[idx] = 1 # Start at Seedling rank
 
         # Pass the explicit properties from the call to materialization
         temp_cell = self.materialize_cell(concept_id, force_materialize=True, explicit_properties=properties)
 
         # Set position
         pos_dict = temp_cell.organelles.get('position', {'x': random.uniform(-10, 10), 'y': random.uniform(-10, 10), 'z': random.uniform(-10, 10)})
-        self.positions[idx] = [pos_dict.get('x', 0), pos_dict.get('y', 0), pos_dict.get('z', 0)]
-        if temp_cell:
-            # Now that the cell is materialized and has its organelles, update the numpy arrays
-            self.element_types[idx] = temp_cell.element_type
-            self.diets[idx] = temp_cell.organelles.get('diet', 'omnivore')
-            self.genders[idx] = temp_cell.organelles.get('gender', '')
-            self.labels[idx] = temp_cell.organelles.get('label', concept_id)
-        else:
-            # Fallback if materialization fails, but we've already set element_type above
-            self.diets[idx] = 'omnivore'
-            self.genders[idx] = ''
-            self.labels[idx] = concept_id
+        self.positions[idx, 0] = pos_dict.get('x', 0)
+        self.positions[idx, 1] = pos_dict.get('y', 0)
+        self.positions[idx, 2] = pos_dict.get('z', 0)
+
+        # Now that the cell is materialized, update the numpy arrays from its properties
+        self.element_types[idx] = temp_cell.element_type
+        self.diets[idx] = temp_cell.organelles.get('diet', 'omnivore')
+        self.genders[idx] = temp_cell.organelles.get('gender', '')
+        self.labels[idx] = temp_cell.organelles.get('label', concept_id)
 
         # --- Final Override ---
-        # Ensure that properties passed directly to add_cell take ultimate precedence,
-        # especially for controlled setups like genesis_simulator.
+        # Ensure that explicit properties passed to add_cell take ultimate precedence.
         if properties:
-            if 'element_type' in properties:
-                self.element_types[idx] = properties['element_type']
-            if 'diet' in properties:
-                self.diets[idx] = properties['diet']
-            if 'label' in properties:
-                self.labels[idx] = properties['label']
-            if 'gender' in properties:
-                self.genders[idx] = properties['gender']
-            if 'continent' in properties:
-                self.continent[idx] = properties['continent']
-            if 'culture' in properties:
-                self.culture[idx] = properties['culture']
+            self.element_types[idx] = properties.get('element_type', self.element_types[idx])
+            self.diets[idx] = properties.get('diet', self.diets[idx])
+            self.labels[idx] = properties.get('label', self.labels[idx])
+            self.genders[idx] = properties.get('gender', self.genders[idx])
+            self.continent[idx] = properties.get('continent', self.continent[idx])
+            self.culture[idx] = properties.get('culture', self.culture[idx])
+
+        # --- Inventory Initialization for Humans ---
+        if self.labels[idx] == 'human':
+            base_weight = 10.0
+            max_weight = base_weight + (self.strength[idx] * 2)
+            self.inventories[idx] = Inventory(max_weight=max_weight)
+            # Temporary: Give humans some seeds to start with for testing
+            self.inventories[idx].add_item(Item(name='wheat_seed', quantity=5, weight=0.1))
+
+        # --- Farmland Initialization ---
+        self.farmland_state[idx] = 'none'
+        self.water_level[idx] = 0.0
+        self.crop_type[idx] = ''
+        self.crop_growth_stage[idx] = 0
 
     def materialize_cell(self, concept_id: str, force_materialize: bool = False, explicit_properties: Optional[Dict] = None) -> Optional[Cell]:
         if not force_materialize and concept_id in self.materialized_cells:
@@ -201,12 +286,10 @@ class World:
                 initial_properties.update(explicit_properties)
 
             state = self.quantum_states[concept_id]
-            cell = Cell(concept_id, self.primordial_dna, initial_properties=initial_properties, initial_energy=self.energy[idx])
+            # The Cell object might not need all game stats, but it's cleaner to remove energy
+            cell = Cell(concept_id, self.primordial_dna, initial_properties=initial_properties)
             cell.age = state.get('age', 0)
             cell.is_alive = self.is_alive_mask[idx]
-
-            # Crucially, update the numpy array with the correct element type upon materialization
-            self.element_types[idx] = cell.element_type
 
             self.materialized_cells[concept_id] = cell
             return cell
@@ -216,7 +299,7 @@ class World:
         for i, cell_id in enumerate(self.cell_ids):
             if cell_id in self.materialized_cells:
                 cell = self.materialized_cells[cell_id]
-                cell.energy = self.energy[i]
+                # Energy is no longer part of the lightweight Cell object
                 cell.is_alive = self.is_alive_mask[i]
 
     def run_simulation_step(self) -> List[Cell]:
@@ -228,24 +311,24 @@ class World:
         if len(self.cell_ids) == 0:
             return []
 
-        # Calculate energy changes from all sources
-        energy_deltas = self._calculate_energy_deltas()
+        # Calculate HP changes from all sources
+        hp_deltas = self._calculate_hp_deltas()
 
         # Process major state changes and actions
         newly_born_cells = []
-        self._process_animal_actions(energy_deltas)
-        newly_born_cells.extend(self._process_life_cycles(energy_deltas))
+        self._process_animal_actions(hp_deltas)
+        newly_born_cells.extend(self._process_life_cycles(hp_deltas))
 
         # Apply final physics and cleanup
-        self._apply_physics_and_cleanup(energy_deltas, newly_born_cells)
+        self._apply_physics_and_cleanup(hp_deltas, newly_born_cells)
 
         return newly_born_cells
 
-    def _calculate_energy_deltas(self) -> np.ndarray:
-        """Calculates all passive energy changes for the step."""
+    def _calculate_hp_deltas(self) -> np.ndarray:
+        """Calculates all passive HP changes for the step."""
         num_cells = len(self.cell_ids)
         adj_matrix_csr = self.adjacency_matrix.tocsr()
-        energy_deltas = np.zeros_like(self.energy, dtype=np.float32)
+        hp_deltas = np.zeros_like(self.hp, dtype=np.float32)
 
         # Environmental effects (Sunlight, Night decay)
         cycle_position = self.time_step % self.day_length
@@ -253,13 +336,13 @@ class World:
         if self.time_of_day == 'day':
             sun_node = self.wave_mechanics.kg_manager.get_node('sun')
             if sun_node:
-                sunlight_energy = sun_node.get('activation_energy', 3.0)
+                sunlight_hp_gain = sun_node.get('activation_energy', 3.0) # Plants get HP from sun
                 life_mask = (self.element_types == 'life') & self.is_alive_mask
-                energy_deltas[life_mask] += sunlight_energy
+                hp_deltas[life_mask] += sunlight_hp_gain
         else: # Night
-            energy_deltas[self.is_alive_mask] -= 0.2
+            hp_deltas[self.is_alive_mask] -= 0.2 # All living things lose a bit of HP at night
             animal_mask = (self.element_types == 'animal') & self.is_alive_mask
-            energy_deltas[animal_mask] += 0.15
+            hp_deltas[animal_mask] += 0.15 # Animals are more active at night
 
         # Nurturing for plants
         life_mask = (self.element_types == 'life') & self.is_alive_mask
@@ -267,35 +350,67 @@ class World:
         if np.any(life_mask) and np.any(nurturing_mask):
             life_to_nurture_connections = adj_matrix_csr[life_mask][:, nurturing_mask]
             nurturing_counts = np.array(life_to_nurture_connections.sum(axis=1)).flatten()
-            energy_deltas[life_mask] += nurturing_counts * 0.5
+            hp_deltas[life_mask] += nurturing_counts * 0.5
 
         # Physiological effects (Aging, Injury)
         self.age[self.is_alive_mask] += 1
         old_age_mask = (self.age > self.max_age * 0.8) & self.is_alive_mask
-        energy_deltas[old_age_mask] -= 0.5
-        energy_deltas[self.is_injured] -= 1.0
+        hp_deltas[old_age_mask] -= 0.5
+        hp_deltas[self.is_injured] -= 1.0
 
         # Physical laws (Gravity)
         flying_mask = (self.positions[:, 2] > 0) & self.is_alive_mask
         altitude = self.positions[flying_mask, 2]
-        energy_deltas[flying_mask] -= altitude * 0.02
+        hp_deltas[flying_mask] -= altitude * 0.02 # Flying costs HP
+
+        # --- Survival System ---
+        # Hunger decreases over time
+        hunger_decay_rate = self.max_hunger / (self.day_length * 3) # 3 days to starve
+        self.hunger -= (hunger_decay_rate * self.is_alive_mask) # Apply decay only to live cells
+        self.hunger = np.maximum(0, self.hunger) # Hunger cannot be negative
+
+        # Starvation effect
+        starving_mask = (self.hunger == 0) & self.is_alive_mask
+        hp_deltas[starving_mask] -= 1.0 # Lose HP when starving
+
 
         # --- Metaphysical Energy Conversion ---
-        # Wuxia culture converts aether to naegong
-        wuxia_mask = (self.culture == 'wuxia') & self.is_alive_mask & (self.aether > 0)
-        conversion_amount_wuxia = np.minimum(self.aether[wuxia_mask], 0.1)
-        self.aether[wuxia_mask] -= conversion_amount_wuxia
-        self.naegong[wuxia_mask] += conversion_amount_wuxia * 1.1 # More efficient conversion
+        # Cultures can convert aether to MP, but cannot exceed max_mp
+        can_convert_mask = self.is_alive_mask & (self.aether > 0) & (self.mp < self.max_mp)
 
-        # Knight culture converts aether to mana
-        knight_mask = (self.culture == 'knight') & self.is_alive_mask & (self.aether > 0)
-        conversion_amount_knight = np.minimum(self.aether[knight_mask], 0.1)
-        self.aether[knight_mask] -= conversion_amount_knight
-        self.mana[knight_mask] += conversion_amount_knight
+        # Wuxia culture converts aether to mp (naegong)
+        wuxia_mask = (self.culture == 'wuxia') & can_convert_mask
+        potential_mp_gain_wuxia = np.minimum(self.aether[wuxia_mask], 0.1) * 1.1 # More efficient
+        actual_mp_gain_wuxia = np.minimum(potential_mp_gain_wuxia, self.max_mp[wuxia_mask] - self.mp[wuxia_mask])
+        aether_cost_wuxia = actual_mp_gain_wuxia / 1.1
+        self.aether[wuxia_mask] -= aether_cost_wuxia
+        self.mp[wuxia_mask] += actual_mp_gain_wuxia
 
-        return energy_deltas
+        # Knight culture converts aether to mp (mana)
+        knight_mask = (self.culture == 'knight') & can_convert_mask
+        potential_mp_gain_knight = np.minimum(self.aether[knight_mask], 0.1)
+        actual_mp_gain_knight = np.minimum(potential_mp_gain_knight, self.max_mp[knight_mask] - self.mp[knight_mask])
+        aether_cost_knight = actual_mp_gain_knight
+        self.aether[knight_mask] -= aether_cost_knight
+        self.mp[knight_mask] += actual_mp_gain_knight
 
-    def _process_animal_actions(self, energy_deltas: np.ndarray):
+        # --- MP Regeneration ---
+        mp_regeneration_rate = 0.1 # A small amount of MP regenerates each step
+        can_regen_mp_mask = self.is_alive_mask & (self.mp < self.max_mp)
+        self.mp[can_regen_mp_mask] = np.minimum(self.max_mp[can_regen_mp_mask], self.mp[can_regen_mp_mask] + mp_regeneration_rate)
+
+        # --- Farmland Cycle ---
+        # Water evaporates over time
+        self.water_level = np.maximum(0, self.water_level - 0.5)
+
+        # Crops grow if watered
+        can_grow_crop_mask = (self.farmland_state == 'planted') & (self.water_level > 1.0) & (self.crop_growth_stage < 4) # 4 stages: seed, sprout, grown, harvestable
+        self.crop_growth_stage[can_grow_crop_mask] += 1
+
+
+        return hp_deltas
+
+    def _process_animal_actions(self, hp_deltas: np.ndarray):
         """Handles all AI, decision-making, and actions for animals."""
         adj_matrix_csr = self.adjacency_matrix.tocsr()
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
@@ -325,13 +440,65 @@ class World:
             target_idx, action_type = self._select_animal_action(i, adj_matrix_csr)
 
             if target_idx != -1:
-                self._execute_animal_action(i, target_idx, action_type, energy_deltas)
+                self._execute_animal_action(i, target_idx, action_type, hp_deltas)
 
     def _select_animal_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Tuple[int, str]:
         """Selects the best action (hunt or protect) for an animal."""
         # Default action
         target_idx = -1
         action_type = 'hunt'
+
+        # --- Human-specific Civilization Actions ---
+        if self.labels[actor_idx] == 'human':
+            all_connected = adj_matrix_csr[actor_idx].indices
+            inventory = self.inventories[actor_idx]
+
+            # 1. Craft tools if resources are available
+            if inventory:
+                # Check for stone axe ingredients
+                if 'wood' in inventory.items and inventory.items['wood'].quantity >= 1 and \
+                   'stone' in inventory.items and inventory.items['stone'].quantity >= 1 and \
+                   'stone_axe' not in inventory.items: # Don't craft if they already have one
+                   # Target is self for crafting action
+                   return actor_idx, 'craft'
+
+            # 2. Harvest grown crops
+            harvestable_mask = (self.farmland_state[all_connected] == 'planted') & (self.crop_growth_stage[all_connected] >= 4)
+            if np.any(harvestable_mask):
+                harvestable_indices = all_connected[harvestable_mask]
+                target_idx = random.choice(harvestable_indices)
+                return target_idx, 'harvest'
+
+            # 2. Plant seeds if there's tilled land and they have seeds
+            if inventory and 'wheat_seed' in inventory.items:
+                tilled_mask = (self.farmland_state[all_connected] == 'tilled')
+                if np.any(tilled_mask):
+                    tilled_indices = all_connected[tilled_mask]
+                    target_idx = random.choice(tilled_indices)
+                    return target_idx, 'plant_seed'
+
+            # 3. Till land if there's un-tilled earth nearby
+            if self.hunger[actor_idx] > 40:
+                earth_mask = (self.element_types[all_connected] == 'earth') & (self.farmland_state[all_connected] == 'none')
+                if np.any(earth_mask):
+                    earth_indices = all_connected[earth_mask]
+                    # Find the closest earth plot to till
+                    earth_positions = self.positions[earth_indices]
+                    actor_position = self.positions[actor_idx]
+                    distances = np.linalg.norm(earth_positions - actor_position, axis=1)
+                    closest_earth_idx = earth_indices[np.argmin(distances)]
+                    return closest_earth_idx, 'till_land'
+
+            # 4. Check for nearby resources to gather
+            forest_mask = (self.labels[all_connected] == 'forest') & self.is_alive_mask[all_connected]
+            if np.any(forest_mask) and self.hunger[actor_idx] > 30: # Only gather if not too hungry
+                forest_indices = all_connected[forest_mask]
+                forest_positions = self.positions[forest_indices]
+                actor_position = self.positions[actor_idx]
+                distances = np.linalg.norm(forest_positions - actor_position, axis=1)
+                closest_forest_idx = forest_indices[np.argmin(distances)]
+                return closest_forest_idx, 'gather_wood'
+
 
         # Protection check for humans
         if self.labels[actor_idx] == 'human':
@@ -348,7 +515,7 @@ class World:
                         threats_to_kin = adj_matrix_csr[:, kin_idx].tocoo().row
                         for threat_idx in threats_to_kin:
                             if self.is_alive_mask[threat_idx] and self.diets[threat_idx] == 'carnivore':
-                                self_preservation = 0.5 + (self.energy[actor_idx] / 100.0)
+                                self_preservation = 0.5 + (self.hp[actor_idx] / self.max_hp[actor_idx]) # Use HP ratio
                                 altruism = self.adjacency_matrix[actor_idx, kin_idx]
                                 fear = max(0, self.prestige[threat_idx] - self.prestige[actor_idx])
                                 courage = 1.0 + (fear / 10.0)
@@ -383,19 +550,23 @@ class World:
 
         if prey_indices:
             # Select the weakest among the valid (non-kin) targets
-            target_idx = prey_indices[np.argmin(self.energy[np.array(prey_indices)])]
+            target_idx = prey_indices[np.argmin(self.hp[np.array(prey_indices)])]
 
         return target_idx, action_type
 
-    def _execute_animal_action(self, actor_idx: int, target_idx: int, action_type: str, energy_deltas: np.ndarray):
+    def _execute_animal_action(self, actor_idx: int, target_idx: int, action_type: str, hp_deltas: np.ndarray):
         """Executes the chosen action (move, hunt, etc.)."""
         # Move towards target
         direction = self.positions[target_idx] - self.positions[actor_idx]
-        if np.linalg.norm(direction) > 0:
-            self.positions[actor_idx] += (direction / np.linalg.norm(direction)) * 0.2
+        distance = np.linalg.norm(direction)
+        speed = 0.2
+        if distance > 0:
+            # Move by speed or the remaining distance, whichever is smaller, to prevent overshooting.
+            move_distance = min(speed, distance)
+            self.positions[actor_idx] += (direction / distance) * move_distance
 
         # Resolve combat if in range
-        if np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
+        if action_type in ['hunt', 'protect'] and np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
             self.logger.info(f"COMBAT: '{self.cell_ids[actor_idx]}' engages '{self.cell_ids[target_idx]}'.")
 
             courage_multiplier = 1.0
@@ -403,20 +574,27 @@ class World:
                 fear = max(0, self.prestige[target_idx] - self.prestige[actor_idx])
                 courage_multiplier = 1.0 + (fear / 5.0)
                 if courage_multiplier > 1.5:
-                    draw = self.latent_energy[actor_idx] * 0.1
-                    self.latent_energy[actor_idx] -= draw
-                    boost = draw * 2.0
-                    energy_deltas[actor_idx] += boost
+                    # Burn life force (HP) for a power boost
+                    hp_cost = self.hp[actor_idx] * 0.1
+                    hp_deltas[actor_idx] -= hp_cost
+                    boost = hp_cost * 2.0
+                    hp_deltas[actor_idx] += boost # This is a temporary boost for this combat round
                     courage_multiplier += boost / 10.0
                     self.logger.info(f"TRANSCENDENCE: '{self.cell_ids[actor_idx]}' burns life force for power!")
                 self.logger.info(f"COURAGE: '{self.cell_ids[actor_idx]}' fights with {courage_multiplier:.2f}x power.")
 
-            energy_transfer = 10.0 * courage_multiplier
-            energy_deltas[actor_idx] += energy_transfer
-            energy_deltas[target_idx] -= energy_transfer
+            hp_transfer = 10.0 * courage_multiplier # Damage dealt
+            hp_deltas[actor_idx] += hp_transfer # Gain HP from successful hunt/defense
+            hp_deltas[target_idx] -= hp_transfer # Lose HP from being attacked
             self.is_injured[target_idx] = True
             self.prestige[actor_idx] += 1 * courage_multiplier
             self.prestige[target_idx] -= 1
+
+            # --- Stat Growth from Action ---
+            # Combat increases strength
+            strength_gain = 0.1 + (self.talent_strength[actor_idx] * 0.5) # Talent-based growth rate
+            self.strength[actor_idx] = min(self.max_strength[actor_idx], self.strength[actor_idx] + strength_gain)
+
 
             # Post-combat emotions
             if self.is_alive_mask[actor_idx]: self.emotions[actor_idx] = 'joy'
@@ -429,8 +607,106 @@ class World:
                 self.wave_mechanics.inject_stimulus('protection', resonance)
                 self.logger.info(f"Spiritual Resonance: Courageous act resonated (Strength: {resonance:.2f}).")
 
+        elif action_type == 'gather_wood' and np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
+            inventory = self.inventories[actor_idx]
+            if inventory:
+                wood_item = Item(name='wood', quantity=1, weight=2.0)
+                if inventory.add_item(wood_item):
+                    self.logger.info(f"GATHERING: '{self.cell_ids[actor_idx]}' gathered wood.")
+                    # Action costs a little bit of hunger
+                    self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 2.0)
+                    # Action increases Strength
+                    str_gain = 0.1 + (self.talent_strength[actor_idx] * 0.5)
+                    self.strength[actor_idx] = min(self.max_strength[actor_idx], self.strength[actor_idx] + str_gain)
+                else:
+                    self.logger.info(f"GATHERING: '{self.cell_ids[actor_idx]}' failed to gather wood (overweight).")
 
-    def _process_life_cycles(self, energy_deltas: np.ndarray) -> List[Cell]:
+        elif action_type == 'till_land' and np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
+            if self.element_types[target_idx] == 'earth' and self.farmland_state[target_idx] == 'none':
+                self.farmland_state[target_idx] = 'tilled'
+                self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' tilled the land '{self.cell_ids[target_idx]}'.")
+                self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 5.0) # Tilling is hard work
+                str_gain = 0.2 + (self.talent_strength[actor_idx] * 0.5) # More STR gain than gathering
+                self.strength[actor_idx] = min(self.max_strength[actor_idx], self.strength[actor_idx] + str_gain)
+
+        elif action_type == 'plant_seed' and np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
+            inventory = self.inventories[actor_idx]
+            if inventory and self.farmland_state[target_idx] == 'tilled':
+                # For now, let's assume they have wheat seeds
+                if inventory.remove_item('wheat_seed', 1):
+                    self.farmland_state[target_idx] = 'planted'
+                    self.crop_type[target_idx] = 'wheat'
+                    self.crop_growth_stage[target_idx] = 1 # Stage 1: Sprout
+                    self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' planted wheat in '{self.cell_ids[target_idx]}'.")
+                    self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 1.0)
+                    # Planting is an intelligent action
+                    int_gain = 0.1 + (self.talent_intelligence[actor_idx] * 0.5)
+                    self.intelligence[actor_idx] = min(self.max_intelligence[actor_idx], self.intelligence[actor_idx] + int_gain)
+                else:
+                    self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' tried to plant but had no seeds.")
+
+        elif action_type == 'harvest' and np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
+            inventory = self.inventories[actor_idx]
+            if inventory and self.farmland_state[target_idx] == 'planted' and self.crop_growth_stage[target_idx] >= 4:
+                crop = self.crop_type[target_idx]
+                # Reset the farmland plot
+                self.farmland_state[target_idx] = 'none' # Becomes fallow, needs tilling again
+                self.crop_type[target_idx] = ''
+                self.crop_growth_stage[target_idx] = 0
+
+                # Add harvest to inventory
+                harvest_item = Item(name=crop, quantity=3, weight=0.5) # 1 seed yields 3 food
+                seed_item = Item(name=f"{crop}_seed", quantity=1, weight=0.1)
+                inventory.add_item(harvest_item)
+                inventory.add_item(seed_item)
+
+                self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' harvested {crop}.")
+                self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 2.0)
+
+                # Harvesting is a wise action
+                wis_gain = 0.1 + (self.talent_wisdom[actor_idx] * 0.5)
+                self.wisdom[actor_idx] = min(self.max_wisdom[actor_idx], self.wisdom[actor_idx] + wis_gain)
+
+                # Wisdom bonus: chance for extra seed
+                if random.random() < (self.wisdom[actor_idx] / 100.0):
+                    bonus_seed = Item(name=f"{crop}_seed", quantity=1, weight=0.1)
+                    inventory.add_item(bonus_seed)
+                    self.logger.info(f"FARMING: Wisdom provided an extra seed to '{self.cell_ids[actor_idx]}'.")
+
+        elif action_type == 'craft':
+            # The 'target_idx' for crafting is the actor themselves
+            inventory = self.inventories[actor_idx]
+            if inventory:
+                # AI Logic to decide what to craft will go here. For now, try to craft a stone axe.
+                recipe_name = 'stone_axe'
+                if recipe_name in self.recipes:
+                    recipe = self.recipes[recipe_name]
+
+                    # Check if all ingredients are available
+                    can_craft = True
+                    for ingredient, required_qty in recipe.ingredients.items():
+                        if ingredient not in inventory.items or inventory.items[ingredient].quantity < required_qty:
+                            can_craft = False
+                            break
+
+                    if can_craft:
+                        # Consume ingredients
+                        for ingredient, required_qty in recipe.ingredients.items():
+                            inventory.remove_item(ingredient, required_qty)
+
+                        # Add crafted item
+                        inventory.add_item(recipe.output)
+                        self.logger.info(f"CRAFTING: '{self.cell_ids[actor_idx]}' crafted a {recipe_name}.")
+                        self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 3.0)
+
+                        # Crafting is a highly intelligent action
+                        int_gain = 0.5 + (self.talent_intelligence[actor_idx] * 0.8)
+                        self.intelligence[actor_idx] = min(self.max_intelligence[actor_idx], self.intelligence[actor_idx] + int_gain)
+                    #else:
+                        #self.logger.info(f"CRAFTING: '{self.cell_ids[actor_idx]}' failed to craft {recipe_name} (missing ingredients).")
+
+
+    def _process_life_cycles(self, hp_deltas: np.ndarray) -> List[Cell]:
         """Handles birth, growth, and reproduction for all entities."""
         newly_born_cells = []
         adj_matrix_csr = self.adjacency_matrix.tocsr()
@@ -438,27 +714,28 @@ class World:
         # --- Plant Life Cycle ---
         plant_mask = (self.element_types == 'life') & self.is_alive_mask
         plant_indices = np.where(plant_mask)[0]
-        can_grow = (self.energy[plant_indices] > 10.0) & (self.growth_stages[plant_indices] < 3)
+        can_grow = (self.hp[plant_indices] > 10.0) & (self.growth_stages[plant_indices] < 3)
         self.growth_stages[plant_indices[can_grow]] += 1
-        energy_deltas[plant_indices[can_grow]] -= 5
-        fruiting_mask = (self.growth_stages[plant_indices] == 3) & (self.energy[plant_indices] > 20.0)
+        hp_deltas[plant_indices[can_grow]] -= 5
+        fruiting_mask = (self.growth_stages[plant_indices] == 3) & (self.hp[plant_indices] > 20.0)
         fruiting_indices = plant_indices[fruiting_mask]
         for i in fruiting_indices:
-            energy_deltas[i] -= 15
+            hp_deltas[i] -= 15
             new_seed_id = f"plant_{self.time_step}_{i}"
-            new_cell = Cell(new_seed_id, self.primordial_dna, initial_properties={'element_type': 'life'}, initial_energy=10.0)
+            # New cells are added via add_cell, which sets their initial HP
+            new_cell = Cell(new_seed_id, self.primordial_dna, initial_properties={'element_type': 'life'})
             newly_born_cells.append(new_cell)
             self.growth_stages[i] = 1
 
         # --- Animal Mating and Reproduction ---
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
-        # Mating readiness increases if not hungry
-        not_hungry_mask = self.energy[animal_indices] > 25.0
-        self.mating_readiness[animal_indices[not_hungry_mask]] += 0.1
-        # Hunger reduces readiness
-        hungry_mask = self.energy[animal_indices] < 15.0
-        self.mating_readiness[animal_indices[hungry_mask]] = 0
+        # Mating readiness increases if healthy (high HP percentage) and not hungry
+        healthy_mask = (self.hp[animal_indices] / self.max_hp[animal_indices] > 0.8) & (self.hunger[animal_indices] > 50.0)
+        self.mating_readiness[animal_indices[healthy_mask]] += 0.1
+        # Poor health or hunger reduces readiness
+        unhealthy_mask = (self.hp[animal_indices] / self.max_hp[animal_indices] < 0.5) | (self.hunger[animal_indices] < 20.0)
+        self.mating_readiness[animal_indices[unhealthy_mask]] = 0
 
         female_mask = (self.genders[animal_indices] == 'female') & (self.mating_readiness[animal_indices] >= 1.0)
         fertile_female_indices = animal_indices[female_mask]
@@ -468,12 +745,12 @@ class World:
             potential_mates = connected_indices[male_mask]
             if potential_mates.size > 0:
                 mate_idx = random.choice(potential_mates)
-                energy_deltas[i] -= 15.0
+                hp_deltas[i] -= 15.0 # HP cost for giving birth
                 new_animal_id = f"{self.labels[i]}_{self.time_step}"
                 parent_cell = self.materialize_cell(self.cell_ids[i])
-                child_props = parent_cell.organelles.copy()
+                child_props = parent_cell.organelles.copy() if parent_cell else {}
                 child_props['gender'] = random.choice(['male', 'female'])
-                new_cell = Cell(new_animal_id, self.primordial_dna, initial_properties=child_props, initial_energy=10.0)
+                new_cell = Cell(new_animal_id, self.primordial_dna, initial_properties=child_props)
                 newly_born_cells.append(new_cell)
                 self.mating_readiness[i] = 0.0
                 self.mating_readiness[mate_idx] = 0.0
@@ -483,23 +760,26 @@ class World:
         return newly_born_cells
 
 
-    def _apply_physics_and_cleanup(self, energy_deltas: np.ndarray, newly_born_cells: List[Cell]):
-        """Applies final energy changes, handles death, and integrates new cells."""
+    def _apply_physics_and_cleanup(self, hp_deltas: np.ndarray, newly_born_cells: List[Cell]):
+        """Applies final HP changes, handles death, and integrates new cells."""
         adj_matrix_csr = self.adjacency_matrix.tocsr()
         num_cells = len(self.cell_ids)
 
-        # Apply all energy deltas calculated during the step
-        self.energy += energy_deltas
+        # Apply all HP deltas calculated during the step
+        self.hp += hp_deltas
+        # Ensure HP does not exceed max_hp or drop below zero
+        self.hp = np.clip(self.hp, 0, self.max_hp)
+
 
         # Add newly born cells to the world
         for cell in newly_born_cells:
             if cell.id not in self.id_to_idx:
-                self.add_cell(cell.id, dna=cell.nucleus['dna'], properties=cell.organelles, initial_energy=cell.energy)
+                self.add_cell(cell.id, dna=cell.nucleus['dna'], properties=cell.organelles)
 
-        # Process death for cells with low energy
-        apoptosis_mask = (self.energy < 0.1) & self.is_alive_mask
+        # Process death for cells with zero HP
+        apoptosis_mask = (self.hp < 0.1) & self.is_alive_mask
         self.is_alive_mask[apoptosis_mask] = False
-        self.energy[apoptosis_mask] = 0.0
+        self.hp[apoptosis_mask] = 0.0
 
         dead_cell_indices = np.where(apoptosis_mask)[0]
         for dead_idx in dead_cell_indices:
@@ -507,11 +787,12 @@ class World:
             if cell_id in self.materialized_cells:
                 dead_cell = self.materialized_cells[cell_id]
 
-                # Organic matter cycling
+                # Organic matter cycling - dead cells' remaining essence returns to the earth
                 connected_indices = adj_matrix_csr[dead_idx].indices
                 for conn_idx in connected_indices:
                     if self.is_alive_mask[conn_idx] and self.element_types[conn_idx] == 'earth':
-                        self.energy[conn_idx] += dead_cell.energy
+                        # Earth gains HP from the decomposed matter
+                        self.hp[conn_idx] += self.max_hp[dead_idx] * 0.25
 
                 # Law of Mortality (Insight) & Law of Emotion (Sorrow)
                 connections_to_deceased = adj_matrix_csr[:, dead_idx].tocoo().row
@@ -530,6 +811,25 @@ class World:
             if cell_id in self.quantum_states:
                 self.quantum_states[cell_id]['existence_probability'] = 0.0
 
+        # --- Power System Awakening ---
+        # Check for strength-based awakening (Aura)
+        strength_awakening_mask = (self.strength >= 50.0) & (self.power_system_awakened == False) & self.is_alive_mask
+        if np.any(strength_awakening_mask):
+            self.power_system[strength_awakening_mask] = 'aura'
+            self.power_system_awakened[strength_awakening_mask] = True
+            # Optional: Log the awakening event
+            for idx in np.where(strength_awakening_mask)[0]:
+                self.logger.info(f"AWAKENING: '{self.cell_ids[idx]}' has awakened the power of Aura!")
+
+        # Check for intelligence-based awakening (Mana)
+        intelligence_awakening_mask = (self.intelligence >= 50.0) & (self.power_system_awakened == False) & self.is_alive_mask
+        if np.any(intelligence_awakening_mask):
+            self.power_system[intelligence_awakening_mask] = 'mana'
+            self.power_system_awakened[intelligence_awakening_mask] = True
+            for idx in np.where(intelligence_awakening_mask)[0]:
+                self.logger.info(f"AWAKENING: '{self.cell_ids[idx]}' has awakened the power of Mana!")
+
+
         # Final state synchronization
         self._sync_states_to_objects()
 
@@ -545,16 +845,16 @@ class World:
             self.adjacency_matrix[source_idx, target_idx] = strength
             self.connection_counts[source_idx] += 1
 
-    def inject_stimulus(self, concept_id: str, energy_boost: float, _record_event: bool = True):
+    def inject_stimulus(self, concept_id: str, hp_boost: float, _record_event: bool = True):
         if concept_id in self.id_to_idx:
             if self.chronicle and _record_event:
-                details = {'concept_id': concept_id, 'energy_boost': energy_boost}
+                details = {'concept_id': concept_id, 'hp_boost': hp_boost}
                 scopes = [concept_id]
                 event = self.chronicle.record_event('stimulus_injected', details, scopes, self.branch_id, self.parent_event_id)
                 self.parent_event_id = event['id']
             idx = self.id_to_idx[concept_id]
             if self.is_alive_mask[idx]:
-                self.energy[idx] += energy_boost
+                self.hp[idx] += hp_boost
 
     def _run_chemical_reactions(self, living_cells: List[Cell]) -> List[Cell]:
         newly_born_molecules = []
@@ -583,23 +883,25 @@ class World:
                 continue
 
             label = self.labels[i]
-            energy = self.energy[i]
+            hp = self.hp[i]
+            max_hp = self.max_hp[i]
+            mp = self.mp[i]
+            max_mp = self.max_mp[i]
+            hunger = self.hunger[i]
+            strength = self.strength[i]
+            intelligence = self.intelligence[i]
+            rank = self.rank[i]
             age = self.age[i]
-            culture = self.culture[i]
-            aether = self.aether[i]
-            hp = self.latent_energy[i]
-            naegong = self.naegong[i]
-            mana = self.mana[i]
 
             status_parts = [
-                f"<Cell: {label} ({cell_id})",
-                f"Energy: {energy:.2f}",
-                f"HP: {hp:.2f}",
+                f"<Cell: {label} (Rank: {rank})",
+                f"HP: {hp:.1f}/{max_hp:.1f}",
+                f"MP: {mp:.1f}/{max_mp:.1f}",
+                f"Hunger: {hunger:.1f}",
+                f"STR: {strength:.1f}",
+                f"INT: {intelligence:.1f}",
+                f"WIS: {self.wisdom[i]:.1f}",
                 f"Age: {age}",
-                f"Culture: {culture}",
-                f"Aether: {aether:.2f}",
-                f"Naegong: {naegong:.2f}",
-                f"Mana: {mana:.2f}",
                 "Status: Alive>"
             ]
             print(f"  - {' | '.join(status_parts)}")
