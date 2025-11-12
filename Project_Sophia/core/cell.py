@@ -1,96 +1,96 @@
 from __future__ import annotations
+from datetime import datetime, timezone
 from typing import Dict, Any, Optional, List
+
 
 class Cell:
     """
-    Represents a single, living conceptual cell in Elysia's cognitive architecture.
-    The Cell object itself is lightweight, holding core identity and structural info.
-    Most dynamic stats (HP, MP, etc.) are managed in the World's NumPy arrays for performance.
+    Represents a single, living conceptual cell in Elysia's cellular world.
+    Most mutable stats are handled by the World for performance, so the Cell
+    object focuses on identity, memory, and connective context.
     """
+
     def __init__(self, concept_id: str, dna: Dict[str, Any], initial_properties: Optional[Dict[str, Any]] = None):
-        """
-        Initializes a new Cell.
-        """
         self.id = concept_id
-        self.membrane = {}
-        self.nucleus = {"dna": dna}
-        self.organelles = initial_properties or {}
-        self.connections: List[Dict] = []
-        self.element_type = self.organelles.get('element_type', 'unknown')
+        self.membrane: Dict[str, Any] = {}
+        self.nucleus: Dict[str, Any] = {"dna": dna}
+        self.organelles: Dict[str, Any] = initial_properties.copy() if initial_properties else {}
+        self.connections: List[Dict[str, Any]] = []
+        self.element_type = self.organelles.get("element_type", "unknown")
 
         self.is_alive = True
         self.age = 0
-        # HP is now managed by the World class, but a local health might be useful for non-world contexts
         self.health = 100.0
-
+        self._memory_events: List[Dict[str, Any]] = []
 
     def __repr__(self):
         status = "Alive" if self.is_alive else "Dead"
         return f"<Cell: {self.id}, Element: {self.element_type}, Age: {self.age}, Status: {status}>"
 
+    def append_event(self, event: str, context: Dict[str, Any], result: Dict[str, Any], tick: int) -> None:
+        timestamp = datetime.now(timezone.utc).isoformat()
+        self._memory_events.append({
+            "event": event,
+            "context": context,
+            "result": result,
+            "tick": tick,
+            "timestamp": timestamp,
+        })
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "id": self.id,
+            "element_type": self.element_type,
+            "memory": list(self._memory_events),
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any], dna: Dict[str, Any], initial_properties: Optional[Dict[str, Any]] = None) -> "Cell":
+        cell = cls(data.get("id", "unknown"), dna, initial_properties=initial_properties)
+        cell._memory_events = data.get("memory", [])
+        return cell
+
     def increment_age(self):
-        """Increments the cell's age by one simulation step."""
         if self.is_alive:
             self.age += 1
 
     def connect(self, other_cell: Cell, relationship_type: str = "related_to", strength: float = 0.5) -> Optional[Dict[str, Any]]:
-        """
-        Forms a bond with another cell, considering the strength of the connection.
-        """
         if not self.is_alive or not other_cell.is_alive:
             return None
-
         connection_details = {
             "source_id": self.id,
             "target_id": other_cell.id,
             "relationship": relationship_type,
-            "strength": strength, # Store the connection strength
+            "strength": strength,
         }
-        # Avoid duplicate connections
-        if not any(c['target_id'] == other_cell.id for c in self.connections):
+        if not any(c["target_id"] == other_cell.id for c in self.connections):
             self.connections.append(connection_details)
-
         return connection_details
 
-    def trigger_immune_response(self, wound_connection: Dict):
-        """A low-resonance connection is a wound that damages the cell's health."""
+    def trigger_immune_response(self, wound_connection: Dict[str, Any]):
         self.health -= 50.0
         if self.health <= 0:
             self.apoptosis()
 
     def apoptosis(self):
-        """Programmed cell death."""
         if self.is_alive:
             self.is_alive = False
 
     def create_meaning(self, partner_cell: Cell, interaction_context: str) -> Optional[Cell]:
-        """
-        Creates a new cell from the interaction of two existing cells.
-        Energy/HP cost for creation is now handled by the World simulation, not the Cell itself.
-        """
-        if not self.is_alive or not partner_cell.is_alive: return None
-
-        dna_instinct = self.nucleus['dna'].get('instinct')
-        if dna_instinct == 'connect_create_meaning':
-            # Generate a more meaningful/concise new concept ID
-            # For now, a sorted combination of labels to ensure determinism and avoid excessive length
-            parent_labels = sorted([
-                self.organelles.get('label', self.id.replace('obsidian_note:', '').replace('concept:', '')),
-                partner_cell.organelles.get('label', partner_cell.id.replace('obsidian_note:', '').replace('concept:', ''))
-            ])
-            new_concept_id = f"meaning:{'_'.join(parent_labels)}"
-            
-            # Combine DNA and properties from parents
-            new_dna = self.nucleus['dna'].copy() # Start with one parent's DNA
-            # Simple merge: later can be more complex (e.g., dominant/recessive traits)
-            new_dna.update(partner_cell.nucleus['dna']) 
-
-            new_properties = { "parents": [self.id, partner_cell.id] }
-            new_properties.update(self.organelles) # Inherit properties
-            new_properties.update(partner_cell.organelles) # Merge with partner's properties
-            new_properties['element_type'] = 'molecule' # New cells born from interaction are molecules
-
-            # The World is now responsible for setting the initial HP of the new cell
-            # and deducting any cost from the parents.
-            return Cell(new_concept_id, new_dna, new_properties)
-        return None
+        if not self.is_alive or not partner_cell.is_alive:
+            return None
+        dna_instinct = self.nucleus["dna"].get("instinct")
+        if dna_instinct != "connect_create_meaning":
+            return None
+        parent_labels = sorted([
+            self.organelles.get("label", self.id.replace("obsidian_note:", "").replace("concept:", "")),
+            partner_cell.organelles.get("label", partner_cell.id.replace("obsidian_note:", "").replace("concept:", ""))
+        ])
+        new_concept_id = f"meaning:{'_'.join(parent_labels)}"
+        new_dna = self.nucleus["dna"].copy()
+        new_dna.update(partner_cell.nucleus["dna"])
+        new_properties = {"parents": [self.id, partner_cell.id]}
+        new_properties.update(self.organelles)
+        new_properties.update(partner_cell.organelles)
+        new_properties["element_type"] = "molecule"
+        return Cell(new_concept_id, new_dna, new_properties)

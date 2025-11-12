@@ -33,6 +33,8 @@ from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.value_cortex import ValueCortex
 from Project_Elysia.core_memory import EmotionalState
+from Project_Elysia.core import persistence
+from Project_Elysia.core.cell_memory_store import CellMemoryStore
 # --- Import the refactored ElysiaDaemon ---
 from .elysia_daemon import ElysiaDaemon
 from .dream_observer import DreamObserver
@@ -48,6 +50,11 @@ try:
 except (ImportError, ModuleNotFoundError):
     def google_search(query: str): return []
     def view_text_website(url: str): return ""
+
+try:
+    import msvcrt
+except ImportError:
+    msvcrt = None
 
 # --- Constants ---
 HEARTBEAT_LOG = 'elly_heartbeat.log'
@@ -94,11 +101,13 @@ class Guardian:
         # The ValueCortex now manages its own KGManager instance using the provided path.
         self.value_cortex = ValueCortex(kg_path=self.kg_path)
         self.sensory_cortex = SensoryCortex(self.value_cortex)
-
+        self.cell_memory_store = CellMemoryStore()
+        self.cell_memory_store.load()
+        self._last_autosaved_tick = 0
 
         # --- Cellular World (Soul Twin) Initialization ---
         self.logger.info("Initializing the Cellular World (Soul Twin)...")
-        self.cellular_world = World(primordial_dna=PRIMORDIAL_DNA, wave_mechanics=self.wave_mechanics, logger=self.logger)
+        self.cellular_world = self._load_cellular_world()
         self._soul_mirroring_initialization()
         # --- End Cellular World Initialization ---
 
@@ -180,6 +189,23 @@ class Guardian:
         stream_handler.setFormatter(formatter)
         self.logger.addHandler(stream_handler)
 
+    def _load_cellular_world(self) -> World:
+        """Creates a world instance and overlays any persisted state."""
+        world = World(primordial_dna=PRIMORDIAL_DNA, wave_mechanics=self.wave_mechanics, logger=self.logger)
+        try:
+            persistence.load_world_state(
+                world=world,
+                wave_mechanics=self.wave_mechanics,
+                primordial_dna=PRIMORDIAL_DNA,
+                logger=self.logger,
+            )
+            self.logger.info("Loaded Cellular World state from disk.")
+        except FileNotFoundError:
+            self.logger.info("No saved world state found. Starting fresh world.")
+        except Exception as exc:
+            self.logger.warning(f"Failed to load world state: {exc}. Proceeding with new universe.")
+        return world
+
     def _soul_mirroring_initialization(self):
         """Creates a 'Cellular Mirror' of the existing Knowledge Graph."""
         self.logger.info("Beginning Soul Mirroring: Replicating KG nodes into the Cellular World...")
@@ -253,6 +279,51 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Soul Sync error: {e}", exc_info=True)
 
+    def _save_state_files(self):
+        try:
+            persistence.save_world_state(self.cellular_world)
+        except Exception as exc:
+            self.logger.error(f"Failed to save world state: {exc}", exc_info=True)
+        try:
+            self.cell_memory_store.dump()
+        except Exception as exc:
+            self.logger.error(f"Failed to save cell memory store: {exc}", exc_info=True)
+
+    def _maybe_autosave_world(self):
+        tick = getattr(self.cellular_world, "time_step", 0)
+        if tick and tick % 300 == 0 and tick != self._last_autosaved_tick:
+            self.logger.info("Auto-saving world state and memories.")
+            self._save_state_files()
+            self._last_autosaved_tick = tick
+
+    def _reload_state(self):
+        try:
+            persistence.load_world_state(
+                world=self.cellular_world,
+                wave_mechanics=self.wave_mechanics,
+                primordial_dna=PRIMORDIAL_DNA,
+                logger=self.logger,
+            )
+            self.cell_memory_store.load()
+            self.logger.info("Reloaded world and memory state from disk.")
+            self._soul_mirroring_initialization()
+        except Exception as exc:
+            self.logger.error(f"Failed to reload persisted state: {exc}", exc_info=True)
+
+    def _handle_keyboard_shortcuts(self):
+        if msvcrt is None:
+            return
+        while msvcrt.kbhit():
+            key = msvcrt.getch()
+            if key in (b"\x00", b"\xe0"):
+                code = ord(msvcrt.getch())
+                if code == 63:  # F5
+                    self.logger.info("F5 detected: saving world and memory.")
+                    self._save_state_files()
+                elif code in (67, 68):  # F9/F10
+                    self.logger.info("F9 detected: reloading persisted state.")
+                    self._reload_state()
+
     def _load_config(self):
         """Loads configuration from config.json."""
         try:
@@ -288,6 +359,7 @@ class Guardian:
 
             except KeyboardInterrupt:
                 self.logger.info("Guardian shutting down by user request.")
+                self._save_state_files()
                 self.daemon.shutdown()
                 break
             except Exception as e:
@@ -296,6 +368,7 @@ class Guardian:
                     thought=f"예상치 못한 심각한 오류로 나의 세상이 멈추었다. 오류의 원인은 무엇일까: {e}",
                     context="guardian_critical_shutdown"
                 )
+                self._save_state_files()
                 self.daemon.shutdown()
                 break
 
@@ -312,6 +385,7 @@ class Guardian:
             self.logger.info(f"No activity for {self.time_to_idle}s. Transitioning to IDLE to rest and dream.")
             self.change_state(ElysiaState.IDLE)
         
+        self._handle_keyboard_shortcuts()
         time.sleep(max(0.2, float(getattr(self, 'awake_sleep_sec', 1)))) # configurable heartbeat
 
     def run_idle_cycle(self):
@@ -391,6 +465,7 @@ class Guardian:
             # --- End Dream Journal ---
 
             self._process_high_confidence_hypotheses() # New autonomous processing step
+            self._maybe_autosave_world()
             self.last_learning_time = time.time()
 
         time.sleep(self.idle_check_interval)

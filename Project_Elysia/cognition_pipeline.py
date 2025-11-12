@@ -45,6 +45,7 @@ class CognitionPipeline:
         self.cortex_registry = CortexRegistry()
         self.conversation_context = ConversationContext() # Manages conversation state
         self.emotional_engine = emotional_engine # Store for later use
+        self.last_reason = "Idle"
 
         # --- Instantiate Components (dependencies for handlers) ---
         # Allow injecting mocks for testing, otherwise create real instances.
@@ -126,6 +127,10 @@ class CognitionPipeline:
                 self.logger.error("No handler returned a result.")
                 result = {"type": "text", "text": "I'm not sure how to respond to that."}
                 self.event_bus.publish("error_occurred", "No result from handlers")
+
+            reason_text = result.get("reason") or result.get("text")
+            if reason_text:
+                self.last_reason = reason_text
 
             self.event_bus.publish("message_processed", result)
             return result, current_emotional_state

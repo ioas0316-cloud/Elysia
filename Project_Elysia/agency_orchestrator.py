@@ -10,6 +10,10 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, Any, Optional, Tuple
+import random
+import time
+
+from Project_Elysia.core.action_memory import MemoryActionSelector
 
 from Project_Sophia.reading_coach import ReadingCoach
 from Project_Sophia.creative_writing_cortex import CreativeWritingCortex
@@ -34,12 +38,29 @@ class AgencyOrchestrator:
     def __init__(self):
         self.prefs = ensure_defaults(load_prefs())
         self.desire = DesireState()
+        self.action_memory = MemoryActionSelector()
 
     def _auto_enabled(self) -> bool:
         return bool(self.prefs.get('auto_act', False))
 
     def _quiet(self) -> bool:
         return bool(self.prefs.get('quiet_mode', False))
+
+    def _context_key(self) -> str:
+        vec = self.desire.vec
+        parts = [
+            f"relatedness:{int(vec.relatedness * 100)}",
+            f"clarity:{int(vec.clarity * 100)}",
+            f"verifiability:{int(vec.verifiability * 100)}",
+            f"creativity:{int(vec.creativity * 100)}",
+            f"auto:{int(bool(self._auto_enabled()))}",
+        ]
+        return "|".join(parts)
+
+    def _weight_action(self, action: ProposedAction) -> ProposedAction:
+        weight = self.action_memory.memory_weight(action.kind, self._context_key())
+        action.confidence = min(0.99, action.confidence * weight)
+        return action
 
     def _cooldown_ok(self, kind: str) -> bool:
         from datetime import datetime, timezone
@@ -62,47 +83,59 @@ class AgencyOrchestrator:
         self.prefs.setdefault('last_action_ts', {})[kind] = ts
         save_prefs(self.prefs)
 
+    def _record_action_result(self, action: ProposedAction, info: Dict[str, Any]) -> None:
+        success = bool(info.get("confidence", 0.0) >= 0.5)
+        tick = int(time.time())
+        self.action_memory.record_outcome(action.kind, self._context_key(), success, tick)
+
     def set_auto(self, enabled: bool) -> None:
         self.prefs['auto_act'] = bool(enabled)
         save_prefs(self.prefs)
 
     def infer_desire(self, message: str, echo: Dict[str, float], arousal: float) -> Optional[ProposedAction]:
         m = (message or '').lower()
-        # Guardrails: quiet mode / arousal threshold
         if self._quiet():
             return None
         min_arousal = float(self.prefs.get('min_arousal_for_proposal', 0.4))
         if arousal < min_arousal:
             return None
-        # Heuristics: action cues in conversation or high arousal with rich echo
-        if any(k in m for k in ["일기", "기록", "생각 정리", "저널", "diary", "journal"]):
-            pa = ProposedAction('journal', {}, "초대: 지금 떠오르는 생각을 짧게 정리해볼까요?", confidence=0.8)
-            return pa if self._cooldown_ok('journal') else None
-        if any(k in m for k in ["소설", "창작", "이야기", "story", "novel", "creative"]):
-            pa = ProposedAction('creative', {"genre": "story", "theme": "growth"}, "초대: 작은 상상 한 조각을 적어볼까요?", confidence=0.75)
-            return pa if self._cooldown_ok('creative') else None
-        # Math equality pattern
-        if '=' in m and any(k in m for k in ["=", "증명", "verify", "등식"]):
-            # Extract a simple equality a=b if present, else ignore
+
+        def candidate(action: ProposedAction, cooldown: str) -> Optional[ProposedAction]:
+            weighted = self._weight_action(action)
+            return weighted if self._cooldown_ok(cooldown) else None
+
+        if any(k in m for k in ["?�기", "기록", "?�각 ?�리", "?"??, "diary", "journal"]):
+            pa = ProposedAction('journal', {}, "초�?: 지�??�오르는 ?�각??짧게 ?�리?�볼까요?", confidence=0.8)
+            return candidate(pa, 'journal')
+
+        if any(k in m for k in ["?�설", "창작", "?�야�?, "story", "novel", "creative"]):
+            pa = ProposedAction('creative', {"genre": "story", "theme": "growth"}, "초�?: ?��? ?�상 ??조각???�어볼까??", confidence=0.75)
+            return candidate(pa, 'creative')
+
+        if '=' in m and any(k in m for k in ["=", "증명", "verify", "?�식"]):
             import re
             eq = re.search(r"([\d\s\+\-\*\/\(\)\.]+)=([\d\s\+\-\*\/\(\)\.]+)", message)
             if eq:
-                pa = ProposedAction('math_verify', {"statement": eq.group(0)}, "초대: 이 등식을 설명 가능하게 확인해볼까요?", confidence=0.85)
-                return pa if self._cooldown_ok('math_verify') else None
-        # Internal impulse: high arousal + diverse echo → reflect via journaling
+                pa = ProposedAction('math_verify', {"statement": eq.group(0)}, "초�?: ???�식???�명 가?�하�??�인?�볼까요?", confidence=0.85)
+                return candidate(pa, 'math_verify')
+
         if arousal >= 0.8 and echo and len(echo) >= 6:
-            pa = ProposedAction('journal', {}, "초대: 마음이 분주해 보여요. 한 줄 일기로 숨 고를까요?", confidence=0.5)
-            return pa if self._cooldown_ok('journal') else None
+            pa = ProposedAction('journal', {}, "초�?: 마음??분주??보여?? ??�??�기�???고�?까요?", confidence=0.5)
+            return candidate(pa, 'journal')
+
         return None
 
     def execute(self, action: ProposedAction) -> Tuple[str, Dict[str, Any]]:
         if action.kind == 'journal':
-            return self._do_journal()
-        if action.kind == 'creative':
-            return self._do_creative(action.payload)
-        if action.kind == 'math_verify':
-            return self._do_math_verify(action.payload)
-        return "noop", {}
+            result = self._do_journal()
+        elif action.kind == 'creative':
+            result = self._do_creative(action.payload)
+        elif action.kind == 'math_verify':
+            result = self._do_math_verify(action.payload)
+        else:
+            result = ("noop", {})
+        self._record_action_result(action, result[1])
+        return result
 
     def _do_journal(self) -> Tuple[str, Dict[str, Any]]:
         today = datetime.now().strftime("%Y-%m-%d")

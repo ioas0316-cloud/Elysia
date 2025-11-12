@@ -96,7 +96,7 @@ def run(steps=1000, render=False, dt=1.0):
         try:
             import pygame, numpy as np
             pygame.init()
-            screen=pygame.display.set_mode((512,512))
+            screen=pygame.display.set_mode((1024,1024))
             running=True
             while running:
                 for e in pygame.event.get(): 

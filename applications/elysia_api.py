@@ -135,6 +135,24 @@ def _no_cache(resp):
     # ... (no change)
     return resp
 
+@app.route('/world_status')
+def world_status():
+    world = guardian.cellular_world
+    alive_mask = getattr(world, "is_alive_mask", None)
+    population = int(alive_mask.sum()) if alive_mask is not None else 0
+    time_step = int(getattr(world, "time_step", 0))
+    reason = getattr(guardian.daemon.cognition_pipeline, "last_reason", "Waiting for insight")
+    angle = (time_step % 360) * (math.pi / 180)
+    vector = {"x": math.cos(angle), "y": math.sin(angle)}
+    focus_spread = round(1.0 + ((time_step % 6) * 0.1), 2)
+    return jsonify({
+        "time_step": time_step,
+        "population": population,
+        "last_reason": reason,
+        "focus_vector": vector,
+        "focus_spread": focus_spread,
+    })
+
 # ... (all other HTTP routes like /tool/decide, /monitor, etc. remain here) ...
 
 

@@ -13,3 +13,44 @@ Elysia_Input_Sanctum/
 data/associative_index.json
 data/telemetry/
 !data/curriculum/offline_language_tracks.json
+# ===== Python Build Ignore =====
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ===== Virtual Environment =====
+.venv/
+env/
+venv/
+ENV/
+
+# ===== Build & Dist =====
+build/
+dist/
+*.spec
+*.egg-info/
+*.log
+
+# ===== OS/IDE =====
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ===== Cache =====
+*.cache/
+*.tmp/
+.cache/
+*.bak
+
+# ===== Project Specific =====
+# (Elysia 실행파일, 저장데이터)
+Elysia.exe
+saves/
+temp/
+assets/icon.ico
+
+# ===== Optional =====
+# 주석 해제하면 릴리즈용 exe도 깃허브에 안 올라감
+# *.exe

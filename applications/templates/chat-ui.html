@@ -1,161 +1,477 @@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Elysia Chat</title>
+  <title>Elysia Observation Deck</title>
   <style>
-    body { background:#1a1a1a; color:#e0e0e0; font-family: Arial, sans-serif; margin:0; height:100vh; display:flex; justify-content:center; align-items:center; }
-    .container { width:96%; max-width:1600px; height:90vh; background:#2a2a2a; border-radius:10px; box-shadow:0 0 20px rgba(0,0,0,.5); display:flex; overflow:auto; position:relative; }
-    .chat-panel { flex:2; display:flex; flex-direction:column; padding:20px; }
-    .header { padding-bottom:10px; border-bottom:1px solid #444; margin-bottom:10px; text-align:center; }
-    .header h1 { margin:0; font-size:1.5em; }
-    .messages { flex:1; overflow-y:auto; border-bottom:1px solid #444; padding-bottom:10px; margin-bottom:10px; }
-    .message { margin-bottom:12px; }
-    .message.user { text-align:right; color:#88c0d0; }
-    .message.elysia { color:#b48ead; }
-    /* New style for hypothesis questions */
-    .message.hypothesis { background-color: #3d3d3d; border-left: 3px solid #fbbc05; padding: 10px; border-radius: 5px; }
-    .hypothesis-buttons { margin-top: 10px; }
-    .hypothesis-buttons button { background-color: #4CAF50; color: white; padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
-    .hypothesis-buttons button.deny { background-color: #f44336; }
-
-    .input-area { display:flex; }
-    input[type=text]{ flex:1; background:#333; border:1px solid #555; border-radius:5px; color:#e0e0e0; padding:10px; outline:none; }
-    button{ background:#81a1c1; color:#2e3440; border:none; border-radius:5px; padding:10px 15px; margin-left:10px; cursor:pointer; }
+    :root {
+      --bg: #050712;
+      --panel: #1f212d;
+      --border: #363b4a;
+      --accent: #88c0d0;
+      --muted: #afb6c7;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: #e6ecff;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      min-height: 100vh;
+    }
+    #app-shell {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 18px;
+      padding: 18px;
+      height: 100vh;
+    }
+    .chat-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      margin: 0;
+      letter-spacing: 2px;
+    }
+    .header p {
+      margin: 4px 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 6px;
+      margin-bottom: 10px;
+    }
+    .message {
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .message.user {
+      text-align: right;
+      color: #c3e88d;
+    }
+    .message.elysia {
+      color: #a7c2ff;
+    }
+    .message.hypothesis {
+      background: rgba(255,255,255,0.04);
+      border-left: 4px solid #f7c548;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .hypothesis-buttons {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .hypothesis-buttons button {
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: #fff;
+      transition: transform 0.15s ease;
+    }
+    .hypothesis-buttons button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+    .hypothesis-buttons button.deny {
+      background: #d97373;
+    }
+    .input-area {
+      display: flex;
+      gap: 12px;
+    }
+    input[type=text] {
+      flex: 1;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #101227;
+      padding: 12px 16px;
+      color: #fff;
+      outline: none;
+      font-size: 0.95rem;
+    }
+    button.send-btn {
+      border: none;
+      border-radius: 10px;
+      background: #81a1c1;
+      color: #1c2334;
+      padding: 12px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+    button.send-btn:hover {
+      opacity: 0.85;
+    }
+    .world-panel {
+      position: relative;
+      background: radial-gradient(circle at top, #1b2335, #0f111b 70%);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    #hud {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: rgba(5,8,18,0.85);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.78rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+    }
+    .hud-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: #dff1ff;
+    }
+    #world-view {
+      position: relative;
+      margin-top: 62px;
+      flex: 1;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, rgba(94,191,255,0.1), rgba(134,92,218,0.12));
+      overflow: hidden;
+      transform: scale(var(--focus-scale, 1));
+      transition: transform 0.18s ease;
+    }
+    #focus-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 12px rgba(255,255,255,0.7);
+    }
+    #focus-line {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 90px;
+      background: #ffffffcc;
+      transform-origin: center bottom;
+      transform: translate(-50%, -50%) rotate(0deg);
+      transition: transform 0.3s ease;
+    }
+    .world-grid {
+      position: absolute;
+      inset: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 12px;
+      pointer-events: none;
+    }
+    .world-tile {
+      background: rgba(255,255,255,0.04);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #8fb6ff;
+      font-weight: 600;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform 0.2s ease, border 0.2s ease;
+    }
+    .world-tile:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.4);
+    }
+    #zoom-indicator {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: rgba(5,8,18,0.85);
+      border-radius: 10px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.75rem;
+    }
+    #legend {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      background: rgba(5,8,18,0.85);
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.74rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      line-height: 1.2;
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+    .legend-dot.white {
+      background: #fff;
+    }
+    .legend-dot.blue {
+      background: #5cc2ff;
+    }
+    .legend-dot.orange {
+      background: #ffb762;
+    }
+    .legend-dot.gray {
+      background: #a0a6b8;
+    }
+    #tooltip {
+      position: fixed;
+      display: none;
+      pointer-events: none;
+      background: rgba(7,10,22,0.92);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.78rem;
+      color: #f8fbff;
+      z-index: 20;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+    #tooltip.visible {
+      display: block;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div id="app-shell">
     <div class="chat-panel">
       <div class="header">
         <h1>Elysia</h1>
+        <p>Observe the living world and keep close watch on her reasoning.</p>
       </div>
       <div class="messages" id="messages"></div>
       <div class="input-area">
         <input type="text" id="userInput" placeholder="메시지를 입력하세요..." autocomplete="off">
-        <button id="sendBtn">Send</button>
+        <button class="send-btn" id="sendBtn">Send</button>
+      </div>
+    </div>
+    <div class="world-panel">
+      <div id="hud">
+        <div class="hud-line"><span>Time</span><span id="hud-time">0</span></div>
+        <div class="hud-line"><span>Pop</span><span id="hud-pop">0</span></div>
+        <div class="hud-line"><span>Last Reason</span><span id="hud-reason">Waiting</span></div>
+      </div>
+      <div id="world-view">
+        <div id="focus-center"></div>
+        <div id="focus-line"></div>
+        <div class="world-grid">
+          <div class="world-tile" data-tooltip="Reason: exploring warmth/emotion.">☀</div>
+          <div class="world-tile" data-tooltip="Reason: constructing memory stream.">∈</div>
+          <div class="world-tile" data-tooltip="Reason: reinforcing clarity focus.">Δ</div>
+          <div class="world-tile" data-tooltip="Reason: spinning through attention." style="font-size:1.4rem;">∞</div>
+          <div class="world-tile" data-tooltip="Reason: quietly observing stillness.">φ</div>
+          <div class="world-tile" data-tooltip="Reason: branching new meaning." style="font-size:1.4rem;">✦</div>
+          <div class="world-tile" data-tooltip="Reason: feeling the crowd breathing.">≈</div>
+          <div class="world-tile" data-tooltip="Reason: stability check in the grid.">█</div>
+          <div class="world-tile" data-tooltip="Reason: ready for new adventure.">★</div>
+        </div>
+      </div>
+      <div id="zoom-indicator">Focus Spread <span id="zoom-value">1.00</span></div>
+      <div id="legend">
+        <div><span class="legend-dot white"></span>White circle: Attention center</div>
+        <div><span class="legend-dot blue"></span>Blue: movement & action</div>
+        <div><span class="legend-dot orange"></span>Orange: learning & memory</div>
+        <div><span class="legend-dot gray"></span>Gray: rest / observer state</div>
       </div>
     </div>
   </div>
-
+  <div id="tooltip"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"></script>
   <script>
     const messagesDiv = document.getElementById('messages');
     const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
 
-    // --- WebSocket Connection ---
     const socket = io();
 
-    socket.on('connect', () => {
-        console.log('Connected to server');
-        addMessage('아버지와 연결되었습니다.', 'system');
-    });
-
-    socket.on('disconnect', () => {
-        console.log('Disconnected from server');
-        addMessage('아버지와의 연결이 끊어졌습니다.', 'system');
-    });
-
-    // --- Message Handling ---
-
     function addMessage(text, sender) {
-        const el = document.createElement('div');
-        el.classList.add('message', sender);
-        el.textContent = text;
-        messagesDiv.appendChild(el);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      const el = document.createElement('div');
+      el.classList.add('message', sender);
+      el.textContent = text;
+      messagesDiv.appendChild(el);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
     function addHypothesisMessage(hypothesis) {
-        const text = hypothesis.text;
-        const hypoData = JSON.stringify(hypothesis);
-
-        const el = document.createElement('div');
-        el.classList.add('message', 'elysia', 'hypothesis');
-
-        const textNode = document.createElement('p');
-        textNode.textContent = text;
-        el.appendChild(textNode);
-
-        const buttonDiv = document.createElement('div');
-        buttonDiv.classList.add('hypothesis-buttons');
-
-        const approveBtn = document.createElement('button');
-        approveBtn.textContent = '승인 (Approve)';
-        approveBtn.dataset.hypothesis = hypoData;
-        approveBtn.dataset.response = 'approve';
-        approveBtn.onclick = handleHypothesisResponse;
-
-        const denyBtn = document.createElement('button');
-        denyBtn.textContent = '거부 (Deny)';
-        denyBtn.classList.add('deny');
-        denyBtn.dataset.hypothesis = hypoData;
-        denyBtn.dataset.response = 'deny';
-        denyBtn.onclick = handleHypothesisResponse;
-
-        buttonDiv.appendChild(approveBtn);
-        buttonDiv.appendChild(denyBtn);
-        el.appendChild(buttonDiv);
-
-        messagesDiv.appendChild(el);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      const text = hypothesis.text;
+      const hypoData = JSON.stringify(hypothesis);
+      const el = document.createElement('div');
+      el.classList.add('message', 'elysia', 'hypothesis');
+      const textNode = document.createElement('p');
+      textNode.textContent = text;
+      el.appendChild(textNode);
+      const buttonDiv = document.createElement('div');
+      buttonDiv.classList.add('hypothesis-buttons');
+      const approveBtn = document.createElement('button');
+      approveBtn.textContent = 'Approve';
+      approveBtn.dataset.hypothesis = hypoData;
+      approveBtn.dataset.response = 'approve';
+      approveBtn.onclick = handleHypothesisResponse;
+      const denyBtn = document.createElement('button');
+      denyBtn.textContent = 'Deny';
+      denyBtn.classList.add('deny');
+      denyBtn.dataset.hypothesis = hypoData;
+      denyBtn.dataset.response = 'deny';
+      denyBtn.onclick = handleHypothesisResponse;
+      buttonDiv.appendChild(approveBtn);
+      buttonDiv.appendChild(denyBtn);
+      el.appendChild(buttonDiv);
+      messagesDiv.appendChild(el);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
 
     function sendMessage() {
-        const message = userInput.value.trim();
-        if (!message) return;
-        addMessage(message, 'user');
-        userInput.value = '';
-        socket.emit('chat_message', { message: message });
+      const message = userInput.value.trim();
+      if (!message) return;
+      addMessage(message, 'user');
+      userInput.value = '';
+      socket.emit('chat_message', { message });
     }
 
     function handleHypothesisResponse(event) {
-        const button = event.target;
-        const hypothesis = JSON.parse(button.dataset.hypothesis);
-        const response = button.dataset.response;
-
-        // Let the user know the choice was registered
-        addMessage(`선택: ${response === 'approve' ? '승인' : '거부'}`, 'user');
-
-        // Disable buttons to prevent re-submission
-        button.parentElement.querySelectorAll('button').forEach(btn => btn.disabled = true);
-
-        // Send the response to the server
-        socket.emit('hypothesis_response', { hypothesis: hypothesis, response: response });
+      const button = event.target;
+      const hypothesis = JSON.parse(button.dataset.hypothesis);
+      const response = button.dataset.response;
+      addMessage(`Choice: ${response === 'approve' ? 'Approve' : 'Deny'}`, 'user');
+      button.parentElement.querySelectorAll('button').forEach(btn => btn.disabled = true);
+      socket.emit('hypothesis_response', { hypothesis, response });
     }
 
-
-    // --- WebSocket Event Listeners ---
-
-    socket.on('chat_response', (data) => {
-        if (data.response) {
-            const r = data.response;
-            if (r.type === 'text') {
-                addMessage(r.text || '', 'elysia');
-            } else if (r.type === 'image') {
-                addMessage(r.text || '', 'elysia');
-                // Image display logic can be re-added here if needed
-            } else {
-                addMessage(String(r), 'elysia');
-            }
-        } else if (data.error) {
-            addMessage(data.error, 'elysia');
+    socket.on('connect', () => {
+      console.log('Connected to Elysia');
+      addMessage('Connected to Elysia.', 'system');
+    });
+    socket.on('disconnect', () => {
+      addMessage('Connection paused.', 'system');
+    });
+    socket.on('chat_response', data => {
+      if (data.response) {
+        const r = data.response;
+        if (r.type === 'text') {
+          addMessage(r.text || '', 'elysia');
+        } else if (r.type === 'image') {
+          addMessage(r.text || '', 'elysia');
+        } else {
+          addMessage(String(r), 'elysia');
         }
+      } else if (data.error) {
+        addMessage(data.error, 'elysia');
+      }
+    });
+    socket.on('hypothesis_question', hypothesis => addHypothesisMessage(hypothesis));
+
+    userInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+    sendBtn.addEventListener('click', sendMessage);
+
+    const hudState = { time: null, pop: null, reason: null };
+    const hudTime = document.getElementById('hud-time');
+    const hudPop = document.getElementById('hud-pop');
+    const hudReason = document.getElementById('hud-reason');
+    const focusLine = document.getElementById('focus-line');
+    const worldView = document.getElementById('world-view');
+    const zoomValue = document.getElementById('zoom-value');
+    const tooltip = document.getElementById('tooltip');
+    let focusSpread = 1.0;
+
+    async function refreshHud() {
+      try {
+        const response = await fetch('/world_status');
+        if (!response.ok) return;
+        const data = await response.json();
+        updateHud('time', hudTime, data.time_step);
+        updateHud('pop', hudPop, data.population);
+        updateHud('reason', hudReason, data.last_reason || 'Awaiting insight');
+        updateFocus(data.focus_vector || {x: 0, y: 1}, data.focus_spread || focusSpread);
+      } catch (err) {
+        console.warn('HUD refresh failed', err);
+      }
+    }
+
+    function updateHud(key, element, value) {
+      if (hudState[key] !== value) {
+        element.textContent = value;
+        hudState[key] = value;
+      }
+    }
+
+    function updateFocus(vector, spread) {
+      const angle = Math.atan2(vector.y, vector.x) * (180 / Math.PI);
+      focusLine.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+      focusSpread = Math.max(0.6, Math.min(2.0, spread));
+      worldView.style.setProperty('--focus-scale', focusSpread.toFixed(3));
+      zoomValue.textContent = focusSpread.toFixed(2);
+    }
+
+    worldView.addEventListener('wheel', event => {
+      event.preventDefault();
+      focusSpread -= event.deltaY * 0.0015;
+      focusSpread = Math.max(0.6, Math.min(2.0, focusSpread));
+      worldView.style.setProperty('--focus-scale', focusSpread.toFixed(3));
+      zoomValue.textContent = focusSpread.toFixed(2);
+    }, { passive: false });
+
+    worldView.addEventListener('mousemove', event => {
+      const tile = event.target.closest('.world-tile');
+      if (!tile) {
+        tooltip.classList.remove('visible');
+        return;
+      }
+      tooltip.textContent = tile.dataset.tooltip;
+      tooltip.style.left = `${event.clientX + 14}px`;
+      tooltip.style.top = `${event.clientY + 14}px`;
+      tooltip.classList.add('visible');
     });
 
-    socket.on('hypothesis_question', (hypothesis) => {
-        addHypothesisMessage(hypothesis);
-    });
+    worldView.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
 
-
-    // --- Initial Setup ---
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('sendBtn').addEventListener('click', sendMessage);
-      userInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
-    });
-
+    setInterval(refreshHud, 2500);
+    refreshHud();
   </script>
 </body>
 </html>
