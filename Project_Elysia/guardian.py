@@ -62,8 +62,11 @@ class Guardian:
     def __init__(self):
         # Initialize logger early to prevent AttributeError in other initializations
         self.logger = logging.getLogger("Guardian")
+        # Set a default kg_path before loading config to prevent errors in mocked environments
+        self.kg_path = 'data/kg.json'
+        # Load config first to ensure all attributes are set before use.
+        self._load_config()
         self.setup_logging()
-        self._load_config() # Load config first
         self.safety = SafetyGuardian()
         self.experience_integrator = ExperienceIntegrator()
         self.self_awareness_core = SelfAwarenessCore()
@@ -87,7 +90,9 @@ class Guardian:
         self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.core_memory, self.logger)
         self.self_verifier = SelfVerifier(self.kg_manager, self.logger)
         self.dream_observer = DreamObserver()
-        self.value_cortex = ValueCortex(self.kg_manager)
+        # --- ValueCortex Initialization (Refactored) ---
+        # The ValueCortex now manages its own KGManager instance using the provided path.
+        self.value_cortex = ValueCortex(kg_path=self.kg_path)
         self.sensory_cortex = SensoryCortex(self.value_cortex)
 
 
@@ -183,8 +188,11 @@ class Guardian:
             node_id = node.get('id')
             if node_id:
                 # Initialize with any available activation energy from KG
-                initial_energy = float(node.get('activation_energy', 0.0) or 0.0)
-                self.cellular_world.add_cell(node_id, properties=node, initial_energy=initial_energy)
+                hp = float(node.get('activation_energy', 10.0) or 10.0)
+                props = node.copy()
+                props['hp'] = hp
+                props['max_hp'] = hp
+                self.cellular_world.add_cell(node_id, properties=props)
                 node_count += 1
         self.logger.info(f"Soul Mirroring complete. {node_count} cells were born into the Cellular World.")
         self.cellular_world.print_world_summary()
@@ -203,8 +211,11 @@ class Guardian:
                     continue
                 cell = self.cellular_world.get_cell(node_id)
                 if not cell:
-                    initial_energy = float(node.get('activation_energy', 0.0) or 0.0)
-                    self.cellular_world.add_cell(node_id, properties=node, initial_energy=initial_energy)
+                    hp = float(node.get('activation_energy', 10.0) or 10.0)
+                    props = node.copy()
+                    props['hp'] = hp
+                    props['max_hp'] = hp
+                    self.cellular_world.add_cell(node_id, properties=props)
                     new_nodes += 1
                 else:
                     # Shallow merge organelles with latest KG properties
@@ -253,6 +264,9 @@ class Guardian:
             self.logger.warning("config.json not found or invalid. Using default values.")
             config = {}
         
+        # Load kg_path from config, with a default
+        self.kg_path = config.get('kg_path', 'data/kg.json')
+
         guardian_config = config.get('guardian', {})
         self.time_to_idle = guardian_config.get('time_to_idle_sec', 300)
         self.idle_check_interval = guardian_config.get('idle_check_interval_sec', 10)
@@ -376,7 +390,6 @@ class Guardian:
                 self.logger.error(f"Error during Dream Journal creation pipeline: {e}", exc_info=True)
             # --- End Dream Journal ---
 
-            self._perform_tuning_phase() # New tuning phase
             self._process_high_confidence_hypotheses() # New autonomous processing step
             self.last_learning_time = time.time()
 
@@ -389,7 +402,7 @@ class Guardian:
         self.logger.info("Dream cycle: Checking for high-confidence hypotheses to process autonomously.")
         unasked_hypotheses = list(self.core_memory.get_unasked_hypotheses())
 
-        high_confidence_hypotheses = [h for h in unasked_hypotheses if h.get('confidence', 0.0) >= 0.9]
+        high_confidence_hypotheses = [h for h in unasked_hypotheses if h.get('confidence', 0.0) >= 0.7]
 
         for hypo in high_confidence_hypotheses:
             verification_result = self.self_verifier.verify_hypothesis(hypo)
@@ -517,14 +530,21 @@ class Guardian:
             STABILITY_ENERGY_THRESHOLD = 1.0 # Cell must have at least this much energy
 
             stable_new_molecules = []
-            for cell in self.cellular_world.cells.values():
-                is_molecule = cell.element_type == 'molecule'
-                is_meaningful = cell.id.startswith('meaning:')
-                is_mature = cell.age > STABILITY_AGE_THRESHOLD
-                is_energetic = cell.energy > STABILITY_ENERGY_THRESHOLD
+            for i, cell_id in enumerate(self.cellular_world.cell_ids):
+                if not self.cellular_world.is_alive_mask[i]:
+                    continue
 
-                if cell.is_alive and is_molecule and is_meaningful and is_mature and is_energetic:
-                    stable_new_molecules.append(cell)
+                is_molecule = self.cellular_world.element_types[i] == 'molecule'
+                is_meaningful = cell_id.startswith('meaning:')
+                is_mature = self.cellular_world.age[i] > STABILITY_AGE_THRESHOLD
+                is_energetic = self.cellular_world.hp[i] > STABILITY_ENERGY_THRESHOLD
+
+                if is_molecule and is_meaningful and is_mature and is_energetic:
+                    # The cell meets all criteria, so we can now materialize it to get rich object data for the hypothesis.
+                    # This check is now redundant because the loop condition `is_alive_mask[i]` already covers it.
+                    cell = self.cellular_world.materialize_cell(cell_id)
+                    if cell:
+                        stable_new_molecules.append(cell)
 
             # --- Law of Growth: Tissue Formation ---
             import networkx as nx
@@ -778,12 +798,15 @@ class Guardian:
             parent_a, parent_b = parents[0], parents[1]
 
             # Construct the hypothesis based on the defined structure
+            cell_idx = self.cellular_world.id_to_idx.get(cell.id)
+            hp = self.cellular_world.hp[cell_idx] if cell_idx is not None else 0
+            confidence = round(0.7 + (hp / 100), 2)
             insight_hypothesis = {
                 "head": parent_a,
                 "tail": parent_b,
                 "relation": "forms_new_concept",
                 "new_concept_id": cell.id,
-                "confidence": round(0.7 + (cell.energy / 100), 2), # Base 0.7 + energy bonus
+                "confidence": confidence,
                 "source": "CellularGenesis",
                 "text": f"세포 세계에서 '{parent_a}'와 '{parent_b}'가 결합하여 '{cell.id}'라는 새로운 의미가 탄생했습니다. 이 통찰을 지식의 일부로 받아들일까요?",
                 "metadata": {

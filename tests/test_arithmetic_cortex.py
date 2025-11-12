@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import MagicMock, patch, ANY
 import os
 import sys
 
@@ -8,15 +7,6 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
 from Project_Sophia.arithmetic_cortex import ArithmeticCortex
-from Project_Elysia.cognition_pipeline import CognitionPipeline
-
-# Import classes to be mocked as dependencies
-from tools.kg_manager import KGManager
-from Project_Elysia.core_memory import CoreMemory
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.world import World
-from Project_Sophia.emotional_engine import EmotionalEngine
-
 
 class TestArithmeticCortex(unittest.TestCase):
 

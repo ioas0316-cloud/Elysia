@@ -25,9 +25,9 @@ class TestLogicalReasoner(unittest.TestCase):
 
         # 1. Setup KGManager
         self.kg_manager = KGManager(filepath=self.test_kg_path)
-        self.kg_manager.add_node("햇빛", properties={'embedding': [0.1]*8})
-        self.kg_manager.add_node("식물 성장", properties={'embedding': [0.2]*8})
-        self.kg_manager.add_node("산소 발생", properties={'embedding': [0.3]*8})
+        self.kg_manager.add_node("햇빛", properties={'embedding': [0.1]*8, 'element_type': 'phenomenon'})
+        self.kg_manager.add_node("식물 성장", properties={'embedding': [0.2]*8, 'element_type': 'process'})
+        self.kg_manager.add_node("산소 발생", properties={'embedding': [0.3]*8, 'element_type': 'process'})
         self.kg_manager.add_edge("햇빛", "식물 성장", "causes")
         self.kg_manager.add_edge("식물 성장", "산소 발생", "causes")
         self.kg_manager.save()
@@ -35,13 +35,16 @@ class TestLogicalReasoner(unittest.TestCase):
         # 2. Setup Mocks and Cellular World
         mock_wave_mechanics = MagicMock()
         mock_wave_mechanics.get_resonance_between.return_value = 0.5  # Mock the resonance value
+        # This is the crucial fix: configure the mock to use the real KGManager's get_node method
+        mock_wave_mechanics.kg_manager.get_node.side_effect = self.kg_manager.get_node
 
         self.cellular_world = World(
             primordial_dna={"instinct": "grow"},
             wave_mechanics=mock_wave_mechanics
         )
         for node in self.kg_manager.kg['nodes']:
-            self.cellular_world.add_cell(node['id'], initial_energy=1.0)
+            # This call will now succeed because the underlying materialize_cell can find the node data
+            self.cellular_world.add_cell(node['id'], properties={'hp': 1.0, 'max_hp': 10.0})
 
         # NOTE: Manual connection is removed. The new design requires the simulation
         # to build connections dynamically based on the KG relationships within the
@@ -113,10 +116,10 @@ class TestLogicalReasoner(unittest.TestCase):
 
         # 2. Setup a main_world with only QUANTUM STATES, no materialized cells
         main_world = World(self.cellular_world.primordial_dna, self.cellular_world.wave_mechanics)
-        main_world.add_cell("물", initial_energy=10)
-        main_world.add_cell("증기", initial_energy=10)
-        main_world.add_cell("얼음", initial_energy=10)
-        main_world.add_cell("무관한_개념", initial_energy=10)
+        main_world.add_cell("물", properties={'hp': 10.0, 'max_hp': 10.0})
+        main_world.add_cell("증기", properties={'hp': 10.0, 'max_hp': 10.0})
+        main_world.add_cell("얼음", properties={'hp': 10.0, 'max_hp': 10.0})
+        main_world.add_cell("무관한_개념", properties={'hp': 10.0, 'max_hp': 10.0})
 
         # 3. Instantiate a new reasoner with this quantum world
         reasoner = LogicalReasoner(self.kg_manager, main_world)

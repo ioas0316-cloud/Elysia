@@ -69,13 +69,13 @@ class LogicalReasoner:
         sim_entities = self._get_simulation_neighborhood(cause_entity)
 
         # 2. Populate the simulation world (self.cellular_world) with only the relevant cells.
-        #    We get their initial energy from the main_world's quantum state.
-        initial_energies: Dict[str, float] = {}
+        #    We get their initial hp from the main_world's quantum state.
+        initial_hps: Dict[str, float] = {}
         for entity_id in sim_entities:
             # Get the energy potential from the main world's quantum state
-            energy_potential = main_world.quantum_states.get(entity_id, {}).get('energy_potential', 10.0)
-            initial_energies[entity_id] = energy_potential
-            self.cellular_world.add_cell(entity_id, initial_energy=energy_potential)
+            hp = main_world.quantum_states.get(entity_id, {}).get('hp', 10.0)
+            initial_hps[entity_id] = hp
+            self.cellular_world.add_cell(entity_id, properties={'hp': hp, 'max_hp': hp * 2}) # Give buffer
 
         # 3. Add connections between the materialized cells based on the KG.
         #    This is crucial for the simulation to actually propagate energy.
@@ -86,7 +86,7 @@ class LogicalReasoner:
                 self.cellular_world.add_connection(source, target)
 
         # 4. Inject stimulus into the cause_entity in the simulation world.
-        self.cellular_world.inject_stimulus(cause_entity, energy_boost=100.0)
+        self.cellular_world.inject_stimulus(cause_entity, hp_boost=100.0)
 
         # 5. Run simulation
         for _ in range(simulation_steps):
@@ -98,22 +98,22 @@ class LogicalReasoner:
         simulation_thoughts: List[Thought] = []
         for i, cell_id in enumerate(self.cellular_world.cell_ids):
             # We only care about cells that were part of our initial attention bubble
-            if cell_id not in initial_energies:
+            if cell_id not in initial_hps:
                 continue
 
-            initial_energy = initial_energies.get(cell_id, 0.0)
-            final_energy = self.cellular_world.energy[i]
+            initial_hp = initial_hps.get(cell_id, 0.0)
+            final_hp = self.cellular_world.hp[i]
 
-            # Consider a cell "activated" if its energy significantly increased
+            # Consider a cell "activated" if its hp significantly increased
             # and it's not the cause_entity itself.
-            if final_energy > initial_energy + 10.0 and cell_id != cause_entity:
+            if final_hp > initial_hp + 10.0 and cell_id != cause_entity:
                 content = f"'{cause_entity}'의 영향으로 '{cell_id}' 개념이 활성화될 수 있습니다."
                 thought = Thought(
                     content=content,
                     source='flesh',
                     confidence=0.7,
-                    energy=final_energy,
-                    evidence=[{'cell_id': cell_id, 'initial_energy': initial_energy, 'final_energy': final_energy}]
+                    energy=final_hp,
+                    evidence=[{'cell_id': cell_id, 'initial_hp': initial_hp, 'final_hp': final_hp}]
                 )
                 simulation_thoughts.append(thought)
 

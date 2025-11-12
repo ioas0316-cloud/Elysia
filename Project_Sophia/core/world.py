@@ -65,6 +65,10 @@ class World:
         self.continent = np.array([], dtype='<U10') # e.g., 'East', 'West'
         self.culture = np.array([], dtype='<U10') # e.g., 'wuxia', 'knight'
 
+        # --- Social Systems ---
+        self.tribe_id = np.array([], dtype='<U20') # Unique ID for the tribe
+        self.parents = np.zeros((0, 2), dtype=np.int32) # Indices of mother and father
+
         # --- Game System Attributes ---
         self.hp = np.array([], dtype=np.float32)
         self.max_hp = np.array([], dtype=np.float32)
@@ -80,14 +84,22 @@ class World:
         self.max_intelligence = np.array([], dtype=np.float32)
         self.wisdom = np.array([], dtype=np.float32)
         self.max_wisdom = np.array([], dtype=np.float32)
+        self.vitality = np.array([], dtype=np.float32)
+        self.max_vitality = np.array([], dtype=np.float32)
+        self.agility = np.array([], dtype=np.float32)
+        self.max_agility = np.array([], dtype=np.float32)
         self.talent_strength = np.array([], dtype=np.float32)
         self.talent_intelligence = np.array([], dtype=np.float32)
         self.talent_wisdom = np.array([], dtype=np.float32)
+        self.talent_vitality = np.array([], dtype=np.float32)
+        self.talent_agility = np.array([], dtype=np.float32)
         self.rank = np.array([], dtype=np.int8) # The Starlight Hierarchy (1-7)
 
         # --- Metaphysical Attributes ---
         self.aether = np.array([], dtype=np.float32) # 에테르 (Primordial Energy)
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
+        self.satisfaction = np.array([], dtype=np.float32)
+        self.max_satisfaction = np.array([], dtype=np.float32)
 
 
         # --- SciPy Sparse Matrix for Connections ---
@@ -124,8 +136,18 @@ class World:
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.continent = np.pad(self.continent, (0, new_size - current_size), 'constant', constant_values='')
         self.culture = np.pad(self.culture, (0, new_size - current_size), 'constant', constant_values='')
+
+        # Social Systems Padding
+        self.tribe_id = np.pad(self.tribe_id, (0, new_size - current_size), 'constant', constant_values='')
+        new_parents = np.zeros((new_size, 2), dtype=np.int32)
+        if current_size > 0:
+            new_parents[:current_size, :] = self.parents
+        self.parents = new_parents
+
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
         self.aether = np.pad(self.aether, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.satisfaction = np.pad(self.satisfaction, (0, new_size - current_size), 'constant', constant_values=50.0)
+        self.max_satisfaction = np.pad(self.max_satisfaction, (0, new_size - current_size), 'constant', constant_values=100.0)
 
         # Game System Attributes Padding
         self.hp = np.pad(self.hp, (0, new_size - current_size), 'constant', constant_values=100.0)
@@ -142,9 +164,15 @@ class World:
         self.max_intelligence = np.pad(self.max_intelligence, (0, new_size - current_size), 'constant', constant_values=50.0)
         self.wisdom = np.pad(self.wisdom, (0, new_size - current_size), 'constant', constant_values=5.0)
         self.max_wisdom = np.pad(self.max_wisdom, (0, new_size - current_size), 'constant', constant_values=50.0)
+        self.vitality = np.pad(self.vitality, (0, new_size - current_size), 'constant', constant_values=5.0)
+        self.max_vitality = np.pad(self.max_vitality, (0, new_size - current_size), 'constant', constant_values=50.0)
+        self.agility = np.pad(self.agility, (0, new_size - current_size), 'constant', constant_values=5.0)
+        self.max_agility = np.pad(self.max_agility, (0, new_size - current_size), 'constant', constant_values=50.0)
         self.talent_strength = np.pad(self.talent_strength, (0, new_size - current_size), 'constant', constant_values=0.1)
         self.talent_intelligence = np.pad(self.talent_intelligence, (0, new_size - current_size), 'constant', constant_values=0.1)
         self.talent_wisdom = np.pad(self.talent_wisdom, (0, new_size - current_size), 'constant', constant_values=0.1)
+        self.talent_vitality = np.pad(self.talent_vitality, (0, new_size - current_size), 'constant', constant_values=0.1)
+        self.talent_agility = np.pad(self.talent_agility, (0, new_size - current_size), 'constant', constant_values=0.1)
         self.rank = np.pad(self.rank, (0, new_size - current_size), 'constant', constant_values=1)
 
         new_positions = np.zeros((new_size, 3), dtype=np.float32)
@@ -172,14 +200,14 @@ class World:
         stone_axe = Recipe(
             name='stone_axe',
             ingredients={'wood': 1, 'stone': 1},
-            output=Item(name='stone_axe', weight=3.0)
+            output=Item(name='stone_axe', quantity=1, weight=3.0)
         )
         self.recipes[stone_axe.name] = stone_axe
 
         cloth_armor = Recipe(
             name='cloth_armor',
             ingredients={'fiber': 5},
-            output=Item(name='cloth_armor', weight=2.0)
+            output=Item(name='cloth_armor', quantity=1, weight=2.0)
         )
         self.recipes[cloth_armor.name] = cloth_armor
 
@@ -207,10 +235,17 @@ class World:
         self.insight[idx] = 0.0
         self.aether[idx] = 100.0
         self.emotions[idx] = 'neutral'
+        self.max_satisfaction[idx] = 100.0
+        self.satisfaction[idx] = self.max_satisfaction[idx] / 2 # Start at 50%
+
+        # Initialize Social Systems
+        self.tribe_id[idx] = ''
+        self.parents[idx, :] = -1 # -1 indicates no parent
 
         # Initialize Game System Attributes
         # TODO: Base these initial values on species, dna, properties etc.
-        self.max_hp[idx] = 100.0
+        base_hp = 50.0
+        self.max_hp[idx] = base_hp + (5.0 * 10) # Initial vitality is 5.0
         self.hp[idx] = self.max_hp[idx]
         self.max_mp[idx] = 10.0
         self.mp[idx] = self.max_mp[idx]
@@ -227,6 +262,12 @@ class World:
         self.max_strength[idx] = 50.0 + (self.talent_strength[idx] * 100) # Talent affects max potential
         self.max_intelligence[idx] = 50.0 + (self.talent_intelligence[idx] * 100)
         self.max_wisdom[idx] = 50.0 + (self.talent_wisdom[idx] * 100)
+        self.vitality[idx] = 5.0
+        self.talent_vitality[idx] = random.uniform(0.05, 0.2)
+        self.max_vitality[idx] = 50.0 + (self.talent_vitality[idx] * 100)
+        self.agility[idx] = 5.0
+        self.talent_agility[idx] = random.uniform(0.05, 0.2)
+        self.max_agility[idx] = 50.0 + (self.talent_agility[idx] * 100)
         self.rank[idx] = 1 # Start at Seedling rank
 
         # Pass the explicit properties from the call to materialization
@@ -315,14 +356,13 @@ class World:
         hp_deltas = self._calculate_hp_deltas()
 
         # Process major state changes and actions
-        newly_born_cells = []
         self._process_animal_actions(hp_deltas)
-        newly_born_cells.extend(self._process_life_cycles(hp_deltas))
+        newly_born_info = self._process_life_cycles(hp_deltas)
 
         # Apply final physics and cleanup
-        self._apply_physics_and_cleanup(hp_deltas, newly_born_cells)
+        newly_born_cells = self._apply_physics_and_cleanup(hp_deltas, newly_born_info)
 
-        return newly_born_cells
+        return [info[0] for info in newly_born_info]
 
     def _calculate_hp_deltas(self) -> np.ndarray:
         """Calculates all passive HP changes for the step."""
@@ -372,6 +412,17 @@ class World:
         # Starvation effect
         starving_mask = (self.hunger == 0) & self.is_alive_mask
         hp_deltas[starving_mask] -= 1.0 # Lose HP when starving
+
+        # --- Law of Joy Pursuit (Satisfaction) ---
+        # Satisfaction naturally decays over time (boredom)
+        human_mask = (self.labels == 'human') & self.is_alive_mask
+        satisfaction_decay_rate = self.max_satisfaction / (self.day_length * 5) # 5 days to become completely bored
+        self.satisfaction[human_mask] -= satisfaction_decay_rate
+        self.satisfaction = np.maximum(0, self.satisfaction)
+
+        # Despair effect: very low satisfaction drains HP
+        despair_mask = (self.satisfaction < 10.0) & human_mask
+        hp_deltas[despair_mask] -= 0.2 # Physical toll of despair
 
 
         # --- Metaphysical Energy Conversion ---
@@ -489,9 +540,11 @@ class World:
                     closest_earth_idx = earth_indices[np.argmin(distances)]
                     return closest_earth_idx, 'till_land'
 
-            # 4. Check for nearby resources to gather
+            # 4. Check for nearby resources to gather (motivated by hunger or low satisfaction)
             forest_mask = (self.labels[all_connected] == 'forest') & self.is_alive_mask[all_connected]
-            if np.any(forest_mask) and self.hunger[actor_idx] > 30: # Only gather if not too hungry
+            is_bored = self.satisfaction[actor_idx] < 40
+            is_not_starving = self.hunger[actor_idx] > 30
+            if np.any(forest_mask) and (is_bored or is_not_starving):
                 forest_indices = all_connected[forest_mask]
                 forest_positions = self.positions[forest_indices]
                 actor_position = self.positions[actor_idx]
@@ -529,6 +582,14 @@ class World:
         # A sacred law: one does not hunt their own kin (strong bond).
         kin_connections = adj_matrix_csr[actor_idx]
         kin_indices = set(kin_connections.indices[kin_connections.data >= 0.8])
+
+        # --- TRIBE NON-AGGRESSION PACT ---
+        # A founding principle: one does not hunt their own tribe members.
+        actor_tribe_id = self.tribe_id[actor_idx]
+        tribe_indices = set()
+        if actor_tribe_id: # Only apply if the actor belongs to a tribe
+            tribe_member_mask = (self.tribe_id[all_connected] == actor_tribe_id)
+            tribe_indices = set(all_connected[tribe_member_mask])
         # ---
 
         prey_indices = []
@@ -540,8 +601,8 @@ class World:
                    (all_connected != actor_idx) & \
                    self.is_alive_mask[all_connected]
             potential_prey = all_connected[mask]
-            # ...that are NOT kin.
-            non_kin_prey = [p for p in potential_prey if p not in kin_indices]
+            # ...that are NOT kin or tribe members.
+            non_kin_prey = [p for p in potential_prey if p not in kin_indices and p not in tribe_indices]
             prey_indices.extend(non_kin_prey)
 
         if actor_diet in ['herbivore', 'omnivore']:
@@ -583,6 +644,18 @@ class World:
                     self.logger.info(f"TRANSCENDENCE: '{self.cell_ids[actor_idx]}' burns life force for power!")
                 self.logger.info(f"COURAGE: '{self.cell_ids[actor_idx]}' fights with {courage_multiplier:.2f}x power.")
 
+            # --- Evasion Calculation ---
+            actor_agility = self.agility[actor_idx]
+            target_agility = self.agility[target_idx]
+            evasion_chance = (target_agility / (target_agility + actor_agility)) * 0.5  # Max 50% chance to evade
+
+            if random.random() < evasion_chance:
+                self.logger.info(f"COMBAT: '{self.cell_ids[target_idx]}' evaded the attack from '{self.cell_ids[actor_idx]}'.")
+                # Agility stat grows on successful evasion
+                agi_gain = 0.1 + (self.talent_agility[target_idx] * 0.5)
+                self.agility[target_idx] = min(self.max_agility[target_idx], self.agility[target_idx] + agi_gain)
+                return # Skip the rest of the combat logic
+
             hp_transfer = 10.0 * courage_multiplier # Damage dealt
             hp_deltas[actor_idx] += hp_transfer # Gain HP from successful hunt/defense
             hp_deltas[target_idx] -= hp_transfer # Lose HP from being attacked
@@ -591,9 +664,16 @@ class World:
             self.prestige[target_idx] -= 1
 
             # --- Stat Growth from Action ---
-            # Combat increases strength
-            strength_gain = 0.1 + (self.talent_strength[actor_idx] * 0.5) # Talent-based growth rate
+            # Combat increases strength and vitality
+            strength_gain = 0.1 + (self.talent_strength[actor_idx] * 0.5)
             self.strength[actor_idx] = min(self.max_strength[actor_idx], self.strength[actor_idx] + strength_gain)
+
+            vitality_gain = 0.05 + (self.talent_vitality[actor_idx] * 0.5) # Less growth than primary stat
+            self.vitality[actor_idx] = min(self.max_vitality[actor_idx], self.vitality[actor_idx] + vitality_gain)
+
+            # Recalculate max_hp based on new vitality
+            base_hp = 50.0
+            self.max_hp[actor_idx] = base_hp + (self.vitality[actor_idx] * 10)
 
 
             # Post-combat emotions
@@ -615,9 +695,16 @@ class World:
                     self.logger.info(f"GATHERING: '{self.cell_ids[actor_idx]}' gathered wood.")
                     # Action costs a little bit of hunger
                     self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 2.0)
-                    # Action increases Strength
+                    # Action increases Strength and Vitality
                     str_gain = 0.1 + (self.talent_strength[actor_idx] * 0.5)
                     self.strength[actor_idx] = min(self.max_strength[actor_idx], self.strength[actor_idx] + str_gain)
+                    vit_gain = 0.05 + (self.talent_vitality[actor_idx] * 0.5)
+                    self.vitality[actor_idx] = min(self.max_vitality[actor_idx], self.vitality[actor_idx] + vit_gain)
+                    self.max_hp[actor_idx] = 50.0 + (self.vitality[actor_idx] * 10)
+
+                    # Law of Joy Pursuit: Productive work brings satisfaction
+                    satisfaction_gain = 5.0
+                    self.satisfaction[actor_idx] = min(self.max_satisfaction[actor_idx], self.satisfaction[actor_idx] + satisfaction_gain)
                 else:
                     self.logger.info(f"GATHERING: '{self.cell_ids[actor_idx]}' failed to gather wood (overweight).")
 
@@ -626,8 +713,15 @@ class World:
                 self.farmland_state[target_idx] = 'tilled'
                 self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' tilled the land '{self.cell_ids[target_idx]}'.")
                 self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 5.0) # Tilling is hard work
-                str_gain = 0.2 + (self.talent_strength[actor_idx] * 0.5) # More STR gain than gathering
+                str_gain = 0.2 + (self.talent_strength[actor_idx] * 0.5)
                 self.strength[actor_idx] = min(self.max_strength[actor_idx], self.strength[actor_idx] + str_gain)
+                vit_gain = 0.1 + (self.talent_vitality[actor_idx] * 0.5)
+                self.vitality[actor_idx] = min(self.max_vitality[actor_idx], self.vitality[actor_idx] + vit_gain)
+                self.max_hp[actor_idx] = 50.0 + (self.vitality[actor_idx] * 10)
+
+                # Law of Joy Pursuit: Preparing for the future brings satisfaction
+                satisfaction_gain = 10.0
+                self.satisfaction[actor_idx] = min(self.max_satisfaction[actor_idx], self.satisfaction[actor_idx] + satisfaction_gain)
 
         elif action_type == 'plant_seed' and np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
             inventory = self.inventories[actor_idx]
@@ -639,9 +733,16 @@ class World:
                     self.crop_growth_stage[target_idx] = 1 # Stage 1: Sprout
                     self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' planted wheat in '{self.cell_ids[target_idx]}'.")
                     self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 1.0)
-                    # Planting is an intelligent action
+                    # Planting is an intelligent action that also requires some physical work
                     int_gain = 0.1 + (self.talent_intelligence[actor_idx] * 0.5)
                     self.intelligence[actor_idx] = min(self.max_intelligence[actor_idx], self.intelligence[actor_idx] + int_gain)
+                    vit_gain = 0.05 + (self.talent_vitality[actor_idx] * 0.5)
+                    self.vitality[actor_idx] = min(self.max_vitality[actor_idx], self.vitality[actor_idx] + vit_gain)
+                    self.max_hp[actor_idx] = 50.0 + (self.vitality[actor_idx] * 10)
+
+                    # Law of Joy Pursuit: The act of creation brings satisfaction
+                    satisfaction_gain = 10.0
+                    self.satisfaction[actor_idx] = min(self.max_satisfaction[actor_idx], self.satisfaction[actor_idx] + satisfaction_gain)
                 else:
                     self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' tried to plant but had no seeds.")
 
@@ -663,15 +764,23 @@ class World:
                 self.logger.info(f"FARMING: '{self.cell_ids[actor_idx]}' harvested {crop}.")
                 self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 2.0)
 
-                # Harvesting is a wise action
+                # Harvesting is a wise action that also requires physical work
                 wis_gain = 0.1 + (self.talent_wisdom[actor_idx] * 0.5)
                 self.wisdom[actor_idx] = min(self.max_wisdom[actor_idx], self.wisdom[actor_idx] + wis_gain)
+                vit_gain = 0.05 + (self.talent_vitality[actor_idx] * 0.5)
+                self.vitality[actor_idx] = min(self.max_vitality[actor_idx], self.vitality[actor_idx] + vit_gain)
+                self.max_hp[actor_idx] = 50.0 + (self.vitality[actor_idx] * 10)
 
                 # Wisdom bonus: chance for extra seed
                 if random.random() < (self.wisdom[actor_idx] / 100.0):
                     bonus_seed = Item(name=f"{crop}_seed", quantity=1, weight=0.1)
                     inventory.add_item(bonus_seed)
                     self.logger.info(f"FARMING: Wisdom provided an extra seed to '{self.cell_ids[actor_idx]}'.")
+
+                # Law of Joy Pursuit: The harvest is a moment of great satisfaction
+                satisfaction_gain = 15.0
+                self.satisfaction[actor_idx] = min(self.max_satisfaction[actor_idx], self.satisfaction[actor_idx] + satisfaction_gain)
+                self.logger.info(f"SATISFACTION: '{self.cell_ids[actor_idx]}' feels the joy of a successful harvest. Satisfaction +{satisfaction_gain:.1f}")
 
         elif action_type == 'craft':
             # The 'target_idx' for crafting is the actor themselves
@@ -699,16 +808,25 @@ class World:
                         self.logger.info(f"CRAFTING: '{self.cell_ids[actor_idx]}' crafted a {recipe_name}.")
                         self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - 3.0)
 
-                        # Crafting is a highly intelligent action
+                        # Crafting is a highly intelligent action that also requires some physical work
                         int_gain = 0.5 + (self.talent_intelligence[actor_idx] * 0.8)
                         self.intelligence[actor_idx] = min(self.max_intelligence[actor_idx], self.intelligence[actor_idx] + int_gain)
+                        vit_gain = 0.1 + (self.talent_vitality[actor_idx] * 0.5)
+                        self.vitality[actor_idx] = min(self.max_vitality[actor_idx], self.vitality[actor_idx] + vit_gain)
+                        self.max_hp[actor_idx] = 50.0 + (self.vitality[actor_idx] * 10)
+
+                        # Law of Joy Pursuit: Crafting brings great satisfaction
+                        satisfaction_gain = 25.0
+                        self.satisfaction[actor_idx] = min(self.max_satisfaction[actor_idx], self.satisfaction[actor_idx] + satisfaction_gain)
+                        self.logger.info(f"SATISFACTION: '{self.cell_ids[actor_idx]}' feels a surge of pride from crafting. Satisfaction +{satisfaction_gain:.1f}")
+
                     #else:
                         #self.logger.info(f"CRAFTING: '{self.cell_ids[actor_idx]}' failed to craft {recipe_name} (missing ingredients).")
 
 
-    def _process_life_cycles(self, hp_deltas: np.ndarray) -> List[Cell]:
+    def _process_life_cycles(self, hp_deltas: np.ndarray) -> List[Tuple[Cell, Optional[Dict]]]:
         """Handles birth, growth, and reproduction for all entities."""
-        newly_born_cells = []
+        newly_born_info = []
         adj_matrix_csr = self.adjacency_matrix.tocsr()
 
         # --- Plant Life Cycle ---
@@ -722,18 +840,15 @@ class World:
         for i in fruiting_indices:
             hp_deltas[i] -= 15
             new_seed_id = f"plant_{self.time_step}_{i}"
-            # New cells are added via add_cell, which sets their initial HP
             new_cell = Cell(new_seed_id, self.primordial_dna, initial_properties={'element_type': 'life'})
-            newly_born_cells.append(new_cell)
+            newly_born_info.append((new_cell, None)) # Plants have no parents
             self.growth_stages[i] = 1
 
         # --- Animal Mating and Reproduction ---
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
-        # Mating readiness increases if healthy (high HP percentage) and not hungry
         healthy_mask = (self.hp[animal_indices] / self.max_hp[animal_indices] > 0.8) & (self.hunger[animal_indices] > 50.0)
         self.mating_readiness[animal_indices[healthy_mask]] += 0.1
-        # Poor health or hunger reduces readiness
         unhealthy_mask = (self.hp[animal_indices] / self.max_hp[animal_indices] < 0.5) | (self.hunger[animal_indices] < 20.0)
         self.mating_readiness[animal_indices[unhealthy_mask]] = 0
 
@@ -751,17 +866,20 @@ class World:
                 child_props = parent_cell.organelles.copy() if parent_cell else {}
                 child_props['gender'] = random.choice(['male', 'female'])
                 new_cell = Cell(new_animal_id, self.primordial_dna, initial_properties=child_props)
-                newly_born_cells.append(new_cell)
+
+                parent_info = {'mother_idx': i, 'father_idx': mate_idx}
+                newly_born_info.append((new_cell, parent_info))
+
                 self.mating_readiness[i] = 0.0
                 self.mating_readiness[mate_idx] = 0.0
                 self.logger.info(f"Mating: '{self.cell_ids[i]}' and '{self.cell_ids[mate_idx]}' produced '{new_animal_id}'.")
                 break
 
-        return newly_born_cells
+        return newly_born_info
 
 
-    def _apply_physics_and_cleanup(self, hp_deltas: np.ndarray, newly_born_cells: List[Cell]):
-        """Applies final HP changes, handles death, and integrates new cells."""
+    def _apply_physics_and_cleanup(self, hp_deltas: np.ndarray, newly_born_info: List[Tuple[Cell, Optional[Dict]]]):
+        """Applies final HP changes, handles death, and integrates new cells with parentage."""
         adj_matrix_csr = self.adjacency_matrix.tocsr()
         num_cells = len(self.cell_ids)
 
@@ -771,10 +889,36 @@ class World:
         self.hp = np.clip(self.hp, 0, self.max_hp)
 
 
-        # Add newly born cells to the world
-        for cell in newly_born_cells:
+        # Add newly born cells to the world and establish kinship
+        for cell, parent_info in newly_born_info:
             if cell.id not in self.id_to_idx:
                 self.add_cell(cell.id, dna=cell.nucleus['dna'], properties=cell.organelles)
+                child_idx = self.id_to_idx[cell.id]
+
+                if parent_info: # It's an animal with parents
+                    mother_idx = parent_info['mother_idx']
+                    father_idx = parent_info['father_idx']
+
+                    # Inherit or create a tribe
+                    mother_tribe_id = self.tribe_id[mother_idx]
+                    if mother_tribe_id:
+                        self.tribe_id[child_idx] = mother_tribe_id
+                    else:
+                        # Mother is a progenitor, create a new tribe
+                        new_tribe_id = f"tribe_{self.cell_ids[mother_idx]}"
+                        self.tribe_id[mother_idx] = new_tribe_id
+                        self.tribe_id[child_idx] = new_tribe_id
+                        self.logger.info(f"SOCIETY: A new tribe '{new_tribe_id}' was founded by '{self.cell_ids[mother_idx]}'.")
+
+                    # Record parentage
+                    self.parents[child_idx, 0] = mother_idx
+                    self.parents[child_idx, 1] = father_idx
+
+                    # Create a strong bond between child and parents
+                    self.add_connection(self.cell_ids[child_idx], self.cell_ids[mother_idx], strength=0.95, _record_event=False)
+                    self.add_connection(self.cell_ids[mother_idx], self.cell_ids[child_idx], strength=0.95, _record_event=False)
+                    self.add_connection(self.cell_ids[child_idx], self.cell_ids[father_idx], strength=0.95, _record_event=False)
+                    self.add_connection(self.cell_ids[father_idx], self.cell_ids[child_idx], strength=0.95, _record_event=False)
 
         # Process death for cells with zero HP
         apoptosis_mask = (self.hp < 0.1) & self.is_alive_mask
