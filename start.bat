@@ -1,23 +1,49 @@
 @echo off
-chcp 65001 >nul
+setlocal EnableExtensions
+REM Minimal, ASCII-safe launcher
 
-REM 1) venv 우선 실행
-if exist ".venv\Scripts\python.exe" (
-  echo [RUN] venv detected. Launching via Python...
-  call .venv\Scripts\python.exe ElysiaStarter\scripts\elysia_start.py
-  goto :end
+REM fix working directory to this script location
+pushd "%~dp0"
+
+REM pick Python: prefer venv, else py -3, else python
+set "PY=.venv\Scripts\python.exe"
+if not exist ".venv\Scripts\python.exe" (
+  set "PY=py -3"
+)
+where py >nul 2>&1 || (
+  if "%PY%"=="py -3" (
+    where python >nul 2>&1 && set "PY=python"
+  )
 )
 
-REM 2) exe 실행
+REM show which interpreter
+echo Using Python: %PY%
+
+REM ensure pip and basic deps
+call %PY% -m pip --disable-pip-version-check -q install --upgrade pip setuptools wheel
+if exist requirements.txt (
+  call %PY% -m pip -q install -r requirements.txt
+) else (
+  call %PY% -m pip -q install pygame-ce pyquaternion numpy
+)
+
+REM prefer packaged exe
 if exist "dist\Elysia\Elysia.exe" (
-  echo [RUN] Launching packaged Elysia.exe...
   start "" "dist\Elysia\Elysia.exe"
-  goto :end
+  goto :done
 )
 
-echo [ERROR] 실행 대상이 없습니다.
-echo - venv 또는 dist\Elysia\Elysia.exe 중 하나를 준비하세요.
-echo - 빌드하려면: start_build.bat
-:end
+REM else run scripts
+if exist "ElysiaStarter\scripts\elysia_start.py" (
+  call %PY% "ElysiaStarter\scripts\elysia_start.py"
+) else if exist "ElysiaStarter\scripts\visualize_timeline.py" (
+  call %PY% "ElysiaStarter\scripts\visualize_timeline.py"
+) else (
+  echo ERROR: No entry script found under ElysiaStarter\scripts.
+)
+
+:done
+popd
 pause
+endlocal
 

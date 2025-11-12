@@ -9,18 +9,19 @@ if not exist .\.venv\Scripts\python.exe (
 
 echo [BUILD] Using interpreter: %PYTHON%
 echo [BUILD] Installing/Updating build toolchain...
-%PYTHON% -m pip install --upgrade pip setuptools wheel
+%PYTHON% -m pip install --upgrade pip setuptools wheel --no-input
 
 REM Try pygame-ce first (wider wheel support). If it fails, try pygame.
-%PYTHON% -m pip install pyinstaller pyquaternion numpy pygame-ce || %PYTHON% -m pip install pygame
+%PYTHON% -m pip install pyinstaller pyquaternion numpy pygame-ce --no-input || %PYTHON% -m pip install pygame --no-input
 
 echo [BUILD] Cleaning previous dist/build...
 if exist build rmdir /s /q build
 if exist dist rmdir /s /q dist
 if exist __pycache__ rmdir /s /q __pycache__
 
-echo [BUILD] Running PyInstaller with spec...
-%PYTHON% -m PyInstaller elysia.spec
+echo [BUILD] Running PyInstaller with spec (clean, no-confirm)...
+REM Note: module excludes are configured inside elysia.spec (Analysis.excludes)
+%PYTHON% -m PyInstaller --clean --noconfirm elysia.spec
 
 echo [DONE] Built: dist\Elysia\Elysia.exe
 pause

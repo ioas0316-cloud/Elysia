@@ -1,5 +1,6 @@
 
 import os
+import tempfile
 import google.generativeai as genai
 import logging
 from dotenv import load_dotenv
@@ -29,13 +30,27 @@ class APIRequestError(Exception):
     pass
 
 # --- Logging Configuration ---
-log_file_path = os.path.join(os.path.dirname(__file__), 'gemini_api_errors.log')
+def _writable_log_dir() -> str:
+    # Prefer project 'saves' or 'logs' dir relative to CWD
+    for rel in ('saves', os.path.join('ElysiaStarter', 'saves'), 'logs'):
+        p = os.path.abspath(os.path.join(os.getcwd(), rel))
+        try:
+            os.makedirs(p, exist_ok=True)
+            return p
+        except Exception:
+            continue
+    # Fallback to system temp
+    return tempfile.gettempdir()
+
+log_file_path = os.path.join(_writable_log_dir(), 'gemini_api_errors.log')
+try:
+    os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+except Exception:
+    pass
 logging.basicConfig(
     level=logging.ERROR,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(log_file_path)
-    ]
+    handlers=[logging.FileHandler(log_file_path, encoding='utf-8')]
 )
 gemini_logger = logging.getLogger(__name__)
 # --- End Logging Configuration ---
@@ -163,14 +178,19 @@ class GeminiAPI:
             gemini_logger.error(f"Failed to create placeholder image: {e}")
             return False
 
-# For backward compatibility, we can instantiate the class
-gemini_api = GeminiAPI()
+_gemini_singleton: GeminiAPI | None = None
+
+def _get_gemini() -> GeminiAPI:
+    global _gemini_singleton
+    if _gemini_singleton is None:
+        _gemini_singleton = GeminiAPI()
+    return _gemini_singleton
 
 def get_text_embedding(text: str, model="models/text-embedding-004"):
-    return gemini_api.get_text_embedding(text, model)
+    return _get_gemini().get_text_embedding(text, model)
 
 def generate_text(prompt: str, model_name="models/gemini-2.5-pro"):
-    return gemini_api.generate_text(prompt, model_name)
+    return _get_gemini().generate_text(prompt, model_name)
 
 def generate_image_from_text(text: str, output_path: str):
-    return gemini_api.generate_image_from_text(text, output_path)
+    return _get_gemini().generate_image_from_text(text, output_path)

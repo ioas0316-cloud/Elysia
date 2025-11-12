@@ -37,7 +37,7 @@ def draw_help(screen: pygame.Surface, font: "pygame.freetype.Font", y_start: int
         '종료: Q',
     ]
     pad = 10
-    line_h = max(18, font.get_height() + 2)
+    line_h = max(18, font.get_sized_height() + 2)
     h = pad + len(lines) * line_h + pad
     surfs = [font.render(t, fgcolor=(220, 220, 230))[0] for t in lines]
     w = max(240, max(s.get_width() for s in surfs) + 20)
