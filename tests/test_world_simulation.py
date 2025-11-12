@@ -327,6 +327,47 @@ class TestWorldSimulation(unittest.TestCase):
         world.hp += hp_deltas
         self.assertLess(world.hp[dummy_idx], initial_dummy_hp, "Dummy's HP should decrease when evasion fails.")
 
+    @unittest.mock.patch('random.random')
+    def test_spear_principle_critical_hit(self, mock_random):
+        """Tests the 'Speed Sword' (Spear Principle) critical hit mechanic."""
+        world = World(primordial_dna={'instinct': 'test'}, wave_mechanics=self.mock_wave_mechanics, logger=MagicMock())
+        world.add_cell('swordsman', properties={'label': 'human', 'element_type': 'animal'})
+        world.add_cell('target', properties={'element_type': 'animal'})
+
+        swordsman_idx = world.id_to_idx['swordsman']
+        target_idx = world.id_to_idx['target']
+
+        # Pre-requisites for the skill
+        world.agility[swordsman_idx] = 40.0 # Must be >= 30
+        world.labels[swordsman_idx] = 'human'
+
+        # Ensure they are in combat range
+        world.positions[swordsman_idx] = np.array([0, 0, 0])
+        world.positions[target_idx] = np.array([0.1, 0, 0])
+        initial_target_hp = world.hp[target_idx]
+
+        # --- Test 1: Critical Hit ---
+        # Mock random.random() to return a value that guarantees a critical hit (e.g., < 0.3)
+        mock_random.return_value = 0.1
+
+        hp_deltas_crit = np.zeros_like(world.hp)
+        world._execute_animal_action(swordsman_idx, target_idx, 'hunt', hp_deltas_crit)
+
+        # Base damage is 10.0, critical is 2.0x
+        expected_damage_crit = 10.0 * 2.0
+        self.assertEqual(hp_deltas_crit[target_idx], -expected_damage_crit)
+
+        # --- Test 2: Normal Hit ---
+        # Reset target HP for a clean test
+        world.hp[target_idx] = initial_target_hp
+        mock_random.return_value = 0.5 # Guarantees a normal hit (e.g., >= 0.3)
+
+        hp_deltas_normal = np.zeros_like(world.hp)
+        world._execute_animal_action(swordsman_idx, target_idx, 'hunt', hp_deltas_normal)
+
+        expected_damage_normal = 10.0 * 1.0
+        self.assertEqual(hp_deltas_normal[target_idx], -expected_damage_normal)
+
 
 if __name__ == '__main__':
     unittest.main()
