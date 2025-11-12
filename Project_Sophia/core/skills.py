@@ -16,7 +16,7 @@ class Move:
 
     # --- Causal Conditions ---
     min_stats: Dict[str, float] = field(default_factory=dict)
-    mp_cost: float = 0.0
+    ki_cost: float = 0.0
 
 @dataclass
 class MartialStyle:
@@ -61,17 +61,17 @@ flash_sword_style.moves.extend([
         name="섬광일섬(閃光一閃)",
         move_type='attack',
         description="가장 기본적인 찌르기 초식.",
+        apply_effect=_effect_basic_attack,
         min_stats={'agility': 10},
-        mp_cost=0,
-        apply_effect=_effect_basic_attack
+        ki_cost=0
     ),
     Move(
         name="꿰뚫는 빛(貫通光)",
         move_type='attack',
         description="모든 것을 꿰뚫는 필살기.",
+        apply_effect=_effect_piercing_light,
         min_stats={'agility': 40, 'wisdom': 20},
-        mp_cost=30,
-        apply_effect=_effect_piercing_light
+        ki_cost=30
     )
 ])
 

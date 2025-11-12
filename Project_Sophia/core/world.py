@@ -56,8 +56,12 @@ class World:
         self.is_alive_mask = np.array([], dtype=bool)
         self.hp = np.array([], dtype=np.float32)
         self.max_hp = np.array([], dtype=np.float32)
-        self.mp = np.array([], dtype=np.float32)
-        self.max_mp = np.array([], dtype=np.float32)
+        self.ki = np.array([], dtype=np.float32)
+        self.max_ki = np.array([], dtype=np.float32)
+        self.mana = np.array([], dtype=np.float32)
+        self.max_mana = np.array([], dtype=np.float32)
+        self.faith = np.array([], dtype=np.float32)
+        self.max_faith = np.array([], dtype=np.float32)
         self.strength = np.array([], dtype=np.int32)
         self.agility = np.array([], dtype=np.int32)
         self.intelligence = np.array([], dtype=np.int32)
@@ -78,6 +82,7 @@ class World:
         self.age = np.array([], dtype=np.int32)
         self.max_age = np.array([], dtype=np.int32)
         self.is_injured = np.array([], dtype=bool)
+        self.is_meditating = np.array([], dtype=bool) # For 운기조식, 기도
         self.positions = np.zeros((0, 3), dtype=np.float32)
         self.labels = np.array([], dtype='<U20')
         self.insight = np.array([], dtype=np.float32)
@@ -101,8 +106,12 @@ class World:
         self.is_alive_mask = np.pad(self.is_alive_mask, (0, new_size - current_size), 'constant', constant_values=False)
         self.hp = np.pad(self.hp, (0, new_size - current_size), 'constant')
         self.max_hp = np.pad(self.max_hp, (0, new_size - current_size), 'constant')
-        self.mp = np.pad(self.mp, (0, new_size - current_size), 'constant')
-        self.max_mp = np.pad(self.max_mp, (0, new_size - current_size), 'constant')
+        self.ki = np.pad(self.ki, (0, new_size - current_size), 'constant')
+        self.max_ki = np.pad(self.max_ki, (0, new_size - current_size), 'constant')
+        self.mana = np.pad(self.mana, (0, new_size - current_size), 'constant')
+        self.max_mana = np.pad(self.max_mana, (0, new_size - current_size), 'constant')
+        self.faith = np.pad(self.faith, (0, new_size - current_size), 'constant')
+        self.max_faith = np.pad(self.max_faith, (0, new_size - current_size), 'constant')
         self.strength = np.pad(self.strength, (0, new_size - current_size), 'constant')
         self.agility = np.pad(self.agility, (0, new_size - current_size), 'constant')
         self.intelligence = np.pad(self.intelligence, (0, new_size - current_size), 'constant')
@@ -123,6 +132,7 @@ class World:
         self.age = np.pad(self.age, (0, new_size - current_size), 'constant', constant_values=0)
         self.max_age = np.pad(self.max_age, (0, new_size - current_size), 'constant', constant_values=100)
         self.is_injured = np.pad(self.is_injured, (0, new_size - current_size), 'constant', constant_values=False)
+        self.is_meditating = np.pad(self.is_meditating, (0, new_size - current_size), 'constant', constant_values=False)
         self.labels = np.pad(self.labels, (0, new_size - current_size), 'constant', constant_values='')
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
@@ -175,6 +185,7 @@ class World:
         self.growth_stages[idx] = 0 # Start at seed stage
         self.age[idx] = 0
         self.is_injured[idx] = False
+        self.is_meditating[idx] = False
         self.max_age[idx] = random.randint(80, 120)
         self.insight[idx] = 0.0
         self.emotions[idx] = 'neutral'
@@ -187,11 +198,35 @@ class World:
         self.vitality[idx] = properties.get('vitality', 5)
         self.wisdom[idx] = properties.get('wisdom', 5)
 
-        # Derived stats (HP/MP) are calculated from base stats
+        # Derived stats (HP/Ki/Mana/Faith) are calculated from base stats
         self.max_hp[idx] = self.vitality[idx] * 10
         self.hp[idx] = self.max_hp[idx]
-        self.max_mp[idx] = self.wisdom[idx] * 10
-        self.mp[idx] = self.max_mp[idx]
+
+        # --- Anti-Hybrid Protocol ---
+        # A cell's power system is determined by its culture at birth.
+        culture = properties.get('culture', '')
+        if culture == 'wuxia':
+            self.max_ki[idx] = self.wisdom[idx] * 10
+            self.ki[idx] = self.max_ki[idx]
+            self.max_mana[idx] = 0
+            self.mana[idx] = 0
+            self.max_faith[idx] = 0
+            self.faith[idx] = 0
+        elif culture == 'knight':
+            self.max_mana[idx] = self.wisdom[idx] * 10
+            self.mana[idx] = self.max_mana[idx]
+            self.max_ki[idx] = 0
+            self.ki[idx] = 0
+            self.max_faith[idx] = 0
+            self.faith[idx] = 0
+        else: # Default for non-magical entities
+            self.max_ki[idx] = 0
+            self.ki[idx] = 0
+            self.max_mana[idx] = 0
+            self.mana[idx] = 0
+            self.max_faith[idx] = 0
+            self.faith[idx] = 0
+
 
         self.hunger[idx] = 100.0
         self.temperature[idx] = 36.5
@@ -268,8 +303,12 @@ class World:
             # Sync all game stats to the cell object upon materialization
             cell.hp = self.hp[idx]
             cell.max_hp = self.max_hp[idx]
-            cell.mp = self.mp[idx]
-            cell.max_mp = self.max_mp[idx]
+            cell.ki = self.ki[idx]
+            cell.max_ki = self.max_ki[idx]
+            cell.mana = self.mana[idx]
+            cell.max_mana = self.max_mana[idx]
+            cell.faith = self.faith[idx]
+            cell.max_faith = self.max_faith[idx]
             cell.strength = self.strength[idx]
             cell.agility = self.agility[idx]
             cell.intelligence = self.intelligence[idx]
@@ -291,7 +330,9 @@ class World:
                 cell = self.materialized_cells[cell_id]
                 cell.is_alive = self.is_alive_mask[i]
                 cell.hp = self.hp[i]
-                cell.mp = self.mp[i]
+                cell.ki = self.ki[i]
+                cell.mana = self.mana[i]
+                cell.faith = self.faith[i]
                 # Sync other stats if they can change during simulation
                 cell.strength = self.strength[i]
                 cell.agility = self.agility[i]
@@ -323,11 +364,16 @@ class World:
         return newly_born_cells
 
     def _update_passive_resources(self):
-        """Updates passive resource changes for all living cells (MP, Hunger, HP)."""
-        # --- MP Regeneration ---
-        # Cells regenerate MP every turn, up to their max_mp.
-        mp_regen_mask = self.is_alive_mask & (self.mp < self.max_mp)
-        self.mp[mp_regen_mask] = np.minimum(self.max_mp[mp_regen_mask], self.mp[mp_regen_mask] + 1.0)
+        """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP)."""
+        # --- Ki Regeneration (very slow) ---
+        ki_regen_mask = self.is_alive_mask & (self.ki < self.max_ki)
+        self.ki[ki_regen_mask] = np.minimum(self.max_ki[ki_regen_mask], self.ki[ki_regen_mask] + 0.1)
+
+        # --- Mana Regeneration (moderate) ---
+        mana_regen_mask = self.is_alive_mask & (self.mana < self.max_mana)
+        self.mana[mana_regen_mask] = np.minimum(self.max_mana[mana_regen_mask], self.mana[mana_regen_mask] + 1.0)
+
+        # --- Faith does not regenerate passively ---
 
         # --- Hunger Depletion ---
         # All living things get hungrier over time.
@@ -367,136 +413,146 @@ class World:
         for i in animal_indices:
             if not self.is_alive_mask[i]: continue
 
+            # If meditating, the cell is vulnerable and can do nothing else.
+            if self.is_meditating[i]:
+                self.logger.info(f"'{self.cell_ids[i]}' is meditating and is vulnerable.")
+                # While meditating, the action is to continue meditating.
+                self._execute_animal_action(i, -1, 'meditate', None)
+                continue
+
             if self.emotions[i] == 'sorrow' and random.random() < 0.5:
                 self.logger.info(f"EMOTION: '{self.cell_ids[i]}' is paralyzed by sorrow.")
                 continue
 
             target_idx, action, move = self._select_animal_action(i, adj_matrix_csr)
 
+            # Pass -1 for target_idx if the action doesn't require a target (e.g., meditation)
+            self._execute_animal_action(i, target_idx if target_idx is not None else -1, action, move)
 
-            if target_idx != -1:
-                self._execute_animal_action(i, target_idx, action, move)
-
-    def _select_animal_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Tuple[int, str, Optional[Move]]:
-        """Selects the best action (hunt, eat, use_move) for an animal based on its needs and skills."""
-        target_idx = -1
+    def _select_animal_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Tuple[Optional[int], str, Optional[Move]]:
+        """Selects the best action (hunt, meditate, etc.) for an animal based on its needs and skills."""
+        target_idx = None
         action = 'idle'
         selected_move = None
 
-        # Determine motivation (e.g., hunger)
-        is_hungry = self.hunger[actor_idx] < 60
+        # --- High-Priority Needs ---
+        # 1. 운기조식 (Ki Circulation) if Ki is low and safe
+        is_wuxia = self.culture[actor_idx] == 'wuxia'
+        connected_indices = adj_matrix_csr[actor_idx].indices
+        is_safe = not np.any((self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices] & (connected_indices != actor_idx))
 
-        # Find potential targets
-        all_connected = adj_matrix_csr[actor_idx].indices
-        kin_indices = set(all_connected[adj_matrix_csr[actor_idx, all_connected].toarray().flatten() >= 0.8])
+        if is_wuxia and self.ki[actor_idx] < self.max_ki[actor_idx] * 0.3 and is_safe:
+            return None, 'meditate', None
+
+        # 2. 기도 (Prayer) if Faith is low
+        # Placeholder for when faith-based classes are introduced
+        # if self.faith[actor_idx] < self.max_faith[actor_idx] * 0.3:
+        #     return None, 'pray', None
+
+        # 3. Hunger
+        is_hungry = self.hunger[actor_idx] < 60
+        if is_hungry:
+            action = 'eat'
+
+        # --- Target Selection for Actions ---
+        kin_indices = set(connected_indices[adj_matrix_csr[actor_idx, connected_indices].toarray().flatten() >= 0.8])
 
         potential_target_indices = []
         actor_diet = self.diets[actor_idx]
-        if actor_diet in ['carnivore', 'omnivore']:
-            mask = (self.element_types[all_connected] == 'animal') & (all_connected != actor_idx) & self.is_alive_mask[all_connected]
-            non_kin_prey = [p for p in all_connected[mask] if p not in kin_indices]
-            potential_target_indices.extend(non_kin_prey)
-        if actor_diet in ['herbivore', 'omnivore'] and is_hungry:
-            mask = (self.element_types[all_connected] == 'life') & self.is_alive_mask[all_connected]
-            potential_target_indices.extend(all_connected[mask])
+
+        # Find food if hungry
+        if is_hungry:
+            if actor_diet in ['carnivore', 'omnivore']:
+                mask = (self.element_types[connected_indices] == 'animal') & (connected_indices != actor_idx) & self.is_alive_mask[connected_indices]
+                non_kin_prey = [p for p in connected_indices[mask] if p not in kin_indices]
+                potential_target_indices.extend(non_kin_prey)
+            if actor_diet in ['herbivore', 'omnivore']:
+                mask = (self.element_types[connected_indices] == 'life') & self.is_alive_mask[connected_indices]
+                potential_target_indices.extend(connected_indices[mask])
+        else: # If not hungry, might pick a fight
+            mask = (self.element_types[connected_indices] == 'animal') & (connected_indices != actor_idx) & self.is_alive_mask[connected_indices]
+            non_kin_rivals = [p for p in connected_indices[mask] if p not in kin_indices]
+            potential_target_indices.extend(non_kin_rivals)
 
         if not potential_target_indices:
-            return -1, 'idle', None
+            return None, 'idle', None
 
-        # Select the weakest target
         target_idx = potential_target_indices[np.argmin(self.hp[np.array(potential_target_indices)])]
 
-        # Only proceed with attack planning if the target is an animal
+        # --- Tactical Decision: Attack or Use Skill ---
         if self.element_types[target_idx] == 'animal':
-            action = 'attack' # Default action is a basic attack
-
-            # --- Martial Arts Tactical Decision ---
+            action = 'attack'
             actor_affiliation = self.affiliation[actor_idx]
             if actor_affiliation and actor_affiliation in self.martial_styles:
                 style = self.martial_styles[actor_affiliation]
-
-                # Evaluate using a powerful move vs. a basic one
-                for move in sorted(style.moves, key=lambda m: m.mp_cost, reverse=True): # Prioritize ultimate moves
-                    # Check MP
-                    if self.mp[actor_idx] < move.mp_cost:
-                        continue
-                    # Check stats
+                for move in sorted(style.moves, key=lambda m: m.ki_cost, reverse=True):
+                    if self.ki[actor_idx] < move.ki_cost: continue
                     can_use = all(getattr(self, stat)[actor_idx] >= value for stat, value in move.min_stats.items())
-                    if not can_use:
-                        continue
-
-                    # Tactical condition: Use ultimate move on strong targets if not low on MP
-                    is_ultimate = move.mp_cost > 10
+                    if not can_use: continue
+                    is_ultimate = move.ki_cost > 10
                     is_strong_target = self.hp[target_idx] > self.hp[actor_idx]
-
-                    if is_ultimate and is_strong_target and self.mp[actor_idx] > self.max_mp[actor_idx] * 0.5:
+                    if is_ultimate and is_strong_target and self.ki[actor_idx] > self.max_ki[actor_idx] * 0.5:
                         selected_move = move
-                        break # Commit to using the ultimate move
+                        break
                     elif not is_ultimate:
                         selected_move = move
-                        # Don't break, see if a better (ultimate) move is possible
         else:
-            action = 'eat' # Target is a plant, so just eat it
+            action = 'eat'
 
         return target_idx, action, selected_move
 
-
     def _execute_animal_action(self, actor_idx: int, target_idx: int, action: str, move: Optional[Move]):
-        if actor_affiliation and actor_affiliation in self.martial_styles:
-            style = self.martial_styles[actor_affiliation]
+        """Executes the chosen action, including non-target actions like meditation."""
 
-            # Evaluate using a powerful move vs. a basic one
-            for move in sorted(style.moves, key=lambda m: m.mp_cost, reverse=True): # Prioritize ultimate moves
-                # Check MP
-                if self.mp[actor_idx] < move.mp_cost:
-                    continue
-                # Check stats
-                can_use = all(getattr(self, stat)[actor_idx] >= value for stat, value in move.min_stats.items())
-                if not can_use:
-                    continue
+        # --- Handle non-target actions ---
+        if action == 'meditate':
+            self.is_meditating[actor_idx] = True
+            self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' begins 운기조식.")
+            # Rapid Ki regeneration
+            self.ki[actor_idx] = min(self.max_ki[actor_idx], self.ki[actor_idx] + 10)
+            # HP regeneration and healing effect
+            if self.hp[actor_idx] < self.max_hp[actor_idx]:
+                self.hp[actor_idx] = min(self.max_hp[actor_idx], self.hp[actor_idx] + 2)
+            if self.is_injured[actor_idx] and random.random() < 0.2: # 20% chance to heal injury
+                self.is_injured[actor_idx] = False
+                self.logger.info(f"HEALING: '{self.cell_ids[actor_idx]}' has healed their internal injuries.")
+            # Stop meditating if ki is full
+            if self.ki[actor_idx] >= self.max_ki[actor_idx]:
+                self.is_meditating[actor_idx] = False
+            return
 
-                # Tactical condition: Use ultimate move on strong targets if not low on MP
-                is_ultimate = move.mp_cost > 10
-                is_strong_target = self.hp[target_idx] > self.hp[actor_idx]
+        # Stop meditating if any other action is taken
+        self.is_meditating[actor_idx] = False
 
-                if is_ultimate and is_strong_target and self.mp[actor_idx] > self.max_mp[actor_idx] * 0.5:
-                    selected_move = move
-                    break # Commit to using the ultimate move
-                elif not is_ultimate:
-                    selected_move = move
-                    # Don't break, see if a better (ultimate) move is possible
+        if target_idx == -1: return # No target for other actions
 
-        return target_idx, action, selected_move
-
-
-    def _execute_animal_action(self, actor_idx: int, target_idx: int, action: str, move: Optional[Move]):
-        """Executes the chosen action, incorporating martial arts."""
-        # Move towards target
+        # --- Handle target-based actions ---
         direction = self.positions[target_idx] - self.positions[actor_idx]
         if np.linalg.norm(direction) > 0:
             self.positions[actor_idx] += (direction / np.linalg.norm(direction)) * 0.2
 
-        # Resolve action if in range
         if np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
-            damage_multiplier = 1.0
+            if action == 'eat' and self.element_types[target_idx] == 'life':
+                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' eats '{self.cell_ids[target_idx]}'.")
+                 self.hp[target_idx] = 0 # Eating kills the plant
+                 food_value = 20
+                 self.hunger[actor_idx] = min(100, self.hunger[actor_idx] + food_value)
+                 return
 
+            damage_multiplier = 1.0
             if move:
-                # Execute a martial arts move
                 self.logger.info(f"SKILL: '{self.cell_ids[actor_idx]}' uses [{move.name}] on '{self.cell_ids[target_idx]}'.")
-                self.mp[actor_idx] -= move.mp_cost
+                self.ki[actor_idx] -= move.ki_cost
                 damage_multiplier = move.apply_effect(self, actor_idx, target_idx, self.hp)
-            else:
-                # Execute a standard attack
+            elif action == 'attack':
                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' attacks '{self.cell_ids[target_idx]}'.")
 
-            # --- Stat-based Combat Calculation ---
             base_damage = self.strength[actor_idx]
             final_damage = max(0, (base_damage + random.randint(-2, 2)) * damage_multiplier)
             self.hp[target_idx] -= final_damage
             self.is_injured[target_idx] = True
             self.logger.info(f"COMBAT: Damage dealt: {final_damage:.2f}.")
 
-            # --- Post-Action Effects ---
             if self.hp[target_idx] <= 0:
                 self.logger.info(f"HUNT: '{self.cell_ids[actor_idx]}' killed '{self.cell_ids[target_idx]}'.")
                 food_value = 50
@@ -646,8 +702,10 @@ class World:
             label = self.labels[i]
             hp = self.hp[i]
             max_hp = self.max_hp[i]
-            mp = self.mp[i]
-            max_mp = self.max_mp[i]
+            ki = self.ki[i]
+            max_ki = self.max_ki[i]
+            mana = self.mana[i]
+            max_mana = self.max_mana[i]
             hunger = self.hunger[i]
             age = self.age[i]
             strength = self.strength[i]
@@ -660,7 +718,8 @@ class World:
             status_parts = [
                 f"<Cell: {label} ({cell_id})",
                 f"HP: {hp:.1f}/{max_hp:.1f}",
-                f"MP: {mp:.1f}/{max_mp:.1f}",
+                f"Ki: {ki:.1f}/{max_ki:.1f}",
+                f"Mana: {mana:.1f}/{max_mana:.1f}",
                 f"Hunger: {hunger:.1f}",
                 f"Age: {age}",
                 f"Stats: [S:{strength} A:{agility} I:{intelligence} V:{vitality} W:{wisdom}]",
