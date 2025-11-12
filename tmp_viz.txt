@@ -4,9 +4,8 @@ import random
 from typing import Dict
 from unittest.mock import MagicMock
 import numpy as np
-import argparse
 
-# Í≤ΩÎ°ú Ï∂îÍ∞Ä
+# ∞Ê∑Œ √ﬂ∞°
 sys.path.append('.')
 from Project_Elysia.core.divine_engine import ElysiaDivineEngineV2
 from Project_Sophia.core.world import World
@@ -14,7 +13,7 @@ from Project_Sophia.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 
-# --- ÏÑ§Ï†ï ---
+# --- º≥¡§ ---
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 BACKGROUND_COLOR = (10, 10, 20)
@@ -25,51 +24,26 @@ FONT_COLOR = (200, 200, 220)
 NODE_RADIUS = 5
 
 
-def draw_legend(surface, font_small):
-    panel = pygame.Surface((290, 120), pygame.SRCALPHA)
-    panel.fill((0, 0, 0, 140))
-    items = [
-        ((255, 255, 0), 'Current Node'),
-        ((0, 150, 255), 'Main Branch'),
-        ((100, 200, 120), 'Alt Branch'),
-        ((200, 200, 220), 'Labels/Text'),
-        ((255, 255, 255), 'Minimap: agents/cells'),
-    ]
-    y = 8
-    for color, label in items:
-        pygame.draw.rect(panel, color, pygame.Rect(8, y+4, 16, 16))
-        text = font_small.render(label, True, (220, 220, 230))
-        panel.blit(text, (30, y))
-        y += 18
-    surface.blit(panel, (10, 10))
-
-
-# --- Pygame Ï¥àÍ∏∞Ìôî ---
-parser = argparse.ArgumentParser()
-parser.add_argument('--legend', choices=['on', 'off'], default='off')
-args, _ = parser.parse_known_args()
-show_legend = (args.legend == 'on')
-
+# --- Pygame √ ±‚»≠ ---
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Elysia Divine Engine & Cell World - Integrated Visualization")
 font = pygame.font.SysFont("sans-serif", 24)
-font_small = pygame.font.SysFont("sans-serif", 16)
 clock = pygame.time.Clock()
 
-# --- Mock Í∞ùÏ≤¥ Î∞è Ï¥àÍ∏∞Ìôî ---
+# --- Mock ∞¥√º π◊ √ ±‚»≠ ---
 kg_manager = KGManager()
 mock_wave_mechanics = MagicMock(spec=WaveMechanics)
 mock_wave_mechanics.kg_manager = kg_manager
 
 engine = ElysiaDivineEngineV2()
 world = World(primordial_dna={'instinct': 'survive'}, wave_mechanics=mock_wave_mechanics)
-# World Í∞ùÏ≤¥Ïóê widthÏôÄ height ÏÜçÏÑ±ÏùÑ ÎèôÏ†ÅÏúºÎ°ú Ï∂îÍ∞Ä
+# World ∞¥√ºø° widthøÕ height º”º∫¿ª µø¿˚¿∏∑Œ √ﬂ∞°
 world.width = 100
 world.height = 100
 
 
-# --- Ï¥àÍ∏∞ ÏÑ§Ï†ï ---
+# --- √ ±‚ º≥¡§ ---
 world.add_cell("human", properties={"x": 50, "y": 50, "name": "Adam", "culture": "primitive", "element_type": "animal", "label": "human", "diet": "omnivore"})
 engine.ingest({
     'truth': 1.0, 'emotion': 0.5, 'causality': 0.5, 'beauty': 0.5,
@@ -77,7 +51,7 @@ engine.ingest({
 }, note="Genesis", scopes=['elysia_core', 'civilization'])
 
 
-# --- ÏãúÍ∞ÅÌôî Ìï®Ïàò ---
+# --- Ω√∞¢»≠ «‘ºˆ ---
 def get_branch_color(branch_id: str):
     if branch_id not in BRANCH_COLORS:
         random.seed(branch_id)
@@ -152,7 +126,7 @@ def draw_world_minimap(world_instance: World, position: tuple[int, int], size: t
                 minimap_surface.set_at((map_x, map_y), color)
     screen.blit(minimap_surface, position)
 
-# --- Î©îÏù∏ Î£®ÌîÑ ---
+# --- ∏ﬁ¿Œ ∑Á«¡ ---
 running = True
 time_acceleration = 1.0
 time_since_last_step = 0.0
@@ -169,7 +143,6 @@ while running:
             elif event.key == pygame.K_RIGHT: engine.fast_forward()
             elif event.key == pygame.K_UP: time_acceleration *= 1.5
             elif event.key == pygame.K_DOWN: time_acceleration /= 1.5
-            elif event.key == pygame.K_l: show_legend = not show_legend
             elif event.key == pygame.K_SPACE:
                 engine.edit_fate({'truth': random.random(), 'emotion': random.random(), 'causality': random.random(), 'beauty': random.random()}, note="New Global Fate")
 
@@ -199,8 +172,6 @@ while running:
     screen.blit(text_surf1, (10, 10))
     screen.blit(text_surf2, (10, 40))
 
-    if show_legend:
-        draw_legend(screen, font_small)
     pygame.display.flip()
 
 pygame.quit()
