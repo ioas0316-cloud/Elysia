@@ -663,6 +663,21 @@ class World:
         # Final state synchronization
         self._sync_states_to_objects()
 
+    def get_population_summary(self) -> Dict[str, int]:
+        """Returns a dictionary with the count of living cells for each label."""
+        summary = {}
+        living_indices = np.where(self.is_alive_mask)[0]
+        if living_indices.size == 0:
+            return {}
+
+        living_labels = self.labels[living_indices]
+        unique_labels, counts = np.unique(living_labels, return_counts=True)
+
+        for label, count in zip(unique_labels, counts):
+            if label:  # 빈 라벨은 제외
+                summary[label] = int(count)
+        return summary
+
     def add_connection(self, source_id: str, target_id: str, strength: float = 0.5, _record_event: bool = True):
         if source_id in self.id_to_idx and target_id in self.id_to_idx:
             if self.chronicle and _record_event:
