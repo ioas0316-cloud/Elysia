@@ -73,3 +73,4 @@
 2025-11-13 17:12 | [OPS/CHECK] | Added simple binder checklists (Binder/Evidence + templates) | Non-technical, tick-boxes to close trials safely | EVIDENCE_BINDER.md + forms
 
 2025-11-13 17:15 | [CORE/HUMAN] | Added HUMAN_OVERVIEW_KO.md (human-only Korean summary) | Clear separation: agents use Codex; humans read overview | ELYSIA/CORE/HUMAN_OVERVIEW_KO.md
+2025-11-13 22:38 | [STARTER/TEST] | Resolve merge (prefer animated visualizer), update start.bat + README, push to origin | Keep Codex-first starter routing | CODEX.md
