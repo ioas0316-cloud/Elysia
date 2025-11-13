@@ -48,7 +48,7 @@ class TestLogicalReasoner(unittest.TestCase):
 
         # NOTE: Manual connection is removed. The new design requires the simulation
         # to build connections dynamically based on the KG relationships within the
-        # "attention bubble". The test `test_deduce_facts_returns_thought_objects`
+        # "Chalice of Focus". The test `test_deduce_facts_returns_thought_objects`
         # will now rely on this dynamic behavior.
         self.cellular_world.materialize_cell("햇빛")
         self.cellular_world.materialize_cell("식물 성장")
@@ -102,7 +102,7 @@ class TestLogicalReasoner(unittest.TestCase):
 
     def test_quantum_observation_simulation(self):
         """
-        Verify that the simulation runs only on a focused "attention bubble"
+        Verify that the simulation runs only on a focused "Chalice of Focus"
         and not on the entire world state.
         """
         # 1. Setup a more complex KG for this specific test
@@ -140,7 +140,7 @@ class TestLogicalReasoner(unittest.TestCase):
         # Crucially, verify that "무관한_개념" was not part of the simulation.
         # We can infer this by checking if there's any thought about it.
         unrelated_thought = next((t for t in thoughts if '무관한_개념' in t.content), None)
-        self.assertIsNone(unrelated_thought, "Unrelated concepts should not be part of the attention bubble.")
+        self.assertIsNone(unrelated_thought, "Unrelated concepts should not be part of the Chalice of Focus.")
 
 
 if __name__ == '__main__':

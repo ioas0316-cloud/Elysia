@@ -2,9 +2,15 @@
 import random
 import logging
 from typing import List, Dict, Optional, Tuple
+import sys
+import os
 
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
+
+# To import from the new Sanctuary_Window directory at the root
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from Sanctuary_Window.Resonance_Scroll import ResonanceScroll
 
 from .cell import Cell
 from .chronicle import Chronicle
@@ -16,8 +22,11 @@ class World:
     """Represents the universe where cells exist, interact, and evolve, optimized with NumPy."""
 
     def __init__(self, primordial_dna: Dict, wave_mechanics: WaveMechanics,
-                 chronicle: Optional[Chronicle] = None, logger: Optional[logging.Logger] = None,
+                 chronicle: Optional[Chronicle] = None, logger: Optional[ResonanceScroll] = None,
                  branch_id: str = "main", parent_event_id: Optional[str] = None):
+        # --- Event Logger ---
+        self.event_logger = logger if logger is not None else ResonanceScroll()
+
         # --- Core Attributes ---
         self.primordial_dna = primordial_dna
         self.wave_mechanics = wave_mechanics
@@ -36,6 +45,8 @@ class World:
 
         # --- Atmosphere ---
         self.oxygen_level = 100.0
+        self.cloud_cover = 0.2 # 0.0 (clear) to 1.0 (overcast)
+        self.humidity = 0.5 # 0.0 to 1.0
 
         # --- Chronos Engine Attributes ---
         self.branch_id = branch_id
@@ -96,6 +107,12 @@ class World:
 
         # --- SciPy Sparse Matrix for Connections ---
         self.adjacency_matrix = lil_matrix((0, 0), dtype=np.float32)
+
+        # --- Geology (Grid-based) ---
+        self.width = 256  # Default size, can be configured
+        self.height_map = np.zeros((self.width, self.width), dtype=np.float32)
+        self.soil_fertility = np.full((self.width, self.width), 0.5, dtype=np.float32)
+
 
     def _resize_matrices(self, new_size: int):
         current_size = len(self.cell_ids)
@@ -350,6 +367,9 @@ class World:
         if len(self.cell_ids) == 0:
             return []
 
+        # Update weather
+        self._update_weather()
+
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
 
@@ -362,6 +382,37 @@ class World:
         self._apply_physics_and_cleanup(newly_born_cells)
 
         return newly_born_cells
+
+    def _update_weather(self):
+        """Updates the global weather conditions and handles weather events like lightning."""
+        # Simple random walk for cloud cover and humidity
+        self.cloud_cover += random.uniform(-0.05, 0.05)
+        self.humidity += random.uniform(-0.05, 0.05)
+        self.cloud_cover = np.clip(self.cloud_cover, 0, 1)
+        self.humidity = np.clip(self.humidity, 0, 1)
+
+        # --- Lightning Event ---
+        if self.cloud_cover > 0.8 and self.humidity > 0.7 and random.random() < 0.1:
+            if len(self.cell_ids) > 0:
+                strike_idx = random.randint(0, len(self.cell_ids) - 1)
+
+                # Strike at the cell's position on the grid
+                pos = self.positions[strike_idx]
+                x, y = int(pos[0]) % self.width, int(pos[1]) % self.width
+
+                # Boost soil fertility at the strike location
+                self.soil_fertility[x, y] = min(1.0, self.soil_fertility[x, y] + 0.5)
+
+                # Damage the cell at the strike location
+                if self.is_alive_mask[strike_idx]:
+                    damage = random.uniform(20, 50)
+                    self.hp[strike_idx] -= damage
+                    self.is_injured[strike_idx] = True
+
+                    cell_id = self.cell_ids[strike_idx]
+                    self.logger.info(f"PROVIDENCE: Lightning strikes '{cell_id}', dealing {damage:.1f} damage and enriching the soil.")
+                    self.event_logger.log('LIGHTNING_STRIKE', self.time_step, cell_id=cell_id, damage=damage)
+
 
     def _update_passive_resources(self):
         """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP)."""
@@ -534,6 +585,7 @@ class World:
         if np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
             if action == 'eat' and self.element_types[target_idx] == 'life':
                  self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' eats '{self.cell_ids[target_idx]}'.")
+                 self.event_logger.log('EAT', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
                  self.hp[target_idx] = 0 # Eating kills the plant
                  food_value = 20
                  self.hunger[actor_idx] = min(100, self.hunger[actor_idx] + food_value)
@@ -640,6 +692,7 @@ class World:
         dead_cell_indices = np.where(apoptosis_mask)[0]
         for dead_idx in dead_cell_indices:
             cell_id = self.cell_ids[dead_idx]
+            self.event_logger.log('DEATH', self.time_step, cell_id=cell_id) # Log the death event
             if cell_id in self.materialized_cells:
                 dead_cell = self.materialized_cells[cell_id]
 

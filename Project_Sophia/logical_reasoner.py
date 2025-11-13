@@ -41,7 +41,7 @@ class LogicalReasoner:
     def _get_simulation_neighborhood(self, entity: str, depth: int = 1) -> List[str]:
         """
         Finds the central entity and its direct neighbors in the KG to define
-        the "attention bubble" for the simulation.
+        the "Chalice of Focus" for the simulation.
         """
         if not self.kg_manager:
             return [entity]
@@ -60,12 +60,12 @@ class LogicalReasoner:
 
     def _run_causal_simulation(self, cause_entity: str, main_world: World, simulation_steps: int = 5) -> List[Thought]:
         """
-        Runs a focused simulation within an "attention bubble" of relevant cells.
+        Runs a focused simulation within a "Chalice of Focus" of relevant cells.
         """
         if not self.cellular_world: # This now refers to the empty sim_world
             return []
 
-        # 1. Define the "attention bubble": the entity and its direct neighbors.
+        # 1. Define the "Chalice of Focus": the entity and its direct neighbors.
         sim_entities = self._get_simulation_neighborhood(cause_entity)
 
         # 2. Populate the simulation world (self.cellular_world) with only the relevant cells.
@@ -86,7 +86,7 @@ class LogicalReasoner:
                 self.cellular_world.add_connection(source, target)
 
         # 4. Inject stimulus into the cause_entity in the simulation world.
-        self.cellular_world.inject_stimulus(cause_entity, hp_boost=100.0)
+        self.cellular_world.inject_stimulus(cause_entity, energy_boost=100.0)
 
         # 5. Run simulation
         for _ in range(simulation_steps):
@@ -97,7 +97,7 @@ class LogicalReasoner:
         #    in the simulation, not just the ones that were explicitly materialized.
         simulation_thoughts: List[Thought] = []
         for i, cell_id in enumerate(self.cellular_world.cell_ids):
-            # We only care about cells that were part of our initial attention bubble
+            # We only care about cells that were part of our initial Chalice of Focus
             if cell_id not in initial_hps:
                 continue
 
