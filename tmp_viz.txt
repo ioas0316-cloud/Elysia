@@ -1,11 +1,11 @@
-import pygame
+ï»¿import pygame
 import sys
 import random
 from typing import Dict
 from unittest.mock import MagicMock
 import numpy as np
 
-# °æ·Î Ãß°¡
+# ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 sys.path.append('.')
 from Project_Elysia.core.divine_engine import ElysiaDivineEngineV2
 from Project_Sophia.core.world import World
@@ -13,7 +13,7 @@ from Project_Sophia.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 
-# --- ¼³Á¤ ---
+# --- ï¿½ï¿½ï¿½ï¿½ ---
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 BACKGROUND_COLOR = (10, 10, 20)
@@ -24,26 +24,26 @@ FONT_COLOR = (200, 200, 220)
 NODE_RADIUS = 5
 
 
-# --- Pygame ÃÊ±âÈ­ ---
+# --- Pygame ï¿½Ê±ï¿½È­ ---
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Elysia Divine Engine & Cell World - Integrated Visualization")
 font = pygame.font.SysFont("sans-serif", 24)
 clock = pygame.time.Clock()
 
-# --- Mock °´Ã¼ ¹× ÃÊ±âÈ­ ---
+# --- Mock ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½Ê±ï¿½È­ ---
 kg_manager = KGManager()
 mock_wave_mechanics = MagicMock(spec=WaveMechanics)
 mock_wave_mechanics.kg_manager = kg_manager
 
 engine = ElysiaDivineEngineV2()
 world = World(primordial_dna={'instinct': 'survive'}, wave_mechanics=mock_wave_mechanics)
-# World °´Ã¼¿¡ width¿Í height ¼Ó¼ºÀ» µ¿ÀûÀ¸·Î Ãß°¡
+# World ï¿½ï¿½Ã¼ï¿½ï¿½ widthï¿½ï¿½ height ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 world.width = 100
 world.height = 100
 
 
-# --- ÃÊ±â ¼³Á¤ ---
+# --- ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
 world.add_cell("human", properties={"x": 50, "y": 50, "name": "Adam", "culture": "primitive", "element_type": "animal", "label": "human", "diet": "omnivore"})
 engine.ingest({
     'truth': 1.0, 'emotion': 0.5, 'causality': 0.5, 'beauty': 0.5,
@@ -51,7 +51,7 @@ engine.ingest({
 }, note="Genesis", scopes=['elysia_core', 'civilization'])
 
 
-# --- ½Ã°¢È­ ÇÔ¼ö ---
+# --- ï¿½Ã°ï¿½È­ ï¿½Ô¼ï¿½ ---
 def get_branch_color(branch_id: str):
     if branch_id not in BRANCH_COLORS:
         random.seed(branch_id)
@@ -126,7 +126,7 @@ def draw_world_minimap(world_instance: World, position: tuple[int, int], size: t
                 minimap_surface.set_at((map_x, map_y), color)
     screen.blit(minimap_surface, position)
 
-# --- ¸ÞÀÎ ·çÇÁ ---
+# --- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ---
 running = True
 time_acceleration = 1.0
 time_since_last_step = 0.0
