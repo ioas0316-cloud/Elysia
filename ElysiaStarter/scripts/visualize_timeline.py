@@ -11,15 +11,20 @@ import pygame
 import yaml
 
 
-# Ensure project root on sys.path so outer 'ElysiaStarter' is used
+# Ensure project root on sys.path for cross-project imports
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_PKG_ROOT = os.path.dirname(_THIS_DIR)
-_PROJ_ROOT = os.path.dirname(_PKG_ROOT)
+_PKG_ROOT = os.path.dirname(os.path.dirname(_THIS_DIR))
+_PROJ_ROOT = os.path.dirname(os.path.dirname(_PKG_ROOT))
 if _PROJ_ROOT not in sys.path:
     sys.path.insert(0, _PROJ_ROOT)
 
-from ElysiaStarter.core.cell_world import CellWorld
-from ElysiaStarter.core.biome import classify_biome
+# --- Import the REAL World and Sensory Cortex ---
+from Project_Sophia.core.world import World
+from Project_Sophia.wave_mechanics import WaveMechanics
+from Project_Mirror.sensory_cortex import SensoryCortex
+from Project_Sophia.value_cortex import ValueCortex
+from tools.kg_manager import KGManager
+
 from ElysiaStarter.ui.view_state import load_view_state, save_view_state
 from ElysiaStarter.ui.layer_panel import handle_layer_keys, draw_layer_hud, draw_layer_panel
 from ElysiaStarter.ui.fonts import get_font
@@ -33,126 +38,35 @@ def load_cfg():
     with open(cfg_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
-
-def biome_to_rgb(biome: np.ndarray) -> np.ndarray:
-    colors = np.array([
-        [30, 30, 40],    # 0
-        [60, 120, 200],  # 1 water
-        [180, 180, 140], # 2 sand
-        [110, 170, 80],  # 3 grass
-        [40, 110, 50],   # 4 forest
-        [140, 120, 120], # 5 rock
-    ], dtype=np.uint8)
-    idx = np.clip(biome.astype(np.int32), 0, len(colors) - 1)
-    return colors[idx]
-
-
-# ======== Minimal Civilization Entities ========
-
-SEX_CHOICES = ['M', 'F']
-AGE_STAGES = ['child', 'adult', 'elder']
-EMOTIONS = ['calm', 'joy', 'nervous', 'anger']
-TEMPLATES = {
-    'greet': ["안녕하세요", "만나서 반가워요"],
-}
-
-
-class AgentEnt:
-    __slots__ = (
-        'id', 'name', 'sex', 'age', 'x', 'y', 'emotion', 'emotion_level',
-        'hunger', 'last_utter', 'utter_time', 'utter_ttl', 'last_reason',
-        'schedule')
-
-    def __init__(self, idx: int, x: float, y: float):
-        self.id = idx
-        self.name = f"사람-{idx:02d}"
-        self.sex = random.choice(SEX_CHOICES)
-        self.age = random.choices(AGE_STAGES, weights=[0.2, 0.6, 0.2])[0]
-        self.x, self.y = x, y
-        self.emotion = random.choice(EMOTIONS)
-        self.emotion_level = random.random()
-        self.hunger = random.uniform(0.2, 0.6)
-        self.last_utter = ""
-        self.utter_time = 0.0
-        self.utter_ttl = 2.0
-        self.last_reason = ""
-        self.schedule = [("work", 600, 1020), ("rest", 1020, 1320)]
-
-    def speak(self, text: str, now: float, reason: str = ""):
-        self.last_utter = text
-        self.utter_time = now
-        if reason:
-            self.last_reason = reason
-
-    def can_speak(self, now: float) -> bool:
-        return (now - self.utter_time) > 5.0
-
-    def radius(self) -> int:
-        return 6 if self.age == 'child' else (8 if self.age == 'adult' else 7)
-
-
-class Flora:
-    def __init__(self, x: int, y: int):
-        self.kind = 'berry_bush'
-        self.x, self.y = x, y
-        self.energy = 1.0
-
-
-class Fauna:
-    def __init__(self, x: float, y: float):
-        self.kind = 'deer'
-        self.x, self.y = x, y
-        self.stress = 0.0
-
-
-def create_agents(n: int, W: int, H: int) -> List[AgentEnt]:
-    return [AgentEnt(i, random.uniform(0, W - 1), random.uniform(0, H - 1)) for i in range(n)]
-
-
-def spawn_ecology(W: int, H: int, water: np.ndarray) -> Tuple[List[Flora], List[Fauna]]:
-    flora, fauna = [], []
-    for _ in range(40):
-        x = random.randint(0, W - 1)
-        y = random.randint(0, H - 1)
-        if water[y, x] == 1 or random.random() < 0.15:
-            flora.append(Flora(x, y))
-    for _ in range(12):
-        x = random.randint(0, W - 1)
-        y = random.randint(0, H - 1)
-        fauna.append(Fauna(x, y))
-    return flora, fauna
-
-
-def draw_help(screen: pygame.Surface, font, y_start: int) -> int:
-    lines = [
-        "[H] Help  Q: Quit",
-        "Move: WASD  Zoom: Wheel  Pan: Middle Drag",
-        "Layers: A/S/F/Z/W  Select: Left Click",
-    ]
-    pad = 10
-    line_h = max(18, font.get_sized_height() + 2)
-    h = pad + len(lines) * line_h + pad
-    surfs = [font.render(t, fgcolor=(220, 220, 230))[0] for t in lines]
-    w = max(260, max(s.get_width() for s in surfs) + 20)
-    panel = pygame.Surface((w, h), pygame.SRCALPHA)
-    panel.fill((0, 0, 0, 150))
-    y = pad
-    for surf in surfs:
-        panel.blit(surf, (10, y))
-        y += line_h
-    screen_h = screen.get_height()
-    y_pos = y_start + 10
-    if y_pos + h > screen_h - 10:
-        y_pos = screen_h - h - 10
-    screen.blit(panel, (10, y_pos))
-    return y_pos + h
-
-
 def ensure_dir(p: str):
     try:
         os.makedirs(os.path.dirname(p), exist_ok=True)
     except Exception:
         pass
+
+# --- Particle System for Events ---
+class Particle:
+    def __init__(self, x, y, color, max_life=1.0):
+        self.x = x
+        self.y = y
+        self.vx = random.uniform(-1, 1)
+        self.vy = random.uniform(-1, 1)
+        self.life = max_life
+        self.max_life = max_life
+        self.color = color
+
+    def update(self, dt):
+        self.x += self.vx * dt
+        self.y += self.vy * dt
+        self.life -= dt
+
+    def draw(self, surface, w2s_func):
+        if self.life > 0:
+            sx, sy = w2s_func(self.x, self.y)
+            alpha = int(255 * (self.life / self.max_life))
+            temp_surf = pygame.Surface((4, 4), pygame.SRCALPHA)
+            pygame.draw.circle(temp_surf, self.color + (alpha,), (2, 2), 2)
+            surface.blit(temp_surf, (sx - 2, sy - 2), special_flags=pygame.BLEND_RGBA_ADD)
 
 
 def main():
@@ -164,228 +78,109 @@ def main():
     cfg = load_cfg()
     W, H = cfg.get('world', {}).get('grid', [256, 256])
 
-    world = CellWorld(W, H)
+    # --- Initialize Core Components ---
+    mock_kg_manager = KGManager()
+    mock_wave_mechanics = WaveMechanics(mock_kg_manager)
+    value_cortex = ValueCortex(kg_path='data/kg.json') # SensoryCortex needs this
+    sensory_cortex = SensoryCortex(value_cortex)
+    world = World(primordial_dna={'instinct': 'observe'}, wave_mechanics=mock_wave_mechanics)
+
+    # Populate the world
+    world.add_cell('human_1', properties={'label': 'human', 'element_type': 'animal', 'culture': 'wuxia', 'gender': 'male', 'vitality': 7, 'wisdom': 8})
+    world.add_cell('human_2', properties={'label': 'human', 'element_type': 'animal', 'culture': 'knight', 'gender': 'female', 'vitality': 8, 'wisdom': 7})
+    world.add_cell('plant_1', properties={'label': 'tree', 'element_type': 'life'})
+    world.add_cell('wolf_1', properties={'label': 'wolf', 'element_type': 'animal', 'diet': 'carnivore'})
 
     pygame.init()
     screen = pygame.display.set_mode((args.size, args.size))
-    pygame.display.set_caption('Elysia Timeline (minimal)')
+    pygame.display.set_caption('Elysia\'s Inner World')
     font = get_font(16)
     clock = pygame.time.Clock()
 
-    # Load persisted view state
-    state_path = os.path.join(_PKG_ROOT, 'saves', 'viewer_state.json')
-    try:
-        _ = load_view_state(state_path)
-    except Exception:
-        pass
-
     running = True
-    # Zoom/Pan state
-    scale = 1.0
-    pan_x = 0.0
-    pan_y = 0.0
-    dragging = False
-    last_mouse = (0, 0)
-    last_print = time.time()
-    # Civilization state
-    agents: List[AgentEnt] = create_agents(25, W, H)
-    flora: List[Flora] = []
-    fauna: List[Fauna] = []
-    # time (minutes in a day 0..1440)
-    sim_min = 480  # 08:00
-    minutes_per_sec = 2.0
-    # metrics
-    knowledge_points = 0
-    events_count_10m = 0
-    last_metrics_log = time.time()
-    metrics_path = os.path.join(_PKG_ROOT, 'saves', 'metrics.jsonl')
-    ensure_dir(metrics_path)
-    # selection
-    selected_ids: set[int] = set()
-    show_only_selected = False
+    scale, pan_x, pan_y = 1.0, 0.0, 0.0
+    dragging, last_mouse = False, (0, 0)
+    particles: List[Particle] = []
 
     while running:
+        dt = clock.tick(args.fps) / 1000.0
         for e in pygame.event.get():
-            if e.type == pygame.QUIT:
+            if e.type == pygame.QUIT or (e.type == pygame.KEYDOWN and e.key == pygame.K_q):
                 running = False
             handle_layer_keys(e)
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_q:
-                running = False
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_t:
-                show_only_selected = not show_only_selected
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
-                selected_ids.clear()
-            # Zoom (wheel)
+            # Handle zoom and pan
             if e.type == pygame.MOUSEWHEEL:
                 mx, my = pygame.mouse.get_pos()
                 base = min(screen.get_width() / W, screen.get_height() / H)
                 s_old = base * scale
-                scale = max(0.5, min(4.0, scale * (1.1 if e.y > 0 else 0.9)))
+                scale = max(0.5, min(8.0, scale * (1.1 if e.y > 0 else 0.9)))
                 s_new = base * scale
-                # Keep cursor position during zoom
-                u = mx + pan_x
-                v = my + pan_y
-                pan_x = (u / s_old) * s_new - mx
-                pan_y = (v / s_old) * s_new - my
-            # Start panning (middle button)
+                u,v = mx + pan_x, my + pan_y
+                pan_x, pan_y = (u / s_old) * s_new - mx, (v / s_old) * s_new - my
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 2:
-                dragging = True
-                last_mouse = e.pos
+                dragging, last_mouse = True, e.pos
             if e.type == pygame.MOUSEBUTTONUP and e.button == 2:
                 dragging = False
             if e.type == pygame.MOUSEMOTION and dragging:
-                x, y = e.pos
-                lx, ly = last_mouse
-                dx, dy = x - lx, y - ly
-                pan_x += -dx
-                pan_y += -dy
-                last_mouse = (x, y)
-            # simple click-select nearest agent
-            if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
-                mx, my = e.pos
-                base = min(screen.get_width() / W, screen.get_height() / H)
-                s = max(0.5, min(4.0, scale)) * base
-                cx = (screen.get_width() - int(W * s)) // 2
-                cy = (screen.get_height() - int(H * s)) // 2
-                nearest = None
-                best_d2 = 1e18
-                for a in agents:
-                    sx = cx - pan_x + a.x * s
-                    sy = cy - pan_y + a.y * s
-                    d2 = (sx - mx) ** 2 + (sy - my) ** 2
-                    if d2 < best_d2:
-                        best_d2 = d2
-                        nearest = a
-                mods = pygame.key.get_mods()
-                if nearest and best_d2 < (18 ** 2):
-                    if mods & pygame.KMOD_CTRL:
-                        if nearest.id in selected_ids:
-                            selected_ids.remove(nearest.id)
-                    elif mods & pygame.KMOD_SHIFT:
-                        selected_ids.add(nearest.id)
-                    else:
-                        selected_ids = {nearest.id}
+                dx, dy = e.pos[0] - last_mouse[0], e.pos[1] - last_mouse[1]
+                pan_x, pan_y = pan_x - dx, pan_y - dy
+                last_mouse = e.pos
 
-        # Update world and classify
-        world.update_fields()
-        biome = classify_biome(world.height, world.moisture, world.temp)
-        # spawn ecology once
-        if not flora:
-            flora, fauna = spawn_ecology(W, H, (biome == 1).astype(np.uint8))
+        # --- World Simulation and Event Handling ---
+        dead_before = np.where(~world.is_alive_mask)[0]
+        world.run_simulation_step()
+        dead_after = np.where(~world.is_alive_mask)[0]
+        newly_dead_indices = np.setdiff1d(dead_after, dead_before)
 
-        # time update
-        dt = clock.get_time() / 1000.0
-        sim_min = (sim_min + minutes_per_sec * dt) % 1440.0
-        hh = int(sim_min // 60)
-        mm = int(sim_min % 60)
+        # --- Create Particles for Events ---
+        for dead_idx in newly_dead_indices:
+            pos = world.positions[dead_idx]
+            palette = sensory_cortex._get_color_palette("death")
+            for _ in range(30):
+                particles.append(Particle(pos[0], pos[1], random.choice(palette), max_life=1.5))
 
-        # Render biome as image
-        rgb = biome_to_rgb(biome)  # (H,W,3)
-        base_surf = pygame.surfarray.make_surface(rgb.swapaxes(0, 1))  # (W,H)
+        screen.fill((30, 30, 40))
+
         base = min(screen.get_width() / W, screen.get_height() / H)
-        s = max(0.5, min(4.0, scale)) * base
-        scaled_w = max(1, int(W * s))
-        scaled_h = max(1, int(H * s))
-        surf = pygame.transform.smoothscale(base_surf, (scaled_w, scaled_h))
-        # Center image and apply pan
-        cx = (screen.get_width() - scaled_w) // 2
-        cy = (screen.get_height() - scaled_h) // 2
-        screen.blit(surf, (cx - pan_x, cy - pan_y))
+        s = max(0.5, min(8.0, scale)) * base
+        cx, cy = (screen.get_width() - int(W * s)) // 2, (screen.get_height() - int(H * s)) // 2
 
-        # helpers: world->screen
         def w2s(px: float, py: float) -> Tuple[int, int]:
             return (int(cx - pan_x + px * s), int(cy - pan_y + py * s))
 
-        # simple behaviors + interactions
-        for a in agents:
-            a.hunger = min(1.0, a.hunger + 0.01 * (dt if 'dt' in locals() else 0.016))
-            in_work = any(st <= sim_min <= en for (k, st, en) in a.schedule if k == 'work')
-            a.emotion = 'joy' if in_work else 'calm'
-            a.emotion_level = 0.2 + (0.6 if in_work else 0.3)
-
-        # interactions (random short greetings when near)
-        now = time.time()
-        for i in range(len(agents)):
-            ai = agents[i]
-            if not ai.can_speak(now):
-                continue
-            j = random.randrange(len(agents))
-            aj = agents[j]
-            if ai is aj:
-                continue
-            if (ai.x - aj.x) ** 2 + (ai.y - aj.y) ** 2 < (18 ** 2):
-                ai.speak(random.choice(TEMPLATES['greet']), now, reason='social')
-
-        # draw flora/fauna
-        if LAYERS.get('flora', True):
-            for f in flora:
-                sx, sy = w2s(f.x, f.y)
-                pygame.draw.circle(screen, (60, 200, 90), (sx, sy), 4)
-        if LAYERS.get('fauna', True):
-            for f in fauna:
-                sx, sy = w2s(f.x, f.y)
-                pygame.draw.circle(screen, (200, 180, 120), (sx, sy), 5, 1)
-
-        # draw agents
-        draw_list = agents if not show_only_selected else [a for a in agents if a.id in selected_ids]
         if LAYERS.get('agents', True):
-            for a in draw_list:
-                sx, sy = w2s(a.x, a.y)
-                draw_emotion_aura(screen, (sx, sy), a.emotion, a.emotion_level)
-                color = (200, 220, 255) if a.sex == 'M' else (255, 180, 200)
-                pygame.draw.circle(screen, color, (sx, sy), a.radius())
-                if a.last_utter and (now - a.utter_time) < a.utter_ttl + 0.5:
-                    age = now - a.utter_time
-                    opacity = 1.0 if age < a.utter_ttl else max(0.0, 1.0 - (age - a.utter_ttl) / 0.5)
-                    draw_speech_bubble(screen, (sx, sy - a.radius() - 6), a.last_utter, font, opacity)
-                if a.id in selected_ids:
-                    pygame.draw.circle(screen, (80, 255, 180), (sx, sy), a.radius() + 2, 1)
+            for i, cell_id in enumerate(world.cell_ids):
+                if not world.is_alive_mask[i]:
+                    continue
+                sx, sy = w2s(world.positions[i][0], world.positions[i][1])
+                size = 5
+                color = (150, 150, 150)
+                if world.element_types[i] == 'animal': color = (200, 220, 255)
+                elif world.element_types[i] == 'life': color, size = (60, 200, 90), 4
+                if world.culture[i] == 'wuxia': color = (220, 100, 100)
+                elif world.culture[i] == 'knight': color = (100, 150, 220)
 
-        # HUD: help + layer indicators + metrics
+                draw_emotion_aura(screen, (sx, sy), world.emotions[i], 0.7)
+                pygame.draw.circle(screen, color, (sx, sy), size)
+                if world.is_injured[i]:
+                    pygame.draw.circle(screen, (255, 0, 0), (sx, sy), size + 2, 1)
+
+        # Update and draw particles
+        for p in particles:
+            p.update(dt)
+            p.draw(screen, w2s)
+        particles = [p for p in particles if p.life > 0]
+
         draw_layer_hud(screen)
-        draw_layer_panel(screen)
-        _ = draw_help(screen, font, 10)
-        hud_lines = [
-            f"Time {hh:02d}:{mm:02d}",
-            f"Pop {len(agents)}  Sel {len(selected_ids)}",
-            f"Food {sum(1 for f in flora if f.energy>0)}  KP {knowledge_points}",
-        ]
-        y0 = 10
+        hh, mm = int(world.time_step // 60), int(world.time_step % 60)
+        hud_lines = [f"Time {hh:02d}:{mm:02d}", f"Population {np.sum(world.is_alive_mask)}"]
         for i, tline in enumerate(hud_lines):
             surf, _ = font.render(tline, fgcolor=(235, 235, 245))
-            screen.blit(surf, (10, y0 + i * (font.get_sized_height() + 2)))
-
-        # metrics logging (best-effort)
-        if time.time() - last_metrics_log > 10.0:
-            last_metrics_log = time.time()
-            try:
-                with open(metrics_path, 'a', encoding='utf-8') as f:
-                    rec = {
-                        'ts': time.time(),
-                        'time_hhmm': f"{hh:02d}:{mm:02d}",
-                        'pop': len(agents),
-                        'food': sum(1 for f in flora if f.energy>0),
-                        'knowledge_points': knowledge_points,
-                        'events_10m': events_count_10m,
-                    }
-                    f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-                events_count_10m = 0
-            except Exception:
-                pass
+            screen.blit(surf, (screen.get_width() - surf.get_width() - 10, 10 + i * (font.get_sized_height() + 2)))
 
         pygame.display.flip()
-        clock.tick(args.fps)
 
-        if time.time() - last_print > 1.0:
-            last_print = time.time()
-
-    try:
-        save_view_state(state_path, {"pos": [0.0, 0.0], "zoom": 1.0}, False)
-    except Exception:
-        pass
     pygame.quit(); sys.exit()
-
 
 if __name__ == '__main__':
     main()
-
