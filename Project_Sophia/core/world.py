@@ -92,6 +92,7 @@ class World:
         self.vitality = np.array([], dtype=np.int32)
         self.wisdom = np.array([], dtype=np.int32)
         self.hunger = np.array([], dtype=np.float32)
+        self.hydration = np.array([], dtype=np.float32)
         self.temperature = np.array([], dtype=np.float32)
         self.satisfaction = np.array([], dtype=np.float32)
 
@@ -125,6 +126,7 @@ class World:
         self.width = 256  # Default size, can be configured
         self.height_map = np.zeros((self.width, self.width), dtype=np.float32)
         self.soil_fertility = np.full((self.width, self.width), 0.5, dtype=np.float32)
+        self.wetness = np.zeros((self.width, self.width), dtype=np.float32) # 0.0 (dry) to 1.0 (puddle)
         # Latitude map (y -> latitude radians, +north at top)
         y_coords = np.arange(self.width, dtype=np.float32)
         lat_norm = 0.5 - (y_coords / max(1, self.width))  # +0.5 at top, -0.5 at bottom
@@ -160,6 +162,7 @@ class World:
         self.vitality = np.pad(self.vitality, (0, new_size - current_size), 'constant')
         self.wisdom = np.pad(self.wisdom, (0, new_size - current_size), 'constant')
         self.hunger = np.pad(self.hunger, (0, new_size - current_size), 'constant', constant_values=100.0)
+        self.hydration = np.pad(self.hydration, (0, new_size - current_size), 'constant', constant_values=100.0)
         self.temperature = np.pad(self.temperature, (0, new_size - current_size), 'constant', constant_values=36.5)
         self.satisfaction = np.pad(self.satisfaction, (0, new_size - current_size), 'constant', constant_values=50.0)
 
@@ -353,6 +356,7 @@ class World:
 
 
         self.hunger[idx] = 100.0
+        self.hydration[idx] = 100.0
         self.temperature[idx] = 36.5
         self.satisfaction[idx] = 50.0
 
@@ -524,6 +528,24 @@ class World:
         self.cloud_cover = np.clip(self.cloud_cover, 0, 1)
         self.humidity = np.clip(self.humidity, 0, 1)
 
+        # --- Rain Event ---
+        is_raining = self.cloud_cover > 0.6 and self.humidity > 0.5 and random.random() < 0.2
+        if is_raining:
+            self.wetness += 0.2
+            self.wetness = np.clip(self.wetness, 0, 1)
+
+            # Plants get hydrated by rain
+            plant_mask = (self.element_types == 'life') & self.is_alive_mask
+            self.hydration[plant_mask] = np.minimum(100, self.hydration[plant_mask] + 10)
+
+            self.logger.info("PROVIDENCE: It has started to rain.")
+            self.event_logger.log('RAIN_START', self.time_step)
+        else:
+            # Dry out
+            self.wetness -= 0.01
+            self.wetness = np.clip(self.wetness, 0, 1)
+
+
         # --- Lightning Event ---
         if self.cloud_cover > 0.8 and self.humidity > 0.7 and random.random() < 0.1:
             if len(self.cell_ids) > 0:
@@ -628,10 +650,26 @@ class World:
         starvation_mask = self.is_alive_mask & (self.hunger <= 0)
         self.hp[starvation_mask] -= 2.0 # Penalty for starvation
 
+        # --- Hydration Depletion ---
+        self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.7)
+
+        # --- Dehydration ---
+        dehydration_mask = self.is_alive_mask & (self.hydration <= 0)
+        self.hp[dehydration_mask] -= 2.5 # Penalty for dehydration is slightly higher
+
         # --- Aging ---
         self.age[self.is_alive_mask] += 1
         old_age_mask = (self.age > self.max_age * 0.8) & self.is_alive_mask
         self.hp[old_age_mask] -= 0.5 # HP decay from old age
+
+        # --- Law of Mortality: Death from old age ---
+        death_by_age_mask = (self.age >= self.max_age) & self.is_alive_mask
+        self.hp[death_by_age_mask] = 0
+
+        dead_from_age_indices = np.where(death_by_age_mask)[0]
+        for idx in dead_from_age_indices:
+             self.logger.info(f"PROVIDENCE: '{self.cell_ids[idx]}' has died of old age.")
+             self.event_logger.log('DEATH_BY_OLD_AGE', self.time_step, cell_id=self.cell_ids[idx])
 
     def _update_emergent_fields(self):
         """Updates soft fields (e.g., threat) from distributed sources.
@@ -690,19 +728,29 @@ class World:
             for local_idx, i in enumerate(animal_indices):
                 if not self.is_alive_mask[i]:
                     continue
-                is_human = (self.labels[i] == 'human') or (self.culture[i] in ['wuxia', 'knight'])
-                if is_human:
-                    px, py = float(self.positions[i][0]), float(self.positions[i][1])
-                    gx, gy = self._sample_field_grad(self.threat_field, px, py)
-                    avoid = np.array([-gx, -gy, 0.0], dtype=np.float32)
-                    coh = np.zeros(3, dtype=np.float32)
-                    neigh = adj_matrix_csr[i].indices
-                    if neigh.size > 0:
-                        same = [j for j in neigh if self.is_alive_mask[j] and self.culture[j] == self.culture[i]]
-                        if len(same) > 0:
-                            center = self.positions[same].mean(axis=0)
-                            coh = (center - self.positions[i]) * self._cohesion_gain
-                    movement_vectors[local_idx] += avoid + coh
+                # is_human = (self.labels[i] == 'human') or (self.culture[i] in ['wuxia', 'knight'])
+                # if is_human:
+                px, py = float(self.positions[i][0]), float(self.positions[i][1])
+                gx, gy = self._sample_field_grad(self.threat_field, px, py)
+                avoid = np.array([-gx, -gy, 0.0], dtype=np.float32)
+                coh = np.zeros(3, dtype=np.float32)
+                kin_attraction = np.zeros(3, dtype=np.float32)
+
+                neigh = adj_matrix_csr[i].indices
+                if neigh.size > 0:
+                    # General cohesion towards same culture
+                    same_culture = [j for j in neigh if self.is_alive_mask[j] and self.culture[j] == self.culture[i]]
+                    if len(same_culture) > 0:
+                        center = self.positions[same_culture].mean(axis=0)
+                        coh = (center - self.positions[i]) * self._cohesion_gain
+
+                    # Strong attraction to kin (Will Field)
+                    kin = [j for j in neigh if self.is_alive_mask[j] and adj_matrix_csr[i, j] >= 0.8]
+                    if len(kin) > 0:
+                        kin_center = self.positions[kin].mean(axis=0)
+                        kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
+
+                movement_vectors[local_idx] += avoid + coh + kin_attraction
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
@@ -743,7 +791,26 @@ class World:
         selected_move = None
 
         # --- High-Priority Needs ---
-        # 1. ?닿린議곗떇 (Ki Circulation) if Ki is low and safe
+        # 1. Drink if thirsty
+        is_thirsty = self.hydration[actor_idx] < 40
+        if is_thirsty:
+            actor_pos = self.positions[actor_idx]
+            if self.wetness[int(actor_pos[1]) % self.width, int(actor_pos[0]) % self.width] > 0.5:
+                return None, 'drink', None
+            else:
+                # Simple search for a water source nearby
+                # This is a placeholder for a more sophisticated search algorithm
+                y, x = np.unravel_index(np.argmax(self.wetness, axis=None), self.wetness.shape)
+                water_pos = np.array([x, y, 0])
+                # This is not a proper pathfinding, just a simple move towards water
+                # A proper implementation would require a more complex system.
+                # For now, we create a pseudo-target to move towards.
+                # The action is still 'move_to_water', but it's handled by the movement system.
+                # A better approach will be implemented later.
+                pass # Let movement handle it for now
+
+
+        # 2. ?닿린議곗떇 (Ki Circulation) if Ki is low and safe
         is_wuxia = self.culture[actor_idx] == 'wuxia'
         connected_indices = adj_matrix_csr[actor_idx].indices
         is_safe = not np.any((self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices] & (connected_indices != actor_idx))
@@ -820,6 +887,12 @@ class World:
         """Executes the chosen action, including non-target actions like meditation."""
 
         # --- Handle non-target actions ---
+        if action == 'drink':
+            self.hydration[actor_idx] = min(100, self.hydration[actor_idx] + 50)
+            self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' drinks water.")
+            self.event_logger.log('DRINK', self.time_step, cell_id=self.cell_ids[actor_idx])
+            return
+
         if action == 'meditate':
             self.is_meditating[actor_idx] = True
             self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' begins ?닿린議곗떇.")
@@ -927,9 +1000,20 @@ class World:
         for i in fruiting_indices:
             if random.random() < 0.1: # 10% chance to create a seed each turn
                 new_seed_id = f"plant_{self.time_step}_{i}"
-                # Child properties can be inherited from parent plant
                 parent_cell = self.materialize_cell(self.cell_ids[i])
                 child_props = parent_cell.organelles.copy() if parent_cell else {'element_type': 'life'}
+
+                # --- Seed of Will Field: Plant Colonization ---
+                # New seed falls near the parent, forming groves and forests.
+                parent_pos = self.positions[i]
+                spread_radius = 2.0 # How far the seed can fall
+                new_pos = {
+                    'x': parent_pos[0] + random.uniform(-spread_radius, spread_radius),
+                    'y': parent_pos[1] + random.uniform(-spread_radius, spread_radius),
+                    'z': parent_pos[2]
+                }
+                child_props['position'] = new_pos
+
                 new_cell = Cell(new_seed_id, self.primordial_dna, initial_properties=child_props)
                 newly_born_cells.append(new_cell)
                 self.growth_stages[i] = 1 # Reset to growing stage
@@ -970,6 +1054,24 @@ class World:
                 self.mating_readiness[i] = 0.0
                 self.mating_readiness[mate_idx] = 0.0
                 self.logger.info(f"Mating: '{self.cell_ids[i]}' and '{self.cell_ids[mate_idx]}' produced '{new_animal_id}'.")
+
+                # --- Seed of Will Field: Forge family bonds ---
+                # Add the new cell to the world immediately to get its index
+                if new_animal_id not in self.id_to_idx:
+                    self.add_cell(new_animal_id, dna=new_cell.nucleus['dna'], properties=new_cell.organelles)
+
+                new_animal_idx = self.id_to_idx.get(new_animal_id)
+
+                if new_animal_idx is not None:
+                    # Parent-child bonds
+                    self.add_connection(self.cell_ids[i], new_animal_id, strength=0.9) # Mother-child
+                    self.add_connection(new_animal_id, self.cell_ids[i], strength=0.9)
+                    self.add_connection(self.cell_ids[mate_idx], new_animal_id, strength=0.9) # Father-child
+                    self.add_connection(new_animal_id, self.cell_ids[mate_idx], strength=0.9)
+
+                    # Sibling bonds (if any) - conceptual placeholder for now
+                    self.logger.info(f"WILL_FIELD: Forged family bonds for '{new_animal_id}'.")
+
                 break # Only one birth per turn
 
         return newly_born_cells
