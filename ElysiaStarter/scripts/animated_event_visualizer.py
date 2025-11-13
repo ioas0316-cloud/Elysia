@@ -19,11 +19,19 @@ if _REPO_ROOT not in sys.path:
     sys.path.insert(0, _REPO_ROOT)
 
 # --- Import the REAL World and Sensory Cortex ---
-from Project_Sophia.core.world import World
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Mirror.sensory_cortex import SensoryCortex
-from Project_Sophia.value_cortex import ValueCortex
-from tools.kg_manager import KGManager
+try:
+    from Project_Sophia.core.world import World
+    from Project_Sophia.wave_mechanics import WaveMechanics
+    from Project_Mirror.sensory_cortex import SensoryCortex
+    from Project_Sophia.value_cortex import ValueCortex
+    from tools.kg_manager import KGManager
+except ImportError as ex:
+    print("[오류] 필수 모듈이 없습니다. SciPy 또는 관련 의존성을 설치하세요.")
+    print("       start.bat가 자동으로 설치하지만, 실패 시 다음을 시도:")
+    print("       pip install scipy numpy pygame-ce pyquaternion")
+    print(f"       세부: {ex}")
+    time.sleep(5)
+    raise
 
 from ElysiaStarter.ui.view_state import load_view_state, save_view_state
 from ElysiaStarter.ui.layer_panel import handle_layer_keys, draw_layer_hud, draw_layer_panel

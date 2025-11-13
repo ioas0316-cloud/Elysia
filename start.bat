@@ -24,7 +24,8 @@ call %PY% -m pip --disable-pip-version-check -q install --upgrade pip setuptools
 if exist requirements.txt (
   call %PY% -m pip -q install -r requirements.txt
 ) else (
-  call %PY% -m pip -q install pygame-ce pyquaternion numpy
+  rem include scipy (required by Project_Sophia.core.world)
+  call %PY% -m pip -q install pygame-ce pyquaternion numpy scipy
 )
 
 REM prefer packaged exe
