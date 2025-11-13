@@ -284,7 +284,7 @@ def main():
     while running:
         dt = clock.tick(args.fps) / 1000.0
         for e in pygame.event.get():
-            if e.type == pygame.QUIT or (e.type == pygame.KEYDOWN and e.key == pygame.K_q):
+            if e.type == pygame.QUIT or (e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE):
                 running = False
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
@@ -672,7 +672,7 @@ def main():
             help_lines = [
                 '조작 — H로 표시/숨김',
                 '마우스: 휠 줌, 가운데 드래그 이동, 좌클릭 선택',
-                'Q 종료  |  Space 일시정지/재개  |  +/- 배속  |  1~5 배속 프리셋',
+                'ESC 종료  |  Space 일시정지/재개  |  +/- 배속  |  1~7 배속 프리셋',
                 '보기: G 그리드, T 지형, M 라벨, C 포커스, R 위협장',
                 '레이어: A 에이전트, S 구조물, F 식물, a 동물, W 의지',
                 '힌트: 점을 클릭하면 상세 표시, 좌하단: 이벤트',
@@ -763,8 +763,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
 
 
 
