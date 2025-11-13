@@ -32,12 +32,6 @@ def main():
     file_handler = logging.FileHandler("genesis_final.log", mode='w')
     file_handler.setFormatter(log_formatter)
 
-    # Specific logger for the world simulation that writes to the file
-    world_logger = logging.getLogger('WorldSim')
-    world_logger.setLevel(logging.INFO)
-    world_logger.addHandler(file_handler)
-    world_logger.propagate = False # Prevent world logs from appearing on console twice
-
     # --- 1. Initialization ---
     root_logger.info("Initializing Genesis Simulator for the Dawn of Humanity...")
 
@@ -51,8 +45,13 @@ def main():
     world = World(
         primordial_dna={'instinct': 'survive_and_grow'},
         wave_mechanics=mock_wave_mechanics,
-        logger=world_logger  # Pass the dedicated file logger to the world
+        logger=logging.getLogger('Project_Sophia.core.world')
     )
+    # Ensure the world's logger writes to our file for detailed debugging
+    world.logger.addHandler(file_handler)
+    world.logger.setLevel(logging.INFO)
+    world.logger.propagate = False
+
 
     # --- 2. World Creation: A Family, a Threat, and a Tool ---
     root_logger.info("Creating a scene for the dawn of humanity...")
@@ -104,8 +103,8 @@ def main():
 
     if father_idx is not None: world.positions[father_idx] = [0, 0, 0]
     if child_idx is not None: world.positions[child_idx] = [1, 0, 0] # Close to the father
-    if wolf1_idx is not None: world.positions[wolf1_idx] = [15, 2, 0] # Far away
-    if wolf2_idx is not None: world.positions[wolf2_idx] = [16, -1, 0] # Also far away
+    if wolf1_idx is not None: world.positions[wolf1_idx] = [5, 2, 0] # Closer
+    if wolf2_idx is not None: world.positions[wolf2_idx] = [6, -1, 0] # Closer
 
 
     root_logger.info("Initial world state:")
@@ -122,11 +121,6 @@ def main():
         child_idx = world.id_to_idx.get('human_child')
         wolf1_idx = world.id_to_idx.get('wolf_1')
         wolf2_idx = world.id_to_idx.get('wolf_2')
-
-        if father_idx: world.prestige[father_idx] = 10.0
-        if child_idx: world.prestige[child_idx] = 1.0
-        if wolf1_idx: world.prestige[wolf1_idx] = 8.0
-        if wolf2_idx: world.prestige[wolf2_idx] = 8.0
 
         world.run_simulation_step()
         world.print_world_summary()
