@@ -9,6 +9,7 @@ from scipy.sparse import lil_matrix, csr_matrix
 from .cell import Cell
 from .chronicle import Chronicle
 from .skills import MARTIAL_STYLES, Move
+from .world_event_logger import WorldEventLogger
 from ..wave_mechanics import WaveMechanics
 
 
@@ -18,6 +19,9 @@ class World:
     def __init__(self, primordial_dna: Dict, wave_mechanics: WaveMechanics,
                  chronicle: Optional[Chronicle] = None, logger: Optional[logging.Logger] = None,
                  branch_id: str = "main", parent_event_id: Optional[str] = None):
+        # --- Event Logger ---
+        self.event_logger = WorldEventLogger()
+
         # --- Core Attributes ---
         self.primordial_dna = primordial_dna
         self.wave_mechanics = wave_mechanics
@@ -534,6 +538,7 @@ class World:
         if np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
             if action == 'eat' and self.element_types[target_idx] == 'life':
                  self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' eats '{self.cell_ids[target_idx]}'.")
+                 self.event_logger.log('EAT', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
                  self.hp[target_idx] = 0 # Eating kills the plant
                  food_value = 20
                  self.hunger[actor_idx] = min(100, self.hunger[actor_idx] + food_value)
@@ -640,6 +645,7 @@ class World:
         dead_cell_indices = np.where(apoptosis_mask)[0]
         for dead_idx in dead_cell_indices:
             cell_id = self.cell_ids[dead_idx]
+            self.event_logger.log('DEATH', self.time_step, cell_id=cell_id) # Log the death event
             if cell_id in self.materialized_cells:
                 dead_cell = self.materialized_cells[cell_id]
 
