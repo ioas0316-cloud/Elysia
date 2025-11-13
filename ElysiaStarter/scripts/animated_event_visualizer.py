@@ -128,13 +128,17 @@ def main():
 
     # Observer-friendly initial conditions: avoid instant deaths
     if world.hunger.size:
-        world.hunger[:] = 80.0
+        world.hunger[:] = 95.0
     if world.hp.size and world.max_hp.size:
-        world.hp[:] = np.maximum(world.hp, world.max_hp * 0.9)
+        world.hp[:] = np.maximum(world.hp, world.max_hp * 0.95)
+    if getattr(world, 'is_injured', None) is not None and world.is_injured.size:
+        world.is_injured[:] = False
 
-    # Make weather lively for visual lightning
-    world.cloud_cover = 0.8
-    world.humidity = 0.8
+    # Calmer default weather for survivability (stormy preset available)
+    world.cloud_cover = 0.3
+    world.humidity = 0.3
+    if hasattr(world, 'day_length'):
+        world.day_length = max(120, int(world.day_length)*6)
 
     pygame.init()
     screen = pygame.display.set_mode((args.size, args.size))
@@ -145,7 +149,10 @@ def main():
     running = True
     scale, pan_x, pan_y = 1.0, 0.0, 0.0
     dragging, last_mouse = False, (0, 0)
-    sim_speed = 1  # steps per frame
+    # Real-time paced stepping (steps per second)
+    sim_rate = 0.25  # steps per second (very slow by default for observation)
+    sim_accum = 0.0
+    sim_speed = 1  # kept for compatibility with +/- UI, mapped to sim_rate
     paused = False
 
     # --- Event and Animation Management ---
@@ -211,6 +218,23 @@ def main():
                 pygame.draw.line(grid, (255,255,255,20), (0,y), (surface.get_width(),y))
             surface.blit(grid, (0,0))
 
+    # Ecology balancing (scenario helper, optional)
+    balanced_ecology = True
+    def maintain_ecology():
+        try:
+            plant_mask = (world.element_types == 'life') & world.is_alive_mask
+            animal_mask = (world.element_types == 'animal') & world.is_alive_mask
+            plant_count = int(np.sum(plant_mask))
+            animal_count = int(np.sum(animal_mask))
+            target_plants = max(20, animal_count * 2)
+            deficit = max(0, target_plants - plant_count)
+            add_now = min(deficit, 3)
+            for _ in range(add_now):
+                pid = f'plant_auto_{world.time_step}_{random.randint(0,9999)}'
+                world.add_cell(pid, properties={'label': 'bush', 'element_type': 'life', 'position': rand_pos()})
+        except Exception:
+            pass
+
     while running:
         dt = clock.tick(args.fps) / 1000.0
         for e in pygame.event.get():
@@ -223,12 +247,23 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 paused = not paused
                 ui_notify('Paused' if paused else 'Resumed')
+            # Tempo control: adjust steps per second (sim_rate)
             if e.type == pygame.KEYDOWN and e.key in (pygame.K_PLUS, pygame.K_EQUALS):
-                sim_speed = min(8, sim_speed + 1)
-                ui_notify(f"Speed x{sim_speed}")
+                sim_rate = min(16.0, sim_rate * 2.0)
+                ui_notify(f"Rate {sim_rate:.2f}/s")
             if e.type == pygame.KEYDOWN and e.key in (pygame.K_MINUS, pygame.K_UNDERSCORE):
-                sim_speed = max(0, sim_speed - 1)
-                ui_notify(f"Speed x{sim_speed}")
+                sim_rate = max(0.01, sim_rate / 2.0)
+                ui_notify(f"Rate {sim_rate:.2f}/s")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_1:
+                sim_rate = 0.10; ui_notify("Rate 0.10/s")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_2:
+                sim_rate = 0.25; ui_notify("Rate 0.25/s")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_3:
+                sim_rate = 0.50; ui_notify("Rate 0.50/s")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_4:
+                sim_rate = 1.00; ui_notify("Rate 1.00/s")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_5:
+                sim_rate = 2.00; ui_notify("Rate 2.00/s")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_g:
                 show_grid = not show_grid
                 ui_notify(f"Grid: {'ON' if show_grid else 'OFF'}")
@@ -273,10 +308,16 @@ def main():
                 pan_x, pan_y = pan_x - dx, pan_y - dy
                 last_mouse = e.pos
 
-        # Simulation step(s)
-        if not paused:
-            for _ in range(max(1, sim_speed)):
+        # Simulation step(s) paced by real time
+        if not paused and sim_rate > 0:
+            sim_accum += dt
+            interval = 1.0 / sim_rate
+            while sim_accum >= interval:
                 world.run_simulation_step()
+                # Optional ecology maintenance to avoid mass die-off before emergence
+                if balanced_ecology and (world.time_step % 5 == 0):
+                    maintain_ecology()
+                sim_accum -= interval
 
         # --- Process World Events for Animation ---
         try:
@@ -465,7 +506,7 @@ def main():
         hud_lines = [
             f"Time {hh:02d}:{mm:02d}",
             f"Population {int(np.sum(world.is_alive_mask))}",
-            f"Speed x{sim_speed}{' (paused)' if paused else ''}",
+            f"Rate {sim_rate:.2f}/s{' (paused)' if paused else ''}",
         ]
         for i, tline in enumerate(hud_lines):
             surf, _ = font.render(tline, fgcolor=(235, 235, 245))
