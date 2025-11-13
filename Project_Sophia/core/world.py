@@ -277,7 +277,7 @@ class World:
         self.age[idx] = 0
         self.is_injured[idx] = False
         self.is_meditating[idx] = False
-        self.max_age[idx] = random.randint(80, 120)
+        # max_age는 나중에 라벨/종을 파악한 후 '연 단위'로 결정하고, 내부 저장은 '틱' 단위로 변환한다.
         self.insight[idx] = 0.0
         self.emotions[idx] = 'neutral'
 
@@ -348,6 +348,28 @@ class World:
             self.diets[idx] = 'omnivore'
             self.genders[idx] = ''
             self.labels[idx] = concept_id
+
+        # --- Lifespan selection (years -> ticks) based on label/type ---
+        def _lifespan_years(label: str, element_type: str) -> int:
+            label = (label or '').lower()
+            if label == 'human':
+                return random.randint(70, 100)
+            if label in ('wolf', 'deer'):
+                return random.randint(8, 16)
+            if label in ('tree',):
+                return random.randint(50, 200)
+            if label in ('bush', 'plant'):
+                return random.randint(3, 12)
+            if element_type == 'animal':
+                return random.randint(6, 20)
+            if element_type == 'life':
+                return random.randint(5, 30)
+            return random.randint(40, 100)
+
+        current_label = self.labels[idx] if self.labels[idx] else properties.get('label', concept_id)
+        current_type = self.element_types[idx]
+        years = _lifespan_years(current_label, current_type)
+        self.max_age[idx] = max(1, int(years * self._year_length_ticks()))
 
         # --- Final Override ---
         # Ensure that properties passed directly to add_cell take ultimate precedence,
