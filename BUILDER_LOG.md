@@ -78,3 +78,4 @@
 2025-11-13 23:11 | [STARTER/LENS] | Add dynamic lenses: event ticker, health/hunger bars, lightning/impact effects, cinematic focus toggle(C) | Improve human-friendly observation | VISUALIZATION_LENSES.md
 2025-11-13 23:17 | [STARTER/UI] | Add in-app help overlay + UI tooltips via ticker; README controls section | Improve human onboarding | VISUALIZATION_LENSES.md
 2025-11-13 23:19 | [STARTER/PACE] | Slow-time sim pacing (rate in steps/sec, presets), calmer weather, ecology helper to avoid early die-off | Better human observation window | README updated
+2025-11-13 23:35 | [CORE+UI] | Add spells (firebolt/heal), AGI evasion/speed; selection HUD with stats/HP-Ki-MP-Faith; crosshair cursor; save/load keys | Human observation + depth

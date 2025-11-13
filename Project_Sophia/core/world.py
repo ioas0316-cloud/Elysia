@@ -9,6 +9,7 @@ from scipy.sparse import lil_matrix, csr_matrix
 from .cell import Cell
 from .chronicle import Chronicle
 from .skills import MARTIAL_STYLES, Move
+from .spells import SPELL_BOOK, cast_spell
 from .world_event_logger import WorldEventLogger
 from ..wave_mechanics import WaveMechanics
 
@@ -29,8 +30,9 @@ class World:
         self.time_step = 0
         self.logger = logger or logging.getLogger(__name__)
 
-        # --- Martial Arts ---
+        # --- Martial Arts / Spells ---
         self.martial_styles = MARTIAL_STYLES
+        self.spells = SPELL_BOOK
         if self.logger:
             self.logger.info(f"Loaded {len(self.martial_styles)} martial art styles.")
 
@@ -442,9 +444,12 @@ class World:
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
 
-        # Basic random movement & cohesion
-        movement_vectors = np.random.randn(np.sum(animal_mask), 3) * 0.1
-        self.positions[animal_mask] += movement_vectors
+        # Basic random movement & cohesion (agility influences pace)
+        n_animals = int(np.sum(animal_mask))
+        if n_animals > 0:
+            movement_vectors = np.random.randn(n_animals, 3) * 0.1
+            speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
+            self.positions[animal_mask] += movement_vectors * speeds
         fish_mask = (self.labels == 'fish') & self.is_alive_mask
         fish_indices = np.where(fish_mask)[0]
         for i in fish_indices:
@@ -525,7 +530,7 @@ class World:
 
         target_idx = potential_target_indices[np.argmin(self.hp[np.array(potential_target_indices)])]
 
-        # --- Tactical Decision: Attack or Use Skill ---
+        # --- Tactical Decision: Attack or Use Skill/Spell ---
         if self.element_types[target_idx] == 'animal':
             action = 'attack'
             actor_affiliation = self.affiliation[actor_idx]
@@ -542,6 +547,14 @@ class World:
                         break
                     elif not is_ultimate:
                         selected_move = move
+            # Simple spell usage for mana users (e.g., knight)
+            culture = self.culture[actor_idx]
+            if culture == 'knight' and self.mana[actor_idx] >= 8:
+                if self.hp[actor_idx] < self.max_hp[actor_idx] * 0.6 and self.mana[actor_idx] >= 8:
+                    action = 'cast_heal'
+                    target_idx = None
+                elif self.mana[actor_idx] >= 10:
+                    action = 'cast_firebolt'
         else:
             action = 'eat'
 
@@ -575,7 +588,8 @@ class World:
         # --- Handle target-based actions ---
         direction = self.positions[target_idx] - self.positions[actor_idx]
         if np.linalg.norm(direction) > 0:
-            self.positions[actor_idx] += (direction / np.linalg.norm(direction)) * 0.2
+            step = 0.1 + (float(self.agility[actor_idx]) * 0.002)
+            self.positions[actor_idx] += (direction / np.linalg.norm(direction)) * step
 
         if np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
             if action == 'eat' and self.element_types[target_idx] == 'life':
@@ -593,6 +607,37 @@ class World:
                 damage_multiplier = move.apply_effect(self, actor_idx, target_idx, self.hp)
             elif action == 'attack':
                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' attacks '{self.cell_ids[target_idx]}'.")
+            elif action == 'cast_firebolt':
+                if self.spells.get('firebolt'):
+                    # Evasion check
+                    from random import random
+                    evade_chance = min(0.4, float(self.agility[target_idx]) / 100.0)
+                    if random() < evade_chance:
+                        self.logger.info(f"EVADE: '{self.cell_ids[target_idx]}' evaded Firebolt.")
+                        self.event_logger.log('EVADE', self.time_step, cell_id=self.cell_ids[target_idx])
+                        return
+                    result = cast_spell(self, 'firebolt', actor_idx, target_idx)
+                    dmg = float(result.get('damage', 0.0))
+                    if dmg > 0:
+                        self.logger.info(f"SPELL: '{self.cell_ids[actor_idx]}' casts Firebolt on '{self.cell_ids[target_idx]}' ({dmg:.1f}).")
+                        self.event_logger.log('SPELL', self.time_step, caster_id=self.cell_ids[actor_idx], spell='firebolt', target_id=self.cell_ids[target_idx], damage=dmg)
+                    return
+            elif action == 'cast_heal':
+                if self.spells.get('heal'):
+                    result = cast_spell(self, 'heal', actor_idx, None)
+                    healed = float(result.get('heal', 0.0))
+                    if healed > 0:
+                        self.logger.info(f"SPELL: '{self.cell_ids[actor_idx]}' casts Heal (+{healed:.1f}).")
+                        self.event_logger.log('SPELL', self.time_step, caster_id=self.cell_ids[actor_idx], spell='heal', heal=healed)
+                    return
+
+            # Evasion chance based on target agility
+            from random import random
+            evade_chance = min(0.4, float(self.agility[target_idx]) / 100.0)
+            if random() < evade_chance:
+                self.logger.info(f"EVADE: '{self.cell_ids[target_idx]}' evaded the attack.")
+                self.event_logger.log('EVADE', self.time_step, cell_id=self.cell_ids[target_idx])
+                return
 
             base_damage = self.strength[actor_idx]
             final_damage = max(0, (base_damage + random.randint(-2, 2)) * damage_multiplier)

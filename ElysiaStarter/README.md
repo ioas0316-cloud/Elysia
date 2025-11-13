@@ -47,6 +47,15 @@ python scripts/run_world.py --steps 2000 --render 1  # pygame 렌더
 - G/T/M: 그리드/지형/라벨 토글
 - 좌클릭: 개체 선택(우하단 상세/이동 궤적 표시)
 - 좌하단: 이벤트 티커(먹음/사망/번개 등)
+- F5/F9: 월드 저장/불러오기 (saves/world_state.json)
+
+### 선택/상태창 (StarCraft 스타일)
+- 마우스 커서: 조준 십자선(Crosshair)
+- 호버/선택 링: 마우스 근처/선택 유닛에 링 표시
+- 상태창(우하단):
+  - 이름/ID, 직업(문화), 성별, 나이/최대나이
+  - HP/Ki/MP/Faith 바 + 수치
+  - 5대 스탯(STR/AGI/INT/VIT/WIS) + 재능(고스탯 태그)
 
 ### 관찰 페이스(느리게 보기)
 - 기본은 매우 느린 0.25 steps/sec로 시작합니다.

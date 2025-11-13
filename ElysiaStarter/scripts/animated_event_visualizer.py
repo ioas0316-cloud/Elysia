@@ -30,6 +30,7 @@ from ElysiaStarter.ui.layer_panel import handle_layer_keys, draw_layer_hud, draw
 from ElysiaStarter.ui.fonts import get_font
 from ElysiaStarter.ui.layers import LAYERS
 from ElysiaStarter.ui.render_overlays import draw_speech_bubble, draw_emotion_aura
+from Project_Elysia.core import persistence as world_persistence
 
 
 def load_cfg():
@@ -145,6 +146,10 @@ def main():
     pygame.display.set_caption('Elysia\'s Animated World')
     font = get_font(16)
     clock = pygame.time.Clock()
+    try:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
+    except Exception:
+        pass
 
     running = True
     scale, pan_x, pan_y = 1.0, 0.0, 0.0
@@ -276,6 +281,19 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_h:
                 show_help = not show_help
                 ui_notify('Help shown' if show_help else 'Help hidden')
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F5:
+                try:
+                    world_persistence.save_world_state(world)
+                    ui_notify('Saved world (F5)')
+                except Exception as ex:
+                    ui_notify(f'Save failed: {ex}')
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
+                try:
+                    new_world = world_persistence.load_world_state(world=world, wave_mechanics=mock_wave_mechanics)
+                    world = new_world
+                    ui_notify('Loaded world (F9)')
+                except Exception as ex:
+                    ui_notify(f'Load failed: {ex}')
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 # select nearest alive cell
                 mx,my = e.pos
@@ -400,6 +418,19 @@ def main():
             pan_x = pan_x * 0.9 + (ex - target_px) * 0.1
             pan_y = pan_y * 0.9 + (ey - target_py) * 0.1
 
+        # Determine hover candidate for highlighting
+        mx, my = pygame.mouse.get_pos()
+        hover_idx = None
+        alive = np.where(world.is_alive_mask)[0]
+        if alive.size:
+            def d2(i):
+                sx, sy = w2s(world.positions[i][0], world.positions[i][1])
+                return (sx - mx)**2 + (sy - my)**2
+            hi = min(alive.tolist(), key=d2)
+            sxh, syh = w2s(world.positions[hi][0], world.positions[hi][1])
+            if (sxh - mx)**2 + (syh - my)**2 < 18**2:
+                hover_idx = hi
+
         # Draw cells
         for i, cell_id in enumerate(world.cell_ids):
             # Skip drawing if the cell is in the process of a death animation
@@ -456,6 +487,12 @@ def main():
                 pygame.draw.polygon(temp_surf, (255,120,120,alpha), points)
 
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
+
+            # Hover/Selection rings
+            if hover_idx == i:
+                pygame.draw.circle(screen, (240,240,120), (sx, sy), size+6, 1)
+            if selected_id == cell_id:
+                pygame.draw.circle(screen, (120,200,255), (sx, sy), size+8, 2)
 
             # Optional label
             if show_labels:
@@ -555,20 +592,63 @@ def main():
                     x1,y1 = w2s(*trail[j-1]); x2,y2 = w2s(*trail[j])
                     pygame.draw.line(screen, (120,200,255), (x1,y1), (x2,y2), 1)
 
+                # Build selection detail panel
+                name = world.labels[idx] if world.labels.size>idx and world.labels[idx] else selected_id
+                gender = world.genders[idx] if world.genders.size>idx else ''
+                culture = world.culture[idx] if world.culture.size>idx else ''
+                cls = f"{culture or 'commoner'}"
+                age = int(world.age[idx]) if world.age.size>idx else 0
+                max_age = int(world.max_age[idx]) if world.max_age.size>idx else 0
+                def talents():
+                    ts = []
+                    if world.strength[idx] >= 12: ts.append('Brute')
+                    if world.agility[idx] >= 12: ts.append('Swift')
+                    if world.intelligence[idx] >= 12: ts.append('Sage')
+                    if world.wisdom[idx] >= 12: ts.append('Monk')
+                    if world.vitality[idx] >= 12: ts.append('Stout')
+                    return ', '.join(ts) or '-'
+
                 lines = [
-                    f"Selected: {selected_id}",
-                    f"HP {world.hp[idx]:.0f}/{world.max_hp[idx]:.0f}",
-                    f"Hunger {world.hunger[idx]:.0f}",
-                    f"Stats S{world.strength[idx]} A{world.agility[idx]} I{world.intelligence[idx]} V{world.vitality[idx]} W{world.wisdom[idx]}",
+                    f"{name} ({selected_id})",
+                    f"Class {cls}  |  Gender {gender or '-'}",
+                    f"Age {age}/{max_age}",
                 ]
-                detail_surfs = [font.render(l, fgcolor=(235,235,245))[0] for l in lines]
-                wmax = max(s.get_width() for s in detail_surfs) + 14
-                hsum = sum(s.get_height() for s in detail_surfs) + 14
+                base_surfs = [font.render(l, fgcolor=(235,235,245))[0] for l in lines]
+                # Stat lines
+                stat_line = f"STR {world.strength[idx]}  AGI {world.agility[idx]}  INT {world.intelligence[idx]}  VIT {world.vitality[idx]}  WIS {world.wisdom[idx]}"
+                talents_line = f"Talents {talents()}"
+                stat_surfs = [font.render(stat_line, fgcolor=(220,230,240))[0], font.render(talents_line, fgcolor=(220,230,240))[0]]
+
+                # Build panel size
+                wmax = max([s.get_width() for s in base_surfs + stat_surfs] + [200]) + 16
+                hsum = sum(s.get_height() for s in base_surfs + stat_surfs) + 8 + 4*8 + 20
                 panel = pygame.Surface((wmax, hsum), pygame.SRCALPHA)
-                panel.fill((0,0,0,140))
-                y=7
-                for s in detail_surfs:
-                    panel.blit(s, (7,y)); y+=s.get_height()
+                panel.fill((0,0,0,150))
+                y = 6
+                for s in base_surfs:
+                    panel.blit(s, (8, y)); y += s.get_height()
+
+                # Resource bars HP/Ki/Mana/Faith
+                def draw_bar(label, curr, maxv, color):
+                    nonlocal y
+                    bar_w, bar_h = wmax - 16 - 70, 6
+                    x0 = 8 + 70
+                    ratio = 0.0 if maxv <= 0 else max(0.0, min(1.0, float(curr/maxv)))
+                    txt, _ = font.render(f"{label}", fgcolor=(235,235,245))
+                    panel.blit(txt, (8, y-1))
+                    pygame.draw.rect(panel, (50,60,70,200), pygame.Rect(x0, y, bar_w, bar_h), border_radius=2)
+                    pygame.draw.rect(panel, color, pygame.Rect(x0, y, int(bar_w*ratio), bar_h), border_radius=2)
+                    y += bar_h + 6
+
+                draw_bar('HP', world.hp[idx], world.max_hp[idx], (80,220,120,230))
+                draw_bar('Ki', world.ki[idx] if world.ki.size>idx else 0, world.max_ki[idx] if world.max_ki.size>idx else 0, (120,200,255,230))
+                draw_bar('MP', world.mana[idx] if world.mana.size>idx else 0, world.max_mana[idx] if world.max_mana.size>idx else 0, (120,120,255,230))
+                draw_bar('Faith', world.faith[idx] if world.faith.size>idx else 0, world.max_faith[idx] if world.max_faith.size>idx else 0, (240,200,120,230))
+
+                # Stat lines
+                for s in stat_surfs:
+                    panel.blit(s, (8, y)); y += s.get_height()
+
                 screen.blit(panel, (screen.get_width()-wmax-10, screen.get_height()-hsum-10))
 
 
