@@ -5,6 +5,10 @@ REM Minimal, ASCII-safe launcher
 REM fix working directory to this script location
 pushd "%~dp0"
 
+REM Force UTF-8 console to prevent mojibake in Korean output
+chcp 65001 >nul 2>&1
+set "PYTHONIOENCODING=utf-8"
+
 REM pick Python: prefer venv, else py -3, else python
 set "PY=.venv\Scripts\python.exe"
 if not exist ".venv\Scripts\python.exe" (
@@ -36,6 +40,9 @@ if exist "dist\Elysia\Elysia.exe" (
 
 REM else run scripts
 set "PYTHONPATH=%CD%"
+REM Prefer stable SDL driver unless user already set it
+if "%SDL_VIDEODRIVER%"=="" set "SDL_VIDEODRIVER=windows"
+if "%SDL_AUDIODRIVER%"=="" set "SDL_AUDIODRIVER=dummy"
 if exist "ElysiaStarter\scripts\animated_event_visualizer.py" (
   call %PY% "ElysiaStarter\scripts\animated_event_visualizer.py"
 ) else if exist "ElysiaStarter\scripts\visualize_timeline.py" (

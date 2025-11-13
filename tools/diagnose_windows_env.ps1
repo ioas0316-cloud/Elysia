@@ -5,6 +5,12 @@ param(
   [int]$Seconds = 4
 )
 
+# UTF-8 출력 강제 (VSCode/PowerShell 한글 깨짐 방지)
+try { chcp.com 65001 > $null 2>&1 } catch {}
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+$OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+$env:PYTHONIOENCODING = 'utf-8'
+
 Write-Host "[진단] Pygame/SDL 윈도우 드라이버 환경 점검 시작" -ForegroundColor Cyan
 Write-Host "        Python  : $Python"
 Write-Host "        Drivers : $($Drivers -join ', ')"
@@ -43,8 +49,8 @@ $results | ForEach-Object {
 }
 
 if ($results.Where({ $_.ExitCode -eq 0 }).Count -gt 0) {
-  Write-Host "`n[안내] 위에서 성공한 드라이버를 SDL_VIDEODRIVER 기본값으로 사용을 권장합니다." -ForegroundColor Cyan
-  Write-Host "      예) PowerShell에서:  $env:SDL_VIDEODRIVER='windows' ; .\start.bat"
+  Write-Host "`n[안내] 위에서 성공한 드라이버를 SDL_VIDEODRIVER 기본값으로 사용할 것을 권장합니다." -ForegroundColor Cyan
+  Write-Host "      예) PowerShell에서:  `\$env:SDL_VIDEODRIVER='windows'; .\start.bat"
   exit 0
 } else {
   Write-Host "`n[점검 필요] 모든 드라이버에서 실패했습니다. GPU/원격/가상환경 설정 확인이 필요합니다." -ForegroundColor Red
