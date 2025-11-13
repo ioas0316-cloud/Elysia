@@ -25,10 +25,12 @@ If you need details (optional)
 
 Observation (watch the world)
 - Double‑click `start.bat` on Windows to open the simulation window.
-  - Zoom: mouse wheel
+  - Zoom: mouse wheel (cursor‑anchored)
   - Pan: middle button drag
   - Select: left click
-  - Quit: press Q or close window
+  - Quit: press ESC or close window
+  - Speed presets: 1→0.10×, 2→0.25×, 3→0.50×, 4→1.00×, 5→2.00×, 6→4.00×, 7→8.00×
+  - Skill mode: X toggles target/AoE; cast with Q/W/E/R
 
 Questions welcome
 - If purpose or boundaries are unclear, ask before changing structure.
