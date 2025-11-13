@@ -19,7 +19,8 @@ python scripts/run_world.py --steps 2000 --render 1  # pygame 렌더
 - `core/concept_os/kernel_v2.py` : Concept Message / Nanobot v2 스텁
 - `core/cuda/runtime.py` : CUDA 런타임 스텁(CPU fallback)
 - `bridges/*`          : Chronos/Spatial ↔ ConceptOS 브리지 스텁
-- `scripts/visualize_timeline.py` : 타임라인/바이옴 오버레이 렌더(간단)
+- `scripts/animated_event_visualizer.py` : 이벤트 기반 애니메이션(번개/런지/사망 페이드)
+  - fallback: `scripts/visualize_timeline.py` (구 버전 파티클 타임라인)
 - `scripts/run_world.py` : 실행 루프(렌더 on/off)
 - `docs/26_*.md, 27_*.md` : CUDA & ConceptOS v2 초안
 - `config/runtime.yaml` : 실행 설정
