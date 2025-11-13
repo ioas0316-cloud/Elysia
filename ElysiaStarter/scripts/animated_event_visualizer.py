@@ -175,6 +175,44 @@ def main():
     selected_id: Optional[str] = None
     trail: List[Tuple[float,float]] = []
     show_help = True  # in-app help overlay
+    divine_mode = False  # 신성력 모드 (커서로 치유/강화)
+
+    def screen_to_world(mx:int, my:int, scale_val:float) -> Tuple[float,float]:
+        base_local = min(screen.get_width() / W, screen.get_height() / H)
+        s_local = base_local * scale_val
+        cx_local = (screen.get_width() - int(W * s_local)) // 2
+        cy_local = (screen.get_height() - int(H * s_local)) // 2
+        wx = (mx - cx_local + pan_x) / max(1e-6, s_local)
+        wy = (my - cy_local + pan_y) / max(1e-6, s_local)
+        return float(wx), float(wy)
+
+    def apply_divine_power(wx: float, wy: float, radius_world: float = 6.0) -> int:
+        """Heal/inspire agents within radius around world coords (wx, wy)."""
+        affected = 0
+        if not world.cell_ids:
+            return affected
+        r2 = radius_world * radius_world
+        for i, cid in enumerate(world.cell_ids):
+            if i >= world.positions.shape[0]:
+                continue
+            if not (world.is_alive_mask.size>i and world.is_alive_mask[i]):
+                continue
+            dx = float(world.positions[i][0]) - wx
+            dy = float(world.positions[i][1]) - wy
+            if dx*dx + dy*dy <= r2:
+                try:
+                    world.inject_stimulus(cid, 10.0)
+                except Exception:
+                    if world.hp.size>i and world.max_hp.size>i:
+                        world.hp[i] = min(world.max_hp[i], world.hp[i] + 10.0)
+                if world.is_injured.size>i:
+                    world.is_injured[i] = False
+                if world.max_ki.size>i and world.ki.size>i:
+                    world.ki[i] = min(world.max_ki[i], world.ki[i] + 5.0)
+                if world.max_mana.size>i and world.mana.size>i:
+                    world.mana[i] = min(world.max_mana[i], world.mana[i] + 5.0)
+                affected += 1
+        return affected
 
     def ui_notify(msg: str):
         try:
@@ -272,6 +310,10 @@ def main():
                 sim_rate = 1.00; ui_notify("諛곗냽 x1.00")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_5:
                 sim_rate = 2.00; ui_notify("諛곗냽 x2.00")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_6:
+                sim_rate = 4.00; ui_notify("배속 x4.00")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_7:
+                sim_rate = 8.00; ui_notify("배속 x8.00")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_g:
                 show_grid = not show_grid
                 ui_notify(f"洹몃━?? {'耳쒖쭚' if show_grid else '爰쇱쭚'}")
@@ -641,7 +683,8 @@ def main():
             panel = pygame.Surface((wmax, hsum), pygame.SRCALPHA)
             panel.fill((0,0,0,150))
             y = 7
-            for line_surf in hsurfs:\n                panel.blit(line_surf, (7,y)); y += line_surf.get_height()
+            for line_surf in hsurfs:
+                panel.blit(line_surf, (7,y)); y += line_surf.get_height()
             screen.blit(panel, (10, 10))
 
         # Selection detail panel (bottom-right)
@@ -688,7 +731,7 @@ def main():
                 panel = pygame.Surface((wmax, hsum), pygame.SRCALPHA)
                 panel.fill((0,0,0,150))
                 y = 6
-                for surf_l in base_surfs:\n                    panel.blit(surf_l, (8, y)); y += surf_l.get_height()
+                for surf_l in base_surfs:                    panel.blit(surf_l, (8, y)); y += surf_l.get_height()
 
                 # Resource bars HP/Ki/Mana/Faith
                 def draw_bar(label, curr, maxv, color):
@@ -708,7 +751,7 @@ def main():
                 draw_bar('Faith', world.faith[idx] if world.faith.size>idx else 0, world.max_faith[idx] if world.max_faith.size>idx else 0, (240,200,120,230))
 
                 # Stat lines
-                for surf_l in stat_surfs:\n                    panel.blit(surf_l, (8, y)); y += surf_l.get_height()
+                for surf_l in stat_surfs:                    panel.blit(surf_l, (8, y)); y += surf_l.get_height()
 
                 screen.blit(panel, (screen.get_width()-wmax-10, screen.get_height()-hsum-10))
 
@@ -720,7 +763,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
 
 
 
