@@ -33,6 +33,10 @@ from ElysiaStarter.ui.render_overlays import draw_speech_bubble, draw_emotion_au
 from Project_Elysia.core import persistence as world_persistence
 
 
+# 전역 이벤트 티커(알림) 버퍼: UI에서 공용으로 사용
+GLOBAL_EVENT_TICKER: List[Tuple[float, str]] = []
+
+
 def load_cfg():
     here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     cfg_path = os.path.join(here, 'config', 'runtime.yaml')
@@ -166,7 +170,7 @@ def main():
     animations: Dict[str, Animation] = {} # cell_id -> Animation object
     dying_cells: Dict[str, float] = {} # cell_id -> death_timestamp
     impact_anims: List[Animation] = [] # position-based flashes/bolts/pulses
-    event_ticker: List[Tuple[float, str]] = [] # (time, text)
+    event_ticker: List[Tuple[float, str]] = GLOBAL_EVENT_TICKER # (time, text)
     cinematic_focus = False
     show_labels = False
     show_grid = True
@@ -218,7 +222,7 @@ def main():
 
 def ui_notify(msg: str):
     try:
-        event_ticker.append((time.time(), msg))
+        GLOBAL_EVENT_TICKER.append((time.time(), msg))
     except Exception:
         pass
     
@@ -292,9 +296,17 @@ def ui_notify(msg: str):
         # colorize noise into simple biome colors
         arr = (terrain_noise*255).astype(np.uint8)
         palette = np.zeros((arr.shape[0], arr.shape[1], 3), dtype=np.uint8)
-        water = arr < 90
-        sand = (arr >= 90) & (arr < 110)
-        grass = (arr >= 110) & (arr < 200)
+        # 조석(밀물/썰물): 달의 인력에 따라 수위가 미세하게 변동
+        tide_shift = 0
+        try:
+            tide_shift = int(4 * getattr(world, 'tide_level_global', 0.0))
+        except Exception:
+            tide_shift = 0
+        water_threshold = 90 + tide_shift
+        sand_low, sand_high = water_threshold, water_threshold + 20
+        water = arr < water_threshold
+        sand = (arr >= sand_low) & (arr < sand_high)
+        grass = (arr >= sand_high) & (arr < 200)
         rock = arr >= 200
         palette[water] = (30,40,70)
         palette[sand] = (170,150,110)
@@ -490,6 +502,14 @@ def ui_notify(msg: str):
                     if idx is not None:
                         pos = world.positions[idx]
                         impact_anims.append(FocusPulse(tuple(pos[:2])))
+                    event_ticker.append((time.time(), f"{data['cell_id']} 사망"))
+
+                elif event_type == 'HOWL' and 'cell_id' in data:
+                    idx = world.id_to_idx.get(data['cell_id'])
+                    if idx is not None:
+                        pos = world.positions[idx]
+                        impact_anims.append(FocusPulse(tuple(pos[:2])))
+                    event_ticker.append((time.time(), f"{data['cell_id']}가 달을 보고 울부짖음"))
                     event_ticker.append((time.time(), f"{data['cell_id']} ?щ쭩"))
 
                 elif event_type == 'LIGHTNING_STRIKE' and 'cell_id' in data:
@@ -714,13 +734,36 @@ def ui_notify(msg: str):
                 pygame.draw.circle(surf, (120,220,255,a), (rr,rr), rr, 2)
                 screen.blit(surf, (fx-rr, fy-rr))
 
-        # Day/Night tint overlay
-        day_phase = (world.time_step % world.day_length) / float(max(1, world.day_length)) if getattr(world, 'day_length', None) else 0.0
-        if day_phase > 0.5: # night half
-            night_alpha = int(120 * (day_phase-0.5) * 2)
+        # Day/Night tint overlay (moonlight softens the night)
+        try:
+            sun_i = float(getattr(world, 'sun_intensity_global', 0.0))
+            moon_i = float(getattr(world, 'moonlight_global', 0.0))
+            night = max(0.0, 1.0 - min(1.0, sun_i + 0.6 * moon_i))
+            night_alpha = int(140 * night)
+        except Exception:
+            day_phase = (world.time_step % world.day_length) / float(max(1, world.day_length)) if getattr(world, 'day_length', None) else 0.0
+            night_alpha = int(120 * max(0.0, (day_phase-0.5) * 2)) if day_phase > 0.5 else 0
+        if night_alpha > 0:
             tint = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
             tint.fill((10,10,30, night_alpha))
             screen.blit(tint, (0,0))
+        # Moon glyph (top-right)
+        try:
+            if float(getattr(world, 'moonlight_global', 0.0)) > 0.02:
+                mx, my = screen.get_width()-50, 50
+                r = 12
+                alpha = int(180 * min(1.0, getattr(world, 'moonlight_global', 0.0)))
+                moon = pygame.Surface((r*2+4, r*2+4), pygame.SRCALPHA)
+                pygame.draw.circle(moon, (230, 230, 240, alpha), (r+2, r+2), r)
+                # simple phase shading
+                phase = float(getattr(world, 'get_month_phase', lambda: 0.0)())
+                offset = int((phase-0.5) * r)
+                shade = pygame.Surface((r*2+4, r*2+4), pygame.SRCALPHA)
+                pygame.draw.circle(shade, (10,10,30, 140), (r+2+offset, r+2), r)
+                moon.blit(shade, (0,0))
+                screen.blit(moon, (mx-r, my-r))
+        except Exception:
+            pass
 
         # HUD
         hh, mm = int(world.time_step // 60), int(world.time_step % 60)
@@ -736,7 +779,7 @@ def ui_notify(msg: str):
         # Event ticker (bottom-left)
         # keep last 6 entries within 6 seconds
         now = time.time()
-        event_ticker = [(t,msg) for (t,msg) in event_ticker if now - t < 6.0]
+        event_ticker[:] = [(t,msg) for (t,msg) in event_ticker if now - t < 6.0]
         for i, (_, msg) in enumerate(event_ticker[-6:]):
             alpha = int(220 * (1.0 - (now - event_ticker[-6:][i][0]) / 6.0))
             surf, _ = font.render(msg, fgcolor=(235,235,245,))

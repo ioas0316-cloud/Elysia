@@ -37,8 +37,24 @@ class World:
             self.logger.info(f"Loaded {len(self.martial_styles)} martial art styles.")
 
         # --- Celestial Cycle ---
-        self.day_length = 20
+        # Time scaling follows the fractal principle: adjust minutes-per-tick and
+        # the world recomputes day/year tick spans and continuous sunlight fields.
+        self.minutes_per_tick: float = 10.0  # real minutes represented by one simulation tick
+        self.day_length: int = int(max(1, round(24 * 60 / self.minutes_per_tick)))  # ticks per day
+        self.year_length_days: float = 365.25
         self.time_of_day = 'day'
+        self.axial_tilt_deg: float = 23.4
+        # Computed each step
+        self.sunlight_field = None  # np.ndarray (width x width) in [0,1]
+        self.sun_intensity_global: float = 1.0
+        self.ambient_temperature_c: float = 15.0
+        # Lunar cycle
+        self.month_length_days: float = 29.53
+        self.moon_phase: float = 0.0
+        self.moonlight_global: float = 0.0
+        self.lunar_arousal: float = 0.0
+        self.tide_level_global: float = 0.0
+        self.lunar_tide_amplitude: float = 1.0
 
         # --- Atmosphere ---
         self.oxygen_level = 100.0
@@ -109,6 +125,10 @@ class World:
         self.width = 256  # Default size, can be configured
         self.height_map = np.zeros((self.width, self.width), dtype=np.float32)
         self.soil_fertility = np.full((self.width, self.width), 0.5, dtype=np.float32)
+        # Latitude map (y -> latitude radians, +north at top)
+        y_coords = np.arange(self.width, dtype=np.float32)
+        lat_norm = 0.5 - (y_coords / max(1, self.width))  # +0.5 at top, -0.5 at bottom
+        self._lat_radians_row = lat_norm * np.pi  # [-pi/2, +pi/2]
 
         # --- Emergent Field Layers (Fractal Law Carriers) ---
         # Soft, continuous fields that influence but do not dictate behavior.
@@ -175,6 +195,55 @@ class World:
         if self.adjacency_matrix.shape[0] > 0:
             new_adj[:current_size, :current_size] = self.adjacency_matrix
         self.adjacency_matrix = new_adj
+
+    # -------------------------
+    # Time/Season utilities
+    # -------------------------
+    def set_time_scale(self, minutes_per_tick: float) -> None:
+        """Adjust the time fractal scale. Recomputes day_length accordingly."""
+        self.minutes_per_tick = max(0.001, float(minutes_per_tick))
+        self.day_length = int(max(1, round(24 * 60 / self.minutes_per_tick)))
+
+    def _year_length_ticks(self) -> int:
+        return int(max(1, round(self.day_length * self.year_length_days)))
+
+    def _month_length_ticks(self) -> int:
+        return int(max(1, round(self.day_length * self.month_length_days)))
+
+    def get_day_phase(self) -> float:
+        if self.day_length <= 0:
+            return 0.0
+        return (self.time_step % self.day_length) / float(self.day_length)
+
+    def get_year_phase(self) -> float:
+        yl = self._year_length_ticks()
+        if yl <= 0:
+            return 0.0
+        return (self.time_step % yl) / float(yl)
+
+    def get_month_phase(self) -> float:
+        ml = self._month_length_ticks()
+        if ml <= 0:
+            return 0.0
+        return (self.time_step % ml) / float(ml)
+
+    def get_season_name(self) -> str:
+        p = self.get_year_phase()
+        # 4 equal seasons for now
+        if p < 0.25:
+            return '봄'
+        elif p < 0.5:
+            return '여름'
+        elif p < 0.75:
+            return '가을'
+        else:
+            return '겨울'
+
+    def get_clock_hm(self) -> Tuple[int, int]:
+        dp = self.get_day_phase()
+        total_minutes = 24 * 60
+        m = int(dp * total_minutes)
+        return (m // 60) % 24, m % 60
 
     def add_cell(self, concept_id: str, dna: Optional[Dict] = None, properties: Optional[Dict] = None, initial_energy: float = 0.0, _record_event: bool = True):
         if concept_id in self.quantum_states:
@@ -372,7 +441,8 @@ class World:
         if len(self.cell_ids) == 0:
             return []
 
-        # Update weather
+        # Update celestial cycle & weather
+        self._update_celestial_fields()
         self._update_weather()
 
         # Update emergent continuous fields (e.g., threat)
@@ -420,7 +490,68 @@ class World:
                     cell_id = self.cell_ids[strike_idx]
                     self.logger.info(f"PROVIDENCE: Lightning strikes '{cell_id}', dealing {damage:.1f} damage and enriching the soil.")
                     self.event_logger.log('LIGHTNING_STRIKE', self.time_step, cell_id=cell_id, damage=damage)
+        
+        
+    def _update_celestial_fields(self) -> None:
+        """Compute sunlight and ambient temperature fields as soft influences.
+        Laws as fields: no commands, only continuous context values.
+        """
+        # Phases
+        day_p = self.get_day_phase()
+        year_p = self.get_year_phase()
+        month_p = self.get_month_phase()
+        self.moon_phase = month_p
+        # Solar geometry (approximate)
+        tilt = np.deg2rad(self.axial_tilt_deg)
+        decl = tilt * np.sin(2.0 * np.pi * year_p)  # solar declination
+        hour_angle = 2.0 * np.pi * day_p - np.pi  # -pi at midnight, 0 at noon
+        # Latitude per row; broadcast over x dimension
+        phi = self._lat_radians_row.reshape(1, -1)  # shape (1, width)
+        # Sun altitude: sin(alt) = sin φ sin δ + cos φ cos δ cos h
+        sin_alt = np.sin(phi) * np.sin(decl) + np.cos(phi) * np.cos(decl) * np.cos(hour_angle)
+        intensity_row = np.clip(sin_alt, 0.0, 1.0)  # (1, width)
+        # Build field as same along x-axis for simplicity
+        field = np.repeat(intensity_row, self.width, axis=0)  # shape (width, width)
+        # Clouds attenuate sunlight
+        field *= (1.0 - 0.7 * float(self.cloud_cover))
+        self.sunlight_field = field.astype(np.float32)
+        self.sun_intensity_global = float(np.mean(self.sunlight_field))
+        # Moonlight (simple model): bright near full moon, visible at night
+        bright = 0.5 - 0.5 * np.cos(2.0 * np.pi * month_p)  # 0=new, 1=full
+        night_factor = max(0.0, 1.0 - self.sun_intensity_global)
+        self.moonlight_global = float(night_factor * bright * (1.0 - 0.6 * float(self.cloud_cover)))
+        self.lunar_arousal = self.moonlight_global
+        # Time of day label
+        if self.sun_intensity_global < 0.05:
+            self.time_of_day = 'night'
+        elif self.sun_intensity_global < 0.15:
+            self.time_of_day = '황혼'
+        elif self.sun_intensity_global > 0.75:
+            self.time_of_day = '한낮'
+        else:
+            self.time_of_day = '낮'
+        # Ambient temperature (global baseline with daily+seasonal oscillation)
+        season_term = 10.0 * np.sin(2.0 * np.pi * (year_p - 0.20))
+        daily_term = 5.0 * np.sin(2.0 * np.pi * (day_p - 0.25))
+        cloud_cool = -5.0 * float(self.cloud_cover)
+        self.ambient_temperature_c = float(15.0 + season_term + daily_term + cloud_cool)
 
+        # Tide level (global scalar): semi-diurnal + monthly modulation
+        # Two highs per day (simplified) and stronger around full/new moon
+        semi_diurnal = np.sin(4.0 * np.pi * day_p)  # two cycles per day
+        spring_factor = 0.5 + 0.5 * np.cos(2.0 * np.pi * month_p)  # new/full stronger
+        self.tide_level_global = float(self.lunar_tide_amplitude * semi_diurnal * spring_factor)
+
+        # Optional ambient events: wolves howl under bright full moon (no physics effect)
+        try:
+            if self.moonlight_global > 0.75:
+                wolf_mask = (self.labels == 'wolf') & self.is_alive_mask
+                wolf_indices = np.where(wolf_mask)[0]
+                for i in wolf_indices:
+                    if random.random() < 0.02:
+                        self.event_logger.log('HOWL', self.time_step, cell_id=self.cell_ids[i])
+        except Exception:
+            pass
 
     def _update_passive_resources(self):
         """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP)."""
@@ -711,7 +842,11 @@ class World:
                 return
 
             base_damage = self.strength[actor_idx]
-            final_damage = max(0, (base_damage + random.randint(-2, 2)) * damage_multiplier)
+            # Lunar arousal softly increases damage, especially for wolves
+            lunar_bonus = 1.0 + 0.25 * float(getattr(self, 'lunar_arousal', 0.0))
+            if self.labels[actor_idx] == 'wolf':
+                lunar_bonus = 1.0 + 0.5 * float(getattr(self, 'lunar_arousal', 0.0))
+            final_damage = max(0, (base_damage + random.randint(-2, 2)) * damage_multiplier * lunar_bonus)
             self.hp[target_idx] -= final_damage
             self.is_injured[target_idx] = True
             self.logger.info(f"COMBAT: Damage dealt: {final_damage:.2f}.")
