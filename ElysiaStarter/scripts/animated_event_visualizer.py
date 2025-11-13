@@ -197,7 +197,7 @@ def main():
         return base
 
     terrain_noise = _gen_noise(128,128)
-    def draw_terrain(surface: pygame.Surface):
+    def draw_terrain(surface: pygame.Surface, s: float, cx: int, cy: int, pan_x: float, pan_y: float):
         if not show_terrain:
             return
         # colorize noise into simple biome colors
@@ -212,17 +212,19 @@ def main():
         palette[grass] = (60,110,70)
         palette[rock] = (80,80,80)
         surf = pygame.surfarray.make_surface(np.rot90(palette))
-        surf = pygame.transform.smoothscale(surf, surface.get_size())
-        surface.blit(surf, (0,0))
+        world_px = (max(1, int(W*s)), max(1, int(H*s)))
+        surf = pygame.transform.smoothscale(surf, world_px)
+        topleft = (int(cx - pan_x), int(cy - pan_y))
+        surface.blit(surf, topleft)
         if show_grid:
-            gw = max(16, surface.get_width()//32)
-            gh = gw
-            grid = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
-            for x in range(0, surface.get_width(), gw):
-                pygame.draw.line(grid, (255,255,255,20), (x,0), (x,surface.get_height()))
-            for y in range(0, surface.get_height(), gh):
-                pygame.draw.line(grid, (255,255,255,20), (0,y), (surface.get_width(),y))
-            surface.blit(grid, (0,0))
+            grid = pygame.Surface(world_px, pygame.SRCALPHA)
+            step_world = max(8, W//32)
+            step_px = max(8, int(s*step_world))
+            for x in range(0, world_px[0], step_px):
+                pygame.draw.line(grid, (255,255,255,20), (x,0), (x,world_px[1]))
+            for y in range(0, world_px[1], step_px):
+                pygame.draw.line(grid, (255,255,255,20), (0,y), (world_px[0],y))
+            surface.blit(grid, topleft)
 
     # Ecology balancing (scenario helper, optional)
     balanced_ecology = True
@@ -317,10 +319,19 @@ def main():
                 mx, my = pygame.mouse.get_pos()
                 base = min(screen.get_width() / W, screen.get_height() / H)
                 s_old = base * scale
+                cx_old = (screen.get_width() - int(W * s_old)) // 2
+                cy_old = (screen.get_height() - int(H * s_old)) // 2
+                # world coords under cursor before zoom
+                px_world = (mx - cx_old + pan_x) / max(1e-6, s_old)
+                py_world = (my - cy_old + pan_y) / max(1e-6, s_old)
+                # apply zoom
                 scale = max(0.5, min(8.0, scale * (1.1 if e.y > 0 else 0.9)))
                 s_new = base * scale
-                u,v = mx + pan_x, my + pan_y
-                pan_x, pan_y = (u / s_old) * s_new - mx, (v / s_old) * s_new - my
+                cx_new = (screen.get_width() - int(W * s_new)) // 2
+                cy_new = (screen.get_height() - int(H * s_new)) // 2
+                # keep cursor anchored on same world point
+                pan_x = cx_new + px_world * s_new - mx
+                pan_y = cy_new + py_world * s_new - my
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 2:
                 dragging, last_mouse = True, e.pos
             if e.type == pygame.MOUSEBUTTONUP and e.button == 2:
@@ -383,8 +394,13 @@ def main():
             pass # File might not exist yet or be empty
 
 
-        # Background terrain lens
-        draw_terrain(screen)
+        # Compute world transform for background rendering
+        base = min(screen.get_width() / W, screen.get_height() / H)
+        s = max(0.5, min(8.0, scale)) * base
+        cx, cy = (screen.get_width() - int(W * s)) // 2, (screen.get_height() - int(H * s)) // 2
+
+        # Background terrain lens (aligned with world transform)
+        draw_terrain(screen, s, cx, cy, pan_x, pan_y)
         # Threat heatmap overlay (red tint where high)
         if show_threat and hasattr(world, 'threat_field'):
             tf = world.threat_field
@@ -397,13 +413,12 @@ def main():
                 heat[...,1] = (norm*80).astype(np.uint8)
                 heat[...,2] = 0
                 hs = pygame.surfarray.make_surface(np.rot90(heat))
-                hs = pygame.transform.smoothscale(hs, screen.get_size())
+                world_px = (max(1, int(W*s)), max(1, int(H*s)))
+                hs = pygame.transform.smoothscale(hs, world_px)
                 hs.set_alpha(120)
-                screen.blit(hs, (0,0))
+                screen.blit(hs, (int(cx - pan_x), int(cy - pan_y)))
 
-        base = min(screen.get_width() / W, screen.get_height() / H)
-        s = max(0.5, min(8.0, scale)) * base
-        cx, cy = (screen.get_width() - int(W * s)) // 2, (screen.get_height() - int(H * s)) // 2
+        # base/s/cx/cy already computed above for rendering; reuse
 
         def w2s(px: float, py: float) -> Tuple[int, int]:
             return (int(cx - pan_x + px * s), int(cy - pan_y + py * s))
@@ -543,7 +558,7 @@ def main():
                 }
                 base = species_map.get(species, species_map.get(etype, species or '媛쒖껜'))
                 if species == 'human' and gender:
-                    base += f"({'?? if gender=='male' else '??})"
+                    base += f"({'남' if gender == 'male' else '여'})"
                 label_text = f"{base}"
                 label_surf, _ = font.render(label_text, fgcolor=(235,235,245))
                 screen.blit(label_surf, (sx - label_surf.get_width()//2, sy + size + 8))
@@ -705,6 +720,10 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
 
 
 
