@@ -8,6 +8,8 @@ from typing import List, Tuple, Dict, Any, Optional
 
 import numpy as np
 import pygame
+import traceback
+from pathlib import Path
 import yaml
 
 
@@ -39,6 +41,16 @@ from ElysiaStarter.ui.fonts import get_font
 from ElysiaStarter.ui.layers import LAYERS
 from ElysiaStarter.ui.render_overlays import draw_speech_bubble, draw_emotion_aura
 from Project_Elysia.core import persistence as world_persistence
+
+# --- Debug logging (helps diagnose early-close issues) ---
+_DBG_PATH = Path('logs')/ 'starter_debug.log'
+def _dbg(msg: str):
+    try:
+        _DBG_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(_DBG_PATH, 'a', encoding='utf-8') as f:
+            f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
+    except Exception:
+        pass
 
 
 # 전역 이벤트 티커(알림) 버퍼: UI에서 공용으로 사용
@@ -154,14 +166,29 @@ def main():
         world.day_length = max(120, int(world.day_length)*6)
 
     pygame.init()
+    _dbg('pygame.init ok')
     try:
-        pygame.event.set_blocked(pygame.QUIT)
-    except Exception:
-        pass
-    screen = pygame.display.set_mode((args.size, args.size))
+        screen = pygame.display.set_mode((args.size, args.size))
+        _dbg('display set_mode ok (default)')
+    except Exception as ex:
+        _dbg(f'display set_mode failed default: {ex}')
+        for drv in ['windows','windib','directx']:
+            try:
+                os.environ['SDL_VIDEODRIVER'] = drv
+                pygame.display.quit(); pygame.display.init()
+                screen = pygame.display.set_mode((args.size, args.size))
+                _dbg(f'display fallback {drv} ok')
+                break
+            except Exception as ex2:
+                _dbg(f'display fallback {drv} failed: {ex2}')
+        else:
+            raise
     pygame.display.set_caption('Elysia\'s Animated World')
+    _dbg('display: caption set')
     font = get_font(16)
+    _dbg('font: loaded')
     clock = pygame.time.Clock()
+    _dbg('clock: created')
     try:
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
     except Exception:
@@ -194,7 +221,9 @@ def main():
     show_help = True  # in-app help overlay
     skill_mode = 'target'
     skill_aoe_radius = 6.0
-    divine_mode = False  # 신성력 모드 (커서로 치유/강화)
+    divine_mode = False  # divine power (cursor influence)
+    layer_level = 0
+
 
     def screen_to_world(mx:int, my:int, scale_val:float) -> Tuple[float,float]:
         base_local = min(screen.get_width() / W, screen.get_height() / H)
@@ -357,8 +386,13 @@ def ui_notify(msg: str):
         except Exception:
             pass
 
+    _dbg('loop: enter')
+    last_tick_log = time.time()
     while running:
         dt = clock.tick(args.fps) / 1000.0
+        if time.time() - last_tick_log > 2.0:
+            _dbg('loop: alive')
+            last_tick_log = time.time()
         for e in pygame.event.get():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 running = False
@@ -369,6 +403,9 @@ def ui_notify(msg: str):
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 paused = not paused
                 ui_notify('?쇱떆?뺤?' if paused else '?ш컻')
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F1: layer_level = 0; ui_notify("관찰 레벨: 0 (최소)")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F2: layer_level = 1; ui_notify("관찰 레벨: 1 (상태창)")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F3: layer_level = 2; ui_notify("관찰 레벨: 2 (상호작용)")
             # Tempo control: adjust steps per second (sim_rate)
             if e.type == pygame.KEYDOWN and e.key in (pygame.K_PLUS, pygame.K_EQUALS):
                 sim_rate = min(16.0, sim_rate * 2.0)
@@ -393,7 +430,7 @@ def ui_notify(msg: str):
             if e.type == pygame.KEYDOWN and e.key == pygame.K_x:
                 skill_mode = 'aoe' if skill_mode == 'target' else 'target'
                 ui_notify(f"skill mode: {skill_mode}")
-            if e.type == pygame.KEYDOWN and e.key in (pygame.K_q, pygame.K_w, pygame.K_e, pygame.K_r):
+            if layer_level >= 2 and e.type == pygame.KEYDOWN and e.key in (pygame.K_q, pygame.K_w, pygame.K_e, pygame.K_r):
                 key_map = {pygame.K_q:'Q', pygame.K_w:'W', pygame.K_e:'E', pygame.K_r:'R'}
                 sk = key_map.get(e.key)
                 if sk:
@@ -435,7 +472,7 @@ def ui_notify(msg: str):
                     ui_notify('遺덈윭??(F9)')
                 except Exception as ex:
                     ui_notify(f'遺덈윭?ㅺ린 ?ㅽ뙣: {ex}')
-            if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+            if layer_level >= 2 and e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 # select nearest alive cell
                 mx,my = e.pos
                 def dist2_screen(i):
@@ -492,48 +529,7 @@ def ui_notify(msg: str):
             with open(event_log_path, 'r', encoding='utf-8') as f:
                 f.seek(last_log_pos)
                 new_lines = f.readlines()
-                last_log_pos = f.tell()
-
-            for line in new_lines:
-                event = json.loads(line)
-                event_type = event.get('event_type')
-                data = event.get('data', {})
-
-                if event_type == 'EAT' and 'actor_id' in data and 'target_id' in data:
-                    actor_idx = world.id_to_idx.get(data['actor_id'])
-                    target_idx = world.id_to_idx.get(data['target_id'])
-                    if actor_idx is not None and target_idx is not None:
-                        start_pos = world.positions[actor_idx]
-                        end_pos = world.positions[target_idx]
-                        animations[data['actor_id']] = Lunge(start_pos, end_pos)
-                        impact_anims.append(HitFlash(tuple(end_pos[:2])))
-                        event_ticker.append((time.time(), f"{data['actor_id']}媛 {data['target_id']}瑜?癒뱀쓬"))
-
-                elif event_type == 'DEATH' and 'cell_id' in data:
-                    dying_cells[data['cell_id']] = time.time()
-                    idx = world.id_to_idx.get(data['cell_id'])
-                    if idx is not None:
-                        pos = world.positions[idx]
-                        impact_anims.append(FocusPulse(tuple(pos[:2])))
-                    event_ticker.append((time.time(), f"{data['cell_id']} 사망"))
-
-                elif event_type == 'HOWL' and 'cell_id' in data:
-                    idx = world.id_to_idx.get(data['cell_id'])
-                    if idx is not None:
-                        pos = world.positions[idx]
-                        impact_anims.append(FocusPulse(tuple(pos[:2])))
-                    event_ticker.append((time.time(), f"{data['cell_id']}가 달을 보고 울부짖음"))
-                    event_ticker.append((time.time(), f"{data['cell_id']} ?щ쭩"))
-
-                elif event_type == 'LIGHTNING_STRIKE' and 'cell_id' in data:
-                    idx = world.id_to_idx.get(data['cell_id'])
-                    if idx is not None:
-                        pos = world.positions[idx]
-                        impact_anims.append(LightningBolt(tuple(pos[:2])))
-                        impact_anims.append(HitFlash(tuple(pos[:2])))
-                        event_ticker.append((time.time(), f"??踰덇컻媛 {data['cell_id']}瑜?媛뺥?"))
-
-        except (IOError, json.JSONDecodeError):
+                last_log_pos = f.tell() layer_level >= 2:\n    for line in new_lines:\n (IOError, json.JSONDecodeError):
             pass # File might not exist yet or be empty
 
 
@@ -909,7 +905,18 @@ def ui_notify(msg: str):
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        _dbg('__main__: calling main')
+        main()
+        _dbg('__main__: main returned')
+    except Exception:
+        _dbg('FATAL:\n' + traceback.format_exc())
+        print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
+        time.sleep(3)
+
+
+
+
 
 
 
