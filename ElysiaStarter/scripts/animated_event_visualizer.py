@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 import json
 import os
 import sys
@@ -249,55 +249,55 @@ def main():
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
-                ui_notify(f"Cinematic focus: {'ON' if cinematic_focus else 'OFF'}")
+                ui_notify(f"?쒕꽕留덊떛 ?ъ빱?? {'耳쒖쭚' if cinematic_focus else '爰쇱쭚'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 paused = not paused
-                ui_notify('Paused' if paused else 'Resumed')
+                ui_notify('?쇱떆?뺤?' if paused else '?ш컻')
             # Tempo control: adjust steps per second (sim_rate)
             if e.type == pygame.KEYDOWN and e.key in (pygame.K_PLUS, pygame.K_EQUALS):
                 sim_rate = min(16.0, sim_rate * 2.0)
-                ui_notify(f"Rate {sim_rate:.2f}/s")
+                ui_notify(f"諛곗냽 x{sim_rate:.2f}")
             if e.type == pygame.KEYDOWN and e.key in (pygame.K_MINUS, pygame.K_UNDERSCORE):
                 sim_rate = max(0.01, sim_rate / 2.0)
-                ui_notify(f"Rate {sim_rate:.2f}/s")
+                ui_notify(f"諛곗냽 x{sim_rate:.2f}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_1:
-                sim_rate = 0.10; ui_notify("Rate 0.10/s")
+                sim_rate = 0.10; ui_notify("諛곗냽 x0.10")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_2:
-                sim_rate = 0.25; ui_notify("Rate 0.25/s")
+                sim_rate = 0.25; ui_notify("諛곗냽 x0.25")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_3:
-                sim_rate = 0.50; ui_notify("Rate 0.50/s")
+                sim_rate = 0.50; ui_notify("諛곗냽 x0.50")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_4:
-                sim_rate = 1.00; ui_notify("Rate 1.00/s")
+                sim_rate = 1.00; ui_notify("諛곗냽 x1.00")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_5:
-                sim_rate = 2.00; ui_notify("Rate 2.00/s")
+                sim_rate = 2.00; ui_notify("諛곗냽 x2.00")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_g:
                 show_grid = not show_grid
-                ui_notify(f"Grid: {'ON' if show_grid else 'OFF'}")
+                ui_notify(f"洹몃━?? {'耳쒖쭚' if show_grid else '爰쇱쭚'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_t:
                 show_terrain = not show_terrain
-                ui_notify(f"Terrain: {'ON' if show_terrain else 'OFF'}")
+                ui_notify(f"吏?? {'耳쒖쭚' if show_terrain else '爰쇱쭚'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_r:
                 show_threat = not show_threat
-                ui_notify(f"Threat field: {'ON' if show_threat else 'OFF'}")
+                ui_notify(f"?꾪삊?? {'耳쒖쭚' if show_threat else '爰쇱쭚'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_m:
                 show_labels = not show_labels
-                ui_notify(f"Labels: {'ON' if show_labels else 'OFF'}")
+                ui_notify(f"?쇰꺼: {'耳쒖쭚' if show_labels else '爰쇱쭚'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_h:
                 show_help = not show_help
-                ui_notify('Help shown' if show_help else 'Help hidden')
+                ui_notify('?꾩?留??쒖떆' if show_help else '?꾩?留??④?')
             if e.type == pygame.KEYDOWN and e.key == pygame.K_F5:
                 try:
                     world_persistence.save_world_state(world)
-                    ui_notify('Saved world (F5)')
+                    ui_notify('??λ맖 (F5)')
                 except Exception as ex:
-                    ui_notify(f'Save failed: {ex}')
+                    ui_notify(f'저장 실패: {ex}')
             if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
                 try:
                     new_world = world_persistence.load_world_state(world=world, wave_mechanics=mock_wave_mechanics)
                     world = new_world
-                    ui_notify('Loaded world (F9)')
+                    ui_notify('遺덈윭??(F9)')
                 except Exception as ex:
-                    ui_notify(f'Load failed: {ex}')
+                    ui_notify(f'遺덈윭?ㅺ린 ?ㅽ뙣: {ex}')
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 # select nearest alive cell
                 mx,my = e.pos
@@ -311,7 +311,7 @@ def main():
                     if (sx-mx)**2 + (sy-my)**2 < 20**2:
                         selected_id = world.cell_ids[idx]
                         trail = []
-                        ui_notify(f"Selected: {selected_id}")
+                        ui_notify(f"?좏깮: {selected_id}")
             # Handle zoom and pan
             if e.type == pygame.MOUSEWHEEL:
                 mx, my = pygame.mouse.get_pos()
@@ -361,7 +361,7 @@ def main():
                         end_pos = world.positions[target_idx]
                         animations[data['actor_id']] = Lunge(start_pos, end_pos)
                         impact_anims.append(HitFlash(tuple(end_pos[:2])))
-                        event_ticker.append((time.time(), f"{data['actor_id']} eats {data['target_id']}"))
+                        event_ticker.append((time.time(), f"{data['actor_id']}媛 {data['target_id']}瑜?癒뱀쓬"))
 
                 elif event_type == 'DEATH' and 'cell_id' in data:
                     dying_cells[data['cell_id']] = time.time()
@@ -369,7 +369,7 @@ def main():
                     if idx is not None:
                         pos = world.positions[idx]
                         impact_anims.append(FocusPulse(tuple(pos[:2])))
-                    event_ticker.append((time.time(), f"{data['cell_id']} died"))
+                    event_ticker.append((time.time(), f"{data['cell_id']} ?щ쭩"))
 
                 elif event_type == 'LIGHTNING_STRIKE' and 'cell_id' in data:
                     idx = world.id_to_idx.get(data['cell_id'])
@@ -377,7 +377,7 @@ def main():
                         pos = world.positions[idx]
                         impact_anims.append(LightningBolt(tuple(pos[:2])))
                         impact_anims.append(HitFlash(tuple(pos[:2])))
-                        event_ticker.append((time.time(), f"⚡ lightning struck {data['cell_id']}"))
+                        event_ticker.append((time.time(), f"??踰덇컻媛 {data['cell_id']}瑜?媛뺥?"))
 
         except (IOError, json.JSONDecodeError):
             pass # File might not exist yet or be empty
@@ -481,8 +481,31 @@ def main():
                 alpha = int(max(0, 255 * (1.0 - elapsed / 1.0)))
 
             temp_surf = pygame.Surface((size*2+20, size*2+16), pygame.SRCALPHA)
-            # Body
-            pygame.draw.circle(temp_surf, color + (alpha,), (size+2, size+2), size)
+            # Body glyphs (simple shapes per species/gender)
+            cx_local, cy_local = (size+2, size+2)
+            species = world.labels[i] if world.labels.size>i and world.labels[i] else ''
+            gender = world.genders[i] if world.genders.size>i else ''
+            etype = world.element_types[i] if world.element_types.size>i else ''
+            # base
+            pygame.draw.circle(temp_surf, color + (alpha,), (cx_local, cy_local), size)
+            try:
+                if species == 'human' or world.culture[i] in ['wuxia','knight']:
+                    if gender == 'male':
+                        pts = [(cx_local, cy_local+size+3), (cx_local-6, cy_local-2), (cx_local+6, cy_local-2)]
+                        pygame.draw.polygon(temp_surf, (200,200,220,alpha), pts, 0)
+                    elif gender == 'female':
+                        pts = [(cx_local, cy_local-size-2), (cx_local-6, cy_local), (cx_local, cy_local+6), (cx_local+6, cy_local)]
+                        pygame.draw.polygon(temp_surf, (220,180,220,alpha), pts, 0)
+                elif species == 'wolf' or (etype=='animal' and species!='deer' and species!='human'):
+                    # two ears
+                    pygame.draw.polygon(temp_surf, (220,220,220,alpha), [(cx_local-6, cy_local-6),(cx_local-2, cy_local-12),(cx_local+2, cy_local-6)])
+                    pygame.draw.polygon(temp_surf, (220,220,220,alpha), [(cx_local+6, cy_local-6),(cx_local+2, cy_local-12),(cx_local-2, cy_local-6)])
+                elif etype == 'life':
+                    # leaf
+                    pygame.draw.ellipse(temp_surf, (80,200,100,alpha), pygame.Rect(cx_local-3, cy_local-10, 6, 14))
+                    pygame.draw.line(temp_surf, (60,160,80,alpha), (cx_local, cy_local-10), (cx_local, cy_local+2), 1)
+            except Exception:
+                pass
             if world.is_injured[i]:
                  pygame.draw.circle(temp_surf, (255, 0, 0, alpha), (size+2, size+2), size + 2, 1)
             # Health bar (top)
@@ -513,9 +536,16 @@ def main():
             if selected_id == cell_id:
                 pygame.draw.circle(screen, (120,200,255), (sx, sy), size+8, 2)
 
-            # Optional label
+            # Optional label (name/species)
             if show_labels:
-                label_surf, _ = font.render(str(cell_id), fgcolor=(235,235,245))
+                species_map = {
+                    'human':'?щ엺', 'wolf':'?묐?', 'deer':'?ъ뒾', 'tree':'?섎Т', 'life':'?앸챸', 'animal':'?숇Ъ'
+                }
+                base = species_map.get(species, species_map.get(etype, species or '媛쒖껜'))
+                if species == 'human' and gender:
+                    base += f"({'?? if gender=='male' else '??})"
+                label_text = f"{base}"
+                label_surf, _ = font.render(label_text, fgcolor=(235,235,245))
                 screen.blit(label_surf, (sx - label_surf.get_width()//2, sy + size + 8))
 
         # Draw aim lines for lunges
@@ -560,9 +590,9 @@ def main():
         # HUD
         hh, mm = int(world.time_step // 60), int(world.time_step % 60)
         hud_lines = [
-            f"Time {hh:02d}:{mm:02d}",
-            f"Population {int(np.sum(world.is_alive_mask))}",
-            f"Rate {sim_rate:.2f}/s{' (paused)' if paused else ''}",
+            f"?쒓컙 {hh:02d}:{mm:02d}",
+            f"媛쒖껜??{int(np.sum(world.is_alive_mask))}",
+            f"諛곗냽 x{sim_rate:.2f}{' (?쇱떆?뺤?)' if paused else ''}",
         ]
         for i, tline in enumerate(hud_lines):
             surf, _ = font.render(tline, fgcolor=(235, 235, 245))
@@ -583,21 +613,20 @@ def main():
         # Help overlay (top-left)
         if show_help:
             help_lines = [
-                'Controls — Press H to hide/show',
-                'Mouse: Wheel Zoom, MMB Pan, LMB Select',
-                'Q Quit  |  Space Pause/Resume  |  +/- Speed',
-                'View: G Grid, T Terrain, M Labels, C Focus',
-                'Layers: A Agents, S Structures, F Flora, a Fauna, W Will',
-                'Tips: Click a dot to see details; events bottom-left',
+                '조작 — H로 표시/숨김',
+                '마우스: 휠 줌, 가운데 드래그 이동, 좌클릭 선택',
+                'Q 종료  |  Space 일시정지/재개  |  +/- 배속  |  1~5 배속 프리셋',
+                '보기: G 그리드, T 지형, M 라벨, C 포커스, R 위협장',
+                '레이어: A 에이전트, S 구조물, F 식물, a 동물, W 의지',
+                '힌트: 점을 클릭하면 상세 표시, 좌하단: 이벤트',
             ]
             hsurfs = [font.render(l, fgcolor=(235,235,245))[0] for l in help_lines]
-            wmax = max(s.get_width() for s in hsurfs) + 14
-            hsum = sum(s.get_height() for s in hsurfs) + 14
+            wmax = max(line_surf.get_width() for line_surf in hsurfs) + 14
+            hsum = sum(line_surf.get_height() for line_surf in hsurfs) + 14
             panel = pygame.Surface((wmax, hsum), pygame.SRCALPHA)
             panel.fill((0,0,0,150))
             y = 7
-            for s in hsurfs:
-                panel.blit(s, (7,y)); y += s.get_height()
+            for line_surf in hsurfs:\n                panel.blit(line_surf, (7,y)); y += line_surf.get_height()
             screen.blit(panel, (10, 10))
 
         # Selection detail panel (bottom-right)
@@ -639,13 +668,12 @@ def main():
                 stat_surfs = [font.render(stat_line, fgcolor=(220,230,240))[0], font.render(talents_line, fgcolor=(220,230,240))[0]]
 
                 # Build panel size
-                wmax = max([s.get_width() for s in base_surfs + stat_surfs] + [200]) + 16
-                hsum = sum(s.get_height() for s in base_surfs + stat_surfs) + 8 + 4*8 + 20
+                wmax = max([surf_l.get_width() for surf_l in base_surfs + stat_surfs] + [200]) + 16
+                hsum = sum(surf_l.get_height() for surf_l in base_surfs + stat_surfs) + 8 + 4*8 + 20
                 panel = pygame.Surface((wmax, hsum), pygame.SRCALPHA)
                 panel.fill((0,0,0,150))
                 y = 6
-                for s in base_surfs:
-                    panel.blit(s, (8, y)); y += s.get_height()
+                for surf_l in base_surfs:\n                    panel.blit(surf_l, (8, y)); y += surf_l.get_height()
 
                 # Resource bars HP/Ki/Mana/Faith
                 def draw_bar(label, curr, maxv, color):
@@ -665,8 +693,7 @@ def main():
                 draw_bar('Faith', world.faith[idx] if world.faith.size>idx else 0, world.max_faith[idx] if world.max_faith.size>idx else 0, (240,200,120,230))
 
                 # Stat lines
-                for s in stat_surfs:
-                    panel.blit(s, (8, y)); y += s.get_height()
+                for surf_l in stat_surfs:\n                    panel.blit(surf_l, (8, y)); y += surf_l.get_height()
 
                 screen.blit(panel, (screen.get_width()-wmax-10, screen.get_height()-hsum-10))
 
@@ -678,3 +705,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
