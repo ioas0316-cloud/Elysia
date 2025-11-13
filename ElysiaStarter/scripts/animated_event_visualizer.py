@@ -156,6 +156,7 @@ def main():
         pass
 
     running = True
+    app_started_at = time.time()
     scale, pan_x, pan_y = 1.0, 0.0, 0.0
     dragging, last_mouse = False, (0, 0)
     # Real-time paced stepping (steps per second)
@@ -348,6 +349,9 @@ def ui_notify(msg: str):
         dt = clock.tick(args.fps) / 1000.0
         for e in pygame.event.get():
             if e.type == pygame.QUIT or (e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE):
+                # 초기화 직후 환경 이슈로 들어오는 즉시 QUIT 이벤트를 무시하는 완충 시간
+                if time.time() - app_started_at < 1.0 and e.type == pygame.QUIT:
+                    continue
                 running = False
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
