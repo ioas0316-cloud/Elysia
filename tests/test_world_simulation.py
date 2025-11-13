@@ -141,8 +141,8 @@ class TestWorldSimulation(unittest.TestCase):
         world.humidity = 0.8
 
         # Mock random to guarantee a lightning strike on our target
-        mock_random.return_value = 0.05 # < 0.1, so lightning will strike
-        mock_randint.return_value = human_idx # Strike our specific cell
+        mock_random.return_value = 0.05  # < 0.1, so lightning will strike
+        mock_randint.return_value = human_idx  # Strike our specific cell
 
         world._update_weather()
 
@@ -154,12 +154,99 @@ class TestWorldSimulation(unittest.TestCase):
     @unittest.skip("Skipping legacy test until it's modernized.")
     def test_full_ecosystem_cycle(self):
         """Tests predation and celestial cycles working together with validated values."""
-        pass
+        def get_node_mock(node_id):
+            if node_id == 'sun': return {'id': 'sun', 'activation_energy': 2.0}
+            if node_id == 'love': return {'id': 'love', 'activation_energy': 0.0}
+            return None
+        self.mock_kg_manager.get_node.side_effect = get_node_mock
+        self.mock_wave_mechanics.get_resonance_between.return_value = 0.0
+
+        world = World(primordial_dna={'instinct': 'test'}, wave_mechanics=self.mock_wave_mechanics, logger=MagicMock())
+        world.add_cell('plant_A', properties={'element_type': 'life'})
+        world.add_cell('wolf_A', properties={'element_type': 'animal'})
+
+        plant_idx = world.id_to_idx['plant_A']
+        wolf_idx = world.id_to_idx['wolf_A']
+        world.hp[plant_idx] = 10.0
+        world.hp[wolf_idx] = 20.0
+        world.day_length = 20  # for predictable cycle
+
+        # --- Step 1: Day Time ---
+        # time_step starts at 0. The first step will be time_step 1, which is 'day'.
+        initial_plant_hp = world.hp[plant_idx]
+        world.run_simulation_step()
+
+        # Test the principle: Plant's HP should increase from sunlight
+        self.assertGreater(world.hp[plant_idx], initial_plant_hp)
+
+        # --- Step 2: Night Time ---
+        # Manually set time_step so the next step is guaranteed to be night
+        world.time_step = (world.day_length / 2) - 1  # Next step will be 10, which is the start of the night cycle
+        hp_before_night_wolf = world.hp[wolf_idx]
+        world.run_simulation_step()
+
+        # Test the principle: Animal should lose some HP at night
+        self.assertLess(world.hp[wolf_idx], hp_before_night_wolf)
 
     @unittest.skip("Skipping legacy test until it's modernized.")
     def test_civilization_lifecycle(self):
         """Tests the full cycle: farming, gathering, crafting, and harvesting."""
-        pass
+        world = World(primordial_dna={'instinct': 'test'}, wave_mechanics=self.mock_wave_mechanics, logger=MagicMock())
+
+        # 1. Setup
+        world.add_cell('human_A', properties={'label': 'human', 'element_type': 'animal'})
+        world.add_cell('forest_A', properties={'label': 'forest'})
+        world.add_cell('earth_A', properties={'element_type': 'earth'})
+        world.add_connection('human_A', 'forest_A', 0.1)
+        world.add_connection('human_A', 'earth_A', 0.1)
+
+        human_idx = world.id_to_idx['human_A']
+        earth_idx = world.id_to_idx['earth_A']
+        forest_idx = world.id_to_idx['forest_A']
+
+        # Position them close, with earth being the closest
+        world.positions[human_idx] = np.array([0, 0, 0])
+        world.positions[earth_idx] = np.array([0.1, 0, 0])
+        world.positions[forest_idx] = np.array([0.2, 0, 0])
+
+        # Give stone for crafting
+        world.inventories[human_idx].add_item(Item(name='stone', quantity=1))
+
+        # --- AI should prioritize farming first because it's closer ---
+        # 2. Till Land & Plant Seed
+        # Run a few steps. Human should move to earth_A, till it, and plant.
+        # This might happen very quickly.
+        for _ in range(5):
+            world.run_simulation_step()
+        self.assertIn(world.farmland_state[earth_idx], ['tilled', 'planted'])
+
+        # Keep running until the seed is planted
+        for _ in range(5):
+            if world.farmland_state[earth_idx] == 'planted': break
+            world.run_simulation_step()
+        self.assertEqual(world.farmland_state[earth_idx], 'planted')
+
+        # 3. Gather Wood (while crop grows)
+        # Now that farming is started, AI should look for other tasks.
+        for _ in range(10):
+            if 'wood' in world.inventories[human_idx].items: break
+            world.run_simulation_step()
+        self.assertIn('wood', world.inventories[human_idx].items)
+
+        # 4. Craft stone axe
+        # AI should now prioritize crafting as it has materials
+        world.run_simulation_step()
+        self.assertIn('stone_axe', world.inventories[human_idx].items)
+
+        # 5. Grow and Harvest
+        # Manually water and run simulation to advance crop growth
+        for _ in range(15):
+            world.water_level[earth_idx] = 10.0
+            world.run_simulation_step()
+
+        # Final step to trigger harvest AI
+        world.run_simulation_step()
+        self.assertIn('wheat', world.inventories[human_idx].items)
 
     @unittest.skip("Skipping legacy test until it's modernized.")
     @unittest.mock.patch('random.random')

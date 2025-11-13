@@ -34,10 +34,12 @@ if exist "dist\Elysia\Elysia.exe" (
 )
 
 REM else run scripts
-if exist "ElysiaStarter\scripts\visualize_timeline.py" (
+if exist "ElysiaStarter\scripts\animated_event_visualizer.py" (
+  call %PY% "ElysiaStarter\scripts\animated_event_visualizer.py"
+) else if exist "ElysiaStarter\scripts\visualize_timeline.py" (
   call %PY% "ElysiaStarter\scripts\visualize_timeline.py"
 ) else (
-  echo ERROR: Starter not found at ElysiaStarter\scripts\visualize_timeline.py
+  echo ERROR: Starter not found at ElysiaStarter\scripts\animated_event_visualizer.py or visualize_timeline.py
 )
 
 :done
