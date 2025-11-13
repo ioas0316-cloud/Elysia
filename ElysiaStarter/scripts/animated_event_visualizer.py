@@ -171,6 +171,7 @@ def main():
     show_labels = False
     show_grid = True
     show_terrain = True
+    show_threat = False
     selected_id: Optional[str] = None
     trail: List[Tuple[float,float]] = []
     show_help = True  # in-app help overlay
@@ -275,6 +276,9 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_t:
                 show_terrain = not show_terrain
                 ui_notify(f"Terrain: {'ON' if show_terrain else 'OFF'}")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_r:
+                show_threat = not show_threat
+                ui_notify(f"Threat field: {'ON' if show_threat else 'OFF'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_m:
                 show_labels = not show_labels
                 ui_notify(f"Labels: {'ON' if show_labels else 'OFF'}")
@@ -381,6 +385,21 @@ def main():
 
         # Background terrain lens
         draw_terrain(screen)
+        # Threat heatmap overlay (red tint where high)
+        if show_threat and hasattr(world, 'threat_field'):
+            tf = world.threat_field
+            if tf is not None and tf.size:
+                norm = tf.copy()
+                if norm.max() > 0:
+                    norm = norm / norm.max()
+                heat = np.zeros((norm.shape[0], norm.shape[1], 3), dtype=np.uint8)
+                heat[...,0] = (norm*255).astype(np.uint8)
+                heat[...,1] = (norm*80).astype(np.uint8)
+                heat[...,2] = 0
+                hs = pygame.surfarray.make_surface(np.rot90(heat))
+                hs = pygame.transform.smoothscale(hs, screen.get_size())
+                hs.set_alpha(120)
+                screen.blit(hs, (0,0))
 
         base = min(screen.get_width() / W, screen.get_height() / H)
         s = max(0.5, min(8.0, scale)) * base

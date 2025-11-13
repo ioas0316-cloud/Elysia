@@ -110,6 +110,14 @@ class World:
         self.height_map = np.zeros((self.width, self.width), dtype=np.float32)
         self.soil_fertility = np.full((self.width, self.width), 0.5, dtype=np.float32)
 
+        # --- Emergent Field Layers (Fractal Law Carriers) ---
+        # Soft, continuous fields that influence but do not dictate behavior.
+        self.threat_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self._threat_decay = 0.92  # memory of threat (EMA)
+        self._threat_sigma = 7.0   # spatial spread of threat influence (grid units)
+        self._threat_gain = 1.0    # base contribution gain
+        self._cohesion_gain = 0.08 # social cohesion gain toward allies
+
 
     def _resize_matrices(self, new_size: int):
         current_size = len(self.cell_ids)
@@ -367,6 +375,9 @@ class World:
         # Update weather
         self._update_weather()
 
+        # Update emergent continuous fields (e.g., threat)
+        self._update_emergent_fields()
+
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
 
@@ -437,6 +448,48 @@ class World:
         old_age_mask = (self.age > self.max_age * 0.8) & self.is_alive_mask
         self.hp[old_age_mask] -= 0.5 # HP decay from old age
 
+    def _update_emergent_fields(self):
+        """Updates soft fields (e.g., threat) from distributed sources.
+        The field is not a command; it is a context carrier that agents can sense.
+        """
+        if len(self.cell_ids) == 0:
+            return
+
+        # Build a fresh threat imprint from predators and recent injuries
+        new_threat = np.zeros_like(self.threat_field)
+        try:
+            predator_mask = (self.element_types == 'animal') & (self.diets == 'carnivore') & self.is_alive_mask
+            predator_indices = np.where(predator_mask)[0]
+            if predator_indices.size > 0:
+                sigma = self._threat_sigma
+                rad = int(max(2, sigma * 3))
+                for i in predator_indices:
+                    px, py = int(self.positions[i][0]) % self.width, int(self.positions[i][1]) % self.width
+                    x0, x1 = max(0, px - rad), min(self.width, px + rad + 1)
+                    y0, y1 = max(0, py - rad), min(self.width, py + rad + 1)
+                    xs = np.arange(x0, x1) - px
+                    ys = np.arange(y0, y1) - py
+                    gx = np.exp(-(xs**2) / (2 * sigma * sigma))
+                    gy = np.exp(-(ys**2) / (2 * sigma * sigma))
+                    patch = (gy[:, None] * gx[None, :]).astype(np.float32)
+                    # hunger amplifies perceived threat; strength also contributes
+                    amp = self._threat_gain * float(max(0.5, 1.5 - (self.hunger[i] / 100.0))) * float(max(1.0, self.strength[i] / 10.0))
+                    new_threat[y0:y1, x0:x1] += amp * patch
+
+            if new_threat.max() > 0:
+                new_threat = new_threat / float(new_threat.max())
+            self.threat_field = (self._threat_decay * self.threat_field) + ((1.0 - self._threat_decay) * new_threat)
+        except Exception:
+            # Field updates should never break the sim
+            pass
+
+    def _sample_field_grad(self, field: np.ndarray, fx: float, fy: float) -> Tuple[float, float]:
+        """Returns a finite-difference gradient of a field at world coords (fx, fy)."""
+        x = int(np.clip(fx, 1, self.width - 2))
+        y = int(np.clip(fy, 1, self.width - 2))
+        gx = float(field[y, x + 1] - field[y, x - 1]) * 0.5
+        gy = float(field[y + 1, x] - field[y - 1, x]) * 0.5
+        return gx, gy
 
     def _process_animal_actions(self):
         """Handles all AI, decision-making, and actions for animals."""
@@ -447,7 +500,25 @@ class World:
         # Basic random movement & cohesion (agility influences pace)
         n_animals = int(np.sum(animal_mask))
         if n_animals > 0:
-            movement_vectors = np.random.randn(n_animals, 3) * 0.1
+            movement_vectors = np.random.randn(n_animals, 3) * 0.05
+            # Humans: apply soft influences from fields and allies (no hard commands)
+            for local_idx, i in enumerate(animal_indices):
+                if not self.is_alive_mask[i]:
+                    continue
+                is_human = (self.labels[i] == 'human') or (self.culture[i] in ['wuxia', 'knight'])
+                if is_human:
+                    px, py = float(self.positions[i][0]), float(self.positions[i][1])
+                    gx, gy = self._sample_field_grad(self.threat_field, px, py)
+                    avoid = np.array([-gx, -gy, 0.0], dtype=np.float32)
+                    coh = np.zeros(3, dtype=np.float32)
+                    neigh = adj_matrix_csr[i].indices
+                    if neigh.size > 0:
+                        same = [j for j in neigh if self.is_alive_mask[j] and self.culture[j] == self.culture[i]]
+                        if len(same) > 0:
+                            center = self.positions[same].mean(axis=0)
+                            coh = (center - self.positions[i]) * self._cohesion_gain
+                    movement_vectors[local_idx] += avoid + coh
+
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
         fish_mask = (self.labels == 'fish') & self.is_alive_mask
