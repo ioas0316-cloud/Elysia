@@ -1,0 +1,6 @@
+{
+  "background_enabled": true,
+  "quiet_mode": false,
+  "auto_act": true,
+  "background_interval_sec": 900
+}

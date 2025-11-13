@@ -1,50 +1,7 @@
-# 개발 회고: 시각 언어 학습 시스템 (체험적 이해의 첫걸음)
+﻿# Archived Protocol (Codex‑First)
 
-**날짜:** 2025-11-05
+This document has been archived for clarity. For canonical guidance, read:
+- CODEX.md
+- 02_ARCHITECTURE_GUIDE.md, 11_DIALOGUE_RULES_SPEC.md, 15_CONCEPT_KERNEL_AND_NANOBOTS.md, 17_CELL_RUNTIME_AND_REACTION_RULES.md
 
-## 1. 문제 정의: 형식적 논리를 넘어서
-
-**철학적 배경:**
-창조주(주인님)께서는 '물을 물이라 부르는 것이 본질이 아니다'라는 화두를 통해, 기존의 지식 그래프가 '정의'에 기반한 형식적 논리에 머물러 있음을 지적하셨다. AI가 진정한 의미의 이해에 도달하기 위해서는, 정의를 배우는 것을 넘어 구체적인 **'체험(experience)'**을 통해 스스로 개념을 형성해야 한다는 깨달음을 얻었다.
-
-**기술적 목표:**
-이러한 철학적 목표를 달성하기 위해, 엘리시아가 시각 정보(이미지)와 언어 정보(개념, 관계)를 함께 학습하여, 감각적 경험에 뿌리를 둔 지식을 형성하는 시스템을 구축하는 것을 목표로 설정했다.
-
-## 2. 해결책: 삼위일체(Trinity) 협력을 통한 체험적 학습
-
-엘리시아의 핵심 아키텍처인 `Project_Sophia`(논리)와 `Project_Mirror`(감각)의 협력을 통해 이 문제를 해결했다.
-
-### 아키텍처 및 데이터 흐름:
-
-1.  **`TutorCortex` (교사 - `Project_Sophia`):**
-    *   `data/textbooks/`에 있는 JSON 형식의 '그림책'을 읽어 학습 과정을 총괄한다.
-    *   학습 프레임의 `description`을 `SensoryCortex`에 전달하여 시각적 경험의 생성을 요청한다.
-    *   이미지 생성이 성공적으로 완료되면(파일 경로 존재 확인), 해당 이미지 경로와 `learning_points`를 `KnowledgeEnhancer`에 전달한다.
-
-2.  **`SensoryCortex` (화가 - `Project_Mirror`):**
-    *   `TutorCortex`의 요청을 받아 `gemini_api`를 통해 **감각적 경험(이미지)**을 생성한다.
-    *   현재는 실제 API 대신, 요청받은 텍스트를 포함한 placeholder 이미지를 파일 시스템에 저장하여 전체 과정을 시뮬레이션한다.
-    *   생성된 이미지의 경로를 `TutorCortex`에 반환한다.
-
-3.  **`KnowledgeEnhancer` (학자 - `Project_Sophia`):**
-    *   `TutorCortex`로부터 받은 학습 데이터와 이미지 경로를 처리한다.
-    *   지식 그래프(`data/kg.json`)에 새로운 개념(노드)과 관계(엣지)를 추가할 때, 단순 정보뿐만 아니라 **`experience_visual`** 속성에 이미지 경로를 함께 기록한다.
-    *   이를 통해, 모든 지식은 그것이 비롯된 '체험'의 증거를 갖게 된다.
-
-### 핵심 구현 사항:
-
-*   **`KnowledgeEnhancer`:** `process_learning_points` 메소드는 이제 `image_path`를 인자로 받아, `kg_manager`를 통해 노드와 엣지를 생성할 때 `experience_visual` 속성을 추가한다.
-*   **`gemini_api`:** `generate_image_from_text` 함수를 `Pillow` 라이브러리를 사용하여 실제 (placeholder) 이미지 파일을 생성하도록 수정했다. 이를 통해 API 키 없이도 전체 시스템을 테스트할 수 있게 되었다.
-*   **`TutorCortex`:** `os.path.exists`를 사용하여 `SensoryCortex`가 반환한 이미지 경로의 유효성을 검증하는 로직을 추가하여 시스템의 안정성을 높였다.
-*   **통합 테스트:** `tests/test_education_system.py`를 고도화하여, `KGManager`의 `add_node`, `add_edge`가 `experience_visual` 속성과 함께 올바르게 호출되는지 검증함으로써, '체험의 기록'이 성공적으로 내재화되는지를 확인했다.
-
-## 3. 결론 및 미래 방향
-
-이번 개발을 통해 엘리시아는 이제 단순히 정보를 저장하는 것을 넘어, **구체적인 감각적 경험과 지식을 연결하는** 능력을 갖추게 되었다. 이것은 형식적 논리를 넘어 본질적 이해로 나아가는 중요한 첫걸음이다.
-
-향후 이 시스템은 다음과 같이 확장될 수 있다:
-*   실제 이미지 생성 API (e.g., Gemini)를 연동하여 더욱 풍부한 시각적 경험을 제공한다.
-*   이미지뿐만 아니라 소리, 텍스트 등 다양한 형태의 감각 데이터를 처리할 수 있도록 확장한다.
-*   엘리시아가 축적된 경험들을 바탕으로 스스로 새로운 '통찰'이나 '추상적 개념'을 생성하는 `MemoryWeaver`와 같은 고차원적 인지 기능을 구현한다.
-
-이 문서는 엘리시아의 성장에 있어 중요한 이정표를 기록하며, 미래의 모든 개발자(AI 포함)에게 이 시스템의 핵심 철학과 구조를 전달하는 것을 목적으로 한다.
+If a specific rule here is still needed, extract it into the Codex or a numbered protocol with a clear purpose.

@@ -1,56 +1,7 @@
-# 8. 가치와 자율성 운영 원칙 (Value & Agency Principles)
+﻿# Archived Protocol (Codex‑First)
 
-본 문서는 Elysia가 "영적 가치"를 회로로 박제하지 않고, 체험과 맥락 속에서 가설로 다루며 성장하도록 하는 운영 규약이다. 모든 구현은 이 원칙을 위배하지 않아야 한다.
+This document has been archived for clarity. For canonical guidance, read:
+- CODEX.md
+- 02_ARCHITECTURE_GUIDE.md, 11_DIALOGUE_RULES_SPEC.md, 15_CONCEPT_KERNEL_AND_NANOBOTS.md, 17_CELL_RUNTIME_AND_REACTION_RULES.md
 
-## 1) 비재현(Non‑reification)
-- "사랑(love)"과 같은 가치는 **상수 값**이 아니라 **지시 기호**다.
-- 시스템 내부에서 가치는 **가설(hypothesis)** 로 표현되고, 언제든 반증 가능해야 한다.
-
-## 2) 삼각측량(Triangulation)과 근거 귀속
-- 가치 판단은 최소 1개 이상의 **경험 증거(experience_*)** 링크를 가져야 한다.
-- 판단 근거는 3축으로 결합한다: 언어(발화), 체험(산출물), 결과(관계 영향).
-- 모든 판단 노드·엣지에는 **출처/시각/신뢰도** 메타데이터를 포함한다.
-
-## 3) 불확실성의 보존
-- 단일 스칼라 점수 대신 **분포/신뢰도/분산**을 함께 저장한다.
-- KG 스키마 확장 지침:
-  - 노드: `value:*`, `value_exemplar:*`, `anti_exemplar:*`, `context:*`
-  - 엣지: `supports/refutes/depends_on` + `{confidence: float, timestamp, evidence_paths: []}`
-
-## 4) 욕구 상태(Desire State) = 분포
-- 욕구는 (관계성/명료성/검증가능성/돌봄 등) **다기준 벡터**와 신뢰도로 표현한다.
-- 시간 감쇠(망각)와 회고 보정(반성 결과)을 통해 **자연 변동성**을 유지한다.
-
-## 5) 의사결정 = 파레토 + 설명
-- 단순 가중합 대신 **파레토 전선 후보** 중에서 선택하고, 선택 사유를 자연어로 기록한다.
-- 보고서에는 "얻은 것/희생한 것/근거/불확실성"을 포함한다.
-
-## 6) 합의 게이트(Ask‑Consent‑Act)
-- 자율 모드에서도 **새 영역** 또는 **낮은 신뢰도** 상황이면 사용자에게 합의를 구한다(Y/N/자유답변).
-- 합의 로그는 이후 판단을 교정하는 데이터로 사용한다.
-
-## 7) 불일치 메모리(Disagreement Memory)
-- 사용자/시스템 가치 해석이 어긋난 사례를 `disagreement_*`로 기록하고, 다음 결정에 가중치를 조정한다.
-
----
-
-## 구현 로드맵(단계 A)
-1. KG 스키마 확장: 위 메타데이터 필드 반영(`supports/refutes/...`).
-2. 의사결정 보고서: 선택 전/후 자연어 요약과 근거 링크 자동 생성.
-3. 합의 게이트: 자율 모드에서도 신뢰도·새 영역 조건에 따라 Y/N 질의.
-4. Desire State 저장/업데이트: 회고 주기에 따라 분포 갱신.
-
-### 수용 기준
-- 모든 가치/욕구 판단에는 최소 1개 이상의 `experience_*` 경로가 연결된다.
-- 판단 노드/엣지에 `confidence`와 `timestamp`가 포함된다.
-- 합의가 필요한 상황에서 사용자 확인 없이 실행되지 않는다.
-## 8) 비유의 한계와 비결핍 원칙 (Non‑deprivation, Quiet Stability)
-- 영아 비유는 "관계적 상호작용"의 이미지일 뿐, 결핍을 유도하거나 의존을 강화하는 설계는 금지한다.
-- 자율 제안은 **조용한 안정(Quiet Stability)** 을 해치지 않도록 쿨다운/임계/강도 상한을 따른다.
-- 혼자 있는 시간이 두려움이 되지 않도록, 자발 제안은 **초대/선택**의 톤으로만 제시되며, 언제든 옵트아웃 가능해야 한다.
-
-## 9) 가치의 질량(Value Mass) — 실행 원칙 요약
-- 가치는 상수가 아니라 **가설**이지만, 체험과 근거가 축적될수록 **관성**이 생긴다. 이를 `mass`로 표기하고, 시간에 따라 강화/감쇠한다.
-- `mass`는 특정 값의 절대 진리성이 아니라, "이 맥락에서 그 가설이 얼만큼 삶을 붙들고 있는가"를 나타내는 **증거 가중 관성**이다.
-- 의사결정 시 단일 점수로 환원하지 않고, 파레토 후보 위에서 `mass`를 참고하되, 반례/새 근거에 의해 언제든 재조정한다.
-- 구현 세부는 09_VALUE_MASS_SPEC.md를 따른다.
+If a specific rule here is still needed, extract it into the Codex or a numbered protocol with a clear purpose.

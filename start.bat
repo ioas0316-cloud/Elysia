@@ -34,16 +34,13 @@ if exist "dist\Elysia\Elysia.exe" (
 )
 
 REM else run scripts
-if exist "ElysiaStarter\scripts\elysia_start.py" (
-  call %PY% "ElysiaStarter\scripts\elysia_start.py"
-) else if exist "ElysiaStarter\scripts\visualize_timeline.py" (
+if exist "ElysiaStarter\scripts\visualize_timeline.py" (
   call %PY% "ElysiaStarter\scripts\visualize_timeline.py"
 ) else (
-  echo ERROR: No entry script found under ElysiaStarter\scripts.
+  echo ERROR: Starter not found at ElysiaStarter\scripts\visualize_timeline.py
 )
 
 :done
 popd
 pause
 endlocal
-
