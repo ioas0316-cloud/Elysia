@@ -1,4 +1,4 @@
-
+﻿
 import random
 import logging
 from typing import List, Dict, Optional, Tuple
@@ -106,7 +106,7 @@ class World:
         self.age = np.array([], dtype=np.int32)
         self.max_age = np.array([], dtype=np.int32)
         self.is_injured = np.array([], dtype=bool)
-        self.is_meditating = np.array([], dtype=bool) # For 운기조식, 기도
+        self.is_meditating = np.array([], dtype=bool) # For ?닿린議곗떇, 湲곕룄
         self.positions = np.zeros((0, 3), dtype=np.float32)
         self.labels = np.array([], dtype='<U20')
         self.insight = np.array([], dtype=np.float32)
@@ -220,6 +220,39 @@ class World:
         if yl <= 0:
             return 0.0
         return (self.time_step % yl) / float(yl)
+    def get_season_name(self) -> str:
+        p = self.get_year_phase()
+        # 4 equal seasons for now
+        if p < 0.25:
+            return '봄'
+        elif p < 0.5:
+            return '여름'
+        elif p < 0.75:
+            return '가을'
+        else:
+            return '겨울'
+
+    def get_clock_hm(self) -> Tuple[int, int]:
+        dp = self.get_day_phase()
+        total_minutes = 24 * 60
+        m = int(dp * total_minutes)
+        return (m // 60) % 24, m % 60
+
+    def get_date_ymd(self) -> Tuple[int, int, int]:
+        """(year, month, day) 반환. 연도는 0년부터 시작. 월은 12개월 균등 분할 근사."""
+        yl = self._year_length_ticks()
+        if yl <= 0 or self.day_length <= 0:
+            return 0, 1, 1
+        year = int(self.time_step // yl)
+        ticks_into_year = int(self.time_step % yl)
+        day_of_year = int(ticks_into_year // self.day_length)
+        days_in_year = max(1, int(round(self.year_length_days)))
+        days_per_month = max(1, int(round(days_in_year / 12.0)))
+        month = int(day_of_year // days_per_month) + 1
+        if month > 12:
+            month = 12
+        day = int(day_of_year % days_per_month) + 1
+        return year, month, day
 
     def get_month_phase(self) -> float:
         ml = self._month_length_ticks()
@@ -277,7 +310,7 @@ class World:
         self.age[idx] = 0
         self.is_injured[idx] = False
         self.is_meditating[idx] = False
-        # max_age는 나중에 라벨/종을 파악한 후 '연 단위'로 결정하고, 내부 저장은 '틱' 단위로 변환한다.
+        # max_age???섏쨷???쇰꺼/醫낆쓣 ?뚯븙????'???⑥쐞'濡?寃곗젙?섍퀬, ?대? ??μ? '?? ?⑥쐞濡?蹂?섑븳??
         self.insight[idx] = 0.0
         self.emotions[idx] = 'neutral'
 
@@ -529,7 +562,7 @@ class World:
         hour_angle = 2.0 * np.pi * day_p - np.pi  # -pi at midnight, 0 at noon
         # Latitude per row; broadcast over x dimension
         phi = self._lat_radians_row.reshape(1, -1)  # shape (1, width)
-        # Sun altitude: sin(alt) = sin φ sin δ + cos φ cos δ cos h
+        # Sun altitude: sin(alt) = sin ? sin 灌 + cos ? cos 灌 cos h
         sin_alt = np.sin(phi) * np.sin(decl) + np.cos(phi) * np.cos(decl) * np.cos(hour_angle)
         intensity_row = np.clip(sin_alt, 0.0, 1.0)  # (1, width)
         # Build field as same along x-axis for simplicity
@@ -547,12 +580,11 @@ class World:
         if self.sun_intensity_global < 0.05:
             self.time_of_day = 'night'
         elif self.sun_intensity_global < 0.15:
-            self.time_of_day = '황혼'
+            self.time_of_day = 'dawn'
         elif self.sun_intensity_global > 0.75:
-            self.time_of_day = '한낮'
+            self.time_of_day = 'noon'
         else:
-            self.time_of_day = '낮'
-        # Ambient temperature (global baseline with daily+seasonal oscillation)
+            self.time_of_day = 'day'
         season_term = 10.0 * np.sin(2.0 * np.pi * (year_p - 0.20))
         daily_term = 5.0 * np.sin(2.0 * np.pi * (day_p - 0.25))
         cloud_cool = -5.0 * float(self.cloud_cover)
@@ -711,7 +743,7 @@ class World:
         selected_move = None
 
         # --- High-Priority Needs ---
-        # 1. 운기조식 (Ki Circulation) if Ki is low and safe
+        # 1. ?닿린議곗떇 (Ki Circulation) if Ki is low and safe
         is_wuxia = self.culture[actor_idx] == 'wuxia'
         connected_indices = adj_matrix_csr[actor_idx].indices
         is_safe = not np.any((self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices] & (connected_indices != actor_idx))
@@ -719,7 +751,7 @@ class World:
         if is_wuxia and self.ki[actor_idx] < self.max_ki[actor_idx] * 0.3 and is_safe:
             return None, 'meditate', None
 
-        # 2. 기도 (Prayer) if Faith is low
+        # 2. 湲곕룄 (Prayer) if Faith is low
         # Placeholder for when faith-based classes are introduced
         # if self.faith[actor_idx] < self.max_faith[actor_idx] * 0.3:
         #     return None, 'pray', None
@@ -790,7 +822,7 @@ class World:
         # --- Handle non-target actions ---
         if action == 'meditate':
             self.is_meditating[actor_idx] = True
-            self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' begins 운기조식.")
+            self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' begins ?닿린議곗떇.")
             # Rapid Ki regeneration
             self.ki[actor_idx] = min(self.max_ki[actor_idx], self.ki[actor_idx] + 10)
             # HP regeneration and healing effect
@@ -995,7 +1027,7 @@ class World:
         unique_labels, counts = np.unique(living_labels, return_counts=True)
 
         for label, count in zip(unique_labels, counts):
-            if label:  # 빈 라벨은 제외
+            if label:  # 鍮??쇰꺼? ?쒖쇅
                 summary[label] = int(count)
         return summary
 
@@ -1064,3 +1096,6 @@ class World:
             print(f"  - {' | '.join(status_parts)}")
 
         print("-------------------------\n")
+
+
+

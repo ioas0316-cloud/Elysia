@@ -529,7 +529,41 @@ def ui_notify(msg: str):
             with open(event_log_path, 'r', encoding='utf-8') as f:
                 f.seek(last_log_pos)
                 new_lines = f.readlines()
-                last_log_pos = f.tell() layer_level >= 2:\n    for line in new_lines:\n (IOError, json.JSONDecodeError):
+                last_log_pos = f.tell()
+
+            if layer_level >= 2:
+                for line in new_lines:
+                    event = json.loads(line)
+                    event_type = event.get('event_type')
+                    data = event.get('data', {})
+
+                    if event_type == 'EAT' and 'actor_id' in data and 'target_id' in data:
+                        actor_idx = world.id_to_idx.get(data['actor_id'])
+                        target_idx = world.id_to_idx.get(data['target_id'])
+                        if actor_idx is not None and target_idx is not None:
+                            start_pos = world.positions[actor_idx]
+                            end_pos = world.positions[target_idx]
+                            animations[data['actor_id']] = Lunge(start_pos, end_pos)
+                            impact_anims.append(HitFlash(tuple(end_pos[:2])))
+                            event_ticker.append((time.time(), f"{data['actor_id']}가 {data['target_id']}을/를 먹음"))
+
+                    elif event_type == 'DEATH' and 'cell_id' in data:
+                        dying_cells[data['cell_id']] = time.time()
+                        idx = world.id_to_idx.get(data['cell_id'])
+                        if idx is not None:
+                            pos = world.positions[idx]
+                            impact_anims.append(FocusPulse(tuple(pos[:2])))
+                        event_ticker.append((time.time(), f"{data['cell_id']} 사망"))
+
+                    elif event_type == 'LIGHTNING_STRIKE' and 'cell_id' in data:
+                        idx = world.id_to_idx.get(data['cell_id'])
+                        if idx is not None:
+                            pos = world.positions[idx]
+                            impact_anims.append(LightningBolt(tuple(pos[:2])))
+                            impact_anims.append(HitFlash(tuple(pos[:2])))
+                            event_ticker.append((time.time(), f"번개가 {data['cell_id']}을/를 강타"))
+
+        except (IOError, json.JSONDecodeError):
             pass # File might not exist yet or be empty
 
 
@@ -751,6 +785,16 @@ def ui_notify(msg: str):
             night_alpha = int(140 * night)
         except Exception:
             day_phase = (world.time_step % world.day_length) / float(max(1, world.day_length)) if getattr(world, 'day_length', None) else 0.0
+        # Extra date/time overlay (연/월/일 + 시:분)
+        try:
+            y, mo, d = world.get_date_ymd()
+            hh, mm = world.get_clock_hm()
+            dt_text = f'{y:04d}년 {mo:02d}월 {d:02d}일  {hh:02d}:{mm:02d}'
+            surf_dt, _ = font.render(dt_text, fgcolor=(235,235,245))
+            base_y = 10 + len(hud_lines)*(font.get_sized_height()+2) + 6
+            screen.blit(surf_dt, (screen.get_width() - surf_dt.get_width() - 10, base_y))
+        except Exception:
+            pass
             night_alpha = int(120 * max(0.0, (day_phase-0.5) * 2)) if day_phase > 0.5 else 0
         if night_alpha > 0:
             tint = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
@@ -784,6 +828,16 @@ def ui_notify(msg: str):
         for i, tline in enumerate(hud_lines):
             surf, _ = font.render(tline, fgcolor=(235, 235, 245))
             screen.blit(surf, (screen.get_width() - surf.get_width() - 10, 10 + i * (font.get_sized_height() + 2)))
+        # Extra date/time overlay (연/월/일 + 시:분)
+        try:
+            y, mo, d = world.get_date_ymd()
+            hh, mm = world.get_clock_hm()
+            dt_text = f'{y:04d}년 {mo:02d}월 {d:02d}일  {hh:02d}:{mm:02d}'
+            surf_dt, _ = font.render(dt_text, fgcolor=(235,235,245))
+            base_y = 10 + len(hud_lines)*(font.get_sized_height()+2) + 6
+            screen.blit(surf_dt, (screen.get_width() - surf_dt.get_width() - 10, base_y))
+        except Exception:
+            pass
 
         # Event ticker (bottom-left)
         # keep last 6 entries within 6 seconds
