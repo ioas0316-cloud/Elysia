@@ -13,10 +13,10 @@ import yaml
 
 # Ensure project root on sys.path for cross-project imports
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_PKG_ROOT = os.path.dirname(os.path.dirname(_THIS_DIR))
-_PROJ_ROOT = os.path.dirname(os.path.dirname(_PKG_ROOT))
-if _PROJ_ROOT not in sys.path:
-    sys.path.insert(0, _PROJ_ROOT)
+# Repo root is two levels up from this script (ElysiaStarter/scripts)
+_REPO_ROOT = os.path.abspath(os.path.join(_THIS_DIR, '..', '..'))
+if _REPO_ROOT not in sys.path:
+    sys.path.insert(0, _REPO_ROOT)
 
 # --- Import the REAL World and Sensory Cortex ---
 from Project_Sophia.core.world import World

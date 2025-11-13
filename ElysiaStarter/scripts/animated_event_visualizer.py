@@ -4,7 +4,7 @@ import os
 import sys
 import time
 import random
-from typing import List, Tuple, Dict, Any
+from typing import List, Tuple, Dict, Any, Optional
 
 import numpy as np
 import pygame
@@ -13,10 +13,10 @@ import yaml
 
 # Ensure project root on sys.path for cross-project imports
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-_PKG_ROOT = os.path.dirname(os.path.dirname(_THIS_DIR))
-_PROJ_ROOT = os.path.dirname(os.path.dirname(_PKG_ROOT))
-if _PROJ_ROOT not in sys.path:
-    sys.path.insert(0, _PROJ_ROOT)
+# Repo root is two levels up from this script (ElysiaStarter/scripts)
+_REPO_ROOT = os.path.abspath(os.path.join(_THIS_DIR, '..', '..'))
+if _REPO_ROOT not in sys.path:
+    sys.path.insert(0, _REPO_ROOT)
 
 # --- Import the REAL World and Sensory Cortex ---
 from Project_Sophia.core.world import World
@@ -68,6 +68,21 @@ class Lunge(Animation):
         y = self.start_pos[1] + (self.end_pos[1] - self.start_pos[1]) * p
         return x, y
 
+class HitFlash(Animation):
+    def __init__(self, pos: Tuple[float, float], duration=0.25):
+        super().__init__(duration)
+        self.pos = pos
+
+class LightningBolt(Animation):
+    def __init__(self, pos: Tuple[float, float], duration=0.35):
+        super().__init__(duration)
+        self.pos = pos
+
+class FocusPulse(Animation):
+    def __init__(self, pos: Tuple[float, float], duration=1.0):
+        super().__init__(duration)
+        self.pos = pos
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--size', type=int, default=1024, help='window size (square)')
@@ -104,6 +119,9 @@ def main():
     last_log_pos = 0
     animations: Dict[str, Animation] = {} # cell_id -> Animation object
     dying_cells: Dict[str, float] = {} # cell_id -> death_timestamp
+    impact_anims: List[Animation] = [] # position-based flashes/bolts/pulses
+    event_ticker: List[Tuple[float, str]] = [] # (time, text)
+    cinematic_focus = True
 
     while running:
         dt = clock.tick(args.fps) / 1000.0
@@ -111,6 +129,8 @@ def main():
             if e.type == pygame.QUIT or (e.type == pygame.KEYDOWN and e.key == pygame.K_q):
                 running = False
             # Handle zoom and pan
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
+                cinematic_focus = not cinematic_focus
             if e.type == pygame.MOUSEWHEEL:
                 mx, my = pygame.mouse.get_pos()
                 base = min(screen.get_width() / W, screen.get_height() / H)
@@ -149,9 +169,24 @@ def main():
                         start_pos = world.positions[actor_idx]
                         end_pos = world.positions[target_idx]
                         animations[data['actor_id']] = Lunge(start_pos, end_pos)
+                        impact_anims.append(HitFlash(tuple(end_pos[:2])))
+                        event_ticker.append((time.time(), f"{data['actor_id']} eats {data['target_id']}"))
 
                 elif event_type == 'DEATH' and 'cell_id' in data:
                     dying_cells[data['cell_id']] = time.time()
+                    idx = world.id_to_idx.get(data['cell_id'])
+                    if idx is not None:
+                        pos = world.positions[idx]
+                        impact_anims.append(FocusPulse(tuple(pos[:2])))
+                    event_ticker.append((time.time(), f"{data['cell_id']} died"))
+
+                elif event_type == 'LIGHTNING_STRIKE' and 'cell_id' in data:
+                    idx = world.id_to_idx.get(data['cell_id'])
+                    if idx is not None:
+                        pos = world.positions[idx]
+                        impact_anims.append(LightningBolt(tuple(pos[:2])))
+                        impact_anims.append(HitFlash(tuple(pos[:2])))
+                        event_ticker.append((time.time(), f"⚡ lightning struck {data['cell_id']}"))
 
         except (IOError, json.JSONDecodeError):
             pass # File might not exist yet or be empty
@@ -174,6 +209,26 @@ def main():
                 finished_anims.append(cell_id)
         for cell_id in finished_anims:
             del animations[cell_id]
+
+        # Update position-based impact animations
+        new_impacts: List[Animation] = []
+        for anim in impact_anims:
+            anim.update()
+            if not anim.is_finished:
+                new_impacts.append(anim)
+        impact_anims = new_impacts
+
+        # Optional subtle cinematic focus: pan slightly towards recent impact
+        if cinematic_focus and impact_anims:
+            # take the last impact as the focus
+            last = impact_anims[-1]
+            fx, fy = last.pos
+            # project into screen coords to nudge pan toward event
+            ex, ey = int(cx - pan_x + fx * s), int(cy - pan_y + fy * s)
+            # nudge pan by small fraction toward keeping event near center
+            target_px, target_py = screen.get_width()//2, screen.get_height()//2
+            pan_x = pan_x * 0.9 + (ex - target_px) * 0.1
+            pan_y = pan_y * 0.9 + (ey - target_py) * 0.1
 
         # Draw cells
         for i, cell_id in enumerate(world.cell_ids):
@@ -205,13 +260,71 @@ def main():
                 elapsed = time.time() - dying_cells[cell_id]
                 alpha = int(max(0, 255 * (1.0 - elapsed / 1.0)))
 
-            temp_surf = pygame.Surface((size*2+4, size*2+4), pygame.SRCALPHA)
+            temp_surf = pygame.Surface((size*2+20, size*2+16), pygame.SRCALPHA)
+            # Body
             pygame.draw.circle(temp_surf, color + (alpha,), (size+2, size+2), size)
-
             if world.is_injured[i]:
                  pygame.draw.circle(temp_surf, (255, 0, 0, alpha), (size+2, size+2), size + 2, 1)
+            # Health bar (top)
+            if world.max_hp[i] > 0:
+                hp_ratio = max(0.0, min(1.0, float(world.hp[i] / world.max_hp[i])))
+                bar_w, bar_h = 18, 3
+                bx, by = (size+2) - bar_w//2, max(0, (size+2) - (size+6))
+                pygame.draw.rect(temp_surf, (60,60,70,160), pygame.Rect(bx, by, bar_w, bar_h), border_radius=2)
+                pygame.draw.rect(temp_surf, (60,200,90,220), pygame.Rect(bx, by, int(bar_w*hp_ratio), bar_h), border_radius=2)
+            # Hunger bar (bottom)
+            hunger_ratio = max(0.0, min(1.0, float(world.hunger[i] / 100.0))) if world.hunger.size>i else 0.0
+            bar_w2, bar_h2 = 18, 3
+            bx2, by2 = (size+2) - bar_w2//2, (size+2) + (size+6)
+            pygame.draw.rect(temp_surf, (60,60,70,160), pygame.Rect(bx2, by2, bar_w2, bar_h2), border_radius=2)
+            pygame.draw.rect(temp_surf, (220,190,70,220), pygame.Rect(bx2, by2, int(bar_w2*hunger_ratio), bar_h2), border_radius=2)
+            # Action icon: show simple indicator if anim exists
+            if cell_id in animations and isinstance(animations[cell_id], Lunge):
+                # small forward triangle above head
+                px, py = size+2, max(0, (size+2) - (size+10))
+                points = [(px, py-3), (px-4, py+3), (px+4, py+3)]
+                pygame.draw.polygon(temp_surf, (255,120,120,alpha), points)
 
-            screen.blit(temp_surf, (sx - size - 2, sy - size - 2))
+            screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
+
+        # Draw aim lines for lunges
+        for cell_id, anim in animations.items():
+            if isinstance(anim, Lunge):
+                csx, csy = w2s(anim.start_pos[0], anim.start_pos[1])
+                tsx, tsy = w2s(anim.end_pos[0], anim.end_pos[1])
+                pygame.draw.line(screen, (255,120,120), (csx, csy), (tsx, tsy), 1)
+
+        # Impact animations (lightning bolt, hit flash, focus pulse)
+        for anim in impact_anims:
+            if isinstance(anim, LightningBolt):
+                # draw jagged bolt
+                lx, ly = w2s(anim.pos[0], anim.pos[1])
+                bolt = pygame.Surface((40, 60), pygame.SRCALPHA)
+                pts = [(20,0),(15,15),(25,15),(18,30),(30,30),(22,50),(28,50),(24,60)]
+                pygame.draw.lines(bolt, (240,240,120,220), False, pts, 3)
+                screen.blit(bolt, (lx-20, ly-30), special_flags=pygame.BLEND_ADD)
+            elif isinstance(anim, HitFlash):
+                fx, fy = w2s(anim.pos[0], anim.pos[1])
+                r = 12
+                surf = pygame.Surface((r*2, r*2), pygame.SRCALPHA)
+                pygame.draw.circle(surf, (255,80,80,180), (r,r), r, 2)
+                screen.blit(surf, (fx-r, fy-r))
+            elif isinstance(anim, FocusPulse):
+                fx, fy = w2s(anim.pos[0], anim.pos[1])
+                t = min(1.0, (time.time()-anim.start_time)/anim.duration)
+                rr = int(20 + 40*t)
+                a = int(180*(1.0-t))
+                surf = pygame.Surface((rr*2, rr*2), pygame.SRCALPHA)
+                pygame.draw.circle(surf, (120,220,255,a), (rr,rr), rr, 2)
+                screen.blit(surf, (fx-rr, fy-rr))
+
+        # Day/Night tint overlay
+        day_phase = (world.time_step % world.day_length) / float(max(1, world.day_length)) if getattr(world, 'day_length', None) else 0.0
+        if day_phase > 0.5: # night half
+            night_alpha = int(120 * (day_phase-0.5) * 2)
+            tint = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+            tint.fill((10,10,30, night_alpha))
+            screen.blit(tint, (0,0))
 
         # HUD
         hh, mm = int(world.time_step // 60), int(world.time_step % 60)
@@ -219,6 +332,18 @@ def main():
         for i, tline in enumerate(hud_lines):
             surf, _ = font.render(tline, fgcolor=(235, 235, 245))
             screen.blit(surf, (screen.get_width() - surf.get_width() - 10, 10 + i * (font.get_sized_height() + 2)))
+
+        # Event ticker (bottom-left)
+        # keep last 6 entries within 6 seconds
+        now = time.time()
+        event_ticker = [(t,msg) for (t,msg) in event_ticker if now - t < 6.0]
+        for i, (_, msg) in enumerate(event_ticker[-6:]):
+            alpha = int(220 * (1.0 - (now - event_ticker[-6:][i][0]) / 6.0))
+            surf, _ = font.render(msg, fgcolor=(235,235,245,))
+            panel = pygame.Surface((surf.get_width()+10, surf.get_height()+4), pygame.SRCALPHA)
+            panel.fill((0,0,0,100))
+            panel.blit(surf, (6,2))
+            screen.blit(panel, (10, screen.get_height()- (i+1)*(surf.get_height()+8) - 10))
 
 
         pygame.display.flip()

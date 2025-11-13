@@ -34,6 +34,7 @@ if exist "dist\Elysia\Elysia.exe" (
 )
 
 REM else run scripts
+set "PYTHONPATH=%CD%"
 if exist "ElysiaStarter\scripts\animated_event_visualizer.py" (
   call %PY% "ElysiaStarter\scripts\animated_event_visualizer.py"
 ) else if exist "ElysiaStarter\scripts\visualize_timeline.py" (

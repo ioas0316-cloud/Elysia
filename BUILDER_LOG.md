@@ -75,3 +75,4 @@
 2025-11-13 17:15 | [CORE/HUMAN] | Added HUMAN_OVERVIEW_KO.md (human-only Korean summary) | Clear separation: agents use Codex; humans read overview | ELYSIA/CORE/HUMAN_OVERVIEW_KO.md
 2025-11-13 22:38 | [STARTER/TEST] | Resolve merge (prefer animated visualizer), update start.bat + README, push to origin | Keep Codex-first starter routing | CODEX.md
 2025-11-13 23:06 | [STARTER/DOC] | Add Visualization Lenses docs + README section | Clarify non-invasive layered observation | CODEX-first lens guidance
+2025-11-13 23:11 | [STARTER/LENS] | Add dynamic lenses: event ticker, health/hunger bars, lightning/impact effects, cinematic focus toggle(C) | Improve human-friendly observation | VISUALIZATION_LENSES.md
