@@ -154,6 +154,10 @@ def main():
         world.day_length = max(120, int(world.day_length)*6)
 
     pygame.init()
+    try:
+        pygame.event.set_blocked(pygame.QUIT)
+    except Exception:
+        pass
     screen = pygame.display.set_mode((args.size, args.size))
     pygame.display.set_caption('Elysia\'s Animated World')
     font = get_font(16)
@@ -356,10 +360,7 @@ def ui_notify(msg: str):
     while running:
         dt = clock.tick(args.fps) / 1000.0
         for e in pygame.event.get():
-            if e.type == pygame.QUIT or (e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE):
-                # 초기화 직후 환경 이슈로 들어오는 즉시 QUIT 이벤트를 무시하는 완충 시간
-                if time.time() - app_started_at < 1.0 and e.type == pygame.QUIT:
-                    continue
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 running = False
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
@@ -891,6 +892,19 @@ def ui_notify(msg: str):
 
         pygame.display.flip()
 
+    # 종료 전 잠시 대기하여 창이 즉시 닫히는 환경에서도 메시지 확인 가능
+    try:
+        end_start = time.time()
+        msg_surf, _ = font.render('종료합니다. ESC로 즉시 종료 (3초 대기)', fgcolor=(235,235,245))
+        while time.time() - end_start < 3.0:
+            for e in pygame.event.get():
+                if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
+                    raise SystemExit
+            screen.blit(msg_surf, (10, 10))
+            pygame.display.flip()
+            pygame.time.delay(50)
+    except Exception:
+        pass
     pygame.quit(); sys.exit()
 
 
