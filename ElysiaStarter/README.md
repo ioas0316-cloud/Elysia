@@ -21,6 +21,23 @@ python scripts/run_world.py --steps 2000 --render 1  # pygame 렌더
 - `bridges/*`          : Chronos/Spatial ↔ ConceptOS 브리지 스텁
 - `scripts/animated_event_visualizer.py` : 이벤트 기반 애니메이션(번개/런지/사망 페이드)
   - fallback: `scripts/visualize_timeline.py` (구 버전 파티클 타임라인)
+  
+## Visualization Lenses (사람 친화 관측 렌즈)
+- 목적: 시뮬레이션(셀월드)의 물리·논리를 바꾸지 않고, 인간 관찰에 적합한 "색안경"을 겹겹이 씌우듯 표현 레이어만 바꿉니다.
+- 분리 이유:
+  - 책임 분리: 월드는 진실(상태/규칙), 렌즈는 해석(색/애니메이션/HUD).
+  - 안전성: 관찰 중에도 월드의 규칙/결과를 오염시키지 않음(테스트 재현성↑).
+  - 인간 배려: 정보 밀도를 조절하고 감정선/의미를 부드럽게 시각화.
+  - 확장성: 렌즈를 추가/교체해 다양한 관점(교육/연구/스토리) 지원.
+- 구현 요소:
+  - `ui/layers.py`: 토글 가능한 레이어 레지스트리(`LAYERS`).
+  - `ui/layer_panel.py`: 키보드 토글(A/S/F/a/W) + HUD.
+  - `ui/render_overlays.py`: 스피치 버블, 감정 오라 등 표현 오버레이.
+  - `animated_event_visualizer.py`: 월드 이벤트→애니메이션(런지/페이드 등) 매핑.
+  
+관찰자 제어
+- 줌: 마우스 휠 / 패닝: 휠 버튼 드래그 / 종료: Q
+- 레이어: [A]gents, [S]tructures, [F]lora, Faun[a], [W]ill
 - `scripts/run_world.py` : 실행 루프(렌더 on/off)
 - `docs/26_*.md, 27_*.md` : CUDA & ConceptOS v2 초안
 - `config/runtime.yaml` : 실행 설정
