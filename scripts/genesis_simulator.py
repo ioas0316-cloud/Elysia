@@ -116,12 +116,6 @@ def main():
     for i in range(num_steps):
         print(f"\n--- Running Step {i+1} ---")
 
-        # Manually set prestige to create a clear power dynamic
-        father_idx = world.id_to_idx.get('human_father')
-        child_idx = world.id_to_idx.get('human_child')
-        wolf1_idx = world.id_to_idx.get('wolf_1')
-        wolf2_idx = world.id_to_idx.get('wolf_2')
-
         world.run_simulation_step()
         world.print_world_summary()
 

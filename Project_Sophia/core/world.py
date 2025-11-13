@@ -1,4 +1,4 @@
-﻿
+
 import random
 import logging
 from typing import List, Dict, Optional, Tuple
@@ -314,7 +314,7 @@ class World:
         self.age[idx] = 0
         self.is_injured[idx] = False
         self.is_meditating[idx] = False
-        # max_age???섏쨷???쇰꺼/醫낆쓣 ?뚯븙????'???⑥쐞'濡?寃곗젙?섍퀬, ?대? ??μ? '?? ?⑥쐞濡?蹂?섑븳??
+        # max_age???섏쨷???쇰꺼/醫낆쓣 ?뚯븙????'???⑥쐞'濡?寃곗젙?섍퀬, ?대? ?€?μ? '?? ?⑥쐞濡?蹂€?섑븳??
         self.insight[idx] = 0.0
         self.emotions[idx] = 'neutral'
 
@@ -1158,7 +1158,7 @@ class World:
         unique_labels, counts = np.unique(living_labels, return_counts=True)
 
         for label, count in zip(unique_labels, counts):
-            if label:  # 鍮??쇰꺼? ?쒖쇅
+            if label:  # 鍮??쇰꺼?€ ?쒖쇅
                 summary[label] = int(count)
         return summary
 
