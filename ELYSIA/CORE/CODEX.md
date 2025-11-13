@@ -19,6 +19,12 @@ Single-source, purpose-first summary for agents. Read this first; treat all othe
 - Every node (doc, module, cell) repeats Why/How/What inside itself.
 - Each protocol should embed: Purpose, Mechanism, Operation, Telemetry, Boundaries.
 
+## Laws as Fields (Emergence)
+- Highest criterion: implement big laws as soft fields/networks/flows that agents can sense; do not coerce outcomes with prescriptive if‑then branches.
+- Preserve emergence: clustering/settlement/rituals should arise under field influence + relations + agent freedom.
+- Separate lenses: visualization changes how we see, not what the world is; never push UI logic into world physics.
+- Code review gate: if a patch commands behavior directly (“when threat>t then group”), convert it into a field/network/flow signal or escalate.
+
 ## Concept OS + Nano‑Bots (Message Bus)
 - Message schema (minimal): id, ts, verb, slots, strength, ttl, src/dst.
 - Bus + Scheduler: prioritize by strength/recency; bots handle link/validate/compose; emit telemetry bus.message, bot.run, concept.update.

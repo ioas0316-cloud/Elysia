@@ -80,3 +80,4 @@
 2025-11-13 23:19 | [STARTER/PACE] | Slow-time sim pacing (rate in steps/sec, presets), calmer weather, ecology helper to avoid early die-off | Better human observation window | README updated
 2025-11-13 23:35 | [CORE+UI] | Add spells (firebolt/heal), AGI evasion/speed; selection HUD with stats/HP-Ki-MP-Faith; crosshair cursor; save/load keys | Human observation + depth
 2025-11-13 23:39 | [CORE/FIELD] | Add emergent threat field + soft social cohesion; human motion reads fields (no hard clustering rule); visualizer heatmap (R) | Fractal law carrier
+2025-11-13 23:44 | [PROTO/HANDOVER] | Embed highest criterion: laws-as-fields (emergence) into Handover, Codex, Operations, Lenses doc | Review gate added

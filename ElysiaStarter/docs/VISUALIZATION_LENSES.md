@@ -19,6 +19,7 @@ Rationale
 - Separation of concerns: physics vs. presentation.
 - Human care: reduce cognitive load, highlight meaning/affect safely.
 - Extensibility: bespoke lenses for story, research, education without changing core.
+- Alignment with Codex: lenses must not encode world behavior; laws live as fields/networks in the core, lenses only observe them.
 
 Extend a Lens
 - Add a layer flag in `ui/layers.py`.

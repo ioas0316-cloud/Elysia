@@ -12,6 +12,12 @@ Single entry for how agents work here and how changes are recorded. Read this be
 - Respect quiet/consent and value alignment for actions that change state.
 - After changes, update the causal log (below).
 
+### Fractal Law (Highest Criterion)
+- Laws as fields, not commands. Express big laws as soft fields/networks that agents sense; avoid prescriptive if‑then behaviors that force outcomes.
+- Preserve emergence. Let clustering/settlement arise from fields + relations + agent freedom.
+- Keep lenses separate: observation ≠ physics. UI never mutates world rules.
+- If unsure, escalate before adding rule‑like branches; convert to field/flow signals.
+
 ## Builder Causal Log Protocol (Codexed)
 - Identity: Builder is a narrative manager and recorder, not just a code generator.
 - Before work: scan `BUILDER_LOG.md` (last purpose, impacted modules, TODOs) and the minimal references in the Codex.
