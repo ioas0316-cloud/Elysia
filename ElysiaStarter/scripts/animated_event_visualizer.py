@@ -97,12 +97,44 @@ def main():
     mock_wave_mechanics = WaveMechanics(mock_kg_manager)
     world = World(primordial_dna={'instinct': 'observe'}, wave_mechanics=mock_wave_mechanics)
 
-    # Populate the world
-    world.add_cell('human_1', properties={'label': 'human', 'element_type': 'animal', 'culture': 'wuxia', 'gender': 'male', 'vitality': 7, 'wisdom': 8, 'strength': 12})
-    world.add_cell('human_2', properties={'label': 'human', 'element_type': 'animal', 'culture': 'knight', 'gender': 'female', 'vitality': 8, 'wisdom': 7, 'strength': 10})
-    world.add_cell('plant_1', properties={'label': 'tree', 'element_type': 'life'})
-    world.add_cell('wolf_1', properties={'label': 'wolf', 'element_type': 'animal', 'diet': 'carnivore', 'strength': 8})
-    world.add_connection('wolf_1', 'human_2', 0.1) # Wolf can attack human
+    # --- Populate the world (observer-friendly seed) ---
+    rng = np.random.default_rng(42)
+    def rand_pos():
+        return {'x': float(rng.uniform(0, W-1)), 'y': float(rng.uniform(0, H-1)), 'z': 0}
+
+    # Seed a small village of humans
+    for i in range(8):
+        culture = 'wuxia' if i % 2 == 0 else 'knight'
+        world.add_cell(f'human_{i+1}', properties={'label': 'human', 'element_type': 'animal', 'culture': culture, 'gender': 'male' if i%2==0 else 'female', 'vitality': int(rng.integers(7,11)), 'wisdom': int(rng.integers(6,11)), 'strength': int(rng.integers(8,13)), 'position': rand_pos()})
+
+    # Seed wildlife and plants
+    for i in range(10):
+        world.add_cell(f'plant_{i+1}', properties={'label': 'tree', 'element_type': 'life', 'position': rand_pos()})
+    for i in range(5):
+        world.add_cell(f'wolf_{i+1}', properties={'label': 'wolf', 'element_type': 'animal', 'diet': 'carnivore', 'strength': int(rng.integers(7,11)), 'position': rand_pos()})
+    for i in range(6):
+        world.add_cell(f'deer_{i+1}', properties={'label': 'deer', 'element_type': 'animal', 'diet': 'herbivore', 'position': rand_pos()})
+
+    # Light social graph edges to encourage interactions
+    ids = list(world.cell_ids)
+    animals = [cid for cid in ids if world.element_types[world.id_to_idx[cid]] == 'animal']
+    for _ in range(20):
+        a,b = rng.choice(animals, size=2, replace=False)
+        if a != b:
+            try:
+                world.add_connection(a, b, float(rng.uniform(0.05, 0.2)))
+            except Exception:
+                pass
+
+    # Observer-friendly initial conditions: avoid instant deaths
+    if world.hunger.size:
+        world.hunger[:] = 80.0
+    if world.hp.size and world.max_hp.size:
+        world.hp[:] = np.maximum(world.hp, world.max_hp * 0.9)
+
+    # Make weather lively for visual lightning
+    world.cloud_cover = 0.8
+    world.humidity = 0.8
 
     pygame.init()
     screen = pygame.display.set_mode((args.size, args.size))
@@ -113,6 +145,8 @@ def main():
     running = True
     scale, pan_x, pan_y = 1.0, 0.0, 0.0
     dragging, last_mouse = False, (0, 0)
+    sim_speed = 1  # steps per frame
+    paused = False
 
     # --- Event and Animation Management ---
     event_log_path = world.event_logger.log_file_path
@@ -122,6 +156,53 @@ def main():
     impact_anims: List[Animation] = [] # position-based flashes/bolts/pulses
     event_ticker: List[Tuple[float, str]] = [] # (time, text)
     cinematic_focus = True
+    show_labels = False
+    show_grid = True
+    show_terrain = True
+    selected_id: Optional[str] = None
+    trail: List[Tuple[float,float]] = []
+
+    # Precompute a simple terrain noise lens (does not touch world state)
+    def _gen_noise(w:int, h:int, oct=4):
+        base = np.zeros((h,w), dtype=np.float32)
+        r = np.random.default_rng(7)
+        for k in range(oct):
+            sx = max(1, w // (2**(k+2)))
+            sy = max(1, h // (2**(k+2)))
+            small = r.random((sy,sx)).astype(np.float32)
+            up = np.kron(small, np.ones((h//sy, w//sx), dtype=np.float32))
+            up = up[:h,:w]
+            base += up * (0.6**k)
+        base -= base.min(); base /= (base.max() + 1e-6)
+        return base
+
+    terrain_noise = _gen_noise(128,128)
+    def draw_terrain(surface: pygame.Surface):
+        if not show_terrain:
+            return
+        # colorize noise into simple biome colors
+        arr = (terrain_noise*255).astype(np.uint8)
+        palette = np.zeros((arr.shape[0], arr.shape[1], 3), dtype=np.uint8)
+        water = arr < 90
+        sand = (arr >= 90) & (arr < 110)
+        grass = (arr >= 110) & (arr < 200)
+        rock = arr >= 200
+        palette[water] = (30,40,70)
+        palette[sand] = (170,150,110)
+        palette[grass] = (60,110,70)
+        palette[rock] = (80,80,80)
+        surf = pygame.surfarray.make_surface(np.rot90(palette))
+        surf = pygame.transform.smoothscale(surf, surface.get_size())
+        surface.blit(surf, (0,0))
+        if show_grid:
+            gw = max(16, surface.get_width()//32)
+            gh = gw
+            grid = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+            for x in range(0, surface.get_width(), gw):
+                pygame.draw.line(grid, (255,255,255,20), (x,0), (x,surface.get_height()))
+            for y in range(0, surface.get_height(), gh):
+                pygame.draw.line(grid, (255,255,255,20), (0,y), (surface.get_width(),y))
+            surface.blit(grid, (0,0))
 
     while running:
         dt = clock.tick(args.fps) / 1000.0
@@ -131,6 +212,32 @@ def main():
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+                paused = not paused
+            if e.type == pygame.KEYDOWN and e.key in (pygame.K_PLUS, pygame.K_EQUALS):
+                sim_speed = min(8, sim_speed + 1)
+            if e.type == pygame.KEYDOWN and e.key in (pygame.K_MINUS, pygame.K_UNDERSCORE):
+                sim_speed = max(0, sim_speed - 1)
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_g:
+                show_grid = not show_grid
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_t:
+                show_terrain = not show_terrain
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_m:
+                show_labels = not show_labels
+            if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+                # select nearest alive cell
+                mx,my = e.pos
+                def dist2_screen(i):
+                    sx,sy = w2s(world.positions[i][0], world.positions[i][1])
+                    return (sx-mx)**2 + (sy-my)**2
+                alive = np.where(world.is_alive_mask)[0]
+                if alive.size:
+                    idx = min(alive.tolist(), key=dist2_screen)
+                    sx,sy = w2s(world.positions[idx][0], world.positions[idx][1])
+                    if (sx-mx)**2 + (sy-my)**2 < 20**2:
+                        selected_id = world.cell_ids[idx]
+                        trail = []
+            # Handle zoom and pan
             if e.type == pygame.MOUSEWHEEL:
                 mx, my = pygame.mouse.get_pos()
                 base = min(screen.get_width() / W, screen.get_height() / H)
@@ -148,7 +255,10 @@ def main():
                 pan_x, pan_y = pan_x - dx, pan_y - dy
                 last_mouse = e.pos
 
-        world.run_simulation_step()
+        # Simulation step(s)
+        if not paused:
+            for _ in range(max(1, sim_speed)):
+                world.run_simulation_step()
 
         # --- Process World Events for Animation ---
         try:
@@ -192,7 +302,8 @@ def main():
             pass # File might not exist yet or be empty
 
 
-        screen.fill((30, 30, 40))
+        # Background terrain lens
+        draw_terrain(screen)
 
         base = min(screen.get_width() / W, screen.get_height() / H)
         s = max(0.5, min(8.0, scale)) * base
@@ -287,6 +398,11 @@ def main():
 
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
 
+            # Optional label
+            if show_labels:
+                label_surf, _ = font.render(str(cell_id), fgcolor=(235,235,245))
+                screen.blit(label_surf, (sx - label_surf.get_width()//2, sy + size + 8))
+
         # Draw aim lines for lunges
         for cell_id, anim in animations.items():
             if isinstance(anim, Lunge):
@@ -328,7 +444,11 @@ def main():
 
         # HUD
         hh, mm = int(world.time_step // 60), int(world.time_step % 60)
-        hud_lines = [f"Time {hh:02d}:{mm:02d}", f"Population {np.sum(world.is_alive_mask)}"]
+        hud_lines = [
+            f"Time {hh:02d}:{mm:02d}",
+            f"Population {int(np.sum(world.is_alive_mask))}",
+            f"Speed x{sim_speed}{' (paused)' if paused else ''}",
+        ]
         for i, tline in enumerate(hud_lines):
             surf, _ = font.render(tline, fgcolor=(235, 235, 245))
             screen.blit(surf, (screen.get_width() - surf.get_width() - 10, 10 + i * (font.get_sized_height() + 2)))
@@ -344,6 +464,33 @@ def main():
             panel.fill((0,0,0,100))
             panel.blit(surf, (6,2))
             screen.blit(panel, (10, screen.get_height()- (i+1)*(surf.get_height()+8) - 10))
+
+        # Selection detail panel (bottom-right)
+        if selected_id is not None:
+            idx = world.id_to_idx.get(selected_id)
+            if idx is not None and world.is_alive_mask[idx]:
+                # trail
+                trail.append((float(world.positions[idx][0]), float(world.positions[idx][1])))
+                if len(trail) > 50: trail = trail[-50:]
+                for j in range(1, len(trail)):
+                    x1,y1 = w2s(*trail[j-1]); x2,y2 = w2s(*trail[j])
+                    pygame.draw.line(screen, (120,200,255), (x1,y1), (x2,y2), 1)
+
+                lines = [
+                    f"Selected: {selected_id}",
+                    f"HP {world.hp[idx]:.0f}/{world.max_hp[idx]:.0f}",
+                    f"Hunger {world.hunger[idx]:.0f}",
+                    f"Stats S{world.strength[idx]} A{world.agility[idx]} I{world.intelligence[idx]} V{world.vitality[idx]} W{world.wisdom[idx]}",
+                ]
+                detail_surfs = [font.render(l, fgcolor=(235,235,245))[0] for l in lines]
+                wmax = max(s.get_width() for s in detail_surfs) + 14
+                hsum = sum(s.get_height() for s in detail_surfs) + 14
+                panel = pygame.Surface((wmax, hsum), pygame.SRCALPHA)
+                panel.fill((0,0,0,140))
+                y=7
+                for s in detail_surfs:
+                    panel.blit(s, (7,y)); y+=s.get_height()
+                screen.blit(panel, (screen.get_width()-wmax-10, screen.get_height()-hsum-10))
 
 
         pygame.display.flip()
