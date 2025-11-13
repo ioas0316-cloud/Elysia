@@ -167,7 +167,7 @@ def main():
     dying_cells: Dict[str, float] = {} # cell_id -> death_timestamp
     impact_anims: List[Animation] = [] # position-based flashes/bolts/pulses
     event_ticker: List[Tuple[float, str]] = [] # (time, text)
-    cinematic_focus = True
+    cinematic_focus = False
     show_labels = False
     show_grid = True
     show_terrain = True
@@ -175,6 +175,8 @@ def main():
     selected_id: Optional[str] = None
     trail: List[Tuple[float,float]] = []
     show_help = True  # in-app help overlay
+    skill_mode = 'target'
+    skill_aoe_radius = 6.0
     divine_mode = False  # 신성력 모드 (커서로 치유/강화)
 
     def screen_to_world(mx:int, my:int, scale_val:float) -> Tuple[float,float]:
@@ -214,11 +216,60 @@ def main():
                 affected += 1
         return affected
 
-    def ui_notify(msg: str):
-        try:
-            event_ticker.append((time.time(), msg))
-        except Exception:
-            pass
+def ui_notify(msg: str):
+    try:
+        event_ticker.append((time.time(), msg))
+    except Exception:
+        pass
+    
+    # Skill casting mode and helpers
+    # mode: 'target' (apply to selected unit) or 'aoe' (apply around cursor)
+    # Toggle with X key
+
+    def _apply_skill_to_index(skill: str, idx: int) -> None:
+        # Q heal: HP+12, clear injury
+        # W inspire: Ki/Mana +8
+        # E shield: HP+6, clear injury
+        # R smite: damage (carnivore priority)
+        if skill == 'Q':
+            if world.hp.size>idx and world.max_hp.size>idx:
+                world.hp[idx] = min(world.max_hp[idx], world.hp[idx] + 12.0)
+            if world.is_injured.size>idx:
+                world.is_injured[idx] = False
+        elif skill == 'W':
+            if world.max_ki.size>idx and world.ki.size>idx:
+                world.ki[idx] = min(world.max_ki[idx], world.ki[idx] + 8.0)
+            if world.max_mana.size>idx and world.mana.size>idx:
+                world.mana[idx] = min(world.max_mana[idx], world.mana[idx] + 8.0)
+        elif skill == 'E':
+            if world.hp.size>idx and world.max_hp.size>idx:
+                world.hp[idx] = min(world.max_hp[idx], world.hp[idx] + 6.0)
+            if world.is_injured.size>idx:
+                world.is_injured[idx] = False
+        elif skill == 'R':
+            is_carn = (world.diets.size>idx and world.diets[idx] == 'carnivore')
+            dmg = 15.0 if is_carn else 6.0
+            if world.hp.size>idx:
+                world.hp[idx] = max(0.0, world.hp[idx] - dmg)
+
+    def _apply_skill_aoe(skill: str, wx: float, wy: float, radius_world: float) -> int:
+        affected = 0
+        if not world.cell_ids:
+            return affected
+        r2 = radius_world * radius_world
+        for i, cid in enumerate(world.cell_ids):
+            if i >= world.positions.shape[0]:
+                continue
+            if not (world.is_alive_mask.size>i and world.is_alive_mask[i]):
+                continue
+            dx = float(world.positions[i][0]) - wx
+            dy = float(world.positions[i][1]) - wy
+            if dx*dx + dy*dy > r2:
+                continue
+            _apply_skill_to_index(skill, i)
+            affected += 1
+        return affected
+
 
     # Precompute a simple terrain noise lens (does not touch world state)
     def _gen_noise(w:int, h:int, oct=4):
@@ -314,6 +365,23 @@ def main():
                 sim_rate = 4.00; ui_notify("배속 x4.00")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_7:
                 sim_rate = 8.00; ui_notify("배속 x8.00")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_x:
+                skill_mode = 'aoe' if skill_mode == 'target' else 'target'
+                ui_notify(f"skill mode: {skill_mode}")
+            if e.type == pygame.KEYDOWN and e.key in (pygame.K_q, pygame.K_w, pygame.K_e, pygame.K_r):
+                key_map = {pygame.K_q:'Q', pygame.K_w:'W', pygame.K_e:'E', pygame.K_r:'R'}
+                sk = key_map.get(e.key)
+                if sk:
+                    if skill_mode == 'target' and selected_id is not None:
+                        idx_sel = world.id_to_idx.get(selected_id)
+                        if idx_sel is not None:
+                            _apply_skill_to_index(sk, idx_sel)
+                            ui_notify(f"{sk} -> {selected_id}")
+                    else:
+                        mx,my = pygame.mouse.get_pos()
+                        wx, wy = screen_to_world(mx, my, scale)
+                        n = _apply_skill_aoe(sk, wx, wy, skill_aoe_radius)
+                        ui_notify(f"{sk} aoe x{n}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_g:
                 show_grid = not show_grid
                 ui_notify(f"洹몃━?? {'耳쒖쭚' if show_grid else '爰쇱쭚'}")
@@ -507,6 +575,13 @@ def main():
             if (sxh - mx)**2 + (syh - my)**2 < 18**2:
                 hover_idx = hi
 
+        # AoE preview ring when in aoe skill mode
+        if skill_mode == 'aoe':
+            wx, wy = screen_to_world(mx, my, scale)
+            rx = int(skill_aoe_radius * s)
+            cxp, cyp = w2s(wx, wy)
+            pygame.draw.circle(screen, (200, 220, 255), (cxp, cyp), rx, 1)
+
         # Draw cells
         for i, cell_id in enumerate(world.cell_ids):
             # Skip drawing if the cell is in the process of a death animation
@@ -524,7 +599,10 @@ def main():
 
             sx, sy = w2s(pos[0], pos[1])
 
-            size = 5
+            # scale unit size with zoom for readability
+            base_px = min(screen.get_width() / W, screen.get_height() / H)
+            zoom_ratio = max(0.5, min(2.5, float((s / max(1e-6, base_px)))))
+            size = max(2, min(12, int(4 * zoom_ratio)))
             color = (150, 150, 150)
             if world.element_types[i] == 'animal': color = (200, 220, 255)
             elif world.element_types[i] == 'life': color, size = (60, 200, 90), 4
