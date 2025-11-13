@@ -161,6 +161,13 @@ def main():
     show_terrain = True
     selected_id: Optional[str] = None
     trail: List[Tuple[float,float]] = []
+    show_help = True  # in-app help overlay
+
+    def ui_notify(msg: str):
+        try:
+            event_ticker.append((time.time(), msg))
+        except Exception:
+            pass
 
     # Precompute a simple terrain noise lens (does not touch world state)
     def _gen_noise(w:int, h:int, oct=4):
@@ -212,18 +219,28 @@ def main():
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
+                ui_notify(f"Cinematic focus: {'ON' if cinematic_focus else 'OFF'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 paused = not paused
+                ui_notify('Paused' if paused else 'Resumed')
             if e.type == pygame.KEYDOWN and e.key in (pygame.K_PLUS, pygame.K_EQUALS):
                 sim_speed = min(8, sim_speed + 1)
+                ui_notify(f"Speed x{sim_speed}")
             if e.type == pygame.KEYDOWN and e.key in (pygame.K_MINUS, pygame.K_UNDERSCORE):
                 sim_speed = max(0, sim_speed - 1)
+                ui_notify(f"Speed x{sim_speed}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_g:
                 show_grid = not show_grid
+                ui_notify(f"Grid: {'ON' if show_grid else 'OFF'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_t:
                 show_terrain = not show_terrain
+                ui_notify(f"Terrain: {'ON' if show_terrain else 'OFF'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_m:
                 show_labels = not show_labels
+                ui_notify(f"Labels: {'ON' if show_labels else 'OFF'}")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_h:
+                show_help = not show_help
+                ui_notify('Help shown' if show_help else 'Help hidden')
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 # select nearest alive cell
                 mx,my = e.pos
@@ -237,6 +254,7 @@ def main():
                     if (sx-mx)**2 + (sy-my)**2 < 20**2:
                         selected_id = world.cell_ids[idx]
                         trail = []
+                        ui_notify(f"Selected: {selected_id}")
             # Handle zoom and pan
             if e.type == pygame.MOUSEWHEEL:
                 mx, my = pygame.mouse.get_pos()
@@ -464,6 +482,26 @@ def main():
             panel.fill((0,0,0,100))
             panel.blit(surf, (6,2))
             screen.blit(panel, (10, screen.get_height()- (i+1)*(surf.get_height()+8) - 10))
+
+        # Help overlay (top-left)
+        if show_help:
+            help_lines = [
+                'Controls — Press H to hide/show',
+                'Mouse: Wheel Zoom, MMB Pan, LMB Select',
+                'Q Quit  |  Space Pause/Resume  |  +/- Speed',
+                'View: G Grid, T Terrain, M Labels, C Focus',
+                'Layers: A Agents, S Structures, F Flora, a Fauna, W Will',
+                'Tips: Click a dot to see details; events bottom-left',
+            ]
+            hsurfs = [font.render(l, fgcolor=(235,235,245))[0] for l in help_lines]
+            wmax = max(s.get_width() for s in hsurfs) + 14
+            hsum = sum(s.get_height() for s in hsurfs) + 14
+            panel = pygame.Surface((wmax, hsum), pygame.SRCALPHA)
+            panel.fill((0,0,0,150))
+            y = 7
+            for s in hsurfs:
+                panel.blit(s, (7,y)); y += s.get_height()
+            screen.blit(panel, (10, 10))
 
         # Selection detail panel (bottom-right)
         if selected_id is not None:

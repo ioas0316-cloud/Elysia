@@ -76,3 +76,4 @@
 2025-11-13 22:38 | [STARTER/TEST] | Resolve merge (prefer animated visualizer), update start.bat + README, push to origin | Keep Codex-first starter routing | CODEX.md
 2025-11-13 23:06 | [STARTER/DOC] | Add Visualization Lenses docs + README section | Clarify non-invasive layered observation | CODEX-first lens guidance
 2025-11-13 23:11 | [STARTER/LENS] | Add dynamic lenses: event ticker, health/hunger bars, lightning/impact effects, cinematic focus toggle(C) | Improve human-friendly observation | VISUALIZATION_LENSES.md
+2025-11-13 23:17 | [STARTER/UI] | Add in-app help overlay + UI tooltips via ticker; README controls section | Improve human onboarding | VISUALIZATION_LENSES.md

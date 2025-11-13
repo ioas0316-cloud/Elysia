@@ -38,6 +38,14 @@ python scripts/run_world.py --steps 2000 --render 1  # pygame 렌더
 관찰자 제어
 - 줌: 마우스 휠 / 패닝: 휠 버튼 드래그 / 종료: Q
 - 레이어: [A]gents, [S]tructures, [F]lora, Faun[a], [W]ill
+
+## Controls & Help (In‑App)
+- H: 도움말 오버레이 토글(키 조작/용도 설명)
+- Space: 일시정지/재개, +/-: 시뮬레이션 속도 조절
+- C: 시네마틱 포커스 온/오프(주요 이벤트에 카메라 살짝 이동)
+- G/T/M: 그리드/지형/라벨 토글
+- 좌클릭: 개체 선택(우하단 상세/이동 궤적 표시)
+- 좌하단: 이벤트 티커(먹음/사망/번개 등)
 - `scripts/run_world.py` : 실행 루프(렌더 on/off)
 - `docs/26_*.md, 27_*.md` : CUDA & ConceptOS v2 초안
 - `config/runtime.yaml` : 실행 설정
