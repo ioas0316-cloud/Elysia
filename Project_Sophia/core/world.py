@@ -12,6 +12,7 @@ from .skills import MARTIAL_STYLES, Move
 from .spells import SPELL_BOOK, cast_spell
 from .world_event_logger import WorldEventLogger
 from ..wave_mechanics import WaveMechanics
+from .fields import FieldRegistry
 
 
 class World:
@@ -140,6 +141,22 @@ class World:
         self._threat_sigma = 7.0   # spatial spread of threat influence (grid units)
         self._threat_gain = 1.0    # base contribution gain
         self._cohesion_gain = 0.08 # social cohesion gain toward allies
+
+        # --- Field Registry (fractal carriers; fields-over-commands) ---
+        # Register existing scalar fields so sampling/gradients go through one interface.
+        self.fields = FieldRegistry()
+        self.fields.register_scalar(
+            name="threat",
+            scale="micro",
+            array_getter=lambda: self.threat_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="hydration",
+            scale="micro",
+            array_getter=lambda: self.hydration_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
 
 
     def _resize_matrices(self, new_size: int):
@@ -746,7 +763,7 @@ class World:
                 # is_human = (self.labels[i] == 'human') or (self.culture[i] in ['wuxia', 'knight'])
                 # if is_human:
                 px, py = float(self.positions[i][0]), float(self.positions[i][1])
-                gx, gy = self._sample_field_grad(self.threat_field, px, py)
+                gx, gy = self.fields.grad("threat", px, py)
                 avoid = np.array([-gx, -gy, 0.0], dtype=np.float32)
                 coh = np.zeros(3, dtype=np.float32)
                 kin_attraction = np.zeros(3, dtype=np.float32)
@@ -755,7 +772,7 @@ class World:
                 # --- Magnetoreception for Water ---
                 if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
                     thirst_factor = (1.0 - self.hydration[i] / 100.0) ** 2  # Urgency increases non-linearly
-                    hx, hy = self._sample_field_grad(self.hydration_field, px, py)
+                    hx, hy = self.fields.grad("hydration", px, py)
                     hydration_seeking = np.array([hx, hy, 0.0], dtype=np.float32) * thirst_factor * 0.5
 
                 neigh = adj_matrix_csr[i].indices
