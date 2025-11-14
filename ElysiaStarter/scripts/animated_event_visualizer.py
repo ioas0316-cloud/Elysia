@@ -214,6 +214,7 @@ def main():
     cinematic_focus = False
     show_labels = False
     show_grid = True
+    show_contours = True  # 지형 등고선/산맥 표시
     show_terrain = True
     show_threat = False
     selected_id: Optional[str] = None
@@ -354,6 +355,15 @@ def main():
         palette[sand] = (170,150,110)
         palette[grass] = (60,110,70)
         palette[rock] = (80,80,80)
+        # Optional contour lines (simple bands) and mountain ridge accent
+        if show_contours:
+            arr_i = arr.astype(np.int32)
+            # thin contour lines every ~12 levels, only on non-water
+            contour = ((arr_i % 12) == 0) & (~water)
+            palette[contour] = (40,50,40)
+            # denser accent lines on high terrain (mountain)
+            ridge = (arr_i >= 200) & ((arr_i % 8) == 0)
+            palette[ridge] = (60,60,60)
         surf = pygame.surfarray.make_surface(np.rot90(palette))
         world_px = (max(1, int(W*s)), max(1, int(H*s)))
         surf = pygame.transform.scale(surf, world_px)
@@ -388,6 +398,12 @@ def main():
 
     _dbg('loop: enter')
     last_tick_log = time.time()
+    # Background caches
+    background_base_surf = None
+    background_scaled_surf = None
+    bg_cached_px = (0, 0)
+    grid_cache = None
+    grid_cached_px = (0, 0)
     while running:
         dt = clock.tick(args.fps) / 1000.0
         if time.time() - last_tick_log > 2.0:
@@ -1054,6 +1070,8 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
+
 
 
 
