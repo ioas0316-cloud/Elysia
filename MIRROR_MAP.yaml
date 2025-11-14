@@ -1,0 +1,152 @@
+﻿version: 1
+updated: 2025-11-14
+description: Code ↔ CellWorld Mirror Map (Fractal)
+
+domains:
+  - id: TIME
+    description: Day/Night, seasons, age/time scaling
+  - id: SPACE
+    description: Fields, positions, movement, perception
+  - id: LIFE
+    description: Hunger, hydration, survival, actions
+  - id: SOCIAL
+    description: Norms, prestige, cohesion
+  - id: HISTORY
+    description: Imprints, events afterimage
+
+layers:
+  - id: TIME_CORE
+    domain: TIME
+    code:
+      modules:
+        - Project_Sophia/core/world.py
+    world:
+      phenomena:
+        - Day/Night label and light field
+        - Moonlight, tides, time scaling
+  - id: WORLD_FIELDS
+    domain: SPACE
+    code:
+      modules:
+        - Project_Sophia/core/world.py
+        - Project_Sophia/core/fields.py
+    world:
+      phenomena:
+        - Threat, Hydration, EM salience (em_s)
+        - Field gradients bias movement softly
+  - id: LIFE_RESOURCES
+    domain: LIFE
+    code:
+      modules:
+        - Project_Sophia/core/world.py
+    world:
+      phenomena:
+        - Hunger/Hydration decay and penalties
+        - Drink/Eat actions
+  - id: SOCIAL_FIELDS
+    domain: SOCIAL
+    code:
+      modules:
+        - Project_Sophia/core/world.py
+    world:
+      phenomena:
+        - Norm diffusion, Prestige hubs (soft)
+  - id: HISTORY_TRACE
+    domain: HISTORY
+    code:
+      modules:
+        - Project_Sophia/core/world.py
+    world:
+      phenomena:
+        - Lightning/Death imprints (H field)
+
+rules:
+  - id: TIME_DAYNIGHT_CYCLE
+    layer: TIME_CORE
+    code:
+      symbol: Project_Sophia.core.world:World._update_celestial_fields
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - Sky light field, time_of_day label
+        - Moonlight/tide variation by phase
+      tags: [time.daynight, field.sunlight, tide]
+
+  - id: LIFE_HUNGER_DECAY
+    layer: LIFE_RESOURCES
+    code:
+      symbol: Project_Sophia.core.world:World._update_passive_resources
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - Hunger decreases over time; starvation HP loss at 0
+      tags: [life.hunger, hp]
+
+  - id: WORLD_THREAT_UPDATE
+    layer: WORLD_FIELDS
+    code:
+      symbol: Project_Sophia.core.world:World._update_emergent_fields
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - Threat field accumulates around predators; hunger/strength amplify
+      tags: [field.threat]
+
+  - id: WORLD_HYDRATION_MAGNETO
+    layer: WORLD_FIELDS
+    code:
+      symbol: Project_Sophia.core.world:World._update_hydration_field
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - Hydration aura from wetness; thirsty agents bias toward grad(hydration)
+      tags: [field.hydration, movement.bias]
+
+  - id: WORLD_EM_PERCEPTION
+    layer: WORLD_FIELDS
+    code:
+      symbol: Project_Sophia.core.world:World._update_em_perception_field
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - EM salience (em_s) diffusion/decay; optional E/B movement bias
+      tags: [field.em_s, field.E, field.B]
+
+  - id: HISTORY_IMPRINT
+    layer: HISTORY_TRACE
+    code:
+      symbol: Project_Sophia.core.world:World._update_historical_imprint_field
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - Event afterimage persists/decays; set at lightning/death sites
+      tags: [history.imprint]
+
+  - id: SOCIAL_NORMS
+    layer: SOCIAL_FIELDS
+    code:
+      symbol: Project_Sophia.core.world:World._update_norms_field
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - Presence-based diffusion proxy for norms (to be refined by culture graph)
+      tags: [social.norms]
+
+  - id: SOCIAL_PRESTIGE
+    layer: SOCIAL_FIELDS
+    code:
+      symbol: Project_Sophia.core.world:World._update_prestige_field
+      file: Project_Sophia/core/world.py
+    world:
+      effect:
+        - Connectivity/strength-based prestige diffusion (soft hubs)
+      tags: [social.prestige]
+
+meta:
+  code_symbol_format: module_path:Class.method or module_path:function
+  path_base: workspace-relative
+  status: draft
+  owner: core
+  notes:
+    - Aligns with PROTO-32 (Revised) and PROTO-40 mirror routing
+    - Future: Concept OS bus + Nano-Bots (link/validate/compose) will consume this map
