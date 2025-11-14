@@ -1,4 +1,4 @@
-﻿
+
 import random
 import logging
 from typing import List, Dict, Optional, Tuple
@@ -135,6 +135,7 @@ class World:
         # --- Emergent Field Layers (Fractal Law Carriers) ---
         # Soft, continuous fields that influence but do not dictate behavior.
         self.threat_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.hydration_field = np.zeros((self.width, self.width), dtype=np.float32)
         self._threat_decay = 0.92  # memory of threat (EMA)
         self._threat_sigma = 7.0   # spatial spread of threat influence (grid units)
         self._threat_gain = 1.0    # base contribution gain
@@ -313,7 +314,7 @@ class World:
         self.age[idx] = 0
         self.is_injured[idx] = False
         self.is_meditating[idx] = False
-        # max_age???섏쨷???쇰꺼/醫낆쓣 ?뚯븙????'???⑥쐞'濡?寃곗젙?섍퀬, ?대? ??μ? '?? ?⑥쐞濡?蹂?섑븳??
+        # max_age???섏쨷???쇰꺼/醫낆쓣 ?뚯븙????'???⑥쐞'濡?寃곗젙?섍퀬, ?대? ?€?μ? '?? ?⑥쐞濡?蹂€?섑븳??
         self.insight[idx] = 0.0
         self.emotions[idx] = 'neutral'
 
@@ -506,6 +507,7 @@ class World:
 
         # Update emergent continuous fields (e.g., threat)
         self._update_emergent_fields()
+        self._update_hydration_field()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -706,6 +708,19 @@ class World:
             # Field updates should never break the sim
             pass
 
+    def _update_hydration_field(self):
+        """Updates the hydration field based on wetness, creating a 'water aura'."""
+        try:
+            # A simple way to spread the wetness is using a convolution,
+            # but for simplicity and to avoid adding more dependencies,
+            # we can simulate a simple diffusion or blur.
+            # A more robust implementation would use scipy.ndimage.gaussian_filter
+            from scipy.ndimage import gaussian_filter
+            self.hydration_field = gaussian_filter(self.wetness, sigma=10)
+        except ImportError:
+            # Fallback if scipy is not available
+            self.hydration_field = self.wetness
+
     def _sample_field_grad(self, field: np.ndarray, fx: float, fy: float) -> Tuple[float, float]:
         """Returns a finite-difference gradient of a field at world coords (fx, fy)."""
         x = int(np.clip(fx, 1, self.width - 2))
@@ -735,6 +750,13 @@ class World:
                 avoid = np.array([-gx, -gy, 0.0], dtype=np.float32)
                 coh = np.zeros(3, dtype=np.float32)
                 kin_attraction = np.zeros(3, dtype=np.float32)
+                hydration_seeking = np.zeros(3, dtype=np.float32)
+
+                # --- Magnetoreception for Water ---
+                if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
+                    thirst_factor = (1.0 - self.hydration[i] / 100.0) ** 2  # Urgency increases non-linearly
+                    hx, hy = self._sample_field_grad(self.hydration_field, px, py)
+                    hydration_seeking = np.array([hx, hy, 0.0], dtype=np.float32) * thirst_factor * 0.5
 
                 neigh = adj_matrix_csr[i].indices
                 if neigh.size > 0:
@@ -750,7 +772,7 @@ class World:
                         kin_center = self.positions[kin].mean(axis=0)
                         kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
 
-                movement_vectors[local_idx] += avoid + coh + kin_attraction
+                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
@@ -785,103 +807,112 @@ class World:
             self._execute_animal_action(i, target_idx if target_idx is not None else -1, action, move)
 
     def _select_animal_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Tuple[Optional[int], str, Optional[Move]]:
-        """Selects the best action (hunt, meditate, etc.) for an animal based on its needs and skills."""
-        target_idx = None
-        action = 'idle'
-        selected_move = None
+        """Orchestrates animal action selection by checking needs in priority order."""
+        # 1. High-priority survival actions
+        survival_action = self._decide_survival_action(actor_idx, adj_matrix_csr)
+        if survival_action:
+            return survival_action
 
-        # --- High-Priority Needs ---
-        # 1. Drink if thirsty
-        is_thirsty = self.hydration[actor_idx] < 40
-        if is_thirsty:
+        # 2. Social, combat, or hunger-driven actions
+        social_combat_action = self._decide_social_or_combat_action(actor_idx, adj_matrix_csr)
+        if social_combat_action:
+            return social_combat_action
+
+        # 3. Default to idle if no other action is taken
+        return None, 'idle', None
+
+    def _decide_survival_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Optional[Tuple[Optional[int], str, Optional[Move]]]:
+        """Handles immediate, critical survival needs."""
+        # Need 1: Drink if thirsty and at a water source
+        if self.hydration[actor_idx] < 40:
             actor_pos = self.positions[actor_idx]
+            # Check if the animal is currently standing on a 'wet' grid cell
             if self.wetness[int(actor_pos[1]) % self.width, int(actor_pos[0]) % self.width] > 0.5:
                 return None, 'drink', None
-            else:
-                # Simple search for a water source nearby
-                # This is a placeholder for a more sophisticated search algorithm
-                y, x = np.unravel_index(np.argmax(self.wetness, axis=None), self.wetness.shape)
-                water_pos = np.array([x, y, 0])
-                # This is not a proper pathfinding, just a simple move towards water
-                # A proper implementation would require a more complex system.
-                # For now, we create a pseudo-target to move towards.
-                # The action is still 'move_to_water', but it's handled by the movement system.
-                # A better approach will be implemented later.
-                pass # Let movement handle it for now
+            # If not at water, the movement logic will handle getting there, so no action needed here.
 
-
-        # 2. ?닿린議곗떇 (Ki Circulation) if Ki is low and safe
+        # Need 2: Meditate (Ki Circulation) if Ki is low and it's safe to do so
         is_wuxia = self.culture[actor_idx] == 'wuxia'
+        if is_wuxia and self.ki[actor_idx] < self.max_ki[actor_idx] * 0.3:
+            connected_indices = adj_matrix_csr[actor_idx].indices
+            # Check for nearby threats before meditating
+            is_safe = not np.any((self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices] & (connected_indices != actor_idx))
+            if is_safe:
+                return None, 'meditate', None
+
+        # Add other high-priority actions here (e.g., flee from overwhelming threat)
+
+        return None # No urgent survival action needed
+
+    def _decide_social_or_combat_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Optional[Tuple[Optional[int], str, Optional[Move]]]:
+        """Handles hunting, fighting, skill use, and other social behaviors."""
         connected_indices = adj_matrix_csr[actor_idx].indices
-        is_safe = not np.any((self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices] & (connected_indices != actor_idx))
+        if connected_indices.size == 0:
+            return None # No one nearby to interact with
 
-        if is_wuxia and self.ki[actor_idx] < self.max_ki[actor_idx] * 0.3 and is_safe:
-            return None, 'meditate', None
-
-        # 2. 湲곕룄 (Prayer) if Faith is low
-        # Placeholder for when faith-based classes are introduced
-        # if self.faith[actor_idx] < self.max_faith[actor_idx] * 0.3:
-        #     return None, 'pray', None
-
-        # 3. Hunger
+        # Determine if hungry
         is_hungry = self.hunger[actor_idx] < 60
-        if is_hungry:
-            action = 'eat'
-
-        # --- Target Selection for Actions ---
         kin_indices = set(connected_indices[adj_matrix_csr[actor_idx, connected_indices].toarray().flatten() >= 0.8])
 
-        potential_target_indices = []
+        # Find potential targets based on hunger and diet
+        potential_targets = []
         actor_diet = self.diets[actor_idx]
 
-        # Find food if hungry
         if is_hungry:
+            # Find food: non-kin animals for carnivores, plants for herbivores
             if actor_diet in ['carnivore', 'omnivore']:
-                mask = (self.element_types[connected_indices] == 'animal') & (connected_indices != actor_idx) & self.is_alive_mask[connected_indices]
-                non_kin_prey = [p for p in connected_indices[mask] if p not in kin_indices]
-                potential_target_indices.extend(non_kin_prey)
+                mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
+                non_kin_prey = [p_idx for p_idx in connected_indices[mask] if p_idx not in kin_indices]
+                potential_targets.extend(non_kin_prey)
             if actor_diet in ['herbivore', 'omnivore']:
                 mask = (self.element_types[connected_indices] == 'life') & self.is_alive_mask[connected_indices]
-                potential_target_indices.extend(connected_indices[mask])
-        else: # If not hungry, might pick a fight
-            mask = (self.element_types[connected_indices] == 'animal') & (connected_indices != actor_idx) & self.is_alive_mask[connected_indices]
-            non_kin_rivals = [p for p in connected_indices[mask] if p not in kin_indices]
-            potential_target_indices.extend(non_kin_rivals)
+                potential_targets.extend(connected_indices[mask])
+        else:
+            # If not hungry, might pick a fight with non-kin rivals
+            mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
+            non_kin_rivals = [r_idx for r_idx in connected_indices[mask] if r_idx not in kin_indices]
+            potential_targets.extend(non_kin_rivals)
 
-        if not potential_target_indices:
-            return None, 'idle', None
+        if not potential_targets:
+            return None # No suitable targets found
 
-        target_idx = potential_target_indices[np.argmin(self.hp[np.array(potential_target_indices)])]
+        # Select the weakest target
+        target_idx = potential_targets[np.argmin(self.hp[np.array(potential_targets)])]
 
-        # --- Tactical Decision: Attack or Use Skill/Spell ---
-        if self.element_types[target_idx] == 'animal':
-            action = 'attack'
+        # --- Tactical Decision Logic ---
+        target_is_animal = self.element_types[target_idx] == 'animal'
+        if not target_is_animal:
+            return target_idx, 'eat', None # Action is to eat the plant
+
+        # If target is an animal, decide on combat style
+        action = 'attack'
+        selected_move = None
+        culture = self.culture[actor_idx]
+
+        # Wuxia: Use Ki-based martial arts
+        if culture == 'wuxia':
             actor_affiliation = self.affiliation[actor_idx]
             if actor_affiliation and actor_affiliation in self.martial_styles:
                 style = self.martial_styles[actor_affiliation]
+                # Try to use the best available move
                 for move in sorted(style.moves, key=lambda m: m.ki_cost, reverse=True):
-                    if self.ki[actor_idx] < move.ki_cost: continue
-                    can_use = all(getattr(self, stat)[actor_idx] >= value for stat, value in move.min_stats.items())
-                    if not can_use: continue
-                    is_ultimate = move.ki_cost > 10
-                    is_strong_target = self.hp[target_idx] > self.hp[actor_idx]
-                    if is_ultimate and is_strong_target and self.ki[actor_idx] > self.max_ki[actor_idx] * 0.5:
-                        selected_move = move
-                        break
-                    elif not is_ultimate:
-                        selected_move = move
-            # Simple spell usage for mana users (e.g., knight)
-            culture = self.culture[actor_idx]
-            if culture == 'knight' and self.mana[actor_idx] >= 8:
-                if self.hp[actor_idx] < self.max_hp[actor_idx] * 0.6 and self.mana[actor_idx] >= 8:
-                    action = 'cast_heal'
-                    target_idx = None
-                elif self.mana[actor_idx] >= 10:
-                    action = 'cast_firebolt'
-        else:
-            action = 'eat'
+                    if self.ki[actor_idx] >= move.ki_cost:
+                        # Check if stats are sufficient for the move
+                        if all(getattr(self, stat)[actor_idx] >= value for stat, value in move.min_stats.items()):
+                            selected_move = move
+                            break # Found a suitable move
+
+        # Knight: Use Mana-based spells
+        elif culture == 'knight' and self.mana[actor_idx] >= 8:
+            # Prioritize healing if HP is low
+            if self.hp[actor_idx] < self.max_hp[actor_idx] * 0.6:
+                action, target_idx = 'cast_heal', None
+            # Otherwise, cast an offensive spell if mana is sufficient
+            elif self.mana[actor_idx] >= 10:
+                action = 'cast_firebolt'
 
         return target_idx, action, selected_move
+
 
     def _execute_animal_action(self, actor_idx: int, target_idx: int, action: str, move: Optional[Move]):
         """Executes the chosen action, including non-target actions like meditation."""
@@ -939,9 +970,8 @@ class World:
             elif action == 'cast_firebolt':
                 if self.spells.get('firebolt'):
                     # Evasion check
-                    from random import random
                     evade_chance = min(0.4, float(self.agility[target_idx]) / 100.0)
-                    if random() < evade_chance:
+                    if random.random() < evade_chance:
                         self.logger.info(f"EVADE: '{self.cell_ids[target_idx]}' evaded Firebolt.")
                         self.event_logger.log('EVADE', self.time_step, cell_id=self.cell_ids[target_idx])
                         return
@@ -961,9 +991,8 @@ class World:
                     return
 
             # Evasion chance based on target agility
-            from random import random
             evade_chance = min(0.4, float(self.agility[target_idx]) / 100.0)
-            if random() < evade_chance:
+            if random.random() < evade_chance:
                 self.logger.info(f"EVADE: '{self.cell_ids[target_idx]}' evaded the attack.")
                 self.event_logger.log('EVADE', self.time_step, cell_id=self.cell_ids[target_idx])
                 return
@@ -1129,7 +1158,7 @@ class World:
         unique_labels, counts = np.unique(living_labels, return_counts=True)
 
         for label, count in zip(unique_labels, counts):
-            if label:  # 鍮??쇰꺼? ?쒖쇅
+            if label:  # 鍮??쇰꺼?€ ?쒖쇅
                 summary[label] = int(count)
         return summary
 
