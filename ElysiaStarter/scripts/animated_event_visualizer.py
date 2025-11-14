@@ -331,7 +331,7 @@ def main():
         base -= base.min(); base /= (base.max() + 1e-6)
         return base
 
-    terrain_noise = _gen_noise(128,128)
+    terrain_noise = _gen_noise(W,H)
     def draw_terrain(surface: pygame.Surface, s: float, cx: int, cy: int, pan_x: float, pan_y: float):
         if not show_terrain:
             return
@@ -356,7 +356,7 @@ def main():
         palette[rock] = (80,80,80)
         surf = pygame.surfarray.make_surface(np.rot90(palette))
         world_px = (max(1, int(W*s)), max(1, int(H*s)))
-        surf = pygame.transform.smoothscale(surf, world_px)
+        surf = pygame.transform.scale(surf, world_px)
         topleft = (int(cx - pan_x), int(cy - pan_y))
         surface.blit(surf, topleft)
         if show_grid:
@@ -980,6 +980,7 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
 
 
 
