@@ -262,12 +262,12 @@ def main():
                 affected += 1
         return affected
 
-def ui_notify(msg: str):
-    try:
-        GLOBAL_EVENT_TICKER.append((time.time(), msg))
-    except Exception:
-        pass
-    
+    def ui_notify(msg: str):
+            try:
+                GLOBAL_EVENT_TICKER.append((time.time(), msg))
+            except Exception:
+                pass
+
     # Skill casting mode and helpers
     # mode: 'target' (apply to selected unit) or 'aoe' (apply around cursor)
     # Toggle with X key
