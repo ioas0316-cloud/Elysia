@@ -45,11 +45,11 @@ from Project_Elysia.core import persistence as world_persistence
 # --- Debug logging (helps diagnose early-close issues) ---
 _DBG_PATH = Path('logs')/ 'starter_debug.log'
 def _dbg(msg: str):
-    try:
+                try:
         _DBG_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(_DBG_PATH, 'a', encoding='utf-8') as f:
             f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
-    except Exception:
+                except Exception:
         pass
 
 
@@ -167,7 +167,7 @@ def main():
 
     pygame.init()
     _dbg('pygame.init ok')
-    try:
+                try:
         screen = pygame.display.set_mode((args.size, args.size))
         _dbg('display set_mode ok (default)')
     except Exception as ex:
@@ -189,9 +189,9 @@ def main():
     _dbg('font: loaded')
     clock = pygame.time.Clock()
     _dbg('clock: created')
-    try:
+                try:
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
-    except Exception:
+                except Exception:
         pass
 
     running = True
@@ -500,13 +500,13 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
                 ui_notify(f"?쒕꽕留덊떛 ?ъ빱?? {'耳쒖쭚' if cinematic_focus else '爰쇱쭚'}")
-if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
-    paused = not paused
-    try:
-        ui_notify('일시정지' if paused else '재개')
-    except Exception:
-        pass
-if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+                paused = not paused
+                try:
+                    ui_notify('일시정지' if paused else '재개')
+                except Exception:
+                    pass
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
                 mx, my = pygame.mouse.get_pos()
                 wx, wy = screen_to_world(mx, my, scale)
                 wxi, wyi = int(wx), int(wy)
@@ -1245,7 +1245,7 @@ if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
         pygame.display.flip()
 
     # 종료 전 잠시 대기하여 창이 즉시 닫히는 환경에서도 메시지 확인 가능
-    try:
+                try:
         end_start = time.time()
         msg_surf, _ = font.render('종료합니다. ESC로 즉시 종료 (3초 대기)', fgcolor=(235,235,245))
         while time.time() - end_start < 3.0:
@@ -1255,20 +1255,21 @@ if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
             screen.blit(msg_surf, (10, 10))
             pygame.display.flip()
             pygame.time.delay(50)
-    except Exception:
+                except Exception:
         pass
     pygame.quit(); sys.exit()
 
 
 if __name__ == '__main__':
-    try:
+                try:
         _dbg('__main__: calling main')
         main()
         _dbg('__main__: main returned')
-    except Exception:
+                except Exception:
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
 
 
 
