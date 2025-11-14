@@ -93,3 +93,4 @@
 2025-11-14 13:58 | [CELLWORLD/FIELDS] | Add H/N/P fields skeleton (decay/diffuse; event/culture/degree sourced) | Defaults zero-coupling; registry + updates wired | Project_Sophia/core/world.py
 2025-11-14 14:04 | [PROTO/36] | Add MIRROR LAYER PROTOCOL (KR/EN) + index links | Fractal mirror map: Code°ÍWorld layers/rules/phenomena for agent navigation | ELYSIAS_PROTOCOL/36_MIRROR_LAYER_PROTOCOL*.md
 2025-11-14 14:08 | [GROWTH/PROTO] | Rename Golden Growth Principle to PROTO-40; update CORE stub and references | Keep Codex-first index consistent | ELYSIA/GROWTH/PROTO_40_GOLDEN_GROWTH_PRINCIPLE.md
+2025-11-14 14:12 | [PROTO/FIX] | Renumber MIRROR LAYER to PROTO-40; revert Golden Growth back to PROTO-39 | Keep numbering consistent with existing protocols | ELYSIAS_PROTOCOL/40_MIRROR_LAYER_PROTOCOL*.md
