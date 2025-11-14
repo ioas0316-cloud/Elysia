@@ -785,17 +785,7 @@ def main():
             night_alpha = int(140 * night)
         except Exception:
             day_phase = (world.time_step % world.day_length) / float(max(1, world.day_length)) if getattr(world, 'day_length', None) else 0.0
-        # Extra date/time overlay (연/월/일 + 시:분)
-        try:
-            y, mo, d = world.get_date_ymd()
-            hh, mm = world.get_clock_hm()
-            dt_text = f'{y:04d}년 {mo:02d}월 {d:02d}일  {hh:02d}:{mm:02d}'
-            surf_dt, _ = font.render(dt_text, fgcolor=(235,235,245))
-            base_y = 10 + len(hud_lines)*(font.get_sized_height()+2) + 6
-            screen.blit(surf_dt, (screen.get_width() - surf_dt.get_width() - 10, base_y))
-        except Exception:
-            pass
-            night_alpha = int(120 * max(0.0, (day_phase-0.5) * 2)) if day_phase > 0.5 else 0
+            night_alpha = int(120 * max(0.0, (day_phase - 0.5) * 2)) if day_phase > 0.5 else 0
         if night_alpha > 0:
             tint = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
             tint.fill((10,10,30, night_alpha))
@@ -967,6 +957,7 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
 
 
 
