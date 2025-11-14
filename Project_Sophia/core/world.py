@@ -139,6 +139,10 @@ class World:
         self.hydration_field = np.zeros((self.width, self.width), dtype=np.float32)
         # Electromagnetic-like salience field (scalar carrier; E as grad)
         self.em_s = np.zeros((self.width, self.width), dtype=np.float32)
+        # Historical imprint, Norms, Prestige fields (skeletons)
+        self.h_imprint = np.zeros((self.width, self.width), dtype=np.float32)
+        self.norms_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.prestige_field = np.zeros((self.width, self.width), dtype=np.float32)
         self._threat_decay = 0.92  # memory of threat (EMA)
         self._threat_sigma = 7.0   # spatial spread of threat influence (grid units)
         self._threat_gain = 1.0    # base contribution gain
@@ -148,6 +152,13 @@ class World:
         self._em_sigma = 6.0
         self._em_weight_E = 0.0  # soft bias along E (grad of salience)
         self._em_weight_B = 0.0  # soft bias along perp(E) (rotation cue)
+        # H/N/P dynamics (defaults: passive; no coupling)
+        self._h_decay = 0.95
+        self._h_sigma = 8.0
+        self._n_decay = 0.95
+        self._n_sigma = 12.0
+        self._p_decay = 0.95
+        self._p_sigma = 10.0
 
         # --- Field Registry (fractal carriers; fields-over-commands) ---
         # Register existing scalar fields so sampling/gradients go through one interface.
@@ -168,6 +179,24 @@ class World:
             name="em_s",
             scale="micro",
             array_getter=lambda: self.em_s,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="h_imprint",
+            scale="meso",
+            array_getter=lambda: self.h_imprint,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="norms",
+            scale="meso",
+            array_getter=lambda: self.norms_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="prestige",
+            scale="meso",
+            array_getter=lambda: self.prestige_field,
             grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
         )
 
@@ -539,6 +568,9 @@ class World:
         self._update_emergent_fields()
         self._update_hydration_field()
         self._update_em_perception_field()
+        self._update_historical_imprint_field()
+        self._update_norms_field()
+        self._update_prestige_field()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -599,7 +631,9 @@ class World:
 
                     cell_id = self.cell_ids[strike_idx]
                     self.logger.info(f"PROVIDENCE: Lightning strikes '{cell_id}', dealing {damage:.1f} damage and enriching the soil.")
-                    self.event_logger.log('LIGHTNING_STRIKE', self.time_step, cell_id=cell_id, damage=damage)
+                    self.event_logger.log('LIGHTNING_STRIKE', self.time_step, cell_id=cell_id, damage=damage, x=x, y=y)
+                    # Historical imprint at strike location (soft)
+                    self._imprint_gaussian(self.h_imprint, x, y, sigma=self._h_sigma, amplitude=1.0)
         
         
     def _update_celestial_fields(self) -> None:
@@ -701,8 +735,12 @@ class World:
 
         dead_from_age_indices = np.where(death_by_age_mask)[0]
         for idx in dead_from_age_indices:
-             self.logger.info(f"PROVIDENCE: '{self.cell_ids[idx]}' has died of old age.")
-             self.event_logger.log('DEATH_BY_OLD_AGE', self.time_step, cell_id=self.cell_ids[idx])
+            self.logger.info(f"PROVIDENCE: '{self.cell_ids[idx]}' has died of old age.")
+            self.event_logger.log('DEATH_BY_OLD_AGE', self.time_step, cell_id=self.cell_ids[idx])
+            # Historical imprint at place of death
+            dx = int(self.positions[idx, 0]) % self.width
+            dy = int(self.positions[idx, 1]) % self.width
+            self._imprint_gaussian(self.h_imprint, dx, dy, sigma=self._h_sigma, amplitude=0.6)
 
     def _update_emergent_fields(self):
         """Updates soft fields (e.g., threat) from distributed sources.
@@ -779,6 +817,77 @@ class World:
             self.em_s = (self._em_decay * self.em_s) + ((1.0 - self._em_decay) * sal.astype(np.float32))
         except Exception:
             # Perception field must never break the simulation
+            pass
+
+    def _imprint_gaussian(self, target: np.ndarray, x: int, y: int, sigma: float, amplitude: float = 1.0):
+        try:
+            rad = int(max(2, sigma * 3))
+            x0, x1 = max(0, x - rad), min(self.width, x + rad + 1)
+            y0, y1 = max(0, y - rad), min(self.width, y + rad + 1)
+            xs = np.arange(x0, x1) - x
+            ys = np.arange(y0, y1) - y
+            gx = np.exp(-(xs**2) / (2 * sigma * sigma))
+            gy = np.exp(-(ys**2) / (2 * sigma * sigma))
+            patch = (gy[:, None] * gx[None, :]).astype(np.float32)
+            target[y0:y1, x0:x1] += amplitude * patch
+        except Exception:
+            pass
+
+    def _update_historical_imprint_field(self):
+        """Decay-only tick; event handlers add local imprints when events occur."""
+        try:
+            self.h_imprint *= self._h_decay
+            # optional normalization to keep in [0,1]
+            m = float(self.h_imprint.max())
+            if m > 0:
+                self.h_imprint = (self.h_imprint / m).astype(np.float32)
+        except Exception:
+            pass
+
+    def _update_norms_field(self):
+        """Skeleton: diffuse alive presence as proxy for norms cohesion (to be refined)."""
+        try:
+            presence = np.zeros_like(self.norms_field)
+            alive_idx = np.where(self.is_alive_mask)[0]
+            if alive_idx.size > 0:
+                px = np.clip(self.positions[alive_idx, 0].astype(np.int32), 0, self.width - 1)
+                py = np.clip(self.positions[alive_idx, 1].astype(np.int32), 0, self.width - 1)
+                presence[py, px] += 1.0
+            try:
+                from scipy.ndimage import gaussian_filter
+                diff = gaussian_filter(presence, sigma=self._n_sigma)
+            except Exception:
+                diff = presence
+            if diff.max() > 0:
+                diff = diff / float(diff.max())
+            self.norms_field = (self._n_decay * self.norms_field) + ((1.0 - self._n_decay) * diff.astype(np.float32))
+        except Exception:
+            pass
+
+    def _update_prestige_field(self):
+        """Skeleton: prestige from local connectivity/strength; diffuse+decay."""
+        try:
+            prestige_src = np.zeros_like(self.prestige_field)
+            alive_idx = np.where(self.is_alive_mask)[0]
+            if alive_idx.size > 0:
+                # degree via adjacency
+                adj = self.adjacency_matrix.tocsr()
+                deg = np.array(adj.getnnz(axis=1)).reshape(-1)
+                score = np.sqrt(deg + 1.0) + (self.strength.astype(np.float32) / 100.0)
+                score = np.clip(score, 0.0, None)
+                px = np.clip(self.positions[alive_idx, 0].astype(np.int32), 0, self.width - 1)
+                py = np.clip(self.positions[alive_idx, 1].astype(np.int32), 0, self.width - 1)
+                for idx in alive_idx:
+                    prestige_src[int(self.positions[idx,1]) % self.width, int(self.positions[idx,0]) % self.width] += float(score[idx])
+            try:
+                from scipy.ndimage import gaussian_filter
+                diff = gaussian_filter(prestige_src, sigma=self._p_sigma)
+            except Exception:
+                diff = prestige_src
+            if diff.max() > 0:
+                diff = diff / float(diff.max())
+            self.prestige_field = (self._p_decay * self.prestige_field) + ((1.0 - self._p_decay) * diff.astype(np.float32))
+        except Exception:
             pass
 
     def _sample_field_grad(self, field: np.ndarray, fx: float, fy: float) -> Tuple[float, float]:
