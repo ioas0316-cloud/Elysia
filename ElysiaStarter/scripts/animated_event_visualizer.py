@@ -221,7 +221,6 @@ def main():
     trail: List[Tuple[float,float]] = []
     show_help = True  # in-app help overlay
     skill_mode = 'target'
-    enable_qwer_skills = False  # QWER reserved for divine skillset
     skill_aoe_radius = 6.0
     divine_mode = False  # divine power (cursor influence)
     layer_level = 0
@@ -500,14 +499,8 @@ def main():
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
-                ui_notify(f"시네마틱 포커스 {'켜짐' if cinematic_focus else '꺼짐'}")
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
-                paused = not paused
-                try:
-                    ui_notify('일시정지' if paused else '재개')
-                except Exception:
-                    pass
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
+                ui_notify(f"?쒕꽕留덊떛 ?ъ빱?? {'耳쒖쭚' if cinematic_focus else '爰쇱쭚'}")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:                paused = not paused                try:                    ui_notify('일시정지' if paused else '재개')\n                except Exception:\n                    pass\n            if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
                 mx, my = pygame.mouse.get_pos()
                 wx, wy = screen_to_world(mx, my, scale)
                 wxi, wyi = int(wx), int(wy)
@@ -568,7 +561,7 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_x:
                 skill_mode = 'aoe' if skill_mode == 'target' else 'target'
                 ui_notify(f"skill mode: {skill_mode}")
-            if enable_qwer_skills and layer_level >= 2 and e.type == pygame.KEYDOWN and e.key in (pygame.K_q, pygame.K_w, pygame.K_e, pygame.K_r):
+            if layer_level >= 2 and e.type == pygame.KEYDOWN and e.key in (pygame.K_q, pygame.K_w, pygame.K_e, pygame.K_r):
                 key_map = {pygame.K_q:'Q', pygame.K_w:'W', pygame.K_e:'E', pygame.K_r:'R'}
                 sk = key_map.get(e.key)
                 if sk:
@@ -1245,10 +1238,10 @@ def main():
 
         pygame.display.flip()
 
-    # 종료 시 메시지(예외 발생 시에도 안전)
+    # 종료 전 잠시 대기하여 창이 즉시 닫히는 환경에서도 메시지 확인 가능
     try:
         end_start = time.time()
-        msg_surf, _ = font.render('종료합니다. ESC로 바로 종료 (3초 대기)', fgcolor=(235,235,245))
+        msg_surf, _ = font.render('종료합니다. ESC로 즉시 종료 (3초 대기)', fgcolor=(235,235,245))
         while time.time() - end_start < 3.0:
             for e in pygame.event.get():
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
@@ -1260,16 +1253,16 @@ def main():
         pass
     pygame.quit(); sys.exit()
 
-if __name__ == "__main__":
-    try:
-        _dbg("__main__: calling main")
-        main()
-        _dbg("__main__: main returned")
-    except Exception:
-        _dbg("FATAL:\n" + traceback.format_exc())
-        print("[경고] 그래픽이 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.")
-        time.sleep(3)
 
+if __name__ == '__main__':
+    try:
+        _dbg('__main__: calling main')
+        main()
+        _dbg('__main__: main returned')
+    except Exception:
+        _dbg('FATAL:\n' + traceback.format_exc())
+        print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
+        time.sleep(3)
 
 
 

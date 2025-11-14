@@ -1,4 +1,4 @@
-
+﻿
 import random
 import logging
 from typing import List, Dict, Optional, Tuple
@@ -171,6 +171,14 @@ class World:
         self._vm_weight_E = 0.0
         self._will_weight_E = 0.0
 
+        # --- Coherence (mind-like soft measure) ---
+        self.coherence_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self._coh_alpha = 0.6  # EWMA for temporal smoothing
+
+
+        # --- Coherence (mind-like soft measure) ---
+        self.coherence_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self._coh_alpha = 0.6  # EWMA for temporal smoothing
         # --- Field Registry (fractal carriers; fields-over-commands) ---
         # Register existing scalar fields so sampling/gradients go through one interface.
         self.fields = FieldRegistry()
@@ -902,6 +910,32 @@ class World:
                 wl = wl / float(wl.max())
             self.value_mass_field = (self._vm_decay * self.value_mass_field) + ((1.0 - self._vm_decay) * vm.astype(np.float32))
             self.will_field = (self._will_decay * self.will_field) + ((1.0 - self._will_decay) * wl.astype(np.float32))
+        except Exception:
+            pass
+
+    def _update_coherence_field(self) -> None:
+        """Lightweight coherence map from value/will gradient alignment (0..1).
+
+        Coherence intuition: when the spatial directions of value and will fields align,
+        and their magnitudes are non-trivial, we mark high coherence. This is a proxy for
+        "여러 신호가 같은 문장으로 정렬되는 순간".
+        """
+        try:
+            vm = np.asarray(self.value_mass_field, dtype=np.float32)
+            wl = np.asarray(self.will_field, dtype=np.float32)
+            if vm.size == 0 or wl.size == 0:
+                return
+            gv_y, gv_x = np.gradient(vm)
+            gw_y, gw_x = np.gradient(wl)
+            mv = np.sqrt(gv_x*gv_x + gv_y*gv_y) + 1e-6
+            mw = np.sqrt(gw_x*gw_x + gw_y*gw_y) + 1e-6
+            ux_v, uy_v = gv_x/mv, gv_y/mv
+            ux_w, uy_w = gw_x/mw, gw_y/mw
+            cosang = (ux_v*ux_w + uy_v*uy_w)
+            cos01 = (cosang + 1.0) * 0.5
+            mag = np.tanh((mv + mw) * 0.25)
+            coh = np.clip(cos01 * mag, 0.0, 1.0).astype(np.float32)
+            self.coherence_field = (self._coh_alpha * self.coherence_field) + ((1.0 - self._coh_alpha) * coh)
         except Exception:
             pass
     def _imprint_gaussian(self, target: np.ndarray, x: int, y: int, sigma: float, amplitude: float = 1.0):
