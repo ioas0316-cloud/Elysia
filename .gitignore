@@ -54,3 +54,9 @@ assets/icon.ico
 # ===== Optional =====
 # 주석 해제하면 릴리즈용 exe도 깃허브에 안 올라감
 # *.exe
+
+# Ignore local Godot binaries
+ElysiaGodot/*.exe
+
+# Ignore Godot editor cache
+ElysiaGodot/.godot/

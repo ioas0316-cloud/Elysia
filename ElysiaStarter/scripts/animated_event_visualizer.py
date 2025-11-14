@@ -45,11 +45,11 @@ from Project_Elysia.core import persistence as world_persistence
 # --- Debug logging (helps diagnose early-close issues) ---
 _DBG_PATH = Path('logs')/ 'starter_debug.log'
 def _dbg(msg: str):
-                try:
+    try:
         _DBG_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(_DBG_PATH, 'a', encoding='utf-8') as f:
             f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
-                except Exception:
+    except Exception:
         pass
 
 
@@ -167,7 +167,7 @@ def main():
 
     pygame.init()
     _dbg('pygame.init ok')
-                try:
+    try:
         screen = pygame.display.set_mode((args.size, args.size))
         _dbg('display set_mode ok (default)')
     except Exception as ex:
@@ -189,9 +189,9 @@ def main():
     _dbg('font: loaded')
     clock = pygame.time.Clock()
     _dbg('clock: created')
-                try:
+    try:
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
-                except Exception:
+    except Exception:
         pass
 
     running = True
@@ -221,6 +221,7 @@ def main():
     trail: List[Tuple[float,float]] = []
     show_help = True  # in-app help overlay
     skill_mode = 'target'
+    enable_qwer_skills = False  # QWER reserved for divine skillset
     skill_aoe_radius = 6.0
     divine_mode = False  # divine power (cursor influence)
     layer_level = 0
@@ -499,7 +500,7 @@ def main():
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
-                ui_notify(f"?쒕꽕留덊떛 ?ъ빱?? {'耳쒖쭚' if cinematic_focus else '爰쇱쭚'}")
+                ui_notify(f"시네마틱 포커스 {'켜짐' if cinematic_focus else '꺼짐'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 paused = not paused
                 try:
@@ -567,7 +568,7 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_x:
                 skill_mode = 'aoe' if skill_mode == 'target' else 'target'
                 ui_notify(f"skill mode: {skill_mode}")
-            if layer_level >= 2 and e.type == pygame.KEYDOWN and e.key in (pygame.K_q, pygame.K_w, pygame.K_e, pygame.K_r):
+            if enable_qwer_skills and layer_level >= 2 and e.type == pygame.KEYDOWN and e.key in (pygame.K_q, pygame.K_w, pygame.K_e, pygame.K_r):
                 key_map = {pygame.K_q:'Q', pygame.K_w:'W', pygame.K_e:'E', pygame.K_r:'R'}
                 sk = key_map.get(e.key)
                 if sk:
@@ -1244,10 +1245,10 @@ def main():
 
         pygame.display.flip()
 
-    # 종료 전 잠시 대기하여 창이 즉시 닫히는 환경에서도 메시지 확인 가능
-                try:
+    # 종료 시 메시지(예외 발생 시에도 안전)
+    try:
         end_start = time.time()
-        msg_surf, _ = font.render('종료합니다. ESC로 즉시 종료 (3초 대기)', fgcolor=(235,235,245))
+        msg_surf, _ = font.render('종료합니다. ESC로 바로 종료 (3초 대기)', fgcolor=(235,235,245))
         while time.time() - end_start < 3.0:
             for e in pygame.event.get():
                 if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
@@ -1255,19 +1256,18 @@ def main():
             screen.blit(msg_surf, (10, 10))
             pygame.display.flip()
             pygame.time.delay(50)
-                except Exception:
+    except Exception:
         pass
     pygame.quit(); sys.exit()
 
-
-if __name__ == '__main__':
-                try:
-        _dbg('__main__: calling main')
+if __name__ == "__main__":
+    try:
+        _dbg("__main__: calling main")
         main()
-        _dbg('__main__: main returned')
-                except Exception:
-        _dbg('FATAL:\n' + traceback.format_exc())
-        print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
+        _dbg("__main__: main returned")
+    except Exception:
+        _dbg("FATAL:\n" + traceback.format_exc())
+        print("[경고] 그래픽이 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.")
         time.sleep(3)
 
 

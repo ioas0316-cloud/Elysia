@@ -1,4 +1,4 @@
-"""
+﻿"""
 Godot Bridge Server (WebSocket)
 
 Purpose
@@ -203,6 +203,12 @@ class GodotBridge:
                 cells.append({'id': cid, 'x': float(pos[0]), 'y': float(pos[1]), 'type': label, 'alive': alive})
 
         overlays = {
+            'terrain': self._encode_terrain_rgb(),
+            'river': self._encode_overlay(self._river_flow()),
+            'veg': self._encode_overlay(self._plant_density()),
+            'farm': self._encode_overlay(self._farmland_intensity()),
+            'farm_paddy': self._encode_overlay(self._farmland_paddy()),
+            'farm_field': self._encode_overlay(self._farmland_field()),
             'threat': self._encode_overlay(getattr(self.world, 'threat_field', None)),
             'value': self._encode_overlay(getattr(self.world, 'value_mass_field', None)),
             'will': self._encode_overlay(getattr(self.world, 'will_field', None)),
@@ -213,6 +219,7 @@ class GodotBridge:
             'cells': cells,
             'overlays': overlays,
             'world': {'width': w},
+            'time': {'phase': (int(self.world.time_step) % int(getattr(self.world, 'day_length', 1) or 1)) / float(max(1, int(getattr(self.world, 'day_length', 1) or 1)))},
         }
 
     def _encode_overlay(self, arr: Optional[np.ndarray]) -> Optional[str]:
@@ -232,6 +239,179 @@ class GodotBridge:
             buf = io.BytesIO()
             img.save(buf, format='PNG')
             return base64.b64encode(buf.getvalue()).decode('ascii')
+        except Exception:
+            return None
+
+    def _encode_color(self, rgb: Optional[np.ndarray]) -> Optional[str]:
+        if rgb is None:
+            return None
+        try:
+            arr = np.asarray(rgb, dtype=np.uint8)
+            if arr.ndim != 3 or arr.shape[2] != 3:
+                return None
+            img = Image.fromarray(arr, mode='RGB')
+            buf = io.BytesIO()
+            img.save(buf, format='PNG')
+            return base64.b64encode(buf.getvalue()).decode('ascii')
+        except Exception:
+            return None
+
+    def _encode_terrain_rgb(self) -> Optional[str]:
+        """Build a simple color terrain from height_map/wetness/soil_fertility.
+        Colors: water (deep/shallow), sand (shore), grass (plains), rock (mountain).
+        """
+        try:
+            w = int(getattr(self.world, 'width', 256))
+            if w <= 0:
+                return None
+            height = getattr(self.world, 'height_map', None)
+            wet = getattr(self.world, 'wetness', None)
+            if height is None:
+                height = np.zeros((w, w), dtype=np.float32)
+            else:
+                height = np.asarray(height, dtype=np.float32)
+            if wet is None:
+                wet = np.zeros((w, w), dtype=np.float32)
+            else:
+                wet = np.asarray(wet, dtype=np.float32)
+            # normalize height
+            h = height.copy()
+            h -= float(h.min()) if h.size else 0.0
+            mx = float(h.max()) if h.size else 1.0
+            if mx <= 1e-6:
+                mx = 1.0
+            h /= mx
+            water = wet > 0.6
+            shallow = (wet > 0.4) & (wet <= 0.6)
+            # mountain threshold
+            mountain = (h >= 0.70) & (~water) & (~shallow)
+            # shore: neighbor of water
+            neigh = np.zeros_like(water, dtype=bool)
+            neigh[:-1,:] |= water[1:,:]
+            neigh[1: ,:] |= water[:-1,:]
+            neigh[:, :-1] |= water[:,1:]
+            neigh[:, 1: ] |= water[:,:-1]
+            shore = neigh & (~water)
+            # base = grass
+            rgb = np.zeros((w, w, 3), dtype=np.uint8)
+            rgb[...,0] = 60; rgb[...,1] = 110; rgb[...,2] = 70  # grass
+            # water/shallow
+            rgb[water] = (30, 60, 200)
+            rgb[shallow] = (60, 100, 200)
+            # shore sand
+            rgb[shore] = (170, 150, 110)
+            # mountain rock
+            rgb[mountain] = (100, 100, 100)
+            return self._encode_color(rgb)
+        except Exception:
+            return None
+
+    def _plant_density(self) -> Optional[np.ndarray]:
+        try:
+            w = int(getattr(self.world, 'width', 256))
+            if w <= 0 or not getattr(self.world, 'cell_ids', None):
+                return None
+            density = np.zeros((w, w), dtype=np.float32)
+            labels = getattr(self.world, 'element_types', None)
+            if labels is None:
+                return None
+            for i, cid in enumerate(self.world.cell_ids):
+                if i >= self.world.positions.shape[0]:
+                    break
+                try:
+                    if labels.size > i and labels[i] == 'life':
+                        x = int(self.world.positions[i][0]) % w
+                        y = int(self.world.positions[i][1]) % w
+                        density[y, x] += 1.0
+                except Exception:
+                    continue
+            # simple blur to spread clusters
+            for _ in range(3):
+                density = (density + np.roll(density,1,0) + np.roll(density,-1,0) + np.roll(density,1,1) + np.roll(density,-1,1)) / 5.0
+            return density
+        except Exception:
+            return None
+
+    
+    def _farmland_paddy(self) -> Optional[np.ndarray]:
+        try:
+            base = self._farmland_intensity()
+            if base is None:
+                return None
+            wet = getattr(self.world, 'wetness', None)
+            if wet is None:
+                return None
+            w = np.asarray(wet, dtype=np.float32)
+            mask = (w >= 0.35) & (w <= 0.75)
+            out = np.where(mask, base, 0.0).astype(np.float32)
+            return out
+        except Exception:
+            return None
+
+    def _farmland_field(self) -> Optional[np.ndarray]:
+        try:
+            base = self._farmland_intensity()
+            if base is None:
+                return None
+            wet = getattr(self.world, 'wetness', None)
+            w = np.asarray(wet, dtype=np.float32) if wet is not None else None
+            if w is None:
+                return base
+            mask = (w < 0.35)
+            out = np.where(mask, base, 0.0).astype(np.float32)
+            return out
+        except Exception:
+            return None
+
+    def _river_flow(self) -> Optional[np.ndarray]:
+        """Derive a simple river intensity from wetness with light thinning."""
+        try:
+            wet = getattr(self.world, 'wetness', None)
+            if wet is None:
+                return None
+            w = np.asarray(wet, dtype=np.float32)
+            if w.size == 0:
+                return None
+            base = np.clip((w - 0.45) / 0.55, 0.0, 1.0)
+            river = base > 0.0
+            nb = np.zeros_like(base, dtype=np.int16)
+            nb[:-1,:] += river[1:,:]
+            nb[1: ,:] += river[:-1,:]
+            nb[:, :-1] += river[:,1:]
+            nb[:, 1: ] += river[:,:-1]
+            thin = np.where((river) & (nb <= 2), base, base*0.5)
+            return thin.astype(np.float32)
+        except Exception:
+            return Nonedef _farmland_intensity(self) -> Optional[np.ndarray]:
+        try:
+            w = int(getattr(self.world, 'width', 256))
+            if w <= 0:
+                return None
+            human_d = np.zeros((w, w), dtype=np.float32)
+            labels = getattr(self.world, 'element_types', None)
+            wet = getattr(self.world, 'wetness', None)
+            fert = getattr(self.world, 'soil_fertility', None)
+            if labels is None or fert is None:
+                return None
+            fert = np.asarray(fert, dtype=np.float32)
+            wet = np.asarray(wet, dtype=np.float32) if wet is not None else np.zeros((w,w), dtype=np.float32)
+            for i, cid in enumerate(self.world.cell_ids):
+                if i >= self.world.positions.shape[0]:
+                    break
+                try:
+                    if labels.size > i and labels[i] == 'human':
+                        x = int(self.world.positions[i][0]) % w
+                        y = int(self.world.positions[i][1]) % w
+                        human_d[y, x] += 1.0
+                except Exception:
+                    continue
+            for _ in range(3):
+                human_d = (human_d + np.roll(human_d,1,0) + np.roll(human_d,-1,0) + np.roll(human_d,1,1) + np.roll(human_d,-1,1)) / 5.0
+            # farmland prefers fertile, near humans, not deep water
+            water = wet > 0.5
+            inten = (fert * 0.7) + (human_d / (human_d.max()+1e-6)) * 0.3
+            inten[water] = 0.0
+            return np.clip(inten, 0.0, 1.0)
         except Exception:
             return None
 
@@ -306,3 +486,4 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
+

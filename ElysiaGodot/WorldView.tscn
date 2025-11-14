@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://WorldView.gd" id=1]
+
+[node name="WorldView" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Status" type="Label" parent="."]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 410.0
+offset_bottom = 34.0
+text = "연결 대기… (브리지를 먼저 실행하세요)"
+horizontal_alignment = 0
+vertical_alignment = 0
+theme_override_colors/font_color = Color(0.92, 0.93, 0.96, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 2
