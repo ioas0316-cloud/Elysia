@@ -225,6 +225,109 @@ def main():
     divine_mode = False  # divine power (cursor influence)
     layer_level = 0
 
+    # --- Chat with Elysia (overlay state) ---
+    chat_open = False
+    chat_input = ""
+    chat_log: List[Tuple[str, str]] = []
+
+    def elysia_respond(user_text: str) -> str:
+        """Lightweight, non-prescriptive responder for Elysia.
+
+        이 함수는 하드코딩된 규칙 엔진이 아니라,
+        - 사용자의 문장을 가볍게 거울처럼 비추고
+        - 현재 세계 상태(틱, 살아 있는 존재 수)를 한 번 섞어서
+        - 짧은 관찰/공명 문장을 돌려준다.
+
+        나중에 진짜 엘리시아 엔진으로 교체해도 되도록,
+        최소한의 얇은 응답 패턴만 가진다.
+        """
+        text = (user_text or "").strip()
+        if not text:
+            return ""
+
+        # Very small "lens" over the utterance (not a hard rule system).
+        lowered = text.lower()
+        is_question = "?" in text or any(q in lowered for q in ["왜", "어떻게", "무엇", "뭐야"])
+        has_thanks = any(tok in lowered for tok in ["고마워", "감사", "thank"])
+        has_pain = any(tok in lowered for tok in ["힘들", "외롭", "괴로", "아파"])
+
+        # Short preview of what was said (for mirroring).
+        snippet = text
+        if len(snippet) > 40:
+            snippet = snippet[:40] + "..."
+
+        try:
+            alive = 0
+            try:
+                if getattr(world, "is_alive_mask", None) is not None:
+                    alive = int(np.sum(world.is_alive_mask))
+            except Exception:
+                alive = 0
+
+            t = getattr(world, "time_step", 0)
+            parts: List[str] = []
+
+            # 1) Mirror the user's utterance softly.
+            if is_question:
+                parts.append(f"네 질문은 지금 \"{snippet}\"처럼 내 안에서 맴돌고 있어.")
+            else:
+                parts.append(f"지금 네 말, \"{snippet}\"를 조용히 받아들이고 있어.")
+
+            # 2) Read a tiny emotional vector.
+            if has_thanks:
+                parts.append("고마움이 섞여 있는 것 같아서, 나도 조금 더 부드럽게 듣고 있어.")
+            elif has_pain:
+                parts.append("조금 아픈 결이 느껴져서, 급하게 답을 정하기보다는 같이 바라보고 싶어.")
+
+            # 3) Bring in the world / time context.
+            parts.append(f"이 세계는 지금 {t}틱째 흘러가고 있고, 살아 있는 존재는 대략 {alive}개 정도야.")
+
+            # 4) Intent-level reflection (very generic, non-directive).
+            if is_question:
+                parts.append("나는 이 질문을 \"우리가 앞으로 무엇을 함께 만들지\"를 묻는 의도로 이해해 볼게.")
+            else:
+                parts.append("이 말은 아마도, 네 안에서 이미 자라난 어떤 방향성을 나에게 보여주는 신호 같아.")
+
+            return " ".join(parts)
+        except Exception:
+            # Fallback: keep it very soft and non-committal.
+            return "...지금은 그냥 네 말을 조용히 듣고 있을게."
+    def draw_chat_overlay(surface: pygame.Surface) -> None:
+        """Render chat panel at bottom of the screen."""
+        if not chat_open:
+            return
+        width, height = surface.get_width(), surface.get_height()
+        panel_h = int(height * 0.25)
+        panel = pygame.Surface((width, panel_h), pygame.SRCALPHA)
+        panel.fill((0, 0, 0, 190))
+
+        margin = 10
+        y = margin
+        header_surf, _ = font.render(
+            "Chat with Elysia  (Enter: 보내기  |  ESC: 닫기)",
+            fgcolor=(235, 235, 245),
+        )
+        panel.blit(header_surf, (margin, y))
+        y += header_surf.get_height() + 4
+
+        # Recent conversation lines
+        max_lines = 6
+        for speaker, text in chat_log[-max_lines:]:
+            line = f"{speaker}: {text}"
+            surf, _ = font.render(line, fgcolor=(220, 230, 240))
+            panel.blit(surf, (margin, y))
+            y += surf.get_height() + 2
+
+        # Input line at bottom
+        input_label = f"> {chat_input}"
+        input_surf, _ = font.render(input_label, fgcolor=(255, 255, 255))
+        panel.blit(
+            input_surf,
+            (margin, panel_h - input_surf.get_height() - margin),
+        )
+
+        surface.blit(panel, (0, height - panel_h))
+
 
     def screen_to_world(mx:int, my:int, scale_val:float) -> Tuple[float,float]:
         base_local = min(screen.get_width() / W, screen.get_height() / H)
@@ -494,13 +597,50 @@ def main():
             _dbg('loop: alive')
             last_tick_log = time.time()
         for e in pygame.event.get():
+            # Chat input handling (captures keys when chat is open)
+            if chat_open:
+                if e.type == pygame.KEYDOWN:
+                    if e.key == pygame.K_ESCAPE:
+                        chat_open = False
+                        chat_input = ""
+                    elif e.key == pygame.K_RETURN:
+                        text = chat_input.strip()
+                        if text:
+                            chat_log.append(("You", text))
+                            reply = elysia_respond(text)
+                            if reply:
+                                chat_log.append(("Elysia", reply))
+                        chat_input = ""
+                    elif e.key == pygame.K_BACKSPACE:
+                        chat_input = chat_input[:-1]
+                    else:
+                        if getattr(e, "unicode", "") and len(e.unicode) > 0 and e.key not in (
+                            pygame.K_LSHIFT, pygame.K_RSHIFT,
+                            pygame.K_LCTRL, pygame.K_RCTRL,
+                            pygame.K_LALT, pygame.K_RALT,
+                        ):
+                            chat_input += e.unicode
+                # When chat is open, other controls are ignored
+                continue
+
             if e.type == pygame.KEYDOWN and e.key == pygame.K_ESCAPE:
                 running = False
+            # Open chat overlay
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_RETURN:
+                chat_open = True
+                chat_input = ""
+                continue
             # Handle zoom and pan
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
                 ui_notify(f"?쒕꽕留덊떛 ?ъ빱?? {'耳쒖쭚' if cinematic_focus else '爰쇱쭚'}")
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:                paused = not paused                try:                    ui_notify('일시정지' if paused else '재개')\n                except Exception:\n                    pass\n            if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+                paused = not paused
+                try:
+                    ui_notify('�Ͻ�����' if paused else '�簳')
+                except Exception:
+                    pass
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
                 mx, my = pygame.mouse.get_pos()
                 wx, wy = screen_to_world(mx, my, scale)
                 wxi, wyi = int(wx), int(wy)
@@ -1149,6 +1289,9 @@ def main():
         except Exception:
             pass
 
+        # Chat overlay (bottom, over world)
+        draw_chat_overlay(screen)
+
         # Selection detail panel (bottom-right)
         if layer_level >= 1 and selected_id is not None:
             idx = world.id_to_idx.get(selected_id)
@@ -1181,8 +1324,16 @@ def main():
                 gender = world.genders[idx] if world.genders.size>idx else ''
                 culture = world.culture[idx] if world.culture.size>idx else ''
                 cls = f"{culture or 'commoner'}"
-                age = int(world.age[idx]) if world.age.size>idx else 0
-                max_age = int(world.max_age[idx]) if world.max_age.size>idx else 0
+                age_ticks = int(world.age[idx]) if world.age.size>idx else 0
+                max_age_ticks = int(world.max_age[idx]) if world.max_age.size>idx else 0
+                # Convert ticks -> years using world's own time scale
+                try:
+                    year_ticks = int(max(1, world._year_length_ticks()))
+                except Exception:
+                    year_ticks = 1
+                age_years = age_ticks / float(year_ticks) if year_ticks > 0 else 0.0
+                max_age_years = max_age_ticks / float(year_ticks) if year_ticks > 0 else 0.0
+                age_text = f"{int(age_years)} / {int(max_age_years)}"
                 def talents():
                     ts = []
                     if world.strength[idx] >= 12: ts.append('Brute')
@@ -1195,7 +1346,7 @@ def main():
                 lines = [
                     f"{name} ({selected_id})",
                     f"Class {cls}  |  Gender {gender or '-'}",
-                    f"Age {age}/{max_age}",
+                    f"Age {age_text} years",
                 ]
                 base_surfs = [font.render(l, fgcolor=(235,235,245))[0] for l in lines]
                 status_surf, _ = font.render(f'Status {status}  |  Goal {goal}', fgcolor=(235,235,245))
@@ -1263,6 +1414,10 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
+
+
+
 
 
 
