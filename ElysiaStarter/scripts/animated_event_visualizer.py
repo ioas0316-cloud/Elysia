@@ -727,6 +727,29 @@ def main():
                 pygame.draw.polygon(temp_surf, (255,120,120,alpha), points)
 
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
+            # Speech bubble (simple heuristics): show occasionally or on hover
+            try:
+                show_bubble = (hover_idx == i) or (random.random() < 0.02)
+                if show_bubble:
+                    msg = None
+                    if world.hydration.size>i and world.hydration[i] < 30:
+                        msg = '목말라…'
+                    elif world.hunger.size>i and world.hunger[i] < 30:
+                        msg = '배고파…'
+                    elif world.is_injured.size>i and world.is_injured[i]:
+                        msg = '아파…'
+                    elif getattr(world, 'time_of_day', '') == 'night' and random.random() < 0.5:
+                        msg = '졸려…'
+                    else:
+                        if etype == 'animal':
+                            msg = '탐색 중…'
+                        elif etype == 'life':
+                            msg = '자라는 중…'
+                        else:
+                            msg = '생각 중…'
+                    draw_speech_bubble(screen, (sx, sy), msg, font, opacity=0.9)
+            except Exception:
+                pass
 
             # Hover/Selection rings
             if hover_idx == i:
@@ -957,6 +980,7 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
 
 
 
