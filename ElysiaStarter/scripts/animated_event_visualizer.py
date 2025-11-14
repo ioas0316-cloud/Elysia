@@ -572,6 +572,36 @@ def main():
         s = max(0.5, min(8.0, scale)) * base
         cx, cy = (screen.get_width() - int(W * s)) // 2, (screen.get_height() - int(H * s)) // 2
 
+        # Clamp pan so the world never drifts outside the screen when zooming/panning
+        try:
+            world_px_w, world_px_h = int(W * s), int(H * s)
+            sw, sh = screen.get_width(), screen.get_height()
+            # Horizontal clamp
+            if world_px_w <= sw:
+                pan_x = 0.0
+            else:
+                min_tl_x = sw - world_px_w  # leftmost allowed top-left
+                max_tl_x = 0                 # rightmost allowed top-left
+                tl_x = int(cx - pan_x)
+                if tl_x < min_tl_x:
+                    tl_x = min_tl_x
+                elif tl_x > max_tl_x:
+                    tl_x = max_tl_x
+                pan_x = float(cx - tl_x)
+            # Vertical clamp
+            if world_px_h <= sh:
+                pan_y = 0.0
+            else:
+                min_tl_y = sh - world_px_h
+                max_tl_y = 0
+                tl_y = int(cy - pan_y)
+                if tl_y < min_tl_y:
+                    tl_y = min_tl_y
+                elif tl_y > max_tl_y:
+                    tl_y = max_tl_y
+                pan_y = float(cy - tl_y)
+        except Exception:
+            pass
         # Background terrain lens (aligned with world transform)
         draw_terrain(screen, s, cx, cy, pan_x, pan_y)
         # Threat heatmap overlay (red tint where high)
