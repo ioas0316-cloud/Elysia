@@ -18,3 +18,11 @@ All other files here are archived context. Do not expand them; extend the Codex 
 - PROTO_CORE_WORLDTREE_EN.md ? Unified World-Tree/Observer/Space-Perception (EN)
 - 40_MIRROR_LAYER_PROTOCOL.md ? Mirror mapping between Code & World (KR)
 - 40_MIRROR_LAYER_PROTOCOL_EN.md ? Mirror mapping between Code & World (EN)
+
+Protocol Line (35–40)
+- ELYSIA/CORE/protocols/35_SELF_GENESIS_AUTHORITY_PROTOCOL.md — Self‑Genesis Authority (seed pipeline)
+- ELYSIA/CORE/protocols/36_CONCEPT_GENESIS_ENGINE_PROTOCOL.md — Concept Genesis Engine
+- ELYSIA/CORE/protocols/37_WORLD_EDITING_AUTHORITY_PROTOCOL.md — World‑Editing Authority
+- ELYSIA/CORE/protocols/38_INTENT_NEED_REASONER_PROTOCOL.md — Intent/Need Reasoner
+- ELYSIA/CORE/protocols/39_GOLDEN_GROWTH_PRINCIPLE_PROTOCOL.md — Golden Growth Principle
+- ELYSIAS_PROTOCOL/40_MIRROR_LAYER_PROTOCOL.md — Mirror Layer Protocol (Code↔World)
