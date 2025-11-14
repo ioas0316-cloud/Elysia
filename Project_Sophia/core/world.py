@@ -1,7 +1,7 @@
 ﻿
 import random
 import logging
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Any
 
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
@@ -142,6 +142,10 @@ class World:
         # Value/Will fields (scalar potentials; directions via gradients)
         self.value_mass_field = np.zeros((self.width, self.width), dtype=np.float32)
         self.will_field = np.zeros((self.width, self.width), dtype=np.float32)
+        # Ecology density fields (plants / herbivores / predators)
+        self.plant_density_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.herbivore_density_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.predator_density_field = np.zeros((self.width, self.width), dtype=np.float32)
         # Historical imprint, Norms, Prestige fields (skeletons)
         self.h_imprint = np.zeros((self.width, self.width), dtype=np.float32)
         self.norms_field = np.zeros((self.width, self.width), dtype=np.float32)
@@ -162,6 +166,9 @@ class World:
         self._n_sigma = 12.0
         self._p_decay = 0.95
         self._p_sigma = 10.0
+        # Ecology field dynamics
+        self._eco_decay = 0.9
+        self._eco_sigma = 6.0
         # Value/Will dynamics (defaults conservative)
         self._vm_decay = 0.95
         self._vm_sigma = 10.0
@@ -175,9 +182,8 @@ class World:
         self.coherence_field = np.zeros((self.width, self.width), dtype=np.float32)
         self._coh_alpha = 0.6  # EWMA for temporal smoothing
 
-
-        # --- Coherence (mind-like soft measure) ---
-        self.coherence_field = np.zeros((self.width, self.width), dtype=np.float32)
+        # --- Death & Memory (corpse / grave tracking) ---
+        self.corpses: List[Dict[str, Any]] = []
         self._coh_alpha = 0.6  # EWMA for temporal smoothing
         # --- Field Registry (fractal carriers; fields-over-commands) ---
         # Register existing scalar fields so sampling/gradients go through one interface.
@@ -228,6 +234,25 @@ class World:
             name="prestige",
             scale="meso",
             array_getter=lambda: self.prestige_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        # Ecology density fields
+        self.fields.register_scalar(
+            name="plant_density",
+            scale="micro",
+            array_getter=lambda: self.plant_density_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="herbivore_density",
+            scale="micro",
+            array_getter=lambda: self.herbivore_density_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="predator_density",
+            scale="micro",
+            array_getter=lambda: self.predator_density_field,
             grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
         )
 
@@ -482,6 +507,9 @@ class World:
             label = (label or '').lower()
             if label == 'human':
                 return random.randint(70, 100)
+            # Fairy-like humanoids: much 짧은 생애주기 (approximately 1/10 human)
+            if label in ('fairy', 'fae'):
+                return random.randint(7, 12)
             if label in ('wolf', 'deer'):
                 return random.randint(8, 16)
             if label in ('tree',):
@@ -617,7 +645,10 @@ class World:
         self._update_emergent_fields()
         self._update_hydration_field()
         self._update_em_perception_field()
+        self._update_ecology_fields()
         self._update_historical_imprint_field()
+        # Death & Memory: advance corpse decay / enrichment as part of world law
+        self._update_corpses()
         self._update_norms_field()
         self._update_prestige_field()
         self._update_value_will_fields()
@@ -766,19 +797,23 @@ class World:
 
         # --- Hunger Depletion ---
         # All living things get hungrier over time.
-        self.hunger[self.is_alive_mask] = np.maximum(0, self.hunger[self.is_alive_mask] - 0.5)
+        # 완화: 너무 빠르게 굶주리지 않도록 감소량을 줄인다.
+        animal_mask = self.is_alive_mask & (self.element_types == 'animal')
+        self.hunger[animal_mask] = np.maximum(0, self.hunger[animal_mask] - 0.3)
 
         # --- Starvation ---
         # If hunger is 0, the cell starts losing HP.
-        starvation_mask = self.is_alive_mask & (self.hunger <= 0)
-        self.hp[starvation_mask] -= 2.0 # Penalty for starvation
+        # 완화: 기아 데미지를 줄여 급사 빈도를 낮춘다.
+        starvation_mask = animal_mask & (self.hunger <= 0)
+        self.hp[starvation_mask] -= 1.0  # Penalty for starvation
 
         # --- Hydration Depletion ---
-        self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.7)
+        # 완화: 탈수 속도도 약간 줄인다.
+        self.hydration[animal_mask] = np.maximum(0, self.hydration[animal_mask] - 0.4)
 
         # --- Dehydration ---
-        dehydration_mask = self.is_alive_mask & (self.hydration <= 0)
-        self.hp[dehydration_mask] -= 2.5 # Penalty for dehydration is slightly higher
+        dehydration_mask = animal_mask & (self.hydration <= 0)
+        self.hp[dehydration_mask] -= 1.5  # Penalty for dehydration is slightly higher
 
         # --- Aging ---
         self.age[self.is_alive_mask] += 1
@@ -805,7 +840,7 @@ class World:
         if len(self.cell_ids) == 0:
             return
 
-        # Build a fresh threat imprint from predators and recent injuries
+        # Build a fresh threat imprint from predators, recent injuries, and nearby corpses
         new_threat = np.zeros_like(self.threat_field)
         try:
             predator_mask = (self.element_types == 'animal') & (self.diets == 'carnivore') & self.is_alive_mask
@@ -826,11 +861,113 @@ class World:
                     amp = self._threat_gain * float(max(0.5, 1.5 - (self.hunger[i] / 100.0))) * float(max(1.0, self.strength[i] / 10.0))
                     new_threat[y0:y1, x0:x1] += amp * patch
 
+            # Death & Memory: nearby corpses act as a soft "danger/solemnity" imprint.
+            if self.corpses:
+                sigma_c = self._threat_sigma * 0.5
+                rad_c = int(max(2, sigma_c * 3))
+                stage_weights = {
+                    "fresh": 0.8,
+                    "decaying": 0.5,
+                    "bones": 0.2,
+                }
+                for corpse in self.corpses:
+                    pos = corpse.get("pos")
+                    if pos is None:
+                        continue
+                    try:
+                        cx = int(pos[0]) % self.width
+                        cy = int(pos[1]) % self.width
+                    except Exception:
+                        continue
+                    x0, x1 = max(0, cx - rad_c), min(self.width, cx + rad_c + 1)
+                    y0, y1 = max(0, cy - rad_c), min(self.width, cy + rad_c + 1)
+                    xs = np.arange(x0, x1) - cx
+                    ys = np.arange(y0, y1) - cy
+                    gx = np.exp(-(xs**2) / (2 * sigma_c * sigma_c))
+                    gy = np.exp(-(ys**2) / (2 * sigma_c * sigma_c))
+                    patch = (gy[:, None] * gx[None, :]).astype(np.float32)
+                    weight = stage_weights.get(corpse.get("decay_stage", "fresh"), 0.3)
+                    new_threat[y0:y1, x0:x1] += weight * patch
+
             if new_threat.max() > 0:
                 new_threat = new_threat / float(new_threat.max())
             self.threat_field = (self._threat_decay * self.threat_field) + ((1.0 - self._threat_decay) * new_threat)
         except Exception:
             # Field updates should never break the sim
+            pass
+
+    def _update_ecology_fields(self):
+        """Update plant/herbivore/predator density fields from alive entities.
+
+        These are soft, smoothed density maps used to bias movement (foraging/hunting).
+        """
+        try:
+            if len(self.cell_ids) == 0:
+                return
+
+            plant = np.zeros_like(self.plant_density_field)
+            herb = np.zeros_like(self.herbivore_density_field)
+            pred = np.zeros_like(self.predator_density_field)
+
+            alive_idx = np.where(self.is_alive_mask)[0]
+            if alive_idx.size == 0:
+                return
+
+            # Positions projected to grid
+            px = np.clip(self.positions[alive_idx, 0].astype(np.int32), 0, self.width - 1)
+            py = np.clip(self.positions[alive_idx, 1].astype(np.int32), 0, self.width - 1)
+            labels = self.labels[alive_idx]
+            elem_types = self.element_types[alive_idx]
+            diets = self.diets[alive_idx]
+
+            # Plants
+            plant_mask = elem_types == 'life'
+            if np.any(plant_mask):
+                for x, y in zip(px[plant_mask], py[plant_mask]):
+                    plant[y, x] += 1.0
+
+            # Herbivores
+            herb_mask = (elem_types == 'animal') & (diets == 'herbivore')
+            if np.any(herb_mask):
+                for x, y in zip(px[herb_mask], py[herb_mask]):
+                    herb[y, x] += 1.0
+
+            # Predators (carnivores)
+            pred_mask = (elem_types == 'animal') & (diets == 'carnivore')
+            if np.any(pred_mask):
+                for x, y in zip(px[pred_mask], py[pred_mask]):
+                    pred[y, x] += 1.0
+
+            # Smooth and normalize
+            try:
+                from scipy.ndimage import gaussian_filter
+                plant_s = gaussian_filter(plant, sigma=self._eco_sigma)
+                herb_s = gaussian_filter(herb, sigma=self._eco_sigma)
+                pred_s = gaussian_filter(pred, sigma=self._eco_sigma)
+            except Exception:
+                plant_s, herb_s, pred_s = plant, herb, pred
+
+            if plant_s.max() > 0:
+                plant_s = plant_s / float(plant_s.max())
+            if herb_s.max() > 0:
+                herb_s = herb_s / float(herb_s.max())
+            if pred_s.max() > 0:
+                pred_s = pred_s / float(pred_s.max())
+
+            self.plant_density_field = (
+                self._eco_decay * self.plant_density_field
+                + (1.0 - self._eco_decay) * plant_s.astype(np.float32)
+            )
+            self.herbivore_density_field = (
+                self._eco_decay * self.herbivore_density_field
+                + (1.0 - self._eco_decay) * herb_s.astype(np.float32)
+            )
+            self.predator_density_field = (
+                self._eco_decay * self.predator_density_field
+                + (1.0 - self._eco_decay) * pred_s.astype(np.float32)
+            )
+        except Exception:
+            # Ecology fields must not break the sim
             pass
 
     def _update_hydration_field(self):
@@ -963,6 +1100,56 @@ class World:
         except Exception:
             pass
 
+    def _update_corpses(self):
+        """Update corpse decay stages and enrich soil when fully decayed.
+
+        This is a soft, deterministic process: decay depends only on time since death.
+        """
+        if not self.corpses:
+            return
+        try:
+            day_len = getattr(self, "day_length", 144) or 144
+            # Stages in ticks (fresh -> decaying -> bones -> gone)
+            t_fresh = int(day_len * 2)      # ~2 days
+            t_decaying = int(day_len * 5)   # ~5 days
+            t_bones = int(day_len * 10)     # ~10 days
+        except Exception:
+            t_fresh = 288
+            t_decaying = 720
+            t_bones = 1440
+
+        remaining = []
+        for corpse in self.corpses:
+            try:
+                age = int(self.time_step) - int(corpse.get("death_time", 0))
+                if age < t_fresh:
+                    corpse["decay_stage"] = "fresh"
+                    remaining.append(corpse)
+                elif age < t_decaying:
+                    corpse["decay_stage"] = "decaying"
+                    remaining.append(corpse)
+                elif age < t_bones:
+                    corpse["decay_stage"] = "bones"
+                    remaining.append(corpse)
+                else:
+                    # Fully decayed: enrich soil and imprint history.
+                    x, y = corpse.get("pos", (0.0, 0.0))
+                    self._enrich_soil_and_memory_at(int(x), int(y))
+            except Exception:
+                # If anything goes wrong, keep corpse to avoid losing information.
+                remaining.append(corpse)
+        self.corpses = remaining
+
+    def _enrich_soil_and_memory_at(self, x: int, y: int, fertility_bonus: float = 0.3, imprint_amp: float = 0.4):
+        """Increase local soil fertility and historical imprint at a given grid coordinate."""
+        try:
+            xi = max(0, min(self.width - 1, x))
+            yi = max(0, min(self.width - 1, y))
+            self.soil_fertility[xi, yi] = float(min(1.0, self.soil_fertility[xi, yi] + fertility_bonus))
+            self._imprint_gaussian(self.h_imprint, xi, yi, sigma=self._h_sigma, amplitude=imprint_amp)
+        except Exception:
+            pass
+
     def _update_norms_field(self):
         """Skeleton: diffuse alive presence as proxy for norms cohesion (to be refined)."""
         try:
@@ -1042,12 +1229,33 @@ class World:
                 em_bias = np.zeros(3, dtype=np.float32)
                 vm_bias = np.zeros(3, dtype=np.float32)
                 will_bias = np.zeros(3, dtype=np.float32)
+                food_seek = np.zeros(3, dtype=np.float32)
+                prey_seek = np.zeros(3, dtype=np.float32)
 
                 # --- Magnetoreception for Water ---
                 if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
                     thirst_factor = (1.0 - self.hydration[i] / 100.0) ** 2  # Urgency increases non-linearly
                     hx, hy = self.fields.grad("hydration", px, py)
                     hydration_seeking = np.array([hx, hy, 0.0], dtype=np.float32) * thirst_factor * 0.5
+
+                # --- Ecology-based foraging / hunting biases ---
+                diet_i = self.diets[i]
+                # Hunger factor: stronger when hungrier
+                hunger_factor = max(0.0, min(1.0, (100.0 - float(self.hunger[i])) / 100.0))
+                hunger_factor = hunger_factor * hunger_factor  # non-linear
+                if hunger_factor > 0.0:
+                    if diet_i == 'herbivore':
+                        pdx, pdy = self.fields.grad("plant_density", px, py)
+                        food_seek = np.array([pdx, pdy, 0.0], dtype=np.float32) * hunger_factor * 0.6
+                    elif diet_i == 'carnivore':
+                        hdx, hdy = self.fields.grad("herbivore_density", px, py)
+                        prey_seek = np.array([hdx, hdy, 0.0], dtype=np.float32) * hunger_factor * 0.6
+                    elif diet_i == 'omnivore':
+                        # Simple mix: prefer plants slightly more than prey in v0
+                        pdx, pdy = self.fields.grad("plant_density", px, py)
+                        hdx, hdy = self.fields.grad("herbivore_density", px, py)
+                        food_seek = np.array([pdx, pdy, 0.0], dtype=np.float32) * hunger_factor * 0.4
+                        prey_seek = np.array([hdx, hdy, 0.0], dtype=np.float32) * hunger_factor * 0.2
 
                 # --- Electromagnetic-like Perception Bias (soft, defaults off) ---
                 if (self._em_weight_E != 0.0) or (self._em_weight_B != 0.0):
@@ -1078,7 +1286,17 @@ class World:
                         kin_center = self.positions[kin].mean(axis=0)
                         kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
 
-                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
+                movement_vectors[local_idx] += (
+                    avoid
+                    + coh
+                    + kin_attraction
+                    + hydration_seeking
+                    + em_bias
+                    + vm_bias
+                    + will_bias
+                    + food_seek
+                    + prey_seek
+                )
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
@@ -1156,7 +1374,7 @@ class World:
         if connected_indices.size == 0:
             return None # No one nearby to interact with
 
-        # Determine if hungry
+        # Determine if hungry (0 = starving, 100 = full)
         is_hungry = self.hunger[actor_idx] < 60
         kin_indices = set(connected_indices[adj_matrix_csr[actor_idx, connected_indices].toarray().flatten() >= 0.8])
 
@@ -1174,10 +1392,12 @@ class World:
                 mask = (self.element_types[connected_indices] == 'life') & self.is_alive_mask[connected_indices]
                 potential_targets.extend(connected_indices[mask])
         else:
-            # If not hungry, might pick a fight with non-kin rivals
-            mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
-            non_kin_rivals = [r_idx for r_idx in connected_indices[mask] if r_idx not in kin_indices]
-            potential_targets.extend(non_kin_rivals)
+            # If not hungry:
+            # - herbivores/omnivores may still graze plants,
+            # - carnivores do not deliberately hunt other animals when satiated.
+            if actor_diet in ['herbivore', 'omnivore']:
+                mask = (self.element_types[connected_indices] == 'life') & self.is_alive_mask[connected_indices]
+                potential_targets.extend(connected_indices[mask])
 
         if not potential_targets:
             return None # No suitable targets found
@@ -1326,8 +1546,30 @@ class World:
         newly_born_cells = []
         adj_matrix_csr = self.adjacency_matrix.tocsr()
 
+        # --- Global ecology snapshot (for soft reproduction modulation) ---
+        alive_mask = self.is_alive_mask
+        plant_mask = (self.element_types == 'life') & alive_mask
+        herbivore_mask_all = alive_mask & (self.diets == 'herbivore')
+        predator_mask_all = alive_mask & (self.diets == 'carnivore')
+        n_plants = int(np.sum(plant_mask))
+        n_herbivores = int(np.sum(herbivore_mask_all))
+        n_predators = int(np.sum(predator_mask_all))
+
+        # Target ecological ratios (heuristic, deterministic): 
+        # - around 10 plants per herbivore
+        # - around 4 herbivores per predator
+        plant_per_herb_target = 10.0
+        herb_per_pred_target = 4.0
+        herb_factor = 1.0
+        pred_factor = 1.0
+        if n_herbivores > 0:
+            ratio_p_h = n_plants / float(max(1, n_herbivores))
+            herb_factor = max(0.25, min(2.5, ratio_p_h / plant_per_herb_target))
+        if n_predators > 0:
+            ratio_h_p = n_herbivores / float(max(1, n_predators))
+            pred_factor = max(0.25, min(2.5, ratio_h_p / herb_per_pred_target))
+
         # --- Plant Life Cycle (Simplified, as they don't have HP in the same way) ---
-        plant_mask = (self.element_types == 'life') & self.is_alive_mask
         plant_indices = np.where(plant_mask)[0]
         # Plants can fruit if they are mature
         fruiting_mask = (self.growth_stages[plant_indices] == 3)
@@ -1357,12 +1599,49 @@ class World:
         # --- Animal Mating and Reproduction ---
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
-        # Mating readiness increases if not hungry and healthy
-        ready_mask = (self.hunger[animal_indices] > 70) & (self.hp[animal_indices] > self.max_hp[animal_indices] * 0.8)
-        self.mating_readiness[animal_indices[ready_mask]] = np.minimum(1.0, self.mating_readiness[animal_indices[ready_mask]] + 0.1)
+        herbivore_mask = animal_mask & (self.diets == 'herbivore')
+        predator_mask = animal_mask & (self.diets == 'carnivore')
+        herbivore_indices = np.where(herbivore_mask)[0]
+        predator_indices = np.where(predator_mask)[0]
+
+        # Mating readiness increases if not too hungry and reasonably healthy
+        ready_mask = (self.hunger[animal_indices] > 60) & (self.hp[animal_indices] > self.max_hp[animal_indices] * 0.7)
+        ready_indices = animal_indices[ready_mask]
+        if ready_indices.size > 0:
+            # Base readiness gain
+            self.mating_readiness[ready_indices] = np.minimum(
+                1.0, self.mating_readiness[ready_indices] + 0.1
+            )
+
+            # Ecological modulation (deterministic):
+            # - Herbivores: boosted when plants are abundant per herbivore.
+            # - Predators: boosted when herbivores are abundant per predator.
+            # This nudges populations toward plant/herbivore/predator balance.
+            if herbivore_indices.size > 0 and herb_factor != 1.0:
+                import numpy as _np
+                herb_ready = _np.intersect1d(ready_indices, herbivore_indices, assume_unique=False)
+                if herb_ready.size > 0:
+                    delta_h = 0.05 * (herb_factor - 1.0)
+                    if delta_h != 0.0:
+                        self.mating_readiness[herb_ready] = _np.clip(
+                            self.mating_readiness[herb_ready] + float(delta_h),
+                            0.0,
+                            1.0,
+                        )
+            if predator_indices.size > 0 and pred_factor != 1.0:
+                import numpy as _np
+                pred_ready = _np.intersect1d(ready_indices, predator_indices, assume_unique=False)
+                if pred_ready.size > 0:
+                    delta_p = 0.05 * (pred_factor - 1.0)
+                    if delta_p != 0.0:
+                        self.mating_readiness[pred_ready] = _np.clip(
+                            self.mating_readiness[pred_ready] + float(delta_p),
+                            0.0,
+                            1.0,
+                        )
 
         # Hunger or injury reduces readiness
-        not_ready_mask = (self.hunger[animal_indices] < 50) | (self.is_injured[animal_indices])
+        not_ready_mask = (self.hunger[animal_indices] < 40) | (self.is_injured[animal_indices])
         self.mating_readiness[animal_indices[not_ready_mask]] = 0
 
         female_mask = (self.genders[animal_indices] == 'female') & (self.mating_readiness[animal_indices] >= 1.0)
@@ -1374,9 +1653,9 @@ class World:
 
             if potential_mates.size > 0:
                 mate_idx = random.choice(potential_mates)
-                # Gestation costs resources
+                # Gestation costs resources (slightly softened)
                 self.hp[i] -= 20
-                self.hunger[i] -= 30
+                self.hunger[i] -= 20
 
                 new_animal_id = f"{self.labels[i]}_{self.time_step}"
                 parent_cell = self.materialize_cell(self.cell_ids[i])
@@ -1430,6 +1709,39 @@ class World:
         for dead_idx in dead_cell_indices:
             cell_id = self.cell_ids[dead_idx]
             self.event_logger.log('DEATH', self.time_step, cell_id=cell_id) # Log the death event
+
+            # --- Death & Memory: create a corpse record ---
+            # Determine a coarse cause of death based on current state.
+            cause = "unknown"
+            try:
+                if self.age[dead_idx] >= self.max_age[dead_idx]:
+                    cause = "old_age"
+                elif self.hunger[dead_idx] <= 0:
+                    cause = "starvation"
+                elif self.hydration[dead_idx] <= 0:
+                    cause = "dehydration"
+                else:
+                    cause = "injury_or_other"
+            except Exception:
+                pass
+
+            try:
+                pos = self.positions[dead_idx]
+                corpse = {
+                    "id": f"corpse_{cell_id}",
+                    "origin_id": cell_id,
+                    "origin_label": self.labels[dead_idx],
+                    "species": self.labels[dead_idx],
+                    "pos": (float(pos[0]), float(pos[1])),
+                    "death_time": int(self.time_step),
+                    "cause": cause,
+                    "decay_stage": "fresh",
+                }
+                self.corpses.append(corpse)
+            except Exception:
+                # Death tracking must not break the simulation.
+                pass
+
             if cell_id in self.materialized_cells:
                 dead_cell = self.materialized_cells[cell_id]
 
@@ -1437,7 +1749,7 @@ class World:
                 connections_to_deceased = adj_matrix_csr[:, dead_idx].tocoo().row
                 for survivor_idx in connections_to_deceased:
                     if self.is_alive_mask[survivor_idx]:
-                        if self.labels[survivor_idx] == 'human':
+                        if self.labels[survivor_idx] in ('human', 'fairy'):
                             self.insight[survivor_idx] += 1
                             self.logger.info(f"Insight Gained: '{self.cell_ids[survivor_idx]}' observed the death of '{cell_id}'.")
                         if self.adjacency_matrix[survivor_idx, dead_idx] > 0.8:
@@ -1533,6 +1845,52 @@ class World:
             print(f"  - {' | '.join(status_parts)}")
 
         print("-------------------------\n")
+
+    def get_population_metrics(self):
+        """Return coarse-grained metrics about the current world state.
+
+        This is intended for offline probes/diagnostics, not for core gameplay logic.
+        """
+        metrics = {
+            "time_step": int(self.time_step),
+        }
+        alive_idx = np.where(self.is_alive_mask)[0]
+        metrics["living"] = int(alive_idx.size)
+        if alive_idx.size == 0:
+            return metrics
+
+        animal_mask = (self.element_types == 'animal') & self.is_alive_mask
+        plant_mask = (self.element_types == 'life') & self.is_alive_mask
+        human_mask = (self.labels == 'human') & self.is_alive_mask
+        fairy_mask = (self.labels == 'fairy') & self.is_alive_mask
+
+        metrics["animals"] = int(np.sum(animal_mask))
+        metrics["plants"] = int(np.sum(plant_mask))
+        metrics["humans"] = int(np.sum(human_mask))
+        metrics["fairies"] = int(np.sum(fairy_mask))
+
+        # Hunger / hydration stats
+        if np.any(animal_mask):
+            h_anim = self.hunger[animal_mask]
+            metrics["hunger_animals_mean"] = float(h_anim.mean())
+        if np.any(human_mask):
+            h_hum = self.hunger[human_mask]
+            metrics["hunger_humans_mean"] = float(h_hum.mean())
+        if np.any(fairy_mask):
+            h_fae = self.hunger[fairy_mask]
+            metrics["hunger_fairies_mean"] = float(h_fae.mean())
+
+        if np.any(animal_mask):
+            hyd_anim = self.hydration[animal_mask]
+            metrics["hydration_animals_mean"] = float(hyd_anim.mean())
+        if np.any(human_mask):
+            hyd_hum = self.hydration[human_mask]
+            metrics["hydration_humans_mean"] = float(hyd_hum.mean())
+        if np.any(fairy_mask):
+            hyd_fae = self.hydration[fairy_mask]
+            metrics["hydration_fairies_mean"] = float(hyd_fae.mean())
+
+        return metrics
 
 
 

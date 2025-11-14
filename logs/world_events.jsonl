@@ -1,170 +1,391 @@
-{"timestamp": 6, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 11, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 16, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 21, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 26, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 31, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 36, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 41, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 46, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 51, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 128, "event_type": "SPELL", "data": {"caster_id": "human_6", "spell": "firebolt", "target_id": "human_3", "damage": 12.5}}
-{"timestamp": 129, "event_type": "SPELL", "data": {"caster_id": "human_6", "spell": "firebolt", "target_id": "human_3", "damage": 12.5}}
-{"timestamp": 130, "event_type": "SPELL", "data": {"caster_id": "human_6", "spell": "firebolt", "target_id": "human_3", "damage": 12.5}}
-{"timestamp": 131, "event_type": "SPELL", "data": {"caster_id": "human_6", "spell": "firebolt", "target_id": "human_3", "damage": 12.5}}
-{"timestamp": 132, "event_type": "SPELL", "data": {"caster_id": "human_6", "spell": "firebolt", "target_id": "human_3", "damage": 12.5}}
-{"timestamp": 133, "event_type": "SPELL", "data": {"caster_id": "human_6", "spell": "firebolt", "target_id": "human_3", "damage": 12.5}}
-{"timestamp": 148, "event_type": "DEATH", "data": {"cell_id": "human_3"}}
-{"timestamp": 148, "event_type": "DEATH", "data": {"cell_id": "human_6"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_1"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_2"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_3"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_4"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_5"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_6"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_7"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_8"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_9"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "plant_10"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "wolf_1"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "wolf_2"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "wolf_3"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "wolf_4"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "wolf_5"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "deer_1"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "deer_2"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "deer_3"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "deer_4"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "deer_5"}}
-{"timestamp": 162, "event_type": "DEATH", "data": {"cell_id": "deer_6"}}
-{"timestamp": 167, "event_type": "DEATH", "data": {"cell_id": "plant_auto_5_3009"}}
-{"timestamp": 167, "event_type": "DEATH", "data": {"cell_id": "plant_auto_5_7122"}}
-{"timestamp": 167, "event_type": "DEATH", "data": {"cell_id": "plant_auto_5_1290"}}
-{"timestamp": 170, "event_type": "DEATH", "data": {"cell_id": "human_1"}}
-{"timestamp": 170, "event_type": "DEATH", "data": {"cell_id": "human_4"}}
-{"timestamp": 172, "event_type": "DEATH", "data": {"cell_id": "plant_auto_10_3105"}}
-{"timestamp": 172, "event_type": "DEATH", "data": {"cell_id": "plant_auto_10_1818"}}
-{"timestamp": 172, "event_type": "DEATH", "data": {"cell_id": "plant_auto_10_4137"}}
-{"timestamp": 174, "event_type": "DEATH", "data": {"cell_id": "human_2"}}
-{"timestamp": 177, "event_type": "DEATH", "data": {"cell_id": "plant_auto_15_8997"}}
-{"timestamp": 177, "event_type": "DEATH", "data": {"cell_id": "plant_auto_15_8781"}}
-{"timestamp": 177, "event_type": "DEATH", "data": {"cell_id": "plant_auto_15_1467"}}
-{"timestamp": 178, "event_type": "DEATH", "data": {"cell_id": "human_5"}}
-{"timestamp": 178, "event_type": "DEATH", "data": {"cell_id": "human_7"}}
-{"timestamp": 180, "event_type": "DEATH", "data": {"cell_id": "human_10"}}
-{"timestamp": 182, "event_type": "DEATH", "data": {"cell_id": "human_8"}}
-{"timestamp": 182, "event_type": "DEATH", "data": {"cell_id": "plant_auto_20_3689"}}
-{"timestamp": 182, "event_type": "DEATH", "data": {"cell_id": "plant_auto_20_2066"}}
-{"timestamp": 182, "event_type": "DEATH", "data": {"cell_id": "plant_auto_20_6649"}}
-{"timestamp": 186, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 100.0, "total_neg": 0.0, "count_pos": 2, "count_neg": 0}}
-{"timestamp": 187, "event_type": "DEATH", "data": {"cell_id": "plant_auto_25_1081"}}
-{"timestamp": 187, "event_type": "DEATH", "data": {"cell_id": "plant_auto_25_7439"}}
-{"timestamp": 187, "event_type": "DEATH", "data": {"cell_id": "plant_auto_25_3290"}}
-{"timestamp": 191, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 192, "event_type": "DEATH", "data": {"cell_id": "plant_auto_30_4549"}}
-{"timestamp": 192, "event_type": "DEATH", "data": {"cell_id": "plant_auto_30_7081"}}
-{"timestamp": 192, "event_type": "DEATH", "data": {"cell_id": "plant_auto_30_9166"}}
-{"timestamp": 196, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 197, "event_type": "DEATH", "data": {"cell_id": "plant_auto_35_7457"}}
-{"timestamp": 197, "event_type": "DEATH", "data": {"cell_id": "plant_auto_35_9102"}}
-{"timestamp": 197, "event_type": "DEATH", "data": {"cell_id": "plant_auto_35_8071"}}
-{"timestamp": 201, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 202, "event_type": "DEATH", "data": {"cell_id": "plant_auto_40_84"}}
-{"timestamp": 202, "event_type": "DEATH", "data": {"cell_id": "plant_auto_40_4080"}}
-{"timestamp": 202, "event_type": "DEATH", "data": {"cell_id": "plant_auto_40_2916"}}
-{"timestamp": 206, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 207, "event_type": "DEATH", "data": {"cell_id": "plant_auto_45_8919"}}
-{"timestamp": 207, "event_type": "DEATH", "data": {"cell_id": "plant_auto_45_1497"}}
-{"timestamp": 207, "event_type": "DEATH", "data": {"cell_id": "plant_auto_45_6697"}}
-{"timestamp": 211, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 212, "event_type": "DEATH", "data": {"cell_id": "plant_auto_50_4137"}}
-{"timestamp": 212, "event_type": "DEATH", "data": {"cell_id": "plant_auto_50_6396"}}
-{"timestamp": 212, "event_type": "DEATH", "data": {"cell_id": "plant_auto_50_5284"}}
-{"timestamp": 216, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 347, "event_type": "DEATH", "data": {"cell_id": "plant_auto_185_4719"}}
-{"timestamp": 347, "event_type": "DEATH", "data": {"cell_id": "plant_auto_185_2922"}}
-{"timestamp": 351, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 100.0, "total_neg": 0.0, "count_pos": 2, "count_neg": 0}}
-{"timestamp": 352, "event_type": "DEATH", "data": {"cell_id": "plant_auto_190_3430"}}
-{"timestamp": 352, "event_type": "DEATH", "data": {"cell_id": "plant_auto_190_7912"}}
-{"timestamp": 352, "event_type": "DEATH", "data": {"cell_id": "plant_auto_190_8435"}}
-{"timestamp": 356, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 357, "event_type": "DEATH", "data": {"cell_id": "plant_auto_195_9557"}}
-{"timestamp": 357, "event_type": "DEATH", "data": {"cell_id": "plant_auto_195_9777"}}
-{"timestamp": 357, "event_type": "DEATH", "data": {"cell_id": "plant_auto_195_7054"}}
-{"timestamp": 361, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 362, "event_type": "DEATH", "data": {"cell_id": "plant_auto_200_9170"}}
-{"timestamp": 362, "event_type": "DEATH", "data": {"cell_id": "plant_auto_200_9287"}}
-{"timestamp": 362, "event_type": "DEATH", "data": {"cell_id": "plant_auto_200_307"}}
-{"timestamp": 366, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 367, "event_type": "DEATH", "data": {"cell_id": "plant_auto_205_2623"}}
-{"timestamp": 367, "event_type": "DEATH", "data": {"cell_id": "plant_auto_205_8054"}}
-{"timestamp": 367, "event_type": "DEATH", "data": {"cell_id": "plant_auto_205_3007"}}
-{"timestamp": 371, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 372, "event_type": "DEATH", "data": {"cell_id": "plant_auto_210_3814"}}
-{"timestamp": 372, "event_type": "DEATH", "data": {"cell_id": "plant_auto_210_7737"}}
-{"timestamp": 372, "event_type": "DEATH", "data": {"cell_id": "plant_auto_210_6141"}}
-{"timestamp": 376, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 377, "event_type": "DEATH", "data": {"cell_id": "plant_auto_215_8601"}}
-{"timestamp": 377, "event_type": "DEATH", "data": {"cell_id": "plant_auto_215_915"}}
-{"timestamp": 377, "event_type": "DEATH", "data": {"cell_id": "plant_auto_215_3612"}}
-{"timestamp": 381, "event_type": "EXPERIENCE_DELTA", "data": {"total_pos": 150.0, "total_neg": 0.0, "count_pos": 3, "count_neg": 0}}
-{"timestamp": 472, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 19, "event_type": "EAT", "data": {"actor_id": "deer_1", "target_id": "plant_41"}}
+{"timestamp": 19, "event_type": "DEATH", "data": {"cell_id": "plant_41"}}
+{"timestamp": 22, "event_type": "EAT", "data": {"actor_id": "deer_4", "target_id": "plant_31"}}
+{"timestamp": 22, "event_type": "DEATH", "data": {"cell_id": "plant_31"}}
+{"timestamp": 39, "event_type": "EAT", "data": {"actor_id": "deer_8", "target_id": "plant_27"}}
+{"timestamp": 39, "event_type": "DEATH", "data": {"cell_id": "plant_27"}}
+{"timestamp": 64, "event_type": "EAT", "data": {"actor_id": "deer_3", "target_id": "plant_15"}}
+{"timestamp": 64, "event_type": "DEATH", "data": {"cell_id": "plant_15"}}
+{"timestamp": 67, "event_type": "EAT", "data": {"actor_id": "deer_17", "target_id": "plant_61"}}
+{"timestamp": 67, "event_type": "DEATH", "data": {"cell_id": "plant_61"}}
+{"timestamp": 70, "event_type": "EAT", "data": {"actor_id": "deer_2", "target_id": "plant_20"}}
+{"timestamp": 70, "event_type": "DEATH", "data": {"cell_id": "plant_20"}}
+{"timestamp": 75, "event_type": "EAT", "data": {"actor_id": "deer_7", "target_id": "plant_32"}}
+{"timestamp": 75, "event_type": "DEATH", "data": {"cell_id": "plant_32"}}
+{"timestamp": 85, "event_type": "EAT", "data": {"actor_id": "deer_15", "target_id": "plant_6"}}
+{"timestamp": 85, "event_type": "DEATH", "data": {"cell_id": "plant_6"}}
+{"timestamp": 101, "event_type": "EAT", "data": {"actor_id": "deer_2", "target_id": "plant_59"}}
+{"timestamp": 101, "event_type": "DEATH", "data": {"cell_id": "plant_59"}}
+{"timestamp": 111, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 113, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 115, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 117, "event_type": "EAT", "data": {"actor_id": "deer_4", "target_id": "plant_54"}}
+{"timestamp": 117, "event_type": "DEATH", "data": {"cell_id": "plant_54"}}
+{"timestamp": 134, "event_type": "EAT", "data": {"actor_id": "deer_8", "target_id": "plant_49"}}
+{"timestamp": 134, "event_type": "DEATH", "data": {"cell_id": "plant_49"}}
+{"timestamp": 148, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 149, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_1"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_2"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_3"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_4"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_5"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_6"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_7"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_8"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_9"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_10"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_11"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_12"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_13"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_14"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_15"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_16"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_17"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_18"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_19"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "deer_20"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_1"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_2"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_3"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_4"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_5"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_6"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_7"}}
+{"timestamp": 149, "event_type": "DRINK", "data": {"cell_id": "wolf_8"}}
+{"timestamp": 162, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 166, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 168, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 172, "event_type": "EVADE", "data": {"cell_id": "deer_7"}}
+{"timestamp": 177, "event_type": "DEATH", "data": {"cell_id": "deer_7"}}
+{"timestamp": 227, "event_type": "EAT", "data": {"actor_id": "deer_8", "target_id": "plant_74"}}
+{"timestamp": 227, "event_type": "DEATH", "data": {"cell_id": "plant_74"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_5"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_6"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_9"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_10"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_11"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_12"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_13"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_14"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_16"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_18"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_19"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "deer_20"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "wolf_1"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "wolf_3"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "wolf_4"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "wolf_5"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "wolf_6"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "wolf_7"}}
+{"timestamp": 349, "event_type": "DEATH", "data": {"cell_id": "wolf_8"}}
+{"timestamp": 361, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 364, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 371, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 371, "event_type": "DRINK", "data": {"cell_id": "deer_2"}}
+{"timestamp": 371, "event_type": "DRINK", "data": {"cell_id": "deer_3"}}
+{"timestamp": 371, "event_type": "DRINK", "data": {"cell_id": "deer_4"}}
+{"timestamp": 371, "event_type": "DRINK", "data": {"cell_id": "deer_8"}}
+{"timestamp": 371, "event_type": "DRINK", "data": {"cell_id": "deer_15"}}
+{"timestamp": 371, "event_type": "DRINK", "data": {"cell_id": "deer_17"}}
+{"timestamp": 371, "event_type": "DRINK", "data": {"cell_id": "wolf_2"}}
+{"timestamp": 371, "event_type": "DEATH", "data": {"cell_id": "deer_1"}}
+{"timestamp": 383, "event_type": "DEATH", "data": {"cell_id": "deer_3"}}
+{"timestamp": 383, "event_type": "DEATH", "data": {"cell_id": "deer_15"}}
+{"timestamp": 383, "event_type": "DEATH", "data": {"cell_id": "deer_17"}}
+{"timestamp": 385, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 386, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 391, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 396, "event_type": "DRINK", "data": {"cell_id": "deer_2"}}
+{"timestamp": 396, "event_type": "DRINK", "data": {"cell_id": "deer_8"}}
+{"timestamp": 396, "event_type": "DRINK", "data": {"cell_id": "wolf_2"}}
+{"timestamp": 398, "event_type": "DRINK", "data": {"cell_id": "deer_4"}}
+{"timestamp": 400, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 401, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 405, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 413, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 419, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 421, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 433, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_21", "damage": 42.72005322996603, "x": 68, "y": 224}}
+{"timestamp": 438, "event_type": "DEATH", "data": {"cell_id": "deer_4"}}
+{"timestamp": 450, "event_type": "DEATH", "data": {"cell_id": "deer_2"}}
+{"timestamp": 453, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 456, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 459, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 462, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 466, "event_type": "RAIN_START", "data": {}}
 {"timestamp": 474, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 478, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 480, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 481, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 495, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 574, "event_type": "DEATH", "data": {"cell_id": "plant_auto_350_1595"}}
-{"timestamp": 574, "event_type": "DEATH", "data": {"cell_id": "plant_auto_350_2139"}}
-{"timestamp": 579, "event_type": "DEATH", "data": {"cell_id": "plant_auto_355_4348"}}
-{"timestamp": 579, "event_type": "DEATH", "data": {"cell_id": "plant_auto_355_8082"}}
-{"timestamp": 579, "event_type": "DEATH", "data": {"cell_id": "plant_auto_355_9516"}}
-{"timestamp": 584, "event_type": "DEATH", "data": {"cell_id": "plant_auto_360_9511"}}
-{"timestamp": 584, "event_type": "DEATH", "data": {"cell_id": "plant_auto_360_1245"}}
-{"timestamp": 584, "event_type": "DEATH", "data": {"cell_id": "plant_auto_360_8945"}}
-{"timestamp": 589, "event_type": "DEATH", "data": {"cell_id": "plant_auto_365_1479"}}
-{"timestamp": 589, "event_type": "DEATH", "data": {"cell_id": "plant_auto_365_7841"}}
-{"timestamp": 589, "event_type": "DEATH", "data": {"cell_id": "plant_auto_365_6654"}}
-{"timestamp": 594, "event_type": "DEATH", "data": {"cell_id": "plant_auto_370_3962"}}
-{"timestamp": 594, "event_type": "DEATH", "data": {"cell_id": "plant_auto_370_6295"}}
-{"timestamp": 594, "event_type": "DEATH", "data": {"cell_id": "plant_auto_370_7847"}}
-{"timestamp": 599, "event_type": "DEATH", "data": {"cell_id": "plant_auto_375_397"}}
-{"timestamp": 599, "event_type": "DEATH", "data": {"cell_id": "plant_auto_375_1651"}}
-{"timestamp": 599, "event_type": "DEATH", "data": {"cell_id": "plant_auto_375_5991"}}
-{"timestamp": 604, "event_type": "DEATH", "data": {"cell_id": "plant_auto_380_8514"}}
-{"timestamp": 604, "event_type": "DEATH", "data": {"cell_id": "plant_auto_380_5882"}}
-{"timestamp": 604, "event_type": "DEATH", "data": {"cell_id": "plant_auto_380_3847"}}
-{"timestamp": 737, "event_type": "DEATH", "data": {"cell_id": "plant_auto_575_9206"}}
-{"timestamp": 737, "event_type": "DEATH", "data": {"cell_id": "plant_auto_575_5412"}}
-{"timestamp": 742, "event_type": "DEATH", "data": {"cell_id": "plant_auto_580_4999"}}
-{"timestamp": 742, "event_type": "DEATH", "data": {"cell_id": "plant_auto_580_4280"}}
-{"timestamp": 742, "event_type": "DEATH", "data": {"cell_id": "plant_auto_580_4900"}}
-{"timestamp": 747, "event_type": "DEATH", "data": {"cell_id": "plant_auto_585_3615"}}
-{"timestamp": 747, "event_type": "DEATH", "data": {"cell_id": "plant_auto_585_8561"}}
-{"timestamp": 747, "event_type": "DEATH", "data": {"cell_id": "plant_auto_585_6587"}}
-{"timestamp": 752, "event_type": "DEATH", "data": {"cell_id": "plant_auto_590_2659"}}
-{"timestamp": 752, "event_type": "DEATH", "data": {"cell_id": "plant_auto_590_911"}}
-{"timestamp": 752, "event_type": "DEATH", "data": {"cell_id": "plant_auto_590_2454"}}
-{"timestamp": 757, "event_type": "DEATH", "data": {"cell_id": "plant_auto_595_7173"}}
-{"timestamp": 757, "event_type": "DEATH", "data": {"cell_id": "plant_auto_595_1664"}}
-{"timestamp": 757, "event_type": "DEATH", "data": {"cell_id": "plant_auto_595_3621"}}
-{"timestamp": 762, "event_type": "DEATH", "data": {"cell_id": "plant_auto_600_2031"}}
-{"timestamp": 762, "event_type": "DEATH", "data": {"cell_id": "plant_auto_600_2190"}}
-{"timestamp": 762, "event_type": "DEATH", "data": {"cell_id": "plant_auto_600_4340"}}
-{"timestamp": 767, "event_type": "DEATH", "data": {"cell_id": "plant_auto_605_443"}}
-{"timestamp": 767, "event_type": "DEATH", "data": {"cell_id": "plant_auto_605_2562"}}
-{"timestamp": 767, "event_type": "DEATH", "data": {"cell_id": "plant_auto_605_2917"}}
-{"timestamp": 782, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 807, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 815, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 816, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 822, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 822, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_auto_755_2879", "damage": 42.17064933106274, "x": 181, "y": 175}}
-{"timestamp": 827, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 837, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 842, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 845, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 851, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 852, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 853, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 855, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 479, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 483, "event_type": "DEATH", "data": {"cell_id": "wolf_2"}}
+{"timestamp": 485, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 516, "event_type": "DEATH", "data": {"cell_id": "deer_8"}}
+{"timestamp": 650, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 660, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 663, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 665, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1563, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1566, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1568, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1570, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1578, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1584, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_77", "damage": 41.93694491820275, "x": 172, "y": 182}}
+{"timestamp": 1594, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1595, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_71", "damage": 41.40300997154786, "x": 189, "y": 148}}
+{"timestamp": 1607, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1611, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1619, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_36", "damage": 20.161896435170625, "x": 171, "y": 76}}
+{"timestamp": 1621, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1625, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1628, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1634, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1635, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1661, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1667, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1668, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1675, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1679, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1681, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1685, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1688, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1704, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1721, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1734, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1737, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1746, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_72", "damage": 43.50182463250588, "x": 108, "y": 223}}
+{"timestamp": 1756, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1756, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_30", "damage": 42.695590839498614, "x": 249, "y": 150}}
+{"timestamp": 1765, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_80", "damage": 33.945118932682554, "x": 51, "y": 12}}
+{"timestamp": 1768, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1771, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_17", "damage": 46.773309414246214, "x": 3, "y": 49}}
+{"timestamp": 1778, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1781, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1782, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_71", "damage": 44.190670812025665, "x": 189, "y": 148}}
+{"timestamp": 1782, "event_type": "DEATH", "data": {"cell_id": "plant_71"}}
+{"timestamp": 1783, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1792, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1794, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1798, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1799, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1821, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1827, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1838, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1840, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1851, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 1852, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2010, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2011, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2014, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2015, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2029, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2030, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2053, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2062, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2071, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2079, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2104, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2105, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2106, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2107, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2110, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2115, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2116, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2117, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2124, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2125, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2158, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2188, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2195, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2365, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2368, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2370, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2383, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2387, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2395, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2400, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2408, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2410, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2414, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2433, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2434, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2440, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2443, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2446, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2448, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2461, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2462, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2470, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2474, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2475, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2477, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2478, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2480, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2482, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2486, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2491, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2493, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2500, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_7", "damage": 20.7274872619842, "x": 64, "y": 113}}
+{"timestamp": 2501, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2505, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2506, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2506, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_29", "damage": 45.72422383103462, "x": 208, "y": 96}}
+{"timestamp": 2507, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2515, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2518, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_66", "damage": 25.531080282542547, "x": 241, "y": 146}}
+{"timestamp": 2521, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2548, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2550, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2552, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2557, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2562, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2565, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2566, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2569, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2571, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2579, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2584, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2591, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2603, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2607, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2611, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2613, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2615, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2620, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_67", "damage": 31.95005463665535, "x": 86, "y": 69}}
+{"timestamp": 2621, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2630, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2635, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2639, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2644, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2651, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2657, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2665, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2668, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2671, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2675, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2678, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2681, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2683, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2684, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2686, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2690, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2691, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2696, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2703, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2707, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2708, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2710, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2713, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2725, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2733, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2736, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2744, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2747, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2782, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2790, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2800, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2803, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2816, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2823, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2824, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2828, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2828, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_79", "damage": 22.792771486758717, "x": 84, "y": 101}}
+{"timestamp": 2829, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2831, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2836, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2840, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2843, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2845, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2847, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2857, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2862, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2863, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2864, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2924, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2927, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2930, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2931, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2933, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2947, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2948, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2952, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_28", "damage": 43.34786534646331, "x": 82, "y": 38}}
+{"timestamp": 2954, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_60", "damage": 23.11701456740441, "x": 106, "y": 207}}
+{"timestamp": 2955, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2956, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2965, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2972, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2977, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2980, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_45", "damage": 23.855485360848306, "x": 104, "y": 61}}
+{"timestamp": 2981, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 2987, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 3009, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 3011, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 3017, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4365, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4413, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4416, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4418, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4422, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4423, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4430, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4433, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4434, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4459, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4482, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4483, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4492, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4494, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4499, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4500, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4501, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4504, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4507, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4520, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4521, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4525, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4528, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4535, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4545, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4547, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4548, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4549, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4555, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_52", "damage": 39.45448912494864, "x": 109, "y": 133}}
+{"timestamp": 4556, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4560, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_55", "damage": 22.603919936519233, "x": 90, "y": 132}}
+{"timestamp": 4563, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4563, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_24", "damage": 41.31639620774496, "x": 23, "y": 137}}
+{"timestamp": 4577, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4582, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_78", "damage": 24.692271437075245, "x": 160, "y": 247}}
+{"timestamp": 4585, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4591, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4592, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4595, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4596, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4599, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4600, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_8", "damage": 28.60209654520498, "x": 128, "y": 141}}
+{"timestamp": 4601, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4602, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_65", "damage": 27.07275840233163, "x": 45, "y": 88}}
+{"timestamp": 4603, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4635, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4635, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_45", "damage": 22.97299442950012, "x": 104, "y": 61}}
+{"timestamp": 4637, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4639, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4641, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_35", "damage": 37.03898028763565, "x": 246, "y": 54}}
+{"timestamp": 4644, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4648, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4650, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4653, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_63", "damage": 47.813260911171554, "x": 185, "y": 57}}
+{"timestamp": 4657, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4657, "event_type": "LIGHTNING_STRIKE", "data": {"cell_id": "plant_58", "damage": 34.3990363457824, "x": 1, "y": 192}}
+{"timestamp": 4663, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4667, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4668, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4669, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4677, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4680, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4682, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4684, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4685, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4686, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4687, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4739, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4741, "event_type": "RAIN_START", "data": {}}
+{"timestamp": 4773, "event_type": "RAIN_START", "data": {}}
