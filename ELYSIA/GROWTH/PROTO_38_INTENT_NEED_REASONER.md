@@ -1,4 +1,4 @@
-﻿# PROTO-38: INTENT / NEED REASONER
+﻿# PROTO-38 — INTENT / NEED REASONER
 
 Status: Draft
 Tier: GROWTH / CORE-adjacent
