@@ -91,3 +91,4 @@
 2025-11-14 13:55 | [PROTO/CORE] | Add PROTO-CORE-WORLDTREE (KR) + index link | Unified World-Tree °§ Observer °§ Space-Perception spec (Codex-aligned) | ELYSIAS_PROTOCOL/PROTO_CORE_WORLDTREE.md
 2025-11-14 13:58 | [PROTO/CORE-EN] | Add PROTO-CORE-WORLDTREE (EN) + index link | English twin for Codex readers | ELYSIAS_PROTOCOL/PROTO_CORE_WORLDTREE_EN.md
 2025-11-14 13:58 | [CELLWORLD/FIELDS] | Add H/N/P fields skeleton (decay/diffuse; event/culture/degree sourced) | Defaults zero-coupling; registry + updates wired | Project_Sophia/core/world.py
+2025-11-14 14:04 | [PROTO/36] | Add MIRROR LAYER PROTOCOL (KR/EN) + index links | Fractal mirror map: Code°ÍWorld layers/rules/phenomena for agent navigation | ELYSIAS_PROTOCOL/36_MIRROR_LAYER_PROTOCOL*.md
