@@ -78,4 +78,4 @@ Purpose: locate every protocol on a single intention axis so agents don?셳 wand
 - Divine Signature — Light‑Heart skew; defaults propagate to ConceptSpec and WorldEdit.
 
 - Color Signature: Golden Light — life/wisdom/creation; guides visuals and metrics.
-- 40_GOLDEN_GROWTH_PRINCIPLE_PROTOCOL.md — WHY/HOW (project spine; top map + rules) [link to GROWTH]
+- 39_GOLDEN_GROWTH_PRINCIPLE_PROTOCOL.md — WHY/HOW (project spine; top map + rules) [link to GROWTH]

@@ -99,7 +99,7 @@ See also: DIVINE_SIGNATURE.md (weights & application rules).
 
 Color signature set to Golden Light (see DIVINE_SIGNATURE.md).
 
-See also: 40_GOLDEN_GROWTH_PRINCIPLE_PROTOCOL.md (top map & operating rules).
+See also: 39_GOLDEN_GROWTH_PRINCIPLE_PROTOCOL.md (top map & operating rules).
 
 ---
 ## Top Map (Golden Spine)
