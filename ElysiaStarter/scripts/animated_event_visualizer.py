@@ -757,6 +757,27 @@ def main():
                 pygame.draw.polygon(temp_surf, (255,120,120,alpha), points)
 
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
+            # Head status icon (humans only) at F2+: tiny glyph for 목표/상태
+            try:
+                if layer_level >= 1 and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight'])):
+                    icon_y = sy - size - 14
+                    if world.hydration.size>i and world.hydration[i] < 30:
+                        # water droplet
+                        pygame.draw.circle(screen, (80,180,255), (sx, icon_y), 4)
+                    elif world.hunger.size>i and world.hunger[i] < 40:
+                        # small yellow triangle (food)
+                        pts = [(sx, icon_y-4), (sx-4, icon_y+3), (sx+4, icon_y+3)]
+                        pygame.draw.polygon(screen, (230,210,90), pts)
+                    elif world.is_injured.size>i and world.is_injured[i]:
+                        # red cross
+                        pygame.draw.line(screen, (220,80,80), (sx-4, icon_y-4), (sx+4, icon_y+4), 2)
+                        pygame.draw.line(screen, (220,80,80), (sx+4, icon_y-4), (sx-4, icon_y+4), 2)
+                    elif getattr(world, 'time_of_day', '') == 'night':
+                        # pale Z (sleepy)
+                        zsurf, _ = font.render('Z', fgcolor=(200,200,220))
+                        screen.blit(zsurf, (sx - zsurf.get_width()//2, icon_y - zsurf.get_height()//2))
+            except Exception:
+                pass
             # Speech bubble (simple heuristics): show occasionally or on hover
             try:
                 show_bubble = (layer_level >= 2) and (hover_idx == i) and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight']))
@@ -930,6 +951,22 @@ def main():
                     x1,y1 = w2s(*trail[j-1]); x2,y2 = w2s(*trail[j])
                     pygame.draw.line(screen, (120,200,255), (x1,y1), (x2,y2), 1)
 
+                # Derive simple status/goal heuristics
+                status = '탐색'
+                goal = '-'
+                try:
+                    if world.hydration.size>idx and world.hydration[idx] < 30:
+                        status, goal = '이동', '물 찾기'
+                    elif world.hunger.size>idx and world.hunger[idx] < 40:
+                        status, goal = '이동', '먹이 찾기'
+                    elif world.is_injured.size>idx and world.is_injured[idx]:
+                        status, goal = '회복', '치유 필요'
+                    elif getattr(world, 'time_of_day', '') == 'night':
+                        status, goal = '휴식', '수면'
+                except Exception:
+                    pass
+
+
                 # Build selection detail panel
                 name = world.labels[idx] if world.labels.size>idx and world.labels[idx] else selected_id
                 gender = world.genders[idx] if world.genders.size>idx else ''
@@ -952,6 +989,8 @@ def main():
                     f"Age {age}/{max_age}",
                 ]
                 base_surfs = [font.render(l, fgcolor=(235,235,245))[0] for l in lines]
+                status_surf, _ = font.render(f'Status {status}  |  Goal {goal}', fgcolor=(235,235,245))
+                base_surfs.append(status_surf)
                 # Stat lines
                 stat_line = f"STR {world.strength[idx]}  AGI {world.agility[idx]}  INT {world.intelligence[idx]}  VIT {world.vitality[idx]}  WIS {world.wisdom[idx]}"
                 talents_line = f"Talents {talents()}"
@@ -1015,6 +1054,12 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
+
+
+
+
+
 
 
 
