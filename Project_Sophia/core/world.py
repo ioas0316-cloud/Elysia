@@ -137,10 +137,17 @@ class World:
         # Soft, continuous fields that influence but do not dictate behavior.
         self.threat_field = np.zeros((self.width, self.width), dtype=np.float32)
         self.hydration_field = np.zeros((self.width, self.width), dtype=np.float32)
+        # Electromagnetic-like salience field (scalar carrier; E as grad)
+        self.em_s = np.zeros((self.width, self.width), dtype=np.float32)
         self._threat_decay = 0.92  # memory of threat (EMA)
         self._threat_sigma = 7.0   # spatial spread of threat influence (grid units)
         self._threat_gain = 1.0    # base contribution gain
         self._cohesion_gain = 0.08 # social cohesion gain toward allies
+        # EM field dynamics and coupling (defaults preserve behavior: weights=0)
+        self._em_decay = 0.92
+        self._em_sigma = 6.0
+        self._em_weight_E = 0.0  # soft bias along E (grad of salience)
+        self._em_weight_B = 0.0  # soft bias along perp(E) (rotation cue)
 
         # --- Field Registry (fractal carriers; fields-over-commands) ---
         # Register existing scalar fields so sampling/gradients go through one interface.
@@ -155,6 +162,12 @@ class World:
             name="hydration",
             scale="micro",
             array_getter=lambda: self.hydration_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="em_s",
+            scale="micro",
+            array_getter=lambda: self.em_s,
             grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
         )
 
@@ -525,6 +538,7 @@ class World:
         # Update emergent continuous fields (e.g., threat)
         self._update_emergent_fields()
         self._update_hydration_field()
+        self._update_em_perception_field()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -738,6 +752,35 @@ class World:
             # Fallback if scipy is not available
             self.hydration_field = self.wetness
 
+    def _update_em_perception_field(self):
+        """Update electromagnetic-like salience field em_s (soft, non-command carrier).
+        Sources: presence of alive agents; diffusion+decay; normalized; EMA.
+        """
+        try:
+            if len(self.cell_ids) == 0:
+                self.em_s *= self._em_decay
+                return
+
+            presence = np.zeros_like(self.em_s)
+            alive_idx = np.where(self.is_alive_mask)[0]
+            if alive_idx.size > 0:
+                px = np.clip(self.positions[alive_idx, 0].astype(np.int32), 0, self.width - 1)
+                py = np.clip(self.positions[alive_idx, 1].astype(np.int32), 0, self.width - 1)
+                presence[py, px] += 1.0
+
+            try:
+                from scipy.ndimage import gaussian_filter
+                sal = gaussian_filter(presence, sigma=self._em_sigma)
+            except Exception:
+                sal = presence
+
+            if sal.max() > 0:
+                sal = sal / float(sal.max())
+            self.em_s = (self._em_decay * self.em_s) + ((1.0 - self._em_decay) * sal.astype(np.float32))
+        except Exception:
+            # Perception field must never break the simulation
+            pass
+
     def _sample_field_grad(self, field: np.ndarray, fx: float, fy: float) -> Tuple[float, float]:
         """Returns a finite-difference gradient of a field at world coords (fx, fy)."""
         x = int(np.clip(fx, 1, self.width - 2))
@@ -768,12 +811,21 @@ class World:
                 coh = np.zeros(3, dtype=np.float32)
                 kin_attraction = np.zeros(3, dtype=np.float32)
                 hydration_seeking = np.zeros(3, dtype=np.float32)
+                em_bias = np.zeros(3, dtype=np.float32)
 
                 # --- Magnetoreception for Water ---
                 if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
                     thirst_factor = (1.0 - self.hydration[i] / 100.0) ** 2  # Urgency increases non-linearly
                     hx, hy = self.fields.grad("hydration", px, py)
                     hydration_seeking = np.array([hx, hy, 0.0], dtype=np.float32) * thirst_factor * 0.5
+
+                # --- Electromagnetic-like Perception Bias (soft, defaults off) ---
+                if (self._em_weight_E != 0.0) or (self._em_weight_B != 0.0):
+                    ex, ey = self.fields.grad("em_s", px, py)
+                    e_vec = np.array([ex, ey, 0.0], dtype=np.float32)
+                    # Perpendicular for B-like cue
+                    b_vec = np.array([-ey, ex, 0.0], dtype=np.float32)
+                    em_bias = (self._em_weight_E * e_vec) + (self._em_weight_B * b_vec)
 
                 neigh = adj_matrix_csr[i].indices
                 if neigh.size > 0:
@@ -789,7 +841,7 @@ class World:
                         kin_center = self.positions[kin].mean(axis=0)
                         kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
 
-                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking
+                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking + em_bias
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
