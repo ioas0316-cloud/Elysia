@@ -139,6 +139,9 @@ class World:
         self.hydration_field = np.zeros((self.width, self.width), dtype=np.float32)
         # Electromagnetic-like salience field (scalar carrier; E as grad)
         self.em_s = np.zeros((self.width, self.width), dtype=np.float32)
+        # Value/Will fields (scalar potentials; directions via gradients)
+        self.value_mass_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.will_field = np.zeros((self.width, self.width), dtype=np.float32)
         # Historical imprint, Norms, Prestige fields (skeletons)
         self.h_imprint = np.zeros((self.width, self.width), dtype=np.float32)
         self.norms_field = np.zeros((self.width, self.width), dtype=np.float32)
@@ -159,6 +162,14 @@ class World:
         self._n_sigma = 12.0
         self._p_decay = 0.95
         self._p_sigma = 10.0
+        # Value/Will dynamics (defaults conservative)
+        self._vm_decay = 0.95
+        self._vm_sigma = 10.0
+        self._will_decay = 0.95
+        self._will_sigma = 10.0
+        # Movement bias (defaults off)
+        self._vm_weight_E = 0.0
+        self._will_weight_E = 0.0
 
         # --- Field Registry (fractal carriers; fields-over-commands) ---
         # Register existing scalar fields so sampling/gradients go through one interface.
@@ -179,6 +190,18 @@ class World:
             name="em_s",
             scale="micro",
             array_getter=lambda: self.em_s,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="value_mass",
+            scale="meso",
+            array_getter=lambda: self.value_mass_field,
+            grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
+        )
+        self.fields.register_scalar(
+            name="will",
+            scale="macro",
+            array_getter=lambda: self.will_field,
             grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
         )
         self.fields.register_scalar(
@@ -560,6 +583,24 @@ class World:
         if len(self.cell_ids) == 0:
             return []
 
+        # --- Experience snapshot (HP delta from previous step) ---
+        try:
+            if not hasattr(self, '_prev_hp') or self._prev_hp.shape != self.hp.shape:
+                self._prev_hp = self.hp.copy()
+            hp_delta = (self.hp - self._prev_hp).astype(np.float32)
+            self._last_hp_delta = hp_delta
+            # Log coarse experience delta if significant
+            thr = 5.0
+            pos = hp_delta[hp_delta > thr]
+            neg = hp_delta[hp_delta < -thr]
+            if pos.size or neg.size:
+                self.event_logger.log('EXPERIENCE_DELTA', self.time_step,
+                                      total_pos=float(pos.sum()) if pos.size else 0.0,
+                                      total_neg=float(neg.sum()) if neg.size else 0.0,
+                                      count_pos=int(pos.size), count_neg=int(neg.size))
+        except Exception:
+            pass
+
         # Update celestial cycle & weather
         self._update_celestial_fields()
         self._update_weather()
@@ -571,6 +612,7 @@ class World:
         self._update_historical_imprint_field()
         self._update_norms_field()
         self._update_prestige_field()
+        self._update_value_will_fields()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -582,6 +624,12 @@ class World:
 
         # Apply final physics and cleanup
         self._apply_physics_and_cleanup(newly_born_cells)
+
+        # Prepare next-step snapshot
+        try:
+            self._prev_hp = self.hp.copy()
+        except Exception:
+            pass
 
         return newly_born_cells
 
@@ -819,6 +867,43 @@ class World:
             # Perception field must never break the simulation
             pass
 
+    def _update_value_will_fields(self):
+        """Update value_mass_field and will_field from recent experience signals (HP delta).
+        Positive HP deltas reinforce value_mass; negative deltas reinforce will (tension/striving).
+        """
+        try:
+            if not hasattr(self, '_last_hp_delta') or self._last_hp_delta.shape != self.hp.shape:
+                return
+            vm_src = np.zeros_like(self.value_mass_field)
+            will_src = np.zeros_like(self.will_field)
+            idxs = np.where(self.is_alive_mask)[0]
+            if idxs.size > 0:
+                thr = 2.0
+                for i in idxs:
+                    d = float(self._last_hp_delta[i])
+                    if abs(d) < thr:
+                        continue
+                    x = int(self.positions[i][0]) % self.width
+                    y = int(self.positions[i][1]) % self.width
+                    if d > 0:
+                        vm_src[y, x] += d
+                    else:
+                        will_src[y, x] += (-d)
+            # Diffuse + normalize
+            try:
+                from scipy.ndimage import gaussian_filter
+                vm = gaussian_filter(vm_src, sigma=self._vm_sigma)
+                wl = gaussian_filter(will_src, sigma=self._will_sigma)
+            except Exception:
+                vm, wl = vm_src, will_src
+            if vm.max() > 0:
+                vm = vm / float(vm.max())
+            if wl.max() > 0:
+                wl = wl / float(wl.max())
+            self.value_mass_field = (self._vm_decay * self.value_mass_field) + ((1.0 - self._vm_decay) * vm.astype(np.float32))
+            self.will_field = (self._will_decay * self.will_field) + ((1.0 - self._will_decay) * wl.astype(np.float32))
+        except Exception:
+            pass
     def _imprint_gaussian(self, target: np.ndarray, x: int, y: int, sigma: float, amplitude: float = 1.0):
         try:
             rad = int(max(2, sigma * 3))
@@ -921,6 +1006,8 @@ class World:
                 kin_attraction = np.zeros(3, dtype=np.float32)
                 hydration_seeking = np.zeros(3, dtype=np.float32)
                 em_bias = np.zeros(3, dtype=np.float32)
+                vm_bias = np.zeros(3, dtype=np.float32)
+                will_bias = np.zeros(3, dtype=np.float32)
 
                 # --- Magnetoreception for Water ---
                 if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
@@ -935,6 +1022,13 @@ class World:
                     # Perpendicular for B-like cue
                     b_vec = np.array([-ey, ex, 0.0], dtype=np.float32)
                     em_bias = (self._em_weight_E * e_vec) + (self._em_weight_B * b_vec)
+                # --- Value Mass / Will Bias (soft, defaults off) ---
+                if self._vm_weight_E != 0.0:
+                    vx, vy = self.fields.grad("value_mass", px, py)
+                    vm_bias = np.array([vx, vy, 0.0], dtype=np.float32) * self._vm_weight_E
+                if self._will_weight_E != 0.0:
+                    wx_, wy_ = self.fields.grad("will", px, py)
+                    will_bias = np.array([wx_, wy_, 0.0], dtype=np.float32) * self._will_weight_E
 
                 neigh = adj_matrix_csr[i].indices
                 if neigh.size > 0:
@@ -950,7 +1044,7 @@ class World:
                         kin_center = self.positions[kin].mean(axis=0)
                         kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
 
-                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking + em_bias
+                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
