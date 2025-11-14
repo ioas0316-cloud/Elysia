@@ -1,4 +1,4 @@
-﻿# PROTO-36 — MIRROR LAYER PROTOCOL
+﻿# PROTO-40 — MIRROR LAYER PROTOCOL
 
 코딩세계 ↔ 셀월드 ‘이면세계’ 대응 규약
 
