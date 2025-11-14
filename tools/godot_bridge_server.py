@@ -1,0 +1,308 @@
+"""
+Godot Bridge Server (WebSocket)
+
+Purpose
+- Expose the Python World (Project_Sophia.core.world.World) to a Godot 4 client
+  via a simple WebSocket protocol.
+- Keep simulation authoritative in Python; Godot focuses on rendering & input.
+
+Protocol (JSON frames)
+- init: sent once on connect
+    {
+      "type": "init",
+      "world": {"width": int},
+      "lenses": ["threat","value","will"],
+      "tick": int
+    }
+- frame: sent periodically (every n simulation steps)
+    {
+      "type": "frame",
+      "tick": int,
+      "cells": [{"id": str, "x": float, "y": float, "type": str, "alive": bool}],
+      "overlays": {"threat": str(b64-png), "value": str(b64-png), "will": str(b64-png)}
+    }
+- input: received from client
+    {
+      "type": "input",
+      "sim_rate": float(optional),
+      "lens": {"threat": bool, "value": bool, "will": bool}(optional),
+      "select_id": str(optional),
+      "disaster": {"kind": "FLOOD"|"VOLCANO", "x": int, "y": int, "radius": int}(optional)
+    }
+
+Run
+    python tools/godot_bridge_server.py --host 127.0.0.1 --port 8765 --rate 4 --frame-every 1
+
+Requirements
+- websockets, pillow, numpy (already in requirements.txt)
+
+Note
+- World is square: width x width (height == width)
+"""
+
+from __future__ import annotations
+
+import asyncio
+import base64
+import io
+import json
+import os
+import signal
+import time
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+import numpy as np
+from PIL import Image
+
+# Ensure repo root on sys.path
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.abspath(os.path.join(_HERE, '..'))
+import sys
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
+
+# World imports
+from Project_Sophia.core.world import World  # type: ignore
+from Project_Sophia.wave_mechanics import WaveMechanics  # type: ignore
+from tools.kg_manager import KGManager  # type: ignore
+
+import websockets
+from websockets.server import WebSocketServerProtocol
+
+
+@dataclass
+class BridgeConfig:
+    host: str = '127.0.0.1'
+    port: int = 8765
+    sim_rate: float = 4.0  # steps per second
+    frame_every: int = 1    # send a frame every N simulation steps
+    max_cells: int = 5000   # cap cells included per frame
+
+
+class GodotBridge:
+    def __init__(self, cfg: BridgeConfig):
+        self.cfg = cfg
+        # Build a simple world like the visualizer
+        kg = KGManager()
+        wm = WaveMechanics(kg)
+        self.world = World(primordial_dna={'instinct': 'observe'}, wave_mechanics=wm)
+        # Seed a few entities for first view
+        self._seed_world()
+        self._clients: List[WebSocketServerProtocol] = []
+        self._running = True
+        self._sim_last = time.time()
+        self._accum = 0.0
+
+    def _seed_world(self) -> None:
+        rng = np.random.default_rng(42)
+        W = int(getattr(self.world, 'width', 256))
+        def r():
+            return {'x': float(rng.uniform(0, W-1)), 'y': float(rng.uniform(0, W-1)), 'z': 0}
+        # small human cluster
+        for i in range(20):
+            cid = f"human_{i:03d}"
+            self.world.add_cell(cid, properties={'label': 'human', 'element_type': 'human', 'culture': 'knight' if i%2 else 'wuxia', 'position': r()})
+        # a few animals & plants
+        for i in range(12):
+            cid = f"wolf_{i:02d}"
+            self.world.add_cell(cid, properties={'label': 'wolf', 'element_type': 'animal', 'position': r()})
+        for i in range(24):
+            cid = f"tree_{i:02d}"
+            self.world.add_cell(cid, properties={'label': 'tree', 'element_type': 'life', 'position': r()})
+
+    async def start(self) -> None:
+        async with websockets.serve(self._client_handler, self.cfg.host, self.cfg.port, ping_interval=20, ping_timeout=20):
+            print(f"[Bridge] Listening on ws://{self.cfg.host}:{self.cfg.port}")
+            # simulation loop
+            try:
+                while self._running:
+                    now = time.time()
+                    dt = now - self._sim_last
+                    self._sim_last = now
+                    self._accum += dt
+                    interval = 1.0 / max(1e-3, self.cfg.sim_rate)
+                    sent = False
+                    while self._accum >= interval:
+                        self.world.run_simulation_step()
+                        self._accum -= interval
+                        if (self.world.time_step % max(1, self.cfg.frame_every)) == 0:
+                            await self._broadcast_frame()
+                            sent = True
+                    # If no step fit (very low rate), still drip frames sometimes
+                    if not sent and self.world.time_step % max(1, self.cfg.frame_every) == 0:
+                        await self._broadcast_frame()
+                    await asyncio.sleep(0.001)
+            except asyncio.CancelledError:
+                pass
+            finally:
+                print("[Bridge] Stopped")
+
+    async def _client_handler(self, ws: WebSocketServerProtocol) -> None:
+        self._clients.append(ws)
+        try:
+            await ws.send(json.dumps(self._build_init()))
+            async for msg in ws:
+                try:
+                    data = json.loads(msg)
+                except Exception:
+                    continue
+                await self._handle_input(data)
+        finally:
+            if ws in self._clients:
+                self._clients.remove(ws)
+
+    def _build_init(self) -> Dict[str, Any]:
+        return {
+            'type': 'init',
+            'world': {'width': int(getattr(self.world, 'width', 256))},
+            'lenses': ['threat', 'value', 'will'],
+            'tick': int(self.world.time_step),
+        }
+
+    async def _broadcast_frame(self) -> None:
+        if not self._clients:
+            return
+        payload = self._build_frame()
+        js = json.dumps(payload)
+        # Send defensively: drop clients that closed during broadcast
+        for c in list(self._clients):
+            try:
+                # Some versions expose .closed flag/state
+                if getattr(c, 'closed', False):
+                    self._clients.remove(c)
+                    continue
+                await c.send(js)
+            except Exception:
+                # On any send error, close and forget the client
+                try:
+                    await c.close()
+                except Exception:
+                    pass
+                if c in self._clients:
+                    self._clients.remove(c)
+
+    def _build_frame(self) -> Dict[str, Any]:
+        w = int(getattr(self.world, 'width', 256))
+        # cells slice
+        cells: List[Dict[str, Any]] = []
+        if self.world.cell_ids:
+            alive_mask = self.world.is_alive_mask if getattr(self.world, 'is_alive_mask', None) is not None else np.ones((len(self.world.cell_ids),), dtype=bool)
+            count = min(len(self.world.cell_ids), self.cfg.max_cells)
+            for i in range(count):
+                if i >= self.world.positions.shape[0]:
+                    break
+                cid = self.world.cell_ids[i]
+                pos = self.world.positions[i]
+                alive = bool(alive_mask[i])
+                label = ''
+                try:
+                    label = self.world.element_types[i]
+                except Exception:
+                    pass
+                cells.append({'id': cid, 'x': float(pos[0]), 'y': float(pos[1]), 'type': label, 'alive': alive})
+
+        overlays = {
+            'threat': self._encode_overlay(getattr(self.world, 'threat_field', None)),
+            'value': self._encode_overlay(getattr(self.world, 'value_mass_field', None)),
+            'will': self._encode_overlay(getattr(self.world, 'will_field', None)),
+        }
+        return {
+            'type': 'frame',
+            'tick': int(self.world.time_step),
+            'cells': cells,
+            'overlays': overlays,
+            'world': {'width': w},
+        }
+
+    def _encode_overlay(self, arr: Optional[np.ndarray]) -> Optional[str]:
+        if arr is None:
+            return None
+        try:
+            a = np.asarray(arr)
+            if a.size == 0:
+                return None
+            # Normalize to 0..255 uint8
+            m = float(a.max())
+            if m <= 0:
+                img8 = np.zeros_like(a, dtype=np.uint8)
+            else:
+                img8 = (np.clip(a / m, 0.0, 1.0) * 255.0).astype(np.uint8)
+            img = Image.fromarray(img8, mode='L')
+            buf = io.BytesIO()
+            img.save(buf, format='PNG')
+            return base64.b64encode(buf.getvalue()).decode('ascii')
+        except Exception:
+            return None
+
+    async def _handle_input(self, data: Dict[str, Any]) -> None:
+        if data.get('type') != 'input':
+            return
+        if 'sim_rate' in data:
+            try:
+                sr = float(data['sim_rate'])
+                self.cfg.sim_rate = max(0.01, min(32.0, sr))
+            except Exception:
+                pass
+        if 'disaster' in data and isinstance(data['disaster'], dict):
+            self._apply_disaster(data['disaster'])
+
+    def _apply_disaster(self, d: Dict[str, Any]) -> None:
+        kind = (d.get('kind') or '').upper()
+        x = int(d.get('x', 0)); y = int(d.get('y', 0)); r = int(d.get('radius', 6))
+        W = int(getattr(self.world, 'width', 256))
+        x = max(0, min(W-1, x)); y = max(0, min(W-1, y)); r = max(1, min(W//4, r))
+        x0, x1 = max(0, x - r), min(W, x + r + 1)
+        y0, y1 = max(0, y - r), min(W, y + r + 1)
+        if kind == 'FLOOD':
+            # increase wetness locally
+            for yy in range(y0, y1):
+                for xx in range(x0, x1):
+                    dx = xx - x; dy = yy - y
+                    if dx*dx + dy*dy <= r*r:
+                        try:
+                            self.world.wetness[yy, xx] = min(1.0, self.world.wetness[yy, xx] + 0.7)
+                        except Exception:
+                            pass
+            self.world.event_logger.log('FLOOD', self.world.time_step, x=x, y=y, radius=r)
+        elif kind == 'VOLCANO':
+            # heat up area (prestige as proxy), reduce wetness
+            for yy in range(y0, y1):
+                for xx in range(x0, x1):
+                    dx = xx - x; dy = yy - y
+                    if dx*dx + dy*dy <= r*r:
+                        try:
+                            self.world.prestige_field[yy, xx] = min(1.0, self.world.prestige_field[yy, xx] + 0.5)
+                            self.world.wetness[yy, xx] = max(0.0, self.world.wetness[yy, xx] - 0.5)
+                        except Exception:
+                            pass
+            self.world.event_logger.log('VOLCANO', self.world.time_step, x=x, y=y, radius=r)
+
+
+async def amain(cfg: BridgeConfig) -> None:
+    bridge = GodotBridge(cfg)
+    stop = asyncio.get_event_loop().create_future()
+    for s in (signal.SIGINT, signal.SIGTERM):
+        try:
+            asyncio.get_event_loop().add_signal_handler(s, lambda: stop.set_result(True))
+        except NotImplementedError:
+            # Windows may not support signal handlers in event loop
+            pass
+    await asyncio.gather(bridge.start(), stop)
+
+
+def main() -> None:
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--host', default='127.0.0.1')
+    ap.add_argument('--port', type=int, default=8765)
+    ap.add_argument('--rate', type=float, default=4.0, help='simulation steps per second')
+    ap.add_argument('--frame-every', type=int, default=1, help='send a frame every N steps')
+    ap.add_argument('--max-cells', type=int, default=5000)
+    args = ap.parse_args()
+    cfg = BridgeConfig(host=args.host, port=args.port, sim_rate=args.rate, frame_every=args.frame_every, max_cells=args.max_cells)
+    asyncio.run(amain(cfg))
+
+
+if __name__ == '__main__':
+    main()
