@@ -11,7 +11,12 @@ Minimal references (when needed)
 - ELYSIA/CORE/protocols/17_CELL_RUNTIME_AND_REACTION_RULES.md ? Cell runtime
 - ELYSIA/CORE/protocols/11_DIALOGUE_RULES_SPEC.md ? Dialogue YAML
 
-All other files here are archived context. Do not expand them; extend the Codex instead.
+World & people (when needed)
+- ELYSIAS_PROTOCOL/CORE_09_WORLD_VALIDATION_AND_HANDOFF.md ? World loops, observation, handoff
+- ELYSIAS_PROTOCOL/CORE_11_TIME_SCALES_AND_TICK_LAYERS.md ? Time scales and tick layers (WORLD/MIND/META)
+- ELYSIAS_PROTOCOL/CORE_12_PEOPLE_AND_CIVILIZATION_TIERS.md ? People tiers, professions, parties, social safety field
+
+Except for the files listed above, all other files here are archived context. Do not expand them; extend the Codex or the listed CORE protocols instead.
 
 - 32_SPATIAL_PERCEPTION_FIELD.md ? Layered law registry + EM perception field
 - PROTO_CORE_WORLDTREE.md ? World-Tree/Observer/Space-Perception unified spec
