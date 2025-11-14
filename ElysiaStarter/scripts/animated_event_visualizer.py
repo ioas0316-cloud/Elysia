@@ -379,6 +379,73 @@ def main():
                 pygame.draw.line(grid, (255,255,255,20), (0,y), (world_px[0],y))
             surface.blit(grid, topleft)
 
+    # Cached terrain renderer (배경/그리드 캐시 사용 + 해안선 추가)
+    def draw_terrain_cached(surface: pygame.Surface, s: float, cx: int, cy: int, pan_x: float, pan_y: float):
+        nonlocal background_base_surf, background_scaled_surf, bg_cached_px, grid_cache, grid_cached_px
+        if not show_terrain:
+            return
+        world_px = (max(1, int(W*s)), max(1, int(H*s)))
+        topleft = (int(cx - pan_x), int(cy - pan_y))
+
+        def _build_background_base() -> pygame.Surface:
+            arr = (terrain_noise*255).astype(np.uint8)
+            palette = np.zeros((arr.shape[0], arr.shape[1], 3), dtype=np.uint8)
+            tide_shift = 0
+            try:
+                tide_shift = int(4 * getattr(world, 'tide_level_global', 0.0))
+            except Exception:
+                tide_shift = 0
+            water_threshold = 90 + tide_shift
+            sand_low, sand_high = water_threshold, water_threshold + 20
+            water = arr < water_threshold
+            sand = (arr >= sand_low) & (arr < sand_high)
+            grass = (arr >= sand_high) & (arr < 200)
+            rock = arr >= 200
+            palette[water] = (30,40,70)
+            palette[sand] = (170,150,110)
+            palette[grass] = (60,110,70)
+            palette[rock] = (80,80,80)
+            if show_contours:
+                arr_i = arr.astype(np.int32)
+                contour = ((arr_i % 12) == 0) & (~water)
+                palette[contour] = (40,50,40)
+                ridge = (arr_i >= 200) & ((arr_i % 8) == 0)
+                palette[ridge] = (60,60,60)
+            # 해안선(물-육지 경계) 어두운 라인
+            try:
+                shore = np.zeros_like(water, dtype=bool)
+                shore[:-1,:] |= water[:-1,:] & ~water[1:,:]
+                shore[1: ,:] |= water[1: ,:] & ~water[:-1,:]
+                shore[:,:-1] |= water[:,:-1] & ~water[:,1:]
+                shore[:,1: ] |= water[:,1: ] & ~water[:,:-1]
+                palette[shore] = (20,30,50)
+            except Exception:
+                pass
+            return pygame.surfarray.make_surface(np.rot90(palette))
+
+        # Build or reuse background
+        if background_base_surf is None:
+            background_base_surf = _build_background_base()
+            background_scaled_surf = None
+        if background_scaled_surf is None or bg_cached_px != world_px:
+            background_scaled_surf = pygame.transform.scale(background_base_surf, world_px)
+            bg_cached_px = world_px
+        surface.blit(background_scaled_surf, topleft)
+
+        # Cached grid (sparse overlay 동안은 생략)
+        if show_grid and sparse_overlay_frames == 0:
+            if grid_cache is None or grid_cached_px != world_px:
+                grid_cache = pygame.Surface(world_px, pygame.SRCALPHA)
+                step_world = max(8, W//32)
+                step_px = max(8, int(s*step_world))
+                grid_cache.fill((0,0,0,0))
+                for x in range(0, world_px[0], step_px):
+                    pygame.draw.line(grid_cache, (255,255,255,20), (x,0), (x,world_px[1]))
+                for y in range(0, world_px[1], step_px):
+                    pygame.draw.line(grid_cache, (255,255,255,20), (0,y), (world_px[0],y))
+                grid_cached_px = world_px
+            surface.blit(grid_cache, topleft)
+
     # Ecology balancing (scenario helper, optional)
     balanced_ecology = True
     def maintain_ecology():
@@ -404,13 +471,25 @@ def main():
     bg_cached_px = (0, 0)
     grid_cache = None
     grid_cached_px = (0, 0)
+    # Lens toggles (additional)
+    show_value_mass = False  # 가치장 렌즈
+    show_will = False        # 의지장 렌즈
     # Field/overlay caches and pacing
     threat_overlay_cache = None
     threat_overlay_last_step = -1
+    threat_overlay_px = (0, 0)
+    value_overlay_cache = None
+    value_overlay_last_step = -1
+    value_overlay_px = (0, 0)
+    will_overlay_cache = None
+    will_overlay_last_step = -1
+    will_overlay_px = (0, 0)
     field_overlay_interval = 2  # N ticks between field overlays
     sparse_overlay_frames = 0    # skip heavy overlays for a few frames after disasters
     while running:
         dt = clock.tick(args.fps) / 1000.0
+        if sparse_overlay_frames > 0:
+            sparse_overlay_frames = max(0, sparse_overlay_frames - 1)
         if time.time() - last_tick_log > 2.0:
             _dbg('loop: alive')
             last_tick_log = time.time()
@@ -421,7 +500,38 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
                 ui_notify(f"?쒕꽕留덊떛 ?ъ빱?? {'耳쒖쭚' if cinematic_focus else '爰쇱쭚'}")
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:\n                paused = not paused\n                ui_notify('일시정지' if paused else '재개')\n                if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:\n                paused = not paused\n                ui_notify('일시정지' if paused else '재개')\n                if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
+                mx, my = pygame.mouse.get_pos()
+                wx, wy = screen_to_world(mx, my, scale)
+                wxi, wyi = int(wx), int(wy)
+                rad = 8
+                x0 = max(0, wxi - rad); x1 = min(W, wxi + rad + 1)
+                y0 = max(0, wyi - rad); y1 = min(H, wyi + rad + 1)
+                for yy in range(y0, y1):
+                    for xx in range(x0, x1):
+                        dx = xx - wxi; dy = yy - wyi
+                        if dx*dx + dy*dy <= rad*rad:
+                            terrain_noise[yy, xx] = min(terrain_noise[yy, xx], 0.25)
+                background_base_surf = None
+                background_scaled_surf = None
+                sparse_overlay_frames = max(sparse_overlay_frames, 8)
+                ui_notify("재해: 범람")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F10:
+                mx, my = pygame.mouse.get_pos()
+                wx, wy = screen_to_world(mx, my, scale)
+                wxi, wyi = int(wx), int(wy)
+                rad = 8
+                x0 = max(0, wxi - rad); x1 = min(W, wxi + rad + 1)
+                y0 = max(0, wyi - rad); y1 = min(H, wyi + rad + 1)
+                for yy in range(y0, y1):
+                    for xx in range(x0, x1):
+                        dx = xx - wxi; dy = yy - wyi
+                        if dx*dx + dy*dy <= rad*rad:
+                            terrain_noise[yy, xx] = max(terrain_noise[yy, xx], 0.9)
+                background_base_surf = None
+                background_scaled_surf = None
+                sparse_overlay_frames = max(sparse_overlay_frames, 8)
+                ui_notify("재해: 화산")
                 paused = not paused
                 ui_notify('?쇱떆?뺤?' if paused else '?ш컻')
             if e.type == pygame.KEYDOWN and e.key == pygame.K_F1: layer_level = 0; selected_id = None; trail = []; ui_notify("관찰 레벨: 0 (최소)")
@@ -474,6 +584,18 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_r:
                 show_threat = not show_threat
                 ui_notify(f"?꾪삊?? {'耳쒖쭚' if show_threat else '爰쇱쭚'}")
+            # 추가 렌즈 토글: 가치장(V), 의지장(I), 등고선(P)
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_v:
+                show_value_mass = not show_value_mass
+                ui_notify(f"가치장 렌즈 {'켜짐' if show_value_mass else '꺼짐'}")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_i:
+                show_will = not show_will
+                ui_notify(f"의지장 렌즈 {'켜짐' if show_will else '꺼짐'}")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_p:
+                show_contours = not show_contours
+                background_base_surf = None
+                background_scaled_surf = None
+                ui_notify(f"등고선 {'켜짐' if show_contours else '꺼짐'}")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_m:
                 show_labels = not show_labels
                 ui_notify(f"?쇰꺼: {'耳쒖쭚' if show_labels else '爰쇱쭚'}")
@@ -647,24 +769,63 @@ def main():
                 pan_y = float(cy - tl_y)
         except Exception:
             pass
-        # Background terrain lens (aligned with world transform)
-        draw_terrain(screen, s, cx, cy, pan_x, pan_y)
-        # Threat heatmap overlay (red tint where high)
-        if show_threat and hasattr(world, 'threat_field'):
-            tf = world.threat_field
-            if tf is not None and tf.size:
-                norm = tf.copy()
-                if norm.max() > 0:
-                    norm = norm / norm.max()
-                heat = np.zeros((norm.shape[0], norm.shape[1], 3), dtype=np.uint8)
-                heat[...,0] = (norm*255).astype(np.uint8)
-                heat[...,1] = (norm*80).astype(np.uint8)
-                heat[...,2] = 0
-                hs = pygame.surfarray.make_surface(np.rot90(heat))
-                world_px = (max(1, int(W*s)), max(1, int(H*s)))
-                hs = pygame.transform.smoothscale(hs, world_px)
-                hs.set_alpha(120)
-                screen.blit(hs, (int(cx - pan_x), int(cy - pan_y)))
+        # Background terrain lens (aligned with world transform) + grid (cached)
+        draw_terrain_cached(screen, s, cx, cy, pan_x, pan_y)
+
+        # Field overlays (N틱 간격 캐싱) — sparse_overlay_frames 동안 생략
+        def _make_heat_surf(field: np.ndarray, rgb_scale: Tuple[int,int,int]) -> pygame.Surface:
+            arr = field
+            if arr is None or not getattr(arr, 'size', 0):
+                return None
+            norm = arr.copy()
+            mx = float(norm.max()) if norm.size else 0.0
+            if mx > 0.0:
+                norm = norm / mx
+            heat = np.zeros((norm.shape[0], norm.shape[1], 3), dtype=np.uint8)
+            heat[...,0] = (norm*rgb_scale[0]).astype(np.uint8)
+            heat[...,1] = (norm*rgb_scale[1]).astype(np.uint8)
+            heat[...,2] = (norm*rgb_scale[2]).astype(np.uint8)
+            return pygame.surfarray.make_surface(np.rot90(heat))
+
+        if sparse_overlay_frames == 0:
+            world_px = (max(1, int(W*s)), max(1, int(H*s)))
+            topleft = (int(cx - pan_x), int(cy - pan_y))
+            # Threat overlay (red)
+            if show_threat and hasattr(world, 'threat_field'):
+                if (threat_overlay_cache is None or threat_overlay_px != world_px or
+                    (world.time_step - threat_overlay_last_step) >= field_overlay_interval):
+                    base_hs = _make_heat_surf(world.threat_field, (255,80,0))
+                    if base_hs is not None:
+                        threat_overlay_cache = pygame.transform.smoothscale(base_hs, world_px)
+                        threat_overlay_cache.set_alpha(120)
+                        threat_overlay_last_step = world.time_step
+                        threat_overlay_px = world_px
+                if threat_overlay_cache is not None:
+                    screen.blit(threat_overlay_cache, topleft)
+            # Value Mass overlay (gold)
+            if show_value_mass and hasattr(world, 'value_mass_field'):
+                if (value_overlay_cache is None or value_overlay_px != world_px or
+                    (world.time_step - value_overlay_last_step) >= field_overlay_interval):
+                    base_vs = _make_heat_surf(world.value_mass_field, (240,200,60))
+                    if base_vs is not None:
+                        value_overlay_cache = pygame.transform.smoothscale(base_vs, world_px)
+                        value_overlay_cache.set_alpha(110)
+                        value_overlay_last_step = world.time_step
+                        value_overlay_px = world_px
+                if value_overlay_cache is not None:
+                    screen.blit(value_overlay_cache, topleft)
+            # Will overlay (blue)
+            if show_will and hasattr(world, 'will_field'):
+                if (will_overlay_cache is None or will_overlay_px != world_px or
+                    (world.time_step - will_overlay_last_step) >= field_overlay_interval):
+                    base_ws = _make_heat_surf(world.will_field, (80,140,255))
+                    if base_ws is not None:
+                        will_overlay_cache = pygame.transform.smoothscale(base_ws, world_px)
+                        will_overlay_cache.set_alpha(110)
+                        will_overlay_last_step = world.time_step
+                        will_overlay_px = world_px
+                if will_overlay_cache is not None:
+                    screen.blit(will_overlay_cache, topleft)
 
         # base/s/cx/cy already computed above for rendering; reuse
 
@@ -712,6 +873,9 @@ def main():
             sxh, syh = w2s(world.positions[hi][0], world.positions[hi][1])
             if (sxh - mx)**2 + (syh - my)**2 < 18**2:
                 hover_idx = hi
+
+        # LoD용 줌 비율 (UI 가시성 제어)
+        zoom_ratio = float(s / max(1e-6, base))
 
         # AoE preview ring when in aoe skill mode
         if skill_mode == 'aoe':
@@ -804,7 +968,7 @@ def main():
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
             # Head status icon (humans only) at F2+: tiny glyph for 목표/상태
             try:
-                if layer_level >= 1 and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight'])):
+                if layer_level >= 1 and (float(s / max(1e-6, base)) >= 0.9) and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight'])):
                     icon_y = sy - size - 14
                     if world.hydration.size>i and world.hydration[i] < 30:
                         # water droplet
@@ -825,7 +989,7 @@ def main():
                 pass
             # Speech bubble (simple heuristics): show occasionally or on hover
             try:
-                show_bubble = (layer_level >= 2) and (hover_idx == i) and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight']))
+                show_bubble = (layer_level >= 2) and (hover_idx == i) and (sparse_overlay_frames == 0) and (float(s / max(1e-6, base)) >= 1.0) and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight']))
                 if show_bubble:
                     msg = None
                     if world.hydration.size>i and world.hydration[i] < 30:
@@ -848,9 +1012,9 @@ def main():
                 pass
 
             # Hover/Selection rings
-            if layer_level >= 1 and hover_idx == i and sparse_overlay_frames == 0:
+            if layer_level >= 1 and hover_idx == i and sparse_overlay_frames == 0 and (float(s / max(1e-6, base)) >= 0.8):
                 pygame.draw.circle(screen, (240,240,120), (sx, sy), size+6, 1)
-            if layer_level >= 1 and selected_id == cell_id and sparse_overlay_frames == 0:
+            if layer_level >= 1 and selected_id == cell_id and sparse_overlay_frames == 0 and (float(s / max(1e-6, base)) >= 0.8):
                 pygame.draw.circle(screen, (120,200,255), (sx, sy), size+8, 2)
 
             # Optional label (name/species)
@@ -1099,6 +1263,9 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
+
+
 
 
 
