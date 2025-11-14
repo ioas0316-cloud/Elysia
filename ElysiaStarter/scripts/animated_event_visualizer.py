@@ -212,7 +212,7 @@ def main():
     impact_anims: List[Animation] = [] # position-based flashes/bolts/pulses
     event_ticker: List[Tuple[float, str]] = GLOBAL_EVENT_TICKER # (time, text)
     cinematic_focus = False
-    show_labels = False
+    show_labels = False  # labels require F2+ and no sparse overlay
     show_grid = True
     show_contours = True  # 지형 등고선/산맥 표시
     show_terrain = True
@@ -369,7 +369,7 @@ def main():
         surf = pygame.transform.scale(surf, world_px)
         topleft = (int(cx - pan_x), int(cy - pan_y))
         surface.blit(surf, topleft)
-        if show_grid:
+        if show_grid and sparse_overlay_frames == 0:
             grid = pygame.Surface(world_px, pygame.SRCALPHA)
             step_world = max(8, W//32)
             step_px = max(8, int(s*step_world))
@@ -404,6 +404,11 @@ def main():
     bg_cached_px = (0, 0)
     grid_cache = None
     grid_cached_px = (0, 0)
+    # Field/overlay caches and pacing
+    threat_overlay_cache = None
+    threat_overlay_last_step = -1
+    field_overlay_interval = 2  # N ticks between field overlays
+    sparse_overlay_frames = 0    # skip heavy overlays for a few frames after disasters
     while running:
         dt = clock.tick(args.fps) / 1000.0
         if time.time() - last_tick_log > 2.0:
@@ -552,6 +557,30 @@ def main():
                     event = json.loads(line)
                     event_type = event.get('event_type')
                     data = event.get('data', {})
+                    # Natural disasters: flood/volcano (and lightning fallback) → mark background dirty and skip heavy overlays briefly
+                    if event_type in ('FLOOD', 'VOLCANO', 'LIGHTNING_STRIKE'):
+                        try:
+                            wx = int(data.get('x', 0)); wy = int(data.get('y', 0))
+                            rad = int(data.get('radius', 6))
+                            # mutate terrain_noise locally: flood -> lower values, volcano -> higher
+                            x0 = max(0, wx - rad); x1 = min(W, wx + rad + 1)
+                            y0 = max(0, wy - rad); y1 = min(H, wy + rad + 1)
+                            for yy in range(y0, y1):
+                                for xx in range(x0, x1):
+                                    dx = xx - wx; dy = yy - wy
+                                    if dx*dx + dy*dy <= rad*rad:
+                                        if event_type == 'FLOOD':
+                                            terrain_noise[yy, xx] = min(terrain_noise[yy, xx], 0.25)
+                                        elif event_type == 'VOLCANO':
+                                            terrain_noise[yy, xx] = max(terrain_noise[yy, xx], 0.9)
+                                        else: # lightning: scorch slightly
+                                            terrain_noise[yy, xx] = max(terrain_noise[yy, xx], 0.8)
+                            # invalidate background caches
+                            background_base_surf = None
+                            background_scaled_surf = None
+                            sparse_overlay_frames = max(sparse_overlay_frames, 8)
+                        except Exception:
+                            pass
 
                     if event_type == 'EAT' and 'actor_id' in data and 'target_id' in data:
                         actor_idx = world.id_to_idx.get(data['actor_id'])
@@ -819,9 +848,9 @@ def main():
                 pass
 
             # Hover/Selection rings
-            if layer_level >= 1 and hover_idx == i:
+            if layer_level >= 1 and hover_idx == i and sparse_overlay_frames == 0:
                 pygame.draw.circle(screen, (240,240,120), (sx, sy), size+6, 1)
-            if layer_level >= 1 and selected_id == cell_id:
+            if layer_level >= 1 and selected_id == cell_id and sparse_overlay_frames == 0:
                 pygame.draw.circle(screen, (120,200,255), (sx, sy), size+8, 2)
 
             # Optional label (name/species)
@@ -1070,6 +1099,11 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
+
+
+
+
 
 
 
