@@ -1,7 +1,7 @@
-import pygame
+﻿import pygame
 
-from core.selection import RectArea, SelectionManager
-from core.state import UIState
+from app_core.selection import RectArea, SelectionManager
+from app_core.state import UIState
 
 
 class InputController:

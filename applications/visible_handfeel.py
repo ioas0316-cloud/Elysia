@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 import random
 import time
@@ -9,10 +9,10 @@ _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-from core.agent import Agent
-from core.events import meeting, task_failure, task_success
-from core.selection import SelectionManager
-from core.state import UIState
+from app_core.agent import Agent
+from app_core.events import meeting, task_failure, task_success
+from app_core.selection import SelectionManager
+from app_core.state import UIState
 from ui.fonts import get_font
 from ui.input import InputController
 from ui.render_overlays import draw_emotion_aura, draw_speech_bubble
@@ -27,9 +27,9 @@ AGENT_COLORS = [
     (230, 120, 160),
     (155, 255, 190),
 ]
-EMOTIONS = ["평온", "기쁨", "불안", "분노"]
-ROLES = ["건축가", "수호자", "탐색자", "지휘자", "정찰자", "지지자"]
-NAMES = ["지우", "하늘", "에디", "미르", "별", "보리", "소리", "하람", "후", "슬기"]
+EMOTIONS = ["?됱삩", "湲곗겏", "遺덉븞", "遺꾨끂"]
+ROLES = ["嫄댁텞媛", "?섑샇??, "?먯깋??, "吏?섏옄", "?뺤같??, "吏吏??]
+NAMES = ["吏??, "?섎뒛", "?먮뵒", "誘몃Ⅴ", "蹂?, "蹂대━", "?뚮━", "?섎엺", "??, "?ш린"]
 
 
 def create_agents(count: int, width: int, height: int) -> list[Agent]:

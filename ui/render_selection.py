@@ -1,6 +1,6 @@
-import pygame
+﻿import pygame
 
-from core.selection import RectArea, SelectionManager
+from app_core.selection import RectArea, SelectionManager
 
 
 def draw_drag_rectangle(screen: pygame.Surface, rect: RectArea | None) -> None:
