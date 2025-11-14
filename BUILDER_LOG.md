@@ -86,3 +86,4 @@
 2025-11-14 13:19 | [CELLWORLD] | Merge feature/cellworld-ecology-laws into main; hydration-seeking field + survival alignment | Laws-as-fields; emergent movement (no hard commands) | Project_Sophia/core/world.py
 2025-11-14 13:19 | [OPS/CLEAN] | Archive+delete remote branches not merged to main | Preserve history as archive/* tags; declutter; Codex-first | archive/*
 2025-11-14 13:26 | [PROTO/BACKLOG] | Curate Codex-first idea backlog (10 items) | Fieldization plan + integration lanes per item | ELYSIAS_PROTOCOL/99_IDEA_BACKLOG.md
+2025-11-14 13:36 | [PROTO/FIELDS] | Add layered law registry + EM spatial perception field spec | Fields-over-commands; fractal scale gating; lenses read-only | ELYSIAS_PROTOCOL/32_SPATIAL_PERCEPTION_FIELD.md
