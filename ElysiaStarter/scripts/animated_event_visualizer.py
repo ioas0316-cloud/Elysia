@@ -759,7 +759,7 @@ def main():
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
             # Speech bubble (simple heuristics): show occasionally or on hover
             try:
-                show_bubble = (hover_idx == i) and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight']))
+                show_bubble = (layer_level >= 2) and (hover_idx == i) and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight']))
                 if show_bubble:
                     msg = None
                     if world.hydration.size>i and world.hydration[i] < 30:
@@ -782,9 +782,9 @@ def main():
                 pass
 
             # Hover/Selection rings
-            if hover_idx == i:
+            if layer_level >= 1 and hover_idx == i:
                 pygame.draw.circle(screen, (240,240,120), (sx, sy), size+6, 1)
-            if selected_id == cell_id:
+            if layer_level >= 1 and selected_id == cell_id:
                 pygame.draw.circle(screen, (120,200,255), (sx, sy), size+8, 2)
 
             # Optional label (name/species)
@@ -913,6 +913,11 @@ def main():
             for line_surf in hsurfs:
                 panel.blit(line_surf, (7,y)); y += line_surf.get_height()
             screen.blit(panel, (10, 10))
+        # Layer HUD (top-right)
+        try:
+            draw_layer_hud(screen)
+        except Exception:
+            pass
 
         # Selection detail panel (bottom-right)
         if layer_level >= 1 and selected_id is not None:
@@ -1010,6 +1015,7 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
 
 
 
