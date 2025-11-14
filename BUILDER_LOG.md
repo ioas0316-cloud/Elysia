@@ -4,6 +4,8 @@
 
 기록 규칙: `YYYY-MM-DD HH:MM | [층] | 무엇을 바꿈 | 왜 바꿈 | 관련 프로토콜`
 
+2025-11-13 23:50 | [CORE/PROTO] | CellWorld 물리 법칙(천체-시간, 수명) 및 관찰자 렌즈 원칙 명문화 | 살아있는 세계의 시간 법칙을 정의하고, 관찰이 세계에 영향을 주지 않는다는 핵심 원칙을 확립하기 위함 | 17_CELL_RUNTIME_AND_REACTION_RULES, 02_ARCHITECTURE_GUIDE
+
 2025-11-13 10:02 | [STARTER] | start.bat를 visualize_timeline 단일 엔트리로 고정 | 빈 화면을 만드는 임시/폴백 스타터를 제거하고 관찰 가능한 기본 스타터만 유지하기 위함 | 02_ARCHITECTURE_GUIDE, 34_ELYSIAN_CIVILIZATION_PROTOCOL
 
 2025-11-13 09:58 | [STARTER] | ElysiaStarter/scripts/elysia_start.py 삭제 | KG 기반 최소 스타터를 비활성화하라는 요청에 따라 완전 제거 | 34_ELYSIAN_CIVILIZATION_PROTOCOL

@@ -753,8 +753,8 @@ class World:
                 hydration_seeking = np.zeros(3, dtype=np.float32)
 
                 # --- Magnetoreception for Water ---
-                if self.hydration[i] < 70: # Start seeking water when hydration drops below 70
-                    thirst_factor = (1.0 - self.hydration[i] / 100.0) ** 2 # Urgency increases non-linearly
+                if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
+                    thirst_factor = (1.0 - self.hydration[i] / 100.0) ** 2  # Urgency increases non-linearly
                     hx, hy = self._sample_field_grad(self.hydration_field, px, py)
                     hydration_seeking = np.array([hx, hy, 0.0], dtype=np.float32) * thirst_factor * 0.5
 
