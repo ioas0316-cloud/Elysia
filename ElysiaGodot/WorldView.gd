@@ -10,10 +10,12 @@ var cells: Array = []
 var show_threat := false
 var show_value := true
 var show_will := false
+var show_coherence := false
 var show_grid := true
 var tex_threat: Texture2D
 var tex_value: Texture2D
 var tex_will: Texture2D
+var tex_coherence: Texture2D
 var tex_terrain: Texture2D
  var tex_veg: Texture2D
  var tex_farm: Texture2D
@@ -55,6 +57,7 @@ func _process(_delta: float) -> void:
 			tex_threat = _decode_tex(ov.get("threat"))
 			tex_value = _decode_tex(ov.get("value"))
 			tex_will = _decode_tex(ov.get("will"))
+			tex_coherence = _decode_tex(ov.get("coherence"))
             var tinfo: Dictionary = frame.get("time", {})
             if tinfo.has("phase"):
                 var ph = tinfo.get("phase")
@@ -95,6 +98,7 @@ func _unhandled_input(event):
 			KEY_T: show_threat = !show_threat
 			KEY_V: show_value = !show_value
 			KEY_I: show_will = !show_will
+			KEY_U: show_coherence = !show_coherence
 			KEY_G: show_grid = !show_grid
 			KEY_Y: show_veg = !show_veg
 			KEY_F: show_farm = !show_farm
@@ -168,6 +172,8 @@ func _draw():
 		draw_texture_rect(tex_value, rect, false, Color(1.0,0.9,0.4,0.35))
 	if show_will and tex_will != null:
 		draw_texture_rect(tex_will, rect, false, Color(0.3,0.6,1.0,0.35))
+	if show_coherence and tex_coherence != null:
+		draw_texture_rect(tex_coherence, rect, false, Color(1.0,0.95,0.6,0.35))
         var hover: Dictionary = _nearest_cell_at_screen(get_viewport().get_mouse_position())
 	for c in cells:
 		var cd: Dictionary = c

@@ -156,7 +156,7 @@ class GodotBridge:
         return {
             'type': 'init',
             'world': {'width': int(getattr(self.world, 'width', 256))},
-            'lenses': ['threat', 'value', 'will'],
+            'lenses': ['threat', 'value', 'will', 'coherence'],
             'tick': int(self.world.time_step),
         }
 
@@ -212,6 +212,7 @@ class GodotBridge:
             'threat': self._encode_overlay(getattr(self.world, 'threat_field', None)),
             'value': self._encode_overlay(getattr(self.world, 'value_mass_field', None)),
             'will': self._encode_overlay(getattr(self.world, 'will_field', None)),
+            'coherence': self._encode_overlay(self._coherence_map()),
         }
         return {
             'type': 'frame',
@@ -221,6 +222,38 @@ class GodotBridge:
             'world': {'width': w},
             'time': {'phase': (int(self.world.time_step) % int(getattr(self.world, 'day_length', 1) or 1)) / float(max(1, int(getattr(self.world, 'day_length', 1) or 1)))},
         }
+
+    def _coherence_map(self) -> Optional[np.ndarray]:
+        """Compute a lightweight coherence map from value_mass and will field gradients.
+        Returns float32 array 0..1 where higher means stronger aligned structure.
+        """
+        try:
+            vm = getattr(self.world, 'value_mass_field', None)
+            wl = getattr(self.world, 'will_field', None)
+            if vm is None or wl is None:
+                return None
+            a = np.asarray(vm, dtype=np.float32)
+            b = np.asarray(wl, dtype=np.float32)
+            if a.size == 0 or b.size == 0 or a.shape != b.shape:
+                return None
+            # Gradients (y, x)
+            gy_a, gx_a = np.gradient(a)
+            gy_b, gx_b = np.gradient(b)
+            # Magnitudes and dot alignment
+            mag_a = np.hypot(gx_a, gy_a)
+            mag_b = np.hypot(gx_b, gy_b)
+            denom = (mag_a * mag_b) + 1e-6
+            dot = (gx_a * gx_b + gy_a * gy_b) / denom  # -1..1
+            align = (dot + 1.0) * 0.5  # 0..1
+            # Emphasize where both magnitudes are present
+            wmag = mag_a * mag_b
+            mmax = float(wmag.max()) if wmag.size else 0.0
+            if mmax > 0.0:
+                wmag = wmag / mmax
+            coh = (align * wmag).astype(np.float32)
+            return coh
+        except Exception:
+            return None
 
     def _encode_overlay(self, arr: Optional[np.ndarray]) -> Optional[str]:
         if arr is None:
@@ -382,7 +415,9 @@ class GodotBridge:
             thin = np.where((river) & (nb <= 2), base, base*0.5)
             return thin.astype(np.float32)
         except Exception:
-            return Nonedef _farmland_intensity(self) -> Optional[np.ndarray]:
+            return None
+
+    def _farmland_intensity(self) -> Optional[np.ndarray]:
         try:
             w = int(getattr(self.world, 'width', 256))
             if w <= 0:
