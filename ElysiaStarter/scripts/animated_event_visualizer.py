@@ -500,7 +500,13 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_c:
                 cinematic_focus = not cinematic_focus
                 ui_notify(f"?쒕꽕留덊떛 ?ъ빱?? {'耳쒖쭚' if cinematic_focus else '爰쇱쭚'}")
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:\n                paused = not paused\n                try:\n                    ui_notify('일시정지' if paused else '재개')\n                except Exception:\n                    pass\n            if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
+if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
+    paused = not paused
+    try:
+        ui_notify('일시정지' if paused else '재개')
+    except Exception:
+        pass
+if e.type == pygame.KEYDOWN and e.key == pygame.K_F9:
                 mx, my = pygame.mouse.get_pos()
                 wx, wy = screen_to_world(mx, my, scale)
                 wxi, wyi = int(wx), int(wy)
