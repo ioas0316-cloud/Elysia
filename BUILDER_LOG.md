@@ -83,3 +83,5 @@
 2025-11-13 23:35 | [CORE+UI] | Add spells (firebolt/heal), AGI evasion/speed; selection HUD with stats/HP-Ki-MP-Faith; crosshair cursor; save/load keys | Human observation + depth
 2025-11-13 23:39 | [CORE/FIELD] | Add emergent threat field + soft social cohesion; human motion reads fields (no hard clustering rule); visualizer heatmap (R) | Fractal law carrier
 2025-11-13 23:44 | [PROTO/HANDOVER] | Embed highest criterion: laws-as-fields (emergence) into Handover, Codex, Operations, Lenses doc | Review gate added
+2025-11-14 13:19 | [CELLWORLD] | Merge feature/cellworld-ecology-laws into main; hydration-seeking field + survival alignment | Laws-as-fields; emergent movement (no hard commands) | Project_Sophia/core/world.py
+2025-11-14 13:19 | [OPS/CLEAN] | Archive+delete remote branches not merged to main | Preserve history as archive/* tags; declutter; Codex-first | archive/*
