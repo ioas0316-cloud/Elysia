@@ -729,7 +729,7 @@ def main():
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
             # Speech bubble (simple heuristics): show occasionally or on hover
             try:
-                show_bubble = (hover_idx == i) or (random.random() < 0.02)
+                show_bubble = (hover_idx == i)
                 if show_bubble:
                     msg = None
                     if world.hydration.size>i and world.hydration[i] < 30:
@@ -980,6 +980,7 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
 
 
 
