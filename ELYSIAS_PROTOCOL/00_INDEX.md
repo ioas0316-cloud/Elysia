@@ -16,3 +16,5 @@ All other files here are archived context. Do not expand them; extend the Codex 
 - 32_SPATIAL_PERCEPTION_FIELD.md ? Layered law registry + EM perception field
 - PROTO_CORE_WORLDTREE.md ? World-Tree/Observer/Space-Perception unified spec
 - PROTO_CORE_WORLDTREE_EN.md ? Unified World-Tree/Observer/Space-Perception (EN)
+- 36_MIRROR_LAYER_PROTOCOL.md ? Mirror mapping between Code & World (KR)
+- 36_MIRROR_LAYER_PROTOCOL_EN.md ? Mirror mapping between Code & World (EN)
