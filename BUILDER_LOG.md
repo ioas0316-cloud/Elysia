@@ -88,3 +88,4 @@
 2025-11-14 13:26 | [PROTO/BACKLOG] | Curate Codex-first idea backlog (10 items) | Fieldization plan + integration lanes per item | ELYSIAS_PROTOCOL/99_IDEA_BACKLOG.md
 2025-11-14 13:36 | [PROTO/FIELDS] | Add layered law registry + EM spatial perception field spec | Fields-over-commands; fractal scale gating; lenses read-only | ELYSIAS_PROTOCOL/32_SPATIAL_PERCEPTION_FIELD.md
 2025-11-14 13:45 | [CELLWORLD/FIELDS] | Add EM-like salience field + registry hook; optional E/B bias (defaults off) | Mimetic space perception via fields; no hard commands | Project_Sophia/core/world.py, Project_Sophia/core/fields.py
+2025-11-14 13:55 | [PROTO/CORE] | Add PROTO-CORE-WORLDTREE (KR) + index link | Unified World-Tree ¡¤ Observer ¡¤ Space-Perception spec (Codex-aligned) | ELYSIAS_PROTOCOL/PROTO_CORE_WORLDTREE.md
