@@ -85,3 +85,4 @@
 2025-11-13 23:44 | [PROTO/HANDOVER] | Embed highest criterion: laws-as-fields (emergence) into Handover, Codex, Operations, Lenses doc | Review gate added
 2025-11-14 13:19 | [CELLWORLD] | Merge feature/cellworld-ecology-laws into main; hydration-seeking field + survival alignment | Laws-as-fields; emergent movement (no hard commands) | Project_Sophia/core/world.py
 2025-11-14 13:19 | [OPS/CLEAN] | Archive+delete remote branches not merged to main | Preserve history as archive/* tags; declutter; Codex-first | archive/*
+2025-11-14 13:26 | [PROTO/BACKLOG] | Curate Codex-first idea backlog (10 items) | Fieldization plan + integration lanes per item | ELYSIAS_PROTOCOL/99_IDEA_BACKLOG.md
