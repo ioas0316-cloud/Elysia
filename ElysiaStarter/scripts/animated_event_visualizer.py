@@ -403,7 +403,7 @@ def main():
             if e.type == pygame.KEYDOWN and e.key == pygame.K_SPACE:
                 paused = not paused
                 ui_notify('?쇱떆?뺤?' if paused else '?ш컻')
-            if e.type == pygame.KEYDOWN and e.key == pygame.K_F1: layer_level = 0; ui_notify("관찰 레벨: 0 (최소)")
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_F1: layer_level = 0; selected_id = None; trail = []; ui_notify("관찰 레벨: 0 (최소)")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_F2: layer_level = 1; ui_notify("관찰 레벨: 1 (상태창)")
             if e.type == pygame.KEYDOWN and e.key == pygame.K_F3: layer_level = 2; ui_notify("관찰 레벨: 2 (상호작용)")
             # Tempo control: adjust steps per second (sim_rate)
@@ -472,7 +472,7 @@ def main():
                     ui_notify('遺덈윭??(F9)')
                 except Exception as ex:
                     ui_notify(f'遺덈윭?ㅺ린 ?ㅽ뙣: {ex}')
-            if layer_level >= 2 and e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
+            if layer_level >= 1 and e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 # select nearest alive cell
                 mx,my = e.pos
                 def dist2_screen(i):
@@ -759,7 +759,7 @@ def main():
             screen.blit(temp_surf, (sx - size - 2 - 10, sy - size - 2 - 8))
             # Speech bubble (simple heuristics): show occasionally or on hover
             try:
-                show_bubble = (hover_idx == i)
+                show_bubble = (hover_idx == i) and ((world.labels.size>i and world.labels[i]=='human') or (world.culture.size>i and world.culture[i] in ['wuxia','knight']))
                 if show_bubble:
                     msg = None
                     if world.hydration.size>i and world.hydration[i] < 30:
@@ -915,7 +915,7 @@ def main():
             screen.blit(panel, (10, 10))
 
         # Selection detail panel (bottom-right)
-        if selected_id is not None:
+        if layer_level >= 1 and selected_id is not None:
             idx = world.id_to_idx.get(selected_id)
             if idx is not None and world.is_alive_mask[idx]:
                 # trail
@@ -1010,6 +1010,9 @@ if __name__ == '__main__':
         _dbg('FATAL:\n' + traceback.format_exc())
         print('[오류] 시뮬레이터가 예외로 종료되었습니다. logs/starter_debug.log를 확인하세요.')
         time.sleep(3)
+
+
+
 
 
 
