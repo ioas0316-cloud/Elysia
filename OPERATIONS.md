@@ -11,6 +11,7 @@ Single entry for how agents work here and how changes are recorded. Read this be
 - Small, scoped changes; prefer message-bus/bot patterns over ad?멻oc glue.
 - Respect quiet/consent and value alignment for actions that change state.
 - After changes, update the causal log (below).
+- When a goal is reached, clear the old goal statement and write the **next goal** as a fresh one-line purpose, so the active intention stays singular.
 
 ### Fractal Law (Highest Criterion)
 - Laws as fields, not commands. Express big laws as soft fields/networks that agents sense; avoid prescriptive if‑then behaviors that force outcomes.
