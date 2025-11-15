@@ -189,18 +189,18 @@ class GodotBridge:
         if self.world.cell_ids:
             alive_mask = self.world.is_alive_mask if getattr(self.world, 'is_alive_mask', None) is not None else np.ones((len(self.world.cell_ids),), dtype=bool)
             count = min(len(self.world.cell_ids), self.cfg.max_cells)
-            for i in range(count):
-                if i >= self.world.positions.shape[0]:
-                    break
+              for i in range(count):
+                  if i >= self.world.positions.shape[0]:
+                      break
                 cid = self.world.cell_ids[i]
                 pos = self.world.positions[i]
                 alive = bool(alive_mask[i])
                 label = ''
                 try:
                     label = self.world.element_types[i]
-                except Exception:
-                    pass
-                cells.append({'id': cid, 'x': float(pos[0]), 'y': float(pos[1]), 'type': label, 'alive': alive})
+                  except Exception:
+                      pass
+                  cells.append({'id': cid, 'x': float(pos[0]), 'y': float(pos[1]), 'type': label, 'alive': alive})
 
         overlays = {
             'terrain': self._encode_terrain_rgb(),
@@ -214,14 +214,35 @@ class GodotBridge:
             'will': self._encode_overlay(getattr(self.world, 'will_field', None)),
             'coherence': self._encode_overlay(self._coherence_map()),
         }
+        civ = self._build_civ_overlay(w)
         return {
             'type': 'frame',
             'tick': int(self.world.time_step),
             'cells': cells,
             'overlays': overlays,
+            'civ': civ,
             'world': {'width': w},
             'time': {'phase': (int(self.world.time_step) % int(getattr(self.world, 'day_length', 1) or 1)) / float(max(1, int(getattr(self.world, 'day_length', 1) or 1)))},
         }
+
+    def _build_civ_overlay(self, w: int) -> Dict[str, Any]:
+        """Build a minimal high-level civ/caravan snapshot.
+        For now this is a virtual/dummy layer that can later be wired to real CivNode/Party data.
+        """
+        mid_y = w * 0.5
+        left_x = w * 0.25
+        right_x = w * 0.75
+        nodes = [
+            {'id': 'village_h_1', 'label': 'human_village', 'x': left_x, 'y': mid_y, 'pop': 120, 'wealth': 0.4},
+            {'id': 'fae_village_1', 'label': 'fae_village', 'x': right_x, 'y': mid_y, 'pop': 80, 'wealth': 0.3},
+        ]
+        # simple virtual caravans moving along the line, driven by time_step
+        t_base = (self.world.time_step % 240) / 240.0
+        caravans = [
+            {'id': 'caravan_1', 'origin_id': 'village_h_1', 'target_id': 'fae_village_1', 't': t_base, 'kind': 'trade'},
+            {'id': 'caravan_2', 'origin_id': 'fae_village_1', 'target_id': 'village_h_1', 't': (t_base + 0.35) % 1.0, 'kind': 'trade'},
+        ]
+        return {'nodes': nodes, 'caravans': caravans}
 
     def _coherence_map(self) -> Optional[np.ndarray]:
         """Compute a lightweight coherence map from value_mass and will field gradients.

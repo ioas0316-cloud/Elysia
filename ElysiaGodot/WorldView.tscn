@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://osi6tvvcippa"]
 
-[ext_resource type="Script" path="res://WorldView.gd" id=1]
+[ext_resource type="Script" uid="uid://b31qydr6bpwcp" path="res://WorldView.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ckdqn7kreswl5" path="res://assets/icons/Gemini_Generated_Image_3f48fs3f48fs3f48.png" id="2_pv1q6"]
+[ext_resource type="Texture2D" uid="uid://du3pkk4t0dwbc" path="res://assets/icons/Gemini_Generated_Image_b6djx3b6djx3b6dj.png" id="3_tyfx7"]
+[ext_resource type="Texture2D" uid="uid://be3ji4uotu82c" path="res://assets/icons/Gemini_Generated_Image_bq9guebq9guebq9g.png" id="4_tyfx7"]
 
 [node name="WorldView" type="Node2D"]
 script = ExtResource("1")
@@ -10,9 +13,67 @@ offset_left = 10.0
 offset_top = 10.0
 offset_right = 410.0
 offset_bottom = 34.0
-text = "연결 대기… (브리지를 먼저 실행하세요)"
-horizontal_alignment = 0
-vertical_alignment = 0
 theme_override_colors/font_color = Color(0.92, 0.93, 0.96, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
 theme_override_constants/outline_size = 2
+text = "연결 대기… (브리지를 먼저 실행하세요)"
+
+[node name="마을필드" type="Sprite2D" parent="."]
+position = Vector2(1040, 108)
+texture = ExtResource("2_pv1q6")
+region_enabled = true
+region_rect = Rect2(60, 300.5, 220, 211.5)
+
+[node name="토끼" type="Sprite2D" parent="."]
+position = Vector2(587, 59)
+texture = ExtResource("2_pv1q6")
+region_enabled = true
+region_rect = Rect2(688, 744, 96, 88)
+
+[node name="늑대" type="Sprite2D" parent="."]
+position = Vector2(463, 60)
+texture = ExtResource("3_tyfx7")
+region_enabled = true
+region_rect = Rect2(152, 536, 112, 96)
+
+[node name="숲필드" type="Sprite2D" parent="."]
+position = Vector2(500, 233)
+texture = ExtResource("4_tyfx7")
+region_enabled = true
+region_rect = Rect2(752, 520, 216, 208)
+
+[node name="남자" type="Sprite2D" parent="."]
+position = Vector2(952, 347)
+texture = ExtResource("4_tyfx7")
+region_enabled = true
+region_rect = Rect2(840, 48, 104, 184)
+
+[node name="여자" type="Sprite2D" parent="."]
+position = Vector2(1060, 358)
+texture = ExtResource("2_pv1q6")
+region_enabled = true
+region_rect = Rect2(600, 64, 80, 168)
+
+[node name="캐러밴" type="Sprite2D" parent="."]
+position = Vector2(625, 413)
+texture = ExtResource("3_tyfx7")
+region_enabled = true
+region_rect = Rect2(72, 664, 440, 110.595)
+
+[node name="강줄기필드" type="Sprite2D" parent="."]
+position = Vector2(727, 227)
+texture = ExtResource("4_tyfx7")
+region_enabled = true
+region_rect = Rect2(280, 720, 232, 232)
+
+[node name="사슴" type="Sprite2D" parent="."]
+position = Vector2(858, 54)
+texture = ExtResource("4_tyfx7")
+region_enabled = true
+region_rect = Rect2(800, 744, 120, 96)
+
+[node name="소" type="Sprite2D" parent="."]
+position = Vector2(717, 49)
+texture = ExtResource("4_tyfx7")
+region_enabled = true
+region_rect = Rect2(816, 856, 144, 104)
