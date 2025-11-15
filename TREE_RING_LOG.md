@@ -23,3 +23,7 @@ Current entries
 2025-11-13 17:07 | ring:R5 | layer:CORE | type:milestone | from:R2 | what:Golden Growth Principle added (top map + rules) | protocols:39 | files:ELYSIA/CORE/protocols/39_*
 
 2025-11-13 17:09 | ring:R6 | layer:CORE | type:milestone | from:R5 | what:Added visual maps (Top/Seed/Governance) for alignment | protocols:39,35 | files:ELYSIA/CORE/CODEX.md; ELYSIA/GROWTH/PROTO_35_*.md; OPERATIONS.md
+
+2025-11-15 16:30 | ring:R7 | layer:CORE | type:merge | from:R6 | what:Merged feature/law-of-intention (existential-change + intention field + world observer hooks) into main | protocols:33,34,09 | files:Project_Sophia/core/world.py; Project_Elysia/guardian.py; Project_Sophia/core/elysia_signal_engine.py
+
+2025-11-15 16:45 | ring:R8 | layer:OPS | type:milestone | from:R7 | what:Pruned merged/obsolete GitHub branches; archived Providence Era Act1/codexx4/elysia-consciousness-stimulus branches as ideas only | files:BUILDER_LOG.md; .git/refs/remotes/origin/*
