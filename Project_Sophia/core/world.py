@@ -1,7 +1,7 @@
 ﻿
 import random
 import logging
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, NamedTuple
 
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
@@ -13,6 +13,12 @@ from .spells import SPELL_BOOK, cast_spell
 from .world_event_logger import WorldEventLogger
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
+
+
+class AwakeningEvent(NamedTuple):
+    cell_id: str
+    e_value: float
+    r_value: int
 
 
 class World:
@@ -113,6 +119,7 @@ class World:
         self.labels = np.array([], dtype='<U20')
         self.insight = np.array([], dtype=np.float32)
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
+        self.is_awakened = np.array([], dtype=bool) # For the Law of Existential Change
 
         # --- Civilization Attributes ---
         self.continent = np.array([], dtype='<U10') # e.g., 'East', 'West'
@@ -231,6 +238,14 @@ class World:
             grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
         )
 
+        # Vector field for the Law of Intention
+        self.intentional_field = np.zeros((self.width, self.width, 2), dtype=np.float32)
+        self.fields.register_vector(
+            name="intention",
+            scale="macro",
+            array_getter=lambda: self.intentional_field
+        )
+
 
     def _resize_matrices(self, new_size: int):
         current_size = len(self.cell_ids)
@@ -272,6 +287,7 @@ class World:
         self.labels = np.pad(self.labels, (0, new_size - current_size), 'constant', constant_values='')
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
+        self.is_awakened = np.pad(self.is_awakened, (0, new_size - current_size), 'constant', constant_values=False)
 
 
         # --- Civilization Attributes ---
@@ -404,6 +420,7 @@ class World:
         self.age[idx] = 0
         self.is_injured[idx] = False
         self.is_meditating[idx] = False
+        self.is_awakened[idx] = False
         # max_age???섏쨷???쇰꺼/醫낆쓣 ?뚯븙????'???⑥쐞'濡?寃곗젙?섍퀬, ?대? ?€?μ? '?? ?⑥쐞濡?蹂€?섑븳??
         self.insight[idx] = 0.0
         self.emotions[idx] = 'neutral'
@@ -582,14 +599,14 @@ class World:
                 cell.wisdom = self.wisdom[i]
 
 
-    def run_simulation_step(self) -> List[Cell]:
+    def run_simulation_step(self) -> Tuple[List[Cell], List[AwakeningEvent]]:
         if self.chronicle:
             event = self.chronicle.record_event('simulation_step_run', {}, [], self.branch_id, self.parent_event_id)
             self.parent_event_id = event['id']
         self.time_step += 1
 
         if len(self.cell_ids) == 0:
-            return []
+            return [], []
 
         # --- Experience snapshot (HP delta from previous step) ---
         try:
@@ -621,6 +638,7 @@ class World:
         self._update_norms_field()
         self._update_prestige_field()
         self._update_value_will_fields()
+        self._update_intentional_field()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -633,13 +651,16 @@ class World:
         # Apply final physics and cleanup
         self._apply_physics_and_cleanup(newly_born_cells)
 
+        # --- Law of Existential Change (e > r) ---
+        awakening_events = self._apply_law_of_awakening()
+
         # Prepare next-step snapshot
         try:
             self._prev_hp = self.hp.copy()
         except Exception:
             pass
 
-        return newly_born_cells
+        return newly_born_cells, awakening_events
 
     def _update_weather(self):
         """Updates the global weather conditions and handles weather events like lightning."""
@@ -913,6 +934,28 @@ class World:
         except Exception:
             pass
 
+    def _update_intentional_field(self):
+        """
+        Calculates the gradient of the value_mass_field to create the intentional_field.
+        This field directs entities towards areas of higher meaning.
+        """
+        try:
+            # The gradient returns derivatives along each axis (dy, dx)
+            grad_y, grad_x = np.gradient(self.value_mass_field)
+
+            # Combine into a (width, width, 2) vector field
+            self.intentional_field[..., 0] = grad_x
+            self.intentional_field[..., 1] = grad_y
+
+            # Normalize the field to prevent extreme forces, but preserve direction
+            magnitudes = np.sqrt(grad_x**2 + grad_y**2) + 1e-9 # Add epsilon to avoid division by zero
+            max_mag = np.max(magnitudes)
+            if max_mag > 0:
+                self.intentional_field /= max_mag
+
+        except Exception as e:
+            self.logger.error(f"Error updating intentional field: {e}", exc_info=True)
+
     def _update_coherence_field(self) -> None:
         """Lightweight coherence map from value/will gradient alignment (0..1).
 
@@ -1042,6 +1085,13 @@ class World:
                 em_bias = np.zeros(3, dtype=np.float32)
                 vm_bias = np.zeros(3, dtype=np.float32)
                 will_bias = np.zeros(3, dtype=np.float32)
+                intention_force = np.zeros(3, dtype=np.float32)
+
+                # --- The Law of Intention: Follow the gradient of meaning ---
+                wisdom_factor = self.wisdom[i] / 50.0 # Normalize wisdom, 50 is a high value
+                if wisdom_factor > 0:
+                    ix, iy = self.fields.vector("intention", px, py)
+                    intention_force = np.array([ix, iy, 0.0], dtype=np.float32) * wisdom_factor * 0.2 # 0.2 is a weighting factor
 
                 # --- Magnetoreception for Water ---
                 if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
@@ -1078,7 +1128,13 @@ class World:
                         kin_center = self.positions[kin].mean(axis=0)
                         kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
 
-                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
+                other_forces = avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
+                movement_vectors[local_idx] += other_forces + intention_force
+
+                # --- Observe and Record Meaningful Choice ---
+                if np.linalg.norm(intention_force) > np.linalg.norm(other_forces):
+                    self.logger.info(f"CHOICE: Cell '{self.cell_ids[i]}' made a meaningful choice, driven by intention.")
+                    self.event_logger.log('INTENTION_DRIVEN_ACTION', self.time_step, cell_id=self.cell_ids[i])
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
@@ -1294,6 +1350,16 @@ class World:
                     if healed > 0:
                         self.logger.info(f"SPELL: '{self.cell_ids[actor_idx]}' casts Heal (+{healed:.1f}).")
                         self.event_logger.log('SPELL', self.time_step, caster_id=self.cell_ids[actor_idx], spell='heal', heal=healed)
+
+                        # --- First Ignition: The Birth of Meaning (E) ---
+                        # A healing act creates positive meaning energy in the world.
+                        delta_e_local = healed * 0.1 # The amount of meaning is proportional to the heal amount
+                        actor_pos = self.positions[actor_idx]
+                        x, y = int(actor_pos[0]) % self.width, int(actor_pos[1]) % self.width
+                        self._imprint_gaussian(self.value_mass_field, x, y, sigma=self._vm_sigma, amplitude=delta_e_local)
+                        self.logger.info(f"SPIRIT: A healing act created delta_E_local={delta_e_local:.2f} at ({x}, {y}).")
+                        self.event_logger.log('MEANING_CREATED', self.time_step, type='healing', magnitude=delta_e_local, x=x, y=y)
+
                     return
 
             # Evasion chance based on target agility
@@ -1452,6 +1518,44 @@ class World:
 
         # Final state synchronization
         self._sync_states_to_objects()
+
+    def _apply_law_of_awakening(self) -> List[AwakeningEvent]:
+        """
+        Applies the Law of Existential Change (e > r) and returns a list of awakening events.
+        This is a core physical law of the world.
+        """
+        events = []
+        alive_indices = np.where(self.is_alive_mask)[0]
+        if alive_indices.size == 0:
+            return events
+
+        e = self.insight[alive_indices] * 100
+        r = self.age[alive_indices]
+
+        awakening_mask = (e > r) & ~self.is_awakened[alive_indices]
+        awakened_indices = alive_indices[awakening_mask]
+
+        if awakened_indices.size > 0:
+            for idx in awakened_indices:
+                e_val = e[np.where(alive_indices==idx)[0][0]]
+                r_val = r[np.where(alive_indices==idx)[0][0]]
+
+                event = AwakeningEvent(
+                    cell_id=self.cell_ids[idx],
+                    e_value=e_val,
+                    r_value=r_val
+                )
+                events.append(event)
+                self.logger.info(f"LAW OF CHANGE: Cell '{event.cell_id}' has met conditions for awakening! (e={event.e_value:.2f} > r={event.r_value})")
+                self.event_logger.log('AWAKENING_EVENT', self.time_step, cell_id=event.cell_id)
+
+            # Enact physical consequences
+            self.is_awakened[awakened_indices] = True # Mark as awakened to prevent immediate re-awakening
+            self.age[awakened_indices] = 0
+            self.insight[awakened_indices] = 0
+
+        return events
+
 
     def get_population_summary(self) -> Dict[str, int]:
         """Returns a dictionary with the count of living cells for each label."""
