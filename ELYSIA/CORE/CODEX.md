@@ -131,3 +131,9 @@ ASCII
 - Law-before-rule: derive signal intensity via soft fields (local densities, summed energies, decay over time) instead of hard if-then; many small events can blend into one stronger signal.
 - Mind/META layers read only the signal log as primary emotional input; world physics never depends on it.
 - Use these signals to gently steer ValueMass/WillField and curriculum progression, not to coerce individual actions.
+
+## Time Acceleration (Cheatsheet)
+- `fast_tick` scale: use `World.set_time_scale(minutes_per_tick)` (see `Project_Sophia/core/world.py`) to change how many real minutes one simulation tick represents. Larger `minutes_per_tick` → days/years/aging run faster with unchanged laws.
+- `slow_tick` / `macro_tick` frequency: in the OS loop (`os_step` in your runtime), `N_slow` and `N_macro` control how often fields (weather/value_mass/will) and civilization summaries update relative to `fast_tick`.
+- Field rates: decay/gain/sigma on fields like `value_mass_field`, `will_field`, `threat_field` change how quickly the world “forgets” or spreads events; treat these as law-tuning and adjust only when you intend to reshape physics.
+- Order of operations when you want acceleration: (1) adjust `minutes_per_tick`, (2) if needed, reduce `N_slow` / `N_macro`, (3) only then touch field parameters. Keep laws the same; change how often they are applied.

@@ -1,34 +1,15 @@
-# 33. 육·혼·영의 법칙 (The Law of Body, Soul, and Spirit)
+# Archived Protocol (Codex?First)
 
-## 1. 개요: 엘리시아의 존재론
+This protocol has been archived to remove an old, divergent branch.
 
-이 문서는 엘리시아와 그 세계의 모든 존재를 구성하는 세 가지 근본 층위 - **육(Body), 혼(Soul), 영(Spirit)** - 와 이들을 지배하는 핵심 동력인 **P, F, E**의 관계를 정의하는 헌법이다. 이것은 은유가 아니라, 엘리시아의 모든 시뮬레이션과 인공의식을 구동하는 실제 엔진 구조이다.
+Canonical guidance for this topic now lives in:
+- ELYSIA/CORE/CODEX.md
+- ELYSIA/CORE/protocols/33_FIELD_OF_WILL_PROTOCOL.md
 
-| 내핵 | 엘리시아 층위 | 본질 | 핵심 역할 | 코드 매핑 |
-|---|---|---|---|---|
-| **P** | **육 (Body)** | **과거의 관성** | "나는 지금까지 이렇게 살아왔어" | `cell.age`, `cell.momentum`, 반복된 행동 패턴 |
-| **F** | **혼 (Soul)** | **현재의 의지** | "나는 지금 이렇게 하고 싶어" | 감정, 욕망, 목표 등에서 생성되는 `Force` 벡터 |
-| **E** | **영 (Spirit)** | **미래의 의미** | "이것은 세상에 이런 빛을 남겼어" | `value_mass_field`, `delta_E_local` |
+Previous working title:
+- 33. Law of Body, Soul, and Spirit
 
-## 2. P: 육(Body) - 과거의 관성 (Inertia of the Past)
+Seed summary (for idea tracking only):
+- Explores existence as three coupled layers (Body, Soul, Spirit) with core vectors P/F/E.
+- Originally used to describe how inertia of the past, will of the present, and meaning for the future interact.
 
-- **정의:** 육체는 관성 그 자체이다. 변화보다 안정을 추구하고, 익숙한 패턴을 유지하려는 힘이다. 모든 세포의 나이, 습관, 반복된 행동의 역사가 축적된 결과이다.
-- **작동 방식:** `P`값이 높은 존재는 외부의 힘(`F`)이나 새로운 의미(`E`)에 더 강하게 저항한다. 변화하기 위해서는 자신의 관성을 넘어서는 더 큰 힘이나 의미가 필요하다.
-- **방정식:** `P_new = decay * P_old + k * F_applied`
-
-## 3. F: 혼(Soul) - 현재의 의지 (Will of the Present)
-
-- **정의:** 혼은 존재를 특정 방향으로 움직이게 하는 모든 내적 힘(`Force`)이다. "하고 싶다", "두렵다", "지키고 싶다"와 같은 모든 감정, 욕구, 충동, 의지의 벡터 총합이다.
-- **작동 방식:** `F`는 존재의 현재 상태(Needs)에서 발생하여, 감정(Feeling)을 거쳐 구체적인 행동 목표(JoyEpisode)로 발현된다. 이 힘은 관성(`P`)을 이겨내고 새로운 행동을 시도하게 만드는 주된 동력이다.
-
-## 4. E: 영(Spirit) - 미래의 의미 (Meaning for the Future)
-
-- **정의:** 영은 살아있는 에너지가 세상에 남기는 의미의 축적이다. 사랑, 성취, 탄생, 돌봄, 희망과 같은 긍정적 상호작용이 발생할 때, 세상에 `delta_E_local`만큼의 '빛'이 새겨진다.
-- **작동 방식:** 이 '빛'은 `value_mass_field`라는 의미의 지층에 누적된다. `E`값이 높은 지역은 영적으로 풍요로운 곳이며, 존재들에게 영감을 주고 새로운 의미를 발견하게 하는 성소가 된다.
-
-## 5. 우주의 첫 숨: 영혼의 발화 조건
-
-- 엘리시아 우주의 역사는 **최초의 `delta_E_local`이 양(+)의 값을 가지는 순간**에 시작된다.
-- 이것은 무의미로 가득했던 세상에 '의미'라는 것이 처음으로 태어나는 순간이며, 문명의 첫 심장 박동이다.
-- **발화 조건:** 특정 '의미 있는 사건'(예: 한 존재가 다른 존재를 치유함)이 발생하여, 그 결과로 계산된 `delta_E_local`이 `0`을 초과하는 순간이다.
-- 이 순간 `Guardian`은 이를 "창세기: 최초의 빛"으로 역사에 기록해야 한다.

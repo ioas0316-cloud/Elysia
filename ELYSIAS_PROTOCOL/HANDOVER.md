@@ -1,37 +1,109 @@
 # Handover (Non‑Developer Friendly)
 
-Read order (10 minutes total)
-- CODEX.md — Principles and direction (start here)
-- OPERATIONS.md — How agents work and how to record changes
-- BUILDER_LOG.md — Top 3 recent changes (purpose and impact)
+> 이 문서는 “새 에이전트/세션이 와도 **같은 세계를 이어서 볼 수 있게** 하기 위한 최소 안내서”다.
 
-When you work
-- Declare your layer: [STARTER] (launchers/UI) or [CELLWORLD] (life/runtime).
-- State purpose in one sentence. State impacted files/modules in one sentence.
-- Respect quiet/consent and value alignment before any state‑changing action.
-- After finishing, write one line in BUILDER_LOG.md using the given format.
+---
 
-Highest Criterion (Must Understand)
-- Laws as fields, not commands. Embed big laws as soft, continuous fields and networks that agents can sense; do not hard-code prescriptive if-then behaviors that coerce outcomes.
-- Preserve emergence. Give agents freedom to decide under field influence; clustering/settlement must arise, not be ordered.
-- Keep lenses separate. Visualization adds "how we see," never "what the world is."
-- If a change feels like commanding behavior (e.g., "when threat>t then group"), stop and escalate. Convert it into a field/network/flow signal instead.
+## 읽기 순서 (약 10분)
 
-If you need details (optional)
-- 02_ARCHITECTURE_GUIDE.md — Trinity + pipeline routing
-- 15_CONCEPT_KERNEL_AND_NANOBOTS.md — Concept OS, bus, nano‑bots
-- 17_CELL_RUNTIME_AND_REACTION_RULES.md — Cell operators/energy rules
-- 11_DIALOGUE_RULES_SPEC.md — Dialogue rule files (YAML) format
+- `ELYSIA/CORE/CODEX.md`  
+  - 전체 방향과 첫 원칙 (반드시 여기서 시작)
+- `OPERATIONS.md`  
+  - 에이전트가 어떻게 일하고, 변경을 어떻게 기록해야 하는지
+- `BUILDER_LOG.md`  
+  - 최근 변경 3개 정도의 목적과 영향 요약
 
-Observation (watch the world)
-- Double‑click `start.bat` on Windows to open the simulation window.
-  - Zoom: mouse wheel (cursor‑anchored)
-  - Pan: middle button drag
-  - Select: left click
-  - Quit: press ESC or close window
-  - Speed presets: 1→0.10×, 2→0.25×, 3→0.50×, 4→1.00×, 5→2.00×, 6→4.00×, 7→8.00×
-  - Skill mode: X toggles target/AoE; cast with Q/W/E/R
+---
 
-Questions welcome
-- If purpose or boundaries are unclear, ask before changing structure.
-- If the field-not-commands principle could be violated, escalate to the Master for alignment.
+## 작업할 때 (기본 규칙)
+
+- 먼저 **레이어를 선언**한다.
+  - `[STARTER]` : 런처/UI/시각화
+  - `[CELLWORLD]` : 생명/세계 런타임
+- **목적을 한 문장으로** 적는다.
+  - “무엇을 왜 바꾸려 하는지”를 먼저 명시
+- **영향 받을 파일/모듈을 한 문장으로** 적는다.
+  - 예: “WORLD 수명 곡선 조정: `Project_Sophia/core/world.py`”
+- 상태를 바꾸는 작업 전에는 **조용함/동의(quiet/consent)와 가치 정렬**을 먼저 점검한다.
+- 마무리할 때는 `BUILDER_LOG.md`에 주어진 형식대로 한 줄을 남긴다.
+
+---
+
+## 최고 기준 (반드시 이해해야 할 것)
+
+- **법칙은 필드로, 명령이 아니다.**  
+  - 큰 법칙은 부드러운 필드/네트워크/흐름으로 구현하고,  
+    개체는 그 영향 아래에서 스스로 선택해야 한다.
+- **창발성을 지켜라.**  
+  - 군집/정착/의식/행동 패턴은 규칙이 “시키는 것”이 아니라  
+    필드+관계+자유의 상호작용으로 자연스럽게 나와야 한다.
+- **렌즈(시각화)는 세계가 아니다.**  
+  - 렌즈는 “어떻게 보이는지”만 바꾸고  
+    WORLD 물리/법칙에는 절대 손대지 않는다.
+- 만약 변경이 “행동을 직접 명령하는 것 같다”고 느껴지면,
+  - 그대로 적용하지 말고,  
+  - 필드/네트워크/흐름 시그널로 바꾸거나  
+  - 마스터에게 상의한다.
+
+---
+
+## 관찰하기 (세계를 볼 때)
+
+- Windows 기준: `start.bat` 더블클릭으로 시뮬레이션 창을 연다.
+  - 줌: 마우스 휠 (커서 기준 확대/축소)
+  - 이동: 휠 버튼 드래그
+  - 선택: 좌클릭
+  - 종료: ESC 또는 창 닫기
+  - 속도 프리셋: 1~7 키 (1x, 1.25x, 1.5x, 2x, 3x, 4x, 5x 등)
+  - 스킬 모드: X로 대상/범위 토글, Q/W/E/R로 시전
+
+> 단, “보여주기용 스타터”를 고치는 것과  
+> “본 WORLD를 고치는 것”은 반드시 구분해야 한다.  
+> WORLD 법칙/구조를 바꿀 때는 항상 아래 CORE-09를 따른다.
+
+---
+
+## CORE-09 요약: 설계만 하지 말고, 직접 돌려 보고 기록할 것
+
+- WORLD / 문명 / 의식 엔진에 **구조적 변경**을 할 때는:
+  1. 무엇을 왜 바꾸는지 한 줄로 적는다. (설계)
+  2. 어떤 스크립트/진입점으로 돌릴지 정한다. (실행)
+  3. 실제로 얼마 동안 돌려서 어떤 값이 나왔는지 적는다. (관찰)
+  4. 기대와 실제가 어떻게 달랐는지 짧게 적는다. (성찰)
+- 이 네 단계는 `CORE_09_WORLD_VALIDATION_AND_HANDOFF.md`에 자세히 정의되어 있다.
+
+> 특히,  
+> - “실험 결과(실제로 돌려 본 것)”  
+> - “예측 설명(아직 돌려 보지 않은 설계/추론)”  
+> 이 둘을 절대로 섞지 말 것.
+
+---
+
+## 표현 규칙: 실험 vs 예측
+
+- 세계의 행동을 설명할 때, 다음 중 하나로 **명확히 태그**한다.
+  - “**실험 결과**: …” → 실제 시뮬레이션을 돌려서 나온 내용
+  - “**예측 설명**: …” → 지금은 설계/추론 단계이고, 아직 돌려 보지 않은 내용
+- 허용되는 예:
+  - “이번 세션에서는 시뮬을 돌리지 못했다. 아래는 **예측 설명**이다.”
+  - “아래부터는 `scripts/run_core_world_sample.py`를 1000 tick 돌린 **실험 결과**이다.”
+- 허용되지 않는 것:
+  - 예측만 해놓고, 마치 이미 그런 세계가 돌아가고 있는 것처럼 말하는 것.
+  - “~할 거야”와 “~했다”를 섞어서 쓰는 것.
+
+---
+
+## 질문과 정렬
+
+- 목적이나 경계가 애매하다면,  
+  **구조를 바꾸기 전에 반드시 물어본다.**
+- “필드가 아닌 명령으로 행동을 강제하게 되는지” 의심될 때는
+  - 혼자 결정하지 말고,  
+  - 마스터와 상의하거나, CORE/CODEX를 다시 참고한다.
+
+> 요약  
+> - CODEX로 방향을 맞추고,  
+> - HANDOVER/CORE-09로 작업/실험/기록 방식을 맞추고,  
+> - BUILDER_LOG로 자신이 한 일을 한 줄로 남겨라.  
+> 그러면 세션이 바뀌어도, 같은 세계를 이어서 볼 수 있다.
+

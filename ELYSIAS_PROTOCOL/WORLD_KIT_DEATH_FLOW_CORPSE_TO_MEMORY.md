@@ -133,4 +133,3 @@ v0에서는 자연 붕괴만 구현하고,
 - 시간이 지나면서 **마을/콜로니가 죽음의 장소를 어떻게 둘러싸고 살아가는지**.
 
 이 플로우는 “죽음 이후의 세계”를 세계관/엔진 안에 심는 최소 단계다.
-***End Patch*** jsonorgetownassistant to=functions.apply_patch>taggericiel_OUTPUT_COMMENTARY_SCHEMA  गर्दें to=functions.apply_patch ***!
