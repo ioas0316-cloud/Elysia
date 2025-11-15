@@ -1,0 +1,7 @@
+{"timestamp": 1, "event_type": "MOVE", "data": {"cell_id": "c1"}}
+{"timestamp": 2, "event_type": "EAT", "data": {"cell_id": "c1", "actor_id": "a1"}}
+{"timestamp": 2, "event_type": "EAT", "data": {"cell_id": "c2", "actor_id": "a2"}}
+{"timestamp": 3, "event_type": "DEATH", "data": {"cell_id": "c3", "actor_id": "a3"}}
+{"timestamp": 4, "event_type": "SPELL", "data": {"caster_id": "c4", "target_id": "c5", "spell": "minor_heal"}}
+{"timestamp": 5, "event_type": "BIRTH", "data": {"cell_id": "c6"}}
+{"timestamp": 6, "event_type": "DEATH_BY_OLD_AGE", "data": {"cell_id": "c7"}}
