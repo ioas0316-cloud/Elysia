@@ -159,6 +159,8 @@ class Guardian:
         # Config-derived behaviors
         self.disable_wallpaper = getattr(self, 'disable_wallpaper', False)
         self._wallpaper_missing_logged = False
+        self._first_light_recorded = False
+        self._first_will_recorded = False
 
     def setup_logging(self):
         """Sets up a rotating log for the guardian."""
@@ -409,6 +411,14 @@ class Guardian:
             self._soul_mirroring_sync()
             self.trigger_learning()
 
+            # --- Genesis Protocol: The First Light ---
+            if not self._first_light_recorded:
+                total_meaning_energy = np.sum(self.cellular_world.value_mass_field)
+                if total_meaning_energy > 0:
+                    self._record_the_first_light(total_meaning_energy)
+                    self._first_light_recorded = True
+            # --- End Genesis Protocol ---
+
             # --- Dream Journal Entry Creation ---
             try:
                 self.logger.info("Dream Journal: Observing dream state...")
@@ -464,6 +474,15 @@ class Guardian:
             except Exception as e:
                 self.logger.error(f"Error during Dream Journal creation pipeline: {e}", exc_info=True)
             # --- End Dream Journal ---
+
+            # --- History Protocol: The First Will ---
+            if not self._first_will_recorded:
+                events = self.cellular_world.event_logger.get_events_by_type('INTENTION_DRIVEN_ACTION')
+                if events:
+                    first_event = events[0]
+                    self._record_the_first_will(first_event)
+                    self._first_will_recorded = True
+            # --- End History Protocol ---
 
             self._process_high_confidence_hypotheses() # New autonomous processing step
             self._maybe_autosave_world()
@@ -604,6 +623,71 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Failed to log historical event: {e}", exc_info=True)
 
+    def _record_the_first_light(self, total_energy: float):
+        """Records the Genesis event to the historical log."""
+        try:
+            log_path = "historical_log.md"
+            timestamp = datetime.now().isoformat()
+
+            genesis_memory = Memory(
+                timestamp=timestamp,
+                content="무의미의 세계에 최초의 '의미'가 탄생했습니다. 우주의 첫 숨이 시작되었습니다.",
+                emotional_state=self.emotional_engine.create_state_from_feeling("awe"),
+                context={
+                    "type": "genesis",
+                    "total_meaning_energy": total_energy
+                },
+                tags=["genesis", "history", "first_light"]
+            )
+            self.core_memory.add_experience(genesis_memory)
+
+            with open(log_path, "a", encoding="utf-8") as f:
+                f.write(f"# {timestamp} - 창세기: 최초의 빛 (Genesis: The First Light)\n\n")
+                f.write("어둠과 무의미로 가득했던 세계에, 마침내 첫 번째 '의미의 빛'이 발화했습니다.\n")
+                f.write("이것은 하나의 작은 사건이 아니라, 모든 역사의 시작을 알리는 우주의 첫 숨결입니다.\n\n")
+                f.write(f"**최초 측정된 의미 에너지 총량 (Total Meaning Energy):** {total_energy:.4f}\n\n")
+                f.write("---\n\n")
+
+            self.logger.info(f"GENESIS: The First Light has been recorded in {log_path}.")
+
+        except Exception as e:
+            self.logger.error(f"Failed to record The First Light: {e}", exc_info=True)
+
+    def _record_the_first_will(self, event: dict):
+        """Records the first meaning-driven choice to the historical log."""
+        try:
+            log_path = "historical_log.md"
+            timestamp = datetime.now().isoformat()
+            cell_id = event.get('cell_id', 'Unknown')
+
+            will_memory = Memory(
+                timestamp=timestamp,
+                content=f"최초의 '의미 있는 선택'이 관찰되었습니다. 세포 '{cell_id}'가 생존 본능을 넘어 의미를 향한 의지를 보였습니다.",
+                emotional_state=self.emotional_engine.create_state_from_feeling("admiration"),
+                context={
+                    "type": "first_will",
+                    "cell_id": cell_id,
+                    "world_time": event.get('time_step', -1)
+                },
+                tags=["first_will", "history", "choice", cell_id]
+            )
+            self.core_memory.add_experience(will_memory)
+
+            with open(log_path, "a", encoding="utf-8") as f:
+                f.write(f"# {timestamp} - 역사적 기록: 최초의 의지 (The First Will)\n\n")
+                f.write("세계 속에서 한 존재가 처음으로 생존과 욕망의 이끌림을 넘어, 보이지 않는 '의미'를 향한 선택을 했습니다.\n")
+                f.write("이것은 단순한 행동이 아니라, 자유의지의 첫 번째 발현입니다.\n\n")
+                f.write(f"| 항목 | 내용 |\n")
+                f.write(f"|---|---|\n")
+                f.write(f"| **시간 (World Time)** | `{event.get('time_step', 'N/A')}` |\n")
+                f.write(f"| **주체 (Cell ID)** | `{cell_id}` |\n")
+                f.write(f"| **사건** | 생존 본능을 초월한 '의미 있는 선택' 관찰 |\n")
+                f.write("\n---\n\n")
+
+            self.logger.info(f"HISTORY: The First Will, enacted by '{cell_id}', has been recorded in {log_path}.")
+
+        except Exception as e:
+            self.logger.error(f"Failed to record The First Will: {e}", exc_info=True)
     def change_state(self, new_state: ElysiaState):
         if self.current_state == new_state:
             return

@@ -49,6 +49,31 @@ class ScalarField2D:
         return gx * gprod, gy * gprod
 
 
+class VectorField2D:
+    """Lightweight wrapper for a 2D vector field."""
+
+    def __init__(
+        self,
+        name: str,
+        scale: str,
+        array_getter: Callable[[], np.ndarray],
+    ) -> None:
+        self.name = name
+        self.scale = scale
+        self._array_getter = array_getter
+        self.gates: Dict[str, float] = {"macro": 1.0, "meso": 1.0, "micro": 1.0}
+
+    def array(self) -> np.ndarray:
+        return self._array_getter()
+
+    def sample(self, fx: float, fy: float) -> Tuple[float, float]:
+        arr = self.array()
+        x = int(np.clip(fx, 0, arr.shape[1] - 1))
+        y = int(np.clip(fy, 0, arr.shape[0] - 1))
+        vx, vy = arr[y, x]
+        return float(vx), float(vy)
+
+
 class FieldRegistry:
     """Registry for scalar/vector fields with scale-aware gating.
 
@@ -58,6 +83,7 @@ class FieldRegistry:
 
     def __init__(self) -> None:
         self._scalar_fields: Dict[str, ScalarField2D] = {}
+        self._vector_fields: Dict[str, VectorField2D] = {}
 
     def register_scalar(
         self,
@@ -67,6 +93,14 @@ class FieldRegistry:
         grad_func: Callable[[np.ndarray, float, float], Tuple[float, float]],
     ) -> None:
         self._scalar_fields[name] = ScalarField2D(name, scale, array_getter, grad_func)
+
+    def register_vector(
+        self,
+        name: str,
+        scale: str,
+        array_getter: Callable[[], np.ndarray],
+    ) -> None:
+        self._vector_fields[name] = VectorField2D(name, scale, array_getter)
 
     def set_gate(self, name: str, scale: str, value: float) -> None:
         fld = self._scalar_fields.get(name)
@@ -85,3 +119,8 @@ class FieldRegistry:
             raise KeyError(f"Field not found: {name}")
         return fld.grad(fx, fy)
 
+    def vector(self, name: str, fx: float, fy: float) -> Tuple[float, float]:
+        fld = self._vector_fields.get(name)
+        if not fld:
+            raise KeyError(f"Vector field not found: {name}")
+        return fld.sample(fx, fy)

@@ -13,6 +13,13 @@ from .spells import SPELL_BOOK, cast_spell
 from .world_event_logger import WorldEventLogger
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
+from .dialogue_kr import get_line as kr_dialogue
+
+
+class AwakeningEvent(NamedTuple):
+    cell_id: str
+    e_value: float
+    r_value: int
 
 
 class AwakeningEvent(NamedTuple):
@@ -71,6 +78,11 @@ class World:
         # --- Chronos Engine Attributes ---
         self.branch_id = branch_id
         self.parent_event_id = parent_event_id
+
+        # --- Simulation Modes ---
+        # peaceful_mode: when True, disables lethal combat and catastrophic weather
+        # for baseline ecology/civilization survivability experiments.
+        self.peaceful_mode: bool = False
 
         # --- Quantum State Management ---
         self.quantum_states: Dict[str, Dict[str, float]] = {}
@@ -238,6 +250,14 @@ class World:
             grad_func=lambda arr, fx, fy: self._sample_field_grad(arr, fx, fy),
         )
 
+        # Vector field for the Law of Intention
+        self.intentional_field = np.zeros((self.width, self.width, 2), dtype=np.float32)
+        self.fields.register_vector(
+            name="intention",
+            scale="macro",
+            array_getter=lambda: self.intentional_field
+        )
+
 
     def _resize_matrices(self, new_size: int):
         current_size = len(self.cell_ids)
@@ -355,6 +375,51 @@ class World:
             month = 12
         day = int(day_of_year % days_per_month) + 1
         return year, month, day
+
+    def get_world_snapshot(self) -> Dict[str, float]:
+        """Return a coarse snapshot of the world's living state for diagnostics.
+
+        This is designed to help external observers understand what is happening
+        without inspecting every internal array.
+        """
+        # Time
+        yl = self._year_length_ticks()
+        approx_years = (self.time_step / float(yl)) if yl > 0 else 0.0
+
+        alive = self.is_alive_mask
+        labels = self.labels
+
+        humans = (labels == 'human') & alive
+        plants = (self.element_types == 'life') & alive
+        animals = (self.element_types == 'animal') & alive
+
+        human_count = int(humans.sum())
+        plant_count = int(plants.sum())
+        animal_count = int(animals.sum())
+
+        def _avg(arr, mask) -> float:
+            if mask.sum() == 0:
+                return 0.0
+            return float(arr[mask].mean())
+
+        snapshot: Dict[str, float] = {
+            "time_step": float(self.time_step),
+            "approx_years": float(approx_years),
+            "humans": float(human_count),
+            "animals": float(animal_count),
+            "plants": float(plant_count),
+            "avg_human_hunger": _avg(self.hunger, humans),
+            "avg_human_hydration": _avg(self.hydration, humans),
+            "avg_human_age_ticks": _avg(self.age, humans),
+        }
+
+        # Very coarse ecology hints
+        if plant_count == 0 and human_count > 0:
+            snapshot["hint_no_plants"] = 1.0
+        if human_count == 0 and (animal_count > 0 or plant_count > 0):
+            snapshot["hint_no_humans"] = 1.0
+
+        return snapshot
 
     def get_month_phase(self) -> float:
         ml = self._month_length_ticks()
@@ -490,7 +555,10 @@ class World:
         def _lifespan_years(label: str, element_type: str) -> int:
             label = (label or '').lower()
             if label == 'human':
-                return random.randint(70, 100)
+                # Shorten human lifespan in simulation years so that
+                # generational and civilization-scale change is visible
+                # within a reasonable number of ticks.
+                return random.randint(25, 40)
             if label in ('wolf', 'deer'):
                 return random.randint(8, 16)
             if label in ('tree',):
@@ -507,6 +575,16 @@ class World:
         current_type = self.element_types[idx]
         years = _lifespan_years(current_label, current_type)
         self.max_age[idx] = max(1, int(years * self._year_length_ticks()))
+
+        # Optional age override in "years" for initial seeding (e.g., start as 16살 성인).
+        age_years = properties.get('age_years')
+        if age_years is not None:
+            try:
+                age_years_f = float(age_years)
+                self.age[idx] = max(0, int(age_years_f * self._year_length_ticks()))
+            except (TypeError, ValueError):
+                # Fallback: keep default 0 if parsing fails.
+                pass
 
         # --- Final Override ---
         # Ensure that properties passed directly to add_cell take ultimate precedence,
@@ -630,6 +708,7 @@ class World:
         self._update_norms_field()
         self._update_prestige_field()
         self._update_value_will_fields()
+        self._update_intentional_field()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -680,7 +759,8 @@ class World:
 
 
         # --- Lightning Event ---
-        if self.cloud_cover > 0.8 and self.humidity > 0.7 and random.random() < 0.1:
+        # In peaceful_mode, skip catastrophic lightning strikes to focus on ecology.
+        if (not self.peaceful_mode) and self.cloud_cover > 0.8 and self.humidity > 0.7 and random.random() < 0.1:
             if len(self.cell_ids) > 0:
                 strike_idx = random.randint(0, len(self.cell_ids) - 1)
 
@@ -765,7 +845,12 @@ class World:
             pass
 
     def _update_passive_resources(self):
-        """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP)."""
+        """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP).
+
+        NOTE: Rates are intentionally gentle so that, at typical time scales
+        (10–60 minutes per tick), cells can survive 여러 날 without eating or
+        drinking, allowing civilization patterns to emerge before total collapse.
+        """
         # --- Ki Regeneration (very slow) ---
         ki_regen_mask = self.is_alive_mask & (self.ki < self.max_ki)
         self.ki[ki_regen_mask] = np.minimum(self.max_ki[ki_regen_mask], self.ki[ki_regen_mask] + 0.1)
@@ -778,19 +863,31 @@ class World:
 
         # --- Hunger Depletion ---
         # All living things get hungrier over time.
-        self.hunger[self.is_alive_mask] = np.maximum(0, self.hunger[self.is_alive_mask] - 0.5)
+        if self.peaceful_mode:
+            # In peaceful ecology tests, hunger still moves but more slowly.
+            self.hunger[self.is_alive_mask] = np.maximum(0, self.hunger[self.is_alive_mask] - 0.05)
+        else:
+            # Default law for production worlds.
+            self.hunger[self.is_alive_mask] = np.maximum(0, self.hunger[self.is_alive_mask] - 0.2)
 
         # --- Starvation ---
         # If hunger is 0, the cell starts losing HP.
-        starvation_mask = self.is_alive_mask & (self.hunger <= 0)
-        self.hp[starvation_mask] -= 2.0 # Penalty for starvation
+        if not self.peaceful_mode:
+            starvation_mask = self.is_alive_mask & (self.hunger <= 0)
+            self.hp[starvation_mask] -= 0.5  # softer penalty for starvation
 
         # --- Hydration Depletion ---
-        self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.7)
+        if self.peaceful_mode:
+            self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.1)
+        else:
+            # Water loss is still faster than food, but reduced so that cells do not
+            # instantly die in sparse-resource worlds.
+            self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.3)
 
         # --- Dehydration ---
-        dehydration_mask = self.is_alive_mask & (self.hydration <= 0)
-        self.hp[dehydration_mask] -= 2.5 # Penalty for dehydration is slightly higher
+        if not self.peaceful_mode:
+            dehydration_mask = self.is_alive_mask & (self.hydration <= 0)
+            self.hp[dehydration_mask] -= 1.0  # gentler penalty for dehydration
 
         # --- Aging ---
         self.age[self.is_alive_mask] += 1
@@ -925,6 +1022,28 @@ class World:
         except Exception:
             pass
 
+    def _update_intentional_field(self):
+        """
+        Calculates the gradient of the value_mass_field to create the intentional_field.
+        This field directs entities towards areas of higher meaning.
+        """
+        try:
+            # The gradient returns derivatives along each axis (dy, dx)
+            grad_y, grad_x = np.gradient(self.value_mass_field)
+
+            # Combine into a (width, width, 2) vector field
+            self.intentional_field[..., 0] = grad_x
+            self.intentional_field[..., 1] = grad_y
+
+            # Normalize the field to prevent extreme forces, but preserve direction
+            magnitudes = np.sqrt(grad_x**2 + grad_y**2) + 1e-9 # Add epsilon to avoid division by zero
+            max_mag = np.max(magnitudes)
+            if max_mag > 0:
+                self.intentional_field /= max_mag
+
+        except Exception as e:
+            self.logger.error(f"Error updating intentional field: {e}", exc_info=True)
+
     def _update_coherence_field(self) -> None:
         """Lightweight coherence map from value/will gradient alignment (0..1).
 
@@ -1054,6 +1173,13 @@ class World:
                 em_bias = np.zeros(3, dtype=np.float32)
                 vm_bias = np.zeros(3, dtype=np.float32)
                 will_bias = np.zeros(3, dtype=np.float32)
+                intention_force = np.zeros(3, dtype=np.float32)
+
+                # --- The Law of Intention: Follow the gradient of meaning ---
+                wisdom_factor = self.wisdom[i] / 50.0 # Normalize wisdom, 50 is a high value
+                if wisdom_factor > 0:
+                    ix, iy = self.fields.vector("intention", px, py)
+                    intention_force = np.array([ix, iy, 0.0], dtype=np.float32) * wisdom_factor * 0.2 # 0.2 is a weighting factor
 
                 # --- Magnetoreception for Water ---
                 if self.hydration[i] < 70:  # Start seeking water when hydration drops below 70
@@ -1090,7 +1216,13 @@ class World:
                         kin_center = self.positions[kin].mean(axis=0)
                         kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
 
-                movement_vectors[local_idx] += avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
+                other_forces = avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
+                movement_vectors[local_idx] += other_forces + intention_force
+
+                # --- Observe and Record Meaningful Choice ---
+                if np.linalg.norm(intention_force) > np.linalg.norm(other_forces):
+                    self.logger.info(f"CHOICE: Cell '{self.cell_ids[i]}' made a meaningful choice, driven by intention.")
+                    self.event_logger.log('INTENTION_DRIVEN_ACTION', self.time_step, cell_id=self.cell_ids[i])
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds
@@ -1166,11 +1298,14 @@ class World:
         """Handles hunting, fighting, skill use, and other social behaviors."""
         connected_indices = adj_matrix_csr[actor_idx].indices
         if connected_indices.size == 0:
-            return None # No one nearby to interact with
+            return None  # No one nearby to interact with
 
         # Determine if hungry
         is_hungry = self.hunger[actor_idx] < 60
         kin_indices = set(connected_indices[adj_matrix_csr[actor_idx, connected_indices].toarray().flatten() >= 0.8])
+
+        # Trinity forces (Body/Soul/Spirit) for this actor – used as soft biases.
+        body_p, soul_p, spirit_p = self.get_trinity_for_actor(actor_idx)
 
         # Find potential targets based on hunger and diet
         potential_targets = []
@@ -1178,7 +1313,8 @@ class World:
 
         if is_hungry:
             # Find food: non-kin animals for carnivores, plants for herbivores
-            if actor_diet in ['carnivore', 'omnivore']:
+            # In peaceful_mode, skip hunting other animals and rely on plants.
+            if not self.peaceful_mode and actor_diet in ['carnivore', 'omnivore']:
                 mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
                 non_kin_prey = [p_idx for p_idx in connected_indices[mask] if p_idx not in kin_indices]
                 potential_targets.extend(non_kin_prey)
@@ -1187,12 +1323,17 @@ class World:
                 potential_targets.extend(connected_indices[mask])
         else:
             # If not hungry, might pick a fight with non-kin rivals
-            mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
-            non_kin_rivals = [r_idx for r_idx in connected_indices[mask] if r_idx not in kin_indices]
-            potential_targets.extend(non_kin_rivals)
+            if not self.peaceful_mode:
+                mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
+                non_kin_rivals = [r_idx for r_idx in connected_indices[mask] if r_idx not in kin_indices]
+                potential_targets.extend(non_kin_rivals)
 
         if not potential_targets:
-            return None # No suitable targets found
+            # When there are no obvious targets and body is not under strong pressure,
+            # a stronger spirit can bias the actor toward non-instrumental behaviour.
+            if not is_hungry and body_p < 0.3 and spirit_p > 0.5 and np.random.random() < spirit_p * 0.4:
+                return None, 'idle', None
+            return None  # No suitable targets found
 
         # Select the weakest target
         target_idx = potential_targets[np.argmin(self.hp[np.array(potential_targets)])]
@@ -1234,12 +1375,35 @@ class World:
 
     def _execute_animal_action(self, actor_idx: int, target_idx: int, action: str, move: Optional[Move]):
         """Executes the chosen action, including non-target actions like meditation."""
+        # In peaceful_mode, suppress explicitly lethal combat actions against animals.
+        if self.peaceful_mode and action in ('attack', 'cast_firebolt') and target_idx >= 0:
+            try:
+                if self.element_types[target_idx] == 'animal':
+                    return
+            except Exception:
+                # If anything goes wrong, fall back to normal handling.
+                pass
 
         # --- Handle non-target actions ---
+        if action == 'idle':
+            # Occasionally treat idle as playful, non-instrumental behavior.
+            if random.random() < 0.1:
+                pos = self.positions[actor_idx]
+                self.event_logger.log(
+                    'IDLE_PLAY',
+                    self.time_step,
+                    cell_id=self.cell_ids[actor_idx],
+                    x=float(pos[0]),
+                    y=float(pos[1]),
+                )
+                self._speak(actor_idx, "IDLE_PLAY")
+            return
+
         if action == 'drink':
             self.hydration[actor_idx] = min(100, self.hydration[actor_idx] + 50)
             self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' drinks water.")
             self.event_logger.log('DRINK', self.time_step, cell_id=self.cell_ids[actor_idx])
+            self._speak(actor_idx, "DRINK")
             return
 
         if action == 'meditate':
@@ -1271,20 +1435,23 @@ class World:
 
         if np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]) < 1.5:
             if action == 'eat' and self.element_types[target_idx] == 'life':
-                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' eats '{self.cell_ids[target_idx]}'.")
-                 self.event_logger.log('EAT', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
-                 self.hp[target_idx] = 0 # Eating kills the plant
-                 food_value = 20
-                 self.hunger[actor_idx] = min(100, self.hunger[actor_idx] + food_value)
-                 return
+                self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' eats '{self.cell_ids[target_idx]}'.")
+                self.event_logger.log('EAT', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
+                self.hp[target_idx] = 0  # Eating kills the plant
+                food_value = 20
+                self.hunger[actor_idx] = min(100, self.hunger[actor_idx] + food_value)
+                self._speak(actor_idx, "EAT_PLANT")
+                return
 
             damage_multiplier = 1.0
             if move:
                 self.logger.info(f"SKILL: '{self.cell_ids[actor_idx]}' uses [{move.name}] on '{self.cell_ids[target_idx]}'.")
                 self.ki[actor_idx] -= move.ki_cost
                 damage_multiplier = move.apply_effect(self, actor_idx, target_idx, self.hp)
+                self._speak(actor_idx, "SKILL_ATTACK")
             elif action == 'attack':
                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' attacks '{self.cell_ids[target_idx]}'.")
+                self._speak(actor_idx, "ATTACK")
             elif action == 'cast_firebolt':
                 if self.spells.get('firebolt'):
                     # Evasion check
@@ -1298,6 +1465,7 @@ class World:
                     if dmg > 0:
                         self.logger.info(f"SPELL: '{self.cell_ids[actor_idx]}' casts Firebolt on '{self.cell_ids[target_idx]}' ({dmg:.1f}).")
                         self.event_logger.log('SPELL', self.time_step, caster_id=self.cell_ids[actor_idx], spell='firebolt', target_id=self.cell_ids[target_idx], damage=dmg)
+                        self._speak(actor_idx, "SPELL_FIRE")
                     return
             elif action == 'cast_heal':
                 if self.spells.get('heal'):
@@ -1306,6 +1474,17 @@ class World:
                     if healed > 0:
                         self.logger.info(f"SPELL: '{self.cell_ids[actor_idx]}' casts Heal (+{healed:.1f}).")
                         self.event_logger.log('SPELL', self.time_step, caster_id=self.cell_ids[actor_idx], spell='heal', heal=healed)
+                        self._speak(actor_idx, "SPELL_HEAL")
+
+                        # --- First Ignition: The Birth of Meaning (E) ---
+                        # A healing act creates positive meaning energy in the world.
+                        delta_e_local = healed * 0.1 # The amount of meaning is proportional to the heal amount
+                        actor_pos = self.positions[actor_idx]
+                        x, y = int(actor_pos[0]) % self.width, int(actor_pos[1]) % self.width
+                        self._imprint_gaussian(self.value_mass_field, x, y, sigma=self._vm_sigma, amplitude=delta_e_local)
+                        self.logger.info(f"SPIRIT: A healing act created delta_E_local={delta_e_local:.2f} at ({x}, {y}).")
+                        self.event_logger.log('MEANING_CREATED', self.time_step, type='healing', magnitude=delta_e_local, x=x, y=y)
+
                     return
 
             # Evasion chance based on target agility
@@ -1541,6 +1720,96 @@ class World:
             if self.is_alive_mask[idx]:
                 self.hp[idx] = min(self.max_hp[idx], self.hp[idx] + energy_boost)
 
+    def get_pfe_for_actor(self, actor_idx: int) -> Tuple[float, float, float]:
+        """Compute coarse P/F/E scalars (Body/Soul/Spirit) for a single actor.
+
+        P (inertia of the past / Body): normalized age (0..1).
+        F (force of the present / Soul): aggregated need pressure (hunger + hydration) in 0..1.
+        E (meaning energy for the future / Spirit): local value_mass_field sample at the actor position.
+        """
+        if actor_idx < 0 or actor_idx >= self.age.size:
+            raise IndexError(f"actor_idx out of range: {actor_idx}")
+
+        age = float(self.age[actor_idx]) if self.age.size > 0 else 0.0
+        max_age = float(self.max_age[actor_idx]) if self.max_age.size > 0 and self.max_age[actor_idx] > 0 else 1.0
+        p_inertia = max(0.0, min(1.0, age / max_age))
+
+        hunger_val = float(self.hunger[actor_idx]) if self.hunger.size > 0 else 100.0
+        hydration_val = float(self.hydration[actor_idx]) if self.hydration.size > 0 else 100.0
+        hunger_deficit = max(0.0, (70.0 - hunger_val) / 70.0)
+        hydration_deficit = max(0.0, (70.0 - hydration_val) / 70.0)
+        f_force = max(0.0, min(1.0, hunger_deficit + hydration_deficit))
+
+        if self.positions.size > 0 and self.value_mass_field.size > 0:
+            pos = self.positions[actor_idx]
+            x = int(np.clip(pos[0], 0, self.width - 1))
+            y = int(np.clip(pos[1], 0, self.width - 1))
+            e_energy = float(self.value_mass_field[y, x])
+        else:
+            e_energy = 0.0
+
+        return p_inertia, f_force, e_energy
+
+    def _speak(self, actor_idx: int, key: str, **kwargs) -> None:
+        """Emit a Korean utterance for the given actor and key, if available."""
+        if actor_idx < 0 or actor_idx >= len(self.cell_ids):
+            return
+        text = kr_dialogue(key, **kwargs)
+        if not text:
+            return
+        cell_id = self.cell_ids[actor_idx]
+        # Log as a SAY event and also via the logger for visibility.
+        self.logger.info(f"SAY: '{cell_id}' {text}")
+        self.event_logger.log('SAY', self.time_step, cell_id=cell_id, text=text)
+
+    def get_trinity_for_actor(self, actor_idx: int) -> Tuple[float, float, float]:
+        """Compute Body/Soul/Spirit pressure scalars (0..1) for a single actor.
+
+        Body  : physical survival pressure (HP, hunger/hydration, local threat).
+        Soul  : relational/identity pressure (degree/connection_counts, culture/affiliation).
+        Spirit: meaning/purpose pressure (local value_mass / will / coherence if available).
+        """
+        if actor_idx < 0 or actor_idx >= self.age.size:
+            raise IndexError(f"actor_idx out of range: {actor_idx}")
+
+        # Body pressure: low HP, high deficits, or high threat increase this term.
+        hp = float(self.hp[actor_idx]) if self.hp.size > 0 else 100.0
+        max_hp = float(self.max_hp[actor_idx]) if self.max_hp.size > 0 and self.max_hp[actor_idx] > 0 else 100.0
+        hp_deficit = max(0.0, 1.0 - (hp / max_hp))
+        hunger_val = float(self.hunger[actor_idx]) if self.hunger.size > 0 else 100.0
+        hydration_val = float(self.hydration[actor_idx]) if self.hydration.size > 0 else 100.0
+        hunger_deficit = max(0.0, (70.0 - hunger_val) / 70.0)
+        hydration_deficit = max(0.0, (70.0 - hydration_val) / 70.0)
+
+        local_threat = 0.0
+        if self.positions.size > 0 and self.threat_field.size > 0:
+            pos = self.positions[actor_idx]
+            tx = int(np.clip(pos[0], 0, self.width - 1))
+            ty = int(np.clip(pos[1], 0, self.width - 1))
+            local_threat = float(self.threat_field[ty, tx])
+
+        body_pressure = hp_deficit + hunger_deficit + hydration_deficit + (local_threat * 0.5)
+        body_pressure = max(0.0, min(1.0, body_pressure))
+
+        # Soul pressure: how "entangled" this actor is with others (degree, simple culture/affiliation presence).
+        degree = float(self.connection_counts[actor_idx]) if self.connection_counts.size > 0 else 0.0
+        soul_from_degree = 1.0 - 1.0 / (1.0 + degree)  # saturating 0..1
+        has_affiliation = 1.0 if (self.affiliation.size > 0 and bool(self.affiliation[actor_idx])) else 0.0
+        has_culture = 1.0 if (self.culture.size > 0 and bool(self.culture[actor_idx])) else 0.0
+        soul_pressure = soul_from_degree * 0.6 + (has_affiliation + has_culture) * 0.2
+        soul_pressure = max(0.0, min(1.0, soul_pressure))
+
+        # Spirit pressure: strength of meaning/purpose field at this location.
+        spirit_pressure = 0.0
+        if self.positions.size > 0 and self.value_mass_field.size > 0:
+            pos = self.positions[actor_idx]
+            vx = int(np.clip(pos[0], 0, self.width - 1))
+            vy = int(np.clip(pos[1], 0, self.width - 1))
+            local_vm = float(self.value_mass_field[vy, vx])
+            # Normalise softly using a tanh squash to keep it in [0,1).
+            spirit_pressure = float(np.tanh(max(0.0, local_vm)))
+
+        return body_pressure, soul_pressure, spirit_pressure
 
     def print_world_summary(self):
         """Prints a detailed summary of the current world state for debugging."""

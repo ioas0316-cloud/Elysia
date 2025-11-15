@@ -104,6 +104,7 @@ class ElysiaSignalEngine:
         # Per-tick accumulators
         tick_energy: Dict[int, Dict[str, float]] = {}
         tick_actors: Dict[int, List[str]] = {}
+        tick_positions: Dict[int, List[Tuple[float, float]]] = {}
 
         for ev in events:
             t = int(ev.get("timestamp", 0))
@@ -111,15 +112,23 @@ class ElysiaSignalEngine:
             data = ev.get("data", {}) or {}
 
             bucket = tick_energy.setdefault(
-                t, {"joy": 0.0, "creation": 0.0, "care": 0.0, "mortality": 0.0}
+                t, {"joy": 0.0, "creation": 0.0, "care": 0.0, "mortality": 0.0, "play": 0.0}
             )
             actors = tick_actors.setdefault(t, [])
+            positions = tick_positions.setdefault(t, [])
 
             # Basic actor extraction (best-effort; keeps engine analogue-friendly)
             for key in ("cell_id", "actor_id", "target_id", "caster_id"):
                 cid = data.get(key)
                 if isinstance(cid, str):
                     actors.append(cid)
+
+            # Optional approximate position (if present in raw event).
+            if "x" in data and "y" in data:
+                try:
+                    positions.append((float(data["x"]), float(data["y"])))
+                except (TypeError, ValueError):
+                    pass
 
             # --- Soft law mappings (no hard rules) ---------------------
             # Nourishment / simple life support gently increases joy.
@@ -147,11 +156,16 @@ class ElysiaSignalEngine:
                 # Soft contribution based on net positive experience.
                 bucket["joy"] += max(0.0, total_pos - max(0.0, total_neg)) / 50.0
 
+            # Idle play / wandering: treat as small "playful noise" energy.
+            if etype == "IDLE_PLAY":
+                bucket["play"] += 0.2
+
         # Compress per-tick energies into signals.
         signals: List[ElysiaSignal] = []
         for t in sorted(tick_energy.keys()):
             energy = tick_energy[t]
             actors = list(dict.fromkeys(tick_actors.get(t, [])))  # dedupe, preserve order
+            pos_list = tick_positions.get(t, [])
 
             # Convert energies to intensities via smooth squashing function.
             def squash(x: float) -> float:
@@ -163,6 +177,7 @@ class ElysiaSignalEngine:
             creation_i = squash(energy["creation"])
             care_i = squash(energy["care"])
             mortality_i = squash(energy["mortality"])
+            play_i = squash(energy.get("play", 0.0))
 
             # Avoid flooding: only emit when intensity is noticeable.
             if joy_i > 0.15:
@@ -210,6 +225,25 @@ class ElysiaSignalEngine:
                         position=None,
                         actors=actors,
                         summary="Deaths observed in the world.",
+                    )
+                )
+
+            if play_i > 0.15:
+                # Approximate center-of-mass for positions if available.
+                if pos_list:
+                    xs = [p[0] for p in pos_list]
+                    ys = [p[1] for p in pos_list]
+                    position = (float(sum(xs) / len(xs)), float(sum(ys) / len(ys)))
+                else:
+                    position = None
+                signals.append(
+                    ElysiaSignal(
+                        timestamp=t,
+                        signal_type="PLAYFUL_NOISE",
+                        intensity=play_i,
+                        position=position,
+                        actors=actors,
+                        summary="Moments of idle play / wandering with no clear purpose.",
                     )
                 )
 

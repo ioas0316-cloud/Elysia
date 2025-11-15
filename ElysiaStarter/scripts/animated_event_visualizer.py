@@ -127,10 +127,23 @@ def main():
     def rand_pos():
         return {'x': float(rng.uniform(0, W-1)), 'y': float(rng.uniform(0, H-1)), 'z': 0}
 
-    # Seed a small village of humans
+    # Seed a small village of humans (start as 16살 성인 기준 나이)
     for i in range(8):
         culture = 'wuxia' if i % 2 == 0 else 'knight'
-        world.add_cell(f'human_{i+1}', properties={'label': 'human', 'element_type': 'animal', 'culture': culture, 'gender': 'male' if i%2==0 else 'female', 'vitality': int(rng.integers(7,11)), 'wisdom': int(rng.integers(6,11)), 'strength': int(rng.integers(8,13)), 'position': rand_pos()})
+        world.add_cell(
+            f'human_{i+1}',
+            properties={
+                'label': 'human',
+                'element_type': 'animal',
+                'culture': culture,
+                'gender': 'male' if i % 2 == 0 else 'female',
+                'vitality': int(rng.integers(7, 11)),
+                'wisdom': int(rng.integers(6, 11)),
+                'strength': int(rng.integers(8, 13)),
+                'position': rand_pos(),
+                'age_years': 16,
+            },
+        )
 
     # Seed wildlife and plants
     for i in range(10):
