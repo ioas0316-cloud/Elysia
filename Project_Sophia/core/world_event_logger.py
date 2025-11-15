@@ -6,7 +6,6 @@ class WorldEventLogger:
 
     def __init__(self, log_file_path: str = 'logs/world_events.jsonl'):
         self.log_file_path = log_file_path
-        # Ensure the log directory exists
         import os
         os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
         # Clear the log file at the start of a new session
