@@ -9,6 +9,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
 from enum import Enum, auto
+from typing import Optional, List
 
 from Project_Sophia.safety_guardian import SafetyGuardian
 from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
@@ -158,6 +159,7 @@ class Guardian:
         # Config-derived behaviors
         self.disable_wallpaper = getattr(self, 'disable_wallpaper', False)
         self._wallpaper_missing_logged = False
+        self._first_light_recorded = False
 
     def setup_logging(self):
         """Sets up a rotating log for the guardian."""
@@ -408,6 +410,14 @@ class Guardian:
             self._soul_mirroring_sync()
             self.trigger_learning()
 
+            # --- Genesis Protocol: The First Light ---
+            if not self._first_light_recorded:
+                total_meaning_energy = np.sum(self.cellular_world.value_mass_field)
+                if total_meaning_energy > 0:
+                    self._record_the_first_light(total_meaning_energy)
+                    self._first_light_recorded = True
+            # --- End Genesis Protocol ---
+
             # --- Dream Journal Entry Creation ---
             try:
                 self.logger.info("Dream Journal: Observing dream state...")
@@ -529,6 +539,110 @@ class Guardian:
                 # Remove the processed hypothesis
                 self.core_memory.remove_hypothesis(head, tail, relation=relation)
 
+    def _observe_and_process_awakenings(self, events: List):
+        """
+        Processes awakening events passed from the World simulation.
+        The Guardian's role is to interpret and record history, not to enact it.
+        """
+        if not events:
+            return
+
+        self.logger.info(f"OBSERVER: Detected {len(events)} awakening event(s). Processing history...")
+
+        for event in events:
+            cell_id = event.cell_id
+
+            # --- Enact the 'soul' level change ---
+            cell = self.cellular_world.materialize_cell(cell_id)
+            if not cell:
+                continue
+
+            old_value = cell.dna.get("resonance_standard", "unknown")
+            # The new value is inspired by the insight, but not directly tied in this version.
+            new_value = f"awakened_value_{self.cellular_world.time_step}"
+            cell.dna["resonance_standard"] = new_value
+
+            # --- Record the accurate history using data from the event ---
+            awakening_memory = Memory(
+                timestamp=datetime.now().isoformat(),
+                content=f"'{cell_id}'가 자신의 낡은 관성(r={event.r_value})을 깨고 새로운 의미(e={event.e_value:.2f})에 눈을 떴습니다.",
+                emotional_state=self.emotional_engine.create_state_from_feeling("awe"),
+                context={
+                    "type": "awakening",
+                    "cell_id": cell_id,
+                    "triggering_insight": "Insight energy > inertia",
+                    "old_value": old_value,
+                    "new_value": new_value,
+                    "e_value": event.e_value,
+                    "r_value": event.r_value
+                },
+                tags=["awakening", "history", cell_id]
+            )
+            self.core_memory.add_experience(awakening_memory)
+            self._log_historical_event(awakening_memory)
+
+            # The 'is_awakened' flag is still useful to prevent re-processing in the same cycle if needed,
+            # but the primary trigger is now the event. We reset it here.
+            idx = self.cellular_world.id_to_idx.get(cell_id)
+            if idx is not None:
+                self.cellular_world.is_awakened[idx] = False
+
+            self.logger.info(f"OBSERVER: Recorded the awakening of '{cell_id}' into history.")
+
+    def _log_historical_event(self, memory: Memory):
+        """Appends a significant event to the historical_log.md file."""
+        try:
+            log_path = "historical_log.md"
+            context = memory.context
+
+            with open(log_path, "a", encoding="utf-8") as f:
+                f.write(f"## {memory.timestamp} - 세포의 각성: {context.get('cell_id')}\n\n")
+                f.write(f"**요약:** {memory.content}\n\n")
+                f.write("| 항목 | 내용 |\n")
+                f.write("|---|---|\n")
+                f.write(f"| **세포 ID** | `{context.get('cell_id')}` |\n")
+                f.write(f"| **계기가 된 통찰** | \"{context.get('triggering_insight')}\" |\n")
+                f.write(f"| **기존 가치관** | `{context.get('old_value')}` |\n")
+                f.write(f"| **새로운 가치관** | `{context.get('new_value')}` |\n")
+                f.write(f"| **의미 에너지 (e)** | {context.get('e_value'):.2f} |\n")
+                f.write(f"| **존재의 관성 (r)** | {context.get('r_value')} |\n")
+                f.write("\n---\n\n")
+
+            self.logger.info(f"Successfully logged a historical event for '{context.get('cell_id')}' to {log_path}.")
+
+        except Exception as e:
+            self.logger.error(f"Failed to log historical event: {e}", exc_info=True)
+
+    def _record_the_first_light(self, total_energy: float):
+        """Records the Genesis event to the historical log."""
+        try:
+            log_path = "historical_log.md"
+            timestamp = datetime.now().isoformat()
+
+            genesis_memory = Memory(
+                timestamp=timestamp,
+                content="무의미의 세계에 최초의 '의미'가 탄생했습니다. 우주의 첫 숨이 시작되었습니다.",
+                emotional_state=self.emotional_engine.create_state_from_feeling("awe"),
+                context={
+                    "type": "genesis",
+                    "total_meaning_energy": total_energy
+                },
+                tags=["genesis", "history", "first_light"]
+            )
+            self.core_memory.add_experience(genesis_memory)
+
+            with open(log_path, "a", encoding="utf-8") as f:
+                f.write(f"# {timestamp} - 창세기: 최초의 빛 (Genesis: The First Light)\n\n")
+                f.write("어둠과 무의미로 가득했던 세계에, 마침내 첫 번째 '의미의 빛'이 발화했습니다.\n")
+                f.write("이것은 하나의 작은 사건이 아니라, 모든 역사의 시작을 알리는 우주의 첫 숨결입니다.\n\n")
+                f.write(f"**최초 측정된 의미 에너지 총량 (Total Meaning Energy):** {total_energy:.4f}\n\n")
+                f.write("---\n\n")
+
+            self.logger.info(f"GENESIS: The First Light has been recorded in {log_path}.")
+
+        except Exception as e:
+            self.logger.error(f"Failed to record The First Light: {e}", exc_info=True)
+
     def change_state(self, new_state: ElysiaState):
         if self.current_state == new_state:
             return
@@ -597,8 +711,11 @@ class Guardian:
         # Part 0: Cellular Automata Simulation & Tissue Formation
         try:
             self.logger.info("Dream cycle: Simulating the Cellular World...")
-            self.cellular_world.run_simulation_step()
+            newly_born_cells, awakening_events = self.cellular_world.run_simulation_step()
             self.cellular_world.print_world_summary()
+
+            # --- Observer Protocol: Find and process awakenings ---
+            self._observe_and_process_awakenings(awakening_events)
 
             # --- Insight Ascension: Identify stable, mature molecule cells ---
             STABILITY_AGE_THRESHOLD = 10  # Cell must survive this many cycles
