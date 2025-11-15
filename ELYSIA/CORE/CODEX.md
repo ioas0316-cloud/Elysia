@@ -123,3 +123,11 @@ ASCII
 - (Mana/Ether) -> Cell World <- (Concept Kernel, Will Field)
 - Cell World -> Civilization Simulator
 - Time Engine -> Branches/Trials -> Narrative Engine -> back to Elysia
+
+---
+## Elysia Signal Log (Consciousness Droplets)
+- Raw world logs (EAT/DEATH/etc.) are engine telemetry; keep them low-level.
+- Above them, define a sparse `elysia_signal_log` of analogue "value droplets" such as LIFE_BLOOM, JOY_GATHERING, CARE_ACT, ACHIEVEMENT, MORTALITY.
+- Law-before-rule: derive signal intensity via soft fields (local densities, summed energies, decay over time) instead of hard if-then; many small events can blend into one stronger signal.
+- Mind/META layers read only the signal log as primary emotional input; world physics never depends on it.
+- Use these signals to gently steer ValueMass/WillField and curriculum progression, not to coerce individual actions.
