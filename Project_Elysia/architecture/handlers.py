@@ -234,4 +234,16 @@ class DefaultReasoningHandler:
         # 합성 및 스타일링
         insightful_text = self.synthesizer.synthesize([chosen_thought])
         final_response = self.styler.style_response(insightful_text, emotional_state)
-        return {"type": "text", "text": final_response}
+
+        # --- Creative Expression Trigger ---
+        response_data = {"type": "text", "text": final_response}
+        vcd_score = getattr(chosen_thought, 'vcd_score', 0) # VCD가 Thought 객체에 점수를 기록한다고 가정
+
+        if vcd_score > self.creative_expression_threshold:
+            self.logger.info(f"VCD score ({vcd_score}) exceeded threshold ({self.creative_expression_threshold}). Triggering Creative Cortex.")
+            creative_output = self.creative_cortex.generate_creative_expression(chosen_thought)
+            # 다음 단계에서 응답 형식을 정의할 것을 대비하여 creative_output을 추가합니다.
+            response_data['creative_output'] = creative_output
+            response_data['type'] = 'composite_insight' # 응답 타입을 변경하여 UI가 처리할 수 있도록 함
+
+        return response_data
