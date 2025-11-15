@@ -16,6 +16,7 @@ World & people (when needed)
 - ELYSIAS_PROTOCOL/CORE_11_TIME_SCALES_AND_TICK_LAYERS.md ? Time scales and tick layers (WORLD/MIND/META)
 - ELYSIAS_PROTOCOL/CORE_12_PEOPLE_AND_CIVILIZATION_TIERS.md ? People tiers, professions, parties, social safety field
 - ELYSIAS_PROTOCOL/CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS_PROTOCOL.md ? Elysia Signal Log and consciousness stimulus law
+- ELYSIAS_PROTOCOL/CORE_14_PROTOCOL_MAP_AND_GOVERNANCE.md ? Protocol map, rings, layers, governance rules
 
 Except for the files listed above, all other files here are archived context. Do not expand them; extend the Codex or the listed CORE protocols instead.
 
