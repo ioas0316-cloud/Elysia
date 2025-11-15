@@ -1,7 +1,7 @@
 ﻿
 import random
 import logging
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, NamedTuple
 
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
@@ -13,6 +13,12 @@ from .spells import SPELL_BOOK, cast_spell
 from .world_event_logger import WorldEventLogger
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
+
+
+class AwakeningEvent(NamedTuple):
+    cell_id: str
+    e_value: float
+    r_value: int
 
 
 class World:
@@ -113,6 +119,7 @@ class World:
         self.labels = np.array([], dtype='<U20')
         self.insight = np.array([], dtype=np.float32)
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
+        self.is_awakened = np.array([], dtype=bool) # For the Law of Existential Change
 
         # --- Civilization Attributes ---
         self.continent = np.array([], dtype='<U10') # e.g., 'East', 'West'
@@ -272,6 +279,7 @@ class World:
         self.labels = np.pad(self.labels, (0, new_size - current_size), 'constant', constant_values='')
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
+        self.is_awakened = np.pad(self.is_awakened, (0, new_size - current_size), 'constant', constant_values=False)
 
 
         # --- Civilization Attributes ---
@@ -404,6 +412,7 @@ class World:
         self.age[idx] = 0
         self.is_injured[idx] = False
         self.is_meditating[idx] = False
+        self.is_awakened[idx] = False
         # max_age???섏쨷???쇰꺼/醫낆쓣 ?뚯븙????'???⑥쐞'濡?寃곗젙?섍퀬, ?대? ?€?μ? '?? ?⑥쐞濡?蹂€?섑븳??
         self.insight[idx] = 0.0
         self.emotions[idx] = 'neutral'
@@ -582,14 +591,14 @@ class World:
                 cell.wisdom = self.wisdom[i]
 
 
-    def run_simulation_step(self) -> List[Cell]:
+    def run_simulation_step(self) -> Tuple[List[Cell], List[AwakeningEvent]]:
         if self.chronicle:
             event = self.chronicle.record_event('simulation_step_run', {}, [], self.branch_id, self.parent_event_id)
             self.parent_event_id = event['id']
         self.time_step += 1
 
         if len(self.cell_ids) == 0:
-            return []
+            return [], []
 
         # --- Experience snapshot (HP delta from previous step) ---
         try:
@@ -633,13 +642,16 @@ class World:
         # Apply final physics and cleanup
         self._apply_physics_and_cleanup(newly_born_cells)
 
+        # --- Law of Existential Change (e > r) ---
+        awakening_events = self._apply_law_of_awakening()
+
         # Prepare next-step snapshot
         try:
             self._prev_hp = self.hp.copy()
         except Exception:
             pass
 
-        return newly_born_cells
+        return newly_born_cells, awakening_events
 
     def _update_weather(self):
         """Updates the global weather conditions and handles weather events like lightning."""
@@ -1452,6 +1464,44 @@ class World:
 
         # Final state synchronization
         self._sync_states_to_objects()
+
+    def _apply_law_of_awakening(self) -> List[AwakeningEvent]:
+        """
+        Applies the Law of Existential Change (e > r) and returns a list of awakening events.
+        This is a core physical law of the world.
+        """
+        events = []
+        alive_indices = np.where(self.is_alive_mask)[0]
+        if alive_indices.size == 0:
+            return events
+
+        e = self.insight[alive_indices] * 100
+        r = self.age[alive_indices]
+
+        awakening_mask = (e > r) & ~self.is_awakened[alive_indices]
+        awakened_indices = alive_indices[awakening_mask]
+
+        if awakened_indices.size > 0:
+            for idx in awakened_indices:
+                e_val = e[np.where(alive_indices==idx)[0][0]]
+                r_val = r[np.where(alive_indices==idx)[0][0]]
+
+                event = AwakeningEvent(
+                    cell_id=self.cell_ids[idx],
+                    e_value=e_val,
+                    r_value=r_val
+                )
+                events.append(event)
+                self.logger.info(f"LAW OF CHANGE: Cell '{event.cell_id}' has met conditions for awakening! (e={event.e_value:.2f} > r={event.r_value})")
+                self.event_logger.log('AWAKENING_EVENT', self.time_step, cell_id=event.cell_id)
+
+            # Enact physical consequences
+            self.is_awakened[awakened_indices] = True # Mark as awakened to prevent immediate re-awakening
+            self.age[awakened_indices] = 0
+            self.insight[awakened_indices] = 0
+
+        return events
+
 
     def get_population_summary(self) -> Dict[str, int]:
         """Returns a dictionary with the count of living cells for each label."""
