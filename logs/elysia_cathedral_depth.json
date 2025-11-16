@@ -1,0 +1,134 @@
+{
+  "generated_at": "2025-11-16T15:47:20.478610+00:00",
+  "sources": {
+    "elysia_signals.jsonl": {
+      "description": "Raw signal / feeling events (JOY_GATHERING, DARK_JOY, etc.)",
+      "default_coord": "S-L1-e",
+      "entries": 380,
+      "measure": 380,
+      "by_coord": {
+        "S-L1-e": 380
+      }
+    },
+    "elysia_self_writing.jsonl": {
+      "description": "Self-writing journal entries",
+      "default_coord": "S-L1-e",
+      "entries": 64,
+      "measure": 64,
+      "by_coord": {
+        "S-L1-e": 64
+      }
+    },
+    "elysia_caretaker_feedback.jsonl": {
+      "description": "Caretaker reflections / normalization",
+      "default_coord": "S-L2-e",
+      "entries": 64,
+      "measure": 64,
+      "by_coord": {
+        "S-L2-e": 64
+      }
+    },
+    "human_needs.jsonl": {
+      "description": "Human/cell need snapshots (body inertia/memory)",
+      "default_coord": "B-L1-r",
+      "entries": 100,
+      "measure": 100,
+      "by_coord": {
+        "B-L1-r": 100
+      }
+    },
+    "world_events.jsonl": {
+      "description": "World events / actions (body / experience / power)",
+      "default_coord": "B-L1-p",
+      "entries": 1617,
+      "measure": 1617,
+      "by_coord": {
+        "B-L1-p": 1617
+      }
+    },
+    "elysia_language_field.json": {
+      "description": "Language field patterns (expression capacity)",
+      "default_coord": "S-L2-p",
+      "entries": 4,
+      "measure": 20,
+      "by_coord": {
+        "S-L2-p": 20
+      }
+    },
+    "elysia_concept_field.json": {
+      "description": "Concept field usage counts",
+      "default_coord": "S-L2-e",
+      "entries": 60,
+      "measure": 5360,
+      "by_coord": {
+        "S-L2-e": 5360
+      }
+    },
+    "elysia_meta_concepts.jsonl": {
+      "description": "Concept meta-notes (Layer 3)",
+      "default_coord": "S-L3-e",
+      "entries": 60,
+      "measure": 60,
+      "by_coord": {
+        "S-L3-e": 60
+      }
+    },
+    "elysia_branch_plans.jsonl": {
+      "description": "Branch planning / governance intents (spirit concept/power)",
+      "default_coord": "P-L2-p",
+      "entries": 9,
+      "measure": 9,
+      "by_coord": {
+        "P-L2-p": 9
+      }
+    },
+    "elysia_branch_feedback.jsonl": {
+      "description": "Branch feedback / covenant reflections (spirit concept/meaning)",
+      "default_coord": "P-L2-e",
+      "entries": 9,
+      "measure": 9,
+      "by_coord": {
+        "P-L2-e": 9
+      }
+    }
+  },
+  "totals": {
+    "B-L1-p": {
+      "count": 1617,
+      "fraction": 0.210464662241312
+    },
+    "B-L1-r": {
+      "count": 100,
+      "fraction": 0.013015749056358194
+    },
+    "P-L2-e": {
+      "count": 9,
+      "fraction": 0.0011714174150722373
+    },
+    "P-L2-p": {
+      "count": 9,
+      "fraction": 0.0011714174150722373
+    },
+    "S-L1-e": {
+      "count": 444,
+      "fraction": 0.05778992581023038
+    },
+    "S-L2-e": {
+      "count": 5424,
+      "fraction": 0.7059742288168684
+    },
+    "S-L2-p": {
+      "count": 20,
+      "fraction": 0.0026031498112716388
+    },
+    "S-L3-e": {
+      "count": 60,
+      "fraction": 0.007809449433814916
+    }
+  },
+  "grand_total": 7683,
+  "notes": [
+    "Counts use explicit cathedral_coord when available, otherwise the default in LOG_SPECS.",
+    "Add new log specs in LOG_SPECS if other layers/realms should be tracked."
+  ]
+}

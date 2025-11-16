@@ -79,6 +79,8 @@ def _compose_feedback(entry: Dict[str, Any]) -> Dict[str, Any]:
         "normalize": normalize,
         "question": question,
         "original_text": text,
+        # Caretaker reflection = Soul / Concept / Meaning.
+        "cathedral_coord": "S-L2-e",
     }
 
 
@@ -101,4 +103,3 @@ def generate_caretaker_feedback() -> str:
 
 if __name__ == "__main__":
     generate_caretaker_feedback()
-

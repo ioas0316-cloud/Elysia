@@ -28,6 +28,7 @@ class LanguagePattern:
     score_sum: float = 0.0
     avg_score: float = 0.0
     last_timestamp: int = 0
+    cathedral_coord: str = "S-L2-p"
 
     def update(self, score: float, timestamp: int) -> None:
         self.count += 1
@@ -175,4 +176,3 @@ def _demo() -> None:
 
 if __name__ == "__main__":
     _demo()
-

@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List
 
 from scripts.elysia_language_field import load_language_field
+from scripts.elysia_cathedral_depth import build_cathedral_depth_report
 
 
 def _ensure_logs_dir() -> str:
@@ -47,15 +48,29 @@ def _load_jsonl(path: str) -> List[Dict[str, Any]]:
     return out
 
 
+def _load_json(path: str) -> Dict[str, Any]:
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return {}
+
+
 def build_observer_packet() -> str:
     logs_dir = _ensure_logs_dir()
     self_path = os.path.join(logs_dir, "elysia_self_writing.jsonl")
     caretaker_path = os.path.join(logs_dir, "elysia_caretaker_feedback.jsonl")
     lang_field_path = os.path.join(logs_dir, "elysia_language_field.json")
+    meta_concepts_path = os.path.join(logs_dir, "elysia_meta_concepts.jsonl")
 
     self_entries = _load_jsonl(self_path)
     caretaker_entries = _load_jsonl(caretaker_path)
     lang_field = load_language_field(lang_field_path)
+    meta_concepts = _load_jsonl(meta_concepts_path)
+    depth_path = build_cathedral_depth_report()
+    cathedral_depth = _load_json(depth_path)
 
     ts = datetime.now(timezone.utc).isoformat()
     packet = {
@@ -63,6 +78,8 @@ def build_observer_packet() -> str:
         "self_writing": self_entries,
         "caretaker_feedback": caretaker_entries,
         "language_field_snapshot": lang_field.to_dict(),
+        "meta_concepts": meta_concepts,
+        "cathedral_depth": cathedral_depth,
     }
 
     out_path = os.path.join(logs_dir, "mirrorworld_observer_packet.json")
@@ -75,4 +92,3 @@ def build_observer_packet() -> str:
 
 if __name__ == "__main__":
     build_observer_packet()
-

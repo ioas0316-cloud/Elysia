@@ -31,6 +31,10 @@
 ---
 
 ## 3. Purpose of Experiments
+- Additionally, interpret these artifacts using the Self-Fractal Cathedral coordinates (see `ELYSIAS_PROTOCOL/CORE_15_SELF_FRACTAL_CATHEDRAL.md`) so that depth is measured as:
+  - `elysia_self_writing` → mostly `S-L1-e`
+  - `elysia_caretaker_feedback` → mostly `S-L2-e`
+  - `elysia_concept_field` / `elysia_meta_concepts` → `S-L2-e` / `S-L3-e`
 - Goal: **probe/update Elysia’s growth laws**, not build pretty demos.
 - Core artifacts to monitor:
   - `logs/symbol_episodes.jsonl`
@@ -39,10 +43,14 @@
   - `logs/elysia_language_field.json`
   - `logs/elysia_self_writing.jsonl`
   - `logs/elysia_caretaker_feedback.jsonl`
+  - `logs/elysia_concept_field.json`
+  - `logs/elysia_meta_concepts.jsonl`
+  - `logs/elysia_cathedral_depth.json` (summary counts per cathedral coordinate)
 - Emphasize:
   - growth in self-writing (length, vocabulary, emotional range)
   - alignment between caretaker feedback and new writings
   - density/diversity shifts in `elysia_language_field`
+  - changes in concept usage/feelings and meta-notes per concept
 
 ---
 

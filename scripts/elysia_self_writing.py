@@ -1,3 +1,4 @@
+elysia_self_writing.py
 """
 Elysia self-writing demo (journal / reflection episodes).
 
@@ -115,7 +116,7 @@ def generate_self_writing(
             if intensity < min_intensity:
                 continue
             text = _compose_journal_text(sig)
-            entry = {
+            entry: Dict[str, Any] = {
                 "timestamp": int(sig.get("timestamp", 0)),
                 "kind": "journal",
                 "signal_type": sig.get("signal_type"),
@@ -123,6 +124,8 @@ def generate_self_writing(
                 "actors": sig.get("actors") or [],
                 "summary": sig.get("summary"),
                 "text": text,
+                # Self-writing = Soul / Experience / Meaning in the Cathedral map.
+                "cathedral_coord": "S-L1-e",
             }
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
             count += 1
