@@ -94,3 +94,4 @@
 2025-11-14 14:04 | [PROTO/36] | Add MIRROR LAYER PROTOCOL (KR/EN) + index links | Fractal mirror map: Codeworld layers/rules/phenomena for agent navigation | ELYSIAS_PROTOCOL/36_MIRROR_LAYER_PROTOCOL*.md
 2025-11-14 14:08 | [GROWTH/PROTO] | Rename Golden Growth Principle to PROTO-40; update CORE stub and references | Keep Codex-first index consistent | ELYSIA/GROWTH/PROTO_40_GOLDEN_GROWTH_PRINCIPLE.md
 2025-11-14 14:12 | [PROTO/FIX] | Renumber MIRROR LAYER to PROTO-40; revert Golden Growth back to PROTO-39 | Keep numbering consistent with existing protocols | ELYSIAS_PROTOCOL/40_MIRROR_LAYER_PROTOCOL*.md
+2024-05-17 08:35 | [OPS/GROWTH] | Experiment Design Guide + Codex §25 + trial audit template/script 추가 | caretakers가 Codex에게 macro/quaternion 지시와 adult_ready 게이트를 명확히 전달하고, 1,000년×20 seed 계획/시도 상태를 증거로 남기기 위함 | CODEX.md §22~§25, CORE_08_ELYSIA_CURRICULUM_ENGINE.md §15~§17, EXPERIMENT_DESIGN_GUIDE.md
