@@ -160,11 +160,25 @@ class ElysiaSignalEngine:
             if etype == "IDLE_PLAY":
                 bucket["play"] += 0.2
 
+        # Helper to split actors into "villain" vs "non-villain" buckets.
+        def split_actors(actors_all: List[str]) -> Tuple[List[str], List[str]]:
+            good: List[str] = []
+            dark: List[str] = []
+            for aid in actors_all:
+                name = str(aid).lower()
+                # Heuristic: bandit/demon identifiers are treated as villain-aligned.
+                if "bandit" in name or "demonlord" in name or "demon_" in name:
+                    dark.append(aid)
+                else:
+                    good.append(aid)
+            return good, dark
+
         # Compress per-tick energies into signals.
         signals: List[ElysiaSignal] = []
         for t in sorted(tick_energy.keys()):
             energy = tick_energy[t]
-            actors = list(dict.fromkeys(tick_actors.get(t, [])))  # dedupe, preserve order
+            actors_all = list(dict.fromkeys(tick_actors.get(t, [])))  # dedupe, preserve order
+            good_actors, dark_actors = split_actors(actors_all)
             pos_list = tick_positions.get(t, [])
 
             # Convert energies to intensities via smooth squashing function.
@@ -180,15 +194,28 @@ class ElysiaSignalEngine:
             play_i = squash(energy.get("play", 0.0))
 
             # Avoid flooding: only emit when intensity is noticeable.
-            if joy_i > 0.15:
+            if joy_i > 0.15 and good_actors:
                 signals.append(
                     ElysiaSignal(
                         timestamp=t,
                         signal_type="JOY_GATHERING",
                         intensity=joy_i,
                         position=None,
-                        actors=actors,
+                        actors=good_actors,
                         summary="Accumulated simple joys (food, recovery, growth).",
+                    )
+                )
+            # Dark joy: villain-only gatherings are tracked separately so they do
+            # not inflate Elysia's core JOY/KINSHIP metrics.
+            if joy_i > 0.15 and dark_actors:
+                signals.append(
+                    ElysiaSignal(
+                        timestamp=t,
+                        signal_type="DARK_JOY",
+                        intensity=joy_i,
+                        position=None,
+                        actors=dark_actors,
+                        summary="Unsettling joy among villain-aligned actors (bandits, demons).",
                     )
                 )
 

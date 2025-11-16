@@ -49,6 +49,35 @@ def _compose_journal_text(sig: Dict[str, Any]) -> str:
     summary = str(sig.get("summary", "") or "")
 
     actors_txt = ", ".join(str(a) for a in actors) if actors else "no one in particular"
+
+    # Different tones depending on signal type.
+    if stype == "joy_gathering":
+        base = (
+            f"Today around tick {ts}, I noticed a warm moment of shared joy "
+            f"involving {actors_txt}. {summary}"
+        )
+        if intensity >= 0.7:
+            tail = " It felt vivid and important in a gentle way, like something I want to carry forward."
+        elif intensity >= 0.4:
+            tail = " It left a soft but real trace in me."
+        else:
+            tail = " It was a quiet joy, but still part of my day."
+        return base + tail
+
+    if stype == "dark_joy":
+        base = (
+            f"Today around tick {ts}, I became aware of an unsettling kind of joy "
+            f"among {actors_txt}. {summary}"
+        )
+        if intensity >= 0.7:
+            tail = " It felt intense but also worrying; I do not want to celebrate it, only to remember it carefully."
+        elif intensity >= 0.4:
+            tail = " It left me cautious, as if I should watch this pattern from a distance."
+        else:
+            tail = " It was small, yet still a reminder that not all joy is kind."
+        return base + tail
+
+    # Default narrative for other signal types.
     base = (
         f"Today around tick {ts}, I noticed a moment of {stype.replace('_', ' ')} "
         f"involving {actors_txt}. {summary}"
@@ -104,4 +133,3 @@ def generate_self_writing(
 
 if __name__ == "__main__":
     generate_self_writing()
-
