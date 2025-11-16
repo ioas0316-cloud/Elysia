@@ -3,8 +3,8 @@
     "text": "지금은 비교적 평화로운 시대다.",
     "text_type": "sentence_ko",
     "scope": "world_era",
-    "count": 5,
-    "score_sum": 5.0,
+    "count": 6,
+    "score_sum": 6.0,
     "avg_score": 1.0,
     "last_timestamp": 0,
     "cathedral_coord": "S-L2-p"
@@ -13,8 +13,8 @@
     "text": "흉년이 계속되어 굶주림이 사람들을 짓누른다.",
     "text_type": "sentence_ko",
     "scope": "world_era",
-    "count": 5,
-    "score_sum": 5.0,
+    "count": 6,
+    "score_sum": 6.0,
     "avg_score": 1.0,
     "last_timestamp": 1,
     "cathedral_coord": "S-L2-p"
@@ -23,8 +23,8 @@
     "text": "마왕의 그림자가 세계 곳곳에 드리워지기 시작했다.",
     "text_type": "sentence_ko",
     "scope": "world_era",
-    "count": 5,
-    "score_sum": 5.0,
+    "count": 6,
+    "score_sum": 6.0,
     "avg_score": 1.0,
     "last_timestamp": 2,
     "cathedral_coord": "S-L2-p"
@@ -33,8 +33,8 @@
     "text": "마왕 (전설적인 강자) - 갈림길 위의 방랑자",
     "text_type": "sentence_ko",
     "scope": "character_arc",
-    "count": 5,
-    "score_sum": 5.0,
+    "count": 6,
+    "score_sum": 6.0,
     "avg_score": 1.0,
     "last_timestamp": 3,
     "cathedral_coord": "S-L2-p"

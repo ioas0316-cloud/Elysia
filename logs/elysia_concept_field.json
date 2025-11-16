@@ -2,9 +2,9 @@
   "symbol:dragon": {
     "name": "dragon",
     "kind": "symbol",
-    "usage_count": 265,
+    "usage_count": 318,
     "contexts": {
-      "symbol_word_en": 265
+      "symbol_word_en": 318
     },
     "feelings": {},
     "examples": [],
@@ -14,9 +14,9 @@
   "symbol:F": {
     "name": "F",
     "kind": "symbol",
-    "usage_count": 70,
+    "usage_count": 84,
     "contexts": {
-      "symbol_letter_en": 70
+      "symbol_letter_en": 84
     },
     "feelings": {},
     "examples": [],
@@ -26,9 +26,9 @@
   "symbol:차": {
     "name": "차",
     "kind": "symbol",
-    "usage_count": 130,
+    "usage_count": 156,
     "contexts": {
-      "symbol_syllable_ko": 130
+      "symbol_syllable_ko": 156
     },
     "feelings": {},
     "examples": [],
@@ -38,9 +38,9 @@
   "symbol:king": {
     "name": "king",
     "kind": "symbol",
-    "usage_count": 205,
+    "usage_count": 246,
     "contexts": {
-      "symbol_word_en": 205
+      "symbol_word_en": 246
     },
     "feelings": {},
     "examples": [],
@@ -50,9 +50,9 @@
   "symbol:village": {
     "name": "village",
     "kind": "symbol",
-    "usage_count": 250,
+    "usage_count": 300,
     "contexts": {
-      "symbol_word_en": 250
+      "symbol_word_en": 300
     },
     "feelings": {},
     "examples": [],
@@ -62,9 +62,9 @@
   "symbol:queen": {
     "name": "queen",
     "kind": "symbol",
-    "usage_count": 255,
+    "usage_count": 306,
     "contexts": {
-      "symbol_word_en": 255
+      "symbol_word_en": 306
     },
     "feelings": {},
     "examples": [],
@@ -74,9 +74,9 @@
   "symbol:ㅌ": {
     "name": "ㅌ",
     "kind": "symbol",
-    "usage_count": 105,
+    "usage_count": 126,
     "contexts": {
-      "symbol_letter_ko": 105
+      "symbol_letter_ko": 126
     },
     "feelings": {},
     "examples": [],
@@ -86,9 +86,9 @@
   "symbol:M": {
     "name": "M",
     "kind": "symbol",
-    "usage_count": 75,
+    "usage_count": 90,
     "contexts": {
-      "symbol_letter_en": 75
+      "symbol_letter_en": 90
     },
     "feelings": {},
     "examples": [],
@@ -98,9 +98,9 @@
   "symbol:L": {
     "name": "L",
     "kind": "symbol",
-    "usage_count": 50,
+    "usage_count": 60,
     "contexts": {
-      "symbol_letter_en": 50
+      "symbol_letter_en": 60
     },
     "feelings": {},
     "examples": [],
@@ -110,9 +110,9 @@
   "symbol:가": {
     "name": "가",
     "kind": "symbol",
-    "usage_count": 160,
+    "usage_count": 192,
     "contexts": {
-      "symbol_syllable_ko": 160
+      "symbol_syllable_ko": 192
     },
     "feelings": {},
     "examples": [],
@@ -122,9 +122,9 @@
   "symbol:O": {
     "name": "O",
     "kind": "symbol",
-    "usage_count": 55,
+    "usage_count": 66,
     "contexts": {
-      "symbol_letter_en": 55
+      "symbol_letter_en": 66
     },
     "feelings": {},
     "examples": [],
@@ -134,9 +134,9 @@
   "symbol:나": {
     "name": "나",
     "kind": "symbol",
-    "usage_count": 200,
+    "usage_count": 240,
     "contexts": {
-      "symbol_syllable_ko": 200
+      "symbol_syllable_ko": 240
     },
     "feelings": {},
     "examples": [],
@@ -146,9 +146,9 @@
   "symbol:ㅅ": {
     "name": "ㅅ",
     "kind": "symbol",
-    "usage_count": 40,
+    "usage_count": 48,
     "contexts": {
-      "symbol_letter_ko": 40
+      "symbol_letter_ko": 48
     },
     "feelings": {},
     "examples": [],
@@ -158,9 +158,9 @@
   "symbol:마": {
     "name": "마",
     "kind": "symbol",
-    "usage_count": 115,
+    "usage_count": 138,
     "contexts": {
-      "symbol_syllable_ko": 115
+      "symbol_syllable_ko": 138
     },
     "feelings": {},
     "examples": [],
@@ -170,9 +170,9 @@
   "symbol:P": {
     "name": "P",
     "kind": "symbol",
-    "usage_count": 60,
+    "usage_count": 72,
     "contexts": {
-      "symbol_letter_en": 60
+      "symbol_letter_en": 72
     },
     "feelings": {},
     "examples": [],
@@ -182,9 +182,9 @@
   "symbol:sword": {
     "name": "sword",
     "kind": "symbol",
-    "usage_count": 235,
+    "usage_count": 282,
     "contexts": {
-      "symbol_word_en": 235
+      "symbol_word_en": 282
     },
     "feelings": {},
     "examples": [],
@@ -194,9 +194,9 @@
   "symbol:ㅋ": {
     "name": "ㅋ",
     "kind": "symbol",
-    "usage_count": 115,
+    "usage_count": 138,
     "contexts": {
-      "symbol_letter_ko": 115
+      "symbol_letter_ko": 138
     },
     "feelings": {},
     "examples": [],
@@ -206,9 +206,9 @@
   "symbol:ㅇ": {
     "name": "ㅇ",
     "kind": "symbol",
-    "usage_count": 95,
+    "usage_count": 114,
     "contexts": {
-      "symbol_letter_ko": 95
+      "symbol_letter_ko": 114
     },
     "feelings": {},
     "examples": [],
@@ -218,9 +218,9 @@
   "symbol:Q": {
     "name": "Q",
     "kind": "symbol",
-    "usage_count": 50,
+    "usage_count": 60,
     "contexts": {
-      "symbol_letter_en": 50
+      "symbol_letter_en": 60
     },
     "feelings": {},
     "examples": [],
@@ -230,9 +230,9 @@
   "symbol:ㅂ": {
     "name": "ㅂ",
     "kind": "symbol",
-    "usage_count": 80,
+    "usage_count": 96,
     "contexts": {
-      "symbol_letter_ko": 80
+      "symbol_letter_ko": 96
     },
     "feelings": {},
     "examples": [],
@@ -242,9 +242,9 @@
   "symbol:V": {
     "name": "V",
     "kind": "symbol",
-    "usage_count": 65,
+    "usage_count": 78,
     "contexts": {
-      "symbol_letter_en": 65
+      "symbol_letter_en": 78
     },
     "feelings": {},
     "examples": [],
@@ -254,9 +254,9 @@
   "symbol:A": {
     "name": "A",
     "kind": "symbol",
-    "usage_count": 70,
+    "usage_count": 84,
     "contexts": {
-      "symbol_letter_en": 70
+      "symbol_letter_en": 84
     },
     "feelings": {},
     "examples": [],
@@ -266,9 +266,9 @@
   "symbol:라": {
     "name": "라",
     "kind": "symbol",
-    "usage_count": 100,
+    "usage_count": 120,
     "contexts": {
-      "symbol_syllable_ko": 100
+      "symbol_syllable_ko": 120
     },
     "feelings": {},
     "examples": [],
@@ -278,9 +278,9 @@
   "symbol:ㄴ": {
     "name": "ㄴ",
     "kind": "symbol",
-    "usage_count": 90,
+    "usage_count": 108,
     "contexts": {
-      "symbol_letter_ko": 90
+      "symbol_letter_ko": 108
     },
     "feelings": {},
     "examples": [],
@@ -290,9 +290,9 @@
   "symbol:다": {
     "name": "다",
     "kind": "symbol",
-    "usage_count": 165,
+    "usage_count": 198,
     "contexts": {
-      "symbol_syllable_ko": 165
+      "symbol_syllable_ko": 198
     },
     "feelings": {},
     "examples": [],
@@ -302,9 +302,9 @@
   "symbol:ㅊ": {
     "name": "ㅊ",
     "kind": "symbol",
-    "usage_count": 75,
+    "usage_count": 90,
     "contexts": {
-      "symbol_letter_ko": 75
+      "symbol_letter_ko": 90
     },
     "feelings": {},
     "examples": [],
@@ -314,9 +314,9 @@
   "symbol:ㅎ": {
     "name": "ㅎ",
     "kind": "symbol",
-    "usage_count": 90,
+    "usage_count": 108,
     "contexts": {
-      "symbol_letter_ko": 90
+      "symbol_letter_ko": 108
     },
     "feelings": {},
     "examples": [],
@@ -326,9 +326,9 @@
   "symbol:ㄱ": {
     "name": "ㄱ",
     "kind": "symbol",
-    "usage_count": 75,
+    "usage_count": 90,
     "contexts": {
-      "symbol_letter_ko": 75
+      "symbol_letter_ko": 90
     },
     "feelings": {},
     "examples": [],
@@ -338,9 +338,9 @@
   "symbol:U": {
     "name": "U",
     "kind": "symbol",
-    "usage_count": 40,
+    "usage_count": 48,
     "contexts": {
-      "symbol_letter_en": 40
+      "symbol_letter_en": 48
     },
     "feelings": {},
     "examples": [],
@@ -350,9 +350,9 @@
   "symbol:사": {
     "name": "사",
     "kind": "symbol",
-    "usage_count": 110,
+    "usage_count": 132,
     "contexts": {
-      "symbol_syllable_ko": 110
+      "symbol_syllable_ko": 132
     },
     "feelings": {},
     "examples": [],
@@ -362,9 +362,9 @@
   "symbol:T": {
     "name": "T",
     "kind": "symbol",
-    "usage_count": 55,
+    "usage_count": 66,
     "contexts": {
-      "symbol_letter_en": 55
+      "symbol_letter_en": 66
     },
     "feelings": {},
     "examples": [],
@@ -374,9 +374,9 @@
   "symbol:Y": {
     "name": "Y",
     "kind": "symbol",
-    "usage_count": 60,
+    "usage_count": 72,
     "contexts": {
-      "symbol_letter_en": 60
+      "symbol_letter_en": 72
     },
     "feelings": {},
     "examples": [],
@@ -386,9 +386,9 @@
   "symbol:J": {
     "name": "J",
     "kind": "symbol",
-    "usage_count": 55,
+    "usage_count": 66,
     "contexts": {
-      "symbol_letter_en": 55
+      "symbol_letter_en": 66
     },
     "feelings": {},
     "examples": [],
@@ -398,9 +398,9 @@
   "symbol:B": {
     "name": "B",
     "kind": "symbol",
-    "usage_count": 60,
+    "usage_count": 72,
     "contexts": {
-      "symbol_letter_en": 60
+      "symbol_letter_en": 72
     },
     "feelings": {},
     "examples": [],
@@ -410,9 +410,9 @@
   "symbol:W": {
     "name": "W",
     "kind": "symbol",
-    "usage_count": 45,
+    "usage_count": 54,
     "contexts": {
-      "symbol_letter_en": 45
+      "symbol_letter_en": 54
     },
     "feelings": {},
     "examples": [],
@@ -422,9 +422,9 @@
   "symbol:바": {
     "name": "바",
     "kind": "symbol",
-    "usage_count": 120,
+    "usage_count": 144,
     "contexts": {
-      "symbol_syllable_ko": 120
+      "symbol_syllable_ko": 144
     },
     "feelings": {},
     "examples": [],
@@ -434,9 +434,9 @@
   "symbol:ㄷ": {
     "name": "ㄷ",
     "kind": "symbol",
-    "usage_count": 85,
+    "usage_count": 102,
     "contexts": {
-      "symbol_letter_ko": 85
+      "symbol_letter_ko": 102
     },
     "feelings": {},
     "examples": [],
@@ -446,9 +446,9 @@
   "symbol:D": {
     "name": "D",
     "kind": "symbol",
-    "usage_count": 35,
+    "usage_count": 42,
     "contexts": {
-      "symbol_letter_en": 35
+      "symbol_letter_en": 42
     },
     "feelings": {},
     "examples": [],
@@ -458,9 +458,9 @@
   "symbol:ㅍ": {
     "name": "ㅍ",
     "kind": "symbol",
-    "usage_count": 60,
+    "usage_count": 72,
     "contexts": {
-      "symbol_letter_ko": 60
+      "symbol_letter_ko": 72
     },
     "feelings": {},
     "examples": [],
@@ -470,9 +470,9 @@
   "symbol:X": {
     "name": "X",
     "kind": "symbol",
-    "usage_count": 45,
+    "usage_count": 54,
     "contexts": {
-      "symbol_letter_en": 45
+      "symbol_letter_en": 54
     },
     "feelings": {},
     "examples": [],
@@ -482,9 +482,9 @@
   "symbol:ㄹ": {
     "name": "ㄹ",
     "kind": "symbol",
-    "usage_count": 95,
+    "usage_count": 114,
     "contexts": {
-      "symbol_letter_ko": 95
+      "symbol_letter_ko": 114
     },
     "feelings": {},
     "examples": [],
@@ -494,9 +494,9 @@
   "symbol:자": {
     "name": "자",
     "kind": "symbol",
-    "usage_count": 90,
+    "usage_count": 108,
     "contexts": {
-      "symbol_syllable_ko": 90
+      "symbol_syllable_ko": 108
     },
     "feelings": {},
     "examples": [],
@@ -506,9 +506,9 @@
   "symbol:H": {
     "name": "H",
     "kind": "symbol",
-    "usage_count": 35,
+    "usage_count": 42,
     "contexts": {
-      "symbol_letter_en": 35
+      "symbol_letter_en": 42
     },
     "feelings": {},
     "examples": [],
@@ -518,9 +518,9 @@
   "symbol:아": {
     "name": "아",
     "kind": "symbol",
-    "usage_count": 130,
+    "usage_count": 156,
     "contexts": {
-      "symbol_syllable_ko": 130
+      "symbol_syllable_ko": 156
     },
     "feelings": {},
     "examples": [],
@@ -530,9 +530,9 @@
   "symbol:I": {
     "name": "I",
     "kind": "symbol",
-    "usage_count": 55,
+    "usage_count": 66,
     "contexts": {
-      "symbol_letter_en": 55
+      "symbol_letter_en": 66
     },
     "feelings": {},
     "examples": [],
@@ -542,9 +542,9 @@
   "symbol:Z": {
     "name": "Z",
     "kind": "symbol",
-    "usage_count": 35,
+    "usage_count": 42,
     "contexts": {
-      "symbol_letter_en": 35
+      "symbol_letter_en": 42
     },
     "feelings": {},
     "examples": [],
@@ -554,9 +554,9 @@
   "symbol:ㅈ": {
     "name": "ㅈ",
     "kind": "symbol",
-    "usage_count": 95,
+    "usage_count": 114,
     "contexts": {
-      "symbol_letter_ko": 95
+      "symbol_letter_ko": 114
     },
     "feelings": {},
     "examples": [],
@@ -566,9 +566,9 @@
   "symbol:R": {
     "name": "R",
     "kind": "symbol",
-    "usage_count": 50,
+    "usage_count": 60,
     "contexts": {
-      "symbol_letter_en": 50
+      "symbol_letter_en": 60
     },
     "feelings": {},
     "examples": [],
@@ -578,9 +578,9 @@
   "symbol:K": {
     "name": "K",
     "kind": "symbol",
-    "usage_count": 60,
+    "usage_count": 72,
     "contexts": {
-      "symbol_letter_en": 60
+      "symbol_letter_en": 72
     },
     "feelings": {},
     "examples": [],
@@ -590,9 +590,9 @@
   "symbol:ㅁ": {
     "name": "ㅁ",
     "kind": "symbol",
-    "usage_count": 55,
+    "usage_count": 66,
     "contexts": {
-      "symbol_letter_ko": 55
+      "symbol_letter_ko": 66
     },
     "feelings": {},
     "examples": [],
@@ -602,9 +602,9 @@
   "symbol:C": {
     "name": "C",
     "kind": "symbol",
-    "usage_count": 45,
+    "usage_count": 54,
     "contexts": {
-      "symbol_letter_en": 45
+      "symbol_letter_en": 54
     },
     "feelings": {},
     "examples": [],
@@ -614,9 +614,9 @@
   "symbol:N": {
     "name": "N",
     "kind": "symbol",
-    "usage_count": 30,
+    "usage_count": 36,
     "contexts": {
-      "symbol_letter_en": 30
+      "symbol_letter_en": 36
     },
     "feelings": {},
     "examples": [],
@@ -626,9 +626,9 @@
   "symbol:G": {
     "name": "G",
     "kind": "symbol",
-    "usage_count": 50,
+    "usage_count": 60,
     "contexts": {
-      "symbol_letter_en": 50
+      "symbol_letter_en": 60
     },
     "feelings": {},
     "examples": [],
@@ -638,9 +638,9 @@
   "symbol:E": {
     "name": "E",
     "kind": "symbol",
-    "usage_count": 40,
+    "usage_count": 48,
     "contexts": {
-      "symbol_letter_en": 40
+      "symbol_letter_en": 48
     },
     "feelings": {},
     "examples": [],
@@ -650,9 +650,9 @@
   "symbol:S": {
     "name": "S",
     "kind": "symbol",
-    "usage_count": 25,
+    "usage_count": 30,
     "contexts": {
-      "symbol_letter_en": 25
+      "symbol_letter_en": 30
     },
     "feelings": {},
     "examples": [],
@@ -662,17 +662,18 @@
   "world_concept:CELLWORLD": {
     "name": "CELLWORLD",
     "kind": "world_concept",
-    "usage_count": 10,
+    "usage_count": 11,
     "contexts": {
-      "expression_score": 10
+      "expression_score": 11
     },
     "feelings": {
-      "JOY": 0.6849999999999998,
-      "KINSHIP": 0.53,
-      "SEASON_RESILIENCE": 0.33999999999999997
+      "JOY": 0.6527272727272725,
+      "KINSHIP": 0.5181818181818183,
+      "SEASON_RESILIENCE": 0.33999999999999997,
+      "SELF_DISCLOSURE": 0.38
     },
     "examples": [],
-    "last_timestamp": 518100500,
+    "last_timestamp": 838350000,
     "cathedral_coord": "S-L2-e"
   },
   "world_concept:CODEWORLD": {
@@ -730,17 +731,17 @@
   "world_concept:self_writing": {
     "name": "self_writing",
     "kind": "world_concept",
-    "usage_count": 320,
+    "usage_count": 321,
     "contexts": {
-      "self_writing": 320
+      "self_writing": 321
     },
     "feelings": {},
     "examples": [
-      "Today around tick 272, I noticed a moment of playful noise involving bandit_126_1, bandit_33_0, bandit_33_1, bandit_33_2, bandit_33_3, bandit_33_4, bandit_90_0, bandit_90_1, bandit_90_2, bandit_90_3, bandit_90_4, bandit_93_0, bandit_93_1, bandit_93_2, bandit_93_3, bandit_93_4, bandit_114_0, bandit_114_1, bandit_126_0, bandit_126_2, bandit_126_3, bandit_132_0, bandit_132_1, DemonLord, bandit_234_0, bandit_234_1, bandit_234_2, bandit_237_0, bandit_237_1, bandit_237_2, bandit_237_3, bandit_237_4, bandit_270_0, bandit_270_1, citizen_13. Moments of idle play / wandering with no clear purpose. It felt vivid and important, like something I want to remember.",
       "Today around tick 295, I noticed a moment of playful noise involving bandit_33_0, bandit_33_1, bandit_33_2, bandit_33_3, bandit_33_4, bandit_90_0, bandit_90_1, bandit_90_2, bandit_90_3, bandit_90_4, bandit_93_0, bandit_93_1, bandit_93_2, bandit_93_3, bandit_93_4, bandit_114_0, bandit_114_1, bandit_126_0, bandit_126_1, bandit_126_2, bandit_126_3, bandit_132_0, bandit_132_1, DemonLord, bandit_234_0, bandit_234_1, bandit_234_2, bandit_237_0, bandit_237_1, bandit_237_2, bandit_237_3, bandit_237_4, bandit_270_0, bandit_270_1, citizen_11, citizen_20. Moments of idle play / wandering with no clear purpose. It felt vivid and important, like something I want to remember.",
       "Today around tick 319, I noticed a moment of playful noise involving bandit_33_0, bandit_33_1, bandit_33_2, bandit_33_3, bandit_33_4, bandit_90_0, bandit_90_1, bandit_90_2, bandit_90_3, bandit_90_4, bandit_93_0, bandit_93_1, bandit_93_2, bandit_93_3, bandit_93_4, bandit_114_0, bandit_114_1, bandit_126_0, bandit_126_1, bandit_126_2, bandit_126_3, bandit_132_0, bandit_132_1, DemonLord, bandit_234_0, bandit_234_1, bandit_234_2, bandit_237_0, bandit_237_1, bandit_237_2, bandit_237_3, bandit_237_4, bandit_270_0, bandit_270_1, citizen_3, citizen_15. Moments of idle play / wandering with no clear purpose. It felt vivid and important, like something I want to remember.",
       "Today around tick 321, I noticed a moment of playful noise involving bandit_33_0, bandit_33_1, bandit_33_2, bandit_33_3, bandit_33_4, bandit_90_0, bandit_90_1, bandit_90_2, bandit_90_3, bandit_90_4, bandit_93_0, bandit_93_1, bandit_93_2, bandit_93_3, bandit_93_4, bandit_114_0, bandit_114_1, bandit_126_0, bandit_126_1, bandit_126_2, bandit_126_3, bandit_132_0, bandit_132_1, DemonLord, bandit_234_0, bandit_234_1, bandit_234_2, bandit_237_0, bandit_237_1, bandit_237_2, bandit_237_3, bandit_237_4, bandit_270_0, bandit_270_1, citizen_5, citizen_10. Moments of idle play / wandering with no clear purpose. It felt vivid and important, like something I want to remember.",
-      "Today around tick 327, I noticed a moment of playful noise involving bandit_33_0, bandit_33_1, bandit_33_2, bandit_33_3, bandit_33_4, bandit_90_0, bandit_90_1, bandit_90_2, bandit_90_3, bandit_90_4, bandit_93_0, bandit_93_1, bandit_93_2, bandit_93_3, bandit_93_4, bandit_114_0, bandit_114_1, bandit_126_0, bandit_126_1, bandit_126_2, bandit_126_3, bandit_132_0, bandit_132_1, DemonLord, bandit_234_0, bandit_234_1, bandit_234_2, bandit_237_0, bandit_237_1, bandit_237_2, bandit_237_3, bandit_237_4, bandit_270_0, bandit_270_1, citizen_12, citizen_11. Moments of idle play / wandering with no clear purpose. It felt vivid and important, like something I want to remember."
+      "Today around tick 327, I noticed a moment of playful noise involving bandit_33_0, bandit_33_1, bandit_33_2, bandit_33_3, bandit_33_4, bandit_90_0, bandit_90_1, bandit_90_2, bandit_90_3, bandit_90_4, bandit_93_0, bandit_93_1, bandit_93_2, bandit_93_3, bandit_93_4, bandit_114_0, bandit_114_1, bandit_126_0, bandit_126_1, bandit_126_2, bandit_126_3, bandit_132_0, bandit_132_1, DemonLord, bandit_234_0, bandit_234_1, bandit_234_2, bandit_237_0, bandit_237_1, bandit_237_2, bandit_237_3, bandit_237_4, bandit_270_0, bandit_270_1, citizen_12, citizen_11. Moments of idle play / wandering with no clear purpose. It felt vivid and important, like something I want to remember.",
+      "Today around tick 48, I noticed a moment of playful noise involving human_demo_1, human_demo_1, human_demo_2, human_demo_2. Moments of idle play / wandering with no clear purpose. It was a small moment, but still part of my day."
     ],
     "last_timestamp": 350,
     "cathedral_coord": "S-L2-e"

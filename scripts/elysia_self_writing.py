@@ -1,4 +1,3 @@
-elysia_self_writing.py
 """
 Elysia self-writing demo (journal / reflection episodes).
 
