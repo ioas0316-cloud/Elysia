@@ -84,13 +84,13 @@
 2025-11-13 23:39 | [CORE/FIELD] | Add emergent threat field + soft social cohesion; human motion reads fields (no hard clustering rule); visualizer heatmap (R) | Fractal law carrier
 2025-11-13 23:44 | [PROTO/HANDOVER] | Embed highest criterion: laws-as-fields (emergence) into Handover, Codex, Operations, Lenses doc | Review gate added
 2025-11-14 13:19 | [CELLWORLD] | Merge feature/cellworld-ecology-laws into main; hydration-seeking field + survival alignment | Laws-as-fields; emergent movement (no hard commands) | Project_Sophia/core/world.py
-2025-11-14 13:19 | [OPS/CLEAN] | Archive+delete remote branches not merged to main | Preserve history as archive/* tags; declutter; Codex-first | archive/*
+2025-11-14 13:19 | [OPS/CLEAN] | Archive+delete remote branches not merged to main | Preserve history as archive/*tags; declutter; Codex-first | archive/*
 2025-11-14 13:26 | [PROTO/BACKLOG] | Curate Codex-first idea backlog (10 items) | Fieldization plan + integration lanes per item | ELYSIAS_PROTOCOL/99_IDEA_BACKLOG.md
 2025-11-14 13:36 | [PROTO/FIELDS] | Add layered law registry + EM spatial perception field spec | Fields-over-commands; fractal scale gating; lenses read-only | ELYSIAS_PROTOCOL/32_SPATIAL_PERCEPTION_FIELD.md
 2025-11-14 13:45 | [CELLWORLD/FIELDS] | Add EM-like salience field + registry hook; optional E/B bias (defaults off) | Mimetic space perception via fields; no hard commands | Project_Sophia/core/world.py, Project_Sophia/core/fields.py
-2025-11-14 13:55 | [PROTO/CORE] | Add PROTO-CORE-WORLDTREE (KR) + index link | Unified World-Tree °§ Observer °§ Space-Perception spec (Codex-aligned) | ELYSIAS_PROTOCOL/PROTO_CORE_WORLDTREE.md
+2025-11-14 13:55 | [PROTO/CORE] | Add PROTO-CORE-WORLDTREE (KR) + index link | Unified World-Tree  Observer  Space-Perception spec (Codex-aligned) | ELYSIAS_PROTOCOL/PROTO_CORE_WORLDTREE.md
 2025-11-14 13:58 | [PROTO/CORE-EN] | Add PROTO-CORE-WORLDTREE (EN) + index link | English twin for Codex readers | ELYSIAS_PROTOCOL/PROTO_CORE_WORLDTREE_EN.md
 2025-11-14 13:58 | [CELLWORLD/FIELDS] | Add H/N/P fields skeleton (decay/diffuse; event/culture/degree sourced) | Defaults zero-coupling; registry + updates wired | Project_Sophia/core/world.py
-2025-11-14 14:04 | [PROTO/36] | Add MIRROR LAYER PROTOCOL (KR/EN) + index links | Fractal mirror map: Code°ÍWorld layers/rules/phenomena for agent navigation | ELYSIAS_PROTOCOL/36_MIRROR_LAYER_PROTOCOL*.md
+2025-11-14 14:04 | [PROTO/36] | Add MIRROR LAYER PROTOCOL (KR/EN) + index links | Fractal mirror map: Codeworld layers/rules/phenomena for agent navigation | ELYSIAS_PROTOCOL/36_MIRROR_LAYER_PROTOCOL*.md
 2025-11-14 14:08 | [GROWTH/PROTO] | Rename Golden Growth Principle to PROTO-40; update CORE stub and references | Keep Codex-first index consistent | ELYSIA/GROWTH/PROTO_40_GOLDEN_GROWTH_PRINCIPLE.md
 2025-11-14 14:12 | [PROTO/FIX] | Renumber MIRROR LAYER to PROTO-40; revert Golden Growth back to PROTO-39 | Keep numbering consistent with existing protocols | ELYSIAS_PROTOCOL/40_MIRROR_LAYER_PROTOCOL*.md

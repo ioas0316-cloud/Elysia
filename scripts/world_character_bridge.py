@@ -18,7 +18,24 @@ from scripts.character_model import (
 )
 
 
-def _compute_power_score_from_world(world: World, idx: int) -> float:
+def _infer_race(origin_civ: str, name: str) -> str:
+    """Best-effort race inference from origin/culture/name strings."""
+    s = (origin_civ or "") + " " + (name or "")
+    s_lower = s.lower()
+    if "elf" in s_lower:
+        return "elf"
+    if "dwarf" in s_lower or "dwarfh" in s_lower:
+        return "dwarf"
+    if "orc" in s_lower:
+        return "orc"
+    if "fae" in s_lower or "fairy" in s_lower:
+        return "fae"
+    if "dragon" in s_lower:
+        return "dragon"
+    return "human"
+
+
+def _compute_power_score_from_world(world: World, idx: int, race: str | None = None) -> float:
     """
     Derive a coarse power_score from WORLD stats at index `idx`.
 
@@ -34,13 +51,49 @@ def _compute_power_score_from_world(world: World, idx: int) -> float:
     wisdom = float(world.wisdom[idx]) if world.wisdom.size > idx else 0.0
 
     base = 0.3 * hp + 0.2 * max_hp
-    stats = (
-        2.0 * strength
-        + 1.5 * agility
-        + 1.2 * intelligence
-        + 1.5 * vitality
-        + 1.2 * wisdom
-    )
+
+    r = (race or "human").lower()
+    if r == "elf":
+        stats = (
+            1.2 * strength
+            + 2.0 * agility
+            + 1.8 * intelligence
+            + 1.2 * vitality
+            + 1.8 * wisdom
+        )
+    elif r == "dwarf":
+        stats = (
+            2.2 * strength
+            + 1.0 * agility
+            + 1.0 * intelligence
+            + 2.0 * vitality
+            + 1.2 * wisdom
+        )
+    elif r == "orc":
+        stats = (
+            2.5 * strength
+            + 1.2 * agility
+            + 0.8 * intelligence
+            + 2.0 * vitality
+            + 0.8 * wisdom
+        )
+    elif r == "fae":
+        stats = (
+            1.0 * strength
+            + 2.2 * agility
+            + 1.6 * intelligence
+            + 0.8 * vitality
+            + 2.0 * wisdom
+        )
+    else:
+        # Human / default: balanced weights.
+        stats = (
+            2.0 * strength
+            + 1.5 * agility
+            + 1.2 * intelligence
+            + 1.5 * vitality
+            + 1.2 * wisdom
+        )
     return base * 0.05 + stats
 
 
@@ -76,12 +129,14 @@ def build_characters_from_world(world: World) -> List[Character]:
         if affiliation_array is not None and idx < affiliation_array.size and affiliation_array[idx]:
             faction = str(affiliation_array[idx])
 
-        power = _compute_power_score_from_world(world, idx)
+        race = _infer_race(origin_civ, str(name))
+        power = _compute_power_score_from_world(world, idx, race=race)
 
         ch = Character(
             id=cid,
             name=str(name),
             origin_civ=origin_civ,
+            race=race,
             faction=faction,
             era="unknown",
             birth_place_tags=[],

@@ -17,8 +17,12 @@ worlds can plug them in without tight coupling.
 
 from __future__ import annotations
 
+import math
+import random
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List, Optional, Tuple, Callable
+from typing import Callable, Dict, Iterable, List, Optional, Tuple
+
+from scripts.jobs import JOB_REGISTRY, PROMOTION_TREE, split_job_id
 
 
 SIN_KEYS = ["lust", "gluttony", "greed", "sloth", "wrath", "envy", "pride"]
@@ -32,6 +36,8 @@ VIRTUE_KEYS = [
     "humility",
 ]
 
+DEFAULT_PROMOTION_THRESHOLDS: List[float] = [0.0, 20.0, 40.0, 60.0, 80.0]
+
 
 @dataclass
 class Character:
@@ -42,6 +48,7 @@ class Character:
 
     # World identity
     origin_civ: str = "unknown"  # e.g., "HumanKingdom", "Ming", "DwarfHold"
+    race: str = "human"  # e.g., "human", "elf", "dwarf", "orc", "fae"
     era: str = "unknown"  # e.g., "post_calamity", "gate_opening"
     birth_place_tags: List[str] = field(default_factory=list)  # ["capital", "border_town"]
 
@@ -52,6 +59,15 @@ class Character:
     # Role / class
     class_role: str = "commoner"  # "warrior", "swordsman", "mage", ...
     party_role: str = "flex"  # "tank", "dps", "support", "scout", ...
+
+    # Profession / career (CORE_12 style)
+    job_id: Optional[str] = None  # e.g., "martial.soldier.guard"
+    job_history: List[str] = field(default_factory=list)
+    job_domain_bias: Dict[str, float] = field(default_factory=dict)
+    parent_job_ids: List[str] = field(default_factory=list)
+    idol_job_ids: List[str] = field(default_factory=list)
+    job_candidate_ids: List[str] = field(default_factory=list)
+    career_stage: int = 1  # 1~5차 전직 단계
 
     # Power / tiers
     power_score: float = 0.0  # continuous; interpretation depends on world
@@ -64,6 +80,11 @@ class Character:
     virtues: Dict[str, float] = field(
         default_factory=lambda: {k: 0.0 for k in VIRTUE_KEYS}
     )
+    # DnD-style alignment axes (law/chaos, good/evil)
+    alignment_law: float = 0.0   # -1.0 (chaotic) .. +1.0 (lawful)
+    alignment_good: float = 0.0  # -1.0 (evil) .. +1.0 (good)
+    # Outlaw / reputation
+    notoriety: float = 0.0  # how widely known (and feared/hated) this character is
     personality_tags: List[str] = field(default_factory=list)  # ["온화", "충동적", ...]
 
     # Bookkeeping for world-side aggregates (optional)
@@ -205,6 +226,25 @@ def score_hero(char: Character) -> float:
     return public_good + 0.5 * char.power_score - betrayal_penalty
 
 
+def score_villain(char: Character) -> float:
+    """
+    Rough score for '악당' 서사용 스코어.
+
+    - power_score가 높을수록,
+    - 탐욕/질투/분노/오만(sins)이 클수록,
+    - 배신(times_betrayed_others)이 많을수록 올라간다.
+    """
+    power = float(char.power_score)
+    greed = max(0.0, char.sins.get("greed", 0.0))
+    envy = max(0.0, char.sins.get("envy", 0.0))
+    wrath = max(0.0, char.sins.get("wrath", 0.0))
+    pride = max(0.0, char.sins.get("pride", 0.0))
+    betrayal = max(0, int(char.times_betrayed_others))
+
+    sin_sum = greed + envy + wrath + pride
+    return max(0.0, 0.4 * power + 20.0 * sin_sum + 5.0 * betrayal)
+
+
 def score_beauty(char: Character, relations: Iterable[CharacterRelation]) -> float:
     """
     Rough score for '십대미녀/미남' 스타일 랭킹.
@@ -305,6 +345,376 @@ def rank_beauties(
         scored.append((ch, score_beauty(ch, rel_list)))
     scored.sort(key=lambda x: x[1], reverse=True)
     return scored[:top_n]
+
+
+def apply_job_alignment(char: Character) -> None:
+    """
+    Apply a simple 7 sins / 7 virtues alignment based on job_id.
+
+    This is a heuristic layer so that, for example:
+    - faith.priest.* tends toward love/kindness/humility,
+    - thief/assassin/shadow 계열은 greed/envy/wrath 쪽으로 기울어진다.
+    """
+    job_id = char.job_id or ""
+    if not job_id:
+        return
+
+    jid = job_id
+    # Helper to mutate char.sins/virtues.
+    def _apply(
+        virtues_delta: Optional[Dict[str, float]] = None,
+        sins_delta: Optional[Dict[str, float]] = None,
+    ) -> None:
+        if virtues_delta:
+            for k, v in virtues_delta.items():
+                char.virtues[k] = char.virtues.get(k, 0.0) + float(v)
+        if sins_delta:
+            for k, v in sins_delta.items():
+                char.sins[k] = char.sins.get(k, 0.0) + float(v)
+
+    # Priest / saint line: strong virtues, sins dampened, lawful-good tilt.
+    if jid.startswith("faith.priest"):
+        _apply(
+            virtues_delta={
+                "love": 0.6,
+                "kindness": 0.6,
+                "humility": 0.4,
+                "temperance": 0.3,
+            },
+            sins_delta={
+                "pride": -0.2,
+                "wrath": -0.1,
+            },
+        )
+        char.alignment_good = min(1.0, char.alignment_good + 0.1)
+        char.alignment_law = min(1.0, char.alignment_law + 0.05)
+    # Thief / assassin / shadow line: strong sins, little virtue.
+    if "thief" in jid or "assassin" in jid or "shadow" in jid:
+        _apply(
+            virtues_delta={},
+            sins_delta={
+                "greed": 0.6,
+                "envy": 0.4,
+                "wrath": 0.2,
+                "sloth": 0.1,
+            },
+        )
+        char.alignment_good = max(-1.0, char.alignment_good - 0.1)
+        char.alignment_law = max(-1.0, char.alignment_law - 0.05)
+    # Martial soldiers: courage/diligence with some wrath.
+    if jid.startswith("martial.soldier"):
+        _apply(
+            virtues_delta={"diligence": 0.3},
+            sins_delta={"wrath": 0.1},
+        )
+        char.alignment_law = min(1.0, char.alignment_law + 0.03)
+
+
+def update_alignment_on_kill(
+    killer: Character,
+    victim: Character,
+    victim_is_monster: bool = False,
+) -> None:
+    """
+    Update killer's alignment based on whom they killed.
+
+    - Killing monsters: small lawful shift (질서 축 ↑).
+    - Killing villains/악당: lawful + good 쪽으로 조금 이동.
+    - Killing clearly good/heroic targets: chaotic/evil 쪽으로 크게 이동.
+    - Neutral/모호한 경우: 작은 혼돈 쪽 이동만 적용.
+
+    This is a heuristic layer; callers should ensure this is used only when
+    killer/victim 인과관계가 확실할 때만 호출한다.
+    """
+    # Helper to clamp into [-1, 1].
+    def _clamp(x: float) -> float:
+        return max(-1.0, min(1.0, x))
+
+    # 1) Monster kill: adventurer vs 비인간 몬스터 같은 맥락.
+    if victim_is_monster:
+        killer.alignment_law = _clamp(killer.alignment_law + 0.02)
+        killer.notoriety = max(0.0, killer.notoriety + 0.01)
+        return
+
+    # 2) Use sins/virtues as a coarse "good vs evil" proxy.
+    victim_sin_sum = sum(max(0.0, victim.sins.get(k, 0.0)) for k in SIN_KEYS)
+    victim_virtue_sum = sum(max(0.0, victim.virtues.get(k, 0.0)) for k in VIRTUE_KEYS)
+
+    # Evil / 악당 쪽으로 크게 기울어진 경우.
+    if victim_sin_sum > victim_virtue_sum + 1.5:
+        killer.alignment_law = _clamp(killer.alignment_law + 0.05)
+        killer.alignment_good = _clamp(killer.alignment_good + 0.02)
+        killer.notoriety = max(0.0, killer.notoriety + 0.05)
+    # Good / 선인 쪽이 분명한 경우.
+    elif victim_virtue_sum > victim_sin_sum + 1.5:
+        killer.alignment_law = _clamp(killer.alignment_law - 0.05)
+        killer.alignment_good = _clamp(killer.alignment_good - 0.1)
+        killer.notoriety = max(0.0, killer.notoriety + 0.2)
+    else:
+        # 중립/모호한 경우: 작은 혼돈·악 쪽 누적.
+        killer.alignment_law = _clamp(killer.alignment_law - 0.02)
+        killer.alignment_good = _clamp(killer.alignment_good - 0.02)
+        killer.notoriety = max(0.0, killer.notoriety + 0.05)
+
+
+def evaluate_outlaw_penalties(char: Character) -> Dict[str, object]:
+    """
+    Evaluate outlaw/wanted status and basic world penalties.
+
+    - Chaotic/evil + high notoriety -> wanted/outlaw.
+    - Outlaws are hunted by guilds/knights and lose town/shop access.
+    """
+    chaos = max(0.0, -float(char.alignment_law))  # lawful(+1) -> 0, chaotic(-1) -> 1
+    evil = max(0.0, -float(char.alignment_good))  # good(+1) -> 0, evil(-1) -> 1
+    notor = max(0.0, float(char.notoriety))
+
+    chaos_evil_score = 0.5 * chaos + 0.5 * evil
+    outlaw_score = chaos_evil_score * 0.6 + notor * 0.4
+
+    is_outlaw = outlaw_score >= 1.5
+    is_high_profile = notor >= 2.0
+
+    hunted_by: List[str] = []
+    if is_outlaw:
+        hunted_by.append("AdventurerGuild")
+        if is_high_profile:
+            hunted_by.append("RoyalKnights")
+
+    can_enter_town = not is_outlaw
+    can_use_shops = not is_outlaw
+
+    return {
+        "is_outlaw": is_outlaw,
+        "outlaw_score": outlaw_score,
+        "can_enter_town": can_enter_town,
+        "can_use_shops": can_use_shops,
+        "hunted_by": hunted_by,
+    }
+
+
+def _compute_job_influence(
+    char: Character,
+    job_id: str,
+    job_demand: Optional[Dict[str, float]] = None,
+) -> float:
+    domain, job_class, archetype = split_job_id(job_id)
+
+    heritage = 0.0
+    if char.parent_job_ids:
+        if job_id in char.parent_job_ids:
+            heritage = 1.0
+        else:
+            parent_domains = {split_job_id(pid)[0] for pid in char.parent_job_ids if pid}
+            if domain in parent_domains:
+                heritage = 0.6
+
+    idol = 0.0
+    if char.idol_job_ids:
+        if job_id in char.idol_job_ids:
+            idol = 1.0
+        else:
+            idol_domains = {split_job_id(iid)[0] for iid in char.idol_job_ids if iid}
+            if domain in idol_domains:
+                idol = 0.5
+
+    econ = 0.0
+    if job_demand:
+        econ_value = job_demand.get(job_id)
+        if econ_value is None:
+            econ_value = job_demand.get(domain, 0.0)
+        econ = float(econ_value)
+
+    self_pref = float(char.job_domain_bias.get(domain, 0.0))
+
+    base = (
+        0.35 * heritage
+        + 0.25 * idol
+        + 0.25 * econ
+        + 0.15 * self_pref
+    )
+
+    inertia = 0.2 if char.job_id == job_id else 0.0
+    return base + inertia
+
+
+def _candidate_job_ids_for(
+    char: Character,
+    candidate_job_ids: Optional[List[str]] = None,
+) -> List[str]:
+    if candidate_job_ids:
+        ids = list(candidate_job_ids)
+    elif char.job_candidate_ids:
+        ids = list(char.job_candidate_ids)
+    else:
+        ids = list(JOB_REGISTRY.keys())
+
+    if not ids:
+        return []
+
+    if char.job_id and char.job_id not in ids and char.job_id in JOB_REGISTRY:
+        ids.append(char.job_id)
+
+    seen = set()
+    result: List[str] = []
+    for jid in ids:
+        if jid in JOB_REGISTRY and jid not in seen:
+            seen.add(jid)
+            result.append(jid)
+    return result
+
+
+def choose_next_job(
+    char: Character,
+    job_demand: Optional[Dict[str, float]] = None,
+    candidate_job_ids: Optional[List[str]] = None,
+    rng: Optional[random.Random] = None,
+) -> Optional[str]:
+    """
+    Choose the next job for a character using soft career gravity.
+
+    job_demand may contain per-job or per-domain demand values in 0..1.
+    """
+    ids = _candidate_job_ids_for(char, candidate_job_ids)
+    if not ids:
+        return char.job_id
+
+    scores: List[float] = []
+    for jid in ids:
+        scores.append(_compute_job_influence(char, jid, job_demand))
+
+    max_score = max(scores)
+    weights = [math.exp(s - max_score) for s in scores]
+    total = sum(weights)
+    if total <= 0.0:
+        return ids[0]
+
+    rnd = rng or random
+    r = rnd.random() * total
+    acc = 0.0
+    for jid, w in zip(ids, weights):
+        acc += w
+        if r <= acc:
+            return jid
+    return ids[-1]
+
+
+def assign_initial_job(
+    char: Character,
+    job_demand: Optional[Dict[str, float]] = None,
+    candidate_job_ids: Optional[List[str]] = None,
+    rng: Optional[random.Random] = None,
+) -> None:
+    """
+    Assign a starting job_id based on career gravity if it is not set.
+    """
+    if char.job_id is not None:
+        return
+    next_job = choose_next_job(
+        char,
+        job_demand=job_demand,
+        candidate_job_ids=candidate_job_ids,
+        rng=rng,
+    )
+    char.job_id = next_job
+
+
+def maybe_change_job(
+    char: Character,
+    job_demand: Optional[Dict[str, float]] = None,
+    candidate_job_ids: Optional[List[str]] = None,
+    change_chance: float = 0.1,
+    rng: Optional[random.Random] = None,
+) -> bool:
+    """
+    Stochastically change a character's job according to career gravity.
+
+    Returns True if a job change occurred.
+    """
+    clamped = max(0.0, min(1.0, change_chance))
+    rnd = rng or random
+    if rnd.random() > clamped:
+        return False
+
+    next_job = choose_next_job(
+        char,
+        job_demand=job_demand,
+        candidate_job_ids=candidate_job_ids,
+        rng=rng,
+    )
+    if not next_job or next_job == char.job_id:
+        return False
+
+    if char.job_id:
+        char.job_history.append(char.job_id)
+    char.job_id = next_job
+    return True
+
+
+def get_promotion_options(job_id: Optional[str]) -> List[str]:
+    """
+    Return possible next jobs along registered promotion paths.
+    """
+    if not job_id:
+        return []
+    return list(PROMOTION_TREE.get(job_id, []))
+
+
+def maybe_promote_job(
+    char: Character,
+    job_demand: Optional[Dict[str, float]] = None,
+    promotion_thresholds: Optional[List[float]] = None,
+    rng: Optional[random.Random] = None,
+) -> bool:
+    """
+    Try to promote a character along a registered promotion path.
+
+    - Uses career_stage (1~5차 개념) and power_score thresholds.
+    - Among available next jobs, uses the same career gravity as
+      choose_next_job but restricted to the promotion candidates.
+    """
+    if not char.job_id:
+        return False
+
+    thresholds = promotion_thresholds or DEFAULT_PROMOTION_THRESHOLDS
+    stage = max(1, int(char.career_stage))
+    if stage >= len(thresholds):
+        return False
+
+    required_power = float(thresholds[stage])
+    if char.power_score < required_power:
+        return False
+
+    candidates = get_promotion_options(char.job_id)
+    if not candidates:
+        return False
+
+    scores: List[float] = []
+    for jid in candidates:
+        scores.append(_compute_job_influence(char, jid, job_demand))
+
+    max_score = max(scores)
+    weights = [math.exp(s - max_score) for s in scores]
+    total = sum(weights)
+    if total <= 0.0:
+        return False
+
+    rnd = rng or random
+    r = rnd.random() * total
+    acc = 0.0
+    chosen: Optional[str] = None
+    for jid, w in zip(candidates, weights):
+        acc += w
+        if r <= acc:
+            chosen = jid
+            break
+    if not chosen or chosen == char.job_id:
+        return False
+
+    if char.job_id:
+        char.job_history.append(char.job_id)
+    char.job_id = chosen
+    char.career_stage = stage + 1
+    return True
 
 
 # --- Demo (optional) ---------------------------------------------------------

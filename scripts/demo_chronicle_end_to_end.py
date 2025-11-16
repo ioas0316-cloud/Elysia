@@ -24,6 +24,11 @@ if __name__ == "__main__":
     )
     from scripts.character_model import (
         assign_tiers,
+        assign_initial_job,
+        maybe_promote_job,
+        apply_job_alignment,
+        update_alignment_on_kill,
+        evaluate_outlaw_penalties,
         rank_characters,
         rank_beauties,
         score_master,
@@ -38,6 +43,10 @@ if __name__ == "__main__":
         update_war_fronts,
         update_faction_lifecycle,
     )
+    from scripts.jobs import (
+        get_job_border_color,
+        get_default_job_candidates_for_race,
+    )
 
     kg = KGManager()
     wm = WaveMechanics(kg)
@@ -51,7 +60,7 @@ if __name__ == "__main__":
 
     # --- 1) Seed a small human kingdom near a capital -----------------------
 
-    def pos(x, y):
+    def pos(x: float, y: float) -> dict:
         return {"x": float(x), "y": float(y), "z": 0.0}
 
     factions = ["NorthKingdom", "SouthDuchy", "HolyOrder"]
@@ -75,7 +84,7 @@ if __name__ == "__main__":
 
     # --- 2) Run macro kingdom sim + WORLD for a few centuries --------------
 
-    years = 120  # modest macro horizon for the demo
+    years = 1000  # modest macro horizon for the demo
     macro_states = simulate_kingdom(
         years=years,
         initial_population=1000,
@@ -99,7 +108,6 @@ if __name__ == "__main__":
         if not chars_local:
             return
 
-        # Aggregate hero scores by faction.
         hero_power_by_faction = {}
         for ch in chars_local:
             if not ch.faction:
@@ -112,7 +120,6 @@ if __name__ == "__main__":
         if len(hero_power_by_faction) < 2:
             return
 
-        # Compute dominance of the strongest faction vs the rest.
         items = sorted(hero_power_by_faction.items(), key=lambda kv: kv[1], reverse=True)
         top_faction, top_power = items[0]
         second_power = items[1][1]
@@ -124,7 +131,6 @@ if __name__ == "__main__":
         if dominance <= 0.0:
             return
 
-        # Convert dominance into an extra war pressure term (0..~0.3).
         extra_war = min(0.3, dominance * 0.5)
         base_war = float(getattr(world, "macro_war_pressure", 0.0))
         new_war = max(0.0, min(1.0, base_war + extra_war))
@@ -133,18 +139,12 @@ if __name__ == "__main__":
     for state in macro_states:
         apply_macro_state_to_world(state, world)
 
-        # Build a character snapshot for this macro step.
         yearly_chars = build_characters_from_world(world)
-        # Hero-heavy factions softly raise war pressure before the year plays out.
         _apply_faction_hero_pressure(yearly_chars)
-        # Maintain multi-front war/diplomacy state between factions.
         update_war_fronts(world, yearly_chars)
-        # Update long-horizon faction lifecycle (rise/fall/rebirth).
         update_faction_lifecycle(world, yearly_chars)
-        # Run a small political phase: 암살/선동/연애 동맹 등.
         run_political_events(world, yearly_chars)
 
-        # Let WORLD evolve a bit within this macro year.
         for _ in range(ticks_per_year):
             world.run_simulation_step()
 
@@ -160,30 +160,66 @@ if __name__ == "__main__":
     update_relations_from_events(events, rel_map)
     relations = list(rel_map.values())
 
+    # Alignment / notoriety updates from KILL events.
+    chars_by_id = {ch.id: ch for ch in chars}
+    for ev in events:
+        et = ev.get("event_type")
+        if et != "KILL":
+            continue
+        data = ev.get("data", {}) or {}
+        killer_id = data.get("killer_id")
+        victim_id = data.get("victim_id")
+        if not killer_id or not victim_id:
+            continue
+        killer = chars_by_id.get(str(killer_id))
+        victim = chars_by_id.get(str(victim_id))
+        if killer is None or victim is None:
+            continue
+        victim_element = str(data.get("victim_element", "") or "")
+        # Heuristic: treat non-human element types as monsters.
+        victim_is_monster = victim_element not in ("human", "citizen")
+        update_alignment_on_kill(killer, victim, victim_is_monster=victim_is_monster)
+
+    # Assign tiers and jobs (Ragnarok-style tree) for visibility.
     for ch in chars:
         assign_tiers(ch)
+        if not ch.job_candidate_ids:
+            ch.job_candidate_ids = get_default_job_candidates_for_race(getattr(ch, "race", "human"))
+        assign_initial_job(ch)
+        while maybe_promote_job(ch):
+            pass
+        apply_job_alignment(ch)
 
-    masters = rank_characters(chars, relations, score_master, top_n=10)
-    heroes = rank_characters(chars, relations, score_hero, top_n=10)
-    beauties = rank_beauties(chars, relations, top_n=10)
+    # Rankings for mortal experts/heroes; exclude DemonLord (existential calamity).
+    non_demon_chars = [ch for ch in chars if ch.id != "DemonLord"]
+
+    masters = rank_characters(non_demon_chars, relations, score_master, top_n=10)
+    heroes = rank_characters(non_demon_chars, relations, score_hero, top_n=10)
+    beauties = rank_beauties(non_demon_chars, relations, top_n=10)
 
     # --- 5) Print a compact chronicle-style summary ------------------------
 
-    print("=== 시대 요약 ===")
+    print("=== ?��? ?�약 ===")
     for line in summarize_era_flags(world):
         print("-", line)
 
-    print("\n=== 십대고수 후보 (WORLD+EVENT) ===")
+    print("\n=== 고수 ??�� (WORLD+EVENT+JOB) ===")
     for ch, sc in masters:
         arc = summarize_character_arc(ch)
-        print(f"- {ch.id:15s} | score={sc:6.1f} | {arc}")
+        job = ch.job_id or "unknown"
+        border = get_job_border_color(job)
+        print(f"- {ch.id:15s} | score={sc:6.1f} | job={job} [{border}] | {arc}")
 
-    print("\n=== 십대영웅 후보 (WORLD+EVENT) ===")
+    print("\n=== ?�웅 ??�� (WORLD+EVENT+JOB) ===")
     for ch, sc in heroes:
         arc = summarize_character_arc(ch)
-        print(f"- {ch.id:15s} | hero={sc:6.1f} | {arc}")
+        job = ch.job_id or "unknown"
+        border = get_job_border_color(job)
+        print(f"- {ch.id:15s} | hero={sc:6.1f} | job={job} [{border}] | {arc}")
 
-    print("\n=== 십대미녀/미남 후보 (WORLD+EVENT) ===")
+    print("\n=== 미인/미남 ??�� (WORLD+EVENT+JOB) ===")
     for ch, sc in beauties:
         arc = summarize_character_arc(ch)
-        print(f"- {ch.id:15s} | beauty={sc:6.1f} | {arc}")
+        job = ch.job_id or "unknown"
+        border = get_job_border_color(job)
+        print(f"- {ch.id:15s} | beauty={sc:6.1f} | job={job} [{border}] | {arc}")

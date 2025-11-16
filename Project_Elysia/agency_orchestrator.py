@@ -104,24 +104,67 @@ class AgencyOrchestrator:
             weighted = self._weight_action(action)
             return weighted if self._cooldown_ok(cooldown) else None
 
-        if any(k in m for k in ["?�기", "기록", "?�각 ?�리", "?"??, "diary", "journal"]):
-            pa = ProposedAction('journal', {}, "초�?: 지�??�오르는 ?�각??짧게 ?�리?�볼까요?", confidence=0.8)
-            return candidate(pa, 'journal')
+        # Journaling: invite short reflective writing about current thoughts/feelings.
+        if any(
+            k in m
+            for k in [
+                "diary",
+                "journal",
+                "write",
+                "log",
+                "record",
+                "note",
+            ]
+        ):
+            pa = ProposedAction(
+                "journal",
+                {},
+                "Auto-suggestion: write a short reflective journal entry?",
+                confidence=0.8,
+            )
+            return candidate(pa, "journal")
 
-        if any(k in m for k in ["?�설", "창작", "?�야�?, "story", "novel", "creative"]):
-            pa = ProposedAction('creative', {"genre": "story", "theme": "growth"}, "초�?: ?��? ?�상 ??조각???�어볼까??", confidence=0.75)
-            return candidate(pa, 'creative')
+        # Creative writing: small story around growth or other themes.
+        if any(
+            k in m
+            for k in [
+                "story",
+                "novel",
+                "creative",
+                "fiction",
+                "write a story",
+            ]
+        ):
+            pa = ProposedAction(
+                "creative",
+                {"genre": "story", "theme": "growth"},
+                "Auto-suggestion: craft a small growth-themed story?",
+                confidence=0.75,
+            )
+            return candidate(pa, "creative")
 
-        if '=' in m and any(k in m for k in ["=", "증명", "verify", "?�식"]):
+        # Math / proof verification.
+        if "=" in m and any(k in m for k in ["=", "prove", "verify", "equation", "math"]):
             import re
             eq = re.search(r"([\d\s\+\-\*\/\(\)\.]+)=([\d\s\+\-\*\/\(\)\.]+)", message)
             if eq:
-                pa = ProposedAction('math_verify', {"statement": eq.group(0)}, "초�?: ???�식???�명 가?�하�??�인?�볼까요?", confidence=0.85)
-                return candidate(pa, 'math_verify')
+                pa = ProposedAction(
+                    "math_verify",
+                    {"statement": eq.group(0)},
+                    "Auto-suggestion: verify this equation step by step?",
+                    confidence=0.85,
+                )
+                return candidate(pa, "math_verify")
 
+        # High arousal, rich echo signal: gentle nudge to journal.
         if arousal >= 0.8 and echo and len(echo) >= 6:
-            pa = ProposedAction('journal', {}, "초�?: 마음??분주??보여?? ??�??�기�???고�?까요?", confidence=0.5)
-            return candidate(pa, 'journal')
+            pa = ProposedAction(
+                "journal",
+                {},
+                "Auto-suggestion: your mind seems busy; try a short journal to settle your thoughts?",
+                confidence=0.5,
+            )
+            return candidate(pa, "journal")
 
         return None
 

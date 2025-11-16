@@ -1794,8 +1794,21 @@ class World:
             if self.labels[actor_idx] == 'wolf':
                 lunar_bonus = 1.0 + 0.5 * float(getattr(self, 'lunar_arousal', 0.0))
             final_damage = max(0, (base_damage + random.randint(-2, 2)) * damage_multiplier * lunar_bonus)
+
+            # Track potential killer for alignment/outlaw logic.
+            was_alive = self.hp[target_idx] > 0 and self.is_alive_mask[target_idx]
+
             self.hp[target_idx] -= final_damage
             self.is_injured[target_idx] = True
+            if was_alive and self.hp[target_idx] <= 0 and self.is_alive_mask[target_idx]:
+                # Log a KILL event with killer/victim; DEATH is handled in cleanup.
+                self.event_logger.log(
+                    'KILL',
+                    self.time_step,
+                    killer_id=self.cell_ids[actor_idx],
+                    victim_id=self.cell_ids[target_idx],
+                    victim_element=str(self.element_types[target_idx]),
+                )
             self.logger.info(f"COMBAT: Damage dealt: {final_damage:.2f}.")
 
             if self.hp[target_idx] <= 0:
