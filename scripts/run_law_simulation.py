@@ -37,11 +37,45 @@ SYLLABLE_SUFFIX = {
     "neutral": "ra",
 }
 
+MEANING_MAP = {
+    "fire": "fire",
+    "water": "water",
+    "wolf": "wolf",
+    "wind": "wind",
+}
+
+SENTENCE_TEMPLATES = {
+    "joy": [
+        "The {} feels warm and alive as it is praised.",
+        "I look upon the {} and smile brightly."
+    ],
+    "calm": [
+        "With calm breath I place myself beside the {}.",
+        "The {} rests quietly, and I speak in gentle tones."
+    ],
+    "sorrow": [
+        "The {} makes my chest tighten; I whisper a muted mourn.",
+        "Gazing at the {}, I murmur a soft lament."
+    ],
+    "neutral": [
+        "The {} is noted plainly, its facts spread without flourish.",
+        "I describe the {} as it stands, uncolored and steady."
+    ],
+}
+
 def build_wave_word(stimulus: dict, emotion: str, memory_strength: float) -> str:
     base = stimulus["target"]
     suffix = SYLLABLE_SUFFIX.get(emotion, "ra")
     depth = 1 + int(min(memory_strength, 9.0) // 3)
     return base + " " + suffix * depth
+
+
+def compose_sentence(word: str, emotion: str) -> str:
+    base = word.split()[0]
+    meaning = MEANING_MAP.get(base, base)
+    templates = SENTENCE_TEMPLATES.get(emotion, ["{}을 바라본다."])
+    template = random.choice(templates)
+    return template.format(meaning)
 
 
 def _setup_simulation(world: World, num_actors: int) -> list[int]:
@@ -137,6 +171,17 @@ def run_simulation(steps: int, log_path: Path, equations_years: int, num_actors:
                 word=word,
             )
 
+            sentence = compose_sentence(word, emotion)
+            print(f"    emergent sentence: {sentence}")
+            world.event_logger.log(
+                "SENTENCE",
+                int(getattr(world, "time_step", step)),
+                actor=name,
+                sentence=sentence,
+                stimulus=stimulus["name"],
+                emotion=emotion,
+            )
+
         node = engine._get_current_node()
         if node:
             q = node.q
@@ -160,6 +205,7 @@ def main():
     parser.add_argument("--actors", type=int, default=20, help="How many cells to create and observe.")
     args = parser.parse_args()
     run_simulation(args.steps, args.log, args.years, args.actors)
+
 
 
 if __name__ == "__main__":
