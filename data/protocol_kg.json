@@ -1,4 +1,4 @@
-{
+﻿{
   "nodes": [
     {
       "id": "ring:ARCHIVE",
@@ -157,7 +157,7 @@
       },
       "activation_energy": 0.0,
       "kind": "protocol",
-      "path": "ELYSIAS_PROTOCOL/00_INDEX.md",
+      "path": "docs/elysias_protocol/00_INDEX.md",
       "ring": "CORE",
       "layer": "OS",
       "ptype": "PROTOCOL",
@@ -173,7 +173,7 @@
       },
       "activation_energy": 0.0,
       "kind": "protocol",
-      "path": "ELYSIAS_PROTOCOL/CORE_09_WORLD_VALIDATION_AND_HANDOFF.md",
+      "path": "docs/elysias_protocol/CORE_09_WORLD_VALIDATION_AND_HANDOFF.md",
       "ring": "CORE",
       "layer": "WORLD",
       "ptype": "PROTOCOL",
@@ -189,7 +189,7 @@
       },
       "activation_energy": 0.0,
       "kind": "protocol",
-      "path": "ELYSIAS_PROTOCOL/CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS.md",
+      "path": "docs/elysias_protocol/CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS.md",
       "ring": "CORE",
       "layer": "LENS",
       "ptype": "LENS_SPEC",
@@ -205,7 +205,7 @@
       },
       "activation_energy": 0.0,
       "kind": "protocol",
-      "path": "ELYSIAS_PROTOCOL/CORE_11_TIME_SCALES_AND_TICK_LAYERS.md",
+      "path": "docs/elysias_protocol/CORE_11_TIME_SCALES_AND_TICK_LAYERS.md",
       "ring": "CORE",
       "layer": "OS",
       "ptype": "PROTOCOL",
@@ -221,7 +221,7 @@
       },
       "activation_energy": 0.0,
       "kind": "protocol",
-      "path": "ELYSIAS_PROTOCOL/CORE_12_PEOPLE_AND_CIVILIZATION_TIERS.md",
+      "path": "docs/elysias_protocol/CORE_12_PEOPLE_AND_CIVILIZATION_TIERS.md",
       "ring": "CORE",
       "layer": "WORLD",
       "ptype": "PROTOCOL",
@@ -237,7 +237,7 @@
       },
       "activation_energy": 0.0,
       "kind": "protocol",
-      "path": "ELYSIAS_PROTOCOL/CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS_PROTOCOL.md",
+      "path": "docs/elysias_protocol/CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS_PROTOCOL.md",
       "ring": "CORE",
       "layer": "MIND",
       "ptype": "PROTOCOL",
@@ -253,12 +253,12 @@
       },
       "activation_energy": 0.0,
       "kind": "protocol",
-      "path": "ELYSIAS_PROTOCOL/WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY.md",
+      "path": "docs/elysias_protocol/WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY.md",
       "ring": "CORE",
       "layer": "WORLD",
       "ptype": "WORLD_KIT",
       "status": "SUPPORTING",
-      "title": "Death · Corpse · Memory Flow (World Kit)"
+      "title": "Death 쨌 Corpse 쨌 Memory Flow (World Kit)"
     },
     {
       "id": "protocol:ELYSIA_OS_OVERVIEW",

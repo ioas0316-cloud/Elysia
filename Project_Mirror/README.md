@@ -11,7 +11,7 @@ Purpose: Handle observation, visualization, and external interaction (Observer, 
 
 ## TODO
 1. Consolidate mirror assets (ElysiaGodot, UI, observer scripts) under Project Mirror subfolders.
-2. Document Observer ¡æ Cathedral depth ¡æ Mirror visualization flow in README.
+2. Document Observer â†’ Cathedral depth â†’ Mirror visualization flow in README.
 3. Move unused interface code into `archive/`.
 
-Protocol references: `ELYSIA_OS/CORE_PROTOCOLS/OPERATIONS.md`, `EXPERIMENT_DESIGN_GUIDE.md`.
+Protocol references: `docs/core_protocols/OPERATIONS.md`, `EXPERIMENT_DESIGN_GUIDE.md`.

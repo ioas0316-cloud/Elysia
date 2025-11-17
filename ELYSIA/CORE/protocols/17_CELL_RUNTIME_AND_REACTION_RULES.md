@@ -53,3 +53,4 @@ Refinement Cycle (Dream)
   - **Lifespan**: The concept of a finite lifespan is a fundamental physical law. Organisms are born, age, and die according to this celestial calendar.
 - **Influence**: Celestial events have a tangible, often subtle, influence on the world's inhabitants. This is a field-based effect, not a hard-coded rule.
   - **Example**: The phase of the moon can influence emotional states or awaken latent traits in certain beings (e.g., heightened aggression in wolves, increased introspection or creativity).
+

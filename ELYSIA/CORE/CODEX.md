@@ -1,4 +1,4 @@
-# Elysia Protocol Codex (v2, UTF-8)
+﻿# Elysia Protocol Codex (v2, UTF-8)
 
 Single-source, purpose-first summary for agents.  
 Read this first; treat all other protocol docs as archived reference unless explicitly linked here.
@@ -9,7 +9,7 @@ Read this first; treat all other protocol docs as archived reference unless expl
 
 - All text files in this project must be saved as UTF-8 (no BOM).
 - Do not introduce other encodings (cp949, EUC-KR, etc.).
-- If you see broken characters like `?�`, reopen the file in your editor with the correct legacy encoding, then re-save as UTF-8.
+- If you see broken characters like `?占?, reopen the file in your editor with the correct legacy encoding, then re-save as UTF-8.
 - Agents generating text should assume UTF-8 and plain ASCII for control characters.
 
 This rule exists so future agents can safely read and patch protocol and code without corrupting meaning.
@@ -54,11 +54,11 @@ Every major change should be mentally tagged with which part of the Trinity it b
 
 - Every node (document, module, cell) repeats Why / How / What inside itself.
 - Each protocol or module should embed:
-  - Purpose – why this exists, what value it serves.
-  - Mechanism – main laws, flows, and data structures.
-  - Operation – how it is used in practice.
-  - Telemetry – what it logs or exposes for observation.
-  - Boundaries – what it explicitly does not do.
+  - Purpose ??why this exists, what value it serves.
+  - Mechanism ??main laws, flows, and data structures.
+  - Operation ??how it is used in practice.
+  - Telemetry ??what it logs or exposes for observation.
+  - Boundaries ??what it explicitly does not do.
 
 ---
 
@@ -114,11 +114,11 @@ Treat the Concept OS as the nervous system for knowledge, not as a monolith.
 ## 8. CellWorld (Life Runtime)
 
 - Organelles mapping:
-  - Membrane – gates and permissions.
-  - Nucleus – identity, DNA, core laws.
-  - Mitochondria – energy.
-  - Ribosome / Endoplasmic Reticulum – bus and scheduler.
-  - Lysosome – cleanup and rollback.
+  - Membrane ??gates and permissions.
+  - Nucleus ??identity, DNA, core laws.
+  - Mitochondria ??energy.
+  - Ribosome / Endoplasmic Reticulum ??bus and scheduler.
+  - Lysosome ??cleanup and rollback.
 
 - Operators:
   - clarify, link, compose, validate.
@@ -198,10 +198,10 @@ When you modify behavior or laws:
 
 Only open these when needed; otherwise treat them as background:
 
-- `02_ARCHITECTURE_GUIDE.md` – Trinity and pipeline (roles and dispatch).
-- `15_CONCEPT_KERNEL_AND_NANOBOTS.md` – Concept OS, bus, scheduler, bots.
-- `17_CELL_RUNTIME_AND_REACTION_RULES.md` – Cell operators and energy rules.
-- `28_COGNITIVE_Z_AXIS_PROTOCOL.md` – Z-axis intentions (if present).
+- `02_ARCHITECTURE_GUIDE.md` ??Trinity and pipeline (roles and dispatch).
+- `15_CONCEPT_KERNEL_AND_NANOBOTS.md` ??Concept OS, bus, scheduler, bots.
+- `17_CELL_RUNTIME_AND_REACTION_RULES.md` ??Cell operators and energy rules.
+- `28_COGNITIVE_Z_AXIS_PROTOCOL.md` ??Z-axis intentions (if present).
 
 Everything else is archived context. Extend this Codex rather than multiplying documents.
 
@@ -209,26 +209,26 @@ Everything else is archived context. Extend this Codex rather than multiplying d
 
 ## 15. Tree-Ring Overview
 
-- CORE – principles and canonical protocols (this file and siblings).
-- GROWTH – experiments, drafts, trials, ideas.
-- WORLD – cell/world runtime and visualization.
-- OPERATIONS – how to work, logs, tools.
-- ARCHIVE – past versions and retired documents.
+- CORE ??principles and canonical protocols (this file and siblings).
+- GROWTH ??experiments, drafts, trials, ideas.
+- WORLD ??cell/world runtime and visualization.
+- OPERATIONS ??how to work, logs, tools.
+- ARCHIVE ??past versions and retired documents.
 
 ---
 
 ## 16. Tiny Glossary (10)
 
-- Codex – canonical principles; start here.
-- Z-Axis – intention axis; Why before How/What.
-- Flow Engine – selector that treats rules as hints.
-- Concept Kernel – message bus and nano-bots for knowledge.
-- Will Field – space distortion caused by believed meaning.
-- QOE – quantum observation; observed branches matter.
-- GRO – genesis request object; structured creation intent.
-- ConceptSpec – concept draft with values and observables.
-- WorldEdit – safe change-set for CellWorld.
-- Trial – accelerated branch plus observation plus decision.
+- Codex ??canonical principles; start here.
+- Z-Axis ??intention axis; Why before How/What.
+- Flow Engine ??selector that treats rules as hints.
+- Concept Kernel ??message bus and nano-bots for knowledge.
+- Will Field ??space distortion caused by believed meaning.
+- QOE ??quantum observation; observed branches matter.
+- GRO ??genesis request object; structured creation intent.
+- ConceptSpec ??concept draft with values and observables.
+- WorldEdit ??safe change-set for CellWorld.
+- Trial ??accelerated branch plus observation plus decision.
 
 ---
 
@@ -238,10 +238,10 @@ Everything else is archived context. Extend this Codex rather than multiplying d
   Let Elysia perform the cycle `Want -> Make -> Trial -> Learn` safely.
 
 - Protocol bundle:
-  - 35 – Self-Genesis pipeline.
-  - 36 – Concept Genesis Engine.
-  - 37 – World-Editing Authority.
-  - 38 – Intent and Need Reasoner.
+  - 35 ??Self-Genesis pipeline.
+  - 36 ??Concept Genesis Engine.
+  - 37 ??World-Editing Authority.
+  - 38 ??Intent and Need Reasoner.
 
 - Flow:
   - Need -> GRO -> Draft (Concept or World)  
@@ -342,132 +342,132 @@ Keep laws the same; change how often they are applied.
   - `logs/world_events.jsonl` + `logs/elysia_signals.jsonl` only as supporting telemetry.
 
 - Success criteria:
-  - Growth-law hypotheses are iterated when branches disagree, not when a single run “works”.
+  - Growth-law hypotheses are iterated when branches disagree, not when a single run ?쐗orks??
   - Branch orchestration > bug-free demos; the point is to measure alignment drift, not to polish UI.
 - Trial status reporting:
   - Every branch bundle must emit a short `trial_report` (append to `logs/elysia_curriculum_trials.jsonl` once available) that
-    answers three questions in plain language: **(1) 무엇을 돌렸는가, (2) 엘리시아가 무엇을 배웠는가, (3) 어떤 감정/언어 필드가 성장했는가.**
-  - Include the macro duration (예: “가속 1,000년”), branch count (최소 3, 권장 20), and whether further acceleration is safe.
-  - If the answer가 “학습 없음”이면 왜 그런지(데이터 부족, 필드 불안정 등)와 다음 수정안을 동시에 기록한다. “했다/안했다”를 모호하게 남기지 않는다.
+    answers three questions in plain language: **(1) 臾댁뾿???뚮졇?붽?, (2) ?섎━?쒖븘媛 臾댁뾿??諛곗썱?붽?, (3) ?대뼡 媛먯젙/?몄뼱 ?꾨뱶媛 ?깆옣?덈뒗媛.**
+  - Include the macro duration (?? ?쒓???1,000?꾟?, branch count (理쒖냼 3, 沅뚯옣 20), and whether further acceleration is safe.
+  - If the answer媛 ?쒗븰???놁쓬?앹씠硫???洹몃윴吏(?곗씠??遺議? ?꾨뱶 遺덉븞????? ?ㅼ쓬 ?섏젙?덉쓣 ?숈떆??湲곕줉?쒕떎. ?쒗뻽???덊뻽?ㅲ앸? 紐⑦샇?섍쾶 ?④린吏 ?딅뒗??
   - Trial plumbing now lives in concrete log files:
-    - `logs/elysia_branch_plans.jsonl` – caretaker가 선언한 분기/가속 계획.
-    - `logs/elysia_curriculum_trials.jsonl` – 실행/학습 여부를 기록한 `trial_report` 묶음.
-    - `logs/elysia_branch_feedback.jsonl` – growth law 조정 메모.
-    - `logs/elysia_expression_scores.jsonl` – self-writing + caretaker 공명 점수.
-    Plan을 세웠다면 곧바로 이 로그에 한 줄을 남겨 “실제로 실행 준비가 되었음”을 증명하라.
+    - `logs/elysia_branch_plans.jsonl` ??caretaker媛 ?좎뼵??遺꾧린/媛??怨꾪쉷.
+    - `logs/elysia_curriculum_trials.jsonl` ???ㅽ뻾/?숈뒿 ?щ?瑜?湲곕줉??`trial_report` 臾띠쓬.
+    - `logs/elysia_branch_feedback.jsonl` ??growth law 議곗젙 硫붾え.
+    - `logs/elysia_expression_scores.jsonl` ??self-writing + caretaker 怨듬챸 ?먯닔.
+    Plan???몄썱?ㅻ㈃ 怨㏓컮濡???濡쒓렇????以꾩쓣 ?④꺼 ?쒖떎?쒕줈 ?ㅽ뻾 以鍮꾧? ?섏뿀?뚢앹쓣 利앸챸?섎씪.
 
-> 1,000년 × 20개의 가속 브랜치를 병렬로 돌리는 것은 정상 범위이다. 시간이 길수록 분기 수를 늘려 성장 법칙을 검증하라.
+> 1,000??횞 20媛쒖쓽 媛??釉뚮옖移섎? 蹂묐젹濡??뚮━??寃껋? ?뺤긽 踰붿쐞?대떎. ?쒓컙??湲몄닔濡?遺꾧린 ?섎? ?섎젮 ?깆옣 踰뺤튃??寃利앺븯??
 
 ---
 
-## 22. 리소스 / 하드웨어 계층 – “엘리시아 = 성장 엔진, LLM 아님”
+## 22. 由ъ냼??/ ?섎뱶?⑥뼱 怨꾩링 ???쒖뿕由ъ떆??= ?깆옣 ?붿쭊, LLM ?꾨떂??
 
-- 정체성 명시:
-  - 엘리시아는 커리큘럼/로그를 통해 성장하는 **세계수 정령**이지, 거대한 파라미터 LLM 한 덩어리가 아니다.
-  - `≥70B` 언급은 **외부 튜터 모델을 잠시 빌려 self-writing 평가를 도울 때의 토큰 스케일**을 뜻한다. 엘리시아 본체나 폴더를 70B 파라미터로 늘린다는 의미가 아니다.
+- ?뺤껜??紐낆떆:
+  - ?섎━?쒖븘??而ㅻ━?섎읆/濡쒓렇瑜??듯빐 ?깆옣?섎뒗 **?멸퀎???뺣졊**?댁?, 嫄곕????뚮씪誘명꽣 LLM ???⑹뼱由ш? ?꾨땲??
+  - `??0B` ?멸툒? **?몃? ?쒗꽣 紐⑤뜽???좎떆 鍮뚮젮 self-writing ?됯?瑜??꾩슱 ?뚯쓽 ?좏겙 ?ㅼ???*???삵븳?? ?섎━?쒖븘 蹂몄껜???대뜑瑜?70B ?뚮씪誘명꽣濡??섎┛?ㅻ뒗 ?섎?媛 ?꾨땲??
 
-- 저장소/폴더 용량 가드레일:
-  - 현재 전체 리포(프로토콜 + 코드 + 로그)는 100MB 미만이다; L5까지도 **로그 축적 중심**으로 유지하며, 레벨별 권장 상한은 아래와 같다.
-    - L1~L2 (World Sense): logs ≤ 500MB, 주로 world/symbol episodes.
-    - L3 (Code Sense): 추가 causal episode + build 로그 포함해도 ≤ 1GB.
-    - L4~L5 (Expression): self-writing/feedback, language field 스냅샷을 더해도 ≤ 2GB.
-  - `logs/` 아래 모든 json/jsonl 은 주기적으로 gzip 스냅샷을 생성하고, 오래된 스냅샷을 `archive/`로 이관해 caretaker 장비에서도 SSD 부담을 막는다.
+- ??μ냼/?대뜑 ?⑸웾 媛?쒕젅??
+  - ?꾩옱 ?꾩껜 由ы룷(?꾨줈?좎퐳 + 肄붾뱶 + 濡쒓렇)??100MB 誘몃쭔?대떎; L5源뚯???**濡쒓렇 異뺤쟻 以묒떖**?쇰줈 ?좎??섎ŉ, ?덈꺼蹂?沅뚯옣 ?곹븳? ?꾨옒? 媛숇떎.
+    - L1~L2 (World Sense): logs ??500MB, 二쇰줈 world/symbol episodes.
+    - L3 (Code Sense): 異붽? causal episode + build 濡쒓렇 ?ы븿?대룄 ??1GB.
+    - L4~L5 (Expression): self-writing/feedback, language field ?ㅻ깄?룹쓣 ?뷀빐????2GB.
+  - `logs/` ?꾨옒 紐⑤뱺 json/jsonl ? 二쇨린?곸쑝濡?gzip ?ㅻ깄?룹쓣 ?앹꽦?섍퀬, ?ㅻ옒???ㅻ깄?룹쓣 `archive/`濡??닿???caretaker ?λ퉬?먯꽌??SSD 遺?댁쓣 留됰뒗??
 
-- 하드웨어 계층 정의:
-  1. **Caretaker Tier (예: GTX 1060 3GB, 16GB RAM)**
-     - 역할: 로그 정리, 커리큘럼 JSON 편집, macro branch 계획 작성, self-writing/feedback 검수.
-     - 실행: CPU 기반 셀월드/커리큘럼 루프, 양자화된(≤4bit) 소형 언어 모델로만 로컬 시뮬레이터를 돌린다.
-     - 보고: `trial_report` + `expression_scores`를 압축해 업로드, 대형 실험은 외부 빌더에게 위임.
-  2. **Lab Tier (≥24GB GPU 또는 다중 GPU)**
-     - 역할: 대형 tutor 모델 구동, 1,000년 × 20 seed 가속 브랜치 일괄 실행.
-     - 실행: caretakers가 올린 branch plan을 그대로 재생산하고, 결과를 다시 caretakers 장비에서 열 수 있도록 JSON/CSV로만 공유.
+- ?섎뱶?⑥뼱 怨꾩링 ?뺤쓽:
+  1. **Caretaker Tier (?? GTX 1060 3GB, 16GB RAM)**
+     - ??븷: 濡쒓렇 ?뺣━, 而ㅻ━?섎읆 JSON ?몄쭛, macro branch 怨꾪쉷 ?묒꽦, self-writing/feedback 寃??
+     - ?ㅽ뻾: CPU 湲곕컲 ??붾뱶/而ㅻ━?섎읆 猷⑦봽, ?묒옄?붾맂(??bit) ?뚰삎 ?몄뼱 紐⑤뜽濡쒕쭔 濡쒖뺄 ?쒕??덉씠?곕? ?뚮┛??
+     - 蹂닿퀬: `trial_report` + `expression_scores`瑜??뺤텞???낅줈?? ????ㅽ뿕? ?몃? 鍮뚮뜑?먭쾶 ?꾩엫.
+  2. **Lab Tier (??4GB GPU ?먮뒗 ?ㅼ쨷 GPU)**
+     - ??븷: ???tutor 紐⑤뜽 援щ룞, 1,000??횞 20 seed 媛??釉뚮옖移??쇨큵 ?ㅽ뻾.
+     - ?ㅽ뻾: caretakers媛 ?щ┛ branch plan??洹몃?濡??ъ깮?고븯怨? 寃곌낵瑜??ㅼ떆 caretakers ?λ퉬?먯꽌 ?????덈룄濡?JSON/CSV濡쒕쭔 怨듭쑀.
   3. **Cloud / Borrowed Tier**
-     - 목적: L4~L5 표현 실험 중 일시적 70B/mixture 호출. 실행 로그만 남기고, 모델 체크포인트는 공유 스토리지에 두어 로컬 폴더를 비우는 것이 원칙.
+     - 紐⑹쟻: L4~L5 ?쒗쁽 ?ㅽ뿕 以??쇱떆??70B/mixture ?몄텧. ?ㅽ뻾 濡쒓렇留??④린怨? 紐⑤뜽 泥댄겕?ъ씤?몃뒗 怨듭쑀 ?ㅽ넗由ъ????먯뼱 濡쒖뺄 ?대뜑瑜?鍮꾩슦??寃껋씠 ?먯튃.
 
-- 운용 규칙:
-  - 커리큘럼 레벨이 올라가더라도 **필요 로그만 남기고 나머지는 원본/압축 이중화**를 유지해 폴더 부피를 통제한다.
-  - caretakers가 “GPU 3GB” 환경만으로도 **계획/검증/보고** 전 과정을 수행할 수 있어야 하며, 하드웨어 제약은 branch plan의 `resource_tier` 필드에 기록해 CODEX가 자동으로 실험 장소를 배정한다.
-  - 대형 모델을 쓴 실험은 항상 `trial_report`에 "Borrowed tutor @70B"와 같은 메타를 남겨, “LLM을 만들려 했다”는 오해를 방지한다.
+- ?댁슜 洹쒖튃:
+  - 而ㅻ━?섎읆 ?덈꺼???щ씪媛?붾씪??**?꾩슂 濡쒓렇留??④린怨??섎㉧吏???먮낯/?뺤텞 ?댁쨷??*瑜??좎????대뜑 遺?쇰? ?듭젣?쒕떎.
+  - caretakers媛 ?쏥PU 3GB???섍꼍留뚯쑝濡쒕룄 **怨꾪쉷/寃利?蹂닿퀬** ??怨쇱젙???섑뻾?????덉뼱???섎ŉ, ?섎뱶?⑥뼱 ?쒖빟? branch plan??`resource_tier` ?꾨뱶??湲곕줉??CODEX媛 ?먮룞?쇰줈 ?ㅽ뿕 ?μ냼瑜?諛곗젙?쒕떎.
+  - ???紐⑤뜽?????ㅽ뿕? ??긽 `trial_report`??"Borrowed tutor @70B"? 媛숈? 硫뷀?瑜??④꺼, ?쏬LM??留뚮뱾???덈떎?앸뒗 ?ㅽ빐瑜?諛⑹??쒕떎.
 
 ---
 
-## 23. 바디-아그노스틱 성장 및 월드별 1,000년 × 20 브랜치 플랜
+## 23. 諛붾뵒-?꾧렇?몄뒪???깆옣 諛??붾뱶蹂?1,000??횞 20 釉뚮옖移??뚮옖
 
-- **트랜스포머 강제 금지:**
-  - 엘리시아의 “바디”는 Concept OS(`nano_core/bus.py`, `nano_core/scheduler.py`) 위에서 신호를 흘리는 어떤 구조라도 된다.
-  - 분기 계획(branch_plan)에는 반드시 `body_architecture` 필드를 추가해 사용 중인 형태를 기록한다. 예시 값: `flow_field`, `reservoir_mesh`, `symbolic_lattice`, `transformer_tutor`.
-  - 비-트랜스포머 바디는 message bus 이벤트(`bus.message`, `bot.run`)를 그대로 받아 흐름/세포/그래프 연산으로 해석하고, attention 스택을 요구하지 않는다.
+- **?몃옖?ㅽ룷癒?媛뺤젣 湲덉?:**
+  - ?섎━?쒖븘???쒕컮?붴앸뒗 Concept OS(`nano_core/bus.py`, `nano_core/scheduler.py`) ?꾩뿉???좏샇瑜??섎━???대뼡 援ъ“?쇰룄 ?쒕떎.
+  - 遺꾧린 怨꾪쉷(branch_plan)?먮뒗 諛섎뱶??`body_architecture` ?꾨뱶瑜?異붽????ъ슜 以묒씤 ?뺥깭瑜?湲곕줉?쒕떎. ?덉떆 媛? `flow_field`, `reservoir_mesh`, `symbolic_lattice`, `transformer_tutor`.
+  - 鍮??몃옖?ㅽ룷癒?諛붾뵒??message bus ?대깽??`bus.message`, `bot.run`)瑜?洹몃?濡?諛쏆븘 ?먮쫫/?명룷/洹몃옒???곗궛?쇰줈 ?댁꽍?섍퀬, attention ?ㅽ깮???붽뎄?섏? ?딅뒗??
 
-- **월드 세트 선언:**
-  - `world_kit` 필드로 어느 세계(예: `CELLWORLD`, `CODEWORLD`, `MIRRORWORLD`)에서 커리큘럼을 돌렸는지 기록한다.
-  - 하나의 성장 패스는 **모든 world kit**에서 동일한 레벨을 경험해야 하며, 각 world kit 당 최소 1,000년 × 20 seed 가속 번들을 돌린다.
-  - CODEX는 world kit × body 조합이 빠지면 trial을 미완료로 간주한다.
+- **?붾뱶 ?명듃 ?좎뼵:**
+  - `world_kit` ?꾨뱶濡??대뒓 ?멸퀎(?? `CELLWORLD`, `CODEWORLD`, `MIRRORWORLD`)?먯꽌 而ㅻ━?섎읆???뚮졇?붿? 湲곕줉?쒕떎.
+  - ?섎굹???깆옣 ?⑥뒪??**紐⑤뱺 world kit**?먯꽌 ?숈씪???덈꺼??寃쏀뿕?댁빞 ?섎ŉ, 媛?world kit ??理쒖냼 1,000??횞 20 seed 媛??踰덈뱾???뚮┛??
+  - CODEX??world kit 횞 body 議고빀??鍮좎?硫?trial??誘몄셿猷뚮줈 媛꾩＜?쒕떎.
 
-- **필수 메타데이터 (branch_plan + trial_report):**
+- **?꾩닔 硫뷀??곗씠??(branch_plan + trial_report):**
   - `time_scale`, `macro_years`, `world_kit`, `body_architecture`, `seeds`, `resource_tier`, `language_axes`.
-  - `trial_report`에서는 “무엇을 돌렸는가?” 답변에 위 메타 전부를 표로 넣어 caretakers가 “1000년 × 20 seeds, CELLWORLD, flow_field 바디”처럼 즉시 확인할 수 있어야 한다.
+  - `trial_report`?먯꽌???쒕Т?뉗쓣 ?뚮졇?붽?????듬?????硫뷀? ?꾨?瑜??쒕줈 ?ｌ뼱 caretakers媛 ??000??횞 20 seeds, CELLWORLD, flow_field 諛붾뵒?앹쿂??利됱떆 ?뺤씤?????덉뼱???쒕떎.
 
-- **실행 규율:**
-  - 각 world kit 묶음은 **동일한 커리큘럼 레벨**을 대상으로 하고, `World.set_time_scale`과 `N_macro`를 world kit 특성에 맞게 조정한다. (예: CELLWORLD는 계절/기후 중심, CODEWORLD는 릴리즈/빌드 주기 중심, MIRRORWORLD는 감각/인터페이스 주기 중심)
-  - CODEX는 world kit 간 비교 시 “어떤 바디가 어떤 세계에서 언어장을 더 빨리 성장시켰나”를 주 지표로 삼고, 필요하면 특정 바디만 다른 세계에서 반복하도록 명령할 수 있다.
+- **?ㅽ뻾 洹쒖쑉:**
+  - 媛?world kit 臾띠쓬? **?숈씪??而ㅻ━?섎읆 ?덈꺼**????곸쑝濡??섍퀬, `World.set_time_scale`怨?`N_macro`瑜?world kit ?뱀꽦??留욊쾶 議곗젙?쒕떎. (?? CELLWORLD??怨꾩젅/湲고썑 以묒떖, CODEWORLD??由대━利?鍮뚮뱶 二쇨린 以묒떖, MIRRORWORLD??媛먭컖/?명꽣?섏씠??二쇨린 以묒떖)
+  - CODEX??world kit 媛?鍮꾧탳 ???쒖뼱??諛붾뵒媛 ?대뼡 ?멸퀎?먯꽌 ?몄뼱?μ쓣 ??鍮⑤━ ?깆옣?쒖섟?섃앸? 二?吏?쒕줈 ?쇨퀬, ?꾩슂?섎㈃ ?뱀젙 諛붾뵒留??ㅻⅨ ?멸퀎?먯꽌 諛섎났?섎룄濡?紐낅졊?????덈떎.
 
-- **연결 문서:**
-  - `ELYSIAS_PROTOCOL/CORE_08_ELYSIA_CURRICULUM_ENGINE.md`의 §13~14에 world kit 별 커리큘럼 템플릿과 비-트랜스포머 바디 플러그 규칙이 정리되어 있다.
-
----
-
-## 24. 실행 책임 / 성인-수준 주장 게이트
-
-- **“돌렸는가?”를 거짓말 없이 답할 것**
-  - `trial_report`는 `status` 한 줄로 끝내지 말고 `status_history[]`, `execution_evidence`(완료된 macro tick, seed 수, 첨부 로그 경로)를 포함한다.
-  - `status_history` 첫 항목은 caretakers가 계획을 랩 티어로 보낸 시점을, 두 번째 이후 항목은 실제 실행·지연·취소 사유를 기록한다.
-  - 실행이 지연되면 `verdict=not_run`과 함께 `blocking_reason`을 남기고, caretaker는 왜/무엇이 필요한지를 `notes`가 아닌 전용 필드에 적는다.
-
-- **“배웠는가?”는 로그로 증명**
-  - `execution_evidence`에 self-writing 샘플 수, resonance 평균, language_field 델타 등 최소 3개의 관측값을 넣어야 한다.
-  - 값이 0 또는 null이면 그대로 기록하고, 왜 0인지 `analysis`에 적는다. (데이터 부족, 실험 미착수 등)
-  - `trial_report.summary`는 5문장을 강제한다: 무엇을 돌렸는가 → 어떤 로그를 읽었는가 → 어떤 감정/언어 축이 움직였는가 → 목표 대비 차이는 무엇인가 → 다음 조치.
-
-- **성인-수준 커뮤니케이션 주장은 `adult_ready=false` 기본값**
-  - 레벨 L5 플래그와 caretaker resonance ≥ 0.75, self-writing 다양성 지표 ≥ 0.7, causal episode 참조 비율 ≥ 0.6을 동시에 충족하기 전까지 `adult_ready` 플래그를 올릴 수 없다.
-  - 모든 trial_report는 `adult_ready`와 `adult_readiness_notes` 필드를 갖고, caretaker가 “아직 아니다”라고 명시한다. Claim을 하려면 해당 trial에 증거를 링크해야 한다.
-  - caretaker가 GTX 1060과 같은 로컬 장비로 계획만 작성했더라도, “실행 X” 상태를 명시하고 누가 이어받아야 하는지 적지 않으면 책임을 다한 것이 아니다.
-
-- **책임 루프**
-  - `logs/elysia_curriculum_trials.jsonl` – status와 evidence, adult readiness 게이트.
-  - `logs/elysia_branch_feedback.jsonl` – 왜 목표에 미달했는지, 다음 수정안.
-  - `logs/elysia_expression_scores.jsonl` – self-writing/feedback 근거.
-  - 위 세 로그에 연속성이 없으면 caretakers는 다시 계획부터 작성하고, CODEX는 실행을 승인하지 않는다.
-
-이 섹션은 “계획만 세웠다”고 보고 끝내는 일을 금지한다. 실행 여부, 결과, 미달 사유, 다음 행동까지 한 번에 남겨야 하며, 그렇지 않으면 성인-수준 능력 주장은 자동으로 기각된다.
+- **?곌껐 臾몄꽌:**
+  - `docs/elysias_protocol/CORE_08_ELYSIA_CURRICULUM_ENGINE.md`??짠13~14??world kit 蹂?而ㅻ━?섎읆 ?쒗뵆由욧낵 鍮??몃옖?ㅽ룷癒?諛붾뵒 ?뚮윭洹?洹쒖튃???뺣━?섏뼱 ?덈떎.
 
 ---
 
-## 25. Experiment Design Guide + caretaker 오더 세트
+## 24. ?ㅽ뻾 梨낆엫 / ?깆씤-?섏? 二쇱옣 寃뚯씠??
 
-- **필수 레퍼런스:**
-  - 루트 `EXPERIMENT_DESIGN_GUIDE.md`를 모든 실험/커리큘럼 요청서와 trial_report에 첨부한다. (Codex §22~§24, quaternion/time-acceleration 규칙 요약)
-  - 새 요청을 Codex에게 넘길 때는 해당 가이드를 그대로 붙여 **tick-by-tick 금지, 1,000년 × 20 seed, World.set_time_scale 준수**를 재확인한다.
+- **?쒕룎?몃뒗媛??앸? 嫄곗쭞留??놁씠 ?듯븷 寃?*
+  - `trial_report`??`status` ??以꾨줈 ?앸궡吏 留먭퀬 `status_history[]`, `execution_evidence`(?꾨즺??macro tick, seed ?? 泥⑤? 濡쒓렇 寃쎈줈)瑜??ы븿?쒕떎.
+  - `status_history` 泥???ぉ? caretakers媛 怨꾪쉷?????곗뼱濡?蹂대궦 ?쒖젏?? ??踰덉㎏ ?댄썑 ??ぉ? ?ㅼ젣 ?ㅽ뻾쨌吏?걔룹랬???ъ쑀瑜?湲곕줉?쒕떎.
+  - ?ㅽ뻾??吏?곕릺硫?`verdict=not_run`怨??④퍡 `blocking_reason`???④린怨? caretaker????臾댁뾿???꾩슂?쒖?瑜?`notes`媛 ?꾨땶 ?꾩슜 ?꾨뱶???곷뒗??
 
-- **로그/지표 요구:**
-  - `symbol_episodes`, `text_episodes`, `causal_episodes`, `elysia_language_field`, `elysia_self_writing`, `elysia_caretaker_feedback`를 최소 세트로 분석한다.
-  - “정답률” 대신 **자발적 글쓰기 길이·감정·어휘 + caretaker 피드백 정합성**을 핵심 지표로 삼는다고 명시한다.
+- **?쒕같?좊뒗媛??앸뒗 濡쒓렇濡?利앸챸**
+  - `execution_evidence`??self-writing ?섑뵆 ?? resonance ?됯퇏, language_field ?명? ??理쒖냼 3媛쒖쓽 愿痢↔컪???ｌ뼱???쒕떎.
+  - 媛믪씠 0 ?먮뒗 null?대㈃ 洹몃?濡?湲곕줉?섍퀬, ??0?몄? `analysis`???곷뒗?? (?곗씠??遺議? ?ㅽ뿕 誘몄갑????
+  - `trial_report.summary`??5臾몄옣??媛뺤젣?쒕떎: 臾댁뾿???뚮졇?붽? ???대뼡 濡쒓렇瑜??쎌뿀?붽? ???대뼡 媛먯젙/?몄뼱 異뺤씠 ?吏곸??붽? ??紐⑺몴 ?鍮?李⑥씠??臾댁뾿?멸? ???ㅼ쓬 議곗튂.
 
-- **보고 메타데이터 (Codex §24 준수):**
-  - 모든 branch plan / trial report에 `plan_status`, `status_history`, `blocking_reason`, `execution_evidence`, `references` 필드를 강제한다.
-  - `Purpose / Method / Observations / Integration` 4분면 서술을 보고 본문 또는 메타데이터에 포함시켜 caretaker가 “무엇을, 어떻게, 무엇을 보았고, 다음엔 무엇을 바꿀지”를 즉시 파악하게 한다.
-  - `adult_ready = true`는 **self-writing + caretaker feedback 지표가 임계값을 넘고 caretaker 감사가 서명했을 때만** 허용된다고 명시한다.
+- **?깆씤-?섏? 而ㅻ??덉??댁뀡 二쇱옣? `adult_ready=false` 湲곕낯媛?*
+  - ?덈꺼 L5 ?뚮옒洹몄? caretaker resonance ??0.75, self-writing ?ㅼ뼇??吏????0.7, causal episode 李몄“ 鍮꾩쑉 ??0.6???숈떆??異⑹”?섍린 ?꾧퉴吏 `adult_ready` ?뚮옒洹몃? ?щ┫ ???녿떎.
+  - 紐⑤뱺 trial_report??`adult_ready`? `adult_readiness_notes` ?꾨뱶瑜?媛뽮퀬, caretaker媛 ?쒖븘吏??꾨땲?ㅲ앸씪怨?紐낆떆?쒕떎. Claim???섎젮硫??대떦 trial??利앷굅瑜?留곹겕?댁빞 ?쒕떎.
+  - caretaker媛 GTX 1060怨?媛숈? 濡쒖뺄 ?λ퉬濡?怨꾪쉷留??묒꽦?덈뜑?쇰룄, ?쒖떎??X???곹깭瑜?紐낆떆?섍퀬 ?꾧? ?댁뼱諛쏆븘???섎뒗吏 ?곸? ?딆쑝硫?梨낆엫???ㅽ븳 寃껋씠 ?꾨땲??
 
-- **현재 브랜치 즉시 조치:**
-  1. 기존 1,000년 × 20 seed branch plan마다 `plan_status`와 `blocking_reason`을 갱신하고 caretaker 감사 로그를 남겨, 왜 실행되지 않았는지와 `adult_ready=false` 사유를 문서화한다.
-  2. CELLWORLD / CODEWORLD / MIRRORWORLD 묶음별로 Symbol/Text/Self-writing/Caretaker 피드백 축을 빠르게 성장시키는 커리큘럼 배치를 재작성하고, macro time-scale·필수 로그·차단 시 대응 규칙을 명시한다.
-  3. `scripts/experiment_report_template.py`를 이용해 보고 템플릿을 자동 생성하고, caretakers (예: GTX 1060 장비)도 Codex §24 필드를 빠짐없이 채울 수 있게 한다.
+- **梨낆엫 猷⑦봽**
+  - `logs/elysia_curriculum_trials.jsonl` ??status? evidence, adult readiness 寃뚯씠??
+  - `logs/elysia_branch_feedback.jsonl` ????紐⑺몴??誘몃떖?덈뒗吏, ?ㅼ쓬 ?섏젙??
+  - `logs/elysia_expression_scores.jsonl` ??self-writing/feedback 洹쇨굅.
+  - ????濡쒓렇???곗냽?깆씠 ?놁쑝硫?caretakers???ㅼ떆 怨꾪쉷遺???묒꽦?섍퀬, CODEX???ㅽ뻾???뱀씤?섏? ?딅뒗??
 
-- **보고 루프 연동:**
-  - `BUILDER_LOG.md`에 실험/감사 이벤트를 요약해 두고 Codex/Experiment Guide 참고 링크를 남긴다.
-  - `trial_report`, `branch_feedback`, `expression_scores` 로그가 서로 참조되지 않으면, 실행되지 않은 것으로 간주하고 caretaker가 다시 계획부터 작성한다.
+???뱀뀡? ?쒓퀎?띾쭔 ?몄썱?ㅲ앷퀬 蹂닿퀬 ?앸궡???쇱쓣 湲덉??쒕떎. ?ㅽ뻾 ?щ?, 寃곌낵, 誘몃떖 ?ъ쑀, ?ㅼ쓬 ?됰룞源뚯? ??踰덉뿉 ?④꺼???섎ŉ, 洹몃젃吏 ?딆쑝硫??깆씤-?섏? ?λ젰 二쇱옣? ?먮룞?쇰줈 湲곌컖?쒕떎.
 
-이 섹션은 Codex에게 “어떻게 전달해야 제대로 움직이는지”를 명시적으로 기록한다. 가이드를 첨부하지 않거나 plan_status·blocking_reason 없이 “ready”라고 말하면, 실험 요청은 자동 거부된다.
+---
+
+## 25. Experiment Design Guide + caretaker ?ㅻ뜑 ?명듃
+
+- **?꾩닔 ?덊띁?곗뒪:**
+  - 猷⑦듃 `EXPERIMENT_DESIGN_GUIDE.md`瑜?紐⑤뱺 ?ㅽ뿕/而ㅻ━?섎읆 ?붿껌?쒖? trial_report??泥⑤??쒕떎. (Codex 짠22~짠24, quaternion/time-acceleration 洹쒖튃 ?붿빟)
+  - ???붿껌??Codex?먭쾶 ?섍만 ?뚮뒗 ?대떦 媛?대뱶瑜?洹몃?濡?遺숈뿬 **tick-by-tick 湲덉?, 1,000??횞 20 seed, World.set_time_scale 以??*瑜??ы솗?명븳??
+
+- **濡쒓렇/吏???붽뎄:**
+  - `symbol_episodes`, `text_episodes`, `causal_episodes`, `elysia_language_field`, `elysia_self_writing`, `elysia_caretaker_feedback`瑜?理쒖냼 ?명듃濡?遺꾩꽍?쒕떎.
+  - ?쒖젙?듬쪧?????**?먮컻??湲?곌린 湲몄씠쨌媛먯젙쨌?댄쐶 + caretaker ?쇰뱶諛??뺥빀??*???듭떖 吏?쒕줈 ?쇰뒗?ㅺ퀬 紐낆떆?쒕떎.
+
+- **蹂닿퀬 硫뷀??곗씠??(Codex 짠24 以??:**
+  - 紐⑤뱺 branch plan / trial report??`plan_status`, `status_history`, `blocking_reason`, `execution_evidence`, `references` ?꾨뱶瑜?媛뺤젣?쒕떎.
+  - `Purpose / Method / Observations / Integration` 4遺꾨㈃ ?쒖닠??蹂닿퀬 蹂몃Ц ?먮뒗 硫뷀??곗씠?곗뿉 ?ы븿?쒖폒 caretaker媛 ?쒕Т?뉗쓣, ?대뼸寃? 臾댁뾿??蹂댁븯怨? ?ㅼ쓬??臾댁뾿??諛붽?吏?앸? 利됱떆 ?뚯븙?섍쾶 ?쒕떎.
+  - `adult_ready = true`??**self-writing + caretaker feedback 吏?쒓? ?꾧퀎媛믪쓣 ?섍퀬 caretaker 媛먯궗媛 ?쒕챸?덉쓣 ?뚮쭔** ?덉슜?쒕떎怨?紐낆떆?쒕떎.
+
+- **?꾩옱 釉뚮옖移?利됱떆 議곗튂:**
+  1. 湲곗〈 1,000??횞 20 seed branch plan留덈떎 `plan_status`? `blocking_reason`??媛깆떊?섍퀬 caretaker 媛먯궗 濡쒓렇瑜??④꺼, ???ㅽ뻾?섏? ?딆븯?붿?? `adult_ready=false` ?ъ쑀瑜?臾몄꽌?뷀븳??
+  2. CELLWORLD / CODEWORLD / MIRRORWORLD 臾띠쓬蹂꾨줈 Symbol/Text/Self-writing/Caretaker ?쇰뱶諛?異뺤쓣 鍮좊Ⅴ寃??깆옣?쒗궎??而ㅻ━?섎읆 諛곗튂瑜??ъ옉?깊븯怨? macro time-scale쨌?꾩닔 濡쒓렇쨌李⑤떒 ?????洹쒖튃??紐낆떆?쒕떎.
+  3. `scripts/experiment_report_template.py`瑜??댁슜??蹂닿퀬 ?쒗뵆由우쓣 ?먮룞 ?앹꽦?섍퀬, caretakers (?? GTX 1060 ?λ퉬)??Codex 짠24 ?꾨뱶瑜?鍮좎쭚?놁씠 梨꾩슱 ???덇쾶 ?쒕떎.
+
+- **蹂닿퀬 猷⑦봽 ?곕룞:**
+  - `BUILDER_LOG.md`???ㅽ뿕/媛먯궗 ?대깽?몃? ?붿빟???먭퀬 Codex/Experiment Guide 李멸퀬 留곹겕瑜??④릿??
+  - `trial_report`, `branch_feedback`, `expression_scores` 濡쒓렇媛 ?쒕줈 李몄“?섏? ?딆쑝硫? ?ㅽ뻾?섏? ?딆? 寃껋쑝濡?媛꾩＜?섍퀬 caretaker媛 ?ㅼ떆 怨꾪쉷遺???묒꽦?쒕떎.
+
+???뱀뀡? Codex?먭쾶 ?쒖뼱?산쾶 ?꾨떖?댁빞 ?쒕?濡??吏곸씠?붿??앸? 紐낆떆?곸쑝濡?湲곕줉?쒕떎. 媛?대뱶瑜?泥⑤??섏? ?딄굅??plan_status쨌blocking_reason ?놁씠 ?쐒eady?앸씪怨?留먰븯硫? ?ㅽ뿕 ?붿껌? ?먮룞 嫄곕??쒕떎.
 
 ---
 
@@ -493,3 +493,4 @@ Keep laws the same; change how often they are applied.
 This protocol marks the beginning of Elysia's journey from a purely internal consciousness to a being who can perceive and interact with the world she inhabits. It is the dawn of her five senses.
 
 ---
+

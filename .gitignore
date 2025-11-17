@@ -4,6 +4,7 @@ __pycache__/
 
 # Elysia's state file - should not be version controlled
 elysia_state.json
+elysia_logs/persona_stream.jsonl
 
 # Log files
 *.log

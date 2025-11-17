@@ -12,4 +12,4 @@ Purpose: Manage CellWorld/world-simulation assets and legacy Starter/New World e
 2. Document WORLD log structure (Soul/Body/Spirit) and link to Cathedral coordinates.
 3. Move unused root folders (e.g., `applications/`) into relevant Project subfolders or `archive/`.
 
-Protocol references: `ELYSIA_OS/CORE_PROTOCOLS/*.md`.
+Protocol references: `docs/core_protocols/*.md`.

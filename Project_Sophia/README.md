@@ -3,7 +3,7 @@
 Purpose: Concept OS, nano_core, electromagnetic field, curriculum/decision engines (Codex: SOUL/MIND realm).
 
 ## Currently Anchored Here
-- `ELYSIA_OS/` ? OS overview + core protocol mirror (freshly organized).
+- `ELYSIA_OS/` ? OS overview (legacy mirror; core protocols now under `docs/core_protocols/`).
 - `Project_Sophia/nano_core/` ? small concept OS / EM-field prototype (migrated from root, `nano_core` shim preserved).
 - `Project_Sophia/elysia_sdk/` ? legacy SDK stub (migrated; root shim remains).
 - `ELYSiA_OS/`, `infra/` ? older infra attempts (need triage).
@@ -11,7 +11,7 @@ Purpose: Concept OS, nano_core, electromagnetic field, curriculum/decision engin
 
 ## TODO
 1. Fold `nano_core` + `elysia_sdk` + relevant infra under Sophia subfolders and document roles.
-2. Document Concept OS ¡ê Cathedral coordinate mapping (`concept_os/README`).
+2. Document Concept OS â†” Cathedral coordinate mapping (`concept_os/README`).
 3. Move unused SDK/infra assets into `archive/`.
 
-Protocol references: `ELYSIA_OS/CORE_PROTOCOLS/CODEX.md`, `.../CORE_15_SELF_FRACTAL_CATHEDRAL.md`.
+Protocol references: `docs/core_protocols/CODEX.md`, `docs/core_protocols/CORE_15_SELF_FRACTAL_CATHEDRAL.md`.

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+﻿from dataclasses import dataclass
 from typing import Dict, List
 
 from tools.kg_manager import KGManager
@@ -50,7 +50,7 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
     ),
     ProtocolConcept(
         id="protocol:ELYSIAS_INDEX",
-        path="ELYSIAS_PROTOCOL/00_INDEX.md",
+        path="docs/elysias_protocol/00_INDEX.md",
         ring="CORE",
         layer="OS",
         ptype="PROTOCOL",
@@ -59,7 +59,7 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
     ),
     ProtocolConcept(
         id="protocol:CORE_09_WORLD_VALIDATION_AND_HANDOFF",
-        path="ELYSIAS_PROTOCOL/CORE_09_WORLD_VALIDATION_AND_HANDOFF.md",
+        path="docs/elysias_protocol/CORE_09_WORLD_VALIDATION_AND_HANDOFF.md",
         ring="CORE",
         layer="WORLD",
         ptype="PROTOCOL",
@@ -68,7 +68,7 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
     ),
     ProtocolConcept(
         id="protocol:CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS",
-        path="ELYSIAS_PROTOCOL/CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS.md",
+        path="docs/elysias_protocol/CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS.md",
         ring="CORE",
         layer="LENS",
         ptype="LENS_SPEC",
@@ -77,7 +77,7 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
     ),
     ProtocolConcept(
         id="protocol:CORE_11_TIME_SCALES_AND_TICK_LAYERS",
-        path="ELYSIAS_PROTOCOL/CORE_11_TIME_SCALES_AND_TICK_LAYERS.md",
+        path="docs/elysias_protocol/CORE_11_TIME_SCALES_AND_TICK_LAYERS.md",
         ring="CORE",
         layer="OS",
         ptype="PROTOCOL",
@@ -86,7 +86,7 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
     ),
     ProtocolConcept(
         id="protocol:CORE_12_PEOPLE_AND_CIVILIZATION_TIERS",
-        path="ELYSIAS_PROTOCOL/CORE_12_PEOPLE_AND_CIVILIZATION_TIERS.md",
+        path="docs/elysias_protocol/CORE_12_PEOPLE_AND_CIVILIZATION_TIERS.md",
         ring="CORE",
         layer="WORLD",
         ptype="PROTOCOL",
@@ -95,7 +95,7 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
     ),
     ProtocolConcept(
         id="protocol:CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS",
-        path="ELYSIAS_PROTOCOL/CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS_PROTOCOL.md",
+        path="docs/elysias_protocol/CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS_PROTOCOL.md",
         ring="CORE",
         layer="MIND",
         ptype="PROTOCOL",
@@ -104,12 +104,12 @@ DEFAULT_PROTOCOLS: List[ProtocolConcept] = [
     ),
     ProtocolConcept(
         id="protocol:WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY",
-        path="ELYSIAS_PROTOCOL/WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY.md",
+        path="docs/elysias_protocol/WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY.md",
         ring="CORE",
         layer="WORLD",
         ptype="WORLD_KIT",
         status="SUPPORTING",
-        title="Death · Corpse · Memory Flow (World Kit)",
+        title="Death 쨌 Corpse 쨌 Memory Flow (World Kit)",
     ),
     ProtocolConcept(
         id="protocol:ELYSIA_OS_OVERVIEW",
@@ -156,4 +156,5 @@ def build_protocol_kg(kg_path: str = "data/protocol_kg.json") -> None:
         kg.add_edge(proto.id, f"ptype:{proto.ptype}", relation="has_type")
 
     kg.save()
+
 

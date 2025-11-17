@@ -49,6 +49,12 @@ Elysia/
  └─ docs/
 ```
 
+- `elysia_core/` – CORE_01~07과 Codex (철학/법칙)
+- `elysia_world/` – 셀월드 런타임, 필드, 에이전트, 페르소나 레지스트리
+- `elysia_logs/` – 텔레메트리 (world/symbol/text/causal)
+- `examples/` – 실행 예제와 노트북
+- `docs/` – 장문 문서 (프로토콜, 프랙탈 엔진, Self Model, Persona Atlas)
+
 ---
 
 ## 🔥 Purpose of Open Release
