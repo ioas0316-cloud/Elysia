@@ -24,6 +24,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.append(str(REPO_ROOT))
 
 from elysia_world.personas import activate_persona
+from scripts.persona_hooks.artist_palette import build_persona_frame
 
 DEFAULT_OUTPUT = Path("elysia_logs/persona_stream.jsonl")
 FIELD_FILE_CANDIDATES = {
@@ -67,17 +68,70 @@ def read_field_snapshot(field_key: str) -> Optional[Dict[str, object]]:
     return None
 
 
-def emit_event(args: argparse.Namespace) -> Dict[str, object]:
-    payload = activate_persona(args.persona)
+def _extract_numeric(sample: Optional[object]) -> Optional[float]:
+    if sample is None:
+        return None
+    if isinstance(sample, (int, float)):
+        return float(sample)
+    if isinstance(sample, list):
+        numbers = [float(x) for x in sample if isinstance(x, (int, float))]
+        if numbers:
+            return sum(numbers) / len(numbers)
+        return None
+    if isinstance(sample, dict):
+        for key in ("avg", "mean", "value", "strength"):
+            if key in sample and isinstance(sample[key], (int, float)):
+                return float(sample[key])
+        # handle nested lists
+        for key in ("values", "data"):
+            if key in sample and isinstance(sample[key], list):
+                return _extract_numeric(sample[key])
+    return None
+
+
+def build_world_state(field_samples: Dict[str, object], persona_key: str) -> Dict[str, object]:
+    vm_sample = field_samples.get("value_mass_field")
+    will_sample = field_samples.get("will_field")
+    intention_sample = field_samples.get("intention_field")
+
+    focus = "unknown"
+    if isinstance(intention_sample, dict):
+        for key in ("focus_node", "peak_node", "dominant_node", "target"):
+            if key in intention_sample:
+                focus = str(intention_sample[key])
+                break
+
+    mode = "persona"
+    if isinstance(intention_sample, dict):
+        for key in ("mode", "status", "label"):
+            if key in intention_sample:
+                mode = str(intention_sample[key])
+                break
+
+    return {
+        "value_mass_avg": _extract_numeric(vm_sample) or 0.5,
+        "will_tension_avg": _extract_numeric(will_sample) or 0.5,
+        "focus_node": focus,
+        "mode": mode if mode != "persona" else persona_key,
+    }
+
+
+def collect_persona_event(persona_key: str) -> Dict[str, object]:
+    payload = activate_persona(persona_key)
     field_samples: Dict[str, object] = {}
     for field_key in payload.get("focus_fields", []):
         field_samples[field_key] = read_field_snapshot(field_key)
+
+    world_state = build_world_state(field_samples, persona_key)
+    persona_frame = build_persona_frame(world_state).to_dict()
 
     event = {
         "ts": datetime.now(tz=timezone.utc).isoformat(),
         "persona_key": payload["key"],
         "persona": payload,
         "field_samples": field_samples,
+        "world_state": world_state,
+        "persona_frame": persona_frame,
     }
     return event
 
@@ -107,7 +161,7 @@ def main() -> None:
 
     try:
         while True:
-            event = emit_event(args)
+            event = collect_persona_event(args.persona)
             with args.output.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(event, ensure_ascii=False) + "\n")
             print(f"[persona_stream] wrote event for {args.persona} -> {args.output}")

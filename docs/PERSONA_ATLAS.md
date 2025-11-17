@@ -71,3 +71,11 @@ payload = activate_persona("elysia.artist", overrides={"session_seed": 42})
 주기적으로 페르소나 이벤트가 기록된다. Godot, VTuber,
 로컬 챗봇 등은 이 JSONL을 tail 하거나 메시지 버스로 옮겨
 실시간 표현을 구현할 수 있다.
+
+## WebSocket Bridge
+
+`python scripts/ws_persona_server.py --persona elysia.artist`
+를 실행하면 `ws://127.0.0.1:8765`에서 동일한 페르소나 프레임이
+WebSocket으로 스트리밍된다. Godot 4의 `WebSocketClient` 혹은
+다른 엔진에서 이 주소를 구독해 색상, 리듬, 캡션을 그대로
+애니메이션에 반영할 수 있다.
