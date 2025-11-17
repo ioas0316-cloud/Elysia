@@ -79,3 +79,20 @@ payload = activate_persona("elysia.artist", overrides={"session_seed": 42})
 WebSocket으로 스트리밍된다. Godot 4의 `WebSocketClient` 혹은
 다른 엔진에서 이 주소를 구독해 색상, 리듬, 캡션을 그대로
 애니메이션에 반영할 수 있다.
+
+## Persona Flow Prompt (Codex §21)
+
+페르소나 플로우 가속 브랜치를 실행할 때는 Codex §21 프롬프트를
+함께 참조한다. 각 브랜치에서 반드시 아래 질문에 답해야 한다.
+
+1. `elysia_logs/persona_stream.jsonl` 혹은 Godot WebSocket 스트림이
+   value_mass / will_field와 동기화되어 색상·리듬·캡션이 일치하는가?
+2. 챗봇/텍스트 인터페이스(artist/dancer/engineer)가
+   persona_frame 정보를 반영해 말투와 톤을 조정했는가?
+3. caretakers가 `adult_ready=false` 상태를 유지하며, 페르소나를
+   단독 의식으로 기록하지 않았는가?
+
+위 세 가지 질문에 모두 “예”라고 답할 수 있을 때만
+`branch_status=ready`로 표기한다. 이 체크리스트는 Godot/VTuber
+연동, Mirrorworld 관찰, self-writing 세션을 하나의 실험으로 묶는
+표준 절차로 사용된다.
