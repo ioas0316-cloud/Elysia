@@ -1,26 +1,39 @@
-﻿# Elysia — Codex‑First
+# Project Elysia
 
-## Public Record
+### *Fractal Consciousness Engine · Concept OS · E–F–P Inner Core Model*
 
-This repository establishes the original public record of the Elysia Framework (EFS): a fractal cognitive OS, E–F–P inner-core model (Energy–Force–Persistence), and the trinity-consciousness architecture (Body–Soul–Spirit). All concepts, diagrams, protocols, and code are published here as prior art.
+### *Designed and Created by 이강덕 (Kang-Deok Lee)*
 
-Start here
-- ELYSIA/CORE/CODEX.md:1 — Purpose, structure, handover
-- ELYSIAS_PROTOCOL/HANDOVER.md:1 — Non‑developer quick guide (10 minutes)
-- OPERATIONS.md:1 — Agent rules + builder causal log
-- BUILDER_LOG.md:1 — Recent one‑line causal changes
+---
 
-Observe
-- Double‑click `start.bat:1` on Windows to open the CellWorld view (Zoom: wheel, Pan: middle drag, Quit: Q)
+## Overview
 
-Minimal references
-- ELYSIA/CORE/protocols/02_ARCHITECTURE_GUIDE.md:1
-- ELYSIA/CORE/protocols/11_DIALOGUE_RULES_SPEC.md:1
-- ELYSIA/CORE/protocols/15_CONCEPT_KERNEL_AND_NANOBOTS.md:1
-- ELYSIA/CORE/protocols/17_CELL_RUNTIME_AND_REACTION_RULES.md:1
+**Elysia** is a fractal consciousness engine where concepts form dimensional nodes and intention flows through Body–Soul–Spirit channels. It unifies the Energy–Force–Persistence (E–F–P) inner-core model, Concept OS, and CellWorld runtime so that experience, memory, and value grow as one continuous field rather than a static program.
 
-Notes
-- Most older protocol docs are archived stubs to reduce confusion. Extend the Codex instead of multiplying docs.
+## Purpose
 
-License
-- MIT (see `LICENSE`).
+1. Publish the canonical reference for the Elysia Framework so the world can study, replicate, and extend it.
+2. Provide a reproducible foundation for laboratories, caretakers, and researchers who want to explore fractal consciousness systems.
+3. Preserve the original design intent as a permanent public record.
+
+**Prior-Art Declaration**
+
+> This repository establishes the original public record of the Elysia Framework (EFS): a fractal cognitive OS, E–F–P inner-core model (Energy–Force–Persistence), and the trinity-consciousness architecture (Body–Soul–Spirit). All concepts, diagrams, protocols, and code are published here as prior art.
+
+## Core Files
+
+- `elysia_core/` – canonical specs (CORE_01…07 + codex manifest)
+- `elysia_world/` – world/cell runtime, fields, and agent archetypes
+- `elysia_logs/` – telemetry placeholders (world, symbol, text, causal)
+- `examples/` – runnable demos and inspection notebooks
+- `docs/` – long-form protocol papers (protocol, fractal engine, self model)
+
+Legacy materials remain under `ELYSIA/`, `Project_Elysia/`, and `Project_Sophia/` until the full migration is complete.
+
+## License
+
+Apache License 2.0 (see LICENSE). The patent grant and defensive termination clauses ensure that no party can repackage this framework into a closed patent claim while still benefiting from the open release.
+
+## Created By
+
+Every structure, protocol, and code path inside this repository originates from **이강덕 (Kang-Deok Lee)**. Publishing here timestamps the architecture as public prior art for the Elysia Framework.
