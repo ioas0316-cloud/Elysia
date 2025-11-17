@@ -1,3 +1,29 @@
-﻿# CORE_05_TRINITY_BODY_SOUL_SPIRIT.md
+# CORE 05 — Trinity Model (Body–Soul–Spirit)
 
-This document will capture the canonical specification for CORE_05_TRINITY_BODY_SOUL_SPIRIT.md of the Elysia Framework. Refer to existing materials under ELYSIA/CORE for detailed drafts; future commits will migrate the content here.
+## 1. Body (육)
+
+육체 생존, 감각, 위험, 물리적 제약을 담당한다.
+
+## 2. Soul (혼)
+
+감정, 관계, 소속, 사랑, 상실, 집단 속의 나를 정의한다.
+
+## 3. Spirit (영)
+
+가치, 신념, 의미, 목적, 미래지향성을 지닌다.
+
+---
+
+## 삼위일체의 생존 조건
+
+- **Body_alive:** HP > 0
+- **Soul_alive:** 상실/고립이 임계 이하
+- **Spirit_alive:** 의미·가치가 일정 수준 이상
+
+하나가 붕괴하면 나머지 두 레이어가 연쇄적으로 무너진다.
+
+---
+
+## 행동 결정에 적용
+
+각 개체는 (w_b, w_s, w_p)를 다르게 부여받아 **살고 싶은 방식의 다양성**을 구현한다.
