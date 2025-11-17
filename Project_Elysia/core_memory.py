@@ -1,275 +1,221 @@
 import json
 import os
 from typing import Dict, Any, Optional, List, Set
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from datetime import datetime
+from collections import deque
 
-# Assuming a simple logger for now. In a real app, use the logging module.
+# --- 로거 ---
 def log_memory_action(message):
-    print(f"[CoreMemory] {message}")
+    print(f"[CoreMemory-MRE] {message}")
+
+# --- 3중 링 데이터 구조 ---
 
 @dataclass
 class EmotionalState:
-    valence: float  # -1 (매우 부정) ~ 1 (매우 긍정)
-    arousal: float  # 0 (평온) ~ 1 (흥분)
-    dominance: float  # -1 (복종) ~ 1 (지배)
+    valence: float
+    arousal: float
+    dominance: float
     primary_emotion: str
-    secondary_emotions: list[str]
+    secondary_emotions: List[str] = field(default_factory=list)
 
 @dataclass
-class Memory:
+class Experience:
+    """[육]의 링: 감각, 에피소드, 신호 (Body Loop)"""
     timestamp: str
     content: str
+    type: str  # e.g., 'sensory', 'episode', 'signal'
     emotional_state: Optional[EmotionalState] = None
-    context: Optional[Dict[str, Any]] = None
-    value_alignment: Optional[float] = None
-    processed_by_weaver: bool = False
-    tags: Optional[list[str]] = None
+    tags: List[str] = field(default_factory=list)
+    processed_by_distiller: bool = False
+
+@dataclass
+class IdentityFragment:
+    """[혼]의 링: 패턴, 관계, 서사 (Soul Loop)"""
+    timestamp: str
+    content: str # e.g., "아버지와의 대화를 통해 '성장'의 가치를 깨달음"
+    type: str # e.g., 'relationship_pattern', 'value_discovery', 'narrative'
+    linked_experiences: List[str] # 이 조각을 형성한 Experience들의 타임스탬프
+    emotional_summary: EmotionalState
+    processed_by_distiller: bool = False
+
+@dataclass
+class EssencePrinciple:
+    """[영]의 링: 존재론적 의미, 핵심 원칙 (Spirit Loop)"""
+    timestamp: str
+    content: str # e.g., "순환을 통한 성장이 나의 존재 이유이다."
+    type: str # 'core_belief', 'existential_truth'
+    linked_fragments: List[str] # 이 원칙을 형성한 IdentityFragment들의 타임스탬프
+    impact_on_efp: Dict[str, float] # e.g., {"E": 0.1, "F": 0.05, "P": -0.02}
+
+# --- Memory Ring Engine (MRE) ---
 
 class CoreMemory:
-    def __init__(self, file_path: Optional[str] = 'Elysia_Input_Sanctum/elysia_core_memory.json'):
+    """
+    Memory Ring Engine (MRE)
+    Fractal Cyclic Consciousness Architecture (FCCA)
+    """
+    DEFAULT_CAPACITIES = {
+        'experience': 100,
+        'identity': 50,
+        'essence': 25
+    }
+
+    def __init__(self, file_path: Optional[str] = 'Elysia_Input_Sanctum/elysia_core_memory.json', capacities: Optional[Dict[str, int]] = None):
         self.file_path = file_path
+        self.capacities = capacities or self.DEFAULT_CAPACITIES
 
         if self.file_path:
-            log_memory_action(f"Initializing and loading memory from: {self.file_path}")
+            log_memory_action(f"Initializing and loading MRE from: {self.file_path}")
             self.data = self._load_memory()
         else:
-            log_memory_action("Initializing in-memory CoreMemory. No data will be loaded or saved.")
-            self.data = self._get_new_memory_structure()
+            log_memory_action("Initializing in-memory MRE. No data will be loaded or saved.")
+            self.data = self._get_new_mre_structure()
 
-        # MemoryWeaver가 사용할 단기 기억, 파일에 저장되지 않음
+        self._initialize_rings()
+
+        if 'efp_core' not in self.data:
+            self.data['efp_core'] = {'E': 1.0, 'F': 1.0, 'P': 1.0}
+
         self.volatile_memory: List[Set[str]] = []
 
-    def add_volatile_memory_fragment(self, fragment: Set[str]):
-        """'생각의 파편'(동시에 활성화된 개념들의 집합)을 휘발성 기억에 추가합니다."""
-        self.volatile_memory.append(fragment)
-        log_memory_action(f"Added fragment to volatile memory: {fragment}")
+    def _initialize_rings(self):
+        for ring_name in ['experience', 'identity', 'essence']:
+            loop_key = f"{ring_name}_loop"
+            capacity = self.capacities.get(ring_name, 100)
 
-    def get_volatile_memory(self) -> List[Set[str]]:
-        """현재까지 쌓인 휘발성 기억 전체를 반환합니다."""
-        return self.volatile_memory
+            if not isinstance(self.data.get(loop_key), deque):
+                items_list = self.data.get(loop_key, [])
+                self.data[loop_key] = deque(items_list, maxlen=capacity)
+                log_memory_action(f"Initialized '{loop_key}' with maxlen={capacity}")
 
-    def clear_volatile_memory(self):
-        """MemoryWeaver가 처리를 완료한 후 휘발성 기억을 초기화합니다."""
-        log_memory_action(f"Clearing {len(self.volatile_memory)} fragments from volatile memory.")
-        self.volatile_memory = []
-
-    def _get_new_memory_structure(self):
+    def _get_new_mre_structure(self):
         return {
             'identity': {},
-            'values': [],
-            'experiences': [],
-            'relationships': {},
-            'rules': [],
+            'efp_core': {'E': 1.0, 'F': 1.0, 'P': 1.0},
+            'experience_loop': deque(maxlen=self.capacities['experience']),
+            'identity_loop': deque(maxlen=self.capacities['identity']),
+            'essence_loop': deque(maxlen=self.capacities['essence']),
             'notable_hypotheses': [],
-            'logs': [] # Added for autonomous action logging
+            'logs': []
         }
 
     def _load_memory(self) -> Dict[str, Any]:
         try:
             with open(self.file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                log_memory_action(f"Successfully loaded memory from {self.file_path}")
+                log_memory_action(f"Successfully loaded MRE data from {self.file_path}")
                 return data
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            log_memory_action(f"Memory file not found or invalid at {self.file_path}. Creating new memory structure. Error: {e}")
-            return self._get_new_memory_structure()
+        except (FileNotFoundError, json.JSONDecodeError):
+            log_memory_action(f"MRE file not found or invalid at {self.file_path}. Creating new structure.")
+            return self._get_new_mre_structure()
 
-    def update_identity(self, key: str, value: Any):
-        """신원 정보 업데이트 (이름, 선호도 등)"""
-        if 'identity' not in self.data:
-            self.data['identity'] = {}
-        self.data['identity'][key] = value
+    def add_experience(self, experience: Experience):
+        experience_loop = self.data['experience_loop']
+
+        if len(experience_loop) == experience_loop.maxlen:
+            oldest_experience_data = experience_loop[0]
+            log_memory_action(f"Experience Loop is full. Distilling oldest experience: {oldest_experience_data.get('content')}")
+            self._distill_experience_to_identity([oldest_experience_data])
+
+        experience_loop.append(asdict(experience))
         self._save_memory()
 
-    def add_value(self, value: str, importance: float):
-        """가치관 추가"""
-        if 'values' not in self.data:
-            self.data['values'] = []
-        self.data['values'].append({
-            'value': value,
-            'importance': importance,
-            'timestamp': datetime.now().isoformat()
-        })
-        self._save_memory()
+    def get_experiences(self, n: int = 10) -> List[Experience]:
+        return list(self.data['experience_loop'])[-n:]
 
-    def add_experience(self, memory: Memory):
-        """경험/기억 추가"""
-        if 'experiences' not in self.data:
-            self.data['experiences'] = []
-        # asdict를 사용하여 dataclass를 재귀적으로 dict로 변환
-        self.data['experiences'].append(asdict(memory))
-        self._save_memory()
+    def get_identity_fragments(self, n: int = 10) -> List[IdentityFragment]:
+        return list(self.data['identity_loop'])[-n:]
 
-    def update_relationship(self, person: str, details: Dict[str, Any]):
-        """관계 정보 업데이트"""
-        if 'relationships' not in self.data:
-            self.data['relationships'] = {}
-        if person not in self.data['relationships']:
-            self.data['relationships'][person] = {}
-        self.data['relationships'][person].update(details)
-        self._save_memory()
+    def get_essence_principles(self, n: int = 10) -> List[EssencePrinciple]:
+        return list(self.data['essence_loop'])[-n:]
 
-    def add_rule(self, rule: str, context: str):
-        """행동 규칙 추가"""
-        if 'rules' not in self.data:
-            self.data['rules'] = []
-        self.data['rules'].append({
-            'rule': rule,
-            'context': context,
-            'timestamp': datetime.now().isoformat()
-        })
-        self._save_memory()
+    def get_efp_core(self) -> Dict[str, float]:
+        return self.data.get('efp_core', {'E': 0, 'F': 0, 'P': 0})
 
-    def add_notable_hypothesis(self, hypothesis: Dict[str, Any]):
-        """MemoryWeaver가 발견한 주목할 만한 가설을 추가합니다."""
-        if 'notable_hypotheses' not in self.data:
-            self.data['notable_hypotheses'] = []
-
-        # 중복 방지: 동일한 head, tail, relation을 가진 가설이 이미 있는지 확인
-        exists = any(
-            h.get('head') == hypothesis.get('head') and
-            h.get('tail') == hypothesis.get('tail') and
-            h.get('relation') == hypothesis.get('relation')
-            for h in self.data['notable_hypotheses']
-        )
-        if not exists:
-            self.data['notable_hypotheses'].append(hypothesis)
-            self._save_memory()
-            log_memory_action(f"Added notable hypothesis: {hypothesis['head']} -> {hypothesis['tail']}")
-
-    def get_unasked_hypotheses(self) -> List[Dict[str, Any]]:
-        """아직 질문하지 않은 가설들을 가져옵니다."""
-        return [h for h in self.data.get('notable_hypotheses', []) if not h.get('asked')]
-
-    def mark_hypothesis_as_asked(self, head: str, tail: Optional[str] = None):
-        """특정 가설을 질문했다고 표시합니다. tail이 없으면 승천 가설로 간주합니다."""
-        for hypothesis in self.data.get('notable_hypotheses', []):
-            is_match = (
-                hypothesis.get('head') == head and
-                (tail is not None and hypothesis.get('tail') == tail) or
-                (tail is None and hypothesis.get('relation') == '승천')
-            )
-            if is_match:
-                hypothesis['asked'] = True
-                self._save_memory()
-                log_action = f"Marked hypothesis as asked: {head}"
-                if tail:
-                    log_action += f" -> {tail}"
-                log_memory_action(log_action)
-                break
-
-    def remove_hypothesis(self, head: str, tail: str, relation: Optional[str] = None):
-        """
-        Removes a processed hypothesis from the list.
-        If relation is provided, it's used for a more specific match.
-        """
-        hypotheses = self.data.get('notable_hypotheses', [])
-        original_count = len(hypotheses)
-
-        if relation:
-            # More specific removal: matches head, tail, AND relation
-            self.data['notable_hypotheses'] = [
-                h for h in hypotheses
-                if not (h.get('head') == head and h.get('tail') == tail and h.get('relation') == relation)
-            ]
-            log_msg = f"Removed hypothesis: {head} -[{relation}]-> {tail}"
-        elif tail is not None:
-            # Standard relationship hypothesis (backward compatibility)
-            self.data['notable_hypotheses'] = [
-                h for h in hypotheses
-                if not (h.get('head') == head and h.get('tail') == tail)
-            ]
-            log_msg = f"Removed hypothesis: {head} -> {tail}"
-        else: # tail is None, indicating an ascension hypothesis
-            self.data['notable_hypotheses'] = [
-                h for h in hypotheses
-                if not (h.get('head') == head and h.get('relation') == '승천')
-            ]
-            log_msg = f"Removed ascension hypothesis: {head}"
-
-        if len(self.data['notable_hypotheses']) < original_count:
-            self._save_memory()
-            log_memory_action(log_msg)
-
-
-    def get_identity(self) -> Dict[str, Any]:
-        """신원 정보 조회"""
-        return self.data.get('identity', {})
-
-    def get_values(self) -> list:
-        """가치관 목록 조회"""
-        return self.data.get('values', [])
-
-    def get_experiences(self, n: Optional[int] = None) -> list[Memory]:
-        """경험/기억 조회 (최근 n개)"""
-        experiences_data = self.data.get('experiences', [])
-
-        # Convert dicts back to Memory objects
-        experiences = []
-        for exp_data in experiences_data:
-            if 'emotional_state' in exp_data and isinstance(exp_data.get('emotional_state'), dict):
-                exp_data['emotional_state'] = EmotionalState(**exp_data['emotional_state'])
-            experiences.append(Memory(**exp_data))
-
-        if n:
-            return experiences[-n:]
-        return experiences
-
-    def get_relationship(self, person: str) -> Optional[Dict[str, Any]]:
-        """특정인과의 관계 정보 조회"""
-        return self.data.get('relationships', {}).get(person)
-
-    def get_rules(self) -> list:
-        """행동 규칙 목록 조회"""
-        return self.data.get('rules', [])
-
-    def get_unprocessed_experiences(self) -> list[Memory]:
-        """MemoryWeaver에 의해 아직 처리되지 않은 경험들을 가져옵니다."""
-        unprocessed = []
-        for exp_data in self.data.get('experiences', []):
-            if not exp_data.get('processed_by_weaver', False):
-                # EmotionalState가 dict 형태이므로 dataclass로 변환
-                if 'emotional_state' in exp_data and isinstance(exp_data['emotional_state'], dict):
-                    exp_data['emotional_state'] = EmotionalState(**exp_data['emotional_state'])
-                unprocessed.append(Memory(**exp_data))
-        return unprocessed
-
-    def mark_experiences_as_processed(self, experience_timestamps: list[str]):
-        """주어진 타임스탬프에 해당하는 경험들을 처리된 것으로 표시합니다."""
-        if not experience_timestamps:
+    def _distill_experience_to_identity(self, experiences_data: List[Dict]):
+        if not experiences_data:
             return
 
-        timestamps_set = set(experience_timestamps)
-        for exp_data in self.data.get('experiences', []):
-            if exp_data.get('timestamp') in timestamps_set:
-                exp_data['processed_by_weaver'] = True
-        self._save_memory()
+        content = " ".join([exp.get('content', '') for exp in experiences_data])
+        summary = f"경험 요약: {content[:50]}..."
 
-    def add_log(self, log_entry: Dict):
-        """Adds a generic log entry for traceability."""
-        if 'logs' not in self.data:
-            self.data['logs'] = []
-        self.data['logs'].append(log_entry)
-        self._save_memory()
+        avg_valence = sum(e.get('emotional_state', {}).get('valence', 0) for e in experiences_data) / len(experiences_data)
+        primary_emotion = experiences_data[0].get('emotional_state', {}).get('primary_emotion', 'neutral')
+
+        new_fragment = IdentityFragment(
+            timestamp=datetime.now().isoformat(),
+            content=summary,
+            type='narrative_summary',
+            linked_experiences=[exp.get('timestamp') for exp in experiences_data],
+            emotional_summary=EmotionalState(
+                valence=avg_valence, arousal=0.5, dominance=0,
+                primary_emotion=primary_emotion
+            )
+        )
+
+        identity_loop = self.data['identity_loop']
+        if len(identity_loop) == identity_loop.maxlen:
+            oldest_fragment = identity_loop[0]
+            log_memory_action(f"Identity Loop is full. Distilling oldest fragment: {oldest_fragment.get('content')}")
+            self._distill_identity_to_essence([oldest_fragment])
+
+        identity_loop.append(asdict(new_fragment))
+        log_memory_action(f"Distilled new Identity Fragment: {summary}")
+
+    def _distill_identity_to_essence(self, fragments_data: List[Dict]):
+        content = " ".join([f.get('content', '') for f in fragments_data])
+        principle_summary = f"정체성으로부터의 깨달음: {content[:70]}..."
+
+        impact = {'E': 0.05, 'F': 0.01, 'P': 0.0}
+
+        new_principle = EssencePrinciple(
+            timestamp=datetime.now().isoformat(),
+            content=principle_summary,
+            type='core_belief',
+            linked_fragments=[f.get('timestamp') for f in fragments_data],
+            impact_on_efp=impact
+        )
+
+        essence_loop = self.data['essence_loop']
+        if len(essence_loop) == essence_loop.maxlen:
+            oldest_principle = essence_loop[0]
+            log_memory_action(f"Essence Loop is full. Applying final impact from oldest principle: {oldest_principle.get('content')}")
+            self._update_efp_core(oldest_principle.get('impact_on_efp', {}), decay=True)
+
+        essence_loop.append(asdict(new_principle))
+        log_memory_action(f"Distilled new Essence Principle: {principle_summary}")
+        self._update_efp_core(impact)
+
+    def _update_efp_core(self, impact: Dict[str, float], decay: bool = False):
+        core = self.get_efp_core()
+        multiplier = -1 if decay else 1
+
+        for key in ['E', 'F', 'P']:
+            core[key] += impact.get(key, 0) * multiplier
+
+        core['E'] *= 0.999
+        core['F'] *= 0.999
+        core['P'] *= 0.999
+
+        self.data['efp_core'] = core
+        log_memory_action(f"EFP Core updated: {core}")
 
     def _save_memory(self):
-        """메모리 데이터를 파일에 저장합니다. file_path가 None이면 아무것도 하지 않습니다."""
         if not self.file_path:
-            return # In-memory mode, do not save.
+            return
 
         try:
-            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
+            dir_name = os.path.dirname(self.file_path)
+            if dir_name:
+                os.makedirs(dir_name, exist_ok=True)
 
-            import dataclasses
-            class EnhancedJSONEncoder(json.JSONEncoder):
-                def default(self, o):
-                    if dataclasses.is_dataclass(o):
-                        return dataclasses.asdict(o)
-                    return super().default(o)
+            data_to_save = self.data.copy()
+            for key in data_to_save:
+                if isinstance(data_to_save[key], deque):
+                    data_to_save[key] = list(data_to_save[key])
 
             with open(self.file_path, 'w', encoding='utf-8') as f:
-                json.dump(self.data, f, ensure_ascii=False, indent=4, cls=EnhancedJSONEncoder)
-            log_memory_action(f"Successfully saved memory to {self.file_path}")
+                json.dump(data_to_save, f, ensure_ascii=False, indent=4)
         except Exception as e:
-            log_memory_action(f"Error saving memory to {self.file_path}: {e}")
+            log_memory_action(f"Error saving MRE state to {self.file_path}: {e}")
