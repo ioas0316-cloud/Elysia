@@ -1,7 +1,12 @@
 ﻿
+from __future__ import annotations
+
 import random
 import logging
-from typing import List, Dict, Optional, Tuple, NamedTuple
+from dataclasses import dataclass
+from typing import List, Dict, Optional, Tuple, Callable, NamedTuple
+
+from pyquaternion import Quaternion
 
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
@@ -33,6 +38,51 @@ DESCENT_DISTORTION = 3   # Diabolos
 DESCENT_SELF_OBSESSION = 4 # Lucifel
 DESCENT_CONSUMPTION = 5  # Mammon
 DESCENT_BONDAGE = 6      # Asmodeus
+
+
+LawAction = Optional[Tuple[Optional[int], str, Optional[Move]]]
+
+
+@dataclass
+class LawPolicy:
+    name: str
+    priority: float
+    condition: Callable[[int, csr_matrix, np.ndarray], bool]
+    action: Callable[[int, csr_matrix, np.ndarray], LawAction]
+    insight: Callable[[int, csr_matrix, np.ndarray], List[str]]
+
+
+@dataclass
+class LawEvaluationResult:
+    action: LawAction
+    reflections: List[str]
+    policy_name: str
+
+
+class LawPriorityManager:
+    def __init__(self, world: "World", policies: List[LawPolicy]):
+        self.world = world
+        self.policies = policies
+
+    def evaluate(
+        self,
+        actor_idx: int,
+        adj_matrix_csr: csr_matrix,
+        connected_indices: np.ndarray,
+    ) -> Optional[LawEvaluationResult]:
+        candidates: List[Tuple[float, str, LawAction, List[str]]] = []
+        for policy in self.policies:
+            if not policy.condition(actor_idx, adj_matrix_csr, connected_indices):
+                continue
+            action = policy.action(actor_idx, adj_matrix_csr, connected_indices)
+            bonus = self.world.get_meta_priority_bonus(policy.name)
+            reflections = policy.insight(actor_idx, adj_matrix_csr, connected_indices)
+            candidates.append((policy.priority + bonus, policy.name, action, reflections))
+        if not candidates:
+            return None
+        candidates.sort(key=lambda item: item[0], reverse=True)
+        priority, name, action, reflections = candidates[0]
+        return LawEvaluationResult(action=action, reflections=reflections, policy_name=name)
 
 
 class AwakeningEvent(NamedTuple):
@@ -110,8 +160,12 @@ class World:
         # omens) as logs/flags. Default is False so unit tests remain untouched.
         self.enable_macro_disaster_events: bool = False
 
+        # --- Policy Stack ---
+        self.law_manager = self._build_law_manager()
+
         # --- Quantum State Management ---
         self.quantum_states: Dict[str, Dict[str, float]] = {}
+        self.last_reflections: Dict[int, List[str]] = {}
 
         # --- Materialized Cell Management ---
         self.materialized_cells: Dict[str, Cell] = {}
@@ -160,6 +214,18 @@ class World:
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
         self.is_awakened = np.array([], dtype=bool) # For the Law of Existential Change
         self.experience_scars = np.array([], dtype=np.uint8) # Bitmask for experiences
+
+        # --- Mental / Reflective Channels ---
+        self.memory_strength = np.array([], dtype=np.float32)
+        self.imagination_brightness = np.array([], dtype=np.float32)
+        self.emotion_intensity = np.array([], dtype=np.float32)
+        self.vision_awareness = np.array([], dtype=np.float32)
+        self.auditory_clarity = np.array([], dtype=np.float32)
+        self.gustatory_imbue = np.array([], dtype=np.float32)
+        self.olfactory_sensitivity = np.array([], dtype=np.float32)
+        self.tactile_feedback = np.array([], dtype=np.float32)
+        self.meta_focus: str = "baseline"
+        self.meta_focus_history: List[str] = []
 
         # --- Civilization Attributes ---
         self.continent = np.array([], dtype='<U10') # e.g., 'East', 'West'
@@ -342,6 +408,14 @@ class World:
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
         self.is_awakened = np.pad(self.is_awakened, (0, new_size - current_size), 'constant', constant_values=False)
         self.experience_scars = np.pad(self.experience_scars, (0, new_size - current_size), 'constant', constant_values=0)
+        self.memory_strength = np.pad(self.memory_strength, (0, new_size - current_size), 'constant')
+        self.imagination_brightness = np.pad(self.imagination_brightness, (0, new_size - current_size), 'constant')
+        self.emotion_intensity = np.pad(self.emotion_intensity, (0, new_size - current_size), 'constant')
+        self.vision_awareness = np.pad(self.vision_awareness, (0, new_size - current_size), 'constant')
+        self.auditory_clarity = np.pad(self.auditory_clarity, (0, new_size - current_size), 'constant')
+        self.gustatory_imbue = np.pad(self.gustatory_imbue, (0, new_size - current_size), 'constant')
+        self.olfactory_sensitivity = np.pad(self.olfactory_sensitivity, (0, new_size - current_size), 'constant')
+        self.tactile_feedback = np.pad(self.tactile_feedback, (0, new_size - current_size), 'constant')
 
 
         # --- Civilization Attributes ---
@@ -647,10 +721,10 @@ class World:
                 self.genders[idx] = properties['gender']
             if 'continent' in properties:
                 self.continent[idx] = properties['continent']
-            if 'culture' in properties:
-                self.culture[idx] = properties['culture']
-            if 'affiliation' in properties:
-                self.affiliation[idx] = properties['affiliation']
+        if 'culture' in properties:
+            self.culture[idx] = properties['culture']
+        if 'affiliation' in properties:
+            self.affiliation[idx] = properties['affiliation']
             if 'max_hp' in properties:
                 try:
                     self.max_hp[idx] = float(properties['max_hp'])
@@ -670,8 +744,9 @@ class World:
                 # Mirror hp override into energy when explicit energy not provided
                 self.energy[idx] = float(self.hp[idx])
             # Ensure hp never exceeds max_hp after overrides
-            if self.hp[idx] > self.max_hp[idx]:
-                self.hp[idx] = self.max_hp[idx]
+        if self.hp[idx] > self.max_hp[idx]:
+            self.hp[idx] = self.max_hp[idx]
+
 
     def materialize_cell(self, concept_id: str, force_materialize: bool = False, explicit_properties: Optional[Dict] = None) -> Optional[Cell]:
         if not force_materialize and concept_id in self.materialized_cells:
@@ -1666,6 +1741,338 @@ class World:
 
         return None # No urgent survival action needed
 
+    def _build_law_manager(self) -> LawPriorityManager:
+        policies = [
+            LawPolicy(
+                name="altruism",
+                priority=10.0,
+                condition=self._altruism_condition,
+                action=self._altruism_action,
+                insight=self._altruism_insight,
+            ),
+            LawPolicy(
+                name="mindful_presence",
+                priority=5.0,
+                condition=self._mindful_condition,
+                action=self._mindful_action,
+                insight=self._mindful_insight,
+            ),
+            LawPolicy(
+                name="resonance_field",
+                priority=4.0,
+                condition=self._resonance_condition,
+                action=self._resonance_action,
+                insight=self._resonance_insight,
+            ),
+            LawPolicy(
+                name="memory_resonance",
+                priority=3.0,
+                condition=self._memory_condition,
+                action=self._memory_action,
+                insight=self._memory_insight,
+            ),
+            LawPolicy(
+                name="vision_aura",
+                priority=3.5,
+                condition=self._vision_condition,
+                action=self._vision_action,
+                insight=self._vision_insight,
+            ),
+            LawPolicy(
+                name="hearing_harmony",
+                priority=3.0,
+                condition=self._hearing_condition,
+                action=self._hearing_action,
+                insight=self._hearing_insight,
+            ),
+            LawPolicy(
+                name="taste_lore",
+                priority=2.5,
+                condition=self._taste_condition,
+                action=self._taste_action,
+                insight=self._taste_insight,
+            ),
+            LawPolicy(
+                name="smell_cleansing",
+                priority=2.7,
+                condition=self._smell_condition,
+                action=self._smell_action,
+                insight=self._smell_insight,
+            ),
+            LawPolicy(
+                name="touch_temperature",
+                priority=2.3,
+                condition=self._touch_condition,
+                action=self._touch_action,
+                insight=self._touch_insight,
+            ),
+            LawPolicy(
+                name="imagination_bloom",
+                priority=2.0,
+                condition=self._imagination_condition,
+                action=self._imagination_action,
+                insight=self._imagination_insight,
+            ),
+            LawPolicy(
+                name="solidarity_pulse",
+                priority=1.0,
+                condition=self._solidarity_condition,
+                action=self._solidarity_action,
+                insight=self._solidarity_insight,
+            ),
+        ]
+        return LawPriorityManager(self, policies)
+
+    def _altruism_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.hunger[actor_idx] > 70 and connected_indices.size > 0
+
+    def _altruism_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        kin_mask = (
+            (self.hunger[connected_indices] < 30)
+            & (self.labels[connected_indices] == self.labels[actor_idx])
+            & self.is_alive_mask[connected_indices]
+        )
+        hungry_kin = connected_indices[kin_mask]
+        if hungry_kin.size == 0:
+            return None
+        best_target = -1
+        for target_idx in hungry_kin:
+            if adj_matrix_csr[actor_idx, target_idx] >= 0.8:
+                best_target = target_idx
+                break
+        if best_target == -1:
+            best_target = hungry_kin[0]
+        return best_target, 'share_food', None
+
+    def _altruism_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        actor_name = self.cell_ids[actor_idx] if actor_idx < len(self.cell_ids) else f"cell_{actor_idx}"
+        return [
+            f"{actor_name} senses abundance and the presence of kin; sharing feels like honoring that bond.",
+            "The cosmic axis of love is stronger here than the field of death."
+        ]
+
+    def _mindful_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.emotions[actor_idx] == 'sorrow' and not self.is_meditating[actor_idx]
+
+    def _mindful_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return -1, 'meditate', None
+
+    def _mindful_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        actor_name = self.cell_ids[actor_idx] if actor_idx < len(self.cell_ids) else f"cell_{actor_idx}"
+        return [
+            f"{actor_name}'s sorrow is a signal to pause; meditation will let the field settle.",
+        ]
+
+    def _resonance_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.satisfaction[actor_idx] > 80 and self.hunger[actor_idx] >= 40
+
+    def _resonance_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _resonance_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        actor_name = self.cell_ids[actor_idx] if actor_idx < len(self.cell_ids) else f"cell_{actor_idx}"
+        return [
+            f"{actor_name} feels resonance in the field; the chorus of sustaining connections keeps the intent steady.",
+        ]
+
+    def _vision_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.vision_awareness[actor_idx] > 40.0
+
+    def _vision_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _vision_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        return [f"Vision field sharp; {self.cell_ids[actor_idx]} paints light as intent."] * 2
+
+    def _hearing_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.auditory_clarity[actor_idx] > 35.0
+
+    def _hearing_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _hearing_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        return [f"Harmony listened: sounds align with the rhythm of {self.cell_ids[actor_idx]}."]
+
+    def _taste_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.gustatory_imbue[actor_idx] > 20.0
+
+    def _taste_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _taste_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        return [f"Taste lore whispers about nourishment; {self.cell_ids[actor_idx]} invites a savory ritual."]
+
+    def _smell_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.olfactory_sensitivity[actor_idx] > 50.0
+
+    def _smell_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _smell_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        return [f"Smell calls for cleansing; {self.cell_ids[actor_idx]} imagines washrooms and freshness."]
+
+    def _touch_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.tactile_feedback[actor_idx] > 30.0
+
+    def _touch_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _touch_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        return [f"Touch senses warmth/cold interplay; {self.cell_ids[actor_idx]} ponders textures as stories."]
+
+    def _memory_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.age[actor_idx] >= 5
+
+    def _memory_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _memory_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        actor_name = self.cell_ids[actor_idx] if actor_idx < len(self.cell_ids) else f"cell_{actor_idx}"
+        return [
+            f"{actor_name} recalls past shared feasts; the memory weight keeps the group tethered.",
+        ]
+
+    def _imagination_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return self.emotions[actor_idx] == "joy" or self.satisfaction[actor_idx] > 80
+
+    def _imagination_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _imagination_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        actor_name = self.cell_ids[actor_idx] if actor_idx < len(self.cell_ids) else f"cell_{actor_idx}"
+        return [
+            f"{actor_name} lets imagination of future gardens color the current choices.",
+        ]
+
+    def _solidarity_condition(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> bool:
+        return connected_indices.size >= 1 and np.any(self.labels[connected_indices] == self.labels[actor_idx])
+
+    def _solidarity_action(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> LawAction:
+        return None
+
+    def _solidarity_insight(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        actor_name = self.cell_ids[actor_idx] if actor_idx < len(self.cell_ids) else f"cell_{actor_idx}"
+        return [
+            f"{actor_name} senses the solidarity field; every sharing ripple strengthens the kin circle.",
+        ]
+
+    def _reflective_questions(self, actor_idx: int, adj_matrix_csr: csr_matrix, connected_indices: np.ndarray) -> List[str]:
+        """Generate a brief set of self-inquiry prompts (value, relation, emotion)."""
+        actor_name = (
+            self.cell_ids[actor_idx]
+            if actor_idx < len(self.cell_ids)
+            else f"cell_{actor_idx}"
+        )
+        culture = self.culture[actor_idx] if actor_idx < len(self.culture) else "unknown"
+        emotion = self.emotions[actor_idx] if actor_idx < len(self.emotions) else "neutral"
+
+        question_value = (
+            f"{actor_name} follows the path of {culture}; what responsibility does that call you to take now?"
+        )
+
+        if connected_indices.size == 0:
+            relation_text = f"{actor_name} is not connected to anyone right now."
+        else:
+            strengths = adj_matrix_csr[
+                actor_idx, connected_indices
+            ].toarray().flatten()
+            if strengths.size > 0:
+                best_idx = connected_indices[int(np.argmax(strengths))]
+                best_name = (
+                    self.cell_ids[best_idx]
+                    if best_idx < len(self.cell_ids)
+                    else f"cell_{best_idx}"
+                )
+                relation_text = (
+                    f"Who does {actor_name} wish to maintain a bond with in this moment with {best_name}?"
+                )
+            else:
+                relation_text = f"{actor_name} is connected but the bond has no name."
+
+        kin_mask = np.array([], dtype=bool)
+        if connected_indices.size > 0:
+            kin_mask = (
+                (self.labels[connected_indices] == self.labels[actor_idx])
+                & self.is_alive_mask[connected_indices]
+            )
+        kin_count = int(np.count_nonzero(kin_mask))
+        relation_question = (
+            f"{relation_text} ({kin_count} kin present at this scene)"
+            if kin_count
+            else relation_text
+        )
+
+        emotion_question = (
+            f"{actor_name} feels '{emotion}'. What action would honor that feeling right now?"
+        )
+
+        questions = [question_value, relation_question, emotion_question]
+        self.logger.debug(f"Reflective questions for {actor_name}: {questions}")
+        return questions
+
+    def _determine_meta_focus(self, actor_idx: int, connected_indices: np.ndarray) -> None:
+        hunger = float(self.hunger[actor_idx]) if self.hunger.size > actor_idx else 0.0
+        satisfaction = float(self.satisfaction[actor_idx]) if self.satisfaction.size > actor_idx else 0.0
+        if hunger < 30:
+            focus = "survival"
+        elif satisfaction > 80:
+            focus = "resonance"
+        elif connected_indices.size >= 3:
+            focus = "solidarity"
+        else:
+            focus = "baseline"
+        self.meta_focus = focus
+        self.meta_focus_history.append(focus)
+
+    def get_meta_priority_bonus(self, policy_name: str) -> float:
+        focus = self.meta_focus
+        bonus = 0.0
+        if focus == "resonance" and policy_name in {"resonance_field", "imagination_bloom"}:
+            bonus = 1.5
+        elif focus == "solidarity" and policy_name in {"solidarity_pulse", "altruism"}:
+            bonus = 1.0
+        elif focus == "survival" and policy_name == "mindful_presence":
+            bonus = 0.5
+        return bonus
+
+    def _update_channels(self, actor_idx: int, reflections: List[str]) -> None:
+        mem_delta = sum(1 for text in reflections if "memory" in text.lower())
+        imag_delta = sum(1 for text in reflections if "imagination" in text.lower())
+        emotion_val = {"joy": 0.6, "calm": 0.2, "sorrow": -0.3, "neutral": 0.0}.get(
+            self.emotions[actor_idx] if actor_idx < len(self.emotions) else "neutral", 0.0
+        )
+        self.memory_strength[actor_idx] = min(100.0, self.memory_strength[actor_idx] * 0.9 + mem_delta * 5 + 0.1)
+        self.imagination_brightness[actor_idx] = min(100.0, self.imagination_brightness[actor_idx] * 0.8 + imag_delta * 4 + 0.1)
+        self.emotion_intensity[actor_idx] = min(100.0, self.emotion_intensity[actor_idx] * 0.9 + abs(emotion_val) * 20)
+        self.vision_awareness[actor_idx] = min(100.0, self.vision_awareness[actor_idx] + len(reflections))
+        self.auditory_clarity[actor_idx] = min(100.0, self.auditory_clarity[actor_idx] + 0.5 * len(reflections))
+        self.gustatory_imbue[actor_idx] = min(100.0, self.gustatory_imbue[actor_idx] + 0.3 * len(reflections))
+        self.olfactory_sensitivity[actor_idx] = min(100.0, self.olfactory_sensitivity[actor_idx] + 0.4 * len(reflections))
+        self.tactile_feedback[actor_idx] = min(100.0, self.tactile_feedback[actor_idx] + 0.2 * len(reflections))
+
+    def apply_quaternion_feedback(self, actor_idx: int, q: Quaternion) -> None:
+        scalar = float(q.scalar)
+        vector = np.array(q.vector, dtype=np.float32)
+        self.memory_strength[actor_idx] = min(100.0, self.memory_strength[actor_idx] + scalar * 5.0)
+        self.imagination_brightness[actor_idx] = min(100.0, self.imagination_brightness[actor_idx] + np.mean(np.abs(vector)) * 10.0)
+        self.emotion_intensity[actor_idx] = min(100.0, self.emotion_intensity[actor_idx] + abs(vector.max()) * 5.0)
+
+    def gather_fractal_field_insights(self, actor_idx: int) -> List[str]:
+        layers = ["intention", "resonance", "memory"]
+        adj_csr = self.adjacency_matrix.tocsr()
+        insights: List[str] = []
+        connected_indices = adj_csr[actor_idx].indices
+        for x in layers:
+            for y in layers:
+                for z in layers:
+                    focus_combo = f"{x}/{y}/{z}"
+                    self.meta_focus = focus_combo
+                    self.meta_focus_history.append(focus_combo)
+                    questions = self._reflective_questions(actor_idx, adj_csr, connected_indices)
+                    summary = "; ".join(questions[:2])
+                    insights.append(f"[{focus_combo}] {summary}")
+        return insights
+
     def _decide_social_or_combat_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Optional[Tuple[Optional[int], str, Optional[Move]]]:
         """
         Handles hunting, fighting, skill use, and other social behaviors based on a causal scoring system.
@@ -1673,9 +2080,24 @@ class World:
         The action with the highest score is chosen, eliminating randomness.
         """
         connected_indices = adj_matrix_csr[actor_idx].indices
+
+        self._determine_meta_focus(actor_idx, connected_indices)
+        base_questions = self._reflective_questions(actor_idx, adj_matrix_csr, connected_indices)
+        evaluation = self.law_manager.evaluate(actor_idx, adj_matrix_csr, connected_indices)
+        if evaluation:
+            combined = base_questions + evaluation.reflections
+            self.last_reflections[actor_idx] = combined
+            self.logger.debug(f"Law '{evaluation.policy_name}' triggered for {self.cell_ids[actor_idx]} with reflections: {evaluation.reflections}")
+            self._update_channels(actor_idx, combined)
+            return evaluation.action
+
         if connected_indices.size == 0:
+            self.last_reflections[actor_idx] = base_questions
+            self._update_channels(actor_idx, base_questions)
             return None, 'idle', None # No one nearby, default to idle
 
+        self.last_reflections[actor_idx] = base_questions
+        self._update_channels(actor_idx, base_questions)
         # --- 1. Identify all possible actions and targets ---
         possible_actions = []
 
