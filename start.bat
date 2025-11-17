@@ -43,15 +43,12 @@ set "PYTHONPATH=%CD%"
 REM Prefer stable SDL driver unless user already set it
 if "%SDL_VIDEODRIVER%"=="" set "SDL_VIDEODRIVER=windows"
 if "%SDL_AUDIODRIVER%"=="" set "SDL_AUDIODRIVER=dummy"
-set "STARTER_DIR=Project_Elysia\world\ElysiaStarter"
-if not exist "%STARTER_DIR%\scripts" if exist "ElysiaStarter\scripts" set "STARTER_DIR=ElysiaStarter"
-
-if exist "%STARTER_DIR%\scripts\animated_event_visualizer.py" (
-  call %PY% "%STARTER_DIR%\scripts\animated_event_visualizer.py"
-) else if exist "%STARTER_DIR%\scripts\visualize_timeline.py" (
-  call %PY% "%STARTER_DIR%\scripts\visualize_timeline.py"
+echo Legacy ElysiaStarter client has been archived under archive\ElysiaStarter_legacy.
+echo Launching Project_Sophia world explorer instead...
+if exist "scripts\explore_cellular_world.py" (
+  call %PY% "scripts\explore_cellular_world.py"
 ) else (
-  echo ERROR: Starter not found at ElysiaStarter\scripts\animated_event_visualizer.py or visualize_timeline.py
+  echo WARNING: scripts\explore_cellular_world.py not found. Please launch the desired simulator manually.
 )
 
 :done

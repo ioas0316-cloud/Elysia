@@ -1,5 +1,9 @@
 ﻿# Elysia — Codex‑First
 
+## Public Record
+
+This repository establishes the original public record of the Elysia Framework (EFS): a fractal cognitive OS, E–F–P inner-core model (Energy–Force–Persistence), and the trinity-consciousness architecture (Body–Soul–Spirit). All concepts, diagrams, protocols, and code are published here as prior art.
+
 Start here
 - ELYSIA/CORE/CODEX.md:1 — Purpose, structure, handover
 - ELYSIAS_PROTOCOL/HANDOVER.md:1 — Non‑developer quick guide (10 minutes)
@@ -17,3 +21,6 @@ Minimal references
 
 Notes
 - Most older protocol docs are archived stubs to reduce confusion. Extend the Codex instead of multiplying docs.
+
+License
+- MIT (see `LICENSE`).

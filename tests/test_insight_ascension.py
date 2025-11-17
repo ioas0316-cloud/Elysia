@@ -26,6 +26,7 @@ class TestInsightAscension(unittest.TestCase):
                 return {'id': 'you', 'element_type': 'existence', 'label': 'you'}
             return None
         self.mock_wave_mechanics.kg_manager.get_node.side_effect = get_node_side_effect
+        self.mock_kg_manager.get_node.side_effect = get_node_side_effect
 
         with patch.object(CoreMemory, '_load_memory', return_value={'notable_hypotheses': []}):
             self.core_memory = CoreMemory(file_path=None)

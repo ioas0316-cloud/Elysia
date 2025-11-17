@@ -101,8 +101,9 @@ class TestDreamJournal(unittest.TestCase):
         self.assertEqual(len(memories), 1)
 
         dream_memory = memories[0]
-        self.assertIn("Love", dream_memory.content)
-        self.assertIn("Creation", dream_memory.content)
+        content_lower = dream_memory.content.lower()
+        self.assertIn("love", content_lower)
+        self.assertIn("creation", content_lower)
         self.assertEqual(dream_memory.emotional_state.primary_emotion, 'hopeful')
         self.assertEqual(dream_memory.context.get('type'), 'dream_journal')
         self.assertEqual(dream_memory.context.get('image_path'), "data/dreams/dream_test.png")

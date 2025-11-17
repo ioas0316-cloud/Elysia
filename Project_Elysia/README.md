@@ -1,14 +1,14 @@
-# Project Elysia ? WORLD / Body Layer
+Ôªø# Project Elysia ¬∑ WORLD / Body Layer
 
-Purpose: Manage CellWorld/world-simulation assets and Starter/New World experiments. (Codex: BODY realm)
+Purpose: Manage CellWorld/world-simulation assets and legacy Starter/New World experiments. (Codex: BODY realm)
 
 ## Currently Anchored Here
-- `world/ElysiaStarter/` ? original meaning/relationship field °∞New World°±; lives under `Project_Elysia/world/` (start.bat points here).
-- `data/` ? WORLD-level data dumps (needs cleanup/archival tagging).
-- `logs/` ? active WORLD logs (signals, world_events, etc.).
+- `archive/ElysiaStarter_legacy/` ¬∑ snapshots of the original ‚ÄúNew World‚Äù starter UI (current simulations run via `Project_Sophia.core.world`).
+- `data/` ¬∑ WORLD-level data dumps (needs cleanup/archival tagging).
+- `logs/` ¬∑ active WORLD logs (signals, world_events, etc.).
 
 ## TODO (Fractal Alignment)
-1. Document Starter usage at `Project_Elysia/world/` and keep start scripts in sync.
+1. Document how to run the Project_Sophia world loop (start scripts now launch `scripts/explore_cellular_world.py`).
 2. Document WORLD log structure (Soul/Body/Spirit) and link to Cathedral coordinates.
 3. Move unused root folders (e.g., `applications/`) into relevant Project subfolders or `archive/`.
 

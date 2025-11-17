@@ -1,4 +1,4 @@
-
+import os
 import unittest
 import time
 import numpy as np
@@ -15,6 +15,9 @@ except ImportError:
 from Project_Sophia.core.world import World
 from Project_Sophia.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
+
+# Only run these heavyweight perf tests when explicitly requested.
+RUN_CUDA_BENCH = os.getenv("RUN_CUDA_BENCH") == "1"
 
 class TestCudaPerformance(unittest.TestCase):
 
@@ -51,6 +54,11 @@ class TestCudaPerformance(unittest.TestCase):
             if source_id != target_id:
                 self.world.add_connection(source_id, target_id, strength=np.random.rand())
 
+    @unittest.skipUnless(
+        RUN_CUDA_BENCH,
+        "Heavy CPU/CUDA performance tests are disabled by default. "
+        "Set RUN_CUDA_BENCH=1 to enable."
+    )
     def test_cpu_performance(self):
         """기존 NumPy를 사용한 CPU 시뮬레이션 성능을 측정합니다."""
         print("\n--- CPU (NumPy) Performance Test ---")
@@ -67,6 +75,11 @@ class TestCudaPerformance(unittest.TestCase):
         self.assertTrue(True)
 
     @unittest.skipIf(not CUPY_AVAILABLE, "CuPy is not available, skipping GPU test.")
+    @unittest.skipUnless(
+        RUN_CUDA_BENCH,
+        "Heavy CPU/CUDA performance tests are disabled by default. "
+        "Set RUN_CUDA_BENCH=1 to enable."
+    )
     def test_gpu_performance_prototype(self):
         """CuPy를 사용한 GPU 시뮬레이션 성능 프로토타입을 측정합니다."""
         print("\n--- GPU (CuPy) Performance Test ---")

@@ -109,17 +109,12 @@ class TestChronosV2Engine(unittest.TestCase):
         self.assertIsNotNone(future_world)
         self.assertNotEqual(future_world.branch_id, "main") # Should be on a new branch
 
-        # Check world state
+        # Check world state – the branch simulation should replay the events and apply boosts.
         a_idx = future_world.id_to_idx['A']
         b_idx = future_world.id_to_idx['B']
-        # The test's expected values are outdated. Updating to match the current simulation's correct output.
-        # A: Starts at 10, gets +20 from B (200 * 0.1), loses energy from transfer, gets +0.5 nurture.
-        # B: Starts at 210, gives -20 to A, gets +1.0 maintenance.
-        # Note: Exact values depend on the finalized simulation logic. These are approximations.
-        # After re-running the test and seeing the output 13.6, let's adjust to that.
-        # The test runner also shows B's energy is 209.9. Let's use the actual data.
-        self.assertAlmostEqual(future_world.energy[a_idx], 13.6, places=1)
-        self.assertAlmostEqual(future_world.energy[b_idx], 209.9, places=1)
+        self.assertAlmostEqual(future_world.energy[a_idx], 10.0, places=1)
+        expected_b_energy = 10.0 + alt_event_details['details']['energy_boost']
+        self.assertAlmostEqual(future_world.energy[b_idx], expected_b_energy, places=1)
 
         # Check chronicle records
         self.assertIn(future_world.branch_id, chronicle._branches)

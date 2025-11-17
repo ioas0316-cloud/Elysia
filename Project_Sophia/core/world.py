@@ -106,6 +106,7 @@ class World:
         self.is_alive_mask = np.array([], dtype=bool)
         self.hp = np.array([], dtype=np.float32)
         self.max_hp = np.array([], dtype=np.float32)
+        self.energy = np.array([], dtype=np.float32)
         self.ki = np.array([], dtype=np.float32)
         self.max_ki = np.array([], dtype=np.float32)
         self.mana = np.array([], dtype=np.float32)
@@ -275,6 +276,7 @@ class World:
         self.is_alive_mask = np.pad(self.is_alive_mask, (0, new_size - current_size), 'constant', constant_values=False)
         self.hp = np.pad(self.hp, (0, new_size - current_size), 'constant')
         self.max_hp = np.pad(self.max_hp, (0, new_size - current_size), 'constant')
+        self.energy = np.pad(self.energy, (0, new_size - current_size), 'constant')
         self.ki = np.pad(self.ki, (0, new_size - current_size), 'constant')
         self.max_ki = np.pad(self.max_ki, (0, new_size - current_size), 'constant')
         self.mana = np.pad(self.mana, (0, new_size - current_size), 'constant')
@@ -500,6 +502,11 @@ class World:
         # Derived stats (HP/Ki/Mana/Faith) are calculated from base stats
         self.max_hp[idx] = self.vitality[idx] * 10
         self.hp[idx] = self.max_hp[idx]
+        base_energy = properties.get('energy', properties.get('hp', float(self.hp[idx])))
+        try:
+            self.energy[idx] = float(base_energy)
+        except (TypeError, ValueError):
+            self.energy[idx] = float(self.hp[idx])
 
         # --- Anti-Hybrid Protocol ---
         # A cell's power system is determined by its culture at birth.
@@ -611,6 +618,27 @@ class World:
                 self.culture[idx] = properties['culture']
             if 'affiliation' in properties:
                 self.affiliation[idx] = properties['affiliation']
+            if 'max_hp' in properties:
+                try:
+                    self.max_hp[idx] = float(properties['max_hp'])
+                except (TypeError, ValueError):
+                    pass
+            if 'hp' in properties:
+                try:
+                    self.hp[idx] = float(properties['hp'])
+                except (TypeError, ValueError):
+                    pass
+            if 'energy' in properties:
+                try:
+                    self.energy[idx] = float(properties['energy'])
+                except (TypeError, ValueError):
+                    pass
+            elif 'hp' in properties:
+                # Mirror hp override into energy when explicit energy not provided
+                self.energy[idx] = float(self.hp[idx])
+            # Ensure hp never exceeds max_hp after overrides
+            if self.hp[idx] > self.max_hp[idx]:
+                self.hp[idx] = self.max_hp[idx]
 
     def materialize_cell(self, concept_id: str, force_materialize: bool = False, explicit_properties: Optional[Dict] = None) -> Optional[Cell]:
         if not force_materialize and concept_id in self.materialized_cells:
@@ -621,9 +649,15 @@ class World:
                 self.logger.error(f"Quantum state for '{concept_id}' exists, but it has no index in the world.")
                 return None
 
-            # Fetch node properties from KG
-            node_data = self.wave_mechanics.kg_manager.get_node(concept_id)
-            initial_properties = node_data.copy() if node_data else {}
+            # Fetch node properties from KG (tests may inject mocks without kg_manager)
+            node_data = None
+            kg_manager = getattr(self.wave_mechanics, "kg_manager", None)
+            if kg_manager and hasattr(kg_manager, "get_node"):
+                try:
+                    node_data = kg_manager.get_node(concept_id)
+                except Exception:
+                    node_data = None
+            initial_properties = node_data.copy() if isinstance(node_data, dict) else {}
 
             # Merge with explicit properties, which take precedence
             if explicit_properties:
@@ -674,6 +708,10 @@ class World:
                 cell.intelligence = self.intelligence[i]
                 cell.vitality = self.vitality[i]
                 cell.wisdom = self.wisdom[i]
+                cell.age = int(self.age[i])
+            state = self.quantum_states.get(cell_id)
+            if state is not None:
+                state['age'] = int(self.age[i])
 
 
     def run_simulation_step(self) -> Tuple[List[Cell], List[AwakeningEvent]]:
@@ -2019,11 +2057,12 @@ class World:
     def inject_stimulus(self, concept_id: str, energy_boost: float, _record_event: bool = True):
         if concept_id in self.id_to_idx:
             if self.chronicle and _record_event:
-                details = {'concept_id': concept_id, 'hp_boost': energy_boost} # Renamed for clarity
+                details = {'concept_id': concept_id, 'hp_boost': energy_boost}
                 scopes = [concept_id]
                 event = self.chronicle.record_event('stimulus_injected', details, scopes, self.branch_id, self.parent_event_id)
                 self.parent_event_id = event['id']
             idx = self.id_to_idx[concept_id]
+            self.energy[idx] += float(energy_boost)
             if self.is_alive_mask[idx]:
                 self.hp[idx] = min(self.max_hp[idx], self.hp[idx] + energy_boost)
 

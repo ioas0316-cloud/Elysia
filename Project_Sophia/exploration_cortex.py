@@ -111,6 +111,10 @@ class ExplorationCortex:
             if target in connection_counts:
                 connection_counts[target] += 1
 
+        zero_connection_nodes = [node_id for node_id, count in connection_counts.items() if count == 0]
+        if zero_connection_nodes:
+            return zero_connection_nodes
+
         lonely_nodes = [node_id for node_id, count in connection_counts.items() if count <= max_connections]
         return lonely_nodes
 

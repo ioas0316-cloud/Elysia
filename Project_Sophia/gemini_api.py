@@ -32,7 +32,12 @@ class APIRequestError(Exception):
 # --- Logging Configuration ---
 def _writable_log_dir() -> str:
     # Prefer project 'saves' or 'logs' dir relative to CWD
-    for rel in ('saves', os.path.join('ElysiaStarter', 'saves'), 'logs'):
+    for rel in (
+        'saves',
+        os.path.join('ElysiaStarter', 'saves'),
+        os.path.join('archive', 'ElysiaStarter_legacy', 'saves'),
+        'logs',
+    ):
         p = os.path.abspath(os.path.join(os.getcwd(), rel))
         try:
             os.makedirs(p, exist_ok=True)

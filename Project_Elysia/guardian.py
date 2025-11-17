@@ -788,11 +788,13 @@ class Guardian:
             from networkx.algorithms.community import greedy_modularity_communities
 
             G = nx.Graph()
-            for cell in self.cellular_world.cells.values():
+            for cell in self.cellular_world.materialized_cells.values():
                 if cell.is_alive:
                     G.add_node(cell.id)
                     for conn in cell.connections:
-                        if conn['target_id'] in self.cellular_world.cells and self.cellular_world.cells[conn['target_id']].is_alive:
+                        target_id = conn['target_id']
+                        target_cell = self.cellular_world.materialized_cells.get(target_id)
+                        if target_cell and target_cell.is_alive:
                             G.add_edge(cell.id, conn['target_id'], weight=conn.get('strength', 0.1))
 
             # Find communities (tissues)
