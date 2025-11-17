@@ -3,6 +3,7 @@ import os
 from typing import Dict, Any, Optional, List, Set
 from dataclasses import dataclass, asdict
 from datetime import datetime
+from collections import deque
 
 # Assuming a simple logger for now. In a real app, use the logging module.
 def log_memory_action(message):
@@ -27,8 +28,11 @@ class Memory:
     tags: Optional[list[str]] = None
 
 class CoreMemory:
-    def __init__(self, file_path: Optional[str] = 'Elysia_Input_Sanctum/elysia_core_memory.json'):
+    DEFAULT_MEMORY_CAPACITY = 100  # The default number of experiences in the Ring of Eternity
+
+    def __init__(self, file_path: Optional[str] = 'Elysia_Input_Sanctum/elysia_core_memory.json', memory_capacity: Optional[int] = None):
         self.file_path = file_path
+        self.memory_capacity = memory_capacity if memory_capacity is not None else self.DEFAULT_MEMORY_CAPACITY
 
         if self.file_path:
             log_memory_action(f"Initializing and loading memory from: {self.file_path}")
@@ -37,8 +41,22 @@ class CoreMemory:
             log_memory_action("Initializing in-memory CoreMemory. No data will be loaded or saved.")
             self.data = self._get_new_memory_structure()
 
+        # Ensure experiences is a deque
+        if not isinstance(self.data.get('experiences'), deque):
+            experiences_list = self.data.get('experiences', [])
+            self.data['experiences'] = deque(experiences_list, maxlen=self.memory_capacity)
+            log_memory_action(f"Converted experiences list to a deque with maxlen={self.memory_capacity}")
+
         # MemoryWeaver가 사용할 단기 기억, 파일에 저장되지 않음
         self.volatile_memory: List[Set[str]] = []
+
+    def distill_memory(self, memory_data: Dict[str, Any]):
+        """Extracts the essence of an old memory before it's replaced."""
+        content = memory_data.get('content', '')
+        emotion = (memory_data.get('emotional_state') or {}).get('primary_emotion', 'neutral')
+        log_memory_action(f"[Distillation] Extracting essence from memory: '{content}' (Emotion: {emotion}). This essence would now be added to the Knowledge Graph.")
+        # In a real implementation, this would interface with a KGManager:
+        # kg_manager.add_event_as_nodes_and_edges(content, emotion, ...)
 
     def add_volatile_memory_fragment(self, fragment: Set[str]):
         """'생각의 파편'(동시에 활성화된 개념들의 집합)을 휘발성 기억에 추가합니다."""
@@ -58,7 +76,7 @@ class CoreMemory:
         return {
             'identity': {},
             'values': [],
-            'experiences': [],
+            'experiences': deque(maxlen=self.memory_capacity),
             'relationships': {},
             'rules': [],
             'notable_hypotheses': [],
@@ -69,6 +87,7 @@ class CoreMemory:
         try:
             with open(self.file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+                # Experiences are loaded as a list, will be converted to deque in __init__
                 log_memory_action(f"Successfully loaded memory from {self.file_path}")
                 return data
         except (FileNotFoundError, json.JSONDecodeError) as e:
@@ -95,8 +114,15 @@ class CoreMemory:
 
     def add_experience(self, memory: Memory):
         """경험/기억 추가"""
-        if 'experiences' not in self.data:
-            self.data['experiences'] = []
+        if 'experiences' not in self.data or not isinstance(self.data['experiences'], deque):
+            self.data['experiences'] = deque(maxlen=self.MEMORY_CAPACITY)
+
+        # Distillation logic is triggered here
+        if len(self.data['experiences']) == self.memory_capacity:
+            oldest_memory_data = self.data['experiences'][0]
+            log_memory_action(f"Ring of Eternity is full. Distilling oldest memory before replacement: {oldest_memory_data.get('content')}")
+            self.distill_memory(oldest_memory_data)
+
         # asdict를 사용하여 dataclass를 재귀적으로 dict로 변환
         self.data['experiences'].append(asdict(memory))
         self._save_memory()
@@ -203,14 +229,16 @@ class CoreMemory:
 
     def get_experiences(self, n: Optional[int] = None) -> list[Memory]:
         """경험/기억 조회 (최근 n개)"""
-        experiences_data = self.data.get('experiences', [])
+        experiences_data = list(self.data.get('experiences', deque(maxlen=self.memory_capacity)))
 
         # Convert dicts back to Memory objects
         experiences = []
         for exp_data in experiences_data:
-            if 'emotional_state' in exp_data and isinstance(exp_data.get('emotional_state'), dict):
-                exp_data['emotional_state'] = EmotionalState(**exp_data['emotional_state'])
-            experiences.append(Memory(**exp_data))
+            # Create a copy to avoid modifying the deque's data directly
+            exp_data_copy = exp_data.copy()
+            if 'emotional_state' in exp_data_copy and isinstance(exp_data_copy.get('emotional_state'), dict):
+                exp_data_copy['emotional_state'] = EmotionalState(**exp_data_copy['emotional_state'])
+            experiences.append(Memory(**exp_data_copy))
 
         if n:
             return experiences[-n:]
@@ -259,7 +287,15 @@ class CoreMemory:
             return # In-memory mode, do not save.
 
         try:
-            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
+            # Ensure the directory exists only if the path includes a directory
+            dir_name = os.path.dirname(self.file_path)
+            if dir_name:
+                os.makedirs(dir_name, exist_ok=True)
+
+            # Prepare data for JSON serialization, converting deque to list
+            data_to_save = self.data.copy()
+            if 'experiences' in data_to_save and isinstance(data_to_save['experiences'], deque):
+                data_to_save['experiences'] = list(data_to_save['experiences'])
 
             import dataclasses
             class EnhancedJSONEncoder(json.JSONEncoder):
@@ -269,7 +305,7 @@ class CoreMemory:
                     return super().default(o)
 
             with open(self.file_path, 'w', encoding='utf-8') as f:
-                json.dump(self.data, f, ensure_ascii=False, indent=4, cls=EnhancedJSONEncoder)
+                json.dump(data_to_save, f, ensure_ascii=False, indent=4, cls=EnhancedJSONEncoder)
             log_memory_action(f"Successfully saved memory to {self.file_path}")
         except Exception as e:
             log_memory_action(f"Error saving memory to {self.file_path}: {e}")
