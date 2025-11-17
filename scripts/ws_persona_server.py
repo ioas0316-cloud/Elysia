@@ -6,9 +6,16 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import sys
 from pathlib import Path
 
-from scripts.persona_hooks.persona_stream import collect_persona_event, DEFAULT_OUTPUT
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+for root in (REPO_ROOT, PROJECT_ROOT):
+    if str(root) not in sys.path:
+        sys.path.append(str(root))
+
+from scripts.persona_hooks.persona_stream import collect_persona_event, DEFAULT_OUTPUT  # type: ignore
 
 
 async def persona_stream_handler(websocket, path, *, persona_key: str, interval: float):
