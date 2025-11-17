@@ -263,3 +263,61 @@ class TestWorldSimulation(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class TestFoodSharing(unittest.TestCase):
+    def setUp(self):
+        self.wave_mechanics = MagicMock()
+        self.world = World(primordial_dna={}, wave_mechanics=self.wave_mechanics, logger=MagicMock())
+
+        # Add two humans, one well-fed (actor) and one hungry (target)
+        self.world.add_cell("actor", properties={"label": "human", "element_type": "animal", "hunger": 80})
+        self.world.add_cell("target", properties={"label": "human", "element_type": "animal", "hunger": 20})
+        self.world.add_connection("actor", "target", strength=0.9) # Make them close kin
+        self.world.add_connection("target", "actor", strength=0.9)
+
+        # Position them close enough to interact
+        self.world.positions[self.world.id_to_idx["actor"]] = np.array([0, 0, 0])
+        self.world.positions[self.world.id_to_idx["target"]] = np.array([0.1, 0, 0])
+
+
+    def test_share_food_action_decision(self):
+        """Test if the actor decides to share food with the hungry target."""
+        actor_idx = self.world.id_to_idx["actor"]
+        adj_matrix_csr = self.world.adjacency_matrix.tocsr()
+
+        # In _select_animal_action, the logic flows from survival to social/combat.
+        # We need to ensure no higher priority survival action is triggered.
+        # Then we call the specific decision function we want to test.
+        target_idx, action, _ = self.world._decide_social_or_combat_action(actor_idx, adj_matrix_csr)
+
+        self.assertEqual(action, 'share_food')
+        self.assertIsNotNone(target_idx)
+        self.assertEqual(self.world.cell_ids[target_idx], 'target')
+
+    def test_share_food_action_execution(self):
+        """Test if the hunger levels are updated correctly after sharing food."""
+        actor_idx = self.world.id_to_idx["actor"]
+        target_idx = self.world.id_to_idx["target"]
+
+        initial_actor_hunger = self.world.hunger[actor_idx]
+        initial_target_hunger = self.world.hunger[target_idx]
+
+        # Directly call execute with the share_food action
+        self.world._execute_animal_action(actor_idx, target_idx, 'share_food', None)
+
+        self.assertEqual(self.world.hunger[actor_idx], initial_actor_hunger - 30)
+        self.assertEqual(self.world.hunger[target_idx], initial_target_hunger + 30)
+
+    def test_meaning_creation_from_sharing(self):
+        """Test if sharing food creates meaning (value-mass)."""
+        actor_idx = self.world.id_to_idx["actor"]
+        target_idx = self.world.id_to_idx["target"]
+
+        initial_value_mass = self.world.value_mass_field.sum()
+
+        self.world._execute_animal_action(actor_idx, target_idx, 'share_food', None)
+
+        final_value_mass = self.world.value_mass_field.sum()
+
+        self.assertGreater(final_value_mass, initial_value_mass)

@@ -636,6 +636,11 @@ class World:
             elif 'hp' in properties:
                 # Mirror hp override into energy when explicit energy not provided
                 self.energy[idx] = float(self.hp[idx])
+            if 'hunger' in properties:
+                try:
+                    self.hunger[idx] = float(properties['hunger'])
+                except (TypeError, ValueError):
+                    pass
             # Ensure hp never exceeds max_hp after overrides
             if self.hp[idx] > self.max_hp[idx]:
                 self.hp[idx] = self.max_hp[idx]
@@ -1625,6 +1630,30 @@ class World:
         if connected_indices.size == 0:
             return None  # No one nearby to interact with
 
+        # Altruism: Share food with hungry kin if the actor is well-fed.
+        if self.hunger[actor_idx] > 70:
+            # Find hungry kin (same label, could be refined to same species/culture)
+            hungry_kin_mask = (self.hunger[connected_indices] < 30) & \
+                              (self.labels[connected_indices] == self.labels[actor_idx]) & \
+                              self.is_alive_mask[connected_indices]
+
+            hungry_kin_indices = connected_indices[hungry_kin_mask]
+
+            if hungry_kin_indices.size > 0:
+                # Prioritize those with high connection strength (e.g., family)
+                best_target = -1
+                # Check for strong kin bond first
+                for target_idx in hungry_kin_indices:
+                    if adj_matrix_csr[actor_idx, target_idx] >= 0.8:
+                        best_target = target_idx
+                        break # Found a close relative, share with them
+
+                # If no close kin, just pick the first hungry one
+                if best_target == -1:
+                    best_target = hungry_kin_indices[0]
+
+                return best_target, 'share_food', None
+
         # Determine if hungry
         is_hungry = self.hunger[actor_idx] < 60
         kin_indices = set(connected_indices[adj_matrix_csr[actor_idx, connected_indices].toarray().flatten() >= 0.8])
@@ -1761,6 +1790,25 @@ class World:
         # Compute distance once for melee / proximity checks.
         dist = float(np.linalg.norm(self.positions[actor_idx] - self.positions[target_idx]))
         if dist < 1.5:
+            if action == 'share_food':
+                # The 'share_food' action transfers hunger points.
+                amount_to_share = 30
+                self.hunger[actor_idx] = max(0, self.hunger[actor_idx] - amount_to_share)
+                self.hunger[target_idx] = min(100, self.hunger[target_idx] + amount_to_share)
+                self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' shares food with '{self.cell_ids[target_idx]}'.")
+                self.event_logger.log('SHARE_FOOD', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
+                self._speak(actor_idx, "SHARE_FOOD")
+
+                # --- The Birth of Meaning from Altruism ---
+                # An act of sharing food creates positive meaning energy.
+                delta_e_local = amount_to_share * 0.2 # Meaning is proportional to the sacrifice
+                actor_pos = self.positions[actor_idx]
+                x, y = int(actor_pos[0]) % self.width, int(actor_pos[1]) % self.width
+                self._imprint_gaussian(self.value_mass_field, x, y, sigma=self._vm_sigma, amplitude=delta_e_local)
+                self.logger.info(f"SPIRIT: An act of sharing created delta_E_local={delta_e_local:.2f} at ({x}, {y}).")
+                self.event_logger.log('MEANING_CREATED', self.time_step, type='sharing', magnitude=delta_e_local, x=x, y=y)
+                return
+
             if action == 'eat' and self.element_types[target_idx] == 'life':
                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' eats '{self.cell_ids[target_idx]}'.")
                 self.event_logger.log('EAT', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
