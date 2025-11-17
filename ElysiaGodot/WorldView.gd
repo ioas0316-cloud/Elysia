@@ -36,9 +36,9 @@ var sim_rate: float = 1.0
 var show_demo_caravan: bool = true
 var demo_civ_nodes: Array = []
 var demo_caravans: Array = []
-@onready var spr_village_a: Sprite2D = $"마을"
-@onready var spr_village_b: Sprite2D = $"GeminiGeneratedImageB6Djx3b6Djx3b6Dj"
-@onready var spr_caravan: Sprite2D = $"썰끼"
+@onready var spr_village_a: Sprite2D = $"Markers/VillageA"
+@onready var spr_village_b: Sprite2D = $"Markers/VillageB"
+@onready var spr_caravan: Sprite2D = $"Markers/Caravan"
 
 
 func _ready() -> void:

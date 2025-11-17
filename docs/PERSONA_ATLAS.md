@@ -80,6 +80,19 @@ WebSocket으로 스트리밍된다. Godot 4의 `WebSocketClient` 혹은
 다른 엔진에서 이 주소를 구독해 색상, 리듬, 캡션을 그대로
 애니메이션에 반영할 수 있다.
 
+## CLI Dashboard
+
+페르소나 스트림과 world kit 로그를 동시에 확인하려면
+
+```
+python scripts/persona_dashboard.py --tail 5
+```
+
+를 실행한다. 최근 페르소나 mood/energy/caption과 각 world kit 로그
+요약이 터미널에 출력되므로, caretaker가 Codex 보고 전 상태를 한눈에
+점검할 수 있다. `--world-logs` 옵션을 사용하면 확인하고 싶은 로그
+경로만 선택해 조회할 수 있다.
+
 ## Persona Flow Prompt (Codex §21)
 
 페르소나 플로우 가속 브랜치를 실행할 때는 Codex §21 프롬프트를
