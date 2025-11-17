@@ -16,6 +16,25 @@ from .fields import FieldRegistry
 from .dialogue_kr import get_line as kr_dialogue
 
 
+# --- Cosmic Axis Constants: The 7 Directions of Ascension ---
+ASCENSION_LIFE = 0       # Vitariael
+ASCENSION_CREATION = 1   # Emetriel
+ASCENSION_REFLECTION = 2 # Sophiel
+ASCENSION_TRUTH = 3      # Gavriel
+ASCENSION_SACRIFICE = 4  # Sarakhiel
+ASCENSION_LOVE = 5       # Rafamiel
+ASCENSION_LIBERATION = 6 # Lumiel
+
+# --- Cosmic Axis Constants: The 7 Stages of Descent ---
+DESCENT_DEATH = 0        # Motus
+DESCENT_DISSOLUTION = 1  # Solvaris
+DESCENT_IGNORANCE = 2    # Obscure
+DESCENT_DISTORTION = 3   # Diabolos
+DESCENT_SELF_OBSESSION = 4 # Lucifel
+DESCENT_CONSUMPTION = 5  # Mammon
+DESCENT_BONDAGE = 6      # Asmodeus
+
+
 class AwakeningEvent(NamedTuple):
     cell_id: str
     e_value: float
@@ -140,6 +159,7 @@ class World:
         self.insight = np.array([], dtype=np.float32)
         self.emotions = np.array([], dtype='<U10') # joy, sorrow, anger, fear
         self.is_awakened = np.array([], dtype=bool) # For the Law of Existential Change
+        self.experience_scars = np.array([], dtype=np.uint8) # Bitmask for experiences
 
         # --- Civilization Attributes ---
         self.continent = np.array([], dtype='<U10') # e.g., 'East', 'West'
@@ -173,6 +193,11 @@ class World:
         self.h_imprint = np.zeros((self.width, self.width), dtype=np.float32)
         self.norms_field = np.zeros((self.width, self.width), dtype=np.float32)
         self.prestige_field = np.zeros((self.width, self.width), dtype=np.float32)
+
+        # --- Cosmic Axis Fields (Ascension and Descent) ---
+        self.ascension_field = np.zeros((self.width, self.width, 7), dtype=np.float32)
+        self.descent_field = np.zeros((self.width, self.width, 7), dtype=np.float32)
+
         self._threat_decay = 0.92  # memory of threat (EMA)
         self._threat_sigma = 7.0   # spatial spread of threat influence (grid units)
         self._threat_gain = 1.0    # base contribution gain
@@ -266,6 +291,13 @@ class World:
             array_getter=lambda: self.intentional_field
         )
 
+        # --- Incarnation Status ---
+        self.demon_lord_status = 'sealed'  # sealed, awakening, unleashed
+        self.angel_status = 'slumbering'   # slumbering, watching, manifested
+
+        # --- Spiritual Event Queue ---
+        self.spiritual_events = []
+
 
     def _resize_matrices(self, new_size: int):
         current_size = len(self.cell_ids)
@@ -309,6 +341,7 @@ class World:
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
         self.is_awakened = np.pad(self.is_awakened, (0, new_size - current_size), 'constant', constant_values=False)
+        self.experience_scars = np.pad(self.experience_scars, (0, new_size - current_size), 'constant', constant_values=0)
 
 
         # --- Civilization Attributes ---
@@ -719,6 +752,7 @@ class World:
             event = self.chronicle.record_event('simulation_step_run', {}, [], self.branch_id, self.parent_event_id)
             self.parent_event_id = event['id']
         self.time_step += 1
+        self.spiritual_events.clear() # Clear events at the start of the step
 
         if len(self.cell_ids) == 0:
             return [], []
@@ -767,6 +801,9 @@ class World:
         newly_born_cells = []
         self._process_animal_actions()
         newly_born_cells.extend(self._process_life_cycles())
+
+        # --- Apply Cosmic Laws ---
+        self._apply_cosmic_laws()
 
         # Apply final physics and cleanup
         self._apply_physics_and_cleanup(newly_born_cells)
@@ -1165,10 +1202,13 @@ class World:
         # If hunger is 0, the cell starts losing HP.
         if not self.peaceful_mode:
             starvation_mask = self.is_alive_mask & (self.hunger <= 0)
-            # Starvation damage tuned to 2.0 HP per step to match
-            # expectations in world_simulation tests while remaining
-            # a soft field effect at simulation time scales.
-            self.hp[starvation_mask] -= 2.0
+            if np.any(starvation_mask):
+                # Starvation damage tuned to 2.0 HP per step to match
+                # expectations in world_simulation tests while remaining
+                # a soft field effect at simulation time scales.
+                self.hp[starvation_mask] -= 2.0
+                # --- Leave an experience scar ---
+                self.experience_scars[starvation_mask] |= 1 # Set the first bit for starvation
 
         # --- Hydration Depletion ---
         if self.peaceful_mode:
@@ -1542,7 +1582,14 @@ class World:
                         kin_attraction = (kin_center - self.positions[i]) * (self._cohesion_gain * 5.0) # 5x stronger than normal cohesion
 
                 other_forces = avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
+
+                # --- Z-Axis Movement (Ascension/Descent) ---
+                ascension_force = np.sum(self.ascension_field[int(py), int(px), :])
+                descent_force = np.sum(self.descent_field[int(py), int(px), :])
+                z_movement = (ascension_force - descent_force) * 0.1 # Subtle vertical movement
                 movement_vectors[local_idx] += other_forces + intention_force
+                movement_vectors[local_idx, 2] += z_movement
+
 
                 # --- Observe and Record Meaningful Choice ---
                 if np.linalg.norm(intention_force) > np.linalg.norm(other_forces):
@@ -1620,82 +1667,100 @@ class World:
         return None # No urgent survival action needed
 
     def _decide_social_or_combat_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Optional[Tuple[Optional[int], str, Optional[Move]]]:
-        """Handles hunting, fighting, skill use, and other social behaviors."""
+        """
+        Handles hunting, fighting, skill use, and other social behaviors based on a causal scoring system.
+        Each possible action is scored based on internal, experiential, and environmental factors.
+        The action with the highest score is chosen, eliminating randomness.
+        """
         connected_indices = adj_matrix_csr[actor_idx].indices
         if connected_indices.size == 0:
-            return None  # No one nearby to interact with
+            return None, 'idle', None # No one nearby, default to idle
 
-        # Determine if hungry
-        is_hungry = self.hunger[actor_idx] < 60
-        kin_indices = set(connected_indices[adj_matrix_csr[actor_idx, connected_indices].toarray().flatten() >= 0.8])
+        # --- 1. Identify all possible actions and targets ---
+        possible_actions = []
 
-        # Trinity forces (Body/Soul/Spirit) for this actor – used as soft biases.
-        body_p, soul_p, spirit_p = self.get_trinity_for_actor(actor_idx)
+        # Action: Share Food
+        # (Conditions to be implemented in the scoring function)
+        hungry_neighbors = connected_indices[(self.hunger[connected_indices] < 30) & self.is_alive_mask[connected_indices]]
+        for target_idx in hungry_neighbors:
+            possible_actions.append({'action': 'share_food', 'target_idx': target_idx, 'move': None})
 
-        # Find potential targets based on hunger and diet
-        potential_targets = []
-        actor_diet = self.diets[actor_idx]
+        # Action: Attack or Eat
+        # (Conditions to be implemented in the scoring function)
+        for target_idx in connected_indices:
+            if not self.is_alive_mask[target_idx]: continue
 
-        if is_hungry:
-            # Find food: non-kin animals for carnivores, plants for herbivores
-            # In peaceful_mode, skip hunting other animals and rely on plants.
-            if not self.peaceful_mode and actor_diet in ['carnivore', 'omnivore']:
-                mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
-                non_kin_prey = [p_idx for p_idx in connected_indices[mask] if p_idx not in kin_indices]
-                potential_targets.extend(non_kin_prey)
-            if actor_diet in ['herbivore', 'omnivore']:
-                mask = (self.element_types[connected_indices] == 'life') & self.is_alive_mask[connected_indices]
-                potential_targets.extend(connected_indices[mask])
-        else:
-            # If not hungry, might pick a fight with non-kin rivals
-            if not self.peaceful_mode:
-                mask = (self.element_types[connected_indices] == 'animal') & self.is_alive_mask[connected_indices]
-                non_kin_rivals = [r_idx for r_idx in connected_indices[mask] if r_idx not in kin_indices]
-                potential_targets.extend(non_kin_rivals)
+            target_element = self.element_types[target_idx]
+            if target_element == 'life': # plant
+                 possible_actions.append({'action': 'eat', 'target_idx': target_idx, 'move': None})
+            elif target_element == 'animal':
+                # Can be a normal attack or a skill-based attack
+                possible_actions.append({'action': 'attack', 'target_idx': target_idx, 'move': None})
+                # (Skill/Spell selection will be added later)
 
-        if not potential_targets:
-            # When there are no obvious targets and body is not under strong pressure,
-            # a stronger spirit can bias the actor toward non-instrumental behaviour.
-            if not is_hungry and body_p < 0.3 and spirit_p > 0.5 and np.random.random() < spirit_p * 0.4:
-                return None, 'idle', None
-            return None  # No suitable targets found
 
-        # Select the weakest target
-        target_idx = potential_targets[np.argmin(self.hp[np.array(potential_targets)])]
+        # --- 2. Score each possible action based on causal factors ---
+        best_action = {'action': 'idle', 'target_idx': None, 'move': None}
+        highest_score = 5 # Idle has a small base score to be chosen when no other action is compelling
 
-        # --- Tactical Decision Logic ---
-        target_is_animal = self.element_types[target_idx] == 'animal'
-        if not target_is_animal:
-            return target_idx, 'eat', None # Action is to eat the plant
+        # --- Environmental Factors ---
+        actor_pos = self.positions[actor_idx].astype(int)
+        px, py = np.clip(actor_pos[0], 0, self.width - 1), np.clip(actor_pos[1], 0, self.width - 1)
+        local_life = self.ascension_field[py, px, ASCENSION_LIFE]
+        local_death = self.descent_field[py, px, DESCENT_DEATH]
 
-        # If target is an animal, decide on combat style
-        action = 'attack'
-        selected_move = None
-        culture = self.culture[actor_idx]
+        for action_option in possible_actions:
+            score = 0
+            action_type = action_option['action']
+            target_idx = action_option['target_idx']
 
-        # Wuxia: Use Ki-based martial arts
-        if culture == 'wuxia':
-            actor_affiliation = self.affiliation[actor_idx]
-            if actor_affiliation and actor_affiliation in self.martial_styles:
-                style = self.martial_styles[actor_affiliation]
-                # Try to use the best available move
-                for move in sorted(style.moves, key=lambda m: m.ki_cost, reverse=True):
-                    if self.ki[actor_idx] >= move.ki_cost:
-                        # Check if stats are sufficient for the move
-                        if all(getattr(self, stat)[actor_idx] >= value for stat, value in move.min_stats.items()):
-                            selected_move = move
-                            break # Found a suitable move
+            # --- Causal Score Calculation ---
+            actor_scars = self.experience_scars[actor_idx]
+            has_starvation_scar = (actor_scars & 1) > 0
+            has_charity_scar = (actor_scars & 2) > 0
 
-        # Knight: Use Mana-based spells
-        elif culture == 'knight' and self.mana[actor_idx] >= 8:
-            # Prioritize healing if HP is low
-            if self.hp[actor_idx] < self.max_hp[actor_idx] * 0.6:
-                action, target_idx = 'cast_heal', None
-            # Otherwise, cast an offensive spell if mana is sufficient
-            elif self.mana[actor_idx] >= 10:
-                action = 'cast_firebolt'
+            if action_type == 'share_food':
+                # Share food if actor is not hungry, target is hungry, and actor has some wisdom.
+                if self.hunger[actor_idx] > 70 and self.hunger[target_idx] < 30:
+                    score += 100 # Greatly increased base score for altruism
+                    score += self.wisdom[actor_idx] * 1.5
+                    score += self.satisfaction[actor_idx] # A satisfied cell is more likely to share
+                    score += local_life * 50 # The field of Life promotes sharing life (food)
+                    if adj_matrix_csr[actor_idx, target_idx] >= 0.8:
+                        score += 50
+                    if has_charity_scar:
+                        score += 100 # Greatly increased bonus for having received charity
 
-        return target_idx, action, selected_move
+            elif action_type == 'eat':
+                # Eat if hungry. The score is proportional to hunger.
+                if self.diets[actor_idx] in ['herbivore', 'omnivore']:
+                    hunger_drive = (100 - self.hunger[actor_idx]) * 0.8 # Scale down to balance against sharing
+                    score += hunger_drive
+
+            elif action_type == 'attack':
+                # Attack if hungry and target is prey.
+                if self.diets[actor_idx] in ['carnivore', 'omnivore']:
+                    # --- Taboo: Cannibalism is heavily penalized ---
+                    if self.labels[actor_idx] == self.labels[target_idx]:
+                        score = -1000
+                    else:
+                        hunger_drive = (100 - self.hunger[actor_idx])
+                        score += hunger_drive
+                        hp_factor = (self.max_hp[target_idx] - self.hp[target_idx]) / self.max_hp[target_idx]
+                        score += hp_factor * 20
+                        if has_starvation_scar and self.hunger[actor_idx] < 50:
+                            score += 50 # Reduced bonus to avoid hyper-aggression
+
+                        # Environmental influences
+                        score += local_death * 50 # The field of Death promotes aggression
+                        score -= local_life * 20 # The field of Life suppresses aggression
+
+            if score > highest_score:
+                highest_score = score
+                best_action = action_option
+
+        # --- 3. Return the highest-scoring action ---
+        return best_action['target_idx'], best_action['action'], best_action['move']
 
 
     def _execute_animal_action(self, actor_idx: int, target_idx: int, action: str, move: Optional[Move]):
@@ -1729,6 +1794,25 @@ class World:
             self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' drinks water.")
             self.event_logger.log('DRINK', self.time_step, cell_id=self.cell_ids[actor_idx])
             self._speak(actor_idx, "DRINK")
+            return
+
+        if action == 'share_food' and target_idx != -1:
+            amount_to_give = 20
+            self.hunger[actor_idx] -= amount_to_give
+            self.hunger[target_idx] = min(100, self.hunger[target_idx] + amount_to_give)
+            self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' shares food with '{self.cell_ids[target_idx]}'.")
+            self.event_logger.log('SHARE_FOOD', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
+
+            # --- Record Spiritual Event for Resonance ---
+            self.spiritual_events.append({
+                'type': 'resonance',
+                'subtype': 'charity',
+                'actor_idx': actor_idx,
+                'position': self.positions[actor_idx]
+            })
+
+            # --- Leave an experience scar ---
+            self.experience_scars[target_idx] |= 2 # Set the second bit for receiving charity
             return
 
         if action == 'meditate':
@@ -1988,6 +2072,129 @@ class World:
 
         # Final state synchronization
         self._sync_states_to_objects()
+
+    def _apply_cosmic_laws(self):
+        """
+        하나의 통합된 계층에서 모든 우주 법칙(상승, 하강, 공명, 감응 등)을 처리합니다.
+        This function handles all cosmic laws (Ascension, Descent, Resonance, Staining) in a single, unified layer.
+        """
+        # --- 1. Law of Incarnation: Avatars radiate their spiritual energy ---
+        # --- Angels (Virtues) radiate their light ---
+        angel_mask = (self.labels == '천사') & self.is_alive_mask
+        angel_indices = np.where(angel_mask)[0]
+        for i in angel_indices:
+            px, py = int(self.positions[i][0]) % self.width, int(self.positions[i][1]) % self.width
+            base_amplitude = (self.strength[i] / 50.0) * 0.5
+
+            if self.angel_status == 'slumbering':
+                amplitude = base_amplitude * 0.25
+            elif self.angel_status == 'watching':
+                amplitude = base_amplitude * 0.5
+            else: # manifested
+                amplitude = base_amplitude
+
+            # TODO: Expand this to identify the specific angel (e.g., 'Vitariael', 'Sophiel')
+            # and radiate on the corresponding Ascension channel (e.g., ASCENSION_LIFE, ASCENSION_REFLECTION).
+            # For now, all angels radiate Life as a baseline.
+            self._imprint_gaussian(self.ascension_field[:, :, ASCENSION_LIFE], px, py, sigma=20.0, amplitude=amplitude)
+
+            # --- Demons (Sins) create gravitational wells ---
+            demon_mask = (self.labels == '마왕') & self.is_alive_mask
+            demon_indices = np.where(demon_mask)[0]
+            for i in demon_indices:
+                px, py = int(self.positions[i][0]) % self.width, int(self.positions[i][1]) % self.width
+                base_amplitude = (self.strength[i] / 50.0) * 0.5
+
+                if self.demon_lord_status == 'sealed':
+                    amplitude = base_amplitude * 0.25
+                elif self.demon_lord_status == 'awakening':
+                    amplitude = base_amplitude * 0.5
+                else: # unleashed
+                    amplitude = base_amplitude
+
+                # TODO: Expand this to identify the specific demon (e.g., 'Motus', 'Mammon')
+                # and create a gravitational well on the corresponding Descent channel (e.g., DESCENT_DEATH, DESCENT_CONSUMPTION).
+                # For now, all demons create a Death well as a baseline.
+                self._imprint_gaussian(self.descent_field[:, :, DESCENT_DEATH], px, py, sigma=20.0, amplitude=amplitude)
+
+        # --- 2. Law of Resonance: Actions create spiritual ripples ---
+        for event in self.spiritual_events:
+            if event.get('type') == 'resonance':
+                actor_idx = event['actor_idx']
+                pos = event['position']
+                px, py = int(pos[0]) % self.width, int(pos[1]) % self.width
+
+                if event.get('subtype') == 'charity':
+                    # The act of giving resonates with Love (Ascension)
+                    amplitude = (self.wisdom[actor_idx] / 50.0) * 0.1
+                    self._imprint_gaussian(self.ascension_field[:, :, ASCENSION_LOVE], px, py, sigma=15.0, amplitude=amplitude)
+                    self.logger.info(f"RESONANCE: Act of charity by '{self.cell_ids[actor_idx]}' resonated with the cosmic axis of Love (delta={amplitude:.3f}).")
+
+
+        # --- 3. Law of Staining: The environment influences the soul ---
+        alive_indices = np.where(self.is_alive_mask)[0]
+        if alive_indices.size > 0:
+            # --- 4. Law of Incarnation Awakening/Slumbering ---
+            # Check the total amount of virtue and sin in the world
+            total_virtue = np.sum(self.ascension_field)
+            total_sin = np.sum(self.descent_field)
+
+            # Demon Lord state change
+            if self.demon_lord_status == 'sealed' and total_sin > 100: # Threshold for awakening
+                self.demon_lord_status = 'awakening'
+                self.logger.info("AWAKENING: The Demon Lord's presence grows stronger as sin accumulates.")
+                self.event_logger.log('DEMON_LORD_AWAKENING', self.time_step, total_sin=total_sin)
+            elif self.demon_lord_status == 'awakening' and total_sin > 500: # Threshold for unleashing
+                self.demon_lord_status = 'unleashed'
+                self.logger.info("UNLEASHED: The Demon Lord is fully unleashed upon the world!")
+                self.event_logger.log('DEMON_LORD_UNLEASHED', self.time_step, total_sin=total_sin)
+
+            # Angel state change
+            if self.angel_status == 'slumbering' and total_virtue > 100: # Threshold for watching
+                self.angel_status = 'watching'
+                self.logger.info("AWAKENING: The Angel begins to watch over the world as virtue spreads.")
+                self.event_logger.log('ANGEL_AWAKENING', self.time_step, total_virtue=total_virtue)
+            elif self.angel_status == 'watching' and total_virtue > 500: # Threshold for manifestation
+                self.angel_status = 'manifested'
+                self.logger.info("MANIFESTED: The Angel's influence manifests in the world!")
+                self.event_logger.log('ANGEL_MANIFESTED', self.time_step, total_virtue=total_virtue)
+
+
+            positions = self.positions[alive_indices].astype(int)
+            pos_x = np.clip(positions[:, 0], 0, self.width - 1)
+            pos_y = np.clip(positions[:, 1], 0, self.width - 1)
+
+            # Read the ascension and descent values at each cell's location
+            local_ascension = self.ascension_field[pos_y, pos_x]
+            local_descent = self.descent_field[pos_y, pos_x]
+
+            # For now, we'll just use the dominant ascension/descent strength.
+            dominant_ascension_strength = np.max(local_ascension, axis=1)
+            dominant_descent_strength = np.max(local_descent, axis=1)
+
+            # --- Ascension's Influence (Awakening) ---
+            wisdom_gain = dominant_ascension_strength * 0.05
+            satisfaction_gain = dominant_ascension_strength * 0.1
+            self.wisdom[alive_indices] += wisdom_gain.astype(self.wisdom.dtype)
+            self.satisfaction[alive_indices] += satisfaction_gain
+
+            # --- Descent's Influence (Corruption) ---
+            satisfaction_loss = dominant_descent_strength * 0.2
+            self.satisfaction[alive_indices] -= satisfaction_loss
+
+            # Emotional Staining
+            corruption_mask = dominant_descent_strength > 0.1
+            if np.any(corruption_mask):
+                corrupted_indices = alive_indices[corruption_mask]
+                # Randomly assign negative emotions
+                possible_emotions = ['sorrow', 'fear', 'anger']
+                num_corrupted = len(corrupted_indices)
+                random_emotions = np.random.choice(possible_emotions, num_corrupted)
+                self.emotions[corrupted_indices] = random_emotions
+
+            # Clip values to stay within reasonable bounds
+            self.wisdom[alive_indices] = np.clip(self.wisdom[alive_indices], 0, 100)
+            self.satisfaction[alive_indices] = np.clip(self.satisfaction[alive_indices], 0, 100)
 
     def _apply_law_of_awakening(self) -> List[AwakeningEvent]:
         """
