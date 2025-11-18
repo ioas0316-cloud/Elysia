@@ -66,6 +66,9 @@ if _ROOT not in sys.path:
 from Project_Sophia.core.world import World  # type: ignore
 from Project_Sophia.wave_mechanics import WaveMechanics  # type: ignore
 from tools.kg_manager import KGManager  # type: ignore
+from Project_Sophia.world_themes.west_continent.characters import (  # type: ignore
+    WEST_CHARACTER_POOL,
+)
 
 import websockets
 from websockets.server import WebSocketServerProtocol
@@ -73,11 +76,12 @@ from websockets.server import WebSocketServerProtocol
 
 @dataclass
 class BridgeConfig:
-    host: str = '127.0.0.1'
-    port: int = 8765
+    host: str = "127.0.0.1"
+    # Use a high, rarely-used default port to avoid conflicts.
+    port: int = 8877
     sim_rate: float = 4.0  # steps per second
-    frame_every: int = 1    # send a frame every N simulation steps
-    max_cells: int = 5000   # cap cells included per frame
+    frame_every: int = 1  # send a frame every N simulation steps
+    max_cells: int = 5000  # cap cells included per frame
 
 
 class GodotBridge:
@@ -95,21 +99,103 @@ class GodotBridge:
         self._accum = 0.0
 
     def _seed_world(self) -> None:
+        """
+        Seed the world with a simple West Continent themed population and terrain.
+
+        Goal: when WorldView connects, it should immediately see a living map
+        (terrain, river, farms, threat/value gradients) and a dense scatter
+        of human cells (~2000) instead of an empty grid.
+        """
         rng = np.random.default_rng(42)
-        W = int(getattr(self.world, 'width', 256))
-        def r():
-            return {'x': float(rng.uniform(0, W-1)), 'y': float(rng.uniform(0, W-1)), 'z': 0}
-        # small human cluster
-        for i in range(20):
-            cid = f"human_{i:03d}"
-            self.world.add_cell(cid, properties={'label': 'human', 'element_type': 'human', 'culture': 'knight' if i%2 else 'wuxia', 'position': r()})
-        # a few animals & plants
-        for i in range(12):
-            cid = f"wolf_{i:02d}"
-            self.world.add_cell(cid, properties={'label': 'wolf', 'element_type': 'animal', 'position': r()})
-        for i in range(24):
-            cid = f"tree_{i:02d}"
-            self.world.add_cell(cid, properties={'label': 'tree', 'element_type': 'life', 'position': r()})
+        W = int(getattr(self.world, "width", 256))
+
+        def rand_pos() -> Dict[str, float]:
+            return {
+                "x": float(rng.uniform(0, W - 1)),
+                "y": float(rng.uniform(0, W - 1)),
+                "z": 0.0,
+            }
+
+        # --- Human population (~800 instances from the West Continent pool) ---
+        pool = list(WEST_CHARACTER_POOL)
+        pool_size = max(1, len(pool))
+        # 800 is enough to make the map feel alive, while keeping startup cost low.
+        target_count = 800
+
+        # Pre-expand world matrices once to avoid repeated costly resizes
+        try:
+            adj = getattr(self.world, "adjacency_matrix", None)
+            current_size = int(adj.shape[0]) if adj is not None else 0
+            desired = max(target_count + 64, current_size)
+            if hasattr(self.world, "_resize_matrices") and desired > current_size:
+                # Pre-expand once so add_cell does not trigger many resizes.
+                self.world._resize_matrices(desired)  # type: ignore[attr-defined]
+        except Exception:
+            # If pre-resize fails, seeding still proceeds; it may just be slower.
+            pass
+        for i in range(target_count):
+            tmpl = pool[i % pool_size]
+            cid = f"{tmpl.id}_h{i:04d}"
+            props = {
+                "label": tmpl.role,
+                "element_type": tmpl.element_type,
+                "culture": tmpl.culture,
+                "display_name": tmpl.display_name,
+                "position": rand_pos(),
+            }
+            props.update(tmpl.notes)
+            try:
+                self.world.add_cell(cid, properties=props)
+            except Exception:
+                # Seeding should never crash the bridge; skip bad entries.
+                continue
+
+        # --- A few non-human markers (trees as 'life') ---
+        for i in range(80):
+            cid = f"tree_{i:03d}"
+            try:
+                self.world.add_cell(
+                    cid,
+                    properties={
+                        "label": "tree",
+                        "element_type": "life",
+                        "position": rand_pos(),
+                    },
+                )
+            except Exception:
+                continue
+
+        # --- Terrain fields for overlays ---
+        try:
+            # Value mass: gentle east-west gradient (warmer colors on the right)
+            x = np.linspace(0.0, 1.0, W, dtype=np.float32)
+            vm = np.tile(x, (W, 1))
+            if hasattr(self.world, "value_mass_field"):
+                self.world.value_mass_field = vm
+
+            # Threat: stronger toward the north (top of the map)
+            y = np.linspace(1.0, 0.0, W, dtype=np.float32)
+            threat = np.tile(y[:, None], (1, W))
+            if hasattr(self.world, "threat_field"):
+                self.world.threat_field = threat
+
+            # Wetness: create a simple river that snakes horizontally.
+            wet = np.zeros((W, W), dtype=np.float32)
+            for x_idx in range(W):
+                center_y = int(W * 0.35 + 8.0 * np.sin(x_idx / 18.0))
+                y0 = max(0, center_y - 2)
+                y1 = min(W, center_y + 3)
+                wet[y0:y1, x_idx] = 0.85
+            if hasattr(self.world, "wetness"):
+                self.world.wetness = wet
+        except Exception:
+            # If any of this fails, we still have a populated world; overlays just stay minimal.
+            pass
+
+        try:
+            print(f"[Bridge] Seeded world with ~{target_count} humans and terrain fields.")
+        except Exception:
+            pass
 
     async def start(self) -> None:
         async with websockets.serve(self._client_handler, self.cfg.host, self.cfg.port, ping_interval=20, ping_timeout=20):
@@ -161,6 +247,7 @@ class GodotBridge:
         }
 
     async def _broadcast_frame(self) -> None:
+        """Send a frame to all connected clients, pruning closed sockets."""
         if not self._clients:
             return
         payload = self._build_frame()
@@ -169,7 +256,7 @@ class GodotBridge:
         for c in list(self._clients):
             try:
                 # Some versions expose .closed flag/state
-                if getattr(c, 'closed', False):
+                if getattr(c, "closed", False):
                     self._clients.remove(c)
                     continue
                 await c.send(js)
@@ -183,47 +270,103 @@ class GodotBridge:
                     self._clients.remove(c)
 
     def _build_frame(self) -> Dict[str, Any]:
-        w = int(getattr(self.world, 'width', 256))
+        w = int(getattr(self.world, "width", 256))
         # cells slice
         cells: List[Dict[str, Any]] = []
-        if self.world.cell_ids:
-            alive_mask = self.world.is_alive_mask if getattr(self.world, 'is_alive_mask', None) is not None else np.ones((len(self.world.cell_ids),), dtype=bool)
+        if getattr(self.world, "cell_ids", None):
+            alive_mask = (
+                self.world.is_alive_mask
+                if getattr(self.world, "is_alive_mask", None) is not None
+                else np.ones((len(self.world.cell_ids),), dtype=bool)
+            )
             count = min(len(self.world.cell_ids), self.cfg.max_cells)
-              for i in range(count):
-                  if i >= self.world.positions.shape[0]:
-                      break
+            for i in range(count):
+                if i >= self.world.positions.shape[0]:
+                    break
                 cid = self.world.cell_ids[i]
                 pos = self.world.positions[i]
                 alive = bool(alive_mask[i])
-                label = ''
+                label = ""
                 try:
                     label = self.world.element_types[i]
-                  except Exception:
-                      pass
-                  cells.append({'id': cid, 'x': float(pos[0]), 'y': float(pos[1]), 'type': label, 'alive': alive})
+                except Exception:
+                    label = ""
+                cells.append(
+                    {
+                        "id": cid,
+                        "x": float(pos[0]),
+                        "y": float(pos[1]),
+                        "type": label,
+                        "alive": alive,
+                    }
+                )
+
+        # Debug: print once in a while how many cells are present.
+        try:
+            if self.world.time_step % 60 == 0:
+                print(f"[Bridge] frame at tick={self.world.time_step}, cells={len(cells)}")
+        except Exception:
+            pass
 
         overlays = {
-            'terrain': self._encode_terrain_rgb(),
-            'river': self._encode_overlay(self._river_flow()),
-            'veg': self._encode_overlay(self._plant_density()),
-            'farm': self._encode_overlay(self._farmland_intensity()),
-            'farm_paddy': self._encode_overlay(self._farmland_paddy()),
-            'farm_field': self._encode_overlay(self._farmland_field()),
-            'threat': self._encode_overlay(getattr(self.world, 'threat_field', None)),
-            'value': self._encode_overlay(getattr(self.world, 'value_mass_field', None)),
-            'will': self._encode_overlay(getattr(self.world, 'will_field', None)),
-            'coherence': self._encode_overlay(self._coherence_map()),
+            "terrain": self._encode_terrain_rgb(),
+            "river": self._encode_overlay(self._river_flow()),
+            "veg": self._encode_overlay(self._plant_density()),
+            "farm": self._encode_overlay(self._farmland_intensity()),
+            "farm_paddy": self._encode_overlay(self._farmland_paddy()),
+            "farm_field": self._encode_overlay(self._farmland_field()),
+            "threat": self._encode_overlay(getattr(self.world, "threat_field", None)),
+            "value": self._encode_overlay(getattr(self.world, "value_mass_field", None)),
+            "will": self._encode_overlay(getattr(self.world, "will_field", None)),
+            "coherence": self._encode_overlay(self._coherence_map()),
         }
         civ = self._build_civ_overlay(w)
+        elysia_state = self._read_latest_soul_state()
         return {
-            'type': 'frame',
-            'tick': int(self.world.time_step),
-            'cells': cells,
-            'overlays': overlays,
-            'civ': civ,
-            'world': {'width': w},
-            'time': {'phase': (int(self.world.time_step) % int(getattr(self.world, 'day_length', 1) or 1)) / float(max(1, int(getattr(self.world, 'day_length', 1) or 1)))},
+            "type": "frame",
+            "tick": int(self.world.time_step),
+            "cells": cells,
+            "overlays": overlays,
+            "civ": civ,
+            "world": {"width": w},
+            "time": {
+                "phase": (
+                    int(self.world.time_step) % int(getattr(self.world, "day_length", 1) or 1)
+                )
+                / float(max(1, int(getattr(self.world, "day_length", 1) or 1)))
+            },
+            "elysia": elysia_state,
         }
+
+    def _read_latest_soul_state(self) -> Dict[str, Any]:
+        """
+        Best-effort helper to read the latest SoulState snapshot.
+
+        Expected source: elysia_logs/soul_state.jsonl written by the cognition pipeline.
+        Returns a small dict with at least {"mood": str} when available.
+        """
+        try:
+            log_dir = os.path.join(_ROOT, "elysia_logs")
+            path = os.path.join(log_dir, "soul_state.jsonl")
+            if not os.path.exists(path):
+                return {}
+            with open(path, "r", encoding="utf-8") as f:
+                lines = f.read().splitlines()
+            if not lines:
+                return {}
+            last = lines[-1].strip()
+            if not last:
+                return {}
+            data = json.loads(last)
+            if isinstance(data, dict):
+                # Keep it light: mood + a few fields only.
+                mood = str(data.get("mood", "neutral"))
+                return {
+                    "mood": mood,
+                }
+        except Exception:
+            pass
+        return {}
 
     def _build_civ_overlay(self, w: int) -> Dict[str, Any]:
         """Build a minimal high-level civ/caravan snapshot.
@@ -530,11 +673,12 @@ async def amain(cfg: BridgeConfig) -> None:
 def main() -> None:
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument('--host', default='127.0.0.1')
-    ap.add_argument('--port', type=int, default=8765)
-    ap.add_argument('--rate', type=float, default=4.0, help='simulation steps per second')
-    ap.add_argument('--frame-every', type=int, default=1, help='send a frame every N steps')
-    ap.add_argument('--max-cells', type=int, default=5000)
+    ap.add_argument("--host", default="127.0.0.1")
+    # Match BridgeConfig default: use 8877 to avoid common conflicts.
+    ap.add_argument("--port", type=int, default=8877)
+    ap.add_argument("--rate", type=float, default=4.0, help="simulation steps per second")
+    ap.add_argument("--frame-every", type=int, default=1, help="send a frame every N steps")
+    ap.add_argument("--max-cells", type=int, default=5000)
     args = ap.parse_args()
     cfg = BridgeConfig(host=args.host, port=args.port, sim_rate=args.rate, frame_every=args.frame_every, max_cells=args.max_cells)
     asyncio.run(amain(cfg))

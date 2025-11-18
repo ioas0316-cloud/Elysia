@@ -1,5 +1,7 @@
 import logging
+import json
 from datetime import datetime
+from pathlib import Path
 from typing import Dict, Any, Optional, Tuple
 
 # --- New Architecture Dependencies ---
@@ -31,6 +33,15 @@ from .high_engine.quaternion_engine import QuaternionConsciousnessEngine
 from .high_engine.causal_reasoner import CausalReasoner
 from .high_engine.syllabic_language_engine import SyllabicLanguageEngine
 from .high_engine.value_engine import ValueEngine
+
+# Soul-layer state (body / soul / spirit axis)
+try:
+    # Optional: if CORE is not available, pipeline still works without SoulState.
+    from ELYSIA.CORE.soul_state import build_soul_state  # type: ignore
+    from ELYSIA.CORE.value_climate import compute_value_climate  # type: ignore
+except Exception:  # pragma: no cover - soft dependency
+    build_soul_state = None  # type: ignore[assignment]
+    compute_value_climate = None  # type: ignore[assignment]
 
 class CognitionPipeline:
     """
@@ -120,10 +131,46 @@ class CognitionPipeline:
         It analyzes the message and explicitly routes it to the correct handler.
         """
         current_emotional_state = self.emotional_engine.get_current_state()
+        relationship_state_for_partner: Optional[Dict[str, float]] = None
         result = None
 
         try:
             self.logger.debug(f"Processing message: '{message}' with context: {self.conversation_context}")
+
+            # Pre-read lightweight relationship state for this partner (if any),
+            # so the voice layer can adjust tone. This is best-effort only.
+            try:
+                if self.core_memory and partner_id:
+                    rel_container = getattr(self.core_memory, "data", None)  # type: ignore[attr-defined]
+                    if isinstance(rel_container, dict):
+                        relationships = rel_container.get("relationships", {}) or {}
+                    else:
+                        relationships = {}
+                    current = relationships.get(partner_id, {}) or {}
+                    trust_cur = 0.0
+                    guard_cur = 0.0
+                    try:
+                        trust_cur = float(current.get("trust", 0.0))
+                    except (TypeError, ValueError):
+                        trust_cur = 0.0
+                    try:
+                        guard_cur = float(current.get("guard", 0.0))
+                    except (TypeError, ValueError):
+                        guard_cur = 0.0
+                    relationship_state_for_partner = {
+                        "partner_id": partner_id,
+                        "trust": trust_cur,
+                        "guard": guard_cur,
+                    }
+            except Exception:
+                relationship_state_for_partner = None
+
+            # Attach relationship snapshot to the emotional state so downstream
+            # voice layers can read it without changing handler signatures.
+            try:
+                setattr(current_emotional_state, "relationship_state", relationship_state_for_partner)
+            except Exception:
+                pass
 
             # 1. --- Analysis and Routing ---
             if self.conversation_context.pending_hypothesis:
@@ -318,6 +365,103 @@ class CognitionPipeline:
                     self.core_memory.add_experience(experience_payload)
             except Exception as mem_error:
                 self.logger.debug(f"Failed to log dialogue_turn experience: {mem_error}")
+
+            # --- SoulState snapshot (soft, best-effort) ---
+            try:
+                if isinstance(result, dict) and build_soul_state is not None:
+                    # Map analogue feelings from emotional state into the core feeling axes.
+                    feelings_dict: Dict[str, float] = {}
+                    if current_emotional_state is not None:
+                        try:
+                            valence = float(getattr(current_emotional_state, "valence", 0.0))
+                        except (TypeError, ValueError):
+                            valence = 0.0
+                        try:
+                            arousal = float(getattr(current_emotional_state, "arousal", 0.0))
+                        except (TypeError, ValueError):
+                            arousal = 0.0
+
+                        # Simple heuristic mapping:
+                        # - positive valence -> joy
+                        # - negative valence -> mortality/blue tone
+                        # - arousal -> creation (activation)
+                        joy = max(0.0, valence)
+                        mortality = max(0.0, -valence)
+                        creation = max(0.0, arousal)
+                        care = 0.0
+                        feelings_dict = {
+                            "joy": joy,
+                            "creation": creation,
+                            "care": care,
+                            "mortality": mortality,
+                        }
+
+                    climate_dict: Dict[str, float] = {}
+                    if compute_value_climate is not None and feelings_dict:
+                        try:
+                            climate = compute_value_climate(feelings_dict)
+                            climate_dict = climate.as_dict()
+                        except Exception:
+                            climate_dict = {}
+
+                    # Relationship snapshot for the current partner, if we have it.
+                    rel_creator: Dict[str, float] = {}
+                    try:
+                        rel_info = result.get("relationship_state", {}) or {}
+                        t_val = float(rel_info.get("trust", trust if trust is not None else 0.0))
+                        g_val = float(rel_info.get("guard", guard if guard is not None else 0.0))
+                        # Map guard inversely to closeness.
+                        closeness = max(0.0, min(1.0, 1.0 - g_val))
+                        rel_creator = {
+                            "trust": max(0.0, min(1.0, t_val)),
+                            "closeness": closeness,
+                            "playfulness": 0.0,
+                            "awe": 0.0,
+                        }
+                    except Exception:
+                        rel_creator = {}
+
+                    relations = {"creator": rel_creator} if rel_creator else None
+
+                    # Minimal inner projects that reflect the crest.
+                    projects = [
+                        {
+                            "id": "worldtree_unification",
+                            "label": "세계수 자아 통합",
+                            "progress": 0.0,
+                            "importance": 1.0,
+                        },
+                        {
+                            "id": "invite_creator",
+                            "label": "창조주 초대와 환대",
+                            "progress": 0.0,
+                            "importance": 1.0,
+                        },
+                    ]
+
+                    soul_state = build_soul_state(
+                        mood=None,
+                        feelings=feelings_dict or None,
+                        needs=None,
+                        value_climate=climate_dict or None,
+                        relations=relations,
+                        projects=projects,
+                    )
+                    soul_dict = soul_state.as_dict()
+                    result["soul_state"] = soul_dict
+
+                    # Optional: append to a lightweight JSONL log for offline inspection.
+                    try:
+                        log_dir = Path("elysia_logs")
+                        log_dir.mkdir(parents=True, exist_ok=True)
+                        log_path = log_dir / "soul_state.jsonl"
+                        with log_path.open("a", encoding="utf-8") as handle:
+                            handle.write(json.dumps(soul_dict, ensure_ascii=False) + "\n")
+                    except Exception:
+                        # Logging must never break the main flow.
+                        pass
+            except Exception as soul_error:
+                self.logger.debug(f"SoulState build failed: {soul_error}")
 
             self.event_bus.publish("message_processed", result)
             return result, current_emotional_state

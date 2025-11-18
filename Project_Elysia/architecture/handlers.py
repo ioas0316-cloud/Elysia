@@ -1,5 +1,5 @@
 
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 import re
 from datetime import datetime
 import logging
@@ -63,8 +63,8 @@ class HypothesisHandler:
             question = self.question_generator.generate_wisdom_seeking_question(hypothesis_to_ask)
 
         # Handle 'ascension' hypotheses (from tissues, etc.)
-        elif relation == '승천':
-            question = hypothesis_to_ask.get('text', f"새로운 개념 '{hypothesis_to_ask['head']}'을(를) 지식의 일부로 만들까요?")
+        elif relation == '?�천':
+            question = hypothesis_to_ask.get('text', f"?�로??개념 '{hypothesis_to_ask['head']}'??�? 지?�의 ?��?�?만들까요?")
 
         # Handle correction proposals
         elif relation == 'proposes_correction':
@@ -98,21 +98,21 @@ class HypothesisHandler:
         relation = hypothesis.get('relation')
 
         # --- Route response handling based on relation type ---
-        if relation == '승천':
+        if relation == '?�천':
             self.logger.info(f"Processing user response for Ascension hypothesis: {hypothesis['head']}")
-            if any(word in message for word in ["응", "맞아", "그래", "승천시켜", "승인"]):
+            if any(word in message for word in ["??, "맞아", "그래", "?�천?�켜", "?�인"]):
                 self.logger.info(f"User approved Ascension. Creating new Node '{hypothesis['head']}' in KG.")
                 metadata = hypothesis.get('metadata', {})
                 properties = {"type": "concept", "discovery_source": "Cell_Ascension_Ritual", "parents": metadata.get("parents", []), "ascended_at": datetime.now().isoformat()}
                 self.kg_manager.add_node(hypothesis['head'], properties=properties)
-                response_text = f"알겠습니다. 새로운 개념 '{hypothesis['head']}'이(가) 지식의 일부로 승천했습니다."
+                response_text = f"?�겠?�니?? ?�로??개념 '{hypothesis['head']}'??가) 지?�의 ?��?�??�천?�습?�다."
             else:
                 self.logger.info("User denied Ascension. Discarding hypothesis.")
-                response_text = f"알겠습니다. 개념 '{hypothesis['head']}'의 승천을 보류합니다."
+                response_text = f"?�겠?�니?? 개념 '{hypothesis['head']}'???�천??보류?�니??"
 
         elif relation == 'proposes_correction':
             self.logger.info(f"Processing user response for Correction proposal: {hypothesis['head']} <-> {hypothesis['tail']}")
-            if any(word in message for word in ["응", "맞아", "그래", "수정해", "허락한다"]):
+            if any(word in message for word in ["??, "맞아", "그래", "?�정??, "?�락?�다"]):
                 insight = hypothesis.get('metadata', {}).get('contradictory_insight')
                 if insight:
                     # Logic Correction: Find what to remove based on the new insight.
@@ -140,23 +140,23 @@ class HypothesisHandler:
                     self.kg_manager.add_edge(new_head, new_tail, new_relation)
                     self.logger.info(f"Correcting KG: Added new edge '{new_head} -> {new_tail}' with relation '{new_relation}'.")
 
-                    response_text = "아버지의 지혜에 따라 저의 지식을 바로잡았습니다. 감사합니다."
+                    response_text = "?�버지??지?�에 ?�라 ?�??지?�을 바로?�았?�니?? 감사?�니??"
                 else:
-                    response_text = "수정을 진행하려 했으나, 원본 통찰 정보가 부족하여 실패했습니다."
+                    response_text = "?�정??진행?�려 ?�으?? ?�본 ?�찰 ?�보가 부족하???�패?�습?�다."
             else:
                 self.logger.info("User denied Correction. Discarding proposal.")
-                response_text = "알겠습니다. 기존의 지식을 그대로 유지합니다."
+                response_text = "?�겠?�니?? 기존??지?�을 그�?�??��??�니??"
 
         else: # Default handling for standard relationship hypotheses
             self.logger.info(f"Processing user response for relationship hypothesis: {hypothesis['head']} -> {hypothesis['tail']}")
-            confirmed_relation = extract_relationship_type(message) or ("related_to" if any(word in message for word in ["응", "맞아", "그래"]) else None)
+            confirmed_relation = extract_relationship_type(message) or ("related_to" if any(word in message for word in ["??, "맞아", "그래"]) else None)
             if confirmed_relation:
                 self.logger.info(f"User confirmed relationship: {confirmed_relation}. Adding edge to KG.")
                 self.kg_manager.add_edge(hypothesis['head'], hypothesis['tail'], confirmed_relation)
-                response_text = f"알겠습니다. '{hypothesis['head']}'와(과) '{hypothesis['tail']}'의 관계를 기록했습니다."
+                response_text = f"?�겠?�니?? '{hypothesis['head']}'?�(�? '{hypothesis['tail']}'??관계�? 기록?�습?�다."
             else:
                 self.logger.info("User denied or provided an unclear answer. Discarding hypothesis.")
-                response_text = f"알겠습니다. 가설({hypothesis['head']} -> {hypothesis['tail']})에 대한 답변을 기록했습니다."
+                response_text = f"?�겠?�니?? 가??{hypothesis['head']} -> {hypothesis['tail']})???�???��???기록?�습?�다."
 
         # --- Clean up after processing ---
         self.core_memory.remove_hypothesis(hypothesis['head'], hypothesis.get('tail'), relation=relation)
@@ -213,15 +213,15 @@ class DefaultReasoningHandler:
 
     def handle(self, message: str, context: ConversationContext, emotional_state: EmotionalState) -> Optional[Any]:
         """Generates a response using the main VCD-guided path with Thought objects."""
-        # 극단적으로 단순화된 로직
+        # 극단?�으�??�순?�된 로직
         potential_thoughts = self.reasoner.deduce_facts(message)
 
         if not potential_thoughts:
-            insightful_text = "흥미로운 관점이네요. 조금 더 생각해볼게요."
+            insightful_text = "?��?로운 관?�이?�요. 조금 ???�각?�볼게요."
             final_response = self.styler.style_response(insightful_text, emotional_state)
             return {"type": "text", "text": final_response}
 
-        # VCD 호출 및 기본값 처리
+        # VCD ?�출 �?기본�?처리
         chosen_thought = self.vcd.select_thought(
             candidates=potential_thoughts,
             context=[message],
@@ -229,21 +229,22 @@ class DefaultReasoningHandler:
             guiding_intention=context.guiding_intention
         )
         if not chosen_thought:
-            chosen_thought = potential_thoughts[0] # VCD가 결정 못하면 첫번째 생각으로
+            chosen_thought = potential_thoughts[0] # VCD가 결정 못하�?첫번�??�각?�로
 
-        # 합성 및 스타일링
+        # ?�성 �??��??�링
         insightful_text = self.synthesizer.synthesize([chosen_thought])
         final_response = self.styler.style_response(insightful_text, emotional_state)
 
         # --- Creative Expression Trigger ---
         response_data = {"type": "text", "text": final_response}
-        vcd_score = getattr(chosen_thought, 'vcd_score', 0) # VCD가 Thought 객체에 점수를 기록한다고 가정
+        vcd_score = getattr(chosen_thought, 'vcd_score', 0) # VCD가 Thought 객체???�수�?기록?�다�?가??
 
         if vcd_score > self.creative_expression_threshold:
             self.logger.info(f"VCD score ({vcd_score}) exceeded threshold ({self.creative_expression_threshold}). Triggering Creative Cortex.")
             creative_output = self.creative_cortex.generate_creative_expression(chosen_thought)
-            # 다음 단계에서 응답 형식을 정의할 것을 대비하여 creative_output을 추가합니다.
+            # ?�음 ?�계?�서 ?�답 ?�식???�의??것을 ?�비하??creative_output??추�??�니??
             response_data['creative_output'] = creative_output
-            response_data['type'] = 'composite_insight' # 응답 타입을 변경하여 UI가 처리할 수 있도록 함
+            response_data['type'] = 'composite_insight' # ?�답 ?�?�을 변경하??UI가 처리?????�도�???
 
         return response_data
+

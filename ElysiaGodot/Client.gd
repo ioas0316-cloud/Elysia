@@ -1,6 +1,7 @@
 extends Node
 
-@export var server_url: String = "ws://127.0.0.1:8765"
+@export var server_url: String = "ws://127.0.0.1:8877"
+
 
 var ws: WebSocketPeer = WebSocketPeer.new()
 var connected: bool = false
@@ -40,6 +41,11 @@ func pop_frame() -> Dictionary:
 	if frames.is_empty():
 		return {}
 	return frames.pop_front()
+
+func peek_frame() -> Dictionary:
+	if frames.is_empty():
+		return {}
+	return frames[frames.size() - 1]
 
 func send_input(payload: Dictionary) -> void:
 	payload["type"] = "input"

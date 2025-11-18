@@ -39,12 +39,15 @@ text = "연결 대기 (ws://127.0.0.1:8765)"
 [node name="Markers" type="Node2D" parent="."]
 
 [node name="VillageA" type="Sprite2D" parent="Markers"]
+position = Vector2(-42, 56)
 texture = SubResource("TextureVillageA")
 
 [node name="VillageB" type="Sprite2D" parent="Markers"]
+position = Vector2(-113, -4)
 texture = SubResource("TextureVillageB")
 
 [node name="Caravan" type="Sprite2D" parent="Markers"]
+position = Vector2(-116, 62)
 texture = SubResource("TextureCaravan")
 
 [node name="Node3D" type="Node3D" parent="."]
