@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmuq40l7kggf3"]
+
+[ext_resource type="Script" uid="uid://mjfs328cjr7y" path="res://elysia.gd" id="1_dothk"]
+
+[node name="Elysia" type="Node3D"]
+script = ExtResource("1_dothk")

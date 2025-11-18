@@ -1,27 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://osi6tvvcippa"]
+[gd_scene load_steps=9 format=3 uid="uid://osi6tvvcippa"]
 
 [ext_resource type="Script" uid="uid://b31qydr6bpwcp" path="res://WorldView.gd" id="1"]
+[ext_resource type="Script" uid="uid://bi5chpktpqdx1" path="res://node_3d.gd" id="2_w54rw"]
 
 [sub_resource type="Gradient" id="GradientVillageA"]
-offsets = PackedFloat32Array(0, 1)
 colors = PackedColorArray(0.933333, 0.796078, 0.431373, 1, 0.580392, 0.345098, 0.0980392, 1)
 
 [sub_resource type="GradientTexture2D" id="TextureVillageA"]
 gradient = SubResource("GradientVillageA")
-width = 64
-height = 64
 
 [sub_resource type="Gradient" id="GradientVillageB"]
-offsets = PackedFloat32Array(0, 1)
 colors = PackedColorArray(0.360784, 0.639216, 1, 1, 0.105882, 0.203922, 0.462745, 1)
 
 [sub_resource type="GradientTexture2D" id="TextureVillageB"]
 gradient = SubResource("GradientVillageB")
-width = 64
-height = 64
 
 [sub_resource type="Gradient" id="GradientCaravan"]
-offsets = PackedFloat32Array(0, 1)
 colors = PackedColorArray(0.988235, 0.952941, 0.635294, 1, 0.807843, 0.537255, 0.109804, 1)
 
 [sub_resource type="GradientTexture2D" id="TextureCaravan"]
@@ -43,16 +37,15 @@ theme_override_constants/outline_size = 2
 text = "연결 대기 (ws://127.0.0.1:8765)"
 
 [node name="Markers" type="Node2D" parent="."]
-position = Vector2(0, 0)
 
 [node name="VillageA" type="Sprite2D" parent="Markers"]
 texture = SubResource("TextureVillageA")
-centered = true
 
 [node name="VillageB" type="Sprite2D" parent="Markers"]
 texture = SubResource("TextureVillageB")
-centered = true
 
 [node name="Caravan" type="Sprite2D" parent="Markers"]
 texture = SubResource("TextureCaravan")
-centered = true
+
+[node name="Node3D" type="Node3D" parent="."]
+script = ExtResource("2_w54rw")
