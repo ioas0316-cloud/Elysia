@@ -1,0 +1,2 @@
+{"timestamp": 2, "event_type": "IDLE_PLAY", "data": {"cell_id": "wolf_1", "x": 5.691360950469971, "y": 9.41158390045166}}
+{"timestamp": 2, "event_type": "SAY", "data": {"cell_id": "wolf_1", "text": "하늘을 보니, 괜히 웃음이 난다."}}
