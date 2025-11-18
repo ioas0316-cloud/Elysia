@@ -641,10 +641,22 @@ class World:
             self.faith[idx] = 0
 
 
-        self.hunger[idx] = 100.0
-        self.hydration[idx] = 100.0
-        self.temperature[idx] = 36.5
-        self.satisfaction[idx] = 50.0
+        try:
+            self.hunger[idx] = float(properties.get('hunger', 100.0))
+        except (TypeError, ValueError):
+            self.hunger[idx] = 100.0
+        try:
+            self.hydration[idx] = float(properties.get('hydration', 100.0))
+        except (TypeError, ValueError):
+            self.hydration[idx] = 100.0
+        try:
+            self.temperature[idx] = float(properties.get('temperature', 36.5))
+        except (TypeError, ValueError):
+            self.temperature[idx] = 36.5
+        try:
+            self.satisfaction[idx] = float(properties.get('satisfaction', 50.0))
+        except (TypeError, ValueError):
+            self.satisfaction[idx] = 50.0
 
         # Ensure element_type from properties is immediately set in the numpy array
         if properties and 'element_type' in properties:
@@ -2083,21 +2095,30 @@ class World:
 
         self._determine_meta_focus(actor_idx, connected_indices)
         base_questions = self._reflective_questions(actor_idx, adj_matrix_csr, connected_indices)
+        reflections_for_channels = base_questions
         evaluation = self.law_manager.evaluate(actor_idx, adj_matrix_csr, connected_indices)
         if evaluation:
-            combined = base_questions + evaluation.reflections
-            self.last_reflections[actor_idx] = combined
-            self.logger.debug(f"Law '{evaluation.policy_name}' triggered for {self.cell_ids[actor_idx]} with reflections: {evaluation.reflections}")
-            self._update_channels(actor_idx, combined)
-            return evaluation.action
+            reflections_for_channels = base_questions + evaluation.reflections
+            self.last_reflections[actor_idx] = reflections_for_channels
+            self.logger.debug(
+                f"Law '{evaluation.policy_name}' triggered for {self.cell_ids[actor_idx]} with reflections: {evaluation.reflections}"
+            )
+            self._update_channels(actor_idx, reflections_for_channels)
+            # Only short-circuit when the law proposes a concrete action.
+            if evaluation.action is not None:
+                return evaluation.action
 
         if connected_indices.size == 0:
-            self.last_reflections[actor_idx] = base_questions
-            self._update_channels(actor_idx, base_questions)
-            return None, 'idle', None # No one nearby, default to idle
+            self.last_reflections[actor_idx] = reflections_for_channels
+            # If no law fired, we still want to push base questions into the channels.
+            if not evaluation:
+                self._update_channels(actor_idx, reflections_for_channels)
+            return None, 'idle', None  # No one nearby, default to idle
 
-        self.last_reflections[actor_idx] = base_questions
-        self._update_channels(actor_idx, base_questions)
+        # For non-empty neighborhoods, update channels at least once if no law already did so.
+        if not evaluation:
+            self.last_reflections[actor_idx] = reflections_for_channels
+            self._update_channels(actor_idx, reflections_for_channels)
         # --- 1. Identify all possible actions and targets ---
         possible_actions = []
 
@@ -2110,15 +2131,23 @@ class World:
         # Action: Attack or Eat
         # (Conditions to be implemented in the scoring function)
         for target_idx in connected_indices:
-            if not self.is_alive_mask[target_idx]: continue
+            if not self.is_alive_mask[target_idx]:
+                continue
 
             target_element = self.element_types[target_idx]
-            if target_element == 'life': # plant
-                 possible_actions.append({'action': 'eat', 'target_idx': target_idx, 'move': None})
+            if target_element == 'life':  # plant
+                possible_actions.append({'action': 'eat', 'target_idx': target_idx, 'move': None})
             elif target_element == 'animal':
                 # Can be a normal attack or a skill-based attack
                 possible_actions.append({'action': 'attack', 'target_idx': target_idx, 'move': None})
                 # (Skill/Spell selection will be added later)
+
+        # Action: Talk (social dialogue)
+        # Always available when there are neighbors; scoring will decide if it is compelling.
+        for target_idx in connected_indices:
+            if not self.is_alive_mask[target_idx]:
+                continue
+            possible_actions.append({'action': 'talk', 'target_idx': target_idx, 'move': None})
 
 
         # --- 2. Score each possible action based on causal factors ---
@@ -2177,6 +2206,39 @@ class World:
                         score += local_death * 50 # The field of Death promotes aggression
                         score -= local_life * 20 # The field of Life suppresses aggression
 
+            elif action_type == 'talk':
+                # Social dialogue: prioritized when the actor is not in acute survival stress
+                # and when there is a meaningful relationship or rich field of life.
+                relation_strength = float(adj_matrix_csr[actor_idx, target_idx])
+                try:
+                    actor_emotion = self.emotions[actor_idx]
+                except Exception:
+                    actor_emotion = 'neutral'
+
+                # Start from a small base above idle so talking can be chosen
+                base_score = 6.0
+
+                # Survival pressure: very low hunger or severe injury reduces appetite for dialogue.
+                if self.hunger[actor_idx] < 40:
+                    base_score -= 3.0
+                if self.is_injured[actor_idx]:
+                    base_score -= 1.0
+
+                # Emotional valence: joy/calm encourage open conversation, sorrow invites comfort.
+                if actor_emotion in ('joy', 'calm'):
+                    base_score += 3.0
+                elif actor_emotion == 'sorrow':
+                    base_score += 2.0
+                else:
+                    base_score += 1.0
+
+                # Relationship closeness and life field support dialogue; death field suppresses it.
+                base_score += relation_strength * 4.0
+                base_score += float(local_life) * 10.0
+                base_score -= float(local_death) * 5.0
+
+                score += base_score
+
             if score > highest_score:
                 highest_score = score
                 best_action = action_option
@@ -2218,8 +2280,48 @@ class World:
             self._speak(actor_idx, "DRINK")
             return
 
+        if action == 'talk' and target_idx != -1:
+            try:
+                speaker_id = self.cell_ids[actor_idx]
+                listener_id = self.cell_ids[target_idx]
+                relation_strength = float(self.adjacency_matrix[actor_idx, target_idx])
+                speaker_emotion = (
+                    self.emotions[actor_idx] if actor_idx < len(self.emotions) else "neutral"
+                )
+                listener_emotion = (
+                    self.emotions[target_idx] if target_idx < len(self.emotions) else "neutral"
+                )
+            except Exception:
+                speaker_id = f"cell_{actor_idx}"
+                listener_id = f"cell_{target_idx}"
+                relation_strength = 0.0
+                speaker_emotion = "neutral"
+                listener_emotion = "neutral"
+
+            # Heuristic topic hint: not a template, just a label for later interpretation.
+            topic = "bonding"
+            if speaker_emotion == "sorrow" or listener_emotion == "sorrow":
+                topic = "comfort"
+            elif speaker_emotion == "joy" or listener_emotion == "joy":
+                topic = "celebration"
+
+            self.logger.info(
+                f"DIALOGUE: '{speaker_id}' speaks with '{listener_id}' about {topic}."
+            )
+            self.event_logger.log(
+                "DIALOGUE",
+                self.time_step,
+                speaker_id=speaker_id,
+                listener_id=listener_id,
+                speaker_emotion=speaker_emotion,
+                listener_emotion=listener_emotion,
+                relation_strength=relation_strength,
+                topic=topic,
+            )
+            return
+
         if action == 'share_food' and target_idx != -1:
-            amount_to_give = 20
+            amount_to_give = 30
             self.hunger[actor_idx] -= amount_to_give
             self.hunger[target_idx] = min(100, self.hunger[target_idx] + amount_to_give)
             self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' shares food with '{self.cell_ids[target_idx]}'.")
@@ -2235,6 +2337,24 @@ class World:
 
             # --- Leave an experience scar ---
             self.experience_scars[target_idx] |= 2 # Set the second bit for receiving charity
+
+            # --- Create value-mass (meaning) at the site of sharing ---
+            try:
+                actor_pos = self.positions[actor_idx]
+                x, y = int(actor_pos[0]) % self.width, int(actor_pos[1]) % self.width
+                delta_e_local = float(amount_to_give) * 0.1
+                self._imprint_gaussian(self.value_mass_field, x, y, sigma=self._vm_sigma, amplitude=delta_e_local)
+                self.event_logger.log(
+                    'MEANING_CREATED',
+                    self.time_step,
+                    type='sharing',
+                    magnitude=delta_e_local,
+                    x=x,
+                    y=y,
+                )
+            except Exception:
+                # Meaning creation is best effort; failures should not break core combat logic.
+                pass
             return
 
         if action == 'meditate':

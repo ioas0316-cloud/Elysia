@@ -32,7 +32,14 @@ class DreamObserver:
                 "summary": "The world was quiet, a dreamless sleep.",
                 "key_concepts": [],
                 "emotional_landscape": "calm",
-                "new_births": 0
+                "new_births": 0,
+                "sensory": {
+                    "light": "dark",
+                    "temperature": "neutral",
+                    "breeze": "still",
+                    "scent": "neutral",
+                    "wetness": "dry",
+                },
             }
 
         # 1. Identify the most active cells (highest energy)
@@ -44,11 +51,18 @@ class DreamObserver:
         living_indices = np.where(world.is_alive_mask[:num_cells])[0]
 
         if len(living_indices) == 0:
-             return {
+            return {
                 "summary": "A silent world, with no living cells to dream.",
                 "key_concepts": [],
                 "emotional_landscape": "empty",
-                "new_births": 0
+                "new_births": 0,
+                "sensory": {
+                    "light": "dark",
+                    "temperature": "neutral",
+                    "breeze": "still",
+                    "scent": "neutral",
+                    "wetness": "dry",
+                },
             }
 
         energies = world.energy[living_indices]
@@ -73,7 +87,17 @@ class DreamObserver:
         # For now, we derive it from the top concept.
         emotional_landscape = self._deduce_emotion_from_concepts(key_concepts)
 
+        # 4. Derive a coarse sensory snapshot from world state (light, temperature, breeze, scent, wetness)
+        sensory = self._summarize_sensory(world)
+
         summary = f"A dream centered around '{', '.join(key_concepts)}', with a feeling of '{emotional_landscape}'."
+        if sensory.get("light") == "bright_sun":
+            summary += " Warm sunlight seemed to touch everything."
+        elif sensory.get("light") == "dawn_dusk":
+            summary += " The light felt soft, like dawn or dusk."
+        elif sensory.get("light") == "night":
+            summary += " It unfolded under a quiet night sky."
+
         if new_births > 0:
             summary += f" It felt like a moment of creation, with {new_births} new thoughts taking form."
 
@@ -81,7 +105,8 @@ class DreamObserver:
             "summary": summary,
             "key_concepts": key_concepts,
             "emotional_landscape": emotional_landscape,
-            "new_births": new_births
+            "new_births": new_births,
+            "sensory": sensory,
         }
 
     def _deduce_emotion_from_concepts(self, concepts: List[str]) -> str:
@@ -98,3 +123,74 @@ class DreamObserver:
             return "focused"
 
         return "neutral"
+
+    def _summarize_sensory(self, world: World) -> Dict[str, str]:
+        """Summarize coarse sensory context from the world's current state."""
+        # Light
+        s = float(getattr(world, "sun_intensity_global", 0.0))
+        if s < 0.05:
+            light = "night"
+        elif s < 0.2:
+            light = "dawn_dusk"
+        elif s > 0.7:
+            light = "bright_sun"
+        else:
+            light = "soft_light"
+
+        # Temperature (Celsius)
+        temp_c = float(getattr(world, "ambient_temperature_c", 15.0))
+        if temp_c <= 0.0:
+            temperature = "freezing_cold"
+        elif temp_c <= 8.0:
+            temperature = "chilly"
+        elif temp_c <= 18.0:
+            temperature = "cool"
+        elif temp_c <= 26.0:
+            temperature = "warm"
+        else:
+            temperature = "hot"
+
+        # Breeze: inferred from tide + cloud cover as a soft proxy
+        tide = float(getattr(world, "tide_level_global", 0.0))
+        cloud = float(getattr(world, "cloud_cover", 0.0))
+        breeze_intensity = abs(tide) + 0.5 * cloud
+        if breeze_intensity < 0.3:
+            breeze = "still"
+        elif breeze_intensity < 0.8:
+            breeze = "gentle_breeze"
+        else:
+            breeze = "strong_breeze"
+
+        # Wetness / humidity
+        humidity = float(getattr(world, "humidity", 0.5))
+        try:
+            wetness_mean = float(np.mean(world.wetness))
+        except Exception:
+            wetness_mean = 0.0
+        moisture = max(humidity, wetness_mean)
+        if moisture < 0.2:
+            wetness = "dry"
+        elif moisture < 0.6:
+            wetness = "fresh"
+        else:
+            wetness = "damp"
+
+        # Scent: very coarse heuristic
+        try:
+            fertility_mean = float(np.mean(world.soil_fertility))
+        except Exception:
+            fertility_mean = 0.5
+        if fertility_mean > 0.7 and moisture >= 0.4:
+            scent = "earthy_flower"
+        elif moisture >= 0.6:
+            scent = "rain_scent"
+        else:
+            scent = "neutral"
+
+        return {
+            "light": light,
+            "temperature": temperature,
+            "breeze": breeze,
+            "scent": scent,
+            "wetness": wetness,
+        }

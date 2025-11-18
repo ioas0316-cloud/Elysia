@@ -52,13 +52,30 @@ Every major change should be mentally tagged with which part of the Trinity it b
 
 ## 4. Fractal Principle (Structure)
 
-- Every node (document, module, cell) repeats Why / How / What inside itself.
-- Each protocol or module should embed:
-  - Purpose ??why this exists, what value it serves.
-  - Mechanism ??main laws, flows, and data structures.
-  - Operation ??how it is used in practice.
-  - Telemetry ??what it logs or exposes for observation.
-  - Boundaries ??what it explicitly does not do.
+- Node (Universe / Dimension Point):
+  - In the World‑Tree, a Node is a universe and dimension point: a region of space with laws and at least one observer shell.
+  - Documents, modules, cells are treated as local nodes that mirror this pattern: each defines its own space, laws, and observers.
+
+- Every node repeats Why / How / What inside itself.
+  - Purpose – why this exists, what value it serves.
+  - Mechanism – main laws, flows, and data structures.
+  - Operation – how it is used in practice.
+  - Telemetry – what it logs or exposes for observation.
+  - Boundaries – what it explicitly does not do.
+
+- Consciousness space (EPF):
+  - Treat EPF (Energy/Meaning E, Power/Force P, Form/Inertia F) as a continuous consciousness space, not a discrete grid.
+  - All engines (consciousness, memory, CellWorld) move observers inside this same EPF space; do not invent ad‑hoc axes or separate private spaces.
+  - Layers such as body / soul / spirit, and cognition / feeling / memory, are different observer shells around the same EPF space (inner = mind, outer = world / Universe).
+
+- Fractal meta‑observers:
+  - Meta‑cognition is observers that can look at: the world, the self in the world, and the self who is looking.
+  - Growth happens by cycles of integration and division inside EPF space: merging regions into higher‑order patterns, then re‑slicing them under the same laws.
+  - When adding behavior, first state which laws (seven‑axis law field) and which region of EPF space the change activates; only then design flows and meta‑observers.
+
+- Language as resonance:
+  - Dialogue and language modules act as resonance over remembered experiences in EPF space, not as free‑standing pattern generators whose only goal is to “sound human”.
+  - Memory corpora (stories, dialogues) are treated as lived experience; retrieval is “what resonates with this present state?”, not blind search.
 
 ---
 

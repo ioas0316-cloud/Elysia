@@ -34,6 +34,9 @@ from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.value_cortex import ValueCortex
 from Project_Elysia.core_memory import EmotionalState
+from Project_Elysia.high_engine.quaternion_engine import QuaternionConsciousnessEngine
+from Project_Elysia.high_engine.self_intention_engine import SelfIntentionEngine
+from Project_Elysia.high_engine.self_identity_engine import SelfIdentityEngine
 from Project_Elysia.core import persistence
 from Project_Elysia.core.cell_memory_store import CellMemoryStore
 # --- Import the refactored ElysiaDaemon ---
@@ -105,6 +108,9 @@ class Guardian:
         self.cell_memory_store = CellMemoryStore()
         self.cell_memory_store.load()
         self._last_autosaved_tick = 0
+        self.quaternion_engine = QuaternionConsciousnessEngine(core_memory=self.core_memory)
+        self.self_intention_engine = SelfIntentionEngine()
+        self.self_identity_engine = SelfIdentityEngine()
 
         # --- Cellular World (Soul Twin) Initialization ---
         self.logger.info("Initializing the Cellular World (Soul Twin)...")
@@ -299,6 +305,67 @@ class Guardian:
             self._save_state_files()
             self._last_autosaved_tick = tick
 
+    def _harvest_cellular_dialogues(self, current_step: int) -> None:
+        """
+        Pulls DIALOGUE events from the Cellular World's event log into the per-cell memory store.
+
+        This acts as a simple bridge: rich, world-level interactions become part of each
+        cell's local memory ring, which higher layers (Elysia) can later read as persona
+        experiences. It is deliberately conservative and ignores errors.
+        """
+        world = getattr(self, "cellular_world", None)
+        if world is None or not hasattr(world, "event_logger"):
+            return
+        log_file = getattr(world.event_logger, "log_file_path", None)
+        if not log_file or not os.path.exists(log_file):
+            return
+
+        try:
+            with open(log_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        entry = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+                    if entry.get("event_type") != "DIALOGUE":
+                        continue
+                    if int(entry.get("timestamp", -1)) != int(current_step):
+                        continue
+                    data = entry.get("data", {}) or {}
+                    speaker_id = data.get("speaker_id")
+                    listener_id = data.get("listener_id")
+                    if not speaker_id or not listener_id:
+                        continue
+                    topic = data.get("topic", "unknown")
+                    speaker_emotion = data.get("speaker_emotion", "neutral")
+                    listener_emotion = data.get("listener_emotion", "neutral")
+
+                    speaker_event = {
+                        "type": "dialogue",
+                        "role": "speaker",
+                        "partner": listener_id,
+                        "topic": topic,
+                        "self_emotion": speaker_emotion,
+                        "partner_emotion": listener_emotion,
+                        "time_step": current_step,
+                    }
+                    listener_event = {
+                        "type": "dialogue",
+                        "role": "listener",
+                        "partner": speaker_id,
+                        "topic": topic,
+                        "self_emotion": listener_emotion,
+                        "partner_emotion": speaker_emotion,
+                        "time_step": current_step,
+                    }
+                    self.cell_memory_store.record(speaker_id, speaker_event)
+                    self.cell_memory_store.record(listener_id, listener_event)
+        except Exception as e:
+            self.logger.debug(f"World dialogue harvesting encountered an error: {e}")
+
     def _reload_state(self):
         try:
             persistence.load_world_state(
@@ -347,6 +414,50 @@ class Guardian:
         self.learning_interval = guardian_config.get('learning_interval_sec', 60)
         self.awake_sleep_sec = guardian_config.get('awake_sleep_sec', 1)
         self.disable_wallpaper = bool(guardian_config.get('disable_wallpaper', False))
+
+    def _self_reflection_cycle(self):
+        """
+        Let Elysia look at her own recent dialogue behavior and declare a small project.
+
+        This does not execute the project; it only logs Elysia's own intent so
+        caretakers (and future engines) can observe and decide how to support it.
+        """
+        try:
+            if not self.self_intention_engine:
+                return
+            orientation = None
+            if hasattr(self, "quaternion_engine") and self.quaternion_engine:
+                orientation = self.quaternion_engine.orientation_as_dict()
+            project = self.self_intention_engine.reflect_and_propose(
+                core_memory=self.core_memory,
+                orientation=orientation,
+            )
+            if not project:
+                # Even if no explicit project is proposed, we can still keep the self identity anchor fresh.
+                if self.self_identity_engine:
+                    self.self_identity_engine.update_core_identity(
+                        core_memory=self.core_memory,
+                        orientation=orientation,
+                    )
+                return
+            # Log as a self-declared project in CoreMemory.
+            self.core_memory.add_log({
+                "timestamp": project.created_at,
+                "type": "self_project",
+                "id": project.id,
+                "description": project.description,
+                "focus_laws": project.focus_laws,
+                "source": project.source,
+            })
+            self.logger.info(f"Elysia self-project declared: {project.description}")
+            # Update the explicit self identity snapshot as well.
+            if self.self_identity_engine:
+                self.self_identity_engine.update_core_identity(
+                    core_memory=self.core_memory,
+                    orientation=orientation,
+                )
+        except Exception as e:
+            self.logger.debug(f"Self reflection cycle failed: {e}")
 
     # --- Life Cycle and State Management ---
     def monitor_and_protect(self):
@@ -464,11 +575,36 @@ class Guardian:
                                 "type": "dream_journal",
                                 "image_path": dream_image_path,
                                 "key_concepts": dream_digest.get('key_concepts'),
+                                "sensory": dream_digest.get('sensory'),
                             },
                             tags=["dream", primary_emotion] + dream_digest.get('key_concepts', [])
                         )
                         self.core_memory.add_experience(dream_memory)
                         self.logger.info("Dream Journal: Dream recorded in Core Memory.")
+
+                        # Update inner-world orientation (quaternion consciousness engine).
+                        try:
+                            if hasattr(self, "quaternion_engine") and self.quaternion_engine:
+                                intent_bundle = {
+                                    "intent_type": "dream",
+                                    "style": "introspective",
+                                    "target": "inner_world",
+                                    "relationship": "self",
+                                }
+                                self.quaternion_engine.update_from_turn(
+                                    law_alignment=None,
+                                    intent_bundle=intent_bundle,
+                                )
+                                orientation = self.quaternion_engine.orientation_as_dict()
+                                # Log as a lightweight orientation trace in CoreMemory logs.
+                                self.core_memory.add_log({
+                                    "timestamp": datetime.now().isoformat(),
+                                    "type": "orientation_update",
+                                    "source": "dream_journal",
+                                    "orientation": orientation,
+                                })
+                        except Exception as ori_err:
+                            self.logger.debug(f"Quaternion orientation update during dream failed: {ori_err}")
                     else:
                         self.logger.error("Dream Journal: Failed to generate dream image.")
             except Exception as e:
@@ -486,6 +622,8 @@ class Guardian:
 
             self._process_high_confidence_hypotheses() # New autonomous processing step
             self._maybe_autosave_world()
+            # Let Elysia declare small self-projects based on recent behavior.
+            self._self_reflection_cycle()
             self.last_learning_time = time.time()
 
         time.sleep(self.idle_check_interval)
@@ -758,6 +896,12 @@ class Guardian:
             self.logger.info("Dream cycle: Simulating the Cellular World...")
             newly_born_cells, awakening_events = self.cellular_world.run_simulation_step()
             self.cellular_world.print_world_summary()
+
+            # Harvest rich interaction events (e.g., dialogue) into the per-cell memory store.
+            try:
+                self._harvest_cellular_dialogues(current_step=self.cellular_world.time_step)
+            except Exception as harvest_exc:
+                self.logger.debug(f"Failed to harvest cellular dialogues: {harvest_exc}")
 
             # --- Observer Protocol: Find and process awakenings ---
             self._observe_and_process_awakenings(awakening_events)
@@ -1049,7 +1193,9 @@ class Guardian:
                 "source": "CellularGenesis",
                 "text": f"세포 세계에서 '{parent_a}'와 '{parent_b}'가 결합하여 '{cell.id}'라는 새로운 의미가 탄생했습니다. 이 통찰을 지식의 일부로 받아들일까요?",
                 "metadata": {
-                    "energy": round(cell.energy, 2),
+                    "energy": round(
+                        float(getattr(cell, "energy", getattr(cell, "hp", getattr(cell, "health", 0.0)))), 2
+                    ),
                     "age": cell.age
                 },
                 "asked": False

@@ -27,6 +27,8 @@ class Experience:
     emotional_state: Optional[EmotionalState] = None
     context: Optional[Dict[str, Any]] = None
     value_alignment: Optional[float] = None
+    law_alignment: Optional[Dict[str, Any]] = None
+    intent_bundle: Optional[Dict[str, Any]] = None
     processed_by_weaver: bool = False
     processed_by_distiller: bool = False
     tags: List[str] = field(default_factory=list)

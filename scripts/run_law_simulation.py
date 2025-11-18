@@ -11,6 +11,7 @@ if str(repo_root) not in sys.path:
 from tools.kg_manager import KGManager
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.core.world import World
+from Project_Sophia.primordial_language import PrimordialLanguageEngine
 from Project_Elysia.core.divine_engine import ElysiaDivineEngineV2
 
 
@@ -44,6 +45,8 @@ MEANING_MAP = {
     "wind": "wind",
 }
 
+LANG_ENGINE = PrimordialLanguageEngine(SYLLABLE_SUFFIX)
+
 SENTENCE_TEMPLATES = {
     "joy": [
         "The {} feels warm and alive as it is praised.",
@@ -64,10 +67,7 @@ SENTENCE_TEMPLATES = {
 }
 
 def build_wave_word(stimulus: dict, emotion: str, memory_strength: float) -> str:
-    base = stimulus["target"]
-    suffix = SYLLABLE_SUFFIX.get(emotion, "ra")
-    depth = 1 + int(min(memory_strength, 9.0) // 3)
-    return base + " " + suffix * depth
+    return LANG_ENGINE.suggest_word(stimulus, emotion, memory_strength)
 
 
 def compose_sentence(word: str, emotion: str) -> str:
@@ -162,6 +162,7 @@ def run_simulation(steps: int, log_path: Path, equations_years: int, num_actors:
 
             word = build_wave_word(stimulus, emotion, memory)
             print(f"    waveform word: '{word}'")
+            LANG_ENGINE.observe(stimulus, emotion, word, memory)
             world.event_logger.log(
                 "SYLLABLE",
                 int(getattr(world, "time_step", step)),
@@ -195,6 +196,10 @@ def run_simulation(steps: int, log_path: Path, equations_years: int, num_actors:
 
         if log_path.exists():
             print(f"\nWorld events log: {log_path}")
+
+    # Persist the emergent proto-lexicon next to the log for later inspection.
+    lexicon_path = log_path.with_suffix(".lexicon.json")
+    LANG_ENGINE.save_json(lexicon_path)
 
 
 def main():

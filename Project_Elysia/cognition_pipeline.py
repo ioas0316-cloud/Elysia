@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from typing import Dict, Any, Optional, Tuple
 
 # --- New Architecture Dependencies ---
@@ -23,6 +24,12 @@ from Project_Sophia.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
 from Project_Sophia.question_generator import QuestionGenerator
 from Project_Mirror.perspective_cortex import PerspectiveCortex
+from .high_engine.dialogue_law_evaluator import DialogueLawEvaluator
+from .high_engine.intent_engine import IntentEngine
+from .high_engine.utterance_composer import UtteranceComposer
+from .high_engine.quaternion_engine import QuaternionConsciousnessEngine
+from .high_engine.causal_reasoner import CausalReasoner
+from .high_engine.syllabic_language_engine import SyllabicLanguageEngine
 
 class CognitionPipeline:
     """
@@ -42,10 +49,24 @@ class CognitionPipeline:
     ):
         self.logger = logger or logging.getLogger(__name__)
         self.event_bus = EventBus()
+        self.core_memory = core_memory
         self.cortex_registry = CortexRegistry()
         self.conversation_context = ConversationContext() # Manages conversation state
         self.emotional_engine = emotional_engine # Store for later use
         self.last_reason = "Idle"
+        self.dialogue_law_evaluator = kwargs.get('dialogue_law_evaluator') or DialogueLawEvaluator()
+        self.intent_engine = kwargs.get('intent_engine') or IntentEngine(
+            core_memory=core_memory,
+            dialogue_law_evaluator=self.dialogue_law_evaluator,
+        )
+        self.utterance_composer = kwargs.get('utterance_composer') or UtteranceComposer()
+        self.quaternion_engine = kwargs.get('quaternion_engine') or QuaternionConsciousnessEngine(
+            core_memory=core_memory
+        )
+        self.causal_reasoner = kwargs.get('causal_reasoner') or CausalReasoner(
+            core_memory=core_memory
+        )
+        self.syllabic_engine = kwargs.get('syllabic_engine') or SyllabicLanguageEngine()
 
         # --- Instantiate Components (dependencies for handlers) ---
         # Allow injecting mocks for testing, otherwise create real instances.
@@ -131,6 +152,76 @@ class CognitionPipeline:
             reason_text = result.get("reason") or result.get("text")
             if reason_text:
                 self.last_reason = reason_text
+
+            # --- Law-based evaluation / annotation ---
+            try:
+                if self.dialogue_law_evaluator and isinstance(result, dict):
+                    law_info = self.dialogue_law_evaluator.evaluate(
+                        user_message=message,
+                        response=result,
+                        context=self.conversation_context,
+                        emotional_state=current_emotional_state,
+                    )
+                    result["law_alignment"] = law_info
+
+                    # Build a present-tense intent bundle (E–S–L style snapshot)
+                    if self.intent_engine:
+                        intent_bundle = self.intent_engine.build_intent_bundle(
+                            user_message=message,
+                            response=result,
+                            conversation_context=self.conversation_context,
+                            emotional_state=current_emotional_state,
+                        )
+                        # Store as plain dict for logging / JSON compatibility.
+                        result["intent_bundle"] = intent_bundle.to_dict()
+
+                        # Optional: allow handlers to request resonance-based utterance selection.
+                        if (
+                            isinstance(result.get("text"), str)
+                            and result.get("utterance_mode") == "esl_resonance"
+                            and self.utterance_composer
+                        ):
+                            result["text"] = self.utterance_composer.compose(
+                                intent_bundle=intent_bundle,
+                                base_text=result["text"],
+                            )
+            except Exception as eval_error:
+                # Law evaluation is best-effort only; never break the main flow.
+                self.logger.debug(f"DialogueLawEvaluator failed: {eval_error}")
+
+            # --- Orientation / causal patterns / syllabic token (best-effort) ---
+            try:
+                law_info = result.get("law_alignment") if isinstance(result.get("law_alignment"), dict) else None
+                intent_dict = result.get("intent_bundle") if isinstance(result.get("intent_bundle"), dict) else None
+
+                # Quaternion orientation update (outer <-> inner, law, meta).
+                if self.quaternion_engine and law_info and intent_dict:
+                    self.quaternion_engine.update_from_turn(
+                        law_alignment=law_info,
+                        intent_bundle=intent_dict,
+                    )
+                    result["orientation"] = self.quaternion_engine.orientation_as_dict()
+
+                # Causal reasoning hints (which patterns tend to feel better).
+                if self.causal_reasoner and intent_dict and law_info:
+                    self.causal_reasoner.update_from_turn(
+                        intent_bundle=intent_dict,
+                        emotional_state=current_emotional_state,
+                        law_alignment=law_info,
+                    )
+                    hints = self.causal_reasoner.hints_for_intent(intent_dict)
+                    if hints:
+                        result["causal_hints"] = hints
+
+                # Compact syllabic token from current state (e.g., from 가나다라마바사).
+                if self.syllabic_engine and intent_dict and self.quaternion_engine:
+                    orientation = result.get("orientation") or self.quaternion_engine.orientation_as_dict()
+                    result["syllabic_token"] = self.syllabic_engine.suggest_word(
+                        intent_bundle=intent_dict,
+                        orientation=orientation,
+                    )
+            except Exception as meta_error:
+                self.logger.debug(f"Meta-orientation or syllabic generation failed: {meta_error}")
 
             self.event_bus.publish("message_processed", result)
             return result, current_emotional_state
