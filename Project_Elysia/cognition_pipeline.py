@@ -30,6 +30,7 @@ from .high_engine.utterance_composer import UtteranceComposer
 from .high_engine.quaternion_engine import QuaternionConsciousnessEngine
 from .high_engine.causal_reasoner import CausalReasoner
 from .high_engine.syllabic_language_engine import SyllabicLanguageEngine
+from .high_engine.value_engine import ValueEngine
 
 class CognitionPipeline:
     """
@@ -67,6 +68,7 @@ class CognitionPipeline:
             core_memory=core_memory
         )
         self.syllabic_engine = kwargs.get('syllabic_engine') or SyllabicLanguageEngine()
+        self.value_engine = kwargs.get('value_engine') or ValueEngine(core_memory=core_memory)
 
         # --- Instantiate Components (dependencies for handlers) ---
         # Allow injecting mocks for testing, otherwise create real instances.
@@ -222,6 +224,23 @@ class CognitionPipeline:
                     )
             except Exception as meta_error:
                 self.logger.debug(f"Meta-orientation or syllabic generation failed: {meta_error}")
+
+            # --- ValueEngine: structural meaning snapshot (best-effort) ---
+            try:
+                if self.value_engine and isinstance(result, dict):
+                    raw_chaos: Dict[str, Any] = {
+                        "law_alignment": result.get("law_alignment"),
+                        "intent_bundle": result.get("intent_bundle"),
+                        "user_message": message,
+                        "response_text": result.get("text"),
+                    }
+                    value_insight = self.value_engine.create_meaning(
+                        raw_chaos=raw_chaos,
+                        emotional_state=current_emotional_state,
+                    )
+                    result["value_insight"] = value_insight.to_dict()
+            except Exception as value_error:
+                self.logger.debug(f"ValueEngine create_meaning failed: {value_error}")
 
             # --- Relationship state (trust / guard) update (best-effort) ---
             trust = None
