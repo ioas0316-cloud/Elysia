@@ -1,0 +1,4 @@
+{"timestamp": 1, "event_type": "SHARE_FOOD", "data": {"actor_id": "actor_giver", "target_id": "kin_receiver"}}
+{"timestamp": 1, "event_type": "IDLE_PLAY", "data": {"cell_id": "kin_receiver", "x": 3.54193377494812, "y": -7.927603721618652}}
+{"timestamp": 1, "event_type": "SAY", "data": {"cell_id": "kin_receiver", "text": "괜히 몸이 근질근질하네. 한번 돌아볼까."}}
+{"timestamp": 1, "event_type": "SYLLABLE", "data": {"actor": "actor_giver", "stimulus": "firelight", "emotion": "joy", "word": "fire na"}}

@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+import numpy as np
 
 class WorldEventLogger:
     """Logs significant events from the World simulation to a structured file."""
@@ -21,10 +22,21 @@ class WorldEventLogger:
             timestamp (int): The simulation time_step when the event occurred.
             **kwargs: A dictionary of event-specific data.
         """
+        safe_data = {}
+        for key, value in kwargs.items():
+            if isinstance(value, (np.floating, np.integer)):
+                safe_data[key] = float(value)
+            elif isinstance(value, np.generic):
+                try:
+                    safe_data[key] = value.item()
+                except Exception:
+                    safe_data[key] = str(value)
+            else:
+                safe_data[key] = value
         log_entry = {
             'timestamp': timestamp,
             'event_type': event_type,
-            'data': kwargs
+            'data': safe_data
         }
         try:
             with open(self.log_file_path, 'a', encoding='utf-8') as f:
