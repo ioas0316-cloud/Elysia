@@ -112,7 +112,7 @@ class CognitionPipeline:
         self.event_bus.subscribe("message_processed", lambda result: self.logger.info(f"Event: Message processing completed. Result: {result.get('text', 'N/A')}"))
         self.event_bus.subscribe("error_occurred", lambda error: self.logger.error(f"Event: An error occurred: {error}"))
 
-    def process_message(self, message: str) -> Tuple[Dict[str, Any], EmotionalState]:
+    def process_message(self, message: str, partner_id: str = "user") -> Tuple[Dict[str, Any], EmotionalState]:
         """
         Processes a message using the Central Dispatch model.
         It analyzes the message and explicitly routes it to the correct handler.
@@ -223,6 +223,49 @@ class CognitionPipeline:
             except Exception as meta_error:
                 self.logger.debug(f"Meta-orientation or syllabic generation failed: {meta_error}")
 
+            # --- Relationship state (trust / guard) update (best-effort) ---
+            trust = None
+            guard = None
+            try:
+                if self.core_memory and partner_id:
+                    relationships = getattr(self.core_memory, "data", {}).get("relationships", {})  # type: ignore[attr-defined]
+                    current = relationships.get(partner_id, {}) or {}
+                    try:
+                        trust_current = float(current.get("trust", 0.0))
+                    except (TypeError, ValueError):
+                        trust_current = 0.0
+                    try:
+                        guard_current = float(current.get("guard", 0.0))
+                    except (TypeError, ValueError):
+                        guard_current = 0.0
+
+                    alpha = 0.15
+                    valence = 0.0
+                    if current_emotional_state is not None:
+                        try:
+                            valence = float(getattr(current_emotional_state, "valence", 0.0))
+                        except (TypeError, ValueError):
+                            valence = 0.0
+
+                    trust_target = max(0.0, min(1.0, 0.5 + valence * 0.5))
+                    guard_target = max(0.0, min(1.0, 0.5 - valence * 0.5))
+
+                    trust = trust_current * (1.0 - alpha) + trust_target * alpha
+                    guard = guard_current * (1.0 - alpha) + guard_target * alpha
+
+                    self.core_memory.update_relationship(
+                        partner_id,
+                        {"trust": trust, "guard": guard},
+                    )
+                    if isinstance(result, dict):
+                        result["relationship_state"] = {
+                            "partner_id": partner_id,
+                            "trust": trust,
+                            "guard": guard,
+                        }
+            except Exception as rel_error:
+                self.logger.debug(f"Relationship state update failed: {rel_error}")
+
             # --- Log this turn as a soul-layer dialogue experience (best-effort) ---
             try:
                 if isinstance(result, dict) and self.core_memory:
@@ -249,6 +292,7 @@ class CognitionPipeline:
                             "reason": result.get("reason"),
                             "orientation": result.get("orientation"),
                             "syllabic_token": result.get("syllabic_token"),
+                            "relationship_state": result.get("relationship_state"),
                         },
                         "tags": ["dialogue", "turn"],
                     }

@@ -1,16 +1,10 @@
-﻿# Archived Protocol (Codex?First)
+# 33_LAW_OF_EXISTENTIAL_CHANGE (Archived, English Stub)
 
-This protocol has been archived to remove an old, divergent branch.
+This document used to describe a detailed "Law of Existential Change" in mixed Korean/English,
+but the original text was corrupted by encoding issues.
 
-Canonical guidance for this topic now lives in:
-- ELYSIA/CORE/CODEX.md
-- ELYSIA/CORE/protocols/33_FIELD_OF_WILL_PROTOCOL.md
-
-Previous working title:
-- 33. Law of Body, Soul, and Spirit
-
-Seed summary (for idea tracking only):
-- Explores existence as three coupled layers (Body, Soul, Spirit) with core vectors P/F/E.
-- Originally used to describe how inertia of the past, will of the present, and meaning for the future interact.
-
+The canonical guidance for change is now:
+- Use laws-as-fields (see `ELYSIA/CORE/CODEX.md`, sections on Laws as Fields and Will Field).
+- Avoid hard-coded branching logic; represent change as gradients and flows.
+- Treat this file as historical only; do not extend it. Extend the Codex instead.
 
