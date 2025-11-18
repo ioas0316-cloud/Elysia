@@ -1257,6 +1257,46 @@ class World:
         except Exception:
             pass
 
+    def imprint_cozy_kitchen_scene(self, center_x: int = 128, center_y: int = 128, radius: int = 20):
+        """
+        Softly imprint a 'cozy kitchen' sensory scene onto the world fields.
+
+        This does not force any behavior; it only nudges environmental fields
+        so that dream observers and cells can sense a warm, safe place.
+        """
+        r = max(1, int(radius))
+        x0 = max(0, center_x - r)
+        x1 = min(self.width, center_x + r)
+        y0 = max(0, center_y - r)
+        y1 = min(self.width, center_y + r)
+
+        if x0 >= x1 or y0 >= y1:
+            return
+
+        region = (slice(y0, y1), slice(x0, x1))
+
+        # Slightly warmer, comfortable humidity and wetness.
+        self.ambient_temperature_c = max(self.ambient_temperature_c, 20.0)
+        self.humidity = min(1.0, max(self.humidity, 0.6))
+        self.wetness[region] = np.maximum(self.wetness[region], 0.3)
+
+        # Fertile, well‑tended soil (for an earthy, food-like scent).
+        self.soil_fertility[region] = np.minimum(1.0, np.maximum(self.soil_fertility[region], 0.8))
+
+        # Lower threat and a little more value mass to suggest safety and meaning.
+        self.threat_field[region] *= 0.3
+        self.value_mass_field[region] += 0.5
+
+        # Log a soft scene event for observers.
+        try:
+            self.event_logger.log(
+                "SCENE_COZY_KITCHEN",
+                self.time_step,
+                region={"center_x": center_x, "center_y": center_y, "radius": r},
+            )
+        except Exception:
+            pass
+
     def _update_passive_resources(self):
         """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP).
 
