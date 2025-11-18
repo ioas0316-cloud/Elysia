@@ -1297,6 +1297,118 @@ class World:
         except Exception:
             pass
 
+    def imprint_rainy_street_scene(self, center_x: int = 64, center_y: int = 192, radius: int = 24):
+        """
+        Softly imprint a 'rainy street' scene: cool air, wet ground, dim light.
+        """
+        r = max(1, int(radius))
+        x0 = max(0, center_x - r)
+        x1 = min(self.width, center_x + r)
+        y0 = max(0, center_y - r)
+        y1 = min(self.width, center_y + r)
+
+        if x0 >= x1 or y0 >= y1:
+            return
+
+        region = (slice(y0, y1), slice(x0, x1))
+
+        # Cooler temperature and higher humidity, wet pavement.
+        self.ambient_temperature_c = min(self.ambient_temperature_c, 14.0)
+        self.humidity = min(1.0, max(self.humidity, 0.7))
+        self.wetness[region] = np.maximum(self.wetness[region], 0.7)
+
+        # Slightly reduced soil fertility (stone/road), but increased norms/prestige hints (city life).
+        self.soil_fertility[region] = np.minimum(self.soil_fertility[region], 0.4)
+        self.norms_field[region] += 0.3
+        self.prestige_field[region] += 0.2
+
+        # Threat stays low; value mass neutral so it feels melancholic but safe.
+        self.threat_field[region] *= 0.7
+
+        try:
+            self.event_logger.log(
+                "SCENE_RAINY_STREET",
+                self.time_step,
+                region={"center_x": center_x, "center_y": center_y, "radius": r},
+            )
+        except Exception:
+            pass
+
+    def imprint_dawn_forest_scene(self, center_x: int = 192, center_y: int = 64, radius: int = 28):
+        """
+        Softly imprint a 'dawn forest' scene: soft light, cool air, earthy scent.
+        """
+        r = max(1, int(radius))
+        x0 = max(0, center_x - r)
+        x1 = min(self.width, center_x + r)
+        y0 = max(0, center_y - r)
+        y1 = min(self.width, center_y + r)
+
+        if x0 >= x1 or y0 >= y1:
+            return
+
+        region = (slice(y0, y1), slice(x0, x1))
+
+        # Gentle temperature and humidity, slightly moist forest floor.
+        self.ambient_temperature_c = min(max(self.ambient_temperature_c, 10.0), 18.0)
+        self.humidity = min(1.0, max(self.humidity, 0.6))
+        self.wetness[region] = np.maximum(self.wetness[region], 0.4)
+
+        # High soil fertility for forest, low norms/prestige.
+        self.soil_fertility[region] = np.minimum(1.0, np.maximum(self.soil_fertility[region], 0.9))
+        self.norms_field[region] *= 0.5
+        self.prestige_field[region] *= 0.5
+
+        # Threat slightly reduced; value mass nudged up for awe/beauty.
+        self.threat_field[region] *= 0.6
+        self.value_mass_field[region] += 0.3
+
+        try:
+            self.event_logger.log(
+                "SCENE_DAWN_FOREST",
+                self.time_step,
+                region={"center_x": center_x, "center_y": center_y, "radius": r},
+            )
+        except Exception:
+            pass
+
+    def imprint_starry_hill_scene(self, center_x: int = 128, center_y: int = 32, radius: int = 22):
+        """
+        Softly imprint a 'starry hill' scene: cold, clear air under a bright night sky.
+        """
+        r = max(1, int(radius))
+        x0 = max(0, center_x - r)
+        x1 = min(self.width, center_x + r)
+        y0 = max(0, center_y - r)
+        y1 = min(self.width, center_y + r)
+
+        if x0 >= x1 or y0 >= y1:
+            return
+
+        region = (slice(y0, y1), slice(x0, x1))
+
+        # Colder, very dry and clear.
+        self.ambient_temperature_c = min(self.ambient_temperature_c, 5.0)
+        self.humidity = min(self.humidity, 0.3)
+        self.wetness[region] = np.minimum(self.wetness[region], 0.1)
+
+        # Slightly elevated will/value toward contemplation.
+        self.will_field[region] += 0.4
+        self.value_mass_field[region] += 0.2
+
+        # Threat very low; coherence slightly higher for a quiet, reflective place.
+        self.threat_field[region] *= 0.2
+        self.coherence_field[region] += 0.5
+
+        try:
+            self.event_logger.log(
+                "SCENE_STARRY_HILL",
+                self.time_step,
+                region={"center_x": center_x, "center_y": center_y, "radius": r},
+            )
+        except Exception:
+            pass
+
     def _update_passive_resources(self):
         """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP).
 

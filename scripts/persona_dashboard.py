@@ -18,8 +18,6 @@ DEFAULT_PERSONA_LOG = Path("elysia_logs/persona_stream.jsonl")
 DEFAULT_WORLD_LOGS = [
     Path("logs/cellworld_growth_loop.jsonl"),
     Path("logs/codeworld_engineer_loop.jsonl"),
-    Path("logs/fairyworld_growth_loop.jsonl"),
-    Path("logs/wulin_trials_loop.jsonl"),
     Path("logs/death_flow_loop.jsonl"),
     Path("logs/memory_circulation_loop.jsonl"),
     Path("logs/mirror_layer_loop.jsonl"),
@@ -28,8 +26,6 @@ DEFAULT_WORLD_LOGS = [
 WORLD_SUMMARY_FIELDS: Dict[str, List[str]] = {
     "CELLWORLD": ["living_cells", "value_mass_index", "will_field_index", "notable_events"],
     "CODEWORLD": ["persona_frame", "world_state"],
-    "FAIRYWORLD": ["ritual_energy", "mana_flow", "resonance_index", "notable_events"],
-    "WULINWORLD": ["duel_event", "tension_index", "cooperation_index", "honor_shift"],
     "DEATH_FLOW": ["release_index", "integration_index", "grief_pressure", "event"],
     "MEMORY_CIRCULATION": ["dominant_channel", "circulation_strength", "diversity_score", "residue_index"],
     "MIRRORWORLD": ["sync_ratio", "latency_seconds", "clarity_index", "event"],

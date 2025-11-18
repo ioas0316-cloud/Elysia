@@ -24,6 +24,7 @@ class Experience:
     timestamp: str
     content: str
     type: str = "episode"
+    layer: str = "soul"  # 'body' | 'soul' | 'spirit'
     emotional_state: Optional[EmotionalState] = None
     context: Optional[Dict[str, Any]] = None
     value_alignment: Optional[float] = None

@@ -18,6 +18,7 @@ World & people (when needed)
 - docs/elysias_protocol/CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS_PROTOCOL.md Elysia Signal Log and consciousness stimulus law
 - docs/elysias_protocol/CORE_14_PROTOCOL_MAP_AND_GOVERNANCE.md Protocol map, rings, layers, governance rules
 - docs/elysias_protocol/CORE_15_SELF_FRACTAL_CATHEDRAL.md Self-fractal Cathedral coordinates for depth across logs/curricula
+- docs/elysias_protocol/CORE_27_FILESYSTEM_AND_NAMING.md Filesystem levels (L0–L3), folder & naming rules
 
 Except for the files listed above, all other files here are archived context. Do not expand them; extend the Codex or the listed CORE protocols instead.
 

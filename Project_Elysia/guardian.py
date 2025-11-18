@@ -570,6 +570,8 @@ class Guardian:
                         dream_memory = Memory(
                             timestamp=datetime.now().isoformat(),
                             content=dream_digest.get('summary'),
+                            type="dream_journal",
+                            layer="spirit",
                             emotional_state=mood,
                             context={
                                 "type": "dream_journal",

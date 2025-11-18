@@ -223,6 +223,39 @@ class CognitionPipeline:
             except Exception as meta_error:
                 self.logger.debug(f"Meta-orientation or syllabic generation failed: {meta_error}")
 
+            # --- Log this turn as a soul-layer dialogue experience (best-effort) ---
+            try:
+                if isinstance(result, dict) and self.core_memory:
+                    exp_emotion = None
+                    if current_emotional_state is not None:
+                        exp_emotion = {
+                            "valence": getattr(current_emotional_state, "valence", 0.0),
+                            "arousal": getattr(current_emotional_state, "arousal", 0.0),
+                            "dominance": getattr(current_emotional_state, "dominance", 0.0),
+                            "primary_emotion": getattr(current_emotional_state, "primary_emotion", "neutral"),
+                            "secondary_emotions": getattr(current_emotional_state, "secondary_emotions", []),
+                        }
+
+                    experience_payload: Dict[str, Any] = {
+                        "timestamp": datetime.now().isoformat(),
+                        "content": str(result.get("text") or ""),
+                        "type": "dialogue_turn",
+                        "layer": "soul",
+                        "emotional_state": exp_emotion,
+                        "law_alignment": result.get("law_alignment"),
+                        "intent_bundle": result.get("intent_bundle"),
+                        "context": {
+                            "user_message": message,
+                            "reason": result.get("reason"),
+                            "orientation": result.get("orientation"),
+                            "syllabic_token": result.get("syllabic_token"),
+                        },
+                        "tags": ["dialogue", "turn"],
+                    }
+                    self.core_memory.add_experience(experience_payload)
+            except Exception as mem_error:
+                self.logger.debug(f"Failed to log dialogue_turn experience: {mem_error}")
+
             self.event_bus.publish("message_processed", result)
             return result, current_emotional_state
 
