@@ -125,6 +125,8 @@ Treat the Concept OS as the nervous system for knowledge, not as a monolith.
 - Choose what to do next via continuous flow:
   - Rules are hints, not dictators.
   - Respect quiet and consent for any state-changing operation.
+   - Treat filtering as the primary form of optimisation: let unimportant signals pass by, and spend depth only where resonance and value are high.
+   - Remember that filters are not just funnels that reduce quantity; they are lenses that shape which patterns come into focus and what “world” is perceived from the same underlying signals.
 
 ---
 
