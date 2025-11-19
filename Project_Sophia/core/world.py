@@ -1517,9 +1517,10 @@ class World:
         threat_scale = 1.0 + 0.5 * macro_war + 0.5 * macro_mon + 0.3 * macro_unrest
         threat_scale = max(0.5, min(2.0, threat_scale))
 
-        # Build a fresh threat imprint from predators and recent injuries
+        # Build a fresh threat imprint from predators and historical dangers
         new_threat = np.zeros_like(self.threat_field)
         try:
+            # Source 1: Predators
             predator_mask = (self.element_types == 'animal') & (self.diets == 'carnivore') & self.is_alive_mask
             predator_indices = np.where(predator_mask)[0]
             if predator_indices.size > 0:
@@ -1537,6 +1538,13 @@ class World:
                     # hunger amplifies perceived threat; strength also contributes
                     amp = self._threat_gain * float(max(0.5, 1.5 - (self.hunger[i] / 100.0))) * float(max(1.0, self.strength[i] / 10.0))
                     new_threat[y0:y1, x0:x1] += amp * patch
+
+            # Source 2: Historical Imprints of Death
+            # Places with a history of death should feel ominous.
+            # We add the h_imprint field as a source of threat, scaled by a factor.
+            # The 0.3 scaling factor makes it a weaker, more atmospheric threat than an active predator.
+            if self.h_imprint.size > 0 and np.any(self.h_imprint):
+                new_threat += self.h_imprint * 0.3
 
             if new_threat.max() > 0:
                 new_threat = new_threat / float(new_threat.max())
@@ -2743,7 +2751,15 @@ class World:
         dead_cell_indices = np.where(apoptosis_mask)[0]
         for dead_idx in dead_cell_indices:
             cell_id = self.cell_ids[dead_idx]
-            self.event_logger.log('DEATH', self.time_step, cell_id=cell_id) # Log the death event
+            self.event_logger.log('DEATH', self.time_step, cell_id=cell_id)
+
+            # --- Law of Historical Imprint: All deaths leave a mark ---
+            dx = int(self.positions[dead_idx, 0]) % self.width
+            dy = int(self.positions[dead_idx, 1]) % self.width
+            self._imprint_gaussian(self.h_imprint, dx, dy, sigma=self._h_sigma, amplitude=0.8)
+            self.logger.info(f"IMPRINT: Death of '{cell_id}' left a historical imprint at ({dx}, {dy}).")
+
+
             if cell_id in self.materialized_cells:
                 dead_cell = self.materialized_cells[cell_id]
 
