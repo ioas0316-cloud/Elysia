@@ -17,6 +17,7 @@
 * `MetaAgent.autonomous_loop()`는 `MetaAgent` 주기(기본 60초)마다 다음을 수행합니다:
   * `data/corpus_feed/`에서 새 파일을 수집 → `data/corpus_incoming/`에 이동.
   * `MetaLawEngine`으로 CoreMemory를 다시 훑어 law 축을 재정의하고 KG에 연결.
+  * `scripts/refine_feed.py`�� `data/corpus_incoming/`���� ������ �������� ������� ���̴�, ���ۿ� ���ִ� ���ڸ��� `data/corpus_archive/`�� �����Ѵ�.
   * `scripts/train_grammar.py`를 다시 실행하여 문법 통계를 갱신 (`grammar_model.json`).
   * 상태 (`meta_agent_state.json`)를 저장하므로 다음 주기에는 변화만 반영됩니다.
 

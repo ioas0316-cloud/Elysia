@@ -11,6 +11,7 @@ from typing import Dict, Optional, Set
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
 from Project_Elysia.high_engine.meta_law_engine import MetaLawEngine
+from scripts.refine_feed import refine_feed
 
 
 @dataclass
@@ -57,6 +58,9 @@ class MetaAgent:
         self.feed_root.mkdir(parents=True, exist_ok=True)
         self.incoming_root = Path("data/corpus_incoming")
         self.incoming_root.mkdir(parents=True, exist_ok=True)
+        self.archive_raw = Path("data/corpus_archive/raw")
+        self.summary_dir = Path("data/corpus_archive/summaries")
+        self.dedup_file = Path("data/corpus_archive/dedup.json")
 
     def _load_state(self) -> MetaAgentState:
         state_file = Path(self.config.state_path)
@@ -134,6 +138,10 @@ class MetaAgent:
         feed_count = self._harvest_feed()
         if feed_count:
             actions["feed"] = feed_count
+
+        refined_count = refine_feed(self.incoming_root, self.archive_raw, self.summary_dir, self.dedup_file)
+        if refined_count:
+            actions["refine"] = refined_count
 
         memory_dirty = self._update_seen_values()
         if memory_dirty:

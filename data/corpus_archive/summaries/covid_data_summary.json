@@ -1,0 +1,46 @@
+{
+  "source": "covid_data.json",
+  "top_words": [
+    [
+      "null",
+      9672
+    ],
+    [
+      "per",
+      5682
+    ],
+    [
+      "new",
+      4202
+    ],
+    [
+      "million",
+      2964
+    ],
+    [
+      "total",
+      2470
+    ],
+    [
+      "smoothed",
+      2470
+    ],
+    [
+      "tests",
+      1976
+    ],
+    [
+      "cases",
+      1482
+    ],
+    [
+      "deaths",
+      1482
+    ],
+    [
+      "people",
+      1482
+    ]
+  ],
+  "length": 474853
+}
