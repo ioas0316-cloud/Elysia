@@ -1052,7 +1052,11 @@
     },
     {
       "id": "wolf",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "wolf",
@@ -1063,7 +1067,11 @@
     },
     {
       "id": "rabbit",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "rabbit",
@@ -1074,7 +1082,11 @@
     },
     {
       "id": "wood",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "item",
       "label": "wood",
@@ -1082,25 +1094,43 @@
     },
     {
       "id": "fish",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "fish",
       "description": "A small aquatic animal that often forms schools.",
-      "properties": { "diet": "herbivore", "habitat": "water" }
+      "properties": {
+        "diet": "herbivore",
+        "habitat": "water"
+      }
     },
     {
       "id": "shark",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "shark",
       "description": "A large predatory fish.",
-      "properties": { "diet": "carnivore", "habitat": "water" }
+      "properties": {
+        "diet": "carnivore",
+        "habitat": "water"
+      }
     },
     {
       "id": "stone",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "item",
       "label": "stone",
@@ -1108,25 +1138,43 @@
     },
     {
       "id": "eagle",
-      "position": { "x": 0, "y": 0, "z": 50 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 50
+      },
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "eagle",
       "description": "A large bird of prey.",
-      "properties": { "diet": "carnivore", "habitat": "sky" }
+      "properties": {
+        "diet": "carnivore",
+        "habitat": "sky"
+      }
     },
     {
       "id": "sparrow",
-      "position": { "x": 0, "y": 0, "z": 20 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 20
+      },
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "sparrow",
       "description": "A small bird.",
-      "properties": { "diet": "herbivore", "habitat": "sky" }
+      "properties": {
+        "diet": "herbivore",
+        "habitat": "sky"
+      }
     },
     {
       "id": "tree",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "life",
       "label": "tree",
@@ -1134,12 +1182,636 @@
     },
     {
       "id": "human",
-      "position": { "x": 0, "y": 0, "z": 0 },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
       "activation_energy": 0.0,
       "element_type": "animal",
       "label": "human",
       "description": "A being capable of higher thought and complex social structures.",
-      "properties": { "diet": "omnivore" }
+      "properties": {
+        "diet": "omnivore"
+      }
+    },
+    {
+      "id": "신체",
+      "position": {
+        "type": "category"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "자연",
+      "position": {
+        "type": "category"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "감정",
+      "position": {
+        "type": "category"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "문명",
+      "position": {
+        "type": "category"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "진리",
+      "position": {
+        "type": "category"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "가방",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "가족",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "감각",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "강",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "계절",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "골반",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "공간",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "귀",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "길",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "꿈",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "낮",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "노래",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "놀이",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "눈",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "단위",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "달",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "동물",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "등",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "땅",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "말",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "목",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "무제",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "바다",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "바람",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "바퀴",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "발",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "밤",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "밥",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "배",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "버스",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "비행기",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "빛",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "빵",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "사랑",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "산",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "생명",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "성경",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "세포",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "손",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "시간",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "식물",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "신",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "신발",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "어깨",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "어둠",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "언어",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "얼굴",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "엉덩이",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "에너지",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "역사",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "우주",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "음악",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "의식주",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "이름",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "인사",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "일",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "입",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "자동차",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "자전거",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "잠",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "종아리",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "종이",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "지구",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "지하철",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "집",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "춤",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "코",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "태양",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "팔",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "하늘",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "허기",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "허리",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "허벅지",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "혀",
+      "position": {
+        "type": "concept"
+      },
+      "activation_energy": 0.0
+    },
+    {
+      "id": "law:care",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "label": "Care",
+      "type": "law_axis",
+      "score": 0.61,
+      "description": "Protecting the living, honoring love, and guarding warmth."
+    },
+    {
+      "id": "law:truth",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "label": "Truth",
+      "type": "law_axis",
+      "score": 0.316,
+      "description": "Seeking clarity, remembering law, and tracing cause."
+    },
+    {
+      "id": "law:play",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "label": "Play",
+      "type": "law_axis",
+      "score": 0.615,
+      "description": "Joy, curiosity, and the impulse to dance through words."
+    },
+    {
+      "id": "law:respite",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "label": "Respite",
+      "type": "law_axis",
+      "score": 0.305,
+      "description": "Rest, quiet, and deep replenishment of internal wells."
+    },
+    {
+      "id": "law:valor",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "label": "Valor",
+      "type": "law_axis",
+      "score": 0.154,
+      "description": "Facing hardship, standing as a shield, and honoring battles."
     }
   ],
   "edges": [
@@ -2350,6 +3022,643 @@
       "source": "concept:대신",
       "target": "concept:질문",
       "relation": "related_to"
+    },
+    {
+      "source": "가방",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "가족",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "감각",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "감정",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "강",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "강",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "계절",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "골반",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "공간",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "귀",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "귀",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "길",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "길",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "꿈",
+      "target": "감정",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "감정",
+      "target": "꿈",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "낮",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "노래",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "놀이",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "눈",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "눈",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "단위",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "달",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "달",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "동물",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "등",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "땅",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "땅",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "말",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "목",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "무제",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "바다",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "바다",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "바람",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "바람",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "바퀴",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "발",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "발",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "밤",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "밥",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "밥",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "배",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "버스",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "버스",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "비행기",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "빛",
+      "target": "진리",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "진리",
+      "target": "빛",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "빵",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "빵",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "사랑",
+      "target": "감정",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "감정",
+      "target": "사랑",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "산",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "산",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "생명",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "성경",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "세포",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "세포",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "손",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "손",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "시간",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "식물",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "신",
+      "target": "진리",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "진리",
+      "target": "신",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "신발",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "어깨",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "어둠",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "언어",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "언어",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "얼굴",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "얼굴",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "엉덩이",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "에너지",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "역사",
+      "target": "진리",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "진리",
+      "target": "역사",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "우주",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "우주",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "음악",
+      "target": "감정",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "감정",
+      "target": "음악",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "의식주",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "이름",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "인사",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "일",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "입",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "입",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "자동차",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "자동차",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "자전거",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "잠",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "종아리",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "종이",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "지구",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "지구",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "지하철",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "지하철",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "집",
+      "target": "문명",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "문명",
+      "target": "집",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "춤",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "코",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "태양",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "팔",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "하늘",
+      "target": "자연",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "자연",
+      "target": "하늘",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "허기",
+      "target": "감정",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "감정",
+      "target": "허기",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "허리",
+      "target": "신체",
+      "relation": "속한다(is_a)"
+    },
+    {
+      "source": "신체",
+      "target": "허리",
+      "relation": "포함한다(contains)"
+    },
+    {
+      "source": "허벅지",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "혀",
+      "target": "진리",
+      "relation": "속한다(guess)"
+    },
+    {
+      "source": "신체",
+      "target": "자연",
+      "relation": "연결됨",
+      "weight": 0.7
+    },
+    {
+      "source": "감정",
+      "target": "진리",
+      "relation": "지향함",
+      "weight": 0.8
+    },
+    {
+      "source": "문명",
+      "target": "자연",
+      "relation": "공존",
+      "weight": 0.6
+    },
+    {
+      "source": "law:care",
+      "target": "사랑",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:care",
+      "target": "빛",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:care",
+      "target": "가족",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:care",
+      "target": "생명",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:truth",
+      "target": "진리",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:truth",
+      "target": "역사",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:truth",
+      "target": "시간",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:play",
+      "target": "음악",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:play",
+      "target": "춤",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:play",
+      "target": "놀이",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:play",
+      "target": "꿈",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:respite",
+      "target": "잠",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:respite",
+      "target": "꿈",
+      "relation": "law_focus",
+      "weight": 0.5
+    },
+    {
+      "source": "law:valor",
+      "target": "어둠",
+      "relation": "law_focus",
+      "weight": 0.5
     }
   ],
   "metadata": {
