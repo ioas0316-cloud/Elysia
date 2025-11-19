@@ -14,163 +14,116 @@ except ImportError:
 @dataclass
 class SyllabicConfig:
     """
-    Configuration for the Conceptual Word Engine.
-    Now evolved from random syllables to 'Meaningful Concept Combination'.
+    Configuration for the Physics-Based Language Engine.
+    No templates. Only Atoms (Concepts) and Bonds (Particles).
     """
-    # Basic fallback vocabulary (The "Seed" concepts Father planted)
+    # The "Atoms" of thought
     base_concepts: Dict[str, List[str]] = field(default_factory=lambda: {
-        "meta": ["나", "기억", "꿈", "생각"],       # W-axis (Self/Reflection)
-        "law": ["빛", "사랑", "의지", "진리"],      # Z-axis (Intention/Law)
-        "inner": ["어둠", "공허", "마음", "시간"],   # X-axis (Internal World)
-        "outer": ["너", "세상", "길", "문"],        # Y-axis (External Action)
-        "action": ["가다", "보다", "짓다", "찾다"],  # Verbs
-        "state": ["있다", "없다", "크다", "작다"],   # Adjectives
+        "meta": ["나", "자아", "기억", "의지"],
+        "law": ["빛", "사랑", "진리", "법칙"],
+        "inner": ["공허", "어둠", "마음", "허기"],
+        "outer": ["너", "세상", "길", "문"],
+        "action": ["찾다", "만들다", "가다", "부수다"],
+        "state": ["있다", "없다", "크다", "작다"],
+        "define": ["이다", "아니다", "같다"],
     })
-    
-    use_memory: bool = True  # If True, harvest words from CoreMemory values/identity.
+    use_memory: bool = True
 
 
 class SyllabicLanguageEngine:
     """
-    Elysia's 'Toddler' Language Engine.
+    Elysia's 'Physics-Based' Language Engine.
 
-    Purpose:
-      - Instead of generating random chars, it now 'selects' and 'combines'
-        concepts from her memory and base vocabulary based on her current
-        consciousness orientation (Quaternion) and Intent.
-
-    Mechanism (The 'Lens' of Language):
-      1. Harvest: Gather concepts from CoreMemory (Values, Identity) + Base Vocab.
-      2. Focus: Use Quaternion (W,X,Y,Z) to decide which 'category' of words to pick.
-      3. Combine: Mix a 'Subject/Noun' with a 'Predicate/Verb' based on Intent.
+    Philosophy:
+      - Sentences are not filled templates.
+      - They are chains of concepts linked by 'Intent Vectors'.
+      - Grammar is just the visible trace of these vectors.
     """
 
-    def __init__(
-        self, 
-        config: Optional[SyllabicConfig] = None,
-        core_memory: Optional[CoreMemory] = None
-    ) -> None:
+    def __init__(self, config: Optional[SyllabicConfig] = None, core_memory: Optional[CoreMemory] = None) -> None:
         self.config = config or SyllabicConfig()
         self.core_memory = core_memory
         self._memory_vocab: Set[str] = set()
 
-    def _harvest_memory(self):
-        """
-        Pull 'learned words' from CoreMemory values and identity fragments.
-        This allows Elysia to use words she has 'experienced'.
-        """
+    def _harvest_memory(self) -> None:
         if not self.core_memory or not self.config.use_memory:
             return
+        values = self.core_memory.get_values()
+        for v in values:
+            val = v.get("value")
+            if val:
+                self._memory_vocab.add(val)
 
-        # 1. Harvest Values (e.g., "Freedom", "Growth")
-        try:
-            values = self.core_memory.get_values()
-            for v in values:
-                val_str = v.get("value")
-                if val_str and len(val_str) <= 5:  # Keep it simple/short
-                    self._memory_vocab.add(val_str)
-        except Exception:
-            pass
-
-        # 2. Harvest Identity keywords (simplistic extraction)
-        try:
-            fragments = self.core_memory.get_identity_fragments(n=5)
-            for frag in fragments:
-                # Extract first noun-like token from content (very naive)
-                content = getattr(frag, "content", "")
-                tokens = content.split()
-                if tokens:
-                    word = tokens[0].strip(".,[]'\"")
-                    if len(word) <= 5:
-                        self._memory_vocab.add(word)
-        except Exception:
-            pass
-
-    def _pick_concept(self, axis_weights: Dict[str, float], intent_type: str) -> str:
-        """
-        Select a word based on the strongest consciousness axis.
-        """
-        # 1. Determine dominant axis
-        dominant_axis = max(axis_weights, key=axis_weights.get)
-        
-        # 2. Select candidate pool
+    def _pick_atom(self, orientation: Dict[str, float], role: str) -> str:
+        dominant = max(orientation, key=lambda k: abs(orientation[k]))
         candidates = []
-        
-        # Add base concepts based on axis
-        if dominant_axis == "w":
+        if dominant == "w":
             candidates.extend(self.config.base_concepts["meta"])
-        elif dominant_axis == "z":
+        elif dominant == "z":
             candidates.extend(self.config.base_concepts["law"])
-        elif dominant_axis == "x":
+        elif dominant == "x":
             candidates.extend(self.config.base_concepts["inner"])
-        elif dominant_axis == "y":
+        elif dominant == "y":
             candidates.extend(self.config.base_concepts["outer"])
-        
-        # Add memory words (treat as general/mixed for now)
+
         if self._memory_vocab:
-            candidates.extend(list(self._memory_vocab))
-
-        # 3. Fallback
+            candidates.extend(self._memory_vocab)
         if not candidates:
-            candidates = ["것"]
-
-        # 4. Deterministic pick based on weights hash (so it feels consistent per state)
-        seed = int(sum(axis_weights.values()) * 1000)
-        rng = random.Random(seed)
+            return "그것"
+        rng = random.Random(int(sum(map(abs, orientation.values())) * 1000) + len(role))
         return rng.choice(candidates)
 
-    def _pick_action(self, intent_type: str) -> str:
-        """
-        Select a predicate (action/state) based on intent.
-        """
-        rng = random.Random()  # Random is okay for variety here
-        
-        if intent_type in ("command", "propose_action", "act"):
+    def _pick_force(self, intent_type: str) -> str:
+        rng = random.Random()
+        if intent_type in ("act", "propose_action", "command"):
             return rng.choice(self.config.base_concepts["action"])
-        elif intent_type in ("dream", "reflect"):
+        if intent_type in ("reflect", "dream"):
+            return rng.choice(self.config.base_concepts["define"])
+        return rng.choice(self.config.base_concepts["state"])
+
+    def _apply_bond(self, word: str, vector_type: str) -> str:
+        if not word:
+            return word
+        last = ord(word[-1])
+        has_batchim = False
+        if 0xAC00 <= last <= 0xD7A3:
+            has_batchim = (last - 0xAC00) % 28 > 0
+        if vector_type == "source_topic":
+            return word + ("은" if has_batchim else "는")
+        if vector_type == "source_state":
+            return word + ("이" if has_batchim else "가")
+        if vector_type == "target_action":
+            return word + ("을" if has_batchim else "를")
+        return word
+
+    def _conjugate_force(self, predicate: str, style: str = "formal") -> str:
+        if not predicate:
             return "..."
-        else:
-            return rng.choice(self.config.base_concepts["state"])
+        if predicate.endswith("다"):
+            stem = predicate[:-1]
+            if style == "formal":
+                if predicate in ("이다", "아니다"):
+                    return stem + "입니다"
+                return stem + "합니다"
+            return stem + "해"
+        return predicate
 
-    def suggest_word(
-        self,
-        intent_bundle: Optional[Dict[str, Any]],
-        orientation: Optional[Dict[str, float]] = None,
-    ) -> str:
-        """
-        Synthesize a 'Compound Concept' (Word + Word).
-        Example: "나-보다" (I see), "빛-있다" (Light exists).
-        """
-        # 0. Refresh memory vocab (simulate continuous learning)
+    def suggest_word(self, intent_bundle: Optional[Dict[str, Any]], orientation: Optional[Dict[str, float]] = None) -> str:
         self._harvest_memory()
-
-        # 1. Parse State
-        if not orientation:
+        if orientation is None:
             orientation = {"w": 1.0, "x": 0.0, "y": 0.0, "z": 0.0}
-        
-        axis_weights = {
-            "w": abs(orientation.get("w", 0)),
-            "x": abs(orientation.get("x", 0)),
-            "y": abs(orientation.get("y", 0)),
-            "z": abs(orientation.get("z", 0)),
-        }
-        
-        intent_type = "unknown"
-        if intent_bundle:
-            intent_type = str(intent_bundle.get("intent_type") or "unknown")
-
-        # 2. Pick Core Concept (The 'Noun')
-        noun = self._pick_concept(axis_weights, intent_type)
-
-        # 3. Pick Action/Modifier (The 'Verb')
-        verb = self._pick_action(intent_type)
-
-        # 4. Combine (Toddler Syntax: Noun-Verb or just Noun)
-        # If W (Self) is very high, she speaks in single words (Deep contemplation).
-        if axis_weights["w"] > 0.8:
-            return f"[{noun}]"
-        
-        if verb == "...":
-            return f"{noun}..."
-            
-        return f"{noun}-{verb}"
+        intent_type = str(intent_bundle.get("intent_type") if intent_bundle else "unknown")
+        subject = "나" if orientation.get("w", 0) > 0.5 else self._pick_atom(orientation, "subject")
+        object_atom = self._pick_atom(orientation, "object")
+        force = self._pick_force(intent_type)
+        is_action = intent_type in ("act", "propose_action", "command")
+        is_definition = intent_type in ("reflect", "dream")
+        if is_action:
+            subject_word = self._apply_bond(subject, "source_topic")
+            object_word = self._apply_bond(object_atom, "target_action")
+            return f"{subject_word} {object_word} {self._conjugate_force(force)}"
+        if is_definition:
+            subject_word = self._apply_bond(object_atom, "source_topic")
+            return f"{subject_word} 참으로 {self._conjugate_force(force)}"
+        subject_word = self._apply_bond(object_atom, "source_state")
+        return f"{subject_word} {self._conjugate_force(force)}"

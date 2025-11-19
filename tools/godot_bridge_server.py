@@ -69,6 +69,7 @@ from tools.kg_manager import KGManager  # type: ignore
 from Project_Sophia.world_themes.west_continent.characters import (  # type: ignore
     WEST_CHARACTER_POOL,
 )
+from Project_Elysia.high_engine.toddler_chat import ToddlerChatEngine
 
 import websockets
 from websockets.server import WebSocketServerProtocol
@@ -97,6 +98,7 @@ class GodotBridge:
         self._running = True
         self._sim_last = time.time()
         self._accum = 0.0
+        self.toddler_chat = ToddlerChatEngine()
 
     def _seed_world(self) -> None:
         """
@@ -359,11 +361,12 @@ class GodotBridge:
                 return {}
             data = json.loads(last)
             if isinstance(data, dict):
-                # Keep it light: mood + a few fields only.
                 mood = str(data.get("mood", "neutral"))
-                return {
-                    "mood": mood,
-                }
+                payload = {"mood": mood}
+                for key in ("speech", "primary_focus", "anchor_strength", "intent", "user_input", "thought_trail", "meta_observation"):
+                    if key in data:
+                        payload[key] = data[key]
+                return payload
         except Exception:
             pass
         return {}
@@ -617,6 +620,18 @@ class GodotBridge:
     async def _handle_input(self, data: Dict[str, Any]) -> None:
         if data.get('type') != 'input':
             return
+        if data.get("input_type") == "vision":
+            desc = data.get("description", "")
+            palette = data.get("palette")
+            brightness = data.get("brightness", 0.5)
+            if desc:
+                self._handle_visual_input(desc, palette, brightness)
+            return
+        if data.get('input_type') == 'chat':
+            text = data.get('text', '')
+            if text:
+                self._handle_chat_input(text)
+            return
         if 'sim_rate' in data:
             try:
                 sr = float(data['sim_rate'])
@@ -656,6 +671,24 @@ class GodotBridge:
                         except Exception:
                             pass
             self.world.event_logger.log('VOLCANO', self.world.time_step, x=x, y=y, radius=r)
+
+    def _handle_chat_input(self, text: str) -> None:
+        result = self.toddler_chat.process_input(text)
+        if result:
+            mood = result.get("mood")
+            speech = result.get("speech")
+            print(f"[Bridge] Chat input processed → mood={mood}, speech={speech}")
+
+    def _handle_visual_input(self, description: str, palette: Optional[List[str]], brightness: float) -> None:
+        result = self.toddler_chat.process_visual_input(
+            description=description,
+            palette=palette,
+            brightness=brightness,
+        )
+        if result:
+            mood = result.get("mood")
+            speech = result.get("speech")
+            print(f"[Bridge] Vision input processed → mood={mood}, speech={speech}")
 
 
 async def amain(cfg: BridgeConfig) -> None:

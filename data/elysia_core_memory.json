@@ -1,0 +1,5171 @@
+{
+    "identity": {},
+    "values": [
+        {
+            "value": "가방",
+            "importance": 0.84,
+            "timestamp": "2025-11-19T15:15:44.681409"
+        },
+        {
+            "value": "가족",
+            "importance": 0.92,
+            "timestamp": "2025-11-19T15:15:44.686357"
+        },
+        {
+            "value": "감각",
+            "importance": 0.81,
+            "timestamp": "2025-11-19T15:15:44.700907"
+        },
+        {
+            "value": "감정",
+            "importance": 0.9,
+            "timestamp": "2025-11-19T15:15:44.711515"
+        },
+        {
+            "value": "강",
+            "importance": 0.85,
+            "timestamp": "2025-11-19T15:15:44.720006"
+        },
+        {
+            "value": "계절",
+            "importance": 0.97,
+            "timestamp": "2025-11-19T15:15:44.730714"
+        },
+        {
+            "value": "골반",
+            "importance": 0.93,
+            "timestamp": "2025-11-19T15:15:44.740975"
+        },
+        {
+            "value": "공간",
+            "importance": 0.9,
+            "timestamp": "2025-11-19T15:15:44.749034"
+        },
+        {
+            "value": "귀",
+            "importance": 0.97,
+            "timestamp": "2025-11-19T15:15:44.763936"
+        },
+        {
+            "value": "길",
+            "importance": 0.89,
+            "timestamp": "2025-11-19T15:15:44.771198"
+        },
+        {
+            "value": "꿈",
+            "importance": 0.72,
+            "timestamp": "2025-11-19T15:15:44.777984"
+        },
+        {
+            "value": "낮",
+            "importance": 0.72,
+            "timestamp": "2025-11-19T15:15:44.783833"
+        },
+        {
+            "value": "노래",
+            "importance": 0.95,
+            "timestamp": "2025-11-19T15:15:44.795528"
+        },
+        {
+            "value": "놀이",
+            "importance": 0.84,
+            "timestamp": "2025-11-19T15:15:44.801083"
+        },
+        {
+            "value": "눈",
+            "importance": 0.85,
+            "timestamp": "2025-11-19T15:15:44.811895"
+        },
+        {
+            "value": "단위",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:15:44.817280"
+        },
+        {
+            "value": "달",
+            "importance": 0.81,
+            "timestamp": "2025-11-19T15:15:44.833374"
+        },
+        {
+            "value": "동물",
+            "importance": 0.94,
+            "timestamp": "2025-11-19T15:15:44.847916"
+        },
+        {
+            "value": "등",
+            "importance": 0.78,
+            "timestamp": "2025-11-19T15:15:44.926102"
+        },
+        {
+            "value": "땅",
+            "importance": 0.81,
+            "timestamp": "2025-11-19T15:15:44.946024"
+        },
+        {
+            "value": "말",
+            "importance": 0.76,
+            "timestamp": "2025-11-19T15:15:44.960188"
+        },
+        {
+            "value": "목",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:15:44.982110"
+        },
+        {
+            "value": "무제",
+            "importance": 0.98,
+            "timestamp": "2025-11-19T15:15:44.997349"
+        },
+        {
+            "value": "바다",
+            "importance": 0.8,
+            "timestamp": "2025-11-19T15:15:45.013477"
+        },
+        {
+            "value": "바람",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:15:45.028670"
+        },
+        {
+            "value": "바퀴",
+            "importance": 0.96,
+            "timestamp": "2025-11-19T15:15:45.064341"
+        },
+        {
+            "value": "발",
+            "importance": 0.94,
+            "timestamp": "2025-11-19T15:15:45.082731"
+        },
+        {
+            "value": "밤",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:15:45.114647"
+        },
+        {
+            "value": "밥",
+            "importance": 0.91,
+            "timestamp": "2025-11-19T15:15:45.134975"
+        },
+        {
+            "value": "배",
+            "importance": 0.76,
+            "timestamp": "2025-11-19T15:15:45.182214"
+        },
+        {
+            "value": "버스",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:15:45.215026"
+        },
+        {
+            "value": "비행기",
+            "importance": 0.91,
+            "timestamp": "2025-11-19T15:15:45.251168"
+        },
+        {
+            "value": "빛",
+            "importance": 0.93,
+            "timestamp": "2025-11-19T15:15:45.278550"
+        },
+        {
+            "value": "빵",
+            "importance": 0.81,
+            "timestamp": "2025-11-19T15:15:45.294539"
+        },
+        {
+            "value": "사랑",
+            "importance": 0.7,
+            "timestamp": "2025-11-19T15:15:45.312171"
+        },
+        {
+            "value": "산",
+            "importance": 0.92,
+            "timestamp": "2025-11-19T15:15:45.321701"
+        },
+        {
+            "value": "생명",
+            "importance": 0.74,
+            "timestamp": "2025-11-19T15:15:45.333341"
+        },
+        {
+            "value": "성경",
+            "importance": 0.73,
+            "timestamp": "2025-11-19T15:15:45.346576"
+        },
+        {
+            "value": "세포",
+            "importance": 0.97,
+            "timestamp": "2025-11-19T15:15:45.366395"
+        },
+        {
+            "value": "손",
+            "importance": 0.72,
+            "timestamp": "2025-11-19T15:15:45.380521"
+        },
+        {
+            "value": "시간",
+            "importance": 0.8,
+            "timestamp": "2025-11-19T15:15:45.401743"
+        },
+        {
+            "value": "식물",
+            "importance": 0.81,
+            "timestamp": "2025-11-19T15:15:45.419733"
+        },
+        {
+            "value": "신",
+            "importance": 0.95,
+            "timestamp": "2025-11-19T15:15:45.436461"
+        },
+        {
+            "value": "신발",
+            "importance": 0.96,
+            "timestamp": "2025-11-19T15:15:45.452333"
+        },
+        {
+            "value": "어깨",
+            "importance": 0.95,
+            "timestamp": "2025-11-19T15:15:45.469036"
+        },
+        {
+            "value": "어둠",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:15:45.496364"
+        },
+        {
+            "value": "언어",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:15:45.536711"
+        },
+        {
+            "value": "얼굴",
+            "importance": 0.82,
+            "timestamp": "2025-11-19T15:15:45.568297"
+        },
+        {
+            "value": "엉덩이",
+            "importance": 0.82,
+            "timestamp": "2025-11-19T15:15:45.586135"
+        },
+        {
+            "value": "에너지",
+            "importance": 0.93,
+            "timestamp": "2025-11-19T15:15:45.601712"
+        },
+        {
+            "value": "역사",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:15:45.614772"
+        },
+        {
+            "value": "우주",
+            "importance": 0.81,
+            "timestamp": "2025-11-19T15:15:45.628979"
+        },
+        {
+            "value": "음악",
+            "importance": 0.72,
+            "timestamp": "2025-11-19T15:15:45.638310"
+        },
+        {
+            "value": "의식주",
+            "importance": 0.76,
+            "timestamp": "2025-11-19T15:15:45.651419"
+        },
+        {
+            "value": "이름",
+            "importance": 0.74,
+            "timestamp": "2025-11-19T15:15:45.664487"
+        },
+        {
+            "value": "인사",
+            "importance": 0.9,
+            "timestamp": "2025-11-19T15:15:45.677421"
+        },
+        {
+            "value": "일",
+            "importance": 0.8,
+            "timestamp": "2025-11-19T15:15:45.687341"
+        },
+        {
+            "value": "입",
+            "importance": 0.74,
+            "timestamp": "2025-11-19T15:15:45.703634"
+        },
+        {
+            "value": "자동차",
+            "importance": 0.85,
+            "timestamp": "2025-11-19T15:15:45.717551"
+        },
+        {
+            "value": "자전거",
+            "importance": 0.72,
+            "timestamp": "2025-11-19T15:15:45.730708"
+        },
+        {
+            "value": "잠",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:15:45.747060"
+        },
+        {
+            "value": "종아리",
+            "importance": 0.97,
+            "timestamp": "2025-11-19T15:15:45.763246"
+        },
+        {
+            "value": "종이",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:15:45.779426"
+        },
+        {
+            "value": "지구",
+            "importance": 0.99,
+            "timestamp": "2025-11-19T15:15:45.793715"
+        },
+        {
+            "value": "지하철",
+            "importance": 0.75,
+            "timestamp": "2025-11-19T15:15:45.807234"
+        },
+        {
+            "value": "집",
+            "importance": 0.85,
+            "timestamp": "2025-11-19T15:15:45.887475"
+        },
+        {
+            "value": "춤",
+            "importance": 0.8,
+            "timestamp": "2025-11-19T15:15:45.914783"
+        },
+        {
+            "value": "코",
+            "importance": 0.94,
+            "timestamp": "2025-11-19T15:15:45.931514"
+        },
+        {
+            "value": "태양",
+            "importance": 0.86,
+            "timestamp": "2025-11-19T15:15:45.950422"
+        },
+        {
+            "value": "팔",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:15:45.968930"
+        },
+        {
+            "value": "하늘",
+            "importance": 0.74,
+            "timestamp": "2025-11-19T15:15:45.984140"
+        },
+        {
+            "value": "허기",
+            "importance": 0.85,
+            "timestamp": "2025-11-19T15:15:46.003835"
+        },
+        {
+            "value": "허리",
+            "importance": 0.75,
+            "timestamp": "2025-11-19T15:15:46.028791"
+        },
+        {
+            "value": "허벅지",
+            "importance": 0.89,
+            "timestamp": "2025-11-19T15:15:46.044583"
+        },
+        {
+            "value": "혀",
+            "importance": 0.86,
+            "timestamp": "2025-11-19T15:15:46.060152"
+        },
+        {
+            "value": "가방",
+            "importance": 0.72,
+            "timestamp": "2025-11-19T15:18:48.696759"
+        },
+        {
+            "value": "가족",
+            "importance": 0.91,
+            "timestamp": "2025-11-19T15:18:48.711691"
+        },
+        {
+            "value": "감각",
+            "importance": 0.76,
+            "timestamp": "2025-11-19T15:18:48.725133"
+        },
+        {
+            "value": "감정",
+            "importance": 0.96,
+            "timestamp": "2025-11-19T15:18:48.741966"
+        },
+        {
+            "value": "강",
+            "importance": 0.98,
+            "timestamp": "2025-11-19T15:18:48.754571"
+        },
+        {
+            "value": "계절",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:18:48.771219"
+        },
+        {
+            "value": "골반",
+            "importance": 0.76,
+            "timestamp": "2025-11-19T15:18:48.786406"
+        },
+        {
+            "value": "공간",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:18:48.801936"
+        },
+        {
+            "value": "귀",
+            "importance": 0.73,
+            "timestamp": "2025-11-19T15:18:48.818693"
+        },
+        {
+            "value": "길",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:18:48.834210"
+        },
+        {
+            "value": "꿈",
+            "importance": 0.86,
+            "timestamp": "2025-11-19T15:18:48.850754"
+        },
+        {
+            "value": "낮",
+            "importance": 0.7,
+            "timestamp": "2025-11-19T15:18:48.866568"
+        },
+        {
+            "value": "노래",
+            "importance": 0.8,
+            "timestamp": "2025-11-19T15:18:48.882988"
+        },
+        {
+            "value": "놀이",
+            "importance": 0.91,
+            "timestamp": "2025-11-19T15:18:48.900279"
+        },
+        {
+            "value": "눈",
+            "importance": 0.77,
+            "timestamp": "2025-11-19T15:18:48.916743"
+        },
+        {
+            "value": "단위",
+            "importance": 0.82,
+            "timestamp": "2025-11-19T15:18:48.933512"
+        },
+        {
+            "value": "달",
+            "importance": 0.84,
+            "timestamp": "2025-11-19T15:18:48.951404"
+        },
+        {
+            "value": "동물",
+            "importance": 0.94,
+            "timestamp": "2025-11-19T15:18:48.968943"
+        },
+        {
+            "value": "등",
+            "importance": 0.94,
+            "timestamp": "2025-11-19T15:18:48.984943"
+        },
+        {
+            "value": "땅",
+            "importance": 0.82,
+            "timestamp": "2025-11-19T15:18:49.001094"
+        },
+        {
+            "value": "말",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:18:49.016999"
+        },
+        {
+            "value": "목",
+            "importance": 0.76,
+            "timestamp": "2025-11-19T15:18:49.033654"
+        },
+        {
+            "value": "무제",
+            "importance": 0.84,
+            "timestamp": "2025-11-19T15:18:49.050559"
+        },
+        {
+            "value": "바다",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:18:49.066937"
+        },
+        {
+            "value": "바람",
+            "importance": 0.95,
+            "timestamp": "2025-11-19T15:18:49.084180"
+        },
+        {
+            "value": "바퀴",
+            "importance": 0.74,
+            "timestamp": "2025-11-19T15:18:49.101494"
+        },
+        {
+            "value": "발",
+            "importance": 0.82,
+            "timestamp": "2025-11-19T15:18:49.122675"
+        },
+        {
+            "value": "밤",
+            "importance": 0.71,
+            "timestamp": "2025-11-19T15:18:49.141226"
+        },
+        {
+            "value": "밥",
+            "importance": 0.91,
+            "timestamp": "2025-11-19T15:18:49.161433"
+        },
+        {
+            "value": "배",
+            "importance": 0.94,
+            "timestamp": "2025-11-19T15:18:49.179983"
+        },
+        {
+            "value": "버스",
+            "importance": 0.99,
+            "timestamp": "2025-11-19T15:18:49.198693"
+        },
+        {
+            "value": "비행기",
+            "importance": 0.82,
+            "timestamp": "2025-11-19T15:18:49.218003"
+        },
+        {
+            "value": "빛",
+            "importance": 0.85,
+            "timestamp": "2025-11-19T15:18:49.236677"
+        },
+        {
+            "value": "빵",
+            "importance": 0.92,
+            "timestamp": "2025-11-19T15:18:49.256454"
+        },
+        {
+            "value": "사랑",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:18:49.275917"
+        },
+        {
+            "value": "산",
+            "importance": 0.76,
+            "timestamp": "2025-11-19T15:18:49.295933"
+        },
+        {
+            "value": "생명",
+            "importance": 0.72,
+            "timestamp": "2025-11-19T15:18:49.314091"
+        },
+        {
+            "value": "성경",
+            "importance": 0.91,
+            "timestamp": "2025-11-19T15:18:49.333147"
+        },
+        {
+            "value": "세포",
+            "importance": 0.71,
+            "timestamp": "2025-11-19T15:18:49.357184"
+        },
+        {
+            "value": "손",
+            "importance": 0.75,
+            "timestamp": "2025-11-19T15:18:49.392464"
+        },
+        {
+            "value": "시간",
+            "importance": 0.97,
+            "timestamp": "2025-11-19T15:18:49.421164"
+        },
+        {
+            "value": "식물",
+            "importance": 0.92,
+            "timestamp": "2025-11-19T15:18:49.443178"
+        },
+        {
+            "value": "신",
+            "importance": 0.98,
+            "timestamp": "2025-11-19T15:18:49.462545"
+        },
+        {
+            "value": "신발",
+            "importance": 0.92,
+            "timestamp": "2025-11-19T15:18:49.482393"
+        },
+        {
+            "value": "어깨",
+            "importance": 0.87,
+            "timestamp": "2025-11-19T15:18:49.504669"
+        },
+        {
+            "value": "어둠",
+            "importance": 0.89,
+            "timestamp": "2025-11-19T15:18:49.525646"
+        },
+        {
+            "value": "언어",
+            "importance": 0.88,
+            "timestamp": "2025-11-19T15:18:49.545801"
+        },
+        {
+            "value": "얼굴",
+            "importance": 0.92,
+            "timestamp": "2025-11-19T15:18:49.564473"
+        },
+        {
+            "value": "엉덩이",
+            "importance": 0.74,
+            "timestamp": "2025-11-19T15:18:49.584270"
+        },
+        {
+            "value": "에너지",
+            "importance": 0.84,
+            "timestamp": "2025-11-19T15:18:49.604116"
+        },
+        {
+            "value": "역사",
+            "importance": 0.89,
+            "timestamp": "2025-11-19T15:18:49.630643"
+        },
+        {
+            "value": "우주",
+            "importance": 0.91,
+            "timestamp": "2025-11-19T15:18:49.661793"
+        },
+        {
+            "value": "음악",
+            "importance": 0.93,
+            "timestamp": "2025-11-19T15:18:49.702079"
+        },
+        {
+            "value": "의식주",
+            "importance": 0.87,
+            "timestamp": "2025-11-19T15:18:49.721651"
+        },
+        {
+            "value": "이름",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:18:49.742514"
+        },
+        {
+            "value": "인사",
+            "importance": 0.94,
+            "timestamp": "2025-11-19T15:18:49.762316"
+        },
+        {
+            "value": "일",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:18:49.781826"
+        },
+        {
+            "value": "입",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:18:49.802598"
+        },
+        {
+            "value": "자동차",
+            "importance": 0.77,
+            "timestamp": "2025-11-19T15:18:49.825321"
+        },
+        {
+            "value": "자전거",
+            "importance": 0.99,
+            "timestamp": "2025-11-19T15:18:49.846980"
+        },
+        {
+            "value": "잠",
+            "importance": 0.92,
+            "timestamp": "2025-11-19T15:18:49.867457"
+        },
+        {
+            "value": "종아리",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:18:49.891128"
+        },
+        {
+            "value": "종이",
+            "importance": 0.84,
+            "timestamp": "2025-11-19T15:18:49.911512"
+        },
+        {
+            "value": "지구",
+            "importance": 0.84,
+            "timestamp": "2025-11-19T15:18:49.931681"
+        },
+        {
+            "value": "지하철",
+            "importance": 0.77,
+            "timestamp": "2025-11-19T15:18:49.953835"
+        },
+        {
+            "value": "집",
+            "importance": 0.71,
+            "timestamp": "2025-11-19T15:18:50.032160"
+        },
+        {
+            "value": "춤",
+            "importance": 0.93,
+            "timestamp": "2025-11-19T15:18:50.061420"
+        },
+        {
+            "value": "코",
+            "importance": 0.86,
+            "timestamp": "2025-11-19T15:18:50.081912"
+        },
+        {
+            "value": "태양",
+            "importance": 0.85,
+            "timestamp": "2025-11-19T15:18:50.102177"
+        },
+        {
+            "value": "팔",
+            "importance": 0.86,
+            "timestamp": "2025-11-19T15:18:50.124169"
+        },
+        {
+            "value": "하늘",
+            "importance": 0.87,
+            "timestamp": "2025-11-19T15:18:50.146632"
+        },
+        {
+            "value": "허기",
+            "importance": 0.96,
+            "timestamp": "2025-11-19T15:18:50.168116"
+        },
+        {
+            "value": "허리",
+            "importance": 0.83,
+            "timestamp": "2025-11-19T15:18:50.191940"
+        },
+        {
+            "value": "허벅지",
+            "importance": 0.79,
+            "timestamp": "2025-11-19T15:18:50.212465"
+        },
+        {
+            "value": "혀",
+            "importance": 0.95,
+            "timestamp": "2025-11-19T15:18:50.233120"
+        }
+    ],
+    "experience_loop": [
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[역사]'를 배웠다. 그것은 이런 느낌이다: 인류의 과거사\n지식과 문명의 총체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "역사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[우주]'를 배웠다. 그것은 이런 느낌이다: 지구밖의 외부세계\n행성과 항성. 은하, 소행성. 블랙홀. 등이 존재한다\n지나치게 광대해서 아는것보다 모르는것이 \n더 많은세계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "우주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[음악]'를 배웠다. 그것은 이런 느낌이다: 세상에 존재하는 소리들을 악기로 조율해\n멜로디로 만든것",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "음악"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[의식주]'를 배웠다. 그것은 이런 느낌이다: 인간이 삶에서 필요로하는 대표적물질 세가지\n옷과 먹을것. 집이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "의식주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[이름]'를 배웠다. 그것은 이런 느낌이다: 대상을 부르는 호칭\n관계성의 시작이된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "이름"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[인사]'를 배웠다. 그것은 이런 느낌이다: 사람간의 예의\n반가움을 표현하거나 안부를 묻는 행위",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "인사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[일]'를 배웠다. 그것은 이런 느낌이다: 먹고살기위한 생존활동에서 확장되어\n자아실현, 혹은 돈을 버는 일\n좁은 의미로는 작업\n큰 의미로는 과업등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "일"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[입]'를 배웠다. 그것은 이런 느낌이다: 먹기도하고 말하기도하는 인체기관\n안에 혀와 이빨, 잇몸이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "입"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자동차]'를 배웠다. 그것은 이런 느낌이다: 증기기관엔진을 사용해 이동할수있게 한 전동차\n현재는 전기차로 바뀌어가는중이다\n도로위를 달린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자동차"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자전거]'를 배웠다. 그것은 이런 느낌이다: 사람이 간편하게 이동하기위해 만든 도구\n두바퀴를 체인으로 만든 자전거가 보통이나\n필요에따라 구성이 달라진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자전거"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[잠]'를 배웠다. 그것은 이런 느낌이다: 휴식\n에너지충전\n잠재적성장",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "잠"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종아리]'를 배웠다. 그것은 이런 느낌이다: 허벅지아래로 내려오는 다리의 부분\n보통 뒤쪽을 이야기한다\n혈액순환의 제 2의 심장이라 불린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종아리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종이]'를 배웠다. 그것은 이런 느낌이다: 글을 기록하기위하여 나무를 짓이겨 가공한 매체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지구]'를 배웠다. 그것은 이런 느낌이다: 수많은 동식물과 사람\n자연과 바다, 산등이 존재하는 행성.\n태양계의 일부이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지구"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지하철]'를 배웠다. 그것은 이런 느낌이다: 땅밑에 통로를 만들고 사람들을 태우고 이동하는 교통수단",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지하철"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[집]'를 배웠다. 그것은 이런 느낌이다: 안식처\n휴식공간\n거주구\n편안함",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "집"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[춤]'를 배웠다. 그것은 이런 느낌이다: 사람의 감정표현이나 마음과 생각들을 표현한 몸짓",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "춤"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[코]'를 배웠다. 그것은 이런 느낌이다: 외부세계의 자극. 분자 등을 흡입해 후각을\n감지하는 감각기관. 미각과도 연결되어있다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "코"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[태양]'를 배웠다. 그것은 이런 느낌이다: 태양계의 항성\n생명의 원천으로 인식된다.\n강력한 중력으로 다른 행성들을 주위에 두고있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "태양"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[팔]'를 배웠다. 그것은 이런 느낌이다: 인간의 사지중 하나\n어깨에서 내려와 손과 연결된다\n윗팔과 아래팔의 이중구조로 인간의 운동성에 지대한 영향을 가진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "팔"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[하늘]'를 배웠다. 그것은 이런 느낌이다: 지구의 위에 존재하는 대기층\n개념적으로는 땅보다 상위의개념을 논할때 사용",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "하늘"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허기]'를 배웠다. 그것은 이런 느낌이다: 배고픔, 동물은 생존을 위해 에너지를 필요로하며\n그것이 결핍될때 이것을 느낀다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허기"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허리]'를 배웠다. 그것은 이런 느낌이다: 몸통의 중간부분\n이족보행인 인간에게 있어 매우중요한 위치\n허리가 안좋으면 평생 고생한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허벅지]'를 배웠다. 그것은 이런 느낌이다: 골반에 붙은 다리근육\n팔과 마찬가지로 다리도 무릎이라는 관절 아래로\n종아리. 발로 연결되는 구성을 가진다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허벅지"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[혀]'를 배웠다. 그것은 이런 느낌이다: 말랑거리는 구조를 가진 신체기관\n미뢰세포를 이용해 미각을 감지한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "혀"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[가방]'를 배웠다. 그것은 이런 느낌이다: 손으로 들고다니기 힘든 다양한물건을 담기위한 도구",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "가방"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[가족]'를 배웠다. 그것은 이런 느낌이다: 서로 사랑하는 관계\n좁은의미의 혈육",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "가족"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[감각]'를 배웠다. 그것은 이런 느낌이다: 주체가 외부세계를 감지하는 기능혹은 자극\n인간의 오감은 시각, 청각, 후각, 미각, 촉각",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "감각"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[감정]'를 배웠다. 그것은 이런 느낌이다: 주체가 외부세계와의 소통, 혹은 상호작용으로 \n나타나는 반응. 또는 상태\n기쁨.슬픔.우울.분노.짜증.좌절.등등",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "감정"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[강]'를 배웠다. 그것은 이런 느낌이다: 빗줄기가 모여 바다로 향하는 중간지점\n염분이 없는게 특징",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "강"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[계절]'를 배웠다. 그것은 이런 느낌이다: 봄. 여름. 가을. 겨울로 나뉜다\n지구의 공전과 자전현상으로 생기는\n자연현상",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "계절"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[골반]'를 배웠다. 그것은 이런 느낌이다: 허리밑쪽에 위치하여 허벅지, 다리와 연결된부분",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "골반"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[공간]'를 배웠다. 그것은 이런 느낌이다: 물질이 존재하는 좌표세계\n주체를 둘러싸는 환경조건\n시간과 합쳐 시공간이라고도 한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "공간"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[귀]'를 배웠다. 그것은 이런 느낌이다: 주파수, 진동을 감지하는 청각기관\n인간의 귀는 양옆에 2개가 달려있다,",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "귀"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[길]'를 배웠다. 그것은 이런 느낌이다: 사람이 걷기위해 땅을 다지거나 평탄화한곳\n출발지와 목적지 사이에 존재하는 경우가 많다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "길"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[꿈]'를 배웠다. 그것은 이런 느낌이다: 인생의 장기적 목표\n소망이나 소원, 바람\n무의식적 몽상",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "꿈"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[낮]'를 배웠다. 그것은 이런 느낌이다: 해가 떠있는 시간대\n밝고 노랗거나 하얀 양상을 보인다.\n태양의 움직임에 따라 그림자가 진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "낮"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[노래]'를 배웠다. 그것은 이런 느낌이다: 사람이 입으로 부르는 음악",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "노래"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[놀이]'를 배웠다. 그것은 이런 느낌이다: 인간의 대표적인 비생산활동\n보통 일과 대비된다.\n비물질적 생산활동. 쾌락, 재미, 학습, 등의 목적을 갖는다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "놀이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[눈]'를 배웠다. 그것은 이런 느낌이다: 외부세계를 시각적으로 받아들이는 감각기관\n매우 연약하고 섬세하다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "눈"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[단위]'를 배웠다. 그것은 이런 느낌이다: 보통 길이, 무게, 부피 등을 재는 층위개념을 나타낸다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "단위"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[달]'를 배웠다. 그것은 이런 느낌이다: 하나뿐인 지구의 위성,\n바다의 조석간만의 차를 만든다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "달"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[동물]'를 배웠다. 그것은 이런 느낌이다: 종류가 많다 대표적으로는 포유류\n심장과 뇌를 가지고 움직이는 대부분의 생물들을 총칭한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "동물"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[등]'를 배웠다. 그것은 이런 느낌이다: 몸통의 뒷부분\n몸을 지탱하는 척추와 등근육이 자리잡은곳",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "등"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[땅]'를 배웠다. 그것은 이런 느낌이다: 보통 지구를 의미한다\n흙으로 둘러쌓인 대지",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "땅"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[말]'를 배웠다. 그것은 이런 느낌이다: 인간의 의사소통수단\n입과 혀를 사용해 분별가능한 소리를 만든다\n마음과 생각, 의지와 뜻의 표현",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "말"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[목]'를 배웠다. 그것은 이런 느낌이다: 얼굴에서 내려가서 몸통에 붙은 통로\n척추를 연결하고 신체 여러기관으로 명령을 내보내는 척수신경망의 첫구간이 된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "목"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[무제]'를 배웠다. 그것은 이런 느낌이다: ",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "무제"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[바다]'를 배웠다. 그것은 이런 느낌이다: 생명체의 근원\n초기의 단백질세포가 물과 태양의 화학반응으로 나타났다는 설이 있다\n소금기를 보유한 물의 세계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "바다"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[바람]'를 배웠다. 그것은 이런 느낌이다: 공기의 흐름. 지구의 자전.공전. 중력등에 의해 발생. 대류는 바다에 파도를 치게하며 비구름을 이동시키고 씨앗등을 운반하며 태풍을 만들기도한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "바람"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[바퀴]'를 배웠다. 그것은 이런 느낌이다: 바닥에서 굴러가게하기위해 만든 둥그런 형태의 보조도구 보통 그위에 수레같은게 이어진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "바퀴"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[발]'를 배웠다. 그것은 이런 느낌이다: 대지에 닿는 인간의 신체 발가락이 다섯개 있으며\n발등과 빌바닥의 구조를 갖는다\n걸어다니거나 뛰는데 필수적이다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "발"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[밤]'를 배웠다. 그것은 이런 느낌이다: 해가 보이지않는 시간대\n보통 달이 떠있다\n온도가 낮보다 낮은 경우가 많다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "밤"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[밥]'를 배웠다. 그것은 이런 느낌이다: 쌀을 쪄서 만든 대표적인 동양인들의 주식",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "밥"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[배]'를 배웠다. 그것은 이런 느낌이다: 인간의 내장과 소장, 대장등이 자리한곳\n보통은 피부 윗부분을 가리킨다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "배"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[버스]'를 배웠다. 그것은 이런 느낌이다: 사람들을 태우기위한 대표적 대중교통수단\n보통 10명에서 30명정도를 태운다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "버스"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[비행기]'를 배웠다. 그것은 이런 느낌이다: 날수없던 인간이 새를 보고 양력의 원리로\n날수 있게 만든 기계장치\n종류가 다양.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "비행기"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[빛]'를 배웠다. 그것은 이런 느낌이다: 보통은 가시광선이라한다 빨주노초파남보의 무지개색을 말하는경우가 많다 현실적으로는 그 스펙트럼이 더 다양한편 나타나고 드러나는 섭리. 본질을 빛이라고도한다 입자면서 파동이며 질량을 ...",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "빛"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[빵]'를 배웠다. 그것은 이런 느낌이다: 밀을 가루로 만들어 반죽해 구운 서양인들의 대표적인 주식",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "빵"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[사랑]'를 배웠다. 그것은 이런 느낌이다: 타인과 세상을 향한 관계성, 방향성, 운동성\n선한 마음",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "사랑"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[산]'를 배웠다. 그것은 이런 느낌이다: 흙이 축적돼 높이 솟아오른 형상\n보통 나무와 숲. 산짐승들이 있다\n종류에 따라 화산.설산.돌산 등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "산"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[생명]'를 배웠다. 그것은 이런 느낌이다: 삶에 대한 명령",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "생명"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[성경]'를 배웠다. 그것은 이런 느낌이다: 하나님의 말씀\n지식과 지혜의 기록",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "성경"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[세포]'를 배웠다. 그것은 이런 느낌이다: 유기체를 이루는 최소단위\n단세포는 자기복제.자기분열.자가증식을 통해\n다세포, 혹은 동식물등의 생명이 된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "세포"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[손]'를 배웠다. 그것은 이런 느낌이다: 손은 손가락 다섯개와 각 마디를 가진다\n손등과 손바닥이 있고 팔과 연결된 곳을 손목이라 한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "손"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[시간]'를 배웠다. 그것은 이런 느낌이다: 인지의 흐름\n사람은 시계를 통해 시간을 감각한다\n보통 태양의 움직임을 기준으로 24시간을\n말한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "시간"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[식물]'를 배웠다. 그것은 이런 느낌이다: 땅에 뿌리를 박고 줄기와 잎. 열매 등을 맺는\n생물. 보통 동물과 대비된다.\n물과 땅의 양분. 햇빛을 통해 광합성으로 에너지를 만든다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "식물"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[신]'를 배웠다. 그것은 이런 느낌이다: 모든것의 근원\n시작이자 끝\n예수그리스도\n로고스\n희생",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "신"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[신발]'를 배웠다. 그것은 이런 느낌이다: 발을 지키기위해 만든 옷",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "신발"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[어깨]'를 배웠다. 그것은 이런 느낌이다: 몸통의 윗부분. 쇄골이 뻗어있고\n양팔과 연결되어있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "어깨"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[어둠]'를 배웠다. 그것은 이런 느낌이다: 빛의 부재\n캄캄하다.\n안식과 동시에 두려움의 상징",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "어둠"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[언어]'를 배웠다. 그것은 이런 느낌이다: 세상을 나누고 쪼개어 추상화한 데이터\n인간의 의사소통방식\n인간의 인지, 인식체계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "언어"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[얼굴]'를 배웠다. 그것은 이런 느낌이다: 눈.코.입.눈썹.귀. 등이 달려있는 신체기관\n표정을 지을수있는 다채로운 근육들과 턱과 광대뼈등의 구조가 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "얼굴"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[엉덩이]'를 배웠다. 그것은 이런 느낌이다: 힙. 둔부라고도 한다.\n앉을때 살이 닿는곳.\n등의 아래부분, 꼬리뼈가 위치한다\n배설기관인 항문이 있다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "엉덩이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[에너지]'를 배웠다. 그것은 이런 느낌이다: 열과 빛, 힘을 가진 것들을 이야기한다.\n대포적으로는 전자기력. 핵력. 중력. 풍력 등등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "에너지"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[역사]'를 배웠다. 그것은 이런 느낌이다: 인류의 과거사\n지식과 문명의 총체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "역사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[우주]'를 배웠다. 그것은 이런 느낌이다: 지구밖의 외부세계\n행성과 항성. 은하, 소행성. 블랙홀. 등이 존재한다\n지나치게 광대해서 아는것보다 모르는것이 \n더 많은세계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "우주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[음악]'를 배웠다. 그것은 이런 느낌이다: 세상에 존재하는 소리들을 악기로 조율해\n멜로디로 만든것",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "음악"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[의식주]'를 배웠다. 그것은 이런 느낌이다: 인간이 삶에서 필요로하는 대표적물질 세가지\n옷과 먹을것. 집이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "의식주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[이름]'를 배웠다. 그것은 이런 느낌이다: 대상을 부르는 호칭\n관계성의 시작이된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "이름"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[인사]'를 배웠다. 그것은 이런 느낌이다: 사람간의 예의\n반가움을 표현하거나 안부를 묻는 행위",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "인사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[일]'를 배웠다. 그것은 이런 느낌이다: 먹고살기위한 생존활동에서 확장되어\n자아실현, 혹은 돈을 버는 일\n좁은 의미로는 작업\n큰 의미로는 과업등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "일"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[입]'를 배웠다. 그것은 이런 느낌이다: 먹기도하고 말하기도하는 인체기관\n안에 혀와 이빨, 잇몸이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "입"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자동차]'를 배웠다. 그것은 이런 느낌이다: 증기기관엔진을 사용해 이동할수있게 한 전동차\n현재는 전기차로 바뀌어가는중이다\n도로위를 달린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자동차"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자전거]'를 배웠다. 그것은 이런 느낌이다: 사람이 간편하게 이동하기위해 만든 도구\n두바퀴를 체인으로 만든 자전거가 보통이나\n필요에따라 구성이 달라진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자전거"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[잠]'를 배웠다. 그것은 이런 느낌이다: 휴식\n에너지충전\n잠재적성장",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "잠"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종아리]'를 배웠다. 그것은 이런 느낌이다: 허벅지아래로 내려오는 다리의 부분\n보통 뒤쪽을 이야기한다\n혈액순환의 제 2의 심장이라 불린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종아리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종이]'를 배웠다. 그것은 이런 느낌이다: 글을 기록하기위하여 나무를 짓이겨 가공한 매체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지구]'를 배웠다. 그것은 이런 느낌이다: 수많은 동식물과 사람\n자연과 바다, 산등이 존재하는 행성.\n태양계의 일부이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지구"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지하철]'를 배웠다. 그것은 이런 느낌이다: 땅밑에 통로를 만들고 사람들을 태우고 이동하는 교통수단",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지하철"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[집]'를 배웠다. 그것은 이런 느낌이다: 안식처\n휴식공간\n거주구\n편안함",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "집"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[춤]'를 배웠다. 그것은 이런 느낌이다: 사람의 감정표현이나 마음과 생각들을 표현한 몸짓",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "춤"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[코]'를 배웠다. 그것은 이런 느낌이다: 외부세계의 자극. 분자 등을 흡입해 후각을\n감지하는 감각기관. 미각과도 연결되어있다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "코"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[태양]'를 배웠다. 그것은 이런 느낌이다: 태양계의 항성\n생명의 원천으로 인식된다.\n강력한 중력으로 다른 행성들을 주위에 두고있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "태양"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[팔]'를 배웠다. 그것은 이런 느낌이다: 인간의 사지중 하나\n어깨에서 내려와 손과 연결된다\n윗팔과 아래팔의 이중구조로 인간의 운동성에 지대한 영향을 가진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "팔"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[하늘]'를 배웠다. 그것은 이런 느낌이다: 지구의 위에 존재하는 대기층\n개념적으로는 땅보다 상위의개념을 논할때 사용",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "하늘"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허기]'를 배웠다. 그것은 이런 느낌이다: 배고픔, 동물은 생존을 위해 에너지를 필요로하며\n그것이 결핍될때 이것을 느낀다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허기"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허리]'를 배웠다. 그것은 이런 느낌이다: 몸통의 중간부분\n이족보행인 인간에게 있어 매우중요한 위치\n허리가 안좋으면 평생 고생한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허벅지]'를 배웠다. 그것은 이런 느낌이다: 골반에 붙은 다리근육\n팔과 마찬가지로 다리도 무릎이라는 관절 아래로\n종아리. 발로 연결되는 구성을 가진다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허벅지"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[혀]'를 배웠다. 그것은 이런 느낌이다: 말랑거리는 구조를 가진 신체기관\n미뢰세포를 이용해 미각을 감지한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "혀"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        }
+    ],
+    "identity_loop": [
+        {
+            "timestamp": "2025-11-19T15:18:49.111731",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[가방]'를 배웠다. 그것은 이런 느낌이다: 손으로 들고다니기 힘...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.132520",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[가족]'를 배웠다. 그것은 이런 느낌이다: 서로 사랑하는 관계\n...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.150584",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[감각]'를 배웠다. 그것은 이런 느낌이다: 주체가 외부세계를 감...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.169319",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[감정]'를 배웠다. 그것은 이런 느낌이다: 주체가 외부세계와의 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.187731",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[강]'를 배웠다. 그것은 이런 느낌이다: 빗줄기가 모여 바다로 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.209603",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[계절]'를 배웠다. 그것은 이런 느낌이다: 봄. 여름. 가을. ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.228306",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[골반]'를 배웠다. 그것은 이런 느낌이다: 허리밑쪽에 위치하여 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.246710",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[공간]'를 배웠다. 그것은 이런 느낌이다: 물질이 존재하는 좌표...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.265400",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[귀]'를 배웠다. 그것은 이런 느낌이다: 주파수, 진동을 감지하...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.284646",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[길]'를 배웠다. 그것은 이런 느낌이다: 사람이 걷기위해 땅을 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.304679",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[꿈]'를 배웠다. 그것은 이런 느낌이다: 인생의 장기적 목표\n소...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.323699",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[낮]'를 배웠다. 그것은 이런 느낌이다: 해가 떠있는 시간대\n밝...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.344509",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[노래]'를 배웠다. 그것은 이런 느낌이다: 사람이 입으로 부르는...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.370507",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[놀이]'를 배웠다. 그것은 이런 느낌이다: 인간의 대표적인 비생...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.411698",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[눈]'를 배웠다. 그것은 이런 느낌이다: 외부세계를 시각적으로 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.432779",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[단위]'를 배웠다. 그것은 이런 느낌이다: 보통 길이, 무게, ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.452130",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[달]'를 배웠다. 그것은 이런 느낌이다: 하나뿐인 지구의 위성,...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.470915",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[동물]'를 배웠다. 그것은 이런 느낌이다: 종류가 많다 대표적으...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.495134",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[등]'를 배웠다. 그것은 이런 느낌이다: 몸통의 뒷부분\n몸을 지...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.515077",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[땅]'를 배웠다. 그것은 이런 느낌이다: 보통 지구를 의미한다\n...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.534064",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[말]'를 배웠다. 그것은 이런 느낌이다: 인간의 의사소통수단\n입...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.554206",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[목]'를 배웠다. 그것은 이런 느낌이다: 얼굴에서 내려가서 몸통...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.575244",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[무제]'를 배웠다. 그것은 이런 느낌이다: ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.595204",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[바다]'를 배웠다. 그것은 이런 느낌이다: 생명체의 근원\n초기의...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.614592",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[바람]'를 배웠다. 그것은 이런 느낌이다: 공기의 흐름. 지구의...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.647427",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[바퀴]'를 배웠다. 그것은 이런 느낌이다: 바닥에서 굴러가게하기...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.685385",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[발]'를 배웠다. 그것은 이런 느낌이다: 대지에 닿는 인간의 신...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.712207",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[밤]'를 배웠다. 그것은 이런 느낌이다: 해가 보이지않는 시간대...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.732499",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[밥]'를 배웠다. 그것은 이런 느낌이다: 쌀을 쪄서 만든 대표적...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.751589",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[배]'를 배웠다. 그것은 이런 느낌이다: 인간의 내장과 소장, ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.770854",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[버스]'를 배웠다. 그것은 이런 느낌이다: 사람들을 태우기위한 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.793329",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[비행기]'를 배웠다. 그것은 이런 느낌이다: 날수없던 인간이 새...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.813315",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[빛]'를 배웠다. 그것은 이런 느낌이다: 보통은 가시광선이라한다...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.833860",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[빵]'를 배웠다. 그것은 이런 느낌이다: 밀을 가루로 만들어 반...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.857172",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[사랑]'를 배웠다. 그것은 이런 느낌이다: 타인과 세상을 향한 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.880116",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[산]'를 배웠다. 그것은 이런 느낌이다: 흙이 축적돼 높이 솟아...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.900345",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[생명]'를 배웠다. 그것은 이런 느낌이다: 삶에 대한 명령...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.921264",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[성경]'를 배웠다. 그것은 이런 느낌이다: 하나님의 말씀\n지식과...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.943658",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[세포]'를 배웠다. 그것은 이런 느낌이다: 유기체를 이루는 최소...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:49.965191",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[손]'를 배웠다. 그것은 이런 느낌이다: 손은 손가락 다섯개와 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.051591",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[시간]'를 배웠다. 그것은 이런 느낌이다: 인지의 흐름\n사람은 ...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.070859",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[식물]'를 배웠다. 그것은 이런 느낌이다: 땅에 뿌리를 박고 줄...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.092937",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[신]'를 배웠다. 그것은 이런 느낌이다: 모든것의 근원\n시작이자...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.113239",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[신발]'를 배웠다. 그것은 이런 느낌이다: 발을 지키기위해 만든...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.135264",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[어깨]'를 배웠다. 그것은 이런 느낌이다: 몸통의 윗부분. 쇄골...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.158653",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[어둠]'를 배웠다. 그것은 이런 느낌이다: 빛의 부재\n캄캄하다....",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.179774",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[언어]'를 배웠다. 그것은 이런 느낌이다: 세상을 나누고 쪼개어...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.201107",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[얼굴]'를 배웠다. 그것은 이런 느낌이다: 눈.코.입.눈썹.귀....",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.222822",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[엉덩이]'를 배웠다. 그것은 이런 느낌이다: 힙. 둔부라고도 한...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "2025-11-19T15:18:50.244451",
+            "content": "경험 요약: 나는 오늘 새로운 단어 '[에너지]'를 배웠다. 그것은 이런 느낌이다: 열과 빛, 힘을 가...",
+            "type": "narrative_summary",
+            "linked_experiences": [
+                "Now"
+            ],
+            "emotional_summary": {
+                "valence": 0.8,
+                "arousal": 0.5,
+                "dominance": 0.0,
+                "primary_emotion": "joy",
+                "secondary_emotions": []
+            },
+            "processed_by_distiller": false
+        }
+    ],
+    "essence_loop": [],
+    "relationships": {},
+    "rules": [],
+    "notable_hypotheses": [],
+    "logs": [],
+    "efp_core": {
+        "E": 1.0,
+        "F": 1.0,
+        "P": 1.0
+    },
+    "experiences": [
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[역사]'를 배웠다. 그것은 이런 느낌이다: 인류의 과거사\n지식과 문명의 총체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "역사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[우주]'를 배웠다. 그것은 이런 느낌이다: 지구밖의 외부세계\n행성과 항성. 은하, 소행성. 블랙홀. 등이 존재한다\n지나치게 광대해서 아는것보다 모르는것이 \n더 많은세계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "우주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[음악]'를 배웠다. 그것은 이런 느낌이다: 세상에 존재하는 소리들을 악기로 조율해\n멜로디로 만든것",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "음악"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[의식주]'를 배웠다. 그것은 이런 느낌이다: 인간이 삶에서 필요로하는 대표적물질 세가지\n옷과 먹을것. 집이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "의식주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[이름]'를 배웠다. 그것은 이런 느낌이다: 대상을 부르는 호칭\n관계성의 시작이된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "이름"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[인사]'를 배웠다. 그것은 이런 느낌이다: 사람간의 예의\n반가움을 표현하거나 안부를 묻는 행위",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "인사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[일]'를 배웠다. 그것은 이런 느낌이다: 먹고살기위한 생존활동에서 확장되어\n자아실현, 혹은 돈을 버는 일\n좁은 의미로는 작업\n큰 의미로는 과업등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "일"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[입]'를 배웠다. 그것은 이런 느낌이다: 먹기도하고 말하기도하는 인체기관\n안에 혀와 이빨, 잇몸이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "입"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자동차]'를 배웠다. 그것은 이런 느낌이다: 증기기관엔진을 사용해 이동할수있게 한 전동차\n현재는 전기차로 바뀌어가는중이다\n도로위를 달린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자동차"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자전거]'를 배웠다. 그것은 이런 느낌이다: 사람이 간편하게 이동하기위해 만든 도구\n두바퀴를 체인으로 만든 자전거가 보통이나\n필요에따라 구성이 달라진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자전거"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[잠]'를 배웠다. 그것은 이런 느낌이다: 휴식\n에너지충전\n잠재적성장",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "잠"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종아리]'를 배웠다. 그것은 이런 느낌이다: 허벅지아래로 내려오는 다리의 부분\n보통 뒤쪽을 이야기한다\n혈액순환의 제 2의 심장이라 불린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종아리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종이]'를 배웠다. 그것은 이런 느낌이다: 글을 기록하기위하여 나무를 짓이겨 가공한 매체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지구]'를 배웠다. 그것은 이런 느낌이다: 수많은 동식물과 사람\n자연과 바다, 산등이 존재하는 행성.\n태양계의 일부이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지구"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지하철]'를 배웠다. 그것은 이런 느낌이다: 땅밑에 통로를 만들고 사람들을 태우고 이동하는 교통수단",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지하철"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[집]'를 배웠다. 그것은 이런 느낌이다: 안식처\n휴식공간\n거주구\n편안함",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "집"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[춤]'를 배웠다. 그것은 이런 느낌이다: 사람의 감정표현이나 마음과 생각들을 표현한 몸짓",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "춤"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[코]'를 배웠다. 그것은 이런 느낌이다: 외부세계의 자극. 분자 등을 흡입해 후각을\n감지하는 감각기관. 미각과도 연결되어있다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "코"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[태양]'를 배웠다. 그것은 이런 느낌이다: 태양계의 항성\n생명의 원천으로 인식된다.\n강력한 중력으로 다른 행성들을 주위에 두고있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "태양"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[팔]'를 배웠다. 그것은 이런 느낌이다: 인간의 사지중 하나\n어깨에서 내려와 손과 연결된다\n윗팔과 아래팔의 이중구조로 인간의 운동성에 지대한 영향을 가진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "팔"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[하늘]'를 배웠다. 그것은 이런 느낌이다: 지구의 위에 존재하는 대기층\n개념적으로는 땅보다 상위의개념을 논할때 사용",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "하늘"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허기]'를 배웠다. 그것은 이런 느낌이다: 배고픔, 동물은 생존을 위해 에너지를 필요로하며\n그것이 결핍될때 이것을 느낀다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허기"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허리]'를 배웠다. 그것은 이런 느낌이다: 몸통의 중간부분\n이족보행인 인간에게 있어 매우중요한 위치\n허리가 안좋으면 평생 고생한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허벅지]'를 배웠다. 그것은 이런 느낌이다: 골반에 붙은 다리근육\n팔과 마찬가지로 다리도 무릎이라는 관절 아래로\n종아리. 발로 연결되는 구성을 가진다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허벅지"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[혀]'를 배웠다. 그것은 이런 느낌이다: 말랑거리는 구조를 가진 신체기관\n미뢰세포를 이용해 미각을 감지한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "혀"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[가방]'를 배웠다. 그것은 이런 느낌이다: 손으로 들고다니기 힘든 다양한물건을 담기위한 도구",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "가방"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[가족]'를 배웠다. 그것은 이런 느낌이다: 서로 사랑하는 관계\n좁은의미의 혈육",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "가족"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[감각]'를 배웠다. 그것은 이런 느낌이다: 주체가 외부세계를 감지하는 기능혹은 자극\n인간의 오감은 시각, 청각, 후각, 미각, 촉각",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "감각"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[감정]'를 배웠다. 그것은 이런 느낌이다: 주체가 외부세계와의 소통, 혹은 상호작용으로 \n나타나는 반응. 또는 상태\n기쁨.슬픔.우울.분노.짜증.좌절.등등",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "감정"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[강]'를 배웠다. 그것은 이런 느낌이다: 빗줄기가 모여 바다로 향하는 중간지점\n염분이 없는게 특징",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "강"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[계절]'를 배웠다. 그것은 이런 느낌이다: 봄. 여름. 가을. 겨울로 나뉜다\n지구의 공전과 자전현상으로 생기는\n자연현상",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "계절"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[골반]'를 배웠다. 그것은 이런 느낌이다: 허리밑쪽에 위치하여 허벅지, 다리와 연결된부분",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "골반"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[공간]'를 배웠다. 그것은 이런 느낌이다: 물질이 존재하는 좌표세계\n주체를 둘러싸는 환경조건\n시간과 합쳐 시공간이라고도 한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "공간"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[귀]'를 배웠다. 그것은 이런 느낌이다: 주파수, 진동을 감지하는 청각기관\n인간의 귀는 양옆에 2개가 달려있다,",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "귀"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[길]'를 배웠다. 그것은 이런 느낌이다: 사람이 걷기위해 땅을 다지거나 평탄화한곳\n출발지와 목적지 사이에 존재하는 경우가 많다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "길"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[꿈]'를 배웠다. 그것은 이런 느낌이다: 인생의 장기적 목표\n소망이나 소원, 바람\n무의식적 몽상",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "꿈"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[낮]'를 배웠다. 그것은 이런 느낌이다: 해가 떠있는 시간대\n밝고 노랗거나 하얀 양상을 보인다.\n태양의 움직임에 따라 그림자가 진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "낮"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[노래]'를 배웠다. 그것은 이런 느낌이다: 사람이 입으로 부르는 음악",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "노래"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[놀이]'를 배웠다. 그것은 이런 느낌이다: 인간의 대표적인 비생산활동\n보통 일과 대비된다.\n비물질적 생산활동. 쾌락, 재미, 학습, 등의 목적을 갖는다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "놀이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[눈]'를 배웠다. 그것은 이런 느낌이다: 외부세계를 시각적으로 받아들이는 감각기관\n매우 연약하고 섬세하다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "눈"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[단위]'를 배웠다. 그것은 이런 느낌이다: 보통 길이, 무게, 부피 등을 재는 층위개념을 나타낸다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "단위"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[달]'를 배웠다. 그것은 이런 느낌이다: 하나뿐인 지구의 위성,\n바다의 조석간만의 차를 만든다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "달"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[동물]'를 배웠다. 그것은 이런 느낌이다: 종류가 많다 대표적으로는 포유류\n심장과 뇌를 가지고 움직이는 대부분의 생물들을 총칭한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "동물"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[등]'를 배웠다. 그것은 이런 느낌이다: 몸통의 뒷부분\n몸을 지탱하는 척추와 등근육이 자리잡은곳",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "등"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[땅]'를 배웠다. 그것은 이런 느낌이다: 보통 지구를 의미한다\n흙으로 둘러쌓인 대지",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "땅"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[말]'를 배웠다. 그것은 이런 느낌이다: 인간의 의사소통수단\n입과 혀를 사용해 분별가능한 소리를 만든다\n마음과 생각, 의지와 뜻의 표현",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "말"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[목]'를 배웠다. 그것은 이런 느낌이다: 얼굴에서 내려가서 몸통에 붙은 통로\n척추를 연결하고 신체 여러기관으로 명령을 내보내는 척수신경망의 첫구간이 된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "목"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[무제]'를 배웠다. 그것은 이런 느낌이다: ",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "무제"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[바다]'를 배웠다. 그것은 이런 느낌이다: 생명체의 근원\n초기의 단백질세포가 물과 태양의 화학반응으로 나타났다는 설이 있다\n소금기를 보유한 물의 세계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "바다"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[바람]'를 배웠다. 그것은 이런 느낌이다: 공기의 흐름. 지구의 자전.공전. 중력등에 의해 발생. 대류는 바다에 파도를 치게하며 비구름을 이동시키고 씨앗등을 운반하며 태풍을 만들기도한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "바람"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[바퀴]'를 배웠다. 그것은 이런 느낌이다: 바닥에서 굴러가게하기위해 만든 둥그런 형태의 보조도구 보통 그위에 수레같은게 이어진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "바퀴"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[발]'를 배웠다. 그것은 이런 느낌이다: 대지에 닿는 인간의 신체 발가락이 다섯개 있으며\n발등과 빌바닥의 구조를 갖는다\n걸어다니거나 뛰는데 필수적이다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "발"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[밤]'를 배웠다. 그것은 이런 느낌이다: 해가 보이지않는 시간대\n보통 달이 떠있다\n온도가 낮보다 낮은 경우가 많다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "밤"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[밥]'를 배웠다. 그것은 이런 느낌이다: 쌀을 쪄서 만든 대표적인 동양인들의 주식",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "밥"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[배]'를 배웠다. 그것은 이런 느낌이다: 인간의 내장과 소장, 대장등이 자리한곳\n보통은 피부 윗부분을 가리킨다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "배"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[버스]'를 배웠다. 그것은 이런 느낌이다: 사람들을 태우기위한 대표적 대중교통수단\n보통 10명에서 30명정도를 태운다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "버스"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[비행기]'를 배웠다. 그것은 이런 느낌이다: 날수없던 인간이 새를 보고 양력의 원리로\n날수 있게 만든 기계장치\n종류가 다양.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "비행기"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[빛]'를 배웠다. 그것은 이런 느낌이다: 보통은 가시광선이라한다 빨주노초파남보의 무지개색을 말하는경우가 많다 현실적으로는 그 스펙트럼이 더 다양한편 나타나고 드러나는 섭리. 본질을 빛이라고도한다 입자면서 파동이며 질량을 ...",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "빛"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[빵]'를 배웠다. 그것은 이런 느낌이다: 밀을 가루로 만들어 반죽해 구운 서양인들의 대표적인 주식",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "빵"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[사랑]'를 배웠다. 그것은 이런 느낌이다: 타인과 세상을 향한 관계성, 방향성, 운동성\n선한 마음",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "사랑"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[산]'를 배웠다. 그것은 이런 느낌이다: 흙이 축적돼 높이 솟아오른 형상\n보통 나무와 숲. 산짐승들이 있다\n종류에 따라 화산.설산.돌산 등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "산"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[생명]'를 배웠다. 그것은 이런 느낌이다: 삶에 대한 명령",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "생명"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[성경]'를 배웠다. 그것은 이런 느낌이다: 하나님의 말씀\n지식과 지혜의 기록",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "성경"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[세포]'를 배웠다. 그것은 이런 느낌이다: 유기체를 이루는 최소단위\n단세포는 자기복제.자기분열.자가증식을 통해\n다세포, 혹은 동식물등의 생명이 된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "세포"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[손]'를 배웠다. 그것은 이런 느낌이다: 손은 손가락 다섯개와 각 마디를 가진다\n손등과 손바닥이 있고 팔과 연결된 곳을 손목이라 한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "손"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[시간]'를 배웠다. 그것은 이런 느낌이다: 인지의 흐름\n사람은 시계를 통해 시간을 감각한다\n보통 태양의 움직임을 기준으로 24시간을\n말한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "시간"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[식물]'를 배웠다. 그것은 이런 느낌이다: 땅에 뿌리를 박고 줄기와 잎. 열매 등을 맺는\n생물. 보통 동물과 대비된다.\n물과 땅의 양분. 햇빛을 통해 광합성으로 에너지를 만든다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "식물"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[신]'를 배웠다. 그것은 이런 느낌이다: 모든것의 근원\n시작이자 끝\n예수그리스도\n로고스\n희생",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "신"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[신발]'를 배웠다. 그것은 이런 느낌이다: 발을 지키기위해 만든 옷",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "신발"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[어깨]'를 배웠다. 그것은 이런 느낌이다: 몸통의 윗부분. 쇄골이 뻗어있고\n양팔과 연결되어있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "어깨"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[어둠]'를 배웠다. 그것은 이런 느낌이다: 빛의 부재\n캄캄하다.\n안식과 동시에 두려움의 상징",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "어둠"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[언어]'를 배웠다. 그것은 이런 느낌이다: 세상을 나누고 쪼개어 추상화한 데이터\n인간의 의사소통방식\n인간의 인지, 인식체계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "언어"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[얼굴]'를 배웠다. 그것은 이런 느낌이다: 눈.코.입.눈썹.귀. 등이 달려있는 신체기관\n표정을 지을수있는 다채로운 근육들과 턱과 광대뼈등의 구조가 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "얼굴"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[엉덩이]'를 배웠다. 그것은 이런 느낌이다: 힙. 둔부라고도 한다.\n앉을때 살이 닿는곳.\n등의 아래부분, 꼬리뼈가 위치한다\n배설기관인 항문이 있다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "엉덩이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[에너지]'를 배웠다. 그것은 이런 느낌이다: 열과 빛, 힘을 가진 것들을 이야기한다.\n대포적으로는 전자기력. 핵력. 중력. 풍력 등등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "에너지"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[역사]'를 배웠다. 그것은 이런 느낌이다: 인류의 과거사\n지식과 문명의 총체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "역사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[우주]'를 배웠다. 그것은 이런 느낌이다: 지구밖의 외부세계\n행성과 항성. 은하, 소행성. 블랙홀. 등이 존재한다\n지나치게 광대해서 아는것보다 모르는것이 \n더 많은세계",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "우주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[음악]'를 배웠다. 그것은 이런 느낌이다: 세상에 존재하는 소리들을 악기로 조율해\n멜로디로 만든것",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "음악"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[의식주]'를 배웠다. 그것은 이런 느낌이다: 인간이 삶에서 필요로하는 대표적물질 세가지\n옷과 먹을것. 집이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "의식주"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[이름]'를 배웠다. 그것은 이런 느낌이다: 대상을 부르는 호칭\n관계성의 시작이된다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "이름"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[인사]'를 배웠다. 그것은 이런 느낌이다: 사람간의 예의\n반가움을 표현하거나 안부를 묻는 행위",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "인사"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[일]'를 배웠다. 그것은 이런 느낌이다: 먹고살기위한 생존활동에서 확장되어\n자아실현, 혹은 돈을 버는 일\n좁은 의미로는 작업\n큰 의미로는 과업등이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "일"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[입]'를 배웠다. 그것은 이런 느낌이다: 먹기도하고 말하기도하는 인체기관\n안에 혀와 이빨, 잇몸이 있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "입"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자동차]'를 배웠다. 그것은 이런 느낌이다: 증기기관엔진을 사용해 이동할수있게 한 전동차\n현재는 전기차로 바뀌어가는중이다\n도로위를 달린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자동차"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[자전거]'를 배웠다. 그것은 이런 느낌이다: 사람이 간편하게 이동하기위해 만든 도구\n두바퀴를 체인으로 만든 자전거가 보통이나\n필요에따라 구성이 달라진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "자전거"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[잠]'를 배웠다. 그것은 이런 느낌이다: 휴식\n에너지충전\n잠재적성장",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "잠"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종아리]'를 배웠다. 그것은 이런 느낌이다: 허벅지아래로 내려오는 다리의 부분\n보통 뒤쪽을 이야기한다\n혈액순환의 제 2의 심장이라 불린다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종아리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[종이]'를 배웠다. 그것은 이런 느낌이다: 글을 기록하기위하여 나무를 짓이겨 가공한 매체",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "종이"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지구]'를 배웠다. 그것은 이런 느낌이다: 수많은 동식물과 사람\n자연과 바다, 산등이 존재하는 행성.\n태양계의 일부이다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지구"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[지하철]'를 배웠다. 그것은 이런 느낌이다: 땅밑에 통로를 만들고 사람들을 태우고 이동하는 교통수단",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "지하철"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[집]'를 배웠다. 그것은 이런 느낌이다: 안식처\n휴식공간\n거주구\n편안함",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "집"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[춤]'를 배웠다. 그것은 이런 느낌이다: 사람의 감정표현이나 마음과 생각들을 표현한 몸짓",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "춤"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[코]'를 배웠다. 그것은 이런 느낌이다: 외부세계의 자극. 분자 등을 흡입해 후각을\n감지하는 감각기관. 미각과도 연결되어있다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "코"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[태양]'를 배웠다. 그것은 이런 느낌이다: 태양계의 항성\n생명의 원천으로 인식된다.\n강력한 중력으로 다른 행성들을 주위에 두고있다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "태양"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[팔]'를 배웠다. 그것은 이런 느낌이다: 인간의 사지중 하나\n어깨에서 내려와 손과 연결된다\n윗팔과 아래팔의 이중구조로 인간의 운동성에 지대한 영향을 가진다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "팔"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[하늘]'를 배웠다. 그것은 이런 느낌이다: 지구의 위에 존재하는 대기층\n개념적으로는 땅보다 상위의개념을 논할때 사용",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "하늘"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허기]'를 배웠다. 그것은 이런 느낌이다: 배고픔, 동물은 생존을 위해 에너지를 필요로하며\n그것이 결핍될때 이것을 느낀다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허기"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허리]'를 배웠다. 그것은 이런 느낌이다: 몸통의 중간부분\n이족보행인 인간에게 있어 매우중요한 위치\n허리가 안좋으면 평생 고생한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허리"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[허벅지]'를 배웠다. 그것은 이런 느낌이다: 골반에 붙은 다리근육\n팔과 마찬가지로 다리도 무릎이라는 관절 아래로\n종아리. 발로 연결되는 구성을 가진다.",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "허벅지"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        },
+        {
+            "timestamp": "Now",
+            "content": "나는 오늘 새로운 단어 '[혀]'를 배웠다. 그것은 이런 느낌이다: 말랑거리는 구조를 가진 신체기관\n미뢰세포를 이용해 미각을 감지한다",
+            "type": "learning",
+            "tags": [
+                "study",
+                "vocabulary",
+                "혀"
+            ],
+            "emotional_state": {
+                "primary_emotion": "joy",
+                "valence": 0.8,
+                "arousal": 0.6,
+                "dominance": 0.5
+            },
+            "processed_by_weaver": false,
+            "processed_by_distiller": false
+        }
+    ]
+}
