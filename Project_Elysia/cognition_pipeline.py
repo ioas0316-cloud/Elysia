@@ -78,7 +78,9 @@ class CognitionPipeline:
         self.causal_reasoner = kwargs.get('causal_reasoner') or CausalReasoner(
             core_memory=core_memory
         )
-        self.syllabic_engine = kwargs.get('syllabic_engine') or SyllabicLanguageEngine()
+        self.syllabic_engine = kwargs.get('syllabic_engine') or SyllabicLanguageEngine(
+            core_memory=core_memory
+        )
         self.value_engine = kwargs.get('value_engine') or ValueEngine(core_memory=core_memory)
 
         # --- Instantiate Components (dependencies for handlers) ---

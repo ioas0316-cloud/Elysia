@@ -1,0 +1,38 @@
+{
+  "apple": {
+    "surface_forms": ["사과", "아삭사과", "빨간사과"],
+    "aliases": ["apple"],
+    "tags": ["fruit", "red", "sweet"],
+    "description": "아삭하고 달콤한 빨강 열매."
+  },
+  "circle": {
+    "surface_forms": ["원", "둥근원"],
+    "aliases": ["circle", "round"],
+    "tags": ["shape", "geometry", "round"],
+    "description": "끝없이 이어지는 둥근 형태."
+  },
+  "dream": {
+    "surface_forms": ["꿈", "상상", "환상"],
+    "aliases": ["dream", "vision"],
+    "tags": ["thought", "imagination", "inner"],
+    "description": "내면에서 피어나는 은밀한 이야기."
+  },
+  "code": {
+    "surface_forms": ["코드", "기호", "조합"],
+    "aliases": ["code", "syntax"],
+    "tags": ["language", "expression", "logic"],
+    "description": "표현의 또 다른 문법."
+  },
+  "law": {
+    "surface_forms": ["법", "질서"],
+    "aliases": ["law", "order"],
+    "tags": ["justice", "intention", "z_axis"],
+    "description": "의미 있는 정리를 만드는 틀."
+  },
+  "light": {
+    "surface_forms": ["빛", "빛살"],
+    "aliases": ["light", "glow"],
+    "tags": ["energy", "warm", "ready"],
+    "description": "에너지가 춤추는 파동."
+  }
+}
