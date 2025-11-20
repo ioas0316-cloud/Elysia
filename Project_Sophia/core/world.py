@@ -16,6 +16,7 @@ from .chronicle import Chronicle
 from .skills import MARTIAL_STYLES, Move
 from .spells import SPELL_BOOK, cast_spell
 from .world_event_logger import WorldEventLogger
+from .genesis_engine import GenesisEngine
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
 from .dialogue_kr import get_line as kr_dialogue
@@ -162,6 +163,9 @@ class World:
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
+
+        # --- Genesis Engine (Data-Driven Physics) ---
+        self.genesis_engine = GenesisEngine(self)
 
         # --- Quantum State Management ---
         self.quantum_states: Dict[str, Dict[str, float]] = {}
@@ -2282,6 +2286,22 @@ class World:
         # --- 1. Identify all possible actions and targets ---
         possible_actions = []
 
+        # Inject Genesis Actions (New Data-Driven Logic)
+        targets = connected_indices.tolist()
+        # Also include self as a target for self-actions
+        targets_with_self = targets + [actor_idx]
+
+        # We assume "general" context for now. Future: "combat", "social", etc.
+        genesis_candidates = self.genesis_engine.get_candidate_actions(actor_idx, "general", targets_with_self)
+        for action_id, target_idx, score in genesis_candidates:
+             possible_actions.append({
+                 'action': f'genesis:{action_id}',
+                 'action_id': action_id,
+                 'target_idx': target_idx,
+                 'move': None,
+                 'score': score
+             })
+
         # Action: Share Food
         # (Conditions to be implemented in the scoring function)
         hungry_neighbors = connected_indices[(self.hunger[connected_indices] < 30) & self.is_alive_mask[connected_indices]]
@@ -2330,7 +2350,10 @@ class World:
             has_starvation_scar = (actor_scars & 1) > 0
             has_charity_scar = (actor_scars & 2) > 0
 
-            if action_type == 'share_food':
+            if action_type.startswith('genesis:'):
+                score += action_option.get('score', 0)
+
+            elif action_type == 'share_food':
                 # Share food if actor is not hungry, target is hungry, and actor has some wisdom.
                 if self.hunger[actor_idx] > 70 and self.hunger[target_idx] < 30:
                     score += 100 # Greatly increased base score for altruism
@@ -2409,6 +2432,14 @@ class World:
 
     def _execute_animal_action(self, actor_idx: int, target_idx: int, action: str, move: Optional[Move]):
         """Executes the chosen action, including non-target actions like meditation."""
+        # --- Genesis Protocol Execution ---
+        if action.startswith('genesis:'):
+             # Extract 'action:fire_punch' from 'genesis:action:fire_punch'
+             # The action_id is everything after 'genesis:'
+             action_id = action[len('genesis:'):]
+             self.genesis_engine.execute_action(actor_idx, action_id, target_idx)
+             return
+
         # In peaceful_mode, suppress explicitly lethal combat actions against animals.
         if self.peaceful_mode and action in ('attack', 'cast_firebolt') and target_idx >= 0:
             try:
