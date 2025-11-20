@@ -3,9 +3,22 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, asdict
 from typing import Any, Dict, Optional
+from enum import Enum, auto
 
 from Project_Elysia.core_memory import CoreMemory
 
+
+class LensMode(Enum):
+    ANCHOR = auto()   # W-Axis: Self / Spirit / Meta-Cognition
+    INTERNAL = auto() # X-Axis: Internal World (Dream / Memory)
+    EXTERNAL = auto() # Y-Axis: External World (Action / Sensing)
+    LAW = auto()      # Z-Axis: Intention & Law (Soul / Depth)
+
+@dataclass
+class LensState:
+    mode: LensMode
+    intensity: float
+    vector: Dict[str, float]
 
 @dataclass
 class QuaternionOrientation:
@@ -86,16 +99,31 @@ class QuaternionConsciousnessEngine:
         q = self._orientation
         stability = "Stable" if q.is_stable() else "Unstable"
         
-        # Determine primary focus
-        components = {"Internal(X)": abs(q.x), "External(Y)": abs(q.y), "Law(Z)": abs(q.z)}
-        focus = max(components, key=components.get)
+        focus_state = self.determine_focus()
 
         return {
             "stability": stability,
             "anchor_strength": round(q.w, 3),
-            "primary_focus": focus,
+            "primary_focus": focus_state.mode.name,
+            "focus_intensity": round(focus_state.intensity, 3),
             "raw": q.as_dict(),
         }
+
+    def determine_focus(self) -> LensState:
+        """
+        Determines the current mode of observation based on the dominant axis.
+        """
+        q = self._orientation
+
+        # Absolute magnitudes
+        w, x, y, z = abs(q.w), abs(q.x), abs(q.y), abs(q.z)
+
+        # Find dominant axis
+        magnitudes = {LensMode.ANCHOR: w, LensMode.INTERNAL: x, LensMode.EXTERNAL: y, LensMode.LAW: z}
+        mode = max(magnitudes, key=magnitudes.get)
+        intensity = magnitudes[mode]
+
+        return LensState(mode=mode, intensity=intensity, vector=q.as_dict())
 
     def reset(self) -> None:
         self._orientation = QuaternionOrientation(w=1.0, x=0.0, y=0.0, z=0.0)
