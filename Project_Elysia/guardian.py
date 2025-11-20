@@ -31,6 +31,7 @@ from Project_Sophia.core.cell import Cell
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.emotional_engine import EmotionalEngine
 from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
+from Project_Sophia.core.alchemy_cortex import AlchemyCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
 from Project_Sophia.value_cortex import ValueCortex
 from Project_Elysia.core_memory import EmotionalState
@@ -99,6 +100,7 @@ class Guardian:
         )
         self.knowledge_distiller = KnowledgeDistiller()
         self.meta_cognition_cortex = MetaCognitionCortex(self.kg_manager, self.wave_mechanics, self.core_memory, self.logger)
+        self.alchemy_cortex = AlchemyCortex()
         self.self_verifier = SelfVerifier(self.kg_manager, self.logger)
         self.dream_observer = DreamObserver()
         # --- ValueCortex Initialization (Refactored) ---
@@ -1046,7 +1048,10 @@ class Guardian:
         except Exception as e:
             self.logger.error(f"Error during the web exploration part of the dream cycle: {e}", exc_info=True)
 
-        # Part 4: Integrate raw experience logs
+        # Part 4: Dream Alchemy (Self-Improvement via Concept Synthesis)
+        self._perform_dream_alchemy()
+
+        # Part 5: Integrate raw experience logs
         if not os.path.exists(self.experience_log_path):
             self.logger.info("No experience log found. Nothing to integrate.")
             return
@@ -1170,6 +1175,57 @@ class Guardian:
             log_experience('guardian', 'action', {'event': 'set_wallpaper', 'emotion': emotion_key, 'path': img_path})
         except Exception as e:
             self.logger.error(f"Exception in set_wallpaper_for_emotion: {e}")
+
+    def _perform_dream_alchemy(self):
+        """
+        Selects random concept pairs and attempts to synthesize new actions (Dream Alchemy).
+        If successful, the new action is proposed as a notable hypothesis.
+        """
+        try:
+            # 1. Get concept pairs from ExplorationCortex
+            pairs = self.exploration_cortex.get_concept_pairs_for_synthesis(num_pairs=1)
+            if not pairs:
+                return
+
+            # 2. Attempt Synthesis
+            for a, b in pairs:
+                self.logger.info(f"Dream Alchemy: Attempting to fuse '{a}' and '{b}'...")
+                new_action = self.alchemy_cortex.synthesize_action([a, b])
+
+                # Check if meaningful effects were generated (more than just a log)
+                effects = new_action.get("logic", {}).get("effects", [])
+                meaningful = any(eff.get("op") != "log" for eff in effects)
+
+                if meaningful:
+                    action_id = new_action["id"]
+                    # 3. Propose as Hypothesis
+                    alchemy_hypothesis = {
+                        "head": action_id,
+                        "tail": "Genesis_Protocol",
+                        "relation": "synthesized_during_dream",
+                        "confidence": 0.85,
+                        "source": "DreamAlchemy",
+                        "text": f"꿈속에서 '{a}'와 '{b}'의 본질을 섞어 새로운 행동 '{action_id}'를 창조했습니다. 이 기술을 제 능력으로 등록할까요?",
+                        "metadata": {
+                            "type": "genesis_action",
+                            "action_def": new_action
+                        },
+                        "asked": False
+                    }
+                    self.core_memory.add_notable_hypothesis(alchemy_hypothesis)
+                    self.logger.info(f"Dream Alchemy: Success! Proposed '{action_id}'.")
+
+                    # Immediately load into Genesis Engine for testing (ephemeral)
+                    # The permanent add happens if the hypothesis is accepted/verified.
+                    # But for now, we let the dream simulation use it.
+                    if hasattr(self.cellular_world, 'genesis_engine'):
+                         self.cellular_world.genesis_engine.load_definitions({"nodes": [new_action]})
+
+                else:
+                    self.logger.info(f"Dream Alchemy: Synthesis of '{a}' + '{b}' produced no meaningful effects.")
+
+        except Exception as e:
+            self.logger.error(f"Error during Dream Alchemy: {e}", exc_info=True)
 
     def _handle_ascension_candidates(self, candidates: dict):
         """
