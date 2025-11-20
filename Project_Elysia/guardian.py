@@ -115,6 +115,13 @@ class Guardian:
         # --- Cellular World (Soul Twin) Initialization ---
         self.logger.info("Initializing the Cellular World (Soul Twin)...")
         self.cellular_world = self._load_cellular_world()
+
+        # --- Genesis Protocol: Load Laws/Actions from KG ---
+        if hasattr(self.cellular_world, 'genesis_engine'):
+             self.logger.info("Genesis Protocol: Loading laws and actions from Knowledge Graph...")
+             # Pass the entire KG dictionary which contains 'nodes'
+             self.cellular_world.genesis_engine.load_definitions(self.kg_manager.kg)
+
         self._soul_mirroring_initialization()
         # --- End Cellular World Initialization ---
 
