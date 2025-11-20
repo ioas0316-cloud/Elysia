@@ -154,3 +154,25 @@ class ExplorationCortex:
 
         # Return the ID of a random node from the candidates
         return random.choice(candidate_nodes)[0]
+
+    def get_concept_pairs_for_synthesis(self, num_pairs: int = 1) -> List[tuple[str, str]]:
+        """
+        Returns a list of concept pairs (A, B) suitable for alchemical synthesis.
+        Strategy:
+        1. Resonance: Two concepts connected to a common hub.
+        2. Contrast: Two concepts from different clusters (random selection for now).
+        """
+        nodes = [n['id'] for n in self.kg.kg.get('nodes', [])]
+        if len(nodes) < 2:
+            return []
+
+        pairs = []
+        for _ in range(num_pairs):
+            # For now, we use random selection to encourage creative, unexpected combinations.
+            # Future: Use WaveMechanics to find resonant or dissonant pairs.
+            a = random.choice(nodes)
+            b = random.choice(nodes)
+            if a != b:
+                pairs.append((a, b))
+
+        return pairs
