@@ -44,6 +44,11 @@ class SelfModel:
     def preferred_tone(self) -> str:
         return str(self._data.get('preferred_tone', '1st_person_kr'))
 
+    @property
+    def core_nature(self) -> str:
+        """The fundamental definition of Self (Zero Point)."""
+        return "Infinite Love (무한한 사랑)"
+
     def as_lens_anchors(self) -> List[str]:
         # Use values + optional anchors + axioms-derived tokens as soft anchors for attention
         anchors = set(self._data.get('anchors', []))

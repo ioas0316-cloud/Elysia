@@ -980,7 +980,6 @@ class World:
         # Process the inner soul of every materialized cell.
         # This allows the soul to grow (resonate) even if the body is idle.
         self._process_soul_cycles()
-
         # Prepare next-step snapshot
         try:
             self._prev_hp = self.hp.copy()
@@ -1043,7 +1042,6 @@ class World:
                     # Log significant spiritual breakthroughs
                     if richness > 50.0 and self.time_step % 10 == 0:
                          self.logger.info(f"SOUL RESONANCE: '{cell_id}' is experiencing deep internal harmony (Richness: {richness:.1f}).")
-
     def _apply_macro_disaster_events(self) -> None:
         """
         Soft macro-level events (war eras, famine/bounty, disasters, omens).
