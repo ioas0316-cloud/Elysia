@@ -17,6 +17,7 @@ from .skills import MARTIAL_STYLES, Move
 from .spells import SPELL_BOOK, cast_spell
 from .world_event_logger import WorldEventLogger
 from .genesis_engine import GenesisEngine
+from .neural_eye import NeuralEye
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
 from .dialogue_kr import get_line as kr_dialogue
@@ -242,6 +243,12 @@ class World:
 
         # --- Geology (Grid-based) ---
         self.width = 256  # Default size, can be configured
+
+        # --- Neural Eye (Intuition Engine) ---
+        # Must be initialized after self.width is defined
+        self.neural_eye = NeuralEye(width=self.width)
+        self._last_intuition_tick = 0
+
         self.height_map = np.zeros((self.width, self.width), dtype=np.float32)
         self.soil_fertility = np.full((self.width, self.width), 0.5, dtype=np.float32)
         self.wetness = np.zeros((self.width, self.width), dtype=np.float32) # 0.0 (dry) to 1.0 (puddle)
@@ -902,6 +909,11 @@ class World:
         # --- Law of Existential Change (e > r) ---
         awakening_events = self._apply_law_of_awakening()
 
+        # --- Neural Eye Perception Cycle ---
+        # Run every 10 ticks to save compute and simulate "subconscious processing" time
+        if self.time_step % 10 == 0:
+            self._process_neural_intuition()
+
         # Prepare next-step snapshot
         try:
             self._prev_hp = self.hp.copy()
@@ -909,6 +921,28 @@ class World:
             pass
 
         return newly_born_cells, awakening_events
+
+    def _process_neural_intuition(self):
+        """
+        Uses the Neural Eye to scan the world for high-level patterns.
+        """
+        try:
+            intuitions = self.neural_eye.perceive(self)
+            for insight in intuitions:
+                # Log the intuition
+                self.logger.info(f"INTUITION: {insight['description']} (Intensity: {insight['intensity']:.2f})")
+
+                # Map intuition to event log
+                if insight['type'] == 'intuition_conflict':
+                    self.event_logger.log('INTUITION_CONFLICT', self.time_step,
+                                          intensity=insight['intensity'],
+                                          location=insight.get('location'))
+                elif insight['type'] == 'intuition_harmony':
+                    self.event_logger.log('INTUITION_HARMONY', self.time_step,
+                                          intensity=insight['intensity'])
+
+        except Exception as e:
+            self.logger.error(f"Neural Eye Blinked (Error): {e}")
 
     def _apply_macro_disaster_events(self) -> None:
         """
