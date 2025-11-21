@@ -37,6 +37,8 @@ class Experience:
     # --- Soul Layer Attributes (Frequency/Resonance) ---
     frequency: float = 0.0 # The fundamental tone (Hz) of this experience.
     resonance_amp: float = 0.0 # The intensity of the resonance.
+    tensor_state: Optional[Dict[str, float]] = None # Serialized Tensor3D
+    richness: float = 0.0 # Harmonic complexity / texture
 
 
 # For backward compatibility with existing modules/tests
@@ -56,6 +58,8 @@ class IdentityFragment:
 
     # --- Soul Layer Attributes ---
     avg_frequency: float = 0.0 # The 'Average Tone' of this identity period.
+    tensor_state: Optional[Dict[str, float]] = None
+    richness: float = 0.0
 
 
 @dataclass
@@ -70,6 +74,8 @@ class EssencePrinciple:
 
     # --- Soul Layer Attributes ---
     harmonic_root: float = 0.0 # The 'Key Signature' (Hz) of this life principle.
+    tensor_state: Optional[Dict[str, float]] = None
+    richness: float = 0.0
 
 
 class CoreMemory:
@@ -486,6 +492,8 @@ class CoreMemory:
         data.setdefault("processed_by_distiller", False)
         data.setdefault("frequency", 0.0) # New default
         data.setdefault("resonance_amp", 0.0) # New default
+        data.setdefault("tensor_state", None) # New default
+        data.setdefault("richness", 0.0) # New default
         return data
 
     def _dict_to_emotional_state(self, data: Optional[Dict[str, Any]]) -> Optional[EmotionalState]:
@@ -512,11 +520,15 @@ class CoreMemory:
             valence=0.0, arousal=0.0, dominance=0.0, primary_emotion="neutral"
         )
         fragment_data.setdefault("avg_frequency", 0.0) # New default
+        fragment_data.setdefault("tensor_state", None) # New default
+        fragment_data.setdefault("richness", 0.0) # New default
         return IdentityFragment(**fragment_data)
 
     def _dict_to_essence_principle(self, data: Dict[str, Any]) -> EssencePrinciple:
         data_copy = data.copy()
         data_copy.setdefault("harmonic_root", 0.0) # New default
+        data_copy.setdefault("tensor_state", None) # New default
+        data_copy.setdefault("richness", 0.0) # New default
         return EssencePrinciple(**data_copy)
 
     def _save_memory(self):

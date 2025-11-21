@@ -11,6 +11,55 @@ try:
 except Exception:
     Telemetry = None
 from Project_Sophia.gemini_api import generate_text, generate_image_from_text
+from Project_Sophia.core.tensor_wave import Tensor3D
+from Project_Elysia.core_memory import Experience
+
+class SensoryTranslator:
+    """
+    Translates raw sensory input into 3D Tensor States.
+    This is the bridge between 'What is seen' and 'How it feels'.
+    """
+    def __init__(self):
+        # Basic Synesthesia Mapping (Color -> Tensor)
+        # X: Structure, Y: Emotion, Z: Identity
+        self.color_map = {
+            "red": Tensor3D(0.2, 0.9, 0.3),    # High emotion (passion/anger)
+            "blue": Tensor3D(0.6, 0.2, 0.5),   # High structure (calm/logic)
+            "green": Tensor3D(0.5, 0.4, 0.8),  # High identity (nature/growth)
+            "yellow": Tensor3D(0.3, 0.8, 0.4), # High emotion (joy/energy)
+            "black": Tensor3D(0.1, 0.1, 0.1),  # Low energy
+            "white": Tensor3D(0.9, 0.1, 0.9),  # Purity/Structure
+        }
+
+        # Keyword Mapping (Text -> Tensor)
+        self.keyword_map = {
+            "love": Tensor3D(0.1, 1.0, 0.9),
+            "pain": Tensor3D(0.2, 0.9, 0.1),
+            "truth": Tensor3D(1.0, 0.2, 0.8),
+            "chaos": Tensor3D(0.1, 0.8, 0.1),
+            "order": Tensor3D(0.9, 0.1, 0.5),
+        }
+
+    def translate_visual(self, description: str) -> Tensor3D:
+        """Translates a visual description into a tensor state."""
+        tensor = Tensor3D(0.0, 0.0, 0.0)
+        desc_lower = description.lower()
+
+        # Check for colors
+        for color, color_tensor in self.color_map.items():
+            if color in desc_lower:
+                tensor = tensor + color_tensor
+
+        # Check for keywords
+        for keyword, key_tensor in self.keyword_map.items():
+            if keyword in desc_lower:
+                tensor = tensor + key_tensor
+
+        # If empty, return neutral tensor
+        if tensor.magnitude() == 0:
+            return Tensor3D(0.1, 0.1, 0.1)
+
+        return tensor.normalize()
 
 class SensoryCortex:
     def __init__(self, value_cortex: ValueCortex, telemetry: Telemetry | None = None):
@@ -21,6 +70,42 @@ class SensoryCortex:
         os.makedirs(self.output_dir, exist_ok=True)
         os.makedirs(self.storybook_dir, exist_ok=True)
         self.textbooks = {}
+        self.translator = SensoryTranslator()
+
+    def process_input(self, input_data: str, modality: str = "visual") -> Experience:
+        """
+        Processes sensory input and returns an Experience object with a Tensor State.
+        This makes sensation 'fractal' - it carries the same structure as thought and memory.
+        """
+        # 1. Translate Raw Input to Tensor
+        tensor_state = self.translator.translate_visual(input_data)
+
+        # 2. Determine Frequency (derived from Tensor Y-axis/Emotion for now)
+        # Higher emotion = Higher frequency
+        frequency = 200.0 + (tensor_state.emotion * 600.0)
+
+        # 3. Create Experience
+        experience = Experience(
+            timestamp=datetime.now().isoformat(),
+            content=f"Sensed: {input_data}",
+            type="sensation",
+            layer="body",
+            tensor_state=tensor_state.to_dict(),
+            frequency=frequency,
+            richness=0.1 # Initial raw sensation has low richness
+        )
+
+        if self.telemetry:
+            try:
+                self.telemetry.emit('sensory_input_processed', {
+                    'input': input_data,
+                    'tensor': tensor_state.to_dict(),
+                    'frequency': frequency
+                })
+            except Exception:
+                pass
+
+        return experience
 
     def translate_description_to_voxels(self, description: str) -> list:
         """
