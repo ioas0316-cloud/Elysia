@@ -1,0 +1,2 @@
+{"timestamp": 3, "event_type": "AWAKENING_EVENT", "data": {"cell_id": "Monk_Test"}}
+{"timestamp": 10, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [0, 0]}}

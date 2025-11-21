@@ -14,5 +14,9 @@ class Thought:
     energy: float = 0.0      # The activation energy from the cell simulation
     evidence: List[Any] = field(default_factory=list) # Supporting nodes/edges/cells
 
+    # --- Soul Layer Attributes (Frequency/Resonance) ---
+    frequency: float = 0.0   # The fundamental tone (Hz) of this thought. (New in Fractal Soul update)
+    resonance_amp: float = 0.0 # The intensity of the resonance (Amplitude).
+
     def __str__(self):
-        return f"Thought(content='{self.content}', source='{self.source}', confidence={self.confidence:.2f}, energy={self.energy:.2f})"
+        return f"Thought(content='{self.content}', source='{self.source}', confidence={self.confidence:.2f}, energy={self.energy:.2f}, freq={self.frequency:.1f}Hz)"
