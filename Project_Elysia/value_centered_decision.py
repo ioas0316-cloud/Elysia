@@ -5,6 +5,7 @@ from typing import Optional, List
 
 # Cross-project import for the standardized Thought data structure
 from Project_Sophia.core.thought import Thought
+from Project_Sophia.core.tensor_wave import Tensor3D
 from Project_Sophia.wave_mechanics import WaveMechanics
 from Project_Sophia.emotional_engine import EmotionalState
 from tools.kg_manager import KGManager
@@ -31,7 +32,8 @@ class ValueCenteredDecision:
             'confidence': 1.0,
             'energy': 0.8,
             'context': 0.5,
-            'freshness': 1.0
+            'freshness': 1.0,
+            'richness': 1.2  # New weight for harmonic complexity
         }
 
         self.recent_history = []  # To penalize repetition
@@ -58,12 +60,31 @@ class ValueCenteredDecision:
 
         return list(set(mentioned_entities))
 
-    def _calculate_value_alignment(self, text: str) -> float:
-        """Calculates alignment with the core value using WaveMechanics."""
-        if not text:
+    def _calculate_value_alignment(self, thought: Thought) -> float:
+        """Calculates alignment with the core value using WaveMechanics and Tensor Resonance."""
+
+        # 1. Tensor Resonance (Primary)
+        # If the thought has a tensor state, compare it directly with the Core Value's tensor
+        if thought.tensor_state:
+            thought_tensor = Tensor3D.from_dict(thought.tensor_state)
+
+            # Fetch Core Value Tensor (Love)
+            core_node = self.kg_manager.get_node(self.core_value)
+            if core_node and core_node.get('tensor_state'):
+                core_tensor = Tensor3D.from_dict(core_node.get('tensor_state'))
+            else:
+                # Fallback: Assume 'Love' is high emotion/identity
+                core_tensor = Tensor3D(0.2, 1.0, 0.9)
+
+            # Calculate Alignment (Dot Product of normalized tensors)
+            alignment = thought_tensor.normalize().dot(core_tensor.normalize())
+            return max(0.0, alignment)
+
+        # 2. KG Scalar Resonance (Secondary/Fallback)
+        if not thought.content:
             return 0.0
 
-        mentioned_entities = self._find_mentioned_entities(text)
+        mentioned_entities = self._find_mentioned_entities(thought.content)
         if not mentioned_entities:
             return 0.25 # Neutral score if no specific entities are found
 
@@ -113,12 +134,15 @@ class ValueCenteredDecision:
         if primary_emotion == 'joy':
             weights['energy'] *= 1.3 # Value dynamic, energetic thoughts more
             weights['confidence'] *= 0.8 # Be less cautious
+            weights['richness'] *= 1.1 # Appreciate complexity
         elif primary_emotion == 'sadness':
             weights['resonance'] *= 1.2 # Seek more value-aligned, comforting thoughts
             weights['energy'] *= 0.7 # Less interested in high-energy thoughts
+            weights['richness'] *= 1.5 # Deeply value complex/meaningful thoughts over simple ones
         elif primary_emotion == 'fear':
             weights['confidence'] *= 1.4 # Prioritize certainty and safety
             weights['energy'] *= 0.6
+            weights['richness'] *= 0.5 # Prefer simple, clear solutions
         elif primary_emotion == 'calm':
             weights['confidence'] *= 1.2
             weights['freshness'] *= 0.8 # Less need for novelty
@@ -130,22 +154,26 @@ class ValueCenteredDecision:
 
         weights = self._get_emotionally_adjusted_weights(emotional_state)
 
-        # 1. Value Alignment (Soul)
-        resonance_score = self._calculate_value_alignment(candidate.content)
+        # 1. Value Alignment (Soul) - Now Tensor-aware
+        resonance_score = self._calculate_value_alignment(candidate)
 
         # 2. Intrinsic Quality (Mind)
         confidence_score = candidate.confidence
         energy_score = self._normalize_energy(candidate.energy)
 
-        # 3. Conversational Flow (Environment)
+        # 3. Richness (Texture/Complexity)
+        richness_score = candidate.richness
+
+        # 4. Conversational Flow (Environment)
         context_score = self._calculate_context_fit(candidate.content, context)
         freshness_score = self._calculate_freshness(candidate.content)
 
-        # 4. Final Weighted Score
+        # 5. Final Weighted Score
         final_score = (
             weights['resonance'] * resonance_score +
             weights['confidence'] * confidence_score +
             weights['energy'] * energy_score +
+            weights['richness'] * richness_score +
             weights['context'] * context_score +
             weights['freshness'] * freshness_score
         )

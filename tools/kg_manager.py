@@ -4,6 +4,7 @@ Knowledge Graph Manager for a 3D Conceptual Space
 Manages a knowledge graph where each node has a 3D position,
 creating a spatial representation of concepts and their relationships.
 This version supports a property graph model where edges can have attributes.
+Now upgraded to support 3D Tensor State and Frequency properties.
 """
 import json
 import random
@@ -45,13 +46,19 @@ class KGManager:
         new_node = {
             "id": node_id,
             "position": position if position else {"x": 0, "y": 0, "z": 0},
-            "activation_energy": 0.0
+            "activation_energy": 0.0,
+            "frequency": 0.0, # Default frequency
+            "tensor_state": None # Default tensor state
         }
         if properties:
             new_node.update(properties)
 
         self.kg['nodes'].append(new_node)
         return new_node
+
+    def update_node(self, node_id: str, properties: Dict[str, Any]) -> bool:
+        """Alias for update_node_properties"""
+        return self.update_node_properties(node_id, properties)
 
     def update_node_properties(self, node_id: str, properties: Dict[str, Any]) -> bool:
         """Updates the properties of an existing node."""
