@@ -914,6 +914,11 @@ class World:
         if self.time_step % 10 == 0:
             self._process_neural_intuition()
 
+        # --- Fractal Soul Growth Cycle (New) ---
+        # Process the inner soul of every materialized cell.
+        # This allows the soul to grow (resonate) even if the body is idle.
+        self._process_soul_cycles()
+
         # Prepare next-step snapshot
         try:
             self._prev_hp = self.hp.copy()
@@ -943,6 +948,39 @@ class World:
 
         except Exception as e:
             self.logger.error(f"Neural Eye Blinked (Error): {e}")
+
+    def _process_soul_cycles(self):
+        """
+        Iterates through all materialized cells and advances their Soul State.
+        The Soul (SelfFractalCell) processes internal waves and generates resonance.
+        This resonance (Phase Complexity) then feeds back into the Body (Insight/Mana).
+        """
+        for cell_id, cell in self.materialized_cells.items():
+            if not cell.is_alive:
+                continue
+
+            # 1. Grow the Soul (Wave Propagation)
+            # Returns: active_nodes (breadth), harmonic_richness (depth/complexity)
+            active_nodes, richness = cell.soul.autonomous_grow()
+
+            # 2. Soul-Body Feedback Loop
+            # High resonance (richness) grants spiritual insight and mana regen.
+            if richness > 5.0:
+                idx = self.id_to_idx.get(cell_id)
+                if idx is not None:
+                    # Grant Insight (Understanding the complexity of self)
+                    self.insight[idx] += richness * 0.01
+
+                    # Regenerate Mana/Ki (Spiritual Energy)
+                    # Deep soul resonance acts as a source of power
+                    if self.max_mana[idx] > 0:
+                        self.mana[idx] = min(self.max_mana[idx], self.mana[idx] + richness * 0.5)
+                    if self.max_ki[idx] > 0:
+                        self.ki[idx] = min(self.max_ki[idx], self.ki[idx] + richness * 0.5)
+
+                    # Log significant spiritual breakthroughs
+                    if richness > 50.0 and self.time_step % 10 == 0:
+                         self.logger.info(f"SOUL RESONANCE: '{cell_id}' is experiencing deep internal harmony (Richness: {richness:.1f}).")
 
     def _apply_macro_disaster_events(self) -> None:
         """

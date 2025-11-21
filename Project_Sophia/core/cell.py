@@ -2,12 +2,19 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Dict, Any, Optional, List
 
+# --- Fractal Soul Dependencies ---
+from Project_Sophia.core.self_fractal import SelfFractalCell
+from Project_Sophia.core.essence_mapper import EssenceMapper
 
 class Cell:
     """
     Represents a single, living conceptual cell in Elysia's cellular world.
     Most mutable stats are handled by the World for performance, so the Cell
     object focuses on identity, memory, and connective context.
+
+    [Fractal Soul Upgrade]
+    Now equipped with a 'Soul' (SelfFractalCell) that processes emotions and
+    concepts as standing waves (frequencies) rather than just scalar stats.
     """
 
     def __init__(self, concept_id: str, dna: Dict[str, Any], initial_properties: Optional[Dict[str, Any]] = None):
@@ -22,6 +29,24 @@ class Cell:
         self.age = 0
         self.health = 100.0
         self._memory_events: List[Dict[str, Any]] = []
+
+        # --- Soul Initialization ---
+        self.soul = SelfFractalCell(size=50) # Give each cell a 50x50 soul grid
+        self._initialize_soul_identity()
+
+    def _initialize_soul_identity(self):
+        """
+        Sets the fundamental tone of the soul based on the cell's concept ID.
+        Example: 'Father' cell starts vibrating at 100Hz.
+        """
+        mapper = EssenceMapper()
+        # Extract a clean label (e.g., 'obsidian_note:Father' -> 'Father')
+        label = self.organelles.get("label", self.id.split(":")[-1])
+        freq = mapper.get_frequency(label)
+
+        # Seed the soul with its own identity at the center
+        center = self.soul.size // 2
+        self.soul.inject_tone(center, center, amplitude=1.0, frequency=freq, phase=0.0)
 
     def __repr__(self):
         status = "Alive" if self.is_alive else "Dead"
@@ -53,6 +78,11 @@ class Cell:
     def increment_age(self):
         if self.is_alive:
             self.age += 1
+
+            # Soul grows with time (metaphor for deepening character)
+            # Only grow periodically to save compute, e.g., every 10 ticks?
+            # For now, we leave the trigger to the World loop.
+            pass
 
     def connect(self, other_cell: Cell, relationship_type: str = "related_to", strength: float = 0.5) -> Optional[Dict[str, Any]]:
         if not self.is_alive or not other_cell.is_alive:
