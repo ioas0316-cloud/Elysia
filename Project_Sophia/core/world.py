@@ -21,6 +21,8 @@ from .neural_eye import NeuralEye
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
 from .dialogue_kr import get_line as kr_dialogue
+from .soul_hierarchy import get_soul_rank
+from .soul_ascension import FractalAscension
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
@@ -906,7 +908,14 @@ class World:
         # Apply final physics and cleanup
         self._apply_physics_and_cleanup(newly_born_cells)
 
+        # --- Fractal Soul Growth Cycle (First) ---
+        # Process the inner soul first. This drives ascension, insight, and energy.
+        # Crucially, this must run BEFORE 'Law of Awakening' because Fractal Ascension
+        # might spend Insight to buy a Rank Up, while Law of Awakening might wipe it.
+        self._process_soul_cycles()
+
         # --- Law of Existential Change (e > r) ---
+        # The "Ordinary" Awakening. Resets stats for a rebirth.
         awakening_events = self._apply_law_of_awakening()
 
         # --- Neural Eye Perception Cycle ---
@@ -943,6 +952,87 @@ class World:
 
         except Exception as e:
             self.logger.error(f"Neural Eye Blinked (Error): {e}")
+
+    def _process_soul_cycles(self):
+        """
+        Iterates through all materialized cells and advances their Soul State.
+        The Soul (SelfFractalCell) processes internal waves and generates resonance.
+        This resonance (Phase Complexity) then feeds back into the Body (Insight/Mana).
+        """
+        for cell_id, cell in self.materialized_cells.items():
+            if not cell.is_alive:
+                continue
+
+            # 1. Grow the Soul (Wave Propagation)
+            # Returns: active_nodes (breadth), harmonic_richness (depth/complexity)
+            active_nodes, richness = cell.soul.autonomous_grow()
+
+            # 2. Soul-Body Feedback Loop (The Law of Capacity & Hierarchy)
+            # Resonance is filtered through the soul's rank in the Celestial Hierarchy.
+            if richness > 5.0:
+                idx = self.id_to_idx.get(cell_id)
+                if idx is not None:
+                    # --- Hierarchy Lookup ---
+                    # Default to 'Survivor' (Lv 1) if no rank specified or invalid.
+                    rank_name = cell.organelles.get('soul_rank', 'Survivor')
+
+                    # Map name back to index for Ascension Logic (Hack for MVP: Reverse Lookup or store index)
+                    # For now, we trust the name is correct or defaults to Mortal logic
+                    # A better way: Store 'rank_index' in organelles.
+                    rank_index = cell.organelles.get('rank_index', 1)
+
+                    # Special override for Avatars
+                    if cell.organelles.get('is_avatar', False):
+                        rank_name = "Avatar"
+                        rank_index = 10
+
+                    soul_rank = get_soul_rank(rank_name)
+
+                    # --- Calculate Gain using Soul Physics ---
+                    resonance_gain = soul_rank.resonance_func(richness)
+
+                    # --- Apply Gains ---
+                    # Insight Gain (Wisdom from resonance)
+                    self.insight[idx] += resonance_gain * 0.1
+
+                    # Regenerate Mana/Ki (Spiritual Energy)
+                    if self.max_mana[idx] > 0:
+                        self.mana[idx] = min(self.max_mana[idx], self.mana[idx] + resonance_gain * 0.5)
+                    if self.max_ki[idx] > 0:
+                        self.ki[idx] = min(self.max_ki[idx], self.ki[idx] + resonance_gain * 0.5)
+
+                    # --- Penalty: Cost of Power ---
+                    hp_cost = soul_rank.hp_cost_func(resonance_gain)
+                    if hp_cost > 0 and self.hp[idx] > 0:
+                        self.hp[idx] -= hp_cost
+                        if hp_cost > 5.0 and self.time_step % 10 == 0:
+                            self.logger.warning(f"SOUL BURN: '{cell_id}' ({rank_name}) paid {hp_cost:.1f} HP for power.")
+
+                    # --- 3. Fractal Ascension Check (The Quantum Jump) ---
+                    # Can this soul break through to the next level?
+                    can_ascend, reason = FractalAscension.check_breakthrough(rank_index, self.insight[idx], richness)
+
+                    if can_ascend:
+                        next_rank_idx = FractalAscension.get_next_rank(rank_index)
+                        if next_rank_idx:
+                            next_rank_name = FractalAscension.get_rank_name(next_rank_idx)
+
+                            # Apply Ascension
+                            cell.organelles['rank_index'] = next_rank_idx
+                            cell.organelles['soul_rank'] = next_rank_name
+
+                            # Reset Insight partially (consumed for breakthrough)
+                            self.insight[idx] *= 0.5
+
+                            # Mark as awakened to prevent "Ordinary Awakening" from resetting stats in the same tick
+                            self.is_awakened[idx] = True
+
+                            self.logger.info(f"ASCENSION: '{cell_id}' has transcended! [{rank_name}] -> [{next_rank_name}] ({reason})")
+                            self.event_logger.log('SOUL_ASCENSION', self.time_step, cell_id=cell_id, from_rank=rank_name, to_rank=next_rank_name, type=reason)
+
+                    # Log breakthroughs (resonance)
+                    if resonance_gain > 10.0 and self.time_step % 10 == 0:
+                         self.logger.info(f"SOUL RESONANCE: '{cell_id}' [{rank_name}] channeling resonance (Gain: {resonance_gain:.2f}).")
 
     def _apply_macro_disaster_events(self) -> None:
         """
