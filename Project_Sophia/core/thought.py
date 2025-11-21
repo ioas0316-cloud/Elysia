@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Any, Optional, Dict
+from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
 
 @dataclass
 class Thought:
@@ -14,18 +15,30 @@ class Thought:
     energy: float = 0.0      # The activation energy from the cell simulation
     evidence: List[Any] = field(default_factory=list) # Supporting nodes/edges/cells
 
-    # --- Soul Layer Attributes (Fractal Resonance) ---
-    frequency: float = 0.0   # The fundamental tone (Hz) of this thought.
-    resonance_amp: float = 0.0 # The intensity of the resonance (Amplitude).
-    richness: float = 0.0    # Harmonic complexity (Texture).
+    # --- Fractal Physics Layer ---
+    # Thoughts now carry a distinct physical signature in the mental cosmos.
+    # The 'tensor' gives it mass and shape (Structure, Emotion, Identity).
+    # The 'wave' gives it resonance and texture (Frequency, Amplitude, Richness).
+    tensor: Tensor3D = field(default_factory=Tensor3D)
+    wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0, 0.0))
 
-    # --- 3D Tensor State ---
-    # Thoughts now carry a 'shape' in the 3D concept space (Structure, Emotion, Identity)
-    # This allows for vector-based resonance calculations instead of scalar matching.
+    # Deprecated fields (kept for backward compatibility if needed, but superseded by tensor/wave)
     tensor_state: Optional[Dict[str, float]] = None
+    frequency: float = 0.0
+    resonance_amp: float = 0.0
+    richness: float = 0.0
+
+    def __post_init__(self):
+        # Synchronize legacy fields with new physics objects if they are not set
+        if self.tensor and not self.tensor_state:
+            self.tensor_state = self.tensor.to_dict()
+
+        if self.wave:
+            if self.frequency == 0.0: self.frequency = self.wave.frequency
+            if self.resonance_amp == 0.0: self.resonance_amp = self.wave.amplitude
+            if self.richness == 0.0: self.richness = self.wave.richness
 
     def __str__(self):
-        tensor_info = ""
-        if self.tensor_state:
-            tensor_info = f", tensor={self.tensor_state}"
-        return f"Thought(content='{self.content}', source='{self.source}', confidence={self.confidence:.2f}, energy={self.energy:.2f}, freq={self.frequency:.1f}Hz, richness={self.richness:.2f}{tensor_info})"
+        return (f"Thought(content='{self.content}', source='{self.source}', "
+                f"confidence={self.confidence:.2f}, energy={self.energy:.2f}, "
+                f"wave={self.wave}, tensor={self.tensor.to_dict()})")
