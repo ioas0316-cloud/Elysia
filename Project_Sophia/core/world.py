@@ -21,6 +21,7 @@ from .neural_eye import NeuralEye
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
 from .dialogue_kr import get_line as kr_dialogue
+from .tensor_wave import Tensor3D
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
@@ -553,6 +554,33 @@ class World:
         if ml <= 0:
             return 0.0
         return (self.time_step % ml) / float(ml)
+
+    def get_field_tensor(self, x: int, y: int) -> Tensor3D:
+        """
+        Synthesizes a Tensor3D at the given coordinates by sampling environmental fields.
+        This creates a 'Fractal Field' from scalar components.
+
+        Mapping:
+        - Structure (X): Norms (Social Order) + Prestige (Power)
+        - Emotion (Y): Coherence (Positive) - Threat (Negative)
+        - Identity (Z): Value Mass (Meaning) + Will (Direction)
+        """
+        x, y = int(np.clip(x, 0, self.width-1)), int(np.clip(y, 0, self.width-1))
+
+        # Sample fields
+        norms = float(self.norms_field[y, x])
+        prestige = float(self.prestige_field[y, x])
+        coherence = float(self.coherence_field[y, x])
+        threat = float(self.threat_field[y, x])
+        value_mass = float(self.value_mass_field[y, x])
+        will = float(self.will_field[y, x])
+
+        # Synthesize Tensor Components
+        structure = (norms + prestige) * 0.5
+        emotion = coherence - threat # Can be negative
+        identity = (value_mass + will) * 0.5
+
+        return Tensor3D(structure, emotion, identity)
 
     def get_season_name(self) -> str:
         p = self.get_year_phase()
@@ -1863,6 +1891,31 @@ class World:
                 will_bias = np.zeros(3, dtype=np.float32)
                 intention_force = np.zeros(3, dtype=np.float32)
 
+                # --- The Law of Resonance: Attracted to harmonic fields ---
+                resonance_force = np.zeros(3, dtype=np.float32)
+                # Calculate internal tensor state (simplified from stats for now)
+                structure_val = (self.strength[i] + self.wisdom[i]) / 200.0
+                emotion_val = 0.5
+                if self.emotions[i] == 'joy': emotion_val = 0.8
+                elif self.emotions[i] == 'sorrow': emotion_val = 0.2
+                identity_val = self.insight[i] / 10.0
+
+                my_tensor = Tensor3D(structure_val, emotion_val, identity_val)
+
+                # Sample environmental tensor gradient for resonance
+                delta = 1.0
+                right_tensor = self.get_field_tensor(int(px + delta), int(py))
+                left_tensor = self.get_field_tensor(int(px - delta), int(py))
+                up_tensor = self.get_field_tensor(int(px), int(py + delta))
+                down_tensor = self.get_field_tensor(int(px), int(py - delta))
+
+                grad_res_x = (my_tensor.dot(right_tensor) - my_tensor.dot(left_tensor)) * 0.5
+                grad_res_y = (my_tensor.dot(up_tensor) - my_tensor.dot(down_tensor)) * 0.5
+
+                # Apply resonance force
+                resonance_strength = 0.3 # Tuning parameter
+                resonance_force = np.array([grad_res_x, grad_res_y, 0.0], dtype=np.float32) * resonance_strength
+
                 # --- The Law of Intention: Follow the gradient of meaning ---
                 wisdom_factor = self.wisdom[i] / 50.0 # Normalize wisdom, 50 is a high value
                 if wisdom_factor > 0:
@@ -1910,14 +1963,18 @@ class World:
                 ascension_force = np.sum(self.ascension_field[int(py), int(px), :])
                 descent_force = np.sum(self.descent_field[int(py), int(px), :])
                 z_movement = (ascension_force - descent_force) * 0.1 # Subtle vertical movement
-                movement_vectors[local_idx] += other_forces + intention_force
+
+                # Combine forces: Resonance is added to the movement vector
+                movement_vectors[local_idx] += other_forces + intention_force + resonance_force
                 movement_vectors[local_idx, 2] += z_movement
 
 
                 # --- Observe and Record Meaningful Choice ---
-                if np.linalg.norm(intention_force) > np.linalg.norm(other_forces):
-                    self.logger.info(f"CHOICE: Cell '{self.cell_ids[i]}' made a meaningful choice, driven by intention.")
-                    self.event_logger.log('INTENTION_DRIVEN_ACTION', self.time_step, cell_id=self.cell_ids[i])
+                # Check if resonance or intention dominates biological drives
+                if np.linalg.norm(resonance_force + intention_force) > np.linalg.norm(other_forces):
+                    # Only log occasionally to avoid spam
+                    if random.random() < 0.05:
+                        self.logger.info(f"RESONANCE: Cell '{self.cell_ids[i]}' moves towards spiritual alignment.")
 
             speeds = (0.08 + (self.agility[animal_indices] / 100.0) * 0.04).reshape(-1, 1)
             self.positions[animal_mask] += movement_vectors * speeds

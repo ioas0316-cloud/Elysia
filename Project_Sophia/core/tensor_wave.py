@@ -84,9 +84,9 @@ class Tensor3D:
     """
     Represents the 3D State of a Concept or Cell.
     Axes:
-    - X: Structure/Logic (Body) - Complexity, Connectivity
-    - Y: Emotion/Resonance (Soul) - Valence, Arousal
-    - Z: Identity/Will (Spirit) - Alignment with Core Values
+    - X: Structure/Logic (Body) - Low Frequency, Stability, Mass.
+    - Y: Emotion/Resonance (Soul) - Mid Frequency, Connection, Energy.
+    - Z: Identity/Will (Spirit) - High Frequency, Information, Direction.
     """
     def __init__(self, x: float = 0.0, y: float = 0.0, z: float = 0.0, tensor: Optional[np.ndarray] = None):
         if tensor is not None:
@@ -139,6 +139,29 @@ class Tensor3D:
             y=data.get("emotion", 0.0),
             z=data.get("identity", 0.0)
         )
+
+    @staticmethod
+    def distribute_frequency(frequency: float) -> 'Tensor3D':
+        """
+        Maps a scalar frequency to the 3D axes non-linearly.
+        This implements the "low/high frequency distribution" logic.
+
+        - Low Freq (<100Hz): Dominates X-axis (Body/Mass)
+        - Mid Freq (100Hz-500Hz): Dominates Y-axis (Emotion/Soul)
+        - High Freq (>500Hz): Dominates Z-axis (Identity/Spirit)
+        """
+        # Normalize contributions using Gaussian-like windows
+
+        # X-axis (Low): Peaks at 0, decays by 200
+        x_val = np.exp(-(frequency)**2 / (2 * 100**2))
+
+        # Y-axis (Mid): Peaks at 300, width 200
+        y_val = np.exp(-(frequency - 300)**2 / (2 * 150**2))
+
+        # Z-axis (High): Sigmoid-like ramp up starting at 400
+        z_val = 1.0 / (1.0 + np.exp(-(frequency - 600) / 100))
+
+        return Tensor3D(x=float(x_val), y=float(y_val), z=float(z_val))
 
 def propagate_wave(source_tensor: Tensor3D, target_tensor: Tensor3D, decay: float = 0.9) -> Tensor3D:
     """

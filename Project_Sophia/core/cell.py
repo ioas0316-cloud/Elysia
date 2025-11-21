@@ -5,6 +5,7 @@ from typing import Dict, Any, Optional, List
 # --- Fractal Soul Dependencies ---
 from Project_Sophia.core.self_fractal import SelfFractalCell
 from Project_Sophia.core.essence_mapper import EssenceMapper
+from Project_Sophia.core.tensor_wave import Tensor3D
 
 class Cell:
     """
@@ -33,6 +34,10 @@ class Cell:
         # --- Soul Initialization ---
         self.soul = SelfFractalCell(size=50) # Give each cell a 50x50 soul grid
         self._initialize_soul_identity()
+
+        # --- Physical Resonance State ---
+        # This is the bridge: Soul (Wave) -> Body (Tensor)
+        self.tensor = Tensor3D(0.1, 0.1, 0.1) # Initial neutral state
 
     def _initialize_soul_identity(self):
         """
@@ -67,12 +72,15 @@ class Cell:
             "id": self.id,
             "element_type": self.element_type,
             "memory": list(self._memory_events),
+            "tensor": self.tensor.to_dict() if self.tensor else None
         }
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any], dna: Dict[str, Any], initial_properties: Optional[Dict[str, Any]] = None) -> "Cell":
         cell = cls(data.get("id", "unknown"), dna, initial_properties=initial_properties)
         cell._memory_events = data.get("memory", [])
+        if data.get('tensor'):
+            cell.tensor = Tensor3D.from_dict(data['tensor'])
         return cell
 
     def increment_age(self):
@@ -83,6 +91,28 @@ class Cell:
             # Only grow periodically to save compute, e.g., every 10 ticks?
             # For now, we leave the trigger to the World loop.
             pass
+
+    def sync_soul_to_body(self):
+        """
+        Updates the physical tensor state based on the internal soul state.
+        This is the 'blood' circulation: Internal Feeling -> External Physics.
+        """
+        # 1. Get soul metrics
+        # Grid is (Size, Size, 3) -> [Amp, Freq, Phase]
+        total_amp = self.soul.grid[:, :, 0].sum()
+        avg_freq = self.soul.grid[:, :, 1].mean() # Weighted by amp would be better
+        phase_variance = self.soul.grid[:, :, 2].std()
+
+        # 2. Map to Tensor3D
+        # Structure (X) = Complexity (Phase Variance / Richness)
+        # Emotion (Y) = Intensity (Total Amplitude / Energy)
+        # Identity (Z) = Stability (Inverse of Frequency jitter? Or just the core frequency strength?)
+
+        structure = min(1.0, phase_variance)
+        emotion = min(1.0, total_amp / 100.0) # Normalize
+        identity = min(1.0, avg_freq / 1000.0) # Normalize freq
+
+        self.tensor = Tensor3D(structure, emotion, identity)
 
     def connect(self, other_cell: Cell, relationship_type: str = "related_to", strength: float = 0.5) -> Optional[Dict[str, Any]]:
         if not self.is_alive or not other_cell.is_alive:
