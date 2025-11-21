@@ -33,6 +33,8 @@ class GenesisEngine:
             "damage": self._eff_damage,
             "heal": self._eff_heal,
             "log": self._eff_log,
+            "overwrite": self._eff_overwrite,  # The Hacking Op
+            "inspect": self._eff_inspect,      # The Decoder Eye
         }
 
     def load_definitions(self, kg_data: Dict[str, Any]):
@@ -229,3 +231,57 @@ class GenesisEngine:
 
         msg = template.replace("{actor}", actor_id).replace("{target}", target_id)
         logger.info(f"GenesisEvent: {msg}")
+
+    def _eff_overwrite(self, actor_idx: int, target_idx: int, params: EffectOp):
+        """
+        [HACKING] Directly overwrites a value in the simulation memory.
+        Ignores all game rules (defense, shields, etc.).
+        """
+        if target_idx == -1: return
+
+        target_attr = params.get("target_attr", "hp") # Default to HP hacking
+        value = params.get("value", 0)
+
+        # Map generic attributes to world arrays
+        attr_map = {
+            "hp": self.world.hp,
+            "mp": self.world.mana,
+            "ki": self.world.ki,
+            "stamina": self.world.energy,
+            "age": self.world.age,
+            "is_alive": self.world.is_alive_mask
+        }
+
+        if target_attr in attr_map:
+            target_array = attr_map[target_attr]
+            # Type conversion to match array type
+            if target_array.dtype == bool:
+                target_array[target_idx] = bool(value)
+            else:
+                target_array[target_idx] = value
+
+            logger.warning(f"GenesisHack: Overwrote {self.world.cell_ids[target_idx]}.{target_attr} = {value}")
+        else:
+            logger.error(f"GenesisHack: Invalid target attribute '{target_attr}'")
+
+    def _eff_inspect(self, actor_idx: int, target_idx: int, params: EffectOp):
+        """
+        [DECODER] Reveals the raw data of the target object.
+        """
+        if target_idx == -1: return
+
+        target_id = self.world.cell_ids[target_idx]
+
+        # Construct raw data packet
+        raw_data = {
+            "id": target_id,
+            "index": target_idx,
+            "hp": float(self.world.hp[target_idx]),
+            "max_hp": float(self.world.max_hp[target_idx]),
+            "is_alive": bool(self.world.is_alive_mask[target_idx]),
+            "pos": self.world.positions[target_idx].tolist(),
+            "dna": self.world.materialized_cells.get(target_id, {}).nucleus.get('dna', 'unknown') if hasattr(self.world.materialized_cells.get(target_id), 'nucleus') else 'unknown'
+        }
+
+        logger.info(f"GenesisDecoder: {raw_data}")
+        return raw_data # In a real system, this would be passed to the UI/Thought layer
