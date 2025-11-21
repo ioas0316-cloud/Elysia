@@ -34,6 +34,10 @@ class Experience:
     processed_by_distiller: bool = False
     tags: List[str] = field(default_factory=list)
 
+    # --- Soul Layer Attributes (Frequency/Resonance) ---
+    frequency: float = 0.0 # The fundamental tone (Hz) of this experience.
+    resonance_amp: float = 0.0 # The intensity of the resonance.
+
 
 # For backward compatibility with existing modules/tests
 Memory = Experience
@@ -50,6 +54,9 @@ class IdentityFragment:
     emotional_summary: EmotionalState
     processed_by_distiller: bool = False
 
+    # --- Soul Layer Attributes ---
+    avg_frequency: float = 0.0 # The 'Average Tone' of this identity period.
+
 
 @dataclass
 class EssencePrinciple:
@@ -60,6 +67,9 @@ class EssencePrinciple:
     type: str
     linked_fragments: List[str]
     impact_on_efp: Dict[str, float]
+
+    # --- Soul Layer Attributes ---
+    harmonic_root: float = 0.0 # The 'Key Signature' (Hz) of this life principle.
 
 
 class CoreMemory:
@@ -474,6 +484,8 @@ class CoreMemory:
         data.setdefault("tags", [])
         data.setdefault("processed_by_weaver", False)
         data.setdefault("processed_by_distiller", False)
+        data.setdefault("frequency", 0.0) # New default
+        data.setdefault("resonance_amp", 0.0) # New default
         return data
 
     def _dict_to_emotional_state(self, data: Optional[Dict[str, Any]]) -> Optional[EmotionalState]:
@@ -499,10 +511,13 @@ class CoreMemory:
         fragment_data["emotional_summary"] = self._dict_to_emotional_state(summary) or EmotionalState(
             valence=0.0, arousal=0.0, dominance=0.0, primary_emotion="neutral"
         )
+        fragment_data.setdefault("avg_frequency", 0.0) # New default
         return IdentityFragment(**fragment_data)
 
     def _dict_to_essence_principle(self, data: Dict[str, Any]) -> EssencePrinciple:
-        return EssencePrinciple(**data)
+        data_copy = data.copy()
+        data_copy.setdefault("harmonic_root", 0.0) # New default
+        return EssencePrinciple(**data_copy)
 
     def _save_memory(self):
         if not self.file_path:
