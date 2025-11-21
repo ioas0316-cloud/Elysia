@@ -54,6 +54,28 @@ class EssenceMapper:
                 "cost": {"mana": 10}
             },
 
+            # --- Digital Nature (The Matrix) ---
+            "무": {
+                "type_modifier": "void",
+                "effects": [{"op": "overwrite", "value": 0, "target": "target_state"}], # The '0' overwrite
+                "cost": {"concept_depth": 1} # Requires understanding, not just mana
+            },
+            "void": {
+                "type_modifier": "void",
+                "effects": [{"op": "overwrite", "value": 0, "target": "target_state"}],
+                "cost": {"concept_depth": 1}
+            },
+            "커서": {
+                "type_modifier": "admin",
+                "effects": [{"op": "select", "mode": "absolute_coordinate"}],
+                "cost": {"will": 10}
+            },
+            "cursor": {
+                "type_modifier": "admin",
+                "effects": [{"op": "select", "mode": "absolute_coordinate"}],
+                "cost": {"will": 10}
+            },
+
             # --- Actions/Verbs ---
             "공격": {
                 "base_type": "action",
