@@ -11,7 +11,7 @@ try:
 except Exception:
     Telemetry = None
 from Project_Sophia.gemini_api import generate_text, generate_image_from_text
-from Project_Sophia.core.tensor_wave import Tensor3D
+from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
 from Project_Elysia.core_memory import Experience
 
 class SensoryTranslator:
@@ -74,7 +74,7 @@ class SensoryCortex:
 
     def process_input(self, input_data: str, modality: str = "visual") -> Experience:
         """
-        Processes sensory input and returns an Experience object with a Tensor State.
+        Processes sensory input and returns an Experience object with a Tensor State and Frequency Wave.
         This makes sensation 'fractal' - it carries the same structure as thought and memory.
         """
         # 1. Translate Raw Input to Tensor
@@ -82,17 +82,30 @@ class SensoryCortex:
 
         # 2. Determine Frequency (derived from Tensor Y-axis/Emotion for now)
         # Higher emotion = Higher frequency
-        frequency = 200.0 + (tensor_state.emotion * 600.0)
+        base_freq = 200.0 + (tensor_state.emotion * 600.0)
+        amplitude = tensor_state.magnitude()
+        # Richness derived from structural complexity
+        richness = tensor_state.structure
 
-        # 3. Create Experience
+        wave_state = FrequencyWave(
+            frequency=base_freq,
+            amplitude=amplitude,
+            phase=0.0, # Start at 0 phase for new input
+            richness=richness
+        )
+
+        # 3. Create Experience with full Physics objects
         experience = Experience(
             timestamp=datetime.now().isoformat(),
             content=f"Sensed: {input_data}",
             type="sensation",
             layer="body",
+            tensor=tensor_state,
+            wave=wave_state,
+            # Legacy
             tensor_state=tensor_state.to_dict(),
-            frequency=frequency,
-            richness=0.1 # Initial raw sensation has low richness
+            frequency=base_freq,
+            richness=richness
         )
 
         if self.telemetry:
@@ -100,7 +113,7 @@ class SensoryCortex:
                 self.telemetry.emit('sensory_input_processed', {
                     'input': input_data,
                     'tensor': tensor_state.to_dict(),
-                    'frequency': frequency
+                    'wave': wave_state.to_dict()
                 })
             except Exception:
                 pass

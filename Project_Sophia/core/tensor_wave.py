@@ -60,6 +60,25 @@ class FrequencyWave:
             richness=new_richness
         )
 
+    def to_dict(self) -> dict:
+        return {
+            "frequency": float(self.frequency),
+            "amplitude": float(self.amplitude),
+            "phase": float(self.phase),
+            "richness": float(self.richness)
+        }
+
+    @staticmethod
+    def from_dict(data: Union[dict, None]) -> 'FrequencyWave':
+        if data is None:
+            return FrequencyWave(0.0, 0.0, 0.0, 0.0)
+        return FrequencyWave(
+            frequency=data.get("frequency", 0.0),
+            amplitude=data.get("amplitude", 0.0),
+            phase=data.get("phase", 0.0),
+            richness=data.get("richness", 0.0)
+        )
+
 
 class Tensor3D:
     """

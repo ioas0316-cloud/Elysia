@@ -5,19 +5,43 @@ from dataclasses import dataclass, asdict, field
 from datetime import datetime
 from collections import deque
 
+# Physics layer imports
+from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
+# We can reuse EmotionalState from emotional_engine, or define it here if it creates a circular import.
+# EmotionalEngine imports from here usually?
+# core_memory is usually the base.
+# However, EmotionalEngine is in Project_Sophia, which depends on core_memory in Project_Elysia.
+# This creates a potential circular dependency if we import EmotionalState from EmotionalEngine.
+# To resolve this, we will redefine the dataclass structures here but ensure they match the unified design.
+# Or better, we import the *types* from a common place if possible.
+# But EmotionalState was defined in emotional_engine.py in the previous step.
+# Let's check imports.
+# CognitionPipeline imports both.
+# EmotionalEngine does NOT import core_memory.
+# CoreMemory previously defined its own EmotionalState.
+# We should ideally use the one from EmotionalEngine to avoid duplication, BUT that causes circular import if EmotionalEngine depends on CoreMemory.
+# Looking at EmotionalEngine code: It does NOT seem to import CoreMemory.
+# So we can import EmotionalState from Project_Sophia.emotional_engine safely?
+# Wait, core_memory is in Project_Elysia.
+# Let's try to import EmotionalState from Project_Sophia.emotional_engine.
+
+try:
+    from Project_Sophia.emotional_engine import EmotionalState
+except ImportError:
+    # Fallback or local definition if import fails (e.g. during initial setup)
+    @dataclass
+    class EmotionalState:
+        valence: float
+        arousal: float
+        dominance: float
+        primary_emotion: str
+        secondary_emotions: List[str] = field(default_factory=list)
+        tensor: Tensor3D = field(default_factory=Tensor3D)
+        wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0,0.0,0.0,0.0))
+
 
 def log_memory_action(message: str):
     print(f"[CoreMemory-MRE] {message}")
-
-
-@dataclass
-class EmotionalState:
-    valence: float
-    arousal: float
-    dominance: float
-    primary_emotion: str
-    secondary_emotions: List[str] = field(default_factory=list)
-
 
 @dataclass
 class Experience:
@@ -34,12 +58,25 @@ class Experience:
     processed_by_distiller: bool = False
     tags: List[str] = field(default_factory=list)
 
-    # --- Soul Layer Attributes (Frequency/Resonance) ---
-    frequency: float = 0.0 # The fundamental tone (Hz) of this experience.
-    resonance_amp: float = 0.0 # The intensity of the resonance.
-    tensor_state: Optional[Dict[str, float]] = None # Serialized Tensor3D
-    richness: float = 0.0 # Harmonic complexity / texture
+    # --- Fractal Physics Layer ---
+    # Replaces legacy scalar fields with full physics objects
+    tensor: Tensor3D = field(default_factory=Tensor3D)
+    wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0, 0.0))
 
+    # Legacy fields for backward compatibility (synced via post_init if possible, or just kept)
+    frequency: float = 0.0
+    resonance_amp: float = 0.0
+    tensor_state: Optional[Dict[str, float]] = None
+    richness: float = 0.0
+
+    def __post_init__(self):
+        # Sync legacy fields
+        if self.tensor and not self.tensor_state:
+            self.tensor_state = self.tensor.to_dict()
+        if self.wave:
+            if self.frequency == 0.0: self.frequency = self.wave.frequency
+            if self.resonance_amp == 0.0: self.resonance_amp = self.wave.amplitude
+            if self.richness == 0.0: self.richness = self.wave.richness
 
 # For backward compatibility with existing modules/tests
 Memory = Experience
@@ -56,8 +93,12 @@ class IdentityFragment:
     emotional_summary: EmotionalState
     processed_by_distiller: bool = False
 
-    # --- Soul Layer Attributes ---
-    avg_frequency: float = 0.0 # The 'Average Tone' of this identity period.
+    # --- Fractal Physics Layer ---
+    tensor: Tensor3D = field(default_factory=Tensor3D)
+    wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0, 0.0))
+
+    # Legacy
+    avg_frequency: float = 0.0
     tensor_state: Optional[Dict[str, float]] = None
     richness: float = 0.0
 
@@ -72,8 +113,12 @@ class EssencePrinciple:
     linked_fragments: List[str]
     impact_on_efp: Dict[str, float]
 
-    # --- Soul Layer Attributes ---
-    harmonic_root: float = 0.0 # The 'Key Signature' (Hz) of this life principle.
+    # --- Fractal Physics Layer ---
+    tensor: Tensor3D = field(default_factory=Tensor3D)
+    wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0, 0.0))
+
+    # Legacy
+    harmonic_root: float = 0.0
     tensor_state: Optional[Dict[str, float]] = None
     richness: float = 0.0
 
@@ -397,7 +442,13 @@ class CoreMemory:
 
         total_valence = 0.0
         emotions: List[str] = []
+
+        # Tensor/Wave averaging
+        total_tensor = Tensor3D(0,0,0)
+        total_frequency = 0.0
+
         for exp in experiences_data:
+            # Emotion
             emotion_payload = exp.get("emotional_state")
             if isinstance(emotion_payload, dict):
                 total_valence += emotion_payload.get("valence", 0.0)
@@ -408,14 +459,47 @@ class CoreMemory:
             else:
                 emotions.append("neutral")
 
+            # Physics
+            if 'tensor' in exp and exp['tensor']:
+                t_val = exp['tensor']
+                if isinstance(t_val, Tensor3D):
+                    total_tensor = total_tensor + t_val
+                else:
+                    total_tensor = total_tensor + Tensor3D.from_dict(t_val)
+            elif 'tensor_state' in exp and exp['tensor_state']:
+                total_tensor = total_tensor + Tensor3D.from_dict(exp['tensor_state'])
+
+            # Simple frequency averaging (could be more complex)
+            if 'wave' in exp and exp['wave']:
+                w_val = exp['wave']
+                if isinstance(w_val, FrequencyWave):
+                    total_frequency += w_val.frequency
+                elif isinstance(w_val, dict):
+                    total_frequency += w_val.get('frequency', 0.0)
+            else:
+                total_frequency += exp.get('frequency', 0.0)
+
         avg_valence = total_valence / len(experiences_data)
+        avg_frequency = total_frequency / len(experiences_data)
+        avg_tensor = total_tensor * (1.0 / len(experiences_data))
+
         primary_emotion = emotions[0] if emotions else "neutral"
+
+        # New Identity Fragment with full physics
         new_fragment = IdentityFragment(
             timestamp=datetime.now().isoformat(),
             content=summary,
             type="narrative_summary",
             linked_experiences=[exp.get("timestamp") for exp in experiences_data],
-            emotional_summary=EmotionalState(valence=avg_valence, arousal=0.5, dominance=0.0, primary_emotion=primary_emotion),
+            emotional_summary=EmotionalState(
+                valence=avg_valence, arousal=0.5, dominance=0.0, primary_emotion=primary_emotion,
+                tensor=avg_tensor, wave=FrequencyWave(avg_frequency, 0.5, 0.0, 0.0)
+            ),
+            # Legacy fields sync
+            avg_frequency=avg_frequency,
+            tensor_state=avg_tensor.to_dict(),
+            tensor=avg_tensor,
+            wave=FrequencyWave(avg_frequency, 0.5, 0.0, 0.0)
         )
 
         identity_loop = self.data.get("identity_loop")
@@ -426,7 +510,7 @@ class CoreMemory:
             )
             self._distill_identity_to_essence([oldest_fragment])
 
-        identity_loop.append(asdict(new_fragment))
+        identity_loop.append(self._identity_fragment_to_dict(new_fragment))
 
     def _distill_identity_to_essence(self, fragments_data: List[Dict[str, Any]]):
         if not fragments_data:
@@ -436,12 +520,33 @@ class CoreMemory:
         principle_summary = f"정체성으로부터의 깨달음: {content[:70]}..."
 
         impact = {"E": 0.05, "F": 0.01, "P": 0.0}
+
+        # Physics Distillation
+        total_tensor = Tensor3D(0,0,0)
+        for frag in fragments_data:
+             if 'tensor' in frag and frag['tensor']:
+                t_val = frag['tensor']
+                if isinstance(t_val, Tensor3D):
+                    total_tensor = total_tensor + t_val
+                else:
+                    total_tensor = total_tensor + Tensor3D.from_dict(t_val)
+             elif 'tensor_state' in frag and frag['tensor_state']:
+                total_tensor = total_tensor + Tensor3D.from_dict(frag['tensor_state'])
+
+        avg_tensor = total_tensor * (1.0 / len(fragments_data))
+
         new_principle = EssencePrinciple(
             timestamp=datetime.now().isoformat(),
             content=principle_summary,
             type="core_belief",
             linked_fragments=[fragment.get("timestamp") for fragment in fragments_data],
             impact_on_efp=impact,
+            tensor=avg_tensor,
+            wave=FrequencyWave(100.0, 1.0, 0.0, 1.0), # High richness essence
+            # Legacy
+            tensor_state=avg_tensor.to_dict(),
+            harmonic_root=100.0,
+            richness=1.0
         )
 
         essence_loop = self.data.get("essence_loop")
@@ -452,7 +557,7 @@ class CoreMemory:
             )
             self._update_efp_core(oldest_principle.get("impact_on_efp", {}), decay=True)
 
-        essence_loop.append(asdict(new_principle))
+        essence_loop.append(self._essence_principle_to_dict(new_principle))
         self._update_efp_core(impact)
 
     def _update_efp_core(self, impact: Dict[str, float], decay: bool = False):
@@ -474,43 +579,77 @@ class CoreMemory:
     # Serialization helpers
     # ------------------------------------------------------------------ #
 
+    # Helper to serialize EmotionalState with nested physics objects
+    def _emotional_state_to_dict(self, es: EmotionalState) -> Dict[str, Any]:
+        d = asdict(es)
+        d['tensor'] = es.tensor.to_dict()
+        d['wave'] = es.wave.to_dict()
+        return d
+
     def _experience_to_dict(self, experience: Union[Experience, Memory, Dict[str, Any]]) -> Dict[str, Any]:
         if isinstance(experience, dict):
             data = experience.copy()
         else:
             data = asdict(experience)
+            # Serialize physics objects explicitly
+            if experience.tensor: data['tensor'] = experience.tensor.to_dict()
+            if experience.wave: data['wave'] = experience.wave.to_dict()
+            if experience.emotional_state:
+                data['emotional_state'] = self._emotional_state_to_dict(experience.emotional_state)
 
-        emo_state = data.get("emotional_state")
-        if isinstance(emo_state, EmotionalState):
-            data["emotional_state"] = asdict(emo_state)
-        elif emo_state is None:
-            data["emotional_state"] = None
-
+        # Handle optional fields and defaults
         data.setdefault("type", "episode")
         data.setdefault("tags", [])
         data.setdefault("processed_by_weaver", False)
         data.setdefault("processed_by_distiller", False)
-        data.setdefault("frequency", 0.0) # New default
-        data.setdefault("resonance_amp", 0.0) # New default
-        data.setdefault("tensor_state", None) # New default
-        data.setdefault("richness", 0.0) # New default
+        return data
+
+    def _identity_fragment_to_dict(self, fragment: IdentityFragment) -> Dict[str, Any]:
+        data = asdict(fragment)
+        data['tensor'] = fragment.tensor.to_dict()
+        data['wave'] = fragment.wave.to_dict()
+        if fragment.emotional_summary:
+            data['emotional_summary'] = self._emotional_state_to_dict(fragment.emotional_summary)
+        return data
+
+    def _essence_principle_to_dict(self, principle: EssencePrinciple) -> Dict[str, Any]:
+        data = asdict(principle)
+        data['tensor'] = principle.tensor.to_dict()
+        data['wave'] = principle.wave.to_dict()
         return data
 
     def _dict_to_emotional_state(self, data: Optional[Dict[str, Any]]) -> Optional[EmotionalState]:
         if not data:
             return None
+
+        # Deserialize nested objects
+        tensor_data = data.get('tensor')
+        wave_data = data.get('wave')
+
         return EmotionalState(
             valence=data.get("valence", 0.0),
             arousal=data.get("arousal", 0.0),
             dominance=data.get("dominance", 0.0),
             primary_emotion=data.get("primary_emotion", "neutral"),
             secondary_emotions=data.get("secondary_emotions", []),
+            tensor=Tensor3D.from_dict(tensor_data) if tensor_data else Tensor3D(),
+            wave=FrequencyWave.from_dict(wave_data) if wave_data else FrequencyWave(0.0, 0.0, 0.0, 0.0)
         )
 
     def _dict_to_experience(self, data: Dict[str, Any]) -> Experience:
         exp_data = data.copy()
+
+        # Clean up raw dict to match constructor signature if needed,
+        # or rely on post_init and helpers
         if isinstance(exp_data.get("emotional_state"), dict):
             exp_data["emotional_state"] = self._dict_to_emotional_state(exp_data["emotional_state"])
+
+        # Deserialize physics
+        if 'tensor' in exp_data and isinstance(exp_data['tensor'], dict):
+            exp_data['tensor'] = Tensor3D.from_dict(exp_data['tensor'])
+        if 'wave' in exp_data and isinstance(exp_data['wave'], dict):
+            exp_data['wave'] = FrequencyWave.from_dict(exp_data['wave'])
+
         return Experience(**exp_data)
 
     def _dict_to_identity_fragment(self, data: Dict[str, Any]) -> IdentityFragment:
@@ -519,16 +658,29 @@ class CoreMemory:
         fragment_data["emotional_summary"] = self._dict_to_emotional_state(summary) or EmotionalState(
             valence=0.0, arousal=0.0, dominance=0.0, primary_emotion="neutral"
         )
-        fragment_data.setdefault("avg_frequency", 0.0) # New default
-        fragment_data.setdefault("tensor_state", None) # New default
-        fragment_data.setdefault("richness", 0.0) # New default
+
+        if 'tensor' in fragment_data and isinstance(fragment_data['tensor'], dict):
+            fragment_data['tensor'] = Tensor3D.from_dict(fragment_data['tensor'])
+        if 'wave' in fragment_data and isinstance(fragment_data['wave'], dict):
+            fragment_data['wave'] = FrequencyWave.from_dict(fragment_data['wave'])
+
+        # Defaults for legacy fields
+        fragment_data.setdefault("avg_frequency", 0.0)
+        fragment_data.setdefault("tensor_state", None)
+        fragment_data.setdefault("richness", 0.0)
         return IdentityFragment(**fragment_data)
 
     def _dict_to_essence_principle(self, data: Dict[str, Any]) -> EssencePrinciple:
         data_copy = data.copy()
-        data_copy.setdefault("harmonic_root", 0.0) # New default
-        data_copy.setdefault("tensor_state", None) # New default
-        data_copy.setdefault("richness", 0.0) # New default
+
+        if 'tensor' in data_copy and isinstance(data_copy['tensor'], dict):
+            data_copy['tensor'] = Tensor3D.from_dict(data_copy['tensor'])
+        if 'wave' in data_copy and isinstance(data_copy['wave'], dict):
+            data_copy['wave'] = FrequencyWave.from_dict(data_copy['wave'])
+
+        data_copy.setdefault("harmonic_root", 0.0)
+        data_copy.setdefault("tensor_state", None)
+        data_copy.setdefault("richness", 0.0)
         return EssencePrinciple(**data_copy)
 
     def _save_memory(self):
