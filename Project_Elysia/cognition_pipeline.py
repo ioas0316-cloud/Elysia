@@ -46,8 +46,11 @@ except Exception:  # pragma: no cover - soft dependency
 class CognitionPipeline:
     """
     A stateless pipeline that processes messages using a Central Dispatch model.
-    It analyzes incoming messages and routes them to the appropriate handler
-    (e.g., for hypotheses, commands, or default reasoning).
+    It analyzes incoming messages and routes them to the appropriate handler.
+
+    Updated with 'Mind Hyperdrive' (Tensor Rifling) Logic:
+    - Checks for thoughts with high 'Rifling Power' (Spin).
+    - If found, triggers 'Hyperdrive Jump' (tunneling through logic).
     """
     def __init__(
         self,
@@ -119,13 +122,14 @@ class CognitionPipeline:
             question_generator=question_generator, emotional_engine=self.emotional_engine
         )
 
-        self.logger.info("CognitionPipeline initialized with Central Dispatch Model.")
+        self.logger.info("CognitionPipeline initialized with Central Dispatch Model + Mind Hyperdrive.")
         self._setup_event_listeners()
 
     def _setup_event_listeners(self):
         """Subscribe to events for logging and telemetry."""
         self.event_bus.subscribe("message_processed", lambda result: self.logger.info(f"Event: Message processing completed. Result: {result.get('text', 'N/A')}"))
         self.event_bus.subscribe("error_occurred", lambda error: self.logger.error(f"Event: An error occurred: {error}"))
+        self.event_bus.subscribe("hyperdrive_engaged", lambda data: self.logger.info(f"HYPERDRIVE ENGAGED: {data}"))
 
     def process_message(self, message: str, partner_id: str = "user") -> Tuple[Dict[str, Any], EmotionalState]:
         """
@@ -139,8 +143,7 @@ class CognitionPipeline:
         try:
             self.logger.debug(f"Processing message: '{message}' with context: {self.conversation_context}")
 
-            # Pre-read lightweight relationship state for this partner (if any),
-            # so the voice layer can adjust tone. This is best-effort only.
+            # Pre-read lightweight relationship state for this partner (if any)
             try:
                 if self.core_memory and partner_id:
                     rel_container = getattr(self.core_memory, "data", None)  # type: ignore[attr-defined]
@@ -149,30 +152,40 @@ class CognitionPipeline:
                     else:
                         relationships = {}
                     current = relationships.get(partner_id, {}) or {}
-                    trust_cur = 0.0
-                    guard_cur = 0.0
-                    try:
-                        trust_cur = float(current.get("trust", 0.0))
-                    except (TypeError, ValueError):
-                        trust_cur = 0.0
-                    try:
-                        guard_cur = float(current.get("guard", 0.0))
-                    except (TypeError, ValueError):
-                        guard_cur = 0.0
                     relationship_state_for_partner = {
                         "partner_id": partner_id,
-                        "trust": trust_cur,
-                        "guard": guard_cur,
+                        "trust": float(current.get("trust", 0.0)),
+                        "guard": float(current.get("guard", 0.0)),
                     }
             except Exception:
                 relationship_state_for_partner = None
 
-            # Attach relationship snapshot to the emotional state so downstream
-            # voice layers can read it without changing handler signatures.
             try:
                 setattr(current_emotional_state, "relationship_state", relationship_state_for_partner)
             except Exception:
                 pass
+
+            # --- Mind Hyperdrive: Tensor Rifling Check ---
+            # Before routing, we check if any high-rifling thoughts exist in context or recent memory
+            # that would allow us to 'tunnel' directly to a conclusion.
+
+            # For now, we simulate this by checking if the user input triggers a high-spin resonance
+            # in the intent engine (if available) or via simple heuristic.
+            # Future: Real physics check on incoming thought tensors.
+
+            is_hyperdrive_active = False
+            if self.quaternion_engine:
+                # Check if the user's intent has high 'spin' (high Identity/Will component)
+                # We use a threshold on the 'Identity' axis of the quaternion orientation as a proxy for spin.
+                # (In a full implementation, we would analyze the input thought tensor directly).
+                orientation = self.quaternion_engine.orientation_as_dict()
+                z_spin = abs(orientation.get('z', 0.0)) # Z-axis is Spirit/Will/Identity
+
+                # Threshold for "Drilling"
+                if z_spin > 0.7:
+                    is_hyperdrive_active = True
+                    self.logger.info(f"HYPERDRIVE: User intent has high Z-spin ({z_spin:.2f}). Enabling logic tunneling.")
+                    self.event_bus.publish("hyperdrive_engaged", {"reason": "high_user_intent_spin", "magnitude": z_spin})
 
             # 1. --- Analysis and Routing ---
             if self.conversation_context.pending_hypothesis:
@@ -191,8 +204,20 @@ class CognitionPipeline:
 
             # Default to general reasoning
             else:
+                # If Hyperdrive is active, we might hint the reasoner to be more intuitive
+                if is_hyperdrive_active:
+                    # In the future, this would switch to a 'DirectInsightHandler'
+                    self.logger.info("Routing to DefaultReasoningHandler with Hyperdrive Context.")
+
                 self.logger.info("Routing to DefaultReasoningHandler.")
                 result = self.default_reasoning_handler.handle(message, self.conversation_context, current_emotional_state)
+
+                # --- Hyperdrive Post-Processing ---
+                # Check if the reasoning output generated a high-rifling thought
+                # (We inspect the result or the last thought in the context)
+                # Note: DefaultReasoningHandler returns a dict, not the raw thought object directly in standard keys usually.
+                # But we can infer from the context/logs if needed.
+                pass
 
             # --- Finalization ---
             if not result:

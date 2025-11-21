@@ -65,8 +65,8 @@ class ValueCenteredDecision:
 
         # 1. Tensor Resonance (Primary)
         # If the thought has a tensor state, compare it directly with the Core Value's tensor
-        if thought.tensor_state:
-            thought_tensor = Tensor3D.from_dict(thought.tensor_state)
+        if thought.tensor:
+            thought_tensor = thought.tensor
 
             # Fetch Core Value Tensor (Love)
             core_node = self.kg_manager.get_node(self.core_value)
@@ -77,8 +77,31 @@ class ValueCenteredDecision:
                 core_tensor = Tensor3D(0.2, 1.0, 0.9)
 
             # Calculate Alignment (Dot Product of normalized tensors)
+            # This gives the geometric alignment (Does it point in the same direction?)
             alignment = thought_tensor.normalize().dot(core_tensor.normalize())
-            return max(0.0, alignment)
+
+            # [Fractal Upgrade] Wave Resonance (Interference)
+            # This calculates if the *nature* of the vibration is compatible
+            # If waves are out of phase or dissonant, it reduces the score even if aligned geometrically
+            wave_bonus = 0.0
+            if thought.wave:
+                # Assume Core Value has a fundamental frequency (e.g., 100Hz for Love)
+                # and a wave state.
+                core_freq = 100.0
+                # Simple harmonic check: ratio close to integer or simple fraction (1:1, 3:2, 4:3)
+                ratio = thought.wave.frequency / core_freq if core_freq > 0 else 0
+                if ratio > 0:
+                    if ratio < 1.0: ratio = 1.0/ratio # Invert to get ratio >= 1
+
+                    # Check closeness to harmonic
+                    nearest_int = round(ratio)
+                    dissonance = abs(ratio - nearest_int)
+
+                    # Low dissonance = High resonance
+                    resonance_quality = max(0.0, 1.0 - (dissonance * 2.0))
+                    wave_bonus = resonance_quality * 0.5 # Up to 0.5 bonus
+
+            return max(0.0, alignment + wave_bonus)
 
         # 2. KG Scalar Resonance (Secondary/Fallback)
         if not thought.content:

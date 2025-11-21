@@ -4,6 +4,9 @@ import json
 import math
 import re
 from datetime import datetime
+from dataclasses import dataclass, field
+from typing import Optional, Dict, List
+
 from tools.canvas_tool import Canvas
 from Project_Sophia.value_cortex import ValueCortex
 try:
@@ -11,8 +14,39 @@ try:
 except Exception:
     Telemetry = None
 from Project_Sophia.gemini_api import generate_text, generate_image_from_text
-from Project_Sophia.core.tensor_wave import Tensor3D
+from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
 from Project_Elysia.core_memory import Experience
+
+@dataclass
+class SensoryQuality:
+    """
+    Meta-Sensation: The self-monitored quality of a sensory input.
+    This represents the 'eye watching the eye'.
+    """
+    clarity: float   # 0.0 (Blurry/Noise) to 1.0 (Crystal Clear)
+    intensity: float # 0.0 (Faint) to 1.0 (Overwhelming)
+    novelty: float   # 0.0 (Routine) to 1.0 (Unprecedented)
+    dissonance: float # 0.0 (Harmonic) to 1.0 (Jarring/Conflicting)
+
+    def to_dict(self) -> Dict[str, float]:
+        return {
+            "clarity": self.clarity,
+            "intensity": self.intensity,
+            "novelty": self.novelty,
+            "dissonance": self.dissonance
+        }
+
+@dataclass
+class SensoryPacket:
+    """
+    Holographic Sensation: Contains the raw data, the physics interpretation,
+    and the meta-quality analysis.
+    """
+    raw_input: str
+    modality: str
+    tensor: Tensor3D
+    wave: FrequencyWave
+    quality: SensoryQuality
 
 class SensoryTranslator:
     """
@@ -61,6 +95,38 @@ class SensoryTranslator:
 
         return tensor.normalize()
 
+    def analyze_quality(self, description: str, tensor: Tensor3D) -> SensoryQuality:
+        """
+        Analyzes the meta-quality of the sensation based on heuristics.
+        In a full system, this would use a VLM or comparison against history.
+        """
+        desc_lower = description.lower()
+
+        # Heuristic: Clarity
+        clarity = 0.8
+        if any(w in desc_lower for w in ["blur", "fog", "dark", "unclear", "faint"]):
+            clarity = 0.3
+        elif any(w in desc_lower for w in ["bright", "sharp", "clear", "vivid"]):
+            clarity = 0.95
+
+        # Heuristic: Intensity (Magnitude of tensor + keywords)
+        intensity = min(1.0, tensor.magnitude() * 0.8)
+        if "!" in description or any(w in desc_lower for w in ["scream", "blind", "loud", "intense"]):
+            intensity = min(1.0, intensity + 0.3)
+
+        # Heuristic: Dissonance (Conflict between structure and emotion?)
+        # If structure is high AND emotion is high, it can be dissonant/complex.
+        dissonance = 0.1
+        if tensor.structure > 0.6 and tensor.emotion > 0.6:
+            dissonance = 0.6
+        if "chaos" in desc_lower or "weird" in desc_lower:
+            dissonance = 0.8
+
+        # Novelty is hard to judge without history, defaulting to 0.5
+        novelty = 0.5
+
+        return SensoryQuality(clarity, intensity, novelty, dissonance)
+
 class SensoryCortex:
     def __init__(self, value_cortex: ValueCortex, telemetry: Telemetry | None = None):
         self.value_cortex = value_cortex
@@ -74,25 +140,45 @@ class SensoryCortex:
 
     def process_input(self, input_data: str, modality: str = "visual") -> Experience:
         """
-        Processes sensory input and returns an Experience object with a Tensor State.
+        Processes sensory input and returns an Experience object with a Tensor State and Frequency Wave.
         This makes sensation 'fractal' - it carries the same structure as thought and memory.
         """
         # 1. Translate Raw Input to Tensor
         tensor_state = self.translator.translate_visual(input_data)
 
-        # 2. Determine Frequency (derived from Tensor Y-axis/Emotion for now)
-        # Higher emotion = Higher frequency
-        frequency = 200.0 + (tensor_state.emotion * 600.0)
+        # 2. Analyze Meta-Quality (The Fractal Self-Check)
+        quality = self.translator.analyze_quality(input_data, tensor_state)
 
-        # 3. Create Experience
+        # 3. Determine Frequency (derived from Tensor Y-axis/Emotion + Dissonance)
+        # Higher emotion or dissonance = Higher frequency
+        base_freq = 200.0 + (tensor_state.emotion * 600.0) + (quality.dissonance * 200.0)
+        amplitude = tensor_state.magnitude() * quality.intensity
+        # Richness derived from structural complexity and meta-clarity
+        richness = tensor_state.structure * quality.clarity
+
+        wave_state = FrequencyWave(
+            frequency=base_freq,
+            amplitude=amplitude,
+            phase=0.0, # Start at 0 phase for new input
+            richness=richness
+        )
+
+        # 4. Create Experience with full Physics objects + Meta-Context
         experience = Experience(
             timestamp=datetime.now().isoformat(),
             content=f"Sensed: {input_data}",
             type="sensation",
             layer="body",
+            tensor=tensor_state,
+            wave=wave_state,
+            context={
+                "sensory_quality": quality.to_dict(),
+                "modality": modality
+            },
+            # Legacy
             tensor_state=tensor_state.to_dict(),
-            frequency=frequency,
-            richness=0.1 # Initial raw sensation has low richness
+            frequency=base_freq,
+            richness=richness
         )
 
         if self.telemetry:
@@ -100,7 +186,8 @@ class SensoryCortex:
                 self.telemetry.emit('sensory_input_processed', {
                     'input': input_data,
                     'tensor': tensor_state.to_dict(),
-                    'frequency': frequency
+                    'wave': wave_state.to_dict(),
+                    'quality': quality.to_dict()
                 })
             except Exception:
                 pass
