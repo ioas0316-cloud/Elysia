@@ -5,6 +5,7 @@ from typing import List, Dict, Any, Optional
 from tools.kg_manager import KGManager
 from .core.world import World
 from .core.thought import Thought
+from .core.tensor_wave import Tensor3D
 
 class LogicalReasoner:
     """
@@ -86,7 +87,9 @@ class LogicalReasoner:
                 self.cellular_world.add_connection(source, target)
 
         # 4. Inject stimulus into the cause_entity in the simulation world.
-        self.cellular_world.inject_stimulus(cause_entity, hp_boost=100.0)
+        # [Fractal Upgrade] Instead of just HP, we should inject a tensor wave if possible.
+        # For now, we keep the HP boost as the carrier wave for energy.
+        self.cellular_world.inject_stimulus(cause_entity, energy_boost=100.0)
 
         # 5. Run simulation
         for _ in range(simulation_steps):
@@ -108,12 +111,35 @@ class LogicalReasoner:
             # and it's not the cause_entity itself.
             if final_hp > initial_hp + 10.0 and cell_id != cause_entity:
                 content = f"'{cause_entity}'의 영향으로 '{cell_id}' 개념이 활성화될 수 있습니다."
+
+                # [Fractal Upgrade] Construct a Tensor3D representing this outcome using non-linear mapping
+                # We map raw stats to the spectral axes using `distribute_frequency`.
+                # - Wisdom (High Freq) -> Z-axis
+                # - Emotion (Mid Freq) -> Y-axis
+                # - Strength (Low Freq) -> X-axis
+
+                # We calculate a 'dominant frequency' based on stats
+                # Low stats = Low Freq, High stats = High Freq
+                # This is a simplification but captures the user's intent
+
+                base_freq = 0.0
+                base_freq += (self.cellular_world.strength[i]) * 1.0 # Strength adds low freq (0-100)
+                base_freq += (0.5 * 500.0) if self.cellular_world.emotions[i] != 'neutral' else 0 # Emotion adds mid freq
+                base_freq += (self.cellular_world.wisdom[i]) * 10.0 # Wisdom adds high freq (0-1000)
+
+                sim_tensor = Tensor3D.distribute_frequency(base_freq)
+
+                # Add raw intensity
+                intensity = final_hp / 100.0
+                sim_tensor = sim_tensor * intensity
+
                 thought = Thought(
                     content=content,
                     source='flesh',
                     confidence=0.7,
                     energy=final_hp,
-                    evidence=[{'cell_id': cell_id, 'initial_hp': initial_hp, 'final_hp': final_hp}]
+                    evidence=[{'cell_id': cell_id, 'initial_hp': initial_hp, 'final_hp': final_hp}],
+                    tensor=sim_tensor
                 )
                 simulation_thoughts.append(thought)
 
@@ -176,11 +202,16 @@ class LogicalReasoner:
                     content = f"'{entity}'은(는) '{target}'와(과) '{relation}' 관계입니다."
 
                 if content:
+                    # [Fractal Upgrade] Static thoughts carry the 'Bone' tensor
+                    node_data = self.kg_manager.get_node(entity)
+                    bone_tensor = Tensor3D.from_dict(node_data.get('tensor_state')) if node_data else Tensor3D(x=0.5, y=0.5, z=0.5)
+
                     thought = Thought(
                         content=content,
                         source='bone',  # '뼈'에서 비롯된 생각
                         confidence=0.95, # Static facts are highly confident
-                        evidence=[edge]
+                        evidence=[edge],
+                        tensor=bone_tensor
                     )
 
             elif edge.get('target') == entity:
@@ -192,11 +223,15 @@ class LogicalReasoner:
                     content = f"'{source}'은(는) '{entity}'의 원인이 될 수 있습니다."
 
                 if content:
+                    node_data = self.kg_manager.get_node(source)
+                    bone_tensor = Tensor3D.from_dict(node_data.get('tensor_state')) if node_data else Tensor3D(x=0.5, y=0.5, z=0.5)
+
                     thought = Thought(
                         content=content,
                         source='bone',  # '뼈'에서 비롯된 생각
                         confidence=0.9, # Inferred relationships are slightly less confident
-                        evidence=[edge]
+                        evidence=[edge],
+                        tensor=bone_tensor
                     )
 
             if thought:
