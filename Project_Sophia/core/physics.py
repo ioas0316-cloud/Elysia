@@ -14,6 +14,7 @@ class QuantumState:
     """
     Represents the state of a particle or concept in the quantum consciousness field.
     Instead of just x,y coordinates, we have phase and amplitude (wave function).
+    Now includes Thermodynamic properties.
     """
     position: np.ndarray  # Vector in N-dimensional space (e.g., Meaning Space)
     momentum: np.ndarray  # Velocity/Direction of thought
@@ -22,6 +23,8 @@ class QuantumState:
     mass: float = 1.0     # 'Inertia' of the concept (1.0 for normal, 0.0 for photon)
     name: str = "Particle"
     layer: DimensionalLayer = DimensionalLayer.POINT
+    temperature: float = 100.0  # Conceptual heat (emotion/activation)
+    is_frozen: bool = False     # Frozen = crystallized / paused state
 
     def __post_init__(self):
         self.position = np.array(self.position, dtype=float)
@@ -32,6 +35,8 @@ class QuantumState:
         if self.mass == 0:
             # For photons, E = p (in c=1 units) or h*f. Here we use momentum magnitude.
             return float(np.linalg.norm(self.momentum))
+        if self.is_frozen:
+            return 0.0
         return 0.5 * self.mass * float(np.linalg.norm(self.momentum)**2)
 
 @dataclass
@@ -61,6 +66,9 @@ class Nucleus(QuantumState):
 
         # Binding energy gain (exothermic reaction)
         self.binding_energy += 10.0 * particle.amplitude
+        # Fusion releases heat and thaws crystallized structures
+        self.temperature += particle.temperature + 50.0
+        self.is_frozen = False
 
     @property
     def is_critical(self) -> bool:
@@ -81,6 +89,7 @@ class FieldEntity(QuantumState):
         self.layer = DimensionalLayer.FIELD
         self.mass = float('inf') # Immovable anchor
         self.momentum = np.zeros_like(self.momentum)
+        self.is_frozen = True  # Immutable gravity wells
 
     def potential_at(self, target_pos: np.ndarray) -> float:
         """Calculates the gravitational/influence potential this field exerts at a position."""
@@ -132,6 +141,7 @@ class StrongForceManager:
         self.binding_strength = binding_strength
 
     def calculate_force(self, p1: QuantumState, p2: QuantumState) -> np.ndarray:
+        # Frozen particles still exert force but will not move themselves.
         diff = p2.position - p1.position
         dist = np.linalg.norm(diff)
 
@@ -147,17 +157,40 @@ class StrongForceManager:
         dist = np.linalg.norm(p1.position - p2.position)
         return dist < (self.interaction_range * 0.2) # Very close to fuse
 
+
+class EntropyManager:
+    """
+    Handles thermodynamic cooling/freezing cycles for conceptual particles.
+    """
+    def __init__(self, cooling_rate: float = 0.05, freeze_threshold: float = 5.0):
+        self.cooling_rate = cooling_rate
+        self.freeze_threshold = freeze_threshold
+
+    def apply_thermodynamics(self, state: QuantumState) -> QuantumState:
+        if not state.is_frozen:
+            state.temperature *= (1.0 - self.cooling_rate)
+            if state.temperature < self.freeze_threshold:
+                state.is_frozen = True
+                state.momentum = np.zeros_like(state.momentum)
+        return state
+
+    def inject_heat(self, state: QuantumState, amount: float):
+        state.temperature += amount
+        if state.is_frozen and state.temperature > self.freeze_threshold:
+            state.is_frozen = False
+
 class HamiltonianSystem:
     """
     Manages the energy landscape.
     H = T + V (Hamiltonian = Kinetic + Potential)
     System seeks to minimize Action (Lagrangian over time), or find ground state of H.
-    Now supports dynamic fields.
+    Now supports dynamic fields and Thermodynamics.
     """
     def __init__(self, base_potential: Optional[Callable[[np.ndarray], float]] = None):
         self.base_potential = base_potential if base_potential else (lambda x: 0.0)
         self.active_fields: List[FieldEntity] = []
         self.strong_force = StrongForceManager()
+        self.entropy = EntropyManager()
 
     def add_field(self, field_entity: FieldEntity):
         self.active_fields.append(field_entity)
@@ -196,6 +229,15 @@ class HamiltonianSystem:
         Evolves the state by one time step using symplectic integration (Verlet-like)
         or simple Euler for now, guided by the Hamiltonian.
         """
+        # Thermodynamic cooling/heating pass before movement.
+        state = self.entropy.apply_thermodynamics(state)
+
+        # Frozen states conserve energy but do not move; only phase evolves.
+        if state.is_frozen:
+            total_E = self.total_energy(state)
+            state.phase = (state.phase + total_E * dt) % (2 * np.pi)
+            return state
+
         # 1. External Potential Force
         force = self.calculate_force(state.position)
 
@@ -214,10 +256,31 @@ class HamiltonianSystem:
 
             # Return new instance of appropriate type
             if isinstance(state, Nucleus):
-                new_nuc = Nucleus(new_position, new_momentum, new_phase, state.amplitude, state.mass, state.name, sub_particles=state.sub_particles, binding_energy=state.binding_energy)
-                return new_nuc
+                return Nucleus(
+                    new_position,
+                    new_momentum,
+                    new_phase,
+                    state.amplitude,
+                    state.mass,
+                    state.name,
+                    layer=state.layer,
+                    temperature=state.temperature,
+                    is_frozen=state.is_frozen,
+                    sub_particles=state.sub_particles,
+                    binding_energy=state.binding_energy
+                )
             else:
-                return QuantumState(new_position, new_momentum, new_phase, state.amplitude, state.mass, state.name)
+                return QuantumState(
+                    new_position,
+                    new_momentum,
+                    new_phase,
+                    state.amplitude,
+                    state.mass,
+                    state.name,
+                    layer=state.layer,
+                    temperature=state.temperature,
+                    is_frozen=state.is_frozen
+                )
         else:
             # Photon dynamics
             V = self.potential_function(state.position)
@@ -227,7 +290,16 @@ class HamiltonianSystem:
             new_position = state.position + state.momentum * dt
             new_phase = (state.phase + state.frequency * dt) % (2 * np.pi)
 
-            return PhotonEntity(new_position, state.momentum, new_phase, state.amplitude, mass=0.0, frequency=state.frequency, name=state.name)
+            return PhotonEntity(
+                new_position,
+                state.momentum,
+                new_phase,
+                state.amplitude,
+                mass=0.0,
+                frequency=state.frequency,
+                name=state.name,
+                layer=state.layer
+            )
 
 class Entanglement:
     """
