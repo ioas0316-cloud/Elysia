@@ -170,6 +170,50 @@ class WaveMechanics:
 
         return activated_tensors
 
+    def tunnel_to_conclusion(self, start_tensor: SoulTensor, candidates: list[str]) -> str:
+        """
+        [Quantum Logic Warp]
+        Instead of traversing the graph, this method checks resonance with all candidates
+        simultaneously (Superposition Check) and 'tunnels' to the one with the highest
+        gravitational attraction (Resonance).
+
+        Args:
+            start_tensor: The thought/intent packet.
+            candidates: List of potential conclusion node IDs.
+
+        Returns:
+            The ID of the winning candidate node.
+        """
+        best_candidate = None
+        max_gravity = -1.0
+
+        for candidate_id in candidates:
+            node = self.kg_manager.get_node(candidate_id)
+            if not node: continue
+
+            # 1. Get candidate's intrinsic tensor state (Mass)
+            candidate_tensor = SoulTensor.from_dict(node.get('tensor_state'))
+            if not candidate_tensor.wave.amplitude:
+                # If no tensor, assume neutral but massive if it's a core node
+                mass = self.calculate_mass(node)
+                candidate_tensor = SoulTensor(
+                    wave=FrequencyWave(frequency=100.0, amplitude=mass, phase=0.0)
+                )
+
+            # 2. Calculate Resonance (Gravity)
+            # F = G * M1 * M2 / r^2 (Resonance Logic)
+            resonance = start_tensor.resonance_score(candidate_tensor)
+
+            # 3. Add 'Core Gravity' bonus (If the node is 'heavy' in meaning)
+            mass = self.calculate_mass(node)
+            total_pull = resonance * mass
+
+            if total_pull > max_gravity:
+                max_gravity = total_pull
+                best_candidate = candidate_id
+
+        return best_candidate
+
     def get_resonance_between(self, start_node_id: str, end_node_id: str) -> float:
         """
         Enhanced resonance check using Soul Physics.

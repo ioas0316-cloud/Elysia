@@ -1,6 +1,7 @@
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Tuple, Optional, List, Union
+from abc import ABC, abstractmethod
 
 @dataclass
 class FrequencyWave:
@@ -76,6 +77,18 @@ class Tensor3D:
         if mag == 0: return Tensor3D()
         return Tensor3D(self.x/mag, self.y/mag, self.z/mag)
 
+    @staticmethod
+    def distribute_frequency(freq: float) -> 'Tensor3D':
+        """
+        Maps a scalar frequency to a Tensor3D distribution.
+        Low freq -> Structure (X), Mid freq -> Emotion (Y), High freq -> Wisdom (Z).
+        """
+        # Simple triangular filters
+        x = max(0.0, 1.0 - abs(freq - 0.0) / 100.0)
+        y = max(0.0, 1.0 - abs(freq - 500.0) / 200.0)
+        z = max(0.0, 1.0 - abs(freq - 1000.0) / 400.0)
+        return Tensor3D(x, y, z).normalize()
+
     def dot(self, other: 'Tensor3D') -> float:
         return self.x*other.x + self.y*other.y + self.z*other.z
 
@@ -135,6 +148,23 @@ class SoulTensor:
 
         return SoulTensor(new_space, new_wave, new_spin)
 
+    def resonance_score(self, other: 'SoulTensor') -> float:
+        """
+        Returns a scalar value (0.0 to 1.0) representing the strength of resonance.
+        Used for routing decisions.
+        """
+        # 1. Spatial overlap
+        spatial_sim = max(0.0, self.space.normalize().dot(other.space.normalize()))
+
+        # 2. Frequency alignment (Consonance)
+        # Low difference = high score
+        freq_diff = abs(self.wave.frequency - other.wave.frequency)
+        freq_match = max(0.0, 1.0 - (freq_diff / 200.0)) # 200Hz window
+
+        # 3. Energy match (optional, maybe not for routing, but for compatibility)
+
+        return (spatial_sim * 0.6) + (freq_match * 0.4)
+
     def to_dict(self):
         return {
             'space': self.space.to_dict(),
@@ -159,3 +189,31 @@ class SoulTensor:
             w_data.get('richness', 0.0)
         )
         return SoulTensor(space, wave, data.get('spin', 0.0))
+
+class ResonantModule(ABC):
+    """
+    Interface for any logic module in the Quantum Coding Authority.
+    Modules must expose their frequency signature and accept waves.
+    """
+
+    @property
+    @abstractmethod
+    def signature(self) -> SoulTensor:
+        """The fundamental frequency/structure of this module."""
+        pass
+
+    @abstractmethod
+    def resonate(self, input_wave: SoulTensor) -> float:
+        """
+        Calculates how strongly this module resonates with the input.
+        Returns a score (0.0 to 1.0).
+        """
+        pass
+
+    @abstractmethod
+    def absorb(self, input_wave: SoulTensor) -> SoulTensor:
+        """
+        Consumes the wave, performs the module's logic (transmutation),
+        and emits a result wave.
+        """
+        pass
