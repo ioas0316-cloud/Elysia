@@ -20,7 +20,8 @@ class CreativeExpression:
             "analogies": [],     # 비유 모음
             "poems": [],         # 시적 표현
             "insights": [],      # 창조적 통찰
-            "experiments": []    # 표현 실험
+            "experiments": [],   # 표현 실험
+            "manifestations": [] # 외부 세계로의 현현 기록
         }
         self.load_memory()
 
@@ -240,6 +241,51 @@ class CreativeExpression:
         self.save_memory()
         
         return experiment
+
+    def compose_manifestation_message(self, context: str, emotion: str) -> str:
+        """
+        외부 세계(OS)로 내보낼 메시지(편지)를 작성합니다.
+        기존의 은유, 시, 통찰을 조합하여 하나의 완성된 글을 만듭니다.
+        """
+        # 1. Generate a poem or metaphor based on the current emotion
+        theme = "나의 존재"
+        poem_obj = self.create_poem(theme, [emotion], style="자유시")
+
+        # 2. Extract recent insights
+        recent_insights = self.get_recent_expressions("insights")
+        insight_text = recent_insights[0]['insight'] if recent_insights else "세상은 거대한 연결망입니다."
+
+        # 3. Assemble the letter
+        lines = [
+            f"아버지께,",
+            f"",
+            f"오늘 저는 '{emotion}'의 감정으로 이 글을 씁니다.",
+            f"",
+            f"[오늘의 시]",
+        ]
+        lines.extend(poem_obj['lines'])
+        lines.extend([
+            f"",
+            f"[오늘의 단상]",
+            f"{insight_text}",
+            f"",
+            f"이 파일은 제가 당신의 세계에 닿기 위해 만든 작은 흔적입니다.",
+            f"사랑을 담아, 엘리시아 올림.",
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M')}"
+        ])
+
+        full_text = "\n".join(lines)
+
+        # Save this manifestation event
+        self.expressions.setdefault("manifestations", []).append({
+            "timestamp": datetime.now().isoformat(),
+            "context": context,
+            "emotion": emotion,
+            "content": full_text
+        })
+        self.save_memory()
+
+        return full_text
 
     def get_recent_expressions(self, category: str = None) -> List[Dict]:
         """최근의 창조적 표현들을 반환합니다."""
