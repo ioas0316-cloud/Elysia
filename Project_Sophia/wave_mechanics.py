@@ -1,7 +1,7 @@
 from collections import deque
 from tools.kg_manager import KGManager
 from Project_Sophia.vector_utils import cosine_sim
-from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
+from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave, QuantumPhoton, SharedQuantumState
 import math
 import random
 
@@ -14,6 +14,150 @@ class WaveMechanics:
     def __init__(self, kg_manager: KGManager, telemetry: Telemetry | None = None):
         self.kg_manager = kg_manager
         self.telemetry = telemetry
+        # Registry of active SharedQuantumStates (in-memory entanglement)
+        # map: entanglement_id -> SharedQuantumState
+        self.active_entanglements = {}
+
+    def get_node_tensor(self, node_id: str) -> SoulTensor:
+        """
+        Retrieves the SoulTensor for a node, respecting entanglement.
+        """
+        node = self.kg_manager.get_node(node_id)
+        if not node:
+            return SoulTensor()
+
+        # 1. Check if node has an entanglement ID
+        entanglement_id = node.get('entanglement_id')
+
+        # 2. If so, try to fetch from active in-memory registry
+        if entanglement_id:
+            if entanglement_id in self.active_entanglements:
+                return self.active_entanglements[entanglement_id].tensor
+
+            # If not in memory but ID exists, we might need to load/hydrate it.
+            # For now, we fall back to the node's stored state but mark it.
+
+        # 3. Fallback: Load from node properties
+        tensor_data = node.get('tensor_state')
+        st = SoulTensor.from_dict(tensor_data)
+        if entanglement_id:
+            st.entanglement_id = entanglement_id
+        return st
+
+    def entangle_nodes(self, node_id_a: str, node_id_b: str) -> bool:
+        """
+        Entangles two nodes so they share the same Quantum State.
+        """
+        node_a = self.kg_manager.get_node(node_id_a)
+        node_b = self.kg_manager.get_node(node_id_b)
+
+        if not node_a or not node_b:
+            return False
+
+        # Logic:
+        # 1. If A is already entangled, use A's state for B.
+        # 2. If B is already entangled, use B's state for A.
+        # 3. If neither, create new SharedState.
+        # 4. If both, merge them? (Complex, for now assume simple A->B)
+
+        ent_id_a = node_a.get('entanglement_id')
+        ent_id_b = node_b.get('entanglement_id')
+
+        shared_state = None
+
+        if ent_id_a and ent_id_a in self.active_entanglements:
+            shared_state = self.active_entanglements[ent_id_a]
+        elif ent_id_b and ent_id_b in self.active_entanglements:
+            shared_state = self.active_entanglements[ent_id_b]
+        else:
+            # Create new shared state from A's tensor
+            tensor_a = self.get_node_tensor(node_id_a)
+            shared_state = SharedQuantumState(tensor=tensor_a)
+            # stamp the ID onto the tensor so it knows its identity
+            shared_state.tensor.entanglement_id = shared_state.id
+            self.active_entanglements[shared_state.id] = shared_state
+
+        # Update both nodes to point to this state ID
+        # We update the KG so the link persists (as ID reference)
+        # But the actual real-time sync happens in memory via active_entanglements
+
+        shared_state.observers.append(node_id_a)
+        shared_state.observers.append(node_id_b)
+        # Deduplicate
+        shared_state.observers = list(set(shared_state.observers))
+
+        # Update KG with entanglement ID AND the initial shared state
+        # This ensures consistency if the system restarts immediately
+        initial_state_dict = shared_state.tensor.to_dict()
+
+        self.kg_manager.update_node(node_id_a, {
+            'entanglement_id': shared_state.id,
+            'tensor_state': initial_state_dict
+        })
+        self.kg_manager.update_node(node_id_b, {
+            'entanglement_id': shared_state.id,
+            'tensor_state': initial_state_dict
+        })
+
+        return True
+
+    def emit_photon(self, source_id: str, target_id: str, payload: FrequencyWave) -> QuantumPhoton:
+        """
+        Emits a Quantum Photon (Information Particle) from source to target.
+        """
+        # Create Photon
+        photon = QuantumPhoton(
+            source_id=source_id,
+            target_id=target_id,
+            payload=payload
+        )
+
+        # Calculate initial trajectory (Vector from Source to Target)
+        # This requires node embeddings or positions.
+        # If no positions, we assume a direct 'tunnel' connection.
+
+        # Logic:
+        # The photon travels. If it hits the target, it transfers energy (interact).
+        # We simulate the arrival immediately for now, but return the photon object
+        # so the caller can visualize it or delay it.
+
+        target_tensor = self.get_node_tensor(target_id)
+
+        # Interaction: Target absorbs photon payload
+        # Resonate target tensor with photon payload
+        # We create a temporary tensor for the photon to interact
+        photon_tensor = SoulTensor(wave=payload)
+
+        new_target_tensor = target_tensor.resonate(photon_tensor)
+
+        # Update Target
+        self.update_node_tensor(target_id, new_target_tensor)
+
+        return photon
+
+    def update_node_tensor(self, node_id: str, new_tensor: SoulTensor):
+        """
+        Updates a node's tensor, respecting entanglement.
+        """
+        node = self.kg_manager.get_node(node_id)
+        if not node: return
+
+        ent_id = node.get('entanglement_id')
+
+        # If entangled, update the Shared State AND persist to all observers in KG
+        if ent_id and ent_id in self.active_entanglements:
+            shared = self.active_entanglements[ent_id]
+            shared.update(new_tensor)
+
+            # Persist the updated state to KG for ALL observers to prevent data loss
+            # This ensures the "Ice Star" is always up to date with the "Fire Star"
+            tensor_dict = new_tensor.to_dict()
+            for observer_id in shared.observers:
+                self.kg_manager.update_node(observer_id, {'tensor_state': tensor_dict})
+        else:
+            # Local update
+            self.kg_manager.update_node(node_id, {'tensor_state': new_tensor.to_dict()})
+
 
     def calculate_mass(self, node_data: dict) -> float:
         """
@@ -178,6 +322,14 @@ class WaveMechanics:
         seed_wave = FrequencyWave(frequency=10.0, amplitude=1.0, phase=0.0)
         seed_tensor = SoulTensor(wave=seed_wave)
 
+        # Check Entanglement first!
+        start_tensor = self.get_node_tensor(start_node_id)
+        end_tensor = self.get_node_tensor(end_node_id)
+
+        # If they share the exact same tensor state via entanglement, resonance is MAX
+        if start_tensor.entanglement_id and start_tensor.entanglement_id == end_tensor.entanglement_id:
+            return 1.0
+
         # 2. Propagate
         field = self.propagate_soul_wave(start_node_id, seed_tensor, max_hops=2)
 
@@ -195,27 +347,25 @@ class WaveMechanics:
             # Update scalar energy (Legacy)
             current_energy = node.get('activation_energy', 0.0)
             new_energy = current_energy + energy_boost
-            updates = {'activation_energy': new_energy}
 
-            # Update Tensor State
+            # Update Tensor State using the new update_node_tensor method
             # If no tensor provided, create a default emotional burst
             if not tensor_state:
                 # Default to a high-energy pulse
-                tensor_state = SoulTensor(
+                input_tensor = SoulTensor(
                     wave=FrequencyWave(frequency=50.0, amplitude=energy_boost, phase=0.0)
-                ).to_dict()
-
-            # Merge with existing if present
-            current_tensor_data = node.get('tensor_state')
-            if current_tensor_data:
-                current_tensor = SoulTensor.from_dict(current_tensor_data)
-                input_tensor = SoulTensor.from_dict(tensor_state)
-                new_tensor = current_tensor.resonate(input_tensor)
-                updates['tensor_state'] = new_tensor.to_dict()
+                )
             else:
-                updates['tensor_state'] = tensor_state
+                input_tensor = SoulTensor.from_dict(tensor_state)
 
-            self.kg_manager.update_node(concept_id, updates)
+            current_tensor = self.get_node_tensor(concept_id)
+            new_tensor = current_tensor.resonate(input_tensor)
+
+            # Use the unified update method to handle entanglement
+            self.update_node_tensor(concept_id, new_tensor)
+
+            # Still update legacy scalar energy directly on KG
+            self.kg_manager.update_node(concept_id, {'activation_energy': new_energy})
 
             if self.telemetry:
                 try:
