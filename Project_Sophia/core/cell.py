@@ -5,7 +5,7 @@ from typing import Dict, Any, Optional, List
 # --- Fractal Soul Dependencies ---
 from Project_Sophia.core.self_fractal import SelfFractalCell
 from Project_Sophia.core.essence_mapper import EssenceMapper
-from Project_Sophia.core.tensor_wave import Tensor3D
+from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
 
 class Cell:
     """
@@ -37,7 +37,8 @@ class Cell:
 
         # --- Physical Resonance State ---
         # This is the bridge: Soul (Wave) -> Body (Tensor)
-        self.tensor = Tensor3D(0.1, 0.1, 0.1) # Initial neutral state
+        # Using SoulTensor wrapper for full physics support
+        self.tensor = SoulTensor(space=Tensor3D(0.1, 0.1, 0.1))
 
     def _initialize_soul_identity(self):
         """
@@ -80,7 +81,7 @@ class Cell:
         cell = cls(data.get("id", "unknown"), dna, initial_properties=initial_properties)
         cell._memory_events = data.get("memory", [])
         if data.get('tensor'):
-            cell.tensor = Tensor3D.from_dict(data['tensor'])
+            cell.tensor = SoulTensor.from_dict(data['tensor'])
         return cell
 
     def increment_age(self):
@@ -99,8 +100,17 @@ class Cell:
         """
         # 1. Get soul metrics
         # Grid is (Size, Size, 3) -> [Amp, Freq, Phase]
-        total_amp = self.soul.grid[:, :, 0].sum()
-        avg_freq = self.soul.grid[:, :, 1].mean() # Weighted by amp would be better
+        amps = self.soul.grid[:, :, 0]
+        freqs = self.soul.grid[:, :, 1]
+
+        total_amp = amps.sum()
+
+        # Use weighted average for frequency (Energy-weighted frequency)
+        if total_amp > 1e-6:
+            avg_freq = (amps * freqs).sum() / total_amp
+        else:
+            avg_freq = 0.0
+
         phase_variance = self.soul.grid[:, :, 2].std()
 
         # 2. Map to Tensor3D
@@ -112,7 +122,14 @@ class Cell:
         emotion = min(1.0, total_amp / 100.0) # Normalize
         identity = min(1.0, avg_freq / 1000.0) # Normalize freq
 
-        self.tensor = Tensor3D(structure, emotion, identity)
+        # Update the Space aspect of SoulTensor
+        self.tensor.space = Tensor3D(structure, emotion, identity)
+
+        # Also update the Wave aspect from average frequency
+        # This keeps the 'external' wave signature in sync with 'internal' fractal state
+        if avg_freq > 0:
+            self.tensor.wave.frequency = avg_freq
+            self.tensor.wave.amplitude = emotion
 
     def connect(self, other_cell: Cell, relationship_type: str = "related_to", strength: float = 0.5) -> Optional[Dict[str, Any]]:
         if not self.is_alive or not other_cell.is_alive:

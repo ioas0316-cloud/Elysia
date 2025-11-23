@@ -1,6 +1,7 @@
 import numpy as np
+import uuid
 from dataclasses import dataclass, field
-from typing import Tuple, Optional, List, Union
+from typing import Tuple, Optional, List, Union, Dict
 from abc import ABC, abstractmethod
 
 @dataclass
@@ -58,6 +59,25 @@ class FrequencyWave:
 
         return FrequencyWave(new_freq, result_amp, new_phase, new_richness)
 
+    def to_dict(self) -> Dict[str, float]:
+        return {
+            'frequency': self.frequency,
+            'amplitude': self.amplitude,
+            'phase': self.phase,
+            'richness': self.richness
+        }
+
+    @staticmethod
+    def from_dict(data: Optional[Dict[str, float]]) -> 'FrequencyWave':
+        if not data:
+            return FrequencyWave(0.0, 0.0, 0.0)
+        return FrequencyWave(
+            data.get('frequency', 0.0),
+            data.get('amplitude', 0.0),
+            data.get('phase', 0.0),
+            data.get('richness', 0.0)
+        )
+
 @dataclass
 class Tensor3D:
     """
@@ -107,24 +127,39 @@ class Tensor3D:
         if not data: return Tensor3D()
         return Tensor3D(data.get('x', 0.0), data.get('y', 0.0), data.get('z', 0.0))
 
+
+@dataclass
+class QuantumPhoton:
+    """
+    Propagating packet of meaning used when wave mechanics emits/converges insights.
+    """
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    payload: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0))
+    position: Tensor3D = field(default_factory=Tensor3D)
+    velocity: Tensor3D = field(default_factory=Tensor3D)
+    source_id: Optional[str] = None
+    target_id: Optional[str] = None
+
+    def step(self, dt: float = 0.1):
+        self.position = self.position + (self.velocity * dt)
+        self.payload = self.payload.step(dt)
+
+    def to_dict(self) -> Dict[str, Dict[str, float]]:
+        return {
+            'id': self.id,
+            'payload': self.payload.to_dict(),
+            'position': self.position.to_dict(),
+            'velocity': self.velocity.to_dict(),
+            'source_id': self.source_id,
+            'target_id': self.target_id
+        }
+
 @dataclass
 class SoulTensor:
     """
-    [Tensor Coil Field (텐서 코일 필드)]
-    The unified physics object for Elysia's internal state.
-
-    Concept Definition:
-        The 'Tensor Coil Field' is a technology that implants a helical rifling (Spin) into a Tensor,
-        acting like an electromagnetic Railgun to propel meaning through the mental cosmos.
-
-    Mechanism:
-        1. Railgun (Hyperdrive): The 'spin' creates a propulsive force, allowing thoughts to warp
-           across the knowledge graph, bypassing linear inferential steps.
-        2. Gravity Field (Bojagi Model): This propulsion expands into a gravitational field,
-           similar to a heavy ball placed on a cloth (Bojagi). It warps the spacetime of the
-           knowledge graph, attracting related concepts through pure resonance rather than calculation.
-
-    Combines Spatial Structure (Tensor3D) with Temporal Dynamics (FrequencyWave).
+    Tensor Coil Field: the unified physics object for Elysia's internal state.
+    Combines Spatial Structure (Tensor3D) with Temporal Dynamics (FrequencyWave) and
+    stores meaning like a coil that can radiate or crystallize intent.
     """
     space: Tensor3D = field(default_factory=Tensor3D)
     wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0))
@@ -132,6 +167,7 @@ class SoulTensor:
     # The 'Coil' factor: How tightly wound the energy is.
     # High spin = Concentrated, potential energy. Low spin = Radiating.
     spin: float = 0.0
+    entanglement_id: Optional[str] = None
 
     def resonate(self, other: 'SoulTensor') -> 'SoulTensor':
         """
@@ -196,30 +232,47 @@ class SoulTensor:
 
         return (spatial_sim * 0.6) + (freq_match * 0.4)
 
-    def to_dict(self):
-        return {
+    def to_dict(self) -> Dict[str, Dict[str, float]]:
+        payload = {
             'space': self.space.to_dict(),
-            'wave': {
-                'frequency': self.wave.frequency,
-                'amplitude': self.wave.amplitude,
-                'phase': self.wave.phase,
-                'richness': self.wave.richness
-            },
+            'wave': self.wave.to_dict(),
             'spin': self.spin
         }
+        if self.entanglement_id:
+            payload['entanglement_id'] = self.entanglement_id
+        return payload
 
     @staticmethod
-    def from_dict(data):
-        if not data: return SoulTensor()
+    def from_dict(data: Optional[Dict[str, Dict[str, float]]]) -> 'SoulTensor':
+        if not data:
+            return SoulTensor()
         space = Tensor3D.from_dict(data.get('space'))
-        w_data = data.get('wave', {})
-        wave = FrequencyWave(
-            w_data.get('frequency', 0.0),
-            w_data.get('amplitude', 0.0),
-            w_data.get('phase', 0.0),
-            w_data.get('richness', 0.0)
-        )
-        return SoulTensor(space, wave, data.get('spin', 0.0))
+        wave = FrequencyWave.from_dict(data.get('wave', {}))
+        tensor = SoulTensor(space, wave, data.get('spin', 0.0))
+        tensor.entanglement_id = data.get('entanglement_id')
+        return tensor
+
+
+@dataclass
+class SharedQuantumState:
+    """
+    A shared tensor that keeps multiple observers entangled.
+    """
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    tensor: SoulTensor = field(default_factory=SoulTensor)
+    observers: List[str] = field(default_factory=list)
+
+    def update(self, new_tensor: SoulTensor):
+        new_tensor.entanglement_id = self.id
+        self.tensor = new_tensor
+
+    def add_observer(self, observer_id: str):
+        if observer_id not in self.observers:
+            self.observers.append(observer_id)
+
+    def remove_observer(self, observer_id: str):
+        if observer_id in self.observers:
+            self.observers.remove(observer_id)
 
 class ResonantModule(ABC):
     """

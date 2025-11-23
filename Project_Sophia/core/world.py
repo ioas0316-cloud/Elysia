@@ -21,7 +21,7 @@ from .neural_eye import NeuralEye
 from ..wave_mechanics import WaveMechanics
 from .fields import FieldRegistry
 from .dialogue_kr import get_line as kr_dialogue
-from .tensor_wave import Tensor3D
+from .tensor_wave import Tensor3D, SoulTensor
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
@@ -800,6 +800,10 @@ class World:
 
 
     def materialize_cell(self, concept_id: str, force_materialize: bool = False, explicit_properties: Optional[Dict] = None) -> Optional[Cell]:
+        """
+        Materializes a Cell from the 'Quantum State' (KG or memory).
+        Upgraded to fully hydrate the SoulTensor (Physics State).
+        """
         if not force_materialize and concept_id in self.materialized_cells:
             return self.materialized_cells[concept_id]
         if concept_id in self.quantum_states:
@@ -811,6 +815,13 @@ class World:
             # Fetch node properties from KG (tests may inject mocks without kg_manager)
             node_data = None
             kg_manager = getattr(self.wave_mechanics, "kg_manager", None)
+
+            # --- Quantum Thawing: Load Physics State ---
+            soul_tensor = None
+            if hasattr(self.wave_mechanics, "get_node_tensor"):
+                # Use the new entanglement-aware loader
+                soul_tensor = self.wave_mechanics.get_node_tensor(concept_id)
+
             if kg_manager and hasattr(kg_manager, "get_node"):
                 try:
                     node_data = kg_manager.get_node(concept_id)
@@ -827,6 +838,10 @@ class World:
             cell = Cell(concept_id, self.primordial_dna, initial_properties=initial_properties)
             cell.age = state.get('age', 0)
             cell.is_alive = self.is_alive_mask[idx]
+
+            # --- Inject Hydrated SoulTensor ---
+            if soul_tensor:
+                cell.tensor = soul_tensor
 
             # Sync all game stats to the cell object upon materialization
             cell.hp = self.hp[idx]
@@ -850,6 +865,25 @@ class World:
             self.materialized_cells[concept_id] = cell
             return cell
         return None
+
+    def crystallize_cell(self, cell: Cell):
+        """
+        [The Ice Star Protocol]
+        Freezes the 'Fire' (Living Cell State) back into 'Ice' (KG Node).
+        Preserves the SoulTensor state so experience is not lost.
+        """
+        if not self.wave_mechanics:
+            return
+
+        # Ensure the cell's internal state is synced to its tensor
+        cell.sync_soul_to_body()
+
+        # Use the WaveMechanics update method which handles entanglement
+        # If this cell is entangled, its shared state gets updated for everyone.
+        if hasattr(self.wave_mechanics, 'update_node_tensor'):
+            self.wave_mechanics.update_node_tensor(cell.id, cell.tensor)
+
+        self.logger.info(f"CRYSTALLIZE: Preserved SoulTensor state for '{cell.id}' back to the Cosmos.")
 
     def _sync_states_to_objects(self):
         """Syncs the critical numpy array states back to any materialized cell objects."""
@@ -2922,6 +2956,10 @@ class World:
 
             if cell_id in self.materialized_cells:
                 dead_cell = self.materialized_cells[cell_id]
+
+                # --- CRYSTALLIZATION (Freeze physics state to KG) ---
+                # Before archiving, freeze the soul state back to the cosmos.
+                self.crystallize_cell(dead_cell)
 
                 # Law of Mortality (Insight) & Law of Emotion (Sorrow)
                 connections_to_deceased = adj_matrix_csr[:, dead_idx].tocoo().row
