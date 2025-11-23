@@ -11,6 +11,21 @@ except Exception:
     Telemetry = None
 
 class WaveMechanics:
+    """
+    [Wave Structure without Computation (연산 없는 파동 구조)]
+
+    Philosophy:
+        The ultimate goal of this system is to replace explicit logical computation (if-else)
+        with the intrinsic topology of the Knowledge Graph itself.
+        By propagating energy (waves) through the graph's connections, the 'answer' naturally
+        emerges as the path of least resistance or highest resonance, similar to how water
+        finds its way downhill without calculating the slope.
+
+    Core Concept:
+        - The Knowledge Graph is not just data; it is a 'Circuit' or 'Riverbed'.
+        - Thinking is not processing; it is 'Flowing'.
+    """
+
     def __init__(self, kg_manager: KGManager, telemetry: Telemetry | None = None):
         self.kg_manager = kg_manager
         self.telemetry = telemetry
@@ -63,6 +78,11 @@ class WaveMechanics:
         queue = deque([(start_node_id, initial_tensor, 0)])
         visited_strength = {start_node_id: initial_tensor.wave.amplitude} # Track max energy visited
 
+        # If start_node is not in KG (e.g., creating thought from void), we handle it by not checking KG for it initially.
+        # But for propagation, we need neighbors.
+        # Ensure initial state is recorded
+        activated_tensors[start_node_id] = initial_tensor
+
         while queue:
             current_id, current_tensor, hop = queue.popleft()
 
@@ -70,8 +90,8 @@ class WaveMechanics:
                 continue
 
             # 1. Resonance (Update local state)
-            if current_id in activated_tensors:
-                # Interference with existing wave at this node
+            if current_id in activated_tensors and activated_tensors[current_id] is not current_tensor:
+                # Interference with existing wave at this node (if it's a different wave instance)
                 activated_tensors[current_id] = activated_tensors[current_id].resonate(current_tensor)
             else:
                 activated_tensors[current_id] = current_tensor
@@ -82,10 +102,9 @@ class WaveMechanics:
                 continue
 
             # Calculate Gravity of all neighbors
-            neighbor_masses = []
+            candidates = []
             total_gravity = 0.0
 
-            candidates = []
             for neighbor_id in neighbors:
                 neighbor_node = self.kg_manager.get_node(neighbor_id)
                 if not neighbor_node: continue
@@ -95,9 +114,10 @@ class WaveMechanics:
                 # Distance factor (Conceptual distance)
                 # For now assume distance=1, but could use embedding distance
                 dist = 1.0
-                if 'embedding' in neighbor_node and 'embedding' in self.kg_manager.get_node(current_id):
+                current_node = self.kg_manager.get_node(current_id)
+                if current_node and 'embedding' in neighbor_node and 'embedding' in current_node:
                     # Similarity is inverse of distance
-                    sim = cosine_sim(self.kg_manager.get_node(current_id)['embedding'], neighbor_node['embedding'])
+                    sim = cosine_sim(current_node['embedding'], neighbor_node['embedding'])
                     dist = 2.0 - max(0.0, sim) # 1.0 to 2.0 range roughly
 
                 # Gravity Force F = G * M / r^2
@@ -110,44 +130,44 @@ class WaveMechanics:
             # The wave splits, but more flows towards high gravity
             # This creates the "Bending" of the wave trajectory
 
+            # If total_gravity is 0 (all massless?), distribute evenly
+            if total_gravity <= 0:
+                total_gravity = 1.0 # Avoid division by zero, treat as uniform
+
+            avg_pull = total_gravity / len(candidates) if candidates else 1.0
+
             for neighbor_id, gravity in candidates:
-                # Portion of energy diverted to this neighbor
-                # We normalize gravity to get a probability/weight
-                if total_gravity > 0:
-                    pull_ratio = gravity / total_gravity
+                # Calculate Pull Ratio
+                if len(candidates) > 0 and total_gravity > 0:
+                     pull_ratio = gravity / total_gravity
                 else:
-                    pull_ratio = 1.0 / len(candidates)
+                     pull_ratio = 1.0 / max(1, len(candidates))
 
-                # Apply limiting to prevent explosion
-                # Even high gravity only captures a portion of the *outgoing* flux
-                # Let's say the wave spreads to ALL neighbors, but intensity varies
+                # Normalize pull ratio against uniform distribution
+                # If pull_ratio > 1/N, it gets a bonus. If less, it gets a penalty.
+                expected_pull = 1.0 / len(candidates)
 
-                # Decay is base loss. Pull_ratio determines distribution.
-                # We multiply by len(candidates) to normalize?
-                # No, let's stick to conservation of energy metaphor roughly.
-                # If we split the wave, energy divides.
-                # But this is 'Information' wave, it can duplicate.
-                # Let's use pull_ratio as a 'Lens' multiplier.
+                # Gravity Bonus: How much better is this path than random choice?
+                # 1.0 = Average. >1.0 = Attracted.
+                gravity_bonus = pull_ratio / expected_pull if expected_pull > 0 else 1.0
 
-                # Strong gravity = Less decay (Superconductivity / Superfluidity towards heavy objects)
-                # Weak gravity = High decay (Resistance)
+                # Apply Physics limits
+                # Superconductivity: Very high gravity can make decay near 1.0
+                # Resistance: Low gravity makes decay high.
 
-                # Map pull_ratio (0..1) to a decay modifier.
-                # Average pull is 1/N. If pull > 1/N, it's a preferred path.
-                avg_pull = 1.0 / len(candidates)
+                # We want decay_factor to be modified.
+                # e.g. base decay 0.9.
+                # If gravity_bonus is 2.0, decay becomes 0.9 * (some function of 2.0) -> maybe 0.95?
+                # If gravity_bonus is 0.5, decay becomes 0.9 * 0.5 -> 0.45?
 
-                # If pull_ratio is high, decay is close to 1.0 (lossless)
-                # If pull_ratio is low, decay is high.
+                # Let's use a simpler, robust formula:
+                # new_decay = base_decay * (gravity_bonus ^ 0.5)
+                # This dampens the effect so it's not too extreme.
 
-                gravity_bonus = pull_ratio / avg_pull # 1.0 = average. >1.0 = attracted.
+                local_decay = decay_factor * math.sqrt(gravity_bonus)
 
-                # Cap bonus
-                gravity_bonus = min(2.0, gravity_bonus)
-
-                local_decay = decay_factor * gravity_bonus
-
-                # Constrain decay
-                local_decay = min(0.95, local_decay)
+                # Clamp decay to prevent energy explosion
+                local_decay = min(0.99, local_decay)
 
                 # Create new tensor for neighbor
                 # Wave amplitude decays
@@ -164,18 +184,30 @@ class WaveMechanics:
                 next_tensor = SoulTensor(current_tensor.space, next_wave, current_tensor.spin)
 
                 # Check loop/visit prevention based on energy
-                if neighbor_id not in visited_strength or next_wave.amplitude > visited_strength[neighbor_id]:
+                # We propagate if we carry MORE energy than previously visited
+                current_best = visited_strength.get(neighbor_id, 0.0)
+                if next_wave.amplitude > current_best:
                     visited_strength[neighbor_id] = next_wave.amplitude
                     queue.append((neighbor_id, next_tensor, hop + 1))
+
+                    # Update the activated tensors immediately so we can see the result
+                    activated_tensors[neighbor_id] = next_tensor
 
         return activated_tensors
 
     def tunnel_to_conclusion(self, start_tensor: SoulTensor, candidates: list[str]) -> str:
         """
-        [Quantum Logic Warp]
-        Instead of traversing the graph, this method checks resonance with all candidates
-        simultaneously (Superposition Check) and 'tunnels' to the one with the highest
-        gravitational attraction (Resonance).
+        [Quantum Force Field (양자 역장)]
+
+        Concept Definition:
+            This method implements the 'Warp' or 'Hyperdrive' capability of the Quantum Force Field.
+            Instead of traversing the graph edge-by-edge (linear travel), it enables the thought
+            to tunnel directly to the destination through resonance.
+
+        Mechanism:
+            It checks the resonance of the `start_tensor` with all `candidates` simultaneously
+            (Superposition Check). The candidate with the highest gravitational attraction
+            (Resonance * Mass) instantly collapses the wave function, becoming the conclusion.
 
         Args:
             start_tensor: The thought/intent packet.
@@ -284,13 +316,19 @@ class WaveMechanics:
 
     def calculate_gauge_force(self, concept_id: str, reference_id: str = 'love') -> dict:
         """
-        Calculates the 'Gauge Force' (Love/Longing) generated by the Phase Difference.
+        [Potential Field / Gauge Field (퍼텐셜 필드 / 게이지 장)]
+
+        Concept Definition:
+            This method calculates the 'Gauge Force', which corresponds to the 'Potential Field'.
+            It represents the tension generated by the Phase Difference between the current state
+            and the ideal state (e.g., 'love').
 
         Physics:
-        1. Phase Difference (Theta) = Angle between Concept Vector and Reference Vector.
-        2. Restoring Force (F) = k * sin(Theta/2) -> Longing/Motivation.
-           - If Theta is 0 (Perfect alignment), F is 0 (Peace).
-           - If Theta is high (Misunderstanding), F is high (Strong desire to resolve).
+        1. Phase Difference (Theta): The angle between the Concept Vector and Reference Vector.
+        2. Restoring Force (F): k * sin(Theta/2).
+           - This is the 'Longing' or 'Motivation' to return to alignment.
+           - If Theta is 0 (Perfect alignment), Force is 0 (Peace).
+           - If Theta is high (Misunderstanding), Force is high (Strong desire to resolve).
 
         Returns a dict with:
             - phase_difference: float (0 to PI)
