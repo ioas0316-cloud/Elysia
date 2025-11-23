@@ -127,7 +127,7 @@ class UniverseEvolutionEngine:
         self.logger.info("Extracting Spiderweb from Field geometry...")
         
         # 1. 강한 개념 영역 찾기 (threshold 이상)
-        threshold = 0.3
+        threshold = 0.6
         value_field = self.world.value_mass_field
         strong_regions = np.where(value_field > threshold)
         

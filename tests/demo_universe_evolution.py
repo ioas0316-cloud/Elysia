@@ -7,6 +7,9 @@ Phase 5 Demo: 경험을 우주에서 진화시켜 지능 창발 확인
 import sys
 import os
 import logging
+import argparse
+import numpy as np
+import random
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -19,6 +22,17 @@ from tools.kg_manager import KGManager
 from datetime import datetime
 
 def main():
+    try:
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+    parser = argparse.ArgumentParser(description="Phase 5 Evolutionary Universe Demo")
+    parser.add_argument("--cycles", type=int, default=500, help="진화 사이클 수 (default: 500)")
+    parser.add_argument("--extract-interval", type=int, default=100, help="Spiderweb 추출 간격 (default: 100)")
+    parser.add_argument("--num-experiences", type=int, default=500, help="입자 수 (default: 500)")
+    args = parser.parse_args()
     logging.basicConfig(
         level=logging.INFO,
         format='%(name)s - %(levelname)s - %(message)s'
@@ -43,53 +57,80 @@ def main():
         wave_mechanics=wave_mechanics,
         logger=logging.getLogger("World")
     )
-    
+    # Keep small demo particles alive long enough to form fields/edges.
+    world.peaceful_mode = True
+    world.macro_food_model_enabled = True
+    # Slow down field decay for quick demos so initial seeds persist.
+    world._vm_decay = 0.95
+    world._will_decay = 0.95
+    # Disable deep soul-cycle growth to avoid long per-tick processing in demos.
+    if hasattr(world, "_process_soul_cycles"):
+        world._process_soul_cycles = lambda: None
+
     spiderweb = Spiderweb()
     engine = UniverseEvolutionEngine(world, spiderweb)
     
-    # 2. 테스트 경험 생성
+    # 2. 테스트 경험 생성 (다양한 개념 조합으로 대량 입자)
     print("\n📝 Creating test experiences...")
-    test_experiences = [
-        Experience(
-            timestamp=datetime.now().isoformat() + "_1",
-            content="Fire causes burn and pain",
-            type="episode"
-        ),
-        Experience(
-            timestamp=datetime.now().isoformat() + "_2",
-            content="Water prevents fire and cooling",
-            type="episode"
-        ),
-        Experience(
-            timestamp=datetime.now().isoformat() + "_3",
-            content="Pain teaches caution and wisdom",
-            type="episode"
-        ),
-        Experience(
-            timestamp=datetime.now().isoformat() + "_4",
-            content="Fire gives warmth and light",
-            type="episode"
-        ),
-        Experience(
-            timestamp=datetime.now().isoformat() + "_5",
-            content="Learning from pain brings growth",
-            type="episode"
-        )
+    concepts = [
+        "fire", "water", "earth", "air", "light", "dark", "metal", "wood", "joy",
+        "pain", "growth", "decay", "wisdom", "chaos", "order", "memory", "dream",
+        "signal", "noise", "gravity", "resonance", "entropy", "rhythm", "spark",
     ]
-    
-    for i, exp in enumerate(test_experiences, 1):
+    relations = [
+        "causes", "prevents", "amplifies", "dampens", "connects", "separates",
+        "transforms", "stabilizes", "ignites", "cools", "guides", "reveals",
+    ]
+    num_exps = max(1, args.num_experiences)
+    test_experiences = []
+    for i in range(num_exps):
+        c1, c2 = random.sample(concepts, 2)
+        rel = random.choice(relations)
+        content = f"{c1} {rel} {c2} and echoes #{i}"
+        test_experiences.append(
+            Experience(
+                timestamp=datetime.now().isoformat() + f"_{i}",
+                content=content,
+                type="episode"
+            )
+        )
+
+    print(f"  Generated {len(test_experiences)} experiences")
+    for i, exp in list(enumerate(test_experiences, 1))[:5]:
         print(f"  {i}. {exp.content}")
     
     # 3. 경험을 우주에 spawn
     print("\n🌱 Spawning experiences as particles...")
     engine.spawn_experience_universe(test_experiences)
+
+    # Seed value/will fields at particle locations so Spiderweb can form quickly.
+    alive_idx = np.where(world.is_alive_mask)[0]
+    def _imprint_gaussian(field: np.ndarray, x: int, y: int, sigma: float, amplitude: float):
+        rad = int(max(2, sigma * 3))
+        x0, x1 = max(0, x - rad), min(world.width, x + rad + 1)
+        y0, y1 = max(0, y - rad), min(world.width, y + rad + 1)
+        xs = np.arange(x0, x1) - x
+        ys = np.arange(y0, y1) - y
+        gx = np.exp(-(xs**2) / (2 * sigma * sigma))
+        gy = np.exp(-(ys**2) / (2 * sigma * sigma))
+        patch = (gy[:, None] * gx[None, :]).astype(np.float32)
+        field[y0:y1, x0:x1] += amplitude * patch
+
+    for idx in alive_idx:
+        px = int(np.clip(world.positions[idx][0], 0, world.width - 1))
+        py = int(np.clip(world.positions[idx][1], 0, world.width - 1))
+        _imprint_gaussian(world.value_mass_field, px, py, sigma=4.0, amplitude=0.2)
+        _imprint_gaussian(world.will_field, px, py, sigma=4.0, amplitude=0.05)
+    world._update_intentional_field()
+    world._update_tensor_field()
     
-    # 4. 진화 시작 (작은 규모로)
-    cycles = 50000  # 5만 사이클로 시작
+    # 4. 진화 시작 (작은 규모로) - CLI로 사이클 조절
+    cycles = args.cycles
     print(f"\n⚡ Starting evolution ({cycles} cycles)...")
-    print("(This may take a few minutes...)")
+    if cycles >= 10000:
+        print("(This may take a few minutes...)")
     
-    resulting_spiderweb = engine.evolve(cycles=cycles, extract_interval=10000)
+    resulting_spiderweb = engine.evolve(cycles=cycles, extract_interval=args.extract_interval)
     
     # 5. 결과 분석
     print("\n" + "=" * 70)

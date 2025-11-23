@@ -267,6 +267,10 @@ class World:
         # Value/Will fields (scalar potentials; directions via gradients)
         self.value_mass_field = np.zeros((self.width, self.width), dtype=np.float32)
         self.will_field = np.zeros((self.width, self.width), dtype=np.float32)
+        # Derived tensor field (structure/emotion/identity) and its spatial gradients
+        self.tensor_field = np.zeros((self.width, self.width, 3), dtype=np.float32)
+        self.tensor_field_grad_x = np.zeros_like(self.tensor_field)
+        self.tensor_field_grad_y = np.zeros_like(self.tensor_field)
         # Historical imprint, Norms, Prestige fields (skeletons)
         self.h_imprint = np.zeros((self.width, self.width), dtype=np.float32)
         self.norms_field = np.zeros((self.width, self.width), dtype=np.float32)
@@ -947,7 +951,9 @@ class World:
         self._update_norms_field()
         self._update_prestige_field()
         self._update_value_will_fields()
+        self._update_coherence_field()
         self._update_intentional_field()
+        self._update_tensor_field()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -1776,8 +1782,11 @@ class World:
         This field directs entities towards areas of higher meaning.
         """
         try:
+            # Prefer tensor_field identity channel; fallback to value_mass scalar
+            source = self.tensor_field[..., 2] if self.tensor_field.size > 0 else self.value_mass_field
+
             # The gradient returns derivatives along each axis (dy, dx)
-            grad_y, grad_x = np.gradient(self.value_mass_field)
+            grad_y, grad_x = np.gradient(source)
 
             # Combine into a (width, width, 2) vector field
             self.intentional_field[..., 0] = grad_x
@@ -1791,6 +1800,74 @@ class World:
 
         except Exception as e:
             self.logger.error(f"Error updating intentional field: {e}", exc_info=True)
+
+    def _update_tensor_field(self) -> None:
+        """Unify scalar fields + cell SoulTensors into a 3-channel tensor and cache its gradients."""
+        try:
+            tf = self.tensor_field
+            # Channel 0: structure, 1: emotion, 2: identity/meaning
+            tf[..., 0] = (self.norms_field + self.prestige_field) * 0.5
+            tf[..., 1] = self.coherence_field - self.threat_field
+            tf[..., 2] = (self.value_mass_field + self.will_field) * 0.5
+
+            # Inject per-cell SoulTensor projections (entanglement bumps weight)
+            alive_idx = np.where(self.is_alive_mask)[0]
+            if alive_idx.size > 0:
+                contrib = np.zeros_like(tf)
+                for idx in alive_idx:
+                    try:
+                        x = int(np.clip(self.positions[idx, 0], 0, self.width - 1))
+                        y = int(np.clip(self.positions[idx, 1], 0, self.width - 1))
+                    except Exception:
+                        continue
+
+                    # Pull SoulTensor if present; fallback to simple stats-derived tensor
+                    tensor_state = None
+                    if hasattr(self.wave_mechanics, "get_node_tensor"):
+                        try:
+                            tensor_state = self.wave_mechanics.get_node_tensor(self.cell_ids[idx])
+                        except Exception:
+                            tensor_state = None
+
+                    if tensor_state and hasattr(tensor_state, "space"):
+                        space = tensor_state.space
+                        weight = 1.5 if getattr(tensor_state, "entanglement_id", None) else 1.0
+                        vec = np.array([space.x, space.y, space.z], dtype=np.float32) * weight
+                    else:
+                        structure_val = (self.strength[idx] + self.wisdom[idx]) / 200.0
+                        emotion_val = 0.5
+                        if self.emotions[idx] == 'joy':
+                            emotion_val = 0.8
+                        elif self.emotions[idx] == 'sorrow':
+                            emotion_val = 0.2
+                        identity_val = self.insight[idx] / 10.0
+                        vec = np.array([structure_val, emotion_val, identity_val], dtype=np.float32)
+
+                    contrib[y, x] += vec
+
+                tf += contrib
+
+            # Central differences for gradients (x: axis=1, y: axis=0)
+            gx = self.tensor_field_grad_x
+            gy = self.tensor_field_grad_y
+            gx.fill(0.0)
+            gy.fill(0.0)
+            gx[:, 1:-1, :] = (tf[:, 2:, :] - tf[:, :-2, :]) * 0.5
+            gy[1:-1, :, :] = (tf[2:, :, :] - tf[:-2, :, :]) * 0.5
+        except Exception:
+            # Tensor field should never break the simulation loop
+            pass
+
+    def _resonance_gradient(self, tensor: Tensor3D, px: float, py: float) -> np.ndarray:
+        """Return the gradient of dot(env_tensor, tensor) at a world position."""
+        if self.tensor_field_grad_x.size == 0 or self.tensor_field_grad_y.size == 0:
+            return np.zeros(2, dtype=np.float32)
+        x = int(np.clip(px, 0, self.width - 1))
+        y = int(np.clip(py, 0, self.width - 1))
+        vec = np.array([tensor.x, tensor.y, tensor.z], dtype=np.float32)
+        gx = float(np.dot(self.tensor_field_grad_x[y, x], vec))
+        gy = float(np.dot(self.tensor_field_grad_y[y, x], vec))
+        return np.array([gx, gy], dtype=np.float32)
 
     def _update_coherence_field(self) -> None:
         """Lightweight coherence map from value/will gradient alignment (0..1).
@@ -1934,19 +2011,10 @@ class World:
 
                 my_tensor = Tensor3D(structure_val, emotion_val, identity_val)
 
-                # Sample environmental tensor gradient for resonance
-                delta = 1.0
-                right_tensor = self.get_field_tensor(int(px + delta), int(py))
-                left_tensor = self.get_field_tensor(int(px - delta), int(py))
-                up_tensor = self.get_field_tensor(int(px), int(py + delta))
-                down_tensor = self.get_field_tensor(int(px), int(py - delta))
-
-                grad_res_x = (my_tensor.dot(right_tensor) - my_tensor.dot(left_tensor)) * 0.5
-                grad_res_y = (my_tensor.dot(up_tensor) - my_tensor.dot(down_tensor)) * 0.5
-
-                # Apply resonance force
+                # Tensor-based resonance gradient (environment tensor · my_tensor)
+                grad_res = self._resonance_gradient(my_tensor, px, py)
                 resonance_strength = 0.3 # Tuning parameter
-                resonance_force = np.array([grad_res_x, grad_res_y, 0.0], dtype=np.float32) * resonance_strength
+                resonance_force = np.array([grad_res[0], grad_res[1], 0.0], dtype=np.float32) * resonance_strength
 
                 # --- The Law of Intention: Follow the gradient of meaning ---
                 wisdom_factor = self.wisdom[i] / 50.0 # Normalize wisdom, 50 is a high value

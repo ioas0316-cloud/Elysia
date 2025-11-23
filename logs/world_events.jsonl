@@ -1,77 +1,100 @@
-{"timestamp": 6860, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6870, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6880, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6890, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6900, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6910, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6920, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6930, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6940, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6950, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6960, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 20070, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6965, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 6970, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6980, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 6990, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7000, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7010, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7020, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7030, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7040, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7046, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7050, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7051, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7056, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7057, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7060, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7063, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7066, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7067, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7070, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7074, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7079, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7080, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7082, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7089, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7090, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7093, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7100, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7102, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7106, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7110, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7111, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7114, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7120, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7120, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 10, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 10, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7567318081855774}}
+{"timestamp": 20, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 20, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7491985559463501}}
+{"timestamp": 30, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 30, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7417402267456055}}
+{"timestamp": 40, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 40, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7343562245368958}}
+{"timestamp": 50, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 50, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7270457744598389}}
+{"timestamp": 60, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 60, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7198079824447632}}
+{"timestamp": 70, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 70, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7126423120498657}}
+{"timestamp": 80, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 80, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.7055479884147644}}
+{"timestamp": 90, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 90, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6985242962837219}}
 {"timestamp": 100, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7121, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7124, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7125, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7129, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7130, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7133, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7135, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7140, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7143, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7150, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7150, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7160, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7162, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7164, "event_type": "RAIN_START", "data": {}}
-{"timestamp": 7170, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7180, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7190, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7200, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7210, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7220, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7230, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7240, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7250, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7260, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7270, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7280, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7290, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7300, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7310, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
-{"timestamp": 7320, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 100, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.691570520401001}}
+{"timestamp": 110, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 110, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6846858263015747}}
+{"timestamp": 120, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 120, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6778698563575745}}
+{"timestamp": 130, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 130, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6711216568946838}}
+{"timestamp": 140, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 140, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6644406318664551}}
+{"timestamp": 150, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 150, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6578261256217957}}
+{"timestamp": 160, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 160, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.651277482509613}}
+{"timestamp": 170, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 170, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6447939872741699}}
+{"timestamp": 180, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 180, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6383751630783081}}
+{"timestamp": 190, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 190, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.632020115852356}}
+{"timestamp": 200, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 200, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6257283687591553}}
+{"timestamp": 210, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 210, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6194992065429688}}
+{"timestamp": 220, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 220, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6133321523666382}}
+{"timestamp": 230, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 230, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6072263717651367}}
+{"timestamp": 240, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 240, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.6011815071105957}}
+{"timestamp": 250, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 250, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5951967835426331}}
+{"timestamp": 260, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 260, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5892715454101562}}
+{"timestamp": 270, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 270, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5834053754806519}}
+{"timestamp": 280, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 280, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5775975584983826}}
+{"timestamp": 290, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 290, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5718475580215454}}
+{"timestamp": 300, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 300, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5661548376083374}}
+{"timestamp": 310, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 310, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.560518741607666}}
+{"timestamp": 320, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 320, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.554938793182373}}
+{"timestamp": 330, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 330, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5494143962860107}}
+{"timestamp": 340, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 340, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5439449548721313}}
+{"timestamp": 350, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 350, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5385299921035767}}
+{"timestamp": 360, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 360, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5331689715385437}}
+{"timestamp": 370, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 370, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5278612375259399}}
+{"timestamp": 380, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 380, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5226064324378967}}
+{"timestamp": 390, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 390, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5174039006233215}}
+{"timestamp": 400, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 400, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5122531056404114}}
+{"timestamp": 410, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 410, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5071536302566528}}
+{"timestamp": 420, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 420, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.5021049380302429}}
+{"timestamp": 430, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 430, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.4971064329147339}}
+{"timestamp": 440, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 440, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.4921577572822571}}
+{"timestamp": 450, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 450, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.48725831508636475}}
+{"timestamp": 460, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 460, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.48240768909454346}}
+{"timestamp": 470, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 470, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.47760534286499023}}
+{"timestamp": 480, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 480, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.4728507399559021}}
+{"timestamp": 490, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 490, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.4681435227394104}}
+{"timestamp": 500, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [25, 25]}}
+{"timestamp": 500, "event_type": "INTUITION_HARMONY", "data": {"intensity": 0.46348318457603455}}
