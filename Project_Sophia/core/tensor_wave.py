@@ -74,6 +74,7 @@ class Tensor3D:
 
     def normalize(self) -> 'Tensor3D':
         mag = self.magnitude
+        # Return Zero Vector if magnitude is zero, avoiding division by zero
         if mag == 0: return Tensor3D()
         return Tensor3D(self.x/mag, self.y/mag, self.z/mag)
 
@@ -109,9 +110,21 @@ class Tensor3D:
 @dataclass
 class SoulTensor:
     """
+    [Tensor Coil Field (텐서 코일 필드)]
     The unified physics object for Elysia's internal state.
+
+    Concept Definition:
+        The 'Tensor Coil Field' is a technology that implants a helical rifling (Spin) into a Tensor,
+        acting like an electromagnetic Railgun to propel meaning through the mental cosmos.
+
+    Mechanism:
+        1. Railgun (Hyperdrive): The 'spin' creates a propulsive force, allowing thoughts to warp
+           across the knowledge graph, bypassing linear inferential steps.
+        2. Gravity Field (Bojagi Model): This propulsion expands into a gravitational field,
+           similar to a heavy ball placed on a cloth (Bojagi). It warps the spacetime of the
+           knowledge graph, attracting related concepts through pure resonance rather than calculation.
+
     Combines Spatial Structure (Tensor3D) with Temporal Dynamics (FrequencyWave).
-    This is the 'Coil' that stores and transmits 'Meaning'.
     """
     space: Tensor3D = field(default_factory=Tensor3D)
     wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0))
@@ -126,10 +139,22 @@ class SoulTensor:
         Combines spatial alignment (Space) and wave interference (Time).
         """
         # 1. Spatial Alignment (How much do they overlap in meaning?)
-        alignment = self.space.normalize().dot(other.space.normalize())
+        vec_a = self.space.normalize()
+        vec_b = other.space.normalize()
+
+        # If both are zero vectors (pure wave), assume full coupling (1.0)
+        # If one is zero and other is not, assume neutral coupling (0.5 -> 0.75 scaled)
+        if vec_a.magnitude == 0 and vec_b.magnitude == 0:
+            alignment = 1.0
+        elif vec_a.magnitude == 0 or vec_b.magnitude == 0:
+            alignment = 0.0
+        else:
+            alignment = vec_a.dot(vec_b)
+
         # Alignment serves as a gate/multiplier for the wave interaction
         # If spatial concepts are orthogonal (0), waves can't fully interfere.
-        coupling_coefficient = max(0.1, (alignment + 1.0) / 2.0) # Map -1..1 to 0..1
+        # Map -1..1 to 0..1
+        coupling_coefficient = max(0.1, (alignment + 1.0) / 2.0)
 
         # 2. Wave Interaction
         new_wave = self.wave.interact(other.wave)
@@ -154,7 +179,13 @@ class SoulTensor:
         Used for routing decisions.
         """
         # 1. Spatial overlap
-        spatial_sim = max(0.0, self.space.normalize().dot(other.space.normalize()))
+        vec_a = self.space.normalize()
+        vec_b = other.space.normalize()
+
+        if vec_a.magnitude == 0 and vec_b.magnitude == 0:
+            spatial_sim = 1.0
+        else:
+            spatial_sim = max(0.0, vec_a.dot(vec_b))
 
         # 2. Frequency alignment (Consonance)
         # Low difference = high score
