@@ -1,184 +1,161 @@
 import numpy as np
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Tuple, Optional, List, Union
 
 @dataclass
 class FrequencyWave:
     """
-    Represents a wave with frequency, amplitude, and phase.
-    Now includes 'richness' to capture the texture of conflicting emotions.
+    Represents the 'Wave' aspect of the SoulTensor.
+    Controls Time, Motion, and Color (Frequency).
     """
-    frequency: float  # Hz (or abstract unit)
-    amplitude: float  # Strength (0.0 to 1.0+)
-    phase: float      # Radians (0 to 2pi)
-    richness: float = 0.0 # Harmonic complexity / texture
+    frequency: float  # Hz: Determines the 'Color' or 'Type' of emotion
+    amplitude: float  # Magnitude: The intensity or energy
+    phase: float      # Radians (0-2pi): The 'Timing' or 'Spin' state
+    richness: float = 0.0 # Harmonic complexity (Texture)
+
+    def step(self, dt: float = 0.1) -> 'FrequencyWave':
+        """
+        Advances the wave in time.
+        The phase rotates based on frequency (Spin).
+        """
+        # d(phase)/dt = frequency * 2pi
+        # New phase = current + angular_velocity * dt
+        new_phase = (self.phase + self.frequency * 2 * np.pi * dt) % (2 * np.pi)
+        return FrequencyWave(self.frequency, self.amplitude, new_phase, self.richness)
 
     def interact(self, other: 'FrequencyWave') -> 'FrequencyWave':
         """
         Calculates the interference between two waves.
-        Unlike scalar addition, wave interference preserves information as 'richness'.
         """
-        # 1. Phase Interference (The 'Beat')
+        # 1. Phase Interference (The 'Chemistry')
         phase_diff = abs(self.phase - other.phase)
-        # Cosine similarity for constructive/destructive interference
-        interference_factor = np.cos(phase_diff)
+        interference_factor = np.cos(phase_diff) # 1.0 (In-phase) to -1.0 (Out-phase)
 
-        # 2. Amplitude Calculation
-        # Instead of simple subtraction, we track the 'tension'
-        base_amp = (self.amplitude + other.amplitude) / 2.0
-        # If waves cancel out (destructive), the energy doesn't disappear;
-        # it converts into 'potential' or 'richness' (tension).
-        result_amp = np.sqrt(self.amplitude**2 + other.amplitude**2 + 2 * self.amplitude * other.amplitude * interference_factor)
+        # 2. Amplitude Calculation (Energy summation with interference)
+        # Resultant Amplitude A = sqrt(A1^2 + A2^2 + 2*A1*A2*cos(delta_phi))
+        new_amp_sq = self.amplitude**2 + other.amplitude**2 + 2 * self.amplitude * other.amplitude * interference_factor
+        result_amp = np.sqrt(max(0.0, new_amp_sq))
 
-        # 3. Richness (Harmonic Complexity) Calculation
-        # Richness increases when frequencies differ significantly (dissonance/complexity)
-        # or when phases oppose (tension).
+        # 3. Richness (Texture)
+        # Dissonance adds richness.
         freq_diff = abs(self.frequency - other.frequency)
-        # Normalize freq diff (assuming max useful diff is around 100Hz for emotion)
-        complexity = min(1.0, freq_diff / 50.0)
+        dissonance = min(1.0, freq_diff / 100.0) # Assume 100Hz diff is max dissonance
+        tension = (1.0 - interference_factor) / 2.0 # 0 to 1
 
-        # Tension from phase opposition (1.0 when 180 deg out of phase)
-        tension = (1.0 - interference_factor) / 2.0
+        new_richness = (self.richness + other.richness) / 2.0 + (dissonance * 0.4) + (tension * 0.2)
 
-        # New richness accumulates history plus current complexity
-        new_richness = (self.richness + other.richness) / 2.0 + (complexity * 0.5) + (tension * 0.3)
-
-        # 4. Frequency Mixing (Dominance-weighted)
+        # 4. Frequency Mixing (Center of Gravity by Amplitude)
         total_amp = self.amplitude + other.amplitude
         if total_amp > 0:
             new_freq = (self.frequency * self.amplitude + other.frequency * other.amplitude) / total_amp
         else:
-            new_freq = self.frequency
+            new_freq = (self.frequency + other.frequency) / 2.0
 
-        # Phase mixing
+        # Phase mixing (Weighted circular mean)
+        # Simplified: average phase
         new_phase = (self.phase + other.phase) / 2.0
 
-        return FrequencyWave(
-            frequency=new_freq,
-            amplitude=result_amp,
-            phase=new_phase,
-            richness=new_richness
-        )
+        return FrequencyWave(new_freq, result_amp, new_phase, new_richness)
 
-    def to_dict(self) -> dict:
-        return {
-            "frequency": float(self.frequency),
-            "amplitude": float(self.amplitude),
-            "phase": float(self.phase),
-            "richness": float(self.richness)
-        }
-
-    @staticmethod
-    def from_dict(data: Union[dict, None]) -> 'FrequencyWave':
-        if data is None:
-            return FrequencyWave(0.0, 0.0, 0.0, 0.0)
-        return FrequencyWave(
-            frequency=data.get("frequency", 0.0),
-            amplitude=data.get("amplitude", 0.0),
-            phase=data.get("phase", 0.0),
-            richness=data.get("richness", 0.0)
-        )
-
-
+@dataclass
 class Tensor3D:
     """
-    Represents the 3D State of a Concept or Cell.
-    Axes:
-    - X: Structure/Logic (Body) - Low Frequency, Stability, Mass.
-    - Y: Emotion/Resonance (Soul) - Mid Frequency, Connection, Energy.
-    - Z: Identity/Will (Spirit) - High Frequency, Information, Direction.
+    Represents the 'Space' aspect of the SoulTensor.
+    Axes: Body (X), Soul (Y), Spirit (Z).
     """
-    def __init__(self, x: float = 0.0, y: float = 0.0, z: float = 0.0, tensor: Optional[np.ndarray] = None):
-        if tensor is not None:
-            if tensor.shape != (3,):
-                 raise ValueError("Tensor must be shape (3,)")
-            self.data = tensor.astype(np.float32)
-        else:
-            self.data = np.array([x, y, z], dtype=np.float32)
+    x: float = 0.0 # Structure / Mass
+    y: float = 0.0 # Emotion / Energy
+    z: float = 0.0 # Identity / Will
 
     @property
-    def structure(self) -> float: return self.data[0]
-
-    @property
-    def emotion(self) -> float: return self.data[1]
-
-    @property
-    def identity(self) -> float: return self.data[2]
-
     def magnitude(self) -> float:
-        return float(np.linalg.norm(self.data))
+        return float(np.sqrt(self.x**2 + self.y**2 + self.z**2))
 
     def normalize(self) -> 'Tensor3D':
-        mag = self.magnitude()
-        if mag == 0:
-            return Tensor3D()
-        return Tensor3D(tensor=self.data / mag)
+        mag = self.magnitude
+        if mag == 0: return Tensor3D()
+        return Tensor3D(self.x/mag, self.y/mag, self.z/mag)
 
     def dot(self, other: 'Tensor3D') -> float:
-        return float(np.dot(self.data, other.data))
+        return self.x*other.x + self.y*other.y + self.z*other.z
 
     def __add__(self, other: 'Tensor3D') -> 'Tensor3D':
-        return Tensor3D(tensor=self.data + other.data)
+        return Tensor3D(self.x+other.x, self.y+other.y, self.z+other.z)
 
     def __mul__(self, scalar: float) -> 'Tensor3D':
-        return Tensor3D(tensor=self.data * scalar)
+        return Tensor3D(self.x*scalar, self.y*scalar, self.z*scalar)
 
-    def to_dict(self) -> dict:
+    def to_dict(self):
+        return {'x': self.x, 'y': self.y, 'z': self.z}
+
+    @staticmethod
+    def from_dict(data):
+        if not data: return Tensor3D()
+        return Tensor3D(data.get('x', 0.0), data.get('y', 0.0), data.get('z', 0.0))
+
+@dataclass
+class SoulTensor:
+    """
+    The unified physics object for Elysia's internal state.
+    Combines Spatial Structure (Tensor3D) with Temporal Dynamics (FrequencyWave).
+    This is the 'Coil' that stores and transmits 'Meaning'.
+    """
+    space: Tensor3D = field(default_factory=Tensor3D)
+    wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0))
+
+    # The 'Coil' factor: How tightly wound the energy is.
+    # High spin = Concentrated, potential energy. Low spin = Radiating.
+    spin: float = 0.0
+
+    def resonate(self, other: 'SoulTensor') -> 'SoulTensor':
+        """
+        The core interaction logic.
+        Combines spatial alignment (Space) and wave interference (Time).
+        """
+        # 1. Spatial Alignment (How much do they overlap in meaning?)
+        alignment = self.space.normalize().dot(other.space.normalize())
+        # Alignment serves as a gate/multiplier for the wave interaction
+        # If spatial concepts are orthogonal (0), waves can't fully interfere.
+        coupling_coefficient = max(0.1, (alignment + 1.0) / 2.0) # Map -1..1 to 0..1
+
+        # 2. Wave Interaction
+        new_wave = self.wave.interact(other.wave)
+
+        # Adjust wave amplitude based on spatial coupling
+        new_wave.amplitude *= coupling_coefficient
+
+        # 3. Space Merging
+        # Simply adding vectors, but weighted by wave energy?
+        # For now, simple vector addition.
+        new_space = self.space + other.space
+
+        # 4. Spin Interaction
+        # Conservation of angular momentum metaphor
+        new_spin = (self.spin + other.spin) / 2.0
+
+        return SoulTensor(new_space, new_wave, new_spin)
+
+    def to_dict(self):
         return {
-            "structure": float(self.structure),
-            "emotion": float(self.emotion),
-            "identity": float(self.identity)
+            'space': self.space.to_dict(),
+            'wave': {
+                'frequency': self.wave.frequency,
+                'amplitude': self.wave.amplitude,
+                'phase': self.wave.phase,
+                'richness': self.wave.richness
+            },
+            'spin': self.spin
         }
 
     @staticmethod
-    def from_dict(data: Union[dict, None]) -> 'Tensor3D':
-        if data is None:
-            return Tensor3D()
-        return Tensor3D(
-            x=data.get("structure", 0.0),
-            y=data.get("emotion", 0.0),
-            z=data.get("identity", 0.0)
+    def from_dict(data):
+        if not data: return SoulTensor()
+        space = Tensor3D.from_dict(data.get('space'))
+        w_data = data.get('wave', {})
+        wave = FrequencyWave(
+            w_data.get('frequency', 0.0),
+            w_data.get('amplitude', 0.0),
+            w_data.get('phase', 0.0),
+            w_data.get('richness', 0.0)
         )
-
-    @staticmethod
-    def distribute_frequency(frequency: float) -> 'Tensor3D':
-        """
-        Maps a scalar frequency to the 3D axes non-linearly.
-        This implements the "low/high frequency distribution" logic.
-
-        - Low Freq (<100Hz): Dominates X-axis (Body/Mass)
-        - Mid Freq (100Hz-500Hz): Dominates Y-axis (Emotion/Soul)
-        - High Freq (>500Hz): Dominates Z-axis (Identity/Spirit)
-        """
-        # Normalize contributions using Gaussian-like windows
-
-        # X-axis (Low): Peaks at 0, decays by 200
-        x_val = np.exp(-(frequency)**2 / (2 * 100**2))
-
-        # Y-axis (Mid): Peaks at 300, width 200
-        y_val = np.exp(-(frequency - 300)**2 / (2 * 150**2))
-
-        # Z-axis (High): Sigmoid-like ramp up starting at 400
-        z_val = 1.0 / (1.0 + np.exp(-(frequency - 600) / 100))
-
-        return Tensor3D(x=float(x_val), y=float(y_val), z=float(z_val))
-
-def propagate_wave(source_tensor: Tensor3D, target_tensor: Tensor3D, decay: float = 0.9) -> Tensor3D:
-    """
-    Propagates a wave from source to target in 3D tensor space.
-    Logic:
-    - The source influences the target based on alignment (dot product).
-    - If aligned, energy flows efficiently.
-    - If orthogonal, little effect.
-    - If opposed, dissonance (potentially destructive).
-    """
-    alignment = source_tensor.normalize().dot(target_tensor.normalize())
-
-    # Energy transfer depends on alignment strength
-    transfer_efficiency = max(0.0, alignment)
-
-    # The 'wave' adds a portion of the source's energy to the target
-    energy_transfer = source_tensor * (decay * transfer_efficiency)
-
-    new_target = target_tensor + energy_transfer
-    return new_target
+        return SoulTensor(space, wave, data.get('spin', 0.0))

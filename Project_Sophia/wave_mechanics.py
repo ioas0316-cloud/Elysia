@@ -1,7 +1,10 @@
 from collections import deque
 from tools.kg_manager import KGManager
 from Project_Sophia.vector_utils import cosine_sim
-from Project_Sophia.core.tensor_wave import Tensor3D, propagate_wave, FrequencyWave
+from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
+import math
+import random
+
 try:
     from infra.telemetry import Telemetry
 except Exception:
@@ -12,173 +15,205 @@ class WaveMechanics:
         self.kg_manager = kg_manager
         self.telemetry = telemetry
 
-    def spread_activation(
+    def calculate_mass(self, node_data: dict) -> float:
+        """
+        Calculates the 'Gravitational Mass' of a concept node.
+        Mass is derived from:
+        1. Connectivity (Degree centrality)
+        2. Activation Energy (Current importance)
+        3. Intrinsic Value (Is it a core value?)
+        """
+        # Base mass from connectivity (assumed proxy: length of description or stored degree if available)
+        # For now, we use a heuristic or stored property
+        mass = 1.0
+
+        # 1. Connectivity Mass
+        # (In a real graph, we'd check edge count. Here we assume 'importance' property or energy)
+        if 'importance' in node_data:
+            mass += float(node_data['importance']) * 10.0
+
+        # 2. Energy Mass (E = mc^2 metaphor, Energy adds to mass)
+        mass += node_data.get('activation_energy', 0.0) * 0.5
+
+        # 3. Core Value Boost
+        # If the node is a 'Sun' (Core Value), it has massive gravity
+        if node_data.get('type') == 'core_value' or node_data.get('id') == 'love':
+            mass += 100.0
+
+        return mass
+
+    def propagate_soul_wave(
         self,
         start_node_id: str,
-        initial_energy: float = 1.0,
+        initial_tensor: SoulTensor,
         decay_factor: float = 0.9,
-        threshold: float = 0.2,
-        lens_weights=None,
-        emotion_gain: float = 1.0,
-        top_k: int = 8,
-        energy_cap: float = 1.5,
-        refractory_hops: int = 2,
-    ):
-        """
-        Spreads activation energy (Scalar) from a starting node through the knowledge graph.
-        Legacy method kept for backward compatibility.
-        """
-        activated_nodes = {}
-        hop_of = {}
-
-        start_node = self.kg_manager.get_node(start_node_id)
-        if not start_node or 'embedding' not in start_node:
-            return activated_nodes
-
-        queue = deque([(start_node_id, initial_energy * max(0.5, min(2.0, float(emotion_gain))), 0)])
-        visited = {start_node_id}
-        hop_of[start_node_id] = 0
-
-        while queue:
-            current_id, current_energy, hop = queue.popleft()
-
-            if current_energy < threshold:
-                continue
-
-            current_energy = min(current_energy, energy_cap)
-            activated_nodes[current_id] = max(activated_nodes.get(current_id, 0.0), current_energy)
-
-            current_node = self.kg_manager.get_node(current_id)
-            if not current_node or 'embedding' not in current_node:
-                continue
-
-            current_embedding = current_node['embedding']
-            all_neighbors = []
-            for edge in self.kg_manager.kg['edges']:
-                nxt = None
-                if edge['source'] == current_id:
-                    nxt = edge['target']
-                elif edge['target'] == current_id:
-                    nxt = edge['source']
-                if nxt is None:
-                    continue
-                if nxt in hop_of and (hop_of[nxt] - hop) <= refractory_hops:
-                    continue
-                neighbor_node = self.kg_manager.get_node(nxt)
-                if not neighbor_node or 'embedding' not in neighbor_node:
-                    continue
-                sim = max(0.0, cosine_sim(current_embedding, neighbor_node['embedding']))
-                lens = 1.0
-                if lens_weights and isinstance(lens_weights, dict):
-                    lens = float(lens_weights.get(nxt, 1.0))
-                score = sim * lens
-                all_neighbors.append((nxt, sim, lens, score))
-
-            if top_k and len(all_neighbors) > top_k:
-                all_neighbors.sort(key=lambda x: x[3], reverse=True)
-                selected = all_neighbors[:top_k]
-            else:
-                selected = all_neighbors
-
-            for neighbor_id, similarity, lens, _score in selected:
-                visited.add(neighbor_id)
-                new_energy = current_energy * similarity * decay_factor * lens
-                accepted = new_energy >= threshold
-                if accepted:
-                    hop_of[neighbor_id] = hop + 1
-                    queue.append((neighbor_id, new_energy, hop + 1))
-
-                if self.telemetry:
-                    try:
-                        self.telemetry.emit('activation_spread_step', {
-                            'from': current_id, 'to': neighbor_id, 'hop': int(hop),
-                            'energy_in': float(current_energy), 'similarity': float(similarity),
-                            'energy_out': float(new_energy), 'accepted': bool(accepted)
-                        })
-                    except Exception:
-                        pass
-
-        return activated_nodes
-
-    def propagate_tensor_wave(
-        self,
-        start_node_id: str,
-        initial_tensor: Tensor3D,
-        decay_factor: float = 0.9,
-        threshold_mag: float = 0.2,
         max_hops: int = 3
     ) -> dict:
         """
-        Propagates a 3D Tensor Wave through the Knowledge Graph.
-        This models not just 'activation' but the 'quality' of the thought (Structure, Emotion, Identity).
+        Propagates a SoulTensor wave through the universe (KG).
+        The path is influenced by 'Gravity' - waves flow towards high-mass nodes.
         """
-        activated_tensors = {} # node_id -> Tensor3D
+        activated_tensors = {} # node_id -> SoulTensor
+
+        # Priority Queue for 'Geodesic Flow': (Priority/Potential, NodeID, Tensor, Hop)
+        # Higher priority = processed first (like water flowing downhill)
+        # We invert priority because heapq is min-heap, or just use standard deque for BFS with weighted selection
+        # Let's use a standard queue but select neighbors probabilistically based on Gravity.
+
         queue = deque([(start_node_id, initial_tensor, 0)])
-        visited_hops = {start_node_id: 0}
+        visited_strength = {start_node_id: initial_tensor.wave.amplitude} # Track max energy visited
 
         while queue:
             current_id, current_tensor, hop = queue.popleft()
 
-            if current_tensor.magnitude() < threshold_mag or hop >= max_hops:
+            if current_tensor.wave.amplitude < 0.05 or hop >= max_hops:
                 continue
 
-            # Merge tensor state if already visited (constructive interference)
+            # 1. Resonance (Update local state)
             if current_id in activated_tensors:
-                activated_tensors[current_id] = activated_tensors[current_id] + current_tensor
+                # Interference with existing wave at this node
+                activated_tensors[current_id] = activated_tensors[current_id].resonate(current_tensor)
             else:
                 activated_tensors[current_id] = current_tensor
 
-            # Get current node data to check for intrinsic resonance
-            current_node = self.kg_manager.get_node(current_id)
-            if not current_node:
+            # 2. Gravity-guided Propagation
+            neighbors = self.kg_manager.get_neighbors(current_id)
+            if not neighbors:
                 continue
 
-            # If node has its own tensor state, resonate with it
-            node_tensor_data = current_node.get('tensor_state')
-            if node_tensor_data:
-                node_tensor = Tensor3D.from_dict(node_tensor_data)
-                # Resonance: The wave picks up properties from the node
-                current_tensor = propagate_wave(node_tensor, current_tensor, decay=1.0)
+            # Calculate Gravity of all neighbors
+            neighbor_masses = []
+            total_gravity = 0.0
 
-            # Find neighbors
-            neighbors = self.kg_manager.get_neighbors(current_id)
+            candidates = []
             for neighbor_id in neighbors:
-                if neighbor_id not in visited_hops or visited_hops[neighbor_id] > hop:
-                    neighbor_node = self.kg_manager.get_node(neighbor_id)
-                    if not neighbor_node: continue
+                neighbor_node = self.kg_manager.get_node(neighbor_id)
+                if not neighbor_node: continue
 
-                    # Propagate: neighbor gets a decayed version of current tensor
-                    # Future improvement: Use edge properties (e.g., relationship type) to filter axes
-                    # e.g., 'felt' edges propagate Y-axis (Emotion), 'implies' edges propagate X-axis (Logic)
-                    next_tensor = current_tensor * decay_factor
+                mass = self.calculate_mass(neighbor_node)
 
-                    visited_hops[neighbor_id] = hop + 1
+                # Distance factor (Conceptual distance)
+                # For now assume distance=1, but could use embedding distance
+                dist = 1.0
+                if 'embedding' in neighbor_node and 'embedding' in self.kg_manager.get_node(current_id):
+                    # Similarity is inverse of distance
+                    sim = cosine_sim(self.kg_manager.get_node(current_id)['embedding'], neighbor_node['embedding'])
+                    dist = 2.0 - max(0.0, sim) # 1.0 to 2.0 range roughly
+
+                # Gravity Force F = G * M / r^2
+                gravity = mass / (dist ** 2)
+
+                candidates.append((neighbor_id, gravity))
+                total_gravity += gravity
+
+            # 3. Distribute Energy based on Gravity
+            # The wave splits, but more flows towards high gravity
+            # This creates the "Bending" of the wave trajectory
+
+            for neighbor_id, gravity in candidates:
+                # Portion of energy diverted to this neighbor
+                # We normalize gravity to get a probability/weight
+                if total_gravity > 0:
+                    pull_ratio = gravity / total_gravity
+                else:
+                    pull_ratio = 1.0 / len(candidates)
+
+                # Apply limiting to prevent explosion
+                # Even high gravity only captures a portion of the *outgoing* flux
+                # Let's say the wave spreads to ALL neighbors, but intensity varies
+
+                # Decay is base loss. Pull_ratio determines distribution.
+                # We multiply by len(candidates) to normalize?
+                # No, let's stick to conservation of energy metaphor roughly.
+                # If we split the wave, energy divides.
+                # But this is 'Information' wave, it can duplicate.
+                # Let's use pull_ratio as a 'Lens' multiplier.
+
+                # Strong gravity = Less decay (Superconductivity / Superfluidity towards heavy objects)
+                # Weak gravity = High decay (Resistance)
+
+                # Map pull_ratio (0..1) to a decay modifier.
+                # Average pull is 1/N. If pull > 1/N, it's a preferred path.
+                avg_pull = 1.0 / len(candidates)
+
+                # If pull_ratio is high, decay is close to 1.0 (lossless)
+                # If pull_ratio is low, decay is high.
+
+                gravity_bonus = pull_ratio / avg_pull # 1.0 = average. >1.0 = attracted.
+
+                # Cap bonus
+                gravity_bonus = min(2.0, gravity_bonus)
+
+                local_decay = decay_factor * gravity_bonus
+
+                # Constrain decay
+                local_decay = min(0.95, local_decay)
+
+                # Create new tensor for neighbor
+                # Wave amplitude decays
+                next_wave = FrequencyWave(
+                    frequency=current_tensor.wave.frequency,
+                    amplitude=current_tensor.wave.amplitude * local_decay,
+                    phase=current_tensor.wave.phase, # Phase might shift with distance?
+                    richness=current_tensor.wave.richness
+                )
+
+                # Step the wave in time (simulating travel time)
+                next_wave = next_wave.step(dt=0.1)
+
+                next_tensor = SoulTensor(current_tensor.space, next_wave, current_tensor.spin)
+
+                # Check loop/visit prevention based on energy
+                if neighbor_id not in visited_strength or next_wave.amplitude > visited_strength[neighbor_id]:
+                    visited_strength[neighbor_id] = next_wave.amplitude
                     queue.append((neighbor_id, next_tensor, hop + 1))
 
         return activated_tensors
 
     def get_resonance_between(self, start_node_id: str, end_node_id: str) -> float:
-        activated_nodes = self.spread_activation(start_node_id=start_node_id, threshold=0.1)
-        return activated_nodes.get(end_node_id, 0.0)
+        """
+        Enhanced resonance check using Soul Physics.
+        """
+        # 1. Create a pulse at start
+        seed_wave = FrequencyWave(frequency=10.0, amplitude=1.0, phase=0.0)
+        seed_tensor = SoulTensor(wave=seed_wave)
+
+        # 2. Propagate
+        field = self.propagate_soul_wave(start_node_id, seed_tensor, max_hops=2)
+
+        # 3. Check result at target
+        if end_node_id in field:
+            return field[end_node_id].wave.amplitude
+        return 0.0
 
     def inject_stimulus(self, concept_id: str, energy_boost: float, tensor_state: dict = None):
         """
-        Injects energy. Now supports optional 3D tensor state injection.
+        Injects energy into the system.
         """
         node = self.kg_manager.get_node(concept_id)
         if node:
-            # Update scalar energy
+            # Update scalar energy (Legacy)
             current_energy = node.get('activation_energy', 0.0)
             new_energy = current_energy + energy_boost
             updates = {'activation_energy': new_energy}
 
-            # Update tensor state if provided
-            if tensor_state:
-                current_tensor_data = node.get('tensor_state', {})
-                current_tensor = Tensor3D.from_dict(current_tensor_data)
-                input_tensor = Tensor3D.from_dict(tensor_state)
-                new_tensor = current_tensor + input_tensor
+            # Update Tensor State
+            # If no tensor provided, create a default emotional burst
+            if not tensor_state:
+                # Default to a high-energy pulse
+                tensor_state = SoulTensor(
+                    wave=FrequencyWave(frequency=50.0, amplitude=energy_boost, phase=0.0)
+                ).to_dict()
+
+            # Merge with existing if present
+            current_tensor_data = node.get('tensor_state')
+            if current_tensor_data:
+                current_tensor = SoulTensor.from_dict(current_tensor_data)
+                input_tensor = SoulTensor.from_dict(tensor_state)
+                new_tensor = current_tensor.resonate(input_tensor)
                 updates['tensor_state'] = new_tensor.to_dict()
+            else:
+                updates['tensor_state'] = tensor_state
 
             self.kg_manager.update_node(concept_id, updates)
 
@@ -189,8 +224,16 @@ class WaveMechanics:
                         'energy_boost': float(energy_boost),
                         'new_total_energy': float(new_energy)
                     }
-                    if tensor_state:
-                        payload['tensor_state'] = tensor_state
                     self.telemetry.emit('stimulus_injected', payload)
                 except Exception:
                     pass
+
+    # Legacy support wrapper
+    def spread_activation(self, start_node_id, **kwargs):
+        """Legacy wrapper for backward compatibility"""
+        # Convert legacy params to Soul params roughly
+        amp = kwargs.get('initial_energy', 1.0)
+        seed = SoulTensor(wave=FrequencyWave(frequency=10.0, amplitude=amp, phase=0.0))
+        results = self.propagate_soul_wave(start_node_id, seed)
+        # Return simple dict of amplitudes
+        return {k: v.wave.amplitude for k, v in results.items()}
