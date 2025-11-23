@@ -1,6 +1,7 @@
 import numpy as np
+import uuid
 from dataclasses import dataclass, field
-from typing import Tuple, Optional, List, Union
+from typing import Tuple, Optional, List, Union, Dict
 
 @dataclass
 class FrequencyWave:
@@ -57,6 +58,24 @@ class FrequencyWave:
 
         return FrequencyWave(new_freq, result_amp, new_phase, new_richness)
 
+    def to_dict(self):
+        return {
+            'frequency': self.frequency,
+            'amplitude': self.amplitude,
+            'phase': self.phase,
+            'richness': self.richness
+        }
+
+    @staticmethod
+    def from_dict(data):
+        if not data: return FrequencyWave(0.0, 0.0, 0.0)
+        return FrequencyWave(
+            data.get('frequency', 0.0),
+            data.get('amplitude', 0.0),
+            data.get('phase', 0.0),
+            data.get('richness', 0.0)
+        )
+
 @dataclass
 class Tensor3D:
     """
@@ -94,6 +113,33 @@ class Tensor3D:
         return Tensor3D(data.get('x', 0.0), data.get('y', 0.0), data.get('z', 0.0))
 
 @dataclass
+class QuantumPhoton:
+    """
+    A particle of information (Active Data).
+    Carries momentum and a wave payload.
+    """
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    payload: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0))
+    position: Tensor3D = field(default_factory=Tensor3D)
+    velocity: Tensor3D = field(default_factory=Tensor3D)
+    source_id: Optional[str] = None
+    target_id: Optional[str] = None
+
+    def step(self, dt: float = 0.1):
+        self.position = self.position + (self.velocity * dt)
+        self.payload = self.payload.step(dt)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'payload': self.payload.to_dict(),
+            'position': self.position.to_dict(),
+            'velocity': self.velocity.to_dict(),
+            'source_id': self.source_id,
+            'target_id': self.target_id
+        }
+
+@dataclass
 class SoulTensor:
     """
     The unified physics object for Elysia's internal state.
@@ -106,6 +152,9 @@ class SoulTensor:
     # The 'Coil' factor: How tightly wound the energy is.
     # High spin = Concentrated, potential energy. Low spin = Radiating.
     spin: float = 0.0
+
+    # Entanglement ID: If present, this tensor is synchronized with a SharedQuantumState.
+    entanglement_id: Optional[str] = None
 
     def resonate(self, other: 'SoulTensor') -> 'SoulTensor':
         """
@@ -133,29 +182,41 @@ class SoulTensor:
         # Conservation of angular momentum metaphor
         new_spin = (self.spin + other.spin) / 2.0
 
+        # 5. Entanglement Preservation
+        # Interaction breaks entanglement unless specifically handled.
+        # For now, resonance produces a NEW local state, breaking entanglement.
+        # Use explicit 'entangle()' logic to re-establish.
+
         return SoulTensor(new_space, new_wave, new_spin)
 
     def to_dict(self):
-        return {
+        d = {
             'space': self.space.to_dict(),
-            'wave': {
-                'frequency': self.wave.frequency,
-                'amplitude': self.wave.amplitude,
-                'phase': self.wave.phase,
-                'richness': self.wave.richness
-            },
+            'wave': self.wave.to_dict(),
             'spin': self.spin
         }
+        if self.entanglement_id:
+            d['entanglement_id'] = self.entanglement_id
+        return d
 
     @staticmethod
     def from_dict(data):
         if not data: return SoulTensor()
         space = Tensor3D.from_dict(data.get('space'))
-        w_data = data.get('wave', {})
-        wave = FrequencyWave(
-            w_data.get('frequency', 0.0),
-            w_data.get('amplitude', 0.0),
-            w_data.get('phase', 0.0),
-            w_data.get('richness', 0.0)
-        )
-        return SoulTensor(space, wave, data.get('spin', 0.0))
+        wave = FrequencyWave.from_dict(data.get('wave', {}))
+        st = SoulTensor(space, wave, data.get('spin', 0.0))
+        st.entanglement_id = data.get('entanglement_id')
+        return st
+
+@dataclass
+class SharedQuantumState:
+    """
+    A container for a SoulTensor that is shared among multiple observers.
+    This implements True Entanglement (Non-local shared state).
+    """
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    tensor: SoulTensor = field(default_factory=lambda: SoulTensor())
+    observers: List[str] = field(default_factory=list)
+
+    def update(self, new_tensor: SoulTensor):
+        self.tensor = new_tensor
