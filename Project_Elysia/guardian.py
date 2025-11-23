@@ -33,6 +33,9 @@ from Project_Sophia.emotional_engine import EmotionalEngine
 from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
 from Project_Sophia.core.alchemy_cortex import AlchemyCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
+from Project_Mirror.creative_expression import CreativeExpression
+from Project_Sophia.sensory_motor_cortex import SensoryMotorCortex
+from Project_Elysia.manifestation_cortex import ManifestationCortex
 from Project_Sophia.value_cortex import ValueCortex
 from Project_Elysia.core_memory import EmotionalState
 from Project_Elysia.high_engine.quaternion_engine import QuaternionConsciousnessEngine
@@ -107,6 +110,17 @@ class Guardian:
         # The ValueCortex now manages its own KGManager instance using the provided path.
         self.value_cortex = ValueCortex(kg_path=self.kg_path)
         self.sensory_cortex = SensoryCortex(self.value_cortex)
+
+        # --- Manifestation Trinity Initialization ---
+        self.creative_expression = CreativeExpression()
+        self.sensory_motor_cortex = SensoryMotorCortex(logger=self.logger)
+        self.manifestation_cortex = ManifestationCortex(
+            core_memory=self.core_memory,
+            creative_expression=self.creative_expression,
+            sensory_motor=self.sensory_motor_cortex,
+            logger=self.logger
+        )
+
         self.cell_memory_store = CellMemoryStore()
         self.cell_memory_store.load()
         self._last_autosaved_tick = 0
@@ -503,6 +517,12 @@ class Guardian:
         # Guardian's own monitoring tasks
         self.check_treasure_status()
         self.read_emotion_from_state_file()
+
+        # --- Attempt Manifestation ---
+        # If feeling strong emotion, attempt to manifest.
+        current_emotion = self.emotional_engine.get_current_state().current_feeling
+        if current_emotion not in ["neutral", "calm"]: # Only manifest when emotional
+            self.manifestation_cortex.attempt_manifestation(emotion=current_emotion)
 
         if (time.time() - self.last_activity_time) > self.time_to_idle:
             self.logger.info(f"No activity for {self.time_to_idle}s. Transitioning to IDLE to rest and dream.")
