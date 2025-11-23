@@ -57,6 +57,7 @@ class SafetyGuardian:
                 ActionCategory.SYSTEM_CONTROL.value: {
                     "mouse_move": "restricted",
                     "keyboard_input": "blocked",
+                    "check_status": "restricted",
                     "screen_access": "monitored"
                 },
                 ActionCategory.FILE_ACCESS.value: {
@@ -73,6 +74,7 @@ class SafetyGuardian:
                 ActionCategory.SYSTEM_CONTROL.value: {
                     "mouse_move": "monitored",
                     "keyboard_input": "restricted",
+                    "check_status": "allowed",
                     "screen_access": "allowed"
                 },
                 ActionCategory.FILE_ACCESS.value: {
