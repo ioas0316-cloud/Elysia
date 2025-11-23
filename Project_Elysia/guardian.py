@@ -80,27 +80,6 @@ from Project_Elysia.core_memory import EmotionalState
 
 from Project_Elysia.high_engine.quaternion_engine import QuaternionConsciousnessEngine, LensMode
 
-from Project_Elysia.high_engine.self_intention_engine import SelfIntentionEngine
-
-from Project_Elysia.high_engine.self_identity_engine import SelfIdentityEngine
-
-from Project_Elysia.core import persistence
-
-from Project_Elysia.core.cell_memory_store import CellMemoryStore
-
-# --- Import the refactored ElysiaDaemon ---
-
-from .elysia_daemon import ElysiaDaemon
-
-from .dream_observer import DreamObserver
-
-
-
-# --- Primordial DNA for all cells created in this world ---
-
-PRIMORDIAL_DNA = {
-
-    "instinct": "connect_create_meaning",
 
     "resonance_standard": "love"
 
@@ -264,7 +243,9 @@ class Guardian:
 
         self.self_identity_engine = SelfIdentityEngine()
 
-
+        # --- Phase 4: The Creator Initialization ---
+        self.world_tree = WorldTree(logger=self.logger)
+        self.cell_world_sim = CellWorld(logger=self.logger)
 
         # --- Cellular World (Soul Twin) Initialization ---
 

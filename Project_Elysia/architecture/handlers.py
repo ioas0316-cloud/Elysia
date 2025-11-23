@@ -469,3 +469,45 @@ class DefaultReasoningHandler:
 
         return response_data
 
+
+class PlanningHandler:
+    """Handles planning requests using the PlanningCortex."""
+
+    def __init__(self, planning_cortex, logger: logging.Logger):
+        self.planning_cortex = planning_cortex
+        self.logger = logger
+        self.trigger_patterns = [
+            r"^(plan|계획|goal|목표)\s*[:\s]",
+        ]
+
+    def can_handle(self, message: str) -> bool:
+        return any(re.match(pattern, message.strip(), re.IGNORECASE) for pattern in self.trigger_patterns)
+
+    def handle(self, message: str, context: ConversationContext, emotional_state: EmotionalState) -> Optional[Any]:
+        self.logger.info("PlanningHandler triggered.")
+        
+        # Extract goal from message
+        # Simple extraction: remove the trigger prefix
+        goal = message
+        for pattern in self.trigger_patterns:
+            match = re.match(pattern, message.strip(), re.IGNORECASE)
+            if match:
+                goal = message.strip()[match.end():].strip()
+                break
+        
+        if not goal:
+            return {"type": "text", "text": "계획할 목표를 말씀해 주세요."}
+
+        plan = self.planning_cortex.develop_plan(goal)
+        
+        if not plan:
+            return {"type": "text", "text": "죄송해요, 계획을 세우는 데 실패했어요."}
+            
+        # Format plan for display
+        plan_text = f"목표 '{goal}'에 대한 계획입니다:\n"
+        for i, step in enumerate(plan):
+            tool_name = step.get('tool_name')
+            params = step.get('parameters')
+            plan_text += f"{i+1}. **{tool_name}**: {params}\n"
+            
+        return {"type": "text", "text": plan_text, "plan": plan}
