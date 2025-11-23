@@ -85,6 +85,14 @@ class EssenceMapper:
                     "effects": [{"op": "damage", "multiplier": 1.0}]
                 }
             },
+            "attack": {
+                "base_type": "action",
+                "logic_template": {
+                    "target_type": "entity",
+                    "conditions": [{"check": "stat_ge", "stat": "strength", "value": 1}],
+                    "effects": [{"op": "damage", "multiplier": 1.0}]
+                }
+            },
             "punch": {
                 "base_type": "action",
                 "logic_template": {

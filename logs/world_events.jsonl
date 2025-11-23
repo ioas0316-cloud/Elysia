@@ -1,0 +1,2 @@
+{"timestamp": 0, "event_type": "SHARE_FOOD", "data": {"actor_id": "actor", "target_id": "target"}}
+{"timestamp": 0, "event_type": "MEANING_CREATED", "data": {"type": "sharing", "magnitude": 3.0, "x": 0, "y": 0}}

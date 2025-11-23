@@ -6,6 +6,10 @@ from typing import Dict, Any, Optional, List
 from Project_Sophia.core.self_fractal import SelfFractalCell
 from Project_Sophia.core.essence_mapper import EssenceMapper
 from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
+try:
+    from Project_Elysia.chemo_sense import map_scent_signature
+except Exception:
+    map_scent_signature = None
 
 class Cell:
     """
@@ -25,6 +29,7 @@ class Cell:
         self.organelles: Dict[str, Any] = initial_properties.copy() if initial_properties else {}
         self.connections: List[Dict[str, Any]] = []
         self.element_type = self.organelles.get("element_type", "unknown")
+        self.scent_signature = None
 
         self.is_alive = True
         self.age = 0
@@ -39,6 +44,7 @@ class Cell:
         # This is the bridge: Soul (Wave) -> Body (Tensor)
         # Using SoulTensor wrapper for full physics support
         self.tensor = SoulTensor(space=Tensor3D(0.1, 0.1, 0.1))
+        self._apply_scent_signature()
 
     def _initialize_soul_identity(self):
         """
@@ -53,6 +59,20 @@ class Cell:
         # Seed the soul with its own identity at the center
         center = self.soul.size // 2
         self.soul.inject_tone(center, center, amplitude=1.0, frequency=freq, phase=0.0)
+
+    def _apply_scent_signature(self):
+        """Attach scent/flavor signature to the cell if provided."""
+        if not map_scent_signature:
+            return
+        tag = self.organelles.get("scent") or self.organelles.get("flavor")
+        if not tag:
+            return
+        sig = map_scent_signature(tag)
+        self.scent_signature = sig
+        # Blend into tensor state (space + wave)
+        self.tensor.space = self.tensor.space + sig["space"]
+        self.tensor.wave.frequency = sig["freq"]
+        self.tensor.wave.amplitude = max(self.tensor.wave.amplitude, sig["amplitude"])
 
     def __repr__(self):
         status = "Alive" if self.is_alive else "Dead"

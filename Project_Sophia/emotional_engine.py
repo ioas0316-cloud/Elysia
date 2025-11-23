@@ -120,12 +120,21 @@ class EmotionalEngine:
         """
         # Return a COPY to avoid modifying the static preset
         preset = self.FEELING_PRESETS.get(feeling.lower(), self.FEELING_PRESETS["neutral"])
+        # Deep copy tensor/wave safely (Tensor3D has no .data attr)
+        if hasattr(preset.tensor, "to_dict"):
+            tdict = preset.tensor.to_dict()
+            tensor_copy = Tensor3D.from_dict(tdict) if hasattr(Tensor3D, "from_dict") else Tensor3D(**tdict)
+        else:
+            tensor_copy = Tensor3D()
+
+        wave_copy = FrequencyWave.from_dict(preset.wave.to_dict()) if preset.wave else FrequencyWave(0.0, 0.0, 0.0, 0.0)
+
         return EmotionalState(
             valence=preset.valence,
             arousal=preset.arousal,
             dominance=preset.dominance,
             primary_emotion=preset.primary_emotion,
             secondary_emotions=list(preset.secondary_emotions),
-            tensor=Tensor3D(tensor=preset.tensor.data.copy()), # Deep copy tensor
-            wave=FrequencyWave.from_dict(preset.wave.to_dict()) # Deep copy wave
+            tensor=tensor_copy,
+            wave=wave_copy,
         )

@@ -136,7 +136,10 @@ class MetaCognitionCortex:
             reflection_text += ", ".join([f"{node_id} (resonance: {energy:.2f})" for node_id, energy in related_concepts[:5]])
 
             # 4. Measure alignment with the core value 'love'
-            spiritual_alignment = self.wave_mechanics.get_resonance_between(concept_id, "love")
+            if "love" in activated_nodes:
+                spiritual_alignment = activated_nodes.get("love", 0.0)
+            else:
+                spiritual_alignment = self.wave_mechanics.get_resonance_between(concept_id, "love")
             alignment_text = f"Spiritual Alignment: This concept resonates with my core value of 'love' with a strength of {spiritual_alignment:.2f}."
             reflection_text += f"\n{alignment_text}"
 
