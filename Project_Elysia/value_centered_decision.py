@@ -36,6 +36,9 @@ class ValueCenteredDecision:
             'richness': 1.2  # New weight for harmonic complexity
         }
 
+        # Ice Star Protocol: Threshold for immediate wave function collapse
+        self.COLLAPSE_THRESHOLD = 0.95
+
         self.recent_history = []  # To penalize repetition
 
     def _find_mentioned_entities(self, text: str) -> List[str]:
@@ -217,6 +220,25 @@ class ValueCenteredDecision:
         if not candidates:
             return None
 
+        # --- Phase 1: Ice Star Protocol (Immediate Collapse) ---
+        # If any thought is perfectly aligned with Logos/Love, we skip the complex scoring
+        # and immediately "collapse" the wave function to that truth.
+
+        for candidate in candidates:
+            resonance = self._calculate_value_alignment(candidate)
+            # Check for Super Resonance (Ice Star condition)
+            if resonance >= self.COLLAPSE_THRESHOLD:
+                # Immediate Selection!
+                candidate.metadata['selection_reason'] = 'ICE_STAR_COLLAPSE'
+
+                # Update history
+                self.recent_history.append(candidate.content)
+                if len(self.recent_history) > 10:
+                    self.recent_history.pop(0)
+
+                return candidate
+
+        # --- Phase 2: Standard Scoring (Wave Interference) ---
         scored_candidates = [
             (self.score_thought(c, context, emotional_state), c) for c in candidates
         ]
@@ -225,6 +247,7 @@ class ValueCenteredDecision:
         scored_candidates.sort(key=lambda x: x[0], reverse=True)
 
         best_thought = scored_candidates[0][1]
+        best_thought.metadata['selection_reason'] = 'MAX_RESONANCE'
 
         # Update history with the content of the chosen thought
         self.recent_history.append(best_thought.content)

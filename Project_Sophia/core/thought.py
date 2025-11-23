@@ -22,6 +22,9 @@ class Thought:
     tensor: Tensor3D = field(default_factory=Tensor3D)
     wave: FrequencyWave = field(default_factory=lambda: FrequencyWave(0.0, 0.0, 0.0, 0.0))
 
+    # Metadata for tracking decision process (e.g., selection reason)
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
     # Deprecated fields (kept for backward compatibility if needed, but superseded by tensor/wave)
     tensor_state: Optional[Dict[str, float]] = None
     frequency: float = 0.0
