@@ -79,6 +79,8 @@ class ToolExecutor:
                             details = {'service': params.get('service', 'generic'), 'action': act}
                         elif cat == ActionCategory.PROCESS:
                             details = {'command': params.get('command', ''), 'action': act}
+                        elif cat == ActionCategory.SYSTEM_CONTROL:
+                            details = {'action': act, **params}
                         else:
                             details = {'action': act}
                     except Exception:
@@ -231,6 +233,28 @@ class ToolExecutor:
                     from tools.http_tool import fetch_url
                     return fetch_url(params.get('url', ''))
 
+            # --- System Nerves ---
+            if tool == 'check_vital_signs':
+                from tools.system_nerves import get_system_status
+                return get_system_status()
+
+            if tool == 'move_cursor':
+                from tools.system_nerves import perform_mouse_action
+                return perform_mouse_action(
+                    action=params.get('action', 'move'),
+                    x=params.get('x', 0),
+                    y=params.get('y', 0),
+                    duration=params.get('duration', 0.5)
+                )
+
+            if tool == 'type_text':
+                from tools.system_nerves import perform_keyboard_action
+                return perform_keyboard_action(
+                    action=params.get('action', 'type'),
+                    text=params.get('text', ''),
+                    keys=params.get('keys')
+                )
+
             return {'error': f'Unknown tool: {tool}'}
         except Exception as e:
             return {'error': f'execute_tool failed: {e}'}
@@ -257,6 +281,15 @@ class ToolExecutor:
             return (ActionCategory.PROCESS, 'spawn')
         if t in ("kill_process", "terminate"):
             return (ActionCategory.PROCESS, 'kill')
+
+        # Incarnation Protocol Mapping
+        if t == "check_vital_signs":
+            return (ActionCategory.SYSTEM_CONTROL, 'check_status')
+        if t == "move_cursor":
+            return (ActionCategory.SYSTEM_CONTROL, 'mouse_move')
+        if t == "type_text":
+            return (ActionCategory.SYSTEM_CONTROL, 'keyboard_input')
+
         return None
 
     def process_tool_result(self, tool_output: Any) -> str:

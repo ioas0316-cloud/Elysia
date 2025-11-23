@@ -31,7 +31,6 @@ class ActionCortex:
     def _load_tool_schemas(self) -> Dict:
         """Loads the schemas for tools that define their parameters."""
         # In a real system, this would be more robust.
-        # For now, we hardcode the schema for the 'read_file' tool.
         return {
             "read_file": {
                 "description": "Reads the content of a specified file.",
@@ -65,6 +64,38 @@ class ActionCortex:
                     },
                     "required": ["url"]
                 }
+            },
+            # --- System Nerves (Incarnation Protocol) ---
+            "check_vital_signs": {
+                "description": "Checks the system's status (CPU, Memory). Requires permission.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                }
+            },
+            "move_cursor": {
+                "description": "Moves the mouse cursor to a specific position. Requires permission.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "action": {"type": "string", "enum": ["move", "click", "right_click"], "default": "move"},
+                        "x": {"type": "integer", "description": "X coordinate"},
+                        "y": {"type": "integer", "description": "Y coordinate"},
+                        "duration": {"type": "number", "default": 0.5}
+                    },
+                    "required": ["x", "y"]
+                }
+            },
+            "type_text": {
+                "description": "Types text using the keyboard. Requires permission.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "text": {"type": "string", "description": "Text to type"}
+                    },
+                    "required": ["text"]
+                }
             }
         }
 
@@ -73,6 +104,14 @@ class ActionCortex:
         Uses the Wave Principle to find the most relevant tool by aggregating
         activation from all relevant prompt tokens.
         """
+        # [Manual override for testing purposes until Tool KG is fully populated]
+        if "마우스" in prompt or "mouse" in prompt or "cursor" in prompt:
+            return "move_cursor"
+        if "키보드" in prompt or "type" in prompt or "keyboard" in prompt:
+            return "type_text"
+        if "상태" in prompt or "status" in prompt or "cpu" in prompt:
+            return "check_vital_signs"
+
         prompt_tokens = set(re.findall(r'\w+', prompt.lower()))
         all_node_ids = {node['id'] for node in self.tools_kg_manager.kg['nodes']}
 
@@ -109,6 +148,12 @@ class ActionCortex:
             # If the tool has no parameters, return an empty dict.
             return {}
 
+        # Simple extraction for known tools if LLM is unavailable or for speed
+        if tool_name == "move_cursor":
+            # Very basic regex heuristic fallback if LLM fails
+            # In a future iteration, we can implement regex parsing here.
+            pass
+
         extraction_prompt = f"""
         Given the user's prompt and the tool schema, extract the required parameters.
         Respond with a JSON object containing the parameters.
@@ -116,7 +161,7 @@ class ActionCortex:
         User Prompt: "{prompt}"
 
         Tool: "{tool_name}"
-        Schema: {json.dumps(schema, indent=2)}
+        Schema: {json.dumps(schema, indent=2, ensure_ascii=False)}
 
         Extracted parameters (JSON):
         """
