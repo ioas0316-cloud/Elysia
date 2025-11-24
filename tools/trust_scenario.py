@@ -51,7 +51,7 @@ class TrustScenario:
 
         # Target decides to share or betray
         trust_level = a_tgt.trust.get(requester, 0.6)
-        share_prob = 0.4 + 0.4 * trust_level  # 0.4~1.0 capped by food availability
+        share_prob = 0.5 + 0.4 * trust_level  # tilt more toward sharing
         share = random.random() < share_prob and a_tgt.food > 0.3
 
         if share:
@@ -60,23 +60,23 @@ class TrustScenario:
             a_req.food += amt
 
             # Reciprocity chance
-            repay = random.random() < 0.7
+            repay = random.random() < 0.8
             if repay and a_req.food > 0.3:
                 repay_amt = 0.2
                 a_req.food -= repay_amt
                 a_tgt.food += repay_amt
                 # Trust boost
-                a_req.trust[target] = min(1.0, a_req.trust.get(target, 0.6) + 0.2)
-                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.6) + 0.3)
+                a_req.trust[target] = min(1.0, a_req.trust.get(target, 0.6) + 0.3)
+                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.6) + 0.35)
                 outcome = "reciprocate"
             else:
                 # Neutral trust bump for sharing
-                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.6) + 0.15)
+                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.6) + 0.2)
                 outcome = "share"
         else:
             # Betrayal: trust drops, coherence drops around betrayer
             a_req.trust[target] = max(0.0, a_req.trust.get(target, 0.6) - 0.2)
-            a_tgt.coherence = max(0.0, a_tgt.coherence - 0.05)
+            a_tgt.coherence = max(0.0, a_tgt.coherence - 0.03)
             outcome = "betray"
 
         self.history.append((requester, target, outcome))
