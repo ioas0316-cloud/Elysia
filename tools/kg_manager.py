@@ -73,8 +73,12 @@ class KGManager:
         Adds a directional edge with optional properties.
         This enables the creation of a property graph.
         """
-        if any(e['source'] == source_id and e['target'] == target_id and e['relation'] == relation for e in self.kg['edges']):
-            return
+        for e in self.kg['edges']:
+            if e.get('source') == source_id and e.get('target') == target_id and e.get('relation') == relation:
+                if properties:
+                    # Merge/overwrite properties if already present
+                    e.update(properties)
+                return
 
         source_node = self.add_node(source_id)
         target_node = self.get_node(target_id)
@@ -104,6 +108,17 @@ class KGManager:
             new_edge.update(properties)
 
         self.kg['edges'].append(new_edge)
+
+    def bump_edge_weight(self, source_id: str, target_id: str, relation: str, delta: float = 1.0):
+        """Increments an edge weight; creates edge if missing."""
+        found = False
+        for e in self.kg['edges']:
+            if e.get('source') == source_id and e.get('target') == target_id and e.get('relation') == relation:
+                e['weight'] = e.get('weight', 0.0) + delta
+                found = True
+                break
+        if not found:
+            self.add_edge(source_id, target_id, relation, {"weight": delta})
 
     def edge_exists(self, source: str, target: str, relation: str) -> bool:
         """Checks if a specific edge exists in the graph."""

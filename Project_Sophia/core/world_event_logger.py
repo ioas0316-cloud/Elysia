@@ -41,8 +41,7 @@ class WorldEventLogger:
         try:
             with open(self.log_file_path, 'a', encoding='utf-8') as f:
                 f.write(json.dumps(log_entry, ensure_ascii=False) + '\n')
-            if event_type in ("PHOTON_MESSAGE", "FREE_WILL_COLLAPSE", "ASYMPTOTIC_SAFETY", "SABBATH"):
-                print(f"[EVENT] t={timestamp} {event_type}: {safe_data}")
+            # To reduce console I/O overhead on low-spec runs, do not print every event.
         except Exception as e:
             # In a real application, you might have a more robust logging fallback.
             print(f"Error writing to world event log: {e}")

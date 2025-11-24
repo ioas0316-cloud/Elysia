@@ -1,6 +1,6 @@
 """
 West Continent simulation with configurable agent count/map size.
-Defaults: 300 agents, 128x128 map, lightweight logging (50-tick interval), no live visualization.
+Defaults tuned for 1060-class GPUs: 300 agents, 96x96 map, 200 ticks, logs every 100 ticks.
 """
 
 from __future__ import annotations
@@ -28,9 +28,9 @@ def make_world(map_size: int) -> World:
     apply_west_continent_preset(world, map_size)
     # Perf-friendly toggles
     world.band_split_enabled = True
-    world.band_low_resolution = 64
+    world.band_low_resolution = 32
     world.micro_layer_enabled = False
-    world.spectrum_log_interval = 100
+    world.spectrum_log_interval = 200
     world.free_will_threat_threshold = 120.0
     world.free_will_value_threshold = 200.0
     world.trust_scarcity = 0.4
@@ -62,7 +62,7 @@ def spawn_agents(world: World, n: int):
         )
 
 
-def run_sim(agents: int = 300, map_size: int = 128, cycles: int = 300, log_interval: int = 50):
+def run_sim(agents: int = 300, map_size: int = 96, cycles: int = 200, log_interval: int = 100):
     logging.basicConfig(level=logging.INFO)
     world = make_world(map_size)
     spawn_agents(world, agents)
@@ -90,9 +90,9 @@ def run_sim(agents: int = 300, map_size: int = 128, cycles: int = 300, log_inter
 def parse_args():
     ap = argparse.ArgumentParser(description="Run West Continent simulation (lightweight).")
     ap.add_argument("--agents", type=int, default=300, help="Number of agents to spawn.")
-    ap.add_argument("--map-size", type=int, default=128, help="Map width/height.")
-    ap.add_argument("--cycles", type=int, default=300, help="Simulation ticks.")
-    ap.add_argument("--log-interval", type=int, default=50, help="Log interval in ticks.")
+    ap.add_argument("--map-size", type=int, default=96, help="Map width/height (reduce for speed).")
+    ap.add_argument("--cycles", type=int, default=200, help="Simulation ticks.")
+    ap.add_argument("--log-interval", type=int, default=100, help="Log interval in ticks.")
     return ap.parse_args()
 
 

@@ -1812,6 +1812,222 @@
       "type": "law_axis",
       "score": 0.154,
       "description": "Facing hardship, standing as a shield, and honoring battles."
+    },
+    {
+      "id": "west_agent_006",
+      "position": {
+        "x": 1.190147045576119,
+        "y": 0.15926786214484068,
+        "z": 0.1419624265702446
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 25
+    },
+    {
+      "id": "west_agent_007",
+      "position": {
+        "x": 0.9568758111007385,
+        "y": 0.1812871142439298,
+        "z": -0.19018942162605057
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 35
+    },
+    {
+      "id": "west_agent_019",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 5
+    },
+    {
+      "id": "west_agent_008",
+      "position": {
+        "x": 1.107183524556363,
+        "y": 0.12683679778577578,
+        "z": 0.07879834921438084
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 5
+    },
+    {
+      "id": "west_agent_010",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 14
+    },
+    {
+      "id": "west_agent_009",
+      "position": {
+        "x": 0.8738185035844457,
+        "y": -0.17417845841721596,
+        "z": 0.1809360709032617
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 5
+    },
+    {
+      "id": "west_agent_011",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 11
+    },
+    {
+      "id": "west_agent_018",
+      "position": {
+        "x": 1.1105681577325603,
+        "y": 0.09339351153552627,
+        "z": -0.08965775291993179
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 5
+    },
+    {
+      "id": "west_agent_012",
+      "position": {
+        "x": 0.9737722650584038,
+        "y": 0.0706561664026571,
+        "z": 0.09365934916233687
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 14
+    },
+    {
+      "id": "west_agent_013",
+      "position": {
+        "x": 1.007577348599956,
+        "y": 0.15565657742659655,
+        "z": -0.007793239095848975
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 5
+    },
+    {
+      "id": "west_agent_002",
+      "position": {
+        "x": 1.7984694633519671,
+        "y": 0.2176685506139483,
+        "z": -0.27071366620031645
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 35
+    },
+    {
+      "id": "west_agent_017",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 14
+    },
+    {
+      "id": "west_agent_015",
+      "position": {
+        "x": 1.043027193590893,
+        "y": 0.06677931285603694,
+        "z": 0.018955004148095256
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 15
+    },
+    {
+      "id": "west_agent_016",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 11
+    },
+    {
+      "id": "west_agent_001",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 11
+    },
+    {
+      "id": "west_agent_005",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 20
+    },
+    {
+      "id": "west_agent_003",
+      "position": {
+        "x": 0.9056355488585078,
+        "y": 0.11903220133122366,
+        "z": -0.11697656151780254
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 20
+    },
+    {
+      "id": "west_agent_000",
+      "position": {
+        "x": 2.2557237844069142,
+        "y": -0.037339271306488536,
+        "z": 0.007063948844527046
+      },
+      "activation_energy": 0.0,
+      "frequency": 0.0,
+      "tensor_state": null,
+      "last_seen": 25
     }
   ],
   "edges": [
@@ -3659,6 +3875,72 @@
       "target": "어둠",
       "relation": "law_focus",
       "weight": 0.5
+    },
+    {
+      "source": "west_agent_006",
+      "target": "west_agent_007",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_019",
+      "target": "west_agent_008",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_010",
+      "target": "west_agent_009",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_011",
+      "target": "west_agent_018",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_012",
+      "target": "west_agent_013",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_017",
+      "target": "west_agent_015",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_016",
+      "target": "west_agent_012",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_005",
+      "target": "west_agent_006",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_005",
+      "target": "west_agent_003",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_006",
+      "target": "west_agent_000",
+      "relation": "trades_with",
+      "weight": 1.0
+    },
+    {
+      "source": "west_agent_007",
+      "target": "west_agent_002",
+      "relation": "trades_with",
+      "weight": 1.0
     }
   ],
   "metadata": {
