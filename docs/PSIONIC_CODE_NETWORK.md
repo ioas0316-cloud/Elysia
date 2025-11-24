@@ -63,3 +63,4 @@ python tools/psionic_code_network.py --delta 0.2
 - 마이크로 레이어: `micro_layer_enabled=True`, `micro_tick_interval`(기본 50), `set_micro_roi([(x,y,r), ...])`, `micro_state`로 ROI 평균(위협/가치/코히런스) 확인.
 - Fractal+GNN PoC: `tools/fractal_gnn_poc.py` (numpy+networkx로 프랙탈 그래프 생성 → GraphSAGE 스타일 메시지 패싱 → 프랙탈 차원 기반 특징 선택; DOT 출력 옵션).
 - SABBATH_PROTOCOL: `tools/sabbath_protocol.py` (Spiderweb fractional prune + VCD 재각인 훅).
+- 스펙트럼/광자: `Project_Elysia/core/spectrum.py`(값/EFP→색상 매핑), `Project_Elysia/core/photon.py`(hue/intensity/polarization 메시지 엔티티).
