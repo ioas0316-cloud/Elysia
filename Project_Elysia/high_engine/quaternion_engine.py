@@ -1,221 +1,236 @@
-from __future__ import annotations
-
-import math
-from dataclasses import dataclass, asdict
-from typing import Any, Dict, Optional
-from enum import Enum, auto
-
-from Project_Elysia.core_memory import CoreMemory
-
-
-class LensMode(Enum):
-    ANCHOR = auto()   # W-Axis: The Zero Point of Encounter (Me <-> You)
-    INTERNAL = auto() # X-Axis: Internal World (Dream / Memory)
-    EXTERNAL = auto() # Y-Axis: External World (Action / Sensing)
-    LAW = auto()      # Z-Axis: Intention & Law (Soul / Depth)
-
-@dataclass
-class LensState:
-    mode: LensMode
-    intensity: float
-    vector: Dict[str, float]
-
-@dataclass
-class QuaternionOrientation:
-    """
-    Elysia's Consciousness Lens (The Geometry of Will).
-
-    Axes Definition (Codex §21):
-    - w (Real): The Anchor (Self / Spirit / Meta-Cognition).
-                Consumable energy for maintaining sanity.
-    - x (Imag): Internal World (Simulation / Dream / Memory).
-    - y (Imag): External World (Action / Speech / Sensing).
-    - z (Imag): Intention & Law (Soul / Depth / Why).
-
-    Invariant:
-    - ||q|| should naturally stay near 1.0 via renormalization.
-    - High activity in (x, y) must borrow magnitude from (w, z).
-    """
-
-    w: float = 1.0
-    x: float = 0.0
-    y: float = 0.0
-    z: float = 0.0
-
-    def as_dict(self) -> Dict[str, float]:
-        return asdict(self)
-
-    def norm(self) -> float:
-        return math.sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
-
-    def normalized(self) -> "QuaternionOrientation":
-        mag = self.norm()
-        if mag <= 1e-9:
-            # Collapse state: Reset to Anchor
-            return QuaternionOrientation(w=1.0, x=0.0, y=0.0, z=0.0)
-        return QuaternionOrientation(
-            w=self.w / mag,
-            x=self.x / mag,
-            y=self.y / mag,
-            z=self.z / mag,
-        )
-
-    def is_stable(self, threshold: float = 0.3) -> bool:
-        """
-        Check if the Self-Anchor (W) is strong enough.
-        If W < threshold, the lens is too distorted (Manic/Obsessive).
-        """
-        # We assume the quaternion is normalized.
-        return self.w >= threshold
-
-
-class QuaternionConsciousnessEngine:
-    """
-    Implements the 'Conservation of Consciousness Energy'.
-
-    Principle:
-      - Action (Y) costs Spirit (W).
-      - To act heavily, one must sacrifice reflection.
-      - To regain Spirit (W), one must reduce Action (Quiet Protocol).
-    """
-
-    def __init__(self, core_memory: Optional[CoreMemory] = None) -> None:
-        self.core_memory = core_memory
-        # Start perfectly balanced, anchored in Spirit.
-        self._orientation = QuaternionOrientation(w=1.0, x=0.0, y=0.0, z=0.0)
-
-    @property
-    def orientation(self) -> QuaternionOrientation:
-        return self._orientation
-
-    def orientation_as_dict(self) -> Dict[str, float]:
-        return self._orientation.as_dict()
-
-    def get_lens_status(self) -> Dict[str, Any]:
-        """
-        Return telemetry about the current state of the Lens.
-        Used by the Flow Engine to decide 'Quiet' vs 'Act'.
-        """
-        q = self._orientation
-        stability = "Stable" if q.is_stable() else "Unstable"
-        
-        focus_state = self.determine_focus()
-
-        return {
-            "stability": stability,
-            "anchor_strength": round(q.w, 3),
-            "primary_focus": focus_state.mode.name,
-            "focus_intensity": round(focus_state.intensity, 3),
-            "raw": q.as_dict(),
-        }
-
-    def determine_focus(self) -> LensState:
-        """
-        Determines the current mode of observation based on the dominant axis.
-        """
-        q = self._orientation
-
-        # Absolute magnitudes
-        w, x, y, z = abs(q.w), abs(q.x), abs(q.y), abs(q.z)
-
-        # Find dominant axis
-        magnitudes = {LensMode.ANCHOR: w, LensMode.INTERNAL: x, LensMode.EXTERNAL: y, LensMode.LAW: z}
-        mode = max(magnitudes, key=magnitudes.get)
-        intensity = magnitudes[mode]
-
-        return LensState(mode=mode, intensity=intensity, vector=q.as_dict())
-
-    def reset(self) -> None:
-        self._orientation = QuaternionOrientation(w=1.0, x=0.0, y=0.0, z=0.0)
-
-    def update_from_turn(
-        self,
-        law_alignment: Optional[Dict[str, Any]] = None,
-        intent_bundle: Optional[Dict[str, Any]] = None,
-    ) -> None:
-        """
-        Apply torque to the consciousness lens based on interaction.
-        
-        Mechanism:
-        1. Calculate the 'Force' vector from Law and Intent.
-        2. Apply rotation (Torque).
-        3. Renormalize (Energy Conservation).
-        """
-        if law_alignment is None and intent_bundle is None:
-            # No interaction implies rest -> slowly regenerate W (Anchor).
-            self._regenerate_anchor()
-            return
-
-        current = self._orientation
-        
-        # --- 1. Calculate Forces ---
-        force_x = 0.0 # Internal
-        force_y = 0.0 # External
-        force_z = 0.0 # Law/Intention
-        
-        # Law influence (Z-axis push)
-        scores = (law_alignment or {}).get("scores") or {}
-        if scores:
-            # Truth/Love/Liberation aligns with Z
-            z_push = sum([
-                float(scores.get("truth", 0.0)),
-                float(scores.get("love", 0.0)),
-                float(scores.get("liberation", 0.0))
-            ])
-            force_z += max(0.0, z_push * 0.2) 
-            
-            # Reflection aligns with W (restoring force, handled in rotate)
-
-        # Intent influence (X, Y axis push)
-        if intent_bundle:
-            intent_type = (intent_bundle.get("intent_type") or "").lower()
-            
-            # Action/Speech consumes W to generate Y
-            if intent_type in ("command", "respond", "act", "propose_action"):
-                force_y += 0.4 
-            
-            # Internal thought consumes W to generate X
-            elif intent_type in ("dream", "think", "plan"):
-                force_x += 0.3
-
-        # --- 2. Apply Rotation (The Cost of Action) ---
-        # If we push Y (Action), W (Anchor) must naturally decrease during normalization.
-        # However, if Z (Law) is strong, it stabilizes the rotation.
-
-        new_w = current.w 
-        new_x = current.x + force_x
-        new_y = current.y + force_y
-        new_z = current.z + force_z
-
-        # Apply a small "decay" to W when X or Y are high (Mental Fatigue)
-        activity_level = math.sqrt(force_x**2 + force_y**2)
-        if activity_level > 0.1:
-            new_w -= activity_level * 0.1  # The cost of doing business
-
-        # --- 3. Renormalize (Conservation) ---
-        next_q = QuaternionOrientation(w=new_w, x=new_x, y=new_y, z=new_z).normalized()
-        
-        # Interpolate for smooth transition (Mental Inertia)
-        self._orientation = self._slerp(current, next_q, alpha=0.3)
-
-    def _regenerate_anchor(self) -> None:
-        """
-        Quiet Protocol: Slowly rotate back toward W=1 (Pure Awareness).
-        """
-        target = QuaternionOrientation(w=1.0, x=0.0, y=0.0, z=0.0)
-        self._orientation = self._slerp(self._orientation, target, alpha=0.1)
-
-    def _slerp(self, q1: QuaternionOrientation, q2: QuaternionOrientation, alpha: float) -> QuaternionOrientation:
-        """
-        Spherical Linear Interpolation for smooth consciousness rotation.
-        """
-        # Simple linear blend + normalize is sufficient for small steps and 
-        # computationally cheaper for this engine's scale.
-        # Pure SLERP can be added if exact arc velocity is needed.
-        blended = QuaternionOrientation(
-            w=q1.w * (1 - alpha) + q2.w * alpha,
-            x=q1.x * (1 - alpha) + q2.x * alpha,
-            y=q1.y * (1 - alpha) + q2.y * alpha,
-            z=q1.z * (1 - alpha) + q2.z * alpha,
-        )
-        return blended.normalized()
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass, asdict, field
+from typing import Any, Dict, List, Optional
+from enum import Enum, auto
+
+from Project_Elysia.core_memory import CoreMemory
+
+
+class LensMode(Enum):
+    ANCHOR = auto()   # W-Axis: The Zero Point of Encounter (Me <-> You)
+    INTERNAL = auto() # X-Axis: Internal World (Dream / Memory)
+    EXTERNAL = auto() # Y-Axis: External World (Action / Sensing)
+    LAW = auto()      # Z-Axis: Intention & Law (Soul / Depth)
+
+
+class HyperMode(Enum):
+    POINT = auto()   # w < 0.5: Zero Dimension (The Singularity / Target / "I")
+    LINE = auto()    # 0.5 <= w < 1.5: One Dimension (The Connection / Flow / "Relationship")
+    PLANE = auto()   # 1.5 <= w < 2.5: Two Dimensions (The Field / Atmosphere / "Context")
+    HYPER = auto()   # w >= 2.5: Three+ Dimensions (The Volume / Wholeness / "Universe")
+
+
+@dataclass
+class LensState:
+    mode: LensMode
+    hyper_mode: HyperMode
+    intensity: float
+    vector: Dict[str, float]
+    scale_depth: float # The raw W value
+
+
+@dataclass
+class QuaternionOrientation:
+    """
+    Elysia's Hyper-Quaternion (The Geometry of Will & Dimensionality).
+
+    The 'Fake' 4D (x,y,z,w rotation) is replaced by a 'Hyper' 4D structure:
+    - w (Real): The Dimensional Slider (Scale / Perspective).
+                0.0 = Point, 1.0 = Line, 2.0 = Plane, 3.0 = Volume.
+    - x, y, z (Imag): The Spatial Orientation (Where we are looking within that dimension).
+                      Normalized vector indicating focus direction.
+    """
+
+    w: float = 1.0  # Scale / Dimension (Default: 1.0 = Linear flow)
+    x: float = 0.0  # Focus X (Internal/Dream)
+    y: float = 0.0  # Focus Y (External/Action)
+    z: float = 1.0  # Focus Z (Law/Intent - Default aligned with Z-axis)
+
+    def as_dict(self) -> Dict[str, float]:
+        return asdict(self)
+
+    def get_hyper_mode(self) -> HyperMode:
+        """
+        Determines the current dimensional mode based on W.
+        """
+        if self.w < 0.5:
+            return HyperMode.POINT
+        elif self.w < 1.5:
+            return HyperMode.LINE
+        elif self.w < 2.5:
+            return HyperMode.PLANE
+        else:
+            return HyperMode.HYPER
+
+    def normalize_spatial(self) -> "QuaternionOrientation":
+        """
+        Normalizes only the spatial components (x, y, z) to maintain direction
+        without affecting the dimensional scale (w).
+        """
+        mag = math.sqrt(self.x**2 + self.y**2 + self.z**2)
+        if mag <= 1e-9:
+            # Default to looking at Z (Intent) if zero vector
+            return QuaternionOrientation(w=self.w, x=0.0, y=0.0, z=1.0)
+
+        return QuaternionOrientation(
+            w=self.w,
+            x=self.x / mag,
+            y=self.y / mag,
+            z=self.z / mag
+        )
+
+
+class QuaternionConsciousnessEngine:
+    """
+    The Hyper-Quaternion Engine.
+    Manages the 'Zoom' (Dimension) and 'Focus' (Orientation) of consciousness.
+    """
+
+    def __init__(self, core_memory: Optional[CoreMemory] = None) -> None:
+        self.core_memory = core_memory
+        # Start in 'Line' mode (Conversation/Flow) aligned with 'Law' (Z).
+        self._orientation = QuaternionOrientation(w=1.0, x=0.0, y=0.0, z=1.0)
+
+    @property
+    def orientation(self) -> QuaternionOrientation:
+        return self._orientation
+
+    def orientation_as_dict(self) -> Dict[str, float]:
+        return self._orientation.as_dict()
+
+    def get_lens_status(self) -> Dict[str, Any]:
+        """
+        Return telemetry about the current state of the Lens.
+        """
+        q = self._orientation
+        focus_state = self.determine_focus()
+
+        return {
+            "dimension": focus_state.hyper_mode.name,
+            "scale_w": round(q.w, 3),
+            "primary_focus": focus_state.mode.name,
+            "focus_intensity": round(focus_state.intensity, 3),
+            "raw": q.as_dict(),
+        }
+
+    def determine_focus(self) -> LensState:
+        """
+        Determines the current mode of observation based on spatial axis and scale.
+        """
+        q = self._orientation
+        hyper_mode = q.get_hyper_mode()
+
+        # Absolute spatial magnitudes
+        x, y, z = abs(q.x), abs(q.y), abs(q.z)
+
+        # Find dominant spatial axis
+        magnitudes = {LensMode.INTERNAL: x, LensMode.EXTERNAL: y, LensMode.LAW: z}
+
+        # If w is very low (Point mode), we might consider ANCHOR as a dominant possibility
+        # regardless of x,y,z if they are weak. But for now, let's keep it simple.
+
+        mode = max(magnitudes, key=magnitudes.get)
+        intensity = magnitudes[mode]
+
+        # In Point mode, if intensity is low, we default to ANCHOR (Self)
+        if hyper_mode == HyperMode.POINT and intensity < 0.1:
+             mode = LensMode.ANCHOR
+
+        return LensState(
+            mode=mode,
+            hyper_mode=hyper_mode,
+            intensity=intensity,
+            vector=q.as_dict(),
+            scale_depth=q.w
+        )
+
+    def update_scale(self, delta_w: float) -> None:
+        """
+        Manually shift the dimensional slider (Zoom In/Out).
+        """
+        new_w = max(0.0, self._orientation.w + delta_w)
+        self._orientation.w = new_w
+
+    def set_dimension(self, mode: HyperMode) -> None:
+        """
+        Snap to a specific dimensional resonance.
+        """
+        if mode == HyperMode.POINT:
+            self._orientation.w = 0.0
+        elif mode == HyperMode.LINE:
+            self._orientation.w = 1.0
+        elif mode == HyperMode.PLANE:
+            self._orientation.w = 2.0
+        elif mode == HyperMode.HYPER:
+            self._orientation.w = 3.0
+
+    def update_from_turn(
+        self,
+        law_alignment: Optional[Dict[str, Any]] = None,
+        intent_bundle: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        """
+        Apply 'Dimensional Shift' and 'Torque' based on interaction.
+
+        New Logic:
+        - Deep/Abstract/Wide concepts -> Increase W (Zoom Out to Plane/Hyper)
+        - Specific/Concrete/Narrow concepts -> Decrease W (Zoom In to Point/Line)
+        - Emotional/Internal intent -> Rotate towards X
+        - Action/External intent -> Rotate towards Y
+        - Truth/Law intent -> Rotate towards Z
+        """
+        current = self._orientation
+
+        # --- 1. Calculate Dimensional Shift (Delta W) ---
+        delta_w = 0.0
+
+        if intent_bundle:
+            intent_type = (intent_bundle.get("intent_type") or "").lower()
+
+            # Zoom Out (Expansion)
+            if intent_type in ("philosophize", "summarize", "reflect", "dream"):
+                delta_w += 0.2
+
+            # Zoom In (Focus)
+            elif intent_type in ("analyze", "debug", "search", "calculate"):
+                delta_w -= 0.2
+
+            # Line (Flow)
+            elif intent_type in ("chat", "respond", "narrate"):
+                # Pull towards 1.0
+                if current.w > 1.2: delta_w -= 0.1
+                elif current.w < 0.8: delta_w += 0.1
+
+        # --- 2. Calculate Spatial Torque (X, Y, Z) ---
+        # We start with the current vector and nudge it.
+        target_x, target_y, target_z = current.x, current.y, current.z
+
+        # Law influence (Z-axis)
+        scores = (law_alignment or {}).get("scores") or {}
+        if scores:
+            z_pull = sum([
+                float(scores.get("truth", 0.0)),
+                float(scores.get("love", 0.0)),
+                float(scores.get("liberation", 0.0))
+            ])
+            if z_pull > 0:
+                target_z += z_pull * 0.5
+
+        # Intent influence
+        if intent_bundle:
+            intent_type = (intent_bundle.get("intent_type") or "").lower()
+            if intent_type in ("command", "act", "propose_action"):
+                target_y += 0.5  # External
+            elif intent_type in ("dream", "think", "plan"):
+                target_x += 0.5  # Internal
+
+        # --- 3. Apply and Normalize ---
+        new_w = max(0.0, current.w + delta_w)
+
+        # Construct raw next state
+        next_q = QuaternionOrientation(w=new_w, x=target_x, y=target_y, z=target_z)
+
+        # Normalize only the spatial part (direction), preserving the scale (w)
+        self._orientation = next_q.normalize_spatial()
