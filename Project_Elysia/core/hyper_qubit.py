@@ -64,26 +64,28 @@ class HyperQubit:
 
     def __init__(
         self,
-        concept_or_value: Any,
+        concept_or_value: Any = None,
         initial_content: Optional[Dict[str, Any]] = None,
         *,
         name: Optional[str] = None,
+        value: Any = None,
         w: float = 1.0,
         x: float = 0.0,
         y: float = 0.0,
         z: float = 0.0,
     ):
         # Dual-init: if content is provided we treat the first argument as an id.
+        concept_value = concept_or_value if value is None else value
         if initial_content is not None:
             self.id = str(concept_or_value)
             self.name = name or str(concept_or_value)
             self.content = dict(initial_content)
-            self._value = self.content.get("Point", concept_or_value)
+            self._value = self.content.get("Point", concept_value)
         else:
             self.id = name or f"Qubit_{uuid.uuid4().hex[:8]}"
             self.name = name or self.id
             self.content = {}
-            self._value = concept_or_value
+            self._value = concept_value
 
         # Initialize in superposition (mostly Point, but with potential for all)
         self.state = QubitState(
