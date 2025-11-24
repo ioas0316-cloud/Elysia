@@ -98,3 +98,30 @@ class Spiderweb:
     def deserialize(self, data: Dict[str, Any]):
         """Loads the graph from a dictionary."""
         self.graph = nx.node_link_graph(data)
+
+    def prune_fraction(self, edge_fraction: float = 0.3, node_fraction: float = 0.3):
+        """
+        Prune weakest edges/nodes by fraction of counts.
+        - edge_fraction: remove this fraction of lowest-weight edges.
+        - node_fraction: remove this fraction of lowest-degree nodes (after edge prune).
+        """
+        edges = list(self.graph.edges(data=True))
+        if edges and edge_fraction > 0:
+            edges_sorted = sorted(edges, key=lambda e: float(e[2].get("weight", 0.0)))
+            cut = max(0, min(len(edges_sorted), int(len(edges_sorted) * edge_fraction)))
+            for u, v, _ in edges_sorted[:cut]:
+                if self.graph.has_edge(u, v):
+                    self.graph.remove_edge(u, v)
+
+        # Remove nodes with lowest degree (and only if now isolated)
+        nodes = list(self.graph.degree)
+        if nodes and node_fraction > 0:
+            nodes_sorted = sorted(nodes, key=lambda x: x[1])  # by degree
+            cut_n = max(0, min(len(nodes_sorted), int(len(nodes_sorted) * node_fraction)))
+            for node, _deg in nodes_sorted[:cut_n]:
+                if self.graph.has_node(node) and self.graph.degree(node) == 0:
+                    self.graph.remove_node(node)
+
+        self.logger.info(
+            f"Fractional prune applied: edges={edge_fraction*100:.0f}%, nodes={node_fraction*100:.0f}% (low-weight/low-degree)."
+        )
