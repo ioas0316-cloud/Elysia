@@ -18,6 +18,8 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import shutil
+import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Set, Tuple
@@ -356,6 +358,11 @@ def main():
         type=Path,
         help="DOT 파일 출력 경로(확장자 .dot 권장). Δ 스윕 시 delta 값이 접미사로 붙음.",
     )
+    parser.add_argument(
+        "--png-out",
+        type=Path,
+        help="Graphviz dot -Tpng 출력 경로. dot이 PATH에 있어야 함. Δ 스윕 시 delta 값이 접미사로 붙음.",
+    )
     args = parser.parse_args()
 
     if not args.paths:
@@ -388,6 +395,20 @@ def main():
                 if len(sweep_list) > 1:
                     out_path = out_path.with_name(out_path.stem + suffix + out_path.suffix)
                 write_dot(nodes_copy, out_path, f"{label} Δ={d}")
+                # Optional PNG render
+                if args.png_out and shutil.which("dot"):
+                    png_path = args.png_out
+                    if len(sweep_list) > 1:
+                        png_path = png_path.with_name(png_path.stem + suffix + png_path.suffix)
+                    try:
+                        subprocess.run(
+                            ["dot", "-Tpng", str(out_path), "-o", str(png_path)],
+                            check=True,
+                            stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE,
+                        )
+                    except subprocess.CalledProcessError as e:
+                        print(f"[warn] dot render failed for Δ={d}: {e}")
 
     if args.delta_sweep:
         sweep = [float(x) for x in args.delta_sweep.split(",") if x.strip() != ""]
