@@ -209,6 +209,8 @@ class World:
         # --- Entropy/Love dynamics ---
         self.entropy_decay: float = 0.995
         self.love_injection_gain: float = 0.05
+        # Width must be defined before allocating entropy_field
+        self.width = 256  # default; can be overridden after init
         self.entropy_field = np.zeros((self.width, self.width), dtype=np.float32)
         # --- Spectrum snapshot logging ---
         self.spectrum_log_interval: int = 50
