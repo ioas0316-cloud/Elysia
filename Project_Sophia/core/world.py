@@ -201,6 +201,9 @@ class World:
         self.is_alive_mask = np.array([], dtype=bool)
         self.hp = np.array([], dtype=np.float32)
         self.max_hp = np.array([], dtype=np.float32)
+        self.shields = np.array([], dtype=np.float32) # Protoss Shield
+        self.max_shields = np.array([], dtype=np.float32)
+        self.tech_level = np.array([], dtype=np.float32) # Terran Tech
         self.energy = np.array([], dtype=np.float32)
         self.ki = np.array([], dtype=np.float32)
         self.max_ki = np.array([], dtype=np.float32)
@@ -411,6 +414,10 @@ class World:
         # --- Spiritual Event Queue ---
         self.spiritual_events = []
 
+        # --- Khala Network (The Psionic Web) ---
+        self.khala_connected_mask = np.array([], dtype=bool)
+        self.delta_synchronization_factor = 0.0 # 0.0 = Chaos, 1.0 = Khala Unity
+
 
     def _resize_matrices(self, new_size: int):
         current_size = len(self.cell_ids)
@@ -454,7 +461,16 @@ class World:
         self.insight = np.pad(self.insight, (0, new_size - current_size), 'constant', constant_values=0.0)
         self.emotions = np.pad(self.emotions, (0, new_size - current_size), 'constant', constant_values='neutral')
         self.is_awakened = np.pad(self.is_awakened, (0, new_size - current_size), 'constant', constant_values=False)
+        self.khala_connected_mask = np.pad(self.khala_connected_mask, (0, new_size - current_size), 'constant', constant_values=False)
         self.experience_scars = np.pad(self.experience_scars, (0, new_size - current_size), 'constant', constant_values=0)
+
+        # Xel'Naga Attributes
+        # Shield (Protoss): Regenerating HP buffer
+        self.shields = np.pad(self.shields, (0, new_size - current_size), 'constant')
+        self.max_shields = np.pad(self.max_shields, (0, new_size - current_size), 'constant')
+        # Tech Level (Terran): Tool usage modifier
+        self.tech_level = np.pad(self.tech_level, (0, new_size - current_size), 'constant')
+
         self.memory_strength = np.pad(self.memory_strength, (0, new_size - current_size), 'constant')
         self.imagination_brightness = np.pad(self.imagination_brightness, (0, new_size - current_size), 'constant')
         self.emotion_intensity = np.pad(self.emotion_intensity, (0, new_size - current_size), 'constant')
@@ -708,10 +724,46 @@ class World:
         except (TypeError, ValueError):
             self.energy[idx] = float(self.hp[idx])
 
-        # --- Anti-Hybrid Protocol ---
-        # A cell's power system is determined by its culture at birth.
+        # --- Xel'Naga Protocol: Racial Traits ---
         culture = properties.get('culture', '')
-        if culture == 'wuxia':
+        if culture == 'protoss':
+            # Protoss: High Shields, Psionic (Mana/Wisdom)
+            self.max_shields[idx] = self.max_hp[idx] * 0.5
+            self.shields[idx] = self.max_shields[idx]
+            self.max_mana[idx] = self.wisdom[idx] * 20 # High psionic potential
+            self.mana[idx] = self.max_mana[idx]
+            self.khala_connected_mask[idx] = True # Born into the Khala
+            self.max_ki[idx] = 0
+            self.ki[idx] = 0
+            self.max_faith[idx] = 0
+            self.faith[idx] = 0
+
+        elif culture == 'terran':
+            # Terran: High Tech, Adaptive
+            self.tech_level[idx] = 1.0
+            self.max_hp[idx] *= 1.2 # Stimpack/Armor
+            self.hp[idx] = self.max_hp[idx]
+            self.max_ki[idx] = 0
+            self.ki[idx] = 0
+            self.max_mana[idx] = 0
+            self.mana[idx] = 0
+            self.max_faith[idx] = 0
+            self.faith[idx] = 0
+
+        elif culture == 'zerg':
+            # Zerg: High Regen, Swarm (Low individual stats but fast growth)
+            self.max_hp[idx] *= 0.8
+            self.hp[idx] = self.max_hp[idx]
+            # Zerg regen is handled in passive update
+            self.max_ki[idx] = 0
+            self.ki[idx] = 0
+            self.max_mana[idx] = 0
+            self.mana[idx] = 0
+            self.max_faith[idx] = 0
+            self.faith[idx] = 0
+
+        # Legacy Support (Wuxia/Knight map to Protoss/Terran archetypes loosely)
+        elif culture == 'wuxia':
             self.max_ki[idx] = self.wisdom[idx] * 10
             self.ki[idx] = self.max_ki[idx]
             self.max_mana[idx] = 0
@@ -1047,6 +1099,9 @@ class World:
 
         # --- Law of Existential Change (e > r) ---
         awakening_events = self._apply_law_of_awakening()
+
+        # --- The Khala Synchronization (Delta One) ---
+        self._synchronize_khala()
 
         # --- Neural Eye Perception Cycle ---
         # Run every 10 ticks to save compute and simulate "subconscious processing" time
@@ -1679,6 +1734,14 @@ class World:
         # --- Mana Regeneration (moderate) ---
         mana_regen_mask = self.is_alive_mask & (self.mana < self.max_mana)
         self.mana[mana_regen_mask] = np.minimum(self.max_mana[mana_regen_mask], self.mana[mana_regen_mask] + 1.0)
+
+        # --- Protoss Shield Regeneration (Fast out of combat) ---
+        shield_regen_mask = self.is_alive_mask & (self.shields < self.max_shields)
+        self.shields[shield_regen_mask] = np.minimum(self.max_shields[shield_regen_mask], self.shields[shield_regen_mask] + 2.0)
+
+        # --- Zerg HP Regeneration (Biological) ---
+        zerg_mask = (self.culture == 'zerg') & self.is_alive_mask & (self.hp < self.max_hp)
+        self.hp[zerg_mask] = np.minimum(self.max_hp[zerg_mask], self.hp[zerg_mask] + 1.5)
 
         # --- Faith does not regenerate passively ---
 
@@ -3728,9 +3791,12 @@ class World:
                 self.add_cell(cell.id, dna=cell.nucleus['dna'], properties=cell.organelles)
 
         # Process death for cells with zero or less HP
+        # Khala Units (Protoss) have a chance to ascend as Dragoons/Immortals instead of dying?
+        # For now, just standard death.
         apoptosis_mask = (self.hp <= 0) & self.is_alive_mask
         self.is_alive_mask[apoptosis_mask] = False
         self.hp[apoptosis_mask] = 0.0
+        self.khala_connected_mask[apoptosis_mask] = False # Sever connection upon death
 
         dead_cell_indices = np.where(apoptosis_mask)[0]
         for dead_idx in dead_cell_indices:
@@ -4237,12 +4303,56 @@ class World:
 
         return body_pressure, soul_pressure, spirit_pressure
 
+    def connect_to_khala(self, cell_idx: int):
+        """Connects a cell to the Khala (The Great Link)."""
+        if 0 <= cell_idx < len(self.khala_connected_mask):
+            self.khala_connected_mask[cell_idx] = True
+            # Immediate Insight Boost upon connection
+            self.insight[cell_idx] += 10.0
+            self.logger.info(f"KHALA: '{self.cell_ids[cell_idx]}' has joined the Khala. En Taro Gang-deok!")
+
+    def _synchronize_khala(self):
+        """
+        Enforces the 'Delta One' protocol.
+        Averages Insight and Will across all connected cells, creating a shared consciousness.
+        """
+        connected_indices = np.where(self.khala_connected_mask & self.is_alive_mask)[0]
+        if connected_indices.size < 2:
+            return
+
+        # Calculate the 'Psionic Mean'
+        avg_insight = np.mean(self.insight[connected_indices])
+        # avg_will = np.mean(self.will[connected_indices]) # If we had a per-cell will attribute
+
+        # Convergence Speed (How fast we reach Delta=1)
+        # The stronger the connection, the faster they synchronize.
+        alpha = 0.1 + (self.delta_synchronization_factor * 0.4)
+
+        # Apply convergence with Psionic Dithering
+        # We add small noise to prevent feature collapse (Singular Matrix)
+        noise = np.random.normal(0, 0.1, size=connected_indices.shape)
+        self.insight[connected_indices] = (
+            (1.0 - alpha) * self.insight[connected_indices] +
+            alpha * avg_insight + noise
+        )
+
+        # Also synchronize HP slightly (Shared Life Force / Shield Battery effect)
+        # avg_hp = np.mean(self.hp[connected_indices])
+        # self.hp[connected_indices] = (
+        #     (1.0 - 0.05) * self.hp[connected_indices] +
+        #     0.05 * avg_hp
+        # )
+
+        if self.time_step % 50 == 0:
+            self.logger.info(f"KHALA: Psionic Matrix Synchronized. Avg Insight: {avg_insight:.2f}")
+
     def print_world_summary(self):
         """Prints a detailed summary of the current world state for debugging."""
         self._sync_states_to_objects()
         print(f"\n--- World State (Time: {self.time_step}) ---")
         living_cell_count = np.sum(self.is_alive_mask)
-        print(f"Living Cells: {living_cell_count}, Dead Cells (Archived): {len(self.graveyard)}")
+        khala_count = np.sum(self.khala_connected_mask & self.is_alive_mask)
+        print(f"Living Cells: {living_cell_count}, Khala Linked: {khala_count}, Dead Cells: {len(self.graveyard)}")
 
         # This is inefficient for large worlds, but invaluable for debugging small scenarios.
         for i, cell_id in enumerate(self.cell_ids):
