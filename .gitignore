@@ -1,42 +1,67 @@
-
 # Python
 __pycache__/
+*.pyc
 *.py[cod]
 *$py.class
 
-# Environment
+# Environments
 .env
-.venv
+.venv/
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
 
-# Logs
+# Build & Dist
+build/
+dist/
+*.spec
+*.egg-info/
+
+# Logs & runtime state
 *.log
 logs/
 elysia_logs/
+elysia_logs/persona_stream.jsonl
+elysia_state.json
 
-# Data & Artifacts
+# Project data & artifacts
+Elysia_Input_Sanctum/
+data/associative_index.json
+data/telemetry/
 data/generated_images/
 data/storybook_images/
 data/khala_vision/
-data/telemetry/
 data/kg_with_embeddings.json
-data/associative_index.json
-Elysia_Input_Sanctum/
-elysia_state.json
+!data/curriculum/offline_language_tracks.json
 
-# Testing
+# Saves and temp assets
+saves/
+temp/
+assets/icon.ico
+
+# Binaries
+Elysia.exe
+# *.exe  # Uncomment to ignore release executables
+ElysiaGodot/*.exe
+ElysiaGodot/.godot/
+ElysiaGodot/.import/
+
+# IDE/OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Cache
+*.cache/
+*.tmp/
+.cache/
+*.bak
+
+# Testing artifacts
 .pytest_cache/
 .coverage
 htmlcov/
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
