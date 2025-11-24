@@ -1,143 +1,140 @@
-from __future__ import annotations
 
+import logging
+from typing import List, Any, Callable, Optional, Set, Dict
+import uuid
 import math
-import random
-import cmath
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple, Any
+from dataclasses import dataclass
 
-from Project_Elysia.high_engine.quaternion_engine import QuaternionOrientation, HyperMode
+# Setup Logger
+logger = logging.getLogger("Logos")
 
 @dataclass
 class QubitState:
-    """
-    Represents the amplitude of the 4 dimensional bases.
-    State = alpha|Point> + beta|Line> + gamma|Space> + delta|God>
-    Constraint: |alpha|^2 + |beta|^2 + |gamma|^2 + |delta|^2 = 1.0
-    """
-    alpha: complex = 1.0 + 0j  # |Point> : Detail / Data / Dot
-    beta:  complex = 0.0 + 0j  # |Line>  : Connection / History / Flow
-    gamma: complex = 0.0 + 0j  # |Space> : Context / Field / Atmosphere
-    delta: complex = 0.0 + 0j  # |God>   : Perspective / Infinite / Will
-
-    def normalize(self) -> "QubitState":
-        mag = math.sqrt(abs(self.alpha)**2 + abs(self.beta)**2 + abs(self.gamma)**2 + abs(self.delta)**2)
-        if mag == 0:
-            return QubitState(alpha=1.0)
-        return QubitState(
-            alpha=self.alpha / mag,
-            beta=self.beta / mag,
-            gamma=self.gamma / mag,
-            delta=self.delta / mag
-        )
-
-    def probabilities(self) -> Dict[str, float]:
-        return {
-            "Point": abs(self.alpha)**2,
-            "Line": abs(self.beta)**2,
-            "Space": abs(self.gamma)**2,
-            "God": abs(self.delta)**2
-        }
-
+    """Legacy State for backward compatibility."""
+    w: float = 1.0
+    x: float = 0.0
+    y: float = 0.0
+    z: float = 0.0
 
 class HyperQubit:
     """
-    Jeongeup City No. 1 HyperQubit.
-    A fundamental unit of the Mental Cosmos that exists simultaneously in 4 dimensions.
+    A Living Variable (Psionic Entity).
+    It does not just store a value; it holds a state of 'Being'.
+    When it changes, it vibrates, and everything connected to it resonates.
     """
 
-    def __init__(self, concept_id: str, initial_content: Dict[str, Any]):
-        self.id = concept_id
-        self.content = initial_content # Stores content for each dimension
+    def __init__(self, value: Any = None, name: str = None, w: float = 1.0, x: float = 0.0, y: float = 0.0, z: float = 0.0):
+        self.id = str(uuid.uuid4())[:8]
+        self.name = name if name else f"Qubit_{self.id}"
+        self._value = value
 
-        # Initialize in superposition (mostly Point, but with potential for all)
-        # Default: "A piece of Kimchi" (Point) is the strongest reality initially.
-        self.state = QubitState(
-            alpha=0.9 + 0j, # Strong Point reality
-            beta=0.1 + 0j,
-            gamma=0.05 + 0j,
-            delta=0.01 + 0j
-        ).normalize()
+        # Legacy State (Synchronized with Value if possible)
+        self.state = QubitState(w, x, y, z)
 
-        self.entangled_qubits: List["HyperQubit"] = []
+        # The Khala Link: Who is listening to me?
+        self._observers: Set['HyperQubit'] = set()
+        # The Source Link: Who am I listening to? (For dependency tracking)
+        self._sources: Set['HyperQubit'] = set()
 
-    def get_observation(self, observer_w: float) -> str:
+        # Transformation Logic: How do I react to my source?
+        # Default: Identity (I become what I love)
+        self._reaction_rule: Optional[Callable[[Any], Any]] = None
+
+    @property
+    def value(self):
+        return self._value
+
+    def set(self, new_value: Any, cause: str = "DivineWill"):
         """
-        Collapses the wave function based on the Observer's W-axis (The Mouse Wheel).
-
-        The Observer's W acts as a 'measurement apparatus' that forces the Qubit
-        to reveal a specific aspect of itself.
+        Sets the value and triggers the Universal Resonance.
         """
-        # Determine which basis the observer is tuned to
-        if observer_w < 0.5:
-            target_basis = "Point"
-            probability = abs(self.state.alpha)**2
-        elif observer_w < 1.5:
-            target_basis = "Line"
-            probability = abs(self.state.beta)**2
-        elif observer_w < 2.5:
-            target_basis = "Space"
-            probability = abs(self.state.gamma)**2
+        if self._value != new_value:
+            old_value = self._value
+            self._value = new_value
+            self._vibrate(old_value, new_value, cause)
+
+    def _vibrate(self, old_val, new_val, cause):
+        """
+        The Ripple Effect.
+        """
+        log_msg = f"RESONANCE: {self.name} shifted ({old_val} -> {new_val}) due to [{cause}]."
+        logger.info(log_msg)
+        # print(f"✨ {log_msg}") # Commented out to reduce noise in legacy loops
+
+        # Propagate to all observers (The Khala)
+        for observer in self._observers:
+            observer._react(self)
+
+    # --- Legacy Compatibility Methods ---
+
+    def rotate_wheel(self, delta_w: float = 0.0, delta_x: float = 0.0, delta_y: float = 0.0, delta_z: float = 0.0):
+        """Legacy method to update the quaternion state."""
+        self.state.w += delta_w
+        self.state.x += delta_x
+        self.state.y += delta_y
+        self.state.z += delta_z
+        self.normalize()
+        # Sync value to state representation
+        self.set(f"State({self.state.w:.2f}, {self.state.x:.2f}, ...)", cause="Wheel Rotation")
+
+    def normalize(self):
+        """Legacy normalization."""
+        mag = math.sqrt(self.state.x**2 + self.state.y**2 + self.state.z**2)
+        if mag > 0:
+            self.state.x /= mag
+            self.state.y /= mag
+            self.state.z /= mag
+
+    def get_observation(self) -> Dict[str, float]:
+        """Legacy telemetry."""
+        return {
+            "w": self.state.w,
+            "x": self.state.x,
+            "y": self.state.y,
+            "z": self.state.z,
+            "value": str(self._value)
+        }
+
+    def connect(self, target: 'HyperQubit', rule: Callable[[Any], Any] = None):
+        """
+        Establish a Psionic Link.
+        'target' will now listen to 'self'.
+        target << self
+        """
+        self._observers.add(target)
+        target._sources.add(self)
+        if rule:
+            target._reaction_rule = rule
+
+        logger.info(f"LINK: {self.name} is now connected to {target.name}.")
+
+        # Immediate resonance upon connection
+        target._react(self)
+
+    def _react(self, source: 'HyperQubit'):
+        """
+        React to a change in a source Qubit.
+        """
+        if self._reaction_rule:
+            # Apply transformation logic (e.g., Love -> Flavor)
+            new_state = self._reaction_rule(source.value)
         else:
-            target_basis = "God"
-            probability = abs(self.state.delta)**2
+            # Direct Mirroring (Empathy)
+            new_state = source.value
 
-        # In a real quantum system, measurement is probabilistic.
-        # Here, the Observer's W *forces* the perspective, but the clarity depends on the Qubit's state.
+        self.set(new_state, cause=f"Resonance from {source.name}")
 
-        content_text = self.content.get(target_basis, "Unknown Void")
-
-        return f"[{target_basis} Mode] (Clarity: {probability*100:.1f}%) {content_text}"
-
-    def rotate_wheel(self, w_delta: float):
+    def __lshift__(self, other):
         """
-        The 'Mouse Wheel' interaction.
-        Directly modifies the amplitudes, shifting the Qubit's existential weight.
-
-        Positive w_delta -> Shifts energy towards higher dimensions (Point -> God).
-        Negative w_delta -> Shifts energy towards lower dimensions (God -> Point).
+        Syntactic Sugar for Connection:
+        self << other  (Self listens to Other)
         """
-        # Simple flow logic: Point <-> Line <-> Space <-> God
-        # We model this as transferring magnitude between alpha, beta, gamma, delta
-
-        # Get magnitudes
-        probs = [abs(self.state.alpha), abs(self.state.beta), abs(self.state.gamma), abs(self.state.delta)]
-
-        # Shift mass based on w_delta
-        # This is a simplified "liquid" transfer model
-        transfer_rate = abs(w_delta)
-
-        new_probs = list(probs)
-
-        if w_delta > 0:
-            # Flow Up: 0->1, 1->2, 2->3
-            for i in range(3):
-                flow = new_probs[i] * transfer_rate
-                new_probs[i] -= flow
-                new_probs[i+1] += flow
-        else:
-            # Flow Down: 3->2, 2->1, 1->0
-            for i in range(3, 0, -1):
-                flow = new_probs[i] * transfer_rate
-                new_probs[i] -= flow
-                new_probs[i-1] += flow
-
-        # Reconstruct state (preserving phase, though phase is 0 here for simplicity)
-        self.state = QubitState(
-            alpha=new_probs[0],
-            beta=new_probs[1],
-            gamma=new_probs[2],
-            delta=new_probs[3]
-        ).normalize()
-
-    def set_god_mode(self):
-        """
-        Forces the Qubit into the |God> state (Delta = 1).
-        """
-        self.state = QubitState(alpha=0, beta=0, gamma=0, delta=1.0).normalize()
+        if isinstance(other, HyperQubit):
+            other.connect(self)
+        return self
 
     def __repr__(self):
-        probs = self.state.probabilities()
-        return (f"<HyperQubit '{self.id}': "
-                f"P:{probs['Point']:.2f} | L:{probs['Line']:.2f} | "
-                f"S:{probs['Space']:.2f} | G:{probs['God']:.2f}>")
+        return f"<{self.name}: {self._value}>"
+
+# Alias for the user's preferred terminology
+PsionicEntity = HyperQubit
