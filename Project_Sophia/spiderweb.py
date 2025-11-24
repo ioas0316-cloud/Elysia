@@ -174,3 +174,12 @@ class Spiderweb:
         self.logger.info(
             f"Fractional prune applied: edges={edge_fraction*100:.0f}%, nodes={node_fraction*100:.0f}% (low-weight/low-degree)."
         )
+
+    def get_statistics(self) ->  Dict[str, Any]:
+        """Returns statistics about the knowledge graph."""
+        return {
+            "node_count": self.graph.number_of_nodes(),
+            "edge_count": self.graph.number_of_edges()
+        }
+
+

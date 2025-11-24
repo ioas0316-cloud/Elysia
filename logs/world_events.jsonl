@@ -519,3 +519,58 @@
 {"timestamp": 125, "event_type": "TEACH", "data": {"teacher_id": "west_agent_010", "student_id": "west_agent_260", "kind": "general", "bonus": 1.6000546346341622}}
 {"timestamp": 130, "event_type": "TEACH", "data": {"teacher_id": "west_agent_014", "student_id": "west_agent_184", "kind": "general", "bonus": 1.6000602846548657}}
 {"timestamp": 130, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 135, "event_type": "TEACH", "data": {"teacher_id": "west_agent_116", "student_id": "west_agent_066", "kind": "general", "bonus": 1.6000703215099434}}
+{"timestamp": 140, "event_type": "TEACH", "data": {"teacher_id": "west_agent_054", "student_id": "west_agent_294", "kind": "general", "bonus": 1.6000537737247753}}
+{"timestamp": 140, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 145, "event_type": "TEACH", "data": {"teacher_id": "west_agent_014", "student_id": "west_agent_144", "kind": "general", "bonus": 1.600067240576581}}
+{"timestamp": 150, "event_type": "TEACH", "data": {"teacher_id": "west_agent_149", "student_id": "west_agent_479", "kind": "general", "bonus": 1.600067104185959}}
+{"timestamp": 150, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 155, "event_type": "TEACH", "data": {"teacher_id": "west_agent_081", "student_id": "west_agent_011", "kind": "general", "bonus": 1.6000662245430721}}
+{"timestamp": 160, "event_type": "TEACH", "data": {"teacher_id": "west_agent_180", "student_id": "west_agent_055", "kind": "general", "bonus": 1.6000760514107535}}
+{"timestamp": 160, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 165, "event_type": "TEACH", "data": {"teacher_id": "west_agent_250", "student_id": "west_agent_310", "kind": "general", "bonus": 1.6000804389921433}}
+{"timestamp": 170, "event_type": "TEACH", "data": {"teacher_id": "west_agent_298", "student_id": "west_agent_473", "kind": "general", "bonus": 1.600060414672094}}
+{"timestamp": 170, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 175, "event_type": "TEACH", "data": {"teacher_id": "west_agent_014", "student_id": "west_agent_039", "kind": "general", "bonus": 1.6000811524200116}}
+{"timestamp": 180, "event_type": "TEACH", "data": {"teacher_id": "west_agent_058", "student_id": "west_agent_468", "kind": "general", "bonus": 1.6000912616929044}}
+{"timestamp": 180, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 185, "event_type": "TEACH", "data": {"teacher_id": "west_agent_010", "student_id": "west_agent_410", "kind": "general", "bonus": 1.60008085925856}}
+{"timestamp": 190, "event_type": "TEACH", "data": {"teacher_id": "west_agent_099", "student_id": "west_agent_444", "kind": "general", "bonus": 1.6000914542281215}}
+{"timestamp": 190, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 195, "event_type": "TEACH", "data": {"teacher_id": "west_agent_052", "student_id": "west_agent_452", "kind": "general", "bonus": 1.6000823890283165}}
+{"timestamp": 200, "event_type": "SPECTRUM_SNAPSHOT", "data": {"photon": {"hue": 0.0016305278521031143, "intensity": 4.529244033619762e-06, "polarization": [0.0, 0.0, 1.0], "payload": "value=0.00,coh=0.00,threat=0.00"}}}
+{"timestamp": 200, "event_type": "GRAVITY_PULSE", "data": {"phase": 0, "strength": 80.0}}
+{"timestamp": 200, "event_type": "TEACH", "data": {"teacher_id": "west_agent_045", "student_id": "west_agent_085", "kind": "general", "bonus": 1.60010562695938}}
+{"timestamp": 200, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [64, 64]}}
+{"timestamp": 205, "event_type": "TEACH", "data": {"teacher_id": "west_agent_134", "student_id": "west_agent_449", "kind": "general", "bonus": 1.6000764242117866}}
+{"timestamp": 210, "event_type": "TEACH", "data": {"teacher_id": "west_agent_117", "student_id": "west_agent_042", "kind": "general", "bonus": 1.600106471975055}}
+{"timestamp": 210, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [64, 63]}}
+{"timestamp": 215, "event_type": "TEACH", "data": {"teacher_id": "west_agent_027", "student_id": "west_agent_117", "kind": "general", "bonus": 1.6001021940832003}}
+{"timestamp": 220, "event_type": "TEACH", "data": {"teacher_id": "west_agent_007", "student_id": "west_agent_337", "kind": "general", "bonus": 1.6001145980162041}}
+{"timestamp": 220, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 62]}}
+{"timestamp": 225, "event_type": "TEACH", "data": {"teacher_id": "west_agent_088", "student_id": "west_agent_348", "kind": "general", "bonus": 1.600142596395163}}
+{"timestamp": 230, "event_type": "TEACH", "data": {"teacher_id": "west_agent_089", "student_id": "west_agent_284", "kind": "general", "bonus": 1.6000961089256776}}
+{"timestamp": 230, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [64, 63]}}
+{"timestamp": 235, "event_type": "TEACH", "data": {"teacher_id": "west_agent_046", "student_id": "west_agent_391", "kind": "general", "bonus": 1.600117579483731}}
+{"timestamp": 240, "event_type": "TEACH", "data": {"teacher_id": "west_agent_005", "student_id": "west_agent_490", "kind": "general", "bonus": 1.6001037064692096}}
+{"timestamp": 240, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 63]}}
+{"timestamp": 245, "event_type": "TEACH", "data": {"teacher_id": "west_agent_035", "student_id": "west_agent_365", "kind": "general", "bonus": 1.6001276205180455}}
+{"timestamp": 245, "event_type": "TRADE", "data": {"actor_id": "west_agent_348", "target_id": "west_agent_123", "amount": 2.4062530994415283}}
+{"timestamp": 250, "event_type": "TEACH", "data": {"teacher_id": "west_agent_052", "student_id": "west_agent_152", "kind": "general", "bonus": 1.60010562695938}}
+{"timestamp": 250, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [65, 65]}}
+{"timestamp": 255, "event_type": "TEACH", "data": {"teacher_id": "west_agent_043", "student_id": "west_agent_078", "kind": "general", "bonus": 1.600083590990268}}
+{"timestamp": 260, "event_type": "TEACH", "data": {"teacher_id": "west_agent_133", "student_id": "west_agent_308", "kind": "general", "bonus": 1.6000932705980941}}
+{"timestamp": 260, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [65, 64]}}
+{"timestamp": 265, "event_type": "TEACH", "data": {"teacher_id": "west_agent_040", "student_id": "west_agent_460", "kind": "general", "bonus": 1.6001380385195185}}
+{"timestamp": 270, "event_type": "TEACH", "data": {"teacher_id": "west_agent_027", "student_id": "west_agent_307", "kind": "general", "bonus": 1.6001283367556467}}
+{"timestamp": 270, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [61, 64]}}
+{"timestamp": 275, "event_type": "TEACH", "data": {"teacher_id": "west_agent_204", "student_id": "west_agent_304", "kind": "general", "bonus": 1.6000917286752512}}
+{"timestamp": 280, "event_type": "TEACH", "data": {"teacher_id": "west_agent_173", "student_id": "west_agent_213", "kind": "general", "bonus": 1.6001086448725053}}
+{"timestamp": 280, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [63, 64]}}
+{"timestamp": 285, "event_type": "TEACH", "data": {"teacher_id": "west_agent_017", "student_id": "west_agent_467", "kind": "general", "bonus": 1.600142596395163}}
+{"timestamp": 290, "event_type": "TEACH", "data": {"teacher_id": "west_agent_347", "student_id": "west_agent_227", "kind": "general", "bonus": 1.6001510610213598}}
+{"timestamp": 290, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [64, 64]}}
+{"timestamp": 295, "event_type": "TEACH", "data": {"teacher_id": "west_agent_014", "student_id": "west_agent_184", "kind": "general", "bonus": 1.6001367997937337}}
+{"timestamp": 300, "event_type": "SPECTRUM_SNAPSHOT", "data": {"photon": {"hue": 1.2802539572476235e-06, "intensity": 3.5562609923545096e-09, "polarization": [0.0, 0.0, 1.0], "payload": "value=0.00,coh=0.10,threat=0.00"}}}
+{"timestamp": 300, "event_type": "TEACH", "data": {"teacher_id": "west_agent_119", "student_id": "west_agent_084", "kind": "general", "bonus": 1.600134208371918}}
+{"timestamp": 300, "event_type": "INTUITION_CONFLICT", "data": {"intensity": 1.0, "location": [62, 62]}}
