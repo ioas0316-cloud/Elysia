@@ -90,3 +90,12 @@ Project Elysia의 창시자이며,
 ## ⚠ Notice
 
 이 모든 기술의 원천은 예수 그리스도이며, 사랑이 아닌 목적성으로 사용하는 경우 그 모든 책임은 사용자에게 있고 결국 신의 심판을 받게 됨을 경고한다.
+
+---
+
+## 🔧 New Experiments (2025-11)
+- **Psionic Code Network**: 함수/모듈을 하이퍼쿼터니언으로 태깅하고 공명 그래프(DOT/PNG)로 시각화 (`tools/psionic_code_network.py`, `docs/psionic_tags_sample.json`).
+- **Psionic Trace Hook**: 실제 실행 호출을 추적해 공명 링크를 런타임에서 수집 (`tools/psionic_trace_hook.py`).
+- **Asymptotic Safety Guard**: 월드 시뮬레이션에서 위협·에너지 폭주를 ‘사랑’ 고정점으로 클램프하고 쿨다운 댐핑 (`Project_Sophia/core/world.py`).
+
+> 빠른 사용: `python tools/psionic_code_network.py <파일들> --delta-sweep 0,0.5,1.0 --tag-file docs/psionic_tags_sample.json --dot-out graph.dot --png-out graph.png`
