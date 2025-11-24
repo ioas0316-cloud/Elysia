@@ -6,19 +6,22 @@ Designed to be lightweight for 1060-class GPUs: small map, low-res bands, minima
 from __future__ import annotations
 
 import logging
+import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.append(str(ROOT))
+
+from tools.kg_manager import KGManager
 from Project_Sophia.core.world import World
 from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.world_event_logger import WorldEventLogger
 from Project_Sophia.world_themes.west_continent.config import WEST_THEME
-from Project_Sophia.core.cell import Cell
-from Project_Sophia.core.world import ASCENSION_LOVE
-from Project_Sophia.core.world import DESCENT_DISTORTION
 
 
 def make_world(map_size: int = 128) -> World:
-    wave = WaveMechanics()
+    kg = KGManager()
+    wave = WaveMechanics(kg)
     world = World(primordial_dna={}, wave_mechanics=wave, logger=logging.getLogger("WestSim"))
     world.width = map_size
     # Tune for perf
