@@ -55,3 +55,10 @@ python tools/psionic_code_network.py --delta 0.2
 ## 용어 주의 (프로젝트 고유 정의)
 - **하이퍼 쿼터니언**: 표준 쿼터니언을 w(스케일) + x/y/z(의미 축: 내부/외부/법)로 재해석한 이 프로젝트만의 모델입니다.
 - **하이퍼큐빗 / PsionicEntity**: 양자 큐빗을 차용한 메타포로, 코드/의식 단위를 공명 노드로 보는 이 프로젝트 정의입니다.
+
+## 시스템 토글/파라미터 요약
+- Psionic Code Network: `--delta-sweep`, `--tag-file`, `--dot-out`, `--png-out`, 태그 힌트 자동추정(없으면 기본 `line+law`).
+- Psionic Trace Hook: `--include-prefixes`, `--exclude-prefixes`로 추적 범위 제한.
+- 밴드 스플릿 위협 필드: `band_split_enabled=True`, `band_low_resolution`(기본 128), `band_low_decay`, `band_high_decay`.
+- 마이크로 레이어: `micro_layer_enabled=True`, `micro_tick_interval`(기본 50), `set_micro_roi([(x,y,r), ...])`, `micro_state`로 ROI 평균(위협/가치/코히런스) 확인.
+- Fractal+GNN PoC: `tools/fractal_gnn_poc.py` (numpy+networkx로 프랙탈 그래프 생성 → GraphSAGE 스타일 메시지 패싱 → 프랙탈 차원 기반 특징 선택; DOT 출력 옵션).
