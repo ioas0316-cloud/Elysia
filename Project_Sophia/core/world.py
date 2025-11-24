@@ -188,6 +188,11 @@ class World:
         self.asymptotic_threat_damp: float = 0.85 # multiplier during cooldown
         self.asymptotic_coherence_boost: float = 0.5 # per-step boost during cooldown
         self._asymptotic_cooldown: int = 0
+        # --- Micro-layer controls ---
+        self.micro_layer_enabled: bool = False
+        self.micro_tick_interval: int = 50
+        self.micro_roi: List[Tuple[int, int, int]] = []
+        self.micro_state: Dict[int, Dict[str, float]] = {}
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1078,6 +1083,8 @@ class World:
         triggered = self._apply_asymptotic_safety_guard()
         # Apply cooldown smoothing if triggered recently.
         self._apply_asymptotic_cooldown_effects(triggered)
+        # Optional micro-layer (ROI-limited) update
+        self._update_micro_layer()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -1201,6 +1208,57 @@ class World:
             self._asymptotic_cooldown -= 1
         except Exception:
             self._asymptotic_cooldown = max(0, self._asymptotic_cooldown - 1)
+
+    # --- Micro-layer (ROI-limited) scaffolding -------------------------------
+    def set_micro_roi(self, roi_list: List[Tuple[int, int, int]]) -> None:
+        """
+        ROI 리스트 설정. 각 항목은 (x, y, r) 정수 좌표/반경.
+        """
+        self.micro_roi = roi_list
+
+    def _update_micro_layer(self) -> None:
+        """
+        최소한의 미시 레이어 업데이트:
+        - ROI가 없거나 비활성화면 건너뜀
+        - tick 간격에 맞춰 샘플링
+        - ROI 내 threat/value_mass/coherence 평균을 계산해 micro_state에 기록
+        - 선택적으로 value_mass_field에 미세한 보정
+        """
+        if not getattr(self, "micro_layer_enabled", False):
+            return
+        if getattr(self, "micro_tick_interval", 50) <= 0:
+            return
+        if self.time_step % int(self.micro_tick_interval) != 0:
+            return
+        if not hasattr(self, "micro_roi") or not self.micro_roi:
+            return
+
+        if not hasattr(self, "micro_state"):
+            self.micro_state = {}
+
+        for idx, (cx, cy, r) in enumerate(self.micro_roi):
+            x0 = max(0, int(cx - r))
+            x1 = min(self.width, int(cx + r))
+            y0 = max(0, int(cy - r))
+            y1 = min(self.width, int(cy + r))
+            if x0 >= x1 or y0 >= y1:
+                continue
+
+            threat = float(self.threat_field[y0:y1, x0:x1].mean()) if self.threat_field.size else 0.0
+            value_mass = float(self.value_mass_field[y0:y1, x0:x1].mean()) if self.value_mass_field.size else 0.0
+            coherence = float(self.coherence_field[y0:y1, x0:x1].mean()) if self.coherence_field.size else 0.0
+
+            self.micro_state[idx] = {
+                "center": (cx, cy),
+                "r": r,
+                "threat": threat,
+                "value_mass": value_mass,
+                "coherence": coherence,
+                "tick": self.time_step,
+            }
+
+            if coherence < 0.1 and self.value_mass_field.size:
+                self.value_mass_field[y0:y1, x0:x1] = self.value_mass_field[y0:y1, x0:x1] + 0.01
 
     def _process_neural_intuition(self):
         """

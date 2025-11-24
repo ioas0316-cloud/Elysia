@@ -87,6 +87,38 @@ def parse_tags(doc: Optional[str]) -> Tuple[float, Tuple[float, float, float]]:
     return w, (x, y, z)
 
 
+def hint_tags(fn_name: str) -> Optional[Tuple[float, Tuple[float, float, float]]]:
+    """
+    간단한 규칙 기반 힌트: docstring/override가 없을 때 기본값 대신 사용.
+    """
+    name = fn_name.lower()
+    intents: List[Tuple[float, float, float]] = []
+    w = SCALE_W["line"]
+
+    if any(k in name for k in ["fetch", "load", "get", "pull", "read", "render", "write", "save", "export", "api", "client"]):
+        intents.append(INTENT_AXIS["external"])
+    if any(k in name for k in ["calc", "compute", "eval", "score", "law", "logic"]):
+        intents.append(INTENT_AXIS["law"])
+    if any(k in name for k in ["train", "learn", "update", "merge", "compose", "internal"]):
+        intents.append(INTENT_AXIS["internal"])
+    if not intents:
+        intents.append(INTENT_AXIS["law"])
+
+    if any(k in name for k in ["core", "loop", "main", "pipeline"]):
+        w = SCALE_W["line"]
+    if any(k in name for k in ["init", "setup", "seed"]):
+        w = SCALE_W["point"]
+    if any(k in name for k in ["transform", "process", "compose"]):
+        w = SCALE_W["plane"]
+    if any(k in name for k in ["orchestrator", "manager", "world", "engine"]):
+        w = SCALE_W["hyper"]
+
+    x = sum(a[0] for a in intents) / len(intents)
+    y = sum(a[1] for a in intents) / len(intents)
+    z = sum(a[2] for a in intents) / len(intents)
+    return w, (x, y, z)
+
+
 def amplitude_from_w(w: float) -> Tuple[float, float, float, float]:
     """
     스케일 w에 따라 기본 진폭(α,β,γ,δ)을 배치한다.
@@ -157,7 +189,7 @@ def load_tag_overrides(path: Optional[Path]) -> Dict[str, Dict[str, str]]:
 
 def parse_with_override(fn_name: str, doc: Optional[str], overrides: Dict[str, Dict[str, str]]):
     """
-    태그 우선순위: override JSON > docstring > 기본값
+    태그 우선순위: override JSON > docstring > 힌트 > 기본값
     """
     if fn_name in overrides:
         o = overrides[fn_name]
@@ -170,8 +202,17 @@ def parse_with_override(fn_name: str, doc: Optional[str], overrides: Dict[str, D
         y = sum(a[1] for a in axes) / len(axes)
         z = sum(a[2] for a in axes) / len(axes)
         return w, (x, y, z), True
-    w, (x, y, z) = parse_tags(doc)
-    return w, (x, y, z), False
+    # docstring 태그
+    if doc:
+        w, (x, y, z) = parse_tags(doc)
+        return w, (x, y, z), False
+    # 힌트 기반
+    hinted = hint_tags(fn_name)
+    if hinted:
+        w, (x, y, z) = hinted
+        return w, (x, y, z), False
+    # 기본값
+    return SCALE_W["line"], (0.0, 0.0, 1.0), False
 
 
 def build_psionic_graph(source: str, overrides: Dict[str, Dict[str, str]]) -> Dict[str, PsionicNode]:

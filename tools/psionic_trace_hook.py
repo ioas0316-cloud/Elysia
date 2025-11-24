@@ -29,10 +29,17 @@ import ast
 
 
 class PsionicTrace:
-    def __init__(self, tag_overrides: Optional[Dict[str, Dict[str, str]]] = None):
+    def __init__(
+        self,
+        tag_overrides: Optional[Dict[str, Dict[str, str]]] = None,
+        include_prefixes: Optional[List[str]] = None,
+        exclude_prefixes: Optional[List[str]] = None,
+    ):
         self.tag_overrides = tag_overrides or {}
         self.nodes: Dict[str, PsionicNode] = {}
         self.calls: Set[Tuple[str, str]] = set()
+        self.include_prefixes = include_prefixes or []
+        self.exclude_prefixes = exclude_prefixes or []
 
     def _get_or_create(self, fn_name: str, doc: Optional[str]) -> PsionicNode:
         if fn_name in self.nodes:
@@ -61,6 +68,13 @@ class PsionicTrace:
         self.nodes[fn_name] = node
         return node
 
+    def _allow(self, name: str) -> bool:
+        if self.exclude_prefixes and any(name.startswith(p) for p in self.exclude_prefixes):
+            return False
+        if self.include_prefixes:
+            return any(name.startswith(p) for p in self.include_prefixes)
+        return True
+
     def tracer(self, frame, event, arg):
         if event != "call":
             return self.tracer
@@ -68,10 +82,14 @@ class PsionicTrace:
         fn_name = co.co_name
         if fn_name.startswith("<"):
             return self.tracer
+        if not self._allow(fn_name):
+            return self.tracer
         doc = frame.f_globals.get("__doc__", "") or ""
         caller = frame.f_back.f_code.co_name if frame.f_back else None
         callee_node = self._get_or_create(fn_name, doc)
         if caller and not caller.startswith("<"):
+            if not self._allow(caller):
+                return self.tracer
             caller_doc = frame.f_back.f_globals.get("__doc__", "") or ""
             caller_node = self._get_or_create(caller, caller_doc)
             caller_node.calls.add(fn_name)
@@ -85,9 +103,11 @@ class PsionicTrace:
         sys.settrace(None)
 
 
-def run_with_trace(script: Path, tag_file: Optional[Path] = None) -> PsionicTrace:
+def run_with_trace(script: Path, tag_file: Optional[Path] = None,
+                   include_prefixes: Optional[List[str]] = None,
+                   exclude_prefixes: Optional[List[str]] = None) -> PsionicTrace:
     overrides = load_tag_overrides(tag_file) if tag_file else {}
-    tracer = PsionicTrace(overrides)
+    tracer = PsionicTrace(overrides, include_prefixes=include_prefixes, exclude_prefixes=exclude_prefixes)
     tracer.start()
     try:
         # Execute the script in its own global namespace
@@ -104,9 +124,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a Python script with Psionic trace hook.")
     parser.add_argument("script", type=Path, help="실행할 Python 스크립트")
     parser.add_argument("--tag-file", type=Path, help="태그 override JSON (옵션)")
+    parser.add_argument("--include-prefixes", help="포함할 함수 prefix 쉼표 목록 (없으면 전체).")
+    parser.add_argument("--exclude-prefixes", help="제외할 함수 prefix 쉼표 목록.")
     args = parser.parse_args()
 
-    trace = run_with_trace(args.script, args.tag_file)
+    include = [p.strip() for p in args.include_prefixes.split(",")] if args.include_prefixes else None
+    exclude = [p.strip() for p in args.exclude_prefixes.split(",")] if args.exclude_prefixes else None
+
+    trace = run_with_trace(args.script, args.tag_file, include_prefixes=include, exclude_prefixes=exclude)
     print(f"콜렉션 완료: 노드 {len(trace.nodes)}, 링크 {len(trace.calls)}")
     for n in trace.nodes.values():
         print(f"- {n.name}: calls={sorted(n.calls)} source={n.doc_tags.get('source')}")
