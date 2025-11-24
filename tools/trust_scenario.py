@@ -24,7 +24,7 @@ class Agent:
 
 
 class TrustScenario:
-    def __init__(self, agents: List[str], scarcity: float = 0.30, seed: int = 42):
+    def __init__(self, agents: List[str], scarcity: float = 0.25, seed: int = 42):
         random.seed(seed)
         # Higher starting trust for more cooperative runs
         self.agents: Dict[str, Agent] = {a: Agent(a, food=1.0, trust={}) for a in agents}
@@ -33,8 +33,8 @@ class TrustScenario:
 
     def _regen(self):
         for a in self.agents.values():
-            a.food = max(0.0, a.food - 0.25)  # hunger drain
-            a.food += self.scarcity  # default net +0.05 for stability
+            a.food = max(0.0, a.food - 0.28)  # hunger drain
+            a.food += self.scarcity  # default net slightly positive for stability
 
     def step(self):
         names = list(self.agents.keys())
@@ -47,9 +47,9 @@ class TrustScenario:
         need = True
 
         # Target decides to share or betray
-        trust_level = a_tgt.trust.get(requester, 0.8)
-        share_prob = min(1.0, 0.6 + 0.5 * trust_level)  # stronger bias to share
-        share = random.random() < share_prob and a_tgt.food > 0.15
+        trust_level = a_tgt.trust.get(requester, 0.7)
+        share_prob = min(1.0, 0.5 + 0.4 * trust_level)  # modest bias to share
+        share = random.random() < share_prob and a_tgt.food > 0.2
 
         if share:
             amt = min(0.2, a_tgt.food * 0.5)
@@ -57,23 +57,23 @@ class TrustScenario:
             a_req.food += amt
 
             # Reciprocity chance
-            repay = random.random() < 0.9
+            repay = random.random() < 0.75
             if repay and a_req.food > 0.3:
                 repay_amt = 0.2
                 a_req.food -= repay_amt
                 a_tgt.food += repay_amt
                 # Trust boost
-                a_req.trust[target] = min(1.0, a_req.trust.get(target, 0.7) + 0.35)
-                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.7) + 0.4)
+                a_req.trust[target] = min(1.0, a_req.trust.get(target, 0.7) + 0.25)
+                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.7) + 0.3)
                 outcome = "reciprocate"
             else:
                 # Neutral trust bump for sharing
-                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.7) + 0.25)
+                a_tgt.trust[requester] = min(1.0, a_tgt.trust.get(requester, 0.7) + 0.15)
                 outcome = "share"
         else:
             # Betrayal: trust drops, coherence drops around betrayer
-            a_req.trust[target] = max(0.0, a_req.trust.get(target, 0.7) - 0.1)
-            a_tgt.coherence = max(0.0, a_tgt.coherence - 0.02)
+            a_req.trust[target] = max(0.0, a_req.trust.get(target, 0.7) - 0.2)
+            a_tgt.coherence = max(0.0, a_tgt.coherence - 0.05)
             outcome = "betray"
 
         self.history.append((requester, target, outcome))
