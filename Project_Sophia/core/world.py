@@ -204,6 +204,10 @@ class World:
         self.free_will_threat_threshold: float = 80.0
         self.free_will_value_threshold: float = 120.0
         self.last_free_will_collapse: Optional[Dict[str, float]] = None
+        # --- Entropy/Love dynamics ---
+        self.entropy_decay: float = 0.995
+        self.love_injection_gain: float = 0.05
+        self.entropy_field = np.zeros((self.width, self.width), dtype=np.float32)
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1094,6 +1098,8 @@ class World:
         self._update_band_split_fields()
         # Free-will collapse trigger based on threat/value peaks
         self._maybe_trigger_free_will_collapse()
+        # Entropy field decay
+        self._decay_entropy_field()
         # Safety rail: prevent runaway threat/energy from collapsing the simulation.
         triggered = self._apply_asymptotic_safety_guard()
         # Apply cooldown smoothing if triggered recently.
@@ -1305,6 +1311,22 @@ class World:
                     self.logger.warning(
                         f"FREE_WILL_COLLAPSE: reason={payload['reason']} threat={threat_peak:.2f} value={value_peak:.2f}"
                     )
+        except Exception:
+            return
+
+    def _decay_entropy_field(self) -> None:
+        """
+        Applies entropy decay and optionally couples to value/coherence fields to simulate forgetting pressure.
+        """
+        try:
+            self.entropy_field *= self.entropy_decay
+            # Couple: higher entropy pulls down value/coherence slightly
+            if self.value_mass_field.size:
+                self.value_mass_field -= (self.entropy_field * 0.001)
+                np.maximum(self.value_mass_field, 0.0, out=self.value_mass_field)
+            if self.coherence_field.size:
+                self.coherence_field -= (self.entropy_field * 0.001)
+                np.maximum(self.coherence_field, 0.0, out=self.coherence_field)
         except Exception:
             return
 
