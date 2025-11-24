@@ -193,6 +193,13 @@ class World:
         self.micro_tick_interval: int = 50
         self.micro_roi: List[Tuple[int, int, int]] = []
         self.micro_state: Dict[int, Dict[str, float]] = {}
+        # --- Band-split fields (low/high frequency) ---
+        self.band_split_enabled: bool = False
+        self.band_low_resolution: int = 128  # low-res grid
+        self.band_low_decay: float = 0.98
+        self.band_high_decay: float = 0.90
+        self.band_low_threat = None
+        self.band_high_threat = None
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1079,6 +1086,8 @@ class World:
         self._update_coherence_field()
         self._update_intentional_field()
         self._update_tensor_field()
+        # Band-split refinement
+        self._update_band_split_fields()
         # Safety rail: prevent runaway threat/energy from collapsing the simulation.
         triggered = self._apply_asymptotic_safety_guard()
         # Apply cooldown smoothing if triggered recently.
@@ -1208,6 +1217,57 @@ class World:
             self._asymptotic_cooldown -= 1
         except Exception:
             self._asymptotic_cooldown = max(0, self._asymptotic_cooldown - 1)
+
+    def _ensure_band_buffers(self) -> None:
+        """
+        Initializes low/high frequency buffers if needed.
+        """
+        if not self.band_split_enabled:
+            return
+        low_res = max(1, int(self.band_low_resolution))
+        if self.band_low_threat is None or self.band_low_threat.shape != (low_res, low_res):
+            self.band_low_threat = np.zeros((low_res, low_res), dtype=np.float32)
+        if self.band_high_threat is None or self.band_high_threat.shape != self.threat_field.shape:
+            self.band_high_threat = np.zeros_like(self.threat_field)
+
+    def _update_band_split_fields(self) -> None:
+        """
+        Splits threat_field into low/high frequency components:
+        - Low: downsampled + decay (captures broad flow)
+        - High: residual after subtracting upsampled low (captures local spikes)
+        """
+        if not getattr(self, "band_split_enabled", False):
+            return
+        if self.threat_field.size == 0:
+            return
+
+        self._ensure_band_buffers()
+        low_res = self.band_low_threat.shape[0]
+
+        try:
+            # Downsample threat to low-res (mean pooling)
+            factor = max(1, self.width // low_res)
+            reshaped = self.threat_field[:low_res * factor, :low_res * factor].reshape(
+                low_res, factor, low_res, factor
+            )
+            pooled = reshaped.mean(axis=(1, 3))
+
+            # Decay + blend
+            self.band_low_threat = (self.band_low_threat * self.band_low_decay) + (pooled * (1.0 - self.band_low_decay))
+
+            # Upsample low to full res (nearest)
+            low_up = np.repeat(np.repeat(self.band_low_threat, factor, axis=0), factor, axis=1)
+            # Pad to match width if needed
+            if low_up.shape != self.threat_field.shape:
+                pad_y = self.threat_field.shape[0] - low_up.shape[0]
+                pad_x = self.threat_field.shape[1] - low_up.shape[1]
+                low_up = np.pad(low_up, ((0, pad_y), (0, pad_x)), mode='edge')
+
+            residual = self.threat_field - low_up
+            self.band_high_threat = (self.band_high_threat * self.band_high_decay) + (residual * (1.0 - self.band_high_decay))
+        except Exception:
+            # If anything fails, keep threat_field as-is
+            return
 
     # --- Micro-layer (ROI-limited) scaffolding -------------------------------
     def set_micro_roi(self, roi_list: List[Tuple[int, int, int]]) -> None:
