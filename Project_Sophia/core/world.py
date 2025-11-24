@@ -122,6 +122,11 @@ class World:
         # Language memetics (simple pattern weighting)
         self.meme_bank = defaultdict(float)  # key: (speech_act, obj) -> weight
 
+        # --- Lexicon Physics Mastery (Elysia's Experience) ---
+        # Tracks the 'mass' or 'weight' of each speech act based on its historical success.
+        # Heavier words create stronger field ripples.
+        self.lexicon_mastery = defaultdict(lambda: 1.0)
+
         # Gravity pulse (pressure cooker) controls
         self.gravity_pulse_period = 200         # ticks per full cycle (crunch + release)
         self.gravity_pulse_on_duration = 100    # ticks the pulse is active (crunch)
@@ -267,6 +272,15 @@ class World:
         self.height_map = np.zeros((self.width, self.width), dtype=np.float32)
         self.soil_fertility = np.full((self.width, self.width), 0.5, dtype=np.float32)
         self.wetness = np.zeros((self.width, self.width), dtype=np.float32) # 0.0 (dry) to 1.0 (puddle)
+
+        # --- Spirit Layer: 3D Fields (The "Space" of Imagination & Future) ---
+        # These fields represent the 'Atmosphere' or 'Will' that inclines events before they happen.
+        self.threat_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.coherence_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.will_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.value_mass_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.norms_field = np.zeros((self.width, self.width), dtype=np.float32)
+        self.hydration_field = np.zeros((self.width, self.width), dtype=np.float32)
         # Latitude map (y -> latitude radians, +north at top)
         y_coords = np.arange(self.width, dtype=np.float32)
         lat_norm = 0.5 - (y_coords / max(1, self.width))  # +0.5 at top, -0.5 at bottom
@@ -2090,6 +2104,15 @@ class World:
         """Updates soft fields (e.g., threat) from distributed sources.
         The field is not a command; it is a context carrier that agents can sense.
         """
+        # --- Field Decay (The "Dissipation of Waves") ---
+        # Words and events create ripples, but they must fade to allow new stories.
+        self.threat_field *= 0.95
+        self.will_field *= 0.95
+        self.value_mass_field *= 0.98 # Value/Meaning lasts longer than raw will
+        self.norms_field *= 0.98      # Norms are sticky
+        self.coherence_field *= 0.90  # Coherence is fragile
+        self.hydration_field *= 0.90  # Water evaporates/diffuses
+
         if len(self.cell_ids) == 0:
             return
 
@@ -2355,18 +2378,35 @@ class World:
             self.coherence_field = (self._coh_alpha * self.coherence_field) + ((1.0 - self._coh_alpha) * coh)
         except Exception:
             pass
+
     def _imprint_gaussian(self, target: np.ndarray, x: int, y: int, sigma: float, amplitude: float = 1.0):
+        """
+        [MIND LAYER] The Act of Imprinting (2D Flow).
+        Applies a Gaussian 'wave' of influence onto a Spirit Field.
+        This connects the Event (Point) to the Atmosphere (Space).
+        """
         try:
+            # Ensure coordinates are within bounds
+            if not (0 <= x < self.width and 0 <= y < self.width):
+                return
+
             rad = int(max(2, sigma * 3))
             x0, x1 = max(0, x - rad), min(self.width, x + rad + 1)
             y0, y1 = max(0, y - rad), min(self.width, y + rad + 1)
+
+            # Generate grid for the kernel
             xs = np.arange(x0, x1) - x
             ys = np.arange(y0, y1) - y
             gx = np.exp(-(xs**2) / (2 * sigma * sigma))
             gy = np.exp(-(ys**2) / (2 * sigma * sigma))
+
+            # Outer product to make 2D kernel
             patch = (gy[:, None] * gx[None, :]).astype(np.float32)
+
+            # Add to target field
             target[y0:y1, x0:x1] += amplitude * patch
-        except Exception:
+        except Exception as e:
+            # self.logger.error(f"Failed to imprint gaussian: {e}")
             pass
 
     def _update_historical_imprint_field(self):
@@ -3026,11 +3066,17 @@ class World:
         best_action = {'action': 'idle', 'target_idx': None, 'move': None}
         highest_score = 5 # Idle has a small base score to be chosen when no other action is compelling
 
-        # --- Environmental Factors ---
+        # --- Environmental Factors (Field Sampling) ---
         actor_pos = self.positions[actor_idx].astype(int)
         px, py = np.clip(actor_pos[0], 0, self.width - 1), np.clip(actor_pos[1], 0, self.width - 1)
-        local_life = self.ascension_field[py, px, ASCENSION_LIFE]
-        local_death = self.descent_field[py, px, DESCENT_DEATH]
+
+        # Sample Fields: The "Atmosphere"
+        local_life = float(self.ascension_field[py, px, ASCENSION_LIFE])
+        local_death = float(self.descent_field[py, px, DESCENT_DEATH])
+        local_threat = float(self.threat_field[py, px])
+        local_coherence = float(self.coherence_field[py, px])
+        local_will = float(self.will_field[py, px])
+        local_value = float(self.value_mass_field[py, px])
 
         for action_option in possible_actions:
             score = 0
@@ -3051,7 +3097,12 @@ class World:
                     score += 100 # Greatly increased base score for altruism
                     score += self.wisdom[actor_idx] * 1.5
                     score += self.satisfaction[actor_idx] # A satisfied cell is more likely to share
+
+                    # --- Field Resonance ---
                     score += local_life * 50 # The field of Life promotes sharing life (food)
+                    score += local_value * 20 # "Value" field encourages exchange/gift
+                    score += local_coherence * 30 # "Coherence" field encourages bonding
+
                     if adj_matrix_csr[actor_idx, target_idx] >= 0.8:
                         score += 50
                     if has_charity_scar:
@@ -3062,6 +3113,8 @@ class World:
                 if self.diets[actor_idx] in ['herbivore', 'omnivore']:
                     hunger_drive = (100 - self.hunger[actor_idx]) * 0.8 # Scale down to balance against sharing
                     score += hunger_drive
+                    # If threat is high, eating is risky, but high will can overcome it.
+                    score -= local_threat * 10
 
             elif action_type == 'attack':
                 # Attack if hungry and target is prey.
@@ -3077,9 +3130,12 @@ class World:
                         if has_starvation_scar and self.hunger[actor_idx] < 50:
                             score += 50 # Reduced bonus to avoid hyper-aggression
 
-                        # Environmental influences
+                        # --- Field Resonance (The Wave of War) ---
                         score += local_death * 50 # The field of Death promotes aggression
+                        score += local_threat * 30 # High threat triggers fight-or-flight (fight here)
+                        score += local_will * 20 # High will tension pushes towards action
                         score -= local_life * 20 # The field of Life suppresses aggression
+                        score -= local_coherence * 40 # Harmony suppresses violence
 
             elif action_type == 'talk':
                 # Social dialogue: prioritized when the actor is not in acute survival stress
@@ -3109,8 +3165,15 @@ class World:
 
                 # Relationship closeness and life field support dialogue; death field suppresses it.
                 base_score += relation_strength * 4.0
-                base_score += float(local_life) * 10.0
-                base_score -= float(local_death) * 5.0
+
+                # --- Field Resonance (The Wave of Culture) ---
+                base_score += local_life * 10.0
+                base_score += local_coherence * 20.0 # Coherence strongly encourages talking
+                base_score += local_value * 10.0 # Value mass encourages trade/negotiation
+                base_score -= local_death * 5.0
+                # High threat might actually INCREASE talk (begging/threatening) but purely social talk is suppressed.
+                # We'll let specific sub-types handle that logic if needed, but generally threat silences casual chat.
+                base_score -= local_threat * 5.0
 
                 score += base_score
 
@@ -3119,8 +3182,39 @@ class World:
                 best_action = action_option
 
         # --- 3. Return the highest-scoring action ---
+        # Store the chosen action's base "Physics" key for learning later
+        self._last_action_intent = best_action.get('action', 'idle')
         return best_action['target_idx'], best_action['action'], best_action['move']
 
+    def _learn_from_resonance(self, actor_idx: int, action: str, outcome: str, magnitude: float):
+        """
+        [ELYSIA'S MEMORY] The world learns which words hold weight.
+        If an action (e.g., attack) was successful and matched the intent of recent speech,
+        the 'mass' of that word increases in the global lexicon.
+        """
+        # Simple heuristic: Check if the actor spoke recently about this intent
+        # In a full system, we'd track individual speech history.
+        # Here, we assume the 'will_field' or 'threat_field' that drove the action
+        # was partly constituted by the actor's own words or the words of others.
+
+        # Map action to relevant speech keys
+        action_to_speech = {
+            "attack": ["ATTACK", "SKILL_ATTACK", "SPELL_FIRE", "TALK_THREAT"],
+            "share_food": ["TALK_TRADE", "TALK_CELEBRATE", "TALK_BEG"],
+            "cast_heal": ["SPELL_HEAL", "TALK_COMFORT"],
+            "talk": ["TALK_BOND", "TALK_COMFORT", "TALK_TRADE"],
+        }
+
+        related_keys = action_to_speech.get(action, [])
+        for key in related_keys:
+            # Increase mastery. The world "remembers" that this word works.
+            # Growth is logarithmic to prevent explosion.
+            current_weight = self.lexicon_mastery[key]
+            growth = 0.01 * magnitude / current_weight # Diminishing returns
+            self.lexicon_mastery[key] += growth
+            if growth > 0.001:
+                # self.logger.debug(f"LEARNING: '{key}' mastery increased to {self.lexicon_mastery[key]:.3f} via {action} ({outcome})")
+                pass
 
     def _execute_animal_action(self, actor_idx: int, target_idx: int, action: str, move: Optional[Move]):
         """Executes the chosen action, including non-target actions like meditation."""
@@ -3504,6 +3598,9 @@ class World:
                 self.satisfaction[actor_idx] += 20
                 self.emotions[actor_idx] = 'joy'
 
+                # --- Learning: Successful Kill reinforces 'Attack' words ---
+                self._learn_from_resonance(actor_idx, "attack", "kill", 5.0)
+
 
     def _process_life_cycles(self) -> List[Cell]:
         """Handles birth, growth, and reproduction for all entities."""
@@ -3597,6 +3694,9 @@ class World:
                 self.mating_readiness[i] = 0.2
                 self.mating_readiness[mate_idx] = 0.2
                 self.logger.info(f"Mating: '{self.cell_ids[i]}' and '{self.cell_ids[mate_idx]}' produced '{new_animal_id}'.")
+
+                # --- Learning: Birth reinforces 'Bonding' words ---
+                self._learn_from_resonance(i, "talk", "birth", 10.0)
 
                 # --- Seed of Will Field: Forge family bonds ---
                 # Add the new cell to the world immediately to get its index
@@ -4030,16 +4130,63 @@ class World:
         return p_inertia, f_force, e_energy
 
     def _speak(self, actor_idx: int, key: str, **kwargs) -> None:
-        """Emit a Korean utterance for the given actor and key, if available."""
+        """
+        Emit a Korean utterance and IMPRINT its intent onto the physical fields.
+        This implements 'Speech as Wave': words are not just logs, they are forces.
+        """
         if actor_idx < 0 or actor_idx >= len(self.cell_ids):
             return
         text = kr_dialogue(key, **kwargs)
         if not text:
             return
         cell_id = self.cell_ids[actor_idx]
-        # Log as a SAY event and also via the logger for visibility.
+
+        # Log as a SAY event
         self.logger.info(f"SAY: '{cell_id}' {text}")
         self.event_logger.log('SAY', self.time_step, cell_id=cell_id, text=text)
+
+        # --- Lexicon Physics: Map Sound to Field Effect ---
+        # Each key maps to a field name and a base amplitude.
+        # The amplitude is scaled by the word's 'Mastery' (historical weight).
+        lexicon_physics = {
+            "ATTACK":        ("threat", 2.0),
+            "SKILL_ATTACK":  ("will", 3.0),
+            "SPELL_FIRE":    ("threat", 4.0),
+            "SPELL_HEAL":    ("coherence", 5.0), # Healing restores harmony
+            "TALK_BOND":     ("coherence", 1.5),
+            "TALK_COMFORT":  ("coherence", 2.0), # Comfort reduces entropy
+            "TALK_TRADE":    ("value_mass", 1.0), # Trade creates value
+            "TALK_THREAT":   ("threat", 1.5),
+            "TALK_BEG":      ("hydration", 5.0), # Metaphor: thirst for help -> fluid field
+            "TALK_CELEBRATE":("value_mass", 2.0),
+            "IDLE_PLAY":     ("norms", 0.5), # Play reinforces social norms gently
+        }
+
+        if key in lexicon_physics:
+            field_name, base_amp = lexicon_physics[key]
+            mastery_scale = self.lexicon_mastery[key] # Starts at 1.0, grows with resonance
+            amplitude = base_amp * mastery_scale
+
+            # Apply the field imprint at the speaker's location
+            try:
+                px = int(self.positions[actor_idx, 0]) % self.width
+                py = int(self.positions[actor_idx, 1]) % self.width
+
+                target_field = None
+                if field_name == "threat": target_field = self.threat_field
+                elif field_name == "will": target_field = self.will_field
+                elif field_name == "coherence": target_field = self.coherence_field
+                elif field_name == "value_mass": target_field = self.value_mass_field
+                elif field_name == "hydration": target_field = self.hydration_field
+                elif field_name == "norms": target_field = self.norms_field
+
+                if target_field is not None:
+                    # Sigma represents the 'Range' of the voice. Louder/Mastered words travel further?
+                    # For now, keep sigma constant to represent acoustic range.
+                    self._imprint_gaussian(target_field, px, py, sigma=8.0, amplitude=amplitude)
+                    # self.logger.debug(f"FIELD_RIPPLE: '{key}' boosted {field_name} by {amplitude:.2f} at ({px},{py})")
+            except Exception:
+                pass
 
     def get_trinity_for_actor(self, actor_idx: int) -> Tuple[float, float, float]:
         """Compute Body/Soul/Spirit pressure scalars (0..1) for a single actor.
