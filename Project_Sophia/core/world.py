@@ -3208,6 +3208,41 @@ class World:
         return events
 
 
+    def apply_will_field(self, field_type: str, strength: float, focus_point: Optional[Tuple[int, int]] = None, radius: int = 20):
+        """
+        [BODY LAYER] Swarm Intelligence Interface.
+        Allows the 'Spirit' (Consciousness) to apply direct field effects to the 'Body' (World).
+        Uses vectorized NumPy operations for high performance (3GB VRAM Friendly).
+        """
+        try:
+            if field_type == 'calm':
+                # Reduce threat, increase coherence
+                self.threat_field *= (1.0 - strength)
+                self.coherence_field = np.clip(self.coherence_field + strength * 0.1, 0, 1)
+
+            elif field_type == 'growth':
+                # Increase soil fertility and value mass
+                if focus_point:
+                    self._imprint_gaussian(self.soil_fertility, focus_point[0], focus_point[1], sigma=radius, amplitude=strength)
+                    self._imprint_gaussian(self.value_mass_field, focus_point[0], focus_point[1], sigma=radius, amplitude=strength)
+                else:
+                    self.soil_fertility = np.clip(self.soil_fertility + strength * 0.05, 0, 1)
+
+            elif field_type == 'entropy_stabilization':
+                # Reduce random fluctuations (not directly modeled, but we can boost 'norms' and 'coherence')
+                self.norms_field = np.clip(self.norms_field + strength * 0.1, 0, 1)
+                self.coherence_field = np.clip(self.coherence_field + strength * 0.1, 0, 1)
+
+            elif field_type == 'awakening':
+                 # Boost 'insight' for all entities slightly
+                 alive_indices = np.where(self.is_alive_mask)[0]
+                 self.insight[alive_indices] += strength * 5.0
+
+            self.logger.info(f"WILL FIELD APPLIED: {field_type} (Strength: {strength:.2f})")
+
+        except Exception as e:
+            self.logger.error(f"Failed to apply Will Field: {e}")
+
     def get_population_summary(self) -> Dict[str, int]:
         """Returns a dictionary with the count of living cells for each label."""
         summary = {}
