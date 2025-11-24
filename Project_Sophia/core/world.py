@@ -192,12 +192,12 @@ class World:
         self._asymptotic_cooldown: int = 0
         # --- Micro-layer controls ---
         self.micro_layer_enabled: bool = False
-        self.micro_tick_interval: int = 50
+        self.micro_tick_interval: int = 100
         self.micro_roi: List[Tuple[int, int, int]] = []
         self.micro_state: Dict[int, Dict[str, float]] = {}
         # --- Band-split fields (low/high frequency) ---
         self.band_split_enabled: bool = False
-        self.band_low_resolution: int = 128  # low-res grid
+        self.band_low_resolution: int = 64  # low-res grid
         self.band_low_decay: float = 0.98
         self.band_high_decay: float = 0.90
         self.band_low_threat = None
