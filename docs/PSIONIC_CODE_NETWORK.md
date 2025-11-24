@@ -64,4 +64,6 @@ python tools/psionic_code_network.py --delta 0.2
 - Fractal+GNN PoC: `tools/fractal_gnn_poc.py` (numpy+networkx로 프랙탈 그래프 생성 → GraphSAGE 스타일 메시지 패싱 → 프랙탈 차원 기반 특징 선택; DOT 출력 옵션).
 - SABBATH_PROTOCOL: `tools/sabbath_protocol.py` (Spiderweb fractional prune + VCD 재각인 훅).
 - 스펙트럼/광자: `Project_Elysia/core/spectrum.py`(값/EFP→색상 매핑), `Project_Elysia/core/photon.py`(hue/intensity/polarization 메시지 엔티티).
-- Photon 메시지: World `_speak`에서 lexicon 이벤트를 색상 기반 Photon으로 로깅(`PHOTON_MESSAGE`).
+- Photon 메시지:
+  - World `_speak`에서 lexicon 이벤트를 색상 기반 Photon으로 로깅(`PHOTON_MESSAGE`).
+  - 주기적 스냅샷: `spectrum_log_interval`마다 value/threat/coherence 피크를 `SPECTRUM_SNAPSHOT`으로 로깅.

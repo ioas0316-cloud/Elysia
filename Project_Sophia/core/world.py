@@ -210,6 +210,8 @@ class World:
         self.entropy_decay: float = 0.995
         self.love_injection_gain: float = 0.05
         self.entropy_field = np.zeros((self.width, self.width), dtype=np.float32)
+        # --- Spectrum snapshot logging ---
+        self.spectrum_log_interval: int = 50
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1102,6 +1104,9 @@ class World:
         self._maybe_trigger_free_will_collapse()
         # Entropy field decay
         self._decay_entropy_field()
+        # Spectrum snapshot logging (value/threat/coherence -> photon)
+        if self.time_step % max(1, self.spectrum_log_interval) == 0:
+            self._log_spectrum_snapshot()
         # Safety rail: prevent runaway threat/energy from collapsing the simulation.
         triggered = self._apply_asymptotic_safety_guard()
         # Apply cooldown smoothing if triggered recently.
@@ -1329,6 +1334,27 @@ class World:
             if self.coherence_field.size:
                 self.coherence_field -= (self.entropy_field * 0.001)
                 np.maximum(self.coherence_field, 0.0, out=self.coherence_field)
+        except Exception:
+            return
+
+    def _log_spectrum_snapshot(self) -> None:
+        """
+        Convert current field peaks into a photon-like snapshot for spectrum-aware monitoring.
+        """
+        try:
+            value_peak = float(self.value_mass_field.max()) if self.value_mass_field.size else 0.0
+            coherence_peak = float(self.coherence_field.max()) if self.coherence_field.size else 0.0
+            threat_peak = float(self.threat_field.max()) if self.threat_field.size else 0.0
+            # Normalize to 0..1 for hue mapping (rough heuristic)
+            norm_value = min(1.0, value_peak / 200.0)
+            hue = value_to_hue(norm_value, value_range=(0.0, 1.0))
+            photon = PhotonEntity(
+                hue=hue,
+                intensity=min(1.0, norm_value),
+                polarization=(0.0, 0.0, 1.0),
+                payload=f"value={value_peak:.2f},coh={coherence_peak:.2f},threat={threat_peak:.2f}",
+            )
+            self.event_logger.log("SPECTRUM_SNAPSHOT", self.time_step, photon=photon.as_dict())
         except Exception:
             return
 
