@@ -212,6 +212,9 @@ class World:
         self.entropy_field = np.zeros((self.width, self.width), dtype=np.float32)
         # --- Spectrum snapshot logging ---
         self.spectrum_log_interval: int = 50
+        # --- Trust scenario (scarcity/cooperation) ---
+        self.trust_scarcity: float = 0.4  # regen per tick
+        self.trust_hunger_drain: float = 0.2
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1104,6 +1107,8 @@ class World:
         self._maybe_trigger_free_will_collapse()
         # Entropy field decay
         self._decay_entropy_field()
+        # Trust/Betrayal dynamics (cooperation incentives under scarcity)
+        self._apply_trust_scenario_tick()
         # Spectrum snapshot logging (value/threat/coherence -> photon)
         if self.time_step % max(1, self.spectrum_log_interval) == 0:
             self._log_spectrum_snapshot()
@@ -1334,6 +1339,87 @@ class World:
             if self.coherence_field.size:
                 self.coherence_field -= (self.entropy_field * 0.001)
                 np.maximum(self.coherence_field, 0.0, out=self.coherence_field)
+        except Exception:
+            return
+
+    def _apply_trust_scenario_tick(self) -> None:
+        """
+        Lightweight trust/betrayal dynamics:
+        - Agents lose hunger, gain scarcity regen.
+        - Random requester/target interaction; share/reciprocate boosts coherence and trust; betrayal drops coherence.
+        Simplified inline version from tools/trust_scenario.
+        """
+        try:
+            if len(self.cell_ids) < 2:
+                return
+            # Hunger drain + scarcity regen
+            self.hunger = np.maximum(0.0, self.hunger - self.trust_hunger_drain)
+            self.hunger = np.minimum(100.0, self.hunger + (self.trust_scarcity * 100.0))
+
+            # Pick two alive agents
+            alive_indices = np.where(self.is_alive_mask)[0]
+            if alive_indices.size < 2:
+                return
+            requester_idx, target_idx = np.random.choice(alive_indices, size=2, replace=False)
+            req_id = self.cell_ids[requester_idx]
+            tgt_id = self.cell_ids[target_idx]
+
+            # Proxy for "food": use hydration as resource
+            req_food = self.hydration[requester_idx]
+            tgt_food = self.hydration[target_idx]
+            need = req_food < 60.0
+            if not need:
+                return
+
+            # Trust proxy: use norms_field at positions if available else baseline
+            trust_level = 0.7
+            try:
+                px = int(self.positions[target_idx, 0]) % self.width
+                py = int(self.positions[target_idx, 1]) % self.width
+                trust_level = min(1.0, max(0.0, float(self.norms_field[py, px])))
+            except Exception:
+                pass
+
+            share_prob = min(1.0, 0.5 + 0.4 * trust_level)
+            share = (np.random.random() < share_prob) and (tgt_food > 20.0)
+
+            if share:
+                amt = min(20.0, tgt_food * 0.5)
+                self.hydration[target_idx] = max(0.0, tgt_food - amt)
+                self.hydration[requester_idx] = min(100.0, req_food + amt)
+
+                repay = np.random.random() < 0.75
+                if repay and self.hydration[requester_idx] > 30.0:
+                    repay_amt = 10.0
+                    self.hydration[requester_idx] = max(0.0, self.hydration[requester_idx] - repay_amt)
+                    self.hydration[target_idx] = min(100.0, self.hydration[target_idx] + repay_amt)
+                    # Coherence boost around both
+                    if self.coherence_field.size:
+                        try:
+                            rx, ry = int(self.positions[requester_idx, 0]), int(self.positions[requester_idx, 1])
+                            tx, ty = int(self.positions[target_idx, 0]), int(self.positions[target_idx, 1])
+                            self.coherence_field[ry % self.width, rx % self.width] += 0.05
+                            self.coherence_field[ty % self.width, tx % self.width] += 0.05
+                        except Exception:
+                            pass
+                else:
+                    # Mild coherence bump for sharing
+                    if self.coherence_field.size:
+                        try:
+                            tx, ty = int(self.positions[target_idx, 0]), int(self.positions[target_idx, 1])
+                            self.coherence_field[ty % self.width, tx % self.width] += 0.02
+                        except Exception:
+                            pass
+            else:
+                # Betrayal: local coherence drop at target
+                if self.coherence_field.size:
+                    try:
+                        tx, ty = int(self.positions[target_idx, 0]), int(self.positions[target_idx, 1])
+                        self.coherence_field[ty % self.width, tx % self.width] = max(
+                            0.0, self.coherence_field[ty % self.width, tx % self.width] - 0.05
+                        )
+                    except Exception:
+                        pass
         except Exception:
             return
 
