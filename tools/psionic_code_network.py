@@ -17,9 +17,10 @@ from __future__ import annotations
 
 import argparse
 import ast
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 # Add project root for relative imports when run as a script
 import sys
@@ -137,7 +138,41 @@ class CallGraphVisitor(ast.NodeVisitor):
         return None
 
 
-def build_psionic_graph(source: str) -> Dict[str, PsionicNode]:
+def load_tag_overrides(path: Optional[Path]) -> Dict[str, Dict[str, str]]:
+    """
+    JSON 형식으로 함수명 → {scale,intent} 매핑을 읽는다.
+    예시:
+    {
+      "core_loop": {"scale": "line", "intent": "law, external"},
+      "transform": {"scale": "plane", "intent": "internal, law"}
+    }
+    """
+    if not path:
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {k: {kk.lower(): vv for kk, vv in v.items()} for k, v in data.items()}
+
+
+def parse_with_override(fn_name: str, doc: Optional[str], overrides: Dict[str, Dict[str, str]]):
+    """
+    태그 우선순위: override JSON > docstring > 기본값
+    """
+    if fn_name in overrides:
+        o = overrides[fn_name]
+        w = SCALE_W.get(o.get("scale", "").strip(), SCALE_W["line"])
+        intents = [p.strip() for p in o.get("intent", "").split(",") if p.strip()]
+        axes = [INTENT_AXIS[i] for i in intents if i in INTENT_AXIS]
+        if not axes:
+            axes = [INTENT_AXIS["law"]]
+        x = sum(a[0] for a in axes) / len(axes)
+        y = sum(a[1] for a in axes) / len(axes)
+        z = sum(a[2] for a in axes) / len(axes)
+        return w, (x, y, z), True
+    w, (x, y, z) = parse_tags(doc)
+    return w, (x, y, z), False
+
+
+def build_psionic_graph(source: str, overrides: Dict[str, Dict[str, str]]) -> Dict[str, PsionicNode]:
     tree = ast.parse(source)
     visitor = CallGraphVisitor()
     visitor.visit(tree)
@@ -146,7 +181,7 @@ def build_psionic_graph(source: str) -> Dict[str, PsionicNode]:
 
     # 함수 노드 구성
     for fn_name, doc in visitor.docstrings.items():
-        w, (x, y, z) = parse_tags(doc)
+        w, (x, y, z), overridden = parse_with_override(fn_name, doc, overrides)
         alpha, beta, gamma, delta = amplitude_from_w(w)
 
         hq = HyperQubit(fn_name, value=f"{fn_name}()")
@@ -163,7 +198,11 @@ def build_psionic_graph(source: str) -> Dict[str, PsionicNode]:
         nodes[fn_name] = PsionicNode(
             name=fn_name,
             qubit=hq,
-            doc_tags={"scale": str(w), "intent_vector": f"{(x, y, z)}"},
+            doc_tags={
+                "scale": str(w),
+                "intent_vector": f"{(x, y, z)}",
+                "source": "override" if overridden else "docstring",
+            },
         )
 
     # 호출 관계 설정
@@ -212,7 +251,7 @@ def summarize(nodes: Dict[str, PsionicNode]) -> str:
             f"- {node.name}: w={node.qubit.state.w:.2f}, "
             f"P/L/S/G=({probs['Point']:.2f},{probs['Line']:.2f},"
             f"{probs['Space']:.2f},{probs['God']:.2f}), "
-            f"calls={sorted(node.calls)}"
+            f"calls={sorted(node.calls)}, source={node.doc_tags.get('source')}"
         )
 
     lines.append("\n[공명 링크]")
@@ -261,6 +300,15 @@ def main():
     parser = argparse.ArgumentParser(description="Psionic Code Network PoC (Hyper-Quaternion 기반)")
     parser.add_argument("paths", nargs="*", help="분석할 Python 파일 경로")
     parser.add_argument("--delta", type=float, default=0.2, help="동기화 강도 (0~1)")
+    parser.add_argument(
+        "--delta-sweep",
+        help="쉼표로 구분된 Δ 값 리스트(예: 0,0.5,1.0). 지정 시 각 Δ에 대한 요약을 출력.",
+    )
+    parser.add_argument(
+        "--tag-file",
+        type=Path,
+        help="JSON 파일 경로. 함수명→{scale,intent} 매핑으로 docstring 대신 태그를 덮어씀.",
+    )
     args = parser.parse_args()
 
     if not args.paths:
@@ -271,14 +319,27 @@ def main():
         source = "\n\n".join(p.read_text(encoding="utf-8") for p in path_list)
         label = ", ".join(str(p) for p in path_list)
 
-    nodes = build_psionic_graph(source)
-    print(f"=== Psionic Graph for {label} ===")
-    print(summarize(nodes))
+    overrides = load_tag_overrides(args.tag_file)
 
-    # 동기화 적용
-    synchronize(nodes, delta_factor=args.delta)
-    print("\n=== Δ 동기화 후 ===")
-    print(summarize(nodes))
+    nodes = build_psionic_graph(source, overrides)
+
+    def run_and_print(delta_values: Iterable[float]):
+        for d in delta_values:
+            # deepcopy 없이 반복 적용하면 누적되므로 복사
+            import copy
+
+            nodes_copy = copy.deepcopy(nodes)
+            print(f"\n=== Psionic Graph for {label} | Δ={d} 전 ===")
+            print(summarize(nodes_copy))
+            synchronize(nodes_copy, delta_factor=d)
+            print(f"\n=== Δ={d} 동기화 후 ===")
+            print(summarize(nodes_copy))
+
+    if args.delta_sweep:
+        sweep = [float(x) for x in args.delta_sweep.split(",") if x.strip() != ""]
+        run_and_print(sweep)
+    else:
+        run_and_print([args.delta])
 
 
 if __name__ == "__main__":
