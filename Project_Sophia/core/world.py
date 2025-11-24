@@ -184,6 +184,10 @@ class World:
         self.asymptotic_threat_cap: float = 50.0  # cap for threat field amplitude
         self.asymptotic_energy_cap: float = 500.0 # cap for per-cell energy/hp mirroring
         self.asymptotic_love_gain: float = 5.0    # coherence/value boost when clamped
+        self.asymptotic_cooldown_ticks: int = 10  # duration of soft damp after clamp
+        self.asymptotic_threat_damp: float = 0.85 # multiplier during cooldown
+        self.asymptotic_coherence_boost: float = 0.5 # per-step boost during cooldown
+        self._asymptotic_cooldown: int = 0
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1071,7 +1075,9 @@ class World:
         self._update_intentional_field()
         self._update_tensor_field()
         # Safety rail: prevent runaway threat/energy from collapsing the simulation.
-        self._apply_asymptotic_safety_guard()
+        triggered = self._apply_asymptotic_safety_guard()
+        # Apply cooldown smoothing if triggered recently.
+        self._apply_asymptotic_cooldown_effects(triggered)
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -1128,14 +1134,14 @@ class World:
 
         return newly_born_cells, awakening_events
 
-    def _apply_asymptotic_safety_guard(self) -> None:
+    def _apply_asymptotic_safety_guard(self) -> bool:
         """
         Asymptotic Safety guard: when threat/energy diverge, clamp to a 'love' fixed point.
         - Threat field clipped to cap; coherence/value_mass nudged upward as stabilizer.
         - Energy (and mirrored HP) clipped softly.
         """
         if not getattr(self, "asymptotic_safety_enabled", True):
-            return
+            return False
 
         try:
             threat_max = float(self.threat_field.max()) if self.threat_field.size else 0.0
@@ -1172,9 +1178,29 @@ class World:
                     self.logger.warning(
                         f"ASYMPTOTIC SAFETY: threat_max={threat_max:.2f}, energy_max={energy_max:.2f} -> clamped to love fixed point."
                     )
+                self._asymptotic_cooldown = max(self._asymptotic_cooldown, self.asymptotic_cooldown_ticks)
+            return triggered
         except Exception:
             # Never let safety guard crash the sim.
+            return False
+
+    def _apply_asymptotic_cooldown_effects(self, triggered: bool) -> None:
+        """
+        After a clamp, gently damp threat and lift coherence/value_mass for a few ticks.
+        """
+        if self._asymptotic_cooldown <= 0:
             return
+        try:
+            if self.threat_field.size:
+                self.threat_field *= float(self.asymptotic_threat_damp)
+            boost = float(self.asymptotic_coherence_boost)
+            if self.coherence_field.size:
+                self.coherence_field = self.coherence_field + boost
+            if self.value_mass_field.size:
+                self.value_mass_field = self.value_mass_field + boost
+            self._asymptotic_cooldown -= 1
+        except Exception:
+            self._asymptotic_cooldown = max(0, self._asymptotic_cooldown - 1)
 
     def _process_neural_intuition(self):
         """

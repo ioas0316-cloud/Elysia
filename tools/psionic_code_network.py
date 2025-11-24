@@ -264,6 +264,48 @@ def summarize(nodes: Dict[str, PsionicNode]) -> str:
 
 # --- CLI ---------------------------------------------------------------------
 
+# --- DOT helpers -------------------------------------------------------------
+
+
+def _w_to_color(w: float) -> str:
+    """
+    Simple blue->purple->gold gradient for DOT rendering.
+    """
+    w = max(0.0, min(3.0, w))
+    t = w / 3.0
+    if t < 0.5:
+        a, b = (80, 120, 255), (200, 120, 220)
+        tt = t / 0.5
+    else:
+        a, b = (200, 120, 220), (235, 200, 80)
+        tt = (t - 0.5) / 0.5
+    c = tuple(int(a[i] + (b[i] - a[i]) * tt) for i in range(3))
+    return f"#{c[0]:02x}{c[1]:02x}{c[2]:02x}"
+
+
+def write_dot(nodes: Dict[str, PsionicNode], path: Path, title: str) -> None:
+    """
+    Emit a DOT file for quick Graphviz rendering.
+    """
+    lines: List[str] = ["digraph Psionic {", f'label="{title}"; labelloc=t; fontsize=20;']
+    for node in nodes.values():
+        probs = node.qubit.state.probabilities()
+        label = (
+            f"{node.name}\\nw={node.qubit.state.w:.2f}"
+            f"\\nP/L/S/G={probs['Point']:.2f}/{probs['Line']:.2f}/"
+            f"{probs['Space']:.2f}/{probs['God']:.2f}"
+        )
+        color = _w_to_color(node.qubit.state.w)
+        lines.append(
+            f'"{node.name}" [label="{label}", style=filled, fillcolor="{color}", fontcolor="black"];'
+        )
+    for node in nodes.values():
+        for callee in node.calls:
+            if callee in nodes:
+                lines.append(f'"{node.name}" -> "{callee}";')
+    lines.append("}")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
 SAMPLE_CODE = """
 def core_loop():
     \"\"\"scale: line
@@ -309,6 +351,11 @@ def main():
         type=Path,
         help="JSON 파일 경로. 함수명→{scale,intent} 매핑으로 docstring 대신 태그를 덮어씀.",
     )
+    parser.add_argument(
+        "--dot-out",
+        type=Path,
+        help="DOT 파일 출력 경로(확장자 .dot 권장). Δ 스윕 시 delta 값이 접미사로 붙음.",
+    )
     args = parser.parse_args()
 
     if not args.paths:
@@ -324,7 +371,8 @@ def main():
     nodes = build_psionic_graph(source, overrides)
 
     def run_and_print(delta_values: Iterable[float]):
-        for d in delta_values:
+        sweep_list = list(delta_values)
+        for d in sweep_list:
             # deepcopy 없이 반복 적용하면 누적되므로 복사
             import copy
 
@@ -334,6 +382,12 @@ def main():
             synchronize(nodes_copy, delta_factor=d)
             print(f"\n=== Δ={d} 동기화 후 ===")
             print(summarize(nodes_copy))
+            if args.dot_out:
+                suffix = f"_delta{d}".replace(".", "_")
+                out_path = args.dot_out
+                if len(sweep_list) > 1:
+                    out_path = out_path.with_name(out_path.stem + suffix + out_path.suffix)
+                write_dot(nodes_copy, out_path, f"{label} Δ={d}")
 
     if args.delta_sweep:
         sweep = [float(x) for x in args.delta_sweep.split(",") if x.strip() != ""]
