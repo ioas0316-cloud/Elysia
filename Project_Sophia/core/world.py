@@ -200,6 +200,10 @@ class World:
         self.band_high_decay: float = 0.90
         self.band_low_threat = None
         self.band_high_threat = None
+        # --- Free-will collapse triggers ---
+        self.free_will_threat_threshold: float = 80.0
+        self.free_will_value_threshold: float = 120.0
+        self.last_free_will_collapse: Optional[Dict[str, float]] = None
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1088,6 +1092,8 @@ class World:
         self._update_tensor_field()
         # Band-split refinement
         self._update_band_split_fields()
+        # Free-will collapse trigger based on threat/value peaks
+        self._maybe_trigger_free_will_collapse()
         # Safety rail: prevent runaway threat/energy from collapsing the simulation.
         triggered = self._apply_asymptotic_safety_guard()
         # Apply cooldown smoothing if triggered recently.
@@ -1267,6 +1273,39 @@ class World:
             self.band_high_threat = (self.band_high_threat * self.band_high_decay) + (residual * (1.0 - self.band_high_decay))
         except Exception:
             # If anything fails, keep threat_field as-is
+            return
+
+    def _maybe_trigger_free_will_collapse(self) -> None:
+        """
+        Trigger a 'free-will' collapse event if threat/value peaks exceed thresholds.
+        Logs the event; downstream consumers can hook this to drive HyperQubit collapse/decisions.
+        """
+        try:
+            threat_peak = float(self.threat_field.max()) if self.threat_field.size else 0.0
+            value_peak = float(self.value_mass_field.max()) if self.value_mass_field.size else 0.0
+            triggered = False
+            reason = []
+            if threat_peak >= self.free_will_threat_threshold:
+                triggered = True
+                reason.append("threat")
+            if value_peak >= self.free_will_value_threshold:
+                triggered = True
+                reason.append("value")
+
+            if triggered:
+                payload = {
+                    "time_step": self.time_step,
+                    "threat_peak": threat_peak,
+                    "value_peak": value_peak,
+                    "reason": ",".join(reason),
+                }
+                self.last_free_will_collapse = payload
+                self.event_logger.log("FREE_WILL_COLLAPSE", self.time_step, **payload)
+                if self.logger:
+                    self.logger.warning(
+                        f"FREE_WILL_COLLAPSE: reason={payload['reason']} threat={threat_peak:.2f} value={value_peak:.2f}"
+                    )
+        except Exception:
             return
 
     # --- Micro-layer (ROI-limited) scaffolding -------------------------------

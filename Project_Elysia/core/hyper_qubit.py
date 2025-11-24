@@ -232,6 +232,34 @@ class HyperQubit:
         self.state.w = 3.0
         self.state.normalize()
 
+    def collapse(self, mode: str = "max", reason: Optional[str] = None) -> str:
+        """
+        Collapse the superposition to a single basis.
+        - mode='max': choose the basis with the highest probability.
+        - mode='random': sample by probability.
+        Returns the collapsed basis name.
+        """
+        probs = self.state.probabilities()
+        bases = ["Point", "Line", "Space", "God"]
+        weights = [probs["Point"], probs["Line"], probs["Space"], probs["God"]]
+        if mode == "random":
+            choice = random.choices(bases, weights=weights, k=1)[0]
+        else:
+            choice = max(bases, key=lambda b: probs[b])
+
+        # Collapse: set chosen amplitude to 1, others 0
+        if choice == "Point":
+            self.state.alpha, self.state.beta, self.state.gamma, self.state.delta = 1.0, 0.0, 0.0, 0.0
+        elif choice == "Line":
+            self.state.alpha, self.state.beta, self.state.gamma, self.state.delta = 0.0, 1.0, 0.0, 0.0
+        elif choice == "Space":
+            self.state.alpha, self.state.beta, self.state.gamma, self.state.delta = 0.0, 0.0, 1.0, 0.0
+        else:
+            self.state.alpha, self.state.beta, self.state.gamma, self.state.delta = 0.0, 0.0, 0.0, 1.0
+        self.state.normalize()
+        self._value = self.content.get(choice, self._value)
+        return choice
+
     def __repr__(self) -> str:  # pragma: no cover - representation only
         probs = self.state.probabilities()
         return (
