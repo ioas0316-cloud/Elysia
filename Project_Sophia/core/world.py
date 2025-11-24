@@ -178,6 +178,12 @@ class World:
         # and emit soft, narrative-scale events (war eras, famine, bounty, disasters,
         # omens) as logs/flags. Default is False so unit tests remain untouched.
         self.enable_macro_disaster_events: bool = False
+        # --- Asymptotic Safety (Love Fixed Point) ---
+        # If systemic energies/threats explode, clamp to a "safe" fixed point.
+        self.asymptotic_safety_enabled: bool = True
+        self.asymptotic_threat_cap: float = 50.0  # cap for threat field amplitude
+        self.asymptotic_energy_cap: float = 500.0 # cap for per-cell energy/hp mirroring
+        self.asymptotic_love_gain: float = 5.0    # coherence/value boost when clamped
 
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
@@ -1064,6 +1070,8 @@ class World:
         self._update_coherence_field()
         self._update_intentional_field()
         self._update_tensor_field()
+        # Safety rail: prevent runaway threat/energy from collapsing the simulation.
+        self._apply_asymptotic_safety_guard()
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
@@ -1119,6 +1127,54 @@ class World:
             pass
 
         return newly_born_cells, awakening_events
+
+    def _apply_asymptotic_safety_guard(self) -> None:
+        """
+        Asymptotic Safety guard: when threat/energy diverge, clamp to a 'love' fixed point.
+        - Threat field clipped to cap; coherence/value_mass nudged upward as stabilizer.
+        - Energy (and mirrored HP) clipped softly.
+        """
+        if not getattr(self, "asymptotic_safety_enabled", True):
+            return
+
+        try:
+            threat_max = float(self.threat_field.max()) if self.threat_field.size else 0.0
+            energy_max = float(self.energy.max()) if self.energy.size else 0.0
+            triggered = False
+
+            if threat_max > self.asymptotic_threat_cap:
+                self.threat_field = np.clip(self.threat_field, 0.0, self.asymptotic_threat_cap)
+                # Love/coherence injection proportional to overshoot (softened).
+                bleed = (threat_max - self.asymptotic_threat_cap) * 0.02
+                if self.coherence_field.size:
+                    self.coherence_field = self.coherence_field + bleed
+                if self.value_mass_field.size:
+                    self.value_mass_field = self.value_mass_field + bleed
+                triggered = True
+
+            if energy_max > self.asymptotic_energy_cap and self.energy.size:
+                self.energy = np.minimum(self.energy, self.asymptotic_energy_cap)
+                # Mirror into HP to keep body/energy consistent
+                if self.hp.size:
+                    self.hp = np.minimum(self.hp, self.asymptotic_energy_cap)
+                triggered = True
+
+            if triggered:
+                self.event_logger.log(
+                    "ASYMPTOTIC_SAFETY",
+                    self.time_step,
+                    threat_max=threat_max,
+                    energy_max=energy_max,
+                    cap_threat=self.asymptotic_threat_cap,
+                    cap_energy=self.asymptotic_energy_cap,
+                )
+                if self.logger:
+                    self.logger.warning(
+                        f"ASYMPTOTIC SAFETY: threat_max={threat_max:.2f}, energy_max={energy_max:.2f} -> clamped to love fixed point."
+                    )
+        except Exception:
+            # Never let safety guard crash the sim.
+            return
 
     def _process_neural_intuition(self):
         """
