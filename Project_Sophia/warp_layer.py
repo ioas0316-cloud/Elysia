@@ -61,8 +61,12 @@ class WarpLayer:
             z = w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2
             return np.stack([w, x, y, z], axis=1)
 
-        rotated = mul(mul(np.broadcast_to(q.elements, vec_quat.shape), vec_quat),
-        rotated = mul(rotated, np.broadcast_to(q_conj.elements, vec_quat.shape))
+        if vec_quat.size == 0:
+            return vectors
+
+        q_arr = np.broadcast_to(q.elements, vec_quat.shape)
+        q_conj_arr = np.broadcast_to(q_conj.elements, vec_quat.shape)
+        rotated = mul(mul(q_arr, vec_quat), q_conj_arr)
         # Result quaternion has zero scalar part; extract vector part.
         return rotated[:, 1:]
 

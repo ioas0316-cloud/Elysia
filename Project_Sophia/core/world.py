@@ -3,8 +3,11 @@ from __future__ import annotations
 
 import random
 import logging
+from collections import defaultdict
 from dataclasses import dataclass
 from typing import List, Dict, Optional, Tuple, Callable, NamedTuple
+import json
+import os
 
 from pyquaternion import Quaternion
 
@@ -116,6 +119,14 @@ class World:
         self.time_step = 0
         self.logger = logger or logging.getLogger(__name__)
 
+        # Language memetics (simple pattern weighting)
+        self.meme_bank = defaultdict(float)  # key: (speech_act, obj) -> weight
+
+        # Gravity pulse (pressure cooker) controls
+        self.gravity_pulse_period = 200         # ticks per full cycle (crunch + release)
+        self.gravity_pulse_on_duration = 100    # ticks the pulse is active (crunch)
+        self.gravity_pulse_strength = 80.0      # pull magnitude toward the center
+
         # --- Martial Arts / Spells ---
         self.martial_styles = MARTIAL_STYLES
         self.spells = SPELL_BOOK
@@ -201,6 +212,9 @@ class World:
         self.hydration = np.array([], dtype=np.float32)
         self.temperature = np.array([], dtype=np.float32)
         self.satisfaction = np.array([], dtype=np.float32)
+        # Simple economy signals
+        self.wealth = np.array([], dtype=np.float32)
+        self.prestige = np.array([], dtype=np.float32)
 
 
         # --- General Simulation Attributes ---
@@ -283,6 +297,9 @@ class World:
         self._threat_decay = 0.92  # memory of threat (EMA)
         self._threat_sigma = 7.0   # spatial spread of threat influence (grid units)
         self._threat_gain = 1.0    # base contribution gain
+        # Fast-path diffusion toggle: when True, uses a single gaussian_filter over
+        # a weighted predator presence map instead of per-predator kernel stamping.
+        self.use_fast_field_diffusion: bool = True
         self._cohesion_gain = 0.08 # social cohesion gain toward allies
         # EM field dynamics and coupling (defaults preserve behavior: weights=0)
         self._em_decay = 0.92
@@ -432,6 +449,8 @@ class World:
         self.gustatory_imbue = np.pad(self.gustatory_imbue, (0, new_size - current_size), 'constant')
         self.olfactory_sensitivity = np.pad(self.olfactory_sensitivity, (0, new_size - current_size), 'constant')
         self.tactile_feedback = np.pad(self.tactile_feedback, (0, new_size - current_size), 'constant')
+        self.wealth = np.pad(self.wealth, (0, new_size - current_size), 'constant', constant_values=0.0)
+        self.prestige = np.pad(self.prestige, (0, new_size - current_size), 'constant', constant_values=0.0)
 
 
         # --- Civilization Attributes ---
@@ -643,11 +662,28 @@ class World:
 
         # --- Initialize Game System Stats ---
         # Base stats are set first
-        self.strength[idx] = properties.get('strength', 5)
-        self.agility[idx] = properties.get('agility', 5)
-        self.intelligence[idx] = properties.get('intelligence', 5)
-        self.vitality[idx] = properties.get('vitality', 5)
-        self.wisdom[idx] = properties.get('wisdom', 5)
+        base_str = properties.get('strength', 5)
+        base_agi = properties.get('agility', 5)
+        base_int = properties.get('intelligence', 5)
+        base_vit = properties.get('vitality', 5)
+        base_wis = properties.get('wisdom', 5)
+        gender = properties.get('gender', self.genders[idx] if idx < len(self.genders) else '')
+        # Simple gender tilt: males lean physical, females lean sustain/social
+        if gender == 'male':
+            base_str += 2
+            base_vit += 1
+        elif gender == 'female':
+            base_wis += 2
+            base_int += 1
+
+        self.strength[idx] = base_str
+        self.agility[idx] = base_agi
+        self.intelligence[idx] = base_int
+        self.vitality[idx] = base_vit
+        self.wisdom[idx] = base_wis
+        # Economy seeds
+        self.wealth[idx] = float(properties.get('wealth', random.uniform(5.0, 15.0)))
+        self.prestige[idx] = float(properties.get('prestige', random.uniform(0.0, 2.0)))
 
         # Derived stats (HP/Ki/Mana/Faith) are calculated from base stats
         self.max_hp[idx] = self.vitality[idx] * 10
@@ -727,25 +763,28 @@ class World:
             self.genders[idx] = ''
             self.labels[idx] = concept_id
 
-        # --- Lifespan selection (years -> ticks) based on label/type ---
-        def _lifespan_years(label: str, element_type: str) -> int:
+        # --- Lifespan selection (years -> ticks) based on label/type + external (mana/ki/faith) bonus ---
+        def _lifespan_years(label: str, element_type: str) -> float:
             label = (label or '').lower()
-            if label == 'human':
-                # Shorten human lifespan in simulation years so that
-                # generational and civilization-scale change is visible
-                # within a reasonable number of ticks.
-                return random.randint(25, 40)
-            if label in ('wolf', 'deer'):
-                return random.randint(8, 16)
-            if label in ('tree',):
-                return random.randint(50, 200)
-            if label in ('bush', 'plant'):
-                return random.randint(3, 12)
-            if element_type == 'animal':
-                return random.randint(6, 20)
-            if element_type == 'life':
-                return random.randint(5, 30)
-            return random.randint(40, 100)
+            if label in ('human', 'villager', 'monk', 'knight', 'wizard', 'mage', 'cleric', 'priest', 'warrior'):
+                base = random.randint(70, 90)
+            elif label in ('wolf', 'deer'):
+                base = random.randint(12, 20)
+            elif label in ('tree',):
+                base = random.randint(80, 200)
+            elif label in ('bush', 'plant'):
+                base = random.randint(5, 15)
+            elif element_type == 'animal':
+                base = random.randint(18, 30)
+            elif element_type == 'life':
+                base = random.randint(8, 40)
+            else:
+                base = random.randint(60, 120)
+
+            # External power bonus (mana/ki/faith) extends lifespan slightly.
+            ext_power = float(self.max_mana[idx] + self.max_ki[idx] + self.max_faith[idx])
+            bonus = min(20.0, ext_power / 30.0)
+            return base + bonus
 
         current_label = self.labels[idx] if self.labels[idx] else properties.get('label', concept_id)
         current_type = self.element_types[idx]
@@ -762,6 +801,11 @@ class World:
                 # Fallback: keep default 0 if parsing fails.
                 pass
 
+
+        # Avoid instant old-age deaths when seeded age exceeds sampled lifespan.
+        if self.age[idx] >= self.max_age[idx]:
+            safety_pad = max(self._year_length_ticks(), int(5 * self._year_length_ticks()))
+            self.max_age[idx] = int(self.age[idx] + safety_pad)
         # --- Final Override ---
         # Ensure that properties passed directly to add_cell take ultimate precedence,
         # especially for controlled setups like genesis_simulator.
@@ -957,6 +1001,19 @@ class World:
 
         # Update passive resources (MP regen, hunger, starvation)
         self._update_passive_resources()
+        # Survival pain/drive signals (hunger, isolation)
+        self._apply_survival_pain()
+        # Cold world: body-heat law (forces clustering for survival)
+        self._apply_body_heat_law()
+        # Gravity pulse: periodically crunch everyone toward the center to force encounters.
+        self._apply_gravity_pulse()
+        # Elders teach nearby youngsters (knowledge transfer)
+        self._apply_teaching()
+        # Light economy/authority loop (trade/tribute)
+        self._apply_economy()
+        # Keep connection graph light to avoid combinatorial explosion
+        if self.time_step % 10 == 0:
+            self._prune_connections()
 
         # Macro-scale narrative/disaster hooks (war/famine/bounty/plague/storm/omens).
         # These are soft, opt-in overlays driven by macro_* attributes and do not
@@ -1551,6 +1608,49 @@ class World:
         except Exception:
             pass
 
+    def imprint_spiral_coil_field(self, center_x: int = 128, center_y: int = 128, radius: float = 80.0, turns: float = 3.0, strength: float = 1.0) -> None:
+        """
+        텐서 코일 감각의 나선 흐름을 의도/가치/의지 필드에 한 번에 인프린트한다.
+        흐름 위에 올라타기만 하면 되도록 vector field(의도)와 scalar field(가치/의지)를 동시에 깐다.
+        """
+        rad = max(1.0, float(radius))
+        width = self.width
+        xs = np.arange(width, dtype=np.float32)
+        ys = np.arange(width, dtype=np.float32)
+        gx, gy = np.meshgrid(xs, ys)
+        dx = gx - float(center_x)
+        dy = gy - float(center_y)
+        r = np.sqrt(dx * dx + dy * dy) + 1e-6
+
+        # Spiral phase grows with radius; arctan2 anchors direction.
+        phase = (turns * (r / rad) * 2.0 * np.pi) + np.arctan2(dy, dx)
+        vx = -np.sin(phase)  # tangential component
+        vy = np.cos(phase)
+
+        # Soft falloff so 코일 가장자리가 부드럽게 사라짐.
+        decay = np.clip(1.0 - (r / rad), 0.0, 1.0) ** 1.5
+        amp = (strength * decay).astype(np.float32)
+        mask = (r <= rad)
+        amp_mask = amp * mask
+
+        # Intentional vector field gains a swirl; agents 샘플 후 그대로 이동.
+        self.intentional_field[..., 0] += (vx * amp_mask).astype(np.float32)
+        self.intentional_field[..., 1] += (vy * amp_mask).astype(np.float32)
+
+        # Scalar carriers: value/will/coherence boosted along the coil.
+        self.value_mass_field += amp_mask * 0.6
+        self.will_field += amp_mask * 0.4
+        self.coherence_field = (self._coh_alpha * self.coherence_field) + ((1.0 - self._coh_alpha) * amp_mask)
+
+        try:
+            self.event_logger.log(
+                "SCENE_SPIRAL_COIL",
+                self.time_step,
+                params={"center_x": center_x, "center_y": center_y, "radius": rad, "turns": turns, "strength": strength},
+            )
+        except Exception:
+            pass
+
     def _update_passive_resources(self):
         """Updates passive resource changes for all living cells (Ki, Mana, Hunger, HP).
 
@@ -1574,10 +1674,8 @@ class World:
             # In peaceful ecology tests, hunger still moves but more slowly.
             self.hunger[self.is_alive_mask] = np.maximum(0, self.hunger[self.is_alive_mask] - 0.05)
         else:
-            # Default law for production worlds (aligned with unit tests).
-            # Hunger depletion is 0.5 per step so that a cell starting at 1.0
-            # reaches 0 after two steps in non‑peaceful mode.
-            self.hunger[self.is_alive_mask] = np.maximum(0, self.hunger[self.is_alive_mask] - 0.5)
+            # Softer baseline depletion to allow time for growth/reproduction (further relaxed).
+            self.hunger[self.is_alive_mask] = np.maximum(0, self.hunger[self.is_alive_mask] - 0.15)
 
         # --- Starvation ---
         # If hunger is 0, the cell starts losing HP.
@@ -1595,14 +1693,13 @@ class World:
         if self.peaceful_mode:
             self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.1)
         else:
-            # Water loss is still faster than food, but reduced so that cells do not
-            # instantly die in sparse-resource worlds.
-            self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.3)
+            # Softer baseline water loss (further relaxed).
+            self.hydration[self.is_alive_mask] = np.maximum(0, self.hydration[self.is_alive_mask] - 0.1)
 
         # --- Dehydration ---
         if not self.peaceful_mode:
             dehydration_mask = self.is_alive_mask & (self.hydration <= 0)
-            self.hp[dehydration_mask] -= 1.0  # gentler penalty for dehydration
+            self.hp[dehydration_mask] -= 0.5  # lighter penalty
 
         # --- Macro-scale nourishment (optional) ---
         # Used only when macro_food_model_enabled is True to approximate a world
@@ -1643,6 +1740,352 @@ class World:
             dy = int(self.positions[idx, 1]) % self.width
             self._imprint_gaussian(self.h_imprint, dx, dy, sigma=self._h_sigma, amplitude=0.6)
 
+    def _apply_survival_pain(self) -> None:
+        """Inject pain signals: hunger drives aggression, isolation erodes will."""
+        if len(self.cell_ids) == 0:
+            return
+        alive_idx = np.where(self.is_alive_mask)[0]
+        if alive_idx.size == 0:
+            return
+
+        # Hunger pain: low hunger reduces coherence and boosts threat imprint around self.
+        low_hunger = alive_idx[self.hunger[alive_idx] < 40]
+        if low_hunger.size > 0:
+            px = np.clip(self.positions[low_hunger, 0].astype(np.int32), 0, self.width - 1)
+            py = np.clip(self.positions[low_hunger, 1].astype(np.int32), 0, self.width - 1)
+            try:
+                self.coherence_field[py, px] *= 0.7
+                self.threat_field[py, px] += 0.6
+            except Exception:
+                pass
+
+    def _apply_body_heat_law(self) -> None:
+        """
+        Cold-world rule: alone = freeze (burn resources fast), together = share heat/heal.
+        This nudges emergent clustering/cooperation without hard alliances.
+        """
+        if len(self.cell_ids) == 0:
+            return
+        alive_idx = np.where(self.is_alive_mask)[0]
+        if alive_idx.size == 0:
+            return
+
+        # Bin positions to avoid O(N^2) neighbor search.
+        pos = self.positions[alive_idx, :2]
+        cell_size = 8.0
+        bins = np.floor(pos / cell_size).astype(int)
+        bucket = defaultdict(list)
+        for local_i, b in enumerate(bins):
+            bucket[(b[0], b[1])].append(local_i)
+
+        neighbor_counts = np.zeros(alive_idx.size, dtype=np.int32)
+        for key, lst in bucket.items():
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    nb = bucket.get((key[0] + dx, key[1] + dy))
+                    if nb:
+                        for idx in lst:
+                            neighbor_counts[idx] += len(nb)
+            # remove self counts
+            neighbor_counts[lst] -= 1
+
+        # Alone or paired: burn through hunger/hydration (freeze)
+        solitary_mask = neighbor_counts < 2
+        if np.any(solitary_mask):
+            idx_sol = alive_idx[solitary_mask]
+            self.hunger[idx_sol] = np.maximum(0.0, self.hunger[idx_sol] - 3.0)
+            self.hydration[idx_sol] = np.maximum(0.0, self.hydration[idx_sol] - 2.0)
+            # Coherence drops in the cold
+            try:
+                px = np.clip(self.positions[idx_sol, 0].astype(np.int32), 0, self.width - 1)
+                py = np.clip(self.positions[idx_sol, 1].astype(np.int32), 0, self.width - 1)
+                self.coherence_field[py, px] *= 0.8
+            except Exception:
+                pass
+
+    def _apply_gravity_pulse(self) -> None:
+        """
+        Pressure-cooker gravity: every cycle, yank everyone toward the center for a short burst
+        to spike interaction density (crunch), then release.
+        """
+        if len(self.cell_ids) == 0:
+            return
+        if self.gravity_pulse_period <= 0 or self.gravity_pulse_strength <= 0:
+            return
+        phase = self.time_step % self.gravity_pulse_period
+        if phase >= self.gravity_pulse_on_duration:
+            return  # release phase
+
+        alive_idx = np.where(self.is_alive_mask)[0]
+        if alive_idx.size == 0:
+            return
+
+        center = np.array([self.width * 0.5, self.width * 0.5], dtype=np.float32)
+        pos = self.positions[alive_idx, :2]
+        vec = center - pos
+        dist = np.linalg.norm(vec, axis=1) + 1e-3
+        direction = vec / dist[:, None]
+        # Strong pull that softens with distance to avoid infinite jumps
+        pull = (self.gravity_pulse_strength / np.maximum(1.0, np.sqrt(dist)))[:, None]
+        delta = direction * pull * 0.2  # scaled step toward center
+        self.positions[alive_idx, :2] += delta
+        # Clamp to world bounds
+        self.positions[alive_idx, 0] = np.clip(self.positions[alive_idx, 0], 0, self.width - 1)
+        self.positions[alive_idx, 1] = np.clip(self.positions[alive_idx, 1], 0, self.width - 1)
+
+        # Log only at the start of a crunch to avoid log spam
+        if phase == 0:
+            try:
+                self.event_logger.log('GRAVITY_PULSE', self.time_step,
+                                      phase=phase, strength=float(self.gravity_pulse_strength))
+            except Exception:
+                pass
+
+    def _apply_teaching(self) -> None:
+        """
+        Elders share knowledge with nearby young of the same species.
+        Light-touch: no hard rules, just small boosts to insight/wisdom/satisfaction.
+        """
+        if len(self.cell_ids) == 0 or self.time_step % 5 != 0:
+            return
+        alive_idx = np.where(self.is_alive_mask)[0]
+        if alive_idx.size == 0:
+            return
+
+        year_ticks = float(max(1, self._year_length_ticks()))
+        ages_years = self.age[alive_idx] / year_ticks
+        max_age_years = np.maximum(1.0, self.max_age[alive_idx] / year_ticks)
+
+        elder_mask = (ages_years >= 0.4 * max_age_years) | (self.wisdom[alive_idx] >= 12)
+        child_mask = ages_years <= (0.25 * max_age_years)
+
+        elder_indices = alive_idx[elder_mask]
+        child_indices = alive_idx[child_mask]
+        if elder_indices.size == 0 or child_indices.size == 0:
+            return
+
+        # Spatial bucketing for proximity search
+        pos = self.positions[alive_idx, :2]
+        cell_size = 10.0
+        bins = np.floor(pos / cell_size).astype(int)
+        bucket = defaultdict(list)
+        for local_i, b in enumerate(bins):
+            bucket[(b[0], b[1])].append(local_i)
+
+        # Limit processing to avoid O(N^2)
+        max_children = min(len(child_indices), 64)
+        child_indices = child_indices if len(child_indices) <= max_children else np.random.choice(child_indices, size=max_children, replace=False)
+
+        radius2 = 12.0 ** 2
+        labels_arr = self.labels
+        for child_idx in child_indices:
+            if not self.is_alive_mask[child_idx]:
+                continue
+            child_label = (labels_arr[child_idx] or "").lower()
+            cx, cy = self.positions[child_idx, 0], self.positions[child_idx, 1]
+            bx, by = int(np.floor(cx / cell_size)), int(np.floor(cy / cell_size))
+
+            teacher_found = False
+            teacher_idx = None
+            teacher_age_years = 0.0
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    nb = bucket.get((bx + dx, by + dy))
+                    if not nb:
+                        continue
+                    for local_i in nb:
+                        global_idx = alive_idx[local_i]
+                        if global_idx == child_idx:
+                            continue
+                        if not elder_mask[local_i]:
+                            continue
+                        if child_label and (labels_arr[global_idx] or "").lower() != child_label:
+                            continue
+                        dxp = self.positions[global_idx, 0] - cx
+                        dyp = self.positions[global_idx, 1] - cy
+                        if (dxp * dxp + dyp * dyp) <= radius2:
+                            teacher_found = True
+                            teacher_idx = global_idx
+                            teacher_age_years = ages_years[local_i] if local_i < ages_years.shape[0] else 0.0
+                            break
+                if teacher_found:
+                    break
+
+        if teacher_found and teacher_idx is not None:
+            # Apply knowledge transfer with elder bonus (age + wisdom)
+            try:
+                teacher_mask = (alive_idx == teacher_idx)
+                teacher_max_age_years = float(max_age_years[teacher_mask][0]) if np.any(teacher_mask) else float(np.mean(max_age_years))
+            except Exception:
+                teacher_max_age_years = float(np.mean(max_age_years))
+            teacher_age_frac = teacher_age_years / max(1e-6, teacher_max_age_years)
+            teacher_wis = float(self.wisdom[teacher_idx])
+            teacher_bonus = 1.0 + min(2.0, teacher_age_frac * 2.0 + (teacher_wis / 50.0))
+
+            self.insight[child_idx] += 0.8 * teacher_bonus
+            self.wisdom[child_idx] = min(200, self.wisdom[child_idx] + 2 * teacher_bonus)
+            self.satisfaction[child_idx] = min(100.0, self.satisfaction[child_idx] + 1.5 * teacher_bonus)
+            self.emotions[child_idx] = 'joy'
+
+            try:
+                self.event_logger.log(
+                    "TEACH",
+                    self.time_step,
+                    teacher_id=self.cell_ids[teacher_idx],
+                    student_id=self.cell_ids[child_idx],
+                    kind="general",
+                    bonus=teacher_bonus,
+                )
+            except Exception:
+                pass
+
+    def _apply_economy(self) -> None:
+        """
+        Simple wealth/prestige dynamics:
+        - Trade/gift: rich -> poor nearby, prestige gains to giver.
+        - Tribute: low-prestige pays nearby high-prestige leader.
+        """
+        if len(self.cell_ids) == 0 or self.time_step % 5 != 0:
+            return
+        alive_idx = np.where(self.is_alive_mask)[0]
+        if alive_idx.size == 0:
+            return
+
+        pos = self.positions[alive_idx, :2]
+        cell_size = 10.0
+        bins = np.floor(pos / cell_size).astype(int)
+        bucket = defaultdict(list)
+        for local_i, b in enumerate(bins):
+            bucket[(b[0], b[1])].append(local_i)
+
+        for key, lst in bucket.items():
+            if len(lst) < 2:
+                continue
+            local_indices = np.array(lst, dtype=int)
+            global_indices = alive_idx[local_indices]
+            local_wealth = self.wealth[global_indices]
+            local_prestige = self.prestige[global_indices]
+
+            # Trade/gift: richest to poorest
+            rich_local = int(np.argmax(local_wealth))
+            poor_local = int(np.argmin(local_wealth))
+            if local_wealth[rich_local] - local_wealth[poor_local] > 4.0:
+                amt = min(6.0, (local_wealth[rich_local] - local_wealth[poor_local]) * 0.6)
+                giver = global_indices[rich_local]
+                taker = global_indices[poor_local]
+                self.wealth[giver] -= amt
+                self.wealth[taker] += amt
+                self.prestige[giver] += 0.5
+                self.satisfaction[taker] = np.minimum(100.0, self.satisfaction[taker] + 2.0)
+                try:
+                    self.event_logger.log('TRADE', self.time_step,
+                                          actor_id=self.cell_ids[giver],
+                                          target_id=self.cell_ids[taker],
+                                          amount=float(amt))
+                except Exception:
+                    pass
+
+            # Tribute: low prestige pays local leader
+            leader_local = int(np.argmax(local_prestige))
+            follower_local = int(np.argmin(local_prestige))
+            if local_prestige[leader_local] - local_prestige[follower_local] > 3.0 and self.wealth[global_indices[follower_local]] > 1.0:
+                amt = min(4.0, self.wealth[global_indices[follower_local]] * 0.5)
+                payer = global_indices[follower_local]
+                leader = global_indices[leader_local]
+                self.wealth[payer] -= amt
+                self.wealth[leader] += amt
+                self.prestige[leader] += 0.3
+                self.satisfaction[payer] = np.maximum(0.0, self.satisfaction[payer] - 1.0)
+                try:
+                    self.event_logger.log('TRIBUTE', self.time_step,
+                                          payer_id=self.cell_ids[payer],
+                                          leader_id=self.cell_ids[leader],
+                                          amount=float(amt))
+                except Exception:
+                    pass
+
+    def _prune_connections(self, weight_threshold: float = 0.2, max_degree: int = 64) -> None:
+        """Drop weak/low-value edges and cap per-node degree to keep graph light."""
+        try:
+            lil = self.adjacency_matrix.tolil()
+            rows = lil.rows
+            data = lil.data
+            for i in range(len(rows)):
+                if not rows[i]:
+                    continue
+                filtered = [(c, w) for c, w in zip(rows[i], data[i]) if w >= weight_threshold]
+                if not filtered:
+                    rows[i] = []
+                    data[i] = []
+                    continue
+                filtered.sort(key=lambda item: item[1], reverse=True)
+                filtered = filtered[:max_degree]
+                rows[i] = [c for c, _ in filtered]
+                data[i] = [w for _, w in filtered]
+            self.adjacency_matrix = lil
+        except Exception:
+            # If pruning fails, do nothing to avoid breaking the sim.
+            pass
+
+    def harvest_snapshot(self, out_path: str = "logs/harvest_snapshot.json", max_edges: int = 5000) -> None:
+        """
+        Export a lightweight snapshot of surviving nodes/edges for long-term memory.
+        Captures population summary and key stats; edges are truncated for size.
+        """
+        try:
+            os.makedirs(os.path.dirname(out_path), exist_ok=True)
+            alive_idx = np.where(self.is_alive_mask)[0]
+            nodes = []
+            for i in alive_idx:
+                year_ticks = float(max(1, self._year_length_ticks()))
+                nodes.append({
+                    "id": self.cell_ids[i],
+                    "label": self.labels[i],
+                    "culture": self.culture[i] if i < len(self.culture) else "",
+                    "gender": self.genders[i] if i < len(self.genders) else "",
+                    "age_years": float(self.age[i] / year_ticks),
+                    "hp": float(self.hp[i]),
+                    "max_hp": float(self.max_hp[i]),
+                    "hunger": float(self.hunger[i]),
+                    "hydration": float(self.hydration[i]),
+                    "wisdom": float(self.wisdom[i]),
+                    "insight": float(self.insight[i]),
+                    "position": {
+                        "x": float(self.positions[i, 0]),
+                        "y": float(self.positions[i, 1]),
+                        "z": float(self.positions[i, 2]),
+                    },
+                })
+
+            edges = []
+            coo = self.adjacency_matrix.tocoo()
+            for s, t, w in zip(coo.row, coo.col, coo.data):
+                if s == t or w <= 0:
+                    continue
+                edges.append({
+                    "source": self.cell_ids[s],
+                    "target": self.cell_ids[t],
+                    "weight": float(w),
+                })
+                if len(edges) >= max_edges:
+                    break
+
+            summary = {
+                "time_step": int(self.time_step),
+                "alive_count": int(alive_idx.size),
+                "nodes": nodes,
+                "edges": edges,
+            }
+            with open(out_path, "w", encoding="utf-8") as f:
+                json.dump(summary, f, ensure_ascii=False)
+        except Exception as e:
+            # Harvest should never crash the sim
+            try:
+                logging.getLogger(__name__).error(f"Harvest failed: {e}")
+            except Exception:
+                pass
+
+
     def _update_emergent_fields(self):
         """Updates soft fields (e.g., threat) from distributed sources.
         The field is not a command; it is a context carrier that agents can sense.
@@ -1662,24 +2105,42 @@ class World:
         # Build a fresh threat imprint from predators and historical dangers
         new_threat = np.zeros_like(self.threat_field)
         try:
-            # Source 1: Predators
+            # Source 1: Predators -> weighted presence map (vectorized)
             predator_mask = (self.element_types == 'animal') & (self.diets == 'carnivore') & self.is_alive_mask
             predator_indices = np.where(predator_mask)[0]
             if predator_indices.size > 0:
-                sigma = self._threat_sigma
-                rad = int(max(2, sigma * 3))
-                for i in predator_indices:
-                    px, py = int(self.positions[i][0]) % self.width, int(self.positions[i][1]) % self.width
-                    x0, x1 = max(0, px - rad), min(self.width, px + rad + 1)
-                    y0, y1 = max(0, py - rad), min(self.width, py + rad + 1)
-                    xs = np.arange(x0, x1) - px
-                    ys = np.arange(y0, y1) - py
-                    gx = np.exp(-(xs**2) / (2 * sigma * sigma))
-                    gy = np.exp(-(ys**2) / (2 * sigma * sigma))
-                    patch = (gy[:, None] * gx[None, :]).astype(np.float32)
-                    # hunger amplifies perceived threat; strength also contributes
-                    amp = self._threat_gain * float(max(0.5, 1.5 - (self.hunger[i] / 100.0))) * float(max(1.0, self.strength[i] / 10.0))
-                    new_threat[y0:y1, x0:x1] += amp * patch
+                px = np.clip(self.positions[predator_indices, 0].astype(np.int32), 0, self.width - 1)
+                py = np.clip(self.positions[predator_indices, 1].astype(np.int32), 0, self.width - 1)
+                hunger_term = np.maximum(0.5, 1.5 - (self.hunger[predator_indices] / 100.0))
+                strength_term = np.maximum(1.0, self.strength[predator_indices] / 10.0)
+                weights = (self._threat_gain * hunger_term * strength_term).astype(np.float32)
+
+                if self.use_fast_field_diffusion:
+                    # Single gaussian_filter over the accumulated map (edge: minimal allocations)
+                    presence = np.zeros_like(self.threat_field, dtype=np.float32)
+                    np.add.at(presence, (py, px), weights)
+                    try:
+                        from scipy.ndimage import gaussian_filter
+                        new_threat = gaussian_filter(presence, sigma=self._threat_sigma)
+                    except Exception:
+                        # Keep the raw presence map if scipy is unavailable; disable fast path to avoid repeated imports
+                        new_threat = presence
+                        self.use_fast_field_diffusion = False
+                else:
+                    # Fallback to kernel stamping (previous behavior)
+                    sigma = self._threat_sigma
+                    rad = int(max(2, sigma * 3))
+                    for idx_local, weight in zip(predator_indices, weights):
+                        px_i = int(self.positions[idx_local][0]) % self.width
+                        py_i = int(self.positions[idx_local][1]) % self.width
+                        x0, x1 = max(0, px_i - rad), min(self.width, px_i + rad + 1)
+                        y0, y1 = max(0, py_i - rad), min(self.width, py_i + rad + 1)
+                        xs = np.arange(x0, x1) - px_i
+                        ys = np.arange(y0, y1) - py_i
+                        gx = np.exp(-(xs**2) / (2 * sigma * sigma))
+                        gy = np.exp(-(ys**2) / (2 * sigma * sigma))
+                        patch = (gy[:, None] * gx[None, :]).astype(np.float32)
+                        new_threat[y0:y1, x0:x1] += weight * patch
 
             # Source 2: Historical Imprints of Death
             # Places with a history of death should feel ominous.
@@ -2060,8 +2521,10 @@ class World:
                 other_forces = avoid + coh + kin_attraction + hydration_seeking + em_bias + vm_bias + will_bias
 
                 # --- Z-Axis Movement (Ascension/Descent) ---
-                ascension_force = np.sum(self.ascension_field[int(py), int(px), :])
-                descent_force = np.sum(self.descent_field[int(py), int(px), :])
+                px_i = int(np.clip(px, 0, self.width - 1))
+                py_i = int(np.clip(py, 0, self.width - 1))
+                ascension_force = np.sum(self.ascension_field[py_i, px_i, :])
+                descent_force = np.sum(self.descent_field[py_i, px_i, :])
                 z_movement = (ascension_force - descent_force) * 0.1 # Subtle vertical movement
 
                 # Combine forces: Resonance is added to the movement vector
@@ -2547,7 +3010,7 @@ class World:
             if target_element == 'life':  # plant
                 possible_actions.append({'action': 'eat', 'target_idx': target_idx, 'move': None})
             elif target_element == 'animal':
-                # Can be a normal attack or a skill-based attack
+                # Attack any animal; no faction filter so emergent alliances/conflicts can form freely.
                 possible_actions.append({'action': 'attack', 'target_idx': target_idx, 'move': None})
                 # (Skill/Spell selection will be added later)
 
@@ -2725,8 +3188,139 @@ class World:
             elif speaker_emotion == "joy" or listener_emotion == "joy":
                 topic = "celebration"
 
+            # Choose a speech act and generate a line
+            speech_act = "bonding"
+            if topic == "comfort":
+                speech_act = "comfort"
+            elif topic == "celebration":
+                speech_act = "celebrate"
+            else:
+                # basic heuristics: hungry -> begging; low relation -> threat; wealth gap -> trade
+                if self.hunger[actor_idx] < 35 or self.hydration[actor_idx] < 35:
+                    speech_act = "beg"
+                elif relation_strength < 0.2:
+                    speech_act = "threat"
+                else:
+                    # mild trade request if wealth gap visible
+                    try:
+                        if abs(self.wealth[actor_idx] - self.wealth[target_idx]) > 5.0:
+                            speech_act = "trade"
+                    except Exception:
+                        pass
+
+            # Tarzan 3-slot pattern + optional template flavor
+            obj_word = "FRIEND"
+            if speech_act in ("beg", "trade"):
+                obj_word = "FOOD"
+            elif speech_act == "threat":
+                obj_word = "TERRITORY"
+            elif speech_act == "comfort":
+                obj_word = "PAIN"
+            tarzan_pattern = f"{(self.labels[actor_idx] or 'ME').upper()} {speech_act.upper()} {obj_word}"
+            # Memetic reuse: favor strong existing pattern for this speech_act
+            existing = [(k, v) for k, v in self.meme_bank.items() if k[0] == speech_act]
+            if existing and random.random() < 0.5:
+                best = max(existing, key=lambda kv: kv[1])[0]
+                tarzan_pattern = f"{(self.labels[actor_idx] or 'ME').upper()} {best[0].upper()} {best[1].upper()}"
+
+            text_key_map = {
+                "bonding": "TALK_BOND",
+                "comfort": "TALK_COMFORT",
+                "celebrate": "TALK_CELEBRATE",
+                "beg": "TALK_BEG",
+                "trade": "TALK_TRADE",
+                "threat": "TALK_THREAT",
+            }
+            natural_text = kr_dialogue(text_key_map.get(speech_act, "TALK_BOND"))
+            text = natural_text if natural_text else tarzan_pattern
+
+            # Relation nudges and small costs/rewards
+            if speech_act == "comfort":
+                relation_strength = min(1.0, relation_strength + 0.05)
+                self.satisfaction[target_idx] = min(100.0, self.satisfaction[target_idx] + 1.0)
+            elif speech_act == "celebrate":
+                relation_strength = min(1.0, relation_strength + 0.02)
+            elif speech_act == "trade":
+                relation_strength = min(1.0, relation_strength + 0.03)
+            elif speech_act == "beg":
+                relation_strength = max(0.0, relation_strength - 0.01)
+            elif speech_act == "threat":
+                relation_strength = max(0.0, relation_strength - 0.05)
+
+            # Update adjacency matrix (directed weight) softly
+            try:
+                self.adjacency_matrix[actor_idx, target_idx] = relation_strength
+            except Exception:
+                pass
+
+            # Speech cost is cheap but non-trivial
+            self.hunger[actor_idx] = max(0.0, self.hunger[actor_idx] - 5.0)
+            self.hydration[actor_idx] = max(0.0, self.hydration[actor_idx] - 5.0)
+
+            # Meme reinforcement
+            key = (speech_act, obj_word.lower())
+            speech_success = False
+            transfer_amt = 0.0
+
+            # Try to make speech have a tangible effect (cheap compared to fighting)
+            if speech_act in ("beg", "trade", "threat"):
+                try:
+                    # Base willingness influenced by relation/satisfaction; threats get strength bonus
+                    target_str = max(1.0, float(self.strength[target_idx]))
+                    actor_str = max(1.0, float(self.strength[actor_idx]))
+                    willingness = relation_strength + (self.satisfaction[target_idx] / 100.0) * 0.4
+                    if speech_act == "threat":
+                        willingness += 0.2 * (actor_str / target_str)
+                    success_prob = np.clip(0.15 + willingness * 0.6, 0.05, 0.95)
+                    if random.random() < success_prob and self.wealth[target_idx] > 0.5:
+                        speech_success = True
+                        transfer_amt = min(5.0, self.wealth[target_idx] * 0.5)
+                        self.wealth[target_idx] -= transfer_amt
+                        self.wealth[actor_idx] += transfer_amt
+                        # Begging hurts pride a bit, threat hurts relation a lot
+                        if speech_act == "beg":
+                            relation_strength = max(0.0, relation_strength - 0.01)
+                        elif speech_act == "threat":
+                            relation_strength = max(0.0, relation_strength - 0.08)
+                        else:
+                            relation_strength = min(1.0, relation_strength + 0.02)
+                        try:
+                            self.event_logger.log(
+                                "SPEECH_SUCCESS",
+                                self.time_step,
+                                actor_id=speaker_id,
+                                target_id=listener_id,
+                                speech_act=speech_act,
+                                amount=float(transfer_amt),
+                                pattern=tarzan_pattern,
+                            )
+                        except Exception:
+                            pass
+                    else:
+                        # Failed speech: slight relation drop for threats/begging
+                        if speech_act == "threat":
+                            relation_strength = max(0.0, relation_strength - 0.05)
+                        elif speech_act == "beg":
+                            relation_strength = max(0.0, relation_strength - 0.02)
+                        try:
+                            self.event_logger.log(
+                                "SPEECH_FAIL",
+                                self.time_step,
+                                actor_id=speaker_id,
+                                target_id=listener_id,
+                                speech_act=speech_act,
+                                pattern=tarzan_pattern,
+                            )
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
+
+            # Meme weight: reward success more than failure
+            self.meme_bank[key] += 2.0 if speech_success else 0.5
+
             self.logger.info(
-                f"DIALOGUE: '{speaker_id}' speaks with '{listener_id}' about {topic}."
+                f"DIALOGUE: '{speaker_id}' -> '{listener_id}' [{speech_act}] {text}"
             )
             self.event_logger.log(
                 "DIALOGUE",
@@ -2737,6 +3331,11 @@ class World:
                 listener_emotion=listener_emotion,
                 relation_strength=relation_strength,
                 topic=topic,
+                speech_act=speech_act,
+                text=text,
+                pattern=tarzan_pattern,
+                success=speech_success,
+                transfer=transfer_amt,
             )
             return
 
@@ -2825,6 +3424,9 @@ class World:
             elif action == 'attack':
                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' attacks '{self.cell_ids[target_idx]}'.")
                 self._speak(actor_idx, "ATTACK")
+                # Fighting is costly: burn a big chunk of stamina
+                self.hunger[actor_idx] = max(0.0, self.hunger[actor_idx] - 20.0)
+                self.hydration[actor_idx] = max(0.0, self.hydration[actor_idx] - 20.0)
             elif action == 'cast_firebolt':
                 if self.spells.get('firebolt'):
                     # Evasion check
@@ -2939,26 +3541,45 @@ class World:
         # --- Animal Mating and Reproduction ---
         animal_mask = (self.element_types == 'animal') & self.is_alive_mask
         animal_indices = np.where(animal_mask)[0]
-        # Mating readiness increases if not hungry and healthy
-        ready_mask = (self.hunger[animal_indices] > 70) & (self.hp[animal_indices] > self.max_hp[animal_indices] * 0.8)
-        self.mating_readiness[animal_indices[ready_mask]] = np.minimum(1.0, self.mating_readiness[animal_indices[ready_mask]] + 0.1)
+        # Mating readiness increases even when moderately hungry; give a head start.
+        ready_mask = (self.hunger[animal_indices] > 25) & (self.hp[animal_indices] > self.max_hp[animal_indices] * 0.4)
+        self.mating_readiness[animal_indices[ready_mask]] = np.minimum(1.0, self.mating_readiness[animal_indices[ready_mask]] + 0.5)
 
-        # Hunger or injury reduces readiness
-        not_ready_mask = (self.hunger[animal_indices] < 50) | (self.is_injured[animal_indices])
+        # Severe hunger or injury reduces readiness
+        not_ready_mask = (self.hunger[animal_indices] < 10) | (self.is_injured[animal_indices])
         self.mating_readiness[animal_indices[not_ready_mask]] = 0
 
-        female_mask = (self.genders[animal_indices] == 'female') & (self.mating_readiness[animal_indices] >= 1.0)
+        female_mask = (self.genders[animal_indices] == 'female') & (self.mating_readiness[animal_indices] >= 0.3)
         fertile_female_indices = animal_indices[female_mask]
         for i in fertile_female_indices:
             connected_indices = adj_matrix_csr[i].indices
-            male_mask = (self.genders[connected_indices] == 'male') & (self.mating_readiness[connected_indices] >= 1.0)
+            male_mask = (self.genders[connected_indices] == 'male') & (self.mating_readiness[connected_indices] >= 0.3)
             potential_mates = connected_indices[male_mask]
+
+            # Enforce same-species mating: match by label (species) not by role/culture.
+            my_label = (self.labels[i] or "").lower()
+            if my_label:
+                same_species = [m for m in potential_mates if (self.labels[m] or "").lower() == my_label]
+                potential_mates = np.array(same_species, dtype=np.int32)
+
+            # If no connected mates, try spatial neighbors within a small radius (approximate)
+            if potential_mates.size == 0:
+                pos_f = self.positions[i]
+                near_idx = animal_indices
+                dx = self.positions[near_idx, 0] - pos_f[0]
+                dy = self.positions[near_idx, 1] - pos_f[1]
+                dist2 = dx * dx + dy * dy
+                close_mask = (dist2 < (20.0 ** 2)) & (self.genders[near_idx] == 'male') & (self.mating_readiness[near_idx] >= 0.3)
+                # same-species check for spatial search too
+                if my_label:
+                    close_mask = close_mask & (np.char.lower(self.labels[near_idx]) == my_label)
+                potential_mates = near_idx[close_mask]
 
             if potential_mates.size > 0:
                 mate_idx = random.choice(potential_mates)
                 # Gestation costs resources
-                self.hp[i] -= 20
-                self.hunger[i] -= 30
+                self.hp[i] = max(0, self.hp[i] - 2)
+                self.hunger[i] = max(0, self.hunger[i] - 5)
 
                 new_animal_id = f"{self.labels[i]}_{self.time_step}"
                 parent_cell = self.materialize_cell(self.cell_ids[i])
@@ -2966,10 +3587,15 @@ class World:
                 child_props['gender'] = random.choice(['male', 'female'])
                 new_cell = Cell(new_animal_id, self.primordial_dna, initial_properties=child_props)
                 newly_born_cells.append(new_cell)
+                # Log birth
+                try:
+                    self.event_logger.log('BIRTH', self.time_step, mother_id=self.cell_ids[i], father_id=self.cell_ids[mate_idx], child_id=new_animal_id)
+                except Exception:
+                    pass
 
                 # Reset readiness after procreation
-                self.mating_readiness[i] = 0.0
-                self.mating_readiness[mate_idx] = 0.0
+                self.mating_readiness[i] = 0.2
+                self.mating_readiness[mate_idx] = 0.2
                 self.logger.info(f"Mating: '{self.cell_ids[i]}' and '{self.cell_ids[mate_idx]}' produced '{new_animal_id}'.")
 
                 # --- Seed of Will Field: Forge family bonds ---
@@ -2988,8 +3614,6 @@ class World:
 
                     # Sibling bonds (if any) - conceptual placeholder for now
                     self.logger.info(f"WILL_FIELD: Forged family bonds for '{new_animal_id}'.")
-
-                break # Only one birth per turn
 
         return newly_born_cells
 
@@ -3180,30 +3804,123 @@ class World:
         if alive_indices.size == 0:
             return events
 
-        e = self.insight[alive_indices] * 100
-        r = self.age[alive_indices]
+        # --- Awakening conditions (rare, meaningful triggers) ---
+        labels_alive = np.array([(self.labels[i] or '').lower() for i in alive_indices])
+        is_beast = np.isin(labels_alive, ['wolf', 'bear'])
+        is_mind = np.isin(labels_alive, ['wizard', 'mage'])
+        is_spirit = np.isin(labels_alive, ['monk', 'knight', 'priest', 'cleric'])
 
-        awakening_mask = (e > r) & ~self.is_awakened[alive_indices]
+        hp_ratio = self.hp[alive_indices] / np.maximum(1e-3, self.max_hp[alive_indices])
+        near_death_mask = hp_ratio <= 0.05  # 임사 체험: HP 5% 이하
+
+        great_sorrow_mask = (
+            (self.emotions[alive_indices] == 'sorrow')
+            & (self.satisfaction[alive_indices] <= 10)
+            & (self.connection_counts[alive_indices] >= 3)
+        )
+
+        # Divine resonance: inside a high-value field pocket (coil/meaning hotspot)
+        px = np.clip(self.positions[alive_indices, 0].astype(np.int32), 0, self.width - 1)
+        py = np.clip(self.positions[alive_indices, 1].astype(np.int32), 0, self.width - 1)
+        try:
+            local_value = self.value_mass_field[py, px]
+            value_threshold = float(np.percentile(self.value_mass_field, 99)) if self.value_mass_field.size else 0.0
+            if value_threshold <= 0:
+                value_threshold = float(np.max(self.value_mass_field)) * 0.8 if self.value_mass_field.size else 0.0
+        except Exception:
+            local_value = np.zeros_like(px, dtype=np.float32)
+            value_threshold = 0.0
+        divine_resonance_mask = local_value >= value_threshold
+
+        # Mind trigger (혼/정신): 높은 통찰 또는 정신 붕괴
+        high_insight_mask = self.insight[alive_indices] >= 5.0
+        mental_break_mask = (self.emotions[alive_indices] == 'fear') & (self.satisfaction[alive_indices] <= 20)
+        mind_trigger = (high_insight_mask | mental_break_mask) & is_mind
+
+        # Spirit trigger (영/마음): 가치 공명 또는 큰 슬픔
+        spirit_trigger = (divine_resonance_mask | great_sorrow_mask) & is_spirit
+
+        # Body trigger (육/생존): 임사 체험
+        body_trigger = near_death_mask & is_beast
+
+        awakening_mask = (mind_trigger | spirit_trigger | body_trigger) & ~self.is_awakened[alive_indices]
         awakened_indices = alive_indices[awakening_mask]
 
         if awakened_indices.size > 0:
             for idx in awakened_indices:
-                e_val = e[np.where(alive_indices==idx)[0][0]]
-                r_val = r[np.where(alive_indices==idx)[0][0]]
-
+                # Reason tagging for logging
+                local_pos = np.where(alive_indices == idx)[0][0]
+                if body_trigger[local_pos]:
+                    reason = 'body_near_death'
+                elif mind_trigger[local_pos]:
+                    reason = 'mind_insight_or_break'
+                elif spirit_trigger[local_pos]:
+                    reason = 'spirit_value_or_sorrow'
+                else:
+                    reason = 'unknown'
                 event = AwakeningEvent(
                     cell_id=self.cell_ids[idx],
-                    e_value=e_val,
-                    r_value=r_val
+                    e_value=float(self.insight[idx]),
+                    r_value=int(self.age[idx])
                 )
                 events.append(event)
-                self.logger.info(f"LAW OF CHANGE: Cell '{event.cell_id}' has met conditions for awakening! (e={event.e_value:.2f} > r={event.r_value})")
-                self.event_logger.log('AWAKENING_EVENT', self.time_step, cell_id=event.cell_id)
+                self.logger.info(f"LAW OF CHANGE: '{event.cell_id}' awakened via {reason}")
+                # Species-specific awakening effects
+                label = (self.labels[idx] or '').lower()
+                if label in ('wolf', 'bear'):
+                    # Alpha evolution: boost combat, imprint leadership aura (threat & coherence bump)
+                    self.strength[idx] *= 2.0
+                    self.agility[idx] *= 1.3
+                    self.max_hp[idx] *= 1.5
+                    self.hp[idx] = min(self.hp[idx] * 1.5, self.max_hp[idx])
+                    # Local aura: increase threat imprint and coherence to simulate "command" presence
+                    try:
+                        x = int(self.positions[idx, 0]) % self.width
+                        y = int(self.positions[idx, 1]) % self.width
+                        self._imprint_gaussian(self.threat_field, x, y, sigma=6.0, amplitude=2.0)
+                        self._imprint_gaussian(self.coherence_field, x, y, sigma=6.0, amplitude=1.0)
+                        self.event_logger.log('EVOLUTION_ALPHA', self.time_step, cell_id=self.cell_ids[idx], label=label)
+                    except Exception:
+                        pass
+                elif label in ('monk', 'knight', 'priest', 'cleric'):
+                    # Saintly awakening: pacifist, healing aura, no combat gain
+                    self.strength[idx] = max(1.0, self.strength[idx] * 0.1)
+                    self.agility[idx] = max(1.0, self.agility[idx] * 0.5)
+                    self.hp[idx] = min(self.max_hp[idx], self.hp[idx] + 10)
+                    # Healing field around them; boost value and will to reduce aggression nearby
+                    try:
+                        x = int(self.positions[idx, 0]) % self.width
+                        y = int(self.positions[idx, 1]) % self.width
+                        self._imprint_gaussian(self.value_mass_field, x, y, sigma=8.0, amplitude=2.5)
+                        self._imprint_gaussian(self.will_field, x, y, sigma=8.0, amplitude=1.5)
+                        self._imprint_gaussian(self.threat_field, x, y, sigma=8.0, amplitude=-2.0)
+                        self.event_logger.log('ENLIGHTENED_SAINT', self.time_step, cell_id=self.cell_ids[idx], label=label)
+                    except Exception:
+                        pass
+                elif label in ('wizard', 'mage'):
+                    # Arcane ascension: huge mana surge, weaker body; arcane aura to push/pull intent
+                    self.strength[idx] = max(1.0, self.strength[idx] * 0.5)
+                    self.agility[idx] = max(1.0, self.agility[idx] * 0.8)
+                    self.max_mana[idx] *= 2.5
+                    self.mana[idx] = self.max_mana[idx]
+                    try:
+                        x = int(self.positions[idx, 0]) % self.width
+                        y = int(self.positions[idx, 1]) % self.width
+                        # Boost intentional/value fields to simulate arcane influence
+                        self._imprint_gaussian(self.intentional_field[...,0], x, y, sigma=10.0, amplitude=3.0)
+                        self._imprint_gaussian(self.intentional_field[...,1], x, y, sigma=10.0, amplitude=3.0)
+                        self._imprint_gaussian(self.value_mass_field, x, y, sigma=6.0, amplitude=2.0)
+                        self.event_logger.log('ARCANE_ASCENSION', self.time_step, cell_id=self.cell_ids[idx], label=label)
+                    except Exception:
+                        pass
+
+                try:
+                    self.event_logger.log('AWAKENING_EVENT', self.time_step, cell_id=event.cell_id, reason=reason)
+                except Exception:
+                    self.event_logger.log('AWAKENING_EVENT', self.time_step, cell_id=event.cell_id)
 
             # Enact physical consequences
             self.is_awakened[awakened_indices] = True # Mark as awakened to prevent immediate re-awakening
-            self.age[awakened_indices] = 0
-            self.insight[awakened_indices] = 0
 
         return events
 
