@@ -14,6 +14,8 @@ from pyquaternion import Quaternion
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
 
+from Project_Elysia.core.photon import PhotonEntity
+from Project_Elysia.core.spectrum import value_to_hue
 from .cell import Cell
 from .chronicle import Chronicle
 from .skills import MARTIAL_STYLES, Move
@@ -4512,6 +4514,14 @@ class World:
                     # For now, keep sigma constant to represent acoustic range.
                     self._imprint_gaussian(target_field, px, py, sigma=8.0, amplitude=amplitude)
                     # self.logger.debug(f"FIELD_RIPPLE: '{key}' boosted {field_name} by {amplitude:.2f} at ({px},{py})")
+            except Exception:
+                pass
+
+            # Photon message (colorized intent)
+            try:
+                hue = value_to_hue(amplitude, value_range=(0.0, 10.0))
+                photon = PhotonEntity(hue=hue, intensity=min(1.0, amplitude / 10.0), polarization=(0.0, 0.0, 1.0), payload=key)
+                self.event_logger.log("PHOTON_MESSAGE", self.time_step, speaker=cell_id, photon=photon.as_dict())
             except Exception:
                 pass
 
