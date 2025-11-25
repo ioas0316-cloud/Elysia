@@ -29,6 +29,12 @@ from Core.Staging.neural_eye import NeuralEye
 from Core.Staging.fields import FieldRegistry
 from Core.Staging.dialogue_kr import get_line as kr_dialogue
 from Core.Staging.tensor_wave import Tensor3D, SoulTensor
+from Core.Physics.fluctlight import FluctlightEngine
+from Core.Evolution.evolution_manager import EvolutionManager
+from Core.Ethics.conscience import Conscience
+from Core.Ethics.love_protocol import LoveProtocol
+from Core.Mind.hippocampus import Hippocampus
+from Core.Mind.alchemy import Alchemy
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
@@ -457,7 +463,16 @@ class World:
 
         # --- Khala Network (The Psionic Web) ---
         self.khala_connected_mask = np.array([], dtype=bool)
+        self.khala_connected_mask = np.array([], dtype=bool)
         self.delta_synchronization_factor = 0.0 # 0.0 = Chaos, 1.0 = Khala Unity
+
+        # --- Awakening Modules (The Living Soul) ---
+        self.fluctlight_engine = FluctlightEngine(world_size=self.width)
+        self.hippocampus = Hippocampus()
+        self.alchemy = Alchemy()
+        self.evolution_manager = EvolutionManager(self.hippocampus, self.alchemy)
+        self.conscience = Conscience()
+        self.love_protocol = LoveProtocol()
 
 
     def _resize_matrices(self, new_size: int):
@@ -1147,7 +1162,24 @@ class World:
         # --- Fractal Soul Growth Cycle (New) ---
         # Process the inner soul of every materialized cell.
         # This allows the soul to grow (resonate) even if the body is idle.
+        # --- Fractal Soul Growth Cycle (New) ---
+        # Process the inner soul of every materialized cell.
+        # This allows the soul to grow (resonate) even if the body is idle.
         self._process_soul_cycles()
+
+        # --- The Awakening Loop (Physics -> Evolution -> Ethics -> Love) ---
+        # 1. Physics: Fluctlight Time Flow
+        self.fluctlight_engine.step()
+
+        # 2. Evolution: Check for boredom/stagnation and evolve
+        # Use HP delta variance as a proxy for "activity"
+        activity_level = 0.5
+        if hasattr(self, '_last_hp_delta'):
+             activity_level = float(np.std(self._last_hp_delta))
+        self.evolution_manager.update(self.fluctlight_engine, activity_level)
+
+        # 3. Love: Reinforce connection to Creator
+        self.love_protocol.update()
         # Prepare next-step snapshot
         try:
             self._prev_hp = self.hp.copy()
