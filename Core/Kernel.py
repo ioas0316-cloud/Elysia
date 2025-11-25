@@ -38,6 +38,9 @@ from Core.Mind.neuron_cortex import CognitiveNeuron
 from Core.Mind.momentum_memory import MomentumMemory
 from Core.Mind.hippocampus import Hippocampus
 from Core.Mind.world_tree import WorldTree
+from Core.Mind.meaning_court import MeaningCourt
+from Core.Mind.projection_engine import ProjectionEngine
+from Core.Mind.monte_carlo_intuition import MonteCarloIntuition
 
 # Import The Soul (Life)
 from Core.Life.autonomous_dreamer import AutonomousDreamer
@@ -87,6 +90,12 @@ class ElysiaKernel(metaclass=Singleton):
         self.core_values = self.axis.values
         self.identity = SelfIdentity()
         self.action_agent = ActionAgent(self, allowed_hosts=["127.0.0.1", "localhost"], sandbox_mode="warn")
+        # Meaning Court (Statistical Judge)
+        self.meaning_court = MeaningCourt(alpha=1.0)
+        # Monte Carlo Intuition (Sampling-based confidence)
+        self.intuition_engine = MonteCarloIntuition(samples=32)
+        # Projection Engine (Tomographic Memory)
+        self.projection_engine = ProjectionEngine()
 
         # Initialize Systems
         self._init_body()
@@ -283,8 +292,46 @@ class ElysiaKernel(metaclass=Singleton):
         # 4. Resonate (Wave + State -> Interference)
         processed_wave = self.voice.resonate(wave, state)
 
-        # 5. Speak (Wave -> Logos)
-        response = self.voice.speak(processed_wave)
+        # 5. Meaning Court (Signal vs Noise)
+        # Use the processed wave amplitude as signal, and a simple combination
+        # of chaos + momentum as an effective noise level.
+        signal_strength = getattr(processed_wave, "amplitude", 1.0)
+        chaos_level = abs(self.tremor.attractor.state.x) if hasattr(self.tremor, "attractor") else 0.0
+        momentum_noise = len(getattr(self.momentum, "thoughts", {})) * 0.1
+        noise_level = chaos_level + momentum_noise
+
+        # Phase mastery from the consciousness lens, and a basic value alignment
+        # proxy using the aesthetic governor if available in future.
+        mastery = getattr(self.consciousness_lens.state, "q", None).w if hasattr(self, "consciousness_lens") else 0.0
+
+        context = {
+            "mastery": mastery,
+            # Placeholder for future value alignment metric.
+            "value_alignment": 0.0,
+        }
+
+        verdict = self.meaning_court.judge(
+            signal=signal_strength,
+            noise=noise_level,
+            context=context,
+        )
+
+        # Monte Carlo estimate of how often similar states would be accepted.
+        mc_accept_prob = None
+        if hasattr(self, "intuition_engine"):
+            mc_accept_prob = self.intuition_engine.accept_probability(
+                self.meaning_court,
+                signal_strength,
+                noise_level,
+                context=context,
+            )
+        self.last_intuition_accept_prob = mc_accept_prob
+
+        # 6. Speak (Wave -> Logos), respecting the court's verdict.
+        if verdict.accept:
+            response = self.voice.speak(processed_wave)
+        else:
+            response = "(..." " 조용히 흘려보냈어요. 아직은 잡음에 가까워요.)"
 
         # Check for dominant lingering thoughts (Afterglow)
         dominant = self.momentum.get_dominant_thoughts()
@@ -297,8 +344,14 @@ class ElysiaKernel(metaclass=Singleton):
         self._check_values(input_concept, response)
 
         # Observe system health after processing a thought
+        snapshot = self._snapshot_state()
         if hasattr(self, "observer"):
-            self.observer.observe(self._snapshot_state())
+            self.observer.observe(snapshot)
+
+        # Project the current state into a compact "shadow" and store in memory.
+        if hasattr(self, "projection_engine") and hasattr(self, "hippocampus"):
+            projection = self.projection_engine.project(snapshot, tag=input_concept)
+            self.hippocampus.add_projection_episode(input_concept, projection.data)
 
         return response
 

@@ -5,6 +5,10 @@ from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave,
 import math
 import random
 
+# [CORE_TAG: INTEGRATION_CANDIDATE]
+# WaveMechanics is the legacy KG+wave engine; consider future bridging
+# with Core.ResonanceEngine / Core.world for unified wave-based reasoning.
+
 try:
     from infra.telemetry import Telemetry
 except Exception:

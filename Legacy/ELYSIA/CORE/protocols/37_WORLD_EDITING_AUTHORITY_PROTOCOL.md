@@ -1,8 +1,7 @@
-﻿# Protocol Link (Growth/Core‑adjacent)
+# Protocol Link (Archived)
 
-See: ELYSIA/GROWTH/PROTO_37_WORLD_EDITING_AUTHORITY.md
+World‑editing authority is handled by newer governance/authority
+protocols and tooling; see docs/elysias_protocol/ and Core tooling.
 
-Notes:
-- HOW/WHAT (world layer); branch → observe → integrate/reject
-- Aligns with PROTO‑17/25/35
+Note: Codex‑First. This protocol is archived context; extract specifics into canonical docs when needed.
 

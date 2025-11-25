@@ -320,3 +320,16 @@ class Hippocampus:
             if mastery >= min_mastery and entropy >= min_entropy:
                 matched.append(node)
         return matched
+
+    # === Projection Episodes ===
+
+    def add_projection_episode(self, tag: str, projection: Dict[str, Any]) -> None:
+        """
+        Store a compact projection snapshot as a specialized node in the causal graph.
+
+        This does not attempt full reconstruction; it simply preserves a small
+        number of scalar "shadows" of the full state under a semantic tag.
+        """
+        node_id = f"projection:{tag}:{self.causal_graph.number_of_nodes()}"
+        metadata = {"projection": projection}
+        self.add_concept(node_id, concept_type="projection", metadata=metadata)

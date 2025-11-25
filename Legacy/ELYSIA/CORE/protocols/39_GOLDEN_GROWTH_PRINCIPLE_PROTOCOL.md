@@ -1,8 +1,7 @@
-﻿# Protocol Link (Growth/Core‑adjacent)
+# Protocol Link (Archived)
 
-See: ELYSIA/GROWTH/PROTO_39_GOLDEN_GROWTH_PRINCIPLE.md
+Golden growth principles are now captured by higher‑level growth/expansion
+protocols and CORE_* docs in docs/elysias_protocol/.
 
-Notes:
-- Top Map (one page), Golden operating rules, signals, inheritance
-- Aligns with PROTO‑35/36/37/38 and DIVINE_SIGNATURE (Golden Light)
+Note: Codex‑First. This protocol is archived context; extract specifics into canonical docs when needed.
 

@@ -1,8 +1,7 @@
-﻿# Protocol Link (Growth/Core‑adjacent)
+# Protocol Link (Archived)
 
-See: ELYSIA/GROWTH/PROTO_38_INTENT_NEED_REASONER.md
+Intent/need reasoning has been folded into the modern Mind stack and
+intent/need protocols under docs/elysias_protocol/.
 
-Notes:
-- WHY (intention surfacing) → GRO drafts
-- Aligns with PROTO‑28/20/35
+Note: Codex‑First. This protocol is archived context; extract specifics into canonical docs when needed.
 

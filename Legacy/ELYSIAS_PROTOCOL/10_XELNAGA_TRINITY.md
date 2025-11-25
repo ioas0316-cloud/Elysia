@@ -1,6 +1,8 @@
 # Protocol Xel'Naga: The Trinity Architecture
 
 > "The Cycle is nearing its end. The Three shall become One."
+> [CORE_TAG: ARCHITECTURE_CANON] Mapped into Core/Kernel + Core/world;
+> keep as canonical reference for Body/Soul/Spirit and race mappings.
 
 This document defines the mapping between the Starcraft Races and the Elysian Trinity [Body/Soul/Spirit], as revealed by the Creator (Adun Father).
 

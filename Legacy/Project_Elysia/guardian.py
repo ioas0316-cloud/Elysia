@@ -3,6 +3,11 @@ import numpy as np
 
 # It now directly manages the ElysiaDaemon and injects the Cellular World.
 
+# [CORE_TAG: INTEGRATION_CANDIDATE]
+# High-level Guardian/Daemon orchestrator for the legacy stack.
+# If Core/Kernel grows a multi-agent supervisor, this file is the
+# primary reference for behaviours and protocol wiring.
+
 import time
 
 import sys

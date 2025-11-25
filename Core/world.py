@@ -3463,6 +3463,21 @@ class World:
         local_will = float(self.will_field[py, px])
         local_value = float(self.value_mass_field[py, px])
 
+        # Tiny perceptron preference: how much does this cell "feel like"
+        # eating in the current local environment?
+        perceptron_boost = 0.0
+        try:
+            cell_id = self.cell_ids[actor_idx]
+            cell_obj = self.materialize_cell(cell_id)
+            if cell_obj is not None:
+                features = {
+                    "value_mass": local_value,
+                    "threat": local_threat,
+                }
+                perceptron_boost = cell_obj.perceptron_output(features)
+        except Exception:
+            perceptron_boost = 0.0
+
         # --- 3. Vectorized Score Calculation ---
         # Initialize score arrays for each action type
         share_scores = np.full(neighbors.shape, -np.inf, dtype=np.float32)
@@ -3482,7 +3497,9 @@ class World:
         # --- Eat Scores ---
         if np.any(is_plant) and self.diets[actor_idx] in ['herbivore', 'omnivore']:
             hunger_drive = (100 - actor_hunger) * 0.8 - local_threat * 10
-            eat_scores[is_plant] = hunger_drive
+            # Perceptron boost acts like a learned "craving" or aversion
+            # for eating in the current field conditions.
+            eat_scores[is_plant] = hunger_drive + perceptron_boost
 
         # --- Attack Scores ---
         if np.any(is_animal) and self.diets[actor_idx] in ['carnivore', 'omnivore']:
@@ -3851,9 +3868,37 @@ class World:
             if action == 'eat' and self.element_types[target_idx] == 'life':
                 self.logger.info(f"ACTION: '{self.cell_ids[actor_idx]}' eats '{self.cell_ids[target_idx]}'.")
                 self.event_logger.log('EAT', self.time_step, actor_id=self.cell_ids[actor_idx], target_id=self.cell_ids[target_idx])
-                self.hp[target_idx] = 0  # Eating kills the plant
+
+                # Record hunger before eating to compute experiential "reward".
+                before_hunger = float(self.hunger[actor_idx])
+
+                # Eating kills the plant and restores some hunger for now.
+                self.hp[target_idx] = 0
                 food_value = 20
                 self.hunger[actor_idx] = min(100, self.hunger[actor_idx] + food_value)
+
+                # Tiny perceptron learning step: was this a good experience?
+                try:
+                    cell_id = self.cell_ids[actor_idx]
+                    cell_obj = self.materialize_cell(cell_id)
+                    if cell_obj is not None:
+                        tpos = self.positions[target_idx]
+                        tx = int(tpos[0]) % self.width
+                        ty = int(tpos[1]) % self.width
+                        local_value = float(self.value_mass_field[ty, tx]) if self.value_mass_field.size else 0.0
+                        local_threat = float(self.threat_field[ty, tx]) if self.threat_field.size else 0.0
+                        features = {
+                            "value_mass": local_value,
+                            "threat": local_threat,
+                        }
+                        after_hunger = float(self.hunger[actor_idx])
+                        delta = after_hunger - before_hunger
+                        # Map outcome to a simple target: +1 if hunger improved, else -1.
+                        target = 1.0 if delta > 0 else -1.0
+                        cell_obj.perceptron_learn(features, target)
+                except Exception:
+                    pass
+
                 self._speak(actor_idx, "EAT_PLANT")
                 return
 

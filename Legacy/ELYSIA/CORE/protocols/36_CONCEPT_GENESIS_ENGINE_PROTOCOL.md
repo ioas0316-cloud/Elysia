@@ -1,8 +1,7 @@
-﻿# Protocol Link (Growth/Core‑adjacent)
+# Protocol Link (Archived)
 
-See: ELYSIA/GROWTH/PROTO_36_CONCEPT_GENESIS_ENGINE.md
+Concept genesis behaviour is integrated into Core/Mind and Core/world.py,
+and expanded in Genesis/creation protocols under docs/elysias_protocol/.
 
-Notes:
-- WHY/HOW (creator layer); creates ConceptSpec drafts
-- Aligns with PROTO‑15/28/35
+Note: Codex‑First. This protocol is archived context; extract specifics into canonical docs when needed.
 
