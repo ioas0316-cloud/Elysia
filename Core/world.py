@@ -14,19 +14,20 @@ from pyquaternion import Quaternion
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
 
-from Project_Elysia.core.photon import PhotonEntity
-from Project_Elysia.core.spectrum import value_to_hue
-from .cell import Cell
-from .chronicle import Chronicle
-from .skills import MARTIAL_STYLES, Move
-from .spells import SPELL_BOOK, cast_spell
-from .world_event_logger import WorldEventLogger
-from .genesis_engine import GenesisEngine
-from .neural_eye import NeuralEye
-from ..wave_mechanics import WaveMechanics
-from .fields import FieldRegistry
-from .dialogue_kr import get_line as kr_dialogue
-from .tensor_wave import Tensor3D, SoulTensor
+# TODO: Integrate with Core modules
+# from Project_Elysia.core.photon import PhotonEntity
+# from Project_Elysia.core.spectrum import value_to_hue
+# from .cell import Cell
+# from .chronicle import Chronicle
+# from .skills import MARTIAL_STYLES, Move
+# from .spells import SPELL_BOOK, cast_spell
+# from .world_event_logger import WorldEventLogger
+# from .genesis_engine import GenesisEngine
+# from .neural_eye import NeuralEye
+# from ..wave_mechanics import WaveMechanics
+# from .fields import FieldRegistry
+# from .dialogue_kr import get_line as kr_dialogue
+# from .tensor_wave import Tensor3D, SoulTensor
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
