@@ -104,6 +104,14 @@ class MomentumMemory:
         self.last_update = time.time()
         return active_thoughts
 
+    def dampen(self, factor: float = 0.8):
+        """
+        Reduce velocities to quickly calm runaway thought momentum.
+        Factor <1.0 scales velocity down.
+        """
+        for thought in self.thoughts.values():
+            thought.velocity *= factor
+
     def get_dominant_thoughts(self) -> List[Tuple[str, float]]:
         """Return thoughts that are currently 'flying high'."""
         current_thoughts = []

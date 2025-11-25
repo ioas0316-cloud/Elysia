@@ -25,13 +25,22 @@ class Hippocampus:
     def __init__(self) -> None:
         # === Context Graph (Original Hippocampus) ===
         # {frozenset(keywords): [(user_text, response), ...]}
-        self.graph: Dict[FrozenSet[str], List[Tuple[str, str]]] = {}
+        self.context_graph: Dict[FrozenSet[str], List[Tuple[str, str]]] = {}
         
         # === Spiderweb - Causal Reasoning Graph ===
         # NetworkX directed graph: nodes=concepts, edges=causal links
         self.causal_graph = nx.DiGraph()
         
         logger.info("✅ Hippocampus initialized with causal reasoning (Spiderweb)")
+    
+    @property
+    def graph(self) -> nx.DiGraph:
+        """
+        Compatibility alias for legacy Spiderweb API.
+        Returns the underlying causal graph so legacy modules can treat
+        Hippocampus as a drop-in replacement for Spiderweb.graph.
+        """
+        return self.causal_graph
     
     # ========== Context Graph Methods (Original) ==========
     
@@ -43,9 +52,9 @@ class Hippocampus:
     def add_turn(self, user_text: str, response: str) -> None:
         """Store a conversation turn indexed by keywords."""
         key = self._keywords(user_text)
-        if key not in self.graph:
-            self.graph[key] = []
-        self.graph[key].append((user_text, response))
+        if key not in self.context_graph:
+            self.context_graph[key] = []
+        self.context_graph[key].append((user_text, response))
         
         # Also add concepts to causal graph as nodes
         for word in key:
@@ -60,7 +69,7 @@ class Hippocampus:
         """
         cur_key = self._keywords(current_text)
         matches = []
-        for stored_key, turns in self.graph.items():
+        for stored_key, turns in self.context_graph.items():
             overlap = len(cur_key & stored_key)
             if overlap > 0:
                 matches.append((overlap, turns))
@@ -102,7 +111,7 @@ class Hippocampus:
             # Update metadata if node exists
             self.causal_graph.nodes[concept_id].update({
                 "type": concept_type,
-                "metadata": metadata or {}
+                "metadata": {**self.causal_graph.nodes[concept_id].get("metadata", {}), **(metadata or {})}
             })
     
     def add_causal_link(
@@ -128,6 +137,11 @@ class Hippocampus:
         self.causal_graph.add_edge(source, target, relation=relation, weight=weight)
         logger.debug(f"Added link: {source} -[{relation}]-> {target} (w={weight})")
     
+    # Legacy-friendly aliases
+    def add_link(self, source: str, target: str, relation: str = "related_to", weight: float = 1.0) -> None:
+        """Alias for add_causal_link to match the Spiderweb API."""
+        self.add_causal_link(source, target, relation=relation, weight=weight)
+    
     def find_causal_path(self, start: str, end: str) -> List[str]:
         """
         Find a causal path from start concept to end concept.
@@ -141,6 +155,10 @@ class Hippocampus:
             return path
         except (nx.NetworkXNoPath, nx.NodeNotFound):
             return []
+    
+    def find_path(self, start: str, end: str) -> List[str]:
+        """Alias for find_causal_path (Spiderweb compatibility)."""
+        return self.find_causal_path(start, end)
     
     def get_causal_context(
         self,
@@ -183,6 +201,10 @@ class Hippocampus:
             })
         
         return context
+    
+    def get_context(self, concept_id: str, depth: int = 1) -> List[Dict[str, Any]]:
+        """Alias for get_causal_context to match Spiderweb interface."""
+        return self.get_causal_context(concept_id, depth=depth)
     
     def forget(
         self,
@@ -251,11 +273,50 @@ class Hippocampus:
         
         logger.info(f"Pruned {edge_fraction*100:.0f}% edges, {node_fraction*100:.0f}% nodes")
     
+    def prune_fraction(self, edge_fraction: float = 0.3, node_fraction: float = 0.3) -> None:
+        """Alias for prune_weakest to mirror the legacy Spiderweb interface."""
+        self.prune_weakest(edge_fraction=edge_fraction, node_fraction=node_fraction)
+    
     def get_statistics(self) -> Dict[str, Any]:
         """Get statistics about the memory system."""
         return {
-            "context_keys": len(self.graph),
-            "total_turns": sum(len(turns) for turns in self.graph.values()),
+            "context_keys": len(self.context_graph),
+            "total_turns": sum(len(turns) for turns in self.context_graph.values()),
             "causal_nodes": self.causal_graph.number_of_nodes(),
             "causal_edges": self.causal_graph.number_of_edges()
         }
+
+    def get_phase_tags(self) -> List[Dict[str, Any]]:
+        """Collect phase metadata attached to causal nodes (if present)."""
+        tags = []
+        for node, data in self.causal_graph.nodes(data=True):
+            meta = data.get("metadata", {})
+            phase = meta.get("phase")
+            if phase:
+                tags.append({"node": node, "phase": phase})
+        return tags
+
+    def query_by_phase(
+        self,
+        min_mastery: float = 0.0,
+        min_entropy: float = 0.0
+    ) -> List[str]:
+        """
+        Return node ids whose phase metadata meets mastery/entropy thresholds.
+        """
+        matched = []
+        for node, data in self.causal_graph.nodes(data=True):
+            phase = data.get("metadata", {}).get("phase", {})
+            q_state = phase.get("quaternion", {})
+            qubit = phase.get("qubit", {})
+            mastery = abs(q_state.get("w", 0.0))
+            entropy = 0.0
+            if qubit:
+                total = sum(qubit.values())
+                if total > 0:
+                    norm = [p / total for p in qubit.values() if p > 0]
+                    import math
+                    entropy = -sum(p * math.log(p, 2) for p in norm)
+            if mastery >= min_mastery and entropy >= min_entropy:
+                matched.append(node)
+        return matched

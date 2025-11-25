@@ -25,6 +25,8 @@ World = Any
 WaveMechanics = Any
 CoreMemory = Any
 Experience = Any
+HyperQubit = Any
+ConsciousnessLens = Any
 
 
 class GoalType(Enum):
@@ -72,6 +74,7 @@ class AutonomousGoal:
     related_concepts: List[str]
     motivation: CuriosityMetrics
     priority: float
+    phase: Optional[Dict[str, Any]] = None
 
 
 class AutonomousDreamer:
@@ -97,6 +100,9 @@ class AutonomousDreamer:
         world: Optional[World] = None,
         wave_mechanics: Optional[WaveMechanics] = None,
         core_memory: Optional[CoreMemory] = None,
+        capability_registry=None,
+        hyper_qubit: Optional[HyperQubit] = None,
+        consciousness_lens: Optional[ConsciousnessLens] = None,
         logger: Optional[logging.Logger] = None
     ):
         """
@@ -113,6 +119,9 @@ class AutonomousDreamer:
         self.world = world
         self.wave_mechanics = wave_mechanics
         self.core_memory = core_memory
+        self.capabilities = capability_registry
+        self.hyper_qubit = hyper_qubit
+        self.consciousness_lens = consciousness_lens
         self.logger = logger or logging.getLogger("AutonomousDreamer")
         
         # Goal generation history
@@ -293,7 +302,28 @@ class AutonomousDreamer:
         self.logger.info(f"Generating {num_goals} autonomous goals...")
         
         goals = []
-        
+
+        # Capability deficits first
+        if self.capabilities:
+            deficits = self.capabilities.deficits(threshold=min_priority)
+            for rec in deficits:
+                goal = AutonomousGoal(
+                    goal_type=GoalType.TRANSCEND,
+                    description=f"Improve capability '{rec.name}' (status: {rec.status})",
+                    target_concept=rec.name,
+                    related_concepts=[],
+                    motivation=CuriosityMetrics(
+                        novelty_score=0.8,
+                        tension_score=0.6,
+                        gap_score=1.0,
+                        potential_score=rec.score,
+                    ),
+                    priority=max(min_priority, rec.score),
+                    phase=self._phase_snapshot(),
+                )
+                goals.append(goal)
+                self.generated_goals.append(goal)
+
         # Get all concepts from Spiderweb
         all_concepts = list(self.spiderweb.graph.nodes())
         
@@ -366,20 +396,44 @@ class AutonomousDreamer:
         if self.spiderweb.graph.has_node(concept_id):
             context = self.spiderweb.get_context(concept_id, depth=1)
             related = [c["node"] for c in context[:5]]
-        
+
+        phase = self._phase_snapshot()
+        self._update_phase(concept_id)
+
         return AutonomousGoal(
             goal_type=goal_type,
             description=description,
             target_concept=concept_id,
             related_concepts=related,
             motivation=metrics,
-            priority=metrics.potential_score
+            priority=metrics.potential_score,
+            phase=phase
         )
     
     def _store_goal_as_experience(self, goal: AutonomousGoal):
         """Store generated goal as experience in CoreMemory"""
         # Legacy memory storage disabled for Xel'Naga Protocol
         pass
+
+    # === Phase helpers ===
+    def _update_phase(self, concept: str) -> None:
+        """Sync HyperQubit/ConsciousnessLens to reflect current focus concept."""
+        if self.hyper_qubit:
+            self.hyper_qubit.set(concept, cause="Dreamer goal")
+        if self.consciousness_lens and self.hyper_qubit:
+            self.consciousness_lens.update_from_qubit()
+
+    def _phase_snapshot(self) -> Dict[str, Any]:
+        """Lightweight phase snapshot for goal metadata."""
+        return {
+            "qubit": self.hyper_qubit.state.probabilities() if self.hyper_qubit else {},
+            "quaternion": {
+                "w": self.consciousness_lens.state.q.w if self.consciousness_lens else 1.0,
+                "x": self.consciousness_lens.state.q.x if self.consciousness_lens else 0.0,
+                "y": self.consciousness_lens.state.q.y if self.consciousness_lens else 0.0,
+                "z": self.consciousness_lens.state.q.z if self.consciousness_lens else 0.0,
+            },
+        }
         # try:
         #     # Create tensor based on motivation
         #     tensor = Tensor3D(

@@ -170,3 +170,14 @@ meta:
   notes:
     - Aligns with PROTO-32 (Revised) and PROTO-40 mirror routing
     - Future: Concept OS bus + Nano-Bots (link/validate/compose) will consume this map
+namespaces:
+  Core: "Core"
+  Apps.Tools: "Tools"
+  Apps.Demos: "Demos"
+  Apps.Plugins: "Plugins"
+  Assets.Images: "images"
+  Assets.Buttons: "images/buttons"
+  Assets.Fonts: "."
+  Runtime.Saves: "saves"
+  Runtime.Logs: "elysia_logs"
+  Legacy: "Legacy"
