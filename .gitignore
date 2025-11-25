@@ -44,9 +44,17 @@ assets/icon.ico
 # Binaries
 Elysia.exe
 # *.exe  # Uncomment to ignore release executables
-ElysiaGodot/*.exe
-ElysiaGodot/.godot/
-ElysiaGodot/.import/
+# Godot Engine (Global)
+.godot/
+.import/
+export_presets.cfg
+*.translation
+*.pck
+
+# Godot Engine (Specific Paths)
+Legacy/ElysiaGodot/.godot/
+Legacy/ElysiaGodot/.import/
+Legacy/ElysiaGodot/*.exe
 
 # IDE/OS
 .DS_Store
