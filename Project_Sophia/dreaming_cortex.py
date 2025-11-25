@@ -1,10 +1,15 @@
 
 import logging
 import json
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, TYPE_CHECKING
 from .spiderweb import Spiderweb
 from Project_Elysia.core_memory import CoreMemory
 from Project_Sophia.gemini_api import generate_text
+
+if TYPE_CHECKING:
+    from Project_Sophia.meta_awareness import MetaAwareness, ThoughtType
+    from Project_Sophia.autonomous_dreamer import AutonomousDreamer
+    from Project_Sophia.paradox_resolver import ParadoxResolver
 
 class DreamingCortex:
     """
@@ -12,13 +17,31 @@ class DreamingCortex:
     It takes recent experiences from CoreMemory and weaves them into the Spiderweb.
     
     Phase 3.5 Enhancement: Uses LLM (Gemini) for semantic concept extraction instead of naive word splitting.
+    Phase 6 Enhancement: Integrated with meta-consciousness for self-observation and autonomous guidance.
     """
 
-    def __init__(self, core_memory: CoreMemory, spiderweb: Spiderweb, logger: logging.Logger = None, use_llm: bool = True):
+    def __init__(
+        self,
+        core_memory: CoreMemory,
+        spiderweb: Spiderweb,
+        meta_awareness: Optional['MetaAwareness'] = None,
+        autonomous_dreamer: Optional['AutonomousDreamer'] = None,
+        paradox_resolver: Optional['ParadoxResolver'] = None,
+        logger: logging.Logger = None,
+        use_llm: bool = True
+    ):
         self.core_memory = core_memory
         self.spiderweb = spiderweb
+        self.meta_awareness = meta_awareness
+        self.autonomous_dreamer = autonomous_dreamer
+        self.paradox_resolver = paradox_resolver
         self.logger = logger or logging.getLogger("DreamingCortex")
         self.use_llm = use_llm
+        
+        if meta_awareness:
+            self.logger.info("🧠 Meta-awareness enabled for dreaming")
+        if autonomous_dreamer:
+            self.logger.info("🎯 Autonomous guidance enabled for dreaming")
 
     def _extract_concepts_llm(self, experience_content: str) -> Optional[Dict[str, Any]]:
         """
@@ -99,6 +122,20 @@ Keep concepts short (1-2 words). Extract 3-7 concepts maximum. Focus on meaningf
         """
         self.logger.info("Entering dream state...")
         
+        # 🧠 Meta-awareness: Observe dreaming start
+        if self.meta_awareness:
+            try:
+                from Project_Sophia.meta_awareness import ThoughtType
+                self.meta_awareness.observe(
+                    thought_type=ThoughtType.DREAMING,
+                    input_state={"trigger": "dream_cycle"},
+                    output_state={"status": "starting"},
+                    transformation="Entering dream state for memory consolidation",
+                    confidence=0.9
+                )
+            except Exception as e:
+                self.logger.warning(f"Meta-awareness observation failed: {e}")
+        
         unprocessed_experiences = self.core_memory.get_unprocessed_experiences()
         if not unprocessed_experiences:
             self.logger.info("No new experiences to dream about.")
@@ -153,9 +190,44 @@ Keep concepts short (1-2 words). Extract 3-7 concepts maximum. Focus on meaningf
                 self.logger.debug(f"LLM extracted relation: {source_id} -[{rel_type}]-> {target_id} (w={weight})")
 
             processed_ids.append(timestamp)
+        
+        # 🌀 Detect paradoxes in newly consolidated memories
+        if self.paradox_resolver:
+            try:
+                contradictions = self.paradox_resolver.detect_contradictions(min_opposition=0.7)
+                if contradictions:
+                    self.logger.info(f"Detected {len(contradictions)} contradictions during consolidation")
+                    # Resolve first contradiction
+                    if contradictions:
+                        c1, c2, _ = contradictions[0]
+                        paradox = self.paradox_resolver.create_superposition(c1, c2)
+                        synthesis = self.paradox_resolver.resolve_paradox(paradox)
+                        if synthesis:
+                            self.logger.info(f"Resolved paradox via synthesis: {synthesis}")
+            except Exception as e:
+                self.logger.warning(f"Paradox resolution failed: {e}")
 
         # Mark as processed in CoreMemory
         self.core_memory.mark_experiences_as_processed(processed_ids)
+        
+        # 🧠 Meta-awareness: Observe dreaming completion
+        if self.meta_awareness:
+            try:
+                from Project_Sophia.meta_awareness import ThoughtType
+                self.meta_awareness.observe(
+                    thought_type=ThoughtType.DREAMING,
+                    input_state={"num_experiences": len(unprocessed_experiences)},
+                    output_state={
+                        "num_processed": len(processed_ids),
+                        "spiderweb_nodes": self.spiderweb.graph.number_of_nodes(),
+                        "spiderweb_edges": self.spiderweb.graph.number_of_edges()
+                    },
+                    transformation=f"Consolidated {len(processed_ids)} experiences into knowledge graph",
+                    confidence=0.85
+                )
+            except Exception as e:
+                self.logger.warning(f"Meta-awareness observation failed: {e}")
+        
         self.logger.info("Dreaming complete. Memories consolidated.")
 
     def consolidate(self):
