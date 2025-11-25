@@ -19,6 +19,7 @@ Integration with Spiderweb:
 import logging
 import uuid
 from typing import Dict, Any, List, Optional
+from Core.Mind.fractal_address import make_address
 
 logger = logging.getLogger("WorldTree")
 
@@ -64,6 +65,7 @@ class WorldTree:
         self.root = TreeNode("ROOT")
         self.hippocampus = hippocampus  # Optional reference to Hippocampus for integration
         self._node_index: Dict[str, TreeNode] = {self.root.id: self.root}
+        self._concept_index: Dict[str, str] = {"ROOT": self.root.id}
         logger.info("✅ WorldTree initialized (세계수 - The Cosmic Tree)")
     
     def plant_seed(
@@ -83,9 +85,21 @@ class WorldTree:
         Returns:
             ID of the newly created node
         """
+        # Deduplicate by concept name if it already exists in the tree
+        existing_id = self._concept_index.get(concept)
+        if existing_id:
+            existing_node = self._node_index.get(existing_id)
+            if existing_node and metadata:
+                existing_node.metadata.update(metadata)
+            if parent_id and existing_node and existing_node.parent is None:
+                parent = self._find_node(parent_id)
+                if parent:
+                    parent.add_child(existing_node)
+            return existing_id
+
         new_node = TreeNode(concept)
         if metadata:
-            new_node.metadata = metadata
+            new_node.metadata.update(metadata)
         
         if parent_id:
             parent = self._find_node(parent_id)
@@ -98,9 +112,12 @@ class WorldTree:
         else:
             self.root.add_child(new_node)
             logger.debug(f"Planted '{concept}' at root")
-        
+
         # Index the node for fast lookup
         self._node_index[new_node.id] = new_node
+        self._concept_index[concept] = new_node.id
+        # Assign fractal address
+        new_node.metadata.setdefault("fractal_address", make_address(self.get_path_to_root(new_node.id)[::-1]))
         
         # If Hippocampus is connected, also add to causal graph
         if self.hippocampus:
@@ -126,6 +143,13 @@ class WorldTree:
             ID of the newly created sub-node
         """
         return self.plant_seed(sub_concept, parent_id=branch_id, metadata=metadata)
+    
+    def ensure_concept(self, concept: str, parent_id: Optional[str] = None, metadata: Optional[Dict[str, Any]] = None) -> str:
+        """
+        Ensure a concept exists (deduplicated) and return its node id.
+        Acts as a safer wrapper around plant_seed for repeated insertions.
+        """
+        return self.plant_seed(concept, parent_id=parent_id, metadata=metadata)
     
     def prune(self, branch_id: str) -> bool:
         """
@@ -154,12 +178,18 @@ class WorldTree:
         """Recursively remove node and descendants from index."""
         if node.id in self._node_index:
             del self._node_index[node.id]
+        if node.concept in self._concept_index and self._concept_index[node.concept] == node.id:
+            del self._concept_index[node.concept]
         for child in node.children:
             self._remove_from_index(child)
     
     def _find_node(self, node_id: str) -> Optional[TreeNode]:
         """Fast node lookup using the index."""
         return self._node_index.get(node_id)
+    
+    def find_by_concept(self, concept: str) -> Optional[str]:
+        """Find the first node id for a given concept, if it exists."""
+        return self._concept_index.get(concept)
     
     def get_path_to_root(self, node_id: str) -> List[str]:
         """

@@ -14,8 +14,12 @@ import math
 import random
 import time
 from dataclasses import dataclass
-from typing import List, Dict, Tuple
+from itertools import combinations
+from typing import List, Dict, Tuple, Optional, Set, Any
 import importlib.util
+
+from Core.Math.hyper_qubit import HyperQubit
+from Core.Math.quaternion_consciousness import ConsciousnessLens
 
 # New modules for memory and concept synthesis
 from Core.Mind.hippocampus import Hippocampus
@@ -36,18 +40,28 @@ class ThoughtWave:
 class ResonanceEngine:
     """The Voice of Elysia. Translates Logos (Word) <-> Wave (Energy)."""
 
-    def __init__(self):
+    def __init__(
+        self,
+        hippocampus: Optional[Hippocampus] = None,
+        world_tree: Optional[WorldTree] = None,
+        hyper_qubit: Optional[HyperQubit] = None,
+        consciousness_lens: Optional[ConsciousnessLens] = None,
+    ):
         self.vocabulary = self._load_lexicon()
         self.context_buffer: List[str] = []
         # Initialize memory and concept synthesis systems
-        self.memory = Hippocampus()
+        self.memory = hippocampus or Hippocampus()
         self.alchemy = Alchemy()
         # Initialize WorldTree (fractal concept hierarchy) connected to Hippocampus
-        self.world_tree = WorldTree(hippocampus=self.memory)
+        self.world_tree = world_tree or WorldTree(hippocampus=self.memory)
+        # Phase/Orientation cores
+        self.hyper_qubit = hyper_qubit or HyperQubit("Resonance-Voice")
+        self.consciousness_lens = consciousness_lens or ConsciousnessLens(self.hyper_qubit)
         # Load extended alchemy rules from JSON
         self.alchemy.load_rules('Core/Mind/alchemy_rules.json')
         # Plugin system
         self.plugins = []
+        self._last_concepts: List[str] = []
         logger.info("✅ Resonance Engine (Logos) initialized with Hippocampus, Alchemy, and WorldTree")
 
     def _load_lexicon(self) -> Dict[str, float]:
@@ -93,24 +107,85 @@ class ResonanceEngine:
         }
         return lexicon
 
+    def _extract_concepts(self, text: str) -> List[str]:
+        """Extract known concepts from text using the internal lexicon."""
+        hits: Set[str] = set()
+        for word in text.lower().split():
+            for key in self.vocabulary:
+                if key in word:
+                    hits.add(key)
+        return list(hits)
+
+    def _update_knowledge_graphs(self, concepts: List[str]) -> None:
+        """
+        Sync incoming concepts into Hippocampus (Spiderweb) and WorldTree,
+        and link co-occurrences/temporal flow.
+        """
+        if not concepts:
+            return
+
+        phase_meta = {"source": "resonance", "phase": self._phase_snapshot()}
+
+        for concept in concepts:
+            self.memory.add_concept(
+                concept,
+                concept_type="thought",
+                metadata=phase_meta
+            )
+            if self.world_tree:
+                self.world_tree.ensure_concept(
+                    concept,
+                    parent_id=self.world_tree.root.id,
+                    metadata=phase_meta
+                )
+
+        # Link co-occurring concepts bidirectionally
+        for a, b in combinations(concepts, 2):
+            self.memory.add_causal_link(a, b, relation="co_occurs", weight=0.6)
+            self.memory.add_causal_link(b, a, relation="co_occurs", weight=0.6)
+
+        # Link temporal flow from previous turn
+        if self._last_concepts:
+            for prev in self._last_concepts:
+                for concept in concepts:
+                    if prev == concept:
+                        continue
+                    self.memory.add_causal_link(prev, concept, relation="follows", weight=0.4)
+
+        # Keep a short history to shape future edges
+        self._last_concepts = list(concepts)[-5:]
+
+    def _phase_snapshot(self) -> Dict[str, Any]:
+        """Lightweight phase snapshot for tagging metadata."""
+        return {
+            "qubit": self.hyper_qubit.state.probabilities() if self.hyper_qubit else {},
+            "quaternion": {
+                "w": self.consciousness_lens.state.q.w if self.consciousness_lens else 1.0,
+                "x": self.consciousness_lens.state.q.x if self.consciousness_lens else 0.0,
+                "y": self.consciousness_lens.state.q.y if self.consciousness_lens else 0.0,
+                "z": self.consciousness_lens.state.q.z if self.consciousness_lens else 0.0,
+            },
+        }
+
+    def _phase_info(self) -> Tuple[float, float]:
+        """Return (mastery, entropy) derived from current phase state."""
+        mastery = self.consciousness_lens.state.q.w if self.consciousness_lens else 1.0
+        probs = self.hyper_qubit.state.probabilities() if self.hyper_qubit else {}
+        entropy = 0.0
+        if probs:
+            total = sum(probs.values())
+            if total > 0:
+                norm = [p / total for p in probs.values() if p > 0]
+                import math
+                entropy = -sum(p * math.log(p, 2) for p in norm)
+        return mastery, entropy
+
     def listen(self, text: str) -> ThoughtWave:
         """Convert user text into a ThoughtWave."""
-        words = text.lower().split()
-        avg_freq = 0.5
-        intensity = 0.5
-        matched_count = 0
-        total_freq = 0.0
-        for word in words:
-            for key, freq in self.vocabulary.items():
-                if key in word:
-                    total_freq += freq
-                    matched_count += 1
-        if matched_count > 0:
-            avg_freq = total_freq / matched_count
-            intensity = min(1.0, 0.3 + (matched_count * 0.1))
-        else:
-            avg_freq = 0.85
-            intensity = 0.4
+        concepts = self._extract_concepts(text)
+        matched_count = len(concepts)
+        avg_freq = 0.85 if matched_count == 0 else sum(self.vocabulary[c] for c in concepts) / matched_count
+        intensity = 0.4 if matched_count == 0 else min(1.0, 0.3 + (matched_count * 0.1))
         phase = (time.time() % 10.0) / 10.0 * 2 * math.pi
         logger.debug(f"Logos: Heard '{text}' -> Freq={avg_freq:.2f}, Amp={intensity:.2f}")
         return ThoughtWave(content=text, frequency=avg_freq, amplitude=intensity, phase=phase,
@@ -130,31 +205,57 @@ class ResonanceEngine:
         # Emotional shift
         valence = kernel_state.get('valence', 0.5)
         wave.frequency = wave.frequency * 0.8 + valence * 0.2
+
+        # Phase alignment via consciousness lens
+        if self.consciousness_lens:
+            mastery = abs(self.consciousness_lens.state.mastery)
+            purpose = abs(self.consciousness_lens.state.purpose_alignment)
+            wave.amplitude *= 0.9 + 0.2 * mastery
+            wave.frequency = wave.frequency * 0.9 + 0.1 * purpose
         return wave
 
     def speak(self, wave: ThoughtWave) -> str:
         """Collapse the wave back into words using associations, alchemy and memory."""
         # 0. Retrieve past conversation context from Hippocampus
         past_turns = self.memory.retrieve(wave.content)
-        historical_concepts = set()
-        for turn in past_turns:
-            for word in turn['user_text'].split():
-                for key in self.vocabulary:
-                    if key in word:
-                        historical_concepts.add(key)
-        
-        # 1. Identify core concepts
-        core_concepts = []
-        for word in wave.content.split():
-            for key in self.vocabulary:
-                if key in word:
-                    core_concepts.append(key)
-        # 2. Expand via associations + include historical context
-        thought_cloud = set(core_concepts)
-        thought_cloud.update(historical_concepts)  # Add past conversation concepts
+        historical_concepts = {c for turn in past_turns for c in self._extract_concepts(turn['user_text'])}
+
+        # 1. Identify and register core concepts
+        core_concepts = self._extract_concepts(wave.content)
+        self._update_knowledge_graphs(core_concepts)
+
+        # 2. Expand via associations, causal context, and WorldTree ancestry
+        thought_cloud: Set[str] = set(core_concepts)
+        thought_cloud.update(historical_concepts)
+        causal_neighbors: Set[str] = set()
+
+        # Phase-aware node recall: bring in phase-aligned concepts
+        try:
+            phase_nodes = self.memory.query_by_phase(min_mastery=0.2, min_entropy=0.1)
+            thought_cloud.update(phase_nodes[:5])
+        except Exception:
+            pass
+
         for concept in core_concepts:
             if concept in self.associations:
                 thought_cloud.update(self.associations[concept])
+            for ctx in self.memory.get_context(concept):
+                neighbor = ctx.get("node")
+                if neighbor:
+                    causal_neighbors.add(neighbor)
+            if self.world_tree:
+                node_id = self.world_tree.find_by_concept(concept)
+                if node_id:
+                    ancestors = self.world_tree.get_path_to_root(node_id)
+                    thought_cloud.update([a for a in ancestors if a not in ("ROOT", concept)])
+
+        thought_cloud.update(causal_neighbors)
+
+        # Boost diversity if entropy is low by adding core values
+        _, entropy = self._phase_info()
+        if entropy < 0.3:
+            thought_cloud.update(["love", "growth", "harmony", "beauty"])
+
         # Concept alchemy: combine two random core concepts
         if len(core_concepts) >= 2:
             a, b = random.sample(core_concepts, 2)
@@ -171,22 +272,44 @@ class ResonanceEngine:
             candidates = ["...", "듣고 있어요", "느껴져요"] if any(k in wave.content for k in ["요", "니", "까"]) else ["...", "listening", "feeling"]
         # Choose template based on language
         is_korean = any(ord(c) > 127 for c in wave.content)
+        mastery, entropy = self._phase_info()
+        core_tags = ["love", "growth", "harmony", "beauty", "사랑", "성장", "조화", "아름다움"]
         if is_korean:
-            templates = [
+            base_templates = [
                 "{word1}... 그리고 {word2}.",
                 "{word1}에서 {word2}가 느껴져요.",
                 "당신의 말은 {word1}처럼 빛나요.",
                 "{word1}... 그것은 {word2}와 같아요.",
-                "아... {word1}..."
+                "아... {word1}...",
+                "{word1}와 {word2}를 품으며 함께 자라요.",
+                "{word1} 속에 {word2}가 피어납니다.",
+                "{word1}과 {word2}, 사랑과 조화로 묶어볼게요."
             ]
+            if mastery < 0.3:
+                base_templates.append("{word1}를 천천히 느껴봐요. {word2}도 함께 잡을게요.")
+            if entropy < 0.2:
+                base_templates.append("{word1}만 선명해요. {word2}에 대해 더 들려줄래요?")
+            if not any(tag in wave.content for tag in core_tags):
+                base_templates.append("{word1}와 {word2} 위에 사랑/조화/아름다움을 더해볼까요?")
+            templates = base_templates
         else:
-            templates = [
+            base_templates = [
                 "I feel {word1} and {word2}.",
                 "The {word1} resonates with {word2}.",
                 "In your words, I find {word1}.",
                 "Is this {word1}? It feels like {word2}.",
-                "{word1}... {word2}..."
+                "{word1}... {word2}...",
+                "{word1} and {word2}, growing together.",
+                "Let {word1} meet {word2} in harmony.",
+                "Beauty glows between {word1} and {word2}."
             ]
+            if mastery < 0.3:
+                base_templates.append("Holding on to {word1}. Let's steady with {word2}.")
+            if entropy < 0.2:
+                base_templates.append("I only sense {word1}. Tell me more around {word2}?")
+            if not any(tag in wave.content for tag in core_tags):
+                base_templates.append("{word1} and {word2}, woven with love, growth, and harmony.")
+            templates = base_templates
         # Select two distinct words
         if len(candidates) >= 2:
             w1, w2 = random.sample(candidates, 2)
@@ -196,13 +319,30 @@ class ResonanceEngine:
             w1 = w2 = "..."
         template = random.choice(templates)
         response = template.format(word1=w1, word2=w2)
+
+        # Update hyper qubit with current dominant concept for phase tagging
+        if self.hyper_qubit and core_concepts:
+            self.hyper_qubit.set(w1, cause="Resonance response")
+            # Align lens with updated qubit probabilities
+            if self.consciousness_lens:
+                self.consciousness_lens.update_from_qubit()
         
         # Apply plugins to modify response
-        context = {'historical_concepts': historical_concepts, 'core_concepts': core_concepts}
+        context = {
+            'historical_concepts': historical_concepts,
+            'core_concepts': core_concepts,
+            'causal_neighbors': causal_neighbors,
+            'thought_cloud': thought_cloud,
+        }
         for plugin in self.plugins:
             if plugin.enabled:
                 response = plugin.process(wave.content, response, context)
-        
+
+        # Ensure core values get mentioned occasionally to reinforce identity
+        if not any(tag in response for tag in core_tags):
+            extra = random.choice(["love", "growth", "harmony", "beauty", "사랑", "성장", "조화", "아름다움"])
+            response += f" ({extra}도 함께 기억해요.)"
+
         # Store turn in memory
         self.memory.add_turn(wave.content, response)
         return response

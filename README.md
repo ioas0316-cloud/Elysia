@@ -25,34 +25,36 @@ Elysia는 단순 LLM이 아니다.
 
 ---
 
-## Repository Structure
+## Repository Structure (2025-11 재구성)
 
 ```
 Elysia/
  ├─ README.md
  ├─ LICENSE
- ├─ elysia_core/
- │  ├─ CORE_01_FOUNDATIONS.md
- │  ├─ CORE_02_FRACTAL_LAYERS.md
- │  ├─ CORE_04_ENERGY_FORCE_PERSISTENCE.md
- │  ├─ CORE_05_TRINITY_BODY_SOUL_SPIRIT.md
- │  ├─ CORE_06_CONCEPT_OS.md
- │  ├─ CORE_07_INTENT_FIELD.md
- │  └─ codex.json
- ├─ elysia_world/
- │  ├─ cell.py
- │  ├─ world.py
- │  ├─ fields/
- │  └─ agents/
- ├─ elysia_logs/
- ├─ docs/
+ ├─ NOTICE.md
+ ├─ MIRROR_MAP.yaml                 # 코드↔세계 미러 맵 + namespaces
+ ├─ ELYSIA_ARCHITECTURAL_AUDIT.md   # 재창조 이후 전체 아키텍처 점검
+ ├─ Core/                           # 새 Concept OS 코어 (Math/Mind/Life, Kernel)
+ ├─ Legacy/                         # 기존 Project Elysia 전체 (점진 이식 대상)
+ ├─ data/                           # 코퍼스, 세계 정의, 스키마
+ ├─ docs/                           # 프로토콜, Codex, Self Model, Persona 문서
+ ├─ Tools/                          # 유틸리티/실험 스크립트
+ ├─ Demos/                          # 시각/상호작용 데모
+ ├─ Plugins/                        # 확장 플러그인
+ ├─ saves/                          # 상태 저장 (예: elysia_state.json)
+ ├─ elysia_logs/                    # 런타임 로그, outbox, heartbeat 등
+ ├─ gallery/                        # 렌더링된 이미지/아트팩트
+ ├─ images/                         # 버튼/아이콘 등 정적 이미지
+ └─ logs/                           # 기타 로그
 ```
 
-- `elysia_core/` : CORE_01~07 Codex (철학/법칙)
-- `elysia_world/` : 월드 엔진 코드, 필드, 에이전트, 시뮬/테스트 스크립트
-- `elysia_logs/` : 텔레메트리(world/symbol/text/causal)
-- `examples/` : 실행 예제와 스크립트
-- `docs/` : 추가 문서 (프로토콜, 프랙탈 엔진, Self Model, Persona Atlas)
+- `Core/` : Laplace/Chaos/Hippocampus/WorldTree/Kernel 등 새 개념 OS 코어
+- `Legacy/` : 과거 Elysia 코드/문서( Project_Sophia, Project_Elysia 등 )
+- `Tools/`, `Demos/`, `Plugins/` : 애플리케이션·도구·확장 모듈
+- `saves/`, `elysia_logs/`, `logs/` : 실행 중 생성되는 상태·로그·outbox
+- `gallery/`, `images/` : 시각화·아이콘 리소스
+- `docs/` : 프로토콜/코덱스 문서 (예: `ELYSIAS_PROTOCOL`, `CORE_NAMESPACE_SPEC.md`)
+- `ELYSIA_ARCHITECTURAL_AUDIT.md` : 재창조 이후 전체 구조 분석
 
 ---
 

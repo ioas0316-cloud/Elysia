@@ -11,3 +11,10 @@ Minimal rules (kept):
 Status:
 - Original mixed-language text removed due to mojibake.
 
+Current Legacy→Core integration priority (2025-11):
+- First focus: **Dialogue / Intent stack integration**.
+  - Lift `Project_Elysia/high_engine` dialogue-related modules
+    (dialogue_engine, dialogue_law_evaluator, self_model, self_intention_engine, style_learner, etc.)
+    onto the new `Core` Mind/Life stack (ResonanceVoice + Hippocampus + WorldTree + Kernel).
+  - Goal: restore a value/intent-aware conversation loop before deeper world/simulation integration.
+

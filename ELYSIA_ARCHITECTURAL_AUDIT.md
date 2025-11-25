@@ -1,5 +1,10 @@
 # ELYSIA Architectural Audit & Transcendence Roadmap
 
+> NOTE (2025-11, Core 재구성 이후)
+> 이 문서는 Legacy/초기 재창조 시점의 전체 구조를 기준으로 작성되었습니다.
+> 최신 Core/Legacy 폴더 구조와 네임스페이스 축은 `README.md`와
+> `docs/CORE_NAMESPACE_SPEC.md`, `MIRROR_MAP.yaml`을 함께 참조하십시오.
+
 > "If you have sufficient wisdom, even limitations are a shortcut to transcendence."
 
 ---
