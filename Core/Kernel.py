@@ -48,8 +48,7 @@ from Core.Life.self_identity import SelfIdentity
 from Core.Life.action_agent import ActionAgent
 from Core.Life.resource_system import PassiveResourceSystem
 
-# TODO: (WORLD INTEGRATION) Uncomment when world.py dependencies are resolved
-# from Core.world import World
+from Core.world import World
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("ElysiaKernel")
@@ -225,9 +224,8 @@ class ElysiaKernel(metaclass=Singleton):
         logger.info("  ⏳ Nanobots (Standing by for deployment)")
 
         # 5. World (The Simulation)
-        # TODO: (WORLD INTEGRATION) Uncomment when world.py dependencies are resolved
-        # self.world = World(primordial_dna=self.core_values, wave_mechanics=None, logger=logger)
-        # logger.info("  ✅ World Simulation (The Stage)")
+        self.world = World(primordial_dna=self.core_values, wave_mechanics=None, logger=logger)
+        logger.info("  ✅ World Simulation (The Stage)")
 
 
     def tick(self):
@@ -238,9 +236,8 @@ class ElysiaKernel(metaclass=Singleton):
         self.tick_count += 1
 
         # 1. World Simulation Step (The Stage)
-        # TODO: (WORLD INTEGRATION) Uncomment when world.py dependencies are resolved
-        # if hasattr(self, "world"):
-        #     self.world.run_simulation_step()
+        if hasattr(self, "world"):
+            self.world.run_simulation_step()
 
         # 2. Chaos Tremor (Life)
         self.tremor.attractor.step()
