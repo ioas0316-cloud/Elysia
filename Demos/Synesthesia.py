@@ -22,9 +22,10 @@ import threading
 import queue
 import numpy as np
 
-# Try to import pygame
+# Try to import pygame and freetype
 try:
     import pygame
+    import pygame.freetype
 except ImportError:
     print("Pygame not found. Please install it with: pip install pygame")
     sys.exit(1)
@@ -46,7 +47,8 @@ output_queue = queue.Queue()
 class SynestheticVisualizer:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        # Enable Resizable Window
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption("Elysia: Full Sensory Interface 🌊🎹")
         self.clock = pygame.time.Clock()
         
@@ -60,11 +62,26 @@ class SynestheticVisualizer:
         self.active_buffer = 1
         
         # Dynamic Color Tint (Target RGB)
-        self.base_color = np.array([0, 0, 50]) # Deep Blue Void
+        self.base_color = np.array([0, 0, 50]) 
         self.target_color = np.array([0, 0, 50])
         self.current_color = np.array([0.0, 0.0, 50.0])
         
         self.running = True
+        
+        # Initialize Freetype
+        local_font_path = os.path.join(os.path.dirname(__file__), "..", "NanumGothic.ttf")
+        local_font_path = os.path.abspath(local_font_path)
+        
+        if os.path.exists(local_font_path):
+            try:
+                self.font = pygame.freetype.Font(local_font_path, 24)
+                print(f"✅ Freetype Loaded: {local_font_path}")
+            except Exception as e:
+                print(f"⚠️ Freetype Error: {e}")
+                self.font = pygame.freetype.SysFont("arial", 24)
+        else:
+            print(f"⚠️ Font file missing: {local_font_path}")
+            self.font = pygame.freetype.SysFont("malgungothic", 24)
 
     def update_physics(self):
         if self.active_buffer == 1:
@@ -105,7 +122,10 @@ class SynestheticVisualizer:
         rgb = np.dstack((r, g, b)).astype(np.uint8)
         
         surface = pygame.surfarray.make_surface(rgb)
-        scaled_surface = pygame.transform.scale(surface, (WIDTH, HEIGHT))
+        
+        # Scale to current window size
+        window_w, window_h = self.screen.get_size()
+        scaled_surface = pygame.transform.scale(surface, (window_w, window_h))
         self.screen.blit(scaled_surface, (0, 0))
         
         # Overlay Text (Elysia's Voice)
@@ -116,12 +136,7 @@ class SynestheticVisualizer:
             self.symphony.play_state({'chaos': 0.8, 'valence': 0.9, 'neuron_fired': True})
             
         if hasattr(self, 'last_msg') and time.time() - self.msg_timer < 5.0:
-            font = pygame.font.SysFont("arial", 24)
-            text = font.render(self.last_msg, True, (255, 255, 255))
-            rect = text.get_rect(center=(WIDTH//2, HEIGHT - 50))
-            self.screen.blit(text, rect)
-            
-        # pygame.display.flip() # Moved to run loop
+            self.font.render_to(self.screen, (window_w//2 - 100, window_h - 80), self.last_msg, (255, 255, 255))
 
     def add_ripple(self, x, y, strength=500):
         cx, cy = int(x // SCALE), int(y // SCALE)
@@ -143,7 +158,7 @@ class SynestheticVisualizer:
         arousal = 0.5
         
         # Love / Joy (Pink/Gold)
-        if any(w in text for w in ['love', 'happy', 'joy', 'light', '사랑', '기쁨', '행복', '빛']):
+        if any(w in text for w in ['love', 'happy', 'joy', 'light', '사랑', '기쁨', '행복', '빛', '창조', '생명']):
             color = [255, 100, 150] 
             strength = 800
             valence = 0.9
@@ -180,58 +195,48 @@ class SynestheticVisualizer:
         
         # Input State
         user_text = ""
+        composition_text = ""
         
-        # FORCE KOREAN FONT (Local Copy)
-        # We copied malgun.ttf to the project root to avoid permission/path issues.
-        local_font_path = os.path.join(os.path.dirname(__file__), "..", "malgun.ttf")
-        local_font_path = os.path.abspath(local_font_path)
-        
-        if os.path.exists(local_font_path):
-            try:
-                font = pygame.font.Font(local_font_path, 24)
-                print(f"✅ Loaded Local Korean Font: {local_font_path}")
-            except Exception as e:
-                print(f"⚠️ Local Font Load Error: {e}")
-                font = pygame.font.SysFont("arial", 24)
-        else:
-            # Fallback to system path
-            print(f"⚠️ Local font not found at {local_font_path}. Trying system...")
-            font_path = "C:/Windows/Fonts/malgun.ttf"
-            if os.path.exists(font_path):
-                font = pygame.font.Font(font_path, 24)
-            else:
-                font = pygame.font.SysFont("arial", 24)
-            
-        pygame.key.start_text_input() # Enable IME
+        pygame.key.start_text_input() 
         
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
                 
-                # Handle Text Input (IME Friendly)
+                # Handle Text Input
                 elif event.type == pygame.TEXTINPUT:
+                    print(f"DEBUG: Input received: '{event.text}' (U+{ord(event.text[0]):04X})")
                     if len(user_text) < 50:
                         user_text += event.text
+                    composition_text = ""
+
+                # Handle IME Editing
+                elif event.type == pygame.TEXTEDITING:
+                    composition_text = event.text
+                    if composition_text:
+                        print(f"DEBUG: IME Composition: '{composition_text}'")
 
                 # Handle Control Keys
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         if user_text.strip():
-                            # Submit Input
+                            print(f"DEBUG: Submitting '{user_text}'")
                             self.process_emotion(user_text)
-                            
-                            # Process Thought (Kernel)
                             kernel.tick()
                             response = kernel.process_thought(user_text)
                             output_queue.put(response)
-                            
-                            # Echo Visuals
                             threading.Timer(0.5, lambda: self.add_ripple(random.randint(100,500), random.randint(100,500), 300)).start()
-                            
-                            user_text = "" # Clear input
+                            user_text = "" 
                     elif event.key == pygame.K_BACKSPACE:
-                        user_text = user_text[:-1]
+                        if not composition_text:
+                            user_text = user_text[:-1]
+                    elif event.key == pygame.K_v:
+                        # Visualize memory graph
+                        print("📊 Visualizing memory graph...")
+                        from Tools.visualize_memory import visualize_memory
+                        visualize_memory(kernel.voice.memory, "memory_graph.png")
+                        output_queue.put("Memory graph saved! 🧠")
 
             # Continuous Background Music based on Fluid State
             current = self.buffer2 if self.active_buffer == 1 else self.buffer1
@@ -244,21 +249,24 @@ class SynestheticVisualizer:
             self.update_physics()
             self.render()
             
-            # Render User Input Box
-            # Semi-transparent background at bottom
+            # Render UI with Freetype
             s = pygame.Surface((WIDTH, 50))
             s.set_alpha(128)
             s.fill((0, 0, 0))
             self.screen.blit(s, (0, HEIGHT-50))
             
-            # Render Text
-            try:
-                txt_surf = font.render(f"> {user_text}_", True, (200, 200, 255))
-            except:
-                txt_surf = font.render(f"> [Encoding Error]_", True, (255, 100, 100))
-            self.screen.blit(txt_surf, (10, HEIGHT-40))
+            display_text = f"> {user_text}"
+            if composition_text:
+                display_text += f"[{composition_text}]"
+            else:
+                display_text += "_"
+                
+            self.font.render_to(self.screen, (10, HEIGHT-40), display_text, (200, 200, 255))
             
-            pygame.display.flip() # Flip AFTER drawing UI
+            # Render Static Status
+            self.font.render_to(self.screen, (10, 10), "System: 한글 시스템 정상 작동 중 (Freetype)", (100, 255, 100))
+            
+            pygame.display.flip()
             self.clock.tick(60)
             
         self.symphony.close()
@@ -266,5 +274,4 @@ class SynestheticVisualizer:
         os._exit(0)
 
 if __name__ == "__main__":
-    # No need for terminal thread anymore
     SynestheticVisualizer().run()
