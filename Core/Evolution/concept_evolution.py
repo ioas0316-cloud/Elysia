@@ -9,7 +9,7 @@ import logging
 import numpy as np
 from typing import Dict, List, Tuple, Optional
 
-from Core.Physics.fluctlight import FluctlightEngine, Fluctlight
+from Core.Physics.fluctlight import FluctlightEngine, FluctlightParticle
 from Core.Mind.hippocampus import Hippocampus
 from Core.Mind.alchemy import Alchemy
 
@@ -46,7 +46,7 @@ class ConceptEvolution:
                 
         return new_concepts
     
-    def _detect_interference_clusters(self, engine: FluctlightEngine) -> List[List[Fluctlight]]:
+    def _detect_interference_clusters(self, engine: FluctlightEngine) -> List[List[FluctlightParticle]]:
         """
         Finds groups of particles that are interacting strongly.
         Simplified spatial clustering for now.
@@ -81,7 +81,7 @@ class ConceptEvolution:
                 
         return clusters
 
-    def _synthesize_concept(self, cluster: List[Fluctlight]) -> Optional[Dict]:
+    def _synthesize_concept(self, cluster: List[FluctlightParticle]) -> Optional[Dict]:
         """
         Creates a new concept from a cluster of particles.
         """

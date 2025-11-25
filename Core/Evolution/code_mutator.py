@@ -12,7 +12,7 @@ import inspect
 import tempfile
 import os
 import importlib.util
-from typing import Optional, List, Any, Callable
+from typing import Optional, List, Any, Callable, Tuple
 
 logger = logging.getLogger("CodeMutator")
 

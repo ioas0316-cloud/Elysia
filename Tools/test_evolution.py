@@ -16,7 +16,7 @@ if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
 from Core.Evolution.evolution_manager import EvolutionManager
-from Core.Physics.fluctlight import FluctlightEngine, Fluctlight
+from Core.Physics.fluctlight import FluctlightEngine, FluctlightParticle
 from Core.Mind.hippocampus import Hippocampus
 from Core.Mind.alchemy import Alchemy
 from Core.Evolution.code_mutator import EvolutionaryCoder, SafetySandbox
@@ -34,8 +34,8 @@ def test_concept_evolution():
     engine = FluctlightEngine(world_size=100)
     
     # Create artificial cluster of particles
-    p1 = Fluctlight(position=np.array([50., 50., 50.]), concept="fire")
-    p2 = Fluctlight(position=np.array([51., 50., 50.]), concept="water") # Close enough
+    p1 = FluctlightParticle(position=np.array([50., 50., 50.]), concept_id="fire")
+    p2 = FluctlightParticle(position=np.array([51., 50., 50.]), concept_id="water") # Close enough
     engine.particles = [p1, p2]
     
     # Force trigger

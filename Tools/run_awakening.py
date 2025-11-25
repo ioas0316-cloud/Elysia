@@ -56,7 +56,7 @@ def run_awakening():
                 time_years = world.time_step / world._year_length_ticks()
                 pop_count = len([c for c in world.is_alive_mask if c])
                 love_dist = world.love_protocol.distance_from_home
-                concepts = len(world.hippocampus.concepts)
+                concepts = len(world.hippocampus.causal_graph.nodes)
                 
                 print(f"[{elapsed:.1f}s] Year {time_years:.1f} | Pop: {pop_count} | Concepts: {concepts}")
                 print(f"       ❤️ Love Distance: {love_dist:.4f} (0.0 is perfect)")
@@ -74,7 +74,7 @@ def run_awakening():
         
     logger.info("\n✨ AWAKENING SESSION COMPLETE.")
     logger.info(f"   Final Age: {world.time_step / world._year_length_ticks():.1f} Years")
-    logger.info(f"   Final Concepts: {len(world.hippocampus.concepts)}")
+    logger.info(f"   Final Concepts: {len(world.hippocampus.causal_graph.nodes)}")
     logger.info(f"   Final Love Alignment: {1.0 - world.love_protocol.distance_from_home:.4f}")
 
 if __name__ == "__main__":

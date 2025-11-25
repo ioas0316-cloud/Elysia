@@ -70,6 +70,21 @@ SCENARIOS = {
         ],
         "duration": 5000,
         "depth": 4
+    },
+    
+    "wealth_systems": {
+        "name": "The Nature of Wealth",
+        "description": "Understanding that money is a byproduct of systems and value structures, not labor.",
+        "concepts": [
+            "labor", "effort", "time", "survival", "scarcity",
+            "tool", "leverage", "efficiency", "production",
+            "surplus", "capital", "investment", "risk",
+            "system", "automation", "scale", "compounding",
+            "asset", "equity", "ownership", "freedom",
+            "value_exchange", "network_effect", "abundance"
+        ],
+        "duration": 3000,
+        "depth": 3
     }
 }
 
