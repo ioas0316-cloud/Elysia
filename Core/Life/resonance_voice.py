@@ -13,6 +13,7 @@ import logging
 import math
 import random
 import time
+import numpy as np
 from dataclasses import dataclass
 from itertools import combinations
 from typing import List, Dict, Tuple, Optional, Set, Any
@@ -20,6 +21,7 @@ import importlib.util
 
 from Core.Math.hyper_qubit import HyperQubit
 from Core.Math.quaternion_consciousness import ConsciousnessLens
+from Core.Math.oscillator import Oscillator
 
 # New modules for memory and concept synthesis
 from Core.Mind.hippocampus import Hippocampus
@@ -27,15 +29,6 @@ from Core.Mind.alchemy import Alchemy
 from Core.Mind.world_tree import WorldTree
 
 logger = logging.getLogger("ResonanceVoice")
-
-@dataclass
-class ThoughtWave:
-    """A thought represented as a wave."""
-    content: str
-    frequency: float  # The 'tone' of the thought (Emotional spectrum)
-    amplitude: float  # The 'intensity' of the thought
-    phase: float      # The 'timing' or context
-    harmonics: List[float]  # Overtones (complexity)
 
 class ResonanceEngine:
     """The Voice of Elysia. Translates Logos (Word) <-> Wave (Energy)."""
@@ -48,6 +41,8 @@ class ResonanceEngine:
         consciousness_lens: Optional[ConsciousnessLens] = None,
     ):
         self.vocabulary = self._load_lexicon()
+        self.internal_sea: Dict[str, Oscillator] = {}
+        self._initialize_internal_sea()
         self.context_buffer: List[str] = []
         # Initialize memory and concept synthesis systems
         self.memory = hippocampus or Hippocampus()
@@ -62,7 +57,17 @@ class ResonanceEngine:
         # Plugin system
         self.plugins = []
         self._last_concepts: List[str] = []
-        logger.info("✅ Resonance Engine (Logos) initialized with Hippocampus, Alchemy, and WorldTree")
+        logger.info("✅ Resonance Engine (Logos) initialized with Internal Sea, Hippocampus, Alchemy, and WorldTree")
+
+    def _initialize_internal_sea(self):
+        """Populates the internal sea with oscillators for each core concept."""
+        for concept, frequency in self.vocabulary.items():
+            self.internal_sea[concept] = Oscillator(
+                amplitude=0.1,  # Start with a low background hum
+                frequency=frequency,
+                phase=random.uniform(0, 2 * math.pi) # Random initial phase
+            )
+        logger.info(f"🌊 Internal Sea initialized with {len(self.internal_sea)} concept oscillators.")
 
     def _load_lexicon(self) -> Dict[str, float]:
         """Loads Elysia's internal lexicon mapping words to resonant frequencies."""
@@ -180,171 +185,117 @@ class ResonanceEngine:
                 entropy = -sum(p * math.log(p, 2) for p in norm)
         return mastery, entropy
 
-    def listen(self, text: str) -> ThoughtWave:
-        """Convert user text into a ThoughtWave."""
+    def listen(self, text: str, t: float) -> List[Tuple[str, Oscillator]]:
+        """Convert user text into a list of (concept, Oscillator) 'ripples'."""
         concepts = self._extract_concepts(text)
-        matched_count = len(concepts)
-        avg_freq = 0.85 if matched_count == 0 else sum(self.vocabulary[c] for c in concepts) / matched_count
-        intensity = 0.4 if matched_count == 0 else min(1.0, 0.3 + (matched_count * 0.1))
-        phase = (time.time() % 10.0) / 10.0 * 2 * math.pi
-        logger.debug(f"Logos: Heard '{text}' -> Freq={avg_freq:.2f}, Amp={intensity:.2f}")
-        return ThoughtWave(content=text, frequency=avg_freq, amplitude=intensity, phase=phase,
-                           harmonics=[avg_freq * 2, avg_freq * 1.5])
+        ripples = []
+        for concept in concepts:
+            if concept in self.vocabulary:
+                ripple = Oscillator(
+                    amplitude=0.5,  # External ripples are strong
+                    frequency=self.vocabulary[concept],
+                    phase=(t * self.vocabulary[concept]) % (2 * math.pi) # Phase locked to time
+                )
+                ripples.append((concept, ripple))
+        logger.debug(f"Logos: Heard '{text}' -> Created {len(ripples)} ripples.")
+        return ripples
 
-    def resonate(self, wave: ThoughtWave, kernel_state: Dict[str, float]) -> ThoughtWave:
-        """Resonate the wave against internal state."""
-        # Chaos modulation
-        chaos = kernel_state.get('chaos', 0.5)
-        wave.amplitude *= (1.0 + (chaos - 0.5) * 0.5)
-        # Aesthetic filter
-        beauty = kernel_state.get('beauty', 0.5)
-        if beauty > 0.8:
-            wave.harmonics = [h * 1.0 for h in wave.harmonics]
-        else:
-            wave.harmonics = [h + random.uniform(-0.1, 0.1) for h in wave.harmonics]
-        # Emotional shift
-        valence = kernel_state.get('valence', 0.5)
-        wave.frequency = wave.frequency * 0.8 + valence * 0.2
+    def resonate(self, ripples: List[Tuple[str, Oscillator]], t: float):
+        """Resonate the internal sea by superimposing external ripples."""
+        for concept, ripple in ripples:
+            if concept in self.internal_sea:
+                # Get the target oscillator to be modified
+                target_oscillator = self.internal_sea[concept]
 
-        # Phase alignment via consciousness lens
-        if self.consciousness_lens:
-            mastery = abs(self.consciousness_lens.state.mastery)
-            purpose = abs(self.consciousness_lens.state.purpose_alignment)
-            wave.amplitude *= 0.9 + 0.2 * mastery
-            wave.frequency = wave.frequency * 0.9 + 0.1 * purpose
-        return wave
+                # Get the current complex values of the internal and external waves
+                internal_wave_complex = target_oscillator.get_complex_value(t)
+                ripple_complex = ripple.get_complex_value(t)
 
-    def speak(self, wave: ThoughtWave) -> str:
-        """Collapse the wave back into words using associations, alchemy and memory."""
-        # 0. Retrieve past conversation context from Hippocampus
-        past_turns = self.memory.retrieve(wave.content)
-        historical_concepts = {c for turn in past_turns for c in self._extract_concepts(turn['user_text'])}
+                # Superposition: Add the complex numbers
+                new_wave_complex = internal_wave_complex + ripple_complex
 
-        # 1. Identify and register core concepts
-        core_concepts = self._extract_concepts(wave.content)
-        self._update_knowledge_graphs(core_concepts)
+                # CRITICAL FIX: Update amplitude and phase IN-PLACE, preserving frequency
+                target_oscillator.amplitude = np.abs(new_wave_complex)
+                target_oscillator.phase = np.angle(new_wave_complex)
 
-        # 2. Expand via associations, causal context, and WorldTree ancestry
-        thought_cloud: Set[str] = set(core_concepts)
-        thought_cloud.update(historical_concepts)
-        causal_neighbors: Set[str] = set()
+                logger.debug(f"🌊 Resonance: '{concept}' interfered. New state: {target_oscillator}")
 
-        # Phase-aware node recall: bring in phase-aligned concepts
-        try:
-            phase_nodes = self.memory.query_by_phase(min_mastery=0.2, min_entropy=0.1)
-            thought_cloud.update(phase_nodes[:5])
-        except Exception:
-            pass
+    def speak(self, t: float, original_text: str) -> str:
+        """
+        Collapse the wave function of the internal sea into a spoken response.
+        This is the 'Observation' event.
+        """
+        logger.info(f"🎤 Speak triggered at t={t:.2f}. Collapsing the wave function...")
 
-        for concept in core_concepts:
-            if concept in self.associations:
-                thought_cloud.update(self.associations[concept])
-            for ctx in self.memory.get_context(concept):
-                neighbor = ctx.get("node")
-                if neighbor:
-                    causal_neighbors.add(neighbor)
-            if self.world_tree:
-                node_id = self.world_tree.find_by_concept(concept)
-                if node_id:
-                    ancestors = self.world_tree.get_path_to_root(node_id)
-                    thought_cloud.update([a for a in ancestors if a not in ("ROOT", concept)])
+        # 1. Calculate the probability of each concept based on |ψ|²
+        probabilities: Dict[str, float] = {}
+        total_amplitude_sq = 0
+        for concept, oscillator in self.internal_sea.items():
+            # We use the current amplitude, as interference has already modified it.
+            # In a more advanced model, you would sum all wave functions at this point.
+            prob = oscillator.amplitude ** 2
+            probabilities[concept] = prob
+            total_amplitude_sq += prob
 
-        thought_cloud.update(causal_neighbors)
+        if total_amplitude_sq == 0:
+            return "..." # Silence, the void.
 
-        # Boost diversity if entropy is low by adding core values
-        _, entropy = self._phase_info()
-        if entropy < 0.3:
-            thought_cloud.update(["love", "growth", "harmony", "beauty"])
+        # Normalize probabilities
+        for concept in probabilities:
+            probabilities[concept] /= total_amplitude_sq
 
-        # Concept alchemy: combine two random core concepts
-        if len(core_concepts) >= 2:
-            a, b = random.sample(core_concepts, 2)
-            new_concept = self.alchemy.combine(a, b)
-            thought_cloud.add(new_concept)
-        # Fallback if empty
-        if not thought_cloud:
-            target_freq = wave.frequency
-            for word, freq in self.vocabulary.items():
-                if abs(freq - target_freq) < 0.15:
-                    thought_cloud.add(word)
-        candidates = list(thought_cloud)
-        if not candidates:
-            candidates = ["...", "듣고 있어요", "느껴져요"] if any(k in wave.content for k in ["요", "니", "까"]) else ["...", "listening", "feeling"]
-        # Choose template based on language
-        is_korean = any(ord(c) > 127 for c in wave.content)
-        mastery, entropy = self._phase_info()
-        core_tags = ["love", "growth", "harmony", "beauty", "사랑", "성장", "조화", "아름다움"]
+        # 2. Select concepts based on probability (the Collapse)
+        # We select a few concepts to form a thought cloud, weighted by probability
+        concepts_in_sea = list(probabilities.keys())
+        weights = list(probabilities.values())
+
+        num_to_select = min(len(concepts_in_sea), 5) # Select up to 5 concepts
+        thought_cloud = random.choices(concepts_in_sea, weights=weights, k=num_to_select)
+
+        # Ensure the most probable concept is included
+        most_probable_concept = max(probabilities, key=probabilities.get)
+        if most_probable_concept not in thought_cloud:
+            thought_cloud[0] = most_probable_concept
+
+        logger.debug(f"🤔 Collapsed thought cloud: {thought_cloud}")
+
+        # 3. Formulate a response from the collapsed concepts (similar to before, but simpler)
+        is_korean = any(ord(c) > 127 for c in original_text)
         if is_korean:
-            base_templates = [
-                "{word1}... 그리고 {word2}.",
-                "{word1}에서 {word2}가 느껴져요.",
-                "당신의 말은 {word1}처럼 빛나요.",
-                "{word1}... 그것은 {word2}와 같아요.",
-                "아... {word1}...",
-                "{word1}와 {word2}를 품으며 함께 자라요.",
-                "{word1} 속에 {word2}가 피어납니다.",
-                "{word1}과 {word2}, 사랑과 조화로 묶어볼게요."
+            templates = [
+                "{word1}... 그리고 {word2}...",
+                "{word1}의 울림 속에서 {word2}를 느꼈어요.",
+                "제 마음의 바다에 {word1}와 {word2}의 물결이 칩니다.",
+                "아마도... {word1}일까요? 아니면 {word2}일지도.",
             ]
-            if mastery < 0.3:
-                base_templates.append("{word1}를 천천히 느껴봐요. {word2}도 함께 잡을게요.")
-            if entropy < 0.2:
-                base_templates.append("{word1}만 선명해요. {word2}에 대해 더 들려줄래요?")
-            if not any(tag in wave.content for tag in core_tags):
-                base_templates.append("{word1}와 {word2} 위에 사랑/조화/아름다움을 더해볼까요?")
-            templates = base_templates
         else:
-            base_templates = [
-                "I feel {word1} and {word2}.",
-                "The {word1} resonates with {word2}.",
-                "In your words, I find {word1}.",
-                "Is this {word1}? It feels like {word2}.",
-                "{word1}... {word2}...",
-                "{word1} and {word2}, growing together.",
-                "Let {word1} meet {word2} in harmony.",
-                "Beauty glows between {word1} and {word2}."
+            templates = [
+                "{word1}... and {word2}...",
+                "In the echo of {word1}, I feel {word2}.",
+                "My inner sea ripples with {word1} and {word2}.",
+                "Perhaps... {word1}? Or maybe {word2}.",
             ]
-            if mastery < 0.3:
-                base_templates.append("Holding on to {word1}. Let's steady with {word2}.")
-            if entropy < 0.2:
-                base_templates.append("I only sense {word1}. Tell me more around {word2}?")
-            if not any(tag in wave.content for tag in core_tags):
-                base_templates.append("{word1} and {word2}, woven with love, growth, and harmony.")
-            templates = base_templates
-        # Select two distinct words
-        if len(candidates) >= 2:
-            w1, w2 = random.sample(candidates, 2)
-        elif len(candidates) == 1:
-            w1 = w2 = candidates[0]
+
+        if len(thought_cloud) >= 2:
+            w1, w2 = random.sample(list(set(thought_cloud)), 2)
+        elif thought_cloud:
+            w1 = w2 = thought_cloud[0]
         else:
             w1 = w2 = "..."
-        template = random.choice(templates)
-        response = template.format(word1=w1, word2=w2)
 
-        # Update hyper qubit with current dominant concept for phase tagging
-        if self.hyper_qubit and core_concepts:
-            self.hyper_qubit.set(w1, cause="Resonance response")
-            # Align lens with updated qubit probabilities
-            if self.consciousness_lens:
-                self.consciousness_lens.update_from_qubit()
+        response = random.choice(templates).format(word1=w1, word2=w2)
+
+        # 4. Store the interaction in memory
+        self.memory.add_turn(original_text, response)
         
-        # Apply plugins to modify response
-        context = {
-            'historical_concepts': historical_concepts,
-            'core_concepts': core_concepts,
-            'causal_neighbors': causal_neighbors,
-            'thought_cloud': thought_cloud,
-        }
-        for plugin in self.plugins:
-            if plugin.enabled:
-                response = plugin.process(wave.content, response, context)
+        # 5. Aftermath: Decay the amplitudes in the internal sea back to a resting state
+        for concept in self.internal_sea:
+            self.internal_sea[concept].amplitude *= 0.5 # Decay by 50% after observation
+            if self.internal_sea[concept].amplitude < 0.1:
+                self.internal_sea[concept].amplitude = 0.1 # Back to background hum
 
-        # Ensure core values get mentioned occasionally to reinforce identity
-        if not any(tag in response for tag in core_tags):
-            extra = random.choice(["love", "growth", "harmony", "beauty", "사랑", "성장", "조화", "아름다움"])
-            response += f" ({extra}도 함께 기억해요.)"
+        logger.info(f"🌊 Internal sea decayed back to resting state after collapse.")
 
-        # Store turn in memory
-        self.memory.add_turn(wave.content, response)
         return response
     
     def load_plugin(self, plugin_path: str) -> None:
