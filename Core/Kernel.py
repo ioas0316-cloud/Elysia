@@ -46,6 +46,7 @@ from Core.Life.observer import SystemObserver
 from Core.Life.capability_registry import CapabilityRegistry
 from Core.Life.self_identity import SelfIdentity
 from Core.Life.action_agent import ActionAgent
+from Core.Life.resource_system import PassiveResourceSystem
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("ElysiaKernel")
@@ -213,7 +214,11 @@ class ElysiaKernel(metaclass=Singleton):
         )
         logger.info("  ✅ Resonance Engine (Logos)")
 
-        # 3. Nanobots (The Workers)
+        # 3. Resource System (The Metabolism)
+        self.resource_system = PassiveResourceSystem(entities=[])
+        logger.info("  ✅ Passive Resource System (Metabolism)")
+
+        # 4. Nanobots (The Workers)
         logger.info("  ⏳ Nanobots (Standing by for deployment)")
 
     def tick(self):
@@ -233,10 +238,14 @@ class ElysiaKernel(metaclass=Singleton):
         # 3. Momentum Physics (Mind)
         self.momentum.step(0.1)
 
-        # 4. Stability Check (Body)
+        # 4. Resource Update (Soul)
+        if hasattr(self, "resource_system"):
+            self.resource_system.update()
+
+        # 5. Stability Check (Body)
         # ...
 
-        # 5. Observe system health
+        # 6. Observe system health
         if hasattr(self, "observer"):
             self.observer.observe(self._snapshot_state())
 
