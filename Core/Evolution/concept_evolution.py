@@ -86,7 +86,7 @@ class ConceptEvolution:
         Creates a new concept from a cluster of particles.
         """
         # Extract source concepts
-        sources = list(set(p.concept for p in cluster))
+        sources = list(set(p.concept_id for p in cluster if p.concept_id is not None))
         if len(sources) < 2:
             return None
             
@@ -99,12 +99,17 @@ class ConceptEvolution:
              name = f"{sources[0]}_{sources[1]}_complex"
 
         # Check if already known
-        if self.hippocampus.get_concept(name):
+        if self.hippocampus.causal_graph.has_node(name):
             return None # Already known
             
         # Calculate properties
         avg_pos = np.mean([p.position for p in cluster], axis=0)
         avg_wavelength = np.mean([p.wavelength for p in cluster])
+        
+        # Update unnamed particles in the cluster with the new name
+        for p in cluster:
+            if p.concept_id is None:
+                p.concept_id = name
         
         return {
             "name": name,

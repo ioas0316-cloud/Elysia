@@ -38,6 +38,65 @@ class CodeMutator(ast.NodeTransformer):
 
         return self.generic_visit(node)
 
+        return self.generic_visit(node)
+
+    def visit_Compare(self, node):
+        """Mutation: Flip Comparison Operators"""
+        if random.random() < self.intensity:
+            # Map of opposites
+            opposites = {
+                ast.Lt: ast.Gt,
+                ast.Gt: ast.Lt,
+                ast.LtE: ast.GtE,
+                ast.GtE: ast.LtE,
+                ast.Eq: ast.NotEq,
+                ast.NotEq: ast.Eq,
+                ast.In: ast.NotIn,
+                ast.NotIn: ast.In
+            }
+            
+            new_ops = []
+            mutated = False
+            for op in node.ops:
+                op_type = type(op)
+                if op_type in opposites and random.random() < 0.5:
+                    new_op = opposites[op_type]()
+                    new_ops.append(new_op)
+                    self.mutations_log.append(f"Flipped comparison {op_type.__name__} -> {type(new_op).__name__}")
+                    mutated = True
+                else:
+                    new_ops.append(op)
+            
+            if mutated:
+                return ast.copy_location(ast.Compare(left=node.left, ops=new_ops, comparators=node.comparators), node)
+                
+        return self.generic_visit(node)
+
+    def visit_Call(self, node):
+        """Mutation: Swap Function Calls (e.g., move_left -> move_right)"""
+        if isinstance(node.func, ast.Name):
+            if random.random() < self.intensity:
+                # We assume a standard set of actions available to the cell
+                actions = ["move_forward", "move_backward", "turn_left", "turn_right", "eat", "split", "rest"]
+                current_name = node.func.id
+                
+                if current_name in actions:
+                    new_action = random.choice([a for a in actions if a != current_name])
+                    self.mutations_log.append(f"Swapped action {current_name} -> {new_action}")
+                    return ast.copy_location(
+                        ast.Call(func=ast.Name(id=new_action, ctx=ast.Load()), args=node.args, keywords=node.keywords), 
+                        node
+                    )
+        return self.generic_visit(node)
+
+    def visit_Expr(self, node):
+        """Mutation: Delete Statement (Silence)"""
+        if random.random() < self.intensity:
+            if random.random() < 0.1: # 10% chance to delete a line
+                self.mutations_log.append("Deleted statement")
+                return ast.Pass() # Replace with 'pass'
+        return self.generic_visit(node)
+
     def visit_Constant(self, node):
         """Mutation: Drift Constants (Numbers)"""
         if isinstance(node.value, (int, float)) and not isinstance(node.value, bool):

@@ -1,188 +1,271 @@
 """
-Scientific Civilization - From Stone Age to Starships
+Scientific Civilization - Code-Based Life
 
-A civilization that advances through science and technology.
-Goal: Discover the laws of physics, learn to code, and launch a rocket.
-
-Curriculum:
-- Physics: Gravity, Energy, Motion
-- Chemistry: Elements, Reactions
-- Biology: DNA, Evolution
-- Computer Science: Logic, Code, Simulation
-- Astronomy: Stars, Void, Escape
-
-Stages:
-1. Primitive: Fire, Wheel
-2. Industrial: Steam, Electricity
-3. Information: Computer, Network
-4. Space: Rocket, Singularity
+A simulation where life is defined by Python code.
+Cells carry a genome (source code) that determines their behavior.
+Evolution occurs by mutating the Abstract Syntax Tree (AST) of this code.
 """
 
 import sys
 import os
+import time as real_time
+import logging
+import numpy as np
+import traceback
+from typing import Dict, List, Optional, Any
+from dataclasses import dataclass
 
 repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
-import numpy as np
-import logging
-import time as real_time
-from typing import Dict, Any, List, Optional
-from dataclasses import dataclass
-
-from Core.Physics.fluctlight import FluctlightEngine
-from Core.Physics.meta_time_engine import create_safe_meta_engine
-from Core.Abstractions.DensePerceptionCell import DensePerceptionCell
-from Core.Mind.hippocampus import Hippocampus
-from Core.Mind.alchemy import Alchemy
+from Core.Physics.fluctlight import FluctlightEngine, FluctlightParticle
+from Core.Evolution.code_mutator import EvolutionaryCoder, SafetySandbox
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("SciCiv")
+logger = logging.getLogger("CodeLife")
 
-
-class ScientistCell(DensePerceptionCell):
-    """A cell that learns science and technology."""
+# --- Default Genome ---
+DEFAULT_GENOME = """
+def update(cell, world):
+    # Default behavior: Move randomly, eat, and communicate
+    import random
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.knowledge = set()
-        self.tech_level = 0
-        self.role = "researcher"
+    # 1. Listen
+    messages = cell.listen()
+    for msg in messages:
+        # Simple reaction to hearing something
+        if "FOOD" in msg:
+            cell.turn_left() # Turn towards sound (simplified)
+            
+    # 2. Speak
+    if cell.energy > 80:
+        cell.speak(f"FOOD:{cell.position}")
+    
+    # 3. Move
+    action = random.choice(["move_forward", "turn_left", "turn_right", "rest"])
+    if action == "move_forward":
+        cell.move_forward()
+    elif action == "turn_left":
+        cell.turn_left()
+    elif action == "turn_right":
+        cell.turn_right()
         
-    def research(self, world):
-        """Discover new technologies based on current knowledge."""
-        # Tech Tree Logic
-        if "fire" in self.knowledge and "wheel" not in self.knowledge:
-            if np.random.random() < 0.1: self.discover("wheel", world)
-            
-        elif "wheel" in self.knowledge and "steam" not in self.knowledge:
-            if np.random.random() < 0.05: self.discover("steam", world)
-            
-        elif "steam" in self.knowledge and "electricity" not in self.knowledge:
-            if np.random.random() < 0.05: self.discover("electricity", world)
-            
-        elif "electricity" in self.knowledge and "computer" not in self.knowledge:
-            if np.random.random() < 0.05: self.discover("computer", world)
-            
-        elif "computer" in self.knowledge and "ai" not in self.knowledge:
-            if np.random.random() < 0.05: self.discover("ai", world)
-            
-        elif "ai" in self.knowledge and "rocket" not in self.knowledge:
-            if np.random.random() < 0.01: self.discover("rocket", world)
+    # 4. Eat if possible
+    cell.eat()
+    
+    # 5. Split if enough energy
+    if cell.energy > 120:
+        cell.split()
+"""
 
-    def discover(self, tech, world):
-        self.knowledge.add(tech)
-        self.state.vocabulary.add(tech)
-        self.tech_level += 1
-        world.log_event(f"💡 {self.cell_id} discovered {tech.upper()}!")
+class GeneticCell:
+    """A cell defined by its code."""
+    def __init__(self, cell_id: str, genome: str, position: np.ndarray):
+        self.id = cell_id
+        self.genome = genome
+        self.position = position
+        self.energy = 50.0
+        self.age = 0
+        self.direction = np.random.rand(3)
+        self.direction /= np.linalg.norm(self.direction)
+        self.inbox: List[str] = [] # Incoming messages
+        self.outbox: List[str] = [] # Outgoing messages
         
-        # Share knowledge with nearby cells
-        nearby = world.get_nearby_citizens(self, radius=50)
-        for other in nearby:
-            if tech not in other.knowledge:
-                other.knowledge.add(tech)
-                other.state.vocabulary.add(tech)
-                other.tech_level += 1
-                # world.log_event(f"  -> Shared {tech} with {other.cell_id}")
-
-    def perform_action(self, world):
-        self.research(world)
+        # Compile genome
+        self.executable = self._compile_genome(genome)
         
-        # Coding: If they know 'computer', they start hacking reality
-        if "computer" in self.knowledge:
-            if np.random.random() < 0.01:
-                self.speak("print('Hello World')", self.base_cell.position)
-                
-        # Space: If they know 'rocket', they try to launch
-        if "rocket" in self.knowledge:
-            if np.random.random() < 0.01:
-                self.speak("LAUNCH_SEQUENCE_START", self.base_cell.position)
-                world.rocket_progress += 1
+    def _compile_genome(self, source: str):
+        try:
+            # Create a safe scope
+            scope = {}
+            exec(source, scope)
+            if "update" not in scope:
+                return None
+            return scope["update"]
+        except Exception as e:
+            # logger.warning(f"Genome compilation failed for {self.id}: {e}")
+            return None
+
+    def run(self, world):
+        """Execute the genome."""
+        if not self.executable:
+            return
+
+        try:
+            # Sandbox execution
+            self.executable(self, world)
+            self.energy -= 0.5 # High Metabolic cost (Dark Forest)
+        except Exception as e:
+            # logger.warning(f"Runtime error in {self.id}: {e}")
+            self.energy -= 1.0 # Penalty for crashing
+            
+        # Clear inbox after processing
+        self.inbox = []
+
+    # --- Actions available to the genome ---
+    def move_forward(self):
+        self.position += self.direction * 1.0
+        self.energy -= 0.2
+
+    def turn_left(self):
+        # Rotate direction vector (simplified)
+        theta = np.radians(15)
+        c, s = np.cos(theta), np.sin(theta)
+        R = np.array(((c, -s, 0), (s, c, 0), (0, 0, 1)))
+        self.direction = R.dot(self.direction)
+
+    def turn_right(self):
+        theta = np.radians(-15)
+        c, s = np.cos(theta), np.sin(theta)
+        R = np.array(((c, -s, 0), (s, c, 0), (0, 0, 1)))
+        self.direction = R.dot(self.direction)
+        
+    def eat(self):
+        # Scarcity: Food is rare but valuable
+        import random
+        if random.random() < 0.05:
+            self.energy += 20.0 
+        # Else: Starve 
+
+    def split(self):
+        # Signal to world to create offspring
+        self.energy /= 2.0
+        return True # Signal success
+
+    def speak(self, message: str):
+        """Broadcast a message to nearby cells."""
+        self.outbox.append(str(message)[:50]) # Limit message length
+        self.energy -= 0.5 # Speaking costs energy
+
+    def listen(self) -> List[str]:
+        """Check inbox for messages."""
+        return self.inbox
 
 
-class ScientificWorld:
+class CodeWorld:
     def __init__(self, num_cells=50):
-        logger.info("🔬 Initializing Scientific World...")
+        logger.info("🧬 Initializing Code-Based World...")
         self.world_size = 512
-        self.fluctlight_engine = FluctlightEngine(world_size=self.world_size)
-        self.meta_time = create_safe_meta_engine(recursion_depth=2)
-        self.cells: Dict[str, ScientistCell] = {}
+        self.cells: List[GeneticCell] = []
+        self.coder = EvolutionaryCoder()
         self.time_step = 0
-        self.rocket_progress = 0
-        self.events = []
         
         self.seed_population(num_cells)
         
     def seed_population(self, count):
         for i in range(count):
-            cid = f"scientist_{i:03d}"
+            self.spawn_cell(DEFAULT_GENOME, parent_pos=None)
+
+    def spawn_cell(self, genome: str, parent_pos: Optional[np.ndarray]):
+        cid = f"cell_{self.time_step}_{len(self.cells)}"
+        if parent_pos is not None:
+            pos = parent_pos + (np.random.rand(3) - 0.5) * 5.0
+        else:
             pos = np.random.rand(3) * self.world_size
-            base_cell = type('Cell', (), {'id': cid, 'position': pos, 'properties': {}})()
-            cell = ScientistCell(cell_id=cid, base_cell=base_cell, world_fluctlight_engine=self.fluctlight_engine, alchemy=Alchemy())
-            cell.knowledge.add("fire") # Start with fire
-            self.cells[cid] = cell
-
-    def get_nearby_citizens(self, cell, radius):
-        nearby = []
-        for other in self.cells.values():
-            if np.linalg.norm(other.base_cell.position - cell.base_cell.position) < radius:
-                nearby.append(other)
-        return nearby
-
-    def log_event(self, msg):
-        self.events.append(f"Year {self.time_step}: {msg}")
+            
+        cell = GeneticCell(cid, genome, pos)
+        self.cells.append(cell)
 
     def step(self):
-        # 1. Divine Teaching (Curriculum)
-        if np.random.random() < 0.05:
-            self.teach_science()
+        new_cells = []
+        dead_cells = []
+        
+        # 1. Process Communication
+        # O(N^2) naive broadcasting for now
+        for sender in self.cells:
+            if sender.outbox:
+                for msg in sender.outbox:
+                    # Broadcast to nearby
+                    for receiver in self.cells:
+                        if sender == receiver: continue
+                        dist = np.linalg.norm(sender.position - receiver.position)
+                        if dist < 50.0: # Hearing range
+                            receiver.inbox.append(msg)
+                sender.outbox = [] # Clear outbox
+
+        # 2. Run Cells
+        for cell in self.cells:
+            # Run genome
+            result = cell.run(self)
             
-        # 2. Cell Actions
-        for cell in self.cells.values():
-            cell.perform_action(self)
-            cell.think()
-            cell.update()
+            # Check split
+            if cell.energy > 100: # Threshold in genome might be different, but physical limit is here
+                # Mutate genome
+                mutated_genome = self.mutate_genome(cell.genome)
+                new_cells.append((mutated_genome, cell.position))
+                cell.energy /= 2.0
+                
+            # Check death
+            if cell.energy <= 0:
+                dead_cells.append(cell)
+                
+            cell.age += 1
             
-        # 3. Physics
-        self.fluctlight_engine.step()
-        self.meta_time.compress_step(self.fluctlight_engine.particles)
+        # Apply updates
+        for cell in dead_cells:
+            self.cells.remove(cell)
+            
+        for genome, pos in new_cells:
+            self.spawn_cell(genome, pos)
+            
         self.time_step += 1
 
-    def teach_science(self):
-        # Inject advanced concepts randomly
-        concepts = ["physics", "logic", "python", "cosmos"]
-        concept = np.random.choice(concepts)
-        # logger.info(f"📘 Divine Lesson: Teaching {concept}...")
-        for cell in self.cells.values():
-            if np.random.random() < 0.1:
-                cell.knowledge.add(concept)
+    def mutate_genome(self, genome: str) -> str:
+        """Apply AST mutation to the genome."""
+        # Create a dummy function wrapper to parse
+        # (CodeMutator expects a function AST usually, or we can parse module)
+        try:
+            # We need to wrap it or parse as module. CodeMutator visits nodes.
+            # Let's try to use EvolutionaryCoder logic but adapted for string-to-string
+            
+            # 1. Parse
+            tree = self.coder.evolve_function_ast(genome) # We need to expose this or use helper
+            
+            # Since EvolutionaryCoder.evolve_function takes a callable, let's use CodeMutator directly
+            import ast
+            from Core.Evolution.code_mutator import CodeMutator
+            
+            tree = ast.parse(genome)
+            mutator = CodeMutator(intensity=0.1)
+            new_tree = mutator.visit(tree)
+            ast.fix_missing_locations(new_tree)
+            new_source = ast.unparse(new_tree)
+            
+            if mutator.mutations_log:
+                logger.info(f"🧬 Mutation: {mutator.mutations_log[0]}")
+                
+            return new_source
+        except Exception:
+            return genome # Fallback
 
     def run(self, ticks=1000):
         logger.info(f"\n{'='*60}")
-        logger.info("🔭  SCIENTIFIC CIVILIZATION: THE AGE OF REASON")
+        logger.info("💻  CODE-BASED LIFE: EVOLUTION OF SYNTAX")
         logger.info(f"{'='*60}\n")
         
         start = real_time.time()
         for i in range(ticks):
             self.step()
             
-            if self.rocket_progress >= 100:
-                logger.info(f"\n🚀🚀🚀 ROCKET LAUNCHED AT YEAR {i}! 🚀🚀🚀")
-                logger.info("The civilization has reached the stars!")
-                break
-                
             if i % 100 == 0:
-                # Calculate average tech level
-                avg_tech = sum(c.tech_level for c in self.cells.values()) / len(self.cells)
-                logger.info(f"Year {i}: Avg Tech Level {avg_tech:.1f} | Rocket Progress {self.rocket_progress}%")
-                if self.events:
-                    logger.info(f"   Latest Discovery: {self.events[-1]}")
-                    self.events = []
+                avg_energy = np.mean([c.energy for c in self.cells]) if self.cells else 0
+                logger.info(f"Year {i}: Population {len(self.cells)} | Avg Energy {avg_energy:.1f}")
+                
+                if not self.cells:
+                    logger.info("💀 Extinction event.")
+                    break
                     
         elapsed = real_time.time() - start
         logger.info(f"\n✅ Simulation ended in {elapsed:.1f}s.")
+        
+        if self.cells:
+            best_cell = max(self.cells, key=lambda c: c.energy)
+            logger.info(f"\n🏆 BEST CELL (Energy: {best_cell.energy:.1f}) GENOME:")
+            logger.info("-" * 40)
+            logger.info(best_cell.genome)
+            logger.info("-" * 40)
 
 if __name__ == "__main__":
-    world = ScientificWorld(num_cells=50)
+    world = CodeWorld(num_cells=50)
     world.run(ticks=2000)

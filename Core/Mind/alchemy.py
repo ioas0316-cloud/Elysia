@@ -10,7 +10,7 @@ eternity".
 import logging
 import json
 import os
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 
 logger = logging.getLogger("Alchemy")
 
@@ -26,6 +26,10 @@ class Alchemy:
             ("dream", "reality"): "possibility",
             ("꿈", "현실"): "가능성",
         }
+        
+        # Load external rules
+        self.load_rules(os.path.join(os.path.dirname(__file__), "alchemy_rules.json"))
+        
         logger.info("✅ Alchemy initialized with %d rules", len(self._rules))
 
     def combine(self, concept_a: str, concept_b: str) -> str:
@@ -44,6 +48,17 @@ class Alchemy:
             result = f"{concept_a}-{concept_b}"
         logger.debug("Alchemy.combine: %s + %s -> %s", concept_a, concept_b, result)
         return result
+
+    def get_ingredients(self, result_concept: str) -> List[Tuple[str, str]]:
+        """
+        Return a list of ingredient pairs that produce the given result concept.
+        Useful for backward chaining (planning).
+        """
+        ingredients = []
+        for (a, b), res in self._rules.items():
+            if res == result_concept:
+                ingredients.append((a, b))
+        return ingredients
 
     def add_rule(self, concept_a: str, concept_b: str, result: str) -> None:
         """Add a new alchemy rule to the system."""

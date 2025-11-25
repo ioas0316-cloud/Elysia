@@ -249,13 +249,26 @@ class ResonanceEngine:
         concepts_in_sea = list(probabilities.keys())
         weights = list(probabilities.values())
 
-        num_to_select = min(len(concepts_in_sea), 5) # Select up to 5 concepts
+        num_to_select = min(len(concepts_in_sea), 5)  # Select up to 5 concepts
         thought_cloud = random.choices(concepts_in_sea, weights=weights, k=num_to_select)
 
         # Ensure the most probable concept is included
         most_probable_concept = max(probabilities, key=probabilities.get)
-        if most_probable_concept not in thought_cloud:
+        if most_probable_concept not in thought_cloud and thought_cloud:
             thought_cloud[0] = most_probable_concept
+
+        # 2b. Let the shared Hippocampus inject world/emergent concepts.
+        try:
+            graph_nodes = list(self.memory.causal_graph.nodes()) if hasattr(self.memory, "causal_graph") else []
+        except Exception:
+            graph_nodes = []
+
+        if graph_nodes and thought_cloud:
+            # Prefer to inject occasionally so emergent concepts surface in language.
+            if random.random() < 0.6:
+                injected = random.choice(graph_nodes)
+                if injected not in thought_cloud:
+                    thought_cloud[0] = injected
 
         logger.debug(f"🤔 Collapsed thought cloud: {thought_cloud}")
 

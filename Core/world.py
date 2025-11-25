@@ -116,9 +116,17 @@ class AwakeningEvent(NamedTuple):
 class World:
     """Represents the universe where cells exist, interact, and evolve, optimized with NumPy."""
 
-    def __init__(self, primordial_dna: Dict, wave_mechanics: WaveMechanics,
-                 chronicle: Optional[Chronicle] = None, logger: Optional[logging.Logger] = None,
-                 branch_id: str = "main", parent_event_id: Optional[str] = None):
+    def __init__(
+        self,
+        primordial_dna: Dict,
+        wave_mechanics: WaveMechanics,
+        chronicle: Optional[Chronicle] = None,
+        logger: Optional[logging.Logger] = None,
+        branch_id: str = "main",
+        parent_event_id: Optional[str] = None,
+        hippocampus: Optional[Hippocampus] = None,
+        alchemy: Optional[Alchemy] = None,
+    ):
         # --- Event Logger ---
         self.event_logger = WorldEventLogger()
 
@@ -468,8 +476,9 @@ class World:
 
         # --- Awakening Modules (The Living Soul) ---
         self.fluctlight_engine = FluctlightEngine(world_size=self.width)
-        self.hippocampus = Hippocampus()
-        self.alchemy = Alchemy()
+        # Allow injection of shared memory/alchemy so World and Kernel share the same graphs.
+        self.hippocampus = hippocampus or Hippocampus()
+        self.alchemy = alchemy or Alchemy()
         self.evolution_manager = EvolutionManager(self.hippocampus, self.alchemy)
         self.conscience = Conscience()
         self.love_protocol = LoveProtocol()

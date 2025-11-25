@@ -115,9 +115,26 @@ def run_self_eval():
     if not caps:
         return
     snap = kernel._snapshot_state()
+    momentum_active = int(snap.get("momentum_active", 0))
+    chaos_raw = abs(float(snap.get("chaos_raw", 0.0)))
+
+    # If the mind is already very busy or unstable, skip self-critique.
+    if momentum_active > 3 or chaos_raw > 50.0:
+        logger.info("[SelfEval] Skipping self-evaluation (mind too busy / unstable).")
+        return
+
+    # Occasionally choose pure rest over evaluation, even if called.
+    if random.random() < 0.3:
+        logger.info("[SelfEval] Choosing rest instead of creating new improvement tickets this cycle.")
+        return
+
     tickets = []
     deficits = caps.deficits(threshold=0.7)
     for rec in deficits:
+        # Allow Elysia to sometimes live with a known weakness for now.
+        if random.random() < 0.5:
+            logger.info(f"[SelfEval] Accepting current limitation for now: {rec.name} (no ticket opened).")
+            continue
         tickets.append(caps.add_ticket(rec.name, "deficit", "self-eval"))
     # Entropy check
     phase = snap.get("phase", {})

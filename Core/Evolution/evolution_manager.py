@@ -39,10 +39,28 @@ class EvolutionManager:
         else:
             self.boredom_counter = 0
             
-        # 2. Trigger Evolution if bored
-        if self.boredom_counter > 100: # 100 ticks of inactivity
-            self.trigger_evolution(engine)
+        # 2. Trigger response if bored
+        if self.boredom_counter > 100:  # 100 ticks of relative inactivity
+            self._handle_boredom(engine)
             self.boredom_counter = 0
+
+    def _handle_boredom(self, engine: FluctlightEngine) -> None:
+        """
+        Decide how to respond to sustained boredom.
+
+        Instead of forcing evolution every time, allow the system to:
+        - Rest (no structural changes)
+        - Reflect (introspective tick without evolution)
+        - Evolve (concept/code), as before
+        """
+        r = float(np.random.rand())
+        if r < 0.3:
+            logger.info("🌙 Boredom detected. Choosing to rest this cycle (no evolution).")
+            return
+        if r < 0.6:
+            logger.info("🧘 Boredom detected. Entering reflection mode (no structural change).")
+            # Future hook: could sample Hippocampus / WorldTree here.
+            return
             
     def trigger_evolution(self, engine: FluctlightEngine):
         """

@@ -50,6 +50,7 @@ from Core.Life.capability_registry import CapabilityRegistry
 from Core.Life.self_identity import SelfIdentity
 from Core.Life.action_agent import ActionAgent
 from Core.Life.resource_system import PassiveResourceSystem
+from Core.Mind.alchemy import Alchemy
 
 from Core.world import World
 
@@ -176,6 +177,7 @@ class ElysiaKernel(metaclass=Singleton):
         # 0. Memory & Concept Graphs
         self.hippocampus = Hippocampus()
         self.world_tree = WorldTree(self.hippocampus)
+        self.alchemy = Alchemy()
         logger.info("  ✅ Hippocampus (Context + Causal Memory)")
         logger.info("  ✅ WorldTree (Fractal Hierarchy)")
 
@@ -233,7 +235,15 @@ class ElysiaKernel(metaclass=Singleton):
         logger.info("  ⏳ Nanobots (Standing by for deployment)")
 
         # 5. World (The Simulation)
-        self.world = World(primordial_dna=self.core_values, wave_mechanics=None, logger=logger)
+        # Share Hippocampus/Alchemy so that world evolution and language
+        # both read/write the same concept graph.
+        self.world = World(
+            primordial_dna=self.core_values,
+            wave_mechanics=None,
+            logger=logger,
+            hippocampus=self.hippocampus,
+            alchemy=self.alchemy,
+        )
         logger.info("  ✅ World Simulation (The Stage)")
 
 
@@ -276,26 +286,23 @@ class ElysiaKernel(metaclass=Singleton):
         """
         Process a thought through the entire stack.
         """
-        # 1. Listen (Logos -> Wave)
-        wave = self.voice.listen(input_concept)
+        # 0. Time parameter for resonance
+        t = float(self.tick_count)
+
+        # 1. Listen (Logos -> ripples)
+        ripples = self.voice.listen(input_concept, t)
 
         # 2. Activate Momentum (Inertia)
-        self.momentum.activate(input_concept, force=wave.amplitude * 2.0)
+        total_amplitude = sum(osc.amplitude for _, osc in ripples) if ripples else 0.5
+        self.momentum.activate(input_concept, force=total_amplitude * 2.0)
 
-        # 3. Gather System State
-        state = {
-            "chaos": self.tremor.attractor.state.x / 20.0,  # Normalize roughly
-            "beauty": 0.85,  # From Aesthetic Governor
-            "valence": 0.7,  # From Emotional State
-        }
+        # 3. Resonate internal sea with external ripples
+        self.voice.resonate(ripples, t)
 
-        # 4. Resonate (Wave + State -> Interference)
-        processed_wave = self.voice.resonate(wave, state)
-
-        # 5. Meaning Court (Signal vs Noise)
-        # Use the processed wave amplitude as signal, and a simple combination
+        # 4. Meaning Court (Signal vs Noise)
+        # Use total ripple amplitude as signal, and a simple combination
         # of chaos + momentum as an effective noise level.
-        signal_strength = getattr(processed_wave, "amplitude", 1.0)
+        signal_strength = total_amplitude
         chaos_level = abs(self.tremor.attractor.state.x) if hasattr(self.tremor, "attractor") else 0.0
         momentum_noise = len(getattr(self.momentum, "thoughts", {})) * 0.1
         noise_level = chaos_level + momentum_noise
@@ -327,9 +334,9 @@ class ElysiaKernel(metaclass=Singleton):
             )
         self.last_intuition_accept_prob = mc_accept_prob
 
-        # 6. Speak (Wave -> Logos), respecting the court's verdict.
+        # 5. Speak, respecting the court's verdict.
         if verdict.accept:
-            response = self.voice.speak(processed_wave)
+            response = self.voice.speak(t, input_concept)
         else:
             response = "(..." " 조용히 흘려보냈어요. 아직은 잡음에 가까워요.)"
 
