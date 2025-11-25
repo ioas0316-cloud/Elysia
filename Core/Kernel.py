@@ -48,6 +48,8 @@ from Core.Life.self_identity import SelfIdentity
 from Core.Life.action_agent import ActionAgent
 from Core.Life.resource_system import PassiveResourceSystem
 
+from Core.world import World
+
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("ElysiaKernel")
 
@@ -221,6 +223,11 @@ class ElysiaKernel(metaclass=Singleton):
         # 4. Nanobots (The Workers)
         logger.info("  ⏳ Nanobots (Standing by for deployment)")
 
+        # 5. World (The Simulation)
+        self.world = World(primordial_dna=self.core_values, wave_mechanics=None, logger=logger)
+        logger.info("  ✅ World Simulation (The Stage)")
+
+
     def tick(self):
         """
         One heartbeat of the OS.
@@ -228,24 +235,28 @@ class ElysiaKernel(metaclass=Singleton):
         """
         self.tick_count += 1
 
-        # 1. Chaos Tremor (Life)
+        # 1. World Simulation Step (The Stage)
+        if hasattr(self, "world"):
+            self.world.run_simulation_step()
+
+        # 2. Chaos Tremor (Life)
         self.tremor.attractor.step()
 
-        # 2. Neural Update (Mind)
+        # 3. Neural Update (Mind)
         self.mind_neuron.step(0.1)
         self.heart_neuron.step(0.1)
 
-        # 3. Momentum Physics (Mind)
+        # 4. Momentum Physics (Mind)
         self.momentum.step(0.1)
 
-        # 4. Resource Update (Soul)
+        # 5. Resource Update (Soul)
         if hasattr(self, "resource_system"):
             self.resource_system.update()
 
-        # 5. Stability Check (Body)
+        # 6. Stability Check (Body)
         # ...
 
-        # 6. Observe system health
+        # 7. Observe system health
         if hasattr(self, "observer"):
             self.observer.observe(self._snapshot_state())
 

@@ -14,19 +14,21 @@ from pyquaternion import Quaternion
 import numpy as np
 from scipy.sparse import lil_matrix, csr_matrix
 
-from Project_Elysia.core.photon import PhotonEntity
-from Project_Elysia.core.spectrum import value_to_hue
-from .cell import Cell
-from .chronicle import Chronicle
-from .skills import MARTIAL_STYLES, Move
-from .spells import SPELL_BOOK, cast_spell
-from .world_event_logger import WorldEventLogger
-from .genesis_engine import GenesisEngine
-from .neural_eye import NeuralEye
-from ..wave_mechanics import WaveMechanics
-from .fields import FieldRegistry
-from .dialogue_kr import get_line as kr_dialogue
-from .tensor_wave import Tensor3D, SoulTensor
+from Core.Abstractions.Cell import Cell
+
+# TODO: Integrate with Core modules
+# from Project_Elysia.core.photon import PhotonEntity
+# from Project_Elysia.core.spectrum import value_to_hue
+from Core.Staging.chronicle import Chronicle
+from Core.Life.Systems.skills import MARTIAL_STYLES, Move
+from Core.Life.Systems.spells import SPELL_BOOK, cast_spell
+from Core.Staging.world_event_logger import WorldEventLogger
+from Core.Staging.genesis_engine import GenesisEngine
+from Core.Staging.neural_eye import NeuralEye
+# from ..wave_mechanics import WaveMechanics # This is in a higher level directory
+from Core.Staging.fields import FieldRegistry
+from Core.Staging.dialogue_kr import get_line as kr_dialogue
+from Core.Staging.tensor_wave import Tensor3D, SoulTensor
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
@@ -854,14 +856,14 @@ class World:
         temp_cell = self.materialize_cell(concept_id, force_materialize=True, explicit_properties=properties)
 
         # Set position
-        pos_dict = temp_cell.organelles.get('position', {'x': random.uniform(-10, 10), 'y': random.uniform(-10, 10), 'z': random.uniform(-10, 10)})
+        pos_dict = temp_cell.properties.get('position', {'x': random.uniform(-10, 10), 'y': random.uniform(-10, 10), 'z': random.uniform(-10, 10)})
         self.positions[idx] = [pos_dict.get('x', 0), pos_dict.get('y', 0), pos_dict.get('z', 0)]
         if temp_cell:
-            # Now that the cell is materialized and has its organelles, update the numpy arrays
+            # Now that the cell is materialized and has its properties, update the numpy arrays
             self.element_types[idx] = temp_cell.element_type
-            self.diets[idx] = temp_cell.organelles.get('diet', 'omnivore')
-            self.genders[idx] = temp_cell.organelles.get('gender', '')
-            self.labels[idx] = temp_cell.organelles.get('label', concept_id)
+            self.diets[idx] = temp_cell.properties.get('diet', 'omnivore')
+            self.genders[idx] = temp_cell.properties.get('gender', '')
+            self.labels[idx] = temp_cell.properties.get('label', concept_id)
         else:
             # Fallback if materialization fails, but we've already set element_type above
             self.diets[idx] = 'omnivore'
@@ -986,37 +988,24 @@ class World:
             if explicit_properties:
                 initial_properties.update(explicit_properties)
 
-            state = self.quantum_states[concept_id]
-            # Pass the current HP from the numpy array to the Cell object
-            cell = Cell(concept_id, self.primordial_dna, initial_properties=initial_properties)
-            cell.age = state.get('age', 0)
-            cell.is_alive = self.is_alive_mask[idx]
+        # Create a new lightweight Cell dataclass instance.
+        # All mutable state is in World's numpy arrays, not on the cell object.
+        cell = Cell(
+            id=concept_id,
+            dna=self.primordial_dna,
+            properties=initial_properties
+        )
 
-            # --- Inject Hydrated SoulTensor ---
-            if soul_tensor:
-                cell.tensor = soul_tensor
+        # --- Soul/Tensor Hydration (Future) ---
+        # If a soul_tensor is available, we can attach it.
+        # if soul_tensor:
+        #     cell.tensor = soul_tensor
 
-            # Sync all game stats to the cell object upon materialization
-            cell.hp = self.hp[idx]
-            cell.max_hp = self.max_hp[idx]
-            cell.ki = self.ki[idx]
-            cell.max_ki = self.max_ki[idx]
-            cell.mana = self.mana[idx]
-            cell.max_mana = self.max_mana[idx]
-            cell.faith = self.faith[idx]
-            cell.max_faith = self.max_faith[idx]
-            cell.strength = self.strength[idx]
-            cell.agility = self.agility[idx]
-            cell.intelligence = self.intelligence[idx]
-            cell.vitality = self.vitality[idx]
-            cell.wisdom = self.wisdom[idx]
+        # Crucially, update the numpy array with the correct element type upon materialization
+        self.element_types[idx] = cell.element_type
 
-
-            # Crucially, update the numpy array with the correct element type upon materialization
-            self.element_types[idx] = cell.element_type
-
-            self.materialized_cells[concept_id] = cell
-            return cell
+        self.materialized_cells[concept_id] = cell
+        return cell
         return None
 
     def crystallize_cell(self, cell: Cell):
@@ -1028,36 +1017,27 @@ class World:
         if not self.wave_mechanics:
             return
 
-        # Ensure the cell's internal state is synced to its tensor
-        cell.sync_soul_to_body()
+    # In the new model, there's nothing to sync from the Cell object itself.
+    # Instead, we would read the state from the World's NumPy arrays for that cell's index
+    # and update the Knowledge Graph based on that. This logic will be implemented later.
+
+    # TODO: (SOUL FUSION) Implement logic to read state from NumPy arrays and update KG.
+    # e.g., cell.sync_soul_to_body() is now an external process.
 
         # Use the WaveMechanics update method which handles entanglement
         # If this cell is entangled, its shared state gets updated for everyone.
-        if hasattr(self.wave_mechanics, 'update_node_tensor'):
-            self.wave_mechanics.update_node_tensor(cell.id, cell.tensor)
+    # if hasattr(self.wave_mechanics, 'update_node_tensor'):
+    #     self.wave_mechanics.update_node_tensor(cell.id, cell.tensor)
 
         self.logger.info(f"CRYSTALLIZE: Preserved SoulTensor state for '{cell.id}' back to the Cosmos.")
 
     def _sync_states_to_objects(self):
-        """Syncs the critical numpy array states back to any materialized cell objects."""
-        for i, cell_id in enumerate(self.cell_ids):
-            if cell_id in self.materialized_cells:
-                cell = self.materialized_cells[cell_id]
-                cell.is_alive = self.is_alive_mask[i]
-                cell.hp = self.hp[i]
-                cell.ki = self.ki[i]
-                cell.mana = self.mana[i]
-                cell.faith = self.faith[i]
-                # Sync other stats if they can change during simulation
-                cell.strength = self.strength[i]
-                cell.agility = self.agility[i]
-                cell.intelligence = self.intelligence[i]
-                cell.vitality = self.vitality[i]
-                cell.wisdom = self.wisdom[i]
-                cell.age = int(self.age[i])
-            state = self.quantum_states.get(cell_id)
-            if state is not None:
-                state['age'] = int(self.age[i])
+        """
+        DEPRECATED. With the flyweight Cell, there is no state to sync back to the objects.
+        State lives in the World's NumPy arrays. This method is kept as a placeholder
+        during transition and can be removed later.
+        """
+        pass
 
 
     def run_simulation_step(self) -> Tuple[List[Cell], List[AwakeningEvent]]:
@@ -1526,10 +1506,14 @@ class World:
         This resonance (Phase Complexity) then feeds back into the Body (Insight/Mana).
         """
         for cell_id, cell in self.materialized_cells.items():
-            if not cell.is_alive:
+            idx = self.id_to_idx.get(cell_id)
+            if idx is None or not self.is_alive_mask[idx]:
                 continue
 
             # 1. Grow the Soul (Wave Propagation)
+            # TODO: (SOUL FUSION) Properly initialize cell.soul. For now, skip if None.
+            if cell.soul is None:
+                continue
             # Returns: active_nodes (breadth), harmonic_richness (depth/complexity)
             active_nodes, richness = cell.soul.autonomous_grow()
 
@@ -3423,94 +3407,55 @@ class World:
 
     def _decide_social_or_combat_action(self, actor_idx: int, adj_matrix_csr: csr_matrix) -> Optional[Tuple[Optional[int], str, Optional[Move]]]:
         """
-        Handles hunting, fighting, skill use, and other social behaviors based on a causal scoring system.
-        Each possible action is scored based on internal, experiential, and environmental factors.
-        The action with the highest score is chosen, eliminating randomness.
+        Handles hunting, fighting, and social behaviors using a vectorized scoring system for performance.
+        All possible actions for all neighbors are scored simultaneously using NumPy operations.
         """
         connected_indices = adj_matrix_csr[actor_idx].indices
 
+        # --- Pre-computation and Law Evaluation ---
         self._determine_meta_focus(actor_idx, connected_indices)
         base_questions = self._reflective_questions(actor_idx, adj_matrix_csr, connected_indices)
         reflections_for_channels = base_questions
         evaluation = self.law_manager.evaluate(actor_idx, adj_matrix_csr, connected_indices)
         if evaluation:
-            reflections_for_channels = base_questions + evaluation.reflections
+            reflections_for_channels.extend(evaluation.reflections)
             self.last_reflections[actor_idx] = reflections_for_channels
-            self.logger.debug(
-                f"Law '{evaluation.policy_name}' triggered for {self.cell_ids[actor_idx]} with reflections: {evaluation.reflections}"
-            )
             self._update_channels(actor_idx, reflections_for_channels)
-            # Only short-circuit when the law proposes a concrete action.
             if evaluation.action is not None:
                 return evaluation.action
 
         if connected_indices.size == 0:
-            self.last_reflections[actor_idx] = reflections_for_channels
-            # If no law fired, we still want to push base questions into the channels.
             if not evaluation:
+                self.last_reflections[actor_idx] = reflections_for_channels
                 self._update_channels(actor_idx, reflections_for_channels)
-            return None, 'idle', None  # No one nearby, default to idle
+            return None, 'idle', None
 
-        # For non-empty neighborhoods, update channels at least once if no law already did so.
         if not evaluation:
             self.last_reflections[actor_idx] = reflections_for_channels
             self._update_channels(actor_idx, reflections_for_channels)
-        # --- 1. Identify all possible actions and targets ---
-        possible_actions = []
 
-        # Inject Genesis Actions (New Data-Driven Logic)
-        targets = connected_indices.tolist()
-        # Also include self as a target for self-actions
-        targets_with_self = targets + [actor_idx]
+        # --- 1. Vectorized Target Filtering ---
+        alive_mask = self.is_alive_mask[connected_indices]
+        neighbors = connected_indices[alive_mask]
+        if neighbors.size == 0:
+            return None, 'idle', None
 
-        # We assume "general" context for now. Future: "combat", "social", etc.
-        genesis_candidates = self.genesis_engine.get_candidate_actions(actor_idx, "general", targets_with_self)
-        for action_id, target_idx, score in genesis_candidates:
-             possible_actions.append({
-                 'action': f'genesis:{action_id}',
-                 'action_id': action_id,
-                 'target_idx': target_idx,
-                 'move': None,
-                 'score': score
-             })
+        neighbor_elements = self.element_types[neighbors]
+        is_plant = neighbor_elements == 'life'
+        is_animal = neighbor_elements == 'animal'
+        is_hungry = self.hunger[neighbors] < 30
+        is_same_species = self.labels[neighbors] == self.labels[actor_idx]
 
-        # Action: Share Food
-        # (Conditions to be implemented in the scoring function)
-        hungry_neighbors = connected_indices[(self.hunger[connected_indices] < 30) & self.is_alive_mask[connected_indices]]
-        for target_idx in hungry_neighbors:
-            possible_actions.append({'action': 'share_food', 'target_idx': target_idx, 'move': None})
+        # --- 2. Actor & Environmental State ---
+        actor_hunger = self.hunger[actor_idx]
+        actor_wisdom = self.wisdom[actor_idx]
+        actor_satisfaction = self.satisfaction[actor_idx]
+        actor_scars = self.experience_scars[actor_idx]
+        has_starvation_scar = (actor_scars & 1) > 0
+        has_charity_scar = (actor_scars & 2) > 0
 
-        # Action: Attack or Eat
-        # (Conditions to be implemented in the scoring function)
-        for target_idx in connected_indices:
-            if not self.is_alive_mask[target_idx]:
-                continue
-
-            target_element = self.element_types[target_idx]
-            if target_element == 'life':  # plant
-                possible_actions.append({'action': 'eat', 'target_idx': target_idx, 'move': None})
-            elif target_element == 'animal':
-                # Attack any animal; no faction filter so emergent alliances/conflicts can form freely.
-                possible_actions.append({'action': 'attack', 'target_idx': target_idx, 'move': None})
-                # (Skill/Spell selection will be added later)
-
-        # Action: Talk (social dialogue)
-        # Always available when there are neighbors; scoring will decide if it is compelling.
-        for target_idx in connected_indices:
-            if not self.is_alive_mask[target_idx]:
-                continue
-            possible_actions.append({'action': 'talk', 'target_idx': target_idx, 'move': None})
-
-
-        # --- 2. Score each possible action based on causal factors ---
-        best_action = {'action': 'idle', 'target_idx': None, 'move': None}
-        highest_score = 5 # Idle has a small base score to be chosen when no other action is compelling
-
-        # --- Environmental Factors (Field Sampling) ---
         actor_pos = self.positions[actor_idx].astype(int)
         px, py = np.clip(actor_pos[0], 0, self.width - 1), np.clip(actor_pos[1], 0, self.width - 1)
-
-        # Sample Fields: The "Atmosphere"
         local_life = float(self.ascension_field[py, px, ASCENSION_LIFE])
         local_death = float(self.descent_field[py, px, DESCENT_DEATH])
         local_threat = float(self.threat_field[py, px])
@@ -3518,113 +3463,76 @@ class World:
         local_will = float(self.will_field[py, px])
         local_value = float(self.value_mass_field[py, px])
 
-        for action_option in possible_actions:
-            score = 0
-            action_type = action_option['action']
-            target_idx = action_option['target_idx']
+        # --- 3. Vectorized Score Calculation ---
+        # Initialize score arrays for each action type
+        share_scores = np.full(neighbors.shape, -np.inf, dtype=np.float32)
+        eat_scores = np.full(neighbors.shape, -np.inf, dtype=np.float32)
+        attack_scores = np.full(neighbors.shape, -np.inf, dtype=np.float32)
+        talk_scores = np.full(neighbors.shape, -np.inf, dtype=np.float32)
 
-            # --- Causal Score Calculation ---
-            actor_scars = self.experience_scars[actor_idx]
-            has_starvation_scar = (actor_scars & 1) > 0
-            has_charity_scar = (actor_scars & 2) > 0
+        # --- Share Food Scores ---
+        if actor_hunger > 70 and np.any(is_hungry):
+            eligible_targets_mask = is_hungry
+            base_score = 100 + actor_wisdom * 1.5 + actor_satisfaction
+            field_score = local_life * 50 + local_value * 20 + local_coherence * 30
+            kin_bonus = (adj_matrix_csr[actor_idx, neighbors].toarray().flatten() >= 0.8) * 50
+            charity_bonus = has_charity_scar * 100
+            share_scores[eligible_targets_mask] = base_score + field_score + kin_bonus[eligible_targets_mask] + charity_bonus
 
-            if action_type.startswith('genesis:'):
-                score += action_option.get('score', 0)
+        # --- Eat Scores ---
+        if np.any(is_plant) and self.diets[actor_idx] in ['herbivore', 'omnivore']:
+            hunger_drive = (100 - actor_hunger) * 0.8 - local_threat * 10
+            eat_scores[is_plant] = hunger_drive
 
-            elif action_type == 'share_food':
-                # Share food if actor is not hungry, target is hungry, and actor has some wisdom.
-                if self.hunger[actor_idx] > 70 and self.hunger[target_idx] < 30:
-                    score += 100 # Greatly increased base score for altruism
-                    score += self.wisdom[actor_idx] * 1.5
-                    score += self.satisfaction[actor_idx] # A satisfied cell is more likely to share
+        # --- Attack Scores ---
+        if np.any(is_animal) and self.diets[actor_idx] in ['carnivore', 'omnivore']:
+            hunger_drive = 100 - actor_hunger
+            hp_ratio = self.hp[neighbors] / self.max_hp[neighbors]
+            hp_factor = (1 - hp_ratio) * 20
+            field_score = local_death * 50 + local_threat * 30 + local_will * 20 - local_life * 20 - local_coherence * 40
+            starvation_bonus = (has_starvation_scar and actor_hunger < 50) * 50
 
-                    # --- Field Resonance ---
-                    score += local_life * 50 # The field of Life promotes sharing life (food)
-                    score += local_value * 20 # "Value" field encourages exchange/gift
-                    score += local_coherence * 30 # "Coherence" field encourages bonding
+            attack_scores[is_animal] = hunger_drive + hp_factor[is_animal] + field_score + starvation_bonus
+            attack_scores[is_animal & is_same_species] = -1000  # Cannibalism taboo
 
-                    if adj_matrix_csr[actor_idx, target_idx] >= 0.8:
-                        score += 50
-                    if has_charity_scar:
-                        score += 100 # Greatly increased bonus for having received charity
+        # --- Talk Scores ---
+        relation_strengths = adj_matrix_csr[actor_idx, neighbors].toarray().flatten()
+        base_score = 6.0 - (actor_hunger < 40) * 3.0 - (self.is_injured[actor_idx]) * 1.0
+        actor_emotion = self.emotions[actor_idx]
+        if actor_emotion in ('joy', 'calm'): base_score += 3.0
+        elif actor_emotion == 'sorrow': base_score += 2.0
+        else: base_score += 1.0
+        field_score = local_life * 10.0 + local_coherence * 20.0 + local_value * 10.0 - local_death * 5.0 - local_threat * 5.0
+        talk_scores[:] = base_score + relation_strengths * 4.0 + field_score
 
-            elif action_type == 'eat':
-                # Eat if hungry. The score is proportional to hunger.
-                if self.diets[actor_idx] in ['herbivore', 'omnivore']:
-                    hunger_drive = (100 - self.hunger[actor_idx]) * 0.8 # Scale down to balance against sharing
-                    score += hunger_drive
-                    # If threat is high, eating is risky, but high will can overcome it.
-                    score -= local_threat * 10
+        # --- 4. Find Best Action Across All Types ---
+        best_score = 5.0  # Idle score
+        best_action = 'idle'
+        best_target_idx = None
 
-            elif action_type == 'attack':
-                # Attack if hungry and target is prey.
-                if self.diets[actor_idx] in ['carnivore', 'omnivore']:
-                    # --- Taboo: Cannibalism is heavily penalized ---
-                    if self.labels[actor_idx] == self.labels[target_idx]:
-                        score = -1000
-                    else:
-                        hunger_drive = (100 - self.hunger[actor_idx])
-                        score += hunger_drive
-                        hp_factor = (self.max_hp[target_idx] - self.hp[target_idx]) / self.max_hp[target_idx]
-                        score += hp_factor * 20
-                        if has_starvation_scar and self.hunger[actor_idx] < 50:
-                            score += 50 # Reduced bonus to avoid hyper-aggression
+        if share_scores.max() > best_score:
+            best_score = share_scores.max()
+            best_action = 'share_food'
+            best_target_idx = neighbors[np.argmax(share_scores)]
 
-                        # --- Field Resonance (The Wave of War) ---
-                        score += local_death * 50 # The field of Death promotes aggression
-                        score += local_threat * 30 # High threat triggers fight-or-flight (fight here)
-                        score += local_will * 20 # High will tension pushes towards action
-                        score -= local_life * 20 # The field of Life suppresses aggression
-                        score -= local_coherence * 40 # Harmony suppresses violence
+        if eat_scores.max() > best_score:
+            best_score = eat_scores.max()
+            best_action = 'eat'
+            best_target_idx = neighbors[np.argmax(eat_scores)]
 
-            elif action_type == 'talk':
-                # Social dialogue: prioritized when the actor is not in acute survival stress
-                # and when there is a meaningful relationship or rich field of life.
-                relation_strength = float(adj_matrix_csr[actor_idx, target_idx])
-                try:
-                    actor_emotion = self.emotions[actor_idx]
-                except Exception:
-                    actor_emotion = 'neutral'
+        if attack_scores.max() > best_score:
+            best_score = attack_scores.max()
+            best_action = 'attack'
+            best_target_idx = neighbors[np.argmax(attack_scores)]
 
-                # Start from a small base above idle so talking can be chosen
-                base_score = 6.0
+        if talk_scores.max() > best_score:
+            best_score = talk_scores.max()
+            best_action = 'talk'
+            best_target_idx = neighbors[np.argmax(talk_scores)]
 
-                # Survival pressure: very low hunger or severe injury reduces appetite for dialogue.
-                if self.hunger[actor_idx] < 40:
-                    base_score -= 3.0
-                if self.is_injured[actor_idx]:
-                    base_score -= 1.0
-
-                # Emotional valence: joy/calm encourage open conversation, sorrow invites comfort.
-                if actor_emotion in ('joy', 'calm'):
-                    base_score += 3.0
-                elif actor_emotion == 'sorrow':
-                    base_score += 2.0
-                else:
-                    base_score += 1.0
-
-                # Relationship closeness and life field support dialogue; death field suppresses it.
-                base_score += relation_strength * 4.0
-
-                # --- Field Resonance (The Wave of Culture) ---
-                base_score += local_life * 10.0
-                base_score += local_coherence * 20.0 # Coherence strongly encourages talking
-                base_score += local_value * 10.0 # Value mass encourages trade/negotiation
-                base_score -= local_death * 5.0
-                # High threat might actually INCREASE talk (begging/threatening) but purely social talk is suppressed.
-                # We'll let specific sub-types handle that logic if needed, but generally threat silences casual chat.
-                base_score -= local_threat * 5.0
-
-                score += base_score
-
-            if score > highest_score:
-                highest_score = score
-                best_action = action_option
-
-        # --- 3. Return the highest-scoring action ---
-        # Store the chosen action's base "Physics" key for learning later
-        self._last_action_intent = best_action.get('action', 'idle')
-        return best_action['target_idx'], best_action['action'], best_action['move']
+        # --- 5. Return the chosen action ---
+        self._last_action_intent = best_action
+        return best_target_idx, best_action, None
 
     def _learn_from_resonance(self, actor_idx: int, action: str, outcome: str, magnitude: float):
         """
@@ -4057,7 +3965,7 @@ class World:
             if random.random() < 0.1: # 10% chance to create a seed each turn
                 new_seed_id = f"plant_{self.time_step}_{i}"
                 parent_cell = self.materialize_cell(self.cell_ids[i])
-                child_props = parent_cell.organelles.copy() if parent_cell else {'element_type': 'life'}
+                child_props = parent_cell.properties.copy() if parent_cell else {'element_type': 'life'}
 
                 # --- Seed of Will Field: Plant Colonization ---
                 # New seed falls near the parent, forming groves and forests.
@@ -4120,9 +4028,9 @@ class World:
 
                 new_animal_id = f"{self.labels[i]}_{self.time_step}"
                 parent_cell = self.materialize_cell(self.cell_ids[i])
-                child_props = parent_cell.organelles.copy()
+                child_props = parent_cell.properties.copy()
                 child_props['gender'] = random.choice(['male', 'female'])
-                new_cell = Cell(new_animal_id, self.primordial_dna, initial_properties=child_props)
+                new_cell = Cell(id=new_animal_id, dna=self.primordial_dna, properties=child_props)
                 newly_born_cells.append(new_cell)
                 # Log birth
                 try:
@@ -4165,7 +4073,7 @@ class World:
         # Add newly born cells to the world
         for cell in newly_born_cells:
             if cell.id not in self.id_to_idx:
-                self.add_cell(cell.id, dna=cell.nucleus['dna'], properties=cell.organelles)
+                self.add_cell(cell.id, dna=cell.dna, properties=cell.properties)
 
         # Process death for cells with zero or less HP
         # Khala Units (Protoss) have a chance to ascend as Dragoons/Immortals instead of dying?
