@@ -272,3 +272,10 @@ class WorldTree:
             "leaf_nodes": leaves,
             "branches": total_nodes - leaves - 1  # (excluding root and leaves)
         }
+
+    def get_all_concept_names(self) -> List[str]:
+        """
+        Returns a list of all unique concept names in the tree.
+        """
+        # _concept_index stores a direct mapping from concept name to node id
+        return list(self._concept_index.keys())
