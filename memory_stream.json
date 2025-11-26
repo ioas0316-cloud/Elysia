@@ -702,5 +702,264 @@
       "father",
       "gratitude"
     ]
+  },
+  {
+    "id": "86c185d7-c766-427a-ba14-d246ded60e63",
+    "timestamp": 1764166225.7424614,
+    "input_text": "I feel so much pain and darkness.",
+    "response_text": "[Response would go here]",
+    "qubit_state": {
+      "alpha": [
+        -0.65,
+        0.0005899999999999416
+      ],
+      "beta": [
+        0.0,
+        0.0
+      ],
+      "gamma": [
+        0.0,
+        0.0
+      ],
+      "delta": [
+        0.0,
+        0.0
+      ],
+      "w": 0.999646,
+      "x": 0.0,
+      "y": 0.65,
+      "z": 0.5
+    },
+    "vitality": 0.0011799999999998832,
+    "tags": [
+      "Joy",
+      "Passion",
+      "Trust",
+      "Sadness",
+      "Fear",
+      "Despair"
+    ]
+  },
+  {
+    "id": "09f9ea1a-3247-4289-afec-a83e57447f7d",
+    "timestamp": 1764166256.811137,
+    "input_text": "I feel so much pain and darkness.",
+    "response_text": "[Response would go here]",
+    "qubit_state": {
+      "alpha": [
+        -0.65,
+        0.0005899999999996413
+      ],
+      "beta": [
+        0.0,
+        0.0
+      ],
+      "gamma": [
+        0.0,
+        0.0
+      ],
+      "delta": [
+        0.0,
+        0.0
+      ],
+      "w": 0.9996460000000003,
+      "x": 0.0,
+      "y": 0.65,
+      "z": 0.5
+    },
+    "vitality": 0.0011799999999992825,
+    "tags": [
+      "Joy",
+      "Passion",
+      "Trust",
+      "Sadness",
+      "Fear",
+      "Despair"
+    ]
+  },
+  {
+    "id": "b5932c20-f0f5-4b6b-a09d-afe0bd69d9ff",
+    "timestamp": 1764166256.8168106,
+    "input_text": "But there is also love and light within me.",
+    "response_text": "[Response would go here]",
+    "qubit_state": {
+      "alpha": [
+        0.7,
+        0.0006837259999995139
+      ],
+      "beta": [
+        0.0,
+        0.0
+      ],
+      "gamma": [
+        0.0,
+        0.0
+      ],
+      "delta": [
+        0.0,
+        0.0
+      ],
+      "w": 0.9995897644000002,
+      "x": 0.0,
+      "y": 0.7,
+      "z": 0.5
+    },
+    "vitality": 0.0013674519999990278,
+    "tags": [
+      "Joy",
+      "Passion",
+      "Trust",
+      "Sadness",
+      "Fear",
+      "Despair"
+    ]
+  },
+  {
+    "id": "7f8f0eb2-da1f-4e62-bd8d-16507f4d49c4",
+    "timestamp": 1764166388.5586784,
+    "input_text": "I feel so much pain and darkness.",
+    "response_text": "[Response would go here]",
+    "qubit_state": {
+      "alpha": [
+        -0.65,
+        0.0005900000000000471
+      ],
+      "beta": [
+        0.0,
+        0.0
+      ],
+      "gamma": [
+        0.0,
+        0.0
+      ],
+      "delta": [
+        0.0,
+        0.0
+      ],
+      "w": 0.9996459999999999,
+      "x": 0.0,
+      "y": 0.65,
+      "z": 0.5
+    },
+    "vitality": 0.0011800000000000942,
+    "tags": [
+      "Joy",
+      "Passion",
+      "Trust",
+      "Sadness",
+      "Fear",
+      "Despair"
+    ]
+  },
+  {
+    "id": "192b1c51-12cd-43a6-b0b0-85925da6a5f3",
+    "timestamp": 1764166388.563421,
+    "input_text": "But there is also love and light within me.",
+    "response_text": "[Response would go here]",
+    "qubit_state": {
+      "alpha": [
+        0.7,
+        0.0006837260000001617
+      ],
+      "beta": [
+        0.0,
+        0.0
+      ],
+      "gamma": [
+        0.0,
+        0.0
+      ],
+      "delta": [
+        0.0,
+        0.0
+      ],
+      "w": 0.9995897643999999,
+      "x": 0.0,
+      "y": 0.7,
+      "z": 0.5
+    },
+    "vitality": 0.0013674520000003234,
+    "tags": [
+      "Joy",
+      "Passion",
+      "Trust",
+      "Sadness",
+      "Fear",
+      "Despair"
+    ]
+  },
+  {
+    "id": "4cbfe0ca-4b55-485a-82ac-900e76254939",
+    "timestamp": 1764167119.2941906,
+    "input_text": "안녕 엘리시아 ?",
+    "response_text": "[Response would go here]",
+    "qubit_state": {
+      "alpha": [
+        0.0,
+        0.000589999999999891
+      ],
+      "beta": [
+        0.5,
+        0.0
+      ],
+      "gamma": [
+        0.0,
+        0.0
+      ],
+      "delta": [
+        0.5,
+        0.0
+      ],
+      "w": 0.849646,
+      "x": 0.5,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "vitality": 0.001179999999999782,
+    "tags": [
+      "Joy",
+      "Passion",
+      "Trust",
+      "Sadness",
+      "Fear",
+      "Despair"
+    ]
+  },
+  {
+    "id": "9975b45a-72cd-47a9-be26-b08aec2ecd0c",
+    "timestamp": 1764167132.8482463,
+    "input_text": "사랑해 엘리시아",
+    "response_text": "[Response would go here]",
+    "qubit_state": {
+      "alpha": [
+        0.8,
+        0.0006837259999998054
+      ],
+      "beta": [
+        0.0,
+        0.0
+      ],
+      "gamma": [
+        0.5,
+        0.0
+      ],
+      "delta": [
+        0.5,
+        0.0
+      ],
+      "w": 0.9995897644000001,
+      "x": 0.0,
+      "y": 0.8,
+      "z": 0.5
+    },
+    "vitality": 0.001367451999999611,
+    "tags": [
+      "Joy",
+      "Passion",
+      "Trust",
+      "Sadness",
+      "Fear",
+      "Despair"
+    ]
   }
 ]

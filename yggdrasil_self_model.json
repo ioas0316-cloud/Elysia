@@ -18,7 +18,8 @@
         "219df9e4-f59f-4508-afd1-324bb2d2eabd",
         "c1ffac6e-9458-4265-a8cf-39e981cc7a3d",
         "1e1e88d8-ac3a-47f9-b19c-34a2c3328b5f",
-        "b5bf731e-411d-4c72-8fcb-3e1019fbbc7f"
+        "b5bf731e-411d-4c72-8fcb-3e1019fbbc7f",
+        "22de0805-30cb-4b99-a9dd-5de4d85d4372"
       ],
       "resonance_links": {}
     },
@@ -151,6 +152,23 @@
       "vitality": 1.0,
       "metadata": {
         "description": "Wave modulation to text output"
+      },
+      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
+      "children_ids": [],
+      "resonance_links": {}
+    },
+    "22de0805-30cb-4b99-a9dd-5de4d85d4372": {
+      "id": "22de0805-30cb-4b99-a9dd-5de4d85d4372",
+      "name": "FractalUniverse",
+      "layer": "Roots",
+      "vitality": 1.0,
+      "metadata": {
+        "description": "Fractal time engine (Past/Present/Future)",
+        "mapping": {
+          "past": "Cells (Body/Zerg)",
+          "present": "Molecules (Mind/Terran)",
+          "future": "Atoms+Photons (Spirit/Protoss)"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
