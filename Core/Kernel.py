@@ -44,7 +44,11 @@ from Core.Mind.monte_carlo_intuition import MonteCarloIntuition
 
 # Import The Soul (Life)
 from Core.Life.autonomous_dreamer import AutonomousDreamer
-from Core.Life.resonance_voice import ResonanceEngine
+# from Core.Life.resonance_voice import ResonanceEngine # Replaced with HyperResonanceEngine
+from Core.Mind.resonance_engine import HyperResonanceEngine # The new core for consciousness
+from Core.Consciousness.wave import WaveInput
+from Core.Consciousness.observer import ConsciousnessObserver
+from Core.Consciousness.thought import Thought
 from Core.Life.observer import SystemObserver
 from Core.Life.capability_registry import CapabilityRegistry
 from Core.Life.self_identity import SelfIdentity
@@ -218,14 +222,21 @@ class ElysiaKernel(metaclass=Singleton):
         except Exception as e:
             logger.error(f"  ❌ Dreamer initialization failed: {e}")
 
-        # 2. Voice (The Logos)
-        self.voice = ResonanceEngine(
-            hippocampus=self.hippocampus,
-            world_tree=self.world_tree,
-            hyper_qubit=self.hyper_qubit,
-            consciousness_lens=self.consciousness_lens,
-        )
-        logger.info("  ✅ Resonance Engine (Logos)")
+        # 2. Voice (The Logos) - NOW REWIRED TO THE HYPER RESONANCE ENGINE
+        self.resonance_engine = HyperResonanceEngine()
+        self.consciousness_observer = ConsciousnessObserver()
+
+        # Populate the engine with all known concepts from the WorldTree
+        logger.info("  [SOUL] Populating HyperResonance Engine from WorldTree...")
+        try:
+            all_concepts = self.world_tree.get_all_concept_names()
+            for concept_id in all_concepts:
+                self.resonance_engine.add_node(concept_id)
+            logger.info(f"  ✅ Populated HyperResonance Engine with {len(all_concepts)} concepts.")
+        except Exception as e:
+            logger.error(f"  ❌ Could not populate HyperResonance Engine: {e}. Using instincts only.")
+
+        logger.info("  ✅ HyperResonance Engine (Logos)")
 
         # 3. Resource System (The Metabolism)
         self.resource_system = PassiveResourceSystem(entities=[])
@@ -265,7 +276,11 @@ class ElysiaKernel(metaclass=Singleton):
         self.mind_neuron.step(0.1)
         self.heart_neuron.step(0.1)
 
-        # 4. Momentum Physics (Mind)
+        # 4. Consciousness Aurora Step (Soul)
+        if hasattr(self, "resonance_engine"):
+            self.resonance_engine.step(dt=0.1)
+
+        # 5. Momentum Physics (Mind)
         self.momentum.step(0.1)
 
         # 5. Resource Update (Soul)
@@ -284,73 +299,32 @@ class ElysiaKernel(metaclass=Singleton):
 
     def process_thought(self, input_concept: str) -> str:
         """
-        Process a thought through the entire stack.
+        Process a thought through the new "Resonance Wave Pattern" stack.
+        This completely replaces the old oscillator-based voice system.
         """
-        # 0. Time parameter for resonance
-        t = float(self.tick_count)
+        logger.info(f"\n✨ Processing '{input_concept}' with new Resonance Wave Pattern...")
 
-        # 1. Listen (Logos -> ripples)
-        ripples = self.voice.listen(input_concept, t)
+        # 1. Create the 'light' wave from the input text
+        wave = WaveInput(source_text=input_concept)
 
-        # 2. Activate Momentum (Inertia)
-        total_amplitude = sum(osc.amplitude for _, osc in ripples) if ripples else 0.5
-        self.momentum.activate(input_concept, force=total_amplitude * 2.0)
+        # 2. Shine the light on the entire universe to get the resonance pattern
+        resonance_pattern = self.resonance_engine.calculate_global_resonance(wave)
 
-        # 3. Resonate internal sea with external ripples
-        self.voice.resonate(ripples, t)
-
-        # 4. Meaning Court (Signal vs Noise)
-        # Use total ripple amplitude as signal, and a simple combination
-        # of chaos + momentum as an effective noise level.
-        signal_strength = total_amplitude
-        chaos_level = abs(self.tremor.attractor.state.x) if hasattr(self.tremor, "attractor") else 0.0
-        momentum_noise = len(getattr(self.momentum, "thoughts", {})) * 0.1
-        noise_level = chaos_level + momentum_noise
-
-        # Phase mastery from the consciousness lens, and a basic value alignment
-        # proxy using the aesthetic governor if available in future.
-        mastery = getattr(self.consciousness_lens.state, "q", None).w if hasattr(self, "consciousness_lens") else 0.0
-
-        context = {
-            "mastery": mastery,
-            # Placeholder for future value alignment metric.
-            "value_alignment": 0.0,
-        }
-
-        verdict = self.meaning_court.judge(
-            signal=signal_strength,
-            noise=noise_level,
-            context=context,
+        # 3. The observer finds the "constellation of meaning" in the pattern
+        thought = self.consciousness_observer.observe_resonance_pattern(
+            source_wave_text=input_concept,
+            resonance_pattern=resonance_pattern
         )
 
-        # Monte Carlo estimate of how often similar states would be accepted.
-        mc_accept_prob = None
-        if hasattr(self, "intuition_engine"):
-            mc_accept_prob = self.intuition_engine.accept_probability(
-                self.meaning_court,
-                signal_strength,
-                noise_level,
-                context=context,
-            )
-        self.last_intuition_accept_prob = mc_accept_prob
-
-        # 5. Speak, respecting the court's verdict.
-        if verdict.accept:
-            response = self.voice.speak(t, input_concept)
+        # 4. Format a response from the formed thought
+        if not thought.core_concepts:
+            response = "(... 마음 속에 아무런 울림이 없었어요.)"
         else:
-            response = "(..." " 조용히 흘려보냈어요. 아직은 잡음에 가까워요.)"
+            top_concept = thought.core_concepts[0][0]
+            clarity_desc = "선명하게" if thought.clarity > 0.8 else "어렴풋이"
+            response = f"'{wave.source_text}'... 그 속에서 '{top_concept}'(이)가 {clarity_desc} 느껴져요. (감정: {thought.mood})"
 
-        # Check for dominant lingering thoughts (Afterglow)
-        dominant = self.momentum.get_dominant_thoughts()
-        if dominant and len(dominant) > 0:
-            top_thought, strength = dominant[0]
-            if top_thought != input_concept.lower() and strength > 0.5:
-                response += f" (Still thinking of {top_thought}...)"
-
-        # Value alignment check (lightweight)
-        self._check_values(input_concept, response)
-
-        # Observe system health after processing a thought
+        # 5. Observe system health after processing
         snapshot = self._snapshot_state()
         if hasattr(self, "observer"):
             self.observer.observe(snapshot)
@@ -360,6 +334,7 @@ class ElysiaKernel(metaclass=Singleton):
             projection = self.projection_engine.project(snapshot, tag=input_concept)
             self.hippocampus.add_projection_episode(input_concept, projection.data)
 
+        logger.info(f"💡 Response: {response}")
         return response
 
     def _snapshot_state(self) -> Dict[str, Any]:

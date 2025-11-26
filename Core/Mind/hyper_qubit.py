@@ -55,6 +55,25 @@ class QubitState:
             "God": abs(self.delta) ** 2,
         }
 
+    def total_amplitude(self) -> float:
+        """Returns the total magnitude of the amplitudes."""
+        return abs(self.alpha) + abs(self.beta) + abs(self.gamma) + abs(self.delta)
+
+    def adjust_amplitude(self, delta: float):
+        """Adjusts the total amplitude by a delta, distributing it proportionally."""
+        current_total = self.total_amplitude()
+        if current_total == 0:
+            return # Avoid division by zero
+
+        new_total = max(0, current_total + delta)
+        ratio = new_total / current_total
+
+        self.alpha *= ratio
+        self.beta *= ratio
+        self.gamma *= ratio
+        self.delta *= ratio
+        self.normalize()
+
 
 class HyperQubit:
     """
