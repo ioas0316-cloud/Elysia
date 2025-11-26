@@ -72,21 +72,54 @@ class CodeMutator(ast.NodeTransformer):
                 
         return self.generic_visit(node)
 
+    def visit_If(self, node):
+        """Mutation: Flip If Condition or Swap Blocks"""
+        if random.random() < self.intensity:
+            # 1. Flip Condition (e.g., > to <)
+            if isinstance(node.test, ast.Compare):
+                # Reuse visit_Compare logic by visiting the test node specifically
+                # But simpler to just manually flip here if we want specific control
+                pass # visit_Compare will handle the recursion if we let it
+
+            # 2. Swap Body and Orelse
+            if node.orelse and random.random() < 0.5:
+                self.mutations_log.append("Swapped If-Body and Else-Block")
+                return ast.copy_location(
+                    ast.If(test=node.test, body=node.orelse, orelse=node.body),
+                    node
+                )
+        
+        return self.generic_visit(node)
+
     def visit_Call(self, node):
-        """Mutation: Swap Function Calls (e.g., move_left -> move_right)"""
+        """Mutation: Swap Function Calls or Mutate Arguments"""
         if isinstance(node.func, ast.Name):
             if random.random() < self.intensity:
                 # We assume a standard set of actions available to the cell
-                actions = ["move_forward", "move_backward", "turn_left", "turn_right", "eat", "split", "rest"]
+                actions = ["move_forward", "move_backward", "turn_left", "turn_right", "eat", "split", "rest", "speak"]
                 current_name = node.func.id
                 
-                if current_name in actions:
+                # 1. Swap Action Name
+                if current_name in actions and random.random() < 0.5:
                     new_action = random.choice([a for a in actions if a != current_name])
                     self.mutations_log.append(f"Swapped action {current_name} -> {new_action}")
                     return ast.copy_location(
                         ast.Call(func=ast.Name(id=new_action, ctx=ast.Load()), args=node.args, keywords=node.keywords), 
                         node
                     )
+                
+                # 2. Mutate Arguments (e.g. speak("A") -> speak("B"))
+                if current_name == "speak" and node.args and isinstance(node.args[0], ast.Constant):
+                    # Change sound
+                    if isinstance(node.args[0].value, str):
+                        new_sound = "".join(random.choices("ABCDEFGHIJKLMNOPQRSTUVWXYZ", k=4))
+                        self.mutations_log.append(f"Mutated speech '{node.args[0].value}' -> '{new_sound}'")
+                        new_args = [ast.Constant(value=new_sound)]
+                        return ast.copy_location(
+                            ast.Call(func=node.func, args=new_args, keywords=node.keywords),
+                            node
+                        )
+
         return self.generic_visit(node)
 
     def visit_Expr(self, node):
