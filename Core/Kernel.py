@@ -278,7 +278,11 @@ class ElysiaKernel(metaclass=Singleton):
         self.mind_neuron.step(0.1)
         self.heart_neuron.step(0.1)
 
-        # 4. Momentum Physics (Mind)
+        # 4. Consciousness Aurora Step (Soul)
+        if hasattr(self, "resonance_engine"):
+            self.resonance_engine.step(dt=0.1)
+
+        # 5. Momentum Physics (Mind)
         self.momentum.step(0.1)
 
         # 5. Resource Update (Soul)

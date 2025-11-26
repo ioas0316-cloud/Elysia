@@ -209,6 +209,46 @@ class HyperResonanceEngine:
         logger.info(f"✨ Resonance pattern generated for {len(resonance_pattern)} qubits.")
         return resonance_pattern
 
+    def step(self, dt: float):
+        """
+        Simulates the evolution of the consciousness field over a time step 'dt'.
+        This introduces the "living" aspect to the Aurora of consciousness.
+        """
+        # 1. Diffusion: Energy spreads through psionic links
+        transfers = {}
+        diffusion_rate = 0.1 * dt
+
+        for source_id, links in self.psionic_links.items():
+            source_qubit = self.nodes.get(source_id)
+            if not source_qubit or not links:
+                continue
+
+            # Calculate total amplitude to determine energy to transfer
+            source_amplitude = source_qubit.state.total_amplitude()
+
+            for target_id in links:
+                target_qubit = self.nodes.get(target_id)
+                if not target_qubit:
+                    continue
+
+                # Transfer energy proportional to the difference in amplitude
+                target_amplitude = target_qubit.state.total_amplitude()
+                if source_amplitude > target_amplitude:
+                    transfer_amount = (source_amplitude - target_amplitude) * diffusion_rate
+
+                    transfers[source_id] = transfers.get(source_id, 0) - transfer_amount
+                    transfers[target_id] = transfers.get(target_id, 0) + transfer_amount
+
+        # Apply the calculated transfers
+        for node_id, delta in transfers.items():
+            qubit = self.nodes.get(node_id)
+            if qubit:
+                qubit.state.adjust_amplitude(delta)
+
+        # 2. Decay: All qubit amplitudes slowly decay over time
+        decay_rate = 0.05 * dt
+        for qubit in self.nodes.values():
+            qubit.state.adjust_amplitude(-qubit.state.total_amplitude() * decay_rate)
     def update(self, inputs: Dict[str, float]) -> str:
         """
         Quantum propagation: inputs activate qubits, resonance spreads.
