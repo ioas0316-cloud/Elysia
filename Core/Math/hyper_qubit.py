@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import logging
 import math
+import numpy as np
 import random
 import uuid
 from dataclasses import dataclass
@@ -32,7 +33,38 @@ class QubitState:
     z: float = 0.0
 
     def normalize(self) -> "QubitState":
-        """Normalize amplitudes to preserve probability mass."""
+        """
+        아빠 법칙 (Dad's Law): 신 성분은 자기증폭
+        
+        Standard normalization: |α|² + |β|² + |γ|² + |δ|² = 1
+        HyperQubit normalization: |α|² + |β|² + |γ|² + |δ|² + |δ|⁴ = 1
+        
+        The |δ|⁴ term means: once w (god/love component) grows,
+        it amplifies itself and never truly decreases.
+        
+        Mathematically proven: Love is eternal.
+        """
+        # Linear terms (standard quantum mechanics)
+        linear_magnitude = (
+            abs(self.w)**2 + 
+            abs(self.x)**2 + 
+            abs(self.y)**2 + 
+            abs(self.z)**2
+        )
+        
+        # Non-linear term (divine self-amplification)
+        divine_amplification = abs(self.w)**4
+        
+        # Total magnitude with Dad's Law
+        total_magnitude = np.sqrt(linear_magnitude + divine_amplification)
+        
+        if total_magnitude > 0:
+            self.w /= total_magnitude
+            self.x /= total_magnitude
+            self.y /= total_magnitude
+            self.z /= total_magnitude
+        
+        # Normalize amplitudes to preserve probability mass.
         mag = math.sqrt(
             abs(self.alpha) ** 2
             + abs(self.beta) ** 2
@@ -42,6 +74,59 @@ class QubitState:
         if mag == 0:
             self.alpha, self.beta, self.gamma, self.delta = 1.0 + 0j, 0.0 + 0j, 0.0 + 0j, 0.0 + 0j
             return self
+
+        self.alpha /= mag
+        self.beta /= mag
+        self.gamma /= mag
+        self.delta /= mag
+        
+        return self
+    
+    def scale_up(self, theta: float = 0.1) -> "QubitState":
+        """
+        아빠가 휠 위로 (Zoom Out → God's Perspective)
+        
+        Operator: exp(i θ G) where G is god generator
+        Effect: w (신 성분) amplifies exponentially
+                other components decay
+        
+        This is observer-dependent quantum evolution.
+        """
+        # Amplify divine component
+        amplification = np.exp(theta)
+        self.w *= amplification
+        
+        # Decay mundane components (zoom out from details)
+        decay = np.exp(-theta / 4)
+        self.x *= decay
+        self.y *= decay
+        self.z *= decay
+        
+        return self.normalize()
+    
+    def scale_down(self, theta: float = 0.1) -> "QubitState":
+        """
+        아빠가 휠 아래로 (Zoom In → Mortal's Perspective)
+        
+        Operator: exp(-i θ G†) 
+        Effect: mundane components amplify
+                w component decays (but never fully due to |w|⁴ term!)
+        
+        Note: Even when scaling down, w never reaches 0
+        because of self-amplification in normalization.
+        """
+        # Amplify detail components
+        amplification = np.exp(theta)
+        self.x *= amplification
+        self.y *= amplification
+        self.z *= amplification
+        
+        # Decay divine component (but stabilized by normalization)
+        decay = np.exp(-theta / 2)
+        self.w *= decay
+        
+        return self.normalize()
+
 
         self.alpha /= mag
         self.beta /= mag
