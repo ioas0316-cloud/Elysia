@@ -10,7 +10,7 @@ eternity".
 import logging
 import json
 import os
-from typing import Dict, Tuple, List
+from typing import Dict, Tuple, List, Any
 
 logger = logging.getLogger("Alchemy")
 
@@ -83,3 +83,20 @@ class Alchemy:
                 self.add_rule(concept_a, concept_b, result)
         
         logger.info(f"✅ Loaded {len(data.get('rules', []))} rules from {filepath}")
+
+    def transmute(self, thought_path: List[str], qubit_state: Any = None) -> str:
+        """
+        Transmute a sequence of concepts (thought path) into a surface-level sentence.
+        This is a placeholder for a more complex NLG system.
+        """
+        if not thought_path:
+            return "..."
+            
+        # 1. Try to find a profound combination
+        if len(thought_path) >= 2:
+            combined = self.combine(thought_path[0], thought_path[-1])
+            if "-" not in combined: # If it found a rule
+                return f"The {thought_path[0]} resonates with {thought_path[-1]}, revealing {combined}."
+        
+        # 2. Fallback: Poetic chaining
+        return f"I feel the {', and the '.join(thought_path)}."

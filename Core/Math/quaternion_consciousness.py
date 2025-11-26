@@ -75,10 +75,10 @@ class ConsciousnessLens:
 
         self.state.q = (delta_q * current_q).normalised
 
-    def stabilize(self):
+    def stabilize(self, amount: float = 0.1):
         """Slerp towards identity to increase mastery/stability."""
         identity = Quaternion(1, 0, 0, 0)
-        self.state.q = Quaternion.slerp(self.state.q, identity, amount=0.1)
+        self.state.q = Quaternion.slerp(self.state.q, identity, amount=amount)
 
     def get_will_vector(self) -> np.ndarray:
         """Forward vector of current lens orientation."""
