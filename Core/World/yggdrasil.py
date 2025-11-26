@@ -212,6 +212,13 @@ class Yggdrasil:
         if not realm_id:
             return None
         return self.realms[realm_id].subsystem
+
+    def get_realm_node(self, realm_name: str) -> Optional[RealmNode]:
+        """Get the RealmNode object by name."""
+        realm_id = self._name_to_id.get(realm_name)
+        if not realm_id:
+            return None
+        return self.realms[realm_id]
     
     def get_active_realms(self, min_vitality: float = 0.1) -> List[str]:
         """Get list of realm names with vitality above threshold."""

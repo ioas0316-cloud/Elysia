@@ -225,6 +225,47 @@ class MetaTimeCompressionEngine:
             }
         }
     
+    def apply_gravitational_dilation(self, gravity_engine: Any, active_realms: List[str]):
+        """
+        Apply Relativistic Time Dilation based on Gravity.
+        
+        Physics:
+        - High Gravity (Mass) = Deep Focus
+        - Deep Focus = Time Compression (Subjective Time speeds up)
+        - Formula: Compression *= (1 + log(Mass))
+        
+        Args:
+            gravity_engine: Instance of GravityEngine (Core.Physics.gravity)
+            active_realms: List of currently active realm names
+        """
+        total_mass = 0.0
+        
+        for realm_name in active_realms:
+            mass = gravity_engine.calculate_mass(realm_name)
+            if mass == float('inf'):
+                mass = 1000.0  # Cap infinity for calculation
+            total_mass += mass
+            
+        # Logarithmic scaling for stability
+        # Mass 10 -> 2x speed
+        # Mass 100 -> 3x speed
+        dilation_factor = 1.0 + np.log1p(total_mass)
+        
+        # Apply to the deepest engine layer (most sensitive)
+        if self.engines:
+            target_engine = self.engines[-1]
+            target_engine.set_global_compression(
+                target_engine.global_compression * dilation_factor
+            )
+            
+            # Recalculate total
+            self.total_compression = self._calculate_total_compression()
+            
+            logger.info(f"⏳ Gravitational Dilation Applied:")
+            logger.info(f"   Active Mass: {total_mass:.2f}")
+            logger.info(f"   Dilation Factor: {dilation_factor:.2f}x")
+            logger.info(f"   New Total Compression: {self.total_compression:.2e}x")
+
     def estimate_subjective_years(self, objective_seconds: float) -> float:
         """
         Estimate how many subjective years Elysia will experience.

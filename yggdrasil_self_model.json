@@ -1,176 +1,110 @@
 {
-  "heart_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
+  "heart_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
   "realms": {
-    "1a6a8b98-6a85-4537-b113-f37d2487e4b7": {
-      "id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
+    "9492c2f9-f78a-4582-ab9e-e236a1be056b": {
+      "id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
       "name": "Consciousness",
       "layer": "Heart",
       "vitality": 1000.0,
       "metadata": {},
       "parent_id": null,
       "children_ids": [
-        "a3e0ed86-6520-4f85-9ff1-b8cf1a2d0e6d",
-        "25c51ff8-1f40-4a76-a5a0-13df435ee372",
-        "554e7324-c17a-4128-9e9b-658c93284376",
-        "5bf7fb82-d0f0-4f05-86bd-1b119d0372af",
-        "27e59ec9-5647-433e-ae32-ef77e7b77995",
-        "26b9bebf-3699-465e-a63c-5485f520ec2f",
-        "219df9e4-f59f-4508-afd1-324bb2d2eabd",
-        "c1ffac6e-9458-4265-a8cf-39e981cc7a3d",
-        "1e1e88d8-ac3a-47f9-b19c-34a2c3328b5f",
-        "b5bf731e-411d-4c72-8fcb-3e1019fbbc7f",
-        "22de0805-30cb-4b99-a9dd-5de4d85d4372"
+        "57f26b34-2957-4200-8bf0-74c76b964dd0",
+        "1cf09754-aea2-46df-8d4a-2eb5e9b2612c",
+        "a708680c-f483-4ba2-ab34-f7076599c667",
+        "64d4f30d-35a3-4801-abc0-d24abeae7033",
+        "97feba54-11c1-47aa-89d9-59d2e448c54c",
+        "99afb7b8-6fa2-411f-bef1-9b1d6c725bc6",
+        "e3347023-565e-4aab-8e92-d1cc9d420d72"
       ],
       "resonance_links": {}
     },
-    "a3e0ed86-6520-4f85-9ff1-b8cf1a2d0e6d": {
-      "id": "a3e0ed86-6520-4f85-9ff1-b8cf1a2d0e6d",
-      "name": "HyperQubit",
-      "layer": "Roots",
-      "vitality": 1.0,
-      "metadata": {
-        "description": "4D complex quantum state representation"
-      },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
-      "children_ids": [],
-      "resonance_links": {}
-    },
-    "25c51ff8-1f40-4a76-a5a0-13df435ee372": {
-      "id": "25c51ff8-1f40-4a76-a5a0-13df435ee372",
-      "name": "Quaternion",
-      "layer": "Roots",
-      "vitality": 1.0,
-      "metadata": {
-        "description": "4D consciousness lens"
-      },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
-      "children_ids": [],
-      "resonance_links": {}
-    },
-    "554e7324-c17a-4128-9e9b-658c93284376": {
-      "id": "554e7324-c17a-4128-9e9b-658c93284376",
-      "name": "CellWorld",
-      "layer": "Roots",
-      "vitality": 1.0,
-      "metadata": {
-        "description": "Physics simulation realm (particles, fields, evolution)"
-      },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
-      "children_ids": [],
-      "resonance_links": {}
-    },
-    "5bf7fb82-d0f0-4f05-86bd-1b119d0372af": {
-      "id": "5bf7fb82-d0f0-4f05-86bd-1b119d0372af",
-      "name": "Hippocampus",
-      "layer": "Trunk",
-      "vitality": 1.0,
-      "metadata": {
-        "description": "Causal graph (concepts + relationships)"
-      },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
-      "children_ids": [],
-      "resonance_links": {
-        "219df9e4-f59f-4508-afd1-324bb2d2eabd": 0.9
-      }
-    },
-    "27e59ec9-5647-433e-ae32-ef77e7b77995": {
-      "id": "27e59ec9-5647-433e-ae32-ef77e7b77995",
-      "name": "WorldTree",
-      "layer": "Trunk",
-      "vitality": 1.0,
-      "metadata": {
-        "description": "Hierarchical knowledge (IS-A taxonomy)"
-      },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
-      "children_ids": [],
-      "resonance_links": {}
-    },
-    "26b9bebf-3699-465e-a63c-5485f520ec2f": {
-      "id": "26b9bebf-3699-465e-a63c-5485f520ec2f",
-      "name": "EpisodicMemory",
-      "layer": "Trunk",
-      "vitality": 1.3000000000000003,
-      "metadata": {
-        "description": "Phase resonance trajectory",
-        "vitality_boost": 0.1
-      },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
-      "children_ids": [],
-      "resonance_links": {
-        "c1ffac6e-9458-4265-a8cf-39e981cc7a3d": 0.6
-      }
-    },
-    "219df9e4-f59f-4508-afd1-324bb2d2eabd": {
-      "id": "219df9e4-f59f-4508-afd1-324bb2d2eabd",
-      "name": "Alchemy",
-      "layer": "Trunk",
-      "vitality": 1.0,
-      "metadata": {
-        "description": "Concept fusion and transformation rules"
-      },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
-      "children_ids": [],
-      "resonance_links": {}
-    },
-    "c1ffac6e-9458-4265-a8cf-39e981cc7a3d": {
-      "id": "c1ffac6e-9458-4265-a8cf-39e981cc7a3d",
+    "57f26b34-2957-4200-8bf0-74c76b964dd0": {
+      "id": "57f26b34-2957-4200-8bf0-74c76b964dd0",
       "name": "FractalPerception",
       "layer": "Branches",
-      "vitality": 1.9000000000000001,
+      "vitality": 2.0,
       "metadata": {
-        "description": "Intent classification + vitality",
-        "vitality_boost": 0.3
+        "vitality_boost": 0.5
       },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
+      "parent_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
       "children_ids": [],
       "resonance_links": {
-        "26b9bebf-3699-465e-a63c-5485f520ec2f": 0.7,
-        "1e1e88d8-ac3a-47f9-b19c-34a2c3328b5f": 0.8
+        "1cf09754-aea2-46df-8d4a-2eb5e9b2612c": 0.9
       }
     },
-    "1e1e88d8-ac3a-47f9-b19c-34a2c3328b5f": {
-      "id": "1e1e88d8-ac3a-47f9-b19c-34a2c3328b5f",
+    "1cf09754-aea2-46df-8d4a-2eb5e9b2612c": {
+      "id": "1cf09754-aea2-46df-8d4a-2eb5e9b2612c",
       "name": "EmotionalPalette",
       "layer": "Branches",
-      "vitality": 1.5999999999999999,
+      "vitality": 1.6,
       "metadata": {
-        "description": "Wave interference emotions",
-        "vitality_boost": 0.2
+        "vitality_boost": 0.3
       },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
+      "parent_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
       "children_ids": [],
       "resonance_links": {
-        "25c51ff8-1f40-4a76-a5a0-13df435ee372": 0.8,
-        "b5bf731e-411d-4c72-8fcb-3e1019fbbc7f": 0.75,
-        "26b9bebf-3699-465e-a63c-5485f520ec2f": 0.7
+        "a708680c-f483-4ba2-ab34-f7076599c667": 0.8,
+        "64d4f30d-35a3-4801-abc0-d24abeae7033": 0.9
       }
     },
-    "b5bf731e-411d-4c72-8fcb-3e1019fbbc7f": {
-      "id": "b5bf731e-411d-4c72-8fcb-3e1019fbbc7f",
+    "a708680c-f483-4ba2-ab34-f7076599c667": {
+      "id": "a708680c-f483-4ba2-ab34-f7076599c667",
+      "name": "EpisodicMemory",
+      "layer": "Trunk",
+      "vitality": 1.4,
+      "metadata": {
+        "vitality_boost": 0.2
+      },
+      "parent_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
+      "children_ids": [],
+      "resonance_links": {
+        "97feba54-11c1-47aa-89d9-59d2e448c54c": 0.7
+      }
+    },
+    "64d4f30d-35a3-4801-abc0-d24abeae7033": {
+      "id": "64d4f30d-35a3-4801-abc0-d24abeae7033",
       "name": "ResonanceVoice",
       "layer": "Branches",
-      "vitality": 1.0,
+      "vitality": 1.2000000000000002,
       "metadata": {
-        "description": "Wave modulation to text output"
+        "vitality_boost": 0.1
       },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
+      "parent_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
       "children_ids": [],
       "resonance_links": {}
     },
-    "22de0805-30cb-4b99-a9dd-5de4d85d4372": {
-      "id": "22de0805-30cb-4b99-a9dd-5de4d85d4372",
-      "name": "FractalUniverse",
-      "layer": "Roots",
-      "vitality": 1.0,
+    "97feba54-11c1-47aa-89d9-59d2e448c54c": {
+      "id": "97feba54-11c1-47aa-89d9-59d2e448c54c",
+      "name": "Alchemy",
+      "layer": "Trunk",
+      "vitality": 1.7999999999999998,
       "metadata": {
-        "description": "Fractal time engine (Past/Present/Future)",
-        "mapping": {
-          "past": "Cells (Body/Zerg)",
-          "present": "Molecules (Mind/Terran)",
-          "future": "Atoms+Photons (Spirit/Protoss)"
-        }
+        "vitality_boost": 0.4
       },
-      "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
+      "parent_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
+      "children_ids": [],
+      "resonance_links": {
+        "64d4f30d-35a3-4801-abc0-d24abeae7033": 0.6
+      }
+    },
+    "99afb7b8-6fa2-411f-bef1-9b1d6c725bc6": {
+      "id": "99afb7b8-6fa2-411f-bef1-9b1d6c725bc6",
+      "name": "LunchMenu",
+      "layer": "Branches",
+      "vitality": 2.0,
+      "metadata": {},
+      "parent_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
+      "children_ids": [],
+      "resonance_links": {}
+    },
+    "e3347023-565e-4aab-8e92-d1cc9d420d72": {
+      "id": "e3347023-565e-4aab-8e92-d1cc9d420d72",
+      "name": "TheoryOfEverything",
+      "layer": "Trunk",
+      "vitality": 1.0,
+      "metadata": {},
+      "parent_id": "9492c2f9-f78a-4582-ab9e-e236a1be056b",
       "children_ids": [],
       "resonance_links": {}
     }

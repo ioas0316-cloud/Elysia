@@ -28,18 +28,35 @@ class TreeNode:
     """A single node in the WorldTree fractal hierarchy."""
     
     def __init__(self, concept: Any, parent: Optional['TreeNode'] = None):
+        from Core.Mind.tensor import HyperQuaternion
         self.id = str(uuid.uuid4())
         self.concept = concept  # The concept data (string or complex object)
         self.parent = parent
         self.children: List['TreeNode'] = []
         self.metadata: Dict[str, Any] = {}
         self.depth = 0 if parent is None else parent.depth + 1
-    
+        
+        # The Soul of the Node (4D HyperQuaternion)
+        # Inherit from parent with slight mutation, or random if root
+        if parent and hasattr(parent, 'qubit'):
+            # Mutation logic: drift slightly from parent
+            p_q = parent.qubit
+            self.qubit = HyperQuaternion(
+                w=p_q.w, # Same dimension usually
+                x=p_q.x + random.uniform(-0.1, 0.1),
+                y=p_q.y + random.uniform(-0.1, 0.1),
+                z=p_q.z + random.uniform(-0.1, 0.1)
+            )
+        else:
+            self.qubit = HyperQuaternion.random()
+
     def add_child(self, child_node: 'TreeNode') -> None:
         """Add a child node to this node."""
         self.children.append(child_node)
         child_node.parent = self
         child_node.depth = self.depth + 1
+        # Re-align child's qubit to parent if it was random
+        # (Optional, but helps coherence)
     
     def to_dict(self) -> Dict[str, Any]:
         """Serialize this node and its descendants to a dictionary."""
@@ -48,7 +65,8 @@ class TreeNode:
             "concept": self.concept,
             "children": [child.to_dict() for child in self.children],
             "metadata": self.metadata,
-            "depth": self.depth
+            "depth": self.depth,
+            "qubit": self.qubit.to_dict() if hasattr(self, 'qubit') else None
         }
 
 

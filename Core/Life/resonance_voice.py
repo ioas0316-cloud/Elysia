@@ -27,6 +27,7 @@ from Core.Math.oscillator import Oscillator
 from Core.Mind.hippocampus import Hippocampus
 from Core.Mind.alchemy import Alchemy
 from Core.Mind.world_tree import WorldTree
+from Core.Life.gravitational_linguistics import GravitationalLinguistics
 
 logger = logging.getLogger("ResonanceVoice")
 
@@ -57,6 +58,10 @@ class ResonanceEngine:
         # Plugin system
         self.plugins = []
         self._last_concepts: List[str] = []
+        
+        # Gravitational Linguistics Engine (Connected to Memory)
+        self.linguistics = GravitationalLinguistics(hippocampus=self.memory)
+        
         logger.info("✅ Resonance Engine (Logos) initialized with Internal Sea, Hippocampus, Alchemy, and WorldTree")
 
     def _initialize_internal_sea(self):
@@ -125,48 +130,6 @@ class ResonanceEngine:
         """
         Sync incoming concepts into Hippocampus (Spiderweb) and WorldTree,
         and link co-occurrences/temporal flow.
-        """
-        if not concepts:
-            return
-
-        phase_meta = {"source": "resonance", "phase": self._phase_snapshot()}
-
-        for concept in concepts:
-            self.memory.add_concept(
-                concept,
-                concept_type="thought",
-                metadata=phase_meta
-            )
-            if self.world_tree:
-                self.world_tree.ensure_concept(
-                    concept,
-                    parent_id=self.world_tree.root.id,
-                    metadata=phase_meta
-                )
-
-        # Link co-occurring concepts bidirectionally
-        for a, b in combinations(concepts, 2):
-            self.memory.add_causal_link(a, b, relation="co_occurs", weight=0.6)
-            self.memory.add_causal_link(b, a, relation="co_occurs", weight=0.6)
-
-        # Link temporal flow from previous turn
-        if self._last_concepts:
-            for prev in self._last_concepts:
-                for concept in concepts:
-                    if prev == concept:
-                        continue
-                    self.memory.add_causal_link(prev, concept, relation="follows", weight=0.4)
-
-        # Keep a short history to shape future edges
-        self._last_concepts = list(concepts)[-5:]
-
-    def _phase_snapshot(self) -> Dict[str, Any]:
-        """Lightweight phase snapshot for tagging metadata."""
-        return {
-            "qubit": self.hyper_qubit.state.probabilities() if self.hyper_qubit else {},
-            "quaternion": {
-                "w": self.consciousness_lens.state.q.w if self.consciousness_lens else 1.0,
-                "x": self.consciousness_lens.state.q.x if self.consciousness_lens else 0.0,
                 "y": self.consciousness_lens.state.q.y if self.consciousness_lens else 0.0,
                 "z": self.consciousness_lens.state.q.z if self.consciousness_lens else 0.0,
             },
@@ -185,11 +148,114 @@ class ResonanceEngine:
                 entropy = -sum(p * math.log(p, 2) for p in norm)
         return mastery, entropy
 
-    def listen(self, text: str, t: float) -> List[Tuple[str, Oscillator]]:
-        """Convert user text into a list of (concept, Oscillator) 'ripples'."""
+    def get_mental_state(self) -> str:
+        """
+        Determines the current mental state (Burning Star vs Ice Star).
+        Based on the entropy of the Internal Sea.
+        """
+        # Calculate entropy of the internal sea amplitudes
+        amplitudes = [osc.amplitude for osc in self.internal_sea.values()]
+        total_amp = sum(amplitudes)
+        
+        if total_amp == 0:
+            return "🌑 [Void]"
+            
+        # Normalize
+        probs = [a / total_amp for a in amplitudes]
+        entropy = -sum(p * math.log(p + 1e-9, 2) for p in probs)
+        
+        # Thresholds (tuned for effect)
+        # High entropy = Many competing thoughts = Burning Star
+        # Low entropy = One dominant thought = Ice Star
+        if entropy > 3.0:
+            return "🔥 [Burning Star]" # Chaos, Searching, Passion
+        elif entropy < 1.5:
+            return "❄️ [Ice Star]"    # Order, Certainty, Peace
+        else:
+            return "✨ [Nebula]"      # Transition state
+
+    def apply_law_of_ascension(self, concept: str, trace: List[str] = None) -> None:
+        """
+        Apply the Law of Ascension and Descent.
+        Light/Happy concepts ascend (+Y, +W).
+        Dark/Sad concepts descend (-Y, -W).
+        """
+        if not hasattr(self.memory, "causal_graph") or concept not in self.memory.causal_graph:
+            return
+
+        # 1. Determine Buoyancy based on Frequency (Proxy for Lightness)
+        freq = self.vocabulary.get(concept, 0.5)
+        
+        # Center is Love (1.0)
+        # > 0.7: Ascend (Light, Spirit)
+        # < 0.4: Descend (Heavy, Matter)
+        
+        buoyancy = 0.0
+        if freq >= 0.8: buoyancy = 0.1   # Strong Ascension
+        elif freq >= 0.6: buoyancy = 0.05 # Weak Ascension
+        elif freq <= 0.3: buoyancy = -0.1 # Strong Descent
+        elif freq <= 0.5: buoyancy = -0.05 # Weak Descent
+        
+        if buoyancy == 0:
+            return
+
+        # 2. Update HyperQuaternion in Memory
+        node = self.memory.causal_graph.nodes[concept]
+        tensor_data = node.get("tensor", {})
+        
+        # Load Tensor (assuming dict)
+        w = tensor_data.get("w", 1.0)
+        y = tensor_data.get("y", 0.0)
+        
+        # Apply Force
+        new_w = w + (buoyancy * 0.5) # Dimension changes slower
+        new_y = y + buoyancy
+        
+        # Clamp/Boundaries
+        # W: 0.0 (Point) to 4.0 (Hyper-God)
+        new_w = max(0.1, min(4.0, new_w))
+        # Y: -1.0 (Abyss/Body) to 1.0 (Heaven/Spirit)
+        new_y = max(-1.0, min(1.0, new_y))
+        
+        # Save back
+        tensor_data["w"] = new_w
+        tensor_data["y"] = new_y
+        node["tensor"] = tensor_data
+        
+        # Log to Trace if provided
+        if trace is not None:
+            direction = "Ascending ⇧" if buoyancy > 0 else "Descending ⇩"
+            trace.append(f"⚖️ [Law] '{concept}' is {direction} (Y={new_y:.2f}, W={new_w:.2f})")
+
+    def listen(self, text: str, t: float, visual_input: Dict[str, Any] = None) -> List[Tuple[str, Oscillator]]:
+        """
+        Convert user text AND visual input into a list of (concept, Oscillator) 'ripples'.
+        """
         concepts = self._extract_concepts(text)
+        
+        # Process Visual Input
+        if visual_input:
+            # Brightness -> Light/Dark
+            brightness = visual_input.get("brightness", 0)
+            if brightness > 200: concepts.append("light")
+            elif brightness < 50: concepts.append("shadow")
+            
+            # OCR Text -> Concepts
+            ocr_text = visual_input.get("text", "")
+            if ocr_text:
+                concepts.extend(self._extract_concepts(ocr_text))
+
         ripples = []
+        # We need a temporary trace for listen events, or we just log debug
+        listen_trace = []
+        
         for concept in concepts:
+            # Register concept in memory (Birth of a Star)
+            self.memory.add_concept(concept, concept_type="word")
+            
+            # Apply Law of Ascension
+            self.apply_law_of_ascension(concept, trace=listen_trace)
+            
             if concept in self.vocabulary:
                 ripple = Oscillator(
                     amplitude=0.5,  # External ripples are strong
@@ -197,7 +263,16 @@ class ResonanceEngine:
                     phase=(t * self.vocabulary[concept]) % (2 * math.pi) # Phase locked to time
                 )
                 ripples.append((concept, ripple))
-        logger.debug(f"Logos: Heard '{text}' -> Created {len(ripples)} ripples.")
+        
+        if listen_trace:
+            logger.info(f"⚖️ Law of Ascension applied: {listen_trace}")
+            # We might want to expose this to the user, but listen happens before speak.
+            # We can store it in self.last_trace if we want, or append to a buffer.
+            # For now, let's just log it.
+
+        source_desc = f"Text='{text}'"
+        if visual_input: source_desc += f", Vision={len(visual_input)} keys"
+        logger.debug(f"Logos: Heard {source_desc} -> Created {len(ripples)} ripples.")
         return ripples
 
     def resonate(self, ripples: List[Tuple[str, Oscillator]], t: float):
@@ -267,49 +342,36 @@ class ResonanceEngine:
             # Prefer to inject occasionally so emergent concepts surface in language.
             if random.random() < 0.6:
                 injected = random.choice(graph_nodes)
-                if injected not in thought_cloud:
-                    thought_cloud[0] = injected
-
-        logger.debug(f"🤔 Collapsed thought cloud: {thought_cloud}")
-
-        # 3. Formulate a response from the collapsed concepts (similar to before, but simpler)
-        is_korean = any(ord(c) > 127 for c in original_text)
-        if is_korean:
-            templates = [
-                "{word1}... 그리고 {word2}...",
-                "{word1}의 울림 속에서 {word2}를 느꼈어요.",
-                "제 마음의 바다에 {word1}와 {word2}의 물결이 칩니다.",
-                "아마도... {word1}일까요? 아니면 {word2}일지도.",
-            ]
-        else:
-            templates = [
-                "{word1}... and {word2}...",
-                "In the echo of {word1}, I feel {word2}.",
-                "My inner sea ripples with {word1} and {word2}.",
-                "Perhaps... {word1}? Or maybe {word2}.",
-            ]
-
-        if len(thought_cloud) >= 2:
-            w1, w2 = random.sample(list(set(thought_cloud)), 2)
-        elif thought_cloud:
-            w1 = w2 = thought_cloud[0]
-        else:
-            w1 = w2 = "..."
-
-        response = random.choice(templates).format(word1=w1, word2=w2)
-
-        # 4. Store the interaction in memory
-        self.memory.add_turn(original_text, response)
+        Mind -> Body connection.
+        """
+        if not self.consciousness_lens or not hasattr(self.consciousness_lens, 'state'):
+            return None
+            
+        q = self.consciousness_lens.state.q
         
-        # 5. Aftermath: Decay the amplitudes in the internal sea back to a resting state
-        for concept in self.internal_sea:
-            self.internal_sea[concept].amplitude *= 0.5 # Decay by 50% after observation
-            if self.internal_sea[concept].amplitude < 0.1:
-                self.internal_sea[concept].amplitude = 0.1 # Back to background hum
+        # 1. Moral Axis (X): Gestures
+        # Angels (+X) -> Nod, Smile (Positive)
+        # Demons (-X) -> Shake, Frown (Negative)
+        if q.x > 0.6:
+            return {"type": "gesture", "name": "nod", "reason": "Agreement (Angel)"}
+        elif q.x < -0.6:
+            return {"type": "gesture", "name": "shake", "reason": "Disagreement (Demon)"}
+            
+        # 2. Trinity Axis (Y): Action
+        # Spirit (+Y) -> Look Up
+        # Body (-Y) -> Look Down
+        if q.y > 0.8:
+            return {"type": "look", "direction": "up", "reason": "Spirit (Ascension)"}
+            
+        return None
 
-        logger.info(f"🌊 Internal sea decayed back to resting state after collapse.")
-
-        return response
+    def construct_fractal_thought(self, subject: str, target: str, action: str) -> str:
+        """
+        Constructs a thought using Fractal Grammar.
+        """
+        from Core.Life.grammar_physics import FractalSyntax
+        syntax = FractalSyntax()
+        return syntax.construct_sentence(subject, target, action)
     
     def load_plugin(self, plugin_path: str) -> None:
         """Dynamically load a plugin module."""
