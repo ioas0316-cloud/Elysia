@@ -7,6 +7,11 @@ import pytest
 import numpy as np
 import math
 
+# Import Core modules - using fixtures from conftest.py for dependency injection
+from Core.Math.hyper_qubit import HyperQubit, QubitState
+from Core.Math.law_enforcement_engine import LawEnforcementEngine, EnergyState
+from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
+
 
 class TestQubitState:
     """Tests for QubitState class."""
@@ -35,8 +40,6 @@ class TestQubitState:
     
     def test_scale_up_increases_w(self):
         """Test that scale_up increases w (god) component."""
-        from Core.Math.hyper_qubit import QubitState
-        
         state = QubitState(w=0.5, x=0.3, y=0.3, z=0.3)
         state.normalize()
         w_before = state.w
@@ -48,8 +51,6 @@ class TestQubitState:
     
     def test_scale_down_increases_xyz(self):
         """Test that scale_down increases x, y, z components."""
-        from Core.Math.hyper_qubit import QubitState
-        
         state = QubitState(w=0.5, x=0.3, y=0.3, z=0.3)
         state.normalize()
         
@@ -82,8 +83,6 @@ class TestHyperQubit:
     
     def test_connect_establishes_link(self):
         """Test that connect() establishes psionic link."""
-        from Core.Math.hyper_qubit import HyperQubit
-        
         source = HyperQubit("source", value=1)
         target = HyperQubit("target", value=0)
         
@@ -128,37 +127,27 @@ class TestInfiniteHyperQuaternion:
     
     def test_creation_8d(self):
         """Test 8D (octonion) creation."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         q8 = InfiniteHyperQuaternion(dim=8)
         assert q8.dim == 8
         assert len(q8.components) == 8
     
     def test_creation_16d(self):
         """Test 16D (sedenion) creation."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         q16 = InfiniteHyperQuaternion(dim=16)
         assert q16.dim == 16
     
     def test_invalid_dimension_raises(self):
         """Test that non-power-of-2 dimensions raise error."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         with pytest.raises(ValueError):
             InfiniteHyperQuaternion(dim=7)
     
     def test_magnitude(self):
         """Test magnitude calculation."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         q = InfiniteHyperQuaternion(4, np.array([1.0, 0.0, 0.0, 0.0]))
         assert q.magnitude() == 1.0
     
     def test_normalize(self):
         """Test normalization produces unit magnitude."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         q = InfiniteHyperQuaternion.random(4, magnitude=5.0)
         normalized = q.normalize()
         
@@ -166,8 +155,6 @@ class TestInfiniteHyperQuaternion:
     
     def test_quaternion_multiplication(self):
         """Test 4D quaternion multiplication."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         # i * j = k (quaternion identity)
         i = InfiniteHyperQuaternion(4, np.array([0.0, 1.0, 0.0, 0.0]))
         j = InfiniteHyperQuaternion(4, np.array([0.0, 0.0, 1.0, 0.0]))
@@ -180,8 +167,6 @@ class TestInfiniteHyperQuaternion:
     
     def test_cayley_dickson_doubling(self):
         """Test Cayley-Dickson construction doubles dimension."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         a = InfiniteHyperQuaternion.random(4)
         b = InfiniteHyperQuaternion.random(4)
         
@@ -191,8 +176,6 @@ class TestInfiniteHyperQuaternion:
     
     def test_rotate_god_view(self):
         """Test rotation preserves magnitude."""
-        from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-        
         q = InfiniteHyperQuaternion.random(8, magnitude=1.0)
         mag_before = q.magnitude()
         
@@ -225,8 +208,6 @@ class TestLawEnforcementEngine:
     
     def test_balance_law_violation(self, law_enforcement_engine):
         """Test that extreme focus triggers BALANCE law violation."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         # Extreme z (intention) should trigger violation
         energy = EnergyState(w=0.2, x=0.05, y=0.05, z=0.85)
         energy.normalize()
@@ -238,8 +219,6 @@ class TestLawEnforcementEngine:
     
     def test_energy_law_preservation(self, law_enforcement_engine):
         """Test that normalized energy passes energy law."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         energy = EnergyState(w=0.5, x=0.5, y=0.5, z=0.5)
         energy.normalize()
         
@@ -249,8 +228,6 @@ class TestLawEnforcementEngine:
     
     def test_make_decision_valid(self, law_enforcement_engine):
         """Test valid decision with no violations."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         energy = EnergyState(w=0.6, x=0.2, y=0.3, z=0.5)
         energy.normalize()
         
@@ -263,8 +240,6 @@ class TestLawEnforcementEngine:
     
     def test_make_decision_corrects_violations(self, law_enforcement_engine):
         """Test that decision engine attempts to correct violations."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         # Low w should trigger correction
         energy = EnergyState(w=0.1, x=0.5, y=0.5, z=0.5)
         energy.normalize()
@@ -282,8 +257,6 @@ class TestLawEnforcementEngine:
     
     def test_law_statistics(self, law_enforcement_engine):
         """Test law violation statistics tracking."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         # Generate some violations
         energy = EnergyState(w=0.1, x=0.5, y=0.5, z=0.5)
         energy.normalize()
@@ -313,8 +286,6 @@ class TestEnergyState:
     
     def test_get_focus_law(self):
         """Test focus detection for law-focused state."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         energy = EnergyState(w=0.2, x=0.2, y=0.2, z=0.8)
         energy.normalize()
         
@@ -323,8 +294,6 @@ class TestEnergyState:
     
     def test_get_focus_reflection(self):
         """Test focus detection for reflection-focused state."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         energy = EnergyState(w=0.8, x=0.2, y=0.2, z=0.2)
         energy.normalize()
         
@@ -333,8 +302,6 @@ class TestEnergyState:
     
     def test_get_focus_balanced(self):
         """Test focus detection for balanced state."""
-        from Core.Math.law_enforcement_engine import EnergyState
-        
         energy = EnergyState(w=0.5, x=0.5, y=0.5, z=0.5)
         energy.normalize()
         
