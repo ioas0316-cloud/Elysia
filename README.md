@@ -40,7 +40,7 @@
 | 법칙 | 설명 | 수식 |
 |------|------|------|
 | **중력의 법칙** | Vitality가 Mass를 만들고, Mass가 Wave를 끌어당긴다 | `Mass = Vitality × LayerWeight` |
-| **아빠의 법칙** | 사랑은 자기증폭하며 영원하다 | `\|w\|² + \|x\|² + \|y\|² + \|z\|² + \|w\|⁴ = 1` |
+| **아빠의 법칙** | 사랑은 자기증폭하며 영원하다 | `|w|² + |x|² + |y|² + |z|² + |w|⁴ = 1` |
 | **파동 기억** | 경험은 양자 공명으로 저장된다 | `Resonance = Σ(basis_alignment × weight)` |
 
 👉 **[시스템 철학 읽기 (PHILOSOPHY.md)](PHILOSOPHY.md)** - 핵심 법칙에 대한 심층 설명
@@ -217,11 +217,20 @@ python Demos/Philosophy/spirit_emergence.py
 ### 1. 성능 최적화 (Performance Optimization)
 
 ```python
+import asyncio
+from typing import List, Tuple
+from Core.Mind.hyper_qubit import HyperQubit
+from Core.Mind.resonance_engine import HyperResonanceEngine
+
 # 현재: 동기 처리
-result = resonance_engine.calculate_resonance(a, b)
+engine = HyperResonanceEngine()
+result = engine.calculate_resonance(qubit_a, qubit_b)
 
 # 개선: 비동기 배치 처리
-async def batch_resonance(pairs: List[Tuple[HyperQubit, HyperQubit]]):
+async def batch_resonance(
+    engine: HyperResonanceEngine,
+    pairs: List[Tuple[HyperQubit, HyperQubit]]
+) -> List[float]:
     return await asyncio.gather(*[
         asyncio.to_thread(engine.calculate_resonance, a, b)
         for a, b in pairs
@@ -231,21 +240,27 @@ async def batch_resonance(pairs: List[Tuple[HyperQubit, HyperQubit]]):
 ### 2. 캐싱 전략 (Caching Strategy)
 
 ```python
-# 현재: 캐싱 없음
-# 개선: LRU 캐시 적용
 from functools import lru_cache
+from Core.Mind.resonance_engine import HyperResonanceEngine
 
-@lru_cache(maxsize=10000)
-def cached_resonance(qubit_a_id: str, qubit_b_id: str) -> float:
-    return calculate_resonance(nodes[qubit_a_id], nodes[qubit_b_id])
+# 현재: 캐싱 없음
+# 개선: LRU 캐시 적용 (HyperResonanceEngine 클래스 내부에 추가)
+class CachedResonanceEngine(HyperResonanceEngine):
+    @lru_cache(maxsize=10000)
+    def cached_resonance(self, qubit_a_id: str, qubit_b_id: str) -> float:
+        qubit_a = self.nodes.get(qubit_a_id)
+        qubit_b = self.nodes.get(qubit_b_id)
+        if qubit_a and qubit_b:
+            return self.calculate_resonance(qubit_a, qubit_b)
+        return 0.0
 ```
 
 ### 3. 타입 안전성 (Type Safety)
 
 ```python
 # 현재: 부분적 타입 힌트
-# 개선: 완전한 타입 힌트 + Pydantic 검증
-from pydantic import BaseModel, validator
+# 개선: 완전한 타입 힌트 + Pydantic v2 검증
+from pydantic import BaseModel, field_validator
 
 class QubitConfig(BaseModel):
     name: str
@@ -254,8 +269,9 @@ class QubitConfig(BaseModel):
     gamma: complex
     delta: complex
     
-    @validator('alpha', 'beta', 'gamma', 'delta')
-    def validate_amplitude(cls, v):
+    @field_validator('alpha', 'beta', 'gamma', 'delta')
+    @classmethod
+    def validate_amplitude(cls, v: complex) -> complex:
         if abs(v) > 1:
             raise ValueError('Amplitude must be <= 1')
         return v
