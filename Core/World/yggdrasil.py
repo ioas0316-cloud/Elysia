@@ -31,6 +31,8 @@ class RealmNode:
     """
     A Realm in Yggdrasil.
     Each Realm represents a cognitive subsystem (e.g., Memory, Emotion, Physics).
+    
+    Gap 0 준수: epistemology 필드로 각 영역의 철학적 의미 제공
     """
     id: str
     name: str                      # Human-readable name
@@ -39,12 +41,40 @@ class RealmNode:
     vitality: float = 1.0          # How active/healthy this realm is
     metadata: Dict[str, Any] = field(default_factory=dict)
     
+    # Gap 0: 인식론 필드 - 각 영역의 철학적 의미
+    epistemology: Dict[str, Dict[str, Any]] = field(default_factory=lambda: {
+        "point": {"score": 0.25, "meaning": "개별 요소의 상태"},
+        "line": {"score": 0.25, "meaning": "요소 간 인과 관계"},
+        "space": {"score": 0.25, "meaning": "전체 맥락"},
+        "god": {"score": 0.25, "meaning": "초월적 목적"}
+    })
+    
     # Tree structure
     parent_id: Optional[str] = None
     children_ids: List[str] = field(default_factory=list)
     
     # Cross-realm links (not hierarchical, but resonance-based)
     resonance_links: Dict[str, float] = field(default_factory=dict)  # {target_realm_id: weight}
+    
+    def explain_meaning(self) -> str:
+        """
+        Gap 0 준수: 이 영역의 철학적 의미를 설명
+        
+        Returns:
+            철학적 의미 설명 문자열
+        """
+        lines = [f"=== {self.name} 인식론 ({self.layer.value}) ==="]
+        
+        for basis, data in self.epistemology.items():
+            score = data.get('score', 0)
+            meaning = data.get('meaning', '')
+            lines.append(f"  {basis}: {score:.0%} - {meaning}")
+        
+        # 가장 중요한 관점
+        dominant = max(self.epistemology.items(), key=lambda x: x[1].get('score', 0))
+        lines.append(f"\n주된 관점: {dominant[0]} ({dominant[1].get('meaning', '')})")
+        
+        return "\n".join(lines)
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -53,6 +83,7 @@ class RealmNode:
             "layer": self.layer.value,
             "vitality": self.vitality,
             "metadata": self.metadata,
+            "epistemology": self.epistemology,
             "parent_id": self.parent_id,
             "children_ids": self.children_ids,
             "resonance_links": self.resonance_links
