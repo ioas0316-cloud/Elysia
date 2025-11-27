@@ -256,7 +256,15 @@ class HippocampusAdapter:
 
 
 class IntegrationBridge:
-    """모든 모듈을 통합하는 중앙 버스"""
+    """
+    모든 모듈을 통합하는 중앙 버스.
+    
+    Phase 2 개선사항:
+    - ResonanceEngine ↔ Hippocampus 연결
+    - LawEnforcementEngine 통합
+    - MetaTimeStrategy 통합
+    - 이벤트 버스 구현
+    """
     
     def __init__(self):
         self.logger = logging.getLogger("IntegrationBridge")
@@ -264,6 +272,12 @@ class IntegrationBridge:
         # 어댑터들
         self.resonance_adapter = ResonanceAdapter()
         self.hippocampus_adapter = None  # 나중에 설정
+        
+        # 핵심 엔진 참조 (Phase 2 통합)
+        self.resonance_engine = None
+        self.law_engine = None
+        self.time_strategy = None
+        self.hippocampus = None
         
         # 이벤트 스트림
         self.events: List[IntegrationEvent] = []
@@ -278,11 +292,178 @@ class IntegrationBridge:
         self.stats = {
             "total_events": 0,
             "by_type": {},
-            "errors": 0
+            "errors": 0,
+            "law_checks": 0,
+            "law_violations": 0
         }
         
-        self.logger.info("🌉 IntegrationBridge initialized")
+        self.logger.info("🌉 IntegrationBridge initialized (Phase 2 Enhanced)")
     
+    # =========================================================================
+    # Phase 2: Engine Integration
+    # =========================================================================
+    
+    def connect_resonance_engine(self, resonance_engine) -> None:
+        """ResonanceEngine 연결"""
+        self.resonance_engine = resonance_engine
+        self.logger.info("🔗 ResonanceEngine connected")
+    
+    def connect_law_engine(self, law_engine) -> None:
+        """LawEnforcementEngine 연결"""
+        self.law_engine = law_engine
+        self.logger.info("🔗 LawEnforcementEngine connected")
+    
+    def connect_time_strategy(self, time_strategy) -> None:
+        """MetaTimeStrategy 연결"""
+        self.time_strategy = time_strategy
+        self.logger.info("🔗 MetaTimeStrategy connected")
+    
+    def connect_hippocampus(self, hippocampus) -> None:
+        """Hippocampus 연결"""
+        self.hippocampus = hippocampus
+        self.hippocampus_adapter = HippocampusAdapter(hippocampus)
+        self.logger.info("🔗 Hippocampus connected")
+    
+    def process_thought(
+        self,
+        thought_text: str,
+        tick: int = 0,
+        check_laws: bool = True
+    ) -> Dict[str, Any]:
+        """
+        통합된 사고 처리 파이프라인.
+        
+        Phase 2 핵심 기능: 모든 엔진을 통해 사고를 처리
+        
+        Args:
+            thought_text: 입력 사고/개념
+            tick: 현재 시뮬레이션 틱
+            check_laws: 법칙 검사 여부
+        
+        Returns:
+            처리 결과 딕셔너리
+        """
+        result = {
+            "thought": thought_text,
+            "tick": tick,
+            "resonances": {},
+            "law_decision": None,
+            "hippocampus_concepts": [],
+            "events_generated": 0
+        }
+        
+        # 1. 공명 계산 (ResonanceEngine)
+        if self.resonance_engine and hasattr(self.resonance_engine, 'nodes'):
+            # 개념이 없으면 추가
+            if thought_text not in self.resonance_engine.nodes:
+                self.resonance_engine.add_node(thought_text)
+            
+            source_qubit = self.resonance_engine.nodes.get(thought_text)
+            if source_qubit:
+                for target_id, target_qubit in self.resonance_engine.nodes.items():
+                    if target_id != thought_text:
+                        score = self.resonance_engine.calculate_resonance(source_qubit, target_qubit)
+                        if score > 0.3:  # 유의미한 공명만 기록
+                            result["resonances"][target_id] = score
+                
+                # 이벤트 발행
+                if result["resonances"]:
+                    self.publish_resonance(
+                        thought_text,
+                        result["resonances"],
+                        tick=tick
+                    )
+                    result["events_generated"] += 1
+        
+        # 2. 법칙 검사 (LawEnforcementEngine)
+        if check_laws and self.law_engine:
+            from Core.Math.law_enforcement_engine import EnergyState
+            
+            # 에너지 상태 생성 (공명 결과 기반)
+            energy = EnergyState(
+                w=0.5 + len(result["resonances"]) * 0.05,  # 공명 많을수록 메타인지 상승
+                x=0.3,
+                y=0.4 if result["resonances"] else 0.2,
+                z=0.5
+            )
+            energy.normalize()
+            
+            decision = self.law_engine.make_decision(
+                thought_text,
+                energy,
+                concepts_generated=len(result["resonances"])
+            )
+            
+            result["law_decision"] = {
+                "is_valid": decision.is_valid,
+                "violations": [v.law.value for v in decision.violations],
+                "reasoning": decision.reasoning
+            }
+            
+            self.stats["law_checks"] += 1
+            if not decision.is_valid:
+                self.stats["law_violations"] += len(decision.violations)
+        
+        # 3. 기억 저장 (Hippocampus)
+        if self.hippocampus:
+            # 개념 추가
+            self.hippocampus.add_concept(thought_text, "thought")
+            result["hippocampus_concepts"].append(thought_text)
+            
+            # 공명이 높은 개념들과 인과 링크 추가
+            for related, score in result["resonances"].items():
+                if score > 0.5:
+                    self.hippocampus.add_causal_link(
+                        thought_text, 
+                        related, 
+                        "resonates", 
+                        weight=score
+                    )
+                    result["hippocampus_concepts"].append(related)
+            
+            # 개념 이벤트 발행
+            self.publish_concept(
+                thought_text,
+                thought_text,
+                "thought",
+                tick=tick
+            )
+            result["events_generated"] += 1
+        
+        return result
+    
+    def get_integrated_state(self) -> Dict[str, Any]:
+        """
+        모든 통합된 엔진의 상태 요약.
+        
+        Returns:
+            통합 상태 딕셔너리
+        """
+        state = {
+            "bridge_stats": self.get_statistics(),
+            "engines": {}
+        }
+        
+        if self.resonance_engine:
+            state["engines"]["resonance"] = {
+                "nodes": len(self.resonance_engine.nodes) if hasattr(self.resonance_engine, 'nodes') else 0,
+                "links": len(self.resonance_engine.psionic_links) if hasattr(self.resonance_engine, 'psionic_links') else 0
+            }
+        
+        if self.law_engine:
+            state["engines"]["law"] = self.law_engine.get_law_statistics() if hasattr(self.law_engine, 'get_law_statistics') else {}
+        
+        if self.time_strategy:
+            state["engines"]["time"] = {
+                "mode": self.time_strategy.current_mode.value if hasattr(self.time_strategy, 'current_mode') else "unknown",
+                "profile": self.time_strategy.current_profile.value if hasattr(self.time_strategy, 'current_profile') else "unknown"
+            }
+        
+        if self.hippocampus:
+            state["engines"]["hippocampus"] = self.hippocampus.get_statistics() if hasattr(self.hippocampus, 'get_statistics') else {}
+        
+        return state
+
     def set_hippocampus_adapter(self, hippocampus) -> None:
         """Hippocampus 어댑터 설정"""
         self.hippocampus_adapter = HippocampusAdapter(hippocampus)
