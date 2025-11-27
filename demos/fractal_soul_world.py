@@ -24,12 +24,27 @@ from enum import Enum, auto
 from pathlib import Path
 import json
 
-# 창발 언어 시스템 임포트
-import sys
-sys.path.insert(0, '/home/runner/work/Elysia/Elysia')
-
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("FractalSoulWorld")
+
+
+# =============================================================================
+# Configuration Constants
+# =============================================================================
+
+# Simulation probabilities
+DAILY_INTERACTION_PROB = 0.1      # Probability of two souls meeting each day
+DIARY_WRITE_PROB = 0.05           # Probability of writing diary each day
+SOCIAL_ACTIVITY_PROB = 0.3        # Probability of social activity when lonely
+
+# Life event parameters
+BASE_DEATH_PROB = 0.0001          # Base daily death probability
+ELDER_AGE_THRESHOLD = 60          # Age when death probability increases
+AGE_DEATH_FACTOR = 0.1            # Death probability increase per year over elder age
+ELF_LONGEVITY_FACTOR = 0.3        # Elves have 30% death rate of humans
+
+# Population parameters
+MAX_BIRTHS_PER_YEAR = 5           # Maximum new souls born per year
 
 
 # =============================================================================
@@ -470,8 +485,8 @@ class FractalWorld:
             record = soul.live_day(self.current_year, world_context)
             day_records.append(record)
         
-        # 상호작용 (10% 확률로 두 영혼이 만남)
-        if len(alive_souls) >= 2 and random.random() < 0.1:
+        # 상호작용 (두 영혼이 만남)
+        if len(alive_souls) >= 2 and random.random() < DAILY_INTERACTION_PROB:
             soul1, soul2 = random.sample(alive_souls, 2)
             line1, line2 = soul1.interact_with(soul2)
             
@@ -519,10 +534,10 @@ class FractalWorld:
         # 사망
         for soul in alive_souls:
             age = soul.get_age(self.current_year)
-            death_prob = 0.0001 * (1 + max(0, age - 60) * 0.1)
+            death_prob = BASE_DEATH_PROB * (1 + max(0, age - ELDER_AGE_THRESHOLD) * AGE_DEATH_FACTOR)
             
             if soul.race == "Elf":
-                death_prob *= 0.3
+                death_prob *= ELF_LONGEVITY_FACTOR
             
             if random.random() < death_prob:
                 soul.is_alive = False
@@ -536,7 +551,7 @@ class FractalWorld:
         alive = sum(1 for s in self.souls.values() if s.is_alive)
         if alive < self.population:
             deficit = self.population - alive
-            for _ in range(min(deficit, 5)):
+            for _ in range(min(deficit, MAX_BIRTHS_PER_YEAR)):
                 new_id = max(self.souls.keys()) + 1
                 new_soul = FractalSoul(
                     id=new_id,

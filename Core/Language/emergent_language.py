@@ -32,6 +32,32 @@ logger = logging.getLogger("EmergentLanguage")
 
 
 # =============================================================================
+# Configuration Constants
+# =============================================================================
+
+# Activation thresholds
+SYMBOL_ACTIVATION_THRESHOLD = 0.3    # Minimum resonance to activate a symbol
+UTTERANCE_PROBABILITY = 0.1          # Probability of spontaneous utterance
+
+# Symbol evolution
+ASSOCIATION_STRENGTH_INCREMENT = 0.05  # Hebbian learning rate
+MAX_SEQUENCE_LENGTH = 4              # Maximum symbols in an utterance
+
+
+# =============================================================================
+# Meaning Vector Dimensions (8D Sensory Space)
+# =============================================================================
+# Index 0: Temperature (-1=cold, +1=warm)
+# Index 1: Brightness (-1=dark, +1=bright)  
+# Index 2: Size (-1=small, +1=large)
+# Index 3: Speed (-1=slow, +1=fast)
+# Index 4: Intimacy (-1=distant, +1=close)
+# Index 5: Intensity (-1=weak, +1=strong)
+# Index 6: Pleasure (-1=unpleasant, +1=pleasant)
+# Index 7: Arousal (-1=calm, +1=excited)
+
+
+# =============================================================================
 # 1. 원시 기호 (Proto-Symbols) - 경험의 최소 단위
 # =============================================================================
 
@@ -375,7 +401,7 @@ class EmergentLanguageEngine:
             resonance = sum(e * m for e, m in zip(experience_vector, symbol.meaning_vector))
             resonance /= 8  # 정규화
             
-            if resonance > 0.3:  # 임계값
+            if resonance > SYMBOL_ACTIVATION_THRESHOLD:
                 symbol.activation = resonance
                 symbol.frequency += 1
                 activated.append(sym_id)
@@ -556,8 +582,8 @@ class LivingLanguageWorld:
             ]
             experience = [max(0, min(1, x)) for x in experience]
             
-            # 가끔 발화 (10% 확률)
-            if random.random() < 0.1:
+            # 가끔 발화
+            if random.random() < UTTERANCE_PROBABILITY:
                 self.language_engine.experience(experience)
                 korean, english = self.language_engine.generate_utterance()
                 
