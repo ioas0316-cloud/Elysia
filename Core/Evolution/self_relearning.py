@@ -20,6 +20,7 @@ from __future__ import annotations
 import logging
 import time
 import json
+import random
 from dataclasses import dataclass, field, asdict
 from typing import Dict, List, Optional, Any, Callable
 from enum import Enum, auto
@@ -544,7 +545,6 @@ class SelfRelearningSystem:
             }
             
             insights = domain_insights.get(goal.domain, ["새로운 것을 배웠다."])
-            import random
             return random.choice(insights)
         
         return None
@@ -583,7 +583,6 @@ class SelfRelearningSystem:
         for goal_id, goal in self.completed_goals.items():
             if goal.insights:
                 # 무작위 통찰 상기
-                import random
                 insight = random.choice(goal.insights)
                 review["reinforced_insights"].append({
                     "goal": goal.description_kr,
