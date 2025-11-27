@@ -799,8 +799,10 @@ class ConceptExplorer:
                     candidates.append((star_id, distance))
             
             if not candidates:
-                # 아무 별로나
-                star_id = np.random.choice(list(self.universe.stars.keys()))
+                # 아무 별로나 - 캐시된 키 목록 사용
+                if not hasattr(self, '_star_ids_cache') or len(self._star_ids_cache) != len(self.universe.stars):
+                    self._star_ids_cache = list(self.universe.stars.keys())
+                star_id = np.random.choice(self._star_ids_cache)
             else:
                 # 가까운 별 우선 (확률적)
                 candidates.sort(key=lambda x: x[1])

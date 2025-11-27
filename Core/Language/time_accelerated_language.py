@@ -469,17 +469,35 @@ class TimeAcceleratedSoul:
         consonant = consonants[spread_idx]
         
         # 시간 압축 레벨에 따른 음절 복잡도
+        # 헬퍼 함수로 음절 조합
+        def build_syllable(c: str, v: str) -> str:
+            return f"{c}{v}"
+        
+        def get_secondary_consonant() -> str:
+            return consonants_mid[spread_idx % len(consonants_mid)]
+        
+        def get_secondary_vowel() -> str:
+            return vowels[(freq_idx + 1) % len(vowels)]
+        
         if compression_level == "meta" and pattern.amplitude_total > 5.0:
-            # 메타 레벨에서는 더 복잡한 단어 생성
-            name = f"{consonant}{vowel}{consonants_mid[spread_idx % len(consonants_mid)]}{vowels[(freq_idx + 1) % len(vowels)]}{consonant}"
+            # 메타 레벨에서는 더 복잡한 단어 생성 (CVCVC)
+            syllable1 = build_syllable(consonant, vowel)
+            syllable2 = build_syllable(get_secondary_consonant(), get_secondary_vowel())
+            name = f"{syllable1}{syllable2}{consonant}"
         elif compression_level == "fractal" and pattern.amplitude_total > 3.0:
-            name = f"{consonant}{vowel}{consonants_soft[spread_idx % len(consonants_soft)]}{vowel}"
+            # 프랙탈 레벨 (CVCV)
+            syllable1 = build_syllable(consonant, vowel)
+            soft_c = consonants_soft[spread_idx % len(consonants_soft)]
+            name = f"{syllable1}{soft_c}{vowel}"
         elif pattern.amplitude_total > 5.0:
+            # 강한 진폭 (CVCV)
             name = f"{consonant}{vowel}{consonant}{vowel}"
         elif pattern.amplitude_total > 2.0:
+            # 중간 진폭 (CVV)
             name = f"{consonant}{vowel}{vowel}"
         else:
-            name = f"{consonant}{vowel}"
+            # 약한 진폭 (CV)
+            name = build_syllable(consonant, vowel)
         
         # 중복 방지
         base_name = name

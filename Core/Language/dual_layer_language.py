@@ -236,9 +236,11 @@ class KhalaField:
             if wave.source_id == receiver_id:
                 continue  # 자기 자신의 파동은 무시
             
-            # 거리 계산 (간단화: 모든 파동은 중심에서 발산)
-            # 실제로는 source의 위치를 알아야 하지만, 여기선 random으로 대체
-            distance = np.random.uniform(1, 20)  # 추상화된 "감정적 거리"
+            # 감정적 거리 계산
+            # 실제 위치 기반 대신, 파동의 공명 반경에 기반한 확률적 거리 사용
+            # 테스트 가능하도록 wave의 resonance_radius를 기준으로 함
+            base_distance = wave.resonance_radius * 0.5
+            distance = base_distance + np.random.uniform(0, wave.resonance_radius)
             
             strength = wave.get_strength_at_distance(distance) * sensitivity
             if strength > 0.01:
@@ -553,17 +555,23 @@ class DualLayerSoul:
             return False, receiver_symbol.meaning
     
     def _generate_word_from_meaning(self, meaning: str) -> str:
-        """의미에서 단어 생성 (원시 언어)"""
-        # 간단한 규칙: 첫 글자 + 음절 조합
+        """
+        의미에서 단어 생성 (원시 언어)
+        
+        해시 기반 결정론적 생성으로, 같은 의미는 항상 같은 단어를 생성.
+        """
         vowels = ['a', 'e', 'i', 'o', 'u']
         consonants = ['m', 'n', 'k', 't', 'p', 'r', 's', 'l']
         
-        # 의미의 해시로 결정론적 생성
-        h = hash(meaning)
-        c1 = consonants[h % len(consonants)]
-        v1 = vowels[(h >> 4) % len(vowels)]
-        c2 = consonants[(h >> 8) % len(consonants)]
-        v2 = vowels[(h >> 12) % len(vowels)]
+        # 해시를 시드로 사용하여 결정론적이면서 균등한 분포 생성
+        import hashlib
+        hash_bytes = hashlib.md5(meaning.encode()).digest()
+        
+        # 각 바이트를 사용하여 음소 선택 (균등 분포)
+        c1 = consonants[hash_bytes[0] % len(consonants)]
+        v1 = vowels[hash_bytes[1] % len(vowels)]
+        c2 = consonants[hash_bytes[2] % len(consonants)]
+        v2 = vowels[hash_bytes[3] % len(vowels)]
         
         return f"{c1}{v1}{c2}{v2}"
     
