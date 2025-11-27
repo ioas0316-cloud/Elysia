@@ -130,10 +130,20 @@ class ResonanceEngine:
         """
         Sync incoming concepts into Hippocampus (Spiderweb) and WorldTree,
         and link co-occurrences/temporal flow.
-                "y": self.consciousness_lens.state.q.y if self.consciousness_lens else 0.0,
-                "z": self.consciousness_lens.state.q.z if self.consciousness_lens else 0.0,
-            },
-        }
+        """
+        for c in concepts:
+            # Add concept node (if new) to Hippocampus
+            if c not in self.memory.causal_graph:
+                self.memory.add_concept(c, concept_type="word", metadata={
+                    "x": self.consciousness_lens.state.q.x if self.consciousness_lens else 0.0,
+                    "y": self.consciousness_lens.state.q.y if self.consciousness_lens else 0.0,
+                    "z": self.consciousness_lens.state.q.z if self.consciousness_lens else 0.0,
+                })
+        
+        # Link co-occurring concepts
+        for i, ca in enumerate(concepts):
+            for cb in concepts[i+1:]:
+                self.memory.add_causal_link(ca, cb, "co-occurs")
 
     def _phase_info(self) -> Tuple[float, float]:
         """Return (mastery, entropy) derived from current phase state."""

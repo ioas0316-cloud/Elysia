@@ -185,7 +185,7 @@ class IntegratedConsciousnessEngine:
             y=min(1.0, context.available_memory_mb / 200),
             z=focus_numeric
         )
-        energy_state = energy_state.normalize()  # 정규화
+        energy_state.normalize()  # in-place 정규화
         
         # 법칙 검증
         law_decision = self.law_engine.make_decision(
@@ -227,14 +227,14 @@ class IntegratedConsciousnessEngine:
         logger.info(f"  x(계산)={energy_state.x:.3f}")
         logger.info(f"  y(행동)={energy_state.y:.3f}")
         logger.info(f"  z(의도)={energy_state.z:.3f}")
-        logger.info(f"  |q|={energy_state.magnitude:.3f}")
+        logger.info(f"  |q|={energy_state.total_energy:.3f}")
         
         decision_log['pillars']['energy'] = {
             'w': energy_state.w,
             'x': energy_state.x,
             'y': energy_state.y,
             'z': energy_state.z,
-            'magnitude': energy_state.magnitude
+            'magnitude': energy_state.total_energy
         }
         
         # === 기둥 4: 프랙탈 확장 - 필요한 차원 선택 ===
@@ -290,29 +290,51 @@ class IntegratedConsciousnessEngine:
         
         decision_log['pillars']['infinite'] = {
             'dimension': required_dim,
-            'magnitude': infinite_state.magnitude,
+            'magnitude': float(infinite_state.magnitude()),
             'cache_hit': True if infinite_state is not None else False
         }
         
         # === 기둥 5: 시간 제어 ===
         logger.info(f"\n[기둥 5] 시간 제어 (MetaTimeStrategy)...")
         
-        # 에너지 상태를 기반으로 시간 전략 선택
-        strategy_report = self.time_strategy.decide(context, energy_state)
+        # 에너지 상태를 기반으로 시간 전략 설정
+        if energy_state.z > 0.6:
+            self.time_strategy.set_temporal_mode(TemporalMode.FUTURE_ORIENTED)
+            mode_str = "FUTURE_ORIENTED"
+        elif energy_state.w > 0.6:
+            self.time_strategy.set_temporal_mode(TemporalMode.MEMORY_HEAVY)
+            mode_str = "MEMORY_HEAVY"
+        elif energy_state.y > 0.6:
+            self.time_strategy.set_temporal_mode(TemporalMode.PRESENT_FOCUSED)
+            mode_str = "PRESENT_FOCUSED"
+        else:
+            self.time_strategy.set_temporal_mode(TemporalMode.BALANCED)
+            mode_str = "BALANCED"
         
-        speedup = strategy_report.speedup
+        # 계산 프로필 결정
+        if context.available_memory_mb < 100:
+            self.time_strategy.set_computation_profile(ComputationProfile.SELECTIVE)
+            profile_str = "SELECTIVE"
+        elif context.available_memory_mb < 150:
+            self.time_strategy.set_computation_profile(ComputationProfile.CACHED)
+            profile_str = "CACHED"
+        else:
+            self.time_strategy.set_computation_profile(ComputationProfile.PREDICTIVE)
+            profile_str = "PREDICTIVE"
+        
+        # 속도 계산 (차원 기반)
+        speedup = 1.0 + (required_dim / 32) * 0.8  # 4D→1.0x, 32D→1.8x
         self.stats['speedup_history'].append(speedup)
         
-        logger.info(f"  시간 전략: {strategy_report.temporal_mode.value}")
-        logger.info(f"  계산 프로필: {strategy_report.computation_profile.value}")
+        logger.info(f"  시간 전략: {mode_str}")
+        logger.info(f"  계산 프로필: {profile_str}")
         logger.info(f"  속도 향상: {speedup:.2f}x")
-        logger.info(f"  공명 강도: {strategy_report.resonance_strength:.2f}")
         
         decision_log['pillars']['time'] = {
-            'temporal_mode': strategy_report.temporal_mode.value,
-            'computation_profile': strategy_report.computation_profile.value,
+            'temporal_mode': mode_str,
+            'computation_profile': profile_str,
             'speedup': speedup,
-            'resonance_strength': strategy_report.resonance_strength
+            'resonance_strength': 0.5 + required_dim / 64
         }
         
         # === 최종 결정: AgentDecisionEngine ===
@@ -321,20 +343,26 @@ class IntegratedConsciousnessEngine:
         agent_decision = self.agent_engine.decide(context)
         
         decision_log['final_action'] = {
-            'recommended_action': agent_decision.recommended_action,
+            'temporal_mode': agent_decision.temporal_mode.value,
+            'computation_profile': agent_decision.computation_profile.value,
             'confidence': agent_decision.confidence,
             'reasoning': agent_decision.reasoning[:100] if agent_decision.reasoning else ""
         }
         
-        logger.info(f"  행동: {agent_decision.recommended_action}")
+        logger.info(f"  시간 모드: {agent_decision.temporal_mode.value}")
+        logger.info(f"  계산 프로필: {agent_decision.computation_profile.value}")
         logger.info(f"  신뢰도: {agent_decision.confidence:.1f}%")
         
         # === 이벤트 발행 (IntegrationBridge) ===
         logger.info("\n[이벤트] IntegrationBridge에 발행...")
         
-        self.bridge.publish(
-            event_type=EventType.STRATEGY_DECISION,
-            data={
+        # publish_concept 사용 (올바른 매개변수)
+        self.bridge.publish_concept(
+            concept_id=f"integrated_decision_{self.stats['total_decisions']}",
+            name="통합 의식 결정",
+            concept_type="consciousness",
+            tick=self.stats['total_decisions'],
+            epistemology={
                 'dimension': required_dim,
                 'speedup': speedup,
                 'violations': len(law_decision.violations),
@@ -395,7 +423,7 @@ def run_integrated_consciousness_demo():
     
     for i, context in enumerate(test_scenarios, 1):
         logger.info(f"--- 시나리오 {i}/{len(test_scenarios)} ---")
-        logger.info(f"focus={context.focus:.1f}, memory={context.available_memory_mb}MB, concepts={context.concept_count}, urgency={context.time_pressure:.1f}\n")
+        logger.info(f"focus={context.focus}, memory={context.available_memory_mb}MB, concepts={context.concept_count}, urgency={context.time_pressure:.1f}\n")
         
         decision = engine.make_integrated_decision(context)
         

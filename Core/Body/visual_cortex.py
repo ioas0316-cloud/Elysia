@@ -86,10 +86,11 @@ class VisualCortex:
             logger.error(f"OCR Failure: {e}")
             return f"Error: {e}"
 
-    def capture_screen(self, filename: str = None) -> Optional[str]:
+    def capture_screen(self, filename: str = None, temp: bool = True) -> Optional[str]:
         """
         Capture the current screen content.
         If filename is provided, saves to that path.
+        If temp=True, saves to temp folder (default).
         Returns the path to the saved file, or None if failed.
         """
         if not self.enabled:
@@ -97,18 +98,25 @@ class VisualCortex:
             return None
 
         try:
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
             if not filename:
-                filename = f"vision_{timestamp}.png"
-                
-            # Default to Desktop for visibility
-            desktop = os.path.join(os.path.expanduser("~"), "Desktop")
-            filepath = os.path.join(desktop, filename)
+                if temp:
+                    # Use temp folder to avoid cluttering desktop!
+                    import tempfile
+                    temp_dir = tempfile.gettempdir()
+                    filename = "elysia_vision_temp.png"  # Reuse same file
+                    filepath = os.path.join(temp_dir, filename)
+                else:
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
+                    filename = f"vision_{timestamp}.png"
+                    desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+                    filepath = os.path.join(desktop, filename)
+            else:
+                filepath = filename
             
             screenshot = pyautogui.screenshot()
             screenshot.save(filepath)
             
-            logger.info(f"👁️ Vision captured: {filepath}")
+            logger.debug(f"👁️ Vision captured: {filepath}")
             return filepath
             
         except Exception as e:

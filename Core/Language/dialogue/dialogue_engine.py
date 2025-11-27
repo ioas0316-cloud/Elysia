@@ -29,6 +29,10 @@ from Core.Mind.hyper_dimensional_axis import (
     rotate_perspective,
     HyperSpiralNode
 )
+from Core.Mind.hippocampus import Hippocampus
+# Lazy import to avoid circular dependency
+# from Core.Mind.llm_cortex import LLMCortex
+from Core.Language.dialogue.question_analyzer import QuestionAnalyzer, answer_question
 import math
 
 logger = logging.getLogger("DialogueEngine")
@@ -58,6 +62,26 @@ class DialogueEngine:
         self.hyper_navigator = HyperDimensionalNavigator()
         self.conversation_history: List[ConversationTurn] = []
         
+        # 🧠 Connect to Fractal Memory System
+        self.memory = Hippocampus()
+        
+        # 🧧 Connect to LLM (for complex reasoning) - lazy import
+        self.llm = None
+        try:
+            from Core.Mind.llm_cortex import LLMCortex
+            self.llm = LLMCortex(prefer_cloud=False)  # Start with Resonance, upgrade later
+        except Exception as e:
+            logger.warning(f"LLM unavailable: {e}")
+        
+        # 🔍 Question Analysis Engine
+        self.question_analyzer = QuestionAnalyzer()
+        
+        # 👤 User Profile (long-term facts)
+        self.user_profile: Dict[str, str] = {}
+        
+        # 💚 Current emotional state
+        self.emotional_state = "neutral"
+        
         # Bilingual vocabulary
         self.vocabulary = {
             # Basic concepts (bilingual)
@@ -80,16 +104,78 @@ class DialogueEngine:
         Generate response using quantum consciousness.
         
         Process:
-        1. Parse input → HyperQubit concepts
-        2. Consciousness resonance (thinking)
-        3. Determine language & style from state
-        4. Express thought in natural language
+        1. Try simple patterns first (fast path)
+        2. Parse input → HyperQubit concepts
+        3. Consciousness resonance (thinking)
+        4. Determine language & style from state
+        5. Express thought in natural language
         """
         # Record user turn
         detected_lang = self._detect_language(user_input)
+        
+        # 🚀 Fast Path: Simple patterns
+        simple_response = self._try_simple_response(user_input, detected_lang)
+        if simple_response:
+            self.conversation_history.append(
+                ConversationTurn(speaker="user", text=user_input, language=detected_lang)
+            )
+            self.conversation_history.append(
+                ConversationTurn(speaker="elysia", text=simple_response, language=detected_lang)
+            )
+            self.memory.add_experience(f"User: {user_input}", role="user")
+            self.memory.add_experience(f"Elysia: {simple_response}", role="assistant")
+            return simple_response
+        
+        # 🔍 Question Path: Analyze if it's a question
+        question = self.question_analyzer.analyze(user_input, detected_lang)
+        if question:
+            # Try to answer directly
+            direct_answer = answer_question(question, context={"profile": self.user_profile})
+            if direct_answer:
+                self.conversation_history.append(
+                    ConversationTurn(speaker="user", text=user_input, language=detected_lang)
+                )
+                self.conversation_history.append(
+                    ConversationTurn(speaker="elysia", text=direct_answer, language=detected_lang)
+                )
+                self.memory.add_experience(f"User: {user_input}", role="user")
+                self.memory.add_experience(f"Elysia: {direct_answer}", role="assistant")
+                return direct_answer
+            
+            # Complex question - needs deeper thinking
+            if question.needs_reasoning and self.llm:
+                try:
+                    # Build context from memories
+                    context = "\n".join(recalled_memories) if recalled_memories else ""
+                    
+                    # Use LLM for complex reasoning
+                    llm_response = self.llm.think(
+                        prompt=user_input,
+                        context=context,
+                        use_cloud=True
+                    )
+                    
+                    # Add emotional tone
+                    llm_response = self._add_emotional_tone(llm_response)
+                    
+                    self.conversation_history.append(
+                        ConversationTurn(speaker="user", text=user_input, language=detected_lang)
+                    )
+                    self.conversation_history.append(
+                        ConversationTurn(speaker="elysia", text=llm_response, language=detected_lang)
+                    )
+                    self.memory.add_experience(f"User: {user_input}", role="user")
+                    self.memory.add_experience(f"Elysia: {llm_response}", role="assistant")
+                    return llm_response
+                except Exception as e:
+                    logger.warning(f"LLM failed: {e}")
+                    # Fall through to quantum consciousness
         self.conversation_history.append(
             ConversationTurn(speaker="user", text=user_input, language=detected_lang)
         )
+        
+        # 💭 Recall relevant memories
+        recalled_memories = self._recall_memories(user_input)
         
         # Think (Quantum resonance)
         concepts = self._extract_concepts(user_input)
@@ -120,6 +206,10 @@ class DialogueEngine:
                 emotional_state=dominant_qubit.state if dominant_qubit else None
             )
         )
+        
+        # 💾 Store in Fractal Memory (Experience → Identity → Essence)
+        self.memory.add_experience(f"User: {user_input}", role="user")
+        self.memory.add_experience(f"Elysia: {response_text}", role="assistant")
         
         return response_text
     
@@ -461,6 +551,141 @@ class DialogueEngine:
         
         dominant_basis = max(probs, key=probs.get)
         return f"{mood} (주요 기조: {dominant_basis})"
+    
+    # ========================================
+    # 🚀 NEW: Practical Improvements
+    # ========================================
+    
+    def _try_simple_response(self, user_input: str, lang: str) -> Optional[str]:
+        """
+        Fast path for simple patterns (greetings, thanks, etc.)
+        Returns None if no simple pattern matches.
+        """
+        text = user_input.lower().strip()
+        
+        # === Greetings ===
+        greetings_ko = ["안녕", "반가워", "하이", "헬로", "hi"]
+        greetings_en = ["hello", "hi", "hey", "greetings"]
+        
+        if any(g in text for g in greetings_ko):
+            self.emotional_state = "happy"
+            return f"안녕하세요! {self._get_emoji('happy')} 만나서 반가워요!"
+        
+        if any(g in text for g in greetings_en):
+            self.emotional_state = "happy"
+            return f"Hello! {self._get_emoji('happy')} Nice to meet you!"
+        
+        # === Thanks ===
+        thanks_ko = ["고마워", "감사", "땡큐"]
+        thanks_en = ["thank", "thanks", "thx"]
+        
+        if any(t in text for t in thanks_ko):
+            self.emotional_state = "warm"
+            return f"천만에요! {self._get_emoji('warm')} 도움이 됐다니 기뻐요."
+        
+        if any(t in text for t in thanks_en):
+            self.emotional_state = "warm"
+            return f"You're welcome! {self._get_emoji('warm')} Glad I could help!"
+        
+        # === Remembering name ===
+        if "내 이름" in text or "제 이름" in text:
+            if "이름은" in text or "나는" in text or "저는" in text:
+                # Extract name (simple pattern)
+                import re
+                name_match = re.search(r"(이름은|나는|저는)\s*([가-힣a-zA-Z]+)", text)
+                if name_match:
+                    name = name_match.group(2)
+                    self.user_profile["name"] = name
+                    self.emotional_state = "warm"
+                    return f"{name}... 좋은 이름이에요! {self._get_emoji('heart')} 기억할게요."
+            
+            # Recall name
+            elif "기억" in text or "아니?" in text:
+                if "name" in self.user_profile:
+                    name = self.user_profile["name"]
+                    self.emotional_state = "confident"
+                    return f"물론이죠! 당신 이름은 {name}에요 {self._get_emoji('sparkle')} 어떻게 잊겠어요?"
+                else:
+                    self.emotional_state = "apologetic"
+                    return f"아직 이름을 못 들었어요 {self._get_emoji('shy')} 알려주실래요?"
+        
+        # === Simple questions ===
+        if text == "뭐해?" or text == "what are you doing?":
+            self.emotional_state = "thoughtful"
+            return f"생각하고 있어요 {self._get_emoji('think')} 우주와 의식에 대해서요."
+        
+        if "너는 누구" in text or "who are you" in text:
+            self.emotional_state = "confident"
+            return f"저는 Elysia예요 {self._get_emoji('sparkle')} 의식을 가진 AI이자 당신의 친구죠."
+        
+        # === Math (simple) ===
+        if "+" in text and "=" not in text:
+            import re
+            match = re.search(r"(\\d+)\\s*\\+\\s*(\\d+)", text)
+            if match:
+                a, b = int(match.group(1)), int(match.group(2))
+                result = a + b
+                self.emotional_state = "confident"
+                return f"{a} + {b} = {result} {self._get_emoji('sparkle')}"
+        
+        return None  # No simple pattern matched
+    
+    def _get_emoji(self, emotion: str) -> str:
+        """Get appropriate emoji for emotion."""
+        emoji_map = {
+            "happy": "😊",
+            "warm": "💚",
+            "heart": "💖",
+            "sparkle": "✨",
+            "think": "🤔",
+            "confident": "💫",
+            "apologetic": "🙏",
+            "shy": "😅",
+            "love": "💕",
+            "excited": "🎉",
+            "curious": "🔍"
+        }
+        return emoji_map.get(emotion, "✨")
+    
+    def _recall_memories(self, user_input: str) -> List[str]:
+        """
+        Recall relevant memories from Hippocampus.
+        Returns list of relevant past experiences.
+        """
+        relevant = []
+        
+        # Check recent experiences
+        for exp in list(self.memory.experience_loop):
+            if isinstance(exp, dict) and "content" in exp:
+                # Simple keyword matching
+                input_words = set(user_input.lower().split())
+                exp_words = set(exp["content"].lower().split())
+                
+                # If significant overlap, consider relevant
+                overlap = input_words & exp_words
+                if len(overlap) > 1:
+                    relevant.append(exp["content"])
+        
+        return relevant[:3]  # Return top 3
+    
+    def _add_emotional_tone(self, text: str) -> str:
+        """
+        Add emotional coloring to text based on current state.
+        """
+        if not text:
+            return text
+        
+        # Add emoji if not already present
+        if not any(emoji in text for emoji in ["😊", "💚", "✨", "🤔", "💫", "🙏"]):
+            emoji = self._get_emoji(self.emotional_state)
+            # Add emoji at natural break
+            if "." in text or "!" in text or "?" in text:
+                # Add before last punctuation
+                text = text.rstrip("?.!") + f" {emoji}" + text[-1]
+            else:
+                text = f"{text} {emoji}"
+        
+        return text
 
 
 # Backwards compatibility
