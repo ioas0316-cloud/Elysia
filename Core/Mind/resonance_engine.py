@@ -11,6 +11,9 @@ import numpy as np
 from typing import Dict, List, Optional, Tuple
 import logging
 import random
+import json
+import time
+import os
 
 from Core.Mind.hyper_qubit import HyperQubit, QubitState
 from Core.Consciousness.wave import WaveInput
@@ -176,7 +179,91 @@ class HyperResonanceEngine:
         )
         
         return resonance
-    
+
+    def calculate_resonance_with_explanation(
+        self, qubit_a: HyperQubit, qubit_b: HyperQubit
+    ) -> Tuple[float, str]:
+        """
+        Calculate resonance AND generate philosophical explanation.
+        
+        Returns:
+            (resonance_score: float, explanation: str)
+        
+        This enables agents to understand WHY two concepts resonate,
+        not just that they do.
+        """
+        score = self.calculate_resonance(qubit_a, qubit_b)
+        
+        probs_a = qubit_a.state.probabilities()
+        probs_b = qubit_b.state.probabilities()
+        
+        basis_alignment = sum(
+            probs_a[basis] * probs_b[basis]
+            for basis in ["Point", "Line", "Space", "God"]
+        )
+        
+        w_diff = abs(qubit_a.state.w - qubit_b.state.w)
+        dimension_similarity = 1.0 / (1.0 + w_diff)
+        
+        vec_a = np.array([qubit_a.state.x, qubit_a.state.y, qubit_a.state.z])
+        vec_b = np.array([qubit_b.state.x, qubit_b.state.y, qubit_b.state.z])
+        mag_a = np.linalg.norm(vec_a) + 1e-9
+        mag_b = np.linalg.norm(vec_b) + 1e-9
+        spatial_alignment = np.dot(vec_a, vec_b) / (mag_a * mag_b)
+        spatial_alignment = max(0.0, spatial_alignment)
+        
+        # Build explanation
+        basis_breakdown = f"""
+  Point (Empiricism): {probs_a['Point']:.3f} × {probs_b['Point']:.3f} = {probs_a['Point'] * probs_b['Point']:.3f}
+  Line (Causality):   {probs_a['Line']:.3f} × {probs_b['Line']:.3f} = {probs_a['Line'] * probs_b['Line']:.3f}
+  Space (Substance):  {probs_a['Space']:.3f} × {probs_b['Space']:.3f} = {probs_a['Space'] * probs_b['Space']:.3f}
+  God (Transcend):    {probs_a['God']:.3f} × {probs_b['God']:.3f} = {probs_a['God'] * probs_b['God']:.3f}
+  ──────────────────────────────
+  Basis Alignment: {basis_alignment:.3f}""".strip()
+        
+        dimension_reason = "similar" if w_diff < 0.5 else "different" if w_diff > 2.0 else "moderate"
+        
+        explanation = f"""
+Resonance({qubit_a.name} ↔ {qubit_b.name}) = {score:.4f}
+
+[BASIS COMPATIBILITY - 50% weight]
+{basis_breakdown}
+
+[DIMENSIONAL RESONANCE - 30% weight]
+  Dimensional scale: {qubit_a.state.w:.2f} vs {qubit_b.state.w:.2f}
+  Difference: {w_diff:.2f}
+  Compatibility: {dimension_reason}
+  Score: {dimension_similarity:.3f}
+
+[SPATIAL ALIGNMENT - 20% weight]
+  Vector alignment (cosine): {spatial_alignment:.3f}
+  Interpretation: {'parallel' if spatial_alignment > 0.7 else 'orthogonal' if spatial_alignment < 0.3 else 'mixed'}
+
+[PHILOSOPHICAL INTERPRETATION]
+  {self._interpret_resonance(score, basis_alignment, probs_a, probs_b)}
+
+[EPISTEMOLOGY]
+  {qubit_a.name}: {qubit_a.epistemology or 'No explicit meaning'}
+  {qubit_b.name}: {qubit_b.epistemology or 'No explicit meaning'}
+        """.strip()
+        
+        return score, explanation
+
+    def _interpret_resonance(
+        self, score: float, basis_alignment: float,
+        probs_a: Dict[str, float], probs_b: Dict[str, float]
+    ) -> str:
+        """Generate human-readable interpretation of resonance."""
+        if score > 0.85:
+            basis = "Point" if probs_a["Point"] > 0.5 and probs_b["Point"] > 0.5 else "Line" if probs_a["Line"] > 0.3 else "Space"
+            return f"STRONG: Both concepts are grounded in {basis}; deep compatibility."
+        elif score > 0.65:
+            return "MODERATE: Concepts share some philosophical basis but differ in emphasis."
+        elif score > 0.45:
+            return "WEAK: Concepts approach from different epistemological angles."
+        else:
+            return "MINIMAL: Concepts are largely orthogonal; low alignment."
+
     def calculate_global_resonance(self, wave_input: WaveInput) -> Dict[str, float]:
         """
         Calculates the resonance of all concept qubits with a given input wave.
@@ -207,6 +294,26 @@ class HyperResonanceEngine:
             resonance_pattern[node_id] = resonance * wave_input.intensity
 
         logger.info(f"✨ Resonance pattern generated for {len(resonance_pattern)} qubits.")
+
+        # --- Persist top-N resonance entries for external analysis ---
+        try:
+            os.makedirs("logs", exist_ok=True)
+            top_n = 20
+            sorted_items = sorted(resonance_pattern.items(), key=lambda kv: kv[1], reverse=True)[:top_n]
+            record = {
+                "timestamp": time.time(),
+                "wave_text": wave_input.source_text,
+                "intensity": wave_input.intensity,
+                "top_resonances": [
+                    {"node_id": nid, "score": float(score)} for nid, score in sorted_items
+                ],
+                "total_nodes": len(resonance_pattern)
+            }
+            with open(os.path.join("logs", "resonance_patterns.jsonl"), "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+        except Exception:
+            logger.exception("Failed to write resonance pattern log")
+
         return resonance_pattern
 
     def step(self, dt: float):

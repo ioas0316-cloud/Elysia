@@ -92,6 +92,7 @@ class HyperQubit:
         x: float = 0.0,
         y: float = 0.0,
         z: float = 0.0,
+        epistemology: Optional[Dict[str, Dict[str, Any]]] = None,
     ):
         # Dual-init: if content is provided we treat the first argument as an id.
         concept_value = concept_or_value if value is None else value
@@ -120,10 +121,24 @@ class HyperQubit:
 
         self.entangled_qubits: List["HyperQubit"] = []
 
+        # Epistemology: philosophical meaning of this qubit
+        # Format: {
+        #   "point": {"score": 0.9, "meaning": "empirical substrate", "reference": "Kant-Phenomenon"},
+        #   "line": {"score": 0.05, "meaning": "relational aspect", "reference": "Spinoza-Extension"},
+        #   "space": {"score": 0.03, "meaning": "field embodiment", "reference": "Heidegger-World"},
+        #   "god": {"score": 0.02, "meaning": "transcendent purpose", "reference": "Plotinus-One"}
+        # }
+        self.epistemology = epistemology or {}
+
         # Khala resonance links (reaction graph)
         self._observers: Set["HyperQubit"] = set()
         self._sources: Set["HyperQubit"] = set()
         self._reaction_rule: Optional[Callable[[Any], Any]] = None
+
+    def set_state(self, new_state: QubitState) -> "HyperQubit":
+        """Set the quantum state to a specific QubitState (for initialization)."""
+        self.state = new_state.normalize()
+        return self
 
     @property
     def value(self) -> Any:

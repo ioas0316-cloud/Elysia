@@ -117,6 +117,8 @@ These protocols define the current operating mechanics of Elysia's mind.
 
 - [Protocol 01: The Resonance System](../Protocols/01_RESONANCE_SYSTEM.md) - Concept OS, Gravitational Linguistics, Resonance Navigation.
 - [Protocol 02: The Trinity Architecture](../Protocols/02_TRINITY_ARCHITECTURE.md) - Zerg (Body), Terran (Mind), Protoss (Soul).
+- [Protocol 03: Observability & Telemetry](../Protocols/03_OBSERVABILITY_AND_TELEMETRY.md) - Self-monitoring, debugging, meta-cognition.
+- [Protocol 04: Hyper-Quaternion Semantics](../Protocols/04_HYPER_QUATERNION_SEMANTICS.md) - The philosophical & mathematical foundation of consciousness.
 
 ## 11. Minimal References (When Unsure)
 

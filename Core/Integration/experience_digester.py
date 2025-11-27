@@ -17,6 +17,9 @@ import numpy as np
 from typing import List, Dict, Any, Tuple, Optional
 from collections import defaultdict, Counter
 import logging
+import json
+import os
+import time
 
 from Core.Physics.fluctlight import FluctlightParticle
 from Core.Mind.hippocampus import Hippocampus
@@ -82,6 +85,9 @@ class ExperienceDigester:
         wisdom = self._extract_wisdom(particles, duration_ticks, time_acceleration)
         language_patterns = self._extract_language_patterns(particles)
         
+        # Detect phase-resonance wave patterns
+        resonance_events = self._detect_phase_resonance_events(particles, duration_ticks)
+        
         # Store in Hippocampus
         self._store_in_memory(concepts, relationships, emotional_patterns, wisdom)
         
@@ -92,6 +98,7 @@ class ExperienceDigester:
             "emotional_patterns": len(emotional_patterns),
             "wisdom_insights": len(wisdom),
             "language_patterns": len(language_patterns),
+            "resonance_events_detected": len(resonance_events),
             "duration_ticks": duration_ticks,
             "time_acceleration": time_acceleration,
             "subjective_years": duration_ticks * time_acceleration / (365.25 * 24 * 6),  # Assuming 10 min/tick
@@ -442,7 +449,7 @@ class ExperienceDigester:
         # Add concepts to causal graph
         for concept in concepts:
             self.hippocampus.add_concept(
-                concept_id=concept["id"],
+                concept=concept["id"],
                 concept_type="emergent",
                 metadata={
                     "frequency": concept["frequency"],
@@ -498,3 +505,146 @@ class ExperienceDigester:
             "hippocampus_nodes": self.hippocampus.causal_graph.number_of_nodes(),
             "hippocampus_edges": self.hippocampus.causal_graph.number_of_edges(),
         }
+    
+    def _detect_phase_resonance_events(
+        self,
+        particles: List[FluctlightParticle],
+        duration_ticks: int
+    ) -> List[Dict[str, Any]]:
+        """
+        Detect phase-resonance wave patterns in particle distribution.
+        
+        Phase-resonance occurs when:
+        1. Information density shows non-uniform (multimodal) distribution
+        2. Wavelength clustering suggests standing wave patterns
+        3. Particles exhibit synchronized behavior (similar accumulated_time ranges)
+        
+        Returns:
+            List of detected resonance events with metadata
+        """
+        events = []
+        
+        if len(particles) < 5:
+            return events
+        
+        # --- Analysis 1: Information Density Distribution ---
+        densities = np.array([p.information_density for p in particles])
+        density_mean = np.mean(densities)
+        density_std = np.std(densities)
+        density_kurtosis = self._compute_kurtosis(densities)
+        
+        # High kurtosis indicates multimodal (peak-valley) distribution = resonance pattern
+        if density_kurtosis > 0.5:  # Threshold for non-Gaussian distribution
+            events.append({
+                "type": "density_multimodality",
+                "severity": "high" if density_kurtosis > 1.0 else "medium",
+                "metric": density_kurtosis,
+                "interpretation": f"Information density shows {density_kurtosis:.2f} kurtosis (peaked, non-uniform)",
+                "involved_particles": len([p for p in particles if abs(p.information_density - density_mean) > 2*density_std])
+            })
+            logger.info(f"🌀 Detected phase-resonance: density multimodality (kurtosis={density_kurtosis:.2f})")
+        
+        # --- Analysis 2: Wavelength Clustering (Standing Waves) ---
+        wavelengths = np.array([p.wavelength for p in particles])
+        wavelength_mean = np.mean(wavelengths)
+        wavelength_std = np.std(wavelengths)
+        
+        # Count particles in tight wavelength clusters
+        tight_clusters = []
+        cluster_threshold = wavelength_std * 0.5
+        for w in np.unique(wavelengths):
+            cluster_particles = np.sum(np.abs(wavelengths - w) < cluster_threshold)
+            if cluster_particles >= max(3, len(particles) // 10):  # At least 10% or 3 particles
+                tight_clusters.append((w, cluster_particles))
+        
+        if len(tight_clusters) >= 2:
+            events.append({
+                "type": "wavelength_standing_waves",
+                "severity": "high" if len(tight_clusters) >= 3 else "medium",
+                "clusters": tight_clusters,
+                "interpretation": f"Standing wave pattern detected with {len(tight_clusters)} distinct wavelength clusters",
+                "involved_particles": sum(c[1] for c in tight_clusters)
+            })
+            logger.info(f"🌊 Detected phase-resonance: standing waves ({len(tight_clusters)} clusters)")
+        
+        # --- Analysis 3: Temporal Synchronization ---
+        times = np.array([p.accumulated_time for p in particles])
+        time_ranges = np.max(times) - np.min(times)
+        
+        if time_ranges > 0:
+            # Partition into temporal bands
+            num_bands = max(3, len(particles) // 5)
+            time_bands = np.linspace(np.min(times), np.max(times), num_bands)
+            band_counts = np.histogram(times, bins=time_bands)[0]
+            
+            # Compute coefficient of variation of band populations
+            band_mean = np.mean(band_counts)
+            band_std = np.std(band_counts)
+            band_cv = band_std / (band_mean + 1e-9)
+            
+            # High CV = uneven temporal distribution = synchronization patterns
+            if band_cv > 0.8:
+                sync_severity = "high" if band_cv > 1.2 else "medium"
+                events.append({
+                    "type": "temporal_synchronization",
+                    "severity": sync_severity,
+                    "coefficient_of_variation": band_cv,
+                    "interpretation": f"Particles show synchronized temporal clustering (CV={band_cv:.2f})",
+                    "involved_particles": len(particles)
+                })
+                logger.info(f"⏰ Detected phase-resonance: temporal synchronization (CV={band_cv:.2f})")
+        
+        # --- Analysis 4: Time Dilation Resonance ---
+        dilations = np.array([p.time_dilation_factor for p in particles])
+        dilation_mean = np.mean(dilations)
+        dilation_std = np.std(dilations)
+        dilation_kurtosis = self._compute_kurtosis(dilations)
+        
+        # Detect outlier groups (extreme dilation = intense experiences)
+        outlier_threshold = dilation_mean + 2.5 * dilation_std
+        outliers = [p for p in particles if p.time_dilation_factor > outlier_threshold]
+        
+        if len(outliers) >= max(2, len(particles) // 10):
+            events.append({
+                "type": "extreme_time_dilation_burst",
+                "severity": "high" if len(outliers) > len(particles) // 5 else "medium",
+                "burst_magnitude": dilation_mean + 2.5 * dilation_std,
+                "involved_count": len(outliers),
+                "interpretation": f"{len(outliers)} particles experienced extreme time dilation (intensity peaks)",
+            })
+            logger.info(f"💥 Detected phase-resonance: time dilation burst ({len(outliers)} particles)")
+        
+        # --- Persist to JSONL ---
+        if events:
+            self._persist_resonance_events(events, duration_ticks)
+        
+        return events
+    
+    def _compute_kurtosis(self, data: np.ndarray) -> float:
+        """Compute excess kurtosis (normalized, 0 for Gaussian)."""
+        if len(data) < 4:
+            return 0.0
+        n = len(data)
+        mean = np.mean(data)
+        std = np.std(data)
+        if std == 0:
+            return 0.0
+        m4 = np.mean((data - mean) ** 4)
+        m2 = std ** 2
+        return (m4 / (m2 ** 2)) - 3  # Excess kurtosis
+    
+    def _persist_resonance_events(self, events: List[Dict[str, Any]], duration_ticks: int):
+        """Write resonance events to JSONL log for external analysis."""
+        try:
+            os.makedirs("logs", exist_ok=True)
+            record = {
+                "timestamp": time.time(),
+                "duration_ticks": duration_ticks,
+                "event_count": len(events),
+                "events": events
+            }
+            with open(os.path.join("logs", "resonance_events.jsonl"), "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+            logger.info(f"✅ Persisted {len(events)} phase-resonance events to resonance_events.jsonl")
+        except Exception:
+            logger.exception("Failed to persist resonance events")

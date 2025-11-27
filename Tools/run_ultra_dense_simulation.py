@@ -29,6 +29,8 @@ if repo_root not in sys.path:
 import numpy as np
 import logging
 import time as real_time
+import json
+import os
 
 from Core.Physics.fluctlight import FluctlightEngine
 from Core.Physics.meta_time_engine import create_safe_meta_engine
@@ -118,6 +120,9 @@ def run_ultra_dense_simulation():
     
     start_time = real_time.time()
     last_log_time = start_time
+    # Prepare run directory for checkpoints and results
+    run_dir = os.path.join("runs", f"ultra_dense_{int(start_time)}")
+    os.makedirs(run_dir, exist_ok=True)
     
     for tick in range(TICKS):
         # Frequent interference checks for density
@@ -156,6 +161,36 @@ def run_ultra_dense_simulation():
             logger.info(f"  Particles: {len(fluctlight.particles):,}")
             logger.info(f"  Subjective years: {subjective_years:.2e}")
             logger.info(f"  Last 1000 ticks: {tick_time:.1f}s")
+
+            # --- Checkpoint: save a small snapshot for analysis / resume ---
+            try:
+                checkpoint = {
+                    "tick": tick,
+                    "elapsed_seconds": elapsed,
+                    "particles_count": len(fluctlight.particles),
+                    "meta_stats": meta_stats,
+                }
+
+                # summarize top particles (avoid storing complex objects)
+                top_particles = []
+                try:
+                    sorted_particles = sorted(fluctlight.particles, key=lambda p: getattr(p, "information_density", 0), reverse=True)[:20]
+                    for p in sorted_particles:
+                        top_particles.append({
+                            "id": getattr(p, "id", None),
+                            "info_density": float(getattr(p, "information_density", 0)),
+                            "concept": getattr(p, "concept", None)
+                        })
+                except Exception:
+                    top_particles = []
+
+                checkpoint["top_particles"] = top_particles
+
+                ckpt_path = os.path.join(run_dir, f"checkpoint_{tick}.json")
+                with open(ckpt_path, "w", encoding="utf-8") as cf:
+                    json.dump(checkpoint, cf, ensure_ascii=False, indent=2)
+            except Exception:
+                logger.exception("Failed to write checkpoint")
     
     elapsed = real_time.time() - start_time
     final_years = meta_stats['total_subjective_time'] / (365.25 * 24 * 6)
@@ -206,9 +241,10 @@ def run_ultra_dense_simulation():
     logger.info(f"✨ ELYSIA LIVED {final_years:.2e} YEARS ✨")
     logger.info(f"✨ WITH {digest_summary['concepts_extracted']} CONCEPTS ✨")
     logger.info(f"✨ AND {digest_summary['wisdom_insights']} WISDOM INSIGHTS ✨")
+    logger.info(f"✨ RESONANCE EVENTS: {digest_summary.get('resonance_events_detected', 0)} ✨")
     logger.info(f"{'='*70}\n")
     
-    # Save results
+    # Save results in both TXT (human-readable) and JSON (machine-readable)
     with open("ultra_dense_results.txt", "w", encoding="utf-8") as f:
         f.write(f"Ultra-Dense Simulation Results\n")
         f.write(f"="*70 + "\n\n")
@@ -216,7 +252,8 @@ def run_ultra_dense_simulation():
         f.write(f"Subjective years: {final_years:.2e}\n")
         f.write(f"Concepts: {digest_summary['concepts_extracted']}\n")
         f.write(f"Relationships: {digest_summary['relationships_found']}\n")
-        f.write(f"Wisdom: {digest_summary['wisdom_insights']}\n\n")
+        f.write(f"Wisdom: {digest_summary['wisdom_insights']}\n")
+        f.write(f"Resonance Events: {digest_summary.get('resonance_events_detected', 0)}\n\n")
         f.write(f"Wisdom Insights:\n")
         f.write(f"-"*70 + "\n")
         for i, (node, data) in enumerate(wisdom_nodes):
@@ -224,6 +261,38 @@ def run_ultra_dense_simulation():
             f.write(f"{i+1}. {insight}\n")
     
     logger.info("Results saved to ultra_dense_results.txt")
+    
+    # Save machine-readable JSON
+    json_results = {
+        "metadata": {
+            "simulation_type": "ultra_dense",
+            "timestamp": real_time.time(),
+            "duration_seconds": elapsed,
+            "duration_minutes": elapsed / 60,
+        },
+        "configuration": {
+            "ticks": TICKS,
+            "max_particles": MAX_PARTICLES,
+            "interference_interval": INTERFERENCE_INTERVAL,
+            "recursion_depth": DEPTH,
+        },
+        "results": digest_summary,
+        "final_stats": {
+            "particles_final": len(fluctlight.particles),
+            "subjective_years": final_years,
+            "effective_acceleration": meta_stats['effective_acceleration'],
+        },
+        "wisdom": [
+            data.get("metadata", {}).get("insight", "")
+            for node, data in wisdom_nodes
+        ]
+    }
+    
+    json_output_path = f"runs/ultra_dense_{int(real_time.time())}/results.json"
+    os.makedirs(os.path.dirname(json_output_path), exist_ok=True)
+    with open(json_output_path, "w", encoding="utf-8") as f:
+        json.dump(json_results, f, ensure_ascii=False, indent=2)
+    logger.info(f"Machine-readable results saved to {json_output_path}")
     
     return digest_summary
 
