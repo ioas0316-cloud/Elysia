@@ -41,7 +41,7 @@ logger = logging.getLogger("LogosWorld")
 # CONSTANTS - Named thresholds for clarity
 # ============================================================================
 INTERFERENCE_THRESHOLD = 1.5  # Minimum for constructive interference
-CRYSTALLIZATION_THRESHOLD = 10.0  # Experience density for word crystallization
+CRYSTALLIZATION_THRESHOLD = 0.1  # Minimum experience value for word crystallization
 RESONANCE_DECAY_RATE = 0.01  # How fast resonance fades
 BIRTH_ENERGY_THRESHOLD = 50.0  # Minimum energy for new soul birth
 LIFESPAN_BASE = 70  # Base lifespan in years
@@ -202,28 +202,45 @@ class Soul:
             existing.oscillator.amplitude = min(2.0, new_amp)  # Soft cap
             existing.intensity = (existing.intensity + intensity) / 2.0
     
-    def resonate_with(self, other: 'Soul', t: float) -> float:
+    def resonate_with(self, other: 'Soul', t: float) -> Tuple[float, float]:
         """
         Calculate resonance between two souls.
         This is how relationships form - through wave interference.
+        
+        Returns:
+            Tuple of (resonance, communication_gap)
+            - resonance: How well the souls understand each other
+            - communication_gap: How much they FAIL to understand (drives language evolution!)
+            
+        "언어는 소통을 위해 발전했어. 그 이유는? 소통이 안되기 때문이지"
         """
         total_resonance = 0.0
+        total_gap = 0.0
         
         for dim, my_wave in self.experience_sea.items():
             if dim in other.experience_sea:
                 other_wave = other.experience_sea[dim]
                 # Calculate phase difference
                 phase_diff = abs(my_wave.oscillator.phase - other_wave.oscillator.phase)
-                # Frequency similarity
-                freq_ratio = min(my_wave.oscillator.frequency, other_wave.oscillator.frequency) / \
-                           max(my_wave.oscillator.frequency, other_wave.oscillator.frequency)
+                # Frequency similarity (avoid division by zero)
+                max_freq = max(my_wave.oscillator.frequency, other_wave.oscillator.frequency)
+                if max_freq > 0:
+                    freq_ratio = min(my_wave.oscillator.frequency, other_wave.oscillator.frequency) / max_freq
+                else:
+                    freq_ratio = 1.0  # Both zero = identical
                 # Resonance is high when phases align and frequencies match
                 resonance = freq_ratio * math.cos(phase_diff)
                 total_resonance += resonance
+                
+                # Communication gap - the FAILURE to resonate drives language!
+                # When we don't understand each other, we need better words
+                gap = 1.0 - abs(resonance)
+                total_gap += gap
         
         # Normalize
         if self.experience_sea:
             total_resonance /= len(self.experience_sea)
+            total_gap /= len(self.experience_sea)
         
         # Store in resonance map
         other_name = other.name
@@ -232,14 +249,24 @@ class Soul:
         # Resonance accumulates over time (Hebbian learning)
         self.resonances[other_name] += total_resonance * 0.1
         
-        return total_resonance
+        # Communication failure drives language evolution
+        # Store the frustration of not being understood
+        if not hasattr(self, 'communication_frustration'):
+            self.communication_frustration = 0.0
+        self.communication_frustration += total_gap * 0.1
+        
+        return total_resonance, total_gap
     
     def crystallize_word(self, t: float, linguistics: GravitationalLinguistics) -> Optional[str]:
         """
         Attempt to crystallize a word from experience.
         Words emerge from the interference pattern, not from rules.
         
-        "경험의 밀도가 임계점을 넘으면 단어가 결정화된다."
+        KEY INSIGHT: "언어는 소통을 위해 발전했어. 그 이유는? 소통이 안되기 때문이지"
+        Language develops because of communication FAILURE, not success!
+        
+        The more frustrated we are by not being understood,
+        the more we need to create precise words.
         """
         # Sample current experience state
         state = self.experience(t)
@@ -251,11 +278,16 @@ class Soul:
         dominant_dim = max(state.keys(), key=lambda k: abs(state[k]))
         dominant_value = state[dominant_dim]
         
-        # Only crystallize if experience is strong enough
-        if abs(dominant_value) < 0.1:  # Very low threshold
-            return None
+        # Communication frustration drives word creation!
+        # When we fail to be understood, we NEED better words
+        frustration = getattr(self, 'communication_frustration', 0.0)
         
-        # Always attempt crystallization - the experience density is in the wave itself
+        # Threshold is LOWERED by frustration - frustration makes us create words!
+        effective_threshold = CRYSTALLIZATION_THRESHOLD / (1.0 + frustration)
+        
+        # Only crystallize if experience is strong enough (but frustration helps!)
+        if abs(dominant_value) < effective_threshold:
+            return None
         
         # The word that crystallizes depends on the experience pattern
         # This is where we connect to GravitationalLinguistics
@@ -286,6 +318,10 @@ class Soul:
         
         if word is None:
             word = random.choice(candidates)
+        
+        # Creating a word reduces frustration (we expressed ourselves!)
+        if hasattr(self, 'communication_frustration'):
+            self.communication_frustration *= 0.8  # Release some frustration
         
         # Add to soul's lexicon
         if word not in self.lexicon:
@@ -391,7 +427,8 @@ class Soul:
             wave.oscillator.amplitude *= (1.0 - RESONANCE_DECAY_RATE * dt)
         
         # Death when vitality depleted or age exceeds lifespan
-        max_age = LIFESPAN_BASE + random.gauss(0, 10)
+        age_variance = random.gauss(0, 10)
+        max_age = max(LIFESPAN_BASE + age_variance, LIFESPAN_BASE * 0.5)  # Minimum 50% of base lifespan
         if self.vitality <= 0 or self.age > max_age:
             return False
         
@@ -421,16 +458,15 @@ class LogosWorld:
         self.fluctlight_engine = FluctlightEngine(world_size=world_size)
         self.linguistics = GravitationalLinguistics()
         
-        # World field (affects all souls)
+        # World field (affects all souls - must match soul experience dimensions)
         self.world_field = {
             "warmth": 0.5,
             "brightness": 0.5,
-            "harmony": 0.5,
+            "pleasure": 0.5,
         }
         
         # Emergent phenomena
         self.legends: List[Dict[str, Any]] = []
-        self.poems: List[str] = []
         self.conversations: List[Tuple[str, str, str]] = []  # (soul1, soul2, content)
         
         # Initialize population
@@ -485,9 +521,16 @@ class LogosWorld:
         """
         Process interactions between souls.
         Souls that are close in meaning space resonate with each other.
+        
+        Communication gaps drive language evolution!
         """
         # Simple O(n²) for small populations
         if len(self.souls) < 2:
+            return
+        
+        # For large populations, use spatial hashing to reduce complexity
+        if len(self.souls) > 500:
+            self._process_interactions_optimized(t)
             return
         
         for i, soul1 in enumerate(self.souls):
@@ -496,12 +539,49 @@ class LogosWorld:
                 dist = np.linalg.norm(soul1.position - soul2.position)
                 
                 # Only interact if close
-                if dist < 50.0:  # Increased range
-                    resonance = soul1.resonate_with(soul2, t)
+                if dist < 50.0:
+                    resonance, gap = soul1.resonate_with(soul2, t)
                     soul2.resonate_with(soul1, t)  # Mutual
                     
-                    # Strong resonance = conversation (increased chance)
-                    if resonance > 0.3 and random.random() < 0.05:
+                    # Strong resonance = conversation
+                    # BUT: communication gap also drives conversation attempts!
+                    # When we don't understand each other, we TRY HARDER to communicate
+                    conversation_drive = max(resonance, gap * 0.5)
+                    
+                    if conversation_drive > 0.3 and random.random() < 0.05:
+                        self._generate_conversation(soul1, soul2, t)
+    
+    def _process_interactions_optimized(self, t: float) -> None:
+        """
+        Optimized interaction processing using spatial hashing.
+        For large populations (>500 souls).
+        """
+        # Spatial hash grid
+        cell_size = 50.0
+        grid: Dict[Tuple[int, int, int], List[Soul]] = defaultdict(list)
+        
+        for soul in self.souls:
+            cx = int(soul.position[0] / cell_size)
+            cy = int(soul.position[1] / cell_size)
+            cz = int(soul.position[2] / cell_size)
+            grid[(cx, cy, cz)].append(soul)
+        
+        # Process interactions within cells
+        for cell_souls in grid.values():
+            if len(cell_souls) < 2:
+                continue
+            
+            # Random sample to limit interactions per cell
+            sample_size = min(len(cell_souls), 10)
+            sampled = random.sample(cell_souls, sample_size)
+            
+            for i, soul1 in enumerate(sampled):
+                for soul2 in sampled[i+1:]:
+                    resonance, gap = soul1.resonate_with(soul2, t)
+                    soul2.resonate_with(soul1, t)
+                    
+                    conversation_drive = max(resonance, gap * 0.5)
+                    if conversation_drive > 0.3 and random.random() < 0.1:
                         self._generate_conversation(soul1, soul2, t)
     
     def _generate_conversation(self, soul1: Soul, soul2: Soul, t: float) -> None:
@@ -532,7 +612,7 @@ class LogosWorld:
                 surviving_souls.append(soul)
                 
                 # Chance of having children if enough vitality and connections
-                if soul.age > 20 and soul.vitality > 60:
+                if soul.age > 20 and soul.vitality > BIRTH_ENERGY_THRESHOLD:
                     if soul.resonances:
                         strongest_bond = max(soul.resonances.values())
                         if strongest_bond > 1.0 and random.random() < 0.05:
@@ -603,10 +683,8 @@ class LogosWorld:
         # 4. Natural laws of life and death
         self._process_births_deaths(t)
         
-        # 5. Let fluctlight engine process interference (with reduced rate)
-        # Only process interference occasionally to prevent explosion
-        if random.random() < 0.1:  # 10% chance per step
-            self.fluctlight_engine.step(dt, detect_interference=False)
+        # 5. Let fluctlight engine process (without interference to prevent explosion)
+        self.fluctlight_engine.step(dt, detect_interference=False)
         
         # 6. Write diaries (yearly)
         if self.year > int(self.time - dt):  # Year changed
