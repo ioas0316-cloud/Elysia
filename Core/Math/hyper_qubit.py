@@ -127,13 +127,6 @@ class QubitState:
         
         return self.normalize()
 
-
-        self.alpha /= mag
-        self.beta /= mag
-        self.gamma /= mag
-        self.delta /= mag
-        return self
-
     def probabilities(self) -> Dict[str, float]:
         return {
             "Point": abs(self.alpha) ** 2,
@@ -159,7 +152,25 @@ class HyperQubit:
         x: float = 0.0,
         y: float = 0.0,
         z: float = 0.0,
+        epistemology: Optional[Dict[str, Dict[str, Any]]] = None,
     ):
+        """
+        Initialize a HyperQubit (Psionic Entity).
+        
+        Args:
+            concept_or_value: The concept name or initial value
+            initial_content: Optional dict with content for each basis
+            name: Optional name for the qubit
+            value: Override value (if concept_or_value is used for name)
+            w, x, y, z: Initial quaternion orientation
+            epistemology: Philosophical meaning structure for Gap 0 compliance
+                Example: {
+                    "point": {"score": 0.15, "meaning": "empirical substrate"},
+                    "line": {"score": 0.55, "meaning": "relational essence"},
+                    "space": {"score": 0.20, "meaning": "field embodiment"},
+                    "god": {"score": 0.10, "meaning": "transcendent purpose"}
+                }
+        """
         concept_value = concept_or_value if value is None else value
         if initial_content is not None:
             self.id = str(concept_or_value)
@@ -187,6 +198,9 @@ class HyperQubit:
         self._observers: Set["HyperQubit"] = set()
         self._sources: Set["HyperQubit"] = set()
         self._reaction_rule: Optional[Callable[[Any], Any]] = None
+        
+        # Gap 0: Epistemology for philosophical meaning
+        self.epistemology = epistemology or {}
 
     @property
     def value(self) -> Any:
@@ -312,6 +326,55 @@ class HyperQubit:
         self.state.normalize()
         self._value = self.content.get(choice, self._value)
         return choice
+
+    def explain_meaning(self) -> str:
+        """
+        Generate a human-readable explanation of this qubit's philosophical meaning.
+        
+        Gap 0 Implementation: Agents can now understand WHY a concept has certain weights.
+        
+        Returns:
+            A multi-line string explaining the epistemological basis of this concept.
+        """
+        probs = self.state.probabilities()
+        
+        explanation_parts = [
+            f"=== Concept: {self.name} ===",
+            f"Value: {self._value}",
+            "",
+            "Quantum State Distribution:",
+            f"  • Point (α): {probs['Point']:.1%} - Empirical/Data substrate",
+            f"  • Line (β): {probs['Line']:.1%} - Relational/Causal connections",
+            f"  • Space (γ): {probs['Space']:.1%} - Field/Context embodiment",
+            f"  • God (δ): {probs['God']:.1%} - Transcendent/Purpose dimension",
+        ]
+        
+        if self.epistemology:
+            explanation_parts.extend(["", "Philosophical Meaning (Epistemology):"])
+            for basis, info in self.epistemology.items():
+                score = info.get("score", "N/A")
+                meaning = info.get("meaning", "undefined")
+                explanation_parts.append(f"  • {basis.capitalize()}: {score} - {meaning}")
+        
+        # Determine dominant basis and its interpretation
+        dominant = max(probs.items(), key=lambda x: x[1])
+        explanation_parts.extend([
+            "",
+            f"Dominant Basis: {dominant[0]} ({dominant[1]:.1%})",
+            self._interpret_dominance(dominant[0])
+        ])
+        
+        return "\n".join(explanation_parts)
+    
+    def _interpret_dominance(self, basis: str) -> str:
+        """Interpret what the dominant basis means for this concept."""
+        interpretations = {
+            "Point": "→ This concept is primarily grounded in empirical data and concrete details.",
+            "Line": "→ This concept is primarily about relationships, connections, and causality.",
+            "Space": "→ This concept is primarily about context, fields, and embodied experience.",
+            "God": "→ This concept is primarily about transcendence, purpose, and ultimate meaning.",
+        }
+        return interpretations.get(basis, "→ Unknown basis interpretation.")
 
     def __repr__(self) -> str:  # pragma: no cover - representation only
         probs = self.state.probabilities()
