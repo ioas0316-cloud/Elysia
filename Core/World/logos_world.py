@@ -136,6 +136,7 @@ class Soul:
     # Life properties
     vitality: float = 100.0  # Life force (Vitality → Mass → Wave)
     position: np.ndarray = field(default_factory=lambda: np.zeros(3))
+    max_lifespan: float = 0.0  # Set during __post_init__
     
     # Relationships (as resonance strengths, not discrete connections)
     resonances: Dict[str, float] = field(default_factory=dict)
