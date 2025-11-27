@@ -65,7 +65,27 @@ class DecisionReport:
 
 
 class AgentDecisionEngine:
-    """에이전트의 전략 선택 엔진"""
+    """
+    에이전트의 전략 선택 엔진
+    
+    Gap 0 준수: epistemology 필드로 각 결정의 철학적 의미 제공
+    """
+    
+    # 결정 유형별 인식론 (Gap 0)
+    DECISION_EPISTEMOLOGY = {
+        "temporal_mode": {
+            "point": {"score": 0.20, "meaning": "현재 순간의 상태 관찰"},
+            "line": {"score": 0.35, "meaning": "시간축의 인과적 연결"},
+            "space": {"score": 0.30, "meaning": "상황 맥락의 공간적 이해"},
+            "god": {"score": 0.15, "meaning": "시간을 초월한 전략적 시야"}
+        },
+        "computation_profile": {
+            "point": {"score": 0.30, "meaning": "정확한 계산의 가치"},
+            "line": {"score": 0.25, "meaning": "효율성과 속도의 균형"},
+            "space": {"score": 0.25, "meaning": "자원 제약 내 최적화"},
+            "god": {"score": 0.20, "meaning": "지혜로운 선택의 초월성"}
+        }
+    }
     
     def __init__(self, enable_learning: bool = True):
         """
@@ -73,6 +93,9 @@ class AgentDecisionEngine:
             enable_learning: 성능 기반 학습 활성화
         """
         self.enable_learning = enable_learning
+        
+        # Gap 0: 인식론 필드
+        self.epistemology = self.DECISION_EPISTEMOLOGY
         
         # 학습 기록
         self.decision_history: List[Tuple[AgentContext, DecisionReport]] = []
@@ -90,6 +113,27 @@ class AgentDecisionEngine:
         
         # 10대 법칙 실행 엔진
         self.law_engine = LawEnforcementEngine()
+    
+    def explain_decision_meaning(self, decision_type: str = "temporal_mode") -> str:
+        """
+        Gap 0 준수: 결정 유형의 철학적 의미를 설명
+        
+        Args:
+            decision_type: "temporal_mode" 또는 "computation_profile"
+        
+        Returns:
+            철학적 의미 설명 문자열
+        """
+        if decision_type not in self.epistemology:
+            return f"알 수 없는 결정 유형: {decision_type}"
+        
+        epist = self.epistemology[decision_type]
+        lines = [f"=== {decision_type} 인식론 ==="]
+        
+        for basis, data in epist.items():
+            lines.append(f"  {basis}: {data['score']:.0%} - {data['meaning']}")
+        
+        return "\n".join(lines)
     
     def _init_mode_rules(self) -> Dict:
         """시간 모드 선택 규칙"""

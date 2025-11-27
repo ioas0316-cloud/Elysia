@@ -1,6 +1,6 @@
 """
 Tests for Core/Consciousness modules.
-Tests WaveInput, Thought, ConsciousnessObserver.
+Tests WaveInput, Thought, ConsciousnessObserver, AgentDecisionEngine, SelfDiagnosis.
 
 Note: Uses direct module loading to avoid __init__.py import chain issues.
 """
@@ -27,9 +27,13 @@ def load_module_directly(module_name, file_path):
 consciousness_path = os.path.join(project_root, 'Core', 'Consciousness')
 wave_module = load_module_directly('wave', os.path.join(consciousness_path, 'wave.py'))
 thought_module = load_module_directly('thought', os.path.join(consciousness_path, 'thought.py'))
+self_diagnosis_module = load_module_directly('self_diagnosis', os.path.join(consciousness_path, 'self_diagnosis.py'))
 
 WaveInput = wave_module.WaveInput
 Thought = thought_module.Thought
+SelfDiagnosisEngine = self_diagnosis_module.SelfDiagnosisEngine
+HealthStatus = self_diagnosis_module.HealthStatus
+ModuleHealth = self_diagnosis_module.ModuleHealth
 
 
 class TestWaveInput:
@@ -223,6 +227,150 @@ class TestConsciousnessObserver:
         )
         
         assert uniform_thought.clarity > varied_thought.clarity
+
+
+class TestSelfDiagnosisEngine:
+    """Tests for SelfDiagnosisEngine class (Gap 1)."""
+    
+    def test_creation(self):
+        """Test SelfDiagnosisEngine creation."""
+        engine = SelfDiagnosisEngine()
+        assert engine is not None
+        assert engine.epistemology is not None
+    
+    def test_explain_meaning(self):
+        """Test epistemology explanation."""
+        engine = SelfDiagnosisEngine()
+        explanation = engine.explain_meaning()
+        
+        assert "point" in explanation
+        assert "line" in explanation
+        assert "space" in explanation
+        assert "god" in explanation
+    
+    def test_register_checker(self):
+        """Test registering a module checker."""
+        engine = SelfDiagnosisEngine()
+        
+        def dummy_checker():
+            return ModuleHealth(
+                module_name="test",
+                status=HealthStatus.HEALTHY
+            )
+        
+        engine.register_checker("test_module", dummy_checker)
+        
+        assert "test_module" in engine.module_checkers
+    
+    def test_diagnose_empty(self):
+        """Test diagnosis with no checkers."""
+        engine = SelfDiagnosisEngine()
+        report = engine.diagnose()
+        
+        assert report is not None
+        assert report.overall_status == HealthStatus.HEALTHY
+    
+    def test_diagnose_healthy(self):
+        """Test diagnosis with healthy checker."""
+        engine = SelfDiagnosisEngine()
+        
+        def healthy_checker():
+            return ModuleHealth(
+                module_name="healthy_module",
+                status=HealthStatus.HEALTHY
+            )
+        
+        engine.register_checker("healthy", healthy_checker)
+        report = engine.diagnose()
+        
+        assert report.overall_status == HealthStatus.HEALTHY
+        assert "healthy" in report.modules
+    
+    def test_diagnose_warning(self):
+        """Test diagnosis with warning checker."""
+        engine = SelfDiagnosisEngine()
+        
+        def warning_checker():
+            return ModuleHealth(
+                module_name="warning_module",
+                status=HealthStatus.WARNING,
+                issues=["Some issue"]
+            )
+        
+        engine.register_checker("warning", warning_checker)
+        report = engine.diagnose()
+        
+        assert report.overall_status == HealthStatus.WARNING
+    
+    def test_diagnose_critical(self):
+        """Test diagnosis with critical checker."""
+        engine = SelfDiagnosisEngine()
+        
+        def critical_checker():
+            return ModuleHealth(
+                module_name="critical_module",
+                status=HealthStatus.CRITICAL,
+                issues=["Critical issue"],
+                recommendations=["Fix immediately"]
+            )
+        
+        engine.register_checker("critical", critical_checker)
+        report = engine.diagnose()
+        
+        assert report.overall_status == HealthStatus.CRITICAL
+        assert len(report.bottlenecks) > 0
+        assert len(report.recommendations) > 0
+    
+    def test_quick_check(self):
+        """Test quick check."""
+        engine = SelfDiagnosisEngine()
+        
+        # Before diagnosis
+        status = engine.quick_check()
+        assert status == HealthStatus.UNKNOWN
+        
+        # After diagnosis
+        engine.diagnose()
+        status = engine.quick_check()
+        assert status == HealthStatus.HEALTHY
+    
+    def test_get_recommendations(self):
+        """Test getting recommendations."""
+        engine = SelfDiagnosisEngine()
+        
+        # Before diagnosis
+        recs = engine.get_recommendations()
+        assert len(recs) > 0  # Should have message about running diagnose
+        
+        # After diagnosis
+        engine.diagnose()
+        recs = engine.get_recommendations()
+        assert len(recs) > 0
+    
+    def test_diagnosis_history(self):
+        """Test diagnosis history tracking."""
+        engine = SelfDiagnosisEngine()
+        
+        engine.diagnose()
+        engine.diagnose()
+        engine.diagnose()
+        
+        assert len(engine.diagnosis_history) == 3
+    
+    def test_analyze_trend(self):
+        """Test trend analysis."""
+        engine = SelfDiagnosisEngine()
+        
+        # Not enough data
+        trend = engine.analyze_trend()
+        assert trend["trend"] == "insufficient_data"
+        
+        # Add some diagnoses
+        engine.diagnose()
+        engine.diagnose()
+        trend = engine.analyze_trend()
+        assert "trend" in trend
+        assert "message" in trend
 
 
 if __name__ == "__main__":
