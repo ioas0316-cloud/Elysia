@@ -35,6 +35,9 @@ from Core.Ethics.conscience import Conscience
 from Core.Ethics.love_protocol import LoveProtocol
 from Core.Mind.hippocampus import Hippocampus
 from Core.Mind.alchemy import Alchemy
+from Core.Mind.memetic_field import MemeticField
+from Core.Language.saga_system import SagaSystem
+from Core.Staging.cosmic_eye import CosmicEye
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
@@ -112,6 +115,64 @@ class AwakeningEvent(NamedTuple):
     e_value: float
     r_value: int
 
+
+class SpatialGrid:
+    """
+    A simple spatial hashing grid for O(N) neighbor lookups.
+    """
+    def __init__(self, width: int, cell_size: float = 10.0):
+        self.width = width
+        self.cell_size = cell_size
+        self.grid = defaultdict(list)
+        self.cell_to_bin = {}
+
+    def clear(self):
+        self.grid.clear()
+        self.cell_to_bin.clear()
+
+    def update(self, indices: np.ndarray, positions: np.ndarray):
+        """
+        Rebuilds the grid from scratch (simpler than dynamic updates for now).
+        indices: array of global cell indices
+        positions: array of [x, y, z] coordinates
+        """
+        self.clear()
+        if indices.size == 0:
+            return
+
+        # Vectorized bin calculation
+        pos_2d = positions[indices, :2]
+        bins = np.floor(pos_2d / self.cell_size).astype(np.int32)
+        
+        # Populate grid
+        # Note: Python loop is still needed for dict insertion, but we can optimize later if needed.
+        # For 1000 agents, this is fast enough (~1ms).
+        for i, idx in enumerate(indices):
+            bx, by = bins[i, 0], bins[i, 1]
+            bin_key = (bx, by)
+            self.grid[bin_key].append(idx)
+            self.cell_to_bin[idx] = bin_key
+
+    def get_neighbors(self, idx: int, radius: float) -> List[int]:
+        """
+        Returns indices of neighbors within radius.
+        """
+        if idx not in self.cell_to_bin:
+            return []
+            
+        bx, by = self.cell_to_bin[idx]
+        # Check 3x3 bins (or more if radius > cell_size)
+        # Assuming radius ~ cell_size for now.
+        search_radius = int(np.ceil(radius / self.cell_size))
+        
+        neighbors = []
+        for dx in range(-search_radius, search_radius + 1):
+            for dy in range(-search_radius, search_radius + 1):
+                bin_key = (bx + dx, by + dy)
+                if bin_key in self.grid:
+                    neighbors.extend(self.grid[bin_key])
+                    
+        return neighbors
 
 class World:
     """Represents the universe where cells exist, interact, and evolve, optimized with NumPy."""
@@ -237,40 +298,54 @@ class World:
         # --- Policy Stack ---
         self.law_manager = self._build_law_manager()
 
-        # --- Genesis Engine (Data-Driven Physics) ---
-        self.genesis_engine = GenesisEngine(self)
-
         # --- Quantum State Management ---
         self.quantum_states: Dict[str, Dict[str, float]] = {}
         self.last_reflections: Dict[int, List[str]] = {}
 
-        # --- Materialized Cell Management ---
-        self.materialized_cells: Dict[str, Cell] = {}
-        self.graveyard: List[Cell] = []
+        # --- Khala Network (The Psionic Web) ---
+        self.khala_connected_mask = np.array([], dtype=bool)
 
-        # --- NumPy Data Structures for Optimization ---
+        # --- Awakening Modules (The Living Soul) ---
+        self.fluctlight_engine = FluctlightEngine(world_size=self.width)
+        # Allow injection of shared memory/alchemy so World and Kernel share the same graphs.
+        self.hippocampus = hippocampus or Hippocampus()
+        self.alchemy = alchemy or Alchemy()
+
+        # --- Genesis Engine (Data-Driven Physics) ---
+        self.genesis_engine = GenesisEngine(self)
+        
+        # --- Memetic Civilization Engine (The Geometry of Meaning) ---
+        self.memetic_field = MemeticField()
+        self.saga_system = SagaSystem(self.memetic_field)
+        self.cosmic_eye = CosmicEye(self.memetic_field, self.fluctlight_engine)
+        
+        self.materialized_cells: Dict[str, Cell] = {}
         self.cell_ids: List[str] = []
         self.id_to_idx: Dict[str, int] = {}
-
-        # --- Core Game System Attributes ---
         self.is_alive_mask = np.array([], dtype=bool)
+        
+        # Vital Stats
         self.hp = np.array([], dtype=np.float32)
         self.max_hp = np.array([], dtype=np.float32)
-        self.shields = np.array([], dtype=np.float32) # Protoss Shield
-        self.max_shields = np.array([], dtype=np.float32)
-        self.tech_level = np.array([], dtype=np.float32) # Terran Tech
-        self.energy = np.array([], dtype=np.float32)
+        self.energy = np.array([], dtype=np.float32) # Legacy mapping to HP/Stamina
+        
         self.ki = np.array([], dtype=np.float32)
         self.max_ki = np.array([], dtype=np.float32)
         self.mana = np.array([], dtype=np.float32)
         self.max_mana = np.array([], dtype=np.float32)
         self.faith = np.array([], dtype=np.float32)
         self.max_faith = np.array([], dtype=np.float32)
-        self.strength = np.array([], dtype=np.int32)
-        self.agility = np.array([], dtype=np.int32)
-        self.intelligence = np.array([], dtype=np.int32)
-        self.vitality = np.array([], dtype=np.int32)
+        self.shields = np.array([], dtype=np.float32)
+        self.max_shields = np.array([], dtype=np.float32)
+        self.tech_level = np.array([], dtype=np.float32)
+
+        # Base Stats
+        self.strength = np.array([], dtype=np.float32)
+        self.agility = np.array([], dtype=np.float32)
+        self.intelligence = np.array([], dtype=np.float32)
+        self.vitality = np.array([], dtype=np.float32)
         self.wisdom = np.array([], dtype=np.int32)
+        
         self.hunger = np.array([], dtype=np.float32)
         self.hydration = np.array([], dtype=np.float32)
         self.temperature = np.array([], dtype=np.float32)
@@ -329,6 +404,9 @@ class World:
 
         self.height_map = np.zeros((self.width, self.width), dtype=np.float32)
         self.soil_fertility = np.full((self.width, self.width), 0.5, dtype=np.float32)
+
+        # --- Spatial Partitioning (Alicization Scale) ---
+        self.spatial_grid = SpatialGrid(width=self.width, cell_size=10.0)
         self.wetness = np.zeros((self.width, self.width), dtype=np.float32) # 0.0 (dry) to 1.0 (puddle)
 
         # --- Spirit Layer: 3D Fields (The "Space" of Imagination & Future) ---
@@ -469,19 +547,23 @@ class World:
         # --- Spiritual Event Queue ---
         self.spiritual_events = []
 
+        # --- Quantum State Management ---
+        self.quantum_states: Dict[str, Dict[str, float]] = {}
+        self.last_reflections: Dict[int, List[str]] = {}
+
         # --- Khala Network (The Psionic Web) ---
-        self.khala_connected_mask = np.array([], dtype=bool)
         self.khala_connected_mask = np.array([], dtype=bool)
         self.delta_synchronization_factor = 0.0 # 0.0 = Chaos, 1.0 = Khala Unity
 
         # --- Awakening Modules (The Living Soul) ---
-        self.fluctlight_engine = FluctlightEngine(world_size=self.width)
-        # Allow injection of shared memory/alchemy so World and Kernel share the same graphs.
-        self.hippocampus = hippocampus or Hippocampus()
-        self.alchemy = alchemy or Alchemy()
+        # Already initialized above
+        print("DEBUG: Initializing EvolutionManager...")
         self.evolution_manager = EvolutionManager(self.hippocampus, self.alchemy)
+        print("DEBUG: Initializing Conscience...")
         self.conscience = Conscience()
+        print("DEBUG: Initializing LoveProtocol...")
         self.love_protocol = LoveProtocol()
+        print("DEBUG: World.__init__ complete!")
 
 
     def _resize_matrices(self, new_size: int):
@@ -976,6 +1058,13 @@ class World:
             # Ensure hp never exceeds max_hp after overrides
         if self.hp[idx] > self.max_hp[idx]:
             self.hp[idx] = self.max_hp[idx]
+            
+        # --- Create Fluctlight Soul (Memetic Identity) ---
+        # This ensures the agent has a presence in the Memetic Field
+        memetic_vec = self.memetic_field.get_or_create_vector(concept_id)
+        self.fluctlight_engine.create_from_concept(concept_id, memetic_vector=memetic_vec)
+            
+        return self.materialize_cell(concept_id, force_materialize=True)
 
 
     def materialize_cell(self, concept_id: str, force_materialize: bool = False, explicit_properties: Optional[Dict] = None) -> Optional[Cell]:
@@ -2238,49 +2327,55 @@ class World:
             except Exception:
                 pass
 
+    def _update_spatial_grid(self):
+        """
+        Updates the spatial grid with current alive cell positions.
+        """
+        alive_idx = np.where(self.is_alive_mask)[0]
+        self.spatial_grid.update(alive_idx, self.positions)
+
+    def get_neighbors(self, idx: int, radius: float) -> List[int]:
+        """
+        Returns indices of neighbors within radius using the spatial grid.
+        """
+        return self.spatial_grid.get_neighbors(idx, radius)
+
     def _apply_body_heat_law(self) -> None:
         """
         Cold-world rule: alone = freeze (burn resources fast), together = share heat/heal.
-        This nudges emergent clustering/cooperation without hard alliances.
+        Optimized with Spatial Partitioning.
         """
         if len(self.cell_ids) == 0:
             return
+        
+        # Rebuild grid if needed (usually done in teaching or start of frame)
+        # self._update_spatial_grid() 
+
         alive_idx = np.where(self.is_alive_mask)[0]
         if alive_idx.size == 0:
             return
 
-        # Bin positions to avoid O(N^2) neighbor search.
-        pos = self.positions[alive_idx, :2]
-        cell_size = 8.0
-        bins = np.floor(pos / cell_size).astype(int)
-        bucket = defaultdict(list)
-        for local_i, b in enumerate(bins):
-            bucket[(b[0], b[1])].append(local_i)
-
-        neighbor_counts = np.zeros(alive_idx.size, dtype=np.int32)
-        for key, lst in bucket.items():
-            for dx in (-1, 0, 1):
-                for dy in (-1, 0, 1):
-                    nb = bucket.get((key[0] + dx, key[1] + dy))
-                    if nb:
-                        for idx in lst:
-                            neighbor_counts[idx] += len(nb)
-            # remove self counts
-            neighbor_counts[lst] -= 1
-
-        # Alone or paired: burn through hunger/hydration (freeze)
-        solitary_mask = neighbor_counts < 2
-        if np.any(solitary_mask):
-            idx_sol = alive_idx[solitary_mask]
-            self.hunger[idx_sol] = np.maximum(0.0, self.hunger[idx_sol] - 3.0)
-            self.hydration[idx_sol] = np.maximum(0.0, self.hydration[idx_sol] - 2.0)
-            # Coherence drops in the cold
-            try:
-                px = np.clip(self.positions[idx_sol, 0].astype(np.int32), 0, self.width - 1)
-                py = np.clip(self.positions[idx_sol, 1].astype(np.int32), 0, self.width - 1)
-                self.coherence_field[py, px] *= 0.8
-            except Exception:
-                pass
+        # Parameters
+        radius = 5.0
+        warmth_gain = 0.5
+        isolation_chill = 0.1
+        
+        for idx in alive_idx:
+            neighbors = self.get_neighbors(idx, radius)
+            
+            if neighbors:
+                # Gain warmth from neighbors
+                count = len(neighbors)
+                self.satisfaction[idx] = min(100.0, self.satisfaction[idx] + warmth_gain * count)
+                # Also slight HP regen from social comfort?
+                if self.hp[idx] < self.max_hp[idx]:
+                    self.hp[idx] += 0.05 * count
+            else:
+                # Isolation penalty
+                self.satisfaction[idx] = max(0.0, self.satisfaction[idx] - isolation_chill)
+                # Cold world damage
+                if self.ambient_temperature_c < 5.0:
+                    self.hp[idx] -= 0.1
 
     def _apply_gravity_pulse(self) -> None:
         """
@@ -2323,100 +2418,71 @@ class World:
     def _apply_teaching(self) -> None:
         """
         Elders share knowledge with nearby young of the same species.
-        Light-touch: no hard rules, just small boosts to insight/wisdom/satisfaction.
+        Optimized with Spatial Partitioning.
         """
         if len(self.cell_ids) == 0 or self.time_step % 5 != 0:
             return
+        
+        # Rebuild grid if not already done this frame (safe to call multiple times if cached, 
+        # but here we assume it might be stale if called separately, though usually called after body heat)
+        # self._update_spatial_grid() # Assuming body heat called it, but for safety:
+        # Actually, let's trust the frame loop to call _update_spatial_grid once if we move it to run_simulation_step start.
+        # For now, we'll just call it to be safe or rely on the one in body heat if order is guaranteed.
+        # Let's call it to be safe, it's O(N).
+        self._update_spatial_grid()
+        
         alive_idx = np.where(self.is_alive_mask)[0]
         if alive_idx.size == 0:
             return
 
-        year_ticks = float(max(1, self._year_length_ticks()))
-        ages_years = self.age[alive_idx] / year_ticks
-        max_age_years = np.maximum(1.0, self.max_age[alive_idx] / year_ticks)
-
-        elder_mask = (ages_years >= 0.4 * max_age_years) | (self.wisdom[alive_idx] >= 12)
-        child_mask = ages_years <= (0.25 * max_age_years)
-
-        elder_indices = alive_idx[elder_mask]
-        child_indices = alive_idx[child_mask]
-        if elder_indices.size == 0 or child_indices.size == 0:
-            return
-
-        # Spatial bucketing for proximity search
-        pos = self.positions[alive_idx, :2]
-        cell_size = 10.0
-        bins = np.floor(pos / cell_size).astype(int)
-        bucket = defaultdict(list)
-        for local_i, b in enumerate(bins):
-            bucket[(b[0], b[1])].append(local_i)
-
-        # Limit processing to avoid O(N^2)
-        max_children = min(len(child_indices), 64)
-        child_indices = child_indices if len(child_indices) <= max_children else np.random.choice(child_indices, size=max_children, replace=False)
-
-        radius2 = 12.0 ** 2
-        labels_arr = self.labels
-        for child_idx in child_indices:
-            if not self.is_alive_mask[child_idx]:
+        # Teaching loop
+        for idx in alive_idx:
+            # Only wise ones teach
+            if self.wisdom[idx] < 20:
                 continue
-            child_label = (labels_arr[child_idx] or "").lower()
-            cx, cy = self.positions[child_idx, 0], self.positions[child_idx, 1]
-            bx, by = int(np.floor(cx / cell_size)), int(np.floor(cy / cell_size))
+                
+            neighbors = self.get_neighbors(idx, radius=15.0)
+            if not neighbors:
+                continue
+                
+            teacher_id = self.cell_ids[idx]
+            
+            for nb_idx in neighbors:
+                if nb_idx == idx or not self.is_alive_mask[nb_idx]:
+                    continue
+                    
+                # Only teach the young/ignorant
+                if self.wisdom[nb_idx] < 15:
+                    learner_id = self.cell_ids[nb_idx]
+                    
+                    # --- Memetic Transfer ---
+                    # 1. Teacher selects a concept (random from field for now, or "truth")
+                    # In future, this should be from Teacher's own Saga history
+                    concept_id = "truth" 
+                    
+                    # 2. Record in SagaSystem
+                    self.saga_system.add_step(learner_id, concept_id)
+                    
+                    # 3. Physical Interference (Soul Blending)
+                    if teacher_id in self.fluctlight_engine.id_to_particle and \
+                       learner_id in self.fluctlight_engine.id_to_particle:
+                        
+                        p_teacher = self.fluctlight_engine.id_to_particle[teacher_id]
+                        p_learner = self.fluctlight_engine.id_to_particle[learner_id]
+                        
+                        # Interfere! (Learner absorbs Teacher's meme)
+                        # We force an interference event to blend vectors
+                        p_learner.interfere_with(p_teacher)
+                        
+                    # 4. Stat boost (Legacy)
+                    self.wisdom[nb_idx] += 1
+                    self.prestige[idx] += 0.1
+                    
+                    # Log occasionally
+                    if random.random() < 0.001:
+                        self.logger.info(f"MEME: {teacher_id} taught {learner_id} about '{concept_id}'")
 
-            teacher_found = False
-            teacher_idx = None
-            teacher_age_years = 0.0
-            for dx in (-1, 0, 1):
-                for dy in (-1, 0, 1):
-                    nb = bucket.get((bx + dx, by + dy))
-                    if not nb:
-                        continue
-                    for local_i in nb:
-                        global_idx = alive_idx[local_i]
-                        if global_idx == child_idx:
-                            continue
-                        if not elder_mask[local_i]:
-                            continue
-                        if child_label and (labels_arr[global_idx] or "").lower() != child_label:
-                            continue
-                        dxp = self.positions[global_idx, 0] - cx
-                        dyp = self.positions[global_idx, 1] - cy
-                        if (dxp * dxp + dyp * dyp) <= radius2:
-                            teacher_found = True
-                            teacher_idx = global_idx
-                            teacher_age_years = ages_years[local_i] if local_i < ages_years.shape[0] else 0.0
-                            break
-                if teacher_found:
-                    break
 
-        if teacher_found and teacher_idx is not None:
-            # Apply knowledge transfer with elder bonus (age + wisdom)
-            try:
-                teacher_mask = (alive_idx == teacher_idx)
-                teacher_max_age_years = float(max_age_years[teacher_mask][0]) if np.any(teacher_mask) else float(np.mean(max_age_years))
-            except Exception:
-                teacher_max_age_years = float(np.mean(max_age_years))
-            teacher_age_frac = teacher_age_years / max(1e-6, teacher_max_age_years)
-            teacher_wis = float(self.wisdom[teacher_idx])
-            teacher_bonus = 1.0 + min(2.0, teacher_age_frac * 2.0 + (teacher_wis / 50.0))
-
-            self.insight[child_idx] += 0.8 * teacher_bonus
-            self.wisdom[child_idx] = min(200, self.wisdom[child_idx] + 2 * teacher_bonus)
-            self.satisfaction[child_idx] = min(100.0, self.satisfaction[child_idx] + 1.5 * teacher_bonus)
-            self.emotions[child_idx] = 'joy'
-
-            try:
-                self.event_logger.log(
-                    "TEACH",
-                    self.time_step,
-                    teacher_id=self.cell_ids[teacher_idx],
-                    student_id=self.cell_ids[child_idx],
-                    kind="general",
-                    bonus=teacher_bonus,
-                )
-            except Exception:
-                pass
 
     def _apply_economy(self) -> None:
         """
@@ -2845,13 +2911,9 @@ class World:
             pass
 
     def _imprint_gaussian(self, target: np.ndarray, x: int, y: int, sigma: float, amplitude: float = 1.0):
-        """
-        [MIND LAYER] The Act of Imprinting (2D Flow).
-        Applies a Gaussian 'wave' of influence onto a Spirit Field.
-        This connects the Event (Point) to the Atmosphere (Space).
-        """
+        # [MIND LAYER] The Act of Imprinting (2D Flow).
+        # Applies a Gaussian 'wave' of influence onto a Spirit Field.
         try:
-            # Ensure coordinates are within bounds
             if not (0 <= x < self.width and 0 <= y < self.width):
                 return
 
@@ -2859,20 +2921,16 @@ class World:
             x0, x1 = max(0, x - rad), min(self.width, x + rad + 1)
             y0, y1 = max(0, y - rad), min(self.width, y + rad + 1)
 
-            # Generate grid for the kernel
             xs = np.arange(x0, x1) - x
             ys = np.arange(y0, y1) - y
             gx = np.exp(-(xs**2) / (2 * sigma * sigma))
             gy = np.exp(-(ys**2) / (2 * sigma * sigma))
 
-            # Outer product to make 2D kernel
             patch = (gy[:, None] * gx[None, :]).astype(np.float32)
-
-            # Add to target field
             target[y0:y1, x0:x1] += amplitude * patch
-        except Exception as e:
-            # self.logger.error(f"Failed to imprint gaussian: {e}")
+        except Exception:
             pass
+
 
     def _update_historical_imprint_field(self):
         """Decay-only tick; event handlers add local imprints when events occur."""

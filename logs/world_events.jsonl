@@ -1,0 +1,3 @@
+{"timestamp": 5, "event_type": "TRADE", "data": {"actor_id": "agent_48", "target_id": "agent_3", "amount": 5.913879871368408}}
+{"timestamp": 5, "event_type": "TRADE", "data": {"actor_id": "agent_5", "target_id": "agent_2", "amount": 4.566998481750488}}
+{"timestamp": 5, "event_type": "TRADE", "data": {"actor_id": "agent_27", "target_id": "agent_21", "amount": 4.095762729644775}}

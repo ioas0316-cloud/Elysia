@@ -12,10 +12,13 @@ from __future__ import annotations
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Optional, List, Dict, Any
+from collections import defaultdict
 import logging
 
 logger = logging.getLogger("Fluctlight")
 
+
+from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
 
 @dataclass
 class FluctlightParticle:
@@ -59,6 +62,9 @@ class FluctlightParticle:
     # Physical attributes
     energy: float = 1.0  # Particle energy
     mass: float = 0.0  # Photons are massless, but can carry "semantic mass"
+    
+    # Memetic attributes (The Geometry of Meaning)
+    memetic_vector: Optional[np.ndarray] = None # 64D HyperQuaternion components
     
     def __post_init__(self):
         """Ensure arrays are numpy arrays."""
@@ -155,6 +161,27 @@ class FluctlightParticle:
             # Inherit time dilation from stronger particle
             new_dilation = max(self.time_dilation_factor, other.time_dilation_factor)
             
+            # --- Memetic Blending (Geometry of Meaning) ---
+            new_memetic_vector = None
+            if self.memetic_vector is not None and other.memetic_vector is not None:
+                # Blend vectors based on energy/phase strength
+                # v_new = (v1 + v2) / 2 (Simple midpoint for now, can be more complex later)
+                # Using InfiniteHyperQuaternion logic if available
+                try:
+                    v1 = InfiniteHyperQuaternion(dim=len(self.memetic_vector), components=self.memetic_vector)
+                    v2 = InfiniteHyperQuaternion(dim=len(other.memetic_vector), components=other.memetic_vector)
+                    # Multiply them to find the "Cross Product" of meaning (Synthesis)
+                    # Or just Add for superposition. Multiplication is more "emergent".
+                    # Let's use Addition for stability, Multiplication for rare "Epiphanies".
+                    if interference_strength > 1.9: # High resonance = Epiphany (Multiplication)
+                        v_new = v1.multiply(v2).normalize()
+                    else:
+                        v_new = v1.add(v2).normalize()
+                    new_memetic_vector = v_new.components
+                except Exception:
+                    # Fallback to numpy mean
+                    new_memetic_vector = (self.memetic_vector + other.memetic_vector) / 2.0
+
             new_particle = FluctlightParticle(
                 position=new_position,
                 velocity=(self.velocity + other.velocity) / 2.0,
@@ -163,7 +190,8 @@ class FluctlightParticle:
                 phase=combined_phase / interference_strength,  # Normalized
                 time_dilation_factor=new_dilation,
                 concept_id=None,  # Will be assigned by concept synthesis
-                energy=(self.energy + other.energy) / 2.0
+                energy=(self.energy + other.energy) / 2.0,
+                memetic_vector=new_memetic_vector
             )
             
             logger.debug(
@@ -239,7 +267,8 @@ class FluctlightParticle:
         cls,
         concept_id: str,
         position: np.ndarray,
-        wavelength: Optional[float] = None
+        wavelength: Optional[float] = None,
+        memetic_vector: Optional[np.ndarray] = None
     ) -> 'FluctlightParticle':
         """
         Create a Fluctlight from a concept ID.
@@ -248,6 +277,7 @@ class FluctlightParticle:
             concept_id: Semantic concept identifier
             position: Initial position in concept space
             wavelength: Optional wavelength (auto-generated from concept hash if None)
+            memetic_vector: 64D concept vector
         """
         # Generate wavelength from concept hash if not provided
         if wavelength is None:
@@ -260,6 +290,7 @@ class FluctlightParticle:
             concept_id=concept_id,
             wavelength=wavelength,
             velocity=np.random.randn(3) * 0.1,  # Small random velocity
+            memetic_vector=memetic_vector
         )
 
 
@@ -282,6 +313,7 @@ class FluctlightEngine:
             world_size: Size of the simulation grid (matches world.py)
         """
         self.particles: List[FluctlightParticle] = []
+        self.id_to_particle: Dict[str, FluctlightParticle] = {}
         self.world_size = world_size
         self.time_step = 0
         
@@ -294,12 +326,15 @@ class FluctlightEngine:
     def add_particle(self, particle: FluctlightParticle) -> None:
         """Add a particle to the simulation."""
         self.particles.append(particle)
+        if particle.concept_id:
+            self.id_to_particle[particle.concept_id] = particle
         logger.debug(f"Added Fluctlight: {particle.concept_id} at {particle.position}")
     
     def create_from_concept(
         self,
         concept_id: str,
-        position: Optional[np.ndarray] = None
+        position: Optional[np.ndarray] = None,
+        memetic_vector: Optional[np.ndarray] = None
     ) -> FluctlightParticle:
         """
         Create and add a Fluctlight from a concept.
@@ -307,43 +342,62 @@ class FluctlightEngine:
         Args:
             concept_id: Semantic concept identifier
             position: Position in concept space (random if None)
+            memetic_vector: 64D concept vector
         """
         if position is None:
             # Random position in world
             position = np.random.rand(3) * self.world_size
         
-        particle = FluctlightParticle.from_concept(concept_id, position)
+        particle = FluctlightParticle.from_concept(concept_id, position, memetic_vector=memetic_vector)
         self.add_particle(particle)
         return particle
     
     def step(self, dt: float = 1.0, detect_interference: bool = True) -> List[FluctlightParticle]:
         """
         Advance simulation by one time step.
-        
-        Args:
-            dt: Time step size
-            detect_interference: Whether to check for particle interference
-            
-        Returns:
-            List of newly created particles from interference
         """
         new_particles = []
         
+        # Cap particle count to prevent crash
+        if len(self.particles) > 5000:
+            # Randomly cull old particles (simple decay)
+            # Keep the newest 4000
+            self.particles = self.particles[-4000:]
+            logger.warning("Particle cap reached! Culled population to 4000.")
+
         # Update all particles
         for particle in self.particles:
             particle.update(dt)
-            
             # Boundary conditions (periodic)
             particle.position = particle.position % self.world_size
         
-        # Detect interference (O(n²) - can be optimized with spatial hashing)
+        # Detect interference (Optimized with Spatial Binning)
         if detect_interference and len(self.particles) > 1:
-            for i, p1 in enumerate(self.particles):
-                for p2 in self.particles[i+1:]:
-                    new_particle = p1.interfere_with(p2)
-                    if new_particle is not None:
-                        new_particles.append(new_particle)
-                        self.total_interferences += 1
+            # Simple spatial hashing
+            grid = defaultdict(list)
+            cell_size = 10.0
+            
+            for i, p in enumerate(self.particles):
+                bx = int(p.position[0] / cell_size)
+                by = int(p.position[1] / cell_size)
+                bz = int(p.position[2] / cell_size)
+                grid[(bx, by, bz)].append(p)
+            
+            # Check collisions within bins
+            for bin_particles in grid.values():
+                if len(bin_particles) < 2:
+                    continue
+                    
+                # O(k^2) within bin, where k is small
+                for i, p1 in enumerate(bin_particles):
+                    for p2 in bin_particles[i+1:]:
+                        # Higher threshold to prevent explosion
+                        # Only very strong resonance creates new concepts
+                        if abs(p1.phase + p2.phase) > 1.8: 
+                            new_particle = p1.interfere_with(p2)
+                            if new_particle is not None:
+                                new_particles.append(new_particle)
+                                self.total_interferences += 1
         
         # Add new particles to simulation
         for particle in new_particles:

@@ -32,6 +32,7 @@ import math
 import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple, Iterable
+from enum import Enum
 
 try:
     # Optional: if cupy is installed, this becomes GPU‑backed automatically.
@@ -40,6 +41,35 @@ except Exception:  # pragma: no cover - CPU fallback
     import numpy as xp  # type: ignore
 
 from Core.Math.hyper_qubit import HyperQubit
+
+
+# ---------------------------------------------------------------------------
+# Timeline Axis: Past/Present/Future = Zerg/Terran/Protoss
+# ---------------------------------------------------------------------------
+
+
+class TimelineAxis(Enum):
+    """
+    Timeline mapping to consciousness/structure layers.
+    
+    PAST (Zerg/Body/Cell):
+        - Already happened
+        - Stored in Cell (memory, history)
+        - Slow dynamics (굳어진 과거)
+        
+    PRESENT (Terran/Mind/Molecule):
+        - Happening now
+        - Active in Molecule (judgment, logic)
+        - Medium dynamics (현재의 선택)
+        
+    FUTURE (Protoss/Spirit/Atom+Photon):
+        - Could happen
+        - Potential in Atom/Photon (imagination, emotion)
+        - Fast dynamics (미래의 가능성)
+    """
+    PAST = "past"        # Zerg / Body / Cell
+    PRESENT = "present"  # Terran / Mind / Molecule
+    FUTURE = "future"    # Protoss / Spirit / Atom+Photon
 
 
 # ---------------------------------------------------------------------------
@@ -332,12 +362,14 @@ class PhaseSnapshot:
 class ZelNagaSync:
     """
     Synchronizes phase across:
-    - Photons (Protoss / Spirit / future)
-    - Molecules (Terran / Mind / present)
-    - Cells (Zerg / Body / past)
+    - FUTURE (Photons) = Protoss / Spirit / 상상·감정·기억 / 미래
+    - PRESENT (Molecules) = Terran / Mind / 정신·지식 / 현재  
+    - PAST (Cells) = Zerg / Body / 육 / 과거
 
-    The weights allow different temporal profiles, e.g. past-heavy,
-    future-heavy, or balanced universes.
+    The weights allow different temporal profiles:
+    - Past-heavy: Conservative, memory-driven
+    - Present-heavy: Reactive, immediate
+    - Future-heavy: Imaginative, risk-taking
     """
 
     def __init__(
@@ -352,6 +384,13 @@ class ZelNagaSync:
         self.weight_future = float(weight_future)
         self.weight_present = float(weight_present)
         self.weight_past = float(weight_past)
+        
+        # Timeline role mapping
+        self.timeline_roles = {
+            TimelineAxis.FUTURE: "photons",
+            TimelineAxis.PRESENT: "molecules",
+            TimelineAxis.PAST: "cells"
+        }
 
     def set_weights(
         self,
@@ -360,13 +399,45 @@ class ZelNagaSync:
         present: Optional[float] = None,
         past: Optional[float] = None,
     ) -> None:
-        """Update temporal weights (future/present/past)."""
+        """
+        Update temporal weights (future/present/past).
+        
+        Examples:
+            # Memory-driven mode (과거 중심)
+            sync.set_weights(past=2.0, present=1.0, future=0.5)
+            
+            # Creative mode (미래 중심)
+            sync.set_weights(past=0.5, present=1.0, future=2.0)
+            
+            # Balanced mode
+            sync.set_weights(past=1.0, present=1.0, future=1.0)
+        """
         if future is not None:
             self.weight_future = float(future)
         if present is not None:
             self.weight_present = float(present)
         if past is not None:
             self.weight_past = float(past)
+    
+    def get_timeline_mode(self) -> str:
+        """
+        Determine which timeline axis is dominant.
+        
+        Returns:
+            "past", "present", "future", or "balanced"
+        """
+        weights = {
+            "past": self.weight_past,
+            "present": self.weight_present,
+            "future": self.weight_future
+        }
+        
+        max_weight = max(weights.values())
+        if abs(self.weight_past - self.weight_present) < 0.1 and abs(self.weight_present - self.weight_future) < 0.1:
+            return "balanced"
+        
+        dominant = max(weights, key=weights.get)
+        return dominant
 
     # --- layer aggregations ------------------------------------------- #
 
