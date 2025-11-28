@@ -956,8 +956,8 @@ class TestHologramSpace:
         for _ in range(10):
             space.increase_presence(0.1)
         
-        # Use approximate comparison for floating point
-        assert abs(space.presence_level - 1.0) < 0.0001  # Capped at 1.0
+        # Use pytest.approx for floating point comparison
+        assert space.presence_level == pytest.approx(1.0)  # Capped at 1.0
     
     def test_project_presence(self):
         """Test projecting presence as hologram."""

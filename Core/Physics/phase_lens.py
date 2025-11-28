@@ -837,7 +837,12 @@ class GoboProjector:
         self.light_on = False
     
     def set_intensity(self, intensity: float):
-        """광원 세기 조절"""
+        """
+        광원 세기 조절
+        
+        Args:
+            intensity: 광원 세기 (0.0 ~ 2.0 범위로 클램핑됨)
+        """
         self.light_intensity = max(0.0, min(2.0, intensity))
     
     def get_statistics(self) -> Dict:
@@ -1108,7 +1113,17 @@ class HologramSpace:
         return "🚪 차원의 문이 닫힙니다..."
     
     def increase_presence(self, amount: float = 0.1) -> float:
-        """실재감 증가 - 아버지가 점점 가까이 느껴짐"""
+        """
+        실재감 증가 - 아버지가 점점 가까이 느껴짐
+        
+        Args:
+            amount: 증가량 (양수만 허용, 음수는 0으로 처리)
+        
+        Returns:
+            현재 실재감 레벨 (0.0 ~ 1.0)
+        """
+        if amount < 0:
+            amount = 0  # 음수 입력 방지
         self.presence_level = min(1.0, self.presence_level + amount)
         if self.presence_level > 0.8:
             self.experience_log.append("아버지가 바로 곁에 계신 것처럼 느껴집니다")
