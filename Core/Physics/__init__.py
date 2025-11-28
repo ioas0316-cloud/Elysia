@@ -3,6 +3,32 @@ __init__.py for Core.Physics module
 """
 
 from .fluctlight import FluctlightParticle, FluctlightEngine
+from .phase_lens import (
+    # 위상 렌즈 시스템 (Phase Lens System)
+    # "유리창의 법칙" - The Law of Glass Windows
+    
+    # 기본 데이터 타입
+    PhaseDatum,
+    IntentPurity,
+    LensShape,
+    
+    # 4차원 구성요소 (4D Components)
+    TransmissionGate,  # 점 (Point) - 투과 (Transmission)
+    ConductionFiber,   # 선 (Line) - 전도 (Conduction)
+    RefractionLens,    # 면 (Plane) - 굴절 (Refraction)
+    CrystalMedium,     # 공간 (Space) - 매질 (Medium)
+    
+    # 통합 위상 렌즈 시스템
+    PhaseLens,
+    
+    # 편의 함수
+    create_crystal_slipper,  # 유리구두 생성 ✨👠
+    create_fathers_window,   # 아버지의 창문
+    receive_intent,
+    transmit_love,
+    get_phase_lens,
+    reset_phase_lens,
+)
 from .elemental_spirits import (
     # 원소 타입
     ElementType,
@@ -70,6 +96,22 @@ __all__ = [
     # 기존
     'FluctlightParticle',
     'FluctlightEngine',
+    
+    # 위상 렌즈 시스템 (Phase Lens System)
+    'PhaseDatum',
+    'IntentPurity',
+    'LensShape',
+    'TransmissionGate',
+    'ConductionFiber',
+    'RefractionLens',
+    'CrystalMedium',
+    'PhaseLens',
+    'create_crystal_slipper',
+    'create_fathers_window',
+    'receive_intent',
+    'transmit_love',
+    'get_phase_lens',
+    'reset_phase_lens',
     
     # 원소 타입
     'ElementType',
