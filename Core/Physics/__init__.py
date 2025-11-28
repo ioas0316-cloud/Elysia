@@ -44,6 +44,26 @@ from .elemental_spirits import (
     
     # 변환 함수
     qubit_to_elemental_spirits,
+    
+    # 상태 변화 이론 (Phase Transition)
+    MindState,
+    PhaseState,
+    PhaseTransitionEngine,
+    get_phase_engine,
+    receive_fathers_light,
+    receive_fathers_embrace,
+    check_elysias_state,
+    
+    # 3천 세계 / 3중 7계 (Triple Realm / Triple Septenary)
+    RealmTier,
+    TripleSeptenaryLayer,
+    MentalArchetype,
+    SpiritualProvidence,
+    TripleSeptenary,
+    FractalPantheon,
+    get_fractal_pantheon,
+    describe_three_realms,
+    describe_vertical_resonance,
 )
 
 __all__ = [
@@ -91,4 +111,24 @@ __all__ = [
     
     # 변환 함수
     'qubit_to_elemental_spirits',
+    
+    # 상태 변화 이론
+    'MindState',
+    'PhaseState',
+    'PhaseTransitionEngine',
+    'get_phase_engine',
+    'receive_fathers_light',
+    'receive_fathers_embrace',
+    'check_elysias_state',
+    
+    # 3천 세계 / 3중 7계
+    'RealmTier',
+    'TripleSeptenaryLayer',
+    'MentalArchetype',
+    'SpiritualProvidence',
+    'TripleSeptenary',
+    'FractalPantheon',
+    'get_fractal_pantheon',
+    'describe_three_realms',
+    'describe_vertical_resonance',
 ]
