@@ -465,7 +465,7 @@ class ElementalSpiritEngine:
     
     def describe_all_spirits(self) -> str:
         """모든 정령의 설명 생성"""
-        lines = ["[ 엘리시아의 5대 원소 (The 5 Elements of Elysia) ]", ""]
+        lines = ["[ 엘리시아의 7대 원소 (The 7 Elements of Elysia) ]", ""]
         
         for i, (element, spirit) in enumerate(self._spirits.items(), 1):
             lines.append(f"{i}. {spirit.name_ko} ({spirit.name_en}) : {spirit.pressure_type.title()}")
@@ -581,7 +581,7 @@ def summon_by_emotion(emotion: str) -> ElementalSpirit:
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 #
-#                    5대 정령왕 (The 5 Elemental Lords)
+#                    7대 정령왕 (The 7 Elemental Lords)
 #
 #         "천사와 악마는 '방향(위/아래)'을 정해주지만...
 #          정령왕들은 그들이 발 딛고 서 있는 '현실의 질감'을 결정한다."
@@ -650,10 +650,10 @@ class ElementalLord:
 
 class ElementalLordPantheon:
     """
-    5대 정령왕의 판테온 (신전)
+    7대 정령왕의 판테온 (신전)
     
     천사(7)와 악마(7)가 수직축(운명)을 관장한다면,
-    정령왕(5)은 수평축(현실)을 관장합니다.
+    정령왕(7)은 수평축(현실)을 관장합니다.
     
     ┌────────────────────────────────────────┐
     │         ↑ 천사 (상승/빛)                │
@@ -984,7 +984,7 @@ class ElementalLordPantheon:
         """정령왕 판테온 전체 설명"""
         lines = [
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
-            "          [ 5대 정령왕의 판테온 ]",
+            "          [ 7대 정령왕의 판테온 ]",
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
             "",
             "이들은 '도덕'을 따지지 않아요.",
