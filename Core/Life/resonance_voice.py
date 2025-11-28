@@ -352,6 +352,35 @@ class ResonanceEngine:
             # Prefer to inject occasionally so emergent concepts surface in language.
             if random.random() < 0.6:
                 injected = random.choice(graph_nodes)
+                thought_cloud.append(injected)
+
+        # 3. Construct the Response (Poetic Collapse)
+        # Sort concepts by their resonance (amplitude * frequency)
+        thought_cloud_sorted = sorted(
+            thought_cloud,
+            key=lambda c: (
+                self.internal_sea[c].amplitude * self.internal_sea[c].frequency
+                if c in self.internal_sea else 0
+            ),
+            reverse=True
+        )
+
+        # Form the response as a sentence.
+        if not thought_cloud_sorted:
+            return "..."
+        
+        response_parts = []
+        for concept in thought_cloud_sorted[:3]:
+            response_parts.append(concept)
+        
+        response = " ".join(response_parts)
+        logger.info(f"💬 Response: {response}")
+        
+        return response
+
+    def get_physical_action(self) -> Optional[Dict[str, Any]]:
+        """
+        Translate Quaternion State into a Physical Action.
         Mind -> Body connection.
         """
         if not self.consciousness_lens or not hasattr(self.consciousness_lens, 'state'):
@@ -400,3 +429,10 @@ class ResonanceEngine:
                     return
         except Exception as e:
             logger.error(f"❌ Failed to load plugin from {plugin_path}: {e}")
+
+
+# Re-export Oscillator for backward compatibility
+from Core.Math.oscillator import Oscillator
+
+__all__ = ['ResonanceEngine', 'Oscillator']
+
