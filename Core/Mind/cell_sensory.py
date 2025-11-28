@@ -427,31 +427,65 @@ class CellSensoryEngine:
     
     def perceive_olfactory(self, qubit, emotion_hint: Optional[str] = None) -> OlfactoryPerception:
         """
-        HyperQubit → 후각적 인식 (감정의 향기)
+        HyperQubit → 후각적 인식 (공감각 변환)
         
-        매핑:
-        - 감정 태그 → 향기 유형
-        - 진폭 → 강도
+        모든 감각은 같은 QubitState에서 파생됨.
+        후각도 예외가 아님 - 그냥 다른 "필터"일 뿐.
+        
+        매핑 (공감각):
+        - w (차원) → 향의 무게감 (가벼운 향 ↔ 무거운 향)
+        - x (도덕) → 향의 밝기 (어두운 향 ↔ 밝은 향)
+        - y (삼위) → 향의 복잡도 (단순 ↔ 복합)
+        - z (창조) → 향의 신선도 (탁함 ↔ 청량)
+        - Point/Line/Space/God → 향의 계열
         """
-        # 감정 힌트가 있으면 사용
-        if emotion_hint and emotion_hint.lower() in self.EMOTION_SCENTS:
-            scent = self.EMOTION_SCENTS[emotion_hint.lower()]
+        state = qubit.state
+        probs = state.probabilities()
+        
+        # 향 계열 결정 (양자 상태 기반)
+        # Point: 흙/나무 계열 (구체적, 땅)
+        # Line: 허브/민트 계열 (흐름, 활력)
+        # Space: 꽃/과일 계열 (공간, 확산)
+        # God: 향신료/신비 계열 (초월)
+        
+        scent_families = {
+            "Point": ["흙 냄새", "나무 향", "가죽 향", "머스크"],
+            "Line": ["민트 향", "허브 향", "풀 냄새", "녹차 향"],
+            "Space": ["장미 향", "과일 향", "꽃향기", "시트러스"],
+            "God": ["유향", "몰약", "백단향", "신비로운 향"]
+        }
+        
+        # 지배적 상태 찾기
+        dominant = max(probs, key=probs.get)
+        
+        # 세부 향 선택 (xyz 조합으로)
+        family = scent_families[dominant]
+        idx = int((state.x + 1) / 2 * len(family)) % len(family)
+        base_scent = family[idx]
+        
+        # 수식어 추가
+        if state.y > 0.7:
+            modifier = "복합적인 "
+        elif state.y < 0.3:
+            modifier = "순수한 "
         else:
-            # 상태에서 추론
-            state = qubit.state
-            probs = state.probabilities()
-            
-            # God이 높으면 경이로운 향
-            if probs.get("God", 0) > 0.3:
-                scent = self.EMOTION_SCENTS["wonder"]
-            # Point가 높으면 안정적인 향
-            elif probs.get("Point", 0) > 0.6:
-                scent = self.EMOTION_SCENTS["peace"]
-            # Line이 높으면 활발한 향
-            elif probs.get("Line", 0) > 0.4:
-                scent = self.EMOTION_SCENTS["curiosity"]
-            else:
-                scent = "중립적인 공기"
+            modifier = ""
+        
+        if state.z > 0.7:
+            freshness = ", 청량한"
+        elif state.z < 0.3:
+            freshness = ", 깊은"
+        else:
+            freshness = ""
+        
+        if state.w > 2.0:
+            weight = "묵직한 "
+        elif state.w < 1.0:
+            weight = "가벼운 "
+        else:
+            weight = ""
+        
+        scent = f"{weight}{modifier}{base_scent}{freshness}"
         
         # 강도: 전체 진폭 기반
         intensity = qubit.state.total_amplitude() / 4.0
@@ -464,33 +498,41 @@ class CellSensoryEngine:
     
     def perceive_gustatory(self, qubit) -> GustatoryPerception:
         """
-        HyperQubit → 미각적 인식 (본질의 맛)
+        HyperQubit → 미각적 인식 (공감각 변환)
         
-        매핑:
-        - Point → 짠맛 (구체적, 결정)
-        - Line → 신맛 (연결, 흐름)
-        - Space → 감칠맛 (맥락, 깊이)
-        - God → 단맛 (초월, 축복)
-        - x축 음수 → 쓴맛 (어둠)
+        모든 감각은 같은 QubitState에서 파생됨.
+        미각도 예외가 아님 - 그냥 다른 "필터"일 뿐.
+        
+        매핑 (공감각):
+        - Point 확률 → 짠맛 (구체적, 결정, 땅의 맛)
+        - Line 확률 → 신맛 (연결, 흐름, 변화의 맛)
+        - Space 확률 → 감칠맛 (맥락, 깊이, 조화의 맛)
+        - God 확률 → 단맛 (초월, 축복, 기쁨의 맛)
+        - x축 음수 → 쓴맛 (어둠, 고통의 맛)
+        - w (차원) → 맛의 강도/깊이
+        - y (삼위) → 맛의 복합성
+        - z (창조) → 맛의 여운
         """
         state = qubit.state
         probs = state.probabilities()
         
-        # 기본 맛 (양자 상태 기반)
+        # 기본 맛 (양자 상태 확률에서 직접 파생)
         salty = probs.get("Point", 0)
         sour = probs.get("Line", 0)
         umami = probs.get("Space", 0)
         
-        # 단맛: God + 도덕축 양수
-        god_sweet = probs.get("God", 0)
-        moral_sweet = max(0, state.x) * 0.5
-        sweet = (god_sweet + moral_sweet) / 1.5
+        # 단맛: God 확률 + 도덕축 양수 방향
+        god_contribution = probs.get("God", 0)
+        moral_contribution = max(0, state.x) * 0.5
+        sweet = min(1.0, god_contribution + moral_contribution)
         
-        # 쓴맛: 도덕축 음수
+        # 쓴맛: 도덕축 음수 방향
         bitter = max(0, -state.x) * 0.8
         
-        # 강도: 전체 진폭
-        intensity = qubit.state.total_amplitude() / 4.0
+        # 강도: w(차원)와 전체 진폭 조합
+        base_intensity = qubit.state.total_amplitude() / 4.0
+        dimension_factor = state.w / 3.0
+        intensity = (base_intensity + dimension_factor) / 2
         intensity = max(0, min(1, intensity))
         
         return GustatoryPerception(
@@ -502,20 +544,19 @@ class CellSensoryEngine:
             intensity=intensity
         )
     
-    def perceive_full(
-        self, 
-        qubit, 
-        emotion_hint: Optional[str] = None
-    ) -> MultiSensoryPerception:
+    def perceive_full(self, qubit) -> MultiSensoryPerception:
         """
         모든 감각으로 통합 인식 (오감)
+        
+        모든 감각은 같은 QubitState에서 파생됨.
+        각 감각은 다른 "필터"일 뿐 - 공감각 체제.
         """
         self.stats["perceptions"] += 1
         
         visual = self.perceive_visual(qubit)
         auditory = self.perceive_auditory(qubit)
         tactile = self.perceive_tactile(qubit)
-        olfactory = self.perceive_olfactory(qubit, emotion_hint)
+        olfactory = self.perceive_olfactory(qubit)
         gustatory = self.perceive_gustatory(qubit)
         
         # 공명도 (자기 자신은 1.0)
@@ -592,8 +633,8 @@ class CellSensoryEngine:
 # 테스트
 if __name__ == "__main__":
     print("\n" + "="*70)
-    print("🌈 Cell Sensory System Test")
-    print("    '셀들이 서로를 감각하는 방식'")
+    print("🌈 Cell Sensory System Test - 공감각 체제")
+    print("    '모든 감각은 같은 QubitState에서 파생됨'")
     print("="*70)
     
     # HyperQubit 임포트
@@ -602,38 +643,38 @@ if __name__ == "__main__":
     engine = CellSensoryEngine()
     
     # 테스트 1: "사랑" 셀
-    print("\n[Test 1] '사랑' 셀의 감각")
+    print("\n[Test 1] '사랑' 셀의 오감 (Space 지배적, x=+0.8)")
     love_qubit = HyperQubit(name="사랑")
     love_qubit.state = QubitState(
         alpha=0.2+0j, beta=0.3+0j, gamma=0.5+0j, delta=0.1+0j,
         w=2.0, x=0.8, y=0.9, z=0.8  # 분홍빛, 선명, 밝음
     ).normalize()
     
-    perception = engine.perceive_full(love_qubit, emotion_hint="love")
+    perception = engine.perceive_full(love_qubit)
     print(engine.describe(perception))
     print(f"  RGB: {perception.visual.to_rgb()}")
     
     # 테스트 2: "고통" 셀
-    print("\n[Test 2] '고통' 셀의 감각")
+    print("\n[Test 2] '고통' 셀의 오감 (Point 지배적, x=-0.5)")
     pain_qubit = HyperQubit(name="고통")
     pain_qubit.state = QubitState(
         alpha=0.9+0j, beta=0.1+0j, gamma=0.0+0j, delta=0.0+0j,
-        w=0.5, x=-0.5, y=0.2, z=0.2  # 어두운 빨강, 탁함
+        w=0.5, x=-0.5, y=0.2, z=0.2  # 어두운, 탁함
     ).normalize()
     
-    perception = engine.perceive_full(pain_qubit, emotion_hint="sadness")
+    perception = engine.perceive_full(pain_qubit)
     print(engine.describe(perception))
     print(f"  RGB: {perception.visual.to_rgb()}")
     
     # 테스트 3: "아버지" 셀
-    print("\n[Test 3] '아버지' 셀의 감각")
+    print("\n[Test 3] '아버지' 셀의 오감 (God 지배적, w=2.8)")
     father_qubit = HyperQubit(name="아버지")
     father_qubit.state = QubitState(
         alpha=0.1+0j, beta=0.2+0j, gamma=0.3+0j, delta=0.4+0j,
         w=2.8, x=0.5, y=0.7, z=0.9  # 밝고, 묵직하고, 신성함
     ).normalize()
     
-    perception = engine.perceive_full(father_qubit, emotion_hint="love")
+    perception = engine.perceive_full(father_qubit)
     print(engine.describe(perception))
     print(f"  RGB: {perception.visual.to_rgb()}")
     
@@ -649,8 +690,7 @@ if __name__ == "__main__":
     print(f"  Total descriptions: {stats['descriptions']}")
     
     print("\n" + "="*70)
-    print("✅ Cell Sensory System test complete!")
-    print("\n💡 이제 셀들은 서로를 숫자가 아닌 감각으로 인식합니다.")
-    print("   '분홍빛으로 빛나는 따뜻한 존재'")
-    print("   'C장조 화음처럼 아름다운 소리'")
+    print("✅ 공감각 체제 완성!")
+    print("\n💡 핵심: 모든 감각은 같은 QubitState에서 파생됩니다.")
+    print("   시각/청각/촉각/후각/미각 = 같은 신호, 다른 필터")
     print("="*70 + "\n")
