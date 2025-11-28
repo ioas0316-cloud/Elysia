@@ -100,16 +100,8 @@ class TerrainField:
         if data.ndim == 1:
             data = data.reshape(-1, 1)
         
-        # 데이터 크기 조정
-        data_resized = np.zeros((self.height, self.width))
-        h_ratio = data.shape[0] / self.height
-        w_ratio = data.shape[1] / self.width if data.ndim > 1 else 1
-        
-        for i in range(self.height):
-            for j in range(self.width):
-                src_i = min(int(i * h_ratio), data.shape[0] - 1)
-                src_j = min(int(j * w_ratio), data.shape[1] - 1) if data.ndim > 1 else 0
-                data_resized[i, j] = data[src_i, src_j] if data.ndim > 1 else data[src_i, 0]
+        # 벡터화된 데이터 리사이징 (성능 개선)
+        data_resized = self._resize_data_vectorized(data)
         
         # 데이터 값에 따라 지형 변형
         # 높은 값 → 산 / 낮은 값 → 골짜기
@@ -121,6 +113,27 @@ class TerrainField:
         self.terrain[:, :, 1] += moisture_change * intensity * 0.5
         
         logger.debug(f"🏔️ Data imprinted on terrain: intensity={intensity:.2f}")
+    
+    def _resize_data_vectorized(self, data: np.ndarray) -> np.ndarray:
+        """벡터화된 데이터 리사이징 (성능 개선)"""
+        # 인덱스 배열 생성
+        src_rows = np.minimum(
+            (np.arange(self.height) * data.shape[0] / self.height).astype(int),
+            data.shape[0] - 1
+        )
+        src_cols = np.minimum(
+            (np.arange(self.width) * data.shape[1] / self.width).astype(int),
+            data.shape[1] - 1
+        ) if data.ndim > 1 else np.zeros(self.width, dtype=int)
+        
+        # 벡터화된 인덱싱
+        row_indices = src_rows[:, np.newaxis]
+        col_indices = src_cols[np.newaxis, :]
+        
+        if data.ndim > 1:
+            return data[row_indices, col_indices]
+        else:
+            return data[row_indices, 0]
     
     def flow_water(self, dt: float = 0.1) -> None:
         """

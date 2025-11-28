@@ -23,6 +23,7 @@ Protection Layer - 방어 시스템 (오존층/면역 체계)
 
 import logging
 import math
+import hashlib
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple, Callable
 from enum import Enum
@@ -70,8 +71,12 @@ class DataPacket:
     
     @property
     def signature(self) -> float:
-        """데이터 서명 (해시 기반)"""
-        return float(hash(self.data.tobytes()) % 10000) / 10000
+        """데이터 서명 (암호화 해시 기반)"""
+        # hashlib.sha256 사용으로 세션 간 일관성 보장
+        data_bytes = self.data.tobytes()
+        hash_digest = hashlib.sha256(data_bytes).hexdigest()
+        # 해시의 처음 8자리를 정수로 변환 후 정규화
+        return int(hash_digest[:8], 16) / 0xFFFFFFFF
 
 
 @dataclass

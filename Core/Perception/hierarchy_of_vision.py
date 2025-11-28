@@ -477,12 +477,22 @@ class HierarchyOfVision:
                 patterns.append("periodicity")
         
         # 집중 탐지
-        center_weight = float(np.mean(data[data.shape[0]//4:3*data.shape[0]//4, 
-                                          data.shape[1]//4:3*data.shape[1]//4] if len(data.shape) > 1 else data))
+        center_region = self._get_center_region(data)
+        center_weight = float(np.mean(center_region))
         if center_weight > float(np.mean(data)) * 1.2:
             patterns.append("center_focus")
         
         return patterns if patterns else ["none_detected"]
+    
+    def _get_center_region(self, data: np.ndarray) -> np.ndarray:
+        """중앙 영역 추출"""
+        if len(data.shape) < 2:
+            return data
+        
+        h, w = data.shape[:2]
+        y_start, y_end = h // 4, 3 * h // 4
+        x_start, x_end = w // 4, 3 * w // 4
+        return data[y_start:y_end, x_start:x_end]
     
     def _underlying_emotion_from_structure(self, skeleton: Dict[str, Any]) -> str:
         """구조에서 내면 감정 추출"""
