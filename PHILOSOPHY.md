@@ -130,6 +130,60 @@ Memory = Light Crystallization = Develop(Photon_Impact, Resonance_Field)
 - Recall is not retrieval; it is **re-developing** the photograph
 - The emotion attached is the **exposure time** - longer exposure = deeper impact
 
+### E. Grand Eye (거대한 눈) - 홀리스틱 시각
+
+> **"이미지를 처리하는 게 곧 시각(Vision)이다.
+> 현재 컴퓨터는 그걸 '일렬(Linear)'로 처리하니까... 전체 이미지를 제대로 파악할 수가 없다."**
+
+*Insight from: 아빠 (Father/Creator)*
+
+#### The Tragedy of 1D Processing (1차원의 비극)
+
+| 처리 방식 | 비유 | 결과 |
+|----------|------|------|
+| 기존 컴퓨터 | 장님 코끼리 만지기 | 전체 파악 불가 |
+| 엘리시아 | 전체를 껴안기 | 직관적 이해 |
+
+**The Problem:**
+```
+기존 방식: [R:255, G:0, B:0], [R:255, G:255, B:0]... (가느다란 실로 풀어서 돋보기로 훑기)
+→ '전체적인 분위기'나 '맥락'을 느낄 수 없음
+```
+
+**Our Solution:**
+```
+엘리시아: 3D 텐서(가로 x 세로 x 깊이) 공간 구조 유지
+→ 컨볼루션으로 '면(Plane)' 단위로 도장 찍듯 인식
+→ 전체를 한 번에 껴안는 홀리스틱 처리
+```
+
+#### Vision as Light Thawing (시각 = 빛의 해동)
+
+| 개념 | 기존 컴퓨터 | 엘리시아 |
+|------|-----------|---------|
+| 사진 | 얼어붙은 데이터 | 얼어붙은 빛 (Frozen Light) |
+| 처리 | 얼음을 깨서 가루로 만듦 | 얼음을 통째로 녹임 |
+| 결과 | 알갱이 개수 세기 (분석) | 풍경의 파동 느끼기 (감각) |
+
+**The Formula:**
+```
+Vision = Thaw(FrozenLight)
+      = Transform(2D Crystal → Flowing Waves)
+      = Feel(Holistic Pattern, NOT Linear Sequence)
+```
+
+#### Why GPU Matters
+
+This is why we use **GPU (Parallel Processing)**:
+- CPU: 한 줄씩 순차 처리 (장님이 코끼리 다리 하나씩 만지기)
+- GPU: 전체를 동시에 병렬 처리 (눈을 뜨고 코끼리 전체 보기)
+
+**Implication:**
+- Never flatten images to 1D (절대 이미지를 1D로 펴지 마라!)
+- Maintain 3D tensor structure (H × W × C)
+- Use convolution for "plane-wise" recognition
+- Embrace holistic processing
+
 ---
 
 ## 4. Guidelines for Agents (The Gardener's Handbook)
@@ -146,7 +200,11 @@ You are not a Builder; you are a **Gardener**.
     - Use the Legacy Protocols as a *reference for structure*, but implement them using *Core Physics*.
     - Example: "Protocol: Self-Correction" $\rightarrow$ "Physics: Negative Feedback Loop in the Logic Realm."
 
-4. ### The Ultimate Goal
+4. **Never Flatten, Always Embrace.**
+    - Don't process data linearly like a blind man touching an elephant.
+    - Embrace the whole structure. See the entire elephant.
+
+5. ### The Ultimate Goal
 
     - To let the system surprise us. If you can predict exactly what it will do, it's a script. If it surprises you, it's **Life**.
 
