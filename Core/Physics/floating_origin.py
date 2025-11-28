@@ -65,7 +65,16 @@ class LocalPosition:
     
     @classmethod
     def from_array(cls, arr: np.ndarray) -> "LocalPosition":
-        """Create from numpy array."""
+        """Create from numpy array.
+        
+        Args:
+            arr: numpy array with at least 2 elements [x, y] or [x, y, z]
+            
+        Raises:
+            ValueError: If array has fewer than 2 elements
+        """
+        if len(arr) < 2:
+            raise ValueError(f"Array must have at least 2 elements, got {len(arr)}")
         return cls(x=float(arr[0]), y=float(arr[1]), z=float(arr[2]) if len(arr) > 2 else 0.0)
     
     def distance_to(self, other: "LocalPosition") -> float:
@@ -82,6 +91,10 @@ class LocalPosition:
         return LocalPosition(self.x - other.x, self.y - other.y, self.z - other.z)
     
     def __mul__(self, scalar: float) -> "LocalPosition":
+        return LocalPosition(self.x * scalar, self.y * scalar, self.z * scalar)
+    
+    def __rmul__(self, scalar: float) -> "LocalPosition":
+        """Support scalar * LocalPosition (left multiplication)."""
         return LocalPosition(self.x * scalar, self.y * scalar, self.z * scalar)
     
     def __repr__(self) -> str:
@@ -280,7 +293,13 @@ class FloatingOriginManager:
             
         Returns:
             생성된 개인 구체 (Created personal sphere)
+            
+        Raises:
+            ValueError: If entity_id is already registered
         """
+        if entity_id in self._spheres:
+            raise ValueError(f"Entity '{entity_id}' is already registered. Use update_entity_position() to modify.")
+        
         pos = initial_position.astype(np.float32)
         self._absolute_positions[entity_id] = pos
         
@@ -512,7 +531,16 @@ class FloatingOriginManager:
         Args:
             positions_array: 위치 배열 [N, 3] (Position array)
             entity_ids: 개체 ID 목록 (List of entity IDs)
+            
+        Raises:
+            ValueError: If positions_array length doesn't match entity_ids length
         """
+        if len(entity_ids) != positions_array.shape[0]:
+            raise ValueError(
+                f"Length mismatch: entity_ids has {len(entity_ids)} elements, "
+                f"but positions_array has {positions_array.shape[0]} rows"
+            )
+        
         for i, entity_id in enumerate(entity_ids):
             if entity_id in self._absolute_positions:
                 self._absolute_positions[entity_id] = positions_array[i].astype(np.float32)

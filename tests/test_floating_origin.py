@@ -119,6 +119,20 @@ class TestLocalPosition:
         assert result.y == 4.0
         assert result.z == 6.0
 
+    def test_scalar_left_multiplication(self):
+        """Test scalar * LocalPosition (left multiplication)."""
+        pos = LocalPosition(x=1.0, y=2.0, z=3.0)
+        result = 2.0 * pos
+        assert result.x == 2.0
+        assert result.y == 4.0
+        assert result.z == 6.0
+
+    def test_from_array_invalid_length(self):
+        """Test from_array raises ValueError for array with < 2 elements."""
+        arr = np.array([1.0])  # Only 1 element
+        with pytest.raises(ValueError, match="at least 2 elements"):
+            LocalPosition.from_array(arr)
+
 
 # ---------------------------------------------------------------------------
 # PersonalSphere Tests
@@ -284,6 +298,14 @@ class TestFloatingOriginManager:
         assert sphere.observer_id == "elysia"
         assert manager.get_sphere("elysia") is not None
 
+    def test_register_entity_duplicate_raises(self):
+        """Test that registering duplicate entity raises ValueError."""
+        manager = FloatingOriginManager()
+        manager.register_entity("elysia", np.array([0.0, 0.0, 0.0]))
+        
+        with pytest.raises(ValueError, match="already registered"):
+            manager.register_entity("elysia", np.array([10.0, 10.0, 0.0]))
+
     def test_unregister_entity(self):
         """Test entity unregistration."""
         manager = FloatingOriginManager()
@@ -444,6 +466,21 @@ class TestFloatingOriginManager:
         # B should now be at (20, 20, 0) from A's perspective
         assert view["B"].x == 20.0
         assert view["B"].y == 20.0
+
+    def test_batch_update_positions_length_mismatch(self):
+        """Test that batch update raises ValueError for length mismatch."""
+        manager = FloatingOriginManager()
+        manager.register_entity("A", np.array([0.0, 0.0, 0.0]))
+        manager.register_entity("B", np.array([0.0, 0.0, 0.0]))
+        
+        # Positions array has 3 rows but only 2 entity IDs
+        new_positions = np.array([
+            [10.0, 20.0, 0.0],
+            [30.0, 40.0, 0.0],
+            [50.0, 60.0, 0.0],
+        ])
+        with pytest.raises(ValueError, match="Length mismatch"):
+            manager.batch_update_positions(new_positions, ["A", "B"])
 
 
 # ---------------------------------------------------------------------------
