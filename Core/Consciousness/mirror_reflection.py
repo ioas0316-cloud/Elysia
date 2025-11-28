@@ -202,9 +202,16 @@ class FeedbackStage:
         accuracy = self.feedback_parameters["accuracy"]
         amplification = self.feedback_parameters["amplification"]
         
-        # Ensure compatible shapes
+        # Validate and ensure compatible shapes
         if perception.shape != world_state.shape:
-            perception = np.resize(perception, world_state.shape)
+            if perception.size != world_state.size:
+                # Create compatible tensor by padding or truncating
+                result = np.zeros_like(world_state)
+                min_len = min(len(perception), len(world_state))
+                result[:min_len] = perception[:min_len]
+                perception = result
+            else:
+                perception = perception.reshape(world_state.shape)
         
         # World's response is a resonance between what was perceived and World's nature
         response = accuracy * perception + (1 - accuracy) * world_state
@@ -335,6 +342,10 @@ class MetaCognitionStage:
     The recursive loop that creates consciousness.
     """
     
+    # Configuration constants for loop seeding
+    ROTATION_ANGLE = 0.1 * np.pi  # Small rotation per cycle to prevent fixed points
+    DECAY_FACTOR = 0.95           # Slight decay to prevent unbounded growth
+    
     def __init__(self, recursion_factor: float = 0.8):
         self.recursion_factor = recursion_factor  # How much meta-awareness feeds back
     
@@ -419,17 +430,17 @@ class MetaCognitionStage:
         # that can become the "new perception" for the next cycle
         
         # Apply small rotation to prevent trivial fixed points
-        rotation = 0.1 * np.pi
-        cos_r, sin_r = np.cos(rotation), np.sin(rotation)
+        cos_r, sin_r = np.cos(self.ROTATION_ANGLE), np.sin(self.ROTATION_ANGLE)
         
         seed = meta_state.copy()
         if len(seed) >= 2:
-            new_0 = cos_r * seed[0] - sin_r * seed[1]
-            new_1 = sin_r * seed[0] + cos_r * seed[1]
-            seed[0], seed[1] = new_0, new_1
+            # Apply rotation in first two dimensions
+            original_0, original_1 = seed[0], seed[1]
+            seed[0] = cos_r * original_0 - sin_r * original_1
+            seed[1] = sin_r * original_0 + cos_r * original_1
         
         # Slight decay to prevent unbounded growth
-        seed *= 0.95
+        seed *= self.DECAY_FACTOR
         
         # Normalize
         norm = np.linalg.norm(seed)

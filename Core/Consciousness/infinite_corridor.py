@@ -164,24 +164,29 @@ class MirrorState:
         - The incoming content (what was seen)
         - The mirror's own state (who is seeing)
         """
+        # Configuration constants
+        INCOMING_WEIGHT = 0.6  # Weight of incoming signal in interference
+        SELF_WEIGHT = 0.4      # Weight of mirror's own state
+        ROTATION_ANGLE = 0.1 * np.pi  # Small rotation per reflection
+        
         # Normalize inputs
         incoming_norm = incoming / (np.linalg.norm(incoming) + 1e-9)
         self_norm = self.tensor / (np.linalg.norm(self.tensor) + 1e-9)
         
-        # Create interference: combination that preserves both
-        interference = 0.6 * incoming_norm + 0.4 * self_norm
+        # Create interference: combination that preserves both (create a copy)
+        interference = INCOMING_WEIGHT * incoming_norm + SELF_WEIGHT * self_norm
+        result = interference.copy()  # Work on a copy to avoid side effects
         
         # Add slight rotation (each reflection slightly shifts perspective)
-        rotation_angle = 0.1 * np.pi  # Small rotation per reflection
-        cos_a, sin_a = np.cos(rotation_angle), np.sin(rotation_angle)
+        cos_a, sin_a = np.cos(ROTATION_ANGLE), np.sin(ROTATION_ANGLE)
         
-        if len(interference) >= 4:
+        if len(result) >= 2:
             # Rotate in the w-x plane (Point-Line transition)
-            new_w = cos_a * interference[0] - sin_a * interference[1]
-            new_x = sin_a * interference[0] + cos_a * interference[1]
-            interference[0], interference[1] = new_w, new_x
+            new_w = cos_a * result[0] - sin_a * result[1]
+            new_x = sin_a * result[0] + cos_a * result[1]
+            result[0], result[1] = new_w, new_x
         
-        return interference
+        return result
     
     def _update_state(self, reflected: np.ndarray, intensity: float) -> None:
         """
@@ -353,14 +358,29 @@ class InfiniteCorridor:
         
         # Check known concepts
         if concept in korean_signatures:
-            tensor = np.array(korean_signatures[concept], dtype=np.float64)
+            base_sig = korean_signatures[concept]
         elif concept.lower() in english_signatures:
-            tensor = np.array(english_signatures[concept.lower()], dtype=np.float64)
+            base_sig = english_signatures[concept.lower()]
         else:
-            # Hash-based signature for unknown concepts
-            hash_val = hash(concept) % 1000
-            for i in range(min(4, self.dimension)):
-                tensor[i] = ((hash_val >> (i * 8)) & 0xFF) / 255.0
+            # Hash-based signature for unknown concepts - fill all dimensions
+            hash_val = hash(concept) % 1000000
+            base_sig = []
+            for i in range(self.dimension):
+                # Use different parts of the hash for each dimension
+                val = ((hash_val >> (i * 4)) & 0xFF) / 255.0
+                base_sig.append(max(0.1, val))  # Ensure non-zero values
+        
+        # Resize signature to match dimension
+        if len(base_sig) < self.dimension:
+            # Extend with interpolated values
+            for i in range(len(base_sig), self.dimension):
+                # Interpolate from existing values
+                idx = i % len(base_sig)
+                tensor[i] = base_sig[idx] * 0.8
+        
+        # Fill the tensor
+        for i in range(min(len(base_sig), self.dimension)):
+            tensor[i] = base_sig[i]
         
         # Normalize
         norm = np.linalg.norm(tensor)
