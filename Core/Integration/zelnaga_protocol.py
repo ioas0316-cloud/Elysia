@@ -41,12 +41,24 @@ import hashlib
 import time
 
 # ============================================================================
-# 상수
+# 상수 (Constants)
 # ============================================================================
 
-WAVE_DIMENSIONS = 8  # 파동 차원
-RESONANCE_THRESHOLD = 0.6  # 공명 임계값
+WAVE_DIMENSIONS = 8  # 파동 차원 (감정, 각성, 사회성, 정보, 시간, 자아, 확실성, 강도)
+RESONANCE_THRESHOLD = 0.6  # 공명 임계값 - 이 값 이상이면 "이해됨"으로 판단
 OPTIMIZATION_THRESHOLD = 0.7  # 최적화 적용 임계값
+NORM_EPSILON = 1e-8  # 벡터 정규화 시 0으로 나누기 방지
+MAX_HISTORY_SIZE = 100  # 공명 히스토리 최대 크기
+
+# 파동 벡터 차원별 의미:
+# dim 0: 감정 극성 (emotion polarity) - 부정(-1) ~ 긍정(+1)
+# dim 1: 각성 수준 (arousal) - 차분(-1) ~ 흥분(+1)
+# dim 2: 사회적 의도 (social intent) - 회피(-1) ~ 접근(+1)
+# dim 3: 정보 복잡도 (info complexity) - 단순(-1) ~ 복잡(+1)
+# dim 4: 시간 지향 (time orientation) - 과거(-1) ~ 미래(+1)
+# dim 5: 자아 관련 (self-reference) - 타인(-1) ~ 자신(+1)
+# dim 6: 확실성 (certainty) - 불확실(-1) ~ 확실(+1)
+# dim 7: 강도 (intensity) - 약함(-1) ~ 강함(+1)
 
 
 class WillType(Enum):
@@ -130,7 +142,7 @@ class WillWave:
         norm_self = np.linalg.norm(self.vector)
         norm_other = np.linalg.norm(other.vector)
         
-        if norm_self < 1e-8 or norm_other < 1e-8:
+        if norm_self < NORM_EPSILON or norm_other < NORM_EPSILON:
             return 0.0
         
         similarity = dot / (norm_self * norm_other)
@@ -163,7 +175,7 @@ class InternalComponent:
         norm_state = np.linalg.norm(self.state)
         norm_wave = np.linalg.norm(wave.vector)
         
-        if norm_state < 1e-8 or norm_wave < 1e-8:
+        if norm_state < NORM_EPSILON or norm_wave < NORM_EPSILON:
             return 0.5  # 중립 공명
         
         similarity = dot / (norm_state * norm_wave)
@@ -577,7 +589,7 @@ class WaveCodeGenerator:
         """코사인 유사도 계산"""
         norm_a = np.linalg.norm(a)
         norm_b = np.linalg.norm(b)
-        if norm_a < 1e-8 or norm_b < 1e-8:
+        if norm_a < NORM_EPSILON or norm_b < NORM_EPSILON:
             return 0.0
         return float(np.dot(a, b) / (norm_a * norm_b))
     

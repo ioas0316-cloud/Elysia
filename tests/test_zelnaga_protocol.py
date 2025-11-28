@@ -64,7 +64,10 @@ class TestWillWave:
         assert 0 <= resonance_same <= 1
         assert 0 <= resonance_diff <= 1
         # 같은 타입이 더 높은 공명 (또는 최소한 같음)
-        assert resonance_same >= resonance_diff - 0.5  # 약간의 여유
+        # Tolerance of 0.5 accounts for random initialization variations
+        # in base vectors - this is acceptable for wave-based comparison
+        RESONANCE_TOLERANCE = 0.5
+        assert resonance_same >= resonance_diff - RESONANCE_TOLERANCE
 
 
 # ============================================================================
@@ -338,7 +341,8 @@ class TestZelnagaProtocol:
             "python"
         )
         
-        assert result["intent"] == "반복하라"
+        # Use enum value instead of Korean string for language independence
+        assert result["intent"] == WaveIntent.ITERATE.value
         assert "for x in items:" in result["generated_code"]
     
     def test_compose_program(self):
