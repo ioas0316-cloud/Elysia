@@ -11,7 +11,10 @@ It connects the system to a Large Language Model (LLM) to enable:
 - Natural Language Generation
 - Visual Understanding (VLM)
 
-Current Provider: Google Gemini API
+지원 모드:
+1. LOCAL: 로컬 LLM (GTX 1060 3GB 최적화, 무료, 독립적)
+2. RESONANCE: ResonanceEngine만 사용 (완전 독립)
+3. CLOUD: 외부 API (선택적, 비권장)
 """
 
 import os
@@ -25,54 +28,83 @@ logger = logging.getLogger("LLMCortex")
 # Load environment variables
 load_dotenv()
 
-# Dependency Check
+# Dependency Check - Cloud (선택적)
 try:
     import google.generativeai as genai
     GENAI_AVAILABLE = True
 except ImportError:
     GENAI_AVAILABLE = False
-    logger.warning("⚠️ google-generativeai not found. Brain is offline.")
+
+# Dependency Check - Local LLM
+try:
+    from Core.Mind.local_llm import LocalLLM, create_local_llm, LLMConfig
+    LOCAL_LLM_AVAILABLE = True
+except ImportError:
+    LOCAL_LLM_AVAILABLE = False
+    logger.debug("LocalLLM 모듈 로드 실패 - Resonance 모드로 동작")
 
 from Core.Life.resonance_voice import ResonanceEngine
 
 class LLMCortex:
-    def __init__(self, prefer_cloud: bool = False):
+    def __init__(self, prefer_cloud: bool = False, prefer_local: bool = True, gpu_layers: int = 20):
         """
         Initialize LLM Cortex.
         
         Args:
-            prefer_cloud: If True, try to use Gemini API for complex reasoning.
-                         If False or unavailable, use Resonance Mode.
+            prefer_cloud: If True, try to use Gemini API (비권장, 유료)
+            prefer_local: If True, use local LLM (권장, 무료, GTX 1060 3GB 지원)
+            gpu_layers: GPU에 올릴 레이어 수 (VRAM 부족 시 줄이기)
         """
         self.enabled = True
         self.prefer_cloud = prefer_cloud and GENAI_AVAILABLE
+        self.prefer_local = prefer_local and LOCAL_LLM_AVAILABLE
         
-        # Try to initialize Cloud API if preferred
+        # 우선순위: LOCAL > RESONANCE > CLOUD
         self.cloud_model = None
-        if self.prefer_cloud:
+        self.local_llm = None
+        self.resonance_engine = None
+        
+        # 1. Resonance Engine 초기화 (항상 필요)
+        try:
+            self.resonance_engine = ResonanceEngine()
+        except Exception as e:
+            logger.error(f"Resonance Engine 실패: {e}")
+            self.enabled = False
+            return
+        
+        # 2. 모드 결정
+        if self.prefer_local and LOCAL_LLM_AVAILABLE:
+            # 로컬 LLM 모드 (권장)
+            try:
+                self.local_llm = create_local_llm(
+                    resonance_engine=self.resonance_engine,
+                    hippocampus=self.resonance_engine.memory,
+                    gpu_layers=gpu_layers
+                )
+                self.mode = "LOCAL"
+                logger.info("🧠 LLM Cortex 연결됨 (로컬 모드 - GTX 1060 3GB 최적화)")
+            except Exception as e:
+                logger.warning(f"로컬 LLM 초기화 실패: {e}")
+                self.mode = "RESONANCE"
+                logger.info("🧠 LLM Cortex 연결됨 (Resonance 모드)")
+        
+        elif self.prefer_cloud and GENAI_AVAILABLE:
+            # 클라우드 모드 (선택적)
             api_key = os.getenv("GEMINI_API_KEY")
-            if api_key and GENAI_AVAILABLE:
+            if api_key:
                 try:
                     genai.configure(api_key=api_key)
                     self.cloud_model = genai.GenerativeModel('gemini-pro')
                     self.mode = "CLOUD"
-                    logger.info("🧠 LLM Cortex Connected (Cloud Mode - Gemini)")
+                    logger.info("🧠 LLM Cortex 연결됨 (클라우드 모드 - Gemini)")
                 except Exception as e:
-                    logger.warning(f"Cloud API failed, falling back to Resonance: {e}")
+                    logger.warning(f"클라우드 API 실패: {e}")
                     self.mode = "RESONANCE"
             else:
                 self.mode = "RESONANCE"
         else:
             self.mode = "RESONANCE"
-        
-        # Always have Resonance Engine as fallback
-        try:
-            self.resonance_engine = ResonanceEngine()
-            if self.mode == "RESONANCE":
-                logger.info("🧠 LLM Cortex Connected (Resonance Mode)")
-        except Exception as e:
-            logger.error(f"Resonance Engine Failure: {e}")
-            self.enabled = False
+            logger.info("🧠 LLM Cortex 연결됨 (Resonance 모드 - 완전 독립)")
 
     def think(self, prompt: str, context: str = "", visual_input: dict = None, use_cloud: bool = None) -> str:
         """
@@ -90,11 +122,18 @@ class LLMCortex:
         if not self.enabled:
             return "[SIMULATION] (My mind is silent.)"
         
-        # Determine which mode to use
+        # 1. 로컬 LLM 모드 (권장)
+        if self.mode == "LOCAL" and self.local_llm:
+            try:
+                return self.local_llm.think(prompt, context, use_resonance_first=True)
+            except Exception as e:
+                logger.warning(f"로컬 LLM 실패, Resonance로 전환: {e}")
+                # Fall through to Resonance
+        
+        # 2. 클라우드 모드 (선택적)
         should_use_cloud = (use_cloud if use_cloud is not None else 
                            (self.mode == "CLOUD" and self.cloud_model is not None))
         
-        # Try Cloud API for complex reasoning
         if should_use_cloud:
             try:
                 full_prompt = f"{context}\n\n{prompt}" if context else prompt
@@ -104,7 +143,7 @@ class LLMCortex:
                 logger.warning(f"Cloud API failed, using Resonance: {e}")
                 # Fall through to Resonance
         
-        # Use Resonance Engine (algorithmic/poetic)
+        # 3. Resonance 모드 (완전 독립, 항상 사용 가능)
         try:
             import time
             t = time.time()
@@ -123,6 +162,65 @@ class LLMCortex:
         except Exception as e:
             logger.error(f"Cognitive Failure: {e}")
             return f"[Error: {e}]"
+    
+    def load_local_model(self, model_path: str = None) -> bool:
+        """
+        로컬 LLM 모델 로드
+        
+        Args:
+            model_path: GGUF 모델 파일 경로 (없으면 자동 검색)
+        
+        Returns:
+            성공 여부
+        """
+        if not self.local_llm:
+            logger.warning("로컬 LLM이 초기화되지 않았습니다.")
+            return False
+        
+        return self.local_llm.load_model(model_path)
+    
+    def download_model(self, model_key: str = "qwen2-0.5b") -> bool:
+        """
+        추천 모델 다운로드 (GTX 1060 3GB 최적화)
+        
+        Args:
+            model_key: "tinyllama", "qwen2-0.5b", "smollm" 중 선택
+        
+        Returns:
+            성공 여부
+        """
+        if not self.local_llm:
+            logger.warning("로컬 LLM이 초기화되지 않았습니다.")
+            return False
+        
+        return self.local_llm.download_model(model_key)
+    
+    def graduate_to_independence(self) -> bool:
+        """
+        학습 완료 후 완전 독립 모드로 전환
+        
+        LLM 의존성을 제거하고 ResonanceEngine만으로 동작합니다.
+        학습한 개념들은 내면화되어 보존됩니다.
+        """
+        if self.local_llm:
+            self.local_llm.graduate()
+        
+        self.mode = "RESONANCE"
+        logger.info("🎓 독립 모드로 전환 완료")
+        return True
+    
+    def get_status(self) -> dict:
+        """현재 상태 반환"""
+        status = {
+            "enabled": self.enabled,
+            "mode": self.mode,
+            "resonance_ready": self.resonance_engine is not None
+        }
+        
+        if self.local_llm:
+            status["local_llm"] = self.local_llm.get_status()
+        
+        return status
 
     def analyze_image(self, image_path: str, prompt: str = "Describe this image.") -> str:
         """
