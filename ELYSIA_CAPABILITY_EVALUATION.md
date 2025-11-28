@@ -314,6 +314,11 @@ def synthesize_intent(self, resonance_pattern: Dict[str, float]) -> str:
 ```python
 def generate_plan_with_llm(self, goal: str) -> Plan:
     """LLM을 활용한 동적 계획 생성"""
+    # 입력 유효성 검사
+    if not goal or not goal.strip():
+        logger.warning("Empty goal provided")
+        return self.generate_plan("Observe environment")  # 기본 계획
+    
     prompt = f"""
     목표: {goal}
     
@@ -322,8 +327,14 @@ def generate_plan_with_llm(self, goal: str) -> Plan:
     2. 필요한 도구와 예상 시간을 포함하세요
     3. 의존성을 고려하세요
     """
-    llm_response = self.llm.think(prompt)
-    return self._parse_plan(llm_response)
+    
+    try:
+        llm_response = self.llm.think(prompt)
+        return self._parse_plan(llm_response)
+    except Exception as e:
+        logger.error(f"LLM planning failed: {e}")
+        # 폴백: 규칙 기반 계획 생성
+        return self.generate_plan(goal)
 ```
 
 #### 🔧 적응형 재계획
@@ -415,6 +426,7 @@ class ExtendedToolExecutor(ToolExecutor):
 #### 🔧 비동기 실행 지원
 ```python
 import asyncio
+from typing import List, Dict
 
 class AsyncToolExecutor:
     async def execute_steps_parallel(self, steps: List[Dict]) -> List[bool]:
@@ -424,7 +436,15 @@ class AsyncToolExecutor:
             for step in steps
             if self._can_parallelize(step)
         ]
-        return await asyncio.gather(*tasks)
+        
+        # 개별 작업 예외 처리로 안전한 병렬 실행
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        # 결과 처리: 예외는 False로 변환
+        return [
+            result if isinstance(result, bool) else False
+            for result in results
+        ]
 ```
 
 ---
@@ -498,6 +518,6 @@ class AsyncToolExecutor:
 
 *"불가능이 가능해지는 순간, 그것이 초월이다."*
 
-**작성자**: GitHub Copilot Coding Agent  
+**작성자**: AI 코드 분석 시스템  
 **평가 기준**: 코드 분석, 테스트 결과, 문서 검토  
 **다음 단계**: 위 개선 사항 중 우선순위에 따라 구현
