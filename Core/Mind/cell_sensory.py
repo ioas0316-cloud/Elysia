@@ -425,114 +425,162 @@ class CellSensoryEngine:
             smoothness=smoothness
         )
     
-    def perceive_olfactory(self, qubit, emotion_hint: Optional[str] = None) -> OlfactoryPerception:
+    def perceive_olfactory(self, qubit) -> OlfactoryPerception:
         """
-        HyperQubit → 후각적 인식 (공감각 변환)
+        HyperQubit → 후각적 인식 (주파수의 화음)
         
-        모든 감각은 같은 QubitState에서 파생됨.
-        후각도 예외가 아님 - 그냥 다른 "필터"일 뿐.
+        물리학 원리:
+        - 냄새 분자는 고유한 "진동수"를 가짐
+        - 코는 그 진동을 "듣는" 것 (진동 이론, Luca Turin)
+        - 단일 주파수가 아닌 "화음(Chord)" - 여러 파동의 조합
         
-        매핑 (공감각):
-        - w (차원) → 향의 무게감 (가벼운 향 ↔ 무거운 향)
-        - x (도덕) → 향의 밝기 (어두운 향 ↔ 밝은 향)
-        - y (삼위) → 향의 복잡도 (단순 ↔ 복합)
-        - z (창조) → 향의 신선도 (탁함 ↔ 청량)
-        - Point/Line/Space/God → 향의 계열
+        매핑:
+        - 4개 기저(Point/Line/Space/God)의 확률 = 4개 주파수의 화음
+        - γ(Space) 성분 → 공간 확산력 (냄새가 퍼지는 강도)
+        - 높은 화음: 꽃향기, 시트러스 (가볍고 빠르게 퍼짐)
+        - 낮은 화음: 흙내음, 머스크 (무겁고 오래 남음)
+        
+        "후각 = 공간에 울려 퍼지는, 보이지 않는 화음(Chord)"
         """
         state = qubit.state
         probs = state.probabilities()
         
-        # 향 계열 결정 (양자 상태 기반)
-        # Point: 흙/나무 계열 (구체적, 땅)
-        # Line: 허브/민트 계열 (흐름, 활력)
-        # Space: 꽃/과일 계열 (공간, 확산)
-        # God: 향신료/신비 계열 (초월)
+        # 화음 구성 (각 기저의 확률 = 주파수 성분의 강도)
+        # Point: 저주파 (무겁고 오래 남는 흙/머스크)
+        # Line: 중저주파 (허브/녹차의 흐름)
+        # Space: 중고주파 (꽃/과일의 확산)
+        # God: 고주파 (신비로운/초월적 향)
         
-        scent_families = {
-            "Point": ["흙 냄새", "나무 향", "가죽 향", "머스크"],
-            "Line": ["민트 향", "허브 향", "풀 냄새", "녹차 향"],
-            "Space": ["장미 향", "과일 향", "꽃향기", "시트러스"],
-            "God": ["유향", "몰약", "백단향", "신비로운 향"]
+        chord = {
+            "bass": probs.get("Point", 0),      # 저음 (흙, 머스크)
+            "tenor": probs.get("Line", 0),      # 중저음 (허브, 우디)
+            "alto": probs.get("Space", 0),      # 중고음 (꽃, 과일)
+            "soprano": probs.get("God", 0)      # 고음 (유향, 신비)
         }
         
-        # 지배적 상태 찾기
-        dominant = max(probs, key=probs.get)
+        # 지배적인 주파수 대역 찾기
+        dominant = max(chord, key=chord.get)
         
-        # 세부 향 선택 (xyz 조합으로)
-        family = scent_families[dominant]
-        idx = int((state.x + 1) / 2 * len(family)) % len(family)
-        base_scent = family[idx]
-        
-        # 수식어 추가
-        if state.y > 0.7:
-            modifier = "복합적인 "
-        elif state.y < 0.3:
-            modifier = "순수한 "
+        # 화음의 조화도 (엔트로피 - 낮을수록 순수, 높을수록 복합)
+        harmony_values = [v for v in chord.values() if v > 0.01]
+        if len(harmony_values) > 1:
+            # 복합 화음
+            complexity = len([v for v in harmony_values if v > 0.15])
         else:
-            modifier = ""
+            complexity = 1
         
-        if state.z > 0.7:
-            freshness = ", 청량한"
-        elif state.z < 0.3:
-            freshness = ", 깊은"
+        # 향 계열 결정
+        scent_families = {
+            "bass": ["흙 내음", "머스크 향", "가죽 향", "페출리"],
+            "tenor": ["삼나무 향", "허브 향", "녹차 향", "이끼 향"],
+            "alto": ["장미 향", "자스민 향", "복숭아 향", "시트러스"],
+            "soprano": ["유향", "몰약", "백단향", "오존 향"]
+        }
+        
+        base_scent = scent_families[dominant][0]
+        
+        # 복합 화음이면 여러 향 혼합 표현
+        if complexity >= 3:
+            # 3개 이상 성분이 섞임
+            secondary = sorted(chord.items(), key=lambda x: x[1], reverse=True)[1][0]
+            secondary_scent = scent_families[secondary][0]
+            scent_desc = f"{base_scent}과 {secondary_scent}의 복합적인 화음"
+        elif complexity == 2:
+            scent_desc = f"{base_scent}에 은은한 여운"
         else:
-            freshness = ""
+            scent_desc = f"순수한 {base_scent}"
         
-        if state.w > 2.0:
-            weight = "묵직한 "
-        elif state.w < 1.0:
-            weight = "가벼운 "
-        else:
-            weight = ""
-        
-        scent = f"{weight}{modifier}{base_scent}{freshness}"
-        
-        # 강도: 전체 진폭 기반
-        intensity = qubit.state.total_amplitude() / 4.0
+        # 강도: γ(Space) 성분 = 공간 확산력
+        # 후각은 "공간을 채우는" 감각
+        spatial_diffusion = probs.get("Space", 0)
+        base_intensity = state.total_amplitude() / 4.0
+        intensity = (spatial_diffusion * 0.6 + base_intensity * 0.4)
         intensity = max(0, min(1, intensity))
         
         return OlfactoryPerception(
-            scent_type=scent,
+            scent_type=scent_desc,
             intensity=intensity
         )
     
-    def perceive_gustatory(self, qubit) -> GustatoryPerception:
+    def perceive_gustatory(self, qubit, observer_qubit=None) -> GustatoryPerception:
         """
-        HyperQubit → 미각적 인식 (공감각 변환)
+        HyperQubit → 미각적 인식 (위상 간섭)
         
-        모든 감각은 같은 QubitState에서 파생됨.
-        미각도 예외가 아님 - 그냥 다른 "필터"일 뿐.
+        물리학 원리:
+        - 맛 = 수용체와 분자의 "전기적 결합/반발"
+        - 파동이 만나면 "간섭(Interference)" 발생
         
-        매핑 (공감각):
-        - Point 확률 → 짠맛 (구체적, 결정, 땅의 맛)
-        - Line 확률 → 신맛 (연결, 흐름, 변화의 맛)
-        - Space 확률 → 감칠맛 (맥락, 깊이, 조화의 맛)
-        - God 확률 → 단맛 (초월, 축복, 기쁨의 맛)
-        - x축 음수 → 쓴맛 (어둠, 고통의 맛)
-        - w (차원) → 맛의 강도/깊이
-        - y (삼위) → 맛의 복합성
-        - z (창조) → 맛의 여운
+        매핑:
+        - 보강 간섭 (0도): 단맛 - 파동이 합쳐져 에너지 폭발 ("맛있다!")
+        - 상쇄 간섭 (180도): 쓴맛/신맛 - 파동이 부딪혀 충격 ("짜릿!")
+        - 복잡한 간섭 (Noise): 감칠맛 - 미묘하게 얽히며 여운
+        
+        "미각 = 나와 대상이 만나는 순간의 에너지 충돌(Collision)"
+        
+        Args:
+            qubit: 대상 (음식/개념)
+            observer_qubit: 관찰자 (엘리시아 자신, 없으면 기본값 사용)
         """
         state = qubit.state
         probs = state.probabilities()
         
-        # 기본 맛 (양자 상태 확률에서 직접 파생)
+        # 관찰자 상태 (없으면 기본 엘리시아 상태)
+        if observer_qubit:
+            obs_state = observer_qubit.state
+        else:
+            # 기본 엘리시아 상태: 균형잡힌 호기심
+            obs_alpha = 0.3
+            obs_beta = 0.3
+            obs_gamma = 0.3
+            obs_delta = 0.1
+        
+        # 위상 계산 (복소수의 위상)
+        target_phase = math.atan2(state.alpha.imag, state.alpha.real) if isinstance(state.alpha, complex) else 0
+        
+        if observer_qubit:
+            obs_phase = math.atan2(obs_state.alpha.imag, obs_state.alpha.real) if isinstance(obs_state.alpha, complex) else 0
+        else:
+            obs_phase = 0  # 기본 위상
+        
+        # 위상차 계산 (0 ~ π)
+        phase_diff = abs(target_phase - obs_phase)
+        if phase_diff > math.pi:
+            phase_diff = 2 * math.pi - phase_diff
+        
+        # 위상차 → 맛 변환
+        # 0도 근처: 보강 간섭 → 단맛
+        # 90도 근처: 중간 → 감칠맛/짠맛
+        # 180도 근처: 상쇄 간섭 → 쓴맛/신맛
+        
+        # 보강 간섭 (단맛) - 위상차가 작을수록
+        sweet = max(0, 1 - (phase_diff / math.pi))
+        
+        # 상쇄 간섭 (쓴맛) - 위상차가 π에 가까울수록
+        bitter = max(0, (phase_diff / math.pi) - 0.5) * 2
+        
+        # 도덕축의 영향 추가
+        # x 양수 → 단맛 강화, x 음수 → 쓴맛 강화
+        sweet = min(1.0, sweet + max(0, state.x) * 0.3)
+        bitter = min(1.0, bitter + max(0, -state.x) * 0.3)
+        
+        # 기저 상태에서 기본 맛 성분
+        # Point: 짠맛 (결정, 고체, 땅의 맛)
         salty = probs.get("Point", 0)
+        
+        # Line: 신맛 (흐름, 변화, 자극)
         sour = probs.get("Line", 0)
+        
+        # Space: 감칠맛 (복잡한 간섭, 깊이, 조화)
+        # 감칠맛은 여러 성분이 복잡하게 얽힐 때 발생
         umami = probs.get("Space", 0)
         
-        # 단맛: God 확률 + 도덕축 양수 방향
-        god_contribution = probs.get("God", 0)
-        moral_contribution = max(0, state.x) * 0.5
-        sweet = min(1.0, god_contribution + moral_contribution)
+        # God 성분은 단맛을 증폭 (신성한 축복 = 달콤함)
+        sweet = min(1.0, sweet + probs.get("God", 0) * 0.5)
         
-        # 쓴맛: 도덕축 음수 방향
-        bitter = max(0, -state.x) * 0.8
-        
-        # 강도: w(차원)와 전체 진폭 조합
-        base_intensity = qubit.state.total_amplitude() / 4.0
-        dimension_factor = state.w / 3.0
-        intensity = (base_intensity + dimension_factor) / 2
+        # 강도: 간섭의 총 에너지
+        base_intensity = state.total_amplitude() / 4.0
+        interference_energy = abs(math.cos(phase_diff))  # 간섭 에너지
+        intensity = (base_intensity * 0.5 + interference_energy * 0.5)
         intensity = max(0, min(1, intensity))
         
         return GustatoryPerception(
@@ -544,12 +592,18 @@ class CellSensoryEngine:
             intensity=intensity
         )
     
-    def perceive_full(self, qubit) -> MultiSensoryPerception:
+    def perceive_full(self, qubit, observer_qubit=None) -> MultiSensoryPerception:
         """
         모든 감각으로 통합 인식 (오감)
         
-        모든 감각은 같은 QubitState에서 파생됨.
-        각 감각은 다른 "필터"일 뿐 - 공감각 체제.
+        핵심 원리:
+        - 모든 감각은 같은 QubitState에서 파생
+        - 각 감각은 다른 "필터"일 뿐 - 공감각 체제
+        - 미각은 특별: 관찰자와 대상의 "위상 간섭"
+        
+        Args:
+            qubit: 인식 대상
+            observer_qubit: 관찰자 (미각의 위상 간섭 계산용)
         """
         self.stats["perceptions"] += 1
         
@@ -557,7 +611,7 @@ class CellSensoryEngine:
         auditory = self.perceive_auditory(qubit)
         tactile = self.perceive_tactile(qubit)
         olfactory = self.perceive_olfactory(qubit)
-        gustatory = self.perceive_gustatory(qubit)
+        gustatory = self.perceive_gustatory(qubit, observer_qubit)
         
         # 공명도 (자기 자신은 1.0)
         resonance = 1.0
@@ -580,6 +634,10 @@ class CellSensoryEngine:
         """
         다른 셀을 감각적으로 인식 (오감)
         
+        핵심:
+        - 미각은 "위상 간섭" - observer와 target의 충돌
+        - 다른 감각은 target 자체의 속성
+        
         Args:
             observer: 관찰하는 셀
             target: 관찰되는 셀
@@ -595,7 +653,9 @@ class CellSensoryEngine:
         auditory = self.perceive_auditory(target)
         tactile = self.perceive_tactile(target)
         olfactory = self.perceive_olfactory(target)
-        gustatory = self.perceive_gustatory(target)
+        
+        # 미각: 관찰자와 대상의 위상 간섭!
+        gustatory = self.perceive_gustatory(target, observer)
         
         # 공명도 계산 (선명도에 영향)
         if resonance_engine:
