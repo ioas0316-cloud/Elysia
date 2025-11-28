@@ -247,7 +247,11 @@ class ConductionFiber:
         입사각이 임계각보다 크면 전반사됨.
         임계각 = arcsin(1/n) where n = refractive_index
         """
-        critical_angle = math.asin(1.0 / self.refractive_index) if self.refractive_index > 1 else math.pi / 2
+        # 굴절률이 1보다 커야 전반사 가능 (밀도 높은 매질에서 낮은 매질로)
+        if self.refractive_index <= 1.0:
+            return False  # 전반사 불가능
+        
+        critical_angle = math.asin(1.0 / self.refractive_index)
         return incident_angle > critical_angle
 
 
@@ -286,7 +290,9 @@ class RefractionLens:
         if self.shape == LensShape.FLAT:
             return 1.0  # 평면 유리는 배율 없음
         
-        if object_distance == self.focal_length:
+        # 부동소수점 정밀도를 위한 허용 오차
+        epsilon = 1e-10
+        if abs(object_distance - self.focal_length) < epsilon:
             return float('inf')  # 무한대 (평행광)
         
         if self.shape == LensShape.CONVEX:
