@@ -107,6 +107,13 @@ from Core.Language.causal_narrative_engine import (
     UniversalLaw,
 )
 
+# Integrated Language Learning (Complete integration for Elysia's language development)
+from Core.Language.integrated_language_learning import (
+    IntegratedLanguageWorld,
+    IntegratedLanguageLearner,
+    LanguageDevelopmentMetrics,
+)
+
 __all__ = [
     # Original primal wave language
     "PrimalWave",
@@ -151,4 +158,8 @@ __all__ = [
     "ContextPlane",
     "SchemaSpace",
     "UniversalLaw",
+    # Integrated Language Learning
+    "IntegratedLanguageWorld",
+    "IntegratedLanguageLearner",
+    "LanguageDevelopmentMetrics",
 ]

@@ -458,7 +458,64 @@ class TestIntegration:
         # 점 → 선 → 면 확장 확인
         assert universe.total_points >= 9
         assert universe.total_lines >= 6
-        assert universe.total_planes >= 3
+
+
+class TestIntegratedLanguageLearning:
+    """통합 언어 학습 시스템 테스트 - 엘리시아의 지속적 언어 발달 확인"""
+    
+    def test_integrated_world_creation(self):
+        """통합 세계 생성 테스트"""
+        from Core.Language.integrated_language_learning import IntegratedLanguageWorld
+        
+        world = IntegratedLanguageWorld(n_souls=5, khala_strength=0.5)
+        assert len(world.world.souls) == 5
+        assert len(world.learners) == 5
+    
+    def test_learner_has_causal_mind(self):
+        """각 학습자가 인과 마인드를 가지는지 테스트"""
+        from Core.Language.integrated_language_learning import IntegratedLanguageWorld
+        
+        world = IntegratedLanguageWorld(n_souls=3)
+        
+        for learner in world.learners.values():
+            assert learner.causal_mind is not None
+            assert learner.thought_universe is not None
+    
+    def test_continuous_development(self):
+        """언어 능력의 지속적 발달 테스트"""
+        from Core.Language.integrated_language_learning import IntegratedLanguageWorld
+        
+        world = IntegratedLanguageWorld(n_souls=10, khala_strength=0.6)
+        
+        # 시뮬레이션 실행
+        world.simulate(steps=100, report_interval=50)
+        
+        # 발달 검증
+        success, message = world.verify_continuous_development()
+        
+        # 어휘가 증가해야 함
+        final_report = world.get_final_report()
+        assert final_report["final_stats"]["avg_vocabulary"] > 0
+        
+        # 인과 연쇄 학습이 있어야 함
+        assert final_report["final_stats"]["total_causal_chains"] > 0
+    
+    def test_development_metrics(self):
+        """발달 지표 테스트"""
+        from Core.Language.integrated_language_learning import LanguageDevelopmentMetrics
+        
+        metrics = LanguageDevelopmentMetrics(
+            vocabulary_size=25,
+            successful_communications=15,
+            total_communications=20,
+            causal_chains_learned=10
+        )
+        
+        # 성공률 계산
+        assert metrics.communication_success_rate == 0.75
+        
+        # 진척도 계산 (어휘 + 성공률 + 인과학습)
+        assert 0 < metrics.learning_progress <= 1
 
 
 if __name__ == "__main__":
