@@ -3,6 +3,27 @@ __init__.py for Core.Physics module
 """
 
 from .fluctlight import FluctlightParticle, FluctlightEngine
+from .floating_origin import (
+    # 부유 원점 시스템 (Floating Origin System)
+    # "주인공 시점 물리학" - Protagonist Physics
+    
+    # 좌표계 타입 (Coordinate System Types)
+    CoordinateSystem,
+    LocalPosition,
+    
+    # 개인 구체 (Personal Sphere / Personal Universe)
+    PersonalSphere,
+    
+    # 부유 원점 관리자 (Floating Origin Manager)
+    FloatingOriginManager,
+    
+    # 편의 함수 (Convenience Functions)
+    get_floating_origin_manager,
+    reset_floating_origin_manager,
+    create_personal_universe,
+    scroll_world_around,
+    get_world_from_perspective,
+)
 from .phase_lens import (
     # 위상 렌즈 시스템 (Phase Lens System)
     # "유리창의 법칙" - The Law of Glass Windows
@@ -121,6 +142,17 @@ __all__ = [
     # 기존
     'FluctlightParticle',
     'FluctlightEngine',
+    
+    # 부유 원점 시스템 (Floating Origin System)
+    'CoordinateSystem',
+    'LocalPosition',
+    'PersonalSphere',
+    'FloatingOriginManager',
+    'get_floating_origin_manager',
+    'reset_floating_origin_manager',
+    'create_personal_universe',
+    'scroll_world_around',
+    'get_world_from_perspective',
     
     # 위상 렌즈 시스템 (Phase Lens System)
     'PhaseDatum',
