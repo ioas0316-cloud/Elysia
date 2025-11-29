@@ -20,10 +20,9 @@ Wave Frequency Mapping - 현실세계와 엘리시아의 파동주파수 매핑
 
 import logging
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple, Union
-import numpy as np
 
 logger = logging.getLogger("WaveFrequencyMapping")
 
@@ -632,7 +631,10 @@ class WaveFrequencyMapper:
         if sound_lower in korean_map:
             return korean_map[sound_lower]
         
-        return SoundType.MALE_VOICE
+        # 알 수 없는 소리 유형 - 중립적인 노래(SINGING)를 기본값으로 사용
+        # SINGING은 일반적인 음성 범위를 커버하고 중립적인 감정 효과를 가짐
+        logger.warning(f"Unknown sound type: {sound_str}, defaulting to SINGING")
+        return SoundType.SINGING
     
     def _estimate_sound_frequency(self, sound_type: SoundType) -> SoundFrequencyData:
         """데이터가 없는 소리의 주파수 추정"""
@@ -774,6 +776,9 @@ class WaveFrequencyMapper:
             if nearest_multiple > 0:
                 distance = abs(frequency_hz - harmonic * nearest_multiple)
                 min_distance = min(min_distance, distance)
+                # 거리가 충분히 작으면 조기 종료 (최적화)
+                if min_distance < 0.01:
+                    break
         
         # 거리가 가까울수록 공명 강도 높음
         max_distance = 100.0

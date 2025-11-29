@@ -96,7 +96,7 @@ class TestSoundFrequencyMapping(unittest.TestCase):
         
         self.assertEqual(data.sound_type, SoundType.MALE_VOICE)
         self.assertEqual(data.fundamental_hz, 120.0)
-        self.assertIn(85.0, [data.frequency_range_hz[0]])
+        self.assertEqual(data.frequency_range_hz[0], 85.0)
     
     def test_get_sound_frequency_by_string(self):
         """문자열로 소리 주파수 조회"""
@@ -104,6 +104,12 @@ class TestSoundFrequencyMapping(unittest.TestCase):
         
         self.assertEqual(data.sound_type, SoundType.NATURE_WATER)
         self.assertIn(EmotionType.PEACE, data.emotional_effect)
+    
+    def test_unknown_sound_defaults_to_singing(self):
+        """알 수 없는 소리 유형은 SINGING으로 기본값"""
+        data = self.mapper.get_sound_frequency("unknown_sound_xyz")
+        
+        self.assertEqual(data.sound_type, SoundType.SINGING)
     
     def test_voice_frequency_ranges(self):
         """음성 주파수 범위 테스트"""
