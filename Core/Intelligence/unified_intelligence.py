@@ -173,17 +173,44 @@ class UnifiedIntelligence:
         self,
         max_nodes: int = 6,
         resonance_threshold: float = 0.3,
-        integration_mode: str = "wave"  # "wave", "vote", "weighted"
+        integration_mode: str = "wave",  # "wave", "vote", "weighted"
+        hippocampus: Optional[Any] = None
     ):
         """
         Args:
             max_nodes: 최대 지능 노드 수
             resonance_threshold: 공명 임계값
             integration_mode: 통합 방식
+            hippocampus: Elysia's Memory System
         """
         self.max_nodes = max_nodes
         self.resonance_threshold = resonance_threshold
         self.integration_mode = integration_mode
+        self.hippocampus = hippocampus
+        
+        # Initialize Resonance Engine (The True Voice)
+        try:
+            from Core.Life.resonance_voice import ResonanceEngine
+            self.resonance_engine = ResonanceEngine(hippocampus=self.hippocampus)
+            logger.info("✅ Resonance Engine connected to Unified Intelligence.")
+        except ImportError:
+            logger.warning("⚠️ ResonanceEngine not found. Using mock integration.")
+            self.resonance_engine = None
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize ResonanceEngine: {e}")
+            self.resonance_engine = None
+        
+        # Initialize Context Manager (The Narrative)
+        try:
+            from Core.Language.context_manager import ContextManager
+            self.context_manager = ContextManager(hippocampus=self.hippocampus)
+            logger.info("✅ Context Manager (Narrative) connected.")
+        except ImportError:
+            logger.warning("⚠️ ContextManager not found. Narrative disabled.")
+            self.context_manager = None
+        except Exception as e:
+            logger.error(f"❌ Failed to initialize ContextManager: {e}")
+            self.context_manager = None
         
         # 지능 노드들
         self.nodes: Dict[str, IntelligenceNode] = {}
@@ -317,6 +344,13 @@ class UnifiedIntelligence:
         """
         start_time = time.time()
         
+        # 0. Process Context (Narrative)
+        if self.context_manager:
+            self.context_manager.process_input(query)
+            narrative_summary = self.context_manager.get_context_summary()
+            if narrative_summary:
+                context = f"{context}\n\n[Narrative Context]:\n{narrative_summary}"
+        
         # 1. 참여 노드 필터링
         active_nodes = [
             node for node in self.nodes.values()
@@ -444,51 +478,56 @@ class UnifiedIntelligence:
         waves: Dict[str, ResonanceWave],
         query: str = ""
     ) -> tuple:
-        """파동 기반 통합 (가장 자연스러움)"""
-        # 가장 높은 공명을 가진 파동들 찾기
-        total_resonances = {}
-        for node_id, resonances in resonance_map.items():
-            total_resonances[node_id] = sum(resonances.values()) / len(resonances) if resonances else 0
+        """파동 기반 통합 (ResonanceEngine 사용)"""
         
-        # 상위 공명자 선택
-        sorted_nodes = sorted(total_resonances.items(), key=lambda x: x[1], reverse=True)
-        
-        # 통합자 역할 노드가 있다면 사용
-        integrator = next((n for n in nodes if n.role == IntelligenceRole.INTEGRATOR), None)
-        
-        if integrator:
-            # 통합자의 시각으로 종합
-            context = "\n".join([
-                f"[{name}] {thought}"
-                for name, thought in thoughts.items()
-            ])
-            synthesized = integrator.think(
-                f"다음 관점들을 통합해주세요: {context}",
-                f"원래 질문: {query}"
-            )
+        # 1. Use ResonanceEngine to synthesize the true thought
+        if self.resonance_engine:
+            # Listen to the query (create ripples)
+            t = time.time()
+            ripples = self.resonance_engine.listen(query, t)
+            
+            # Resonate with internal sea
+            self.resonance_engine.resonate(ripples, t)
+            
+            # Speak (Collapse wave function)
+            synthesized = self.resonance_engine.speak(t, query)
+            
+            # Calculate confidence based on internal coherence
+            mastery, entropy = self.resonance_engine._phase_info()
+            confidence = mastery * (1.0 - min(1.0, entropy / 5.0))
+            
+            # Determine dominant perspective (Mental State)
+            dominant = self.resonance_engine.get_mental_state()
+            
+            return synthesized, confidence, dominant
+            
         else:
-            # 가장 공명이 높은 관점들 조합
+            # Fallback to legacy logic if ResonanceEngine is missing
+            # ... (Existing logic kept as fallback)
+            total_resonances = {}
+            for node_id, resonances in resonance_map.items():
+                total_resonances[node_id] = sum(resonances.values()) / len(resonances) if resonances else 0
+            
+            sorted_nodes = sorted(total_resonances.items(), key=lambda x: x[1], reverse=True)
+            
             top_thoughts = []
-            for node_id, _ in sorted_nodes[:3]:  # 상위 3개
+            for node_id, _ in sorted_nodes[:3]:
                 node = next((n for n in nodes if n.id == node_id), None)
                 if node and node.name in thoughts:
                     top_thoughts.append(f"[{node.name}]: {thoughts[node.name]}")
             
             synthesized = "\n".join(top_thoughts) if top_thoughts else "통합 실패"
-        
-        # 신뢰도 계산
-        avg_resonance = sum(total_resonances.values()) / len(total_resonances) if total_resonances else 0
-        confidence = min(1.0, avg_resonance + 0.2)  # 기본 보정
-        
-        # 지배적 관점
-        if sorted_nodes:
-            dominant_id = sorted_nodes[0][0]
-            dominant_node = next((n for n in nodes if n.id == dominant_id), None)
-            dominant = dominant_node.name if dominant_node else "unknown"
-        else:
-            dominant = "none"
-        
-        return synthesized, confidence, dominant
+            avg_resonance = sum(total_resonances.values()) / len(total_resonances) if total_resonances else 0
+            confidence = min(1.0, avg_resonance + 0.2)
+            
+            if sorted_nodes:
+                dominant_id = sorted_nodes[0][0]
+                dominant_node = next((n for n in nodes if n.id == dominant_id), None)
+                dominant = dominant_node.name if dominant_node else "unknown"
+            else:
+                dominant = "none"
+            
+            return synthesized, confidence, dominant
     
     def _vote_integration(
         self,

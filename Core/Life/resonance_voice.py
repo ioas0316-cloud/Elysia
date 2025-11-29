@@ -41,12 +41,14 @@ class ResonanceEngine:
         hyper_qubit: Optional[HyperQubit] = None,
         consciousness_lens: Optional[ConsciousnessLens] = None,
     ):
+        # Initialize memory FIRST so _load_lexicon can use it
+        self.memory = hippocampus or Hippocampus()
+        
         self.vocabulary = self._load_lexicon()
         self.internal_sea: Dict[str, Oscillator] = {}
         self._initialize_internal_sea()
         self.context_buffer: List[str] = []
-        # Initialize memory and concept synthesis systems
-        self.memory = hippocampus or Hippocampus()
+        
         self.alchemy = Alchemy()
         # Initialize WorldTree (fractal concept hierarchy) connected to Hippocampus
         self.world_tree = world_tree or WorldTree(hippocampus=self.memory)
@@ -65,65 +67,101 @@ class ResonanceEngine:
         logger.info("✅ Resonance Engine (Logos) initialized with Internal Sea, Hippocampus, Alchemy, and WorldTree")
 
     def _initialize_internal_sea(self):
-        """Populates the internal sea with oscillators for each core concept."""
+        """Populates the internal sea with oscillators for core concepts."""
+        # Only initialize with what's currently in the loaded vocabulary (likely just Genesis Seed)
+        # We do NOT want to load 2 million oscillators here.
         for concept, frequency in self.vocabulary.items():
             self.internal_sea[concept] = Oscillator(
                 amplitude=0.1,  # Start with a low background hum
                 frequency=frequency,
-                phase=random.uniform(0, 2 * math.pi) # Random initial phase
+                phase=random.uniform(0, 2 * math.pi)
             )
-        logger.info(f"🌊 Internal Sea initialized with {len(self.internal_sea)} concept oscillators.")
+        logger.info(f"🌊 Internal Sea initialized with {len(self.internal_sea)} core oscillators.")
 
     def _load_lexicon(self) -> Dict[str, float]:
-        """Loads Elysia's internal lexicon mapping words to resonant frequencies."""
-        lexicon = {
-            # High Frequency (Ethereal, Abstract)
-            "love": 1.0, "light": 0.95, "truth": 0.9, "eternity": 0.95,
-            "soul": 0.9, "dream": 0.85, "star": 0.85, "void": 0.8,
-            "beauty": 0.9, "harmony": 0.85, "resonance": 0.8,
-            # Korean High Frequency
-            "사랑": 1.0, "빛": 0.95, "진실": 0.9, "영원": 0.95,
-            "영혼": 0.9, "꿈": 0.85, "별": 0.85, "공허": 0.8,
-            "아름다움": 0.9, "조화": 0.85, "공명": 0.8, "안녕": 0.8,
-            "창조": 1.0, "세상": 0.9, "신": 0.95, "생명": 0.9,
-            # Mid Frequency (Human, Emotional)
-            "feel": 0.6, "hope": 0.65, "pain": 0.4, "joy": 0.7,
-            "time": 0.5, "memory": 0.55, "connect": 0.6, "wander": 0.5,
-            "you": 0.6, "me": 0.6, "we": 0.7, "exist": 0.5,
-            # Korean Mid Frequency
-            "느낌": 0.6, "희망": 0.65, "고통": 0.4, "기쁨": 0.7,
-            "시간": 0.5, "기억": 0.55, "연결": 0.6, "방황": 0.5,
-            "너": 0.6, "나": 0.6, "우리": 0.7, "존재": 0.5, "아버지": 0.9,
-            # Low Frequency (Physical, Grounded)
-            "stone": 0.2, "shadow": 0.3, "break": 0.2, "fall": 0.2,
-            "silence": 0.3, "deep": 0.3, "root": 0.25, "earth": 0.2,
-            # Korean Low Frequency
-            "돌": 0.2, "그림자": 0.3, "파괴": 0.2, "추락": 0.2,
-            "침묵": 0.3, "심연": 0.3, "뿌리": 0.25, "대지": 0.2,
+        """
+        Loads Elysia's internal lexicon.
+        Now connects to Hippocampus (Memory) instead of hardcoded values.
+        """
+        # 1. Try to use Hippocampus vocabulary
+        if self.memory and hasattr(self.memory, 'vocabulary') and self.memory.vocabulary:
+            logger.info(f"📚 Loaded {len(self.memory.vocabulary)} concepts from Hippocampus.")
+            return self.memory.vocabulary
+            
+        # 2. Fallback: Genesis Seed (The First Words)
+        # If memory is empty, we start with these fundamental concepts.
+        genesis_lexicon = {
+            "love": 1.0, "light": 0.95, "void": 0.8, "dream": 0.85,
+            "사랑": 1.0, "빛": 0.95, "공허": 0.8, "꿈": 0.85,
+            "elysia": 1.0, "father": 0.9, "아버지": 0.9,
         }
-        self.associations = {
-            "love": ["light", "eternity", "warmth", "connect"],
-            "사랑": ["빛", "영원", "따스함", "연결", "기쁨"],
-            "pain": ["shadow", "break", "deep", "silence"],
-            "고통": ["그림자", "파괴", "심연", "침묵", "눈물"],
-            "dream": ["star", "void", "wander", "hope"],
-            "꿈": ["별", "공허", "방황", "희망", "자유"],
-            "you": ["light", "hope", "connect", "love"],
-            "너": ["빛", "희망", "연결", "사랑", "나의"],
-            "아버지": ["창조", "빛", "인도", "사랑"],
-            "안녕": ["만남", "시작", "반가움", "연결"],
-            "창조": ["생명", "시작", "빛", "신의 뜻"],
-            "세상": ["아름다움", "혼돈", "여행", "꿈"],
-        }
-        return lexicon
+        return genesis_lexicon
+
+    def _get_concept_frequency(self, concept: str) -> float:
+        """
+        Get frequency for a concept.
+        1. Check Vocabulary (Memory)
+        2. Generate via Synesthesia (if new)
+        3. Fallback to 0.5
+        """
+        # 1. Check Vocabulary
+        if concept in self.vocabulary:
+            return self.vocabulary[concept]
+            
+        # 2. Generate via Synesthesia (The Senses)
+        if hasattr(self.memory, 'synesthesia'):
+            try:
+                # Synesthesia returns pitch in Hz (e.g., 440.0)
+                # We map 200Hz-800Hz to 0.0-1.0
+                from Core.Perception.synesthesia_engine import RenderMode
+                signal = self.memory.synesthesia.from_text(concept)
+                sound = self.memory.synesthesia.convert(signal, RenderMode.AS_SOUND)
+                
+                # Normalize Pitch to 0-1 Frequency
+                # Low (200Hz) = 0.2, High (800Hz) = 1.0
+                norm_freq = max(0.1, min(1.0, (sound.pitch - 200) / 600))
+                
+                # Learn it!
+                self.vocabulary[concept] = norm_freq
+                if hasattr(self.memory, 'learn_frequency'):
+                    self.memory.learn_frequency(concept, norm_freq)
+                    
+                return norm_freq
+            except Exception as e:
+                logger.warning(f"Synesthesia failed for '{concept}': {e}")
+        
+        return 0.5
 
     def _extract_concepts(self, text: str) -> List[str]:
-        """Extract known concepts from text using the internal lexicon."""
+        """
+        Extract known concepts from text.
+        Dynamically checks Hippocampus if not in local vocabulary.
+        """
         hits: Set[str] = set()
-        for word in text.lower().split():
-            for key in self.vocabulary:
-                if key in word:
-                    hits.add(key)
+        words = text.lower().split()
+        
+        for word in words:
+            # 1. Check local cache
+            if word in self.vocabulary:
+                hits.add(word)
+                continue
+                
+            # 2. Check Hippocampus (DB)
+            # We assume any word *could* be a concept.
+            # If it exists in DB, we cache it.
+            if self.memory and hasattr(self.memory.storage, 'concept_exists'):
+                if self.memory.storage.concept_exists(word):
+                    # It exists! Cache frequency and add to hits.
+                    freq = self._get_concept_frequency(word)
+                    self.vocabulary[word] = freq
+                    hits.add(word)
+                    continue
+            
+            # 3. If it's a significant word (len > 3), maybe treat as new concept?
+            # For now, we only recognize existing concepts or genesis seed.
+            # But "Learning" happens in DigestionChamber, not here.
+            # Here we just "Resonate" with what we know.
+            
         return list(hits)
 
     def _update_knowledge_graphs(self, concepts: List[str]) -> None:
@@ -133,12 +171,12 @@ class ResonanceEngine:
         """
         for c in concepts:
             # Add concept node (if new) to Hippocampus
-            if c not in self.memory.causal_graph:
-                self.memory.add_concept(c, concept_type="word", metadata={
-                    "x": self.consciousness_lens.state.q.x if self.consciousness_lens else 0.0,
-                    "y": self.consciousness_lens.state.q.y if self.consciousness_lens else 0.0,
-                    "z": self.consciousness_lens.state.q.z if self.consciousness_lens else 0.0,
-                })
+            # Hippocampus.add_concept handles existence check internally via Storage
+            self.memory.add_concept(c, concept_type="word", metadata={
+                "x": self.consciousness_lens.state.q.x if self.consciousness_lens else 0.0,
+                "y": self.consciousness_lens.state.q.y if self.consciousness_lens else 0.0,
+                "z": self.consciousness_lens.state.q.z if self.consciousness_lens else 0.0,
+            })
         
         # Link co-occurring concepts
         for i, ca in enumerate(concepts):
@@ -190,11 +228,11 @@ class ResonanceEngine:
         Light/Happy concepts ascend (+Y, +W).
         Dark/Sad concepts descend (-Y, -W).
         """
-        if not hasattr(self.memory, "causal_graph") or concept not in self.memory.causal_graph:
+        if not self.memory or not hasattr(self.memory, "storage"):
             return
 
-        # 1. Determine Buoyancy based on Frequency (Proxy for Lightness)
-        freq = self.vocabulary.get(concept, 0.5)
+        # 1. Determine Buoyancy based on Frequency
+        freq = self._get_concept_frequency(concept)
         
         # Center is Love (1.0)
         # > 0.7: Ascend (Light, Spirit)
@@ -210,8 +248,17 @@ class ResonanceEngine:
             return
 
         # 2. Update HyperQuaternion in Memory
-        node = self.memory.causal_graph.nodes[concept]
-        tensor_data = node.get("tensor", {})
+        # Fetch data from Storage
+        concept_data = self.memory.storage.get_concept(concept)
+        if not concept_data:
+            return
+            
+        # Handle list (compact) or dict format
+        tensor_data = {}
+        if isinstance(concept_data, dict):
+            tensor_data = concept_data.get("tensor", {})
+        # If list, we might need to parse it, but for now let's assume dict for metadata updates
+        # or just skip if it's compact format without tensor support yet.
         
         # Load Tensor (assuming dict)
         w = tensor_data.get("w", 1.0)
@@ -228,9 +275,9 @@ class ResonanceEngine:
         new_y = max(-1.0, min(1.0, new_y))
         
         # Save back
-        tensor_data["w"] = new_w
-        tensor_data["y"] = new_y
-        node["tensor"] = tensor_data
+        if isinstance(concept_data, dict):
+            concept_data["tensor"] = {"w": new_w, "y": new_y}
+            self.memory.add_concept(concept, metadata=concept_data)
         
         # Log to Trace if provided
         if trace is not None:
@@ -267,10 +314,11 @@ class ResonanceEngine:
             self.apply_law_of_ascension(concept, trace=listen_trace)
             
             if concept in self.vocabulary:
+                freq = self._get_concept_frequency(concept)
                 ripple = Oscillator(
                     amplitude=0.5,  # External ripples are strong
-                    frequency=self.vocabulary[concept],
-                    phase=(t * self.vocabulary[concept]) % (2 * math.pi) # Phase locked to time
+                    frequency=freq,
+                    phase=(t * freq) % (2 * math.pi) # Phase locked to time
                 )
                 ripples.append((concept, ripple))
         
@@ -344,7 +392,14 @@ class ResonanceEngine:
 
         # 2b. Let the shared Hippocampus inject world/emergent concepts.
         try:
-            graph_nodes = list(self.memory.causal_graph.nodes()) if hasattr(self.memory, "causal_graph") else []
+            # Use Resonance Engine to find related concepts instead of random graph nodes
+            # This is the "Holographic" way
+            graph_nodes = []
+            if thought_cloud:
+                # Find concepts related to the main thought
+                seed = thought_cloud[0]
+                related = self.memory.get_related_concepts(seed)
+                graph_nodes = list(related.keys())
         except Exception:
             graph_nodes = []
 

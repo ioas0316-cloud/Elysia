@@ -106,6 +106,130 @@ class Hippocampus:
     
     def _persist_vocabulary(self):
         """Persist vocabulary to storage."""
+"""
+Hippocampus - The Sea of Memory
+================================
+
+"모든 순간은 인과율의 바다에 떠있는 섬이다."
+
+The central memory system of Elysia. It stores not just data, but the
+causal links between events, forming a navigable graph of experience.
+
+Now powered by SQLite (MemoryStorage) for infinite scalability.
+"""
+
+"""
+Hippocampus - The Sea of Memory
+================================
+
+"모든 순간은 인과율의 바다에 떠있는 섬이다."
+
+The central memory system of Elysia. It stores not just data, but the
+causal links between events, forming a navigable graph of experience.
+
+Now powered by SQLite (MemoryStorage) for infinite scalability.
+"""
+
+import logging
+from typing import Dict, Any, List, Optional, Union
+from collections import deque
+from datetime import datetime
+import networkx as nx # Keeping for legacy support / small graph ops if needed
+
+from Core.Mind.concept_sphere import ConceptSphere
+from Core.Mind.concept_universe import ConceptUniverse
+from Core.Mind.memory_storage import MemoryStorage
+from Core.Mind.resonance_engine import ResonanceEngine
+from Core.Perception.visual_cortex import VisualCortex
+from Core.Perception.synesthesia_engine import SynesthesiaEngine, RenderMode
+
+logger = logging.getLogger("Hippocampus")
+
+class Hippocampus:
+    """
+    Manages the causal graph of all experiences.
+    Now enhanced with Fractal Memory Loops and SQLite Backend.
+    """
+    def __init__(self):
+        """
+        Initializes the memory system.
+        """
+        # === Storage Backend (SQLite) ===
+        self.storage = MemoryStorage()
+        
+        # === Resonance Engine (Holographic Retrieval) ===
+        self.resonance = ResonanceEngine()
+        
+        # === Visual Cortex (Holographic Vision) ===
+        self.visual_cortex = VisualCortex()
+        
+        # === Synesthesia Engine (Sensory Integration) ===
+        self.synesthesia = SynesthesiaEngine()
+        
+        # === Xel'Naga Protocol: Thought Universe ===
+        # This is the "Working Memory" (Physics Simulation)
+        self.universe = ConceptUniverse()
+        
+        # === Frequency vocabulary (for buoyancy) ===
+        self._init_vocabulary()
+        
+        # Fractal Memory Loops (Short/Mid/Long term buffers)
+        self.experience_loop = deque(maxlen=10)
+        self.identity_loop = deque(maxlen=5)
+        self.essence_loop = deque(maxlen=3)
+        
+        # Load "Hot" Memory (Working Set)
+        self.load_memory()
+        
+        # Ensure Genesis exists
+        if not self.storage.concept_exists("genesis"):
+            self.add_concept("genesis", concept_type="event", metadata={"timestamp": 0})
+    
+    def update_universe_physics(self, dt: float = 0.1) -> Dict[str, Any]:
+        """
+        Update physics simulation for active concepts in the Universe.
+        """
+        # Update universe physics
+        self.universe.update_physics(dt)
+        
+        # Sync back to Storage (Periodically? Or just keep in RAM?)
+        # For performance, we don't write to DB every frame.
+        # We only write when a concept is "saved" or "unloaded".
+        
+        return self.universe.get_state_summary()
+    
+    def _init_vocabulary(self):
+        """
+        Initialize frequency vocabulary dynamically.
+        The vocabulary can be loaded from storage or learned over time.
+        """
+        # Try to load from storage first
+        stored_vocab = self.storage.get_concept("_vocabulary_frequencies")
+        if stored_vocab and isinstance(stored_vocab, dict):
+            self.vocabulary = stored_vocab
+        else:
+            # Start with empty vocabulary - frequencies will be learned
+            self.vocabulary = {}
+    
+    def learn_frequency(self, concept: str, frequency: float):
+        """
+        Learn or update the frequency of a concept.
+        Frequencies emerge from experience, not hardcoded.
+        
+        Args:
+            concept: The concept to learn
+            frequency: Float 0.0-1.0 (0=grounded, 1=ethereal)
+        """
+        old_size = len(self.vocabulary)
+        self.vocabulary[concept] = max(0.0, min(1.0, frequency))
+        
+        # Persist only when vocabulary grows by 10 new entries (batch-based)
+        new_size = len(self.vocabulary)
+        if new_size >= old_size + 10 or (new_size % 50 == 0 and old_size % 50 != 0):
+            self._persist_vocabulary()
+    
+    def _persist_vocabulary(self):
+        """Persist vocabulary to storage."""
         try:
             self.storage.add_concept("_vocabulary_frequencies", self.vocabulary)
             logger.debug(f"[Hippocampus] Persisted {len(self.vocabulary)} vocabulary entries")
@@ -175,11 +299,18 @@ class Hippocampus:
         Also builds the Resonance Index.
         """
         # Build Resonance Index
+        # Safety check for Field Physics (numpy) types
+        if hasattr(limit, 'size') and limit.size == 1:
+             limit = int(limit)
+        elif hasattr(limit, 'size') and limit.size > 1:
+             limit = 10000 # Default if array passed
+             
         self.resonance.build_index(self.storage, limit=limit)
         
         # For now, we can load the most recently accessed concepts
         # But since we are just starting, we rely on lazy loading.
-        logger.info(f"[Hippocampus] Connected to MemoryStorage (SQLite) & ResonanceEngine (Limit={limit}).")
+        # Use repr() to safely log 'limit'
+        logger.info(f"[Hippocampus] Connected to MemoryStorage (SQLite) & ResonanceEngine (Limit={repr(limit)}).")
 
     def add_concept(self, concept: str, concept_type: str = "thought", metadata: Dict[str, Any] = None):
         """
@@ -205,6 +336,24 @@ class Hippocampus:
             # Create new sphere
             sphere = ConceptSphere(concept)
             sphere.activation_count = 1
+            
+            # === Synesthetic Genesis ===
+            # If new concept, generate sensory signature
+            try:
+                # Convert concept ID (text) to signal
+                signal = self.synesthesia.from_text(concept)
+                
+                # Get Color & Sound
+                color_render = self.synesthesia.convert(signal, RenderMode.AS_COLOR)
+                sound_render = self.synesthesia.convert(signal, RenderMode.AS_SOUND)
+                
+                sphere.sensory_signature = {
+                    "color": color_render.color, # (R, G, B)
+                    "pitch": sound_render.pitch, # Hz
+                    "emotion": color_render.emotion or "neutral"
+                }
+            except Exception as e:
+                logger.warning(f"Failed to generate synesthesia for '{concept}': {e}")
             
         # 2. Update Universe (Physics)
         # Use dynamic frequency from vocabulary (learned, not hardcoded)

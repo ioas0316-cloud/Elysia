@@ -106,6 +106,9 @@ class ConceptSphere:
         # === Dimensional State (HyperQubit) ===
         self.qubit = HyperQubit(concept_id)
         
+        # === Synesthetic Layer (공감각) ===
+        self.sensory_signature: Dict[str, Any] = {}  # {color, pitch, texture, etc.}
+        
         # === Metadata ===
         self.created_at = time.time()
         self.last_activated = time.time()
@@ -156,13 +159,14 @@ class ConceptSphere:
             'concept_density': len(self.sub_concepts),
             'mirror_intensity': self.mirror.intensity,
             'activation_count': self.activation_count,
-            'qubit_state': self.qubit.get_observation()
+            'qubit_state': self.qubit.get_observation(),
+            'sensory_signature': self.sensory_signature
         }
     
     def to_compact(self) -> List[Any]:
         """
         Serialize to compact list for maximum compression.
-        [id, [wx,wy,wz], emotions, values, subs, tokens, m_count, m_int, cat, lat, ac, q]
+        [id, [wx,wy,wz], emotions, values, subs, tokens, m_count, m_int, cat, lat, ac, q, sensory]
         """
         def q_int8(val):
             if isinstance(val, float):
@@ -185,7 +189,8 @@ class ConceptSphere:
             int(self.created_at),
             int(self.last_activated),
             self.activation_count,
-            q_int8(self.qubit.get_observation()) if self.qubit else None
+            q_int8(self.qubit.get_observation()) if self.qubit else None,
+            self.sensory_signature
         ]
 
     @staticmethod
@@ -201,7 +206,7 @@ class ConceptSphere:
             return val
 
         # Unpack list
-        # [id, will, emo, val, subs, tok, m_cnt, m_int, cat, lat, ac, q]
+        # [id, will, emo, val, subs, tok, m_cnt, m_int, cat, lat, ac, q, sensory]
         sphere = ConceptSphere(data[0])
         
         # Will
@@ -227,11 +232,15 @@ class ConceptSphere:
             # but we can init it.
             pass 
             
+        # Sensory Signature (New in v2)
+        if len(data) > 12:
+            sphere.sensory_signature = data[12]
+            
         return sphere
     
     def __repr__(self) -> str:
         return (f"<ConceptSphere '{self.id}': "
                 f"Will={self.will.magnitude():.2f}, "
                 f"Emotions={len(self.emotions)}, "
-                f"SubConcepts={len(self.sub_concepts)}, "
+                f"Sensory={bool(self.sensory_signature)}, "
                 f"Mirror={self.mirror.intensity:.2f}>")

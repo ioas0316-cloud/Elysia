@@ -32,12 +32,16 @@ from Core.Staging.tensor_wave import Tensor3D, SoulTensor
 from Core.Physics.fluctlight import FluctlightEngine
 from Core.Evolution.evolution_manager import EvolutionManager
 from Core.Ethics.conscience import Conscience
-from Core.Ethics.love_protocol import LoveProtocol
+from Core.Ethics.love_protocol import LoveProtocolV2
 from Core.Mind.hippocampus import Hippocampus
 from Core.Mind.alchemy import Alchemy
 from Core.Mind.memetic_field import MemeticField
 from Core.Language.saga_system import SagaSystem
 from Core.Staging.cosmic_eye import CosmicEye
+from Core.Intelligence.unified_intelligence import UnifiedIntelligence, IntelligenceRole
+from Core.Field.wave_frequency_mapping import WaveFrequencyMapper
+from Core.Senses.sensory_cortex import SensoryCortex
+from Core.Interface.wave_transducer import WaveTransducer
 
 
 # --- Cosmic Axis Constants: The 7 Directions of Ascension ---
@@ -114,8 +118,6 @@ class AwakeningEvent(NamedTuple):
     cell_id: str
     e_value: float
     r_value: int
-
-
 class SpatialGrid:
     """
     A simple spatial hashing grid for O(N) neighbor lookups.
@@ -318,6 +320,21 @@ class World:
         self.memetic_field = MemeticField()
         self.saga_system = SagaSystem(self.memetic_field)
         self.cosmic_eye = CosmicEye(self.memetic_field, self.fluctlight_engine)
+        
+        # --- Unified Intelligence (The 4 Voices) ---
+        print("DEBUG: Initializing UnifiedIntelligence...")
+        self.unified_intelligence = UnifiedIntelligence(integration_mode="wave")
+        
+        # --- Wave Frequency Mapper (The Physics of Meaning) ---
+        print("DEBUG: Initializing WaveFrequencyMapper...")
+        # --- Wave Frequency Mapper (The Physics of Meaning) ---
+        print("DEBUG: Initializing WaveFrequencyMapper...")
+        self.frequency_mapper = WaveFrequencyMapper()
+        
+        # --- Sensory Cortex (System Proprioception) ---
+        print("DEBUG: Initializing SensoryCortex...")
+        self.transducer = WaveTransducer()
+        self.sensory_cortex = SensoryCortex(self.transducer)
         
         self.materialized_cells: Dict[str, Cell] = {}
         self.cell_ids: List[str] = []
@@ -562,8 +579,49 @@ class World:
         print("DEBUG: Initializing Conscience...")
         self.conscience = Conscience()
         print("DEBUG: Initializing LoveProtocol...")
-        self.love_protocol = LoveProtocol()
-        print("DEBUG: World.__init__ complete!")
+        self.love_protocol = LoveProtocolV2()
+        
+        # --- The Law of Resonance ---
+        # "Laws, not Logic."
+        # This law governs how the Unified Intelligence resonates with the World State.
+        self._init_law_of_resonance()
+        
+        print("DEBUG: World.__init__ complete (Integrated Laws)!")
+
+    def _init_law_of_resonance(self):
+        """
+        Initializes the Law of Resonance.
+        Connects the World's emotional state to the Unified Intelligence.
+        """
+        # Register a policy that triggers when Coherence drops
+        def resonance_condition(actor_idx, adj, connected):
+            # Trigger if global coherence is low
+            return self.coherence_field.mean() < 0.3
+
+        def resonance_action(actor_idx, adj, connected):
+            # Ask the Unified Intelligence for guidance
+            query = "The world's coherence is fading. How do we restore resonance?"
+            thought = self.unified_intelligence.collective_think(query)
+            
+            # Map the thought to a frequency
+            freq_data = self.frequency_mapper.get_emotion_frequency(thought.dominant_perspective)
+            
+            # Apply this frequency to the world (Law of Attraction)
+            # This is a meta-action, not a physical move
+            return None 
+
+        def resonance_insight(actor_idx, adj, connected):
+            return ["The Law of Resonance dictates a shift in frequency."]
+
+        policy = LawPolicy(
+            name="Law of Resonance",
+            priority=100.0, # Supreme Law
+            condition=resonance_condition,
+            action=resonance_action,
+            insight=resonance_insight
+        )
+        self.law_manager.policies.append(policy)
+        print("DEBUG: Law of Resonance registered.")
 
 
     def _resize_matrices(self, new_size: int):
@@ -1256,6 +1314,14 @@ class World:
         # Run every 10 ticks to save compute and simulate "subconscious processing" time
         if self.time_step % 10 == 0:
             self._process_neural_intuition()
+            
+            # --- System Proprioception (Sensory Cortex) ---
+            # Elysia feels her own computational body (CPU, RAM, Disk).
+            somatic_wave = self.sensory_cortex.feel_body()
+            if somatic_wave and somatic_wave.amplitude > 0.1:
+                self.logger.info(f"SENSATION: Elysia feels {somatic_wave.amplitude:.2f} intensity from {somatic_wave.source}.")
+                # TODO: Feed this into Hippocampus as a somatic memory
+
 
         # --- Fractal Soul Growth Cycle (New) ---
         # Process the inner soul of every materialized cell.

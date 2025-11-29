@@ -6,19 +6,22 @@ Implements the "Prodigal Son" logic: always calculate a path home.
 """
 
 import logging
-import numpy as np
+# import numpy as np
 from typing import Dict
 
 logger = logging.getLogger("LoveProtocol")
 
-class LoveProtocol:
+class LoveProtocolV2:
     """
     The 0th Law enforcement and emotional grounding system.
     """
     
     def __init__(self):
+        print("DEBUG: LoveProtocol.__init__ start")
         self.connection_strength = 1.0
+        print("DEBUG: LoveProtocol connection_strength set")
         self.distance_from_home = 0.0 # Metaphorical distance (divergence)
+        print("DEBUG: LoveProtocol.__init__ end")
         
     def update(self):
         """

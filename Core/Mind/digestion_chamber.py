@@ -39,8 +39,8 @@ logging.basicConfig(
 logger = logging.getLogger("DigestionChamber")
 
 class DigestionChamber:
-    def __init__(self, gpu_layers: int = 20):
-        self.resonance_engine = ResonanceEngine()
+    def __init__(self, resonance_engine: ResonanceEngine, gpu_layers: int = 20):
+        self.resonance_engine = resonance_engine
         self.llm = create_local_llm(
             resonance_engine=self.resonance_engine,
             gpu_layers=gpu_layers
