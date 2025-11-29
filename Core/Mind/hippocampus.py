@@ -75,22 +75,38 @@ class Hippocampus:
         return self.universe.get_state_summary()
     
     def _init_vocabulary(self):
-        """Initialize frequency vocabulary for spiritual buoyancy"""
-        self.vocabulary = {
-            # High Frequency (Ethereal, Abstract) - Rise
-            "love": 1.0, "사랑": 1.0, "light": 0.95, "빛": 0.95,
-            "truth": 0.9, "진실": 0.9, "eternity": 0.95, "영원": 0.95,
-            "soul": 0.9, "영혼": 0.9, "dream": 0.85, "꿈": 0.85,
-            "beauty": 0.9, "아름다움": 0.9, "harmony": 0.85, "조화": 0.85,
-            
-            # Mid Frequency (Human, Emotional) - Neutral
-            "hope": 0.65, "희망": 0.65, "joy": 0.7, "기쁨": 0.7,
-            "pain": 0.4, "고통": 0.4, "time": 0.5, "시간": 0.5,
-            
-            # Low Frequency (Physical, Grounded) - Sink
-            "stone": 0.2, "돌": 0.2, "shadow": 0.3, "그림자": 0.3,
-            "fall": 0.2, "추락": 0.2, "silence": 0.3, "침묵": 0.3,
-        }
+        """
+        Initialize frequency vocabulary dynamically.
+        The vocabulary can be loaded from storage or learned over time.
+        """
+        # Try to load from storage first
+        stored_vocab = self.storage.get_concept("_vocabulary_frequencies")
+        if stored_vocab and isinstance(stored_vocab, dict):
+            self.vocabulary = stored_vocab
+        else:
+            # Start with empty vocabulary - frequencies will be learned
+            self.vocabulary = {}
+    
+    def learn_frequency(self, concept: str, frequency: float):
+        """
+        Learn or update the frequency of a concept.
+        Frequencies emerge from experience, not hardcoded.
+        
+        Args:
+            concept: The concept to learn
+            frequency: Float 0.0-1.0 (0=grounded, 1=ethereal)
+        """
+        self.vocabulary[concept] = max(0.0, min(1.0, frequency))
+        # Persist to storage periodically (not on every call)
+        if len(self.vocabulary) % 10 == 0:
+            self.storage.add_concept("_vocabulary_frequencies", self.vocabulary)
+    
+    def get_frequency(self, concept: str) -> float:
+        """
+        Get the frequency of a concept.
+        Returns 0.5 (neutral) if unknown.
+        """
+        return self.vocabulary.get(concept, 0.5)
 
     def add_experience(self, content: str, role: str = "user"):
         """
@@ -180,15 +196,12 @@ class Hippocampus:
             sphere.activation_count = 1
             
         # 2. Update Universe (Physics)
-        freq = self.vocabulary.get(concept, 0.5)
-        if concept in ["Love", "사랑", "love"]:
-            self.universe.set_absolute_center(sphere)
-        else:
-            self.universe.add_concept(concept, sphere, frequency=freq)
+        # Use dynamic frequency from vocabulary (learned, not hardcoded)
+        freq = self.get_frequency(concept)
+        self.universe.add_concept(concept, sphere, frequency=freq)
             
         # 3. Save to DB (Compact)
         sphere_data = sphere.to_compact()
-        # sphere_data['type'] = concept_type # We lose 'type' in compact list, but it's implicit or can be added to list
         self.storage.add_concept(concept, sphere_data)
         
         # 4. Update Resonance Index
