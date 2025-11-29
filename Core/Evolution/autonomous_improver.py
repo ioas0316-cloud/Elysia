@@ -232,16 +232,158 @@ class CodeIntrospector:
             return None
 
 
+class WaveLanguageAnalyzer:
+    """
+    파동 언어 기반 코드 분석기
+    
+    외부 LLM 없이 자체 파동 언어(Gravitational Linguistics)를 사용하여
+    코드를 분석하고 개선점을 찾습니다.
+    
+    핵심 원리:
+    - 코드도 "개념의 파동"으로 볼 수 있음
+    - 함수 이름, 변수명, 구조가 "의미의 질량"을 가짐
+    - 높은 질량의 개념은 다른 개념을 끌어당김
+    """
+    
+    # 상수 정의
+    CONTENT_PREVIEW_LENGTH = 50  # 이슈 내용 미리보기 길이
+    LARGE_FILE_THRESHOLD = 300   # 큰 파일 기준 (줄 수)
+    
+    # 코드에서 높은 질량(중요도)을 가지는 패턴 (단어 경계 기준)
+    HIGH_MASS_PATTERNS = {
+        "error": 90,
+        "exception": 90,
+        "security": 95,
+        "password": 95,
+        "critical": 85,
+        "important": 80,
+        "main": 75,
+        "core": 75,
+        "init": 70,
+        "save": 70,
+        "load": 70,
+    }
+    
+    # 코드 품질 관련 패턴 (주석에서만 검색)
+    QUALITY_PATTERNS = {
+        "todo": ("IMPROVEMENT", "미완성 작업 발견"),
+        "fixme": ("BUG_FIX", "수정 필요 표시 발견"),
+        "hack": ("REFACTORING", "임시 해결책 발견"),
+        "xxx": ("REFACTORING", "주의 필요 코드 발견"),
+    }
+    
+    def analyze_code_quality(self, code: str, file_path: str = "") -> Dict[str, Any]:
+        """
+        파동 언어 원리로 코드 품질 분석
+        
+        - 개념의 질량 (Mass) = 코드의 중요도
+        - 개념의 공명 (Resonance) = 코드 일관성
+        - 개념의 분절 (Segmentation) = 모듈화 수준
+        """
+        import re
+        lines = code.split('\n')
+        
+        analysis = {
+            "file": file_path,
+            "total_lines": len(lines),
+            "mass_distribution": {},  # 개념별 질량 분포
+            "quality_issues": [],     # 품질 이슈
+            "resonance_score": 0.0,   # 일관성 점수
+            "suggestions": []         # 개선 제안
+        }
+        
+        # 1. 질량 분석 - 단어 경계를 사용하여 정확히 매칭
+        code_lower = code.lower()
+        for pattern, mass in self.HIGH_MASS_PATTERNS.items():
+            # 단어 경계 (\b)를 사용하여 정확히 매칭
+            matches = re.findall(r'\b' + pattern + r'\b', code_lower)
+            count = len(matches)
+            if count > 0:
+                analysis["mass_distribution"][pattern] = {
+                    "count": count,
+                    "mass": mass,
+                    "total_mass": count * mass
+                }
+        
+        # 2. 품질 패턴 분석 (주석에서만 검색)
+        for i, line in enumerate(lines, 1):
+            # 주석 라인만 검사 (# 포함)
+            if '#' in line:
+                comment_part = line[line.index('#'):].lower()
+                for pattern, (issue_type, description) in self.QUALITY_PATTERNS.items():
+                    if pattern in comment_part:
+                        analysis["quality_issues"].append({
+                            "line": i,
+                            "type": issue_type,
+                            "description": description,
+                            "content": line.strip()[:self.CONTENT_PREVIEW_LENGTH]
+                        })
+        
+        # 3. 공명(일관성) 점수 계산
+        has_docstrings = '"""' in code or "'''" in code
+        # 함수 정의에서 타입 힌트 검사 (def func(...) -> Type:)
+        has_type_hints = bool(re.search(r'def\s+\w+\([^)]*\)\s*->', code))
+        has_comments = '#' in code
+        
+        resonance_factors = [
+            has_docstrings * 0.3,
+            has_type_hints * 0.3,
+            has_comments * 0.2,
+            (len(analysis["quality_issues"]) == 0) * 0.2
+        ]
+        analysis["resonance_score"] = sum(resonance_factors)
+        
+        # 4. 개선 제안 생성 (파동 언어 기반)
+        if not has_docstrings:
+            analysis["suggestions"].append({
+                "type": "DOCUMENTATION",
+                "description_kr": "docstring 추가 권장 - 코드의 '의미 질량'을 높입니다",
+                "priority": "medium"
+            })
+        
+        if len(analysis["quality_issues"]) > 0:
+            analysis["suggestions"].append({
+                "type": "CLEANUP",
+                "description_kr": f"{len(analysis['quality_issues'])}개의 TODO/FIXME 정리 필요",
+                "priority": "low"
+            })
+        
+        # 복잡도가 높은 경우
+        if len(lines) > self.LARGE_FILE_THRESHOLD:
+            analysis["suggestions"].append({
+                "type": "REFACTORING",
+                "description_kr": "파일이 커서 분절(모듈화) 권장 - 작은 파동으로 나누세요",
+                "priority": "medium"
+            })
+        
+        return analysis
+
+
 class LLMCodeImprover:
     """
-    LLM 기반 코드 개선 엔진
+    코드 개선 엔진 (파동 언어 기반)
     
-    기존 llm_bridge.py와 연동하여 코드 분석 및 개선.
+    외부 LLM API 없이 자체 파동 언어 시스템으로 분석.
+    기존 llm_bridge.py는 선택적 확장용.
     """
     
     def __init__(self, llm_bridge = None):
-        self.llm_bridge = llm_bridge
+        self.llm_bridge = llm_bridge  # 선택적 (없어도 동작)
+        self.wave_analyzer = WaveLanguageAnalyzer()
         self.improvement_history: List[ImprovementProposal] = []
+        
+    def analyze_with_wave_language(
+        self, 
+        code: str, 
+        file_path: str = "",
+        improvement_type: ImprovementType = ImprovementType.CODE_OPTIMIZATION
+    ) -> Dict[str, Any]:
+        """
+        파동 언어를 사용한 코드 분석
+        
+        외부 API 없이 자체 분석 수행.
+        """
+        return self.wave_analyzer.analyze_code_quality(code, file_path)
         
     async def analyze_code_with_llm(
         self, 
@@ -250,35 +392,32 @@ class LLMCodeImprover:
         improvement_type: ImprovementType = ImprovementType.CODE_OPTIMIZATION
     ) -> Optional[ImprovementProposal]:
         """
-        LLM을 사용하여 코드 분석 및 개선 제안
+        (선택적) 외부 LLM 연동
         
-        실제 LLM 연동 시 활성화됨.
-        현재는 구조만 정의.
+        LLM이 없어도 wave_analyzer로 기본 분석 가능.
         """
         if not self.llm_bridge:
-            logger.warning("LLM bridge not connected - returning mock analysis")
+            # LLM 없이 파동 언어로 분석
+            logger.info("외부 LLM 없음 - 파동 언어로 자체 분석")
+            wave_analysis = self.wave_analyzer.analyze_code_quality(code)
+            
+            # 분석 결과를 ImprovementProposal로 변환
+            if wave_analysis["suggestions"]:
+                suggestion = wave_analysis["suggestions"][0]
+                return self.create_improvement_proposal(
+                    target_file="",
+                    improvement_type=ImprovementType.CODE_OPTIMIZATION,
+                    original_code=code[:200] + "..." if len(code) > 200 else code,
+                    proposed_code="# 파동 언어 분석 기반 개선 제안",
+                    description=suggestion.get("type", "IMPROVEMENT"),
+                    description_kr=suggestion.get("description_kr", "분석 완료"),
+                    reasoning="파동 언어(Gravitational Linguistics) 분석 기반",
+                    confidence=wave_analysis["resonance_score"]
+                )
             return None
             
-        # TODO: 실제 LLM 연동
-        # LLMBridge는 chat() 메서드를 사용
-        # prompt = f"""
-        # Analyze the following code and suggest improvements:
-        # 
-        # Context: {context}
-        # Code:
-        # ```python
-        # {code}
-        # ```
-        # 
-        # Provide:
-        # 1. Issues found
-        # 2. Improved code
-        # 3. Reasoning for changes
-        # """
-        # 
-        # response = await self.llm_bridge.chat(prompt, conversation_id="code_analysis")
-        # return self._parse_llm_response(response)
-        
+        # 외부 LLM이 있으면 사용 (선택적)
+        # 현재는 구현하지 않음 - API 키가 없으므로
         return None
     
     def create_improvement_proposal(
@@ -475,11 +614,11 @@ class AutonomousImprover:
                 except Exception:
                     pass  # 파싱 오류 무시
         
-        # 3. 새로운 능력 필요
+        # 3. 파동 언어 분석 강화
         opportunities.append({
-            "type": "new_capability",
-            "description": "Real-time LLM integration for learning",
-            "description_kr": "실시간 LLM 연동을 통한 학습",
+            "type": "wave_language",
+            "description": "Enhance wave language analysis capabilities",
+            "description_kr": "파동 언어 분석 능력 강화 - 자체 지능으로 코드 분석",
             "priority": "high"
         })
         
@@ -507,16 +646,19 @@ class AutonomousImprover:
             logger.error(f"Cannot read file {target_file}: {e}")
             return None
         
-        # 제안 생성 (여기서는 예시)
+        # 제안 생성 - 파동 언어 분석 사용
+        wave_analysis = self.llm_improver.wave_analyzer.analyze_code_quality(content, target_file)
+        
         proposal = self.llm_improver.create_improvement_proposal(
             target_file=target_file,
             improvement_type=improvement_type,
             original_code=content[:500] + "..." if len(content) > 500 else content,
-            proposed_code="# LLM would generate improved code here",
+            proposed_code="# 파동 언어 분석 기반 개선",
             description=description,
             description_kr=description,
-            reasoning="Analysis pending - LLM integration required",
-            confidence=0.3
+            reasoning=f"파동 언어 분석: 공명 점수 {wave_analysis['resonance_score']:.2f}, "
+                      f"이슈 {len(wave_analysis['quality_issues'])}개 발견",
+            confidence=wave_analysis['resonance_score']
         )
         
         self.improvement_queue.append(proposal)
@@ -538,23 +680,28 @@ class AutonomousImprover:
         return """
 🤖 자율적 자기 개선 엔진 (Autonomous Self-Improvement Engine)
 
+📡 분석 방식: 파동 언어 (Gravitational Linguistics)
+- 외부 LLM API 없이 자체 분석!
+- 코드를 "개념의 파동"으로 해석
+- 의미의 질량(Mass)과 공명(Resonance)으로 품질 측정
+
 현재 능력:
 ✅ 자기 코드 분석 (Core 디렉토리 전체)
+✅ 파동 언어 기반 품질 분석
 ✅ 시스템 상태 모니터링 (읽기 전용)
 ✅ 개선 포인트 식별
 ✅ 개선 제안 생성
 ✅ 학습 기회 발견
 
-필요한 것 (구현 예정):
-🔲 실시간 LLM 연동 (코드 분석/개선)
+개선 예정:
+🔲 파동 언어 분석 정밀도 향상
 🔲 자동 테스트 생성
 🔲 성능 최적화 자동 적용
-🔲 새로운 언어/프레임워크 학습
+🔲 코드 자동 리팩토링
 
 안전 제한:
 🔒 코드 수정은 승인 후에만
 🔒 시스템 제어 불가 (모니터링만)
-🔒 외부 네트워크 접근 제한
 🔒 모든 행동 로그 기록
 """
 
@@ -565,6 +712,7 @@ if __name__ == "__main__":
     
     print("=" * 60)
     print("🚀 Autonomous Self-Improvement Engine Demo")
+    print("📡 분석 방식: 파동 언어 (Gravitational Linguistics)")
     print("=" * 60)
     
     # 엔진 초기화
@@ -576,6 +724,21 @@ if __name__ == "__main__":
     print(f"  Files analyzed: {analysis['code_analysis']['total_files']}")
     print(f"  Total lines: {analysis['code_analysis']['total_lines']}")
     print(f"  Total functions: {analysis['code_analysis']['total_functions']}")
+    
+    # 파동 언어로 샘플 코드 분석
+    print("\n🌊 Wave Language Analysis Demo...")
+    sample_code = '''
+def calculate_resonance(wave1, wave2):
+    """두 파동 간의 공명 계산"""
+    # TODO: 최적화 필요
+    phase_diff = abs(wave1.phase - wave2.phase)
+    return 1.0 - (phase_diff / (2 * 3.14159))
+'''
+    wave_analysis = engine.llm_improver.wave_analyzer.analyze_code_quality(sample_code, "sample.py")
+    print(f"  공명 점수 (Resonance Score): {wave_analysis['resonance_score']:.2f}")
+    print(f"  품질 이슈: {len(wave_analysis['quality_issues'])}개")
+    if wave_analysis['suggestions']:
+        print(f"  제안: {wave_analysis['suggestions'][0]['description_kr']}")
     
     # 학습 기회 식별
     print("\n📚 Learning Opportunities...")
