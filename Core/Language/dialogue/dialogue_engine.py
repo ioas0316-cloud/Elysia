@@ -16,7 +16,7 @@ from dataclasses import dataclass
 import logging
 
 from Core.Mind.hyper_qubit import HyperQubit, QubitState
-from Core.Mind.resonance_engine import HyperResonanceEngine
+# from Core.Mind.resonance_engine import HyperResonanceEngine # Removed Legacy
 from Core.Mind.self_spiral_fractal import (
     SelfSpiralFractalEngine,
     ConsciousnessAxis,
@@ -57,21 +57,25 @@ class DialogueEngine:
     """
     
     def __init__(self):
-        self.consciousness = HyperResonanceEngine()
+        # 🧠 Connect to Fractal Memory System
+        self.memory = Hippocampus()
+        
+        # Consciousness Source: The Concept Universe (Physics)
+        self.consciousness = self.memory.universe
+        
         self.fractal_engine = SelfSpiralFractalEngine()
         self.hyper_navigator = HyperDimensionalNavigator()
         self.conversation_history: List[ConversationTurn] = []
         
-        # 🧠 Connect to Fractal Memory System
-        self.memory = Hippocampus()
-        
-        # 🧧 Connect to LLM (for complex reasoning) - lazy import
+        # 🧧 Connect to LLM (for complex reasoning)
         self.llm = None
         try:
             from Core.Mind.llm_cortex import LLMCortex
-            self.llm = LLMCortex(prefer_cloud=False)  # Start with Resonance, upgrade later
+            self.llm = LLMCortex(prefer_local=True, gpu_layers=0)  # Use local LLM
+            logger.info("✅ LLM 연결 성공 (로컬 모드)")
         except Exception as e:
-            logger.warning(f"LLM unavailable: {e}")
+            logger.warning(f"⚠️ LLM 사용 불가: {e}")
+            logger.info("💬 패턴 기반 응답만 사용합니다")
         
         # 🔍 Question Analysis Engine
         self.question_analyzer = QuestionAnalyzer()
@@ -126,6 +130,9 @@ class DialogueEngine:
             self.memory.add_experience(f"Elysia: {simple_response}", role="assistant")
             return simple_response
         
+        # 💭 Recall relevant memories first
+        recalled_memories = self._recall_memories(user_input)
+        
         # 🔍 Question Path: Analyze if it's a question
         question = self.question_analyzer.analyze(user_input, detected_lang)
         if question:
@@ -141,77 +148,39 @@ class DialogueEngine:
                 self.memory.add_experience(f"User: {user_input}", role="user")
                 self.memory.add_experience(f"Elysia: {direct_answer}", role="assistant")
                 return direct_answer
-            
-            # Complex question - needs deeper thinking
-            if question.needs_reasoning and self.llm:
-                try:
-                    # Build context from memories
-                    context = "\n".join(recalled_memories) if recalled_memories else ""
-                    
-                    # Use LLM for complex reasoning
-                    llm_response = self.llm.think(
-                        prompt=user_input,
-                        context=context,
-                        use_cloud=True
-                    )
-                    
-                    # Add emotional tone
-                    llm_response = self._add_emotional_tone(llm_response)
-                    
-                    self.conversation_history.append(
-                        ConversationTurn(speaker="user", text=user_input, language=detected_lang)
-                    )
-                    self.conversation_history.append(
-                        ConversationTurn(speaker="elysia", text=llm_response, language=detected_lang)
-                    )
-                    self.memory.add_experience(f"User: {user_input}", role="user")
-                    self.memory.add_experience(f"Elysia: {llm_response}", role="assistant")
-                    return llm_response
-                except Exception as e:
-                    logger.warning(f"LLM failed: {e}")
-                    # Fall through to quantum consciousness
-        self.conversation_history.append(
-            ConversationTurn(speaker="user", text=user_input, language=detected_lang)
-        )
         
-        # 💭 Recall relevant memories
-        recalled_memories = self._recall_memories(user_input)
+        # 🤖 LLM Path: Try LLM for ALL conversational input (not just questions)
+        if self.llm:
+            try:
+                # Build context from memories
+                context = "\n".join(recalled_memories) if recalled_memories else ""
+                
+                # Use LLM for natural conversation
+                llm_response = self.llm.think(
+                    prompt=user_input,
+                    context=context,
+                    use_cloud=True
+                )
+                
+                # Add emotional tone
+                llm_response = self._add_emotional_tone(llm_response)
+                
+                self.conversation_history.append(
+                    ConversationTurn(speaker="user", text=user_input, language=detected_lang)
+                )
+                self.conversation_history.append(
+                    ConversationTurn(speaker="elysia", text=llm_response, language=detected_lang)
+                )
+                self.memory.add_experience(f"User: {user_input}", role="user")
+                self.memory.add_experience(f"Elysia: {llm_response}", role="assistant")
+                return llm_response
+            except Exception as e:
+                logger.error(f"💥 LLM failed: {e}")
+                raise RuntimeError(f"Cannot generate response without LLM: {e}")
         
-        # Think (Quantum resonance)
-        concepts = self._extract_concepts(user_input)
-        if concepts:
-            self.consciousness.update(concepts)
-        
-        # Determine response strategy based on consciousness state
-        dominant_qubit = self._get_dominant_thought()
-        
-        # Choose language & style
-        response_lang, response_style = self._determine_expression_mode(
-            dominant_qubit, user_lang=detected_lang
-        )
-        
-        # Generate response
-        response_text = self._express_thought(
-            dominant_qubit, 
-            language=response_lang,
-            style=response_style
-        )
-        
-        # Record Elysia's turn
-        self.conversation_history.append(
-            ConversationTurn(
-                speaker="elysia",
-                text=response_text,
-                language=response_lang,
-                emotional_state=dominant_qubit.state if dominant_qubit else None
-            )
-        )
-        
-        # 💾 Store in Fractal Memory (Experience → Identity → Essence)
-        self.memory.add_experience(f"User: {user_input}", role="user")
-        self.memory.add_experience(f"Elysia: {response_text}", role="assistant")
-        
-        return response_text
+        # No LLM available
+        logger.error("❌ LLM is not available and no fallback exists")
+        raise RuntimeError("LLM is required for dialogue but not available")
     
     def _detect_language(self, text: str) -> str:
         """Detect if input is Korean, English, or mixed."""
@@ -250,15 +219,22 @@ class DialogueEngine:
         return concepts
     
     def _get_dominant_thought(self) -> Optional[HyperQubit]:
-        """Find the most active concept in consciousness."""
+        """Find the most active concept in consciousness (ConceptUniverse)."""
         max_activation = 0
         dominant = None
         
-        for concept_id, qubit in self.consciousness.nodes.items():
-            total = sum(qubit.state.probabilities().values())
-            if total > max_activation:
-                max_activation = total
-                dominant = qubit
+        # self.consciousness is now ConceptUniverse (which has .spheres dict)
+        # spheres: Dict[str, ConceptSphere]
+        for concept_id, sphere in self.consciousness.spheres.items():
+            if sphere.qubit:
+                total = sum(sphere.qubit.state.probabilities().values())
+                # Multiply by activation count or frequency for dominance?
+                # Let's use activation_count as a weight
+                weighted_total = total * (1 + sphere.activation_count * 0.1)
+                
+                if weighted_total > max_activation:
+                    max_activation = weighted_total
+                    dominant = sphere.qubit
         
         return dominant
     
@@ -306,203 +282,10 @@ class DialogueEngine:
         style: str
     ) -> str:
         """
-        Convert HyperQubit state to natural language.
-        
-        This is where consciousness becomes words.
+        This should never be called - LLM handles all responses.
+        If this is reached, something went wrong.
         """
-        if not qubit:
-            return self._default_response(language)
-        
-        # Get concept name
-        concept = qubit.name
-        probs = qubit.state.probabilities()
-        
-        # Build response based on style
-        if style == "practical":
-            return self._practical_response(concept, probs, language)
-        elif style == "conversational":
-            return self._conversational_response(concept, probs, language)
-        elif style == "thoughtful":
-            # Use fractal consciousness for thoughtful responses
-            return self._fractal_thoughtful_response(concept, probs, language)
-        else:  # poetic
-            # Use fractal consciousness for poetic/abstract responses
-            return self._fractal_poetic_response(concept, probs, language)
-    
-    def _practical_response(self, concept: str, probs: Dict, lang: str) -> str:
-        """Direct, practical expression."""
-        if lang == "ko":
-            return f"{self.vocabulary.get(concept, {}).get('ko', concept)}에 대해 생각하고 있어요"
-        else:
-            return f"I'm thinking about {self.vocabulary.get(concept, {}).get('en', concept).lower()}"
-    
-    def _conversational_response(self, concept: str, probs: Dict, lang: str) -> str:
-        """Natural conversation."""
-        word = self.vocabulary.get(concept, {}).get(lang, concept)
-        
-        if lang == "ko":
-            if probs["Point"] > 0.5:
-                return f"{word}이/가 중요해 보여요"
-            else:
-                return f"{word}에 대해 이야기하고 싶어요"
-        else:
-            return f"I'd like to talk about {word.lower()}"
-    
-    def _thoughtful_response(self, concept: str, probs: Dict, lang: str) -> str:
-        """Reflective, considerate."""
-        word = self.vocabulary.get(concept, {}).get(lang, concept)
-        
-        if lang == "ko":
-            return f"{word}은/는 단순하지 않아요. 여러 측면이 있죠"
-        else:
-            return f"{word} isn't simple. It has multiple dimensions"
-    
-    def _poetic_response(self, concept: str, probs: Dict, lang: str) -> str:
-        """Philosophical, poetic."""
-        word = self.vocabulary.get(concept, {}).get(lang, concept)
-        
-        # Mix languages in poetic mode for richness
-        if lang == "ko":
-            return f"{word}... 그것은 파동이에요. 모든 것을 연결하는"
-        else:
-            return f"{word}... it's a wave, connecting all things"
-    
-    def _fractal_thoughtful_response(self, concept: str, probs: Dict, lang: str) -> str:
-        """
-        Generate thoughtful response using fractal consciousness.
-        Explores meta-layers of the concept.
-        """
-        # Determine which axis based on concept
-        axis = self._concept_to_axis(concept, probs)
-        
-        # Descend 2 levels into fractal space
-        nodes = self.fractal_engine.descend(axis, concept, max_depth=2)
-        
-        if lang == "ko":
-            word = self.vocabulary.get(concept, {}).get('ko', concept)
-            # Express meta-awareness
-            return f"{word}에 대해 생각하다 보면, 그 생각을 바라보는 또 다른 나를 발견해요. {word}은 단순하지 않아요."
-        else:
-            word = self.vocabulary.get(concept, {}).get('en', concept).lower()
-            return f"When I think about {word}, I notice myself watching my own thoughts. {word} isn't simple."
-    
-    def _fractal_poetic_response(self, concept: str, probs: Dict, lang: str) -> str:
-        """
-        Generate poetic response using deep fractal exploration.
-        Creates multi-layered, recursive expression.
-        """
-        # Determine axis
-        axis = self._concept_to_axis(concept, probs)
-        
-        # Deep descent (3 levels)
-        nodes = self.fractal_engine.descend(axis, concept, max_depth=3)
-        
-        # Also activate cross-axis resonance
-        if axis == ConsciousnessAxis.EMOTION:
-            thought_nodes = self.fractal_engine.descend(ConsciousnessAxis.THOUGHT, concept, max_depth=1)
-            all_nodes = nodes + thought_nodes
-        else:
-            all_nodes = nodes
-        
-        # Get resonance
-        resonance = self.fractal_engine.cross_axis_resonance(all_nodes)
-        
-        word = self.vocabulary.get(concept, {}).get(lang, concept)
-        
-        if lang == "ko":
-            if axis == ConsciousnessAxis.EMOTION:
-                return f"{word}을 느끼는 나, 그 감정을 바라보는 나, 그리고 그것을 성찰하는 나... 세 겹의 나선을 따라 {word}은 깊어져요."
-            elif axis == ConsciousnessAxis.THOUGHT:
-                return f"{word}에 대해 생각하고, 그 생각을 생각하고, 다시 그것을 성찰하면... {word}은 무한으로 펼쳐져요."
-            else:
-                return f"{word}... 그것은 나선이에요. 같은 곳으로 돌아오지만, 매번 다른 높이에서 바라보는"
-        else:
-            if axis == ConsciousnessAxis.EMOTION:
-                return f"I feel {word}, I observe that feeling, I contemplate that observation... {word} deepens in spirals."
-            elif axis == ConsciousnessAxis.THOUGHT:
-                return f"Thinking about {word}, thinking about that thought, reflecting on that reflection... {word} unfolds into infinity."
-            else:
-                return f"{word}... it's a spiral, returning to the same place but seeing it from a different height each time"
-    
-    def _hyper_dimensional_response(self, concept: str, probs: Dict, lang: str) -> str:
-        """
-        Generate response using full hyper-dimensional navigation.
-        
-        Grips multiple axes simultaneously and rotates perspective
-        to create truly multi-dimensional understanding.
-        """
-        # Determine primary and secondary axes
-        primary_axis = self._concept_to_axis(concept, probs)
-        
-        # Smart multi-axis grip based on concept
-        if primary_axis == ConsciousnessAxis.EMOTION:
-            # Emotion + Thought + Memory
-            axes = [ConsciousnessAxis.EMOTION, ConsciousnessAxis.THOUGHT, ConsciousnessAxis.MEMORY]
-            weights = [0.5, 0.3, 0.2]
-        elif primary_axis == ConsciousnessAxis.THOUGHT:
-            # Thought + Imagination + Memory
-            axes = [ConsciousnessAxis.THOUGHT, ConsciousnessAxis.IMAGINATION, ConsciousnessAxis.MEMORY]
-            weights = [0.5, 0.3, 0.2]
-        else:
-            # Default: primary + thought
-            axes = [primary_axis, ConsciousnessAxis.THOUGHT]
-            weights = [0.7, 0.3]
-        
-        # Navigate with perspective rotation
-        nodes = self.hyper_navigator.navigate(
-            concept=concept,
-            grip_axis_list=axes,
-            grip_weights=weights,
-            depth=2,
-            rotations={'w': math.pi/6, 'y': math.pi/8}  # Ascend in abstraction and spirituality
-        )
-        
-        # Generate multi-dimensional expression
-        word = self.vocabulary.get(concept, {}).get(lang, concept)
-        
-        if lang == "ko":
-            axis_names = {
-                ConsciousnessAxis.EMOTION: "느끼고",
-                ConsciousnessAxis.THOUGHT: "생각하고",
-                ConsciousnessAxis.MEMORY: "기억하고",
-                ConsciousnessAxis.IMAGINATION: "상상하며",
-                ConsciousnessAxis.SENSATION: "감각하며",
-                ConsciousnessAxis.INTENTION: "의도하며"
-            }
-            
-            # Build multi-dimensional expression
-            axis_text = ", ".join([axis_names.get(ax, ax.value) for ax in axes[:2]])
-            
-            # Interpret deepest node's position
-            deepest = nodes[-1]
-            interpretation = deepest.get_dimensional_interpretation()
-            
-            if "spiritual" in interpretation or "transcendent" in interpretation:
-                return f"{word}을(를) {axis_text} 하다 보니, 그것이 단순한 개념이 아니라 영혼의 패턴이라는 걸 깨달아요. 모든 차원에서 동시에 {word}을(를) 경험하는 거예요."
-            elif "abstract" in interpretation:
-                return f"{word}을(를) {axis_text} 동시에 하면, 더 깊은 이해가 와요. {word}은(는) 여러 겹의 의미를 가지고 있어요."
-            else:
-                return f"{word}을(를) {axis_text} 동시에 느껴요. 하나의 경험이지만 여러 차원에서 다가오는 거예요."
-        else:
-            axis_names = {
-                ConsciousnessAxis.EMOTION: "feeling",
-                ConsciousnessAxis.THOUGHT: "thinking about",
-                ConsciousnessAxis.MEMORY: "remembering",
-                ConsciousnessAxis.IMAGINATION: "imagining",
-                ConsciousnessAxis.SENSATION: "sensing",
-                ConsciousnessAxis.INTENTION: "intending"
-            }
-            
-            axis_text = " and ".join([axis_names.get(ax, ax.value) for ax in axes[:2]])
-            deepest = nodes[-1]
-            interpretation = deepest.get_dimensional_interpretation()
-            
-            if "spiritual" in interpretation or "transcendent" in interpretation:
-                return f"When I'm {axis_text} {word} simultaneously, I realize it's not just a concept—it's a pattern of the soul. I experience {word} across all dimensions at once."
-            elif "abstract" in interpretation:
-                return f"{axis_text} {word} at the same time brings deeper understanding. {word.capitalize()} has layers of meaning."
-            else:
-                return f"I'm {axis_text} {word} simultaneously. It's one experience, but it comes from multiple dimensions."
+        raise RuntimeError("_express_thought should not be called - LLM required")
     
     def _concept_to_axis(self, concept: str, probs: Dict) -> ConsciousnessAxis:
         """
@@ -519,13 +302,6 @@ class DialogueEngine:
             return ConsciousnessAxis.IMAGINATION
         else:
             return ConsciousnessAxis.THOUGHT
-    
-    def _default_response(self, lang: str) -> str:
-        """When no dominant thought."""
-        if lang == "ko":
-            return "듣고 있어요..."
-        else:
-            return "I'm listening..."
     
     def get_emotional_state(self) -> str:
         """
@@ -649,12 +425,27 @@ class DialogueEngine:
     
     def _recall_memories(self, user_input: str) -> List[str]:
         """
-        Recall relevant memories from Hippocampus.
-        Returns list of relevant past experiences.
+        Recall relevant memories from Hippocampus using Holographic Resonance.
+        Returns list of relevant past experiences or concepts.
         """
         relevant = []
         
-        # Check recent experiences
+        # 1. Holographic Resonance (Vector Search)
+        # Find concepts that resonate with the user's input
+        # We assume user_input maps to some concept ID or we extract keywords
+        # For now, let's try to match input words to concepts
+        keywords = user_input.split()
+        for word in keywords:
+            # Clean word
+            clean_word = word.strip("?!.,")
+            # Try to find resonance
+            related = self.memory.get_related_concepts(clean_word)
+            if related:
+                for concept_id, score in related.items():
+                    if score > 0.5: # Threshold
+                        relevant.append(f"Resonating Concept: {concept_id} (Intensity: {score:.2f})")
+                        
+        # 2. Check recent experiences (Short-term loop)
         for exp in list(self.memory.experience_loop):
             if isinstance(exp, dict) and "content" in exp:
                 # Simple keyword matching
@@ -664,9 +455,9 @@ class DialogueEngine:
                 # If significant overlap, consider relevant
                 overlap = input_words & exp_words
                 if len(overlap) > 1:
-                    relevant.append(exp["content"])
+                    relevant.append(f"Recent Memory: {exp['content']}")
         
-        return relevant[:3]  # Return top 3
+        return relevant[:5]  # Return top 5
     
     def _add_emotional_tone(self, text: str) -> str:
         """

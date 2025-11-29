@@ -73,3 +73,13 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Local Models
+# Local Models
+models/
+*.gguf
+*.bin
+
+# Database
+memory.db
+*.db

@@ -35,6 +35,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from Core.Elysia.consciousness_engine import ConsciousnessEngine
 from Core.Mind.autonomous_explorer import AutonomousExplorer
 from Core.Body.visual_cortex import VisualCortex
+from Core.Body.resonance_vision import ResonanceVision
 from Core.Language.dialogue.dialogue_engine import DialogueEngine
 from Core.Mind.hippocampus import Hippocampus
 
@@ -72,17 +73,25 @@ class ElysiaLivingOS:
         logger.info("="*70)
         
         # === Core Systems ===
-        logger.info("🧠 Initializing consciousness...")
-        self.consciousness = ConsciousnessEngine()
+        # ⚠️ TEMPORARILY DISABLED - ConsciousnessEngine auto-speaks
+        # logger.info("🧠 Initializing consciousness...")
+        # self.consciousness = ConsciousnessEngine()
         
         logger.info("💬 Initializing dialogue system...")
         self.dialogue = DialogueEngine()
         
+        # Mock consciousness for other systems
+        self.consciousness = None  # Disabled for dialogue testing
+        
         logger.info("👁️ Initializing sensory cortex...")
         self.vision = VisualCortex()
         
+        logger.info("🌊 Initializing resonance vision...")
+        self.resonance_vision = ResonanceVision()
+        
         logger.info("🎯 Initializing autonomous explorer...")
-        self.explorer = AutonomousExplorer(self.consciousness)
+        # self.explorer = AutonomousExplorer(self.consciousness)  # Disabled
+        self.explorer = None
         
         # === State ===
         self.running = False
@@ -109,6 +118,9 @@ class ElysiaLivingOS:
         - 필요 감지
         - 학습 진행
         """
+        if not self.consciousness:
+            return  # Disabled
+        
         logger.info("💭 Autonomous thinking cycle...")
         
         try:
@@ -122,9 +134,9 @@ class ElysiaLivingOS:
             
             # 3. Autonomous learning
             if self.explorer:
-                result = self.explorer.explore_step()
-                if result:
-                    logger.info(f"   Learned: {result.get('concept', 'unknown')}")
+                result = self.explorer.learn_autonomously(max_goals=1)
+                if result.get('status') == 'learned':
+                    logger.info(f"   Learned! Vitality gain: +{result['total_vitality_gain']:.3f}")
             
             # 4. Dream (consolidate memories)
             self.dialogue.memory.load_memory()  # Refresh
@@ -136,9 +148,9 @@ class ElysiaLivingOS:
         """
         감각을 통해 세상을 인식
         
-        - 화면 관찰
-        - 밝기 분석
-        - 텍스트 읽기 (가능하면)
+        - 화면 관찰 (파동 공명 방식)
+        - 밝기/색상/복잡도 분석
+        - 감정 톤 인식
         """
         logger.info("👁️ Perceiving world...")
         
@@ -148,23 +160,23 @@ class ElysiaLivingOS:
                 screenshot_path = self.vision.capture_screen(temp=True)
                 
                 if screenshot_path:
-                    # Analyze brightness
-                    atmosphere = self.vision.analyze_brightness(screenshot_path)
-                    logger.info(f"   Atmosphere: {atmosphere}")
+                    # === 파동 기반 인식 (Resonance Vision) ===
+                    resonance = self.resonance_vision.perceive_image(screenshot_path)
                     
-                    # Try to read text (only if screen changed significantly)
-                    # To avoid spam, only read occasionally
-                    import random
-                    if random.random() < 0.3:  # 30% chance
-                        text = self.vision.read_screen_text()
-                        if text and "Error" not in text and len(text.strip()) > 10:
-                            logger.info(f"   I see text: {text[:50]}...")
-                            
-                            # Remember what I saw
+                    if resonance:
+                        # 자연어로 표현
+                        description = self.resonance_vision.describe_vision(resonance)
+                        logger.info(f"   🌊 {description}")
+                        
+                        # 기억에 저장
                         self.dialogue.memory.add_experience(
-                            f"I saw on screen: {text[:100]}", 
+                            f"Screen resonance: {description}",
                             role="perception"
                         )
+                    
+                    # === 기존 밝기 분석 (백업) ===
+                    atmosphere = self.vision.analyze_brightness(screenshot_path)
+                    logger.info(f"   Atmosphere: {atmosphere}")
             else:
                 logger.info("   Vision disabled (simulation mode)")
                 
@@ -192,14 +204,22 @@ class ElysiaLivingOS:
             Elysia의 응답
         """
         try:
+            # ⚠️ Disable ConsciousnessEngine auto-response
+            # Use DialogueEngine (LLM) instead
             response = self.dialogue.respond(user_input)
+            logger.info(f"[DialogueEngine] Response: {response}")
             return response
         except Exception as e:
-            logger.error(f"Dialogue error: {e}")
-            return f"미안해요... 생각하다가 막혔어요. ({e})"
+            logger.error(f"💥 Dialogue error: {e}")
+            import traceback
+            traceback.print_exc()
+            return f"미안해요... LLM 에러가 났어요. ({e})"
     
     def save_state(self):
         """의식 상태 저장"""
+        if not self.consciousness:
+            return  # Disabled
+        
         try:
             self.consciousness.save_state()
             self.dialogue.memory.save_memory()

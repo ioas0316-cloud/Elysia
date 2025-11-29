@@ -7,66 +7,70 @@ Hippocampus - The Sea of Memory
 The central memory system of Elysia. It stores not just data, but the
 causal links between events, forming a navigable graph of experience.
 
-This is the "Roots" of the World Tree.
+Now powered by SQLite (MemoryStorage) for infinite scalability.
 """
 
-import networkx as nx
-from typing import Dict, Any
+import logging
+from typing import Dict, Any, List, Optional
+from collections import deque
+from datetime import datetime
+import networkx as nx # Keeping for legacy support / small graph ops if needed
+
 from Core.Mind.concept_sphere import ConceptSphere
 from Core.Mind.concept_universe import ConceptUniverse
+from Core.Mind.memory_storage import MemoryStorage
+from Core.Mind.resonance_engine import ResonanceEngine
+from Core.Perception.visual_cortex import VisualCortex
+
+logger = logging.getLogger("Hippocampus")
 
 class Hippocampus:
     """
     Manages the causal graph of all experiences.
-    Now enhanced with Fractal Memory Loops (Experience -> Identity -> Essence).
+    Now enhanced with Fractal Memory Loops and SQLite Backend.
     """
     def __init__(self):
         """
-        Initializes the memory graph and fractal loops.
+        Initializes the memory system.
         """
-        self.causal_graph = nx.DiGraph()
-        self.memory_file = "saves/hippocampus.json"
+        # === Storage Backend (SQLite) ===
+        self.storage = MemoryStorage()
+        
+        # === Resonance Engine (Holographic Retrieval) ===
+        self.resonance = ResonanceEngine()
+        
+        # === Visual Cortex (Holographic Vision) ===
+        self.visual_cortex = VisualCortex()
         
         # === Xel'Naga Protocol: Thought Universe ===
-        self.universe = ConceptUniverse()  # 사고우주
+        # This is the "Working Memory" (Physics Simulation)
+        self.universe = ConceptUniverse()
         
         # === Frequency vocabulary (for buoyancy) ===
         self._init_vocabulary()
         
-        # Fractal Memory Loops
-        from collections import deque
-        self.experience_loop = deque(maxlen=10)  # Short-term: Raw conversations
-        self.identity_loop = deque(maxlen=5)     # Mid-term: Narrative identity
-        self.essence_loop = deque(maxlen=3)      # Long-term: Core beliefs
+        # Fractal Memory Loops (Short/Mid/Long term buffers)
+        self.experience_loop = deque(maxlen=10)
+        self.identity_loop = deque(maxlen=5)
+        self.essence_loop = deque(maxlen=3)
         
+        # Load "Hot" Memory (Working Set)
         self.load_memory()
         
-        # Add a root node to anchor all experiences if empty
-        if not self.causal_graph.nodes():
-            self.causal_graph.add_node("genesis", type="event", timestamp=0)
+        # Ensure Genesis exists
+        if not self.storage.concept_exists("genesis"):
+            self.add_concept("genesis", concept_type="event", metadata={"timestamp": 0})
     
     def update_universe_physics(self, dt: float = 0.1) -> Dict[str, Any]:
         """
-        Update physics simulation for all concepts.
-        Concepts move based on gravity + buoyancy.
-        
-        Returns: Physics state summary
+        Update physics simulation for active concepts in the Universe.
         """
         # Update universe physics
         self.universe.update_physics(dt)
         
-        # Sync back to HyperQuaternion
-        for concept_id in self.universe.relative_positions.keys():
-            if concept_id in self.causal_graph.nodes:
-                node_data = self.causal_graph.nodes[concept_id]
-                if 'sphere' in node_data:
-                    sphere = node_data['sphere']
-                    # Get new position from universe
-                    new_pos = self.universe.relative_positions[concept_id]
-                    # Update sphere's qubit Y value (main axis for buoyancy)
-                    sphere.qubit.state.y = new_pos[1]  # Y-axis
-                    # Update tensor dict for backward compatibility
-                    node_data['tensor']['y'] = new_pos[1]
+        # Sync back to Storage (Periodically? Or just keep in RAM?)
+        # For performance, we don't write to DB every frame.
+        # We only write when a concept is "saved" or "unloaded".
         
         return self.universe.get_state_summary()
     
@@ -91,290 +95,176 @@ class Hippocampus:
     def add_experience(self, content: str, role: str = "user"):
         """
         Adds a raw experience to the short-term loop.
-        Triggers distillation if the loop is full.
         """
-        from datetime import datetime
         experience = {
             "timestamp": datetime.now().isoformat(),
             "content": content,
             "role": role
         }
         
-        # Distillation Check (before appending, if full)
+        # Distillation Check
         if len(self.experience_loop) == self.experience_loop.maxlen:
             self._distill_to_identity(list(self.experience_loop))
             
         self.experience_loop.append(experience)
-        self.save_memory()
+        # We don't save loops to DB every time, maybe periodically or on exit.
 
     def _distill_to_identity(self, experiences: list):
-        """
-        Compresses raw experiences into an Identity Fragment.
-        """
-        from datetime import datetime
-        # Simple extraction: Combine last few inputs to form a "narrative"
-        # In the future, this should use the LLM to summarize.
+        """Compresses raw experiences into an Identity Fragment."""
         summary = f"Recent interaction focus: {experiences[-1]['content'][:20]}..."
-        
         fragment = {
             "timestamp": datetime.now().isoformat(),
             "type": "identity_fragment",
             "content": summary,
             "source_count": len(experiences)
         }
-        
         if len(self.identity_loop) == self.identity_loop.maxlen:
             self._distill_to_essence(list(self.identity_loop))
-            
         self.identity_loop.append(fragment)
-        print(f"✨ [Hippocampus] Distilled Identity: {summary}")
+        logger.info(f"✨ [Hippocampus] Distilled Identity: {summary}")
 
     def _distill_to_essence(self, fragments: list):
-        """
-        Compresses identity fragments into an Essence Principle.
-        """
-        from datetime import datetime
-        # A core belief derived from repeated identity patterns
+        """Compresses identity fragments into an Essence Principle."""
         principle = {
             "timestamp": datetime.now().isoformat(),
             "type": "essence_principle",
-            "content": "I am an entity that interacts and learns.", # Placeholder for deep insight
+            "content": "I am an entity that interacts and learns.",
             "weight": 1.0
         }
-        
         self.essence_loop.append(principle)
-        print(f"💎 [Hippocampus] Crystallized Essence: {principle['content']}")
+        logger.info(f"💎 [Hippocampus] Crystallized Essence: {principle['content']}")
 
     def save_memory(self):
-        """Saves the causal graph and loops to disk."""
-        import json
-        import os
-        from networkx.readwrite import json_graph
-        
-        try:
-            os.makedirs(os.path.dirname(self.memory_file), exist_ok=True)
-            
-            # Save Graph
-            graph_data = json_graph.node_link_data(self.causal_graph)
-            
-            # Save Loops
-            memory_data = {
-                "graph": graph_data,
-                "loops": {
-                    "experience": list(self.experience_loop),
-                    "identity": list(self.identity_loop),
-                    "essence": list(self.essence_loop)
-                }
-            }
-            
-            with open(self.memory_file, 'w', encoding='utf-8') as f:
-                json.dump(memory_data, f, ensure_ascii=False, indent=2)
-        except Exception as e:
-            print(f"[Hippocampus] Save failed: {e}")
-
-    def load_memory(self):
-        """Loads the causal graph and loops from disk."""
-        import json
-        import os
-        from networkx.readwrite import json_graph
-        
-        if os.path.exists(self.memory_file):
-            try:
-                with open(self.memory_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                
-                # Load Graph
-                if "graph" in data:
-                    self.causal_graph = json_graph.node_link_graph(data["graph"])
-                elif "nodes" in data: # Legacy format support
-                    self.causal_graph = json_graph.node_link_graph(data)
-                
-                # Load Loops
-                if "loops" in data:
-                    self.experience_loop.extend(data["loops"].get("experience", []))
-                    self.identity_loop.extend(data["loops"].get("identity", []))
-                    self.essence_loop.extend(data["loops"].get("essence", []))
-                    
-                print(f"[Hippocampus] Memory loaded. Nodes: {len(self.causal_graph)} | Exp: {len(self.experience_loop)}")
-            except Exception as e:
-                print(f"[Hippocampus] Load failed: {e}")
-                self.causal_graph = nx.DiGraph()
-
-    def add_projection_episode(self, concept: str, projection: Dict[str, Any]):
         """
-        Adds a new memory 'episode' projected from a thought.
-        
-        Args:
-            concept (str): The core concept of the thought.
-            projection (Dict[str, Any]): The projected data of the system state.
+        Persist critical state.
+        With SQLite, data is already saved. This might save the Loops.
         """
-        # For now, just add a node. Causal linking will be a future task.
-        node_id = f"episode_{len(self.causal_graph)}"
-        self.causal_graph.add_node(node_id, type="episode", concept=concept, projection=projection)
-        # Link it back to the genesis for now
-        self.causal_graph.add_edge("genesis", node_id, type="causal_link")
+        # TODO: Save loops to a separate table or JSON file if needed.
+        pass
+
+    def load_memory(self, limit: int = 10000):
+        """
+        Load 'Working Set' from SQLite into ConceptUniverse.
+        Also builds the Resonance Index.
+        """
+        # Build Resonance Index
+        self.resonance.build_index(self.storage, limit=limit)
+        
+        # For now, we can load the most recently accessed concepts
+        # But since we are just starting, we rely on lazy loading.
+        logger.info(f"[Hippocampus] Connected to MemoryStorage (SQLite) & ResonanceEngine (Limit={limit}).")
+
+    def add_concept(self, concept: str, concept_type: str = "thought", metadata: Dict[str, Any] = None):
+        """
+        Add or update a concept in SQLite and Universe.
+        """
+        if metadata is None:
+            metadata = {}
+            
+        # 1. Check DB
+        data = self.storage.get_concept(concept)
+        
+        if data:
+            # Load existing sphere
+            if isinstance(data, list):
+                sphere = ConceptSphere.from_compact(data)
+            else:
+                sphere = ConceptSphere.from_dict(data)
+            # Update metadata if provided
+            if metadata:
+                # Update sphere fields based on metadata if needed
+                pass
+        else:
+            # Create new sphere
+            sphere = ConceptSphere(concept)
+            sphere.activation_count = 1
+            
+        # 2. Update Universe (Physics)
+        freq = self.vocabulary.get(concept, 0.5)
+        if concept in ["Love", "사랑", "love"]:
+            self.universe.set_absolute_center(sphere)
+        else:
+            self.universe.add_concept(concept, sphere, frequency=freq)
+            
+        # 3. Save to DB (Compact)
+        sphere_data = sphere.to_compact()
+        # sphere_data['type'] = concept_type # We lose 'type' in compact list, but it's implicit or can be added to list
+        self.storage.add_concept(concept, sphere_data)
+        
+        # 4. Update Resonance Index
+        self.resonance.add_vector(concept, [sphere.will.x, sphere.will.y, sphere.will.z])
+        
+        logger.debug(f"🌌 [Hippocampus] Processed concept: '{concept}'")
+
+    def add_causal_link(self, source: str, target: str, relation: str = "causes", weight: float = 1.0):
+        """
+        Holographic Link: No explicit edge storage.
+        Instead, we ensure both concepts exist and are 'active'.
+        The relationship is implicit in their vector resonance.
+        """
+        # Ensure concepts exist
+        self.add_concept(source)
+        self.add_concept(target)
+        
+        # Update Resonance Index dynamically
+        # In a full implementation, we would nudge vectors here.
+        # For now, we just ensure they are in the index.
+        # self.resonance.add_vector(source, ...) 
+        pass
+
+    def get_related_concepts(self, concept: str, depth: int = 1) -> Dict[str, float]:
+        """
+        Holographic Retrieval: Find concepts by Resonance.
+        """
+        # Get query vector
+        query_vec = self.resonance.get_vector(concept)
+        if not any(query_vec):
+            return {}
+            
+        # Find resonating concepts
+        results = self.resonance.find_resonance(query_vec, k=10, exclude_id=concept)
+        
+        # Convert to dict {id: score}
+        return {cid: score for cid, score in results}
+
+    def ingest_visual_experience(self, video_id: str, frames: List[Any]):
+        """
+        Process a video stream into Holographic Memory.
+        "Star-Eating Mode"
+        """
+        # 1. Visual Cortex: Frame -> Stars
+        constellation = self.visual_cortex.ingest_video(video_id, frames)
+        
+        # 2. Resonance Engine: Store Constellation
+        self.resonance.add_temporal_sequence(
+            constellation["id"],
+            constellation["vectors"],
+            constellation["timestamps"]
+        )
+        
+        # 3. Create a Concept for the Video itself
+        self.add_concept(video_id, concept_type="visual_memory", metadata={"frames": constellation["count"]})
+        
+        logger.info(f"🌌 [Hippocampus] Consumed visual experience: '{video_id}' ({constellation['count']} stars)")
+
+    def get_stellar_type(self, concept: str) -> str:
+        """Returns stellar icon based on activation count."""
+        data = self.storage.get_concept(concept)
+        if not data:
+            return "✨"
+            
+        count = data.get('activation_count', 0)
+        if count < 3: return "✨"
+        elif count < 10: return "🌟"
+        elif count < 50: return "🔥"
+        elif count < 100: return "❄️"
+        else: return "⚫"
 
     def get_statistics(self) -> Dict[str, int]:
         """
         Returns basic statistics about the memory graph.
         """
         return {
-            "nodes": self.causal_graph.number_of_nodes(),
-            "edges": self.causal_graph.number_of_edges(),
+            "nodes": self.storage.count_concepts(),
+            "edges": 0, # TODO: Implement edge counting in storage
         }
-
-    def prune_fraction(self, edge_fraction: float = 0.1, node_fraction: float = 0.05):
-        """
-        Prunes a fraction of the weakest nodes and edges.
-        Placeholder implementation.
-        """
-        # This is a complex task. For now, we'll just log that it was called.
-        print(f"INFO: Pruning {node_fraction*100}% of nodes and {edge_fraction*100}% of edges. (Not implemented)")
-
-    def add_turn(self, user_input: str, response: str):
-        """
-        Record a conversation turn.
-        """
-        turn_id = f"turn_{len(self.causal_graph)}"
-        self.causal_graph.add_node(turn_id, type="conversation", user=user_input, elysia=response)
-        self.causal_graph.add_edge("genesis", turn_id, type="temporal")
-        
-    def add_concept(self, concept: str, concept_type: str = "thought", metadata: Dict[str, Any] = None):
-        """
-        Add a concept node to memory or update existing one.
-        Now uses ConceptSphere + ConceptUniverse (XELNAGA PROTOCOL).
-        """
-        from datetime import datetime
-        
-        now = datetime.now().isoformat()
-        
-        if concept in self.causal_graph.nodes:
-            # Update existing sphere
-            node_data = self.causal_graph.nodes[concept]
-            
-            # If old-style dict node, upgrade to sphere
-            if 'sphere' not in node_data:
-                sphere = ConceptSphere(concept)
-                # Migrate old data if exists
-                if 'created_at' in node_data:
-                    sphere.created_at = node_data.get('created_at', 0)
-                if 'access_count' in node_data:
-                    sphere.activation_count = node_data.get('access_count', 0)
-                # Store sphere object
-                node_data['sphere'] = sphere
-                
-                # === XEL'NAGA: Add to Universe ===
-                freq = self.vocabulary.get(concept, 0.5)
-                self.universe.add_concept(concept, sphere, frequency=freq)
-                
-                print(f"✨ [Hippocampus] Upgraded '{concept}' to ConceptSphere + Universe")
-            else:
-                sphere = node_data['sphere']
-            
-            # Activate sphere
-            sphere.activate()
-            sphere.last_activated = now
-            
-            # Update node data (for backward compatibility)
-            node_data['last_accessed'] = now
-            node_data['access_count'] = sphere.activation_count
-            node_data['type'] = concept_type
-            
-        else:
-            # Create new sphere
-            sphere = ConceptSphere(concept)
-            
-            # === XEL'NAGA: Special handling for Love ===
-            if concept in ["Love", "사랑", "love"]:
-                self.universe.set_absolute_center(sphere)
-                print(f"💖 [Hippocampus] '{concept}' set as ABSOLUTE CENTER")
-            else:
-                # Add to universe with frequency
-                freq = self.vocabulary.get(concept, 0.5)
-                self.universe.add_concept(concept, sphere, frequency=freq)
-            
-            # Add to graph with sphere
-            self.causal_graph.add_node(
-                concept,
-                sphere=sphere,  # FRACTAL: Store the sphere object
-                type=concept_type,
-                created_at=now,
-                last_accessed=now,
-                access_count=1,
-                # Backward compatibility: Still store flat tensor dict
-                tensor=sphere.qubit.get_observation() if sphere.qubit else {}
-            )
-            
-            print(f"🌌 [Hippocampus] Created ConceptSphere: '{concept}'")
-            
-    def get_stellar_type(self, concept: str) -> str:
-        """
-        Returns the stellar type icon for a concept based on its lifecycle.
-        """
-        if concept not in self.causal_graph:
-            return "✨" # Nebula (New/Unknown)
-            
-        node = self.causal_graph.nodes[concept]
-        count = node.get('access_count', 0)
-        
-        # Stellar Evolution Logic
-        if count < 3:
-            return "✨" # Nebula (Forming)
-        elif count < 10:
-            return "🌟" # Protostar (Growing)
-        elif count < 50:
-            return "🔥" # Burning Star (Main Sequence - Active)
-        elif count < 100:
-            return "❄️" # Ice Star (White Dwarf - Crystallized Truth)
-        else:
-            return "⚫" # Black Hole (Supermassive Gravity)
-
-    def add_causal_link(self, source: str, target: str, relation: str = "causes", weight: float = 1.0):
-        """
-        Adds a directed causal edge from source to target concept.
-        Now includes Oscillator for resonance (FRACTAL RESTORATION).
-        """
-        from datetime import datetime
-        from Core.Math.oscillator import Oscillator
-        
-        # Ensure both nodes exist
-        self.add_concept(source)
-        self.add_concept(target)
-        
-        # Calculate resonance frequency based on concepts
-        freq = (hash(source) % 100 + hash(target) % 100) / 200.0  # 0.0-1.0
-        
-        # Create oscillator for this edge
-        oscillator = Oscillator(
-            amplitude=weight,
-            frequency=freq,
-            phase=0.0
-        )
-        
-        # Add edge with oscillator
-        self.causal_graph.add_edge(
-            source, target,
-            relation=relation,
-            oscillator=oscillator,  # FRACTAL: Real meaning is here!
-            weight=weight
-        )
-        # Update access for both
-        self.add_concept(source)
-        self.add_concept(target)
-
-    def get_related_concepts(self, concept: str, depth: int = 1) -> Dict[str, float]:
-        """
-        Finds concepts related to the given one by traversing the causal graph.
-        """
-        if concept not in self.causal_graph:
-            return {}
-        
-        # Simple breadth-first search
-        related = {}
-        try:
-            for neighbor in nx.bfs_tree(self.causal_graph, source=concept, depth_limit=depth):
-                if neighbor != concept:
-                    related[neighbor] = 1.0 # Placeholder score
-        except Exception:
-            pass
-        return related

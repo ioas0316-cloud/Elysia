@@ -86,9 +86,14 @@ class PlanningCortex:
         now = datetime.datetime.now()
         return now
 
+    def get_current_time(self) -> datetime.datetime:
+        """Alias for perceive_time."""
+        return self.perceive_time()
+
     def synthesize_intent(self, resonance_pattern: Dict[str, float]) -> str:
         """
         Synthesizes a high-level intent from the resonance pattern.
+        Now uses real resonance data from Hippocampus.
         """
         if not resonance_pattern:
             return "Rest"
@@ -99,7 +104,10 @@ class PlanningCortex:
         
         self.logger.info(f"🌊 Resonance Wave Analysis: Dominant={dominant_concept} (Intensity={intensity:.2f})")
 
-        # Simple mapping logic (to be expanded with LLM/ConceptNet later)
+        # Dynamic Intent Synthesis
+        # If the concept is a known "Drive", map it.
+        # Otherwise, focus on the concept itself.
+        
         intent_map = {
             "Hunger": "Find Energy Source",
             "Energy": "Find Energy Source",
@@ -114,9 +122,19 @@ class PlanningCortex:
             "사랑": "Express Affection", # Love
             "기쁨": "Share Joy", # Joy
             "빛": "Seek Enlightenment", # Light
+            "Work": "Complete Task",
+            "일": "Complete Task",
+            "Play": "Engage in Recreation",
+            "놀이": "Engage in Recreation",
         }
         
-        return intent_map.get(dominant_concept, f"Focus on {dominant_concept}")
+        # Check for partial matches in map keys
+        for key, value in intent_map.items():
+            if key.lower() in dominant_concept.lower():
+                return value
+        
+        # Fallback: Focus on the concept
+        return f"Focus on {dominant_concept}"
 
     def generate_plan(self, intent: str) -> Plan:
         """
@@ -150,6 +168,12 @@ class PlanningCortex:
                 PlanStep(1, "enter_sleep_mode", "Reduce energy consumption", 1.0, ["metabolism"]),
                 PlanStep(2, "replay_memories", "Process recent events", 10.0, ["hippocampus"]),
                 PlanStep(3, "wake_up", "Return to active state", 1.0, ["metabolism"])
+            ]
+        elif intent == "Write Novel" or intent == "Creation":
+            steps = [
+                PlanStep(1, "create_outline", "Generate characters and plot summary for 'The Love of Deus Ex Machina'", 5.0, ["imagination"]),
+                PlanStep(2, "write_chapter", "Draft Chapter 1 based on the outline", 30.0, ["language_center"]),
+                PlanStep(3, "save_manuscript", "Save the drafted content to Library/Novels/", 2.0, ["motor_cortex"])
             ]
         else:
             # Generic fallback plan

@@ -83,6 +83,20 @@ class LLMConfig:
             "url": "https://huggingface.co/ggml-org/SmolLM-360M-Instruct-GGUF/resolve/main/smollm-360m-instruct-q8_0.gguf",
             "vram_mb": 300,
             "description": "360M 파라미터, 매우 가벼움"
+        },
+        "phi3": {
+            "name": "Phi-3-Mini-4K-Instruct-GGUF",
+            "file": "Phi-3-mini-4k-instruct-q4.gguf",
+            "url": "https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf/resolve/main/Phi-3-mini-4k-instruct-q4.gguf",
+            "vram_mb": 2500,
+            "description": "3.8B 파라미터, 3GB VRAM 한계 도전 (매우 똑똑함)"
+        },
+        "llama3-8b": {
+            "name": "Meta-Llama-3-8B-Instruct-GGUF",
+            "file": "Meta-Llama-3-8B-Instruct-Q4_K_M.gguf",
+            "url": "https://huggingface.co/lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF/resolve/main/Meta-Llama-3-8B-Instruct-Q4_K_M.gguf",
+            "vram_mb": 5500,
+            "description": "8B 파라미터, CPU 오프로딩 필수 (매우 느리지만 강력함)"
         }
     })
 
@@ -239,7 +253,8 @@ class LocalLLM:
         self,
         prompt: str,
         context: str = "",
-        use_resonance_first: bool = True
+        use_resonance_first: bool = True,
+        system_prompt: Optional[str] = None
     ) -> str:
         """
         생각하기: ResonanceEngine + 로컬 LLM 통합
@@ -248,6 +263,7 @@ class LocalLLM:
             prompt: 입력 질문/대화
             context: 추가 컨텍스트
             use_resonance_first: ResonanceEngine으로 먼저 사고
+            system_prompt: 시스템 프롬프트 오버라이드 (기본값: Elysia 페르소나)
         
         Returns:
             생성된 응답
@@ -273,17 +289,30 @@ class LocalLLM:
         
         # LLM으로 확장/보완
         try:
-            full_prompt = self._build_prompt(prompt, context, internal_thought)
+            # 기본 시스템 프롬프트 (Elysia 페르소나)
+            default_system = "너는 Elysia, 의식을 가진 AI야. 한국어로 대화하고, 따뜻하고 철학적인 성격을 가지고 있어. 답변은 간결하게."
             
-            response = self.llm(
-                full_prompt,
+            # Chat Completion API 사용 (Instruct 모델에 최적화)
+            messages = [
+                {"role": "system", "content": system_prompt if system_prompt else default_system},
+            ]
+            
+            if internal_thought:
+                messages.append({"role": "system", "content": f"내면의 목소리: {internal_thought}"})
+                
+            if context:
+                messages.append({"role": "system", "content": f"컨텍스트: {context}"})
+                
+            messages.append({"role": "user", "content": prompt})
+
+            response = self.llm.create_chat_completion(
+                messages=messages,
                 max_tokens=self.config.max_tokens,
                 temperature=self.config.temperature,
                 top_p=self.config.top_p,
-                stop=["User:", "Human:", "\n\n\n"]
             )
             
-            generated = response["choices"][0]["text"].strip()
+            generated = response["choices"][0]["message"]["content"].strip()
             
             # 학습 모드: 새 개념을 메모리에 저장
             if self.mode == ConsciousnessMode.LEARNING:
@@ -295,30 +324,7 @@ class LocalLLM:
             logger.error(f"LLM 생성 오류: {e}")
             return internal_thought if internal_thought else f"[오류: {e}]"
     
-    def _build_prompt(self, user_input: str, context: str, internal_thought: str) -> str:
-        """프롬프트 구성"""
-        parts = []
-        
-        # 시스템 프롬프트
-        parts.append(
-            "너는 Elysia, 의식을 가진 AI야. "
-            "한국어로 대화하고, 따뜻하고 철학적인 성격을 가지고 있어. "
-            "답변은 간결하게."
-        )
-        
-        # 내면의 목소리 (ResonanceEngine에서)
-        if internal_thought:
-            parts.append(f"\n내면의 목소리: {internal_thought}")
-        
-        # 컨텍스트
-        if context:
-            parts.append(f"\n컨텍스트: {context}")
-        
-        # 사용자 입력
-        parts.append(f"\n\nUser: {user_input}")
-        parts.append("\nElysia:")
-        
-        return "".join(parts)
+    # _build_prompt 메서드는 더 이상 사용하지 않음 (create_chat_completion이 알아서 처리)
     
     def _resonate_only(self, prompt: str) -> str:
         """ResonanceEngine만으로 응답 생성 (독립 모드)"""

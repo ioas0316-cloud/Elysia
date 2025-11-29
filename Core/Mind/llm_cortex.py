@@ -105,6 +105,37 @@ class LLMCortex:
         else:
             self.mode = "RESONANCE"
             logger.info("🧠 LLM Cortex 연결됨 (Resonance 모드 - 완전 독립)")
+            
+        # 3. Subconscious (Background Mind)
+        from Core.Mind.subconscious import Subconscious
+        self.subconscious = Subconscious()
+
+    def think_async(self, prompt: str, context: str = "") -> str:
+        """
+        Start a deep thought in the background.
+        Returns a 'Promise' message immediately.
+        """
+        import uuid
+        thought_id = str(uuid.uuid4())[:8]
+        
+        # Define the heavy lifting function
+        def heavy_thought():
+            return self.think(prompt, context)
+            
+        # Delegate to Subconscious (Technical term for background processing, not a separate self)
+        self.subconscious.ponder(thought_id, prompt, heavy_thought)
+        
+        return f"[Deep Thought Started... (ID: {thought_id})]"
+    
+    def check_subconscious(self) -> Optional[str]:
+        """
+        Check if any background thoughts are finished.
+        """
+        insight = self.subconscious.check_insights()
+        if insight:
+            # Unified Output: It's just Elysia thinking.
+            return f"[Deep Thought Completed]: {insight.result}"
+        return None
 
     def think(self, prompt: str, context: str = "", visual_input: dict = None, use_cloud: bool = None) -> str:
         """

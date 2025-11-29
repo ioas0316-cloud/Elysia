@@ -159,40 +159,74 @@ class ConceptSphere:
             'qubit_state': self.qubit.get_observation()
         }
     
-    def to_dict(self) -> Dict[str, Any]:
-        """Serialize to dictionary"""
-        return {
-            'id': self.id,
-            'will': {'x': self.will.x, 'y': self.will.y, 'z': self.will.z},
-            'emotions': self.emotions,
-            'values': self.values,
-            'sub_concepts': list(self.sub_concepts.keys()),
-            'language_tokens': self.language_tokens,
-            'mirror_phenomena_count': len(self.mirror.phenomena),
-            'mirror_intensity': self.mirror.intensity,
-            'created_at': self.created_at,
-            'last_activated': self.last_activated,
-            'activation_count': self.activation_count,
-            'qubit': self.qubit.get_observation() if self.qubit else None
-        }
-    
+    def to_compact(self) -> List[Any]:
+        """
+        Serialize to compact list for maximum compression.
+        [id, [wx,wy,wz], emotions, values, subs, tokens, m_count, m_int, cat, lat, ac, q]
+        """
+        def q_int8(val):
+            if isinstance(val, float):
+                return int((max(-1.0, min(1.0, val)) + 1.0) * 127.5)
+            if isinstance(val, dict):
+                return {k: q_int8(v) for k, v in val.items()}
+            if isinstance(val, list):
+                return [q_int8(v) for v in val]
+            return val
+
+        return [
+            self.id,
+            [q_int8(self.will.x), q_int8(self.will.y), q_int8(self.will.z)],
+            q_int8(self.emotions),
+            q_int8(self.values),
+            list(self.sub_concepts.keys()),
+            self.language_tokens,
+            len(self.mirror.phenomena),
+            q_int8(self.mirror.intensity),
+            int(self.created_at),
+            int(self.last_activated),
+            self.activation_count,
+            q_int8(self.qubit.get_observation()) if self.qubit else None
+        ]
+
     @staticmethod
-    def from_dict(data: Dict[str, Any]) -> 'ConceptSphere':
-        """Deserialize from dictionary"""
-        sphere = ConceptSphere(data['id'])
+    def from_compact(data: List[Any]) -> 'ConceptSphere':
+        """Deserialize from compact list."""
+        def dq_int8(val):
+            if isinstance(val, int) and 0 <= val <= 255:
+                return (val / 127.5) - 1.0
+            if isinstance(val, dict):
+                return {k: dq_int8(v) for k, v in val.items()}
+            if isinstance(val, list):
+                return [dq_int8(v) for v in val]
+            return val
+
+        # Unpack list
+        # [id, will, emo, val, subs, tok, m_cnt, m_int, cat, lat, ac, q]
+        sphere = ConceptSphere(data[0])
         
-        # Restore layers
-        if 'will' in data:
-            sphere.will = WillVector(**data['will'])
-        sphere.emotions = data.get('emotions', {})
-        sphere.values = data.get('values', {})
-        sphere.language_tokens = data.get('language_tokens', [])
+        # Will
+        w = data[1]
+        sphere.will = WillVector(x=dq_int8(w[0]), y=dq_int8(w[1]), z=dq_int8(w[2]))
         
-        # Restore metadata
-        sphere.created_at = data.get('created_at', time.time())
-        sphere.last_activated = data.get('last_activated', time.time())
-        sphere.activation_count = data.get('activation_count', 0)
+        # Emotions & Values
+        sphere.emotions = dq_int8(data[2])
+        sphere.values = dq_int8(data[3])
         
+        # Others
+        # sub_concepts keys are loaded, but objects are lazy loaded
+        sphere.language_tokens = data[5]
+        sphere.mirror.intensity = dq_int8(data[7])
+        
+        sphere.created_at = float(data[8])
+        sphere.last_activated = float(data[9])
+        sphere.activation_count = data[10]
+        
+        # Qubit (if exists)
+        if data[11] is not None:
+            # We can't easily restore full qubit state from one observation, 
+            # but we can init it.
+            pass 
+            
         return sphere
     
     def __repr__(self) -> str:

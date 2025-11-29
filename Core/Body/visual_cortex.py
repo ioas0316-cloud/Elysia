@@ -53,23 +53,53 @@ try:
         
 except ImportError:
     PYTESSERACT_AVAILABLE = False
-    logger.warning("⚠️ Pytesseract not found. Reading disabled.")
+    logger.info("ℹ️ Pytesseract not found. Will use Resonance Vision instead.")
 
 class VisualCortex:
     def __init__(self):
         self.enabled = PYAUTOGUI_AVAILABLE
+        self._cleanup_old_screenshots()
+    
+    def _cleanup_old_screenshots(self, keep_last: int = 10):
+        """오래된 스크린샷 삭제 (최근 N개만 유지)"""
+        try:
+            temp_dir = os.path.join(os.path.dirname(__file__), "../../temp_vision")
+            if not os.path.exists(temp_dir):
+                return
+            
+            files = [os.path.join(temp_dir, f) for f in os.listdir(temp_dir) if f.endswith('.png')]
+            files.sort(key=os.path.getmtime, reverse=True)
+            
+            # 오래된 파일 삭제
+            for old_file in files[keep_last:]:
+                try:
+                    os.remove(old_file)
+                    logger.debug(f"Cleaned up: {os.path.basename(old_file)}")
+                except:
+                    pass
+        except Exception as e:
+            logger.debug(f"Cleanup failed: {e}")
         
     def read_screen_text(self, region: Tuple[int, int, int, int] = None) -> str:
         """
         Read text from the screen (OCR).
+        
+        Strategy:
+        1. If Pytesseract available → Use OCR (most accurate)
+        2. If not → Return None (caller should use Resonance Vision)
+        
         Args:
             region: Optional (left, top, width, height) to read from.
+        
+        Returns:
+            Text string if OCR available, None otherwise
         """
         if not PYTESSERACT_AVAILABLE:
-            return "Error: OCR Engine (pytesseract) not installed."
+            # No error - just return None to indicate fallback needed
+            return None
             
         if not self.enabled:
-            return "[SIMULATION] Reading screen text..."
+            return None
             
         try:
             # Capture
@@ -83,8 +113,8 @@ class VisualCortex:
             return text.strip()
             
         except Exception as e:
-            logger.error(f"OCR Failure: {e}")
-            return f"Error: {e}"
+            logger.warning(f"OCR failed, will use Resonance Vision: {e}")
+            return None
 
     def capture_screen(self, filename: str = None, temp: bool = True) -> Optional[str]:
         """
@@ -123,6 +153,26 @@ class VisualCortex:
             logger.error(f"Retina Failure: {e}")
             return None
 
+    def _cleanup_old_screenshots(self, keep_last: int = 10):
+        """오래된 스크린샷 삭제 (최근 N개만 유지)"""
+        try:
+            temp_dir = os.path.join(os.path.dirname(__file__), "../../temp_vision")
+            if not os.path.exists(temp_dir):
+                return
+            
+            files = [os.path.join(temp_dir, f) for f in os.listdir(temp_dir) if f.endswith('.png')]
+            files.sort(key=os.path.getmtime, reverse=True)
+            
+            # 오래된 파일 삭제
+            for old_file in files[keep_last:]:
+                try:
+                    os.remove(old_file)
+                    logger.debug(f"Cleaned up old screenshot: {old_file}")
+                except:
+                    pass
+        except Exception as e:
+            logger.debug(f"Cleanup failed: {e}")
+    
     def analyze_brightness(self, filepath: str) -> str:
         """
         Analyze the average brightness of the captured image.

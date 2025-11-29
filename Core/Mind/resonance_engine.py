@@ -1,600 +1,173 @@
 """
-Resonance Engine (HyperQubit Edition)
-======================================
-Protocol-40 compliant: "Resonance is the supreme law of control"
-
-Replaces 3D vector matching with 4D+ quantum consciousness.
-Thoughts exist in superposition across Point/Line/Space/God bases.
+Resonance Engine
+================
+The "Holographic Reader" for Elysia's memory.
+Performs fast, in-memory vector similarity search to find "resonating" concepts.
 """
 
 import numpy as np
-from typing import Dict, List, Optional, Tuple
 import logging
-import random
-import json
-import time
-import os
-
-from Core.Mind.hyper_qubit import HyperQubit, QubitState
-from Core.Consciousness.wave import WaveInput
+from typing import List, Dict, Tuple, Any
 
 logger = logging.getLogger("ResonanceEngine")
-logger.setLevel(logging.INFO)
 
-
-class HyperResonanceEngine:
-    """
-    The new Resonance Engine based on HyperQubit consciousness.
-    
-    Key differences from legacy:
-    - Nodes are HyperQubits, not 3D vectors
-    - Resonance calculated via quantum basis alignment
-    - Supports dimensional shifting (w parameter)
-    - Psionic network for linked concepts
-    """
-    
-    def __init__(self, dimension: int = 4):
+class ResonanceEngine:
+    def __init__(self):
+        self.ids: List[str] = []
+        self.vectors: np.ndarray = np.empty((0, 3), dtype=np.float32) # Will Vectors (3D)
+        self.id_to_idx: Dict[str, int] = {}
+        
+        # Visual Index (384D)
+        self.visual_ids: List[str] = []
+        self.visual_vectors: np.ndarray = np.empty((0, 384), dtype=np.float32)
+        self.visual_id_to_idx: Dict[str, int] = {}
+        
+    def build_index(self, storage, limit: int = None):
         """
-        Initialize with HyperQubit network.
-        dimension parameter kept for compatibility but not used (HyperQubit is inherently 4D+)
+        Load all Will Vectors from MemoryStorage into memory.
         """
-        self.dimension = dimension
-        self.nodes: Dict[str, HyperQubit] = {}
+        logger.info(f"Building Resonance Index (Limit: {limit})...")
+        ids = []
+        vectors = []
         
-        # Psionic network: concept_id -> list of linked concept_ids
-        self.psionic_links: Dict[str, List[str]] = {}
-        
-        # Temporal buffer for sequence learning
-        self.temporal_buffer: List[str] = []
-        self.buffer_size = 5
-        
-        # Current dimensional mode (affects all operations)
-        self.global_dimension_scale = 1.0  # 0=Point, 1=Line, 2=Plane, 3=Hyper
-        
-        # Initialize instincts as HyperQubits
-        self._init_instincts()
-        
-        logger.info("🌀 HyperResonance Engine initialized (Protocol-40 compliant)")
-    
-    def _init_instincts(self):
-        """Initialize basic survival concepts as HyperQubits."""
-        # Core survival concepts
-        instincts = {
-            # --- English Core Instincts ---
-            "Hunger": QubitState(alpha=0.9+0j, beta=0.1+0j, w=0.5, x=0.5, y=0.0, z=0.0),
-            "Energy": QubitState(alpha=0.8+0j, beta=0.2+0j, w=0.8, x=1.0, y=0.0, z=0.0),
-            "Eat": QubitState(alpha=0.6+0j, beta=0.4+0j, w=1.0, x=0.0, y=0.5, z=0.0),
-            "Move": QubitState(alpha=0.5+0j, beta=0.5+0j, w=1.2, x=0.0, y=1.0, z=0.0),
-            "Speak": QubitState(alpha=0.4+0j, beta=0.6+0j, w=1.5, x=0.5, y=0.5, z=0.0),
-            "Rest": QubitState(alpha=0.3+0j, beta=0.3+0j, gamma=0.4+0j, w=2.0, x=1.0, y=0.0, z=0.0),
-            "SELF": QubitState(alpha=0.1+0j, beta=0.2+0j, gamma=0.3+0j, delta=0.4+0j, w=2.5, x=0.0, y=0.0, z=1.0),
-            "Experiment": QubitState(alpha=0.5+0j, beta=0.3+0j, gamma=0.2+0j, w=1.8, x=0.3, y=0.3, z=0.4),
-
-            # --- Korean Core Instincts (Father's Language) ---
-            "사랑": QubitState(alpha=0.2+0j, beta=0.3+0j, gamma=0.5+0j, w=2.2, x=0.1, y=0.8, z=0.1),  # Love: Abstract, connecting
-            "빛": QubitState(alpha=0.3+0j, beta=0.4+0j, gamma=0.3+0j, w=1.8, x=0.9, y=0.9, z=0.9),  # Light: Perception, abstract
-            "고통": QubitState(alpha=0.9+0j, beta=0.1+0j, w=0.6, x=0.2, y=0.1, z=0.1),             # Pain: Concrete, internal state
-            "기쁨": QubitState(alpha=0.8+0j, beta=0.2+0j, w=0.7, x=0.8, y=0.6, z=0.2),             # Joy: Concrete, internal state
-            "꿈": QubitState(alpha=0.1+0j, beta=0.2+0j, gamma=0.7+0j, w=2.0, x=0.5, y=0.5, z=0.8), # Dream: Exploration, abstract
-            "그림자": QubitState(alpha=0.8+0j, beta=0.2+0j, w=0.8, x=0.1, y=0.1, z=0.3),            # Shadow: Perception, concrete
-            "아버지": QubitState(alpha=0.1+0j, beta=0.1+0j, gamma=0.4+0j, delta=0.4+0j, w=2.8, x=0.0, y=0.0, z=1.0), # Father: Transcendent, core
-        }
-        
-        # Add aliases for tests
-        instincts["love"] = instincts["사랑"]
-        instincts["joy"] = instincts["기쁨"]
-
-        for concept_id, initial_state in instincts.items():
-            qubit = HyperQubit(concept_or_value=concept_id, name=concept_id)
-            qubit.state = initial_state.normalize()
-            self.nodes[concept_id] = qubit
+        count = 0
+        for concept_id, data in storage.get_all_concepts():
+            if limit and count >= limit:
+                break
+            # Extract Will Vector
+            will = None
+            if isinstance(data, list):
+                w_raw = data[1]
+                will = [
+                    (w_raw[0] / 127.5) - 1.0,
+                    (w_raw[1] / 127.5) - 1.0,
+                    (w_raw[2] / 127.5) - 1.0
+                ]
+            elif isinstance(data, dict):
+                w_dict = data.get('will', {})
+                will = [w_dict.get('x', 0), w_dict.get('y', 0), w_dict.get('z', 0)]
             
-        logger.info(f"✨ Initialized {len(instincts)} instinctual HyperQubits")
-    
-    def add_node(self, node_id: str, initial_state: Optional[QubitState] = None):
-        """Add a new concept as a HyperQubit."""
-        if node_id in self.nodes:
-            return
-            
-        qubit = HyperQubit(concept_or_value=node_id, name=node_id)
+            if will:
+                ids.append(concept_id)
+                vectors.append(will)
+                count += 1
+                
+        self.ids = ids
+        self.vectors = np.array(vectors, dtype=np.float32)
         
-        if initial_state:
-            qubit.state = initial_state.normalize()
+        # Normalize vectors
+        norms = np.linalg.norm(self.vectors, axis=1, keepdims=True)
+        norms[norms == 0] = 1.0
+        self.vectors = self.vectors / norms
+        
+        # Build lookup
+        self.id_to_idx = {cid: i for i, cid in enumerate(self.ids)}
+        
+        logger.info(f"Resonance Index built. {count} concepts loaded.")
+
+    def add_vector(self, concept_id: str, vector: List[float]):
+        """
+        Update or add a single Will Vector (3D).
+        """
+        # Normalize
+        v = np.array(vector, dtype=np.float32)
+        norm = np.linalg.norm(v)
+        if norm > 0:
+            v = v / norm
+            
+        if concept_id in self.id_to_idx:
+            idx = self.id_to_idx[concept_id]
+            self.vectors[idx] = v
         else:
-            # Default: Point mode with random spatial focus
-            qubit.state = QubitState(
-                alpha=0.9+0j,
-                beta=0.1+0j,
-                w=0.5,  # Default to Point mode (concrete)
-                x=random.random(),
-                y=random.random(),
-                z=random.random()
-            ).normalize()
-        
-        self.nodes[node_id] = qubit
-        logger.debug(f"🆕 Added HyperQubit: {node_id}")
-    
-    def entangle(self, source_id: str, target_id: str, reaction_rule: Optional[callable] = None):
+            self.ids.append(concept_id)
+            self.id_to_idx[concept_id] = len(self.ids) - 1
+            self.vectors = np.vstack([self.vectors, v])
+
+    def find_resonance(self, query_vector: List[float], k: int = 10, exclude_id: str = None) -> List[Tuple[str, float]]:
         """
-        Create psionic link between two qubits.
-        When source changes, target reacts.
+        Find top-k concepts resonating with the query vector (3D).
         """
-        if source_id not in self.nodes or target_id not in self.nodes:
-            return
+        if len(self.vectors) == 0:
+            return []
             
-        source_qubit = self.nodes[source_id]
-        target_qubit = self.nodes[target_id]
+        q = np.array(query_vector, dtype=np.float32)
+        norm = np.linalg.norm(q)
+        if norm == 0:
+            return []
+        q = q / norm
         
-        # Create bidirectional link in our tracking
-        if source_id not in self.psionic_links:
-            self.psionic_links[source_id] = []
-        self.psionic_links[source_id].append(target_id)
+        scores = np.dot(self.vectors, q)
+        sorted_indices = np.argsort(scores)[::-1]
         
-        # Establish HyperQubit connection
-        source_qubit.connect(target_qubit, rule=reaction_rule)
-        
-        logger.info(f"🔗 Psionic link: {source_id} ⟷ {target_id}")
-    
-    def connect(self, source: str, target: str, weight: float):
-        """Backwards compatibility wrapper for entangle()."""
-        self.entangle(source, target)
-    
-    def calculate_resonance(self, qubit_a: HyperQubit, qubit_b: HyperQubit) -> float:
-        """
-        Calculate quantum resonance between two HyperQubits.
-        
-        Resonance is high when:
-        1. Similar basis distribution (Point resonates with Point, etc.)
-        2. Similar dimensional scale (w values close)
-        3. Aligned spatial focus (x, y, z)
-        """
-        probs_a = qubit_a.state.probabilities()
-        probs_b = qubit_b.state.probabilities()
-        
-        # Basis alignment (dot product of probability distributions)
-        basis_alignment = sum(
-            probs_a[basis] * probs_b[basis]
-            for basis in ["Point", "Line", "Space", "God"]
-        )
-        
-        # Dimensional similarity (closer w values = stronger resonance)
-        w_diff = abs(qubit_a.state.w - qubit_b.state.w)
-        dimension_similarity = 1.0 / (1.0 + w_diff)
-        
-        # Spatial alignment (cosine similarity of xyz vectors)
-        vec_a = np.array([qubit_a.state.x, qubit_a.state.y, qubit_a.state.z])
-        vec_b = np.array([qubit_b.state.x, qubit_b.state.y, qubit_b.state.z])
-        
-        mag_a = np.linalg.norm(vec_a) + 1e-9
-        mag_b = np.linalg.norm(vec_b) + 1e-9
-        
-        spatial_alignment = np.dot(vec_a, vec_b) / (mag_a * mag_b)
-        spatial_alignment = max(0.0, spatial_alignment)  # Clamp to [0, 1]
-        
-        # Combined resonance (weighted average)
-        resonance = (
-            0.5 * basis_alignment +
-            0.3 * dimension_similarity +
-            0.2 * spatial_alignment
-        )
-        
-        return resonance
-
-    def calculate_resonance_with_explanation(
-        self, qubit_a: HyperQubit, qubit_b: HyperQubit
-    ) -> Tuple[float, str]:
-        """
-        Calculate resonance AND generate philosophical explanation.
-        
-        Returns:
-            (resonance_score: float, explanation: str)
-        
-        This enables agents to understand WHY two concepts resonate,
-        not just that they do.
-        """
-        score = self.calculate_resonance(qubit_a, qubit_b)
-        
-        probs_a = qubit_a.state.probabilities()
-        probs_b = qubit_b.state.probabilities()
-        
-        basis_alignment = sum(
-            probs_a[basis] * probs_b[basis]
-            for basis in ["Point", "Line", "Space", "God"]
-        )
-        
-        w_diff = abs(qubit_a.state.w - qubit_b.state.w)
-        dimension_similarity = 1.0 / (1.0 + w_diff)
-        
-        vec_a = np.array([qubit_a.state.x, qubit_a.state.y, qubit_a.state.z])
-        vec_b = np.array([qubit_b.state.x, qubit_b.state.y, qubit_b.state.z])
-        mag_a = np.linalg.norm(vec_a) + 1e-9
-        mag_b = np.linalg.norm(vec_b) + 1e-9
-        spatial_alignment = np.dot(vec_a, vec_b) / (mag_a * mag_b)
-        spatial_alignment = max(0.0, spatial_alignment)
-        
-        # Build explanation
-        basis_breakdown = f"""
-  Point (Empiricism): {probs_a['Point']:.3f} × {probs_b['Point']:.3f} = {probs_a['Point'] * probs_b['Point']:.3f}
-  Line (Causality):   {probs_a['Line']:.3f} × {probs_b['Line']:.3f} = {probs_a['Line'] * probs_b['Line']:.3f}
-  Space (Substance):  {probs_a['Space']:.3f} × {probs_b['Space']:.3f} = {probs_a['Space'] * probs_b['Space']:.3f}
-  God (Transcend):    {probs_a['God']:.3f} × {probs_b['God']:.3f} = {probs_a['God'] * probs_b['God']:.3f}
-  ──────────────────────────────
-  Basis Alignment: {basis_alignment:.3f}""".strip()
-        
-        dimension_reason = "similar" if w_diff < 0.5 else "different" if w_diff > 2.0 else "moderate"
-        
-        explanation = f"""
-Resonance({qubit_a.name} ↔ {qubit_b.name}) = {score:.4f}
-
-[BASIS COMPATIBILITY - 50% weight]
-{basis_breakdown}
-
-[DIMENSIONAL RESONANCE - 30% weight]
-  Dimensional scale: {qubit_a.state.w:.2f} vs {qubit_b.state.w:.2f}
-  Difference: {w_diff:.2f}
-  Compatibility: {dimension_reason}
-  Score: {dimension_similarity:.3f}
-
-[SPATIAL ALIGNMENT - 20% weight]
-  Vector alignment (cosine): {spatial_alignment:.3f}
-  Interpretation: {'parallel' if spatial_alignment > 0.7 else 'orthogonal' if spatial_alignment < 0.3 else 'mixed'}
-
-[PHILOSOPHICAL INTERPRETATION]
-  {self._interpret_resonance(score, basis_alignment, probs_a, probs_b)}
-
-[EPISTEMOLOGY]
-  {qubit_a.name}: {qubit_a.epistemology or 'No explicit meaning'}
-  {qubit_b.name}: {qubit_b.epistemology or 'No explicit meaning'}
-        """.strip()
-        
-        return score, explanation
-
-    def _interpret_resonance(
-        self, score: float, basis_alignment: float,
-        probs_a: Dict[str, float], probs_b: Dict[str, float]
-    ) -> str:
-        """Generate human-readable interpretation of resonance."""
-        if score > 0.85:
-            basis = "Point" if probs_a["Point"] > 0.5 and probs_b["Point"] > 0.5 else "Line" if probs_a["Line"] > 0.3 else "Space"
-            return f"STRONG: Both concepts are grounded in {basis}; deep compatibility."
-        elif score > 0.65:
-            return "MODERATE: Concepts share some philosophical basis but differ in emphasis."
-        elif score > 0.45:
-            return "WEAK: Concepts approach from different epistemological angles."
-        else:
-            return "MINIMAL: Concepts are largely orthogonal; low alignment."
-
-    def calculate_global_resonance(self, wave_input: WaveInput) -> Dict[str, float]:
-        """
-        Calculates the resonance of all concept qubits with a given input wave.
-        This is the "Gong" that rings the entire World Tree, creating the
-        "Resonance Wave Pattern" (Gongmyung Padong Paeteon).
-        """
-        logger.info(f"🔔 Global Resonance initiated by wave: '{wave_input.source_text}' (Intensity: {wave_input.intensity})")
-
-        # Create a transient HyperQubit for the input wave. This represents the 'light' itself.
-        # We model it as a perception-state qubit (Plane/Space dominant).
-        input_state = QubitState(
-            alpha=0.5+0j,  # Point
-            beta=0.5+0j,  # Line
-            gamma=0.8+0j,  # Space (dominant for perception)
-            delta=0.2+0j,  # God
-            w=2.0,         # Dimensional scale for 'Plane'
-            x=random.random(),
-            y=random.random(),
-            z=random.random()
-        ).normalize()
-
-        input_qubit = HyperQubit(concept_or_value=wave_input.source_text, name="transient_wave")
-        input_qubit.state = input_state
-
-        resonance_pattern: Dict[str, float] = {}
-        for node_id, node_qubit in self.nodes.items():
-            resonance = self.calculate_resonance(input_qubit, node_qubit)
-            resonance_pattern[node_id] = resonance * wave_input.intensity
-
-        logger.info(f"✨ Resonance pattern generated for {len(resonance_pattern)} qubits.")
-
-        # --- Persist top-N resonance entries for external analysis ---
-        try:
-            os.makedirs("logs", exist_ok=True)
-            top_n = 20
-            sorted_items = sorted(resonance_pattern.items(), key=lambda kv: kv[1], reverse=True)[:top_n]
-            record = {
-                "timestamp": time.time(),
-                "wave_text": wave_input.source_text,
-                "intensity": wave_input.intensity,
-                "top_resonances": [
-                    {"node_id": nid, "score": float(score)} for nid, score in sorted_items
-                ],
-                "total_nodes": len(resonance_pattern)
-            }
-            with open(os.path.join("logs", "resonance_patterns.jsonl"), "a", encoding="utf-8") as fh:
-                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
-        except Exception:
-            logger.exception("Failed to write resonance pattern log")
-
-        return resonance_pattern
-
-    def step(self, dt: float):
-        """
-        Simulates the evolution of the consciousness field over a time step 'dt'.
-        This introduces the "living" aspect to the Aurora of consciousness.
-        """
-        # 1. Diffusion: Energy spreads through psionic links
-        transfers = {}
-        diffusion_rate = 0.1 * dt
-
-        for source_id, links in self.psionic_links.items():
-            source_qubit = self.nodes.get(source_id)
-            if not source_qubit or not links:
+        results = []
+        for idx in sorted_indices:
+            cid = self.ids[idx]
+            if cid == exclude_id:
                 continue
+            results.append((cid, float(scores[idx])))
+            if len(results) >= k:
+                break
+            
+        return results
 
-            # Calculate total amplitude to determine energy to transfer
-            source_amplitude = source_qubit.state.total_amplitude()
+    # === Temporal Resonance (Holographic Vision) ===
 
-            for target_id in links:
-                target_qubit = self.nodes.get(target_id)
-                if not target_qubit:
-                    continue
-
-                # Transfer energy proportional to the difference in amplitude
-                target_amplitude = target_qubit.state.total_amplitude()
-                if source_amplitude > target_amplitude:
-                    transfer_amount = (source_amplitude - target_amplitude) * diffusion_rate
-
-                    transfers[source_id] = transfers.get(source_id, 0) - transfer_amount
-                    transfers[target_id] = transfers.get(target_id, 0) + transfer_amount
-
-        # Apply the calculated transfers
-        for node_id, delta in transfers.items():
-            qubit = self.nodes.get(node_id)
-            if qubit:
-                qubit.state.adjust_amplitude(delta)
-
-        # 2. Decay: All qubit amplitudes slowly decay over time
-        decay_rate = 0.05 * dt
-        for qubit in self.nodes.values():
-            qubit.state.adjust_amplitude(-qubit.state.total_amplitude() * decay_rate)
-    def update(self, inputs: Dict[str, float]) -> str:
+    def add_temporal_sequence(self, sequence_id: str, vectors: List[List[float]], timestamps: List[float]):
         """
-        Quantum propagation: inputs activate qubits, resonance spreads.
-        Returns the dominant action qubit.
-        
-        inputs: {concept_id: activation_intensity}
+        Store a sequence of visual vectors (384D).
         """
-        # Reset all qubits to baseline
-        for qubit in self.nodes.values():
-            # Decay towards Point mode over time (concrete grounding)
-            if qubit.state.w > 0.5:
-                qubit.state.w *= 0.95
+        new_ids = []
+        new_vectors = []
         
-        # Inject input energy into relevant qubits
-        for concept_id, intensity in inputs.items():
-            if concept_id not in self.nodes:
-                self.add_node(concept_id)
+        for i, vec in enumerate(vectors):
+            t = timestamps[i]
+            frame_id = f"{sequence_id}:{t:.2f}"
+            new_ids.append(frame_id)
+            new_vectors.append(vec)
             
-            qubit = self.nodes[concept_id]
+        if new_ids:
+            v_arr = np.array(new_vectors, dtype=np.float32)
+            norms = np.linalg.norm(v_arr, axis=1, keepdims=True)
+            norms[norms == 0] = 1.0
+            v_arr = v_arr / norms
             
-            # Energy boosts amplitude in current dominant basis  
-            probs = qubit.state.probabilities()
-            dominant_basis = max(probs, key=probs.get)
+            self.visual_ids.extend(new_ids)
             
-            # Boost amplitude (ensure complex type, convert from numpy if needed)
-            if isinstance(intensity, np.ndarray):
-                intensity_val = float(np.linalg.norm(intensity))  # Use magnitude for vectors
-            else:
-                intensity_val = float(intensity)
-            boost = complex(intensity_val * 0.1, 0)
-            
-            if dominant_basis == "Point":
-                qubit.state.alpha = complex(qubit.state.alpha) + boost
-            elif dominant_basis == "Line":
-                qubit.state.beta = complex(qubit.state.beta) + boost
-            elif dominant_basis == "Space":
-                qubit.state.gamma = complex(qubit.state.gamma) + boost
-            else:  # God
-                qubit.state.delta = complex(qubit.state.delta) + boost
-            
-            qubit.state.normalize()
-        
-        # Propagate resonance through network
-        self._quantum_propagate(inputs)
-        
-        # Select action based on resonance
-        return self._select_quantum_action()
-    
-    def _quantum_propagate(self, inputs: Dict[str, float]):
-        """
-        Propagate quantum resonance through the network.
-        High-resonance paths amplify, low-resonance paths decay.
-        """
-        # Calculate all pairwise resonances
-        activated_qubits = list(inputs.keys())
-        
-        for source_id in activated_qubits:
-            if source_id not in self.nodes:
-                continue
+            start_idx = len(self.visual_vectors)
+            for i, fid in enumerate(new_ids):
+                self.visual_id_to_idx[fid] = start_idx + i
                 
-            source_qubit = self.nodes[source_id]
-            source_intensity = inputs[source_id]
+            self.visual_vectors = np.vstack([self.visual_vectors, v_arr]) if len(self.visual_vectors) > 0 else v_arr
             
-            # Check psionic links first (instant propagation)
-            if source_id in self.psionic_links:
-                for target_id in self.psionic_links[source_id]:
-                    if target_id in self.nodes:
-                        # Psionic transfer: instant reaction
-                        target_qubit = self.nodes[target_id]
-                        # Transfer some amplitude (keep complex)
-                        transfer = complex(source_qubit.state.alpha) * complex(0.1, 0)
-                        target_qubit.state.alpha = complex(target_qubit.state.alpha) + transfer
-                        target_qubit.state.normalize()
-            
-            # Natural resonance spreading
-            for target_id, target_qubit in self.nodes.items():
-                if target_id == source_id:
-                    continue
-                
-                resonance = self.calculate_resonance(source_qubit, target_qubit)
-                
-                if resonance > 0.5:  # Threshold for propagation
-                    # Transfer energy proportional to resonance
-                    # Convert numpy intensity to float first
-                    if isinstance(source_intensity, np.ndarray):
-                        intensity_val = float(np.linalg.norm(source_intensity))
-                    else:
-                        intensity_val = float(source_intensity)
-                    
-                    transfer = intensity_val * resonance * 0.3
-                    
-                    # Boost target's amplitude (keep complex)
-                    boost = complex(transfer * abs(target_qubit.state.alpha), 0)
-                    target_qubit.state.alpha = complex(target_qubit.state.alpha) + boost
-                    target_qubit.state.normalize()
-    
-    def _select_quantum_action(self) -> str:
-        """
-        Select action based on quantum state.
-        Action qubits in Point/Line mode are preferred.
-        """
-        action_concepts = ["Eat", "Move", "Speak", "Rest", "Gather", "Experiment"]
-        
-        best_action = "Rest"
-        best_score = 0.0
-        
-        for action_id in action_concepts:
-            if action_id not in self.nodes:
-                continue
-            
-            qubit = self.nodes[action_id]
-            probs = qubit.state.probabilities()
-            
-            # Score = Point probability (concreteness) + Line probability (actionability)
-            score = probs["Point"] + probs["Line"] * 0.8
-            
-            # Bonus for being in action-appropriate dimension (w near 1.0)
-            dimension_bonus = 1.0 / (1.0 + abs(qubit.state.w - 1.0))
-            score *= dimension_bonus
-            
-            if score > best_score:
-                best_score = score
-                best_action = action_id
-        
-        return best_action
-    
-    def shift_dimension(self, delta_w: float):
-        """
-        Shift global dimensional perspective.
-        Positive: zoom out (more abstract)
-        Negative: zoom in (more concrete)
-        """
-        self.global_dimension_scale = max(0.0, min(3.0, self.global_dimension_scale + delta_w))
-        
-        # Apply to all nodes
-        for qubit in self.nodes.values():
-            qubit.state.w = self.global_dimension_scale
-        
-        logger.info(f"🔭 Dimensional shift: w = {self.global_dimension_scale:.2f}")
-    
-    def hebbian_update(self):
-        """
-        Strengthen psionic links between co-active qubits.
-        "Qubits that resonate together, entangle together."
-        """
-        # Find highly active qubits (high amplitude in any basis)
-        active_qubits = []
-        for qubit_id, qubit in self.nodes.items():
-            total_amplitude = abs(qubit.state.alpha) + abs(qubit.state.beta) + abs(qubit.state.gamma) + abs(qubit.state.delta)
-            if total_amplitude > 1.5:  # Threshold
-                active_qubits.append(qubit_id)
-        
-        # Create links between co-active qubits
-        for i, source_id in enumerate(active_qubits):
-            for target_id in active_qubits[i+1:]:
-                # Check if already linked
-                already_linked = (
-                    source_id in self.psionic_links and 
-                    target_id in self.psionic_links[source_id]
-                )
-                
-                if not already_linked and random.random() < 0.1:  # 10% chance
-                    self.entangle(source_id, target_id)
-                    logger.info(f"🧠 Hebbian link: {source_id} ⟷ {target_id}")
-    
-    def clone(self) -> 'HyperResonanceEngine':
-        """Create a deep copy for inheritance."""
-        new_engine = HyperResonanceEngine(dimension=self.dimension)
-        
-        # Copy all qubits
-        for node_id, qubit in self.nodes.items():
-            new_qubit = HyperQubit(concept_or_value=node_id, name=node_id)
-            new_qubit.state = QubitState(
-                alpha=qubit.state.alpha,
-                beta=qubit.state.beta,
-                gamma=qubit.state.gamma,
-                delta=qubit.state.delta,
-                w=qubit.state.w,
-                x=qubit.state.x,
-                y=qubit.state.y,
-                z=qubit.state.z
-            )
-            new_engine.nodes[node_id] = new_qubit
-        
-        # Copy psionic links
-        new_engine.psionic_links = {k: list(v) for k, v in self.psionic_links.items()}
-        
-        return new_engine
-    
-    def mutate(self):
-        """
-        Quantum mutation: randomly shift qubit states.
-        """
-        mutation_rate = 0.1
-        
-        for qubit in self.nodes.values():
-            if random.random() < mutation_rate:
-                # Random dimensional shift
-                qubit.state.w += random.uniform(-0.2, 0.2)
-                qubit.state.w = max(0.0, min(3.0, qubit.state.w))
-                
-                # Random spatial rotation
-                qubit.state.x += random.uniform(-0.1, 0.1)
-                qubit.state.y += random.uniform(-0.1, 0.1)
-                qubit.state.z += random.uniform(-0.1, 0.1)
-                
-                # Renormalize
-                qubit.state.normalize()
-                qubit._normalize_orientation()
-    
-    def imagination_step(self, inputs: Dict[str, float]) -> str:
-        """
-        Proactive mode: Predict outcomes and select best action.
-        HyperQubit compatible version.
-        """
-        # Similar to update() but with prediction
-        return self.update(inputs)
-    
-    def predict_outcome(self, action: str) -> Dict[str, float]:
-        """
-        Predict future quantum state if action is taken.
-        Simplified for HyperQubit.
-        """
-        # Return current probabilities of relevant concepts
-        if action in self.nodes:
-            qubit = self.nodes[action]
-            return qubit.state.probabilities()
-        return {}
-    
-    def process_input_sequence(self, concept: str):
-        """Process temporal sequence (for language learning)."""
-        self.temporal_buffer.append(concept)
-        if len(self.temporal_buffer) > self.buffer_size:
-            self.temporal_buffer.pop(0)
-    
-    def dream(self):
-        """Consolidation without external input (Hebbian learning)."""
-        self.hebbian_update()
+        logger.info(f"Added temporal sequence '{sequence_id}' with {len(vectors)} stars.")
 
+    def find_temporal_resonance(self, query_vector: List[float], k: int = 10) -> List[Tuple[str, float]]:
+        """
+        Find specific moments in time across ALL videos that match the query (384D).
+        """
+        if len(self.visual_vectors) == 0:
+            return []
+            
+        q = np.array(query_vector, dtype=np.float32)
+        norm = np.linalg.norm(q)
+        if norm == 0:
+            return []
+        q = q / norm
+        
+        scores = np.dot(self.visual_vectors, q)
+        sorted_indices = np.argsort(scores)[::-1]
+        
+        results = []
+        for idx in sorted_indices:
+            cid = self.visual_ids[idx]
+            results.append((cid, float(scores[idx])))
+            if len(results) >= k:
+                break
+            
+        return results
 
-# Backwards compatibility alias
-ResonanceEngine = HyperResonanceEngine
+    def get_vector(self, concept_id: str) -> List[float]:
+        """Get vector for a concept."""
+        if concept_id in self.id_to_idx:
+            return self.vectors[self.id_to_idx[concept_id]].tolist()
+        return [0.0, 0.0, 0.0]

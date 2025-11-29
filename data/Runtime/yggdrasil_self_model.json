@@ -7,6 +7,24 @@
       "layer": "Heart",
       "vitality": 1000.0,
       "metadata": {},
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": null,
       "children_ids": [
         "a3e0ed86-6520-4f85-9ff1-b8cf1a2d0e6d",
@@ -37,6 +55,24 @@
       "metadata": {
         "description": "4D complex quantum state representation"
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {}
@@ -48,6 +84,24 @@
       "vitality": 1.0,
       "metadata": {
         "description": "4D consciousness lens"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -61,6 +115,24 @@
       "metadata": {
         "description": "Physics simulation realm (particles, fields, evolution)"
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {}
@@ -72,6 +144,24 @@
       "vitality": 1.0,
       "metadata": {
         "description": "Causal graph (concepts + relationships)"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -87,6 +177,24 @@
       "metadata": {
         "description": "Hierarchical knowledge (IS-A taxonomy)"
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {}
@@ -99,6 +207,24 @@
       "metadata": {
         "description": "Phase resonance trajectory",
         "vitality_boost": 0.1
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -114,6 +240,24 @@
       "metadata": {
         "description": "Concept fusion and transformation rules"
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {}
@@ -128,6 +272,24 @@
         "vitality_boost": 0.3,
         "axes": 6,
         "capability": "multi_axis_descent"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -146,6 +308,24 @@
         "description": "Wave interference emotions",
         "vitality_boost": 0.2
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {
@@ -161,6 +341,24 @@
       "vitality": 1.0,
       "metadata": {
         "description": "Wave modulation to text output"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -179,6 +377,24 @@
           "future": "Atoms+Photons (Spirit/Protoss)"
         }
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {}
@@ -193,6 +409,24 @@
         "dimension": 16,
         "num_timelines": 8,
         "capability": "god_view_navigation"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -211,6 +445,24 @@
         "dimension": 16,
         "capability": "cayley_dickson_extension"
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {}
@@ -224,6 +476,24 @@
         "description": "Fractal physical simulation",
         "num_cells": 1024,
         "timeline_mode": "balanced"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -239,6 +509,24 @@
       "metadata": {
         "description": "Hierarchical concept taxonomy",
         "capability": "is_a_reasoning"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
@@ -256,6 +544,24 @@
         "description": "4D multi-axis navigation",
         "capability": "perspective_rotation"
       },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
+      },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
       "resonance_links": {
@@ -270,6 +576,24 @@
       "metadata": {
         "description": "Natural language generation",
         "capability": "fractal_dialogue"
+      },
+      "epistemology": {
+        "point": {
+          "score": 0.25,
+          "meaning": "개별 요소의 상태"
+        },
+        "line": {
+          "score": 0.25,
+          "meaning": "요소 간 인과 관계"
+        },
+        "space": {
+          "score": 0.25,
+          "meaning": "전체 맥락"
+        },
+        "god": {
+          "score": 0.25,
+          "meaning": "초월적 목적"
+        }
       },
       "parent_id": "1a6a8b98-6a85-4537-b113-f37d2487e4b7",
       "children_ids": [],
