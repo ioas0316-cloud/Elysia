@@ -11,7 +11,7 @@ Now powered by SQLite (MemoryStorage) for infinite scalability.
 """
 
 import logging
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Union
 from collections import deque
 from datetime import datetime
 import networkx as nx # Keeping for legacy support / small graph ops if needed
@@ -268,3 +268,19 @@ class Hippocampus:
             "nodes": self.storage.count_concepts(),
             "edges": 0, # TODO: Implement edge counting in storage
         }
+
+    def add_projection_episode(self, tag: str, projection_data: Union[Dict[str, Any], List[float], Any]):
+        """
+        Store a projection episode for memory consolidation.
+        
+        Args:
+            tag: A tag or identifier for this projection (e.g., input text)
+            projection_data: The projection data to store (typically a dict or list of floats)
+        """
+        # Store the projection as a concept with metadata
+        self.add_concept(
+            f"projection_{tag}",
+            concept_type="projection",
+            metadata={"projection": projection_data, "tag": tag}
+        )
+        logger.debug(f"🔮 [Hippocampus] Stored projection episode: '{tag}'")
