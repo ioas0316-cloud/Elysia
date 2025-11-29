@@ -96,10 +96,21 @@ class Hippocampus:
             concept: The concept to learn
             frequency: Float 0.0-1.0 (0=grounded, 1=ethereal)
         """
+        old_size = len(self.vocabulary)
         self.vocabulary[concept] = max(0.0, min(1.0, frequency))
-        # Persist to storage periodically (not on every call)
-        if len(self.vocabulary) % 10 == 0:
+        
+        # Persist only when vocabulary grows by 10 new entries (batch-based)
+        new_size = len(self.vocabulary)
+        if new_size >= old_size + 10 or (new_size % 50 == 0 and old_size % 50 != 0):
+            self._persist_vocabulary()
+    
+    def _persist_vocabulary(self):
+        """Persist vocabulary to storage."""
+        try:
             self.storage.add_concept("_vocabulary_frequencies", self.vocabulary)
+            logger.debug(f"[Hippocampus] Persisted {len(self.vocabulary)} vocabulary entries")
+        except Exception as e:
+            logger.warning(f"[Hippocampus] Failed to persist vocabulary: {e}")
     
     def get_frequency(self, concept: str) -> float:
         """

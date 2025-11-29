@@ -14,6 +14,7 @@ Philosophy:
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
 import logging
+import re
 
 from Core.Mind.hyper_qubit import HyperQubit, QubitState
 from Core.Mind.self_spiral_fractal import (
@@ -292,6 +293,9 @@ class DialogueEngine:
         resonance_context: Dict[str, float]
     ):
         """Record the exchange in memory for future resonance."""
+        # Get dominant thought once to avoid duplicate computation
+        dominant_thought = self._get_dominant_thought()
+        
         self.conversation_history.append(
             ConversationTurn(
                 speaker="user",
@@ -305,7 +309,7 @@ class DialogueEngine:
                 speaker="elysia",
                 text=response,
                 language=language,
-                emotional_state=self._get_dominant_thought().state if self._get_dominant_thought() else None
+                emotional_state=dominant_thought.state if dominant_thought else None
             )
         )
         
@@ -318,8 +322,6 @@ class DialogueEngine:
     
     def _learn_user_info(self, text: str):
         """Learn user information from conversation (dynamic, not pattern-based)."""
-        import re
-        
         text_lower = text.lower()
         
         # Name extraction (dynamic regex, not template responses)
