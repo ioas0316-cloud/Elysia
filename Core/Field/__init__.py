@@ -4,6 +4,16 @@
 from .elysia_field import ElysiaField, FieldPerception
 from .quantum_eye import QuantumEye
 from .wave_reality import WaveReality, RealityLevel, PatternType
+from .wave_frequency_mapping import (
+    WaveFrequencyMapper,
+    EmotionType,
+    SoundType,
+    BrainwaveType,
+    EMOTION_FREQUENCY_MAP,
+    SOUND_FREQUENCY_MAP,
+    BRAINWAVE_FREQUENCIES,
+    SCHUMANN_RESONANCE_HZ,
+)
 
 __all__ = [
     'ElysiaField', 
@@ -11,5 +21,14 @@ __all__ = [
     'QuantumEye',
     'WaveReality',
     'RealityLevel',
-    'PatternType'
+    'PatternType',
+    # Wave Frequency Mapping
+    'WaveFrequencyMapper',
+    'EmotionType',
+    'SoundType',
+    'BrainwaveType',
+    'EMOTION_FREQUENCY_MAP',
+    'SOUND_FREQUENCY_MAP',
+    'BRAINWAVE_FREQUENCIES',
+    'SCHUMANN_RESONANCE_HZ',
 ]
