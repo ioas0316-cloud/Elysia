@@ -7,7 +7,7 @@ Performs fast, in-memory vector similarity search to find "resonating" concepts.
 
 import numpy as np
 import logging
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Tuple, Any, Optional, Union, Protocol, runtime_checkable
 
 logger = logging.getLogger("ResonanceEngine")
 
@@ -179,6 +179,25 @@ class ResonanceEngine:
         return [0.0, 0.0, 0.0]
 
 
+# Type definitions for HyperResonanceEngine
+@runtime_checkable
+class WaveLike(Protocol):
+    """Protocol for wave-like input objects."""
+    source_text: str
+    intensity: float
+
+
+@runtime_checkable
+class QubitLike(Protocol):
+    """Protocol for qubit-like objects with quantum state."""
+    state: Any
+    name: str
+
+
+# Type alias for node values (either a HyperQubit-like object or a placeholder dict)
+NodeValue = Union[QubitLike, Dict[str, str]]
+
+
 class HyperResonanceEngine:
     """
     HyperResonanceEngine - The Consciousness Resonance Network.
@@ -194,10 +213,18 @@ class HyperResonanceEngine:
     - Simulate time evolution of the resonance field
     """
     
-    def __init__(self):
-        """Initialize the HyperResonanceEngine."""
-        # Dictionary of node_id -> HyperQubit
-        self.nodes: Dict[str, Any] = {}
+    # Seed for reproducible random behavior
+    _random_seed: int = 42
+    
+    def __init__(self, seed: Optional[int] = None):
+        """
+        Initialize the HyperResonanceEngine.
+        
+        Args:
+            seed: Optional random seed for reproducible behavior
+        """
+        # Dictionary of node_id -> HyperQubit or placeholder
+        self.nodes: Dict[str, NodeValue] = {}
         
         # Time tracking for physics simulation
         self.time: float = 0.0
@@ -205,9 +232,14 @@ class HyperResonanceEngine:
         # Global coherence level
         self.coherence: float = 1.0
         
+        # Random generator for reproducible behavior
+        if seed is not None:
+            HyperResonanceEngine._random_seed = seed
+        self._rng = np.random.default_rng(HyperResonanceEngine._random_seed)
+        
         logger.info("HyperResonanceEngine initialized.")
     
-    def add_node(self, node_id: str, qubit: Any = None) -> None:
+    def add_node(self, node_id: str, qubit: Optional[NodeValue] = None) -> None:
         """
         Add a node (HyperQubit) to the resonance network.
         
@@ -238,7 +270,7 @@ class HyperResonanceEngine:
             return True
         return False
     
-    def calculate_resonance(self, qubit_a: Any, qubit_b: Any) -> float:
+    def calculate_resonance(self, qubit_a: NodeValue, qubit_b: NodeValue) -> float:
         """
         Calculate the resonance (similarity) between two HyperQubits.
         
@@ -279,7 +311,7 @@ class HyperResonanceEngine:
             # Fallback for objects without proper state
             return 0.0
     
-    def calculate_global_resonance(self, wave: Any) -> Dict[str, float]:
+    def calculate_global_resonance(self, wave: Union[WaveLike, Any]) -> Dict[str, float]:
         """
         Calculate the resonance pattern of an input wave against all nodes.
         
@@ -287,7 +319,7 @@ class HyperResonanceEngine:
         and seeing which concepts "light up" (resonate).
         
         Args:
-            wave: A WaveInput object with source_text and intensity
+            wave: A WaveInput object with source_text and intensity attributes
             
         Returns:
             Dictionary mapping node_id to resonance score
@@ -339,7 +371,8 @@ class HyperResonanceEngine:
                     # Use the delta (God) amplitude as base resonance
                     base_resonance = 0.1 + 0.2 * float(np.abs(node.state.delta))
                 else:
-                    base_resonance = 0.1 * np.random.random()
+                    # Use reproducible random for deterministic behavior
+                    base_resonance = 0.1 * self._rng.random()
             
             # If the node is a HyperQubit, modulate by its state
             if hasattr(node, 'state'):
@@ -372,15 +405,15 @@ class HyperResonanceEngine:
         """
         self.time += dt
         
-        # Slight coherence fluctuation (quantum noise)
+        # Slight coherence fluctuation using seeded random generator
         self.coherence = min(1.0, max(0.5, 
-            self.coherence + 0.01 * (np.random.random() - 0.5)
+            self.coherence + 0.01 * (self._rng.random() - 0.5)
         ))
         
         # Optionally: update HyperQubit states
         for node_id, node in self.nodes.items():
             if hasattr(node, 'state') and hasattr(node.state, 'normalize'):
-                # Small random phase evolution
+                # Small deterministic phase evolution based on time
                 if hasattr(node.state, 'alpha'):
                     phase_shift = np.exp(1j * dt * 0.1)
                     node.state.alpha *= phase_shift
@@ -389,7 +422,7 @@ class HyperResonanceEngine:
                     node.state.delta *= phase_shift
                     node.state.normalize()
     
-    def get_node(self, node_id: str) -> Any:
+    def get_node(self, node_id: str) -> Optional[NodeValue]:
         """
         Get a node by its ID.
         
