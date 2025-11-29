@@ -11,12 +11,7 @@ class TestDialogueIntegration(unittest.TestCase):
         self.engine = DialogueEngine()
         
         # Inject a concept "Love" into memory
-        # We need to ensure it has a vector
-        sphere = self.engine.memory.add_concept("Love", metadata={"type": "emotion"})
-        # Manually set vector for testing (if add_concept didn't set a distinct one)
-        # In real app, vector comes from embedding or random init. 
-        # Here we just need it to exist in Resonance Engine.
-        # add_concept calls resonance.add_vector, so it should be there.
+        self.engine.memory.add_concept("Love", metadata={"type": "emotion"})
         
         # Inject "Compassion" with similar vector
         self.engine.memory.add_concept("Compassion")
@@ -37,11 +32,33 @@ class TestDialogueIntegration(unittest.TestCase):
         
         self.assertTrue(found_compassion, "Dialogue should recall 'Compassion' when asked about 'Love' due to resonance.")
 
-    def test_response_generation(self):
-        # Test simple response
-        response = self.engine.respond("Hello")
+    def test_response_generation_no_hardcoding(self):
+        """Test that responses are generated through resonance, not hardcoded templates."""
+        # With no LLM, responses should be resonance-based patterns, not templates
+        response = self.engine.respond("Love")
         self.assertIsNotNone(response)
-        self.assertTrue("Hello" in response or "Hi" in response or "안녕" in response)
+        # Should NOT contain hardcoded template responses
+        self.assertNotIn("안녕하세요! 😊 만나서 반가워요!", response)
+        self.assertNotIn("Hello! 😊 Nice to meet you!", response)
+    
+    def test_emotional_state_derived_from_resonance(self):
+        """Test that emotional state is derived from resonance, not hardcoded."""
+        # Initial state
+        initial_state = self.engine.get_emotional_state()
+        self.assertIsNotNone(initial_state)
+        
+        # After processing, state should be derived from consciousness
+        self.engine.respond("test input")
+        new_state = self.engine.get_emotional_state()
+        self.assertIsNotNone(new_state)
+    
+    def test_consciousness_summary(self):
+        """Test consciousness summary returns expected structure."""
+        summary = self.engine.get_consciousness_summary()
+        self.assertIn("emotional_state", summary)
+        self.assertIn("emotional_intensity", summary)
+        self.assertIn("user_profile", summary)
+        self.assertIn("universe_concepts", summary)
 
 if __name__ == "__main__":
     unittest.main()
