@@ -268,3 +268,19 @@ class Hippocampus:
             "nodes": self.storage.count_concepts(),
             "edges": 0, # TODO: Implement edge counting in storage
         }
+
+    def add_projection_episode(self, tag: str, projection_data: Any):
+        """
+        Store a projection episode for memory consolidation.
+        
+        Args:
+            tag: A tag or identifier for this projection (e.g., input text)
+            projection_data: The projection data to store
+        """
+        # Store the projection as a concept with metadata
+        self.add_concept(
+            f"projection_{tag}",
+            concept_type="projection",
+            metadata={"projection": projection_data, "tag": tag}
+        )
+        logger.debug(f"🔮 [Hippocampus] Stored projection episode: '{tag}'")

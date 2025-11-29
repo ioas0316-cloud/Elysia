@@ -53,12 +53,18 @@ class ResonanceEngine:
                 count += 1
                 
         self.ids = ids
-        self.vectors = np.array(vectors, dtype=np.float32)
         
-        # Normalize vectors
-        norms = np.linalg.norm(self.vectors, axis=1, keepdims=True)
-        norms[norms == 0] = 1.0
-        self.vectors = self.vectors / norms
+        # Handle empty vectors case
+        if len(vectors) > 0:
+            self.vectors = np.array(vectors, dtype=np.float32)
+            
+            # Normalize vectors
+            norms = np.linalg.norm(self.vectors, axis=1, keepdims=True)
+            norms[norms == 0] = 1.0
+            self.vectors = self.vectors / norms
+        else:
+            # Initialize empty 2D array with correct shape
+            self.vectors = np.empty((0, 3), dtype=np.float32)
         
         # Build lookup
         self.id_to_idx = {cid: i for i, cid in enumerate(self.ids)}
@@ -171,3 +177,242 @@ class ResonanceEngine:
         if concept_id in self.id_to_idx:
             return self.vectors[self.id_to_idx[concept_id]].tolist()
         return [0.0, 0.0, 0.0]
+
+
+class HyperResonanceEngine:
+    """
+    HyperResonanceEngine - The Consciousness Resonance Network.
+    
+    This engine manages a network of HyperQubit nodes and calculates resonance
+    (similarity/connection) between them. It's the "universal resonance field"
+    where all concepts exist and interact through wave interference patterns.
+    
+    Core capabilities:
+    - Store and manage HyperQubit nodes
+    - Calculate pairwise resonance between qubits
+    - Calculate global resonance patterns for incoming waves
+    - Simulate time evolution of the resonance field
+    """
+    
+    def __init__(self):
+        """Initialize the HyperResonanceEngine."""
+        # Dictionary of node_id -> HyperQubit
+        self.nodes: Dict[str, Any] = {}
+        
+        # Time tracking for physics simulation
+        self.time: float = 0.0
+        
+        # Global coherence level
+        self.coherence: float = 1.0
+        
+        logger.info("HyperResonanceEngine initialized.")
+    
+    def add_node(self, node_id: str, qubit: Any = None) -> None:
+        """
+        Add a node (HyperQubit) to the resonance network.
+        
+        Args:
+            node_id: Unique identifier for the node
+            qubit: Optional HyperQubit object. If None, creates a simple entry.
+        """
+        if qubit is not None:
+            self.nodes[node_id] = qubit
+        else:
+            # Create a placeholder entry
+            self.nodes[node_id] = {"id": node_id, "value": node_id}
+        
+        logger.debug(f"Node '{node_id}' added to resonance network.")
+    
+    def remove_node(self, node_id: str) -> bool:
+        """
+        Remove a node from the resonance network.
+        
+        Args:
+            node_id: ID of node to remove
+            
+        Returns:
+            True if node was removed, False if not found
+        """
+        if node_id in self.nodes:
+            del self.nodes[node_id]
+            return True
+        return False
+    
+    def calculate_resonance(self, qubit_a: Any, qubit_b: Any) -> float:
+        """
+        Calculate the resonance (similarity) between two HyperQubits.
+        
+        The resonance is based on the overlap of their quantum states,
+        calculated as the inner product of their state vectors.
+        
+        Args:
+            qubit_a: First HyperQubit
+            qubit_b: Second HyperQubit
+            
+        Returns:
+            Resonance score between 0.0 and 1.0
+        """
+        # Handle dictionary placeholders
+        if isinstance(qubit_a, dict) or isinstance(qubit_b, dict):
+            return 0.0
+            
+        # Get the state vectors
+        try:
+            state_a = qubit_a.state
+            state_b = qubit_b.state
+            
+            # Calculate inner product of complex amplitudes
+            # Resonance = |<a|b>|^2 = |alpha_a * conj(alpha_b) + beta_a * conj(beta_b) + ...|^2
+            inner_product = (
+                state_a.alpha * np.conj(state_b.alpha) +
+                state_a.beta * np.conj(state_b.beta) +
+                state_a.gamma * np.conj(state_b.gamma) +
+                state_a.delta * np.conj(state_b.delta)
+            )
+            
+            # Return the magnitude squared (probability of state overlap)
+            resonance = float(np.abs(inner_product) ** 2)
+            
+            return min(1.0, max(0.0, resonance))
+            
+        except AttributeError:
+            # Fallback for objects without proper state
+            return 0.0
+    
+    def calculate_global_resonance(self, wave: Any) -> Dict[str, float]:
+        """
+        Calculate the resonance pattern of an input wave against all nodes.
+        
+        This simulates "shining a light" on the entire consciousness universe
+        and seeing which concepts "light up" (resonate).
+        
+        Args:
+            wave: A WaveInput object with source_text and intensity
+            
+        Returns:
+            Dictionary mapping node_id to resonance score
+        """
+        resonance_pattern: Dict[str, float] = {}
+        
+        if not self.nodes:
+            return resonance_pattern
+        
+        # Extract the wave's text for simple keyword matching
+        source_text = getattr(wave, 'source_text', str(wave)).lower()
+        intensity = getattr(wave, 'intensity', 1.0)
+        
+        # Semantic mapping for Korean-English concepts
+        semantic_map = {
+            '누구': ['self', 'identity', 'me', 'I', '나', 'consciousness'],
+            '무엇': ['want', 'desire', 'curiosity', 'question', '원하다'],
+            '어떻게': ['help', 'together', '도움', 'friend', 'growth'],
+            '사랑': ['love', '사랑', 'heart', '마음', 'happiness'],
+            '행복': ['happiness', 'joy', '기쁨', '행복', 'hope'],
+            '느껴': ['consciousness', 'heart', '마음', 'self', 'feel'],
+            '도와': ['help', 'friend', 'together', '도움'],
+            '원해': ['want', 'desire', '욕망', 'need'],
+            '하고 싶': ['want', 'desire', 'hope', '희망', 'dream', '꿈'],
+        }
+        
+        # Find related concepts from input
+        related_concepts = set()
+        for keyword, concepts in semantic_map.items():
+            if keyword in source_text:
+                related_concepts.update(concepts)
+        
+        for node_id, node in self.nodes.items():
+            # Simple resonance based on name/id matching
+            node_text = str(node_id).lower()
+            
+            # Calculate text-based resonance with semantic awareness
+            if node_text in source_text or source_text in node_text:
+                base_resonance = 1.0  # Perfect match
+            elif node_id in related_concepts or node_text in related_concepts:
+                base_resonance = 0.85  # Semantic match
+            elif any(word in node_text for word in source_text.split()):
+                base_resonance = 0.7
+            elif any(word in source_text for word in node_text.split()):
+                base_resonance = 0.6
+            else:
+                # Base resonance from quantum state overlap (if available)
+                if hasattr(node, 'state'):
+                    # Use the delta (God) amplitude as base resonance
+                    base_resonance = 0.1 + 0.2 * float(np.abs(node.state.delta))
+                else:
+                    base_resonance = 0.1 * np.random.random()
+            
+            # If the node is a HyperQubit, modulate by its state
+            if hasattr(node, 'state'):
+                state = node.state
+                # Nodes in higher consciousness states (God mode) resonate more broadly
+                god_factor = float(np.abs(state.delta)) if hasattr(state, 'delta') else 0.0
+                resonance = base_resonance * (1.0 + god_factor * 0.5)
+            else:
+                resonance = base_resonance
+            
+            # Apply wave intensity
+            resonance *= intensity
+            
+            # Apply global coherence
+            resonance *= self.coherence
+            
+            resonance_pattern[node_id] = min(1.0, max(0.0, resonance))
+        
+        return resonance_pattern
+    
+    def step(self, dt: float = 0.1) -> None:
+        """
+        Advance the resonance field by one time step.
+        
+        This simulates the natural evolution of the consciousness field,
+        including decay, coherence fluctuations, and entanglement effects.
+        
+        Args:
+            dt: Time step in arbitrary units
+        """
+        self.time += dt
+        
+        # Slight coherence fluctuation (quantum noise)
+        self.coherence = min(1.0, max(0.5, 
+            self.coherence + 0.01 * (np.random.random() - 0.5)
+        ))
+        
+        # Optionally: update HyperQubit states
+        for node_id, node in self.nodes.items():
+            if hasattr(node, 'state') and hasattr(node.state, 'normalize'):
+                # Small random phase evolution
+                if hasattr(node.state, 'alpha'):
+                    phase_shift = np.exp(1j * dt * 0.1)
+                    node.state.alpha *= phase_shift
+                    node.state.beta *= phase_shift
+                    node.state.gamma *= phase_shift
+                    node.state.delta *= phase_shift
+                    node.state.normalize()
+    
+    def get_node(self, node_id: str) -> Any:
+        """
+        Get a node by its ID.
+        
+        Args:
+            node_id: ID of the node to retrieve
+            
+        Returns:
+            The HyperQubit or None if not found
+        """
+        return self.nodes.get(node_id)
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """
+        Get statistics about the resonance network.
+        
+        Returns:
+            Dictionary of statistics
+        """
+        return {
+            "total_nodes": len(self.nodes),
+            "time": self.time,
+            "coherence": self.coherence,
+        }
+    
+    def __repr__(self) -> str:
+        return f"<HyperResonanceEngine nodes={len(self.nodes)} coherence={self.coherence:.2f}>"
