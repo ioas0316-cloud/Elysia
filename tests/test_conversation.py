@@ -20,7 +20,7 @@ def test_conversation():
     logger.info("🌌 Initializing Elysia...")
     logger.info("=" * 60)
     
-    from Core.Elysia import Elysia
+    from Core.Elysia.Elysia import Elysia
     
     elysia = Elysia()
     elysia.awaken()

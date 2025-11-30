@@ -9,7 +9,7 @@ Tests cover:
 
 import pytest
 import numpy as np
-from Core.Integration.zelnaga_protocol import (
+from Core.System.System.Integration.zelnaga_protocol import (
     WillType,
     WillWave,
     InternalComponent,

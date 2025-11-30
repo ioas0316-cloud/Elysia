@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 import time
 
-from Core.Mind.memetic_field import MemeticField, Trajectory
+from Core.Memory.Mind.memetic_field import MemeticField, Trajectory
 
 @dataclass
 class Saga:

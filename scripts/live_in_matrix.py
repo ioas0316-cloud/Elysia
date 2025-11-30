@@ -8,7 +8,7 @@ import random
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Life.digital_avatar import DigitalAvatar
+from Core.Evolution.Evolution.Life.digital_avatar import DigitalAvatar
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -10,15 +10,15 @@ from typing import Optional
 sys.path.append(os.getcwd())
 
 from Core.world import World
-from Core.Mind.hippocampus import Hippocampus
-from Core.Senses.sensory_cortex import SensoryCortex
-from Core.Intelligence.unified_intelligence import UnifiedIntelligence, IntelligenceRole
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Interface.Senses.sensory_cortex import SensoryCortex
+from Core.Intelligence.Intelligence.unified_intelligence import UnifiedIntelligence, IntelligenceRole
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("Elysia")
 
-from Core.Perception.code_vision import CodeVision
+from Core.Interface.Interface.Perception.code_vision import CodeVision
 
 class Elysia:
     """
@@ -42,7 +42,7 @@ class Elysia:
         logger.info("   ✅ Hippocampus (Memory) Online")
         
         # 2. WorldTree (Knowledge Structure)
-        from Core.Mind.world_tree import WorldTree
+        from Core.Memory.Mind.world_tree import WorldTree
         self.world_tree = WorldTree(hippocampus=self.hippocampus)
         logger.info("   ✅ WorldTree (Knowledge) Online")
         
@@ -76,7 +76,7 @@ class Elysia:
         # 7. Digestion (The Stomach)
         # Connect DigestionChamber to the SAME ResonanceEngine used by the Brain
         if self.brain.resonance_engine:
-            from Core.Mind.digestion_chamber import DigestionChamber
+            from Core.Memory.Mind.digestion_chamber import DigestionChamber
             self.stomach = DigestionChamber(resonance_engine=self.brain.resonance_engine)
             logger.info("   ✅ Digestion Chamber (Stomach) Online & Connected")
         else:

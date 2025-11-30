@@ -32,11 +32,11 @@ import time as real_time
 import json
 import os
 
-from Core.Physics.fluctlight import FluctlightEngine
-from Core.Physics.meta_time_engine import create_safe_meta_engine
-from Core.Integration.experience_digester import ExperienceDigester
-from Core.Mind.hippocampus import Hippocampus
-from Core.Mind.alchemy import Alchemy
+from Core.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.System.System.Integration.experience_digester import ExperienceDigester
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Memory.Mind.alchemy import Alchemy
 
 logging.basicConfig(
     level=logging.INFO,

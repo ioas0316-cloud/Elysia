@@ -6,8 +6,8 @@ from unittest.mock import MagicMock
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Life.resonance_voice import ResonanceEngine
-from Core.Mind.hippocampus import Hippocampus
+from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
+from Core.Memory.Mind.hippocampus import Hippocampus
 
 class TestLinearThinking(unittest.TestCase):
     def setUp(self):

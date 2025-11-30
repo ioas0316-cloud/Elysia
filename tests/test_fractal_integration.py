@@ -22,7 +22,7 @@ def test_fractal_connection():
     
     # 1. Test Direct Import
     try:
-        from Core.Mind.fractal_causality import FractalCausalityEngine
+        from Core.Memory.Mind.fractal_causality import FractalCausalityEngine
         logger.info("   ✅ FractalCausalityEngine imported successfully")
     except Exception as e:
         logger.error(f"   ❌ Failed to import: {e}")
@@ -79,7 +79,7 @@ def test_elysia_integration():
     
     try:
         # This will initialize Elysia with Fractal Causality
-        from Core.Elysia import Elysia
+        from Core.Elysia.Elysia import Elysia
         
         # We won't fully initialize (too slow), just import
         logger.info("   ✅ Elysia imports successfully with Fractal Causality")

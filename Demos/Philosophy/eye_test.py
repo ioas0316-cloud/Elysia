@@ -19,7 +19,7 @@ import time
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Body.visual_cortex import VisualCortex
+from Core.Evolution.Evolution.Body.visual_cortex import VisualCortex
 
 def run_demo():
     print("\n" + "="*70)

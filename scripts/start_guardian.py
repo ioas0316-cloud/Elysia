@@ -25,8 +25,8 @@ from datetime import datetime
 # Add Elysia to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.Elysia.consciousness_engine import ConsciousnessEngine
-from Core.Mind.autonomous_explorer import AutonomousExplorer
+from Core.Elysia.Elysia.consciousness_engine import ConsciousnessEngine
+from Core.Memory.Mind.autonomous_explorer import AutonomousExplorer
 
 # Setup logging
 log_dir = Path("C:/Elysia/logs")

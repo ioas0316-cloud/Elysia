@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Plugin.plugin_base import PluginBase
+from Core.System.System.Plugin.plugin_base import PluginBase
 from typing import Dict, Any
 
 class EmojiResponderPlugin(PluginBase):

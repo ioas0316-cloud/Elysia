@@ -14,13 +14,13 @@ import asyncio
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from Core.World.yggdrasil import Yggdrasil, RealmLayer
-from Core.Mind.perception import FractalPerception
-from Core.Mind.emotional_palette import EmotionalPalette  
-from Core.Mind.episodic_memory import EpisodicMemory
-from Core.Math.quaternion_consciousness import ConsciousnessLens
-from Core.Math.hyper_qubit import HyperQubit
-from Core.Physics.fractal_dimension_engine import FractalUniverse, ZelNagaSync, Photon
+from Core.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
+from Core.Memory.Mind.perception import FractalPerception
+from Core.Memory.Mind.emotional_palette import EmotionalPalette  
+from Core.Memory.Mind.episodic_memory import EpisodicMemory
+from Core.Foundation.Math.quaternion_consciousness import ConsciousnessLens
+from Core.Foundation.Math.hyper_qubit import HyperQubit
+from Core.Foundation.Physics.fractal_dimension_engine import FractalUniverse, ZelNagaSync, Photon
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 

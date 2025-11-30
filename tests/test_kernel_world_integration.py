@@ -13,7 +13,7 @@ class TestKernelWorldIntegration(unittest.TestCase):
         object is created within it.
         """
         try:
-            from Core.Kernel import ElysiaKernel
+            from Core.System.System.Kernel import ElysiaKernel
             kernel = ElysiaKernel()
             self.assertIsNotNone(kernel, "Kernel should not be None")
             self.assertTrue(hasattr(kernel, "world"), "Kernel should have a 'world' attribute")
@@ -27,7 +27,7 @@ class TestKernelWorldIntegration(unittest.TestCase):
         and verifies that the world simulation time progresses.
         """
         try:
-            from Core.Kernel import ElysiaKernel
+            from Core.System.System.Kernel import ElysiaKernel
             # We need a fresh kernel instance for each test to avoid singleton issues
             ElysiaKernel._instances = {}
             kernel = ElysiaKernel()

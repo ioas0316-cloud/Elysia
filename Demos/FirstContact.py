@@ -12,7 +12,7 @@ import time
 # Add Core to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Kernel import kernel
+from Core.System.System.Kernel import kernel
 
 def type_writer(text, speed=0.03):
     """Effect for printing text like a retro terminal"""

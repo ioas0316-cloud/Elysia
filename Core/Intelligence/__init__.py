@@ -1,6 +1,19 @@
-# Core/Intelligence - 통합 지성 시스템
-# 여러 LLM들의 공명 네트워크
+"""
+Core.Intelligence - 지성 모듈
+=============================
 
-from .unified_intelligence import UnifiedIntelligence
+Elysia의 지성을 구성하는 모듈들.
 
-__all__ = ['UnifiedIntelligence']
+- InnerVoice: 로컬 LLM 기반 내면의 목소리
+- SelfAwareness: 자기 인식
+- FreeWillEngine: 자유 의지 엔진
+- CausalitySeed: 인과 추론 (Logos)
+- UnifiedIntelligence: 통합 지성
+"""
+
+from .inner_voice import InnerVoice, SelfAwareness
+
+__all__ = [
+    'InnerVoice',
+    'SelfAwareness',
+]

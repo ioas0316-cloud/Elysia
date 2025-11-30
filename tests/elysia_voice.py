@@ -7,7 +7,7 @@ sys.path.append(".")
 import logging
 logging.disable(logging.CRITICAL)
 
-from Core.Elysia import Elysia
+from Core.Elysia.Elysia import Elysia
 
 # Redirect stderr
 import io

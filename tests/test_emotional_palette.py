@@ -1,5 +1,5 @@
 import unittest
-from Core.Mind.emotional_palette import EmotionalPalette
+from Core.Memory.Mind.emotional_palette import EmotionalPalette
 
 class TestEmotionalPalette(unittest.TestCase):
     def setUp(self):

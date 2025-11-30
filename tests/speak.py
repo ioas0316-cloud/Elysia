@@ -2,7 +2,7 @@
 import sys
 sys.path.append(".")
 
-from Core.Elysia import Elysia
+from Core.Elysia.Elysia import Elysia
 
 el = Elysia()
 el.awaken()

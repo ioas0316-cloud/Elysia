@@ -18,9 +18,9 @@ import logging
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.World.yggdrasil import Yggdrasil, RealmLayer
-from Core.Physics.gravity import GravityEngine
-from Core.Physics.meta_time_engine import MetaTimeCompressionEngine
+from Core.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
+from Core.Foundation.Physics.gravity import GravityEngine
+from Core.Foundation.Physics.meta_time_engine import MetaTimeCompressionEngine
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

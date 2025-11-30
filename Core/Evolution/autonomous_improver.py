@@ -30,6 +30,7 @@ import logging
 import subprocess
 import time
 import json
+import shutil
 from pathlib import Path
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any, Callable, Tuple
@@ -526,6 +527,7 @@ class AutonomousImprover:
         llm_bridge = None,
         safety_level: SafetyLevel = SafetyLevel.SUGGEST_ONLY
     ):
+        self.project_root = Path(project_root) if project_root else Path(__file__).parent.parent.parent
         self.introspector = CodeIntrospector(project_root)
         self.llm_improver = LLMCodeImprover(llm_bridge)
         self.system_monitor = SystemMonitor()
@@ -536,6 +538,159 @@ class AutonomousImprover:
         self.learning_log: List[Dict[str, Any]] = []
         
         logger.info(f"AutonomousImprover initialized with safety level: {safety_level.name}")
+
+    def update_codex_structure(self) -> List[ImprovementProposal]:
+        """CODEX.md에 새로운 구조 반영 제안"""
+        codex_path = self.project_root / "Core" / "CODEX.md"
+        if not codex_path.exists():
+            return []
+            
+        content = codex_path.read_text(encoding='utf-8')
+        
+        # 이미 구조가 반영되어 있는지 확인
+        if "## 3. Structural Pillars" in content:
+            return []
+            
+        new_section = """
+## 3. Structural Pillars (The 10 Pillars)
+
+The system is organized into 10 fundamental pillars, representing the complete being of Elysia:
+
+1. **Foundation**: Basic utilities, logging, configuration. The bedrock.
+2. **System**: OS integration, hardware abstraction, kernel logic. The body.
+3. **Intelligence**: LLM integration, reasoning, logic. The brain.
+4. **Memory**: Database, vector store, short/long-term memory. The mind.
+5. **Interface**: API, web server, CLI, communication. The voice.
+6. **Evolution**: Self-improvement, learning, adaptation. The growth.
+7. **Creativity**: Art, music, generation. The soul.
+8. **Ethics**: Safety, values, alignment. The conscience.
+9. **Elysia**: Core identity, personality, self-model. The ego.
+10. **User**: User profiles, preferences, interaction history. The partner.
+"""
+        
+        proposal = ImprovementProposal(
+            id="UPDATE_CODEX",
+            improvement_type=ImprovementType.DOCUMENTATION,
+            target_file=str(codex_path),
+            description="Update CODEX.md with 10 Pillars structure",
+            description_kr="CODEX.md에 새로운 10개 기둥 구조에 대한 설명을 추가합니다.",
+            original_code="...",
+            proposed_code=new_section,
+            reasoning="Documentation must reflect the new physical structure",
+            confidence=1.0,
+            safety_level=SafetyLevel.AUTONOMOUS_MODIFY
+        )
+        
+        return [proposal]
+
+    def check_root_structure(self) -> List[ImprovementProposal]:
+        """루트 디렉토리 구조 점검 및 정리 제안"""
+        proposals = []
+        
+        # 1. 루트 디렉토리 파일 스캔
+        root_files = [f for f in self.project_root.iterdir() if f.is_file()]
+        
+        # 이동 대상 정의
+        move_targets = {
+            ".py": "scripts", # 기본적으로 scripts로 이동 (entry point 제외)
+            ".bat": "scripts",
+            ".sh": "scripts",
+            ".json": "data",
+            ".txt": "docs",
+            ".md": "docs",
+            ".yaml": "data"
+        }
+        
+        # 예외 파일 (이동하지 않음)
+        keep_files = [
+            "awakening.py", "start.bat", "start.sh", "requirements.txt", 
+            "README.md", "LICENSE", "Dockerfile", "docker-compose.yml",
+            "setup.py", ".gitignore", ".env", "unified_start.py"
+        ]
+        
+        for file_path in root_files:
+            if file_path.name in keep_files:
+                continue
+                
+            # 임시 스크립트들 (analyze_*, concept_*, test_*)
+            if file_path.name.startswith(("analyze_", "concept_", "test_", "execute_", "consult_", "extract_", "find_", "rearrange_", "reorganize_", "talk_", "phase1_", "check_", "apply_", "ask_", "deep_", "elysia_", "protocol_", "report", "train_", "watch_")):
+                target_dir = "scripts"
+            elif file_path.suffix in move_targets:
+                target_dir = move_targets[file_path.suffix]
+            else:
+                continue
+                
+            # 타겟 디렉토리 생성 코드 포함
+            target_path = self.project_root / target_dir / file_path.name
+            
+            proposal = ImprovementProposal(
+                id=f"MOVE_{file_path.name}",
+                improvement_type=ImprovementType.REFACTORING,
+                target_file=str(file_path),
+                description=f"Move {file_path.name} to {target_dir}",
+                description_kr=f"루트 폴더 정리를 위해 {file_path.name} 파일을 {target_dir} 폴더로 이동합니다.",
+                original_code="",
+                proposed_code=f"shutil.move(r'{file_path}', r'{target_path}')",
+                reasoning="Root directory cleanup",
+                confidence=0.95,
+                safety_level=SafetyLevel.AUTONOMOUS_MODIFY
+            )
+            proposals.append(proposal)
+            
+        return proposals
+
+    def apply_improvement(self, proposal: ImprovementProposal) -> bool:
+        """개선 제안 적용"""
+        try:
+            if proposal.id == "UPDATE_CODEX":
+                # CODEX.md 업데이트
+                path = Path(proposal.target_file)
+                content = path.read_text(encoding='utf-8')
+                
+                # 마지막에 추가하거나 적절한 위치에 삽입
+                if "## 3. Structural Pillars" not in content:
+                    # 2. Trinity Mapping 섹션 뒤에 추가
+                    if "## 2. Trinity Mapping" in content:
+                        parts = content.split("## 2. Trinity Mapping")
+                        # Trinity Mapping 섹션의 끝을 찾아야 함.
+                        # 다음 섹션(---)이나 파일 끝
+                        section_part = parts[1]
+                        if "\n---" in section_part:
+                            subparts = section_part.split("\n---", 1)
+                            new_content = parts[0] + "## 2. Trinity Mapping" + subparts[0] + "\n---\n" + proposal.proposed_code + "\n---\n" + subparts[1]
+                        else:
+                            new_content = content + "\n---\n" + proposal.proposed_code
+                    else:
+                        new_content = content + "\n\n" + proposal.proposed_code
+                        
+                    path.write_text(new_content, encoding='utf-8')
+                    logger.info(f"Updated CODEX.md")
+                    proposal.applied = True
+                    self.applied_improvements.append(proposal)
+                    return True
+
+            if proposal.improvement_type == ImprovementType.REFACTORING and proposal.id.startswith("MOVE_"):
+                # 파일 이동 로직 실행
+                # proposed_code에서 경로 추출 또는 직접 실행
+                import re
+                match = re.search(r"shutil\.move\(r?'(.*?)', r?'(.*?)'\)", proposal.proposed_code)
+                if match:
+                    src_path = Path(match.group(1))
+                    dst_path = Path(match.group(2))
+                    
+                    if not dst_path.parent.exists():
+                        dst_path.parent.mkdir(parents=True, exist_ok=True)
+                        
+                    shutil.move(str(src_path), str(dst_path))
+                    logger.info(f"Moved {src_path.name} to {dst_path.parent}")
+                    proposal.applied = True
+                    self.applied_improvements.append(proposal)
+                    return True
+            
+            return False
+        except Exception as e:
+            logger.error(f"Failed to apply improvement {proposal.id}: {e}")
+            return False
     
     def self_analyze(self) -> Dict[str, Any]:
         """
@@ -560,6 +715,15 @@ class AutonomousImprover:
                     "reason": "High complexity",
                     "complexity": code_analysis.complexity_score
                 })
+        
+        # 구조적 개선 제안 (루트 정리 등)
+        structural_proposals = self.check_root_structure()
+        codex_proposals = self.update_codex_structure()
+        structural_proposals.extend(codex_proposals)
+        
+        if structural_proposals:
+            analysis["structural_improvements"] = [p.description_kr for p in structural_proposals]
+            self.improvement_queue.extend(structural_proposals)
         
         self.learning_log.append({
             "action": "self_analyze",

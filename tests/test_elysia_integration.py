@@ -10,7 +10,7 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestElysia")
 
-from Core.Elysia import Elysia
+from Core.Elysia.Elysia import Elysia
 
 def test():
     logger.info("🌌 Testing Elysia Full Integration...")

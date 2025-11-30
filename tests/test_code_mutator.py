@@ -6,7 +6,7 @@ import os
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Evolution.code_mutator import CodeMutator
+from Core.Evolution.Evolution.code_mutator import CodeMutator
 
 class TestCodeMutatorEnhancements(unittest.TestCase):
     def setUp(self):

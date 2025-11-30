@@ -12,14 +12,14 @@ Tests for Fractal Causality and Causal Narrative Engine
 import pytest
 import numpy as np
 
-from Core.Language.fractal_causality import (
+from Core.Interface.Interface.Language.fractal_causality import (
     FractalCausalityEngine,
     FractalCausalNode,
     FractalCausalChain,
     CausalRole,
 )
 
-from Core.Language.causal_narrative_engine import (
+from Core.Interface.Interface.Language.causal_narrative_engine import (
     CausalNarrativeEngine,
     ThoughtUniverse,
     DimensionLevel,
@@ -465,7 +465,7 @@ class TestIntegratedLanguageLearning:
     
     def test_integrated_world_creation(self):
         """통합 세계 생성 테스트"""
-        from Core.Language.integrated_language_learning import IntegratedLanguageWorld
+        from Core.Interface.Interface.Language.integrated_language_learning import IntegratedLanguageWorld
         
         world = IntegratedLanguageWorld(n_souls=5, khala_strength=0.5)
         assert len(world.world.souls) == 5
@@ -473,7 +473,7 @@ class TestIntegratedLanguageLearning:
     
     def test_learner_has_causal_mind(self):
         """각 학습자가 인과 마인드를 가지는지 테스트"""
-        from Core.Language.integrated_language_learning import IntegratedLanguageWorld
+        from Core.Interface.Interface.Language.integrated_language_learning import IntegratedLanguageWorld
         
         world = IntegratedLanguageWorld(n_souls=3)
         
@@ -483,7 +483,7 @@ class TestIntegratedLanguageLearning:
     
     def test_continuous_development(self):
         """언어 능력의 지속적 발달 테스트"""
-        from Core.Language.integrated_language_learning import IntegratedLanguageWorld
+        from Core.Interface.Interface.Language.integrated_language_learning import IntegratedLanguageWorld
         
         world = IntegratedLanguageWorld(n_souls=10, khala_strength=0.6)
         
@@ -502,7 +502,7 @@ class TestIntegratedLanguageLearning:
     
     def test_development_metrics(self):
         """발달 지표 테스트"""
-        from Core.Language.integrated_language_learning import LanguageDevelopmentMetrics
+        from Core.Interface.Interface.Language.integrated_language_learning import LanguageDevelopmentMetrics
         
         metrics = LanguageDevelopmentMetrics(
             vocabulary_size=25,

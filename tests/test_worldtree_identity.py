@@ -2,7 +2,7 @@
 import sys
 sys.path.append(".")
 
-from Core.Mind.world_tree import WorldTree
+from Core.Memory.Mind.world_tree import WorldTree
 
 print("="*60)
 print("Testing WorldTree Identity Seeding")

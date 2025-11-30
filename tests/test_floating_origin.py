@@ -16,7 +16,7 @@ import pytest
 import math
 from typing import Dict
 
-from Core.Physics.floating_origin import (
+from Core.Foundation.Physics.floating_origin import (
     CoordinateSystem,
     LocalPosition,
     PersonalSphere,

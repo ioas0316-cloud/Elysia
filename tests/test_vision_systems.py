@@ -5,17 +5,17 @@ Tests for Vision Systems - 시각의 계층 및 공감각 테스트
 import unittest
 import numpy as np
 
-from Core.Perception.hierarchy_of_vision import (
+from Core.Interface.Interface.Perception.hierarchy_of_vision import (
     HierarchyOfVision, VisionFrequency,
     SurfaceVisionResult, StructuralVisionResult, EssenceVisionResult
 )
-from Core.Perception.synesthesia_engine import (
+from Core.Interface.Interface.Perception.synesthesia_engine import (
     SynesthesiaEngine, SignalType, RenderMode, UniversalSignal
 )
-from Core.Physics.digital_nature import (
+from Core.Foundation.Physics.digital_nature import (
     DigitalNature, TerrainField, WeatherSystem, TerrainType
 )
-from Core.Ethics.protection_layer import (
+from Core.Ethics.Ethics.protection_layer import (
     ProtectionLayer, DataPacket, FilterResult, ThreatLevel
 )
 

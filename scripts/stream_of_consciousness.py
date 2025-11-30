@@ -8,8 +8,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Mind.hippocampus import Hippocampus
-from Core.Language.dialogue.dialogue_engine import DialogueEngine
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

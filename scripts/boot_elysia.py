@@ -17,7 +17,7 @@ from pathlib import Path
 # Add Elysia to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.System.ElysiaOS import ElysiaOS
+from Core.System.System.ElysiaOS import ElysiaOS
 
 
 def main():

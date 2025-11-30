@@ -17,7 +17,7 @@ def init_worker():
     if ROOT not in sys.path:
         sys.path.insert(0, ROOT)
     global kernel
-    from Core.Kernel import kernel  # noqa: E402
+    from Core.System.System.Kernel import kernel  # noqa: E402
 
 
 def process_line(line: str) -> str:

@@ -23,12 +23,12 @@ import logging
 from typing import List, Dict, Any, Optional
 import time as real_time
 
-from Core.Physics.fluctlight import FluctlightEngine
-from Core.Physics.meta_time_engine import create_safe_meta_engine
-from Core.Abstractions.CognitiveCell import CognitiveCell
-from Core.Integration.experience_digester import ExperienceDigester
-from Core.Mind.hippocampus import Hippocampus
-from Core.Mind.alchemy import Alchemy
+from Core.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.Foundation.Abstractions.CognitiveCell import CognitiveCell
+from Core.System.System.Integration.experience_digester import ExperienceDigester
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Memory.Mind.alchemy import Alchemy
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("CognitiveWorld")

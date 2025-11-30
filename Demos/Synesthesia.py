@@ -32,8 +32,8 @@ except ImportError:
 
 # Add Core to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Core.Kernel import kernel
-from Core.Life.symphony_engine import SymphonyEngine
+from Core.System.System.Kernel import kernel
+from Core.Evolution.Evolution.Life.symphony_engine import SymphonyEngine
 
 # Configuration
 WIDTH, HEIGHT = 600, 600

@@ -20,12 +20,12 @@ import logging
 import time
 from typing import Dict, Any
 
-from Core.Physics.fluctlight import FluctlightEngine
-from Core.Physics.time_compression import TimeCompressionEngine
-from Core.Integration.experience_digester import ExperienceDigester
-from Core.Mind.hippocampus import Hippocampus
-from Core.Mind.alchemy import Alchemy
-from Core.Math.octonion import Octonion
+from Core.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.Foundation.Physics.time_compression import TimeCompressionEngine
+from Core.System.System.Integration.experience_digester import ExperienceDigester
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Memory.Mind.alchemy import Alchemy
+from Core.Foundation.Math.octonion import Octonion
 
 # Setup logging
 logging.basicConfig(

@@ -14,8 +14,8 @@ import os
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.World.yggdrasil import Yggdrasil
-from Core.Physics.gravity import GravityEngine
+from Core.Elysia.Elysia.World.yggdrasil import Yggdrasil
+from Core.Foundation.Physics.gravity import GravityEngine
 
 # Alias for backward compatibility in this demo
 RealmGravity = GravityEngine
