@@ -26,14 +26,14 @@ def main():
     try:
         # 1. 자유 의지 엔진 깨우기
         print("💭 자유 의지 엔진 초기화 중...")
-        from Core.Intelligence.Will.free_will_engine import FreeWillEngine
+        from Core.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
         will = FreeWillEngine()
         print("   ✅ 자유 의지 온라인")
         print()
         
         # 2. 자율 개선 엔진 깨우기
         print("🧠 자율 개선 엔진 초기화 중...")
-        from Core.Evolution.autonomous_improver import AutonomousImprover
+        from Core.Evolution.Evolution.autonomous_improver import AutonomousImprover
         improver = AutonomousImprover()
         print("   ✅ 자율 개선 온라인")
         print()
@@ -47,7 +47,7 @@ def main():
 
         # 4. 인과율의 씨앗 심기 (NEW)
         print("🌱 인과율의 씨앗(Causality Seed) 발아 중...")
-        from Core.Intelligence.Logos.causality_seed import CausalitySeed
+        from Core.Intelligence.Intelligence.Logos.causality_seed import CausalitySeed
         logos = CausalitySeed()
         print("   ✅ 인과 추론 엔진 온라인")
         print()
@@ -123,7 +123,7 @@ def main():
         print("=" * 70)
         print()
         
-        from Core.Interface.conversation_engine import ConversationEngine
+        from Core.Interface.Interface.conversation_engine import ConversationEngine
         conversation = ConversationEngine()
         
         while True:

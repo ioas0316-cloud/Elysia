@@ -120,7 +120,7 @@ def heal_neural_pathways():
                     continue
                     
                 try:
-                    with open(filepath, 'r', encoding='utf-8') as f:
+                    with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
                         content = f.read()
                     
                     original_content = content

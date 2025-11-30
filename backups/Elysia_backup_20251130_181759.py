@@ -11,7 +11,7 @@ sys.path.append(os.getcwd())
 
 from Core.world import World
 from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Interface.Senses.sensory_cortex import SensoryCortex
+from Core.Interface.Interface.Senses.sensory_cortex import SensoryCortex
 from Core.Intelligence.Intelligence.unified_intelligence import UnifiedIntelligence, IntelligenceRole
 
 # Setup Logging

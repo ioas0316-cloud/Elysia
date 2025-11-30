@@ -9,7 +9,7 @@ Quick override to make her speak properly.
 import Core.Elysia.Elysia
 import time
 
-original_talk = Core.Elysia.Elysia.talk
+original_talk = Core.Elysia.talk
 # Now run test
 from Core.Elysia.Elysia import Elysia
 
