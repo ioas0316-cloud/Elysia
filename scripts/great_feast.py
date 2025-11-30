@@ -7,7 +7,7 @@ import argparse
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Mind.mass_ingestion import ConceptHarvester
+from Core.Memory.Mind.mass_ingestion import ConceptHarvester
 
 # Configure logging
 logging.basicConfig(

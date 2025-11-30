@@ -115,7 +115,7 @@ class TestConsciousnessObserver:
         """Create observer, loading directly."""
         try:
             # Mock the thought import that observer.py needs
-            sys.modules['Core.Consciousness.thought'] = thought_module
+            sys.modules['Core.Intelligence.Consciousness.thought'] = thought_module
             
             observer_module = load_module_directly(
                 'observer',

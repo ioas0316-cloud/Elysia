@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import unittest
-from Core.Language.dialogue.dialogue_engine import DialogueEngine
+from Core.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
 
 class TestDialogueIntegration(unittest.TestCase):
     def setUp(self):

@@ -20,7 +20,7 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from Core.Physics.spectrum_layers import SpectrumLayer
+from Core.Foundation.Physics.spectrum_layers import SpectrumLayer
 
 # Hangul support
 plt.rcParams['font.family'] = 'Malgun Gothic'

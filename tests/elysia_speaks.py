@@ -6,12 +6,12 @@ Quick override to make her speak properly.
 """
 
 # Patch the talk method
-import Core.Elysia
+import Core.Elysia.Elysia
 import time
 
 original_talk = Core.Elysia.Elysia.talk
 # Now run test
-from Core.Elysia import Elysia
+from Core.Elysia.Elysia import Elysia
 
 elysia = Elysia()
 elysia.awaken()

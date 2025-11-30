@@ -8,9 +8,9 @@ import numpy as np
 import math
 
 # Import Core modules - using fixtures from conftest.py for dependency injection
-from Core.Math.hyper_qubit import HyperQubit, QubitState
-from Core.Math.law_enforcement_engine import LawEnforcementEngine, EnergyState
-from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
+from Core.Foundation.Math.hyper_qubit import HyperQubit, QubitState
+from Core.Foundation.Math.law_enforcement_engine import LawEnforcementEngine, EnergyState
+from Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
 
 
 class TestQubitState:
@@ -195,7 +195,7 @@ class TestLawEnforcementEngine:
     
     def test_being_law_violation(self, law_enforcement_engine):
         """Test that low w triggers BEING law violation."""
-        from Core.Math.law_enforcement_engine import EnergyState
+        from Core.Foundation.Math.law_enforcement_engine import EnergyState
         
         # Low w (meta-cognition) should trigger violation
         energy = EnergyState(w=0.1, x=0.5, y=0.5, z=0.5)

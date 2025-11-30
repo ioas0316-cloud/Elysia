@@ -6,7 +6,7 @@ from datetime import datetime
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Planning.planning_cortex import PlanningCortex, Plan
+from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex, Plan
 
 class TestPlanningCortex(unittest.TestCase):
     def setUp(self):

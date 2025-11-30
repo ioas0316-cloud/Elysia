@@ -7,8 +7,8 @@ from pyquaternion import Quaternion
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Life.resonance_voice import ResonanceEngine
-from Core.Math.quaternion_consciousness import ConsciousnessLens
+from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
+from Core.Foundation.Math.quaternion_consciousness import ConsciousnessLens
 
 class TestSpatialThinking(unittest.TestCase):
     def setUp(self):

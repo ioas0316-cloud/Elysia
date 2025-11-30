@@ -9,7 +9,7 @@ import os
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.Ethics.free_will import (
+from Core.Ethics.Ethics.free_will import (
     FreeWillEngine,
     FreeWillState,
     Choice,

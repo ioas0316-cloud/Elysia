@@ -22,7 +22,7 @@ import time
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Body.sensory_motor_cortex import SensoryMotorCortex
+from Core.Evolution.Evolution.Body.sensory_motor_cortex import SensoryMotorCortex
 
 def run_demo():
     print("\n" + "="*70)

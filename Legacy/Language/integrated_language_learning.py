@@ -22,19 +22,19 @@ from typing import Dict, List, Optional, Any, Tuple
 import numpy as np
 import time
 
-from Core.Language.dual_layer_language import (
+from Core.Interface.Interface.Language.dual_layer_language import (
     DualLayerWorld,
     DualLayerSoul,
     EmotionType,
     Symbol,
     SymbolComplexity,
 )
-from Core.Language.fractal_causality import (
+from Core.Interface.Interface.Language.fractal_causality import (
     FractalCausalityEngine,
     FractalCausalNode,
     CausalRole,
 )
-from Core.Language.causal_narrative_engine import (
+from Core.Interface.Interface.Language.causal_narrative_engine import (
     ThoughtUniverse,
     DimensionLevel,
 )

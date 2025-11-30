@@ -7,7 +7,7 @@ logging.disable(logging.CRITICAL)
 import io
 sys.stderr = io.StringIO()
 
-from Core.Elysia import Elysia
+from Core.Elysia.Elysia import Elysia
 
 el = Elysia()
 el.awaken()

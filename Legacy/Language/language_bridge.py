@@ -395,7 +395,7 @@ class LanguageBridge:
     def _register_to_memetic_field(self, concept: StructuredConcept):
         """MemeticField에 개념 등록"""
         try:
-            from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
+            from Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
             
             # 64D 벡터를 InfiniteHyperQuaternion으로 변환
             vector = InfiniteHyperQuaternion(64, concept.vector_64d)

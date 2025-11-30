@@ -10,7 +10,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 
-from Core.Mind.self_spiral_fractal import (
+from Core.Memory.Mind.self_spiral_fractal import (
     SelfSpiralFractalEngine,
     ConsciousnessAxis,
     SpiralNode,
@@ -18,7 +18,7 @@ from Core.Mind.self_spiral_fractal import (
     create_thought_spiral,
     PHI
 )
-from Core.Language.dialogue.dialogue_engine import DialogueEngine
+from Core.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
 import numpy as np
 
 

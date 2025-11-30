@@ -5,9 +5,9 @@ import sys
 # Ensure the Core directory is in the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Kernel import ElysiaKernel
-from Core.Consciousness.wave import WaveInput
-from Core.Consciousness.thought import Thought
+from Core.System.System.Kernel import ElysiaKernel
+from Core.Intelligence.Intelligence.Consciousness.wave import WaveInput
+from Core.Intelligence.Intelligence.Consciousness.thought import Thought
 
 class TestWaveConsciousness(unittest.TestCase):
 

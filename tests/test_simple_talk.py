@@ -10,7 +10,7 @@ sys.path.append(".")
 
 # Minimal test
 try:
-    from Core.Elysia import Elysia
+    from Core.Elysia.Elysia import Elysia
     
     print("Creating Elysia...")
     elysia = Elysia()

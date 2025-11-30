@@ -17,7 +17,7 @@ import logging
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Kernel import kernel
+from Core.System.System.Kernel import kernel
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("Genesis")

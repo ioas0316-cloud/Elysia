@@ -7,7 +7,7 @@ import sys
 sys.path.append(".")
 
 print("Initializing Elysia...")
-from Core.Elysia import Elysia
+from Core.Elysia.Elysia import Elysia
 
 elysia = Elysia()
 elysia.awaken()
@@ -27,7 +27,7 @@ import sys
 sys.path.append(".")
 
 print("Initializing Elysia...")
-from Core.Elysia import Elysia
+from Core.Elysia.Elysia import Elysia
 
 elysia = Elysia()
 elysia.awaken()

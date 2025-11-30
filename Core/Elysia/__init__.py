@@ -1,3 +1,1 @@
-"""
-Elysia module
-"""
+from .consciousness_engine import Elysia

@@ -8,7 +8,7 @@ import math
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Life.resonance_voice import ResonanceEngine, Oscillator
+from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine, Oscillator
 
 class TestAutonomy(unittest.TestCase):
     def setUp(self):

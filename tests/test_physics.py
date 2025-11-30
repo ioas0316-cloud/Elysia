@@ -10,11 +10,11 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestPhysics")
 
-from Core.Mind.tensor_wave import SoulTensor, Tensor3D, FrequencyWave
-from Core.Mind.physics import PhysicsEngine
-from Core.Mind.spiderweb import Spiderweb
-from Core.Life.gravitational_linguistics import GravitationalLinguistics
-from Core.Mind.intuition import IntuitionEngine
+from Core.Memory.Mind.tensor_wave import SoulTensor, Tensor3D, FrequencyWave
+from Core.Memory.Mind.physics import PhysicsEngine
+from Core.Memory.Mind.spiderweb import Spiderweb
+from Core.Evolution.Evolution.Life.gravitational_linguistics import GravitationalLinguistics
+from Core.Memory.Mind.intuition import IntuitionEngine
 
 # Mock Storage
 class MockStorage:

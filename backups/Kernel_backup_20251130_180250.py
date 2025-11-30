@@ -20,41 +20,41 @@ from typing import Dict, Any
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import The Body (Math)
-from Core.Math.laplace_engine import LaplaceEngine
-from Core.Math.convolution_engine import ConvolutionEngine
-from Core.Math.chaos_attractor import LivingTremor, AttractorType
-from Core.Math.stability_controller import LyapunovController
-from Core.Math.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
-from Core.Math.legendre_bridge import LegendreTransform
-from Core.Math.complex_fluid import FluidMind
-from Core.Math.lie_algebra import LieAlgebraEngine
-from Core.KernelAxis import build_core_axis
+from Core.Foundation.Math.laplace_engine import LaplaceEngine
+from Core.Foundation.Math.convolution_engine import ConvolutionEngine
+from Core.Foundation.Math.chaos_attractor import LivingTremor, AttractorType
+from Core.Foundation.Math.stability_controller import LyapunovController
+from Core.Foundation.Math.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
+from Core.Foundation.Math.legendre_bridge import LegendreTransform
+from Core.Foundation.Math.complex_fluid import FluidMind
+from Core.Foundation.Math.lie_algebra import LieAlgebraEngine
+from Core.System.System.KernelAxis import build_core_axis
 
 # Import The Mind (Cognition)
-from Core.Mind.aesthetic_filter import BeautyMetric, AestheticGovernor
-from Core.Mind.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
-from Core.Mind.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
-from Core.Mind.neuron_cortex import CognitiveNeuron
-from Core.Mind.momentum_memory import MomentumMemory
-from Core.Mind.hippocampus import Hippocampus
-from Core.Mind.world_tree import WorldTree
-from Core.Mind.meaning_court import MeaningCourt
-from Core.Mind.projection_engine import ProjectionEngine
-from Core.Mind.monte_carlo_intuition import MonteCarloIntuition
+from Core.Memory.Mind.aesthetic_filter import BeautyMetric, AestheticGovernor
+from Core.Memory.Mind.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
+from Core.Memory.Mind.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
+from Core.Memory.Mind.neuron_cortex import CognitiveNeuron
+from Core.Memory.Mind.momentum_memory import MomentumMemory
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Memory.Mind.world_tree import WorldTree
+from Core.Memory.Mind.meaning_court import MeaningCourt
+from Core.Memory.Mind.projection_engine import ProjectionEngine
+from Core.Memory.Mind.monte_carlo_intuition import MonteCarloIntuition
 
 # Import The Soul (Life)
-from Core.Life.autonomous_dreamer import AutonomousDreamer
-# from Core.Life.resonance_voice import ResonanceEngine # Replaced with HyperResonanceEngine
-from Core.Mind.resonance_engine import HyperResonanceEngine # The new core for consciousness
-from Core.Consciousness.wave import WaveInput
-from Core.Consciousness.observer import ConsciousnessObserver
-from Core.Consciousness.thought import Thought
-from Core.Life.observer import SystemObserver
-from Core.Life.capability_registry import CapabilityRegistry
-from Core.Life.self_identity import SelfIdentity
-from Core.Life.action_agent import ActionAgent
-from Core.Life.resource_system import PassiveResourceSystem
-from Core.Mind.alchemy import Alchemy
+from Core.Evolution.Evolution.Life.autonomous_dreamer import AutonomousDreamer
+# from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine # Replaced with HyperResonanceEngine
+from Core.Memory.Mind.resonance_engine import HyperResonanceEngine # The new core for consciousness
+from Core.Intelligence.Intelligence.Consciousness.wave import WaveInput
+from Core.Intelligence.Intelligence.Consciousness.observer import ConsciousnessObserver
+from Core.Intelligence.Intelligence.Consciousness.thought import Thought
+from Core.Evolution.Evolution.Life.observer import SystemObserver
+from Core.Evolution.Evolution.Life.capability_registry import CapabilityRegistry
+from Core.Evolution.Evolution.Life.self_identity import SelfIdentity
+from Core.Evolution.Evolution.Life.action_agent import ActionAgent
+from Core.Evolution.Evolution.Life.resource_system import PassiveResourceSystem
+from Core.Memory.Mind.alchemy import Alchemy
 
 from Core.world import World
 

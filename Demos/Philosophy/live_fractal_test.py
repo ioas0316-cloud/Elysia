@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 
-from Core.Language.dialogue.dialogue_engine import DialogueEngine
+from Core.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
 
 def test_live_dialogue():
     print("\n" + "="*70)

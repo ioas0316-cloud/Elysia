@@ -7,7 +7,7 @@ repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
-from Core.Life.code_world import CodeWorld
+from Core.Evolution.Evolution.Life.code_world import CodeWorld
 from Tools.visualizer_server import VisualizerServer
 import time
 

@@ -1,6 +1,6 @@
 import math
 
-from Core.Mind.meaning_court import MeaningCourt
+from Core.Memory.Mind.meaning_court import MeaningCourt
 
 
 def test_meaning_court_accepts_strong_signal_low_noise():

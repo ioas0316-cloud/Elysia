@@ -16,7 +16,7 @@ import os
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Physics.phase_lens import (
+from Core.Foundation.Physics.phase_lens import (
     PhaseDatum, IntentPurity, LensShape,
     TransmissionGate, ConductionFiber, RefractionLens, CrystalMedium,
     PhaseLens,
@@ -462,7 +462,7 @@ class TestPhysicsAccuracy:
 #
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-from Core.Physics.phase_lens import (
+from Core.Foundation.Physics.phase_lens import (
     EmotionSlide, GoboSlide, GoboProjector,
     create_gobo_projector, click_mood,
     get_gobo_projector, reset_gobo_projector
@@ -758,7 +758,7 @@ class TestStateSwitchingEfficiency:
 #
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-from Core.Physics.phase_lens import (
+from Core.Foundation.Physics.phase_lens import (
     DimensionLevel, BlinkingPoint, PanoramaLine, 
     BackgroundPlane, HologramSpace, DimensionalSwitch,
     create_dimensional_switch, click_dimension,

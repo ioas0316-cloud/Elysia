@@ -1,3 +1,0 @@
-"""
-Abstractions module
-"""

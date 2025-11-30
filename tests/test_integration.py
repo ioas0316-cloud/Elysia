@@ -16,7 +16,7 @@ class TestIntegrationBridge:
     
     def test_creation(self):
         """Test IntegrationBridge creation."""
-        from Core.Integration.integration_bridge import IntegrationBridge
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge
         
         bridge = IntegrationBridge()
         assert bridge is not None
@@ -25,7 +25,7 @@ class TestIntegrationBridge:
     
     def test_publish_resonance_event(self):
         """Test publishing resonance events."""
-        from Core.Integration.integration_bridge import IntegrationBridge
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge
         
         bridge = IntegrationBridge()
         
@@ -42,7 +42,7 @@ class TestIntegrationBridge:
     
     def test_publish_concept_event(self):
         """Test publishing concept events."""
-        from Core.Integration.integration_bridge import IntegrationBridge
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge
         
         bridge = IntegrationBridge()
         
@@ -60,7 +60,7 @@ class TestIntegrationBridge:
     
     def test_publish_relationship_event(self):
         """Test publishing relationship events."""
-        from Core.Integration.integration_bridge import IntegrationBridge
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge
         
         bridge = IntegrationBridge()
         
@@ -78,7 +78,7 @@ class TestIntegrationBridge:
     
     def test_subscribe_and_notify(self):
         """Test event subscription and notification."""
-        from Core.Integration.integration_bridge import IntegrationBridge, EventType
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge, EventType
         
         bridge = IntegrationBridge()
         received_events = []
@@ -95,7 +95,7 @@ class TestIntegrationBridge:
     
     def test_get_recent_events(self):
         """Test retrieving recent events."""
-        from Core.Integration.integration_bridge import IntegrationBridge
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge
         
         bridge = IntegrationBridge()
         
@@ -113,7 +113,7 @@ class TestIntegrationBridge:
     
     def test_statistics(self):
         """Test statistics tracking."""
-        from Core.Integration.integration_bridge import IntegrationBridge
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge
         
         bridge = IntegrationBridge()
         
@@ -128,7 +128,7 @@ class TestIntegrationBridge:
     
     def test_connect_engines(self):
         """Test connecting various engines."""
-        from Core.Integration.integration_bridge import IntegrationBridge
+        from Core.System.System.Integration.integration_bridge import IntegrationBridge
         
         bridge = IntegrationBridge()
         
@@ -149,7 +149,7 @@ class TestMetaTimeStrategy:
     
     def test_creation(self):
         """Test MetaTimeStrategy creation."""
-        from Core.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode
+        from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode
         
         strategy = MetaTimeStrategy()
         assert strategy is not None
@@ -157,7 +157,7 @@ class TestMetaTimeStrategy:
     
     def test_set_temporal_mode(self):
         """Test temporal mode setting."""
-        from Core.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode
+        from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode
         
         strategy = MetaTimeStrategy()
         
@@ -167,7 +167,7 @@ class TestMetaTimeStrategy:
     
     def test_temporal_weights_normalized(self):
         """Test that temporal weights sum correctly."""
-        from Core.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode
+        from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode
         
         strategy = MetaTimeStrategy()
         
@@ -179,7 +179,7 @@ class TestMetaTimeStrategy:
     
     def test_computation_profile(self):
         """Test computation profile setting."""
-        from Core.Integration.meta_time_strategy import MetaTimeStrategy, ComputationProfile
+        from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy, ComputationProfile
         
         strategy = MetaTimeStrategy()
         
@@ -189,7 +189,7 @@ class TestMetaTimeStrategy:
     
     def test_generate_report(self):
         """Test strategy report generation."""
-        from Core.Integration.meta_time_strategy import MetaTimeStrategy
+        from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy
         
         strategy = MetaTimeStrategy()
         
@@ -207,7 +207,7 @@ class TestMetaTimeStrategy:
     
     def test_reset_cache(self):
         """Test cache reset."""
-        from Core.Integration.meta_time_strategy import MetaTimeStrategy
+        from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy
         
         strategy = MetaTimeStrategy()
         
@@ -227,7 +227,7 @@ class TestEventTypes:
     
     def test_event_types_exist(self):
         """Test all event types are defined."""
-        from Core.Integration.integration_bridge import EventType
+        from Core.System.System.Integration.integration_bridge import EventType
         
         expected_types = [
             "SIMULATION_TICK",
@@ -250,7 +250,7 @@ class TestDataClasses:
     
     def test_resonance_data(self):
         """Test ResonanceData class."""
-        from Core.Integration.integration_bridge import ResonanceData
+        from Core.System.System.Integration.integration_bridge import ResonanceData
         
         data = ResonanceData(
             source_concept="love",
@@ -264,7 +264,7 @@ class TestDataClasses:
     
     def test_concept_data(self):
         """Test ConceptData class."""
-        from Core.Integration.integration_bridge import ConceptData
+        from Core.System.System.Integration.integration_bridge import ConceptData
         
         data = ConceptData(
             concept_id="consciousness_1",
@@ -278,7 +278,7 @@ class TestDataClasses:
     
     def test_relationship_data(self):
         """Test RelationshipData class."""
-        from Core.Integration.integration_bridge import RelationshipData
+        from Core.System.System.Integration.integration_bridge import RelationshipData
         
         data = RelationshipData(
             source_concept="love",

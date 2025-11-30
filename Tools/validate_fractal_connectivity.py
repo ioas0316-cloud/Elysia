@@ -354,7 +354,7 @@ def main():
 
     # Try loading from kernel
     try:
-        from Core.Kernel import kernel
+        from Core.System.System.Kernel import kernel
         validator.load_world_tree(kernel)
         validator.load_hippocampus(kernel)
         validator.load_resonance_engine(kernel)

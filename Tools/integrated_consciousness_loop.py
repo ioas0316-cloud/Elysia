@@ -26,25 +26,25 @@ from typing import Dict, Optional, List, Tuple
 from dataclasses import dataclass
 
 # === 신학적 기둥들 ===
-from Core.Math.law_enforcement_engine import (
+from Core.Foundation.Math.law_enforcement_engine import (
     LawEnforcementEngine, 
     EnergyState, 
     Law, 
     LawViolation
 )
-from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
-from Core.Integration.meta_time_strategy import (
+from Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
+from Core.System.System.Integration.meta_time_strategy import (
     MetaTimeStrategy, 
     TemporalMode, 
     ComputationProfile
 )
-from Core.Integration.integration_bridge import IntegrationBridge, EventType
-from Core.Consciousness.agent_decision_engine import AgentDecisionEngine, AgentContext
-from Core.Physics.fluctlight import FluctlightEngine
-from Core.Physics.meta_time_engine import create_safe_meta_engine
-from Core.Mind.hippocampus import Hippocampus
-from Core.Mind.alchemy import Alchemy
-from Core.Integration.experience_digester import ExperienceDigester
+from Core.System.System.Integration.integration_bridge import IntegrationBridge, EventType
+from Core.Intelligence.Intelligence.Consciousness.agent_decision_engine import AgentDecisionEngine, AgentContext
+from Core.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Memory.Mind.alchemy import Alchemy
+from Core.System.System.Integration.experience_digester import ExperienceDigester
 
 logging.basicConfig(
     level=logging.INFO,

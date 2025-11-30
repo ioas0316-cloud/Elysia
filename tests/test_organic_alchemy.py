@@ -6,8 +6,8 @@ import os
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Evolution.organic_concept import ConceptVector
-from Core.Evolution.organic_alchemy import OrganicAlchemy
+from Core.Evolution.Evolution.organic_concept import ConceptVector
+from Core.Evolution.Evolution.organic_alchemy import OrganicAlchemy
 
 class TestOrganicAlchemy(unittest.TestCase):
     def setUp(self):

@@ -9,10 +9,10 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestLogos")
 
-from Core.Mind.hippocampus import Hippocampus
-from Core.Mind.spiderweb import Spiderweb
-from Core.Mind.logos_stream import LogosStream
-from Core.Life.resonance_voice import ResonanceEngine
+from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Memory.Mind.spiderweb import Spiderweb
+from Core.Memory.Mind.logos_stream import LogosStream
+from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
 
 def test():
     logger.info("🧪 Testing Logos Stream...")

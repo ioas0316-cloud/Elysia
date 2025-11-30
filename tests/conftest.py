@@ -14,14 +14,14 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 @pytest.fixture
 def hyper_qubit():
     """Create a test HyperQubit instance."""
-    from Core.Math.hyper_qubit import HyperQubit
+    from Core.Foundation.Math.hyper_qubit import HyperQubit
     return HyperQubit("test_qubit", value=1.0, name="test_qubit")
 
 
 @pytest.fixture
 def qubit_state():
     """Create a test QubitState instance."""
-    from Core.Math.hyper_qubit import QubitState
+    from Core.Foundation.Math.hyper_qubit import QubitState
     return QubitState(
         alpha=0.5 + 0j,
         beta=0.5 + 0j,
@@ -37,28 +37,28 @@ def qubit_state():
 @pytest.fixture
 def law_enforcement_engine():
     """Create a test LawEnforcementEngine instance."""
-    from Core.Math.law_enforcement_engine import LawEnforcementEngine
+    from Core.Foundation.Math.law_enforcement_engine import LawEnforcementEngine
     return LawEnforcementEngine()
 
 
 @pytest.fixture
 def energy_state():
     """Create a test EnergyState instance."""
-    from Core.Math.law_enforcement_engine import EnergyState
+    from Core.Foundation.Math.law_enforcement_engine import EnergyState
     return EnergyState(w=0.6, x=0.2, y=0.3, z=0.5)
 
 
 @pytest.fixture
 def infinite_hyperquaternion():
     """Create a test InfiniteHyperQuaternion instance."""
-    from Core.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
+    from Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQuaternion
     return InfiniteHyperQuaternion(dim=4)
 
 
 @pytest.fixture
 def concept_love():
     """Create a 'love' concept HyperQubit with epistemology."""
-    from Core.Math.hyper_qubit import HyperQubit, QubitState
+    from Core.Foundation.Math.hyper_qubit import HyperQubit, QubitState
     
     qubit = HyperQubit(
         "love",
@@ -89,7 +89,7 @@ def concept_love():
 @pytest.fixture
 def concept_truth():
     """Create a 'truth' concept HyperQubit with epistemology."""
-    from Core.Math.hyper_qubit import HyperQubit, QubitState
+    from Core.Foundation.Math.hyper_qubit import HyperQubit, QubitState
     
     qubit = HyperQubit(
         "truth",

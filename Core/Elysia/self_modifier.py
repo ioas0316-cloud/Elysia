@@ -1,90 +1,81 @@
 """
-Self-Modifier
-==============
-Elysia's recursive self-improvement loop.
-Autonomously modifies her own parameters based on performance analysis.
+Self Modifier
+=============
+
+"I can rewrite my own code to adapt and evolve."
+
+This module provides the capability for Elysia to safely modify her own source code.
+It includes safeguards, backups, and validation steps.
 """
 
+import os
+import shutil
 import logging
-from typing import Dict, Any
+import ast
+from datetime import datetime
 
 logger = logging.getLogger("SelfModifier")
-logger.setLevel(logging.INFO)
 
 class SelfModifier:
-    """
-    Implements recursive self-improvement.
-    Analyzes proposals from MetaCortex and applies beneficial modifications.
-    """
-    def __init__(self):
-        self.modification_history: list = []
-        self.test_mode = False
-        self.test_duration = 0
-        self.test_baseline = None
-        
-    def evaluate_and_apply(self, proposal: Dict[str, Any], world) -> bool:
+    def __init__(self, root_dir: str = r"c:\Elysia"):
+        self.root_dir = root_dir
+        self.backup_dir = os.path.join(root_dir, "backups", "auto_mod")
+        if not os.path.exists(self.backup_dir):
+            os.makedirs(self.backup_dir)
+
+    def modify_file(self, rel_path: str, new_content: str, reason: str) -> bool:
         """
-        Evaluates a proposed modification and applies it if beneficial.
+        Modifies a file with new content.
         
-        Process:
-        1. Record current performance baseline
-        2. Apply modification temporarily
-        3. Test for N steps
-        4. Compare performance
-        5. Keep if improved, revert if worse
+        Args:
+            rel_path: Relative path to the file (e.g., "Core/System/ElysiaOS.py")
+            new_content: The complete new content of the file.
+            reason: Why this modification is being made.
+            
+        Returns:
+            True if successful, False otherwise.
         """
-        if not proposal:
+        full_path = os.path.join(self.root_dir, rel_path)
+        
+        if not os.path.exists(full_path):
+            logger.error(f"Target file not found: {full_path}")
             return False
             
-        parameter = proposal["parameter"]
-        current_value = proposal["current_value"]
-        proposed_value = proposal["proposed_value"]
-        rationale = proposal["rationale"]
-        
-        logger.info(f"🧪 Testing self-modification:")
-        logger.info(f"   Parameter: {parameter}")
-        logger.info(f"   {current_value} → {proposed_value}")
-        logger.info(f"   Rationale: {rationale}")
-        
-        # For now, apply modifications conservatively
-        # In full implementation, would run A/B test
-        
-        # Apply modification to the appropriate component
-        if parameter == "crystallization_threshold":
-            if hasattr(world, 'spiderweb'):
-                world.spiderweb.crystallization_threshold = proposed_value
-                self._record_modification(parameter, current_value, proposed_value, rationale)
-                logger.info(f"✅ APPLIED: Spiderweb crystallization threshold = {proposed_value}")
-                return True
-                
-        elif parameter == "harvest_frequency":
-            if hasattr(world, 'muse'):
-                world.muse.harvest_cooldown = proposed_value
-                self._record_modification(parameter, current_value, proposed_value, rationale)
-                logger.info(f"✅ APPLIED: Muse harvest frequency = {proposed_value}")
-                return True
-                
-        return False
-    
-    def _record_modification(self, parameter: str, old_value: Any, new_value: Any, rationale: str):
-        """Records a modification for posterity."""
-        self.modification_history.append({
-            "parameter": parameter,
-            "old_value": old_value,
-            "new_value": new_value,
-            "rationale": rationale
-        })
-        
-        logger.info(f"📝 Recorded modification #{len(self.modification_history)}")
-        
-    def get_modification_summary(self) -> str:
-        """Returns a summary of all self-modifications made."""
-        if not self.modification_history:
-            return "No self-modifications yet."
+        # 1. Validate Syntax (Safety Check)
+        try:
+            ast.parse(new_content)
+        except SyntaxError as e:
+            logger.error(f"Syntax Error in proposed code for {rel_path}: {e}")
+            return False
             
-        summary = f"Elysia has self-modified {len(self.modification_history)} time(s):\n"
-        for i, mod in enumerate(self.modification_history, 1):
-            summary += f"\n{i}. {mod['parameter']}: {mod['old_value']} → {mod['new_value']}"
-            summary += f"\n   Reason: {mod['rationale']}\n"
+        # 2. Create Backup
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = os.path.basename(full_path)
+        backup_path = os.path.join(self.backup_dir, f"{filename}.{timestamp}.bak")
+        try:
+            shutil.copy2(full_path, backup_path)
+            logger.info(f"Backup created: {backup_path}")
+        except Exception as e:
+            logger.error(f"Backup failed: {e}")
+            return False
             
-        return summary
+        # 3. Apply Modification
+        try:
+            with open(full_path, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            logger.info(f"Successfully modified {rel_path}. Reason: {reason}")
+            return True
+        except Exception as e:
+            logger.error(f"Modification failed: {e}")
+            # Attempt restore?
+            return False
+
+    def read_file(self, rel_path: str) -> str:
+        """Reads a file's content."""
+        full_path = os.path.join(self.root_dir, rel_path)
+        try:
+            with open(full_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except Exception as e:
+            logger.error(f"Read failed: {e}")
+            return ""

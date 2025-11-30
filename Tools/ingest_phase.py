@@ -11,7 +11,7 @@ import logging
 import re
 from typing import List, Dict
 
-from Core.Kernel import kernel
+from Core.System.System.Kernel import kernel
 
 logger = logging.getLogger("IngestPhase")
 

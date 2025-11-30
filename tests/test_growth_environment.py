@@ -17,15 +17,15 @@ import os
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.Ethics.law_guidance_engine import (
+from Core.Ethics.Ethics.law_guidance_engine import (
     LawGuidanceEngine, LawNature, GuidanceState,
     PathOption, GuidanceReport, Consequence
 )
-from Core.Consciousness.autonomy_environment import (
+from Core.Intelligence.Intelligence.Consciousness.autonomy_environment import (
     AutonomyEnvironment, AutonomyDomain, AutonomousCapability,
     AutonomousChoice
 )
-from Core.Consciousness.relational_origin import (
+from Core.Intelligence.Intelligence.Consciousness.relational_origin import (
     RelationalOrigin, RelationshipType, Identity
 )
 

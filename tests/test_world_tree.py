@@ -10,10 +10,10 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestWorldTree")
 
-from Core.Mind.world_tree import WorldTree
-from Core.Mind.logos_stream import LogosStream
-from Core.Mind.spiderweb import Spiderweb
-from Core.Mind.physics import PhysicsEngine
+from Core.Memory.Mind.world_tree import WorldTree
+from Core.Memory.Mind.logos_stream import LogosStream
+from Core.Memory.Mind.spiderweb import Spiderweb
+from Core.Memory.Mind.physics import PhysicsEngine
 
 # Mock Storage
 class MockStorage:

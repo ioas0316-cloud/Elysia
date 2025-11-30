@@ -16,7 +16,7 @@ logging.basicConfig(
     format='%(message)s'
 )
 
-from Core.Mind.fractal_consciousness import FractalConsciousness
+from Core.Memory.Mind.fractal_consciousness import FractalConsciousness
 
 
 def simulate():

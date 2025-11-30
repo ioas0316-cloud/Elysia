@@ -11,7 +11,7 @@ print("="*70)
 
 # Test 1: WorldTree Identity
 print("\n1. WorldTree Identity Test:")
-from Core.Mind.world_tree import WorldTree
+from Core.Memory.Mind.world_tree import WorldTree
 tree = WorldTree()
 
 name = tree.get_identity_attribute("name")
