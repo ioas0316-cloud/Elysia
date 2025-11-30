@@ -12,64 +12,89 @@ import logging
 logger = logging.getLogger("Spiderweb")
 logger.setLevel(logging.INFO)
 
+import random
+from typing import Dict, List, Tuple, Optional
+
 class Spiderweb:
     """
-    The collective unconscious of the simulation.
-    Absorbs discoveries from individuals and returns them as cultural inheritance.
+    The Spiderweb (Collective Consciousness)
+    =========================================
+    A global knowledge graph that evolves with the civilization.
+    Harvests concepts from the cell population and crystallizes them into universal truths.
+    
+    Now powers the "Emergent Intelligence" by traversing the concept graph.
     """
-    def __init__(self, crystallization_threshold: int = 10):
-        # Global concept graph: Concept ID -> (Vector, Frequency)
-        self.concepts: Dict[str, Tuple[np.ndarray, int]] = {}
-        
-        # How many cells must use a concept before it becomes "universal"
-        self.crystallization_threshold = crystallization_threshold
-        
-        # Crystallized concepts (cultural genome)
+    def __init__(self, hippocampus):
+        self.hippocampus = hippocampus
+        self.crystallization_threshold = 10
         self.universal_truths: Dict[str, np.ndarray] = {}
         
+        # Initialize Physics Engine (The Resurrection)
+        from Core.Mind.physics import PhysicsEngine
+        self.physics = PhysicsEngine(self.hippocampus)
+        
+    def traverse(self, start_concept: str, steps: int = 5) -> List[str]:
+        """
+        Think by traversing the concept graph.
+        Uses the Physics Engine (Wave Mechanics) to find the path of Highest Resonance (Gravity).
+        """
+        path = [start_concept]
+        current = start_concept
+        
+        for _ in range(steps):
+            # Get related concepts from Hippocampus (Resonance)
+            related = self.hippocampus.get_related_concepts(current)
+            
+            if not related:
+                break
+                
+            # Candidates for the next step
+            candidates = list(related.keys())
+            
+            # Avoid loops if possible
+            valid_candidates = [c for c in candidates if c not in path]
+            if not valid_candidates:
+                valid_candidates = candidates # Backtrack allowed if stuck
+            
+            if not valid_candidates:
+                break
+                
+            # Select Optimal Path based on Quantum Tunneling (Gravity * Resonance)
+            current_tensor = self.physics.get_node_tensor(current)
+            next_concept = self.physics.tunnel_to_conclusion(current_tensor, valid_candidates)
+            
+            if next_concept:
+                path.append(next_concept)
+                current = next_concept
+            else:
+                break
+            
+        return path
+
+    def synthesize_thought(self, path: List[str]) -> str:
+        """
+        Synthesizes a thought from a concept path.
+        Uses Gravitational Linguistics if available.
+        """
+        # Lazy load to avoid circular imports
+        from Core.Life.gravitational_linguistics import GravitationalLinguistics
+        
+        # Initialize Linguistics Engine (connected to Hippocampus)
+        linguistics = GravitationalLinguistics(hippocampus=self.hippocampus)
+        
+        # Generate Physics-Based Sentence
+        return linguistics.generate_from_path(path)
+
     def absorb(self, concept_id: str, vector: np.ndarray) -> bool:
         """
         Records a concept usage. Returns True if it crystallized into a universal truth.
         """
-        if concept_id in self.concepts:
-            # Increment frequency
-            vec, freq = self.concepts[concept_id]
-            # Update vector (running average)
-            vec = (vec * freq + vector) / (freq + 1)
-            freq += 1
-            self.concepts[concept_id] = (vec, freq)
-            
-            # Check for crystallization
-            if freq >= self.crystallization_threshold and concept_id not in self.universal_truths:
-                self.universal_truths[concept_id] = vec
-                logger.info(f"✨ Concept Crystallized: '{concept_id}' has become a Universal Truth (freq={freq})")
-                return True
-        else:
-            # New concept
-            self.concepts[concept_id] = (vector.copy(), 1)
-            
+        # Legacy support - delegated to Hippocampus in the new architecture
         return False
-    
-    def get_cultural_genome(self) -> Dict[str, np.ndarray]:
-        """
-        Returns the set of universal truths to be inherited by new cells.
-        """
-        return self.universal_truths.copy()
-    
-    def get_concept_frequency(self, concept_id: str) -> int:
-        """Returns how many times a concept has been observed."""
-        if concept_id in self.concepts:
-            return self.concepts[concept_id][1]
-        return 0
     
     def get_status(self) -> Dict:
         """Returns statistics about the collective knowledge."""
         return {
-            "total_concepts": len(self.concepts),
-            "universal_truths": len(self.universal_truths),
-            "top_concepts": sorted(
-                [(k, v[1]) for k, v in self.concepts.items()], 
-                key=lambda x: x[1], 
-                reverse=True
-            )[:10]
+            "mode": "Emergent (Graph Traversal)",
+            "connected_memory": True
         }

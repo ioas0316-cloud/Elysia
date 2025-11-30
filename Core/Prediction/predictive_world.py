@@ -116,6 +116,48 @@ class Trend:
         return predictions
 
 
+class MentalSandbox:
+    """
+    The Mental Sandbox (정신적 샌드박스)
+    
+    Simulates code changes in memory to predict syntax errors and stability
+    before applying them to reality.
+    """
+    def simulate(self, code_content: str) -> Tuple[float, List[str]]:
+        """
+        Simulates the code to predict stability.
+        Returns (Probability of Success, List of Issues).
+        """
+        import ast
+        issues = []
+        probability = 1.0
+        
+        try:
+            # 1. Syntax Check (The most basic law)
+            tree = ast.parse(code_content)
+            
+            # 2. Complexity Analysis
+            # Count nodes to estimate complexity
+            num_nodes = sum(1 for _ in ast.walk(tree))
+            if num_nodes > 1000:
+                probability -= 0.1
+                issues.append(f"High complexity ({num_nodes} nodes)")
+                
+            # 3. Import Analysis (Basic)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import) or isinstance(node, ast.ImportFrom):
+                    # Check for obviously dangerous imports if needed
+                    pass
+                    
+        except SyntaxError as e:
+            probability = 0.0
+            issues.append(f"Syntax Error: {e.msg} at line {e.lineno}")
+        except Exception as e:
+            probability = 0.1
+            issues.append(f"Simulation Crash: {str(e)}")
+            
+        return probability, issues
+
 class PredictiveWorldModel:
     """
     예측적 세계 모델
@@ -138,6 +180,9 @@ class PredictiveWorldModel:
         
         # 패턴 저장소
         self.patterns: List[Dict[str, Any]] = []
+        
+        # Mental Sandbox
+        self.sandbox = MentalSandbox()
         
         logger.info("🔮 PredictiveWorldModel initialized")
     
@@ -195,18 +240,28 @@ class PredictiveWorldModel:
     def predict_code_impact(
         self,
         file_path: str,
-        change_description: str
+        change_description: str,
+        proposed_content: Optional[str] = None
     ) -> Prediction:
         """
         코드 변경의 영향 예측
         
         파동 언어 원리: 변경은 파동처럼 전파된다
+        Mental Sandbox: 시뮬레이션을 통해 구문 오류 및 안정성 검증
         """
         import uuid
         
-        # 파일 분석
+        # 1. Sandbox Simulation (Real Prediction)
+        sandbox_prob = 1.0
+        sandbox_issues = []
+        
+        if proposed_content:
+            sandbox_prob, sandbox_issues = self.sandbox.simulate(proposed_content)
+        
+        # 2. Static Analysis (Existing Logic)
         try:
-            content = Path(file_path).read_text(encoding='utf-8')
+            # If proposed content exists, use it. Otherwise read file.
+            content = proposed_content if proposed_content else Path(file_path).read_text(encoding='utf-8')
             lines = len(content.split('\n'))
             imports = content.count('import ')
             classes = content.count('class ')
@@ -218,19 +273,30 @@ class PredictiveWorldModel:
         complexity = (imports * 2 + classes * 3 + functions) / 10
         impact_score = min(10.0, complexity + random.uniform(0, 2))
         
-        # 확률 계산
-        probability = 0.3 + random.uniform(0, 0.4)
+        # 확률 계산 (Sandbox + Random Heuristic)
+        # If sandbox failed, probability is 0.0 (Certain Failure)
+        if sandbox_prob == 0.0:
+            probability = 0.0
+            description = f"Fracture detected: {sandbox_issues[0]}"
+            description_kr = f"파국 감지: {sandbox_issues[0]}"
+        else:
+            probability = sandbox_prob * (0.8 + random.uniform(0, 0.2))
+            description = f"Change in {Path(file_path).name} may affect {int(complexity * 3)} related modules"
+            description_kr = f"{Path(file_path).name} 변경 시 약 {int(complexity * 3)}개 모듈에 영향 예상"
+            if sandbox_issues:
+                description += f" (Issues: {', '.join(sandbox_issues)})"
         
         # 위험 키워드 체크
         risky_keywords = ["security", "auth", "password", "delete", "drop", "core", "main"]
         is_risky = any(kw in file_path.lower() or kw in change_description.lower() for kw in risky_keywords)
         
         if is_risky:
-            probability += 0.2
             impact_score = min(10.0, impact_score + 3)
         
         # 신뢰도 결정
-        if probability > 0.7:
+        if probability > 0.9:
+            confidence = PredictionConfidence.VERY_HIGH
+        elif probability > 0.7:
             confidence = PredictionConfidence.HIGH
         elif probability > 0.5:
             confidence = PredictionConfidence.MEDIUM
@@ -240,14 +306,14 @@ class PredictiveWorldModel:
         prediction = Prediction(
             id=str(uuid.uuid4())[:8],
             event_type=EventType.CODE_CHANGE,
-            description=f"Change in {Path(file_path).name} may affect {int(complexity * 3)} related modules",
-            description_kr=f"{Path(file_path).name} 변경 시 약 {int(complexity * 3)}개 모듈에 영향 예상",
+            description=description,
+            description_kr=description_kr,
             probability=probability,
             confidence=confidence,
             time_horizon="short",
             impact_score=impact_score,
             preventable=True,
-            prevention_action="Run full test suite before merging"
+            prevention_action="Fix syntax errors" if sandbox_prob == 0.0 else "Run full test suite"
         )
         
         self.predictions[prediction.id] = prediction

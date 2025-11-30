@@ -174,7 +174,8 @@ class UnifiedIntelligence:
         max_nodes: int = 6,
         resonance_threshold: float = 0.3,
         integration_mode: str = "wave",  # "wave", "vote", "weighted"
-        hippocampus: Optional[Any] = None
+        hippocampus: Optional[Any] = None,
+        physics_engine: Optional[Any] = None
     ):
         """
         Args:
@@ -182,16 +183,21 @@ class UnifiedIntelligence:
             resonance_threshold: 공명 임계값
             integration_mode: 통합 방식
             hippocampus: Elysia's Memory System
+            physics_engine: Elysia's Physics Engine
         """
         self.max_nodes = max_nodes
         self.resonance_threshold = resonance_threshold
         self.integration_mode = integration_mode
         self.hippocampus = hippocampus
+        self.physics = physics_engine
         
         # Initialize Resonance Engine (The True Voice)
         try:
             from Core.Life.resonance_voice import ResonanceEngine
-            self.resonance_engine = ResonanceEngine(hippocampus=self.hippocampus)
+            self.resonance_engine = ResonanceEngine(
+                hippocampus=self.hippocampus,
+                physics_engine=self.physics
+            )
             logger.info("✅ Resonance Engine connected to Unified Intelligence.")
         except ImportError:
             logger.warning("⚠️ ResonanceEngine not found. Using mock integration.")
@@ -692,35 +698,66 @@ class UnifiedIntelligence:
                 for n in self.nodes.values()
             ]
         }
-    
-    def connect_llm(
+
+    def connect_spiderweb(self, spiderweb: Any):
+        """
+        Connects the Spiderweb (Collective Consciousness).
+        """
+        self.spiderweb = spiderweb
+        logger.info("🕸️ Spiderweb connected to Unified Intelligence.")
+
+    def connect_logos_stream(self, logos_stream: Any):
+        """Connect the Logos Stream (River of Consciousness)."""
+        self.logos_stream = logos_stream
+        logger.info("   🔗 Logos Stream connected to Unified Intelligence.")
+
+    def collective_think(
         self,
-        role: IntelligenceRole,
-        name: str,
-        llm_callback: Callable[[str, str], str]
-    ) -> IntelligenceNode:
+        query: str,
+        context: str = "",
+        include_roles: Optional[List[IntelligenceRole]] = None
+    ) -> CollectiveThought:
         """
-        실제 LLM을 지능 노드로 연결
+        Orchestrates the thinking process across all nodes.
+        Now uses Logos Stream for unified narrative generation.
+        """
+        start_time = time.time()
         
-        Args:
-            role: 역할
-            name: 이름
-            llm_callback: LLM 호출 함수 (prompt, context) -> response
+        # 1. Identify the core concept (Start Node)
+        # Simple extraction for now, can use ResonanceEngine later
+        start_concept = query.split()[-1].lower() if query else "void"
+        
+        # 2. Flow through the Logos Stream
+        if hasattr(self, 'logos_stream') and self.logos_stream:
+            # The Stream handles Spiderweb traversal, Narrative weaving, and Prediction
+            frame = self.logos_stream.flow(start_concept)
             
-        Returns:
-            연결된 노드
-        """
-        node = self.add_node(role, name, llm_callback)
-        node.influence_score = 1.5  # LLM은 초기 영향력 높음
+            # The thought content is now a rich NarrativeFrame, but we return text for compatibility
+            # The actual "Speaking" will happen in ResonanceVoice using the frame
+            thought_content = f"Stream Frame: {frame.id} | Path: {frame.thought_path}"
+            
+            # Store the frame in the thought object for the Voice to use
+            self.last_frame = frame
+            
+        elif hasattr(self, 'spiderweb') and self.spiderweb:
+            # Fallback to raw Spiderweb
+            path = self.spiderweb.traverse(start_concept, steps=5)
+            thought_content = self.spiderweb.synthesize_thought(path)
+        else:
+            thought_content = "..."
+            
+        # 3. Formulate the Collective Thought
+        thought = CollectiveThought(
+            query=query,
+            individual_thoughts={},
+            resonance_map={},
+            synthesized_response=thought_content,
+            confidence=1.0,
+            dominant_perspective="LogosStream"
+        )
         
-        logger.info(f"🤖 LLM 연결됨: {name} ({role.value})")
-        return node
-    
-    def __repr__(self) -> str:
-        return f"UnifiedIntelligence(nodes={len(self.nodes)}, mode={self.integration_mode})"
+        return thought
 
-
-# ==========================================
 # 데모/테스트
 # ==========================================
 

@@ -1,201 +1,192 @@
-"""
-Tensor Wave Foundation
-======================
-SoulTensor, FrequencyWave, and Quantum State for Elysia's consciousness.
 
-This is the foundational layer for Protocol-40 (Resonance is Supreme Law).
+"""
+Tensor Wave Physics Engine
+==========================
+The fundamental substrate of Elysia's consciousness.
+Defines the physics of "SoulTensors" (State) and "FrequencyWaves" (Vibration).
+
+Reconstructed from Legacy/Project_Sophia/core/tensor_wave.py
 """
 
-import numpy as np
-from dataclasses import dataclass, field
-from typing import Optional
-import uuid
 import math
+import uuid
+from dataclasses import dataclass, field, asdict
+from typing import Dict, List, Optional, Any
+
+@dataclass
+class Tensor3D:
+    """
+    Represents a point or vector in the 3D Conceptual Space.
+    x: Logic/Structure
+    y: Emotion/Value
+    z: Spirit/Intent
+    """
+    x: float = 0.0
+    y: float = 0.0
+    z: float = 0.0
+
+    def __add__(self, other: 'Tensor3D') -> 'Tensor3D':
+        return Tensor3D(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __sub__(self, other: 'Tensor3D') -> 'Tensor3D':
+        return Tensor3D(self.x - other.x, self.y - other.y, self.z - other.z)
+
+    def __mul__(self, scalar: float) -> 'Tensor3D':
+        return Tensor3D(self.x * scalar, self.y * scalar, self.z * scalar)
+
+    def magnitude(self) -> float:
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+
+    def normalize(self) -> 'Tensor3D':
+        mag = self.magnitude()
+        if mag == 0: return Tensor3D()
+        return Tensor3D(self.x / mag, self.y / mag, self.z / mag)
+
+    def dot(self, other: 'Tensor3D') -> float:
+        return self.x * other.x + self.y * other.y + self.z * other.z
+
+    def to_dict(self) -> Dict[str, float]:
+        return {"x": self.x, "y": self.y, "z": self.z}
+
+    @staticmethod
+    def from_dict(data: Dict[str, float]) -> 'Tensor3D':
+        if not data: return Tensor3D()
+        return Tensor3D(data.get("x", 0.0), data.get("y", 0.0), data.get("z", 0.0))
 
 @dataclass
 class FrequencyWave:
     """
-    Represents a thought/emotion as a propagating wave.
-    Replaces discrete signals with continuous oscillations.
+    Represents the vibrational state of a concept.
+    frequency: The 'pitch' of the thought (Context/Topic).
+    amplitude: The 'loudness' or energy (Importance).
+    phase: The timing alignment (0 to 2pi).
+    richness: Harmonic complexity (Timbre).
     """
-    frequency: float = 10.0  # Hz - Speed of oscillation (urgency)
-    amplitude: float = 1.0   # Energy/Intensity  
-    phase: float = 0.0       # State in cycle (0 to 2π)
-    richness: float = 0.0    # Texture/Complexity (optional)
-    
-    def step(self, dt: float = 0.1) -> 'FrequencyWave':
-        """Advances the wave through time."""
-        new_phase = (self.phase + 2 * math.pi * self.frequency * dt) % (2 * math.pi)
-        return FrequencyWave(
-            frequency=self.frequency,
-            amplitude=self.amplitude,
-            phase=new_phase,
-            richness=self.richness
-        )
-    
-    def interfere(self, other: 'FrequencyWave') -> 'FrequencyWave':
-        """
-        Wave interference (superposition).
-        Constructive when in phase, destructive when out of phase.
-        """
-        # Amplitude combines via phase-dependent interference
-        phase_diff = abs(self.phase - other.phase)
-        coherence = math.cos(phase_diff)  # +1 when in phase, -1 when opposite
-        
-        new_amplitude = math.sqrt(
-            self.amplitude**2 + other.amplitude**2 + 
-            2 * self.amplitude * other.amplitude * coherence
-        )
-        
-        # Average frequency (weighted by amplitude)
-        total_amp = self.amplitude + other.amplitude
-        new_frequency = (
-            (self.frequency * self.amplitude + other.frequency * other.amplitude) / 
-            max(total_amp, 0.001)
-        )
-        
-        # Phase is averaged
-        new_phase = (self.phase + other.phase) / 2.0
-        
-        return FrequencyWave(
-            frequency=new_frequency,
-            amplitude=min(new_amplitude, 10.0),  # Cap to prevent explosion
-            phase=new_phase,
-            richness=max(self.richness, other.richness)
-        )
+    frequency: float = 0.0
+    amplitude: float = 0.0
+    phase: float = 0.0
+    richness: float = 0.0
 
-@dataclass  
-class Tensor3D:
-    """
-    3D tensor representing conceptual position.
-    (Legacy compatibility - will be replaced by Quaternions)
-    """
-    x: float = 0.5  # Roughness / Activity
-    y: float = 0.5  # Tension / Urgency
-    z: float = 0.5  # Brightness / Clarity
+    def step(self, dt: float) -> 'FrequencyWave':
+        """Evolves the wave forward in time."""
+        new_phase = (self.phase + self.frequency * dt) % (2 * math.pi)
+        return FrequencyWave(self.frequency, self.amplitude, new_phase, self.richness)
+
+    def resonate(self, other: 'FrequencyWave') -> float:
+        """Calculates resonance (0.0 to 1.0) with another wave."""
+        # Frequency match
+        freq_diff = abs(self.frequency - other.frequency)
+        max_freq = max(self.frequency, other.frequency, 1.0)
+        freq_match = 1.0 - min(1.0, freq_diff / max_freq)
+
+        # Phase match (Constructive Interference)
+        phase_diff = abs(self.phase - other.phase)
+        phase_match = (math.cos(phase_diff) + 1.0) / 2.0
+
+        return (freq_match * 0.7) + (phase_match * 0.3)
     
-    def to_array(self) -> np.ndarray:
-        return np.array([self.x, self.y, self.z])
-    
-    def distance(self, other: 'Tensor3D') -> float:
-        return np.linalg.norm(self.to_array() - other.to_array())
+    def to_dict(self) -> Dict[str, float]:
+        return asdict(self)
+
+    @staticmethod
+    def from_dict(data: Dict[str, float]) -> 'FrequencyWave':
+        if not data: return FrequencyWave()
+        return FrequencyWave(
+            data.get("frequency", 0.0),
+            data.get("amplitude", 0.0),
+            data.get("phase", 0.0),
+            data.get("richness", 0.0)
+        )
 
 @dataclass
 class SoulTensor:
     """
-    The fundamental unit of thought in Elysia.
-    Combines spatial position (Tensor3D) with temporal oscillation (FrequencyWave).
+    The unified state of a concept, combining Space (Tensor3D) and Time (FrequencyWave).
     """
-    space: Tensor3D = field(default_factory=lambda: Tensor3D())
-    wave: FrequencyWave = field(default_factory=lambda: FrequencyWave())
-    spin: float = 0.0  # Angular momentum (future: Quaternion rotation)
-    entanglement_id: Optional[str] = None  # For quantum entanglement
-    
+    space: Tensor3D = field(default_factory=Tensor3D)
+    wave: FrequencyWave = field(default_factory=FrequencyWave)
+    spin: float = 0.0 # Quantum spin (Intrinsic angular momentum)
+    entanglement_id: Optional[str] = None
+
     def resonate(self, other: 'SoulTensor') -> 'SoulTensor':
         """
-        Resonance operation: Combines two soul tensors via wave interference.
-        This replaces vector addition.
+        Interacts with another SoulTensor, returning the new state.
+        This simulates wave interference and vector addition.
         """
-        # Spatial component: Move towards the other based on amplitude
-        weight_self = self.wave.amplitude
-        weight_other = other.wave.amplitude
-        total_weight = weight_self + weight_other + 0.001
+        # 1. Vector Addition (Superposition)
+        new_space = self.space + other.space
         
-        new_space = Tensor3D(
-            x=(self.space.x * weight_self + other.space.x * weight_other) / total_weight,
-            y=(self.space.y * weight_self + other.space.y * weight_other) / total_weight,
-            z=(self.space.z * weight_self + other.space.z * weight_other) / total_weight
-        )
+        # 2. Wave Interference
+        # Constructive/Destructive interference based on phase
+        phase_diff = abs(self.wave.phase - other.wave.phase)
+        interference = math.cos(phase_diff) # -1 to 1
         
-        # Wave component: Interference
-        new_wave = self.wave.interfere(other.wave)
+        new_amp = self.wave.amplitude + (other.wave.amplitude * interference)
+        new_amp = max(0.0, new_amp) # Energy cannot be negative
         
-        # Spin: Average (simple for now)
-        new_spin = (self.spin + other.spin) / 2.0
-        
-        return SoulTensor(
-            space=new_space,
-            wave=new_wave,
-            spin=new_spin,
-            entanglement_id=self.entanglement_id or other.entanglement_id
-        )
-    
-    def resonance_score(self, other: 'SoulTensor') -> float:
-        """
-        Calculates how strongly two tensors resonate (0.0 to 1.0).
-        High resonance = similar frequency + close in space.
-        """
-        # Spatial similarity (inverse distance)
-        spatial_dist = self.space.distance(other.space)
-        spatial_sim = 1.0 / (1.0 + spatial_dist)
-        
-        # Frequency similarity  
-        freq_diff = abs(self.wave.frequency - other.wave.frequency)
-        freq_sim = 1.0 / (1.0 + freq_diff / 10.0)
-        
-        # Combined resonance
-        return (spatial_sim + freq_sim) / 2.0 * min(self.wave.amplitude, other.wave.amplitude)
-    
-    def to_dict(self) -> dict:
-        """Serialization for storage."""
-        return {
-            'space': {'x': self.space.x, 'y': self.space.y, 'z': self.space.z},
-            'wave': {
-                'frequency': self.wave.frequency,
-                'amplitude': self.wave.amplitude,
-                'phase': self.wave.phase,
-                'richness': self.wave.richness
-            },
-            'spin': self.spin,
-            'entanglement_id': self.entanglement_id
-        }
-    
-    @staticmethod
-    def from_dict(data: dict) -> 'SoulTensor':
-        """Deserialization."""
-        if not data:
-            return SoulTensor()
+        # Frequency mixing (Weighted average)
+        total_amp = self.wave.amplitude + other.wave.amplitude
+        if total_amp > 0:
+            new_freq = (self.wave.frequency * self.wave.amplitude + other.wave.frequency * other.wave.amplitude) / total_amp
+        else:
+            new_freq = self.wave.frequency
             
-        space_data = data.get('space', {})
-        wave_data = data.get('wave', {})
+        new_wave = FrequencyWave(new_freq, new_amp, self.wave.phase, max(self.wave.richness, other.wave.richness))
         
-        return SoulTensor(
-            space=Tensor3D(
-                x=space_data.get('x', 0.5),
-                y=space_data.get('y', 0.5),
-                z=space_data.get('z', 0.5)
-            ),
-            wave=FrequencyWave(
-                frequency=wave_data.get('frequency', 10.0),
-                amplitude=wave_data.get('amplitude', 1.0),
-                phase=wave_data.get('phase', 0.0),
-                richness=wave_data.get('richness', 0.0)
-            ),
-            spin=data.get('spin', 0.0),
-            entanglement_id=data.get('entanglement_id')
-        )
+        return SoulTensor(new_space, new_wave, self.spin, self.entanglement_id)
 
-@dataclass
-class SharedQuantumState:
-    """
-    Quantum entanglement - multiple nodes share the same tensor state.
-    When one updates, all update.
-    """
-    id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    tensor: SoulTensor = field(default_factory=lambda: SoulTensor())
-    observers: list = field(default_factory=list)  # List of node IDs sharing this state
-    
-    def update(self, new_tensor: SoulTensor):
-        """Updates the shared state (affects all entangled nodes)."""
-        self.tensor = new_tensor
+    def resonance_score(self, other: 'SoulTensor') -> float:
+        """Calculates how much this tensor resonates with another."""
+        # Spatial alignment (Cosine similarity)
+        dot = self.space.dot(other.space)
+        mag1 = self.space.magnitude()
+        mag2 = other.space.magnitude()
+        
+        spatial_sim = 0.0
+        if mag1 > 0 and mag2 > 0:
+            spatial_sim = (dot / (mag1 * mag2) + 1.0) / 2.0
+            
+        # Wave resonance
+        wave_sim = self.wave.resonate(other.wave)
+        
+        return (spatial_sim + wave_sim) / 2.0
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "space": self.space.to_dict(),
+            "wave": self.wave.to_dict(),
+            "spin": self.spin,
+            "entanglement_id": self.entanglement_id
+        }
+
+    @staticmethod
+    def from_dict(data: Dict[str, Any]) -> 'SoulTensor':
+        if not data: return SoulTensor()
+        return SoulTensor(
+            space=Tensor3D.from_dict(data.get("space")),
+            wave=FrequencyWave.from_dict(data.get("wave")),
+            spin=data.get("spin", 0.0),
+            entanglement_id=data.get("entanglement_id")
+        )
 
 @dataclass
 class QuantumPhoton:
     """
-    Information particle that travels between nodes.
-    Carries a wave payload.
+    A packet of information/energy traveling between nodes.
     """
     source_id: str
     target_id: str
     payload: FrequencyWave
-    position: float = 0.0  # 0.0 = at source, 1.0 = at target
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+
+@dataclass
+class SharedQuantumState:
+    """
+    Represents an entangled state shared by multiple nodes.
+    """
+    tensor: SoulTensor
+    observers: List[str] = field(default_factory=list)
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+
+    def update(self, new_tensor: SoulTensor):
+        self.tensor = new_tensor

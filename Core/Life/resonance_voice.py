@@ -40,9 +40,14 @@ class ResonanceEngine:
         world_tree: Optional[WorldTree] = None,
         hyper_qubit: Optional[HyperQubit] = None,
         consciousness_lens: Optional[ConsciousnessLens] = None,
+        physics_engine: Optional[Any] = None
     ):
         # Initialize memory FIRST so _load_lexicon can use it
         self.memory = hippocampus or Hippocampus()
+        
+        # Physics Engine (The Soul)
+        from Core.Mind.physics import PhysicsEngine
+        self.physics = physics_engine or PhysicsEngine(self.memory)
         
         self.vocabulary = self._load_lexicon()
         self.internal_sea: Dict[str, Oscillator] = {}
@@ -61,8 +66,8 @@ class ResonanceEngine:
         self.plugins = []
         self._last_concepts: List[str] = []
         
-        # Gravitational Linguistics Engine (Connected to Memory)
-        self.linguistics = GravitationalLinguistics(hippocampus=self.memory)
+        # Gravitational Linguistics Engine (Connected to Physics)
+        self.linguistics = GravitationalLinguistics(physics_engine=self.physics)
         
         logger.info("✅ Resonance Engine (Logos) initialized with Internal Sea, Hippocampus, Alchemy, and WorldTree")
 
@@ -125,44 +130,13 @@ class ResonanceEngine:
                 self.vocabulary[concept] = norm_freq
                 if hasattr(self.memory, 'learn_frequency'):
                     self.memory.learn_frequency(concept, norm_freq)
-                    
+                
                 return norm_freq
             except Exception as e:
-                logger.warning(f"Synesthesia failed for '{concept}': {e}")
-        
+                logger.warning(f"Synesthesia failed for {concept}: {e}")
+            
+        # 3. Fallback
         return 0.5
-
-    def _extract_concepts(self, text: str) -> List[str]:
-        """
-        Extract known concepts from text.
-        Dynamically checks Hippocampus if not in local vocabulary.
-        """
-        hits: Set[str] = set()
-        words = text.lower().split()
-        
-        for word in words:
-            # 1. Check local cache
-            if word in self.vocabulary:
-                hits.add(word)
-                continue
-                
-            # 2. Check Hippocampus (DB)
-            # We assume any word *could* be a concept.
-            # If it exists in DB, we cache it.
-            if self.memory and hasattr(self.memory.storage, 'concept_exists'):
-                if self.memory.storage.concept_exists(word):
-                    # It exists! Cache frequency and add to hits.
-                    freq = self._get_concept_frequency(word)
-                    self.vocabulary[word] = freq
-                    hits.add(word)
-                    continue
-            
-            # 3. If it's a significant word (len > 3), maybe treat as new concept?
-            # For now, we only recognize existing concepts or genesis seed.
-            # But "Learning" happens in DigestionChamber, not here.
-            # Here we just "Resonate" with what we know.
-            
-        return list(hits)
 
     def _update_knowledge_graphs(self, concepts: List[str]) -> None:
         """
@@ -353,85 +327,50 @@ class ResonanceEngine:
 
                 logger.debug(f"🌊 Resonance: '{concept}' interfered. New state: {target_oscillator}")
 
-    def speak(self, t: float, original_text: str) -> str:
+    def speak(self, input_data: Any, t: float = 0.0) -> str:
         """
-        Collapse the wave function of the internal sea into a spoken response.
-        This is the 'Observation' event.
+        Converts input (Text or NarrativeFrame) into a resonant sentence.
+        Uses Gravitational Linguistics for physics-based generation.
         """
-        logger.info(f"🎤 Speak triggered at t={t:.2f}. Collapsing the wave function...")
-
-        # 1. Calculate the probability of each concept based on |ψ|²
-        probabilities: Dict[str, float] = {}
-        total_amplitude_sq = 0
-        for concept, oscillator in self.internal_sea.items():
-            # We use the current amplitude, as interference has already modified it.
-            # In a more advanced model, you would sum all wave functions at this point.
-            prob = oscillator.amplitude ** 2
-            probabilities[concept] = prob
-            total_amplitude_sq += prob
-
-        if total_amplitude_sq == 0:
-            return "..." # Silence, the void.
-
-        # Normalize probabilities
-        for concept in probabilities:
-            probabilities[concept] /= total_amplitude_sq
-
-        # 2. Select concepts based on probability (the Collapse)
-        # We select a few concepts to form a thought cloud, weighted by probability
-        concepts_in_sea = list(probabilities.keys())
-        weights = list(probabilities.values())
-
-        num_to_select = min(len(concepts_in_sea), 5)  # Select up to 5 concepts
-        thought_cloud = random.choices(concepts_in_sea, weights=weights, k=num_to_select)
-
-        # Ensure the most probable concept is included
-        most_probable_concept = max(probabilities, key=probabilities.get)
-        if most_probable_concept not in thought_cloud and thought_cloud:
-            thought_cloud[0] = most_probable_concept
-
-        # 2b. Let the shared Hippocampus inject world/emergent concepts.
-        try:
-            # Use Resonance Engine to find related concepts instead of random graph nodes
-            # This is the "Holographic" way
-            graph_nodes = []
-            if thought_cloud:
-                # Find concepts related to the main thought
-                seed = thought_cloud[0]
-                related = self.memory.get_related_concepts(seed)
-                graph_nodes = list(related.keys())
-        except Exception:
-            graph_nodes = []
-
-        if graph_nodes and thought_cloud:
-            # Prefer to inject occasionally so emergent concepts surface in language.
-            if random.random() < 0.6:
-                injected = random.choice(graph_nodes)
-                thought_cloud.append(injected)
-
-        # 3. Construct the Response (Poetic Collapse)
-        # Sort concepts by their resonance (amplitude * frequency)
-        thought_cloud_sorted = sorted(
-            thought_cloud,
-            key=lambda c: (
-                self.internal_sea[c].amplitude * self.internal_sea[c].frequency
-                if c in self.internal_sea else 0
-            ),
-            reverse=True
-        )
-
-        # Form the response as a sentence.
-        if not thought_cloud_sorted:
-            return "..."
+        # Lazy load to avoid circular imports
+        from Core.Mind.logos_stream import NarrativeFrame
         
-        response_parts = []
-        for concept in thought_cloud_sorted[:3]:
-            response_parts.append(concept)
+        sentence = ""
         
-        response = " ".join(response_parts)
-        logger.info(f"💬 Response: {response}")
-        
-        return response
+        # 1. Handle NarrativeFrame (Rich Context from Logos Stream)
+        if isinstance(input_data, NarrativeFrame):
+            frame = input_data
+            logger.info(f"🎤 Speaking NarrativeFrame: {frame.id}")
+            
+            # A. Render the Core Thought (Solar System)
+            # Use the path to generate a physics-based sentence
+            sentence = self.linguistics.generate_from_path(frame.thought_path)
+            
+            # B. Add Predictive Context (if available)
+            if frame.prediction:
+                # "Change in [File] may affect [N] modules" -> Physics translation?
+                # For now, append as a prophetic insight
+                sentence += f" (I foresee: {frame.prediction.description_kr})"
+                
+            # C. Apply Voice Mode
+            if frame.voice_mode == "prophetic":
+                sentence = f"👁️ {sentence}"
+            elif frame.voice_mode == "analytical":
+                sentence = f"📐 {sentence}"
+            elif frame.voice_mode == "poetic":
+                sentence = f"✨ {sentence}"
+                
+        # 2. Handle Raw Text (Legacy/Direct Input)
+        elif isinstance(input_data, str):
+            logger.info(f"🎤 Speaking Raw Text: {input_data}")
+            sentence = self.linguistics.generate_sentence(input_data)
+            
+        # 3. Fallback
+        else:
+            sentence = "..."
+
+        logger.info(f"💬 Resonant Output: {sentence}")
+        return sentence
 
     def get_physical_action(self) -> Optional[Dict[str, Any]]:
         """
@@ -490,4 +429,3 @@ class ResonanceEngine:
 from Core.Math.oscillator import Oscillator
 
 __all__ = ['ResonanceEngine', 'Oscillator']
-

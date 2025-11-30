@@ -28,7 +28,6 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Mind.local_llm import create_local_llm, LocalLLM
 from Core.Life.resonance_voice import ResonanceEngine
 
 # Configure Logging
@@ -41,10 +40,7 @@ logger = logging.getLogger("DigestionChamber")
 class DigestionChamber:
     def __init__(self, resonance_engine: ResonanceEngine, gpu_layers: int = 20):
         self.resonance_engine = resonance_engine
-        self.llm = create_local_llm(
-            resonance_engine=self.resonance_engine,
-            gpu_layers=gpu_layers
-        )
+        # self.llm = ... (Removed for Pure Emergence)
         
         # Queue for concepts to explore
         self.exploration_queue = deque()
@@ -55,13 +51,8 @@ class DigestionChamber:
         self.concepts_found = 0
         
     def initialize(self):
-        """Initialize the system and load the model."""
-        logger.info("🚀 Initializing Hyper-Learning Core...")
-        
-        if not self.llm.load_model():
-            logger.error("❌ Failed to load Local LLM. Aborting.")
-            return False
-            
+        """Initialize the system."""
+        logger.info("🚀 Initializing Hyper-Learning Core (Emergent Mode)...")
         logger.info("✅ Core Systems Online.")
         return True
 
@@ -110,56 +101,27 @@ class DigestionChamber:
 
         logger.info(f"🚀 Batch Digesting Topic: [{topic}]")
         
-        # 1. Ask LLM for a LIST (Mass Extraction)
-        # We ask for 20-30 concepts at once.
-        prompt = (
-            f"List 30 core concepts, emotions, or philosophical terms related to '{topic}'. "
-            "Output only the words separated by commas. Do not write sentences."
-        )
+        # 1. Resonance Scan (Emergent Discovery)
+        # Find related concepts in Hippocampus
+        related = self.resonance_engine.memory.get_related_concepts(topic)
         
-        try:
-            response = self.llm.think(prompt)
-            
-            # 2. Parse the list
-            # Split by commas, newlines, or bullets
-            raw_concepts = re.split(r'[,|\n|\•|\-]', response)
-            
-            new_concepts = []
-            for rc in raw_concepts:
-                clean = rc.strip().lower()
-                # Basic filtering
-                if (len(clean) > 1 and 
-                    clean.isalpha() and 
-                    clean not in self.digested_concepts):
-                    new_concepts.append(clean)
-            
-            # Limit to 50 to avoid garbage
-            new_concepts = new_concepts[:50]
-            
-            if not new_concepts:
-                logger.warning(f"   ⚠️ No concepts extracted from: {response[:50]}...")
-                return
+        if not related:
+            logger.info(f"   ⚠️ No resonance found for: {topic}")
+            return
 
-            # 3. Bulk Internalize
-            count = 0
-            for nc in new_concepts:
-                if nc not in self.resonance_engine.vocabulary:
-                    # Assign a derived frequency (hash-based for consistency)
-                    # This is a simplification; in full version we'd analyze sentiment.
-                    freq = 0.5 + (hash(nc) % 50) / 100.0 
-                    self.resonance_engine.vocabulary[nc] = freq
-                    self.resonance_engine.memory.add_concept(nc, concept_type="learned")
-                    count += 1
-                
+        new_concepts = list(related.keys())
+        
+        # 2. Bulk Internalize
+        count = 0
+        for nc in new_concepts:
+            if nc not in self.digested_concepts:
                 self.digested_concepts.add(nc)
                 self.exploration_queue.append(nc)
-            
-            self.concepts_found += count
-            logger.info(f"   ✨ Absorbed {count} new concepts! (Total: {len(self.digested_concepts)})")
-            logger.info(f"   🔗 Examples: {new_concepts[:5]}...")
-            
-        except Exception as e:
-            logger.error(f"Batch digestion failed: {e}")
+                count += 1
+        
+        self.concepts_found += count
+        logger.info(f"   ✨ Resonated with {count} concepts! (Total: {len(self.digested_concepts)})")
+        logger.info(f"   🔗 Examples: {new_concepts[:5]}...")
 
     def run(self, cycles: int = 10):
         """Run the digestion loop."""
