@@ -1,15 +1,12 @@
-﻿"""ElysiaWorld high-level façade.
+"""ElysiaWorld facade backed by the main world simulator."""
 
-All existing Project_Sophia world functionality remains intact; this
-wrapper simply re-exports the canonical World class so the new
-repository structure can remain stable even if the legacy paths change.
-"""
+from world import World as _CoreWorld
 
-from Project_Sophia.core.world import World as _CoreWorld
 
 class World(_CoreWorld):
-    """Direct subclass to provide a stable import path."""
+    """Alias for callers that import through Legacy.elysia_world."""
 
     pass
+
 
 __all__ = ["World"]
