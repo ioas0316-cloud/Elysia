@@ -1,15 +1,12 @@
-﻿"""ElysiaWorld cell wrapper.
+"""ElysiaWorld cell wrapper backed by the main simulator cell."""
 
-This module exposes the Project_Sophia.core.cell.Cell class under the
-new packaging namespace so external users can import
-`elysia_world.cell.Cell` without depending on the legacy folder layout.
-"""
+from cell import Cell as _CoreCell
 
-from Project_Sophia.core.cell import Cell as _CoreCell
 
 class Cell(_CoreCell):
-    """Thin alias to retain backwards compatibility."""
+    """Alias for callers that import through Legacy.elysia_world."""
 
     pass
+
 
 __all__ = ["Cell"]
