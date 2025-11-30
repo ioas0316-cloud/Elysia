@@ -7,7 +7,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Memory.Mind.resonance_engine import ResonanceEngine
 from Core.Intelligence.Intelligence.Consciousness.wave import WaveInput
-from Core.Intelligence.Planning.planning_cortex import PlanningCortex
+from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex
 
 def test_integration():
     print("🔗 Testing Integration: ResonanceEngine -> PlanningCortex")

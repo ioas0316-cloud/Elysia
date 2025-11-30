@@ -26,12 +26,12 @@ def main():
     
     if args.mode == "talk":
         # Legacy mode wrapper
-        from Core.Elysia import Elysia
+        from Core.Elysia.Elysia import Elysia
         elysia = Elysia()
         elysia.live()
     elif args.mode == "awaken":
         # The True Entry Point
-        from Core.Elysia import Elysia
+        from Core.Elysia.Elysia import Elysia
         elysia = Elysia()
         elysia.live()
     elif args.mode == "service":

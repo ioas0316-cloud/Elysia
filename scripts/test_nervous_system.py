@@ -8,7 +8,7 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Interface.Interface.wave_transducer import WaveTransducer
-from Core.Interface.Senses.sensory_cortex import SensoryCortex
+from Core.Interface.Interface.Senses.sensory_cortex import SensoryCortex
 from Core.Creativity.Action.motor_cortex import MotorCortex
 
 # Setup logging
