@@ -1,0 +1,84 @@
+{
+  "timestamp": "2025-11-30T18:10:40.224717",
+  "total_tasks": 6,
+  "completed_tasks": 1,
+  "tasks": [
+    {
+      "task_id": "P1-T1",
+      "name": "__init__.py 일괄 생성",
+      "priority": "QUICK_WIN",
+      "description": "8개 디렉토리에 __init__.py 추가",
+      "auto_execute": true,
+      "estimated_time_min": 5,
+      "status": "COMPLETED",
+      "result": {
+        "created_count": 7,
+        "files": [
+          "c:\\Elysia\\Core\\Abstractions\\__init__.py",
+          "c:\\Elysia\\Core\\Body\\__init__.py",
+          "c:\\Elysia\\Core\\Elysia\\__init__.py",
+          "c:\\Elysia\\Core\\Staging\\__init__.py",
+          "c:\\Elysia\\Core\\System\\__init__.py",
+          "c:\\Elysia\\Core\\World\\__init__.py",
+          "c:\\Elysia\\Core\\Language\\dialogue\\__init__.py"
+        ]
+      },
+      "error": null
+    },
+    {
+      "task_id": "P1-T2",
+      "name": "Elysia.py Docstring 추가",
+      "priority": "QUICK_WIN",
+      "description": "메인 파일에 모듈 docstring 자동 생성",
+      "auto_execute": false,
+      "estimated_time_min": 10,
+      "status": "BLOCKED",
+      "result": null,
+      "error": null
+    },
+    {
+      "task_id": "P1-T3",
+      "name": "Kernel 리팩토링 완성",
+      "priority": "QUICK_WIN",
+      "description": "생성된 모듈 임포트 및 테스트",
+      "auto_execute": false,
+      "estimated_time_min": 30,
+      "status": "PLANNED",
+      "result": null,
+      "error": null
+    },
+    {
+      "task_id": "P2-T1",
+      "name": "중복 파일 조사",
+      "priority": "STRUCTURE",
+      "description": "8개 중복 패턴 상세 분석",
+      "auto_execute": true,
+      "estimated_time_min": 20,
+      "status": "PLANNED",
+      "result": null,
+      "error": null
+    },
+    {
+      "task_id": "P2-T2",
+      "name": "고복잡도 모듈 분석",
+      "priority": "STRUCTURE",
+      "description": "World, Field, Physics 모듈 상세 분석",
+      "auto_execute": true,
+      "estimated_time_min": 15,
+      "status": "PLANNED",
+      "result": null,
+      "error": null
+    },
+    {
+      "task_id": "P4-T1",
+      "name": "world.py 조사",
+      "priority": "DEEP_ARCHITECTURE",
+      "description": "240,788 라인 파일 내용 분석",
+      "auto_execute": true,
+      "estimated_time_min": 10,
+      "status": "PLANNED",
+      "result": null,
+      "error": null
+    }
+  ]
+}

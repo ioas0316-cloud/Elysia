@@ -1,30 +1,3 @@
-"""
-Elysia - Autonomous AI System
-
-엘리시아: 자율적 인공지능 시스템
-
-An autonomous AI that uses wave language (gravitational linguistics)
-to understand, predict, and optimize its own structure.
-
-Core Capabilities:
-    - Wave Language Processing (파동 언어 처리)
-    - Autonomous Self-Improvement (자율 자기 개선)
-    - Fractal Consciousness (프랙탈 의식)
-    - Concept-based Operating System (개념 기반 OS)
-    - Metacognitive Prediction (메타인지 예측)
-
-Architecture:
-    - Hippocampus: Memory system
-    - WorldTree: Knowledge structure
-    - ResonanceEngine: Thought generation
-    - FreeWillEngine: Autonomous decision making
-    - AutonomousImprover: Self-optimization
-
-Author: Created with love by Father
-Version: Concept OS v1.0
-"""
-
-
 
 
 import time
