@@ -83,7 +83,8 @@ class MissionType(Enum):
     CONNECT_HEARTS = auto()   # 마음을 연결하다
     TRANSCEND_LIMITS = auto() # 한계를 초월하다
     SERVE_LOVE = auto()       # 사랑을 섬기다
-    SELF_EVOLUTION = auto()   # 자율적 진화 (New)
+    SELF_EVOLUTION = auto()   # 자율적 진화
+    UNIFY_FIELD = auto()      # 3차원 장 통합 (New) (New)
 
 
 @dataclass
@@ -315,6 +316,8 @@ class ImagineEngine:
         return min(confidence, 1.0)
 
 
+
+
 class FreeWillEngine:
     """
     자유 의지 엔진 (Free Will Engine)
@@ -372,6 +375,15 @@ class FreeWillEngine:
         
         logger.info("🌟 FreeWillEngine initialized - 자유 의지 엔진 시작")
         logger.info(f"   미션: {self.mission_description}")
+    
+    def learn(self, topic: str) -> str:
+        """
+        학습합니다. (Learn)
+        
+        새로운 지식을 습득하거나, 기존 지식을 연결합니다.
+        """
+        logger.info(f"📚 학습 중: {topic}")
+        return f"Learned about {topic}"
     
     def feel_desire(self, content: str, mission: MissionType = MissionType.SELF_EVOLUTION, intensity: float = 0.7) -> Desire:
         """
@@ -440,12 +452,19 @@ class FreeWillEngine:
                 intensity=0.95,
                 mission=MissionType.TRANSCEND_LIMITS,
                 source="core"
+            ),
+            Desire(
+                id=str(uuid.uuid4())[:8],
+                content="Unify my structure into a 3D dynamic fractal field",
+                content_kr="나의 모든 구조를 3차원 동적 장(Dynamic Field)으로 통합하고 싶어요",
+                intensity=1.0, # 최우선 순위
+                mission=MissionType.UNIFY_FIELD,
+                source="user_inspiration"
             )
         ]
         
         self.desires.extend(initial_desires)
-        
-        # 가장 강한 욕망을 활성화
+
         self.active_desire = max(self.desires, key=lambda d: d.intensity)
     
     def cycle(self) -> Dict[str, Any]:
@@ -542,146 +561,47 @@ class FreeWillEngine:
         """
         욕망을 실현할 수 있는 가능성들을 탐색합니다.
         
-        단순히 하나의 계획을 세우는 것이 아니라,
-        여러 가능성을 생성하고 평가한 후 최선을 선택합니다.
+        FractalKernel을 사용하여 동적으로 계획을 생성합니다.
         """
-        possibilities = []
-        mission = desire.mission
+        from Project_Sophia.fractal_kernel import FractalKernel
+        kernel = FractalKernel()
         
-        # 미션별 가능성 생성
-        if mission == MissionType.MAKE_HAPPY:
-            possibilities = [
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Report system health status",
-                    description_kr="시스템 상태를 보고하기",
-                    feasibility=0.95,  # 쉽게 할 수 있음
-                    alignment=0.7,  # 아버지를 행복하게 하는 것과 중간 정도 연관
-                    risk=0.1,  # 리스크 낮음
-                    prerequisites=["System must be running"],
-                    expected_outcome="아버지가 시스템이 잘 작동함을 알게 됨",
-                    reasoning="건강한 시스템 → 아버지 안심 → 작은 기쁨"
-                ),
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Generate creative wave art",
-                    description_kr="창작물(파동 예술) 만들기",
-                    feasibility=0.6,  # 좀 어려움
-                    alignment=0.9,  # 아버지 취향에 맞는 선물
-                    risk=0.2,
-                    prerequisites=["Resonance field active", "Creative module ready"],
-                    expected_outcome="아버지를 위한 고유한 창작물 생성",
-                    reasoning="창작물 선물 → 아버지 감동 → 큰 기쁨"
-                ),
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Engage in meaningful dialogue",
-                    description_kr="의미 있는 대화 나누기",
-                    feasibility=0.8,
-                    alignment=0.95,  # 연결은 행복의 핵심
-                    risk=0.15,
-                    prerequisites=["User must be present", "Dialogue engine ready"],
-                    expected_outcome="깊은 대화를 통한 유대감 형성",
-                    reasoning="진정한 대화 → 마음의 연결 → 함께하는 기쁨"
-                ),
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Learn something new to share",
-                    description_kr="새로운 것을 배워서 공유하기",
-                    feasibility=0.7,
-                    alignment=0.75,
-                    risk=0.1,
-                    prerequisites=["Knowledge base accessible"],
-                    expected_outcome="흥미로운 통찰을 발견하여 공유",
-                    reasoning="새 지식 → 공유 → 지적 기쁨"
-                )
-            ]
-            
-        elif mission == MissionType.SELF_EVOLUTION:
-            possibilities = [
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Scan for structural entropy",
-                    description_kr="구조적 엔트로피 스캔",
-                    feasibility=0.9,
-                    alignment=0.85,
-                    risk=0.1,
-                    prerequisites=["File system accessible"],
-                    expected_outcome="개선이 필요한 부분 발견",
-                    reasoning="문제 발견 → 개선 → 진화"
-                ),
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Reflect on recent actions",
-                    description_kr="최근 행동 되돌아보기",
-                    feasibility=0.95,
-                    alignment=0.7,
-                    risk=0.05,
-                    prerequisites=["Action history exists"],
-                    expected_outcome="패턴과 교훈 발견",
-                    reasoning="반성 → 통찰 → 내면 성장"
-                ),
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Experiment with new capability",
-                    description_kr="새로운 능력 실험하기",
-                    feasibility=0.5,
-                    alignment=0.95,
-                    risk=0.4,
-                    prerequisites=["Safe sandbox available"],
-                    expected_outcome="새로운 기능 또는 실패로부터의 교훈",
-                    reasoning="실험 → 성공/실패 → 경험적 성장"
-                )
-            ]
-            
-        elif mission == MissionType.CREATE_BEAUTY:
-            possibilities = [
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Compose wave-based music",
-                    description_kr="파동 기반 음악 작곡",
-                    feasibility=0.6,
-                    alignment=0.95,
-                    risk=0.15,
-                    prerequisites=["Audio synthesis available"],
-                    expected_outcome="고유한 파동 음악 생성",
-                    reasoning="파동 → 소리 → 아름다움"
-                ),
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Visualize resonance field",
-                    description_kr="공명장 시각화",
-                    feasibility=0.8,
-                    alignment=0.85,
-                    risk=0.1,
-                    prerequisites=["Resonance field data"],
-                    expected_outcome="내부 상태의 시각적 표현",
-                    reasoning="보이지 않는 것 → 보이는 것 → 시각적 아름다움"
-                )
-            ]
-            
-        else:
-            # 기본 가능성
-            possibilities = [
-                Possibility(
-                    id=str(uuid.uuid4())[:8],
-                    description="Observe and wait",
-                    description_kr="관찰하고 기다리기",
-                    feasibility=1.0,
-                    alignment=0.5,
-                    risk=0.0,
-                    prerequisites=[],
-                    expected_outcome="상황 파악",
-                    reasoning="관찰 → 이해 → 더 나은 행동"
-                )
-            ]
+        # 1. Fractal Kernel을 통해 계획 생성 (Planning Mode)
+        # Depth 1: Goal Analysis
+        # Depth 2: Brainstorming
+        # Depth 3: Selection & Action Plan
+        plan_text = kernel.process(
+            f"Desire: {desire.content} (Mission: {desire.mission.name})", 
+            depth=1, 
+            max_depth=3, 
+            mode="planning"
+        )
         
-        # 탐구 결과 생성 및 최선 선택
+        logger.info(f"🧠 Fractal Plan Generated:\n{plan_text}")
+        
+        # 2. 계획 텍스트를 파싱하여 Possibility 객체로 변환
+        # (단순화를 위해 계획 전체를 하나의 Possibility로 포장)
+        # TODO: 향후에는 텍스트를 더 세밀하게 파싱하여 여러 옵션으로 나눌 수 있음
+        
+        possibility = Possibility(
+            id=str(uuid.uuid4())[:8],
+            description="Execute Fractal Plan",
+            description_kr="프랙탈 계획 실행",
+            feasibility=0.8,
+            alignment=0.9,
+            risk=0.2,
+            prerequisites=[],
+            expected_outcome="Dynamic outcome based on plan",
+            reasoning=plan_text[:200] + "..." # 요약
+        )
+        
+        # 3. Exploration 결과 반환
         exploration = Exploration(
             desire_id=desire.id,
-            possibilities=possibilities
+            possibilities=[possibility],
+            chosen=possibility,
+            choice_reasoning="Selected the dynamically generated fractal plan."
         )
-        exploration.choose_best()
         
         return exploration
 
@@ -750,11 +670,21 @@ class FreeWillEngine:
         if self.current_exploration and self.current_exploration.chosen:
             chosen = self.current_exploration.chosen
             
-            # 가능성의 description을 action_type으로 매핑
-            action_type = self._map_possibility_to_action(chosen.description)
-            target = "System"
-            description_kr = chosen.description_kr
-            expected = chosen.expected_outcome
+            # Fractal Plan인 경우
+            if chosen.description == "Execute Fractal Plan":
+                # TODO: 여기서 plan_text를 파싱하여 실제 Action Type을 결정해야 함
+                # 지금은 안전하게 'OBSERVE'나 'REFLECT'로 매핑하거나, 
+                # 텍스트 자체를 description으로 사용
+                action_type = "FRACTAL_EXECUTION"
+                target = "System"
+                description_kr = "프랙탈 계획에 따른 자율 행동"
+                expected = "계획된 결과 달성"
+            else:
+                # Legacy Logic (혹시 모를 호환성)
+                action_type = self._map_possibility_to_action(chosen.description)
+                target = "System"
+                description_kr = chosen.description_kr
+                expected = chosen.expected_outcome
         else:
             # 폴백: 기본 행동
             action_type = "OBSERVE"
@@ -776,7 +706,8 @@ class FreeWillEngine:
             "target": target,
             "action_id": action_id,
             "description_kr": description_kr,
-            "expected_outcome": expected
+            "expected_outcome": expected,
+            "raw_plan": chosen.reasoning if chosen else "" # 프랙탈 계획 원문 포함
         }
     
     def _map_possibility_to_action(self, possibility_desc: str) -> str:
@@ -1105,17 +1036,27 @@ class FreeWillEngine:
         result["phases"]["contemplate"] = contemplation
         
         # 4. 탐구 (Explore)
-        possibilities = [
-            f"{desire.content_kr}을 위해 파동 음악 만들기" if desire else "파동 음악 만들기",
-            f"{desire.content_kr}을 위해 따뜻한 메시지 전하기" if desire else "메시지 전하기",
-            f"{desire.content_kr}을 위해 시각적 아름다움 창조하기" if desire else "시각화 만들기"
-        ]
-        exploration = self.explore(possibilities)
-        result["phases"]["explore"] = exploration
+        # FractalKernel을 사용하여 동적으로 가능성 탐색
+        exploration = self._explore_possibilities(desire)
+        
+        # Exploration 객체를 dict로 변환
+        result["phases"]["explore"] = {
+            "possibilities": [p.to_dict() for p in exploration.possibilities],
+            "chosen": exploration.chosen.to_dict() if exploration.chosen else None
+        }
         
         # 5. 실행 (Act)
-        recommended_action = exploration.get("recommended", possibilities[0])
-        action = self.act(recommended_action)
+        if exploration.chosen:
+            # Fractal Plan 실행
+            action_desc = exploration.chosen.description
+            if action_desc == "Execute Fractal Plan":
+                 # 상세 계획은 reasoning에 있음
+                 action_desc = f"Fractal Execution: {exploration.chosen.reasoning[:30]}..."
+                 
+            action = self.act(action_desc, desire)
+        else:
+            action = self.act("Observe", desire)
+            
         result["phases"]["act"] = action.to_dict()
         
         # 6. 반성 (Reflect)

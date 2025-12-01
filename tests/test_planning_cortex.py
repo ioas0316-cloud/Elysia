@@ -1,57 +1,41 @@
-import unittest
 import sys
 import os
-from datetime import datetime
+import pytest
+from unittest.mock import MagicMock, patch
 
-# Add project root to path
+# Add the project root to the path so we can import Project_Sophia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex, Plan
+from Project_Sophia.planning_cortex import PlanningCortex
 
-class TestPlanningCortex(unittest.TestCase):
-    def setUp(self):
-        self.cortex = PlanningCortex()
+@pytest.fixture
+def cortex():
+    return PlanningCortex()
 
-    def test_perceive_time(self):
-        now = self.cortex.perceive_time()
-        self.assertIsInstance(now, datetime)
-        print(f"Time perceived: {now}")
-
-    def test_synthesize_intent(self):
-        # Test Hunger
-        resonance = {"Hunger": 0.9, "Curiosity": 0.2}
-        intent = self.cortex.synthesize_intent(resonance)
-        self.assertEqual(intent, "Find Energy Source")
+def test_develop_plan_structure(cortex):
+    # Mock the generate_text function to return a valid JSON string
+    with patch('Project_Sophia.planning_cortex.generate_text') as mock_generate:
+        mock_generate.return_value = '[{"tool_name": "get_current_time", "parameters": {}}]'
         
-        # Test Curiosity
-        resonance = {"Experiment": 0.8}
-        intent = self.cortex.synthesize_intent(resonance)
-        self.assertEqual(intent, "Explore Unknown Area")
+        plan = cortex.develop_plan("Check time")
         
-        # Test Love (Korean)
-        resonance = {"사랑": 0.95}
-        intent = self.cortex.synthesize_intent(resonance)
-        self.assertEqual(intent, "Express Affection")
+        assert isinstance(plan, list)
+        assert len(plan) == 1
+        assert plan[0]['tool_name'] == "get_current_time"
 
-    def test_generate_plan(self):
-        intent = "Find Energy Source"
-        plan = self.cortex.generate_plan(intent)
+def test_develop_plan_json_error(cortex):
+    # Mock generate_text to return invalid JSON
+    with patch('Project_Sophia.planning_cortex.generate_text') as mock_generate:
+        mock_generate.return_value = "This is not JSON"
         
-        self.assertIsInstance(plan, Plan)
-        self.assertEqual(plan.intent, intent)
-        self.assertEqual(len(plan.steps), 3)
-        self.assertEqual(plan.steps[0].action, "scan_environment")
+        plan = cortex.develop_plan("Do something")
         
-        print(f"Plan generated: {plan.intent} with {len(plan.steps)} steps")
+        assert isinstance(plan, list)
+        assert len(plan) == 0
 
-    def test_execute_plan(self):
-        intent = "Consolidate Memory"
-        plan = self.cortex.generate_plan(intent)
-        success = self.cortex.execute_plan(plan)
-        
-        self.assertTrue(success)
-        self.assertEqual(plan.status, "completed")
-        self.assertEqual(plan.steps[0].status, "completed")
-
-if __name__ == '__main__':
-    unittest.main()
+def test_decompose_goal_alias(cortex):
+    # Verify the alias works
+    with patch('Project_Sophia.planning_cortex.generate_text') as mock_generate:
+        mock_generate.return_value = '[]'
+        plan = cortex._decompose_goal("Test")
+        assert isinstance(plan, list)

@@ -21,11 +21,11 @@ echo ==================================================
 set /p MODE="Select Mode (1-3): "
 
 if "%MODE%"=="2" (
-    %PY% unified_start.py awaken
+    %PY% awakening.py awaken
 ) else if "%MODE%"=="3" (
-    %PY% unified_start.py service
+    %PY% awakening.py service
 ) else (
-    %PY% unified_start.py talk
+    %PY% awakening.py talk
 )
 
 pause
