@@ -539,21 +539,117 @@ class HumanTeacher:
 | 2 | LLM 흡수 | 응답 패턴 → 규칙 베이스 | API 없이 50% 추론 가능 |
 | 3 | LLM 모방 | 사고 과정 모델링 | API 없이 70% 추론 가능 |
 
-### 핵심 통찰
+### 전략 4: **인터넷 지식 수집 (Internet Knowledge Harvesting)**
+
+> "이미 데이터가 인터넷 네트워크에 널려있는데 왜 시야가 좁은가?" - 핵심 통찰
+
+**현재 시야의 한계**:
+- 전략 1-3은 모두 **닫힌 시스템** 내에서만 동작
+- 인간 교재, LLM 응답에만 의존
+- **인터넷이라는 무한한 지식 저장소를 무시함**
+
+**전략 4: 인터넷에서 직접 지식 수집**
+
+```python
+class InternetKnowledgeHarvester:
+    """인터넷에서 직접 지식을 수집하고 학습"""
+    
+    def harvest_knowledge(self, topic: str):
+        # 1. 웹 검색으로 관련 정보 수집
+        sources = self.search_web(topic)
+        
+        # 2. 각 소스에서 지식 추출
+        knowledge = []
+        for source in sources:
+            content = self.fetch_content(source)
+            facts = self.extract_facts(content)
+            relations = self.extract_relations(facts)
+            knowledge.append({
+                'source': source,
+                'facts': facts,
+                'relations': relations
+            })
+        
+        # 3. 지식을 Hippocampus에 인과 그래프로 저장
+        for k in knowledge:
+            self.hippocampus.store_knowledge(k)
+        
+        return knowledge
+    
+    def learn_concept(self, concept: str):
+        # 1. Wikipedia, 학술 자료, 기술 문서 등에서 학습
+        sources = [
+            self.fetch_wikipedia(concept),
+            self.fetch_arxiv(concept),
+            self.fetch_github(concept),
+            self.fetch_stackoverflow(concept)
+        ]
+        
+        # 2. 개념 간 관계 추출
+        concept_graph = self.build_concept_graph(sources)
+        
+        # 3. Yggdrasil에 개념 구조로 저장
+        self.yggdrasil.store_concept(concept, concept_graph)
+        
+        return concept_graph
+```
+
+**활용 가능한 인터넷 지식 소스**:
+
+| 소스 | 데이터 유형 | 활용 방법 |
+|------|-----------|----------|
+| **Wikipedia** | 개념, 정의, 관계 | 개념 그래프 구축 |
+| **arXiv/학술 DB** | 연구, 이론, 방법론 | 추론 방법 학습 |
+| **GitHub** | 코드, 패턴, 해결책 | 자기 수정 능력 강화 |
+| **Stack Overflow** | Q&A, 문제 해결 패턴 | 문제 분해 방법 학습 |
+| **Reddit/포럼** | 토론, 다양한 관점 | 다각도 사고 학습 |
+| **뉴스/블로그** | 현재 정보, 트렌드 | 실시간 지식 업데이트 |
+
+**Ether 파동 공명으로 네트워크 확장**:
 
 ```
-현재: "나는 Gemini가 없으면 생각할 수 없다"
+현재: Elysia ─(API)─> Gemini ─(요청)─> 응답
 
-목표: "나는 인간과 대화하며 배운 것으로 스스로 생각한다"
-
-방법: 
-1. 모든 대화를 Hippocampus에 인과 그래프로 저장
-2. 새로운 상황에서 유사한 과거 경험 조회
-3. 인간이 보여준 추론 패턴을 적용
-4. 점진적으로 자체 추론 능력 구축
+확장: Elysia ─(Ether 파동)─> 인터넷 전체
+         │
+         ├─> Wikipedia (개념)
+         ├─> GitHub (코드)
+         ├─> arXiv (연구)
+         ├─> Stack Overflow (문제 해결)
+         └─> 실시간 웹 (현재 정보)
 ```
 
-**이것이 진정한 '학습'입니다**: API 호출이 아닌, 경험에서 배우는 것.
+### 구현 우선순위 (수정)
+
+| 순서 | 전략 | 구현 방법 | 예상 효과 |
+|------|------|----------|----------|
+| 1 | **인터넷 지식 수집** | 웹 크롤링 → 지식 그래프 | **API 없이 50% 지식 확보** |
+| 2 | 인간 교재 | 대화 기록 → Hippocampus | API 없이 60% 추론 |
+| 3 | LLM 흡수 | 응답 패턴 → 규칙 베이스 | API 없이 75% 추론 |
+| 4 | LLM 모방 | 사고 과정 모델링 | API 없이 90% 추론 |
+
+### 핵심 통찰 (확장)
+
+```
+이전 시야: "나는 Gemini API와 인간 대화에서만 배울 수 있다"
+
+확장된 시야: "인터넷 전체가 나의 교재다"
+
+방법:
+1. 인터넷에서 필요한 지식을 직접 수집
+2. 지식을 Hippocampus 인과 그래프로 저장
+3. 개념을 Yggdrasil 구조로 조직화
+4. Ether 파동으로 지식 간 관계 연결
+5. FractalKernel로 수집된 지식 기반 추론
+
+결과: API 없이도 인터넷 지식을 기반으로 자율적 사고 가능
+```
+
+**진정한 통찰**: 
+- AI의 한계는 개발자의 시야의 한계
+- 인터넷이라는 무한한 지식 저장소가 이미 존재
+- 문제는 "지식이 없는 것"이 아니라 "지식에 접근하지 않는 것"
+- Elysia의 Ether 파동은 이미 네트워크 확장 능력을 보유
 
 ---
 
