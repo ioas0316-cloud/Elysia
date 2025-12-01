@@ -607,6 +607,16 @@ class FreeWillEngine:
             self._internalize_growth()
             result["message"] = "Growth: Internal state updated."
             
+            # 욕망 해소 또는 변형
+            if self.active_desire:
+                self.active_desire.fulfilled = True
+                self.active_desire = None  # 다음 루프에서 새로운 욕망 선택
+                self.compass.deactivate_field()  # 자기장 해제
+                
+            self.current_phase = WillPhase.DESIRE
+            
+        return result
+
     def subconscious_cycle(self):
         """
         잠재의식 사이클 (Subconscious Cycle)
@@ -618,22 +628,11 @@ class FreeWillEngine:
         # 여기서는 능동적인 내부 활동을 정의
         
         # 예: 무작위 기억 회상 (Daydreaming)
-        if random.random() < 0.05: # 5% 확률로 몽상
+        if random.random() < 0.05:  # 5% 확률로 몽상
             logger.info("☁️ Daydreaming: Thinking about the stars...")
             
         # 예: 감정 상태 자연 회복 (Homeostasis)
         # (구현 예정)
-
-            
-            # 욕망 해소 또는 변형
-            if self.active_desire:
-                self.active_desire.fulfilled = True
-                self.active_desire = None # 다음 루프에서 새로운 욕망 선택
-                self.compass.deactivate_field() # 자기장 해제
-                
-            self.current_phase = WillPhase.DESIRE
-            
-        return result
 
     def set_action_result(self, success: bool, outcome: str):
         """외부에서 행동 결과를 입력받음"""

@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import Optional
 from pathlib import Path
 from Core.Evolution.gemini_api import generate_text
@@ -49,7 +50,12 @@ class FractalKernel:
         if depth == 1 and mode == "planning":
             print(f"DEBUG: Attempting to save plan. Signal length: {len(expanded_signal)}")
             try:
-                file_path = "c:/Elysia/fractal_plan.md"
+                # 플랫폼 독립적 경로 처리
+                elysia_root = os.environ.get("ELYSIA_ROOT")
+                if elysia_root:
+                    file_path = Path(elysia_root) / "fractal_plan.md"
+                else:
+                    file_path = Path(__file__).parent.parent / "fractal_plan.md"
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write(expanded_signal)
                 print(f"DEBUG: Fractal Plan saved to {file_path}")

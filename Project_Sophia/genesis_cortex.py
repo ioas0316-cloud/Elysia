@@ -96,9 +96,14 @@ class CodeWeaver:
 
     def save_code(self, code: str, file_path: str) -> bool:
         try:
-            # 절대 경로 변환 (c:\Elysia 기준)
-            # 안전을 위해 Core/Evolution/Staging 내에서만 허용하는 것이 좋음
-            root_path = Path("c:/Elysia")
+            # 플랫폼 독립적 경로 처리 (환경 변수 또는 현재 파일 기준)
+            # ELYSIA_ROOT 환경 변수가 설정되어 있으면 사용, 없으면 프로젝트 루트 추정
+            elysia_root = os.environ.get("ELYSIA_ROOT")
+            if elysia_root:
+                root_path = Path(elysia_root)
+            else:
+                # 현재 파일 위치에서 프로젝트 루트 추정
+                root_path = Path(__file__).parent.parent
             full_path = root_path / file_path
             
             # 디렉토리 생성
