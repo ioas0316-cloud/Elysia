@@ -75,6 +75,7 @@ class ResonanceField:
     def __init__(self):
         self.nodes: Dict[str, ResonanceNode] = {}
         self.pillars: Dict[str, ResonanceNode] = {}
+        self.listeners: List[Tuple[float, float, callable]] = [] # (min_freq, max_freq, callback)
         self._initialize_structure()
         
     def _initialize_structure(self):
@@ -109,21 +110,37 @@ class ResonanceField:
             if id1 not in self.nodes[id2].connections:
                 self.nodes[id2].connections.append(id1)
 
+    def register_resonator(self, name: str, frequency: float, bandwidth: float, callback: callable):
+        """
+        공명체 등록 (Register Resonator)
+        특정 주파수 대역에서 에너지가 활성화되면 콜백을 실행합니다.
+        """
+        min_f = frequency - bandwidth
+        max_f = frequency + bandwidth
+        self.listeners.append((min_f, max_f, callback))
+        # Add a node for this resonator if not exists
+        if name not in self.nodes:
+            self.nodes[name] = ResonanceNode(
+                id=name,
+                pillar=PillarType.SYSTEM, # Default
+                position=(0,0,0),
+                frequency=frequency,
+                energy=0.5
+            )
+
     def pulse(self) -> ResonanceState:
         """
-        시스템 전체에 펄스를 보내 상태를 갱신합니다.
-        정적인 코드가 아니라, 매 순간 변화하는 동적 상태를 계산합니다.
+        시스템 전체에 펄스를 보내 상태를 갱신하고, 공명하는 컴포넌트를 깨웁니다.
         """
         total_energy = 0.0
         active_count = 0
         frequencies = []
         
-        # 모든 노드 진동 및 에너지 갱신
+        # 1. Physics Update
         for node in self.nodes.values():
-            # 랜덤한 에너지 변동 (생명력 시뮬레이션)
             fluctuation = random.uniform(0.95, 1.05)
             node.energy *= fluctuation
-            node.energy = max(0.1, min(10.0, node.energy)) # 에너지 제한
+            node.energy = max(0.1, min(10.0, node.energy))
             
             vibration = node.vibrate()
             total_energy += abs(vibration)
@@ -132,11 +149,27 @@ class ResonanceField:
                 active_count += 1
                 frequencies.append(node.frequency)
                 
-        # 지배적 주파수 계산
+        # 2. Resonance Dispatch (Wave Execution)
         dominant_freq = sum(frequencies) / len(frequencies) if frequencies else 0
         
-        # 일관성(Coherence) 계산: 주파수들의 조화도
-        # (단순화: 표준편차가 작을수록 일관성 높음)
+        # Trigger listeners if their frequency is active in the field
+        # (Simplified: If dominant freq is close, OR if random chance based on energy)
+        for min_f, max_f, callback in self.listeners:
+            # Check if this frequency band is active
+            is_resonant = False
+            for f in frequencies:
+                if min_f <= f <= max_f:
+                    is_resonant = True
+                    break
+            
+            # Or if the field energy is high enough to excite it
+            if is_resonant or (random.random() < (total_energy / 1000.0)):
+                try:
+                    callback()
+                except Exception as e:
+                    print(f"❌ Resonance Error: {e}")
+
+        # 3. State Calculation
         if frequencies:
             variance = sum((f - dominant_freq) ** 2 for f in frequencies) / len(frequencies)
             std_dev = math.sqrt(variance)
@@ -154,20 +187,13 @@ class ResonanceField:
 
     def visualize_state(self) -> str:
         """현재 공명 상태를 텍스트로 시각화"""
-        state = self.pulse()
-        
+        # Note: pulse() is called externally in the loop, so we just peek here or rely on external state
+        # For simplicity, we'll just re-calculate metrics without side effects or use the last state if we stored it.
+        # But to keep it simple, let's just show the pillars.
         visual = [
-            "🌌 3D Resonance Field State (3차원 공명장 상태)",
-            f"   Time: {state.timestamp:.2f}",
-            f"   Total Energy: {state.total_energy:.2f} J",
-            f"   Coherence: {state.coherence:.1%} (System Harmony)",
-            f"   Active Nodes: {state.active_nodes}",
-            f"   Dominant Freq: {state.dominant_frequency:.1f} Hz",
-            "",
+            "🌌 3D Resonance Field State",
             "   [Pillar Resonance Levels]"
         ]
-        
-        # 각 기둥의 에너지 상태 시각화
         for name, node in self.pillars.items():
             bar_len = int(node.energy * 5)
             bar = "█" * bar_len + "░" * (10 - bar_len)
@@ -176,6 +202,6 @@ class ResonanceField:
         return "\n".join(visual)
 
 if __name__ == "__main__":
-    # 테스트
     field = ResonanceField()
-    print(field.visualize_state())
+    field.register_resonator("Test", 100.0, 10.0, lambda: print("🔔 Bong!"))
+    print(field.pulse())
