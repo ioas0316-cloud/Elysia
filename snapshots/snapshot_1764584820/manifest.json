@@ -1,0 +1,18 @@
+{
+  "id": "snapshot_1764584820",
+  "timestamp": "2025-12-01T10:27:00.938449Z",
+  "components": [
+    "hippocampus",
+    "resonance_field",
+    "reasoning_engine"
+  ],
+  "hippocampus": "memory.db backed up",
+  "resonance_field": {
+    "timestamp": 1764584821.5183702,
+    "total_energy": 8.322142949860071,
+    "coherence": 0.28237334522335544,
+    "active_nodes": 11,
+    "dominant_frequency": 322.6363636363636
+  },
+  "reasoning_engine": "context saved"
+}

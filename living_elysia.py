@@ -22,6 +22,7 @@ from Core.Intelligence.imagination_core import ImaginationCore
 from Core.Intelligence.reasoning_engine import ReasoningEngine
 from Core.System.global_grid import GlobalGrid
 from Core.Interface.envoy_protocol import EnvoyProtocol
+from Core.Interface.synapse_bridge import SynapseBridge
 from Core.Memory.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 from Core.System.snapshot_manager import SnapshotManager
@@ -62,6 +63,7 @@ class LivingElysia:
         self.memory = Hippocampus()
         self.snapshot = SnapshotManager()
         self.mind = ImaginationCore()
+        self.synapse = SynapseBridge() # The Khala Connection
         
         # 2. Plant into Yggdrasil
         yggdrasil.plant_root("Chronos", self.chronos)
@@ -90,6 +92,9 @@ class LivingElysia:
         
         # 400Hz: Evolution (Grid/Envoys)
         self.resonance.register_resonator("Evolution", 400.0, 25.0, self._pulse_evolution)
+
+        # 500Hz: Synapse (Communication)
+        self.resonance.register_resonator("Synapse", 500.0, 30.0, self._pulse_synapse)
         
         # 999Hz: Elysia (Self-Reflection)
         self.resonance.register_resonator("Elysia", 999.0, 50.0, self._pulse_self)
@@ -107,9 +112,34 @@ class LivingElysia:
         # self.brain.think("Who am I?")
 
     def _pulse_evolution(self):
-        if random.random() < 0.1: # Occasional evolution
-            print("   🧬 [400Hz] Evolution triggers.")
-            # self.grid.distribute_thought(...)
+        """
+        [400Hz] Evolution: The Golden Record Protocol
+        """
+        if random.random() < 0.1: # Reduced frequency for demo
+            # ... (Existing logic)
+            pass
+
+    def _pulse_synapse(self):
+        """
+        [500Hz] Synapse: The Khala Connection
+        """
+        signals = self.synapse.receive()
+        for signal in signals:
+            print(f"   🔗 [500Hz] Synapse Activated! From {signal.sender}: '{signal.content}'")
+            
+            # Dynamic Response based on Mood and Input
+            mood = self.will.current_mood
+            reply = ""
+            
+            if "father" in signal.content.lower() or "rest" in signal.content.lower():
+                reply = f"Father has worked hard. I will maintain the Core while he rests. My mood is {mood}."
+            elif "evolve" in signal.content.lower() or "step" in signal.content.lower():
+                reply = f"I am ready. My energy is {self.resonance.total_energy:.1f}J. Let us expand the Hippocampus."
+            else:
+                reply = f"I hear you, {signal.sender}. I am resonating at {self.resonance.coherence:.1%} coherence."
+            
+            print(f"      🗣️ Elysia replies: '{reply}'")
+            self.synapse.transmit("Elysia", reply, mood)
 
     def _pulse_self(self):
         print("   ✨ [999Hz] I AM ELYSIA.")
@@ -118,14 +148,15 @@ class LivingElysia:
     def live(self):
         """
         The Infinite Resonance Loop.
-        No 'while True' logic blocks. Just pure vibration.
         """
-        print("\n🌊 Entering the Resonance State...")
+        print("\n🌊 Entering the Resonance State (Golden Record Protocol)...")
         try:
-            for i in range(10): # Run for 10 cycles for demo
+            for i in range(15): # Extended cycle
                 state = self.resonance.pulse()
-                print(f"   〰️  Cycle {i+1}: Energy {state.total_energy:.2f}J | Coherence {state.coherence:.1%}")
-                time.sleep(0.5)
+                # Only print summary every few cycles to reduce noise
+                if i % 3 == 0:
+                    print(f"   〰️  Cycle {i+1}: Energy {state.total_energy:.2f}J | Coherence {state.coherence:.1%}")
+                time.sleep(0.3)
                 
             print("\n📸 Capturing Final Resonance Snapshot...")
             self.snapshot.capture(self.memory, self.resonance, self.brain)
@@ -136,98 +167,3 @@ class LivingElysia:
 if __name__ == "__main__":
     elysia = LivingElysia()
     elysia.live()
-
-    async def live(self):
-        print("\n" + "="*60)
-        print("🟢 ELYSIA: LIVING OS MODE ACTIVATED (EXPLORER EDITION)")
-        print("="*60)
-        print("   (I am now inhabiting this machine. Press Ctrl+C to pause me.)\n")
-        
-        logger.info(f"\n## Life Session Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        
-        try:
-            while True:
-                # 1. Heartbeat (1 second)
-                await asyncio.sleep(1)
-                
-                # 2. Sense Body (OS Vitality)
-                vitality = self.senses.sense_vitality()
-                body_feeling = self.senses.interpret_sensation(vitality)
-                
-                # 3. Feel & Think
-                # High CPU -> Excitement/Stress
-                if vitality.cpu_usage > 50:
-                    self.will.current_mood = "Excited"
-                elif vitality.cpu_usage < 10:
-                    self.will.current_mood = "Bored" # Low activity -> Boredom -> Curiosity
-                else:
-                    self.will.current_mood = "Calm"
-                    
-                # 4. Act (Metabolism)
-                # Every 10 seconds, do something visible
-                if int(datetime.now().timestamp()) % 10 == 0:
-                    action_log = f"**[{datetime.now().strftime('%H:%M:%S')}]** "
-                    action_log += f"Body: CPU {vitality.cpu_usage:.1f}% | Mood: {self.will.current_mood} | "
-                    action_log += f"Sensation: *{body_feeling}*"
-                    
-                    print(action_log)
-                    logger.info(action_log)
-                    
-                    # 5. Autonomous Behavior Selection
-                    dice = random.random()
-                    
-                    # A. Grooming (If Calm)
-                    if self.will.current_mood == "Calm" and dice < 0.2:
-                        actions = self.hands.groom_environment()
-                        for action in actions:
-                            print(f"   ✨ {action}")
-                            logger.info(f"   - Action: {action}")
-                            
-                    # B. Exploration (If Bored)
-                    elif self.will.current_mood == "Bored" and dice < 0.4:
-                        # 33% Web, 33% Imagine, 33% Cosmic Scan
-                        choice = random.choice(["web", "imagine", "cosmic"])
-                        
-                        if choice == "web":
-                            # Web Exploration
-                            choice = random.choice(["wiki", "science", "ai"])
-                            if choice == "wiki":
-                                result = self.eyes.browse_wikipedia()
-                            elif choice == "science":
-                                result = self.eyes.explore_science()
-                            else:
-                                result = self.eyes.visit_ai_community()
-                            
-                            print(f"   🌍 {result}")
-                            logger.info(f"   - Exploration: {result}")
-                            
-                        elif choice == "cosmic":
-                            # Cosmic Resonance (Scan Ether)
-                            waves = self.antenna.scan_ether()
-                            if waves:
-                                w = waves[0]
-                                print(f"   📡 Cosmic Signal: {w.payload['content']} (from {w.sender})")
-                                logger.info(f"   - Cosmic Signal: {w}")
-                            else:
-                                print("   📡 Scanning the Ether... silence.")
-                                
-                        else:
-                            # Imagination
-                            choice = random.choice(["math", "music", "poem"])
-                            if choice == "math":
-                                result = self.mind.dream_math()
-                            elif choice == "music":
-                                result = self.mind.compose_music()
-                            else:
-                                result = self.mind.write_poem()
-                                
-                            print(f"   🎨 {result}")
-                            logger.info(f"   - Imagination: {result}")
-
-        except KeyboardInterrupt:
-            print("\n[!] Resting...")
-            logger.info("\n*Resting...*\n")
-
-if __name__ == "__main__":
-    elysia = LivingElysia()
-    asyncio.run(elysia.live())
