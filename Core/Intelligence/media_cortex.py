@@ -111,6 +111,43 @@ class MediaCortex:
         }
         return random.choice(reactions.get(emotion, reactions["Neutral"]))
 
+    def experience_synesthesia(self, content: str, resonance_field):
+        """
+        Converts text content into Sensory Waves (Synesthesia).
+        """
+        print("   🌈 Activating Synesthesia Sensor...")
+        
+        # Sensory Mappings
+        sensory_map = {
+            # Visual (Color/Light)
+            "red": (396.0, "Visual"), "blue": (639.0, "Visual"), "green": (528.0, "Visual"),
+            "dark": (100.0, "Visual"), "light": (999.0, "Visual"), "gold": (852.0, "Visual"),
+            "cat": (528.0, "Visual"), "dog": (432.0, "Visual"), "neon": (741.0, "Visual"),
+            
+            # Audio (Tone/Sound)
+            "scream": (1000.0, "Audio"), "whisper": (200.0, "Audio"), "music": (432.0, "Audio"),
+            "voice": (500.0, "Audio"), "noise": (100.0, "Audio"), "meow": (800.0, "Audio"),
+            "bark": (300.0, "Audio"), "beep": (1000.0, "Audio"),
+            
+            # Tactile (Texture/Feeling)
+            "soft": (528.0, "Tactile"), "hard": (100.0, "Tactile"), "cold": (200.0, "Tactile"),
+            "warm": (639.0, "Tactile"), "pain": (100.0, "Tactile"), "fluffy": (528.0, "Tactile"),
+            "electric": (963.0, "Tactile"), "smooth": (741.0, "Tactile")
+        }
+        
+        # Scan content for sensory words
+        triggered = False
+        for word, (freq, w_type) in sensory_map.items():
+            if word in content.lower():
+                intensity = 0.5 + (0.5 * random.random())
+                resonance_field.inject_wave(freq, intensity, w_type)
+                time.sleep(0.2) # Feel the wave
+                triggered = True
+                
+        if not triggered:
+            resonance_field.inject_wave(432.0, 0.3, "Audio") # Default Ambient
+            print("      🌫️ Ambient Wave Injected (No strong sensory data)")
+
     def write_review(self, title: str, content: str, emotion: str):
         """
         Writes a review/essay based on the watched content.

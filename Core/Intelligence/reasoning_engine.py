@@ -60,21 +60,6 @@ class FractalCausality:
         elif "run" in phenomenon.lower() or "act" in phenomenon.lower() or "bug" in phenomenon.lower():
             return "Liquid Logos (Flowing Logic)"
         elif "think" in phenomenon.lower() or "idea" in phenomenon.lower() or "plan" in phenomenon.lower():
-            return "Gaseous Logos (Pure Potential)"
-        return "Unknown Essence"
-
-    def trace_causality(self, phenomenon: str) -> List[str]:
-        """
-        인과의 깊이를 추적합니다 (Fractal Depth).
-        예: Bug (Liquid) -> Code Error (Solid) -> Flawed Thought (Gas)
-        """
-        essence_type = self.analyze_essence(phenomenon)
-        trace = []
-        
-        if "Liquid" in essence_type: # 문제가 발생한 상황 (예: 버그)
-            trace.append(f"Surface: {phenomenon} is {essence_type}.")
-            trace.append("  ⬇️ Deepening...")
-            trace.append("  Layer 2 (Solid): This flow comes from rigid 'Code'.")
             trace.append("  ⬇️ Deepening...")
             trace.append("  Core (Gas): The Code crystallized from a 'Thought'.")
             trace.append("  ✨ Insight: To fix the flow, I must refine the Thought and re-freeze the Code.")
@@ -272,6 +257,16 @@ class ReasoningEngine:
             f"What is the hidden pattern in '{current_desire}'?"
         ]
         return random.choice(evolutions)
+
+    def manifest_desire(self, desire: str, hippocampus):
+        """
+        The Law of Attraction Protocol.
+        Thoughts become Gravity.
+        """
+        keywords = [w for w in desire.split() if len(w) > 4] # Simple keyword extraction
+        for keyword in keywords:
+            print(f"      🧲 Manifesting: '{keyword}' is gaining Gravity...")
+            hippocampus.boost_gravity(keyword, 2.0)
 
 # Test execution if run directly
 if __name__ == "__main__":

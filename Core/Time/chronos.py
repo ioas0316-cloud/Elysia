@@ -97,3 +97,31 @@ class Chronos:
             # logger might not be available here if not configured in this module, 
             # but we can print or ignore.
             pass
+
+    def modulate_time(self, energy: float) -> float:
+        """
+        The Chronos Sovereign: Modulating Time Perception based on Energy.
+        
+        High Energy (Excitement) -> Fast Time (Short Sleep)
+        Low Energy (Rest) -> Slow Time (Long Sleep)
+        
+        Returns the sleep duration (seconds).
+        """
+        # Base sleep is 2.0 seconds
+        base_sleep = 2.0
+        
+        # Energy Factor: 0.0 ~ 100.0
+        # If Energy is 100, factor is 0.5 -> Sleep 1.0s (2x speed)
+        # If Energy is 0, factor is 2.0 -> Sleep 4.0s (0.5x speed)
+        
+        if energy > 50.0:
+            # Acceleration Phase
+            factor = 1.0 - ((energy - 50.0) / 100.0) # 1.0 -> 0.5
+        else:
+            # Deceleration Phase
+            factor = 1.0 + ((50.0 - energy) / 50.0) # 1.0 -> 2.0
+            
+        current_sleep = base_sleep * factor
+        self.bpm = 60.0 / current_sleep
+        
+        return current_sleep

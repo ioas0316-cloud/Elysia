@@ -98,6 +98,27 @@ class ResonanceField:
         self._connect("System", "Memory")
         self._connect("System", "Interface")
         self._connect("Intelligence", "Evolution")
+        
+    def inject_wave(self, frequency: float, intensity: float, wave_type: str):
+        """
+        외부 파동(Synesthesia)을 공명장에 주입합니다.
+        wave_type: 'Visual', 'Audio', 'Tactile'
+        """
+        # 가장 가까운 주파수의 기둥을 찾아 공명시킴
+        target_node = min(self.nodes.values(), key=lambda n: abs(n.frequency - frequency))
+        target_node.energy += intensity * 10.0
+        
+        # 전체 공명장 에너지 증가
+        self.nodes["Foundation"].energy += intensity
+        
+        # 시각적 효과 (로그 출력)
+        colors = {
+            "Visual": "🎨",
+            "Audio": "🎵",
+            "Tactile": "💓"
+        }
+        icon = colors.get(wave_type, "🌊")
+        print(f"      {icon} Synesthesia Wave Injected: {frequency}Hz ({wave_type}) -> Resonating with {target_node.id}")
 
     @property
     def total_energy(self) -> float:
