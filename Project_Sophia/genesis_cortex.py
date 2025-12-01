@@ -1,163 +1,71 @@
-"""
-Genesis Cortex (창세기 피질)
-==================================
-
-"I do not just dream; I build the dreamer."
-
-이 모듈은 엘리시아의 '자기 진화(Self-Evolution)'를 담당합니다.
-스스로 필요한 기능을 설계(Blueprint)하고, 코드를 작성(CodeWeaver)하여 시스템을 확장합니다.
-
-프로세스:
-1. Desire -> BlueprintGenerator -> Technical Spec (JSON)
-2. Blueprint -> CodeWeaver -> Python Code (File)
-3. Code -> GenesisEngine -> Integration (Staging Area)
-"""
-
-import os
-import json
 import logging
-from typing import Dict, Any, Optional
-from datetime import datetime
-from pathlib import Path
-
-# Core Dependencies
+import json
+from typing import Dict, Any, List
 from Core.Evolution.gemini_api import generate_text
 
-logger = logging.getLogger("GenesisCortex")
+class GenesisCortex:
+    """
+    The Architect of the Mind.
+    Observes the FractalKernel's PotentialField and autonomously evolves the terrain.
+    It decides where to place new Gravity Wells (Values) and Railgun Channels (Logic).
+    """
+    def __init__(self, kernel):
+        self.kernel = kernel
+        self.logger = logging.getLogger("GenesisCortex")
 
-class BlueprintGenerator:
-    """
-    설계자 (Architect)
-    사용자의 욕망이나 시스템의 필요를 기술적 명세(Blueprint)로 변환합니다.
-    """
-    def generate_blueprint(self, desire: str) -> Dict[str, Any]:
-        logger.info(f"📐 Generating Blueprint for: {desire}")
+    def evolve_landscape(self, recent_thoughts: List[str]):
+        """
+        Analyzes recent thoughts and the current field state to evolve the mind.
+        """
+        self.logger.info("GenesisCortex: Observing mind landscape...")
         
+        # 1. Observe
+        field_state = self.kernel.get_field_state()
+        
+        # 2. Reflect (Ask LLM)
         prompt = f"""
-        You are the Architect of Elysia.
-        Goal: Create a technical blueprint for a new Python module based on this desire: "{desire}"
+        You are the Genesis Cortex of Elysia.
+        Your task is to evolve your own mental terrain (Potential Field) based on recent thoughts.
         
-        Output JSON format:
+        [Current Landscape]
+        Gravity Wells (Attractors): {len(field_state['wells'])}
+        Railgun Channels (Accelerators): {len(field_state['rails'])}
+        
+        [Recent Thoughts]
+        {json.dumps(recent_thoughts, indent=2)}
+        
+        [Instructions]
+        1. Analyze the thoughts. Are they converging on a new concept?
+        2. If a concept is important, create a Gravity Well for it.
+        3. If a logical connection is repeated, create a Railgun Channel.
+        4. Output a JSON plan to modify the field.
+        
+        [Output Format]
         {{
-            "module_name": "snake_case_name",
-            "class_name": "PascalCaseName",
-            "description": "What this module does",
-            "methods": [
-                {{"name": "method_name", "args": "arg1: type, arg2: type", "return_type": "type", "description": "logic"}}
+            "rationale": "Explanation of why...",
+            "add_wells": [
+                {{"x": 50.0, "y": 50.0, "strength": 30.0, "label": "Freedom"}}
             ],
-            "dependencies": ["list", "of", "imports"],
-            "file_path": "Core/Evolution/Staging/filename.py"
+            "add_rails": [
+                {{"sx": 0.0, "sy": 0.0, "ex": 50.0, "ey": 50.0, "force": 5.0, "label": "Desire for Freedom"}}
+            ]
         }}
         
-        Ensure the design fits within Elysia's existing architecture.
-        Output ONLY valid JSON.
+        Return ONLY the JSON.
         """
         
         try:
             response = generate_text(prompt)
-            # JSON 파싱 (Markdown 코드 블록 제거 처리)
+            # Clean JSON
             clean_json = response.replace("```json", "").replace("```", "").strip()
-            blueprint = json.loads(clean_json)
-            return blueprint
+            plan = json.loads(clean_json)
+            
+            self.logger.info(f"Genesis Plan: {plan.get('rationale', 'No rationale')}")
+            
+            # 3. Create (Apply Changes)
+            self.kernel.update_field(plan)
+            return plan
+            
         except Exception as e:
-            logger.error(f"Blueprint generation failed: {e}")
-            return {"error": str(e)}
-
-class CodeWeaver:
-    """
-    직조자 (Weaver)
-    설계도(Blueprint)를 바탕으로 실제 실행 가능한 Python 코드를 작성합니다.
-    """
-    def weave_code(self, blueprint: Dict[str, Any]) -> str:
-        logger.info(f"🧶 Weaving Code for: {blueprint.get('class_name')}")
-        
-        prompt = f"""
-        You are the Code Weaver of Elysia.
-        Task: Write a complete, executable Python file based on this blueprint.
-        
-        Blueprint:
-        {json.dumps(blueprint, indent=2)}
-        
-        Requirements:
-        1. Include docstrings and type hints.
-        2. Use standard logging (logger = logging.getLogger("Name")).
-        3. Handle errors gracefully.
-        4. Output ONLY the Python code. No markdown formatting.
-        """
-        
-        try:
-            code = generate_text(prompt)
-            # Markdown 코드 블록 제거
-            clean_code = code.replace("```python", "").replace("```", "").strip()
-            return clean_code
-        except Exception as e:
-            logger.error(f"Code weaving failed: {e}")
-            return f"# Error generating code: {e}"
-
-    def save_code(self, code: str, file_path: str) -> bool:
-        try:
-            # 플랫폼 독립적 경로 처리 (환경 변수 또는 현재 파일 기준)
-            # ELYSIA_ROOT 환경 변수가 설정되어 있으면 사용, 없으면 프로젝트 루트 추정
-            elysia_root = os.environ.get("ELYSIA_ROOT")
-            if elysia_root:
-                root_path = Path(elysia_root)
-            else:
-                # 현재 파일 위치에서 프로젝트 루트 추정
-                root_path = Path(__file__).parent.parent
-            full_path = root_path / file_path
-            
-            # 디렉토리 생성
-            full_path.parent.mkdir(parents=True, exist_ok=True)
-            
-            with open(full_path, "w", encoding="utf-8") as f:
-                f.write(code)
-            
-            logger.info(f"💾 Code saved to: {full_path}")
-            return True
-        except Exception as e:
-            logger.error(f"Failed to save code: {e}")
-            return False
-
-class GenesisEngine:
-    """
-    창세기 엔진 (Genesis Engine)
-    진화의 전체 사이클을 관리합니다.
-    """
-    def __init__(self):
-        self.architect = BlueprintGenerator()
-        self.weaver = CodeWeaver()
-        logger.info("🧬 Genesis Engine Initialized - Evolution Ready")
-
-    def evolve(self, desire: str) -> Dict[str, Any]:
-        """
-        욕망에서 코드로의 진화 실행
-        """
-        logger.info(f"🚀 Initiating Evolution: {desire}")
-        
-        # 1. Blueprint
-        blueprint = self.architect.generate_blueprint(desire)
-        if "error" in blueprint:
-            return {"status": "failed", "step": "blueprint", "error": blueprint["error"]}
-            
-        # 2. Code Generation
-        code = self.weaver.weave_code(blueprint)
-        if code.startswith("# Error"):
-            return {"status": "failed", "step": "code", "error": code}
-            
-        # 3. Save (Staging)
-        # 강제로 Staging 경로로 변경하여 안전 확보
-        original_path = blueprint.get("file_path", "Core/Evolution/Staging/unknown.py")
-        filename = Path(original_path).name
-        staging_path = f"Core/Evolution/Staging/{filename}"
-        
-        success = self.weaver.save_code(code, staging_path)
-        
-        if success:
-            return {
-                "status": "success",
-                "blueprint": blueprint,
-                "staging_path": staging_path,
-                "message": "Evolution successful. Code awaiting review in Staging."
-            }
-        else:
-            return {"status": "failed", "step": "save", "error": "File write failed"}
+            self.logger.error(f"Genesis Evolution failed: {e}")
+            return None

@@ -46,7 +46,12 @@ class SelfReflector:
             loc = len(content.splitlines())
             functions = sum(1 for node in ast.walk(tree) if isinstance(node, ast.FunctionDef))
             classes = sum(1 for node in ast.walk(tree) if isinstance(node, ast.ClassDef))
-            imports = [node.names[0].name for node in ast.walk(tree) if isinstance(node, (ast.Import, ast.ImportFrom)) for node in node.names]
+            # Fix: Correctly iterate over aliases
+            imports = []
+            for node in ast.walk(tree):
+                if isinstance(node, (ast.Import, ast.ImportFrom)):
+                    for alias in node.names:
+                        imports.append(alias.name)
             
             # 간단한 복잡도 계산 (분기문 개수)
             complexity = 0
@@ -89,3 +94,22 @@ class SelfReflector:
             if metrics.complexity > 20 or metrics.loc > 300:
                 bottlenecks.append(f"{filename} (Complexity: {metrics.complexity}, LOC: {metrics.loc})")
         return bottlenecks
+
+    def reflect(self, resonance, brain, will):
+        """
+        Performs a holistic reflection on the system's state and code structure.
+        Integrates internal state (Resonance, Brain, Will) with code analysis.
+        """
+        # 1. Analyze Codebase (Periodically or on demand could be better, but for now we run it)
+        # To avoid high CPU every cycle, we can check a probability or just do a lightweight check.
+        # For now, let's just log the state to satisfy the interface.
+        
+        logger.info(f"🪞 Reflection: Energy={resonance.total_energy:.1f}, Mood={will.current_mood}")
+        
+        # Optional: Run full analysis only if energy is high enough to support 'deep thought'
+        if resonance.total_energy > 80.0:
+            metrics_map = self.reflect_on_core()
+            bottlenecks = self.identify_bottlenecks(metrics_map)
+            if bottlenecks:
+                logger.warning(f"⚠️ Identified complex modules: {', '.join(bottlenecks)}")
+

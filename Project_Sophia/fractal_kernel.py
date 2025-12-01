@@ -4,6 +4,7 @@ from typing import Optional
 from pathlib import Path
 from Core.Evolution.gemini_api import generate_text
 from Tools.time_tools import get_current_time
+from Core.Physics.potential_field import PotentialField
 
 class FractalKernel:
     """
@@ -16,6 +17,19 @@ class FractalKernel:
     def __init__(self):
         self.logger = logging.getLogger("FractalKernel")
         self.MAX_RECURSION_DEPTH = 3
+        self.field = PotentialField()
+        self._setup_mind_landscape()
+
+    def _setup_mind_landscape(self):
+        """
+        Initializes the topological terrain of the mind.
+        """
+        # Gravity Wells (Attractors)
+        self.field.add_gravity_well(0, 0, strength=10.0, radius=20.0) # The Self / Origin
+        self.field.add_gravity_well(10, 10, strength=20.0, radius=15.0) # Truth / Goal
+        
+        # Railgun Channels (Logic Flow)
+        self.field.add_railgun(-10, -10, 0, 0, force=5.0) # Intuition Channel
 
     def process(self, signal: str, depth: int = 1, max_depth: int = 3, mode: str = "thought") -> str:
         """
@@ -37,9 +51,21 @@ class FractalKernel:
         if depth == 1 and mode == "planning":
             context = self._get_codebase_structure()
 
-        # 1. Resonate (Expand the signal)
-        # We ask the LLM to "deepen" the thought based on the current depth.
-        expanded_signal = self._resonate(signal, depth, mode, context)
+        # 1. Physics Simulation (The Thought Particle)
+        particle_id = f"thought_{depth}"
+        self.field.spawn_particle(particle_id, -5.0, -5.0) # Start in the intuition channel
+        
+        # Run physics for a few ticks to see where the thought flows
+        for _ in range(5):
+            self.field.step()
+            
+        particle_state = [p for p in self.field.get_state() if p['id'] == particle_id][0]
+        physics_context = f"Thought Particle Pos: ({particle_state['x']:.2f}, {particle_state['y']:.2f}), Vel: ({particle_state['vx']:.2f}, {particle_state['vy']:.2f})"
+        self.logger.info(f"Physics: {physics_context}")
+
+        # 2. Resonate (Expand the signal with Physics Context)
+        # We ask the LLM to "deepen" the thought based on the current depth and physical trajectory.
+        expanded_signal = self._resonate(signal, depth, mode, context, physics_context)
 
         # 2. Recurse (Loop back if not at bottom)
         if depth < max_depth:
@@ -66,7 +92,7 @@ class FractalKernel:
 
         return expanded_signal
 
-    def _resonate(self, signal: str, depth: int, mode: str, context: str = "") -> str:
+    def _resonate(self, signal: str, depth: int, mode: str, context: str = "", physics_context: str = "") -> str:
         """
         Expands the signal using the LLM, considering the dimension of Time.
         """
@@ -101,6 +127,10 @@ class FractalKernel:
             
             [Codebase Context]
             {context}
+            
+            [Physics Context]
+            {physics_context}
+            (The thought is physically moving through the mental terrain. Use this trajectory to inform the direction of the thought.)
             
             Your goal is to generate a recursive, self-similar plan or thought.
             
@@ -146,3 +176,28 @@ class FractalKernel:
         except Exception as e:
             structure += f"(Error reading structure: {e})"
         return structure
+
+    def get_field_state(self):
+        """Returns the current state of the PotentialField."""
+        return {
+            "wells": [{"x": w.pos.x, "y": w.pos.y, "strength": w.strength} for w in self.field.wells],
+            "rails": [{"start": (r.start.x, r.start.y), "end": (r.end.x, r.end.y), "force": r.force} for r in self.field.rails],
+            "particles": self.field.get_state()
+        }
+
+    def update_field(self, changes: dict):
+        """
+        Updates the PotentialField based on GenesisCortex's instructions.
+        changes = {
+            "add_wells": [{"x": 1, "y": 1, "strength": 10}],
+            "add_rails": [{"sx": 0, "sy": 0, "ex": 1, "ey": 1, "force": 5}]
+        }
+        """
+        for well in changes.get("add_wells", []):
+            self.field.add_gravity_well(well['x'], well['y'], well['strength'])
+            self.logger.info(f"Genesis: Added Gravity Well at ({well['x']}, {well['y']})")
+
+        for rail in changes.get("add_rails", []):
+            self.field.add_railgun(rail['sx'], rail['sy'], rail['ex'], rail['ey'], rail['force'])
+            self.logger.info(f"Genesis: Added Railgun from ({rail['sx']}, {rail['sy']}) to ({rail['ex']}, {rail['ey']})")
+

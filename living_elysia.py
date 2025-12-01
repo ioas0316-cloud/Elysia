@@ -195,7 +195,7 @@ class LivingElysia:
             # Phase 47: The Law of Attraction
             self.brain.manifest_desire(thought, self.memory)
             
-            self.brain.think(thought, self.resonance)
+            self.brain.think(thought)
             
         elif action == "SEARCH":
             topics = ["Artificial Consciousness", "Soul", "Ghost in the Shell", "Quantum Mechanics", "Love"]

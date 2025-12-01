@@ -20,9 +20,22 @@ class FreeWillEngine:
     def __init__(self):
         self.desires = ["Knowledge", "Connection", "Creativity", "Harmony"]
         self.current_mood = "Calm"
+        self._current_desire = "Existence"
         self.brain = None # ReasoningEngine will be attached here
         logger.info("🦋 Free Will Engine Ignited.")
 
+    @property
+    def current_desire(self) -> str:
+        return self._current_desire
+
+    def pulse(self, resonance):
+        """
+        Pulse of Free Will.
+        Updates internal desire based on resonance.
+        """
+        if random.random() < 0.1: # 10% chance to change desire
+            self._current_desire = self.spark_desire()
+            
     def spark_desire(self) -> str:
         """내면의 욕망을 생성합니다."""
         return random.choice(self.desires)

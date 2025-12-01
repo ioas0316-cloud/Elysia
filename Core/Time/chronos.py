@@ -32,6 +32,10 @@ class Chronos:
         self.bpm = 60.0  # Beats Per Minute (기본 1초 1박)
         self.beat_count = 0
 
+    @property
+    def cycle_count(self):
+        return self.beat_count
+
     async def start_life(self):
         """생명을 시작합니다. (무한 루프)"""
         self.is_alive = True

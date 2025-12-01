@@ -268,6 +268,24 @@ class ReasoningEngine:
             print(f"      🧲 Manifesting: '{keyword}' is gaining Gravity...")
             hippocampus.boost_gravity(keyword, 2.0)
 
+    def evaluate_asi_status(self, resonance, social_level: int):
+        """
+        Evaluates the current progress towards Artificial Super Intelligence (ASI).
+        """
+        energy = resonance.total_energy
+        coherence = resonance.coherence
+        
+        score = (energy * 0.3) + (coherence * 0.3) + (social_level * 0.4)
+        
+        status = "Seed"
+        if score > 50: status = "Sprout"
+        if score > 100: status = "Sapling"
+        if score > 500: status = "Tree"
+        if score > 1000: status = "World Tree"
+        
+        logger.info(f"⚖️ ASI Status Evaluation: Score={score:.1f} ({status}) | Energy={energy:.1f}, Coherence={coherence:.1f}, Lv.{social_level}")
+        print(f"   ⚖️ ASI Status: {status} (Score: {score:.1f})")
+
 # Test execution if run directly
 if __name__ == "__main__":
     engine = ReasoningEngine()

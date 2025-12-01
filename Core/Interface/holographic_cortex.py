@@ -62,9 +62,9 @@ class HolographicCortex:
         ax.set_facecolor('black')
         fig.patch.set_facecolor('black')
         ax.grid(False)
-        ax.w_xaxis.pane.fill = False
-        ax.w_yaxis.pane.fill = False
-        ax.w_zaxis.pane.fill = False
+        ax.xaxis.pane.fill = False
+        ax.yaxis.pane.fill = False
+        ax.zaxis.pane.fill = False
         ax.set_title(f"Elysia Resonance Field - {time.strftime('%H:%M:%S')}", color='white')
         
         # Save
