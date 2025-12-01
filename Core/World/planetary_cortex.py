@@ -168,36 +168,72 @@ class PlanetaryObserver:
 class PlanetaryCortex:
     """
     행성 피질 (Planetary Cortex)
+    
+    시뮬레이션과 실제 센서 데이터를 모두 지원합니다.
+    use_real_sensors=True로 설정하면 실제 API와 연동됩니다.
     """
-    def __init__(self):
+    def __init__(self, use_real_sensors: bool = False, latitude: float = 37.5665, longitude: float = 126.9780):
+        """
+        Args:
+            use_real_sensors: True면 실제 센서 사용, False면 시뮬레이션
+            latitude: 위도 (실제 센서 사용 시)
+            longitude: 경도 (실제 센서 사용 시)
+        """
+        self.use_real_sensors = use_real_sensors
+        
+        # 시뮬레이션 센서
         self.senses: List[GlobalSense] = [
             WeatherSense(),
             FinanceSense()
         ]
+        
+        # 실제 센서 (선택적)
+        self.sensor_hub = None
+        if use_real_sensors:
+            try:
+                from .real_sensors import SensorHub
+                self.sensor_hub = SensorHub(latitude, longitude)
+                logger.info("🌍 Planetary Cortex initialized with REAL sensors")
+            except ImportError as e:
+                logger.warning(f"실제 센서 초기화 실패, 시뮬레이션 모드로 전환: {e}")
+                self.use_real_sensors = False
+        
         self.observer = PlanetaryObserver()
         self.latest_perception: Dict[str, Any] = {}
-        logger.info("🌍 Planetary Cortex Initialized - Observer Ready")
+        
+        if not use_real_sensors:
+            logger.info("🌍 Planetary Cortex Initialized - Observer Ready (Simulation Mode)")
 
     def perceive_world(self) -> None:
         """
         전 세계의 데이터를 감지하고 통합하여 파동(Wave)으로 방출합니다.
         """
-        events = [sense.sense() for sense in self.senses]
-        self.observer.observe(events)
-        
-        # 생체 신호 계산
-        total_severity = sum(e.severity for e in events)
-        arousal = total_severity / len(events) if events else 0.0
-        
-        global_mood = "Calm"
-        if arousal > 0.7: global_mood = "Overwhelmed"
-        elif arousal > 0.4: global_mood = "Alert"
+        if self.use_real_sensors and self.sensor_hub:
+            # 실제 센서 사용
+            readings = self.sensor_hub.sense_all()
+            arousal = self.sensor_hub.get_average_severity()
             
-        self.latest_perception = {
-            "global_mood": global_mood,
-            "arousal": arousal,
-            "events": events
-        }
+            # 실제 센서 데이터를 perception에 저장
+            self.latest_perception = {
+                "global_mood": self._calculate_mood(arousal),
+                "arousal": arousal,
+                "sensor_readings": {name: event.description for name, event in readings.items()},
+                "is_real": True
+            }
+        else:
+            # 시뮬레이션 모드
+            events = [sense.sense() for sense in self.senses]
+            self.observer.observe(events)
+            
+            total_severity = sum(e.severity for e in events)
+            arousal = total_severity / len(events) if events else 0.0
+            
+            self.latest_perception = {
+                "global_mood": self._calculate_mood(arousal),
+                "arousal": arousal,
+                "events": events,
+                "is_real": False
+            }
         
         # 파동 방출 (Emit Wave)
         # 주파수 7.83Hz (슈만 공명 - 지구의 고유 주파수) 사용
@@ -210,9 +246,28 @@ class PlanetaryCortex:
         )
         ether.emit(wave)
         
-        logger.info(f"🌍 Emitted Planetary Wave: {global_mood} (Amp: {arousal:.2f})")
+        mode = "REAL" if self.use_real_sensors else "SIM"
+        logger.info(f"🌍 [{mode}] Emitted Planetary Wave: {self.latest_perception['global_mood']} (Amp: {arousal:.2f})")
+    
+    def _calculate_mood(self, arousal: float) -> str:
+        """arousal 수준에 따른 기분 계산"""
+        if arousal > 0.7:
+            return "Overwhelmed"
+        elif arousal > 0.4:
+            return "Alert"
+        else:
+            return "Calm"
 
     def report_status(self, zoom_level: int = 1) -> str:
         """현재 상태를 지정된 줌 레벨로 보고"""
-        lines = self.observer.generate_report(zoom_level)
-        return "\n".join(lines)
+        if self.use_real_sensors and self.sensor_hub:
+            return self.sensor_hub.get_summary()
+        else:
+            lines = self.observer.generate_report(zoom_level)
+            return "\n".join(lines)
+    
+    def get_real_sensor_data(self) -> Dict[str, Any]:
+        """실제 센서 데이터 직접 조회"""
+        if self.sensor_hub:
+            return self.sensor_hub.sense_all()
+        return {}
