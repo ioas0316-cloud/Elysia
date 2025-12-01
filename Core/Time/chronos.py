@@ -87,3 +87,13 @@ class Chronos:
     def stop_life(self):
         """생명을 멈춥니다."""
         self.is_alive = False
+
+    def tick(self):
+        """
+        Synchronous tick for the main loop.
+        """
+        self.beat_count += 1
+        if self.beat_count % 10 == 0:
+            # logger might not be available here if not configured in this module, 
+            # but we can print or ignore.
+            pass

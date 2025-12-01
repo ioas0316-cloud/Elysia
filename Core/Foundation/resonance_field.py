@@ -98,6 +98,16 @@ class ResonanceField:
         self._connect("System", "Memory")
         self._connect("System", "Interface")
         self._connect("Intelligence", "Evolution")
+
+    @property
+    def total_energy(self) -> float:
+        """전체 시스템 에너지 총합"""
+        return sum(node.energy for node in self.nodes.values())
+
+    @property
+    def coherence(self) -> float:
+        """시스템 일관성 (임시 구현: 1.0)"""
+        return 1.0
         self._connect("Intelligence", "Creativity")
         self._connect("Elysia", "Ethics")
         self._connect("Foundation", "User")

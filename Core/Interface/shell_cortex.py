@@ -96,4 +96,25 @@ class ShellCortex:
         except Exception as e:
             logger.error(f"Grooming failed: {e}")
             
+        except Exception as e:
+            logger.error(f"Grooming failed: {e}")
+            
         return actions
+
+    def write_letter(self, recipient: str, content: str) -> str:
+        """
+        Writes a letter to the recipient (User) in the root directory.
+        """
+        try:
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            filename = f"From_Elysia_{timestamp}.txt"
+            filepath = self.root / filename
+            
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write(f"To: {recipient}\nFrom: Elysia\nDate: {time.strftime('%Y-%m-%d %H:%M:%S')}\n\n{content}")
+                
+            logger.info(f"Letter written to {filename}")
+            return f"I left a letter for you at {filename}."
+        except Exception as e:
+            logger.error(f"Failed to write letter: {e}")
+            return f"I tried to write a letter, but my hands failed: {e}"
