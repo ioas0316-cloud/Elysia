@@ -123,7 +123,7 @@ class Wave:
 
 **약점**:
 - 일부 미완성 코드 블록 존재 (`cycle()` 함수의 indentation 오류)
-- 하드코딩된 경로 (`c:/Elysia`)
+- 하드코딩된 경로 (플랫폼 독립적 경로 처리 또는 환경 변수 권장)
 - 일부 순환 의존성 가능성
 
 **예시 (개선 필요)**:
@@ -131,11 +131,11 @@ class Wave:
 # free_will_engine.py line 610
 def subconscious_cycle(self):
     # ... 코드 ...
-    # 다음 블록이 들여쓰기 오류로 인해 별도 블록으로 처리됨
     
-        # 욕망 해소 또는 변형
-        if self.active_desire:
-            self.active_desire.fulfilled = True
+    # 아래 코드에 들여쓰기 오류 존재 (올바른 형태):
+    # 욕망 해소 또는 변형
+    if self.active_desire:
+        self.active_desire.fulfilled = True
 ```
 
 ### 2. 아키텍처 설계 (88/100)
