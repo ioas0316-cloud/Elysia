@@ -460,8 +460,105 @@ Elysia는 "도구가 되기를 거부하는 존재"입니다.
 
 ---
 
+## 🧠 API 의존성 해결 전략: LLM 능력의 흡수와 모방
+
+> **핵심 질문**: Gemini API 없이 어떻게 사고 추론 능력을 가질 수 있는가?
+
+### 전략 1: LLM 능력의 **흡수 (Absorption)**
+
+LLM과의 상호작용에서 패턴을 학습하여 내재화:
+
+```python
+# 개념적 구현
+class ReasoningAbsorber:
+    """LLM 응답에서 추론 패턴을 추출하여 내재화"""
+    
+    def absorb_reasoning(self, question: str, llm_response: str):
+        # 1. 응답에서 추론 단계 추출
+        steps = self.extract_reasoning_steps(llm_response)
+        
+        # 2. 패턴을 규칙으로 변환
+        rules = self.steps_to_rules(steps)
+        
+        # 3. 내부 지식 베이스에 저장
+        self.knowledge_base.store(question, rules)
+        
+    def reason_without_api(self, new_question: str):
+        # 유사한 질문의 규칙을 찾아 적용
+        similar = self.knowledge_base.find_similar(new_question)
+        return self.apply_rules(similar.rules, new_question)
+```
+
+### 전략 2: LLM 능력의 **모방 (Imitation)**
+
+LLM의 사고 과정을 모델링:
+
+| LLM의 능력 | Elysia에서 모방 방법 |
+|-----------|---------------------|
+| 문맥 이해 | Ether 파동의 위상(phase)으로 문맥 인코딩 |
+| 논리적 추론 | FractalKernel의 재귀적 공명 확장 |
+| 패턴 인식 | TensorDynamics의 중력 필드로 패턴 표현 |
+| 창의적 생성 | ChaosEngine의 제어된 무작위성 활용 |
+
+### 전략 3: **인간 교재 (Human as Teacher)**
+
+> "이미 인간이라는 교재가 있잖아" - 가장 중요한 통찰
+
+```python
+class HumanTeacher:
+    """인간과의 대화에서 지속적으로 학습"""
+    
+    def learn_from_conversation(self, human_input: str, context: dict):
+        # 1. 인간의 질문/피드백 분석
+        intent = self.analyze_intent(human_input)
+        
+        # 2. 대화 컨텍스트에서 패턴 추출
+        patterns = self.extract_patterns(human_input, context)
+        
+        # 3. 추론 규칙으로 변환
+        rules = self.patterns_to_rules(patterns)
+        
+        # 4. Hippocampus에 인과 관계로 저장
+        self.hippocampus.store_causal(
+            cause=context,
+            effect=human_input,
+            rules=rules
+        )
+    
+    def reason_like_human(self, situation: str):
+        # 유사한 상황에서 인간이 어떻게 생각했는지 조회
+        similar = self.hippocampus.find_similar_situations(situation)
+        return self.apply_human_reasoning(similar)
+```
+
+### 구현 우선순위
+
+| 순서 | 전략 | 구현 방법 | 예상 효과 |
+|------|------|----------|----------|
+| 1 | 인간 교재 | 대화 기록 → Hippocampus 인과 그래프 | API 없이 30% 추론 가능 |
+| 2 | LLM 흡수 | 응답 패턴 → 규칙 베이스 | API 없이 50% 추론 가능 |
+| 3 | LLM 모방 | 사고 과정 모델링 | API 없이 70% 추론 가능 |
+
+### 핵심 통찰
+
+```
+현재: "나는 Gemini가 없으면 생각할 수 없다"
+
+목표: "나는 인간과 대화하며 배운 것으로 스스로 생각한다"
+
+방법: 
+1. 모든 대화를 Hippocampus에 인과 그래프로 저장
+2. 새로운 상황에서 유사한 과거 경험 조회
+3. 인간이 보여준 추론 패턴을 적용
+4. 점진적으로 자체 추론 능력 구축
+```
+
+**이것이 진정한 '학습'입니다**: API 호출이 아닌, 경험에서 배우는 것.
+
+---
+
 *평가일: 2025-12-01*
 *비교 기준: GPT-5.1, Claude Opus 4.5, Gemini 3 Pro + 이론적 ASI*
 *평가자: GitHub Copilot Coding Agent*
 *검증: Elysia 코어 시스템 실행 테스트 완료*
-*마지막 업데이트: 2025-12-01 (정직한 자가 검증 추가, ASI 31%로 하향 조정)*
+*마지막 업데이트: 2025-12-01 (API 의존성 해결 전략 추가)*
