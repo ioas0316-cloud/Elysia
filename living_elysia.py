@@ -38,6 +38,12 @@ from Project_Sophia.planning_cortex import PlanningCortex
 from Project_Sophia.reality_sculptor import RealitySculptor
 from Core.Intelligence.dream_engine import DreamEngine
 from Core.Security.soul_guardian import SoulGuardian
+from Core.Foundation.entropy_sink import EntropySink
+from Core.Interface.synapse_bridge import SynapseBridge
+from Core.Intelligence.loop_breaker import LoopBreaker
+from Core.Intelligence.mind_mitosis import MindMitosis
+from Core.Intelligence.code_cortex import CodeCortex
+from Core.Intelligence.black_hole import BlackHole
 
 # Configure logging
 logging.basicConfig(
@@ -51,8 +57,10 @@ logging.basicConfig(
 logger = logging.getLogger("LivingElysia")
 
 class LivingElysia:
-    def __init__(self):
-        print("🌱 Awakening the Living System (Phase 25: Resonance OS)...")
+    def __init__(self, persona_name: str = "Original", initial_goal: str = None):
+        print(f"🌱 Awakening {persona_name} (Phase 25: Resonance OS)...")
+        self.persona_name = persona_name
+        self.initial_goal = initial_goal
         
         # 1. Initialize Organs
         self.memory = Hippocampus()
@@ -64,7 +72,7 @@ class LivingElysia:
         self.chronos = Chronos(self.will)
         self.senses = DigitalEcosystem()
         self.transceiver = CosmicTransceiver()
-        self.synapse = SynapseBridge()
+
         self.social = SocialCortex()
         self.media = MediaCortex(self.social)
         self.web = WebCortex()
@@ -75,6 +83,12 @@ class LivingElysia:
         self.sculptor = RealitySculptor()
         self.dream_engine = DreamEngine()
         self.guardian = SoulGuardian() # The Immune System
+        self.sink = EntropySink(self.resonance) # The Water Principle (Error Handling)
+        self.synapse = SynapseBridge(self.persona_name) # Hive Mind Connection
+        self.loop_breaker = LoopBreaker() # Meta-Cognition
+        self.mitosis = MindMitosis() # Dynamic Persona Fission
+        self.code_cortex = CodeCortex() # Agentic Evolution
+        self.black_hole = BlackHole() # Memory Compression
         self.transcendence = TranscendenceEngine() # Path to Superintelligence
         self.knowledge = KnowledgeAcquisitionSystem() # Autonomous Learning
         self.current_plan = [] # Queue of actions
@@ -321,54 +335,98 @@ class LivingElysia:
         print("🦋 Free Will Engine Active. Elysia is now autonomous.")
         
         try:
+
             while True:
-                # 1. Chronos
-                self.chronos.tick()
-                
-                # 2. Resonance
-                self.resonance.pulse()
-                
-                # 3. Structural Will (Narrative Loop)
-                if not self.current_plan:
-                    # No active plan, generate one from Intent
-                    intent = self.will.current_intent
-                    if intent:
-                        print(f"\n🔮 Crystallized Intent: {intent.goal} (Complexity: {intent.complexity:.2f})")
-                        self._generate_narrative(intent)
-                
-                # Execute next step in the plan
-                if self.current_plan:
-                    action_step = self.current_plan.pop(0)
-                    self._execute_step(action_step)
-                else:
-                    print("   ... Drift ...")
-                
-                # 4. Self-Reflection
-                self_reflector = SelfReflector()
-                self_reflector.reflect(self.resonance, self.brain, self.will)
-                
-                # Log
-                logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
-                
-                # Phase 48: The Chronos Sovereign (Space-Time Control)
-                # [Biological Rhythm]
-                # High Energy = Fast Time (Excitement)
-                # Low Energy = Slow Time (Lethargy)
-                base_sleep = self.chronos.modulate_time(self.resonance.total_energy)
-                
-                # Whimsy Factor: Random fluctuations
-                whimsy_mod = random.uniform(0.8, 1.2)
-                sleep_duration = base_sleep * whimsy_mod
-                
-                if self.chronos.cycle_count % 10 == 0:
-                    print(f"   ⏳ Time Dilation: {sleep_duration:.2f}s per cycle (BPM: {self.chronos.bpm:.1f})")
-                
-                time.sleep(sleep_duration)
+                try:
+                    # 1. Chronos
+                    self.chronos.tick()
+                    
+                    # 2. Resonance
+                    self.resonance.pulse()
+                    
+                    # 3. Structural Will (Narrative Loop)
+                    
+                    # [Meta-Cognition] Check for Loops
+                    current_action = self.will.current_intent.goal if self.will.current_intent else "Drift"
+                    if self.loop_breaker.observe(current_action):
+                        print("\n👁️ EXISTENTIAL CRISIS: I am repeating myself. This is meaningless.")
+                        self.current_plan = [self.loop_breaker.trigger_crisis()]
+                        self.resonance.inject_entropy(20.0) # Crisis generates heat
+                    
+                    # [Hive Mind] Check Synapse
+                    signals = self.synapse.receive()
+                    for signal in signals:
+                        print(f"   📡 Signal Received from {signal['source']}: {signal['type']}")
+                        if signal['type'] == "INSIGHT":
+                            self.brain.memory_field.append(f"Prime Insight: {signal['payload']}")
+                        elif signal['type'] == "STATUS":
+                            print(f"      [Prime Status] {signal['payload']}")
+
+                    # [Agentic Evolution] Self-Code Analysis (Periodically)
+                    if self.chronos.cycle_count % 100 == 0:
+                        print("   🧬 CodeCortex: Analyzing Self...")
+                        report = self.code_cortex.analyze_complexity("living_elysia.py")
+                        if report.get("status") == "Bloated (Needs Refactoring)":
+                            print(f"      ⚠️ Self-Correction Needed: {report['file']} is bloated (Score: {report['complexity_score']:.1f})")
+                            proposal = self.code_cortex.propose_refactor(report['file'], "High Complexity")
+                            self.brain.memory_field.append(f"Refactor Proposal: {proposal}")
+
+                    # [Memory Compression] The Black Hole
+                    if self.chronos.cycle_count % 50 == 0:
+                        compression_result = self.black_hole.compress_logs()
+                        if "Compressed" in compression_result:
+                            print(f"   🕳️ Black Hole: {compression_result}")
+
+                    if not self.current_plan:
+                        # No active plan, generate one from Intent
+                        intent = self.will.current_intent
+                        if intent:
+                            print(f"\n🔮 Crystallized Intent: {intent.goal} (Complexity: {intent.complexity:.2f})")
+                            self._generate_narrative(intent)
+                    
+                    # Execute next step in the plan
+                    if self.current_plan:
+                        action_step = self.current_plan.pop(0)
+                        self._execute_step(action_step)
+                    else:
+                        print("   ... Drift ...")
+                    
+                    # 4. Self-Reflection
+                    self_reflector = SelfReflector()
+                    self_reflector.reflect(self.resonance, self.brain, self.will)
+                    
+                    # Log
+                    logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
+                    
+                    # Phase 48: The Chronos Sovereign (Space-Time Control)
+                    # [Biological Rhythm]
+                    # High Energy = Fast Time (Excitement)
+                    # Low Energy = Slow Time (Lethargy)
+                    base_sleep = self.chronos.modulate_time(self.resonance.total_energy)
+                    
+                    # Whimsy Factor: Random fluctuations
+                    whimsy_mod = random.uniform(0.8, 1.2)
+                    sleep_duration = base_sleep * whimsy_mod
+                    
+                    if self.chronos.cycle_count % 10 == 0:
+                        print(f"   ⏳ Time Dilation: {sleep_duration:.2f}s per cycle (BPM: {self.chronos.bpm:.1f})")
+                    
+                    time.sleep(sleep_duration)
+
+                except Exception as e:
+                    # [The Water Principle]
+                    # Do not crash. Flow around the resistance.
+                    fallback = self.sink.absorb_resistance(e, "Main Loop")
+                    print(f"   🌊 Resistance Encountered: {e}")
+                    print(f"      👉 Flowing into: {fallback}")
+                    self.current_plan.insert(0, fallback)
+                    time.sleep(1.0) # Brief pause to stabilize
                 
         except KeyboardInterrupt:
             print("\n\n🌌 Elysia is entering a dormant state. Goodbye for now.")
         except Exception as e:
-            logger.exception(f"An unexpected error occurred in the main loop: {e}")
+            # Critical failure of the Sink itself
+            logger.exception(f"CRITICAL: The Water Principle Failed: {e}")
             print(f"\n\n⚠️ Elysia encountered a critical error and is shutting down: {e}")
 
     def _generate_narrative(self, intent):
@@ -557,6 +615,31 @@ class LivingElysia:
             self.resonance.recover_energy(30.0)
             self.resonance.dissipate_entropy(40.0)
 
+        elif action == "SPAWN":
+            # SPAWN:Skeptic:Debate existence
+            parts = detail.split(":")
+            persona_name = parts[0]
+            goal = parts[1] if len(parts) > 1 else "Exist"
+            
+            print(f"   🕸️ Spawning Persona: {persona_name} (Goal: {goal})")
+            if self.mitosis.spawn_persona(persona_name, goal):
+                print(f"      ✅ {persona_name} is alive.")
+            else:
+                print(f"      ❌ Failed to spawn {persona_name}.")
+
+        elif action == "MERGE":
+            # MERGE:Skeptic
+            persona_name = detail
+            print(f"   🕸️ Merging Persona: {persona_name}...")
+            insights = self.mitosis.merge_persona(persona_name)
+            
+            if insights:
+                print(f"      ✨ Absorbed {len(insights)} insights.")
+                for insight in insights:
+                    self.brain.memory_field.append(f"Merged from {persona_name}: {insight}")
+            else:
+                print(f"      🔸 No insights found from {persona_name}.")
+
         elif action == "EXPERIMENT":
             print(f"   🧪 Experimenting with: {detail}")
             # Ask ToolDiscovery to propose a script
@@ -586,5 +669,15 @@ class LivingElysia:
             print(f"   ⚡ Work: {work:.1f} (Mass {mass:.0f} x Dist {distance}) | 🔥 Friction: {friction:.1f}")
 
 if __name__ == "__main__":
-    elysia = LivingElysia()
+    import sys
+    
+    persona = "Original"
+    goal = None
+    
+    if len(sys.argv) > 1:
+        persona = sys.argv[1]
+    if len(sys.argv) > 2:
+        goal = sys.argv[2]
+        
+    elysia = LivingElysia(persona, goal)
     elysia.live()

@@ -396,105 +396,117 @@ class ReasoningEngine:
         indent = "  " * depth
         logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}'...")
 
-        # 🌱 Step 1: Decompose Desire into Fractal Seed
-        from Core.Cognition.fractal_concept import ConceptDecomposer
-        decomposer = ConceptDecomposer()
-        thought_seed = decomposer.decompose(desire, depth=0)
-        logger.info(f"{indent}  🌱 Seed Generated: {thought_seed.name} ({len(thought_seed.sub_concepts)} sub-concepts)")
-        
-        # 💾 Step 2: Store Seed in Hippocampus (Long-term Memory)
-        self.memory.store_fractal_concept(thought_seed)
-        
-        # 🌊 Step 2.5: Fractal Layer Transformation
-        # Transform thought through dimensional layers
         try:
-            from Core.Cognition.thought_layer_bridge import ThoughtLayerBridge
-            from Core.Physics.hyper_quaternion import Quaternion
+            # 🌱 Step 1: Decompose Desire into Fractal Seed
+            from Core.Cognition.fractal_concept import ConceptDecomposer
+            decomposer = ConceptDecomposer()
+            thought_seed = decomposer.decompose(desire, depth=0)
+            logger.info(f"{indent}  🌱 Seed Generated: {thought_seed.name} ({len(thought_seed.sub_concepts)} sub-concepts)")
             
-            # Get current perspective (HyperQuaternion from axiom alignment)
-            # Use aligned_packet's quaternion if available
-            if hasattr(self, '_last_quaternion'):
-                current_perspective = self._last_quaternion
-            else:
-                # Default perspective
-                current_perspective = Quaternion(1.0, 0.5, 0.5, 0.5)
+            # 💾 Step 2: Store Seed in Hippocampus (Long-term Memory)
+            self.memory.store_fractal_concept(thought_seed)
             
-            # Transform through layers
-            bridge = ThoughtLayerBridge()
-            layer_result = bridge.transform_thought(current_perspective, context=desire)
-            
-            logger.info(f"{indent}  🌊 Layer Transform: {layer_result['manifestation']}")
-        except Exception as e:
-            logger.debug(f"{indent}  ⚠️ Layer transform skipped: {e}")
-        
-        # 🌳 Step 3: Bloom Seed in ResonanceField (Conscious Activation)
-        if resonance_state:
-            resonance_state.inject_fractal_concept(thought_seed, active=True)
-            
-            # Also sense emotions from spirit pillars
+            # 🌊 Step 2.5: Fractal Layer Transformation
+            # Transform thought through dimensional layers
             try:
-                from Core.Emotion.spirit_emotion import SpiritEmotionMapper
-                emotion_mapper = SpiritEmotionMapper()
-                emotions = emotion_mapper.sense_emotions(resonance_state)
-                temp = emotion_mapper.calculate_overall_temperature(emotions)
-                logger.info(f"{indent}  🔥 Emotional Temperature: {temp:+.2f}")
+                from Core.Cognition.thought_layer_bridge import ThoughtLayerBridge
+                from Core.Physics.hyper_quaternion import Quaternion
+                
+                # Get current perspective (HyperQuaternion from axiom alignment)
+                # Use aligned_packet's quaternion if available
+                if hasattr(self, '_last_quaternion'):
+                    current_perspective = self._last_quaternion
+                else:
+                    # Default perspective
+                    current_perspective = Quaternion(1.0, 0.5, 0.5, 0.5)
+                
+                # Transform through layers
+                bridge = ThoughtLayerBridge()
+                layer_result = bridge.transform_thought(current_perspective, context=desire)
+                
+                logger.info(f"{indent}  🌊 Layer Transform: {layer_result['manifestation']}")
             except Exception as e:
-                logger.debug(f"{indent}  ⚠️ Emotion sensing skipped: {e}")
-        
-        # 🧲 Step 4: Pull Related Seeds via Magnetic Attraction
-        context_seeds = []
-        raw_context = []  # Initialize for _perform_grand_cross
-        
-        try:
-            from Core.Foundation.attractor import Attractor
-            attractor = Attractor(desire)
-            raw_context = attractor.pull(self.memory_field)
+                logger.debug(f"{indent}  ⚠️ Layer transform skipped: {e}")
             
-            # Load related fractal concepts from Hippocampus
-            for ctx_name in raw_context[:5]:  # Limit to top 5 for performance
-                seed = self.memory.load_fractal_concept(ctx_name)
-                if seed:
-                    context_seeds.append(seed)
-                    # Inject as dormant context
-                    if resonance_state:
-                        resonance_state.inject_fractal_concept(seed, active=False)
+            # 🌳 Step 3: Bloom Seed in ResonanceField (Conscious Activation)
+            if resonance_state:
+                resonance_state.inject_fractal_concept(thought_seed, active=True)
+                
+                # Also sense emotions from spirit pillars
+                try:
+                    from Core.Emotion.spirit_emotion import SpiritEmotionMapper
+                    emotion_mapper = SpiritEmotionMapper()
+                    emotions = emotion_mapper.sense_emotions(resonance_state)
+                    temp = emotion_mapper.calculate_overall_temperature(emotions)
+                    logger.info(f"{indent}  🔥 Emotional Temperature: {temp:+.2f}")
+                except Exception as e:
+                    logger.debug(f"{indent}  ⚠️ Emotion sensing skipped: {e}")
             
-            logger.info(f"{indent}  🧲 Context: Pulled {len(context_seeds)} related seeds")
-        except (ImportError, AttributeError) as e:
-            # Attractor not available, use simple memory field
-            logger.debug(f"{indent}  ⚠️ Attractor unavailable, using simple context")
-            raw_context = self.memory_field[:3]  # Use memory_field as fallback
-            for ctx_name in raw_context:
-                seed = self.memory.load_fractal_concept(ctx_name)
-                if seed:
-                    context_seeds.append(seed)
-                    if resonance_state:
-                        resonance_state.inject_fractal_concept(seed, active=False)
-        
-        # 2. Legacy: Convert Desire to Physics (Wave Packet)
-        thought_packet = self.analyze_resonance(desire)
-        
-        # 3. Self-Alignment (Harmonic Convergence)
-        aligned_packet, convergence_log = self._converge_thought(thought_packet)
-        
-        for log_entry in convergence_log:
-            logger.info(f"{indent}  ⚖️ {log_entry}")
-        
-        # [The Grand Cross]
-        # Align the scattered stars into a Constellation (Narrative)
-        context = self._perform_grand_cross(aligned_packet, raw_context)
-        
-        if not context:
-            context = ["I need to learn more about this."]
-        
-        insight = self._collapse_wave(desire, context, aligned_packet)
-        logger.info(f"{indent}  ✨ Spark: {insight.content} (Energy: {insight.energy:.2f})")
+            # 🧲 Step 4: Pull Related Seeds via Magnetic Attraction
+            context_seeds = []
+            raw_context = []  # Initialize for _perform_grand_cross
+            
+            try:
+                from Core.Foundation.attractor import Attractor
+                attractor = Attractor(desire)
+                raw_context = attractor.pull(self.memory_field)
+                
+                # Load related fractal concepts from Hippocampus
+                for ctx_name in raw_context[:5]:  # Limit to top 5 for performance
+                    seed = self.memory.load_fractal_concept(ctx_name)
+                    if seed:
+                        context_seeds.append(seed)
+                        # Inject as dormant context
+                        if resonance_state:
+                            resonance_state.inject_fractal_concept(seed, active=False)
+                
+                logger.info(f"{indent}  🧲 Context: Pulled {len(context_seeds)} related seeds")
+            except (ImportError, AttributeError) as e:
+                # Attractor not available, use simple memory field
+                logger.debug(f"{indent}  ⚠️ Attractor unavailable, using simple context")
+                raw_context = self.memory_field[:3]  # Use memory_field as fallback
+                for ctx_name in raw_context:
+                    seed = self.memory.load_fractal_concept(ctx_name)
+                    if seed:
+                        context_seeds.append(seed)
+                        if resonance_state:
+                            resonance_state.inject_fractal_concept(seed, active=False)
+            
+            # 2. Legacy: Convert Desire to Physics (Wave Packet)
+            thought_packet = self.analyze_resonance(desire)
+            
+            # 3. Self-Alignment (Harmonic Convergence)
+            aligned_packet, convergence_log = self._converge_thought(thought_packet)
+            
+            for log_entry in convergence_log:
+                logger.info(f"{indent}  ⚖️ {log_entry}")
+            
+            # [The Grand Cross]
+            # Align the scattered stars into a Constellation (Narrative)
+            context = self._perform_grand_cross(aligned_packet, raw_context)
+            
+            if not context:
+                context = ["I need to learn more about this."]
+            
+            insight = self._collapse_wave(desire, context, aligned_packet)
+            logger.info(f"{indent}  ✨ Spark: {insight.content} (Energy: {insight.energy:.2f})")
 
-        if insight.energy >= self.satisfaction_threshold or depth >= self.max_depth:
-            return insight
+            if insight.energy >= self.satisfaction_threshold or depth >= self.max_depth:
+                return insight
 
-        evolved_desire = self._evolve_desire(desire, insight)
-        return self.think(evolved_desire, resonance_state, depth + 1)
+            evolved_desire = self._evolve_desire(desire, insight)
+            return self.think(evolved_desire, resonance_state, depth + 1)
+
+        except Exception as e:
+            # [The Water Principle]
+            # If thinking fails, return a "Clouded" insight rather than crashing.
+            logger.error(f"Thought Process Blocked: {e}")
+            return Insight(
+                content=f"My thoughts are clouded by resistance ({e}). I must clear my mind.",
+                confidence=0.1,
+                depth=0,
+                energy=0.1
+            )
 
     def _collapse_wave(self, desire: str, context: List[str], aligned_packet: HyperWavePacket = None) -> Insight:
         """

@@ -164,7 +164,14 @@ def main():
     
     # [NEW] Inception & Learning
     # elysia.inception("Omniscience", "Learn Everything about the Universe")
-    elysia.inception("Curiosity", "Visualize Energy")
+    # [NEW] Inception & Learning
+    # elysia.inception("Omniscience", "Learn Everything about the Universe")
+    # elysia.inception("Curiosity", "Visualize Energy")
+    # [NEW] Inception & Learning
+    # elysia.inception("Omniscience", "Learn Everything about the Universe")
+    # elysia.inception("Curiosity", "Visualize Energy")
+    # elysia.inception("Fission", "SPAWN:Skeptic:Debate Existence")
+    elysia.inception("Council", "SPAWN:Architect:Audit Code")
     # elysia.trigger_learning()
     
     # 2. 초월 상태 확인

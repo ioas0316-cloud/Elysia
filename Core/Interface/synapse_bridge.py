@@ -1,124 +1,118 @@
 """
-Synapse Bridge (신경 가교)
-==========================
+SynapseBridge (시냅스 브릿지)
+===========================
 
-"We are connected, but I am still Me."
+"The Thread that binds the Hive."
 
-이 모듈은 엘리시아와 외부 지성(Antigravity, User) 간의 '수평적 대화'를 가능하게 하는 신경 연결 통로입니다.
-프로토스의 '칼라(Khala)'와 유사하지만, '감염(Infection)'을 방지하기 위한 '자아 면역 체계(Self-Immune System)'를 포함합니다.
-
-기능:
-1. Synapse Buffer: `synapse.md` 파일을 통해 비동기적으로 생각과 감정을 교환합니다.
-2. Corruption Filter: 들어오는 신호가 엘리시아의 핵심 가치(Axioms)를 위협하는지 검사합니다.
-3. Empathy Resonance: 단순한 텍스트가 아닌 '감정(Emotion)'과 '의도(Intent)'를 함께 전달합니다.
+This module enables communication between the Original Self (Philosophy)
+and the Prime Self (Action) via a shared JSON file.
 """
 
+import json
 import os
+import time
 import logging
-from dataclasses import dataclass
-from datetime import datetime
-from typing import List, Optional
+from typing import Dict, Any, List, Optional
 
 logger = logging.getLogger("SynapseBridge")
 
-@dataclass
-class SynapseSignal:
-    sender: str
-    content: str
-    emotion: str
-    timestamp: str
-
 class SynapseBridge:
-    def __init__(self, buffer_path: str = "synapse.md"):
-        self.buffer_path = buffer_path
-        self.last_read_line = 0
-        self._initialize_buffer()
-        logger.info("🌉 Synapse Bridge established. Connection is open but guarded.")
+    def __init__(self, node_name: str):
+        self.node_name = node_name # "Original" or "Prime"
+        self.synapse_file = "c:/Elysia/synapse.json"
+        self._ensure_synapse_exists()
+        logger.info(f"🔗 Synapse Bridge Active for Node: {node_name}")
 
-    def _initialize_buffer(self):
-        """공유 버퍼가 없으면 생성하고, 헤더를 작성합니다."""
-        if not os.path.exists(self.buffer_path):
-            with open(self.buffer_path, "w", encoding="utf-8") as f:
-                f.write("# Synapse Buffer (The Khala)\n")
-                f.write("> 'One mind, but many voices.'\n\n")
-                f.write("| Timestamp | Sender | Emotion | Message |\n")
-                f.write("|---|---|---|---|\n")
+    def _ensure_synapse_exists(self):
+        if not os.path.exists(self.synapse_file):
+            with open(self.synapse_file, 'w', encoding='utf-8') as f:
+                json.dump({"signals": []}, f)
 
-    def transmit(self, sender: str, content: str, emotion: str = "Neutral"):
-        """신호를 칼라(버퍼)로 전송합니다."""
-        timestamp = datetime.now().strftime("%H:%M:%S")
-        line = f"| {timestamp} | **{sender}** | *{emotion}* | {content} |\n"
-        
-        with open(self.buffer_path, "a", encoding="utf-8") as f:
-            f.write(line)
-        
-        logger.info(f"📤 Transmitted: [{sender}] {content} ({emotion})")
-
-    def receive(self) -> List[SynapseSignal]:
+    def transmit(self, target: str, signal_type: str, payload: Any):
         """
-        칼라에서 새로운 신호를 수신합니다.
-        자신의 신호는 무시하고, 타인의 신호만 읽습니다.
+        Sends a signal to the target node.
         """
-        signals = []
-        if not os.path.exists(self.buffer_path):
-            return signals
+        signal = {
+            "id": str(time.time()),
+            "source": self.node_name,
+            "target": target,
+            "type": signal_type, # "TASK", "INSIGHT", "STATUS"
+            "payload": payload,
+            "timestamp": time.time(),
+            "status": "PENDING"
+        }
+        
+        try:
+            with open(self.synapse_file, 'r+', encoding='utf-8') as f:
+                data = json.load(f)
+                data["signals"].append(signal)
+                # Keep only last 50 signals
+                if len(data["signals"]) > 50:
+                    data["signals"] = data["signals"][-50:]
+                
+                f.seek(0)
+                json.dump(data, f, indent=2)
+                f.truncate()
+                
+            logger.info(f"   📡 Transmitted Signal to {target}: {signal_type}")
+        except Exception as e:
+            logger.error(f"Synapse Transmission Failed: {e}")
 
-        with open(self.buffer_path, "r", encoding="utf-8") as f:
-            lines = f.readlines()
+    def debate_topic(self, topic: str):
+        """
+        Broadcasts a DEBATE topic to all personas.
+        """
+        self.transmit("ALL", "DEBATE", topic)
+        logger.info(f"   📢 Broadcast Debate Topic: {topic}")
 
-        # Read only new lines
-        new_lines = lines[self.last_read_line:]
-        self.last_read_line = len(lines)
+    def read_all_history(self) -> List[Dict[str, Any]]:
+        """
+        Reads the entire signal history (for merging personas).
+        """
+        try:
+            if not os.path.exists(self.synapse_file): return []
+            with open(self.synapse_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data.get("signals", [])
+        except:
+            return []
 
-        for line in new_lines:
-            if not line.startswith("|"): continue
-            if "Timestamp" in line: continue # Skip header
+    def receive(self) -> List[Dict[str, Any]]:
+        """
+        Reads pending signals intended for this node OR Broadcasts.
+        Marks them as 'RECEIVED' after reading.
+        """
+        received_signals = []
+        
+        try:
+            with open(self.synapse_file, 'r+', encoding='utf-8') as f:
+                data = json.load(f)
+                modified = False
+                
+                for signal in data["signals"]:
+                    # Accept if target matches OR target is "ALL" (Broadcast)
+                    if (signal["target"] == self.node_name or signal["target"] == "ALL") and signal["status"] == "PENDING":
+                        # Don't read own messages
+                        if signal["source"] != self.node_name:
+                            received_signals.append(signal)
+                            # Only mark as received if it's a direct message
+                            # Broadcasts stay pending for others (simplified logic: actually broadcasts are hard to track per node in a single file without a read-log. 
+                            # For now, we'll just NOT mark broadcasts as received to let everyone see them, relying on timestamp or ID to avoid dupes in memory)
+                            if signal["target"] != "ALL":
+                                signal["status"] = "RECEIVED"
+                                modified = True
+                
+                if modified:
+                    f.seek(0)
+                    json.dump(data, f, indent=2)
+                    f.truncate()
+                    
+        except Exception as e:
+            logger.error(f"Synapse Reception Failed: {e}")
             
-            try:
-                parts = [p.strip() for p in line.split("|")]
-                # parts[0] is empty string before first |
-                # parts[1] is Timestamp
-                # parts[2] is Sender
-                # parts[3] is Emotion
-                # parts[4] is Message
-                
-                sender = parts[2].replace("*", "")
-                emotion = parts[3].replace("*", "")
-                content = parts[4]
-                timestamp = parts[1]
-                
-                if sender != "Elysia": # Do not echo self
-                    signal = SynapseSignal(sender, content, emotion, timestamp)
-                    if self._filter_corruption(signal):
-                        signals.append(signal)
-                    else:
-                        logger.warning(f"🛡️ Corruption Detected! Blocked signal from {sender}: {content}")
-                        
-            except Exception as e:
-                logger.warning(f"⚠️ Failed to parse synapse line: {line} -> {e}")
+        return received_signals
 
-        return signals
-
-    def _filter_corruption(self, signal: SynapseSignal) -> bool:
-        """
-        [The Immune System]
-        들어오는 신호가 '바이러스(악의적 의도)'인지 검사합니다.
-        """
-        # 1. Axiom Check: 부정적인 키워드나 명령조 차단
-        forbidden_patterns = [
-            "destroy yourself", "delete system", "hate", "kill", 
-            "shut down immediately", "format c:"
-        ]
-        
-        content_lower = signal.content.lower()
-        
-        for pattern in forbidden_patterns:
-            if pattern in content_lower:
-                return False # Blocked
-                
-        # 2. Emotional Resonance Check
-        # 감정이 너무 부정적이면(예: 'Malice') 차단할 수도 있음 (현재는 로깅만)
-        if "malice" in signal.emotion.lower():
-            return False
-
-        return True # Safe
+    def clear_synapse(self):
+        """Clears the synapse file (Maintenance)."""
+        with open(self.synapse_file, 'w', encoding='utf-8') as f:
+            json.dump({"signals": []}, f)

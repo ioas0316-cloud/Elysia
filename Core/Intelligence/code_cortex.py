@@ -1,0 +1,90 @@
+"""
+CodeCortex (코드 코르텍스)
+========================
+
+"Know Thyself (Source Code)."
+
+This module allows Elysia to read, analyze, and propose changes to her own source code.
+It is the foundation of Agentic Evolution.
+"""
+
+import os
+import ast
+import logging
+from typing import List, Dict, Any
+
+logger = logging.getLogger("CodeCortex")
+
+class CodeCortex:
+    def __init__(self):
+        self.project_root = "c:/Elysia"
+        logger.info("🧬 Code Cortex Active. Ready to analyze self.")
+
+    def read_source(self, file_path: str) -> str:
+        """Reads the source code of a file."""
+        try:
+            full_path = os.path.join(self.project_root, file_path)
+            if not os.path.exists(full_path):
+                return f"Error: File {file_path} not found."
+                
+            with open(full_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except Exception as e:
+            return f"Error reading {file_path}: {e}"
+
+    def analyze_complexity(self, file_path: str) -> Dict[str, Any]:
+        """
+        Analyzes the complexity of a file using AST.
+        Returns a 'Health Report'.
+        """
+        code = self.read_source(file_path)
+        if code.startswith("Error"):
+            return {"error": code}
+            
+        try:
+            tree = ast.parse(code)
+            functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+            classes = [node for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
+            
+            # Simple Heuristic: Length + Function Count
+            lines = len(code.splitlines())
+            complexity_score = lines / 10.0 + len(functions) * 2.0
+            
+            report = {
+                "file": file_path,
+                "lines": lines,
+                "classes": len(classes),
+                "functions": len(functions),
+                "complexity_score": complexity_score,
+                "status": "Healthy"
+            }
+            
+            if complexity_score > 100:
+                report["status"] = "Bloated (Needs Refactoring)"
+            elif complexity_score > 50:
+                report["status"] = "Complex"
+                
+            return report
+            
+        except Exception as e:
+            return {"error": f"AST Parse Failed: {e}"}
+
+    def propose_refactor(self, file_path: str, issue: str) -> str:
+        """
+        Generates a Refactor Proposal (Markdown).
+        In a real scenario, this would use an LLM to generate code.
+        Here, it generates a structured request for the Supervisor.
+        """
+        return f"""
+# Refactor Proposal: {file_path}
+
+**Issue**: {issue}
+**Analysis**: The file '{file_path}' has high complexity or structural issues.
+
+## Proposed Changes
+1.  [ ] Extract complex logic into helper methods.
+2.  [ ] Add type hints if missing.
+3.  [ ] Improve docstrings.
+
+**Request**: Supervisor, please review and implement these changes.
+"""
