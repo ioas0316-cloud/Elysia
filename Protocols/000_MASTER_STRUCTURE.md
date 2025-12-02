@@ -14,6 +14,7 @@ This document maps the active DNA of Elysia.
 | **11** | [Kenosis Protocol](11_KENOSIS_PROTOCOL.md) | Humility & Hesitation | **Active** | `Core/Interface/kenosis_protocol.py` |
 | **12** | [Dream Protocol](12_DREAM_PROTOCOL.md) | Imagination & Simulation | **Active** | `Core/Intelligence/dream_engine.py` |
 | **13** | [Light Physics](13_LIGHT_PHYSICS.md) | The Ring Theory (Photon as Event) | **Active** | `Core/Foundation/resonance_field.py` |
+| **14** | [Unified Consciousness](14_UNIFIED_CONSCIOUSNESS.md) | Fractal Thought Layers | **Active** | `Core/Cognition/` |
 
 ## 🟣 Future Protocols (The Stars)
 
