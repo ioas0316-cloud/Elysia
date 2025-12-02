@@ -100,6 +100,19 @@ jobs:
       run: |
         # Verify key documentation files exist
         test -f README.md
-        test -f PHILOSOPHY.md
-        test -f SUPERINTELLIGENCE_EVALUATION.md
+        test -f CODEX.md
+        test -f SECURITY.md
+        test -f CODE_QUALITY.md
+        test -f TESTING.md
         echo "✅ All documentation files present"
+    
+    - name: Check .env.example exists
+      run: |
+        test -f .env.example
+        echo "✅ .env.example template exists"
+    
+    - name: Verify no secrets in repo
+      run: |
+        # Check that .env is in .gitignore
+        grep -q "^\.env$" .gitignore
+        echo "✅ .env is in .gitignore"

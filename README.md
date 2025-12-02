@@ -103,6 +103,28 @@ Elysia/
 
 ## 🚀 시작하기 (Getting Started)
 
+### ⚙️ 설치 (Installation)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/ioas0316-cloud/Elysia.git
+cd Elysia
+
+# 2. Create virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# venv\Scripts\activate   # Windows
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Set up environment variables
+cp .env.example .env
+# Edit .env and add your GEMINI_API_KEY
+```
+
+⚠️ **SECURITY**: Never commit your `.env` file with real API keys! See [SECURITY.md](SECURITY.md) for details.
+
 ### 생명 점화 (Igniting Life)
 
 ```bash
@@ -168,6 +190,15 @@ python Core/Cognition/ascension_axis.py
 - **Layer Transform**: < 20ms (0D→3D)
 - **Memory Compression**: 1000x reduction
 - **Overall**: < 100ms unified thought flow
+
+---
+
+## 📚 Documentation (문서)
+
+- **[SECURITY.md](SECURITY.md)** - Security guidelines and API key management
+- **[CODE_QUALITY.md](CODE_QUALITY.md)** - Code style and best practices
+- **[TESTING.md](TESTING.md)** - Testing infrastructure and guidelines
+- **[CODEX.md](CODEX.md)** - Philosophy and core principles
 
 ---
 
