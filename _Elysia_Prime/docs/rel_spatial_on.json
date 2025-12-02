@@ -1,0 +1,21 @@
+{
+  "title": "Spatial Relationship: On",
+  "concepts": [
+    {
+      "id": "rel_spatial_on",
+      "name": "On",
+      "kr_name": "위에 (접촉)",
+      "description": "Describes a relationship where an object is physically in contact with and supported by a surface.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {"role": "object"},
+        {"role": "surface"}
+      ],
+      "properties": [
+        { "name": "transitive", "value": false },
+        { "name": "asymmetric", "value": true },
+        { "name": "irreflexive", "value": true }
+      ]
+    }
+  ]
+}

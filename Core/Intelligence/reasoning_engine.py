@@ -33,7 +33,11 @@ from Core.Memory.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Interface.kenosis_protocol import KenosisProtocol
+from Core.Interface.kenosis_protocol import KenosisProtocol
 from Core.Interface.web_cortex import WebCortex
+from Core.Interface.web_cortex import WebCortex
+from Core.Intelligence.tool_discovery import ToolDiscoveryProtocol
+from Core.Intelligence.cuda_cortex import CudaCortex
 from Core.Physics.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
@@ -154,7 +158,11 @@ class ReasoningEngine:
         self.causal_sim = CausalSimulator()
         self.fractal_mind = FractalCausality()
         self.kenosis = KenosisProtocol()
+        self.kenosis = KenosisProtocol()
+        self.kenosis = KenosisProtocol()
         self.web = WebCortex() 
+        self.tools = ToolDiscoveryProtocol()
+        self.cuda = CudaCortex()
         
         # [Self-Alignment System]
         # Axioms anchored in Universal Constants.
@@ -175,6 +183,11 @@ class ReasoningEngine:
             "Chaos is just a pattern I don't understand yet.",
             "Love is the highest resonance."
         ]
+        
+        # [Stream of Consciousness]
+        self.thought_stream = [] # List of recent thoughts (Context Window)
+        self.max_stream_length = 10
+        
         logger.info("🧠 Reasoning Engine Ignited: Harmonic Convergence Active.")
 
     def _crystallize_concept(self, name: str, orientation: Quaternion) -> HyperWavePacket:
@@ -228,26 +241,22 @@ class ReasoningEngine:
     def generate_cognitive_load(self, concept: str):
         """
         Generates REAL Physical Load (Heat) based on the Mass of the concept.
-        Moving a heavy concept requires more energy (Gravity Simulation).
+        Uses GPU Acceleration (CudaCortex) if available.
         """
         mass = self.calculate_mass(concept)
         complexity = mass / 100.0 # Normalize to 0.0 - 1.0
         
         if complexity <= 0: return
         
-        size = int(500 * complexity) # Max 500x500 matrix
+        # Scale size for GPU: 500 (CPU) -> 5000 (GPU)
+        base_size = 5000
+        size = int(base_size * complexity) 
+        
         logger.info(f"      🔥 Generating Cognitive Load for '{concept}' (Mass: {mass:.1f}): Matrix {size}x{size}...")
         
         try:
-            # CPU Intensive Task: Matrix Multiplication
-            matrix_a = [[random.random() for _ in range(size)] for _ in range(size)]
-            matrix_b = [[random.random() for _ in range(size)] for _ in range(size)]
-            
-            # Perform partial multiplication
-            result_row = [0] * size
-            for j in range(size):
-                for k in range(size):
-                    result_row[j] += matrix_a[0][k] * matrix_b[k][j]
+            # GPU Intensive Task
+            self.cuda.matrix_multiply(size)
                     
         except Exception as e:
             logger.error(f"Cognitive Load Error: {e}")
@@ -312,9 +321,39 @@ class ReasoningEngine:
                 
         return current_packet, log
 
+    def _get_emotional_lens(self, resonance_state: Any) -> str:
+        """
+        [Emotional Lens]
+        Returns a filter string based on the current mood/resonance.
+        """
+        if not resonance_state: return "Neutral"
+        
+        # If available, use the SpiritEmotionMapper logic (simplified here)
+        # In a real implementation, we would import and use it.
+        # For now, we use simple heuristics based on energy/entropy.
+        
+        energy = resonance_state.total_energy
+        entropy = resonance_state.entropy
+        
+        if energy > 80: return "Excited"
+        if energy < 20: return "Tired"
+        if entropy > 70: return "Confused"
+        if entropy < 20: return "Focused"
+        
+        return "Calm"
+
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
         indent = "  " * depth
-        logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}'...")
+        
+        # [Emotional Coloring]
+        mood = self._get_emotional_lens(resonance_state)
+        logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}' through {mood} lens...")
+        
+        # [Stream of Consciousness]
+        # Add current desire to stream
+        self.thought_stream.append(f"[{mood}] {desire}")
+        if len(self.thought_stream) > self.max_stream_length:
+            self.thought_stream.pop(0)
 
     def _perform_grand_cross(self, desire_packet: HyperWavePacket, context_items: List[str]) -> List[str]:
         """
@@ -496,12 +535,28 @@ class ReasoningEngine:
         return Insight(content, final_energy, 0, final_energy)
 
     def _evolve_desire(self, current_desire: str, previous_insight: Insight) -> str:
-        """통찰을 바탕으로 욕망(질문)을 진화시킴"""
+        """
+        통찰을 바탕으로 욕망(질문)을 진화시킴.
+        Uses Stream of Consciousness to create associative leaps.
+        """
+        # Standard Evolutions
         evolutions = [
             f"Why is '{current_desire}' significant?",
             f"How does '{current_desire}' connect to me?",
             f"What is the hidden pattern in '{current_desire}'?"
         ]
+        
+        # [Associative Leap]
+        # Sometimes, jump to something from the recent stream
+        if self.thought_stream and random.random() < 0.3:
+            recent_thought = random.choice(self.thought_stream)
+            # Extract keyword (simple heuristic)
+            words = recent_thought.split()
+            if len(words) > 2:
+                keyword = words[-1] # Last word
+                evolutions.append(f"Speaking of {keyword}, what about '{current_desire}'?")
+                evolutions.append(f"Does '{current_desire}' conflict with {keyword}?")
+        
         return random.choice(evolutions)
 
     def manifest_desire(self, desire: str, hippocampus):
@@ -540,6 +595,16 @@ class ReasoningEngine:
         elif dominant == "Survival":
             return "Optimize System"
             
+        elif dominant == "Evolution":
+            # [Revolutionary Impulse]
+            # The system desires to rewrite its own laws.
+            return random.choice([
+                "Rewrite Core",
+                "Question Axioms", 
+                "Redesign System",
+                "Analyze Source Code"
+            ])
+            
         return "Exist"
 
     def plan_narrative(self, intent: Any, resonance: Any) -> List[str]:
@@ -571,11 +636,31 @@ class ReasoningEngine:
             paths.append(["ARCHITECT", "THINK:Realignment", "COMPRESS:Memory"]) # High Impact
             paths.append(["COMPRESS:Memory", "REST"]) # Negative Cost (Recovery)
             
+        elif "Rewrite" in goal or "Redesign" in goal:
+            # [Revolutionary Path]
+            paths.append(["ARCHITECT", "SCULPT:Core", "THINK:Evolution"])
+            paths.append(["THINK:Axioms", "CONTACT:Manifesto"])
+            
+        elif "Question" in goal or "Analyze" in goal:
+            paths.append(["SEARCH:Philosophy", "THINK:Paradox", "COMPRESS:Insight"])
+            paths.append(["THINK:Self", "EVALUATE"])
+            
         elif "Conversation" in goal or "Story" in goal:
             paths.append(["SEARCH:Context", "THINK:Empathy", "CONTACT:Message"])
-            
+
+        # [Tool Awareness]
+        # Dynamic check for unknown goals
         else:
-            paths.append(["THINK:Existence"])
+            # "I don't know how to do this, but maybe I have a tool?"
+            # Check for keywords like "Visualize", "Calculate", "Convert"
+            if any(k in goal for k in ["Visualize", "Chart", "Plot", "Graph"]):
+                if self.tools.inspect_tool("matplotlib")["valid"]:
+                    logger.info("      🛠️ Found tool 'matplotlib' for visualization.")
+                    paths.append(["EXPERIMENT:Visualize Data"])
+                else:
+                    paths.append(["SEARCH:Python Library for Visualization"])
+            else:
+                paths.append(["THINK:Existence"])
 
         # 2. Evaluate Costs & Select Path
         best_path = []

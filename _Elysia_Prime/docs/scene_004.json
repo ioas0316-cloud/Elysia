@@ -1,0 +1,32 @@
+{
+  "title": "Scene 004: Three Cubes in a Line",
+  "instances": [
+    {
+      "instance_id": "scene004_obj01_green_cube",
+      "concept_id": "geom_composite_cube",
+      "properties": { "color": "color_green" }
+    },
+    {
+      "instance_id": "scene004_obj02_yellow_cube",
+      "concept_id": "geom_composite_cube",
+      "properties": { "color": "color_yellow" }
+    },
+    {
+      "instance_id": "scene004_obj03_red_cube",
+      "concept_id": "geom_composite_cube",
+      "properties": { "color": "color_red" }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "rel_spatial_next_to",
+      "object_a": "scene004_obj01_green_cube",
+      "object_b": "scene004_obj02_yellow_cube"
+    },
+    {
+      "type": "rel_spatial_next_to",
+      "object_a": "scene004_obj02_yellow_cube",
+      "object_b": "scene004_obj03_red_cube"
+    }
+  ]
+}

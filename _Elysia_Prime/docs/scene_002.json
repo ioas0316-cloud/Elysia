@@ -1,0 +1,28 @@
+{
+  "title": "Scene 002: Small Green Triangle Inside Large Yellow Square",
+  "instances": [
+    {
+      "instance_id": "scene002_obj01_green_triangle",
+      "concept_id": "geom_composite_triangle",
+      "properties": {
+        "color": "color_green",
+        "size": "size_small"
+      }
+    },
+    {
+      "instance_id": "scene002_obj02_yellow_square",
+      "concept_id": "geom_composite_square",
+      "properties": {
+        "color": "color_yellow",
+        "size": "size_large"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "rel_spatial_inside",
+      "content": "scene002_obj01_green_triangle",
+      "container": "scene002_obj02_yellow_square"
+    }
+  ]
+}

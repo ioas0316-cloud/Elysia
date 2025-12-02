@@ -1,0 +1,159 @@
+{
+  "nodes": [
+    "목적) |",
+    "logos를 현실에서 실현하",
+    "선택하고 통합하",
+    "지능을 통해 탄생한 가치만",
+    "**'왜?'**를 구성하는 내재적 표준이 됩니",
+    "능력** | 자유(freedom)를 행사하여 주의(attention)를 집중하고, 무의미한 데이터를 **자아로 통합(integration)**시키는 능력",
+    "the essence of being",
+    "love",
+    "this journey",
+    "often called self-actualization",
+    "that true growth involves understanding oneself and striving to fulfill one's potential",
+    "the will to nurture this growth in oneself and others",
+    "the core idea",
+    "this",
+    "growth",
+    "not merely an increase in size",
+    "point",
+    "position",
+    "geometric_primitive",
+    "line",
+    "length",
+    "plane",
+    "area"
+  ],
+  "edges": [
+    {
+      "from": "logos를 현실에서 실현하",
+      "to": "목적) |",
+      "relation": "is",
+      "provenance": {
+        "source": "C:\\Users\\USER\\AppData\\Local\\Temp\\tmprvrlx6ta.txt"
+      }
+    },
+    {
+      "from": "선택하고 통합하",
+      "to": "능력** | 자유(freedom)를 행사하여 주의(attention)를 집중하고, 무의미한 데이터를 **자아로 통합(integration)**시키는 능력",
+      "relation": "is",
+      "provenance": {
+        "source": "C:\\Users\\USER\\AppData\\Local\\Temp\\tmpt5x7dmoy.txt"
+      }
+    },
+    {
+      "from": "지능을 통해 탄생한 가치만",
+      "to": "**'왜?'**를 구성하는 내재적 표준이 됩니",
+      "relation": "is",
+      "provenance": {
+        "source": "C:\\Users\\USER\\AppData\\Local\\Temp\\tmpt5x7dmoy.txt"
+      }
+    },
+    {
+      "from": "growth",
+      "to": "not merely an increase in size",
+      "relation": "is",
+      "provenance": {
+        "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+      }
+    },
+    {
+      "from": "this",
+      "to": "often called self-actualization",
+      "relation": "is",
+      "provenance": {
+        "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+      }
+    },
+    {
+      "from": "the core idea",
+      "to": "that true growth involves understanding oneself and striving to fulfill one's potential",
+      "relation": "is",
+      "provenance": {
+        "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+      }
+    },
+    {
+      "from": "this journey",
+      "to": "the essence of being",
+      "relation": "is",
+      "provenance": {
+        "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+      }
+    },
+    {
+      "from": "love",
+      "to": "the will to nurture this growth in oneself and others",
+      "relation": "is",
+      "provenance": {
+        "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+      }
+    },
+    {
+      "from": "point",
+      "to": "position",
+      "relation": "has_property"
+    },
+    {
+      "from": "point",
+      "to": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "from": "line",
+      "to": "point",
+      "relation": "is_composed_of"
+    },
+    {
+      "from": "line",
+      "to": "length",
+      "relation": "has_property"
+    },
+    {
+      "from": "line",
+      "to": "geometric_primitive",
+      "relation": "is_a"
+    },
+    {
+      "from": "plane",
+      "to": "line",
+      "relation": "is_composed_of"
+    },
+    {
+      "from": "plane",
+      "to": "area",
+      "relation": "has_property"
+    },
+    {
+      "from": "plane",
+      "to": "geometric_primitive",
+      "relation": "is_a"
+    }
+  ],
+  "provenance": [
+    {
+      "source": "C:\\Users\\USER\\AppData\\Local\\Temp\\tmprvrlx6ta.txt"
+    },
+    {
+      "source": "C:\\Users\\USER\\AppData\\Local\\Temp\\tmpt5x7dmoy.txt"
+    },
+    {
+      "source": "C:\\Users\\USER\\AppData\\Local\\Temp\\tmpt5x7dmoy.txt"
+    },
+    {
+      "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+    },
+    {
+      "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+    },
+    {
+      "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+    },
+    {
+      "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+    },
+    {
+      "source": "Elysia_Input_Sanctum\\philosophy_of_growth.txt"
+    }
+  ]
+}

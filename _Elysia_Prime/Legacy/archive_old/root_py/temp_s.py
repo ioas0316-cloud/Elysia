@@ -1,0 +1,2 @@
+# [Genesis: 2025-12-02] Purified by Elysia
+import io\ns=io.open('tools/godot_bridge_server.py','r',encoding='utf-8').read()\nprint(s.count('overlays = {'))\nprint(s.find('def _build_frame'))\nprint(s.find('def _encode_terrain_rgb'))\n

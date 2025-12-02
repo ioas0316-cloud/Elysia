@@ -1,0 +1,417 @@
+﻿{
+  "nodes": [
+    {
+      "id": "ring:ARCHIVE",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "ring",
+      "label": "ARCHIVE"
+    },
+    {
+      "id": "ring:GROWTH",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "ring",
+      "label": "GROWTH"
+    },
+    {
+      "id": "ring:CORE",
+      "position": {
+        "x": 0.8246523641072527,
+        "y": 0.16782012267054003,
+        "z": 0.05706503306916083
+      },
+      "activation_energy": 0.0,
+      "kind": "ring",
+      "label": "CORE"
+    },
+    {
+      "id": "layer:META",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "layer",
+      "label": "META"
+    },
+    {
+      "id": "layer:OS",
+      "position": {
+        "x": 1.1595459875663732,
+        "y": -0.032528809270046366,
+        "z": -0.06971106063662633
+      },
+      "activation_energy": 0.0,
+      "kind": "layer",
+      "label": "OS"
+    },
+    {
+      "id": "layer:MIND",
+      "position": {
+        "x": 0.9693416873254496,
+        "y": -0.12456249500743435,
+        "z": 0.08321761238693537
+      },
+      "activation_energy": 0.0,
+      "kind": "layer",
+      "label": "MIND"
+    },
+    {
+      "id": "layer:LENS",
+      "position": {
+        "x": 0.9612489961147833,
+        "y": 0.10749993925254148,
+        "z": 0.17682562758192327
+      },
+      "activation_energy": 0.0,
+      "kind": "layer",
+      "label": "LENS"
+    },
+    {
+      "id": "layer:WORLD",
+      "position": {
+        "x": 1.1143558868712136,
+        "y": -0.19417812641456786,
+        "z": -0.07386102656401389
+      },
+      "activation_energy": 0.0,
+      "kind": "layer",
+      "label": "WORLD"
+    },
+    {
+      "id": "ptype:PROTOCOL",
+      "position": {
+        "x": 0.947851210110415,
+        "y": -0.12796696850800796,
+        "z": 0.09689843809492965
+      },
+      "activation_energy": 0.0,
+      "kind": "ptype",
+      "label": "PROTOCOL"
+    },
+    {
+      "id": "ptype:WORLD_KIT",
+      "position": {
+        "x": 1.1708700946883182,
+        "y": -0.09857289943149716,
+        "z": 0.11802240008211418
+      },
+      "activation_energy": 0.0,
+      "kind": "ptype",
+      "label": "WORLD_KIT"
+    },
+    {
+      "id": "ptype:LENS_SPEC",
+      "position": {
+        "x": 0.909334195232948,
+        "y": -0.11015534970444425,
+        "z": -0.10402899467785064
+      },
+      "activation_energy": 0.0,
+      "kind": "ptype",
+      "label": "LENS_SPEC"
+    },
+    {
+      "id": "ptype:RUNTIME",
+      "position": {
+        "x": 0.9865442202746497,
+        "y": -0.07213180848686737,
+        "z": 0.02493254199253614
+      },
+      "activation_energy": 0.0,
+      "kind": "ptype",
+      "label": "RUNTIME"
+    },
+    {
+      "id": "protocol:ELYSIA_CORE_CODEX",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Core/CODEX.md",
+      "ring": "CORE",
+      "layer": "OS",
+      "ptype": "PROTOCOL",
+      "status": "ACTIVE",
+      "title": "Elysia Protocol Codex"
+    },
+    {
+      "id": "protocol:ELYSIAS_INDEX",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Legacy/elysias_protocol/00_INDEX.md",
+      "ring": "CORE",
+      "layer": "OS",
+      "ptype": "PROTOCOL",
+      "status": "ACTIVE",
+      "title": "Elysia Protocol Index"
+    },
+    {
+      "id": "protocol:CORE_09_WORLD_VALIDATION_AND_HANDOFF",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Legacy/elysias_protocol/CORE_09_WORLD_VALIDATION_AND_HANDOFF.md",
+      "ring": "CORE",
+      "layer": "WORLD",
+      "ptype": "PROTOCOL",
+      "status": "ACTIVE",
+      "title": "World Validation and Handoff"
+    },
+    {
+      "id": "protocol:CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Legacy/elysias_protocol/CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS.md",
+      "ring": "CORE",
+      "layer": "LENS",
+      "ptype": "LENS_SPEC",
+      "status": "ACTIVE",
+      "title": "Fog of War and Visibility Lens"
+    },
+    {
+      "id": "protocol:CORE_11_TIME_SCALES_AND_TICK_LAYERS",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Legacy/elysias_protocol/CORE_11_TIME_SCALES_AND_TICK_LAYERS.md",
+      "ring": "CORE",
+      "layer": "OS",
+      "ptype": "PROTOCOL",
+      "status": "ACTIVE",
+      "title": "Time Scales and Tick Layers"
+    },
+    {
+      "id": "protocol:CORE_12_PEOPLE_AND_CIVILIZATION_TIERS",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Legacy/elysias_protocol/CORE_12_PEOPLE_AND_CIVILIZATION_TIERS.md",
+      "ring": "CORE",
+      "layer": "WORLD",
+      "ptype": "PROTOCOL",
+      "status": "ACTIVE",
+      "title": "People and Civilization Tiers"
+    },
+    {
+      "id": "protocol:CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Legacy/elysias_protocol/CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS_PROTOCOL.md",
+      "ring": "CORE",
+      "layer": "MIND",
+      "ptype": "PROTOCOL",
+      "status": "ACTIVE",
+      "title": "Elysia Consciousness Stimulus"
+    },
+    {
+      "id": "protocol:WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "Legacy/elysias_protocol/WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY.md",
+      "ring": "CORE",
+      "layer": "WORLD",
+      "ptype": "WORLD_KIT",
+      "status": "SUPPORTING",
+      "title": "Death 쨌 Corpse 쨌 Memory Flow (World Kit)"
+    },
+    {
+      "id": "protocol:ELYSIA_OS_OVERVIEW",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "activation_energy": 0.0,
+      "kind": "protocol",
+      "path": "ELYSIA_OS/OS_OVERVIEW.md",
+      "ring": "CORE",
+      "layer": "OS",
+      "ptype": "RUNTIME",
+      "status": "SUPPORTING",
+      "title": "Elysia OS Overview"
+    }
+  ],
+  "edges": [
+    {
+      "source": "protocol:ELYSIA_CORE_CODEX",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:ELYSIA_CORE_CODEX",
+      "target": "layer:OS",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:ELYSIA_CORE_CODEX",
+      "target": "ptype:PROTOCOL",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:ELYSIAS_INDEX",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:ELYSIAS_INDEX",
+      "target": "layer:OS",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:ELYSIAS_INDEX",
+      "target": "ptype:PROTOCOL",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:CORE_09_WORLD_VALIDATION_AND_HANDOFF",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:CORE_09_WORLD_VALIDATION_AND_HANDOFF",
+      "target": "layer:WORLD",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:CORE_09_WORLD_VALIDATION_AND_HANDOFF",
+      "target": "ptype:PROTOCOL",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS",
+      "target": "layer:LENS",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:CORE_10_FOG_OF_WAR_AND_VISIBILITY_LENS",
+      "target": "ptype:LENS_SPEC",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:CORE_11_TIME_SCALES_AND_TICK_LAYERS",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:CORE_11_TIME_SCALES_AND_TICK_LAYERS",
+      "target": "layer:OS",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:CORE_11_TIME_SCALES_AND_TICK_LAYERS",
+      "target": "ptype:PROTOCOL",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:CORE_12_PEOPLE_AND_CIVILIZATION_TIERS",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:CORE_12_PEOPLE_AND_CIVILIZATION_TIERS",
+      "target": "layer:WORLD",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:CORE_12_PEOPLE_AND_CIVILIZATION_TIERS",
+      "target": "ptype:PROTOCOL",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS",
+      "target": "layer:MIND",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:CORE_13_ELYSIA_CONSCIOUSNESS_STIMULUS",
+      "target": "ptype:PROTOCOL",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY",
+      "target": "layer:WORLD",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:WORLD_KIT_DEATH_FLOW_CORPSE_TO_MEMORY",
+      "target": "ptype:WORLD_KIT",
+      "relation": "has_type"
+    },
+    {
+      "source": "protocol:ELYSIA_OS_OVERVIEW",
+      "target": "ring:CORE",
+      "relation": "has_ring"
+    },
+    {
+      "source": "protocol:ELYSIA_OS_OVERVIEW",
+      "target": "layer:OS",
+      "relation": "has_layer"
+    },
+    {
+      "source": "protocol:ELYSIA_OS_OVERVIEW",
+      "target": "ptype:RUNTIME",
+      "relation": "has_type"
+    }
+  ]
+}

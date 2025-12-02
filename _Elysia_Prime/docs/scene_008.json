@@ -1,0 +1,62 @@
+{
+  "title": "Scene 008: Elysia's First Action",
+  "instances": [
+    {
+      "instance_id": "scene008_obj01_cube",
+      "concept_id": "geom_composite_cube"
+    },
+    {
+      "instance_id": "scene008_point_A",
+      "concept_id": "geom_primitive_point",
+      "properties": { "coordinates": {"x": 0, "y": 0, "z": 0} }
+    },
+    {
+      "instance_id": "scene008_point_B",
+      "concept_id": "geom_primitive_point",
+      "properties": { "coordinates": {"x": 10, "y": 0, "z": 0} }
+    }
+  ],
+  "goals": [
+    {
+      "goal_id": "scene008_goal01",
+      "concept_id": "concept_goal",
+      "properties": {
+        "subject": "agent_elysia",
+        "desired_state": "The state where scene008_obj01_cube is at scene008_point_B.",
+        "status": "active"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "scene008_action01_push",
+      "concept_id": "concept_action",
+      "properties": {
+        "agent": "agent_elysia",
+        "intent": "scene008_goal01"
+      },
+      "details": {
+        "action_type": "event_push",
+        "object": "scene008_obj01_cube"
+      }
+    }
+  ],
+  "processes": [
+    {
+      "process_id": "scene008_proc01_movement",
+      "concept_id": "concept_movement",
+      "subject": "scene008_obj01_cube",
+      "properties": {
+        "start_location": "scene008_point_A",
+        "end_location": "scene008_point_B"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "rel_causal_causes",
+      "cause": "scene008_action01_push",
+      "effect": "scene008_proc01_movement"
+    }
+  ]
+}

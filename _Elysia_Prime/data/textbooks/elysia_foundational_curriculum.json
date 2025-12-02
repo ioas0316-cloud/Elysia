@@ -1,0 +1,152 @@
+[
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_1",
+    "story_segment": "점 루미는 스스로 빛나는 작은 형태를 느끼며 선 피노를 만났다. 피노는 루미에게 선은 점의 손을 잡은 길이라고 설명했다. 둘은 함께 모험을 떠나기로 약속하며 웃었다.",
+    "level_tag": "infant",
+    "learning_goal": "점과 선의 기초 관계 이해",
+    "knowledge_triples": [
+      {"source": "선 피노", "relation": "has_part", "target": "점 루미"},
+      {"source": "점 루미", "relation": "has_shape", "target": "작은 빛의 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_2",
+    "story_segment": "선 피노는 점 루미와 점 라라를 이끌어 길 위에서 춤을 추었다. 루미와 라라는 자신들이 선의 양끝이 되는 형태임을 깨달았다. 세 친구는 길이 길어질수록 서로를 더 잘 느낄 수 있다고 말하였다.",
+    "level_tag": "infant",
+    "learning_goal": "선의 부분과 길이에 대한 감각 기르기",
+    "knowledge_triples": [
+      {"source": "선 피노", "relation": "has_part", "target": "점 라라"},
+      {"source": "선 피노", "relation": "has_shape", "target": "길게 뻗은 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_3",
+    "story_segment": "면 미아는 선 피노와 선 리오를 만나 넓게 펼쳐진 이야기 방을 만들었다. 피노와 리오는 자신들이 함께 면의 부드러운 형태를 지켜준다고 말했다. 미아는 두 선을 품으며 서로에게 쉬어갈 자리를 선물했다.",
+    "level_tag": "infant",
+    "learning_goal": "면이 선으로 이루어짐을 느끼기",
+    "knowledge_triples": [
+      {"source": "면 미아", "relation": "has_part", "target": "선 피노"},
+      {"source": "면 미아", "relation": "has_shape", "target": "넓은 포근한 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_4",
+    "story_segment": "면 미아는 점 루미에게 자신의 품 안에서 자유롭게 놀아보라고 했다. 루미는 면의 부드러운 형태를 따라 미끄러지며 웃음을 터뜨렸다. 미아는 작은 점이 자신의 일부가 되어 더 밝아졌다고 느꼈다.",
+    "level_tag": "infant",
+    "learning_goal": "면과 점의 친밀한 연결 이해",
+    "knowledge_triples": [
+      {"source": "면 미아", "relation": "has_part", "target": "점 루미"},
+      {"source": "점 루미", "relation": "has_shape", "target": "구르는 빛의 형태"}
+    ]
+  },
+  {
+    "id": "EDU_01_GEOM_PRIME_CH_5",
+    "story_segment": "선 피노와 면 미아는 서로의 형태를 맞추어 부드러운 길과 넓은 놀이터를 만들었다. 점 루미는 그 위에서 춤을 추며 자신도 놀이터의 소중한 부분임을 알았다. 세 친구는 서로의 형태가 만나 완전한 이야기가 되었다고 노래했다.",
+    "level_tag": "infant",
+    "learning_goal": "점, 선, 면의 협력 경험하기",
+    "knowledge_triples": [
+      {"source": "면 미아", "relation": "has_part", "target": "선 피노"},
+      {"source": "선 피노", "relation": "has_shape", "target": "안내하는 길의 형태"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_1",
+    "story_segment": "소녀 아이네는 촛불을 품고 어두운 방에서 사랑의 노래를 속삭였다. 그녀의 노래는 촛불을 더 밝게 만들 수 있다고 믿었다. 작은 불빛은 아이네의 믿음을 느끼고 따뜻한 기쁨을 비추기 시작했다.",
+    "level_tag": "child",
+    "learning_goal": "사랑의 노래가 빛을 일으키는 인과 이해",
+    "knowledge_triples": [
+      {"source": "아이네의 노래", "relation": "can_cause", "target": "촛불의 빛"},
+      {"source": "촛불의 빛", "relation": "results_in_emotion", "target": "따뜻한 기쁨"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_2",
+    "story_segment": "아이네는 사랑하는 친구 루모를 기억하며 부드러운 선율을 불렀다. 노래는 방 안의 그림자를 움직이게 만들 수 있다고 느꼈다. 움직이는 그림자는 아이네에게 그리움의 눈물을 선물했다.",
+    "level_tag": "child",
+    "learning_goal": "노래와 감정의 원인과 결과 연결하기",
+    "knowledge_triples": [
+      {"source": "아이네의 선율", "relation": "can_cause", "target": "움직이는 그림자"},
+      {"source": "움직이는 그림자", "relation": "results_in_emotion", "target": "그리움의 눈물"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_3",
+    "story_segment": "친구 루모는 아이네의 노래를 따라 부르며 용기의 화음을 만들었다. 두 목소리는 서로를 격려하여 창문을 여는 힘이 될 수 있었다. 열린 창문은 동네 아이들에게 희망의 미소를 전했다.",
+    "level_tag": "child",
+    "learning_goal": "함께한 노래가 용기와 희망을 낳는 과정 느끼기",
+    "knowledge_triples": [
+      {"source": "용기의 화음", "relation": "can_cause", "target": "열린 창문"},
+      {"source": "열린 창문", "relation": "results_in_emotion", "target": "희망의 미소"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_4",
+    "story_segment": "아이네는 촛불이 사라질까 두려워 자신의 시간을 내어 지켜보았다. 그녀의 지킴은 친구들에게 안전의 약속이 될 수 있었다. 약속은 이웃들에게 안도의 숨을 선물했다.",
+    "level_tag": "child",
+    "learning_goal": "희생이 불러오는 감정의 결과 이해",
+    "knowledge_triples": [
+      {"source": "아이네의 지킴", "relation": "can_cause", "target": "안전의 약속"},
+      {"source": "안전의 약속", "relation": "results_in_emotion", "target": "안도의 숨"}
+    ]
+  },
+  {
+    "id": "EDU_02_원인_느낌_CH_5",
+    "story_segment": "새벽이 밝아올 때 아이네의 마지막 고운 음은 하늘을 향했다. 그 음은 도시의 잠든 마음을 깨울 수 있었다. 깨어난 마음은 서로를 껴안으며 사랑의 빛을 나누었다.",
+    "level_tag": "child",
+    "learning_goal": "사랑의 행동이 공동체 감정을 변화시키는 흐름 보기",
+    "knowledge_triples": [
+      {"source": "아이네의 마지막 음", "relation": "can_cause", "target": "깨어난 마음"},
+      {"source": "깨어난 마음", "relation": "results_in_emotion", "target": "사랑의 빛"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_1",
+    "story_segment": "위대한 왕국의 어린 재판장 리안은 두 길드의 요청을 들었다. 사랑의 길드는 어려운 마을을 돕겠다고 약속하며 지원합니다라고 말했다. 리안은 이 약속이 나라의 마음을 지탱한다고 느꼈다.",
+    "level_tag": "adolescent",
+    "learning_goal": "도움을 약속하는 선택의 가치 판단 이해",
+    "knowledge_triples": [
+      {"source": "사랑의 길드", "relation": "supports", "target": "어려운 마을"},
+      {"source": "리안의 판단", "relation": "supports", "target": "사랑의 길드"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_2",
+    "story_segment": "풍요의 길드는 자원은 왕궁을 위해 쓰여야 한다며 반박하다라고 주장했다. 리안은 그 말이 이웃의 고통을 외면한다고 질문했다. 반박을 들은 사랑의 길드는 더욱 굳은 용기를 드러냈다.",
+    "level_tag": "adolescent",
+    "learning_goal": "상반된 주장 사이에서 반박의 의미 이해",
+    "knowledge_triples": [
+      {"source": "풍요의 길드", "relation": "rebuts", "target": "사랑의 길드"},
+      {"source": "리안의 질문", "relation": "supports", "target": "이웃의 고통"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_3",
+    "story_segment": "리안은 마을 아이들이 나눈 희생의 이야기를 들려주었다. 이야기는 사랑의 길드를 지원합니다라고 부추기며 용기의 무게를 보여 주었다. 풍요의 길드는 잠시 침묵하며 마음의 방패를 내려놓기 시작했다.",
+    "level_tag": "adolescent",
+    "learning_goal": "희생의 증언이 선택을 돕는 방식을 탐구",
+    "knowledge_triples": [
+      {"source": "희생의 이야기", "relation": "supports", "target": "사랑의 길드"},
+      {"source": "희생의 이야기", "relation": "rebuts", "target": "풍요의 길드"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_4",
+    "story_segment": "풍요의 길드는 마침내 자신들의 계획이 사랑을 잃게 한다는 사실을 깨달았다. 그들은 스스로의 주장에 반박하다며 고개를 숙였다. 리안은 서로의 마음을 연결하는 다리가 되어 주었다.",
+    "level_tag": "adolescent",
+    "learning_goal": "자기 반성이 가치 판단을 바꾸는 과정을 이해",
+    "knowledge_triples": [
+      {"source": "풍요의 길드", "relation": "rebuts", "target": "풍요의 길드의 옛 주장"},
+      {"source": "리안의 다리", "relation": "supports", "target": "사랑의 길드와 풍요의 길드의 화해"}
+    ]
+  },
+  {
+    "id": "EDU_03_승리의_의지_CH_5",
+    "story_segment": "리안은 두 길드와 함께 마을로 가서 사랑의 약속을 지켰다. 모든 사람은 서로의 선택을 지원합니다라고 다시 확인했다. 왕국은 희생과 용기가 함께할 때 진정한 승리를 얻는다는 진리를 배웠다.",
+    "level_tag": "adolescent",
+    "learning_goal": "공동의 결정을 통해 가치가 완성되는 경험 이해",
+    "knowledge_triples": [
+      {"source": "두 길드", "relation": "supports", "target": "마을의 회복"},
+      {"source": "왕국의 진리", "relation": "supports", "target": "희생과 용기"}
+    ]
+  }
+]

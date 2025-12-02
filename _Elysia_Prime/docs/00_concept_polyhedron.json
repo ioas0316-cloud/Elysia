@@ -1,0 +1,19 @@
+{
+  "title": "Polyhedron Concept Definition",
+  "concepts": [
+    {
+      "id": "geom_concept_polyhedron",
+      "name": "Polyhedron",
+      "kr_name": "다면체",
+      "description": "A solid in three dimensions with flat polygonal faces, straight edges and sharp corners or vertices.",
+      "type": "abstract_shape_3d",
+      "relationships": [
+        {
+          "type": "composed_of",
+          "target_id": "geom_concept_polygon",
+          "cardinality": "4_or_more"
+        }
+      ]
+    }
+  ]
+}

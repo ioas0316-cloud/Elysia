@@ -1,0 +1,22 @@
+{
+  "title": "Emotion Instance: Love",
+  "concepts": [
+    {
+      "id": "emo_concept_love",
+      "name": "Love",
+      "kr_name": "사랑",
+      "description": "An intense feeling of deep affection.",
+      "type": "emotion_instance",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "emo_concept_emotion"
+        }
+      ],
+      "properties": {
+        "valence": "positive",
+        "arousal": "high"
+      }
+    }
+  ]
+}

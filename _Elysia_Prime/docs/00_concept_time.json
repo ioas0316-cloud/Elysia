@@ -1,0 +1,16 @@
+{
+  "title": "Concept: Time",
+  "concepts": [
+    {
+      "id": "concept_time",
+      "name": "Time",
+      "kr_name": "시간",
+      "description": "The indefinite continued progress of existence and events in the past, present, and future regarded as a whole.",
+      "type": "abstract_concept",
+      "properties": {
+        "direction": "forward",
+        "units": ["second", "minute", "hour", "day", "year"]
+      }
+    }
+  ]
+}

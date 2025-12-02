@@ -1,0 +1,18 @@
+{
+  "title": "Utterance Type: Statement",
+  "concepts": [
+    {
+      "id": "conv_type_statement",
+      "name": "Statement",
+      "kr_name": "진술",
+      "description": "An utterance that declares or asserts a piece of information.",
+      "type": "utterance_type",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "conv_concept_utterance"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+# [Genesis: 2025-12-02] Purified by Elysia
+import unittest
+from unittest.mock import MagicMock
+import os
+import sys
+from pathlib import Path
+
+# Add the project root to the Python path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
+
+from Project_Sophia.logical_reasoner import LogicalReasoner
+from Project_Sophia.core.world import World
+from Project_Sophia.core.thought import Thought
+from tools.kg_manager import KGManager
+
+class TestLogicalReasoner(unittest.TestCase):
+    """
+    Tests the refactored LogicalReasoner to ensure it produces structured Thought objects
+    from both static knowledge and dynamic simulations.
+    """
+    def setUp(self):
+        self.test_kg_path = Path('data/test_reasoner_kg.json')
+        if self.test_kg_path.exists():
+            self.test_kg_path.unlink()
+
+        # 1. Setup KGManager
+        self.kg_manager = KGManager(filepath=self.test_kg_path)
+        self.kg_manager.add_node("햇빛", properties={'embedding': [0.1]*8, 'element_type': 'phenomenon'})
+        self.kg_manager.add_node("식물 성장", properties={'embedding': [0.2]*8, 'element_type': 'process'})
+        self.kg_manager.add_node("산소 발생", properties={'embedding': [0.3]*8, 'element_type': 'process'})
+        self.kg_manager.add_edge("햇빛", "식물 성장", "causes")
+        self.kg_manager.add_edge("식물 성장", "산소 발생", "causes")
+        self.kg_manager.save()
+
+        # 2. Setup Mocks and Cellular World
+        mock_wave_mechanics = MagicMock()
+        mock_wave_mechanics.get_resonance_between.return_value = 0.5  # Mock the resonance value
+        # This is the crucial fix: configure the mock to use the real KGManager's get_node method
+        mock_wave_mechanics.kg_manager.get_node.side_effect = self.kg_manager.get_node
+
+        self.cellular_world = World(
+            primordial_dna={"instinct": "grow"},
+            wave_mechanics=mock_wave_mechanics
+        )
+        for node in self.kg_manager.kg['nodes']:
+            # This call will now succeed because the underlying materialize_cell can find the node data
+            self.cellular_world.add_cell(node['id'], properties={'hp': 1.0, 'max_hp': 10.0})
+
+        # NOTE: Manual connection is removed. The new design requires the simulation
+        # to build connections dynamically based on the KG relationships within the
+        # "attention bubble". The test `test_deduce_facts_returns_thought_objects`
+        # will now rely on this dynamic behavior.
+        self.cellular_world.materialize_cell("햇빛")
+        self.cellular_world.materialize_cell("식물 성장")
+
+        # 3. Instantiate Reasoner
+        self.reasoner = LogicalReasoner(
+            kg_manager=self.kg_manager,
+            cellular_world=self.cellular_world
+        )
+
+    def tearDown(self):
+        if self.test_kg_path.exists():
+            self.test_kg_path.unlink()
+
+    def test_deduce_facts_returns_thought_objects(self):
+        """
+        Verify that deduce_facts returns a list of Thought objects with correct data.
+        """
+        message = "햇빛이 식물 성장에 미치는 영향은 무엇인가요? 그리고 그 결과는?"
+
+        thoughts = self.reasoner.deduce_facts(message)
+
+        self.assertIsInstance(thoughts, list)
+        self.assertGreater(len(thoughts), 0, "Should produce at least one thought.")
+
+        # Check static thought from KG
+        static_thought_found = any(
+            t.source == 'bone' and
+            "'햇빛'은(는) '식물 성장'을(를) 유발할 수 있습니다." in t.content and
+            t.confidence > 0.9
+            for t in thoughts
+        )
+        self.assertTrue(static_thought_found, "Should deduce a static fact from the KG.")
+
+        # Check dynamic thought from simulation
+        # The exact text might vary, so we check for key elements.
+        dynamic_thought_found = any(
+            t.source == 'flesh' and
+            "햇빛" in t.content and
+            "식물 성장" in t.content and
+            "활성화" in t.content and
+            t.confidence < 0.8 and
+            t.energy > 1.0
+            for t in thoughts
+        )
+        self.assertTrue(dynamic_thought_found, "Should produce a dynamic insight from simulation.")
+
+        # Verify all elements are Thought instances
+        for item in thoughts:
+            self.assertIsInstance(item, Thought)
+
+    def test_quantum_observation_simulation(self):
+        """
+        Verify that the simulation runs only on a focused "attention bubble"
+        and not on the entire world state.
+        """
+        # 1. Setup a more complex KG for this specific test
+        self.kg_manager.add_node("물")
+        self.kg_manager.add_node("증기")
+        self.kg_manager.add_node("얼음")
+        self.kg_manager.add_node("무관한_개념") # This should NOT be in the simulation
+        self.kg_manager.add_edge("물", "증기", "becomes")
+        self.kg_manager.add_edge("물", "얼음", "becomes")
+        self.kg_manager.save()
+
+        # 2. Setup a main_world with only QUANTUM STATES, no materialized cells
+        main_world = World(self.cellular_world.primordial_dna, self.cellular_world.wave_mechanics)
+        main_world.add_cell("물", properties={'hp': 10.0, 'max_hp': 10.0})
+        main_world.add_cell("증기", properties={'hp': 10.0, 'max_hp': 10.0})
+        main_world.add_cell("얼음", properties={'hp': 10.0, 'max_hp': 10.0})
+        main_world.add_cell("무관한_개념", properties={'hp': 10.0, 'max_hp': 10.0})
+
+        # 3. Instantiate a new reasoner with this quantum world
+        reasoner = LogicalReasoner(self.kg_manager, main_world)
+
+        # 4. Run deduction for a query that triggers simulation
+        message = "만약 물에 에너지를 가하면 어떤 결과가 나오나요?"
+        thoughts = reasoner.deduce_facts(message)
+
+        # 5. Verification
+        self.assertGreater(len(thoughts), 0, "Should produce thoughts from the simulation.")
+
+        # Find the specific simulation thought for "증기"
+        steam_thought = next((t for t in thoughts if t.source == 'flesh' and '증기' in t.content), None)
+
+        self.assertIsNotNone(steam_thought, "Should have a simulation thought about '증기' being activated.")
+        self.assertGreater(steam_thought.energy, 20, "Energy of '증기' should have significantly increased.")
+
+        # Crucially, verify that "무관한_개념" was not part of the simulation.
+        # We can infer this by checking if there's any thought about it.
+        unrelated_thought = next((t for t in thoughts if '무관한_개념' in t.content), None)
+        self.assertIsNone(unrelated_thought, "Unrelated concepts should not be part of the attention bubble.")
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,0 +1,22 @@
+{
+  "title": "Concept: Human",
+  "concepts": [
+    {
+      "id": "bio_agent_human",
+      "name": "Human",
+      "kr_name": "인간",
+      "description": "A member of the species Homo sapiens, characterized by superior intellect, articulate speech, and upright carriage. In this context, the creator and conversational partner of Elysia.",
+      "type": "biological_agent",
+      "properties": {
+        "can_experience_emotions": true,
+        "can_communicate": true
+      },
+      "relationships": [
+        {
+          "type": "is_creator_of",
+          "target_id": "agent_elysia"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Concept: Relationship",
+  "concepts": [
+    {
+      "id": "rel_concept_relationship",
+      "name": "Relationship",
+      "kr_name": "관계",
+      "description": "The way in which two or more concepts, objects, or people are connected.",
+      "type": "abstract_concept",
+      "properties": {
+        "participants": "A list of two or more agents or concepts.",
+        "strength": "The intensity or closeness of the relationship."
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Scene 007: Push Causes Movement",
+  "instances": [
+    {
+      "instance_id": "scene007_obj01_cube",
+      "concept_id": "geom_composite_cube",
+      "properties": { "color": "color_green", "size": "size_small" }
+    },
+    {
+      "instance_id": "scene007_obj02_plane",
+      "concept_id": "geom_primitive_plane"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "scene007_event01_push",
+      "concept_id": "event_push",
+      "arguments": {
+        "agent": "external_force_unspecified",
+        "object": "scene007_obj01_cube"
+      }
+    }
+  ],
+  "processes": [
+    {
+      "process_id": "scene007_proc01_movement",
+      "concept_id": "concept_movement",
+      "subject": "scene007_obj01_cube"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "rel_causal_causes",
+      "cause": "scene007_event01_push",
+      "effect": "scene007_proc01_movement"
+    }
+  ]
+}

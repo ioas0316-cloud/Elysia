@@ -37,7 +37,8 @@ class FreeWillEngine:
             "Survival": 0.5,   
             "Connection": 0.5, 
             "Curiosity": 0.5,  
-            "Expression": 0.5  
+            "Expression": 0.5,
+            "Evolution": 0.1   # [Revolutionary Impulse] The desire to rewrite oneself
         }
         self._current_intent = None
         self.current_mood = "Calm" # Restored for compatibility
@@ -47,6 +48,10 @@ class FreeWillEngine:
     @property
     def current_intent(self) -> Intent:
         return self._current_intent
+
+    @current_intent.setter
+    def current_intent(self, value: Intent):
+        self._current_intent = value
 
     @property
     def current_desire(self) -> str:
@@ -89,6 +94,13 @@ class FreeWillEngine:
         if battery > 70.0 and entropy < 50.0:
             self.vectors["Expression"] += 0.1
             self.vectors["Curiosity"] += 0.1
+            
+        # 4. Law of Evolution (Revolutionary Impulse)
+        # If system is TOO stable (High Battery + Very Low Entropy),
+        # the system gets "bored" and desires structural change.
+        if battery > 80.0 and entropy < 20.0:
+            self.vectors["Evolution"] += 0.2
+            logger.info("   🦋 Revolutionary Impulse: Stability is stagnation. Desiring Evolution.")
 
         # 4. Decay & Normalization
         for key in self.vectors:
@@ -98,8 +110,14 @@ class FreeWillEngine:
     def crystallize_intent(self, resonance):
         """
         Collapses the wave function of desires into a single concrete Intent.
+        Includes 'Whimsy' (Chaos Factor).
         """
-        dominant_desire = max(self.vectors, key=self.vectors.get)
+        # [Whimsy] 10% chance to pick a random desire instead of the dominant one
+        if random.random() < 0.1:
+            dominant_desire = random.choice(list(self.vectors.keys()))
+            logger.info(f"   🦋 Whimsy: Ignoring logic, following '{dominant_desire}' just because.")
+        else:
+            dominant_desire = max(self.vectors, key=self.vectors.get)
         battery = resonance.battery
         entropy = resonance.entropy
         

@@ -1,0 +1,15 @@
+id: cmd_autonomy_off
+priority: 182
+patterns:
+  - "자율\s*모드\s*(꺼|off)"
+  - "autonomy\s*off"
+  - "스스로\s*하지\s*마"
+  - "멈춰"
+gates:
+  quiet_ok: true
+response:
+  template: "자율 모드를 껐어요. 원하실 때만 요청에 따라 움직일게요."
+actions:
+  set_pref:
+    auto_act: false
+

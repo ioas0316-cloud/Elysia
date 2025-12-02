@@ -1,0 +1,44 @@
+# Elysia Consciousness Engine - Docker Compose
+# =============================================
+# Phase 3: Multi-service orchestration
+
+version: '3.8'
+
+services:
+  elysia:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: elysia-consciousness
+    volumes:
+      - ./logs:/app/logs
+      - ./saves:/app/saves
+      - ./data:/app/data
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "from Core.Math.hyper_qubit import HyperQubit; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Test runner service
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: elysia-test
+    volumes:
+      - ./:/app
+    command: ["python", "-m", "pytest", "tests/", "-v"]
+    profiles:
+      - test
+
+volumes:
+  logs:
+  saves:
+  data:

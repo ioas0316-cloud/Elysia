@@ -1,0 +1,21 @@
+{
+  "title": "Object Definition: Key",
+  "concepts": [
+    {
+      "id": "object_key",
+      "name": "Key",
+      "kr_name": "열쇠",
+      "description": "A specially shaped piece of metal used to operate a lock.",
+      "type": "object",
+      "properties": {
+        "material": "metal"
+      },
+      "relationships": [
+        {
+          "type": "rel_causal_enables",
+          "enabled_action": "action_unlock"
+        }
+      ]
+    }
+  ]
+}

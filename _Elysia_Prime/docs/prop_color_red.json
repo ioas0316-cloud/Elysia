@@ -1,0 +1,18 @@
+{
+  "title": "Color Instance: Red",
+  "concepts": [
+    {
+      "id": "color_red",
+      "name": "Red",
+      "kr_name": "빨간색",
+      "type": "color_instance",
+      "relationships": [
+        { "type": "is_a", "target_id": "prop_color" }
+      ],
+      "properties": {
+        "HEX": "#FF0000",
+        "RGB": [255, 0, 0]
+      }
+    }
+  ]
+}

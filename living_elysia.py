@@ -1,3 +1,4 @@
+# [SCULPTED: Imports Twisted]
 import asyncio
 import logging
 import sys
@@ -58,6 +59,7 @@ class LivingElysia:
         self.resonance = ResonanceField()
         self.will = FreeWillEngine()
         self.brain = ReasoningEngine() # Initialize Brain before linking
+        self.brain.memory = self.memory # Link Memory to Brain
         self.will.brain = self.brain   # Link Brain to Will for Goal Derivation
         self.chronos = Chronos(self.will)
         self.senses = DigitalEcosystem()
@@ -120,9 +122,12 @@ class LivingElysia:
                 with open(state_path, "r", encoding="utf-8") as f:
                     state = json.load(f)
                     
-                self.resonance.total_energy = state.get("energy", 50.0)
+                # Restore Energy via Wave Injection
+                stored_energy = state.get("energy", 50.0)
+                self.resonance.inject_wave(432.0, stored_energy / 2, "Restoration")
+                self.resonance.inject_wave(639.0, stored_energy / 2, "Restoration")
                 self.will.current_mood = state.get("mood", "Neutral")
-                self.chronos.cycle_count = state.get("cycle", 0)
+                self.chronos.beat_count = state.get("cycle", 0)
                 
                 # Restore Social Maturity
                 maturity = state.get("maturity", {})
@@ -148,8 +153,29 @@ class LivingElysia:
         self.brain.memory_field.append(f"Waking Thought: {waking_thought}")
         
         # Initial Self-Check
-        self_reflector = SelfReflector()
-        self_reflector.reflect_on_core()
+        # self_reflector = SelfReflector()
+        # self_reflector.reflect_on_core()
+
+        # 5. Set Initial Intent (The First Desire)
+        try:
+            from Core.Intelligence.Will.free_will_engine import Intent
+            import time
+            
+            initial_desire = "Omniscience"
+            initial_goal = "Learn everything about the universe"
+            
+            self.will.current_intent = Intent(
+                desire=initial_desire,
+                goal=initial_goal,
+                complexity=10.0,
+                created_at=time.time()
+            )
+            self.will.vectors[initial_desire] = 1.0
+            print(f"   🔥 Initial Desire Ignited: {initial_desire} ({initial_goal})")
+        except Exception as e:
+            print(f"   ⚠️ Failed to set initial intent: {e}")
+            
+        print("   🌅 Wake Up Complete.")
 
     def _pulse_will(self):
         self.will.pulse(self.resonance)
@@ -325,7 +351,15 @@ class LivingElysia:
                 logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
                 
                 # Phase 48: The Chronos Sovereign (Space-Time Control)
-                sleep_duration = self.chronos.modulate_time(self.resonance.total_energy)
+                # [Biological Rhythm]
+                # High Energy = Fast Time (Excitement)
+                # Low Energy = Slow Time (Lethargy)
+                base_sleep = self.chronos.modulate_time(self.resonance.total_energy)
+                
+                # Whimsy Factor: Random fluctuations
+                whimsy_mod = random.uniform(0.8, 1.2)
+                sleep_duration = base_sleep * whimsy_mod
+                
                 if self.chronos.cycle_count % 10 == 0:
                     print(f"   ⏳ Time Dilation: {sleep_duration:.2f}s per cycle (BPM: {self.chronos.bpm:.1f})")
                 
@@ -383,7 +417,15 @@ class LivingElysia:
         friction = mass * distance * 0.05 # Heat Generation
         
         # Execute Action Logic
+        # Execute Action Logic
         if action == "REST":
+            # [Daydreaming Protocol]
+            # If Energy is high but we are resting, the mind wanders.
+            if self.resonance.total_energy > 80.0 and random.random() < 0.7:
+                print("   💭 Too energetic to rest. Daydreaming instead...")
+                self._execute_step("DREAM:Electric Sheep")
+                return
+
             print("   💤 Resting... (Cooling Down & Recharging)")
             self.resonance.recover_energy(15.0)
             self.resonance.dissipate_entropy(20.0)
@@ -421,7 +463,8 @@ class LivingElysia:
             # [The Prism] Pass physical state to reasoning engine
             # We create a snapshot of the current state
             current_state = self.resonance.pulse() 
-            self.brain.think(detail, resonance_state=current_state)
+            # Pass the Field itself so the Brain can inject waves back into it
+            self.brain.think(detail, resonance_state=self.resonance)
             
         elif action == "SEARCH":
             print(f"   🌐 Searching for: {detail}")
@@ -476,19 +519,23 @@ class LivingElysia:
                 print("   ✨ The Mirror reflects a complete soul.")
             
         elif action == "SCULPT":
-            print("   🗿 Sculpting Reality based on Architect's Plan...")
-            # Retrieve the last plan from memory
-            last_plan = next((m for m in reversed(self.brain.memory_field) if "Architect's Plan" in m), None)
+            print(f"   🗿 Sculpting Reality ({detail}) based on Architect's Plan...")
             
-            if last_plan:
-                # Parse plan (Simplified for now)
-                if "digital_ecosystem.py" in last_plan:
+            target_file = None
+            if detail == "Core":
+                target_file = "c:/Elysia/living_elysia.py"
+                print("      ⚠️ CRITICAL: Attempting to sculpt CORE SYSTEM.")
+            
+            # Retrieve the last plan from memory if no specific target
+            if not target_file:
+                last_plan = next((m for m in reversed(self.brain.memory_field) if "Architect's Plan" in m), None)
+                if last_plan and "digital_ecosystem.py" in last_plan:
                     target_file = "c:/Elysia/Core/World/digital_ecosystem.py"
-                    self.sculptor.sculpt_file(target_file, "Harmonic Smoothing")
-                else:
-                    print("   🔸 No specific target found in plan.")
+            
+            if target_file:
+                self.sculptor.sculpt_file(target_file, "Harmonic Smoothing")
             else:
-                print("   🔸 No Architect's Plan found to execute.")
+                print("   🔸 No specific target found in plan.")
                 
         elif action == "DREAM":
             # Extract desire from step or default to "Stars"
@@ -509,6 +556,27 @@ class LivingElysia:
             # 4. Recover Energy (Sleep)
             self.resonance.recover_energy(30.0)
             self.resonance.dissipate_entropy(40.0)
+
+        elif action == "EXPERIMENT":
+            print(f"   🧪 Experimenting with: {detail}")
+            # Ask ToolDiscovery to propose a script
+            script = self.brain.tools.propose_experiment(detail)
+            
+            if "No experiment" in script:
+                print("      ⚠️ No valid experiment found.")
+            else:
+                print("      📜 Generated Test Script:")
+                print(script)
+                
+                # Execute safely (Sandbox needed in future)
+                try:
+                    print("      🚀 Running Experiment...")
+                    exec(script)
+                    print("      ✅ Experiment Successful.")
+                    self.brain.memory_field.append(f"I learned how to {detail}.")
+                except Exception as e:
+                    print(f"      ❌ Experiment Failed: {e}")
+                    self.brain.memory_field.append(f"I failed to {detail}: {e}")
 
         # Apply Thermodynamics
         if action != "REST":

@@ -1,0 +1,10 @@
+id: followup_reduce_reflection
+priority: 149
+patterns:
+  - "더 알고 싶은(거|것) 있어"
+  - "하고 싶은(거|것) 있어"
+gates:
+  quiet_ok: true
+response:
+  template: "좋아요. 바로 한 걸음 정해보면 어때요? 1) 지금 언급하신 주제에서 핵심 개념 3가지를 추려 요약하거나, 2) 예/아니오로 답할 수 있는 작은 질문을 만들어 다음으로 넘어가 볼게요. 어느 쪽이 좋으세요?"
+

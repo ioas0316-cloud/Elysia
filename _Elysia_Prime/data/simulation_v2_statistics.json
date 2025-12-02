@@ -1,0 +1,35 @@
+{
+  "total_decisions": 1000,
+  "performance_history": {
+    "memory_heavy": {
+      "count": 0,
+      "avg": 0,
+      "max": 0,
+      "min": 0
+    },
+    "present": {
+      "count": 0,
+      "avg": 0,
+      "max": 0,
+      "min": 0
+    },
+    "future": {
+      "count": 0,
+      "avg": 0,
+      "max": 0,
+      "min": 0
+    },
+    "balanced": {
+      "count": 10,
+      "avg": 3.0,
+      "max": 3.0,
+      "min": 3.0
+    },
+    "recursive": {
+      "count": 0,
+      "avg": 0,
+      "max": 0,
+      "min": 0
+    }
+  }
+}

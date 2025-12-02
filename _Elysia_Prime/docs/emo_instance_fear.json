@@ -1,0 +1,22 @@
+{
+  "title": "Emotion Instance: Fear",
+  "concepts": [
+    {
+      "id": "emo_instance_fear",
+      "name": "Fear",
+      "kr_name": "두려움",
+      "description": "An unpleasant emotion caused by the belief that someone or something is dangerous, likely to cause pain, or a threat.",
+      "type": "emotion_instance",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "emo_concept_emotion"
+        }
+      ],
+      "properties": {
+        "valence": "negative",
+        "arousal": "high"
+      }
+    }
+  ]
+}

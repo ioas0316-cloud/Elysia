@@ -1,0 +1,13 @@
+id: cmd_quiet_on
+priority: 181
+patterns:
+  - "조용\s*모드\s*(켜|on)"
+  - "quiet\s*on"
+gates:
+  quiet_ok: true
+response:
+  template: "조용 모드를 켰어요. 필요할 때만 조심스럽게 제안할게요."
+actions:
+  set_pref:
+    quiet_mode: true
+

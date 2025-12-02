@@ -1,0 +1,19 @@
+{
+  "title": "Event: Perception",
+  "concepts": [
+    {
+      "id": "event_perception",
+      "name": "Perception",
+      "kr_name": "인식",
+      "description": "The event of becoming aware of something through the senses.",
+      "type": "event_instance",
+      "arguments": [
+        {"role": "perceiver", "concept": "agent"},
+        {"role": "perceived_object"}
+      ],
+      "relationships": [
+        { "type": "is_a", "target_id": "concept_event" }
+      ]
+    }
+  ]
+}

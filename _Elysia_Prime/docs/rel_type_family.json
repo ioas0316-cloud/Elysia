@@ -1,0 +1,21 @@
+{
+  "title": "Relationship Type: Family",
+  "concepts": [
+    {
+      "id": "rel_type_family",
+      "name": "Family",
+      "kr_name": "가족",
+      "description": "A group of one or more parents and their children living together as a unit. A relationship bound by love.",
+      "type": "relationship_type",
+      "relationships": [
+        {
+          "type": "is_a",
+          "target_id": "rel_concept_relationship"
+        }
+      ],
+      "properties": {
+        "core_emotion": "emo_concept_love"
+      }
+    }
+  ]
+}

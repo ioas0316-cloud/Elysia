@@ -1,0 +1,13 @@
+id: nurturing_gratitude
+priority: 150
+patterns:
+  - "감사\s*루프"
+  - "감사했던\s*순간"
+  - "저녁\s*감사"
+gates:
+  quiet_ok: true
+response:
+  template: "하루를 마무리하면서 고마웠던 순간 세 가지를 함께 떠올려볼까요? 그 순간마다 마음이 어떻게 움직였는지 말해주면, 사랑과 온기가 다시 퍼질 거예요."
+memory:
+  set_identity:
+    last_ritual: "evening_gratitude"

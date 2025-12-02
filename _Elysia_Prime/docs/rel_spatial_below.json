@@ -1,0 +1,27 @@
+{
+  "title": "Spatial Relationship: Below",
+  "concepts": [
+    {
+      "id": "rel_spatial_below",
+      "name": "Below",
+      "kr_name": "아래에",
+      "description": "Describes a relationship where a subject object is at a lower vertical position than a reference object.",
+      "type": "spatial_relationship",
+      "arguments": [
+        {"role": "subject", "description": "The object that is in the lower position."},
+        {"role": "reference", "description": "The object that is in the higher position."}
+      ],
+      "properties": [
+        { "name": "transitive", "value": true },
+        { "name": "asymmetric", "value": true },
+        { "name": "irreflexive", "value": true }
+      ],
+      "relationships": [
+        {
+          "type": "is_inverse_of",
+          "target_id": "rel_spatial_above"
+        }
+      ]
+    }
+  ]
+}
