@@ -1,5 +1,0 @@
-weights:
-  clarify: 0.55
-  reflect: 0.2
-  suggest: 0.25
-temperature: 0.33

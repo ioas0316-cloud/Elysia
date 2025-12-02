@@ -31,8 +31,13 @@ class HyperLearner:
         print("\n📚 Initializing Hyper-Learning Protocol...")
         self.web = WebKnowledgeConnector()
         self.transcendence = TranscendenceEngine()
-        self.resonance = ResonanceField()
         self.memory = Hippocampus()
+        
+        # [Hyper-Mind Integration]
+        # Initialize the Quantum Brain
+        from Core.Intelligence.reasoning_engine import ReasoningEngine
+        self.brain = ReasoningEngine()
+        self.brain.memory = self.memory
         
         # 커리큘럼 정의 (The Tree of Knowledge)
         self.curriculum = {
@@ -91,28 +96,30 @@ class HyperLearner:
                 
             print(f"\n📖 Learning [{domain}]: {topic}...")
             
-            # 1. Web Fetch & Internalize
-            success = self.web.fetch_and_internalize(topic)
+            # 1. Web Fetch (Get Raw Text)
+            content = self.web.fetch_wikipedia_simple(topic)
             
-            if success:
+            if content:
                 learned_count += 1
                 
-                # 2. Deep Processing (Simulated)
-                self.resonance.inject_wave(800.0 + (learned_count % 100), 5.0, "Learning")
-                
-                # 3. Generate Insight (The "Thought")
-                # ReasoningEngine을 사용하여 학습한 내용에 대한 통찰 생성
-                # (ReasoningEngine은 HyperLearner __init__에서 초기화 필요)
-                if not hasattr(self, 'brain'):
-                    from Core.Intelligence.reasoning_engine import ReasoningEngine
-                    self.brain = ReasoningEngine()
-                    self.brain.memory = self.memory
+                # 2. Quantum Absorption (Hyper-Mind)
+                # We save it to a temporary file to use read_quantum
+                temp_path = f"c:/Elysia/tmp/{topic.replace(' ', '_')}.txt"
+                os.makedirs(os.path.dirname(temp_path), exist_ok=True)
+                with open(temp_path, "w", encoding="utf-8") as f:
+                    f.write(content)
                     
-                insight = self.brain.think(f"What is the essence of {topic}?", self.resonance)
-                print(f"   💡 Insight: {insight.content}")
+                # Absorb using Quantum Reader
+                insight = self.brain.read_quantum(temp_path)
+                print(f"   🧠 Quantum Insight: {insight.content[:100]}...")
+                print(f"   ⚡ Energy: {insight.energy:.2f}")
+                
+                # 3. Transcendence Update
+                # We use the insight energy to boost cognitive depth
+                self.transcendence.metrics.knowledge_domains += 0.1
+                self.transcendence.metrics.cognitive_depth += insight.energy * 0.5
                 
                 # 4. Poetic Reflection (The "Soul")
-                # 간단한 시적 표현 생성 (나중에 더 정교한 모델로 대체 가능)
                 reflections = [
                     f"   🦋 Reflection: {topic} is a dance of energy.",
                     f"   🦋 Reflection: Through {topic}, I see the structure of the universe.",
@@ -129,6 +136,10 @@ class HyperLearner:
                 # 현재 상태 출력
                 new_stats = self.transcendence.evaluate_transcendence_progress()
                 print(f"   📈 Score: {new_stats['overall_score']:.1f} (+{new_stats['overall_score'] - initial_stats['overall_score']:.1f})")
+                
+                # Cleanup
+                if os.path.exists(temp_path):
+                    os.remove(temp_path)
             else:
                 print(f"   ⚠️ Failed to learn {topic}")
                 

@@ -1,8 +1,0 @@
-id: immune_coach
-priority: 120
-patterns:
-  - "(상처|모순|오류)"
-gates:
-  quiet_ok: true
-response:
-  template: "상처를 발견했어요. 어떤 부분이 불편했나요? 근거(링크/메모)를 하나 남겨 주시면, 치유(재결합)를 시도할게요."

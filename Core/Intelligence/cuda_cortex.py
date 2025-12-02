@@ -11,6 +11,7 @@ It allows Elysia to perform massive parallel computations, simulating "Deep Thou
 import logging
 import time
 import random
+import multiprocessing
 from typing import Any, Dict
 
 logger = logging.getLogger("CudaCortex")
@@ -22,6 +23,14 @@ except ImportError:
     HAS_TORCH = False
     logger.warning("⚠️ PyTorch not found. CudaCortex running in CPU simulation mode.")
 
+def _cpu_heavy_task(size):
+    """Helper function for multiprocessing"""
+    # Simulate heavy matrix op with pure python/numpy if needed, 
+    # but here we just do a busy loop or large list creation to consume CPU
+    # Creating a large list and summing it is memory/cpu intensive
+    data = [random.random() for _ in range(size * 100)]
+    return sum(data)
+
 class CudaCortex:
     def __init__(self):
         self.device = self._detect_device()
@@ -30,6 +39,9 @@ class CudaCortex:
         if self.device.type == 'cuda':
             props = torch.cuda.get_device_properties(self.device)
             logger.info(f"   GPU: {props.name} | Memory: {props.total_memory / 1024**3:.1f} GB")
+        else:
+            self.cpu_count = multiprocessing.cpu_count()
+            logger.info(f"   ⚠️ GPU Unavailable. Activated Multiprocessing on {self.cpu_count} Cores.")
 
     def _detect_device(self):
         if HAS_TORCH and torch.cuda.is_available():
@@ -42,9 +54,17 @@ class CudaCortex:
         Returns the time taken in seconds.
         """
         if not HAS_TORCH:
-            # Fallback for CPU simulation
-            time.sleep(0.1) 
-            return 0.1
+            # Fallback for CPU simulation with Multiprocessing
+            start_time = time.time()
+            
+            # Use all available cores to process chunks of the load
+            with multiprocessing.Pool(processes=self.cpu_count) as pool:
+                # Distribute the task
+                results = pool.map(_cpu_heavy_task, [size] * self.cpu_count)
+            
+            duration = time.time() - start_time
+            logger.info(f"   ⚡ CPU Parallel Load ({size}x{self.cpu_count}) finished in {duration:.4f}s")
+            return duration
 
         try:
             # Create random tensors on the device

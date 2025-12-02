@@ -308,6 +308,7 @@ class Hippocampus:
                 conn.commit()
                 if pruned_count > 0:
                     logger.info(f"🗜️ Compressed: Pruned {pruned_count} low-energy sub-concepts")
+        except Exception as e:
             logger.error(f"Failed to compress fractal: {e}")
 
     # ====================

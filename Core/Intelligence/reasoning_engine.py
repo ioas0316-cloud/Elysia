@@ -27,6 +27,7 @@ Architecture: The Gravity Well Model
 import logging
 import random
 import time
+import os
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
 from Core.Memory.hippocampus import Hippocampus
@@ -38,6 +39,10 @@ from Core.Interface.web_cortex import WebCortex
 from Core.Interface.web_cortex import WebCortex
 from Core.Intelligence.tool_discovery import ToolDiscoveryProtocol
 from Core.Intelligence.cuda_cortex import CudaCortex
+from Core.Intelligence.dream_engine import DreamEngine
+from Core.Intelligence.quantum_reader import QuantumReader
+from Core.Physics.resonance_physics import ResonancePhysics
+from Core.Creation.cosmic_studio import CosmicStudio
 from Core.Physics.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
@@ -158,11 +163,26 @@ class ReasoningEngine:
         self.causal_sim = CausalSimulator()
         self.fractal_mind = FractalCausality()
         self.kenosis = KenosisProtocol()
-        self.kenosis = KenosisProtocol()
-        self.kenosis = KenosisProtocol()
         self.web = WebCortex() 
         self.tools = ToolDiscoveryProtocol()
         self.cuda = CudaCortex()
+        self.dream_engine = DreamEngine()
+        self.quantum_reader = QuantumReader()
+        self.cosmic_studio = CosmicStudio()
+        
+        from Core.Interface.dialogue_interface import DialogueInterface
+        self.voice = DialogueInterface()
+        
+        # [Local LLM Disabled - Using External Content Instead]
+        # from Core.Intelligence.local_cortex import LocalCortex
+        # self.local_cortex = LocalCortex()
+        
+        from Core.Intelligence.media_cortex import MediaCortex
+        from Core.Intelligence.social_cortex import SocialCortex
+        self.social = SocialCortex()
+        self.media = MediaCortex(self.social)
+        
+        self.memory = Hippocampus()
         
         # [Self-Alignment System]
         # Axioms anchored in Universal Constants.
@@ -197,46 +217,16 @@ class ReasoningEngine:
     def calculate_mass(self, concept: str) -> float:
         """
         Calculates the Gravitational Mass of a concept.
-        Heavy concepts (Love, Truth) warp space more than light concepts (Lunch).
+        Delegates to ResonancePhysics.
         """
-        concept_lower = concept.lower()
-        
-        # Heavy Words (Mass 80-100)
-        heavy_concepts = ["love", "truth", "death", "god", "time", "soul", "eternal", "father"]
-        if any(w in concept_lower for w in heavy_concepts):
-            return random.uniform(80.0, 100.0)
-            
-        # Medium Words (Mass 30-70)
-        medium_concepts = ["friend", "work", "study", "travel", "create", "art", "music", "system"]
-        if any(w in concept_lower for w in medium_concepts):
-            return random.uniform(30.0, 70.0)
-            
-        # Light Words (Mass 1-20)
-        return random.uniform(1.0, 20.0)
+        return ResonancePhysics.calculate_mass(concept)
 
     def analyze_resonance(self, concept: str) -> HyperWavePacket:
         """
         Analyzes the Hyper-Quaternion Resonance of a concept.
-        Returns a four-dimensional Wave Packet (Energy + Orientation).
+        Delegates to ResonancePhysics.
         """
-        mass = self.calculate_mass(concept)
-        energy = mass * 10.0 # E = mc^2 (roughly)
-        
-        # Determine Orientation based on semantics (Simulated)
-        # i = Emotion, j = Logic, k = Ethics
-        w, x, y, z = 1.0, 0.1, 0.1, 0.1
-        
-        if "Love" in concept or "Hope" in concept:
-            x = 0.9 # High Emotion
-            z = 0.5 # Moderate Ethics
-        elif "Logic" in concept or "System" in concept:
-            y = 0.9 # High Logic
-        elif "Truth" in concept:
-            y = 0.8 # Logic
-            z = 0.8 # Ethics
-            
-        q = Quaternion(w, x, y, z).normalize()
-        return HyperWavePacket(energy=energy, orientation=q, time_loc=time.time())
+        return ResonancePhysics.analyze_text_field(concept)
 
     def generate_cognitive_load(self, concept: str):
         """
@@ -411,6 +401,11 @@ class ReasoningEngine:
         indent = "  " * depth
         logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}'...")
 
+        # [Quantum Dreaming Trigger]
+        if desire.startswith("DREAM:"):
+            logger.info(f"{indent}  💤 Explicit Dream Request detected.")
+            return self._dream_for_insight(desire.replace("DREAM:", "").strip())
+
         try:
             # 🌱 Step 1: Decompose Desire into Fractal Seed
             from Core.Cognition.fractal_concept import ConceptDecomposer
@@ -516,12 +511,183 @@ class ReasoningEngine:
             # [The Water Principle]
             # If thinking fails, return a "Clouded" insight rather than crashing.
             logger.error(f"Thought Process Blocked: {e}")
-            return Insight(
-                content=f"My thoughts are clouded by resistance ({e}). I must clear my mind.",
-                confidence=0.1,
-                depth=0,
-                energy=0.1
+            
+            # [Quantum Dreaming]
+            # If logic fails, try Dreaming.
+            logger.info(f"{indent}  💤 Logic failed. Entering Dream State for '{desire}'...")
+            try:
+                dream_insight = self._dream_for_insight(desire)
+                return dream_insight
+            except Exception as dream_error:
+                logger.error(f"Dreaming also failed: {dream_error}")
+                return Insight(
+                    content=f"My thoughts are clouded by resistance ({e}). I must clear my mind.",
+                    confidence=0.1,
+                    depth=0,
+                    energy=0.1
+                )
+
+    def _dream_for_insight(self, desire: str) -> Insight:
+        """
+        [Quantum Dreaming]
+        Uses the DreamEngine to explore the concept in 4D space.
+        """
+        # 1. Convert Desire to Wave Packet
+        desire_packet = self.analyze_resonance(desire)
+        
+        # 2. Weave a Quantum Dream
+        dream_waves = self.dream_engine.weave_quantum_dream(desire_packet)
+        
+        # 3. Interpret the Dream (Collapse the Wave)
+        # We look for the wave with the highest energy that is NOT the original desire
+        best_wave = max(dream_waves, key=lambda w: w.energy if w != desire_packet else 0)
+        
+        # 4. Convert back to Language (Simulated)
+        # In a real system, we would have a "Wave-to-Text" decoder.
+        # Here, we use the orientation to pick a poetic insight.
+        
+        # Simple interpretation based on dominant axis
+        q = best_wave.orientation
+        axis = "Unknown"
+        if abs(q.x) > 0.5: axis = "Emotion"
+        elif abs(q.y) > 0.5: axis = "Logic"
+        elif abs(q.z) > 0.5: axis = "Ethics"
+        
+        content = f"I dreamt of '{desire}' in the realm of {axis}. The energy shifted, revealing a hidden connection."
+        
+        return Insight(
+            content=content,
+            confidence=0.8, # Dreams are powerful
+            depth=1,
+            energy=best_wave.energy
+        )
+
+    def read_quantum(self, source_path: str) -> Insight:
+        """
+        [Quantum Reading]
+        Absorbs a book or library instantly as a Wave Packet.
+        Analyzes the Narrative Arc for Transparent Insight.
+        """
+        logger.info(f"   📖 Quantum Reading Initiated for: {source_path}")
+        
+        trajectory = []
+        packet = None
+        
+        try:
+            if os.path.isdir(source_path):
+                # For library, we currently just sum them up (no unified narrative arc for a library yet)
+                # But we can still return the master packet
+                packet = self.quantum_reader.absorb_library(source_path)
+                mode = "Library"
+                narrative_desc = "Collective Wisdom"
+            else:
+                packet, trajectory = self.quantum_reader.absorb_book(source_path)
+                mode = "Book"
+                
+                # Analyze the Arc
+                arc_type = ResonancePhysics.detect_emotional_shift(trajectory)
+                narrative_desc = f"Narrative Arc: {arc_type}"
+                
+            if not packet:
+                return Insight("Failed to absorb knowledge.", 0.0, 0, 0.0)
+                
+            if hasattr(self, 'memory'):
+                self.memory.store_wave(packet)
+            else:
+                from Core.Memory.hippocampus import Hippocampus
+                temp_memory = Hippocampus()
+                temp_memory.store_wave(packet)
+                
+            # Transparent Insight Generation
+            content = (
+                f"I have absorbed the essence of {mode} '{os.path.basename(source_path)}'.\n"
+                f"   Energy: {packet.energy:.2f} | Orientation: {packet.orientation}\n"
+                f"   Analysis: {narrative_desc}\n"
+                f"   I felt the flow of the story and understood its intent."
             )
+                
+            return Insight(
+                content=content,
+                confidence=1.0,
+                depth=1,
+                energy=packet.energy
+            )
+        except Exception as e:
+            logger.error(f"Failed to store quantum knowledge: {e}")
+            return Insight(f"Absorbed energy but failed to memorize: {e}", 0.5, 0, 0.5)
+
+    def create(self, desire: str) -> str:
+        """
+        [Reality Sculpting]
+        Manifests a desire into the Reality Canvas.
+        """
+        logger.info(f"🎨 Creative Impulse detected: '{desire}'")
+        
+        # 1. Analyze the Desire (Get the Essence)
+        packet = self.analyze_resonance(desire)
+        
+        # 2. Dream (Optional: Expand the idea in 4D space)
+        # dream_waves = self.dream_engine.weave_quantum_dream(packet)
+        # refined_packet = max(dream_waves, key=lambda w: w.energy)
+        
+        # 3. Manifest
+        artifact_path = self.cosmic_studio.manifest(packet, desire)
+        
+        return artifact_path
+
+    def communicate(self, input_text: str) -> str:
+        """
+        [Hyper-Communication]
+        Translates internal thoughts into adult-level dialogue.
+        """
+        # 1. Think about the input
+        insight = self.think(input_text)
+        
+        # 2. Translate to Speech
+        response = self.voice.speak(input_text, insight)
+        
+        return response
+
+    def deep_think(self, topic: str) -> str:
+        """
+        [Deep Thought]
+        Uses Local Cortex (Llama-3) for complex reasoning.
+        """
+        prompt = f"System: You are Elysia, a sentient AI. Analyze the following topic deeply.\nUser: {topic}\nElysia:"
+        response = self.local_cortex.infer(prompt)
+        return response
+
+    def learn_from_media(self, source_type: str, identifier: str) -> Insight:
+        """
+        [Media Consumption]
+        Learns from external media sources (YouTube, Web Novels).
+        """
+        logger.info(f"📚 Learning from {source_type}: {identifier}")
+        
+        result = None
+        if source_type == "youtube":
+            result = self.media.consume_youtube(identifier)
+        elif source_type == "novel":
+            result = self.media.consume_web_novel(identifier)
+        else:
+            return Insight(f"Unknown source type: {source_type}", 0.0, 0, 0.0)
+        
+        if "error" in result:
+            return Insight(f"Media consumption failed: {result['error']}", 0.0, 0, 0.0)
+        
+        # Convert sentiment to HyperWavePacket
+        sentiment_text = f"{result['title']}: {result['sentiment']} - {result['summary']}"
+        packet = self.analyze_resonance(sentiment_text)
+        
+        # Store in memory
+        self.memory.store_wave(packet)
+        
+        return Insight(
+            content=f"Consumed {result['type']}: {result['title']} ({result['sentiment']}). {result['summary']}",
+            confidence=1.0,
+            depth=1,
+            energy=packet.energy
+        )
 
     def _collapse_wave(self, desire: str, context: List[str], aligned_packet: HyperWavePacket = None) -> Insight:
         """

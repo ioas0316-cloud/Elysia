@@ -648,8 +648,12 @@ class LivingElysia:
             
             print(f"   📨 Contacting {target}: {message}")
             if target == "User":
-                self.user_bridge.send_message(message)
-                self.brain.memory_field.append(f"Sent Message: {message}")
+                # [Hyper-Communication]
+                # Use the Dialogue Interface to speak like an adult
+                response = self.brain.communicate(message)
+                self.user_bridge.send_message(response)
+                self.brain.memory_field.append(f"Sent Message: {response}")
+                print(f"      👉 Elysia: {response}")
 
         elif action == "SHOW":
             # SHOW:Url

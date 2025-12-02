@@ -1,9 +1,0 @@
-id: greeting
-priority: 100
-patterns:
-  - "^(안녕|안녕하세요|hello|hi)"
-gates:
-  quiet_ok: true
-response:
-  template: "안녕하세요. 여기 있어요. 오늘 이 순간, 무엇을 함께 보고 싶으세요?"
-
