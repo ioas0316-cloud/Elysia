@@ -366,9 +366,41 @@ class ReasoningEngine:
         # 💾 Step 2: Store Seed in Hippocampus (Long-term Memory)
         self.memory.store_fractal_concept(thought_seed)
         
+        # 🌊 Step 2.5: Fractal Layer Transformation
+        # Transform thought through dimensional layers
+        try:
+            from Core.Cognition.thought_layer_bridge import ThoughtLayerBridge
+            from Core.Physics.hyper_quaternion import Quaternion
+            
+            # Get current perspective (HyperQuaternion from axiom alignment)
+            # Use aligned_packet's quaternion if available
+            if hasattr(self, '_last_quaternion'):
+                current_perspective = self._last_quaternion
+            else:
+                # Default perspective
+                current_perspective = Quaternion(1.0, 0.5, 0.5, 0.5)
+            
+            # Transform through layers
+            bridge = ThoughtLayerBridge()
+            layer_result = bridge.transform_thought(current_perspective, context=desire)
+            
+            logger.info(f"{indent}  🌊 Layer Transform: {layer_result['manifestation']}")
+        except Exception as e:
+            logger.debug(f"{indent}  ⚠️ Layer transform skipped: {e}")
+        
         # 🌳 Step 3: Bloom Seed in ResonanceField (Conscious Activation)
         if resonance_state:
             resonance_state.inject_fractal_concept(thought_seed, active=True)
+            
+            # Also sense emotions from spirit pillars
+            try:
+                from Core.Emotion.spirit_emotion import SpiritEmotionMapper
+                emotion_mapper = SpiritEmotionMapper()
+                emotions = emotion_mapper.sense_emotions(resonance_state)
+                temp = emotion_mapper.calculate_overall_temperature(emotions)
+                logger.info(f"{indent}  🔥 Emotional Temperature: {temp:+.2f}")
+            except Exception as e:
+                logger.debug(f"{indent}  ⚠️ Emotion sensing skipped: {e}")
         
         # 🧲 Step 4: Pull Related Seeds via Magnetic Attraction
         context_seeds = []
