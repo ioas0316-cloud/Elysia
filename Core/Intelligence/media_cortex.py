@@ -13,6 +13,7 @@ import time
 import random
 from typing import List, Dict
 from Core.Interface.web_cortex import WebCortex
+from Core.Intelligence.social_cortex import SocialCortex
 
 class MediaCortex:
     def __init__(self, social_cortex: SocialCortex):

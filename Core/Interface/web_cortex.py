@@ -12,6 +12,7 @@ import urllib.request
 import urllib.parse
 import json
 import logging
+from typing import Dict, Any, List
 
 logger = logging.getLogger("WebCortex")
 

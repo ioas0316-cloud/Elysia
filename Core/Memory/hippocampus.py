@@ -196,3 +196,117 @@ class Hippocampus:
                     
         except Exception as e:
             logger.error(f"Failed to compress memory: {e}")
+
+    # ====================
+    # Fractal Seed System (씨앗 시스템)
+    # ====================
+    
+    def store_fractal_concept(self, concept):
+        """
+        Stores a Fractal Concept Seed in the database.
+        
+        Args:
+            concept: ConceptNode from Core.Cognition.fractal_concept
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # Create fractal_concepts table if not exists
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS fractal_concepts (
+                        name TEXT PRIMARY KEY,
+                        frequency REAL,
+                        data TEXT
+                    )
+                """)
+                
+                # Serialize ConceptNode to JSON
+                data_json = json.dumps(concept.to_dict())
+                
+                cursor.execute("""
+                    INSERT OR REPLACE INTO fractal_concepts (name, frequency, data)
+                    VALUES (?, ?, ?)
+                """, (concept.name, concept.frequency, data_json))
+                
+                conn.commit()
+                logger.info(f"🌱 Seed Stored: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
+        except Exception as e:
+            logger.error(f"Failed to store fractal concept {concept.name}: {e}")
+    
+    def load_fractal_concept(self, name: str):
+        """
+        Loads a Fractal Concept Seed from the database.
+        
+        Args:
+            name: Concept name to load
+            
+        Returns:
+            ConceptNode or None if not found
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                cursor.execute("""
+                    SELECT data FROM fractal_concepts WHERE name = ?
+                """, (name,))
+                
+                row = cursor.fetchone()
+                if row:
+                    from Core.Cognition.fractal_concept import ConceptNode
+                    data = json.loads(row[0])
+                    concept = ConceptNode.from_dict(data)
+                    logger.info(f"🧲 Seed Pulled: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
+                    return concept
+                else:
+                    return None
+        except Exception as e:
+            logger.error(f"Failed to load fractal concept {name}: {e}")
+            return None
+    
+    def compress_fractal(self, min_energy: float = 0.1):
+        """
+        Prunes sub-concepts with low energy to save space.
+        
+        Args:
+            min_energy: Minimum energy threshold
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # Get all fractal concepts
+                cursor.execute("SELECT name, data FROM fractal_concepts")
+                rows = cursor.fetchall()
+                
+                pruned_count = 0
+                for name, data_json in rows:
+                    from Core.Cognition.fractal_concept import ConceptNode
+                    data = json.loads(data_json)
+                    concept = ConceptNode.from_dict(data)
+                    
+                    # Prune sub-concepts
+                    original_count = len(concept.sub_concepts)
+                    concept.sub_concepts = [
+                        sub for sub in concept.sub_concepts 
+                        if sub.energy >= min_energy
+                    ]
+                    new_count = len(concept.sub_concepts)
+                    
+                    if new_count < original_count:
+                        # Update in database
+                        new_data_json = json.dumps(concept.to_dict())
+                        cursor.execute("""
+                            UPDATE fractal_concepts 
+                            SET data = ? 
+                            WHERE name = ?
+                        """, (new_data_json, name))
+                        pruned_count += (original_count - new_count)
+                
+                conn.commit()
+                if pruned_count > 0:
+                    logger.info(f"🗜️ Compressed: Pruned {pruned_count} low-energy sub-concepts")
+        except Exception as e:
+            logger.error(f"Failed to compress fractal: {e}")
+

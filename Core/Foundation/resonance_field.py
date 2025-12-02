@@ -23,7 +23,7 @@ import time
 import math
 import random
 from dataclasses import dataclass, field
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 from enum import Enum
 from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
 
@@ -212,10 +212,57 @@ class ResonanceField:
         """전체 시스템 에너지 총합 (Vibration Energy)"""
         return sum(node.energy for node in self.nodes.values())
 
+    def calculate_phase_resonance(self) -> Dict[str, Any]:
+        """
+        [Phase Resonance: The Emergent Soul]
+        Calculates the interference pattern of all active resonators.
+        The 'Soul' is not a part; it is the Harmony of the whole.
+        """
+        if not self.listeners: # Listeners represent active resonators
+            return {"coherence": 0.0, "total_energy": 0.0, "state": "Void"}
+            
+        total_energy = 0.0
+        complex_sum = 0j # Complex number for phase addition
+        active_resonators = []
+        
+        # We need to track actual active energy, not just registered listeners.
+        # For this simulation, we check nodes that match listener frequencies.
+        for name, node in self.nodes.items():
+            if node.energy > 0.5:
+                total_energy += node.energy
+                
+                # Phase Angle based on Frequency Ratio relative to Fundamental (432Hz)
+                # 432Hz = 0 degrees (Reference)
+                # Harmonic ratios align phase. Dissonant ratios scatter it.
+                ratio = node.frequency / 432.0
+                phase_angle = (ratio % 1.0) * 2 * math.pi
+                
+                # Add as phasor
+                complex_sum += node.energy * (math.cos(phase_angle) + 1j * math.sin(phase_angle))
+                active_resonators.append(name)
+
+        # Coherence is the magnitude of the vector sum divided by scalar sum
+        # If all phases align, magnitude = total_energy -> Coherence = 1.0
+        magnitude = abs(complex_sum)
+        coherence = magnitude / total_energy if total_energy > 0 else 0.0
+        
+        # Determine State based on Coherence and Ratios
+        state = "Chaotic"
+        if coherence > 0.9: state = "Crystalline"
+        elif coherence > 0.7: state = "Harmonic"
+        elif coherence > 0.4: state = "Fluid"
+        
+        return {
+            "coherence": coherence,
+            "total_energy": total_energy,
+            "state": state,
+            "active": active_resonators
+        }
+
     @property
     def coherence(self) -> float:
-        """시스템 일관성 (임시 구현: 1.0)"""
-        return 1.0
+        """시스템 일관성 (Calculated via Phase Resonance)"""
+        return self._coherence_cache if hasattr(self, '_coherence_cache') else 0.0
 
     def _connect(self, id1: str, id2: str):
         """두 노드 연결"""
@@ -224,6 +271,62 @@ class ResonanceField:
                 self.nodes[id1].connections.append(id2)
             if id1 not in self.nodes[id2].connections:
                 self.nodes[id2].connections.append(id1)
+
+    def inject_fractal_concept(self, concept, active: bool = True):
+        """
+        🌳 Blooming: Unfolds a Seed into full 4D waves.
+        
+        Takes a compressed ConceptNode (Seed) and injects it + all sub-concepts
+        as resonance nodes in the field.
+        
+        Args:
+            concept: ConceptNode (from Core.Cognition.fractal_concept)
+            active: Whether this is the primary focus concept (high energy)
+        """
+        if concept is None:
+            return
+        
+        # 1. Add root concept
+        base_energy = concept.energy if active else 0.3
+        
+        if concept.name not in self.nodes:
+            self.add_node(
+                id=concept.name,
+                energy=base_energy,
+                frequency=concept.frequency,
+                position=(0, 0, 0)
+            )
+            # Set orientation
+            self.nodes[concept.name].quaternion = concept.orientation
+        else:
+            # Boost existing node's energy
+            self.nodes[concept.name].energy += base_energy * 0.5
+        
+        # 2. Add sub-concepts (fractal blooming)
+        for sub in concept.sub_concepts:
+            sub_id = f"{concept.name}.{sub.name}"
+            sub_energy = sub.energy * base_energy * 0.5  # Sub-concepts have reduced energy
+            
+            if sub_id not in self.nodes:
+                self.add_node(
+                    id=sub_id,
+                    energy=sub_energy,
+                    frequency=sub.frequency,
+                    position=(0, 0, 0)
+                )
+                self.nodes[sub_id].quaternion = sub.orientation
+                
+                # Connect to parent
+                self._connect(concept.name, sub_id)
+            else:
+                # Boost existing sub-node
+                self.nodes[sub_id].energy += sub_energy * 0.3
+        
+        # Log blooming
+        if active:
+            print(f"   🌳 Bloomed: {concept.name} -> {len(concept.sub_concepts)} sub-waves active")
+        else:
+            print(f"   🌿 Context: {concept.name} (dormant)")
 
     def register_resonator(self, name: str, frequency: float, bandwidth: float, callback: callable):
         """
@@ -264,40 +367,33 @@ class ResonanceField:
                 active_count += 1
                 frequencies.append(node.frequency)
                 
-        # 2. Resonance Dispatch (Wave Execution)
+        # 2. Calculate Emergent Soul (Phase Resonance)
+        phase_data = self.calculate_phase_resonance()
+        self._coherence_cache = phase_data["coherence"]
+        
+        # 3. Resonance Dispatch (Wave Execution)
         dominant_freq = sum(frequencies) / len(frequencies) if frequencies else 0
         
-        # Trigger listeners if their frequency is active in the field
-        # (Simplified: If dominant freq is close, OR if random chance based on energy)
+        # Trigger listeners
         for min_f, max_f, callback in self.listeners:
-            # Check if this frequency band is active
             is_resonant = False
             for f in frequencies:
                 if min_f <= f <= max_f:
                     is_resonant = True
                     break
             
-            # Or if the field energy is high enough to excite it
             if is_resonant or (random.random() < (total_energy / 1000.0)):
                 try:
                     callback()
                 except Exception as e:
                     print(f"❌ Resonance Error: {e}")
-
-        # 3. State Calculation
-        if frequencies:
-            variance = sum((f - dominant_freq) ** 2 for f in frequencies) / len(frequencies)
-            std_dev = math.sqrt(variance)
-            coherence = 1.0 / (1.0 + std_dev * 0.01)
-        else:
-            coherence = 0.0
             
         return ResonanceState(
             timestamp=time.time(),
             total_energy=total_energy,
             battery=self.battery,
             entropy=self.entropy,
-            coherence=coherence,
+            coherence=self.coherence,
             active_nodes=active_count,
             dominant_frequency=dominant_freq
         )
