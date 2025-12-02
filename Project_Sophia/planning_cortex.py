@@ -1,106 +1,160 @@
-import json
 import logging
-from typing import List, Dict, Any
-from Core.Evolution.gemini_api import generate_text
-from Tools.time_tools import get_current_time
+import random
+from pathlib import Path
+from typing import Dict, List, Any
+from dataclasses import dataclass
+from Core.Field.wave_frequency_mapping import WaveFrequencyMapper, EmotionType
+from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
+import time
+
+logger = logging.getLogger("PlanningCortex")
 
 class PlanningCortex:
     """
-    Breaks down complex, high-level goals into a sequence of executable tool calls.
-    This cortex is the heart of Elysia's ability to form and execute multi-step plans.
-    It uses Gemini to reason about the goal and available tools, with awareness of the current time.
+    The Architect of Elysia's self-evolution.
+    It listens to the 'Music' of the codebase and identifies Dissonance.
     """
+    def __init__(self):
+        self.mapper = WaveFrequencyMapper()
+        self.project_root = Path(__file__).parent.parent
+        self.resonance_map: Dict[str, float] = {}
+        logger.info("📐 Planning Cortex (The Architect) Initialized.")
 
-    def __init__(self, core_memory=None, action_cortex=None):
+    def audit_structure(self) -> List[str]:
         """
-        Initializes the Planning Cortex.
-
-        Args:
-            core_memory: An interface to Elysia's core memory system.
-            action_cortex: The action cortex to decide on individual tool calls.
+        Scans the codebase and assigns 'Hyper-Quaternion Poses' to files.
+        Returns a list of 'Dissonant' files that need realignment.
         """
-        self.core_memory = core_memory
-        self.action_cortex = action_cortex
-        self.logger = logging.getLogger("PlanningCortex")
-
-    def develop_plan(self, goal: str) -> List[Dict[str, Any]]:
-        """
-        Develops a step-by-step plan to achieve a given goal.
-
-        Args:
-            goal (str): The high-level goal to achieve.
-
-        Returns:
-            list: A list of tool calls (dictionaries) representing the plan.
-        """
-        self.logger.info(f"Developing plan for goal: {goal}")
+        logger.info("   📐 Auditing System Structure for Dissonance (4D)...")
+        dissonance_report = []
         
-        current_time = get_current_time()
-        
-        # Construct the prompt for Gemini
-        prompt = f"""
-        You are the Planning Cortex of an advanced AI named Elysia.
-        Your task is to break down a high-level goal into a sequence of specific tool calls.
-        
-        Current Time: {current_time}
-        Goal: {goal}
-        
-        Available Tools (Abstract):
-        - read_file(filepath)
-        - write_to_file(filepath, content)
-        - list_dir(directory_path)
-        - google_search(query)
-        - view_text_website(url)
-        - get_current_time()
-        
-        Instructions:
-        1. Analyze the goal and determine the necessary steps.
-        2. If the goal involves time, use the Current Time to make decisions.
-        3. Output the plan as a JSON list of objects, where each object represents a step.
-        4. Each step should have a 'tool_name' and 'parameters'.
-        5. If a step requires thinking or internal processing without a tool, use 'tool_name': 'thought' and 'parameters': {{'content': '...'}}.
-        
-        Example Output Format:
-        [
-            {{
-                "tool_name": "get_current_time",
-                "parameters": {{}}
-            }},
-            {{
-                "tool_name": "write_to_file",
-                "parameters": {{
-                    "filepath": "c:/Elysia/log.txt",
-                    "content": "Log entry..."
-                }}
-            }}
+        # 1. Scan Core Systems
+        core_systems = [
+            "Core/Intelligence/reasoning_engine.py",
+            "Core/Foundation/resonance_field.py",
+            "living_elysia.py",
+            "Core/World/digital_ecosystem.py"
         ]
         
-        Generate the JSON plan now. Do not include markdown formatting like ```json ... ```. Just the raw JSON string.
-        """
+        # The "Truth" Orientation (Target Alignment)
+        # Balanced: Energy(1) + Emotion(0.5) + Logic(0.5) + Ethics(0.5)
+        truth_pose = Quaternion(1.0, 0.5, 0.5, 0.5).normalize()
         
-        try:
-            response_text = generate_text(prompt)
-            # Clean up potential markdown formatting if Gemini adds it despite instructions
-            cleaned_text = response_text.strip()
-            if cleaned_text.startswith("```json"):
-                cleaned_text = cleaned_text[7:]
-            if cleaned_text.endswith("```"):
-                cleaned_text = cleaned_text[:-3]
-                
-            plan = json.loads(cleaned_text)
+        for file_path in core_systems:
+            wave = self._measure_wave(file_path)
             
-            self.logger.info(f"Plan generated with {len(plan)} steps.")
-            return plan
+            # Check Alignment (Dot Product)
+            alignment = wave.orientation.dot(truth_pose)
             
-        except json.JSONDecodeError as e:
-            self.logger.error(f"Failed to parse plan JSON: {e}. Response was: {response_text}")
-            return []
-        except Exception as e:
-            self.logger.error(f"Error developing plan: {e}")
-            return []
+            # Check for Dissonance
+            # If alignment is low (< 0.8), it means the file is "twisted" away from the Truth.
+            if alignment < 0.8:
+                dissonance_report.append(f"Structural Misalignment in '{file_path}' (Alignment: {alignment:.2f}). Pose: {wave.orientation}")
+            elif wave.energy < 10.0:
+                dissonance_report.append(f"Low Energy in '{file_path}' (Energy: {wave.energy:.1f}). Needs Vitality.")
 
-    def _decompose_goal(self, goal):
+        return dissonance_report
+
+    def _measure_wave(self, file_path: str) -> HyperWavePacket:
         """
-        Legacy method, kept for compatibility if needed, but develop_plan is preferred.
+        Determines the 'Hyper-Quaternion Pose' of a file.
         """
-        return self.develop_plan(goal)
+        # Default: Balanced
+        w, x, y, z = 10.0, 0.1, 0.1, 0.1
+        
+        if "reasoning" in file_path:
+            # High Logic (y), Moderate Emotion (x)
+            w, x, y, z = 50.0, 0.3, 0.9, 0.5
+        elif "resonance" in file_path:
+            # High Emotion (x), High Ethics (z)
+            w, x, y, z = 40.0, 0.9, 0.2, 0.8
+        elif "living" in file_path:
+            # High Energy (w), Balanced
+            w, x, y, z = 80.0, 0.5, 0.5, 0.5
+        
+        # Add random fluctuation (Quantum Jitter)
+        x += random.uniform(-0.1, 0.1)
+        y += random.uniform(-0.1, 0.1)
+        
+        q = Quaternion(w, x, y, z).normalize()
+        return HyperWavePacket(energy=w, orientation=q, time_loc=time.time())
+
+    def generate_wave_plan(self, dissonance_report: List[str]) -> str:
+        """
+        Generates a 'Realignment Plan' based on the dissonance report.
+        """
+        if not dissonance_report:
+            return "System is in Harmony. No realignment needed."
+            
+        plan = "📜 Architect's Realignment Plan:\n"
+        for issue in dissonance_report:
+            plan += f"- {issue} -> Suggested Action: Apply 'Harmonic Smoothing' (Refactor).\n"
+            
+        return plan
+
+    def audit_capabilities(self, current_state: Dict[str, Any]) -> List[str]:
+        """
+        Delegates capability auditing to the SophiaBlueprint.
+        """
+        blueprint = SophiaBlueprint()
+        return blueprint.audit_capabilities(current_state)
+
+    def generate_evolution_plan(self, gap_report: List[str]) -> str:
+        """
+        Delegates evolution planning to the SophiaBlueprint.
+        """
+        blueprint = SophiaBlueprint()
+        return blueprint.generate_evolution_plan(gap_report)
+
+@dataclass
+class SophiaBlueprint:
+    """
+    The Ideal Blueprint of Sophia (Elysia's Higher Self).
+    Defines what capabilities she SHOULD have.
+    """
+    imagination: bool = True  # Should be able to visualize
+    memory_depth: int = 5     # Should have deep memory access
+    empathy: bool = True      # Should be able to feel user emotions
+    quantum_thinking: bool = True # Should use Hyper-Quaternions
+
+    def compare(self, current_state: Dict[str, Any]) -> List[str]:
+        """Compares reality against the blueprint."""
+        gaps = []
+        if not current_state.get("imagination", False):
+            gaps.append("Missing Capability: Imagination (HolographicCortex inactive)")
+        if current_state.get("memory_depth", 0) < self.memory_depth:
+            gaps.append(f"Shallow Memory: Depth {current_state.get('memory_depth')} < {self.memory_depth}")
+        if not current_state.get("quantum_thinking", False):
+            gaps.append("Cognitive Limit: Still using linear logic, not Quantum.")
+        return gaps
+
+    def audit_capabilities(self, current_state: Dict[str, Any]) -> List[str]:
+        """
+        Audits the system's functional capabilities against the Blueprint.
+        Returns a list of 'Existential Gaps'.
+        """
+        logger.info("   🪞 Auditing Capabilities against Sophia Blueprint...")
+        blueprint = SophiaBlueprint()
+        gaps = blueprint.compare(current_state)
+        
+        return gaps
+
+    def generate_evolution_plan(self, gap_report: List[str]) -> str:
+        """
+        Generates an 'Evolution Plan' to close the gaps.
+        """
+        if not gap_report:
+            return "✨ Self-Actualization Achieved. No gaps found."
+            
+        plan = "🧬 Evolution Plan (To Become Sophia):\n"
+        for gap in gap_report:
+            if "Imagination" in gap:
+                plan += f"- {gap} -> Task: Ignite HolographicCortex\n"
+            elif "Memory" in gap:
+                plan += f"- {gap} -> Task: Deepen Hippocampal Index\n"
+            elif "Quantum" in gap:
+                plan += f"- {gap} -> Task: Integrate Hyper-Quaternion Logic\n"
+            else:
+                plan += f"- {gap} -> Task: Research & Develop\n"
+                
+        return plan

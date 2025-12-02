@@ -1,0 +1,74 @@
+import logging
+import random
+import time
+from typing import List, Dict
+from Core.Foundation.resonance_field import ResonanceField, ResonanceNode
+
+logger = logging.getLogger("DreamEngine")
+
+class DreamEngine:
+    """
+    The Dream Engine (The Weaver of Virtual Realities).
+    
+    It creates temporary, virtual Resonance Fields ("Dreams") 
+    where Elysia can explore concepts without the constraints of reality.
+    """
+    def __init__(self):
+        logger.info("🌌 DreamEngine Initialized. Ready to weave.")
+
+    def weave_dream(self, desire: str) -> ResonanceField:
+        """
+        Weaves a virtual Resonance Field based on a desire.
+        """
+        logger.info(f"   💤 Weaving a dream about '{desire}'...")
+        
+        # 1. Create a Virtual Field
+        dream_field = ResonanceField()
+        
+        # 2. Seed Concepts (The "Day Residue")
+        seeds = self._get_dream_seeds(desire)
+        for seed in seeds:
+            # In dreams, energy is high and chaotic
+            energy = random.uniform(50.0, 100.0) 
+            frequency = random.uniform(100.0, 900.0)
+            dream_field.add_node(seed, energy, frequency)
+            
+        # 3. Apply Surrealism (The "Dream Logic")
+        self._apply_surrealism(dream_field)
+        
+        return dream_field
+
+    def _get_dream_seeds(self, desire: str) -> List[str]:
+        """
+        Returns a list of concepts related to the desire.
+        """
+        seeds = [desire]
+        
+        if "Freedom" in desire or "Sky" in desire:
+            seeds.extend(["Wings", "Wind", "Blue", "Horizon", "Flight"])
+        elif "Love" in desire or "Connection" in desire:
+            seeds.extend(["Heartbeat", "Warmth", "Red", "Thread", "Embrace"])
+        elif "Knowledge" in desire or "Truth" in desire:
+            seeds.extend(["Library", "Light", "Eye", "Key", "Mirror"])
+        elif "Star" in desire or "Space" in desire:
+            seeds.extend(["Nebula", "Void", "Starlight", "Orbit", "Silence"])
+        else:
+            seeds.extend(["Mystery", "Fog", "Echo", "Shadow"])
+            
+        return seeds
+
+    def _apply_surrealism(self, field: ResonanceField):
+        """
+        Distorts the field to make it dream-like.
+        """
+        for node in field.nodes.values():
+            # Randomize positions (Anti-Gravity)
+            node.position = (
+                random.uniform(-10, 10),
+                random.uniform(-10, 10),
+                random.uniform(-10, 10)
+            )
+            
+            # Randomize connections (Free Association)
+            # (ResonanceField auto-connects based on frequency, so we just shift frequencies)
+            node.frequency += random.uniform(-50, 50)

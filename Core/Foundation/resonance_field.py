@@ -63,8 +63,10 @@ class ResonanceNode:
 class ResonanceState:
     """전체 시스템의 공명 상태"""
     timestamp: float
-    total_energy: float
-    coherence: float  # 일관성 (0.0 ~ 1.0)
+    total_energy: float   # Active Vibration Energy
+    battery: float        # Vibrational Potential (0-100)
+    entropy: float        # Phase Friction (0-100)
+    coherence: float      # 일관성 (0.0 ~ 1.0)
     active_nodes: int
     dominant_frequency: float
 
@@ -75,7 +77,9 @@ class ResonanceField:
     def __init__(self):
         self.nodes: Dict[str, ResonanceNode] = {}
         self.pillars: Dict[str, ResonanceNode] = {}
-        self.listeners: List[Tuple[float, float, callable]] = [] # (min_freq, max_freq, callback)
+        self.listeners: List[Tuple[float, float, callable]] = [] 
+        self.battery = 100.0  # Vibrational Potential (Resilience)
+        self.entropy = 0.0    # Phase Friction (Heat from State Changes)
         self._initialize_structure()
         
     def _initialize_structure(self):
@@ -98,31 +102,62 @@ class ResonanceField:
         self._connect("System", "Memory")
         self._connect("System", "Interface")
         self._connect("Intelligence", "Evolution")
+
+    def add_node(self, id: str, energy: float, frequency: float, position: Tuple[float, float, float] = (0,0,0)):
+        """
+        Manually adds a node to the field (used by DreamEngine).
+        """
+        self.nodes[id] = ResonanceNode(
+            id=id,
+            pillar=PillarType.CREATIVITY, # Default for dreams
+            position=position,
+            frequency=frequency,
+            energy=energy
+        )
         
     def inject_wave(self, frequency: float, intensity: float, wave_type: str):
         """
         외부 파동(Synesthesia)을 공명장에 주입합니다.
-        wave_type: 'Visual', 'Audio', 'Tactile'
         """
-        # 가장 가까운 주파수의 기둥을 찾아 공명시킴
         target_node = min(self.nodes.values(), key=lambda n: abs(n.frequency - frequency))
         target_node.energy += intensity * 10.0
-        
-        # 전체 공명장 에너지 증가
         self.nodes["Foundation"].energy += intensity
         
-        # 시각적 효과 (로그 출력)
-        colors = {
-            "Visual": "🎨",
-            "Audio": "🎵",
-            "Tactile": "💓"
-        }
+        colors = {"Visual": "🎨", "Audio": "🎵", "Tactile": "💓"}
         icon = colors.get(wave_type, "🌊")
         print(f"      {icon} Synesthesia Wave Injected: {frequency}Hz ({wave_type}) -> Resonating with {target_node.id}")
 
+    def inject_entropy(self, amount: float):
+        """
+        Injects Heat/Entropy into the system from Hardware.
+        """
+        self.entropy += amount
+        self.entropy = min(100.0, self.entropy) # Cap at 100
+
+    def consume_energy(self, amount: float):
+        """
+        Consumes internal battery for actions.
+        """
+        self.battery -= amount
+        self.battery = max(0.0, self.battery)
+
+    def recover_energy(self, amount: float):
+        """
+        Recovers internal battery (e.g., during Rest).
+        """
+        self.battery += amount
+        self.battery = min(100.0, self.battery)
+        
+    def dissipate_entropy(self, amount: float):
+        """
+        Dissipates entropy (Cooling down).
+        """
+        self.entropy -= amount
+        self.entropy = max(0.0, self.entropy)
+
     @property
     def total_energy(self) -> float:
-        """전체 시스템 에너지 총합"""
+        """전체 시스템 에너지 총합 (Vibration Energy)"""
         return sum(node.energy for node in self.nodes.values())
 
     @property
@@ -156,7 +191,7 @@ class ResonanceField:
                 pillar=PillarType.SYSTEM, # Default
                 position=(0,0,0),
                 frequency=frequency,
-                energy=0.5
+                energy=1.0
             )
 
     def pulse(self) -> ResonanceState:
@@ -211,6 +246,8 @@ class ResonanceField:
         return ResonanceState(
             timestamp=time.time(),
             total_energy=total_energy,
+            battery=self.battery,
+            entropy=self.entropy,
             coherence=coherence,
             active_nodes=active_count,
             dominant_frequency=dominant_freq

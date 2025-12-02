@@ -120,7 +120,7 @@ class Chronos:
         
         if energy > 50.0:
             # Acceleration Phase
-            factor = 1.0 - ((energy - 50.0) / 100.0) # 1.0 -> 0.5
+            factor = max(0.1, 1.0 - ((energy - 50.0) / 100.0)) # 1.0 -> 0.1 (Clamped)
         else:
             # Deceleration Phase
             factor = 1.0 + ((50.0 - energy) / 50.0) # 1.0 -> 2.0

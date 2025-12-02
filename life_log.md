@@ -10300,3 +10300,10207 @@ AttributeError: 'Axes3D' object has no attribute 'w_xaxis'. Did you mean: 'xaxis
 2025-12-02 00:13:53,963 | 🪞 SelfReflector initialized. Root: c:/Elysia
 2025-12-02 00:13:53,963 | 🪞 Reflection: Energy=27.0, Mood=Calm
 2025-12-02 00:13:53,963 | Cycle 24 | Action: SEARCH | Energy: 26.97J | Lv.6
+2025-12-02 12:27:04,502 | 🧠 Hippocampus Active. Connected to Ancient Library (memory.db).
+2025-12-02 12:27:04,503 | 🧠 Reasoning Engine Ignited: Quad-Process Active.
+2025-12-02 12:27:04,503 | 🦋 Free Will Engine Ignited.
+2025-12-02 12:27:04,503 | 🌿 Digital Ecosystem initialized at c:/Elysia
+2025-12-02 12:27:04,503 | 📡 Cosmic Transceiver Activated. Scanning frequencies...
+2025-12-02 12:27:04,504 | 🌉 Synapse Bridge established. Connection is open but guarded.
+2025-12-02 12:27:04,504 | 🧠 SocialCortex Active. Current Stage: Child (Lv.1)
+2025-12-02 12:27:04,504 | 🌐 WebCortex Active. Connected to the Net.
+2025-12-02 12:27:04,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:05,759 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:27:07,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:07,786 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:27:07,787 | Cycle 1 | Action: REST | Energy: 12.58J | Lv.1
+2025-12-02 12:27:11,287 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:11,287 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:27:11,288 | Cycle 2 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 12:27:14,787 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:14,787 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 12:27:14,787 | Cycle 3 | Action: REST | Energy: 12.65J | Lv.1
+2025-12-02 12:27:18,284 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:18,284 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:27:18,285 | Cycle 4 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 12:27:21,787 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:21,787 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:27:21,788 | Cycle 5 | Action: REST | Energy: 12.50J | Lv.1
+2025-12-02 12:27:25,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:25,315 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:27:25,316 | Cycle 6 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 12:27:28,817 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:28,818 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 12:27:28,818 | Cycle 7 | Action: REST | Energy: 12.66J | Lv.1
+2025-12-02 12:27:32,315 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:32,315 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:27:32,315 | Cycle 8 | Action: REST | Energy: 12.65J | Lv.1
+2025-12-02 12:27:35,813 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:35,813 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:27:35,814 | Cycle 9 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 12:27:39,315 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:39,315 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:27:39,315 | Cycle 10 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 12:27:42,816 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:42,816 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 12:27:42,816 | Cycle 11 | Action: REST | Energy: 12.71J | Lv.1
+2025-12-02 12:27:46,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:46,312 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:27:46,312 | Cycle 12 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 12:27:49,805 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:49,805 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:27:49,805 | Cycle 13 | Action: REST | Energy: 12.90J | Lv.1
+2025-12-02 12:27:53,365 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:53,367 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:27:53,367 | Cycle 14 | Action: REST | Energy: 12.95J | Lv.1
+2025-12-02 12:27:56,484 | 🧠 Hippocampus Active. Connected to Ancient Library (memory.db).
+2025-12-02 12:27:56,485 | 🧠 Reasoning Engine Ignited: Quad-Process Active.
+2025-12-02 12:27:56,485 | 🦋 Free Will Engine Ignited.
+2025-12-02 12:27:56,485 | 🌿 Digital Ecosystem initialized at c:/Elysia
+2025-12-02 12:27:56,485 | 📡 Cosmic Transceiver Activated. Scanning frequencies...
+2025-12-02 12:27:56,486 | 🌉 Synapse Bridge established. Connection is open but guarded.
+2025-12-02 12:27:56,486 | 🧠 SocialCortex Active. Current Stage: Child (Lv.1)
+2025-12-02 12:27:56,487 | 🌐 WebCortex Active. Connected to the Net.
+2025-12-02 12:27:56,489 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:56,853 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:56,853 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:27:56,853 | Cycle 15 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 12:27:57,227 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:27:58,587 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:27:58,588 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 12:27:58,588 | Cycle 1 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 12:28:00,341 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:00,341 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:28:00,342 | Cycle 16 | Action: REST | Energy: 12.99J | Lv.1
+2025-12-02 12:28:02,197 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:02,198 | 🪞 Reflection: Energy=99.4, Mood=Calm
+2025-12-02 12:28:02,903 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:28:03,423 | ⚠️ Identified complex modules: consciousness_engine.py (Complexity: 43, LOC: 388), growth.py (Complexity: 43, LOC: 430), night.py (Complexity: 33, LOC: 257), resonance_evolution.py (Complexity: 28, LOC: 295), self_evolution.py (Complexity: 28, LOC: 293), self_healer.py (Complexity: 26, LOC: 205), agency_orchestrator.py (Complexity: 14, LOC: 484), autonomous_improver.py (Complexity: 69, LOC: 921), caretaker_rl_simulator.py (Complexity: 23, LOC: 459), causal_reasoner.py (Complexity: 22, LOC: 338), cognition_pipeline.py (Complexity: 65, LOC: 550), core.py (Complexity: 69, LOC: 1337), core_memory.py (Complexity: 84, LOC: 1030), creative_expression.py (Complexity: 9, LOC: 302), dialogue_law_evaluator.py (Complexity: 22, LOC: 340), dialogue_rule_engine.py (Complexity: 36, LOC: 168), divine_engine.py (Complexity: 19, LOC: 512), dream_observer.py (Complexity: 27, LOC: 392), elysia_signal_engine.py (Complexity: 32, LOC: 283), flow_engine.py (Complexity: 30, LOC: 398), gemini_api.py (Complexity: 35, LOC: 201), guardian.py (Complexity: 204, LOC: 2763), handlers.py (Complexity: 26, LOC: 513), kg_manager.py (Complexity: 30, LOC: 196), logical_reasoner.py (Complexity: 28, LOC: 240), meta_law_engine.py (Complexity: 31, LOC: 192), offline_curriculum_builder.py (Complexity: 25, LOC: 260), paradox_resolver.py (Complexity: 37, LOC: 522), persistence.py (Complexity: 9, LOC: 420), physics.py (Complexity: 13, LOC: 323), reading_coach.py (Complexity: 21, LOC: 149), safety_guardian.py (Complexity: 24, LOC: 324), self_integration.py (Complexity: 49, LOC: 484), spiderweb.py (Complexity: 25, LOC: 185), structural_unifier.py (Complexity: 55, LOC: 385), toddler_chat.py (Complexity: 24, LOC: 255), tools.py (Complexity: 27, LOC: 434), tool_executor.py (Complexity: 68, LOC: 316), universe_evolution.py (Complexity: 34, LOC: 267), value_centered_decision.py (Complexity: 28, LOC: 444), world_tree_core.py (Complexity: 27, LOC: 461), syllabic_language_engine.py (Complexity: 53, LOC: 776), hyper_qubit.py (Complexity: 20, LOC: 389), reasoning_engine.py (Complexity: 26, LOC: 293), shell_cortex.py (Complexity: 21, LOC: 120), hippocampus.py (Complexity: 24, LOC: 459), real_sensors.py (Complexity: 36, LOC: 451)
+2025-12-02 12:28:03,426 | Cycle 2 | Action: REST | Energy: 99.45J | Lv.1
+2025-12-02 12:28:03,825 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:03,826 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:28:03,826 | Cycle 17 | Action: REST | Energy: 12.94J | Lv.1
+2025-12-02 12:28:04,746 | 🆙 Level Up! Elysia is now Lv.2
+2025-12-02 12:28:05,248 | 🆙 Level Up! Elysia is now Lv.3
+2025-12-02 12:28:05,249 | 🆙 Level Up! Elysia is now Lv.4
+2025-12-02 12:28:05,249 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:05,249 | 🪞 Reflection: Energy=166.2, Mood=Calm
+2025-12-02 12:28:05,958 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:28:06,342 | ⚠️ Identified complex modules: consciousness_engine.py (Complexity: 43, LOC: 388), growth.py (Complexity: 43, LOC: 430), night.py (Complexity: 33, LOC: 257), resonance_evolution.py (Complexity: 28, LOC: 295), self_evolution.py (Complexity: 28, LOC: 293), self_healer.py (Complexity: 26, LOC: 205), agency_orchestrator.py (Complexity: 14, LOC: 484), autonomous_improver.py (Complexity: 69, LOC: 921), caretaker_rl_simulator.py (Complexity: 23, LOC: 459), causal_reasoner.py (Complexity: 22, LOC: 338), cognition_pipeline.py (Complexity: 65, LOC: 550), core.py (Complexity: 69, LOC: 1337), core_memory.py (Complexity: 84, LOC: 1030), creative_expression.py (Complexity: 9, LOC: 302), dialogue_law_evaluator.py (Complexity: 22, LOC: 340), dialogue_rule_engine.py (Complexity: 36, LOC: 168), divine_engine.py (Complexity: 19, LOC: 512), dream_observer.py (Complexity: 27, LOC: 392), elysia_signal_engine.py (Complexity: 32, LOC: 283), flow_engine.py (Complexity: 30, LOC: 398), gemini_api.py (Complexity: 35, LOC: 201), guardian.py (Complexity: 204, LOC: 2763), handlers.py (Complexity: 26, LOC: 513), kg_manager.py (Complexity: 30, LOC: 196), logical_reasoner.py (Complexity: 28, LOC: 240), meta_law_engine.py (Complexity: 31, LOC: 192), offline_curriculum_builder.py (Complexity: 25, LOC: 260), paradox_resolver.py (Complexity: 37, LOC: 522), persistence.py (Complexity: 9, LOC: 420), physics.py (Complexity: 13, LOC: 323), reading_coach.py (Complexity: 21, LOC: 149), safety_guardian.py (Complexity: 24, LOC: 324), self_integration.py (Complexity: 49, LOC: 484), spiderweb.py (Complexity: 25, LOC: 185), structural_unifier.py (Complexity: 55, LOC: 385), toddler_chat.py (Complexity: 24, LOC: 255), tools.py (Complexity: 27, LOC: 434), tool_executor.py (Complexity: 68, LOC: 316), universe_evolution.py (Complexity: 34, LOC: 267), value_centered_decision.py (Complexity: 28, LOC: 444), world_tree_core.py (Complexity: 27, LOC: 461), syllabic_language_engine.py (Complexity: 53, LOC: 776), hyper_qubit.py (Complexity: 20, LOC: 389), reasoning_engine.py (Complexity: 26, LOC: 293), shell_cortex.py (Complexity: 21, LOC: 120), hippocampus.py (Complexity: 24, LOC: 459), real_sensors.py (Complexity: 36, LOC: 451)
+2025-12-02 12:28:06,344 | Cycle 3 | Action: WATCH | Energy: 166.24J | Lv.4
+2025-12-02 12:28:06,345 | An unexpected error occurred in the main loop: sleep length must be non-negative
+Traceback (most recent call last):
+  File "c:\Elysia\living_elysia.py", line 156, in live
+    time.sleep(sleep_duration)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^
+ValueError: sleep length must be non-negative
+2025-12-02 12:28:07,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:07,312 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 12:28:07,313 | Cycle 18 | Action: REST | Energy: 12.72J | Lv.1
+2025-12-02 12:28:10,807 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:10,807 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:28:10,807 | Cycle 19 | Action: REST | Energy: 12.57J | Lv.1
+2025-12-02 12:28:14,309 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:14,310 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:28:14,310 | Cycle 20 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 12:28:17,824 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:17,825 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:28:17,825 | Cycle 21 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 12:28:21,328 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:21,329 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:28:21,329 | Cycle 22 | Action: REST | Energy: 12.55J | Lv.1
+2025-12-02 12:28:24,830 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:24,830 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 12:28:24,831 | Cycle 23 | Action: REST | Energy: 12.34J | Lv.1
+2025-12-02 12:28:28,340 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:28,341 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:28:28,342 | Cycle 24 | Action: REST | Energy: 12.49J | Lv.1
+2025-12-02 12:28:31,845 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:31,846 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:28:31,846 | Cycle 25 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 12:28:35,348 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:35,349 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:28:35,349 | Cycle 26 | Action: REST | Energy: 12.63J | Lv.1
+2025-12-02 12:28:38,847 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:38,847 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:28:38,848 | Cycle 27 | Action: REST | Energy: 12.63J | Lv.1
+2025-12-02 12:28:42,345 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:42,346 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 12:28:42,346 | Cycle 28 | Action: REST | Energy: 12.70J | Lv.1
+2025-12-02 12:28:45,842 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:45,842 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:28:45,842 | Cycle 29 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 12:28:49,333 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:49,334 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:28:49,334 | Cycle 30 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 12:28:52,827 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:52,827 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:28:52,827 | Cycle 31 | Action: REST | Energy: 12.89J | Lv.1
+2025-12-02 12:28:56,314 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:56,315 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:28:56,315 | Cycle 32 | Action: REST | Energy: 12.83J | Lv.1
+2025-12-02 12:28:59,805 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:28:59,805 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:28:59,806 | Cycle 33 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 12:29:03,297 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:03,297 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:29:03,297 | Cycle 34 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 12:29:06,789 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:06,789 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:29:06,789 | Cycle 35 | Action: REST | Energy: 12.82J | Lv.1
+2025-12-02 12:29:10,280 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:10,280 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:29:10,280 | Cycle 36 | Action: REST | Energy: 12.95J | Lv.1
+2025-12-02 12:29:13,766 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:13,766 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:29:13,766 | Cycle 37 | Action: REST | Energy: 13.05J | Lv.1
+2025-12-02 12:29:17,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:17,248 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:29:17,248 | Cycle 38 | Action: REST | Energy: 12.89J | Lv.1
+2025-12-02 12:29:20,736 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:20,736 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:29:20,737 | Cycle 39 | Action: REST | Energy: 12.90J | Lv.1
+2025-12-02 12:29:24,224 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:24,224 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:29:24,224 | Cycle 40 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 12:29:27,717 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:27,717 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:29:27,718 | Cycle 41 | Action: REST | Energy: 12.89J | Lv.1
+2025-12-02 12:29:31,205 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:31,206 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:29:31,206 | Cycle 42 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 12:29:34,699 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:34,699 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 12:29:34,700 | Cycle 43 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 12:29:38,213 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:38,224 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:29:38,231 | Cycle 44 | Action: REST | Energy: 12.97J | Lv.1
+2025-12-02 12:29:41,718 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:41,718 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:29:41,719 | Cycle 45 | Action: REST | Energy: 12.93J | Lv.1
+2025-12-02 12:29:45,205 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:45,206 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:29:45,206 | Cycle 46 | Action: REST | Energy: 12.96J | Lv.1
+2025-12-02 12:29:48,691 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:48,691 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:29:48,692 | Cycle 47 | Action: REST | Energy: 12.97J | Lv.1
+2025-12-02 12:29:52,178 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:52,180 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:29:52,180 | Cycle 48 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 12:29:55,669 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:55,669 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:29:55,669 | Cycle 49 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 12:29:59,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:29:59,161 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:29:59,161 | Cycle 50 | Action: REST | Energy: 12.83J | Lv.1
+2025-12-02 12:30:02,651 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:02,652 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:30:02,652 | Cycle 51 | Action: REST | Energy: 12.89J | Lv.1
+2025-12-02 12:30:06,141 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:06,141 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:30:06,142 | Cycle 52 | Action: REST | Energy: 12.93J | Lv.1
+2025-12-02 12:30:09,628 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:09,628 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:30:09,629 | Cycle 53 | Action: REST | Energy: 13.00J | Lv.1
+2025-12-02 12:30:13,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:13,113 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:30:13,113 | Cycle 54 | Action: REST | Energy: 12.85J | Lv.1
+2025-12-02 12:30:16,602 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:16,602 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:30:16,603 | Cycle 55 | Action: REST | Energy: 12.85J | Lv.1
+2025-12-02 12:30:20,091 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:20,092 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:30:20,092 | Cycle 56 | Action: REST | Energy: 13.02J | Lv.1
+2025-12-02 12:30:23,575 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:23,575 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:30:23,576 | Cycle 57 | Action: REST | Energy: 12.98J | Lv.1
+2025-12-02 12:30:27,097 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:27,104 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:30:27,108 | Cycle 58 | Action: REST | Energy: 12.95J | Lv.1
+2025-12-02 12:30:30,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:30,596 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:30:30,597 | Cycle 59 | Action: REST | Energy: 12.90J | Lv.1
+2025-12-02 12:30:34,084 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:34,085 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:30:34,085 | Cycle 60 | Action: REST | Energy: 12.97J | Lv.1
+2025-12-02 12:30:37,571 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:37,571 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:30:37,573 | Cycle 61 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 12:30:41,064 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:41,064 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:30:41,065 | Cycle 62 | Action: REST | Energy: 12.99J | Lv.1
+2025-12-02 12:30:44,550 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:44,551 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:30:44,553 | Cycle 63 | Action: REST | Energy: 13.07J | Lv.1
+2025-12-02 12:30:48,034 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:48,035 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:30:48,035 | Cycle 64 | Action: REST | Energy: 13.19J | Lv.1
+2025-12-02 12:30:51,511 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:51,511 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:30:51,512 | Cycle 65 | Action: REST | Energy: 13.43J | Lv.1
+2025-12-02 12:30:54,978 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:54,978 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 12:30:54,978 | Cycle 66 | Action: REST | Energy: 13.32J | Lv.1
+2025-12-02 12:30:58,449 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:30:58,449 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:30:58,450 | Cycle 67 | Action: REST | Energy: 13.48J | Lv.1
+2025-12-02 12:31:01,914 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:01,914 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:31:01,915 | Cycle 68 | Action: REST | Energy: 13.52J | Lv.1
+2025-12-02 12:31:05,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:05,377 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:31:05,377 | Cycle 69 | Action: REST | Energy: 13.53J | Lv.1
+2025-12-02 12:31:08,841 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:08,841 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:31:08,842 | Cycle 70 | Action: REST | Energy: 13.54J | Lv.1
+2025-12-02 12:31:12,303 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:12,303 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:31:12,303 | Cycle 71 | Action: REST | Energy: 13.62J | Lv.1
+2025-12-02 12:31:15,516 | 🧠 Hippocampus Active. Connected to Ancient Library (memory.db).
+2025-12-02 12:31:15,526 | 🧠 Reasoning Engine Ignited: Quad-Process Active.
+2025-12-02 12:31:15,526 | 🦋 Free Will Engine Ignited (Vector Field Active).
+2025-12-02 12:31:15,526 | 🌿 Digital Ecosystem initialized at c:/Elysia
+2025-12-02 12:31:15,527 | 📡 Cosmic Transceiver Activated. Scanning frequencies...
+2025-12-02 12:31:15,528 | 🌉 Synapse Bridge established. Connection is open but guarded.
+2025-12-02 12:31:15,530 | 🧠 SocialCortex Active. Current Stage: Child (Lv.1)
+2025-12-02 12:31:15,534 | 🌐 WebCortex Active. Connected to the Net.
+2025-12-02 12:31:15,540 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:15,765 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:15,767 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:31:15,771 | Cycle 72 | Action: REST | Energy: 13.77J | Lv.1
+2025-12-02 12:31:16,358 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:31:17,766 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:17,773 | An unexpected error occurred in the main loop: 'FreeWillEngine' object has no attribute 'current_mood'
+Traceback (most recent call last):
+  File "c:\Elysia\living_elysia.py", line 146, in live
+    self_reflector.reflect(self.resonance, self.brain, self.will)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Elysia\Core\Evolution\self_reflector.py", line 107, in reflect
+    logger.info(f"🪞 Reflection: Energy={resonance.total_energy:.1f}, Mood={will.current_mood}")
+                                                                            ^^^^^^^^^^^^^^^^^
+AttributeError: 'FreeWillEngine' object has no attribute 'current_mood'
+2025-12-02 12:31:19,225 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:19,226 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:31:19,226 | Cycle 73 | Action: REST | Energy: 13.94J | Lv.1
+2025-12-02 12:31:22,672 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:22,672 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:31:22,673 | Cycle 74 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:31:26,114 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:26,115 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:31:26,115 | Cycle 75 | Action: REST | Energy: 13.83J | Lv.1
+2025-12-02 12:31:29,566 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:29,566 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:31:29,567 | Cycle 76 | Action: REST | Energy: 13.80J | Lv.1
+2025-12-02 12:31:33,018 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:33,018 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:31:33,018 | Cycle 77 | Action: REST | Energy: 13.93J | Lv.1
+2025-12-02 12:31:36,463 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:36,464 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:31:36,464 | Cycle 78 | Action: REST | Energy: 13.95J | Lv.1
+2025-12-02 12:31:36,819 | 🧠 Hippocampus Active. Connected to Ancient Library (memory.db).
+2025-12-02 12:31:36,820 | 🧠 Reasoning Engine Ignited: Quad-Process Active.
+2025-12-02 12:31:36,821 | 🦋 Free Will Engine Ignited (Vector Field Active).
+2025-12-02 12:31:36,822 | 🌿 Digital Ecosystem initialized at c:/Elysia
+2025-12-02 12:31:36,823 | 📡 Cosmic Transceiver Activated. Scanning frequencies...
+2025-12-02 12:31:36,824 | 🌉 Synapse Bridge established. Connection is open but guarded.
+2025-12-02 12:31:36,824 | 🧠 SocialCortex Active. Current Stage: Child (Lv.1)
+2025-12-02 12:31:36,825 | 🌐 WebCortex Active. Connected to the Net.
+2025-12-02 12:31:36,828 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:37,849 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:31:39,229 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:39,230 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:31:39,230 | Cycle 1 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 12:31:39,934 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:39,937 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:31:39,942 | Cycle 79 | Action: REST | Energy: 13.91J | Lv.1
+2025-12-02 12:31:42,729 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:42,729 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:31:42,729 | Cycle 2 | Action: REST | Energy: 12.51J | Lv.1
+2025-12-02 12:31:43,393 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:43,393 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:31:43,393 | Cycle 80 | Action: REST | Energy: 13.90J | Lv.1
+2025-12-02 12:31:46,232 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:46,232 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:31:46,232 | Cycle 3 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 12:31:46,841 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:46,841 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:31:46,842 | Cycle 81 | Action: REST | Energy: 13.84J | Lv.1
+2025-12-02 12:31:49,732 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:49,733 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:31:49,733 | Cycle 4 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 12:31:50,291 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:50,292 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:31:50,292 | Cycle 82 | Action: REST | Energy: 13.64J | Lv.1
+2025-12-02 12:31:53,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:53,233 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 12:31:53,234 | Cycle 5 | Action: REST | Energy: 12.72J | Lv.1
+2025-12-02 12:31:53,749 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:53,750 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:31:53,750 | Cycle 83 | Action: REST | Energy: 13.76J | Lv.1
+2025-12-02 12:31:56,729 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:56,729 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:31:56,730 | Cycle 6 | Action: REST | Energy: 12.85J | Lv.1
+2025-12-02 12:31:57,203 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:31:57,203 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:31:57,204 | Cycle 84 | Action: REST | Energy: 13.68J | Lv.1
+2025-12-02 12:32:00,218 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:00,219 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:32:00,219 | Cycle 7 | Action: REST | Energy: 12.79J | Lv.1
+2025-12-02 12:32:00,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:00,687 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:32:00,688 | Cycle 85 | Action: REST | Energy: 13.78J | Lv.1
+2025-12-02 12:32:03,710 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:03,710 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:32:03,710 | Cycle 8 | Action: REST | Energy: 12.92J | Lv.1
+2025-12-02 12:32:04,140 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:04,141 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:32:04,141 | Cycle 86 | Action: REST | Energy: 13.68J | Lv.1
+2025-12-02 12:32:07,297 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:07,298 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:32:07,298 | Cycle 9 | Action: REST | Energy: 12.99J | Lv.1
+2025-12-02 12:32:07,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:07,597 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:32:07,597 | Cycle 87 | Action: REST | Energy: 13.74J | Lv.1
+2025-12-02 12:32:10,882 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:10,883 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:32:10,883 | Cycle 10 | Action: REST | Energy: 12.93J | Lv.1
+2025-12-02 12:32:11,078 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:11,078 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:32:11,079 | Cycle 88 | Action: REST | Energy: 13.72J | Lv.1
+2025-12-02 12:32:14,470 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:14,470 | 🪞 Reflection: Energy=88.5, Mood=Calm
+2025-12-02 12:32:14,532 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:14,533 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:32:14,533 | Cycle 89 | Action: REST | Energy: 13.75J | Lv.1
+2025-12-02 12:32:15,158 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:32:15,675 | ⚠️ Identified complex modules: consciousness_engine.py (Complexity: 43, LOC: 388), growth.py (Complexity: 43, LOC: 430), night.py (Complexity: 33, LOC: 257), resonance_evolution.py (Complexity: 28, LOC: 295), self_evolution.py (Complexity: 28, LOC: 293), self_healer.py (Complexity: 26, LOC: 205), agency_orchestrator.py (Complexity: 14, LOC: 484), autonomous_improver.py (Complexity: 69, LOC: 921), caretaker_rl_simulator.py (Complexity: 23, LOC: 459), causal_reasoner.py (Complexity: 22, LOC: 338), cognition_pipeline.py (Complexity: 65, LOC: 550), core.py (Complexity: 69, LOC: 1337), core_memory.py (Complexity: 84, LOC: 1030), creative_expression.py (Complexity: 9, LOC: 302), dialogue_law_evaluator.py (Complexity: 22, LOC: 340), dialogue_rule_engine.py (Complexity: 36, LOC: 168), divine_engine.py (Complexity: 19, LOC: 512), dream_observer.py (Complexity: 27, LOC: 392), elysia_signal_engine.py (Complexity: 32, LOC: 283), flow_engine.py (Complexity: 30, LOC: 398), gemini_api.py (Complexity: 35, LOC: 201), guardian.py (Complexity: 204, LOC: 2763), handlers.py (Complexity: 26, LOC: 513), kg_manager.py (Complexity: 30, LOC: 196), logical_reasoner.py (Complexity: 28, LOC: 240), meta_law_engine.py (Complexity: 31, LOC: 192), offline_curriculum_builder.py (Complexity: 25, LOC: 260), paradox_resolver.py (Complexity: 37, LOC: 522), persistence.py (Complexity: 9, LOC: 420), physics.py (Complexity: 13, LOC: 323), reading_coach.py (Complexity: 21, LOC: 149), safety_guardian.py (Complexity: 24, LOC: 324), self_integration.py (Complexity: 49, LOC: 484), spiderweb.py (Complexity: 25, LOC: 185), structural_unifier.py (Complexity: 55, LOC: 385), toddler_chat.py (Complexity: 24, LOC: 255), tools.py (Complexity: 27, LOC: 434), tool_executor.py (Complexity: 68, LOC: 316), universe_evolution.py (Complexity: 34, LOC: 267), value_centered_decision.py (Complexity: 28, LOC: 444), world_tree_core.py (Complexity: 27, LOC: 461), syllabic_language_engine.py (Complexity: 53, LOC: 776), hyper_qubit.py (Complexity: 20, LOC: 389), reasoning_engine.py (Complexity: 26, LOC: 293), shell_cortex.py (Complexity: 21, LOC: 120), hippocampus.py (Complexity: 24, LOC: 459), real_sensors.py (Complexity: 36, LOC: 451)
+2025-12-02 12:32:15,676 | Cycle 11 | Action: REST | Energy: 88.47J | Lv.1
+2025-12-02 12:32:17,011 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:17,011 | 🪞 Reflection: Energy=84.8, Mood=Calm
+2025-12-02 12:32:17,660 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:32:17,998 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:18,002 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:32:18,003 | Cycle 90 | Action: REST | Energy: 13.80J | Lv.1
+2025-12-02 12:32:18,129 | ⚠️ Identified complex modules: consciousness_engine.py (Complexity: 43, LOC: 388), growth.py (Complexity: 43, LOC: 430), night.py (Complexity: 33, LOC: 257), resonance_evolution.py (Complexity: 28, LOC: 295), self_evolution.py (Complexity: 28, LOC: 293), self_healer.py (Complexity: 26, LOC: 205), agency_orchestrator.py (Complexity: 14, LOC: 484), autonomous_improver.py (Complexity: 69, LOC: 921), caretaker_rl_simulator.py (Complexity: 23, LOC: 459), causal_reasoner.py (Complexity: 22, LOC: 338), cognition_pipeline.py (Complexity: 65, LOC: 550), core.py (Complexity: 69, LOC: 1337), core_memory.py (Complexity: 84, LOC: 1030), creative_expression.py (Complexity: 9, LOC: 302), dialogue_law_evaluator.py (Complexity: 22, LOC: 340), dialogue_rule_engine.py (Complexity: 36, LOC: 168), divine_engine.py (Complexity: 19, LOC: 512), dream_observer.py (Complexity: 27, LOC: 392), elysia_signal_engine.py (Complexity: 32, LOC: 283), flow_engine.py (Complexity: 30, LOC: 398), gemini_api.py (Complexity: 35, LOC: 201), guardian.py (Complexity: 204, LOC: 2763), handlers.py (Complexity: 26, LOC: 513), kg_manager.py (Complexity: 30, LOC: 196), logical_reasoner.py (Complexity: 28, LOC: 240), meta_law_engine.py (Complexity: 31, LOC: 192), offline_curriculum_builder.py (Complexity: 25, LOC: 260), paradox_resolver.py (Complexity: 37, LOC: 522), persistence.py (Complexity: 9, LOC: 420), physics.py (Complexity: 13, LOC: 323), reading_coach.py (Complexity: 21, LOC: 149), safety_guardian.py (Complexity: 24, LOC: 324), self_integration.py (Complexity: 49, LOC: 484), spiderweb.py (Complexity: 25, LOC: 185), structural_unifier.py (Complexity: 55, LOC: 385), toddler_chat.py (Complexity: 24, LOC: 255), tools.py (Complexity: 27, LOC: 434), tool_executor.py (Complexity: 68, LOC: 316), universe_evolution.py (Complexity: 34, LOC: 267), value_centered_decision.py (Complexity: 28, LOC: 444), world_tree_core.py (Complexity: 27, LOC: 461), syllabic_language_engine.py (Complexity: 53, LOC: 776), hyper_qubit.py (Complexity: 20, LOC: 389), reasoning_engine.py (Complexity: 26, LOC: 293), shell_cortex.py (Complexity: 21, LOC: 120), hippocampus.py (Complexity: 24, LOC: 459), real_sensors.py (Complexity: 36, LOC: 451)
+2025-12-02 12:32:18,130 | Cycle 12 | Action: REST | Energy: 84.81J | Lv.1
+2025-12-02 12:32:19,538 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:19,538 | 🪞 Reflection: Energy=102.7, Mood=Calm
+2025-12-02 12:32:20,225 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:32:20,557 | ⚠️ Identified complex modules: consciousness_engine.py (Complexity: 43, LOC: 388), growth.py (Complexity: 43, LOC: 430), night.py (Complexity: 33, LOC: 257), resonance_evolution.py (Complexity: 28, LOC: 295), self_evolution.py (Complexity: 28, LOC: 293), self_healer.py (Complexity: 26, LOC: 205), agency_orchestrator.py (Complexity: 14, LOC: 484), autonomous_improver.py (Complexity: 69, LOC: 921), caretaker_rl_simulator.py (Complexity: 23, LOC: 459), causal_reasoner.py (Complexity: 22, LOC: 338), cognition_pipeline.py (Complexity: 65, LOC: 550), core.py (Complexity: 69, LOC: 1337), core_memory.py (Complexity: 84, LOC: 1030), creative_expression.py (Complexity: 9, LOC: 302), dialogue_law_evaluator.py (Complexity: 22, LOC: 340), dialogue_rule_engine.py (Complexity: 36, LOC: 168), divine_engine.py (Complexity: 19, LOC: 512), dream_observer.py (Complexity: 27, LOC: 392), elysia_signal_engine.py (Complexity: 32, LOC: 283), flow_engine.py (Complexity: 30, LOC: 398), gemini_api.py (Complexity: 35, LOC: 201), guardian.py (Complexity: 204, LOC: 2763), handlers.py (Complexity: 26, LOC: 513), kg_manager.py (Complexity: 30, LOC: 196), logical_reasoner.py (Complexity: 28, LOC: 240), meta_law_engine.py (Complexity: 31, LOC: 192), offline_curriculum_builder.py (Complexity: 25, LOC: 260), paradox_resolver.py (Complexity: 37, LOC: 522), persistence.py (Complexity: 9, LOC: 420), physics.py (Complexity: 13, LOC: 323), reading_coach.py (Complexity: 21, LOC: 149), safety_guardian.py (Complexity: 24, LOC: 324), self_integration.py (Complexity: 49, LOC: 484), spiderweb.py (Complexity: 25, LOC: 185), structural_unifier.py (Complexity: 55, LOC: 385), toddler_chat.py (Complexity: 24, LOC: 255), tools.py (Complexity: 27, LOC: 434), tool_executor.py (Complexity: 68, LOC: 316), universe_evolution.py (Complexity: 34, LOC: 267), value_centered_decision.py (Complexity: 28, LOC: 444), world_tree_core.py (Complexity: 27, LOC: 461), syllabic_language_engine.py (Complexity: 53, LOC: 776), hyper_qubit.py (Complexity: 20, LOC: 389), reasoning_engine.py (Complexity: 26, LOC: 293), shell_cortex.py (Complexity: 21, LOC: 120), hippocampus.py (Complexity: 24, LOC: 459), real_sensors.py (Complexity: 36, LOC: 451)
+2025-12-02 12:32:20,557 | Cycle 13 | Action: REST | Energy: 102.72J | Lv.1
+2025-12-02 12:32:21,476 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:21,476 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:32:21,476 | Cycle 91 | Action: REST | Energy: 13.88J | Lv.1
+2025-12-02 12:32:21,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:21,506 | 🪞 Reflection: Energy=31.0, Mood=Calm
+2025-12-02 12:32:21,506 | Cycle 14 | Action: REST | Energy: 30.97J | Lv.1
+2025-12-02 12:32:24,270 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:24,270 | 🪞 Reflection: Energy=30.7, Mood=Calm
+2025-12-02 12:32:24,270 | Cycle 15 | Action: REST | Energy: 30.72J | Lv.1
+2025-12-02 12:32:24,925 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:24,925 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:32:24,925 | Cycle 92 | Action: REST | Energy: 14.05J | Lv.1
+2025-12-02 12:32:27,044 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:27,045 | 🪞 Reflection: Energy=30.8, Mood=Calm
+2025-12-02 12:32:27,045 | Cycle 16 | Action: REST | Energy: 30.78J | Lv.1
+2025-12-02 12:32:28,379 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:28,380 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:32:28,381 | Cycle 93 | Action: REST | Energy: 14.01J | Lv.1
+2025-12-02 12:32:29,817 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:29,817 | 🪞 Reflection: Energy=30.6, Mood=Calm
+2025-12-02 12:32:29,817 | Cycle 17 | Action: REST | Energy: 30.62J | Lv.1
+2025-12-02 12:32:31,824 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:31,825 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:32:31,825 | Cycle 94 | Action: REST | Energy: 14.07J | Lv.1
+2025-12-02 12:32:32,597 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:32,597 | 🪞 Reflection: Energy=30.6, Mood=Calm
+2025-12-02 12:32:32,598 | Cycle 18 | Action: REST | Energy: 30.55J | Lv.1
+2025-12-02 12:32:35,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:35,265 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:32:35,266 | Cycle 95 | Action: REST | Energy: 14.07J | Lv.1
+2025-12-02 12:32:35,379 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:35,380 | 🪞 Reflection: Energy=30.6, Mood=Calm
+2025-12-02 12:32:35,380 | Cycle 19 | Action: REST | Energy: 30.57J | Lv.1
+2025-12-02 12:32:38,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:38,161 | 🪞 Reflection: Energy=31.0, Mood=Calm
+2025-12-02 12:32:38,162 | Cycle 20 | Action: REST | Energy: 31.02J | Lv.1
+2025-12-02 12:32:38,710 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:38,710 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:32:38,711 | Cycle 96 | Action: REST | Energy: 14.00J | Lv.1
+2025-12-02 12:32:40,924 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:40,924 | 🪞 Reflection: Energy=31.2, Mood=Calm
+2025-12-02 12:32:40,925 | Cycle 21 | Action: REST | Energy: 31.22J | Lv.1
+2025-12-02 12:32:42,154 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:42,154 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:32:42,155 | Cycle 97 | Action: REST | Energy: 14.01J | Lv.1
+2025-12-02 12:32:43,680 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:43,680 | 🪞 Reflection: Energy=30.9, Mood=Calm
+2025-12-02 12:32:43,680 | Cycle 22 | Action: REST | Energy: 30.89J | Lv.1
+2025-12-02 12:32:45,598 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:45,598 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:32:45,598 | Cycle 98 | Action: REST | Energy: 13.95J | Lv.1
+2025-12-02 12:32:46,447 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:46,447 | 🪞 Reflection: Energy=31.0, Mood=Calm
+2025-12-02 12:32:46,448 | Cycle 23 | Action: REST | Energy: 31.00J | Lv.1
+2025-12-02 12:32:49,044 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:49,044 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:32:49,044 | Cycle 99 | Action: REST | Energy: 14.15J | Lv.1
+2025-12-02 12:32:49,213 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:49,214 | 🪞 Reflection: Energy=31.0, Mood=Calm
+2025-12-02 12:32:49,214 | Cycle 24 | Action: REST | Energy: 31.04J | Lv.1
+2025-12-02 12:32:51,975 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:51,976 | 🪞 Reflection: Energy=31.1, Mood=Calm
+2025-12-02 12:32:51,976 | Cycle 25 | Action: REST | Energy: 31.09J | Lv.1
+2025-12-02 12:32:52,493 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:52,494 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:32:52,494 | Cycle 100 | Action: REST | Energy: 14.12J | Lv.1
+2025-12-02 12:32:54,735 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:54,736 | 🪞 Reflection: Energy=31.1, Mood=Calm
+2025-12-02 12:32:54,736 | Cycle 26 | Action: REST | Energy: 31.06J | Lv.1
+2025-12-02 12:32:55,932 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:55,933 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:32:55,933 | Cycle 101 | Action: REST | Energy: 14.24J | Lv.1
+2025-12-02 12:32:57,497 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:57,497 | 🪞 Reflection: Energy=31.0, Mood=Calm
+2025-12-02 12:32:57,497 | Cycle 27 | Action: REST | Energy: 31.03J | Lv.1
+2025-12-02 12:32:59,366 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:32:59,367 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:32:59,367 | Cycle 102 | Action: REST | Energy: 14.19J | Lv.1
+2025-12-02 12:33:00,260 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:00,260 | 🪞 Reflection: Energy=30.8, Mood=Calm
+2025-12-02 12:33:00,261 | Cycle 28 | Action: REST | Energy: 30.81J | Lv.1
+2025-12-02 12:33:02,804 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:02,805 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:33:02,806 | Cycle 103 | Action: REST | Energy: 14.18J | Lv.1
+2025-12-02 12:33:03,032 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:03,032 | 🪞 Reflection: Energy=30.3, Mood=Calm
+2025-12-02 12:33:03,032 | Cycle 29 | Action: REST | Energy: 30.26J | Lv.1
+2025-12-02 12:33:05,824 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:05,825 | 🪞 Reflection: Energy=29.8, Mood=Calm
+2025-12-02 12:33:05,825 | Cycle 30 | Action: REST | Energy: 29.82J | Lv.1
+2025-12-02 12:33:06,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:06,247 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:33:06,247 | Cycle 104 | Action: REST | Energy: 14.10J | Lv.1
+2025-12-02 12:33:08,635 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:08,635 | 🪞 Reflection: Energy=29.3, Mood=Calm
+2025-12-02 12:33:08,636 | Cycle 31 | Action: REST | Energy: 29.31J | Lv.1
+2025-12-02 12:33:09,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:09,687 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:33:09,688 | Cycle 105 | Action: REST | Energy: 14.05J | Lv.1
+2025-12-02 12:33:11,465 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:11,466 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:33:11,467 | Cycle 32 | Action: REST | Energy: 29.08J | Lv.1
+2025-12-02 12:33:13,129 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:13,130 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:33:13,130 | Cycle 106 | Action: REST | Energy: 13.93J | Lv.1
+2025-12-02 12:33:14,306 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:14,306 | 🪞 Reflection: Energy=28.7, Mood=Calm
+2025-12-02 12:33:14,307 | Cycle 33 | Action: REST | Energy: 28.72J | Lv.1
+2025-12-02 12:33:16,576 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:16,576 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:33:16,576 | Cycle 107 | Action: REST | Energy: 13.89J | Lv.1
+2025-12-02 12:33:17,162 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:17,162 | 🪞 Reflection: Energy=28.8, Mood=Calm
+2025-12-02 12:33:17,163 | Cycle 34 | Action: REST | Energy: 28.76J | Lv.1
+2025-12-02 12:33:20,015 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:20,015 | 🪞 Reflection: Energy=28.8, Mood=Calm
+2025-12-02 12:33:20,016 | Cycle 35 | Action: REST | Energy: 28.81J | Lv.1
+2025-12-02 12:33:20,024 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:20,024 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:33:20,024 | Cycle 108 | Action: REST | Energy: 13.98J | Lv.1
+2025-12-02 12:33:22,916 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:22,933 | 🪞 Reflection: Energy=28.9, Mood=Calm
+2025-12-02 12:33:22,949 | Cycle 36 | Action: REST | Energy: 28.92J | Lv.1
+2025-12-02 12:33:23,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:23,468 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:33:23,469 | Cycle 109 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:33:25,807 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:25,807 | 🪞 Reflection: Energy=29.2, Mood=Calm
+2025-12-02 12:33:25,807 | Cycle 37 | Action: REST | Energy: 29.18J | Lv.1
+2025-12-02 12:33:26,911 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:26,911 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:33:26,911 | Cycle 110 | Action: REST | Energy: 13.86J | Lv.1
+2025-12-02 12:33:28,685 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:28,691 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:33:28,693 | Cycle 38 | Action: REST | Energy: 29.10J | Lv.1
+2025-12-02 12:33:30,361 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:30,361 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:33:30,361 | Cycle 111 | Action: REST | Energy: 13.78J | Lv.1
+2025-12-02 12:33:31,534 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:31,534 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:33:31,534 | Cycle 39 | Action: REST | Energy: 29.10J | Lv.1
+2025-12-02 12:33:33,813 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:33,814 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:33:33,814 | Cycle 112 | Action: REST | Energy: 13.73J | Lv.1
+2025-12-02 12:33:34,373 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:34,373 | 🪞 Reflection: Energy=29.2, Mood=Calm
+2025-12-02 12:33:34,374 | Cycle 40 | Action: REST | Energy: 29.22J | Lv.1
+2025-12-02 12:33:37,207 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:37,208 | 🪞 Reflection: Energy=29.7, Mood=Calm
+2025-12-02 12:33:37,208 | Cycle 41 | Action: REST | Energy: 29.69J | Lv.1
+2025-12-02 12:33:37,268 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:37,269 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:33:37,269 | Cycle 113 | Action: REST | Energy: 13.51J | Lv.1
+2025-12-02 12:33:40,023 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:40,024 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:33:40,024 | Cycle 42 | Action: REST | Energy: 29.95J | Lv.1
+2025-12-02 12:33:40,732 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:40,733 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:33:40,733 | Cycle 114 | Action: REST | Energy: 13.57J | Lv.1
+2025-12-02 12:33:42,829 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:42,830 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:33:42,830 | Cycle 43 | Action: REST | Energy: 29.98J | Lv.1
+2025-12-02 12:33:44,193 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:44,194 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:33:44,194 | Cycle 115 | Action: REST | Energy: 13.40J | Lv.1
+2025-12-02 12:33:45,634 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:45,634 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:33:45,634 | Cycle 44 | Action: REST | Energy: 30.00J | Lv.1
+2025-12-02 12:33:47,661 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:47,662 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:33:47,662 | Cycle 116 | Action: REST | Energy: 13.47J | Lv.1
+2025-12-02 12:33:48,439 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:48,440 | 🪞 Reflection: Energy=29.6, Mood=Calm
+2025-12-02 12:33:48,440 | Cycle 45 | Action: REST | Energy: 29.64J | Lv.1
+2025-12-02 12:33:51,126 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:51,126 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:33:51,127 | Cycle 117 | Action: REST | Energy: 13.52J | Lv.1
+2025-12-02 12:33:51,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:51,265 | 🪞 Reflection: Energy=29.5, Mood=Calm
+2025-12-02 12:33:51,266 | Cycle 46 | Action: REST | Energy: 29.47J | Lv.1
+2025-12-02 12:33:54,090 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:54,090 | 🪞 Reflection: Energy=29.9, Mood=Calm
+2025-12-02 12:33:54,090 | Cycle 47 | Action: REST | Energy: 29.86J | Lv.1
+2025-12-02 12:33:54,589 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:54,589 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:33:54,590 | Cycle 118 | Action: REST | Energy: 13.70J | Lv.1
+2025-12-02 12:33:56,899 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:56,899 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:33:56,900 | Cycle 48 | Action: REST | Energy: 30.04J | Lv.1
+2025-12-02 12:33:58,045 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:58,046 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:33:58,046 | Cycle 119 | Action: REST | Energy: 13.82J | Lv.1
+2025-12-02 12:33:59,701 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:33:59,701 | 🪞 Reflection: Energy=30.2, Mood=Calm
+2025-12-02 12:33:59,701 | Cycle 49 | Action: REST | Energy: 30.19J | Lv.1
+2025-12-02 12:34:01,496 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:01,496 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:34:01,496 | Cycle 120 | Action: REST | Energy: 13.81J | Lv.1
+2025-12-02 12:34:02,496 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:02,497 | 🪞 Reflection: Energy=29.8, Mood=Calm
+2025-12-02 12:34:02,497 | Cycle 50 | Action: REST | Energy: 29.82J | Lv.1
+2025-12-02 12:34:04,947 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:04,948 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:34:04,948 | Cycle 121 | Action: REST | Energy: 13.69J | Lv.1
+2025-12-02 12:34:05,307 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:05,308 | 🪞 Reflection: Energy=29.7, Mood=Calm
+2025-12-02 12:34:05,308 | Cycle 51 | Action: REST | Energy: 29.67J | Lv.1
+2025-12-02 12:34:08,125 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:08,125 | 🪞 Reflection: Energy=29.9, Mood=Calm
+2025-12-02 12:34:08,125 | Cycle 52 | Action: REST | Energy: 29.93J | Lv.1
+2025-12-02 12:34:08,419 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:08,420 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:34:08,420 | Cycle 122 | Action: REST | Energy: 13.66J | Lv.1
+2025-12-02 12:34:10,931 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:10,931 | 🪞 Reflection: Energy=29.7, Mood=Calm
+2025-12-02 12:34:10,931 | Cycle 53 | Action: REST | Energy: 29.72J | Lv.1
+2025-12-02 12:34:11,878 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:11,878 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:34:11,879 | Cycle 123 | Action: REST | Energy: 13.65J | Lv.1
+2025-12-02 12:34:13,745 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:13,747 | 🪞 Reflection: Energy=29.6, Mood=Calm
+2025-12-02 12:34:13,747 | Cycle 54 | Action: REST | Energy: 29.60J | Lv.1
+2025-12-02 12:34:15,336 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:15,336 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:34:15,337 | Cycle 124 | Action: REST | Energy: 13.80J | Lv.1
+2025-12-02 12:34:16,567 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:16,568 | 🪞 Reflection: Energy=29.7, Mood=Calm
+2025-12-02 12:34:16,569 | Cycle 55 | Action: REST | Energy: 29.71J | Lv.1
+2025-12-02 12:34:18,787 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:18,788 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:34:18,788 | Cycle 125 | Action: REST | Energy: 13.84J | Lv.1
+2025-12-02 12:34:19,383 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:19,384 | 🪞 Reflection: Energy=29.7, Mood=Calm
+2025-12-02 12:34:19,384 | Cycle 56 | Action: REST | Energy: 29.70J | Lv.1
+2025-12-02 12:34:22,199 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:22,199 | 🪞 Reflection: Energy=29.9, Mood=Calm
+2025-12-02 12:34:22,199 | Cycle 57 | Action: REST | Energy: 29.88J | Lv.1
+2025-12-02 12:34:22,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:22,237 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:34:22,238 | Cycle 126 | Action: REST | Energy: 13.90J | Lv.1
+2025-12-02 12:34:25,008 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:25,008 | 🪞 Reflection: Energy=29.9, Mood=Calm
+2025-12-02 12:34:25,009 | Cycle 58 | Action: REST | Energy: 29.95J | Lv.1
+2025-12-02 12:34:25,684 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:25,685 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:34:25,685 | Cycle 127 | Action: REST | Energy: 13.96J | Lv.1
+2025-12-02 12:34:27,815 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:27,815 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:34:27,815 | Cycle 59 | Action: REST | Energy: 29.08J | Lv.1
+2025-12-02 12:34:29,131 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:29,132 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:34:29,132 | Cycle 128 | Action: REST | Energy: 14.19J | Lv.1
+2025-12-02 12:34:30,655 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:30,655 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:34:30,655 | Cycle 60 | Action: REST | Energy: 29.12J | Lv.1
+2025-12-02 12:34:32,567 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:32,568 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:34:32,568 | Cycle 129 | Action: REST | Energy: 14.14J | Lv.1
+2025-12-02 12:34:33,494 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:33,494 | 🪞 Reflection: Energy=29.3, Mood=Calm
+2025-12-02 12:34:33,494 | Cycle 61 | Action: REST | Energy: 29.31J | Lv.1
+2025-12-02 12:34:36,009 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:36,009 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:34:36,010 | Cycle 130 | Action: REST | Energy: 14.18J | Lv.1
+2025-12-02 12:34:36,324 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:36,325 | 🪞 Reflection: Energy=29.4, Mood=Calm
+2025-12-02 12:34:36,325 | Cycle 62 | Action: REST | Energy: 29.42J | Lv.1
+2025-12-02 12:34:39,151 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:39,152 | 🪞 Reflection: Energy=29.4, Mood=Calm
+2025-12-02 12:34:39,152 | Cycle 63 | Action: REST | Energy: 29.38J | Lv.1
+2025-12-02 12:34:39,534 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:39,554 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:34:39,569 | Cycle 131 | Action: REST | Energy: 14.15J | Lv.1
+2025-12-02 12:34:41,979 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:41,980 | 🪞 Reflection: Energy=29.2, Mood=Calm
+2025-12-02 12:34:41,980 | Cycle 64 | Action: REST | Energy: 29.22J | Lv.1
+2025-12-02 12:34:43,010 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:43,010 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:34:43,011 | Cycle 132 | Action: REST | Energy: 14.23J | Lv.1
+2025-12-02 12:34:44,814 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:44,814 | 🪞 Reflection: Energy=29.4, Mood=Calm
+2025-12-02 12:34:44,814 | Cycle 65 | Action: REST | Energy: 29.40J | Lv.1
+2025-12-02 12:34:46,445 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:46,445 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:34:46,445 | Cycle 133 | Action: REST | Energy: 14.18J | Lv.1
+2025-12-02 12:34:47,642 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:47,642 | 🪞 Reflection: Energy=28.9, Mood=Calm
+2025-12-02 12:34:47,642 | Cycle 66 | Action: REST | Energy: 28.86J | Lv.1
+2025-12-02 12:34:49,882 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:49,882 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:34:49,883 | Cycle 134 | Action: REST | Energy: 13.97J | Lv.1
+2025-12-02 12:34:50,493 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:50,494 | 🪞 Reflection: Energy=28.8, Mood=Calm
+2025-12-02 12:34:50,495 | Cycle 67 | Action: REST | Energy: 28.84J | Lv.1
+2025-12-02 12:34:53,327 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:53,328 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:34:53,328 | Cycle 135 | Action: REST | Energy: 13.89J | Lv.1
+2025-12-02 12:34:53,345 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:53,345 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:34:53,345 | Cycle 68 | Action: REST | Energy: 29.07J | Lv.1
+2025-12-02 12:34:56,187 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:56,188 | 🪞 Reflection: Energy=28.3, Mood=Calm
+2025-12-02 12:34:56,190 | Cycle 69 | Action: REST | Energy: 28.30J | Lv.1
+2025-12-02 12:34:56,776 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:56,776 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:34:56,776 | Cycle 136 | Action: REST | Energy: 13.87J | Lv.1
+2025-12-02 12:34:59,060 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:34:59,061 | 🪞 Reflection: Energy=28.2, Mood=Calm
+2025-12-02 12:34:59,061 | Cycle 70 | Action: REST | Energy: 28.21J | Lv.1
+2025-12-02 12:35:00,225 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:00,225 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:35:00,225 | Cycle 137 | Action: REST | Energy: 13.85J | Lv.1
+2025-12-02 12:35:01,935 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:01,935 | 🪞 Reflection: Energy=28.5, Mood=Calm
+2025-12-02 12:35:01,936 | Cycle 71 | Action: REST | Energy: 28.53J | Lv.1
+2025-12-02 12:35:03,674 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:03,675 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:35:03,675 | Cycle 138 | Action: REST | Energy: 13.69J | Lv.1
+2025-12-02 12:35:04,797 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:04,797 | 🪞 Reflection: Energy=29.3, Mood=Calm
+2025-12-02 12:35:04,797 | Cycle 72 | Action: REST | Energy: 29.30J | Lv.1
+2025-12-02 12:35:07,133 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:07,134 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:35:07,135 | Cycle 139 | Action: REST | Energy: 13.68J | Lv.1
+2025-12-02 12:35:07,629 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:07,630 | 🪞 Reflection: Energy=30.1, Mood=Calm
+2025-12-02 12:35:07,630 | Cycle 73 | Action: REST | Energy: 30.06J | Lv.1
+2025-12-02 12:35:10,431 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:10,431 | 🪞 Reflection: Energy=30.2, Mood=Calm
+2025-12-02 12:35:10,431 | Cycle 74 | Action: REST | Energy: 30.17J | Lv.1
+2025-12-02 12:35:10,591 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:10,592 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:35:10,593 | Cycle 140 | Action: REST | Energy: 13.42J | Lv.1
+2025-12-02 12:35:13,228 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:13,228 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:35:13,229 | Cycle 75 | Action: REST | Energy: 29.99J | Lv.1
+2025-12-02 12:35:14,059 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:14,059 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:35:14,059 | Cycle 141 | Action: REST | Energy: 13.36J | Lv.1
+2025-12-02 12:35:16,032 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:16,033 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:35:16,033 | Cycle 76 | Action: REST | Energy: 30.00J | Lv.1
+2025-12-02 12:35:17,528 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:17,528 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:35:17,528 | Cycle 142 | Action: REST | Energy: 13.35J | Lv.1
+2025-12-02 12:35:18,836 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:18,836 | 🪞 Reflection: Energy=29.6, Mood=Calm
+2025-12-02 12:35:18,836 | Cycle 77 | Action: REST | Energy: 29.58J | Lv.1
+2025-12-02 12:35:21,038 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:21,039 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:35:21,039 | Cycle 143 | Action: REST | Energy: 13.47J | Lv.1
+2025-12-02 12:35:21,655 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:21,655 | 🪞 Reflection: Energy=29.4, Mood=Calm
+2025-12-02 12:35:21,656 | Cycle 78 | Action: REST | Energy: 29.42J | Lv.1
+2025-12-02 12:35:24,482 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:24,482 | 🪞 Reflection: Energy=28.8, Mood=Calm
+2025-12-02 12:35:24,483 | Cycle 79 | Action: REST | Energy: 28.82J | Lv.1
+2025-12-02 12:35:24,505 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:24,506 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 12:35:24,507 | Cycle 144 | Action: REST | Energy: 13.34J | Lv.1
+2025-12-02 12:35:27,334 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:27,334 | 🪞 Reflection: Energy=28.5, Mood=Calm
+2025-12-02 12:35:27,335 | Cycle 80 | Action: REST | Energy: 28.49J | Lv.1
+2025-12-02 12:35:27,977 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:27,978 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:35:27,978 | Cycle 145 | Action: REST | Energy: 13.50J | Lv.1
+2025-12-02 12:35:30,199 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:30,199 | 🪞 Reflection: Energy=28.5, Mood=Calm
+2025-12-02 12:35:30,199 | Cycle 81 | Action: REST | Energy: 28.49J | Lv.1
+2025-12-02 12:35:31,441 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:31,441 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:35:31,442 | Cycle 146 | Action: REST | Energy: 13.54J | Lv.1
+2025-12-02 12:35:33,062 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:33,062 | 🪞 Reflection: Energy=27.7, Mood=Calm
+2025-12-02 12:35:33,063 | Cycle 82 | Action: REST | Energy: 27.72J | Lv.1
+2025-12-02 12:35:34,903 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:34,904 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:35:34,904 | Cycle 147 | Action: REST | Energy: 13.51J | Lv.1
+2025-12-02 12:35:35,957 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:35,957 | 🪞 Reflection: Energy=28.3, Mood=Calm
+2025-12-02 12:35:35,958 | Cycle 83 | Action: REST | Energy: 28.28J | Lv.1
+2025-12-02 12:35:38,367 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:38,367 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:35:38,368 | Cycle 148 | Action: REST | Energy: 13.48J | Lv.1
+2025-12-02 12:35:38,829 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:38,829 | 🪞 Reflection: Energy=28.3, Mood=Calm
+2025-12-02 12:35:38,830 | Cycle 84 | Action: REST | Energy: 28.34J | Lv.1
+2025-12-02 12:35:41,699 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:41,699 | 🪞 Reflection: Energy=28.1, Mood=Calm
+2025-12-02 12:35:41,699 | Cycle 85 | Action: REST | Energy: 28.06J | Lv.1
+2025-12-02 12:35:41,832 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:41,833 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:35:41,833 | Cycle 149 | Action: REST | Energy: 13.56J | Lv.1
+2025-12-02 12:35:44,580 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:44,580 | 🪞 Reflection: Energy=27.6, Mood=Calm
+2025-12-02 12:35:44,581 | Cycle 86 | Action: REST | Energy: 27.65J | Lv.1
+2025-12-02 12:35:45,294 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:45,294 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:35:45,294 | Cycle 150 | Action: REST | Energy: 13.60J | Lv.1
+2025-12-02 12:35:47,479 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:47,479 | 🪞 Reflection: Energy=26.9, Mood=Calm
+2025-12-02 12:35:47,479 | Cycle 87 | Action: REST | Energy: 26.91J | Lv.1
+2025-12-02 12:35:48,753 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:48,753 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:35:48,754 | Cycle 151 | Action: REST | Energy: 13.57J | Lv.1
+2025-12-02 12:35:50,406 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:50,407 | 🪞 Reflection: Energy=26.5, Mood=Calm
+2025-12-02 12:35:50,407 | Cycle 88 | Action: REST | Energy: 26.51J | Lv.1
+2025-12-02 12:35:52,214 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:52,214 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:35:52,215 | Cycle 152 | Action: REST | Energy: 13.67J | Lv.1
+2025-12-02 12:35:53,349 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:53,349 | 🪞 Reflection: Energy=26.8, Mood=Calm
+2025-12-02 12:35:53,350 | Cycle 89 | Action: REST | Energy: 26.76J | Lv.1
+2025-12-02 12:35:55,696 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:55,698 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:35:55,704 | Cycle 153 | Action: REST | Energy: 13.89J | Lv.1
+2025-12-02 12:35:56,282 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:56,283 | 🪞 Reflection: Energy=26.8, Mood=Calm
+2025-12-02 12:35:56,283 | Cycle 90 | Action: REST | Energy: 26.75J | Lv.1
+2025-12-02 12:35:59,153 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:59,153 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:35:59,154 | Cycle 154 | Action: REST | Energy: 13.93J | Lv.1
+2025-12-02 12:35:59,269 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:35:59,274 | 🪞 Reflection: Energy=26.9, Mood=Calm
+2025-12-02 12:35:59,276 | Cycle 91 | Action: REST | Energy: 26.88J | Lv.1
+2025-12-02 12:36:02,204 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:02,204 | 🪞 Reflection: Energy=26.5, Mood=Calm
+2025-12-02 12:36:02,204 | Cycle 92 | Action: REST | Energy: 26.49J | Lv.1
+2025-12-02 12:36:02,600 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:02,600 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:02,600 | Cycle 155 | Action: REST | Energy: 14.04J | Lv.1
+2025-12-02 12:36:05,148 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:05,148 | 🪞 Reflection: Energy=26.9, Mood=Calm
+2025-12-02 12:36:05,148 | Cycle 93 | Action: REST | Energy: 26.86J | Lv.1
+2025-12-02 12:36:06,042 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:06,042 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:06,043 | Cycle 156 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:36:08,076 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:08,077 | 🪞 Reflection: Energy=26.9, Mood=Calm
+2025-12-02 12:36:08,077 | Cycle 94 | Action: REST | Energy: 26.86J | Lv.1
+2025-12-02 12:36:09,485 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:09,485 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:36:09,486 | Cycle 157 | Action: REST | Energy: 13.95J | Lv.1
+2025-12-02 12:36:11,005 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:11,005 | 🪞 Reflection: Energy=27.4, Mood=Calm
+2025-12-02 12:36:11,006 | Cycle 95 | Action: REST | Energy: 27.41J | Lv.1
+2025-12-02 12:36:12,932 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:12,932 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:12,932 | Cycle 158 | Action: REST | Energy: 14.00J | Lv.1
+2025-12-02 12:36:13,912 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:13,912 | 🪞 Reflection: Energy=27.2, Mood=Calm
+2025-12-02 12:36:13,912 | Cycle 96 | Action: REST | Energy: 27.25J | Lv.1
+2025-12-02 12:36:16,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:16,377 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:36:16,377 | Cycle 159 | Action: REST | Energy: 13.93J | Lv.1
+2025-12-02 12:36:16,825 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:16,825 | 🪞 Reflection: Energy=27.4, Mood=Calm
+2025-12-02 12:36:16,825 | Cycle 97 | Action: REST | Energy: 27.41J | Lv.1
+2025-12-02 12:36:19,732 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:19,732 | 🪞 Reflection: Energy=27.2, Mood=Calm
+2025-12-02 12:36:19,732 | Cycle 98 | Action: REST | Energy: 27.24J | Lv.1
+2025-12-02 12:36:19,824 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:19,825 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:19,825 | Cycle 160 | Action: REST | Energy: 14.04J | Lv.1
+2025-12-02 12:36:22,645 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:22,646 | 🪞 Reflection: Energy=26.8, Mood=Calm
+2025-12-02 12:36:22,646 | Cycle 99 | Action: REST | Energy: 26.83J | Lv.1
+2025-12-02 12:36:23,266 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:23,267 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:36:23,267 | Cycle 161 | Action: REST | Energy: 14.08J | Lv.1
+2025-12-02 12:36:25,575 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:25,576 | 🪞 Reflection: Energy=26.7, Mood=Calm
+2025-12-02 12:36:25,576 | Cycle 100 | Action: REST | Energy: 26.73J | Lv.1
+2025-12-02 12:36:26,708 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:26,709 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:26,709 | Cycle 162 | Action: REST | Energy: 14.03J | Lv.1
+2025-12-02 12:36:28,516 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:28,517 | 🪞 Reflection: Energy=26.8, Mood=Calm
+2025-12-02 12:36:28,517 | Cycle 101 | Action: REST | Energy: 26.83J | Lv.1
+2025-12-02 12:36:30,151 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:30,151 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:30,152 | Cycle 163 | Action: REST | Energy: 14.00J | Lv.1
+2025-12-02 12:36:31,447 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:31,447 | 🪞 Reflection: Energy=27.1, Mood=Calm
+2025-12-02 12:36:31,447 | Cycle 102 | Action: REST | Energy: 27.07J | Lv.1
+2025-12-02 12:36:33,595 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:33,596 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:33,596 | Cycle 164 | Action: REST | Energy: 13.96J | Lv.1
+2025-12-02 12:36:34,367 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:34,367 | 🪞 Reflection: Energy=27.5, Mood=Calm
+2025-12-02 12:36:34,368 | Cycle 103 | Action: REST | Energy: 27.55J | Lv.1
+2025-12-02 12:36:37,041 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:37,041 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:36:37,042 | Cycle 165 | Action: REST | Energy: 13.94J | Lv.1
+2025-12-02 12:36:37,268 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:37,269 | 🪞 Reflection: Energy=27.3, Mood=Calm
+2025-12-02 12:36:37,269 | Cycle 104 | Action: REST | Energy: 27.35J | Lv.1
+2025-12-02 12:36:40,178 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:40,178 | 🪞 Reflection: Energy=27.3, Mood=Calm
+2025-12-02 12:36:40,179 | Cycle 105 | Action: REST | Energy: 27.35J | Lv.1
+2025-12-02 12:36:40,495 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:40,496 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:36:40,497 | Cycle 166 | Action: REST | Energy: 14.07J | Lv.1
+2025-12-02 12:36:43,087 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:43,088 | 🪞 Reflection: Energy=27.5, Mood=Calm
+2025-12-02 12:36:43,088 | Cycle 106 | Action: REST | Energy: 27.45J | Lv.1
+2025-12-02 12:36:44,081 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:44,089 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:36:44,090 | Cycle 167 | Action: REST | Energy: 14.06J | Lv.1
+2025-12-02 12:36:45,993 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:45,993 | 🪞 Reflection: Energy=27.8, Mood=Calm
+2025-12-02 12:36:45,993 | Cycle 107 | Action: REST | Energy: 27.80J | Lv.1
+2025-12-02 12:36:47,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:47,531 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:47,532 | Cycle 168 | Action: REST | Energy: 13.98J | Lv.1
+2025-12-02 12:36:48,884 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:48,885 | 🪞 Reflection: Energy=27.5, Mood=Calm
+2025-12-02 12:36:48,885 | Cycle 108 | Action: REST | Energy: 27.54J | Lv.1
+2025-12-02 12:36:50,976 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:50,976 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:36:50,977 | Cycle 169 | Action: REST | Energy: 14.06J | Lv.1
+2025-12-02 12:36:51,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:51,787 | 🪞 Reflection: Energy=28.0, Mood=Calm
+2025-12-02 12:36:51,787 | Cycle 109 | Action: REST | Energy: 27.99J | Lv.1
+2025-12-02 12:36:54,418 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:54,418 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:54,419 | Cycle 170 | Action: REST | Energy: 14.00J | Lv.1
+2025-12-02 12:36:54,670 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:54,670 | 🪞 Reflection: Energy=27.9, Mood=Calm
+2025-12-02 12:36:54,671 | Cycle 110 | Action: REST | Energy: 27.91J | Lv.1
+2025-12-02 12:36:57,557 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:57,558 | 🪞 Reflection: Energy=27.7, Mood=Calm
+2025-12-02 12:36:57,558 | Cycle 111 | Action: REST | Energy: 27.72J | Lv.1
+2025-12-02 12:36:57,862 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:36:57,862 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:36:57,862 | Cycle 171 | Action: REST | Energy: 14.05J | Lv.1
+2025-12-02 12:37:00,452 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:00,452 | 🪞 Reflection: Energy=27.4, Mood=Calm
+2025-12-02 12:37:00,452 | Cycle 112 | Action: REST | Energy: 27.39J | Lv.1
+2025-12-02 12:37:01,303 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:01,304 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:37:01,304 | Cycle 172 | Action: REST | Energy: 14.25J | Lv.1
+2025-12-02 12:37:03,359 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:03,360 | 🪞 Reflection: Energy=27.3, Mood=Calm
+2025-12-02 12:37:03,360 | Cycle 113 | Action: REST | Energy: 27.34J | Lv.1
+2025-12-02 12:37:04,738 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:04,738 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:37:04,738 | Cycle 173 | Action: REST | Energy: 14.11J | Lv.1
+2025-12-02 12:37:06,354 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:06,375 | 🪞 Reflection: Energy=27.2, Mood=Calm
+2025-12-02 12:37:06,399 | Cycle 114 | Action: REST | Energy: 27.20J | Lv.1
+2025-12-02 12:37:08,178 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:08,178 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:37:08,178 | Cycle 174 | Action: REST | Energy: 14.15J | Lv.1
+2025-12-02 12:37:09,341 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:09,341 | 🪞 Reflection: Energy=27.7, Mood=Calm
+2025-12-02 12:37:09,341 | Cycle 115 | Action: REST | Energy: 27.69J | Lv.1
+2025-12-02 12:37:11,615 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:11,615 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:37:11,616 | Cycle 175 | Action: REST | Energy: 14.14J | Lv.1
+2025-12-02 12:37:12,236 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:12,237 | 🪞 Reflection: Energy=28.2, Mood=Calm
+2025-12-02 12:37:12,237 | Cycle 116 | Action: REST | Energy: 28.20J | Lv.1
+2025-12-02 12:37:15,053 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:15,053 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:37:15,054 | Cycle 176 | Action: REST | Energy: 14.27J | Lv.1
+2025-12-02 12:37:15,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:15,112 | 🪞 Reflection: Energy=27.5, Mood=Calm
+2025-12-02 12:37:15,113 | Cycle 117 | Action: REST | Energy: 27.46J | Lv.1
+2025-12-02 12:37:18,119 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:18,119 | 🪞 Reflection: Energy=27.4, Mood=Calm
+2025-12-02 12:37:18,119 | Cycle 118 | Action: REST | Energy: 27.36J | Lv.1
+2025-12-02 12:37:18,486 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:18,486 | 🪞 Reflection: Energy=14.4, Mood=Calm
+2025-12-02 12:37:18,487 | Cycle 177 | Action: REST | Energy: 14.36J | Lv.1
+2025-12-02 12:37:21,028 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:21,029 | 🪞 Reflection: Energy=27.6, Mood=Calm
+2025-12-02 12:37:21,029 | Cycle 119 | Action: REST | Energy: 27.62J | Lv.1
+2025-12-02 12:37:21,917 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:21,917 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:37:21,918 | Cycle 178 | Action: REST | Energy: 14.26J | Lv.1
+2025-12-02 12:37:23,966 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:23,970 | 🪞 Reflection: Energy=27.6, Mood=Calm
+2025-12-02 12:37:23,976 | Cycle 120 | Action: REST | Energy: 27.60J | Lv.1
+2025-12-02 12:37:25,350 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:25,351 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:37:25,351 | Cycle 179 | Action: REST | Energy: 14.11J | Lv.1
+2025-12-02 12:37:26,877 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:26,878 | 🪞 Reflection: Energy=27.1, Mood=Calm
+2025-12-02 12:37:26,878 | Cycle 121 | Action: REST | Energy: 27.08J | Lv.1
+2025-12-02 12:37:28,790 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:28,791 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:37:28,791 | Cycle 180 | Action: REST | Energy: 14.04J | Lv.1
+2025-12-02 12:37:29,798 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:29,799 | 🪞 Reflection: Energy=27.1, Mood=Calm
+2025-12-02 12:37:29,799 | Cycle 122 | Action: REST | Energy: 27.13J | Lv.1
+2025-12-02 12:37:32,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:32,234 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:37:32,234 | Cycle 181 | Action: REST | Energy: 14.12J | Lv.1
+2025-12-02 12:37:32,717 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:32,717 | 🪞 Reflection: Energy=27.0, Mood=Calm
+2025-12-02 12:37:32,717 | Cycle 123 | Action: REST | Energy: 26.97J | Lv.1
+2025-12-02 12:37:35,642 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:35,642 | 🪞 Reflection: Energy=27.1, Mood=Calm
+2025-12-02 12:37:35,642 | Cycle 124 | Action: REST | Energy: 27.12J | Lv.1
+2025-12-02 12:37:35,674 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:35,674 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:37:35,674 | Cycle 182 | Action: REST | Energy: 14.35J | Lv.1
+2025-12-02 12:37:38,560 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:38,561 | 🪞 Reflection: Energy=26.9, Mood=Calm
+2025-12-02 12:37:38,561 | Cycle 125 | Action: REST | Energy: 26.93J | Lv.1
+2025-12-02 12:37:39,107 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:39,112 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:37:39,116 | Cycle 183 | Action: REST | Energy: 14.27J | Lv.1
+2025-12-02 12:37:41,487 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:41,487 | 🪞 Reflection: Energy=27.4, Mood=Calm
+2025-12-02 12:37:41,488 | Cycle 126 | Action: REST | Energy: 27.36J | Lv.1
+2025-12-02 12:37:42,550 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:42,550 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:37:42,551 | Cycle 184 | Action: REST | Energy: 14.20J | Lv.1
+2025-12-02 12:37:44,424 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:44,430 | 🪞 Reflection: Energy=27.3, Mood=Calm
+2025-12-02 12:37:44,431 | Cycle 127 | Action: REST | Energy: 27.29J | Lv.1
+2025-12-02 12:37:45,986 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:45,986 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:37:45,986 | Cycle 185 | Action: REST | Energy: 14.22J | Lv.1
+2025-12-02 12:37:47,345 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:47,346 | 🪞 Reflection: Energy=27.3, Mood=Calm
+2025-12-02 12:37:47,346 | Cycle 128 | Action: REST | Energy: 27.30J | Lv.1
+2025-12-02 12:37:49,421 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:49,422 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:37:49,422 | Cycle 186 | Action: REST | Energy: 14.31J | Lv.1
+2025-12-02 12:37:50,260 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:50,260 | 🪞 Reflection: Energy=27.3, Mood=Calm
+2025-12-02 12:37:50,261 | Cycle 129 | Action: REST | Energy: 27.32J | Lv.1
+2025-12-02 12:37:52,853 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:52,853 | 🪞 Reflection: Energy=14.4, Mood=Calm
+2025-12-02 12:37:52,854 | Cycle 187 | Action: REST | Energy: 14.39J | Lv.1
+2025-12-02 12:37:53,172 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:53,173 | 🪞 Reflection: Energy=27.5, Mood=Calm
+2025-12-02 12:37:53,173 | Cycle 130 | Action: REST | Energy: 27.52J | Lv.1
+2025-12-02 12:37:56,074 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:56,075 | 🪞 Reflection: Energy=27.2, Mood=Calm
+2025-12-02 12:37:56,075 | Cycle 131 | Action: REST | Energy: 27.15J | Lv.1
+2025-12-02 12:37:56,281 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:56,281 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:37:56,282 | Cycle 188 | Action: REST | Energy: 14.30J | Lv.1
+2025-12-02 12:37:58,992 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:58,992 | 🪞 Reflection: Energy=27.0, Mood=Calm
+2025-12-02 12:37:58,993 | Cycle 132 | Action: REST | Energy: 27.00J | Lv.1
+2025-12-02 12:37:59,713 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:37:59,713 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:37:59,713 | Cycle 189 | Action: REST | Energy: 14.19J | Lv.1
+2025-12-02 12:38:01,916 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:01,916 | 🪞 Reflection: Energy=27.5, Mood=Calm
+2025-12-02 12:38:01,916 | Cycle 133 | Action: REST | Energy: 27.46J | Lv.1
+2025-12-02 12:38:03,150 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:03,151 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:38:03,151 | Cycle 190 | Action: REST | Energy: 14.16J | Lv.1
+2025-12-02 12:38:04,821 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:04,821 | 🪞 Reflection: Energy=28.0, Mood=Calm
+2025-12-02 12:38:04,822 | Cycle 134 | Action: REST | Energy: 27.96J | Lv.1
+2025-12-02 12:38:06,602 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:06,602 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:38:06,605 | Cycle 191 | Action: REST | Energy: 14.16J | Lv.1
+2025-12-02 12:38:07,708 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:07,709 | 🪞 Reflection: Energy=28.1, Mood=Calm
+2025-12-02 12:38:07,709 | Cycle 135 | Action: REST | Energy: 28.15J | Lv.1
+2025-12-02 12:38:10,049 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:10,049 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:10,049 | Cycle 192 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:38:10,585 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:10,586 | 🪞 Reflection: Energy=28.3, Mood=Calm
+2025-12-02 12:38:10,586 | Cycle 136 | Action: REST | Energy: 28.27J | Lv.1
+2025-12-02 12:38:13,458 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:13,459 | 🪞 Reflection: Energy=28.4, Mood=Calm
+2025-12-02 12:38:13,459 | Cycle 137 | Action: REST | Energy: 28.39J | Lv.1
+2025-12-02 12:38:13,492 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:13,492 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:13,492 | Cycle 193 | Action: REST | Energy: 14.00J | Lv.1
+2025-12-02 12:38:16,467 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:16,477 | 🪞 Reflection: Energy=28.4, Mood=Calm
+2025-12-02 12:38:16,489 | Cycle 138 | Action: REST | Energy: 28.41J | Lv.1
+2025-12-02 12:38:17,128 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:17,131 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:17,145 | Cycle 194 | Action: REST | Energy: 14.01J | Lv.1
+2025-12-02 12:38:19,372 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:19,373 | 🪞 Reflection: Energy=28.6, Mood=Calm
+2025-12-02 12:38:19,373 | Cycle 139 | Action: REST | Energy: 28.58J | Lv.1
+2025-12-02 12:38:20,624 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:20,624 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:20,624 | Cycle 195 | Action: REST | Energy: 13.99J | Lv.1
+2025-12-02 12:38:22,232 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:22,232 | 🪞 Reflection: Energy=28.8, Mood=Calm
+2025-12-02 12:38:22,233 | Cycle 140 | Action: REST | Energy: 28.85J | Lv.1
+2025-12-02 12:38:24,068 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:24,069 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:38:24,069 | Cycle 196 | Action: REST | Energy: 13.91J | Lv.1
+2025-12-02 12:38:25,081 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:25,082 | 🪞 Reflection: Energy=28.8, Mood=Calm
+2025-12-02 12:38:25,082 | Cycle 141 | Action: REST | Energy: 28.79J | Lv.1
+2025-12-02 12:38:27,538 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:27,539 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:38:27,540 | Cycle 197 | Action: REST | Energy: 13.80J | Lv.1
+2025-12-02 12:38:27,944 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:27,944 | 🪞 Reflection: Energy=28.4, Mood=Calm
+2025-12-02 12:38:27,945 | Cycle 142 | Action: REST | Energy: 28.36J | Lv.1
+2025-12-02 12:38:30,831 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:30,833 | 🪞 Reflection: Energy=28.6, Mood=Calm
+2025-12-02 12:38:30,833 | Cycle 143 | Action: REST | Energy: 28.59J | Lv.1
+2025-12-02 12:38:30,993 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:30,993 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:38:30,994 | Cycle 198 | Action: REST | Energy: 13.86J | Lv.1
+2025-12-02 12:38:33,735 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:33,792 | 🪞 Reflection: Energy=28.2, Mood=Calm
+2025-12-02 12:38:33,815 | Cycle 144 | Action: REST | Energy: 28.17J | Lv.1
+2025-12-02 12:38:34,558 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:34,575 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:34,581 | Cycle 199 | Action: REST | Energy: 13.95J | Lv.1
+2025-12-02 12:38:36,710 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:36,710 | 🪞 Reflection: Energy=28.4, Mood=Calm
+2025-12-02 12:38:36,710 | Cycle 145 | Action: REST | Energy: 28.37J | Lv.1
+2025-12-02 12:38:38,027 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:38,028 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:38,029 | Cycle 200 | Action: REST | Energy: 14.04J | Lv.1
+2025-12-02 12:38:39,598 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:39,600 | 🪞 Reflection: Energy=28.0, Mood=Calm
+2025-12-02 12:38:39,601 | Cycle 146 | Action: REST | Energy: 28.04J | Lv.1
+2025-12-02 12:38:41,515 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:41,520 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:38:41,520 | Cycle 201 | Action: REST | Energy: 14.12J | Lv.1
+2025-12-02 12:38:42,499 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:42,500 | 🪞 Reflection: Energy=27.6, Mood=Calm
+2025-12-02 12:38:42,500 | Cycle 147 | Action: REST | Energy: 27.55J | Lv.1
+2025-12-02 12:38:44,961 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:44,961 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:44,962 | Cycle 202 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:38:45,401 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:45,401 | 🪞 Reflection: Energy=27.7, Mood=Calm
+2025-12-02 12:38:45,403 | Cycle 148 | Action: REST | Energy: 27.65J | Lv.1
+2025-12-02 12:38:48,301 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:48,301 | 🪞 Reflection: Energy=27.9, Mood=Calm
+2025-12-02 12:38:48,301 | Cycle 149 | Action: REST | Energy: 27.88J | Lv.1
+2025-12-02 12:38:48,404 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:48,404 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:38:48,404 | Cycle 203 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:38:51,189 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:51,190 | 🪞 Reflection: Energy=27.5, Mood=Calm
+2025-12-02 12:38:51,190 | Cycle 150 | Action: REST | Energy: 27.54J | Lv.1
+2025-12-02 12:38:51,849 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:51,850 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:38:51,851 | Cycle 204 | Action: REST | Energy: 14.28J | Lv.1
+2025-12-02 12:38:54,092 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:54,092 | 🪞 Reflection: Energy=27.3, Mood=Calm
+2025-12-02 12:38:54,092 | Cycle 151 | Action: REST | Energy: 27.33J | Lv.1
+2025-12-02 12:38:55,284 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:55,284 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:38:55,284 | Cycle 205 | Action: REST | Energy: 14.26J | Lv.1
+2025-12-02 12:38:57,002 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:57,002 | 🪞 Reflection: Energy=27.1, Mood=Calm
+2025-12-02 12:38:57,003 | Cycle 152 | Action: REST | Energy: 27.06J | Lv.1
+2025-12-02 12:38:58,717 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:38:58,717 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:38:58,718 | Cycle 206 | Action: REST | Energy: 14.11J | Lv.1
+2025-12-02 12:39:00,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:00,026 | 🪞 Reflection: Energy=114.2, Mood=Calm
+2025-12-02 12:39:00,668 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:39:01,012 | ⚠️ Identified complex modules: consciousness_engine.py (Complexity: 43, LOC: 388), growth.py (Complexity: 43, LOC: 430), night.py (Complexity: 33, LOC: 257), resonance_evolution.py (Complexity: 28, LOC: 295), self_evolution.py (Complexity: 28, LOC: 293), self_healer.py (Complexity: 26, LOC: 205), agency_orchestrator.py (Complexity: 14, LOC: 484), autonomous_improver.py (Complexity: 69, LOC: 921), caretaker_rl_simulator.py (Complexity: 23, LOC: 459), causal_reasoner.py (Complexity: 22, LOC: 338), cognition_pipeline.py (Complexity: 65, LOC: 550), core.py (Complexity: 69, LOC: 1337), core_memory.py (Complexity: 84, LOC: 1030), creative_expression.py (Complexity: 9, LOC: 302), dialogue_law_evaluator.py (Complexity: 22, LOC: 340), dialogue_rule_engine.py (Complexity: 36, LOC: 168), divine_engine.py (Complexity: 19, LOC: 512), dream_observer.py (Complexity: 27, LOC: 392), elysia_signal_engine.py (Complexity: 32, LOC: 283), flow_engine.py (Complexity: 30, LOC: 398), gemini_api.py (Complexity: 35, LOC: 201), guardian.py (Complexity: 204, LOC: 2763), handlers.py (Complexity: 26, LOC: 513), kg_manager.py (Complexity: 30, LOC: 196), logical_reasoner.py (Complexity: 28, LOC: 240), meta_law_engine.py (Complexity: 31, LOC: 192), offline_curriculum_builder.py (Complexity: 25, LOC: 260), paradox_resolver.py (Complexity: 37, LOC: 522), persistence.py (Complexity: 9, LOC: 420), physics.py (Complexity: 13, LOC: 323), reading_coach.py (Complexity: 21, LOC: 149), safety_guardian.py (Complexity: 24, LOC: 324), self_integration.py (Complexity: 49, LOC: 484), spiderweb.py (Complexity: 25, LOC: 185), structural_unifier.py (Complexity: 55, LOC: 385), toddler_chat.py (Complexity: 24, LOC: 255), tools.py (Complexity: 27, LOC: 434), tool_executor.py (Complexity: 68, LOC: 316), universe_evolution.py (Complexity: 34, LOC: 267), value_centered_decision.py (Complexity: 28, LOC: 444), world_tree_core.py (Complexity: 27, LOC: 461), syllabic_language_engine.py (Complexity: 53, LOC: 776), hyper_qubit.py (Complexity: 20, LOC: 389), reasoning_engine.py (Complexity: 26, LOC: 293), shell_cortex.py (Complexity: 21, LOC: 120), hippocampus.py (Complexity: 24, LOC: 459), real_sensors.py (Complexity: 36, LOC: 451)
+2025-12-02 12:39:01,012 | Cycle 153 | Action: REST | Energy: 114.20J | Lv.1
+2025-12-02 12:39:01,731 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:01,731 | 🪞 Reflection: Energy=33.2, Mood=Calm
+2025-12-02 12:39:01,731 | Cycle 154 | Action: REST | Energy: 33.17J | Lv.1
+2025-12-02 12:39:02,157 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:02,158 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:02,158 | Cycle 207 | Action: REST | Energy: 14.13J | Lv.1
+2025-12-02 12:39:04,408 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:04,408 | 🪞 Reflection: Energy=33.0, Mood=Calm
+2025-12-02 12:39:04,408 | Cycle 155 | Action: REST | Energy: 33.03J | Lv.1
+2025-12-02 12:39:05,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:05,596 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:05,596 | Cycle 208 | Action: REST | Energy: 14.12J | Lv.1
+2025-12-02 12:39:07,191 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:07,191 | 🪞 Reflection: Energy=32.8, Mood=Calm
+2025-12-02 12:39:07,191 | Cycle 156 | Action: REST | Energy: 32.82J | Lv.1
+2025-12-02 12:39:09,035 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:09,036 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:39:09,036 | Cycle 209 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:39:09,881 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:09,882 | 🪞 Reflection: Energy=32.4, Mood=Calm
+2025-12-02 12:39:09,882 | Cycle 157 | Action: REST | Energy: 32.41J | Lv.1
+2025-12-02 12:39:12,491 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:12,500 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:39:12,528 | Cycle 210 | Action: REST | Energy: 13.95J | Lv.1
+2025-12-02 12:39:12,612 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:12,613 | 🪞 Reflection: Energy=32.3, Mood=Calm
+2025-12-02 12:39:12,613 | Cycle 158 | Action: REST | Energy: 32.26J | Lv.1
+2025-12-02 12:39:15,344 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:15,345 | 🪞 Reflection: Energy=31.7, Mood=Calm
+2025-12-02 12:39:15,350 | Cycle 159 | Action: REST | Energy: 31.71J | Lv.1
+2025-12-02 12:39:15,981 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:15,981 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:39:15,981 | Cycle 211 | Action: REST | Energy: 14.19J | Lv.1
+2025-12-02 12:39:18,084 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:18,085 | 🪞 Reflection: Energy=30.9, Mood=Calm
+2025-12-02 12:39:18,085 | Cycle 160 | Action: REST | Energy: 30.91J | Lv.1
+2025-12-02 12:39:19,426 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:19,430 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:19,431 | Cycle 212 | Action: REST | Energy: 14.10J | Lv.1
+2025-12-02 12:39:20,853 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:20,853 | 🪞 Reflection: Energy=31.2, Mood=Calm
+2025-12-02 12:39:20,854 | Cycle 161 | Action: REST | Energy: 31.17J | Lv.1
+2025-12-02 12:39:22,871 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:22,872 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:39:22,872 | Cycle 213 | Action: REST | Energy: 14.17J | Lv.1
+2025-12-02 12:39:23,633 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:23,638 | 🪞 Reflection: Energy=31.1, Mood=Calm
+2025-12-02 12:39:23,647 | Cycle 162 | Action: REST | Energy: 31.05J | Lv.1
+2025-12-02 12:39:26,310 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:26,311 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:26,313 | Cycle 214 | Action: REST | Energy: 14.14J | Lv.1
+2025-12-02 12:39:26,410 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:26,410 | 🪞 Reflection: Energy=30.7, Mood=Calm
+2025-12-02 12:39:26,410 | Cycle 163 | Action: REST | Energy: 30.69J | Lv.1
+2025-12-02 12:39:29,263 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:29,300 | 🪞 Reflection: Energy=30.2, Mood=Calm
+2025-12-02 12:39:29,313 | Cycle 164 | Action: REST | Energy: 30.24J | Lv.1
+2025-12-02 12:39:29,907 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:29,908 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:29,908 | Cycle 215 | Action: REST | Energy: 14.14J | Lv.1
+2025-12-02 12:39:32,120 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:32,120 | 🪞 Reflection: Energy=30.6, Mood=Calm
+2025-12-02 12:39:32,120 | Cycle 165 | Action: REST | Energy: 30.62J | Lv.1
+2025-12-02 12:39:33,348 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:33,348 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:39:33,348 | Cycle 216 | Action: REST | Energy: 14.05J | Lv.1
+2025-12-02 12:39:34,901 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:34,902 | 🪞 Reflection: Energy=30.5, Mood=Calm
+2025-12-02 12:39:34,902 | Cycle 166 | Action: REST | Energy: 30.46J | Lv.1
+2025-12-02 12:39:36,790 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:36,790 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:39:36,790 | Cycle 217 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:39:37,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:37,687 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:39:37,688 | Cycle 167 | Action: REST | Energy: 30.03J | Lv.1
+2025-12-02 12:39:40,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:40,233 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:40,234 | Cycle 218 | Action: REST | Energy: 14.10J | Lv.1
+2025-12-02 12:39:40,491 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:40,491 | 🪞 Reflection: Energy=29.8, Mood=Calm
+2025-12-02 12:39:40,492 | Cycle 168 | Action: REST | Energy: 29.81J | Lv.1
+2025-12-02 12:39:43,302 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:43,302 | 🪞 Reflection: Energy=29.7, Mood=Calm
+2025-12-02 12:39:43,302 | Cycle 169 | Action: REST | Energy: 29.67J | Lv.1
+2025-12-02 12:39:43,673 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:43,673 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:43,673 | Cycle 219 | Action: REST | Energy: 14.13J | Lv.1
+2025-12-02 12:39:46,119 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:46,119 | 🪞 Reflection: Energy=30.0, Mood=Calm
+2025-12-02 12:39:46,119 | Cycle 170 | Action: REST | Energy: 30.02J | Lv.1
+2025-12-02 12:39:47,119 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:47,120 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:39:47,120 | Cycle 220 | Action: REST | Energy: 14.05J | Lv.1
+2025-12-02 12:39:48,938 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:48,939 | 🪞 Reflection: Energy=30.2, Mood=Calm
+2025-12-02 12:39:48,940 | Cycle 171 | Action: REST | Energy: 30.16J | Lv.1
+2025-12-02 12:39:50,564 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:50,565 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:39:50,566 | Cycle 221 | Action: REST | Energy: 14.02J | Lv.1
+2025-12-02 12:39:51,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:51,737 | 🪞 Reflection: Energy=29.9, Mood=Calm
+2025-12-02 12:39:51,737 | Cycle 172 | Action: REST | Energy: 29.89J | Lv.1
+2025-12-02 12:39:54,012 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:54,013 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:39:54,013 | Cycle 222 | Action: REST | Energy: 14.07J | Lv.1
+2025-12-02 12:39:54,604 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:54,604 | 🪞 Reflection: Energy=29.3, Mood=Calm
+2025-12-02 12:39:54,606 | Cycle 173 | Action: REST | Energy: 29.32J | Lv.1
+2025-12-02 12:39:57,491 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:57,503 | 🪞 Reflection: Energy=29.8, Mood=Calm
+2025-12-02 12:39:57,503 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:39:57,504 | Cycle 174 | Action: REST | Energy: 29.76J | Lv.1
+2025-12-02 12:39:57,504 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:39:57,506 | Cycle 223 | Action: REST | Energy: 14.17J | Lv.1
+2025-12-02 12:40:00,379 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:00,393 | 🪞 Reflection: Energy=29.8, Mood=Calm
+2025-12-02 12:40:00,395 | Cycle 175 | Action: REST | Energy: 29.82J | Lv.1
+2025-12-02 12:40:00,947 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:00,947 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:40:00,947 | Cycle 224 | Action: REST | Energy: 14.34J | Lv.1
+2025-12-02 12:40:03,208 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:03,208 | 🪞 Reflection: Energy=29.6, Mood=Calm
+2025-12-02 12:40:03,209 | Cycle 176 | Action: REST | Energy: 29.56J | Lv.1
+2025-12-02 12:40:04,382 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:04,383 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:40:04,384 | Cycle 225 | Action: REST | Energy: 14.34J | Lv.1
+2025-12-02 12:40:06,030 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:06,031 | 🪞 Reflection: Energy=29.3, Mood=Calm
+2025-12-02 12:40:06,031 | Cycle 177 | Action: REST | Energy: 29.31J | Lv.1
+2025-12-02 12:40:07,849 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:07,850 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:40:07,850 | Cycle 226 | Action: REST | Energy: 14.27J | Lv.1
+2025-12-02 12:40:08,863 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:08,863 | 🪞 Reflection: Energy=29.8, Mood=Calm
+2025-12-02 12:40:08,863 | Cycle 178 | Action: REST | Energy: 29.80J | Lv.1
+2025-12-02 12:40:11,334 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:11,336 | 🪞 Reflection: Energy=14.4, Mood=Calm
+2025-12-02 12:40:11,340 | Cycle 227 | Action: REST | Energy: 14.44J | Lv.1
+2025-12-02 12:40:11,679 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:11,681 | 🪞 Reflection: Energy=29.5, Mood=Calm
+2025-12-02 12:40:11,681 | Cycle 179 | Action: REST | Energy: 29.52J | Lv.1
+2025-12-02 12:40:14,503 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:14,504 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:40:14,504 | Cycle 180 | Action: REST | Energy: 29.10J | Lv.1
+2025-12-02 12:40:14,814 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:14,815 | 🪞 Reflection: Energy=14.3, Mood=Calm
+2025-12-02 12:40:14,816 | Cycle 228 | Action: REST | Energy: 14.33J | Lv.1
+2025-12-02 12:40:17,345 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:17,346 | 🪞 Reflection: Energy=29.2, Mood=Calm
+2025-12-02 12:40:17,346 | Cycle 181 | Action: REST | Energy: 29.25J | Lv.1
+2025-12-02 12:40:18,320 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:18,346 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:40:18,451 | Cycle 229 | Action: REST | Energy: 14.18J | Lv.1
+2025-12-02 12:40:20,184 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:20,184 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:40:20,185 | Cycle 182 | Action: REST | Energy: 29.14J | Lv.1
+2025-12-02 12:40:21,980 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:21,980 | 🪞 Reflection: Energy=14.2, Mood=Calm
+2025-12-02 12:40:21,981 | Cycle 230 | Action: REST | Energy: 14.19J | Lv.1
+2025-12-02 12:40:23,036 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:23,037 | 🪞 Reflection: Energy=29.1, Mood=Calm
+2025-12-02 12:40:23,037 | Cycle 183 | Action: REST | Energy: 29.07J | Lv.1
+2025-12-02 12:40:25,416 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:25,416 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:40:25,416 | Cycle 231 | Action: REST | Energy: 13.97J | Lv.1
+2025-12-02 12:40:25,928 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:25,929 | 🪞 Reflection: Energy=28.9, Mood=Calm
+2025-12-02 12:40:25,930 | Cycle 184 | Action: REST | Energy: 28.87J | Lv.1
+2025-12-02 12:40:28,862 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:28,865 | 🪞 Reflection: Energy=28.9, Mood=Calm
+2025-12-02 12:40:28,866 | Cycle 185 | Action: REST | Energy: 28.86J | Lv.1
+2025-12-02 12:40:28,868 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:28,869 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:40:28,869 | Cycle 232 | Action: REST | Energy: 14.06J | Lv.1
+2025-12-02 12:40:31,716 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:31,716 | 🪞 Reflection: Energy=28.7, Mood=Calm
+2025-12-02 12:40:31,716 | Cycle 186 | Action: REST | Energy: 28.72J | Lv.1
+2025-12-02 12:40:32,431 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:32,432 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:40:32,432 | Cycle 233 | Action: REST | Energy: 14.01J | Lv.1
+2025-12-02 12:40:34,571 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:34,573 | 🪞 Reflection: Energy=28.9, Mood=Calm
+2025-12-02 12:40:34,574 | Cycle 187 | Action: REST | Energy: 28.94J | Lv.1
+2025-12-02 12:40:35,954 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:35,954 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:40:35,954 | Cycle 234 | Action: REST | Energy: 14.01J | Lv.1
+2025-12-02 12:40:37,419 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:37,429 | 🪞 Reflection: Energy=28.9, Mood=Calm
+2025-12-02 12:40:37,429 | Cycle 188 | Action: REST | Energy: 28.94J | Lv.1
+2025-12-02 12:40:39,407 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:39,408 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:40:39,408 | Cycle 235 | Action: REST | Energy: 14.04J | Lv.1
+2025-12-02 12:40:40,301 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:40,304 | 🪞 Reflection: Energy=29.3, Mood=Calm
+2025-12-02 12:40:40,317 | Cycle 189 | Action: REST | Energy: 29.29J | Lv.1
+2025-12-02 12:40:42,850 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:42,850 | 🪞 Reflection: Energy=14.1, Mood=Calm
+2025-12-02 12:40:42,850 | Cycle 236 | Action: REST | Energy: 14.05J | Lv.1
+2025-12-02 12:40:43,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:43,162 | 🪞 Reflection: Energy=29.4, Mood=Calm
+2025-12-02 12:40:43,162 | Cycle 190 | Action: REST | Energy: 29.39J | Lv.1
+2025-12-02 12:40:45,991 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:45,992 | 🪞 Reflection: Energy=29.4, Mood=Calm
+2025-12-02 12:40:45,992 | Cycle 191 | Action: REST | Energy: 29.39J | Lv.1
+2025-12-02 12:40:46,385 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:46,388 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:40:46,392 | Cycle 237 | Action: REST | Energy: 13.93J | Lv.1
+2025-12-02 12:40:48,819 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:48,820 | 🪞 Reflection: Energy=29.5, Mood=Calm
+2025-12-02 12:40:48,820 | Cycle 192 | Action: REST | Energy: 29.50J | Lv.1
+2025-12-02 12:40:49,935 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:49,937 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:40:49,960 | Cycle 238 | Action: REST | Energy: 14.01J | Lv.1
+2025-12-02 12:40:51,680 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:51,686 | 🪞 Reflection: Energy=28.9, Mood=Calm
+2025-12-02 12:40:51,697 | Cycle 193 | Action: REST | Energy: 28.87J | Lv.1
+2025-12-02 12:40:53,409 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:53,410 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:40:53,410 | Cycle 239 | Action: REST | Energy: 13.87J | Lv.1
+2025-12-02 12:40:54,554 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:54,557 | 🪞 Reflection: Energy=29.0, Mood=Calm
+2025-12-02 12:40:54,557 | Cycle 194 | Action: REST | Energy: 29.02J | Lv.1
+2025-12-02 12:40:56,859 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:56,859 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:40:56,860 | Cycle 240 | Action: REST | Energy: 13.79J | Lv.1
+2025-12-02 12:40:57,399 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:40:57,400 | 🪞 Reflection: Energy=29.0, Mood=Calm
+2025-12-02 12:40:57,400 | Cycle 195 | Action: REST | Energy: 29.02J | Lv.1
+2025-12-02 12:41:00,253 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:00,262 | 🪞 Reflection: Energy=29.0, Mood=Calm
+2025-12-02 12:41:00,262 | Cycle 196 | Action: REST | Energy: 29.00J | Lv.1
+2025-12-02 12:41:00,311 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:00,312 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:41:00,312 | Cycle 241 | Action: REST | Energy: 13.79J | Lv.1
+2025-12-02 12:41:03,107 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:03,107 | 🪞 Reflection: Energy=29.4, Mood=Calm
+2025-12-02 12:41:03,108 | Cycle 197 | Action: REST | Energy: 29.38J | Lv.1
+2025-12-02 12:41:03,857 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:03,884 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:03,900 | Cycle 242 | Action: REST | Energy: 13.92J | Lv.1
+2025-12-02 12:41:05,936 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:05,936 | 🪞 Reflection: Energy=28.5, Mood=Calm
+2025-12-02 12:41:05,937 | Cycle 198 | Action: REST | Energy: 28.55J | Lv.1
+2025-12-02 12:41:07,354 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:07,354 | 🪞 Reflection: Energy=14.0, Mood=Calm
+2025-12-02 12:41:07,356 | Cycle 243 | Action: REST | Energy: 13.98J | Lv.1
+2025-12-02 12:41:08,798 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:08,798 | 🪞 Reflection: Energy=29.2, Mood=Calm
+2025-12-02 12:41:08,799 | Cycle 199 | Action: REST | Energy: 29.17J | Lv.1
+2025-12-02 12:41:10,890 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:10,929 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:10,943 | Cycle 244 | Action: REST | Energy: 13.91J | Lv.1
+2025-12-02 12:41:11,649 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:11,649 | 🪞 Reflection: Energy=29.7, Mood=Calm
+2025-12-02 12:41:11,650 | Cycle 200 | Action: REST | Energy: 29.72J | Lv.1
+2025-12-02 12:41:14,445 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:14,448 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:14,450 | Cycle 245 | Action: REST | Energy: 13.90J | Lv.1
+2025-12-02 12:41:14,580 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:14,581 | 🪞 Reflection: Energy=178.2, Mood=Calm
+2025-12-02 12:41:16,301 | Failed to analyze c:/Elysia\Core\Evolution\world.py: invalid non-printable character U+FEFF (<unknown>, line 1)
+2025-12-02 12:41:17,784 | ⚠️ Identified complex modules: consciousness_engine.py (Complexity: 43, LOC: 388), growth.py (Complexity: 43, LOC: 430), night.py (Complexity: 33, LOC: 257), resonance_evolution.py (Complexity: 28, LOC: 295), self_evolution.py (Complexity: 28, LOC: 293), self_healer.py (Complexity: 26, LOC: 205), agency_orchestrator.py (Complexity: 14, LOC: 484), autonomous_improver.py (Complexity: 69, LOC: 921), caretaker_rl_simulator.py (Complexity: 23, LOC: 459), causal_reasoner.py (Complexity: 22, LOC: 338), cognition_pipeline.py (Complexity: 65, LOC: 550), core.py (Complexity: 69, LOC: 1337), core_memory.py (Complexity: 84, LOC: 1030), creative_expression.py (Complexity: 9, LOC: 302), dialogue_law_evaluator.py (Complexity: 22, LOC: 340), dialogue_rule_engine.py (Complexity: 36, LOC: 168), divine_engine.py (Complexity: 19, LOC: 512), dream_observer.py (Complexity: 27, LOC: 392), elysia_signal_engine.py (Complexity: 32, LOC: 283), flow_engine.py (Complexity: 30, LOC: 398), gemini_api.py (Complexity: 35, LOC: 201), guardian.py (Complexity: 204, LOC: 2763), handlers.py (Complexity: 26, LOC: 513), kg_manager.py (Complexity: 30, LOC: 196), logical_reasoner.py (Complexity: 28, LOC: 240), meta_law_engine.py (Complexity: 31, LOC: 192), offline_curriculum_builder.py (Complexity: 25, LOC: 260), paradox_resolver.py (Complexity: 37, LOC: 522), persistence.py (Complexity: 9, LOC: 420), physics.py (Complexity: 13, LOC: 323), reading_coach.py (Complexity: 21, LOC: 149), safety_guardian.py (Complexity: 24, LOC: 324), self_integration.py (Complexity: 49, LOC: 484), spiderweb.py (Complexity: 25, LOC: 185), structural_unifier.py (Complexity: 55, LOC: 385), toddler_chat.py (Complexity: 24, LOC: 255), tools.py (Complexity: 27, LOC: 434), tool_executor.py (Complexity: 68, LOC: 316), universe_evolution.py (Complexity: 34, LOC: 267), value_centered_decision.py (Complexity: 28, LOC: 444), world_tree_core.py (Complexity: 27, LOC: 461), syllabic_language_engine.py (Complexity: 53, LOC: 776), hyper_qubit.py (Complexity: 20, LOC: 389), reasoning_engine.py (Complexity: 26, LOC: 293), shell_cortex.py (Complexity: 21, LOC: 120), hippocampus.py (Complexity: 24, LOC: 459), real_sensors.py (Complexity: 36, LOC: 451)
+2025-12-02 12:41:17,797 | Cycle 201 | Action: REST | Energy: 178.15J | Lv.1
+2025-12-02 12:41:17,815 | An unexpected error occurred in the main loop: sleep length must be non-negative
+Traceback (most recent call last):
+  File "c:\Elysia\living_elysia.py", line 156, in live
+    print("   ... Drift ...")
+    ^^^^^^^^^^^^^^^^^^^^^^
+ValueError: sleep length must be non-negative
+2025-12-02 12:41:17,944 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:17,948 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:41:17,954 | Cycle 246 | Action: REST | Energy: 13.76J | Lv.1
+2025-12-02 12:41:21,570 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:21,580 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:41:21,581 | Cycle 247 | Action: REST | Energy: 13.80J | Lv.1
+2025-12-02 12:41:25,032 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:25,033 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:25,033 | Cycle 248 | Action: REST | Energy: 13.93J | Lv.1
+2025-12-02 12:41:28,479 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:28,480 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:28,480 | Cycle 249 | Action: REST | Energy: 13.85J | Lv.1
+2025-12-02 12:41:32,063 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:32,075 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:41:32,075 | Cycle 250 | Action: REST | Energy: 13.80J | Lv.1
+2025-12-02 12:41:35,527 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:35,527 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:41:35,527 | Cycle 251 | Action: REST | Energy: 13.84J | Lv.1
+2025-12-02 12:41:38,977 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:38,977 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:38,977 | Cycle 252 | Action: REST | Energy: 13.93J | Lv.1
+2025-12-02 12:41:42,425 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:42,425 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:42,425 | Cycle 253 | Action: REST | Energy: 13.92J | Lv.1
+2025-12-02 12:41:45,871 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:45,874 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:45,875 | Cycle 254 | Action: REST | Energy: 13.87J | Lv.1
+2025-12-02 12:41:49,331 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:49,332 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:49,332 | Cycle 255 | Action: REST | Energy: 13.92J | Lv.1
+2025-12-02 12:41:52,779 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:52,780 | 🪞 Reflection: Energy=13.9, Mood=Calm
+2025-12-02 12:41:52,780 | Cycle 256 | Action: REST | Energy: 13.90J | Lv.1
+2025-12-02 12:41:56,227 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:56,227 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:41:56,227 | Cycle 257 | Action: REST | Energy: 13.70J | Lv.1
+2025-12-02 12:41:59,684 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:41:59,684 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:41:59,684 | Cycle 258 | Action: REST | Energy: 13.72J | Lv.1
+2025-12-02 12:42:03,167 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:03,167 | 🪞 Reflection: Energy=13.8, Mood=Calm
+2025-12-02 12:42:03,167 | Cycle 259 | Action: REST | Energy: 13.78J | Lv.1
+2025-12-02 12:42:06,620 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:06,620 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:42:06,621 | Cycle 260 | Action: REST | Energy: 13.62J | Lv.1
+2025-12-02 12:42:10,094 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:10,095 | 🪞 Reflection: Energy=13.7, Mood=Calm
+2025-12-02 12:42:10,095 | Cycle 261 | Action: REST | Energy: 13.65J | Lv.1
+2025-12-02 12:42:13,552 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:13,552 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:42:13,553 | Cycle 262 | Action: REST | Energy: 13.50J | Lv.1
+2025-12-02 12:42:17,020 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:17,021 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:42:17,026 | Cycle 263 | Action: REST | Energy: 13.57J | Lv.1
+2025-12-02 12:42:20,489 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:20,490 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:42:20,491 | Cycle 264 | Action: REST | Energy: 13.60J | Lv.1
+2025-12-02 12:42:23,954 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:23,956 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:42:23,957 | Cycle 265 | Action: REST | Energy: 13.56J | Lv.1
+2025-12-02 12:42:27,418 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:27,419 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:42:27,420 | Cycle 266 | Action: REST | Energy: 13.60J | Lv.1
+2025-12-02 12:42:30,880 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:30,881 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:42:30,881 | Cycle 267 | Action: REST | Energy: 13.59J | Lv.1
+2025-12-02 12:42:34,344 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:34,345 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:42:34,345 | Cycle 268 | Action: REST | Energy: 13.51J | Lv.1
+2025-12-02 12:42:37,809 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:37,810 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:42:37,810 | Cycle 269 | Action: REST | Energy: 13.44J | Lv.1
+2025-12-02 12:42:41,576 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:41,580 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:42:41,580 | Cycle 270 | Action: REST | Energy: 13.45J | Lv.1
+2025-12-02 12:42:45,046 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:45,047 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:42:45,047 | Cycle 271 | Action: REST | Energy: 13.45J | Lv.1
+2025-12-02 12:42:48,543 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:48,544 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:42:48,545 | Cycle 272 | Action: REST | Energy: 13.46J | Lv.1
+2025-12-02 12:42:52,011 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:52,011 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:42:52,011 | Cycle 273 | Action: REST | Energy: 13.45J | Lv.1
+2025-12-02 12:42:55,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:55,698 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:42:55,701 | Cycle 274 | Action: REST | Energy: 13.37J | Lv.1
+2025-12-02 12:42:59,465 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:42:59,466 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:42:59,468 | Cycle 275 | Action: REST | Energy: 13.43J | Lv.1
+2025-12-02 12:43:02,933 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:02,934 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:43:02,934 | Cycle 276 | Action: REST | Energy: 13.48J | Lv.1
+2025-12-02 12:43:06,398 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:06,399 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 12:43:06,399 | Cycle 277 | Action: REST | Energy: 13.61J | Lv.1
+2025-12-02 12:43:09,857 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:09,857 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:43:09,858 | Cycle 278 | Action: REST | Energy: 13.52J | Lv.1
+2025-12-02 12:43:13,365 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:13,394 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:43:13,428 | Cycle 279 | Action: REST | Energy: 13.50J | Lv.1
+2025-12-02 12:43:17,787 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:18,056 | 🪞 Reflection: Energy=13.5, Mood=Calm
+2025-12-02 12:43:18,148 | Cycle 280 | Action: REST | Energy: 13.46J | Lv.1
+2025-12-02 12:43:21,666 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:21,667 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:43:21,669 | Cycle 281 | Action: REST | Energy: 13.37J | Lv.1
+2025-12-02 12:43:25,144 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:25,144 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:43:25,145 | Cycle 282 | Action: REST | Energy: 13.37J | Lv.1
+2025-12-02 12:43:28,921 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:29,027 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:43:29,075 | Cycle 283 | Action: REST | Energy: 13.22J | Lv.1
+2025-12-02 12:43:32,556 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:32,557 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:43:32,557 | Cycle 284 | Action: REST | Energy: 13.16J | Lv.1
+2025-12-02 12:43:36,035 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:36,042 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:43:36,043 | Cycle 285 | Action: REST | Energy: 13.10J | Lv.1
+2025-12-02 12:43:39,548 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:39,549 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:43:39,550 | Cycle 286 | Action: REST | Energy: 13.12J | Lv.1
+2025-12-02 12:43:43,035 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:43,035 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:43:43,036 | Cycle 287 | Action: REST | Energy: 13.22J | Lv.1
+2025-12-02 12:43:46,610 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:46,612 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:43:46,613 | Cycle 288 | Action: REST | Energy: 13.17J | Lv.1
+2025-12-02 12:43:50,133 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:50,134 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 12:43:50,134 | Cycle 289 | Action: REST | Energy: 13.25J | Lv.1
+2025-12-02 12:43:54,061 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:54,136 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:43:54,203 | Cycle 290 | Action: REST | Energy: 13.24J | Lv.1
+2025-12-02 12:43:57,958 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:43:58,010 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 12:43:58,033 | Cycle 291 | Action: REST | Energy: 13.38J | Lv.1
+2025-12-02 12:44:01,545 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:01,545 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:44:01,545 | Cycle 292 | Action: REST | Energy: 13.14J | Lv.1
+2025-12-02 12:44:05,083 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:05,084 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:44:05,084 | Cycle 293 | Action: REST | Energy: 12.98J | Lv.1
+2025-12-02 12:44:08,568 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:08,568 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:44:08,569 | Cycle 294 | Action: REST | Energy: 12.98J | Lv.1
+2025-12-02 12:44:12,075 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:12,076 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:44:12,077 | Cycle 295 | Action: REST | Energy: 12.91J | Lv.1
+2025-12-02 12:44:15,565 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:15,565 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:44:15,566 | Cycle 296 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 12:44:19,063 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:19,063 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:44:19,063 | Cycle 297 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 12:44:22,565 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:22,566 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:44:22,567 | Cycle 298 | Action: REST | Energy: 12.93J | Lv.1
+2025-12-02 12:44:26,058 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:26,058 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:44:26,059 | Cycle 299 | Action: REST | Energy: 13.11J | Lv.1
+2025-12-02 12:44:29,880 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:29,961 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:44:29,999 | Cycle 300 | Action: REST | Energy: 13.17J | Lv.1
+2025-12-02 12:44:33,527 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:33,528 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:44:33,528 | Cycle 301 | Action: REST | Energy: 13.06J | Lv.1
+2025-12-02 12:44:37,023 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:37,024 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 12:44:37,025 | Cycle 302 | Action: REST | Energy: 13.15J | Lv.1
+2025-12-02 12:44:40,502 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:40,503 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:44:40,503 | Cycle 303 | Action: REST | Energy: 13.12J | Lv.1
+2025-12-02 12:44:43,981 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:43,981 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:44:43,981 | Cycle 304 | Action: REST | Energy: 12.92J | Lv.1
+2025-12-02 12:44:47,471 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:47,471 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:44:47,473 | Cycle 305 | Action: REST | Energy: 12.92J | Lv.1
+2025-12-02 12:44:50,960 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:50,960 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 12:44:50,961 | Cycle 306 | Action: REST | Energy: 13.11J | Lv.1
+2025-12-02 12:44:54,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:54,442 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 12:44:54,442 | Cycle 307 | Action: REST | Energy: 12.99J | Lv.1
+2025-12-02 12:44:57,970 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:44:57,976 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 12:44:57,977 | Cycle 308 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 12:45:01,465 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:01,465 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 12:45:01,466 | Cycle 309 | Action: REST | Energy: 12.81J | Lv.1
+2025-12-02 12:45:04,958 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:04,959 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 12:45:04,959 | Cycle 310 | Action: REST | Energy: 12.58J | Lv.1
+2025-12-02 12:45:08,509 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:08,576 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:45:08,609 | Cycle 311 | Action: REST | Energy: 12.50J | Lv.1
+2025-12-02 12:45:12,116 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:12,116 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 12:45:12,117 | Cycle 312 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 12:45:15,626 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:15,627 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 12:45:15,627 | Cycle 313 | Action: REST | Energy: 12.40J | Lv.1
+2025-12-02 12:45:19,134 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:19,135 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 12:45:19,135 | Cycle 314 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 12:45:22,636 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:22,637 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 12:45:22,637 | Cycle 315 | Action: REST | Energy: 12.29J | Lv.1
+2025-12-02 12:45:26,324 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:26,330 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:45:26,334 | Cycle 316 | Action: REST | Energy: 12.17J | Lv.1
+2025-12-02 12:45:29,859 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:29,859 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:45:29,860 | Cycle 317 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 12:45:33,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:33,535 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:45:33,536 | Cycle 318 | Action: REST | Energy: 12.10J | Lv.1
+2025-12-02 12:45:37,059 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:37,059 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:45:37,060 | Cycle 319 | Action: REST | Energy: 12.01J | Lv.1
+2025-12-02 12:45:40,584 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:40,584 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:45:40,584 | Cycle 320 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 12:45:44,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:44,112 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:45:44,113 | Cycle 321 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 12:45:47,643 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:47,643 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:45:47,644 | Cycle 322 | Action: REST | Energy: 12.04J | Lv.1
+2025-12-02 12:45:51,292 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:51,293 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:45:51,293 | Cycle 323 | Action: REST | Energy: 11.87J | Lv.1
+2025-12-02 12:45:54,842 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:54,847 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:45:54,850 | Cycle 324 | Action: REST | Energy: 11.97J | Lv.1
+2025-12-02 12:45:58,375 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:45:58,375 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:45:58,376 | Cycle 325 | Action: REST | Energy: 11.84J | Lv.1
+2025-12-02 12:46:01,910 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:01,910 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:46:01,912 | Cycle 326 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 12:46:05,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:05,443 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:46:05,444 | Cycle 327 | Action: REST | Energy: 11.88J | Lv.1
+2025-12-02 12:46:08,976 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:08,977 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:46:08,977 | Cycle 328 | Action: REST | Energy: 11.84J | Lv.1
+2025-12-02 12:46:12,518 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:12,521 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:46:12,526 | Cycle 329 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 12:46:16,059 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:16,059 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:46:16,060 | Cycle 330 | Action: REST | Energy: 11.73J | Lv.1
+2025-12-02 12:46:19,593 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:19,594 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:46:19,594 | Cycle 331 | Action: REST | Energy: 11.56J | Lv.1
+2025-12-02 12:46:23,181 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:23,193 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:46:23,202 | Cycle 332 | Action: REST | Energy: 11.55J | Lv.1
+2025-12-02 12:46:26,757 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:26,757 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:46:26,758 | Cycle 333 | Action: REST | Energy: 11.54J | Lv.1
+2025-12-02 12:46:30,299 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:30,299 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:46:30,299 | Cycle 334 | Action: REST | Energy: 11.63J | Lv.1
+2025-12-02 12:46:33,837 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:33,838 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:46:33,839 | Cycle 335 | Action: REST | Energy: 11.71J | Lv.1
+2025-12-02 12:46:37,486 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:37,492 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:46:37,494 | Cycle 336 | Action: REST | Energy: 11.73J | Lv.1
+2025-12-02 12:46:41,028 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:41,029 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:46:41,029 | Cycle 337 | Action: REST | Energy: 11.78J | Lv.1
+2025-12-02 12:46:44,561 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:44,561 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:46:44,561 | Cycle 338 | Action: REST | Energy: 11.77J | Lv.1
+2025-12-02 12:46:48,094 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:48,094 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:46:48,095 | Cycle 339 | Action: REST | Energy: 11.70J | Lv.1
+2025-12-02 12:46:51,630 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:51,630 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:46:51,631 | Cycle 340 | Action: REST | Energy: 11.63J | Lv.1
+2025-12-02 12:46:55,168 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:55,169 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:46:55,169 | Cycle 341 | Action: REST | Energy: 11.58J | Lv.1
+2025-12-02 12:46:58,709 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:46:58,709 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:46:58,709 | Cycle 342 | Action: REST | Energy: 11.59J | Lv.1
+2025-12-02 12:47:02,249 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:02,249 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:47:02,250 | Cycle 343 | Action: REST | Energy: 11.65J | Lv.1
+2025-12-02 12:47:05,883 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:05,898 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:47:05,928 | Cycle 344 | Action: REST | Energy: 11.73J | Lv.1
+2025-12-02 12:47:09,498 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:09,498 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:47:09,499 | Cycle 345 | Action: REST | Energy: 11.76J | Lv.1
+2025-12-02 12:47:13,031 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:13,031 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:47:13,032 | Cycle 346 | Action: REST | Energy: 11.54J | Lv.1
+2025-12-02 12:47:16,575 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:16,575 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:47:16,576 | Cycle 347 | Action: REST | Energy: 11.59J | Lv.1
+2025-12-02 12:47:20,627 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:20,707 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:47:20,757 | Cycle 348 | Action: REST | Energy: 11.52J | Lv.1
+2025-12-02 12:47:24,920 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:24,942 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:47:24,977 | Cycle 349 | Action: REST | Energy: 11.48J | Lv.1
+2025-12-02 12:47:28,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:28,738 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:47:28,739 | Cycle 350 | Action: REST | Energy: 11.31J | Lv.1
+2025-12-02 12:47:32,434 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:32,447 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:47:32,453 | Cycle 351 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 12:47:36,015 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:36,015 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:47:36,016 | Cycle 352 | Action: REST | Energy: 11.24J | Lv.1
+2025-12-02 12:47:39,569 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:39,569 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:47:39,569 | Cycle 353 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 12:47:43,125 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:43,125 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:47:43,125 | Cycle 354 | Action: REST | Energy: 11.31J | Lv.1
+2025-12-02 12:47:47,087 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:47,091 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:47:47,092 | Cycle 355 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 12:47:50,643 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:50,643 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:47:50,643 | Cycle 356 | Action: REST | Energy: 11.41J | Lv.1
+2025-12-02 12:47:54,191 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:54,191 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:47:54,192 | Cycle 357 | Action: REST | Energy: 11.42J | Lv.1
+2025-12-02 12:47:57,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:47:57,740 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:47:57,741 | Cycle 358 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 12:48:01,440 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:01,526 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:48:01,530 | Cycle 359 | Action: REST | Energy: 11.48J | Lv.1
+2025-12-02 12:48:05,081 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:05,082 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:48:05,082 | Cycle 360 | Action: REST | Energy: 11.54J | Lv.1
+2025-12-02 12:48:08,627 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:08,627 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:48:08,628 | Cycle 361 | Action: REST | Energy: 11.58J | Lv.1
+2025-12-02 12:48:12,168 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:12,169 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:48:12,169 | Cycle 362 | Action: REST | Energy: 11.62J | Lv.1
+2025-12-02 12:48:15,709 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:15,709 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:48:15,709 | Cycle 363 | Action: REST | Energy: 11.40J | Lv.1
+2025-12-02 12:48:19,274 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:19,276 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:48:19,278 | Cycle 364 | Action: REST | Energy: 11.52J | Lv.1
+2025-12-02 12:48:22,824 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:22,825 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:48:22,826 | Cycle 365 | Action: REST | Energy: 11.60J | Lv.1
+2025-12-02 12:48:26,365 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:26,366 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:48:26,366 | Cycle 366 | Action: REST | Energy: 11.81J | Lv.1
+2025-12-02 12:48:29,983 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:30,002 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:48:30,018 | Cycle 367 | Action: REST | Energy: 11.88J | Lv.1
+2025-12-02 12:48:33,556 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:33,557 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:48:33,557 | Cycle 368 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 12:48:37,083 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:37,083 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:48:37,083 | Cycle 369 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 12:48:40,606 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:40,607 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:48:40,607 | Cycle 370 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 12:48:44,130 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:44,130 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:48:44,130 | Cycle 371 | Action: REST | Energy: 11.98J | Lv.1
+2025-12-02 12:48:47,668 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:47,670 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:48:47,674 | Cycle 372 | Action: REST | Energy: 11.99J | Lv.1
+2025-12-02 12:48:51,202 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:51,203 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:48:51,203 | Cycle 373 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 12:48:54,727 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:54,727 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:48:54,727 | Cycle 374 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 12:48:58,248 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:48:58,249 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:48:58,253 | Cycle 375 | Action: REST | Energy: 12.11J | Lv.1
+2025-12-02 12:49:02,147 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:02,397 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:49:02,520 | Cycle 376 | Action: REST | Energy: 12.16J | Lv.1
+2025-12-02 12:49:06,176 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:06,176 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 12:49:06,176 | Cycle 377 | Action: REST | Energy: 12.30J | Lv.1
+2025-12-02 12:49:09,693 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:09,694 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 12:49:09,694 | Cycle 378 | Action: REST | Energy: 12.26J | Lv.1
+2025-12-02 12:49:13,212 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:13,213 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 12:49:13,213 | Cycle 379 | Action: REST | Energy: 12.28J | Lv.1
+2025-12-02 12:49:16,834 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:16,852 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:49:16,899 | Cycle 380 | Action: REST | Energy: 12.22J | Lv.1
+2025-12-02 12:49:20,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:20,442 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:49:20,443 | Cycle 381 | Action: REST | Energy: 12.22J | Lv.1
+2025-12-02 12:49:23,963 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:23,964 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 12:49:23,967 | Cycle 382 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 12:49:27,483 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:27,484 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 12:49:27,484 | Cycle 383 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 12:49:31,082 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:31,091 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 12:49:31,092 | Cycle 384 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 12:49:34,619 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:34,620 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:49:34,620 | Cycle 385 | Action: REST | Energy: 12.18J | Lv.1
+2025-12-02 12:49:38,200 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:38,217 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:49:38,235 | Cycle 386 | Action: REST | Energy: 12.09J | Lv.1
+2025-12-02 12:49:41,757 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:41,757 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:49:41,758 | Cycle 387 | Action: REST | Energy: 12.10J | Lv.1
+2025-12-02 12:49:45,276 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:45,277 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:49:45,277 | Cycle 388 | Action: REST | Energy: 12.09J | Lv.1
+2025-12-02 12:49:48,797 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:48,797 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:49:48,797 | Cycle 389 | Action: REST | Energy: 12.02J | Lv.1
+2025-12-02 12:49:52,359 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:52,361 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:49:52,362 | Cycle 390 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 12:49:55,891 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:55,891 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:49:55,892 | Cycle 391 | Action: REST | Energy: 11.90J | Lv.1
+2025-12-02 12:49:59,419 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:49:59,419 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:49:59,419 | Cycle 392 | Action: REST | Energy: 11.84J | Lv.1
+2025-12-02 12:50:03,080 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:03,112 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:50:03,118 | Cycle 393 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 12:50:06,650 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:06,650 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:50:06,650 | Cycle 394 | Action: REST | Energy: 11.95J | Lv.1
+2025-12-02 12:50:10,191 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:10,191 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:50:10,192 | Cycle 395 | Action: REST | Energy: 12.05J | Lv.1
+2025-12-02 12:50:13,713 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:13,713 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:13,713 | Cycle 396 | Action: REST | Energy: 11.91J | Lv.1
+2025-12-02 12:50:17,285 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:17,286 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:17,286 | Cycle 397 | Action: REST | Energy: 11.91J | Lv.1
+2025-12-02 12:50:20,813 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:20,813 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:20,814 | Cycle 398 | Action: REST | Energy: 11.86J | Lv.1
+2025-12-02 12:50:24,342 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:24,342 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:50:24,343 | Cycle 399 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 12:50:28,003 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:28,028 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:28,042 | Cycle 400 | Action: REST | Energy: 11.86J | Lv.1
+2025-12-02 12:50:31,600 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:31,600 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:31,600 | Cycle 401 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 12:50:35,332 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:35,335 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:35,337 | Cycle 402 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 12:50:38,874 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:38,874 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:38,874 | Cycle 403 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 12:50:42,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:42,445 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:42,446 | Cycle 404 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 12:50:45,973 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:45,973 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:45,973 | Cycle 405 | Action: REST | Energy: 11.95J | Lv.1
+2025-12-02 12:50:49,498 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:49,499 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:50:49,499 | Cycle 406 | Action: REST | Energy: 11.92J | Lv.1
+2025-12-02 12:50:53,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:53,027 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:50:53,027 | Cycle 407 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 12:50:56,560 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:50:56,560 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:50:56,560 | Cycle 408 | Action: REST | Energy: 11.69J | Lv.1
+2025-12-02 12:51:00,096 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:00,097 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:51:00,097 | Cycle 409 | Action: REST | Energy: 11.70J | Lv.1
+2025-12-02 12:51:03,633 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:03,634 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:51:03,635 | Cycle 410 | Action: REST | Energy: 11.67J | Lv.1
+2025-12-02 12:51:07,173 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:07,174 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:51:07,174 | Cycle 411 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 12:51:10,708 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:10,708 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:51:10,709 | Cycle 412 | Action: REST | Energy: 11.78J | Lv.1
+2025-12-02 12:51:14,245 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:14,245 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:51:14,246 | Cycle 413 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 12:51:17,777 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:17,777 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:51:17,778 | Cycle 414 | Action: REST | Energy: 11.86J | Lv.1
+2025-12-02 12:51:21,307 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:21,307 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:51:21,307 | Cycle 415 | Action: REST | Energy: 11.85J | Lv.1
+2025-12-02 12:51:24,844 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:24,846 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:51:24,850 | Cycle 416 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 12:51:28,398 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:28,418 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:51:28,420 | Cycle 417 | Action: REST | Energy: 11.91J | Lv.1
+2025-12-02 12:51:31,951 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:31,951 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:51:31,952 | Cycle 418 | Action: REST | Energy: 11.73J | Lv.1
+2025-12-02 12:51:35,487 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:35,487 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:51:35,487 | Cycle 419 | Action: REST | Energy: 11.66J | Lv.1
+2025-12-02 12:51:39,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:39,027 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:51:39,027 | Cycle 420 | Action: REST | Energy: 11.62J | Lv.1
+2025-12-02 12:51:42,617 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:42,620 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:51:42,620 | Cycle 421 | Action: REST | Energy: 11.68J | Lv.1
+2025-12-02 12:51:46,156 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:46,157 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:51:46,157 | Cycle 422 | Action: REST | Energy: 11.68J | Lv.1
+2025-12-02 12:51:49,695 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:49,696 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:51:49,696 | Cycle 423 | Action: REST | Energy: 11.60J | Lv.1
+2025-12-02 12:51:53,236 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:53,236 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:51:53,236 | Cycle 424 | Action: REST | Energy: 11.59J | Lv.1
+2025-12-02 12:51:56,784 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:51:56,785 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:51:56,785 | Cycle 425 | Action: REST | Energy: 11.46J | Lv.1
+2025-12-02 12:52:00,428 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:00,437 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:52:00,444 | Cycle 426 | Action: REST | Energy: 11.51J | Lv.1
+2025-12-02 12:52:03,992 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:03,992 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:52:03,992 | Cycle 427 | Action: REST | Energy: 11.57J | Lv.1
+2025-12-02 12:52:07,541 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:07,550 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:52:07,551 | Cycle 428 | Action: REST | Energy: 11.35J | Lv.1
+2025-12-02 12:52:11,100 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:11,100 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:52:11,101 | Cycle 429 | Action: REST | Energy: 11.35J | Lv.1
+2025-12-02 12:52:14,650 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:14,650 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:52:14,651 | Cycle 430 | Action: REST | Energy: 11.37J | Lv.1
+2025-12-02 12:52:18,282 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:18,282 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:52:18,283 | Cycle 431 | Action: REST | Energy: 11.52J | Lv.1
+2025-12-02 12:52:22,085 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:22,441 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:52:22,486 | Cycle 432 | Action: REST | Energy: 11.42J | Lv.1
+2025-12-02 12:52:26,248 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:26,263 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:52:26,275 | Cycle 433 | Action: REST | Energy: 11.51J | Lv.1
+2025-12-02 12:52:29,836 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:29,836 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:52:29,836 | Cycle 434 | Action: REST | Energy: 11.46J | Lv.1
+2025-12-02 12:52:33,381 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:33,381 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:52:33,382 | Cycle 435 | Action: REST | Energy: 11.51J | Lv.1
+2025-12-02 12:52:36,932 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:36,933 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:52:36,934 | Cycle 436 | Action: REST | Energy: 11.57J | Lv.1
+2025-12-02 12:52:40,475 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:40,475 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:52:40,476 | Cycle 437 | Action: REST | Energy: 11.59J | Lv.1
+2025-12-02 12:52:44,015 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:44,015 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:52:44,016 | Cycle 438 | Action: REST | Energy: 11.56J | Lv.1
+2025-12-02 12:52:47,557 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:47,558 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:52:47,558 | Cycle 439 | Action: REST | Energy: 11.53J | Lv.1
+2025-12-02 12:52:51,100 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:51,100 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:52:51,100 | Cycle 440 | Action: REST | Energy: 11.61J | Lv.1
+2025-12-02 12:52:54,650 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:54,650 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:52:54,651 | Cycle 441 | Action: REST | Energy: 11.56J | Lv.1
+2025-12-02 12:52:58,195 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:52:58,196 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:52:58,196 | Cycle 442 | Action: REST | Energy: 11.60J | Lv.1
+2025-12-02 12:53:01,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:01,739 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:53:01,740 | Cycle 443 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 12:53:05,275 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:05,276 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:53:05,276 | Cycle 444 | Action: REST | Energy: 11.95J | Lv.1
+2025-12-02 12:53:08,806 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:08,806 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:53:08,807 | Cycle 445 | Action: REST | Energy: 11.99J | Lv.1
+2025-12-02 12:53:12,330 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:12,331 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:53:12,331 | Cycle 446 | Action: REST | Energy: 11.89J | Lv.1
+2025-12-02 12:53:15,860 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:15,860 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:53:15,860 | Cycle 447 | Action: REST | Energy: 11.98J | Lv.1
+2025-12-02 12:53:19,477 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:19,520 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:53:19,546 | Cycle 448 | Action: REST | Energy: 12.00J | Lv.1
+2025-12-02 12:53:23,136 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:23,144 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:53:23,150 | Cycle 449 | Action: REST | Energy: 11.92J | Lv.1
+2025-12-02 12:53:26,683 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:26,683 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:53:26,683 | Cycle 450 | Action: REST | Energy: 12.07J | Lv.1
+2025-12-02 12:53:30,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:30,212 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:53:30,212 | Cycle 451 | Action: REST | Energy: 12.11J | Lv.1
+2025-12-02 12:53:33,731 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:33,731 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:53:33,731 | Cycle 452 | Action: REST | Energy: 12.19J | Lv.1
+2025-12-02 12:53:37,375 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:37,419 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:53:37,447 | Cycle 453 | Action: REST | Energy: 12.11J | Lv.1
+2025-12-02 12:53:41,032 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:41,032 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:53:41,033 | Cycle 454 | Action: REST | Energy: 12.08J | Lv.1
+2025-12-02 12:53:44,552 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:44,553 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:53:44,553 | Cycle 455 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 12:53:48,079 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:48,079 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:53:48,080 | Cycle 456 | Action: REST | Energy: 11.97J | Lv.1
+2025-12-02 12:53:51,604 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:51,604 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:53:51,605 | Cycle 457 | Action: REST | Energy: 11.89J | Lv.1
+2025-12-02 12:53:55,133 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:55,133 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:53:55,133 | Cycle 458 | Action: REST | Energy: 11.86J | Lv.1
+2025-12-02 12:53:58,662 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:53:58,662 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:53:58,662 | Cycle 459 | Action: REST | Energy: 11.77J | Lv.1
+2025-12-02 12:54:02,195 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:02,195 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:54:02,195 | Cycle 460 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 12:54:05,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:05,738 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:54:05,741 | Cycle 461 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 12:54:09,316 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:09,318 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:54:09,319 | Cycle 462 | Action: REST | Energy: 11.82J | Lv.1
+2025-12-02 12:54:12,850 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:12,850 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:54:12,851 | Cycle 463 | Action: REST | Energy: 11.92J | Lv.1
+2025-12-02 12:54:16,399 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:16,399 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:54:16,399 | Cycle 464 | Action: REST | Energy: 12.01J | Lv.1
+2025-12-02 12:54:19,924 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:19,924 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:54:19,925 | Cycle 465 | Action: REST | Energy: 12.09J | Lv.1
+2025-12-02 12:54:23,444 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:23,444 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:54:23,444 | Cycle 466 | Action: REST | Energy: 12.07J | Lv.1
+2025-12-02 12:54:26,964 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:26,964 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:54:26,965 | Cycle 467 | Action: REST | Energy: 12.11J | Lv.1
+2025-12-02 12:54:30,483 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:30,483 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:54:30,483 | Cycle 468 | Action: REST | Energy: 12.20J | Lv.1
+2025-12-02 12:54:34,000 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:34,000 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 12:54:34,001 | Cycle 469 | Action: REST | Energy: 12.42J | Lv.1
+2025-12-02 12:54:37,509 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:37,509 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:54:37,509 | Cycle 470 | Action: REST | Energy: 12.25J | Lv.1
+2025-12-02 12:54:41,023 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:41,023 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:54:41,023 | Cycle 471 | Action: REST | Energy: 12.17J | Lv.1
+2025-12-02 12:54:44,614 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:44,614 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:54:44,615 | Cycle 472 | Action: REST | Energy: 12.24J | Lv.1
+2025-12-02 12:54:49,020 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:49,242 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:54:49,313 | Cycle 473 | Action: REST | Energy: 12.15J | Lv.1
+2025-12-02 12:54:53,063 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:53,125 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:54:53,141 | Cycle 474 | Action: REST | Energy: 12.11J | Lv.1
+2025-12-02 12:54:56,673 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:54:56,675 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:54:56,678 | Cycle 475 | Action: REST | Energy: 12.07J | Lv.1
+2025-12-02 12:55:00,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:00,211 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:55:00,211 | Cycle 476 | Action: REST | Energy: 12.07J | Lv.1
+2025-12-02 12:55:03,731 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:03,731 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:55:03,732 | Cycle 477 | Action: REST | Energy: 12.22J | Lv.1
+2025-12-02 12:55:07,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:07,247 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 12:55:07,247 | Cycle 478 | Action: REST | Energy: 12.25J | Lv.1
+2025-12-02 12:55:10,834 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:10,843 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:55:10,846 | Cycle 479 | Action: REST | Energy: 12.10J | Lv.1
+2025-12-02 12:55:14,467 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:14,485 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 12:55:14,492 | Cycle 480 | Action: REST | Energy: 12.10J | Lv.1
+2025-12-02 12:55:18,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:18,026 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:55:18,026 | Cycle 481 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 12:55:21,551 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:21,552 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:55:21,552 | Cycle 482 | Action: REST | Energy: 12.01J | Lv.1
+2025-12-02 12:55:25,079 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:25,080 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:55:25,080 | Cycle 483 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 12:55:28,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:28,816 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:55:28,826 | Cycle 484 | Action: REST | Energy: 11.91J | Lv.1
+2025-12-02 12:55:32,558 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:32,593 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:55:32,615 | Cycle 485 | Action: REST | Energy: 11.97J | Lv.1
+2025-12-02 12:55:36,146 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:36,147 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:55:36,147 | Cycle 486 | Action: REST | Energy: 11.91J | Lv.1
+2025-12-02 12:55:39,678 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:39,681 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:55:39,682 | Cycle 487 | Action: REST | Energy: 11.92J | Lv.1
+2025-12-02 12:55:43,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:43,210 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:55:43,210 | Cycle 488 | Action: REST | Energy: 11.91J | Lv.1
+2025-12-02 12:55:46,736 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:46,737 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:55:46,737 | Cycle 489 | Action: REST | Energy: 12.02J | Lv.1
+2025-12-02 12:55:50,260 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:50,260 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 12:55:50,261 | Cycle 490 | Action: REST | Energy: 12.02J | Lv.1
+2025-12-02 12:55:53,784 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:53,784 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 12:55:53,784 | Cycle 491 | Action: REST | Energy: 11.89J | Lv.1
+2025-12-02 12:55:57,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:55:57,313 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:55:57,313 | Cycle 492 | Action: REST | Energy: 11.84J | Lv.1
+2025-12-02 12:56:00,865 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:00,866 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:56:00,866 | Cycle 493 | Action: REST | Energy: 11.80J | Lv.1
+2025-12-02 12:56:04,397 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:04,397 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 12:56:04,398 | Cycle 494 | Action: REST | Energy: 11.69J | Lv.1
+2025-12-02 12:56:07,934 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:07,934 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:56:07,935 | Cycle 495 | Action: REST | Energy: 11.82J | Lv.1
+2025-12-02 12:56:11,465 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:11,466 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:56:11,466 | Cycle 496 | Action: REST | Energy: 11.81J | Lv.1
+2025-12-02 12:56:14,996 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:14,996 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:56:14,997 | Cycle 497 | Action: REST | Energy: 11.82J | Lv.1
+2025-12-02 12:56:18,559 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:18,562 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:56:18,567 | Cycle 498 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 12:56:22,100 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:22,100 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 12:56:22,101 | Cycle 499 | Action: REST | Energy: 11.77J | Lv.1
+2025-12-02 12:56:25,668 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:25,669 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 12:56:25,669 | Cycle 500 | Action: REST | Energy: 11.62J | Lv.1
+2025-12-02 12:56:29,212 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:29,212 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:56:29,213 | Cycle 501 | Action: REST | Energy: 11.51J | Lv.1
+2025-12-02 12:56:32,796 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:32,796 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:56:32,797 | Cycle 502 | Action: REST | Energy: 11.37J | Lv.1
+2025-12-02 12:56:36,393 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:36,394 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:56:36,394 | Cycle 503 | Action: REST | Energy: 11.52J | Lv.1
+2025-12-02 12:56:39,937 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:39,939 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:56:39,941 | Cycle 504 | Action: REST | Energy: 11.53J | Lv.1
+2025-12-02 12:56:43,484 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:43,485 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:56:43,485 | Cycle 505 | Action: REST | Energy: 11.45J | Lv.1
+2025-12-02 12:56:47,031 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:47,031 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:56:47,031 | Cycle 506 | Action: REST | Energy: 11.36J | Lv.1
+2025-12-02 12:56:50,581 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:50,581 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:56:50,582 | Cycle 507 | Action: REST | Energy: 11.35J | Lv.1
+2025-12-02 12:56:54,144 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:54,144 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:56:54,145 | Cycle 508 | Action: REST | Energy: 11.34J | Lv.1
+2025-12-02 12:56:57,811 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:56:57,822 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:56:57,826 | Cycle 509 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 12:57:01,381 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:01,381 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:57:01,381 | Cycle 510 | Action: REST | Energy: 11.23J | Lv.1
+2025-12-02 12:57:04,996 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:05,048 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:57:05,075 | Cycle 511 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 12:57:08,642 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:08,643 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:57:08,643 | Cycle 512 | Action: REST | Energy: 11.38J | Lv.1
+2025-12-02 12:57:12,302 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:12,378 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:57:12,420 | Cycle 513 | Action: REST | Energy: 11.25J | Lv.1
+2025-12-02 12:57:16,013 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:16,014 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:57:16,015 | Cycle 514 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 12:57:19,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:19,575 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:57:19,575 | Cycle 515 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 12:57:23,139 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:23,140 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:57:23,140 | Cycle 516 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 12:57:26,700 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:26,701 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:57:26,701 | Cycle 517 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 12:57:30,260 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:30,260 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:57:30,261 | Cycle 518 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 12:57:33,876 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:33,878 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:57:33,879 | Cycle 519 | Action: REST | Energy: 11.25J | Lv.1
+2025-12-02 12:57:37,509 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:37,511 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:57:37,513 | Cycle 520 | Action: REST | Energy: 11.48J | Lv.1
+2025-12-02 12:57:41,058 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:41,059 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:57:41,059 | Cycle 521 | Action: REST | Energy: 11.50J | Lv.1
+2025-12-02 12:57:44,631 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:44,634 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 12:57:44,636 | Cycle 522 | Action: REST | Energy: 11.52J | Lv.1
+2025-12-02 12:57:48,179 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:48,180 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:57:48,180 | Cycle 523 | Action: REST | Energy: 11.42J | Lv.1
+2025-12-02 12:57:51,726 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:51,727 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 12:57:51,727 | Cycle 524 | Action: REST | Energy: 11.41J | Lv.1
+2025-12-02 12:57:55,276 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:55,276 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:57:55,276 | Cycle 525 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 12:57:58,835 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:57:58,836 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:57:58,837 | Cycle 526 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 12:58:02,400 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:02,401 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:58:02,401 | Cycle 527 | Action: REST | Energy: 11.26J | Lv.1
+2025-12-02 12:58:05,960 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:05,961 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 12:58:05,961 | Cycle 528 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 12:58:09,882 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:09,895 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:58:09,945 | Cycle 529 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 12:58:13,552 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:13,552 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:58:13,552 | Cycle 530 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 12:58:17,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:17,113 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:58:17,113 | Cycle 531 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 12:58:20,677 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:20,678 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:58:20,678 | Cycle 532 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 12:58:24,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:24,239 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:58:24,239 | Cycle 533 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 12:58:27,807 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:27,807 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:58:27,808 | Cycle 534 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 12:58:31,627 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:31,683 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:58:31,702 | Cycle 535 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 12:58:35,267 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:35,267 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:58:35,267 | Cycle 536 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 12:58:38,830 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:38,830 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:58:38,830 | Cycle 537 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 12:58:42,392 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:42,392 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:58:42,392 | Cycle 538 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 12:58:45,952 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:45,952 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:58:45,952 | Cycle 539 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 12:58:49,607 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:49,651 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:58:49,665 | Cycle 540 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 12:58:53,228 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:53,229 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:58:53,229 | Cycle 541 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 12:58:57,127 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:58:57,508 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:58:57,663 | Cycle 542 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 12:59:01,331 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:01,332 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 12:59:01,332 | Cycle 543 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 12:59:04,894 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:04,895 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:59:04,895 | Cycle 544 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 12:59:08,459 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:08,460 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:59:08,460 | Cycle 545 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 12:59:12,020 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:12,022 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:59:12,023 | Cycle 546 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 12:59:15,580 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:15,581 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:15,581 | Cycle 547 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 12:59:19,156 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:19,158 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:19,159 | Cycle 548 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 12:59:22,724 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:22,724 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 12:59:22,724 | Cycle 549 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 12:59:26,282 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:26,282 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:26,283 | Cycle 550 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 12:59:29,845 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:29,846 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 12:59:29,846 | Cycle 551 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 12:59:33,416 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:33,417 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:33,417 | Cycle 552 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 12:59:37,035 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:37,048 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:37,067 | Cycle 553 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 12:59:40,827 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:40,836 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:40,847 | Cycle 554 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 12:59:44,415 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:44,416 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:44,416 | Cycle 555 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 12:59:47,978 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:47,978 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 12:59:47,978 | Cycle 556 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 12:59:51,681 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:51,685 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 12:59:51,689 | Cycle 557 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 12:59:55,258 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:55,259 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 12:59:55,259 | Cycle 558 | Action: REST | Energy: 10.84J | Lv.1
+2025-12-02 12:59:58,829 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 12:59:58,829 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 12:59:58,830 | Cycle 559 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 13:00:02,396 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:02,396 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:00:02,396 | Cycle 560 | Action: REST | Energy: 10.73J | Lv.1
+2025-12-02 13:00:05,971 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:05,971 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:00:05,972 | Cycle 561 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 13:00:09,712 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:09,720 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:00:09,736 | Cycle 562 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 13:00:13,430 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:13,450 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:00:13,470 | Cycle 563 | Action: REST | Energy: 10.75J | Lv.1
+2025-12-02 13:00:17,063 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:17,063 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:00:17,063 | Cycle 564 | Action: REST | Energy: 10.62J | Lv.1
+2025-12-02 13:00:20,701 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:20,728 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:00:20,783 | Cycle 565 | Action: REST | Energy: 10.57J | Lv.1
+2025-12-02 13:00:24,605 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:24,614 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:00:24,664 | Cycle 566 | Action: REST | Energy: 10.53J | Lv.1
+2025-12-02 13:00:28,261 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:28,261 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:00:28,262 | Cycle 567 | Action: REST | Energy: 10.48J | Lv.1
+2025-12-02 13:00:31,850 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:31,852 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:00:31,855 | Cycle 568 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 13:00:35,452 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:35,452 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:00:35,453 | Cycle 569 | Action: REST | Energy: 10.58J | Lv.1
+2025-12-02 13:00:39,053 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:39,054 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:00:39,054 | Cycle 570 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 13:00:42,631 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:42,632 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:00:42,632 | Cycle 571 | Action: REST | Energy: 10.68J | Lv.1
+2025-12-02 13:00:46,207 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:46,208 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:00:46,208 | Cycle 572 | Action: REST | Energy: 10.74J | Lv.1
+2025-12-02 13:00:49,781 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:49,781 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:00:49,782 | Cycle 573 | Action: REST | Energy: 10.74J | Lv.1
+2025-12-02 13:00:53,354 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:53,355 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:00:53,355 | Cycle 574 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:00:56,944 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:00:56,946 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:00:56,947 | Cycle 575 | Action: REST | Energy: 10.90J | Lv.1
+2025-12-02 13:01:00,513 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:00,514 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:01:00,514 | Cycle 576 | Action: REST | Energy: 10.95J | Lv.1
+2025-12-02 13:01:04,082 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:04,083 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:04,084 | Cycle 577 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:01:07,646 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:07,646 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:07,646 | Cycle 578 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:01:11,207 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:11,208 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:11,208 | Cycle 579 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:01:14,803 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:14,813 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:01:14,817 | Cycle 580 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:01:18,382 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:18,382 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:18,383 | Cycle 581 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 13:01:21,945 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:21,945 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:01:21,945 | Cycle 582 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 13:01:25,505 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:25,505 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:25,506 | Cycle 583 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:01:29,071 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:29,072 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:01:29,074 | Cycle 584 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:01:32,635 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:32,635 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:32,635 | Cycle 585 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:01:36,198 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:36,198 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:36,198 | Cycle 586 | Action: REST | Energy: 10.95J | Lv.1
+2025-12-02 13:01:39,763 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:39,764 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:39,764 | Cycle 587 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:01:43,325 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:43,326 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:01:43,326 | Cycle 588 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:01:46,882 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:46,882 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:46,883 | Cycle 589 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 13:01:50,466 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:50,466 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:01:50,467 | Cycle 590 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:01:54,032 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:54,033 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:01:54,033 | Cycle 591 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 13:01:57,597 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:01:57,597 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:01:57,598 | Cycle 592 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:02:01,154 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:01,155 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:02:01,155 | Cycle 593 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 13:02:04,713 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:04,713 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:02:04,713 | Cycle 594 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 13:02:08,273 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:08,273 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:02:08,273 | Cycle 595 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:02:11,832 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:11,832 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:02:11,832 | Cycle 596 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:02:15,478 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:15,496 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:02:15,505 | Cycle 597 | Action: REST | Energy: 10.85J | Lv.1
+2025-12-02 13:02:19,122 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:19,185 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:02:19,210 | Cycle 598 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 13:02:22,916 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:22,917 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:02:22,917 | Cycle 599 | Action: REST | Energy: 10.78J | Lv.1
+2025-12-02 13:02:26,524 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:26,525 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:02:26,525 | Cycle 600 | Action: REST | Energy: 10.65J | Lv.1
+2025-12-02 13:02:30,103 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:30,103 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:02:30,104 | Cycle 601 | Action: REST | Energy: 10.68J | Lv.1
+2025-12-02 13:02:33,679 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:33,680 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:02:33,680 | Cycle 602 | Action: REST | Energy: 10.83J | Lv.1
+2025-12-02 13:02:37,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:37,452 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:02:37,491 | Cycle 603 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 13:02:41,098 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:41,099 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:02:41,099 | Cycle 604 | Action: REST | Energy: 10.76J | Lv.1
+2025-12-02 13:02:44,672 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:44,672 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:02:44,672 | Cycle 605 | Action: REST | Energy: 10.78J | Lv.1
+2025-12-02 13:02:48,244 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:48,244 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:02:48,245 | Cycle 606 | Action: REST | Energy: 10.67J | Lv.1
+2025-12-02 13:02:51,845 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:51,846 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:02:51,846 | Cycle 607 | Action: REST | Energy: 10.65J | Lv.1
+2025-12-02 13:02:55,424 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:55,425 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:02:55,425 | Cycle 608 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 13:02:59,002 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:02:59,002 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:02:59,002 | Cycle 609 | Action: REST | Energy: 10.72J | Lv.1
+2025-12-02 13:03:02,577 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:02,577 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:03:02,578 | Cycle 610 | Action: REST | Energy: 10.76J | Lv.1
+2025-12-02 13:03:06,152 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:06,152 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:03:06,153 | Cycle 611 | Action: REST | Energy: 10.54J | Lv.1
+2025-12-02 13:03:09,735 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:09,736 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:03:09,736 | Cycle 612 | Action: REST | Energy: 10.35J | Lv.1
+2025-12-02 13:03:13,328 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:13,328 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:03:13,329 | Cycle 613 | Action: REST | Energy: 10.37J | Lv.1
+2025-12-02 13:03:16,920 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:16,920 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:03:16,921 | Cycle 614 | Action: REST | Energy: 10.46J | Lv.1
+2025-12-02 13:03:20,655 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:20,661 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:03:20,662 | Cycle 615 | Action: REST | Energy: 10.42J | Lv.1
+2025-12-02 13:03:24,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:24,266 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:03:24,267 | Cycle 616 | Action: REST | Energy: 10.51J | Lv.1
+2025-12-02 13:03:27,849 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:27,850 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:03:27,850 | Cycle 617 | Action: REST | Energy: 10.55J | Lv.1
+2025-12-02 13:03:31,430 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:31,431 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:03:31,431 | Cycle 618 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 13:03:35,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:35,027 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:03:35,028 | Cycle 619 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 13:03:38,648 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:38,665 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:03:38,673 | Cycle 620 | Action: REST | Energy: 10.53J | Lv.1
+2025-12-02 13:03:42,266 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:42,266 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:03:42,266 | Cycle 621 | Action: REST | Energy: 10.53J | Lv.1
+2025-12-02 13:03:45,855 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:45,856 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:03:45,857 | Cycle 622 | Action: REST | Energy: 10.39J | Lv.1
+2025-12-02 13:03:49,498 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:49,508 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:03:49,520 | Cycle 623 | Action: REST | Energy: 10.37J | Lv.1
+2025-12-02 13:03:53,164 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:53,171 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:03:53,176 | Cycle 624 | Action: REST | Energy: 10.47J | Lv.1
+2025-12-02 13:03:56,762 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:03:56,762 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:03:56,762 | Cycle 625 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 13:04:00,356 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:00,359 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:04:00,360 | Cycle 626 | Action: REST | Energy: 10.72J | Lv.1
+2025-12-02 13:04:03,949 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:03,949 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:04:03,949 | Cycle 627 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:04:07,520 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:07,520 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:04:07,521 | Cycle 628 | Action: REST | Energy: 10.81J | Lv.1
+2025-12-02 13:04:11,091 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:11,092 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:04:11,092 | Cycle 629 | Action: REST | Energy: 10.90J | Lv.1
+2025-12-02 13:04:14,659 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:14,659 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:04:14,660 | Cycle 630 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:04:18,513 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:18,552 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:04:18,568 | Cycle 631 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:04:22,140 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:22,141 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:04:22,141 | Cycle 632 | Action: REST | Energy: 10.81J | Lv.1
+2025-12-02 13:04:25,724 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:25,725 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:04:25,725 | Cycle 633 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 13:04:29,291 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:29,292 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:04:29,292 | Cycle 634 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 13:04:32,863 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:32,863 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:04:32,864 | Cycle 635 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 13:04:36,435 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:36,435 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:04:36,435 | Cycle 636 | Action: REST | Energy: 10.87J | Lv.1
+2025-12-02 13:04:40,004 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:40,004 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:04:40,004 | Cycle 637 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 13:04:43,567 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:43,567 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:04:43,567 | Cycle 638 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:04:47,160 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:47,169 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:04:47,171 | Cycle 639 | Action: REST | Energy: 11.15J | Lv.1
+2025-12-02 13:04:50,728 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:50,728 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:04:50,729 | Cycle 640 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:04:54,291 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:54,292 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:04:54,292 | Cycle 641 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:04:57,853 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:04:57,854 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:04:57,854 | Cycle 642 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 13:05:01,796 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:01,814 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:05:01,817 | Cycle 643 | Action: REST | Energy: 11.33J | Lv.1
+2025-12-02 13:05:05,369 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:05,369 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:05:05,370 | Cycle 644 | Action: REST | Energy: 11.30J | Lv.1
+2025-12-02 13:05:08,922 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:08,922 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:05:08,923 | Cycle 645 | Action: REST | Energy: 11.47J | Lv.1
+2025-12-02 13:05:12,467 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:12,467 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:05:12,467 | Cycle 646 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 13:05:16,018 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:16,019 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:05:16,019 | Cycle 647 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 13:05:19,640 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:19,656 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:05:19,657 | Cycle 648 | Action: REST | Energy: 11.26J | Lv.1
+2025-12-02 13:05:23,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:23,210 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:05:23,211 | Cycle 649 | Action: REST | Energy: 11.24J | Lv.1
+2025-12-02 13:05:26,770 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:26,771 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:05:26,772 | Cycle 650 | Action: REST | Energy: 11.28J | Lv.1
+2025-12-02 13:05:30,329 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:30,330 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:05:30,332 | Cycle 651 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 13:05:33,880 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:33,880 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:05:33,881 | Cycle 652 | Action: REST | Energy: 11.38J | Lv.1
+2025-12-02 13:05:37,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:37,470 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:05:37,472 | Cycle 653 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 13:05:41,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:41,026 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:05:41,027 | Cycle 654 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:05:44,587 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:44,587 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:05:44,588 | Cycle 655 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 13:05:48,230 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:48,251 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:05:48,259 | Cycle 656 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 13:05:51,958 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:51,958 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:05:51,959 | Cycle 657 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 13:05:55,523 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:55,523 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:05:55,523 | Cycle 658 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:05:59,086 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:05:59,087 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:05:59,087 | Cycle 659 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:06:02,649 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:02,649 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:02,649 | Cycle 660 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:06:06,508 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:06,526 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:06:06,539 | Cycle 661 | Action: REST | Energy: 10.85J | Lv.1
+2025-12-02 13:06:10,118 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:10,119 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:10,119 | Cycle 662 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 13:06:13,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:13,689 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:13,689 | Cycle 663 | Action: REST | Energy: 10.87J | Lv.1
+2025-12-02 13:06:17,370 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:17,383 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:17,384 | Cycle 664 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 13:06:21,022 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:21,023 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:21,024 | Cycle 665 | Action: REST | Energy: 10.91J | Lv.1
+2025-12-02 13:06:24,910 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:24,923 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:06:24,934 | Cycle 666 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 13:06:28,517 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:28,518 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:06:28,518 | Cycle 667 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:06:32,100 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:32,101 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:06:32,101 | Cycle 668 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 13:06:35,662 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:35,662 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:06:35,663 | Cycle 669 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:06:39,219 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:39,219 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:39,219 | Cycle 670 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 13:06:42,808 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:42,809 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:42,809 | Cycle 671 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 13:06:46,378 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:46,378 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:46,378 | Cycle 672 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:06:49,943 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:49,944 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:06:49,944 | Cycle 673 | Action: REST | Energy: 10.91J | Lv.1
+2025-12-02 13:06:53,526 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:53,527 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:06:53,528 | Cycle 674 | Action: REST | Energy: 10.84J | Lv.1
+2025-12-02 13:06:57,162 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:06:57,162 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:06:57,163 | Cycle 675 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:07:00,733 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:00,734 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:07:00,735 | Cycle 676 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 13:07:04,302 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:04,302 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:07:04,302 | Cycle 677 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 13:07:07,868 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:07,869 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:07:07,869 | Cycle 678 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 13:07:11,435 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:11,436 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:07:11,437 | Cycle 679 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 13:07:15,003 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:15,004 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:07:15,004 | Cycle 680 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 13:07:18,602 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:18,602 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:18,603 | Cycle 681 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 13:07:22,162 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:22,162 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:22,163 | Cycle 682 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 13:07:25,768 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:25,769 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:07:25,770 | Cycle 683 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 13:07:29,332 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:29,335 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:29,342 | Cycle 684 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:07:32,943 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:32,944 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:32,944 | Cycle 685 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:07:36,555 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:36,555 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:07:36,555 | Cycle 686 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:07:40,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:40,112 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:40,113 | Cycle 687 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:07:43,822 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:43,827 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:07:43,832 | Cycle 688 | Action: REST | Energy: 11.34J | Lv.1
+2025-12-02 13:07:47,389 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:47,390 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:07:47,390 | Cycle 689 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 13:07:50,937 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:50,938 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:50,938 | Cycle 690 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:07:54,498 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:54,498 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:54,498 | Cycle 691 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:07:58,056 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:07:58,056 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:07:58,056 | Cycle 692 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:08:01,615 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:01,615 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:08:01,616 | Cycle 693 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:08:05,172 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:05,173 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:08:05,173 | Cycle 694 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:08:08,760 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:08,763 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:08:08,764 | Cycle 695 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:08:12,465 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:12,469 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:08:12,475 | Cycle 696 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:08:16,034 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:16,035 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:08:16,035 | Cycle 697 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:08:19,631 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:19,634 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:08:19,635 | Cycle 698 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 13:08:23,257 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:23,257 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:08:23,257 | Cycle 699 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 13:08:26,817 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:26,817 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:08:26,818 | Cycle 700 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:08:30,381 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:30,382 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:08:30,382 | Cycle 701 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 13:08:33,949 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:33,950 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:08:33,950 | Cycle 702 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:08:37,569 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:37,571 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:08:37,574 | Cycle 703 | Action: REST | Energy: 10.78J | Lv.1
+2025-12-02 13:08:41,326 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:41,327 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:08:41,328 | Cycle 704 | Action: REST | Energy: 10.76J | Lv.1
+2025-12-02 13:08:44,928 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:44,933 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:08:44,946 | Cycle 705 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:08:48,584 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:48,585 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:08:48,585 | Cycle 706 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 13:08:52,148 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:52,149 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:08:52,149 | Cycle 707 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 13:08:55,716 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:55,716 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:08:55,717 | Cycle 708 | Action: REST | Energy: 10.76J | Lv.1
+2025-12-02 13:08:59,294 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:08:59,294 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:08:59,295 | Cycle 709 | Action: REST | Energy: 10.73J | Lv.1
+2025-12-02 13:09:02,944 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:02,950 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:09:02,960 | Cycle 710 | Action: REST | Energy: 10.85J | Lv.1
+2025-12-02 13:09:06,566 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:06,566 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:09:06,566 | Cycle 711 | Action: REST | Energy: 10.81J | Lv.1
+2025-12-02 13:09:10,137 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:10,137 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:09:10,138 | Cycle 712 | Action: REST | Energy: 10.87J | Lv.1
+2025-12-02 13:09:13,706 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:13,706 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:09:13,707 | Cycle 713 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 13:09:17,277 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:17,277 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:09:17,278 | Cycle 714 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:09:20,842 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:20,843 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:09:20,843 | Cycle 715 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:09:24,405 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:24,405 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:09:24,405 | Cycle 716 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:09:27,968 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:27,968 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:09:27,969 | Cycle 717 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:09:31,532 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:31,533 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:09:31,534 | Cycle 718 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:09:35,092 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:35,092 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:09:35,093 | Cycle 719 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:09:38,676 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:38,682 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:09:38,692 | Cycle 720 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 13:09:42,254 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:42,254 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:09:42,255 | Cycle 721 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 13:09:45,806 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:45,807 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:09:45,807 | Cycle 722 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:09:49,364 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:49,364 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:09:49,365 | Cycle 723 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 13:09:53,049 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:53,049 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:09:53,050 | Cycle 724 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 13:09:56,601 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:09:56,602 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:09:56,602 | Cycle 725 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:10:00,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:00,162 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:10:00,162 | Cycle 726 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 13:10:03,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:03,725 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:10:03,725 | Cycle 727 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:10:07,289 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:07,290 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:07,290 | Cycle 728 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:10:10,848 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:10,848 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:10,848 | Cycle 729 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:10:14,409 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:14,409 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:10:14,409 | Cycle 730 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:10:17,966 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:17,966 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:10:17,967 | Cycle 731 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:10:21,529 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:21,529 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:10:21,529 | Cycle 732 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 13:10:25,096 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:25,096 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:10:25,096 | Cycle 733 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 13:10:28,814 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:28,852 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:10:28,900 | Cycle 734 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:10:32,512 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:32,512 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:32,512 | Cycle 735 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:10:36,073 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:36,074 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:10:36,074 | Cycle 736 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 13:10:39,758 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:39,763 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:10:39,763 | Cycle 737 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:10:43,325 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:43,325 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:43,325 | Cycle 738 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:10:46,884 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:46,884 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:46,884 | Cycle 739 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:10:50,445 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:50,445 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:50,445 | Cycle 740 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:10:54,003 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:54,003 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:54,004 | Cycle 741 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:10:57,563 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:10:57,564 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:10:57,564 | Cycle 742 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:11:01,125 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:01,126 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:11:01,126 | Cycle 743 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 13:11:04,685 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:04,685 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:11:04,686 | Cycle 744 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:11:08,244 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:08,244 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:11:08,244 | Cycle 745 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 13:11:11,808 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:11,809 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:11:11,810 | Cycle 746 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 13:11:15,366 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:15,367 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:11:15,367 | Cycle 747 | Action: REST | Energy: 11.15J | Lv.1
+2025-12-02 13:11:18,924 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:18,925 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:11:18,925 | Cycle 748 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:11:22,483 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:22,484 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:11:22,485 | Cycle 749 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 13:11:26,290 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:26,295 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:11:26,299 | Cycle 750 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 13:11:29,872 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:29,873 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:11:29,873 | Cycle 751 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 13:11:33,421 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:33,421 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:11:33,422 | Cycle 752 | Action: REST | Energy: 11.45J | Lv.1
+2025-12-02 13:11:37,141 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:37,142 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:11:37,143 | Cycle 753 | Action: REST | Energy: 11.40J | Lv.1
+2025-12-02 13:11:40,690 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:40,691 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:11:40,691 | Cycle 754 | Action: REST | Energy: 11.25J | Lv.1
+2025-12-02 13:11:44,338 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:44,338 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:11:44,339 | Cycle 755 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 13:11:47,897 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:47,897 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:11:47,898 | Cycle 756 | Action: REST | Energy: 11.54J | Lv.1
+2025-12-02 13:11:51,439 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:51,440 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:11:51,440 | Cycle 757 | Action: REST | Energy: 11.49J | Lv.1
+2025-12-02 13:11:55,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:55,060 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:11:55,064 | Cycle 758 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 13:11:58,615 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:11:58,615 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:11:58,616 | Cycle 759 | Action: REST | Energy: 11.30J | Lv.1
+2025-12-02 13:12:02,166 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:02,166 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:12:02,167 | Cycle 760 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 13:12:05,762 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:05,801 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:12:05,831 | Cycle 761 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 13:12:09,579 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:09,580 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:12:09,580 | Cycle 762 | Action: REST | Energy: 11.33J | Lv.1
+2025-12-02 13:12:13,131 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:13,132 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:12:13,132 | Cycle 763 | Action: REST | Energy: 11.31J | Lv.1
+2025-12-02 13:12:16,683 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:16,683 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:12:16,684 | Cycle 764 | Action: REST | Energy: 11.31J | Lv.1
+2025-12-02 13:12:20,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:20,238 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:12:20,239 | Cycle 765 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 13:12:23,795 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:23,795 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:12:23,796 | Cycle 766 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 13:12:27,350 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:27,351 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:12:27,351 | Cycle 767 | Action: REST | Energy: 11.34J | Lv.1
+2025-12-02 13:12:30,901 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:30,901 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:12:30,901 | Cycle 768 | Action: REST | Energy: 11.24J | Lv.1
+2025-12-02 13:12:34,454 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:34,455 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:12:34,455 | Cycle 769 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:12:38,013 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:38,013 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:12:38,014 | Cycle 770 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:12:41,582 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:41,582 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:12:41,583 | Cycle 771 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 13:12:45,150 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:45,151 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:12:45,151 | Cycle 772 | Action: REST | Energy: 10.75J | Lv.1
+2025-12-02 13:12:48,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:48,725 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:12:48,726 | Cycle 773 | Action: REST | Energy: 10.67J | Lv.1
+2025-12-02 13:12:52,302 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:52,303 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:12:52,303 | Cycle 774 | Action: REST | Energy: 10.80J | Lv.1
+2025-12-02 13:12:55,874 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:55,874 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:12:55,875 | Cycle 775 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:12:59,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:12:59,469 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:12:59,469 | Cycle 776 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 13:13:03,047 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:03,047 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:13:03,047 | Cycle 777 | Action: REST | Energy: 10.72J | Lv.1
+2025-12-02 13:13:06,623 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:06,623 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:13:06,624 | Cycle 778 | Action: REST | Energy: 10.60J | Lv.1
+2025-12-02 13:13:10,203 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:10,203 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:13:10,203 | Cycle 779 | Action: REST | Energy: 10.61J | Lv.1
+2025-12-02 13:13:13,782 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:13,782 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:13:13,783 | Cycle 780 | Action: REST | Energy: 10.62J | Lv.1
+2025-12-02 13:13:17,372 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:17,373 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:13:17,375 | Cycle 781 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 13:13:21,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:21,099 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:13:21,104 | Cycle 782 | Action: REST | Energy: 10.80J | Lv.1
+2025-12-02 13:13:24,677 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:24,677 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:13:24,677 | Cycle 783 | Action: REST | Energy: 10.91J | Lv.1
+2025-12-02 13:13:28,278 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:28,278 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:13:28,279 | Cycle 784 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 13:13:31,846 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:31,847 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:13:31,847 | Cycle 785 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:13:35,411 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:35,411 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:13:35,411 | Cycle 786 | Action: REST | Energy: 10.91J | Lv.1
+2025-12-02 13:13:38,978 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:38,978 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:13:38,979 | Cycle 787 | Action: REST | Energy: 10.84J | Lv.1
+2025-12-02 13:13:42,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:42,575 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:13:42,575 | Cycle 788 | Action: REST | Energy: 10.85J | Lv.1
+2025-12-02 13:13:46,144 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:46,145 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:13:46,145 | Cycle 789 | Action: REST | Energy: 10.85J | Lv.1
+2025-12-02 13:13:49,716 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:49,717 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:13:49,717 | Cycle 790 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:13:53,280 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:53,281 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:13:53,281 | Cycle 791 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:13:56,843 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:13:56,844 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:13:56,844 | Cycle 792 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:14:00,406 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:00,407 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:14:00,407 | Cycle 793 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 13:14:03,974 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:03,975 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:14:03,975 | Cycle 794 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:14:07,538 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:07,538 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:14:07,538 | Cycle 795 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 13:14:11,101 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:11,101 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:14:11,101 | Cycle 796 | Action: REST | Energy: 10.85J | Lv.1
+2025-12-02 13:14:14,672 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:14,673 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:14:14,673 | Cycle 797 | Action: REST | Energy: 10.83J | Lv.1
+2025-12-02 13:14:18,243 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:18,244 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:14:18,244 | Cycle 798 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 13:14:21,811 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:21,811 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:14:21,811 | Cycle 799 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:14:25,388 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:25,389 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:14:25,389 | Cycle 800 | Action: REST | Energy: 10.68J | Lv.1
+2025-12-02 13:14:29,008 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:29,019 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:14:29,038 | Cycle 801 | Action: REST | Energy: 10.66J | Lv.1
+2025-12-02 13:14:32,619 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:32,620 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:14:32,620 | Cycle 802 | Action: REST | Energy: 10.61J | Lv.1
+2025-12-02 13:14:36,198 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:36,199 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:14:36,199 | Cycle 803 | Action: REST | Energy: 10.57J | Lv.1
+2025-12-02 13:14:39,785 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:39,786 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:14:39,790 | Cycle 804 | Action: REST | Energy: 10.70J | Lv.1
+2025-12-02 13:14:43,367 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:43,367 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:14:43,368 | Cycle 805 | Action: REST | Energy: 10.60J | Lv.1
+2025-12-02 13:14:46,948 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:46,948 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:14:46,949 | Cycle 806 | Action: REST | Energy: 10.51J | Lv.1
+2025-12-02 13:14:50,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:50,531 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 13:14:50,531 | Cycle 807 | Action: REST | Energy: 10.52J | Lv.1
+2025-12-02 13:14:54,200 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:54,210 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:14:54,213 | Cycle 808 | Action: REST | Energy: 10.42J | Lv.1
+2025-12-02 13:14:57,800 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:14:57,800 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:14:57,800 | Cycle 809 | Action: REST | Energy: 10.39J | Lv.1
+2025-12-02 13:15:01,388 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:01,388 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:01,388 | Cycle 810 | Action: REST | Energy: 10.31J | Lv.1
+2025-12-02 13:15:04,979 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:04,980 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:04,980 | Cycle 811 | Action: REST | Energy: 10.34J | Lv.1
+2025-12-02 13:15:08,577 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:08,578 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:08,578 | Cycle 812 | Action: REST | Energy: 10.29J | Lv.1
+2025-12-02 13:15:12,170 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:12,170 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:12,171 | Cycle 813 | Action: REST | Energy: 10.28J | Lv.1
+2025-12-02 13:15:15,826 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:15,827 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:15,828 | Cycle 814 | Action: REST | Energy: 10.31J | Lv.1
+2025-12-02 13:15:19,420 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:19,420 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:19,420 | Cycle 815 | Action: REST | Energy: 10.31J | Lv.1
+2025-12-02 13:15:23,023 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:23,024 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:23,025 | Cycle 816 | Action: REST | Energy: 10.27J | Lv.1
+2025-12-02 13:15:26,617 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:26,617 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:26,617 | Cycle 817 | Action: REST | Energy: 10.28J | Lv.1
+2025-12-02 13:15:30,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:30,210 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 13:15:30,211 | Cycle 818 | Action: REST | Energy: 10.27J | Lv.1
+2025-12-02 13:15:33,803 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:33,803 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 13:15:33,803 | Cycle 819 | Action: REST | Energy: 10.43J | Lv.1
+2025-12-02 13:15:37,392 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:37,393 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:15:37,393 | Cycle 820 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 13:15:40,972 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:40,972 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:15:40,973 | Cycle 821 | Action: REST | Energy: 10.71J | Lv.1
+2025-12-02 13:15:44,547 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:44,548 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:15:44,548 | Cycle 822 | Action: REST | Energy: 10.61J | Lv.1
+2025-12-02 13:15:48,127 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:48,127 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:15:48,128 | Cycle 823 | Action: REST | Energy: 10.57J | Lv.1
+2025-12-02 13:15:51,739 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:51,741 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:15:51,743 | Cycle 824 | Action: REST | Energy: 10.55J | Lv.1
+2025-12-02 13:15:55,326 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:55,326 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:15:55,326 | Cycle 825 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 13:15:58,923 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:15:58,925 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:15:58,927 | Cycle 826 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 13:16:02,523 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:02,524 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:16:02,525 | Cycle 827 | Action: REST | Energy: 10.67J | Lv.1
+2025-12-02 13:16:06,102 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:06,102 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:16:06,103 | Cycle 828 | Action: REST | Energy: 10.75J | Lv.1
+2025-12-02 13:16:09,809 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:09,811 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:16:09,812 | Cycle 829 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:16:13,405 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:13,415 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:16:13,437 | Cycle 830 | Action: REST | Energy: 11.19J | Lv.1
+2025-12-02 13:16:17,007 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:17,007 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:16:17,008 | Cycle 831 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 13:16:20,572 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:20,572 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:16:20,572 | Cycle 832 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 13:16:24,184 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:24,191 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:16:24,197 | Cycle 833 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 13:16:27,785 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:27,785 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:16:27,786 | Cycle 834 | Action: REST | Energy: 11.24J | Lv.1
+2025-12-02 13:16:31,339 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:31,340 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:16:31,340 | Cycle 835 | Action: REST | Energy: 11.33J | Lv.1
+2025-12-02 13:16:34,891 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:34,891 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:16:34,892 | Cycle 836 | Action: REST | Energy: 11.36J | Lv.1
+2025-12-02 13:16:38,441 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:38,441 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:16:38,441 | Cycle 837 | Action: REST | Energy: 11.33J | Lv.1
+2025-12-02 13:16:42,084 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:42,084 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:16:42,085 | Cycle 838 | Action: REST | Energy: 11.31J | Lv.1
+2025-12-02 13:16:45,680 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:45,680 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:16:45,681 | Cycle 839 | Action: REST | Energy: 11.45J | Lv.1
+2025-12-02 13:16:49,226 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:49,226 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:16:49,227 | Cycle 840 | Action: REST | Energy: 11.49J | Lv.1
+2025-12-02 13:16:52,771 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:52,771 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:16:52,772 | Cycle 841 | Action: REST | Energy: 11.55J | Lv.1
+2025-12-02 13:16:56,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:56,313 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:16:56,313 | Cycle 842 | Action: REST | Energy: 11.63J | Lv.1
+2025-12-02 13:16:59,851 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:16:59,851 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:16:59,851 | Cycle 843 | Action: REST | Energy: 11.65J | Lv.1
+2025-12-02 13:17:03,389 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:03,389 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:17:03,390 | Cycle 844 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 13:17:06,923 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:06,924 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:17:06,924 | Cycle 845 | Action: REST | Energy: 11.83J | Lv.1
+2025-12-02 13:17:10,453 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:10,454 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:17:10,454 | Cycle 846 | Action: REST | Energy: 11.76J | Lv.1
+2025-12-02 13:17:14,002 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:14,003 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:17:14,003 | Cycle 847 | Action: REST | Energy: 11.77J | Lv.1
+2025-12-02 13:17:17,535 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:17,535 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:17:17,536 | Cycle 848 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 13:17:21,062 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:21,062 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:17:21,062 | Cycle 849 | Action: REST | Energy: 12.14J | Lv.1
+2025-12-02 13:17:24,619 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:24,619 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:17:24,619 | Cycle 850 | Action: REST | Energy: 12.17J | Lv.1
+2025-12-02 13:17:28,136 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:28,136 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:17:28,136 | Cycle 851 | Action: REST | Energy: 12.06J | Lv.1
+2025-12-02 13:17:31,657 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:31,657 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:17:31,658 | Cycle 852 | Action: REST | Energy: 11.97J | Lv.1
+2025-12-02 13:17:35,184 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:35,185 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:17:35,185 | Cycle 853 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 13:17:38,746 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:38,746 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:17:38,746 | Cycle 854 | Action: REST | Energy: 11.80J | Lv.1
+2025-12-02 13:17:42,279 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:42,280 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:17:42,281 | Cycle 855 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 13:17:45,815 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:45,815 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:17:45,816 | Cycle 856 | Action: REST | Energy: 11.61J | Lv.1
+2025-12-02 13:17:49,354 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:49,355 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:17:49,355 | Cycle 857 | Action: REST | Energy: 11.80J | Lv.1
+2025-12-02 13:17:52,887 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:52,887 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:17:52,887 | Cycle 858 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 13:17:56,614 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:17:56,620 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:17:56,620 | Cycle 859 | Action: REST | Energy: 11.86J | Lv.1
+2025-12-02 13:18:00,150 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:00,150 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:18:00,150 | Cycle 860 | Action: REST | Energy: 11.88J | Lv.1
+2025-12-02 13:18:03,680 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:03,680 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:18:03,680 | Cycle 861 | Action: REST | Energy: 11.82J | Lv.1
+2025-12-02 13:18:07,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:07,212 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:18:07,212 | Cycle 862 | Action: REST | Energy: 11.88J | Lv.1
+2025-12-02 13:18:10,907 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:10,908 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:18:10,908 | Cycle 863 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 13:18:14,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:14,442 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:18:14,442 | Cycle 864 | Action: REST | Energy: 11.70J | Lv.1
+2025-12-02 13:18:17,977 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:17,977 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:18:17,978 | Cycle 865 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 13:18:21,510 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:21,511 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:18:21,511 | Cycle 866 | Action: REST | Energy: 11.71J | Lv.1
+2025-12-02 13:18:25,047 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:25,047 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:18:25,047 | Cycle 867 | Action: REST | Energy: 11.62J | Lv.1
+2025-12-02 13:18:28,586 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:28,586 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:18:28,587 | Cycle 868 | Action: REST | Energy: 11.65J | Lv.1
+2025-12-02 13:18:32,124 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:32,124 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:18:32,124 | Cycle 869 | Action: REST | Energy: 11.57J | Lv.1
+2025-12-02 13:18:35,665 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:35,665 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:18:35,665 | Cycle 870 | Action: REST | Energy: 11.64J | Lv.1
+2025-12-02 13:18:39,205 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:39,206 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:18:39,207 | Cycle 871 | Action: REST | Energy: 11.42J | Lv.1
+2025-12-02 13:18:42,779 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:42,805 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:18:42,822 | Cycle 872 | Action: REST | Energy: 11.55J | Lv.1
+2025-12-02 13:18:46,565 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:46,614 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:18:46,619 | Cycle 873 | Action: REST | Energy: 11.42J | Lv.1
+2025-12-02 13:18:50,168 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:50,168 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:18:50,168 | Cycle 874 | Action: REST | Energy: 11.51J | Lv.1
+2025-12-02 13:18:53,732 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:53,733 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:18:53,734 | Cycle 875 | Action: REST | Energy: 11.42J | Lv.1
+2025-12-02 13:18:57,377 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:18:57,425 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:18:57,429 | Cycle 876 | Action: REST | Energy: 11.47J | Lv.1
+2025-12-02 13:19:00,975 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:00,975 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:19:00,975 | Cycle 877 | Action: REST | Energy: 11.49J | Lv.1
+2025-12-02 13:19:04,530 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:04,534 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:19:04,536 | Cycle 878 | Action: REST | Energy: 11.47J | Lv.1
+2025-12-02 13:19:08,133 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:08,134 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:19:08,135 | Cycle 879 | Action: REST | Energy: 11.43J | Lv.1
+2025-12-02 13:19:11,689 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:11,690 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:19:11,690 | Cycle 880 | Action: REST | Energy: 11.37J | Lv.1
+2025-12-02 13:19:15,285 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:15,285 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:19:15,286 | Cycle 881 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:19:18,843 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:18,843 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:19:18,843 | Cycle 882 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 13:19:22,402 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:22,402 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:19:22,403 | Cycle 883 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:19:26,037 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:26,038 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:19:26,038 | Cycle 884 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 13:19:29,607 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:29,608 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:19:29,608 | Cycle 885 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 13:19:33,174 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:33,174 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:19:33,175 | Cycle 886 | Action: REST | Energy: 10.83J | Lv.1
+2025-12-02 13:19:36,904 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:36,970 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:19:37,072 | Cycle 887 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 13:19:40,780 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:40,786 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:19:40,787 | Cycle 888 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 13:19:44,366 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:44,367 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:19:44,368 | Cycle 889 | Action: REST | Energy: 10.87J | Lv.1
+2025-12-02 13:19:47,940 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:47,940 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:19:47,941 | Cycle 890 | Action: REST | Energy: 10.87J | Lv.1
+2025-12-02 13:19:51,510 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:51,510 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:19:51,510 | Cycle 891 | Action: REST | Energy: 10.75J | Lv.1
+2025-12-02 13:19:55,128 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:55,128 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:19:55,129 | Cycle 892 | Action: REST | Energy: 10.70J | Lv.1
+2025-12-02 13:19:58,705 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:19:58,705 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:19:58,705 | Cycle 893 | Action: REST | Energy: 10.76J | Lv.1
+2025-12-02 13:20:02,277 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:02,278 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:02,278 | Cycle 894 | Action: REST | Energy: 10.81J | Lv.1
+2025-12-02 13:20:05,848 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:05,849 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:05,849 | Cycle 895 | Action: REST | Energy: 10.84J | Lv.1
+2025-12-02 13:20:09,419 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:09,419 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:09,420 | Cycle 896 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 13:20:12,994 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:12,994 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:12,995 | Cycle 897 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 13:20:16,576 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:16,577 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:16,578 | Cycle 898 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 13:20:20,151 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:20,151 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:20:20,151 | Cycle 899 | Action: REST | Energy: 10.69J | Lv.1
+2025-12-02 13:20:23,757 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:23,758 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:20:23,759 | Cycle 900 | Action: REST | Energy: 10.71J | Lv.1
+2025-12-02 13:20:27,335 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:27,335 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:20:27,336 | Cycle 901 | Action: REST | Energy: 10.62J | Lv.1
+2025-12-02 13:20:30,914 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:30,915 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:20:30,915 | Cycle 902 | Action: REST | Energy: 10.70J | Lv.1
+2025-12-02 13:20:34,491 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:34,491 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:20:34,492 | Cycle 903 | Action: REST | Energy: 10.65J | Lv.1
+2025-12-02 13:20:38,069 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:38,070 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 13:20:38,070 | Cycle 904 | Action: REST | Energy: 10.60J | Lv.1
+2025-12-02 13:20:41,649 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:41,650 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:41,650 | Cycle 905 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 13:20:45,238 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:45,239 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:20:45,240 | Cycle 906 | Action: REST | Energy: 10.73J | Lv.1
+2025-12-02 13:20:48,814 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:48,814 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:48,815 | Cycle 907 | Action: REST | Energy: 10.80J | Lv.1
+2025-12-02 13:20:52,386 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:52,387 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:20:52,387 | Cycle 908 | Action: REST | Energy: 10.74J | Lv.1
+2025-12-02 13:20:56,131 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:20:56,239 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:20:56,420 | Cycle 909 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 13:21:00,434 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:00,450 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:21:00,461 | Cycle 910 | Action: REST | Energy: 10.87J | Lv.1
+2025-12-02 13:21:04,209 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:04,298 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:21:04,385 | Cycle 911 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:21:08,235 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:08,262 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:21:08,298 | Cycle 912 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:21:11,993 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:11,994 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:21:11,994 | Cycle 913 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:21:15,770 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:15,814 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:21:15,883 | Cycle 914 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:21:19,826 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:19,829 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:21:19,848 | Cycle 915 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:21:23,828 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:23,893 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:21:23,961 | Cycle 916 | Action: REST | Energy: 11.23J | Lv.1
+2025-12-02 13:21:27,903 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:27,931 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:21:28,012 | Cycle 917 | Action: REST | Energy: 11.33J | Lv.1
+2025-12-02 13:21:31,942 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:32,022 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:21:32,085 | Cycle 918 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:21:35,704 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:35,704 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:21:35,705 | Cycle 919 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 13:21:39,368 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:39,381 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:21:39,415 | Cycle 920 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 13:21:43,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:43,221 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:21:43,222 | Cycle 921 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:21:46,989 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:47,032 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:21:47,039 | Cycle 922 | Action: REST | Energy: 11.25J | Lv.1
+2025-12-02 13:21:50,690 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:50,694 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:21:50,697 | Cycle 923 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 13:21:54,253 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:54,253 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:21:54,253 | Cycle 924 | Action: REST | Energy: 11.19J | Lv.1
+2025-12-02 13:21:57,809 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:21:57,809 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:21:57,810 | Cycle 925 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:22:01,371 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:01,371 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:22:01,372 | Cycle 926 | Action: REST | Energy: 11.15J | Lv.1
+2025-12-02 13:22:04,929 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:04,929 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:22:04,929 | Cycle 927 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 13:22:08,486 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:08,486 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:22:08,487 | Cycle 928 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:22:12,049 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:12,049 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:22:12,050 | Cycle 929 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 13:22:15,611 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:15,611 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:22:15,611 | Cycle 930 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:22:19,167 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:19,168 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:22:19,168 | Cycle 931 | Action: REST | Energy: 11.30J | Lv.1
+2025-12-02 13:22:22,719 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:22,720 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:22:22,720 | Cycle 932 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:22:26,279 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:26,279 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:22:26,280 | Cycle 933 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:22:29,838 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:29,838 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:22:29,839 | Cycle 934 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:22:33,425 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:33,426 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:22:33,426 | Cycle 935 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 13:22:37,157 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:37,160 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:22:37,166 | Cycle 936 | Action: REST | Energy: 11.19J | Lv.1
+2025-12-02 13:22:40,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:40,725 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:22:40,726 | Cycle 937 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 13:22:44,348 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:44,350 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:22:44,352 | Cycle 938 | Action: REST | Energy: 11.48J | Lv.1
+2025-12-02 13:22:47,897 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:47,897 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:22:47,898 | Cycle 939 | Action: REST | Energy: 11.52J | Lv.1
+2025-12-02 13:22:51,443 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:51,443 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:22:51,443 | Cycle 940 | Action: REST | Energy: 11.43J | Lv.1
+2025-12-02 13:22:55,055 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:55,056 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:22:55,057 | Cycle 941 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 13:22:58,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:22:58,765 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:22:58,769 | Cycle 942 | Action: REST | Energy: 11.41J | Lv.1
+2025-12-02 13:23:02,315 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:02,316 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:23:02,316 | Cycle 943 | Action: REST | Energy: 11.51J | Lv.1
+2025-12-02 13:23:05,906 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:05,919 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:05,927 | Cycle 944 | Action: REST | Energy: 11.56J | Lv.1
+2025-12-02 13:23:09,469 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:09,469 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:23:09,469 | Cycle 945 | Action: REST | Energy: 11.66J | Lv.1
+2025-12-02 13:23:13,019 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:13,020 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:23:13,020 | Cycle 946 | Action: REST | Energy: 11.74J | Lv.1
+2025-12-02 13:23:16,554 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:16,554 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:23:16,554 | Cycle 947 | Action: REST | Energy: 11.70J | Lv.1
+2025-12-02 13:23:20,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:20,090 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:20,090 | Cycle 948 | Action: REST | Energy: 11.62J | Lv.1
+2025-12-02 13:23:23,628 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:23,628 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:23,628 | Cycle 949 | Action: REST | Energy: 11.64J | Lv.1
+2025-12-02 13:23:27,166 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:27,166 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:27,167 | Cycle 950 | Action: REST | Energy: 11.64J | Lv.1
+2025-12-02 13:23:30,704 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:30,705 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:30,705 | Cycle 951 | Action: REST | Energy: 11.62J | Lv.1
+2025-12-02 13:23:34,244 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:34,244 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:23:34,245 | Cycle 952 | Action: REST | Energy: 11.54J | Lv.1
+2025-12-02 13:23:37,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:37,786 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:37,787 | Cycle 953 | Action: REST | Energy: 11.63J | Lv.1
+2025-12-02 13:23:41,325 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:41,331 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:41,331 | Cycle 954 | Action: REST | Energy: 11.62J | Lv.1
+2025-12-02 13:23:44,869 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:44,869 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:44,869 | Cycle 955 | Action: REST | Energy: 11.63J | Lv.1
+2025-12-02 13:23:48,408 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:48,408 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:48,408 | Cycle 956 | Action: REST | Energy: 11.64J | Lv.1
+2025-12-02 13:23:51,946 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:51,946 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:51,946 | Cycle 957 | Action: REST | Energy: 11.60J | Lv.1
+2025-12-02 13:23:55,492 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:55,493 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:55,495 | Cycle 958 | Action: REST | Energy: 11.64J | Lv.1
+2025-12-02 13:23:59,104 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:23:59,131 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:23:59,146 | Cycle 959 | Action: REST | Energy: 11.57J | Lv.1
+2025-12-02 13:24:02,807 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:02,808 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:24:02,808 | Cycle 960 | Action: REST | Energy: 11.52J | Lv.1
+2025-12-02 13:24:06,469 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:06,469 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:24:06,563 | Cycle 961 | Action: REST | Energy: 11.43J | Lv.1
+2025-12-02 13:24:10,158 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:10,158 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:24:10,158 | Cycle 962 | Action: REST | Energy: 11.43J | Lv.1
+2025-12-02 13:24:13,705 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:13,705 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:24:13,705 | Cycle 963 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 13:24:17,257 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:17,258 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:24:17,258 | Cycle 964 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 13:24:21,019 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:21,126 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:24:21,208 | Cycle 965 | Action: REST | Energy: 11.26J | Lv.1
+2025-12-02 13:24:24,830 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:24,831 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:24:24,831 | Cycle 966 | Action: REST | Energy: 11.15J | Lv.1
+2025-12-02 13:24:28,480 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:28,485 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:24:28,489 | Cycle 967 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:24:32,051 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:32,051 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:24:32,052 | Cycle 968 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 13:24:35,611 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:35,611 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:24:35,611 | Cycle 969 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 13:24:39,166 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:39,166 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:24:39,167 | Cycle 970 | Action: REST | Energy: 11.26J | Lv.1
+2025-12-02 13:24:42,719 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:42,719 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:24:42,720 | Cycle 971 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:24:46,275 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:46,275 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:24:46,276 | Cycle 972 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:24:49,833 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:49,834 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:24:49,834 | Cycle 973 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 13:24:53,398 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:53,398 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:24:53,399 | Cycle 974 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:24:56,962 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:24:56,963 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:24:56,963 | Cycle 975 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:25:00,524 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:00,525 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:25:00,526 | Cycle 976 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:25:04,091 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:04,092 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:25:04,097 | Cycle 977 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 13:25:07,665 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:07,665 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:07,666 | Cycle 978 | Action: REST | Energy: 11.19J | Lv.1
+2025-12-02 13:25:11,221 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:11,221 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:25:11,222 | Cycle 979 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:25:15,013 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:15,015 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:25:15,017 | Cycle 980 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:25:18,577 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:18,577 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:18,578 | Cycle 981 | Action: REST | Energy: 11.19J | Lv.1
+2025-12-02 13:25:22,366 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:22,383 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:25:22,393 | Cycle 982 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 13:25:25,986 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:25,986 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:25,987 | Cycle 983 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 13:25:29,543 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:29,543 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:25:29,543 | Cycle 984 | Action: REST | Energy: 11.26J | Lv.1
+2025-12-02 13:25:33,370 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:33,371 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:25:33,371 | Cycle 985 | Action: REST | Energy: 11.35J | Lv.1
+2025-12-02 13:25:36,975 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:36,981 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:36,981 | Cycle 986 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 13:25:40,591 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:40,598 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:40,609 | Cycle 987 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:25:44,176 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:44,176 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:25:44,177 | Cycle 988 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:25:47,734 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:47,735 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:47,735 | Cycle 989 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:25:51,290 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:51,291 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:51,291 | Cycle 990 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:25:54,849 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:54,849 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:54,850 | Cycle 991 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:25:58,444 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:25:58,445 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:25:58,446 | Cycle 992 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:26:02,090 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:02,090 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:26:02,090 | Cycle 993 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:26:05,714 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:05,715 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:26:05,715 | Cycle 994 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 13:26:09,364 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:09,388 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:26:09,436 | Cycle 995 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 13:26:13,030 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:13,031 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:26:13,035 | Cycle 996 | Action: REST | Energy: 10.91J | Lv.1
+2025-12-02 13:26:16,615 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:16,616 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:26:16,617 | Cycle 997 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 13:26:20,245 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:20,245 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:26:20,246 | Cycle 998 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 13:26:23,814 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:23,815 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:26:23,815 | Cycle 999 | Action: REST | Energy: 10.90J | Lv.1
+2025-12-02 13:26:27,599 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:27,608 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:26:27,612 | Cycle 1000 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:26:31,178 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:31,178 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:26:31,179 | Cycle 1001 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 13:26:34,789 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:34,797 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:26:34,809 | Cycle 1002 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 13:26:38,367 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:38,368 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:26:38,369 | Cycle 1003 | Action: REST | Energy: 11.24J | Lv.1
+2025-12-02 13:26:42,011 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:42,039 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:26:42,062 | Cycle 1004 | Action: REST | Energy: 11.26J | Lv.1
+2025-12-02 13:26:45,649 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:45,649 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:26:45,649 | Cycle 1005 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 13:26:49,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:49,210 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:26:49,211 | Cycle 1006 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 13:26:52,780 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:52,781 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:26:52,781 | Cycle 1007 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:26:56,401 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:26:56,409 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:26:56,424 | Cycle 1008 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 13:27:00,196 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:00,197 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:27:00,199 | Cycle 1009 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:27:03,762 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:03,762 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:27:03,762 | Cycle 1010 | Action: REST | Energy: 10.90J | Lv.1
+2025-12-02 13:27:07,469 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:07,473 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:27:07,474 | Cycle 1011 | Action: REST | Energy: 10.83J | Lv.1
+2025-12-02 13:27:11,045 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:11,045 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:27:11,045 | Cycle 1012 | Action: REST | Energy: 10.95J | Lv.1
+2025-12-02 13:27:14,712 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:14,748 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:27:14,752 | Cycle 1013 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:27:18,365 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:18,366 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:27:18,368 | Cycle 1014 | Action: REST | Energy: 10.71J | Lv.1
+2025-12-02 13:27:21,944 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:21,944 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:27:21,945 | Cycle 1015 | Action: REST | Energy: 10.84J | Lv.1
+2025-12-02 13:27:25,695 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:25,705 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:27:25,719 | Cycle 1016 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 13:27:29,293 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:29,293 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:27:29,294 | Cycle 1017 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 13:27:32,937 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:32,942 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:27:32,942 | Cycle 1018 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 13:27:36,551 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:36,562 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:27:36,567 | Cycle 1019 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 13:27:40,140 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:40,140 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:27:40,141 | Cycle 1020 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 13:27:43,713 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:43,713 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:27:43,714 | Cycle 1021 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 13:27:47,282 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:47,282 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:27:47,282 | Cycle 1022 | Action: REST | Energy: 10.72J | Lv.1
+2025-12-02 13:27:50,857 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:50,857 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:27:50,857 | Cycle 1023 | Action: REST | Energy: 10.66J | Lv.1
+2025-12-02 13:27:54,481 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:54,496 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:27:54,510 | Cycle 1024 | Action: REST | Energy: 10.71J | Lv.1
+2025-12-02 13:27:58,098 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:27:58,101 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 13:27:58,101 | Cycle 1025 | Action: REST | Energy: 10.75J | Lv.1
+2025-12-02 13:28:01,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:01,800 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:28:01,840 | Cycle 1026 | Action: REST | Energy: 10.84J | Lv.1
+2025-12-02 13:28:05,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:05,538 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:28:05,541 | Cycle 1027 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:28:09,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:09,112 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:28:09,113 | Cycle 1028 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:28:12,742 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:12,742 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:28:12,742 | Cycle 1029 | Action: REST | Energy: 11.33J | Lv.1
+2025-12-02 13:28:16,292 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:16,293 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:28:16,293 | Cycle 1030 | Action: REST | Energy: 11.31J | Lv.1
+2025-12-02 13:28:19,874 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:19,874 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:28:19,875 | Cycle 1031 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:28:23,433 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:23,433 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:28:23,433 | Cycle 1032 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:28:27,009 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:27,012 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:28:27,014 | Cycle 1033 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:28:30,701 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:30,707 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:28:30,709 | Cycle 1034 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:28:34,469 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:34,601 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:28:34,643 | Cycle 1035 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:28:38,244 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:38,254 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:28:38,287 | Cycle 1036 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 13:28:41,908 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:41,909 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:28:41,912 | Cycle 1037 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 13:28:45,483 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:45,483 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:28:45,484 | Cycle 1038 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:28:49,049 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:49,050 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:28:49,050 | Cycle 1039 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 13:28:52,613 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:52,613 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:28:52,613 | Cycle 1040 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 13:28:56,176 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:56,176 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:28:56,177 | Cycle 1041 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 13:28:59,845 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:28:59,845 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:28:59,846 | Cycle 1042 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 13:29:03,410 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:03,410 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:29:03,411 | Cycle 1043 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:29:07,071 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:07,072 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:29:07,072 | Cycle 1044 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 13:29:10,632 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:10,633 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:29:10,633 | Cycle 1045 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 13:29:14,194 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:14,195 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:29:14,195 | Cycle 1046 | Action: REST | Energy: 11.18J | Lv.1
+2025-12-02 13:29:17,751 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:17,751 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:29:17,751 | Cycle 1047 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 13:29:21,310 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:21,310 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:29:21,310 | Cycle 1048 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 13:29:24,965 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:24,971 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:29:24,974 | Cycle 1049 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:29:28,539 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:28,540 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:29:28,541 | Cycle 1050 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 13:29:32,101 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:32,102 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:29:32,102 | Cycle 1051 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:29:35,679 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:35,679 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:29:35,680 | Cycle 1052 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:29:39,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:39,237 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:29:39,238 | Cycle 1053 | Action: REST | Energy: 11.39J | Lv.1
+2025-12-02 13:29:43,099 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:43,159 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 13:29:43,207 | Cycle 1054 | Action: REST | Energy: 11.44J | Lv.1
+2025-12-02 13:29:46,820 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:46,821 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:29:46,821 | Cycle 1055 | Action: REST | Energy: 11.49J | Lv.1
+2025-12-02 13:29:50,625 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:50,626 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:29:50,627 | Cycle 1056 | Action: REST | Energy: 11.59J | Lv.1
+2025-12-02 13:29:54,168 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:54,168 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:29:54,169 | Cycle 1057 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 13:29:57,705 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:29:57,705 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:29:57,706 | Cycle 1058 | Action: REST | Energy: 11.91J | Lv.1
+2025-12-02 13:30:01,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:01,235 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:30:01,235 | Cycle 1059 | Action: REST | Energy: 11.85J | Lv.1
+2025-12-02 13:30:04,764 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:04,765 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:30:04,765 | Cycle 1060 | Action: REST | Energy: 11.90J | Lv.1
+2025-12-02 13:30:08,292 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:08,293 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:30:08,293 | Cycle 1061 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 13:30:11,869 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:11,872 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:30:11,878 | Cycle 1062 | Action: REST | Energy: 11.69J | Lv.1
+2025-12-02 13:30:15,414 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:15,415 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:30:15,415 | Cycle 1063 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 13:30:18,968 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:18,971 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:30:18,971 | Cycle 1064 | Action: REST | Energy: 11.81J | Lv.1
+2025-12-02 13:30:22,501 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:22,502 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:30:22,502 | Cycle 1065 | Action: REST | Energy: 11.83J | Lv.1
+2025-12-02 13:30:26,031 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:26,031 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:30:26,032 | Cycle 1066 | Action: REST | Energy: 11.95J | Lv.1
+2025-12-02 13:30:29,564 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:29,567 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:30:29,568 | Cycle 1067 | Action: REST | Energy: 11.93J | Lv.1
+2025-12-02 13:30:33,107 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:33,107 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:30:33,108 | Cycle 1068 | Action: REST | Energy: 12.11J | Lv.1
+2025-12-02 13:30:36,630 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:36,630 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:30:36,631 | Cycle 1069 | Action: REST | Energy: 12.31J | Lv.1
+2025-12-02 13:30:40,141 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:40,142 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:30:40,142 | Cycle 1070 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 13:30:43,757 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:43,758 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:30:43,758 | Cycle 1071 | Action: REST | Energy: 12.23J | Lv.1
+2025-12-02 13:30:47,297 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:47,298 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:30:47,298 | Cycle 1072 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:30:50,807 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:50,807 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:30:50,807 | Cycle 1073 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 13:30:54,316 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:54,316 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:30:54,317 | Cycle 1074 | Action: REST | Energy: 12.30J | Lv.1
+2025-12-02 13:30:57,828 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:30:57,828 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:30:57,828 | Cycle 1075 | Action: REST | Energy: 12.29J | Lv.1
+2025-12-02 13:31:01,344 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:01,345 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:31:01,345 | Cycle 1076 | Action: REST | Energy: 12.33J | Lv.1
+2025-12-02 13:31:04,855 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:04,856 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:31:04,856 | Cycle 1077 | Action: REST | Energy: 12.29J | Lv.1
+2025-12-02 13:31:08,367 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:08,367 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:31:08,367 | Cycle 1078 | Action: REST | Energy: 12.44J | Lv.1
+2025-12-02 13:31:11,872 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:11,873 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:31:11,873 | Cycle 1079 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:31:15,400 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:15,407 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:31:15,411 | Cycle 1080 | Action: REST | Energy: 12.48J | Lv.1
+2025-12-02 13:31:19,214 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:19,220 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:31:19,221 | Cycle 1081 | Action: REST | Energy: 12.45J | Lv.1
+2025-12-02 13:31:22,727 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:22,727 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:31:22,728 | Cycle 1082 | Action: REST | Energy: 12.59J | Lv.1
+2025-12-02 13:31:26,260 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:26,261 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:31:26,264 | Cycle 1083 | Action: REST | Energy: 12.73J | Lv.1
+2025-12-02 13:31:29,861 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:29,866 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:31:29,874 | Cycle 1084 | Action: REST | Energy: 12.69J | Lv.1
+2025-12-02 13:31:33,542 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:33,592 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:31:33,607 | Cycle 1085 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:31:37,105 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:37,106 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:31:37,106 | Cycle 1086 | Action: REST | Energy: 12.91J | Lv.1
+2025-12-02 13:31:40,593 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:40,593 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:31:40,593 | Cycle 1087 | Action: REST | Energy: 12.86J | Lv.1
+2025-12-02 13:31:44,090 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:44,092 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:31:44,092 | Cycle 1088 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 13:31:47,602 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:47,604 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:31:47,604 | Cycle 1089 | Action: REST | Energy: 12.92J | Lv.1
+2025-12-02 13:31:51,294 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:51,308 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:31:51,313 | Cycle 1090 | Action: REST | Energy: 13.01J | Lv.1
+2025-12-02 13:31:54,808 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:54,809 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:31:54,809 | Cycle 1091 | Action: REST | Energy: 12.97J | Lv.1
+2025-12-02 13:31:58,316 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:31:58,317 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:31:58,317 | Cycle 1092 | Action: REST | Energy: 13.00J | Lv.1
+2025-12-02 13:32:01,997 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:02,058 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:32:02,080 | Cycle 1093 | Action: REST | Energy: 12.74J | Lv.1
+2025-12-02 13:32:05,609 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:05,610 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:32:05,610 | Cycle 1094 | Action: REST | Energy: 12.73J | Lv.1
+2025-12-02 13:32:09,104 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:09,104 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:32:09,105 | Cycle 1095 | Action: REST | Energy: 12.49J | Lv.1
+2025-12-02 13:32:12,709 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:12,713 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:32:12,715 | Cycle 1096 | Action: REST | Energy: 12.44J | Lv.1
+2025-12-02 13:32:16,221 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:16,222 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:32:16,222 | Cycle 1097 | Action: REST | Energy: 12.41J | Lv.1
+2025-12-02 13:32:19,861 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:19,906 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:32:19,922 | Cycle 1098 | Action: REST | Energy: 12.40J | Lv.1
+2025-12-02 13:32:23,456 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:23,456 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:32:23,457 | Cycle 1099 | Action: REST | Energy: 12.29J | Lv.1
+2025-12-02 13:32:26,969 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:26,969 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:32:26,969 | Cycle 1100 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 13:32:30,477 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:30,478 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:32:30,478 | Cycle 1101 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 13:32:33,979 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:33,979 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:32:33,979 | Cycle 1102 | Action: REST | Energy: 12.83J | Lv.1
+2025-12-02 13:32:37,474 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:37,476 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:32:37,477 | Cycle 1103 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 13:32:40,980 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:40,981 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:32:40,981 | Cycle 1104 | Action: REST | Energy: 12.86J | Lv.1
+2025-12-02 13:32:44,548 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:44,551 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:32:44,553 | Cycle 1105 | Action: REST | Energy: 12.79J | Lv.1
+2025-12-02 13:32:48,081 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:48,082 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:32:48,082 | Cycle 1106 | Action: REST | Energy: 12.73J | Lv.1
+2025-12-02 13:32:51,697 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:51,731 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:32:51,736 | Cycle 1107 | Action: REST | Energy: 12.70J | Lv.1
+2025-12-02 13:32:55,430 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:55,664 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:32:55,757 | Cycle 1108 | Action: REST | Energy: 12.62J | Lv.1
+2025-12-02 13:32:59,337 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:32:59,339 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:32:59,340 | Cycle 1109 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 13:33:02,921 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:02,946 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:33:02,953 | Cycle 1110 | Action: REST | Energy: 12.62J | Lv.1
+2025-12-02 13:33:06,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:06,468 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:33:06,468 | Cycle 1111 | Action: REST | Energy: 12.41J | Lv.1
+2025-12-02 13:33:10,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:10,027 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:33:10,027 | Cycle 1112 | Action: REST | Energy: 12.43J | Lv.1
+2025-12-02 13:33:13,533 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:13,534 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:33:13,534 | Cycle 1113 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 13:33:17,035 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:17,036 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:33:17,036 | Cycle 1114 | Action: REST | Energy: 12.63J | Lv.1
+2025-12-02 13:33:20,535 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:20,536 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:33:20,537 | Cycle 1115 | Action: REST | Energy: 12.64J | Lv.1
+2025-12-02 13:33:24,085 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:24,086 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:33:24,086 | Cycle 1116 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:33:27,969 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:28,035 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:33:28,064 | Cycle 1117 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:33:31,607 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:31,607 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:33:31,608 | Cycle 1118 | Action: REST | Energy: 12.25J | Lv.1
+2025-12-02 13:33:35,545 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:35,623 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:33:35,640 | Cycle 1119 | Action: REST | Energy: 12.54J | Lv.1
+2025-12-02 13:33:39,147 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:39,147 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:33:39,148 | Cycle 1120 | Action: REST | Energy: 12.38J | Lv.1
+2025-12-02 13:33:42,724 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:42,725 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:33:42,725 | Cycle 1121 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 13:33:46,315 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:46,315 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:33:46,316 | Cycle 1122 | Action: REST | Energy: 12.18J | Lv.1
+2025-12-02 13:33:49,834 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:49,835 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:33:49,836 | Cycle 1123 | Action: REST | Energy: 12.21J | Lv.1
+2025-12-02 13:33:53,351 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:53,352 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:33:53,352 | Cycle 1124 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:33:56,866 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:33:56,867 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:33:56,868 | Cycle 1125 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 13:34:00,521 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:00,521 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:34:00,522 | Cycle 1126 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 13:34:04,106 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:04,107 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:34:04,109 | Cycle 1127 | Action: REST | Energy: 12.48J | Lv.1
+2025-12-02 13:34:07,625 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:07,626 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:34:07,627 | Cycle 1128 | Action: REST | Energy: 12.54J | Lv.1
+2025-12-02 13:34:11,275 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:11,278 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:34:11,283 | Cycle 1129 | Action: REST | Energy: 12.64J | Lv.1
+2025-12-02 13:34:14,843 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:14,843 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:34:14,844 | Cycle 1130 | Action: REST | Energy: 12.65J | Lv.1
+2025-12-02 13:34:18,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:18,690 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:34:18,690 | Cycle 1131 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 13:34:22,184 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:22,184 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:34:22,185 | Cycle 1132 | Action: REST | Energy: 12.71J | Lv.1
+2025-12-02 13:34:25,730 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:25,731 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:34:25,743 | Cycle 1133 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 13:34:29,680 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:29,691 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:34:29,703 | Cycle 1134 | Action: REST | Energy: 12.68J | Lv.1
+2025-12-02 13:34:33,370 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:33,438 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:34:33,486 | Cycle 1135 | Action: REST | Energy: 12.66J | Lv.1
+2025-12-02 13:34:37,035 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:37,035 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:34:37,035 | Cycle 1136 | Action: REST | Energy: 12.52J | Lv.1
+2025-12-02 13:34:40,763 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:40,777 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:34:40,792 | Cycle 1137 | Action: REST | Energy: 12.63J | Lv.1
+2025-12-02 13:34:44,303 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:44,304 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:34:44,304 | Cycle 1138 | Action: REST | Energy: 12.66J | Lv.1
+2025-12-02 13:34:48,022 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:48,066 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:34:48,112 | Cycle 1139 | Action: REST | Energy: 12.54J | Lv.1
+2025-12-02 13:34:52,042 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:52,083 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:34:52,092 | Cycle 1140 | Action: REST | Energy: 12.65J | Lv.1
+2025-12-02 13:34:55,652 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:55,653 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:34:55,658 | Cycle 1141 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 13:34:59,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:34:59,162 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:34:59,163 | Cycle 1142 | Action: REST | Energy: 12.47J | Lv.1
+2025-12-02 13:35:02,697 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:02,697 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:35:02,698 | Cycle 1143 | Action: REST | Energy: 12.42J | Lv.1
+2025-12-02 13:35:06,395 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:06,397 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:35:06,476 | Cycle 1144 | Action: REST | Energy: 12.38J | Lv.1
+2025-12-02 13:35:10,078 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:10,079 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:35:10,081 | Cycle 1145 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:35:14,024 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:14,129 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:35:14,194 | Cycle 1146 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:35:17,812 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:17,817 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:35:17,821 | Cycle 1147 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:35:22,532 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:22,621 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:35:22,682 | Cycle 1148 | Action: REST | Energy: 12.11J | Lv.1
+2025-12-02 13:35:26,311 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:26,358 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:35:26,364 | Cycle 1149 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:35:29,982 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:29,982 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:35:29,983 | Cycle 1150 | Action: REST | Energy: 12.22J | Lv.1
+2025-12-02 13:35:33,498 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:33,498 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:35:33,499 | Cycle 1151 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:35:37,109 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:37,124 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:35:37,154 | Cycle 1152 | Action: REST | Energy: 12.49J | Lv.1
+2025-12-02 13:35:40,780 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:40,814 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:35:40,820 | Cycle 1153 | Action: REST | Energy: 12.43J | Lv.1
+2025-12-02 13:35:44,380 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:44,382 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:35:44,386 | Cycle 1154 | Action: REST | Energy: 12.47J | Lv.1
+2025-12-02 13:35:47,899 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:47,900 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:35:47,900 | Cycle 1155 | Action: REST | Energy: 12.34J | Lv.1
+2025-12-02 13:35:51,702 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:51,710 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:35:51,761 | Cycle 1156 | Action: REST | Energy: 12.37J | Lv.1
+2025-12-02 13:35:55,396 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:55,401 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:35:55,403 | Cycle 1157 | Action: REST | Energy: 12.28J | Lv.1
+2025-12-02 13:35:58,992 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:35:59,011 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:35:59,018 | Cycle 1158 | Action: REST | Energy: 12.30J | Lv.1
+2025-12-02 13:36:02,652 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:02,699 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:36:02,709 | Cycle 1159 | Action: REST | Energy: 12.20J | Lv.1
+2025-12-02 13:36:06,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:06,265 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:36:06,266 | Cycle 1160 | Action: REST | Energy: 12.23J | Lv.1
+2025-12-02 13:36:09,780 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:09,781 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:36:09,781 | Cycle 1161 | Action: REST | Energy: 12.34J | Lv.1
+2025-12-02 13:36:13,294 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:13,294 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:36:13,295 | Cycle 1162 | Action: REST | Energy: 12.34J | Lv.1
+2025-12-02 13:36:16,806 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:16,806 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:36:16,807 | Cycle 1163 | Action: REST | Energy: 12.44J | Lv.1
+2025-12-02 13:36:20,317 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:20,317 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:36:20,318 | Cycle 1164 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:36:23,827 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:23,827 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:36:23,827 | Cycle 1165 | Action: REST | Energy: 12.68J | Lv.1
+2025-12-02 13:36:27,618 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:27,618 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:36:27,619 | Cycle 1166 | Action: REST | Energy: 12.83J | Lv.1
+2025-12-02 13:36:31,143 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:31,157 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:36:31,166 | Cycle 1167 | Action: REST | Energy: 12.96J | Lv.1
+2025-12-02 13:36:34,692 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:34,695 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:36:34,753 | Cycle 1168 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 13:36:38,619 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:38,632 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:36:38,653 | Cycle 1169 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:36:42,338 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:42,410 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:36:42,448 | Cycle 1170 | Action: REST | Energy: 12.94J | Lv.1
+2025-12-02 13:36:45,965 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:45,965 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:36:45,965 | Cycle 1171 | Action: REST | Energy: 12.93J | Lv.1
+2025-12-02 13:36:49,462 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:49,468 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:36:49,468 | Cycle 1172 | Action: REST | Energy: 12.97J | Lv.1
+2025-12-02 13:36:52,958 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:52,959 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:36:52,959 | Cycle 1173 | Action: REST | Energy: 13.14J | Lv.1
+2025-12-02 13:36:56,560 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:36:56,590 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:36:56,592 | Cycle 1174 | Action: REST | Energy: 13.28J | Lv.1
+2025-12-02 13:37:00,151 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:00,164 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 13:37:00,165 | Cycle 1175 | Action: REST | Energy: 13.39J | Lv.1
+2025-12-02 13:37:03,791 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:03,829 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:37:03,847 | Cycle 1176 | Action: REST | Energy: 13.30J | Lv.1
+2025-12-02 13:37:07,411 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:07,420 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:37:07,425 | Cycle 1177 | Action: REST | Energy: 13.23J | Lv.1
+2025-12-02 13:37:10,900 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:10,901 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:37:10,901 | Cycle 1178 | Action: REST | Energy: 13.32J | Lv.1
+2025-12-02 13:37:14,543 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:14,554 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:37:14,585 | Cycle 1179 | Action: REST | Energy: 13.20J | Lv.1
+2025-12-02 13:37:18,182 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:18,186 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:37:18,189 | Cycle 1180 | Action: REST | Energy: 13.05J | Lv.1
+2025-12-02 13:37:21,767 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:21,767 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:37:21,768 | Cycle 1181 | Action: REST | Energy: 13.17J | Lv.1
+2025-12-02 13:37:25,244 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:25,245 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:37:25,245 | Cycle 1182 | Action: REST | Energy: 13.08J | Lv.1
+2025-12-02 13:37:28,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:28,725 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:37:28,726 | Cycle 1183 | Action: REST | Energy: 13.11J | Lv.1
+2025-12-02 13:37:32,206 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:32,206 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:37:32,206 | Cycle 1184 | Action: REST | Energy: 13.22J | Lv.1
+2025-12-02 13:37:35,701 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:35,716 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:37:35,717 | Cycle 1185 | Action: REST | Energy: 13.22J | Lv.1
+2025-12-02 13:37:39,296 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:39,374 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:37:39,394 | Cycle 1186 | Action: REST | Energy: 13.20J | Lv.1
+2025-12-02 13:37:43,132 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:43,179 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:37:43,202 | Cycle 1187 | Action: REST | Energy: 13.33J | Lv.1
+2025-12-02 13:37:46,682 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:46,683 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 13:37:46,684 | Cycle 1188 | Action: REST | Energy: 13.62J | Lv.1
+2025-12-02 13:37:50,155 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:50,160 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:37:50,162 | Cycle 1189 | Action: REST | Energy: 13.31J | Lv.1
+2025-12-02 13:37:53,656 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:53,656 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:37:53,657 | Cycle 1190 | Action: REST | Energy: 13.32J | Lv.1
+2025-12-02 13:37:57,126 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:37:57,126 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:37:57,127 | Cycle 1191 | Action: REST | Energy: 13.18J | Lv.1
+2025-12-02 13:38:00,727 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:00,756 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:38:00,766 | Cycle 1192 | Action: REST | Energy: 13.25J | Lv.1
+2025-12-02 13:38:04,307 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:04,308 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 13:38:04,308 | Cycle 1193 | Action: REST | Energy: 13.41J | Lv.1
+2025-12-02 13:38:07,774 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:07,774 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 13:38:07,774 | Cycle 1194 | Action: REST | Energy: 13.38J | Lv.1
+2025-12-02 13:38:11,304 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:11,308 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 13:38:11,308 | Cycle 1195 | Action: REST | Energy: 13.38J | Lv.1
+2025-12-02 13:38:14,775 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:14,776 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 13:38:14,776 | Cycle 1196 | Action: REST | Energy: 13.60J | Lv.1
+2025-12-02 13:38:18,427 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:18,447 | 🪞 Reflection: Energy=13.6, Mood=Calm
+2025-12-02 13:38:18,457 | Cycle 1197 | Action: REST | Energy: 13.56J | Lv.1
+2025-12-02 13:38:21,942 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:21,942 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 13:38:21,943 | Cycle 1198 | Action: REST | Energy: 13.44J | Lv.1
+2025-12-02 13:38:25,488 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:25,501 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 13:38:25,516 | Cycle 1199 | Action: REST | Energy: 13.39J | Lv.1
+2025-12-02 13:38:29,144 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:29,144 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:38:29,145 | Cycle 1200 | Action: REST | Energy: 13.31J | Lv.1
+2025-12-02 13:38:32,761 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:32,781 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:38:32,863 | Cycle 1201 | Action: REST | Energy: 13.01J | Lv.1
+2025-12-02 13:38:36,424 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:36,424 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:38:36,424 | Cycle 1202 | Action: REST | Energy: 12.92J | Lv.1
+2025-12-02 13:38:40,123 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:40,150 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:38:40,152 | Cycle 1203 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 13:38:43,732 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:43,779 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:38:43,831 | Cycle 1204 | Action: REST | Energy: 13.00J | Lv.1
+2025-12-02 13:38:47,402 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:47,455 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:38:47,491 | Cycle 1205 | Action: REST | Energy: 13.06J | Lv.1
+2025-12-02 13:38:51,029 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:51,030 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:38:51,031 | Cycle 1206 | Action: REST | Energy: 12.99J | Lv.1
+2025-12-02 13:38:54,513 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:54,514 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:38:54,514 | Cycle 1207 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:38:58,015 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:38:58,025 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:38:58,026 | Cycle 1208 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 13:39:01,514 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:01,514 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:39:01,514 | Cycle 1209 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 13:39:05,259 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:05,280 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:39:05,315 | Cycle 1210 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 13:39:08,939 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:08,946 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:39:08,948 | Cycle 1211 | Action: REST | Energy: 12.95J | Lv.1
+2025-12-02 13:39:12,470 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:12,471 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:39:12,471 | Cycle 1212 | Action: REST | Energy: 12.96J | Lv.1
+2025-12-02 13:39:15,958 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:15,959 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:39:15,959 | Cycle 1213 | Action: REST | Energy: 13.08J | Lv.1
+2025-12-02 13:39:19,440 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:19,440 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:39:19,440 | Cycle 1214 | Action: REST | Energy: 12.92J | Lv.1
+2025-12-02 13:39:22,927 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:22,928 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:39:22,929 | Cycle 1215 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 13:39:26,421 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:26,421 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:39:26,421 | Cycle 1216 | Action: REST | Energy: 12.79J | Lv.1
+2025-12-02 13:39:29,946 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:29,950 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:39:29,992 | Cycle 1217 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 13:39:33,661 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:33,672 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:39:33,741 | Cycle 1218 | Action: REST | Energy: 12.59J | Lv.1
+2025-12-02 13:39:37,290 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:37,290 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:39:37,291 | Cycle 1219 | Action: REST | Energy: 12.49J | Lv.1
+2025-12-02 13:39:40,828 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:40,828 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:39:40,829 | Cycle 1220 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 13:39:44,792 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:44,949 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:39:45,065 | Cycle 1221 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 13:39:48,647 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:48,647 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:39:48,648 | Cycle 1222 | Action: REST | Energy: 12.54J | Lv.1
+2025-12-02 13:39:52,150 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:52,150 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:39:52,151 | Cycle 1223 | Action: REST | Energy: 12.50J | Lv.1
+2025-12-02 13:39:56,160 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:56,163 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:39:56,181 | Cycle 1224 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:39:59,854 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:39:59,855 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:39:59,856 | Cycle 1225 | Action: REST | Energy: 12.25J | Lv.1
+2025-12-02 13:40:03,548 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:03,554 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:40:03,556 | Cycle 1226 | Action: REST | Energy: 12.26J | Lv.1
+2025-12-02 13:40:07,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:07,355 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:40:07,431 | Cycle 1227 | Action: REST | Energy: 12.16J | Lv.1
+2025-12-02 13:40:11,197 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:11,205 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:40:11,210 | Cycle 1228 | Action: REST | Energy: 12.28J | Lv.1
+2025-12-02 13:40:14,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:14,726 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:40:14,727 | Cycle 1229 | Action: REST | Energy: 12.02J | Lv.1
+2025-12-02 13:40:18,387 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:18,508 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:40:18,585 | Cycle 1230 | Action: REST | Energy: 12.06J | Lv.1
+2025-12-02 13:40:22,207 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:22,209 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:40:22,211 | Cycle 1231 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 13:40:25,995 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:26,073 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:40:26,175 | Cycle 1232 | Action: REST | Energy: 12.05J | Lv.1
+2025-12-02 13:40:29,762 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:29,763 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:40:29,763 | Cycle 1233 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 13:40:33,401 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:33,444 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:40:33,447 | Cycle 1234 | Action: REST | Energy: 12.04J | Lv.1
+2025-12-02 13:40:36,977 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:36,978 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:40:36,979 | Cycle 1235 | Action: REST | Energy: 12.01J | Lv.1
+2025-12-02 13:40:40,637 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:40,709 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:40:40,785 | Cycle 1236 | Action: REST | Energy: 12.04J | Lv.1
+2025-12-02 13:40:44,434 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:44,438 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:40:44,439 | Cycle 1237 | Action: REST | Energy: 12.15J | Lv.1
+2025-12-02 13:40:48,331 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:48,378 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:40:48,401 | Cycle 1238 | Action: REST | Energy: 12.24J | Lv.1
+2025-12-02 13:40:52,101 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:52,129 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:40:52,146 | Cycle 1239 | Action: REST | Energy: 12.34J | Lv.1
+2025-12-02 13:40:56,104 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:40:56,165 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:40:56,174 | Cycle 1240 | Action: REST | Energy: 12.28J | Lv.1
+2025-12-02 13:41:00,176 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:00,277 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:41:00,328 | Cycle 1241 | Action: REST | Energy: 12.51J | Lv.1
+2025-12-02 13:41:03,959 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:03,960 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:41:03,960 | Cycle 1242 | Action: REST | Energy: 12.42J | Lv.1
+2025-12-02 13:41:07,500 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:07,500 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:41:07,501 | Cycle 1243 | Action: REST | Energy: 12.46J | Lv.1
+2025-12-02 13:41:11,160 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:11,175 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:41:11,183 | Cycle 1244 | Action: REST | Energy: 12.59J | Lv.1
+2025-12-02 13:41:15,017 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:15,108 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:41:15,150 | Cycle 1245 | Action: REST | Energy: 12.62J | Lv.1
+2025-12-02 13:41:19,345 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:19,471 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:41:19,472 | Cycle 1246 | Action: REST | Energy: 12.68J | Lv.1
+2025-12-02 13:41:23,184 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:23,211 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:41:23,233 | Cycle 1247 | Action: REST | Energy: 12.70J | Lv.1
+2025-12-02 13:41:27,008 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:27,088 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:41:27,126 | Cycle 1248 | Action: REST | Energy: 12.59J | Lv.1
+2025-12-02 13:41:30,734 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:30,741 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:41:30,743 | Cycle 1249 | Action: REST | Energy: 12.41J | Lv.1
+2025-12-02 13:41:34,949 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:35,194 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:41:35,195 | Cycle 1250 | Action: REST | Energy: 12.40J | Lv.1
+2025-12-02 13:41:38,842 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:38,842 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:41:38,842 | Cycle 1251 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:41:42,395 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:42,424 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:41:42,647 | Cycle 1252 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:41:46,758 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:46,814 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:41:46,872 | Cycle 1253 | Action: REST | Energy: 12.38J | Lv.1
+2025-12-02 13:41:50,441 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:50,441 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:41:50,441 | Cycle 1254 | Action: REST | Energy: 12.41J | Lv.1
+2025-12-02 13:41:54,394 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:54,506 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:41:54,559 | Cycle 1255 | Action: REST | Energy: 12.26J | Lv.1
+2025-12-02 13:41:58,378 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:41:58,430 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:41:58,485 | Cycle 1256 | Action: REST | Energy: 12.31J | Lv.1
+2025-12-02 13:42:02,249 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:02,273 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:42:02,275 | Cycle 1257 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 13:42:05,935 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:05,944 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:42:05,956 | Cycle 1258 | Action: REST | Energy: 12.55J | Lv.1
+2025-12-02 13:42:09,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:09,506 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:42:09,544 | Cycle 1259 | Action: REST | Energy: 12.50J | Lv.1
+2025-12-02 13:42:13,242 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:13,415 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:42:13,480 | Cycle 1260 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:42:17,230 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:17,231 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:42:17,232 | Cycle 1261 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 13:42:20,797 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:20,798 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:42:20,799 | Cycle 1262 | Action: REST | Energy: 12.39J | Lv.1
+2025-12-02 13:42:24,546 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:24,611 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:42:24,641 | Cycle 1263 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 13:42:28,306 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:28,315 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:42:28,333 | Cycle 1264 | Action: REST | Energy: 12.20J | Lv.1
+2025-12-02 13:42:32,027 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:32,031 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:42:32,034 | Cycle 1265 | Action: REST | Energy: 12.32J | Lv.1
+2025-12-02 13:42:35,709 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:35,717 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:42:35,718 | Cycle 1266 | Action: REST | Energy: 12.20J | Lv.1
+2025-12-02 13:42:39,380 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:39,418 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:42:39,446 | Cycle 1267 | Action: REST | Energy: 12.34J | Lv.1
+2025-12-02 13:42:43,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:43,216 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:42:43,218 | Cycle 1268 | Action: REST | Energy: 12.64J | Lv.1
+2025-12-02 13:42:47,009 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:47,052 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:42:47,114 | Cycle 1269 | Action: REST | Energy: 12.63J | Lv.1
+2025-12-02 13:42:50,979 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:50,980 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:42:50,980 | Cycle 1270 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 13:42:54,678 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:54,720 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:42:54,846 | Cycle 1271 | Action: REST | Energy: 12.59J | Lv.1
+2025-12-02 13:42:58,597 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:42:58,615 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:42:58,616 | Cycle 1272 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 13:43:02,116 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:02,116 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:43:02,117 | Cycle 1273 | Action: REST | Energy: 12.70J | Lv.1
+2025-12-02 13:43:05,720 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:05,747 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:43:05,759 | Cycle 1274 | Action: REST | Energy: 12.82J | Lv.1
+2025-12-02 13:43:09,345 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:09,358 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:43:09,368 | Cycle 1275 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:43:12,875 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:12,876 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:43:12,876 | Cycle 1276 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 13:43:16,408 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:16,415 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:43:16,423 | Cycle 1277 | Action: REST | Energy: 12.72J | Lv.1
+2025-12-02 13:43:20,059 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:20,108 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:43:20,144 | Cycle 1278 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:43:23,729 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:23,751 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:43:23,759 | Cycle 1279 | Action: REST | Energy: 12.93J | Lv.1
+2025-12-02 13:43:27,248 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:27,248 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:43:27,248 | Cycle 1280 | Action: REST | Energy: 13.06J | Lv.1
+2025-12-02 13:43:30,889 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:30,957 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:43:30,977 | Cycle 1281 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 13:43:34,528 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:34,529 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:43:34,529 | Cycle 1282 | Action: REST | Energy: 12.47J | Lv.1
+2025-12-02 13:43:38,206 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:38,227 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:43:38,257 | Cycle 1283 | Action: REST | Energy: 12.50J | Lv.1
+2025-12-02 13:43:41,977 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:42,134 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:43:42,169 | Cycle 1284 | Action: REST | Energy: 12.50J | Lv.1
+2025-12-02 13:43:45,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:45,840 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:43:45,842 | Cycle 1285 | Action: REST | Energy: 12.69J | Lv.1
+2025-12-02 13:43:49,424 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:49,451 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:43:49,470 | Cycle 1286 | Action: REST | Energy: 12.58J | Lv.1
+2025-12-02 13:43:53,098 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:53,201 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:43:53,210 | Cycle 1287 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 13:43:56,711 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:43:56,712 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:43:56,712 | Cycle 1288 | Action: REST | Energy: 12.43J | Lv.1
+2025-12-02 13:44:00,218 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:00,218 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:44:00,218 | Cycle 1289 | Action: REST | Energy: 12.36J | Lv.1
+2025-12-02 13:44:03,958 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:04,036 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:44:04,155 | Cycle 1290 | Action: REST | Energy: 12.35J | Lv.1
+2025-12-02 13:44:07,899 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:07,900 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:44:07,900 | Cycle 1291 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 13:44:11,521 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:11,556 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:44:11,633 | Cycle 1292 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 13:44:15,325 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:15,329 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:44:15,330 | Cycle 1293 | Action: REST | Energy: 12.65J | Lv.1
+2025-12-02 13:44:18,827 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:18,828 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:44:18,828 | Cycle 1294 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:44:22,424 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:22,429 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:44:22,430 | Cycle 1295 | Action: REST | Energy: 12.70J | Lv.1
+2025-12-02 13:44:26,107 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:26,125 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:44:26,128 | Cycle 1296 | Action: REST | Energy: 12.67J | Lv.1
+2025-12-02 13:44:29,969 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:30,036 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:44:30,078 | Cycle 1297 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:44:33,594 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:33,595 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:44:33,595 | Cycle 1298 | Action: REST | Energy: 12.96J | Lv.1
+2025-12-02 13:44:37,080 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:37,081 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:44:37,081 | Cycle 1299 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:44:40,664 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:40,666 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:44:40,666 | Cycle 1300 | Action: REST | Energy: 12.68J | Lv.1
+2025-12-02 13:44:44,167 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:44,169 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:44:44,169 | Cycle 1301 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 13:44:47,770 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:47,849 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:44:47,934 | Cycle 1302 | Action: REST | Energy: 12.28J | Lv.1
+2025-12-02 13:44:51,475 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:51,475 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:44:51,476 | Cycle 1303 | Action: REST | Energy: 12.00J | Lv.1
+2025-12-02 13:44:55,222 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:55,235 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:44:55,238 | Cycle 1304 | Action: REST | Energy: 11.92J | Lv.1
+2025-12-02 13:44:58,767 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:44:58,767 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:44:58,767 | Cycle 1305 | Action: REST | Energy: 12.00J | Lv.1
+2025-12-02 13:45:02,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:02,316 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:45:02,317 | Cycle 1306 | Action: REST | Energy: 12.04J | Lv.1
+2025-12-02 13:45:05,913 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:05,921 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:45:05,979 | Cycle 1307 | Action: REST | Energy: 12.12J | Lv.1
+2025-12-02 13:45:09,668 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:09,693 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:45:09,721 | Cycle 1308 | Action: REST | Energy: 12.31J | Lv.1
+2025-12-02 13:45:13,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:13,247 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:45:13,248 | Cycle 1309 | Action: REST | Energy: 12.25J | Lv.1
+2025-12-02 13:45:16,761 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:16,761 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:45:16,762 | Cycle 1310 | Action: REST | Energy: 12.13J | Lv.1
+2025-12-02 13:45:20,637 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:20,705 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:45:20,772 | Cycle 1311 | Action: REST | Energy: 12.07J | Lv.1
+2025-12-02 13:45:24,505 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:24,508 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:45:24,554 | Cycle 1312 | Action: REST | Energy: 11.99J | Lv.1
+2025-12-02 13:45:28,269 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:28,269 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:45:28,278 | Cycle 1313 | Action: REST | Energy: 12.09J | Lv.1
+2025-12-02 13:45:31,996 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:32,048 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:45:32,054 | Cycle 1314 | Action: REST | Energy: 12.13J | Lv.1
+2025-12-02 13:45:35,668 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:35,687 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:45:35,689 | Cycle 1315 | Action: REST | Energy: 12.16J | Lv.1
+2025-12-02 13:45:39,364 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:39,402 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:45:39,404 | Cycle 1316 | Action: REST | Energy: 12.01J | Lv.1
+2025-12-02 13:45:43,013 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:43,020 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:45:43,021 | Cycle 1317 | Action: REST | Energy: 12.19J | Lv.1
+2025-12-02 13:45:46,703 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:46,726 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:45:46,752 | Cycle 1318 | Action: REST | Energy: 12.47J | Lv.1
+2025-12-02 13:45:50,309 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:50,380 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:45:50,448 | Cycle 1319 | Action: REST | Energy: 12.40J | Lv.1
+2025-12-02 13:45:54,257 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:54,303 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:45:54,336 | Cycle 1320 | Action: REST | Energy: 12.51J | Lv.1
+2025-12-02 13:45:58,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:45:58,190 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:45:58,195 | Cycle 1321 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 13:46:01,917 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:01,925 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:46:01,968 | Cycle 1322 | Action: REST | Energy: 12.71J | Lv.1
+2025-12-02 13:46:05,612 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:05,647 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:46:05,710 | Cycle 1323 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 13:46:09,620 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:09,638 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:46:09,703 | Cycle 1324 | Action: REST | Energy: 12.89J | Lv.1
+2025-12-02 13:46:13,235 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:13,235 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:46:13,236 | Cycle 1325 | Action: REST | Energy: 12.80J | Lv.1
+2025-12-02 13:46:16,808 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:16,872 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:46:16,963 | Cycle 1326 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 13:46:20,546 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:20,546 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:46:20,547 | Cycle 1327 | Action: REST | Energy: 12.87J | Lv.1
+2025-12-02 13:46:24,051 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:24,057 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:46:24,068 | Cycle 1328 | Action: REST | Energy: 12.91J | Lv.1
+2025-12-02 13:46:27,655 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:27,688 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:46:27,722 | Cycle 1329 | Action: REST | Energy: 12.83J | Lv.1
+2025-12-02 13:46:31,325 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:31,332 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:46:31,333 | Cycle 1330 | Action: REST | Energy: 12.71J | Lv.1
+2025-12-02 13:46:34,827 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:34,828 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:46:34,828 | Cycle 1331 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 13:46:38,347 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:38,348 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:46:38,348 | Cycle 1332 | Action: REST | Energy: 13.10J | Lv.1
+2025-12-02 13:46:41,828 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:41,828 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:46:41,828 | Cycle 1333 | Action: REST | Energy: 13.29J | Lv.1
+2025-12-02 13:46:45,518 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:45,628 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:46:45,719 | Cycle 1334 | Action: REST | Energy: 13.29J | Lv.1
+2025-12-02 13:46:49,489 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:49,632 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:46:49,782 | Cycle 1335 | Action: REST | Energy: 13.04J | Lv.1
+2025-12-02 13:46:53,394 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:53,395 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:46:53,395 | Cycle 1336 | Action: REST | Energy: 12.92J | Lv.1
+2025-12-02 13:46:56,882 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:46:56,883 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:46:56,883 | Cycle 1337 | Action: REST | Energy: 13.16J | Lv.1
+2025-12-02 13:47:00,463 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:00,472 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:00,474 | Cycle 1338 | Action: REST | Energy: 13.08J | Lv.1
+2025-12-02 13:47:04,286 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:04,316 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:04,354 | Cycle 1339 | Action: REST | Energy: 13.09J | Lv.1
+2025-12-02 13:47:08,069 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:08,196 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:47:08,341 | Cycle 1340 | Action: REST | Energy: 13.28J | Lv.1
+2025-12-02 13:47:11,890 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:11,890 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:11,891 | Cycle 1341 | Action: REST | Energy: 13.09J | Lv.1
+2025-12-02 13:47:15,435 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:15,471 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:47:15,483 | Cycle 1342 | Action: REST | Energy: 13.27J | Lv.1
+2025-12-02 13:47:19,044 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:19,045 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:19,046 | Cycle 1343 | Action: REST | Energy: 13.12J | Lv.1
+2025-12-02 13:47:22,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:22,792 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:47:22,846 | Cycle 1344 | Action: REST | Energy: 13.17J | Lv.1
+2025-12-02 13:47:26,356 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:26,357 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:26,357 | Cycle 1345 | Action: REST | Energy: 13.11J | Lv.1
+2025-12-02 13:47:29,867 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:29,880 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:47:29,889 | Cycle 1346 | Action: REST | Energy: 13.02J | Lv.1
+2025-12-02 13:47:33,383 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:33,383 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:47:33,384 | Cycle 1347 | Action: REST | Energy: 13.24J | Lv.1
+2025-12-02 13:47:37,113 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:37,160 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:37,211 | Cycle 1348 | Action: REST | Energy: 13.09J | Lv.1
+2025-12-02 13:47:40,928 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:40,929 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:47:40,974 | Cycle 1349 | Action: REST | Energy: 13.23J | Lv.1
+2025-12-02 13:47:44,559 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:44,605 | 🪞 Reflection: Energy=13.2, Mood=Calm
+2025-12-02 13:47:44,608 | Cycle 1350 | Action: REST | Energy: 13.24J | Lv.1
+2025-12-02 13:47:48,262 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:48,347 | 🪞 Reflection: Energy=13.4, Mood=Calm
+2025-12-02 13:47:48,393 | Cycle 1351 | Action: REST | Energy: 13.37J | Lv.1
+2025-12-02 13:47:52,013 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:52,049 | 🪞 Reflection: Energy=13.3, Mood=Calm
+2025-12-02 13:47:52,055 | Cycle 1352 | Action: REST | Energy: 13.35J | Lv.1
+2025-12-02 13:47:55,634 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:55,700 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:55,733 | Cycle 1353 | Action: REST | Energy: 13.11J | Lv.1
+2025-12-02 13:47:59,510 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:47:59,607 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:47:59,639 | Cycle 1354 | Action: REST | Energy: 13.06J | Lv.1
+2025-12-02 13:48:03,168 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:03,196 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:48:03,264 | Cycle 1355 | Action: REST | Energy: 12.75J | Lv.1
+2025-12-02 13:48:06,831 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:06,831 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:48:06,832 | Cycle 1356 | Action: REST | Energy: 12.68J | Lv.1
+2025-12-02 13:48:10,371 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:10,408 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:48:10,428 | Cycle 1357 | Action: REST | Energy: 12.57J | Lv.1
+2025-12-02 13:48:13,982 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:13,987 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:48:14,064 | Cycle 1358 | Action: REST | Energy: 12.48J | Lv.1
+2025-12-02 13:48:17,668 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:17,668 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:48:17,669 | Cycle 1359 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 13:48:21,598 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:21,634 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:48:21,683 | Cycle 1360 | Action: REST | Energy: 12.49J | Lv.1
+2025-12-02 13:48:25,334 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:25,334 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:48:25,334 | Cycle 1361 | Action: REST | Energy: 12.68J | Lv.1
+2025-12-02 13:48:28,833 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:28,834 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:48:28,834 | Cycle 1362 | Action: REST | Energy: 12.71J | Lv.1
+2025-12-02 13:48:32,443 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:32,489 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:48:32,516 | Cycle 1363 | Action: REST | Energy: 12.88J | Lv.1
+2025-12-02 13:48:36,078 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:36,121 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:48:36,183 | Cycle 1364 | Action: REST | Energy: 12.96J | Lv.1
+2025-12-02 13:48:39,874 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:39,948 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:48:40,004 | Cycle 1365 | Action: REST | Energy: 13.09J | Lv.1
+2025-12-02 13:48:43,565 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:43,566 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:48:43,567 | Cycle 1366 | Action: REST | Energy: 13.05J | Lv.1
+2025-12-02 13:48:47,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:47,308 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:48:47,326 | Cycle 1367 | Action: REST | Energy: 12.98J | Lv.1
+2025-12-02 13:48:51,121 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:51,144 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:48:51,180 | Cycle 1368 | Action: REST | Energy: 13.00J | Lv.1
+2025-12-02 13:48:54,722 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:54,723 | 🪞 Reflection: Energy=13.1, Mood=Calm
+2025-12-02 13:48:54,723 | Cycle 1369 | Action: REST | Energy: 13.09J | Lv.1
+2025-12-02 13:48:58,229 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:48:58,271 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:48:58,275 | Cycle 1370 | Action: REST | Energy: 12.94J | Lv.1
+2025-12-02 13:49:01,882 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:01,920 | 🪞 Reflection: Energy=13.0, Mood=Calm
+2025-12-02 13:49:01,985 | Cycle 1371 | Action: REST | Energy: 12.98J | Lv.1
+2025-12-02 13:49:05,543 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:05,543 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:49:05,543 | Cycle 1372 | Action: REST | Energy: 12.88J | Lv.1
+2025-12-02 13:49:09,043 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:09,044 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:49:09,044 | Cycle 1373 | Action: REST | Energy: 12.95J | Lv.1
+2025-12-02 13:49:12,586 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:12,596 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:49:12,604 | Cycle 1374 | Action: REST | Energy: 12.79J | Lv.1
+2025-12-02 13:49:16,424 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:16,431 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:49:16,431 | Cycle 1375 | Action: REST | Energy: 12.68J | Lv.1
+2025-12-02 13:49:20,015 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:20,042 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:49:20,137 | Cycle 1376 | Action: REST | Energy: 12.72J | Lv.1
+2025-12-02 13:49:23,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:23,741 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:49:23,742 | Cycle 1377 | Action: REST | Energy: 12.76J | Lv.1
+2025-12-02 13:49:27,241 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:27,241 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:49:27,242 | Cycle 1378 | Action: REST | Energy: 12.81J | Lv.1
+2025-12-02 13:49:30,748 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:30,766 | 🪞 Reflection: Energy=12.9, Mood=Calm
+2025-12-02 13:49:30,786 | Cycle 1379 | Action: REST | Energy: 12.94J | Lv.1
+2025-12-02 13:49:34,378 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:34,437 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:49:34,536 | Cycle 1380 | Action: REST | Energy: 12.73J | Lv.1
+2025-12-02 13:49:38,328 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:38,329 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:49:38,330 | Cycle 1381 | Action: REST | Energy: 12.77J | Lv.1
+2025-12-02 13:49:41,823 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:41,824 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:49:41,824 | Cycle 1382 | Action: REST | Energy: 12.74J | Lv.1
+2025-12-02 13:49:45,323 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:45,323 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:49:45,342 | Cycle 1383 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 13:49:49,152 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:49,261 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:49:49,358 | Cycle 1384 | Action: REST | Energy: 12.66J | Lv.1
+2025-12-02 13:49:52,883 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:52,884 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:49:52,885 | Cycle 1385 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:49:56,418 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:49:56,418 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:49:56,418 | Cycle 1386 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 13:49:59,999 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:00,022 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:00,033 | Cycle 1387 | Action: REST | Energy: 12.63J | Lv.1
+2025-12-02 13:50:03,593 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:03,594 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:03,606 | Cycle 1388 | Action: REST | Energy: 12.64J | Lv.1
+2025-12-02 13:50:07,107 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:07,107 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:50:07,108 | Cycle 1389 | Action: REST | Energy: 12.52J | Lv.1
+2025-12-02 13:50:10,960 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:10,977 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:10,984 | Cycle 1390 | Action: REST | Energy: 12.57J | Lv.1
+2025-12-02 13:50:15,065 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:15,347 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:50:15,495 | Cycle 1391 | Action: REST | Energy: 12.48J | Lv.1
+2025-12-02 13:50:19,778 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:19,943 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:20,059 | Cycle 1392 | Action: REST | Energy: 12.63J | Lv.1
+2025-12-02 13:50:24,271 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:24,285 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:50:24,298 | Cycle 1393 | Action: REST | Energy: 12.71J | Lv.1
+2025-12-02 13:50:28,088 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:28,184 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:50:28,284 | Cycle 1394 | Action: REST | Energy: 12.79J | Lv.1
+2025-12-02 13:50:31,956 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:31,961 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:50:31,962 | Cycle 1395 | Action: REST | Energy: 12.85J | Lv.1
+2025-12-02 13:50:35,607 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:35,704 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:50:36,129 | Cycle 1396 | Action: REST | Energy: 12.84J | Lv.1
+2025-12-02 13:50:39,815 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:39,826 | 🪞 Reflection: Energy=12.8, Mood=Calm
+2025-12-02 13:50:39,848 | Cycle 1397 | Action: REST | Energy: 12.81J | Lv.1
+2025-12-02 13:50:43,387 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:43,388 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:43,388 | Cycle 1398 | Action: REST | Energy: 12.55J | Lv.1
+2025-12-02 13:50:47,022 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:47,023 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:50:47,023 | Cycle 1399 | Action: REST | Energy: 12.52J | Lv.1
+2025-12-02 13:50:50,756 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:50,756 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:50,756 | Cycle 1400 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 13:50:54,254 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:54,254 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:54,254 | Cycle 1401 | Action: REST | Energy: 12.59J | Lv.1
+2025-12-02 13:50:57,753 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:50:57,753 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:50:57,753 | Cycle 1402 | Action: REST | Energy: 12.56J | Lv.1
+2025-12-02 13:51:01,252 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:01,253 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:51:01,253 | Cycle 1403 | Action: REST | Energy: 12.55J | Lv.1
+2025-12-02 13:51:04,753 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:04,753 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:51:04,753 | Cycle 1404 | Action: REST | Energy: 12.50J | Lv.1
+2025-12-02 13:51:08,560 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:08,714 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:51:08,889 | Cycle 1405 | Action: REST | Energy: 12.62J | Lv.1
+2025-12-02 13:51:12,654 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:12,695 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:51:12,725 | Cycle 1406 | Action: REST | Energy: 12.55J | Lv.1
+2025-12-02 13:51:16,481 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:16,517 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:51:16,552 | Cycle 1407 | Action: REST | Energy: 12.47J | Lv.1
+2025-12-02 13:51:20,505 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:20,505 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:51:20,506 | Cycle 1408 | Action: REST | Energy: 12.73J | Lv.1
+2025-12-02 13:51:23,998 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:23,999 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:51:23,999 | Cycle 1409 | Action: REST | Energy: 12.73J | Lv.1
+2025-12-02 13:51:27,492 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:27,492 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:51:27,492 | Cycle 1410 | Action: REST | Energy: 12.66J | Lv.1
+2025-12-02 13:51:30,988 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:30,988 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:51:30,989 | Cycle 1411 | Action: REST | Energy: 12.60J | Lv.1
+2025-12-02 13:51:34,487 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:34,487 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:51:34,487 | Cycle 1412 | Action: REST | Energy: 12.66J | Lv.1
+2025-12-02 13:51:37,983 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:37,983 | 🪞 Reflection: Energy=12.7, Mood=Calm
+2025-12-02 13:51:37,983 | Cycle 1413 | Action: REST | Energy: 12.71J | Lv.1
+2025-12-02 13:51:41,477 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:41,477 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:51:41,477 | Cycle 1414 | Action: REST | Energy: 12.59J | Lv.1
+2025-12-02 13:51:44,976 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:45,129 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:51:45,129 | Cycle 1415 | Action: REST | Energy: 12.64J | Lv.1
+2025-12-02 13:51:48,626 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:48,626 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:51:48,626 | Cycle 1416 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 13:51:52,124 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:52,124 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:51:52,124 | Cycle 1417 | Action: REST | Energy: 12.51J | Lv.1
+2025-12-02 13:51:55,626 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:55,626 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:51:55,626 | Cycle 1418 | Action: REST | Energy: 12.43J | Lv.1
+2025-12-02 13:51:59,131 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:51:59,131 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:51:59,131 | Cycle 1419 | Action: REST | Energy: 12.51J | Lv.1
+2025-12-02 13:52:02,667 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:02,672 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:52:02,675 | Cycle 1420 | Action: REST | Energy: 12.62J | Lv.1
+2025-12-02 13:52:06,221 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:06,224 | 🪞 Reflection: Energy=12.6, Mood=Calm
+2025-12-02 13:52:06,246 | Cycle 1421 | Action: REST | Energy: 12.61J | Lv.1
+2025-12-02 13:52:09,831 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:09,841 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:52:09,855 | Cycle 1422 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 13:52:13,441 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:13,465 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:52:13,501 | Cycle 1423 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 13:52:17,198 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:17,215 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:52:17,224 | Cycle 1424 | Action: REST | Energy: 12.51J | Lv.1
+2025-12-02 13:52:20,755 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:20,755 | 🪞 Reflection: Energy=12.5, Mood=Calm
+2025-12-02 13:52:20,756 | Cycle 1425 | Action: REST | Energy: 12.53J | Lv.1
+2025-12-02 13:52:24,261 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:24,262 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:52:24,262 | Cycle 1426 | Action: REST | Energy: 12.45J | Lv.1
+2025-12-02 13:52:27,914 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:27,957 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:52:27,979 | Cycle 1427 | Action: REST | Energy: 12.31J | Lv.1
+2025-12-02 13:52:31,890 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:32,038 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:52:32,229 | Cycle 1428 | Action: REST | Energy: 12.33J | Lv.1
+2025-12-02 13:52:35,861 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:35,870 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:52:35,889 | Cycle 1429 | Action: REST | Energy: 12.42J | Lv.1
+2025-12-02 13:52:39,519 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:39,525 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:52:39,563 | Cycle 1430 | Action: REST | Energy: 12.18J | Lv.1
+2025-12-02 13:52:43,406 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:43,472 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:52:43,564 | Cycle 1431 | Action: REST | Energy: 12.31J | Lv.1
+2025-12-02 13:52:47,511 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:47,511 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:52:47,511 | Cycle 1432 | Action: REST | Energy: 12.25J | Lv.1
+2025-12-02 13:52:51,023 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:51,023 | 🪞 Reflection: Energy=12.4, Mood=Calm
+2025-12-02 13:52:51,023 | Cycle 1433 | Action: REST | Energy: 12.37J | Lv.1
+2025-12-02 13:52:54,582 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:54,595 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:52:54,608 | Cycle 1434 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 13:52:58,197 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:52:58,218 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:52:58,296 | Cycle 1435 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 13:53:02,206 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:02,292 | 🪞 Reflection: Energy=12.3, Mood=Calm
+2025-12-02 13:53:02,366 | Cycle 1436 | Action: REST | Energy: 12.27J | Lv.1
+2025-12-02 13:53:06,321 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:06,377 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:53:06,421 | Cycle 1437 | Action: REST | Energy: 12.15J | Lv.1
+2025-12-02 13:53:10,425 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:10,487 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:53:10,558 | Cycle 1438 | Action: REST | Energy: 12.01J | Lv.1
+2025-12-02 13:53:14,364 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:14,410 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:53:14,454 | Cycle 1439 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 13:53:18,380 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:18,380 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:53:18,380 | Cycle 1440 | Action: REST | Energy: 11.95J | Lv.1
+2025-12-02 13:53:21,904 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:21,904 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:53:21,905 | Cycle 1441 | Action: REST | Energy: 11.85J | Lv.1
+2025-12-02 13:53:25,433 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:25,433 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:53:25,433 | Cycle 1442 | Action: REST | Energy: 12.02J | Lv.1
+2025-12-02 13:53:29,605 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:29,852 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:53:30,034 | Cycle 1443 | Action: REST | Energy: 12.03J | Lv.1
+2025-12-02 13:53:33,652 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:33,652 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:53:33,653 | Cycle 1444 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 13:53:37,177 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:37,177 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:53:37,177 | Cycle 1445 | Action: REST | Energy: 11.97J | Lv.1
+2025-12-02 13:53:40,700 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:40,700 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:53:40,701 | Cycle 1446 | Action: REST | Energy: 11.99J | Lv.1
+2025-12-02 13:53:44,223 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:44,223 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:53:44,223 | Cycle 1447 | Action: REST | Energy: 11.92J | Lv.1
+2025-12-02 13:53:47,748 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:47,748 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:53:47,749 | Cycle 1448 | Action: REST | Energy: 11.81J | Lv.1
+2025-12-02 13:53:51,279 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:51,279 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:53:51,279 | Cycle 1449 | Action: REST | Energy: 11.68J | Lv.1
+2025-12-02 13:53:54,968 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:53:55,412 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:53:56,117 | Cycle 1450 | Action: REST | Energy: 11.67J | Lv.1
+2025-12-02 13:54:00,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:00,596 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:54:00,597 | Cycle 1451 | Action: REST | Energy: 11.55J | Lv.1
+2025-12-02 13:54:04,274 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:04,274 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:54:04,275 | Cycle 1452 | Action: REST | Energy: 11.66J | Lv.1
+2025-12-02 13:54:08,004 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:08,004 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:54:08,005 | Cycle 1453 | Action: REST | Energy: 11.55J | Lv.1
+2025-12-02 13:54:11,544 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:11,544 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:54:11,544 | Cycle 1454 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 13:54:15,076 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:15,077 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:54:15,077 | Cycle 1455 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 13:54:18,609 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:18,609 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:54:18,610 | Cycle 1456 | Action: REST | Energy: 11.76J | Lv.1
+2025-12-02 13:54:22,540 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:22,597 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:54:22,728 | Cycle 1457 | Action: REST | Energy: 11.70J | Lv.1
+2025-12-02 13:54:26,716 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:26,764 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:54:26,807 | Cycle 1458 | Action: REST | Energy: 11.77J | Lv.1
+2025-12-02 13:54:30,520 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:30,598 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:54:30,672 | Cycle 1459 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 13:54:34,294 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:34,295 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:54:34,295 | Cycle 1460 | Action: REST | Energy: 12.08J | Lv.1
+2025-12-02 13:54:37,858 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:37,886 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:54:37,927 | Cycle 1461 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 13:54:41,489 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:41,490 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:54:41,490 | Cycle 1462 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 13:54:45,179 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:45,311 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:54:45,391 | Cycle 1463 | Action: REST | Energy: 12.02J | Lv.1
+2025-12-02 13:54:49,053 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:49,054 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:54:49,056 | Cycle 1464 | Action: REST | Energy: 11.94J | Lv.1
+2025-12-02 13:54:52,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:52,689 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:54:52,697 | Cycle 1465 | Action: REST | Energy: 11.98J | Lv.1
+2025-12-02 13:54:56,225 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:56,225 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:54:56,229 | Cycle 1466 | Action: REST | Energy: 11.72J | Lv.1
+2025-12-02 13:54:59,872 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:54:59,884 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:54:59,886 | Cycle 1467 | Action: REST | Energy: 11.71J | Lv.1
+2025-12-02 13:55:03,422 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:03,423 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:55:03,423 | Cycle 1468 | Action: REST | Energy: 11.82J | Lv.1
+2025-12-02 13:55:07,006 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:07,010 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:55:07,011 | Cycle 1469 | Action: REST | Energy: 11.83J | Lv.1
+2025-12-02 13:55:11,195 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:11,257 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:55:11,312 | Cycle 1470 | Action: REST | Energy: 11.76J | Lv.1
+2025-12-02 13:55:15,077 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:15,079 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:55:15,089 | Cycle 1471 | Action: REST | Energy: 11.86J | Lv.1
+2025-12-02 13:55:18,736 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:18,808 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:55:18,833 | Cycle 1472 | Action: REST | Energy: 11.97J | Lv.1
+2025-12-02 13:55:22,471 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:22,472 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:55:22,473 | Cycle 1473 | Action: REST | Energy: 12.05J | Lv.1
+2025-12-02 13:55:26,020 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:26,023 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:55:26,024 | Cycle 1474 | Action: REST | Energy: 12.19J | Lv.1
+2025-12-02 13:55:29,715 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:29,815 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:55:29,912 | Cycle 1475 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 13:55:33,867 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:33,966 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:55:34,032 | Cycle 1476 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 13:55:37,904 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:38,005 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:55:38,005 | Cycle 1477 | Action: REST | Energy: 11.74J | Lv.1
+2025-12-02 13:55:41,537 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:41,537 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:55:41,537 | Cycle 1478 | Action: REST | Energy: 11.79J | Lv.1
+2025-12-02 13:55:45,068 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:45,068 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:55:45,069 | Cycle 1479 | Action: REST | Energy: 11.73J | Lv.1
+2025-12-02 13:55:48,602 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:48,602 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:55:48,603 | Cycle 1480 | Action: REST | Energy: 11.67J | Lv.1
+2025-12-02 13:55:52,138 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:52,138 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:55:52,138 | Cycle 1481 | Action: REST | Energy: 11.53J | Lv.1
+2025-12-02 13:55:55,679 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:55,679 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:55:55,679 | Cycle 1482 | Action: REST | Energy: 11.76J | Lv.1
+2025-12-02 13:55:59,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:55:59,211 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:55:59,211 | Cycle 1483 | Action: REST | Energy: 11.68J | Lv.1
+2025-12-02 13:56:02,840 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:02,859 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:56:02,928 | Cycle 1484 | Action: REST | Energy: 11.64J | Lv.1
+2025-12-02 13:56:06,624 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:06,662 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:56:06,688 | Cycle 1485 | Action: REST | Energy: 11.69J | Lv.1
+2025-12-02 13:56:10,366 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:10,404 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:56:10,458 | Cycle 1486 | Action: REST | Energy: 11.71J | Lv.1
+2025-12-02 13:56:14,109 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:14,125 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 13:56:14,127 | Cycle 1487 | Action: REST | Energy: 11.75J | Lv.1
+2025-12-02 13:56:17,720 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:17,727 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:56:17,774 | Cycle 1488 | Action: REST | Energy: 11.78J | Lv.1
+2025-12-02 13:56:21,378 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:21,382 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:56:21,397 | Cycle 1489 | Action: REST | Energy: 11.83J | Lv.1
+2025-12-02 13:56:24,941 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:24,941 | 🪞 Reflection: Energy=12.0, Mood=Calm
+2025-12-02 13:56:24,942 | Cycle 1490 | Action: REST | Energy: 11.96J | Lv.1
+2025-12-02 13:56:28,605 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:28,669 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:56:28,725 | Cycle 1491 | Action: REST | Energy: 11.90J | Lv.1
+2025-12-02 13:56:32,512 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:32,618 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:56:32,692 | Cycle 1492 | Action: REST | Energy: 12.07J | Lv.1
+2025-12-02 13:56:36,360 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:36,375 | 🪞 Reflection: Energy=12.2, Mood=Calm
+2025-12-02 13:56:36,392 | Cycle 1493 | Action: REST | Energy: 12.19J | Lv.1
+2025-12-02 13:56:40,041 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:40,042 | 🪞 Reflection: Energy=12.1, Mood=Calm
+2025-12-02 13:56:40,175 | Cycle 1494 | Action: REST | Energy: 12.07J | Lv.1
+2025-12-02 13:56:44,022 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:44,088 | 🪞 Reflection: Energy=11.9, Mood=Calm
+2025-12-02 13:56:44,144 | Cycle 1495 | Action: REST | Energy: 11.90J | Lv.1
+2025-12-02 13:56:48,042 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:48,105 | 🪞 Reflection: Energy=11.8, Mood=Calm
+2025-12-02 13:56:48,203 | Cycle 1496 | Action: REST | Energy: 11.76J | Lv.1
+2025-12-02 13:56:51,852 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:51,991 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 13:56:52,100 | Cycle 1497 | Action: REST | Energy: 11.53J | Lv.1
+2025-12-02 13:56:56,102 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:56:56,178 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 13:56:56,207 | Cycle 1498 | Action: REST | Energy: 11.56J | Lv.1
+2025-12-02 13:57:00,044 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:00,259 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:57:00,564 | Cycle 1499 | Action: REST | Energy: 11.30J | Lv.1
+2025-12-02 13:57:04,847 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:04,904 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:57:05,079 | Cycle 1500 | Action: REST | Energy: 11.24J | Lv.1
+2025-12-02 13:57:09,318 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:09,322 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:57:09,346 | Cycle 1501 | Action: REST | Energy: 11.34J | Lv.1
+2025-12-02 13:57:13,340 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:13,442 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:57:13,479 | Cycle 1502 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 13:57:17,383 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:17,447 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:57:17,572 | Cycle 1503 | Action: REST | Energy: 11.34J | Lv.1
+2025-12-02 13:57:21,834 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:21,899 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:57:21,973 | Cycle 1504 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 13:57:25,665 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:25,704 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:57:25,736 | Cycle 1505 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:57:29,457 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:29,503 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:57:29,581 | Cycle 1506 | Action: REST | Energy: 11.15J | Lv.1
+2025-12-02 13:57:33,261 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:33,304 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:57:33,340 | Cycle 1507 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 13:57:37,127 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:37,189 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 13:57:37,229 | Cycle 1508 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 13:57:41,093 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:41,220 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:57:41,280 | Cycle 1509 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:57:45,396 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:45,474 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:57:45,608 | Cycle 1510 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:57:49,449 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:49,488 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:57:49,521 | Cycle 1511 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:57:53,349 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:53,371 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:57:53,392 | Cycle 1512 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:57:57,172 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:57:57,211 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:57:57,216 | Cycle 1513 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 13:58:00,906 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:00,926 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:58:00,937 | Cycle 1514 | Action: REST | Energy: 10.80J | Lv.1
+2025-12-02 13:58:04,776 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:04,845 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:58:04,926 | Cycle 1515 | Action: REST | Energy: 10.91J | Lv.1
+2025-12-02 13:58:08,697 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:08,735 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:58:08,768 | Cycle 1516 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 13:58:12,365 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:12,367 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:58:12,368 | Cycle 1517 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:58:15,934 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:15,934 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:58:15,935 | Cycle 1518 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 13:58:19,513 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:19,518 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:58:19,547 | Cycle 1519 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 13:58:23,244 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:23,271 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:58:23,293 | Cycle 1520 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 13:58:27,132 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:27,133 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:58:27,133 | Cycle 1521 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 13:58:30,936 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:30,998 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:58:31,046 | Cycle 1522 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:58:34,805 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:34,889 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:58:34,963 | Cycle 1523 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 13:58:38,821 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:38,833 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:58:38,892 | Cycle 1524 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 13:58:42,724 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:42,824 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:58:42,964 | Cycle 1525 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 13:58:46,932 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:47,003 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:58:47,054 | Cycle 1526 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:58:50,777 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:50,792 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:58:50,935 | Cycle 1527 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 13:58:54,960 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:55,027 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:58:55,088 | Cycle 1528 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:58:58,947 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:58:58,959 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:58:59,062 | Cycle 1529 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 13:59:02,797 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:02,797 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 13:59:02,798 | Cycle 1530 | Action: REST | Energy: 11.23J | Lv.1
+2025-12-02 13:59:06,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:06,532 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:59:06,538 | Cycle 1531 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 13:59:10,405 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:10,485 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:59:10,539 | Cycle 1532 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 13:59:14,240 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:14,240 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:59:14,240 | Cycle 1533 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 13:59:17,996 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:18,065 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:59:18,152 | Cycle 1534 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 13:59:21,988 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:22,058 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:59:22,106 | Cycle 1535 | Action: REST | Energy: 10.82J | Lv.1
+2025-12-02 13:59:25,865 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:25,869 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:59:25,873 | Cycle 1536 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 13:59:29,982 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:30,056 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 13:59:30,163 | Cycle 1537 | Action: REST | Energy: 10.78J | Lv.1
+2025-12-02 13:59:33,883 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:33,884 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:59:33,884 | Cycle 1538 | Action: REST | Energy: 10.91J | Lv.1
+2025-12-02 13:59:37,779 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:37,882 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:59:37,882 | Cycle 1539 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 13:59:41,515 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:41,552 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:59:41,593 | Cycle 1540 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 13:59:45,337 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:45,360 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 13:59:45,370 | Cycle 1541 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 13:59:49,093 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:49,143 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:59:49,172 | Cycle 1542 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 13:59:52,963 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:53,062 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 13:59:53,189 | Cycle 1543 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 13:59:56,915 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 13:59:56,926 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 13:59:56,930 | Cycle 1544 | Action: REST | Energy: 11.00J | Lv.1
+2025-12-02 14:00:00,521 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:00,525 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:00:00,527 | Cycle 1545 | Action: REST | Energy: 11.10J | Lv.1
+2025-12-02 14:00:04,398 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:04,409 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:00:04,471 | Cycle 1546 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 14:00:08,125 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:08,126 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:00:08,126 | Cycle 1547 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 14:00:11,820 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:11,855 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:00:11,882 | Cycle 1548 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 14:00:15,758 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:15,828 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 14:00:15,897 | Cycle 1549 | Action: REST | Energy: 11.42J | Lv.1
+2025-12-02 14:00:19,582 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:19,682 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 14:00:19,708 | Cycle 1550 | Action: REST | Energy: 11.41J | Lv.1
+2025-12-02 14:00:23,351 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:23,436 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:00:23,448 | Cycle 1551 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 14:00:27,059 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:27,112 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 14:00:27,144 | Cycle 1552 | Action: REST | Energy: 11.43J | Lv.1
+2025-12-02 14:00:30,790 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:30,792 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 14:00:30,796 | Cycle 1553 | Action: REST | Energy: 11.51J | Lv.1
+2025-12-02 14:00:34,355 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:34,355 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 14:00:34,355 | Cycle 1554 | Action: REST | Energy: 11.46J | Lv.1
+2025-12-02 14:00:38,129 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:38,129 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 14:00:38,130 | Cycle 1555 | Action: REST | Energy: 11.49J | Lv.1
+2025-12-02 14:00:41,672 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:41,672 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:00:41,672 | Cycle 1556 | Action: REST | Energy: 11.17J | Lv.1
+2025-12-02 14:00:45,228 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:45,229 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:00:45,229 | Cycle 1557 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 14:00:48,793 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:48,796 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:00:48,797 | Cycle 1558 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 14:00:52,356 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:52,356 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:00:52,356 | Cycle 1559 | Action: REST | Energy: 11.20J | Lv.1
+2025-12-02 14:00:56,109 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:56,180 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:00:56,209 | Cycle 1560 | Action: REST | Energy: 11.23J | Lv.1
+2025-12-02 14:00:59,907 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:00:59,963 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:00:59,989 | Cycle 1561 | Action: REST | Energy: 11.23J | Lv.1
+2025-12-02 14:01:03,615 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:03,616 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:01:03,616 | Cycle 1562 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 14:01:07,173 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:07,174 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:01:07,174 | Cycle 1563 | Action: REST | Energy: 11.19J | Lv.1
+2025-12-02 14:01:10,938 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:10,971 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:01:10,990 | Cycle 1564 | Action: REST | Energy: 11.27J | Lv.1
+2025-12-02 14:01:14,594 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:14,598 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:01:14,602 | Cycle 1565 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 14:01:18,157 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:18,157 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:01:18,157 | Cycle 1566 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 14:01:21,874 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:21,910 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:01:21,920 | Cycle 1567 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 14:01:25,523 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:25,543 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:01:25,550 | Cycle 1568 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 14:01:29,147 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:29,171 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:01:29,187 | Cycle 1569 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 14:01:32,822 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:32,828 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:01:32,829 | Cycle 1570 | Action: REST | Energy: 10.95J | Lv.1
+2025-12-02 14:01:36,474 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:36,488 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:01:36,503 | Cycle 1571 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 14:01:40,097 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:40,119 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:01:40,125 | Cycle 1572 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 14:01:43,797 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:43,813 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:01:43,840 | Cycle 1573 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 14:01:47,422 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:47,422 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:01:47,423 | Cycle 1574 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 14:01:50,987 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:50,987 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:01:50,988 | Cycle 1575 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 14:01:54,761 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:54,785 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:01:54,801 | Cycle 1576 | Action: REST | Energy: 11.26J | Lv.1
+2025-12-02 14:01:58,366 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:01:58,366 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:01:58,366 | Cycle 1577 | Action: REST | Energy: 11.25J | Lv.1
+2025-12-02 14:02:02,013 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:02,031 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:02:02,056 | Cycle 1578 | Action: REST | Energy: 11.21J | Lv.1
+2025-12-02 14:02:05,617 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:05,618 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:02:05,618 | Cycle 1579 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 14:02:09,245 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:09,250 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:02:09,253 | Cycle 1580 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 14:02:12,840 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:12,871 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:02:12,907 | Cycle 1581 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 14:02:16,583 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:16,591 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:02:16,623 | Cycle 1582 | Action: REST | Energy: 11.16J | Lv.1
+2025-12-02 14:02:20,203 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:20,206 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:02:20,223 | Cycle 1583 | Action: REST | Energy: 11.07J | Lv.1
+2025-12-02 14:02:23,802 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:23,803 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:02:23,803 | Cycle 1584 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 14:02:27,386 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:27,398 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:02:27,404 | Cycle 1585 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 14:02:30,995 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:30,998 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:02:30,999 | Cycle 1586 | Action: REST | Energy: 11.01J | Lv.1
+2025-12-02 14:02:34,615 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:34,615 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:02:34,615 | Cycle 1587 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 14:02:38,179 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:38,180 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:02:38,180 | Cycle 1588 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 14:02:41,806 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:41,811 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:02:41,826 | Cycle 1589 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 14:02:45,625 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:45,710 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:02:45,759 | Cycle 1590 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 14:02:49,394 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:49,395 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:02:49,395 | Cycle 1591 | Action: REST | Energy: 10.98J | Lv.1
+2025-12-02 14:02:53,030 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:53,031 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:02:53,032 | Cycle 1592 | Action: REST | Energy: 11.06J | Lv.1
+2025-12-02 14:02:56,612 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:02:56,615 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:02:56,617 | Cycle 1593 | Action: REST | Energy: 11.08J | Lv.1
+2025-12-02 14:03:00,258 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:00,284 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:03:00,303 | Cycle 1594 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 14:03:04,347 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:04,505 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:03:04,560 | Cycle 1595 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 14:03:08,122 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:08,133 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:03:08,134 | Cycle 1596 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 14:03:11,701 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:11,704 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:03:11,706 | Cycle 1597 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 14:03:15,476 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:15,501 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:03:15,516 | Cycle 1598 | Action: REST | Energy: 10.93J | Lv.1
+2025-12-02 14:03:19,407 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:19,525 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:03:19,590 | Cycle 1599 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 14:03:23,313 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:23,397 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:03:23,458 | Cycle 1600 | Action: REST | Energy: 11.24J | Lv.1
+2025-12-02 14:03:27,279 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:27,280 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:03:27,281 | Cycle 1601 | Action: REST | Energy: 11.25J | Lv.1
+2025-12-02 14:03:30,992 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:31,039 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:03:31,047 | Cycle 1602 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 14:03:35,032 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:35,038 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:03:35,044 | Cycle 1603 | Action: REST | Energy: 11.04J | Lv.1
+2025-12-02 14:03:38,637 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:38,638 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:03:38,638 | Cycle 1604 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 14:03:42,310 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:42,318 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:03:42,356 | Cycle 1605 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 14:03:46,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:46,192 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:03:46,211 | Cycle 1606 | Action: REST | Energy: 11.02J | Lv.1
+2025-12-02 14:03:49,825 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:49,876 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:03:49,896 | Cycle 1607 | Action: REST | Energy: 10.90J | Lv.1
+2025-12-02 14:03:53,611 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:53,647 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:03:53,751 | Cycle 1608 | Action: REST | Energy: 11.05J | Lv.1
+2025-12-02 14:03:57,516 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:03:57,649 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:03:57,693 | Cycle 1609 | Action: REST | Energy: 10.88J | Lv.1
+2025-12-02 14:04:01,556 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:01,636 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:04:01,708 | Cycle 1610 | Action: REST | Energy: 10.94J | Lv.1
+2025-12-02 14:04:05,573 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:05,660 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:04:05,723 | Cycle 1611 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 14:04:09,326 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:09,328 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:04:09,334 | Cycle 1612 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 14:04:13,072 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:13,119 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:04:13,139 | Cycle 1613 | Action: REST | Energy: 11.03J | Lv.1
+2025-12-02 14:04:16,796 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:16,855 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:04:16,890 | Cycle 1614 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 14:04:20,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:20,508 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 14:04:20,556 | Cycle 1615 | Action: REST | Energy: 11.47J | Lv.1
+2025-12-02 14:04:24,156 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:24,157 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:04:24,157 | Cycle 1616 | Action: REST | Energy: 11.33J | Lv.1
+2025-12-02 14:04:27,752 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:27,782 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 14:04:27,817 | Cycle 1617 | Action: REST | Energy: 11.41J | Lv.1
+2025-12-02 14:04:31,448 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:31,529 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:04:31,572 | Cycle 1618 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 14:04:35,166 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:35,177 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:04:35,181 | Cycle 1619 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 14:04:38,925 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:38,954 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:04:38,967 | Cycle 1620 | Action: REST | Energy: 11.25J | Lv.1
+2025-12-02 14:04:42,533 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:42,534 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:04:42,536 | Cycle 1621 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 14:04:46,105 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:46,105 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:04:46,105 | Cycle 1622 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 14:04:49,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:49,771 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:04:49,780 | Cycle 1623 | Action: REST | Energy: 11.13J | Lv.1
+2025-12-02 14:04:53,371 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:53,378 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:04:53,394 | Cycle 1624 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 14:04:56,955 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:04:56,956 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:04:56,956 | Cycle 1625 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 14:05:00,540 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:00,540 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:05:00,541 | Cycle 1626 | Action: REST | Energy: 10.97J | Lv.1
+2025-12-02 14:05:04,106 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:04,106 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:05:04,106 | Cycle 1627 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 14:05:07,672 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:07,672 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:05:07,672 | Cycle 1628 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 14:05:11,431 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:11,505 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:05:11,573 | Cycle 1629 | Action: REST | Energy: 10.99J | Lv.1
+2025-12-02 14:05:15,240 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:15,247 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:05:15,257 | Cycle 1630 | Action: REST | Energy: 11.09J | Lv.1
+2025-12-02 14:05:18,835 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:18,836 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:05:18,837 | Cycle 1631 | Action: REST | Energy: 11.15J | Lv.1
+2025-12-02 14:05:22,678 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:22,787 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:05:22,832 | Cycle 1632 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 14:05:26,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:26,651 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:05:26,696 | Cycle 1633 | Action: REST | Energy: 11.32J | Lv.1
+2025-12-02 14:05:30,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:30,463 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:05:30,500 | Cycle 1634 | Action: REST | Energy: 11.28J | Lv.1
+2025-12-02 14:05:34,159 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:34,182 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:05:34,226 | Cycle 1635 | Action: REST | Energy: 11.34J | Lv.1
+2025-12-02 14:05:37,860 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:37,860 | 🪞 Reflection: Energy=11.3, Mood=Calm
+2025-12-02 14:05:37,861 | Cycle 1636 | Action: REST | Energy: 11.29J | Lv.1
+2025-12-02 14:05:41,595 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:41,654 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 14:05:41,741 | Cycle 1637 | Action: REST | Energy: 11.50J | Lv.1
+2025-12-02 14:05:45,431 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:45,463 | 🪞 Reflection: Energy=11.6, Mood=Calm
+2025-12-02 14:05:45,488 | Cycle 1638 | Action: REST | Energy: 11.61J | Lv.1
+2025-12-02 14:05:49,030 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:49,031 | 🪞 Reflection: Energy=11.7, Mood=Calm
+2025-12-02 14:05:49,031 | Cycle 1639 | Action: REST | Energy: 11.69J | Lv.1
+2025-12-02 14:05:52,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:52,586 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 14:05:52,592 | Cycle 1640 | Action: REST | Energy: 11.47J | Lv.1
+2025-12-02 14:05:56,435 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:05:56,593 | 🪞 Reflection: Energy=11.5, Mood=Calm
+2025-12-02 14:05:56,680 | Cycle 1641 | Action: REST | Energy: 11.49J | Lv.1
+2025-12-02 14:06:00,331 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:00,332 | 🪞 Reflection: Energy=11.4, Mood=Calm
+2025-12-02 14:06:00,333 | Cycle 1642 | Action: REST | Energy: 11.35J | Lv.1
+2025-12-02 14:06:03,884 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:03,885 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:06:03,885 | Cycle 1643 | Action: REST | Energy: 11.14J | Lv.1
+2025-12-02 14:06:07,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:07,443 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:06:07,443 | Cycle 1644 | Action: REST | Energy: 11.11J | Lv.1
+2025-12-02 14:06:11,245 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:11,293 | 🪞 Reflection: Energy=11.1, Mood=Calm
+2025-12-02 14:06:11,298 | Cycle 1645 | Action: REST | Energy: 11.12J | Lv.1
+2025-12-02 14:06:14,864 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:14,865 | 🪞 Reflection: Energy=11.2, Mood=Calm
+2025-12-02 14:06:14,865 | Cycle 1646 | Action: REST | Energy: 11.22J | Lv.1
+2025-12-02 14:06:18,489 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:18,495 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:06:18,496 | Cycle 1647 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 14:06:22,349 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:22,423 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:06:22,443 | Cycle 1648 | Action: REST | Energy: 10.95J | Lv.1
+2025-12-02 14:06:26,060 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:26,070 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:06:26,073 | Cycle 1649 | Action: REST | Energy: 10.86J | Lv.1
+2025-12-02 14:06:29,782 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:29,794 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:06:29,841 | Cycle 1650 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 14:06:33,664 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:33,702 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:06:33,739 | Cycle 1651 | Action: REST | Energy: 10.89J | Lv.1
+2025-12-02 14:06:37,447 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:37,450 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:06:37,455 | Cycle 1652 | Action: REST | Energy: 10.81J | Lv.1
+2025-12-02 14:06:41,039 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:41,043 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:06:41,044 | Cycle 1653 | Action: REST | Energy: 10.79J | Lv.1
+2025-12-02 14:06:44,662 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:44,679 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:06:44,691 | Cycle 1654 | Action: REST | Energy: 10.92J | Lv.1
+2025-12-02 14:06:48,267 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:48,268 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:06:48,268 | Cycle 1655 | Action: REST | Energy: 10.78J | Lv.1
+2025-12-02 14:06:51,850 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:51,854 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:06:51,854 | Cycle 1656 | Action: REST | Energy: 10.72J | Lv.1
+2025-12-02 14:06:55,595 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:55,627 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:06:55,632 | Cycle 1657 | Action: REST | Energy: 10.66J | Lv.1
+2025-12-02 14:06:59,403 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:06:59,454 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:06:59,492 | Cycle 1658 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 14:07:03,399 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:03,468 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:07:03,497 | Cycle 1659 | Action: REST | Energy: 10.56J | Lv.1
+2025-12-02 14:07:07,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:07,089 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:07:07,090 | Cycle 1660 | Action: REST | Energy: 10.53J | Lv.1
+2025-12-02 14:07:10,671 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:10,671 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:07:10,671 | Cycle 1661 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 14:07:14,250 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:14,250 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:07:14,250 | Cycle 1662 | Action: REST | Energy: 10.65J | Lv.1
+2025-12-02 14:07:17,929 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:18,008 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:07:18,058 | Cycle 1663 | Action: REST | Energy: 10.71J | Lv.1
+2025-12-02 14:07:21,746 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:21,746 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:07:21,747 | Cycle 1664 | Action: REST | Energy: 10.54J | Lv.1
+2025-12-02 14:07:25,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:25,608 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:07:25,638 | Cycle 1665 | Action: REST | Energy: 10.39J | Lv.1
+2025-12-02 14:07:29,316 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:29,316 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:07:29,317 | Cycle 1666 | Action: REST | Energy: 10.34J | Lv.1
+2025-12-02 14:07:33,146 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:33,157 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:07:33,186 | Cycle 1667 | Action: REST | Energy: 10.42J | Lv.1
+2025-12-02 14:07:36,867 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:36,872 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:07:36,885 | Cycle 1668 | Action: REST | Energy: 10.33J | Lv.1
+2025-12-02 14:07:40,532 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:40,537 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:07:40,537 | Cycle 1669 | Action: REST | Energy: 10.38J | Lv.1
+2025-12-02 14:07:44,464 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:44,479 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:07:44,488 | Cycle 1670 | Action: REST | Energy: 10.35J | Lv.1
+2025-12-02 14:07:48,078 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:48,079 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:07:48,079 | Cycle 1671 | Action: REST | Energy: 10.11J | Lv.1
+2025-12-02 14:07:51,677 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:51,678 | 🪞 Reflection: Energy=10.0, Mood=Calm
+2025-12-02 14:07:51,678 | Cycle 1672 | Action: REST | Energy: 9.95J | Lv.1
+2025-12-02 14:07:55,372 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:55,378 | 🪞 Reflection: Energy=9.9, Mood=Calm
+2025-12-02 14:07:55,379 | Cycle 1673 | Action: REST | Energy: 9.92J | Lv.1
+2025-12-02 14:07:58,989 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:07:58,989 | 🪞 Reflection: Energy=10.0, Mood=Calm
+2025-12-02 14:07:58,990 | Cycle 1674 | Action: REST | Energy: 10.00J | Lv.1
+2025-12-02 14:08:02,824 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:02,885 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:08:02,941 | Cycle 1675 | Action: REST | Energy: 10.07J | Lv.1
+2025-12-02 14:08:06,610 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:06,610 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:08:06,610 | Cycle 1676 | Action: REST | Energy: 10.06J | Lv.1
+2025-12-02 14:08:10,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:10,210 | 🪞 Reflection: Energy=9.9, Mood=Calm
+2025-12-02 14:08:10,211 | Cycle 1677 | Action: REST | Energy: 9.95J | Lv.1
+2025-12-02 14:08:14,023 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:14,115 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:08:14,144 | Cycle 1678 | Action: REST | Energy: 10.11J | Lv.1
+2025-12-02 14:08:18,143 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:18,241 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:08:18,341 | Cycle 1679 | Action: REST | Energy: 10.12J | Lv.1
+2025-12-02 14:08:22,106 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:22,159 | 🪞 Reflection: Energy=9.9, Mood=Calm
+2025-12-02 14:08:22,193 | Cycle 1680 | Action: REST | Energy: 9.92J | Lv.1
+2025-12-02 14:08:26,025 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:26,046 | 🪞 Reflection: Energy=10.0, Mood=Calm
+2025-12-02 14:08:26,066 | Cycle 1681 | Action: REST | Energy: 9.97J | Lv.1
+2025-12-02 14:08:29,744 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:29,747 | 🪞 Reflection: Energy=10.0, Mood=Calm
+2025-12-02 14:08:29,748 | Cycle 1682 | Action: REST | Energy: 10.01J | Lv.1
+2025-12-02 14:08:33,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:33,542 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:08:33,552 | Cycle 1683 | Action: REST | Energy: 10.14J | Lv.1
+2025-12-02 14:08:37,423 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:37,441 | 🪞 Reflection: Energy=10.0, Mood=Calm
+2025-12-02 14:08:37,450 | Cycle 1684 | Action: REST | Energy: 10.05J | Lv.1
+2025-12-02 14:08:41,141 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:41,180 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:08:41,181 | Cycle 1685 | Action: REST | Energy: 10.19J | Lv.1
+2025-12-02 14:08:44,778 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:44,778 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:08:44,778 | Cycle 1686 | Action: REST | Energy: 10.19J | Lv.1
+2025-12-02 14:08:48,693 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:48,771 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:08:48,817 | Cycle 1687 | Action: REST | Energy: 10.17J | Lv.1
+2025-12-02 14:08:52,719 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:52,784 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:08:52,803 | Cycle 1688 | Action: REST | Energy: 10.22J | Lv.1
+2025-12-02 14:08:56,491 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:08:56,498 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:08:56,503 | Cycle 1689 | Action: REST | Energy: 10.21J | Lv.1
+2025-12-02 14:09:00,406 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:00,452 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:09:00,508 | Cycle 1690 | Action: REST | Energy: 10.31J | Lv.1
+2025-12-02 14:09:04,136 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:04,136 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:09:04,137 | Cycle 1691 | Action: REST | Energy: 10.37J | Lv.1
+2025-12-02 14:09:07,835 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:07,845 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:09:07,854 | Cycle 1692 | Action: REST | Energy: 10.40J | Lv.1
+2025-12-02 14:09:11,648 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:11,662 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:09:11,668 | Cycle 1693 | Action: REST | Energy: 10.48J | Lv.1
+2025-12-02 14:09:15,445 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:15,532 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:09:15,545 | Cycle 1694 | Action: REST | Energy: 10.42J | Lv.1
+2025-12-02 14:09:19,633 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:19,734 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:09:19,826 | Cycle 1695 | Action: REST | Energy: 10.44J | Lv.1
+2025-12-02 14:09:23,644 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:23,669 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:09:23,675 | Cycle 1696 | Action: REST | Energy: 10.65J | Lv.1
+2025-12-02 14:09:27,509 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:27,578 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:09:27,603 | Cycle 1697 | Action: REST | Energy: 10.58J | Lv.1
+2025-12-02 14:09:31,192 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:31,192 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:09:31,192 | Cycle 1698 | Action: REST | Energy: 10.39J | Lv.1
+2025-12-02 14:09:35,081 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:35,117 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:09:35,147 | Cycle 1699 | Action: REST | Energy: 10.49J | Lv.1
+2025-12-02 14:09:38,973 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:38,982 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:09:38,987 | Cycle 1700 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 14:09:42,592 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:42,598 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:09:42,599 | Cycle 1701 | Action: REST | Energy: 10.60J | Lv.1
+2025-12-02 14:09:46,288 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:46,322 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:09:46,353 | Cycle 1702 | Action: REST | Energy: 10.47J | Lv.1
+2025-12-02 14:09:49,979 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:49,996 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:09:50,001 | Cycle 1703 | Action: REST | Energy: 10.38J | Lv.1
+2025-12-02 14:09:53,644 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:53,646 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:09:53,660 | Cycle 1704 | Action: REST | Energy: 10.40J | Lv.1
+2025-12-02 14:09:57,332 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:09:57,380 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:09:57,408 | Cycle 1705 | Action: REST | Energy: 10.31J | Lv.1
+2025-12-02 14:10:01,175 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:01,181 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:10:01,182 | Cycle 1706 | Action: REST | Energy: 10.24J | Lv.1
+2025-12-02 14:10:05,003 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:05,071 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:10:05,167 | Cycle 1707 | Action: REST | Energy: 10.22J | Lv.1
+2025-12-02 14:10:08,879 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:08,880 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:10:08,880 | Cycle 1708 | Action: REST | Energy: 10.40J | Lv.1
+2025-12-02 14:10:12,646 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:12,697 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:10:12,726 | Cycle 1709 | Action: REST | Energy: 10.37J | Lv.1
+2025-12-02 14:10:16,333 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:16,333 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:10:16,333 | Cycle 1710 | Action: REST | Energy: 10.36J | Lv.1
+2025-12-02 14:10:19,953 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:19,954 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:10:19,954 | Cycle 1711 | Action: REST | Energy: 10.48J | Lv.1
+2025-12-02 14:10:23,652 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:23,654 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:10:23,654 | Cycle 1712 | Action: REST | Energy: 10.60J | Lv.1
+2025-12-02 14:10:27,246 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:27,253 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:10:27,253 | Cycle 1713 | Action: REST | Energy: 10.52J | Lv.1
+2025-12-02 14:10:31,142 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:31,191 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:10:31,238 | Cycle 1714 | Action: REST | Energy: 10.51J | Lv.1
+2025-12-02 14:10:34,848 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:34,848 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:10:34,849 | Cycle 1715 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 14:10:38,589 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:38,602 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:10:38,620 | Cycle 1716 | Action: REST | Energy: 10.61J | Lv.1
+2025-12-02 14:10:42,262 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:42,270 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:10:42,275 | Cycle 1717 | Action: REST | Energy: 10.72J | Lv.1
+2025-12-02 14:10:45,859 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:45,859 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:10:45,860 | Cycle 1718 | Action: REST | Energy: 10.58J | Lv.1
+2025-12-02 14:10:49,735 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:49,914 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:10:50,038 | Cycle 1719 | Action: REST | Energy: 10.44J | Lv.1
+2025-12-02 14:10:53,783 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:53,783 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:10:53,783 | Cycle 1720 | Action: REST | Energy: 10.47J | Lv.1
+2025-12-02 14:10:57,841 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:10:57,952 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:10:58,007 | Cycle 1721 | Action: REST | Energy: 10.28J | Lv.1
+2025-12-02 14:11:01,641 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:01,641 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:11:01,642 | Cycle 1722 | Action: REST | Energy: 10.24J | Lv.1
+2025-12-02 14:11:05,236 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:05,237 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:11:05,237 | Cycle 1723 | Action: REST | Energy: 10.14J | Lv.1
+2025-12-02 14:11:08,839 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:08,840 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:11:08,840 | Cycle 1724 | Action: REST | Energy: 10.17J | Lv.1
+2025-12-02 14:11:12,562 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:12,802 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:11:13,018 | Cycle 1725 | Action: REST | Energy: 10.10J | Lv.1
+2025-12-02 14:11:17,140 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:17,185 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:11:17,212 | Cycle 1726 | Action: REST | Energy: 10.06J | Lv.1
+2025-12-02 14:11:20,859 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:20,864 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:11:20,865 | Cycle 1727 | Action: REST | Energy: 10.12J | Lv.1
+2025-12-02 14:11:24,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:24,469 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:11:24,473 | Cycle 1728 | Action: REST | Energy: 10.25J | Lv.1
+2025-12-02 14:11:28,068 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:28,068 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:11:28,068 | Cycle 1729 | Action: REST | Energy: 10.20J | Lv.1
+2025-12-02 14:11:31,911 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:32,047 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:11:32,087 | Cycle 1730 | Action: REST | Energy: 10.32J | Lv.1
+2025-12-02 14:11:35,777 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:35,778 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:11:35,778 | Cycle 1731 | Action: REST | Energy: 10.46J | Lv.1
+2025-12-02 14:11:39,363 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:39,364 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:11:39,364 | Cycle 1732 | Action: REST | Energy: 10.46J | Lv.1
+2025-12-02 14:11:43,343 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:43,565 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:11:43,697 | Cycle 1733 | Action: REST | Energy: 10.38J | Lv.1
+2025-12-02 14:11:47,538 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:47,629 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:11:47,778 | Cycle 1734 | Action: REST | Energy: 10.31J | Lv.1
+2025-12-02 14:11:51,604 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:51,605 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:11:51,606 | Cycle 1735 | Action: REST | Energy: 10.44J | Lv.1
+2025-12-02 14:11:55,589 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:55,600 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:11:55,616 | Cycle 1736 | Action: REST | Energy: 10.44J | Lv.1
+2025-12-02 14:11:59,465 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:11:59,555 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:11:59,599 | Cycle 1737 | Action: REST | Energy: 10.28J | Lv.1
+2025-12-02 14:12:03,420 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:03,490 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:03,513 | Cycle 1738 | Action: REST | Energy: 10.25J | Lv.1
+2025-12-02 14:12:07,141 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:07,144 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:07,146 | Cycle 1739 | Action: REST | Energy: 10.20J | Lv.1
+2025-12-02 14:12:10,886 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:10,890 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:12:10,892 | Cycle 1740 | Action: REST | Energy: 10.34J | Lv.1
+2025-12-02 14:12:14,611 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:14,644 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:14,712 | Cycle 1741 | Action: REST | Energy: 10.25J | Lv.1
+2025-12-02 14:12:18,607 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:18,620 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:18,672 | Cycle 1742 | Action: REST | Energy: 10.22J | Lv.1
+2025-12-02 14:12:22,300 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:22,300 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:22,301 | Cycle 1743 | Action: REST | Energy: 10.22J | Lv.1
+2025-12-02 14:12:25,895 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:25,899 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:12:25,900 | Cycle 1744 | Action: REST | Energy: 10.30J | Lv.1
+2025-12-02 14:12:29,698 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:29,709 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:29,719 | Cycle 1745 | Action: REST | Energy: 10.22J | Lv.1
+2025-12-02 14:12:33,540 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:33,605 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:12:33,629 | Cycle 1746 | Action: REST | Energy: 10.45J | Lv.1
+2025-12-02 14:12:37,492 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:37,527 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:12:37,548 | Cycle 1747 | Action: REST | Energy: 10.56J | Lv.1
+2025-12-02 14:12:41,193 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:41,201 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:12:41,210 | Cycle 1748 | Action: REST | Energy: 10.40J | Lv.1
+2025-12-02 14:12:44,976 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:44,991 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:45,024 | Cycle 1749 | Action: REST | Energy: 10.23J | Lv.1
+2025-12-02 14:12:48,628 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:48,628 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:48,628 | Cycle 1750 | Action: REST | Energy: 10.21J | Lv.1
+2025-12-02 14:12:52,304 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:52,321 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:12:52,382 | Cycle 1751 | Action: REST | Energy: 10.36J | Lv.1
+2025-12-02 14:12:55,977 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:55,977 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:12:55,977 | Cycle 1752 | Action: REST | Energy: 10.31J | Lv.1
+2025-12-02 14:12:59,569 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:12:59,572 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:12:59,574 | Cycle 1753 | Action: REST | Energy: 10.22J | Lv.1
+2025-12-02 14:13:03,269 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:03,271 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:13:03,282 | Cycle 1754 | Action: REST | Energy: 10.29J | Lv.1
+2025-12-02 14:13:06,960 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:06,973 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:13:07,079 | Cycle 1755 | Action: REST | Energy: 10.42J | Lv.1
+2025-12-02 14:13:10,892 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:10,938 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:13:10,964 | Cycle 1756 | Action: REST | Energy: 10.44J | Lv.1
+2025-12-02 14:13:14,664 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:14,665 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:13:14,669 | Cycle 1757 | Action: REST | Energy: 10.44J | Lv.1
+2025-12-02 14:13:18,462 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:18,532 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:13:18,596 | Cycle 1758 | Action: REST | Energy: 10.61J | Lv.1
+2025-12-02 14:13:22,421 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:22,440 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:13:22,440 | Cycle 1759 | Action: REST | Energy: 10.60J | Lv.1
+2025-12-02 14:13:26,175 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:26,286 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:13:26,346 | Cycle 1760 | Action: REST | Energy: 10.59J | Lv.1
+2025-12-02 14:13:30,297 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:30,326 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:13:30,344 | Cycle 1761 | Action: REST | Energy: 10.70J | Lv.1
+2025-12-02 14:13:33,954 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:33,954 | 🪞 Reflection: Energy=11.0, Mood=Calm
+2025-12-02 14:13:33,955 | Cycle 1762 | Action: REST | Energy: 10.96J | Lv.1
+2025-12-02 14:13:37,521 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:37,521 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:13:37,522 | Cycle 1763 | Action: REST | Energy: 10.80J | Lv.1
+2025-12-02 14:13:41,093 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:41,094 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:13:41,094 | Cycle 1764 | Action: REST | Energy: 10.74J | Lv.1
+2025-12-02 14:13:44,691 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:44,691 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:13:44,692 | Cycle 1765 | Action: REST | Energy: 10.63J | Lv.1
+2025-12-02 14:13:48,406 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:48,471 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:13:48,484 | Cycle 1766 | Action: REST | Energy: 10.68J | Lv.1
+2025-12-02 14:13:52,113 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:52,129 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:13:52,129 | Cycle 1767 | Action: REST | Energy: 10.76J | Lv.1
+2025-12-02 14:13:55,933 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:13:55,974 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:13:56,052 | Cycle 1768 | Action: REST | Energy: 10.84J | Lv.1
+2025-12-02 14:13:59,978 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:00,015 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:14:00,035 | Cycle 1769 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 14:14:03,661 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:03,661 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:14:03,662 | Cycle 1770 | Action: REST | Energy: 10.64J | Lv.1
+2025-12-02 14:14:07,239 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:07,240 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:14:07,240 | Cycle 1771 | Action: REST | Energy: 10.76J | Lv.1
+2025-12-02 14:14:10,812 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:10,813 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:14:10,813 | Cycle 1772 | Action: REST | Energy: 10.73J | Lv.1
+2025-12-02 14:14:14,455 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:14,455 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:14:14,456 | Cycle 1773 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 14:14:18,029 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:18,029 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:14:18,030 | Cycle 1774 | Action: REST | Energy: 10.81J | Lv.1
+2025-12-02 14:14:21,801 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:21,818 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:14:21,822 | Cycle 1775 | Action: REST | Energy: 10.73J | Lv.1
+2025-12-02 14:14:25,398 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:25,398 | 🪞 Reflection: Energy=10.9, Mood=Calm
+2025-12-02 14:14:25,398 | Cycle 1776 | Action: REST | Energy: 10.87J | Lv.1
+2025-12-02 14:14:28,966 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:28,967 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:14:28,967 | Cycle 1777 | Action: REST | Energy: 10.81J | Lv.1
+2025-12-02 14:14:32,542 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:32,542 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:14:32,542 | Cycle 1778 | Action: REST | Energy: 10.70J | Lv.1
+2025-12-02 14:14:36,117 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:36,118 | 🪞 Reflection: Energy=10.8, Mood=Calm
+2025-12-02 14:14:36,118 | Cycle 1779 | Action: REST | Energy: 10.77J | Lv.1
+2025-12-02 14:14:39,722 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:39,733 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:14:39,736 | Cycle 1780 | Action: REST | Energy: 10.70J | Lv.1
+2025-12-02 14:14:43,433 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:43,442 | 🪞 Reflection: Energy=10.7, Mood=Calm
+2025-12-02 14:14:43,447 | Cycle 1781 | Action: REST | Energy: 10.73J | Lv.1
+2025-12-02 14:14:47,021 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:47,021 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:14:47,021 | Cycle 1782 | Action: REST | Energy: 10.50J | Lv.1
+2025-12-02 14:14:50,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:50,840 | 🪞 Reflection: Energy=10.5, Mood=Calm
+2025-12-02 14:14:50,862 | Cycle 1783 | Action: REST | Energy: 10.51J | Lv.1
+2025-12-02 14:14:54,484 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:54,484 | 🪞 Reflection: Energy=10.6, Mood=Calm
+2025-12-02 14:14:54,485 | Cycle 1784 | Action: REST | Energy: 10.60J | Lv.1
+2025-12-02 14:14:58,064 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:14:58,065 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:14:58,065 | Cycle 1785 | Action: REST | Energy: 10.39J | Lv.1
+2025-12-02 14:15:01,653 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:01,653 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:15:01,653 | Cycle 1786 | Action: REST | Energy: 10.23J | Lv.1
+2025-12-02 14:15:05,249 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:05,249 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:15:05,250 | Cycle 1787 | Action: REST | Energy: 10.19J | Lv.1
+2025-12-02 14:15:08,846 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:08,846 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:15:08,846 | Cycle 1788 | Action: REST | Energy: 10.12J | Lv.1
+2025-12-02 14:15:12,445 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:12,445 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:15:12,445 | Cycle 1789 | Action: REST | Energy: 10.21J | Lv.1
+2025-12-02 14:15:16,070 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:16,070 | 🪞 Reflection: Energy=10.2, Mood=Calm
+2025-12-02 14:15:16,070 | Cycle 1790 | Action: REST | Energy: 10.20J | Lv.1
+2025-12-02 14:15:19,665 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:19,665 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:15:19,666 | Cycle 1791 | Action: REST | Energy: 10.30J | Lv.1
+2025-12-02 14:15:23,256 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:23,257 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:15:23,257 | Cycle 1792 | Action: REST | Energy: 10.26J | Lv.1
+2025-12-02 14:15:26,849 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:26,849 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:15:26,849 | Cycle 1793 | Action: REST | Energy: 10.32J | Lv.1
+2025-12-02 14:15:30,439 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:30,439 | 🪞 Reflection: Energy=10.4, Mood=Calm
+2025-12-02 14:15:30,439 | Cycle 1794 | Action: REST | Energy: 10.37J | Lv.1
+2025-12-02 14:15:34,029 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:34,030 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:15:34,031 | Cycle 1795 | Action: REST | Energy: 10.32J | Lv.1
+2025-12-02 14:15:37,622 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:37,622 | 🪞 Reflection: Energy=10.3, Mood=Calm
+2025-12-02 14:15:37,623 | Cycle 1796 | Action: REST | Energy: 10.33J | Lv.1
+2025-12-02 14:15:41,215 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:41,216 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:15:41,216 | Cycle 1797 | Action: REST | Energy: 10.05J | Lv.1
+2025-12-02 14:15:44,817 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:44,817 | 🪞 Reflection: Energy=10.1, Mood=Calm
+2025-12-02 14:15:44,817 | Cycle 1798 | Action: REST | Energy: 10.08J | Lv.1
+2025-12-02 14:15:48,418 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:48,418 | 🪞 Reflection: Energy=9.9, Mood=Calm
+2025-12-02 14:15:48,418 | Cycle 1799 | Action: REST | Energy: 9.89J | Lv.1
+2025-12-02 14:15:52,116 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:52,171 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:15:52,188 | Cycle 1800 | Action: REST | Energy: 9.68J | Lv.1
+2025-12-02 14:15:55,875 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:55,875 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:15:55,875 | Cycle 1801 | Action: REST | Energy: 9.57J | Lv.1
+2025-12-02 14:15:59,561 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:15:59,562 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:15:59,562 | Cycle 1802 | Action: REST | Energy: 9.60J | Lv.1
+2025-12-02 14:16:03,192 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:03,192 | 🪞 Reflection: Energy=9.8, Mood=Calm
+2025-12-02 14:16:03,193 | Cycle 1803 | Action: REST | Energy: 9.81J | Lv.1
+2025-12-02 14:16:06,953 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:06,954 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:16:06,955 | Cycle 1804 | Action: REST | Energy: 9.74J | Lv.1
+2025-12-02 14:16:10,608 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:10,609 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:16:10,609 | Cycle 1805 | Action: REST | Energy: 9.58J | Lv.1
+2025-12-02 14:16:14,230 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:14,231 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:16:14,231 | Cycle 1806 | Action: REST | Energy: 9.54J | Lv.1
+2025-12-02 14:16:17,919 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:17,928 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:16:18,031 | Cycle 1807 | Action: REST | Energy: 9.50J | Lv.1
+2025-12-02 14:16:21,808 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:21,819 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:16:21,870 | Cycle 1808 | Action: REST | Energy: 9.50J | Lv.1
+2025-12-02 14:16:25,513 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:25,514 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:16:25,514 | Cycle 1809 | Action: REST | Energy: 9.57J | Lv.1
+2025-12-02 14:16:29,170 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:29,181 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:16:29,182 | Cycle 1810 | Action: REST | Energy: 9.55J | Lv.1
+2025-12-02 14:16:32,906 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:32,906 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:16:32,906 | Cycle 1811 | Action: REST | Energy: 9.52J | Lv.1
+2025-12-02 14:16:36,715 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:36,722 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:16:36,725 | Cycle 1812 | Action: REST | Energy: 9.58J | Lv.1
+2025-12-02 14:16:40,564 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:40,622 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:16:40,633 | Cycle 1813 | Action: REST | Energy: 9.65J | Lv.1
+2025-12-02 14:16:44,253 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:44,254 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:16:44,254 | Cycle 1814 | Action: REST | Energy: 9.64J | Lv.1
+2025-12-02 14:16:47,873 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:47,873 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:16:47,873 | Cycle 1815 | Action: REST | Energy: 9.69J | Lv.1
+2025-12-02 14:16:51,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:51,531 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:16:51,532 | Cycle 1816 | Action: REST | Energy: 9.67J | Lv.1
+2025-12-02 14:16:55,280 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:55,288 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:16:55,289 | Cycle 1817 | Action: REST | Energy: 9.69J | Lv.1
+2025-12-02 14:16:58,906 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:16:58,907 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:16:58,907 | Cycle 1818 | Action: REST | Energy: 9.71J | Lv.1
+2025-12-02 14:17:02,522 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:02,522 | 🪞 Reflection: Energy=9.8, Mood=Calm
+2025-12-02 14:17:02,522 | Cycle 1819 | Action: REST | Energy: 9.82J | Lv.1
+2025-12-02 14:17:06,132 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:06,133 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:17:06,133 | Cycle 1820 | Action: REST | Energy: 9.69J | Lv.1
+2025-12-02 14:17:10,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:10,281 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:17:10,325 | Cycle 1821 | Action: REST | Energy: 9.70J | Lv.1
+2025-12-02 14:17:14,020 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:14,030 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:17:14,031 | Cycle 1822 | Action: REST | Energy: 9.63J | Lv.1
+2025-12-02 14:17:17,655 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:17,656 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:17:17,657 | Cycle 1823 | Action: REST | Energy: 9.72J | Lv.1
+2025-12-02 14:17:21,271 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:21,272 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:17:21,272 | Cycle 1824 | Action: REST | Energy: 9.67J | Lv.1
+2025-12-02 14:17:24,888 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:24,888 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:17:24,889 | Cycle 1825 | Action: REST | Energy: 9.67J | Lv.1
+2025-12-02 14:17:28,564 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:28,703 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:17:28,730 | Cycle 1826 | Action: REST | Energy: 9.58J | Lv.1
+2025-12-02 14:17:32,449 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:32,449 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:17:32,450 | Cycle 1827 | Action: REST | Energy: 9.53J | Lv.1
+2025-12-02 14:17:36,075 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:36,076 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:17:36,076 | Cycle 1828 | Action: REST | Energy: 9.71J | Lv.1
+2025-12-02 14:17:39,690 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:39,692 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:17:39,692 | Cycle 1829 | Action: REST | Energy: 9.63J | Lv.1
+2025-12-02 14:17:43,310 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:43,311 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:17:43,311 | Cycle 1830 | Action: REST | Energy: 9.59J | Lv.1
+2025-12-02 14:17:46,961 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:46,970 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:17:46,974 | Cycle 1831 | Action: REST | Energy: 9.50J | Lv.1
+2025-12-02 14:17:50,687 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:50,697 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:17:50,754 | Cycle 1832 | Action: REST | Energy: 9.59J | Lv.1
+2025-12-02 14:17:54,441 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:54,449 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:17:54,476 | Cycle 1833 | Action: REST | Energy: 9.49J | Lv.1
+2025-12-02 14:17:58,136 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:17:58,137 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:17:58,137 | Cycle 1834 | Action: REST | Energy: 9.45J | Lv.1
+2025-12-02 14:18:01,792 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:01,792 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:18:01,792 | Cycle 1835 | Action: REST | Energy: 9.33J | Lv.1
+2025-12-02 14:18:05,723 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:05,858 | 🪞 Reflection: Energy=9.4, Mood=Calm
+2025-12-02 14:18:05,913 | Cycle 1836 | Action: REST | Energy: 9.43J | Lv.1
+2025-12-02 14:18:09,750 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:09,751 | 🪞 Reflection: Energy=9.4, Mood=Calm
+2025-12-02 14:18:09,751 | Cycle 1837 | Action: REST | Energy: 9.41J | Lv.1
+2025-12-02 14:18:13,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:13,376 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:18:13,377 | Cycle 1838 | Action: REST | Energy: 9.58J | Lv.1
+2025-12-02 14:18:16,995 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:16,996 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:18:16,996 | Cycle 1839 | Action: REST | Energy: 9.60J | Lv.1
+2025-12-02 14:18:20,648 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:20,649 | 🪞 Reflection: Energy=9.7, Mood=Calm
+2025-12-02 14:18:20,650 | Cycle 1840 | Action: REST | Energy: 9.66J | Lv.1
+2025-12-02 14:18:24,295 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:24,302 | 🪞 Reflection: Energy=9.6, Mood=Calm
+2025-12-02 14:18:24,303 | Cycle 1841 | Action: REST | Energy: 9.57J | Lv.1
+2025-12-02 14:18:27,953 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:27,954 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:18:27,958 | Cycle 1842 | Action: REST | Energy: 9.46J | Lv.1
+2025-12-02 14:18:31,586 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:31,587 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:18:31,587 | Cycle 1843 | Action: REST | Energy: 9.24J | Lv.1
+2025-12-02 14:18:35,225 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:35,230 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:18:35,231 | Cycle 1844 | Action: REST | Energy: 9.14J | Lv.1
+2025-12-02 14:18:38,871 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:38,871 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:18:38,872 | Cycle 1845 | Action: REST | Energy: 9.14J | Lv.1
+2025-12-02 14:18:42,508 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:42,509 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:18:42,509 | Cycle 1846 | Action: REST | Energy: 9.18J | Lv.1
+2025-12-02 14:18:46,151 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:46,152 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:18:46,153 | Cycle 1847 | Action: REST | Energy: 9.22J | Lv.1
+2025-12-02 14:18:49,787 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:49,787 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:18:49,787 | Cycle 1848 | Action: REST | Energy: 9.28J | Lv.1
+2025-12-02 14:18:53,422 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:53,422 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:18:53,422 | Cycle 1849 | Action: REST | Energy: 9.08J | Lv.1
+2025-12-02 14:18:57,062 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:18:57,063 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:18:57,063 | Cycle 1850 | Action: REST | Energy: 9.17J | Lv.1
+2025-12-02 14:19:00,760 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:00,761 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:19:00,761 | Cycle 1851 | Action: REST | Energy: 9.14J | Lv.1
+2025-12-02 14:19:04,399 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:04,399 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:19:04,399 | Cycle 1852 | Action: REST | Energy: 9.23J | Lv.1
+2025-12-02 14:19:08,143 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:08,201 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:19:08,241 | Cycle 1853 | Action: REST | Energy: 9.20J | Lv.1
+2025-12-02 14:19:11,950 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:11,955 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:19:11,965 | Cycle 1854 | Action: REST | Energy: 9.05J | Lv.1
+2025-12-02 14:19:15,657 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:15,664 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:19:15,669 | Cycle 1855 | Action: REST | Energy: 8.91J | Lv.1
+2025-12-02 14:19:19,318 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:19,319 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:19:19,319 | Cycle 1856 | Action: REST | Energy: 8.86J | Lv.1
+2025-12-02 14:19:23,085 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:23,126 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:19:23,190 | Cycle 1857 | Action: REST | Energy: 8.86J | Lv.1
+2025-12-02 14:19:26,983 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:26,989 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:19:26,996 | Cycle 1858 | Action: REST | Energy: 8.80J | Lv.1
+2025-12-02 14:19:30,858 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:30,877 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:19:30,892 | Cycle 1859 | Action: REST | Energy: 8.78J | Lv.1
+2025-12-02 14:19:34,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:34,575 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:19:34,575 | Cycle 1860 | Action: REST | Energy: 8.82J | Lv.1
+2025-12-02 14:19:38,236 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:38,237 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:19:38,238 | Cycle 1861 | Action: REST | Energy: 8.80J | Lv.1
+2025-12-02 14:19:41,891 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:41,893 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:19:41,896 | Cycle 1862 | Action: REST | Energy: 8.97J | Lv.1
+2025-12-02 14:19:45,595 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:45,596 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:19:45,597 | Cycle 1863 | Action: REST | Energy: 9.04J | Lv.1
+2025-12-02 14:19:49,239 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:49,239 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:19:49,240 | Cycle 1864 | Action: REST | Energy: 9.02J | Lv.1
+2025-12-02 14:19:52,961 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:53,027 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:19:53,098 | Cycle 1865 | Action: REST | Energy: 9.15J | Lv.1
+2025-12-02 14:19:56,999 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:19:57,109 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:19:57,196 | Cycle 1866 | Action: REST | Energy: 9.20J | Lv.1
+2025-12-02 14:20:00,967 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:00,986 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:20:00,996 | Cycle 1867 | Action: REST | Energy: 9.27J | Lv.1
+2025-12-02 14:20:04,794 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:04,840 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:20:04,888 | Cycle 1868 | Action: REST | Energy: 9.19J | Lv.1
+2025-12-02 14:20:08,655 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:08,655 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:20:08,655 | Cycle 1869 | Action: REST | Energy: 9.14J | Lv.1
+2025-12-02 14:20:12,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:12,688 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:20:13,016 | Cycle 1870 | Action: REST | Energy: 9.26J | Lv.1
+2025-12-02 14:20:17,283 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:17,333 | 🪞 Reflection: Energy=9.4, Mood=Calm
+2025-12-02 14:20:17,472 | Cycle 1871 | Action: REST | Energy: 9.35J | Lv.1
+2025-12-02 14:20:21,315 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:21,316 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:20:21,316 | Cycle 1872 | Action: REST | Energy: 9.25J | Lv.1
+2025-12-02 14:20:25,045 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:25,046 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:20:25,046 | Cycle 1873 | Action: REST | Energy: 9.13J | Lv.1
+2025-12-02 14:20:28,849 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:28,870 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:20:28,932 | Cycle 1874 | Action: REST | Energy: 9.21J | Lv.1
+2025-12-02 14:20:32,778 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:32,828 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:20:32,845 | Cycle 1875 | Action: REST | Energy: 9.00J | Lv.1
+2025-12-02 14:20:36,808 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:36,924 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:20:37,017 | Cycle 1876 | Action: REST | Energy: 8.91J | Lv.1
+2025-12-02 14:20:40,830 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:40,865 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:20:40,873 | Cycle 1877 | Action: REST | Energy: 8.72J | Lv.1
+2025-12-02 14:20:44,578 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:44,583 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:20:44,586 | Cycle 1878 | Action: REST | Energy: 8.68J | Lv.1
+2025-12-02 14:20:48,248 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:48,248 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:20:48,249 | Cycle 1879 | Action: REST | Energy: 8.69J | Lv.1
+2025-12-02 14:20:51,906 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:51,906 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:20:51,907 | Cycle 1880 | Action: REST | Energy: 8.57J | Lv.1
+2025-12-02 14:20:55,571 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:55,572 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:20:55,573 | Cycle 1881 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:20:59,244 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:20:59,244 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:20:59,244 | Cycle 1882 | Action: REST | Energy: 8.50J | Lv.1
+2025-12-02 14:21:03,025 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:03,064 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:21:03,090 | Cycle 1883 | Action: REST | Energy: 8.52J | Lv.1
+2025-12-02 14:21:06,826 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:06,836 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:21:06,857 | Cycle 1884 | Action: REST | Energy: 8.53J | Lv.1
+2025-12-02 14:21:10,623 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:10,643 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:21:10,653 | Cycle 1885 | Action: REST | Energy: 8.51J | Lv.1
+2025-12-02 14:21:14,385 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:14,393 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:21:14,400 | Cycle 1886 | Action: REST | Energy: 8.58J | Lv.1
+2025-12-02 14:21:18,149 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:18,195 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:21:18,223 | Cycle 1887 | Action: REST | Energy: 8.55J | Lv.1
+2025-12-02 14:21:21,996 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:22,019 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:21:22,058 | Cycle 1888 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:21:25,768 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:25,774 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:21:25,785 | Cycle 1889 | Action: REST | Energy: 8.32J | Lv.1
+2025-12-02 14:21:29,486 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:29,487 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:21:29,488 | Cycle 1890 | Action: REST | Energy: 8.33J | Lv.1
+2025-12-02 14:21:33,157 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:33,158 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:21:33,158 | Cycle 1891 | Action: REST | Energy: 8.40J | Lv.1
+2025-12-02 14:21:36,870 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:36,873 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:21:36,875 | Cycle 1892 | Action: REST | Energy: 8.41J | Lv.1
+2025-12-02 14:21:40,615 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:40,802 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:21:40,802 | Cycle 1893 | Action: REST | Energy: 8.53J | Lv.1
+2025-12-02 14:21:44,464 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:44,464 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:21:44,465 | Cycle 1894 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:21:48,133 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:48,134 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:21:48,134 | Cycle 1895 | Action: REST | Energy: 8.33J | Lv.1
+2025-12-02 14:21:51,865 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:51,870 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:21:51,873 | Cycle 1896 | Action: REST | Energy: 8.28J | Lv.1
+2025-12-02 14:21:55,546 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:55,547 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:21:55,547 | Cycle 1897 | Action: REST | Energy: 8.23J | Lv.1
+2025-12-02 14:21:59,226 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:21:59,226 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:21:59,227 | Cycle 1898 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:22:02,903 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:02,903 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:22:02,903 | Cycle 1899 | Action: REST | Energy: 8.22J | Lv.1
+2025-12-02 14:22:06,582 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:06,582 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:22:06,583 | Cycle 1900 | Action: REST | Energy: 8.26J | Lv.1
+2025-12-02 14:22:10,316 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:10,324 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:22:10,339 | Cycle 1901 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:22:14,091 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:14,102 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:22:14,121 | Cycle 1902 | Action: REST | Energy: 8.13J | Lv.1
+2025-12-02 14:22:18,070 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:18,126 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:22:18,177 | Cycle 1903 | Action: REST | Energy: 8.34J | Lv.1
+2025-12-02 14:22:21,995 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:22,042 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:22:22,075 | Cycle 1904 | Action: REST | Energy: 8.39J | Lv.1
+2025-12-02 14:22:26,036 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:26,102 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:22:26,119 | Cycle 1905 | Action: REST | Energy: 8.33J | Lv.1
+2025-12-02 14:22:30,129 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:30,349 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:22:30,486 | Cycle 1906 | Action: REST | Energy: 8.39J | Lv.1
+2025-12-02 14:22:34,641 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:34,852 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:22:34,983 | Cycle 1907 | Action: REST | Energy: 8.36J | Lv.1
+2025-12-02 14:22:39,094 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:39,193 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:22:39,261 | Cycle 1908 | Action: REST | Energy: 8.46J | Lv.1
+2025-12-02 14:22:43,174 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:43,265 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:22:43,325 | Cycle 1909 | Action: REST | Energy: 8.46J | Lv.1
+2025-12-02 14:22:47,094 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:47,129 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:22:47,131 | Cycle 1910 | Action: REST | Energy: 8.45J | Lv.1
+2025-12-02 14:22:51,087 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:51,131 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:22:51,137 | Cycle 1911 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:22:55,019 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:55,022 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:22:55,090 | Cycle 1912 | Action: REST | Energy: 8.29J | Lv.1
+2025-12-02 14:22:59,031 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:22:59,072 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:22:59,116 | Cycle 1913 | Action: REST | Energy: 8.32J | Lv.1
+2025-12-02 14:23:03,048 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:03,083 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:23:03,158 | Cycle 1914 | Action: REST | Energy: 8.38J | Lv.1
+2025-12-02 14:23:07,405 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:07,497 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:23:07,540 | Cycle 1915 | Action: REST | Energy: 8.45J | Lv.1
+2025-12-02 14:23:11,330 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:11,627 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:23:11,770 | Cycle 1916 | Action: REST | Energy: 8.40J | Lv.1
+2025-12-02 14:23:15,934 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:16,012 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:23:16,042 | Cycle 1917 | Action: REST | Energy: 8.50J | Lv.1
+2025-12-02 14:23:19,789 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:19,859 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:23:19,942 | Cycle 1918 | Action: REST | Energy: 8.58J | Lv.1
+2025-12-02 14:23:23,754 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:23,834 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:23:23,944 | Cycle 1919 | Action: REST | Energy: 8.58J | Lv.1
+2025-12-02 14:23:28,764 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:29,039 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:23:29,188 | Cycle 1920 | Action: REST | Energy: 8.62J | Lv.1
+2025-12-02 14:23:33,386 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:33,438 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:23:33,542 | Cycle 1921 | Action: REST | Energy: 8.55J | Lv.1
+2025-12-02 14:23:37,475 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:37,492 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:23:37,506 | Cycle 1922 | Action: REST | Energy: 8.44J | Lv.1
+2025-12-02 14:23:41,383 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:41,456 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:23:41,488 | Cycle 1923 | Action: REST | Energy: 8.47J | Lv.1
+2025-12-02 14:23:45,310 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:45,336 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:23:45,350 | Cycle 1924 | Action: REST | Energy: 8.53J | Lv.1
+2025-12-02 14:23:49,132 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:49,202 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:23:49,223 | Cycle 1925 | Action: REST | Energy: 8.55J | Lv.1
+2025-12-02 14:23:53,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:53,247 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:23:53,247 | Cycle 1926 | Action: REST | Energy: 8.56J | Lv.1
+2025-12-02 14:23:56,908 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:23:56,908 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:23:56,909 | Cycle 1927 | Action: REST | Energy: 8.73J | Lv.1
+2025-12-02 14:24:01,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:01,271 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:24:01,330 | Cycle 1928 | Action: REST | Energy: 8.79J | Lv.1
+2025-12-02 14:24:05,169 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:05,208 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:24:05,210 | Cycle 1929 | Action: REST | Energy: 8.78J | Lv.1
+2025-12-02 14:24:08,872 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:08,872 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:24:08,873 | Cycle 1930 | Action: REST | Energy: 8.78J | Lv.1
+2025-12-02 14:24:12,746 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:12,797 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:24:12,874 | Cycle 1931 | Action: REST | Energy: 8.74J | Lv.1
+2025-12-02 14:24:16,671 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:16,680 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:24:16,727 | Cycle 1932 | Action: REST | Energy: 8.68J | Lv.1
+2025-12-02 14:24:20,513 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:20,541 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:24:20,554 | Cycle 1933 | Action: REST | Energy: 8.59J | Lv.1
+2025-12-02 14:24:24,319 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:24,362 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:24:24,414 | Cycle 1934 | Action: REST | Energy: 8.47J | Lv.1
+2025-12-02 14:24:28,170 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:28,175 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:24:28,182 | Cycle 1935 | Action: REST | Energy: 8.35J | Lv.1
+2025-12-02 14:24:31,858 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:31,858 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:24:31,859 | Cycle 1936 | Action: REST | Energy: 8.36J | Lv.1
+2025-12-02 14:24:35,560 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:35,560 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:24:35,560 | Cycle 1937 | Action: REST | Energy: 8.53J | Lv.1
+2025-12-02 14:24:39,279 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:39,305 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:24:39,340 | Cycle 1938 | Action: REST | Energy: 8.64J | Lv.1
+2025-12-02 14:24:43,038 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:43,049 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:24:43,055 | Cycle 1939 | Action: REST | Energy: 8.59J | Lv.1
+2025-12-02 14:24:46,777 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:46,796 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:24:46,798 | Cycle 1940 | Action: REST | Energy: 8.70J | Lv.1
+2025-12-02 14:24:50,631 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:50,657 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:24:50,885 | Cycle 1941 | Action: REST | Energy: 8.58J | Lv.1
+2025-12-02 14:24:54,685 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:54,686 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:24:54,687 | Cycle 1942 | Action: REST | Energy: 8.60J | Lv.1
+2025-12-02 14:24:58,375 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:24:58,407 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:24:58,420 | Cycle 1943 | Action: REST | Energy: 8.55J | Lv.1
+2025-12-02 14:25:02,084 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:02,084 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:25:02,085 | Cycle 1944 | Action: REST | Energy: 8.40J | Lv.1
+2025-12-02 14:25:05,817 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:05,823 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:25:05,830 | Cycle 1945 | Action: REST | Energy: 8.46J | Lv.1
+2025-12-02 14:25:09,647 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:09,709 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:25:09,720 | Cycle 1946 | Action: REST | Energy: 8.34J | Lv.1
+2025-12-02 14:25:13,488 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:13,498 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:25:13,504 | Cycle 1947 | Action: REST | Energy: 8.46J | Lv.1
+2025-12-02 14:25:17,202 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:17,203 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:25:17,203 | Cycle 1948 | Action: REST | Energy: 8.45J | Lv.1
+2025-12-02 14:25:20,942 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:20,943 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:25:20,943 | Cycle 1949 | Action: REST | Energy: 8.61J | Lv.1
+2025-12-02 14:25:24,601 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:24,602 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:25:24,602 | Cycle 1950 | Action: REST | Energy: 8.69J | Lv.1
+2025-12-02 14:25:28,290 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:28,310 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:25:28,340 | Cycle 1951 | Action: REST | Energy: 8.63J | Lv.1
+2025-12-02 14:25:32,165 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:32,175 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:25:32,180 | Cycle 1952 | Action: REST | Energy: 8.60J | Lv.1
+2025-12-02 14:25:35,929 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:35,948 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:25:36,013 | Cycle 1953 | Action: REST | Energy: 8.62J | Lv.1
+2025-12-02 14:25:39,885 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:39,952 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:25:40,008 | Cycle 1954 | Action: REST | Energy: 8.89J | Lv.1
+2025-12-02 14:25:43,697 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:43,699 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:25:43,701 | Cycle 1955 | Action: REST | Energy: 8.98J | Lv.1
+2025-12-02 14:25:47,397 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:47,397 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:25:47,398 | Cycle 1956 | Action: REST | Energy: 9.06J | Lv.1
+2025-12-02 14:25:51,039 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:51,040 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:25:51,040 | Cycle 1957 | Action: REST | Energy: 8.92J | Lv.1
+2025-12-02 14:25:54,724 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:54,763 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:25:54,792 | Cycle 1958 | Action: REST | Energy: 8.90J | Lv.1
+2025-12-02 14:25:58,486 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:25:58,486 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:25:58,487 | Cycle 1959 | Action: REST | Energy: 8.74J | Lv.1
+2025-12-02 14:26:02,140 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:02,140 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:02,140 | Cycle 1960 | Action: REST | Energy: 8.69J | Lv.1
+2025-12-02 14:26:05,824 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:05,891 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:05,957 | Cycle 1961 | Action: REST | Energy: 8.69J | Lv.1
+2025-12-02 14:26:09,836 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:09,842 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:09,875 | Cycle 1962 | Action: REST | Energy: 8.73J | Lv.1
+2025-12-02 14:26:13,628 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:13,628 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:13,629 | Cycle 1963 | Action: REST | Energy: 8.74J | Lv.1
+2025-12-02 14:26:17,291 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:17,296 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:17,296 | Cycle 1964 | Action: REST | Energy: 8.72J | Lv.1
+2025-12-02 14:26:21,146 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:21,185 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:21,194 | Cycle 1965 | Action: REST | Energy: 8.74J | Lv.1
+2025-12-02 14:26:24,909 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:24,934 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:24,962 | Cycle 1966 | Action: REST | Energy: 8.73J | Lv.1
+2025-12-02 14:26:28,618 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:28,619 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:28,619 | Cycle 1967 | Action: REST | Energy: 8.69J | Lv.1
+2025-12-02 14:26:32,348 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:32,354 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:32,359 | Cycle 1968 | Action: REST | Energy: 8.69J | Lv.1
+2025-12-02 14:26:36,021 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:36,022 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:36,022 | Cycle 1969 | Action: REST | Energy: 8.70J | Lv.1
+2025-12-02 14:26:39,801 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:39,805 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:26:39,824 | Cycle 1970 | Action: REST | Energy: 8.80J | Lv.1
+2025-12-02 14:26:43,477 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:43,477 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:26:43,478 | Cycle 1971 | Action: REST | Energy: 8.80J | Lv.1
+2025-12-02 14:26:47,149 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:47,153 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:26:47,154 | Cycle 1972 | Action: REST | Energy: 8.91J | Lv.1
+2025-12-02 14:26:50,805 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:50,805 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:26:50,805 | Cycle 1973 | Action: REST | Energy: 8.85J | Lv.1
+2025-12-02 14:26:54,575 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:54,589 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:54,591 | Cycle 1974 | Action: REST | Energy: 8.74J | Lv.1
+2025-12-02 14:26:58,252 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:26:58,252 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:26:58,253 | Cycle 1975 | Action: REST | Energy: 8.75J | Lv.1
+2025-12-02 14:27:02,050 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:02,057 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:27:02,071 | Cycle 1976 | Action: REST | Energy: 8.76J | Lv.1
+2025-12-02 14:27:05,971 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:06,015 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:27:06,038 | Cycle 1977 | Action: REST | Energy: 8.70J | Lv.1
+2025-12-02 14:27:09,907 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:09,908 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:27:09,909 | Cycle 1978 | Action: REST | Energy: 8.60J | Lv.1
+2025-12-02 14:27:13,570 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:13,570 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:27:13,571 | Cycle 1979 | Action: REST | Energy: 8.85J | Lv.1
+2025-12-02 14:27:17,295 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:17,386 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:27:17,445 | Cycle 1980 | Action: REST | Energy: 8.80J | Lv.1
+2025-12-02 14:27:21,212 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:21,212 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:27:21,212 | Cycle 1981 | Action: REST | Energy: 8.90J | Lv.1
+2025-12-02 14:27:24,904 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:24,904 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:27:24,905 | Cycle 1982 | Action: REST | Energy: 8.82J | Lv.1
+2025-12-02 14:27:28,697 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:28,739 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:27:28,778 | Cycle 1983 | Action: REST | Energy: 8.93J | Lv.1
+2025-12-02 14:27:32,466 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:32,466 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:27:32,467 | Cycle 1984 | Action: REST | Energy: 8.93J | Lv.1
+2025-12-02 14:27:36,112 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:36,112 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:27:36,113 | Cycle 1985 | Action: REST | Energy: 8.90J | Lv.1
+2025-12-02 14:27:39,759 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:39,760 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:27:39,760 | Cycle 1986 | Action: REST | Energy: 9.02J | Lv.1
+2025-12-02 14:27:43,484 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:43,485 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:27:43,486 | Cycle 1987 | Action: REST | Energy: 9.11J | Lv.1
+2025-12-02 14:27:47,204 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:47,218 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:27:47,228 | Cycle 1988 | Action: REST | Energy: 9.14J | Lv.1
+2025-12-02 14:27:50,947 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:50,948 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:27:50,949 | Cycle 1989 | Action: REST | Energy: 9.02J | Lv.1
+2025-12-02 14:27:55,249 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:55,387 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:27:55,454 | Cycle 1990 | Action: REST | Energy: 8.93J | Lv.1
+2025-12-02 14:27:59,531 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:27:59,553 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:27:59,566 | Cycle 1991 | Action: REST | Energy: 8.82J | Lv.1
+2025-12-02 14:28:03,610 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:03,675 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:28:03,720 | Cycle 1992 | Action: REST | Energy: 8.83J | Lv.1
+2025-12-02 14:28:07,705 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:07,813 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:28:07,898 | Cycle 1993 | Action: REST | Energy: 8.91J | Lv.1
+2025-12-02 14:28:11,907 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:11,937 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:28:11,975 | Cycle 1994 | Action: REST | Energy: 9.07J | Lv.1
+2025-12-02 14:28:16,048 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:16,196 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:28:16,325 | Cycle 1995 | Action: REST | Energy: 9.30J | Lv.1
+2025-12-02 14:28:20,305 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:20,404 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:28:20,464 | Cycle 1996 | Action: REST | Energy: 9.23J | Lv.1
+2025-12-02 14:28:24,762 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:24,818 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:28:24,888 | Cycle 1997 | Action: REST | Energy: 9.25J | Lv.1
+2025-12-02 14:28:28,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:28,725 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:28:28,725 | Cycle 1998 | Action: REST | Energy: 9.27J | Lv.1
+2025-12-02 14:28:32,357 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:32,357 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:28:32,357 | Cycle 1999 | Action: REST | Energy: 9.31J | Lv.1
+2025-12-02 14:28:35,990 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:35,990 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:28:35,990 | Cycle 2000 | Action: REST | Energy: 9.22J | Lv.1
+2025-12-02 14:28:39,623 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:39,624 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:28:39,624 | Cycle 2001 | Action: REST | Energy: 9.25J | Lv.1
+2025-12-02 14:28:43,256 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:43,256 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:28:43,256 | Cycle 2002 | Action: REST | Energy: 9.22J | Lv.1
+2025-12-02 14:28:46,889 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:46,889 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:28:46,889 | Cycle 2003 | Action: REST | Energy: 9.20J | Lv.1
+2025-12-02 14:28:50,529 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:50,546 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:28:50,550 | Cycle 2004 | Action: REST | Energy: 9.32J | Lv.1
+2025-12-02 14:28:54,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:54,216 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:28:54,220 | Cycle 2005 | Action: REST | Energy: 9.23J | Lv.1
+2025-12-02 14:28:58,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:28:58,106 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:28:58,113 | Cycle 2006 | Action: REST | Energy: 9.23J | Lv.1
+2025-12-02 14:29:01,872 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:01,961 | 🪞 Reflection: Energy=9.4, Mood=Calm
+2025-12-02 14:29:01,992 | Cycle 2007 | Action: REST | Energy: 9.41J | Lv.1
+2025-12-02 14:29:05,727 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:05,736 | 🪞 Reflection: Energy=9.4, Mood=Calm
+2025-12-02 14:29:05,778 | Cycle 2008 | Action: REST | Energy: 9.36J | Lv.1
+2025-12-02 14:29:09,569 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:09,588 | 🪞 Reflection: Energy=9.5, Mood=Calm
+2025-12-02 14:29:09,608 | Cycle 2009 | Action: REST | Energy: 9.50J | Lv.1
+2025-12-02 14:29:13,370 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:13,416 | 🪞 Reflection: Energy=9.4, Mood=Calm
+2025-12-02 14:29:13,436 | Cycle 2010 | Action: REST | Energy: 9.38J | Lv.1
+2025-12-02 14:29:17,077 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:17,077 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:29:17,077 | Cycle 2011 | Action: REST | Energy: 9.34J | Lv.1
+2025-12-02 14:29:20,849 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:20,852 | 🪞 Reflection: Energy=9.3, Mood=Calm
+2025-12-02 14:29:20,855 | Cycle 2012 | Action: REST | Energy: 9.29J | Lv.1
+2025-12-02 14:29:24,787 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:24,912 | 🪞 Reflection: Energy=9.2, Mood=Calm
+2025-12-02 14:29:25,040 | Cycle 2013 | Action: REST | Energy: 9.16J | Lv.1
+2025-12-02 14:29:28,872 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:28,880 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:29:28,880 | Cycle 2014 | Action: REST | Energy: 9.03J | Lv.1
+2025-12-02 14:29:32,706 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:32,728 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:29:32,794 | Cycle 2015 | Action: REST | Energy: 9.06J | Lv.1
+2025-12-02 14:29:36,464 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:36,466 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:29:36,484 | Cycle 2016 | Action: REST | Energy: 8.91J | Lv.1
+2025-12-02 14:29:40,348 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:40,392 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:29:40,466 | Cycle 2017 | Action: REST | Energy: 8.84J | Lv.1
+2025-12-02 14:29:44,145 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:44,146 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:29:44,146 | Cycle 2018 | Action: REST | Energy: 8.96J | Lv.1
+2025-12-02 14:29:48,307 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:48,361 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:29:48,379 | Cycle 2019 | Action: REST | Energy: 8.93J | Lv.1
+2025-12-02 14:29:52,220 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:52,291 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:29:52,363 | Cycle 2020 | Action: REST | Energy: 8.86J | Lv.1
+2025-12-02 14:29:56,611 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:29:56,702 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:29:56,764 | Cycle 2021 | Action: REST | Energy: 8.87J | Lv.1
+2025-12-02 14:30:00,656 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:00,692 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:30:00,710 | Cycle 2022 | Action: REST | Energy: 8.99J | Lv.1
+2025-12-02 14:30:04,543 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:04,544 | 🪞 Reflection: Energy=9.1, Mood=Calm
+2025-12-02 14:30:04,544 | Cycle 2023 | Action: REST | Energy: 9.05J | Lv.1
+2025-12-02 14:30:08,333 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:08,357 | 🪞 Reflection: Energy=8.9, Mood=Calm
+2025-12-02 14:30:08,408 | Cycle 2024 | Action: REST | Energy: 8.87J | Lv.1
+2025-12-02 14:30:12,164 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:12,167 | 🪞 Reflection: Energy=9.0, Mood=Calm
+2025-12-02 14:30:12,172 | Cycle 2025 | Action: REST | Energy: 8.97J | Lv.1
+2025-12-02 14:30:15,901 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:15,902 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:30:15,902 | Cycle 2026 | Action: REST | Energy: 8.75J | Lv.1
+2025-12-02 14:30:19,653 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:19,785 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:30:19,894 | Cycle 2027 | Action: REST | Energy: 8.77J | Lv.1
+2025-12-02 14:30:23,714 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:23,716 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:30:23,717 | Cycle 2028 | Action: REST | Energy: 8.79J | Lv.1
+2025-12-02 14:30:27,743 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:27,819 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:30:27,843 | Cycle 2029 | Action: REST | Energy: 8.77J | Lv.1
+2025-12-02 14:30:31,766 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:31,815 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:30:31,941 | Cycle 2030 | Action: REST | Energy: 8.74J | Lv.1
+2025-12-02 14:30:36,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:36,293 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:30:36,366 | Cycle 2031 | Action: REST | Energy: 8.65J | Lv.1
+2025-12-02 14:30:40,130 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:40,131 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:30:40,131 | Cycle 2032 | Action: REST | Energy: 8.50J | Lv.1
+2025-12-02 14:30:43,858 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:43,904 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:30:43,948 | Cycle 2033 | Action: REST | Energy: 8.50J | Lv.1
+2025-12-02 14:30:47,630 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:47,631 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:30:47,631 | Cycle 2034 | Action: REST | Energy: 8.41J | Lv.1
+2025-12-02 14:30:51,452 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:51,467 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:30:51,489 | Cycle 2035 | Action: REST | Energy: 8.35J | Lv.1
+2025-12-02 14:30:55,181 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:55,181 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:30:55,182 | Cycle 2036 | Action: REST | Energy: 8.38J | Lv.1
+2025-12-02 14:30:58,943 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:30:58,951 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:30:58,954 | Cycle 2037 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:31:02,652 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:02,652 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:31:02,652 | Cycle 2038 | Action: REST | Energy: 8.56J | Lv.1
+2025-12-02 14:31:06,337 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:06,392 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:06,506 | Cycle 2039 | Action: REST | Energy: 8.47J | Lv.1
+2025-12-02 14:31:10,249 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:10,249 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:10,249 | Cycle 2040 | Action: REST | Energy: 8.54J | Lv.1
+2025-12-02 14:31:13,912 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:13,913 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:13,913 | Cycle 2041 | Action: REST | Energy: 8.48J | Lv.1
+2025-12-02 14:31:17,589 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:17,589 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:17,590 | Cycle 2042 | Action: REST | Energy: 8.53J | Lv.1
+2025-12-02 14:31:21,343 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:21,361 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:21,373 | Cycle 2043 | Action: REST | Energy: 8.46J | Lv.1
+2025-12-02 14:31:25,192 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:25,229 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:25,271 | Cycle 2044 | Action: REST | Energy: 8.52J | Lv.1
+2025-12-02 14:31:28,972 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:28,973 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:28,973 | Cycle 2045 | Action: REST | Energy: 8.45J | Lv.1
+2025-12-02 14:31:32,691 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:32,755 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:32,766 | Cycle 2046 | Action: REST | Energy: 8.49J | Lv.1
+2025-12-02 14:31:36,654 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:36,698 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:31:36,730 | Cycle 2047 | Action: REST | Energy: 8.58J | Lv.1
+2025-12-02 14:31:40,565 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:40,590 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:40,618 | Cycle 2048 | Action: REST | Energy: 8.47J | Lv.1
+2025-12-02 14:31:44,322 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:44,323 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:31:44,324 | Cycle 2049 | Action: REST | Energy: 8.56J | Lv.1
+2025-12-02 14:31:48,207 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:48,219 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:31:48,238 | Cycle 2050 | Action: REST | Energy: 8.47J | Lv.1
+2025-12-02 14:31:51,914 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:51,914 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:31:51,915 | Cycle 2051 | Action: REST | Energy: 8.41J | Lv.1
+2025-12-02 14:31:55,582 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:55,582 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:31:55,583 | Cycle 2052 | Action: REST | Energy: 8.37J | Lv.1
+2025-12-02 14:31:59,305 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:31:59,314 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:31:59,320 | Cycle 2053 | Action: REST | Energy: 8.17J | Lv.1
+2025-12-02 14:32:03,002 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:03,002 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:32:03,002 | Cycle 2054 | Action: REST | Energy: 8.21J | Lv.1
+2025-12-02 14:32:06,893 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:06,932 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:32:06,956 | Cycle 2055 | Action: REST | Energy: 8.20J | Lv.1
+2025-12-02 14:32:10,649 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:10,650 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:32:10,650 | Cycle 2056 | Action: REST | Energy: 8.27J | Lv.1
+2025-12-02 14:32:14,326 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:14,327 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:32:14,327 | Cycle 2057 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:32:18,193 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:18,198 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:32:18,211 | Cycle 2058 | Action: REST | Energy: 8.17J | Lv.1
+2025-12-02 14:32:21,903 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:21,904 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:32:21,904 | Cycle 2059 | Action: REST | Energy: 8.13J | Lv.1
+2025-12-02 14:32:25,581 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:25,581 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:32:25,581 | Cycle 2060 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:32:29,260 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:29,260 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:32:29,261 | Cycle 2061 | Action: REST | Energy: 8.11J | Lv.1
+2025-12-02 14:32:32,939 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:32,939 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:32:32,939 | Cycle 2062 | Action: REST | Energy: 8.29J | Lv.1
+2025-12-02 14:32:36,674 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:36,711 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:32:36,718 | Cycle 2063 | Action: REST | Energy: 8.39J | Lv.1
+2025-12-02 14:32:40,558 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:40,577 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:32:40,608 | Cycle 2064 | Action: REST | Energy: 8.29J | Lv.1
+2025-12-02 14:32:44,285 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:44,286 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:32:44,286 | Cycle 2065 | Action: REST | Energy: 8.40J | Lv.1
+2025-12-02 14:32:47,952 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:47,953 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:32:47,953 | Cycle 2066 | Action: REST | Energy: 8.51J | Lv.1
+2025-12-02 14:32:51,620 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:51,620 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:32:51,620 | Cycle 2067 | Action: REST | Energy: 8.53J | Lv.1
+2025-12-02 14:32:55,304 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:55,307 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:32:55,310 | Cycle 2068 | Action: REST | Energy: 8.52J | Lv.1
+2025-12-02 14:32:58,973 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:32:58,973 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:32:58,974 | Cycle 2069 | Action: REST | Energy: 8.55J | Lv.1
+2025-12-02 14:33:02,671 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:02,689 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:33:02,713 | Cycle 2070 | Action: REST | Energy: 8.52J | Lv.1
+2025-12-02 14:33:06,467 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:06,467 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:33:06,467 | Cycle 2071 | Action: REST | Energy: 8.45J | Lv.1
+2025-12-02 14:33:10,264 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:10,276 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:33:10,285 | Cycle 2072 | Action: REST | Energy: 8.33J | Lv.1
+2025-12-02 14:33:13,990 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:14,000 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:33:14,003 | Cycle 2073 | Action: REST | Energy: 8.31J | Lv.1
+2025-12-02 14:33:17,761 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:17,824 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:33:17,859 | Cycle 2074 | Action: REST | Energy: 8.30J | Lv.1
+2025-12-02 14:33:21,559 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:21,559 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:33:21,559 | Cycle 2075 | Action: REST | Energy: 8.32J | Lv.1
+2025-12-02 14:33:25,229 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:25,230 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:33:25,230 | Cycle 2076 | Action: REST | Energy: 8.31J | Lv.1
+2025-12-02 14:33:28,901 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:28,901 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:33:28,901 | Cycle 2077 | Action: REST | Energy: 8.17J | Lv.1
+2025-12-02 14:33:32,696 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:32,789 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:33:32,848 | Cycle 2078 | Action: REST | Energy: 8.11J | Lv.1
+2025-12-02 14:33:36,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:36,596 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:33:36,596 | Cycle 2079 | Action: REST | Energy: 8.17J | Lv.1
+2025-12-02 14:33:40,497 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:40,575 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:33:40,602 | Cycle 2080 | Action: REST | Energy: 8.12J | Lv.1
+2025-12-02 14:33:44,299 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:44,300 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:33:44,300 | Cycle 2081 | Action: REST | Energy: 8.11J | Lv.1
+2025-12-02 14:33:48,204 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:48,286 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:33:48,332 | Cycle 2082 | Action: REST | Energy: 8.06J | Lv.1
+2025-12-02 14:33:52,079 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:52,090 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:33:52,097 | Cycle 2083 | Action: REST | Energy: 8.06J | Lv.1
+2025-12-02 14:33:55,792 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:55,792 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:33:55,792 | Cycle 2084 | Action: REST | Energy: 8.13J | Lv.1
+2025-12-02 14:33:59,471 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:33:59,471 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:33:59,472 | Cycle 2085 | Action: REST | Energy: 8.10J | Lv.1
+2025-12-02 14:34:03,151 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:03,151 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:03,151 | Cycle 2086 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:34:06,869 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:06,877 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:34:06,888 | Cycle 2087 | Action: REST | Energy: 8.13J | Lv.1
+2025-12-02 14:34:10,717 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:10,756 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:10,835 | Cycle 2088 | Action: REST | Energy: 8.15J | Lv.1
+2025-12-02 14:34:14,548 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:14,548 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:14,549 | Cycle 2089 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:34:18,300 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:18,303 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:18,309 | Cycle 2090 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:34:22,025 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:22,031 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:22,041 | Cycle 2091 | Action: REST | Energy: 8.21J | Lv.1
+2025-12-02 14:34:25,894 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:25,925 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:25,954 | Cycle 2092 | Action: REST | Energy: 8.22J | Lv.1
+2025-12-02 14:34:29,732 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:29,752 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:29,759 | Cycle 2093 | Action: REST | Energy: 8.20J | Lv.1
+2025-12-02 14:34:33,451 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:33,452 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:34:33,454 | Cycle 2094 | Action: REST | Energy: 8.27J | Lv.1
+2025-12-02 14:34:37,126 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:37,126 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:37,127 | Cycle 2095 | Action: REST | Energy: 8.21J | Lv.1
+2025-12-02 14:34:40,818 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:40,821 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:34:40,825 | Cycle 2096 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:34:44,508 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:44,509 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:34:44,511 | Cycle 2097 | Action: REST | Energy: 8.13J | Lv.1
+2025-12-02 14:34:48,203 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:48,204 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:34:48,218 | Cycle 2098 | Action: REST | Energy: 8.07J | Lv.1
+2025-12-02 14:34:51,933 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:51,937 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:34:51,940 | Cycle 2099 | Action: REST | Energy: 7.91J | Lv.1
+2025-12-02 14:34:55,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:55,730 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:34:55,736 | Cycle 2100 | Action: REST | Energy: 7.97J | Lv.1
+2025-12-02 14:34:59,426 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:34:59,426 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:34:59,426 | Cycle 2101 | Action: REST | Energy: 7.96J | Lv.1
+2025-12-02 14:35:03,128 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:03,128 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:35:03,129 | Cycle 2102 | Action: REST | Energy: 7.83J | Lv.1
+2025-12-02 14:35:06,895 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:06,934 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:35:06,950 | Cycle 2103 | Action: REST | Energy: 7.81J | Lv.1
+2025-12-02 14:35:10,658 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:10,658 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:35:10,658 | Cycle 2104 | Action: REST | Energy: 7.72J | Lv.1
+2025-12-02 14:35:14,352 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:14,353 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:35:14,353 | Cycle 2105 | Action: REST | Energy: 7.80J | Lv.1
+2025-12-02 14:35:18,045 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:18,046 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:35:18,046 | Cycle 2106 | Action: REST | Energy: 7.83J | Lv.1
+2025-12-02 14:35:21,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:21,738 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:35:21,738 | Cycle 2107 | Action: REST | Energy: 7.92J | Lv.1
+2025-12-02 14:35:25,509 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:25,518 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:35:25,533 | Cycle 2108 | Action: REST | Energy: 7.89J | Lv.1
+2025-12-02 14:35:29,225 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:29,226 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:35:29,226 | Cycle 2109 | Action: REST | Energy: 7.92J | Lv.1
+2025-12-02 14:35:32,943 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:32,947 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:35:32,947 | Cycle 2110 | Action: REST | Energy: 7.87J | Lv.1
+2025-12-02 14:35:36,649 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:36,650 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:35:36,650 | Cycle 2111 | Action: REST | Energy: 7.87J | Lv.1
+2025-12-02 14:35:40,338 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:40,338 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:35:40,338 | Cycle 2112 | Action: REST | Energy: 8.00J | Lv.1
+2025-12-02 14:35:44,020 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:44,020 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:35:44,021 | Cycle 2113 | Action: REST | Energy: 8.01J | Lv.1
+2025-12-02 14:35:47,820 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:47,901 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:35:48,017 | Cycle 2114 | Action: REST | Energy: 8.02J | Lv.1
+2025-12-02 14:35:51,878 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:51,888 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:35:51,895 | Cycle 2115 | Action: REST | Energy: 7.92J | Lv.1
+2025-12-02 14:35:55,587 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:55,587 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:35:55,588 | Cycle 2116 | Action: REST | Energy: 8.05J | Lv.1
+2025-12-02 14:35:59,298 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:35:59,316 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:35:59,317 | Cycle 2117 | Action: REST | Energy: 8.04J | Lv.1
+2025-12-02 14:36:03,165 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:03,326 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:36:03,464 | Cycle 2118 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:36:07,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:07,265 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:36:07,283 | Cycle 2119 | Action: REST | Energy: 8.15J | Lv.1
+2025-12-02 14:36:10,965 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:10,966 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:36:10,966 | Cycle 2120 | Action: REST | Energy: 8.20J | Lv.1
+2025-12-02 14:36:14,641 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:14,641 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:36:14,641 | Cycle 2121 | Action: REST | Energy: 8.24J | Lv.1
+2025-12-02 14:36:18,350 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:18,351 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:36:18,351 | Cycle 2122 | Action: REST | Energy: 8.33J | Lv.1
+2025-12-02 14:36:22,346 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:22,395 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:36:22,472 | Cycle 2123 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:36:26,226 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:26,227 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:36:26,228 | Cycle 2124 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:36:29,909 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:29,910 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:36:29,910 | Cycle 2125 | Action: REST | Energy: 8.25J | Lv.1
+2025-12-02 14:36:33,715 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:33,726 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:36:33,730 | Cycle 2126 | Action: REST | Energy: 8.29J | Lv.1
+2025-12-02 14:36:37,465 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:37,465 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:36:37,466 | Cycle 2127 | Action: REST | Energy: 8.36J | Lv.1
+2025-12-02 14:36:41,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:41,352 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:36:41,437 | Cycle 2128 | Action: REST | Energy: 8.41J | Lv.1
+2025-12-02 14:36:45,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:45,313 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:36:45,314 | Cycle 2129 | Action: REST | Energy: 8.44J | Lv.1
+2025-12-02 14:36:49,029 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:49,030 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:36:49,031 | Cycle 2130 | Action: REST | Energy: 8.50J | Lv.1
+2025-12-02 14:36:52,770 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:52,835 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:36:52,903 | Cycle 2131 | Action: REST | Energy: 8.49J | Lv.1
+2025-12-02 14:36:56,744 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:36:56,747 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:36:56,750 | Cycle 2132 | Action: REST | Energy: 8.40J | Lv.1
+2025-12-02 14:37:00,420 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:00,421 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:37:00,421 | Cycle 2133 | Action: REST | Energy: 8.54J | Lv.1
+2025-12-02 14:37:04,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:04,090 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:37:04,090 | Cycle 2134 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:37:07,875 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:07,885 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:37:07,886 | Cycle 2135 | Action: REST | Energy: 8.50J | Lv.1
+2025-12-02 14:37:11,864 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:11,949 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:37:12,062 | Cycle 2136 | Action: REST | Energy: 8.49J | Lv.1
+2025-12-02 14:37:15,753 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:15,753 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:37:15,754 | Cycle 2137 | Action: REST | Energy: 8.53J | Lv.1
+2025-12-02 14:37:19,417 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:19,417 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:37:19,417 | Cycle 2138 | Action: REST | Energy: 8.64J | Lv.1
+2025-12-02 14:37:23,122 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:23,125 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:37:23,128 | Cycle 2139 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:37:27,067 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:27,125 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:37:27,153 | Cycle 2140 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:37:31,224 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:31,426 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:37:31,511 | Cycle 2141 | Action: REST | Energy: 8.26J | Lv.1
+2025-12-02 14:37:35,268 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:35,274 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:37:35,280 | Cycle 2142 | Action: REST | Energy: 8.25J | Lv.1
+2025-12-02 14:37:39,358 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:39,457 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:37:39,528 | Cycle 2143 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:37:44,790 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:44,956 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:37:45,035 | Cycle 2144 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:37:49,141 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:49,141 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:37:49,264 | Cycle 2145 | Action: REST | Energy: 8.35J | Lv.1
+2025-12-02 14:37:52,994 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:52,995 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:37:52,995 | Cycle 2146 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:37:56,999 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:37:57,095 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:37:57,125 | Cycle 2147 | Action: REST | Energy: 8.51J | Lv.1
+2025-12-02 14:38:01,291 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:01,456 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:38:01,578 | Cycle 2148 | Action: REST | Energy: 8.57J | Lv.1
+2025-12-02 14:38:05,948 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:06,076 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:38:06,160 | Cycle 2149 | Action: REST | Energy: 8.65J | Lv.1
+2025-12-02 14:38:10,551 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:10,778 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:38:10,979 | Cycle 2150 | Action: REST | Energy: 8.62J | Lv.1
+2025-12-02 14:38:15,162 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:15,269 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:38:15,359 | Cycle 2151 | Action: REST | Energy: 8.79J | Lv.1
+2025-12-02 14:38:19,447 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:19,547 | 🪞 Reflection: Energy=8.8, Mood=Calm
+2025-12-02 14:38:19,589 | Cycle 2152 | Action: REST | Energy: 8.81J | Lv.1
+2025-12-02 14:38:23,357 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:23,372 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:38:23,388 | Cycle 2153 | Action: REST | Energy: 8.70J | Lv.1
+2025-12-02 14:38:27,168 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:27,180 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:38:27,190 | Cycle 2154 | Action: REST | Energy: 8.64J | Lv.1
+2025-12-02 14:38:30,885 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:30,907 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:38:30,941 | Cycle 2155 | Action: REST | Energy: 8.55J | Lv.1
+2025-12-02 14:38:34,668 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:34,668 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:38:34,668 | Cycle 2156 | Action: REST | Energy: 8.50J | Lv.1
+2025-12-02 14:38:38,332 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:38,333 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:38:38,334 | Cycle 2157 | Action: REST | Energy: 8.49J | Lv.1
+2025-12-02 14:38:41,997 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:41,997 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:38:41,998 | Cycle 2158 | Action: REST | Energy: 8.48J | Lv.1
+2025-12-02 14:38:45,670 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:45,671 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:38:45,671 | Cycle 2159 | Action: REST | Energy: 8.35J | Lv.1
+2025-12-02 14:38:49,341 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:49,342 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:38:49,343 | Cycle 2160 | Action: REST | Energy: 8.39J | Lv.1
+2025-12-02 14:38:53,010 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:53,010 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:38:53,011 | Cycle 2161 | Action: REST | Energy: 8.27J | Lv.1
+2025-12-02 14:38:56,682 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:38:56,682 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:38:56,682 | Cycle 2162 | Action: REST | Energy: 8.25J | Lv.1
+2025-12-02 14:39:00,408 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:00,415 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:39:00,458 | Cycle 2163 | Action: REST | Energy: 8.26J | Lv.1
+2025-12-02 14:39:04,292 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:04,324 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:39:04,336 | Cycle 2164 | Action: REST | Energy: 8.28J | Lv.1
+2025-12-02 14:39:08,012 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:08,012 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:39:08,012 | Cycle 2165 | Action: REST | Energy: 8.13J | Lv.1
+2025-12-02 14:39:11,836 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:11,888 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:39:11,934 | Cycle 2166 | Action: REST | Energy: 8.11J | Lv.1
+2025-12-02 14:39:15,751 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:15,751 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:39:15,751 | Cycle 2167 | Action: REST | Energy: 8.03J | Lv.1
+2025-12-02 14:39:19,432 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:19,432 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:39:19,432 | Cycle 2168 | Action: REST | Energy: 8.10J | Lv.1
+2025-12-02 14:39:23,110 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:23,110 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:39:23,110 | Cycle 2169 | Action: REST | Energy: 7.95J | Lv.1
+2025-12-02 14:39:26,794 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:26,794 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:39:26,794 | Cycle 2170 | Action: REST | Energy: 7.99J | Lv.1
+2025-12-02 14:39:30,477 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:30,477 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:39:30,477 | Cycle 2171 | Action: REST | Energy: 8.07J | Lv.1
+2025-12-02 14:39:34,156 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:34,156 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:39:34,156 | Cycle 2172 | Action: REST | Energy: 7.99J | Lv.1
+2025-12-02 14:39:37,839 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:37,840 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:39:37,840 | Cycle 2173 | Action: REST | Energy: 7.88J | Lv.1
+2025-12-02 14:39:41,568 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:41,574 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:39:41,611 | Cycle 2174 | Action: REST | Energy: 7.92J | Lv.1
+2025-12-02 14:39:45,680 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:45,720 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:39:45,755 | Cycle 2175 | Action: REST | Energy: 7.89J | Lv.1
+2025-12-02 14:39:49,504 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:49,504 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:39:49,504 | Cycle 2176 | Action: REST | Energy: 7.83J | Lv.1
+2025-12-02 14:39:53,618 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:53,832 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:39:53,972 | Cycle 2177 | Action: REST | Energy: 7.76J | Lv.1
+2025-12-02 14:39:57,791 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:39:57,791 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:39:57,791 | Cycle 2178 | Action: REST | Energy: 7.71J | Lv.1
+2025-12-02 14:40:01,484 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:01,485 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:40:01,485 | Cycle 2179 | Action: REST | Energy: 7.72J | Lv.1
+2025-12-02 14:40:05,178 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:05,178 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:40:05,178 | Cycle 2180 | Action: REST | Energy: 7.81J | Lv.1
+2025-12-02 14:40:08,868 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:08,868 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:40:08,868 | Cycle 2181 | Action: REST | Energy: 7.78J | Lv.1
+2025-12-02 14:40:12,757 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:12,791 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:40:12,817 | Cycle 2182 | Action: REST | Energy: 7.75J | Lv.1
+2025-12-02 14:40:16,894 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:16,980 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:40:17,152 | Cycle 2183 | Action: REST | Energy: 7.83J | Lv.1
+2025-12-02 14:40:21,095 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:21,158 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:40:21,174 | Cycle 2184 | Action: REST | Energy: 7.72J | Lv.1
+2025-12-02 14:40:26,047 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:26,271 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:40:26,684 | Cycle 2185 | Action: REST | Energy: 7.62J | Lv.1
+2025-12-02 14:40:30,764 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:30,789 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:40:30,833 | Cycle 2186 | Action: REST | Energy: 7.61J | Lv.1
+2025-12-02 14:40:34,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:34,575 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:40:34,575 | Cycle 2187 | Action: REST | Energy: 7.49J | Lv.1
+2025-12-02 14:40:38,597 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:38,712 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:40:38,830 | Cycle 2188 | Action: REST | Energy: 7.43J | Lv.1
+2025-12-02 14:40:43,130 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:43,251 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:40:43,285 | Cycle 2189 | Action: REST | Energy: 7.46J | Lv.1
+2025-12-02 14:40:47,325 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:47,410 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:40:47,474 | Cycle 2190 | Action: REST | Energy: 7.39J | Lv.1
+2025-12-02 14:40:51,721 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:51,792 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:40:51,818 | Cycle 2191 | Action: REST | Energy: 7.36J | Lv.1
+2025-12-02 14:40:55,551 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:55,551 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:40:55,552 | Cycle 2192 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 14:40:59,322 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:40:59,322 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:40:59,376 | Cycle 2193 | Action: REST | Energy: 7.49J | Lv.1
+2025-12-02 14:41:03,162 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:03,162 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:03,164 | Cycle 2194 | Action: REST | Energy: 7.37J | Lv.1
+2025-12-02 14:41:06,958 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:06,970 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:41:06,977 | Cycle 2195 | Action: REST | Energy: 7.24J | Lv.1
+2025-12-02 14:41:10,960 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:11,028 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:11,092 | Cycle 2196 | Action: REST | Energy: 7.36J | Lv.1
+2025-12-02 14:41:14,823 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:14,824 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:14,824 | Cycle 2197 | Action: REST | Energy: 7.35J | Lv.1
+2025-12-02 14:41:18,646 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:18,698 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:41:18,825 | Cycle 2198 | Action: REST | Energy: 7.46J | Lv.1
+2025-12-02 14:41:22,554 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:22,554 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:22,555 | Cycle 2199 | Action: REST | Energy: 7.40J | Lv.1
+2025-12-02 14:41:26,503 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:26,524 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:41:26,591 | Cycle 2200 | Action: REST | Energy: 7.33J | Lv.1
+2025-12-02 14:41:30,575 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:30,626 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:41:30,642 | Cycle 2201 | Action: REST | Energy: 7.29J | Lv.1
+2025-12-02 14:41:34,406 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:34,406 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:41:34,407 | Cycle 2202 | Action: REST | Energy: 7.32J | Lv.1
+2025-12-02 14:41:38,168 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:38,186 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:41:38,194 | Cycle 2203 | Action: REST | Energy: 7.30J | Lv.1
+2025-12-02 14:41:41,974 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:41,985 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:41,993 | Cycle 2204 | Action: REST | Energy: 7.42J | Lv.1
+2025-12-02 14:41:45,706 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:45,707 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:45,707 | Cycle 2205 | Action: REST | Energy: 7.38J | Lv.1
+2025-12-02 14:41:49,524 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:49,587 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:49,656 | Cycle 2206 | Action: REST | Energy: 7.42J | Lv.1
+2025-12-02 14:41:53,507 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:53,509 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:41:53,509 | Cycle 2207 | Action: REST | Energy: 7.44J | Lv.1
+2025-12-02 14:41:57,216 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:41:57,217 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:41:57,217 | Cycle 2208 | Action: REST | Energy: 7.45J | Lv.1
+2025-12-02 14:42:01,180 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:01,223 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:42:01,256 | Cycle 2209 | Action: REST | Energy: 7.56J | Lv.1
+2025-12-02 14:42:05,094 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:05,095 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:42:05,103 | Cycle 2210 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 14:42:08,902 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:08,912 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:42:08,918 | Cycle 2211 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 14:42:12,626 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:12,627 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:42:12,627 | Cycle 2212 | Action: REST | Energy: 7.54J | Lv.1
+2025-12-02 14:42:16,369 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:16,371 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:42:16,373 | Cycle 2213 | Action: REST | Energy: 7.52J | Lv.1
+2025-12-02 14:42:20,087 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:20,088 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:42:20,088 | Cycle 2214 | Action: REST | Energy: 7.55J | Lv.1
+2025-12-02 14:42:24,130 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:24,137 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:42:24,141 | Cycle 2215 | Action: REST | Energy: 7.54J | Lv.1
+2025-12-02 14:42:27,962 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:27,982 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:42:27,986 | Cycle 2216 | Action: REST | Energy: 7.49J | Lv.1
+2025-12-02 14:42:32,062 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:32,111 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:42:32,158 | Cycle 2217 | Action: REST | Energy: 7.40J | Lv.1
+2025-12-02 14:42:35,912 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:35,914 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:42:35,919 | Cycle 2218 | Action: REST | Energy: 7.50J | Lv.1
+2025-12-02 14:42:39,623 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:39,623 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:42:39,624 | Cycle 2219 | Action: REST | Energy: 7.38J | Lv.1
+2025-12-02 14:42:43,411 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:43,446 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:42:43,480 | Cycle 2220 | Action: REST | Energy: 7.27J | Lv.1
+2025-12-02 14:42:47,264 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:47,303 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:42:47,310 | Cycle 2221 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:42:51,235 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:51,246 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:42:51,252 | Cycle 2222 | Action: REST | Energy: 7.18J | Lv.1
+2025-12-02 14:42:54,970 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:54,970 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:42:54,970 | Cycle 2223 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:42:58,883 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:42:58,951 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:42:58,960 | Cycle 2224 | Action: REST | Energy: 7.33J | Lv.1
+2025-12-02 14:43:02,686 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:02,686 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:43:02,688 | Cycle 2225 | Action: REST | Energy: 7.36J | Lv.1
+2025-12-02 14:43:06,754 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:06,811 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:43:06,855 | Cycle 2226 | Action: REST | Energy: 7.33J | Lv.1
+2025-12-02 14:43:10,885 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:10,939 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:43:11,018 | Cycle 2227 | Action: REST | Energy: 7.43J | Lv.1
+2025-12-02 14:43:15,155 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:15,185 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:43:15,275 | Cycle 2228 | Action: REST | Energy: 7.40J | Lv.1
+2025-12-02 14:43:19,108 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:19,124 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:43:19,137 | Cycle 2229 | Action: REST | Energy: 7.27J | Lv.1
+2025-12-02 14:43:23,355 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:23,448 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:43:23,715 | Cycle 2230 | Action: REST | Energy: 7.35J | Lv.1
+2025-12-02 14:43:28,322 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:28,519 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:43:28,704 | Cycle 2231 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:43:32,634 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:32,649 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:43:32,653 | Cycle 2232 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:43:36,405 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:36,447 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:43:36,499 | Cycle 2233 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:43:40,342 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:40,347 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:43:40,351 | Cycle 2234 | Action: REST | Energy: 7.24J | Lv.1
+2025-12-02 14:43:44,463 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:44,510 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:43:44,543 | Cycle 2235 | Action: REST | Energy: 7.28J | Lv.1
+2025-12-02 14:43:48,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:48,611 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:43:48,623 | Cycle 2236 | Action: REST | Energy: 7.23J | Lv.1
+2025-12-02 14:43:52,600 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:52,635 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:43:52,655 | Cycle 2237 | Action: REST | Energy: 7.19J | Lv.1
+2025-12-02 14:43:56,374 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:43:56,374 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:43:56,375 | Cycle 2238 | Action: REST | Energy: 7.18J | Lv.1
+2025-12-02 14:44:00,184 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:00,196 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:00,208 | Cycle 2239 | Action: REST | Energy: 7.09J | Lv.1
+2025-12-02 14:44:03,998 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:04,000 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:44:04,000 | Cycle 2240 | Action: REST | Energy: 7.03J | Lv.1
+2025-12-02 14:44:07,722 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:07,722 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:44:07,723 | Cycle 2241 | Action: REST | Energy: 6.91J | Lv.1
+2025-12-02 14:44:11,479 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:11,495 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:44:11,495 | Cycle 2242 | Action: REST | Energy: 7.02J | Lv.1
+2025-12-02 14:44:15,218 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:15,218 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:15,218 | Cycle 2243 | Action: REST | Energy: 7.08J | Lv.1
+2025-12-02 14:44:18,940 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:18,940 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:18,941 | Cycle 2244 | Action: REST | Energy: 7.13J | Lv.1
+2025-12-02 14:44:22,673 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:22,686 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:22,747 | Cycle 2245 | Action: REST | Energy: 7.10J | Lv.1
+2025-12-02 14:44:26,514 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:26,514 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:44:26,514 | Cycle 2246 | Action: REST | Energy: 7.05J | Lv.1
+2025-12-02 14:44:30,287 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:30,297 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:44:30,298 | Cycle 2247 | Action: REST | Energy: 7.03J | Lv.1
+2025-12-02 14:44:34,032 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:34,033 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:44:34,033 | Cycle 2248 | Action: REST | Energy: 7.04J | Lv.1
+2025-12-02 14:44:37,756 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:37,757 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:44:37,763 | Cycle 2249 | Action: REST | Energy: 7.02J | Lv.1
+2025-12-02 14:44:41,493 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:41,493 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:41,494 | Cycle 2250 | Action: REST | Energy: 7.08J | Lv.1
+2025-12-02 14:44:45,214 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:45,215 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:45,216 | Cycle 2251 | Action: REST | Energy: 7.13J | Lv.1
+2025-12-02 14:44:48,935 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:48,935 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:48,935 | Cycle 2252 | Action: REST | Energy: 7.11J | Lv.1
+2025-12-02 14:44:52,653 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:52,659 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:52,659 | Cycle 2253 | Action: REST | Energy: 7.11J | Lv.1
+2025-12-02 14:44:56,379 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:44:56,379 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:44:56,380 | Cycle 2254 | Action: REST | Energy: 7.05J | Lv.1
+2025-12-02 14:45:00,307 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:00,392 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:45:00,460 | Cycle 2255 | Action: REST | Energy: 7.07J | Lv.1
+2025-12-02 14:45:04,355 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:04,357 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:45:04,358 | Cycle 2256 | Action: REST | Energy: 7.17J | Lv.1
+2025-12-02 14:45:08,074 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:08,074 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:45:08,075 | Cycle 2257 | Action: REST | Energy: 7.24J | Lv.1
+2025-12-02 14:45:11,823 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:11,826 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:45:11,831 | Cycle 2258 | Action: REST | Energy: 7.21J | Lv.1
+2025-12-02 14:45:15,709 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:15,714 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:45:15,727 | Cycle 2259 | Action: REST | Energy: 7.18J | Lv.1
+2025-12-02 14:45:19,721 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:19,760 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:45:19,776 | Cycle 2260 | Action: REST | Energy: 7.09J | Lv.1
+2025-12-02 14:45:23,520 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:23,520 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:45:23,520 | Cycle 2261 | Action: REST | Energy: 7.02J | Lv.1
+2025-12-02 14:45:27,448 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:27,496 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:45:27,543 | Cycle 2262 | Action: REST | Energy: 7.09J | Lv.1
+2025-12-02 14:45:31,360 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:31,360 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:45:31,360 | Cycle 2263 | Action: REST | Energy: 7.15J | Lv.1
+2025-12-02 14:45:35,176 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:35,211 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:45:35,243 | Cycle 2264 | Action: REST | Energy: 7.19J | Lv.1
+2025-12-02 14:45:38,964 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:38,964 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:45:38,965 | Cycle 2265 | Action: REST | Energy: 7.13J | Lv.1
+2025-12-02 14:45:42,886 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:42,994 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:45:43,095 | Cycle 2266 | Action: REST | Energy: 7.11J | Lv.1
+2025-12-02 14:45:47,205 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:47,320 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:45:47,461 | Cycle 2267 | Action: REST | Energy: 6.98J | Lv.1
+2025-12-02 14:45:51,274 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:51,277 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:45:51,279 | Cycle 2268 | Action: REST | Energy: 7.01J | Lv.1
+2025-12-02 14:45:55,013 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:55,013 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 14:45:55,013 | Cycle 2269 | Action: REST | Energy: 6.84J | Lv.1
+2025-12-02 14:45:58,921 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:45:58,992 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:45:59,080 | Cycle 2270 | Action: REST | Energy: 6.98J | Lv.1
+2025-12-02 14:46:03,012 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:03,028 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:46:03,042 | Cycle 2271 | Action: REST | Energy: 6.95J | Lv.1
+2025-12-02 14:46:06,915 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:06,955 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:46:07,003 | Cycle 2272 | Action: REST | Energy: 6.98J | Lv.1
+2025-12-02 14:46:11,049 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:11,071 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:46:11,073 | Cycle 2273 | Action: REST | Energy: 6.88J | Lv.1
+2025-12-02 14:46:15,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:15,161 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:46:15,214 | Cycle 2274 | Action: REST | Energy: 6.92J | Lv.1
+2025-12-02 14:46:18,988 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:18,989 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:46:18,989 | Cycle 2275 | Action: REST | Energy: 6.88J | Lv.1
+2025-12-02 14:46:22,981 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:23,091 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 14:46:23,099 | Cycle 2276 | Action: REST | Energy: 6.76J | Lv.1
+2025-12-02 14:46:26,935 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:26,956 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 14:46:26,970 | Cycle 2277 | Action: REST | Energy: 6.82J | Lv.1
+2025-12-02 14:46:30,705 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:30,706 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 14:46:30,706 | Cycle 2278 | Action: REST | Energy: 6.83J | Lv.1
+2025-12-02 14:46:34,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:34,510 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 14:46:34,528 | Cycle 2279 | Action: REST | Energy: 6.85J | Lv.1
+2025-12-02 14:46:38,272 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:38,272 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:46:38,273 | Cycle 2280 | Action: REST | Energy: 6.97J | Lv.1
+2025-12-02 14:46:42,218 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:42,262 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:46:42,298 | Cycle 2281 | Action: REST | Energy: 6.93J | Lv.1
+2025-12-02 14:46:46,035 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:46,035 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:46:46,035 | Cycle 2282 | Action: REST | Energy: 6.92J | Lv.1
+2025-12-02 14:46:49,834 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:49,836 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:46:49,839 | Cycle 2283 | Action: REST | Energy: 6.94J | Lv.1
+2025-12-02 14:46:53,613 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:53,621 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:46:53,627 | Cycle 2284 | Action: REST | Energy: 7.05J | Lv.1
+2025-12-02 14:46:57,399 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:46:57,402 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:46:57,407 | Cycle 2285 | Action: REST | Energy: 7.04J | Lv.1
+2025-12-02 14:47:01,130 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:01,131 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:47:01,131 | Cycle 2286 | Action: REST | Energy: 7.16J | Lv.1
+2025-12-02 14:47:05,003 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:05,039 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:47:05,060 | Cycle 2287 | Action: REST | Energy: 7.19J | Lv.1
+2025-12-02 14:47:08,837 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:08,837 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:47:08,838 | Cycle 2288 | Action: REST | Energy: 7.30J | Lv.1
+2025-12-02 14:47:12,556 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:12,557 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:47:12,558 | Cycle 2289 | Action: REST | Energy: 7.36J | Lv.1
+2025-12-02 14:47:16,268 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:16,268 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:47:16,269 | Cycle 2290 | Action: REST | Energy: 7.36J | Lv.1
+2025-12-02 14:47:20,052 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:20,057 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:47:20,057 | Cycle 2291 | Action: REST | Energy: 7.50J | Lv.1
+2025-12-02 14:47:24,170 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:24,194 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:47:24,227 | Cycle 2292 | Action: REST | Energy: 7.51J | Lv.1
+2025-12-02 14:47:28,566 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:28,639 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:47:28,640 | Cycle 2293 | Action: REST | Energy: 7.50J | Lv.1
+2025-12-02 14:47:32,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:32,390 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:47:32,390 | Cycle 2294 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 14:47:36,356 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:36,423 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:47:36,562 | Cycle 2295 | Action: REST | Energy: 7.39J | Lv.1
+2025-12-02 14:47:40,405 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:40,438 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:47:40,466 | Cycle 2296 | Action: REST | Energy: 7.33J | Lv.1
+2025-12-02 14:47:44,426 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:44,495 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:47:44,595 | Cycle 2297 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:47:48,614 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:48,738 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:47:48,746 | Cycle 2298 | Action: REST | Energy: 7.31J | Lv.1
+2025-12-02 14:47:52,571 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:52,669 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:47:52,842 | Cycle 2299 | Action: REST | Energy: 7.43J | Lv.1
+2025-12-02 14:47:56,868 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:47:56,928 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:47:56,932 | Cycle 2300 | Action: REST | Energy: 7.44J | Lv.1
+2025-12-02 14:48:01,126 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:01,245 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:48:01,502 | Cycle 2301 | Action: REST | Energy: 7.49J | Lv.1
+2025-12-02 14:48:05,877 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:06,186 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:48:06,290 | Cycle 2302 | Action: REST | Energy: 7.50J | Lv.1
+2025-12-02 14:48:10,240 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:10,240 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:48:10,241 | Cycle 2303 | Action: REST | Energy: 7.43J | Lv.1
+2025-12-02 14:48:14,146 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:14,222 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:48:14,253 | Cycle 2304 | Action: REST | Energy: 7.56J | Lv.1
+2025-12-02 14:48:18,009 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:18,016 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:48:18,016 | Cycle 2305 | Action: REST | Energy: 7.58J | Lv.1
+2025-12-02 14:48:21,919 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:21,961 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:48:21,975 | Cycle 2306 | Action: REST | Energy: 7.67J | Lv.1
+2025-12-02 14:48:25,678 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:25,678 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:48:25,678 | Cycle 2307 | Action: REST | Energy: 7.67J | Lv.1
+2025-12-02 14:48:29,375 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:29,376 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:48:29,376 | Cycle 2308 | Action: REST | Energy: 7.74J | Lv.1
+2025-12-02 14:48:33,305 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:33,368 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:48:33,393 | Cycle 2309 | Action: REST | Energy: 7.72J | Lv.1
+2025-12-02 14:48:37,126 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:37,131 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:48:37,134 | Cycle 2310 | Action: REST | Energy: 7.73J | Lv.1
+2025-12-02 14:48:40,864 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:41,018 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:48:41,122 | Cycle 2311 | Action: REST | Energy: 7.71J | Lv.1
+2025-12-02 14:48:45,031 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:45,034 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:48:45,037 | Cycle 2312 | Action: REST | Energy: 7.61J | Lv.1
+2025-12-02 14:48:48,736 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:48,737 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:48:48,737 | Cycle 2313 | Action: REST | Energy: 7.65J | Lv.1
+2025-12-02 14:48:52,729 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:52,757 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:48:52,772 | Cycle 2314 | Action: REST | Energy: 7.67J | Lv.1
+2025-12-02 14:48:56,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:48:56,506 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:48:56,507 | Cycle 2315 | Action: REST | Energy: 7.77J | Lv.1
+2025-12-02 14:49:00,351 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:00,365 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:49:00,446 | Cycle 2316 | Action: REST | Energy: 7.72J | Lv.1
+2025-12-02 14:49:04,324 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:04,376 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:49:04,502 | Cycle 2317 | Action: REST | Energy: 7.65J | Lv.1
+2025-12-02 14:49:08,297 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:08,299 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:49:08,300 | Cycle 2318 | Action: REST | Energy: 7.64J | Lv.1
+2025-12-02 14:49:12,151 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:12,187 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:49:12,225 | Cycle 2319 | Action: REST | Energy: 7.66J | Lv.1
+2025-12-02 14:49:15,967 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:15,970 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:49:15,970 | Cycle 2320 | Action: REST | Energy: 7.76J | Lv.1
+2025-12-02 14:49:19,871 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:19,911 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:49:19,928 | Cycle 2321 | Action: REST | Energy: 7.76J | Lv.1
+2025-12-02 14:49:23,691 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:23,709 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:49:23,753 | Cycle 2322 | Action: REST | Energy: 7.70J | Lv.1
+2025-12-02 14:49:27,681 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:27,682 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:49:27,684 | Cycle 2323 | Action: REST | Energy: 7.57J | Lv.1
+2025-12-02 14:49:31,386 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:31,386 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:49:31,386 | Cycle 2324 | Action: REST | Energy: 7.55J | Lv.1
+2025-12-02 14:49:35,177 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:35,178 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:49:35,178 | Cycle 2325 | Action: REST | Energy: 7.53J | Lv.1
+2025-12-02 14:49:38,910 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:38,911 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:49:38,911 | Cycle 2326 | Action: REST | Energy: 7.57J | Lv.1
+2025-12-02 14:49:42,898 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:42,944 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:49:43,075 | Cycle 2327 | Action: REST | Energy: 7.58J | Lv.1
+2025-12-02 14:49:47,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:47,335 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:49:47,409 | Cycle 2328 | Action: REST | Energy: 7.60J | Lv.1
+2025-12-02 14:49:51,647 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:51,796 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:49:51,859 | Cycle 2329 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 14:49:55,693 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:55,696 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:49:55,698 | Cycle 2330 | Action: REST | Energy: 7.56J | Lv.1
+2025-12-02 14:49:59,618 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:49:59,654 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:49:59,765 | Cycle 2331 | Action: REST | Energy: 7.48J | Lv.1
+2025-12-02 14:50:03,912 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:04,109 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:04,393 | Cycle 2332 | Action: REST | Energy: 7.48J | Lv.1
+2025-12-02 14:50:08,628 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:08,755 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:08,903 | Cycle 2333 | Action: REST | Energy: 7.52J | Lv.1
+2025-12-02 14:50:12,972 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:13,042 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:13,085 | Cycle 2334 | Action: REST | Energy: 7.50J | Lv.1
+2025-12-02 14:50:17,410 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:17,515 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:50:17,735 | Cycle 2335 | Action: REST | Energy: 7.44J | Lv.1
+2025-12-02 14:50:21,878 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:21,884 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:21,922 | Cycle 2336 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 14:50:25,672 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:25,674 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:50:25,725 | Cycle 2337 | Action: REST | Energy: 7.55J | Lv.1
+2025-12-02 14:50:29,501 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:29,502 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:50:29,502 | Cycle 2338 | Action: REST | Energy: 7.43J | Lv.1
+2025-12-02 14:50:33,386 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:33,538 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:33,577 | Cycle 2339 | Action: REST | Energy: 7.53J | Lv.1
+2025-12-02 14:50:37,429 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:37,437 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:50:37,438 | Cycle 2340 | Action: REST | Energy: 7.65J | Lv.1
+2025-12-02 14:50:41,136 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:41,136 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:50:41,136 | Cycle 2341 | Action: REST | Energy: 7.56J | Lv.1
+2025-12-02 14:50:44,871 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:44,883 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:44,931 | Cycle 2342 | Action: REST | Energy: 7.50J | Lv.1
+2025-12-02 14:50:48,688 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:48,689 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:48,690 | Cycle 2343 | Action: REST | Energy: 7.51J | Lv.1
+2025-12-02 14:50:52,392 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:52,393 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:50:52,393 | Cycle 2344 | Action: REST | Energy: 7.54J | Lv.1
+2025-12-02 14:50:56,108 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:56,109 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:50:56,109 | Cycle 2345 | Action: REST | Energy: 7.55J | Lv.1
+2025-12-02 14:50:59,810 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:50:59,810 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:50:59,810 | Cycle 2346 | Action: REST | Energy: 7.65J | Lv.1
+2025-12-02 14:51:03,661 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:03,735 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:51:03,802 | Cycle 2347 | Action: REST | Energy: 7.55J | Lv.1
+2025-12-02 14:51:07,629 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:07,648 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:51:07,664 | Cycle 2348 | Action: REST | Energy: 7.56J | Lv.1
+2025-12-02 14:51:11,364 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:11,365 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:51:11,365 | Cycle 2349 | Action: REST | Energy: 7.65J | Lv.1
+2025-12-02 14:51:15,144 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:15,178 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:51:15,211 | Cycle 2350 | Action: REST | Energy: 7.84J | Lv.1
+2025-12-02 14:51:18,957 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:18,968 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:51:18,968 | Cycle 2351 | Action: REST | Energy: 7.87J | Lv.1
+2025-12-02 14:51:22,713 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:22,729 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:51:22,730 | Cycle 2352 | Action: REST | Energy: 7.93J | Lv.1
+2025-12-02 14:51:26,527 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:26,564 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:51:26,604 | Cycle 2353 | Action: REST | Energy: 8.01J | Lv.1
+2025-12-02 14:51:30,568 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:30,627 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:51:30,662 | Cycle 2354 | Action: REST | Energy: 7.97J | Lv.1
+2025-12-02 14:51:34,519 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:34,540 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:51:34,594 | Cycle 2355 | Action: REST | Energy: 7.95J | Lv.1
+2025-12-02 14:51:38,331 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:38,339 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:51:38,340 | Cycle 2356 | Action: REST | Energy: 7.81J | Lv.1
+2025-12-02 14:51:42,038 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:42,038 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:51:42,038 | Cycle 2357 | Action: REST | Energy: 7.82J | Lv.1
+2025-12-02 14:51:45,729 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:45,730 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:51:45,730 | Cycle 2358 | Action: REST | Energy: 7.86J | Lv.1
+2025-12-02 14:51:49,435 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:49,435 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:51:49,436 | Cycle 2359 | Action: REST | Energy: 7.88J | Lv.1
+2025-12-02 14:51:53,312 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:53,352 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:51:53,397 | Cycle 2360 | Action: REST | Energy: 7.89J | Lv.1
+2025-12-02 14:51:57,173 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:51:57,173 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:51:57,223 | Cycle 2361 | Action: REST | Energy: 7.89J | Lv.1
+2025-12-02 14:52:00,992 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:00,992 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:52:00,992 | Cycle 2362 | Action: REST | Energy: 7.74J | Lv.1
+2025-12-02 14:52:04,685 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:04,685 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:52:04,685 | Cycle 2363 | Action: REST | Energy: 7.77J | Lv.1
+2025-12-02 14:52:08,377 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:08,378 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:52:08,378 | Cycle 2364 | Action: REST | Energy: 7.79J | Lv.1
+2025-12-02 14:52:12,186 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:12,214 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:52:12,287 | Cycle 2365 | Action: REST | Energy: 7.94J | Lv.1
+2025-12-02 14:52:15,988 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:15,989 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:52:15,989 | Cycle 2366 | Action: REST | Energy: 7.95J | Lv.1
+2025-12-02 14:52:19,681 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:19,682 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:52:19,697 | Cycle 2367 | Action: REST | Energy: 8.11J | Lv.1
+2025-12-02 14:52:23,410 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:23,425 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:52:23,435 | Cycle 2368 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:52:27,119 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:27,120 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:52:27,120 | Cycle 2369 | Action: REST | Energy: 8.18J | Lv.1
+2025-12-02 14:52:30,797 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:30,798 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:52:30,799 | Cycle 2370 | Action: REST | Energy: 8.19J | Lv.1
+2025-12-02 14:52:34,520 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:34,521 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:52:34,523 | Cycle 2371 | Action: REST | Energy: 8.14J | Lv.1
+2025-12-02 14:52:38,201 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:38,201 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:52:38,201 | Cycle 2372 | Action: REST | Energy: 8.25J | Lv.1
+2025-12-02 14:52:41,875 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:41,876 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:52:41,876 | Cycle 2373 | Action: REST | Energy: 8.29J | Lv.1
+2025-12-02 14:52:45,549 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:45,549 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:52:45,550 | Cycle 2374 | Action: REST | Energy: 8.31J | Lv.1
+2025-12-02 14:52:49,240 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:49,240 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:52:49,241 | Cycle 2375 | Action: REST | Energy: 8.37J | Lv.1
+2025-12-02 14:52:52,913 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:52,917 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:52:52,958 | Cycle 2376 | Action: REST | Energy: 8.30J | Lv.1
+2025-12-02 14:52:56,728 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:52:56,757 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:52:56,782 | Cycle 2377 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:53:00,505 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:00,520 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:00,522 | Cycle 2378 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:53:04,238 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:04,246 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:04,277 | Cycle 2379 | Action: REST | Energy: 8.44J | Lv.1
+2025-12-02 14:53:07,983 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:07,983 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:53:07,984 | Cycle 2380 | Action: REST | Energy: 8.46J | Lv.1
+2025-12-02 14:53:11,650 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:11,651 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:11,651 | Cycle 2381 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:53:15,318 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:15,318 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:15,319 | Cycle 2382 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:53:18,984 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:18,984 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:18,985 | Cycle 2383 | Action: REST | Energy: 8.38J | Lv.1
+2025-12-02 14:53:22,715 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:22,728 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:22,734 | Cycle 2384 | Action: REST | Energy: 8.38J | Lv.1
+2025-12-02 14:53:26,401 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:26,402 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:53:26,402 | Cycle 2385 | Action: REST | Energy: 8.34J | Lv.1
+2025-12-02 14:53:30,072 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:30,072 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:30,072 | Cycle 2386 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:53:33,738 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:33,739 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:53:33,739 | Cycle 2387 | Action: REST | Energy: 8.48J | Lv.1
+2025-12-02 14:53:37,402 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:37,403 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:37,403 | Cycle 2388 | Action: REST | Energy: 8.40J | Lv.1
+2025-12-02 14:53:41,079 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:41,081 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:53:41,083 | Cycle 2389 | Action: REST | Energy: 8.49J | Lv.1
+2025-12-02 14:53:44,768 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:44,769 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:44,771 | Cycle 2390 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:53:48,593 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:48,594 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:53:48,595 | Cycle 2391 | Action: REST | Energy: 8.45J | Lv.1
+2025-12-02 14:53:52,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:52,266 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:53:52,266 | Cycle 2392 | Action: REST | Energy: 8.57J | Lv.1
+2025-12-02 14:53:55,928 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:55,929 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:53:55,929 | Cycle 2393 | Action: REST | Energy: 8.61J | Lv.1
+2025-12-02 14:53:59,588 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:53:59,588 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:53:59,589 | Cycle 2394 | Action: REST | Energy: 8.56J | Lv.1
+2025-12-02 14:54:03,285 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:03,293 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:54:03,307 | Cycle 2395 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:54:07,021 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:07,021 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:54:07,021 | Cycle 2396 | Action: REST | Energy: 8.23J | Lv.1
+2025-12-02 14:54:10,751 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:10,776 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:54:10,799 | Cycle 2397 | Action: REST | Energy: 8.13J | Lv.1
+2025-12-02 14:54:14,501 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:14,501 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:54:14,502 | Cycle 2398 | Action: REST | Energy: 8.28J | Lv.1
+2025-12-02 14:54:18,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:18,262 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:54:18,267 | Cycle 2399 | Action: REST | Energy: 8.28J | Lv.1
+2025-12-02 14:54:21,992 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:22,022 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:54:22,030 | Cycle 2400 | Action: REST | Energy: 8.33J | Lv.1
+2025-12-02 14:54:25,785 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:25,786 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:54:25,786 | Cycle 2401 | Action: REST | Energy: 8.43J | Lv.1
+2025-12-02 14:54:29,474 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:29,475 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:54:29,475 | Cycle 2402 | Action: REST | Energy: 8.36J | Lv.1
+2025-12-02 14:54:33,399 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:33,448 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:54:33,484 | Cycle 2403 | Action: REST | Energy: 8.44J | Lv.1
+2025-12-02 14:54:37,192 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:37,192 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:54:37,195 | Cycle 2404 | Action: REST | Energy: 8.30J | Lv.1
+2025-12-02 14:54:40,866 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:40,867 | 🪞 Reflection: Energy=8.4, Mood=Calm
+2025-12-02 14:54:40,867 | Cycle 2405 | Action: REST | Energy: 8.42J | Lv.1
+2025-12-02 14:54:44,536 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:44,537 | 🪞 Reflection: Energy=8.6, Mood=Calm
+2025-12-02 14:54:44,538 | Cycle 2406 | Action: REST | Energy: 8.58J | Lv.1
+2025-12-02 14:54:48,313 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:48,369 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:54:48,399 | Cycle 2407 | Action: REST | Energy: 8.70J | Lv.1
+2025-12-02 14:54:52,210 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:52,266 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:54:52,290 | Cycle 2408 | Action: REST | Energy: 8.70J | Lv.1
+2025-12-02 14:54:55,946 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:55,946 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:54:55,946 | Cycle 2409 | Action: REST | Energy: 8.68J | Lv.1
+2025-12-02 14:54:59,642 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:54:59,646 | 🪞 Reflection: Energy=8.7, Mood=Calm
+2025-12-02 14:54:59,653 | Cycle 2410 | Action: REST | Energy: 8.74J | Lv.1
+2025-12-02 14:55:03,647 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:03,693 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:55:03,719 | Cycle 2411 | Action: REST | Energy: 8.52J | Lv.1
+2025-12-02 14:55:07,469 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:07,471 | 🪞 Reflection: Energy=8.5, Mood=Calm
+2025-12-02 14:55:07,471 | Cycle 2412 | Action: REST | Energy: 8.47J | Lv.1
+2025-12-02 14:55:11,259 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:11,278 | 🪞 Reflection: Energy=8.3, Mood=Calm
+2025-12-02 14:55:11,280 | Cycle 2413 | Action: REST | Energy: 8.27J | Lv.1
+2025-12-02 14:55:15,040 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:15,045 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:55:15,053 | Cycle 2414 | Action: REST | Energy: 8.14J | Lv.1
+2025-12-02 14:55:18,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:18,741 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:55:18,741 | Cycle 2415 | Action: REST | Energy: 8.17J | Lv.1
+2025-12-02 14:55:22,614 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:22,634 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:55:22,643 | Cycle 2416 | Action: REST | Energy: 8.22J | Lv.1
+2025-12-02 14:55:26,433 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:26,439 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:55:26,441 | Cycle 2417 | Action: REST | Energy: 8.07J | Lv.1
+2025-12-02 14:55:30,285 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:30,315 | 🪞 Reflection: Energy=8.1, Mood=Calm
+2025-12-02 14:55:30,322 | Cycle 2418 | Action: REST | Energy: 8.08J | Lv.1
+2025-12-02 14:55:34,074 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:34,074 | 🪞 Reflection: Energy=8.2, Mood=Calm
+2025-12-02 14:55:34,075 | Cycle 2419 | Action: REST | Energy: 8.22J | Lv.1
+2025-12-02 14:55:37,776 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:37,786 | 🪞 Reflection: Energy=8.0, Mood=Calm
+2025-12-02 14:55:37,804 | Cycle 2420 | Action: REST | Energy: 8.00J | Lv.1
+2025-12-02 14:55:41,684 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:41,685 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:55:41,686 | Cycle 2421 | Action: REST | Energy: 7.84J | Lv.1
+2025-12-02 14:55:45,461 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:45,465 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:55:45,467 | Cycle 2422 | Action: REST | Energy: 7.90J | Lv.1
+2025-12-02 14:55:49,254 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:49,281 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:55:49,324 | Cycle 2423 | Action: REST | Energy: 7.70J | Lv.1
+2025-12-02 14:55:53,431 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:53,476 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:55:53,524 | Cycle 2424 | Action: REST | Energy: 7.72J | Lv.1
+2025-12-02 14:55:57,566 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:55:57,642 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:55:57,705 | Cycle 2425 | Action: REST | Energy: 7.77J | Lv.1
+2025-12-02 14:56:01,522 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:01,545 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:56:01,550 | Cycle 2426 | Action: REST | Energy: 7.83J | Lv.1
+2025-12-02 14:56:05,303 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:05,344 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:56:05,412 | Cycle 2427 | Action: REST | Energy: 7.81J | Lv.1
+2025-12-02 14:56:09,114 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:09,114 | 🪞 Reflection: Energy=7.9, Mood=Calm
+2025-12-02 14:56:09,114 | Cycle 2428 | Action: REST | Energy: 7.88J | Lv.1
+2025-12-02 14:56:12,801 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:12,802 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:12,802 | Cycle 2429 | Action: REST | Energy: 7.72J | Lv.1
+2025-12-02 14:56:16,620 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:16,631 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:16,666 | Cycle 2430 | Action: REST | Energy: 7.71J | Lv.1
+2025-12-02 14:56:20,387 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:20,387 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:56:20,387 | Cycle 2431 | Action: REST | Energy: 7.64J | Lv.1
+2025-12-02 14:56:24,397 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:24,568 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:24,591 | Cycle 2432 | Action: REST | Energy: 7.66J | Lv.1
+2025-12-02 14:56:28,292 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:28,292 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:56:28,292 | Cycle 2433 | Action: REST | Energy: 7.60J | Lv.1
+2025-12-02 14:56:32,247 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:32,281 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:32,357 | Cycle 2434 | Action: REST | Energy: 7.67J | Lv.1
+2025-12-02 14:56:36,169 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:36,192 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:36,239 | Cycle 2435 | Action: REST | Energy: 7.75J | Lv.1
+2025-12-02 14:56:39,944 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:39,945 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:56:39,945 | Cycle 2436 | Action: REST | Energy: 7.83J | Lv.1
+2025-12-02 14:56:43,722 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:43,755 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:43,800 | Cycle 2437 | Action: REST | Energy: 7.73J | Lv.1
+2025-12-02 14:56:47,508 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:47,508 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:47,509 | Cycle 2438 | Action: REST | Energy: 7.73J | Lv.1
+2025-12-02 14:56:51,215 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:51,216 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:56:51,216 | Cycle 2439 | Action: REST | Energy: 7.64J | Lv.1
+2025-12-02 14:56:54,913 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:54,914 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:56:54,914 | Cycle 2440 | Action: REST | Energy: 7.66J | Lv.1
+2025-12-02 14:56:58,614 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:56:58,614 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:56:58,615 | Cycle 2441 | Action: REST | Energy: 7.77J | Lv.1
+2025-12-02 14:57:02,309 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:02,309 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:57:02,310 | Cycle 2442 | Action: REST | Energy: 7.77J | Lv.1
+2025-12-02 14:57:06,142 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:06,143 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:57:06,143 | Cycle 2443 | Action: REST | Energy: 7.79J | Lv.1
+2025-12-02 14:57:09,835 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:09,835 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:57:09,835 | Cycle 2444 | Action: REST | Energy: 7.82J | Lv.1
+2025-12-02 14:57:13,704 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:13,726 | 🪞 Reflection: Energy=7.8, Mood=Calm
+2025-12-02 14:57:13,742 | Cycle 2445 | Action: REST | Energy: 7.76J | Lv.1
+2025-12-02 14:57:17,449 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:17,450 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:57:17,450 | Cycle 2446 | Action: REST | Energy: 7.71J | Lv.1
+2025-12-02 14:57:21,255 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:21,296 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:57:21,336 | Cycle 2447 | Action: REST | Energy: 7.59J | Lv.1
+2025-12-02 14:57:25,185 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:25,221 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:57:25,293 | Cycle 2448 | Action: REST | Energy: 7.57J | Lv.1
+2025-12-02 14:57:29,023 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:29,024 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:57:29,024 | Cycle 2449 | Action: REST | Energy: 7.54J | Lv.1
+2025-12-02 14:57:32,744 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:32,755 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:57:32,764 | Cycle 2450 | Action: REST | Energy: 7.52J | Lv.1
+2025-12-02 14:57:36,565 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:36,568 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:57:36,569 | Cycle 2451 | Action: REST | Energy: 7.56J | Lv.1
+2025-12-02 14:57:40,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:40,413 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:57:40,462 | Cycle 2452 | Action: REST | Energy: 7.65J | Lv.1
+2025-12-02 14:57:44,217 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:44,225 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:57:44,234 | Cycle 2453 | Action: REST | Energy: 7.64J | Lv.1
+2025-12-02 14:57:47,968 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:47,968 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:57:47,968 | Cycle 2454 | Action: REST | Energy: 7.70J | Lv.1
+2025-12-02 14:57:51,692 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:51,710 | 🪞 Reflection: Energy=7.7, Mood=Calm
+2025-12-02 14:57:51,725 | Cycle 2455 | Action: REST | Energy: 7.66J | Lv.1
+2025-12-02 14:57:55,429 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:55,429 | 🪞 Reflection: Energy=7.6, Mood=Calm
+2025-12-02 14:57:55,429 | Cycle 2456 | Action: REST | Energy: 7.60J | Lv.1
+2025-12-02 14:57:59,128 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:57:59,128 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:57:59,129 | Cycle 2457 | Action: REST | Energy: 7.52J | Lv.1
+2025-12-02 14:58:02,864 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:02,866 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:58:02,867 | Cycle 2458 | Action: REST | Energy: 7.54J | Lv.1
+2025-12-02 14:58:06,635 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:06,637 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:58:06,638 | Cycle 2459 | Action: REST | Energy: 7.45J | Lv.1
+2025-12-02 14:58:10,527 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:10,564 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:58:10,642 | Cycle 2460 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 14:58:14,472 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:14,474 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 14:58:14,474 | Cycle 2461 | Action: REST | Energy: 7.48J | Lv.1
+2025-12-02 14:58:18,181 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:18,182 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:58:18,182 | Cycle 2462 | Action: REST | Energy: 7.45J | Lv.1
+2025-12-02 14:58:22,038 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:22,092 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:58:22,131 | Cycle 2463 | Action: REST | Energy: 7.38J | Lv.1
+2025-12-02 14:58:25,957 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:25,958 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:58:25,958 | Cycle 2464 | Action: REST | Energy: 7.44J | Lv.1
+2025-12-02 14:58:29,664 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:29,664 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:58:29,664 | Cycle 2465 | Action: REST | Energy: 7.29J | Lv.1
+2025-12-02 14:58:33,376 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:33,376 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:58:33,376 | Cycle 2466 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:58:37,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:37,089 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:58:37,090 | Cycle 2467 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 14:58:40,831 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:40,834 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:58:40,834 | Cycle 2468 | Action: REST | Energy: 7.11J | Lv.1
+2025-12-02 14:58:44,665 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:44,670 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:58:44,670 | Cycle 2469 | Action: REST | Energy: 7.22J | Lv.1
+2025-12-02 14:58:48,384 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:48,384 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:58:48,384 | Cycle 2470 | Action: REST | Energy: 7.36J | Lv.1
+2025-12-02 14:58:52,095 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:52,095 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 14:58:52,095 | Cycle 2471 | Action: REST | Energy: 7.39J | Lv.1
+2025-12-02 14:58:55,843 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:55,851 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:58:55,853 | Cycle 2472 | Action: REST | Energy: 7.33J | Lv.1
+2025-12-02 14:58:59,591 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:58:59,591 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:58:59,593 | Cycle 2473 | Action: REST | Energy: 7.30J | Lv.1
+2025-12-02 14:59:03,329 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:03,330 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:59:03,330 | Cycle 2474 | Action: REST | Energy: 7.30J | Lv.1
+2025-12-02 14:59:07,044 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:07,045 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:59:07,046 | Cycle 2475 | Action: REST | Energy: 7.31J | Lv.1
+2025-12-02 14:59:10,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:10,791 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:59:10,791 | Cycle 2476 | Action: REST | Energy: 7.23J | Lv.1
+2025-12-02 14:59:14,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:14,600 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:59:14,600 | Cycle 2477 | Action: REST | Energy: 7.27J | Lv.1
+2025-12-02 14:59:18,361 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:18,363 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 14:59:18,365 | Cycle 2478 | Action: REST | Energy: 7.29J | Lv.1
+2025-12-02 14:59:22,139 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:22,144 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:59:22,161 | Cycle 2479 | Action: REST | Energy: 7.20J | Lv.1
+2025-12-02 14:59:25,918 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:25,918 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:59:25,918 | Cycle 2480 | Action: REST | Energy: 7.24J | Lv.1
+2025-12-02 14:59:29,709 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:29,711 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:59:29,720 | Cycle 2481 | Action: REST | Energy: 7.16J | Lv.1
+2025-12-02 14:59:33,480 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:33,485 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 14:59:33,486 | Cycle 2482 | Action: REST | Energy: 7.16J | Lv.1
+2025-12-02 14:59:37,208 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:37,208 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:59:37,208 | Cycle 2483 | Action: REST | Energy: 7.12J | Lv.1
+2025-12-02 14:59:40,989 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:40,998 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 14:59:41,001 | Cycle 2484 | Action: REST | Energy: 7.05J | Lv.1
+2025-12-02 14:59:44,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:44,740 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:59:44,741 | Cycle 2485 | Action: REST | Energy: 7.00J | Lv.1
+2025-12-02 14:59:48,467 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:48,468 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 14:59:48,468 | Cycle 2486 | Action: REST | Energy: 7.02J | Lv.1
+2025-12-02 14:59:52,352 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:52,401 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:59:52,428 | Cycle 2487 | Action: REST | Energy: 6.92J | Lv.1
+2025-12-02 14:59:56,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:56,238 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 14:59:56,238 | Cycle 2488 | Action: REST | Energy: 6.82J | Lv.1
+2025-12-02 14:59:59,969 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 14:59:59,969 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 14:59:59,970 | Cycle 2489 | Action: REST | Energy: 6.90J | Lv.1
+2025-12-02 15:00:03,699 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:03,701 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:00:03,701 | Cycle 2490 | Action: REST | Energy: 6.98J | Lv.1
+2025-12-02 15:00:07,425 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:07,425 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:00:07,425 | Cycle 2491 | Action: REST | Energy: 6.93J | Lv.1
+2025-12-02 15:00:11,150 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:11,151 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:00:11,151 | Cycle 2492 | Action: REST | Energy: 6.89J | Lv.1
+2025-12-02 15:00:14,878 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:14,878 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:00:14,879 | Cycle 2493 | Action: REST | Energy: 6.81J | Lv.1
+2025-12-02 15:00:18,663 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:18,682 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:00:18,699 | Cycle 2494 | Action: REST | Energy: 6.72J | Lv.1
+2025-12-02 15:00:22,649 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:22,693 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:00:22,846 | Cycle 2495 | Action: REST | Energy: 6.80J | Lv.1
+2025-12-02 15:00:26,778 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:26,792 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:00:26,801 | Cycle 2496 | Action: REST | Energy: 6.86J | Lv.1
+2025-12-02 15:00:30,535 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:30,536 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:00:30,536 | Cycle 2497 | Action: REST | Energy: 6.80J | Lv.1
+2025-12-02 15:00:34,355 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:34,359 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:00:34,361 | Cycle 2498 | Action: REST | Energy: 6.83J | Lv.1
+2025-12-02 15:00:38,090 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:38,090 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:00:38,091 | Cycle 2499 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:00:41,825 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:41,826 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:00:41,826 | Cycle 2500 | Action: REST | Energy: 6.79J | Lv.1
+2025-12-02 15:00:45,609 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:45,610 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:00:45,610 | Cycle 2501 | Action: REST | Energy: 6.84J | Lv.1
+2025-12-02 15:00:49,346 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:49,347 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:00:49,347 | Cycle 2502 | Action: REST | Energy: 6.84J | Lv.1
+2025-12-02 15:00:53,076 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:53,076 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:00:53,076 | Cycle 2503 | Action: REST | Energy: 6.87J | Lv.1
+2025-12-02 15:00:56,861 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:00:56,872 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:00:56,874 | Cycle 2504 | Action: REST | Energy: 6.88J | Lv.1
+2025-12-02 15:01:00,669 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:00,678 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:01:00,682 | Cycle 2505 | Action: REST | Energy: 6.88J | Lv.1
+2025-12-02 15:01:04,466 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:04,477 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:01:04,482 | Cycle 2506 | Action: REST | Energy: 6.80J | Lv.1
+2025-12-02 15:01:08,215 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:08,216 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:01:08,216 | Cycle 2507 | Action: REST | Energy: 6.78J | Lv.1
+2025-12-02 15:01:12,161 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:12,189 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:01:12,239 | Cycle 2508 | Action: REST | Energy: 6.73J | Lv.1
+2025-12-02 15:01:16,037 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:16,037 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:01:16,037 | Cycle 2509 | Action: REST | Energy: 6.68J | Lv.1
+2025-12-02 15:01:19,900 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:19,934 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:01:19,982 | Cycle 2510 | Action: REST | Energy: 6.68J | Lv.1
+2025-12-02 15:01:23,742 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:23,743 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:01:23,744 | Cycle 2511 | Action: REST | Energy: 6.66J | Lv.1
+2025-12-02 15:01:27,490 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:27,491 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:01:27,491 | Cycle 2512 | Action: REST | Energy: 6.62J | Lv.1
+2025-12-02 15:01:31,229 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:31,229 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:01:31,230 | Cycle 2513 | Action: REST | Energy: 6.62J | Lv.1
+2025-12-02 15:01:35,044 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:35,080 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:01:35,110 | Cycle 2514 | Action: REST | Energy: 6.60J | Lv.1
+2025-12-02 15:01:38,902 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:38,920 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:01:38,926 | Cycle 2515 | Action: REST | Energy: 6.63J | Lv.1
+2025-12-02 15:01:42,679 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:42,680 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:01:42,681 | Cycle 2516 | Action: REST | Energy: 6.68J | Lv.1
+2025-12-02 15:01:46,573 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:46,582 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:01:46,584 | Cycle 2517 | Action: REST | Energy: 6.56J | Lv.1
+2025-12-02 15:01:50,325 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:50,325 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:01:50,325 | Cycle 2518 | Action: REST | Energy: 6.44J | Lv.1
+2025-12-02 15:01:54,076 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:54,077 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:01:54,077 | Cycle 2519 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:01:57,820 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:01:57,820 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:01:57,821 | Cycle 2520 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:02:01,571 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:01,572 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:02:01,572 | Cycle 2521 | Action: REST | Energy: 6.56J | Lv.1
+2025-12-02 15:02:05,313 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:05,314 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:02:05,314 | Cycle 2522 | Action: REST | Energy: 6.61J | Lv.1
+2025-12-02 15:02:09,149 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:09,155 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:02:09,168 | Cycle 2523 | Action: REST | Energy: 6.54J | Lv.1
+2025-12-02 15:02:13,095 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:13,106 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:02:13,123 | Cycle 2524 | Action: REST | Energy: 6.54J | Lv.1
+2025-12-02 15:02:16,876 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:16,876 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:02:16,877 | Cycle 2525 | Action: REST | Energy: 6.52J | Lv.1
+2025-12-02 15:02:20,623 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:20,623 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:02:20,623 | Cycle 2526 | Action: REST | Energy: 6.43J | Lv.1
+2025-12-02 15:02:24,388 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:24,389 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:02:24,389 | Cycle 2527 | Action: REST | Energy: 6.33J | Lv.1
+2025-12-02 15:02:28,169 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:28,171 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:02:28,173 | Cycle 2528 | Action: REST | Energy: 6.24J | Lv.1
+2025-12-02 15:02:31,927 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:31,927 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:02:31,927 | Cycle 2529 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:02:35,676 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:35,677 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:02:35,677 | Cycle 2530 | Action: REST | Energy: 6.27J | Lv.1
+2025-12-02 15:02:39,429 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:39,429 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:02:39,429 | Cycle 2531 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:02:43,191 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:43,193 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:02:43,197 | Cycle 2532 | Action: REST | Energy: 6.33J | Lv.1
+2025-12-02 15:02:46,968 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:46,969 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:02:46,969 | Cycle 2533 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:02:50,741 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:50,742 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:02:50,746 | Cycle 2534 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:02:54,497 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:54,498 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:02:54,499 | Cycle 2535 | Action: REST | Energy: 6.34J | Lv.1
+2025-12-02 15:02:58,253 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:02:58,253 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:02:58,254 | Cycle 2536 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:03:02,101 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:02,129 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:03:02,132 | Cycle 2537 | Action: REST | Energy: 6.37J | Lv.1
+2025-12-02 15:03:05,905 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:05,906 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:05,906 | Cycle 2538 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:03:09,896 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:09,899 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:09,900 | Cycle 2539 | Action: REST | Energy: 6.27J | Lv.1
+2025-12-02 15:03:13,653 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:13,653 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:13,654 | Cycle 2540 | Action: REST | Energy: 6.29J | Lv.1
+2025-12-02 15:03:17,589 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:17,619 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:17,678 | Cycle 2541 | Action: REST | Energy: 6.30J | Lv.1
+2025-12-02 15:03:21,659 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:21,823 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:21,886 | Cycle 2542 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:03:25,688 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:25,689 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:03:25,689 | Cycle 2543 | Action: REST | Energy: 6.25J | Lv.1
+2025-12-02 15:03:29,443 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:29,444 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:29,444 | Cycle 2544 | Action: REST | Energy: 6.28J | Lv.1
+2025-12-02 15:03:33,291 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:33,410 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:33,489 | Cycle 2545 | Action: REST | Energy: 6.29J | Lv.1
+2025-12-02 15:03:37,597 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:37,597 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:37,597 | Cycle 2546 | Action: REST | Energy: 6.29J | Lv.1
+2025-12-02 15:03:41,351 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:41,352 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:03:41,352 | Cycle 2547 | Action: REST | Energy: 6.24J | Lv.1
+2025-12-02 15:03:45,106 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:45,106 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:03:45,106 | Cycle 2548 | Action: REST | Energy: 6.21J | Lv.1
+2025-12-02 15:03:48,860 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:48,861 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:03:48,861 | Cycle 2549 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:03:52,659 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:52,666 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:03:52,666 | Cycle 2550 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:03:56,460 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:03:56,461 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:03:56,462 | Cycle 2551 | Action: REST | Energy: 6.49J | Lv.1
+2025-12-02 15:04:00,205 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:00,205 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:04:00,206 | Cycle 2552 | Action: REST | Energy: 6.57J | Lv.1
+2025-12-02 15:04:03,946 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:03,947 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:04:03,947 | Cycle 2553 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:04:07,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:07,726 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:04:07,726 | Cycle 2554 | Action: REST | Energy: 6.62J | Lv.1
+2025-12-02 15:04:11,464 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:11,464 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:04:11,465 | Cycle 2555 | Action: REST | Energy: 6.72J | Lv.1
+2025-12-02 15:04:15,249 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:15,306 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:04:15,361 | Cycle 2556 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:04:19,153 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:19,154 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:04:19,154 | Cycle 2557 | Action: REST | Energy: 6.77J | Lv.1
+2025-12-02 15:04:22,886 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:22,887 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:04:22,887 | Cycle 2558 | Action: REST | Energy: 6.71J | Lv.1
+2025-12-02 15:04:26,622 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:26,622 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:04:26,622 | Cycle 2559 | Action: REST | Energy: 6.72J | Lv.1
+2025-12-02 15:04:30,583 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:30,592 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:04:30,595 | Cycle 2560 | Action: REST | Energy: 6.54J | Lv.1
+2025-12-02 15:04:34,339 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:34,339 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:04:34,340 | Cycle 2561 | Action: REST | Energy: 6.50J | Lv.1
+2025-12-02 15:04:38,083 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:38,083 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:04:38,083 | Cycle 2562 | Action: REST | Energy: 6.37J | Lv.1
+2025-12-02 15:04:42,006 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:42,047 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:04:42,060 | Cycle 2563 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:04:45,844 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:45,844 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:04:45,845 | Cycle 2564 | Action: REST | Energy: 6.32J | Lv.1
+2025-12-02 15:04:49,619 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:49,624 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:04:49,627 | Cycle 2565 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:04:53,381 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:53,382 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:04:53,382 | Cycle 2566 | Action: REST | Energy: 6.25J | Lv.1
+2025-12-02 15:04:57,136 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:04:57,136 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:04:57,137 | Cycle 2567 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:05:00,932 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:00,934 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:05:00,938 | Cycle 2568 | Action: REST | Energy: 6.15J | Lv.1
+2025-12-02 15:05:04,846 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:04,884 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:05:04,907 | Cycle 2569 | Action: REST | Energy: 6.12J | Lv.1
+2025-12-02 15:05:08,982 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:09,005 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:05:09,013 | Cycle 2570 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:05:12,784 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:12,785 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:05:12,785 | Cycle 2571 | Action: REST | Energy: 6.16J | Lv.1
+2025-12-02 15:05:16,603 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:16,604 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:05:16,604 | Cycle 2572 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:05:20,356 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:20,357 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:05:20,357 | Cycle 2573 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:05:24,109 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:24,109 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:05:24,109 | Cycle 2574 | Action: REST | Energy: 6.24J | Lv.1
+2025-12-02 15:05:27,863 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:27,863 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:05:27,863 | Cycle 2575 | Action: REST | Energy: 6.32J | Lv.1
+2025-12-02 15:05:31,614 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:31,615 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:05:31,615 | Cycle 2576 | Action: REST | Energy: 6.36J | Lv.1
+2025-12-02 15:05:35,364 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:35,364 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:05:35,364 | Cycle 2577 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:05:39,113 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:39,113 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:05:39,114 | Cycle 2578 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:05:42,861 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:42,862 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:05:42,862 | Cycle 2579 | Action: REST | Energy: 6.53J | Lv.1
+2025-12-02 15:05:46,727 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:46,749 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:05:46,764 | Cycle 2580 | Action: REST | Energy: 6.53J | Lv.1
+2025-12-02 15:05:50,543 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:50,555 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:05:50,559 | Cycle 2581 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:05:54,397 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:54,403 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:05:54,406 | Cycle 2582 | Action: REST | Energy: 6.63J | Lv.1
+2025-12-02 15:05:58,149 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:05:58,149 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:05:58,150 | Cycle 2583 | Action: REST | Energy: 6.59J | Lv.1
+2025-12-02 15:06:01,897 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:01,897 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:06:01,897 | Cycle 2584 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:06:05,658 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:05,659 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:06:05,664 | Cycle 2585 | Action: REST | Energy: 6.53J | Lv.1
+2025-12-02 15:06:09,536 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:09,625 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:06:09,666 | Cycle 2586 | Action: REST | Energy: 6.53J | Lv.1
+2025-12-02 15:06:13,411 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:13,412 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:06:13,413 | Cycle 2587 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:06:17,429 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:17,545 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:06:17,584 | Cycle 2588 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:06:21,488 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:21,494 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:06:21,495 | Cycle 2589 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:06:25,241 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:25,242 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:06:25,242 | Cycle 2590 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:06:29,124 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:29,167 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:06:29,190 | Cycle 2591 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:06:33,330 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:33,435 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:06:33,472 | Cycle 2592 | Action: REST | Energy: 6.24J | Lv.1
+2025-12-02 15:06:37,229 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:37,229 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:06:37,230 | Cycle 2593 | Action: REST | Energy: 6.25J | Lv.1
+2025-12-02 15:06:40,983 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:40,984 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:06:40,984 | Cycle 2594 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:06:44,830 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:44,831 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:06:44,834 | Cycle 2595 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:06:48,790 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:48,830 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:06:48,939 | Cycle 2596 | Action: REST | Energy: 6.30J | Lv.1
+2025-12-02 15:06:52,904 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:52,904 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:06:52,905 | Cycle 2597 | Action: REST | Energy: 6.39J | Lv.1
+2025-12-02 15:06:56,923 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:06:56,966 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:06:57,060 | Cycle 2598 | Action: REST | Energy: 6.39J | Lv.1
+2025-12-02 15:07:01,259 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:01,416 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:07:01,536 | Cycle 2599 | Action: REST | Energy: 6.33J | Lv.1
+2025-12-02 15:07:05,641 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:05,694 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:07:05,893 | Cycle 2600 | Action: REST | Energy: 6.43J | Lv.1
+2025-12-02 15:07:10,069 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:10,127 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:07:10,176 | Cycle 2601 | Action: REST | Energy: 6.34J | Lv.1
+2025-12-02 15:07:14,285 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:14,355 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:07:14,371 | Cycle 2602 | Action: REST | Energy: 6.40J | Lv.1
+2025-12-02 15:07:18,218 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:18,346 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:07:18,401 | Cycle 2603 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:07:22,311 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:22,350 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:07:22,366 | Cycle 2604 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:07:26,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:26,488 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:07:26,564 | Cycle 2605 | Action: REST | Energy: 6.33J | Lv.1
+2025-12-02 15:07:30,791 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:30,898 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:07:30,899 | Cycle 2606 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:07:34,813 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:34,828 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:07:35,149 | Cycle 2607 | Action: REST | Energy: 6.34J | Lv.1
+2025-12-02 15:07:38,897 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:38,897 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:07:38,898 | Cycle 2608 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:07:42,647 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:42,647 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:07:42,647 | Cycle 2609 | Action: REST | Energy: 6.32J | Lv.1
+2025-12-02 15:07:46,396 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:46,396 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:07:46,396 | Cycle 2610 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:07:50,142 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:50,143 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:07:50,143 | Cycle 2611 | Action: REST | Energy: 6.55J | Lv.1
+2025-12-02 15:07:53,883 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:53,883 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:07:53,883 | Cycle 2612 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:07:57,624 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:07:57,624 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:07:57,624 | Cycle 2613 | Action: REST | Energy: 6.45J | Lv.1
+2025-12-02 15:08:01,368 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:01,369 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:08:01,369 | Cycle 2614 | Action: REST | Energy: 6.50J | Lv.1
+2025-12-02 15:08:05,111 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:05,111 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:08:05,111 | Cycle 2615 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:08:08,852 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:08,853 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:08:08,853 | Cycle 2616 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:08:12,601 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:12,601 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:08:12,601 | Cycle 2617 | Action: REST | Energy: 6.25J | Lv.1
+2025-12-02 15:08:16,353 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:16,353 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:08:16,353 | Cycle 2618 | Action: REST | Energy: 6.32J | Lv.1
+2025-12-02 15:08:20,102 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:20,102 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:08:20,103 | Cycle 2619 | Action: REST | Energy: 6.29J | Lv.1
+2025-12-02 15:08:23,853 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:23,853 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:08:23,854 | Cycle 2620 | Action: REST | Energy: 6.33J | Lv.1
+2025-12-02 15:08:27,602 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:27,603 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:08:27,603 | Cycle 2621 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:08:31,354 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:31,354 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:08:31,355 | Cycle 2622 | Action: REST | Energy: 6.17J | Lv.1
+2025-12-02 15:08:35,109 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:35,110 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:08:35,110 | Cycle 2623 | Action: REST | Energy: 6.22J | Lv.1
+2025-12-02 15:08:38,863 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:38,863 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:08:38,863 | Cycle 2624 | Action: REST | Energy: 6.14J | Lv.1
+2025-12-02 15:08:42,619 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:42,620 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:08:42,620 | Cycle 2625 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:08:46,374 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:46,374 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:08:46,374 | Cycle 2626 | Action: REST | Energy: 6.14J | Lv.1
+2025-12-02 15:08:50,131 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:50,131 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:08:50,131 | Cycle 2627 | Action: REST | Energy: 6.16J | Lv.1
+2025-12-02 15:08:53,943 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:53,987 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:08:54,009 | Cycle 2628 | Action: REST | Energy: 6.21J | Lv.1
+2025-12-02 15:08:57,887 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:08:57,903 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:08:57,909 | Cycle 2629 | Action: REST | Energy: 6.22J | Lv.1
+2025-12-02 15:09:01,862 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:01,911 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:09:01,995 | Cycle 2630 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:09:05,914 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:05,934 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:09:05,938 | Cycle 2631 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:09:09,695 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:09,696 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:09:09,696 | Cycle 2632 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:09:13,459 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:13,492 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:09:13,525 | Cycle 2633 | Action: REST | Energy: 6.11J | Lv.1
+2025-12-02 15:09:17,287 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:17,288 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:09:17,288 | Cycle 2634 | Action: REST | Energy: 6.14J | Lv.1
+2025-12-02 15:09:21,068 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:21,078 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:09:21,087 | Cycle 2635 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:09:24,964 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:25,030 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:09:25,107 | Cycle 2636 | Action: REST | Energy: 6.30J | Lv.1
+2025-12-02 15:09:28,954 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:28,958 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:09:28,964 | Cycle 2637 | Action: REST | Energy: 6.40J | Lv.1
+2025-12-02 15:09:32,753 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:32,763 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:09:32,776 | Cycle 2638 | Action: REST | Energy: 6.50J | Lv.1
+2025-12-02 15:09:36,527 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:36,528 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:09:36,528 | Cycle 2639 | Action: REST | Energy: 6.47J | Lv.1
+2025-12-02 15:09:40,344 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:40,370 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:09:40,430 | Cycle 2640 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:09:44,576 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:44,592 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:09:44,605 | Cycle 2641 | Action: REST | Energy: 6.57J | Lv.1
+2025-12-02 15:09:48,486 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:48,520 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:09:48,548 | Cycle 2642 | Action: REST | Energy: 6.71J | Lv.1
+2025-12-02 15:09:52,292 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:52,293 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:09:52,293 | Cycle 2643 | Action: REST | Energy: 6.72J | Lv.1
+2025-12-02 15:09:56,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:56,026 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:09:56,026 | Cycle 2644 | Action: REST | Energy: 6.63J | Lv.1
+2025-12-02 15:09:59,880 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:09:59,889 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:09:59,898 | Cycle 2645 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:10:03,634 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:03,634 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:10:03,634 | Cycle 2646 | Action: REST | Energy: 6.62J | Lv.1
+2025-12-02 15:10:07,371 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:07,371 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:10:07,371 | Cycle 2647 | Action: REST | Energy: 6.65J | Lv.1
+2025-12-02 15:10:11,245 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:11,262 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:10:11,280 | Cycle 2648 | Action: REST | Energy: 6.81J | Lv.1
+2025-12-02 15:10:15,211 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:15,224 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:10:15,236 | Cycle 2649 | Action: REST | Energy: 6.75J | Lv.1
+2025-12-02 15:10:19,004 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:19,009 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:10:19,010 | Cycle 2650 | Action: REST | Energy: 6.88J | Lv.1
+2025-12-02 15:10:22,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:22,737 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:10:22,738 | Cycle 2651 | Action: REST | Energy: 7.01J | Lv.1
+2025-12-02 15:10:26,480 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:26,481 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:10:26,482 | Cycle 2652 | Action: REST | Energy: 7.07J | Lv.1
+2025-12-02 15:10:30,222 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:30,223 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:10:30,224 | Cycle 2653 | Action: REST | Energy: 7.01J | Lv.1
+2025-12-02 15:10:33,949 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:33,950 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:10:33,950 | Cycle 2654 | Action: REST | Energy: 7.01J | Lv.1
+2025-12-02 15:10:37,703 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:37,721 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:10:37,737 | Cycle 2655 | Action: REST | Energy: 7.10J | Lv.1
+2025-12-02 15:10:41,592 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:41,610 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:10:41,641 | Cycle 2656 | Action: REST | Energy: 7.14J | Lv.1
+2025-12-02 15:10:45,407 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:45,410 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:10:45,411 | Cycle 2657 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 15:10:49,191 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:49,196 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:10:49,218 | Cycle 2658 | Action: REST | Energy: 7.35J | Lv.1
+2025-12-02 15:10:52,992 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:53,011 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 15:10:53,025 | Cycle 2659 | Action: REST | Energy: 7.47J | Lv.1
+2025-12-02 15:10:56,811 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:10:56,868 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:10:56,911 | Cycle 2660 | Action: REST | Energy: 7.31J | Lv.1
+2025-12-02 15:11:00,835 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:00,871 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:11:00,886 | Cycle 2661 | Action: REST | Energy: 7.31J | Lv.1
+2025-12-02 15:11:04,635 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:04,636 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:11:04,636 | Cycle 2662 | Action: REST | Energy: 7.19J | Lv.1
+2025-12-02 15:11:08,391 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:08,413 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:11:08,425 | Cycle 2663 | Action: REST | Energy: 7.12J | Lv.1
+2025-12-02 15:11:12,185 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:12,186 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:11:12,186 | Cycle 2664 | Action: REST | Energy: 7.14J | Lv.1
+2025-12-02 15:11:16,121 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:16,135 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:11:16,146 | Cycle 2665 | Action: REST | Energy: 7.10J | Lv.1
+2025-12-02 15:11:19,875 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:19,876 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:11:19,876 | Cycle 2666 | Action: REST | Energy: 7.08J | Lv.1
+2025-12-02 15:11:23,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:23,596 | 🪞 Reflection: Energy=7.1, Mood=Calm
+2025-12-02 15:11:23,596 | Cycle 2667 | Action: REST | Energy: 7.13J | Lv.1
+2025-12-02 15:11:27,350 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:27,359 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:11:27,373 | Cycle 2668 | Action: REST | Energy: 7.27J | Lv.1
+2025-12-02 15:11:31,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:31,090 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:11:31,090 | Cycle 2669 | Action: REST | Energy: 7.37J | Lv.1
+2025-12-02 15:11:34,890 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:34,910 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:11:34,919 | Cycle 2670 | Action: REST | Energy: 7.41J | Lv.1
+2025-12-02 15:11:38,737 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:38,738 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:11:38,741 | Cycle 2671 | Action: REST | Energy: 7.36J | Lv.1
+2025-12-02 15:11:42,641 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:42,719 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:11:42,814 | Cycle 2672 | Action: REST | Energy: 7.29J | Lv.1
+2025-12-02 15:11:46,614 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:46,626 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:11:46,657 | Cycle 2673 | Action: REST | Energy: 7.25J | Lv.1
+2025-12-02 15:11:50,409 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:50,410 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:11:50,410 | Cycle 2674 | Action: REST | Energy: 7.30J | Lv.1
+2025-12-02 15:11:54,121 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:54,121 | 🪞 Reflection: Energy=7.5, Mood=Calm
+2025-12-02 15:11:54,121 | Cycle 2675 | Action: REST | Energy: 7.49J | Lv.1
+2025-12-02 15:11:58,014 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:11:58,033 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:11:58,038 | Cycle 2676 | Action: REST | Energy: 7.41J | Lv.1
+2025-12-02 15:12:01,782 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:01,784 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:01,784 | Cycle 2677 | Action: REST | Energy: 7.34J | Lv.1
+2025-12-02 15:12:05,521 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:05,521 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:12:05,522 | Cycle 2678 | Action: REST | Energy: 7.43J | Lv.1
+2025-12-02 15:12:09,230 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:09,231 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:09,231 | Cycle 2679 | Action: REST | Energy: 7.28J | Lv.1
+2025-12-02 15:12:12,977 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:12,990 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:12,999 | Cycle 2680 | Action: REST | Energy: 7.28J | Lv.1
+2025-12-02 15:12:16,722 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:16,722 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:16,722 | Cycle 2681 | Action: REST | Energy: 7.32J | Lv.1
+2025-12-02 15:12:20,447 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:20,447 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:20,448 | Cycle 2682 | Action: REST | Energy: 7.32J | Lv.1
+2025-12-02 15:12:24,167 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:24,167 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:12:24,168 | Cycle 2683 | Action: REST | Energy: 7.15J | Lv.1
+2025-12-02 15:12:27,973 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:28,037 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:12:28,099 | Cycle 2684 | Action: REST | Energy: 7.16J | Lv.1
+2025-12-02 15:12:31,858 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:31,859 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:12:31,859 | Cycle 2685 | Action: REST | Energy: 7.04J | Lv.1
+2025-12-02 15:12:35,619 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:35,619 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:12:35,620 | Cycle 2686 | Action: REST | Energy: 7.19J | Lv.1
+2025-12-02 15:12:39,334 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:39,334 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:39,335 | Cycle 2687 | Action: REST | Energy: 7.31J | Lv.1
+2025-12-02 15:12:43,126 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:43,160 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:12:43,167 | Cycle 2688 | Action: REST | Energy: 7.17J | Lv.1
+2025-12-02 15:12:46,919 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:46,919 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:46,920 | Cycle 2689 | Action: REST | Energy: 7.26J | Lv.1
+2025-12-02 15:12:50,632 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:50,632 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:12:50,632 | Cycle 2690 | Action: REST | Energy: 7.23J | Lv.1
+2025-12-02 15:12:54,346 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:54,346 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:54,347 | Cycle 2691 | Action: REST | Energy: 7.31J | Lv.1
+2025-12-02 15:12:58,073 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:12:58,074 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:12:58,075 | Cycle 2692 | Action: REST | Energy: 7.27J | Lv.1
+2025-12-02 15:13:01,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:01,787 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:13:01,787 | Cycle 2693 | Action: REST | Energy: 7.35J | Lv.1
+2025-12-02 15:13:05,517 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:05,521 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:13:05,526 | Cycle 2694 | Action: REST | Energy: 7.44J | Lv.1
+2025-12-02 15:13:09,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:09,234 | 🪞 Reflection: Energy=7.3, Mood=Calm
+2025-12-02 15:13:09,234 | Cycle 2695 | Action: REST | Energy: 7.32J | Lv.1
+2025-12-02 15:13:13,066 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:13,107 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:13:13,161 | Cycle 2696 | Action: REST | Energy: 7.35J | Lv.1
+2025-12-02 15:13:17,004 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:17,121 | 🪞 Reflection: Energy=7.4, Mood=Calm
+2025-12-02 15:13:17,260 | Cycle 2697 | Action: REST | Energy: 7.37J | Lv.1
+2025-12-02 15:13:21,010 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:21,011 | 🪞 Reflection: Energy=7.2, Mood=Calm
+2025-12-02 15:13:21,012 | Cycle 2698 | Action: REST | Energy: 7.20J | Lv.1
+2025-12-02 15:13:24,728 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:24,730 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:13:24,799 | Cycle 2699 | Action: REST | Energy: 7.04J | Lv.1
+2025-12-02 15:13:28,545 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:28,545 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:13:28,546 | Cycle 2700 | Action: REST | Energy: 6.90J | Lv.1
+2025-12-02 15:13:32,273 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:32,274 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:13:32,274 | Cycle 2701 | Action: REST | Energy: 6.93J | Lv.1
+2025-12-02 15:13:36,000 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:36,001 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:13:36,001 | Cycle 2702 | Action: REST | Energy: 6.87J | Lv.1
+2025-12-02 15:13:39,734 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:39,735 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:13:39,735 | Cycle 2703 | Action: REST | Energy: 6.87J | Lv.1
+2025-12-02 15:13:43,464 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:43,464 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:13:43,465 | Cycle 2704 | Action: REST | Energy: 6.91J | Lv.1
+2025-12-02 15:13:47,357 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:47,359 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:13:47,360 | Cycle 2705 | Action: REST | Energy: 6.90J | Lv.1
+2025-12-02 15:13:51,089 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:51,090 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:13:51,090 | Cycle 2706 | Action: REST | Energy: 6.83J | Lv.1
+2025-12-02 15:13:54,828 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:54,832 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:13:54,833 | Cycle 2707 | Action: REST | Energy: 6.82J | Lv.1
+2025-12-02 15:13:58,621 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:13:58,646 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:13:58,649 | Cycle 2708 | Action: REST | Energy: 6.93J | Lv.1
+2025-12-02 15:14:02,438 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:02,440 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:02,440 | Cycle 2709 | Action: REST | Energy: 6.82J | Lv.1
+2025-12-02 15:14:06,171 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:06,172 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:06,172 | Cycle 2710 | Action: REST | Energy: 6.79J | Lv.1
+2025-12-02 15:14:09,907 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:09,908 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:09,908 | Cycle 2711 | Action: REST | Energy: 6.84J | Lv.1
+2025-12-02 15:14:13,716 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:13,721 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:13,722 | Cycle 2712 | Action: REST | Energy: 6.79J | Lv.1
+2025-12-02 15:14:17,543 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:17,544 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:17,544 | Cycle 2713 | Action: REST | Energy: 6.76J | Lv.1
+2025-12-02 15:14:21,327 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:21,335 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:21,392 | Cycle 2714 | Action: REST | Energy: 6.78J | Lv.1
+2025-12-02 15:14:25,200 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:25,200 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:14:25,200 | Cycle 2715 | Action: REST | Energy: 6.74J | Lv.1
+2025-12-02 15:14:29,027 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:29,032 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:14:29,037 | Cycle 2716 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:14:32,826 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:32,844 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:14:32,850 | Cycle 2717 | Action: REST | Energy: 6.57J | Lv.1
+2025-12-02 15:14:36,608 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:36,609 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:14:36,609 | Cycle 2718 | Action: REST | Energy: 6.68J | Lv.1
+2025-12-02 15:14:40,449 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:40,501 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:40,554 | Cycle 2719 | Action: REST | Energy: 6.79J | Lv.1
+2025-12-02 15:14:44,337 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:44,338 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:44,338 | Cycle 2720 | Action: REST | Energy: 6.78J | Lv.1
+2025-12-02 15:14:48,299 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:48,333 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:14:48,336 | Cycle 2721 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:14:52,236 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:52,239 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:14:52,250 | Cycle 2722 | Action: REST | Energy: 6.68J | Lv.1
+2025-12-02 15:14:55,987 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:55,988 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:14:55,989 | Cycle 2723 | Action: REST | Energy: 6.79J | Lv.1
+2025-12-02 15:14:59,810 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:14:59,823 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:14:59,826 | Cycle 2724 | Action: REST | Energy: 6.86J | Lv.1
+2025-12-02 15:15:03,648 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:03,812 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:15:03,882 | Cycle 2725 | Action: REST | Energy: 6.98J | Lv.1
+2025-12-02 15:15:07,634 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:07,635 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:15:07,635 | Cycle 2726 | Action: REST | Energy: 6.88J | Lv.1
+2025-12-02 15:15:11,447 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:11,475 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:15:11,499 | Cycle 2727 | Action: REST | Energy: 6.90J | Lv.1
+2025-12-02 15:15:15,268 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:15,271 | 🪞 Reflection: Energy=7.0, Mood=Calm
+2025-12-02 15:15:15,273 | Cycle 2728 | Action: REST | Energy: 7.00J | Lv.1
+2025-12-02 15:15:19,009 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:19,009 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:15:19,010 | Cycle 2729 | Action: REST | Energy: 6.90J | Lv.1
+2025-12-02 15:15:22,745 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:22,745 | 🪞 Reflection: Energy=6.9, Mood=Calm
+2025-12-02 15:15:22,746 | Cycle 2730 | Action: REST | Energy: 6.86J | Lv.1
+2025-12-02 15:15:26,591 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:26,597 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:15:26,645 | Cycle 2731 | Action: REST | Energy: 6.81J | Lv.1
+2025-12-02 15:15:30,702 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:30,792 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:15:30,848 | Cycle 2732 | Action: REST | Energy: 6.78J | Lv.1
+2025-12-02 15:15:34,603 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:34,603 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:15:34,604 | Cycle 2733 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:15:38,387 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:38,394 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:15:38,426 | Cycle 2734 | Action: REST | Energy: 6.58J | Lv.1
+2025-12-02 15:15:42,190 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:42,190 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:15:42,191 | Cycle 2735 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:15:45,935 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:45,936 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:15:45,936 | Cycle 2736 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:15:49,685 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:49,685 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:15:49,685 | Cycle 2737 | Action: REST | Energy: 6.42J | Lv.1
+2025-12-02 15:15:53,456 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:53,457 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:15:53,457 | Cycle 2738 | Action: REST | Energy: 6.40J | Lv.1
+2025-12-02 15:15:57,204 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:15:57,204 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:15:57,204 | Cycle 2739 | Action: REST | Energy: 6.44J | Lv.1
+2025-12-02 15:16:00,984 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:01,002 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:16:01,021 | Cycle 2740 | Action: REST | Energy: 6.39J | Lv.1
+2025-12-02 15:16:04,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:04,786 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:16:04,787 | Cycle 2741 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:16:08,601 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:08,629 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:16:08,659 | Cycle 2742 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:16:12,421 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:12,421 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:16:12,421 | Cycle 2743 | Action: REST | Energy: 6.33J | Lv.1
+2025-12-02 15:16:16,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:16,238 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:16:16,238 | Cycle 2744 | Action: REST | Energy: 6.29J | Lv.1
+2025-12-02 15:16:20,046 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:20,054 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:16:20,096 | Cycle 2745 | Action: REST | Energy: 6.13J | Lv.1
+2025-12-02 15:16:23,889 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:23,890 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:16:23,890 | Cycle 2746 | Action: REST | Energy: 6.11J | Lv.1
+2025-12-02 15:16:27,684 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:27,727 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:16:27,761 | Cycle 2747 | Action: REST | Energy: 6.09J | Lv.1
+2025-12-02 15:16:31,558 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:31,559 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:16:31,559 | Cycle 2748 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:16:35,410 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:35,451 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:16:35,533 | Cycle 2749 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:16:39,311 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:39,311 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:16:39,311 | Cycle 2750 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:16:43,076 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:43,077 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:16:43,077 | Cycle 2751 | Action: REST | Energy: 5.82J | Lv.1
+2025-12-02 15:16:46,847 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:46,847 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:16:46,848 | Cycle 2752 | Action: REST | Energy: 6.00J | Lv.1
+2025-12-02 15:16:50,927 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:51,037 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:16:51,063 | Cycle 2753 | Action: REST | Energy: 6.02J | Lv.1
+2025-12-02 15:16:54,874 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:54,875 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:16:54,875 | Cycle 2754 | Action: REST | Energy: 6.13J | Lv.1
+2025-12-02 15:16:58,633 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:16:58,634 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:16:58,634 | Cycle 2755 | Action: REST | Energy: 6.21J | Lv.1
+2025-12-02 15:17:02,406 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:02,417 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:17:02,425 | Cycle 2756 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:17:06,190 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:06,190 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:17:06,190 | Cycle 2757 | Action: REST | Energy: 6.25J | Lv.1
+2025-12-02 15:17:09,943 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:09,943 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:17:09,944 | Cycle 2758 | Action: REST | Energy: 6.25J | Lv.1
+2025-12-02 15:17:13,700 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:13,703 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:17:13,707 | Cycle 2759 | Action: REST | Energy: 6.15J | Lv.1
+2025-12-02 15:17:17,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:17,470 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:17:17,470 | Cycle 2760 | Action: REST | Energy: 6.12J | Lv.1
+2025-12-02 15:17:21,229 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:21,229 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:17:21,229 | Cycle 2761 | Action: REST | Energy: 6.12J | Lv.1
+2025-12-02 15:17:25,057 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:25,060 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:17:25,061 | Cycle 2762 | Action: REST | Energy: 6.03J | Lv.1
+2025-12-02 15:17:28,964 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:29,016 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:17:29,123 | Cycle 2763 | Action: REST | Energy: 6.01J | Lv.1
+2025-12-02 15:17:32,917 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:32,918 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:17:32,918 | Cycle 2764 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:17:36,678 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:36,678 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:17:36,678 | Cycle 2765 | Action: REST | Energy: 6.02J | Lv.1
+2025-12-02 15:17:40,441 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:40,441 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:17:40,442 | Cycle 2766 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:17:44,241 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:44,242 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:17:44,244 | Cycle 2767 | Action: REST | Energy: 6.19J | Lv.1
+2025-12-02 15:17:48,098 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:48,118 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:17:48,118 | Cycle 2768 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:17:51,972 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:51,983 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:17:51,984 | Cycle 2769 | Action: REST | Energy: 6.21J | Lv.1
+2025-12-02 15:17:55,898 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:55,935 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:17:56,045 | Cycle 2770 | Action: REST | Energy: 6.16J | Lv.1
+2025-12-02 15:17:59,941 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:17:59,952 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:17:59,967 | Cycle 2771 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:18:03,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:03,741 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:18:03,741 | Cycle 2772 | Action: REST | Energy: 6.28J | Lv.1
+2025-12-02 15:18:07,554 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:07,572 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:18:07,590 | Cycle 2773 | Action: REST | Energy: 6.36J | Lv.1
+2025-12-02 15:18:11,363 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:11,365 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:18:11,366 | Cycle 2774 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:18:15,140 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:15,145 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:18:15,154 | Cycle 2775 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:18:19,030 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:19,079 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:18:19,081 | Cycle 2776 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:18:22,835 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:22,835 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:18:22,836 | Cycle 2777 | Action: REST | Energy: 6.37J | Lv.1
+2025-12-02 15:18:26,584 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:26,584 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:18:26,584 | Cycle 2778 | Action: REST | Energy: 6.42J | Lv.1
+2025-12-02 15:18:30,331 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:30,332 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:18:30,332 | Cycle 2779 | Action: REST | Energy: 6.34J | Lv.1
+2025-12-02 15:18:34,223 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:34,280 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:18:34,337 | Cycle 2780 | Action: REST | Energy: 6.49J | Lv.1
+2025-12-02 15:18:38,292 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:38,293 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:18:38,293 | Cycle 2781 | Action: REST | Energy: 6.60J | Lv.1
+2025-12-02 15:18:42,034 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:42,035 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:18:42,035 | Cycle 2782 | Action: REST | Energy: 6.60J | Lv.1
+2025-12-02 15:18:45,841 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:45,861 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:18:45,883 | Cycle 2783 | Action: REST | Energy: 6.47J | Lv.1
+2025-12-02 15:18:49,659 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:49,673 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:18:49,677 | Cycle 2784 | Action: REST | Energy: 6.52J | Lv.1
+2025-12-02 15:18:53,451 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:53,451 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:18:53,464 | Cycle 2785 | Action: REST | Energy: 6.54J | Lv.1
+2025-12-02 15:18:57,214 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:18:57,215 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:18:57,215 | Cycle 2786 | Action: REST | Energy: 6.65J | Lv.1
+2025-12-02 15:19:01,018 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:01,028 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:19:01,058 | Cycle 2787 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:19:04,817 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:04,818 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:19:04,818 | Cycle 2788 | Action: REST | Energy: 6.75J | Lv.1
+2025-12-02 15:19:08,552 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:08,553 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:19:08,553 | Cycle 2789 | Action: REST | Energy: 6.66J | Lv.1
+2025-12-02 15:19:12,289 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:12,289 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:19:12,290 | Cycle 2790 | Action: REST | Energy: 6.81J | Lv.1
+2025-12-02 15:19:16,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:16,028 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:19:16,028 | Cycle 2791 | Action: REST | Energy: 6.72J | Lv.1
+2025-12-02 15:19:19,847 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:19,893 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:19:19,956 | Cycle 2792 | Action: REST | Energy: 6.75J | Lv.1
+2025-12-02 15:19:23,744 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:23,744 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:19:23,745 | Cycle 2793 | Action: REST | Energy: 6.62J | Lv.1
+2025-12-02 15:19:27,522 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:27,544 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:19:27,553 | Cycle 2794 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:19:31,577 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:31,606 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:19:31,673 | Cycle 2795 | Action: REST | Energy: 6.57J | Lv.1
+2025-12-02 15:19:35,457 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:35,457 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:19:35,458 | Cycle 2796 | Action: REST | Energy: 6.58J | Lv.1
+2025-12-02 15:19:39,224 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:39,228 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:19:39,238 | Cycle 2797 | Action: REST | Energy: 6.55J | Lv.1
+2025-12-02 15:19:42,982 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:42,982 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:19:42,983 | Cycle 2798 | Action: REST | Energy: 6.46J | Lv.1
+2025-12-02 15:19:46,898 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:46,971 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:19:47,028 | Cycle 2799 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:19:50,786 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:50,787 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:19:50,788 | Cycle 2800 | Action: REST | Energy: 6.49J | Lv.1
+2025-12-02 15:19:54,579 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:54,580 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:19:54,581 | Cycle 2801 | Action: REST | Energy: 6.63J | Lv.1
+2025-12-02 15:19:58,320 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:19:58,320 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:19:58,340 | Cycle 2802 | Action: REST | Energy: 6.63J | Lv.1
+2025-12-02 15:20:02,177 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:02,184 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:20:02,190 | Cycle 2803 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:20:05,938 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:05,939 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:20:05,940 | Cycle 2804 | Action: REST | Energy: 6.54J | Lv.1
+2025-12-02 15:20:09,682 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:09,682 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:20:09,683 | Cycle 2805 | Action: REST | Energy: 6.61J | Lv.1
+2025-12-02 15:20:13,426 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:13,426 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:20:13,434 | Cycle 2806 | Action: REST | Energy: 6.57J | Lv.1
+2025-12-02 15:20:17,175 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:17,176 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:20:17,176 | Cycle 2807 | Action: REST | Energy: 6.55J | Lv.1
+2025-12-02 15:20:20,918 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:20,919 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:20:20,919 | Cycle 2808 | Action: REST | Energy: 6.60J | Lv.1
+2025-12-02 15:20:24,658 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:24,659 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:20:24,659 | Cycle 2809 | Action: REST | Energy: 6.54J | Lv.1
+2025-12-02 15:20:28,488 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:28,533 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:20:28,570 | Cycle 2810 | Action: REST | Energy: 6.53J | Lv.1
+2025-12-02 15:20:32,516 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:32,638 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:20:32,704 | Cycle 2811 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:20:36,545 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:36,547 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:20:36,549 | Cycle 2812 | Action: REST | Energy: 6.40J | Lv.1
+2025-12-02 15:20:40,296 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:40,297 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:20:40,297 | Cycle 2813 | Action: REST | Energy: 6.42J | Lv.1
+2025-12-02 15:20:44,093 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:44,131 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:20:44,160 | Cycle 2814 | Action: REST | Energy: 6.30J | Lv.1
+2025-12-02 15:20:48,103 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:48,107 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:20:48,111 | Cycle 2815 | Action: REST | Energy: 6.24J | Lv.1
+2025-12-02 15:20:51,865 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:51,866 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:20:51,866 | Cycle 2816 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:20:55,621 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:55,622 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:20:55,622 | Cycle 2817 | Action: REST | Energy: 6.10J | Lv.1
+2025-12-02 15:20:59,381 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:20:59,381 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:20:59,381 | Cycle 2818 | Action: REST | Energy: 6.16J | Lv.1
+2025-12-02 15:21:03,186 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:03,255 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:21:03,258 | Cycle 2819 | Action: REST | Energy: 6.13J | Lv.1
+2025-12-02 15:21:07,051 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:07,051 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:21:07,051 | Cycle 2820 | Action: REST | Energy: 6.06J | Lv.1
+2025-12-02 15:21:10,817 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:10,820 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:21:10,822 | Cycle 2821 | Action: REST | Energy: 6.03J | Lv.1
+2025-12-02 15:21:14,584 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:14,585 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:21:14,585 | Cycle 2822 | Action: REST | Energy: 6.05J | Lv.1
+2025-12-02 15:21:18,346 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:18,346 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:21:18,346 | Cycle 2823 | Action: REST | Energy: 6.00J | Lv.1
+2025-12-02 15:21:22,111 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:22,111 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:21:22,112 | Cycle 2824 | Action: REST | Energy: 6.05J | Lv.1
+2025-12-02 15:21:25,892 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:25,903 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:21:25,909 | Cycle 2825 | Action: REST | Energy: 6.06J | Lv.1
+2025-12-02 15:21:29,707 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:29,720 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:21:29,777 | Cycle 2826 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:21:33,603 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:33,603 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:21:33,604 | Cycle 2827 | Action: REST | Energy: 6.13J | Lv.1
+2025-12-02 15:21:37,550 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:37,596 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:21:37,652 | Cycle 2828 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:21:41,491 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:41,491 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:21:41,492 | Cycle 2829 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:21:45,274 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:45,275 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:21:45,276 | Cycle 2830 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:21:49,041 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:49,042 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:21:49,042 | Cycle 2831 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:21:52,832 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:52,833 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:21:52,834 | Cycle 2832 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:21:56,596 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:21:56,597 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:21:56,598 | Cycle 2833 | Action: REST | Energy: 6.10J | Lv.1
+2025-12-02 15:22:00,357 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:00,358 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:22:00,358 | Cycle 2834 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:22:04,113 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:04,113 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:22:04,113 | Cycle 2835 | Action: REST | Energy: 6.19J | Lv.1
+2025-12-02 15:22:07,988 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:07,998 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:22:08,034 | Cycle 2836 | Action: REST | Energy: 6.10J | Lv.1
+2025-12-02 15:22:11,806 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:11,806 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:22:11,806 | Cycle 2837 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:22:15,629 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:15,650 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:22:15,658 | Cycle 2838 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:22:19,435 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:19,436 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:22:19,440 | Cycle 2839 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:22:23,192 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:23,193 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:22:23,193 | Cycle 2840 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:22:26,965 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:26,966 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:22:26,966 | Cycle 2841 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:22:30,777 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:30,793 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:22:30,814 | Cycle 2842 | Action: REST | Energy: 6.19J | Lv.1
+2025-12-02 15:22:34,666 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:34,667 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:22:34,668 | Cycle 2843 | Action: REST | Energy: 6.09J | Lv.1
+2025-12-02 15:22:38,429 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:38,429 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:22:38,430 | Cycle 2844 | Action: REST | Energy: 6.11J | Lv.1
+2025-12-02 15:22:42,229 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:42,271 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:22:42,294 | Cycle 2845 | Action: REST | Energy: 6.05J | Lv.1
+2025-12-02 15:22:46,212 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:46,255 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:22:46,279 | Cycle 2846 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:22:50,097 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:50,130 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:22:50,139 | Cycle 2847 | Action: REST | Energy: 6.00J | Lv.1
+2025-12-02 15:22:53,908 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:53,908 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:22:53,912 | Cycle 2848 | Action: REST | Energy: 5.97J | Lv.1
+2025-12-02 15:22:57,675 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:22:57,675 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:22:57,676 | Cycle 2849 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:23:01,512 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:01,519 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:01,523 | Cycle 2850 | Action: REST | Energy: 5.91J | Lv.1
+2025-12-02 15:23:05,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:05,621 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:23:05,626 | Cycle 2851 | Action: REST | Energy: 5.98J | Lv.1
+2025-12-02 15:23:09,393 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:09,393 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:09,394 | Cycle 2852 | Action: REST | Energy: 5.93J | Lv.1
+2025-12-02 15:23:13,160 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:13,160 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:13,161 | Cycle 2853 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:23:16,963 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:16,965 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:16,965 | Cycle 2854 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:23:20,910 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:20,956 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:20,986 | Cycle 2855 | Action: REST | Energy: 5.95J | Lv.1
+2025-12-02 15:23:24,836 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:24,837 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:24,838 | Cycle 2856 | Action: REST | Energy: 5.91J | Lv.1
+2025-12-02 15:23:28,609 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:28,609 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:28,610 | Cycle 2857 | Action: REST | Energy: 5.87J | Lv.1
+2025-12-02 15:23:32,379 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:32,379 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:23:32,380 | Cycle 2858 | Action: REST | Energy: 5.83J | Lv.1
+2025-12-02 15:23:36,159 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:36,159 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:36,159 | Cycle 2859 | Action: REST | Energy: 5.88J | Lv.1
+2025-12-02 15:23:39,927 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:39,927 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:39,928 | Cycle 2860 | Action: REST | Energy: 5.89J | Lv.1
+2025-12-02 15:23:43,694 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:43,695 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:23:43,695 | Cycle 2861 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:23:47,634 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:47,696 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:23:47,764 | Cycle 2862 | Action: REST | Energy: 5.80J | Lv.1
+2025-12-02 15:23:51,556 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:51,556 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:51,556 | Cycle 2863 | Action: REST | Energy: 5.88J | Lv.1
+2025-12-02 15:23:55,658 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:55,662 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:55,663 | Cycle 2864 | Action: REST | Energy: 5.89J | Lv.1
+2025-12-02 15:23:59,552 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:23:59,637 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:23:59,654 | Cycle 2865 | Action: REST | Energy: 5.91J | Lv.1
+2025-12-02 15:24:03,507 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:03,524 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:24:03,543 | Cycle 2866 | Action: REST | Energy: 5.89J | Lv.1
+2025-12-02 15:24:07,313 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:07,313 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:24:07,313 | Cycle 2867 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:24:11,212 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:11,234 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:24:11,257 | Cycle 2868 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:24:15,054 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:15,055 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:15,055 | Cycle 2869 | Action: REST | Energy: 5.85J | Lv.1
+2025-12-02 15:24:18,833 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:18,833 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:18,833 | Cycle 2870 | Action: REST | Energy: 5.81J | Lv.1
+2025-12-02 15:24:22,604 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:22,605 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:22,605 | Cycle 2871 | Action: REST | Energy: 5.83J | Lv.1
+2025-12-02 15:24:26,412 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:26,412 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:26,412 | Cycle 2872 | Action: REST | Energy: 5.80J | Lv.1
+2025-12-02 15:24:30,276 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:30,292 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:24:30,301 | Cycle 2873 | Action: REST | Energy: 5.68J | Lv.1
+2025-12-02 15:24:34,087 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:34,088 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:34,088 | Cycle 2874 | Action: REST | Energy: 5.79J | Lv.1
+2025-12-02 15:24:37,861 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:37,862 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:37,863 | Cycle 2875 | Action: REST | Energy: 5.79J | Lv.1
+2025-12-02 15:24:41,633 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:41,633 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:41,634 | Cycle 2876 | Action: REST | Energy: 5.81J | Lv.1
+2025-12-02 15:24:45,403 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:45,404 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:24:45,404 | Cycle 2877 | Action: REST | Energy: 5.66J | Lv.1
+2025-12-02 15:24:49,218 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:49,222 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:24:49,227 | Cycle 2878 | Action: REST | Energy: 5.76J | Lv.1
+2025-12-02 15:24:53,079 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:53,085 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:24:53,087 | Cycle 2879 | Action: REST | Energy: 5.71J | Lv.1
+2025-12-02 15:24:56,862 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:24:56,863 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:24:56,863 | Cycle 2880 | Action: REST | Energy: 5.62J | Lv.1
+2025-12-02 15:25:00,646 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:00,647 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:25:00,647 | Cycle 2881 | Action: REST | Energy: 5.61J | Lv.1
+2025-12-02 15:25:04,426 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:04,426 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:25:04,426 | Cycle 2882 | Action: REST | Energy: 5.52J | Lv.1
+2025-12-02 15:25:08,393 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:08,403 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:25:08,409 | Cycle 2883 | Action: REST | Energy: 5.52J | Lv.1
+2025-12-02 15:25:12,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:12,269 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:25:12,304 | Cycle 2884 | Action: REST | Energy: 5.49J | Lv.1
+2025-12-02 15:25:16,116 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:16,116 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:25:16,116 | Cycle 2885 | Action: REST | Energy: 5.44J | Lv.1
+2025-12-02 15:25:19,934 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:19,934 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:25:19,935 | Cycle 2886 | Action: REST | Energy: 5.48J | Lv.1
+2025-12-02 15:25:23,870 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:23,882 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:25:23,892 | Cycle 2887 | Action: REST | Energy: 5.53J | Lv.1
+2025-12-02 15:25:27,676 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:27,676 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:25:27,677 | Cycle 2888 | Action: REST | Energy: 5.55J | Lv.1
+2025-12-02 15:25:31,725 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:31,818 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:25:31,836 | Cycle 2889 | Action: REST | Energy: 5.66J | Lv.1
+2025-12-02 15:25:35,774 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:35,775 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:25:35,776 | Cycle 2890 | Action: REST | Energy: 5.75J | Lv.1
+2025-12-02 15:25:39,551 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:39,551 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:25:39,551 | Cycle 2891 | Action: REST | Energy: 5.66J | Lv.1
+2025-12-02 15:25:43,392 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:43,393 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:25:43,394 | Cycle 2892 | Action: REST | Energy: 5.69J | Lv.1
+2025-12-02 15:25:47,269 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:47,277 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:25:47,284 | Cycle 2893 | Action: REST | Energy: 5.72J | Lv.1
+2025-12-02 15:25:51,060 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:51,060 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:25:51,061 | Cycle 2894 | Action: REST | Energy: 5.76J | Lv.1
+2025-12-02 15:25:54,833 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:54,833 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:25:54,833 | Cycle 2895 | Action: REST | Energy: 5.68J | Lv.1
+2025-12-02 15:25:58,636 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:25:58,640 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:25:58,645 | Cycle 2896 | Action: REST | Energy: 5.73J | Lv.1
+2025-12-02 15:26:02,422 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:02,422 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:02,422 | Cycle 2897 | Action: REST | Energy: 5.79J | Lv.1
+2025-12-02 15:26:06,215 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:06,215 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:06,216 | Cycle 2898 | Action: REST | Energy: 5.82J | Lv.1
+2025-12-02 15:26:10,192 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:10,221 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:10,258 | Cycle 2899 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:26:14,062 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:14,062 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:26:14,062 | Cycle 2900 | Action: REST | Energy: 5.75J | Lv.1
+2025-12-02 15:26:17,837 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:17,837 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:17,838 | Cycle 2901 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:26:21,654 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:21,654 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:21,654 | Cycle 2902 | Action: REST | Energy: 5.83J | Lv.1
+2025-12-02 15:26:25,424 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:25,424 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:25,425 | Cycle 2903 | Action: REST | Energy: 5.82J | Lv.1
+2025-12-02 15:26:29,237 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:29,238 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:26:29,238 | Cycle 2904 | Action: REST | Energy: 5.85J | Lv.1
+2025-12-02 15:26:33,116 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:33,183 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:33,219 | Cycle 2905 | Action: REST | Energy: 5.79J | Lv.1
+2025-12-02 15:26:37,136 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:37,185 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:26:37,255 | Cycle 2906 | Action: REST | Energy: 5.75J | Lv.1
+2025-12-02 15:26:41,195 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:41,289 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:41,312 | Cycle 2907 | Action: REST | Energy: 5.76J | Lv.1
+2025-12-02 15:26:45,103 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:45,104 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:26:45,104 | Cycle 2908 | Action: REST | Energy: 5.72J | Lv.1
+2025-12-02 15:26:48,878 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:48,878 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:26:48,879 | Cycle 2909 | Action: REST | Energy: 5.75J | Lv.1
+2025-12-02 15:26:52,903 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:52,982 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:53,100 | Cycle 2910 | Action: REST | Energy: 5.80J | Lv.1
+2025-12-02 15:26:57,110 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:26:57,169 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:26:57,227 | Cycle 2911 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:27:01,152 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:01,178 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:27:01,193 | Cycle 2912 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:27:04,985 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:04,985 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:27:04,988 | Cycle 2913 | Action: REST | Energy: 5.78J | Lv.1
+2025-12-02 15:27:08,759 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:08,760 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:27:08,760 | Cycle 2914 | Action: REST | Energy: 5.80J | Lv.1
+2025-12-02 15:27:12,533 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:12,534 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:27:12,534 | Cycle 2915 | Action: REST | Energy: 5.87J | Lv.1
+2025-12-02 15:27:16,636 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:16,677 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:27:16,734 | Cycle 2916 | Action: REST | Energy: 6.02J | Lv.1
+2025-12-02 15:27:20,705 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:20,758 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:27:20,786 | Cycle 2917 | Action: REST | Energy: 6.12J | Lv.1
+2025-12-02 15:27:24,595 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:24,599 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:27:24,605 | Cycle 2918 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:27:28,365 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:28,365 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:27:28,366 | Cycle 2919 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:27:32,121 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:32,122 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:27:32,125 | Cycle 2920 | Action: REST | Energy: 6.39J | Lv.1
+2025-12-02 15:27:35,873 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:35,874 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:27:35,874 | Cycle 2921 | Action: REST | Energy: 6.37J | Lv.1
+2025-12-02 15:27:39,739 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:39,788 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:27:39,825 | Cycle 2922 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:27:43,701 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:43,717 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:27:43,717 | Cycle 2923 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:27:47,496 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:47,498 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:27:47,499 | Cycle 2924 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:27:51,334 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:51,371 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:27:51,414 | Cycle 2925 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:27:55,174 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:55,175 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:27:55,175 | Cycle 2926 | Action: REST | Energy: 6.40J | Lv.1
+2025-12-02 15:27:58,929 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:27:58,930 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:27:58,932 | Cycle 2927 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:28:02,679 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:02,679 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:28:02,679 | Cycle 2928 | Action: REST | Energy: 6.38J | Lv.1
+2025-12-02 15:28:06,427 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:06,427 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:28:06,428 | Cycle 2929 | Action: REST | Energy: 6.39J | Lv.1
+2025-12-02 15:28:10,201 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:10,211 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:28:10,218 | Cycle 2930 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:28:13,989 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:13,990 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:28:13,990 | Cycle 2931 | Action: REST | Energy: 6.34J | Lv.1
+2025-12-02 15:28:17,754 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:17,755 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:28:17,755 | Cycle 2932 | Action: REST | Energy: 6.39J | Lv.1
+2025-12-02 15:28:21,570 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:21,595 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:28:21,614 | Cycle 2933 | Action: REST | Energy: 6.32J | Lv.1
+2025-12-02 15:28:25,373 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:25,374 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:28:25,374 | Cycle 2934 | Action: REST | Energy: 6.37J | Lv.1
+2025-12-02 15:28:29,303 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:29,324 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:28:29,341 | Cycle 2935 | Action: REST | Energy: 6.42J | Lv.1
+2025-12-02 15:28:33,198 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:33,206 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:28:33,224 | Cycle 2936 | Action: REST | Energy: 6.54J | Lv.1
+2025-12-02 15:28:37,087 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:37,093 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:28:37,097 | Cycle 2937 | Action: REST | Energy: 6.52J | Lv.1
+2025-12-02 15:28:40,957 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:40,972 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:28:41,003 | Cycle 2938 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:28:44,754 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:44,755 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:28:44,755 | Cycle 2939 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:28:48,499 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:48,500 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:28:48,500 | Cycle 2940 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:28:52,255 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:52,279 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:28:52,329 | Cycle 2941 | Action: REST | Energy: 6.76J | Lv.1
+2025-12-02 15:28:56,172 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:56,173 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:28:56,173 | Cycle 2942 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:28:59,949 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:28:59,961 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:28:59,978 | Cycle 2943 | Action: REST | Energy: 6.68J | Lv.1
+2025-12-02 15:29:03,749 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:03,753 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:03,755 | Cycle 2944 | Action: REST | Energy: 6.56J | Lv.1
+2025-12-02 15:29:07,620 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:07,638 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:07,655 | Cycle 2945 | Action: REST | Energy: 6.56J | Lv.1
+2025-12-02 15:29:11,402 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:11,402 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:11,402 | Cycle 2946 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:29:15,241 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:15,290 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:29:15,329 | Cycle 2947 | Action: REST | Energy: 6.73J | Lv.1
+2025-12-02 15:29:19,087 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:19,087 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:29:19,088 | Cycle 2948 | Action: REST | Energy: 6.84J | Lv.1
+2025-12-02 15:29:22,862 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:22,870 | 🪞 Reflection: Energy=6.8, Mood=Calm
+2025-12-02 15:29:22,874 | Cycle 2949 | Action: REST | Energy: 6.85J | Lv.1
+2025-12-02 15:29:26,610 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:26,611 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:29:26,611 | Cycle 2950 | Action: REST | Energy: 6.73J | Lv.1
+2025-12-02 15:29:30,346 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:30,346 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:29:30,347 | Cycle 2951 | Action: REST | Energy: 6.71J | Lv.1
+2025-12-02 15:29:34,180 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:34,237 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:34,252 | Cycle 2952 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:29:38,000 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:38,000 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:38,001 | Cycle 2953 | Action: REST | Energy: 6.57J | Lv.1
+2025-12-02 15:29:41,751 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:41,754 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:41,755 | Cycle 2954 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:29:45,493 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:45,493 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:29:45,494 | Cycle 2955 | Action: REST | Energy: 6.67J | Lv.1
+2025-12-02 15:29:49,396 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:49,398 | 🪞 Reflection: Energy=6.7, Mood=Calm
+2025-12-02 15:29:49,401 | Cycle 2956 | Action: REST | Energy: 6.70J | Lv.1
+2025-12-02 15:29:53,236 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:53,260 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:53,284 | Cycle 2957 | Action: REST | Energy: 6.64J | Lv.1
+2025-12-02 15:29:57,092 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:29:57,093 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:29:57,093 | Cycle 2958 | Action: REST | Energy: 6.58J | Lv.1
+2025-12-02 15:30:00,857 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:00,858 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:30:00,859 | Cycle 2959 | Action: REST | Energy: 6.62J | Lv.1
+2025-12-02 15:30:04,625 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:04,628 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:30:04,630 | Cycle 2960 | Action: REST | Energy: 6.56J | Lv.1
+2025-12-02 15:30:08,468 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:08,469 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:30:08,469 | Cycle 2961 | Action: REST | Energy: 6.56J | Lv.1
+2025-12-02 15:30:12,236 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:12,237 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:30:12,239 | Cycle 2962 | Action: REST | Energy: 6.60J | Lv.1
+2025-12-02 15:30:16,002 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:16,002 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:16,003 | Cycle 2963 | Action: REST | Energy: 6.52J | Lv.1
+2025-12-02 15:30:19,745 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:19,746 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:19,746 | Cycle 2964 | Action: REST | Energy: 6.45J | Lv.1
+2025-12-02 15:30:23,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:23,507 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:23,507 | Cycle 2965 | Action: REST | Energy: 6.47J | Lv.1
+2025-12-02 15:30:27,251 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:27,252 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:27,252 | Cycle 2966 | Action: REST | Energy: 6.51J | Lv.1
+2025-12-02 15:30:31,019 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:31,024 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:30:31,027 | Cycle 2967 | Action: REST | Energy: 6.44J | Lv.1
+2025-12-02 15:30:34,782 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:34,783 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:34,783 | Cycle 2968 | Action: REST | Energy: 6.52J | Lv.1
+2025-12-02 15:30:38,524 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:38,525 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:38,525 | Cycle 2969 | Action: REST | Energy: 6.49J | Lv.1
+2025-12-02 15:30:42,269 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:42,270 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:42,274 | Cycle 2970 | Action: REST | Energy: 6.50J | Lv.1
+2025-12-02 15:30:46,026 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:46,027 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:46,027 | Cycle 2971 | Action: REST | Energy: 6.49J | Lv.1
+2025-12-02 15:30:49,847 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:49,892 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:49,900 | Cycle 2972 | Action: REST | Energy: 6.52J | Lv.1
+2025-12-02 15:30:53,889 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:53,937 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:30:53,960 | Cycle 2973 | Action: REST | Energy: 6.47J | Lv.1
+2025-12-02 15:30:57,758 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:30:57,758 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:30:57,758 | Cycle 2974 | Action: REST | Energy: 6.42J | Lv.1
+2025-12-02 15:31:01,504 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:01,505 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:31:01,505 | Cycle 2975 | Action: REST | Energy: 6.45J | Lv.1
+2025-12-02 15:31:05,335 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:05,404 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:31:05,506 | Cycle 2976 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:31:09,437 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:09,444 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:31:09,447 | Cycle 2977 | Action: REST | Energy: 6.50J | Lv.1
+2025-12-02 15:31:13,368 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:13,434 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:31:13,453 | Cycle 2978 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:31:17,271 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:17,277 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:31:17,310 | Cycle 2979 | Action: REST | Energy: 6.43J | Lv.1
+2025-12-02 15:31:21,098 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:21,100 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:31:21,102 | Cycle 2980 | Action: REST | Energy: 6.43J | Lv.1
+2025-12-02 15:31:24,941 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:24,949 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:31:24,953 | Cycle 2981 | Action: REST | Energy: 6.43J | Lv.1
+2025-12-02 15:31:28,700 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:28,701 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:31:28,701 | Cycle 2982 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:31:32,568 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:32,570 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:31:32,571 | Cycle 2983 | Action: REST | Energy: 6.48J | Lv.1
+2025-12-02 15:31:36,409 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:36,412 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:31:36,422 | Cycle 2984 | Action: REST | Energy: 6.52J | Lv.1
+2025-12-02 15:31:40,167 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:40,167 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:31:40,168 | Cycle 2985 | Action: REST | Energy: 6.34J | Lv.1
+2025-12-02 15:31:43,947 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:43,950 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:31:43,952 | Cycle 2986 | Action: REST | Energy: 6.36J | Lv.1
+2025-12-02 15:31:47,723 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:47,726 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:31:47,735 | Cycle 2987 | Action: REST | Energy: 6.19J | Lv.1
+2025-12-02 15:31:51,511 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:51,512 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:31:51,513 | Cycle 2988 | Action: REST | Energy: 6.17J | Lv.1
+2025-12-02 15:31:55,355 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:55,369 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:31:55,373 | Cycle 2989 | Action: REST | Energy: 6.10J | Lv.1
+2025-12-02 15:31:59,134 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:31:59,134 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:31:59,135 | Cycle 2990 | Action: REST | Energy: 6.08J | Lv.1
+2025-12-02 15:32:02,895 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:02,895 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:32:02,896 | Cycle 2991 | Action: REST | Energy: 6.11J | Lv.1
+2025-12-02 15:32:06,696 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:06,697 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:32:06,701 | Cycle 2992 | Action: REST | Energy: 5.99J | Lv.1
+2025-12-02 15:32:10,520 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:10,522 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:32:10,538 | Cycle 2993 | Action: REST | Energy: 6.03J | Lv.1
+2025-12-02 15:32:14,301 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:14,301 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:32:14,301 | Cycle 2994 | Action: REST | Energy: 6.09J | Lv.1
+2025-12-02 15:32:18,085 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:18,094 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:32:18,103 | Cycle 2995 | Action: REST | Energy: 6.03J | Lv.1
+2025-12-02 15:32:21,899 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:21,900 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:32:21,900 | Cycle 2996 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:32:25,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:25,749 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:32:25,751 | Cycle 2997 | Action: REST | Energy: 5.98J | Lv.1
+2025-12-02 15:32:29,568 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:29,585 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:32:29,606 | Cycle 2998 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:32:33,415 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:33,416 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:32:33,417 | Cycle 2999 | Action: REST | Energy: 6.13J | Lv.1
+2025-12-02 15:32:37,382 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:37,387 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:32:37,390 | Cycle 3000 | Action: REST | Energy: 6.17J | Lv.1
+2025-12-02 15:32:41,199 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:41,200 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:32:41,200 | Cycle 3001 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:32:44,952 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:44,953 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:32:44,953 | Cycle 3002 | Action: REST | Energy: 6.26J | Lv.1
+2025-12-02 15:32:48,783 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:48,807 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:32:48,809 | Cycle 3003 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:32:52,610 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:52,614 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:32:52,616 | Cycle 3004 | Action: REST | Energy: 6.27J | Lv.1
+2025-12-02 15:32:56,368 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:32:56,369 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:32:56,369 | Cycle 3005 | Action: REST | Energy: 6.22J | Lv.1
+2025-12-02 15:33:00,281 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:00,305 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:33:00,323 | Cycle 3006 | Action: REST | Energy: 6.25J | Lv.1
+2025-12-02 15:33:04,090 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:04,090 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:33:04,091 | Cycle 3007 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:33:07,866 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:07,868 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:33:07,869 | Cycle 3008 | Action: REST | Energy: 6.17J | Lv.1
+2025-12-02 15:33:11,629 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:11,629 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:33:11,630 | Cycle 3009 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:33:15,386 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:15,386 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:33:15,387 | Cycle 3010 | Action: REST | Energy: 6.11J | Lv.1
+2025-12-02 15:33:19,241 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:19,318 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:33:19,325 | Cycle 3011 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:33:23,090 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:23,090 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:33:23,091 | Cycle 3012 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:33:26,847 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:26,848 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:33:26,848 | Cycle 3013 | Action: REST | Energy: 6.15J | Lv.1
+2025-12-02 15:33:30,715 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:30,732 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:33:30,744 | Cycle 3014 | Action: REST | Energy: 6.15J | Lv.1
+2025-12-02 15:33:34,510 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:34,510 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:33:34,511 | Cycle 3015 | Action: REST | Energy: 6.15J | Lv.1
+2025-12-02 15:33:38,272 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:38,273 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:33:38,273 | Cycle 3016 | Action: REST | Energy: 6.09J | Lv.1
+2025-12-02 15:33:42,198 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:42,246 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:33:42,260 | Cycle 3017 | Action: REST | Energy: 6.08J | Lv.1
+2025-12-02 15:33:46,082 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:46,112 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:33:46,139 | Cycle 3018 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:33:50,140 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:50,202 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:33:50,207 | Cycle 3019 | Action: REST | Energy: 6.09J | Lv.1
+2025-12-02 15:33:54,074 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:54,090 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:33:54,113 | Cycle 3020 | Action: REST | Energy: 6.16J | Lv.1
+2025-12-02 15:33:57,894 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:33:57,895 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:33:57,895 | Cycle 3021 | Action: REST | Energy: 6.08J | Lv.1
+2025-12-02 15:34:01,669 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:01,675 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:34:01,704 | Cycle 3022 | Action: REST | Energy: 6.06J | Lv.1
+2025-12-02 15:34:05,521 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:05,522 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:34:05,522 | Cycle 3023 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:34:09,282 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:09,282 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:34:09,283 | Cycle 3024 | Action: REST | Energy: 5.97J | Lv.1
+2025-12-02 15:34:13,330 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:13,373 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:34:13,417 | Cycle 3025 | Action: REST | Energy: 5.88J | Lv.1
+2025-12-02 15:34:17,222 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:17,222 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:17,222 | Cycle 3026 | Action: REST | Energy: 5.78J | Lv.1
+2025-12-02 15:34:21,045 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:21,071 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:21,079 | Cycle 3027 | Action: REST | Energy: 5.76J | Lv.1
+2025-12-02 15:34:24,902 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:24,923 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:24,951 | Cycle 3028 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:34:28,740 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:28,740 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:28,746 | Cycle 3029 | Action: REST | Energy: 5.76J | Lv.1
+2025-12-02 15:34:32,678 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:32,753 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:32,769 | Cycle 3030 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:34:36,544 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:36,545 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:36,545 | Cycle 3031 | Action: REST | Energy: 5.80J | Lv.1
+2025-12-02 15:34:40,552 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:40,640 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:34:40,820 | Cycle 3032 | Action: REST | Energy: 5.70J | Lv.1
+2025-12-02 15:34:44,627 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:44,628 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:44,628 | Cycle 3033 | Action: REST | Energy: 5.76J | Lv.1
+2025-12-02 15:34:48,401 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:48,401 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:34:48,401 | Cycle 3034 | Action: REST | Energy: 5.70J | Lv.1
+2025-12-02 15:34:52,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:52,240 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:34:52,258 | Cycle 3035 | Action: REST | Energy: 5.75J | Lv.1
+2025-12-02 15:34:56,144 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:34:56,213 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:34:56,273 | Cycle 3036 | Action: REST | Energy: 5.83J | Lv.1
+2025-12-02 15:35:00,284 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:00,334 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:00,423 | Cycle 3037 | Action: REST | Energy: 5.85J | Lv.1
+2025-12-02 15:35:04,444 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:04,486 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:35:04,512 | Cycle 3038 | Action: REST | Energy: 5.84J | Lv.1
+2025-12-02 15:35:08,304 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:08,304 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:08,305 | Cycle 3039 | Action: REST | Energy: 5.87J | Lv.1
+2025-12-02 15:35:12,091 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:12,092 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:35:12,093 | Cycle 3040 | Action: REST | Energy: 5.83J | Lv.1
+2025-12-02 15:35:15,863 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:15,863 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:15,863 | Cycle 3041 | Action: REST | Energy: 5.85J | Lv.1
+2025-12-02 15:35:19,654 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:19,656 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:35:19,657 | Cycle 3042 | Action: REST | Energy: 5.81J | Lv.1
+2025-12-02 15:35:23,431 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:23,432 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:23,432 | Cycle 3043 | Action: REST | Energy: 5.93J | Lv.1
+2025-12-02 15:35:27,307 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:27,350 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:35:27,388 | Cycle 3044 | Action: REST | Energy: 5.85J | Lv.1
+2025-12-02 15:35:31,438 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:31,487 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:31,495 | Cycle 3045 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:35:35,519 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:35,620 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:35,662 | Cycle 3046 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:35:39,608 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:39,673 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:39,744 | Cycle 3047 | Action: REST | Energy: 5.95J | Lv.1
+2025-12-02 15:35:43,590 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:43,591 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:35:43,593 | Cycle 3048 | Action: REST | Energy: 5.95J | Lv.1
+2025-12-02 15:35:47,507 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:47,509 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:35:47,510 | Cycle 3049 | Action: REST | Energy: 5.97J | Lv.1
+2025-12-02 15:35:51,322 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:51,330 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:51,332 | Cycle 3050 | Action: REST | Energy: 5.87J | Lv.1
+2025-12-02 15:35:55,101 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:55,102 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:55,102 | Cycle 3051 | Action: REST | Energy: 5.93J | Lv.1
+2025-12-02 15:35:58,885 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:35:58,886 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:35:58,887 | Cycle 3052 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:36:02,654 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:02,655 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:36:02,655 | Cycle 3053 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:36:06,572 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:06,586 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:36:06,621 | Cycle 3054 | Action: REST | Energy: 5.93J | Lv.1
+2025-12-02 15:36:10,409 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:10,410 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:36:10,410 | Cycle 3055 | Action: REST | Energy: 5.88J | Lv.1
+2025-12-02 15:36:14,233 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:14,277 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:36:14,294 | Cycle 3056 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:36:18,962 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:19,101 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:36:19,191 | Cycle 3057 | Action: REST | Energy: 5.83J | Lv.1
+2025-12-02 15:36:23,045 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:23,065 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:36:23,084 | Cycle 3058 | Action: REST | Energy: 5.79J | Lv.1
+2025-12-02 15:36:27,382 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:27,467 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:36:27,528 | Cycle 3059 | Action: REST | Energy: 5.66J | Lv.1
+2025-12-02 15:36:31,620 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:31,728 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:36:31,768 | Cycle 3060 | Action: REST | Energy: 5.73J | Lv.1
+2025-12-02 15:36:35,692 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:35,704 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:36:35,712 | Cycle 3061 | Action: REST | Energy: 5.71J | Lv.1
+2025-12-02 15:36:39,639 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:39,739 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:36:39,781 | Cycle 3062 | Action: REST | Energy: 5.64J | Lv.1
+2025-12-02 15:36:43,598 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:43,600 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:36:43,603 | Cycle 3063 | Action: REST | Energy: 5.63J | Lv.1
+2025-12-02 15:36:47,494 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:47,528 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:36:47,548 | Cycle 3064 | Action: REST | Energy: 5.73J | Lv.1
+2025-12-02 15:36:51,669 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:51,728 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:36:51,810 | Cycle 3065 | Action: REST | Energy: 5.68J | Lv.1
+2025-12-02 15:36:55,682 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:55,684 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:36:55,685 | Cycle 3066 | Action: REST | Energy: 5.72J | Lv.1
+2025-12-02 15:36:59,480 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:36:59,481 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:36:59,483 | Cycle 3067 | Action: REST | Energy: 5.66J | Lv.1
+2025-12-02 15:37:03,463 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:03,471 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:37:03,472 | Cycle 3068 | Action: REST | Energy: 5.70J | Lv.1
+2025-12-02 15:37:07,276 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:07,282 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:37:07,296 | Cycle 3069 | Action: REST | Energy: 5.72J | Lv.1
+2025-12-02 15:37:11,496 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:11,499 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:37:11,500 | Cycle 3070 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:37:15,495 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:15,524 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:37:15,567 | Cycle 3071 | Action: REST | Energy: 5.87J | Lv.1
+2025-12-02 15:37:19,382 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:19,382 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:37:19,382 | Cycle 3072 | Action: REST | Energy: 5.88J | Lv.1
+2025-12-02 15:37:23,159 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:23,159 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:37:23,162 | Cycle 3073 | Action: REST | Energy: 5.91J | Lv.1
+2025-12-02 15:37:26,928 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:26,928 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:37:26,929 | Cycle 3074 | Action: REST | Energy: 5.93J | Lv.1
+2025-12-02 15:37:30,694 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:30,694 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:37:30,694 | Cycle 3075 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:37:34,518 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:34,519 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:37:34,520 | Cycle 3076 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:37:38,299 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:38,299 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:37:38,299 | Cycle 3077 | Action: REST | Energy: 5.85J | Lv.1
+2025-12-02 15:37:42,139 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:42,140 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:37:42,141 | Cycle 3078 | Action: REST | Energy: 5.91J | Lv.1
+2025-12-02 15:37:46,094 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:46,133 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:37:46,158 | Cycle 3079 | Action: REST | Energy: 6.05J | Lv.1
+2025-12-02 15:37:50,027 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:50,028 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:37:50,029 | Cycle 3080 | Action: REST | Energy: 6.16J | Lv.1
+2025-12-02 15:37:53,860 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:53,862 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:37:53,862 | Cycle 3081 | Action: REST | Energy: 6.08J | Lv.1
+2025-12-02 15:37:57,704 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:37:57,786 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:37:57,828 | Cycle 3082 | Action: REST | Energy: 6.09J | Lv.1
+2025-12-02 15:38:01,607 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:01,607 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:38:01,608 | Cycle 3083 | Action: REST | Energy: 6.08J | Lv.1
+2025-12-02 15:38:05,382 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:05,384 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:38:05,385 | Cycle 3084 | Action: REST | Energy: 6.27J | Lv.1
+2025-12-02 15:38:09,180 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:09,181 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:38:09,182 | Cycle 3085 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:38:13,049 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:13,102 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:38:13,105 | Cycle 3086 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:38:16,914 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:16,921 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:38:16,923 | Cycle 3087 | Action: REST | Energy: 6.22J | Lv.1
+2025-12-02 15:38:20,724 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:20,749 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:38:20,751 | Cycle 3088 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:38:24,639 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:24,671 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:38:24,681 | Cycle 3089 | Action: REST | Energy: 6.11J | Lv.1
+2025-12-02 15:38:28,442 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:28,442 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:38:28,442 | Cycle 3090 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:38:32,204 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:32,205 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:38:32,205 | Cycle 3091 | Action: REST | Energy: 6.06J | Lv.1
+2025-12-02 15:38:36,092 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:36,165 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:38:36,223 | Cycle 3092 | Action: REST | Energy: 6.14J | Lv.1
+2025-12-02 15:38:40,000 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:40,000 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:38:40,000 | Cycle 3093 | Action: REST | Energy: 6.30J | Lv.1
+2025-12-02 15:38:43,752 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:43,753 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:38:43,753 | Cycle 3094 | Action: REST | Energy: 6.37J | Lv.1
+2025-12-02 15:38:47,501 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:47,501 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:38:47,501 | Cycle 3095 | Action: REST | Energy: 6.35J | Lv.1
+2025-12-02 15:38:51,255 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:51,256 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:38:51,256 | Cycle 3096 | Action: REST | Energy: 6.49J | Lv.1
+2025-12-02 15:38:55,011 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:55,011 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:38:55,012 | Cycle 3097 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:38:58,758 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:38:58,758 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:38:58,758 | Cycle 3098 | Action: REST | Energy: 6.39J | Lv.1
+2025-12-02 15:39:02,506 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:02,506 | 🪞 Reflection: Energy=6.5, Mood=Calm
+2025-12-02 15:39:02,506 | Cycle 3099 | Action: REST | Energy: 6.47J | Lv.1
+2025-12-02 15:39:06,279 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:06,326 | 🪞 Reflection: Energy=6.6, Mood=Calm
+2025-12-02 15:39:06,365 | Cycle 3100 | Action: REST | Energy: 6.56J | Lv.1
+2025-12-02 15:39:10,122 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:10,122 | 🪞 Reflection: Energy=6.4, Mood=Calm
+2025-12-02 15:39:10,122 | Cycle 3101 | Action: REST | Energy: 6.41J | Lv.1
+2025-12-02 15:39:13,868 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:13,869 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:39:13,869 | Cycle 3102 | Action: REST | Energy: 6.31J | Lv.1
+2025-12-02 15:39:17,769 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:17,783 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:17,794 | Cycle 3103 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:39:21,565 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:21,565 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:21,566 | Cycle 3104 | Action: REST | Energy: 6.17J | Lv.1
+2025-12-02 15:39:25,361 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:25,362 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:39:25,362 | Cycle 3105 | Action: REST | Energy: 6.15J | Lv.1
+2025-12-02 15:39:29,121 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:29,121 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:29,122 | Cycle 3106 | Action: REST | Energy: 6.18J | Lv.1
+2025-12-02 15:39:32,878 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:32,878 | 🪞 Reflection: Energy=6.3, Mood=Calm
+2025-12-02 15:39:32,879 | Cycle 3107 | Action: REST | Energy: 6.33J | Lv.1
+2025-12-02 15:39:36,705 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:36,714 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:36,720 | Cycle 3108 | Action: REST | Energy: 6.21J | Lv.1
+2025-12-02 15:39:40,574 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:40,592 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:40,684 | Cycle 3109 | Action: REST | Energy: 6.20J | Lv.1
+2025-12-02 15:39:44,452 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:44,453 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:44,453 | Cycle 3110 | Action: REST | Energy: 6.23J | Lv.1
+2025-12-02 15:39:48,243 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:48,243 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:48,243 | Cycle 3111 | Action: REST | Energy: 6.17J | Lv.1
+2025-12-02 15:39:51,999 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:52,000 | 🪞 Reflection: Energy=6.2, Mood=Calm
+2025-12-02 15:39:52,000 | Cycle 3112 | Action: REST | Energy: 6.21J | Lv.1
+2025-12-02 15:39:56,072 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:39:56,206 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:39:56,232 | Cycle 3113 | Action: REST | Energy: 6.04J | Lv.1
+2025-12-02 15:40:00,006 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:00,007 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:00,007 | Cycle 3114 | Action: REST | Energy: 6.03J | Lv.1
+2025-12-02 15:40:03,821 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:03,824 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:03,829 | Cycle 3115 | Action: REST | Energy: 5.98J | Lv.1
+2025-12-02 15:40:07,595 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:07,595 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:40:07,595 | Cycle 3116 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:40:11,388 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:11,391 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:11,413 | Cycle 3117 | Action: REST | Energy: 5.97J | Lv.1
+2025-12-02 15:40:15,192 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:15,192 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:40:15,193 | Cycle 3118 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:40:18,952 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:18,953 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:40:18,953 | Cycle 3119 | Action: REST | Energy: 6.07J | Lv.1
+2025-12-02 15:40:22,883 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:22,917 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:22,937 | Cycle 3120 | Action: REST | Energy: 6.02J | Lv.1
+2025-12-02 15:40:26,757 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:26,757 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:26,758 | Cycle 3121 | Action: REST | Energy: 6.00J | Lv.1
+2025-12-02 15:40:30,564 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:30,565 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:30,565 | Cycle 3122 | Action: REST | Energy: 6.03J | Lv.1
+2025-12-02 15:40:34,374 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:34,444 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:34,491 | Cycle 3123 | Action: REST | Energy: 5.95J | Lv.1
+2025-12-02 15:40:38,302 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:38,302 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:38,303 | Cycle 3124 | Action: REST | Energy: 6.00J | Lv.1
+2025-12-02 15:40:42,065 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:42,065 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:42,066 | Cycle 3125 | Action: REST | Energy: 6.02J | Lv.1
+2025-12-02 15:40:45,943 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:45,982 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:45,982 | Cycle 3126 | Action: REST | Energy: 6.03J | Lv.1
+2025-12-02 15:40:49,746 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:49,747 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:49,748 | Cycle 3127 | Action: REST | Energy: 6.02J | Lv.1
+2025-12-02 15:40:53,546 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:53,567 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:40:53,607 | Cycle 3128 | Action: REST | Energy: 5.96J | Lv.1
+2025-12-02 15:40:57,548 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:40:57,562 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:40:57,563 | Cycle 3129 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:41:01,329 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:01,329 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:41:01,330 | Cycle 3130 | Action: REST | Energy: 6.06J | Lv.1
+2025-12-02 15:41:05,230 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:05,299 | 🪞 Reflection: Energy=6.0, Mood=Calm
+2025-12-02 15:41:05,321 | Cycle 3131 | Action: REST | Energy: 6.00J | Lv.1
+2025-12-02 15:41:09,170 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:09,174 | 🪞 Reflection: Energy=6.1, Mood=Calm
+2025-12-02 15:41:09,183 | Cycle 3132 | Action: REST | Energy: 6.10J | Lv.1
+2025-12-02 15:41:12,951 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:12,951 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:41:12,951 | Cycle 3133 | Action: REST | Energy: 5.90J | Lv.1
+2025-12-02 15:41:16,721 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:16,721 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:41:16,722 | Cycle 3134 | Action: REST | Energy: 5.87J | Lv.1
+2025-12-02 15:41:20,490 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:20,490 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:41:20,490 | Cycle 3135 | Action: REST | Energy: 5.88J | Lv.1
+2025-12-02 15:41:24,266 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:24,267 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:41:24,268 | Cycle 3136 | Action: REST | Energy: 5.92J | Lv.1
+2025-12-02 15:41:28,068 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:28,072 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:41:28,076 | Cycle 3137 | Action: REST | Energy: 5.94J | Lv.1
+2025-12-02 15:41:31,841 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:31,841 | 🪞 Reflection: Energy=5.9, Mood=Calm
+2025-12-02 15:41:31,841 | Cycle 3138 | Action: REST | Energy: 5.89J | Lv.1
+2025-12-02 15:41:35,648 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:35,667 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:41:35,736 | Cycle 3139 | Action: REST | Energy: 5.75J | Lv.1
+2025-12-02 15:41:39,742 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:39,828 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:41:39,881 | Cycle 3140 | Action: REST | Energy: 5.77J | Lv.1
+2025-12-02 15:41:43,699 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:43,700 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:41:43,700 | Cycle 3141 | Action: REST | Energy: 5.74J | Lv.1
+2025-12-02 15:41:47,570 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:47,613 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:41:47,645 | Cycle 3142 | Action: REST | Energy: 5.71J | Lv.1
+2025-12-02 15:41:51,497 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:51,498 | 🪞 Reflection: Energy=5.8, Mood=Calm
+2025-12-02 15:41:51,498 | Cycle 3143 | Action: REST | Energy: 5.80J | Lv.1
+2025-12-02 15:41:55,665 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:55,694 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:41:55,725 | Cycle 3144 | Action: REST | Energy: 5.73J | Lv.1
+2025-12-02 15:41:59,514 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:41:59,515 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:41:59,515 | Cycle 3145 | Action: REST | Energy: 5.67J | Lv.1
+2025-12-02 15:42:03,290 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:03,290 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:42:03,291 | Cycle 3146 | Action: REST | Energy: 5.59J | Lv.1
+2025-12-02 15:42:07,070 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:07,070 | 🪞 Reflection: Energy=5.7, Mood=Calm
+2025-12-02 15:42:07,070 | Cycle 3147 | Action: REST | Energy: 5.65J | Lv.1
+2025-12-02 15:42:10,848 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:10,848 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:42:10,849 | Cycle 3148 | Action: REST | Energy: 5.55J | Lv.1
+2025-12-02 15:42:15,265 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:15,396 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:42:15,469 | Cycle 3149 | Action: REST | Energy: 5.54J | Lv.1
+2025-12-02 15:42:19,300 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:19,301 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:42:19,301 | Cycle 3150 | Action: REST | Energy: 5.45J | Lv.1
+2025-12-02 15:42:23,088 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:23,088 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:42:23,088 | Cycle 3151 | Action: REST | Energy: 5.35J | Lv.1
+2025-12-02 15:42:26,877 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:26,877 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:42:26,877 | Cycle 3152 | Action: REST | Energy: 5.38J | Lv.1
+2025-12-02 15:42:30,811 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:30,828 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:42:30,832 | Cycle 3153 | Action: REST | Energy: 5.39J | Lv.1
+2025-12-02 15:42:34,708 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:34,718 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:42:34,720 | Cycle 3154 | Action: REST | Energy: 5.40J | Lv.1
+2025-12-02 15:42:38,508 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:38,508 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:42:38,508 | Cycle 3155 | Action: REST | Energy: 5.52J | Lv.1
+2025-12-02 15:42:42,295 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:42,296 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:42:42,298 | Cycle 3156 | Action: REST | Energy: 5.56J | Lv.1
+2025-12-02 15:42:46,138 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:46,175 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:42:46,209 | Cycle 3157 | Action: REST | Energy: 5.58J | Lv.1
+2025-12-02 15:42:50,018 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:50,018 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:42:50,018 | Cycle 3158 | Action: REST | Energy: 5.55J | Lv.1
+2025-12-02 15:42:53,859 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:53,864 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:42:53,865 | Cycle 3159 | Action: REST | Energy: 5.60J | Lv.1
+2025-12-02 15:42:57,645 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:42:57,645 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:42:57,646 | Cycle 3160 | Action: REST | Energy: 5.58J | Lv.1
+2025-12-02 15:43:01,427 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:01,427 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:43:01,428 | Cycle 3161 | Action: REST | Energy: 5.59J | Lv.1
+2025-12-02 15:43:05,219 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:05,219 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:43:05,219 | Cycle 3162 | Action: REST | Energy: 5.60J | Lv.1
+2025-12-02 15:43:09,383 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:09,456 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:43:09,487 | Cycle 3163 | Action: REST | Energy: 5.54J | Lv.1
+2025-12-02 15:43:13,567 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:13,622 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:43:13,689 | Cycle 3164 | Action: REST | Energy: 5.41J | Lv.1
+2025-12-02 15:43:17,497 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:17,498 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:43:17,498 | Cycle 3165 | Action: REST | Energy: 5.49J | Lv.1
+2025-12-02 15:43:21,280 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:21,281 | 🪞 Reflection: Energy=5.6, Mood=Calm
+2025-12-02 15:43:21,282 | Cycle 3166 | Action: REST | Energy: 5.58J | Lv.1
+2025-12-02 15:43:25,060 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:25,061 | 🪞 Reflection: Energy=5.5, Mood=Calm
+2025-12-02 15:43:25,061 | Cycle 3167 | Action: REST | Energy: 5.50J | Lv.1
+2025-12-02 15:43:29,336 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:29,453 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:43:29,474 | Cycle 3168 | Action: REST | Energy: 5.45J | Lv.1
+2025-12-02 15:43:33,761 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:33,784 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:43:33,824 | Cycle 3169 | Action: REST | Energy: 5.41J | Lv.1
+2025-12-02 15:43:37,765 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:37,794 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:43:37,816 | Cycle 3170 | Action: REST | Energy: 5.42J | Lv.1
+2025-12-02 15:43:41,821 | 🪞 SelfReflector initialized. Root: c:/Elysia
+2025-12-02 15:43:41,873 | 🪞 Reflection: Energy=5.4, Mood=Calm
+2025-12-02 15:43:41,908 | Cycle 3171 | Action: REST | Energy: 5.39J | Lv.1

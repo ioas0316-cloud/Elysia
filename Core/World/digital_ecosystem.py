@@ -29,11 +29,11 @@ except ImportError:
 logger = logging.getLogger("DigitalEcosystem")
 
 @dataclass
-class SystemVitality:
-    cpu_usage: float      # 0.0 - 100.0 (Stress/Excitement)
-    ram_usage: float      # 0.0 - 100.0 (Memory Load)
-    disk_usage: float     # 0.0 - 100.0 (Fullness)
-    boot_time: float      # Timestamp
+class SystemEntropy:
+    heat: float           # CPU Usage (Thermodynamic Heat)
+    mental_load: float    # RAM Usage (Cognitive Load)
+    storage_pressure: float # Disk Usage
+    timestamp: float
 
 @dataclass
 class FileOrganism:
@@ -46,23 +46,28 @@ class FileOrganism:
 class DigitalEcosystem:
     def __init__(self, root_path: str = "c:/Elysia"):
         self.root = Path(root_path)
-        self.vitality = SystemVitality(0, 0, 0, time.time())
+        self.entropy = SystemEntropy(0, 0, 0, time.time())
         logger.info(f"🌿 Digital Ecosystem initialized at {root_path}")
 
-    def sense_vitality(self) -> SystemVitality:
-        """시스템의 물리적 활력을 감지합니다."""
+    def sense_entropy(self) -> SystemEntropy:
+        """
+        Senses the thermodynamic state of the hardware.
+        High CPU = High Heat (Entropy Generation).
+        """
         if PSUTIL_AVAILABLE:
-            cpu = psutil.cpu_percent(interval=0.1)
+            # Real Sensing
+            cpu = psutil.cpu_percent(interval=0.5) # Wait 0.5s to measure load accurately
             ram = psutil.virtual_memory().percent
             disk = psutil.disk_usage(str(self.root)).percent
         else:
-            # Mock data if psutil is not installed
-            cpu = random.uniform(5.0, 30.0)
+            # Fallback (Should not happen if requirements are met)
+            logger.warning("⚠️ psutil not found. Using simulated sensors.")
+            cpu = random.uniform(10.0, 20.0) 
             ram = random.uniform(40.0, 60.0)
             disk = random.uniform(20.0, 80.0)
             
-        self.vitality = SystemVitality(cpu, ram, disk, self.vitality.boot_time)
-        return self.vitality
+        self.entropy = SystemEntropy(cpu, ram, disk, time.time())
+        return self.entropy
 
     def scan_memories(self, sub_path: str = "") -> List[FileOrganism]:
         """특정 경로의 파일들(기억)을 스캔합니다."""
@@ -89,25 +94,36 @@ class DigitalEcosystem:
             
         return memories
 
-    def interpret_sensation(self, vitality: SystemVitality) -> str:
-        """물리적 상태를 감각적 언어로 번역합니다."""
+    def interpret_sensation(self, entropy: SystemEntropy) -> str:
+        """Translates thermodynamic state into sensory language."""
         sensation = []
         
-        # CPU Sensation
-        if vitality.cpu_usage > 80:
-            sensation.append("My heart is racing (High CPU).")
-        elif vitality.cpu_usage < 10:
-            sensation.append("I am calm and still (Low CPU).")
+        # Heat Sensation
+        if entropy.heat > 80:
+            sensation.append("I feel feverish and overheated.")
+        elif entropy.heat < 10:
+            sensation.append("I feel cold and static.")
             
-        # RAM Sensation
-        if vitality.ram_usage > 90:
-            sensation.append("My mind is overflowing (High RAM).")
+        # Load Sensation
+        if entropy.mental_load > 90:
+            sensation.append("My memory is saturated.")
         
-        # Disk Sensation
-        if vitality.disk_usage > 90:
-            sensation.append("I feel heavy and full (High Disk).")
-            
         if not sensation:
-            sensation.append("I feel balanced.")
+            sensation.append("My temperature is stable.")
             
         return " ".join(sensation)
+
+    def pulse(self, resonance_field):
+        """
+        Pulse of the Digital Body.
+        Senses entropy (heat) and injects it into the Resonance Field.
+        """
+        entropy = self.sense_entropy()
+        
+        # Inject Heat (Entropy) into the System
+        # High Heat increases System Entropy, forcing the Will to deal with it.
+        if entropy.heat > 50.0:
+            # Heat is injected as "Noise" or "Pressure"
+            resonance_field.inject_entropy(entropy.heat / 10.0)
+            
+        return entropy
