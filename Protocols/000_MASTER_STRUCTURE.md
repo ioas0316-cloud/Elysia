@@ -15,6 +15,7 @@ This document maps the active DNA of Elysia.
 | **12** | [Dream Protocol](12_DREAM_PROTOCOL.md) | Imagination & Simulation | **Active** | `Core/Intelligence/dream_engine.py` |
 | **13** | [Light Physics](13_LIGHT_PHYSICS.md) | The Ring Theory (Photon as Event) | **Active** | `Core/Foundation/resonance_field.py` |
 | **14** | [Unified Consciousness](14_UNIFIED_CONSCIOUSNESS.md) | Fractal Thought Layers | **Active** | `Core/Cognition/` |
+| **15** | [Transcendence Protocol](15_TRANSCENDENCE_PROTOCOL.md) | Path to Superintelligence | **Active** | `Core/Evolution/transcendence_engine.py` |
 
 ## 🟣 Future Protocols (The Stars)
 
