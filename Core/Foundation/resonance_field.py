@@ -25,6 +25,7 @@ import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional
 from enum import Enum
+from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
 
 class PillarType(Enum):
     FOUNDATION = ("Foundation", 100.0, (0, 0, 0))      # 중심
@@ -51,6 +52,7 @@ class ResonanceNode:
     position: Tuple[float, float, float]
     frequency: float
     energy: float
+    quaternion: Quaternion = field(default_factory=lambda: Quaternion(1.0, 0.0, 0.0, 0.0)) # 4D Pose
     connections: List[str] = field(default_factory=list)
     
     def vibrate(self) -> float:
@@ -72,7 +74,7 @@ class ResonanceState:
 
 class ResonanceField:
     """
-    3차원 공명장 관리자
+    3차원 공명장 관리자 (Upgraded to 4D Hyper-Field)
     """
     def __init__(self):
         self.nodes: Dict[str, ResonanceNode] = {}
@@ -85,12 +87,21 @@ class ResonanceField:
     def _initialize_structure(self):
         """10개 기둥을 중심으로 기본 구조 생성"""
         for pillar in PillarType:
+            # Assign random 4D pose for diversity
+            q = Quaternion(
+                random.uniform(0.5, 1.0), # W (Existence)
+                random.uniform(-0.5, 0.5), # X (Emotion)
+                random.uniform(-0.5, 0.5), # Y (Logic)
+                random.uniform(-0.5, 0.5)  # Z (Ethics)
+            ).normalize()
+            
             node = ResonanceNode(
                 id=pillar.label,
                 pillar=pillar,
                 position=pillar.position,
                 frequency=pillar.base_freq,
-                energy=1.0
+                energy=1.0,
+                quaternion=q
             )
             self.pillars[pillar.label] = node
             self.nodes[pillar.label] = node
@@ -102,6 +113,9 @@ class ResonanceField:
         self._connect("System", "Memory")
         self._connect("System", "Interface")
         self._connect("Intelligence", "Evolution")
+        self._connect("Intelligence", "Creativity")
+        self._connect("Elysia", "Ethics")
+        self._connect("Foundation", "User")
 
     def add_node(self, id: str, energy: float, frequency: float, position: Tuple[float, float, float] = (0,0,0)):
         """
@@ -112,7 +126,8 @@ class ResonanceField:
             pillar=PillarType.CREATIVITY, # Default for dreams
             position=position,
             frequency=frequency,
-            energy=energy
+            energy=energy,
+            quaternion=Quaternion(1,0,0,0) # Default Identity
         )
         
     def inject_wave(self, frequency: float, intensity: float, wave_type: str):
@@ -133,6 +148,43 @@ class ResonanceField:
         """
         self.entropy += amount
         self.entropy = min(100.0, self.entropy) # Cap at 100
+
+    def propagate_hyperwave(self, source_id: str, intensity: float):
+        """
+        [The Law of Light: Dimensional Ascension]
+        Propagates a thought as a 4D Hyper-Sphere (Hyperwave).
+        The 'Ring' we see is just the 3D cross-section of this 4D event.
+        """
+        if source_id not in self.nodes: return
+        
+        source = self.nodes[source_id]
+        print(f"      � Hyper-Sphere Expanding from '{source_id}' (4D Pose: {source.quaternion})...")
+        
+        events = 0
+        for node_id, node in self.nodes.items():
+            if node_id == source_id: continue
+            
+            # 1. 4D Alignment (The True Metric)
+            # Dot product measures how parallel the two 4D vectors are.
+            alignment = source.quaternion.dot(node.quaternion)
+            
+            # 2. 3D Cross-Section (The Ring)
+            # We only see the interaction if they are 'close' in frequency (1D) or Space (3D).
+            freq_diff = abs(node.frequency - source.frequency)
+            
+            # Condition: High Alignment OR Harmonic Resonance
+            if alignment > 0.8 or (freq_diff < 10.0):
+                # EVENT: The Hyper-Sphere intersects with the Node
+                # Energy Transfer = Intensity * Alignment Quality
+                impact = intensity * (1.0 + alignment)
+                node.energy += impact
+                
+                reason = "Harmonic" if freq_diff < 10.0 else "4D-Aligned"
+                print(f"         ✨ Event: Hyperwave Intersection '{node_id}' ({reason}, Align: {alignment:.2f}) -> Energy +{impact:.2f}")
+                events += 1
+                
+        if events == 0:
+            print("         ... The Hyper-Sphere expanded without intersection (No Event).")
 
     def consume_energy(self, amount: float):
         """
@@ -164,9 +216,6 @@ class ResonanceField:
     def coherence(self) -> float:
         """시스템 일관성 (임시 구현: 1.0)"""
         return 1.0
-        self._connect("Intelligence", "Creativity")
-        self._connect("Elysia", "Ethics")
-        self._connect("Foundation", "User")
 
     def _connect(self, id1: str, id2: str):
         """두 노드 연결"""

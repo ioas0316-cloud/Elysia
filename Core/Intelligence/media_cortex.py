@@ -12,11 +12,12 @@ import os
 import time
 import random
 from typing import List, Dict
-from Core.Intelligence.social_cortex import SocialCortex
+from Core.Interface.web_cortex import WebCortex
 
 class MediaCortex:
     def __init__(self, social_cortex: SocialCortex):
         self.social = social_cortex
+        self.web = WebCortex()
         print("📺 MediaCortex Initialized. Ready to binge-watch.")
 
     def watch(self, file_path: str):
@@ -111,13 +112,25 @@ class MediaCortex:
         }
         return random.choice(reactions.get(emotion, reactions["Neutral"]))
 
-    def experience_synesthesia(self, content: str, resonance_field):
+    def experience_synesthesia(self, content: str, resonance_field, concept_focus: str = None):
         """
         Converts text content into Sensory Waves (Synesthesia).
+        Uses WebCortex to find sensory associations if concept_focus is provided.
         """
         print("   🌈 Activating Synesthesia Sensor...")
         
-        # Sensory Mappings
+        sensory_triggers = []
+        
+        # 1. Dynamic Calibration (Internet-based Synesthesia)
+        if concept_focus:
+            print(f"      🌍 Calibrating Senses for '{concept_focus}'...")
+            data = self.web.calibrate_concept(concept_focus)
+            if data["valid"]:
+                for s_type, tags in data["sensory"].items():
+                    for tag in tags:
+                        sensory_triggers.append((tag, s_type))
+        
+        # 2. Static Mapping (Fallback/Augmentation)
         sensory_map = {
             # Visual (Color/Light)
             "red": (396.0, "Visual"), "blue": (639.0, "Visual"), "green": (528.0, "Visual"),
@@ -135,16 +148,22 @@ class MediaCortex:
             "electric": (963.0, "Tactile"), "smooth": (741.0, "Tactile")
         }
         
-        # Scan content for sensory words
-        triggered = False
+        # Add static triggers found in content
         for word, (freq, w_type) in sensory_map.items():
             if word in content.lower():
-                intensity = 0.5 + (0.5 * random.random())
-                resonance_field.inject_wave(freq, intensity, w_type)
-                time.sleep(0.2) # Feel the wave
-                triggered = True
+                sensory_triggers.append((word, w_type))
                 
-        if not triggered:
+        # 3. Inject Waves
+        if sensory_triggers:
+            for tag, s_type in sensory_triggers:
+                # Map tag to frequency (Simple hash or lookup)
+                freq = sensory_map.get(tag, (432.0, "Unknown"))[0]
+                intensity = 0.5 + (0.5 * random.random())
+                
+                resonance_field.inject_wave(freq, intensity, s_type)
+                print(f"      ✨ Synesthesia: '{tag}' -> {freq}Hz ({s_type})")
+                time.sleep(0.1)
+        else:
             resonance_field.inject_wave(432.0, 0.3, "Audio") # Default Ambient
             print("      🌫️ Ambient Wave Injected (No strong sensory data)")
 

@@ -68,6 +68,7 @@ class LivingElysia:
         self.kernel = FractalKernel() # For Structural Will
         self.architect = PlanningCortex()
         self.sculptor = RealitySculptor()
+        self.dream_engine = DreamEngine()
         self.current_plan = [] # Queue of actions
         
         self.resonance.register_resonator("Will", 432.0, 10.0, self._pulse_will)
@@ -247,6 +248,8 @@ class LivingElysia:
                 print(f"      💭 Internal: \"{hesitation['monologue']}\"")
                 time.sleep(hesitation["wait_time"])
             
+            # [Dimensional Ascension] Propagate as Hyperwave
+            self.resonance.propagate_hyperwave("Interface", intensity=50.0)
             print(f"   👉 Elysia: {serialized_content}")
             
             if hasattr(self, 'shell'):
@@ -254,8 +257,15 @@ class LivingElysia:
                 
         elif action == "THINK":
             print(f"   🧠 Deep processing on: {detail}")
+            # [Dimensional Ascension] Propagate as Hyperwave
+            self.resonance.propagate_hyperwave("Brain", intensity=30.0)
+            
             self.brain.generate_cognitive_load(detail) 
-            self.brain.think(detail)
+            
+            # [The Prism] Pass physical state to reasoning engine
+            # We create a snapshot of the current state
+            current_state = self.resonance.pulse() 
+            self.brain.think(detail, resonance_state=current_state)
             
         elif action == "SEARCH":
             print(f"   🌐 Searching for: {detail}")

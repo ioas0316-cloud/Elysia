@@ -54,6 +54,45 @@ class WebCortex:
             logger.error(f"Search failed: {e}")
             return f"⚠️ Connection Error: {e}"
 
+    def calibrate_concept(self, concept: str) -> Dict[str, Any]:
+        """
+        [Reality Calibration]
+        Fetches 'Common Sense' from the Net to ground a concept.
+        Returns Sensory Data and Semantic Context.
+        """
+        summary = self.search(concept)
+        if "⚠️" in summary:
+            return {"valid": False, "reason": summary}
+            
+        # Extract Sensory Keywords (Simple Heuristic)
+        sensory_data = {
+            "visual": [],
+            "audio": [],
+            "tactile": []
+        }
+        
+        # Basic Sensory Dictionary (To be expanded or learned)
+        visual_keys = ["red", "blue", "green", "light", "dark", "bright", "shiny", "color"]
+        audio_keys = ["loud", "quiet", "sound", "music", "noise", "voice", "tone"]
+        tactile_keys = ["soft", "hard", "hot", "cold", "rough", "smooth", "pain", "warm"]
+        
+        summary_lower = summary.lower()
+        
+        for k in visual_keys:
+            if k in summary_lower: sensory_data["visual"].append(k)
+        for k in audio_keys:
+            if k in summary_lower: sensory_data["audio"].append(k)
+        for k in tactile_keys:
+            if k in summary_lower: sensory_data["tactile"].append(k)
+            
+        return {
+            "valid": True,
+            "concept": concept,
+            "summary": summary,
+            "sensory": sensory_data,
+            "source": "Wikipedia"
+        }
+
     def browse(self):
         """
         Simulates autonomous browsing (Placeholder).
