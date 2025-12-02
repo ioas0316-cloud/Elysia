@@ -531,7 +531,7 @@ pytest --pdb
 # Drop into debugger at start of test
 pytest --trace
 
-# Show local variables
+# Show local variables on failure
 pytest -l
 ```
 

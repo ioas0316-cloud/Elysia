@@ -75,7 +75,7 @@ def mock_api_key(monkeypatch):
     Returns:
         str: Mock API key value
     """
-    mock_key = "test_api_key_AIzaSy_mock_12345"
+    mock_key = "test-api-key-mock-12345"
     monkeypatch.setenv("GEMINI_API_KEY", mock_key)
     return mock_key
 
@@ -239,8 +239,8 @@ def pytest_collection_modifyitems(config, items):
     """
     # Auto-mark tests based on path or name
     for item in items:
-        # Mark tests in Core/tests as integration tests by default
-        if "Core/tests" in str(item.fspath):
+        # Mark tests in Core package as integration tests by default
+        if "/Core/" in str(item.fspath) and "/tests/" in str(item.fspath):
             item.add_marker(pytest.mark.integration)
         
         # Mark tests with "slow" in name
