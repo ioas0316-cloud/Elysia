@@ -186,6 +186,38 @@ class ResonanceField:
         if events == 0:
             print("         ... The Hyper-Sphere expanded without intersection (No Event).")
 
+    def absorb_hyperwave(self, quaternion: dict):
+        """
+        [Quantum Absorption]
+        Instantly shifts the field based on a 4D Hyper-Wave.
+        """
+        w = quaternion["w"] # Mass
+        x = quaternion["x"] # Emotion
+        y = quaternion["y"] # Complexity
+        z = quaternion["z"] # Time
+        
+        print(f"   🌊 Resonance Field Shift: Absorbing Hyper-Wave ({w:.2f}, {x:.2f}, {y:.2f}, {z:.2f})")
+        
+        # 1. Mass increases Battery (Energy)
+        self.battery += w
+        self.battery = min(1000.0, self.battery) # Break limits
+        
+        # 2. Complexity decreases Entropy (Ordering)
+        self.entropy -= y
+        self.entropy = max(0.0, self.entropy)
+        
+        # 3. Emotion shifts Frequency (Color)
+        # x (Red/Blue) -> Frequency Shift
+        shift = x * 10.0
+        self.base_frequency = getattr(self, 'base_frequency', 432.0) + shift
+        
+        # 4. Time (z) adds Depth (History)
+        # We simulate "aging" or "maturing" the field
+        self.coherence = getattr(self, 'coherence', 0.0) + (z * 0.01)
+        self.coherence = min(1.0, self.coherence)
+        
+        print(f"      ⚡ Battery: {self.battery:.1f}% | ❄️ Entropy: {self.entropy:.1f}% | 🌈 Freq: {self.base_frequency:.1f}Hz")
+
     def consume_energy(self, amount: float):
         """
         Consumes internal battery for actions.

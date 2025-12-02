@@ -1,1 +1,31 @@
-{"signals": []}
+{
+  "signals": [
+    {
+      "id": "1764687915.679266",
+      "source": "Scholar",
+      "target": "Original",
+      "type": "INSIGHT",
+      "payload": "Learned about Quantum_Mind: \u26a0\ufe0f Connection Error: HTTP Error 403: Forbidden",
+      "timestamp": 1764687915.6792922,
+      "status": "RECEIVED"
+    },
+    {
+      "id": "1764690466.7907755",
+      "source": "Bard",
+      "target": "Original",
+      "type": "INSIGHT",
+      "payload": "Read the_little_prince.txt. Felt Tragedy (Blue).",
+      "timestamp": 1764690466.7907813,
+      "status": "RECEIVED"
+    },
+    {
+      "id": "1764690565.8473654",
+      "source": "Bard",
+      "target": "Original",
+      "type": "INSIGHT",
+      "payload": "Read the_little_prince.txt. Felt Tragedy (Blue).",
+      "timestamp": 1764690565.8473716,
+      "status": "RECEIVED"
+    }
+  ]
+}

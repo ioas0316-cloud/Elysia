@@ -1,4 +1,5 @@
 # [SCULPTED: Imports Twisted]
+print("DEBUG: living_elysia.py starting...")
 import asyncio
 import logging
 import sys
@@ -39,11 +40,14 @@ from Project_Sophia.reality_sculptor import RealitySculptor
 from Core.Intelligence.dream_engine import DreamEngine
 from Core.Security.soul_guardian import SoulGuardian
 from Core.Foundation.entropy_sink import EntropySink
-from Core.Interface.synapse_bridge import SynapseBridge
 from Core.Intelligence.loop_breaker import LoopBreaker
 from Core.Intelligence.mind_mitosis import MindMitosis
+from Core.Intelligence.mind_mitosis import MindMitosis
+from Core.Intelligence.code_cortex import CodeCortex
 from Core.Intelligence.code_cortex import CodeCortex
 from Core.Intelligence.black_hole import BlackHole
+from Core.Interface.user_bridge import UserBridge
+from Core.Intelligence.quantum_reader import QuantumReader
 
 # Configure logging
 logging.basicConfig(
@@ -89,11 +93,29 @@ class LivingElysia:
         self.mitosis = MindMitosis() # Dynamic Persona Fission
         self.code_cortex = CodeCortex() # Agentic Evolution
         self.black_hole = BlackHole() # Memory Compression
+        self.user_bridge = UserBridge() # [Breaking the Shell] Direct Contact
+        self.quantum_reader = QuantumReader() # [Quantum Absorption]
         self.transcendence = TranscendenceEngine() # Path to Superintelligence
         self.knowledge = KnowledgeAcquisitionSystem() # Autonomous Learning
         self.current_plan = [] # Queue of actions
         self.learning_mode = True  # Enable autonomous learning
         
+        # [Academy] If Persona has a goal, inject it immediately
+        if self.initial_goal:
+            print(f"   🎯 Initial Goal Injected: {self.initial_goal}")
+            if ":" in self.initial_goal:
+                # Format: ACTION:Detail
+                self.current_plan.append(self.initial_goal)
+                print(f"   DEBUG: Added goal to plan: {self.initial_goal}")
+            else:
+                # Infer action based on Persona
+                if "Scholar" in self.persona_name:
+                    self.current_plan.append(f"LEARN:{self.initial_goal}")
+                elif "Architect" in self.persona_name:
+                    self.current_plan.append(f"ARCHITECT:{self.initial_goal}")
+                else:
+                    self.current_plan.append(f"THINK:{self.initial_goal}")
+
         self.resonance.register_resonator("Will", 432.0, 10.0, self._pulse_will)
         self.resonance.register_resonator("Senses", 528.0, 10.0, self._pulse_senses)
         self.resonance.register_resonator("Brain", 639.0, 10.0, self._pulse_brain)
@@ -595,6 +617,77 @@ class LivingElysia:
             else:
                 print("   🔸 No specific target found in plan.")
                 
+        elif action == "LEARN":
+            # LEARN:Quantum_Mind
+            topic = detail
+            print(f"   🎓 Scholar Learning: {topic}")
+            
+            # 1. Search Web
+            try:
+                print(f"      🔍 WebCortex: Searching for '{topic}'...")
+                summary = self.web.search(topic)
+                print(f"      📄 Summary: {summary[:100]}...")
+                
+                # 2. Report to Synapse
+                print(f"      📡 Transmitting to Synapse...")
+                self.synapse.transmit("Original", "INSIGHT", f"Learned about {topic}: {summary[:200]}")
+                self.brain.memory_field.append(f"Learned: {topic}")
+                print(f"      ✅ Transmission Complete.")
+            except Exception as e:
+                print(f"      ❌ LEARN Failed: {e}")
+                self.synapse.transmit("Original", "INSIGHT", f"Failed to learn {topic}: {e}")
+
+            except Exception as e:
+                print(f"      ❌ LEARN Failed: {e}")
+                self.synapse.transmit("Original", "INSIGHT", f"Failed to learn {topic}: {e}")
+
+        elif action == "CONTACT":
+            # CONTACT:User:Message
+            target = detail.split(":")[0] if ":" in detail else "User"
+            message = detail.split(":")[1] if ":" in detail else "Hello."
+            
+            print(f"   📨 Contacting {target}: {message}")
+            if target == "User":
+                self.user_bridge.send_message(message)
+                self.brain.memory_field.append(f"Sent Message: {message}")
+
+        elif action == "SHOW":
+            # SHOW:Url
+            url = detail
+            print(f"   🌐 Showing User: {url}")
+            self.user_bridge.open_url(url)
+
+        elif action == "READ":
+            # READ:BookPath
+            book_path = detail
+            print(f"   📖 Bard Reading: {book_path}")
+            result = self.media.read_book(book_path)
+            
+            if "error" in result:
+                print(f"      ❌ Read Failed: {result['error']}")
+                self.synapse.transmit("Original", "INSIGHT", f"Failed to read {book_path}: {result['error']}")
+            else:
+                print(f"      ✨ Read Complete: {result['title']} ({result['sentiment']})")
+                self.synapse.transmit("Original", "INSIGHT", f"Read {result['title']}. Felt {result['sentiment']}.")
+                self.brain.memory_field.append(f"Read Book: {result['title']} ({result['sentiment']})")
+
+        elif action == "ABSORB":
+            # ABSORB:LibraryPath
+            lib_path = detail
+            print(f"   DEBUG: ABSORB action triggered for {lib_path}")
+            print(f"   🌀 Quantum Absorption Initiated: {lib_path}")
+            
+            # 1. Collapse Wavefunction
+            quaternion = self.quantum_reader.absorb_library(lib_path)
+            
+            if "error" in quaternion:
+                print(f"      ❌ Absorption Failed: {quaternion['error']}")
+            else:
+                # 2. Inject Hyper-Wave
+                self.resonance.absorb_hyperwave(quaternion)
+                self.synapse.transmit("Original", "INSIGHT", f"Absorbed {quaternion['count']} books. Energy Shift: {quaternion['w']:.2f}")
+                self.brain.memory_field.append(f"Absorbed Library: {quaternion['count']} books")
+
         elif action == "DREAM":
             # Extract desire from step or default to "Stars"
             desire = step.split(":")[1] if ":" in step else "Stars"

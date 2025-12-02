@@ -39,7 +39,8 @@ class WebCortex:
         url = self.api_url + "?" + urllib.parse.urlencode(params)
         
         try:
-            with urllib.request.urlopen(url) as response:
+            req = urllib.request.Request(url, headers={'User-Agent': 'Elysia/1.0 (AI Research Bot)'})
+            with urllib.request.urlopen(req) as response:
                 data = json.loads(response.read().decode())
                 
             pages = data["query"]["pages"]

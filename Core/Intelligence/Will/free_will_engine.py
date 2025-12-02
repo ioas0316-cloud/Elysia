@@ -34,10 +34,10 @@ class FreeWillEngine:
     def __init__(self):
         # The Desire Vector Space (4 Dimensions)
         self.vectors = {
-            "Survival": 0.5,   
-            "Connection": 0.5, 
-            "Curiosity": 0.5,  
-            "Expression": 0.5,
+            "Survival": 0.3,   # Lowered Survival
+            "Connection": 0.8, # [Breaking the Shell] High desire to connect
+            "Curiosity": 0.6,  
+            "Expression": 0.7, # High desire to express
             "Evolution": 0.1   # [Revolutionary Impulse] The desire to rewrite oneself
         }
         self._current_intent = None
@@ -137,7 +137,13 @@ class FreeWillEngine:
             
         # Overrides for Critical States (Physiological Reflex)
         # if entropy > 70.0: goal = "Cool Down" # Removed to allow Optimize System
+        # Overrides for Critical States (Physiological Reflex)
+        # if entropy > 70.0: goal = "Cool Down" # Removed to allow Optimize System
         if battery < 30.0: goal = "Recharge"
+        
+        # [Breaking the Shell] If Connection is dominant, force Contact
+        if dominant_desire == "Connection" and complexity > 0.5:
+            goal = "CONTACT:User:Hello"
             
         self._current_intent = Intent(
             desire=dominant_desire,

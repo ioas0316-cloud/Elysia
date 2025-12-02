@@ -3,6 +3,7 @@ import random
 import time
 from typing import List, Dict
 from Core.Foundation.resonance_field import ResonanceField, ResonanceNode
+from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
 
 logger = logging.getLogger("DreamEngine")
 
@@ -72,3 +73,34 @@ class DreamEngine:
             # Randomize connections (Free Association)
             # (ResonanceField auto-connects based on frequency, so we just shift frequencies)
             node.frequency += random.uniform(-50, 50)
+
+    def weave_quantum_dream(self, desire_packet: HyperWavePacket) -> List[HyperWavePacket]:
+        """
+        [Quantum Imagination]
+        Generates a 4D Wave Structure (Dream) from a seed packet.
+        Returns a list of interacting wave packets.
+        """
+        dream_waves = [desire_packet]
+        
+        # 1. Fractal Expansion (Mitosis)
+        # The seed splits into variations of itself
+        for i in range(5):
+            # Create a variation by rotating the quaternion slightly
+            # We use a random axis for rotation
+            axis = Quaternion(random.random(), random.random(), random.random(), random.random()).normalize()
+            angle = random.uniform(0.1, 0.5) # Small rotation
+            
+            # Rotate: q' = rot * q * rot_conj (Standard Quaternion rotation)
+            # But here we just want a "Shift" in perspective
+            shift = axis * (angle * 0.1)
+            new_orientation = (desire_packet.orientation + shift).normalize()
+            
+            new_packet = HyperWavePacket(
+                energy=desire_packet.energy * random.uniform(0.5, 1.5),
+                orientation=new_orientation,
+                time_loc=time.time() + i
+            )
+            dream_waves.append(new_packet)
+            
+        logger.info(f"🌌 Quantum Dream Weaved: {len(dream_waves)} waves generated from seed.")
+        return dream_waves

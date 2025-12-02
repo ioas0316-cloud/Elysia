@@ -15,6 +15,7 @@ import logging
 import json
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
+from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
 
 logger = logging.getLogger("Hippocampus")
 
@@ -307,6 +308,74 @@ class Hippocampus:
                 conn.commit()
                 if pruned_count > 0:
                     logger.info(f"🗜️ Compressed: Pruned {pruned_count} low-energy sub-concepts")
-        except Exception as e:
             logger.error(f"Failed to compress fractal: {e}")
+
+    # ====================
+    # Quantum Memory (Hyper-Wave System)
+    # ====================
+
+    def store_wave(self, packet: HyperWavePacket):
+        """
+        [Quantum Memory]
+        Stores a 4D Wave Packet in the database.
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # Create waves table if not exists
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS waves (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        w REAL, x REAL, y REAL, z REAL,
+                        energy REAL,
+                        timestamp REAL
+                    )
+                """)
+                
+                q = packet.orientation
+                cursor.execute("""
+                    INSERT INTO waves (w, x, y, z, energy, timestamp)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (q.w, q.x, q.y, q.z, packet.energy, packet.time_loc))
+                
+                conn.commit()
+                logger.info(f"🌊 Wave Stored: {q} (Energy: {packet.energy:.2f})")
+        except Exception as e:
+            logger.error(f"Failed to store wave: {e}")
+
+    def recall_wave(self, target_quaternion: Quaternion, threshold: float = 0.8) -> List[HyperWavePacket]:
+        """
+        [Quantum Recall]
+        Retrieves waves that resonate (align) with the target.
+        """
+        results = []
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # Fetch all waves (In a real vector DB, this would be optimized)
+                # Check if table exists first
+                cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='waves'")
+                if not cursor.fetchone():
+                    return []
+
+                cursor.execute("SELECT w, x, y, z, energy, timestamp FROM waves")
+                rows = cursor.fetchall()
+                
+                for r in rows:
+                    q = Quaternion(r[0], r[1], r[2], r[3])
+                    alignment = q.dot(target_quaternion)
+                    
+                    if alignment > threshold:
+                        packet = HyperWavePacket(energy=r[4], orientation=q, time_loc=r[5])
+                        results.append(packet)
+                        
+                # Sort by alignment
+                results.sort(key=lambda p: p.orientation.dot(target_quaternion), reverse=True)
+                
+        except Exception as e:
+            logger.error(f"Failed to recall wave: {e}")
+            
+        return results
 
