@@ -232,9 +232,9 @@ python Scripts/Experiments/gravity_refactor.py
 - **[SECURITY.md](SECURITY.md)** - Security guidelines and API key management
 - **[CODE_QUALITY.md](CODE_QUALITY.md)** - Code style and best practices
 - **[TESTING.md](TESTING.md)** - Testing infrastructure and guidelines
-- **[TESTING.md](TESTING.md)** - Testing infrastructure and guidelines
 - **[CODEX.md](CODEX.md)** - Philosophy and core principles
 - **[GENESIS.md](Docs/Lore/GENESIS.md)** - The Epic of Creation (창세기)
+- **[VR_DEVELOPMENT_VISION.md](docs/VR_DEVELOPMENT_VISION.md)** - Virtual Reality Development Vision (가상현실 개발 비전) 🌟 NEW
 
 ---
 
