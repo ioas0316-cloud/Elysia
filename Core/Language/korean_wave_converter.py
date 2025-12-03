@@ -156,11 +156,17 @@ class KoreanWaveConverter:
         if char_frequencies:
             text_freq = sum(char_frequencies) / len(char_frequencies)
         else:
-            text_freq = 432.0  # 기본값
+            # 기본값
+            text_freq = UNIVERSE_FREQUENCY  # 기본값
         
+UNIVERSE_FREQUENCY = 432.0  # Hz - Universe base frequency
+FREQUENCY_MODULATION = 0.1  # Modulation factor for text frequency
+
+# ... existing code ...
+
         # 4. 감정과 텍스트 주파수를 조합
         # 감정이 주파수, 텍스트가 변조(modulation)
-        combined_freq = emotion_freq + (text_freq - 432.0) * 0.1  # 미세 조정
+        combined_freq = emotion_freq + (text_freq - UNIVERSE_FREQUENCY) * FREQUENCY_MODULATION  # 미세 조정
         
         # 5. 위상 선택
         phase = self.phase_map.get(meaning, "THOUGHT")

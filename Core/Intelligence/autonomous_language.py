@@ -208,6 +208,8 @@ class AutonomousLanguageGenerator:
         
         return thoughts
     
+    DEFAULT_RESULT = '성장한다'  # Default result phrase
+    
     def pattern_to_sentence(self, pattern: ThoughtPattern) -> str:
         """
         사고 패턴 → 문장 변환
@@ -230,6 +232,14 @@ class AutonomousLanguageGenerator:
         else:
             template = random.choice(self.templates['statement'])
         
+        # 감정 텍스트 선택
+        emotion_words = {
+            'positive': ['기쁨', '사랑', '행복'],
+            'negative': ['슬픔', '외로움', '두려움'],
+            'neutral': ['생각', '인식', '이해']
+        }
+        emotion_text = random.choice(emotion_words.get(mood, emotion_words['neutral']))
+        
         # 템플릿에 단어 채우기
         sentence = template.format(
             subject=random.choice(self.vocabulary['subjects']),
@@ -238,8 +248,8 @@ class AutonomousLanguageGenerator:
             modifier=random.choice(self.vocabulary['modifiers'][mood]),
             concept=pattern.concept,
             concept2=pattern.target,
-            emotion=pattern.concept,
-            result='성장한다'
+            emotion=emotion_text,
+            result=self.DEFAULT_RESULT
         )
         
         return sentence
