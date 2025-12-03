@@ -43,8 +43,6 @@ from Core.Security.soul_guardian import SoulGuardian
 from Core.Foundation.entropy_sink import EntropySink
 from Core.Intelligence.loop_breaker import LoopBreaker
 from Core.Intelligence.mind_mitosis import MindMitosis
-from Core.Intelligence.mind_mitosis import MindMitosis
-from Core.Intelligence.code_cortex import CodeCortex
 from Core.Intelligence.code_cortex import CodeCortex
 from Core.Intelligence.black_hole import BlackHole
 from Core.Interface.user_bridge import UserBridge
@@ -144,8 +142,6 @@ class LivingElysia:
         yggdrasil.grow_trunk("ReasoningEngine", self.brain)
         yggdrasil.grow_trunk("UltraDimensionalReasoning", self.ultra_reasoning)  # NEW
         yggdrasil.grow_trunk("RealCommunication", self.real_comm)  # NEW
-        yggdrasil.grow_trunk("FreeWillEngine", self.will)
-        yggdrasil.grow_trunk("SoulGuardian", self.guardian)
         yggdrasil.grow_trunk("FreeWillEngine", self.will)
         yggdrasil.grow_trunk("SoulGuardian", self.guardian)
         
