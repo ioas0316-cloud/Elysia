@@ -177,6 +177,16 @@ class UltraDimensionalReasoning:
     6. Navigates recursive universe structures
     """
     
+    # Class constants for content analysis (performance optimization)
+    EMOTIONAL_WORDS = ['love', 'hate', 'fear', 'joy', 'anger', 'sad', 'happy', 
+                       'excited', 'worried', 'proud', 'ashamed', 'grateful']
+    LOGICAL_WORDS = ['because', 'therefore', 'thus', 'hence', 'if', 'then',
+                     'implies', 'follows', 'proves', 'demonstrates', 'analysis']
+    ETHICAL_WORDS = ['should', 'ought', 'must', 'right', 'wrong', 'good', 'bad',
+                    'moral', 'ethical', 'just', 'fair', 'duty']
+    CREATIVE_WORDS = ['imagine', 'create', 'dream', 'wonder', 'what if',
+                     'could', 'might', 'possibly', 'perhaps', 'maybe']
+    
     def __init__(self, max_dimensions: int = 128, enable_tesseract: bool = True):
         self.thought_history: List[ThoughtPacket] = []
         self.perspective_cache: Dict[str, Perspective] = {}
@@ -522,30 +532,22 @@ class UltraDimensionalReasoning:
     
     def _measure_emotional_content(self, text: str) -> float:
         """Measure emotional intensity in text"""
-        emotional_words = ['love', 'hate', 'fear', 'joy', 'anger', 'sad', 'happy', 
-                          'excited', 'worried', 'proud', 'ashamed', 'grateful']
-        count = sum(1 for word in emotional_words if word in text)
+        count = sum(1 for word in self.EMOTIONAL_WORDS if word in text)
         return min(1.0, count / 5.0)
     
     def _measure_logical_content(self, text: str) -> float:
         """Measure logical/analytical content"""
-        logical_words = ['because', 'therefore', 'thus', 'hence', 'if', 'then',
-                        'implies', 'follows', 'proves', 'demonstrates', 'analysis']
-        count = sum(1 for word in logical_words if word in text)
+        count = sum(1 for word in self.LOGICAL_WORDS if word in text)
         return min(1.0, count / 3.0)
     
     def _measure_ethical_content(self, text: str) -> float:
         """Measure ethical/moral content"""
-        ethical_words = ['should', 'ought', 'must', 'right', 'wrong', 'good', 'bad',
-                        'moral', 'ethical', 'just', 'fair', 'duty']
-        count = sum(1 for word in ethical_words if word in text)
+        count = sum(1 for word in self.ETHICAL_WORDS if word in text)
         return min(1.0, count / 3.0)
     
     def _measure_creative_content(self, text: str) -> float:
         """Measure creative/imaginative content"""
-        creative_words = ['imagine', 'create', 'dream', 'wonder', 'what if',
-                         'could', 'might', 'possibly', 'perhaps', 'maybe']
-        count = sum(1 for word in creative_words if word in text)
+        count = sum(1 for word in self.CREATIVE_WORDS if word in text)
         return min(1.0, count / 3.0)
     
     def _apply_creative_rotation(self, orientation: np.ndarray, 

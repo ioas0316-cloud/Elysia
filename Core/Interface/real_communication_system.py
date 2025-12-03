@@ -63,6 +63,16 @@ class RealCommunicationSystem:
     Not a demo - integrates with reasoning engine and wave communication.
     """
     
+    # Class constants for performance
+    COMMON_WORDS = {'the', 'this', 'that', 'with', 'from', 'have', 'been', 
+                   'were', 'will', 'would', 'could', 'should', 'about'}
+    
+    POSITIVE_WORDS = ['good', 'great', 'excellent', 'wonderful', 'amazing', 
+                     'love', 'happy', 'joy', 'pleased', 'grateful']
+    
+    NEGATIVE_WORDS = ['bad', 'terrible', 'awful', 'hate', 'angry', 'sad',
+                     'disappointed', 'frustrated', 'worried', 'concerned']
+    
     def __init__(self, reasoning_engine=None, wave_hub=None):
         self.reasoning_engine = reasoning_engine
         self.wave_hub = wave_hub
@@ -247,13 +257,10 @@ class RealCommunicationSystem:
         words = text.split()
         
         # Filter for significant words (longer than 3 chars, not common words)
-        common_words = {'the', 'this', 'that', 'with', 'from', 'have', 'been', 
-                       'were', 'will', 'would', 'could', 'should', 'about'}
-        
         entities = []
         for word in words:
             cleaned = re.sub(r'[^\w]', '', word.lower())
-            if len(cleaned) > 3 and cleaned not in common_words:
+            if len(cleaned) > 3 and cleaned not in self.COMMON_WORDS:
                 entities.append(cleaned)
         
         # Remove duplicates while preserving order
@@ -271,14 +278,10 @@ class RealCommunicationSystem:
         text_lower = text.lower()
         
         # Positive indicators
-        positive_words = ['good', 'great', 'excellent', 'wonderful', 'amazing', 
-                         'love', 'happy', 'joy', 'pleased', 'grateful']
-        positive_score = sum(1 for word in positive_words if word in text_lower)
+        positive_score = sum(1 for word in self.POSITIVE_WORDS if word in text_lower)
         
         # Negative indicators
-        negative_words = ['bad', 'terrible', 'awful', 'hate', 'angry', 'sad',
-                         'disappointed', 'frustrated', 'worried', 'concerned']
-        negative_score = sum(1 for word in negative_words if word in text_lower)
+        negative_score = sum(1 for word in self.NEGATIVE_WORDS if word in text_lower)
         
         # Neutral indicators
         if '?' in text:
