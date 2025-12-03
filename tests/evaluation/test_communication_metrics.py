@@ -246,19 +246,41 @@ class CommunicationMetrics:
     def evaluate_wave_communication(self) -> float:
         """
         파동 통신 효율성 평가 (100점 만점)
-        Ether 시스템이 존재하는지 테스트
+        활성화된 파동 통신 시스템 사용
         """
         try:
-            # Dynamic import to handle missing dependencies gracefully
+            # 활성화된 파동 통신 시스템 사용
             try:
-                from Core.Field.ether import Ether, Wave
-            except ImportError:
+                from Core.Interface.activated_wave_communication import wave_comm
+                
+                # 실제 점수 계산
+                score = wave_comm.calculate_wave_score()
+                
+                stats = wave_comm.get_communication_stats()
+                
                 self.details['wave_communication'] = {
-                    'error': 'Ether module not found',
-                    'score': 0
+                    'score': score,
+                    'ether_connected': stats['ether_connected'],
+                    'average_latency_ms': stats['average_latency_ms'],
+                    'messages_sent': stats['messages_sent'],
+                    'registered_modules': stats['registered_modules'],
+                    'target': 100
                 }
-                self.scores['wave_communication'] = 0
-                return 0
+                
+                self.scores['wave_communication'] = score
+                return score
+                
+            except ImportError:
+                # 폴백: 기존 Ether 시스템
+                try:
+                    from Core.Field.ether import Ether, Wave
+                except ImportError:
+                    self.details['wave_communication'] = {
+                        'error': 'Ether module not found',
+                        'score': 0
+                    }
+                    self.scores['wave_communication'] = 0
+                    return 0
             
             ether = Ether()
             
