@@ -224,7 +224,7 @@ class TesseractPerspective:
             'current_depth': self.root.current_depth,
             'scale': current_layer.scale if current_layer else 1.0,
             'layer': current_layer,
-            'description': current_layer.properties['description'] if current_layer else "Self"
+            'description': current_layer.properties.get('description', 'Unknown') if current_layer else "Self"
         }
     
     def zoom_out(self, levels: int = 1) -> Dict[str, Any]:
@@ -254,7 +254,7 @@ class TesseractPerspective:
             'current_depth': self.root.current_depth,
             'scale': current_layer.scale if current_layer else 1.0,
             'layer': current_layer,
-            'description': current_layer.properties['description'] if current_layer else "Self"
+            'description': current_layer.properties.get('description', 'Unknown') if current_layer else "Self"
         }
     
     def tesseract_view(self) -> Dict[str, Any]:
