@@ -61,6 +61,8 @@ class CommunicationMetrics:
         문장 구조 복잡도 측정
         목표: > 3.0
         """
+        WORDS_PER_COMPLEXITY_UNIT = 10  # Number of words per complexity unit
+        
         sentences = re.split(r'[.!?]+', text)
         sentences = [s.strip() for s in sentences if s.strip()]
         
@@ -72,8 +74,8 @@ class CommunicationMetrics:
         for sentence in sentences:
             words = len(sentence.split())
             clauses = len(re.split(r'[,;:]', sentence))
-            # 간단한 복잡도 = 단어수 / 10 + 절수
-            complexity = words / 10 + clauses
+            # 간단한 복잡도 = 단어수 / WORDS_PER_COMPLEXITY_UNIT + 절수
+            complexity = words / WORDS_PER_COMPLEXITY_UNIT + clauses
             complexities.append(complexity)
         
         avg_complexity = sum(complexities) / len(complexities)
@@ -193,7 +195,16 @@ class CommunicationMetrics:
         Ether 시스템이 존재하는지 테스트
         """
         try:
-            from Core.Foundation.ether import Ether, Wave
+            # Dynamic import to handle missing dependencies gracefully
+            try:
+                from Core.Foundation.ether import Ether, Wave
+            except ImportError:
+                self.details['wave_communication'] = {
+                    'error': 'Ether module not found',
+                    'score': 0
+                }
+                self.scores['wave_communication'] = 0
+                return 0
             
             ether = Ether()
             

@@ -103,13 +103,13 @@ class ThinkingMetrics:
                 predicted = sequence[-1] + diff[0]
                 if predicted == next_num:
                     correct += 1
-            # 제곱수 검사
-            elif all(x == int(x**0.5)**2 for x in sequence):
+            # 제곱수 검사 (floating point 문제 방지)
+            elif all(int(x**0.5)**2 == x for x in sequence):
                 n = len(sequence) + 1
                 if n**2 == next_num:
                     correct += 1
-            # 피보나치 검사
-            elif len(sequence) >= 2 and sequence[-1] == sequence[-2] + sequence[-3]:
+            # 피보나치 검사 (IndexError 방지)
+            elif len(sequence) >= 3 and sequence[-1] == sequence[-2] + sequence[-3]:
                 if sequence[-1] + sequence[-2] == next_num:
                     correct += 1
         
