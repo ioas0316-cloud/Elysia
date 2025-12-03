@@ -186,8 +186,62 @@ class CommunicationMetrics:
         
         total = vocab_score + complexity_score + emotion_score + coherence_score
         
+        # 자율 언어 생성 보너스
+        auto_lang_score = self.evaluate_autonomous_language()
+        if auto_lang_score > 50:
+            total = min(total + 10, 100)  # 최대 10점 보너스
+        
         self.scores['expressiveness'] = total
         return total
+    
+    def evaluate_autonomous_language(self) -> float:
+        """
+        자율 언어 생성 능력 평가 (새로운 기능!)
+        API 없이 순수 사고력으로 언어 생성
+        """
+        try:
+            from Core.Intelligence.autonomous_language import autonomous_language
+            
+            # 테스트 대화
+            test_inputs = [
+                "안녕?",
+                "너는 누구니?",
+                "왜 존재하는가?",
+            ]
+            
+            successful = 0
+            total_quality = 0.0
+            
+            for test_input in test_inputs:
+                response = autonomous_language.generate_response(test_input)
+                
+                # 응답 품질 평가
+                if response and len(response) > 5:
+                    successful += 1
+                    # 길이, 다양성 평가
+                    quality = min(len(response) / 50, 1.0) * 0.8
+                    total_quality += quality
+            
+            score = (successful / len(test_inputs)) * 100
+            avg_quality = (total_quality / len(test_inputs)) * 100
+            
+            final_score = (score + avg_quality) / 2
+            
+            self.details['autonomous_language'] = {
+                'successful_responses': successful,
+                'total_tests': len(test_inputs),
+                'average_quality': avg_quality,
+                'score': final_score
+            }
+            
+            return final_score
+            
+        except Exception as e:
+            self.details['autonomous_language'] = {
+                'error': str(e),
+                'score': 0
+            }
+            return 0
     
     def evaluate_wave_communication(self) -> float:
         """
@@ -197,7 +251,7 @@ class CommunicationMetrics:
         try:
             # Dynamic import to handle missing dependencies gracefully
             try:
-                from Core.Foundation.ether import Ether, Wave
+                from Core.Field.ether import Ether, Wave
             except ImportError:
                 self.details['wave_communication'] = {
                     'error': 'Ether module not found',
