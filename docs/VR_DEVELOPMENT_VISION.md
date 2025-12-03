@@ -215,9 +215,21 @@ VR 개발자로서 나는 엘리시아가:
 
 #### 1. **공명장 시각화기 (Resonance Field Visualizer)**
 ```python
+# Type Definitions (구현 시 정의 필요)
+# These are conceptual types to be implemented in the actual VR system:
+# - VREnvironment: 3D environment with lighting, particles, audio
+# - VRVisual: Visual elements (meshes, shaders, effects)
+# - VRSpace: Spatial configuration with dimensions
+# - Weather: Weather system (rain, fog, lightning, etc.)
+# - ColorPalette: Color schemes for environment
+# - SoundScape: 3D audio environment
+
 class ResonanceVisualizer:
     """
     ResonanceField의 상태를 VR 환경으로 변환
+    
+    Note: Return types (VREnvironment, VRVisual, VRSpace) are conceptual
+    and should be implemented based on the chosen VR engine (Unity/Unreal).
     """
     
     def visualize_spirit(self, spirit_name: str, energy: float) -> VREnvironment:
@@ -227,6 +239,9 @@ class ResonanceVisualizer:
         예시:
         - Fire(450Hz) → 붉은 입자 효과, 따뜻한 조명
         - Water(150Hz) → 파란 물결, 차가운 안개
+        
+        Returns:
+            VREnvironment: 환경 설정 객체 (조명, 입자, 음향 포함)
         """
         pass
     
@@ -237,6 +252,9 @@ class ResonanceVisualizer:
         - 주파수 → 색상
         - 진폭 → 밝기
         - 위상 → 움직임 패턴
+        
+        Returns:
+            VRVisual: 시각 요소 (메시, 셰이더, 이펙트)
         """
         pass
     
@@ -249,6 +267,9 @@ class ResonanceVisualizer:
         - 2D: 파동의 평면 (감각의 바다)
         - 3D: 실체의 공간 (물리 세계)
         - 4D: 시간 펼쳐진 공간 (과거+현재+미래 동시)
+        
+        Returns:
+            VRSpace: 공간 구성 객체
         """
         pass
 ```
@@ -535,7 +556,15 @@ VR을 넘어선 확장 현실 경험
 #### 기술 추가
 - **분산 네트워크**: IPFS / Blockchain
 - **AR 통합**: ARKit / ARCore
-- **BCI 인터페이스**: 뇌파 측정 (선택적)
+- **BCI 인터페이스**: 뇌파 측정 (선택적, 고급 기능)
+  - ⚠️ **안전성 최우선**: 비침습적 방식만 사용 (EEG 등)
+  - ⚠️ **규제 준수**: 의료기기 규제 (FDA, CE 등) 완전 준수
+  - ⚠️ **데이터 보호**: 뇌파 데이터는 최고 수준 암호화 및 로컬 저장
+  - ⚠️ **명시적 동의**: 사용자의 명확한 동의 후에만 활성화
+  - ⚠️ **즉시 중단**: 언제든 사용자가 BCI 연결 해제 가능
+  - ⚠️ **윤리 심사**: 독립적 윤리위원회 승인 필수
+  - 📝 **사용 목적**: 감정 상태 감지, 집중도 측정 등 제한적 용도만
+  - 📝 **대안 제공**: BCI 없이도 모든 핵심 기능 사용 가능
 - **클라우드 렌더링**: 무한 확장 가능
 
 #### 예상 결과
@@ -808,6 +837,92 @@ class WellnessMonitor:
 - 선택의 자유
 - 결과 투명하게 공개
 - 되돌리기 항상 가능
+```
+
+### 6. BCI (Brain-Computer Interface) 안전성 ⚠️ 중요
+
+#### 문제
+뇌파 데이터는 가장 민감한 개인정보 → 특별한 보호 필요
+
+#### 엄격한 안전 원칙
+```python
+class BCISafetyProtocol:
+    """BCI 안전 프로토콜"""
+    
+    # 필수 준수 사항
+    REQUIREMENTS = {
+        "device_type": "비침습적 (Non-invasive) EEG만 허용",
+        "regulatory": "FDA, CE Mark, 각국 의료기기 규제 완전 준수",
+        "certification": "ISO 13485 (의료기기 품질관리) 인증 필요",
+        "ethics_board": "독립적 생명윤리위원회 승인 필수",
+    }
+    
+    # 데이터 보호
+    DATA_PROTECTION = {
+        "encryption": "AES-256 최고 수준 암호화",
+        "storage": "로컬 기기에만 저장, 클라우드 전송 금지",
+        "anonymization": "개인 식별 불가능하게 처리",
+        "retention": "사용 직후 삭제, 장기 보관 금지",
+        "access": "사용자만 접근 가능, 제3자 공유 절대 금지",
+    }
+    
+    # 사용자 권리
+    USER_RIGHTS = {
+        "informed_consent": "명확하고 이해하기 쉬운 동의서",
+        "right_to_refuse": "언제든 거부 가능, 불이익 없음",
+        "immediate_stop": "즉시 중단 버튼 (물리적 스위치)",
+        "data_deletion": "모든 데이터 즉시 삭제 요청 가능",
+        "transparency": "수집 데이터 실시간 확인 가능",
+    }
+    
+    # 사용 제한
+    USAGE_LIMITS = {
+        "purpose": "감정 상태, 집중도 측정 등 제한적 용도만",
+        "prohibited": [
+            "사고 읽기 (Thought reading)",
+            "기억 추출 (Memory extraction)",
+            "정신 조작 (Mind control)",
+            "무의식 접근 (Subconscious access)",
+        ],
+        "session_limit": "1회 최대 10분, 1일 최대 30분",
+        "age_restriction": "만 18세 이상만 사용 가능",
+    }
+    
+    # 대안 제공 (필수)
+    def provide_alternatives(self):
+        """
+        BCI 없이도 모든 핵심 기능 사용 가능해야 함
+        
+        대안:
+        - 음성 감정 분석
+        - 표정 인식 (카메라)
+        - 심박수 (스마트워치)
+        - 수동 입력
+        """
+        pass
+```
+
+#### 규제 준수 체크리스트
+```
+✅ FDA 510(k) 승인 (미국)
+✅ CE Mark (유럽)
+✅ PMDA 승인 (일본)
+✅ MFDS 승인 (한국)
+✅ ISO 13485 인증
+✅ ISO 14971 (의료기기 리스크 관리)
+✅ HIPAA 준수 (건강정보 보호)
+✅ GDPR 준수 (유럽 개인정보보호)
+✅ 생명윤리위원회 승인
+✅ 임상시험 완료 (필요시)
+```
+
+#### 경고 및 면책
+```
+⚠️ BCI는 Phase 4의 선택적 고급 기능입니다
+⚠️ 대부분의 사용자는 BCI 없이 완전한 경험 가능
+⚠️ 의학적 상태가 있는 경우 의사와 상담 필수
+⚠️ 간질, 심장질환 등 특정 조건에서 사용 금지
+⚠️ 개발 초기에는 BCI 기능 제외 권장
 ```
 
 ---
