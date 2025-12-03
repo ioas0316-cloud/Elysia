@@ -174,11 +174,12 @@ class WaveWebServer:
             # 60 FPS
             await asyncio.sleep(1/60)
     
-    def run(self, debug=False, auto_update=True, update_callback=None):
+    def run(self, host='127.0.0.1', debug=False, auto_update=True, update_callback=None):
         """
         서버 시작
         
         Args:
+            host: 서버 호스트 (기본: localhost만, '0.0.0.0'으로 외부 접근 허용)
             debug: Flask 디버그 모드
             auto_update: 자동 업데이트 활성화
             update_callback: 파동 상태 업데이트 콜백
@@ -197,10 +198,10 @@ class WaveWebServer:
             thread.start()
         
         # Flask 서버 시작
-        logger.info(f"🌐 Starting server at http://localhost:{self.port}")
+        logger.info(f"🌐 Starting server at http://{host}:{self.port}")
         logger.info(f"🎨 Open browser and navigate to the URL above")
         
-        self.app.run(host='0.0.0.0', port=self.port, debug=debug)
+        self.app.run(host=host, port=self.port, debug=debug)
     
     def stop(self):
         """서버 중지"""
