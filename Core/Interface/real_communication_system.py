@@ -189,6 +189,10 @@ class RealCommunicationSystem:
         )
         self.context.messages.append(response_message)
         
+        # Add Elysia to participants if not already there
+        if "Elysia" not in self.context.participants:
+            self.context.participants.append("Elysia")
+        
         # Send via wave communication if available
         if self.wave_hub and self.wave_hub.active:
             self.wave_hub.send_wave(
