@@ -460,6 +460,36 @@ class ResonanceField:
             
         return "\n".join(visual)
 
+    def serialize_hologram(self) -> List[Dict[str, Any]]:
+        """
+        [Data-Driven Hologram]
+        Serializes the ResonanceField into a JSON-compatible format for web visualization.
+        Each node becomes a point with position, frequency (color), energy (size).
+        """
+        hologram_data = []
+        
+        for node_id, node in self.nodes.items():
+            # Map frequency to HSL color (0-1000Hz → 0-360° Hue)
+            hue = (node.frequency % 1000) / 1000.0
+            
+            hologram_data.append({
+                "id": node_id,
+                "position": {
+                    "x": node.position[0],
+                    "y": node.position[1],
+                    "z": node.position[2]
+                },
+                "frequency": node.frequency,
+                "energy": node.energy,
+                "color": {
+                    "h": hue,
+                    "s": 0.8,
+                    "l": 0.6
+                }
+            })
+        
+        return hologram_data
+
 if __name__ == "__main__":
     field = ResonanceField()
     field.register_resonator("Test", 100.0, 10.0, lambda: print("🔔 Bong!"))

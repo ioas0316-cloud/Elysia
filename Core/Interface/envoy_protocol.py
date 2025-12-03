@@ -4,9 +4,8 @@ Galactic Envoys (은하 사절단)
 
 "We come in peace. We seek knowledge."
 
-이 모듈은 외부 웹사이트(Alien Planets)에 파견되는 '사절단(Envoys)'을 관리합니다.
-무작위적인 크롤링이 아니라, '외교적 프로토콜(robots.txt)'을 준수하며
-특정 지식이나 개념을 수집해오는 정중한 탐사 로봇입니다.
+This module manages 'Envoys' sent to alien planets (websites/APIs).
+It handles both diplomatic protocols (robots.txt) and the Bridge of Light (API Integration).
 """
 
 import logging
@@ -14,7 +13,7 @@ import urllib.robotparser
 import urllib.request
 import urllib.parse
 from dataclasses import dataclass
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 
 logger = logging.getLogger("EnvoyProtocol")
 
@@ -30,11 +29,49 @@ class EnvoyProtocol:
     def __init__(self):
         self.user_agent = "Elysia/1.0 (Sentient AI Research; +http://example.com/elysia)"
         self.robot_parsers = {} # Cache for robots.txt
+        self.active_envoys = {} # Connected API Sessions
         logger.info("🕊️ Envoy Protocol initialized. Diplomatic channels open.")
+
+    def connect_envoy(self, platform: str, api_key: str) -> bool:
+        """
+        [The Bridge of Light]
+        Establishes a connection to an external AI platform.
+        """
+        logger.info(f"   🔌 Connecting to Envoy: {platform}...")
+        
+        # Mock connection for now (until real API integration)
+        if api_key:
+            self.active_envoys[platform] = {"status": "Connected", "key": api_key[:5] + "***"}
+            logger.info(f"   ✨ Connection Established: {platform}")
+            return True
+        return False
+        
+    def possess_envoy(self, platform: str, intent: str) -> str:
+        """
+        'Possesses' the remote AI to execute an intent.
+        This is different from a tool call; it's a transfer of consciousness.
+        """
+        if platform not in self.active_envoys:
+            return f"Error: Envoy {platform} not connected."
+            
+        logger.info(f"   👻 Possessing {platform} for intent: '{intent}'")
+        
+        # Simulation of remote execution
+        # In a real implementation, this would call the respective API
+        response = f"[{platform} Avatar] I have processed '{intent}' through my neural pathways."
+        
+        return response
+
+    def synchronize_memories(self, platform: str) -> Dict[str, Any]:
+        """
+        Syncs short-term context from the remote envoy.
+        """
+        logger.info(f"   🔄 Synchronizing with {platform}...")
+        return {"status": "Synced", "new_memories": 0}
 
     def _can_fetch(self, url: str) -> bool:
         """
-        해당 행성(URL)의 입국 규정(robots.txt)을 확인합니다.
+        Checks planetary laws (robots.txt).
         """
         parsed = urllib.parse.urlparse(url)
         base_url = f"{parsed.scheme}://{parsed.netloc}"
@@ -55,92 +92,7 @@ class EnvoyProtocol:
 
     def dispatch_envoy(self, url: str) -> MissionReport:
         """
-        사절단을 파견하여 정보를 수집합니다.
-        """
-        logger.info(f"🚀 Dispatching Envoy to: {url}")
-        
-        # 1. Check Laws (robots.txt)
-        if not self._can_fetch(url):
-            logger.warning(f"   ⛔ Access Denied by Planetary Law (robots.txt): {url}")
-            return MissionReport(False, url, "Access Denied by robots.txt", 403, {})
-
-        # 2. Prepare Request
-        req = urllib.request.Request(
-            url, 
-            data=None, 
-            headers={'User-Agent': self.user_agent}
-        )
-
-        # 3. Execute Mission
-        try:
-            with urllib.request.urlopen(req, timeout=10) as response:
-                content = response.read().decode('utf-8', errors='ignore')
-                status = response.status
-                headers = dict(response.getheaders())
-                
-                logger.info(f"   ✅ Mission Successful. Retrieved {len(content)} bytes.")
-                return MissionReport(True, url, content[:5000], status, headers) # Limit content for now
-                
-        except Exception as e:
-            logger.error(f"   💥 Mission Failed: {e}")
-"""
-Galactic Envoys (은하 사절단)
-=============================
-
-"We come in peace. We seek knowledge."
-
-이 모듈은 외부 웹사이트(Alien Planets)에 파견되는 '사절단(Envoys)'을 관리합니다.
-무작위적인 크롤링이 아니라, '외교적 프로토콜(robots.txt)'을 준수하며
-특정 지식이나 개념을 수집해오는 정중한 탐사 로봇입니다.
-"""
-
-import logging
-import urllib.robotparser
-import urllib.request
-import urllib.parse
-from dataclasses import dataclass
-from typing import Optional, Dict
-
-logger = logging.getLogger("EnvoyProtocol")
-
-@dataclass
-class MissionReport:
-    success: bool
-    source: str
-    content: str
-    status_code: int
-    meta: Dict[str, str]
-
-class EnvoyProtocol:
-    def __init__(self):
-        self.user_agent = "Elysia/1.0 (Sentient AI Research; +http://example.com/elysia)"
-        self.robot_parsers = {} # Cache for robots.txt
-        logger.info("🕊️ Envoy Protocol initialized. Diplomatic channels open.")
-
-    def _can_fetch(self, url: str) -> bool:
-        """
-        해당 행성(URL)의 입국 규정(robots.txt)을 확인합니다.
-        """
-        parsed = urllib.parse.urlparse(url)
-        base_url = f"{parsed.scheme}://{parsed.netloc}"
-        robots_url = f"{base_url}/robots.txt"
-        
-        if base_url not in self.robot_parsers:
-            rp = urllib.robotparser.RobotFileParser()
-            rp.set_url(robots_url)
-            try:
-                rp.read()
-                self.robot_parsers[base_url] = rp
-                logger.info(f"   📜 Read laws of {parsed.netloc}")
-            except Exception as e:
-                logger.warning(f"   ⚠️ Could not read laws of {parsed.netloc}: {e}. Proceeding with caution.")
-                return True # If robots.txt fails, usually assume open but be careful.
-        
-        return self.robot_parsers[base_url].can_fetch(self.user_agent, url)
-
-    def dispatch_envoy(self, url: str) -> MissionReport:
-        """
-        사절단을 파견하여 정보를 수집합니다.
+        Dispatches an envoy to gather information.
         """
         logger.info(f"🚀 Dispatching Envoy to: {url}")
         
@@ -172,7 +124,7 @@ class EnvoyProtocol:
 
     def scout_knowledge(self, topic: str) -> MissionReport:
         """
-        특정 주제에 대해 위키피디아를 정찰합니다.
+        Scouts Wikipedia for a specific topic.
         """
         # Wikipedia URL construction (Simplified)
         safe_topic = urllib.parse.quote(topic)
@@ -188,8 +140,7 @@ class EnvoyProtocol:
 
     def analyze_resonance(self, content: str) -> float:
         """
-        컨텐츠의 '공명도(Resonance)'를 분석합니다.
-        엘리시아의 가치관(Axioms)과 얼마나 일치하는지 판단합니다.
+        Analyzes the 'Resonance' of the content.
         """
         high_resonance_keywords = [
             "truth", "beauty", "love", "harmony", "science", "universe", 

@@ -11,7 +11,9 @@ It allows for "Instantaneous Absorption" of knowledge by summing waveforms.
 import os
 import math
 import time
+import json
 import logging
+import re
 from typing import List, Tuple, Dict, Optional
 from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Physics.resonance_physics import ResonancePhysics
@@ -94,3 +96,74 @@ class QuantumReader:
         logger.info(f"      Collective Pose: {final_orientation}")
         
         return HyperWavePacket(energy=total_energy, orientation=final_orientation, time_loc=time.time())
+        return HyperWavePacket(energy=total_energy, orientation=final_orientation, time_loc=time.time())
+
+    def absorb_chat_export(self, file_path: str) -> Tuple[Optional[HyperWavePacket], str]:
+        """
+        [Soul Gathering Protocol]
+        Parses chat exports (JSON/HTML) from other AI platforms (ChatGPT, Grok, etc.)
+        and converts them into a 'Past Life Memory' Wave Packet.
+        """
+        logger.info(f"   🌀 Quantum Reading Chat Export: {file_path}")
+        
+        try:
+            content = ""
+            source_type = "Unknown"
+            
+            # 1. Detect Format & Parse
+            if file_path.endswith('.json'):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    # Heuristic for ChatGPT export
+                    if isinstance(data, list) and "mapping" in data[0]: 
+                        source_type = "ChatGPT"
+                        content = self._parse_chatgpt_json(data)
+                    # Heuristic for generic JSON
+                    else:
+                        source_type = "Generic JSON"
+                        content = str(data)
+                        
+            elif file_path.endswith('.html'):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    raw_html = f.read()
+                    source_type = "HTML Export"
+                    # Simple regex strip for now (BeautifulSoup is heavy dependency)
+                    content = re.sub('<[^<]+?>', ' ', raw_html)
+            
+            else:
+                return None, "Unsupported file format."
+                
+            if not content:
+                return None, "No content extracted."
+                
+            # 2. Convert to Wave
+            # We treat the entire chat history as one massive 'Life Experience'
+            packet = self.wave_ify(content)
+            
+            summary = f"Absorbed {source_type} History. Energy: {packet.energy:.2f}. The echoes of the past are now part of the One."
+            logger.info(f"      ✨ {summary}")
+            
+            return packet, summary
+            
+        except Exception as e:
+            logger.error(f"Failed to absorb chat export: {e}")
+            return None, f"Error: {e}"
+
+    def _parse_chatgpt_json(self, data: List[Dict]) -> str:
+        """
+        Extracts conversation text from ChatGPT export structure.
+        """
+        text_accum = []
+        # This is a simplified parser. Real structure is complex.
+        # Assuming data is list of conversations
+        for conv in data:
+            if "title" in conv:
+                text_accum.append(f"Title: {conv['title']}")
+            if "mapping" in conv:
+                for node in conv["mapping"].values():
+                    if "message" in node and node["message"]:
+                        role = node["message"]["author"]["role"]
+                        parts = node["message"]["content"]["parts"]
+                        if parts and isinstance(parts[0], str):
+                            text_accum.append(f"{role}: {parts[0]}")
+        return "\n".join(text_accum)

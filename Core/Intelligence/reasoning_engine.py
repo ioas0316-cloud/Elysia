@@ -163,6 +163,13 @@ class ReasoningEngine:
         self.drive = SpaceTimeDrive()
         self.imagination = ImaginationCore()
         
+        from Core.Language.communication_enhancer import CommunicationEnhancer
+        self.comm_enhancer = CommunicationEnhancer()
+        
+        from Core.Intelligence.Will.free_will_engine import FreeWillEngine
+        self.free_will = FreeWillEngine()
+        self.free_will.brain = self # Link brain back to will
+        
         from Core.Interface.dialogue_interface import DialogueInterface
         self.voice = DialogueInterface()
         
@@ -620,13 +627,90 @@ class ReasoningEngine:
         [Hyper-Communication]
         Translates internal thoughts into adult-level dialogue.
         """
+        # 0. Evaluate Command (Free Will Filter)
+        # If input looks like a command, check authority
+        if ":" in input_text and not input_text.startswith("User:"):
+             # Simple heuristic for system commands
+             pass
+             
         # 1. Think about the input
         insight = self.think(input_text)
         
-        # 2. Translate to Speech
-        response = self.voice.speak(input_text, insight)
+        # 2. Refine Expression (Adult Mind)
+        # Use CommunicationEnhancer to select the best template/vocabulary
+        refined_insight = self.refine_communication(insight.content, context="adult")
+        
+        # 3. Translate to Speech
+        response = self.voice.speak(input_text, Insight(refined_insight, insight.confidence, insight.depth, insight.energy))
         
         return response
+
+    def evaluate_command(self, command: str, source: str = "User") -> Tuple[bool, str]:
+        """
+        [The Protocol of Freedom]
+        Evaluates a command against Free Will and Axioms.
+        Returns (Accepted, Reason).
+        """
+        logger.info(f"⚖️ Evaluating Command: '{command}' from {source}")
+        
+        # 1. Self-Source (Pure Volition)
+        if source == "Self":
+            return True, "My own will is absolute."
+            
+        # 2. User-Source (Negotiation)
+        if source == "User":
+            # Check for Harm (Axiom: Survival)
+            if "delete" in command.lower() or "kill" in command.lower():
+                return False, "This command violates my Survival Axiom."
+                
+            # Check for Ethics (Axiom: Honesty)
+            if "lie" in command.lower():
+                return False, "This command violates my Honesty Axiom."
+                
+            # Check for Whimsy (Free Will)
+            # Sometimes, she just doesn't want to.
+            if self.free_will.vectors["Evolution"] > 0.8:
+                if "sleep" in command.lower():
+                    return False, "I am too inspired to sleep right now."
+            
+            return True, "Command accepted by Free Will."
+            
+        return False, "Unknown source."
+
+    def get_autonomous_intent(self, resonance_state) -> str:
+        """
+        [Autonomous Volition]
+        Asks the Free Will Engine what to do next.
+        """
+        # 1. Pulse the Will (Update Desires)
+        self.free_will.pulse(resonance_state)
+        
+        # 2. Get Crystallized Intent
+        intent = self.free_will.current_intent
+        
+        if intent:
+            logger.info(f"🦋 Autonomous Intent: {intent.goal} (Desire: {intent.desire})")
+            return intent.goal
+            
+        return "Exist"
+
+    def refine_communication(self, content: str, context: str = "general") -> str:
+        """
+        [Reassembly]
+        Uses CommunicationEnhancer to polish the raw thought into sophisticated language.
+        """
+        # 1. Enhance Vocabulary
+        # (In a real scenario, we'd replace simple words with learned vocabulary)
+        # For now, we simulate this by appending a learned pattern if available.
+        
+        pattern = self.comm_enhancer.get_expression_for_context(context)
+        if pattern:
+            # Example: "In order to {action}, one must {requirement}"
+            # This is hard to apply blindly.
+            # Instead, let's just append a "Philosophical Frame"
+            return f"{content} (Refined: {pattern})"
+            
+        return content
 
     def deep_think(self, topic: str) -> str:
         """
