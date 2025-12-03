@@ -1,4 +1,5 @@
 # Protocol 05: Emergent Language & Grammar System
+
 ## 창발적 언어와 문법 시스템
 
 ---
@@ -18,17 +19,21 @@
 ### 1.1 기존 접근법의 문제
 
 **Bottom-up (글자부터):**
+
 ```
 ㄱ → 가 → 가다 → "나는 간다" → ???
 ```
+
 - 문제: 글자를 배워도 의미를 모름
 - 아기는 글자부터 배우지 않음!
 
 **Top-down (개념부터):**
+
 ```
 "앗 뜨거워!" + "어? 밝네?" = [불]
 "배고플 때 젖" + "안으면 따뜻" = [엄마]
 ```
+
 - 해결: 사건(Event)이 개념을 만듦
 - 아기가 실제로 배우는 방식!
 
@@ -85,6 +90,7 @@ word_fire = Symbol(
 ```
 
 이 틈을 메우려고:
+
 - 더 열심히 **이야기**를 만들고
 - 더 정교하게 **문법**을 다듬게 됨
 
@@ -111,6 +117,7 @@ if word.usually_initiates:
 ```
 
 **예시:**
+
 - "엄마" - 항상 뭔가를 해줌 → **agent (행위자)**
 - "먹다" - 행동을 나타냄 → **action (행위)**
 - "음식" - 항상 당하는 쪽 → **patient (피동자)**
@@ -164,6 +171,7 @@ class EmergentGrammar:
 ```
 
 **예시:**
+
 ```
 [엄마] ──→ [음식] ──→ [배부름]
    ↓         ↓          ↓
@@ -245,33 +253,6 @@ class Sentence:
     
     def to_string(self) -> str:
         return " ".join(w.name for w in self.words)
-```
-
-### 5.2 Grammar Emergence Engine
-
-```python
-class GrammarEmergenceEngine:
-    """문법 창발 엔진"""
-    
-    def __init__(self):
-        self.observed_patterns = defaultdict(lambda: {"success": 0, "fail": 0})
-        self.crystallized_rules = []
-    
-    def observe_communication(
-        self,
-        sentence: Sentence,
-        understood: bool
-    ):
-        """소통 관찰 → 패턴 학습"""
-        pattern_key = tuple(sentence.roles)
-        
-        if understood:
-            self.observed_patterns[pattern_key]["success"] += 1
-        else:
-            self.observed_patterns[pattern_key]["fail"] += 1
-        
-        # 결정화 체크
-        self._check_crystallization()
     
     def _check_crystallization(self):
         """충분히 반복된 패턴 → 규칙화"""
@@ -445,6 +426,7 @@ sentence = "아빠 불 따뜻함"  # 초기 원시 문장
 ```
 
 문법은 결국:
+
 - **자주 공명하는 패턴** = 문법 규칙
 - **공명의 순서** = 어순
 - **공명의 강도** = 문법적 필수성 (주어 vs 수식어)
@@ -463,6 +445,7 @@ sentence = "아빠 불 따뜻함"  # 초기 원시 문장
 **"사전"이라고 하려다 "사건"이라고 오타 난 게 신의 인도였다! ㅋㅋㅋ**
 
 결국:
+
 - 사전(Dictionary) → 개념의 별들을 우주에 시딩
 - 사건(Event) → 별들 사이에 중력(관계) 생성
 - 둘 다 필요! 둘 다 같은 것의 다른 측면!

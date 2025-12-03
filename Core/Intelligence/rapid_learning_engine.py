@@ -23,6 +23,16 @@ from typing import List, Dict, Any, Optional, Tuple
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 from dataclasses import dataclass
 import re
+import hashlib
+
+# Seed/Bloom Pattern + True Conceptual Learning
+from Core.Memory.hippocampus import Hippocampus
+from Core.Cognition.fractal_concept import ConceptNode, ConceptDecomposer
+from Core.Foundation.resonance_field import ResonanceField
+from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Intelligence.concept_extractor import ConceptExtractor, ConceptDefinition
+from Core.Intelligence.relationship_extractor import RelationshipExtractor, Relationship
+from Core.Language.grammar_engine import GrammarEmergenceEngine
 
 logger = logging.getLogger("RapidLearning")
 
@@ -48,16 +58,33 @@ class RapidLearningEngine:
     
     def __init__(self):
         self.learned_patterns = {}
-        self.knowledge_base = {}
         self.spacetime_drive = None
         self.executor = ThreadPoolExecutor(max_workers=10)
-        logger.info("🚀 급속 학습 엔진 초기화")
         
-        # SpaceTimeDrive 로드 시도
+        # True Conceptual Learning (개념 정의 + 관계적 의미)
+        self.hippocampus = Hippocampus()
+        self.decomposer = ConceptDecomposer()
+        self.resonance_field = ResonanceField()
+        self.concept_extractor = ConceptExtractor()  # 개념 정의 추출
+        self.relationship_extractor = RelationshipExtractor()  # 관계 추출
+        self.grammar_engine = GrammarEmergenceEngine()  # 문법 창발 엔진
+        
+        logger.info("🚀 급속 학습 엔진 초기화 (진짜 개념 학습!)")
+        logger.info(f"🌱 Seeds: {self.hippocampus.get_concept_count()}개")
+        logger.info(f"🌸 Bloom: {len(self.resonance_field.nodes)}개")
+        logger.info("📚 Concept + Relationship + Grammar Engine 활성화")
+        
+        # SpaceTimeDrive
         try:
+            import sys
+            import os
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            if project_root not in sys.path:
+                sys.path.insert(0, project_root)
+            
             from Core.Physics.spacetime_drive import SpaceTimeDrive
             self.spacetime_drive = SpaceTimeDrive()
-            logger.info("✅ 시공간 드라이브 연결됨 - 시간 압축 가능")
+            logger.info("✅ 시공간 드라이브 연결됨")
         except Exception as e:
             logger.warning(f"⚠️ 시공간 드라이브 없음: {e}")
     
@@ -76,14 +103,31 @@ class RapidLearningEngine:
         # 2. 개념 추출
         concepts = self._extract_concepts(text)
         
-        # 3. 관계 맵핑
-        relations = self._map_relations(concepts)
+        # 3. 진짜 개념 추출 (정의 + 속성)
+        concept_definitions = self.concept_extractor.extract_concepts(text)
         
-        # 4. 지식 베이스에 저장
-        for concept, data in concepts.items():
-            if concept not in self.knowledge_base:
-                self.knowledge_base[concept] = []
-            self.knowledge_base[concept].append(data)
+        # 4. 관계 추출 (관계적 의미)
+        concept_names = [c.name for c in concept_definitions]
+        relationships = self.relationship_extractor.extract_relationships(text, concept_names)
+        
+        # 5. 개념을 Seed로 저장
+        for concept_def in concept_definitions:
+            seed = self._create_concept_seed_from_definition(concept_def)
+            self.hippocampus.store_fractal_concept(seed)
+        
+        # 6. 관계를 ResonanceField에 저장 및 문법 학습
+        for rel in relationships:
+            self._store_relationship(rel)
+            # 문법 패턴 학습
+            self.grammar_engine.learn_from_relationship(rel.source, rel.type, rel.target)
+        
+        # 5. 패턴 학습
+        for pattern_type, pattern_list in patterns.items():
+            if pattern_type not in self.learned_patterns:
+                self.learned_patterns[pattern_type] = []
+            self.learned_patterns[pattern_type].extend(pattern_list)
+        
+        elapsed = time.time() - start_time
         
         # 5. 패턴 학습
         for pattern_type, pattern_list in patterns.items():
@@ -291,14 +335,22 @@ class RapidLearningEngine:
         return patterns
     
     def _extract_concepts(self, text: str) -> Dict[str, Dict]:
-        """개념 추출 (간단 버전)"""
+        """개념 추출 (개선 버전 - 모든 의미있는 단어)"""
         concepts = {}
         
-        # 명사 추출 (간단: 대문자로 시작하는 단어)
-        words = text.split()
+        # 불용어 (제외할 단어)
+        stopwords = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 
+                     'to', 'for', 'of', 'as', 'by', 'with', 'from', 'is', 'are',
+                     'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had'}
+        
+        # 모든 단어 추출
+        words = text.lower().split()
         for word in words:
-            if len(word) > 3 and word[0].isupper():
-                clean_word = word.strip('.,!?')
+            # 구두점 제거
+            clean_word = word.strip('.,!?;:()[]{}""\'').lower()
+            
+            # 의미있는 단어만 (3글자 이상, 불용어 제외)
+            if len(clean_word) > 2 and clean_word not in stopwords:
                 if clean_word not in concepts:
                     concepts[clean_word] = {
                         'type': 'concept',
@@ -310,25 +362,179 @@ class RapidLearningEngine:
         return concepts
     
     def _map_relations(self, concepts: Dict) -> List[Tuple[str, str, str]]:
-        """개념 간 관계 매핑"""
-        relations = []
+        """개념 간 관계 (간단 버전)"""
+        # 간단하게 처리
+        return []
+    
+    def _create_concept_seed_from_definition(self, concept_def: ConceptDefinition) -> ConceptNode:
+        """개념 정의에서 Seed 생성 (진짜 학습!)"""
+        orientation = self._concept_definition_to_quaternion(concept_def)
+        freq = self._concept_to_frequency(concept_def.name)
         
-        # 간단한 동시 출현 기반 관계
-        concept_list = list(concepts.keys())
-        for i, c1 in enumerate(concept_list):
-            for c2 in concept_list[i+1:]:
-                # 관계 유형 추론 (간단 버전)
-                relations.append((c1, 'related_to', c2))
+        seed = ConceptNode(
+            name=concept_def.name,
+            frequency=freq,
+            orientation=orientation,
+            energy=1.0,
+            depth=0
+        )
         
-        return relations
+        # metadata에 정의 저장
+        if not hasattr(seed, 'metadata'):
+            seed.metadata = {}
+        
+        seed.metadata = {
+            'kr_name': concept_def.kr_name,  # 한국어 이름
+            'description': concept_def.description,
+            'properties': concept_def.properties,
+            'type': concept_def.type
+        }
+        
+        logger.info(f"🌱 {concept_def.name} = {concept_def.description[:40]}...")
+        return seed
+    
+    def _concept_definition_to_quaternion(self, concept_def: ConceptDefinition) -> Quaternion:
+        """개념 정의 → Quaternion (위상공명!)"""
+        w = 0.8 if concept_def.description else 0.3
+        
+        x = 0.9 if concept_def.type == 'emotion' else 0.0
+        y = 0.7 if concept_def.type in ['action', 'object'] else 0.0
+        z = 0.6 if 'good' in concept_def.description.lower() or 'bad' in concept_def.description.lower() else 0.0
+        
+        return Quaternion(w, x, y, z).normalize()
+    
+    def _store_relationship(self, rel: Relationship):
+        """관계 → ResonanceField 연결"""
+        source_seed = self.hippocampus.load_fractal_concept(rel.source)
+        target_seed = self.hippocampus.load_fractal_concept(rel.target)
+        
+        if source_seed:
+            self.resonance_field.inject_fractal_concept(source_seed, active=False)
+        if target_seed:
+            self.resonance_field.inject_fractal_concept(target_seed, active=False)
+        
+        if source_seed and target_seed:
+            if rel.source in self.resonance_field.nodes and rel.target in self.resonance_field.nodes:
+                self.resonance_field._connect(rel.source, rel.target)
+                logger.info(f"🔗 {rel.source} --{rel.type}--> {rel.target}")
+    
+    def _create_concept_seed(self, concept: str, data: Dict, context: str) -> ConceptNode:
+        """개념을 Seed로 압축"""
+        freq = self._concept_to_frequency(concept)
+        orientation = self._text_to_quaternion(context[:100])
+        energy = min(data['frequency'] / 10.0, 1.0)
+        
+        # 단순 Seed 생성 (서브 없음 - 학습된 개념은 단순)
+        return ConceptNode(
+            name=concept,
+            frequency=freq,
+            orientation=orientation,
+            energy=energy,
+            depth=0
+        )
+    
+    def bloom_concept(self, concept_name: str) -> bool:
+        """
+Seed를 불러와서 ResonanceField에 펼침 (Bloom)
+        
+        사고할 때 호출!
+        """
+        # Hippocampus에서 Seed 불러오기
+        seed = self.hippocampus.load_fractal_concept(concept_name)
+        if seed:
+            # ResonanceField에 펼침
+            self.resonance_field.inject_fractal_concept(seed, active=True)
+            logger.info(f"🌸 Bloomed: {concept_name}")
+            return True
+        return False
+    
+    def recall_and_bloom(self, query: str, limit: int = 5) -> List[str]:
+        """공명으로 Seed 검색 + Bloom"""
+        # 공명 기반 검색 (frequency similarity)
+        query_freq = self._concept_to_frequency(query)
+        
+        # Hippocampus에서 모든 개념 ID 가져오기
+        all_concepts = self.hippocampus.get_all_concept_ids(limit=100)
+        
+        bloomed = []
+        for concept_id in all_concepts:
+            # Seed 불러오기
+            seed = self.hippocampus.load_fractal_concept(concept_id)
+            if seed:
+                # 주파수 유사도 계산
+                freq_diff = abs(seed.frequency - query_freq)
+                if freq_diff < 200:  # 임계값
+                    # Bloom!
+                    self.resonance_field.inject_fractal_concept(seed, active=False)
+                    bloomed.append(seed.name)
+                    
+                    if len(bloomed) >= limit:
+                        break
+        
+        logger.info(f"🌸 Bloomed {len(bloomed)} concepts for '{query}'")
+        return bloomed
+    
+    def _concept_to_id(self, concept: str) -> str:
+        """개념을 고유 ID로 변환"""
+        return hashlib.md5(concept.encode()).hexdigest()[:16]
+    
+    def _concept_to_position(self, concept: str) -> Tuple[float, float, float]:
+        """개념을 3D 공간 위치로 변환"""
+        h = hash(concept)
+        x = (h % 200) - 100.0  # -100 ~ 100
+        y = ((h // 200) % 200) - 100.0
+        z = ((h // 40000) % 200) - 100.0
+        return (x, y, z)
+    
+    def _text_to_quaternion(self, text: str) -> Quaternion:
+        """텍스트를 Quaternion으로 변환 (4D 방향)"""
+        h = hash(text)
+        w = (h % 100) / 100.0
+        x = ((h // 100) % 100) / 100.0 - 0.5
+        y = ((h // 10000) % 100) / 100.0 - 0.5
+        z = ((h // 1000000) % 100) / 100.0 - 0.5
+        return Quaternion(w, x, y, z).normalize()
+    
+    def _concept_to_frequency(self, concept: str) -> float:
+        """개념을 주파수로 변환 (간단한 해싱 기반)"""
+        # 개념의 특성에 따라 주파수 할당
+        hash_val = hash(concept) % 1000
+        base_freq = 432.0  # 기본 주파수
+        return base_freq + hash_val
+    
+    def recall_concept(self, query: str) -> List[str]:
+        """자기장 엔진으로 개념 끌어오기 (Attractor)"""
+        try:
+            attractor = Attractor(query)
+            results = attractor.pull(self.resonance_field)
+            return [node.id for node in results[:10]]
+        except:
+            # Fallback: 주파수 기반 검색
+            query_freq = self._concept_to_frequency(query)
+            matches = []
+            for node_id, node in self.resonance_field.nodes.items():
+                if abs(node.frequency - query_freq) < 100:
+                    matches.append((node_id, node.energy))
+            matches.sort(key=lambda x: -x[1])
+            return [m[0] for m in matches[:10]]
     
     def get_learning_stats(self) -> Dict:
-        """학습 통계"""
+        """학습 통계 (Seed/Bloom)"""
+        seeds_stored = self.hippocampus.get_concept_count()
+        bloomed_nodes = len(self.resonance_field.nodes)
+        total_energy = sum(node.energy for node in self.resonance_field.nodes.values())
+        
         return {
-            'total_concepts': len(self.knowledge_base),
+            'total_concepts': seeds_stored,
+            'seeds_stored': seeds_stored,
+            'bloomed_nodes': bloomed_nodes,
+            'total_energy': total_energy,
             'total_patterns': sum(len(p) for p in self.learned_patterns.values()),
             'pattern_types': len(self.learned_patterns),
-            'spacetime_available': self.spacetime_drive is not None
+            'spacetime_available': self.spacetime_drive is not None,
+            'seed_bloom_pattern': True,
+            'optimized': True,
+            'grammar_patterns': len(self.grammar_engine.patterns)
         }
 
 

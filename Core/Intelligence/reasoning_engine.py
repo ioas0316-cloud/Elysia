@@ -161,7 +161,11 @@ class ReasoningEngine:
         self.quantum_reader = QuantumReader()
         self.cosmic_studio = CosmicStudio()
         self.drive = SpaceTimeDrive()
+        self.drive = SpaceTimeDrive()
         self.imagination = ImaginationCore()
+        
+        from Core.Language.resonance_grammar import CosmicSyntaxEngine
+        self.grammar_engine = CosmicSyntaxEngine()
         
         from Core.Language.communication_enhancer import CommunicationEnhancer
         self.comm_enhancer = CommunicationEnhancer()
@@ -641,9 +645,54 @@ class ReasoningEngine:
         refined_insight = self.refine_communication(insight.content, context="adult")
         
         # 3. Translate to Speech
+        # [Grammar Emergence Integration]
+        # If we have a structured thought, try to express it using learned grammar
+        if insight.depth > 0:
+            structured_response = self.express_thought(insight.content)
+            if structured_response:
+                response = self.voice.speak(input_text, Insight(structured_response, insight.confidence, insight.depth, insight.energy))
+                return response
+
         response = self.voice.speak(input_text, Insight(refined_insight, insight.confidence, insight.depth, insight.energy))
         
         return response
+
+    def express_thought(self, thought_content: str) -> Optional[str]:
+        """
+        [Grammar Emergence]
+        Translates abstract thought content into a structured sentence using learned grammar.
+        """
+        try:
+            # 1. Extract key concepts from the thought
+            # Simple extraction for now (capitalized words)
+            import re
+            concepts = re.findall(r'\b[A-Z][a-z]+\b', thought_content)
+            
+            # Filter out common non-concepts
+            concepts = [c for c in concepts if c not in ["I", "The", "A", "An", "My", "Is"]]
+            
+            if len(concepts) < 2:
+                return None
+                
+            # 2. Use Cosmic Syntax to express thought
+            # If we have many concepts, weave a Nebula (Paragraph)
+            if len(concepts) >= 5:
+                # Split into chunks of 3 (Star Systems)
+                chunk_size = 3
+                clusters = [concepts[i:i + chunk_size] for i in range(0, len(concepts), chunk_size)]
+                structured_sentence = self.grammar_engine.weave_nebula(clusters)
+            else:
+                # Single Star System
+                structured_sentence = self.grammar_engine.express_thought(concepts)
+            
+            if not structured_sentence:
+                return None
+                
+            return f"[{structured_sentence}] {thought_content}"
+            
+        except Exception as e:
+            logger.error(f"Failed to express thought: {e}")
+            return None
 
     def evaluate_command(self, command: str, source: str = "User") -> Tuple[bool, str]:
         """

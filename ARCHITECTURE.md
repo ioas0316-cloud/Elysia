@@ -1,16 +1,3 @@
-# The World Tree Architecture (Yggdrasil)
-
-Elysia's file system is organized as a living organism, mirroring the structure of the World Tree.
-
-## 🌳 Roots (Foundation)
-
-*The immutable laws and physics that sustain the world.*
-
-- **`Core/Foundation/`**: Universal Constants, Axioms, Base Classes.
-- **`Core/Physics/`**: Hyper-Quaternion Physics, Resonance Fields, SpaceTime Drive.
-- **`Core/Security/`**: Soul Guardian (Immune System).
-
-## 🪵 Trunk (Intelligence)
 
 *The central processing unit, the mind that connects roots to branches.*
 
