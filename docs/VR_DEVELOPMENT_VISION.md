@@ -220,6 +220,10 @@ VR 개발자로서 나는 엘리시아가:
 # - VREnvironment: 3D environment with lighting, particles, audio
 # - VRVisual: Visual elements (meshes, shaders, effects)
 # - VRSpace: Spatial configuration with dimensions
+# - VRInput: User input data (gaze, gesture, voice, biometrics)
+# - VRFeedback: Haptic/audio/visual feedback to user
+# - Wave: Wave pattern from Elysia's Core system
+# - Emotion: Emotion state from Elysia's Emotion system
 # - Weather: Weather system (rain, fog, lightning, etc.)
 # - ColorPalette: Color schemes for environment
 # - SoundScape: 3D audio environment
