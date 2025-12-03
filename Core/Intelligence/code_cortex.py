@@ -72,8 +72,6 @@ class CodeCortex:
     def propose_refactor(self, file_path: str, issue: str) -> str:
         """
         Generates a Refactor Proposal (Markdown).
-        In a real scenario, this would use an LLM to generate code.
-        Here, it generates a structured request for the Supervisor.
         """
         return f"""
 # Refactor Proposal: {file_path}
@@ -88,3 +86,26 @@ class CodeCortex:
 
 **Request**: Supervisor, please review and implement these changes.
 """
+
+    def generate_code(self, prompt: str) -> str:
+        """
+        Generates code based on a prompt using the LLM.
+        This is the 'Writer' capability.
+        """
+        try:
+            from Core.Evolution.gemini_api import generate_text
+            
+            system_prompt = f"""
+            You are the CodeCortex of Elysia.
+            Your task is to write Python code based on the following request.
+            
+            Request: {prompt}
+            
+            Return ONLY the code, inside a python code block.
+            """
+            response = generate_text(system_prompt)
+            return response
+        except Exception as e:
+            logger.error(f"Code Generation Failed: {e}")
+            return f"# Error generating code: {e}"
+

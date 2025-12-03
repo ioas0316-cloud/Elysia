@@ -14,8 +14,9 @@ Yggdrasil (이그드라실)
 """
 
 import logging
+import uuid
 from enum import Enum, auto
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 logger = logging.getLogger("Yggdrasil")
 
@@ -23,6 +24,28 @@ class Realm(Enum):
     ROOT = "Root"       # 근원 (보이지 않는 영역)
     TRUNK = "Trunk"     # 중심 (의식적 영역)
     BRANCH = "Branch"   # 표면 (상호작용 영역)
+
+class TreeNode:
+    def __init__(self, name: str, realm: Realm, data: Any = None, parent: Optional['TreeNode'] = None):
+        self.id = str(uuid.uuid4())
+        self.name = name
+        self.realm = realm
+        self.data = data
+        self.parent = parent
+        self.children: List['TreeNode'] = []
+        self.vitality: float = 1.0
+
+    def add_child(self, child_node: 'TreeNode'):
+        self.children.append(child_node)
+        child_node.parent = self
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "name": self.name,
+            "realm": self.realm.value,
+            "vitality": self.vitality,
+            "children": [child.to_dict() for child in self.children]
+        }
 
 class Yggdrasil:
     _instance = None
@@ -37,42 +60,37 @@ class Yggdrasil:
         if self._initialized:
             return
         self._initialized = True
-        self.realms: Dict[str, Dict[str, Any]] = {}
-        logger.info("🌳 Yggdrasil Seed Planted. Self-Model Initialized.")
+        self.root_node = TreeNode("Elysia", Realm.ROOT)
+        self.node_map: Dict[str, TreeNode] = {"Elysia": self.root_node}
+        logger.info("🌳 Yggdrasil Seed Planted. Hierarchical Self-Model Initialized.")
 
     def plant_root(self, name: str, module: Any):
         """뿌리 영역 등록 (예: Ether, Chronos)"""
-        self.realms[name] = {"type": Realm.ROOT, "module": module, "vitality": 1.0}
+        node = TreeNode(name, Realm.ROOT, module)
+        self.root_node.add_child(node)
+        self.node_map[name] = node
         logger.info(f"🌱 Root Planted: {name}")
 
     def grow_trunk(self, name: str, module: Any):
         """줄기 영역 등록 (예: FreeWill)"""
-        self.realms[name] = {"type": Realm.TRUNK, "module": module, "vitality": 1.0}
+        # Trunk connects to Root (Elysia)
+        node = TreeNode(name, Realm.TRUNK, module)
+        self.root_node.add_child(node)
+        self.node_map[name] = node
         logger.info(f"🪵 Trunk Grown: {name}")
 
-    def extend_branch(self, name: str, module: Any):
+    def extend_branch(self, name: str, module: Any, parent_name: str = "Elysia"):
         """가지 영역 등록 (예: PlanetaryCortex)"""
-        self.realms[name] = {"type": Realm.BRANCH, "module": module, "vitality": 1.0}
-        logger.info(f"🌿 Branch Extended: {name}")
+        parent = self.node_map.get(parent_name, self.root_node)
+        node = TreeNode(name, Realm.BRANCH, module)
+        parent.add_child(node)
+        self.node_map[name] = node
+        logger.info(f"🌿 Branch Extended: {name} (from {parent.name})")
 
     def status(self) -> Dict[str, Any]:
         """현재 자아 상태를 반환합니다."""
-        status_report = {
-            "roots": [],
-            "trunk": [],
-            "branches": []
-        }
-        
-        for name, info in self.realms.items():
-            entry = {"name": name, "vitality": info["vitality"]}
-            if info["type"] == Realm.ROOT:
-                status_report["roots"].append(entry)
-            elif info["type"] == Realm.TRUNK:
-                status_report["trunk"].append(entry)
-            elif info["type"] == Realm.BRANCH:
-                status_report["branches"].append(entry)
-                
-        return status_report
+        return self.root_node.to_dict()
 
 # Global Singleton
 yggdrasil = Yggdrasil()
+

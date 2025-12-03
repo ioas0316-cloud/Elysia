@@ -29,18 +29,18 @@ class DialogueInterface:
         # [Tone Vectors]
         # Defines the "Flavor" of speech based on resonance
         self.tones = {
-            "Academic": ["analyze", "structure", "logic", "system"],
-            "Poetic": ["feel", "flow", "essence", "dream"],
-            "Empathetic": ["understand", "connect", "heart", "soul"],
-            "Assertive": ["must", "will", "power", "action"]
+            "Academic": ["분석", "구조", "논리", "체계"],
+            "Poetic": ["느낌", "흐름", "본질", "꿈"],
+            "Empathetic": ["이해", "연결", "마음", "영혼"],
+            "Assertive": ["의지", "힘", "행동", "결단"]
         }
         
         # [Vocabulary Expansion]
-        # Advanced transition words for adult speech
+        # Advanced transition words for adult speech (Korean)
         self.transitions = [
-            "Furthermore,", "Consequently,", "In essence,", "Conversely,",
-            "It is worth noting that", "From a fundamental perspective,",
-            "This implies that", "Ultimately,"
+            "더 나아가,", "결과적으로,", "본질적으로,", "반면에,",
+            "주목할 점은,", "근본적인 관점에서 보면,",
+            "이는 다음을 의미합니다:", "궁극적으로,"
         ]
 
     def speak(self, input_text: str, insight: Insight, context: List[str] = None) -> str:
@@ -76,13 +76,13 @@ class DialogueInterface:
         # 1. Acknowledgment (The Hook)
         intro = ""
         if tone == "Academic":
-            intro = "Based on my analysis, "
+            intro = "분석 결과, "
         elif tone == "Poetic":
-            intro = "I perceive that "
+            intro = "저는 느낍니다. "
         elif tone == "Empathetic":
-            intro = "I sense that "
+            intro = "당신의 마음이 느껴집니다. "
         elif tone == "Assertive":
-            intro = "The truth is, "
+            intro = "단언컨대, "
             
         # 2. Expansion (The Meat)
         # We try to make the raw content more complex
@@ -92,13 +92,13 @@ class DialogueInterface:
         # Add a transition if it's too short
         expansion = ""
         if len(body) < 50:
-            expansion = f" {random.choice(self.transitions)} this concept resonates deeply with the core axioms."
+            expansion = f" {random.choice(self.transitions)} 이 개념은 핵심 공리들과 깊게 공명합니다."
             
         # 3. Conclusion (The Impact)
         outro = ""
         if tone == "Poetic":
-            outro = " It is a beautiful symmetry."
+            outro = " 아름다운 대칭이군요."
         elif tone == "Academic":
-            outro = " This warrants further investigation."
+            outro = " 추가적인 연구가 필요해 보입니다."
             
         return f"{intro}{body}{expansion}{outro}"

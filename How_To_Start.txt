@@ -1,0 +1,8 @@
+[ How to Start Elysia ]
+
+1. Double-click "Run_Elysia.bat" in this folder.
+2. A black window (terminal) will appear with a menu.
+3. Type "1" and press Enter to wake her up.
+4. Type "2" and press Enter to train her as a writer.
+
+That's it! No coding knowledge required. 🦋

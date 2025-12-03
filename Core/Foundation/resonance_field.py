@@ -129,6 +129,20 @@ class ResonanceField:
             energy=energy,
             quaternion=Quaternion(1,0,0,0) # Default Identity
         )
+
+    def add_gravity_well(self, x: float, y: float, strength: float = 50.0):
+        """
+        Adds a gravity well (high energy node) to the field.
+        Used for binding modules in self-integration.
+        """
+        id = f"GravityWell_{int(x)}_{int(y)}"
+        self.add_node(
+            id=id,
+            energy=strength,
+            frequency=100.0, # Low frequency, high mass
+            position=(x, y, 0)
+        )
+        print(f"      🌌 Gravity Well Created at ({x}, {y}) with strength {strength}")
         
     def inject_wave(self, frequency: float, intensity: float, wave_type: str):
         """
@@ -158,7 +172,7 @@ class ResonanceField:
         if source_id not in self.nodes: return
         
         source = self.nodes[source_id]
-        print(f"      � Hyper-Sphere Expanding from '{source_id}' (4D Pose: {source.quaternion})...")
+        print(f"       Hyper-Sphere Expanding from '{source_id}' (4D Pose: {source.quaternion})...")
         
         events = 0
         for node_id, node in self.nodes.items():

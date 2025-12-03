@@ -10,7 +10,7 @@ Spirit-Emotion Integration (정령-감정 통합)
 
 import logging
 from dataclasses import dataclass
-from typing import Dict, TYPE_CHECKING
+from typing import Dict, Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from Core.Foundation.resonance_field import ResonanceField
@@ -35,7 +35,10 @@ class SpiritEmotionMapper:
         self.spirit_emotion_map = {
             "Creativity": {
                 "element": "Fire (불)",
-                "temperature": +0.8,  # 뜨겁다
+                "temperature": +0.8,
+                "color": "#FF4500", # OrangeRed
+                "frequency": 432.0,
+                "force_type": "Expansion (Acceleration)",
                 "emotions": {
                     "high": "Passion (열정)",
                     "medium": "Warmth (따뜻함)",
@@ -44,7 +47,10 @@ class SpiritEmotionMapper:
             },
             "Memory": {
                 "element": "Water (물)",
-                "temperature": -0.3,  # 차갑다
+                "temperature": -0.3,
+                "color": "#1E90FF", # DodgerBlue
+                "frequency": 528.0,
+                "force_type": "Flow (Fluidity)",
                 "emotions": {
                     "high": "Melancholy (애수)",
                     "medium": "Calmness (평온)",
@@ -53,7 +59,10 @@ class SpiritEmotionMapper:
             },
             "Intelligence": {
                 "element": "Light (빛)",
-                "temperature": 0.0,  # 중립
+                "temperature": 0.0,
+                "color": "#FFD700", # Gold
+                "frequency": 639.0,
+                "force_type": "Illumination (Clarity)",
                 "emotions": {
                     "high": "Clarity (명료)",
                     "medium": "Curiosity (호기심)",
@@ -62,7 +71,10 @@ class SpiritEmotionMapper:
             },
             "Foundation": {
                 "element": "Earth (땅)",
-                "temperature": -0.5,  # 차갑고 단단함
+                "temperature": -0.5,
+                "color": "#8B4513", # SaddleBrown
+                "frequency": 396.0,
+                "force_type": "Gravity (Stability)",
                 "emotions": {
                     "high": "Stability (안정)",
                     "medium": "Grounding (현실감)",
@@ -71,7 +83,10 @@ class SpiritEmotionMapper:
             },
             "Interface": {
                 "element": "Air (공기)",
-                "temperature": 0.2,  # 약간 따뜻함
+                "temperature": 0.2,
+                "color": "#87CEEB", # SkyBlue
+                "frequency": 741.0,
+                "force_type": "Diffusion (Connection)",
                 "emotions": {
                     "high": "Openness (개방)",
                     "medium": "Communication (소통)",
@@ -80,7 +95,10 @@ class SpiritEmotionMapper:
             },
             "Evolution": {
                 "element": "Life (생명)",
-                "temperature": 0.5,  # 따뜻함
+                "temperature": 0.5,
+                "color": "#32CD32", # LimeGreen
+                "frequency": 852.0,
+                "force_type": "Growth (Evolution)",
                 "emotions": {
                     "high": "Growth (성장욕)",
                     "medium": "Aspiration (열망)",
@@ -89,7 +107,10 @@ class SpiritEmotionMapper:
             },
             "System": {
                 "element": "Metal (금속)",
-                "temperature": -0.6,  # 차갑고 단단함
+                "temperature": -0.6,
+                "color": "#C0C0C0", # Silver
+                "frequency": 963.0,
+                "force_type": "Structure (Order)",
                 "emotions": {
                     "high": "Order (질서)",
                     "medium": "Precision (정밀)",
@@ -202,6 +223,19 @@ class SpiritEmotionMapper:
         emotion_list = ", ".join(e.name for e in dominant)
         
         return f"I feel {temp_desc}. {emotion_list} flows through me."
+
+    def get_spirit_physics(self, spirit_name: str) -> Dict[str, Any]:
+        """
+        Returns the physical properties of a Spirit.
+        """
+        if spirit_name in self.spirit_emotion_map:
+            return self.spirit_emotion_map[spirit_name]
+        return {
+            "color": "#FFFFFF",
+            "frequency": 0.0,
+            "force_type": "Neutral"
+        }
+
 
 
 # ============================================================================

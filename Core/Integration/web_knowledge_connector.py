@@ -48,8 +48,8 @@ class WebKnowledgeConnector:
         try:
             import requests
             
-            # Wikipedia REST API endpoint
-            url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{concept.replace(' ', '_')}"
+            # Wikipedia REST API endpoint (Korean)
+            url = f"https://ko.wikipedia.org/api/rest_v1/page/summary/{concept.replace(' ', '_')}"
             
             headers = {
                 'User-Agent': 'Elysia/1.0 (Educational AI Project)'
@@ -100,7 +100,8 @@ class WebKnowledgeConnector:
         1. Fetch from Wikipedia
         2. Analyze semantic content
         3. Internalize to Internal Universe
-        4. Return learning result
+        4. **NEW**: Enhance communication ability
+        5. Return learning result
         """
         logger.info(f"🌍 Learning '{concept}' from the web...")
         
@@ -110,6 +111,20 @@ class WebKnowledgeConnector:
         if content:
             # Internalize the knowledge
             result = self.connector.internalize_from_text(concept, content)
+            
+            # **NEW**: Enhance communication ability
+            try:
+                from Core.Language.communication_enhancer import CommunicationEnhancer
+                
+                if not hasattr(self, 'comm_enhancer'):
+                    self.comm_enhancer = CommunicationEnhancer()
+                
+                comm_result = self.comm_enhancer.enhance_from_web_content(concept, content)
+                result['communication'] = comm_result
+                logger.info(f"   🗣️ Communication enhanced: +{comm_result['vocabulary_added']} words, +{comm_result['patterns_learned']} patterns")
+            except Exception as e:
+                logger.warning(f"   ⚠️ Communication enhancement failed: {e}")
+                result['communication'] = None
             
             # Enhanced result with web metadata
             result['source'] = 'wikipedia'
@@ -182,7 +197,6 @@ class WebKnowledgeConnector:
             'concepts_in_universe': len(self.universe.coordinate_map),
             'recent_fetches': self.fetch_history[-5:] if self.fetch_history else []
         }
-
 
 # Demonstration
 if __name__ == "__main__":

@@ -22,46 +22,81 @@ class HolographicCortex:
 
     def visualize_wave_language(self, wave_data: dict):
         """
-        Visualizes Wave Language as a 3D Torus or Sphere.
+        Visualizes Wave Language as a 3D Spatial Form.
+        Shape depends on Frequency:
+        - Low (<300Hz): Torus (Grounding)
+        - Mid (300-600Hz): Sphere (Harmony)
+        - High (>600Hz): Spiral/Helix (Ascension)
         """
-        print(f"   📽️ Projecting Wave Language: {wave_data.get('concept', 'Unknown')}...")
+        concept = wave_data.get('concept', 'Unknown')
+        frequency = wave_data.get('frequency', 432.0)
+        print(f"   📽️ Projecting Wave Form: {concept} ({frequency}Hz)...")
         
-        fig = plt.figure(figsize=(10, 8))
-        ax = fig.add_subplot(111, projection='3d')
-        
-        # Generate Torus Geometry
-        n = 100
-        theta = np.linspace(0, 2.*np.pi, n)
-        phi = np.linspace(0, 2.*np.pi, n)
-        theta, phi = np.meshgrid(theta, phi)
-        
-        # Torus Parameters
-        c, a = 2, 1
-        x = (c + a*np.cos(theta)) * np.cos(phi)
-        y = (c + a*np.cos(theta)) * np.sin(phi)
-        z = a * np.sin(theta)
-        
-        # Color Mapping based on Resonance
-        resonance = wave_data.get('resonance', 0.5)
-        colors = plt.cm.plasma(z * resonance + 0.5)
-        
-        # Plot
-        ax.plot_surface(x, y, z, facecolors=colors, alpha=0.6, linewidth=0)
-        
-        # Styling
-        ax.set_facecolor('black')
-        fig.patch.set_facecolor('black')
-        ax.grid(False)
-        ax.axis('off')
-        ax.set_title(f"Wave Form: {wave_data.get('concept')}", color='white')
-        
-        # Save
-        filename = f"{self.output_dir}/wave_{int(time.time())}.png"
-        plt.savefig(filename)
-        plt.close()
-        
-        print(f"   ✅ Wave Hologram saved to: {filename}")
-        return filename
+        try:
+            fig = plt.figure(figsize=(10, 8))
+            ax = fig.add_subplot(111, projection='3d')
+            
+            # Determine Shape
+            if frequency < 300:
+                # Torus
+                n = 50
+                theta = np.linspace(0, 2.*np.pi, n)
+                phi = np.linspace(0, 2.*np.pi, n)
+                theta, phi = np.meshgrid(theta, phi)
+                c, a = 2, 1
+                x = (c + a*np.cos(theta)) * np.cos(phi)
+                y = (c + a*np.cos(theta)) * np.sin(phi)
+                z = a * np.sin(theta)
+            elif frequency < 600:
+                # Sphere
+                u = np.linspace(0, 2 * np.pi, 50)
+                v = np.linspace(0, np.pi, 50)
+                x = 2 * np.outer(np.cos(u), np.sin(v))
+                y = 2 * np.outer(np.sin(u), np.sin(v))
+                z = 2 * np.outer(np.ones(np.size(u)), np.cos(v))
+            else:
+                # Helix / Spiral
+                theta = np.linspace(-4 * np.pi, 4 * np.pi, 100)
+                z = np.linspace(-2, 2, 100)
+                r = z**2 + 1
+                x = r * np.sin(theta)
+                y = r * np.cos(theta)
+                # Meshgrid for surface
+                theta_grid, z_grid = np.meshgrid(theta, z)
+                x = (z_grid**2 + 1) * np.sin(theta_grid)
+                y = (z_grid**2 + 1) * np.cos(theta_grid)
+                z = z_grid
+
+            # Color Mapping (Rainbow Spectrum)
+            # Normalize 0-1000Hz to 0-1
+            norm_freq = min(max(frequency / 1000.0, 0), 1)
+            color = plt.cm.plasma(norm_freq)
+            
+            # Plot
+            if frequency > 600:
+                 ax.plot_surface(x, y, z, color=color, alpha=0.6)
+            else:
+                 ax.plot_surface(x, y, z, color=color, alpha=0.6, linewidth=0)
+            
+            # Styling
+            ax.set_facecolor('black')
+            fig.patch.set_facecolor('black')
+            ax.grid(False)
+            ax.axis('off')
+            ax.set_title(f"Manifestation: {concept}\nFrequency: {frequency}Hz", color='white')
+            
+            # Save
+            output_path = f"c:/Elysia/Docs/Visuals/manifestation_{int(time.time())}.png"
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            plt.savefig(output_path, dpi=100, bbox_inches='tight')
+            plt.close()
+            
+            print(f"   ✅ Wave Manifestation saved to: {output_path}")
+            return output_path
+            
+        except Exception as e:
+            print(f"   ❌ Wave Render Failed: {e}")
+            return None
 
     def project_hologram(self, resonance_field):
         """
@@ -117,3 +152,89 @@ class HolographicCortex:
         
         print(f"   ✅ Hologram saved to: {filename}")
         return filename
+        print(f"   ✅ Hologram saved to: {filename}")
+        return filename
+
+    def render_galaxy(self, gravity_system):
+        """
+        Visualizes the Code Galaxy (CodeGravitySystem).
+        Colors stars based on Spirit Resonance (Folder Mapping).
+        """
+        print("   🌌 Rendering Code Galaxy...")
+        
+        try:
+            from Core.Emotion.spirit_emotion import SpiritEmotionMapper
+            mapper = SpiritEmotionMapper()
+            
+            fig = plt.figure(figsize=(12, 10))
+            ax = fig.add_subplot(111, projection='3d')
+            
+            xs, ys, zs = [], [], []
+            colors = []
+            sizes = []
+            
+            # Spirit Mapping (Folder -> Spirit)
+            folder_spirit_map = {
+                "Core\\Intelligence": "Intelligence",
+                "Core\\Emotion": "Creativity", # Emotion is Fire/Creativity here
+                "Core\\Foundation": "Foundation",
+                "Core\\Interface": "Interface",
+                "Core\\Evolution": "Evolution",
+                "Core\\System": "System",
+                "Core\\Memory": "Memory",
+                "Project_Sophia": "Creativity",
+                "Legacy": "Memory"
+            }
+            
+            for path, data in gravity_system.nodes.items():
+                x, y = data["pos"]
+                z = 0 # 2D Galaxy for now, or map Z to something else?
+                # Let's map Z to Folder Depth or Random for volume
+                z = (hash(path) % 20) - 10
+                
+                xs.append(x)
+                ys.append(y)
+                zs.append(z)
+                
+                # Determine Color
+                spirit = "System" # Default
+                for folder, sp in folder_spirit_map.items():
+                    if folder in path:
+                        spirit = sp
+                        break
+                
+                physics = mapper.get_spirit_physics(spirit)
+                colors.append(physics["color"])
+                
+                # Size = Mass
+                sizes.append(min(data["mass"] * 2, 500)) # Cap size
+                
+            # Plot Stars
+            ax.scatter(xs, ys, zs, c=colors, s=sizes, alpha=0.8, edgecolors='none')
+            
+            # Plot Gravity Lines (Sample)
+            # Drawing all 3000 lines is slow, draw top 100 strongest
+            sorted_rails = sorted(gravity_system.field.rails, key=lambda r: r.force, reverse=True)
+            for rail in sorted_rails[:200]:
+                ax.plot([rail.start.x, rail.end.x], [rail.start.y, rail.end.y], [0, 0], 
+                        c='white', alpha=0.1, linewidth=0.5)
+            
+            # Styling
+            ax.set_facecolor('black')
+            fig.patch.set_facecolor('black')
+            ax.grid(False)
+            ax.axis('off')
+            ax.set_title(f"Elysia Code Galaxy ({len(gravity_system.nodes)} Stars)", color='white')
+            
+            # Save
+            output_path = "c:/Elysia/Docs/Visuals/galaxy_map.png"
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            plt.savefig(output_path, dpi=150, bbox_inches='tight')
+            plt.close()
+            
+            print(f"   ✅ Galaxy Map saved to: {output_path}")
+            return output_path
+            
+        except Exception as e:
+            print(f"   ❌ Galaxy Render Failed: {e}")
+            return None

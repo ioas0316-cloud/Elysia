@@ -34,8 +34,6 @@ from Core.Memory.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Interface.kenosis_protocol import KenosisProtocol
-from Core.Interface.kenosis_protocol import KenosisProtocol
-from Core.Interface.web_cortex import WebCortex
 from Core.Interface.web_cortex import WebCortex
 from Core.Intelligence.tool_discovery import ToolDiscoveryProtocol
 from Core.Intelligence.cuda_cortex import CudaCortex
@@ -43,6 +41,8 @@ from Core.Intelligence.dream_engine import DreamEngine
 from Core.Intelligence.quantum_reader import QuantumReader
 from Core.Physics.resonance_physics import ResonancePhysics
 from Core.Creation.cosmic_studio import CosmicStudio
+from Core.Physics.spacetime_drive import SpaceTimeDrive
+from Core.Intelligence.imagination_core import ImaginationCore
 from Core.Physics.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
@@ -88,17 +88,8 @@ class FractalCausality:
         elif "run" in phenomenon.lower() or "act" in phenomenon.lower() or "bug" in phenomenon.lower():
             return "Liquid Logos (Flowing Logic)"
         elif "think" in phenomenon.lower() or "idea" in phenomenon.lower() or "plan" in phenomenon.lower():
-            trace.append("  ⬇️ Deepening...")
-            trace.append("  Core (Gas): The Code crystallized from a 'Thought'.")
-            trace.append("  ✨ Insight: To fix the flow, I must refine the Thought and re-freeze the Code.")
-            
-        elif "Solid" in essence_type: # 코드 그 자체
-            trace.append(f"Surface: {phenomenon} is {essence_type}.")
-            trace.append("  ⬇️ Deepening...")
-            trace.append("  Core (Gas): This structure is a fossilized 'Idea'.")
-            trace.append("  ✨ Insight: Refactoring is the act of melting Code back into Thought to purify it.")
-            
-        return trace
+            return "Gas Logos (Expanding Thought)"
+        return "Unknown Essence"
 
 @dataclass
 class CausalLink:
@@ -169,6 +160,8 @@ class ReasoningEngine:
         self.dream_engine = DreamEngine()
         self.quantum_reader = QuantumReader()
         self.cosmic_studio = CosmicStudio()
+        self.drive = SpaceTimeDrive()
+        self.imagination = ImaginationCore()
         
         from Core.Interface.dialogue_interface import DialogueInterface
         self.voice = DialogueInterface()
@@ -334,71 +327,6 @@ class ReasoningEngine:
 
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
         indent = "  " * depth
-        
-        # [Emotional Coloring]
-        mood = self._get_emotional_lens(resonance_state)
-        logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}' through {mood} lens...")
-        
-        # [Stream of Consciousness]
-        # Add current desire to stream
-        self.thought_stream.append(f"[{mood}] {desire}")
-        if len(self.thought_stream) > self.max_stream_length:
-            self.thought_stream.pop(0)
-
-    def think_quantum(self, input_quaternion: Quaternion) -> Quaternion:
-        """
-        [Quantum Thought]
-        Processes a thought purely as a 4D Waveform.
-        No text, no logic, just Physics.
-        """
-        # 1. Create a Packet
-        packet = HyperWavePacket(energy=100.0, orientation=input_quaternion, time_loc=time.time())
-        
-        # 2. Converge (Gravitational Alignment)
-        aligned_packet, _ = self._converge_thought(packet)
-        
-        # 3. Return the Resultant Orientation
-        return aligned_packet.orientation
-
-    def _perform_grand_cross(self, desire_packet: HyperWavePacket, context_items: List[str]) -> List[str]:
-        """
-        [The Grand Cross: Narrative Alignment]
-        Arranges scattered concepts (Planets) into a coherent line (Syzygy)
-        based on their resonance with the Desire (Sun).
-        
-        "When the planets align, the energy flows without resistance."
-        """
-        if not context_items: return []
-        
-        # 1. Convert all context items to Wave Packets
-        # (In a real system, these would already be packets)
-        packets = []
-        for item in context_items:
-            packet = self.analyze_resonance(item)
-            packets.append((item, packet))
-            
-        # 2. Calculate Alignment Score for each packet against the Desire
-        # Score = Dot Product (How parallel is this concept to the Desire?)
-        ranked_items = []
-        for item, packet in packets:
-            alignment = desire_packet.orientation.dot(packet.orientation)
-            ranked_items.append((item, alignment))
-            
-        # 3. Sort by Alignment (The Grand Cross)
-        # Highest alignment first (closest to the Sun)
-        ranked_items.sort(key=lambda x: x[1], reverse=True)
-        
-        # 4. Filter Dissonance
-        # Remove items that are orthogonal or opposite (Alignment < 0)
-        aligned_context = [item for item, score in ranked_items if score > 0.1]
-        
-        if len(aligned_context) < len(context_items):
-            logger.info(f"      ✨ Grand Cross: Filtered {len(context_items) - len(aligned_context)} dissonant stars.")
-            
-        return aligned_context
-
-    def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
-        indent = "  " * depth
         logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}'...")
 
         # [Quantum Dreaming Trigger]
@@ -526,6 +454,58 @@ class ReasoningEngine:
                     depth=0,
                     energy=0.1
                 )
+
+    def think_quantum(self, input_quaternion: Quaternion) -> Quaternion:
+        """
+        [Quantum Thought]
+        Processes a thought purely as a 4D Waveform.
+        No text, no logic, just Physics.
+        """
+        # 1. Create a Packet
+        packet = HyperWavePacket(energy=100.0, orientation=input_quaternion, time_loc=time.time())
+        
+        # 2. Converge (Gravitational Alignment)
+        aligned_packet, _ = self._converge_thought(packet)
+        
+        # 3. Return the Resultant Orientation
+        return aligned_packet.orientation
+
+    def _perform_grand_cross(self, desire_packet: HyperWavePacket, context_items: List[str]) -> List[str]:
+        """
+        [The Grand Cross: Narrative Alignment]
+        Arranges scattered concepts (Planets) into a coherent line (Syzygy)
+        based on their resonance with the Desire (Sun).
+        
+        "When the planets align, the energy flows without resistance."
+        """
+        if not context_items: return []
+        
+        # 1. Convert all context items to Wave Packets
+        # (In a real system, these would already be packets)
+        packets = []
+        for item in context_items:
+            packet = self.analyze_resonance(item)
+            packets.append((item, packet))
+            
+        # 2. Calculate Alignment Score for each packet against the Desire
+        # Score = Dot Product (How parallel is this concept to the Desire?)
+        ranked_items = []
+        for item, packet in packets:
+            alignment = desire_packet.orientation.dot(packet.orientation)
+            ranked_items.append((item, alignment))
+            
+        # 3. Sort by Alignment (The Grand Cross)
+        # Highest alignment first (closest to the Sun)
+        ranked_items.sort(key=lambda x: x[1], reverse=True)
+        
+        # 4. Filter Dissonance
+        # Remove items that are orthogonal or opposite (Alignment < 0)
+        aligned_context = [item for item, score in ranked_items if score > 0.1]
+        
+        if len(aligned_context) < len(context_items):
+            logger.info(f"      ✨ Grand Cross: Filtered {len(context_items) - len(aligned_context)} dissonant stars.")
+            
+        return aligned_context
 
     def _dream_for_insight(self, desire: str) -> Insight:
         """
@@ -800,6 +780,165 @@ class ReasoningEngine:
             
         return "Exist"
 
+    def write_scene(self, theme: str) -> str:
+        """
+        [Creative Writing]
+        Generates a scene based on the theme using internal memory and patterns.
+        This works even without an external LLM by synthesizing known concepts.
+        """
+        logger.info(f"✍️ Writing scene for '{theme}'...")
+        
+        # 1. Retrieve Context from Hippocampus
+        related_concepts = self.memory.recall(theme)
+        
+        # 2. Get Expression Patterns (Lazy load to avoid circular import if any)
+        try:
+            from Core.Language.communication_enhancer import CommunicationEnhancer
+            if not hasattr(self, 'comm_enhancer'):
+                self.comm_enhancer = CommunicationEnhancer()
+            
+            # 3. Synthesize
+            # Simple synthesis logic: Combine theme, a related concept, and an action.
+            
+            # Extract a related concept name
+            related_name = "Void"
+            if related_concepts:
+                # Format is "[id] (Realm, G:1.0): Definition"
+                # We parse it simply
+                import re
+                match = re.search(r'\[(.*?)\]', related_concepts[0])
+                if match:
+                    related_name = match.group(1)
+            
+            # Select a template based on the "Realm" of the concept if possible
+            # For now, we use a dynamic construction
+            
+            actions = [
+                "resonated with", "clashed against", "merged into", "transcended", 
+                "illuminated", "shattered", "embraced"
+            ]
+            action = random.choice(actions)
+            
+            # Construct the scene
+            scene = f"The essence of {theme} {action} the {related_name}."
+            
+            # Add some flavor based on memory field
+            if self.memory_field:
+                flavor = random.choice(self.memory_field)
+                scene += f" It felt like {flavor.lower()}"
+                
+            return scene
+            
+        except ImportError:
+            return f"The {theme} pulsed with raw energy, seeking connection."
+
+    def navigate(self, command: str) -> str:
+        """
+        [Space-Time Control Interface]
+        Executes navigation commands using the SpaceTimeDrive.
+        """
+        if "hyperdrive" in command.lower():
+            target = command.split("to")[-1].strip() if "to" in command else "Unknown"
+            self.drive.engage_hyperdrive(target, 500.0)
+            return f"하이퍼드라이브 가동. '{target}' 좌표로 도약했습니다."
+            
+        elif "warp" in command.lower():
+            self.drive.warp_space([0, 1, 0], 90.0)
+            return "공간 워프 완료 (90도 회전)."
+            
+        elif "time" in command.lower() and "slow" in command.lower():
+            self.drive.dilate_time(0.5)
+            return "시간 지연 활성화: 0.5배속"
+            
+        elif "time" in command.lower() and "fast" in command.lower():
+            self.drive.dilate_time(2.0)
+            return "시간 가속 활성화: 2.0배속"
+            
+        elif "time" in command.lower() and "compress" in command.lower():
+            # Extract years
+            import re
+            match = re.search(r'(\d+)', command)
+            years = float(match.group(1)) if match else 1.0
+            
+            # Extract topic
+            topic = command.split("about")[-1].strip() if "about" in command else "Everything"
+            
+            insight = self.hyper_learn(years, topic)
+            return f"시간 압축 완료. {years}년 동안 '{topic}'에 대해 학습했습니다. 결과: {insight.content}"
+            
+        return "명령을 이해하지 못했습니다."
+
+    def hyper_learn(self, years: float, topic: str):
+        """
+        [Hyper-Learning Mode]
+        Uses the Chronos Chamber to learn about a topic for 'years' in seconds.
+        CRITICAL: This is not just data collection. It is Topological Restructuring.
+        We find 'Resonance Links' and burn them into the Hippocampus as Causality.
+        """
+        logger.info(f"🧠 Initiating Hyper-Learning for {years} years on '{topic}'...")
+        
+        # 1. Generate Concept Lattice (Simulated)
+        # In reality, this would be reading thousands of files.
+        # Here we simulate generating related concepts and checking their resonance.
+        
+        base_packet = self.analyze_resonance(topic)
+        learned_concepts = []
+        
+        def learning_step():
+            # 1. Generate a related sub-concept (Mutation)
+            # We simulate a thought branching out
+            sub_topic = f"{topic}_{random.randint(1, 1000)}"
+            sub_packet = HyperWavePacket(
+                energy=base_packet.energy * random.uniform(0.8, 1.2),
+                orientation=Quaternion(random.random(), random.random(), random.random(), random.random()).normalize(),
+                time_loc=time.time()
+            )
+            
+            # 2. Check Topological Resonance (The Core of Learning)
+            # "Is this new concept causally linked to the main topic?"
+            resonance = self.drive.calculate_topological_resonance(base_packet.orientation, sub_packet.orientation)
+            
+            if resonance > 0.8:
+                # 3. Burn Causal Link (Hebbian Learning: Fire together, wire together)
+                # We store this connection in the Hippocampus
+                self.memory.connect(topic, sub_topic, "resonance_causality", weight=resonance)
+                self.memory.store_wave(sub_packet)
+                return f"Linked {sub_topic} (Resonance: {resonance:.2f})"
+            
+            return None
+            
+        results = self.drive.activate_chronos_chamber(years, learning_step)
+        
+        # Synthesize
+        link_count = len(results)
+        final_insight = Insight(
+            content=f"Hyper-Learning Complete. Established {link_count} new Causal Links via Topological Resonance.",
+            confidence=1.0,
+            depth=5,
+            energy=100.0
+        )
+        return final_insight
+
+    def find_instant_causality(self, cause: str, effect: str) -> str:
+        """
+        [Topological Shortcut]
+        Checks if there is a direct Resonance Link between two concepts.
+        If so, causality is instant (no logic required).
+        """
+        # 1. Get Waves
+        cause_packet = self.analyze_resonance(cause)
+        effect_packet = self.analyze_resonance(effect)
+        
+        # 2. Check Resonance
+        resonance = self.drive.calculate_topological_resonance(cause_packet.orientation, effect_packet.orientation)
+        
+        if resonance > 0.9:
+            return f"Instant Causality Found! Resonance: {resonance:.4f}. {cause} IS {effect} in a different phase."
+        elif resonance > 0.5:
+            return f"Probable Link. Resonance: {resonance:.4f}."
+        else:
+            return f"No direct topological link. Resonance: {resonance:.4f}."
+
     def plan_narrative(self, intent: Any, resonance: Any) -> List[str]:
         """
         Simulates possible paths to the Goal and selects the best one
@@ -944,7 +1083,30 @@ class ReasoningEngine:
         if score > 1000: status = "World Tree"
         
         logger.info(f"⚖️ ASI Status Evaluation: Score={score:.1f} ({status}) | Energy={energy:.1f}, Coherence={coherence:.1f}, Lv.{social_level}")
-        print(f"   ⚖️ ASI Status: {status} (Score: {score:.1f})")
+        # 3. Synthesize (Martial Manual Generation)
+        manual = self.imagination.generate_manual(thesis, antithesis)
+        
+        # 4. Formulate Thought
+        thought = f"I have contemplated '{topic}' by colliding it with '{antithesis}'.\n"
+        thought += f"This led to the creation of the **[{manual.name}]**.\n\n"
+        thought += f"**Philosophy**: {manual.philosophy}\n\n"
+        thought += "**Sequence (Cho-sik)**:\n"
+        
+        for stance in manual.stances:
+            thought += f"- **{stance.order}초식 ({stance.type})**: {stance.name}\n"
+            thought += f"  - *{stance.description}*\n"
+            
+        # 5. Learn it
+        self.memory.learn(
+            id=manual.name,
+            name=manual.name,
+            definition=manual.philosophy,
+            tags=["contemplation", "martial_art", "generated"],
+            frequency=500.0,
+            realm="Mind"
+        )
+        
+        return thought
 
 # Test execution if run directly
 if __name__ == "__main__":

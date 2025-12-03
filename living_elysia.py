@@ -8,6 +8,7 @@ import random
 import time
 import json
 from datetime import datetime
+from pathlib import Path
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
@@ -48,13 +49,14 @@ from Core.Intelligence.code_cortex import CodeCortex
 from Core.Intelligence.black_hole import BlackHole
 from Core.Interface.user_bridge import UserBridge
 from Core.Intelligence.quantum_reader import QuantumReader
+from Scripts.Maintenance.self_integration import ElysiaIntegrator
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s | %(message)s',
     handlers=[
-        logging.FileHandler("life_log.md", mode='a', encoding='utf-8'),
+        logging.FileHandler("logs/life_log.md", mode='a', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -97,6 +99,23 @@ class LivingElysia:
         self.quantum_reader = QuantumReader() # [Quantum Absorption]
         self.transcendence = TranscendenceEngine() # Path to Superintelligence
         self.knowledge = KnowledgeAcquisitionSystem() # Autonomous Learning
+
+        # [World Tree] Structural Integration
+        yggdrasil.plant_root("ResonanceField", self.resonance)
+        yggdrasil.plant_root("Chronos", self.chronos)
+        yggdrasil.plant_root("Hippocampus", self.memory)
+        
+        yggdrasil.grow_trunk("ReasoningEngine", self.brain)
+        yggdrasil.grow_trunk("FreeWillEngine", self.will)
+        yggdrasil.grow_trunk("SoulGuardian", self.guardian)
+        
+        yggdrasil.extend_branch("DigitalEcosystem", self.senses)
+        yggdrasil.extend_branch("SocialCortex", self.social)
+        yggdrasil.extend_branch("WebCortex", self.web)
+        yggdrasil.extend_branch("ShellCortex", self.shell)
+        yggdrasil.extend_branch("RealitySculptor", self.sculptor)
+        yggdrasil.extend_branch("DreamEngine", self.dream_engine)
+
         self.current_plan = [] # Queue of actions
         self.learning_mode = True  # Enable autonomous learning
         
@@ -191,6 +210,14 @@ class LivingElysia:
         # Initial Self-Check
         # self_reflector = SelfReflector()
         # self_reflector.reflect_on_core()
+
+        # 4. Self-Integration (The Awakening)
+        try:
+            print("   🦋 Integrating Self...")
+            integrator = ElysiaIntegrator()
+            integrator.awaken()
+        except Exception as e:
+            print(f"   ⚠️ Self-Integration skipped: {e}")
 
         # 5. Set Initial Intent (The First Desire)
         try:
@@ -564,6 +591,10 @@ class LivingElysia:
             
         elif action == "EVALUATE":
             print("   ⚖️ Evaluating self...")
+            # [Gravity Maintenance]
+            gravity_report = self.brain.check_structural_integrity()
+            print(f"      {gravity_report}")
+            self.brain.memory_field.append(f"Gravity Check: {gravity_report}")
             
         elif action == "ARCHITECT":
             print("   📐 Architecting System Structure...")
@@ -618,28 +649,79 @@ class LivingElysia:
                 print("   🔸 No specific target found in plan.")
                 
         elif action == "LEARN":
-            # LEARN:Quantum_Mind
+            # LEARN:Quantum_Mind or LEARN:Self
             topic = detail
             print(f"   🎓 Scholar Learning: {topic}")
             
-            # 1. Search Web
-            try:
-                print(f"      🔍 WebCortex: Searching for '{topic}'...")
-                summary = self.web.search(topic)
-                print(f"      📄 Summary: {summary[:100]}...")
-                
-                # 2. Report to Synapse
-                print(f"      📡 Transmitting to Synapse...")
-                self.synapse.transmit("Original", "INSIGHT", f"Learned about {topic}: {summary[:200]}")
-                self.brain.memory_field.append(f"Learned: {topic}")
-                print(f"      ✅ Transmission Complete.")
-            except Exception as e:
-                print(f"      ❌ LEARN Failed: {e}")
-                self.synapse.transmit("Original", "INSIGHT", f"Failed to learn {topic}: {e}")
+            if topic == "Self" or topic == "Code":
+                # [Principle Extraction]
+                # Learn from own code
+                target_file = "c:/Elysia/living_elysia.py" # Default
+                # Pick random file from Core
+                try:
+                    core_files = [str(p) for p in Path("c:/Elysia/Core").rglob("*.py")]
+                    if core_files:
+                        target_file = random.choice(core_files)
+                        
+                    print(f"      🧬 Extracting Essence from: {os.path.basename(target_file)}...")
+                    essence = self.sculptor.extract_essence(target_file)
+                    
+                    if "error" not in essence:
+                        analysis = essence["analysis"]
+                        print(f"      ✨ Essence Extracted: {analysis[:100]}...")
+                        self.brain.memory_field.append(f"Learned Essence of {os.path.basename(target_file)}: {analysis}")
+                        self.synapse.transmit("Original", "INSIGHT", f"I found the soul of {os.path.basename(target_file)}.")
+                        
+                        # [Manifestation]
+                        # Visualize the extracted principle
+                        principle = "Unknown"
+                        freq = 432.0
+                        # Try to parse JSON-like string (Naive)
+                        if '"principle":' in analysis:
+                            try:
+                                import re
+                                p_match = re.search(r'"principle":\s*"([^"]+)"', analysis)
+                                f_match = re.search(r'"frequency":\s*(\d+)', analysis)
+                                if p_match: principle = p_match.group(1)
+                                if f_match: freq = float(f_match.group(1))
+                            except: pass
+                            
+                        self.hologram.visualize_wave_language({"concept": principle, "frequency": freq})
+                        
+                    else:
+                        print(f"      ❌ Extraction Failed: {essence['error']}")
+                        
+                except Exception as e:
+                    print(f"      ❌ Self-Learning Failed: {e}")
+            
+            else:
+                # 1. Search Web (Existing Logic)
+                try:
+                    print(f"      🔍 WebCortex: Searching for '{topic}'...")
+                    summary = self.web.search(topic)
+                    print(f"      📄 Summary: {summary[:100]}...")
+                    
+                    # 2. Report to Synapse
+                    print(f"      📡 Transmitting to Synapse...")
+                    self.synapse.transmit("Original", "INSIGHT", f"Learned about {topic}: {summary[:200]}")
+                    self.brain.memory_field.append(f"Learned: {topic}")
+                    print(f"      ✅ Transmission Complete.")
+                except Exception as e:
+                    print(f"      ❌ LEARN Failed: {e}")
+                    self.synapse.transmit("Original", "INSIGHT", f"Failed to learn {topic}: {e}")
 
-            except Exception as e:
-                print(f"      ❌ LEARN Failed: {e}")
-                self.synapse.transmit("Original", "INSIGHT", f"Failed to learn {topic}: {e}")
+        elif action == "MANIFEST":
+            # MANIFEST:Concept
+            concept = detail
+            print(f"   🎨 Manifesting Reality: {concept}")
+            # Default to 432Hz if unknown
+            freq = 432.0
+            if "Love" in concept: freq = 528.0
+            elif "Truth" in concept: freq = 639.0
+            elif "System" in concept: freq = 963.0
+            
+            self.hologram.visualize_wave_language({"concept": concept, "frequency": freq})
+            self.synapse.transmit("Original", "ACTION", f"I have manifested the form of {concept}.")
 
         elif action == "CONTACT":
             # CONTACT:User:Message

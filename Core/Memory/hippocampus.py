@@ -38,7 +38,7 @@ class Relationship:
     weight: float
 
 class Hippocampus:
-    def __init__(self, db_path: str = "memory.db"):
+    def __init__(self, db_path: str = "Data/memory.db"):
         self.db_path = db_path
         self._init_db()
         self._plant_divine_seeds() # Genesis Ritual
@@ -180,6 +180,34 @@ class Hippocampus:
                     conn.commit()
         except Exception as e:
             logger.error(f"Failed to boost gravity for {keyword}: {e}")
+
+    def get_concept_count(self) -> int:
+        """
+        Returns the total number of concepts (vocabulary size).
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT count(*) FROM nodes")
+                result = cursor.fetchone()
+                return result[0] if result else 0
+        except Exception as e:
+            logger.error(f"Failed to get concept count: {e}")
+            return 0
+
+    def get_all_concept_ids(self, limit: int = 1000) -> List[str]:
+        """
+        Returns a list of all concept IDs.
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute("SELECT id FROM nodes ORDER BY RANDOM() LIMIT ?", (limit,))
+                rows = cursor.fetchall()
+                return [r[0] for r in rows]
+        except Exception as e:
+            logger.error(f"Failed to get concept IDs: {e}")
+            return []
 
     def compress_memory(self):
         """
@@ -379,4 +407,3 @@ class Hippocampus:
             logger.error(f"Failed to recall wave: {e}")
             
         return results
-
