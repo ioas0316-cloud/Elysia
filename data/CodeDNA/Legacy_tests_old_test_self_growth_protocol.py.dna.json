@@ -1,0 +1,22 @@
+{
+  "name": "test_self_growth_protocol.py",
+  "path": "Legacy\\tests_old\\test_self_growth_protocol.py",
+  "hash": "18aea4bf",
+  "frequency": 203.6,
+  "amplitude": 30.6,
+  "phase": "evolution",
+  "wavelength": 4.91,
+  "functions": 4,
+  "classes": 1,
+  "imports": 5,
+  "lines": 186,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.749409",
+  "version": "1.0"
+}

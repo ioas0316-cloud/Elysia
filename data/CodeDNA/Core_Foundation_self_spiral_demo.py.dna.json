@@ -1,0 +1,23 @@
+{
+  "name": "self_spiral_demo.py",
+  "path": "Core\\Foundation\\self_spiral_demo.py",
+  "hash": "c895da62",
+  "frequency": 213.1,
+  "amplitude": 35.1,
+  "phase": "evolution",
+  "wavelength": 4.69,
+  "functions": 6,
+  "classes": 0,
+  "imports": 6,
+  "lines": 231,
+  "connections": [
+    "matplotlib",
+    "Core",
+    "mpl_toolkits",
+    "os",
+    "sys",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:10.135127",
+  "version": "1.0"
+}

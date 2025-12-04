@@ -1,0 +1,23 @@
+{
+  "name": "logic.py",
+  "path": "Core\\Foundation\\logic.py",
+  "hash": "d502a9a3",
+  "frequency": 295.6,
+  "amplitude": 53.6,
+  "phase": "intelligence",
+  "wavelength": 3.38,
+  "functions": 12,
+  "classes": 1,
+  "imports": 6,
+  "lines": 256,
+  "connections": [
+    "random",
+    "typing",
+    "time",
+    "Core",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.613129",
+  "version": "1.0"
+}

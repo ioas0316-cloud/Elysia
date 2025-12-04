@@ -1,0 +1,19 @@
+{
+  "name": "test_explorer_bot.py",
+  "path": "Legacy\\tests_old\\bots\\test_explorer_bot.py",
+  "hash": "4f42bddd",
+  "frequency": 166.2,
+  "amplitude": 16.2,
+  "phase": "intelligence",
+  "wavelength": 6.02,
+  "functions": 3,
+  "classes": 1,
+  "imports": 2,
+  "lines": 62,
+  "connections": [
+    "unittest",
+    "nano_core"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.005472",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "tesseract_perspective.py",
+  "path": "Core\\Foundation\\tesseract_perspective.py",
+  "hash": "8d062175",
+  "frequency": 414.1,
+  "amplitude": 97.1,
+  "phase": "system",
+  "wavelength": 2.41,
+  "functions": 16,
+  "classes": 4,
+  "imports": 5,
+  "lines": 491,
+  "connections": [
+    "enum",
+    "dataclasses",
+    "typing",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:11.649154",
+  "version": "1.0"
+}

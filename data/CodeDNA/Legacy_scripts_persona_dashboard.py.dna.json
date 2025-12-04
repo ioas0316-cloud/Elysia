@@ -1,0 +1,22 @@
+{
+  "name": "persona_dashboard.py",
+  "path": "Legacy\\scripts\\persona_dashboard.py",
+  "hash": "8b64af4f",
+  "frequency": 188.0,
+  "amplitude": 23.0,
+  "phase": "foundation",
+  "wavelength": 5.32,
+  "functions": 5,
+  "classes": 0,
+  "imports": 5,
+  "lines": 130,
+  "connections": [
+    "__future__",
+    "pathlib",
+    "typing",
+    "json",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.804333",
+  "version": "1.0"
+}

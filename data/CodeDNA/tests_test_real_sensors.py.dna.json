@@ -1,0 +1,21 @@
+{
+  "name": "test_real_sensors.py",
+  "path": "tests\\test_real_sensors.py",
+  "hash": "8456e0ac",
+  "frequency": 422.1,
+  "amplitude": 72.1,
+  "phase": "system",
+  "wavelength": 2.37,
+  "functions": 18,
+  "classes": 5,
+  "imports": 4,
+  "lines": 221,
+  "connections": [
+    "pytest",
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.793756",
+  "version": "1.0"
+}

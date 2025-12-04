@@ -1,0 +1,22 @@
+{
+  "name": "local_cortex.py",
+  "path": "Core\\Intelligence\\local_cortex.py",
+  "hash": "f4163efe",
+  "frequency": 206.4,
+  "amplitude": 25.4,
+  "phase": "intelligence",
+  "wavelength": 4.84,
+  "functions": 5,
+  "classes": 1,
+  "imports": 5,
+  "lines": 114,
+  "connections": [
+    "glob",
+    "typing",
+    "llama_cpp",
+    "os",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.579810",
+  "version": "1.0"
+}

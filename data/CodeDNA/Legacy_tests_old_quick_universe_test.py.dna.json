@@ -1,0 +1,24 @@
+{
+  "name": "quick_universe_test.py",
+  "path": "Legacy\\tests_old\\quick_universe_test.py",
+  "hash": "b959c218",
+  "frequency": 150.7,
+  "amplitude": 7.7,
+  "phase": "interface",
+  "wavelength": 6.64,
+  "functions": 1,
+  "classes": 0,
+  "imports": 7,
+  "lines": 57,
+  "connections": [
+    "tools",
+    "Project_Sophia",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "datetime",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.439527",
+  "version": "1.0"
+}

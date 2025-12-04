@@ -1,0 +1,23 @@
+{
+  "name": "codebase_resonance.py",
+  "path": "Core\\Foundation\\codebase_resonance.py",
+  "hash": "637746c1",
+  "frequency": 187.6,
+  "amplitude": 25.6,
+  "phase": "foundation",
+  "wavelength": 5.33,
+  "functions": 4,
+  "classes": 0,
+  "imports": 6,
+  "lines": 176,
+  "connections": [
+    "matplotlib",
+    "typing",
+    "os",
+    "networkx",
+    "sys",
+    "ast"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.228796",
+  "version": "1.0"
+}

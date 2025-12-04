@@ -1,0 +1,21 @@
+{
+  "name": "self_model.py",
+  "path": "Core\\Elysia\\high_engine\\self_model.py",
+  "hash": "cde004c4",
+  "frequency": 207.6,
+  "amplitude": 39.6,
+  "phase": "evolution",
+  "wavelength": 4.82,
+  "functions": 4,
+  "classes": 1,
+  "imports": 4,
+  "lines": 276,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing",
+    "Project_Elysia"
+  ],
+  "extracted_at": "2025-12-05T02:24:17.043209",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "test_planning_integration.py",
+  "path": "Legacy\\tests_old\\test_planning_integration.py",
+  "hash": "36c9ee25",
+  "frequency": 170.8,
+  "amplitude": 13.8,
+  "phase": "intelligence",
+  "wavelength": 5.85,
+  "functions": 2,
+  "classes": 1,
+  "imports": 5,
+  "lines": 58,
+  "connections": [
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.740536",
+  "version": "1.0"
+}

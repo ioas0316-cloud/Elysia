@@ -1,0 +1,20 @@
+{
+  "name": "reservoir_mesh.py",
+  "path": "Legacy\\Project_Sophia\\reservoir_mesh.py",
+  "hash": "ba2f8c32",
+  "frequency": 195.7,
+  "amplitude": 24.7,
+  "phase": "foundation",
+  "wavelength": 5.11,
+  "functions": 5,
+  "classes": 1,
+  "imports": 3,
+  "lines": 107,
+  "connections": [
+    "__future__",
+    "typing",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.697931",
+  "version": "1.0"
+}

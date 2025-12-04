@@ -1,0 +1,21 @@
+{
+  "name": "curiosity_sync_to_kg.py",
+  "path": "Legacy\\scripts\\curiosity_sync_to_kg.py",
+  "hash": "41981039",
+  "frequency": 148.1,
+  "amplitude": 12.1,
+  "phase": "system",
+  "wavelength": 6.75,
+  "functions": 2,
+  "classes": 0,
+  "imports": 4,
+  "lines": 81,
+  "connections": [
+    "pathlib",
+    "__future__",
+    "tools",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.256643",
+  "version": "1.0"
+}

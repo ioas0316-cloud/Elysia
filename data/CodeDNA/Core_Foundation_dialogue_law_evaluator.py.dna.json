@@ -1,0 +1,23 @@
+{
+  "name": "dialogue_law_evaluator.py",
+  "path": "Core\\Foundation\\dialogue_law_evaluator.py",
+  "hash": "62849bb3",
+  "frequency": 254.0,
+  "amplitude": 52.0,
+  "phase": "memory",
+  "wavelength": 3.94,
+  "functions": 5,
+  "classes": 2,
+  "imports": 6,
+  "lines": 340,
+  "connections": [
+    "__future__",
+    "dataclasses",
+    "typing",
+    "core_memory",
+    "architecture",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.159828",
+  "version": "1.0"
+}

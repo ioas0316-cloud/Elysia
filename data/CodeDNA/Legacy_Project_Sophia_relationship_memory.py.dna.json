@@ -1,0 +1,22 @@
+{
+  "name": "relationship_memory.py",
+  "path": "Legacy\\Project_Sophia\\relationship_memory.py",
+  "hash": "7e769538",
+  "frequency": 254.8,
+  "amplitude": 41.8,
+  "phase": "memory",
+  "wavelength": 3.92,
+  "functions": 9,
+  "classes": 1,
+  "imports": 5,
+  "lines": 198,
+  "connections": [
+    "collections",
+    "pathlib",
+    "typing",
+    "json",
+    "datetime"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.693974",
+  "version": "1.0"
+}

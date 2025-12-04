@@ -1,0 +1,33 @@
+{
+  "name": "agency_orchestrator.py",
+  "path": "Core\\Foundation\\agency_orchestrator.py",
+  "hash": "740480d5",
+  "frequency": 418.4,
+  "amplitude": 86.4,
+  "phase": "intelligence",
+  "wavelength": 2.39,
+  "functions": 15,
+  "classes": 2,
+  "imports": 16,
+  "lines": 484,
+  "connections": [
+    "__future__",
+    "random",
+    "re",
+    "dataclasses",
+    "typing",
+    "pathlib",
+    "time",
+    "proof_renderer",
+    "Legacy",
+    "desire_state",
+    "decision_report",
+    "core",
+    "preferences",
+    "datetime",
+    "kg_manager",
+    "kg_value_utils"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.869821",
+  "version": "1.0"
+}

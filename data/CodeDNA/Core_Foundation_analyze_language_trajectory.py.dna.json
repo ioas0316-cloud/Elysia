@@ -1,0 +1,26 @@
+{
+  "name": "analyze_language_trajectory.py",
+  "path": "Core\\Foundation\\analyze_language_trajectory.py",
+  "hash": "a6179e8c",
+  "frequency": 293.8,
+  "amplitude": 52.8,
+  "phase": "system",
+  "wavelength": 3.4,
+  "functions": 10,
+  "classes": 1,
+  "imports": 9,
+  "lines": 288,
+  "connections": [
+    "collections",
+    "pathlib",
+    "typing",
+    "time",
+    "os",
+    "json",
+    "sys",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.893501",
+  "version": "1.0"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "digital_ecosystem.py",
+  "path": "Core\\Foundation\\digital_ecosystem.py",
+  "hash": "e1c48a94",
+  "frequency": 262.9,
+  "amplitude": 34.9,
+  "phase": "system",
+  "wavelength": 3.8,
+  "functions": 5,
+  "classes": 3,
+  "imports": 8,
+  "lines": 129,
+  "connections": [
+    "random",
+    "pathlib",
+    "typing",
+    "dataclasses",
+    "time",
+    "os",
+    "psutil",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.287707",
+  "version": "1.0"
+}

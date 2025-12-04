@@ -1,0 +1,23 @@
+{
+  "name": "test_offline_curriculum_builder.py",
+  "path": "Legacy\\tests_old\\test_offline_curriculum_builder.py",
+  "hash": "75fd71e8",
+  "frequency": 156.1,
+  "amplitude": 10.1,
+  "phase": "intelligence",
+  "wavelength": 6.41,
+  "functions": 2,
+  "classes": 0,
+  "imports": 6,
+  "lines": 61,
+  "connections": [
+    "__future__",
+    "pathlib",
+    "tools",
+    "Project_Sophia",
+    "json",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.716728",
+  "version": "1.0"
+}

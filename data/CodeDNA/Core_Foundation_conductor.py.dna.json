@@ -1,0 +1,24 @@
+{
+  "name": "conductor.py",
+  "path": "Core\\Foundation\\conductor.py",
+  "hash": "bf6563f4",
+  "frequency": 518.0,
+  "amplitude": 100,
+  "phase": "system",
+  "wavelength": 1.93,
+  "functions": 21,
+  "classes": 6,
+  "imports": 7,
+  "lines": 530,
+  "connections": [
+    "enum",
+    "queue",
+    "dataclasses",
+    "typing",
+    "time",
+    "logging",
+    "threading"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.447456",
+  "version": "1.0"
+}

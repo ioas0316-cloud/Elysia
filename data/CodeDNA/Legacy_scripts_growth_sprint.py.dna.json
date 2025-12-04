@@ -1,0 +1,29 @@
+{
+  "name": "growth_sprint.py",
+  "path": "Legacy\\scripts\\growth_sprint.py",
+  "hash": "97d4eeaa",
+  "frequency": 278.5,
+  "amplitude": 38.5,
+  "phase": "evolution",
+  "wavelength": 3.59,
+  "functions": 10,
+  "classes": 0,
+  "imports": 12,
+  "lines": 185,
+  "connections": [
+    "scripts",
+    "collections",
+    "subprocess",
+    "pathlib",
+    "typing",
+    "tools",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "nano_core",
+    "argparse",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.528017",
+  "version": "1.0"
+}

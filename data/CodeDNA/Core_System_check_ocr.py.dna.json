@@ -1,0 +1,21 @@
+{
+  "name": "check_ocr.py",
+  "path": "Core\\System\\check_ocr.py",
+  "hash": "67821055",
+  "frequency": 125.0,
+  "amplitude": 5.0,
+  "phase": "system",
+  "wavelength": 8.0,
+  "functions": 0,
+  "classes": 0,
+  "imports": 4,
+  "lines": 50,
+  "connections": [
+    "PIL",
+    "pytesseract",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:16.153197",
+  "version": "1.0"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "bio_choir.py",
+  "path": "Core\\Foundation\\bio_choir.py",
+  "hash": "9a2206aa",
+  "frequency": 187.8,
+  "amplitude": 17.8,
+  "phase": "system",
+  "wavelength": 5.32,
+  "functions": 3,
+  "classes": 1,
+  "imports": 6,
+  "lines": 78,
+  "connections": [
+    "random",
+    "typing",
+    "Core",
+    "struct",
+    "wave",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.007319",
+  "version": "1.0"
+}

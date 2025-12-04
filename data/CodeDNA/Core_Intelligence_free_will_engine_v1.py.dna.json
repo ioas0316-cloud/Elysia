@@ -1,0 +1,20 @@
+{
+  "name": "free_will_engine_v1.py",
+  "path": "Core\\Intelligence\\free_will_engine_v1.py",
+  "hash": "f31bd269",
+  "frequency": 168.5,
+  "amplitude": 13.5,
+  "phase": "intelligence",
+  "wavelength": 5.93,
+  "functions": 3,
+  "classes": 1,
+  "imports": 3,
+  "lines": 35,
+  "connections": [
+    "typing",
+    "random",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.562352",
+  "version": "1.0"
+}

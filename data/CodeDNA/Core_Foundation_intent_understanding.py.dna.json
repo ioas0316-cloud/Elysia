@@ -1,0 +1,23 @@
+{
+  "name": "intent_understanding.py",
+  "path": "Core\\Foundation\\intent_understanding.py",
+  "hash": "6f592215",
+  "frequency": 395.4,
+  "amplitude": 89.4,
+  "phase": "system",
+  "wavelength": 2.53,
+  "functions": 12,
+  "classes": 5,
+  "imports": 6,
+  "lines": 454,
+  "connections": [
+    "enum",
+    "dataclasses",
+    "typing",
+    "pathlib",
+    "time",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.253384",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "genesis_protocol.py",
+  "path": "Core\\Foundation\\genesis_protocol.py",
+  "hash": "a39e33a0",
+  "frequency": 198.2,
+  "amplitude": 25.2,
+  "phase": "foundation",
+  "wavelength": 5.05,
+  "functions": 4,
+  "classes": 1,
+  "imports": 5,
+  "lines": 132,
+  "connections": [
+    "pathlib",
+    "time",
+    "shutil",
+    "os",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.457291",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "dream_observer.py",
+  "path": "Core\\Elysia\\dream_observer.py",
+  "hash": "7247d06b",
+  "frequency": 214.2,
+  "amplitude": 49.2,
+  "phase": "interface",
+  "wavelength": 4.67,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 392,
+  "connections": [
+    "typing",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.659042",
+  "version": "1.0"
+}

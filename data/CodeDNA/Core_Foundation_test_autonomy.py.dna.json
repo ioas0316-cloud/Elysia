@@ -1,0 +1,23 @@
+{
+  "name": "test_autonomy.py",
+  "path": "Core\\Foundation\\test_autonomy.py",
+  "hash": "84b55ad6",
+  "frequency": 144.7,
+  "amplitude": 6.7,
+  "phase": "intelligence",
+  "wavelength": 6.91,
+  "functions": 1,
+  "classes": 0,
+  "imports": 6,
+  "lines": 47,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging",
+    "threading"
+  ],
+  "extracted_at": "2025-12-05T02:24:11.886677",
+  "version": "1.0"
+}

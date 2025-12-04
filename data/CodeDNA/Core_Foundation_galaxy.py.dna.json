@@ -1,0 +1,22 @@
+{
+  "name": "galaxy.py",
+  "path": "Core\\Foundation\\galaxy.py",
+  "hash": "47931506",
+  "frequency": 267.7,
+  "amplitude": 46.7,
+  "phase": "foundation",
+  "wavelength": 3.74,
+  "functions": 8,
+  "classes": 2,
+  "imports": 5,
+  "lines": 227,
+  "connections": [
+    "pathlib",
+    "typing",
+    "dataclasses",
+    "importlib",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.392347",
+  "version": "1.0"
+}

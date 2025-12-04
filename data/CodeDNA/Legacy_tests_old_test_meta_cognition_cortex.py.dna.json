@@ -1,0 +1,22 @@
+{
+  "name": "test_meta_cognition_cortex.py",
+  "path": "Legacy\\tests_old\\test_meta_cognition_cortex.py",
+  "hash": "c903c02d",
+  "frequency": 160.2,
+  "amplitude": 11.2,
+  "phase": "intelligence",
+  "wavelength": 6.24,
+  "functions": 1,
+  "classes": 1,
+  "imports": 5,
+  "lines": 52,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.698822",
+  "version": "1.0"
+}

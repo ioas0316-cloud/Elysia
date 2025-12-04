@@ -1,0 +1,22 @@
+{
+  "name": "inject_vocabulary.py",
+  "path": "Core\\Foundation\\inject_vocabulary.py",
+  "hash": "b5008125",
+  "frequency": 141.2,
+  "amplitude": 8.2,
+  "phase": "system",
+  "wavelength": 7.08,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 62,
+  "connections": [
+    "data",
+    "time",
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.036597",
+  "version": "1.0"
+}

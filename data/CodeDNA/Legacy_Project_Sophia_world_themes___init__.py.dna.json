@@ -1,0 +1,20 @@
+{
+  "name": "__init__.py",
+  "path": "Legacy\\Project_Sophia\\world_themes\\__init__.py",
+  "hash": "6b1d440e",
+  "frequency": 160.6,
+  "amplitude": 13.6,
+  "phase": "foundation",
+  "wavelength": 6.23,
+  "functions": 2,
+  "classes": 1,
+  "imports": 3,
+  "lines": 56,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.156682",
+  "version": "1.0"
+}

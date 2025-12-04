@@ -1,0 +1,19 @@
+{
+  "name": "__init__.py",
+  "path": "Legacy\\elysia_sdk\\__init__.py",
+  "hash": "b9a08ab8",
+  "frequency": 110.7,
+  "amplitude": 0.7,
+  "phase": "unknown",
+  "wavelength": 9.03,
+  "functions": 0,
+  "classes": 0,
+  "imports": 2,
+  "lines": 7,
+  "connections": [
+    "importlib",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.855441",
+  "version": "1.0"
+}

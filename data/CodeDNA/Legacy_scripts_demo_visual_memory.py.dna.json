@@ -1,0 +1,21 @@
+{
+  "name": "demo_visual_memory.py",
+  "path": "Legacy\\scripts\\demo_visual_memory.py",
+  "hash": "2e39c094",
+  "frequency": 126.5,
+  "amplitude": 6.5,
+  "phase": "memory",
+  "wavelength": 7.91,
+  "functions": 0,
+  "classes": 0,
+  "imports": 4,
+  "lines": 65,
+  "connections": [
+    "__future__",
+    "os",
+    "ELYSIA",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.290667",
+  "version": "1.0"
+}

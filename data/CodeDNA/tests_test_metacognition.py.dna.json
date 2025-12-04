@@ -1,0 +1,18 @@
+{
+  "name": "test_metacognition.py",
+  "path": "tests\\test_metacognition.py",
+  "hash": "06f25642",
+  "frequency": 119.1,
+  "amplitude": 6.1,
+  "phase": "intelligence",
+  "wavelength": 8.4,
+  "functions": 1,
+  "classes": 0,
+  "imports": 1,
+  "lines": 41,
+  "connections": [
+    "Project_Sophia"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.447286",
+  "version": "1.0"
+}

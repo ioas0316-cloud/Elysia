@@ -1,24 +1,24 @@
 {
-  "total_files": 1493,
-  "extracted_at": "2025-12-05T02:18:41.743370",
+  "total_files": 1494,
+  "extracted_at": "2025-12-05T02:24:21.084968",
   "version": "1.0",
   "statistics": {
-    "avg_frequency": 194.27,
+    "avg_frequency": 194.22,
     "max_frequency": 1000,
-    "avg_amplitude": 23.53,
+    "avg_amplitude": 23.52,
     "max_amplitude": 100,
     "phase_distribution": {
       "unknown": 338,
+      "system": 291,
       "intelligence": 249,
       "foundation": 327,
       "evolution": 80,
-      "system": 290,
       "creativity": 56,
       "interface": 80,
       "memory": 73
     },
     "total_functions": 6471,
     "total_classes": 1411,
-    "total_lines": 203234
+    "total_lines": 203271
   }
 }

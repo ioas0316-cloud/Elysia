@@ -1,0 +1,22 @@
+{
+  "name": "world_endings.py",
+  "path": "Legacy\\scripts\\world_endings.py",
+  "hash": "aa3b07bb",
+  "frequency": 190.2,
+  "amplitude": 25.2,
+  "phase": "foundation",
+  "wavelength": 5.26,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 152,
+  "connections": [
+    "__future__",
+    "scripts",
+    "dataclasses",
+    "typing",
+    "Project_Sophia"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.285882",
+  "version": "1.0"
+}

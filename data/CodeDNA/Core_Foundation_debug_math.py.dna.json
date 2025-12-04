@@ -1,0 +1,20 @@
+{
+  "name": "debug_math.py",
+  "path": "Core\\Foundation\\debug_math.py",
+  "hash": "7417ad01",
+  "frequency": 128.2,
+  "amplitude": 5.2,
+  "phase": "foundation",
+  "wavelength": 7.8,
+  "functions": 1,
+  "classes": 0,
+  "imports": 3,
+  "lines": 32,
+  "connections": [
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.696923",
+  "version": "1.0"
+}

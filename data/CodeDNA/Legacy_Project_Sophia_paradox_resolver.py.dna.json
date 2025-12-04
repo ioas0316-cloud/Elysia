@@ -1,0 +1,24 @@
+{
+  "name": "paradox_resolver.py",
+  "path": "Legacy\\Project_Sophia\\paradox_resolver.py",
+  "hash": "1d84e82a",
+  "frequency": 397.2,
+  "amplitude": 92,
+  "phase": "foundation",
+  "wavelength": 2.52,
+  "functions": 15,
+  "classes": 3,
+  "imports": 7,
+  "lines": 522,
+  "connections": [
+    "enum",
+    "dataclasses",
+    "typing",
+    "Project_Sophia",
+    "Project_Elysia",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.519175",
+  "version": "1.0"
+}

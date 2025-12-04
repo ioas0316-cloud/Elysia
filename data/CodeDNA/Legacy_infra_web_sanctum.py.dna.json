@@ -1,0 +1,25 @@
+{
+  "name": "web_sanctum.py",
+  "path": "Legacy\\infra\\web_sanctum.py",
+  "hash": "32e1ff11",
+  "frequency": 261.9,
+  "amplitude": 41.9,
+  "phase": "interface",
+  "wavelength": 3.82,
+  "functions": 8,
+  "classes": 1,
+  "imports": 8,
+  "lines": 219,
+  "connections": [
+    "infra",
+    "typing",
+    "bs4",
+    "os",
+    "urllib",
+    "json",
+    "re",
+    "requests"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.917159",
+  "version": "1.0"
+}

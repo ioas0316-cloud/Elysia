@@ -1,0 +1,22 @@
+{
+  "name": "ingest_phase.py",
+  "path": "Core\\Memory\\ingest_phase.py",
+  "hash": "2647dd6f",
+  "frequency": 172.9,
+  "amplitude": 15.9,
+  "phase": "system",
+  "wavelength": 5.78,
+  "functions": 4,
+  "classes": 0,
+  "imports": 5,
+  "lines": 79,
+  "connections": [
+    "argparse",
+    "typing",
+    "Core",
+    "re",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.751280",
+  "version": "1.0"
+}

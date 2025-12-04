@@ -1,0 +1,22 @@
+{
+  "name": "run_mass_simulation.py",
+  "path": "Legacy\\scripts\\run_mass_simulation.py",
+  "hash": "aa408f3f",
+  "frequency": 153.8,
+  "amplitude": 12.8,
+  "phase": "system",
+  "wavelength": 6.5,
+  "functions": 2,
+  "classes": 0,
+  "imports": 5,
+  "lines": 88,
+  "connections": [
+    "tools",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.049627",
+  "version": "1.0"
+}

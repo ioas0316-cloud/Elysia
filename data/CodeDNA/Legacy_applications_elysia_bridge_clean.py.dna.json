@@ -1,0 +1,29 @@
+{
+  "name": "elysia_bridge_clean.py",
+  "path": "Legacy\\applications\\elysia_bridge_clean.py",
+  "hash": "9d822aa1",
+  "frequency": 339.8,
+  "amplitude": 67.8,
+  "phase": "interface",
+  "wavelength": 2.94,
+  "functions": 14,
+  "classes": 0,
+  "imports": 12,
+  "lines": 398,
+  "connections": [
+    "__future__",
+    "pathlib",
+    "flask",
+    "tools",
+    "Project_Sophia",
+    "os",
+    "json",
+    "datetime",
+    "Project_Elysia",
+    "nano_core",
+    "shlex",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.597892",
+  "version": "1.0"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "elysia_api.py",
+  "path": "Legacy\\applications\\elysia_api.py",
+  "hash": "31e1ac5b",
+  "frequency": 279.0,
+  "amplitude": 37.0,
+  "phase": "interface",
+  "wavelength": 3.58,
+  "functions": 9,
+  "classes": 0,
+  "imports": 14,
+  "lines": 190,
+  "connections": [
+    "integrations",
+    "infra",
+    "flask_socketio",
+    "flask",
+    "tools",
+    "Project_Sophia",
+    "time",
+    "applications",
+    "os",
+    "json",
+    "Project_Elysia",
+    "re",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.580264",
+  "version": "1.0"
+}

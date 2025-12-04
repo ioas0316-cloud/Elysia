@@ -1,0 +1,22 @@
+{
+  "name": "eat_llm.py",
+  "path": "Core\\Foundation\\eat_llm.py",
+  "hash": "508a4b51",
+  "frequency": 141.2,
+  "amplitude": 8.2,
+  "phase": "system",
+  "wavelength": 7.08,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 62,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.578909",
+  "version": "1.0"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "cosmic_beings.py",
+  "path": "Core\\Ethics\\cosmic_beings.py",
+  "hash": "c6d9cdd7",
+  "frequency": 172.9,
+  "amplitude": 14.9,
+  "phase": "system",
+  "wavelength": 5.78,
+  "functions": 0,
+  "classes": 3,
+  "imports": 2,
+  "lines": 29,
+  "connections": [
+    "dataclasses",
+    "enum"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.785196",
+  "version": "1.0"
+}

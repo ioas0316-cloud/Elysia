@@ -1,0 +1,23 @@
+{
+  "name": "verify_quantum_mechanics.py",
+  "path": "Legacy\\scripts\\verify_quantum_mechanics.py",
+  "hash": "dc8cc94c",
+  "frequency": 213.5,
+  "amplitude": 27.5,
+  "phase": "intelligence",
+  "wavelength": 4.68,
+  "functions": 5,
+  "classes": 1,
+  "imports": 6,
+  "lines": 135,
+  "connections": [
+    "tools",
+    "Project_Sophia",
+    "shutil",
+    "os",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.241116",
+  "version": "1.0"
+}

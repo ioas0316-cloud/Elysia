@@ -1,0 +1,21 @@
+{
+  "name": "preferences.py",
+  "path": "Core\\Foundation\\preferences.py",
+  "hash": "a3c0db46",
+  "frequency": 155.1,
+  "amplitude": 11.1,
+  "phase": "system",
+  "wavelength": 6.45,
+  "functions": 3,
+  "classes": 0,
+  "imports": 4,
+  "lines": 51,
+  "connections": [
+    "pathlib",
+    "__future__",
+    "typing",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.163078",
+  "version": "1.0"
+}

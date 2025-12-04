@@ -1,0 +1,21 @@
+{
+  "name": "grammar_test.py",
+  "path": "Core\\Foundation\\grammar_test.py",
+  "hash": "22918f54",
+  "frequency": 137.3,
+  "amplitude": 9.3,
+  "phase": "foundation",
+  "wavelength": 7.28,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 73,
+  "connections": [
+    "Core",
+    "os",
+    "time",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.511998",
+  "version": "1.0"
+}

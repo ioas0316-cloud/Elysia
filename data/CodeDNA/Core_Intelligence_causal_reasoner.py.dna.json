@@ -1,0 +1,21 @@
+{
+  "name": "causal_reasoner.py",
+  "path": "Core\\Intelligence\\causal_reasoner.py",
+  "hash": "41383325",
+  "frequency": 283.8,
+  "amplitude": 59.8,
+  "phase": "memory",
+  "wavelength": 3.52,
+  "functions": 9,
+  "classes": 2,
+  "imports": 4,
+  "lines": 338,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing",
+    "core_memory"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.421741",
+  "version": "1.0"
+}

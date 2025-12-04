@@ -1,0 +1,22 @@
+{
+  "name": "watch_elysia_socialize.py",
+  "path": "Legacy\\scripts\\watch_elysia_socialize.py",
+  "hash": "41cf7781",
+  "frequency": 199.4,
+  "amplitude": 26.4,
+  "phase": "system",
+  "wavelength": 5.02,
+  "functions": 4,
+  "classes": 1,
+  "imports": 5,
+  "lines": 144,
+  "connections": [
+    "random",
+    "time",
+    "os",
+    "Project_Elysia",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.264123",
+  "version": "1.0"
+}

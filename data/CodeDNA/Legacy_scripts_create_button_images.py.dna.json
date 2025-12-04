@@ -1,0 +1,19 @@
+{
+  "name": "create_button_images.py",
+  "path": "Legacy\\scripts\\create_button_images.py",
+  "hash": "61f28e2a",
+  "frequency": 127.6,
+  "amplitude": 9.6,
+  "phase": "system",
+  "wavelength": 7.84,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 76,
+  "connections": [
+    "PIL",
+    "os"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.245685",
+  "version": "1.0"
+}

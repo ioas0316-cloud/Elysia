@@ -1,0 +1,23 @@
+{
+  "name": "bg_control.py",
+  "path": "Legacy\\tools\\bg_control.py",
+  "hash": "5de65dd8",
+  "frequency": 241.9,
+  "amplitude": 31.9,
+  "phase": "system",
+  "wavelength": 4.13,
+  "functions": 10,
+  "classes": 0,
+  "imports": 6,
+  "lines": 119,
+  "connections": [
+    "pathlib",
+    "time",
+    "os",
+    "json",
+    "sys",
+    "subprocess"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.825613",
+  "version": "1.0"
+}

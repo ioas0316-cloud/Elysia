@@ -1,0 +1,27 @@
+{
+  "name": "dual_layer_language.py",
+  "path": "Core\\Foundation\\dual_layer_language.py",
+  "hash": "59d47f10",
+  "frequency": 824.9,
+  "amplitude": 100,
+  "phase": "system",
+  "wavelength": 1.21,
+  "functions": 39,
+  "classes": 9,
+  "imports": 10,
+  "lines": 1049,
+  "connections": [
+    "__future__",
+    "hashlib",
+    "collections",
+    "enum",
+    "dataclasses",
+    "typing",
+    "time",
+    "numpy",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.530279",
+  "version": "1.0"
+}

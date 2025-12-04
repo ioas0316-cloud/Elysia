@@ -1,0 +1,24 @@
+{
+  "name": "protocol_xelnaga.py",
+  "path": "Legacy\\scripts\\protocol_xelnaga.py",
+  "hash": "86cc29ed",
+  "frequency": 153.3,
+  "amplitude": 10.3,
+  "phase": "interface",
+  "wavelength": 6.52,
+  "functions": 1,
+  "classes": 0,
+  "imports": 7,
+  "lines": 83,
+  "connections": [
+    "random",
+    "tools",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.931793",
+  "version": "1.0"
+}

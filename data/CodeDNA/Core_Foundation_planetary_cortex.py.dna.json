@@ -1,0 +1,26 @@
+{
+  "name": "planetary_cortex.py",
+  "path": "Core\\Foundation\\planetary_cortex.py",
+  "hash": "66297c3f",
+  "frequency": 442.3,
+  "amplitude": 77.3,
+  "phase": "intelligence",
+  "wavelength": 2.26,
+  "functions": 15,
+  "classes": 6,
+  "imports": 9,
+  "lines": 273,
+  "connections": [
+    "random",
+    "dataclasses",
+    "typing",
+    "abc",
+    "uuid",
+    "Field",
+    "real_sensors",
+    "datetime",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.140876",
+  "version": "1.0"
+}

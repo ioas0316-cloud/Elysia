@@ -1,0 +1,21 @@
+{
+  "name": "needs_model.py",
+  "path": "Core\\Foundation\\needs_model.py",
+  "hash": "6a39fbe0",
+  "frequency": 179.6,
+  "amplitude": 19.6,
+  "phase": "foundation",
+  "wavelength": 5.57,
+  "functions": 3,
+  "classes": 1,
+  "imports": 4,
+  "lines": 96,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "Project_Sophia",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.917953",
+  "version": "1.0"
+}

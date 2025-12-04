@@ -1,0 +1,21 @@
+{
+  "name": "core_memory_base.py",
+  "path": "Core\\Foundation\\core_memory_base.py",
+  "hash": "60a9e9ce",
+  "frequency": 227.9,
+  "amplitude": 27.9,
+  "phase": "foundation",
+  "wavelength": 4.39,
+  "functions": 6,
+  "classes": 2,
+  "imports": 4,
+  "lines": 79,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "Project_Sophia",
+    "datetime"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.656797",
+  "version": "1.0"
+}

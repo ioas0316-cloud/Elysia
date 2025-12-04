@@ -1,0 +1,21 @@
+{
+  "name": "associative_memory.py",
+  "path": "Legacy\\infra\\associative_memory.py",
+  "hash": "76294dae",
+  "frequency": 196.6,
+  "amplitude": 20.6,
+  "phase": "memory",
+  "wavelength": 5.09,
+  "functions": 5,
+  "classes": 1,
+  "imports": 4,
+  "lines": 66,
+  "connections": [
+    "typing",
+    "os",
+    "datetime",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.883633",
+  "version": "1.0"
+}

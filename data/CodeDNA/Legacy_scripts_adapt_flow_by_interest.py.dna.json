@@ -1,0 +1,22 @@
+{
+  "name": "adapt_flow_by_interest.py",
+  "path": "Legacy\\scripts\\adapt_flow_by_interest.py",
+  "hash": "4a4ef686",
+  "frequency": 160.5,
+  "amplitude": 11.5,
+  "phase": "foundation",
+  "wavelength": 6.23,
+  "functions": 3,
+  "classes": 0,
+  "imports": 5,
+  "lines": 55,
+  "connections": [
+    "collections",
+    "pathlib",
+    "tools",
+    "os",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.081429",
+  "version": "1.0"
+}

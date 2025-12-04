@@ -1,0 +1,22 @@
+{
+  "name": "test_world_tree.py",
+  "path": "Legacy\\tests_old\\test_world_tree.py",
+  "hash": "b954146c",
+  "frequency": 179.6,
+  "amplitude": 14.6,
+  "phase": "foundation",
+  "wavelength": 5.57,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 46,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "sys",
+    "unittest",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.799606",
+  "version": "1.0"
+}

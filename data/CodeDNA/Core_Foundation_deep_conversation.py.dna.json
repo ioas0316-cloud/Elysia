@@ -1,0 +1,21 @@
+{
+  "name": "deep_conversation.py",
+  "path": "Core\\Foundation\\deep_conversation.py",
+  "hash": "e9c52fc1",
+  "frequency": 151.3,
+  "amplitude": 23.3,
+  "phase": "foundation",
+  "wavelength": 6.61,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 213,
+  "connections": [
+    "pathlib",
+    "Core",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.701543",
+  "version": "1.0"
+}

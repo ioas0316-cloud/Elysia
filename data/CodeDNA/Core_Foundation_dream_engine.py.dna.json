@@ -1,0 +1,22 @@
+{
+  "name": "dream_engine.py",
+  "path": "Core\\Foundation\\dream_engine.py",
+  "hash": "255253ff",
+  "frequency": 205.6,
+  "amplitude": 24.6,
+  "phase": "foundation",
+  "wavelength": 4.86,
+  "functions": 5,
+  "classes": 1,
+  "imports": 5,
+  "lines": 106,
+  "connections": [
+    "random",
+    "typing",
+    "time",
+    "Core",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.316933",
+  "version": "1.0"
+}

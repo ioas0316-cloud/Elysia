@@ -1,0 +1,20 @@
+{
+  "name": "test_dual_layer_language.py",
+  "path": "tests\\test_dual_layer_language.py",
+  "hash": "67b25943",
+  "frequency": 506.4,
+  "amplitude": 81.4,
+  "phase": "intelligence",
+  "wavelength": 1.97,
+  "functions": 22,
+  "classes": 7,
+  "imports": 3,
+  "lines": 314,
+  "connections": [
+    "pytest",
+    "Core",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.918868",
+  "version": "1.0"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "value_centered_decision.py",
+  "path": "Core\\Foundation\\value_centered_decision.py",
+  "hash": "480a7c5d",
+  "frequency": 294.4,
+  "amplitude": 66.4,
+  "phase": "intelligence",
+  "wavelength": 3.4,
+  "functions": 9,
+  "classes": 1,
+  "imports": 8,
+  "lines": 444,
+  "connections": [
+    "random",
+    "typing",
+    "kg_manager",
+    "Legacy",
+    "tensor_wave",
+    "thought",
+    "re",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:13.870877",
+  "version": "1.0"
+}

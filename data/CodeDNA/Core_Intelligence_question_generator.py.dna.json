@@ -1,0 +1,18 @@
+{
+  "name": "question_generator.py",
+  "path": "Core\\Intelligence\\question_generator.py",
+  "hash": "438e3e50",
+  "frequency": 174.0,
+  "amplitude": 21.0,
+  "phase": "foundation",
+  "wavelength": 5.75,
+  "functions": 4,
+  "classes": 1,
+  "imports": 1,
+  "lines": 90,
+  "connections": [
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.583778",
+  "version": "1.0"
+}

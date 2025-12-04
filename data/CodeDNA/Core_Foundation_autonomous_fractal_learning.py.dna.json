@@ -1,0 +1,24 @@
+{
+  "name": "autonomous_fractal_learning.py",
+  "path": "Core\\Foundation\\autonomous_fractal_learning.py",
+  "hash": "20deda74",
+  "frequency": 196.3,
+  "amplitude": 21.3,
+  "phase": "evolution",
+  "wavelength": 5.09,
+  "functions": 3,
+  "classes": 1,
+  "imports": 7,
+  "lines": 113,
+  "connections": [
+    "typing",
+    "time",
+    "logging",
+    "Core",
+    "os",
+    "sys",
+    "concurrent"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.974732",
+  "version": "1.0"
+}

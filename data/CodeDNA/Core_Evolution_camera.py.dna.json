@@ -1,0 +1,20 @@
+{
+  "name": "camera.py",
+  "path": "Core\\Evolution\\camera.py",
+  "hash": "98bf9b15",
+  "frequency": 198.6,
+  "amplitude": 19.6,
+  "phase": "system",
+  "wavelength": 5.04,
+  "functions": 6,
+  "classes": 1,
+  "imports": 3,
+  "lines": 36,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.792492",
+  "version": "1.0"
+}

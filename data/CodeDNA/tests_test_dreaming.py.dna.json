@@ -1,0 +1,22 @@
+{
+  "name": "test_dreaming.py",
+  "path": "tests\\test_dreaming.py",
+  "hash": "718c6c26",
+  "frequency": 180.1,
+  "amplitude": 15.1,
+  "phase": "intelligence",
+  "wavelength": 5.55,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 51,
+  "connections": [
+    "Core",
+    "os",
+    "sys",
+    "unittest",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.912289",
+  "version": "1.0"
+}

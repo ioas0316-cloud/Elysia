@@ -1,0 +1,23 @@
+{
+  "name": "autonomous_evolution.py",
+  "path": "Core\\Foundation\\autonomous_evolution.py",
+  "hash": "8046c202",
+  "frequency": 171.1,
+  "amplitude": 17.1,
+  "phase": "evolution",
+  "wavelength": 5.84,
+  "functions": 1,
+  "classes": 1,
+  "imports": 6,
+  "lines": 111,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.964773",
+  "version": "1.0"
+}

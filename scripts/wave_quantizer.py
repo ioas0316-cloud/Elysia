@@ -203,8 +203,9 @@ class WaveQuantizer:
             if dna:
                 results[dna.path] = dna
                 
-                # Save individual DNA file
-                dna_path = self.output_dir / f"{py_file.name}.dna.json"
+                # Save individual DNA file (use full path to avoid collision)
+                safe_name = dna.path.replace("/", "_").replace("\\", "_")
+                dna_path = self.output_dir / f"{safe_name}.dna.json"
                 dna_path.write_text(json.dumps(asdict(dna), indent=2, ensure_ascii=False), encoding='utf-8')
                 count += 1
                 

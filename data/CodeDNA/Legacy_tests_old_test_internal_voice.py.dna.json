@@ -1,0 +1,24 @@
+{
+  "name": "test_internal_voice.py",
+  "path": "Legacy\\tests_old\\test_internal_voice.py",
+  "hash": "f39c9807",
+  "frequency": 195.2,
+  "amplitude": 20.2,
+  "phase": "intelligence",
+  "wavelength": 5.12,
+  "functions": 3,
+  "classes": 1,
+  "imports": 7,
+  "lines": 102,
+  "connections": [
+    "Project_Sophia",
+    "Project_Mirror",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.640477",
+  "version": "1.0"
+}

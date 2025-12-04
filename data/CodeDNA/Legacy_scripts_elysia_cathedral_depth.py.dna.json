@@ -1,0 +1,22 @@
+{
+  "name": "elysia_cathedral_depth.py",
+  "path": "Legacy\\scripts\\elysia_cathedral_depth.py",
+  "hash": "eb0d55f3",
+  "frequency": 200.5,
+  "amplitude": 35.5,
+  "phase": "foundation",
+  "wavelength": 4.99,
+  "functions": 5,
+  "classes": 0,
+  "imports": 5,
+  "lines": 255,
+  "connections": [
+    "__future__",
+    "typing",
+    "os",
+    "datetime",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.326846",
+  "version": "1.0"
+}

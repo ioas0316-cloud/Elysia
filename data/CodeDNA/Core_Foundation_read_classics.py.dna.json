@@ -1,0 +1,21 @@
+{
+  "name": "read_classics.py",
+  "path": "Core\\Foundation\\read_classics.py",
+  "hash": "72a0df04",
+  "frequency": 136.9,
+  "amplitude": 8.9,
+  "phase": "system",
+  "wavelength": 7.3,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 69,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.601062",
+  "version": "1.0"
+}

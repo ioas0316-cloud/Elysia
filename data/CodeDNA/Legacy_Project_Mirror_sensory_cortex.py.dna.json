@@ -1,0 +1,27 @@
+{
+  "name": "sensory_cortex.py",
+  "path": "Legacy\\Project_Mirror\\sensory_cortex.py",
+  "hash": "9c08854a",
+  "frequency": 410.0,
+  "amplitude": 92.0,
+  "phase": "system",
+  "wavelength": 2.44,
+  "functions": 17,
+  "classes": 2,
+  "imports": 10,
+  "lines": 500,
+  "connections": [
+    "infra",
+    "random",
+    "tools",
+    "Project_Sophia",
+    "os",
+    "json",
+    "datetime",
+    "Project_Elysia",
+    "re",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.977222",
+  "version": "1.0"
+}

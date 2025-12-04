@@ -1,0 +1,23 @@
+{
+  "name": "06_quantum_tunneling.py",
+  "path": "Legacy\\examples\\06_quantum_tunneling.py",
+  "hash": "be77dcbc",
+  "frequency": 158.8,
+  "amplitude": 12.8,
+  "phase": "system",
+  "wavelength": 6.3,
+  "functions": 2,
+  "classes": 0,
+  "imports": 6,
+  "lines": 88,
+  "connections": [
+    "dataclasses",
+    "time",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.859774",
+  "version": "1.0"
+}

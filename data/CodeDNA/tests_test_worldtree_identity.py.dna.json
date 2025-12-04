@@ -1,0 +1,19 @@
+{
+  "name": "test_worldtree_identity.py",
+  "path": "tests\\test_worldtree_identity.py",
+  "hash": "e9cee404",
+  "frequency": 114.0,
+  "amplitude": 4.0,
+  "phase": "intelligence",
+  "wavelength": 8.77,
+  "functions": 0,
+  "classes": 0,
+  "imports": 2,
+  "lines": 40,
+  "connections": [
+    "Core",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.369571",
+  "version": "1.0"
+}

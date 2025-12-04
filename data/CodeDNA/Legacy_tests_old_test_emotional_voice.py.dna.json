@@ -1,0 +1,23 @@
+{
+  "name": "test_emotional_voice.py",
+  "path": "Legacy\\tests_old\\test_emotional_voice.py",
+  "hash": "01ea451f",
+  "frequency": 200.1,
+  "amplitude": 22.1,
+  "phase": "intelligence",
+  "wavelength": 5.0,
+  "functions": 4,
+  "classes": 1,
+  "imports": 6,
+  "lines": 101,
+  "connections": [
+    "tools",
+    "Project_Sophia",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.608064",
+  "version": "1.0"
+}

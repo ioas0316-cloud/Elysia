@@ -1,0 +1,19 @@
+{
+  "name": "confirm_cli.py",
+  "path": "Legacy\\scripts\\confirm_cli.py",
+  "hash": "11f4180b",
+  "frequency": 123.0,
+  "amplitude": 5.0,
+  "phase": "system",
+  "wavelength": 8.13,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 30,
+  "connections": [
+    "json",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.234322",
+  "version": "1.0"
+}

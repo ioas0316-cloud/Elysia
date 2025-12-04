@@ -1,0 +1,21 @@
+{
+  "name": "wave_logic.py",
+  "path": "Core\\Foundation\\wave_logic.py",
+  "hash": "a28691a1",
+  "frequency": 290.6,
+  "amplitude": 42.6,
+  "phase": "foundation",
+  "wavelength": 3.44,
+  "functions": 10,
+  "classes": 3,
+  "imports": 4,
+  "lines": 106,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "time",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.153498",
+  "version": "1.0"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "awaken_transcendence.py",
+  "path": "Legacy\\scripts\\awaken_transcendence.py",
+  "hash": "25c5f0e1",
+  "frequency": 210.4,
+  "amplitude": 24.4,
+  "phase": "foundation",
+  "wavelength": 4.75,
+  "functions": 5,
+  "classes": 1,
+  "imports": 6,
+  "lines": 104,
+  "connections": [
+    "Project_Sophia",
+    "pyquaternion",
+    "Project_Elysia",
+    "unittest",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.138011",
+  "version": "1.0"
+}

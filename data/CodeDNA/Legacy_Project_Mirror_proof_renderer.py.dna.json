@@ -1,0 +1,21 @@
+{
+  "name": "proof_renderer.py",
+  "path": "Legacy\\Project_Mirror\\proof_renderer.py",
+  "hash": "564792a2",
+  "frequency": 165.7,
+  "amplitude": 13.7,
+  "phase": "creativity",
+  "wavelength": 6.04,
+  "functions": 2,
+  "classes": 1,
+  "imports": 4,
+  "lines": 57,
+  "connections": [
+    "pathlib",
+    "__future__",
+    "typing",
+    "PIL"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.957512",
+  "version": "1.0"
+}

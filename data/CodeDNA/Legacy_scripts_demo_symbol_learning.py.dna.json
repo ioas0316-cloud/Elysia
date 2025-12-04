@@ -1,0 +1,24 @@
+{
+  "name": "demo_symbol_learning.py",
+  "path": "Legacy\\scripts\\demo_symbol_learning.py",
+  "hash": "5e0cc8e9",
+  "frequency": 192.2,
+  "amplitude": 25.2,
+  "phase": "evolution",
+  "wavelength": 5.2,
+  "functions": 4,
+  "classes": 0,
+  "imports": 7,
+  "lines": 172,
+  "connections": [
+    "__future__",
+    "random",
+    "scripts",
+    "typing",
+    "os",
+    "json",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.277935",
+  "version": "1.0"
+}

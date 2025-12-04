@@ -1,0 +1,21 @@
+{
+  "name": "causal_reasoner.py",
+  "path": "Core\\Elysia\\high_engine\\causal_reasoner.py",
+  "hash": "25598d47",
+  "frequency": 283.8,
+  "amplitude": 59.8,
+  "phase": "memory",
+  "wavelength": 3.52,
+  "functions": 9,
+  "classes": 2,
+  "imports": 4,
+  "lines": 338,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing",
+    "Project_Elysia"
+  ],
+  "extracted_at": "2025-12-05T02:24:16.368409",
+  "version": "1.0"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "tool_executor.py",
+  "path": "Legacy\\Project_Sophia\\tool_executor.py",
+  "hash": "0adac348",
+  "frequency": 221.6,
+  "amplitude": 45.6,
+  "phase": "system",
+  "wavelength": 4.51,
+  "functions": 5,
+  "classes": 1,
+  "imports": 4,
+  "lines": 316,
+  "connections": [
+    "infra",
+    "typing",
+    "Project_Sophia",
+    "tools"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.890659",
+  "version": "1.0"
+}

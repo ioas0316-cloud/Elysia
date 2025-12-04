@@ -1,0 +1,23 @@
+{
+  "name": "music_composer.py",
+  "path": "Core\\Foundation\\music_composer.py",
+  "hash": "8250c0a4",
+  "frequency": 567.4,
+  "amplitude": 100,
+  "phase": "system",
+  "wavelength": 1.76,
+  "functions": 16,
+  "classes": 11,
+  "imports": 6,
+  "lines": 574,
+  "connections": [
+    "random",
+    "enum",
+    "dataclasses",
+    "typing",
+    "asyncio",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.908562",
+  "version": "1.0"
+}

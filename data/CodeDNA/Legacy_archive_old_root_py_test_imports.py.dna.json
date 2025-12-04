@@ -1,0 +1,31 @@
+{
+  "name": "test_imports.py",
+  "path": "Legacy\\archive_old\\root_py\\test_imports.py",
+  "hash": "88e25a0c",
+  "frequency": 175.9,
+  "amplitude": 5.9,
+  "phase": "intelligence",
+  "wavelength": 5.69,
+  "functions": 0,
+  "classes": 0,
+  "imports": 14,
+  "lines": 59,
+  "connections": [
+    "tool_executor",
+    "value_centered_decision",
+    "core_memory",
+    "cognition_pipeline",
+    "chat_interface",
+    "action_cortex",
+    "os",
+    "emotional_state",
+    "logical_reasoner",
+    "response_diversifier",
+    "sys",
+    "arithmetic_cortex",
+    "planning_cortex",
+    "elysia_gui"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.312914",
+  "version": "1.0"
+}

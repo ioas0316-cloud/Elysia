@@ -1,0 +1,22 @@
+{
+  "name": "test_circulatory_thinking.py",
+  "path": "tests\\test_circulatory_thinking.py",
+  "hash": "da8ef686",
+  "frequency": 182.3,
+  "amplitude": 17.3,
+  "phase": "intelligence",
+  "wavelength": 5.49,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 73,
+  "connections": [
+    "Core",
+    "os",
+    "sys",
+    "unittest",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.837248",
+  "version": "1.0"
+}

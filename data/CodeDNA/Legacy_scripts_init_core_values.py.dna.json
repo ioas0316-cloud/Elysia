@@ -1,0 +1,19 @@
+{
+  "name": "init_core_values.py",
+  "path": "Legacy\\scripts\\init_core_values.py",
+  "hash": "4a4aac55",
+  "frequency": 123.5,
+  "amplitude": 5.5,
+  "phase": "foundation",
+  "wavelength": 8.1,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 35,
+  "connections": [
+    "tools",
+    "__future__"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.614228",
+  "version": "1.0"
+}

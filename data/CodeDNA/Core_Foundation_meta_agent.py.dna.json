@@ -1,0 +1,29 @@
+{
+  "name": "meta_agent.py",
+  "path": "Core\\Foundation\\meta_agent.py",
+  "hash": "cf1739b6",
+  "frequency": 366.5,
+  "amplitude": 54.5,
+  "phase": "system",
+  "wavelength": 2.73,
+  "functions": 13,
+  "classes": 3,
+  "imports": 12,
+  "lines": 165,
+  "connections": [
+    "__future__",
+    "scripts",
+    "dataclasses",
+    "pathlib",
+    "typing",
+    "time",
+    "shutil",
+    "core_memory",
+    "os",
+    "json",
+    "kg_manager",
+    "high_engine"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.747165",
+  "version": "1.0"
+}

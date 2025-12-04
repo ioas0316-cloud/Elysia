@@ -1,0 +1,21 @@
+{
+  "name": "code_resonance.py",
+  "path": "Core\\Foundation\\code_resonance.py",
+  "hash": "8c965b9d",
+  "frequency": 171.1,
+  "amplitude": 19.1,
+  "phase": "foundation",
+  "wavelength": 5.84,
+  "functions": 2,
+  "classes": 1,
+  "imports": 4,
+  "lines": 111,
+  "connections": [
+    "Core",
+    "random",
+    "ast",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.241681",
+  "version": "1.0"
+}

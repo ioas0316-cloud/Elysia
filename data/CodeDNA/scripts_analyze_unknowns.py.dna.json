@@ -1,0 +1,19 @@
+{
+  "name": "analyze_unknowns.py",
+  "path": "scripts\\analyze_unknowns.py",
+  "hash": "b423626c",
+  "frequency": 113.6,
+  "amplitude": 3.6,
+  "phase": "system",
+  "wavelength": 8.8,
+  "functions": 0,
+  "classes": 0,
+  "imports": 2,
+  "lines": 36,
+  "connections": [
+    "pathlib",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.463937",
+  "version": "1.0"
+}

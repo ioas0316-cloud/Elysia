@@ -1,0 +1,23 @@
+{
+  "name": "live_in_matrix.py",
+  "path": "Core\\Foundation\\live_in_matrix.py",
+  "hash": "14d921ef",
+  "frequency": 145.5,
+  "amplitude": 7.5,
+  "phase": "system",
+  "wavelength": 6.87,
+  "functions": 1,
+  "classes": 0,
+  "imports": 6,
+  "lines": 55,
+  "connections": [
+    "random",
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.550209",
+  "version": "1.0"
+}

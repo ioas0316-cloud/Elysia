@@ -1,0 +1,22 @@
+{
+  "name": "test_guardian_dream_cycle.py",
+  "path": "Legacy\\tests_old\\test_guardian_dream_cycle.py",
+  "hash": "5e3e0f11",
+  "frequency": 163.8,
+  "amplitude": 14.8,
+  "phase": "intelligence",
+  "wavelength": 6.11,
+  "functions": 1,
+  "classes": 1,
+  "imports": 5,
+  "lines": 88,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.623286",
+  "version": "1.0"
+}

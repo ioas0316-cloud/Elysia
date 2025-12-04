@@ -1,0 +1,25 @@
+{
+  "name": "fractal_gnn_poc.py",
+  "path": "Legacy\\tools\\fractal_gnn_poc.py",
+  "hash": "9072e621",
+  "frequency": 202.2,
+  "amplitude": 22.2,
+  "phase": "system",
+  "wavelength": 4.95,
+  "functions": 5,
+  "classes": 0,
+  "imports": 8,
+  "lines": 122,
+  "connections": [
+    "__future__",
+    "random",
+    "pathlib",
+    "typing",
+    "networkx",
+    "numpy",
+    "argparse",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.861703",
+  "version": "1.0"
+}

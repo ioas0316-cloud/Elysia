@@ -1,0 +1,21 @@
+{
+  "name": "fantasy_wuxia_writer.py",
+  "path": "Core\\Foundation\\fantasy_wuxia_writer.py",
+  "hash": "18fdd9d8",
+  "frequency": 139.2,
+  "amplitude": 19.2,
+  "phase": "creativity",
+  "wavelength": 7.18,
+  "functions": 0,
+  "classes": 0,
+  "imports": 4,
+  "lines": 192,
+  "connections": [
+    "Core",
+    "time",
+    "concurrent",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.989754",
+  "version": "1.0"
+}

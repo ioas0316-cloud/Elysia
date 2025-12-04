@@ -1,0 +1,22 @@
+{
+  "name": "test_async_thought.py",
+  "path": "Core\\Foundation\\test_async_thought.py",
+  "hash": "1454a891",
+  "frequency": 142.0,
+  "amplitude": 9.0,
+  "phase": "intelligence",
+  "wavelength": 7.04,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 70,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:11.879190",
+  "version": "1.0"
+}

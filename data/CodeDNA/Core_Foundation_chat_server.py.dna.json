@@ -1,0 +1,24 @@
+{
+  "name": "chat_server.py",
+  "path": "Core\\Foundation\\chat_server.py",
+  "hash": "781955aa",
+  "frequency": 213.2,
+  "amplitude": 30.2,
+  "phase": "interface",
+  "wavelength": 4.69,
+  "functions": 4,
+  "classes": 1,
+  "imports": 7,
+  "lines": 182,
+  "connections": [
+    "argparse",
+    "http",
+    "Core",
+    "os",
+    "json",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.185136",
+  "version": "1.0"
+}

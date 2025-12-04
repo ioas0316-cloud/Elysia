@@ -1,0 +1,19 @@
+{
+  "name": "sophia_stage_0_parsing.py",
+  "path": "Core\\Creativity\\sophia_stage_0_parsing.py",
+  "hash": "caa5e572",
+  "frequency": 175.2,
+  "amplitude": 25.2,
+  "phase": "system",
+  "wavelength": 5.71,
+  "functions": 3,
+  "classes": 1,
+  "imports": 2,
+  "lines": 152,
+  "connections": [
+    "re",
+    "kg_manager"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.564678",
+  "version": "1.0"
+}

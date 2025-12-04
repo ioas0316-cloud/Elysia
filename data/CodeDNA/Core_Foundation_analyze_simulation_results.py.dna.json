@@ -1,0 +1,21 @@
+{
+  "name": "analyze_simulation_results.py",
+  "path": "Core\\Foundation\\analyze_simulation_results.py",
+  "hash": "4a1b7c7f",
+  "frequency": 143.2,
+  "amplitude": 15.2,
+  "phase": "system",
+  "wavelength": 6.98,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 132,
+  "connections": [
+    "pathlib",
+    "datetime",
+    "json",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.899887",
+  "version": "1.0"
+}

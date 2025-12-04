@@ -1,0 +1,22 @@
+{
+  "name": "genesis_bridge.py",
+  "path": "Core\\Foundation\\genesis_bridge.py",
+  "hash": "e4a1abd0",
+  "frequency": 202.2,
+  "amplitude": 21.2,
+  "phase": "foundation",
+  "wavelength": 4.95,
+  "functions": 3,
+  "classes": 2,
+  "imports": 5,
+  "lines": 72,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "Project_Elysia",
+    "datetime",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.403946",
+  "version": "1.0"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "insight_synthesizer.py",
+  "path": "Legacy\\Project_Sophia\\insight_synthesizer.py",
+  "hash": "ab8e7f65",
+  "frequency": 187.1,
+  "amplitude": 26.1,
+  "phase": "intelligence",
+  "wavelength": 5.34,
+  "functions": 5,
+  "classes": 1,
+  "imports": 1,
+  "lines": 121,
+  "connections": [
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.334406",
+  "version": "1.0"
+}

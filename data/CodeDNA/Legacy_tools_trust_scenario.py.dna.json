@@ -1,0 +1,22 @@
+{
+  "name": "trust_scenario.py",
+  "path": "Legacy\\tools\\trust_scenario.py",
+  "hash": "814e1b3d",
+  "frequency": 237.1,
+  "amplitude": 32.1,
+  "phase": "foundation",
+  "wavelength": 4.22,
+  "functions": 6,
+  "classes": 2,
+  "imports": 5,
+  "lines": 121,
+  "connections": [
+    "__future__",
+    "random",
+    "dataclasses",
+    "typing",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.989370",
+  "version": "1.0"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "render_galaxy.py",
+  "path": "Core\\Foundation\\render_galaxy.py",
+  "hash": "8e81d28a",
+  "frequency": 128.5,
+  "amplitude": 5.5,
+  "phase": "creativity",
+  "wavelength": 7.78,
+  "functions": 1,
+  "classes": 0,
+  "imports": 3,
+  "lines": 35,
+  "connections": [
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.940038",
+  "version": "1.0"
+}

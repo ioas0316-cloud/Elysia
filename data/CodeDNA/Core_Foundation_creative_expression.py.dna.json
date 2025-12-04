@@ -1,0 +1,23 @@
+{
+  "name": "creative_expression.py",
+  "path": "Core\\Foundation\\creative_expression.py",
+  "hash": "55b3d4d8",
+  "frequency": 280.2,
+  "amplitude": 54.2,
+  "phase": "creativity",
+  "wavelength": 3.57,
+  "functions": 10,
+  "classes": 1,
+  "imports": 6,
+  "lines": 302,
+  "connections": [
+    "random",
+    "collections",
+    "pathlib",
+    "typing",
+    "json",
+    "datetime"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.688118",
+  "version": "1.0"
+}

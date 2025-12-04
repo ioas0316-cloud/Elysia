@@ -1,0 +1,16 @@
+{
+  "name": "elysia_bridge.py",
+  "path": "Legacy\\applications\\elysia_bridge.py",
+  "hash": "fc918e88",
+  "frequency": 100.9,
+  "amplitude": 0.9,
+  "phase": "interface",
+  "wavelength": 9.91,
+  "functions": 0,
+  "classes": 0,
+  "imports": 0,
+  "lines": 9,
+  "connections": [],
+  "extracted_at": "2025-12-05T02:23:58.581833",
+  "version": "1.0"
+}

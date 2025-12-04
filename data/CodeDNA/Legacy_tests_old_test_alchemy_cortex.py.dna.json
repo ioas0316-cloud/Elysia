@@ -1,0 +1,19 @@
+{
+  "name": "test_alchemy_cortex.py",
+  "path": "Legacy\\tests_old\\test_alchemy_cortex.py",
+  "hash": "ca07e93c",
+  "frequency": 176.2,
+  "amplitude": 18.2,
+  "phase": "intelligence",
+  "wavelength": 5.68,
+  "functions": 4,
+  "classes": 1,
+  "imports": 2,
+  "lines": 62,
+  "connections": [
+    "unittest",
+    "Project_Sophia"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.492097",
+  "version": "1.0"
+}

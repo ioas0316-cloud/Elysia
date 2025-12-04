@@ -1,0 +1,23 @@
+{
+  "name": "integrated_rapid_learning.py",
+  "path": "Core\\Foundation\\integrated_rapid_learning.py",
+  "hash": "f27367d8",
+  "frequency": 165.4,
+  "amplitude": 27.4,
+  "phase": "interface",
+  "wavelength": 6.05,
+  "functions": 1,
+  "classes": 0,
+  "imports": 6,
+  "lines": 254,
+  "connections": [
+    "typing",
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.158850",
+  "version": "1.0"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "test_growth_environment.py",
+  "path": "tests\\test_growth_environment.py",
+  "hash": "c99ebd55",
+  "frequency": 608.8,
+  "amplitude": 88.8,
+  "phase": "system",
+  "wavelength": 1.64,
+  "functions": 35,
+  "classes": 5,
+  "imports": 4,
+  "lines": 388,
+  "connections": [
+    "pytest",
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.185125",
+  "version": "1.0"
+}

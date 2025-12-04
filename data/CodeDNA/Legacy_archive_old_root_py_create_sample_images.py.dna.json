@@ -1,0 +1,19 @@
+{
+  "name": "create_sample_images.py",
+  "path": "Legacy\\archive_old\\root_py\\create_sample_images.py",
+  "hash": "06cfc779",
+  "frequency": 111.5,
+  "amplitude": 1.5,
+  "phase": "system",
+  "wavelength": 8.97,
+  "functions": 0,
+  "classes": 0,
+  "imports": 2,
+  "lines": 15,
+  "connections": [
+    "base64",
+    "os"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.292101",
+  "version": "1.0"
+}

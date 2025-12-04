@@ -1,0 +1,20 @@
+{
+  "name": "evolve_quantum.py",
+  "path": "Core\\Evolution\\evolve_quantum.py",
+  "hash": "e029d49c",
+  "frequency": 128.8,
+  "amplitude": 5.8,
+  "phase": "system",
+  "wavelength": 7.76,
+  "functions": 1,
+  "classes": 0,
+  "imports": 3,
+  "lines": 38,
+  "connections": [
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.797826",
+  "version": "1.0"
+}

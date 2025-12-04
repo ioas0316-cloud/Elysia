@@ -1,0 +1,22 @@
+{
+  "name": "test_phase11_emotion.py",
+  "path": "tests\\test_phase11_emotion.py",
+  "hash": "636f5e50",
+  "frequency": 254.9,
+  "amplitude": 57.9,
+  "phase": "intelligence",
+  "wavelength": 3.92,
+  "functions": 3,
+  "classes": 3,
+  "imports": 5,
+  "lines": 399,
+  "connections": [
+    "pytest",
+    "pathlib",
+    "Core",
+    "sys",
+    "asyncio"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.614339",
+  "version": "1.0"
+}

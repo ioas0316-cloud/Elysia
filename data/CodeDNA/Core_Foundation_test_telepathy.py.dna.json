@@ -1,0 +1,21 @@
+{
+  "name": "test_telepathy.py",
+  "path": "Core\\Foundation\\test_telepathy.py",
+  "hash": "c44e3603",
+  "frequency": 185.2,
+  "amplitude": 17.2,
+  "phase": "system",
+  "wavelength": 5.4,
+  "functions": 2,
+  "classes": 2,
+  "imports": 4,
+  "lines": 52,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.269285",
+  "version": "1.0"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "persona_expansion.py",
+  "path": "Core\\Foundation\\persona_expansion.py",
+  "hash": "ae778c76",
+  "frequency": 501.1,
+  "amplitude": 100,
+  "phase": "system",
+  "wavelength": 2.0,
+  "functions": 19,
+  "classes": 6,
+  "imports": 7,
+  "lines": 561,
+  "connections": [
+    "enum",
+    "dataclasses",
+    "typing",
+    "uuid",
+    "datetime",
+    "json",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.029158",
+  "version": "1.0"
+}

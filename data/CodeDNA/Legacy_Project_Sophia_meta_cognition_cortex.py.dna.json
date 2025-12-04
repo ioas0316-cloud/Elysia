@@ -1,0 +1,22 @@
+{
+  "name": "meta_cognition_cortex.py",
+  "path": "Legacy\\Project_Sophia\\meta_cognition_cortex.py",
+  "hash": "a73b3d3d",
+  "frequency": 221.4,
+  "amplitude": 32.4,
+  "phase": "intelligence",
+  "wavelength": 4.52,
+  "functions": 6,
+  "classes": 1,
+  "imports": 5,
+  "lines": 164,
+  "connections": [
+    "tools",
+    "typing",
+    "Project_Sophia",
+    "Project_Elysia",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.457029",
+  "version": "1.0"
+}

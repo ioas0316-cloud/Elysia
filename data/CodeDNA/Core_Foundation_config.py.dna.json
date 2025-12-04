@@ -1,0 +1,22 @@
+{
+  "name": "config.py",
+  "path": "Core\\Foundation\\config.py",
+  "hash": "49147739",
+  "frequency": 447.8,
+  "amplitude": 100,
+  "phase": "system",
+  "wavelength": 2.23,
+  "functions": 21,
+  "classes": 3,
+  "imports": 5,
+  "lines": 528,
+  "connections": [
+    "pathlib",
+    "typing",
+    "pydantic",
+    "os",
+    "pydantic_settings"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.459218",
+  "version": "1.0"
+}

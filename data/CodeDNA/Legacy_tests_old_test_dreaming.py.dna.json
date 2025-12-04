@@ -1,0 +1,24 @@
+{
+  "name": "test_dreaming.py",
+  "path": "Legacy\\tests_old\\test_dreaming.py",
+  "hash": "5345676c",
+  "frequency": 181.9,
+  "amplitude": 14.9,
+  "phase": "intelligence",
+  "wavelength": 5.5,
+  "functions": 2,
+  "classes": 1,
+  "imports": 7,
+  "lines": 69,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "datetime",
+    "sys",
+    "Project_Elysia",
+    "unittest",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.590039",
+  "version": "1.0"
+}

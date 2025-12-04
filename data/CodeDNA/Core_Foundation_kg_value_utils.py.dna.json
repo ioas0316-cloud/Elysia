@@ -1,0 +1,23 @@
+{
+  "name": "kg_value_utils.py",
+  "path": "Core\\Foundation\\kg_value_utils.py",
+  "hash": "e11dc348",
+  "frequency": 179.5,
+  "amplitude": 17.5,
+  "phase": "system",
+  "wavelength": 5.57,
+  "functions": 4,
+  "classes": 0,
+  "imports": 6,
+  "lines": 95,
+  "connections": [
+    "__future__",
+    "pathlib",
+    "typing",
+    "datetime",
+    "json",
+    "kg_manager"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.325336",
+  "version": "1.0"
+}

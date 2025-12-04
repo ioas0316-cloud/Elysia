@@ -1,0 +1,22 @@
+{
+  "name": "layer_panel.py",
+  "path": "Legacy\\Project_Mirror\\legacy_ui\\layer_panel.py",
+  "hash": "90281bd7",
+  "frequency": 171.4,
+  "amplitude": 14.4,
+  "phase": "creativity",
+  "wavelength": 5.83,
+  "functions": 4,
+  "classes": 0,
+  "imports": 5,
+  "lines": 64,
+  "connections": [
+    "__future__",
+    "pygame",
+    "layers",
+    "typing",
+    "fonts"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.195811",
+  "version": "1.0"
+}

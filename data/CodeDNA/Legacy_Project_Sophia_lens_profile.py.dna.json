@@ -1,0 +1,19 @@
+{
+  "name": "lens_profile.py",
+  "path": "Legacy\\Project_Sophia\\lens_profile.py",
+  "hash": "0d97dd32",
+  "frequency": 250.6,
+  "amplitude": 36.6,
+  "phase": "system",
+  "wavelength": 3.99,
+  "functions": 11,
+  "classes": 1,
+  "imports": 2,
+  "lines": 106,
+  "connections": [
+    "typing",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.363678",
+  "version": "1.0"
+}

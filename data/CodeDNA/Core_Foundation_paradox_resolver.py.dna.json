@@ -1,0 +1,25 @@
+{
+  "name": "paradox_resolver.py",
+  "path": "Core\\Foundation\\paradox_resolver.py",
+  "hash": "d91c6ba3",
+  "frequency": 402.2,
+  "amplitude": 92,
+  "phase": "foundation",
+  "wavelength": 2.49,
+  "functions": 15,
+  "classes": 3,
+  "imports": 8,
+  "lines": 522,
+  "connections": [
+    "enum",
+    "dataclasses",
+    "typing",
+    "Legacy",
+    "core_memory",
+    "tensor_wave",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.964611",
+  "version": "1.0"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "conversation_engine.py",
+  "path": "Core\\Foundation\\conversation_engine.py",
+  "hash": "697e3c0f",
+  "frequency": 160.2,
+  "amplitude": 13.2,
+  "phase": "foundation",
+  "wavelength": 6.24,
+  "functions": 2,
+  "classes": 1,
+  "imports": 3,
+  "lines": 52,
+  "connections": [
+    "typing",
+    "Project_Sophia",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.561228",
+  "version": "1.0"
+}

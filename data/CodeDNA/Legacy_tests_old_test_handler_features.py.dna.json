@@ -1,0 +1,22 @@
+{
+  "name": "test_handler_features.py",
+  "path": "Legacy\\tests_old\\test_handler_features.py",
+  "hash": "84b95fd6",
+  "frequency": 184.2,
+  "amplitude": 19.2,
+  "phase": "intelligence",
+  "wavelength": 5.43,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 92,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.626490",
+  "version": "1.0"
+}

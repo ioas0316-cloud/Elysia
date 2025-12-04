@@ -1,0 +1,20 @@
+{
+  "name": "advanced_grammar_test.py",
+  "path": "Core\\Intelligence\\advanced_grammar_test.py",
+  "hash": "3e3a7c56",
+  "frequency": 131.7,
+  "amplitude": 8.7,
+  "phase": "foundation",
+  "wavelength": 7.59,
+  "functions": 1,
+  "classes": 0,
+  "imports": 3,
+  "lines": 67,
+  "connections": [
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.391638",
+  "version": "1.0"
+}

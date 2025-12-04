@@ -1,0 +1,20 @@
+{
+  "name": "conversation_state.py",
+  "path": "Core\\Foundation\\conversation_state.py",
+  "hash": "11d1e6a6",
+  "frequency": 295.9,
+  "amplitude": 44.9,
+  "phase": "foundation",
+  "wavelength": 3.38,
+  "functions": 13,
+  "classes": 2,
+  "imports": 3,
+  "lines": 109,
+  "connections": [
+    "typing",
+    "re",
+    "collections"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.566156",
+  "version": "1.0"
+}

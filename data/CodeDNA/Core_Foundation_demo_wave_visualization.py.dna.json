@@ -1,0 +1,26 @@
+{
+  "name": "demo_wave_visualization.py",
+  "path": "Core\\Foundation\\demo_wave_visualization.py",
+  "hash": "a5387860",
+  "frequency": 177.9,
+  "amplitude": 16.9,
+  "phase": "foundation",
+  "wavelength": 5.62,
+  "functions": 2,
+  "classes": 0,
+  "imports": 9,
+  "lines": 129,
+  "connections": [
+    "flask",
+    "traceback",
+    "time",
+    "Core",
+    "os",
+    "flask_sock",
+    "sys",
+    "psutil",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.027033",
+  "version": "1.0"
+}

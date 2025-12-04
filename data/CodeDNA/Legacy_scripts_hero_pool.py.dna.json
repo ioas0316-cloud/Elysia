@@ -1,0 +1,21 @@
+{
+  "name": "hero_pool.py",
+  "path": "Legacy\\scripts\\hero_pool.py",
+  "hash": "de1ba71b",
+  "frequency": 164.1,
+  "amplitude": 20.1,
+  "phase": "system",
+  "wavelength": 6.09,
+  "functions": 1,
+  "classes": 1,
+  "imports": 4,
+  "lines": 141,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing",
+    "scripts"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.531253",
+  "version": "1.0"
+}

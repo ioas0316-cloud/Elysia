@@ -1,0 +1,24 @@
+{
+  "name": "elysia_engineer_loop.py",
+  "path": "Legacy\\scripts\\elysia_engineer_loop.py",
+  "hash": "9959365b",
+  "frequency": 160.9,
+  "amplitude": 9.9,
+  "phase": "foundation",
+  "wavelength": 6.22,
+  "functions": 2,
+  "classes": 0,
+  "imports": 7,
+  "lines": 59,
+  "connections": [
+    "__future__",
+    "scripts",
+    "pathlib",
+    "time",
+    "json",
+    "sys",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.337672",
+  "version": "1.0"
+}

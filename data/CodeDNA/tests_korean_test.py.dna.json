@@ -1,0 +1,22 @@
+{
+  "name": "korean_test.py",
+  "path": "tests\\korean_test.py",
+  "hash": "454fad11",
+  "frequency": 129.9,
+  "amplitude": 4.9,
+  "phase": "system",
+  "wavelength": 7.7,
+  "functions": 0,
+  "classes": 0,
+  "imports": 5,
+  "lines": 49,
+  "connections": [
+    "io",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.576513",
+  "version": "1.0"
+}

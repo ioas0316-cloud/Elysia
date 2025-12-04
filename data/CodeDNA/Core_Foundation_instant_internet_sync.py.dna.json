@@ -1,0 +1,24 @@
+{
+  "name": "instant_internet_sync.py",
+  "path": "Core\\Foundation\\instant_internet_sync.py",
+  "hash": "ff7623f7",
+  "frequency": 240.6,
+  "amplitude": 49.6,
+  "phase": "system",
+  "wavelength": 4.16,
+  "functions": 5,
+  "classes": 1,
+  "imports": 7,
+  "lines": 356,
+  "connections": [
+    "typing",
+    "time",
+    "Core",
+    "os",
+    "datetime",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.048473",
+  "version": "1.0"
+}

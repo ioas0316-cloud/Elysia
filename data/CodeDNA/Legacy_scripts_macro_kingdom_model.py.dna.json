@@ -1,0 +1,19 @@
+{
+  "name": "macro_kingdom_model.py",
+  "path": "Legacy\\scripts\\macro_kingdom_model.py",
+  "hash": "a105962d",
+  "frequency": 226.0,
+  "amplitude": 60.0,
+  "phase": "foundation",
+  "wavelength": 4.42,
+  "functions": 3,
+  "classes": 2,
+  "imports": 2,
+  "lines": 460,
+  "connections": [
+    "dataclasses",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.780708",
+  "version": "1.0"
+}

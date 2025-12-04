@@ -1,0 +1,23 @@
+{
+  "name": "explore_downloads.py",
+  "path": "Core\\Foundation\\explore_downloads.py",
+  "hash": "297380e6",
+  "frequency": 150.0,
+  "amplitude": 12.0,
+  "phase": "memory",
+  "wavelength": 6.67,
+  "functions": 1,
+  "classes": 0,
+  "imports": 6,
+  "lines": 100,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "datetime",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.947828",
+  "version": "1.0"
+}

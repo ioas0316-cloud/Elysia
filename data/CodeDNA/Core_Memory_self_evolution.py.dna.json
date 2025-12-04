@@ -1,0 +1,20 @@
+{
+  "name": "self_evolution.py",
+  "path": "Core\\Memory\\self_evolution.py",
+  "hash": "a96df2d7",
+  "frequency": 222.9,
+  "amplitude": 35.9,
+  "phase": "evolution",
+  "wavelength": 4.49,
+  "functions": 7,
+  "classes": 1,
+  "imports": 3,
+  "lines": 179,
+  "connections": [
+    "typing",
+    "numpy",
+    "Project_Elysia"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.761441",
+  "version": "1.0"
+}

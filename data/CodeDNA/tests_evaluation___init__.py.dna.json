@@ -1,0 +1,16 @@
+{
+  "name": "__init__.py",
+  "path": "tests\\evaluation\\__init__.py",
+  "hash": "bcdf126c",
+  "frequency": 100.6,
+  "amplitude": 0.6,
+  "phase": "interface",
+  "wavelength": 9.94,
+  "functions": 0,
+  "classes": 0,
+  "imports": 0,
+  "lines": 6,
+  "connections": [],
+  "extracted_at": "2025-12-05T02:23:58.487212",
+  "version": "1.0"
+}

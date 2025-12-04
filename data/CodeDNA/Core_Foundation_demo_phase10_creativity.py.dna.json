@@ -1,0 +1,22 @@
+{
+  "name": "demo_phase10_creativity.py",
+  "path": "Core\\Foundation\\demo_phase10_creativity.py",
+  "hash": "fbf11bd9",
+  "frequency": 159.0,
+  "amplitude": 34.0,
+  "phase": "creativity",
+  "wavelength": 6.29,
+  "functions": 0,
+  "classes": 0,
+  "imports": 5,
+  "lines": 340,
+  "connections": [
+    "pathlib",
+    "traceback",
+    "Core",
+    "sys",
+    "asyncio"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.762746",
+  "version": "1.0"
+}

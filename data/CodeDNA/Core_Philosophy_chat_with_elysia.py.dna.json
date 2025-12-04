@@ -1,0 +1,23 @@
+{
+  "name": "chat_with_elysia.py",
+  "path": "Core\\Philosophy\\chat_with_elysia.py",
+  "hash": "bcac4a2a",
+  "frequency": 167.2,
+  "amplitude": 21.2,
+  "phase": "system",
+  "wavelength": 5.98,
+  "functions": 2,
+  "classes": 0,
+  "imports": 6,
+  "lines": 172,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "subprocess",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:16.076469",
+  "version": "1.0"
+}

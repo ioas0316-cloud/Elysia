@@ -1,0 +1,25 @@
+{
+  "name": "growth.py",
+  "path": "Core\\Foundation\\growth.py",
+  "hash": "1e168e52",
+  "frequency": 383.0,
+  "amplitude": 83.0,
+  "phase": "evolution",
+  "wavelength": 2.61,
+  "functions": 14,
+  "classes": 3,
+  "imports": 8,
+  "lines": 430,
+  "connections": [
+    "pathlib",
+    "typing",
+    "dataclasses",
+    "traceback",
+    "Core",
+    "sys",
+    "importlib",
+    "ast"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.537218",
+  "version": "1.0"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "warp_to_professional.py",
+  "path": "Core\\Foundation\\warp_to_professional.py",
+  "hash": "1c7c2ccf",
+  "frequency": 181.8,
+  "amplitude": 33.8,
+  "phase": "foundation",
+  "wavelength": 5.5,
+  "functions": 1,
+  "classes": 0,
+  "imports": 8,
+  "lines": 318,
+  "connections": [
+    "random",
+    "thought_to_language_demo",
+    "time",
+    "Core",
+    "integrated_learning",
+    "os",
+    "sys",
+    "concurrent"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.126642",
+  "version": "1.0"
+}

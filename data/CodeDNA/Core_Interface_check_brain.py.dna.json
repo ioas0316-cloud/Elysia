@@ -1,0 +1,21 @@
+{
+  "name": "check_brain.py",
+  "path": "Core\\Interface\\check_brain.py",
+  "hash": "d2f2454e",
+  "frequency": 122.1,
+  "amplitude": 2.1,
+  "phase": "intelligence",
+  "wavelength": 8.19,
+  "functions": 0,
+  "classes": 0,
+  "imports": 4,
+  "lines": 21,
+  "connections": [
+    "google",
+    "os",
+    "dotenv",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.028061",
+  "version": "1.0"
+}

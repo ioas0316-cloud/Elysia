@@ -1,0 +1,21 @@
+{
+  "name": "test_learning_systems.py",
+  "path": "Core\\Foundation\\test_learning_systems.py",
+  "hash": "557bca34",
+  "frequency": 328.9,
+  "amplitude": 64.9,
+  "phase": "system",
+  "wavelength": 3.04,
+  "functions": 10,
+  "classes": 4,
+  "imports": 4,
+  "lines": 289,
+  "connections": [
+    "pytest",
+    "Core",
+    "asyncio",
+    "time"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.070360",
+  "version": "1.0"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "web_server.py",
+  "path": "Core\\Foundation\\web_server.py",
+  "hash": "5727ca22",
+  "frequency": 250.2,
+  "amplitude": 32.2,
+  "phase": "interface",
+  "wavelength": 4.0,
+  "functions": 9,
+  "classes": 1,
+  "imports": 6,
+  "lines": 102,
+  "connections": [
+    "flask",
+    "os",
+    "json",
+    "flask_cors",
+    "logging",
+    "threading"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.190086",
+  "version": "1.0"
+}

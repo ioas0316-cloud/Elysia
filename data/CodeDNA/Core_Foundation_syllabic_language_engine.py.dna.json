@@ -1,0 +1,28 @@
+{
+  "name": "syllabic_language_engine.py",
+  "path": "Core\\Foundation\\syllabic_language_engine.py",
+  "hash": "96b29a5c",
+  "frequency": 502.6,
+  "amplitude": 100,
+  "phase": "foundation",
+  "wavelength": 1.99,
+  "functions": 21,
+  "classes": 3,
+  "imports": 11,
+  "lines": 776,
+  "connections": [
+    "__future__",
+    "random",
+    "collections",
+    "dataclasses",
+    "pathlib",
+    "typing",
+    "kg_manager",
+    "core_memory",
+    "json",
+    "re",
+    "high_engine"
+  ],
+  "extracted_at": "2025-12-05T02:24:11.091273",
+  "version": "1.0"
+}

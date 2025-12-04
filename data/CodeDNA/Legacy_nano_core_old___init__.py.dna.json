@@ -1,0 +1,19 @@
+{
+  "name": "__init__.py",
+  "path": "Legacy\\nano_core_old\\__init__.py",
+  "hash": "b3720aad",
+  "frequency": 111.0,
+  "amplitude": 1.0,
+  "phase": "foundation",
+  "wavelength": 9.01,
+  "functions": 0,
+  "classes": 0,
+  "imports": 2,
+  "lines": 10,
+  "connections": [
+    "importlib",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.922353",
+  "version": "1.0"
+}

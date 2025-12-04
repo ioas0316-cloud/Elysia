@@ -1,0 +1,20 @@
+{
+  "name": "registry.py",
+  "path": "Core\\Foundation\\registry.py",
+  "hash": "b4570e40",
+  "frequency": 185.7,
+  "amplitude": 22.7,
+  "phase": "foundation",
+  "wavelength": 5.39,
+  "functions": 4,
+  "classes": 1,
+  "imports": 3,
+  "lines": 107,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.933632",
+  "version": "1.0"
+}

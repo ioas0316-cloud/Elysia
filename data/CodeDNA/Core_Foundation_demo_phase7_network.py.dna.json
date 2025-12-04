@@ -1,0 +1,19 @@
+{
+  "name": "demo_phase7_network.py",
+  "path": "Core\\Foundation\\demo_phase7_network.py",
+  "hash": "1efbcc3c",
+  "frequency": 138.5,
+  "amplitude": 28.5,
+  "phase": "intelligence",
+  "wavelength": 7.22,
+  "functions": 0,
+  "classes": 0,
+  "imports": 2,
+  "lines": 285,
+  "connections": [
+    "Core",
+    "asyncio"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.868225",
+  "version": "1.0"
+}

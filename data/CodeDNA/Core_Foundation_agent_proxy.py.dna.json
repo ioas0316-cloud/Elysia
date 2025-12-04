@@ -1,0 +1,22 @@
+{
+  "name": "agent_proxy.py",
+  "path": "Core\\Foundation\\agent_proxy.py",
+  "hash": "87ebbe75",
+  "frequency": 180.5,
+  "amplitude": 15.5,
+  "phase": "system",
+  "wavelength": 5.54,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 55,
+  "connections": [
+    "infra",
+    "typing",
+    "Project_Sophia",
+    "os",
+    "requests"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.873010",
+  "version": "1.0"
+}

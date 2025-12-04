@@ -1,0 +1,25 @@
+{
+  "name": "quantum_reader.py",
+  "path": "Core\\Foundation\\quantum_reader.py",
+  "hash": "71411018",
+  "frequency": 236.9,
+  "amplitude": 32.9,
+  "phase": "foundation",
+  "wavelength": 4.22,
+  "functions": 6,
+  "classes": 1,
+  "imports": 8,
+  "lines": 169,
+  "connections": [
+    "typing",
+    "time",
+    "Core",
+    "os",
+    "json",
+    "re",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.435943",
+  "version": "1.0"
+}

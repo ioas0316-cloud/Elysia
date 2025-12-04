@@ -1,0 +1,18 @@
+{
+  "name": "__init__.py",
+  "path": "Core\\Elysia\\personas\\__init__.py",
+  "hash": "9bbbdf1a",
+  "frequency": 107.4,
+  "amplitude": 2.4,
+  "phase": "system",
+  "wavelength": 9.31,
+  "functions": 0,
+  "classes": 0,
+  "imports": 1,
+  "lines": 24,
+  "connections": [
+    "registry"
+  ],
+  "extracted_at": "2025-12-05T02:24:17.588289",
+  "version": "1.0"
+}

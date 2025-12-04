@@ -1,0 +1,23 @@
+{
+  "name": "transcendence_engine.py",
+  "path": "Core\\Foundation\\transcendence_engine.py",
+  "hash": "0df9f7c6",
+  "frequency": 339.4,
+  "amplitude": 73.4,
+  "phase": "foundation",
+  "wavelength": 2.95,
+  "functions": 13,
+  "classes": 2,
+  "imports": 6,
+  "lines": 394,
+  "connections": [
+    "random",
+    "dataclasses",
+    "typing",
+    "time",
+    "datetime",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.710316",
+  "version": "1.0"
+}

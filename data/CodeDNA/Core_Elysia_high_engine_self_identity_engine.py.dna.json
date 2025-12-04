@@ -1,0 +1,22 @@
+{
+  "name": "self_identity_engine.py",
+  "path": "Core\\Elysia\\high_engine\\self_identity_engine.py",
+  "hash": "85d9effc",
+  "frequency": 220.4,
+  "amplitude": 31.4,
+  "phase": "foundation",
+  "wavelength": 4.54,
+  "functions": 4,
+  "classes": 2,
+  "imports": 5,
+  "lines": 154,
+  "connections": [
+    "__future__",
+    "dataclasses",
+    "typing",
+    "Project_Elysia",
+    "datetime"
+  ],
+  "extracted_at": "2025-12-05T02:24:16.728210",
+  "version": "1.0"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "evolve.py",
+  "path": "Core\\Intelligence\\evolve.py",
+  "hash": "feb4974f",
+  "frequency": 128.1,
+  "amplitude": 5.1,
+  "phase": "system",
+  "wavelength": 7.81,
+  "functions": 1,
+  "classes": 0,
+  "imports": 3,
+  "lines": 31,
+  "connections": [
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.560414",
+  "version": "1.0"
+}

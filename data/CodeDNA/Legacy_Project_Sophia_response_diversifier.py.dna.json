@@ -1,0 +1,22 @@
+{
+  "name": "response_diversifier.py",
+  "path": "Legacy\\Project_Sophia\\response_diversifier.py",
+  "hash": "00feaabd",
+  "frequency": 287.0,
+  "amplitude": 50.0,
+  "phase": "memory",
+  "wavelength": 3.48,
+  "functions": 10,
+  "classes": 2,
+  "imports": 5,
+  "lines": 220,
+  "connections": [
+    "__future__",
+    "random",
+    "dataclasses",
+    "typing",
+    "re"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.708953",
+  "version": "1.0"
+}

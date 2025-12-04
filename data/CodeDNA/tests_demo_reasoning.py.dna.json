@@ -1,0 +1,21 @@
+{
+  "name": "demo_reasoning.py",
+  "path": "tests\\demo_reasoning.py",
+  "hash": "22d90747",
+  "frequency": 138.0,
+  "amplitude": 10.0,
+  "phase": "intelligence",
+  "wavelength": 7.25,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 80,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.568436",
+  "version": "1.0"
+}

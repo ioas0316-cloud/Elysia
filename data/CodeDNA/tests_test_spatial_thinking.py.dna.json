@@ -1,0 +1,22 @@
+{
+  "name": "test_spatial_thinking.py",
+  "path": "tests\\test_spatial_thinking.py",
+  "hash": "ddf58b71",
+  "frequency": 191.8,
+  "amplitude": 18.8,
+  "phase": "intelligence",
+  "wavelength": 5.21,
+  "functions": 4,
+  "classes": 1,
+  "imports": 5,
+  "lines": 68,
+  "connections": [
+    "pyquaternion",
+    "Core",
+    "os",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.890072",
+  "version": "1.0"
+}

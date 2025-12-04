@@ -1,0 +1,22 @@
+{
+  "name": "test_world_tree.py",
+  "path": "tests\\test_world_tree.py",
+  "hash": "8e0fe09f",
+  "frequency": 256.0,
+  "amplitude": 35.0,
+  "phase": "foundation",
+  "wavelength": 3.91,
+  "functions": 8,
+  "classes": 2,
+  "imports": 5,
+  "lines": 110,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.374192",
+  "version": "1.0"
+}

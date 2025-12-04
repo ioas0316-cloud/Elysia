@@ -1,0 +1,20 @@
+{
+  "name": "dialogic_coach.py",
+  "path": "Legacy\\Project_Sophia\\dialogic_coach.py",
+  "hash": "813678d0",
+  "frequency": 191.7,
+  "amplitude": 20.7,
+  "phase": "intelligence",
+  "wavelength": 5.22,
+  "functions": 3,
+  "classes": 2,
+  "imports": 3,
+  "lines": 67,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.226647",
+  "version": "1.0"
+}

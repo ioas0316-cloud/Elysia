@@ -1,0 +1,22 @@
+{
+  "name": "trinity_mission_demo.py",
+  "path": "Legacy\\scripts\\trinity_mission_demo.py",
+  "hash": "ff99ffd7",
+  "frequency": 140.3,
+  "amplitude": 7.3,
+  "phase": "system",
+  "wavelength": 7.13,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 53,
+  "connections": [
+    "__future__",
+    "pathlib",
+    "tools",
+    "Project_Sophia",
+    "Project_Mirror"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.191986",
+  "version": "1.0"
+}

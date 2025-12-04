@@ -1,0 +1,24 @@
+{
+  "name": "fractal_vocabulary_expansion.py",
+  "path": "Core\\Foundation\\fractal_vocabulary_expansion.py",
+  "hash": "5a75d50b",
+  "frequency": 212.5,
+  "amplitude": 29.5,
+  "phase": "foundation",
+  "wavelength": 4.71,
+  "functions": 4,
+  "classes": 1,
+  "imports": 7,
+  "lines": 175,
+  "connections": [
+    "sqlite3",
+    "random",
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "itertools"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.341286",
+  "version": "1.0"
+}

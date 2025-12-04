@@ -1,0 +1,16 @@
+{
+  "name": "__init__.py",
+  "path": "Legacy\\scripts\\persona_hooks\\__init__.py",
+  "hash": "d41d8cd9",
+  "frequency": 100.0,
+  "amplitude": 0.0,
+  "phase": "unknown",
+  "wavelength": 10.0,
+  "functions": 0,
+  "classes": 0,
+  "imports": 0,
+  "lines": 0,
+  "connections": [],
+  "extracted_at": "2025-12-05T02:24:02.026260",
+  "version": "1.0"
+}

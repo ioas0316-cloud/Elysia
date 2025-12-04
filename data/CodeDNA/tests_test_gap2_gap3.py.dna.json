@@ -1,0 +1,21 @@
+{
+  "name": "test_gap2_gap3.py",
+  "path": "tests\\test_gap2_gap3.py",
+  "hash": "78ae2f95",
+  "frequency": 530.6,
+  "amplitude": 90.6,
+  "phase": "intelligence",
+  "wavelength": 1.88,
+  "functions": 29,
+  "classes": 4,
+  "imports": 4,
+  "lines": 406,
+  "connections": [
+    "pytest",
+    "importlib",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.083583",
+  "version": "1.0"
+}

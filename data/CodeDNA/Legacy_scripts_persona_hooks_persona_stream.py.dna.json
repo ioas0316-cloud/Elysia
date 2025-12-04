@@ -1,0 +1,27 @@
+{
+  "name": "persona_stream.py",
+  "path": "Legacy\\scripts\\persona_hooks\\persona_stream.py",
+  "hash": "91160e43",
+  "frequency": 217.6,
+  "amplitude": 27.6,
+  "phase": "system",
+  "wavelength": 4.6,
+  "functions": 5,
+  "classes": 0,
+  "imports": 10,
+  "lines": 176,
+  "connections": [
+    "__future__",
+    "scripts",
+    "pathlib",
+    "typing",
+    "elysia_world",
+    "time",
+    "json",
+    "sys",
+    "datetime",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.024746",
+  "version": "1.0"
+}

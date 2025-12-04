@@ -1,0 +1,25 @@
+{
+  "name": "analyze_全체시스템.py",
+  "path": "Core\\Foundation\\analyze_全체시스템.py",
+  "hash": "90f3a11e",
+  "frequency": 184.1,
+  "amplitude": 36.1,
+  "phase": "system",
+  "wavelength": 5.43,
+  "functions": 1,
+  "classes": 0,
+  "imports": 8,
+  "lines": 341,
+  "connections": [
+    "collections",
+    "pathlib",
+    "Core",
+    "json",
+    "datetime",
+    "re",
+    "ast",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.912464",
+  "version": "1.0"
+}

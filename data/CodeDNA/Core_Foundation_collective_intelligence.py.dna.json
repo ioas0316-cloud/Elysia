@@ -1,0 +1,25 @@
+{
+  "name": "collective_intelligence.py",
+  "path": "Core\\Foundation\\collective_intelligence.py",
+  "hash": "dac8231b",
+  "frequency": 375.3,
+  "amplitude": 75.3,
+  "phase": "intelligence",
+  "wavelength": 2.66,
+  "functions": 12,
+  "classes": 4,
+  "imports": 8,
+  "lines": 353,
+  "connections": [
+    "enum",
+    "dataclasses",
+    "pathlib",
+    "typing",
+    "time",
+    "uuid",
+    "json",
+    "asyncio"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.285335",
+  "version": "1.0"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "fix_imports.py",
+  "path": "scripts\\fix_imports.py",
+  "hash": "f01b16ea",
+  "frequency": 142.2,
+  "amplitude": 11.2,
+  "phase": "intelligence",
+  "wavelength": 7.03,
+  "functions": 2,
+  "classes": 0,
+  "imports": 3,
+  "lines": 72,
+  "connections": [
+    "pathlib",
+    "re",
+    "os"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.466663",
+  "version": "1.0"
+}

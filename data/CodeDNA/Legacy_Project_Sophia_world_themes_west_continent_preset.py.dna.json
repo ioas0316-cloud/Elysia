@@ -1,0 +1,19 @@
+{
+  "name": "preset.py",
+  "path": "Legacy\\Project_Sophia\\world_themes\\west_continent\\preset.py",
+  "hash": "c2973ff2",
+  "frequency": 127.7,
+  "amplitude": 9.7,
+  "phase": "system",
+  "wavelength": 7.83,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 77,
+  "connections": [
+    "__future__",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.180158",
+  "version": "1.0"
+}

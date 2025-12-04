@@ -1,0 +1,22 @@
+{
+  "name": "elysia_concept_field.py",
+  "path": "Legacy\\scripts\\elysia_concept_field.py",
+  "hash": "46f246dd",
+  "frequency": 337.0,
+  "amplitude": 60.0,
+  "phase": "foundation",
+  "wavelength": 2.97,
+  "functions": 15,
+  "classes": 2,
+  "imports": 5,
+  "lines": 220,
+  "connections": [
+    "__future__",
+    "dataclasses",
+    "typing",
+    "os",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.334482",
+  "version": "1.0"
+}

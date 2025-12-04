@@ -1,0 +1,19 @@
+{
+  "name": "render_pipeline.py",
+  "path": "Legacy\\app_core\\render_pipeline.py",
+  "hash": "2552c71c",
+  "frequency": 124.4,
+  "amplitude": 6.4,
+  "phase": "creativity",
+  "wavelength": 8.04,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 44,
+  "connections": [
+    "__future__",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.661601",
+  "version": "1.0"
+}

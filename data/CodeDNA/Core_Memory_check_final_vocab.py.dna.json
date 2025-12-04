@@ -1,0 +1,20 @@
+{
+  "name": "check_final_vocab.py",
+  "path": "Core\\Memory\\check_final_vocab.py",
+  "hash": "6d2011ad",
+  "frequency": 117.9,
+  "amplitude": 2.9,
+  "phase": "system",
+  "wavelength": 8.48,
+  "functions": 0,
+  "classes": 0,
+  "imports": 3,
+  "lines": 29,
+  "connections": [
+    "Core",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.534454",
+  "version": "1.0"
+}

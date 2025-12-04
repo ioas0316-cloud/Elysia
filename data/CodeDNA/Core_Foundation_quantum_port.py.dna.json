@@ -1,0 +1,21 @@
+{
+  "name": "quantum_port.py",
+  "path": "Core\\Foundation\\quantum_port.py",
+  "hash": "746ae52e",
+  "frequency": 199.3,
+  "amplitude": 23.3,
+  "phase": "interface",
+  "wavelength": 5.02,
+  "functions": 5,
+  "classes": 1,
+  "imports": 4,
+  "lines": 93,
+  "connections": [
+    "ssl",
+    "typing",
+    "socket",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.428479",
+  "version": "1.0"
+}

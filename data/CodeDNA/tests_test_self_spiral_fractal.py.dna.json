@@ -1,0 +1,22 @@
+{
+  "name": "test_self_spiral_fractal.py",
+  "path": "tests\\test_self_spiral_fractal.py",
+  "hash": "9be55772",
+  "frequency": 390.3,
+  "amplitude": 73.3,
+  "phase": "intelligence",
+  "wavelength": 2.56,
+  "functions": 18,
+  "classes": 3,
+  "imports": 5,
+  "lines": 253,
+  "connections": [
+    "Core",
+    "os",
+    "sys",
+    "unittest",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.879786",
+  "version": "1.0"
+}

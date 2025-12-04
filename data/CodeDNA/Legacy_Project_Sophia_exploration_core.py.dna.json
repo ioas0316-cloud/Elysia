@@ -1,0 +1,20 @@
+{
+  "name": "exploration_core.py",
+  "path": "Legacy\\Project_Sophia\\exploration_core.py",
+  "hash": "7dea6627",
+  "frequency": 201.0,
+  "amplitude": 22.0,
+  "phase": "foundation",
+  "wavelength": 4.98,
+  "functions": 6,
+  "classes": 1,
+  "imports": 3,
+  "lines": 60,
+  "connections": [
+    "os",
+    "datetime",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.309375",
+  "version": "1.0"
+}

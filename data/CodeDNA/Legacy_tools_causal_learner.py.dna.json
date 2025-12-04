@@ -1,0 +1,23 @@
+{
+  "name": "causal_learner.py",
+  "path": "Legacy\\tools\\causal_learner.py",
+  "hash": "9a449334",
+  "frequency": 172.8,
+  "amplitude": 18.8,
+  "phase": "evolution",
+  "wavelength": 5.79,
+  "functions": 3,
+  "classes": 0,
+  "imports": 6,
+  "lines": 128,
+  "connections": [
+    "glob",
+    "pathlib",
+    "Project_Sophia",
+    "os",
+    "datetime",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.834131",
+  "version": "1.0"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "mind_mitosis.py",
+  "path": "Core\\Foundation\\mind_mitosis.py",
+  "hash": "f34b3733",
+  "frequency": 210.0,
+  "amplitude": 22.0,
+  "phase": "system",
+  "wavelength": 4.76,
+  "functions": 4,
+  "classes": 1,
+  "imports": 8,
+  "lines": 100,
+  "connections": [
+    "typing",
+    "time",
+    "shutil",
+    "Core",
+    "os",
+    "sys",
+    "subprocess",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.801669",
+  "version": "1.0"
+}

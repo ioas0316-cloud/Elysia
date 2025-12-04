@@ -1,0 +1,24 @@
+{
+  "name": "run_cognitive_world.py",
+  "path": "Core\\Foundation\\run_cognitive_world.py",
+  "hash": "a6e86b61",
+  "frequency": 276.8,
+  "amplitude": 61.8,
+  "phase": "intelligence",
+  "wavelength": 3.61,
+  "functions": 8,
+  "classes": 1,
+  "imports": 7,
+  "lines": 418,
+  "connections": [
+    "typing",
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:08.973277",
+  "version": "1.0"
+}

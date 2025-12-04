@@ -1,0 +1,22 @@
+{
+  "name": "demo_autonomous_learning.py",
+  "path": "Core\\Foundation\\demo_autonomous_learning.py",
+  "hash": "d8eea0cc",
+  "frequency": 201.2,
+  "amplitude": 28.2,
+  "phase": "evolution",
+  "wavelength": 4.97,
+  "functions": 4,
+  "classes": 1,
+  "imports": 5,
+  "lines": 162,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.706249",
+  "version": "1.0"
+}

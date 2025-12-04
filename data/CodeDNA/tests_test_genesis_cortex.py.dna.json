@@ -1,0 +1,22 @@
+{
+  "name": "test_genesis_cortex.py",
+  "path": "tests\\test_genesis_cortex.py",
+  "hash": "2e636bc0",
+  "frequency": 170.4,
+  "amplitude": 13.4,
+  "phase": "intelligence",
+  "wavelength": 5.87,
+  "functions": 2,
+  "classes": 1,
+  "imports": 5,
+  "lines": 54,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "json",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.175795",
+  "version": "1.0"
+}

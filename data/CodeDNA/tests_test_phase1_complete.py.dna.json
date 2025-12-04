@@ -1,0 +1,21 @@
+{
+  "name": "test_phase1_complete.py",
+  "path": "tests\\test_phase1_complete.py",
+  "hash": "1bcab303",
+  "frequency": 123.8,
+  "amplitude": 3.8,
+  "phase": "intelligence",
+  "wavelength": 8.08,
+  "functions": 0,
+  "classes": 0,
+  "imports": 4,
+  "lines": 38,
+  "connections": [
+    "Core",
+    "io",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.666087",
+  "version": "1.0"
+}

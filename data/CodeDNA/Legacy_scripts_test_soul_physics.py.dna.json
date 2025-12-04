@@ -1,0 +1,21 @@
+{
+  "name": "test_soul_physics.py",
+  "path": "Legacy\\scripts\\test_soul_physics.py",
+  "hash": "0b5ebb0d",
+  "frequency": 231.2,
+  "amplitude": 31.2,
+  "phase": "foundation",
+  "wavelength": 4.33,
+  "functions": 6,
+  "classes": 2,
+  "imports": 4,
+  "lines": 112,
+  "connections": [
+    "tools",
+    "unittest",
+    "Project_Sophia",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.139574",
+  "version": "1.0"
+}

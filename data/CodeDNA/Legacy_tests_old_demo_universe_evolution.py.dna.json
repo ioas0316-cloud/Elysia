@@ -1,0 +1,27 @@
+{
+  "name": "demo_universe_evolution.py",
+  "path": "Legacy\\tests_old\\demo_universe_evolution.py",
+  "hash": "e63fdab3",
+  "frequency": 188.7,
+  "amplitude": 22.7,
+  "phase": "evolution",
+  "wavelength": 5.3,
+  "functions": 2,
+  "classes": 0,
+  "imports": 10,
+  "lines": 187,
+  "connections": [
+    "random",
+    "tools",
+    "Project_Sophia",
+    "logging",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "datetime",
+    "numpy",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.419282",
+  "version": "1.0"
+}

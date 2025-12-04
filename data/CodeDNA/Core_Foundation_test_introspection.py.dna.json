@@ -1,0 +1,21 @@
+{
+  "name": "test_introspection.py",
+  "path": "Core\\Foundation\\test_introspection.py",
+  "hash": "72b5a647",
+  "frequency": 134.0,
+  "amplitude": 6.0,
+  "phase": "system",
+  "wavelength": 7.46,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 40,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.019434",
+  "version": "1.0"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "benchmark_laplace_engine.py",
+  "path": "Legacy\\tests_old\\benchmark_laplace_engine.py",
+  "hash": "8f8b4016",
+  "frequency": 198.4,
+  "amplitude": 28.4,
+  "phase": "foundation",
+  "wavelength": 5.04,
+  "functions": 5,
+  "classes": 0,
+  "imports": 6,
+  "lines": 184,
+  "connections": [
+    "time",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.302467",
+  "version": "1.0"
+}

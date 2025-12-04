@@ -1,0 +1,19 @@
+{
+  "name": "toggle_motor_lock.py",
+  "path": "Core\\Creativity\\toggle_motor_lock.py",
+  "hash": "a6a415e8",
+  "frequency": 122.8,
+  "amplitude": 4.8,
+  "phase": "system",
+  "wavelength": 8.14,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 28,
+  "connections": [
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.567581",
+  "version": "1.0"
+}

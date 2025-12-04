@@ -1,0 +1,22 @@
+{
+  "name": "test_imagination.py",
+  "path": "tests\\test_imagination.py",
+  "hash": "0bbf542e",
+  "frequency": 191.5,
+  "amplitude": 18.5,
+  "phase": "intelligence",
+  "wavelength": 5.22,
+  "functions": 4,
+  "classes": 1,
+  "imports": 5,
+  "lines": 65,
+  "connections": [
+    "Core",
+    "os",
+    "sys",
+    "unittest",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.334143",
+  "version": "1.0"
+}

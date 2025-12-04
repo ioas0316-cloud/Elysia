@@ -1,0 +1,28 @@
+{
+  "name": "world.py",
+  "path": "Core\\Foundation\\world.py",
+  "hash": "21a3addb",
+  "frequency": 467.7,
+  "amplitude": 100,
+  "phase": "foundation",
+  "wavelength": 2.14,
+  "functions": 23,
+  "classes": 1,
+  "imports": 11,
+  "lines": 627,
+  "connections": [
+    "__future__",
+    "random",
+    "collections",
+    "pathlib",
+    "typing",
+    "cell",
+    "Core",
+    "json",
+    "numpy",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:14.234429",
+  "version": "1.0"
+}

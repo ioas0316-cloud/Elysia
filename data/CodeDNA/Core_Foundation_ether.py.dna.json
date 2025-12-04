@@ -1,0 +1,22 @@
+{
+  "name": "ether.py",
+  "path": "Core\\Foundation\\ether.py",
+  "hash": "bd20521f",
+  "frequency": 245.3,
+  "amplitude": 32.3,
+  "phase": "foundation",
+  "wavelength": 4.08,
+  "functions": 7,
+  "classes": 2,
+  "imports": 5,
+  "lines": 103,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "uuid",
+    "datetime",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.854010",
+  "version": "1.0"
+}

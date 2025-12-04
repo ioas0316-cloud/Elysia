@@ -1,0 +1,24 @@
+{
+  "name": "internal_universe.py",
+  "path": "Core\\Foundation\\internal_universe.py",
+  "hash": "39146a4a",
+  "frequency": 348.0,
+  "amplitude": 77.0,
+  "phase": "foundation",
+  "wavelength": 2.87,
+  "functions": 11,
+  "classes": 3,
+  "imports": 7,
+  "lines": 430,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "Core",
+    "os",
+    "sys",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.269055",
+  "version": "1.0"
+}

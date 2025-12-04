@@ -1,0 +1,20 @@
+{
+  "name": "game_objects.py",
+  "path": "Core\\Foundation\\game_objects.py",
+  "hash": "fbecd9eb",
+  "frequency": 210.2,
+  "amplitude": 23.2,
+  "phase": "foundation",
+  "wavelength": 4.76,
+  "functions": 3,
+  "classes": 3,
+  "imports": 3,
+  "lines": 52,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.394936",
+  "version": "1.0"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "intent_engine.py",
+  "path": "Core\\Memory\\intent_engine.py",
+  "hash": "f571bb57",
+  "frequency": 219.4,
+  "amplitude": 33.4,
+  "phase": "foundation",
+  "wavelength": 4.56,
+  "functions": 3,
+  "classes": 2,
+  "imports": 6,
+  "lines": 194,
+  "connections": [
+    "dialogue_law_evaluator",
+    "emotional_engine",
+    "dataclasses",
+    "typing",
+    "core_memory",
+    "architecture"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.754572",
+  "version": "1.0"
+}

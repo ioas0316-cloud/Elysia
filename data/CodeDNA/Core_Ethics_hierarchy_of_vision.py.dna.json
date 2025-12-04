@@ -1,0 +1,22 @@
+{
+  "name": "hierarchy_of_vision.py",
+  "path": "Core\\Ethics\\hierarchy_of_vision.py",
+  "hash": "b9ea77c2",
+  "frequency": 293.5,
+  "amplitude": 40.5,
+  "phase": "foundation",
+  "wavelength": 3.41,
+  "functions": 6,
+  "classes": 5,
+  "imports": 5,
+  "lines": 85,
+  "connections": [
+    "__future__",
+    "enum",
+    "dataclasses",
+    "typing",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.788960",
+  "version": "1.0"
+}

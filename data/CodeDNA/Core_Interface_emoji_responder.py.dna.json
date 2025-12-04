@@ -1,0 +1,21 @@
+{
+  "name": "emoji_responder.py",
+  "path": "Core\\Interface\\emoji_responder.py",
+  "hash": "1fefe0cb",
+  "frequency": 163.9,
+  "amplitude": 11.9,
+  "phase": "system",
+  "wavelength": 6.1,
+  "functions": 2,
+  "classes": 1,
+  "imports": 4,
+  "lines": 39,
+  "connections": [
+    "Core",
+    "typing",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.033257",
+  "version": "1.0"
+}

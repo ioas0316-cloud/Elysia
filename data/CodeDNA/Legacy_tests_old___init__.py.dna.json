@@ -1,0 +1,16 @@
+{
+  "name": "__init__.py",
+  "path": "Legacy\\tests_old\\__init__.py",
+  "hash": "d6f58dbd",
+  "frequency": 100.1,
+  "amplitude": 0.1,
+  "phase": "system",
+  "wavelength": 9.99,
+  "functions": 0,
+  "classes": 0,
+  "imports": 0,
+  "lines": 1,
+  "connections": [],
+  "extracted_at": "2025-12-05T02:24:01.800763",
+  "version": "1.0"
+}

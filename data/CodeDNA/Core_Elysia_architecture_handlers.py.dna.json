@@ -1,0 +1,25 @@
+{
+  "name": "handlers.py",
+  "path": "Core\\Elysia\\architecture\\handlers.py",
+  "hash": "a55d37e2",
+  "frequency": 401.3,
+  "amplitude": 92,
+  "phase": "interface",
+  "wavelength": 2.49,
+  "functions": 13,
+  "classes": 4,
+  "imports": 8,
+  "lines": 513,
+  "connections": [
+    "typing",
+    "tools",
+    "Project_Sophia",
+    "Project_Mirror",
+    "Project_Elysia",
+    "datetime",
+    "re",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:16.352989",
+  "version": "1.0"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "reading_coach.py",
+  "path": "Legacy\\Project_Sophia\\reading_coach.py",
+  "hash": "d81c5438",
+  "frequency": 234.9,
+  "amplitude": 34.9,
+  "phase": "system",
+  "wavelength": 4.26,
+  "functions": 8,
+  "classes": 1,
+  "imports": 4,
+  "lines": 149,
+  "connections": [
+    "__future__",
+    "collections",
+    "re",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.538417",
+  "version": "1.0"
+}

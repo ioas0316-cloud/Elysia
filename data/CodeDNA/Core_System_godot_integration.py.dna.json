@@ -1,0 +1,20 @@
+{
+  "name": "godot_integration.py",
+  "path": "Core\\System\\godot_integration.py",
+  "hash": "0384551f",
+  "frequency": 198.1,
+  "amplitude": 19.1,
+  "phase": "interface",
+  "wavelength": 5.05,
+  "functions": 6,
+  "classes": 1,
+  "imports": 3,
+  "lines": 31,
+  "connections": [
+    "tools",
+    "__future__",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:16.161713",
+  "version": "1.0"
+}

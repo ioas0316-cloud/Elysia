@@ -1,0 +1,21 @@
+{
+  "name": "ingest_obsidian.py",
+  "path": "Legacy\\scripts\\ingest_obsidian.py",
+  "hash": "a836776f",
+  "frequency": 136.1,
+  "amplitude": 8.1,
+  "phase": "system",
+  "wavelength": 7.35,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 61,
+  "connections": [
+    "pathlib",
+    "re",
+    "tools",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.543479",
+  "version": "1.0"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "relationship_extractor.py",
+  "path": "Legacy\\Project_Sophia\\relationship_extractor.py",
+  "hash": "6b50c353",
+  "frequency": 119.7,
+  "amplitude": 6.7,
+  "phase": "foundation",
+  "wavelength": 8.35,
+  "functions": 1,
+  "classes": 0,
+  "imports": 1,
+  "lines": 47,
+  "connections": [
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.687054",
+  "version": "1.0"
+}

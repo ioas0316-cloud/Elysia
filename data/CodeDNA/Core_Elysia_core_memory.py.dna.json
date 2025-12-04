@@ -1,0 +1,24 @@
+{
+  "name": "core_memory.py",
+  "path": "Core\\Elysia\\core_memory.py",
+  "hash": "1de3ba63",
+  "frequency": 798.0,
+  "amplitude": 100,
+  "phase": "foundation",
+  "wavelength": 1.25,
+  "functions": 46,
+  "classes": 5,
+  "imports": 7,
+  "lines": 1030,
+  "connections": [
+    "collections",
+    "dataclasses",
+    "typing",
+    "Project_Sophia",
+    "os",
+    "datetime",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.647587",
+  "version": "1.0"
+}

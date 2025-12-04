@@ -1,0 +1,22 @@
+{
+  "name": "test_planning_cortex.py",
+  "path": "tests\\test_planning_cortex.py",
+  "hash": "cec7cc86",
+  "frequency": 169.1,
+  "amplitude": 12.1,
+  "phase": "intelligence",
+  "wavelength": 5.91,
+  "functions": 4,
+  "classes": 0,
+  "imports": 5,
+  "lines": 41,
+  "connections": [
+    "pytest",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.777359",
+  "version": "1.0"
+}

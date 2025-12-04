@@ -1,0 +1,22 @@
+{
+  "name": "test_language_resonance.py",
+  "path": "tests\\test_language_resonance.py",
+  "hash": "eaf72810",
+  "frequency": 185.8,
+  "amplitude": 20.8,
+  "phase": "foundation",
+  "wavelength": 5.38,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 108,
+  "connections": [
+    "Core",
+    "os",
+    "json",
+    "sys",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.425119",
+  "version": "1.0"
+}

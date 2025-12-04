@@ -1,0 +1,22 @@
+{
+  "name": "creative_writing_cortex.py",
+  "path": "Legacy\\Project_Sophia\\creative_writing_cortex.py",
+  "hash": "dde0651e",
+  "frequency": 212.8,
+  "amplitude": 23.8,
+  "phase": "creativity",
+  "wavelength": 4.7,
+  "functions": 4,
+  "classes": 2,
+  "imports": 5,
+  "lines": 78,
+  "connections": [
+    "__future__",
+    "dataclasses",
+    "typing",
+    "datetime",
+    "re"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.221648",
+  "version": "1.0"
+}

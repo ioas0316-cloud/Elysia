@@ -1,0 +1,23 @@
+{
+  "name": "utterance_composer.py",
+  "path": "Core\\Foundation\\utterance_composer.py",
+  "hash": "795c801e",
+  "frequency": 176.6,
+  "amplitude": 14.6,
+  "phase": "system",
+  "wavelength": 5.66,
+  "functions": 2,
+  "classes": 1,
+  "imports": 6,
+  "lines": 66,
+  "connections": [
+    "pathlib",
+    "typing",
+    "intent_engine",
+    "core_memory",
+    "json",
+    "gemini_api"
+  ],
+  "extracted_at": "2025-12-05T02:24:13.812513",
+  "version": "1.0"
+}

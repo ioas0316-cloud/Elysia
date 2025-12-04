@@ -1,0 +1,21 @@
+{
+  "name": "ingest_dialog_corpus.py",
+  "path": "Legacy\\scripts\\ingest_dialog_corpus.py",
+  "hash": "165f3a67",
+  "frequency": 157.2,
+  "amplitude": 13.2,
+  "phase": "memory",
+  "wavelength": 6.36,
+  "functions": 3,
+  "classes": 0,
+  "imports": 4,
+  "lines": 72,
+  "connections": [
+    "pathlib",
+    "__future__",
+    "tools",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.537132",
+  "version": "1.0"
+}

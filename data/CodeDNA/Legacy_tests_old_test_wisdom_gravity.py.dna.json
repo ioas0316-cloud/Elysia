@@ -1,0 +1,21 @@
+{
+  "name": "test_wisdom_gravity.py",
+  "path": "Legacy\\tests_old\\test_wisdom_gravity.py",
+  "hash": "3a799226",
+  "frequency": 190.9,
+  "amplitude": 22.9,
+  "phase": "foundation",
+  "wavelength": 5.24,
+  "functions": 4,
+  "classes": 1,
+  "imports": 4,
+  "lines": 109,
+  "connections": [
+    "unittest",
+    "Project_Sophia",
+    "Project_Elysia",
+    "nano_core"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.784506",
+  "version": "1.0"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "mirror.py",
+  "path": "Legacy\\Project_Mirror\\mirror.py",
+  "hash": "282f28be",
+  "frequency": 163.2,
+  "amplitude": 16.2,
+  "phase": "system",
+  "wavelength": 6.13,
+  "functions": 2,
+  "classes": 1,
+  "imports": 3,
+  "lines": 82,
+  "connections": [
+    "os",
+    "datetime",
+    "shutil"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.940146",
+  "version": "1.0"
+}

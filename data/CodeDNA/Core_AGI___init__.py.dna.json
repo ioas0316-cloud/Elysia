@@ -1,0 +1,20 @@
+{
+  "name": "__init__.py",
+  "path": "Core\\AGI\\__init__.py",
+  "hash": "9d053301",
+  "frequency": 116.9,
+  "amplitude": 1.9,
+  "phase": "foundation",
+  "wavelength": 8.55,
+  "functions": 0,
+  "classes": 0,
+  "imports": 3,
+  "lines": 19,
+  "connections": [
+    "causal_reasoner",
+    "abstract_reasoner",
+    "transfer_learning"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.526822",
+  "version": "1.0"
+}

@@ -1,0 +1,25 @@
+{
+  "name": "resonance_evolution.py",
+  "path": "Core\\Foundation\\resonance_evolution.py",
+  "hash": "7e5a8329",
+  "frequency": 299.5,
+  "amplitude": 55.5,
+  "phase": "foundation",
+  "wavelength": 3.34,
+  "functions": 9,
+  "classes": 2,
+  "imports": 8,
+  "lines": 295,
+  "connections": [
+    "pathlib",
+    "typing",
+    "dataclasses",
+    "os",
+    "time_accelerated_language",
+    "sys",
+    "re",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:08.120555",
+  "version": "1.0"
+}

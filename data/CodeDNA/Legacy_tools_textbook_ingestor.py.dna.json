@@ -1,0 +1,22 @@
+{
+  "name": "textbook_ingestor.py",
+  "path": "Legacy\\tools\\textbook_ingestor.py",
+  "hash": "d0047373",
+  "frequency": 152.1,
+  "amplitude": 11.1,
+  "phase": "system",
+  "wavelength": 6.57,
+  "functions": 2,
+  "classes": 0,
+  "imports": 5,
+  "lines": 71,
+  "connections": [
+    "tools",
+    "os",
+    "json",
+    "sys",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.955062",
+  "version": "1.0"
+}

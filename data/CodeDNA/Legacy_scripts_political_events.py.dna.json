@@ -1,0 +1,22 @@
+{
+  "name": "political_events.py",
+  "path": "Legacy\\scripts\\political_events.py",
+  "hash": "443783b0",
+  "frequency": 424.9,
+  "amplitude": 90,
+  "phase": "system",
+  "wavelength": 2.35,
+  "functions": 20,
+  "classes": 0,
+  "imports": 5,
+  "lines": 999,
+  "connections": [
+    "__future__",
+    "random",
+    "scripts",
+    "typing",
+    "Project_Sophia"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.864456",
+  "version": "1.0"
+}

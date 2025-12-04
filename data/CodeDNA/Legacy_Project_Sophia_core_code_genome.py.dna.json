@@ -1,0 +1,21 @@
+{
+  "name": "code_genome.py",
+  "path": "Legacy\\Project_Sophia\\core\\code_genome.py",
+  "hash": "5101806a",
+  "frequency": 185.6,
+  "amplitude": 17.6,
+  "phase": "system",
+  "wavelength": 5.39,
+  "functions": 2,
+  "classes": 2,
+  "imports": 4,
+  "lines": 56,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "ast",
+    "uuid"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.046151",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "test_gauge_physics.py",
+  "path": "Legacy\\scripts\\test_gauge_physics.py",
+  "hash": "d223e7d3",
+  "frequency": 196.6,
+  "amplitude": 23.6,
+  "phase": "foundation",
+  "wavelength": 5.09,
+  "functions": 4,
+  "classes": 1,
+  "imports": 5,
+  "lines": 116,
+  "connections": [
+    "tools",
+    "Project_Sophia",
+    "Project_Elysia",
+    "unittest",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.129282",
+  "version": "1.0"
+}

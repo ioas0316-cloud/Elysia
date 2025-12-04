@@ -1,0 +1,23 @@
+{
+  "name": "toddler_chat.py",
+  "path": "Core\\Elysia\\high_engine\\toddler_chat.py",
+  "hash": "a4994e89",
+  "frequency": 275.5,
+  "amplitude": 49.5,
+  "phase": "foundation",
+  "wavelength": 3.63,
+  "functions": 10,
+  "classes": 1,
+  "imports": 6,
+  "lines": 255,
+  "connections": [
+    "__future__",
+    "typing",
+    "time",
+    "os",
+    "json",
+    "Project_Elysia"
+  ],
+  "extracted_at": "2025-12-05T02:24:17.340866",
+  "version": "1.0"
+}

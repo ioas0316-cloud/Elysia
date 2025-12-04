@@ -1,0 +1,21 @@
+{
+  "name": "prove_quantum.py",
+  "path": "tests\\prove_quantum.py",
+  "hash": "0cb19aa6",
+  "frequency": 133.9,
+  "amplitude": 5.9,
+  "phase": "intelligence",
+  "wavelength": 7.47,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 39,
+  "connections": [
+    "Core",
+    "os",
+    "time",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.741124",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "run_textbook_demo.py",
+  "path": "Legacy\\scripts\\run_textbook_demo.py",
+  "hash": "253de6df",
+  "frequency": 138.6,
+  "amplitude": 5.6,
+  "phase": "system",
+  "wavelength": 7.22,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 36,
+  "connections": [
+    "__future__",
+    "tools",
+    "Project_Sophia",
+    "Project_Mirror",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.066343",
+  "version": "1.0"
+}

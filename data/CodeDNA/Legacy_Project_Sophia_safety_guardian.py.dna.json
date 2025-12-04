@@ -1,0 +1,23 @@
+{
+  "name": "safety_guardian.py",
+  "path": "Legacy\\Project_Sophia\\safety_guardian.py",
+  "hash": "af25aa8b",
+  "frequency": 392.4,
+  "amplitude": 78.4,
+  "phase": "foundation",
+  "wavelength": 2.55,
+  "functions": 17,
+  "classes": 3,
+  "imports": 6,
+  "lines": 324,
+  "connections": [
+    "enum",
+    "pathlib",
+    "typing",
+    "datetime",
+    "json",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.790208",
+  "version": "1.0"
+}

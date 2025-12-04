@@ -1,0 +1,23 @@
+{
+  "name": "character_model.py",
+  "path": "Legacy\\scripts\\character_model.py",
+  "hash": "25c73303",
+  "frequency": 523.7,
+  "amplitude": 100,
+  "phase": "system",
+  "wavelength": 1.91,
+  "functions": 25,
+  "classes": 3,
+  "imports": 6,
+  "lines": 837,
+  "connections": [
+    "__future__",
+    "random",
+    "scripts",
+    "dataclasses",
+    "typing",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.222055",
+  "version": "1.0"
+}

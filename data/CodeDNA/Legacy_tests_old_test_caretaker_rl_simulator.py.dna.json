@@ -1,0 +1,20 @@
+{
+  "name": "test_caretaker_rl_simulator.py",
+  "path": "Legacy\\tests_old\\test_caretaker_rl_simulator.py",
+  "hash": "647b6bb5",
+  "frequency": 138.6,
+  "amplitude": 7.6,
+  "phase": "intelligence",
+  "wavelength": 7.22,
+  "functions": 2,
+  "classes": 0,
+  "imports": 3,
+  "lines": 36,
+  "connections": [
+    "pathlib",
+    "Project_Sophia",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.496685",
+  "version": "1.0"
+}

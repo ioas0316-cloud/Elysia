@@ -1,0 +1,23 @@
+{
+  "name": "external_sensory_cortex.py",
+  "path": "Legacy\\Project_Mirror\\external_sensory_cortex.py",
+  "hash": "d4f6f17c",
+  "frequency": 250.4,
+  "amplitude": 32.4,
+  "phase": "system",
+  "wavelength": 3.99,
+  "functions": 9,
+  "classes": 1,
+  "imports": 6,
+  "lines": 104,
+  "connections": [
+    "platform",
+    "typing",
+    "Project_Sophia",
+    "os",
+    "psutil",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.937173",
+  "version": "1.0"
+}

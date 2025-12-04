@@ -1,0 +1,21 @@
+{
+  "name": "user_bridge.py",
+  "path": "Core\\Foundation\\user_bridge.py",
+  "hash": "a0e9f87c",
+  "frequency": 174.5,
+  "amplitude": 14.5,
+  "phase": "interface",
+  "wavelength": 5.73,
+  "functions": 3,
+  "classes": 1,
+  "imports": 4,
+  "lines": 45,
+  "connections": [
+    "webbrowser",
+    "os",
+    "time",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:13.723825",
+  "version": "1.0"
+}

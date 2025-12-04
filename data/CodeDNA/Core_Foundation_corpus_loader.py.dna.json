@@ -1,0 +1,21 @@
+{
+  "name": "corpus_loader.py",
+  "path": "Core\\Foundation\\corpus_loader.py",
+  "hash": "d0cf5b94",
+  "frequency": 199.9,
+  "amplitude": 23.9,
+  "phase": "memory",
+  "wavelength": 5.0,
+  "functions": 5,
+  "classes": 1,
+  "imports": 4,
+  "lines": 99,
+  "connections": [
+    "typing",
+    "os",
+    "high_engine",
+    "hangul_physics"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.659949",
+  "version": "1.0"
+}

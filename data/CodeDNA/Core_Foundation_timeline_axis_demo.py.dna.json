@@ -1,0 +1,19 @@
+{
+  "name": "timeline_axis_demo.py",
+  "path": "Core\\Foundation\\timeline_axis_demo.py",
+  "hash": "e601bf23",
+  "frequency": 127.2,
+  "amplitude": 9.2,
+  "phase": "foundation",
+  "wavelength": 7.86,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 72,
+  "connections": [
+    "Core",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.419479",
+  "version": "1.0"
+}

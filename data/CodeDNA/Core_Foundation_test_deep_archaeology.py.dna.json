@@ -1,0 +1,22 @@
+{
+  "name": "test_deep_archaeology.py",
+  "path": "Core\\Foundation\\test_deep_archaeology.py",
+  "hash": "0bdb7db1",
+  "frequency": 142.7,
+  "amplitude": 9.7,
+  "phase": "intelligence",
+  "wavelength": 7.01,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 77,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:11.995044",
+  "version": "1.0"
+}

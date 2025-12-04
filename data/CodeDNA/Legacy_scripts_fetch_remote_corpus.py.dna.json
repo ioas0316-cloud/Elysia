@@ -1,0 +1,23 @@
+{
+  "name": "fetch_remote_corpus.py",
+  "path": "Legacy\\scripts\\fetch_remote_corpus.py",
+  "hash": "125f308d",
+  "frequency": 176.9,
+  "amplitude": 14.9,
+  "phase": "system",
+  "wavelength": 5.65,
+  "functions": 4,
+  "classes": 0,
+  "imports": 6,
+  "lines": 69,
+  "connections": [
+    "pathlib",
+    "typing",
+    "os",
+    "urllib",
+    "requests",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.444851",
+  "version": "1.0"
+}

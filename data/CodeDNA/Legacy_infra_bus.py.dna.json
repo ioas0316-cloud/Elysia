@@ -1,0 +1,19 @@
+{
+  "name": "bus.py",
+  "path": "Legacy\\infra\\bus.py",
+  "hash": "17d4505d",
+  "frequency": 163.1,
+  "amplitude": 13.1,
+  "phase": "memory",
+  "wavelength": 6.13,
+  "functions": 3,
+  "classes": 1,
+  "imports": 2,
+  "lines": 31,
+  "connections": [
+    "infra",
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.885622",
+  "version": "1.0"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "speak.py",
+  "path": "tests\\speak.py",
+  "hash": "d1d31044",
+  "frequency": 112.8,
+  "amplitude": 2.8,
+  "phase": "foundation",
+  "wavelength": 8.87,
+  "functions": 0,
+  "classes": 0,
+  "imports": 2,
+  "lines": 28,
+  "connections": [
+    "Core",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.752012",
+  "version": "1.0"
+}

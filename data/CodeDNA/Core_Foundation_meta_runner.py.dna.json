@@ -1,0 +1,23 @@
+{
+  "name": "meta_runner.py",
+  "path": "Core\\Foundation\\meta_runner.py",
+  "hash": "9fbfac45",
+  "frequency": 167.4,
+  "amplitude": 13.4,
+  "phase": "system",
+  "wavelength": 5.97,
+  "functions": 3,
+  "classes": 0,
+  "imports": 6,
+  "lines": 74,
+  "connections": [
+    "random",
+    "argparse",
+    "pathlib",
+    "time",
+    "Core",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.778657",
+  "version": "1.0"
+}

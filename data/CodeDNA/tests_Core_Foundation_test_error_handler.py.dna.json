@@ -1,0 +1,20 @@
+{
+  "name": "test_error_handler.py",
+  "path": "tests\\Core\\Foundation\\test_error_handler.py",
+  "hash": "d649cbf9",
+  "frequency": 341.1,
+  "amplitude": 58.1,
+  "phase": "intelligence",
+  "wavelength": 2.93,
+  "functions": 19,
+  "classes": 1,
+  "imports": 3,
+  "lines": 161,
+  "connections": [
+    "pytest",
+    "Core",
+    "time"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.502519",
+  "version": "1.0"
+}

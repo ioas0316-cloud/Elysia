@@ -1,0 +1,22 @@
+{
+  "name": "build_concept_net.py",
+  "path": "Legacy\\scripts\\build_concept_net.py",
+  "hash": "35aaf85a",
+  "frequency": 141.9,
+  "amplitude": 8.9,
+  "phase": "interface",
+  "wavelength": 7.05,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 69,
+  "connections": [
+    "pathlib",
+    "tools",
+    "os",
+    "Project_Elysia",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.148777",
+  "version": "1.0"
+}

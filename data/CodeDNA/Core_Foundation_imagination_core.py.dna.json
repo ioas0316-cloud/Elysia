@@ -1,0 +1,26 @@
+{
+  "name": "imagination_core.py",
+  "path": "Core\\Foundation\\imagination_core.py",
+  "hash": "7ab86d4b",
+  "frequency": 315.5,
+  "amplitude": 50.5,
+  "phase": "foundation",
+  "wavelength": 3.17,
+  "functions": 7,
+  "classes": 4,
+  "imports": 9,
+  "lines": 205,
+  "connections": [
+    "random",
+    "dataclasses",
+    "typing",
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.033937",
+  "version": "1.0"
+}

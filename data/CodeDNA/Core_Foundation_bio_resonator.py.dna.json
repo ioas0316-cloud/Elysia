@@ -1,0 +1,20 @@
+{
+  "name": "bio_resonator.py",
+  "path": "Core\\Foundation\\bio_resonator.py",
+  "hash": "c08e0a07",
+  "frequency": 194.9,
+  "amplitude": 23.9,
+  "phase": "foundation",
+  "wavelength": 5.13,
+  "functions": 3,
+  "classes": 2,
+  "imports": 3,
+  "lines": 99,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.011178",
+  "version": "1.0"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "test_sculptor.py",
+  "path": "tests\\test_sculptor.py",
+  "hash": "dccebeef",
+  "frequency": 123.9,
+  "amplitude": 5.9,
+  "phase": "intelligence",
+  "wavelength": 8.07,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 39,
+  "connections": [
+    "pathlib",
+    "Project_Sophia"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.831122",
+  "version": "1.0"
+}

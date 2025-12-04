@@ -1,0 +1,22 @@
+{
+  "name": "test_visual_cortex.py",
+  "path": "tests\\test_visual_cortex.py",
+  "hash": "8baf106f",
+  "frequency": 180.6,
+  "amplitude": 15.6,
+  "phase": "intelligence",
+  "wavelength": 5.54,
+  "functions": 3,
+  "classes": 1,
+  "imports": 5,
+  "lines": 56,
+  "connections": [
+    "Core",
+    "os",
+    "sys",
+    "unittest",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.306026",
+  "version": "1.0"
+}

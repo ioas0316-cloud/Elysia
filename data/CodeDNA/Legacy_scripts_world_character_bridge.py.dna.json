@@ -1,0 +1,21 @@
+{
+  "name": "world_character_bridge.py",
+  "path": "Legacy\\scripts\\world_character_bridge.py",
+  "hash": "230c52a9",
+  "frequency": 179.0,
+  "amplitude": 27.0,
+  "phase": "interface",
+  "wavelength": 5.59,
+  "functions": 4,
+  "classes": 0,
+  "imports": 4,
+  "lines": 190,
+  "connections": [
+    "__future__",
+    "typing",
+    "Project_Sophia",
+    "scripts"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.278342",
+  "version": "1.0"
+}

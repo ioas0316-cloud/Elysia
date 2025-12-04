@@ -1,0 +1,24 @@
+{
+  "name": "self_reflector.py",
+  "path": "Core\\Memory\\self_reflector.py",
+  "hash": "0ed61d69",
+  "frequency": 552.7,
+  "amplitude": 100,
+  "phase": "evolution",
+  "wavelength": 1.81,
+  "functions": 33,
+  "classes": 1,
+  "imports": 7,
+  "lines": 677,
+  "connections": [
+    "collections",
+    "pathlib",
+    "typing",
+    "time",
+    "datetime",
+    "json",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.882432",
+  "version": "1.0"
+}

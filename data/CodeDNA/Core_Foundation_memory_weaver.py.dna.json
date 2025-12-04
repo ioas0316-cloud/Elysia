@@ -1,0 +1,24 @@
+{
+  "name": "memory_weaver.py",
+  "path": "Core\\Foundation\\memory_weaver.py",
+  "hash": "02f185f7",
+  "frequency": 304.8,
+  "amplitude": 72,
+  "phase": "memory",
+  "wavelength": 3.28,
+  "functions": 9,
+  "classes": 1,
+  "imports": 7,
+  "lines": 598,
+  "connections": [
+    "collections",
+    "tools",
+    "logging",
+    "os",
+    "datetime",
+    "Project_Elysia",
+    "itertools"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.708577",
+  "version": "1.0"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "test_자율개선.py",
+  "path": "Core\\Foundation\\test_자율개선.py",
+  "hash": "ce277541",
+  "frequency": 150.9,
+  "amplitude": 22.9,
+  "phase": "intelligence",
+  "wavelength": 6.63,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 209,
+  "connections": [
+    "pathlib",
+    "json",
+    "Core",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.285853",
+  "version": "1.0"
+}

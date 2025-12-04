@@ -1,0 +1,23 @@
+{
+  "name": "visualize_fractal_quantization.py",
+  "path": "Core\\Foundation\\visualize_fractal_quantization.py",
+  "hash": "34dced55",
+  "frequency": 179.6,
+  "amplitude": 33.6,
+  "phase": "creativity",
+  "wavelength": 5.57,
+  "functions": 2,
+  "classes": 0,
+  "imports": 6,
+  "lines": 296,
+  "connections": [
+    "matplotlib",
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "numpy"
+  ],
+  "extracted_at": "2025-12-05T02:24:13.999901",
+  "version": "1.0"
+}

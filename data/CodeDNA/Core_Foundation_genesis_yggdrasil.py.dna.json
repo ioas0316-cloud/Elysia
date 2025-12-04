@@ -1,0 +1,23 @@
+{
+  "name": "genesis_yggdrasil.py",
+  "path": "Core\\Foundation\\genesis_yggdrasil.py",
+  "hash": "0568ea60",
+  "frequency": 138.6,
+  "amplitude": 8.6,
+  "phase": "foundation",
+  "wavelength": 7.22,
+  "functions": 0,
+  "classes": 0,
+  "imports": 6,
+  "lines": 86,
+  "connections": [
+    "Project_Sophia",
+    "Core",
+    "os",
+    "sys",
+    "asyncio",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.460103",
+  "version": "1.0"
+}

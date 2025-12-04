@@ -1,0 +1,21 @@
+{
+  "name": "ascension_axis.py",
+  "path": "Core\\Creativity\\ascension_axis.py",
+  "hash": "a126af1f",
+  "frequency": 280.5,
+  "amplitude": 56.5,
+  "phase": "system",
+  "wavelength": 3.57,
+  "functions": 5,
+  "classes": 4,
+  "imports": 4,
+  "lines": 305,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "enum",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.550167",
+  "version": "1.0"
+}

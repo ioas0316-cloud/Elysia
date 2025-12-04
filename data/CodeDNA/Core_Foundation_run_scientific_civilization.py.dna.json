@@ -1,0 +1,23 @@
+{
+  "name": "run_scientific_civilization.py",
+  "path": "Core\\Foundation\\run_scientific_civilization.py",
+  "hash": "a27a2f5d",
+  "frequency": 133.5,
+  "amplitude": 3.5,
+  "phase": "system",
+  "wavelength": 7.49,
+  "functions": 0,
+  "classes": 0,
+  "imports": 6,
+  "lines": 35,
+  "connections": [
+    "time",
+    "Tools",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:09.604847",
+  "version": "1.0"
+}

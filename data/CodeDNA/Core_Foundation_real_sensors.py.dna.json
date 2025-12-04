@@ -1,0 +1,27 @@
+{
+  "name": "real_sensors.py",
+  "path": "Core\\Foundation\\real_sensors.py",
+  "hash": "9d52f7a1",
+  "frequency": 515.1,
+  "amplitude": 95.1,
+  "phase": "system",
+  "wavelength": 1.94,
+  "functions": 20,
+  "classes": 6,
+  "imports": 10,
+  "lines": 451,
+  "connections": [
+    "platform",
+    "dataclasses",
+    "typing",
+    "abc",
+    "uuid",
+    "os",
+    "datetime",
+    "psutil",
+    "requests",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.785604",
+  "version": "1.0"
+}

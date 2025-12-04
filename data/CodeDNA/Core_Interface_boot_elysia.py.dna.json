@@ -1,0 +1,20 @@
+{
+  "name": "boot_elysia.py",
+  "path": "Core\\Interface\\boot_elysia.py",
+  "hash": "c663c0fd",
+  "frequency": 129.9,
+  "amplitude": 6.9,
+  "phase": "system",
+  "wavelength": 7.7,
+  "functions": 1,
+  "classes": 0,
+  "imports": 3,
+  "lines": 49,
+  "connections": [
+    "pathlib",
+    "Core",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.026377",
+  "version": "1.0"
+}

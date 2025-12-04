@@ -1,0 +1,21 @@
+{
+  "name": "caretaker_rl_simulator.py",
+  "path": "Legacy\\Project_Sophia\\caretaker_rl_simulator.py",
+  "hash": "f5380599",
+  "frequency": 445.9,
+  "amplitude": 95.9,
+  "phase": "memory",
+  "wavelength": 2.24,
+  "functions": 18,
+  "classes": 5,
+  "imports": 4,
+  "lines": 459,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing",
+    "random"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.153225",
+  "version": "1.0"
+}

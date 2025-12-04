@@ -1,0 +1,23 @@
+{
+  "name": "communication_enhancer.py",
+  "path": "Core\\Foundation\\communication_enhancer.py",
+  "hash": "042af4d8",
+  "frequency": 379.9,
+  "amplitude": 81.9,
+  "phase": "interface",
+  "wavelength": 2.63,
+  "functions": 13,
+  "classes": 4,
+  "imports": 6,
+  "lines": 399,
+  "connections": [
+    "collections",
+    "dataclasses",
+    "typing",
+    "re",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.295654",
+  "version": "1.0"
+}

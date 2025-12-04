@@ -1,0 +1,20 @@
+{
+  "name": "demo_field_reasoning.py",
+  "path": "Legacy\\tests_old\\demo_field_reasoning.py",
+  "hash": "b2d6211f",
+  "frequency": 139.0,
+  "amplitude": 16.0,
+  "phase": "foundation",
+  "wavelength": 7.19,
+  "functions": 1,
+  "classes": 0,
+  "imports": 3,
+  "lines": 140,
+  "connections": [
+    "os",
+    "Project_Elysia",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.358708",
+  "version": "1.0"
+}

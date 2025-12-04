@@ -1,0 +1,21 @@
+{
+  "name": "build_protocol_concepts.py",
+  "path": "Legacy\\scripts\\build_protocol_concepts.py",
+  "hash": "e58d64f9",
+  "frequency": 143.5,
+  "amplitude": 7.5,
+  "phase": "interface",
+  "wavelength": 6.97,
+  "functions": 2,
+  "classes": 0,
+  "imports": 4,
+  "lines": 35,
+  "connections": [
+    "os",
+    "ELYSIA",
+    "argparse",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.157064",
+  "version": "1.0"
+}

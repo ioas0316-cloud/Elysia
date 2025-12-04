@@ -1,0 +1,22 @@
+{
+  "name": "korean_wave_converter.py",
+  "path": "Core\\Foundation\\korean_wave_converter.py",
+  "hash": "992af02a",
+  "frequency": 303.7,
+  "amplitude": 66.7,
+  "phase": "foundation",
+  "wavelength": 3.29,
+  "functions": 10,
+  "classes": 2,
+  "imports": 5,
+  "lines": 387,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "Core",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.432363",
+  "version": "1.0"
+}

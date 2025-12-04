@@ -1,0 +1,23 @@
+{
+  "name": "test_quaternion_lens.py",
+  "path": "Legacy\\scripts\\test_quaternion_lens.py",
+  "hash": "32875e8d",
+  "frequency": 220.9,
+  "amplitude": 26.9,
+  "phase": "foundation",
+  "wavelength": 4.53,
+  "functions": 4,
+  "classes": 2,
+  "imports": 6,
+  "lines": 109,
+  "connections": [
+    "time",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "unittest",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.135315",
+  "version": "1.0"
+}

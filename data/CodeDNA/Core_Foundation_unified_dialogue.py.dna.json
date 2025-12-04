@@ -1,0 +1,20 @@
+{
+  "name": "unified_dialogue.py",
+  "path": "Core\\Foundation\\unified_dialogue.py",
+  "hash": "afecf5f4",
+  "frequency": 201.1,
+  "amplitude": 30.1,
+  "phase": "memory",
+  "wavelength": 4.97,
+  "functions": 5,
+  "classes": 1,
+  "imports": 3,
+  "lines": 161,
+  "connections": [
+    "typing",
+    "advanced_field",
+    "high_engine"
+  ],
+  "extracted_at": "2025-12-05T02:24:13.708855",
+  "version": "1.0"
+}

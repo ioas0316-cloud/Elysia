@@ -1,0 +1,21 @@
+{
+  "name": "elysia_network.py",
+  "path": "Core\\Foundation\\elysia_network.py",
+  "hash": "a1616ec3",
+  "frequency": 258.2,
+  "amplitude": 50.2,
+  "phase": "memory",
+  "wavelength": 3.87,
+  "functions": 9,
+  "classes": 1,
+  "imports": 4,
+  "lines": 282,
+  "connections": [
+    "typing",
+    "elysia_node",
+    "asyncio",
+    "time"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.670124",
+  "version": "1.0"
+}

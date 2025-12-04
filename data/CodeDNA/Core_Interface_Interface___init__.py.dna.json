@@ -1,0 +1,16 @@
+{
+  "name": "__init__.py",
+  "path": "Core\\Interface\\Interface\\__init__.py",
+  "hash": "06a2b38b",
+  "frequency": 100.3,
+  "amplitude": 0.3,
+  "phase": "interface",
+  "wavelength": 9.97,
+  "functions": 0,
+  "classes": 0,
+  "imports": 0,
+  "lines": 3,
+  "connections": [],
+  "extracted_at": "2025-12-05T02:24:16.212656",
+  "version": "1.0"
+}

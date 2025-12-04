@@ -1,0 +1,25 @@
+{
+  "name": "ws_persona_server.py",
+  "path": "Legacy\\scripts\\ws_persona_server.py",
+  "hash": "4899ca37",
+  "frequency": 157.7,
+  "amplitude": 9.7,
+  "phase": "interface",
+  "wavelength": 6.34,
+  "functions": 1,
+  "classes": 0,
+  "imports": 8,
+  "lines": 77,
+  "connections": [
+    "__future__",
+    "scripts",
+    "pathlib",
+    "json",
+    "sys",
+    "websockets",
+    "asyncio",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.295379",
+  "version": "1.0"
+}

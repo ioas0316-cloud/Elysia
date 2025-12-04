@@ -1,0 +1,19 @@
+{
+  "name": "test_filesystem_cortex.py",
+  "path": "Legacy\\tests_old\\test_filesystem_cortex.py",
+  "hash": "f3e0a9c7",
+  "frequency": 121.8,
+  "amplitude": 3.8,
+  "phase": "system",
+  "wavelength": 8.21,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 18,
+  "connections": [
+    "pathlib",
+    "Project_Sophia"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.616839",
+  "version": "1.0"
+}

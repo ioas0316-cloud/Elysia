@@ -1,0 +1,28 @@
+{
+  "name": "self_modification.py",
+  "path": "Core\\Foundation\\self_modification.py",
+  "hash": "16d4ef20",
+  "frequency": 633.1,
+  "amplitude": 100,
+  "phase": "evolution",
+  "wavelength": 1.58,
+  "functions": 26,
+  "classes": 8,
+  "imports": 11,
+  "lines": 581,
+  "connections": [
+    "difflib",
+    "pathlib",
+    "typing",
+    "dataclasses",
+    "shutil",
+    "Core",
+    "os",
+    "datetime",
+    "json",
+    "ast",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:10.117056",
+  "version": "1.0"
+}

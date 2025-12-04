@@ -1,0 +1,27 @@
+{
+  "name": "syllabic_language_engine.py",
+  "path": "Core\\Elysia\\high_engine\\syllabic_language_engine.py",
+  "hash": "7966e6de",
+  "frequency": 497.6,
+  "amplitude": 100,
+  "phase": "foundation",
+  "wavelength": 2.01,
+  "functions": 21,
+  "classes": 3,
+  "imports": 10,
+  "lines": 776,
+  "connections": [
+    "__future__",
+    "random",
+    "collections",
+    "dataclasses",
+    "pathlib",
+    "typing",
+    "tools",
+    "json",
+    "Project_Elysia",
+    "re"
+  ],
+  "extracted_at": "2025-12-05T02:24:17.312437",
+  "version": "1.0"
+}

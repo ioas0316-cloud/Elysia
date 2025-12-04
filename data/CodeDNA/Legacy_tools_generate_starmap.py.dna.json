@@ -1,0 +1,23 @@
+{
+  "name": "generate_starmap.py",
+  "path": "Legacy\\tools\\generate_starmap.py",
+  "hash": "09ae2647",
+  "frequency": 194.5,
+  "amplitude": 24.5,
+  "phase": "creativity",
+  "wavelength": 5.14,
+  "functions": 5,
+  "classes": 0,
+  "imports": 6,
+  "lines": 145,
+  "connections": [
+    "tools",
+    "typing",
+    "Project_Sophia",
+    "os",
+    "json",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.867465",
+  "version": "1.0"
+}

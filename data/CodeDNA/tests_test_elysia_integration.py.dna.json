@@ -1,0 +1,22 @@
+{
+  "name": "test_elysia_integration.py",
+  "path": "tests\\test_elysia_integration.py",
+  "hash": "e193705d",
+  "frequency": 138.1,
+  "amplitude": 5.1,
+  "phase": "intelligence",
+  "wavelength": 7.24,
+  "functions": 1,
+  "classes": 0,
+  "imports": 5,
+  "lines": 31,
+  "connections": [
+    "time",
+    "Core",
+    "os",
+    "sys",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:23:56.920874",
+  "version": "1.0"
+}

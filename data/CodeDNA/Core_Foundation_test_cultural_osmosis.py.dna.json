@@ -1,0 +1,21 @@
+{
+  "name": "test_cultural_osmosis.py",
+  "path": "Core\\Foundation\\test_cultural_osmosis.py",
+  "hash": "3233a2a3",
+  "frequency": 135.3,
+  "amplitude": 7.3,
+  "phase": "system",
+  "wavelength": 7.39,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 53,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:11.918719",
+  "version": "1.0"
+}

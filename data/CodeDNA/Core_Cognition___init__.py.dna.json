@@ -1,0 +1,16 @@
+{
+  "name": "__init__.py",
+  "path": "Core\\Cognition\\__init__.py",
+  "hash": "67708b23",
+  "frequency": 100.1,
+  "amplitude": 0.1,
+  "phase": "unknown",
+  "wavelength": 9.99,
+  "functions": 0,
+  "classes": 0,
+  "imports": 0,
+  "lines": 1,
+  "connections": [],
+  "extracted_at": "2025-12-05T02:24:02.535226",
+  "version": "1.0"
+}

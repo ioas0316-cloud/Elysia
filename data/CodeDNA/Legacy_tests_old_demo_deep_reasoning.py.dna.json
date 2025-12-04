@@ -1,0 +1,21 @@
+{
+  "name": "demo_deep_reasoning.py",
+  "path": "Legacy\\tests_old\\demo_deep_reasoning.py",
+  "hash": "27c891f6",
+  "frequency": 147.0,
+  "amplitude": 19.0,
+  "phase": "intelligence",
+  "wavelength": 6.8,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 170,
+  "connections": [
+    "os",
+    "Project_Sophia",
+    "networkx",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.353565",
+  "version": "1.0"
+}

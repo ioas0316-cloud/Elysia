@@ -1,0 +1,21 @@
+{
+  "name": "ingest_literature.py",
+  "path": "Legacy\\scripts\\ingest_literature.py",
+  "hash": "e1f36d63",
+  "frequency": 144.6,
+  "amplitude": 8.6,
+  "phase": "system",
+  "wavelength": 6.92,
+  "functions": 2,
+  "classes": 0,
+  "imports": 4,
+  "lines": 46,
+  "connections": [
+    "pathlib",
+    "tools",
+    "datetime",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.540533",
+  "version": "1.0"
+}

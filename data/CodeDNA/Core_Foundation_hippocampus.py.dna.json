@@ -1,0 +1,25 @@
+{
+  "name": "hippocampus.py",
+  "path": "Core\\Foundation\\hippocampus.py",
+  "hash": "49ceef76",
+  "frequency": 459.2,
+  "amplitude": 100,
+  "phase": "memory",
+  "wavelength": 2.18,
+  "functions": 20,
+  "classes": 3,
+  "imports": 8,
+  "lines": 592,
+  "connections": [
+    "sqlite3",
+    "dataclasses",
+    "typing",
+    "time",
+    "Core",
+    "os",
+    "json",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.920634",
+  "version": "1.0"
+}

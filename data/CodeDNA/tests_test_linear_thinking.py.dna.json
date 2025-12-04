@@ -1,0 +1,21 @@
+{
+  "name": "test_linear_thinking.py",
+  "path": "tests\\test_linear_thinking.py",
+  "hash": "f5383eee",
+  "frequency": 188.2,
+  "amplitude": 20.2,
+  "phase": "intelligence",
+  "wavelength": 5.31,
+  "functions": 4,
+  "classes": 1,
+  "imports": 4,
+  "lines": 82,
+  "connections": [
+    "Core",
+    "unittest",
+    "os",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:23:57.428510",
+  "version": "1.0"
+}

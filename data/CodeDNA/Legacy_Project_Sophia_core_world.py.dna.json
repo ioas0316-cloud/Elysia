@@ -1,0 +1,18 @@
+{
+  "name": "world.py",
+  "path": "Legacy\\Project_Sophia\\core\\world.py",
+  "hash": "8c661664",
+  "frequency": 126.2,
+  "amplitude": 5.2,
+  "phase": "foundation",
+  "wavelength": 7.92,
+  "functions": 0,
+  "classes": 1,
+  "imports": 1,
+  "lines": 12,
+  "connections": [
+    "world"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.151942",
+  "version": "1.0"
+}

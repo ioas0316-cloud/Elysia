@@ -1,0 +1,21 @@
+{
+  "name": "test_ethics.py",
+  "path": "Core\\Foundation\\test_ethics.py",
+  "hash": "463bc9b6",
+  "frequency": 159.8,
+  "amplitude": 15.8,
+  "phase": "intelligence",
+  "wavelength": 6.26,
+  "functions": 3,
+  "classes": 0,
+  "imports": 4,
+  "lines": 98,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.003626",
+  "version": "1.0"
+}

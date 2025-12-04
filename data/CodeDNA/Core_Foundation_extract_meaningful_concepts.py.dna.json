@@ -1,0 +1,21 @@
+{
+  "name": "extract_meaningful_concepts.py",
+  "path": "Core\\Foundation\\extract_meaningful_concepts.py",
+  "hash": "32208a7f",
+  "frequency": 137.8,
+  "amplitude": 17.8,
+  "phase": "foundation",
+  "wavelength": 7.26,
+  "functions": 0,
+  "classes": 0,
+  "imports": 4,
+  "lines": 178,
+  "connections": [
+    "sqlite3",
+    "typing",
+    "collections",
+    "json"
+  ],
+  "extracted_at": "2025-12-05T02:24:04.962261",
+  "version": "1.0"
+}

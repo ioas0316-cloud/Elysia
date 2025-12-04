@@ -1,0 +1,16 @@
+{
+  "name": "__init__.py",
+  "path": "Legacy\\Project_Sophia\\world_themes\\east_continent\\__init__.py",
+  "hash": "e2c74040",
+  "frequency": 100.7,
+  "amplitude": 0.7,
+  "phase": "foundation",
+  "wavelength": 9.93,
+  "functions": 0,
+  "classes": 0,
+  "imports": 0,
+  "lines": 7,
+  "connections": [],
+  "extracted_at": "2025-12-05T02:24:02.164001",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "test_memory_weaver.py",
+  "path": "Legacy\\tests_old\\test_memory_weaver.py",
+  "hash": "9792f00a",
+  "frequency": 232.3,
+  "amplitude": 35.3,
+  "phase": "intelligence",
+  "wavelength": 4.3,
+  "functions": 7,
+  "classes": 1,
+  "imports": 5,
+  "lines": 173,
+  "connections": [
+    "tools",
+    "os",
+    "Project_Elysia",
+    "json",
+    "unittest"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.681767",
+  "version": "1.0"
+}

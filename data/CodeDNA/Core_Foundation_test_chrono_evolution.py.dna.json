@@ -1,0 +1,21 @@
+{
+  "name": "test_chrono_evolution.py",
+  "path": "Core\\Foundation\\test_chrono_evolution.py",
+  "hash": "4ef87282",
+  "frequency": 134.3,
+  "amplitude": 6.3,
+  "phase": "intelligence",
+  "wavelength": 7.45,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 43,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:11.912915",
+  "version": "1.0"
+}

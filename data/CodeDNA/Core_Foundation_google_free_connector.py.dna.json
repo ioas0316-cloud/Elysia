@@ -1,0 +1,26 @@
+{
+  "name": "google_free_connector.py",
+  "path": "Core\\Foundation\\google_free_connector.py",
+  "hash": "e943bbf7",
+  "frequency": 361.0,
+  "amplitude": 80.0,
+  "phase": "system",
+  "wavelength": 2.77,
+  "functions": 9,
+  "classes": 4,
+  "imports": 9,
+  "lines": 460,
+  "connections": [
+    "googleapiclient",
+    "typing",
+    "time",
+    "os",
+    "datetime",
+    "sys",
+    "google",
+    "requests",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:05.502785",
+  "version": "1.0"
+}

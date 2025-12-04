@@ -1,0 +1,22 @@
+{
+  "name": "worker_pool.py",
+  "path": "Core\\Interface\\worker_pool.py",
+  "hash": "046e2300",
+  "frequency": 160.0,
+  "amplitude": 11.0,
+  "phase": "system",
+  "wavelength": 6.25,
+  "functions": 3,
+  "classes": 0,
+  "imports": 5,
+  "lines": 50,
+  "connections": [
+    "multiprocessing",
+    "Core",
+    "os",
+    "sys",
+    "argparse"
+  ],
+  "extracted_at": "2025-12-05T02:24:15.464050",
+  "version": "1.0"
+}

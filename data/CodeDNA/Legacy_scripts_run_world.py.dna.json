@@ -1,0 +1,25 @@
+{
+  "name": "run_world.py",
+  "path": "Legacy\\scripts\\run_world.py",
+  "hash": "387ee809",
+  "frequency": 204.9,
+  "amplitude": 32.9,
+  "phase": "foundation",
+  "wavelength": 4.88,
+  "functions": 4,
+  "classes": 0,
+  "imports": 8,
+  "lines": 249,
+  "connections": [
+    "random",
+    "tools",
+    "Project_Sophia",
+    "os",
+    "sys",
+    "numpy",
+    "argparse",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.094814",
+  "version": "1.0"
+}

@@ -1,0 +1,21 @@
+{
+  "name": "navigate_by_resonance.py",
+  "path": "Core\\Foundation\\navigate_by_resonance.py",
+  "hash": "9393037e",
+  "frequency": 137.3,
+  "amplitude": 9.3,
+  "phase": "foundation",
+  "wavelength": 7.28,
+  "functions": 1,
+  "classes": 0,
+  "imports": 4,
+  "lines": 73,
+  "connections": [
+    "Core",
+    "os",
+    "logging",
+    "sys"
+  ],
+  "extracted_at": "2025-12-05T02:24:06.914202",
+  "version": "1.0"
+}

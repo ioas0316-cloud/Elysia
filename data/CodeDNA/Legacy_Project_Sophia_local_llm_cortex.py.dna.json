@@ -1,0 +1,20 @@
+{
+  "name": "local_llm_cortex.py",
+  "path": "Legacy\\Project_Sophia\\local_llm_cortex.py",
+  "hash": "f2b6d1ac",
+  "frequency": 174.0,
+  "amplitude": 19.0,
+  "phase": "intelligence",
+  "wavelength": 5.75,
+  "functions": 3,
+  "classes": 1,
+  "imports": 3,
+  "lines": 90,
+  "connections": [
+    "llama_cpp",
+    "os",
+    "huggingface_hub"
+  ],
+  "extracted_at": "2025-12-05T02:23:59.366476",
+  "version": "1.0"
+}

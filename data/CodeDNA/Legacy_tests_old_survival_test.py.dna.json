@@ -1,0 +1,24 @@
+{
+  "name": "survival_test.py",
+  "path": "Legacy\\tests_old\\survival_test.py",
+  "hash": "e787e7cc",
+  "frequency": 139.3,
+  "amplitude": 4.3,
+  "phase": "system",
+  "wavelength": 7.18,
+  "functions": 0,
+  "classes": 0,
+  "imports": 7,
+  "lines": 43,
+  "connections": [
+    "tools",
+    "Project_Sophia",
+    "os",
+    "Project_Elysia",
+    "sys",
+    "datetime",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.441963",
+  "version": "1.0"
+}

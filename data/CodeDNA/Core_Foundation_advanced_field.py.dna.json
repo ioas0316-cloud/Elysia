@@ -1,0 +1,20 @@
+{
+  "name": "advanced_field.py",
+  "path": "Core\\Foundation\\advanced_field.py",
+  "hash": "0474c760",
+  "frequency": 202.2,
+  "amplitude": 31.2,
+  "phase": "foundation",
+  "wavelength": 4.95,
+  "functions": 5,
+  "classes": 1,
+  "imports": 3,
+  "lines": 172,
+  "connections": [
+    "typing",
+    "numpy",
+    "Project_Elysia"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.859614",
+  "version": "1.0"
+}

@@ -1,0 +1,19 @@
+{
+  "name": "demo_phase13_agi.py",
+  "path": "Core\\Foundation\\demo_phase13_agi.py",
+  "hash": "0f1b7274",
+  "frequency": 165.4,
+  "amplitude": 47.4,
+  "phase": "foundation",
+  "wavelength": 6.05,
+  "functions": 1,
+  "classes": 0,
+  "imports": 2,
+  "lines": 454,
+  "connections": [
+    "Core",
+    "asyncio"
+  ],
+  "extracted_at": "2025-12-05T02:24:03.837109",
+  "version": "1.0"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "test_eigenvalue_destiny.py",
+  "path": "Legacy\\tests_old\\test_eigenvalue_destiny.py",
+  "hash": "1e6b0deb",
+  "frequency": 212.0,
+  "amplitude": 39.0,
+  "phase": "system",
+  "wavelength": 4.72,
+  "functions": 6,
+  "classes": 0,
+  "imports": 5,
+  "lines": 270,
+  "connections": [
+    "Project_Sophia",
+    "os",
+    "sys",
+    "numpy",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:01.604203",
+  "version": "1.0"
+}

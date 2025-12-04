@@ -1,0 +1,29 @@
+{
+  "name": "structural_unifier.py",
+  "path": "Core\\Foundation\\structural_unifier.py",
+  "hash": "67645e0a",
+  "frequency": 435.8,
+  "amplitude": 92,
+  "phase": "foundation",
+  "wavelength": 2.29,
+  "functions": 13,
+  "classes": 4,
+  "imports": 12,
+  "lines": 658,
+  "connections": [
+    "enum",
+    "filecmp",
+    "pathlib",
+    "dataclasses",
+    "typing",
+    "shutil",
+    "Core",
+    "os",
+    "datetime",
+    "sys",
+    "ast",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:10.985364",
+  "version": "1.0"
+}

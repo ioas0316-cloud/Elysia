@@ -1,0 +1,21 @@
+{
+  "name": "agent.py",
+  "path": "Legacy\\app_core\\agent.py",
+  "hash": "048fae31",
+  "frequency": 205.6,
+  "amplitude": 21.6,
+  "phase": "foundation",
+  "wavelength": 4.86,
+  "functions": 6,
+  "classes": 1,
+  "imports": 4,
+  "lines": 56,
+  "connections": [
+    "dataclasses",
+    "__future__",
+    "typing",
+    "time"
+  ],
+  "extracted_at": "2025-12-05T02:23:58.607159",
+  "version": "1.0"
+}

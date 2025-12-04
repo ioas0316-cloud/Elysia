@@ -1,0 +1,26 @@
+{
+  "name": "time_accelerated_language.py",
+  "path": "Core\\Foundation\\time_accelerated_language.py",
+  "hash": "790fe3d3",
+  "frequency": 700.4,
+  "amplitude": 100,
+  "phase": "foundation",
+  "wavelength": 1.43,
+  "functions": 36,
+  "classes": 5,
+  "imports": 9,
+  "lines": 954,
+  "connections": [
+    "__future__",
+    "collections",
+    "dataclasses",
+    "typing",
+    "time",
+    "sys",
+    "numpy",
+    "logging",
+    "math"
+  ],
+  "extracted_at": "2025-12-05T02:24:12.557919",
+  "version": "1.0"
+}

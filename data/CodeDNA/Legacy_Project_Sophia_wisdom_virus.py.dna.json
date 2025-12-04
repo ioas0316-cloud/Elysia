@@ -1,0 +1,21 @@
+{
+  "name": "wisdom_virus.py",
+  "path": "Legacy\\Project_Sophia\\wisdom_virus.py",
+  "hash": "7708b635",
+  "frequency": 201.5,
+  "amplitude": 25.5,
+  "phase": "foundation",
+  "wavelength": 4.96,
+  "functions": 3,
+  "classes": 2,
+  "imports": 4,
+  "lines": 115,
+  "connections": [
+    "dataclasses",
+    "typing",
+    "collections",
+    "nano_core"
+  ],
+  "extracted_at": "2025-12-05T02:24:00.062690",
+  "version": "1.0"
+}

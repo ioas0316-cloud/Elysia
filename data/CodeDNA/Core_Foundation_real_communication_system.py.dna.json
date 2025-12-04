@@ -1,0 +1,23 @@
+{
+  "name": "real_communication_system.py",
+  "path": "Core\\Foundation\\real_communication_system.py",
+  "hash": "21bec1ce",
+  "frequency": 478.8,
+  "amplitude": 98.8,
+  "phase": "interface",
+  "wavelength": 2.09,
+  "functions": 22,
+  "classes": 4,
+  "imports": 6,
+  "lines": 488,
+  "connections": [
+    "collections",
+    "dataclasses",
+    "typing",
+    "datetime",
+    "re",
+    "logging"
+  ],
+  "extracted_at": "2025-12-05T02:24:07.775178",
+  "version": "1.0"
+}

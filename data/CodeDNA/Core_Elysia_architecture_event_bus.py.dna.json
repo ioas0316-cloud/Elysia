@@ -1,0 +1,19 @@
+{
+  "name": "event_bus.py",
+  "path": "Core\\Elysia\\architecture\\event_bus.py",
+  "hash": "6b304d10",
+  "frequency": 164.4,
+  "amplitude": 14.4,
+  "phase": "interface",
+  "wavelength": 6.08,
+  "functions": 3,
+  "classes": 1,
+  "imports": 2,
+  "lines": 44,
+  "connections": [
+    "typing",
+    "collections"
+  ],
+  "extracted_at": "2025-12-05T02:24:16.313027",
+  "version": "1.0"
+}

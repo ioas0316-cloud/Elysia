@@ -1,0 +1,18 @@
+{
+  "name": "stance_manager.py",
+  "path": "Legacy\\Project_Sophia\\core\\stance_manager.py",
+  "hash": "9f4e6c03",
+  "frequency": 147.7,
+  "amplitude": 10.7,
+  "phase": "foundation",
+  "wavelength": 6.77,
+  "functions": 2,
+  "classes": 1,
+  "imports": 1,
+  "lines": 27,
+  "connections": [
+    "typing"
+  ],
+  "extracted_at": "2025-12-05T02:24:02.148174",
+  "version": "1.0"
+}
