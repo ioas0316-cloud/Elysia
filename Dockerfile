@@ -67,7 +67,7 @@ EXPOSE 8000
 
 # Health check using FastAPI endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=5)" || exit 1
+    CMD python -c "import sys, requests; r = requests.get('http://localhost:8000/health', timeout=5); sys.exit(0 if r.status_code == 200 else 1)" || exit 1
 
-# Production command with multiple workers
-CMD ["uvicorn", "Core.Interface.api_server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--log-level", "info"]
+# Production command with configurable workers
+CMD uvicorn Core.Interface.api_server:app --host 0.0.0.0 --port 8000 --workers ${ELYSIA_WORKERS:-4} --log-level ${ELYSIA_LOG_LEVEL:-info}

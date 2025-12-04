@@ -19,13 +19,14 @@ services:
       - ELYSIA_ENV=production
       - ELYSIA_DEBUG=false
       - ELYSIA_LOG_LEVEL=INFO
+      - ELYSIA_WORKERS=4
     volumes:
-      - ./data:/app/data
-      - ./logs:/app/logs
-      - ./saves:/app/saves
+      - elysia-data:/app/data
+      - elysia-logs:/app/logs
+      - elysia-saves:/app/saves
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
+      test: ["CMD", "python", "-c", "import sys, requests; r = requests.get('http://localhost:8000/health', timeout=5); sys.exit(0 if r.status_code == 200 else 1)"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -44,7 +45,6 @@ services:
       - "8080:8080"
     environment:
       - PYTHONPATH=/app
-      - ELYSIA_ENV=production
     command: ["python", "scripts/dashboard_server.py"]
     depends_on:
       - elysia-api
