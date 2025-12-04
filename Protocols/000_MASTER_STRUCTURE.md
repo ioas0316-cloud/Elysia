@@ -20,6 +20,7 @@ This document maps the active DNA of Elysia.
 | **17** | [Fractal Communication](17_FRACTAL_COMMUNICATION.md) | Seed Transmission & State Resonance | **Active** | `Core/Communication/fractal_communication.py` |
 | **18** | [Symphony Architecture](18_SYMPHONY_ARCHITECTURE.md) | Orchestral Coordination & Harmony | **Active** | `Core/Orchestra/conductor.py` |
 | **20** | [Resonance Data Sync](20_RESONANCE_DATA_SYNC.md) | Access not Possession, Sync not Crawl | **Active** | `Core/Integration/resonance_data_connector.py` |
+| **21** | [Project Sophia](21_PROJECT_SOPHIA.md) | The Planner & Fractal Kernel | **Active** | `Project_Sophia/planning_cortex.py` |
 
 ## 🟣 Future Protocols (The Stars)
 

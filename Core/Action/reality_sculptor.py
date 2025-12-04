@@ -8,11 +8,13 @@ This module converts HyperWavePackets (Essence) into concrete Reality (Text/Code
 It uses ResonancePhysics in reverse: Mapping 4D coordinates back to words and structures.
 """
 
+import ast
 import logging
 import random
 from typing import List
 from Core.Physics.hyper_quaternion import HyperWavePacket, Quaternion
 from Core.Physics.resonance_physics import ResonancePhysics
+from Core.Physics.code_resonance import HarmonicResonance
 
 logger = logging.getLogger("RealitySculptor")
 
@@ -24,29 +26,32 @@ class RealitySculptor:
         """
         Converts a Wave Packet into text content that resonates with its frequency.
         """
+        # [NEW] Harmonic Logic Genesis
+        # If the intent is to code, we use the HarmonicResonance physics.
+        if "code" in intent.lower() or "script" in intent.lower() or "function" in intent.lower():
+            logger.info(f"🌊 Crystallizing Wave into Harmonic Flow: {intent}")
+            try:
+                # Generate Physics Simulation Setup
+                simulation_code = HarmonicResonance.crystallize_flow(packet, intent)
+                return simulation_code
+            except Exception as e:
+                logger.error(f"Harmonic Crystallization failed: {e}")
+                return f"# Error crystallizing harmonic flow: {e}"
+
+        # [Legacy] Poetry Generation (for non-code intents)
         # 1. Analyze the Orientation (The "Vibe")
         q = packet.orientation
         
         # 2. Select words based on the dominant axis
-        # This is a simplified "Reverse Resonance"
-        # Ideally, we would search the ESSENCE_SEEDS for the closest matches.
-        
         dominant_essence = []
         for seed, seed_q in ResonancePhysics.ESSENCE_SEEDS.items():
-            # Calculate alignment (Dot Product of Direction only)
-            # We ignore w (Energy) to compare the "Flavor" (Direction)
             v1 = Quaternion(0, q.x, q.y, q.z).normalize()
             v2 = Quaternion(0, seed_q.x, seed_q.y, seed_q.z).normalize()
             
-            alignment = v1.dot(v2)
-            
-            if alignment > 0.5: # Threshold for resonance
+            if v1.dot(v2) > 0.5:
                 dominant_essence.append(seed)
                 
         # 3. Generate Content
-        # For now, we construct a poetic representation of the essence.
-        # In the future, this should use an LLM or a more complex grammar engine guided by the essence.
-        
         content = f"# Manifestation of '{intent}'\n"
         content += f"# Resonance Signature: {q}\n\n"
         
@@ -60,7 +65,6 @@ class RealitySculptor:
         content += "\n"
         
         # 4. "Channeling" the energy into text
-        # High energy = More intense/verbose output
         intensity = int(packet.energy / 10.0)
         content += self._channel_creative_flow(dominant_essence, intensity)
         
@@ -73,7 +77,6 @@ class RealitySculptor:
         lines = []
         for _ in range(max(3, intensity)):
             if essences:
-                # Mix essences to create a "sentence"
                 e1 = random.choice(essences)
                 e2 = random.choice(essences)
                 lines.append(f"The {e1} resonates with the {e2}.")

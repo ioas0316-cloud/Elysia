@@ -47,6 +47,22 @@ class Attractor:
                     if row[1] not in active_memory:
                         related_concepts.append(row[1])
                         
+                # 1.5. Pattern DNA Matching (The New Memory)
+                # If we didn't find enough in nodes, check pattern_dna
+                if len(related_concepts) < limit:
+                    query = f"""
+                        SELECT name FROM pattern_dna 
+                        WHERE name LIKE ? 
+                        ORDER BY created_at DESC
+                        LIMIT {limit - len(related_concepts)}
+                    """
+                    cursor.execute(query, (f'%{self.context_seed}%',))
+                    rows = cursor.fetchall()
+                    
+                    for row in rows:
+                        if row[0] not in active_memory and row[0] not in related_concepts:
+                            related_concepts.append(row[0])
+                        
                 # 2. Associative Retrieval (Graph Traversal)
                 # If we found some direct matches, look for their neighbors
                 if related_concepts:

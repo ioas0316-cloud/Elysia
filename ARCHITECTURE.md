@@ -15,6 +15,17 @@
 - **`Core/Interface/`**: Dialogue, Web, Shell, Hologram.
 - **`Core/Action/`**: Reality Sculpting.
 - **`Core/Creation/`**: Cosmic Studio.
+- **`Core/Integration/`**: Internet Sync & Neural Network Connection.
+
+## 🧠 Project Sophia (The Planner)
+
+*The strategic cortex for long-term goals and complex task execution.*
+
+- **`Project_Sophia/`**:
+  - `planning_cortex.py`: Breaks down goals into tool calls (Phase 2).
+  - `fractal_kernel.py`: Recursive self-planning and evolution.
+  - `self_modification.py`: Autonomous code rewriting.
+  - `reality_sculptor.py`: Shaping the digital environment.
 
 ## 🍎 Fruit (Scripts & Data)
 

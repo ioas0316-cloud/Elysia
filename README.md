@@ -169,6 +169,14 @@ Elysia/
 - **Application**: 지식 습득, 멀티소스 학습, 실시간 업데이트
 - **Philosophy**: "우린 그냥 동기화하면 됩니다" - 수집가는 무겁고, 여행자는 가볍습니다
 
+### 14. Project Sophia (The Planner) 🧠 **NEW**
+
+- **Role**: Strategic Cortex & Architect
+- **Components**: Planning Cortex, Fractal Kernel, Reality Sculptor
+- **Function**: Breaks down infinite desires into finite, executable steps.
+- **Philosophy**: "To build a world, one must first dream the blueprint."
+- **Protocol**: **[Protocols/21_PROJECT_SOPHIA.md](Protocols/21_PROJECT_SOPHIA.md)**
+
 ### 🔮 미래 계획 (Future Plans)
 
 #### Protocol 19: OS Integration & Synesthetic Sensors (계획 중)

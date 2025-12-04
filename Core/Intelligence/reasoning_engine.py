@@ -164,6 +164,15 @@ class ReasoningEngine:
         self.drive = SpaceTimeDrive()
         self.imagination = ImaginationCore()
         
+        # [Project Sophia - The Planner]
+        try:
+            from Project_Sophia.self_modification import SelfModificationEngine
+            self.sophia = SelfModificationEngine()
+            logger.info("   📐 Sophia Connected: Coding Capability Active.")
+        except ImportError as e:
+            logger.warning(f"   ⚠️ Sophia Connection Failed: {e}")
+            self.sophia = None
+        
         from Core.Language.resonance_grammar import CosmicSyntaxEngine
         self.grammar_engine = CosmicSyntaxEngine()
         
@@ -345,6 +354,21 @@ class ReasoningEngine:
             logger.info(f"{indent}  💤 Explicit Dream Request detected.")
             return self._dream_for_insight(desire.replace("DREAM:", "").strip())
 
+        # [Project Sophia Trigger]
+        if desire.startswith(("CODE:", "FIX:", "IMPROVE:")):
+            logger.info(f"{indent}  🛠️ Explicit Coding Request detected.")
+            return self.improve_code(desire)
+            
+        # [The Genesis Trigger]
+        if desire.startswith("CREATE:"):
+            logger.info(f"{indent}  ✨ Explicit Creation Request detected.")
+            return self.create_feature(desire)
+            
+        # [The Mirror Trigger]
+        if desire.startswith("ANALYZE:"):
+            logger.info(f"{indent}  🪞 Explicit Introspection Request detected.")
+            return self.analyze_self(desire)
+
         try:
             # 🌱 Step 1: Decompose Desire into Fractal Seed
             from Core.Cognition.fractal_concept import ConceptDecomposer
@@ -402,7 +426,20 @@ class ReasoningEngine:
                 
                 # Load related fractal concepts from Hippocampus
                 for ctx_name in raw_context[:5]:  # Limit to top 5 for performance
+                    # Try loading as Fractal Concept first
                     seed = self.memory.load_fractal_concept(ctx_name)
+                    
+                    # If not found, try loading as Pattern DNA (The new 3M database)
+                    if not seed:
+                        dna = self.memory.load_pattern_dna(ctx_name)
+                        if dna:
+                            # Convert DNA to Seed (Simple wrapper)
+                            # In future, we should have a proper DNA->Concept Unfolder
+                            from Core.Cognition.fractal_concept import ConceptNode
+                            seed = ConceptNode(name=dna.name, energy=0.5, stability=0.8)
+                            seed.sub_concepts = [] # DNA is compressed, so no sub-concepts yet
+                            logger.info(f"{indent}  🧬 Unfolded Pattern DNA: {dna.name}")
+
                     if seed:
                         context_seeds.append(seed)
                         # Inject as dormant context
@@ -415,7 +452,17 @@ class ReasoningEngine:
                 logger.debug(f"{indent}  ⚠️ Attractor unavailable, using simple context")
                 raw_context = self.memory_field[:3]  # Use memory_field as fallback
                 for ctx_name in raw_context:
+                    # Try loading as Fractal Concept first
                     seed = self.memory.load_fractal_concept(ctx_name)
+                    
+                    # If not found, try loading as Pattern DNA
+                    if not seed:
+                        dna = self.memory.load_pattern_dna(ctx_name)
+                        if dna:
+                            from Core.Cognition.fractal_concept import ConceptNode
+                            seed = ConceptNode(name=dna.name, energy=0.5, stability=0.8)
+                            seed.sub_concepts = []
+
                     if seed:
                         context_seeds.append(seed)
                         if resonance_state:
@@ -801,6 +848,111 @@ class ReasoningEngine:
             depth=1,
             energy=packet.energy
         )
+
+    def improve_code(self, intent: str) -> Insight:
+        """
+        [Project Sophia]
+        Delegates coding tasks to the SelfModificationEngine.
+        """
+        if not self.sophia:
+            return Insight("Sophia is not connected.", 0.0, 0, 0.0)
+
+        # Parse intent (e.g., "FIX: scripts/test.py")
+        try:
+            parts = intent.split(":", 1)
+            action = parts[0].strip()
+            target = parts[1].strip()
+            
+            logger.info(f"   🤖 Sophia Activated: {action} -> {target}")
+            
+            # Check if file exists
+            if not os.path.exists(target):
+                 # Try relative to project root
+                 target = os.path.join(os.getcwd(), target)
+            
+            if not os.path.exists(target):
+                return Insight(f"Target file not found: {target}", 0.0, 0, 0.0)
+
+            # Execute Improvement
+            # We use 'auto_apply=False' for safety, just planning for now.
+            result = self.sophia.improve(target, auto_apply=False)
+            
+            content = f"Sophia Analysis for {target}:\n"
+            content += f"Status: {result.get('status')}\n"
+            content += f"Message: {result.get('message')}\n"
+            
+            if 'issues' in result:
+                content += f"Issues Found: {len(result['issues'])}\n"
+                for issue in result['issues']:
+                    content += f"- Line {issue['line']} [{issue['type']}]: {issue['description']}\n"
+            
+            if 'diff' in result:
+                content += "\nProposed Changes:\n" + result['diff'][:500] + "...\n"
+                
+            return Insight(content, 1.0, 1, 1.0)
+            
+        except Exception as e:
+            logger.error(f"Sophia failed: {e}")
+            return Insight(f"Sophia encountered an error: {e}", 0.0, 0, 0.0)
+
+    def create_feature(self, intent: str) -> Insight:
+        """
+        [The Genesis]
+        Delegates creation tasks to the GenesisEngine.
+        """
+        if not hasattr(self, 'genesis'):
+            from Core.Creation.genesis_engine import GenesisEngine
+            self.genesis = GenesisEngine()
+            
+        logger.info(f"✨ Genesis Requested: {intent}")
+        
+        try:
+            # Extract the core intent (e.g., "CREATE: Shield" -> "Shield")
+            core_intent = intent.split(":", 1)[1].strip() if ":" in intent else intent
+            
+            # Run the Genesis Pipeline
+            manifested_code = self.genesis.create_feature(core_intent)
+            
+            return Insight(
+                content=f"Genesis Result for '{core_intent}':\n\n{manifested_code}",
+                confidence=1.0,
+                depth=1,
+                energy=1.0
+            )
+        except Exception as e:
+            logger.error(f"Genesis failed: {e}")
+            return Insight(f"Genesis encountered an error: {e}", 0.0, 0, 0.0)
+
+    def analyze_self(self, target: str) -> Insight:
+        """
+        [The Mirror]
+        Triggers self-reflection via IntrospectionEngine.
+        """
+        if not hasattr(self, 'introspection'):
+            from Core.Intelligence.introspection_engine import IntrospectionEngine
+            self.introspection = IntrospectionEngine()
+            
+        logger.info(f"🪞 Introspection Requested: {target}")
+        
+        try:
+            if "self" in target.lower() or "core" in target.lower():
+                # Full Core Analysis
+                results = self.introspection.analyze_self()
+                report = self.introspection.generate_report(results)
+                
+                return Insight(
+                    content=report,
+                    confidence=1.0,
+                    depth=1,
+                    energy=0.8
+                )
+            else:
+                # Specific File Analysis (TODO)
+                return Insight("Specific file analysis not yet implemented.", 0.5, 0, 0.0)
+                
+        except Exception as e:
+            logger.error(f"Introspection failed: {e}")
+            return Insight(f"Introspection encountered an error: {e}", 0.0, 0, 0.0)
 
     def _collapse_wave(self, desire: str, context: List[str], aligned_packet: HyperWavePacket = None) -> Insight:
         """
