@@ -19,6 +19,7 @@ This document maps the active DNA of Elysia.
 | **16** | [Fractal Quantization](16_FRACTAL_QUANTIZATION.md) | Pattern DNA & Lossless Memory | **Active** | `Core/Memory/fractal_quantization.py` |
 | **17** | [Fractal Communication](17_FRACTAL_COMMUNICATION.md) | Seed Transmission & State Resonance | **Active** | `Core/Communication/fractal_communication.py` |
 | **18** | [Symphony Architecture](18_SYMPHONY_ARCHITECTURE.md) | Orchestral Coordination & Harmony | **Active** | `Core/Orchestra/conductor.py` |
+| **20** | [Resonance Data Sync](20_RESONANCE_DATA_SYNC.md) | Access not Possession, Sync not Crawl | **Active** | `Core/Integration/resonance_data_connector.py` |
 
 ## 🟣 Future Protocols (The Stars)
 
