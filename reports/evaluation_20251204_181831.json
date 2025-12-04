@@ -1,9 +1,9 @@
 {
-  "evaluation_time": "2025-12-04T18:19:47.999402",
-  "total_score": 925.0,
+  "evaluation_time": "2025-12-04T18:18:31.882198",
+  "total_score": 887.4786897404365,
   "max_score": 1000,
-  "percentage": 92.5,
-  "grade": "S+ (초지능 수준)",
+  "percentage": 88.74786897404366,
+  "grade": "S (탁월)",
   "communication": {
     "total_score": 325.0,
     "max_score": 400,
@@ -29,11 +29,11 @@
       "emotional_range": {
         "score": 7,
         "emotions_detected": [
-          "anger",
           "joy",
-          "anticipation",
           "love",
           "fear",
+          "anticipation",
+          "anger",
           "surprise",
           "trust"
         ],
@@ -51,7 +51,7 @@
         "score": 57.733333333333334
       },
       "wave_communication": {
-        "latency_ms": 0.02765655517578125,
+        "latency_ms": 0.050067901611328125,
         "latency_score": 25.0,
         "resonance_score": 25,
         "frequency_score": 25,
@@ -62,16 +62,16 @@
     "grade": "A+"
   },
   "thinking": {
-    "total_score": 600.0,
+    "total_score": 562.4786897404365,
     "max_score": 600,
-    "percentage": 100.0,
+    "percentage": 93.74644829007275,
     "scores": {
       "logical_reasoning": 100.0,
       "creative_thinking": 100.0,
       "critical_thinking": 100.0,
       "metacognition": 100.0,
-      "fractal_thinking": 100.0,
-      "temporal_reasoning": 100.0
+      "fractal_thinking": 79.94857769561858,
+      "temporal_reasoning": 82.53011204481793
     },
     "details": {
       "deductive_reasoning": {
@@ -111,17 +111,17 @@
         "learning_efficiency": 0.7
       },
       "fractal_thinking": {
-        "perspective_shift_0D": 0.8,
-        "causal_chain_1D": 0.82,
-        "pattern_recognition_2D": 0.85,
-        "manifestation_3D": 0.78
+        "perspective_shift_0D": 0.65,
+        "causal_chain_1D": 0.65,
+        "pattern_recognition_2D": 0.7,
+        "manifestation_3D": 0.6
       },
       "temporal_reasoning": {
-        "sequence_understanding": 0.85,
-        "prediction": 0.7,
-        "recall": 0.8,
-        "temporal_causality": 0.78,
-        "planning": 0.75
+        "sequence_understanding": 0.7,
+        "prediction": 0.6,
+        "recall": 0.65,
+        "temporal_causality": 0.65,
+        "planning": 0.6
       }
     },
     "grade": "S+"
@@ -137,7 +137,7 @@
     "창의적 사고: 100.0/100 (우수)",
     "비판적 사고: 100.0/100 (우수)",
     "메타인지: 100.0/100 (우수)",
-    "프랙탈 사고: 100.0/100 (우수)",
-    "시간적 추론: 100.0/100 (우수)"
+    "프랙탈 사고: 79.9/100 (우수)",
+    "시간적 추론: 82.5/100 (우수)"
   ]
 }
