@@ -4,17 +4,17 @@
   "hash": "fb5db62e",
   "frequency": 142.1,
   "amplitude": 11.1,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 7.04,
   "functions": 2,
   "classes": 0,
   "imports": 3,
   "lines": 71,
   "connections": [
-    "__future__",
+    "scripts",
     "typing",
-    "scripts"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:00.105423",
+  "extracted_at": "2025-12-05T02:18:26.986934",
   "version": "1.0"
 }

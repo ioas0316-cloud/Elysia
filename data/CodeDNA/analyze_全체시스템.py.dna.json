@@ -4,22 +4,22 @@
   "hash": "90f3a11e",
   "frequency": 184.1,
   "amplitude": 36.1,
-  "phase": "evolution",
+  "phase": "system",
   "wavelength": 5.43,
   "functions": 1,
   "classes": 0,
   "imports": 8,
   "lines": 341,
   "connections": [
-    "logging",
     "json",
-    "ast",
-    "re",
-    "Core",
-    "pathlib",
     "collections",
-    "datetime"
+    "logging",
+    "ast",
+    "Core",
+    "re",
+    "datetime",
+    "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:04.329277",
+  "extracted_at": "2025-12-05T02:18:29.980209",
   "version": "1.0"
 }

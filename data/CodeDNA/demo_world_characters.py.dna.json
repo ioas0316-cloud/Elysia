@@ -4,19 +4,19 @@
   "hash": "05088a6e",
   "frequency": 142.6,
   "amplitude": 9.6,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 7.01,
   "functions": 1,
   "classes": 0,
   "imports": 5,
   "lines": 76,
   "connections": [
-    "sys",
     "scripts",
-    "os",
     "tools",
-    "Project_Sophia"
+    "os",
+    "Project_Sophia",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:12:59.740826",
+  "extracted_at": "2025-12-05T02:18:26.632852",
   "version": "1.0"
 }

@@ -12,14 +12,14 @@
   "lines": 219,
   "connections": [
     "json",
-    "re",
     "typing",
-    "infra",
     "requests",
-    "urllib",
     "os",
-    "bs4"
+    "infra",
+    "re",
+    "bs4",
+    "urllib"
   ],
-  "extracted_at": "2025-12-05T02:12:58.220158",
+  "extracted_at": "2025-12-05T02:18:26.095275",
   "version": "1.0"
 }

@@ -4,17 +4,17 @@
   "hash": "05ff379b",
   "frequency": 243.5,
   "amplitude": 64.5,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 4.11,
   "functions": 0,
   "classes": 4,
   "imports": 3,
   "lines": 485,
   "connections": [
-    "asyncio",
+    "Core",
     "pytest",
-    "Core"
+    "asyncio"
   ],
-  "extracted_at": "2025-12-05T02:12:56.963436",
+  "extracted_at": "2025-12-05T02:18:25.350133",
   "version": "1.0"
 }

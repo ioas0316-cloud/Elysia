@@ -4,20 +4,20 @@
   "hash": "25c73303",
   "frequency": 523.7,
   "amplitude": 100,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 1.91,
   "functions": 25,
   "classes": 3,
   "imports": 6,
   "lines": 837,
   "connections": [
-    "__future__",
+    "scripts",
+    "typing",
     "random",
     "math",
     "dataclasses",
-    "typing",
-    "scripts"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:12:59.590613",
+  "extracted_at": "2025-12-05T02:18:26.565565",
   "version": "1.0"
 }

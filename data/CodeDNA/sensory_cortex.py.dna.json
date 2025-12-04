@@ -4,7 +4,7 @@
   "hash": "9c08854a",
   "frequency": 410.0,
   "amplitude": 92.0,
-  "phase": "intelligence",
+  "phase": "system",
   "wavelength": 2.44,
   "functions": 17,
   "classes": 2,
@@ -12,16 +12,16 @@
   "lines": 500,
   "connections": [
     "json",
-    "random",
-    "math",
-    "re",
-    "infra",
-    "os",
-    "tools",
-    "Project_Sophia",
     "Project_Elysia",
+    "tools",
+    "os",
+    "Project_Sophia",
+    "infra",
+    "re",
+    "math",
+    "random",
     "datetime"
   ],
-  "extracted_at": "2025-12-05T02:12:58.287351",
+  "extracted_at": "2025-12-05T02:18:26.152670",
   "version": "1.0"
 }

@@ -4,19 +4,19 @@
   "hash": "9722b329",
   "frequency": 162.2,
   "amplitude": 37.2,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 6.17,
   "functions": 0,
   "classes": 0,
   "imports": 5,
   "lines": 372,
   "connections": [
-    "sys",
-    "asyncio",
     "traceback",
     "Core",
+    "sys",
+    "asyncio",
     "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:05.826787",
+  "extracted_at": "2025-12-05T02:18:31.135408",
   "version": "1.0"
 }

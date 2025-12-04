@@ -4,7 +4,7 @@
   "hash": "aa422d9d",
   "frequency": 260.4,
   "amplitude": 39.4,
-  "phase": "system",
+  "phase": "foundation",
   "wavelength": 3.84,
   "functions": 8,
   "classes": 2,
@@ -12,11 +12,11 @@
   "lines": 154,
   "connections": [
     "json",
-    "math",
-    "dataclasses",
     "typing",
-    "os"
+    "os",
+    "math",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:06.549289",
+  "extracted_at": "2025-12-05T02:18:31.984031",
   "version": "1.0"
 }

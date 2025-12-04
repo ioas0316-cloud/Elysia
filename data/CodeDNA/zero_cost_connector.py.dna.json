@@ -11,18 +11,18 @@
   "imports": 11,
   "lines": 557,
   "connections": [
-    "sys",
-    "logging",
-    "time",
-    "wikipediaapi",
-    "arxiv",
     "typing",
+    "logging",
     "youtube_transcript_api",
+    "arxiv",
     "os",
-    "stackapi",
     "github",
-    "datetime"
+    "time",
+    "sys",
+    "datetime",
+    "wikipediaapi",
+    "stackapi"
   ],
-  "extracted_at": "2025-12-05T02:13:11.429599",
+  "extracted_at": "2025-12-05T02:18:37.845326",
   "version": "1.0"
 }

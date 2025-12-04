@@ -4,16 +4,16 @@
   "hash": "4f42bddd",
   "frequency": 166.2,
   "amplitude": 16.2,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 6.02,
   "functions": 3,
   "classes": 1,
   "imports": 2,
   "lines": 62,
   "connections": [
-    "nano_core",
-    "unittest"
+    "unittest",
+    "nano_core"
   ],
-  "extracted_at": "2025-12-05T02:13:02.658102",
+  "extracted_at": "2025-12-05T02:18:28.550320",
   "version": "1.0"
 }

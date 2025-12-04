@@ -4,20 +4,20 @@
   "hash": "860e84d6",
   "frequency": 152.5,
   "amplitude": 14.5,
-  "phase": "memory",
+  "phase": "system",
   "wavelength": 6.56,
   "functions": 1,
   "classes": 0,
   "imports": 6,
   "lines": 125,
   "connections": [
-    "sys",
     "logging",
+    "Core",
     "traceback",
     "os",
-    "Core",
+    "sys",
     "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:11.753792",
+  "extracted_at": "2025-12-05T02:18:38.232055",
   "version": "1.0"
 }

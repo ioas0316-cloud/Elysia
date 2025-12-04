@@ -11,13 +11,13 @@
   "imports": 6,
   "lines": 104,
   "connections": [
-    "logging",
     "psutil",
     "typing",
+    "logging",
     "platform",
-    "os",
-    "Project_Sophia"
+    "Project_Sophia",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:12:58.241351",
+  "extracted_at": "2025-12-05T02:18:26.116406",
   "version": "1.0"
 }

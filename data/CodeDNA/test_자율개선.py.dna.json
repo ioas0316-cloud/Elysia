@@ -4,18 +4,18 @@
   "hash": "ce277541",
   "frequency": 150.9,
   "amplitude": 22.9,
-  "phase": "evolution",
+  "phase": "intelligence",
   "wavelength": 6.63,
   "functions": 1,
   "classes": 0,
   "imports": 4,
   "lines": 209,
   "connections": [
-    "logging",
     "json",
-    "pathlib",
-    "Core"
+    "Core",
+    "logging",
+    "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:09.959242",
+  "extracted_at": "2025-12-05T02:18:36.583365",
   "version": "1.0"
 }

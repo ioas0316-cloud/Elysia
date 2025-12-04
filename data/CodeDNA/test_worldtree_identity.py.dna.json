@@ -4,16 +4,16 @@
   "hash": "e9cee404",
   "frequency": 114.0,
   "amplitude": 4.0,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 8.77,
   "functions": 0,
   "classes": 0,
   "imports": 2,
   "lines": 40,
   "connections": [
-    "sys",
-    "Core"
+    "Core",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:12:57.622176",
+  "extracted_at": "2025-12-05T02:18:25.843115",
   "version": "1.0"
 }

@@ -12,12 +12,12 @@
   "lines": 71,
   "connections": [
     "json",
-    "hashlib",
-    "re",
+    "collections",
     "typing",
+    "re",
     "pathlib",
-    "collections"
+    "hashlib"
   ],
-  "extracted_at": "2025-12-05T02:13:00.247831",
+  "extracted_at": "2025-12-05T02:18:27.085101",
   "version": "1.0"
 }

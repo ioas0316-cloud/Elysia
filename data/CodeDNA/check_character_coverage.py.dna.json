@@ -4,17 +4,17 @@
   "hash": "2c18abdb",
   "frequency": 178.2,
   "amplitude": 23.2,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.61,
   "functions": 5,
   "classes": 0,
   "imports": 3,
   "lines": 132,
   "connections": [
-    "sys",
+    "collections",
     "json",
-    "collections"
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:03.309600",
+  "extracted_at": "2025-12-05T02:18:28.840305",
   "version": "1.0"
 }

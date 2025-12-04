@@ -4,7 +4,7 @@
   "hash": "c7311c39",
   "frequency": 178.4,
   "amplitude": 18.4,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 5.61,
   "functions": 3,
   "classes": 1,
@@ -12,10 +12,10 @@
   "lines": 84,
   "connections": [
     "sys",
-    "numpy",
     "os",
-    "Project_Sophia"
+    "Project_Sophia",
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:00.816408",
+  "extracted_at": "2025-12-05T02:18:27.259427",
   "version": "1.0"
 }

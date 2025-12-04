@@ -4,17 +4,17 @@
   "hash": "ccf027a9",
   "frequency": 117.3,
   "amplitude": 2.3,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 8.53,
   "functions": 0,
   "classes": 0,
   "imports": 3,
   "lines": 23,
   "connections": [
-    "dotenv",
     "google",
-    "os"
+    "os",
+    "dotenv"
   ],
-  "extracted_at": "2025-12-05T02:13:03.311919",
+  "extracted_at": "2025-12-05T02:18:28.842109",
   "version": "1.0"
 }

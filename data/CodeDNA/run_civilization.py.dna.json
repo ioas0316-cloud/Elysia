@@ -4,22 +4,22 @@
   "hash": "2a7ca045",
   "frequency": 269.2,
   "amplitude": 41.2,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 3.71,
   "functions": 7,
   "classes": 2,
   "imports": 8,
   "lines": 192,
   "connections": [
-    "sys",
-    "logging",
-    "time",
-    "dataclasses",
     "typing",
-    "os",
+    "logging",
     "Core",
-    "numpy"
+    "os",
+    "time",
+    "sys",
+    "numpy",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:08.921195",
+  "extracted_at": "2025-12-05T02:18:35.008652",
   "version": "1.0"
 }

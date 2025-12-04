@@ -4,16 +4,16 @@
   "hash": "07cf60ed",
   "frequency": 118.4,
   "amplitude": 8.4,
-  "phase": "interface",
+  "phase": "memory",
   "wavelength": 8.45,
   "functions": 0,
   "classes": 0,
   "imports": 2,
   "lines": 84,
   "connections": [
-    "sys",
-    "Core"
+    "Core",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:04.744630",
+  "extracted_at": "2025-12-05T02:18:30.356129",
   "version": "1.0"
 }

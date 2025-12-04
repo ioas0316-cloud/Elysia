@@ -4,18 +4,18 @@
   "hash": "4ef87282",
   "frequency": 134.3,
   "amplitude": 6.3,
-  "phase": "evolution",
+  "phase": "intelligence",
   "wavelength": 7.45,
   "functions": 1,
   "classes": 0,
   "imports": 4,
   "lines": 43,
   "connections": [
+    "Core",
     "sys",
-    "logging",
     "os",
-    "Core"
+    "logging"
   ],
-  "extracted_at": "2025-12-05T02:13:09.852026",
+  "extracted_at": "2025-12-05T02:18:36.438209",
   "version": "1.0"
 }

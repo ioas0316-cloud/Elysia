@@ -4,21 +4,21 @@
   "hash": "d9890ad7",
   "frequency": 175.9,
   "amplitude": 32.9,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.69,
   "functions": 1,
   "classes": 0,
   "imports": 7,
   "lines": 309,
   "connections": [
-    "sys",
-    "logging",
     "json",
-    "time",
-    "os",
+    "logging",
     "Core",
+    "os",
+    "time",
+    "sys",
     "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:09.135015",
+  "extracted_at": "2025-12-05T02:18:35.169351",
   "version": "1.0"
 }

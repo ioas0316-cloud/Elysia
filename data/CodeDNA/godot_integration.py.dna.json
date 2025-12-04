@@ -11,10 +11,10 @@
   "imports": 3,
   "lines": 31,
   "connections": [
-    "__future__",
+    "typing",
     "tools",
-    "typing"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:12.241378",
+  "extracted_at": "2025-12-05T02:18:38.911133",
   "version": "1.0"
 }

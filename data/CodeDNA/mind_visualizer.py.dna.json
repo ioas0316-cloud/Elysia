@@ -4,21 +4,21 @@
   "hash": "61053a2d",
   "frequency": 163.2,
   "amplitude": 20.2,
-  "phase": "creativity",
+  "phase": "intelligence",
   "wavelength": 6.13,
   "functions": 1,
   "classes": 0,
   "imports": 7,
   "lines": 182,
   "connections": [
-    "sys",
     "json",
     "matplotlib",
-    "mpl_toolkits",
-    "os",
     "Core",
-    "numpy"
+    "os",
+    "sys",
+    "numpy",
+    "mpl_toolkits"
   ],
-  "extracted_at": "2025-12-05T02:13:08.155512",
+  "extracted_at": "2025-12-05T02:18:33.646956",
   "version": "1.0"
 }

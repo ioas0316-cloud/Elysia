@@ -4,23 +4,23 @@
   "hash": "e943bbf7",
   "frequency": 361.0,
   "amplitude": 80.0,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 2.77,
   "functions": 9,
   "classes": 4,
   "imports": 9,
   "lines": 460,
   "connections": [
-    "sys",
-    "logging",
-    "time",
-    "googleapiclient",
     "typing",
+    "logging",
+    "googleapiclient",
     "requests",
     "os",
-    "google",
-    "datetime"
+    "time",
+    "sys",
+    "datetime",
+    "google"
   ],
-  "extracted_at": "2025-12-05T02:13:07.004897",
+  "extracted_at": "2025-12-05T02:18:32.741146",
   "version": "1.0"
 }

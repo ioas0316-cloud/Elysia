@@ -4,7 +4,7 @@
   "hash": "3c5cbaf3",
   "frequency": 402.4,
   "amplitude": 83.4,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 2.49,
   "functions": 9,
   "classes": 7,
@@ -13,12 +13,12 @@
   "connections": [
     "enum",
     "json",
-    "random",
-    "time",
-    "dataclasses",
     "typing",
-    "pathlib"
+    "time",
+    "random",
+    "pathlib",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:11.111181",
+  "extracted_at": "2025-12-05T02:18:37.139318",
   "version": "1.0"
 }

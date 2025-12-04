@@ -11,14 +11,14 @@
   "imports": 7,
   "lines": 156,
   "connections": [
+    "pygame",
+    "Core",
+    "os",
+    "time",
     "sys",
     "random",
-    "time",
-    "pygame",
-    "os",
-    "Core",
     "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:06.623097",
+  "extracted_at": "2025-12-05T02:18:32.094260",
   "version": "1.0"
 }

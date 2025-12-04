@@ -4,17 +4,17 @@
   "hash": "de63c6ea",
   "frequency": 637.2,
   "amplitude": 100,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 1.57,
   "functions": 33,
   "classes": 7,
   "imports": 3,
   "lines": 522,
   "connections": [
-    "numpy",
+    "Core",
     "pytest",
-    "Core"
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:12:56.432418",
+  "extracted_at": "2025-12-05T02:18:25.107245",
   "version": "1.0"
 }

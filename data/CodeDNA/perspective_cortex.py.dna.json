@@ -11,14 +11,14 @@
   "imports": 7,
   "lines": 63,
   "connections": [
-    "logging",
     "wave_mechanics",
-    "kg_manager",
     "typing",
-    "emotional_engine",
+    "logging",
     "thought",
-    "core_memory"
+    "core_memory",
+    "emotional_engine",
+    "kg_manager"
   ],
-  "extracted_at": "2025-12-05T02:13:08.328203",
+  "extracted_at": "2025-12-05T02:18:34.015029",
   "version": "1.0"
 }

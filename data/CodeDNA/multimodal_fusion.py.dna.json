@@ -13,13 +13,13 @@
   "connections": [
     "enum",
     "json",
-    "audio_processor",
-    "time",
-    "dataclasses",
     "typing",
+    "time",
+    "audio_processor",
+    "vision_processor",
     "pathlib",
-    "vision_processor"
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:08.188739",
+  "extracted_at": "2025-12-05T02:18:33.689293",
   "version": "1.0"
 }

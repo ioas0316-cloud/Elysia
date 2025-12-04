@@ -4,22 +4,22 @@
   "hash": "a8abf186",
   "frequency": 236.8,
   "amplitude": 32.8,
-  "phase": "interface",
+  "phase": "memory",
   "wavelength": 4.22,
   "functions": 4,
   "classes": 2,
   "imports": 8,
   "lines": 168,
   "connections": [
-    "__future__",
-    "preferences",
-    "time",
-    "dataclasses",
-    "re",
     "typing",
+    "yaml",
+    "preferences",
     "os",
-    "yaml"
+    "time",
+    "re",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:05.950035",
+  "extracted_at": "2025-12-05T02:18:31.221054",
   "version": "1.0"
 }

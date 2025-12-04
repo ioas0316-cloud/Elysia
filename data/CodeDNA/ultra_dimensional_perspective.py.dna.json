@@ -4,7 +4,7 @@
   "hash": "53428b43",
   "frequency": 387.8,
   "amplitude": 83.8,
-  "phase": "system",
+  "phase": "foundation",
   "wavelength": 2.58,
   "functions": 17,
   "classes": 3,
@@ -12,10 +12,10 @@
   "lines": 378,
   "connections": [
     "dataclasses",
-    "numpy",
+    "math",
     "typing",
-    "math"
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:10.670417",
+  "extracted_at": "2025-12-05T02:18:36.853028",
   "version": "1.0"
 }

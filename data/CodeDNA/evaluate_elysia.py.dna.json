@@ -12,13 +12,13 @@
   "lines": 116,
   "connections": [
     "json",
-    "chat_interface",
-    "statistics",
     "difflib",
-    "importlib",
     "os",
-    "Project_Sophia"
+    "Project_Sophia",
+    "chat_interface",
+    "importlib",
+    "statistics"
   ],
-  "extracted_at": "2025-12-05T02:13:03.327392",
+  "extracted_at": "2025-12-05T02:18:28.853000",
   "version": "1.0"
 }

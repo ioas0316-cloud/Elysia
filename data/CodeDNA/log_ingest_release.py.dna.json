@@ -4,7 +4,7 @@
   "hash": "23c503cb",
   "frequency": 240.1,
   "amplitude": 38.1,
-  "phase": "foundation",
+  "phase": "memory",
   "wavelength": 4.16,
   "functions": 7,
   "classes": 1,
@@ -12,12 +12,12 @@
   "lines": 201,
   "connections": [
     "json",
-    "__future__",
-    "dataclasses",
-    "typing",
     "scripts",
-    "os"
+    "typing",
+    "os",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:00.050377",
+  "extracted_at": "2025-12-05T02:18:26.917510",
   "version": "1.0"
 }

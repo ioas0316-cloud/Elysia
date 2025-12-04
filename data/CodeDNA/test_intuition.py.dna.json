@@ -4,18 +4,18 @@
   "hash": "45a5c92e",
   "frequency": 135.9,
   "amplitude": 7.9,
-  "phase": "interface",
+  "phase": "intelligence",
   "wavelength": 7.36,
   "functions": 1,
   "classes": 0,
   "imports": 4,
   "lines": 59,
   "connections": [
+    "Core",
     "sys",
-    "logging",
     "os",
-    "Core"
+    "logging"
   ],
-  "extracted_at": "2025-12-05T02:12:56.699983",
+  "extracted_at": "2025-12-05T02:18:25.234446",
   "version": "1.0"
 }

@@ -4,18 +4,18 @@
   "hash": "de1ba71b",
   "frequency": 164.1,
   "amplitude": 20.1,
-  "phase": "creativity",
+  "phase": "system",
   "wavelength": 6.09,
   "functions": 1,
   "classes": 1,
   "imports": 4,
   "lines": 141,
   "connections": [
-    "dataclasses",
-    "__future__",
+    "scripts",
     "typing",
-    "scripts"
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:12:59.967625",
+  "extracted_at": "2025-12-05T02:18:26.791956",
   "version": "1.0"
 }

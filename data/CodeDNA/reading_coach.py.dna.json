@@ -4,18 +4,18 @@
   "hash": "d81c5438",
   "frequency": 234.9,
   "amplitude": 34.9,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 4.26,
   "functions": 8,
   "classes": 1,
   "imports": 4,
   "lines": 149,
   "connections": [
-    "__future__",
+    "collections",
     "re",
-    "typing",
-    "collections"
+    "__future__",
+    "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:11.553472",
+  "extracted_at": "2025-12-05T02:18:38.002594",
   "version": "1.0"
 }

@@ -4,7 +4,7 @@
   "hash": "d90ebe68",
   "frequency": 167.3,
   "amplitude": 23.3,
-  "phase": "foundation",
+  "phase": "evolution",
   "wavelength": 5.98,
   "functions": 3,
   "classes": 0,
@@ -12,10 +12,10 @@
   "lines": 173,
   "connections": [
     "logging",
-    "shutil",
     "re",
-    "os"
+    "os",
+    "shutil"
   ],
-  "extracted_at": "2025-12-05T02:13:06.414158",
+  "extracted_at": "2025-12-05T02:18:31.827705",
   "version": "1.0"
 }

@@ -4,19 +4,19 @@
   "hash": "046e2300",
   "frequency": 160.0,
   "amplitude": 11.0,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 6.25,
   "functions": 3,
   "classes": 0,
   "imports": 5,
   "lines": 50,
   "connections": [
-    "sys",
-    "multiprocessing",
-    "os",
+    "argparse",
     "Core",
-    "argparse"
+    "os",
+    "multiprocessing",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:11.687271",
+  "extracted_at": "2025-12-05T02:18:38.161412",
   "version": "1.0"
 }

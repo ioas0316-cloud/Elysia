@@ -4,7 +4,7 @@
   "hash": "3305d0d1",
   "frequency": 185.1,
   "amplitude": 18.1,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.4,
   "functions": 4,
   "classes": 0,
@@ -12,13 +12,13 @@
   "lines": 101,
   "connections": [
     "logging",
-    "sys",
-    "__future__",
-    "argparse",
-    "pathlib",
     "tools",
-    "Project_Sophia"
+    "argparse",
+    "Project_Sophia",
+    "sys",
+    "pathlib",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:00.563795",
+  "extracted_at": "2025-12-05T02:18:27.161734",
   "version": "1.0"
 }

@@ -4,22 +4,22 @@
   "hash": "a937446e",
   "frequency": 171.5,
   "amplitude": 15.5,
-  "phase": "foundation",
+  "phase": "memory",
   "wavelength": 5.83,
   "functions": 2,
   "classes": 0,
   "imports": 8,
   "lines": 115,
   "connections": [
-    "logging",
     "json",
-    "sys",
-    "unittest",
-    "ELYSIA",
-    "os",
+    "logging",
     "tools",
-    "Project_Sophia"
+    "os",
+    "Project_Sophia",
+    "sys",
+    "ELYSIA",
+    "unittest"
   ],
-  "extracted_at": "2025-12-05T02:13:00.244114",
+  "extracted_at": "2025-12-05T02:18:27.081784",
   "version": "1.0"
 }

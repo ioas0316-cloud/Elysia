@@ -4,17 +4,17 @@
   "hash": "cd274567",
   "frequency": 129.4,
   "amplitude": 6.4,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 7.73,
   "functions": 1,
   "classes": 0,
   "imports": 3,
   "lines": 44,
   "connections": [
+    "Core",
     "sys",
-    "os",
-    "Core"
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:12:57.619942",
+  "extracted_at": "2025-12-05T02:18:25.840050",
   "version": "1.0"
 }

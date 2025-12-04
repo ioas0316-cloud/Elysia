@@ -4,18 +4,18 @@
   "hash": "67b3e4e6",
   "frequency": 279.6,
   "amplitude": 39.6,
-  "phase": "intelligence",
+  "phase": "foundation",
   "wavelength": 3.58,
   "functions": 9,
   "classes": 3,
   "imports": 4,
   "lines": 96,
   "connections": [
-    "logging",
-    "typing",
     "enum",
+    "typing",
+    "logging",
     "uuid"
   ],
-  "extracted_at": "2025-12-05T02:13:11.401977",
+  "extracted_at": "2025-12-05T02:18:37.686775",
   "version": "1.0"
 }

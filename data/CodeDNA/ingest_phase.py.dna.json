@@ -4,19 +4,19 @@
   "hash": "2647dd6f",
   "frequency": 172.9,
   "amplitude": 15.9,
-  "phase": "memory",
+  "phase": "system",
   "wavelength": 5.78,
   "functions": 4,
   "classes": 0,
   "imports": 5,
   "lines": 79,
   "connections": [
-    "logging",
-    "re",
     "typing",
+    "logging",
+    "argparse",
     "Core",
-    "argparse"
+    "re"
   ],
-  "extracted_at": "2025-12-05T02:13:11.786523",
+  "extracted_at": "2025-12-05T02:18:38.291066",
   "version": "1.0"
 }

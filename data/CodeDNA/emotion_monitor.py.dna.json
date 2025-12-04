@@ -12,11 +12,11 @@
   "lines": 135,
   "connections": [
     "json",
-    "time",
-    "colorama",
     "os",
+    "colorama",
+    "time",
     "datetime"
   ],
-  "extracted_at": "2025-12-05T02:13:03.319946",
+  "extracted_at": "2025-12-05T02:18:28.848317",
   "version": "1.0"
 }

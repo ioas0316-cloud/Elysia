@@ -4,20 +4,20 @@
   "hash": "5de65dd8",
   "frequency": 241.9,
   "amplitude": 31.9,
-  "phase": "intelligence",
+  "phase": "system",
   "wavelength": 4.13,
   "functions": 10,
   "classes": 0,
   "imports": 6,
   "lines": 119,
   "connections": [
-    "sys",
     "json",
-    "time",
     "os",
-    "subprocess",
-    "pathlib"
+    "time",
+    "sys",
+    "pathlib",
+    "subprocess"
   ],
-  "extracted_at": "2025-12-05T02:13:02.278238",
+  "extracted_at": "2025-12-05T02:18:28.326688",
   "version": "1.0"
 }

@@ -4,7 +4,7 @@
   "hash": "7aa987b1",
   "frequency": 127.6,
   "amplitude": 6.6,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 7.84,
   "functions": 2,
   "classes": 0,
@@ -13,6 +13,6 @@
   "connections": [
     "typing"
   ],
-  "extracted_at": "2025-12-05T02:12:58.204467",
+  "extracted_at": "2025-12-05T02:18:26.079241",
   "version": "1.0"
 }

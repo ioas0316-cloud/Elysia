@@ -4,19 +4,19 @@
   "hash": "b686591a",
   "frequency": 163.5,
   "amplitude": 14.5,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 6.12,
   "functions": 3,
   "classes": 0,
   "imports": 5,
   "lines": 85,
   "connections": [
-    "sys",
     "json",
-    "os",
     "collections",
+    "os",
+    "sys",
     "datetime"
   ],
-  "extracted_at": "2025-12-05T02:13:02.580826",
+  "extracted_at": "2025-12-05T02:18:28.507039",
   "version": "1.0"
 }

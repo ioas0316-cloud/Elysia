@@ -4,19 +4,19 @@
   "hash": "41cf7781",
   "frequency": 199.4,
   "amplitude": 26.4,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.02,
   "functions": 4,
   "classes": 1,
   "imports": 5,
   "lines": 144,
   "connections": [
-    "sys",
-    "random",
-    "time",
+    "Project_Elysia",
     "os",
-    "Project_Elysia"
+    "time",
+    "sys",
+    "random"
   ],
-  "extracted_at": "2025-12-05T02:13:00.934644",
+  "extracted_at": "2025-12-05T02:18:27.309495",
   "version": "1.0"
 }

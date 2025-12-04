@@ -4,7 +4,7 @@
   "hash": "9fbfac45",
   "frequency": 167.4,
   "amplitude": 13.4,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.97,
   "functions": 3,
   "classes": 0,
@@ -12,12 +12,12 @@
   "lines": 74,
   "connections": [
     "logging",
-    "random",
-    "time",
-    "Core",
     "argparse",
+    "Core",
+    "time",
+    "random",
     "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:08.111461",
+  "extracted_at": "2025-12-05T02:18:33.539566",
   "version": "1.0"
 }

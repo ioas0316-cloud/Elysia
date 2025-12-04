@@ -4,21 +4,21 @@
   "hash": "861b800c",
   "frequency": 265.5,
   "amplitude": 42.5,
-  "phase": "foundation",
+  "phase": "evolution",
   "wavelength": 3.77,
   "functions": 9,
   "classes": 1,
   "imports": 7,
   "lines": 205,
   "connections": [
-    "sys",
-    "time",
-    "re",
     "typing",
-    "shutil",
     "os",
+    "time",
+    "sys",
+    "re",
+    "shutil",
     "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:09.233758",
+  "extracted_at": "2025-12-05T02:18:35.285640",
   "version": "1.0"
 }

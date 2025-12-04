@@ -12,13 +12,13 @@
   "lines": 304,
   "connections": [
     "logging",
-    "random",
-    "time",
-    "os",
     "Core",
+    "os",
+    "time",
+    "random",
     "pathlib",
     "webbrowser"
   ],
-  "extracted_at": "2025-12-05T02:13:04.207816",
+  "extracted_at": "2025-12-05T02:18:29.871951",
   "version": "1.0"
 }

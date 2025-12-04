@@ -12,11 +12,11 @@
   "lines": 130,
   "connections": [
     "json",
-    "__future__",
     "typing",
     "argparse",
-    "pathlib"
+    "pathlib",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:00.111193",
+  "extracted_at": "2025-12-05T02:18:26.991427",
   "version": "1.0"
 }

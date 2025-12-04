@@ -4,17 +4,17 @@
   "hash": "ed3e5320",
   "frequency": 180.9,
   "amplitude": 17.9,
-  "phase": "memory",
+  "phase": "intelligence",
   "wavelength": 5.53,
   "functions": 4,
   "classes": 1,
   "imports": 3,
   "lines": 59,
   "connections": [
-    "os",
+    "Core",
     "unittest",
-    "Core"
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:12:56.367755",
+  "extracted_at": "2025-12-05T02:18:25.060096",
   "version": "1.0"
 }

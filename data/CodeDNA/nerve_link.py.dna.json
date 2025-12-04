@@ -4,21 +4,21 @@
   "hash": "b4fdf564",
   "frequency": 164.7,
   "amplitude": 13.7,
-  "phase": "unknown",
+  "phase": "system",
   "wavelength": 6.07,
   "functions": 2,
   "classes": 0,
   "imports": 7,
   "lines": 97,
   "connections": [
-    "sys",
     "json",
-    "typing",
-    "argparse",
-    "pathlib",
     "collections",
-    "tools"
+    "typing",
+    "tools",
+    "argparse",
+    "sys",
+    "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:02.478904",
+  "extracted_at": "2025-12-05T02:18:28.447440",
   "version": "1.0"
 }

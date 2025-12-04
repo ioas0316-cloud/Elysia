@@ -4,7 +4,7 @@
   "hash": "e11dc348",
   "frequency": 179.5,
   "amplitude": 17.5,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.57,
   "functions": 4,
   "classes": 0,
@@ -12,12 +12,12 @@
   "lines": 95,
   "connections": [
     "json",
-    "__future__",
-    "kg_manager",
     "typing",
+    "kg_manager",
+    "datetime",
     "pathlib",
-    "datetime"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:07.634146",
+  "extracted_at": "2025-12-05T02:18:33.143373",
   "version": "1.0"
 }

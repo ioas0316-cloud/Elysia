@@ -4,18 +4,18 @@
   "hash": "c774da11",
   "frequency": 419.5,
   "amplitude": 79.5,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 2.38,
   "functions": 19,
   "classes": 4,
   "imports": 4,
   "lines": 295,
   "connections": [
-    "sys",
-    "os",
+    "Core",
     "pytest",
-    "Core"
+    "sys",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:12:56.693507",
+  "extracted_at": "2025-12-05T02:18:25.226505",
   "version": "1.0"
 }

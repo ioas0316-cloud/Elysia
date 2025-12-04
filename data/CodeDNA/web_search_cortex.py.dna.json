@@ -11,9 +11,9 @@
   "imports": 2,
   "lines": 74,
   "connections": [
-    "logging",
-    "typing"
+    "typing",
+    "logging"
   ],
-  "extracted_at": "2025-12-05T02:12:59.194714",
+  "extracted_at": "2025-12-05T02:18:26.463089",
   "version": "1.0"
 }

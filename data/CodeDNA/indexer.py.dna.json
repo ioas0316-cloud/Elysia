@@ -4,7 +4,7 @@
   "hash": "8ac3a9a3",
   "frequency": 201.9,
   "amplitude": 23.9,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 4.95,
   "functions": 6,
   "classes": 0,
@@ -12,12 +12,12 @@
   "lines": 119,
   "connections": [
     "json",
-    "sentence_transformers",
-    "hashlib",
     "typing",
     "os",
-    "pathlib"
+    "sentence_transformers",
+    "pathlib",
+    "hashlib"
   ],
-  "extracted_at": "2025-12-05T02:13:02.460048",
+  "extracted_at": "2025-12-05T02:18:28.428864",
   "version": "1.0"
 }

@@ -11,17 +11,17 @@
   "imports": 10,
   "lines": 262,
   "connections": [
-    "logging",
     "json",
-    "cognition_pipeline",
-    "kg_manager",
     "typing",
-    "world",
-    "os",
+    "logging",
+    "cognition_pipeline",
     "core_memory",
     "Legacy",
+    "kg_manager",
+    "os",
+    "world",
     "datetime"
   ],
-  "extracted_at": "2025-12-05T02:13:06.121274",
+  "extracted_at": "2025-12-05T02:18:31.457115",
   "version": "1.0"
 }

@@ -12,12 +12,12 @@
   "lines": 69,
   "connections": [
     "typing",
-    "requests",
-    "urllib",
-    "os",
     "argparse",
-    "pathlib"
+    "requests",
+    "os",
+    "pathlib",
+    "urllib"
   ],
-  "extracted_at": "2025-12-05T02:12:59.910604",
+  "extracted_at": "2025-12-05T02:18:26.727818",
   "version": "1.0"
 }

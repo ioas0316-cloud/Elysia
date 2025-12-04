@@ -4,18 +4,18 @@
   "hash": "fdb6d3e7",
   "frequency": 135.4,
   "amplitude": 7.4,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 7.39,
   "functions": 1,
   "classes": 0,
   "imports": 4,
   "lines": 54,
   "connections": [
+    "Core",
     "sys",
-    "logging",
     "os",
-    "Core"
+    "logging"
   ],
-  "extracted_at": "2025-12-05T02:13:04.378966",
+  "extracted_at": "2025-12-05T02:18:30.024287",
   "version": "1.0"
 }

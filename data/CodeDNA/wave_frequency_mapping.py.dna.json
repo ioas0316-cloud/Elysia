@@ -12,11 +12,11 @@
   "lines": 245,
   "connections": [
     "enum",
-    "__future__",
-    "dataclasses",
+    "typing",
     "colorsys",
-    "typing"
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:11.235645",
+  "extracted_at": "2025-12-05T02:18:37.268131",
   "version": "1.0"
 }

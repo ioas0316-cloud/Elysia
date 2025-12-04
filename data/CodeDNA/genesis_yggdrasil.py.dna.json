@@ -11,13 +11,13 @@
   "imports": 6,
   "lines": 86,
   "connections": [
-    "sys",
     "logging",
-    "asyncio",
-    "os",
     "Core",
-    "Project_Sophia"
+    "os",
+    "Project_Sophia",
+    "sys",
+    "asyncio"
   ],
-  "extracted_at": "2025-12-05T02:13:06.932391",
+  "extracted_at": "2025-12-05T02:18:32.681888",
   "version": "1.0"
 }

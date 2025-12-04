@@ -11,9 +11,9 @@
   "imports": 2,
   "lines": 285,
   "connections": [
-    "asyncio",
-    "Core"
+    "Core",
+    "asyncio"
   ],
-  "extracted_at": "2025-12-05T02:13:05.802038",
+  "extracted_at": "2025-12-05T02:18:31.110824",
   "version": "1.0"
 }

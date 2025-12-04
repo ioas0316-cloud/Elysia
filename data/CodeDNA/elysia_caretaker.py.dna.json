@@ -4,7 +4,7 @@
   "hash": "6640e00e",
   "frequency": 170.5,
   "amplitude": 18.5,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.87,
   "functions": 4,
   "classes": 0,
@@ -12,10 +12,10 @@
   "lines": 105,
   "connections": [
     "json",
-    "__future__",
+    "typing",
     "os",
-    "typing"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:12:59.786825",
+  "extracted_at": "2025-12-05T02:18:26.655900",
   "version": "1.0"
 }

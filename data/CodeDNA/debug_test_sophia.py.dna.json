@@ -4,16 +4,16 @@
   "hash": "cde9d565",
   "frequency": 124.0,
   "amplitude": 6.0,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 8.06,
   "functions": 1,
   "classes": 0,
   "imports": 2,
   "lines": 40,
   "connections": [
-    "os",
-    "Project_Sophia"
+    "Project_Sophia",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:12:55.946772",
+  "extracted_at": "2025-12-05T02:18:24.904845",
   "version": "1.0"
 }

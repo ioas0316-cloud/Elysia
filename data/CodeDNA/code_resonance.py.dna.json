@@ -12,10 +12,10 @@
   "lines": 111,
   "connections": [
     "ast",
+    "Core",
     "typing",
-    "random",
-    "Core"
+    "random"
   ],
-  "extracted_at": "2025-12-05T02:13:04.830152",
+  "extracted_at": "2025-12-05T02:18:30.403558",
   "version": "1.0"
 }

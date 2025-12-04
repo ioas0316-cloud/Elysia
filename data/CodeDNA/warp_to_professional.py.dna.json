@@ -11,15 +11,15 @@
   "imports": 8,
   "lines": 318,
   "connections": [
-    "sys",
     "concurrent",
-    "random",
-    "time",
-    "os",
     "Core",
+    "os",
+    "time",
+    "thought_to_language_demo",
     "integrated_learning",
-    "thought_to_language_demo"
+    "sys",
+    "random"
   ],
-  "extracted_at": "2025-12-05T02:13:11.220877",
+  "extracted_at": "2025-12-05T02:18:37.259570",
   "version": "1.0"
 }

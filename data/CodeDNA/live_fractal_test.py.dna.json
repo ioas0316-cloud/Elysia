@@ -4,17 +4,17 @@
   "hash": "b57d78df",
   "frequency": 130.6,
   "amplitude": 7.6,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 7.66,
   "functions": 1,
   "classes": 0,
   "imports": 3,
   "lines": 56,
   "connections": [
+    "Core",
     "sys",
-    "os",
-    "Core"
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:13:11.536762",
+  "extracted_at": "2025-12-05T02:18:37.981304",
   "version": "1.0"
 }

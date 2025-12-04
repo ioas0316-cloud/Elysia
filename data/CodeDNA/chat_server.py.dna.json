@@ -4,21 +4,21 @@
   "hash": "781955aa",
   "frequency": 213.2,
   "amplitude": 30.2,
-  "phase": "foundation",
+  "phase": "interface",
   "wavelength": 4.69,
   "functions": 4,
   "classes": 1,
   "imports": 7,
   "lines": 182,
   "connections": [
-    "logging",
     "json",
-    "sys",
     "http",
-    "os",
+    "logging",
+    "argparse",
     "Core",
-    "argparse"
+    "os",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:04.732743",
+  "extracted_at": "2025-12-05T02:18:30.345489",
   "version": "1.0"
 }

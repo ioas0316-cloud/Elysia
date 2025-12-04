@@ -4,19 +4,19 @@
   "hash": "df4e163a",
   "frequency": 167.0,
   "amplitude": 42.0,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.99,
   "functions": 0,
   "classes": 0,
   "imports": 5,
   "lines": 420,
   "connections": [
-    "sys",
-    "asyncio",
     "traceback",
     "Core",
+    "sys",
+    "asyncio",
     "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:05.658812",
+  "extracted_at": "2025-12-05T02:18:30.993122",
   "version": "1.0"
 }

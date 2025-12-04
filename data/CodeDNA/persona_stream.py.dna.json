@@ -4,24 +4,24 @@
   "hash": "91160e43",
   "frequency": 217.6,
   "amplitude": 27.6,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 4.6,
   "functions": 5,
   "classes": 0,
   "imports": 10,
   "lines": 176,
   "connections": [
-    "sys",
     "json",
-    "__future__",
-    "time",
-    "typing",
     "scripts",
-    "elysia_world",
+    "typing",
     "argparse",
+    "time",
+    "sys",
+    "elysia_world",
+    "datetime",
     "pathlib",
-    "datetime"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:02.675427",
+  "extracted_at": "2025-12-05T02:18:28.566308",
   "version": "1.0"
 }

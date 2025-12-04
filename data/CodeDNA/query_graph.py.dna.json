@@ -4,16 +4,16 @@
   "hash": "6750761c",
   "frequency": 159.3,
   "amplitude": 17.3,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 6.28,
   "functions": 4,
   "classes": 0,
   "imports": 2,
   "lines": 93,
   "connections": [
-    "networkx",
-    "build_graph"
+    "build_graph",
+    "networkx"
   ],
-  "extracted_at": "2025-12-05T02:13:02.719334",
+  "extracted_at": "2025-12-05T02:18:28.576779",
   "version": "1.0"
 }

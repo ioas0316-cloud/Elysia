@@ -4,7 +4,7 @@
   "hash": "cdae6b4c",
   "frequency": 318.9,
   "amplitude": 52.9,
-  "phase": "intelligence",
+  "phase": "foundation",
   "wavelength": 3.14,
   "functions": 7,
   "classes": 5,
@@ -12,12 +12,12 @@
   "lines": 189,
   "connections": [
     "enum",
+    "typing",
+    "uuid",
     "time",
     "math",
-    "dataclasses",
-    "typing",
-    "uuid"
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:04.527870",
+  "extracted_at": "2025-12-05T02:18:30.163618",
   "version": "1.0"
 }

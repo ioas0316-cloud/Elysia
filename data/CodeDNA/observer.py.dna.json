@@ -4,18 +4,18 @@
   "hash": "4459c91f",
   "frequency": 182.4,
   "amplitude": 22.4,
-  "phase": "foundation",
+  "phase": "interface",
   "wavelength": 5.48,
   "functions": 3,
   "classes": 1,
   "imports": 4,
   "lines": 124,
   "connections": [
-    "__future__",
-    "numpy",
+    "elysia_world",
     "typing",
-    "elysia_world"
+    "__future__",
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:08.234858",
+  "extracted_at": "2025-12-05T02:18:33.790759",
   "version": "1.0"
 }

@@ -11,13 +11,13 @@
   "imports": 6,
   "lines": 240,
   "connections": [
-    "kg_manager",
-    "re",
     "typing",
+    "kg_manager",
     "copy",
     "world",
+    "re",
     "core"
   ],
-  "extracted_at": "2025-12-05T02:13:08.026662",
+  "extracted_at": "2025-12-05T02:18:33.449767",
   "version": "1.0"
 }

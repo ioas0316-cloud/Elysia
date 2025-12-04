@@ -4,7 +4,7 @@
   "hash": "dcedb4a3",
   "frequency": 189.7,
   "amplitude": 23.7,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.27,
   "functions": 5,
   "classes": 1,
@@ -14,6 +14,6 @@
     "unicodedata",
     "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:12.358426",
+  "extracted_at": "2025-12-05T02:18:39.003754",
   "version": "1.0"
 }

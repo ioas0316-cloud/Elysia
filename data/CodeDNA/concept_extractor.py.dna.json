@@ -11,12 +11,12 @@
   "imports": 5,
   "lines": 177,
   "connections": [
-    "logging",
-    "dataclasses",
-    "re",
     "typing",
-    "Core"
+    "logging",
+    "Core",
+    "re",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:05.098491",
+  "extracted_at": "2025-12-05T02:18:30.502615",
   "version": "1.0"
 }

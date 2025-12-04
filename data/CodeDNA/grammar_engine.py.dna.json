@@ -4,7 +4,7 @@
   "hash": "6f21372b",
   "frequency": 260.5,
   "amplitude": 39.5,
-  "phase": "memory",
+  "phase": "foundation",
   "wavelength": 3.84,
   "functions": 6,
   "classes": 3,
@@ -12,11 +12,11 @@
   "lines": 155,
   "connections": [
     "enum",
-    "logging",
-    "dataclasses",
+    "collections",
     "typing",
-    "collections"
+    "logging",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:07.043595",
+  "extracted_at": "2025-12-05T02:18:32.746940",
   "version": "1.0"
 }

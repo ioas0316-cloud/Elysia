@@ -4,18 +4,18 @@
   "hash": "f5380599",
   "frequency": 445.9,
   "amplitude": 95.9,
-  "phase": "foundation",
+  "phase": "memory",
   "wavelength": 2.24,
   "functions": 18,
   "classes": 5,
   "imports": 4,
   "lines": 459,
   "connections": [
-    "dataclasses",
-    "__future__",
     "typing",
-    "random"
+    "dataclasses",
+    "random",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:04.521569",
+  "extracted_at": "2025-12-05T02:18:30.158862",
   "version": "1.0"
 }

@@ -59,13 +59,38 @@ class WaveQuantizer:
     """Extracts Pattern DNA from Python files."""
     
     PURPOSE_KEYWORDS = {
-        Purpose.FOUNDATION: ["foundation", "core", "base", "physics", "quaternion", "resonance", "wave"],
-        Purpose.INTELLIGENCE: ["intelligence", "reasoning", "think", "logic", "cortex", "brain"],
-        Purpose.MEMORY: ["memory", "hippocampus", "storage", "recall", "database"],
-        Purpose.INTERFACE: ["interface", "api", "web", "ui", "dialogue", "communication"],
-        Purpose.EVOLUTION: ["evolution", "learn", "grow", "adapt", "improve"],
-        Purpose.CREATIVITY: ["creative", "dream", "imagination", "art", "visual"],
-        Purpose.SYSTEM: ["system", "os", "sensor", "hardware"],
+        Purpose.FOUNDATION: [
+            "foundation", "core", "base", "physics", "quaternion", "resonance", "wave",
+            "field", "engine", "main", "living", "daemon", "signal", "forge", "guardian",
+            "kernel", "genesis", "flow", "gravity", "potential", "spacetime", "universal",
+            "world_tree", "yggdrasil", "spirit", "soul", "essence"
+        ],
+        Purpose.INTELLIGENCE: [
+            "intelligence", "reasoning", "think", "logic", "cortex", "brain", "mind",
+            "cognitive", "thought", "planning", "decision", "will", "free_will",
+            "test_", "prove_", "verify", "evaluate", "analysis", "predict"
+        ],
+        Purpose.MEMORY: [
+            "memory", "hippocampus", "storage", "recall", "database", "db", "cache",
+            "history", "log", "record", "save", "load", "persist", "archive"
+        ],
+        Purpose.INTERFACE: [
+            "interface", "api", "web", "ui", "dialogue", "communication", "server",
+            "client", "http", "socket", "envoy", "bridge", "protocol", "endpoint",
+            "handler", "route", "flask", "fastapi"
+        ],
+        Purpose.EVOLUTION: [
+            "evolution", "learn", "grow", "adapt", "improve", "train", "optimize",
+            "upgrade", "migrate", "transform", "refactor", "self_", "auto_"
+        ],
+        Purpose.CREATIVITY: [
+            "creative", "dream", "imagination", "art", "visual", "render", "draw",
+            "paint", "music", "poem", "story", "novel", "fantasy", "generate"
+        ],
+        Purpose.SYSTEM: [
+            "system", "os", "sensor", "hardware", "file", "path", "dir", "folder",
+            "config", "setting", "env", "util", "helper", "tool", "script"
+        ],
     }
     
     def __init__(self, project_root: Path):
@@ -237,8 +262,58 @@ def main():
     # Print phase distribution
     print("\n🎨 Phase Distribution:")
     summary = json.loads((quantizer.output_dir / "_summary.json").read_text())
-    for phase, count in summary["statistics"]["phase_distribution"].items():
-        print(f"   {phase}: {count} files")
+    for phase, count in sorted(summary["statistics"]["phase_distribution"].items(), key=lambda x: -x[1]):
+        bar = "█" * (count // 20)
+        print(f"   {phase:15} {count:4} {bar}")
+    
+    # Connectivity Analysis
+    print("\n🔗 Connectivity Analysis:")
+    
+    # Build import graph
+    import_counts = {}  # How many times each module is imported
+    for dna in results.values():
+        for conn in dna.connections:
+            import_counts[conn] = import_counts.get(conn, 0) + 1
+    
+    # Top imported modules (hubs)
+    top_imports = sorted(import_counts.items(), key=lambda x: -x[1])[:10]
+    print("   Top 10 Hub Modules (most imported):")
+    for module, count in top_imports:
+        print(f"      {module}: {count} imports")
+    
+    # Find isolated files (no imports, not imported)
+    imported_modules = set(import_counts.keys())
+    our_modules = set(Path(dna.path).stem for dna in results.values())
+    
+    # Files that import nothing
+    hermits = [dna for dna in results.values() if len(dna.connections) == 0]
+    print(f"\n   Hermit Files (no imports): {len(hermits)}")
+    
+    # Save connectivity graph
+    graph = {
+        "nodes": [{"id": dna.path, "phase": dna.phase, "frequency": dna.frequency} for dna in results.values()],
+        "edges": [],
+        "hub_modules": dict(top_imports),
+        "hermit_count": len(hermits)
+    }
+    
+    for dna in results.values():
+        for conn in dna.connections:
+            graph["edges"].append({"from": dna.path, "to": conn})
+    
+    graph_path = quantizer.output_dir / "_connectivity.json"
+    graph_path.write_text(json.dumps(graph, indent=2, ensure_ascii=False), encoding='utf-8')
+    print(f"\n   Graph saved: {graph_path}")
+    
+    # ASCII Visualization
+    print("\n🌊 Wave Field Visualization (by Phase):")
+    phase_order = ["foundation", "intelligence", "memory", "interface", "evolution", "creativity", "system", "unknown"]
+    for phase in phase_order:
+        count = summary["statistics"]["phase_distribution"].get(phase, 0)
+        if count > 0:
+            avg_freq = sum(d.frequency for d in results.values() if d.phase == phase) / count
+            wave = "~" * int(avg_freq / 50)
+            print(f"   {phase[:8]:8} {wave} ({avg_freq:.0f}Hz)")
 
 if __name__ == "__main__":
     main()

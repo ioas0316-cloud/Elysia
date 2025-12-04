@@ -4,21 +4,21 @@
   "hash": "979b81b5",
   "frequency": 218.2,
   "amplitude": 27.2,
-  "phase": "memory",
+  "phase": "evolution",
   "wavelength": 4.58,
   "functions": 5,
   "classes": 1,
   "imports": 7,
   "lines": 132,
   "connections": [
-    "sys",
-    "logging",
-    "time",
-    "importlib",
     "typing",
+    "logging",
+    "Core",
     "os",
-    "Core"
+    "time",
+    "sys",
+    "importlib"
   ],
-  "extracted_at": "2025-12-05T02:13:09.161801",
+  "extracted_at": "2025-12-05T02:18:35.214144",
   "version": "1.0"
 }

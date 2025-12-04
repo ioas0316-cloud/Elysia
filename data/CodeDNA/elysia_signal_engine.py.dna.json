@@ -4,7 +4,7 @@
   "hash": "0fa2a67a",
   "frequency": 273.3,
   "amplitude": 52.3,
-  "phase": "interface",
+  "phase": "foundation",
   "wavelength": 3.66,
   "functions": 8,
   "classes": 2,
@@ -12,11 +12,11 @@
   "lines": 283,
   "connections": [
     "json",
-    "dataclasses",
     "typing",
     "os",
-    "numpy"
+    "numpy",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:06.253427",
+  "extracted_at": "2025-12-05T02:18:31.611596",
   "version": "1.0"
 }

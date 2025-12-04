@@ -11,12 +11,12 @@
   "imports": 5,
   "lines": 60,
   "connections": [
-    "sys",
-    "networkx",
-    "os",
+    "matplotlib",
     "Core",
-    "matplotlib"
+    "os",
+    "networkx",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:11.846702",
+  "extracted_at": "2025-12-05T02:18:38.391583",
   "version": "1.0"
 }

@@ -4,19 +4,19 @@
   "hash": "ff99ffd7",
   "frequency": 140.3,
   "amplitude": 7.3,
-  "phase": "creativity",
+  "phase": "system",
   "wavelength": 7.13,
   "functions": 1,
   "classes": 0,
   "imports": 5,
   "lines": 53,
   "connections": [
-    "__future__",
     "Project_Mirror",
-    "pathlib",
     "tools",
-    "Project_Sophia"
+    "Project_Sophia",
+    "pathlib",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:00.803181",
+  "extracted_at": "2025-12-05T02:18:27.253473",
   "version": "1.0"
 }

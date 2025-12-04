@@ -4,18 +4,18 @@
   "hash": "a2d1848d",
   "frequency": 134.8,
   "amplitude": 6.8,
-  "phase": "memory",
+  "phase": "foundation",
   "wavelength": 7.42,
   "functions": 1,
   "classes": 0,
   "imports": 4,
   "lines": 48,
   "connections": [
+    "Core",
     "sys",
-    "logging",
     "os",
-    "Core"
+    "logging"
   ],
-  "extracted_at": "2025-12-05T02:13:09.065745",
+  "extracted_at": "2025-12-05T02:18:35.130202",
   "version": "1.0"
 }

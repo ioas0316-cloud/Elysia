@@ -4,7 +4,7 @@
   "hash": "06cfc779",
   "frequency": 111.5,
   "amplitude": 1.5,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 8.97,
   "functions": 0,
   "classes": 0,
@@ -14,6 +14,6 @@
     "base64",
     "os"
   ],
-  "extracted_at": "2025-12-05T02:13:03.314865",
+  "extracted_at": "2025-12-05T02:18:28.843833",
   "version": "1.0"
 }

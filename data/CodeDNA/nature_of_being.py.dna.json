@@ -4,7 +4,7 @@
   "hash": "dfe5a458",
   "frequency": 185.3,
   "amplitude": 19.3,
-  "phase": "interface",
+  "phase": "foundation",
   "wavelength": 5.4,
   "functions": 3,
   "classes": 2,
@@ -14,6 +14,6 @@
     "dataclasses",
     "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:08.214845",
+  "extracted_at": "2025-12-05T02:18:33.735857",
   "version": "1.0"
 }

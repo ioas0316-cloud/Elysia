@@ -4,19 +4,19 @@
   "hash": "525e8a56",
   "frequency": 171.5,
   "amplitude": 14.5,
-  "phase": "foundation",
+  "phase": "interface",
   "wavelength": 5.83,
   "functions": 2,
   "classes": 1,
   "imports": 5,
   "lines": 65,
   "connections": [
-    "logging",
     "json",
-    "elysia_world",
+    "logging",
+    "Project_Sophia",
     "os",
-    "Project_Sophia"
+    "elysia_world"
   ],
-  "extracted_at": "2025-12-05T02:13:00.636332",
+  "extracted_at": "2025-12-05T02:18:27.212355",
   "version": "1.0"
 }

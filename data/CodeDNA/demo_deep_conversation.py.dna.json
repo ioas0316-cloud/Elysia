@@ -4,19 +4,19 @@
   "hash": "91e0d027",
   "frequency": 151.2,
   "amplitude": 18.2,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 6.61,
   "functions": 1,
   "classes": 0,
   "imports": 5,
   "lines": 162,
   "connections": [
-    "sys",
-    "networkx",
+    "Project_Elysia",
     "os",
     "Project_Sophia",
-    "Project_Elysia"
+    "networkx",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:01.317762",
+  "extracted_at": "2025-12-05T02:18:27.612685",
   "version": "1.0"
 }

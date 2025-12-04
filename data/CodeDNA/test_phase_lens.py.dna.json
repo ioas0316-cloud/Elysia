@@ -4,19 +4,19 @@
   "hash": "d122baf2",
   "frequency": 1000,
   "amplitude": 100,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 1.0,
   "functions": 87,
   "classes": 20,
   "imports": 5,
   "lines": 1176,
   "connections": [
+    "Core",
+    "os",
     "sys",
     "math",
-    "pytest",
-    "os",
-    "Core"
+    "pytest"
   ],
-  "extracted_at": "2025-12-05T02:12:57.016376",
+  "extracted_at": "2025-12-05T02:18:25.494942",
   "version": "1.0"
 }

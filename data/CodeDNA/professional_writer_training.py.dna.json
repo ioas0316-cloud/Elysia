@@ -4,22 +4,22 @@
   "hash": "c2d62198",
   "frequency": 484.1,
   "amplitude": 94.1,
-  "phase": "foundation",
+  "phase": "evolution",
   "wavelength": 2.07,
   "functions": 22,
   "classes": 4,
   "imports": 8,
   "lines": 441,
   "connections": [
-    "sys",
-    "logging",
     "concurrent",
-    "time",
     "typing",
+    "logging",
+    "Core",
     "requests",
     "os",
-    "Core"
+    "time",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:08.495290",
+  "extracted_at": "2025-12-05T02:18:34.478064",
   "version": "1.0"
 }

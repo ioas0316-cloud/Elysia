@@ -4,19 +4,19 @@
   "hash": "9ac6e456",
   "frequency": 140.9,
   "amplitude": 7.9,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 7.1,
   "functions": 1,
   "classes": 0,
   "imports": 5,
   "lines": 59,
   "connections": [
-    "sys",
     "json",
-    "tqdm",
     "os",
-    "Project_Sophia"
+    "Project_Sophia",
+    "sys",
+    "tqdm"
   ],
-  "extracted_at": "2025-12-05T02:13:02.303827",
+  "extracted_at": "2025-12-05T02:18:28.389197",
   "version": "1.0"
 }

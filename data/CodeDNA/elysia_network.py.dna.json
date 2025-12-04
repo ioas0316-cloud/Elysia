@@ -4,18 +4,18 @@
   "hash": "a1616ec3",
   "frequency": 258.2,
   "amplitude": 50.2,
-  "phase": "foundation",
+  "phase": "memory",
   "wavelength": 3.87,
   "functions": 9,
   "classes": 1,
   "imports": 4,
   "lines": 282,
   "connections": [
-    "asyncio",
     "elysia_node",
-    "typing",
-    "time"
+    "time",
+    "asyncio",
+    "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:06.221524",
+  "extracted_at": "2025-12-05T02:18:31.577983",
   "version": "1.0"
 }

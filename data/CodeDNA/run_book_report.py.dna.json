@@ -4,19 +4,19 @@
   "hash": "69c91026",
   "frequency": 142.4,
   "amplitude": 9.4,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 7.02,
   "functions": 1,
   "classes": 0,
   "imports": 5,
   "lines": 74,
   "connections": [
-    "__future__",
-    "argparse",
-    "pathlib",
     "tools",
-    "Project_Sophia"
+    "argparse",
+    "Project_Sophia",
+    "pathlib",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:00.258601",
+  "extracted_at": "2025-12-05T02:18:27.094335",
   "version": "1.0"
 }

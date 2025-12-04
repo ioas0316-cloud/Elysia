@@ -4,18 +4,18 @@
   "hash": "c99ebd55",
   "frequency": 608.8,
   "amplitude": 88.8,
-  "phase": "evolution",
+  "phase": "system",
   "wavelength": 1.64,
   "functions": 35,
   "classes": 5,
   "imports": 4,
   "lines": 388,
   "connections": [
-    "sys",
-    "os",
+    "Core",
     "pytest",
-    "Core"
+    "sys",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:12:56.618042",
+  "extracted_at": "2025-12-05T02:18:25.177492",
   "version": "1.0"
 }

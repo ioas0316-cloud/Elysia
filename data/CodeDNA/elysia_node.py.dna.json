@@ -4,19 +4,19 @@
   "hash": "95a9478f",
   "frequency": 261.4,
   "amplitude": 48.4,
-  "phase": "intelligence",
+  "phase": "foundation",
   "wavelength": 3.83,
   "functions": 7,
   "classes": 2,
   "imports": 5,
   "lines": 264,
   "connections": [
+    "typing",
+    "uuid",
     "time",
     "asyncio",
-    "dataclasses",
-    "typing",
-    "uuid"
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:06.229373",
+  "extracted_at": "2025-12-05T02:18:31.594553",
   "version": "1.0"
 }

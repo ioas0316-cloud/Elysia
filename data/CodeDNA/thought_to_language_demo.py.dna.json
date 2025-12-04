@@ -4,16 +4,16 @@
   "hash": "10d4409b",
   "frequency": 195.5,
   "amplitude": 29.5,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 5.12,
   "functions": 5,
   "classes": 1,
   "imports": 2,
   "lines": 155,
   "connections": [
-    "typing",
-    "Core"
+    "Core",
+    "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:10.029052",
+  "extracted_at": "2025-12-05T02:18:36.632665",
   "version": "1.0"
 }

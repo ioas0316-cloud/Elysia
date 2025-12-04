@@ -4,19 +4,19 @@
   "hash": "e0dd4f5b",
   "frequency": 813.6,
   "amplitude": 100,
-  "phase": "system",
+  "phase": "intelligence",
   "wavelength": 1.23,
   "functions": 44,
   "classes": 9,
   "imports": 5,
   "lines": 686,
   "connections": [
-    "sys",
-    "importlib",
-    "pytest",
     "os",
-    "numpy"
+    "sys",
+    "numpy",
+    "pytest",
+    "importlib"
   ],
-  "extracted_at": "2025-12-05T02:12:56.659679",
+  "extracted_at": "2025-12-05T02:18:25.196288",
   "version": "1.0"
 }

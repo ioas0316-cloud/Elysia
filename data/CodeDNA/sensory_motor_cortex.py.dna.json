@@ -12,13 +12,13 @@
   "lines": 136,
   "connections": [
     "logging",
-    "pyautogui",
-    "time",
     "platform",
     "os",
-    "subprocess",
-    "pyperclip"
+    "pyperclip",
+    "time",
+    "pyautogui",
+    "subprocess"
   ],
-  "extracted_at": "2025-12-05T02:12:58.912775",
+  "extracted_at": "2025-12-05T02:18:26.403201",
   "version": "1.0"
 }

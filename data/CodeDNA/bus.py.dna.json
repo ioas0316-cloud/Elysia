@@ -4,16 +4,16 @@
   "hash": "17d4505d",
   "frequency": 163.1,
   "amplitude": 13.1,
-  "phase": "unknown",
+  "phase": "memory",
   "wavelength": 6.13,
   "functions": 3,
   "classes": 1,
   "imports": 2,
   "lines": 31,
   "connections": [
-    "typing",
-    "infra"
+    "infra",
+    "typing"
   ],
-  "extracted_at": "2025-12-05T02:12:58.202867",
+  "extracted_at": "2025-12-05T02:18:26.077537",
   "version": "1.0"
 }

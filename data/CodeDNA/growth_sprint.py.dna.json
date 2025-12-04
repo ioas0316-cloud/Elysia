@@ -11,19 +11,19 @@
   "imports": 12,
   "lines": 185,
   "connections": [
+    "scripts",
+    "collections",
+    "typing",
+    "tools",
+    "nano_core",
+    "argparse",
+    "os",
+    "Project_Sophia",
     "sys",
     "math",
-    "typing",
-    "nano_core",
-    "scripts",
-    "os",
-    "subprocess",
-    "argparse",
     "pathlib",
-    "collections",
-    "tools",
-    "Project_Sophia"
+    "subprocess"
   ],
-  "extracted_at": "2025-12-05T02:12:59.964676",
+  "extracted_at": "2025-12-05T02:18:26.788208",
   "version": "1.0"
 }

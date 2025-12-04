@@ -4,16 +4,16 @@
   "hash": "f94918d6",
   "frequency": 122.4,
   "amplitude": 4.4,
-  "phase": "interface",
+  "phase": "foundation",
   "wavelength": 8.17,
   "functions": 1,
   "classes": 0,
   "imports": 2,
   "lines": 24,
   "connections": [
-    "pprint",
-    "elysia_world"
+    "elysia_world",
+    "pprint"
   ],
-  "extracted_at": "2025-12-05T02:12:58.195026",
+  "extracted_at": "2025-12-05T02:18:26.068806",
   "version": "1.0"
 }

@@ -4,16 +4,16 @@
   "hash": "de64dabd",
   "frequency": 215.4,
   "amplitude": 25.4,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 4.64,
   "functions": 6,
   "classes": 2,
   "imports": 2,
   "lines": 54,
   "connections": [
-    "unittest",
-    "Core"
+    "Core",
+    "unittest"
   ],
-  "extracted_at": "2025-12-05T02:12:56.868638",
+  "extracted_at": "2025-12-05T02:18:25.310872",
   "version": "1.0"
 }

@@ -4,19 +4,19 @@
   "hash": "7a0814e1",
   "frequency": 189.9,
   "amplitude": 16.9,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 5.27,
   "functions": 4,
   "classes": 1,
   "imports": 5,
   "lines": 49,
   "connections": [
-    "sys",
-    "unittest",
-    "os",
     "Core",
-    "numpy"
+    "os",
+    "sys",
+    "numpy",
+    "unittest"
   ],
-  "extracted_at": "2025-12-05T02:12:56.823400",
+  "extracted_at": "2025-12-05T02:18:25.308218",
   "version": "1.0"
 }

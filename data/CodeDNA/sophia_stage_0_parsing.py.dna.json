@@ -4,16 +4,16 @@
   "hash": "caa5e572",
   "frequency": 175.2,
   "amplitude": 25.2,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.71,
   "functions": 3,
   "classes": 1,
   "imports": 2,
   "lines": 152,
   "connections": [
-    "re",
-    "kg_manager"
+    "kg_manager",
+    "re"
   ],
-  "extracted_at": "2025-12-05T02:13:03.785481",
+  "extracted_at": "2025-12-05T02:18:29.467991",
   "version": "1.0"
 }

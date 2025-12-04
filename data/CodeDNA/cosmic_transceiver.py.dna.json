@@ -11,12 +11,12 @@
   "imports": 5,
   "lines": 110,
   "connections": [
+    "typing",
     "logging",
     "random",
     "hashlib",
-    "typing",
     "Field"
   ],
-  "extracted_at": "2025-12-05T02:13:05.530504",
+  "extracted_at": "2025-12-05T02:18:30.708581",
   "version": "1.0"
 }

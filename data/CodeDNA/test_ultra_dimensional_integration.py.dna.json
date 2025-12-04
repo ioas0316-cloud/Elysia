@@ -4,18 +4,18 @@
   "hash": "feabd4ec",
   "frequency": 197.0,
   "amplitude": 37.0,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 5.08,
   "functions": 5,
   "classes": 0,
   "imports": 4,
   "lines": 270,
   "connections": [
-    "sys",
-    "os",
+    "traceback",
     "Core",
-    "traceback"
+    "sys",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:12:57.284842",
+  "extracted_at": "2025-12-05T02:18:25.786689",
   "version": "1.0"
 }

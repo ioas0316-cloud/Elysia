@@ -4,7 +4,7 @@
   "hash": "9f5e87aa",
   "frequency": 115.5,
   "amplitude": 2.5,
-  "phase": "unknown",
+  "phase": "system",
   "wavelength": 8.66,
   "functions": 1,
   "classes": 0,
@@ -13,6 +13,6 @@
   "connections": [
     "datetime"
   ],
-  "extracted_at": "2025-12-05T02:13:02.597536",
+  "extracted_at": "2025-12-05T02:18:28.520557",
   "version": "1.0"
 }

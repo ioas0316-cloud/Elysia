@@ -12,12 +12,12 @@
   "lines": 536,
   "connections": [
     "tempfile",
+    "Core",
     "time",
     "asyncio",
-    "pytest",
     "shutil",
-    "Core"
+    "pytest"
   ],
-  "extracted_at": "2025-12-05T02:12:56.977637",
+  "extracted_at": "2025-12-05T02:18:25.363983",
   "version": "1.0"
 }

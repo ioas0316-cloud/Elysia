@@ -11,13 +11,13 @@
   "imports": 6,
   "lines": 106,
   "connections": [
+    "typing",
     "logging",
     "time",
-    "typing",
-    "core",
     "world",
-    "numpy"
+    "numpy",
+    "core"
   ],
-  "extracted_at": "2025-12-05T02:13:10.402600",
+  "extracted_at": "2025-12-05T02:18:36.733134",
   "version": "1.0"
 }

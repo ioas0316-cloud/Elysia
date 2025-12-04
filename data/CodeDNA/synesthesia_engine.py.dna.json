@@ -12,12 +12,12 @@
   "lines": 104,
   "connections": [
     "enum",
-    "__future__",
-    "dataclasses",
     "typing",
     "Core",
-    "numpy"
+    "numpy",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:09.743910",
+  "extracted_at": "2025-12-05T02:18:36.287088",
   "version": "1.0"
 }

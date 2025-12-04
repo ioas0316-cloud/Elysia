@@ -11,10 +11,10 @@
   "imports": 3,
   "lines": 73,
   "connections": [
+    "time",
     "os",
-    "pyautogui",
-    "time"
+    "pyautogui"
   ],
-  "extracted_at": "2025-12-05T02:13:00.813283",
+  "extracted_at": "2025-12-05T02:18:27.256243",
   "version": "1.0"
 }

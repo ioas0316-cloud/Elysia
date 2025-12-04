@@ -4,7 +4,7 @@
   "hash": "ead1aaba",
   "frequency": 199.8,
   "amplitude": 24.8,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.01,
   "functions": 5,
   "classes": 0,
@@ -12,13 +12,13 @@
   "lines": 148,
   "connections": [
     "json",
-    "__future__",
-    "dataclasses",
-    "typing",
     "scripts",
+    "typing",
     "os",
-    "datetime"
+    "datetime",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:12:59.824442",
+  "extracted_at": "2025-12-05T02:18:26.685454",
   "version": "1.0"
 }

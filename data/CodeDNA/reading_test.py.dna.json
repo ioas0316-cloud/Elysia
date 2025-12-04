@@ -4,18 +4,18 @@
   "hash": "45e7266c",
   "frequency": 137.3,
   "amplitude": 9.3,
-  "phase": "creativity",
+  "phase": "system",
   "wavelength": 7.28,
   "functions": 1,
   "classes": 0,
   "imports": 4,
   "lines": 73,
   "connections": [
+    "Core",
     "sys",
     "os",
-    "Core",
     "time"
   ],
-  "extracted_at": "2025-12-05T02:13:08.576265",
+  "extracted_at": "2025-12-05T02:18:34.628250",
   "version": "1.0"
 }

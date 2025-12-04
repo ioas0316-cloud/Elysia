@@ -4,18 +4,18 @@
   "hash": "746ae52e",
   "frequency": 199.3,
   "amplitude": 23.3,
-  "phase": "foundation",
+  "phase": "interface",
   "wavelength": 5.02,
   "functions": 5,
   "classes": 1,
   "imports": 4,
   "lines": 93,
   "connections": [
-    "logging",
     "socket",
+    "ssl",
     "typing",
-    "ssl"
+    "logging"
   ],
-  "extracted_at": "2025-12-05T02:13:08.502756",
+  "extracted_at": "2025-12-05T02:18:34.533754",
   "version": "1.0"
 }

@@ -11,12 +11,12 @@
   "imports": 5,
   "lines": 149,
   "connections": [
-    "logging",
-    "random",
     "typing",
+    "logging",
     "world",
+    "random",
     "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:08.737271",
+  "extracted_at": "2025-12-05T02:18:34.878949",
   "version": "1.0"
 }

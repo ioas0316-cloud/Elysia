@@ -12,9 +12,9 @@
   "lines": 109,
   "connections": [
     "collections",
-    "re",
-    "typing"
+    "typing",
+    "re"
   ],
-  "extracted_at": "2025-12-05T02:13:05.383758",
+  "extracted_at": "2025-12-05T02:18:30.619125",
   "version": "1.0"
 }

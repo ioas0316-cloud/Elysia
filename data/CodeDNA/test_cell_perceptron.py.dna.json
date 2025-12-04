@@ -4,7 +4,7 @@
   "hash": "75a55b2f",
   "frequency": 117.0,
   "amplitude": 4.0,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 8.55,
   "functions": 1,
   "classes": 0,
@@ -13,6 +13,6 @@
   "connections": [
     "Core"
   ],
-  "extracted_at": "2025-12-05T02:13:09.850155",
+  "extracted_at": "2025-12-05T02:18:36.436136",
   "version": "1.0"
 }

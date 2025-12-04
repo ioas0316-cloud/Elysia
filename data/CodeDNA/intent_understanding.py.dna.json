@@ -4,7 +4,7 @@
   "hash": "6f592215",
   "frequency": 395.4,
   "amplitude": 89.4,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 2.53,
   "functions": 12,
   "classes": 5,
@@ -13,11 +13,11 @@
   "connections": [
     "enum",
     "json",
-    "time",
-    "dataclasses",
     "typing",
-    "pathlib"
+    "time",
+    "pathlib",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:07.579396",
+  "extracted_at": "2025-12-05T02:18:33.088309",
   "version": "1.0"
 }

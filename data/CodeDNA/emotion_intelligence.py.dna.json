@@ -12,11 +12,11 @@
   "lines": 560,
   "connections": [
     "enum",
-    "random",
+    "typing",
     "asyncio",
-    "dataclasses",
-    "typing"
+    "random",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:06.322151",
+  "extracted_at": "2025-12-05T02:18:31.682046",
   "version": "1.0"
 }

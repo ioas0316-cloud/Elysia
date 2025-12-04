@@ -4,17 +4,17 @@
   "hash": "766c6e86",
   "frequency": 137.8,
   "amplitude": 6.8,
-  "phase": "intelligence",
+  "phase": "system",
   "wavelength": 7.26,
   "functions": 2,
   "classes": 0,
   "imports": 3,
   "lines": 28,
   "connections": [
-    "math",
     "gemini_api",
-    "typing"
+    "typing",
+    "math"
   ],
-  "extracted_at": "2025-12-05T02:12:59.162864",
+  "extracted_at": "2025-12-05T02:18:26.444927",
   "version": "1.0"
 }

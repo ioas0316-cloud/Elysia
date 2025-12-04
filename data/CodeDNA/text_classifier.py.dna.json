@@ -12,11 +12,11 @@
   "lines": 75,
   "connections": [
     "json",
-    "math",
-    "typing",
     "collections",
-    "tools"
+    "typing",
+    "tools",
+    "math"
   ],
-  "extracted_at": "2025-12-05T02:13:02.588792",
+  "extracted_at": "2025-12-05T02:18:28.514240",
   "version": "1.0"
 }

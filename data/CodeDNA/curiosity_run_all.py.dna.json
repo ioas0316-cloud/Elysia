@@ -11,14 +11,14 @@
   "imports": 7,
   "lines": 58,
   "connections": [
-    "sys",
-    "__future__",
-    "curiosity_apply_ingest",
-    "curiosity_sync_to_kg",
     "argparse",
+    "curiosity_apply_ingest",
+    "curiosity_loop",
+    "curiosity_sync_to_kg",
+    "sys",
     "pathlib",
-    "curiosity_loop"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:12:59.665158",
+  "extracted_at": "2025-12-05T02:18:26.594224",
   "version": "1.0"
 }

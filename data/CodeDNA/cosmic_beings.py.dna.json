@@ -11,9 +11,9 @@
   "imports": 2,
   "lines": 29,
   "connections": [
-    "dataclasses",
-    "enum"
+    "enum",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:04.146099",
+  "extracted_at": "2025-12-05T02:18:29.813533",
   "version": "1.0"
 }

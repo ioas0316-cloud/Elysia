@@ -4,22 +4,22 @@
   "hash": "91aa4391",
   "frequency": 339.8,
   "amplitude": 63.8,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 2.94,
   "functions": 13,
   "classes": 2,
   "imports": 8,
   "lines": 298,
   "connections": [
-    "random",
     "psutil",
-    "dataclasses",
-    "time",
-    "functools",
-    "typing",
     "collections",
-    "datetime"
+    "typing",
+    "time",
+    "random",
+    "functools",
+    "datetime",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:08.297882",
+  "extracted_at": "2025-12-05T02:18:33.985820",
   "version": "1.0"
 }

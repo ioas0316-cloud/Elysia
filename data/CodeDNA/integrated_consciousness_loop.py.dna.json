@@ -4,23 +4,23 @@
   "hash": "fb1dab50",
   "frequency": 351.5,
   "amplitude": 78.5,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 2.84,
   "functions": 10,
   "classes": 3,
   "imports": 9,
   "lines": 465,
   "connections": [
-    "sys",
-    "logging",
     "json",
-    "time",
-    "dataclasses",
     "typing",
-    "os",
+    "logging",
     "Core",
-    "numpy"
+    "os",
+    "time",
+    "sys",
+    "numpy",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:07.404556",
+  "extracted_at": "2025-12-05T02:18:33.028193",
   "version": "1.0"
 }

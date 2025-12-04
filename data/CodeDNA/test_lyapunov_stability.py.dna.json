@@ -4,20 +4,20 @@
   "hash": "4c713eb6",
   "frequency": 216.2,
   "amplitude": 38.2,
-  "phase": "system",
+  "phase": "intelligence",
   "wavelength": 4.63,
   "functions": 6,
   "classes": 0,
   "imports": 6,
   "lines": 262,
   "connections": [
-    "sys",
     "logging",
-    "time",
     "os",
-    "numpy",
-    "Project_Sophia"
+    "Project_Sophia",
+    "time",
+    "sys",
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:01.953843",
+  "extracted_at": "2025-12-05T02:18:28.048914",
   "version": "1.0"
 }

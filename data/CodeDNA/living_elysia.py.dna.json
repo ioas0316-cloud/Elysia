@@ -11,19 +11,19 @@
   "imports": 12,
   "lines": 610,
   "connections": [
-    "sys",
-    "logging",
     "json",
-    "random",
-    "time",
-    "asyncio",
     "scripts",
-    "os",
+    "logging",
     "Core",
-    "pathlib",
+    "os",
     "Project_Sophia",
-    "datetime"
+    "time",
+    "sys",
+    "asyncio",
+    "random",
+    "datetime",
+    "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:07.958633",
+  "extracted_at": "2025-12-05T02:18:33.398301",
   "version": "1.0"
 }

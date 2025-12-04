@@ -4,17 +4,17 @@
   "hash": "7767148b",
   "frequency": 150.8,
   "amplitude": 11.8,
-  "phase": "evolution",
+  "phase": "system",
   "wavelength": 6.63,
   "functions": 3,
   "classes": 0,
   "imports": 3,
   "lines": 58,
   "connections": [
-    "pathlib",
+    "argparse",
     "json",
-    "argparse"
+    "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:00.655109",
+  "extracted_at": "2025-12-05T02:18:27.227699",
   "version": "1.0"
 }

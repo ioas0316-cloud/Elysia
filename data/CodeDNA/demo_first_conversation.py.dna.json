@@ -4,7 +4,7 @@
   "hash": "8481d6a8",
   "frequency": 133.7,
   "amplitude": 10.7,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 7.48,
   "functions": 1,
   "classes": 0,
@@ -15,6 +15,6 @@
     "os",
     "Project_Elysia"
   ],
-  "extracted_at": "2025-12-05T02:13:01.344335",
+  "extracted_at": "2025-12-05T02:18:27.630475",
   "version": "1.0"
 }

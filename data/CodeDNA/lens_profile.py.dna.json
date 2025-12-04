@@ -4,16 +4,16 @@
   "hash": "0d97dd32",
   "frequency": 250.6,
   "amplitude": 36.6,
-  "phase": "interface",
+  "phase": "system",
   "wavelength": 3.99,
   "functions": 11,
   "classes": 1,
   "imports": 2,
   "lines": 106,
   "connections": [
-    "math",
-    "typing"
+    "typing",
+    "math"
   ],
-  "extracted_at": "2025-12-05T02:13:07.877114",
+  "extracted_at": "2025-12-05T02:18:33.325021",
   "version": "1.0"
 }

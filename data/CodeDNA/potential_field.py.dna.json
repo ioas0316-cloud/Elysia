@@ -4,18 +4,18 @@
   "hash": "81b810c1",
   "frequency": 413.5,
   "amplitude": 63.5,
-  "phase": "interface",
+  "phase": "foundation",
   "wavelength": 2.42,
   "functions": 18,
   "classes": 5,
   "imports": 4,
   "lines": 135,
   "connections": [
-    "math",
-    "dataclasses",
     "logging",
-    "typing"
+    "typing",
+    "math",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:08.376461",
+  "extracted_at": "2025-12-05T02:18:34.165393",
   "version": "1.0"
 }

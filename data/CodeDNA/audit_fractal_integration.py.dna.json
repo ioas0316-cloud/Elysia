@@ -4,19 +4,19 @@
   "hash": "c3c2d22d",
   "frequency": 140.9,
   "amplitude": 7.9,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 7.1,
   "functions": 1,
   "classes": 0,
   "imports": 5,
   "lines": 59,
   "connections": [
-    "sys",
-    "unittest",
     "os",
+    "Project_Sophia",
+    "sys",
     "numpy",
-    "Project_Sophia"
+    "unittest"
   ],
-  "extracted_at": "2025-12-05T02:12:59.354029",
+  "extracted_at": "2025-12-05T02:18:26.491540",
   "version": "1.0"
 }

@@ -4,17 +4,17 @@
   "hash": "f7aab946",
   "frequency": 118.5,
   "amplitude": 3.5,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 8.44,
   "functions": 0,
   "classes": 0,
   "imports": 3,
   "lines": 35,
   "connections": [
-    "sys",
+    "traceback",
     "Core",
-    "traceback"
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:12:57.159712",
+  "extracted_at": "2025-12-05T02:18:25.703840",
   "version": "1.0"
 }

@@ -4,18 +4,18 @@
   "hash": "4a1b7c7f",
   "frequency": 143.2,
   "amplitude": 15.2,
-  "phase": "creativity",
+  "phase": "system",
   "wavelength": 6.98,
   "functions": 1,
   "classes": 0,
   "imports": 4,
   "lines": 132,
   "connections": [
-    "sys",
-    "json",
+    "datetime",
     "pathlib",
-    "datetime"
+    "sys",
+    "json"
   ],
-  "extracted_at": "2025-12-05T02:13:04.307515",
+  "extracted_at": "2025-12-05T02:18:29.967027",
   "version": "1.0"
 }

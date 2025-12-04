@@ -4,7 +4,7 @@
   "hash": "b38a0326",
   "frequency": 151.1,
   "amplitude": 8.1,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 6.62,
   "functions": 1,
   "classes": 0,
@@ -12,13 +12,13 @@
   "lines": 61,
   "connections": [
     "logging",
-    "sys",
-    "time",
+    "Core",
     "traceback",
-    "shutil",
     "os",
-    "Core"
+    "time",
+    "sys",
+    "shutil"
   ],
-  "extracted_at": "2025-12-05T02:12:56.055211",
+  "extracted_at": "2025-12-05T02:18:24.933069",
   "version": "1.0"
 }

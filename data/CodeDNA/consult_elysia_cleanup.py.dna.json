@@ -4,17 +4,17 @@
   "hash": "eaad0540",
   "frequency": 128.7,
   "amplitude": 5.7,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 7.77,
   "functions": 1,
   "classes": 0,
   "imports": 3,
   "lines": 37,
   "connections": [
+    "Core",
     "sys",
-    "os",
-    "Core"
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:13:11.487078",
+  "extracted_at": "2025-12-05T02:18:37.915271",
   "version": "1.0"
 }

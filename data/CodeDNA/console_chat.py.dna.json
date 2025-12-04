@@ -4,24 +4,24 @@
   "hash": "300dc16f",
   "frequency": 245.8,
   "amplitude": 39.8,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 4.07,
   "functions": 7,
   "classes": 0,
   "imports": 10,
   "lines": 258,
   "connections": [
-    "sys",
     "json",
-    "__future__",
-    "re",
+    "Project_Elysia",
     "typing",
-    "os",
-    "pathlib",
     "tools",
+    "os",
     "Project_Sophia",
-    "Project_Elysia"
+    "sys",
+    "re",
+    "pathlib",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:12:59.652907",
+  "extracted_at": "2025-12-05T02:18:26.582492",
   "version": "1.0"
 }

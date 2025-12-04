@@ -4,18 +4,18 @@
   "hash": "3caeaabd",
   "frequency": 199.8,
   "amplitude": 23.8,
-  "phase": "system",
+  "phase": "intelligence",
   "wavelength": 5.01,
   "functions": 5,
   "classes": 1,
   "imports": 4,
   "lines": 98,
   "connections": [
-    "sys",
-    "os",
     "unittest",
-    "Project_Sophia"
+    "sys",
+    "Project_Sophia",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:13:01.909541",
+  "extracted_at": "2025-12-05T02:18:27.963077",
   "version": "1.0"
 }

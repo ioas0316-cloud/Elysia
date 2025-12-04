@@ -11,15 +11,15 @@
   "imports": 8,
   "lines": 398,
   "connections": [
-    "__future__",
-    "random",
-    "time",
     "typing",
-    "infra",
-    "os",
+    "nano_core",
     "yaml",
-    "nano_core"
+    "os",
+    "time",
+    "infra",
+    "random",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:06.594852",
+  "extracted_at": "2025-12-05T02:18:32.039611",
   "version": "1.0"
 }

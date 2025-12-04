@@ -4,19 +4,19 @@
   "hash": "becdb708",
   "frequency": 180.2,
   "amplitude": 15.2,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.55,
   "functions": 5,
   "classes": 0,
   "imports": 5,
   "lines": 52,
   "connections": [
+    "hyper_qubit",
+    "typing",
     "logging",
     "time",
-    "functools",
-    "typing",
-    "hyper_qubit"
+    "functools"
   ],
-  "extracted_at": "2025-12-05T02:13:03.268824",
+  "extracted_at": "2025-12-05T02:18:28.825942",
   "version": "1.0"
 }

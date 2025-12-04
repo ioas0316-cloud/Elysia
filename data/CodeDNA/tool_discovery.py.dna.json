@@ -11,15 +11,15 @@
   "imports": 8,
   "lines": 94,
   "connections": [
-    "sys",
-    "logging",
-    "importlib",
     "typing",
+    "logging",
     "pkgutil",
+    "sys",
     "shutil",
-    "subprocess",
-    "inspect"
+    "importlib",
+    "inspect",
+    "subprocess"
   ],
-  "extracted_at": "2025-12-05T02:13:10.395383",
+  "extracted_at": "2025-12-05T02:18:36.724775",
   "version": "1.0"
 }

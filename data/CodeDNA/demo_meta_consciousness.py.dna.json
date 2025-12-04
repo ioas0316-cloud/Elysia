@@ -4,20 +4,20 @@
   "hash": "0b0b5e51",
   "frequency": 151.6,
   "amplitude": 13.6,
-  "phase": "intelligence",
+  "phase": "system",
   "wavelength": 6.6,
   "functions": 1,
   "classes": 0,
   "imports": 6,
   "lines": 116,
   "connections": [
+    "Project_Elysia",
     "logging",
-    "sys",
     "traceback",
-    "os",
     "Project_Sophia",
-    "Project_Elysia"
+    "os",
+    "sys"
   ],
-  "extracted_at": "2025-12-05T02:13:01.395312",
+  "extracted_at": "2025-12-05T02:18:27.689894",
   "version": "1.0"
 }

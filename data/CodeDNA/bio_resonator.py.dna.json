@@ -11,10 +11,10 @@
   "imports": 3,
   "lines": 99,
   "connections": [
+    "dataclasses",
     "math",
-    "typing",
-    "dataclasses"
+    "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:04.498300",
+  "extracted_at": "2025-12-05T02:18:30.096812",
   "version": "1.0"
 }

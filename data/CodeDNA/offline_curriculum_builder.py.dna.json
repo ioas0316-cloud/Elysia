@@ -12,15 +12,15 @@
   "lines": 260,
   "connections": [
     "json",
-    "__future__",
-    "kg_manager",
-    "dataclasses",
-    "math",
-    "re",
     "typing",
     "yaml",
-    "pathlib"
+    "kg_manager",
+    "re",
+    "math",
+    "pathlib",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:08.245072",
+  "extracted_at": "2025-12-05T02:18:33.880178",
   "version": "1.0"
 }

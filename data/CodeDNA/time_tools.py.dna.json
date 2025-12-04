@@ -4,16 +4,16 @@
   "hash": "9cf8cc7b",
   "frequency": 121.3,
   "amplitude": 3.3,
-  "phase": "unknown",
+  "phase": "system",
   "wavelength": 8.24,
   "functions": 1,
   "classes": 0,
   "imports": 2,
   "lines": 13,
   "connections": [
-    "logging",
-    "datetime"
+    "datetime",
+    "logging"
   ],
-  "extracted_at": "2025-12-05T02:13:10.286978",
+  "extracted_at": "2025-12-05T02:18:36.687127",
   "version": "1.0"
 }

@@ -4,19 +4,19 @@
   "hash": "8e57f3df",
   "frequency": 419.3,
   "amplitude": 74.3,
-  "phase": "system",
+  "phase": "evolution",
   "wavelength": 2.38,
   "functions": 15,
   "classes": 6,
   "imports": 5,
   "lines": 243,
   "connections": [
-    "sys",
     "tempfile",
-    "pytest",
+    "Project_Sophia",
     "os",
-    "Project_Sophia"
+    "sys",
+    "pytest"
   ],
-  "extracted_at": "2025-12-05T02:12:57.145216",
+  "extracted_at": "2025-12-05T02:18:25.691041",
   "version": "1.0"
 }

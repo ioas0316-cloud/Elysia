@@ -4,7 +4,7 @@
   "hash": "a105962d",
   "frequency": 226.0,
   "amplitude": 60.0,
-  "phase": "system",
+  "phase": "foundation",
   "wavelength": 4.42,
   "functions": 3,
   "classes": 2,
@@ -14,6 +14,6 @@
     "dataclasses",
     "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:00.063994",
+  "extracted_at": "2025-12-05T02:18:26.954665",
   "version": "1.0"
 }

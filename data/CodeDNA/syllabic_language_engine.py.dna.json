@@ -12,16 +12,16 @@
   "lines": 776,
   "connections": [
     "json",
-    "__future__",
-    "random",
-    "dataclasses",
-    "re",
-    "typing",
-    "pathlib",
     "collections",
+    "typing",
     "tools",
-    "Project_Elysia"
+    "Project_Elysia",
+    "re",
+    "random",
+    "pathlib",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:12.478676",
+  "extracted_at": "2025-12-05T02:18:39.035891",
   "version": "1.0"
 }

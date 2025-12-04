@@ -11,13 +11,13 @@
   "imports": 6,
   "lines": 533,
   "connections": [
-    "random",
-    "math",
-    "infra",
     "collections",
     "tools",
-    "Project_Sophia"
+    "Project_Sophia",
+    "infra",
+    "math",
+    "random"
   ],
-  "extracted_at": "2025-12-05T02:12:59.191459",
+  "extracted_at": "2025-12-05T02:18:26.460145",
   "version": "1.0"
 }

@@ -4,7 +4,7 @@
   "hash": "496f3e31",
   "frequency": 767.2,
   "amplitude": 100,
-  "phase": "unknown",
+  "phase": "foundation",
   "wavelength": 1.3,
   "functions": 39,
   "classes": 6,
@@ -12,15 +12,15 @@
   "lines": 1122,
   "connections": [
     "enum",
-    "logging",
-    "__future__",
     "json",
-    "math",
-    "dataclasses",
-    "typing",
     "collections",
-    "numpy"
+    "typing",
+    "logging",
+    "math",
+    "numpy",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:05.092897",
+  "extracted_at": "2025-12-05T02:18:30.497139",
   "version": "1.0"
 }

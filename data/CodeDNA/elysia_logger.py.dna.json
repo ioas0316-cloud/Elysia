@@ -4,21 +4,21 @@
   "hash": "2b7e47a3",
   "frequency": 398.3,
   "amplitude": 87.3,
-  "phase": "system",
+  "phase": "memory",
   "wavelength": 2.51,
   "functions": 16,
   "classes": 3,
   "imports": 7,
   "lines": 433,
   "connections": [
-    "logging",
     "json",
-    "sys",
     "typing",
+    "logging",
     "traceback",
-    "pathlib",
-    "datetime"
+    "sys",
+    "datetime",
+    "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:06.213359",
+  "extracted_at": "2025-12-05T02:18:31.568814",
   "version": "1.0"
 }

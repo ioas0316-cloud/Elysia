@@ -11,14 +11,14 @@
   "imports": 7,
   "lines": 142,
   "connections": [
-    "random",
-    "time",
-    "typing",
     "youtube_transcript_api",
+    "typing",
     "requests",
     "os",
-    "bs4"
+    "time",
+    "bs4",
+    "random"
   ],
-  "extracted_at": "2025-12-05T02:13:08.061024",
+  "extracted_at": "2025-12-05T02:18:33.470094",
   "version": "1.0"
 }

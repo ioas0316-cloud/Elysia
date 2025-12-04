@@ -4,19 +4,19 @@
   "hash": "443783b0",
   "frequency": 424.9,
   "amplitude": 90,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 2.35,
   "functions": 20,
   "classes": 0,
   "imports": 5,
   "lines": 999,
   "connections": [
-    "__future__",
-    "random",
-    "typing",
     "scripts",
-    "Project_Sophia"
+    "typing",
+    "Project_Sophia",
+    "random",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:00.179622",
+  "extracted_at": "2025-12-05T02:18:27.043743",
   "version": "1.0"
 }

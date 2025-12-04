@@ -4,23 +4,23 @@
   "hash": "edeaa8cd",
   "frequency": 248.7,
   "amplitude": 31.7,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 4.02,
   "functions": 7,
   "classes": 1,
   "imports": 9,
   "lines": 137,
   "connections": [
-    "sys",
     "json",
-    "__future__",
-    "ast",
+    "Project_Elysia",
     "typing",
-    "argparse",
-    "pathlib",
     "tools",
-    "Project_Elysia"
+    "ast",
+    "argparse",
+    "sys",
+    "pathlib",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:02.550207",
+  "extracted_at": "2025-12-05T02:18:28.481634",
   "version": "1.0"
 }

@@ -4,19 +4,19 @@
   "hash": "ede697fc",
   "frequency": 206.8,
   "amplitude": 33.8,
-  "phase": "evolution",
+  "phase": "system",
   "wavelength": 4.84,
   "functions": 6,
   "classes": 0,
   "imports": 5,
   "lines": 218,
   "connections": [
-    "sys",
     "logging",
-    "os",
     "Core",
+    "os",
+    "sys",
     "datetime"
   ],
-  "extracted_at": "2025-12-05T02:13:05.930530",
+  "extracted_at": "2025-12-05T02:18:31.201007",
   "version": "1.0"
 }

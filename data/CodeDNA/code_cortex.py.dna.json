@@ -11,12 +11,12 @@
   "imports": 5,
   "lines": 111,
   "connections": [
+    "typing",
     "logging",
     "ast",
-    "typing",
-    "os",
-    "Core"
+    "Core",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:13:11.485287",
+  "extracted_at": "2025-12-05T02:18:37.913403",
   "version": "1.0"
 }

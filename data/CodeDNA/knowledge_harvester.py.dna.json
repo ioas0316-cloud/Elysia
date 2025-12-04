@@ -4,19 +4,19 @@
   "hash": "2a1ed1fa",
   "frequency": 184.3,
   "amplitude": 19.3,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.43,
   "functions": 3,
   "classes": 1,
   "imports": 5,
   "lines": 93,
   "connections": [
-    "sys",
     "json",
+    "tools",
     "os",
-    "pathlib",
-    "tools"
+    "sys",
+    "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:02.474696",
+  "extracted_at": "2025-12-05T02:18:28.443217",
   "version": "1.0"
 }

@@ -4,7 +4,7 @@
   "hash": "b7001d8b",
   "frequency": 369.8,
   "amplitude": 85.8,
-  "phase": "evolution",
+  "phase": "system",
   "wavelength": 2.7,
   "functions": 14,
   "classes": 2,
@@ -12,14 +12,14 @@
   "lines": 498,
   "connections": [
     "json",
-    "time",
-    "dataclasses",
+    "collections",
     "typing",
     "copy",
-    "collections",
+    "time",
+    "numpy",
     "pathlib",
-    "numpy"
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:08.169470",
+  "extracted_at": "2025-12-05T02:18:33.679226",
   "version": "1.0"
 }

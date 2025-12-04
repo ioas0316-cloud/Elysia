@@ -11,17 +11,17 @@
   "imports": 10,
   "lines": 255,
   "connections": [
-    "sys",
     "json",
-    "time",
     "pygame",
     "typing",
-    "os",
-    "argparse",
-    "numpy",
     "tools",
-    "Project_Sophia"
+    "argparse",
+    "os",
+    "Project_Sophia",
+    "time",
+    "sys",
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:02.237663",
+  "extracted_at": "2025-12-05T02:18:28.321030",
   "version": "1.0"
 }

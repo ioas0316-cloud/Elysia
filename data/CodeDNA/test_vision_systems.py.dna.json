@@ -4,17 +4,17 @@
   "hash": "05416947",
   "frequency": 425.6,
   "amplitude": 70.6,
-  "phase": "system",
+  "phase": "intelligence",
   "wavelength": 2.35,
   "functions": 21,
   "classes": 4,
   "imports": 3,
   "lines": 206,
   "connections": [
-    "numpy",
+    "Core",
     "unittest",
-    "Core"
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:12:57.300518",
+  "extracted_at": "2025-12-05T02:18:25.814357",
   "version": "1.0"
 }

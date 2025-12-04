@@ -4,7 +4,7 @@
   "hash": "87ebbe75",
   "frequency": 180.5,
   "amplitude": 15.5,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 5.54,
   "functions": 3,
   "classes": 1,
@@ -12,11 +12,11 @@
   "lines": 55,
   "connections": [
     "typing",
-    "infra",
     "requests",
     "os",
-    "Project_Sophia"
+    "Project_Sophia",
+    "infra"
   ],
-  "extracted_at": "2025-12-05T02:13:04.261921",
+  "extracted_at": "2025-12-05T02:18:29.899780",
   "version": "1.0"
 }

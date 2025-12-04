@@ -4,17 +4,17 @@
   "hash": "003bba61",
   "frequency": 183.5,
   "amplitude": 20.5,
-  "phase": "foundation",
+  "phase": "intelligence",
   "wavelength": 5.45,
   "functions": 4,
   "classes": 1,
   "imports": 3,
   "lines": 85,
   "connections": [
-    "numpy",
     "unittest",
-    "Project_Sophia"
+    "Project_Sophia",
+    "numpy"
   ],
-  "extracted_at": "2025-12-05T02:13:01.611080",
+  "extracted_at": "2025-12-05T02:18:27.848198",
   "version": "1.0"
 }

@@ -4,7 +4,7 @@
   "hash": "7eee6fec",
   "frequency": 361.5,
   "amplitude": 54.5,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 2.77,
   "functions": 13,
   "classes": 3,
@@ -12,17 +12,17 @@
   "lines": 165,
   "connections": [
     "json",
-    "__future__",
-    "time",
-    "dataclasses",
-    "typing",
     "scripts",
-    "shutil",
-    "os",
-    "pathlib",
+    "Project_Elysia",
+    "typing",
     "tools",
-    "Project_Elysia"
+    "os",
+    "time",
+    "shutil",
+    "pathlib",
+    "dataclasses",
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:12.253414",
+  "extracted_at": "2025-12-05T02:18:38.925383",
   "version": "1.0"
 }

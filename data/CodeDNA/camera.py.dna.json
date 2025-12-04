@@ -11,10 +11,10 @@
   "imports": 3,
   "lines": 36,
   "connections": [
+    "typing",
     "dataclasses",
-    "__future__",
-    "typing"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:04.166646",
+  "extracted_at": "2025-12-05T02:18:29.829121",
   "version": "1.0"
 }

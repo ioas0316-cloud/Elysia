@@ -12,10 +12,10 @@
   "lines": 45,
   "connections": [
     "pathlib",
-    "__future__",
+    "typing",
     "PIL",
-    "typing"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:12:58.253421",
+  "extracted_at": "2025-12-05T02:18:26.135028",
   "version": "1.0"
 }

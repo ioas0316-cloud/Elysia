@@ -11,10 +11,10 @@
   "imports": 3,
   "lines": 221,
   "connections": [
-    "networkx",
     "build_graph",
-    "collections"
+    "collections",
+    "networkx"
   ],
-  "extracted_at": "2025-12-05T02:13:02.727747",
+  "extracted_at": "2025-12-05T02:18:28.584153",
   "version": "1.0"
 }

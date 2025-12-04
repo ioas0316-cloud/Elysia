@@ -4,18 +4,18 @@
   "hash": "1fefe0cb",
   "frequency": 163.9,
   "amplitude": 11.9,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 6.1,
   "functions": 2,
   "classes": 1,
   "imports": 4,
   "lines": 39,
   "connections": [
+    "Core",
     "sys",
-    "typing",
     "os",
-    "Core"
+    "typing"
   ],
-  "extracted_at": "2025-12-05T02:13:11.618085",
+  "extracted_at": "2025-12-05T02:18:38.108990",
   "version": "1.0"
 }

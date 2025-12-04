@@ -4,19 +4,19 @@
   "hash": "f9c767df",
   "frequency": 151.7,
   "amplitude": 10.7,
-  "phase": "foundation",
+  "phase": "system",
   "wavelength": 6.59,
   "functions": 2,
   "classes": 0,
   "imports": 5,
   "lines": 67,
   "connections": [
-    "sys",
-    "random",
-    "os",
+    "argparse",
     "Core",
-    "argparse"
+    "os",
+    "sys",
+    "random"
   ],
-  "extracted_at": "2025-12-05T02:13:11.764294",
+  "extracted_at": "2025-12-05T02:18:38.243064",
   "version": "1.0"
 }

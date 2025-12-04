@@ -4,19 +4,19 @@
   "hash": "b47fbacd",
   "frequency": 214.4,
   "amplitude": 33.4,
-  "phase": "interface",
+  "phase": "foundation",
   "wavelength": 4.66,
   "functions": 3,
   "classes": 2,
   "imports": 5,
   "lines": 194,
   "connections": [
-    "dataclasses",
+    "Project_Elysia",
     "typing",
-    "dialogue_law_evaluator",
     "Project_Sophia",
-    "Project_Elysia"
+    "dialogue_law_evaluator",
+    "dataclasses"
   ],
-  "extracted_at": "2025-12-05T02:13:12.244354",
+  "extracted_at": "2025-12-05T02:18:38.914052",
   "version": "1.0"
 }

@@ -11,12 +11,12 @@
   "imports": 5,
   "lines": 141,
   "connections": [
-    "logging",
-    "pyautogui",
     "psutil",
+    "typing",
+    "logging",
     "time",
-    "typing"
+    "pyautogui"
   ],
-  "extracted_at": "2025-12-05T02:13:02.576776",
+  "extracted_at": "2025-12-05T02:18:28.502766",
   "version": "1.0"
 }

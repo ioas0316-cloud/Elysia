@@ -11,12 +11,12 @@
   "imports": 5,
   "lines": 340,
   "connections": [
-    "sys",
-    "asyncio",
     "traceback",
     "Core",
+    "sys",
+    "asyncio",
     "pathlib"
   ],
-  "extracted_at": "2025-12-05T02:13:05.644364",
+  "extracted_at": "2025-12-05T02:18:30.912888",
   "version": "1.0"
 }

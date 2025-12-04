@@ -12,9 +12,9 @@
   "lines": 63,
   "connections": [
     "PIL",
-    "os",
-    "pytesseract"
+    "pytesseract",
+    "os"
   ],
-  "extracted_at": "2025-12-05T02:13:00.210814",
+  "extracted_at": "2025-12-05T02:18:27.078589",
   "version": "1.0"
 }

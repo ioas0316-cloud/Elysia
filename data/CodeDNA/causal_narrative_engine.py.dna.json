@@ -4,7 +4,7 @@
   "hash": "aa0b1690",
   "frequency": 1000,
   "amplitude": 100,
-  "phase": "unknown",
+  "phase": "foundation",
   "wavelength": 1.0,
   "functions": 55,
   "classes": 15,
@@ -12,15 +12,15 @@
   "lines": 2065,
   "connections": [
     "enum",
+    "collections",
+    "typing",
     "logging",
-    "__future__",
     "time",
     "math",
+    "numpy",
     "dataclasses",
-    "typing",
-    "collections",
-    "numpy"
+    "__future__"
   ],
-  "extracted_at": "2025-12-05T02:13:04.635130",
+  "extracted_at": "2025-12-05T02:18:30.227775",
   "version": "1.0"
 }
