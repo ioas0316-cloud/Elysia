@@ -370,10 +370,14 @@ class StoryGenerator:
         # Act 2: Confrontation
         for i in range(3, num_points - 1):
             emotions = [EmotionType.TENSION, EmotionType.FEAR, EmotionType.HOPE]
+            # Sample characters safely
+            sample_size = min(2, len(characters))
+            selected_chars = random.sample(characters, sample_size) if len(characters) > 0 else []
+            
             plot_points.append(PlotPoint(
                 sequence=i,
                 event=f"Challenge {i-2}: Facing obstacles in the quest",
-                characters_involved=[c.name for c in random.sample(characters, 2)],
+                characters_involved=[c.name for c in selected_chars],
                 location=random.choice(world.locations)["name"],
                 emotional_tone=random.choice(emotions),
                 importance=0.6 + (i / num_points) * 0.3

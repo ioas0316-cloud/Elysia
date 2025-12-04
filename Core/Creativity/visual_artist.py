@@ -480,8 +480,16 @@ class VisualArtist:
             opacity = 0.9
         else:
             # Middle layers
-            elements = [concept.elements[layer_index % len(concept.elements)]] if concept.elements else ["form"]
-            colors = [palette.colors[layer_index % len(palette.colors)]] if palette.colors else []
+            if concept.elements:
+                elements = [concept.elements[layer_index % len(concept.elements)]]
+            else:
+                elements = ["form"]
+            
+            if palette.colors:
+                colors = [palette.colors[layer_index % len(palette.colors)]]
+            else:
+                colors = []
+            
             opacity = 0.7 + (layer_index * 0.1)
         
         return Layer(
