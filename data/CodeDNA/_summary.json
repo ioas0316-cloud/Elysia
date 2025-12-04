@@ -1,0 +1,24 @@
+{
+  "total_files": 1493,
+  "extracted_at": "2025-12-05T02:13:15.271633",
+  "version": "1.0",
+  "statistics": {
+    "avg_frequency": 194.27,
+    "max_frequency": 1000,
+    "avg_amplitude": 23.53,
+    "max_amplitude": 100,
+    "phase_distribution": {
+      "unknown": 371,
+      "foundation": 529,
+      "intelligence": 115,
+      "system": 145,
+      "interface": 144,
+      "creativity": 70,
+      "memory": 41,
+      "evolution": 78
+    },
+    "total_functions": 6471,
+    "total_classes": 1411,
+    "total_lines": 203159
+  }
+}
