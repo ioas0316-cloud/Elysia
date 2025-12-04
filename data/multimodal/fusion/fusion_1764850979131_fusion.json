@@ -1,0 +1,56 @@
+{
+  "timestamp": 1764850979.1318302,
+  "fusion_id": "fusion_1764850979131",
+  "modalities": [
+    "vision",
+    "audio"
+  ],
+  "strategy": "hybrid",
+  "contributions": [
+    {
+      "modality": "vision",
+      "confidence": 0.8967667685804454,
+      "weight": 0.5,
+      "key_insights": [
+        "1 objects detected",
+        "Scene: indoor"
+      ]
+    },
+    {
+      "modality": "audio",
+      "confidence": 0.6627122208902205,
+      "weight": 0.5,
+      "key_insights": [
+        "Audio type: speech",
+        "Emotion: calm"
+      ]
+    }
+  ],
+  "correspondences": [
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "temporal_sync",
+      "strength": 0.9,
+      "description": "Vision and audio temporally synchronized"
+    },
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "emotional_consistency",
+      "strength": 0.95,
+      "description": "Visual mood 'calm' and audio emotion 'calm'"
+    }
+  ],
+  "unified_description": "A calm indoor scene with natural lighting. featuring person. accompanied by calm speech. with strong cross-modal consistency.",
+  "unified_confidence": 1.0,
+  "processing_time": 0.000396728515625,
+  "insights": {
+    "modality_alignment": "high",
+    "dominant_modality": "vision",
+    "cross_modal_enhancements": [
+      "temporal_sync: Vision and audio temporally synchronized",
+      "emotional_consistency: Visual mood 'calm' and audio emotion 'calm'"
+    ]
+  }
+}

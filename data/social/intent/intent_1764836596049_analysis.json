@@ -1,0 +1,27 @@
+{
+  "user_input": "Can you help me understand async programming?",
+  "analysis": {
+    "primary_intent": {
+      "level": "explicit",
+      "category": "learning",
+      "confidence": 0.7,
+      "description": "Explicitly stated learning",
+      "evidence": [
+        "understand"
+      ]
+    },
+    "secondary_intents": [],
+    "implicit_needs": [
+      "clear explanations",
+      "practice opportunities"
+    ],
+    "emotional_context": {
+      "detected_emotions": {},
+      "overall_tone": "neutral",
+      "intensity": 0.0
+    },
+    "recommended_response_style": "educational_clear",
+    "confidence_score": 0.7
+  },
+  "timestamp": 1764836596.0498478
+}

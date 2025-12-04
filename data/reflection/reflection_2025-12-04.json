@@ -1,0 +1,49 @@
+{
+  "date": "2025-12-04",
+  "total_experiences": 3,
+  "strengths": [
+    {
+      "category": "thought_quality",
+      "score": 0.75,
+      "description": "Strong performance in thought_quality (score: 0.75)"
+    },
+    {
+      "category": "resonance_accuracy",
+      "score": 0.75,
+      "description": "Strong performance in resonance_accuracy (score: 0.75)"
+    },
+    {
+      "category": "user_satisfaction",
+      "score": 0.75,
+      "description": "Strong performance in user_satisfaction (score: 0.75)"
+    },
+    {
+      "category": "learning_efficiency",
+      "score": 0.75,
+      "description": "Strong performance in learning_efficiency (score: 0.75)"
+    },
+    {
+      "category": "error_handling",
+      "score": 0.75,
+      "description": "Strong performance in error_handling (score: 0.75)"
+    }
+  ],
+  "weaknesses": [],
+  "patterns": [],
+  "improvements": [],
+  "performance_summary": {
+    "total_interactions": 3,
+    "average_feedback": 0.75,
+    "feedback_std": 0.04082482904638629,
+    "positive_rate": 1.0,
+    "excellence_rate": 0.0
+  },
+  "improvement_plan": {
+    "created_at": "2025-12-04T11:06:26.994938",
+    "based_on_reflection": "2025-12-04",
+    "priority_areas": [],
+    "action_items": [],
+    "success_criteria": [],
+    "timeline": "1 week"
+  }
+}

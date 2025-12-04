@@ -1,0 +1,54 @@
+{
+  "timestamp": 1764851181.8144884,
+  "fusion_id": "fusion_1764851181814",
+  "modalities": [
+    "vision",
+    "audio"
+  ],
+  "strategy": "hybrid",
+  "contributions": [
+    {
+      "modality": "vision",
+      "confidence": 0.5,
+      "weight": 0.5,
+      "key_insights": [
+        "Scene: general"
+      ]
+    },
+    {
+      "modality": "audio",
+      "confidence": 0.6470970683513477,
+      "weight": 0.5,
+      "key_insights": [
+        "Audio type: mixed",
+        "Emotion: neutral"
+      ]
+    }
+  ],
+  "correspondences": [
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "temporal_sync",
+      "strength": 0.9,
+      "description": "Vision and audio temporally synchronized"
+    },
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "emotional_consistency",
+      "strength": 0.5,
+      "description": "Visual mood 'neutral' and audio emotion 'neutral'"
+    }
+  ],
+  "unified_description": "A neutral general scene with natural lighting. accompanied by neutral mixed. with strong cross-modal consistency.",
+  "unified_confidence": 0.8135485341756739,
+  "processing_time": 2.09808349609375e-05,
+  "insights": {
+    "modality_alignment": "high",
+    "dominant_modality": "audio",
+    "cross_modal_enhancements": [
+      "temporal_sync: Vision and audio temporally synchronized"
+    ]
+  }
+}

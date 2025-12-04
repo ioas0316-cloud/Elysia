@@ -1,0 +1,42 @@
+{
+  "timestamp": 1764851181.807405,
+  "image_id": "fusion_test_4",
+  "width": 1920,
+  "height": 1080,
+  "objects": [
+    {
+      "category": "person",
+      "label": "person",
+      "confidence": 0.8851862562516262,
+      "bbox": {
+        "x": 0.20814860699310994,
+        "y": 0.4509395791939196,
+        "width": 0.261099305298249,
+        "height": 0.26541559990901664,
+        "confidence": 0.9
+      },
+      "attributes": {}
+    }
+  ],
+  "scene": {
+    "primary_scene": "general",
+    "mood": "neutral",
+    "lighting": "natural",
+    "complexity": 0.1,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.6071265421994583,
+    "texture": 0.6473676469870954,
+    "symmetry": 0.22743833862395446,
+    "blur": 0.18141902545999872,
+    "brightness": 0.42062446695701056,
+    "contrast": 0.6889766305326135
+  },
+  "processing_time": 1.8596649169921875e-05,
+  "confidence": 0.8778675142582372
+}

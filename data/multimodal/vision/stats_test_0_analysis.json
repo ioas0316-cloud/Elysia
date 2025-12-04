@@ -1,0 +1,28 @@
+{
+  "timestamp": 1764851181.8107374,
+  "image_id": "stats_test_0",
+  "width": 1280,
+  "height": 720,
+  "objects": [],
+  "scene": {
+    "primary_scene": "general",
+    "mood": "neutral",
+    "lighting": "natural",
+    "complexity": 0.0,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.4296614007701346,
+    "texture": 0.6664475826469072,
+    "symmetry": 0.40515872972680284,
+    "blur": 0.13483528218404967,
+    "brightness": 0.7704432995129864,
+    "contrast": 0.7112263905110138
+  },
+  "processing_time": 1.2159347534179688e-05,
+  "confidence": 0.5
+}

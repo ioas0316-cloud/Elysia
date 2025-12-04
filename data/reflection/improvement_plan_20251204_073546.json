@@ -1,0 +1,52 @@
+{
+  "created_at": "2025-12-04T07:35:46.237828",
+  "based_on_reflection": "2025-12-04",
+  "priority_areas": [
+    {
+      "area": "thought_quality",
+      "current_score": 0.454,
+      "target_score": 0.654,
+      "importance": "medium"
+    },
+    {
+      "area": "resonance_accuracy",
+      "current_score": 0.454,
+      "target_score": 0.654,
+      "importance": "medium"
+    },
+    {
+      "area": "user_satisfaction",
+      "current_score": 0.454,
+      "target_score": 0.654,
+      "importance": "medium"
+    }
+  ],
+  "action_items": [
+    {
+      "action": "Practice multi-perspective thinking",
+      "frequency": "daily",
+      "duration": "15 minutes"
+    }
+  ],
+  "success_criteria": [
+    {
+      "metric": "thought_quality",
+      "current": 0.454,
+      "target": 0.654,
+      "measurement": "daily_average"
+    },
+    {
+      "metric": "resonance_accuracy",
+      "current": 0.454,
+      "target": 0.654,
+      "measurement": "daily_average"
+    },
+    {
+      "metric": "user_satisfaction",
+      "current": 0.454,
+      "target": 0.654,
+      "measurement": "daily_average"
+    }
+  ],
+  "timeline": "1 week"
+}

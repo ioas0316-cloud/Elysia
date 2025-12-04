@@ -1,0 +1,51 @@
+{
+  "timestamp": 1764851181.8032143,
+  "audio_id": "fusion_test_2",
+  "duration": 3.0,
+  "sample_rate": 44100,
+  "channels": 2,
+  "segments": [
+    {
+      "start_time": 0.0,
+      "end_time": 1.0,
+      "audio_type": "music",
+      "confidence": 0.85,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 1.0,
+      "end_time": 2.0,
+      "audio_type": "music",
+      "confidence": 0.9,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 2.0,
+      "end_time": 3.0,
+      "audio_type": "music",
+      "confidence": 0.95,
+      "transcription": null,
+      "attributes": {}
+    }
+  ],
+  "primary_type": "music",
+  "emotion_tone": "neutral",
+  "spectral": {
+    "fundamental_frequency": 331.6372255002317,
+    "spectral_centroid": 2575.3801716868693,
+    "spectral_rolloff": 3863.070257530304,
+    "spectral_flux": 0.22750381873110698,
+    "zero_crossing_rate": 0.3825816277299987
+  },
+  "temporal": {
+    "tempo": 133.8034094673776,
+    "rhythm_regularity": 0.9311330379814311,
+    "energy": 0.5225337812055357,
+    "dynamic_range": 0.8547744503813871,
+    "attack_time": 0.0629214172323409
+  },
+  "processing_time": 2.6941299438476562e-05,
+  "confidence": 0.7067483177667002
+}

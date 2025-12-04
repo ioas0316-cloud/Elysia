@@ -1,0 +1,42 @@
+{
+  "timestamp": 1764850979.1314611,
+  "image_id": "img_1764850979131",
+  "width": 1920,
+  "height": 1080,
+  "objects": [
+    {
+      "category": "person",
+      "label": "person",
+      "confidence": 0.9086695163823857,
+      "bbox": {
+        "x": 0.27746507275683974,
+        "y": 0.715625622945663,
+        "width": 0.21580252578189085,
+        "height": 0.12590300475861926,
+        "confidence": 0.9
+      },
+      "attributes": {}
+    }
+  ],
+  "scene": {
+    "primary_scene": "indoor",
+    "mood": "calm",
+    "lighting": "natural",
+    "complexity": 0.1,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.4699820824741474,
+    "texture": 0.303872440628652,
+    "symmetry": 0.38638485224769087,
+    "blur": 0.23449721624982692,
+    "brightness": 0.5942197085570261,
+    "contrast": 0.7901478037599654
+  },
+  "processing_time": 2.6702880859375e-05,
+  "confidence": 0.8967667685804454
+}
