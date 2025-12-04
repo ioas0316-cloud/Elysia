@@ -1,2 +1,0 @@
-C:\Elysia\tools\godot_bridge_server.py:71: DeprecationWarning: websockets.server.WebSocketServerProtocol is deprecated
-  from websockets.server import WebSocketServerProtocol
