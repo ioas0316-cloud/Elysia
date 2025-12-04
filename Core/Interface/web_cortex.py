@@ -100,3 +100,17 @@ class WebCortex:
         Simulates autonomous browsing (Placeholder).
         """
         pass
+
+    def fetch_url(self, url: str) -> str:
+        """
+        Fetches the content of a specific URL.
+        """
+        logger.info(f"🌐 Fetching URL: {url}")
+        try:
+            req = urllib.request.Request(url, headers={'User-Agent': 'Elysia/1.0 (AI Research Bot)'})
+            with urllib.request.urlopen(req) as response:
+                # Simple decoding, might need more robust charset handling
+                return response.read().decode('utf-8', errors='ignore')
+        except Exception as e:
+            logger.error(f"Fetch failed: {e}")
+            return f"⚠️ Fetch Error: {e}"

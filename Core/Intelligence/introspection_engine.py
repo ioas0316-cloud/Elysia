@@ -24,19 +24,30 @@ class IntrospectionEngine:
     
     def __init__(self, root_path: str = "c:\\Elysia"):
         self.root_path = root_path
-        self.ignore_dirs = {".git", "__pycache__", ".gemini", "venv", "env", ".vscode", "node_modules", "build", "dist", "Legacy"}
+        # Only analyze these top-level directories for now to ensure speed and relevance
+        self.target_dirs = {"Core", "scripts"}
+        self.ignore_dirs = {".git", "__pycache__", ".gemini", "venv", "env", ".vscode", "Legacy", "docs", "tests", "Tools", "Library", "data"}
         
     def analyze_self(self) -> Dict[str, ModuleResonance]:
         """
-        Recursively analyzes the entire project directory.
+        Recursively analyzes the target directories.
         Returns a map of {file_path: ModuleResonance}.
         """
         logger.info(f"🪞 Gazing into the Mirror (Self-Analysis) at {self.root_path}...")
         results = {}
         
         for root, dirs, files in os.walk(self.root_path):
-            # Modify dirs in-place to skip ignored directories
+            # Filter directories
             dirs[:] = [d for d in dirs if d not in self.ignore_dirs]
+            
+            # Check if we are in a target directory or its subdirectory
+            rel_path = os.path.relpath(root, self.root_path)
+            if rel_path == ".":
+                # At root, only enter target_dirs
+                dirs[:] = [d for d in dirs if d in self.target_dirs]
+                continue
+            
+            # If we are here, we are inside a target dir (or a subdir of it) due to the logic above
             
             for file in files:
                 if file.endswith(".py") and not file.startswith("__"):
@@ -47,7 +58,7 @@ class IntrospectionEngine:
                         continue
                         
                     try:
-                        logger.info(f"Analyzing: {file}") 
+                        # logger.info(f"Analyzing: {file}") 
                         resonance = self._analyze_file(full_path)
                         results[full_path] = resonance
                     except Exception as e:

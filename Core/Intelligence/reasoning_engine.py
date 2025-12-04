@@ -369,6 +369,11 @@ class ReasoningEngine:
             logger.info(f"{indent}  🪞 Explicit Introspection Request detected.")
             return self.analyze_self(desire)
 
+        # [The Tower of Babel Trigger]
+        if desire.startswith("LEARN_LANGUAGE:"):
+            logger.info(f"{indent}  🗼 Language Learning Request detected.")
+            return self.learn_language(desire)
+            
         try:
             # 🌱 Step 1: Decompose Desire into Fractal Seed
             from Core.Cognition.fractal_concept import ConceptDecomposer
@@ -923,6 +928,34 @@ class ReasoningEngine:
             logger.error(f"Genesis failed: {e}")
             return Insight(f"Genesis encountered an error: {e}", 0.0, 0, 0.0)
 
+    def learn_language(self, intent: str) -> Insight:
+        """
+        [The Tower of Babel]
+        Delegates language learning to the LanguageCenter.
+        """
+        if not hasattr(self, 'language_center'):
+            from Core.Intelligence.language_center import LanguageCenter
+            self.language_center = LanguageCenter()
+            
+        logger.info(f"🗼 Language Learning Requested: {intent}")
+        
+        try:
+            # Extract URL (e.g., "LEARN_LANGUAGE: https://example.com" -> "https://example.com")
+            url = intent.split(":", 1)[1].strip() if ":" in intent else intent
+            
+            # Learn
+            result = self.language_center.learn_from_url(url)
+            
+            return Insight(
+                content=result,
+                confidence=1.0,
+                depth=1,
+                energy=1.0
+            )
+        except Exception as e:
+            logger.error(f"Language learning failed: {e}")
+            return Insight(f"Language learning encountered an error: {e}", 0.0, 0, 0.0)
+
     def analyze_self(self, target: str) -> Insight:
         """
         [The Mirror]
@@ -930,34 +963,6 @@ class ReasoningEngine:
         """
         if not hasattr(self, 'introspection'):
             from Core.Intelligence.introspection_engine import IntrospectionEngine
-            self.introspection = IntrospectionEngine()
-            
-        logger.info(f"🪞 Introspection Requested: {target}")
-        
-        try:
-            if "self" in target.lower() or "core" in target.lower():
-                # Full Core Analysis
-                results = self.introspection.analyze_self()
-                report = self.introspection.generate_report(results)
-                
-                return Insight(
-                    content=report,
-                    confidence=1.0,
-                    depth=1,
-                    energy=0.8
-                )
-            else:
-                # Specific File Analysis (TODO)
-                return Insight("Specific file analysis not yet implemented.", 0.5, 0, 0.0)
-                
-        except Exception as e:
-            logger.error(f"Introspection failed: {e}")
-            return Insight(f"Introspection encountered an error: {e}", 0.0, 0, 0.0)
-
-    def _collapse_wave(self, desire: str, context: List[str], aligned_packet: HyperWavePacket = None) -> Insight:
-        """
-        모인 정보(context)를 바탕으로 하나의 통찰(Insight)로 응축합니다.
-        Uses the Aligned Packet to weight the insight.
         """
         if not context:
             return Insight(f"I have no relevant information for '{desire}'.", 0.1, 0, 0.1)
@@ -1354,46 +1359,7 @@ class ReasoningEngine:
             "content": serialized_content
         }
 
-    def evaluate_asi_status(self, resonance, social_level: int):
-        # Evaluates the current progress towards Artificial Super Intelligence (ASI).
-        energy = resonance.total_energy
-        coherence = resonance.coherence
-        
-        score = (energy * 0.3) + (coherence * 0.3) + (social_level * 0.4)
-        
-        status = "Seed"
-        if score > 50: status = "Sprout"
-        if score > 100: status = "Sapling"
-        if score > 500: status = "Tree"
-        if score > 1000: status = "World Tree"
-        
-        logger.info(f"⚖️ ASI Status Evaluation: Score={score:.1f} ({status}) | Energy={energy:.1f}, Coherence={coherence:.1f}, Lv.{social_level}")
-        # 3. Synthesize (Martial Manual Generation)
-        manual = self.imagination.generate_manual(thesis, antithesis)
-        
-        # 4. Formulate Thought
-        thought = f"I have contemplated '{topic}' by colliding it with '{antithesis}'.\n"
-        thought += f"This led to the creation of the **[{manual.name}]**.\n\n"
-        thought += f"**Philosophy**: {manual.philosophy}\n\n"
-        thought += "**Sequence (Cho-sik)**:\n"
-        
-        for stance in manual.stances:
-            thought += f"- **{stance.order}초식 ({stance.type})**: {stance.name}\n"
-            thought += f"  - *{stance.description}*\n"
-            
-        # 5. Learn it
-        self.memory.learn(
-            id=manual.name,
-            name=manual.name,
-            definition=manual.philosophy,
-            tags=["contemplation", "martial_art", "generated"],
-            frequency=500.0,
-            realm="Mind"
-        )
-        
-        return thought
-
-# Test execution if run directly
+    # Test execution if run directly
 if __name__ == "__main__":
     engine = ReasoningEngine()
     final_insight = engine.think("How do I make Father happy?")
