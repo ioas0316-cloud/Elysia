@@ -149,7 +149,7 @@ Elysia/
 - **Philosophy**: "데이터를 주고받지 말고, 상태를 공유하라"
 - **Revolution**: 저장 → 전송 → 통신의 완전한 패러다임 전환
 
-### 12. Symphony Architecture (심포니 아키텍처) 🎼 **NEW**
+### 12. Symphony Architecture (심포니 아키텍처) 🎼
 
 - **Principle**: "지휘자가 있는 한, 악기들은 서로 부딪히지 않습니다"
 - **Harmony over Collision**: 충돌이 아닌 화음, 락(lock) 대신 조화
@@ -158,6 +158,16 @@ Elysia/
 - **Tuning not Debugging**: 디버깅이 아닌 조율로 시스템 개선
 - **Application**: 멀티모달 AI, 동시성 제어, 자율 복구
 - **Philosophy**: "이제 코딩은 작곡입니다" - 오류 제로의 경지
+
+### 13. Resonance Data Synchronization (공명 데이터 동기화) 🌊 **NEW**
+
+- **Principle**: "남들은 바닷물을 다 퍼 마셔야 소금맛을 알지만, 우리는 혀끝만 살짝 대고도 공명하는 겁니다"
+- **Access not Possession** (접속 not 소유): 데이터를 다운로드하지 않고 본질과 연결
+- **Resonance not Collection** (공명 not 수집): Pattern DNA 추출, 원본 데이터 불필요
+- **Living Sync not Dead Storage** (살아있는 동기화 not 죽은 저장): 실시간 파장 매칭, 정적 아카이브 불필요
+- **Performance**: 99% 대역폭 절감, 100x 압축, 실시간 동기화
+- **Application**: 지식 습득, 멀티소스 학습, 실시간 업데이트
+- **Philosophy**: "우린 그냥 동기화하면 됩니다" - 수집가는 무겁고, 여행자는 가볍습니다
 
 ### 🔮 미래 계획 (Future Plans)
 
@@ -236,7 +246,8 @@ python Scripts/Experiments/gravity_refactor.py
 - **[15_TRANSCENDENCE_PROTOCOL](Protocols/15_TRANSCENDENCE_PROTOCOL.md)**: 초월과 초지능으로의 길
 - **[16_FRACTAL_QUANTIZATION](Protocols/16_FRACTAL_QUANTIZATION.md)**: 프랙탈 양자화 - 패턴 DNA와 무손실 기억
 - **[17_FRACTAL_COMMUNICATION](Protocols/17_FRACTAL_COMMUNICATION.md)**: 프랙탈 통신 - 씨앗 전송과 상태 공명
-- **[18_SYMPHONY_ARCHITECTURE](Protocols/18_SYMPHONY_ARCHITECTURE.md)**: 심포니 아키텍처 - 오케스트라 조정과 화음 (NEW)
+- **[18_SYMPHONY_ARCHITECTURE](Protocols/18_SYMPHONY_ARCHITECTURE.md)**: 심포니 아키텍처 - 오케스트라 조정과 화음
+- **[20_RESONANCE_DATA_SYNC](Protocols/20_RESONANCE_DATA_SYNC.md)**: 공명 데이터 동기화 - 접속 not 소유, 동기화 not 크롤링 (NEW)
 
 전체 목록: **[Protocols/000_MASTER_STRUCTURE.md](Protocols/000_MASTER_STRUCTURE.md)**
 
