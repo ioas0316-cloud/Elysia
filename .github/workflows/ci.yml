@@ -44,6 +44,16 @@ jobs:
       run: |
         python -m pytest tests/ -v --tb=short --ignore=tests/test_core_math.py || true
 
+    - name: Test new foundation modules
+      run: |
+        echo "Testing error handler..."
+        python Core/Foundation/error_handler.py
+        echo "Testing logger..."
+        python Core/Foundation/elysia_logger.py
+        echo "Testing config..."
+        python Core/Foundation/config.py
+        echo "✅ All foundation modules working"
+
   lint:
     runs-on: ubuntu-latest
     permissions:
@@ -101,9 +111,12 @@ jobs:
         # Verify key documentation files exist
         test -f README.md
         test -f CODEX.md
-        test -f SECURITY.md
-        test -f CODE_QUALITY.md
-        test -f TESTING.md
+        test -f docs/Manuals/SECURITY.md
+        test -f docs/Manuals/CODE_QUALITY.md
+        test -f docs/Manuals/TESTING.md
+        test -f docs/DEVELOPER_GUIDE.md
+        test -f IMPROVEMENT_RECOMMENDATIONS_2025.md
+        test -f SUMMARY.md
         echo "✅ All documentation files present"
     
     - name: Check .env.example exists
