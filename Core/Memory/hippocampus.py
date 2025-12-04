@@ -16,6 +16,7 @@ import json
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Memory.fractal_quantization import PatternDNA, EmotionQuantizer
 
 logger = logging.getLogger("Hippocampus")
 
@@ -42,7 +43,9 @@ class Hippocampus:
         self.db_path = db_path
         self._init_db()
         self._plant_divine_seeds() # Genesis Ritual
+        self.quantizer = EmotionQuantizer()  # Initialize fractal quantizer
         logger.info(f"🧠 Hippocampus Active. Connected to Ancient Library ({db_path}).")
+        logger.info(f"🌀 Fractal Quantization System loaded.")
 
     def _init_db(self):
         """데이터베이스 및 테이블 초기화 (Schema Upgrade)"""
@@ -406,4 +409,184 @@ class Hippocampus:
         except Exception as e:
             logger.error(f"Failed to recall wave: {e}")
             
+        return results
+    
+    # ====================
+    # Fractal Quantization System (프랙탈 양자화)
+    # ====================
+    
+    def store_pattern_dna(self, dna: PatternDNA):
+        """
+        Store a Pattern DNA (패턴 DNA 저장)
+        
+        Uses fractal quantization to store patterns as seeds, not raw data.
+        "음악을 저장하지 말고, 악보를 저장하라"
+        
+        Args:
+            dna: PatternDNA object to store
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                # Create pattern_dna table if not exists
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS pattern_dna (
+                        name TEXT PRIMARY KEY,
+                        pattern_type TEXT,
+                        data TEXT,
+                        compression_ratio REAL,
+                        created_at REAL
+                    )
+                """)
+                
+                # Serialize PatternDNA to JSON
+                data_json = json.dumps(dna.to_dict())
+                
+                cursor.execute("""
+                    INSERT OR REPLACE INTO pattern_dna (name, pattern_type, data, compression_ratio, created_at)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (
+                    dna.name,
+                    dna.metadata.get("pattern_type", "unknown"),
+                    data_json,
+                    dna.compression_ratio,
+                    time.time()
+                ))
+                
+                conn.commit()
+                logger.info(f"🌱 Pattern DNA Stored: {dna.name} (compression: {dna.compression_ratio:.2f}x)")
+        except Exception as e:
+            logger.error(f"Failed to store pattern DNA {dna.name}: {e}")
+    
+    def load_pattern_dna(self, name: str) -> Optional[PatternDNA]:
+        """
+        Load a Pattern DNA (패턴 DNA 로드)
+        
+        Args:
+            name: Pattern DNA name to load
+            
+        Returns:
+            PatternDNA or None if not found
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                cursor.execute("""
+                    SELECT data FROM pattern_dna WHERE name = ?
+                """, (name,))
+                
+                row = cursor.fetchone()
+                if row:
+                    data = json.loads(row[0])
+                    dna = PatternDNA.from_dict(data)
+                    logger.info(f"🧲 Pattern DNA Pulled: {dna.name}")
+                    return dna
+                else:
+                    return None
+        except Exception as e:
+            logger.error(f"Failed to load pattern DNA {name}: {e}")
+            return None
+    
+    def store_emotion_memory(self, emotion_data: Dict):
+        """
+        Store an emotion experience using fractal quantization.
+        
+        Instead of storing raw text, we store the pattern DNA.
+        This allows perfect re-experience later.
+        
+        Args:
+            emotion_data: {
+                "emotion": emotion name,
+                "intensity": 0.0-1.0,
+                "context": text description,
+                "duration": seconds,
+                ...
+            }
+        """
+        try:
+            # Fold emotion into Pattern DNA
+            dna = self.quantizer.fold_emotion(emotion_data)
+            
+            # Store the DNA
+            self.store_pattern_dna(dna)
+            
+            logger.info(f"💾 Emotion memory stored: {emotion_data.get('emotion')} (as Pattern DNA)")
+        except Exception as e:
+            logger.error(f"Failed to store emotion memory: {e}")
+    
+    def recall_emotion_memory(self, emotion_name: str, pattern_name: str = None) -> Optional[Dict]:
+        """
+        Recall an emotion experience by unfolding its Pattern DNA.
+        
+        This recreates the original emotional state perfectly.
+        
+        Args:
+            emotion_name: Name of the emotion
+            pattern_name: Optional specific pattern name (if multiple memories)
+            
+        Returns:
+            Restored emotion data or None
+        """
+        try:
+            # Construct pattern name
+            if pattern_name is None:
+                pattern_name = f"emotion.{emotion_name}"
+            
+            # Load the DNA
+            dna = self.load_pattern_dna(pattern_name)
+            if dna is None:
+                logger.warning(f"No pattern DNA found for {pattern_name}")
+                return None
+            
+            # Unfold to restore the experience
+            restored = self.quantizer.unfold_emotion(dna)
+            
+            logger.info(f"🌊 Emotion memory restored: {emotion_name} (re-experienced from Pattern DNA)")
+            return restored
+        except Exception as e:
+            logger.error(f"Failed to recall emotion memory: {e}")
+            return None
+    
+    def list_pattern_dnas(self, pattern_type: str = None) -> List[Dict]:
+        """
+        List all stored Pattern DNAs.
+        
+        Args:
+            pattern_type: Optional filter by type (emotion, intention, thought)
+            
+        Returns:
+            List of pattern info dicts
+        """
+        results = []
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                
+                if pattern_type:
+                    cursor.execute("""
+                        SELECT name, pattern_type, compression_ratio, created_at
+                        FROM pattern_dna
+                        WHERE pattern_type = ?
+                        ORDER BY created_at DESC
+                    """, (pattern_type,))
+                else:
+                    cursor.execute("""
+                        SELECT name, pattern_type, compression_ratio, created_at
+                        FROM pattern_dna
+                        ORDER BY created_at DESC
+                    """)
+                
+                rows = cursor.fetchall()
+                for row in rows:
+                    results.append({
+                        "name": row[0],
+                        "pattern_type": row[1],
+                        "compression_ratio": row[2],
+                        "created_at": row[3]
+                    })
+        except Exception as e:
+            logger.error(f"Failed to list pattern DNAs: {e}")
+        
         return results
