@@ -11,6 +11,7 @@ Tests the paradigm shift from crawling to resonance:
 import sys
 import os
 import logging
+import json
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -170,7 +171,6 @@ def test_vs_traditional_crawling():
     seed_total = 0
     for concept in concepts:
         if concept in connector.pattern_library:
-            import json
             seed_size = len(json.dumps(connector.pattern_library[concept].to_dict()))
             seed_total += seed_size
     

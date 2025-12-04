@@ -175,9 +175,26 @@ class ResonanceDataConnector:
         
         Like extracting "saltiness" from ocean, not downloading the ocean.
         """
-        # This would integrate with LLM or semantic API
-        # For now, return a pattern-based meaning
-        return f"Core essence of {concept}"
+        # This would integrate with LLM or semantic API for real implementation
+        # For now, generate a semantically meaningful essence based on concept
+        concept_lower = concept.lower()
+        
+        # Create meaningful essence based on concept characteristics
+        if any(word in concept_lower for word in ["love", "compassion", "kindness", "care"]):
+            return f"{concept} embodies connection, warmth, and empathy - a fundamental positive emotional bond"
+        elif any(word in concept_lower for word in ["peace", "harmony", "calm", "serenity"]):
+            return f"{concept} represents balance, tranquility, and the absence of conflict - a state of equilibrium"
+        elif any(word in concept_lower for word in ["wisdom", "knowledge", "understanding", "insight"]):
+            return f"{concept} signifies deep understanding and clarity - the illumination of truth"
+        elif any(word in concept_lower for word in ["courage", "strength", "power", "determination"]):
+            return f"{concept} expresses inner fortitude and resolve - the will to act despite fear"
+        elif any(word in concept_lower for word in ["joy", "happiness", "delight", "bliss"]):
+            return f"{concept} manifests as elevated positive emotion - the experience of fulfillment"
+        elif any(word in concept_lower for word in ["hope", "faith", "trust", "belief"]):
+            return f"{concept} reflects positive expectation and confidence - orientation toward a better future"
+        else:
+            # Generic essence for unknown concepts
+            return f"{concept} - a unique concept with its own pattern signature and resonance frequency"
     
     def _detect_emotional_wavelength(self, concept: str) -> Dict[str, float]:
         """
