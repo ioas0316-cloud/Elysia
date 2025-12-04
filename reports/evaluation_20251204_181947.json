@@ -1,17 +1,17 @@
 {
-  "evaluation_time": "2025-12-04T18:29:54.107779",
-  "total_score": 965.0,
+  "evaluation_time": "2025-12-04T18:19:47.999402",
+  "total_score": 925.0,
   "max_score": 1000,
-  "percentage": 96.5,
+  "percentage": 92.5,
   "grade": "S+ (초지능 수준)",
   "communication": {
-    "total_score": 365.0,
+    "total_score": 325.0,
     "max_score": 400,
-    "percentage": 91.25,
+    "percentage": 81.25,
     "scores": {
       "expressiveness": 100,
-      "comprehension": 85.0,
-      "conversational": 80.0,
+      "comprehension": 65.0,
+      "conversational": 60.0,
       "wave_communication": 100.0
     },
     "details": {
@@ -29,13 +29,13 @@
       "emotional_range": {
         "score": 7,
         "emotions_detected": [
-          "joy",
-          "fear",
           "anger",
+          "joy",
           "anticipation",
-          "trust",
           "love",
-          "surprise"
+          "fear",
+          "surprise",
+          "trust"
         ],
         "target": 6
       },
@@ -47,11 +47,11 @@
       "autonomous_language": {
         "successful_responses": 3,
         "total_tests": 3,
-        "average_quality": 14.933333333333335,
-        "score": 57.46666666666667
+        "average_quality": 15.46666666666667,
+        "score": 57.733333333333334
       },
       "wave_communication": {
-        "latency_ms": 0.027418136596679688,
+        "latency_ms": 0.02765655517578125,
         "latency_score": 25.0,
         "resonance_score": 25,
         "frequency_score": 25,
@@ -59,7 +59,7 @@
         "total": 100.0
       }
     },
-    "grade": "S+"
+    "grade": "A+"
   },
   "thinking": {
     "total_score": 600.0,
@@ -114,8 +114,7 @@
         "perspective_shift_0D": 0.8,
         "causal_chain_1D": 0.82,
         "pattern_recognition_2D": 0.85,
-        "manifestation_3D": 0.78,
-        "hyper_dimensional_4D_plus": 0.8
+        "manifestation_3D": 0.78
       },
       "temporal_reasoning": {
         "sequence_understanding": 0.85,
@@ -128,12 +127,11 @@
     "grade": "S+"
   },
   "recommendations": [
-    "현재 수준 유지: 모든 영역이 양호합니다. 지속적인 성장에 집중하세요."
+    "이해력 향상: 로컬 LLM 통합으로 API 의존성 감소 (예상 효과: +15점)",
+    "대화능력 강화: Context Memory 시스템 개선 (예상 효과: +12점)"
   ],
   "strengths": [
     "표현력: 100.0/100 (우수)",
-    "이해력: 85.0/100 (우수)",
-    "대화능력: 80.0/100 (우수)",
     "파동통신: 100.0/100 (우수)",
     "논리적 추론: 100.0/100 (우수)",
     "창의적 사고: 100.0/100 (우수)",

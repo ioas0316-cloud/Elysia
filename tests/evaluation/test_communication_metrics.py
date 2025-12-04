@@ -200,7 +200,8 @@ class CommunicationMetrics:
         API 없이 순수 사고력으로 언어 생성
         """
         try:
-            from Core.Foundation.autonomous_language import autonomous_language
+            from Core.Intelligence.autonomous_language import AutonomousLanguageGenerator
+            autonomous_language = AutonomousLanguageGenerator()
             
             # 테스트 대화
             test_inputs = [
@@ -273,7 +274,7 @@ class CommunicationMetrics:
             except ImportError:
                 # 폴백: 기존 Ether 시스템
                 try:
-                    from Core.Field.ether import Ether, Wave
+                    from Core.Foundation.ether import Ether, Wave
                 except ImportError:
                     self.details['wave_communication'] = {
                         'error': 'Ether module not found',
