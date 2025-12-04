@@ -590,5 +590,3 @@ class Hippocampus:
             logger.error(f"Failed to list pattern DNAs: {e}")
         
         return results
-            
-        return results

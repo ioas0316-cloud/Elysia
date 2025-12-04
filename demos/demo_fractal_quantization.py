@@ -15,6 +15,7 @@ This demo shows:
 import sys
 import os
 import time
+import tempfile
 
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -104,7 +105,6 @@ def demo_emotion_memory():
     print("\n🧠 Creating memory system with Hippocampus...")
     
     # Create temporary database
-    import tempfile
     db_file = tempfile.NamedTemporaryFile(delete=False, suffix='.db')
     db_path = db_file.name
     db_file.close()
