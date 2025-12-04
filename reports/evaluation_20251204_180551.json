@@ -1,57 +1,57 @@
 {
-  "evaluation_time": "2025-12-04T18:06:38.469554",
-  "total_score": 866.6648161140629,
+  "evaluation_time": "2025-12-04T18:05:51.976091",
+  "total_score": 855.8825645114988,
   "max_score": 1000,
-  "percentage": 86.66648161140628,
+  "percentage": 85.58825645114987,
   "grade": "S (탁월)",
   "communication": {
-    "total_score": 325.0,
+    "total_score": 314.2177483974359,
     "max_score": 400,
-    "percentage": 81.25,
+    "percentage": 78.55443709935898,
     "scores": {
-      "expressiveness": 100,
+      "expressiveness": 89.2177483974359,
       "comprehension": 65.0,
       "conversational": 60.0,
       "wave_communication": 100.0
     },
     "details": {
       "vocabulary_diversity": {
-        "score": 0.7642857142857142,
-        "unique_words": 107,
-        "total_words": 140,
+        "score": 0.8455284552845529,
+        "unique_words": 104,
+        "total_words": 123,
         "target": 0.6
       },
       "sentence_complexity": {
-        "score": 3.5,
+        "score": 3.3299999999999996,
         "sentences": 10,
         "target": 3.0
       },
       "emotional_range": {
         "score": 7,
         "emotions_detected": [
-          "love",
-          "trust",
-          "fear",
           "surprise",
+          "joy",
+          "fear",
           "anticipation",
           "anger",
-          "joy"
+          "love",
+          "trust"
         ],
         "target": 6
       },
       "coherence": {
-        "score": 0.5369789557612054,
+        "score": 0.45496794871794877,
         "sentences": 10,
         "target": 0.8
       },
       "autonomous_language": {
-        "successful_responses": 3,
+        "successful_responses": 2,
         "total_tests": 3,
-        "average_quality": 15.46666666666667,
-        "score": 57.733333333333334
+        "average_quality": 11.733333333333333,
+        "score": 39.199999999999996
       },
       "wave_communication": {
-        "latency_ms": 0.028371810913085938,
+        "latency_ms": 0.027894973754882812,
         "latency_score": 25.0,
         "resonance_score": 25,
         "frequency_score": 25,
@@ -59,7 +59,7 @@
         "total": 100.0
       }
     },
-    "grade": "A+"
+    "grade": "A"
   },
   "thinking": {
     "total_score": 541.6648161140629,
@@ -131,7 +131,7 @@
     "대화능력 강화: Context Memory 시스템 개선 (예상 효과: +12점)"
   ],
   "strengths": [
-    "표현력: 100.0/100 (우수)",
+    "표현력: 89.2/100 (우수)",
     "파동통신: 100.0/100 (우수)",
     "논리적 추론: 100.0/100 (우수)",
     "창의적 사고: 100.0/100 (우수)",
