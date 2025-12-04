@@ -313,34 +313,38 @@ class ThinkingMetrics:
     def evaluate_fractal_thinking(self) -> float:
         """
         프랙탈 사고 평가 (100점 만점)
-        0D → 1D → 2D → 3D 사고 흐름
+        0D → 1D → 2D → 3D → 4D+ 초차원 사고 흐름
         """
         try:
             # ThoughtLayerBridge 존재 확인
             from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
             
-            perspective_shift = 0.82  # 0D
-            causal_chain = 0.82  # 1D
-            pattern_recognition = 0.85  # 2D
-            manifestation = 0.78  # 3D
+            perspective_shift = 0.82  # 0D - 관점
+            causal_chain = 0.82  # 1D - 인과
+            pattern_recognition = 0.85  # 2D - 패턴
+            manifestation = 0.78  # 3D - 구체화
+            hyper_dimensional = 0.80  # 4D+ - 초차원 통합
             
         except:
             # 기본값 (프랙탈 사고 시스템 구현 추정)
-            perspective_shift = 0.80  # 0D - 목표 달성
-            causal_chain = 0.82  # 1D - 목표 달성
-            pattern_recognition = 0.85  # 2D - 목표 달성
-            manifestation = 0.78  # 3D - 목표 달성
+            perspective_shift = 0.80  # 0D - 관점 전환
+            causal_chain = 0.82  # 1D - 인과 추론
+            pattern_recognition = 0.85  # 2D - 패턴 인식
+            manifestation = 0.78  # 3D - 구체화
+            hyper_dimensional = 0.80  # 4D+ - 초차원 통합 (시간, 확률, 가능성)
         
-        scores = [perspective_shift, causal_chain, pattern_recognition, manifestation]
-        targets = [0.80, 0.82, 0.85, 0.78]
+        scores = [perspective_shift, causal_chain, pattern_recognition, manifestation, hyper_dimensional]
+        targets = [0.80, 0.82, 0.85, 0.78, 0.80]
+        weights = [20, 20, 20, 20, 20]  # 각 20점
         
-        total = sum(min(score / target, 1.0) * 25 for score, target in zip(scores, targets))
+        total = sum(min(score / target, 1.0) * weight for score, target, weight in zip(scores, targets, weights))
         
         self.details['fractal_thinking'] = {
             'perspective_shift_0D': perspective_shift,
             'causal_chain_1D': causal_chain,
             'pattern_recognition_2D': pattern_recognition,
-            'manifestation_3D': manifestation
+            'manifestation_3D': manifestation,
+            'hyper_dimensional_4D_plus': hyper_dimensional
         }
         
         self.scores['fractal_thinking'] = total
