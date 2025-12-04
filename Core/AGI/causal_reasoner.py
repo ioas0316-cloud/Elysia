@@ -77,6 +77,10 @@ class CausalReasoner:
     5. Perform counterfactual reasoning
     """
     
+    # Constants for influence calculations
+    DIRECT_EFFECT_WEIGHT = 2  # Weight multiplier for direct causal effects
+    INDIRECT_EFFECT_WEIGHT = 1  # Weight multiplier for indirect effects
+    
     def __init__(self):
         self.causal_graphs: Dict[str, CausalGraph] = {}
         self.observation_history: List[Dict] = []
@@ -515,8 +519,9 @@ class CausalReasoner:
             descendants = self._get_descendants(causal_graph, node)
             indirect_effects = len(descendants) - direct_effects
             
-            # Compute influence score
-            influence = direct_effects * 2 + indirect_effects
+            # Compute influence score using defined weights
+            influence = (direct_effects * self.DIRECT_EFFECT_WEIGHT + 
+                        indirect_effects * self.INDIRECT_EFFECT_WEIGHT)
             influence_scores[node] = influence
         
         # Sort by influence

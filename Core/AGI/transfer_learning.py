@@ -513,6 +513,8 @@ class UniversalTransferLearner:
     
     def get_domain_proficiency(self, domain: str) -> float:
         """Get proficiency level for a domain"""
+        if not domain:
+            return 0.0
         if domain in self.domain_knowledge:
             return self.domain_knowledge[domain].proficiency
         return 0.0
