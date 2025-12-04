@@ -1,323 +1,284 @@
 """
-Phase 7 Demo: Collective Intelligence Network and Knowledge Sharing
+Phase 7 Demo: Collective Intelligence Network
 
-Demonstrates multi-instance collaboration capabilities:
-- Network node registration and management
-- Collaborative task distribution
-- Knowledge sharing across nodes
-- Dynamic role assignment
-- Trust and quality scoring
+Demonstrates:
+1. Multi-node collaboration
+2. Knowledge sharing and validation
+3. Role specialization and load balancing
+4. Integrated network intelligence
 """
 
 import asyncio
-import time
 from Core.Network import (
-    CollectiveIntelligence,
-    NetworkNode,
-    NodeRole,
-    KnowledgeSharer,
-    KnowledgeType,
+    ElysiaNode, ElysiaNetwork, KnowledgeSync, 
+    SpecializationManager, Discovery, Role
 )
 
 
-async def demo_collective_intelligence():
-    """Demonstrate collective intelligence network."""
-    print("\n" + "=" * 60)
-    print("🌐 COLLECTIVE INTELLIGENCE NETWORK DEMO")
-    print("=" * 60 + "\n")
+async def demo_1_network_collaboration():
+    """Demo 1: Multi-node collaborative problem solving."""
+    print("\n" + "="*70)
+    print("DEMO 1: Multi-Node Collaborative Problem Solving")
+    print("="*70)
     
-    # Create network
-    network = CollectiveIntelligence()
-    print(f"✅ Network initialized with node ID: {network.node_id[:8]}...")
+    # Create a network with different specialized nodes
+    network = ElysiaNetwork(topology="mesh")
     
-    # Register additional nodes
-    print("\n📋 Registering network nodes...")
-    
+    # Create nodes with different specializations
     nodes = [
-        NetworkNode(
-            role=NodeRole.SPECIALIST,
-            specialization="pattern_recognition",
-            capabilities=["thinking", "learning", "pattern_analysis"],
-            quality_score=0.85
-        ),
-        NetworkNode(
-            role=NodeRole.SPECIALIST,
-            specialization="creativity",
-            capabilities=["thinking", "creative_synthesis"],
-            quality_score=0.80
-        ),
-        NetworkNode(
-            role=NodeRole.GENERALIST,
-            capabilities=["thinking", "learning", "reflection", "problem_solving"],
-            quality_score=0.75
-        ),
-        NetworkNode(
-            role=NodeRole.VALIDATOR,
-            capabilities=["validation", "quality_control"],
-            quality_score=0.78
-        ),
+        ElysiaNode(specialization="logic"),
+        ElysiaNode(specialization="creativity"),
+        ElysiaNode(specialization="emotion"),
+        ElysiaNode(specialization="pattern"),
+        ElysiaNode(specialization="integration")
     ]
     
+    # Add all nodes to network
     for node in nodes:
-        network.register_node(node)
-        print(f"  ✓ Registered {node.role.value} node: {node.node_id[:8]}...")
+        network.add_node(node)
     
-    # Create collaborative task
-    print("\n🎯 Creating collaborative task...")
-    task = await network.create_task(
-        description="Analyze complex problem requiring multiple perspectives",
-        required_capabilities=["thinking", "learning"],
-        priority=0.8
-    )
+    print(f"\nCreated network with {len(nodes)} specialized nodes")
+    print(f"Topology: {network.topology}")
     
-    print(f"  Task ID: {task.task_id[:8]}...")
-    print(f"  Assigned to {len(task.assigned_nodes)} nodes")
-    print(f"  Status: {task.status}")
+    # Test collaborative problem solving
+    problem = "Design an AI system that is both logical, creative, and emotionally intelligent"
     
-    # Distribute task
-    print("\n⚙️ Distributing task to network...")
-    results = await network.distribute_task(task)
+    print(f"\n📝 Problem: {problem}")
+    print("\nSolving collaboratively...")
     
-    print(f"  Collected {len(results)} results:")
-    for node_id, result in results.items():
-        print(f"    • {result['role']}: quality={result['quality']:.2f}, confidence={result['confidence']:.2f}")
+    solution = await network.collaborative_problem_solving(problem)
     
-    # Aggregate results
-    print("\n🔄 Aggregating results...")
-    consensus = await network.aggregate_results(task)
-    
-    print(f"  Contributors: {consensus['num_contributors']}")
-    print(f"  Average Quality: {consensus['average_quality']:.3f}")
-    print(f"  Average Confidence: {consensus['average_confidence']:.3f}")
-    print(f"  Consensus Reached: {consensus['consensus_reached']}")
-    
-    # Update trust scores
-    print("\n⭐ Updating trust scores based on performance...")
-    for node_id, result in results.items():
-        feedback = result['quality']
-        network.update_node_trust(node_id, feedback)
-        print(f"  Updated trust for {node_id[:8]}... → feedback={feedback:.2f}")
-    
-    # Rebalance network
-    print("\n🔄 Rebalancing network roles...")
-    network.rebalance_network()
-    
-    # Get statistics
-    print("\n📊 Network Statistics:")
-    stats = network.get_network_stats()
-    print(f"  Total Nodes: {stats['total_nodes']}")
-    print(f"  Active Nodes: {stats['active_nodes']}")
-    print(f"  Tasks Completed: {stats['tasks_completed']}")
-    print(f"  Average Quality: {stats['average_quality']:.3f}")
-    print(f"\n  Role Distribution:")
-    for role, count in stats['role_distribution'].items():
-        print(f"    • {role}: {count}")
+    print(f"\n✅ Integrated Solution:")
+    print(f"   {solution['integrated_solution']}")
+    print(f"\n📊 Metrics:")
+    print(f"   Confidence: {solution['confidence']:.2f}")
+    print(f"   Contributors: {solution['num_perspectives']} nodes")
+    print(f"   Processing Time: {solution['processing_time']:.3f}s")
+    print(f"   Subproblems: {len(solution['subproblems'])}")
     
     return network
 
 
-async def demo_knowledge_sharing(network):
-    """Demonstrate knowledge sharing across nodes."""
-    print("\n" + "=" * 60)
-    print("📚 KNOWLEDGE SHARING DEMO")
-    print("=" * 60 + "\n")
+async def demo_2_knowledge_sharing():
+    """Demo 2: Knowledge sharing and validation across network."""
+    print("\n" + "="*70)
+    print("DEMO 2: Knowledge Sharing and Validation")
+    print("="*70)
     
-    # Create knowledge sharers for each node
-    sharers = {}
+    # Create knowledge sync system
+    knowledge_sync = KnowledgeSync()
     
-    print("📋 Initializing knowledge sharers for all nodes...")
-    for node_id in network.nodes.keys():
-        sharer = KnowledgeSharer(node_id=node_id)
-        sharers[node_id] = sharer
-        print(f"  ✓ Sharer initialized for node: {node_id[:8]}...")
+    # Create some validator nodes
+    validators = [
+        ElysiaNode(specialization="logic"),
+        ElysiaNode(specialization="pattern"),
+        ElysiaNode(specialization="knowledge")
+    ]
     
-    # Share knowledge from different nodes
-    print("\n📤 Sharing knowledge across network...")
+    # Create discoveries to share
+    discoveries = [
+        Discovery(
+            content={"insight": "Combining logic and creativity leads to innovation"},
+            source_node_id=validators[0].node_id,
+            confidence=0.8,
+            category="insight"
+        ),
+        Discovery(
+            content={"pattern": "High emotional intelligence correlates with better collaboration"},
+            source_node_id=validators[1].node_id,
+            confidence=0.75,
+            category="pattern"
+        ),
+        Discovery(
+            content={"best_practice": "Always validate knowledge through multiple perspectives"},
+            source_node_id=validators[2].node_id,
+            confidence=0.9,
+            category="best_practice"
+        )
+    ]
     
-    # Node 1 shares a pattern
-    sharer1 = list(sharers.values())[0]
-    knowledge1 = sharer1.share_knowledge(
-        knowledge_type=KnowledgeType.PATTERN,
-        content={
-            "pattern_name": "efficient_problem_solving",
-            "description": "Break complex problems into smaller parts",
-            "success_rate": 0.87
-        },
-        tags=["problem_solving", "efficiency"],
-        quality_score=0.87
-    )
-    print(f"  ✓ Node 1 shared PATTERN: efficient_problem_solving")
+    print(f"\nSharing {len(discoveries)} discoveries with validation...")
     
-    # Node 2 shares best practice
-    sharer2 = list(sharers.values())[1]
-    knowledge2 = sharer2.share_knowledge(
-        knowledge_type=KnowledgeType.BEST_PRACTICE,
-        content={
-            "practice_name": "collaborative_validation",
-            "description": "Validate results with multiple nodes",
-            "usage_count": 15
-        },
-        tags=["collaboration", "quality"],
-        quality_score=0.92
-    )
-    print(f"  ✓ Node 2 shared BEST_PRACTICE: collaborative_validation")
+    # Share each discovery
+    for i, discovery in enumerate(discoveries, 1):
+        print(f"\n📤 Discovery {i}: {discovery.category}")
+        print(f"   Content: {list(discovery.content.values())[0]}")
+        print(f"   Initial Confidence: {discovery.confidence:.2f}")
+        
+        # Share and validate
+        accepted = await knowledge_sync.share_discovery(discovery, validators)
+        
+        if accepted:
+            print(f"   ✅ Accepted after validation")
+            print(f"   Validations: {len(discovery.validations)}")
+            final_confidence = knowledge_sync.evaluate_confidence(discovery)
+            print(f"   Final Confidence: {final_confidence:.2f}")
+        else:
+            print(f"   ❌ Rejected - did not meet consensus threshold")
     
-    # Node 3 shares insight
-    sharer3 = list(sharers.values())[2]
-    knowledge3 = sharer3.share_knowledge(
-        knowledge_type=KnowledgeType.INSIGHT,
-        content={
-            "insight": "Diverse perspectives improve solution quality",
-            "evidence": "Measured 23% quality improvement",
-        },
-        tags=["diversity", "quality"],
-        quality_score=0.85
-    )
-    print(f"  ✓ Node 3 shared INSIGHT: diversity benefits")
+    # Show knowledge stats
+    stats = knowledge_sync.get_stats()
+    print(f"\n📊 Knowledge Base Stats:")
+    print(f"   Total Shared Knowledge: {stats['total_knowledge']}")
+    print(f"   By Category: {stats['by_category']}")
+    print(f"   Average Confidence: {stats['avg_confidence']:.2f}")
     
-    # Simulate knowledge propagation
-    print("\n🔄 Propagating knowledge across network...")
-    for sharer in list(sharers.values())[1:]:
-        if sharer.receive_knowledge(knowledge1):
-            print(f"  ✓ Node {sharer.node_id[:8]}... received pattern")
-    
-    # Query knowledge
-    print("\n🔍 Querying knowledge base...")
-    results = sharer1.query_knowledge(
-        min_quality=0.7,
-        max_age_days=1
-    )
-    print(f"  Found {len(results)} high-quality knowledge items")
-    
-    # Validate knowledge
-    print("\n✅ Validating knowledge...")
-    sharer1.use_knowledge(knowledge1.knowledge_id)
-    sharer1.validate_knowledge(knowledge1.knowledge_id, is_useful=True)
-    knowledge1.usage_count += 2  # Simulate usage
-    knowledge1.usage_count += 1
-    print(f"  Pattern usage count: {knowledge1.usage_count}")
-    print(f"  Updated quality score: {knowledge1.quality_score:.3f}")
-    
-    # Find best practices
-    print("\n🏆 Finding best practices...")
-    context = {"task": "problem solving", "type": "collaborative"}
-    best_practices = sharer2.find_best_practices(context, min_usage=1, min_quality=0.8)
-    print(f"  Found {len(best_practices)} relevant best practices")
-    for bp in best_practices:
-        print(f"    • {bp.content.get('practice_name', 'Unknown')}: quality={bp.quality_score:.2f}")
-    
-    # Get statistics
-    print("\n📊 Knowledge Sharing Statistics:")
-    for i, sharer in enumerate(list(sharers.values())[:3], 1):
-        stats = sharer.get_statistics()
-        print(f"\n  Node {i}:")
-        print(f"    Total Shared: {stats['total_shared']}")
-        print(f"    Total Received: {stats['total_received']}")
-        print(f"    Total Knowledge: {stats['total_knowledge']}")
-        print(f"    Average Quality: {stats['current_average_quality']:.3f}")
-    
-    return sharers
+    return knowledge_sync
 
 
-async def demo_integrated_collaboration():
-    """Demonstrate integrated collaboration with learning."""
-    print("\n" + "=" * 60)
-    print("🤝 INTEGRATED COLLABORATION DEMO")
-    print("=" * 60 + "\n")
+async def demo_3_role_specialization():
+    """Demo 3: Dynamic role assignment and load balancing."""
+    print("\n" + "="*70)
+    print("DEMO 3: Role Specialization and Load Balancing")
+    print("="*70)
     
-    network = CollectiveIntelligence()
+    # Create specialization manager
+    spec_manager = SpecializationManager()
     
-    # Create task requiring multiple capabilities
-    print("🎯 Creating multi-capability task...")
-    task = await network.create_task(
-        description="Design creative solution with quality validation",
-        required_capabilities=["thinking", "creative_synthesis", "validation"],
-        priority=0.9
+    # Create nodes with varied strengths
+    nodes = [
+        ElysiaNode(specialization="logic"),
+        ElysiaNode(specialization="creativity"),
+        ElysiaNode(specialization="emotion"),
+        ElysiaNode(specialization="pattern"),
+        ElysiaNode(specialization="knowledge"),
+        ElysiaNode(specialization="integration")
+    ]
+    
+    print(f"\nCreated {len(nodes)} nodes with different specializations")
+    
+    # Assign roles based on strengths
+    print("\n🎯 Assigning roles based on node strengths...")
+    spec_manager.assign_roles(nodes)
+    
+    print("\n📋 Role Assignments:")
+    for node in nodes:
+        role = spec_manager.get_node_role(node)
+        if role:
+            print(f"   Node ({node.specialization}): {role.value}")
+    
+    # Show distribution
+    distribution = spec_manager.get_role_distribution()
+    print(f"\n📊 Role Distribution:")
+    for role_name, count in distribution.items():
+        if count > 0:
+            print(f"   {role_name}: {count} node(s)")
+    
+    # Check if balanced
+    is_balanced = spec_manager.is_balanced()
+    print(f"\n⚖️  Network Balance: {'✅ Balanced' if is_balanced else '❌ Needs Rebalancing'}")
+    
+    # Simulate load and rebalance
+    print("\n🔄 Simulating load increase and rebalancing...")
+    
+    # Artificially increase load on one role
+    spec_manager.role_loads[Role.LOGIC_VALIDATOR] = 15  # Over threshold
+    
+    print(f"   Overloaded roles: {[r.value for r in spec_manager.identify_overloaded_roles()]}")
+    
+    # Rebalance
+    await spec_manager.dynamic_rebalancing(nodes)
+    
+    print(f"   ✅ Rebalancing complete")
+    print(f"   New balance status: {'✅ Balanced' if spec_manager.is_balanced() else '❌ Still unbalanced'}")
+    
+    return spec_manager
+
+
+async def demo_4_integrated_network():
+    """Demo 4: Integrated network with all systems working together."""
+    print("\n" + "="*70)
+    print("DEMO 4: Integrated Collective Intelligence Network")
+    print("="*70)
+    
+    # Create integrated network with all components
+    network = ElysiaNetwork(topology="mesh")
+    knowledge_sync = KnowledgeSync()
+    spec_manager = SpecializationManager()
+    
+    # Create diverse node network
+    nodes = [
+        ElysiaNode(specialization="logic"),
+        ElysiaNode(specialization="creativity"),
+        ElysiaNode(specialization="emotion"),
+        ElysiaNode(specialization="pattern"),
+        ElysiaNode(specialization="knowledge"),
+        ElysiaNode(specialization="integration")
+    ]
+    
+    # Add nodes to network
+    for node in nodes:
+        network.add_node(node)
+    
+    # Assign specialized roles
+    spec_manager.assign_roles(nodes)
+    
+    print(f"\n🌐 Integrated Network Status:")
+    net_status = network.get_network_status()
+    print(f"   Nodes: {net_status['num_nodes']}")
+    print(f"   Topology: {net_status['topology']}")
+    print(f"   Specializations: {net_status['specializations']}")
+    
+    # Complex multi-faceted problem
+    complex_problem = """
+    Create a system that can learn from experiences, generate creative solutions,
+    understand emotions, recognize patterns, and integrate all these capabilities
+    """
+    
+    print(f"\n🎯 Complex Problem:")
+    print(f"   {complex_problem.strip()}")
+    
+    # Solve collaboratively
+    print("\n💡 Solving with full network collaboration...")
+    solution = await network.collaborative_problem_solving(complex_problem)
+    
+    print(f"\n✅ Solution:")
+    print(f"   {solution['integrated_solution']}")
+    print(f"\n📊 Solution Metrics:")
+    print(f"   Confidence: {solution['confidence']:.2f}")
+    print(f"   Perspectives: {solution['num_perspectives']}")
+    print(f"   Processing Time: {solution['processing_time']:.3f}s")
+    
+    # Extract insights as discoveries
+    print("\n📚 Extracting insights as shared knowledge...")
+    discovery = Discovery(
+        content={"solution": solution['integrated_solution']},
+        source_node_id="integrated_network",
+        confidence=solution['confidence'],
+        category="insight"
     )
     
-    # Add specialized nodes
-    creative_node = NetworkNode(
-        role=NodeRole.SPECIALIST,
-        specialization="creativity",
-        capabilities=["thinking", "creative_synthesis"],
-        quality_score=0.88
-    )
+    # Share with network
+    accepted = await knowledge_sync.share_discovery(discovery, nodes[:3])
     
-    validator_node = NetworkNode(
-        role=NodeRole.VALIDATOR,
-        capabilities=["thinking", "validation"],
-        quality_score=0.82
-    )
+    if accepted:
+        print(f"   ✅ Solution validated and added to collective knowledge")
     
-    network.register_node(creative_node)
-    network.register_node(validator_node)
+    # Final stats
+    print(f"\n📈 Final Network Statistics:")
+    print(f"   Problems Solved: {net_status['total_problems_solved']}")
+    print(f"   Shared Knowledge Items: {knowledge_sync.get_stats()['total_knowledge']}")
+    print(f"   Role Balance: {spec_manager.is_balanced()}")
     
-    print(f"  ✓ Specialized nodes added")
-    print(f"  ✓ Task assigned to {len(task.assigned_nodes)} capable nodes")
-    
-    # Execute collaborative workflow
-    print("\n⚙️ Executing collaborative workflow...")
-    results = await network.distribute_task(task)
-    
-    print(f"  Step 1: Creative node generated solution (quality: {results.get(creative_node.node_id, {}).get('quality', 0):.2f})")
-    print(f"  Step 2: Validator node verified solution (quality: {results.get(validator_node.node_id, {}).get('quality', 0):.2f})")
-    
-    # Aggregate and reach consensus
-    consensus = await network.aggregate_results(task)
-    if "error" in consensus:
-        print(f"\n  ⚠️ No results to aggregate (nodes need matching capabilities)")
-        consensus = {"average_quality": 0.7, "average_confidence": 0.7}  # Default
-    else:
-        print(f"\n  ✅ Consensus reached with {consensus.get('average_confidence', 0.7):.1%} confidence")
-    
-    # Share learned knowledge
-    sharer = KnowledgeSharer(node_id=network.node_id)
-    learned_knowledge = sharer.share_knowledge(
-        knowledge_type=KnowledgeType.INSIGHT,
-        content={
-            "finding": "Creative-validator collaboration improves output quality",
-            "quality_improvement": consensus['average_quality']
-        },
-        tags=["collaboration", "creativity", "validation"],
-        quality_score=consensus['average_quality']
-    )
-    
-    print(f"  📚 Shared learning: {learned_knowledge.content['finding']}")
-    
-    return network, sharer
+    print("\n✨ Collective intelligence network demonstration complete!")
 
 
 async def main():
-    """Run all demos."""
-    print("\n🚀 Starting Phase 7: Collective Intelligence Network Demo\n")
+    """Run all Phase 7 demonstrations."""
+    print("\n" + "="*70)
+    print("PHASE 7: COLLECTIVE INTELLIGENCE NETWORK - COMPREHENSIVE DEMO")
+    print("Demonstrating multi-instance collaboration and knowledge sharing")
+    print("="*70)
     
-    # Demo 1: Collective Intelligence
-    network = await demo_collective_intelligence()
+    # Run all demos
+    await demo_1_network_collaboration()
+    await demo_2_knowledge_sharing()
+    await demo_3_role_specialization()
+    await demo_4_integrated_network()
     
-    # Demo 2: Knowledge Sharing
-    sharers = await demo_knowledge_sharing(network)
-    
-    # Demo 3: Integrated Collaboration
-    await demo_integrated_collaboration()
-    
-    print("\n" + "=" * 60)
-    print("✅ ALL DEMOS COMPLETED SUCCESSFULLY!")
-    print("=" * 60)
-    
-    print("\n📈 Summary:")
-    print(f"  • {network.stats['total_nodes']} nodes in network")
-    print(f"  • {network.stats['tasks_completed']} collaborative tasks completed")
-    print(f"  • {sum(s.stats['total_shared'] for s in sharers.values())} knowledge items shared")
-    print(f"  • Network quality: {network.stats['average_quality']:.1%}")
-    
-    print("\n💡 Key Achievements:")
-    print("  ✓ Multi-node collaboration working")
-    print("  ✓ Knowledge sharing across network")
-    print("  ✓ Dynamic role assignment")
-    print("  ✓ Trust-based consensus")
-    print("  ✓ Integrated learning and sharing")
-    
-    print("\n🌐 Elysia network is operational and collaborative! 🎉\n")
+    print("\n" + "="*70)
+    print("ALL PHASE 7 DEMONSTRATIONS COMPLETE ✅")
+    print("="*70)
 
 
 if __name__ == "__main__":

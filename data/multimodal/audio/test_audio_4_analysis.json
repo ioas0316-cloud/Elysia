@@ -1,0 +1,51 @@
+{
+  "timestamp": 1764851181.7998927,
+  "audio_id": "test_audio_4",
+  "duration": 10.0,
+  "sample_rate": 44100,
+  "channels": 2,
+  "segments": [
+    {
+      "start_time": 0.0,
+      "end_time": 3.3333333333333335,
+      "audio_type": "music",
+      "confidence": 0.85,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 3.3333333333333335,
+      "end_time": 6.666666666666667,
+      "audio_type": "music",
+      "confidence": 0.9,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 6.666666666666667,
+      "end_time": 10.0,
+      "audio_type": "music",
+      "confidence": 0.95,
+      "transcription": null,
+      "attributes": {}
+    }
+  ],
+  "primary_type": "music",
+  "emotion_tone": "neutral",
+  "spectral": {
+    "fundamental_frequency": 338.3059128712318,
+    "spectral_centroid": 2668.0788943522844,
+    "spectral_rolloff": 4002.1183415284268,
+    "spectral_flux": 0.37071790477423106,
+    "zero_crossing_rate": 0.11589598405389978
+  },
+  "temporal": {
+    "tempo": 130.89245338799932,
+    "rhythm_regularity": 0.9020122822794632,
+    "energy": 0.44005467323581654,
+    "dynamic_range": 0.8085541972938972,
+    "attack_time": 0.01095169124821932
+  },
+  "processing_time": 2.5987625122070312e-05,
+  "confidence": 0.6830141681373372
+}

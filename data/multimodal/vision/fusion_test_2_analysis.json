@@ -1,0 +1,28 @@
+{
+  "timestamp": 1764851181.8030384,
+  "image_id": "fusion_test_2",
+  "width": 1280,
+  "height": 720,
+  "objects": [],
+  "scene": {
+    "primary_scene": "general",
+    "mood": "neutral",
+    "lighting": "natural",
+    "complexity": 0.0,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.565314708037096,
+    "texture": 0.4444241321786463,
+    "symmetry": 0.5136639668675329,
+    "blur": 0.2582325275904904,
+    "brightness": 0.5121778298611838,
+    "contrast": 0.5646016569619512
+  },
+  "processing_time": 1.1920928955078125e-05,
+  "confidence": 0.5
+}

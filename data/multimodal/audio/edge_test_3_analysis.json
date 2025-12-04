@@ -1,0 +1,51 @@
+{
+  "timestamp": 1764851181.818379,
+  "audio_id": "edge_test_3",
+  "duration": 3.0,
+  "sample_rate": 44100,
+  "channels": 2,
+  "segments": [
+    {
+      "start_time": 0.0,
+      "end_time": 1.0,
+      "audio_type": "music",
+      "confidence": 0.85,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 1.0,
+      "end_time": 2.0,
+      "audio_type": "music",
+      "confidence": 0.9,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 2.0,
+      "end_time": 3.0,
+      "audio_type": "music",
+      "confidence": 0.95,
+      "transcription": null,
+      "attributes": {}
+    }
+  ],
+  "primary_type": "music",
+  "emotion_tone": "neutral",
+  "spectral": {
+    "fundamental_frequency": 209.2101155631904,
+    "spectral_centroid": 2115.746622730219,
+    "spectral_rolloff": 3173.619934095328,
+    "spectral_flux": 0.33418295161539113,
+    "zero_crossing_rate": 0.3001752518052566
+  },
+  "temporal": {
+    "tempo": 84.39505311457272,
+    "rhythm_regularity": 0.8093143037059879,
+    "energy": 0.7608821711015799,
+    "dynamic_range": 0.7178439847577766,
+    "attack_time": 0.017427537330381805
+  },
+  "processing_time": 2.6226043701171875e-05,
+  "confidence": 0.7150424940968585
+}

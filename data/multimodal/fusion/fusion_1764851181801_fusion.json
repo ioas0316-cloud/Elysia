@@ -1,0 +1,54 @@
+{
+  "timestamp": 1764851181.801694,
+  "fusion_id": "fusion_1764851181801",
+  "modalities": [
+    "vision",
+    "audio"
+  ],
+  "strategy": "hybrid",
+  "contributions": [
+    {
+      "modality": "vision",
+      "confidence": 0.5,
+      "weight": 0.5,
+      "key_insights": [
+        "Scene: indoor office"
+      ]
+    },
+    {
+      "modality": "audio",
+      "confidence": 0.6426006129214503,
+      "weight": 0.5,
+      "key_insights": [
+        "Audio type: mixed",
+        "Emotion: neutral"
+      ]
+    }
+  ],
+  "correspondences": [
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "temporal_sync",
+      "strength": 0.9,
+      "description": "Vision and audio temporally synchronized"
+    },
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "emotional_consistency",
+      "strength": 0.5,
+      "description": "Visual mood 'neutral' and audio emotion 'neutral'"
+    }
+  ],
+  "unified_description": "A neutral indoor office scene with natural lighting. accompanied by neutral mixed. with strong cross-modal consistency.",
+  "unified_confidence": 0.8113003064607252,
+  "processing_time": 4.553794860839844e-05,
+  "insights": {
+    "modality_alignment": "high",
+    "dominant_modality": "audio",
+    "cross_modal_enhancements": [
+      "temporal_sync: Vision and audio temporally synchronized"
+    ]
+  }
+}
