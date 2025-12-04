@@ -1,0 +1,94 @@
+{
+  "node_id": "da03db89-f8e1-42e3-b472-55999244c598",
+  "knowledge_base": {
+    "ee6d53bf-13d8-49d7-8a2e-a86351dffd56": {
+      "knowledge_id": "ee6d53bf-13d8-49d7-8a2e-a86351dffd56",
+      "knowledge_type": "best_practice",
+      "content": {
+        "practice_name": "collaborative_validation",
+        "description": "Validate results with multiple nodes",
+        "usage_count": 15
+      },
+      "source_node_id": "da03db89-f8e1-42e3-b472-55999244c598",
+      "timestamp": 1764834442.9774647,
+      "quality_score": 0.92,
+      "usage_count": 0,
+      "validation_count": 0,
+      "tags": [
+        "collaboration",
+        "quality"
+      ]
+    },
+    "a712edfc-672a-40c2-9f31-1d0d0d23b5cf": {
+      "knowledge_id": "a712edfc-672a-40c2-9f31-1d0d0d23b5cf",
+      "knowledge_type": "pattern",
+      "content": {
+        "pattern_name": "efficient_problem_solving",
+        "description": "Break complex problems into smaller parts",
+        "success_rate": 0.87
+      },
+      "source_node_id": "9469eccf-9860-45d0-ba25-6015be9f8baf",
+      "timestamp": 1764834442.9772816,
+      "quality_score": 0.87,
+      "usage_count": 0,
+      "validation_count": 0,
+      "tags": [
+        "problem_solving",
+        "efficiency"
+      ]
+    },
+    "df9cb31a-3f48-47e0-a005-269636dc250b": {
+      "knowledge_id": "df9cb31a-3f48-47e0-a005-269636dc250b",
+      "knowledge_type": "best_practice",
+      "content": {
+        "practice_name": "collaborative_validation",
+        "description": "Validate results with multiple nodes",
+        "usage_count": 15
+      },
+      "source_node_id": "da03db89-f8e1-42e3-b472-55999244c598",
+      "timestamp": 1764834461.4394362,
+      "quality_score": 0.92,
+      "usage_count": 0,
+      "validation_count": 0,
+      "tags": [
+        "collaboration",
+        "quality"
+      ]
+    },
+    "1f234aab-b22d-430a-867b-d3017871655f": {
+      "knowledge_id": "1f234aab-b22d-430a-867b-d3017871655f",
+      "knowledge_type": "pattern",
+      "content": {
+        "pattern_name": "efficient_problem_solving",
+        "description": "Break complex problems into smaller parts",
+        "success_rate": 0.87
+      },
+      "source_node_id": "9469eccf-9860-45d0-ba25-6015be9f8baf",
+      "timestamp": 1764834461.4392197,
+      "quality_score": 0.87,
+      "usage_count": 0,
+      "validation_count": 0,
+      "tags": [
+        "problem_solving",
+        "efficiency"
+      ]
+    }
+  },
+  "subscriptions": [
+    "skill",
+    "insight",
+    "error_lesson",
+    "best_practice",
+    "pattern",
+    "experience"
+  ],
+  "stats": {
+    "total_shared": 2,
+    "total_received": 2,
+    "total_validations": 0,
+    "average_quality": 0.5,
+    "knowledge_by_type": {
+      "best_practice": 2
+    }
+  }
+}

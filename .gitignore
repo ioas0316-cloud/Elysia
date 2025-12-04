@@ -22,9 +22,15 @@ dist/
 # Logs & runtime state
 *.log
 logs/
+*.jsonl
 elysia_logs/
 elysia_logs/persona_stream.jsonl
 elysia_state.json
+
+# Backups
+backups/
+*.bak
+*.backup
 
 # Project data & artifacts
 Elysia_Input_Sanctum/

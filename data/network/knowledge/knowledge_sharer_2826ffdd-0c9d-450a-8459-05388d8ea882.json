@@ -1,0 +1,38 @@
+{
+  "node_id": "2826ffdd-0c9d-450a-8459-05388d8ea882",
+  "knowledge_base": {
+    "1f234aab-b22d-430a-867b-d3017871655f": {
+      "knowledge_id": "1f234aab-b22d-430a-867b-d3017871655f",
+      "knowledge_type": "pattern",
+      "content": {
+        "pattern_name": "efficient_problem_solving",
+        "description": "Break complex problems into smaller parts",
+        "success_rate": 0.87
+      },
+      "source_node_id": "9469eccf-9860-45d0-ba25-6015be9f8baf",
+      "timestamp": 1764834461.4392197,
+      "quality_score": 0.87,
+      "usage_count": 0,
+      "validation_count": 0,
+      "tags": [
+        "problem_solving",
+        "efficiency"
+      ]
+    }
+  },
+  "subscriptions": [
+    "skill",
+    "insight",
+    "error_lesson",
+    "best_practice",
+    "pattern",
+    "experience"
+  ],
+  "stats": {
+    "total_shared": 0,
+    "total_received": 1,
+    "total_validations": 0,
+    "average_quality": 0.5,
+    "knowledge_by_type": {}
+  }
+}

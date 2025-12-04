@@ -1,0 +1,55 @@
+{
+  "timestamp": 1764835847.191803,
+  "image_id": "demo_image_1",
+  "width": 1920,
+  "height": 1080,
+  "objects": [
+    {
+      "category": "person",
+      "label": "people",
+      "confidence": 0.812281960654202,
+      "bbox": {
+        "x": 0.23255812122862182,
+        "y": 0.7797649961522202,
+        "width": 0.22105669294247016,
+        "height": 0.2517981814732395,
+        "confidence": 0.85
+      },
+      "attributes": {}
+    },
+    {
+      "category": "animal",
+      "label": "dog",
+      "confidence": 0.8465726174082779,
+      "bbox": {
+        "x": 0.2532720132287305,
+        "y": 0.5964110337041074,
+        "width": 0.18788544171246066,
+        "height": 0.1949312551949406,
+        "confidence": 0.88
+      },
+      "attributes": {}
+    }
+  ],
+  "scene": {
+    "primary_scene": "outdoor",
+    "mood": "neutral",
+    "lighting": "bright",
+    "complexity": 0.2,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.781575182177388,
+    "texture": 0.40675573459055053,
+    "symmetry": 0.3884233038050954,
+    "blur": 0.13948042591263154,
+    "brightness": 0.52202759805214,
+    "contrast": 0.8334856007320504
+  },
+  "processing_time": 0.0006780624389648438,
+  "confidence": 0.8590568909006858
+}
