@@ -1,22 +1,26 @@
 # Elysia Consciousness Engine - Docker Configuration
 # ==================================================
-# Phase 3: Production-ready containerization
+# Multi-stage build for optimized production deployment
 
-FROM python:3.11-slim
+# Stage 1: Base image with dependencies
+FROM python:3.12-slim as base
 
 # Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
-
-# Set work directory
-WORKDIR /app
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONPATH=/app \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+    gcc \
+    g++ \
     git \
     && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
 
 # Copy requirements first for better caching
 COPY requirements.txt .
@@ -25,15 +29,45 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
+# Stage 2: Development image
+FROM base as development
+
+# Install development dependencies
+COPY requirements-dev.txt .
+RUN pip install --no-cache-dir -r requirements-dev.txt
+
+# Copy application code
 COPY . .
 
 # Create necessary directories
 RUN mkdir -p logs saves data
 
-# Default command - run the main entry point
-CMD ["python", "-c", "print('Elysia Consciousness Engine Ready')"]
+# Expose ports (API and Dashboard)
+EXPOSE 8000 8080
 
-# Health check
+# Default command for development
+CMD ["python", "Core/Interface/api_server.py"]
+
+# Stage 3: Production image
+FROM base as production
+
+# Create non-root user for security
+RUN useradd -m -u 1000 elysia && \
+    mkdir -p /app/logs /app/data /app/saves && \
+    chown -R elysia:elysia /app
+
+# Copy application code with correct ownership
+COPY --chown=elysia:elysia . .
+
+# Switch to non-root user
+USER elysia
+
+# Expose API port
+EXPOSE 8000
+
+# Health check using FastAPI endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "from Core.Math.hyper_qubit import HyperQubit; print('OK')" || exit 1
+    CMD python -c "import requests; requests.get('http://localhost:8000/health', timeout=5)" || exit 1
+
+# Production command with multiple workers
+CMD ["uvicorn", "Core.Interface.api_server:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--log-level", "info"]

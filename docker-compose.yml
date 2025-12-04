@@ -1,44 +1,77 @@
 # Elysia Consciousness Engine - Docker Compose
 # =============================================
-# Phase 3: Multi-service orchestration
+# Multi-service orchestration for production deployment
 
 version: '3.8'
 
 services:
-  elysia:
+  # Elysia API Server (Production)
+  elysia-api:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: elysia-consciousness
-    volumes:
-      - ./logs:/app/logs
-      - ./saves:/app/saves
-      - ./data:/app/data
-    environment:
-      - PYTHONPATH=/app
-      - LOG_LEVEL=INFO
+      target: production
+    container_name: elysia-api
     ports:
       - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - ELYSIA_ENV=production
+      - ELYSIA_DEBUG=false
+      - ELYSIA_LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./saves:/app/saves
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "from Core.Math.hyper_qubit import HyperQubit; print('OK')"]
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health', timeout=5)"]
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 10s
+    networks:
+      - elysia-network
 
-  # Test runner service
+  # Elysia Dashboard
+  elysia-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: elysia-dashboard
+    ports:
+      - "8080:8080"
+    environment:
+      - PYTHONPATH=/app
+      - ELYSIA_ENV=production
+    command: ["python", "scripts/dashboard_server.py"]
+    depends_on:
+      - elysia-api
+    restart: unless-stopped
+    networks:
+      - elysia-network
+
+  # Test runner service (on-demand)
   test:
     build:
       context: .
       dockerfile: Dockerfile
+      target: development
     container_name: elysia-test
     volumes:
       - ./:/app
-    command: ["python", "-m", "pytest", "tests/", "-v"]
+    command: ["python", "-m", "pytest", "tests/", "-v", "--tb=short"]
     profiles:
       - test
+    networks:
+      - elysia-network
+
+networks:
+  elysia-network:
+    driver: bridge
 
 volumes:
-  logs:
-  saves:
-  data:
+  elysia-data:
+  elysia-logs:
+  elysia-saves:
