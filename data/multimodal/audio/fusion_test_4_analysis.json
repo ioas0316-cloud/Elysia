@@ -1,0 +1,51 @@
+{
+  "timestamp": 1764851181.8075776,
+  "audio_id": "fusion_test_4",
+  "duration": 5.0,
+  "sample_rate": 44100,
+  "channels": 1,
+  "segments": [
+    {
+      "start_time": 0.0,
+      "end_time": 1.6666666666666667,
+      "audio_type": "speech",
+      "confidence": 0.85,
+      "transcription": "Hello, how are you?",
+      "attributes": {}
+    },
+    {
+      "start_time": 1.6666666666666667,
+      "end_time": 3.3333333333333335,
+      "audio_type": "speech",
+      "confidence": 0.9,
+      "transcription": "Hello, how are you?",
+      "attributes": {}
+    },
+    {
+      "start_time": 3.3333333333333335,
+      "end_time": 5.0,
+      "audio_type": "speech",
+      "confidence": 0.95,
+      "transcription": "Hello, how are you?",
+      "attributes": {}
+    }
+  ],
+  "primary_type": "speech",
+  "emotion_tone": "neutral",
+  "spectral": {
+    "fundamental_frequency": 152.64342796065566,
+    "spectral_centroid": 870.4726161367577,
+    "spectral_rolloff": 1305.7089242051366,
+    "spectral_flux": 0.429384661021078,
+    "zero_crossing_rate": 0.202654673375565
+  },
+  "temporal": {
+    "tempo": null,
+    "rhythm_regularity": 0.5017138364085684,
+    "energy": 0.8488357612662543,
+    "dynamic_range": 0.8676386916609893,
+    "attack_time": 0.0424833705641169
+  },
+  "processing_time": 2.6226043701171875e-05,
+  "confidence": 0.7020136634808604
+}

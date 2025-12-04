@@ -1,0 +1,55 @@
+{
+  "timestamp": 1764851181.7906516,
+  "image_id": "test_img_1",
+  "width": 1920,
+  "height": 1080,
+  "objects": [
+    {
+      "category": "person",
+      "label": "people",
+      "confidence": 0.8187830305766917,
+      "bbox": {
+        "x": 0.720589110950038,
+        "y": 0.6292684751609442,
+        "width": 0.25655841412968494,
+        "height": 0.2804275088516269,
+        "confidence": 0.85
+      },
+      "attributes": {}
+    },
+    {
+      "category": "nature",
+      "label": "tree",
+      "confidence": 0.8286390201253861,
+      "bbox": {
+        "x": 0.2556245434802141,
+        "y": 0.48540121275338804,
+        "width": 0.25047414408815427,
+        "height": 0.2919300379992623,
+        "confidence": 0.84
+      },
+      "attributes": {}
+    }
+  ],
+  "scene": {
+    "primary_scene": "outdoor",
+    "mood": "neutral",
+    "lighting": "natural",
+    "complexity": 0.2,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.635415935663603,
+    "texture": 0.6796996742769315,
+    "symmetry": 0.3625431666725824,
+    "blur": 0.1975050168799371,
+    "brightness": 0.4968745727779121,
+    "contrast": 0.5534979427406418
+  },
+  "processing_time": 3.838539123535156e-05,
+  "confidence": 0.8218259077966938
+}

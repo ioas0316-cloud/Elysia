@@ -1,0 +1,28 @@
+{
+  "timestamp": 1764851181.8127346,
+  "image_id": "perf_test_1",
+  "width": 1920,
+  "height": 1080,
+  "objects": [],
+  "scene": {
+    "primary_scene": "general",
+    "mood": "neutral",
+    "lighting": "natural",
+    "complexity": 0.0,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.4263598973152043,
+    "texture": 0.6676509686251121,
+    "symmetry": 0.4288021841693984,
+    "blur": 0.20763347574524926,
+    "brightness": 0.5265406386636491,
+    "contrast": 0.862847449426335
+  },
+  "processing_time": 1.1682510375976562e-05,
+  "confidence": 0.5
+}

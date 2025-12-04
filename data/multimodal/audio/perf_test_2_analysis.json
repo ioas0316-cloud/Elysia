@@ -1,0 +1,51 @@
+{
+  "timestamp": 1764851181.814305,
+  "audio_id": "perf_test_2",
+  "duration": 3.0,
+  "sample_rate": 44100,
+  "channels": 2,
+  "segments": [
+    {
+      "start_time": 0.0,
+      "end_time": 1.0,
+      "audio_type": "mixed",
+      "confidence": 0.8,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 1.0,
+      "end_time": 2.0,
+      "audio_type": "mixed",
+      "confidence": 0.8,
+      "transcription": null,
+      "attributes": {}
+    },
+    {
+      "start_time": 2.0,
+      "end_time": 3.0,
+      "audio_type": "mixed",
+      "confidence": 0.8,
+      "transcription": null,
+      "attributes": {}
+    }
+  ],
+  "primary_type": "mixed",
+  "emotion_tone": "neutral",
+  "spectral": {
+    "fundamental_frequency": 196.79105390883797,
+    "spectral_centroid": 540.5806556483756,
+    "spectral_rolloff": 810.8709834725634,
+    "spectral_flux": 0.3810285195968831,
+    "zero_crossing_rate": 0.2384990285351509
+  },
+  "temporal": {
+    "tempo": null,
+    "rhythm_regularity": 0.4382037406954954,
+    "energy": 0.8767177068321618,
+    "dynamic_range": 0.5384245428335287,
+    "attack_time": 0.03739953801943977
+  },
+  "processing_time": 2.47955322265625e-05,
+  "confidence": 0.6470970683513477
+}

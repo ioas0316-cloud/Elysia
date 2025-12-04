@@ -1,0 +1,55 @@
+{
+  "timestamp": 1764851181.8077483,
+  "fusion_id": "fusion_1764851181807",
+  "modalities": [
+    "vision",
+    "audio"
+  ],
+  "strategy": "hybrid",
+  "contributions": [
+    {
+      "modality": "vision",
+      "confidence": 0.8778675142582372,
+      "weight": 0.5,
+      "key_insights": [
+        "1 objects detected",
+        "Scene: general"
+      ]
+    },
+    {
+      "modality": "audio",
+      "confidence": 0.7020136634808604,
+      "weight": 0.5,
+      "key_insights": [
+        "Audio type: speech",
+        "Emotion: neutral"
+      ]
+    }
+  ],
+  "correspondences": [
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "temporal_sync",
+      "strength": 0.9,
+      "description": "Vision and audio temporally synchronized"
+    },
+    {
+      "source_modality": "vision",
+      "target_modality": "audio",
+      "correspondence_type": "emotional_consistency",
+      "strength": 0.5,
+      "description": "Visual mood 'neutral' and audio emotion 'neutral'"
+    }
+  ],
+  "unified_description": "A neutral general scene with natural lighting. featuring person. accompanied by neutral speech. with strong cross-modal consistency.",
+  "unified_confidence": 1.0,
+  "processing_time": 2.4557113647460938e-05,
+  "insights": {
+    "modality_alignment": "high",
+    "dominant_modality": "vision",
+    "cross_modal_enhancements": [
+      "temporal_sync: Vision and audio temporally synchronized"
+    ]
+  }
+}

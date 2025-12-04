@@ -1,0 +1,28 @@
+{
+  "timestamp": 1764851181.8157568,
+  "image_id": "edge_test_1",
+  "width": 1280,
+  "height": 720,
+  "objects": [],
+  "scene": {
+    "primary_scene": "indoor",
+    "mood": "neutral",
+    "lighting": "natural",
+    "complexity": 0.0,
+    "dominant_colors": [
+      "blue",
+      "green",
+      "white"
+    ]
+  },
+  "features": {
+    "edges": 0.5840998504575046,
+    "texture": 0.4202560697295441,
+    "symmetry": 0.2149680851359581,
+    "blur": 0.2722665611413656,
+    "brightness": 0.6748365962041483,
+    "contrast": 0.8400020076941175
+  },
+  "processing_time": 1.239776611328125e-05,
+  "confidence": 0.5
+}
