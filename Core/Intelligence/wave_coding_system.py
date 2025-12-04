@@ -10,6 +10,7 @@
 """
 
 import math
+import re
 from typing import List, Dict, Tuple, Any
 from dataclasses import dataclass
 
@@ -174,7 +175,6 @@ class WaveCodingSystem:
     def decompress_from_wave_dna(self, dna: str, template: str = "") -> WaveCode:
         """Wave DNA로부터 파동 코드 복원"""
         # DNA 파싱
-        import re
         match = re.match(r'W\[([\d.]+),([\d.]+),([\d.]+),(\d+)\]', dna)
         if not match:
             raise ValueError(f"Invalid Wave DNA: {dna}")
@@ -264,7 +264,7 @@ def demonstrate_wave_coding():
     print("-" * 70)
     interfered = system.interfere([wave1, wave2, wave3])
     print(f"   간섭 파동: freq={interfered.frequency:.3f}, amp={interfered.amplitude:.3f}, dim={interfered.dimension}D")
-    print(f"   통합된 코드 줄 수: {len(interfered.code_text.split(chr(10)))}")
+    print(f"   통합된 코드 줄 수: {len(interfered.code_text.split('\\n'))}")
     print()
     
     print("🧬 5단계: Wave DNA 압축/복원")
