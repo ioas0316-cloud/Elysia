@@ -386,11 +386,14 @@ class CausalReasoner:
                     # Add to processing queue
                     to_process.append((effect_var, effect_value, effect_confidence))
         
-        # Calculate overall confidence
-        overall_confidence = min(
-            sum(confidence for _, _, confidence in reasoning[:3]) / max(len(reasoning), 1),
-            0.95
-        ) if reasoning else 0.5
+        # Calculate overall confidence based on number of steps
+        # More complex propagation generally means lower confidence
+        if reasoning:
+            base_confidence = 0.8
+            complexity_penalty = len(reasoning) * 0.05
+            overall_confidence = max(0.3, min(base_confidence - complexity_penalty, 0.95))
+        else:
+            overall_confidence = 0.5
         
         return InterventionEffect(
             intervention=intervention,
