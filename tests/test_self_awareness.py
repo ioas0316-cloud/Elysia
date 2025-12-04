@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 import logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from Core.Intelligence.reasoning_engine import ReasoningEngine
+from Core.Foundation.reasoning_engine import ReasoningEngine
 from Core.Memory.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 

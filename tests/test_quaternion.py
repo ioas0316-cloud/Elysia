@@ -1,4 +1,4 @@
-from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 import time
 
 def test_quaternion_algebra():

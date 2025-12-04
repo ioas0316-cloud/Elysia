@@ -200,7 +200,7 @@ class CommunicationMetrics:
         API 없이 순수 사고력으로 언어 생성
         """
         try:
-            from Core.Intelligence.autonomous_language import autonomous_language
+            from Core.Foundation.autonomous_language import autonomous_language
             
             # 테스트 대화
             test_inputs = [

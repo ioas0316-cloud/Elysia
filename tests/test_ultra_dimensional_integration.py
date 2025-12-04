@@ -16,7 +16,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.System.wave_integration_hub import get_wave_hub
-from Core.Intelligence.ultra_dimensional_reasoning import UltraDimensionalReasoning
+from Core.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
 from Core.Interface.real_communication_system import RealCommunicationSystem
 
 

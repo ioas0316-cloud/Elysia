@@ -180,7 +180,7 @@ def test_wave_integration():
     
     try:
         from Core.System.wave_integration_hub import get_wave_hub
-        from Core.Intelligence.ultra_dimensional_reasoning import UltraDimensionalReasoning
+        from Core.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
         from Core.Interface.real_communication_system import RealCommunicationSystem
         
         # Initialize systems

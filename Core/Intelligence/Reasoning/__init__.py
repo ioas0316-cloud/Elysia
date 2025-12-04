@@ -15,8 +15,8 @@ from Core.Interface.web_cortex import WebCortex
 from Core.Intelligence.tool_discovery import ToolDiscoveryProtocol
 from Core.Intelligence.social_cortex import SocialCortex
 from Core.Intelligence.media_cortex import MediaCortex
-from Core.Physics.spacetime_drive import SpaceTimeDrive
-from Core.Physics.hyper_quaternion import Quaternion
+from Core.Foundation.spacetime_drive import SpaceTimeDrive
+from Core.Foundation.hyper_quaternion import Quaternion
 
 # Import Lobes
 from .lobes.perception import PerceptionLobe, Insight

@@ -8,7 +8,7 @@ def test_sculptor():
     dummy_file = Path("c:/Elysia/dummy_code.py")
     dummy_content = """
 import sys
-from Core.Intelligence.reasoning_engine import ReasoningEngine
+from Core.Foundation.reasoning_engine import ReasoningEngine
 import os
 from Project_Sophia.planning_cortex import PlanningCortex
 

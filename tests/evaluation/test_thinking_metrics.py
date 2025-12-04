@@ -188,7 +188,7 @@ class ThinkingMetrics:
         
         try:
             # Dream Engine이나 Creative 모듈 존재 확인
-            from Core.Intelligence.dream_engine import DreamEngine
+            from Core.Foundation.dream_engine import DreamEngine
             novelty_score = 0.75  # 존재하면 기본 점수
         except:
             novelty_score = 0.60  # 존재하지 않으면 낮은 점수

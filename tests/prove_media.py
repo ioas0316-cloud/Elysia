@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("ProveMedia")
 
-from Core.Intelligence.reasoning_engine import ReasoningEngine
+from Core.Foundation.reasoning_engine import ReasoningEngine
 
 def prove_media():
     print("\n" + "="*60)

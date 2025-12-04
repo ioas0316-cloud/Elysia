@@ -25,7 +25,7 @@ import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional, Any
 from enum import Enum
-from Core.Physics.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 
 class PillarType(Enum):
     FOUNDATION = ("Foundation", 100.0, (0, 0, 0))      # 중심
