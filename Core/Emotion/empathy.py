@@ -375,8 +375,12 @@ class EmpathyEngine:
         understanding: EmpathicUnderstanding
     ) -> EmpathicResponse:
         """Generate appropriate empathic response"""
-        # Get emotion-specific templates
-        emotion = understanding.what_they_feel.split()[-1]  # Extract emotion word
+        # Extract emotion from understanding
+        # what_they_feel is like "feeling strongly sadness" or "feeling moderately anger"
+        parts = understanding.what_they_feel.split()
+        emotion = parts[-1] if parts else "unknown"  # Get last word (the emotion)
+        
+        # Get emotion-specific templates, default to sadness if not found
         templates = self.emotion_responses.get(emotion, self.emotion_responses["sadness"])
         
         # Build response message
