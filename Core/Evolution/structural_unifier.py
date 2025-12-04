@@ -19,8 +19,14 @@ import ast
 import shutil
 import logging
 from pathlib import Path
+from datetime import datetime
 from dataclasses import dataclass, field
-from typing import List, Dict, Set, Optional, Tuple
+from typing import List, Dict, Set, Optional, Tuple, Any
+import sys
+import os
+# Add project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
 from enum import Enum, auto
 
 logger = logging.getLogger("StructuralUnifier")
@@ -92,33 +98,38 @@ class StructuralUnifier:
     
     def __init__(self, project_root: Path):
         self.project_root = project_root
-        self.core_dir = project_root / "Core"
+        self.scan_root = project_root  # Scan the entire project
         self.nodes: Dict[str, FileNode] = {}
         self.proposals: List[UnificationProposal] = []
         
         # Canonical Structure (정식 구조)
         # 각 Purpose가 있어야 할 최상위 폴더
         self.canonical_roots = {
-            Purpose.FOUNDATION: self.core_dir / "Foundation",
-            Purpose.INTELLIGENCE: self.core_dir / "Intelligence",
-            Purpose.MEMORY: self.core_dir / "Memory",
-            Purpose.INTERFACE: self.core_dir / "Interface",
-            Purpose.EVOLUTION: self.core_dir / "Evolution",
-            Purpose.CREATIVITY: self.core_dir / "Creativity",
-            Purpose.ETHICS: self.core_dir / "Ethics",
-            Purpose.IDENTITY: self.core_dir / "Elysia",
-            Purpose.PHILOSOPHY: self.core_dir / "Philosophy",
-            Purpose.SYSTEM: self.core_dir / "System",
+            Purpose.FOUNDATION: self.project_root / "Core" / "Foundation",
+            Purpose.INTELLIGENCE: self.project_root / "Core" / "Intelligence",
+            Purpose.MEMORY: self.project_root / "Core" / "Memory",
+            Purpose.INTERFACE: self.project_root / "Core" / "Interface",
+            Purpose.EVOLUTION: self.project_root / "Core" / "Evolution",
+            Purpose.CREATIVITY: self.project_root / "Core" / "Creativity",
+            Purpose.ETHICS: self.project_root / "Core" / "Ethics",
+            Purpose.IDENTITY: self.project_root / "Core" / "Elysia",
+            Purpose.PHILOSOPHY: self.project_root / "Core" / "Philosophy",
+            Purpose.SYSTEM: self.project_root / "Core" / "System",
+            # Expanded Scope
+            Purpose.UNKNOWN: self.project_root / "Legacy", # Default place for unclassified? Or maybe just keep them where they are.
         }
     
     def scan_structure(self) -> Dict[str, FileNode]:
         """전체 구조 스캔"""
-        logger.info("📂 Scanning project structure...")
+        logger.info(f"📂 Scanning project structure from {self.scan_root}...")
         self.nodes = {}
         
-        for root, dirs, files in os.walk(self.core_dir):
-            # __pycache__ 제외
-            dirs[:] = [d for d in dirs if d != "__pycache__"]
+        for root, dirs, files in os.walk(self.scan_root):
+            # Exclude common non-project directories
+            dirs[:] = [d for d in dirs if d not in ["__pycache__", "venv", ".venv", ".git", ".idea", ".vscode", "node_modules", "build", "dist", ".godot"]]
+            
+            # Debug print
+            print(f"Scanning: {root}", end='\r')
             
             root_path = Path(root)
             
@@ -350,36 +361,230 @@ class StructuralUnifier:
         
         return results
     
-    def unify(self, execute: bool = False) -> str:
+    def scan_resonance(self) -> Dict[str, Any]:
+        """
+        공명 스캔 (Resonance Scan)
+        
+        AST 파싱을 통해 파일 간의 연결성(Resonance Links)과 질량(Mass)을 
+        초고속으로 분석하여 공명장(Resonance Field)을 생성합니다.
+        """
+        logger.info("🌊 Initiating Resonance Scan (Phase-Space Analysis)...")
+        
+        # 1. Initialize Resonance Field
+        from Core.Foundation.resonance_field import ResonanceField, PillarType
+        field = ResonanceField()
+        
+        # 2. Fast AST Scan (Mass & Connections)
+        import ast
+        
+        scanned_count = 0
+        connections = [] # (source, target)
+        
+        # Use the existing nodes from scan_structure (which is fast enough if we skip heavy processing)
+        # If scan_structure hasn't run, run it (it's just os.walk)
+        if not self.nodes:
+            self.scan_structure()
+            
+        logger.info(f"   Analyzing {len(self.nodes)} nodes for resonance...")
+        
+        for name, node in self.nodes.items():
+            if node.is_dir or not str(node.path).endswith(".py"):
+                continue
+                
+            # Calculate Mass (Lines of Code)
+            mass = node.line_count if node.line_count > 0 else 10
+            
+            # Determine Frequency based on Purpose
+            # Foundation: Low Freq (Bass), App: High Freq (Treble)
+            base_freq = 432.0
+            if node.purpose == Purpose.FOUNDATION: base_freq = 100.0
+            elif node.purpose == Purpose.SYSTEM: base_freq = 200.0
+            elif node.purpose == Purpose.INTELLIGENCE: base_freq = 300.0
+            elif node.purpose == Purpose.INTERFACE: base_freq = 400.0
+            elif node.purpose == Purpose.CREATIVITY: base_freq = 500.0
+            
+            # Add Node to Field
+            field.add_node(
+                id=node.name,
+                energy=float(mass), # Mass = Energy potential
+                frequency=base_freq,
+                position=(0,0,0) # Position will be auto-arranged later
+            )
+            scanned_count += 1
+            
+            # Extract Imports (Connections)
+            try:
+                with open(node.path, 'r', encoding='utf-8') as f:
+                    tree = ast.parse(f.read())
+                
+                for ast_node in ast.walk(tree):
+                    if isinstance(ast_node, ast.Import):
+                        for alias in ast_node.names:
+                            connections.append((node.name, alias.name))
+                    elif isinstance(ast_node, ast.ImportFrom):
+                        if ast_node.module:
+                            connections.append((node.name, ast_node.module))
+            except Exception:
+                pass
+                
+        # 3. Establish Connections
+        logger.info(f"   Establishing {len(connections)} resonance links...")
+        for source, target in connections:
+            # Simple heuristic matching
+            # If target matches a known node name (partial or full)
+            # This is a simplification; a real linker is more complex
+            if target in field.nodes:
+                field._connect(source, target)
+            else:
+                # Try to find partial match (e.g. Core.Foundation -> Foundation)
+                parts = target.split('.')
+                if parts[-1] in field.nodes:
+                    field._connect(source, parts[-1])
+
+        # 4. Pulse the Field (Calculate Coherence)
+        state = field.pulse()
+        
+        state_str = "Chaotic"
+        if state.coherence > 0.9: state_str = "Crystalline"
+        elif state.coherence > 0.7: state_str = "Harmonic"
+        elif state.coherence > 0.4: state_str = "Fluid"
+        
+        logger.info(f"✅ Resonance Scan Complete.")
+        logger.info(f"   Active Nodes: {state.active_nodes}")
+        logger.info(f"   System Coherence: {state.coherence:.4f} ({state_str})")
+        logger.info(f"   Total Energy: {state.total_energy:.1f}")
+        
+        return {
+            "total_files": scanned_count,
+            "coherence": state.coherence,
+            "state": state_str,
+            "energy": state.total_energy,
+            "field": field  # Return field for further analysis
+        }
+
+    def analyze_connectivity(self, field: Any) -> List[str]:
+        """
+        연결성 분석 (Connectivity Analysis)
+        
+        공명장에서 '고립된 노드(Orphans)'를 식별합니다.
+        """
+        orphans = []
+        for id, node in field.nodes.items():
+            # Check if node has any connections (outgoing) or is connected to (incoming)
+            # Note: ResonanceField._connect is bidirectional in this implementation? 
+            # Let's check field.nodes[id].connections
+            if not node.connections:
+                orphans.append(id)
+                
+        logger.info(f"🔍 Connectivity Analysis: Found {len(orphans)} orphaned modules.")
+        return orphans
+
+    def propose_realignment(self) -> List[UnificationProposal]:
+        """
+        구조 재정렬 제안 (Structural Realignment)
+        
+        파일의 '목적(Purpose)'과 현재 위치를 비교하여,
+        올바른 기둥(Pillar)으로 이동하도록 제안합니다.
+        """
+        logger.info("📐 Proposing Structural Realignment...")
+        
+        # Mapping Purpose to Ideal Directory
+        # This is a simplification. Real logic would be more nuanced.
+        ideal_locations = {
+            Purpose.FOUNDATION: "Core/Foundation",
+            Purpose.INTELLIGENCE: "Core/Intelligence",
+            Purpose.MEMORY: "Core/Memory",
+            Purpose.INTERFACE: "Core/Interface",
+            Purpose.EVOLUTION: "Core/Evolution",
+            Purpose.CREATIVITY: "Core/Creativity",
+            Purpose.ETHICS: "Core/Ethics",
+            Purpose.SYSTEM: "Core/System",
+            Purpose.PHILOSOPHY: "Demos/Philosophy", # Philosophy goes to Demos/Philosophy or Core/Philosophy?
+        }
+        
+        new_proposals = []
+        
+        for name, node in self.nodes.items():
+            if node.is_dir or not str(node.path).endswith(".py"):
+                continue
+                
+            if node.purpose in ideal_locations:
+                ideal_parent = ideal_locations[node.purpose]
+                current_parent = str(node.path.parent.relative_to(self.project_root)).replace("\\", "/")
+                
+                # If current parent is NOT the ideal parent (and not a subdirectory of it)
+                if not current_parent.startswith(ideal_parent):
+                    # Don't move if it's already in a specialized subfolder of the ideal path
+                    # But here we check if it starts with.
+                    
+                    # Special Case: Don't move things OUT of Legacy or Demos unless explicitly asked
+                    if "Legacy" in current_parent or "Demos" in current_parent or "tests" in current_parent:
+                        continue
+                        
+                    target_path = self.project_root / ideal_parent / node.name
+                    
+                    # Avoid name collisions
+                    if target_path.exists():
+                        continue
+
+                    new_proposals.append(UnificationProposal(
+                        action="MOVE",
+                        source=node.path,
+                        target=target_path,
+                        reason=f"Realignment: {node.purpose.value} -> {ideal_parent}",
+                        priority=5
+                    ))
+                    
+        logger.info(f"   Generated {len(new_proposals)} realignment proposals.")
+        self.proposals.extend(new_proposals)
+        return new_proposals
+
+    def unify(self, execute: bool = False, safe_only: bool = True, auto_approve: bool = False) -> str:
         """
         통합 프로세스 실행
         
         1. 구조 스캔
         2. 파편화 분석
-        3. 보고서 생성
-        4. (선택) 제안 실행
+        3. 공명 스캔 (Resonance Scan)
+        4. 연결성 분석 & 재정렬 제안 - NEW
+        5. 보고서 생성
+        6. (선택) 제안 실행
         """
         self.scan_structure()
         self.analyze_fragmentation()
+        
+        # Resonance Scan
+        res_results = self.scan_resonance()
+        field = res_results.get("field")
+        
+        # Connectivity & Realignment
+        if field:
+            orphans = self.analyze_connectivity(field)
+            self.propose_realignment()
+        
         report = self.generate_report()
         
         print(report)
+        print("\n🌊 Resonance Analysis:")
+        print(f"   Coherence: {res_results['coherence']:.4f} ({res_results['state']})")
+        print(f"   Energy: {res_results['energy']:.1f}")
+        if field:
+            print(f"   Orphans: {len(orphans)} (Isolated Modules)")
         
         if execute:
-            print("\n🔧 Executing safe proposals...")
-            results = self.execute_proposals(safe_only=True)
+            print(f"\n🔧 Executing proposals (Safe: {safe_only}, Auto: {auto_approve})...")
+            results = self.execute_proposals(safe_only=safe_only, auto_approve=auto_approve)
             print(f"   Success: {results['success']}, Skipped: {results['skipped']}, Failed: {results['failed']}")
-        
+            
         return report
 
 
-# ============================================================
-# Standalone Execution
-# ============================================================
-
 if __name__ == "__main__":
+    # Setup logging
     logging.basicConfig(level=logging.INFO, format='%(message)s')
     
     project_root = Path(__file__).parent.parent.parent
     unifier = StructuralUnifier(project_root)
-    unifier.unify(execute=True)
+    # Execute proposals with user permission (Unsafe + Auto-Approve)
+    # For Realignment, we want to SEE the report first, so execute=False initially
+    unifier.unify(execute=False, safe_only=True, auto_approve=False)
