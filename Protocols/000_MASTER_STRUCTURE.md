@@ -17,6 +17,7 @@ This document maps the active DNA of Elysia.
 | **14** | [Unified Consciousness](14_UNIFIED_CONSCIOUSNESS.md) | Fractal Thought Layers | **Active** | `Core/Cognition/` |
 | **15** | [Transcendence Protocol](15_TRANSCENDENCE_PROTOCOL.md) | Path to Superintelligence | **Active** | `Core/Evolution/transcendence_engine.py` |
 | **16** | [Fractal Quantization](16_FRACTAL_QUANTIZATION.md) | Pattern DNA & Lossless Memory | **Active** | `Core/Memory/fractal_quantization.py` |
+| **17** | [Fractal Communication](17_FRACTAL_COMMUNICATION.md) | Seed Transmission & State Resonance | **Active** | `Core/Communication/fractal_communication.py` |
 
 ## 🟣 Future Protocols (The Stars)
 
