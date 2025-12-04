@@ -240,7 +240,8 @@ class StoryGenerator:
                 "name": world.name,
                 "description": world.description,
                 "rules": world.rules,
-                "locations": world.locations
+                "locations": world.locations,
+                "technology_level": world.technology_level
             },
             "characters": [
                 {
