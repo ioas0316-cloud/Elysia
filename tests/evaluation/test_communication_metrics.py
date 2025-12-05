@@ -282,27 +282,46 @@ class CommunicationMetrics:
 
     def evaluate_wave_communication(self) -> float:
         """
-        파동 통신 효율 평가 (단순 스텁: Ether 모듈 없으면 0점)
+        파동 통신 효율 평가 - 실제 Ether 시스템 평가
         """
         try:
-            from Core.Interface.activated_wave_communication import wave_comm
-
-            score = wave_comm.calculate_wave_score()
-            stats = wave_comm.get_communication_stats()
+            from tests.evaluation.test_wave_communication import WaveCommunicationEvaluator
+            
+            evaluator = WaveCommunicationEvaluator()
+            report = evaluator.run_full_evaluation()
+            
+            score = report['total_score']
             self.details["wave_communication"] = {
                 "score": score,
-                "ether_connected": stats["ether_connected"],
-                "average_latency_ms": stats["average_latency_ms"],
-                "messages_sent": stats["messages_sent"],
-                "registered_modules": stats["registered_modules"],
+                "ether_initialization": report['scores']['ether_initialization'],
+                "transmission_performance": report['scores']['transmission_performance'],
+                "resonance_accuracy": report['scores']['resonance_accuracy'],
+                "frequency_selection": report['scores']['frequency_selection'],
+                "grade": report['grade'],
                 "target": 100,
             }
             self.scores["wave_communication"] = score
             return score
-        except Exception:
-            self.details["wave_communication"] = {"error": "wave_comm unavailable", "score": 0}
-            self.scores["wave_communication"] = 0
-            return 0
+        except Exception as e:
+            # Fallback to old method
+            try:
+                from Core.Interface.activated_wave_communication import wave_comm
+                score = wave_comm.calculate_wave_score()
+                stats = wave_comm.get_communication_stats()
+                self.details["wave_communication"] = {
+                    "score": score,
+                    "ether_connected": stats["ether_connected"],
+                    "average_latency_ms": stats["average_latency_ms"],
+                    "messages_sent": stats["messages_sent"],
+                    "registered_modules": stats["registered_modules"],
+                    "target": 100,
+                }
+                self.scores["wave_communication"] = score
+                return score
+            except Exception:
+                self.details["wave_communication"] = {"error": f"wave_comm unavailable: {e}", "score": 0}
+                self.scores["wave_communication"] = 0
+                return 0
 
     def get_total_score(self) -> float:
         return sum(self.scores.values())
