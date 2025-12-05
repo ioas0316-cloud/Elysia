@@ -27,8 +27,14 @@ from dataclasses import dataclass
 from typing import List, Tuple, Optional, Dict, Any, Union
 from enum import Enum
 import logging
+import hashlib
 
 logger = logging.getLogger("UniversalPhaseTransform")
+
+# Constants for normalization and processing
+MAX_WORD_LENGTH = 15.0  # Maximum word length for importance normalization
+IMAGE_BLOCK_SIZE = 32   # Block size for image processing
+MAX_CONCEPT_DEPTH = 10.0  # Maximum concept depth for normalization
 
 
 class Modality(Enum):
@@ -217,12 +223,16 @@ class UniversalPhaseTransform:
         logger.info("🌐 Universal Phase Transform initialized")
         logger.info("   All modalities → 4D Phase Resonance Pattern")
     
-    def transform_audio(self, audio_signal: np.ndarray, sample_rate: int = 44100) -> List[PhaseQuaternion]:
+    def transform_audio(self, audio_signal: np.ndarray, sample_rate: int = 44100, window_size: int = 2048) -> List[PhaseQuaternion]:
         """오디오를 위상 쿼터니언으로 변환"""
-        from Core.Multimodal.elysia_transform import ElysiaTransform
+        try:
+            from Core.Multimodal.elysia_transform import ElysiaTransform
+        except ImportError:
+            logger.warning("ElysiaTransform not available, returning empty list")
+            return []
         
         audio_transform = ElysiaTransform(sample_rate)
-        sound_quaternions = audio_transform.transform(audio_signal)
+        sound_quaternions = audio_transform.transform(audio_signal, window_size=window_size)
         
         # SoundQuaternion → PhaseQuaternion
         phase_quaternions = []
@@ -254,7 +264,7 @@ class UniversalPhaseTransform:
         
         for i, word in enumerate(words):
             # w: 단어 길이로 중요도 추정 (간단한 휴리스틱)
-            w = min(1.0, len(word) / 15.0)
+            w = min(1.0, len(word) / MAX_WORD_LENGTH)
             
             # x: 음절 리듬 (글자 수)
             x = (len(word) % 10) / 10.0
@@ -263,6 +273,8 @@ class UniversalPhaseTransform:
             y = (i / len(words)) * 2 * np.pi
             
             # z: 복잡도 (대문자, 특수문자 비율)
+            # 텍스트의 형식적 복잡도를 측정 (공식 문서, 기술 용어 등)
+            # TODO: 언어별, 도메인별 복잡도 측정 방식 개선 필요
             complexity = sum(1 for c in word if c.isupper() or not c.isalnum()) / max(len(word), 1)
             z = min(1.0, complexity * 3)
             
@@ -289,12 +301,11 @@ class UniversalPhaseTransform:
             h, w = image_array.shape
             c = 1
         
-        block_size = 32
         quaternions = []
         
-        for i in range(0, h, block_size):
-            for j in range(0, w, block_size):
-                block = image_array[i:i+block_size, j:j+block_size]
+        for i in range(0, h, IMAGE_BLOCK_SIZE):
+            for j in range(0, w, IMAGE_BLOCK_SIZE):
+                block = image_array[i:i+IMAGE_BLOCK_SIZE, j:j+IMAGE_BLOCK_SIZE]
                 
                 if c == 3 or c == 4:
                     # 컬러 이미지
@@ -302,7 +313,9 @@ class UniversalPhaseTransform:
                     g = block[:,:,1].mean() / 255.0
                     b = block[:,:,2].mean() / 255.0
                     
-                    # RGB → HSV
+                    # RGB → HSV (simplified conversion)
+                    # Using cylindrical color space approximation for performance
+                    # For exact color science applications, consider using colorsys or cv2
                     brightness = (r + g + b) / 3.0
                     hue = np.arctan2(np.sqrt(3) * (g - b), 2 * r - g - b)
                     hue = (hue % (2 * np.pi)) / (2 * np.pi)
@@ -348,7 +361,12 @@ class UniversalPhaseTransform:
         """
         # 개념 데이터에서 특징 추출
         importance = concept_data.get('importance', 0.5)
-        category = hash(concept_data.get('category', '')) % 1000 / 1000.0
+        
+        # 안정적인 카테고리 해싱 (Python hash randomization 방지)
+        category_str = concept_data.get('category', '')
+        category_hash = int(hashlib.md5(category_str.encode()).hexdigest(), 16)
+        category = (category_hash % 1000) / 1000.0
+        
         relation_count = len(concept_data.get('relations', []))
         structure_depth = concept_data.get('depth', 1)
         
@@ -356,7 +374,7 @@ class UniversalPhaseTransform:
             w=importance,
             x=category,
             y=(relation_count % 10) / 10.0 * 2 * np.pi,
-            z=min(1.0, structure_depth / 10.0),
+            z=min(1.0, structure_depth / MAX_CONCEPT_DEPTH),
             modality=Modality.CONCEPT
         )
         
@@ -392,6 +410,10 @@ class UniversalPhaseTransform:
         
         한 감각을 다른 감각으로 변환
         """
+        if not source_quaternions:
+            logger.warning("Empty quaternion list provided for synesthesia transform")
+            return []
+        
         results = []
         
         for pq in source_quaternions:
