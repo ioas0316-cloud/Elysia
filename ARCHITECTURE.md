@@ -6,6 +6,16 @@
 
 ---
 
+## 📚 Related Documentation
+
+For complete project understanding, see:
+- **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** - Complete directory structure and file organization
+- **[MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md)** - Module dependencies and data flow
+- **[AGENT_GUIDE.md](AGENT_GUIDE.md)** - Essential guide for AI agents (⚠️ required reading)
+- **[BRANCH_MANAGEMENT.md](BRANCH_MANAGEMENT.md)** - Branch management and cleanup strategies
+
+---
+
 ## The World Tree (세계수)
 
 Elysia's architecture follows the **World Tree** metaphor:
