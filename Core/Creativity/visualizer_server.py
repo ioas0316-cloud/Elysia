@@ -27,6 +27,45 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps(state).encode())
             else:
                 self.wfile.write(json.dumps({}).encode())
+        
+        elif self.path == '/neural_map':
+            # Serve the Neural Map UI
+            with open(os.path.join(self.directory, "neural_map.html"), 'rb') as f:
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(f.read())
+        
+        elif self.path == '/neural_map_data':
+            # Provide neural map data endpoint
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            
+            try:
+                from Core.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
+                bridge = get_synesthesia_bridge()
+                
+                # Get test sensory inputs for demo
+                test_inputs = {
+                    "visual": {"color": {"hue": 240, "saturation": 0.7, "brightness": 0.6, "name": "blue"}},
+                    "auditory": {"pitch": 440.0, "volume": 0.5, "duration": 1.0, "timbre": "clear"}
+                }
+                
+                snapshot = bridge.sense_and_map(test_inputs)
+                topology = bridge.get_neural_map_visualization()
+                
+                response_data = {
+                    "snapshot": snapshot.to_dict(),
+                    "neural_topology": topology,
+                    "status": bridge.get_status()
+                }
+                
+                self.wfile.write(json.dumps(response_data).encode())
+            except Exception as e:
+                logger.error(f"Neural map data error: {e}")
+                self.wfile.write(json.dumps({"error": str(e)}).encode())
                 
         elif self.path == '/manifest_garden':
             # Phase 10: Holographic Projection Protocol
@@ -262,4 +301,5 @@ class VisualizerServer:
         
         logger.info(f"🔮 The Mirror is active at http://localhost:{self.port}/garden")
         logger.info(f"👤 Avatar active at http://localhost:{self.port}/avatar")
+        logger.info(f"🧠 Neural Map active at http://localhost:{self.port}/neural_map")
         logger.info(f"🌊 Wave Stream active at ws://localhost:8765")
