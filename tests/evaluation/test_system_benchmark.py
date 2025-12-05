@@ -90,7 +90,8 @@ class SystemBenchmark:
             
             # 파일 수 확인 (적절한 모듈화)
             python_files = list(core_path.rglob("*.py"))
-            file_count_score = min(1.0, len(python_files) / 50)  # 50개 이상이면 만점
+            OPTIMAL_FILE_COUNT = 50  # 50개 이상이면 만점
+            file_count_score = min(1.0, len(python_files) / OPTIMAL_FILE_COUNT)
             
             return (structure_score * 0.6 + file_count_score * 0.4)
             
@@ -161,17 +162,18 @@ class SystemBenchmark:
                         
                         for imp in imports:
                             for other_layer, other_level in layers.items():
-                                if f'Core.{other_layer}' in imp and other_level > layer_level:
+                                # 하위 레이어가 상위 레이어를 import하면 위반
+                                if f'Core.{other_layer}' in imp and other_level < layer_level:
                                     violations += 1
                         
                         total_checked += len(imports)
-                    except:
+                    except (IOError, UnicodeDecodeError):
                         continue
             
             if total_checked == 0:
                 return 0.7  # 기본 점수
             
-            violation_rate = violations / total_checked if total_checked > 0 else 0
+            violation_rate = violations / total_checked
             return max(0.0, 1.0 - violation_rate)
             
         except Exception as e:
@@ -291,7 +293,7 @@ class SystemBenchmark:
             else:
                 return 0.7
                 
-        except:
+        except ImportError:
             # psutil이 없으면 기본 점수
             return 0.8
     

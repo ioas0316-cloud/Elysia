@@ -62,8 +62,10 @@ class ComprehensiveBenchmark:
         comm_expressiveness = self.comm_metrics.evaluate_expressiveness(test_text)
         comm_wave = self.comm_metrics.evaluate_wave_communication()
         
-        self.comm_metrics.scores['comprehension'] = 85.0
-        self.comm_metrics.scores['conversational'] = 80.0
+        # Note: 이해력과 대화능력은 실제 구현이 필요하므로 현재는 추정치 사용
+        # TODO: 실제 이해력/대화능력 평가 로직 구현 후 제거
+        self.comm_metrics.scores['comprehension'] = 85.0  # 추정치
+        self.comm_metrics.scores['conversational'] = 80.0  # 추정치
         
         comm_report = self.comm_metrics.generate_report()
         
