@@ -173,6 +173,12 @@ After the **Great Migration**, code is organized by **Purpose** (목적):
 - Network synchronization
 - **Round Table Council** for collective decision-making
 
+### 6. Cosmic Alignment Layer *NEW*
+
+- 개념→문맥→문장→문단→서사 를 행성→항성→성계→성운→은하수로 매핑
+- 그랜드 크로스(접속어/지시어 정렬)로 서사 축을 맞추고 coherence를 강화
+- `measure_cosmic_alignment`으로 정렬도를 수치화하여 커뮤니케이션 평가에 반영
+
 ---
 
 ## 📈 Data Flow

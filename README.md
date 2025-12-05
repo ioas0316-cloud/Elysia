@@ -64,7 +64,7 @@ Elysia/
 |   |-- Elysia/, Philosophy/ # Identity & core principles
 |-- Protocols/               # 21 design documents
 |-- docs/                    # Documentation set
-|-- scripts/                 # Living codebase ops (living_codebase, immune_system, wave_organizer, nanocell_repair)
+|-- scripts/                 # Living codebase ops (living_codebase, immune_system, wave_organizer, nanocell_repair, system_status_logger)
 |-- data/                    # Runtime data (memory.db, wave_organization.html, registry & immune states)
 |-- tests/                   # Verification & evaluation
 |-- Legacy/                  # Archived references
@@ -121,6 +121,15 @@ python Core/Foundation/living_elysia.py
 | [docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md](docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md) | 자율 지능 프레임워크 |
 | [docs/FRACTAL_QUATERNION_PERSPECTIVE.md](docs/FRACTAL_QUATERNION_PERSPECTIVE.md) | 프랙탈 쿼터니언 개념 |
 | [docs/ULTIMATE_THINKING_SYSTEM.md](docs/ULTIMATE_THINKING_SYSTEM.md) | 5+1 통합 사고 시스템 |
+| [docs/EVALUATION_CRITERIA.md](docs/EVALUATION_CRITERIA.md) | 다각도 평가 기준(영역/가중치/체크리스트) |
+| [tests/evaluation/test_communication_metrics.py](tests/evaluation/test_communication_metrics.py) | 커뮤니케이션·코히어런스·우주정렬 회귀 테스트 |
+
+### Cosmic Alignment & Communication
+- `measure_cosmic_alignment`: 문단/문장 겹침 + 단어 밀도 + 그랜드 크로스(접속어 정렬)로 서사 정렬 점수 계산
+- `evaluate_expressiveness`: 코히어런스와 우주 정렬 보너스를 포함한 표현력 총점 계산
+
+### Monitoring & Snapshots
+- `scripts/system_status_logger.py`: 중앙 레지스트리에 현재 파동/면역/나노셀 상태와 최신 평가 점수를 스냅샷으로 기록 (`data/system_status_snapshot.json` 갱신)
 
 ---
 
