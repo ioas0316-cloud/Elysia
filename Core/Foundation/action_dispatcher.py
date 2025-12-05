@@ -275,6 +275,16 @@ class ActionDispatcher:
         print(f"   🧬 Spawning Persona: {detail}")
         # Logic for spawning would go here
 
+    def _handle_time(self, detail):
+        """
+        [Time Awareness]
+        Elysia checks the current time via PlanningCortex.
+        """
+        current_time = self.architect.get_current_time()
+        print(f"   ⏱️ Current Time: {current_time}")
+        self.brain.memory_field.append(f"I checked the time: {current_time}")
+        self.synapse.transmit("Original", "INFO", f"Time check: {current_time}")
+
     def _handle_serve(self, detail):
         """
         [The Garden]

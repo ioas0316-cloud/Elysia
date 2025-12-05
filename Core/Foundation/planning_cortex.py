@@ -2,12 +2,31 @@ import logging
 import random
 from pathlib import Path
 from typing import Dict, List, Any
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+import datetime
+from typing import Dict, List, Any, Optional
 from Core.Foundation.wave_frequency_mapping import WaveFrequencyMapper, EmotionType
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 import time
 
 logger = logging.getLogger("PlanningCortex")
+
+@dataclass
+class PlanStep:
+    """계획의 최소 단위 (Step)"""
+    id: int
+    description: str
+    status: str = "pending" # pending, in_progress, completed, failed
+    tool_call: Optional[str] = None
+    
+@dataclass
+class Goal:
+    """상위 목표 (Goal)"""
+    id: str
+    description: str
+    created_at: float
+    steps: List[PlanStep] = field(default_factory=list)
+    status: str = "active" # active, completed, archived
 
 class PlanningCortex:
     """
@@ -18,7 +37,48 @@ class PlanningCortex:
         self.mapper = WaveFrequencyMapper()
         self.project_root = Path(__file__).parent.parent
         self.resonance_map: Dict[str, float] = {}
+        self.active_goals: Dict[str, Goal] = {}
+        self.schedule: List[Dict] = []
         logger.info("📐 Planning Cortex (The Architect) Initialized.")
+
+    def get_current_time(self) -> str:
+        """
+        현재 시간을 반환합니다.
+        """
+        now = datetime.datetime.now()
+        return now.strftime("%Y-%m-%d %H:%M:%S")
+
+    def create_goal(self, description: str) -> Goal:
+        """새로운 목표를 생성합니다."""
+        goal_id = f"goal_{len(self.active_goals) + 1}_{int(time.time())}"
+        new_goal = Goal(
+            id=goal_id,
+            description=description,
+            created_at=time.time()
+        )
+        self.active_goals[goal_id] = new_goal
+        logger.info(f"🎯 New Goal Created: [{goal_id}] {description}")
+        return new_goal
+
+    def decompose_goal(self, goal_id: str, steps_text: List[str]) -> bool:
+        """
+        목표를 구체적인 단계로 분해하여 저장합니다.
+        """
+        if goal_id not in self.active_goals:
+            logger.warning(f"⚠️ Goal ID {goal_id} not found.")
+            return False
+            
+        goal = self.active_goals[goal_id]
+        
+        for i, step_desc in enumerate(steps_text):
+            step = PlanStep(
+                id=i+1,
+                description=step_desc
+            )
+            goal.steps.append(step)
+            
+        logger.info(f"🧩 Goal decomposed into {len(goal.steps)} steps.")
+        return True
 
     def audit_structure(self) -> List[str]:
         """

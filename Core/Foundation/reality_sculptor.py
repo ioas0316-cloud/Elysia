@@ -16,10 +16,15 @@ class RealitySculptor:
     1. Sculpt File (Refactor/Beautify via LLM)
     2. Carve Directory (Create Structure)
     3. Manifest Wave (Wave -> Text)
+    4. Synthesis from CodeWave (Wave -> Python Code)
     """
     def __init__(self):
         logger.info("🗿 Reality Sculptor Initialized. Ready to carve.")
         self.cortex = CodeCortex()
+        
+        # Late import to avoid circular dependency if any
+        from Core.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
+        self.wave_system = get_wave_coding_system()
 
     def sculpt_file(self, file_path: str, intent: str) -> bool:
         """
@@ -98,6 +103,41 @@ class RealitySculptor:
         Intent: {intent}
         Energy Level: {energy}
         """
+        return self.cortex.generate_code(prompt)
+
+    def sculpt_from_code_wave(self, wave: 'CodeWave', intent: str) -> str:
+        """
+        [Phase 5: Wave Synthesis]
+        Synthesizes concrete Python code from an abstract Code Wave.
+        """
+        logger.info(f"   🌊 Synthesizing Code from Wave: Freq={wave.frequency}, Phase={wave.phase.name}")
+        
+        # Translate Wave Properties to Artist Instructions
+        complexity_instruction = "Make the code simple and readable."
+        if wave.frequency > 70:
+            complexity_instruction = "Use advanced algorithms, classes, and robust error handling. High complexity."
+        elif wave.frequency > 40:
+            complexity_instruction = "Use standard functions and clear logic. Moderate complexity."
+            
+        style_instruction = "Standard Pythonic style."
+        if "CREATIVE" in str(wave.orientation): # Hypothetical check
+            style_instruction = "Use poetic variable names and philosophical comments."
+        elif "LOGIC" in str(wave.orientation):
+            style_instruction = "Focus on pure performance and mathematical precision."
+            
+        prompt = f"""
+        You are the Reality Sculptor (Phase 5).
+        Manifest Python code based on this Wave Signature:
+        
+        Intent: {intent}
+        target_complexity: {wave.frequency}/100 ({complexity_instruction})
+        target_phase: {wave.phase.name}
+        target_style: {style_instruction}
+        importance: {wave.amplitude:.2f}
+        
+        Return ONLY the Python code.
+        """
+        
         return self.cortex.generate_code(prompt)
 
     def extract_essence(self, file_path: str) -> Dict[str, str]:

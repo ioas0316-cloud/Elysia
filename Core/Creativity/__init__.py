@@ -9,12 +9,14 @@ This module provides systems for:
 - Visual Art Creation (VisualArtist)
 """
 
-from .story_generator import StoryGenerator
-from .music_composer import MusicComposer
-from .visual_artist import VisualArtist
+# from .story_generator import StoryGenerator
+# from .music_composer import MusicComposer
+# from .visual_artist import VisualArtist
+from .visualizer_server import VisualizerServer
 
 __all__ = [
-    'StoryGenerator',
-    'MusicComposer',
-    'VisualArtist',
+    # 'StoryGenerator',
+    # 'MusicComposer',
+    # 'VisualArtist',
+    'VisualizerServer',
 ]

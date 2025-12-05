@@ -65,6 +65,8 @@ from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decompo
 from Core.Intelligence.integrated_cognition_system import get_integrated_cognition
 from Core.Intelligence.collective_intelligence_system import get_collective_intelligence
 from Core.Intelligence.wave_coding_system import get_wave_coding_system
+from Core.Intelligence.tool_sequencer import get_tool_sequencer
+from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
 from Core.Interface.bluetooth_ear import BluetoothEar
 from Core.Interface.bluetooth_ear import BluetoothEar
 from Core.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
@@ -612,14 +614,37 @@ class LivingElysia:
                         
                         if autonomous_goal != "Exist":
                             print(f"\n🦋 Autonomous Will: {autonomous_goal}")
-                            # Convert Goal to Action Plan
-                            if ":" in autonomous_goal:
-                                self.current_plan.append(autonomous_goal)
-                            else:
-                                # Ask Brain to plan the narrative for this Will
-                                from Core.Foundation.free_will_engine import Intent
-                                dummy_intent = Intent(autonomous_goal, autonomous_goal, 0.5, time.time())
-                                self._generate_narrative(dummy_intent)
+                            
+                            # [PHASE 4: THE PLANNER]
+                            # Decompose Goal -> Sequence Tools -> Action Plan
+                            try:
+                                print(f"   🔬 Decomposing Goal: {autonomous_goal}...")
+                                decomposer = get_fractal_decomposer()
+                                root_station = decomposer.decompose(autonomous_goal, max_depth=1)
+                                
+                                # [PHASE 4.5: FRACTAL STRATEGY]
+                                # Simulate Possibilities & Select Optimal Path via Resonance
+                                sequencer = get_tool_sequencer() # Now FractalStrategyEngine
+                                # We pass UltraReasoning to enable deep thought simulation
+                                action_sequence = sequencer.strategize(
+                                    root_station, 
+                                    resonance_state=self.resonance,
+                                    ultra_reasoning=self.ultra_reasoning
+                                )
+                                
+                                if action_sequence:
+                                    print(f"   🔧 Selected Strategy: {action_sequence}")
+                                    self.current_plan.extend(action_sequence)
+                                    
+                                    # [PHASE 5: META-COGNITION LOOP]
+                                    # "Did this verify the Purpose?"
+                                    # Ideally, we execute, then reflect. For now, we seed the thought.
+                                    self.current_plan.append(f"THINK:Reflect on result of {autonomous_goal}")
+                                else:
+                                    self.current_plan.append(f"THINK:{autonomous_goal}")
+                            except Exception as e:
+                                print(f"   ⚠️ Planning Failed: {e}")
+                                self.current_plan.append(f"THINK:{autonomous_goal}")
                         else:
                              print("   ... Drift ...")
                     

@@ -27,7 +27,7 @@ class CosmicStudio:
             
     def manifest(self, desire_packet: HyperWavePacket, intent: str) -> str:
         """
-        Manifests a desire into reality.
+        Manifests a desire into reality using Wave Synthesis.
         
         Args:
             desire_packet: The 4D thought form to manifest.
@@ -39,15 +39,37 @@ class CosmicStudio:
         logger.info(f"🎨 Manifesting intent: '{intent}' (Energy: {desire_packet.energy:.2f})")
         
         # 1. Determine the form (File Extension/Type) based on intent
-        # For now, we default to .txt, but this could be .py, .md, etc.
         file_ext = ".txt"
         if "code" in intent.lower() or "python" in intent.lower():
             file_ext = ".py"
             
-        # 2. Sculpt the content
-        content = self.sculptor.sculpt_from_wave(desire_packet, intent)
+        # 2. Simulate CodeWave from Intent (Energy -> Frequency/Amplitude)
+        # Higher Energy = Higher Complexity (Frequency)
+        # Higher Confidence (Packet Magnitude) = Higher Importance (Amplitude)
+        simulated_frequency = min(100.0, desire_packet.energy * 0.8) 
+        simulated_amplitude = min(1.0, desire_packet.energy / 120.0)
         
-        # 3. Save to Canvas
+        # Import dynamically to avoid circular issues
+        from Core.Intelligence.wave_coding_system import CodeWave, CodePhase, CodeDimension, Quaternion
+        
+        wave = CodeWave(
+            source_file="manifestation_seed",
+            code_snippet="", # Empty seed
+            frequency=simulated_frequency,
+            amplitude=simulated_amplitude,
+            phase=CodePhase.ALGORITHM if file_ext == ".py" else CodePhase.DECLARATION,
+            dimension=CodeDimension.SYSTEM,
+            orientation=Quaternion(1, 0, 0, 0) # Base orientation
+        )
+        
+        # 3. Sculpt the content using Wave Synthesis
+        if file_ext == ".py":
+            logger.info("   🌊 Synthesizing Code Wave...")
+            content = self.sculptor.sculpt_from_code_wave(wave, intent)
+        else:
+            content = self.sculptor.sculpt_from_wave(intent, desire_packet.energy)
+        
+        # 4. Save to Canvas
         filename = f"{intent.replace(' ', '_')}_{int(desire_packet.time_loc)}{file_ext}"
         file_path = os.path.join(self.canvas_path, filename)
         

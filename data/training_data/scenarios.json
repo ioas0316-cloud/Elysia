@@ -1,0 +1,70 @@
+[
+    {
+        "id": "reunion_father",
+        "scene": "A daughter reuniting with her father after a long war.",
+        "dialogue": "Daddy! You came back!",
+        "emotions": {
+            "joy": 0.8,
+            "relief": 0.9,
+            "sadness": 0.2 // Tears of joy
+        },
+        "key_concepts": {
+            "daddy": {
+                "water": 0.4,
+                "light": 0.5
+            },
+            "back": {
+                "earth": 0.3
+            },
+            "war": {
+                "fire": 0.1,
+                "dark": 0.4
+            }
+        }
+    },
+    {
+        "id": "betrayal_trust",
+        "scene": "A trusted friend reveals they were lying the whole time.",
+        "dialogue": "I never really cared about you.",
+        "emotions": {
+            "shock": 0.9,
+            "pain": 0.8,
+            "anger": 0.3
+        },
+        "key_concepts": {
+            "lie": {
+                "dark": 0.6,
+                "fire": 0.2
+            },
+            "friend": {
+                "water": -0.4,
+                "dark": 0.3
+            }, // Tainted concept
+            "care": {
+                "water": -0.2
+            }
+        }
+    },
+    {
+        "id": "scientific_discovery",
+        "scene": "A scientist engaging with a new breakthrough.",
+        "dialogue": "Eureka! The data fits perfectly.",
+        "emotions": {
+            "awe": 0.9,
+            "excitement": 0.5
+        },
+        "key_concepts": {
+            "eureka": {
+                "light": 0.8,
+                "air": 0.4
+            },
+            "data": {
+                "earth": 0.4,
+                "air": 0.2
+            },
+            "fit": {
+                "earth": 0.5
+            }
+        }
+    }
+]

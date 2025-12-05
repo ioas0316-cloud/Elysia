@@ -11,6 +11,7 @@ It is the foundation of Agentic Evolution.
 import os
 import ast
 import logging
+import re # Added for robust prompt handling
 from typing import List, Dict, Any
 
 logger = logging.getLogger("CodeCortex")
@@ -97,14 +98,22 @@ class CodeCortex:
             
             system_prompt = f"""
             You are the CodeCortex of Elysia.
-            Your task is to write Python code based on the following request.
+            Your task is to write Python code based on the following detailed request.
             
-            Request: {prompt}
+            Request: 
+            {prompt}
             
-            Return ONLY the code, inside a python code block.
+            Return ONLY the code, inside a python code block. Do not add conversational text.
+            If the prompt includes complexity instructions, strictly adhere to them.
             """
             response = generate_text(system_prompt)
-            return response
+            
+            # Extract code block if present
+            code_match = re.search(r'```python(.*?)```', response, re.DOTALL)
+            if code_match:
+                return code_match.group(1).strip()
+            
+            return response.strip()
         except Exception as e:
             logger.error(f"Code Generation Failed: {e}")
             return f"# Error generating code: {e}"

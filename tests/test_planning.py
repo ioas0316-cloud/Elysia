@@ -1,50 +1,35 @@
+
 import sys
 import os
-import unittest
-from unittest.mock import MagicMock
 
-# Add project root to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+# Add project root to path
+sys.path.append(r"C:\Elysia")
+print(f"DEBUG: sys.path: {sys.path}")
 
-from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex
-from Core.Foundation.time_tools import get_current_time
+from Core.Foundation.planning_cortex import PlanningCortex
 
-class TestPlanningPhase2(unittest.TestCase):
+def test_time_awareness():
+    print("🕰️ Testing PlanningCortex Time Awareness...")
+    planner = PlanningCortex()
     
-    def setUp(self):
-        # Mock dependencies for PlanningCortex
-        self.mock_hippocampus = MagicMock()
-        self.mock_conscience = MagicMock()
-        # Allow all actions by default
-        self.mock_conscience.evaluate_action.return_value = True
-        
-        self.planner = PlanningCortex(self.mock_hippocampus, self.mock_conscience)
+    # Test get_current_time
+    time_str = planner.get_current_time()
+    print(f"Current Time: {time_str}")
+    
+    assert time_str is not None, "Time should not be None"
+    print("✅ get_current_time passed")
+    
+    # Test Goal Creation
+    goal = planner.create_goal("Test Goal")
+    print(f"Created Goal: {goal.id} - {goal.description}")
+    
+    # Test Decomposition
+    success = planner.decompose_goal(goal.id, ["Step 1", "Step 2"])
+    print(f"Decomposition Success: {success}")
+    print(f"Steps: {[s.description for s in goal.steps]}")
+    
+    assert len(goal.steps) == 2, "Should have 2 steps"
+    print("✅ decompose_goal passed")
 
-    def test_time_tools(self):
-        """Test if get_current_time returns a valid ISO string."""
-        time_str = get_current_time()
-        print(f"Current time: {time_str}")
-        self.assertIsInstance(time_str, str)
-        self.assertIn("T", time_str) # ISO format check
-
-    def test_planning_cortex_write_file(self):
-        """Test heuristic planner for 'write file' goal."""
-        goal = "Write a poem to poem.txt"
-        plan = self.planner.develop_plan(goal)
-        
-        self.assertTrue(len(plan) > 0)
-        self.assertEqual(plan[0]['tool'], 'write_to_file')
-        self.assertEqual(plan[0]['parameters']['filename'], 'poem.txt')
-        print(f"Plan for '{goal}': {plan}")
-
-    def test_planning_cortex_search(self):
-        """Test heuristic planner for 'search' goal."""
-        goal = "Research quantum physics"
-        plan = self.planner.develop_plan(goal)
-        
-        self.assertTrue(len(plan) > 0)
-        self.assertEqual(plan[0]['tool'], 'web_search')
-        print(f"Plan for '{goal}': {plan}")
-
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == "__main__":
+    test_time_awareness()

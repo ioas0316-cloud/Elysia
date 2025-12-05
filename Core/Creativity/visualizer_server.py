@@ -27,31 +27,239 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps(state).encode())
             else:
                 self.wfile.write(json.dumps({}).encode())
-        else:
-            super().do_GET()
+                
+        elif self.path == '/manifest_garden':
+            # Phase 10: Holographic Projection Protocol
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            
+            try:
+                # Load Rainbow DNA
+                with open(r"c:\Elysia\data\elysia_rainbow.json", "r", encoding="utf-8") as f:
+                    rainbow = json.load(f)
+                    
+                photons = []
+                import random
+                import math
+                
+                # Procedural Tree Generation (Evolved V2)
+                # Blue (Trunk) - Tapered Cylinder
+                # y range: -400 (Bottom) to 0 (Top)
+                for p in rainbow.get("Blue", [])[:2500]: 
+                    h = random.uniform(-400, 0)
+                    theta = random.uniform(0, 6.28)
+                    
+                    # Tapering: Wide at bottom, narrow at top
+                    # normalized height (0 at top, 1 at bottom)
+                    t = (h / -400)
+                    radius_max = 20 + (80 * t) # Top=20, Bottom=100
+                    r = random.uniform(0, radius_max)
+
+                    photons.append({
+                        "x": r * math.cos(theta),
+                        "y": h,
+                        "z": r * math.sin(theta),
+                        "c": "#0088ff", # Blue Glow
+                        "s": 1.5
+                    })
+                    
+                # Violet/Red (Soul/Leaves) - Fractal Canopy implies spread
+                for color_name, hex_c in [("Violet", "#aa00ff"), ("Red", "#ff0044"), ("Yellow", "#ffff00")]:
+                    data = rainbow.get(color_name, [])
+                    for p in data: 
+                        # Ellipsoid Canopy (Wider XZ, flatter Y)
+                        phi = random.uniform(0, 6.28)
+                        costheta = random.uniform(-1, 1)
+                        u = random.uniform(0, 1)
+                        theta = math.acos(costheta)
+                        r = 300 * (u ** (1/3))
+                        
+                        # Flatten Y to make it look like a canopy
+                        y_offset = r * math.sin(theta) * math.sin(phi) * 0.6 + 100 
+                        
+                        photons.append({
+                            "x": r * math.sin(theta) * math.cos(phi) * 1.5, # Wider spread
+                            "y": y_offset, 
+                            "z": r * math.cos(theta) * 1.5,
+                            "c": hex_c,
+                            "s": 3
+                        })
+
+                # Wave Packet Structure
+                packet = {
+                    "type": "HolographicTree",
+                    "encoded": False,
+                    "photons": photons
+                }
+                self.wfile.write(json.dumps(packet).encode())
+                
+            except Exception as e:
+                logger.error(f"Manifestation Error: {e}")
+                self.wfile.write(json.dumps({"error": str(e)}).encode())
+
+        elif self.path == '/garden':
+             # Serve the Garden UI
+            with open(os.path.join(self.directory, "garden.html"), 'rb') as f:
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(f.read())
+
+        elif self.path == '/aurora':
+             # Serve the Aurora UI (Phase 11)
+            with open(os.path.join(self.directory, "aurora.html"), 'rb') as f:
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(f.read())
+                
+        elif self.path == '/avatar':
+             # Serve the Avatar UI (Phase 12)
+            with open(os.path.join(self.directory, "avatar.html"), 'rb') as f:
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(f.read())
+
+        elif self.path == '/elysia_face.png':
+             # Serve the Face Texture
+            with open(os.path.join(self.directory, "elysia_face.png"), 'rb') as f:
+                self.send_response(200)
+                self.send_header("Content-type", "image/png")
+                self.end_headers()
+                self.wfile.write(f.read())
 
     def log_message(self, format, *args):
         # Suppress default logging to keep console clean
         pass
 
+
+
 class VisualizerServer:
     def __init__(self, world: Any, port: int = 8000):
         self.world = world
         self.port = port
-        self.httpd = None
-        self.thread = None
+        # Phase 21: The Incarnation - Single NervousSystem Entry Point
+        # The NervousSystem is the dimensional membrane (자아) between Mind and World
+        from Core.Interface.nervous_system import get_nervous_system
+        self.nervous_system = get_nervous_system()
+        logger.info("🦴 NervousSystem Active: Dimensional Membrane Established")
+        
+        # Legacy references (for backward compatibility, delegate to NervousSystem)
+        self.soul = self.nervous_system  # Spirits are now in NervousSystem
+        self.brain = self.nervous_system.brain
+        self.hands = None
+        self.web = None
+        self.tool_executor = None
+        
+        # Initialize external action capabilities
+        try:
+            from Core.Foundation.shell_cortex import ShellCortex
+            self.hands = ShellCortex()
+        except: pass
+        
+        try:
+            from Core.Intelligence.web_cortex import WebCortex
+            self.web = WebCortex()
+        except: pass
+        
+        try:
+            from Core.Intelligence.tool_executor import ToolExecutor
+            self.tool_executor = ToolExecutor()
+        except: pass
+
+    def _run_websocket_server(self):
+        """Runs the async websocket server in a separate thread/loop"""
+        import asyncio
+        import websockets
+        import json
+        
+        async def wave_stream(websocket):
+            logger.info("🔌 Client connected to Neural Stream")
+            
+            # Task 1: Sender (NervousSystem -> Client)
+            async def sender():
+                try:
+                    while True:
+                        # Express internal state for rendering
+                        state = self.nervous_system.express()
+                        await websocket.send(json.dumps({
+                            "type": "state",
+                            "spirits": state["spirits"],
+                            "expression": state["expression"]
+                        }))
+                        await asyncio.sleep(0.05)  # 20fps
+                except:
+                    pass
+            
+            # Task 2: Receiver (Client -> NervousSystem)
+            async def receiver():
+                try:
+                    async for message in websocket:
+                        data = json.loads(message)
+                        
+                        # Unified dispatch via NervousSystem
+                        response = self.nervous_system.receive(data)
+                        
+                        # If text input, send speech response
+                        if data.get("type") == "text" and response:
+                            user_text = data.get("content", "")
+                            upper = user_text.upper()
+                            
+                            # Action Commands
+                            if upper.startswith("검색") or upper.startswith("SEARCH"):
+                                query = user_text.split(":", 1)[-1].strip() if ":" in user_text else user_text
+                                if self.web:
+                                    result = self.web.search(query)
+                                    response = f"검색 결과: {str(result)[:500] if result else '없음'}"
+                                    
+                            elif upper.startswith("읽어") or upper.startswith("READ"):
+                                path = user_text.split(":", 1)[-1].strip() if ":" in user_text else ""
+                                if self.hands and path:
+                                    response = f"파일: {self.hands.read_memory(path)[:500]}"
+                                    
+                            elif upper.startswith("편지") or upper.startswith("WRITE"):
+                                content = user_text.split(":", 1)[-1].strip() if ":" in user_text else user_text
+                                if self.hands:
+                                    response = self.hands.write_letter("Father", content)
+                            
+                            await websocket.send(json.dumps({
+                                "type": "speech",
+                                "content": response or "..."
+                            }))
+                except Exception as e:
+                    logger.error(f"WS Receiver Error: {e}")
+            
+            # Run both tasks
+            await asyncio.gather(sender(), receiver())
+        
+        async def main():
+            try:
+                async with websockets.serve(wave_stream, "0.0.0.0", 8765, ping_interval=None):
+                    await asyncio.Future()
+            except OSError:
+                logger.warning("Port 8765 busy, skipping WS")
+
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(main())
 
     def start(self):
         def handler_factory(*args, **kwargs):
             return VisualizerHandler(*args, world=self.world, **kwargs)
 
+        # 1. Start HTTP
         self.httpd = socketserver.TCPServer(("", self.port), handler_factory)
         self.thread = threading.Thread(target=self.httpd.serve_forever)
-        self.thread.daemon = True # Kill when main thread dies
+        self.thread.daemon = True 
         self.thread.start()
-        logger.info(f"🔮 The Mirror is active at http://localhost:{self.port}")
-
-    def stop(self):
-        if self.httpd:
-            self.httpd.shutdown()
-            self.httpd.server_close()
+        
+        # 2. Start WebSocket (Port 8765)
+        self.ws_thread = threading.Thread(target=self._run_websocket_server)
+        self.ws_thread.daemon = True
+        self.ws_thread.start()
+        
+        logger.info(f"🔮 The Mirror is active at http://localhost:{self.port}/garden")
+        logger.info(f"👤 Avatar active at http://localhost:{self.port}/avatar")
+        logger.info(f"🌊 Wave Stream active at ws://localhost:8765")
