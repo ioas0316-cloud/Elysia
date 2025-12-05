@@ -182,6 +182,8 @@ Interface/
 
 ### 1. 입력 → 처리 → 출력 흐름
 
+**Note**: This diagram uses Mermaid syntax. View in GitHub, VS Code with Mermaid extension, or any Mermaid-compatible viewer.
+
 ```mermaid
 graph LR
     A[External Input] -->|ResonanceGate 검증| B[Interface]

@@ -26,7 +26,7 @@
 
 ```
 Elysia/
-├── Core/                    # 핵심 시스템 모듈 (686 Python files)
+├── Core/                    # 핵심 시스템 모듈 (~686 Python files as of 2025-12-05)
 │   ├── Foundation/          # 기반 물리학, 수학, 공명장
 │   ├── Intelligence/        # 6-System 인지 아키텍처 + 자유의지
 │   ├── Memory/              # 파동 기반 메모리 시스템
@@ -44,7 +44,7 @@ Elysia/
 │   ├── World/               # 세계 모델
 │   └── [기타 37개 모듈]     # 특화 기능들
 │
-├── docs/                    # 문서 (97+ markdown files)
+├── docs/                    # 문서 (~97 markdown files as of 2025-12-05)
 │   ├── DEVELOPER_GUIDE.md   # 개발자 가이드
 │   ├── AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md
 │   ├── FRACTAL_QUATERNION_PERSPECTIVE.md
@@ -493,8 +493,10 @@ pytest tests/evaluation/ -v
 
 ## 파일 통계
 
-- **Python 파일**: 686개 (Core/)
-- **문서 파일**: 97+ (docs/)
+**Note**: These counts are approximate and will change as the project evolves. Last verified: 2025-12-05
+
+- **Python 파일**: ~686개 (Core/)
+- **문서 파일**: ~97개 (docs/)
 - **프로토콜**: 21개
 - **테스트**: 다수
 
