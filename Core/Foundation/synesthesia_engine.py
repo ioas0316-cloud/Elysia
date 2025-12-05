@@ -58,6 +58,27 @@ class SynesthesiaEngine:
         freq = 200.0 + (hash(text) % 400)
         return UniversalSignal(SignalType.TEXT, frequency=freq, amplitude=0.5, payload=text)
 
+    def from_audio(self, audio_data: np.ndarray, sample_rate: int) -> UniversalSignal:
+        """
+        Convert audio data to widespread signal.
+        - Amplitude = RMS Volume
+        - Frequency = Zero Crossing Rate (approximate pitch)
+        """
+        # calculate RMS amplitude
+        volume = np.sqrt(np.mean(audio_data**2))
+        
+        # calculate Zero Crossing Rate for frequency approximation
+        zero_crossings = np.where(np.diff(np.signbit(audio_data)))[0]
+        zcr = len(zero_crossings) / len(audio_data)
+        freq_est = zcr * sample_rate / 2
+        
+        return UniversalSignal(
+            SignalType.AUDITORY, 
+            frequency=float(freq_est), 
+            amplitude=float(volume), 
+            payload={"volume": volume, "zcr": zcr}
+        )
+
     def convert(self, signal: UniversalSignal, render_mode: RenderMode) -> RenderResult:
         if render_mode == RenderMode.AS_COLOR:
             color = self._freq_to_rgb(signal.frequency)

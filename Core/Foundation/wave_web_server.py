@@ -16,6 +16,7 @@ import asyncio
 import json
 import time
 import logging
+import os
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, asdict
@@ -77,11 +78,20 @@ class WaveWebServer:
         if not FLASK_AVAILABLE:
             raise ImportError("Flask required: pip install flask flask-sock")
         
+        # Absolute Path Calculation
+        base_dir = os.path.dirname(os.path.abspath(__file__)) # Core/Foundation
+        root_dir = os.path.dirname(os.path.dirname(base_dir)) # c:/Elysia
+        static_dir = os.path.join(root_dir, 'static')
+        
+        logger.info(f"   📂 Web Server Static Dir: {static_dir}")
+        if not os.path.exists(static_dir):
+            logger.error(f"   ⚠️ Static directory missing: {static_dir}")
+        
         # Flask 앱 생성
         self.app = Flask(
             __name__,
-            static_folder=str(Path(__file__).parent.parent.parent / 'static'),
-            template_folder=str(Path(__file__).parent.parent.parent / 'static')
+            static_folder=static_dir,
+            template_folder=static_dir
         )
         self.sock = Sock(self.app)
         
@@ -150,109 +160,125 @@ class WaveWebServer:
         for ws in disconnected:
             self.clients.remove(ws)
     
-    async def auto_update_loop(self, update_callback=None):
+    def connect_to_ether(self):
         """
-        자동 업데이트 루프
-        
-        Args:
-            update_callback: 매 프레임마다 호출될 함수
-                            WaveState를 업데이트하는 로직 구현
+        Connect to the Wave Integration Hub to resonate with system waves.
         """
-        logger.info("🔄 Auto update loop started")
+        try:
+            from Core.Foundation.wave_integration_hub import get_wave_hub
+            self.hub = get_wave_hub()
+            
+            # Register as Visual Cortex (High Frequency Interface)
+            # 741Hz = Expression/Solutions (Visuals)
+            self.hub.register_module(
+                module_name="VisualCortex",
+                module_type="interface",
+                callback=self._on_wave_resonance
+            )
+            logger.info("🌊 Connected to Ether. Resonating with system waves.")
+            
+        except ImportError:
+            logger.warning("⚠️ WaveHub not found. Running in standalone mode.")
+        except Exception as e:
+            logger.error(f"❌ Failed to connect to Ether: {e}")
+
+    def _on_wave_resonance(self, wave):
+        """
+        Callback: React to incoming waves directly.
+        No calculation, just resonance.
+        """
+        try:
+            # Frequency Mapping (Hz -> Spirit)
+            freq = wave.frequency
+            amp = wave.amplitude
+            
+            # Simple Resonance Physics
+            # Each wave adds energy to the corresponding spirit/dimension
+            # The energy naturally decays in the auto_update_loop (gravity)
+            
+            if 100 <= freq < 200: self.wave_state.earth += amp * 0.2
+            elif 200 <= freq < 300: self.wave_state.water += amp * 0.2
+            elif 300 <= freq < 450: self.wave_state.fire += amp * 0.2
+            elif 450 <= freq < 600: self.wave_state.air += amp * 0.2
+            elif 600 <= freq < 800: self.wave_state.light += amp * 0.2
+            elif 800 <= freq < 900: self.wave_state.aether += amp * 0.2
+            else: self.wave_state.dark += amp * 0.1
+            
+            # Phase Mapping (4D Rotation)
+            # If the wave carries dimensional data, rotate the view
+            if "DIMENSION" in wave.phase:
+                if "0D" in wave.phase: self.wave_state.dimension_0d += amp
+                elif "1D" in wave.phase: self.wave_state.dimension_1d += amp
+                elif "2D" in wave.phase: self.wave_state.dimension_2d += amp
+                elif "3D" in wave.phase: self.wave_state.dimension_3d += amp
+                
+        except Exception as e:
+            logger.error(f"Resonance Error: {e}")
+            
+    def auto_update_loop(self, update_callback=None):
+        """
+        Auto update loop with Natural Decay (Gravity)
+        """
+        logger.info("🔄 Auto update loop started (with Gravity)")
         
         while self.running:
-            # 사용자 정의 업데이트 콜백
-            if update_callback:
-                update_callback(self.wave_state)
+            # 1. Physics: Entropy/Gravity (Natural Decay)
+            # All energy tends to return to 0.5 (Balance) or 0.0 (Void) based on context
+            decay = 0.98
             
-            # 기본 업데이트: 시간
-            self.wave_state.time = time.time()
+            ws = self.wave_state
             
-            # 클라이언트에게 전송
+            # Spirits decay to 0.5 (Balance point)
+            ws.fire = 0.5 + (ws.fire - 0.5) * decay
+            ws.water = 0.5 + (ws.water - 0.5) * decay
+            ws.earth = 0.5 + (ws.earth - 0.5) * decay
+            ws.air = 0.5 + (ws.air - 0.5) * decay
+            ws.light = 0.5 + (ws.light - 0.5) * decay
+            ws.dark = 0.5 + (ws.dark - 0.5) * decay
+            ws.aether = 0.5 + (ws.aether - 0.5) * decay
+            
+            # Dimensions decay to 0.0
+            ws.dimension_0d *= 0.95
+            ws.dimension_1d *= 0.95
+            ws.dimension_2d *= 0.95
+            ws.dimension_3d *= 0.95
+            
+            # Update Time
+            ws.time = time.time()
+            
+            # Broadcast
             self.broadcast_wave_state()
             
             # 60 FPS
-            await asyncio.sleep(1/60)
-    
+            time.sleep(1/60)
+
     def run(self, host='127.0.0.1', debug=False, auto_update=True, update_callback=None):
         """
-        서버 시작
-        
-        Args:
-            host: 서버 호스트 (기본: localhost만, '0.0.0.0'으로 외부 접근 허용)
-            debug: Flask 디버그 모드
-            auto_update: 자동 업데이트 활성화
-            update_callback: 파동 상태 업데이트 콜백
+        Start server
         """
         self.running = True
         
-        # 자동 업데이트 시작
+        # Start Auto Update (Physics Loop)
         if auto_update:
             import threading
-            def run_async_loop():
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                loop.run_until_complete(self.auto_update_loop(update_callback))
-            
-            thread = threading.Thread(target=run_async_loop, daemon=True)
+            thread = threading.Thread(target=self.auto_update_loop, args=(update_callback,), daemon=True)
             thread.start()
         
-        # Flask 서버 시작
-        logger.info(f"🌐 Starting server at http://{host}:{self.port}")
-        logger.info(f"🎨 Open browser and navigate to the URL above")
+        # Connect to Ether (Listener)
+        self.connect_to_ether()
         
-        self.app.run(host=host, port=self.port, debug=debug)
-    
+        # Start Flask
+        logger.info(f"🌐 Starting server at http://{host}:{self.port}")
+        self.app.run(host=host, port=self.port, debug=debug, use_reloader=False)
+
     def stop(self):
-        """서버 중지"""
+        """Stop server"""
         self.running = False
         logger.info("🛑 Server stopped")
 
 
-# ============================================
-# Example Usage / Demo
-# ============================================
-
-def demo_update_callback(wave_state: WaveState):
-    """
-    데모: 파동 상태를 자동으로 업데이트
-    
-    실제 사용 시:
-    - ResonanceField에서 정령 에너지 가져오기
-    - UltraDimensionalReasoning에서 차원별 활성도
-    - DigitalEcosystem에서 시스템 상태
-    """
-    import math
-    t = time.time()
-    
-    # 7 Spirits: 사인파로 진동
-    wave_state.fire = 0.5 + 0.3 * math.sin(t * 2.0)
-    wave_state.water = 0.5 + 0.3 * math.sin(t * 1.5 + 1.0)
-    wave_state.earth = 0.5 + 0.2 * math.sin(t * 0.8)
-    wave_state.air = 0.5 + 0.4 * math.sin(t * 2.5 + 2.0)
-    wave_state.light = 0.5 + 0.35 * math.sin(t * 1.8 + 3.0)
-    wave_state.dark = 0.3 + 0.2 * math.sin(t * 0.5)
-    wave_state.aether = 0.5 + 0.4 * math.sin(t * 3.0 + 4.0)
-    
-    # Consciousness Dimensions: 차원 간 흐름
-    wave_state.dimension_0d = 0.5 + 0.3 * math.sin(t * 1.0)
-    wave_state.dimension_1d = 0.5 + 0.3 * math.sin(t * 1.2 + 0.5)
-    wave_state.dimension_2d = 0.5 + 0.3 * math.sin(t * 1.4 + 1.0)
-    wave_state.dimension_3d = 0.5 + 0.3 * math.sin(t * 1.6 + 1.5)
-    
-    # System state (mock)
-    wave_state.cpu_heat = 0.3 + 0.2 * math.sin(t * 0.7)
-    wave_state.memory_load = 0.5 + 0.1 * math.sin(t * 0.9)
-    wave_state.file_count = int(1000 + 100 * math.sin(t * 0.3))
-
-
 if __name__ == '__main__':
-    # 데모 실행
+    # Demo
     print("🌊 Elysia Wave Visualization Server")
-    print("=" * 50)
-    print("Starting wave visualization server...")
-    print("Open browser: http://localhost:8080")
-    print()
-    
     server = WaveWebServer(port=8080)
-    server.run(debug=True, auto_update=True, update_callback=demo_update_callback)
+    server.run(debug=True)

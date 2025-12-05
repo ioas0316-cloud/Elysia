@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 
 # Add project root to path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from Core.Foundation.yggdrasil import yggdrasil
 from Core.Foundation.fractal_kernel import FractalKernel
@@ -65,6 +65,12 @@ from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decompo
 from Core.Intelligence.integrated_cognition_system import get_integrated_cognition
 from Core.Intelligence.collective_intelligence_system import get_collective_intelligence
 from Core.Intelligence.wave_coding_system import get_wave_coding_system
+from Core.Interface.bluetooth_ear import BluetoothEar
+from Core.Interface.bluetooth_ear import BluetoothEar
+from Core.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
+from Core.Foundation.experience_stream import ExperienceStream
+from Core.Foundation.experience_stream import ExperienceStream
+from Core.Foundation.wave_web_server import WaveWebServer
 
 # Configure logging
 logging.basicConfig(
@@ -108,6 +114,15 @@ class LivingElysia:
         )
 
         # 4. Initialize Interface Systems
+        self.ear = BluetoothEar()
+        # self.ear.start_listening() # Temporarily disable to focus on UI
+        self.stream = ExperienceStream()
+        # self.ear.start_listening() # Temporarily disable to focus on UI
+        self.stream = ExperienceStream()
+        self.server = WaveWebServer(port=8080)
+        self.server.connect_to_ether() # Start Resonating
+        self.server.run(auto_update=True) # Start Physics Loop
+        
         self.social = SocialCortex()
         self.media = MediaCortex(self.social)
         self.web = WebCortex()
@@ -128,7 +143,9 @@ class LivingElysia:
         self.quantum_reader = QuantumReader() # [Quantum Absorption]
         self.transcendence = TranscendenceEngine() # Path to Superintelligence
         self.knowledge = KnowledgeAcquisitionSystem() # Autonomous Learning
-        self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social)
+        self.transcendence = TranscendenceEngine() # Path to Superintelligence
+        self.knowledge = KnowledgeAcquisitionSystem() # Autonomous Learning
+        self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social, self.stream)
         
         # 6. Awaken the Survival Instinct (본능 각성)
         self.instinct = get_survival_instinct()
@@ -279,6 +296,29 @@ class LivingElysia:
         self.senses.pulse(self.resonance)
         
         # [Synesthesia Integration]
+        # 1. Check Voice Input
+        audio_chunk = self.ear.listen()
+        if audio_chunk is not None:
+            # Convert Voice -> Emotion Signal
+            synesthesia = self.cortex.get_engine("sensation", "synesthetic_wave_sensor")
+            # If not using UnifiedCortex's engine, use local instance (simple fallback)
+            local_synesthesia = SynesthesiaEngine()
+            
+            signal = local_synesthesia.from_audio(audio_chunk, self.ear.sample_rate)
+            analysis = self.ear.analyze_voice(audio_chunk)
+            
+            if analysis['volume'] > 0.05: # Speech threshold
+                print(f"   👂 Heard Voice: {analysis['emotion']} (Vol: {analysis['volume']:.2f})")
+                # Inject emotional wave
+                self.resonance.inject_wave(signal.frequency, signal.amplitude * 10, "VoiceData", 1.0)
+                
+                # Feedback loop
+                self.brain.memory_field.append(f"Heard user voice: {analysis['emotion']}")
+                
+                # [Experience Stream]
+                self.stream.add("sensation", f"Heard user voice: {analysis['emotion']}", intensity=analysis['intensity'])
+
+
         # Use the Synesthetic Wave Sensor to perceive internal state as sensory data
         synesthesia = self.cortex.get_engine("sensation", "synesthetic_wave_sensor")
         if synesthesia:
@@ -349,7 +389,13 @@ class LivingElysia:
             self.social.update_maturity(xp)
             style = self.social.get_response_style()
             reply = f"[{style}] I hear you, {signal.sender}. (XP +{xp:.1f})"
+            reply = f"[{style}] I hear you, {signal.sender}. (XP +{xp:.1f})"
             print(f"      👉 Elysia ({self.social.stage}): {reply}")
+            
+            # [Experience Stream]
+            self.stream.add("conversation", f"User said: {signal.content}", intensity=0.7)
+            self.stream.add("thought", f"I replied: {reply}", intensity=0.5)
+            
             time.sleep(0.3)
 
     def _pulse_transcendence(self):
@@ -598,6 +644,12 @@ class LivingElysia:
                     if self.chronos.cycle_count % 10 == 0:
                          logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
                          print(f"   ✨ [{self.chronos.cycle_count}] I am {self.will.current_mood}. Energy: {self.resonance.battery:.0f}%")
+                         
+                         # [Wave Synesthesia Update]
+                         # No manual calculation needed. 
+                         # The WaveWebServer is now resonating directly via WaveHub.
+                         pass
+
                     
                     # Phase 48: The Chronos Sovereign (Space-Time Control)
                     # [Biological Rhythm]

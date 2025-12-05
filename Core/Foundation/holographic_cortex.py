@@ -19,6 +19,8 @@ class HolographicCortex:
         print("🌌 HolographicCortex Initialized. Ready to project.")
         self.output_dir = "c:/Elysia/Holograms"
         os.makedirs(self.output_dir, exist_ok=True)
+        self.enabled = False  # Disabled by user request to prevent file spam
+
 
     def visualize_wave_language(self, wave_data: dict):
         """
@@ -30,6 +32,10 @@ class HolographicCortex:
         """
         concept = wave_data.get('concept', 'Unknown')
         frequency = wave_data.get('frequency', 432.0)
+        
+        if not self.enabled:
+            return None
+
         print(f"   📽️ Projecting Wave Form: {concept} ({frequency}Hz)...")
         
         try:
@@ -102,6 +108,9 @@ class HolographicCortex:
         """
         Generates a 3D Scatter Plot of the Resonance Field.
         """
+        if not self.enabled:
+            return None
+            
         print("   📽️ Projecting Holographic Mind...")
         
         fig = plt.figure(figsize=(10, 8))
@@ -160,6 +169,9 @@ class HolographicCortex:
         Visualizes the Code Galaxy (CodeGravitySystem).
         Colors stars based on Spirit Resonance (Folder Mapping).
         """
+        if not self.enabled:
+            return None
+
         print("   🌌 Rendering Code Galaxy...")
         
         try:

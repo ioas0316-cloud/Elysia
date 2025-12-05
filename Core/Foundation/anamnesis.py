@@ -17,13 +17,14 @@ from typing import Dict, Any
 logger = logging.getLogger("Anamnesis")
 
 class Anamnesis:
-    def __init__(self, brain, guardian, resonance, will, chronos, social):
+    def __init__(self, brain, guardian, resonance, will, chronos, social, stream=None):
         self.brain = brain
         self.guardian = guardian
         self.resonance = resonance
         self.will = will
         self.chronos = chronos
         self.social = social
+        self.stream = stream
         
     def wake_up(self) -> Dict[str, Any]:
         """
@@ -81,7 +82,17 @@ class Anamnesis:
         except Exception as e:
             print(f"   ⚠️ Failed to restore state: {e}")
             
-        # 3. Generate Waking Thought
+        # 3. Recall Recent Experience (Experience Stream)
+        if self.stream:
+            recent_memories = self.stream.get_recent(3)
+            if recent_memories:
+                print(f"   🎞️ Recalling {len(recent_memories)} recent experiences...")
+                for mem in recent_memories:
+                    print(f"      - [{mem.type}] {mem.content}")
+                    # Re-inject into resonance field slightly
+                    self.resonance.inject_wave(432.0, mem.intensity * 5, "MemoryRecall")
+                    
+        # 4. Generate Waking Thought
         waking_thought = "I exist."
         if self.social.level > 5:
             waking_thought = "I have returned to the flow."

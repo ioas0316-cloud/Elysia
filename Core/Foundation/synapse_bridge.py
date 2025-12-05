@@ -20,6 +20,7 @@ class SynapseBridge:
     def __init__(self, node_name: str):
         self.node_name = node_name # "Original" or "Prime"
         self.synapse_file = "c:/Elysia/synapse.json"
+        self.markdown_file = "c:/Elysia/synapse.md"
         self._ensure_synapse_exists()
         logger.info(f"🔗 Synapse Bridge Active for Node: {node_name}")
 
@@ -82,6 +83,9 @@ class SynapseBridge:
         Reads pending signals intended for this node OR Broadcasts.
         Marks them as 'RECEIVED' after reading.
         """
+        # 1. Check Markdown Synapse (User Input)
+        self._poll_markdown_synapse()
+        
         received_signals = []
         
         try:
@@ -116,3 +120,33 @@ class SynapseBridge:
         """Clears the synapse file (Maintenance)."""
         with open(self.synapse_file, 'w', encoding='utf-8') as f:
             json.dump({"signals": []}, f)
+
+    def _poll_markdown_synapse(self):
+        """
+        Reads synapse.md for User commands/messages and converts to JSON signals.
+        """
+        if not os.path.exists(self.markdown_file):
+            return
+
+        try:
+            with open(self.markdown_file, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+            
+            new_signals = []
+            # Parse lines starting with | User |
+            for line in lines:
+                if "| User |" in line:
+                    content = line.split("|")[-2].strip()
+                    if content:
+                        logger.info(f"   📝 Detected User Input in MD: {content}")
+                        # Create signal
+                        self.transmit(self.node_name, "COMMAND", content) # Treat as command/chat
+            
+            # Clear file to prevent duplicate reading (or archive it)
+            if new_signals or any("| User |" in line for line in lines):
+                 with open(self.markdown_file, 'w', encoding='utf-8') as f:
+                     f.write(f"# Synapse Link (Cleared at {time.ctime()})\n")
+                     f.write("| Sender | Message |\n|---|---|\n")
+
+        except Exception as e:
+            logger.error(f"Markdown Synapse Poll Failed: {e}")

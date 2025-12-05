@@ -1,1 +1,13 @@
-{"signals": []}
+{
+  "signals": [
+    {
+      "id": "1764940302.361045",
+      "source": "Original",
+      "target": "Original",
+      "type": "COMMAND",
+      "payload": "This is a test memory for the Experience Stream.",
+      "timestamp": 1764940302.3610485,
+      "status": "PENDING"
+    }
+  ]
+}
