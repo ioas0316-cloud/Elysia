@@ -213,6 +213,9 @@
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         
+        // Configuration constants
+        const PARTICLE_STRENGTH_THRESHOLD = 0.5;  // Minimum edge strength to show particles
+        
         // Resize canvas to fill window
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -305,7 +308,7 @@
                     ctx.stroke();
                     
                     // Flowing particles along edges (for active pathways)
-                    if (edge.strength > 0.5) {
+                    if (edge.strength > PARTICLE_STRENGTH_THRESHOLD) {
                         const progress = (time * 0.5 + edge.from.charCodeAt(0)) % 1;
                         const px = from.x + (to.x - from.x) * progress;
                         const py = from.y + (to.y - from.y) * progress + 

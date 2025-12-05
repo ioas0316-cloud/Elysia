@@ -108,8 +108,11 @@ class SynesthesiaNervousBridge:
             from Core.Interface.nervous_system import get_nervous_system
             self.nervous_system = get_nervous_system()
             logger.info("🦴 Nervous System connected")
+        except ImportError as e:
+            logger.error(f"Failed to connect to nervous system (missing module: {e.name}): {e}")
+            self.nervous_system = None
         except Exception as e:
-            logger.error(f"Failed to connect to nervous system: {e}")
+            logger.error(f"Failed to connect to nervous system (unexpected error): {e}")
             self.nervous_system = None
         
         # Mapping configuration: which sensory modality affects which spirit
@@ -269,6 +272,9 @@ class SynesthesiaNervousBridge:
         
         return None
     
+    # RGB color constants
+    RGB_MAX_VALUE = 255
+    
     def _inject_to_nervous_system(self, sensor_type: str, wave):
         """
         Inject a sensory wave into the nervous system.
@@ -279,9 +285,9 @@ class SynesthesiaNervousBridge:
             if sensor_type == "visual":
                 self.nervous_system.receive({
                     "type": "screen_atmosphere",
-                    "r": int(wave.amplitude * 255),
-                    "g": int(wave.frequency % 255),
-                    "b": int((wave.amplitude * wave.frequency) % 255)
+                    "r": int(wave.amplitude * self.RGB_MAX_VALUE),
+                    "g": int(wave.frequency % self.RGB_MAX_VALUE),
+                    "b": int((wave.amplitude * wave.frequency) % self.RGB_MAX_VALUE)
                 })
             elif sensor_type == "auditory":
                 self.nervous_system.receive({

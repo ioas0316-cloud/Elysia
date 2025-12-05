@@ -45,12 +45,29 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
             
             try:
                 from Core.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
+                import random
+                import time
+                
                 bridge = get_synesthesia_bridge()
                 
-                # Get test sensory inputs for demo
+                # Generate dynamic test sensory inputs for demo
+                # Varies slightly each request to show real-time nature
+                hue = (time.time() * 10) % 360  # Slowly changing hue
                 test_inputs = {
-                    "visual": {"color": {"hue": 240, "saturation": 0.7, "brightness": 0.6, "name": "blue"}},
-                    "auditory": {"pitch": 440.0, "volume": 0.5, "duration": 1.0, "timbre": "clear"}
+                    "visual": {
+                        "color": {
+                            "hue": hue,
+                            "saturation": 0.6 + random.random() * 0.3,
+                            "brightness": 0.5 + random.random() * 0.3,
+                            "name": "dynamic"
+                        }
+                    },
+                    "auditory": {
+                        "pitch": 440.0 + random.uniform(-50, 50),
+                        "volume": 0.4 + random.random() * 0.4,
+                        "duration": 1.0,
+                        "timbre": "clear"
+                    }
                 }
                 
                 snapshot = bridge.sense_and_map(test_inputs)

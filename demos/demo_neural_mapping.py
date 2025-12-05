@@ -249,10 +249,18 @@ def main():
         print("\nThe synesthesia-nervous bridge is working as designed.")
         print("External sensors (세상) → Self filter (자아) → Internal mind (마음)\n")
         
+    except ImportError as e:
+        logger.error(f"Demo error - missing module: {e.name}. Install with: pip install -r requirements.txt")
+        print("\n⚠️  Missing required dependencies.")
+        print("   Install with: pip install -r requirements.txt")
+    except AttributeError as e:
+        logger.error(f"Demo error - component not available: {e}")
+        print("\n⚠️  Some Elysia components are not fully initialized.")
+        print("   This is normal if running outside the full Elysia environment.")
     except Exception as e:
         logger.error(f"Demo error: {e}", exc_info=True)
-        print("\n⚠️  Some features may not be fully available.")
-        print("   This is normal if running without full Elysia environment.")
+        print("\n⚠️  Unexpected error occurred.")
+        print("   Check logs for details.")
 
 
 if __name__ == "__main__":
