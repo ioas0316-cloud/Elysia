@@ -5,7 +5,7 @@ from pathlib import Path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
-from Project_Sophia.core.world import World
+from Core.Foundation.core.world import World
 from tools.kg_manager import KGManager
 
 # Define core concepts that should have higher initial energy

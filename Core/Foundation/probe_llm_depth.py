@@ -4,7 +4,7 @@ import os
 sys.path.append(os.getcwd())
 
 import logging
-from Core.Memory.Mind.local_llm import create_local_llm
+from Core.Foundation.Mind.local_llm import create_local_llm
 from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
 
 # Configure logging

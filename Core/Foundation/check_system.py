@@ -9,7 +9,7 @@ print("--- System Check ---")
 # 1. Check Hippocampus Syntax
 print("[1] Checking Hippocampus Syntax...")
 try:
-    from Core.Memory.hippocampus import Hippocampus
+    from Core.Foundation.hippocampus import Hippocampus
     print("    ✅ Hippocampus imported successfully.")
 except Exception as e:
     print(f"    ❌ Hippocampus Import Failed: {e}")

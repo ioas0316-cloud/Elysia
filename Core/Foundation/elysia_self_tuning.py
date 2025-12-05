@@ -14,8 +14,8 @@ sys.path.append('.')
 from Core.Foundation.resonance_field import ResonanceField
 from Core.Foundation.wave_interpreter import WaveInterpreter
 from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.Memory.hippocampus import Hippocampus
-from Core.Cognition.internal_universe import InternalUniverse
+from Core.Foundation.hippocampus import Hippocampus
+from Core.Foundation.internal_universe import InternalUniverse
 
 print("="*70)
 print("🌟 ELYSIA SELF-TUNING PROTOCOL")

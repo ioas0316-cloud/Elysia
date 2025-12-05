@@ -10,8 +10,8 @@ sys.path.append(".")
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("Phase1Demo")
 
-from Core.Memory.Mind.world_tree import WorldTree
-from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.world_tree import WorldTree
+from Core.Foundation.Mind.hippocampus import Hippocampus
 
 print("\n" + "="*70)
 print(" "*15 + "PHASE 1: WorldTree Identity Integration")

@@ -1,5 +1,5 @@
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.topological_resonance import TopologicalResonanceSystem
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.topological_resonance import TopologicalResonanceSystem
 
 def main():
     print("🌀 Elysia Topological Resonance System 🌀")

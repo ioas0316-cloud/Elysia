@@ -26,9 +26,9 @@ from pathlib import Path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Foundation.resonance_field import ResonanceField
-from Project_Sophia.fractal_kernel import FractalKernel
-from scripts.autonomous_fractal_learning import FractalLearner
-from Core.Memory.wave_memory import WaveMemory
+from Core.Foundation.fractal_kernel import FractalKernel
+from Core.Foundation.autonomous_fractal_learning import FractalLearner
+from Core.Foundation.wave_memory import WaveMemory
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -102,7 +102,7 @@ class ElysiaIntegrator:
         
         # Check Gemini API Mock Status
         try:
-            from Core.Evolution.gemini_api import GeminiAPI
+            from Core.Foundation.gemini_api import GeminiAPI
             api = GeminiAPI()
             if not api._is_configured:
                 print("   ✨ Detected Missing API Key -> Harmonizing with Mock Mode.")

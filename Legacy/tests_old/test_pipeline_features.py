@@ -12,9 +12,9 @@ from Project_Elysia.cognition_pipeline import CognitionPipeline
 # Import classes to be mocked as dependencies
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.world import World
-from Project_Sophia.emotional_engine import EmotionalEngine
+from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.Foundation.core.world import World
+from Core.Foundation.emotional_engine import EmotionalEngine
 
 
 class TestCentralDispatchPipeline(unittest.TestCase):

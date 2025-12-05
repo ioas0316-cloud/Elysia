@@ -9,7 +9,7 @@ Usage (python):
   from tools.query_tool import query_and_integrate
   query_and_integrate("What is growth?", top_k=3)
 """
-from Project_Sophia.vector_utils import embed_texts, cosine_sim
+from Core.Foundation.vector_utils import embed_texts, cosine_sim
 
 DATA_DIR = Path("data")
 STATE_FILE = Path("elysia_state.json")
@@ -46,7 +46,7 @@ def query_and_integrate(query: str, top_k: int = 3):
 
     # Integrate with WisdomCortex
     try:
-        from Project_Sophia.sophia_stage_0_parsing import WisdomCortex
+        from Core.Foundation.sophia_stage_0_parsing import WisdomCortex
         wc = WisdomCortex()
     except Exception as e:
         print(f"Could not import WisdomCortex: {e}. Skipping integration.")

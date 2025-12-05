@@ -7,7 +7,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Project_Elysia.guardian import Guardian, ElysiaState
-from Project_Sophia.core.thought import Thought
+from Core.Foundation.core.thought import Thought
 
 class TestGuardianDreamCycle(unittest.TestCase):
 

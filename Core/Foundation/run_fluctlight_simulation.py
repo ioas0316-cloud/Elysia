@@ -23,8 +23,8 @@ from typing import Dict, Any
 from Core.Foundation.Physics.fluctlight import FluctlightEngine
 from Core.Foundation.Physics.time_compression import TimeCompressionEngine
 from Core.System.System.Integration.experience_digester import ExperienceDigester
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.alchemy import Alchemy
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.alchemy import Alchemy
 from Core.Foundation.Math.octonion import Octonion
 
 # Setup logging

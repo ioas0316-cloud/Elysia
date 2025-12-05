@@ -23,8 +23,8 @@ import time as real_time
 from Core.Foundation.Physics.fluctlight import FluctlightEngine
 from Core.Foundation.Physics.meta_time_engine import create_safe_meta_engine
 from Core.System.System.Integration.experience_digester import ExperienceDigester
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.alchemy import Alchemy
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.alchemy import Alchemy
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("MeaningfulScenario")

@@ -6,7 +6,7 @@ import os
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Sophia.insight_synthesizer import InsightSynthesizer
+from Core.Foundation.insight_synthesizer import InsightSynthesizer
 
 class TestInsightSynthesizer(unittest.TestCase):
     """

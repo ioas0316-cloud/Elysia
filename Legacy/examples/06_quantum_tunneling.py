@@ -7,7 +7,7 @@ from dataclasses import dataclass
 # Fix path to import Project_Sophia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.physics import QuantumState, HamiltonianSystem
+from Core.Foundation.core.physics import QuantumState, HamiltonianSystem
 
 def potential_energy_barrier(position: np.ndarray) -> float:
     """

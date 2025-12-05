@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.hippocampus import Hippocampus
-from Core.Memory.fractal_quantization import PatternDNA
+from Core.Foundation.hippocampus import Hippocampus
+from Core.Foundation.fractal_quantization import PatternDNA
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

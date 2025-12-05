@@ -273,7 +273,7 @@ class CommunicationMetrics:
             except ImportError:
                 # 폴백: 기존 Ether 시스템
                 try:
-                    from Core.Field.ether import Ether, Wave
+                    from Core.Foundation.ether import Ether, Wave
                 except ImportError:
                     self.details['wave_communication'] = {
                         'error': 'Ether module not found',

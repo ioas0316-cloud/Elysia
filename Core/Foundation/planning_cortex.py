@@ -3,7 +3,7 @@ import random
 from pathlib import Path
 from typing import Dict, List, Any
 from dataclasses import dataclass
-from Core.Field.wave_frequency_mapping import WaveFrequencyMapper, EmotionType
+from Core.Foundation.wave_frequency_mapping import WaveFrequencyMapper, EmotionType
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 import time
 

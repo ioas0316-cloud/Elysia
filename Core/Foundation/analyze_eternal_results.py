@@ -13,8 +13,8 @@ if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
 import logging
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.alchemy import Alchemy
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.alchemy import Alchemy
 from Core.System.System.Integration.experience_digester import ExperienceDigester
 from Core.Foundation.Physics.fluctlight import FluctlightEngine
 from Core.Foundation.Physics.meta_time_engine import create_safe_meta_engine

@@ -7,7 +7,7 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.Mind.local_llm import create_local_llm
+from Core.Foundation.Mind.local_llm import create_local_llm
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

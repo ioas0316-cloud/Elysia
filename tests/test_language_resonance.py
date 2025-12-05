@@ -7,8 +7,8 @@ import sys
 # 시스템 경로에 프로젝트 루트 추가
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Memory.Mind.resonance_engine import HyperResonanceEngine
-from Core.Memory.Mind.hyper_qubit import HyperQubit, QubitState
+from Core.Foundation.Mind.resonance_engine import HyperResonanceEngine
+from Core.Foundation.Mind.hyper_qubit import HyperQubit, QubitState
 
 class TestLanguageResonance(unittest.TestCase):
     """

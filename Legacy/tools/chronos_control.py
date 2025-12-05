@@ -10,9 +10,9 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.world import World
-from Project_Sophia.core.chronicle import Chronicle
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.core.world import World
+from Core.Foundation.core.chronicle import Chronicle
+from Core.Foundation.wave_mechanics import WaveMechanics
 from unittest.mock import MagicMock
 
 class ChronosControl:

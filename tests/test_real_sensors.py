@@ -18,14 +18,14 @@ class TestTimeAwarenessSense:
     
     def test_time_sense_always_available(self):
         """시간 센서는 항상 사용 가능해야 함"""
-        from Core.World.real_sensors import TimeAwarenessSense
+        from Core.Foundation.real_sensors import TimeAwarenessSense
         
         sensor = TimeAwarenessSense()
         assert sensor.is_available() is True
     
     def test_time_sense_returns_event(self):
         """시간 센서가 이벤트를 반환해야 함"""
-        from Core.World.real_sensors import TimeAwarenessSense
+        from Core.Foundation.real_sensors import TimeAwarenessSense
         
         sensor = TimeAwarenessSense()
         event = sensor.sense()
@@ -36,7 +36,7 @@ class TestTimeAwarenessSense:
     
     def test_time_sense_has_valid_data(self):
         """시간 센서 데이터가 유효해야 함"""
-        from Core.World.real_sensors import TimeAwarenessSense
+        from Core.Foundation.real_sensors import TimeAwarenessSense
         
         sensor = TimeAwarenessSense()
         event = sensor.sense()
@@ -49,7 +49,7 @@ class TestTimeAwarenessSense:
     
     def test_time_sense_severity_range(self):
         """시간 센서 심각도가 0~1 범위여야 함"""
-        from Core.World.real_sensors import TimeAwarenessSense
+        from Core.Foundation.real_sensors import TimeAwarenessSense
         
         sensor = TimeAwarenessSense()
         event = sensor.sense()
@@ -62,7 +62,7 @@ class TestSystemMetricsSense:
     
     def test_system_sense_availability(self):
         """시스템 센서 사용 가능 여부 확인"""
-        from Core.World.real_sensors import SystemMetricsSense, HAS_PSUTIL
+        from Core.Foundation.real_sensors import SystemMetricsSense, HAS_PSUTIL
         
         sensor = SystemMetricsSense()
         assert sensor.is_available() == HAS_PSUTIL
@@ -73,7 +73,7 @@ class TestSystemMetricsSense:
     )
     def test_system_sense_returns_event(self):
         """시스템 센서가 이벤트를 반환해야 함"""
-        from Core.World.real_sensors import SystemMetricsSense
+        from Core.Foundation.real_sensors import SystemMetricsSense
         
         sensor = SystemMetricsSense()
         event = sensor.sense()
@@ -87,7 +87,7 @@ class TestSystemMetricsSense:
     )
     def test_system_sense_has_cpu_memory(self):
         """시스템 센서가 CPU와 메모리 정보를 포함해야 함"""
-        from Core.World.real_sensors import SystemMetricsSense
+        from Core.Foundation.real_sensors import SystemMetricsSense
         
         sensor = SystemMetricsSense()
         event = sensor.sense()
@@ -102,14 +102,14 @@ class TestRealWeatherSense:
     
     def test_weather_sense_availability(self):
         """날씨 센서 사용 가능 여부 확인"""
-        from Core.World.real_sensors import RealWeatherSense, HAS_REQUESTS
+        from Core.Foundation.real_sensors import RealWeatherSense, HAS_REQUESTS
         
         sensor = RealWeatherSense()
         assert sensor.is_available() == HAS_REQUESTS
     
     def test_weather_decode_codes(self):
         """날씨 코드 디코딩 테스트"""
-        from Core.World.real_sensors import RealWeatherSense
+        from Core.Foundation.real_sensors import RealWeatherSense
         
         sensor = RealWeatherSense()
         
@@ -119,7 +119,7 @@ class TestRealWeatherSense:
     
     def test_weather_severity_calculation(self):
         """날씨 심각도 계산 테스트"""
-        from Core.World.real_sensors import RealWeatherSense
+        from Core.Foundation.real_sensors import RealWeatherSense
         
         sensor = RealWeatherSense()
         
@@ -137,7 +137,7 @@ class TestSensorHub:
     
     def test_sensor_hub_initialization(self):
         """센서 허브 초기화 테스트"""
-        from Core.World.real_sensors import SensorHub
+        from Core.Foundation.real_sensors import SensorHub
         
         hub = SensorHub()
         
@@ -145,7 +145,7 @@ class TestSensorHub:
     
     def test_sensor_hub_sense_all(self):
         """센서 허브 전체 감지 테스트"""
-        from Core.World.real_sensors import SensorHub
+        from Core.Foundation.real_sensors import SensorHub
         
         hub = SensorHub()
         readings = hub.sense_all()
@@ -155,7 +155,7 @@ class TestSensorHub:
     
     def test_sensor_hub_summary(self):
         """센서 허브 요약 테스트"""
-        from Core.World.real_sensors import SensorHub
+        from Core.Foundation.real_sensors import SensorHub
         
         hub = SensorHub()
         summary = hub.get_summary()
@@ -165,7 +165,7 @@ class TestSensorHub:
     
     def test_sensor_hub_average_severity(self):
         """센서 허브 평균 심각도 테스트"""
-        from Core.World.real_sensors import SensorHub
+        from Core.Foundation.real_sensors import SensorHub
         
         hub = SensorHub()
         hub.sense_all()
@@ -179,7 +179,7 @@ class TestPlanetaryCortexRealMode:
     
     def test_cortex_simulation_mode(self):
         """시뮬레이션 모드 테스트"""
-        from Core.World.planetary_cortex import PlanetaryCortex
+        from Core.Foundation.planetary_cortex import PlanetaryCortex
         
         cortex = PlanetaryCortex(use_real_sensors=False)
         
@@ -188,7 +188,7 @@ class TestPlanetaryCortexRealMode:
     
     def test_cortex_real_mode_initialization(self):
         """실제 센서 모드 초기화 테스트"""
-        from Core.World.planetary_cortex import PlanetaryCortex
+        from Core.Foundation.planetary_cortex import PlanetaryCortex
         
         cortex = PlanetaryCortex(use_real_sensors=True)
         
@@ -198,7 +198,7 @@ class TestPlanetaryCortexRealMode:
     
     def test_cortex_perceive_world(self):
         """세계 인식 테스트"""
-        from Core.World.planetary_cortex import PlanetaryCortex
+        from Core.Foundation.planetary_cortex import PlanetaryCortex
         
         cortex = PlanetaryCortex(use_real_sensors=False)
         cortex.perceive_world()
@@ -208,7 +208,7 @@ class TestPlanetaryCortexRealMode:
     
     def test_cortex_mood_calculation(self):
         """기분 계산 테스트"""
-        from Core.World.planetary_cortex import PlanetaryCortex
+        from Core.Foundation.planetary_cortex import PlanetaryCortex
         
         cortex = PlanetaryCortex()
         

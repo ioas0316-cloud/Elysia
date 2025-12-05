@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.book_worm import BookWorm
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.book_worm import BookWorm
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

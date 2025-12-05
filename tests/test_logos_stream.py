@@ -10,10 +10,10 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestLogosStream")
 
-from Core.Memory.Mind.logos_stream import LogosStream
-from Core.Memory.Mind.spiderweb import Spiderweb
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.world_tree import WorldTree
+from Core.Foundation.Mind.logos_stream import LogosStream
+from Core.Foundation.Mind.spiderweb import Spiderweb
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.world_tree import WorldTree
 
 def test():
     logger.info("🌊 Testing Logos Stream Flow...")

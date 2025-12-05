@@ -1,5 +1,5 @@
 import argparse
-from Project_Sophia.wisdom_virus import WisdomVirus, VirusEngine
+from Core.Foundation.wisdom_virus import WisdomVirus, VirusEngine
 from tools.kg_manager import KGManager
 
 

@@ -11,7 +11,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.neuron_cortex import CognitiveNeuron, ThoughtAccumulator
+from Core.Foundation.neuron_cortex import CognitiveNeuron, ThoughtAccumulator
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 

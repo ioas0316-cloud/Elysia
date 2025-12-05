@@ -10,13 +10,13 @@ from typing import Optional, List
 
 # Cross-project import for the standardized Thought data structure
 
-from Project_Sophia.core.thought import Thought
+from Core.Foundation.core.thought import Thought
 
-from Project_Sophia.core.tensor_wave import Tensor3D
+from Core.Foundation.core.tensor_wave import Tensor3D
 
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.wave_mechanics import WaveMechanics
 
-from Project_Sophia.emotional_engine import EmotionalState
+from Core.Foundation.emotional_engine import EmotionalState
 
 from tools.kg_manager import KGManager
 

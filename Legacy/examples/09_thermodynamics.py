@@ -7,7 +7,7 @@ import random
 # Fix path to import Project_Sophia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.physics import QuantumState, HamiltonianSystem, Nucleus, FieldEntity, StrongForceManager, EntropyManager
+from Core.Foundation.core.physics import QuantumState, HamiltonianSystem, Nucleus, FieldEntity, StrongForceManager, EntropyManager
 
 def run_simulation():
     print("=== Thermodynamics & Digital Hibernation Experiment ===")

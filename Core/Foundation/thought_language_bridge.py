@@ -25,7 +25,7 @@ from dataclasses import dataclass
 
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.Cognition.internal_universe import InternalUniverse
+from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.communication_enhancer import CommunicationEnhancer
 
 
@@ -367,7 +367,7 @@ if __name__ == "__main__":
     bridge = ThoughtLanguageBridge()
     
     # 2. 커뮤니케이션 엔진 연결 (학습 필요)
-    from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
+    from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
     
     print("📚 Learning concepts...\n")
     connector = WebKnowledgeConnector()

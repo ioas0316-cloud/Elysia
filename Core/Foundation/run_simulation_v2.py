@@ -31,8 +31,8 @@ from Core.System.System.Integration.experience_digester import ExperienceDigeste
 from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode, ComputationProfile
 from Core.System.System.Integration.integration_bridge import IntegrationBridge
 from Core.Intelligence.Intelligence.Consciousness.agent_decision_engine import AgentDecisionEngine, AgentContext
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.alchemy import Alchemy
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.alchemy import Alchemy
 
 logging.basicConfig(
     level=logging.INFO,

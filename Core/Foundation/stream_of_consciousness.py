@@ -8,7 +8,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.hippocampus import Hippocampus
 from Core.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
 
 # Setup logging

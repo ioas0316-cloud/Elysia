@@ -9,9 +9,9 @@ import argparse
 
 # Add project root to sys.path to allow imports from other directories
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Project_Sophia.core.world import World
-from Project_Sophia.core.world_event_logger import WorldEventLogger
-from Project_Sophia.wave_mechanics import WaveMechanics # Mocked, but import needed for world creation
+from Core.Foundation.core.world import World
+from Core.Foundation.core.world_event_logger import WorldEventLogger
+from Core.Foundation.wave_mechanics import WaveMechanics # Mocked, but import needed for world creation
 from tools.kg_manager import KGManager # Mocked, but import needed for world creation
 
 # --- Constants and Configuration ---

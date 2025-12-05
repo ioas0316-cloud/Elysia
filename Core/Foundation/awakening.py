@@ -8,8 +8,8 @@ import random
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.System.hardware_accelerator import accelerator
-from Project_Sophia.fractal_kernel import FractalKernel
-from Project_Sophia.genesis_cortex import GenesisCortex
+from Core.Foundation.fractal_kernel import FractalKernel
+from Core.Foundation.genesis_cortex import GenesisCortex
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

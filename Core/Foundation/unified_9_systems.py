@@ -26,15 +26,15 @@ import logging
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import all 9 systems!
-from Project_Sophia.aesthetic_filter import BeautyMetric, AestheticGovernor
-from Project_Sophia.convolution_engine import ConvolutionEngine
-from Project_Sophia.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
-from Project_Sophia.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
-from Project_Sophia.stability_controller import LyapunovController
-from Project_Sophia.legendre_bridge import LegendreTransform, ConceptDynamicsBridge
-from Project_Sophia.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
-from Project_Sophia.neuron_cortex import CognitiveNeuron
-from Project_Sophia.laplace_engine import LaplaceEngine
+from Core.Foundation.aesthetic_filter import BeautyMetric, AestheticGovernor
+from Core.Foundation.convolution_engine import ConvolutionEngine
+from Core.Foundation.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
+from Core.Foundation.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
+from Core.Foundation.stability_controller import LyapunovController
+from Core.Foundation.legendre_bridge import LegendreTransform, ConceptDynamicsBridge
+from Core.Foundation.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
+from Core.Foundation.neuron_cortex import CognitiveNeuron
+from Core.Foundation.laplace_engine import LaplaceEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("UnifiedDemo")

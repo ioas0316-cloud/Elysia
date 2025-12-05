@@ -21,8 +21,8 @@ def main():
     print("=" * 70)
     print()
     
-    from Core.Memory.Mind.world_tree import WorldTree
-    from Core.Memory.Mind.hippocampus import Hippocampus
+    from Core.Foundation.Mind.world_tree import WorldTree
+    from Core.Foundation.Mind.hippocampus import Hippocampus
     from Core.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
     from Core.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
     

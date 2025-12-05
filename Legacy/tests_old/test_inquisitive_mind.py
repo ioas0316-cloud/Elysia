@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from Project_Sophia.inquisitive_mind import InquisitiveMind
+from Core.Foundation.inquisitive_mind import InquisitiveMind
 
 class TestInquisitiveMind(unittest.TestCase):
     def test_ask_external_llm_empty_response(self):

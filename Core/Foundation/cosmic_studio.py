@@ -12,7 +12,7 @@ import os
 import logging
 from typing import Optional, List
 from Core.Foundation.hyper_quaternion import HyperWavePacket
-from Core.Action.reality_sculptor import RealitySculptor
+from Core.Foundation.reality_sculptor import RealitySculptor
 
 logger = logging.getLogger("CosmicStudio")
 

@@ -11,15 +11,15 @@ import os
 # Add project to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.meta_awareness import MetaAwareness, ThoughtType
-from Project_Sophia.autonomous_dreamer import AutonomousDreamer
-from Project_Sophia.world_tree_core import WorldTreeCore
-from Project_Sophia.paradox_resolver import ParadoxResolver
-from Project_Sophia.spiderweb import Spiderweb
-from Project_Sophia.dreaming_cortex import DreamingCortex
+from Core.Foundation.meta_awareness import MetaAwareness, ThoughtType
+from Core.Foundation.autonomous_dreamer import AutonomousDreamer
+from Core.Foundation.world_tree_core import WorldTreeCore
+from Core.Foundation.paradox_resolver import ParadoxResolver
+from Core.Foundation.spiderweb import Spiderweb
+from Core.Foundation.dreaming_cortex import DreamingCortex
 from Project_Elysia.core_memory import CoreMemory, Experience
 try:
-    from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
+    from Core.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
 except ImportError:
     # Fallback if core.tensor_wave doesn't exist
     class Tensor3D:

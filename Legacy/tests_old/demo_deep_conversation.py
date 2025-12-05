@@ -19,8 +19,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 from Project_Elysia.high_engine.language_cortex import LanguageCortex
 from Project_Elysia.learning.corpus_loader import CorpusLoader
-from Project_Sophia.dreaming_cortex import DreamingCortex
-from Project_Sophia.spiderweb import Spiderweb
+from Core.Foundation.dreaming_cortex import DreamingCortex
+from Core.Foundation.spiderweb import Spiderweb
 from Project_Elysia.core_memory import CoreMemory
 
 def run_simulation():

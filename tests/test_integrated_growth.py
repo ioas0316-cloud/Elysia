@@ -15,7 +15,7 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 from Core.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core.Evolution.transcendence_engine import TranscendenceEngine
+from Core.Foundation.transcendence_engine import TranscendenceEngine
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("IntegrationTest")

@@ -5,7 +5,7 @@ from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.code_resonance import HarmonicResonance
 from Core.Foundation.code_world import CodeWorld
 from Core.Evolution.code_genome import CodeDNA
-from Core.Action.reality_sculptor import RealitySculptor
+from Core.Foundation.reality_sculptor import RealitySculptor
 
 logger = logging.getLogger("GenesisEngine")
 

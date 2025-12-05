@@ -15,15 +15,15 @@ from typing import List, Dict, Any, Optional, TYPE_CHECKING
 import numpy as np
 
 from Project_Elysia.core_memory import CoreMemory, Experience
-from Project_Sophia.spiderweb import Spiderweb
-from Project_Sophia.core.world import World
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
+from Core.Foundation.spiderweb import Spiderweb
+from Core.Foundation.core.world import World
+from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
 
 if TYPE_CHECKING:
-    from Project_Sophia.meta_awareness import MetaAwareness, ThoughtType
-    from Project_Sophia.autonomous_dreamer import AutonomousDreamer
-    from Project_Sophia.paradox_resolver import ParadoxResolver
+    from Core.Foundation.meta_awareness import MetaAwareness, ThoughtType
+    from Core.Foundation.autonomous_dreamer import AutonomousDreamer
+    from Core.Foundation.paradox_resolver import ParadoxResolver
 
 
 class UniverseEvolutionEngine:
@@ -197,7 +197,7 @@ class UniverseEvolutionEngine:
             # 🧠 Meta-awareness: Observe evolution cycle
             if self.meta_awareness and cycle % 1000 == 0:
                 try:
-                    from Project_Sophia.meta_awareness import ThoughtType
+                    from Core.Foundation.meta_awareness import ThoughtType
                     self.meta_awareness.observe(
                         thought_type=ThoughtType.UNIVERSE_EVOLUTION,
                         input_state={"cycle": cycle, "alive": int(self.world.is_alive_mask.sum())},

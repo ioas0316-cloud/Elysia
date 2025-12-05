@@ -14,9 +14,97 @@ IMPORT_PATTERNS = [
     (r'from Core\.Physics\.', 'from Core.Foundation.'),
     (r'import Core\.Physics\.', 'import Core.Foundation.'),
     
+    # Core.Field.* -> Core.Foundation.*
+    (r'from Core\.Field\.', 'from Core.Foundation.'),
+    (r'import Core\.Field\.', 'import Core.Foundation.'),
+    
+    # Core.Creation.* -> Core.Foundation.*
+    (r'from Core\.Creation\.', 'from Core.Foundation.'),
+    (r'import Core\.Creation\.', 'import Core.Foundation.'),
+    
     # Core.Language.* -> Core.Foundation.*
     (r'from Core\.Language\.', 'from Core.Foundation.'),
     (r'import Core\.Language\.', 'import Core.Foundation.'),
+    
+    # Core.Cognition.* -> Core.Foundation.*
+    (r'from Core\.Cognition\.', 'from Core.Foundation.'),
+    (r'import Core\.Cognition\.', 'import Core.Foundation.'),
+    
+    # Core.Creativity.* -> Core.Foundation.* (if needed)
+    (r'from Core\.Creativity\.', 'from Core.Foundation.'),
+    (r'import Core\.Creativity\.', 'import Core.Foundation.'),
+    
+    # Relative imports ..Field.ether -> Core.Foundation.ether
+    (r'from \.\.Field\.ether', 'from Core.Foundation.ether'),
+    
+    # Core.Time.* -> Core.Foundation.*
+    (r'from Core\.Time\.', 'from Core.Foundation.'),
+    (r'import Core\.Time\.', 'import Core.Foundation.'),
+    
+    # Core.World.* -> Core.Foundation.*
+    (r'from Core\.World\.', 'from Core.Foundation.'),
+    (r'import Core\.World\.', 'import Core.Foundation.'),
+    
+    # Core.Security.* -> Core.Foundation.* (if soul_guardian is in Foundation)
+    (r'from Core\.Security\.', 'from Core.Foundation.'),
+    (r'import Core\.Security\.', 'import Core.Foundation.'),
+    
+    # Core.Integration.* -> Core.Foundation.*
+    (r'from Core\.Integration\.', 'from Core.Foundation.'),
+    (r'import Core\.Integration\.', 'import Core.Foundation.'),
+    
+    # Project_Sophia.* -> Core.Foundation.*
+    (r'from Project_Sophia\.', 'from Core.Foundation.'),
+    (r'import Project_Sophia\.', 'import Core.Foundation.'),
+    
+    # Tools.* -> Core.Foundation.*
+    (r'from Tools\.', 'from Core.Foundation.'),
+    (r'import Tools\.', 'import Core.Foundation.'),
+    
+    # Core.Evolution.gemini_api -> Core.Foundation.gemini_api
+    (r'from Core\.Evolution\.gemini_api', 'from Core.Foundation.gemini_api'),
+    (r'import Core\.Evolution\.gemini_api', 'import Core.Foundation.gemini_api'),
+    
+    # Core.Structure.* -> Core.Foundation.*
+    (r'from Core\.Structure\.', 'from Core.Foundation.'),
+    (r'import Core\.Structure\.', 'import Core.Foundation.'),
+    
+    # Core.Intelligence.Will.* -> Core.Foundation.*
+    (r'from Core\.Intelligence\.Will\.', 'from Core.Foundation.'),
+    (r'import Core\.Intelligence\.Will\.', 'import Core.Foundation.'),
+    
+    # Core.Interface.* -> Core.Foundation.* (some modules moved)
+    (r'from Core\.Interface\.shell_cortex', 'from Core.Foundation.shell_cortex'),
+    (r'from Core\.Interface\.web_cortex', 'from Core.Foundation.web_cortex'),
+    (r'from Core\.Interface\.cosmic_transceiver', 'from Core.Foundation.cosmic_transceiver'),
+    (r'from Core\.Interface\.quantum_port', 'from Core.Foundation.quantum_port'),
+    (r'from Core\.Interface\.holographic_cortex', 'from Core.Foundation.holographic_cortex'),
+    (r'from Core\.Interface\.envoy_protocol', 'from Core.Foundation.envoy_protocol'),
+    (r'from Core\.Interface\.synapse_bridge', 'from Core.Foundation.synapse_bridge'),
+    (r'from Core\.Interface\.user_bridge', 'from Core.Foundation.user_bridge'),
+    (r'from Core\.Interface\.kenosis_protocol', 'from Core.Foundation.kenosis_protocol'),
+    (r'from Core\.Interface\.real_communication_system', 'from Core.Foundation.real_communication_system'),
+    
+    # Core.Memory.* -> Core.Foundation.*
+    (r'from Core\.Memory\.', 'from Core.Foundation.'),
+    (r'import Core\.Memory\.', 'import Core.Foundation.'),
+    
+    # Core.Evolution.* -> Core.Foundation.* (some modules)
+    (r'from Core\.Evolution\.cortex_optimizer', 'from Core.Foundation.cortex_optimizer'),
+    (r'from Core\.Evolution\.self_reflector', 'from Core.Foundation.self_reflector'),
+    (r'from Core\.Evolution\.transcendence_engine', 'from Core.Foundation.transcendence_engine'),
+    (r'from Core\.Evolution\.anamnesis', 'from Core.Foundation.anamnesis'),
+    
+    # Core.Action.* -> Core.Foundation.*
+    (r'from Core\.Action\.', 'from Core.Foundation.'),
+    (r'import Core\.Action\.', 'import Core.Foundation.'),
+    
+    # Core.System.* -> Core.Foundation.* (some modules)
+    (r'from Core\.System\.global_grid', 'from Core.Foundation.global_grid'),
+    (r'from Core\.System\.wave_integration_hub', 'from Core.Foundation.wave_integration_hub'),
+    
+    # scripts.Maintenance.* -> Core.Foundation.* (if moved)
+    (r'from scripts\.Maintenance\.self_integration', 'from Core.Foundation.self_integration'),
     
     # Keep Core.Intelligence.Will, Core.Intelligence.Reasoning, etc. as is
     # But fix Core.Intelligence.reasoning_engine etc.
@@ -29,6 +117,12 @@ IMPORT_PATTERNS = [
     (r'from Core\.Intelligence\.language_center', 'from Core.Foundation.language_center'),
     (r'from Core\.Intelligence\.autonomous_language', 'from Core.Foundation.autonomous_language'),
     (r'from Core\.Intelligence\.ultra_dimensional_reasoning', 'from Core.Foundation.ultra_dimensional_reasoning'),
+    (r'from Core\.Intelligence\.social_cortex', 'from Core.Foundation.social_cortex'),
+    (r'from Core\.Intelligence\.media_cortex', 'from Core.Foundation.media_cortex'),
+    (r'from Core\.Intelligence\.imagination_core', 'from Core.Foundation.imagination_core'),
+    (r'from Core\.Intelligence\.loop_breaker', 'from Core.Foundation.loop_breaker'),
+    (r'from Core\.Intelligence\.black_hole', 'from Core.Foundation.black_hole'),
+    (r'from Core\.Intelligence\.quantum_reader', 'from Core.Foundation.quantum_reader'),
 ]
 
 def fix_imports_in_file(filepath: Path) -> int:

@@ -20,7 +20,7 @@ from typing import Dict, Iterable, List, Tuple, TYPE_CHECKING
 from scripts.character_model import Character, score_hero
 
 if TYPE_CHECKING:
-    from Project_Sophia.core.world import World
+    from Core.Foundation.core.world import World
 
 
 def _compute_faction_hero_power(chars: Iterable[Character]) -> Dict[str, float]:

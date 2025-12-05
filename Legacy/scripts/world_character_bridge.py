@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Dict, Iterable, List, Tuple
 
-from Project_Sophia.core.world import World
+from Core.Foundation.core.world import World
 from scripts.character_model import (
     Character,
     CharacterRelation,

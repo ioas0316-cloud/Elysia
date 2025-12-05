@@ -5,7 +5,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
-from Project_Sophia.caretaker_rl_simulator import run_training
+from Core.Foundation.caretaker_rl_simulator import run_training
 
 
 def _parse_args() -> argparse.Namespace:

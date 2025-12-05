@@ -10,7 +10,7 @@ import sys
 sys.path.append('.')
 
 from Core.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 import time
 
 print("="*70)

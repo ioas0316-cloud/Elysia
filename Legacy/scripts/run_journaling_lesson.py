@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
-from Project_Sophia.reading_coach import ReadingCoach
+from Core.Foundation.reading_coach import ReadingCoach
 from tools.kg_manager import KGManager
 
 

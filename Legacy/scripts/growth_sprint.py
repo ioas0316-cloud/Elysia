@@ -9,7 +9,7 @@ from typing import Dict, List, Tuple
 from tools.kg_manager import KGManager
 from tools import activity_registry as act
 from tools.text_preprocessor import extract_content_tokens
-from Project_Sophia.wisdom_virus import WisdomVirus, VirusEngine
+from Core.Foundation.wisdom_virus import WisdomVirus, VirusEngine
 from nano_core.bus import MessageBus
 from nano_core.registry import ConceptRegistry
 from nano_core.scheduler import Scheduler

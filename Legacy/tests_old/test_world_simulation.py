@@ -2,9 +2,9 @@ import unittest
 from unittest.mock import MagicMock, patch
 import numpy as np
 
-from Project_Sophia.core.world import World
-from Project_Sophia.core.game_objects import Item
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.core.world import World
+from Core.Foundation.core.game_objects import Item
+from Core.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 class TestWorldSimulation(unittest.TestCase):

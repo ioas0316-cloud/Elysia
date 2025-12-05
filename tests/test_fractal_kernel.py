@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 # Add the project root to the path so we can import Project_Sophia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.fractal_kernel import FractalKernel
+from Core.Foundation.fractal_kernel import FractalKernel
 
 @pytest.fixture
 def kernel():

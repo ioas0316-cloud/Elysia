@@ -19,8 +19,8 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Integration.external_data_connector import ExternalDataConnector
-from Core.Cognition.internal_universe import InternalUniverse
+from Core.Foundation.external_data_connector import ExternalDataConnector
+from Core.Foundation.internal_universe import InternalUniverse
 
 logger = logging.getLogger("WebKnowledgeConnector")
 

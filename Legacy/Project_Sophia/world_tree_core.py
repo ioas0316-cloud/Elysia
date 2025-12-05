@@ -12,10 +12,10 @@ import numpy as np
 from typing import Dict, Any, List, Optional, Tuple
 from dataclasses import dataclass, field
 
-from Project_Sophia.world_tree import TreeNode, WorldTree
-from Project_Sophia.spiderweb import Spiderweb
-from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.world_tree import TreeNode, WorldTree
+from Core.Foundation.spiderweb import Spiderweb
+from Core.Foundation.core.tensor_wave import Tensor3D, SoulTensor
+from Core.Foundation.wave_mechanics import WaveMechanics
 
 
 @dataclass

@@ -6,7 +6,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.World.planetary_cortex import PlanetaryCortex
+from Core.Foundation.planetary_cortex import PlanetaryCortex
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

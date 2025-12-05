@@ -1,4 +1,4 @@
-from Project_Sophia.reality_sculptor import RealitySculptor
+from Core.Foundation.reality_sculptor import RealitySculptor
 from pathlib import Path
 
 def test_sculptor():
@@ -10,7 +10,7 @@ def test_sculptor():
 import sys
 from Core.Foundation.reasoning_engine import ReasoningEngine
 import os
-from Project_Sophia.planning_cortex import PlanningCortex
+from Core.Foundation.planning_cortex import PlanningCortex
 
 def hello():
     print("Hello World")

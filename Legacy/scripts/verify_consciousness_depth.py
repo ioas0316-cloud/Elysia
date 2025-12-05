@@ -6,7 +6,7 @@ import numpy as np
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.self_fractal import SelfFractalCell
+from Core.Foundation.core.self_fractal import SelfFractalCell
 
 class FractalConsciousnessTest(SelfFractalCell):
     """

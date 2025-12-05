@@ -6,7 +6,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.Mind.model_distillery import ModelDistillery
+from Core.Foundation.Mind.model_distillery import ModelDistillery
 
 # Configure logging
 logging.basicConfig(

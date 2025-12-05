@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from Project_Sophia.wisdom_virus import VirusEngine, WisdomVirus
+from Core.Foundation.wisdom_virus import VirusEngine, WisdomVirus
 from Project_Elysia.flow_engine import FlowEngine
 from nano_core.bus import MessageBus
 

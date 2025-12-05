@@ -26,8 +26,8 @@ import re
 import hashlib
 
 # Seed/Bloom Pattern + True Conceptual Learning
-from Core.Memory.hippocampus import Hippocampus
-from Core.Cognition.fractal_concept import ConceptNode, ConceptDecomposer
+from Core.Foundation.hippocampus import Hippocampus
+from Core.Foundation.fractal_concept import ConceptNode, ConceptDecomposer
 from Core.Foundation.resonance_field import ResonanceField
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Intelligence.concept_extractor import ConceptExtractor, ConceptDefinition

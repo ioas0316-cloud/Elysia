@@ -17,10 +17,10 @@ from typing import List, Dict, Any
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.spiderweb import Spiderweb
-from Project_Sophia.dreaming_cortex import DreamingCortex
+from Core.Foundation.spiderweb import Spiderweb
+from Core.Foundation.dreaming_cortex import DreamingCortex
 from Project_Elysia.core_memory import CoreMemory
-from Project_Sophia.gemini_api import generate_text
+from Core.Foundation.gemini_api import generate_text
 
 def main():
     # Setup logging

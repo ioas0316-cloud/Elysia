@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex
-from Tools.time_tools import get_current_time
+from Core.Foundation.time_tools import get_current_time
 
 class TestPlanningPhase2(unittest.TestCase):
     

@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
-from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.hippocampus import Hippocampus
 
 class TestLinearThinking(unittest.TestCase):
     def setUp(self):

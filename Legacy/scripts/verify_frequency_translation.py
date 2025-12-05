@@ -5,8 +5,8 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.essence_mapper import EssenceMapper
-from Project_Sophia.core.thought import Thought
+from Core.Foundation.core.essence_mapper import EssenceMapper
+from Core.Foundation.core.thought import Thought
 from Project_Elysia.core_memory import Experience
 
 def verify_frequency_translation():

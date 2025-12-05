@@ -9,9 +9,9 @@ if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
 from tools.kg_manager import KGManager
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.world import World
-from Project_Sophia.primordial_language import PrimordialLanguageEngine
+from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.Foundation.core.world import World
+from Core.Foundation.primordial_language import PrimordialLanguageEngine
 from Project_Elysia.core.divine_engine import ElysiaDivineEngineV2
 
 

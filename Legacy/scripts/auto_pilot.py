@@ -19,7 +19,7 @@ import os
 import json
 from typing import List
 
-from Project_Sophia.core.world import World
+from Core.Foundation.core.world import World
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
 

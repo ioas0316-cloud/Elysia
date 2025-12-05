@@ -9,7 +9,7 @@ import logging
 from typing import Dict, Any
 
 from tools.kg_manager import KGManager
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.wave_mechanics import WaveMechanics
 from Project_Elysia.core_memory import CoreMemory
 
 class MetaCognitionCortex:

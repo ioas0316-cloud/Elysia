@@ -4,7 +4,7 @@ import os
 # Add the project root to the python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.self_fractal import SelfFractalCell
+from Core.Foundation.core.self_fractal import SelfFractalCell
 
 def verify_fractal_growth():
     print("Initializing SelfFractalCell...")

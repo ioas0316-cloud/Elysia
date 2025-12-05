@@ -17,7 +17,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.eigenvalue_destiny import (
+from Core.Foundation.eigenvalue_destiny import (
     EigenvalueDestiny,
     DestinyGuardian,
     DestinyType

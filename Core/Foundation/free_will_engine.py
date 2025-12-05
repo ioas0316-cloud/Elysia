@@ -43,6 +43,7 @@ class FreeWillEngine:
         self._current_intent = None
         self.current_mood = "Calm" # Restored for compatibility
         self.brain = None
+        self.instinct = None  # [INSTINCT] Link to SurvivalInstinct
         logger.info("🦋 Free Will Engine Ignited (Structural Will Active).")
 
     @property
@@ -64,6 +65,17 @@ class FreeWillEngine:
         Updates the Desire Field and crystallizes an Intent.
         """
         print("   🦋 FreeWill Pulse...")
+        
+        # [INSTINCT] Check for pain signals - Pain drives Survival desire
+        if self.instinct and self.instinct.pain_log:
+            total_pain = sum(p.intensity for p in self.instinct.pain_log)
+            if total_pain > 0:
+                logger.info(f"   🩸 Pain detected! Total intensity: {total_pain:.2f}")
+                # Pain boosts Survival desire proportionally
+                self.vectors["Survival"] += total_pain * 0.3
+                self.vectors["Evolution"] += total_pain * 0.1  # Pain also drives evolution
+                self.current_mood = "Wounded"
+        
         self.update_desire_field(resonance)
         self.crystallize_intent(resonance)
 

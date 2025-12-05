@@ -284,7 +284,7 @@ class ThinkingMetrics:
         
         try:
             # FreeWillEngine 존재 확인
-            from Core.Intelligence.Will.free_will_engine import FreeWillEngine
+            from Core.Foundation.free_will_engine import FreeWillEngine
             self_monitoring = 0.78
             strategy_selection = 0.78
             error_detection = 0.80
@@ -317,7 +317,7 @@ class ThinkingMetrics:
         """
         try:
             # ThoughtLayerBridge 존재 확인
-            from Core.Cognition.thought_layer_bridge import ThoughtLayerBridge
+            from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
             
             perspective_shift = 0.82  # 0D
             causal_chain = 0.82  # 1D
@@ -353,7 +353,7 @@ class ThinkingMetrics:
         
         try:
             # Hippocampus (memory) 존재 확인
-            from Core.Memory.hippocampus import Hippocampus
+            from Core.Foundation.hippocampus import Hippocampus
             
             sequence_understanding = 0.85
             prediction = 0.72

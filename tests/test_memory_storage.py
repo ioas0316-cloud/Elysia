@@ -6,8 +6,8 @@ sys.path.append(os.getcwd())
 
 import unittest
 import time
-from Core.Memory.Mind.memory_storage import MemoryStorage
-from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.memory_storage import MemoryStorage
+from Core.Foundation.Mind.hippocampus import Hippocampus
 
 class TestMemoryStorage(unittest.TestCase):
     def setUp(self):

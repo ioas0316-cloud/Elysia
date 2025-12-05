@@ -17,7 +17,7 @@ import logging
 import random
 import hashlib
 from typing import List, Dict, Any, Optional
-from ..Field.ether import ether, Wave
+from Core.Foundation.ether import ether, Wave
 
 logger = logging.getLogger("CosmicTransceiver")
 

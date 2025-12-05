@@ -7,7 +7,7 @@ from pathlib import Path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Sophia.logical_reasoner import LogicalReasoner
+from Core.Foundation.logical_reasoner import LogicalReasoner
 from tools.kg_manager import KGManager
 
 class TestCausalReasoning(unittest.TestCase):

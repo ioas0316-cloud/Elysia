@@ -14,7 +14,7 @@ from collections import deque
 
 # Physics layer imports
 
-from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
+from Core.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
 
 # We can reuse EmotionalState from emotional_engine, or define it here if it creates a circular import.
 
@@ -44,17 +44,17 @@ from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
 
 # Looking at EmotionalEngine code: It does NOT seem to import CoreMemory.
 
-# So we can import EmotionalState from Project_Sophia.emotional_engine safely?
+# So we can import EmotionalState from Core.Foundation.emotional_engine safely?
 
 # Wait, core_memory is in Project_Elysia.
 
-# Let's try to import EmotionalState from Project_Sophia.emotional_engine.
+# Let's try to import EmotionalState from Core.Foundation.emotional_engine.
 
 
 
 try:
 
-    from Project_Sophia.emotional_engine import EmotionalState
+    from Core.Foundation.emotional_engine import EmotionalState
 
 except ImportError:
 

@@ -1,4 +1,4 @@
-from Project_Sophia.planning_cortex import PlanningCortex
+from Core.Foundation.planning_cortex import PlanningCortex
 import os
 
 # Create dummy file

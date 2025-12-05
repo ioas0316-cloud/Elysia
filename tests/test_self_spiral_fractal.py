@@ -10,7 +10,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 
-from Core.Memory.Mind.self_spiral_fractal import (
+from Core.Foundation.Mind.self_spiral_fractal import (
     SelfSpiralFractalEngine,
     ConsciousnessAxis,
     SpiralNode,

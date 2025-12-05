@@ -14,7 +14,7 @@ import numpy as np
 
 from cell import Cell
 from Core.Laws.field_laws import evolve_fields
-from Core.Field.wave_frequency_mapping import (
+from Core.Foundation.wave_frequency_mapping import (
     WaveFrequencyMapper,
     EmotionType,
     SoundType,

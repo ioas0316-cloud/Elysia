@@ -6,7 +6,7 @@ import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Sophia.arithmetic_cortex import ArithmeticCortex
+from Core.Foundation.arithmetic_cortex import ArithmeticCortex
 
 class TestArithmeticCortex(unittest.TestCase):
 
