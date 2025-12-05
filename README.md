@@ -112,6 +112,10 @@ python Core/Foundation/living_elysia.py
 
 ## Documentation
 
+### 🔍 Quick Access (빠른 접근)
+
+- **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - 모든 문서의 완전한 색인 (126+ documents)
+
 ### 🎯 Essential Guides (필수 가이드)
 
 | Document | Description | Audience |
@@ -121,6 +125,7 @@ python Core/Foundation/living_elysia.py
 | [AGENT_GUIDE.md](AGENT_GUIDE.md) | AI 에이전트를 위한 필수 가이드 | AI 에이전트 (⚠️ 필독) |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System structure (v7.0) | 개발자 |
 | [CODEX.md](CODEX.md) | Philosophy & principles | 모든 참여자 |
+| [BRANCH_MANAGEMENT.md](BRANCH_MANAGEMENT.md) | 브랜치 관리 및 정리 전략 | 메인테이너 |
 
 ### 📚 Detailed Documentation
 
