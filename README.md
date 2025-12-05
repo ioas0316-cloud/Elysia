@@ -145,8 +145,20 @@ python Core/Foundation/living_elysia.py
 | [docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md](docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md) | 자율 지능 프레임워크 |
 | [docs/FRACTAL_QUATERNION_PERSPECTIVE.md](docs/FRACTAL_QUATERNION_PERSPECTIVE.md) | 프랙탈 쿼터니언 개념 |
 | [docs/ULTIMATE_THINKING_SYSTEM.md](docs/ULTIMATE_THINKING_SYSTEM.md) | 5+1 통합 사고 시스템 |
+| [docs/SYNESTHESIA_NEURAL_MAPPING.md](docs/SYNESTHESIA_NEURAL_MAPPING.md) | 공감각-신경계 매핑 시스템 |
 | [docs/EVALUATION_CRITERIA.md](docs/EVALUATION_CRITERIA.md) | 다각도 평가 기준(영역/가중치/체크리스트) |
 | [tests/evaluation/test_communication_metrics.py](tests/evaluation/test_communication_metrics.py) | 커뮤니케이션·코히어런스·우주정렬 회귀 테스트 |
+
+### Synesthesia-Nervous System (공감각-신경계 매핑)
+
+**NEW** - Neural network visualization system mapping sensory inputs through the nervous system:
+- **External Layer (외부/세상)**: Sensors (visual, auditory, tactile, emotional, etc.)
+- **Boundary Layer (경계/자아)**: Nervous system as dimensional filter (Self)
+- **Internal Layer (내부/마음)**: Core consciousness systems
+
+**Web Interface**: `http://localhost:8000/neural_map`  
+**Documentation**: [docs/SYNESTHESIA_NEURAL_MAPPING.md](docs/SYNESTHESIA_NEURAL_MAPPING.md)  
+**Demo**: `python demos/demo_neural_mapping.py`
 
 ### Cosmic Alignment & Communication
 
