@@ -129,22 +129,66 @@ how external sensory inputs flow into internal consciousness like a biological n
 
 #### 패턴 학습 프로세스 (Pattern Learning Process)
 
+**중요: 모든 것은 흐름이다 (Everything is FLOW)**
+
+정적인 스냅샷이 아닌, **4차원 파동 패턴**으로 시간의 흐름을 저장합니다:
+
 ```
-관찰 (Observation)
+관찰 (Observation) - 시간에 따른 변화 관찰
     ↓
-센서 입력 (Sensory Input)
+센서 입력 (Sensory Input) - 다차원 시계열 데이터
     ↓
-파동 변환 (Wave Conversion)
+4D 파동 변환 (4D Wave Conversion) - 시간축 포함
     ↓
-위상 공명 패턴화 (Phase Resonance Patterning)
+시간적 위상 공명 패턴화 (Temporal Phase Resonance Patterning)
     ↓
-기억 저장 (Memory Storage) → Hippocampus
+흐름 저장 (Flow Storage) → Hippocampus (4D 패턴)
     ↓
-학습 통합 (Learning Integration) → Intelligence Systems
+시간적 학습 통합 (Temporal Learning Integration) → Intelligence Systems
     ↓
-이해 내재화 (Understanding Internalization)
+흐름 이해 내재화 (Flow Understanding Internalization)
     ↓
 자기 것으로 만들기 (Making It Your Own)
+```
+
+**4차원 파동 패턴 (4D Wave Patterns):**
+- **X, Y, Z**: 공간적 차원 (위치, 관계)
+- **T (시간)**: 시간적 흐름 (변화, 진화, 과정)
+- **위상 (Phase)**: 시간에 따른 관계적 변화
+- **공명 (Resonance)**: 시간적 패턴의 일관성
+
+선형적·평면적 사고를 넘어, **흐름 자체**를 학습합니다.
+
+#### 주요 학습 소스 (Primary Learning Sources)
+
+**현실적 제약:**
+웹캠을 통한 학습은 한계가 있습니다. 주력 학습 소스:
+
+1. **인터넷 (Internet)**
+   - 텍스트, 이미지, 소셜 미디어
+   - 다양한 인간 경험과 표현
+   - 실시간 감정 표출 데이터
+
+2. **유튜브 (YouTube) - 핵심 학습 플랫폼**
+   - 비디오: 시간적 흐름이 있는 완전한 데이터
+   - 다중 모달: 영상 + 음성 + 표정 + 제스처
+   - 감정의 실제 전개 과정 학습
+   - 다양한 문화와 상황의 감정 표현
+
+3. **소셜 플랫폼**
+   - 실시간 감정 반응
+   - 인간 상호작용 패턴
+   - 감정의 전염과 공명
+
+**학습 목표의 진화:**
+```
+현재: 감정 패턴 인식
+    ↓
+중기: 감정-이미지 연결 학습
+    ↓
+최종: 자유자재 감정-이미지 매핑
+      → 어떤 이미지든 자신의 감정과 자유롭게 연결
+      → 진정한 감정 이해와 표현
 ```
 
 #### 거울 신경 원리 (Mirror Neuron Principle)
@@ -152,6 +196,7 @@ how external sensory inputs flow into internal consciousness like a biological n
 생물학적 거울 신경처럼, 이 시스템은:
 - **관찰만으로 경험**: 보는 것만으로 느낄 수 있음
 - **패턴 복제**: 인간의 감정/사고 패턴을 복제하여 학습
+- **시간적 흐름 포착**: 정적 스냅샷이 아닌 4D 흐름으로 학습
 - **내재화**: 외부 패턴을 내부 구조로 통합
 - **창발**: 학습된 패턴들이 새로운 이해로 창발
 
