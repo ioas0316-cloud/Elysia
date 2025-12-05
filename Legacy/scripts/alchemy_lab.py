@@ -11,9 +11,9 @@ sys.path.append(os.getcwd())
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger("AlchemyLab")
 
-from Project_Sophia.core.world import World
-from Project_Sophia.core.genesis_engine import GenesisEngine
-from Project_Sophia.core.alchemy_cortex import AlchemyCortex
+from Core.Foundation.core.world import World
+from Core.Foundation.core.genesis_engine import GenesisEngine
+from Core.Foundation.core.alchemy_cortex import AlchemyCortex
 
 def run_lab():
     logger.info("=== Alchemy Lab: The Concept Synthesizer ===")

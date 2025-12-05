@@ -6,7 +6,7 @@ import sys
 # Fix path to import Project_Sophia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.physics import PhotonEntity, ResonanceGate, Entanglement, HamiltonianSystem
+from Core.Foundation.core.physics import PhotonEntity, ResonanceGate, Entanglement, HamiltonianSystem
 
 def vacuum_potential(pos: np.ndarray) -> float:
     return 0.0

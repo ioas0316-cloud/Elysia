@@ -10,7 +10,7 @@ import unittest
 # Ensure the Core directory is in the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Field.wave_frequency_mapping import (
+from Core.Foundation.wave_frequency_mapping import (
     WaveFrequencyMapper,
     EmotionType,
     SoundType,

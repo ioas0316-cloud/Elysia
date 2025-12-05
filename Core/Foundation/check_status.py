@@ -8,8 +8,8 @@ Check Current Learning Status
 import sys
 sys.path.append('.')
 
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.hippocampus import Hippocampus
 
 print("="*70)
 print("📊 CURRENT LEARNING STATUS")
@@ -44,7 +44,7 @@ print()
 
 # 개념 공간
 print("🌌 Internal Universe:")
-from Core.Cognition.internal_universe import InternalUniverse
+from Core.Foundation.internal_universe import InternalUniverse
 universe = InternalUniverse()
 print(f"   Mapped Concepts: {len(universe.coordinate_map)}")
 print()

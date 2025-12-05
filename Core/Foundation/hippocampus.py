@@ -16,7 +16,7 @@ import json
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Memory.fractal_quantization import PatternDNA, EmotionQuantizer
+from Core.Foundation.fractal_quantization import PatternDNA, EmotionQuantizer
 
 logger = logging.getLogger("Hippocampus")
 
@@ -238,7 +238,7 @@ class Hippocampus:
         Stores a Fractal Concept Seed in the database.
         
         Args:
-            concept: ConceptNode from Core.Cognition.fractal_concept
+            concept: ConceptNode from Core.Foundation.fractal_concept
         """
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -286,7 +286,7 @@ class Hippocampus:
                 
                 row = cursor.fetchone()
                 if row:
-                    from Core.Cognition.fractal_concept import ConceptNode
+                    from Core.Foundation.fractal_concept import ConceptNode
                     data = json.loads(row[0])
                     concept = ConceptNode.from_dict(data)
                     logger.info(f"🧲 Seed Pulled: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
@@ -314,7 +314,7 @@ class Hippocampus:
                 
                 pruned_count = 0
                 for name, data_json in rows:
-                    from Core.Cognition.fractal_concept import ConceptNode
+                    from Core.Foundation.fractal_concept import ConceptNode
                     data = json.loads(data_json)
                     concept = ConceptNode.from_dict(data)
                     

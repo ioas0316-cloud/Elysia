@@ -11,9 +11,9 @@ YES: 판타지/무협 소설 작가!
 import sys
 sys.path.append('.')
 
-from Core.Integration.multi_source_connector import MultiSourceConnector
-from Core.Integration.external_data_connector import ExternalDataConnector
-from Core.Cognition.internal_universe import InternalUniverse
+from Core.Foundation.multi_source_connector import MultiSourceConnector
+from Core.Foundation.external_data_connector import ExternalDataConnector
+from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.communication_enhancer import CommunicationEnhancer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time

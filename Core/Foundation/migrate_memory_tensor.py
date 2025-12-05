@@ -6,7 +6,7 @@ import random
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.Mind.tensor import HyperQuaternion
+from Core.Foundation.Mind.tensor import HyperQuaternion
 
 def migrate():
     memory_file = "saves/hippocampus.json"

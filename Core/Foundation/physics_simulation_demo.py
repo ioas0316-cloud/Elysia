@@ -11,7 +11,7 @@ import sys
 sys.path.insert(0, 'c:\\Elysia')
 
 import time
-from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.hippocampus import Hippocampus
 from Core.Foundation.Physics.spectrum_layers import SpectrumLayer
 
 def physics_demo():

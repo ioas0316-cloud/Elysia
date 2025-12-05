@@ -15,9 +15,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.Creativity.story_generator import StoryGenerator, StoryStyle
-from Core.Creativity.music_composer import MusicComposer, MusicEmotion
-from Core.Creativity.visual_artist import VisualArtist, ArtStyle
+from Core.Foundation.story_generator import StoryGenerator, StoryStyle
+from Core.Foundation.music_composer import MusicComposer, MusicEmotion
+from Core.Foundation.visual_artist import VisualArtist, ArtStyle
 
 
 class TestStoryGenerator:
@@ -108,7 +108,7 @@ class TestStoryGenerator:
     
     def test_theme_extraction(self, generator):
         """Test theme extraction"""
-        from Core.Creativity.story_generator import Story, World, PlotPoint, EmotionType
+        from Core.Foundation.story_generator import Story, World, PlotPoint, EmotionType
         
         # Create mock story
         world = World("Test", "Test world")
@@ -187,7 +187,7 @@ class TestMusicComposer:
     @pytest.mark.asyncio
     async def test_harmony_generation(self, composer):
         """Test harmony generation"""
-        from Core.Creativity.music_composer import Melody, Note
+        from Core.Foundation.music_composer import Melody, Note
         
         key_data = {
             "root_midi": 60,
@@ -270,7 +270,7 @@ class TestVisualArtist:
     @pytest.mark.asyncio
     async def test_color_palette_selection(self, artist):
         """Test color palette selection"""
-        from Core.Creativity.visual_artist import VisualConcept
+        from Core.Foundation.visual_artist import VisualConcept
         
         concept = VisualConcept(
             theme="Test",
@@ -287,7 +287,7 @@ class TestVisualArtist:
     @pytest.mark.asyncio
     async def test_composition_design(self, artist):
         """Test composition design"""
-        from Core.Creativity.visual_artist import VisualConcept
+        from Core.Foundation.visual_artist import VisualConcept
         
         concept = VisualConcept(
             theme="Test",
@@ -305,7 +305,7 @@ class TestVisualArtist:
     @pytest.mark.asyncio
     async def test_evaluation(self, artist):
         """Test artwork evaluation"""
-        from Core.Creativity.visual_artist import (
+        from Core.Foundation.visual_artist import (
             Artwork, VisualConcept, ColorPalette, Composition, Color
         )
         

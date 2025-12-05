@@ -9,12 +9,12 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Intelligence.Will.free_will_engine import FreeWillEngine
+from Core.Foundation.free_will_engine import FreeWillEngine
 from Core.Foundation.reasoning_engine import ReasoningEngine
 from Core.Foundation.resonance_field import ResonanceField
-from Core.Evolution.transcendence_engine import TranscendenceEngine
+from Core.Foundation.transcendence_engine import TranscendenceEngine
 from Core.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.hippocampus import Hippocampus
 
 class ElysiaConversation:
     """엘리시아와 대화하기"""
@@ -122,7 +122,7 @@ class ElysiaConversation:
         Inject a powerful desire into Elysia's Free Will Engine.
         """
         print(f"\n✨ Inception: Planting desire '{desire}'...")
-        from Core.Intelligence.Will.free_will_engine import Intent
+        from Core.Foundation.free_will_engine import Intent
         import time
         
         # Create a strong intent

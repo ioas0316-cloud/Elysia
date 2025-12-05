@@ -12,8 +12,8 @@ This tests Gap 0 implementation:
 import sys
 sys.path.insert(0, '/c/Elysia')
 
-from Core.Memory.Mind.hyper_qubit import HyperQubit, QubitState
-from Core.Memory.Mind.resonance_engine import HyperResonanceEngine
+from Core.Foundation.Mind.hyper_qubit import HyperQubit, QubitState
+from Core.Foundation.Mind.resonance_engine import HyperResonanceEngine
 from Core.Intelligence.Intelligence.Consciousness.wave import WaveInput
 
 def test_epistemology_enabled_qubits():

@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import unittest
 import numpy as np
-from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.hippocampus import Hippocampus
 
 class TestVisualCortex(unittest.TestCase):
     def setUp(self):

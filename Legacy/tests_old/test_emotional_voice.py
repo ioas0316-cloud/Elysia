@@ -9,12 +9,12 @@ sys.path.insert(0, project_root)
 
 # Import the class we are testing and its dependencies
 from Project_Elysia.cognition_pipeline import CognitionPipeline
-from Project_Sophia.emotional_engine import EmotionalState, EmotionalEngine
-from Project_Sophia.core.thought import Thought
+from Core.Foundation.emotional_engine import EmotionalState, EmotionalEngine
+from Core.Foundation.core.thought import Thought
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.world import World
+from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.Foundation.core.world import World
 
 class TestEmotionalVoice(unittest.TestCase):
 

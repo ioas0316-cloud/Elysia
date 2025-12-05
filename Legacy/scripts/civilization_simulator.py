@@ -9,8 +9,8 @@ from unittest.mock import MagicMock
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Sophia.core.world import World
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.core.world import World
+from Core.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 def create_dawn_of_civilization_scene(world: World):

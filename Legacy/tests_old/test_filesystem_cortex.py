@@ -1,4 +1,4 @@
-from Project_Sophia.filesystem_cortex import FileSystemCortex
+from Core.Foundation.filesystem_cortex import FileSystemCortex
 from pathlib import Path
 
 

@@ -20,8 +20,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.hippocampus import Hippocampus
 
 logging.basicConfig(level=logging.WARNING, format='%(message)s')
 logger = logging.getLogger("UltimateLearning")

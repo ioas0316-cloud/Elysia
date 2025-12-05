@@ -17,8 +17,8 @@ if repo_root not in sys.path:
 
 from Core.Evolution.Evolution.evolution_manager import EvolutionManager
 from Core.Foundation.Physics.fluctlight import FluctlightEngine, FluctlightParticle
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.alchemy import Alchemy
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.alchemy import Alchemy
 from Core.Evolution.Evolution.code_mutator import EvolutionaryCoder, SafetySandbox
 
 logging.basicConfig(level=logging.INFO)

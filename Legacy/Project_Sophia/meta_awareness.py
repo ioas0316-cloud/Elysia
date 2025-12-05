@@ -13,7 +13,7 @@ from datetime import datetime
 from collections import deque
 from enum import Enum
 
-from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
+from Core.Foundation.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
 
 
 class ThoughtType(Enum):

@@ -7,7 +7,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.cell_world import CellWorld
+from Core.Foundation.cell_world import CellWorld
 
 class TestCellWorld(unittest.TestCase):
     def setUp(self):

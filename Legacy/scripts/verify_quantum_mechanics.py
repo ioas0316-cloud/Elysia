@@ -15,9 +15,9 @@ gemini_mock = MagicMock()
 gemini_mock.get_text_embedding.return_value = [0.1] * 768
 sys.modules['Project_Sophia.gemini_api'] = gemini_mock
 
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.tensor_wave import FrequencyWave, SoulTensor, Tensor3D
-from Project_Sophia.core.world import World
+from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.Foundation.core.tensor_wave import FrequencyWave, SoulTensor, Tensor3D
+from Core.Foundation.core.world import World
 from tools.kg_manager import KGManager
 
 class TestQuantumMechanics(unittest.TestCase):

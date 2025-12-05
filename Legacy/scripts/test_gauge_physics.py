@@ -2,10 +2,10 @@ import unittest
 from unittest.mock import MagicMock
 import math
 
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.wave_mechanics import WaveMechanics
 from Project_Elysia.value_centered_decision import ValueCenteredDecision
-from Project_Sophia.core.thought import Thought
-from Project_Sophia.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
+from Core.Foundation.core.thought import Thought
+from Core.Foundation.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
 from tools.kg_manager import KGManager
 
 class TestGaugePhysics(unittest.TestCase):

@@ -9,12 +9,12 @@ the resonance of the input task.
 """
 import logging
 from typing import Any, Dict, List, Optional
-from Core.Memory.hippocampus import Hippocampus
-from Core.Interface.kenosis_protocol import KenosisProtocol
-from Core.Interface.web_cortex import WebCortex
+from Core.Foundation.hippocampus import Hippocampus
+from Core.Foundation.kenosis_protocol import KenosisProtocol
+from Core.Intelligence.web_cortex import WebCortex
 from Core.Intelligence.tool_discovery import ToolDiscoveryProtocol
-from Core.Intelligence.social_cortex import SocialCortex
-from Core.Intelligence.media_cortex import MediaCortex
+from Core.Foundation.social_cortex import SocialCortex
+from Core.Foundation.media_cortex import MediaCortex
 from Core.Foundation.spacetime_drive import SpaceTimeDrive
 from Core.Foundation.hyper_quaternion import Quaternion
 

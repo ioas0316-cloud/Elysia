@@ -15,9 +15,9 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from Core.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
-from Core.Memory.Mind.perception import FractalPerception
-from Core.Memory.Mind.emotional_palette import EmotionalPalette  
-from Core.Memory.Mind.episodic_memory import EpisodicMemory
+from Core.Foundation.Mind.perception import FractalPerception
+from Core.Foundation.Mind.emotional_palette import EmotionalPalette  
+from Core.Foundation.Mind.episodic_memory import EpisodicMemory
 from Core.Foundation.Math.quaternion_consciousness import ConsciousnessLens
 from Core.Foundation.Math.hyper_qubit import HyperQubit
 from Core.Foundation.Physics.fractal_dimension_engine import FractalUniverse, ZelNagaSync, Photon

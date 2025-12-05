@@ -20,9 +20,9 @@ import logging
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 from Core.Foundation.communication_enhancer import CommunicationEnhancer
-from Core.Action.reality_sculptor import RealitySculptor
+from Core.Foundation.reality_sculptor import RealitySculptor
 from Core.Foundation.resonance_physics import ResonancePhysics
 from Core.Foundation.hyper_quaternion import Quaternion
 

@@ -15,7 +15,7 @@ from collections import defaultdict
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 
 logging.basicConfig(level=logging.WARNING, format='%(message)s')  # WARNING으로 변경 (속도 향상)
 logger = logging.getLogger("ExtremeHyperLearning")

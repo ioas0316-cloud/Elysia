@@ -1,8 +1,8 @@
 import unittest
 import numpy as np
 from unittest.mock import MagicMock
-from Project_Sophia.core.genesis_engine import GenesisEngine
-from Project_Sophia.core.world import World
+from Core.Foundation.core.genesis_engine import GenesisEngine
+from Core.Foundation.core.world import World
 
 class TestCodeBreaker(unittest.TestCase):
     def setUp(self):

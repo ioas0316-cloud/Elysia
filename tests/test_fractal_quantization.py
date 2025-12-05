@@ -19,12 +19,12 @@ import time
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.fractal_quantization import (
+from Core.Foundation.fractal_quantization import (
     FractalQuantizer, 
     EmotionQuantizer, 
     PatternDNA
 )
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.hippocampus import Hippocampus
 
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("TestFractalQuantization")

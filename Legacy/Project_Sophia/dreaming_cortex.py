@@ -4,12 +4,12 @@ import json
 from typing import List, Dict, Any, Optional, TYPE_CHECKING
 from .spiderweb import Spiderweb
 from Project_Elysia.core_memory import CoreMemory
-from Project_Sophia.gemini_api import generate_text
+from Core.Foundation.gemini_api import generate_text
 
 if TYPE_CHECKING:
-    from Project_Sophia.meta_awareness import MetaAwareness, ThoughtType
-    from Project_Sophia.autonomous_dreamer import AutonomousDreamer
-    from Project_Sophia.paradox_resolver import ParadoxResolver
+    from Core.Foundation.meta_awareness import MetaAwareness, ThoughtType
+    from Core.Foundation.autonomous_dreamer import AutonomousDreamer
+    from Core.Foundation.paradox_resolver import ParadoxResolver
 
 class DreamingCortex:
     """
@@ -125,7 +125,7 @@ Keep concepts short (1-2 words). Extract 3-7 concepts maximum. Focus on meaningf
         # 🧠 Meta-awareness: Observe dreaming start
         if self.meta_awareness:
             try:
-                from Project_Sophia.meta_awareness import ThoughtType
+                from Core.Foundation.meta_awareness import ThoughtType
                 self.meta_awareness.observe(
                     thought_type=ThoughtType.DREAMING,
                     input_state={"trigger": "dream_cycle"},
@@ -213,7 +213,7 @@ Keep concepts short (1-2 words). Extract 3-7 concepts maximum. Focus on meaningf
         # 🧠 Meta-awareness: Observe dreaming completion
         if self.meta_awareness:
             try:
-                from Project_Sophia.meta_awareness import ThoughtType
+                from Core.Foundation.meta_awareness import ThoughtType
                 self.meta_awareness.observe(
                     thought_type=ThoughtType.DREAMING,
                     input_state={"num_experiences": len(unprocessed_experiences)},

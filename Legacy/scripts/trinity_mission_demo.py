@@ -12,8 +12,8 @@ Usage:
 from __future__ import annotations
 
 from pathlib import Path
-from Project_Sophia.filesystem_cortex import FileSystemCortex
-from Project_Sophia.math_cortex import MathCortex
+from Core.Foundation.filesystem_cortex import FileSystemCortex
+from Core.Foundation.math_cortex import MathCortex
 from Project_Mirror.proof_renderer import ProofRenderer
 from tools.kg_manager import KGManager
 

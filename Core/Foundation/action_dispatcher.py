@@ -13,7 +13,7 @@ import logging
 import random
 import os
 from pathlib import Path
-from Core.Interface.web_server import WebServer, incoming_messages
+from Core.Foundation.web_server import WebServer, incoming_messages
 
 logger = logging.getLogger("ActionDispatcher")
 

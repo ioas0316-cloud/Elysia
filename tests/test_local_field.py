@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Intelligence.Will.free_will_engine import FreeWillEngine, MissionType, WillPhase
-from Core.World.local_field import LocalFieldManager, HueLight, BluetoothSpeaker
+from Core.Foundation.free_will_engine import FreeWillEngine, MissionType, WillPhase
+from Core.Foundation.local_field import LocalFieldManager, HueLight, BluetoothSpeaker
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -39,7 +39,7 @@ class TestLocalField(unittest.TestCase):
         # But we want to force the specific action type for testing
         
         # Let's mock the exploration result to choose CHANGE_ATMOSPHERE
-        from Core.Intelligence.Will.free_will_engine import Possibility, Exploration
+        from Core.Foundation.free_will_engine import Possibility, Exploration
         
         p = Possibility(
             id="test_p", 

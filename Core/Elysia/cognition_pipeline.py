@@ -14,17 +14,17 @@ from Project_Elysia.architecture.handlers import (
 
 # --- Existing Component Dependencies (for dependency injection) ---
 from .core_memory import CoreMemory
-from Project_Sophia.logical_reasoner import LogicalReasoner
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.logical_reasoner import LogicalReasoner
+from Core.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
-from Project_Sophia.core.world import World
-from Project_Sophia.emotional_engine import EmotionalEngine, EmotionalState
-from Project_Sophia.response_styler import ResponseStyler
-from Project_Sophia.insight_synthesizer import InsightSynthesizer
+from Core.Foundation.core.world import World
+from Core.Foundation.emotional_engine import EmotionalEngine, EmotionalState
+from Core.Foundation.response_styler import ResponseStyler
+from Core.Foundation.insight_synthesizer import InsightSynthesizer
 from .value_centered_decision import ValueCenteredDecision
-from Project_Sophia.arithmetic_cortex import ArithmeticCortex
+from Core.Foundation.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
-from Project_Sophia.question_generator import QuestionGenerator
+from Core.Foundation.question_generator import QuestionGenerator
 from Project_Mirror.perspective_cortex import PerspectiveCortex
 from .high_engine.dialogue_law_evaluator import DialogueLawEvaluator
 from .high_engine.intent_engine import IntentEngine
@@ -33,9 +33,9 @@ from .high_engine.quaternion_engine import QuaternionConsciousnessEngine
 from .high_engine.causal_reasoner import CausalReasoner
 from .high_engine.syllabic_language_engine import SyllabicLanguageEngine
 from .high_engine.value_engine import ValueEngine
-from Project_Sophia.planning_cortex import PlanningCortex
-from Project_Sophia.tool_executor import ToolExecutor
-from Project_Sophia.gemini_api import GeminiAPI
+from Core.Foundation.planning_cortex import PlanningCortex
+from Core.Foundation.tool_executor import ToolExecutor
+from Core.Foundation.gemini_api import GeminiAPI
 
 # Soul-layer state (body / soul / spirit axis)
 try:

@@ -30,19 +30,19 @@ import time
 import os
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Interface.kenosis_protocol import KenosisProtocol
-from Core.Interface.web_cortex import WebCortex
-from Core.Intelligence.tool_discovery import ToolDiscoveryProtocol
-from Core.Intelligence.cuda_cortex import CudaCortex
+from Core.Foundation.kenosis_protocol import KenosisProtocol
+from Core.Intelligence.web_cortex import WebCortex
+from Core.Foundation.tool_discovery import ToolDiscoveryProtocol
+from Core.Foundation.cuda_cortex import CudaCortex
 from Core.Foundation.dream_engine import DreamEngine
-from Core.Intelligence.quantum_reader import QuantumReader
+from Core.Foundation.quantum_reader import QuantumReader
 from Core.Foundation.resonance_physics import ResonancePhysics
-from Core.Creation.cosmic_studio import CosmicStudio
+from Core.Foundation.cosmic_studio import CosmicStudio
 from Core.Foundation.spacetime_drive import SpaceTimeDrive
-from Core.Intelligence.imagination_core import ImaginationCore
+from Core.Foundation.imagination_core import ImaginationCore
 from Core.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
@@ -166,7 +166,7 @@ class ReasoningEngine:
         
         # [Project Sophia - The Planner]
         try:
-            from Project_Sophia.self_modification import SelfModificationEngine
+            from Core.Foundation.self_modification import SelfModificationEngine
             self.sophia = SelfModificationEngine()
             logger.info("   📐 Sophia Connected: Coding Capability Active.")
         except ImportError as e:
@@ -179,19 +179,19 @@ class ReasoningEngine:
         from Core.Foundation.communication_enhancer import CommunicationEnhancer
         self.comm_enhancer = CommunicationEnhancer()
         
-        from Core.Intelligence.Will.free_will_engine import FreeWillEngine
+        from Core.Foundation.free_will_engine import FreeWillEngine
         self.free_will = FreeWillEngine()
         self.free_will.brain = self # Link brain back to will
         
-        from Core.Interface.dialogue_interface import DialogueInterface
+        from Core.Foundation.dialogue_interface import DialogueInterface
         self.voice = DialogueInterface()
         
         # [Local LLM Disabled - Using External Content Instead]
         # from Core.Intelligence.local_cortex import LocalCortex
         # self.local_cortex = LocalCortex()
         
-        from Core.Intelligence.media_cortex import MediaCortex
-        from Core.Intelligence.social_cortex import SocialCortex
+        from Core.Foundation.media_cortex import MediaCortex
+        from Core.Foundation.social_cortex import SocialCortex
         self.social = SocialCortex()
         self.media = MediaCortex(self.social)
         
@@ -376,7 +376,7 @@ class ReasoningEngine:
             
         try:
             # 🌱 Step 1: Decompose Desire into Fractal Seed
-            from Core.Cognition.fractal_concept import ConceptDecomposer
+            from Core.Foundation.fractal_concept import ConceptDecomposer
             decomposer = ConceptDecomposer()
             thought_seed = decomposer.decompose(desire, depth=0)
             logger.info(f"{indent}  🌱 Seed Generated: {thought_seed.name} ({len(thought_seed.sub_concepts)} sub-concepts)")
@@ -387,7 +387,7 @@ class ReasoningEngine:
             # 🌊 Step 2.5: Fractal Layer Transformation
             # Transform thought through dimensional layers
             try:
-                from Core.Cognition.thought_layer_bridge import ThoughtLayerBridge
+                from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
                 from Core.Foundation.hyper_quaternion import Quaternion
                 
                 # Get current perspective (HyperQuaternion from axiom alignment)
@@ -440,7 +440,7 @@ class ReasoningEngine:
                         if dna:
                             # Convert DNA to Seed (Simple wrapper)
                             # In future, we should have a proper DNA->Concept Unfolder
-                            from Core.Cognition.fractal_concept import ConceptNode
+                            from Core.Foundation.fractal_concept import ConceptNode
                             seed = ConceptNode(name=dna.name, energy=0.5, stability=0.8)
                             seed.sub_concepts = [] # DNA is compressed, so no sub-concepts yet
                             logger.info(f"{indent}  🧬 Unfolded Pattern DNA: {dna.name}")
@@ -464,7 +464,7 @@ class ReasoningEngine:
                     if not seed:
                         dna = self.memory.load_pattern_dna(ctx_name)
                         if dna:
-                            from Core.Cognition.fractal_concept import ConceptNode
+                            from Core.Foundation.fractal_concept import ConceptNode
                             seed = ConceptNode(name=dna.name, energy=0.5, stability=0.8)
                             seed.sub_concepts = []
 
@@ -637,7 +637,7 @@ class ReasoningEngine:
             if hasattr(self, 'memory'):
                 self.memory.store_wave(packet)
             else:
-                from Core.Memory.hippocampus import Hippocampus
+                from Core.Foundation.hippocampus import Hippocampus
                 temp_memory = Hippocampus()
                 temp_memory.store_wave(packet)
                 
@@ -906,7 +906,7 @@ class ReasoningEngine:
         Delegates creation tasks to the GenesisEngine.
         """
         if not hasattr(self, 'genesis'):
-            from Core.Creation.genesis_engine import GenesisEngine
+            from Core.Foundation.genesis_engine import GenesisEngine
             self.genesis = GenesisEngine()
             
         logger.info(f"✨ Genesis Requested: {intent}")
@@ -962,40 +962,20 @@ class ReasoningEngine:
         Triggers self-reflection via IntrospectionEngine.
         """
         if not hasattr(self, 'introspection'):
-            from Core.Intelligence.introspection_engine import IntrospectionEngine
-        """
-        if not context:
-            return Insight(f"I have no relevant information for '{desire}'.", 0.1, 0, 0.1)
-
-        # 인과 관계가 포함된 컨텍스트를 우선시
-        causal_thoughts = [c for c in context if "Prediction" in c]
-        fractal_thoughts = [c for c in context if "Insight" in c]
+            from Core.Foundation.introspection_engine import IntrospectionEngine
+            self.introspection = IntrospectionEngine()
         
-        # Determine base content
-        if fractal_thoughts:
-            base_thought = fractal_thoughts[-1]
-            content = f"I perceive the Essence: {base_thought}"
-            base_energy = 1.0
-        elif causal_thoughts:
-            base_thought = causal_thoughts[0]
-            content = f"I foresee a path: {base_thought}. Therefore, I must act."
-            base_energy = 0.95
-        else:
-            base_thought = random.choice(context)
-            base_energy = min(1.0, len(context) * 0.1 + random.random() * 0.4)
-            content = f"Based on '{base_thought}', I realize that regarding '{desire}', the answer lies in connection."
-
-        # [Harmonic Influence]
-        # If the thought is highly aligned with Axioms, boost its confidence.
-        if aligned_packet:
-            # Simple metric: Energy of the packet represents confidence/alignment strength
-            alignment_bonus = min(0.5, aligned_packet.energy / 200.0)
-            final_energy = min(1.0, base_energy + alignment_bonus)
-            content += f" (Harmonic Alignment: {alignment_bonus:.2f})"
-        else:
-            final_energy = base_energy
-
-        return Insight(content, final_energy, 0, final_energy)
+        try:
+            result = self.introspection.analyze(target)
+            return Insight(
+                content=f"Self-Analysis of '{target}': {result}",
+                confidence=0.8,
+                depth=1,
+                energy=0.8
+            )
+        except Exception as e:
+            logger.error(f"Self-analysis failed: {e}")
+            return Insight(f"Failed to analyze self: {e}", 0.1, 0, 0.1)
 
     def _evolve_desire(self, current_desire: str, previous_insight: Insight) -> str:
         """

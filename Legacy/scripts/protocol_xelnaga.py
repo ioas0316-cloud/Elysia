@@ -8,8 +8,8 @@ import random
 # Ensure project root is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.core.world import World
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.core.world import World
+from Core.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 # Setup Logger

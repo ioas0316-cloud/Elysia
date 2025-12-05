@@ -23,7 +23,7 @@ import random
 from typing import Any, Dict
 
 # A placeholder for the actual World simulation class.
-# In a real scenario, this would be imported from Project_Sophia.
+# In a real scenario, this would be imported from Core.Foundation.
 class MockWorld:
     """A mock of the CellWorld for demonstrating the driver script."""
     def __init__(self):

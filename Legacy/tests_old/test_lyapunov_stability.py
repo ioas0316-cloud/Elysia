@@ -15,7 +15,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.stability_controller import (
+from Core.Foundation.stability_controller import (
     LyapunovController,
     StateVector,
     StabilityStatus

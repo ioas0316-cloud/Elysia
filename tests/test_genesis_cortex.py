@@ -7,8 +7,8 @@ import json
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.fractal_kernel import FractalKernel
-from Project_Sophia.genesis_cortex import GenesisCortex
+from Core.Foundation.fractal_kernel import FractalKernel
+from Core.Foundation.genesis_cortex import GenesisCortex
 
 class TestGenesisCortex(unittest.TestCase):
     def setUp(self):

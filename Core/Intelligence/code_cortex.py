@@ -93,7 +93,7 @@ class CodeCortex:
         This is the 'Writer' capability.
         """
         try:
-            from Core.Evolution.gemini_api import generate_text
+            from Core.Foundation.gemini_api import generate_text
             
             system_prompt = f"""
             You are the CodeCortex of Elysia.

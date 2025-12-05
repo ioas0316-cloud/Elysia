@@ -39,7 +39,7 @@ def main() -> None:
     _ensure_repo_root_on_path()
 
     # Import after sys.path is prepared.
-    from Project_Sophia.core.elysia_signal_engine import ElysiaSignalEngine
+    from Core.Foundation.core.elysia_signal_engine import ElysiaSignalEngine
     from ELYSIA.CORE.feeling_buffer import ElysiaFeelingBuffer
 
     # 1) Raw events -> ElysiaSignalLog

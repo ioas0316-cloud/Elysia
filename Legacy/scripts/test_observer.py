@@ -4,7 +4,7 @@ import logging
 import os
 from elysia_world.world import World
 from elysia_world.observer import Observer
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.wave_mechanics import WaveMechanics
 
 def main():
     """

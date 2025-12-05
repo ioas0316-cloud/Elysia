@@ -1,7 +1,7 @@
 # c:/Elysia/Project_Sophia/response_styler.py
 from typing import Dict, Any, Optional
 
-from Project_Sophia.emotional_engine import EmotionalState
+from Core.Foundation.emotional_engine import EmotionalState
 
 
 class ResponseStyler:

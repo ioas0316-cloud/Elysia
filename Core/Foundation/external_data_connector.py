@@ -22,7 +22,7 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Cognition.internal_universe import InternalUniverse, WorldCoordinate
+from Core.Foundation.internal_universe import InternalUniverse, WorldCoordinate
 from Core.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("ExternalDataConnector")
@@ -131,7 +131,7 @@ class ExternalDataConnector:
         
         This maps semantic meaning to quaternion space.
         """
-        from Core.Cognition.internal_universe import InternalCoordinate
+        from Core.Foundation.internal_universe import InternalCoordinate
         
         # Map features to quaternion components
         # w = existence (always positive for real concepts)

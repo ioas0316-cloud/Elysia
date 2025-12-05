@@ -8,7 +8,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from Project_Sophia.reality_sculptor import RealitySculptor
+from Core.Foundation.reality_sculptor import RealitySculptor
 
 def run_experiment():
     print("🗿 Starting 'The First Sculpture' Experiment...")

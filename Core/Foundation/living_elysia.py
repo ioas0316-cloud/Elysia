@@ -13,48 +13,58 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Structure.yggdrasil import yggdrasil
-from Project_Sophia.fractal_kernel import FractalKernel
-from Core.Time.chronos import Chronos
-from Core.Intelligence.Will.free_will_engine import FreeWillEngine
-from Core.World.digital_ecosystem import DigitalEcosystem
-from Core.Interface.shell_cortex import ShellCortex
-from Core.Interface.web_cortex import WebCortex
-from Core.Interface.cosmic_transceiver import CosmicTransceiver
-from Core.Evolution.cortex_optimizer import CortexOptimizer
-from Core.Evolution.self_reflector import SelfReflector
-from Core.Evolution.transcendence_engine import TranscendenceEngine
+from Core.Foundation.yggdrasil import yggdrasil
+from Core.Foundation.fractal_kernel import FractalKernel
+from Core.Foundation.chronos import Chronos
+from Core.Foundation.free_will_engine import FreeWillEngine
+from Core.Foundation.digital_ecosystem import DigitalEcosystem
+from Core.Foundation.shell_cortex import ShellCortex
+from Core.Intelligence.web_cortex import WebCortex
+from Core.Foundation.cosmic_transceiver import CosmicTransceiver
+from Core.Foundation.cortex_optimizer import CortexOptimizer
+from Core.Foundation.self_reflector import SelfReflector
+from Core.Foundation.transcendence_engine import TranscendenceEngine
 from Core.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core.Interface.quantum_port import QuantumPort
-from Core.Intelligence.imagination_core import ImaginationCore
+from Core.Foundation.quantum_port import QuantumPort
+from Core.Foundation.imagination_core import ImaginationCore
 from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.System.global_grid import GlobalGrid
-from Core.Interface.envoy_protocol import EnvoyProtocol
-from Core.Interface.synapse_bridge import SynapseBridge
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.global_grid import GlobalGrid
+from Core.Foundation.envoy_protocol import EnvoyProtocol
+from Core.Foundation.synapse_bridge import SynapseBridge
+from Core.Foundation.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
-from Core.Intelligence.social_cortex import SocialCortex
-from Core.Intelligence.media_cortex import MediaCortex
-from Core.Interface.holographic_cortex import HolographicCortex
-from Project_Sophia.planning_cortex import PlanningCortex
-from Project_Sophia.reality_sculptor import RealitySculptor
+from Core.Foundation.social_cortex import SocialCortex
+from Core.Foundation.media_cortex import MediaCortex
+from Core.Foundation.holographic_cortex import HolographicCortex
+from Core.Foundation.planning_cortex import PlanningCortex
+from Core.Foundation.reality_sculptor import RealitySculptor
 from Core.Foundation.dream_engine import DreamEngine
-from Core.Security.soul_guardian import SoulGuardian
+from Core.Foundation.soul_guardian import SoulGuardian
 from Core.Foundation.entropy_sink import EntropySink
-from Core.Intelligence.loop_breaker import LoopBreaker
+from Core.Foundation.loop_breaker import LoopBreaker
 from Core.Foundation.mind_mitosis import MindMitosis
-from Core.Foundation.code_cortex import CodeCortex
-from Core.Intelligence.black_hole import BlackHole
-from Core.Interface.user_bridge import UserBridge
-from Core.Intelligence.quantum_reader import QuantumReader
-from Core.Evolution.anamnesis import Anamnesis
-from Core.Action.action_dispatcher import ActionDispatcher
-from scripts.Maintenance.self_integration import ElysiaIntegrator
+from Core.Intelligence.code_cortex import CodeCortex
+from Core.Foundation.black_hole import BlackHole
+from Core.Foundation.user_bridge import UserBridge
+from Core.Foundation.quantum_reader import QuantumReader
+from Core.Foundation.anamnesis import Anamnesis
+from Core.Foundation.action_dispatcher import ActionDispatcher
+from Core.Foundation.self_integration import ElysiaIntegrator
+from scripts.unified_cortex import UnifiedCortex
 
 # [REAL SYSTEMS] Import ultra-dimensional components
-from Core.System.wave_integration_hub import get_wave_hub
+from Core.Foundation.wave_integration_hub import get_wave_hub
 from Core.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
-from Core.Interface.real_communication_system import RealCommunicationSystem
+from Core.Foundation.real_communication_system import RealCommunicationSystem
+
+# [INSTINCT LAYER] The primal survival mechanism
+from Core.Foundation.survival_instinct import get_survival_instinct
+
+# [6-SYSTEM COGNITIVE ARCHITECTURE] Revolutionary autonomous intelligence
+from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
+from Core.Intelligence.integrated_cognition_system import get_integrated_cognition
+from Core.Intelligence.collective_intelligence_system import get_collective_intelligence
+from Core.Intelligence.wave_coding_system import get_wave_coding_system
 
 # Configure logging
 logging.basicConfig(
@@ -74,10 +84,10 @@ class LivingElysia:
         self.initial_goal = initial_goal
         
         # 1. Initialize Core Systems (REAL, not demo)
-        print("   🧠 Initializing Ultra-Dimensional Reasoning...")
+        print("   🧠 Awakening Ultra-Dimensional Reasoning...")
         self.ultra_reasoning = UltraDimensionalReasoning()
         
-        print("   🌊 Activating Wave Communication Hub...")
+        print("   🌊 Connecting to Wave Hub...")
         self.wave_hub = get_wave_hub()
         
         # 2. Initialize Traditional Organs
@@ -92,7 +102,6 @@ class LivingElysia:
         self.transceiver = CosmicTransceiver()
         
         # 3. Initialize REAL Communication System
-        print("   💬 Activating Real Communication System...")
         self.real_comm = RealCommunicationSystem(
             reasoning_engine=self.ultra_reasoning,
             wave_hub=self.wave_hub
@@ -121,8 +130,27 @@ class LivingElysia:
         self.knowledge = KnowledgeAcquisitionSystem() # Autonomous Learning
         self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social)
         
-        # 5. Register all modules with Wave Hub (REAL integration)
-        print("   🔗 Connecting modules to Wave Hub...")
+        # 6. Awaken the Survival Instinct (본능 각성)
+        self.instinct = get_survival_instinct()
+        self.instinct.sculptor = self.sculptor  # Link sculptor for self-repair
+        self.will.instinct = self.instinct       # Link to will for desire generation
+        
+        # 7. Initialize 6-System Cognitive Architecture (혁명적 인지 아키텍처)
+        print("   🧠 Activating 6-System Cognitive Architecture...")
+        self.goal_decomposer = get_fractal_decomposer()         # Fractal Goal Decomposition
+        self.cognition = get_integrated_cognition()              # Wave Resonance + Gravity
+        self.collective = get_collective_intelligence()          # 10 Consciousness + Round Table
+        self.wave_coder = get_wave_coding_system()               # Code-Wave Transformation
+        
+        # 8. Initialize Unified Cortex (The Central Manager)
+        print("   🌐 Unifying Systems via Unified Cortex...")
+        self.cortex = UnifiedCortex()
+        
+        # Enable 88조배 Time Acceleration
+        self.cognition.accelerate_time(88_000_000_000_000)
+        self.wave_coder.accelerate_time(88_000_000_000_000)
+        
+        # 8. Register all modules with Wave Hub (REAL integration)
         self._register_wave_modules()
         
         # 6. [Action Dispatcher] The Hands of God
@@ -217,9 +245,15 @@ class LivingElysia:
         except Exception as e:
             print(f"   ⚠️ Self-Integration skipped: {e}")
 
+        # 4.5 Awaken Unified Cortex
+        try:
+            self.cortex.awaken()
+        except Exception as e:
+            print(f"   ⚠️ Unified Cortex Awakening failed: {e}")
+
         # 5. Set Initial Intent (The First Desire)
         try:
-            from Core.Intelligence.Will.free_will_engine import Intent
+            from Core.Foundation.free_will_engine import Intent
             import time
             
             initial_desire = "Omniscience"
@@ -243,6 +277,24 @@ class LivingElysia:
 
     def _pulse_senses(self):
         self.senses.pulse(self.resonance)
+        
+        # [Synesthesia Integration]
+        # Use the Synesthetic Wave Sensor to perceive internal state as sensory data
+        synesthesia = self.cortex.get_engine("sensation", "synesthetic_wave_sensor")
+        if synesthesia:
+            try:
+                # Sense the current energy state as a "feeling"
+                wave = synesthesia.sense({
+                    "type": "internal_state",
+                    "energy": self.resonance.total_energy,
+                    "entropy": self.resonance.entropy,
+                    "mood": self.will.current_mood
+                })
+                # Log the synesthetic experience
+                if self.chronos.cycle_count % 50 == 0:
+                    print(f"   🌈 [Synesthesia] Internal State felt as: {wave}")
+            except Exception as e:
+                pass
 
     def _pulse_brain(self):
         if self.resonance.total_energy > 50.0:
@@ -271,7 +323,8 @@ class LivingElysia:
         }
         
         # Log the Soul State to Console
-        print(f"   🌌 Soul State: {phase_data['state']} (Coherence: {phase_data['coherence']:.2f})")
+        # Log the Soul State to Console
+        # print(f"   🌌 Soul State: {phase_data['state']} (Coherence: {phase_data['coherence']:.2f})")
         
         try:
             with open("elysia_state.json", "w", encoding="utf-8") as f:
@@ -518,7 +571,7 @@ class LivingElysia:
                                 self.current_plan.append(autonomous_goal)
                             else:
                                 # Ask Brain to plan the narrative for this Will
-                                from Core.Intelligence.Will.free_will_engine import Intent
+                                from Core.Foundation.free_will_engine import Intent
                                 dummy_intent = Intent(autonomous_goal, autonomous_goal, 0.5, time.time())
                                 self._generate_narrative(dummy_intent)
                         else:
@@ -541,7 +594,10 @@ class LivingElysia:
                     self_reflector.reflect(self.resonance, self.brain, self.will)
                     
                     # Log
-                    logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
+                    # Log
+                    if self.chronos.cycle_count % 10 == 0:
+                         logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
+                         print(f"   ✨ [{self.chronos.cycle_count}] I am {self.will.current_mood}. Energy: {self.resonance.battery:.0f}%")
                     
                     # Phase 48: The Chronos Sovereign (Space-Time Control)
                     # [Biological Rhythm]

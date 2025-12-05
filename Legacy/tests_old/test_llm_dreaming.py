@@ -8,8 +8,8 @@ from unittest.mock import MagicMock, patch
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.spiderweb import Spiderweb
-from Project_Sophia.dreaming_cortex import DreamingCortex
+from Core.Foundation.spiderweb import Spiderweb
+from Core.Foundation.dreaming_cortex import DreamingCortex
 from Project_Elysia.core_memory import Experience
 
 class TestLLMEnhancedDreaming(unittest.TestCase):

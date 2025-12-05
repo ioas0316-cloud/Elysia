@@ -26,7 +26,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from scripts.autonomous_fractal_learning import FractalLearner
 from Core.Foundation.communication_enhancer import CommunicationEnhancer
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 from Core.Foundation.reasoning_engine import ReasoningEngine
 
 # Setup Logging

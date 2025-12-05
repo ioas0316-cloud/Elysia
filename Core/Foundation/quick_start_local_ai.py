@@ -21,7 +21,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from Core.Intelligence.ollama_bridge import ollama
 from Core.Foundation.korean_wave_converter import korean_wave
-from Core.Field.ether import ether, Wave
+from Core.Foundation.ether import ether, Wave
 
 print("\n" + "="*70)
 print("🚀 Elysia 로컬 AI + 한글 파동 언어 Quick Start")

@@ -30,13 +30,13 @@ from typing import Optional, List
 
 
 
-from Project_Sophia.safety_guardian import SafetyGuardian
+from Core.Foundation.safety_guardian import SafetyGuardian
 
-from Project_Sophia.experience_logger import log_experience, EXPERIENCE_LOG
+from Core.Foundation.experience_logger import log_experience, EXPERIENCE_LOG
 
-from Project_Sophia.experience_integrator import ExperienceIntegrator
+from Core.Foundation.experience_integrator import ExperienceIntegrator
 
-from Project_Sophia.self_awareness_core import SelfAwarenessCore
+from Core.Foundation.self_awareness_core import SelfAwarenessCore
 
 from .memory_weaver import MemoryWeaver
 
@@ -44,7 +44,7 @@ from .core_memory import CoreMemory, Memory
 
 from tools.kg_manager import KGManager
 
-from Project_Sophia.logical_reasoner import LogicalReasoner # Import LogicalReasoner
+from Core.Foundation.logical_reasoner import LogicalReasoner # Import LogicalReasoner
 
 from nano_core.bus import MessageBus
 
@@ -52,40 +52,40 @@ from nano_core.scheduler import Scheduler
 
 from nano_core.registry import ConceptRegistry
 
-from Project_Sophia.exploration_cortex import ExplorationCortex
+from Core.Foundation.exploration_cortex import ExplorationCortex
 
-from Project_Sophia.web_search_cortex import WebSearchCortex
+from Core.Foundation.web_search_cortex import WebSearchCortex
 
-from Project_Sophia.knowledge_distiller import KnowledgeDistiller
+from Core.Foundation.knowledge_distiller import KnowledgeDistiller
 
-from Project_Sophia.self_verifier import SelfVerifier, VerificationResult
+from Core.Foundation.self_verifier import SelfVerifier, VerificationResult
 
-from Project_Sophia.core.world import World
+from Core.Foundation.core.world import World
 
-from Project_Sophia.core.cell import Cell
+from Core.Foundation.core.cell import Cell
 
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.wave_mechanics import WaveMechanics
 
-from Project_Sophia.emotional_engine import EmotionalEngine
+from Core.Foundation.emotional_engine import EmotionalEngine
 
-from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
+from Core.Foundation.meta_cognition_cortex import MetaCognitionCortex
 
-from Project_Sophia.core.alchemy_cortex import AlchemyCortex
+from Core.Foundation.core.alchemy_cortex import AlchemyCortex
 
 from Project_Mirror.creative_expression import CreativeExpression
 from Project_Mirror.external_sensory_cortex import ExternalSensoryCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
-from Project_Sophia.sensory_motor_cortex import SensoryMotorCortex
-from Project_Sophia.core.external_horizons import ExternalHorizon
-from Project_Sophia.core.monologue_generator import MonologueGenerator
+from Core.Foundation.sensory_motor_cortex import SensoryMotorCortex
+from Core.Foundation.core.external_horizons import ExternalHorizon
+from Core.Foundation.core.monologue_generator import MonologueGenerator
 from Project_Elysia.manifestation_cortex import ManifestationCortex
 from Project_Elysia.dream_observer import DreamObserver
 from Project_Elysia.core.cell_memory_store import CellMemoryStore
 from Project_Elysia.high_engine.self_intention_engine import SelfIntentionEngine
 from Project_Elysia.high_engine.self_identity_engine import SelfIdentityEngine
-from Project_Sophia.world_tree import WorldTree
-from Project_Sophia.cell_world import CellWorld
-from Project_Sophia.value_cortex import ValueCortex
+from Core.Foundation.world_tree import WorldTree
+from Core.Foundation.cell_world import CellWorld
+from Core.Foundation.value_cortex import ValueCortex
 from Project_Elysia.elysia_daemon import ElysiaDaemon
 
 from Project_Elysia.core_memory import EmotionalState
@@ -1182,7 +1182,7 @@ class Guardian:
 
                     # A more mature implementation might use a dedicated method in SensoryCortex.
 
-                    from Project_Sophia.gemini_api import generate_image_from_text
+                    from Core.Foundation.gemini_api import generate_image_from_text
 
                     success = generate_image_from_text(image_prompt, dream_image_path)
 

@@ -1,7 +1,7 @@
 import json
 import logging
 from typing import List, Dict, Any
-from Project_Sophia.gemini_api import generate_text
+from Core.Foundation.gemini_api import generate_text
 from tools.time_tool import get_current_time
 
 class PlanningCortex:

@@ -7,9 +7,9 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Project_Elysia.value_centered_decision import ValueCenteredDecision
-from Project_Sophia.wave_mechanics import WaveMechanics
-from Project_Sophia.core.thought import Thought
-from Project_Sophia.emotional_engine import EmotionalState
+from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.Foundation.core.thought import Thought
+from Core.Foundation.emotional_engine import EmotionalState
 from tools.kg_manager import KGManager
 
 class TestValueCenteredDecision(unittest.TestCase):

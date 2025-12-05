@@ -8,17 +8,17 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
 from Project_Elysia.architecture.handlers import DefaultReasoningHandler
-from Project_Sophia.emotional_engine import EmotionalEngine
-from Project_Sophia.core.thought import Thought
+from Core.Foundation.emotional_engine import EmotionalEngine
+from Core.Foundation.core.thought import Thought
 from Project_Elysia.architecture.context import ConversationContext
-from Project_Sophia.emotional_engine import EmotionalState
-from Project_Sophia.logical_reasoner import LogicalReasoner
+from Core.Foundation.emotional_engine import EmotionalState
+from Core.Foundation.logical_reasoner import LogicalReasoner
 from Project_Elysia.value_centered_decision import ValueCenteredDecision
-from Project_Sophia.insight_synthesizer import InsightSynthesizer
-from Project_Sophia.response_styler import ResponseStyler
+from Core.Foundation.insight_synthesizer import InsightSynthesizer
+from Core.Foundation.response_styler import ResponseStyler
 from Project_Mirror.creative_cortex import CreativeCortex
 from Project_Mirror.perspective_cortex import PerspectiveCortex
-from Project_Sophia.question_generator import QuestionGenerator
+from Core.Foundation.question_generator import QuestionGenerator
 import logging
 
 class TestDefaultReasoningHandler(unittest.TestCase):

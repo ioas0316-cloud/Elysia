@@ -1,4 +1,4 @@
-from Core.Interface.kenosis_protocol import KenosisProtocol
+from Core.Foundation.kenosis_protocol import KenosisProtocol
 import time
 
 def test_kenosis():

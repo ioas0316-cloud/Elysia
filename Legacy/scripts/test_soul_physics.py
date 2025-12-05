@@ -1,7 +1,7 @@
 import unittest
 import math
-from Project_Sophia.core.tensor_wave import SoulTensor, FrequencyWave, Tensor3D
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.core.tensor_wave import SoulTensor, FrequencyWave, Tensor3D
+from Core.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 class MockKGManager:

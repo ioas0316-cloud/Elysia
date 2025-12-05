@@ -15,7 +15,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 
 print("\n" + "="*70)

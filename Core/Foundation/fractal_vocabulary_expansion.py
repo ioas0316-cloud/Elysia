@@ -18,7 +18,7 @@ import itertools
 # Add root directory to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.hippocampus import Hippocampus
 
 class MassiveFractalGenesis:
     def __init__(self):

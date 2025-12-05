@@ -16,8 +16,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 import logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from Core.Cognition.fractal_concept import ConceptDecomposer, ConceptNode
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
+from Core.Foundation.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 
 print("\n" + "="*60)

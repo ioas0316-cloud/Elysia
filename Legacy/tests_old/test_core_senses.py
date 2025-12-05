@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from tools.kg_manager import KGManager
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.wave_mechanics import WaveMechanics
 
 class TestCoreSenses(unittest.TestCase):
 

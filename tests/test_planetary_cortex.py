@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Intelligence.Will.free_will_engine import FreeWillEngine
-from Core.World.planetary_cortex import PlanetaryCortex, WeatherSense, FinanceSense
+from Core.Foundation.free_will_engine import FreeWillEngine
+from Core.Foundation.planetary_cortex import PlanetaryCortex, WeatherSense, FinanceSense
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

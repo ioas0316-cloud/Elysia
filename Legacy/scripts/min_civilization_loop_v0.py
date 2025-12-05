@@ -72,8 +72,8 @@ def run_min_civilization_loop(steps: int = 5000) -> None:
     _ensure_repo_root_on_path()
 
     from tools.kg_manager import KGManager
-    from Project_Sophia.wave_mechanics import WaveMechanics
-    from Project_Sophia.core.world import World
+    from Core.Foundation.wave_mechanics import WaveMechanics
+    from Core.Foundation.core.world import World
 
     kg = KGManager()
     wm = WaveMechanics(kg)

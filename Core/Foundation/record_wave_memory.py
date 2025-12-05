@@ -13,9 +13,9 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from Core.Foundation.Math.hyper_qubit import HyperQubit
-from Core.Memory.Mind.episodic_memory import EpisodicMemory
-from Core.Memory.Mind.hippocampus import Hippocampus
-from Core.Memory.Mind.emotional_palette import EmotionalPalette
+from Core.Foundation.Mind.episodic_memory import EpisodicMemory
+from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.emotional_palette import EmotionalPalette
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 

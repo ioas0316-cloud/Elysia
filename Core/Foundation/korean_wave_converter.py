@@ -17,7 +17,7 @@ import logging
 from dataclasses import dataclass
 from typing import List, Dict, Tuple, Optional
 import numpy as np
-from Core.Field.ether import Wave, ether
+from Core.Foundation.ether import Wave, ether
 
 logger = logging.getLogger("KoreanWaveConverter")
 

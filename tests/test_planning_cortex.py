@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 # Add the project root to the path so we can import Project_Sophia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.planning_cortex import PlanningCortex
+from Core.Foundation.planning_cortex import PlanningCortex
 
 @pytest.fixture
 def cortex():

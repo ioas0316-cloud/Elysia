@@ -12,8 +12,8 @@ from pathlib import Path
 from datetime import datetime
 
 # Assuming the script is run from the root of the project, so we can import from Project_Sophia
-from Project_Sophia.vector_utils import embed_texts, cosine_sim
-from Project_Sophia.gemini_api import generate_text
+from Core.Foundation.vector_utils import embed_texts, cosine_sim
+from Core.Foundation.gemini_api import generate_text
 
 # --- Constants ---
 DATA_DIR = Path('data')

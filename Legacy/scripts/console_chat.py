@@ -30,7 +30,7 @@ from Project_Elysia.cognition_pipeline import CognitionPipeline
 import re
 import json
 import os
-from Project_Sophia.core.world import World
+from Core.Foundation.core.world import World
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
 

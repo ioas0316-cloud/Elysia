@@ -8,7 +8,7 @@ except Exception:
     Telemetry = None
 
 try:
-    from Project_Sophia.safety_guardian import SafetyGuardian, ActionCategory
+    from Core.Foundation.safety_guardian import SafetyGuardian, ActionCategory
 except Exception:
     SafetyGuardian = None
     ActionCategory = None

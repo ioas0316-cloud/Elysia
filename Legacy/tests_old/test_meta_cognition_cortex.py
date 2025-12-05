@@ -9,7 +9,7 @@ sys.path.insert(0, project_root)
 
 # Import the main orchestrator and the cortex to be tested
 from Project_Elysia.guardian import Guardian
-from Project_Sophia.meta_cognition_cortex import MetaCognitionCortex
+from Core.Foundation.meta_cognition_cortex import MetaCognitionCortex
 
 class TestMetaCognitionIntegration(unittest.TestCase):
 

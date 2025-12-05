@@ -13,10 +13,10 @@ import random
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.universe_evolution import UniverseEvolutionEngine
-from Project_Sophia.spiderweb import Spiderweb
-from Project_Sophia.core.world import World
-from Project_Sophia.wave_mechanics import WaveMechanics
+from Core.Foundation.universe_evolution import UniverseEvolutionEngine
+from Core.Foundation.spiderweb import Spiderweb
+from Core.Foundation.core.world import World
+from Core.Foundation.wave_mechanics import WaveMechanics
 from Project_Elysia.core_memory import CoreMemory, Experience
 from tools.kg_manager import KGManager
 from datetime import datetime

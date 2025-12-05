@@ -8,9 +8,9 @@ from pathlib import Path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Project_Sophia.logical_reasoner import LogicalReasoner
-from Project_Sophia.core.world import World
-from Project_Sophia.core.thought import Thought
+from Core.Foundation.logical_reasoner import LogicalReasoner
+from Core.Foundation.core.world import World
+from Core.Foundation.core.thought import Thought
 from tools.kg_manager import KGManager
 
 class TestLogicalReasoner(unittest.TestCase):

@@ -5,13 +5,13 @@ import math
 import re
 from datetime import datetime
 from tools.canvas_tool import Canvas
-from Project_Sophia.value_cortex import ValueCortex
+from Core.Foundation.value_cortex import ValueCortex
 try:
     from infra.telemetry import Telemetry
 except Exception:
     Telemetry = None
-from Project_Sophia.gemini_api import generate_text, generate_image_from_text
-from Project_Sophia.core.tensor_wave import Tensor3D, FrequencyWave
+from Core.Foundation.gemini_api import generate_text, generate_image_from_text
+from Core.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
 from Project_Elysia.core_memory import Experience
 
 class SensoryTranslator:

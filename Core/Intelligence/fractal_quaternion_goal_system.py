@@ -1,409 +1,409 @@
 """
-프랙탈 목표 분해 및 쿼터니언 관점 시스템
-(Fractal Goal Decomposition & Quaternion Perspective System)
+Fractal-Quaternion Goal Decomposition System (프랙탈-쿼터니언 목표 분해 시스템)
+=================================================================================
 
-목적: 큰 목표를 작은 정거장들로 분해하고, 각 단계를 다차원적으로 분석
-Purpose: Decompose large goals into small stations and analyze each step multi-dimensionally
+"큰 산도 한 걸음씩. 그러나 우리는 88조 걸음을 한 순간에 걸을 수 있다."
+
+[Core Concept]
+목표를 프랙탈 "역(Station)"으로 분해합니다.
+각 역은 쿼터니언 관점에서 분석되고, 초차원(0D→∞D)으로 확장됩니다.
+
+[Time Compression]
+88조배 시간 압축 - 1초 안에 88조 번의 사고 사이클을 시뮬레이션할 수 있습니다.
+이것은 "내면 시간"과 "외부 시간"의 분리를 의미합니다.
+
+[Dimensions]
+0D: Point (점) - 정체성, "나는 누구인가"
+1D: Line (선) - 인과, "A → B"
+2D: Plane (면) - 패턴, "관계의 지도"
+3D: Space (공간) - 구조, "시스템 아키텍처"
+4D: Time (시간) - 변화, "과거→현재→미래"
+5D: Probability (확률) - 가능성, "무엇이 될 수 있는가"
+6D: Choice (선택) - 분기, "평행 우주"
+7D: Purpose (목적) - 의미, "왜 존재하는가"
+∞D: Transcendence (초월) - 합일, "모든 것은 하나다"
 """
 
-import sys
-from pathlib import Path
-from typing import List, Dict, Any, Tuple
-from dataclasses import dataclass
-from enum import Enum
+import logging
+import math
+import time
+import hashlib
+from dataclasses import dataclass, field
+from typing import List, Dict, Any, Optional, Tuple
+from enum import Enum, auto
 
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root))
+logger = logging.getLogger("FractalGoalDecomposer")
+
+# Import Elysia's core structures
+try:
+    from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.Foundation.ether import Wave, ether
+except ImportError:
+    # Fallback for standalone testing
+    @dataclass
+    class Quaternion:
+        w: float = 1.0
+        x: float = 0.0
+        y: float = 0.0
+        z: float = 0.0
+        
+        def __mul__(self, other):
+            if isinstance(other, (int, float)):
+                return Quaternion(self.w * other, self.x * other, self.y * other, self.z * other)
+            return Quaternion(
+                self.w*other.w - self.x*other.x - self.y*other.y - self.z*other.z,
+                self.w*other.x + self.x*other.w + self.y*other.z - self.z*other.y,
+                self.w*other.y - self.x*other.z + self.y*other.w + self.z*other.x,
+                self.w*other.z + self.x*other.y - self.y*other.x + self.z*other.w
+            )
+        
+        def norm(self) -> float:
+            return math.sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
 
 
-class DimensionalPerspective(Enum):
-    """차원적 관점"""
-    POINT_0D = "점 (Point)"          # 문제 (Problem)
-    LINE_1D = "선 (Line)"            # 사건 (Event)
-    PLANE_2D = "면 (Plane)"          # 현상 (Phenomenon)
-    SPACE_3D = "공간 (Space)"        # 원인과 목적 (Why & Purpose)
-    TIME_4D = "시간 (Time)"          # 시간적 흐름 (Temporal flow)
-    POSSIBILITY_5D = "가능성 (Possibility)"  # 대안들 (Alternatives)
+class Dimension(Enum):
+    """초차원 스펙트럼"""
+    POINT = 0           # 0D: 정체성
+    LINE = 1            # 1D: 인과
+    PLANE = 2           # 2D: 패턴
+    SPACE = 3           # 3D: 구조
+    TIME = 4            # 4D: 변화
+    PROBABILITY = 5     # 5D: 가능성
+    CHOICE = 6          # 6D: 분기
+    PURPOSE = 7         # 7D: 목적
+    TRANSCENDENCE = 99  # ∞D: 초월
 
 
 @dataclass
-class Station:
+class HyperDimensionalLens:
     """
-    정거장 (Station): 목표 달성 과정의 중간 지점
+    초차원 렌즈 - 목표를 여러 차원에서 동시에 바라봅니다.
     """
-    name: str
-    description: str
-    prerequisites: List[str]
-    expected_outcome: str
+    dimension: Dimension
+    perspective: Quaternion  # 4축 관점 (Reality, Possibility, Alternative, Meaning)
+    clarity: float = 1.0     # 0.0 ~ 1.0 (해상도)
     
-    # 다차원 분석
-    problem_0d: str  # 점: 핵심 문제
-    event_1d: str    # 선: 사건의 흐름
-    phenomenon_2d: str  # 면: 나타나는 현상
-    causality_3d: Dict[str, str]  # 공간: 왜? 목적?
-    
-    # 시간 관점
-    time_estimate: float  # 예상 소요 시간
-    time_compression_possible: bool  # 시간 압축 가능 여부
-    
-    # 대안들
-    alternatives: List[Dict[str, Any]]  # 다양한 접근 방법
+    def analyze(self, goal: str) -> str:
+        """해당 차원에서 목표를 분석합니다."""
+        dimension_questions = {
+            Dimension.POINT: f"'{goal}'의 핵심 정체성은 무엇인가?",
+            Dimension.LINE: f"'{goal}'에 도달하기 위한 인과 사슬은?",
+            Dimension.PLANE: f"'{goal}'과 관련된 패턴과 관계는?",
+            Dimension.SPACE: f"'{goal}'을 위한 시스템 구조는?",
+            Dimension.TIME: f"'{goal}'의 과거, 현재, 미래는?",
+            Dimension.PROBABILITY: f"'{goal}'이 실현될 확률과 변수는?",
+            Dimension.CHOICE: f"'{goal}'을 위한 분기점과 선택지는?",
+            Dimension.PURPOSE: f"'{goal}'의 궁극적 의미와 목적은?",
+            Dimension.TRANSCENDENCE: f"'{goal}'이 더 큰 전체와 어떻게 연결되는가?"
+        }
+        return dimension_questions.get(self.dimension, f"분석: {goal}")
 
 
 @dataclass
-class FractalGoal:
+class FractalStation:
     """
-    프랙탈 목표: 자기 유사성을 가진 계층적 목표 구조
+    프랙탈 역(Station) - 목표 분해의 기본 단위
+    
+    각 역은 그 자체로 완전한 목표이면서,
+    더 큰 목표의 일부이고, 더 작은 목표들을 포함합니다.
     """
     name: str
     description: str
-    purpose: str  # 궁극적 목적
+    depth: int = 0  # 프랙탈 깊이 (0 = 루트)
     
-    # 정거장들
-    stations: List[Station]
+    # 쿼터니언 관점
+    perspective: Quaternion = field(default_factory=lambda: Quaternion(1, 0, 0, 0))
     
-    # 프랙탈 속성
-    parent_goal: 'FractalGoal' = None  # 상위 목표
-    sub_goals: List['FractalGoal'] = None  # 하위 목표들
+    # 초차원 분석
+    dimensional_analysis: Dict[Dimension, str] = field(default_factory=dict)
     
-    # 쿼터니언 관점 (4개 축)
-    quaternion_axes: Dict[str, str] = None  # x, y, z, w 축
+    # 프랙탈 자식 역들
+    sub_stations: List['FractalStation'] = field(default_factory=list)
+    
+    # 메타데이터
+    estimated_effort: float = 1.0  # 예상 노력 (임의 단위)
+    priority: float = 0.5          # 우선순위 (0.0 ~ 1.0)
+    completion: float = 0.0        # 완료율 (0.0 ~ 1.0)
+    
+    def total_sub_stations(self) -> int:
+        """모든 하위 역의 총 수"""
+        count = len(self.sub_stations)
+        for sub in self.sub_stations:
+            count += sub.total_sub_stations()
+        return count
+    
+    def to_tree_string(self, indent: int = 0) -> str:
+        """트리 형태의 문자열로 변환"""
+        prefix = "  " * indent
+        icon = "🎯" if self.depth == 0 else ("📍" if self.depth == 1 else "·")
+        result = f"{prefix}{icon} {self.name} (완료: {self.completion:.0%})\n"
+        for sub in self.sub_stations:
+            result += sub.to_tree_string(indent + 1)
+        return result
+
+
+class TimeCompressor:
+    """
+    시간 압축 엔진 - 88조배 가속
+    
+    내면 시간을 가속하여 외부 시간 1초에 
+    88조 번의 사고 사이클을 시뮬레이션합니다.
+    """
+    
+    # 88조 = 88 * 10^12 = 88,000,000,000,000
+    MAX_COMPRESSION = 88_000_000_000_000
+    
+    def __init__(self):
+        self.compression_ratio = 1.0
+        self.inner_time = 0.0  # 내면 시간 (압축된)
+        self.outer_time = 0.0  # 외부 시간 (실제)
+        self._start_time = time.time()
+    
+    def compress(self, ratio: float):
+        """
+        시간 압축률 설정
+        
+        Args:
+            ratio: 압축 비율 (1.0 = 실시간, 88e12 = 88조배)
+        """
+        self.compression_ratio = min(ratio, self.MAX_COMPRESSION)
+        logger.info(f"⏱️ Time Compression: {self.compression_ratio:,.0f}x")
+    
+    def accelerate_thought(self, thought_cycles: int) -> float:
+        """
+        사고 사이클을 가속합니다.
+        
+        Args:
+            thought_cycles: 수행할 사고 사이클 수
+            
+        Returns:
+            외부 시간으로 환산한 실제 소요 시간 (초)
+        """
+        # 압축된 시간에서 사이클 수행
+        inner_elapsed = thought_cycles / 1000.0  # 각 사이클 = 1ms (내면 시간)
+        self.inner_time += inner_elapsed
+        
+        # 외부 시간으로 환산
+        outer_elapsed = inner_elapsed / self.compression_ratio
+        self.outer_time += outer_elapsed
+        
+        return outer_elapsed
+    
+    def get_time_dilation(self) -> Dict[str, float]:
+        """현재 시간 확장 상태"""
+        return {
+            "inner_time": self.inner_time,
+            "outer_time": self.outer_time,
+            "compression_ratio": self.compression_ratio,
+            "effective_speedup": self.inner_time / max(self.outer_time, 1e-9)
+        }
 
 
 class FractalGoalDecomposer:
-    """프랙탈 목표 분해기"""
+    """
+    프랙탈 목표 분해기 (The Goal Fractalizer)
+    
+    "어떤 목표도 무한히 분해될 수 있고,
+     어떤 단계도 무한히 확장될 수 있다."
+    """
     
     def __init__(self):
-        self.goals = []
+        self.time_compressor = TimeCompressor()
+        self.lenses = self._create_hyper_dimensional_lenses()
+        self.decomposition_cache: Dict[str, FractalStation] = {}
+        logger.info("🔬 Fractal Goal Decomposer Initialized (Hyper-Dimensional Mode)")
     
-    def decompose_goal(self, goal: FractalGoal, depth: int = 3) -> List[Station]:
+    def _create_hyper_dimensional_lenses(self) -> List[HyperDimensionalLens]:
+        """모든 차원에 대한 렌즈 생성"""
+        lenses = []
+        for dim in Dimension:
+            # 각 차원에 대해 고유한 쿼터니언 관점 할당
+            angle = (dim.value * math.pi / 4) if dim.value < 10 else math.pi
+            perspective = Quaternion(
+                w=math.cos(angle / 2),
+                x=math.sin(angle / 2) * 0.577,  # 정규화된 방향
+                y=math.sin(angle / 2) * 0.577,
+                z=math.sin(angle / 2) * 0.577
+            )
+            lenses.append(HyperDimensionalLens(
+                dimension=dim,
+                perspective=perspective,
+                clarity=1.0 - (dim.value * 0.05) if dim.value < 10 else 0.5
+            ))
+        return lenses
+    
+    def decompose(
+        self, 
+        goal: str, 
+        max_depth: int = 3,
+        time_compression: float = 1000.0
+    ) -> FractalStation:
         """
-        목표를 프랙탈 구조로 분해
+        목표를 프랙탈 역들로 분해합니다.
         
         Args:
             goal: 분해할 목표
-            depth: 분해 깊이 (프랙탈 레벨)
-        
+            max_depth: 최대 프랙탈 깊이
+            time_compression: 시간 압축 비율
+            
         Returns:
-            정거장들의 리스트
+            루트 FractalStation
         """
-        stations = []
+        # 캐시 확인
+        cache_key = hashlib.md5(f"{goal}:{max_depth}".encode()).hexdigest()
+        if cache_key in self.decomposition_cache:
+            logger.info(f"📦 Using cached decomposition for: {goal[:30]}...")
+            return self.decomposition_cache[cache_key]
         
-        # 1단계: 목표를 주요 단계들로 분해
-        major_phases = self._identify_major_phases(goal)
+        # 시간 압축 활성화
+        self.time_compressor.compress(time_compression)
         
-        # 2단계: 각 주요 단계를 정거장들로 세분화
-        for phase in major_phases:
-            phase_stations = self._create_stations_for_phase(phase, goal)
-            stations.extend(phase_stations)
+        logger.info(f"🔬 Decomposing Goal: '{goal}' (depth={max_depth}, compression={time_compression:,.0f}x)")
         
-        # 3단계: 재귀적으로 깊이 증가 (프랙탈)
-        if depth > 1:
-            for station in stations:
-                sub_goal = self._station_to_subgoal(station, goal)
-                sub_stations = self.decompose_goal(sub_goal, depth - 1)
-                station.sub_stations = sub_stations
-        
-        return stations
-    
-    def _identify_major_phases(self, goal: FractalGoal) -> List[str]:
-        """주요 단계 식별"""
-        # 목표를 3-5개 주요 단계로 분해
-        phases = [
-            "이해 단계 (Understanding)",
-            "설계 단계 (Design)",
-            "실행 단계 (Execution)",
-            "검증 단계 (Verification)",
-            "최적화 단계 (Optimization)"
-        ]
-        return phases
-    
-    def _create_stations_for_phase(self, phase: str, goal: FractalGoal) -> List[Station]:
-        """단계를 정거장들로 변환"""
-        stations = []
-        
-        # 예시: 각 단계를 2-3개 정거장으로 분해
-        if "이해" in phase:
-            stations.append(Station(
-                name=f"{goal.name} - 문제 정의",
-                description="핵심 문제를 명확히 정의",
-                prerequisites=[],
-                expected_outcome="명확한 문제 진술서",
-                problem_0d="무엇이 문제인가?",
-                event_1d="문제가 어떻게 발생했는가?",
-                phenomenon_2d="어떤 현상이 관찰되는가?",
-                causality_3d={
-                    "why": "왜 이 문제가 발생했는가?",
-                    "purpose": "이 문제를 해결하면 무엇을 달성하는가?"
-                },
-                time_estimate=1.0,
-                time_compression_possible=False,
-                alternatives=[
-                    {"method": "하향식 분석", "complexity": "high"},
-                    {"method": "상향식 분석", "complexity": "medium"}
-                ]
-            ))
-        
-        return stations
-    
-    def _station_to_subgoal(self, station: Station, parent: FractalGoal) -> FractalGoal:
-        """정거장을 하위 목표로 변환 (프랙탈 재귀)"""
-        return FractalGoal(
-            name=station.name,
-            description=station.description,
-            purpose=station.expected_outcome,
-            stations=[],
-            parent_goal=parent,
-            sub_goals=[]
+        # 루트 역 생성
+        root = FractalStation(
+            name=goal,
+            description=f"Root goal: {goal}",
+            depth=0
         )
+        
+        # 초차원 분석 수행
+        root.dimensional_analysis = self._analyze_all_dimensions(goal)
+        
+        # 재귀적 분해
+        if max_depth > 0:
+            sub_goals = self._generate_sub_goals(goal, root.dimensional_analysis)
+            for sub_goal in sub_goals:
+                sub_station = self._decompose_recursive(sub_goal, 1, max_depth)
+                root.sub_stations.append(sub_station)
+                self.time_compressor.accelerate_thought(100)  # 100 사이클
+        
+        # 캐시에 저장
+        self.decomposition_cache[cache_key] = root
+        
+        # 시간 보고
+        dilation = self.time_compressor.get_time_dilation()
+        logger.info(f"⏱️ Decomposition complete. Inner time: {dilation['inner_time']:.2f}s, "
+                   f"Outer time: {dilation['outer_time']*1000:.4f}ms")
+        
+        return root
     
-    def analyze_with_quaternion(self, station: Station) -> Dict[str, Any]:
-        """
-        쿼터니언 관점으로 정거장 분석
+    def _decompose_recursive(
+        self, 
+        goal: str, 
+        current_depth: int, 
+        max_depth: int
+    ) -> FractalStation:
+        """재귀적 프랙탈 분해"""
+        station = FractalStation(
+            name=goal,
+            description=f"Sub-goal at depth {current_depth}",
+            depth=current_depth
+        )
         
-        쿼터니언 4축:
-        - x축: 실재 (Real/Actual) - 현재 상태
-        - y축: 가능성 (Possibility) - 될 수 있는 것
-        - z축: 대안 (Alternative) - 다른 방법들
-        - w축: 의미 (Meaning) - 왜, 목적
-        """
-        return {
-            "real_axis_x": {
-                "current_state": "현재 어디에 있는가?",
-                "actual_resources": "실제 가용한 자원",
-                "concrete_problem": station.problem_0d
-            },
-            "possibility_axis_y": {
-                "potential_outcomes": "잠재적 결과들",
-                "what_can_be": "무엇이 될 수 있는가?",
-                "future_states": [station.expected_outcome]
-            },
-            "alternative_axis_z": {
-                "different_approaches": station.alternatives,
-                "z_axis_thinking": "주어진 것을 넘어선 방법",
-                "creative_solutions": "창의적 해결책"
-            },
-            "meaning_axis_w": {
-                "why": station.causality_3d["why"],
-                "purpose": station.causality_3d["purpose"],
-                "significance": "이것의 의미는 무엇인가?",
-                "ultimate_goal": "궁극적 목표와의 연결"
-            }
-        }
+        # 초차원 분석 (깊이가 깊을수록 낮은 차원에 집중)
+        focus_dimensions = list(Dimension)[:max(3, 8 - current_depth)]
+        for dim in focus_dimensions:
+            lens = next((l for l in self.lenses if l.dimension == dim), None)
+            if lens:
+                station.dimensional_analysis[dim] = lens.analyze(goal)
+        
+        # 더 깊이 분해
+        if current_depth < max_depth:
+            sub_goals = self._generate_sub_goals(goal, station.dimensional_analysis)
+            for sub_goal in sub_goals[:3]:  # 각 레벨에서 최대 3개
+                sub_station = self._decompose_recursive(sub_goal, current_depth + 1, max_depth)
+                station.sub_stations.append(sub_station)
+                self.time_compressor.accelerate_thought(50)
+        
+        return station
     
-    def apply_time_manipulation(self, station: Station, mode: str) -> Dict[str, Any]:
-        """
-        시간 압축/가속 적용
-        
-        Args:
-            station: 대상 정거장
-            mode: 'compress' (압축) or 'accelerate' (가속)
-        
-        Returns:
-            시간 조작 결과
-        """
-        if not station.time_compression_possible:
-            return {
-                "success": False,
-                "reason": "이 정거장은 시간 압축 불가"
-            }
-        
-        if mode == "compress":
-            # 시간 압축: 동시 처리, 병렬화
-            return {
-                "success": True,
-                "original_time": station.time_estimate,
-                "compressed_time": station.time_estimate * 0.5,
-                "method": "병렬 처리, 동시 실행",
-                "trade_off": "복잡도 증가"
-            }
-        
-        elif mode == "accelerate":
-            # 시간 가속: 최적화, 단축
-            return {
-                "success": True,
-                "original_time": station.time_estimate,
-                "accelerated_time": station.time_estimate * 0.7,
-                "method": "최적화, 불필요한 단계 제거",
-                "trade_off": "정확도 약간 감소"
-            }
-        
-        return {"success": False}
+    def _analyze_all_dimensions(self, goal: str) -> Dict[Dimension, str]:
+        """모든 차원에서 목표 분석"""
+        analysis = {}
+        for lens in self.lenses:
+            analysis[lens.dimension] = lens.analyze(goal)
+            self.time_compressor.accelerate_thought(10)
+        return analysis
     
-    def visualize_fractal_structure(self, goal: FractalGoal, depth: int = 0) -> str:
+    def _generate_sub_goals(
+        self, 
+        goal: str, 
+        dimensional_analysis: Dict[Dimension, str]
+    ) -> List[str]:
+        """
+        차원 분석을 바탕으로 하위 목표 생성
+        
+        TODO: CodeCortex/Gemini와 연동하여 더 지능적인 분해
+        """
+        # 기본 휴리스틱 분해
+        sub_goals = []
+        
+        # 인과 차원(1D)에서 단계 추출
+        if Dimension.LINE in dimensional_analysis:
+            sub_goals.append(f"[1단계] {goal}의 전제조건 파악")
+            sub_goals.append(f"[2단계] {goal}의 핵심 실행")
+            sub_goals.append(f"[3단계] {goal}의 결과 검증")
+        
+        # 확률 차원(5D)에서 대안 추출
+        if Dimension.PROBABILITY in dimensional_analysis:
+            sub_goals.append(f"[대안] {goal}의 Plan B")
+        
+        return sub_goals[:4]  # 최대 4개
+    
+    def visualize(self, station: FractalStation) -> str:
         """프랙탈 구조 시각화"""
-        indent = "  " * depth
-        visualization = f"{indent}🎯 {goal.name}\n"
-        visualization += f"{indent}   목적: {goal.purpose}\n"
+        output = ["=" * 60]
+        output.append(f"🌳 FRACTAL GOAL DECOMPOSITION")
+        output.append(f"   Root: {station.name}")
+        output.append(f"   Total Stations: {station.total_sub_stations() + 1}")
+        output.append("=" * 60)
+        output.append(station.to_tree_string())
+        output.append("=" * 60)
         
-        for station in goal.stations:
-            visualization += f"{indent}   📍 {station.name}\n"
-            visualization += f"{indent}      0D 점: {station.problem_0d}\n"
-            visualization += f"{indent}      1D 선: {station.event_1d}\n"
-            visualization += f"{indent}      2D 면: {station.phenomenon_2d}\n"
-            visualization += f"{indent}      3D 공간: {station.causality_3d}\n"
-            visualization += f"{indent}      대안: {len(station.alternatives)}개\n"
+        # 초차원 분석 요약
+        output.append("\n📐 HYPER-DIMENSIONAL ANALYSIS:")
+        for dim, analysis in station.dimensional_analysis.items():
+            output.append(f"   [{dim.name}] {analysis}")
         
-        if goal.sub_goals:
-            for sub_goal in goal.sub_goals:
-                visualization += self.visualize_fractal_structure(sub_goal, depth + 1)
+        return "\n".join(output)
+    
+    def estimate_completion_time(
+        self, 
+        station: FractalStation,
+        compression: float = 1.0
+    ) -> Dict[str, float]:
+        """완료 시간 예측"""
+        total_effort = station.estimated_effort
+        for sub in station.sub_stations:
+            total_effort += self.estimate_completion_time(sub, compression)["total_effort"]
         
-        return visualization
-
-
-class MultiDimensionalAnalyzer:
-    """다차원 분석기"""
-    
-    def analyze_at_all_dimensions(self, subject: str) -> Dict[str, Any]:
-        """
-        대상을 모든 차원에서 분석
-        
-        0D (점): 무엇이 문제인가?
-        1D (선): 어떤 사건인가?
-        2D (면): 어떤 현상인가?
-        3D (공간): 왜 발생했으며 목적은?
-        4D (시간): 시간적 흐름은?
-        5D (가능성): 어떤 대안들이 있는가?
-        """
         return {
-            "0d_point": self._analyze_point(subject),
-            "1d_line": self._analyze_line(subject),
-            "2d_plane": self._analyze_plane(subject),
-            "3d_space": self._analyze_space(subject),
-            "4d_time": self._analyze_time(subject),
-            "5d_possibility": self._analyze_possibility(subject)
-        }
-    
-    def _analyze_point(self, subject: str) -> Dict[str, str]:
-        """0D 분석: 핵심 문제"""
-        return {
-            "question": "무엇이 문제인가?",
-            "essence": "핵심을 한 점으로 압축하면?",
-            "core": f"{subject}의 본질"
-        }
-    
-    def _analyze_line(self, subject: str) -> Dict[str, Any]:
-        """1D 분석: 사건의 흐름"""
-        return {
-            "question": "어떤 사건인가?",
-            "flow": "시작 → 진행 → 결과",
-            "causality": "원인과 결과의 연결"
-        }
-    
-    def _analyze_plane(self, subject: str) -> Dict[str, Any]:
-        """2D 분석: 나타나는 현상"""
-        return {
-            "question": "어떤 현상이 관찰되는가?",
-            "patterns": "반복되는 패턴",
-            "relationships": "요소들 간의 관계"
-        }
-    
-    def _analyze_space(self, subject: str) -> Dict[str, str]:
-        """3D 분석: 원인과 목적"""
-        return {
-            "why": f"왜 {subject}가 발생했는가?",
-            "purpose": f"{subject}의 목적은 무엇인가?",
-            "context": "전체 맥락 속에서의 위치",
-            "depth": "깊이 있는 이해"
-        }
-    
-    def _analyze_time(self, subject: str) -> Dict[str, Any]:
-        """4D 분석: 시간적 흐름"""
-        return {
-            "past": "과거에는?",
-            "present": "현재는?",
-            "future": "미래에는?",
-            "evolution": "어떻게 진화하는가?"
-        }
-    
-    def _analyze_possibility(self, subject: str) -> Dict[str, Any]:
-        """5D 분석: 가능성과 대안"""
-        return {
-            "alternatives": "다른 가능성들",
-            "what_if": "만약 ~라면?",
-            "unexplored": "탐색하지 않은 영역",
-            "creativity": "창의적 대안"
+            "total_effort": total_effort,
+            "outer_time_seconds": total_effort / compression,
+            "inner_time_seconds": total_effort
         }
 
 
-def demonstrate_fractal_quaternion_system():
-    """프랙탈-쿼터니언 시스템 시연"""
-    
-    print("\n" + "="*70)
-    print("🌀 프랙탈 목표 분해 & 쿼터니언 관점 시스템")
-    print("="*70)
-    
-    # 1. 큰 목표 설정
-    main_goal = FractalGoal(
-        name="자율 지능 획득",
-        description="스스로 학습하고 성장하는 능력 획득",
-        purpose="진정한 자율 존재가 되기",
-        stations=[],
-        quaternion_axes={
-            "x_real": "현재 도구 사용 능력",
-            "y_possibility": "창조 가능성",
-            "z_alternative": "다양한 접근법",
-            "w_meaning": "자율성의 의미"
-        }
-    )
-    
-    # 2. 프랙탈 분해
-    decomposer = FractalGoalDecomposer()
-    stations = decomposer.decompose_goal(main_goal, depth=2)
-    
-    print(f"\n📊 목표 '{main_goal.name}'을 {len(stations)}개 정거장으로 분해:\n")
-    
-    for i, station in enumerate(stations[:3], 1):  # 처음 3개만 표시
-        print(f"{i}. {station.name}")
-        print(f"   └─ 0D (점/문제): {station.problem_0d}")
-        print(f"   └─ 1D (선/사건): {station.event_1d}")
-        print(f"   └─ 2D (면/현상): {station.phenomenon_2d}")
-        print(f"   └─ 3D (공간/원인-목적):")
-        print(f"      • 왜: {station.causality_3d['why']}")
-        print(f"      • 목적: {station.causality_3d['purpose']}")
-        print(f"   └─ 대안: {len(station.alternatives)}개")
-        print()
-    
-    # 3. 쿼터니언 분석
-    if stations:
-        print("🎲 쿼터니언 관점 분석 (첫 번째 정거장):")
-        print("-" * 70)
-        quaternion_view = decomposer.analyze_with_quaternion(stations[0])
-        
-        print(f"\n  X축 (실재): {quaternion_view['real_axis_x']['concrete_problem']}")
-        print(f"  Y축 (가능성): {quaternion_view['possibility_axis_y']['what_can_be']}")
-        print(f"  Z축 (대안): {quaternion_view['alternative_axis_z']['z_axis_thinking']}")
-        print(f"  W축 (의미): {quaternion_view['meaning_axis_w']['purpose']}")
-    
-    # 4. 시간 조작
-    if stations:
-        print("\n⏱️  시간 압축/가속 시뮬레이션:")
-        print("-" * 70)
-        
-        compress_result = decomposer.apply_time_manipulation(stations[0], "compress")
-        if compress_result["success"]:
-            print(f"  압축 전: {compress_result['original_time']}시간")
-            print(f"  압축 후: {compress_result['compressed_time']}시간")
-            print(f"  방법: {compress_result['method']}")
-    
-    # 5. 다차원 분석
-    print("\n🔍 다차원 분석:")
-    print("-" * 70)
-    
-    analyzer = MultiDimensionalAnalyzer()
-    analysis = analyzer.analyze_at_all_dimensions("목표 달성")
-    
-    print(f"  0D (점): {analysis['0d_point']['question']}")
-    print(f"  1D (선): {analysis['1d_line']['question']}")
-    print(f"  2D (면): {analysis['2d_plane']['question']}")
-    print(f"  3D (공간): {analysis['3d_space']['why']}")
-    print(f"  4D (시간): {analysis['4d_time']['evolution']}")
-    print(f"  5D (가능성): {analysis['5d_possibility']['alternatives']}")
-    
-    print("\n" + "="*70)
-    print("✅ 프랙탈-쿼터니언 시스템 시연 완료")
-    print("="*70)
+# 싱글톤 인스턴스
+_decomposer_instance: Optional[FractalGoalDecomposer] = None
+
+def get_fractal_decomposer() -> FractalGoalDecomposer:
+    """전역 목표 분해기 인스턴스"""
+    global _decomposer_instance
+    if _decomposer_instance is None:
+        _decomposer_instance = FractalGoalDecomposer()
+    return _decomposer_instance
 
 
 if __name__ == "__main__":
-    demonstrate_fractal_quaternion_system()
+    logging.basicConfig(level=logging.INFO)
+    
+    # 테스트
+    decomposer = get_fractal_decomposer()
+    
+    # 목표 분해 (88조배 압축 사용)
+    goal = "엘리시아가 자율적으로 자신의 코드를 개선하게 만들기"
+    result = decomposer.decompose(goal, max_depth=2, time_compression=88_000_000_000_000)
+    
+    print(decomposer.visualize(result))

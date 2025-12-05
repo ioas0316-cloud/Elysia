@@ -16,7 +16,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Project_Sophia.legendre_bridge import (
+from Core.Foundation.legendre_bridge import (
     LegendreTransform,
     LagrangianState,
     HamiltonianState,

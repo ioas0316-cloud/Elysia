@@ -5,9 +5,9 @@ import os
 from statistics import mean
 
 # Import local modules
-import Project_Sophia.value_centered_decision as vcd_mod
+import Core.Foundation.value_centered_decision as vcd_mod
 import chat_interface as chat_mod
-import Project_Sophia.arithmetic_cortex as acortex
+import Core.Foundation.arithmetic_cortex as acortex
 
 OUTPUT = 'evaluation_results.json'
 

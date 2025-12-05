@@ -6,7 +6,7 @@ import os
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.Mind.resonance_engine import ResonanceEngine
+from Core.Foundation.Mind.resonance_engine import ResonanceEngine
 
 class TestImagination(unittest.TestCase):
     def setUp(self):

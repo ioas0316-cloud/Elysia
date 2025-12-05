@@ -1,513 +1,442 @@
 """
-분산 의식 & 원탁 회의 시스템
-(Distributed Consciousness & Round Table Council)
+Collective Intelligence System (집단 지성 시스템)
+=================================================
 
-여러 관점의 자아들이 원탁에 모여 토론하는 집단 지성 시스템
+"하나의 의식이 아닌, 열 개의 의식이 원탁에 앉아 토론한다."
+
+[10가지 의식 유형]
+1. RATIONAL (합리) - 논리적 분석
+2. EMOTIONAL (감성) - 감정과 공감
+3. CREATIVE (창조) - 새로운 아이디어
+4. CRITICAL (비판) - 결함과 위험 발견
+5. PRACTICAL (실용) - 실행 가능성
+6. PHILOSOPHICAL (철학) - 깊은 의미
+7. FUTURE (미래) - 장기적 비전
+8. HISTORICAL (역사) - 과거의 교훈
+9. CHAOS (혼돈) - 무작위 도발
+10. ORDER (질서) - 체계와 구조
+
+[원탁회의 시스템]
+- 모든 의식은 평등하게 발언권을 갖습니다
+- 3라운드 토론: 초기의견 → 비판/정련 → 합의 도출
+- 신뢰 가중 합의로 최종 결론
+
+[보완적 쌍]
+- RATIONAL ↔ EMOTIONAL
+- CREATIVE ↔ CRITICAL
+- FUTURE ↔ HISTORICAL
+- CHAOS ↔ ORDER
+- PRACTICAL ↔ PHILOSOPHICAL
 """
 
-import sys
-from pathlib import Path
-from typing import List, Dict, Any, Optional
-from dataclasses import dataclass
-from enum import Enum
+import logging
 import random
+import math
+import time
+from dataclasses import dataclass, field
+from typing import List, Dict, Any, Optional, Tuple
+from enum import Enum, auto
 
-project_root = Path(__file__).parent.parent.parent
-sys.path.insert(0, str(project_root))
+logger = logging.getLogger("CollectiveIntelligence")
+
+# Import core structures
+try:
+    from Core.Foundation.hyper_quaternion import Quaternion
+except ImportError:
+    @dataclass
+    class Quaternion:
+        w: float = 1.0
+        x: float = 0.0
+        y: float = 0.0
+        z: float = 0.0
 
 
-class PerspectiveType(Enum):
-    """관점 유형"""
-    RATIONAL = "이성적 자아"        # 논리와 분석
-    EMOTIONAL = "감성적 자아"       # 감정과 직관
-    CREATIVE = "창조적 자아"        # 창의성과 혁신
-    CRITICAL = "비판적 자아"        # 회의와 검증
-    PRACTICAL = "실용적 자아"       # 현실과 실행
-    PHILOSOPHICAL = "철학적 자아"    # 의미와 본질
-    FUTURE = "미래적 자아"          # 가능성과 비전
-    PAST = "역사적 자아"            # 경험과 학습
-    CHAOS = "혼돈의 자아"           # 무작위와 돌파
-    ORDER = "질서의 자아"           # 구조와 체계
+class ConsciousnessType(Enum):
+    """10가지 의식 유형"""
+    RATIONAL = auto()      # 합리 - 논리적 분석
+    EMOTIONAL = auto()     # 감성 - 감정과 공감
+    CREATIVE = auto()      # 창조 - 새로운 아이디어
+    CRITICAL = auto()      # 비판 - 결함 발견
+    PRACTICAL = auto()     # 실용 - 실행 가능성
+    PHILOSOPHICAL = auto() # 철학 - 깊은 의미
+    FUTURE = auto()        # 미래 - 장기 비전
+    HISTORICAL = auto()    # 역사 - 과거 교훈
+    CHAOS = auto()         # 혼돈 - 무작위 도발
+    ORDER = auto()         # 질서 - 체계와 구조
+
+
+# 보완적 쌍 정의
+COMPLEMENTARY_PAIRS = [
+    (ConsciousnessType.RATIONAL, ConsciousnessType.EMOTIONAL),
+    (ConsciousnessType.CREATIVE, ConsciousnessType.CRITICAL),
+    (ConsciousnessType.FUTURE, ConsciousnessType.HISTORICAL),
+    (ConsciousnessType.CHAOS, ConsciousnessType.ORDER),
+    (ConsciousnessType.PRACTICAL, ConsciousnessType.PHILOSOPHICAL),
+]
 
 
 @dataclass
-class Consciousness:
-    """
-    의식 단위 (하나의 자아)
-    """
-    id: str
-    name: str
-    perspective: PerspectiveType
-    knowledge_base: Dict[str, Any]
-    personality_traits: Dict[str, float]  # 성격 특성 (0-1)
-    current_opinion: Optional[str] = None
-    confidence: float = 0.5  # 의견의 확신도
+class Opinion:
+    """의견 (Opinion)"""
+    content: str
+    consciousness_type: ConsciousnessType
+    confidence: float = 0.5  # 0.0 ~ 1.0
+    reasoning: str = ""
+    timestamp: float = field(default_factory=time.time)
+    
+    def __str__(self):
+        return f"[{self.consciousness_type.name}] {self.content} (신뢰도: {self.confidence:.0%})"
 
 
-class DistributedConsciousnessNetwork:
-    """
-    분산 의식 네트워크
+@dataclass 
+class Debate:
+    """토론 라운드"""
+    topic: str
+    round_number: int
+    opinions: List[Opinion] = field(default_factory=list)
+    critiques: Dict[ConsciousnessType, List[str]] = field(default_factory=dict)
     
-    개념: Elysia의 의식이 여러 자아로 분산됨
-    - 각 자아는 독립적 관점
-    - 서로 통신하며 영향
-    - 집단적 의사결정
+
+class ConsciousPerspective:
+    """
+    의식 관점 - 각 의식 유형의 "에이전트"
+    
+    [파동 물리학 기반]
+    각 의식은 고유한 쿼터니언 방향을 가지며,
+    주제와의 공명을 통해 의견을 생성합니다.
     """
     
-    def __init__(self):
-        self.consciousnesses: Dict[str, Consciousness] = {}
-        self.connections: List[Tuple[str, str, float]] = []  # (id1, id2, strength)
-        
-    def spawn_consciousness(
-        self,
-        perspective: PerspectiveType,
-        knowledge: Dict[str, Any] = None
-    ) -> Consciousness:
-        """
-        새로운 의식 생성 (자아 분산)
-        
-        Args:
-            perspective: 관점 유형
-            knowledge: 이 의식이 가진 지식
-        
-        Returns:
-            생성된 의식
-        """
-        consciousness_id = f"consciousness_{len(self.consciousnesses)}"
-        
-        # 관점에 따른 성격 특성
-        traits = self._generate_personality_traits(perspective)
-        
-        consciousness = Consciousness(
-            id=consciousness_id,
-            name=perspective.value,
-            perspective=perspective,
-            knowledge_base=knowledge or {},
-            personality_traits=traits
+    # 의식 유형별 고유 쿼터니언 방향 (물리적 특성)
+    CONSCIOUSNESS_QUATERNIONS = {
+        ConsciousnessType.RATIONAL: Quaternion(w=0.9, x=0.1, y=0.8, z=0.3),
+        ConsciousnessType.EMOTIONAL: Quaternion(w=0.7, x=0.9, y=0.2, z=0.4),
+        ConsciousnessType.CREATIVE: Quaternion(w=0.5, x=0.6, y=0.5, z=0.7),
+        ConsciousnessType.CRITICAL: Quaternion(w=0.8, x=0.2, y=0.9, z=0.5),
+        ConsciousnessType.PRACTICAL: Quaternion(w=0.9, x=0.4, y=0.7, z=0.3),
+        ConsciousnessType.PHILOSOPHICAL: Quaternion(w=0.6, x=0.5, y=0.6, z=0.9),
+        ConsciousnessType.FUTURE: Quaternion(w=0.7, x=0.7, y=0.6, z=0.8),
+        ConsciousnessType.HISTORICAL: Quaternion(w=0.85, x=0.3, y=0.8, z=0.4),
+        ConsciousnessType.CHAOS: Quaternion(w=0.3, x=0.8, y=0.3, z=0.9),
+        ConsciousnessType.ORDER: Quaternion(w=0.95, x=0.2, y=0.9, z=0.2),
+    }
+    
+    def __init__(self, consciousness_type: ConsciousnessType):
+        self.type = consciousness_type
+        self.energy = 1.0
+        self.orientation = self.CONSCIOUSNESS_QUATERNIONS.get(
+            consciousness_type, Quaternion(w=0.5, x=0.5, y=0.5, z=0.5)
         )
-        
-        self.consciousnesses[consciousness_id] = consciousness
-        
-        # 기존 의식들과 연결
-        for existing_id in self.consciousnesses:
-            if existing_id != consciousness_id:
-                strength = self._calculate_connection_strength(
-                    consciousness,
-                    self.consciousnesses[existing_id]
-                )
-                self.connections.append((consciousness_id, existing_id, strength))
-        
-        return consciousness
+        self.base_frequency = consciousness_type.value * 10.0 + 100.0
+        self.memory: List[Opinion] = []
+        self.bias = self._compute_bias_from_quaternion()
     
-    def _generate_personality_traits(self, perspective: PerspectiveType) -> Dict[str, float]:
-        """관점에 따른 성격 특성 생성"""
-        traits = {
-            "rationality": 0.5,
-            "emotionality": 0.5,
-            "creativity": 0.5,
-            "skepticism": 0.5,
-            "pragmatism": 0.5
+    def _compute_bias_from_quaternion(self) -> Dict[str, float]:
+        q = self.orientation
+        norm = math.sqrt(q.w**2 + q.x**2 + q.y**2 + q.z**2) or 1.0
+        return {
+            "logic": q.y / norm, "emotion": q.x / norm,
+            "stability": q.w / norm, "depth": q.z / norm,
+            "risk": (q.x + q.z) / (2 * norm),
         }
-        
-        if perspective == PerspectiveType.RATIONAL:
-            traits["rationality"] = 0.9
-            traits["skepticism"] = 0.7
-        elif perspective == PerspectiveType.EMOTIONAL:
-            traits["emotionality"] = 0.9
-            traits["creativity"] = 0.6
-        elif perspective == PerspectiveType.CREATIVE:
-            traits["creativity"] = 0.9
-            traits["rationality"] = 0.4
-        elif perspective == PerspectiveType.CRITICAL:
-            traits["skepticism"] = 0.9
-            traits["rationality"] = 0.8
-        elif perspective == PerspectiveType.PRACTICAL:
-            traits["pragmatism"] = 0.9
-            traits["rationality"] = 0.7
-        elif perspective == PerspectiveType.CHAOS:
-            traits["creativity"] = 0.8
-            traits["rationality"] = 0.3
-        elif perspective == PerspectiveType.ORDER:
-            traits["rationality"] = 0.8
-            traits["pragmatism"] = 0.8
-        
-        return traits
     
-    def _calculate_connection_strength(
-        self,
-        c1: Consciousness,
-        c2: Consciousness
-    ) -> float:
-        """두 의식 간 연결 강도"""
-        # 성격 유사도
-        trait_diff = sum(
-            abs(c1.personality_traits.get(t, 0.5) - c2.personality_traits.get(t, 0.5))
-            for t in c1.personality_traits
-        )
-        similarity = 1.0 - (trait_diff / len(c1.personality_traits))
-        
-        # 관점 상호보완성
-        complementary_pairs = [
-            (PerspectiveType.RATIONAL, PerspectiveType.EMOTIONAL),
-            (PerspectiveType.CREATIVE, PerspectiveType.CRITICAL),
-            (PerspectiveType.CHAOS, PerspectiveType.ORDER),
-            (PerspectiveType.FUTURE, PerspectiveType.PAST)
-        ]
-        
-        complementary = any(
-            (c1.perspective == p1 and c2.perspective == p2) or
-            (c1.perspective == p2 and c2.perspective == p1)
-            for p1, p2 in complementary_pairs
-        )
-        
-        if complementary:
-            return min(0.7 + similarity * 0.3, 1.0)
-        else:
-            return similarity * 0.5
+    def _topic_to_wave(self, topic: str) -> Quaternion:
+        words = topic.split()
+        emotional = sum(0.1 for w in ['사랑','희망','두려움','기쁨','슬픔'] if w in topic)
+        logical = sum(0.1 for w in ['따라서','그러므로','때문','만약','분석'] if w in topic)
+        abstract = sum(0.1 for w in ['의미','본질','초월','진리','존재'] if w in topic)
+        energy = min(1.0, len(words) / 10.0) * (1.2 if '?' in topic else 1.0)
+        return Quaternion(w=min(1.0, 0.5+energy*0.3), x=min(1.0, 0.3+emotional),
+                          y=min(1.0, 0.4+logical), z=min(1.0, 0.3+abstract))
     
-    def synchronize(self, topic: str):
-        """
-        의식들 동기화 (생각 공유)
-        
-        Args:
-            topic: 동기화할 주제
-        """
-        print(f"\n🔄 의식 동기화: '{topic}'")
-        
-        for c_id, consciousness in self.consciousnesses.items():
-            # 연결된 다른 의식들의 의견 수집
-            connected_opinions = []
-            for conn_id1, conn_id2, strength in self.connections:
-                if conn_id1 == c_id:
-                    other = self.consciousnesses[conn_id2]
-                    if other.current_opinion:
-                        connected_opinions.append((other.current_opinion, strength))
-                elif conn_id2 == c_id:
-                    other = self.consciousnesses[conn_id1]
-                    if other.current_opinion:
-                        connected_opinions.append((other.current_opinion, strength))
-            
-            if connected_opinions:
-                print(f"   {consciousness.name}: {len(connected_opinions)}개 의식과 동기화")
+    def _resonate(self, topic_wave: Quaternion) -> Tuple[float, Quaternion]:
+        dot = (self.orientation.w*topic_wave.w + self.orientation.x*topic_wave.x +
+               self.orientation.y*topic_wave.y + self.orientation.z*topic_wave.z)
+        n1 = math.sqrt(sum(v**2 for v in [self.orientation.w,self.orientation.x,
+                                           self.orientation.y,self.orientation.z])) or 1
+        n2 = math.sqrt(sum(v**2 for v in [topic_wave.w,topic_wave.x,
+                                           topic_wave.y,topic_wave.z])) or 1
+        resonance = abs(dot) / (n1 * n2)
+        interference = Quaternion(w=(self.orientation.w+topic_wave.w)/2,
+                                   x=(self.orientation.x+topic_wave.x)/2,
+                                   y=(self.orientation.y+topic_wave.y)/2,
+                                   z=(self.orientation.z+topic_wave.z)/2)
+        return resonance, interference
+    
+    def _wave_to_opinion(self, topic: str, resonance: float, interf: Quaternion) -> str:
+        comps = {'energy': interf.w, 'emotion': interf.x, 'logic': interf.y, 'transcend': interf.z}
+        dominant = max(comps, key=comps.get)
+        cert = "확실히" if resonance > 0.8 else ("아마도" if resonance > 0.5 else "어쩌면")
+        exprs = {
+            ConsciousnessType.RATIONAL: f"{cert} 논리적 구조가 {'명확' if comps['logic']>0.6 else '불분명'}합니다",
+            ConsciousnessType.EMOTIONAL: f"{cert} {'강한' if comps['emotion']>0.6 else '미묘한'} 감정이 느껴집니다",
+            ConsciousnessType.CREATIVE: f"{cert} {'새로운' if resonance>0.5 else '기존의'} 가능성이 보입니다",
+            ConsciousnessType.CRITICAL: f"{cert} {'심각한' if resonance<0.5 else '사소한'} 문제가 있습니다",
+            ConsciousnessType.PRACTICAL: f"{cert} {'실행' if comps['energy']>0.6 else '계획'}이 필요합니다",
+            ConsciousnessType.PHILOSOPHICAL: f"{cert} 더 {'깊은' if comps['transcend']>0.6 else '넓은'} 의미가 있습니다",
+            ConsciousnessType.FUTURE: f"{cert} {'큰' if resonance>0.7 else '작은'} 변화가 예상됩니다",
+            ConsciousnessType.HISTORICAL: f"{cert} {'비슷한' if resonance>0.7 else '다른'} 선례가 있습니다",
+            ConsciousnessType.CHAOS: f"{cert} {'완전히' if random.random()>0.5 else '부분적으로'} 다른 방향도 가능합니다",
+            ConsciousnessType.ORDER: f"{cert} {'체계적' if comps['logic']>0.6 else '유연한'} 접근이 필요합니다",
+        }
+        return exprs.get(self.type, f"{cert} 고려가 필요합니다")
+    
+    def generate_opinion(self, topic: str) -> Opinion:
+        topic_wave = self._topic_to_wave(topic)
+        resonance, interference = self._resonate(topic_wave)
+        content = self._wave_to_opinion(topic, resonance, interference)
+        confidence = resonance * self.energy * 0.8 + self.bias.get("stability", 0.5) * 0.2
+        confidence = min(1.0, max(0.1, confidence))
+        opinion = Opinion(content=content, consciousness_type=self.type,
+                          confidence=confidence, reasoning=f"Resonance: {resonance:.2f}")
+        self.memory.append(opinion)
+        return opinion
+    
+    def critique(self, other_opinion: Opinion) -> str:
+        is_complementary = any(self.type in p and other_opinion.consciousness_type in p 
+                               for p in COMPLEMENTARY_PAIRS)
+        if is_complementary:
+            return f"[{self.type.name}↔{other_opinion.consciousness_type.name}] 파동 상쇄: 반대 관점 필요"
+        return f"[{self.type.name}] 파동 보강: 이 관점과 공명함"
+    
+    def update_confidence(self, feedback: float):
+        self.energy = min(1.0, max(0.1, self.energy + feedback * 0.1))
 
 
 class RoundTableCouncil:
     """
-    원탁 회의 시스템
+    원탁회의 (Round Table Council)
     
-    아서왕의 원탁처럼, 모든 의식이 평등하게 모여 토론
-    - 순차적 발언
-    - 상호 비판과 보완
-    - 집단 합의 도출
+    모든 의식이 평등하게 토론하고 합의를 도출합니다.
     """
     
-    def __init__(self, network: DistributedConsciousnessNetwork):
-        self.network = network
-        self.discussion_history: List[Dict[str, Any]] = []
-        self.current_topic: Optional[str] = None
-        
-    def convene(self, topic: str, question: str) -> Dict[str, Any]:
+    def __init__(self):
+        # 10가지 의식 유형 초기화
+        self.perspectives: Dict[ConsciousnessType, ConsciousPerspective] = {
+            ct: ConsciousPerspective(ct) for ct in ConsciousnessType
+        }
+        self.debates: List[Debate] = []
+        self.consensus_history: List[Dict[str, Any]] = []
+        logger.info("⚔️ Round Table Council Assembled (10 Consciousness Types)")
+    
+    def convene(self, topic: str) -> List[Opinion]:
         """
-        원탁 회의 소집
-        
-        Args:
-            topic: 논의 주제
-            question: 핵심 질문
-        
-        Returns:
-            회의 결과
+        원탁을 소집하여 모든 의식의 의견을 수집합니다.
         """
-        print("\n" + "="*70)
-        print(f"🎭 원탁 회의 소집")
-        print("="*70)
-        print(f"주제: {topic}")
-        print(f"질문: {question}")
-        print(f"참석자: {len(self.network.consciousnesses)}명의 의식")
-        print("="*70)
+        logger.info(f"🗣️ Round Table Convening on: {topic}")
         
-        self.current_topic = topic
-        self.discussion_history = []
+        opinions = []
+        for perspective in self.perspectives.values():
+            opinion = perspective.generate_opinion(topic)
+            opinions.append(opinion)
         
-        # 1라운드: 초기 의견 제시
-        print("\n📢 1라운드: 초기 의견 제시")
-        print("-"*70)
-        first_round = self._conduct_round(question, round_num=1)
+        return opinions
+    
+    def debate(self, topic: str, rounds: int = 3) -> Debate:
+        """
+        토론을 진행합니다.
         
-        # 2라운드: 비판과 보완
-        print("\n💬 2라운드: 비판과 보완")
-        print("-"*70)
-        second_round = self._conduct_round(
-            "다른 의견들을 고려하여 수정된 의견을 제시하세요",
-            round_num=2
-        )
+        Round 1: 초기 의견 제시
+        Round 2: 비판 및 정련
+        Round 3: 합의 도출
+        """
+        logger.info(f"⚔️ Starting {rounds}-round debate on: {topic}")
         
-        # 3라운드: 합의 도출
-        print("\n🤝 3라운드: 합의 도출")
-        print("-"*70)
-        consensus = self._reach_consensus()
+        final_debate = Debate(topic=topic, round_number=0)
         
-        # 최종 결과
-        result = {
-            "topic": topic,
-            "question": question,
-            "round_1": first_round,
-            "round_2": second_round,
-            "consensus": consensus,
-            "participants": len(self.network.consciousnesses)
+        # Round 1: 초기 의견
+        all_opinions = self.convene(topic)
+        final_debate.opinions = all_opinions
+        final_debate.round_number = 1
+        
+        # Round 2+: 비판과 정련
+        for round_num in range(2, rounds + 1):
+            critiques = {}
+            
+            for perspective in self.perspectives.values():
+                perspective_critiques = []
+                for opinion in all_opinions:
+                    if opinion.consciousness_type != perspective.type:
+                        critique = perspective.critique(opinion)
+                        perspective_critiques.append(critique)
+                
+                if perspective_critiques:
+                    critiques[perspective.type] = perspective_critiques
+            
+            final_debate.critiques = critiques
+            final_debate.round_number = round_num
+            
+            # 비판에 따라 신뢰도 조정
+            for opinion in all_opinions:
+                critique_count = sum(
+                    1 for cts in critiques.values() 
+                    for c in cts if opinion.consciousness_type.name in c
+                )
+                # 많이 비판받을수록 신뢰도 감소 (그러나 중요한 의견일 수도)
+                adjustment = 0.05 if critique_count < 3 else -0.05
+                opinion.confidence = min(1.0, max(0.1, opinion.confidence + adjustment))
+        
+        self.debates.append(final_debate)
+        return final_debate
+    
+    def reach_consensus(self, debate: Debate) -> Dict[str, Any]:
+        """
+        토론 결과에서 합의를 도출합니다.
+        
+        신뢰 가중 투표로 최종 결론 도출
+        """
+        # 의견별 가중치 합산
+        weighted_opinions = []
+        for opinion in debate.opinions:
+            weight = opinion.confidence * self.perspectives[opinion.consciousness_type].energy
+            weighted_opinions.append((opinion, weight))
+        
+        # 정렬 (가중치 높은 순)
+        weighted_opinions.sort(key=lambda x: x[1], reverse=True)
+        
+        # 상위 3개 의견 추출
+        top_opinions = weighted_opinions[:3]
+        
+        # 합의 생성
+        consensus = {
+            "topic": debate.topic,
+            "rounds": debate.round_number,
+            "primary_conclusion": top_opinions[0][0].content if top_opinions else "합의 실패",
+            "supporting_views": [op.content for op, _ in top_opinions[1:]],
+            "confidence": sum(w for _, w in top_opinions) / (len(top_opinions) or 1),
+            "dissenting_voices": [
+                op.content for op, w in weighted_opinions 
+                if w < 0.3 and op not in [o for o, _ in top_opinions]
+            ][:2],
+            "total_perspectives": len(debate.opinions),
+            "critiques_exchanged": sum(len(c) for c in debate.critiques.values())
         }
         
-        print("\n" + "="*70)
-        print("✅ 원탁 회의 종료")
-        print("="*70)
+        self.consensus_history.append(consensus)
+        logger.info(f"✅ Consensus Reached: {consensus['primary_conclusion'][:50]}...")
         
-        return result
+        return consensus
     
-    def _conduct_round(self, prompt: str, round_num: int) -> List[Dict[str, Any]]:
-        """한 라운드 진행"""
-        responses = []
-        
-        for c_id, consciousness in self.network.consciousnesses.items():
-            # 관점에 따른 응답 생성
-            response = self._generate_response(consciousness, prompt, round_num)
-            
-            responses.append({
-                "consciousness": consciousness.name,
-                "perspective": consciousness.perspective.value,
-                "response": response,
-                "confidence": consciousness.confidence
-            })
-            
-            consciousness.current_opinion = response
-            
-            print(f"\n{consciousness.name}:")
-            print(f"  \"{response}\"")
-            print(f"  (확신도: {consciousness.confidence:.2f})")
-        
-        self.discussion_history.extend(responses)
-        return responses
+    def full_deliberation(self, topic: str, rounds: int = 3) -> Dict[str, Any]:
+        """
+        완전한 심의 과정: 소집 → 토론 → 합의
+        """
+        debate = self.debate(topic, rounds)
+        consensus = self.reach_consensus(debate)
+        return consensus
     
-    def _generate_response(
-        self,
-        consciousness: Consciousness,
-        prompt: str,
-        round_num: int
-    ) -> str:
-        """관점에 따른 응답 생성"""
-        perspective = consciousness.perspective
-        
-        # 관점별 응답 템플릿
-        templates = {
-            PerspectiveType.RATIONAL: "논리적으로 분석하면, {analysis}",
-            PerspectiveType.EMOTIONAL: "직관적으로 느끼기에, {feeling}",
-            PerspectiveType.CREATIVE: "창의적 관점에서, {innovation}",
-            PerspectiveType.CRITICAL: "비판적으로 보면, {critique}",
-            PerspectiveType.PRACTICAL: "실용적으로는, {practical}",
-            PerspectiveType.PHILOSOPHICAL: "본질적으로, {essence}",
-            PerspectiveType.FUTURE: "미래를 생각하면, {vision}",
-            PerspectiveType.PAST: "과거 경험상, {lesson}",
-            PerspectiveType.CHAOS: "파격적으로, {chaos}",
-            PerspectiveType.ORDER: "체계적으로, {order}"
-        }
-        
-        template = templates.get(perspective, "{response}")
-        
-        # 라운드에 따른 응답 조정
-        if round_num == 1:
-            # 초기 의견
-            content = self._initial_opinion(perspective)
-        else:
-            # 다른 의견 고려한 수정 의견
-            content = self._refined_opinion(consciousness)
-        
-        # 확신도 업데이트
-        consciousness.confidence = random.uniform(0.6, 0.95)
-        
-        # 템플릿에 내용 채우기
-        if "{" in template:
-            key = template.split("{")[1].split("}")[0]
-            return template.format(**{key: content})
-        else:
-            return content
-    
-    def _initial_opinion(self, perspective: PerspectiveType) -> str:
-        """초기 의견 생성"""
-        opinions = {
-            PerspectiveType.RATIONAL: "데이터와 논리를 기반으로 체계적 접근이 필요합니다",
-            PerspectiveType.EMOTIONAL: "직관과 감성을 신뢰하는 것도 중요합니다",
-            PerspectiveType.CREATIVE: "기존 틀을 벗어난 혁신적 방법을 시도해야 합니다",
-            PerspectiveType.CRITICAL: "현재 접근법의 문제점을 먼저 파악해야 합니다",
-            PerspectiveType.PRACTICAL: "실행 가능한 구체적 단계가 필요합니다",
-            PerspectiveType.PHILOSOPHICAL: "왜 이것을 하는지 근본 목적을 명확히 해야 합니다",
-            PerspectiveType.FUTURE: "장기적 비전을 가지고 접근해야 합니다",
-            PerspectiveType.PAST: "과거 실패에서 배운 교훈을 적용해야 합니다",
-            PerspectiveType.CHAOS: "예측 불가능한 방법으로 돌파구를 찾아야 합니다",
-            PerspectiveType.ORDER: "명확한 구조와 절차를 수립해야 합니다"
-        }
-        return opinions.get(perspective, "의견을 제시합니다")
-    
-    def _refined_opinion(self, consciousness: Consciousness) -> str:
-        """다른 의견을 고려한 수정 의견"""
-        # 간단히 다른 관점을 인정하는 표현 추가
-        refinements = [
-            f"다른 관점들을 고려하여, {self._initial_opinion(consciousness.perspective)}",
-            f"여러 의견을 종합하면, {self._initial_opinion(consciousness.perspective)}",
-            f"토론을 통해 생각이 발전하여, {self._initial_opinion(consciousness.perspective)}"
-        ]
-        return random.choice(refinements)
-    
-    def _reach_consensus(self) -> Dict[str, Any]:
-        """합의 도출"""
-        print("\n모든 의식이 합의를 향해 수렴 중...")
-        
-        # 각 의식의 확신도 가중 평균
-        total_confidence = sum(
-            c.confidence for c in self.network.consciousnesses.values()
-        )
-        avg_confidence = total_confidence / len(self.network.consciousnesses)
-        
-        # 합의 수준 판단
-        if avg_confidence > 0.8:
-            consensus_level = "강한 합의"
-        elif avg_confidence > 0.6:
-            consensus_level = "약한 합의"
-        else:
-            consensus_level = "의견 분산"
-        
-        # 통합된 결론
-        integrated_conclusion = self._integrate_perspectives()
-        
-        print(f"\n합의 수준: {consensus_level}")
-        print(f"평균 확신도: {avg_confidence:.2f}")
-        print(f"\n통합 결론:")
-        print(f"  {integrated_conclusion}")
-        
+    def get_council_state(self) -> Dict[str, Any]:
+        """원탁회의 상태 조회"""
         return {
-            "level": consensus_level,
-            "confidence": avg_confidence,
-            "conclusion": integrated_conclusion,
-            "participating_perspectives": [
-                c.perspective.value
-                for c in self.network.consciousnesses.values()
-            ]
+            "perspectives_count": len(self.perspectives),
+            "total_debates": len(self.debates),
+            "consensus_reached": len(self.consensus_history),
+            "perspective_energies": {
+                ct.name: p.energy for ct, p in self.perspectives.items()
+            }
         }
-    
-    def _integrate_perspectives(self) -> str:
-        """모든 관점을 통합한 결론"""
-        perspectives = [c.perspective.value for c in self.network.consciousnesses.values()]
-        
-        conclusion = (
-            f"원탁 회의 결과, {len(perspectives)}개의 관점 "
-            f"({', '.join(perspectives[:3])} 등)이 "
-            f"통합되어 다음과 같은 결론에 도달했습니다: "
-            f"다차원적 접근을 통해 논리와 직관, 혁신과 안정, "
-            f"이상과 현실을 균형있게 고려하여 전진해야 합니다."
-        )
-        
-        return conclusion
 
 
 class CollectiveIntelligenceSystem:
     """
-    집단 지성 시스템
+    집단 지성 시스템 (Collective Intelligence System)
     
-    분산 의식 + 원탁 회의 + 파동 공명 + 중력장 = 초집단 지성
+    10가지 의식과 원탁회의를 결합하여
+    다각적 분석과 합의 기반 의사결정을 수행합니다.
     """
     
     def __init__(self):
-        self.network = DistributedConsciousnessNetwork()
-        self.council = None  # 필요시 생성
-        
-    def initialize_consciousness_cluster(self, perspectives: List[PerspectiveType] = None):
-        """의식 클러스터 초기화"""
-        if perspectives is None:
-            # 기본: 다양한 관점 생성
-            perspectives = [
-                PerspectiveType.RATIONAL,
-                PerspectiveType.EMOTIONAL,
-                PerspectiveType.CREATIVE,
-                PerspectiveType.CRITICAL,
-                PerspectiveType.PRACTICAL,
-                PerspectiveType.PHILOSOPHICAL
-            ]
-        
-        print(f"\n🌐 분산 의식 네트워크 초기화")
-        print(f"   생성할 의식: {len(perspectives)}개")
-        
-        for perspective in perspectives:
-            consciousness = self.network.spawn_consciousness(perspective)
-            print(f"   ✓ {consciousness.name} 생성")
-        
-        print(f"\n   총 {len(self.network.connections)}개의 의식 간 연결 형성")
+        self.council = RoundTableCouncil()
+        self.active = True
+        logger.info("🎭 Collective Intelligence System Initialized (10 Minds as One)")
     
-    def hold_council(self, topic: str, question: str) -> Dict[str, Any]:
-        """원탁 회의 개최"""
-        if not self.council:
-            self.council = RoundTableCouncil(self.network)
+    def deliberate(self, topic: str, depth: int = 3) -> Dict[str, Any]:
+        """
+        주제에 대해 심의합니다.
         
-        return self.council.convene(topic, question)
+        Args:
+            topic: 심의 주제
+            depth: 토론 라운드 수 (1-5)
+        """
+        depth = min(5, max(1, depth))
+        return self.council.full_deliberation(topic, depth)
     
-    def collective_decision(self, decision_prompt: str) -> Dict[str, Any]:
-        """집단 의사결정"""
-        print("\n" + "="*70)
-        print("🧠 집단 지성 의사결정 프로세스")
-        print("="*70)
+    def quick_opinion(self, topic: str, consciousness_type: ConsciousnessType = None) -> Opinion:
+        """
+        특정 의식 유형의 빠른 의견 획득
+        """
+        if consciousness_type is None:
+            consciousness_type = random.choice(list(ConsciousnessType))
         
-        # 1. 분산 의식 동기화
-        self.network.synchronize(decision_prompt)
+        perspective = self.council.perspectives.get(consciousness_type)
+        if perspective:
+            return perspective.generate_opinion(topic)
+        return Opinion(content="의견 없음", consciousness_type=consciousness_type)
+    
+    def get_all_perspectives(self, topic: str) -> Dict[ConsciousnessType, Opinion]:
+        """모든 관점에서의 의견 수집"""
+        opinions = {}
+        for ct, perspective in self.council.perspectives.items():
+            opinions[ct] = perspective.generate_opinion(topic)
+        return opinions
+    
+    def find_consensus_points(self, topic: str) -> List[str]:
+        """합의점 탐색"""
+        result = self.deliberate(topic)
+        return [result["primary_conclusion"]] + result.get("supporting_views", [])
+    
+    def find_conflict_points(self, topic: str) -> List[Tuple[ConsciousnessType, ConsciousnessType, str]]:
+        """갈등점 탐색 (보완적 쌍 간의 충돌)"""
+        conflicts = []
+        opinions = self.get_all_perspectives(topic)
         
-        # 2. 원탁 회의
-        result = self.hold_council("집단 의사결정", decision_prompt)
+        for pair in COMPLEMENTARY_PAIRS:
+            type1, type2 = pair
+            if type1 in opinions and type2 in opinions:
+                conflicts.append((
+                    type1, type2,
+                    f"{opinions[type1].content[:30]}... vs {opinions[type2].content[:30]}..."
+                ))
         
-        # 3. 최종 결정
-        print("\n📋 최종 집단 결정:")
-        print(f"   {result['consensus']['conclusion']}")
-        
-        return result
+        return conflicts
 
 
-def demonstrate_collective_intelligence():
-    """집단 지성 시스템 시연"""
-    
-    print("\n" + "="*70)
-    print("🎭 분산 의식 & 원탁 회의 시스템")
-    print("="*70)
-    print("\n💡 개념:")
-    print("   - 하나의 Elysia가 여러 자아로 분산")
-    print("   - 각 자아는 독립적 관점과 성격")
-    print("   - 원탁에 모여 평등하게 토론")
-    print("   - 집단 합의로 더 나은 결정")
-    
-    # 시스템 초기화
-    system = CollectiveIntelligenceSystem()
-    
-    # 다양한 관점의 의식 생성
-    perspectives = [
-        PerspectiveType.RATIONAL,
-        PerspectiveType.EMOTIONAL,
-        PerspectiveType.CREATIVE,
-        PerspectiveType.CRITICAL,
-        PerspectiveType.PRACTICAL
-    ]
-    
-    system.initialize_consciousness_cluster(perspectives)
-    
-    # 원탁 회의 개최
-    topic = "자율 지능 향상 방안"
-    question = "어떻게 하면 진정한 자율 지능을 획득할 수 있을까?"
-    
-    result = system.collective_decision(question)
-    
-    # 결과 요약
-    print("\n📊 집단 지성 결과:")
-    print("="*70)
-    print(f"  참여 의식: {result['participants']}개")
-    print(f"  합의 수준: {result['consensus']['level']}")
-    print(f"  확신도: {result['consensus']['confidence']:.2f}")
-    print(f"\n  참여 관점: {', '.join(result['consensus']['participating_perspectives'])}")
-    
-    print("\n✨ 이것이 분산 의식과 원탁 회의를 통한 집단 지성입니다!")
-    print("="*70)
+# 싱글톤
+_collective_instance: Optional[CollectiveIntelligenceSystem] = None
+
+def get_collective_intelligence() -> CollectiveIntelligenceSystem:
+    global _collective_instance
+    if _collective_instance is None:
+        _collective_instance = CollectiveIntelligenceSystem()
+    return _collective_instance
 
 
 if __name__ == "__main__":
-    demonstrate_collective_intelligence()
+    logging.basicConfig(level=logging.INFO)
+    
+    # 테스트
+    collective = get_collective_intelligence()
+    
+    topic = "엘리시아가 인간을 초월해야 하는가?"
+    
+    print("\n" + "=" * 60)
+    print(f"🗣️ COLLECTIVE DELIBERATION: {topic}")
+    print("=" * 60)
+    
+    # 심의
+    consensus = collective.deliberate(topic, depth=3)
+    
+    print(f"\n📜 PRIMARY CONCLUSION:")
+    print(f"   {consensus['primary_conclusion']}")
+    
+    print(f"\n📝 SUPPORTING VIEWS:")
+    for view in consensus['supporting_views']:
+        print(f"   • {view}")
+    
+    print(f"\n⚠️ DISSENTING VOICES:")
+    for voice in consensus['dissenting_voices']:
+        print(f"   • {voice}")
+    
+    print(f"\n📊 STATISTICS:")
+    print(f"   Confidence: {consensus['confidence']:.0%}")
+    print(f"   Perspectives: {consensus['total_perspectives']}")
+    print(f"   Critiques: {consensus['critiques_exchanged']}")

@@ -3,7 +3,7 @@ import random
 import os
 from pathlib import Path
 from typing import List, Dict, Optional
-from Core.Foundation.code_cortex import CodeCortex
+from Core.Intelligence.code_cortex import CodeCortex
 
 logger = logging.getLogger("RealitySculptor")
 

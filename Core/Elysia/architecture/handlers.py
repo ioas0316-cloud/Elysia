@@ -18,25 +18,25 @@ from Project_Elysia.core_memory import CoreMemory
 
 from tools.kg_manager import KGManager
 
-from Project_Sophia.question_generator import QuestionGenerator
+from Core.Foundation.question_generator import QuestionGenerator
 
-from Project_Sophia.relationship_extractor import extract_relationship_type
+from Core.Foundation.relationship_extractor import extract_relationship_type
 
-from Project_Sophia.response_styler import ResponseStyler
+from Core.Foundation.response_styler import ResponseStyler
 
-from Project_Sophia.logical_reasoner import LogicalReasoner
+from Core.Foundation.logical_reasoner import LogicalReasoner
 
 from Project_Elysia.value_centered_decision import ValueCenteredDecision
 
-from Project_Sophia.insight_synthesizer import InsightSynthesizer
+from Core.Foundation.insight_synthesizer import InsightSynthesizer
 
 from Project_Mirror.creative_cortex import CreativeCortex
 
-from Project_Sophia.emotional_engine import EmotionalState
+from Core.Foundation.emotional_engine import EmotionalState
 
 from Project_Mirror.perspective_cortex import PerspectiveCortex
 
-from Project_Sophia.emotional_engine import EmotionalEngine
+from Core.Foundation.emotional_engine import EmotionalEngine
 
 
 

@@ -20,8 +20,8 @@ import tempfile
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Memory.fractal_quantization import EmotionQuantizer, PatternDNA
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.fractal_quantization import EmotionQuantizer, PatternDNA
+from Core.Foundation.hippocampus import Hippocampus
 import logging
 
 # Set up logging

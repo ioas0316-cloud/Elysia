@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Intelligence.Will.free_will_engine import FreeWillEngine, MissionType, WillPhase
-from Core.Intelligence.Will.magnetic_cortex import MagneticCompass, ThoughtDipole
+from Core.Foundation.free_will_engine import FreeWillEngine, MissionType, WillPhase
+from Core.Foundation.magnetic_cortex import MagneticCompass, ThoughtDipole
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

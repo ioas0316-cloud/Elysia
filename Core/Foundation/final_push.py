@@ -8,7 +8,7 @@ Final Push to Professional Writer
 import sys
 sys.path.append('.')
 
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 

@@ -7,9 +7,9 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Field.ether import ether, Wave
-from Core.Intelligence.Will.free_will_engine import FreeWillEngine
-from Core.World.planetary_cortex import PlanetaryCortex
+from Core.Foundation.ether import ether, Wave
+from Core.Foundation.free_will_engine import FreeWillEngine
+from Core.Foundation.planetary_cortex import PlanetaryCortex
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

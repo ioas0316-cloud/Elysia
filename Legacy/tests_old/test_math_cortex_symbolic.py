@@ -1,4 +1,4 @@
-from Project_Sophia.math_cortex import MathCortex
+from Core.Foundation.math_cortex import MathCortex
 
 
 def test_math_cortex_symbolic_equality():

@@ -326,7 +326,7 @@ class ResonanceField:
         as resonance nodes in the field.
         
         Args:
-            concept: ConceptNode (from Core.Cognition.fractal_concept)
+            concept: ConceptNode (from Core.Foundation.fractal_concept)
             active: Whether this is the primary focus concept (high energy)
         """
         if concept is None:

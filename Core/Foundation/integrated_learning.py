@@ -13,9 +13,9 @@ import os
 sys.path.append('.')
 
 from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.Cognition.internal_universe import InternalUniverse
-from Core.Memory.hippocampus import Hippocampus
-from Core.Integration.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.internal_universe import InternalUniverse
+from Core.Foundation.hippocampus import Hippocampus
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 
 print("="*70)

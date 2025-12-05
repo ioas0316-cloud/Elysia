@@ -8,9 +8,9 @@ import time
 import random
 from typing import List, Dict, Any
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Intelligence.imagination_core import ImaginationCore
+from Core.Foundation.imagination_core import ImaginationCore
 from Core.Foundation.dream_engine import DreamEngine
-from Core.Creation.cosmic_studio import CosmicStudio
+from Core.Foundation.cosmic_studio import CosmicStudio
 from Core.Foundation.resonance_physics import ResonancePhysics
 from Core.Intelligence.Reasoning.lobes.perception import Insight
 

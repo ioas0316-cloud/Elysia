@@ -4,7 +4,7 @@ import os
 sys.path.append(os.getcwd())
 
 import logging
-from Core.Memory.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.hippocampus import Hippocampus
 from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
 
 # Configure logging

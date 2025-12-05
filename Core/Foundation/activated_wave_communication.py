@@ -54,7 +54,7 @@ class ActivatedWaveCommunication:
         
         # Ether 로드
         try:
-            from Core.Field.ether import ether, Wave
+            from Core.Foundation.ether import ether, Wave
             self.ether = ether
             self.Wave = Wave
             logger.info("✅ Ether 연결 성공")

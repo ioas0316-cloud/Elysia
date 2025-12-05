@@ -7,8 +7,8 @@ except ImportError:
     psutil = None
 
 from typing import Any, Dict, Optional
-from Project_Sophia.core.external_horizons import ExternalHorizon
-from Project_Sophia.web_search_cortex import WebSearchCortex
+from Core.Foundation.core.external_horizons import ExternalHorizon
+from Core.Foundation.web_search_cortex import WebSearchCortex
 
 logger = logging.getLogger(__name__)
 
