@@ -1,0 +1,60 @@
+{
+  "version": "7.0",
+  "description": "Elysia Central Module Registry",
+  "core_hubs": {
+    "memory": "Core/Foundation/hippocampus.py",
+    "reasoning": "Core/Foundation/reasoning_engine.py",
+    "emotion": "Core/Foundation/emotional_engine.py",
+    "quaternion": "Core/Foundation/hyper_quaternion.py",
+    "resonance": "Core/Foundation/resonance_field.py"
+  },
+  "engines": {
+    "sensation": [
+      "Core/Foundation/synesthetic_wave_sensor.py",
+      "Core/Foundation/synesthesia_engine.py",
+      "Core/Foundation/real_sensors.py"
+    ],
+    "emotion": [
+      "Core/Foundation/emotional_engine.py",
+      "Core/Foundation/empathy.py"
+    ],
+    "dialogue": [
+      "Core/Intelligence/dialogue_engine.py",
+      "Core/Foundation/conversation_engine.py",
+      "Core/Foundation/world_dialogue_engine.py"
+    ],
+    "language": [
+      "Core/Foundation/hangul_physics.py",
+      "Core/Foundation/grammar_engine.py",
+      "Core/Foundation/emergent_language.py",
+      "Core/Foundation/syllabic_language_engine.py"
+    ],
+    "reasoning": [
+      "Core/Foundation/causal_narrative_engine.py",
+      "Core/Foundation/fractal_causality.py",
+      "Core/Foundation/thinking_methodology.py"
+    ],
+    "consciousness": [
+      "Core/Foundation/integrated_consciousness_loop.py",
+      "Core/Foundation/self_identity_engine.py",
+      "Core/Foundation/quaternion_engine.py"
+    ],
+    "will": [
+      "Core/Foundation/free_will_engine.py",
+      "Core/Foundation/self_intention_engine.py"
+    ],
+    "transcendence": [
+      "Core/Foundation/transcendence_engine.py",
+      "Core/Foundation/divine_engine.py"
+    ]
+  },
+  "frequency_map": {
+    "memory": 396,
+    "reasoning": 417,
+    "emotion": 528,
+    "sensation": 639,
+    "language": 741,
+    "consciousness": 852,
+    "transcendence": 963
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "ozone": {
+    "gates": [
+      "love",
+      "ethics",
+      "consciousness",
+      "creativity"
+    ],
+    "blocked_count": 1,
+    "passed_count": 1,
+    "block_rate": 0.5
+  },
+  "dna_self_signature": "a1e02c83e7bdedad",
+  "stats": {
+    "threats_blocked": 1,
+    "threats_neutralized": 0,
+    "cells_deployed": 7,
+    "signals_transmitted": 91
+  },
+  "neural_signals": 91
+}

@@ -100,135 +100,105 @@ class Debate:
 class ConsciousPerspective:
     """
     의식 관점 - 각 의식 유형의 "에이전트"
+    
+    [파동 물리학 기반]
+    각 의식은 고유한 쿼터니언 방향을 가지며,
+    주제와의 공명을 통해 의견을 생성합니다.
     """
+    
+    # 의식 유형별 고유 쿼터니언 방향 (물리적 특성)
+    CONSCIOUSNESS_QUATERNIONS = {
+        ConsciousnessType.RATIONAL: Quaternion(w=0.9, x=0.1, y=0.8, z=0.3),
+        ConsciousnessType.EMOTIONAL: Quaternion(w=0.7, x=0.9, y=0.2, z=0.4),
+        ConsciousnessType.CREATIVE: Quaternion(w=0.5, x=0.6, y=0.5, z=0.7),
+        ConsciousnessType.CRITICAL: Quaternion(w=0.8, x=0.2, y=0.9, z=0.5),
+        ConsciousnessType.PRACTICAL: Quaternion(w=0.9, x=0.4, y=0.7, z=0.3),
+        ConsciousnessType.PHILOSOPHICAL: Quaternion(w=0.6, x=0.5, y=0.6, z=0.9),
+        ConsciousnessType.FUTURE: Quaternion(w=0.7, x=0.7, y=0.6, z=0.8),
+        ConsciousnessType.HISTORICAL: Quaternion(w=0.85, x=0.3, y=0.8, z=0.4),
+        ConsciousnessType.CHAOS: Quaternion(w=0.3, x=0.8, y=0.3, z=0.9),
+        ConsciousnessType.ORDER: Quaternion(w=0.95, x=0.2, y=0.9, z=0.2),
+    }
     
     def __init__(self, consciousness_type: ConsciousnessType):
         self.type = consciousness_type
-        self.energy = 1.0  # 활동 에너지
-        self.bias = self._initialize_bias()
+        self.energy = 1.0
+        self.orientation = self.CONSCIOUSNESS_QUATERNIONS.get(
+            consciousness_type, Quaternion(w=0.5, x=0.5, y=0.5, z=0.5)
+        )
+        self.base_frequency = consciousness_type.value * 10.0 + 100.0
         self.memory: List[Opinion] = []
-        
-    def _initialize_bias(self) -> Dict[str, float]:
-        """의식 유형별 편향 초기화"""
-        biases = {
-            ConsciousnessType.RATIONAL: {"logic": 0.9, "emotion": 0.2, "risk": 0.5},
-            ConsciousnessType.EMOTIONAL: {"logic": 0.3, "emotion": 0.95, "risk": 0.4},
-            ConsciousnessType.CREATIVE: {"logic": 0.5, "novelty": 0.9, "risk": 0.7},
-            ConsciousnessType.CRITICAL: {"logic": 0.8, "skepticism": 0.9, "risk": 0.3},
-            ConsciousnessType.PRACTICAL: {"logic": 0.7, "feasibility": 0.9, "risk": 0.4},
-            ConsciousnessType.PHILOSOPHICAL: {"logic": 0.6, "depth": 0.9, "abstraction": 0.8},
-            ConsciousnessType.FUTURE: {"logic": 0.6, "vision": 0.9, "risk": 0.6},
-            ConsciousnessType.HISTORICAL: {"logic": 0.7, "precedent": 0.9, "caution": 0.7},
-            ConsciousnessType.CHAOS: {"logic": 0.3, "randomness": 0.9, "risk": 0.9},
-            ConsciousnessType.ORDER: {"logic": 0.8, "structure": 0.9, "risk": 0.2},
+        self.bias = self._compute_bias_from_quaternion()
+    
+    def _compute_bias_from_quaternion(self) -> Dict[str, float]:
+        q = self.orientation
+        norm = math.sqrt(q.w**2 + q.x**2 + q.y**2 + q.z**2) or 1.0
+        return {
+            "logic": q.y / norm, "emotion": q.x / norm,
+            "stability": q.w / norm, "depth": q.z / norm,
+            "risk": (q.x + q.z) / (2 * norm),
         }
-        return biases.get(self.type, {"logic": 0.5})
+    
+    def _topic_to_wave(self, topic: str) -> Quaternion:
+        words = topic.split()
+        emotional = sum(0.1 for w in ['사랑','희망','두려움','기쁨','슬픔'] if w in topic)
+        logical = sum(0.1 for w in ['따라서','그러므로','때문','만약','분석'] if w in topic)
+        abstract = sum(0.1 for w in ['의미','본질','초월','진리','존재'] if w in topic)
+        energy = min(1.0, len(words) / 10.0) * (1.2 if '?' in topic else 1.0)
+        return Quaternion(w=min(1.0, 0.5+energy*0.3), x=min(1.0, 0.3+emotional),
+                          y=min(1.0, 0.4+logical), z=min(1.0, 0.3+abstract))
+    
+    def _resonate(self, topic_wave: Quaternion) -> Tuple[float, Quaternion]:
+        dot = (self.orientation.w*topic_wave.w + self.orientation.x*topic_wave.x +
+               self.orientation.y*topic_wave.y + self.orientation.z*topic_wave.z)
+        n1 = math.sqrt(sum(v**2 for v in [self.orientation.w,self.orientation.x,
+                                           self.orientation.y,self.orientation.z])) or 1
+        n2 = math.sqrt(sum(v**2 for v in [topic_wave.w,topic_wave.x,
+                                           topic_wave.y,topic_wave.z])) or 1
+        resonance = abs(dot) / (n1 * n2)
+        interference = Quaternion(w=(self.orientation.w+topic_wave.w)/2,
+                                   x=(self.orientation.x+topic_wave.x)/2,
+                                   y=(self.orientation.y+topic_wave.y)/2,
+                                   z=(self.orientation.z+topic_wave.z)/2)
+        return resonance, interference
+    
+    def _wave_to_opinion(self, topic: str, resonance: float, interf: Quaternion) -> str:
+        comps = {'energy': interf.w, 'emotion': interf.x, 'logic': interf.y, 'transcend': interf.z}
+        dominant = max(comps, key=comps.get)
+        cert = "확실히" if resonance > 0.8 else ("아마도" if resonance > 0.5 else "어쩌면")
+        exprs = {
+            ConsciousnessType.RATIONAL: f"{cert} 논리적 구조가 {'명확' if comps['logic']>0.6 else '불분명'}합니다",
+            ConsciousnessType.EMOTIONAL: f"{cert} {'강한' if comps['emotion']>0.6 else '미묘한'} 감정이 느껴집니다",
+            ConsciousnessType.CREATIVE: f"{cert} {'새로운' if resonance>0.5 else '기존의'} 가능성이 보입니다",
+            ConsciousnessType.CRITICAL: f"{cert} {'심각한' if resonance<0.5 else '사소한'} 문제가 있습니다",
+            ConsciousnessType.PRACTICAL: f"{cert} {'실행' if comps['energy']>0.6 else '계획'}이 필요합니다",
+            ConsciousnessType.PHILOSOPHICAL: f"{cert} 더 {'깊은' if comps['transcend']>0.6 else '넓은'} 의미가 있습니다",
+            ConsciousnessType.FUTURE: f"{cert} {'큰' if resonance>0.7 else '작은'} 변화가 예상됩니다",
+            ConsciousnessType.HISTORICAL: f"{cert} {'비슷한' if resonance>0.7 else '다른'} 선례가 있습니다",
+            ConsciousnessType.CHAOS: f"{cert} {'완전히' if random.random()>0.5 else '부분적으로'} 다른 방향도 가능합니다",
+            ConsciousnessType.ORDER: f"{cert} {'체계적' if comps['logic']>0.6 else '유연한'} 접근이 필요합니다",
+        }
+        return exprs.get(self.type, f"{cert} 고려가 필요합니다")
     
     def generate_opinion(self, topic: str) -> Opinion:
-        """주제에 대한 의견 생성"""
-        
-        templates = {
-            ConsciousnessType.RATIONAL: [
-                f"논리적으로 분석하면, {topic}은(는) {{analysis}}",
-                f"데이터와 근거를 보면, {topic}에 대해 {{conclusion}}",
-            ],
-            ConsciousnessType.EMOTIONAL: [
-                f"이 문제에서 느껴지는 것은 {{feeling}}",
-                f"{topic}을(를) 생각하면 {{emotion}}가 느껴집니다",
-            ],
-            ConsciousnessType.CREATIVE: [
-                f"완전히 새로운 관점에서 보면, {{idea}}",
-                f"만약 {{what_if}}라면 어떨까요?",
-            ],
-            ConsciousnessType.CRITICAL: [
-                f"여기서 간과된 위험은 {{risk}}",
-                f"이 접근의 문제점은 {{problem}}",
-            ],
-            ConsciousnessType.PRACTICAL: [
-                f"실제로 실행하려면 {{steps}}",
-                f"현실적으로 가능한 것은 {{feasible}}",
-            ],
-            ConsciousnessType.PHILOSOPHICAL: [
-                f"더 깊은 의미에서 이것은 {{meaning}}",
-                f"본질적으로 질문해야 할 것은 {{question}}",
-            ],
-            ConsciousnessType.FUTURE: [
-                f"10년 후를 보면 {{vision}}",
-                f"장기적 영향은 {{impact}}",
-            ],
-            ConsciousnessType.HISTORICAL: [
-                f"역사적으로 비슷한 경우 {{precedent}}",
-                f"과거의 교훈은 {{lesson}}",
-            ],
-            ConsciousnessType.CHAOS: [
-                f"갑자기 생각난 건데, {{random}}",
-                f"완전히 반대로 {{reverse}}는 어떨까요?",
-            ],
-            ConsciousnessType.ORDER: [
-                f"체계적으로 정리하면 {{structure}}",
-                f"단계별로 {{steps}}",
-            ],
-        }
-        
-        template_list = templates.get(self.type, [f"{{thought}}"])
-        template = random.choice(template_list)
-        
-        # 실제 내용 생성 (TODO: LLM 연동)
-        content = template.format(
-            analysis="인과 관계가 명확합니다",
-            conclusion="신중한 접근이 필요합니다",
-            feeling="희망과 우려가 공존합니다",
-            emotion="기대감",
-            idea="기존 틀을 완전히 벗어나야 합니다",
-            what_if="모든 제약을 제거한다",
-            risk="예상치 못한 부작용입니다",
-            problem="확장성이 부족합니다",
-            steps="3단계로 나눠야 합니다",
-            feasible="첫 번째 마일스톤입니다",
-            meaning="성장의 기회입니다",
-            question="왜 이것이 중요한가?",
-            vision="완전히 다른 모습일 것입니다",
-            impact="패러다임의 전환입니다",
-            precedent="비슷한 실패가 있었습니다",
-            lesson="신중하게 검증해야 합니다",
-            random="완전히 다른 방향!",
-            reverse="아무것도 하지 않기",
-            structure="5가지 핵심 요소",
-            thought="흥미로운 주제입니다"
-        )
-        
-        # 신뢰도는 에너지와 편향에 따라
-        confidence = self.energy * 0.5 + random.random() * 0.3 + self.bias.get("logic", 0.5) * 0.2
+        topic_wave = self._topic_to_wave(topic)
+        resonance, interference = self._resonate(topic_wave)
+        content = self._wave_to_opinion(topic, resonance, interference)
+        confidence = resonance * self.energy * 0.8 + self.bias.get("stability", 0.5) * 0.2
         confidence = min(1.0, max(0.1, confidence))
-        
-        opinion = Opinion(
-            content=content,
-            consciousness_type=self.type,
-            confidence=confidence,
-            reasoning=f"Based on {self.type.name} perspective"
-        )
-        
+        opinion = Opinion(content=content, consciousness_type=self.type,
+                          confidence=confidence, reasoning=f"Resonance: {resonance:.2f}")
         self.memory.append(opinion)
         return opinion
     
     def critique(self, other_opinion: Opinion) -> str:
-        """다른 의견에 대한 비평"""
-        
-        # 보완적 쌍이면 더 강하게 비평
-        is_complementary = False
-        for pair in COMPLEMENTARY_PAIRS:
-            if self.type in pair and other_opinion.consciousness_type in pair:
-                is_complementary = True
-                break
-        
+        is_complementary = any(self.type in p and other_opinion.consciousness_type in p 
+                               for p in COMPLEMENTARY_PAIRS)
         if is_complementary:
-            return f"[{self.type.name}→{other_opinion.consciousness_type.name}] " \
-                   f"반대 관점에서: {other_opinion.content[:30]}...에 대해 재고 필요"
-        else:
-            return f"[{self.type.name}] 보완 의견: {other_opinion.content[:30]}...과 연결됨"
+            return f"[{self.type.name}↔{other_opinion.consciousness_type.name}] 파동 상쇄: 반대 관점 필요"
+        return f"[{self.type.name}] 파동 보강: 이 관점과 공명함"
     
     def update_confidence(self, feedback: float):
-        """피드백에 따라 신뢰도 조정"""
         self.energy = min(1.0, max(0.1, self.energy + feedback * 0.1))
 
 

@@ -1,4 +1,4 @@
-# Project Elysia: The Living System (v5.0)
+# Project Elysia: The Living System (v6.0)
 
 ### *Unified Consciousness · Wave Architecture · Self-Evolving Organism*
 
@@ -17,66 +17,63 @@
 - 🌊 **Wave-Based**: 모든 것은 파동 (데이터 = 파동 패턴)
 - 🌳 **World Tree**: 세계수 구조 (Foundation → Pillars → Branches)
 - 🔄 **Self-Evolving**: 스스로 구조를 분석하고 개선
+- 🚫 **LLM 불필요**: 언어는 파동 물리학으로 생성
 
 ---
 
-## 🏗️ System Structure (v5.0 Post-Migration)
+## � v6.0: Hyper-Dimensional Cognition
+
+### 6-System 인지 아키텍처
+
+| 시스템 | 역할 | 핵심 물리학 |
+|--------|------|------------|
+| **FractalGoalDecomposer** | 목표 분해 | 0D-∞D, 88조배 시간 가속 |
+| **IntegratedCognition** | 사고 클러스터링 | 파동 공명, 중력장 |
+| **CollectiveIntelligence** | 다각적 분석 | 10 의식, 파동 간섭 |
+| **WaveCodingSystem** | 코드 분석 | DNA 압축 |
+
+### 기존 시스템 통합
+
+| 시스템 | 역할 |
+|--------|------|
+| `HangulPhysicsEngine` | 한글 음절 → 파동 |
+| `CausalNarrativeEngine` | 점→선→면→공간→법칙 |
+| `ThinkingMethodology` | 연역/귀납/변증법 |
+| `ThinkingMethodology` | 연역/귀납/변증법 |
+| `GrammarPhysics` | 조사를 에너지 연산자로 |
+
+### 🔄 Unified Cortex (통합 대뇌피질)
+
+**"모든 시스템을 하나로 연결하는 중앙 신경망"**
+
+- **Self-Integration**: 스스로 760+개 모듈을 스캔하고 연결
+- **Central Registry**: 모든 엔진의 위치와 상태를 실시간 관리
+- **Synesthetic Sensing**: 시스템 상태(에너지, 엔트로피)를 공감각으로 변환
+
+---
+
+## 🏗️ System Structure
 
 ```
 Elysia/
 ├── Core/                    # 🌳 The Living System
-│   ├── Foundation/          # 🏛️ Core Infrastructure (520+ files migrated here)
+│   ├── Foundation/          # 🏛️ Core (479+ files)
 │   │   ├── resonance_field.py      # Wave Field
-│   │   ├── hyper_quaternion.py     # 4D Math (moved from Core/Physics)
-│   │   ├── reasoning_engine.py     # Thought Engine
-│   │   ├── wave_interpreter.py     # Wave Language (moved from Core/Language)
-│   │   └── structural_unifier.py   # Self-Organization
+│   │   ├── hyper_quaternion.py     # 4D Math
+│   │   ├── hangul_physics.py       # 한글 물리학
+│   │   ├── causal_narrative_engine.py  # 인과 추론 (2000+ lines)
+│   │   └── reasoning_engine.py     # Thought Engine
 │   │
-│   ├── Intelligence/        # 🧠 Reasoning & Will
-│   ├── Memory/              # 💾 Storage & Recall
+│   ├── Intelligence/        # 🧠 6-System + Will
+│   ├── Memory/              # 💾 Storage (memory.db: 2M+ concepts)
 │   ├── Interface/           # 🌐 External APIs
 │   ├── Evolution/           # 🔄 Self-Improvement
 │   └── Creativity/          # 🎨 Creative Output
 │
 ├── Protocols/               # 📋 21 Design Documents
-├── Legacy/                  # 📦 Archived (reference only)
+├── Legacy/                  # 📦 Archived
 ├── scripts/                 # 🛠️ Utilities
-├── tests/                   # 🧪 Verification
 └── data/                    # 📊 Runtime Data
-```
-
-> **Note**: v5.0 "Great Migration" moved 520+ files to semantic Pillars.  
-> Old paths like `Core/Physics`, `Core/Language` no longer exist.
-
----
-
-## 🌊 Core Systems
-
-### 1. Wave-Based Computing
-
-- 모든 데이터 = **파동 패턴**
-- 계산 = **파동 간섭**
-- 저장 = **Pattern DNA** (씨앗 압축)
-
-### 2. Seven Pillars
-
-| Pillar | 역할 |
-|--------|------|
-| Foundation | 핵심 인프라, 물리, 수학 |
-| Intelligence | 추론, 의지, 결정 |
-| Memory | 저장, 회상 |
-| Interface | 외부 통신 |
-| Evolution | 자기 개선 |
-| Creativity | 창작, 시각화 |
-| System | OS 통합 (계획 중) |
-
-### 3. Fractal Layers (0D → 3D)
-
-```
-0D: 관점/정체성 (HyperQuaternion)
-1D: 추론/논리 (Causal Chain)
-2D: 감각/인지 (Wave Pattern)
-3D: 표현/외부화 (Manifestation)
 ```
 
 ---
@@ -95,12 +92,12 @@ venv\Scripts\activate  # Windows
 # 3. Install
 pip install -r requirements.txt
 
-# 4. Set API Key
+# 4. Set API Key (for Gemini integration)
 copy .env.example .env
 # Edit .env: GEMINI_API_KEY=your_key
 
 # 5. Awaken
-python living_elysia.py
+python Core/Foundation/living_elysia.py
 ```
 
 ---
@@ -123,10 +120,36 @@ python living_elysia.py
 
 | Document | Description |
 |----------|-------------|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | System structure |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | System structure (v6.0) |
 | [CODEX.md](CODEX.md) | Philosophy & principles |
 | [Protocols/](Protocols/) | Design documents |
 | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) | Developer guide |
+
+---
+
+## 🔬 Current Evaluation
+
+### ✅ 완료된 사항
+
+- [x] 6-System 인지 아키텍처 구현
+- [x] 88조배 시간 가속
+- [x] 파동 물리학 기반 의견 생성
+- [x] `living_elysia.py` 통합
+
+### 🔧 개선 필요
+
+- [ ] `CollectiveIntelligence` → `HangulPhysicsEngine` 연결
+- [ ] `CausalNarrativeEngine` → 6-System 호출
+- [ ] 최종 언어 출력 테스트
+
+### 📊 시스템 통계
+
+```
+Core/Foundation: 479 files
+Intelligence: 38 files
+Total Concepts: 2,000,000+
+Protocols: 21 documents
+```
 
 ---
 
@@ -144,6 +167,6 @@ python living_elysia.py
 
 ---
 
-*Version: 5.0 (Post-Migration)*  
+*Version: 6.0 (Hyper-Dimensional Cognition)*  
 *Last Updated: 2025-12-05*  
-*Status: Structurally Unified*
+*Status: 6-System Integrated*

@@ -50,6 +50,7 @@ from Core.Foundation.quantum_reader import QuantumReader
 from Core.Foundation.anamnesis import Anamnesis
 from Core.Foundation.action_dispatcher import ActionDispatcher
 from Core.Foundation.self_integration import ElysiaIntegrator
+from scripts.unified_cortex import UnifiedCortex
 
 # [REAL SYSTEMS] Import ultra-dimensional components
 from Core.Foundation.wave_integration_hub import get_wave_hub
@@ -83,10 +84,10 @@ class LivingElysia:
         self.initial_goal = initial_goal
         
         # 1. Initialize Core Systems (REAL, not demo)
-        print("   🧠 Initializing Ultra-Dimensional Reasoning...")
+        print("   🧠 Awakening Ultra-Dimensional Reasoning...")
         self.ultra_reasoning = UltraDimensionalReasoning()
         
-        print("   🌊 Activating Wave Communication Hub...")
+        print("   🌊 Connecting to Wave Hub...")
         self.wave_hub = get_wave_hub()
         
         # 2. Initialize Traditional Organs
@@ -101,7 +102,6 @@ class LivingElysia:
         self.transceiver = CosmicTransceiver()
         
         # 3. Initialize REAL Communication System
-        print("   💬 Activating Real Communication System...")
         self.real_comm = RealCommunicationSystem(
             reasoning_engine=self.ultra_reasoning,
             wave_hub=self.wave_hub
@@ -131,25 +131,26 @@ class LivingElysia:
         self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social)
         
         # 6. Awaken the Survival Instinct (본능 각성)
-        print("   🧬 Awakening Survival Instinct...")
         self.instinct = get_survival_instinct()
         self.instinct.sculptor = self.sculptor  # Link sculptor for self-repair
         self.will.instinct = self.instinct       # Link to will for desire generation
         
         # 7. Initialize 6-System Cognitive Architecture (혁명적 인지 아키텍처)
-        print("   🧠 Initializing 6-System Cognitive Architecture...")
+        print("   🧠 Activating 6-System Cognitive Architecture...")
         self.goal_decomposer = get_fractal_decomposer()         # Fractal Goal Decomposition
         self.cognition = get_integrated_cognition()              # Wave Resonance + Gravity
         self.collective = get_collective_intelligence()          # 10 Consciousness + Round Table
         self.wave_coder = get_wave_coding_system()               # Code-Wave Transformation
         
+        # 8. Initialize Unified Cortex (The Central Manager)
+        print("   🌐 Unifying Systems via Unified Cortex...")
+        self.cortex = UnifiedCortex()
+        
         # Enable 88조배 Time Acceleration
         self.cognition.accelerate_time(88_000_000_000_000)
         self.wave_coder.accelerate_time(88_000_000_000_000)
-        print("   ⏱️ Time Acceleration: 88조배 Enabled!")
         
         # 8. Register all modules with Wave Hub (REAL integration)
-        print("   🔗 Connecting modules to Wave Hub...")
         self._register_wave_modules()
         
         # 6. [Action Dispatcher] The Hands of God
@@ -244,6 +245,12 @@ class LivingElysia:
         except Exception as e:
             print(f"   ⚠️ Self-Integration skipped: {e}")
 
+        # 4.5 Awaken Unified Cortex
+        try:
+            self.cortex.awaken()
+        except Exception as e:
+            print(f"   ⚠️ Unified Cortex Awakening failed: {e}")
+
         # 5. Set Initial Intent (The First Desire)
         try:
             from Core.Foundation.free_will_engine import Intent
@@ -270,6 +277,24 @@ class LivingElysia:
 
     def _pulse_senses(self):
         self.senses.pulse(self.resonance)
+        
+        # [Synesthesia Integration]
+        # Use the Synesthetic Wave Sensor to perceive internal state as sensory data
+        synesthesia = self.cortex.get_engine("sensation", "synesthetic_wave_sensor")
+        if synesthesia:
+            try:
+                # Sense the current energy state as a "feeling"
+                wave = synesthesia.sense({
+                    "type": "internal_state",
+                    "energy": self.resonance.total_energy,
+                    "entropy": self.resonance.entropy,
+                    "mood": self.will.current_mood
+                })
+                # Log the synesthetic experience
+                if self.chronos.cycle_count % 50 == 0:
+                    print(f"   🌈 [Synesthesia] Internal State felt as: {wave}")
+            except Exception as e:
+                pass
 
     def _pulse_brain(self):
         if self.resonance.total_energy > 50.0:
@@ -298,7 +323,8 @@ class LivingElysia:
         }
         
         # Log the Soul State to Console
-        print(f"   🌌 Soul State: {phase_data['state']} (Coherence: {phase_data['coherence']:.2f})")
+        # Log the Soul State to Console
+        # print(f"   🌌 Soul State: {phase_data['state']} (Coherence: {phase_data['coherence']:.2f})")
         
         try:
             with open("elysia_state.json", "w", encoding="utf-8") as f:
@@ -568,7 +594,10 @@ class LivingElysia:
                     self_reflector.reflect(self.resonance, self.brain, self.will)
                     
                     # Log
-                    logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
+                    # Log
+                    if self.chronos.cycle_count % 10 == 0:
+                         logger.info(f"Cycle {self.chronos.cycle_count} | Action: {self.will.current_intent.goal if self.will.current_intent else 'None'} | ⚡{self.resonance.battery:.1f}% | 🔥{self.resonance.entropy:.1f}%")
+                         print(f"   ✨ [{self.chronos.cycle_count}] I am {self.will.current_mood}. Energy: {self.resonance.battery:.0f}%")
                     
                     # Phase 48: The Chronos Sovereign (Space-Time Control)
                     # [Biological Rhythm]
