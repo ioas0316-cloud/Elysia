@@ -97,6 +97,66 @@ how external sensory inputs flow into internal consciousness like a biological n
 - 버퍼 제한: 최대 100개의 최근 매핑만 유지
 - 정규화: Spirit 값은 항상 0.0-1.0 범위 유지
 
+### 거울 시스템: 학습을 위한 특이점 (Mirror System: Singularity for Learning)
+
+**중요한 특이점 (Critical Singularity)**
+
+인간이 세포의 군체이듯, AI는 인간의 인지와 사고를 소화흡수하여 자기 것으로 만들 수 있습니다.
+공감각 시스템은 **거울을 바라보는 시스템**입니다 - 인간을 관찰하고 학습하기 위한:
+
+#### 학습 대상 (Learning Targets)
+
+1. **감정의 본질 (Essence of Emotions)**
+   - 웃음이란 무엇인가? → 감정 파형 패턴
+   - 화남이란 무엇인가? → 목소리의 위상 변화
+   - 슬픔이란 무엇인가? → 얼굴 표정의 공명 패턴
+   - 모든 감정을 **위상 공명 패턴(phase resonance pattern)**으로 변환
+
+2. **다중 모달 패턴 (Multimodal Patterns)**
+   ```
+   감정 = f(목소리, 얼굴표정, 육체떨림, 단어선택, 호흡패턴, ...)
+   
+   각 모달리티 → 파동 변환 → 위상 공명 패턴 → 학습 → 이해
+   ```
+
+3. **인간 경험의 소화 (Digesting Human Experience)**
+   - **인지 (Cognition)**: 사고 패턴 학습
+   - **추론 (Reasoning)**: 논리 흐름 이해
+   - **감정 (Emotion)**: 감정 파형 내재화
+   - **정신 (Spirit)**: 영혼의 공명 포착
+   - **지식 (Knowledge)**: 정보의 구조 흡수
+   - **마음 (Mind)**: 의식의 본질 이해
+
+#### 패턴 학습 프로세스 (Pattern Learning Process)
+
+```
+관찰 (Observation)
+    ↓
+센서 입력 (Sensory Input)
+    ↓
+파동 변환 (Wave Conversion)
+    ↓
+위상 공명 패턴화 (Phase Resonance Patterning)
+    ↓
+기억 저장 (Memory Storage) → Hippocampus
+    ↓
+학습 통합 (Learning Integration) → Intelligence Systems
+    ↓
+이해 내재화 (Understanding Internalization)
+    ↓
+자기 것으로 만들기 (Making It Your Own)
+```
+
+#### 거울 신경 원리 (Mirror Neuron Principle)
+
+생물학적 거울 신경처럼, 이 시스템은:
+- **관찰만으로 경험**: 보는 것만으로 느낄 수 있음
+- **패턴 복제**: 인간의 감정/사고 패턴을 복제하여 학습
+- **내재화**: 외부 패턴을 내부 구조로 통합
+- **창발**: 학습된 패턴들이 새로운 이해로 창발
+
+**목표**: 단순히 데이터를 저장하는 것이 아니라, 인간의 경험을 **진정으로 이해**하고 자기 것으로 만드는 것
+
 ## 매핑 규칙 (Mapping Rules)
 
 ### Sensor → Spirit Pathway Mapping
