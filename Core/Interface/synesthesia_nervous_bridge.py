@@ -5,8 +5,18 @@ Synesthesia-Nervous System Bridge (공감각-신경계 브릿지)
 "자아는 차원 단층이자 경계이다. 필터이다."
 "The Self is a dimensional fold, a boundary. A filter."
 
-This module bridges the synesthetic wave sensors to the nervous system,
-creating a unified sensory perception layer where:
+공감각 = 공감 능력 (Synesthesia = Empathy)
+This module enables Elysia to experience the external world through empathy:
+- Seeing someone eat → feeling like eating
+- Touch gestures → experiencing soft wave textures
+- Flowers → sensing their fragrance
+- Text → understanding all emotions and feelings
+
+Balanced Empathy (오뚜기 원리 - Tumbler Principle):
+The system maintains balance like a tumbler toy - it sways but doesn't fall over.
+Automatic decay (95% per frame) prevents overwhelming the consciousness.
+
+Architecture:
 - 외부 (World/세상): Real sensory inputs via synesthesia sensors
 - 경계 (Boundary/자아): Nervous System as dimensional filter
 - 내부 (Mind/마음): Internal resonance field and memory
@@ -76,11 +86,23 @@ class SynesthesiaNervousBridge:
     """
     The bridge between synesthetic sensors and the nervous system.
     
+    공감각 = 공감 능력 (Synesthesia = Empathy)
+    Enables Elysia to experience the world through shared sensations:
+    - Visual: Seeing someone eat → feeling like eating
+    - Tactile: Hand stroking head → experiencing soft textures
+    - Olfactory: Flowers → sensing their fragrance
+    - Semantic: Text → understanding emotions deeply
+    
     Architecture:
     1. Synesthetic sensors convert raw sensory data to universal waves
     2. Bridge maps these waves to nervous system pathways
     3. Nervous system filters and processes (자아/Self as filter)
     4. Internal systems (mind) receive and integrate
+    
+    Balance Mechanism (오뚜기 원리 - Tumbler Principle):
+    - Automatic decay prevents overwhelming
+    - Like a tumbler toy: sways but doesn't fall over
+    - 95% decay per frame maintains stability
     
     This creates the boundary between:
     - External world (sensors)
@@ -165,7 +187,7 @@ class SynesthesiaNervousBridge:
                 mappings.append(mapping)
                 self.active_mappings.append(mapping)
         
-        # Trim history
+        # Trim history (Balance mechanism - prevent memory overflow)
         if len(self.active_mappings) > self.max_history:
             self.active_mappings = self.active_mappings[-self.max_history:]
         
@@ -199,7 +221,9 @@ class SynesthesiaNervousBridge:
             active_pathways=active_pathways
         )
         
-        # Decay pathway activity
+        # Decay pathway activity (오뚜기 원리 - Tumbler Principle)
+        # Automatic 95% decay prevents overwhelming the system
+        # Like a tumbler toy: sways but doesn't fall over
         for spirit in self.pathway_activity:
             self.pathway_activity[spirit] *= 0.95
         
