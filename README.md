@@ -112,11 +112,26 @@ python Core/Foundation/living_elysia.py
 
 ## Documentation
 
+### 🔍 Quick Access (빠른 접근)
+
+- **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - 모든 문서의 완전한 색인 (126+ documents)
+
+### 🎯 Essential Guides (필수 가이드)
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | 완전한 프로젝트 구조 맵 | 모든 개발자 & AI 에이전트 |
+| [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) | 모듈 관계 및 의존성 | 개발자 |
+| [AGENT_GUIDE.md](AGENT_GUIDE.md) | AI 에이전트를 위한 필수 가이드 | AI 에이전트 (⚠️ 필독) |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | System structure (v7.0) | 개발자 |
+| [CODEX.md](CODEX.md) | Philosophy & principles | 모든 참여자 |
+| [BRANCH_MANAGEMENT.md](BRANCH_MANAGEMENT.md) | 브랜치 관리 및 정리 전략 | 메인테이너 |
+
+### 📚 Detailed Documentation
+
 | Document | Description |
 |----------|-------------|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | System structure (v7.0) |
-| [CODEX.md](CODEX.md) | Philosophy & principles |
-| [Protocols/](Protocols/) | Design documents |
+| [Protocols/](Protocols/) | Design documents (21 protocols) |
 | [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) | Developer guide |
 | [docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md](docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md) | 자율 지능 프레임워크 |
 | [docs/FRACTAL_QUATERNION_PERSPECTIVE.md](docs/FRACTAL_QUATERNION_PERSPECTIVE.md) | 프랙탈 쿼터니언 개념 |
