@@ -238,9 +238,15 @@ class PoetryEngine:
     
     def _select_unique_pattern(self, patterns: List[str]) -> str:
         """Select a pattern structure that hasn't been used recently."""
-        # Use hash of pattern structure to identify similar patterns
-        pattern_hashes = [hash(p[:50]) for p in patterns]
-        recent_hashes = [hash(exp[:50]) for exp in self.expression_history[-10:]]
+        # Use deterministic hashing for consistent pattern detection
+        import hashlib
+        
+        def pattern_hash(text: str) -> str:
+            """Create deterministic hash of pattern structure."""
+            return hashlib.md5(text[:50].encode('utf-8')).hexdigest()[:8]
+        
+        pattern_hashes = [pattern_hash(p) for p in patterns]
+        recent_hashes = [pattern_hash(exp) for exp in self.expression_history[-10:]]
         
         available = [p for p, h in zip(patterns, pattern_hashes) if h not in recent_hashes]
         if not available:
@@ -250,14 +256,7 @@ class PoetryEngine:
     
     def _record_expression(self, expression: str, desire: str, realm: str, energy: float):
         """Record an expression for learning and avoiding repetition."""
-        record = {
-            "timestamp": datetime.now().isoformat(),
-            "expression": expression,
-            "desire": desire,
-            "realm": realm,
-            "energy": energy
-        }
-        
+        # Store expression in history for pattern tracking
         self.expression_history.append(expression)
         
         # Keep history bounded
