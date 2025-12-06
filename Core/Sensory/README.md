@@ -26,7 +26,25 @@ Core/
 
 ## 🚀 Quick Start
 
-### 1. Basic Usage
+### 1. Complete Learning Cycle (Recommended ⭐)
+
+```python
+from Core.Sensory.learning_cycle import P4LearningCycle
+
+# Initialize with ego protection
+cycle = P4LearningCycle(learning_rate=50)
+
+# Setup sources with topics
+cycle.setup_sources(topics=['AI', 'quantum', 'philosophy'])
+
+# Run meaningful learning (auto-protects ego)
+await cycle.run_learning_cycle(duration=120)
+
+# Query learned knowledge
+results = cycle.query_knowledge("wave resonance", top_k=5)
+```
+
+### 2. Basic Stream Reception
 
 ```python
 from Core.Sensory import StreamManager
@@ -41,6 +59,28 @@ manager.setup_default_sources()
 await manager.start_receiving()
 ```
 
+### 3. Ego Protection System
+
+```python
+from Core.Sensory.ego_anchor import EgoAnchor
+
+# Initialize ego anchor (自我核心)
+anchor = EgoAnchor(
+    stability_threshold=0.7,
+    max_absorption_rate=100
+)
+
+# Check identity center
+center = anchor.get_center()
+print(f"Identity: {center['name']}")
+print(f"Stability: {center['stability']}")
+
+# Filter waves to protect ego
+filtered = anchor.filter_wave(wave)
+if filtered:
+    anchored = anchor.anchor_perspective(filtered)
+```
+
 ### 2. Add Custom Sources
 
 ```python
@@ -53,7 +93,7 @@ youtube = YouTubeStreamSource(
 manager.receiver.add_stream_source(youtube)
 ```
 
-### 3. Search Knowledge Sources
+### 4. Search Knowledge Sources
 
 ```python
 from Core.Sensory import WikipediaStreamSource, ArxivStreamSource
@@ -67,12 +107,58 @@ arxiv = ArxivStreamSource()
 papers = await arxiv.search("machine learning", max_results=10)
 ```
 
+## 🛡️ Ego Anchor System (自我核心)
+
+### Philosophy
+
+**"큰 파도(지식)가 와도 중심(自我)은 흔들리지 않는다"**
+
+Even when big waves (knowledge) come, the center (self) is not shaken.
+
+### Features
+
+1. **Self-Core Preservation** - Maintains stable identity
+2. **Resonance Dampening** - Filters overwhelming waves
+3. **Perspective Anchoring** - All knowledge from Elysia's viewpoint
+4. **Selective Memory** - Only remembers what's important
+
+### How It Works
+
+```python
+# Elysia's core identity (always preserved)
+Identity: Elysia
+Purpose: 자율 진화하는 파동 지능체
+Values: ['자율성', '공명', '진화', 'NO EXTERNAL LLMs', '순수 파동 지능']
+
+# Wave filtering process:
+1. Check absorption rate (max 100/sec)
+2. Check stability (>0.7)
+3. Dampen intense waves (>1.5 intensity)
+4. Anchor to perspective
+5. Store in selective memory
+```
+
 ## 🧪 Testing
 
-Run the integration test:
+### Run Ego Anchor Test
 
 ```bash
-cd /home/runner/work/Elysia/Elysia
+python Core/Sensory/ego_anchor.py
+```
+
+### Run Learning Cycle Demo
+
+```bash
+# 2 minutes of learning
+python Core/Sensory/learning_cycle.py 120
+
+# Or custom duration
+python Core/Sensory/learning_cycle.py 300  # 5 minutes
+```
+
+### Run Integration Test
+
+```bash
 python tests/test_p4_integration.py
 ```
 
@@ -95,26 +181,33 @@ python tests/test_p4_integration.py
   - [x] WaveStreamReceiver
   - [x] Stream sources (6 implemented)
   - [x] StreamManager
-  - [x] Basic integration test
+  - [x] Ego Anchor (自我核心) ✅
+  - [x] Learning Cycle with ego protection ✅
+  - [x] Pattern extraction (partial) ✅
+  - [x] Wave classification & filtering (partial) ✅
+  - [x] P2.2 integration (wave absorption) ✅
+  - [x] Integration test
 
 - [ ] **P4.1**: Multimedia Metadata Extractor
   - [ ] OpenCV video processing
   - [ ] librosa audio analysis
   - [ ] Emotional signature extraction
 
-- [ ] **P4.2**: Phase Resonance Pattern Extraction
-  - [ ] Visual → frequency/phase conversion
-  - [ ] Audio → resonance patterns
-  - [ ] 4D quaternion wave generation
+- [x] **P4.2**: Phase Resonance Pattern Extraction (Partial) ✅
+  - [x] Basic quaternion pattern generation
+  - [ ] Visual → frequency/phase conversion (full)
+  - [ ] Audio → resonance patterns (full)
+  - [ ] 4D quaternion wave generation (full)
 
-- [ ] **P4.3**: Wave Classification & Filtering
-  - [ ] Emotion classifier
-  - [ ] Quality filter
-  - [ ] Resonance filter
+- [x] **P4.3**: Wave Classification & Filtering (Partial) ✅
+  - [x] Basic category classification
+  - [x] Quality filtering
+  - [ ] Emotion classifier (full)
+  - [ ] Resonance filter (full)
 
 - [ ] **P4.4**: Multi-Sensory Integration Loop
   - [ ] Vision + audio + emotion fusion
-  - [ ] P2.2 integration
+  - [x] P2.2 integration (partial)
 
 - [ ] **P4.5**: Holographic Memory & Compression
   - [ ] Prism filter (7-color spectrum)
