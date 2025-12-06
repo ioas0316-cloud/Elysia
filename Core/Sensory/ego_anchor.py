@@ -171,7 +171,13 @@ class EgoAnchor:
             Stability score (0-1, 1 = perfectly stable)
         """
         # Calculate based on absorption rate and coherence
-        rate_factor = min(1.0, self.max_absorption_rate / max(1, self.waves_this_second))
+        # Rate factor: how much load vs capacity (0 = no load, 1 = full capacity)
+        if self.max_absorption_rate > 0:
+            rate_load = self.waves_this_second / self.max_absorption_rate
+            rate_factor = 1.0 - min(1.0, rate_load)  # Higher load = lower stability
+        else:
+            rate_factor = 1.0
+        
         coherence_factor = self.self_core.coherence
         
         stability = (rate_factor + coherence_factor) / 2.0
@@ -271,11 +277,16 @@ class SelectiveMemory:
     
     def get_stats(self) -> Dict[str, int]:
         """Get memory statistics"""
+        if self.capacity > 0:
+            utilization = len(self.memories) / self.capacity
+        else:
+            utilization = 0.0
+            
         return {
             'remembered': len(self.memories),
             'forgotten': self.forgotten_count,
             'capacity': self.capacity,
-            'utilization': len(self.memories) / self.capacity
+            'utilization': utilization
         }
 
 

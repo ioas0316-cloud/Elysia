@@ -70,8 +70,10 @@ class PatternExtractor:
         
         In full P4.2: analyze visual/audio features
         """
-        # Simple hash-based orientation
-        h = hash(text)
+        import hashlib
+        
+        # Use deterministic hash (not Python's hash())
+        h = int(hashlib.md5(text.encode('utf-8')).hexdigest()[:8], 16)
         
         w = (h & 0xFF) / 255.0
         x = ((h >> 8) & 0xFF) / 255.0
@@ -298,7 +300,13 @@ class P4LearningCycle:
         logger.info(f"   Patterns extracted: {self.stats['patterns_extracted']}")
         logger.info(f"   Waves absorbed: {self.stats['waves_absorbed']}")
         logger.info(f"   Knowledge count: {self.stats['knowledge_count']}")
-        logger.info(f"   Rejection rate: {self.stats['waves_rejected']}/{self.stats['waves_received']}")
+        
+        # Safe rejection rate calculation
+        if self.stats['waves_received'] > 0:
+            rejection_rate = f"{self.stats['waves_rejected']}/{self.stats['waves_received']}"
+        else:
+            rejection_rate = "0/0"
+        logger.info(f"   Rejection rate: {rejection_rate}")
         
         # Ego status
         ego_stats = self.ego_anchor.get_stats()
@@ -324,7 +332,13 @@ class P4LearningCycle:
         logger.info(f"   Patterns extracted: {self.stats['patterns_extracted']}")
         logger.info(f"   Waves absorbed: {self.stats['waves_absorbed']}")
         logger.info(f"   Final knowledge: {self.stats['knowledge_count']} patterns")
-        logger.info(f"   Learning rate: {self.stats['waves_absorbed'] / elapsed:.2f} waves/sec")
+        
+        # Safe learning rate calculation
+        if elapsed > 0:
+            learning_rate = self.stats['waves_absorbed'] / elapsed
+            logger.info(f"   Learning rate: {learning_rate:.2f} waves/sec")
+        else:
+            logger.info(f"   Learning rate: N/A (too fast)")
         
         # Ego final status
         center = self.ego_anchor.get_center()

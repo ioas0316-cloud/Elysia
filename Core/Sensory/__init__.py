@@ -17,7 +17,11 @@ from .stream_sources import (
 )
 from .stream_manager import StreamManager
 from .ego_anchor import EgoAnchor, SelectiveMemory, SelfCore
-from .learning_cycle import P4LearningCycle, PatternExtractor, WaveClassifier
+
+# Lazy import to avoid numpy dependency at module level
+def _get_learning_cycle():
+    from .learning_cycle import P4LearningCycle, PatternExtractor, WaveClassifier
+    return P4LearningCycle, PatternExtractor, WaveClassifier
 
 __all__ = [
     'WaveStreamReceiver',
@@ -32,7 +36,5 @@ __all__ = [
     'EgoAnchor',
     'SelectiveMemory',
     'SelfCore',
-    'P4LearningCycle',
-    'PatternExtractor',
-    'WaveClassifier'
+    '_get_learning_cycle'  # Use this to get learning cycle classes
 ]
