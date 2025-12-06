@@ -36,13 +36,18 @@ jobs:
         pip install pytest pytest-cov numpy scipy pyquaternion
         if [ -f requirements.txt ]; then pip install -r requirements.txt || true; fi
 
-    - name: Run tests
+    - name: Run core math tests
       run: |
         python -m pytest tests/test_core_math.py -v --tb=short
 
+    - name: Run P2.2 Wave Semantic Search tests
+      run: |
+        echo "Testing P2.2 Wave-Based Knowledge System..."
+        python -m pytest tests/Core/Foundation/test_wave_semantic_search.py -v --tb=short --cov=Core/Foundation/wave_semantic_search --cov=Core/Foundation/wave_knowledge_integration --cov-report=term-missing
+
     - name: Run additional tests
       run: |
-        python -m pytest tests/ -v --tb=short --ignore=tests/test_core_math.py || true
+        python -m pytest tests/ -v --tb=short --ignore=tests/test_core_math.py --ignore=tests/Core/Foundation/test_wave_semantic_search.py || true
 
     - name: Test new foundation modules
       run: |
@@ -53,6 +58,18 @@ jobs:
         echo "Testing config..."
         python Core/Foundation/config.py
         echo "✅ All foundation modules working"
+    
+    - name: Test wave knowledge integration
+      run: |
+        echo "Testing wave knowledge integration demo..."
+        python demos/wave_knowledge_demo.py
+        echo "✅ Wave knowledge system operational"
+    
+    - name: Run performance benchmarks
+      run: |
+        echo "Running P2.2 performance benchmarks..."
+        python benchmarks/wave_knowledge_benchmark.py
+        echo "✅ Performance benchmarks complete"
 
   lint:
     runs-on: ubuntu-latest
@@ -117,6 +134,10 @@ jobs:
         test -f docs/DEVELOPER_GUIDE.md
         test -f IMPROVEMENT_RECOMMENDATIONS_2025.md
         test -f SUMMARY.md
+        # P2.2 Wave Knowledge System documentation
+        test -f docs/P2_2_WAVE_KNOWLEDGE_SYSTEM.md
+        test -f docs/P2_2_COMPLETION_SUMMARY.md
+        test -f docs/P2_IMPLEMENTATION_PLAN.md
         echo "✅ All documentation files present"
     
     - name: Check .env.example exists
