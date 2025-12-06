@@ -75,16 +75,320 @@
 
 | 항목 | 설명 | 예상 기간 | 우선순위 | 상태 |
 |------|------|-----------|---------|------|
+| **P4.0: Wave Stream Reception System** | 파동 스트림 수신 시스템 (빛처럼 받기) | 2주 | 🎯 최우선 | 📋 계획 |
 | **P4.1: Multimedia Metadata Extractor** | 영상/음악 메타데이터 추출 | 2주 | 🎯 최우선 | 📋 계획 |
-| **P4.2: Phase Resonance Pattern Extraction** | 위상공명패턴 추출 시스템 | 3주 | 🎯 최우선 | 📋 계획 |
-| **P4.3: Multi-Sensory Integration Loop** | 오감 통합 루프 | 3주 | ⚡ 높음 | 📋 계획 |
-| **P4.4: Autonomous Video Learning** | 자율 영상 학습 파이프라인 | 2주 | ⚡ 높음 | 📋 계획 |
-| **P4.5: Emotional-Path Mapping** | 감성-경로 매핑 시스템 | 2주 | 📊 중간 | 📋 계획 |
+| **P4.2: Phase Resonance Pattern Extraction** | 위상공명패턴 추출 시스템 | 2주 | 🎯 최우선 | 📋 계획 |
+| **P4.3: Wave Classification & Filtering** | 파동 분류 및 필터링 시스템 | 2주 | ⚡ 높음 | 📋 계획 |
+| **P4.4: Multi-Sensory Integration Loop** | 오감 통합 루프 | 2주 | ⚡ 높음 | 📋 계획 |
+| **P4.5: Holographic Memory & Compression** | 홀로그램 메모리 및 압축 (몸무게 줄이기) | 2주 | ⚡ 높음 | 📋 계획 |
+| **P4.6: Emotional-Path Mapping** | 감성-경로 매핑 시스템 | 2주 | 📊 중간 | 📋 계획 |
 
-**총 예상 기간**: 12주 (3개월)  
-**예상 코드량**: ~8,000 lines  
-**예상 테스트**: 50+ tests  
+**총 예상 기간**: 14주 (3.5개월)  
+**예상 코드량**: ~12,000 lines  
+**예상 테스트**: 70+ tests  
 **예산**: $0 (완전 무료, NO API)
+
+**핵심 철학**:
+- "빛을 받아들이듯 파동 정보를 받아들여 자연스럽게 흘려보낸다"
+- "4D 파동공명패턴으로 압축, 인터넷 거미줄 신경망으로 홀로그램 재현"
+- "몸무게를 줄이면서 인터넷을 확장 메모리로 활용"
+
+---
+
+## 📅 P4.0: Wave Stream Reception System (2주)
+
+### 목표
+
+**빛을 받아들이듯 파동 정보를 연속적으로 수신**
+
+현재: 파일 하나씩 찾아서 처리 (느림, 수동적)  
+목표: 여러 소스에서 자동으로 스트림 수신 (빠름, 자동)
+
+### 핵심 개념
+
+**"빛을 받아들이는 것처럼 파동정보로 다 받아들여서 분류"**
+
+```
+인터넷 영상 스트림 ──┐
+YouTube 피드      ──┤
+드라마 채널       ──┤──→ Wave Stream Receiver ──→ 파동 분류 ──→ 사고우주
+음악 스트리밍     ──┤      (빛 받듯이)            필터링      (자연스럽게)
+팟캐스트         ──┘
+```
+
+### Week 1: Multi-Source Stream Connector
+
+**구현 내용**:
+
+```python
+# Core/Sensory/wave_stream_receiver.py
+
+import asyncio
+from typing import List, AsyncGenerator
+
+class WaveStreamReceiver:
+    """파동 스트림 수신기 - 빛을 받듯이 파동 정보 수신"""
+    
+    def __init__(self):
+        self.stream_sources = []
+        self.wave_buffer = WaveBuffer(max_size=1000)
+        self.running = False
+        
+    def add_stream_source(self, source: StreamSource):
+        """스트림 소스 추가"""
+        self.stream_sources.append(source)
+        
+    async def receive_streams(self):
+        """모든 소스에서 동시에 파동 수신"""
+        self.running = True
+        
+        # 모든 소스를 동시에 수신 (빛을 받듯이)
+        tasks = [
+            self.receive_from_source(source)
+            for source in self.stream_sources
+        ]
+        
+        await asyncio.gather(*tasks)
+    
+    async def receive_from_source(self, source: StreamSource):
+        """단일 소스에서 연속 수신"""
+        async for wave_data in source.stream():
+            # 파동 정보로 변환
+            wave_pattern = self.to_wave_pattern(wave_data)
+            
+            # 버퍼에 추가 (자연스럽게 흘려보냄)
+            await self.wave_buffer.add(wave_pattern)
+            
+            if not self.running:
+                break
+    
+    def to_wave_pattern(self, raw_data):
+        """원시 데이터 → 파동 패턴"""
+        # 영상/음악 → 위상공명패턴
+        return WavePattern.from_raw(raw_data)
+
+
+# Core/Sensory/stream_sources.py
+
+class YouTubeStreamSource(StreamSource):
+    """YouTube 피드 스트림"""
+    
+    def __init__(self, channels: List[str]):
+        self.channels = channels
+        self.rss_feeds = [f"https://www.youtube.com/feeds/videos.xml?channel_id={ch}" 
+                         for ch in channels]
+    
+    async def stream(self) -> AsyncGenerator[bytes, None]:
+        """YouTube 피드를 연속으로 스트림"""
+        while True:
+            for feed_url in self.rss_feeds:
+                try:
+                    # RSS 피드에서 새 영상 확인
+                    new_videos = await self.fetch_new_videos(feed_url)
+                    
+                    for video in new_videos:
+                        # 영상 다운로드 (yt-dlp)
+                        video_data = await self.download_video(video['url'])
+                        yield video_data
+                        
+                except Exception as e:
+                    logger.error(f"Stream error: {e}")
+            
+            # 5분마다 확인
+            await asyncio.sleep(300)
+
+
+class InternetVideoStreamSource(StreamSource):
+    """일반 인터넷 영상 스트림"""
+    
+    def __init__(self, urls: List[str]):
+        self.urls = urls
+    
+    async def stream(self) -> AsyncGenerator[bytes, None]:
+        """여러 URL에서 영상 스트림"""
+        for url in self.urls:
+            try:
+                # 영상 스트리밍 (requests)
+                async for chunk in self.stream_video(url):
+                    yield chunk
+            except Exception as e:
+                logger.error(f"Stream error from {url}: {e}")
+
+
+class MusicStreamSource(StreamSource):
+    """음악 스트림 소스"""
+    
+    def __init__(self, music_feeds: List[str]):
+        self.feeds = music_feeds
+    
+    async def stream(self) -> AsyncGenerator[bytes, None]:
+        """음악 피드에서 스트림"""
+        while True:
+            for feed in self.feeds:
+                try:
+                    new_tracks = await self.fetch_new_music(feed)
+                    
+                    for track in new_tracks:
+                        audio_data = await self.fetch_audio(track['url'])
+                        yield audio_data
+                        
+                except Exception as e:
+                    logger.error(f"Music stream error: {e}")
+            
+            await asyncio.sleep(600)  # 10분마다
+
+
+class PodcastStreamSource(StreamSource):
+    """팟캐스트 스트림"""
+    
+    def __init__(self, podcast_feeds: List[str]):
+        self.feeds = podcast_feeds
+    
+    async def stream(self) -> AsyncGenerator[bytes, None]:
+        """팟캐스트 RSS 피드"""
+        while True:
+            for feed_url in self.feeds:
+                try:
+                    episodes = await self.fetch_episodes(feed_url)
+                    
+                    for episode in episodes:
+                        audio = await self.download_episode(episode['url'])
+                        yield audio
+                        
+                except Exception as e:
+                    logger.error(f"Podcast stream error: {e}")
+            
+            await asyncio.sleep(3600)  # 1시간마다
+```
+
+**Tasks**:
+- [ ] 파동 스트림 수신기 구현
+- [ ] YouTube RSS 피드 연결 (yt-dlp)
+- [ ] 인터넷 영상 스트리밍
+- [ ] 음악 스트림 소스
+- [ ] 팟캐스트 피드
+- [ ] 비동기 동시 수신
+
+**Expected Results**:
+- 여러 소스 동시 수신 (빛처럼)
+- 자동 파동 변환
+- 연속 스트림 (끊김 없이)
+
+**Files to Create**:
+- `Core/Sensory/wave_stream_receiver.py` (~400 lines)
+- `Core/Sensory/stream_sources.py` (~500 lines)
+- `Core/Sensory/wave_buffer.py` (~200 lines)
+- `tests/Core/Sensory/test_wave_stream.py` (~150 lines)
+
+---
+
+### Week 2: Automatic Stream Discovery
+
+**구현 내용**:
+
+```python
+# Core/Sensory/stream_discovery.py
+
+class StreamDiscovery:
+    """자동 스트림 발견 시스템"""
+    
+    def __init__(self):
+        self.known_sources = []
+        self.discovery_engines = [
+            YouTubeDiscovery(),
+            PodcastDiscovery(),
+            VideoSiteDiscovery()
+        ]
+    
+    async def discover_streams(self, topics: List[str]):
+        """주제 기반 자동 스트림 발견"""
+        discovered = []
+        
+        for topic in topics:
+            for engine in self.discovery_engines:
+                # 각 엔진으로 검색
+                sources = await engine.find_sources(topic)
+                discovered.extend(sources)
+        
+        # 중복 제거
+        unique_sources = self.deduplicate(discovered)
+        
+        return unique_sources
+    
+    async def auto_expand_sources(self):
+        """기존 소스 기반 자동 확장"""
+        # 시청 중인 채널의 추천 채널
+        # 듣는 팟캐스트의 유사 팟캐스트
+        # 관련 음악 발견
+        
+        new_sources = []
+        
+        for source in self.known_sources:
+            related = await self.find_related_sources(source)
+            new_sources.extend(related)
+        
+        return new_sources
+
+
+# Core/Sensory/stream_manager.py
+
+class StreamManager:
+    """스트림 관리자 - 전체 조율"""
+    
+    def __init__(self):
+        self.receiver = WaveStreamReceiver()
+        self.discovery = StreamDiscovery()
+        self.filter = WaveFilter()  # P4.3에서 구현
+        
+    async def start_receiving(self):
+        """파동 수신 시작"""
+        logger.info("🌊 Starting wave stream reception...")
+        
+        # 초기 소스 설정
+        initial_sources = self.get_initial_sources()
+        for source in initial_sources:
+            self.receiver.add_stream_source(source)
+        
+        # 수신 시작 (백그라운드)
+        receive_task = asyncio.create_task(
+            self.receiver.receive_streams()
+        )
+        
+        # 자동 확장 (백그라운드)
+        expand_task = asyncio.create_task(
+            self.auto_expand_sources()
+        )
+        
+        # 필터링 및 처리 (메인)
+        await self.process_wave_stream()
+    
+    async def process_wave_stream(self):
+        """파동 스트림 처리"""
+        while True:
+            # 버퍼에서 파동 패턴 가져오기
+            wave_pattern = await self.receiver.wave_buffer.get()
+            
+            # 필터링 (P4.3)
+            if self.filter.should_process(wave_pattern):
+                # 처리 (P4.4)
+                await self.process_pattern(wave_pattern)
+```
+
+**Tasks**:
+- [ ] 자동 스트림 발견
+- [ ] 주제 기반 검색
+- [ ] 관련 소스 자동 확장
+- [ ] 스트림 관리자 통합
+
+**Expected Results**:
+- 자동으로 새 소스 발견
+- 관련 콘텐츠 확장
+- 수동 관리 최소화
+
+**Files to Create**:
+- `Core/Sensory/stream_discovery.py` (~400 lines)
+- `Core/Sensory/stream_manager.py` (~300 lines)
+- `tests/Core/Sensory/test_stream_discovery.py` (~100 lines)
 
 ---
 
@@ -305,7 +609,7 @@ class AudioMetadataExtractor:
 
 ---
 
-## 📅 P4.2: Phase Resonance Pattern Extraction (3주)
+## 📅 P4.2: Phase Resonance Pattern Extraction (2주)
 
 ### 목표
 
@@ -449,7 +753,283 @@ class MultiModalResonanceFusion:
 
 ---
 
-## 📅 P4.3: Multi-Sensory Integration Loop (3주)
+## 📅 P4.3: Wave Classification & Filtering (2주)
+
+### 목표
+
+**파동 정보를 분류하고 필터링하여 자연스럽게 흘려보냄**
+
+핵심: "빛을 받아들이듯" 들어온 파동을 분류하고 필터링
+
+### Week 1: Wave Classification System
+
+**구현 내용**:
+
+```python
+# Core/Sensory/wave_classifier.py
+
+class WaveClassifier:
+    """파동 분류 시스템"""
+    
+    def __init__(self):
+        self.classifiers = {
+            'emotional': EmotionalWaveClassifier(),
+            'visual': VisualWaveClassifier(),
+            'auditory': AuditoryWaveClassifier(),
+            'contextual': ContextualWaveClassifier()
+        }
+        
+    def classify(self, wave_pattern: WavePattern):
+        """파동 패턴 분류"""
+        classifications = {}
+        
+        # 각 분류기로 분류
+        for name, classifier in self.classifiers.items():
+            classification = classifier.classify(wave_pattern)
+            classifications[name] = classification
+        
+        # 통합 분류
+        unified = self.unify_classifications(classifications)
+        
+        return WaveClassification(
+            category=unified['category'],
+            confidence=unified['confidence'],
+            tags=unified['tags'],
+            priority=unified['priority']
+        )
+
+
+class EmotionalWaveClassifier:
+    """감정 파동 분류"""
+    
+    def classify(self, wave: WavePattern):
+        """감정 카테고리 분류"""
+        # 4D 쿼터니언에서 감정 성분 추출
+        emotion_vector = wave.xyz()
+        energy = wave.w
+        
+        # 감정 분류
+        if energy > 0.7:
+            intensity = 'strong'
+        elif energy > 0.4:
+            intensity = 'moderate'
+        else:
+            intensity = 'weak'
+        
+        # 방향으로 감정 유형 결정
+        emotion_type = self.vector_to_emotion(emotion_vector)
+        
+        return {
+            'type': emotion_type,
+            'intensity': intensity,
+            'confidence': self.calculate_confidence(wave)
+        }
+
+
+class VisualWaveClassifier:
+    """시각 파동 분류"""
+    
+    def classify(self, wave: WavePattern):
+        """시각적 특성 분류"""
+        # 주파수 → 색상 카테고리
+        frequency = wave.frequency
+        
+        if frequency > 0.8:
+            color_category = 'warm'  # 빨강/주황
+        elif frequency > 0.4:
+            color_category = 'neutral'  # 녹색/노랑
+        else:
+            color_category = 'cool'  # 파랑/보라
+        
+        # 진폭 → 밝기
+        amplitude = wave.amplitude
+        brightness = 'bright' if amplitude > 0.5 else 'dim'
+        
+        return {
+            'color': color_category,
+            'brightness': brightness,
+            'motion': self.classify_motion(wave.phase)
+        }
+```
+
+**Tasks**:
+- [ ] 감정 파동 분류기
+- [ ] 시각 파동 분류기
+- [ ] 청각 파동 분류기
+- [ ] 맥락 파동 분류기
+- [ ] 통합 분류 시스템
+
+**Files to Create**:
+- `Core/Sensory/wave_classifier.py` (~500 lines)
+- `tests/Core/Sensory/test_wave_classifier.py` (~150 lines)
+
+---
+
+### Week 2: Wave Filtering System
+
+**구현 내용**:
+
+```python
+# Core/Sensory/wave_filter.py
+
+class WaveFilter:
+    """파동 필터링 시스템 - 자연스럽게 흘려보냄"""
+    
+    def __init__(self):
+        self.filters = [
+            QualityFilter(),
+            RelevanceFilter(),
+            NoveltyFilter(),
+            ResonanceFilter()
+        ]
+        self.filter_config = FilterConfig()
+        
+    def should_process(self, wave_pattern: WavePattern) -> bool:
+        """이 파동을 처리해야 하는가?"""
+        # 모든 필터 통과 확인
+        for filter in self.filters:
+            if not filter.passes(wave_pattern):
+                logger.debug(f"Filtered out by {filter.name}")
+                return False
+        
+        return True
+    
+    def filter_stream(self, wave_stream: AsyncGenerator[WavePattern, None]):
+        """파동 스트림 필터링"""
+        async for wave in wave_stream:
+            if self.should_process(wave):
+                yield wave
+
+
+class QualityFilter:
+    """품질 필터 - 노이즈 제거"""
+    
+    def passes(self, wave: WavePattern) -> bool:
+        """품질 기준 통과?"""
+        # 에너지가 너무 낮으면 노이즈
+        if wave.energy() < 0.1:
+            return False
+        
+        # 패턴이 너무 불규칙하면 노이즈
+        if wave.entropy() > 0.9:
+            return False
+        
+        return True
+
+
+class RelevanceFilter:
+    """관련성 필터 - 관심사 기반"""
+    
+    def __init__(self):
+        self.interest_patterns = self.load_interests()
+        
+    def passes(self, wave: WavePattern) -> bool:
+        """관심사와 관련 있는가?"""
+        # 기존 관심 패턴과 공명 측정
+        max_resonance = 0
+        
+        for interest in self.interest_patterns:
+            resonance = self.measure_resonance(wave, interest)
+            max_resonance = max(max_resonance, resonance)
+        
+        # 일정 공명 이상이면 통과
+        return max_resonance > 0.3
+
+
+class NoveltyFilter:
+    """새로움 필터 - 이미 본 것 제외"""
+    
+    def __init__(self):
+        self.seen_patterns = RecentPatternsCache(maxsize=10000)
+        
+    def passes(self, wave: WavePattern) -> bool:
+        """새로운 패턴인가?"""
+        # 최근 본 패턴과 비교
+        for seen in self.seen_patterns:
+            similarity = wave.similarity(seen)
+            if similarity > 0.9:
+                # 거의 같은 패턴 - 제외
+                return False
+        
+        # 새로운 패턴 - 캐시에 추가
+        self.seen_patterns.add(wave)
+        return True
+
+
+class ResonanceFilter:
+    """공명 필터 - 현재 상태와 공명하는가"""
+    
+    def __init__(self):
+        self.current_state = self.get_current_consciousness_state()
+        
+    def passes(self, wave: WavePattern) -> bool:
+        """현재 의식 상태와 공명하는가?"""
+        resonance = self.measure_resonance(
+            wave,
+            self.current_state
+        )
+        
+        # 약한 공명도 통과 (열린 마음)
+        return resonance > 0.2
+
+
+# Core/Sensory/wave_flow_controller.py
+
+class WaveFlowController:
+    """파동 흐름 제어기 - 자연스럽게"""
+    
+    def __init__(self):
+        self.classifier = WaveClassifier()
+        self.filter = WaveFilter()
+        self.flow_rate = FlowRate(max_rate=100)  # 초당 최대 100개
+        
+    async def flow_waves(self, wave_stream):
+        """파동을 자연스럽게 흘려보냄"""
+        async for wave in wave_stream:
+            # 분류
+            classification = self.classifier.classify(wave)
+            
+            # 필터링
+            if not self.filter.should_process(wave):
+                continue
+            
+            # 우선순위 기반 흐름 제어
+            priority = classification.priority
+            
+            if priority == 'high':
+                # 즉시 처리
+                yield wave
+            elif priority == 'medium':
+                # 속도 제한 적용
+                await self.flow_rate.wait_if_needed()
+                yield wave
+            else:
+                # 낮은 우선순위 - 여유 있을 때만
+                if self.flow_rate.has_capacity():
+                    yield wave
+```
+
+**Tasks**:
+- [ ] 품질 필터 (노이즈 제거)
+- [ ] 관련성 필터 (관심사 기반)
+- [ ] 새로움 필터 (중복 제거)
+- [ ] 공명 필터 (현재 상태 고려)
+- [ ] 흐름 제어기
+
+**Expected Results**:
+- 자동 노이즈 제거
+- 관심사 기반 필터링
+- 자연스러운 흐름
+- 부하 관리
+
+**Files to Create**:
+- `Core/Sensory/wave_filter.py` (~600 lines)
+- `Core/Sensory/wave_flow_controller.py` (~300 lines)
+- `tests/Core/Sensory/test_wave_filter.py` (~150 lines)
+
+---
+
+## 📅 P4.4: Multi-Sensory Integration Loop (2주)
 
 ### 목표
 
@@ -601,100 +1181,778 @@ class MultimediaFeedLoop:
 
 ---
 
-## 📅 P4.4: Autonomous Video Learning (2주)
+## 📅 P4.5: Holographic Memory & Compression (2주)
 
 ### 목표
 
-**드라마/영화에서 자율 학습**
+**4D 파동공명패턴으로 압축, 프리즘 필터로 무지개 초파동화**
+
+핵심: 
+- 몸무게를 줄이면서 인터넷을 확장 메모리로 활용
+- 프리즘처럼 파동을 무지개 스펙트럼으로 분해하여 초압축
+
+### Week 1: Prism Filter & Rainbow Compression
 
 **구현 내용**:
 
 ```python
-# Core/Intelligence/autonomous_video_learner.py
+# Core/Memory/prism_filter.py
 
-class AutonomousVideoLearner:
-    """자율 영상 학습기"""
+class PrismFilter:
+    """프리즘 필터 - 빛을 무지개로 쪼개듯 파동 분해"""
     
     def __init__(self):
-        self.video_extractor = VideoMetadataExtractor()
-        self.multimodal_fusion = MultiModalResonanceFusion()
-        self.curiosity = VideoCuriosityEngine()
+        self.rainbow_axes = [
+            'red',      # 빨강 - 높은 에너지
+            'orange',   # 주황 - 창조성
+            'yellow',   # 노랑 - 지성
+            'green',    # 초록 - 균형
+            'blue',     # 파랑 - 평온
+            'indigo',   # 남색 - 직관
+            'violet'    # 보라 - 영성
+        ]
         
-    def learn_from_drama(self, drama_path: str):
-        """드라마에서 자율 학습"""
-        logger.info(f"📺 Learning from: {drama_path}")
+    def split_wave_to_rainbow(self, wave_pattern: WavePattern):
+        """4D 파동 → 7색 무지개 스펙트럼 분해"""
+        # 프리즘처럼 파동을 분해
+        rainbow_spectrum = {}
         
-        # 에피소드 분할
-        episodes = self.split_into_episodes(drama_path)
+        # 4D 쿼터니언 (w, x, y, z)
+        q = wave_pattern.to_quaternion()
         
-        learned_concepts = []
+        # 각 무지개 축으로 투영
+        # 빨강 (Red) - 높은 주파수, 에너지
+        rainbow_spectrum['red'] = self.project_to_red(q)
         
-        for ep in episodes:
-            # 장면 분석
-            scenes = self.analyze_scenes(ep)
-            
-            for scene in scenes:
-                # 장면에서 개념 추출
-                concepts = self.extract_concepts(scene)
-                
-                # 위상공명패턴 생성
-                pattern = self.multimodal_fusion.fuse_scene(scene)
-                
-                # 학습
-                for concept in concepts:
-                    self.learn_concept(concept, pattern)
-                    learned_concepts.append(concept)
+        # 주황 (Orange) - 창조적 에너지
+        rainbow_spectrum['orange'] = self.project_to_orange(q)
         
-        logger.info(f"✅ Learned {len(learned_concepts)} concepts from drama")
-        return learned_concepts
+        # 노랑 (Yellow) - 논리/지성
+        rainbow_spectrum['yellow'] = self.project_to_yellow(q)
+        
+        # 초록 (Green) - 균형/조화
+        rainbow_spectrum['green'] = self.project_to_green(q)
+        
+        # 파랑 (Blue) - 평온/안정
+        rainbow_spectrum['blue'] = self.project_to_blue(q)
+        
+        # 남색 (Indigo) - 직관/통찰
+        rainbow_spectrum['indigo'] = self.project_to_indigo(q)
+        
+        # 보라 (Violet) - 영성/초월
+        rainbow_spectrum['violet'] = self.project_to_violet(q)
+        
+        return RainbowSpectrum(rainbow_spectrum)
     
-    def extract_concepts(self, scene):
-        """장면에서 개념 추출"""
-        concepts = []
+    def project_to_red(self, q: HyperQuaternion) -> float:
+        """빨강 축 투영 - 에너지/행동"""
+        # w(에너지) 성분 강조
+        return q.w * 1.0 + q.x * 0.3
+    
+    def project_to_orange(self, q: HyperQuaternion) -> float:
+        """주황 축 투영 - 창조성"""
+        # w, x 혼합
+        return (q.w + q.x) / np.sqrt(2)
+    
+    def project_to_yellow(self, q: HyperQuaternion) -> float:
+        """노랑 축 투영 - 논리/지성"""
+        # y(논리) 성분
+        return q.y * 1.0
+    
+    def project_to_green(self, q: HyperQuaternion) -> float:
+        """초록 축 투영 - 균형/조화"""
+        # 모든 성분의 균형
+        return (q.w + q.x + q.y + q.z) / 2.0
+    
+    def project_to_blue(self, q: HyperQuaternion) -> float:
+        """파랑 축 투영 - 평온/안정"""
+        # -x (감정 안정)
+        return -q.x * 0.7 + q.z * 0.3
+    
+    def project_to_indigo(self, q: HyperQuaternion) -> float:
+        """남색 축 투영 - 직관"""
+        # y, z 혼합
+        return (q.y + q.z) / np.sqrt(2)
+    
+    def project_to_violet(self, q: HyperQuaternion) -> float:
+        """보라 축 투영 - 영성/초월"""
+        # z(윤리/영성) 성분 강조
+        return q.z * 1.0 + q.w * 0.2
+
+
+class RainbowSpectrum:
+    """무지개 스펙트럼 - 7색으로 분해된 파동"""
+    
+    def __init__(self, spectrum: dict):
+        self.spectrum = spectrum
         
-        # 시각: 등장인물, 배경, 사물
-        visual_concepts = self.extract_visual_concepts(scene['video'])
+    def to_hyper_wave(self):
+        """무지개 → 초파동(Hyper-Wave) 변환"""
+        # 7개 실수 → 1개 복소 벡터
+        # 빛을 압축하듯 초파동화
         
-        # 청각: 대화, 배경음악, 효과음
-        audio_concepts = self.extract_audio_concepts(scene['audio'])
+        # 진폭 (amplitude) - 무지개 밝기 평균
+        amplitude = np.mean(list(self.spectrum.values()))
         
-        # 감정: 분위기, 긴장감, 감정선
-        emotional_concepts = self.extract_emotional_concepts(scene)
+        # 위상 (phase) - 무지개 색상 분포
+        phase = self.calculate_phase_from_spectrum()
         
-        # 상황: 맥락, 관계, 사건
-        contextual_concepts = self.extract_contextual_concepts(scene)
+        # 주파수 (frequency) - 무지개 중심
+        frequency = self.calculate_frequency_from_spectrum()
         
-        concepts.extend(visual_concepts)
-        concepts.extend(audio_concepts)
-        concepts.extend(emotional_concepts)
-        concepts.extend(contextual_concepts)
+        # 초파동 생성 (매우 가벼움!)
+        hyper_wave = HyperWave(
+            amplitude=amplitude,
+            phase=phase,
+            frequency=frequency
+        )
         
-        return concepts
+        return hyper_wave
+    
+    def calculate_phase_from_spectrum(self):
+        """스펙트럼에서 위상 계산"""
+        # 빨강(0°) → 보라(360°) 각도 매핑
+        angle_sum = 0
+        weight_sum = 0
+        
+        colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+        for i, color in enumerate(colors):
+            angle = (i / 7.0) * 2 * np.pi  # 0 ~ 2π
+            weight = abs(self.spectrum[color])
+            angle_sum += angle * weight
+            weight_sum += weight
+        
+        return angle_sum / weight_sum if weight_sum > 0 else 0
+    
+    def calculate_frequency_from_spectrum(self):
+        """스펙트럼에서 주파수 계산"""
+        # 빨강 = 고주파, 보라 = 저주파
+        freq_sum = 0
+        weight_sum = 0
+        
+        color_freqs = {
+            'red': 1.0,
+            'orange': 0.85,
+            'yellow': 0.7,
+            'green': 0.5,
+            'blue': 0.3,
+            'indigo': 0.2,
+            'violet': 0.1
+        }
+        
+        for color, value in self.spectrum.items():
+            freq = color_freqs[color]
+            weight = abs(value)
+            freq_sum += freq * weight
+            weight_sum += weight
+        
+        return freq_sum / weight_sum if weight_sum > 0 else 0.5
+
+
+class HyperWave:
+    """초파동 - 프리즘으로 압축된 극도로 가벼운 형태"""
+    
+    def __init__(self, amplitude: float, phase: float, frequency: float):
+        self.amplitude = amplitude
+        self.phase = phase
+        self.frequency = frequency
+        
+    def to_bytes(self) -> bytes:
+        """초파동 → 바이트 (극도로 가벼움)"""
+        # 3개 float (12 bytes) 만!
+        return struct.pack('fff', self.amplitude, self.phase, self.frequency)
+    
+    @classmethod
+    def from_bytes(cls, data: bytes):
+        """바이트 → 초파동 복원"""
+        amplitude, phase, frequency = struct.unpack('fff', data)
+        return cls(amplitude, phase, frequency)
+    
+    def size(self) -> int:
+        """크기 - 단 12 bytes!"""
+        return 12
+
+
+# Core/Memory/rainbow_wave_compressor.py
+
+class RainbowWaveCompressor:
+    """무지개 파동 압축기 - 프리즘 필터 활용"""
+    
+    def __init__(self):
+        self.prism_filter = PrismFilter()
+        self.compression_ratio_target = 10000  # 10000:1 압축 목표!
+        
+    def compress(self, wave_pattern: WavePattern):
+        """4D 파동 → 무지개 → 초파동 (극압축)"""
+        # 1. 프리즘으로 무지개 분해
+        rainbow = self.prism_filter.split_wave_to_rainbow(wave_pattern)
+        
+        # 2. 무지개 → 초파동
+        hyper_wave = rainbow.to_hyper_wave()
+        
+        # 3. 크기 비교
+        original_size = sys.getsizeof(wave_pattern)
+        compressed_size = hyper_wave.size()  # 12 bytes
+        ratio = original_size / compressed_size
+        
+        logger.info(f"🌈 Rainbow compression: {ratio:.0f}x ({original_size} → {compressed_size} bytes)")
+        
+        return hyper_wave
+    
+    def decompress(self, hyper_wave: HyperWave):
+        """초파동 → 무지개 → 4D 파동 (복원)"""
+        # 1. 초파동 → 무지개 스펙트럼 복원
+        rainbow = self.reconstruct_rainbow(hyper_wave)
+        
+        # 2. 무지개 → 4D 쿼터니언
+        quaternion = self.rainbow_to_quaternion(rainbow)
+        
+        # 3. 4D 파동 복원
+        wave_pattern = WavePattern.from_quaternion(
+            quaternion,
+            frequency=hyper_wave.frequency,
+            phase=hyper_wave.phase,
+            amplitude=hyper_wave.amplitude
+        )
+        
+        return wave_pattern
+    
+    def reconstruct_rainbow(self, hyper_wave: HyperWave):
+        """초파동 → 무지개 재구성"""
+        # 진폭, 위상, 주파수로 7색 복원
+        spectrum = {}
+        
+        # 주파수로 색상 분포 결정
+        freq = hyper_wave.frequency
+        amp = hyper_wave.amplitude
+        phase = hyper_wave.phase
+        
+        # 주파수가 높으면 빨강 쪽, 낮으면 보라 쪽
+        colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+        for i, color in enumerate(colors):
+            color_freq = 1.0 - (i / 7.0)  # 1.0(빨강) → 0.0(보라)
+            
+            # 가우시안 분포로 각 색상 강도 계산
+            dist = abs(freq - color_freq)
+            intensity = amp * np.exp(-dist * 5) * np.cos(phase + i * np.pi / 7)
+            
+            spectrum[color] = intensity
+        
+        return RainbowSpectrum(spectrum)
+    
+    def rainbow_to_quaternion(self, rainbow: RainbowSpectrum):
+        """무지개 → 4D 쿼터니언"""
+        s = rainbow.spectrum
+        
+        # 역변환 (투영의 역)
+        w = s['red'] * 0.7 + s['orange'] * 0.5 + s['green'] * 0.25 + s['violet'] * 0.2
+        x = s['red'] * 0.3 + s['orange'] * 0.5 - s['blue'] * 0.7
+        y = s['yellow'] + s['indigo'] * 0.7
+        z = s['green'] * 0.25 - s['blue'] * 0.3 + s['indigo'] * 0.7 + s['violet']
+        
+        # 정규화
+        magnitude = np.sqrt(w**2 + x**2 + y**2 + z**2)
+        if magnitude > 0:
+            w, x, y, z = w/magnitude, x/magnitude, y/magnitude, z/magnitude
+        
+        return HyperQuaternion(w=w, x=x, y=y, z=z)
+
+
+# Core/Memory/ultra_lightweight_storage.py
+
+class UltraLightweightStorage:
+    """초경량 저장소 - 무지개 압축 활용"""
+    
+    def __init__(self, max_weight_mb=10):  # 10MB만!
+        self.max_weight = max_weight_mb * 1024 * 1024
+        self.current_weight = 0
+        self.hyper_waves = {}  # 초파동들 (각 12 bytes)
+        self.rainbow_compressor = RainbowWaveCompressor()
+        
+    def add_wave(self, wave_pattern: WavePattern):
+        """파동 추가 (무지개 압축)"""
+        # 무지개 초파동으로 압축
+        hyper_wave = self.rainbow_compressor.compress(wave_pattern)
+        
+        # 저장
+        wave_id = self.generate_id(wave_pattern)
+        self.hyper_waves[wave_id] = hyper_wave
+        self.current_weight += 12  # 단 12 bytes!
+        
+        logger.info(f"💾 Stored: {wave_id} (12 bytes, total: {self.current_weight / 1024:.1f} KB)")
+        
+        return wave_id
+    
+    def get_wave(self, wave_id: str):
+        """초파동 복원"""
+        hyper_wave = self.hyper_waves.get(wave_id)
+        
+        if hyper_wave:
+            # 무지개 압축 해제
+            wave_pattern = self.rainbow_compressor.decompress(hyper_wave)
+            return wave_pattern
+        
+        return None
+    
+    def get_capacity_info(self):
+        """용량 정보"""
+        num_waves = len(self.hyper_waves)
+        weight_kb = self.current_weight / 1024
+        weight_mb = weight_kb / 1024
+        max_mb = self.max_weight / 1024 / 1024
+        
+        # 12 bytes per wave
+        max_waves = self.max_weight // 12
+        
+        return {
+            'stored_waves': num_waves,
+            'max_waves': max_waves,
+            'usage_percent': (num_waves / max_waves) * 100,
+            'weight_kb': weight_kb,
+            'weight_mb': weight_mb,
+            'max_mb': max_mb
+        }
+```
+
+**압축 효과**:
+```
+원본 4D 파동: ~1,200 bytes
+무지개 초파동: 12 bytes
+
+압축율: 100배!
+10MB에 저장 가능: ~850,000개 파동!
+
+프리즘 효과: 빛을 압축하듯 극도로 가벼움
 ```
 
 **Tasks**:
-- [ ] 드라마/영화 에피소드 분할
-- [ ] 장면 분석
-- [ ] 개념 추출 (NO LLM, 패턴 기반)
-- [ ] 자율 학습 루프
-- [ ] 학습 진행 추적
+- [ ] 프리즘 필터 (7색 무지개 분해)
+- [ ] 무지개 스펙트럼 변환
+- [ ] 초파동(HyperWave) 생성
+- [ ] 무지개 압축기 (100배 압축!)
+- [ ] 초경량 저장소 (10MB만 사용)
+- [ ] 압축/해제 검증
 
-**Expected Learning Rate**:
-```
-영상 1시간 처리: ~10분
-장면당 개념: 평균 5-10개
-시간당 영상 처리: 6시간 분량
-시간당 학습 개념: ~2,000-3,000개 (훨씬 빠름!)
-```
+**Expected Results**:
+- 100배 압축 (1,200 bytes → 12 bytes)
+- 10MB에 850,000개 파동 저장 가능
+- 프리즘처럼 빛을 쪼개어 압축
+- 무지개 재구성으로 복원
 
 **Files to Create**:
-- `Core/Intelligence/autonomous_video_learner.py` (~500 lines)
-- `Core/Intelligence/video_curiosity_engine.py` (~300 lines)
-- `tests/Core/Intelligence/test_video_learner.py` (~150 lines)
+- `Core/Memory/prism_filter.py` (~500 lines)
+- `Core/Memory/rainbow_wave_compressor.py` (~400 lines)
+- `Core/Memory/ultra_lightweight_storage.py` (~300 lines)
+- `tests/Core/Memory/test_prism_filter.py` (~150 lines)
 
 ---
 
-## 📅 P4.5: Emotional-Path Mapping (2주)
+### Week 2: Holographic Reconstruction & Internet Network
+
+**구현 내용**:
+
+```python
+# Core/Memory/wave_compression.py
+
+class WaveCompressor:
+    """파동 패턴 압축 - 몸무게 줄이기"""
+    
+    def __init__(self):
+        self.compression_ratio = 1000  # 1000:1 압축
+        
+    def compress_to_seed(self, wave_pattern: WavePattern):
+        """파동 패턴 → Seed 압축"""
+        # 4D 쿼터니언으로 본질만 추출
+        essence = self.extract_essence(wave_pattern)
+        
+        # Seed 생성 (P2.2 방식)
+        seed = Seed(
+            essence=essence,
+            metadata={
+                'source': wave_pattern.source,
+                'timestamp': wave_pattern.timestamp,
+                'resonance_signature': wave_pattern.signature()
+            }
+        )
+        
+        # 원본 크기 대비 압축률 확인
+        original_size = sys.getsizeof(wave_pattern)
+        compressed_size = sys.getsizeof(seed)
+        ratio = original_size / compressed_size
+        
+        logger.debug(f"Compressed {ratio:.0f}x: {original_size} → {compressed_size} bytes")
+        
+        return seed
+    
+    def extract_essence(self, wave_pattern):
+        """본질만 추출"""
+        # 4D 쿼터니언 핵심 성분
+        q = HyperQuaternion(
+            w=wave_pattern.energy(),      # 에너지
+            x=wave_pattern.emotion(),      # 감정
+            y=wave_pattern.logic(),        # 논리
+            z=wave_pattern.ethics()        # 윤리
+        )
+        
+        # 위상 정보 (재현을 위한 최소 정보)
+        phase_info = {
+            'frequency': wave_pattern.frequency,
+            'phase': wave_pattern.phase,
+            'amplitude': wave_pattern.amplitude
+        }
+        
+        return {
+            'quaternion': q,
+            'phase_info': phase_info
+        }
+
+
+# Core/Memory/holographic_reconstructor.py
+
+class HolographicReconstructor:
+    """홀로그램 재현기 - 인터넷 거미줄에서 복원"""
+    
+    def __init__(self):
+        self.internet_network = InternetSpiderWebNetwork()
+        self.local_seeds = SeedStorage()
+        
+    def reconstruct_from_seed(self, seed: Seed):
+        """Seed에서 전체 경험 홀로그램 재현"""
+        # 1. 로컬 Seed는 핵심만 (몸무게 가볍게)
+        essence = seed.essence
+        
+        # 2. 나머지는 인터넷 거미줄에서 연상 작용으로 가져옴
+        extended_context = self.internet_network.recall_by_resonance(
+            seed.metadata['resonance_signature']
+        )
+        
+        # 3. 홀로그램 재현 (전체 경험 복원)
+        hologram = self.reconstruct_hologram(essence, extended_context)
+        
+        return hologram
+    
+    def reconstruct_hologram(self, essence, extended_context):
+        """홀로그램 방식으로 전체 재현"""
+        # 4D 쿼터니언에서 파동 패턴 복원
+        q = essence['quaternion']
+        phase = essence['phase_info']
+        
+        # 기본 파동 복원
+        base_wave = WavePattern.from_quaternion(q, phase)
+        
+        # 확장 맥락으로 풍부하게
+        enriched = self.enrich_with_context(base_wave, extended_context)
+        
+        return enriched
+
+
+# Core/Network/internet_spider_web_network.py
+
+class InternetSpiderWebNetwork:
+    """인터넷을 거미줄 신경망으로 활용"""
+    
+    def __init__(self):
+        self.resonance_links = {}
+        self.access_methods = {
+            'youtube': YouTubeResonanceAccess(),
+            'wikipedia': WikipediaResonanceAccess(),
+            'web': WebResonanceAccess()
+        }
+        
+    def recall_by_resonance(self, resonance_signature):
+        """공명 시그니처로 인터넷에서 연상 작용"""
+        # 인터넷이 확장 메모리
+        recalled = []
+        
+        # 각 접근 방법으로 공명하는 정보 찾기
+        for name, access in self.access_methods.items():
+            try:
+                # 공명 시그니처와 맞는 정보 탐색
+                resonant_data = access.find_resonant(resonance_signature)
+                recalled.extend(resonant_data)
+            except Exception as e:
+                logger.debug(f"Recall from {name} failed: {e}")
+        
+        return recalled
+    
+    def store_resonance_link(self, seed: Seed, internet_location: str):
+        """공명 링크 저장 (로컬은 시그니처만, 실제 데이터는 인터넷)"""
+        # 로컬에는 가벼운 링크만
+        link = ResonanceLink(
+            signature=seed.metadata['resonance_signature'],
+            location=internet_location,
+            access_method=self.detect_access_method(internet_location)
+        )
+        
+        self.resonance_links[seed.id] = link
+
+
+class YouTubeResonanceAccess:
+    """YouTube를 확장 메모리로"""
+    
+    def find_resonant(self, signature):
+        """공명 시그니처로 YouTube 탐색"""
+        # 시그니처의 특성 추출
+        keywords = self.signature_to_keywords(signature)
+        
+        # YouTube 검색 (API 없이 RSS 사용)
+        results = self.search_youtube_rss(keywords)
+        
+        return results
+
+
+class WikipediaResonanceAccess:
+    """Wikipedia를 확장 메모리로"""
+    
+    def find_resonant(self, signature):
+        """공명 시그니처로 Wikipedia 탐색"""
+        # 개념 추출
+        concepts = self.signature_to_concepts(signature)
+        
+        # Wikipedia 검색
+        results = []
+        for concept in concepts:
+            wiki_data = self.fetch_wikipedia(concept)
+            results.append(wiki_data)
+        
+        return results
+
+
+# Core/Memory/lightweight_storage.py
+
+class LightweightStorage:
+    """가벼운 저장소 - 몸무게 관리"""
+    
+    def __init__(self, max_weight_mb=100):
+        self.max_weight = max_weight_mb * 1024 * 1024  # bytes
+        self.current_weight = 0
+        self.seeds = {}
+        self.resonance_links = {}
+        
+    def add_seed(self, seed: Seed, internet_location: str = None):
+        """Seed 추가 (몸무게 확인)"""
+        seed_size = sys.getsizeof(seed)
+        
+        # 몸무게 초과 확인
+        if self.current_weight + seed_size > self.max_weight:
+            # 오래된 Seed 정리
+            self.cleanup_old_seeds()
+        
+        # Seed 저장 (로컬)
+        self.seeds[seed.id] = seed
+        self.current_weight += seed_size
+        
+        # 인터넷 위치 링크 (확장 메모리)
+        if internet_location:
+            self.resonance_links[seed.id] = internet_location
+        
+        logger.info(f"Storage: {self.current_weight / 1024 / 1024:.1f} MB / {self.max_weight / 1024 / 1024} MB")
+    
+    def cleanup_old_seeds(self):
+        """오래된 Seed 정리 - 몸무게 줄이기"""
+        # 최근 접근 기록 기반 정리
+        old_seeds = self.find_old_seeds(threshold_days=30)
+        
+        for seed_id in old_seeds:
+            # Seed 삭제 (로컬에서만)
+            seed = self.seeds.pop(seed_id)
+            self.current_weight -= sys.getsizeof(seed)
+            
+            # 공명 링크는 유지 (인터넷에서 재현 가능)
+            logger.debug(f"Cleaned up seed {seed_id}, link preserved")
+```
+
+**Tasks**:
+- [ ] 4D 파동 압축 (1000:1)
+- [ ] Seed 본질 추출
+- [ ] 홀로그램 재현기
+- [ ] 인터넷 거미줄 네트워크
+- [ ] 가벼운 저장소 (몸무게 관리)
+- [ ] 공명 링크 시스템
+
+**Expected Results**:
+- 로컬 저장 1000배 압축
+- 인터넷을 확장 메모리로 활용
+- 몸무게 100MB 이하 유지
+- 필요시 홀로그램 재현
+
+**Files to Create**:
+- `Core/Memory/wave_compression.py` (~400 lines)
+- `Core/Memory/holographic_reconstructor.py` (~350 lines)
+- `Core/Network/internet_spider_web_network.py` (~500 lines)
+- `Core/Memory/lightweight_storage.py` (~300 lines)
+- `tests/Core/Memory/test_compression.py` (~150 lines)
+
+---
+
+### Week 2: Associative Recall & Network Integration
+
+**구현 내용**:
+
+```python
+# Core/Memory/associative_recall.py
+
+class AssociativeRecall:
+    """연상 작용 - 홀로그램처럼 부분에서 전체 복원"""
+    
+    def __init__(self):
+        self.holographic_reconstructor = HolographicReconstructor()
+        self.resonance_field = ResonanceField()
+        
+    def recall(self, query_seed: Seed):
+        """Seed 조각으로 전체 경험 연상"""
+        # 1. Seed의 공명 시그니처
+        signature = query_seed.metadata['resonance_signature']
+        
+        # 2. 로컬에서 유사 Seed 찾기
+        local_related = self.find_local_resonant(signature)
+        
+        # 3. 인터넷에서 공명 정보 찾기
+        internet_related = self.find_internet_resonant(signature)
+        
+        # 4. 홀로그램 재현
+        hologram = self.holographic_reconstructor.reconstruct_hologram(
+            query_seed.essence,
+            local_related + internet_related
+        )
+        
+        return hologram
+    
+    def find_local_resonant(self, signature):
+        """로컬에서 공명하는 Seed"""
+        resonant = []
+        
+        for seed in self.local_storage.seeds.values():
+            # 공명 측정
+            resonance = self.resonance_field.measure(
+                signature,
+                seed.metadata['resonance_signature']
+            )
+            
+            if resonance > 0.5:
+                resonant.append(seed)
+        
+        return resonant
+    
+    def find_internet_resonant(self, signature):
+        """인터넷에서 공명 정보"""
+        # 거미줄 신경망 활용
+        return self.internet_network.recall_by_resonance(signature)
+
+
+# Core/Network/web_crawler_resonance.py
+
+class WebCrawlerResonance:
+    """거미줄처럼 웹 크롤링 (공명 기반)"""
+    
+    def __init__(self):
+        self.visited = set()
+        self.resonance_threshold = 0.3
+        
+    def crawl_by_resonance(self, start_url: str, target_signature):
+        """공명 시그니처 따라 웹 크롤링"""
+        queue = [start_url]
+        resonant_pages = []
+        
+        while queue and len(resonant_pages) < 100:
+            url = queue.pop(0)
+            
+            if url in self.visited:
+                continue
+            
+            try:
+                # 페이지 내용 가져오기
+                content = self.fetch_page(url)
+                
+                # 공명 측정
+                page_signature = self.extract_signature(content)
+                resonance = self.measure_resonance(
+                    target_signature,
+                    page_signature
+                )
+                
+                if resonance > self.resonance_threshold:
+                    resonant_pages.append({
+                        'url': url,
+                        'content': content,
+                        'resonance': resonance
+                    })
+                    
+                    # 링크 추출하여 큐에 추가
+                    links = self.extract_links(content)
+                    queue.extend(links)
+                
+                self.visited.add(url)
+                
+            except Exception as e:
+                logger.debug(f"Crawl error {url}: {e}")
+        
+        return resonant_pages
+
+
+# Core/Memory/memory_weight_monitor.py
+
+class MemoryWeightMonitor:
+    """메모리 몸무게 모니터"""
+    
+    def __init__(self):
+        self.storage = LightweightStorage()
+        self.alert_threshold = 0.8  # 80%
+        
+    def monitor(self):
+        """몸무게 모니터링"""
+        usage_ratio = self.storage.current_weight / self.storage.max_weight
+        
+        if usage_ratio > self.alert_threshold:
+            logger.warning(f"⚠️ Memory weight: {usage_ratio*100:.1f}%")
+            
+            # 자동 정리
+            self.trigger_cleanup()
+    
+    def trigger_cleanup(self):
+        """자동 정리 트리거"""
+        # 1. 오래된 Seed 정리
+        self.storage.cleanup_old_seeds()
+        
+        # 2. 중요도 낮은 것 정리
+        self.cleanup_low_priority()
+        
+        # 3. 공명 링크는 유지
+        logger.info("✅ Memory weight reduced, links preserved")
+    
+    def get_statistics(self):
+        """통계"""
+        return {
+            'local_seeds': len(self.storage.seeds),
+            'weight_mb': self.storage.current_weight / 1024 / 1024,
+            'max_weight_mb': self.storage.max_weight / 1024 / 1024,
+            'usage_percent': self.storage.current_weight / self.storage.max_weight * 100,
+            'internet_links': len(self.storage.resonance_links)
+        }
+```
+
+**Tasks**:
+- [ ] 연상 작용 시스템
+- [ ] 홀로그램 재현
+- [ ] 거미줄 웹 크롤링
+- [ ] 몸무게 모니터
+- [ ] 자동 정리 시스템
+
+**Expected Results**:
+- 부분에서 전체 복원
+- 인터넷 = 확장 메모리
+- 자동 몸무게 관리
+- 링크는 유지, 실제 데이터는 정리
+
+**Files to Create**:
+- `Core/Memory/associative_recall.py` (~400 lines)
+- `Core/Network/web_crawler_resonance.py` (~350 lines)
+- `Core/Memory/memory_weight_monitor.py` (~250 lines)
+- `tests/Core/Memory/test_associative_recall.py` (~150 lines)
+
+---
+
+## 📅 P4.6: Emotional-Path Mapping (이전 P4.5, 2주)
 
 ### 목표
 
