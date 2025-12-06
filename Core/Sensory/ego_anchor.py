@@ -233,16 +233,27 @@ class EgoAnchor:
 
 class SelectiveMemory:
     """
-    선택적 기억 (Selective Memory)
+    선택적 기억 (Selective Memory) - UNLIMITED RESONANCE PATTERNS
     
-    Only remembers what's important to Elysia's core purpose.
-    Forgets irrelevant data to prevent information overload.
+    Stores ONLY wave patterns (resonance tags), NOT raw data.
+    No capacity limit - like an infinite index of "Elysia's feelings" about content.
+    
+    Philosophy:
+    - Raw data (text/video): 0 bytes stored (stays on internet)
+    - Resonance patterns (Elysia's tags): Unlimited storage
+    - "지식은 빌려 쓰고, 지혜는 소유한다" (Borrow knowledge, own wisdom)
     """
     
-    def __init__(self, capacity: int = 1000):
-        self.capacity = capacity
+    def __init__(self, capacity: int = None):
+        # NO CAPACITY LIMIT - Store unlimited resonance patterns
+        self.capacity = capacity if capacity is not None else float('inf')
         self.memories: List[Dict[str, Any]] = []
         self.forgotten_count = 0
+        
+        if capacity is None or capacity == float('inf'):
+            logger.info("💎 SelectiveMemory initialized: UNLIMITED resonance storage")
+        else:
+            logger.info(f"💎 SelectiveMemory initialized: {capacity} capacity")
         
     def should_remember(self, knowledge: Dict[str, Any], core: SelfCore) -> bool:
         """
@@ -266,27 +277,46 @@ class SelectiveMemory:
         return relevance_score > 0.5
     
     def remember(self, knowledge: Dict[str, Any]):
-        """Store knowledge in selective memory"""
-        self.memories.append(knowledge)
+        """
+        Store ONLY resonance pattern, NOT raw data.
         
-        # Forget oldest if over capacity
-        if len(self.memories) > self.capacity:
+        Strips out raw content and keeps only:
+        - Wave pattern (quaternion orientation)
+        - Resonance tag (Elysia's "feeling" about it)
+        - Metadata (source, timestamp, etc.)
+        """
+        # Extract only the resonance pattern - NO RAW DATA
+        resonance_pattern = {
+            'wave_signature': knowledge.get('wave_signature'),
+            'resonance_tag': knowledge.get('resonance_tag'),
+            'source_url': knowledge.get('source_url'),  # URL to original (not content)
+            'timestamp': knowledge.get('timestamp'),
+            'anchored': knowledge.get('anchored', True),
+            'perspective': knowledge.get('perspective', 'Elysia'),
+            # CRITICAL: Do NOT store 'text', 'content', 'raw_data', etc.
+        }
+        
+        self.memories.append(resonance_pattern)
+        
+        # Only forget if there's an actual capacity limit
+        if self.capacity != float('inf') and len(self.memories) > self.capacity:
             forgotten = self.memories.pop(0)
             self.forgotten_count += 1
             logger.debug(f"🗑️ Forgot old memory (total forgotten: {self.forgotten_count})")
     
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> Dict[str, Any]:
         """Get memory statistics"""
-        if self.capacity > 0:
+        if self.capacity != float('inf') and self.capacity > 0:
             utilization = len(self.memories) / self.capacity
         else:
-            utilization = 0.0
+            utilization = 0.0  # Infinite capacity = 0% utilization
             
         return {
             'remembered': len(self.memories),
             'forgotten': self.forgotten_count,
-            'capacity': self.capacity,
-            'utilization': utilization
+            'capacity': 'unlimited' if self.capacity == float('inf') else self.capacity,
+            'utilization': utilization,
+            'storage_type': 'resonance_patterns_only'
         }
 
 

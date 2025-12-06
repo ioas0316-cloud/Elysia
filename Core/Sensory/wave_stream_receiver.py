@@ -12,11 +12,21 @@ logger = logging.getLogger(__name__)
 
 
 class WaveBuffer:
-    """Wave buffer for temporary storage"""
+    """
+    Wave buffer for flow-based processing (like light passing through)
     
-    def __init__(self, max_size=1000):
-        self.buffer = deque(maxlen=max_size)
+    NO CAPACITY LIMIT - data flows through like water/light
+    Only temporary buffer for processing, not storage
+    """
+    
+    def __init__(self, max_size=None):
+        # max_size for flow control, not storage limit
+        if max_size is None:
+            self.buffer = deque()  # Unlimited
+        else:
+            self.buffer = deque(maxlen=max_size)
         self.lock = asyncio.Lock()
+        logger.debug(f"🌊 WaveBuffer initialized: {'unlimited' if max_size is None else max_size} flow capacity")
     
     async def add(self, wave_pattern):
         """Add wave pattern to buffer"""
@@ -45,14 +55,14 @@ class WaveStreamReceiver:
     
     def __init__(self):
         self.stream_sources = []
-        self.wave_buffer = WaveBuffer(max_size=1000)
+        self.wave_buffer = WaveBuffer(max_size=None)  # UNLIMITED flow buffer
         self.running = False
         self.stats = {
             'received': 0,
             'processed': 0,
             'errors': 0
         }
-        logger.info("🌊 WaveStreamReceiver initialized")
+        logger.info("🌊 WaveStreamReceiver initialized - FLOW MODE (unlimited)")
     
     def add_stream_source(self, source):
         """Add a stream source"""

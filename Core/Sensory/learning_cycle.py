@@ -138,16 +138,16 @@ class P4LearningCycle:
         auto_anchor: bool = True
     ):
         """
-        Initialize P4 learning cycle.
+        Initialize P4 learning cycle - UNLIMITED PATTERN STORAGE.
         
         Args:
-            wave_storage_path: Where to store learned wave patterns
+            wave_storage_path: Where to store learned wave patterns (resonance tags only)
             learning_rate: How many waves to process per cycle
             auto_anchor: Auto re-anchor when stability drops
         """
         self.stream_manager = StreamManager()
         self.ego_anchor = EgoAnchor(max_absorption_rate=learning_rate)
-        self.selective_memory = SelectiveMemory(capacity=10000)
+        self.selective_memory = SelectiveMemory(capacity=None)  # UNLIMITED
         self.pattern_extractor = PatternExtractor()
         self.wave_classifier = WaveClassifier()
         self.wave_search = WaveSemanticSearch(storage_path=wave_storage_path)
@@ -164,12 +164,15 @@ class P4LearningCycle:
             'waves_absorbed': 0,
             'waves_rejected': 0,
             'knowledge_count': 0,
-            'start_time': time.time()
+            'start_time': time.time(),
+            'storage_mode': 'resonance_patterns_only'  # NO RAW DATA
         }
         
-        logger.info("🎓 P4 Learning Cycle initialized")
+        logger.info("🎓 P4 Learning Cycle initialized - FLOW MODE")
         logger.info(f"   Learning rate: {learning_rate} waves/cycle")
         logger.info(f"   Wave storage: {wave_storage_path}")
+        logger.info(f"   Memory: UNLIMITED resonance patterns")
+        logger.info(f"   Storage: Resonance tags only (0 bytes raw data)")
     
     def setup_sources(self, topics: List[str] = None):
         """

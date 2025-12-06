@@ -141,9 +141,30 @@ class BaseDomain(ABC):
         )
     
     def store_pattern(self, pattern: WavePattern):
-        """Store pattern in domain memory"""
-        self.patterns.append(pattern)
-        logger.debug(f"Stored pattern in {self.name}: {pattern.text[:50]}")
+        """
+        Store pattern in domain memory (FLOW MODE).
+        
+        Stores only wave signature, not raw text.
+        Follows "빛과 물의 원리" - data flows, only patterns remain.
+        """
+        # Store minimal pattern info - NO RAW TEXT
+        minimal_pattern = {
+            'orientation': {
+                'w': pattern.orientation.w,
+                'x': pattern.orientation.x,
+                'y': pattern.orientation.y,
+                'z': pattern.orientation.z
+            },
+            'energy': pattern.energy,
+            'frequency': pattern.frequency,
+            'phase': pattern.phase,
+            'text_hash': hash(pattern.text) if pattern.text else None,  # Hash only
+            'timestamp': getattr(pattern, 'timestamp', None),
+            'metadata_keys': list(pattern.metadata.keys()) if pattern.metadata else []
+            # NO full 'text' stored!
+        }
+        self.patterns.append(minimal_pattern)
+        logger.debug(f"Stored resonance pattern in {self.name} (hash: {minimal_pattern['text_hash']})")
     
     def query_patterns(self, query: str, top_k: int = 5) -> List[WavePattern]:
         """
