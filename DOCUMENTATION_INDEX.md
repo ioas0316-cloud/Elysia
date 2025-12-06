@@ -4,8 +4,8 @@
 >
 > **Purpose**: This index helps you quickly find and understand all Elysia documentation.
 
-**버전**: 7.0  
-**최종 업데이트**: 2025-12-05
+**버전**: 9.0  
+**최종 업데이트**: 2025-12-06
 
 ---
 
@@ -236,13 +236,25 @@
 - ✅ AGI Level 4: 75%→85%, Level 5: 45%→65%, Level 6: 20%→45%
 - ❌ P3.3-P3.5: 폐기 (충분한 성과 달성으로 P4 진행)
 
-#### P4 준비 문서
+#### P4 로드맵 (Advanced Intelligence & Scale) - 🚧 **계획 단계**
 
-**📁 위치**: `docs/Roadmaps/`
+**📁 위치**: `docs/Roadmaps/Implementation/`
 
 | 문서 | 내용 | 상태 |
 |------|------|------|
+| [docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) | P4 전체 구현 계획 (자율 진화와 지식 확장) | 📋 계획 |
+| [docs/Roadmaps/Implementation/P4_OVERALL_PROGRESS.md](docs/Roadmaps/Implementation/P4_OVERALL_PROGRESS.md) | P4 전체 진행 상황 추적 | 📋 계획 |
 | [docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md](docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md) | P4 준비: 문서 매핑 및 시스템 구조 검증 | ✅ 완료 |
+
+**P4 목표** (예상 기간: 4개월 / 16주):
+- 📋 P4.1: Resonance Knowledge Network (대규모 지식 공명 네트워크)
+- 📋 P4.2: Autonomous Learning Pipeline (24/7 자율 학습 시스템)
+- 📋 P4.3: Collective Intelligence Network (다중 노드 협업 지성)
+- 📋 P4.4: Natural Language Integration (자연어 이해 깊이 강화)
+- 📋 P4.5: Performance Optimization (성능 최적화 및 품질 보증)
+- 🎯 예상 AGI 향상: 4.25 → 5.5 (+1.25, +29%)
+- 🎯 GPT 수준 능력 달성
+- 🎯 6/7 카테고리에서 GPT 능가
 
 ### Manuals (매뉴얼)
 
@@ -464,16 +476,17 @@
 - **Root 문서**: 8개
 - **Protocols**: 21개
 - **docs/ 문서**: 105+개
-- **P2/P3 구현 문서**: 8개 (P2: 5개, P3: 3개)
-- **총 문서**: 142+개
+- **로드맵 구현 문서**: 11개 (P2: 5개, P3: 3개, P4: 3개)
+- **총 문서**: 145+개
 
-**최근 추가 (P2 & P3)**:
-- P2 로드맵 문서: 5개 (Wave Knowledge, CI/CD, Progress)
-- P3 로드맵 문서: 3개 (Consciousness Fabric, Purpose Discovery, Plan)
+**최근 추가 (P2, P3 & P4)**:
+- P2 로드맵 문서: 5개 (Wave Knowledge, CI/CD, Progress) ✅ 완료
+- P3 로드맵 문서: 3개 (Consciousness Fabric, Purpose Discovery, Plan) ✅ 완료
+- P4 로드맵 문서: 3개 (Implementation Plan, Overall Progress, Preparation) 📋 계획
 - 종합 시스템 분석 v9.0 업데이트 (P2+P3 완료 반영)
 
 ---
 
 **버전**: 9.0  
-**최종 업데이트**: 2025-12-06 (P2 및 P3 완료 반영)  
-**상태**: Comprehensive Documentation Index with P2+P3 Roadmap Completion
+**최종 업데이트**: 2025-12-06 (P2, P3 완료 및 P4 계획 반영)  
+**상태**: Comprehensive Documentation Index with P2+P3 Completion & P4 Planning
