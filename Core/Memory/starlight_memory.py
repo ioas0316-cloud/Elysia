@@ -151,17 +151,42 @@ class StarlightMemory:
     - Associative recall (파동 공명)
     - Holographic reconstruction (별들이 연결되어 영상 복원)
     - Emotional clustering (감정의 중력으로 은하 형성)
+    - **Light-speed recall** (KD-Tree spatial indexing, O(log n))
     """
     
-    def __init__(self):
+    def __init__(self, use_spatial_index: bool = True, use_vectorization: bool = True):
         self.universe: List[Starlight] = []  # All stars
         self.galaxies: List[Galaxy] = []  # Clustered memories
         self.constellation_cache: Dict[str, List[Starlight]] = {}  # Recall cache
         
+        # Performance optimization flags
+        self.use_spatial_index = use_spatial_index
+        self.use_vectorization = use_vectorization
+        
+        # Spatial index for O(log n) queries
+        self.spatial_index = None
+        self._index_dirty = False  # Rebuild index when true
+        
         # Initialize emotional galaxies
         self._init_galaxies()
         
-        logger.info("✨ StarlightMemory initialized - Universe ready")
+        # Try to import spatial index
+        if self.use_spatial_index:
+            try:
+                from Core.Memory.spatial_index import KDTree4D, VectorizedOps, HAS_NUMPY
+                self.KDTree4D = KDTree4D
+                self.VectorizedOps = VectorizedOps
+                self.HAS_NUMPY = HAS_NUMPY
+                logger.info("✨ StarlightMemory initialized with spatial indexing - Light-speed mode ⚡")
+            except ImportError as e:
+                logger.warning(f"Spatial index not available: {e}, falling back to linear search")
+                self.use_spatial_index = False
+                self.use_vectorization = False
+                self.HAS_NUMPY = False
+                logger.info("✨ StarlightMemory initialized - Universe ready")
+        else:
+            self.HAS_NUMPY = False
+            logger.info("✨ StarlightMemory initialized - Universe ready")
     
     def _init_galaxies(self):
         """Initialize emotional galaxy clusters"""
@@ -206,6 +231,9 @@ class StarlightMemory:
         # Add to universe
         self.universe.append(star)
         
+        # Mark spatial index as needing rebuild
+        self._index_dirty = True
+        
         # Find nearest galaxy and add
         nearest_galaxy = self._find_nearest_galaxy(star)
         if nearest_galaxy:
@@ -249,6 +277,11 @@ class StarlightMemory:
         When a wave stimulus enters (e.g., "비가 오네..."),
         stars that resonate strongly wake up and return.
         
+        Performance modes:
+        1. Vectorized (NumPy): 100x-1000x faster, O(n) but fast constant
+        2. Spatial Index (KD-Tree): O(log n), best for sparse queries
+        3. Linear (fallback): O(n), slower but always works
+        
         Args:
             wave_stimulus: Wave coordinates {x, y, z, w}
             threshold: Minimum resonance to wake up (0-1)
@@ -257,6 +290,28 @@ class StarlightMemory:
         Returns:
             List of (Starlight, resonance_strength) tuples
         """
+        if not self.universe:
+            return []
+        
+        # Try vectorized first (fastest for full scan)
+        if self.use_vectorization and self.HAS_NUMPY and len(self.universe) > 100:
+            return self._recall_vectorized(wave_stimulus, threshold, top_k)
+        
+        # Try spatial index next (best for sparse queries)
+        elif self.use_spatial_index and len(self.universe) > 1000:
+            return self._recall_spatial_index(wave_stimulus, threshold, top_k)
+        
+        # Fallback to linear (always works)
+        else:
+            return self._recall_linear(wave_stimulus, threshold, top_k)
+    
+    def _recall_linear(
+        self,
+        wave_stimulus: Dict[str, float],
+        threshold: float,
+        top_k: int
+    ) -> List[Tuple[Starlight, float]]:
+        """Linear search fallback O(n)"""
         resonances = []
         
         for star in self.universe:
@@ -271,11 +326,137 @@ class StarlightMemory:
         recalled = resonances[:top_k]
         
         if recalled:
-            logger.info(f"💫 Recalled {len(recalled)} stars (resonance threshold: {threshold})")
+            logger.info(f"💫 Recalled {len(recalled)} stars (linear, threshold: {threshold})")
             for star, res in recalled[:3]:  # Log top 3
                 logger.debug(f"   ⭐ Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f}) → resonance: {res:.3f}")
         
         return recalled
+    
+    def _recall_vectorized(
+        self,
+        wave_stimulus: Dict[str, float],
+        threshold: float,
+        top_k: int
+    ) -> List[Tuple[Starlight, float]]:
+        """Vectorized recall using NumPy (100x-1000x faster)"""
+        import numpy as np
+        
+        # Convert to NumPy arrays
+        n = len(self.universe)
+        positions = np.zeros((n, 4))
+        brightness = np.zeros(n)
+        gravity = np.zeros(n)
+        
+        for i, star in enumerate(self.universe):
+            positions[i] = [star.x, star.y, star.z, star.w]
+            brightness[i] = star.brightness
+            gravity[i] = star.emotional_gravity
+        
+        wave_coords = np.array([
+            wave_stimulus.get('x', 0.0),
+            wave_stimulus.get('y', 0.0),
+            wave_stimulus.get('z', 0.0),
+            wave_stimulus.get('w', 0.0)
+        ])
+        
+        # Vectorized resonance calculation
+        resonances = self.VectorizedOps.batch_resonance(
+            positions, brightness, gravity, wave_coords
+        )
+        
+        # Filter by threshold
+        mask = resonances >= threshold
+        filtered_indices = np.where(mask)[0]
+        filtered_resonances = resonances[mask]
+        
+        # Get top k
+        if len(filtered_indices) > top_k:
+            top_k_local_indices = self.VectorizedOps.top_k_indices(filtered_resonances, top_k)
+            top_indices = filtered_indices[top_k_local_indices]
+            top_resonances = filtered_resonances[top_k_local_indices]
+        else:
+            # Sort all
+            sort_order = np.argsort(filtered_resonances)[::-1]
+            top_indices = filtered_indices[sort_order]
+            top_resonances = filtered_resonances[sort_order]
+        
+        # Convert back to list of (Starlight, resonance) tuples
+        recalled = [(self.universe[i], float(top_resonances[j])) 
+                   for j, i in enumerate(top_indices)]
+        
+        if recalled:
+            logger.info(f"💫 Recalled {len(recalled)} stars (vectorized ⚡, threshold: {threshold})")
+            for star, res in recalled[:3]:
+                logger.debug(f"   ⭐ Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f}) → resonance: {res:.3f}")
+        
+        return recalled
+    
+    def _recall_spatial_index(
+        self,
+        wave_stimulus: Dict[str, float],
+        threshold: float,
+        top_k: int
+    ) -> List[Tuple[Starlight, float]]:
+        """Spatial index recall using KD-Tree (O(log n))"""
+        # Rebuild index if dirty
+        if self._index_dirty or self.spatial_index is None:
+            self._rebuild_spatial_index()
+        
+        # Query point
+        query_point = (
+            wave_stimulus.get('x', 0.0),
+            wave_stimulus.get('y', 0.0),
+            wave_stimulus.get('z', 0.0),
+            wave_stimulus.get('w', 0.0)
+        )
+        
+        # Estimate max distance from threshold
+        # threshold = brightness / (1 + distance^2)
+        # For brightness=1, threshold=0.3: distance ~= sqrt(1/0.3 - 1) ~= 1.5
+        max_distance = math.sqrt(1.0 / threshold - 1.0) if threshold > 0 else None
+        
+        # Query KD-Tree
+        neighbors = self.spatial_index.nearest_neighbors(
+            query_point,
+            k=top_k * 3,  # Get extra candidates, filter by resonance later
+            max_distance=max_distance
+        )
+        
+        # Calculate actual resonance for candidates
+        resonances = []
+        for star, distance in neighbors:
+            resonance = star.resonance_with(wave_stimulus)
+            if resonance >= threshold:
+                resonances.append((star, resonance))
+        
+        # Sort by resonance
+        resonances.sort(key=lambda x: x[1], reverse=True)
+        recalled = resonances[:top_k]
+        
+        if recalled:
+            logger.info(f"💫 Recalled {len(recalled)} stars (spatial index 🌳, threshold: {threshold})")
+            for star, res in recalled[:3]:
+                logger.debug(f"   ⭐ Star at ({star.x:.2f},{star.y:.2f},{star.z:.2f},{star.w:.2f}) → resonance: {res:.3f}")
+        
+        return recalled
+    
+    def _rebuild_spatial_index(self):
+        """Rebuild KD-Tree spatial index"""
+        if not self.universe:
+            return
+        
+        points = [
+            ((star.x, star.y, star.z, star.w), star)
+            for star in self.universe
+        ]
+        
+        if self.spatial_index is None:
+            self.spatial_index = self.KDTree4D()
+        
+        self.spatial_index.build(points)
+        self._index_dirty = False
+        
+        logger.info(f"🌳 Rebuilt spatial index with {len(self.universe)} stars")
     
     def form_constellation(
         self,

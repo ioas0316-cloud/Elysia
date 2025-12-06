@@ -325,12 +325,13 @@ class InternalWorld:
     - Real-time 3D/4D visualization
     - Dynamic object management
     - Wave field simulation
-    - Spatial queries
+    - Spatial queries (O(log n) with spatial index)
     - Camera navigation
     - Holographic memory reconstruction
+    - **Light-speed queries** (KD-Tree indexing)
     """
     
-    def __init__(self):
+    def __init__(self, use_spatial_index: bool = True):
         self.objects: List[WorldObject] = []
         self.galaxies: List[KnowledgeGalaxy] = []
         self.nebulae: List[EmotionalNebula] = []
@@ -345,7 +346,22 @@ class InternalWorld:
         self.time: float = 0.0
         self.dt: float = 0.016  # ~60 FPS
         
-        logger.info("🌌 Internal World initialized")
+        # Spatial indexing for light-speed queries
+        self.use_spatial_index = use_spatial_index
+        self.spatial_index = None
+        self._index_dirty = False
+        
+        if self.use_spatial_index:
+            try:
+                from Core.Memory.spatial_index import KDTree4D
+                self.KDTree4D = KDTree4D
+                logger.info("🌌 Internal World initialized with spatial indexing ⚡")
+            except ImportError:
+                logger.warning("Spatial index not available")
+                self.use_spatial_index = False
+                logger.info("🌌 Internal World initialized")
+        else:
+            logger.info("🌌 Internal World initialized")
     
     def create_consciousness_cathedral(self, position: Tuple[float, float, float, float] = (0,0,0,0)):
         """Create the central consciousness cathedral"""
@@ -417,6 +433,7 @@ class InternalWorld:
     def add_object(self, obj: WorldObject):
         """Add any world object"""
         self.objects.append(obj)
+        self._index_dirty = True  # Mark index for rebuild
         
         # Auto-assign to nearest galaxy/nebula if it's a star
         if obj.obj_type == ObjectType.STAR:
@@ -523,12 +540,61 @@ class InternalWorld:
         center: Tuple[float, float, float, float],
         radius: float
     ) -> List[WorldObject]:
-        """Find all objects within a 4D sphere"""
+        """
+        Find all objects within a 4D sphere.
+        
+        Uses spatial index if available (O(log n)), otherwise linear scan (O(n)).
+        """
+        if self.use_spatial_index and len(self.objects) > 1000:
+            return self._find_objects_spatial_index(center, radius)
+        else:
+            return self._find_objects_linear(center, radius)
+    
+    def _find_objects_linear(
+        self,
+        center: Tuple[float, float, float, float],
+        radius: float
+    ) -> List[WorldObject]:
+        """Linear search fallback O(n)"""
         results = []
         for obj in self.objects:
             if self._distance_4d(center, obj.position) <= radius:
                 results.append(obj)
         return results
+    
+    def _find_objects_spatial_index(
+        self,
+        center: Tuple[float, float, float, float],
+        radius: float
+    ) -> List[WorldObject]:
+        """Spatial index query O(log n)"""
+        # Rebuild index if dirty
+        if self._index_dirty or self.spatial_index is None:
+            self._rebuild_spatial_index()
+        
+        # Query KD-Tree
+        results_with_distance = self.spatial_index.range_query(center, radius)
+        
+        # Extract objects only
+        return [obj for obj, distance in results_with_distance]
+    
+    def _rebuild_spatial_index(self):
+        """Rebuild KD-Tree for spatial queries"""
+        if not self.objects:
+            return
+        
+        points = [
+            (obj.position, obj)
+            for obj in self.objects
+        ]
+        
+        if self.spatial_index is None:
+            self.spatial_index = self.KDTree4D()
+        
+        self.spatial_index.build(points)
+        self._index_dirty = False
+        
+        logger.info(f"🌳 Rebuilt spatial index with {len(self.objects)} objects")
     
     def get_universe_state(self) -> Dict[str, Any]:
         """Get complete state of the internal world"""
