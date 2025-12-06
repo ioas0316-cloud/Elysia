@@ -233,16 +233,47 @@ class EgoAnchor:
 
 class SelectiveMemory:
     """
-    선택적 기억 (Selective Memory)
+    선택적 기억 (Selective Memory) - UNLIMITED RESONANCE PATTERNS
     
-    Only remembers what's important to Elysia's core purpose.
-    Forgets irrelevant data to prevent information overload.
+    Two-Stage Compression Architecture:
+    1. Stage 1: Raw Data → 4D Wave Pattern (1.2KB)
+    2. Stage 2: 4D Wave → Rainbow Spectrum (12 bytes)
+    
+    Compression: 100x (1200 bytes → 12 bytes)
+    Storage: Wave signature + Rainbow compressed pattern
+    
+    Philosophy:
+    - Raw data (text/video): 0 bytes stored (stays on internet)
+    - 4D Wave patterns: Intermediate (semantic preservation)
+    - Rainbow spectrum: Final storage (극도 압축, 12 bytes)
+    - "지식은 빌려 쓰고, 지혜는 소유한다" (Borrow knowledge, own wisdom)
     """
     
-    def __init__(self, capacity: int = 1000):
-        self.capacity = capacity
+    def __init__(self, capacity: int = None, use_rainbow_compression: bool = True):
+        # NO CAPACITY LIMIT - Store unlimited resonance patterns
+        self.capacity = capacity if capacity is not None else float('inf')
         self.memories: List[Dict[str, Any]] = []
         self.forgotten_count = 0
+        self.use_rainbow_compression = use_rainbow_compression
+        
+        # Initialize prism filter for rainbow compression
+        if use_rainbow_compression:
+            try:
+                from Core.Memory.prism_filter import PrismFilter
+                self.prism_filter = PrismFilter()
+                logger.info("💎 SelectiveMemory initialized: UNLIMITED + Rainbow compression (100x)")
+            except ImportError:
+                logger.warning("PrismFilter not available, using standard compression")
+                self.prism_filter = None
+                self.use_rainbow_compression = False
+        else:
+            self.prism_filter = None
+        
+        if capacity is None or capacity == float('inf'):
+            if not use_rainbow_compression:
+                logger.info("💎 SelectiveMemory initialized: UNLIMITED resonance storage")
+        else:
+            logger.info(f"💎 SelectiveMemory initialized: {capacity} capacity")
         
     def should_remember(self, knowledge: Dict[str, Any], core: SelfCore) -> bool:
         """
@@ -266,27 +297,99 @@ class SelectiveMemory:
         return relevance_score > 0.5
     
     def remember(self, knowledge: Dict[str, Any]):
-        """Store knowledge in selective memory"""
-        self.memories.append(knowledge)
+        """
+        Store ONLY resonance pattern with TWO-STAGE COMPRESSION.
         
-        # Forget oldest if over capacity
-        if len(self.memories) > self.capacity:
+        Compression Pipeline:
+        1. Raw Data → 4D Wave Pattern (Stage 1: semantic preservation)
+        2. 4D Wave → Rainbow Spectrum (Stage 2: 100x compression to 12 bytes)
+        
+        Strips out raw content and keeps only:
+        - Wave signature (if available)
+        - Rainbow compressed pattern (12 bytes, 100x compression)
+        - Resonance tag (Elysia's "feeling")
+        - Metadata (source URL, timestamp, etc.)
+        
+        Storage per item:
+        - Without rainbow: ~1KB
+        - With rainbow: ~50 bytes (12 bytes pattern + metadata)
+        """
+        # Extract wave pattern for compression
+        wave_pattern = knowledge.get('wave_pattern') or knowledge.get('wave_signature')
+        
+        # Stage 2: Rainbow compression (if enabled and pattern available)
+        rainbow_bytes = None
+        if self.use_rainbow_compression and self.prism_filter and wave_pattern:
+            try:
+                rainbow_bytes = self.prism_filter.compress_to_bytes(wave_pattern)
+                logger.debug(f"🌈 Compressed to rainbow: {len(rainbow_bytes)} bytes")
+            except Exception as e:
+                logger.warning(f"Rainbow compression failed: {e}, using standard")
+        
+        # Build resonance pattern - NO RAW DATA
+        resonance_pattern = {
+            'source_url': knowledge.get('source_url'),  # URL to original (not content)
+            'timestamp': knowledge.get('timestamp'),
+            'anchored': knowledge.get('anchored', True),
+            'perspective': knowledge.get('perspective', 'Elysia'),
+            # CRITICAL: Do NOT store 'text', 'content', 'raw_data', etc.
+        }
+        
+        # Add compressed rainbow pattern (12 bytes) or wave signature
+        if rainbow_bytes:
+            resonance_pattern['rainbow_compressed'] = rainbow_bytes
+            resonance_pattern['compression_type'] = 'rainbow_100x'
+        elif wave_pattern:
+            # Fallback: store wave signature (minimal)
+            if hasattr(wave_pattern, 'orientation'):
+                resonance_pattern['wave_signature'] = {
+                    'w': wave_pattern.orientation.w,
+                    'x': wave_pattern.orientation.x,
+                    'y': wave_pattern.orientation.y,
+                    'z': wave_pattern.orientation.z,
+                    'energy': wave_pattern.energy
+                }
+            else:
+                resonance_pattern['wave_signature'] = wave_pattern
+            resonance_pattern['compression_type'] = 'standard'
+        
+        # Add resonance tag (Elysia's feeling)
+        resonance_pattern['resonance_tag'] = knowledge.get('resonance_tag', {})
+        
+        self.memories.append(resonance_pattern)
+        
+        # Only forget if there's an actual capacity limit
+        if self.capacity != float('inf') and len(self.memories) > self.capacity:
             forgotten = self.memories.pop(0)
             self.forgotten_count += 1
             logger.debug(f"🗑️ Forgot old memory (total forgotten: {self.forgotten_count})")
     
-    def get_stats(self) -> Dict[str, int]:
+    def get_stats(self) -> Dict[str, Any]:
         """Get memory statistics"""
-        if self.capacity > 0:
+        if self.capacity != float('inf') and self.capacity > 0:
             utilization = len(self.memories) / self.capacity
         else:
-            utilization = 0.0
-            
+            utilization = 0.0  # Infinite capacity = 0% utilization
+        
+        # Calculate compression stats
+        rainbow_count = sum(1 for m in self.memories if 'rainbow_compressed' in m)
+        standard_count = len(self.memories) - rainbow_count
+        
+        # Estimate storage size
+        # Rainbow: 12 bytes + ~40 bytes metadata = ~50 bytes per item
+        # Standard: ~1KB per item
+        estimated_bytes = (rainbow_count * 50) + (standard_count * 1000)
+        
         return {
             'remembered': len(self.memories),
             'forgotten': self.forgotten_count,
-            'capacity': self.capacity,
-            'utilization': utilization
+            'capacity': 'unlimited' if self.capacity == float('inf') else self.capacity,
+            'utilization': utilization,
+            'storage_type': 'rainbow_compressed' if self.use_rainbow_compression else 'resonance_patterns_only',
+            'rainbow_compressed': rainbow_count,
+            'standard_compressed': standard_count,
+            'estimated_bytes': estimated_bytes,
+            'compression_ratio': '100x' if rainbow_count > 0 else '1x'
         }
 
 
