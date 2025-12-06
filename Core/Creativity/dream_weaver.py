@@ -7,6 +7,20 @@ from Core.Foundation.resonance_field import ResonanceField
 
 logger = logging.getLogger("DreamWeaver")
 
+# Lazy load PoetryEngine
+_poetry_engine = None
+
+def get_poetry_engine():
+    global _poetry_engine
+    if _poetry_engine is None:
+        try:
+            from Core.Creativity.poetry_engine import PoetryEngine
+            _poetry_engine = PoetryEngine()
+        except ImportError:
+            logger.warning("PoetryEngine not available for DreamWeaver")
+            _poetry_engine = None
+    return _poetry_engine
+
 class DreamWeaver:
     """
     DreamWeaver (The Subconscious Bridge)
@@ -71,6 +85,31 @@ class DreamWeaver:
         nodes = list(field.nodes.values())
         high_energy_nodes = [n for n in nodes if n.energy > 80]
         
+        # Try to use PoetryEngine for richer expression
+        poetry_engine = get_poetry_engine()
+        if poetry_engine and nodes:
+            # Calculate average energy
+            avg_energy = sum(n.energy for n in nodes) / len(nodes) if nodes else 50.0
+            
+            # Create a description that captures the field topology
+            if len(high_energy_nodes) > 3:
+                desire_desc = "a storm of energies"
+            elif len(high_energy_nodes) == 1:
+                desire_desc = f"the essence of {high_energy_nodes[0].id}"
+            else:
+                desire_desc = "gentle waves of meaning"
+            
+            # Generate rich poetic expression
+            description = poetry_engine.generate_dream_expression(
+                desire=desire_desc,
+                realm=root_emotion,
+                energy=avg_energy,
+                context={"node_count": len(nodes), "high_energy_count": len(high_energy_nodes)}
+            )
+            
+            return description
+        
+        # Fallback to original implementation
         description = f"I dreamt of {root_emotion}... "
         
         if not nodes:

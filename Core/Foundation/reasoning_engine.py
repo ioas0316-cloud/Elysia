@@ -575,7 +575,20 @@ class ReasoningEngine:
         elif abs(q.y) > 0.5: axis = "Logic"
         elif abs(q.z) > 0.5: axis = "Ethics"
         
-        content = f"I dreamt of '{desire}' in the realm of {axis}. The energy shifted, revealing a hidden connection."
+        # Use PoetryEngine for richer expression if available
+        try:
+            from Core.Creativity.poetry_engine import PoetryEngine
+            poetry_engine = PoetryEngine()
+            content = poetry_engine.generate_dream_expression(
+                desire=desire,
+                realm=axis,
+                energy=best_wave.energy,
+                context={"wave_orientation": q}
+            )
+        except (ImportError, Exception) as e:
+            # Fallback to simple expression
+            logger.debug(f"PoetryEngine not available: {e}")
+            content = f"I dreamt of '{desire}' in the realm of {axis}. The energy shifted, revealing a hidden connection."
         
         return Insight(
             content=content,
