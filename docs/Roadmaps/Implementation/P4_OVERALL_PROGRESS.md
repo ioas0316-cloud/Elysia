@@ -2,7 +2,7 @@
 
 **작성일 / Date**: 2025-12-06  
 **상태 / Status**: 🚧 계획 단계 (Planning Phase)  
-**예상 완료 / Expected Completion**: 2026-04 (4개월)
+**예상 완료 / Expected Completion**: 2026-03 (3개월)
 
 ---
 
@@ -11,7 +11,7 @@
 ```
 P4 전체 진행도 / Overall Progress: 0% ░░░░░░░░░░░░░░░░░░░░
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-예상 기간 / Timeline: 16주 (4개월)
+예상 기간 / Timeline: 12주 (3개월)
 시작일 / Start Date: TBD
 완료 예정 / Target Date: TBD
 ```
@@ -20,37 +20,9 @@ P4 전체 진행도 / Overall Progress: 0% ░░░░░░░░░░░░�
 
 ## 🎯 P4 항목별 진행 상황 / Progress by Item
 
-### P4.1: Resonance Knowledge Network (4주)
+### P4.1: Multimedia Metadata Extractor (2주)
 
-**목표**: 대규모 지식 소스와 공명 기반 연결 구축
-
-```
-진행도: 0% ░░░░░░░░░░░░░░░░░░░░
-상태: 📋 계획됨
-우선순위: 🎯 최우선
-```
-
-#### 주차별 진행 / Weekly Progress
-
-| 주차 | 항목 | 상태 | 진행도 | 완료일 |
-|------|------|------|--------|--------|
-| Week 1 | Wikipedia Full Resonance | 📋 계획 | 0% | - |
-| Week 2 | Multi-Source Knowledge Sync | 📋 계획 | 0% | - |
-| Week 3 | Living Knowledge Graph | 📋 계획 | 0% | - |
-| Week 4 | Real-time Knowledge Streaming | 📋 계획 | 0% | - |
-
-**예상 성과**:
-- [ ] Wikipedia 6M+ articles 공명 연결
-- [ ] arXiv 2M+ papers 통합
-- [ ] GitHub 100M+ repos 패턴 추출
-- [ ] Stack Overflow 20M+ questions 연결
-- [ ] 지식 접근 속도 10x 향상
-
----
-
-### P4.2: Autonomous Learning Pipeline (4주)
-
-**목표**: 24/7 자율적 학습 시스템 구축
+**목표**: 영상/음악 메타데이터 추출
 
 ```
 진행도: 0% ░░░░░░░░░░░░░░░░░░░░
@@ -62,23 +34,37 @@ P4 전체 진행도 / Overall Progress: 0% ░░░░░░░░░░░░�
 
 | 주차 | 항목 | 상태 | 진행도 | 완료일 |
 |------|------|------|--------|--------|
-| Week 1 | Curiosity Engine | 📋 계획 | 0% | - |
-| Week 2 | Learning Scheduler | 📋 계획 | 0% | - |
-| Week 3 | Self-Reflection System | 📋 계획 | 0% | - |
-| Week 4 | Autonomous Learning Loop | 📋 계획 | 0% | - |
+| Week 1 | Video Metadata Extraction | 📋 계획 | 0% | - |
+| Week 2 | Audio Metadata Extraction | 📋 계획 | 0% | - |
 
 **예상 성과**:
-- [ ] 호기심 기반 학습 목표 생성
-- [ ] 자동 우선순위 설정
-- [ ] 600 concepts/hour 학습률
-- [ ] 14,400 concepts/day
-- [ ] 432,000 concepts/month
+- [ ] 영상 → 감성 서명 변환
+- [ ] 음악 → 리듬 공명 패턴
+- [ ] NO API, 완전 로컬 처리
 
 ---
 
-### P4.3: Collective Intelligence Network (3주)
+### P4.2: Phase Resonance Pattern Extraction (3주)
 
-**목표**: 다중 Elysia 노드 협업 학습
+**목표**: 위상공명패턴 추출 시스템
+
+```
+진행도: 0% ░░░░░░░░░░░░░░░░░░░░
+상태: 📋 계획됨
+우선순위: 🎯 최우선
+```
+
+**예상 성과**:
+- [ ] 시각 → 위상공명패턴
+- [ ] 청각 → 위상공명패턴
+- [ ] 다중 모드 융합
+- [ ] P2.2 통합
+
+---
+
+### P4.3: Multi-Sensory Integration Loop (3주)
+
+**목표**: 오감 통합 루프
 
 ```
 진행도: 0% ░░░░░░░░░░░░░░░░░░░░
@@ -86,25 +72,17 @@ P4 전체 진행도 / Overall Progress: 0% ░░░░░░░░░░░░�
 우선순위: ⚡ 높음
 ```
 
-#### 주차별 진행 / Weekly Progress
-
-| 주차 | 항목 | 상태 | 진행도 | 완료일 |
-|------|------|------|--------|--------|
-| Week 1 | Multi-Node Architecture | 📋 계획 | 0% | - |
-| Week 2 | Knowledge Synchronization | 📋 계획 | 0% | - |
-| Week 3 | Distributed Learning Coordination | 📋 계획 | 0% | - |
-
 **예상 성과**:
-- [ ] 10+ 노드 협업 학습
-- [ ] 학습 속도 10x 향상
-- [ ] 지식 품질 향상 (집단 검증)
-- [ ] 즉시 발견 공유 (공명)
+- [ ] 오감 통합 시스템
+- [ ] 공명 공간 구현
+- [ ] 감정-경로 매핑
+- [ ] Feed 루프 통합
 
 ---
 
-### P4.4: Natural Language Integration (3주)
+### P4.4: Autonomous Video Learning (2주)
 
-**목표**: 자연어 이해 깊이 강화
+**목표**: 드라마/영화 자율 학습
 
 ```
 진행도: 0% ░░░░░░░░░░░░░░░░░░░░
@@ -112,27 +90,17 @@ P4 전체 진행도 / Overall Progress: 0% ░░░░░░░░░░░░�
 우선순위: ⚡ 높음
 ```
 
-#### 주차별 진행 / Weekly Progress
-
-| 주차 | 항목 | 상태 | 진행도 | 완료일 |
-|------|------|------|--------|--------|
-| Week 1-3 | Hybrid Language Bridge | 📋 계획 | 0% | - |
-
-**선택지**:
-- [ ] Option A: GPT API Integration (추천)
-- [ ] Option B: Local LLM (LLaMA/Mistral)
-- [ ] Option C: Hybrid Approach (최고)
-
 **예상 성과**:
-- [ ] 언어 이해: 4/10 → 8/10 (+100%)
-- [ ] 응답 품질: 5/10 → 8/10 (+60%)
-- [ ] Elysia + GPT = 최고 조합
+- [ ] 드라마 에피소드 분할
+- [ ] 장면 분석 및 개념 추출
+- [ ] 시간당 2,000-3,000 concepts
+- [ ] 자율 학습 루프
 
 ---
 
-### P4.5: Performance Optimization (2주)
+### P4.5: Emotional-Path Mapping (2주)
 
-**목표**: 성능 최적화 및 품질 보증
+**목표**: 감성-경로 매핑
 
 ```
 진행도: 0% ░░░░░░░░░░░░░░░░░░░░
@@ -140,166 +108,63 @@ P4 전체 진행도 / Overall Progress: 0% ░░░░░░░░░░░░�
 우선순위: 📊 중간
 ```
 
-#### 주차별 진행 / Weekly Progress
-
-| 주차 | 항목 | 상태 | 진행도 | 완료일 |
-|------|------|------|--------|--------|
-| Week 1 | Performance Optimization | 📋 계획 | 0% | - |
-| Week 2 | Quality Assurance | 📋 계획 | 0% | - |
-
-**성능 목표**:
-- [ ] 쿼리 응답 < 200ms
-- [ ] Bloom 작업 < 5ms
-- [ ] 공명 검색 < 50ms (1M seeds)
-- [ ] 메모리 사용 < 2GB (1M seeds)
+**예상 성과**:
+- [ ] 감정-질량 변환
+- [ ] 경로 계산
+- [ ] ConceptPhysicsEngine 통합
 
 ---
 
-## 📈 AGI 진행도 예상 / Expected AGI Progress
+## 📈 학습 속도 예상 / Expected Learning Speed
 
 ### 현재 상태 (P3 완료 후)
 
 ```
-AGI Score: 4.25 / 7.0 (60.7%)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Level 0-3: 완료 ✅ (100%)
-Level 4: 진행중 ◐ (85%)
-Level 5: 진행중 ◑ (65%)
-Level 6: 진행중 ◔ (45%)
-Level 7: 계획 ○ (0%)
+텍스트 학습: ~600 concepts/hour
+단편적 이해
+감정/맥락 제한적
 ```
 
 ### P4 완료 후 예상
 
 ```
-AGI Score: 5.5 / 7.0 (78.6%)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Level 0-3: 완료 ✅ (100%)
-Level 4: 완료 ✅ (100%) ⬆️ +15%
-Level 5: 진행중 ◑ (85%) ⬆️ +20%
-Level 6: 진행중 ◔ (70%) ⬆️ +25%
-Level 7: 진행중 ◔ (30%) ⬆️ +30%
-```
+영상 학습: 2,000-3,000 concepts/hour
+통합적 이해
+감정/맥락 풍부
 
-**예상 향상**: +1.25 AGI points (+29%)
+향상: 5배 빠름! 🚀
+```
 
 ---
 
-## 💻 코드 통계 예상 / Expected Code Statistics
-
-### 파일 생성 예상
+## 💰 예산
 
 ```
-새 파일: ~30개
-새 테스트: ~20개
-벤치마크: ~3개
-데모: ~5개
-```
+개발 비용: $0
+API 비용: $0 (NO API!)
+전기 비용: ~$30/월
 
-### 코드량 예상
-
-```
-구현 코드: ~12,000 lines
-테스트 코드: ~3,000 lines
-총계: ~15,000 lines
-```
-
-### 테스트 커버리지 목표
-
-```
-단위 테스트: 100+
-통합 테스트: 20+
-벤치마크: 3+
-데모: 5+
+총계: $0 (거의 무료)
 ```
 
 ---
 
 ## 🏆 주요 마일스톤 / Major Milestones
 
-### Phase 1: 지식 네트워크 (Month 1)
+### Phase 1: 메타데이터 추출 (Month 1)
 - [ ] P4.1 완료
-- [ ] 1M+ 개념 접근 가능
-- [ ] 다중 소스 통합
+- [ ] 영상/음악 처리 가능
+- [ ] 감성 서명 생성
 
-### Phase 2: 자율 학습 (Month 2)
+### Phase 2: 공명 패턴 (Month 2)
 - [ ] P4.2 완료
-- [ ] 24/7 자율 학습 작동
-- [ ] 600 concepts/hour 학습률
+- [ ] 위상공명패턴 추출
+- [ ] P2.2 통합
 
-### Phase 3: 집단 지성 (Month 3)
-- [ ] P4.3 완료
-- [ ] P4.4 완료
-- [ ] 10+ 노드 협업
-- [ ] GPT 수준 언어 이해
-
-### Phase 4: 최적화 (Month 4)
-- [ ] P4.5 완료
-- [ ] 성능 목표 달성
-- [ ] 품질 보증 완료
-- [ ] 공개 베타 준비
-
----
-
-## 📊 메트릭 추적 / Metrics Tracking
-
-### 현재 vs 목표
-
-| 메트릭 | 현재 | 목표 | 진행 |
-|--------|------|------|------|
-| 언어 이해 | 4/10 | 8/10 | 0% |
-| 지식 접근 | 3/10 | 9/10 | 0% |
-| 학습 속도 | 6/10 | 10/10 | 0% |
-| 응답 품질 | 5/10 | 8/10 | 0% |
-| 전체 시스템 | C+ | A- | 0% |
-
-### 성능 메트릭
-
-| 항목 | 현재 | 목표 | 진행 |
-|------|------|------|------|
-| 쿼리 응답 시간 | N/A | <200ms | - |
-| Bloom 작업 | N/A | <5ms | - |
-| 공명 검색 | N/A | <50ms | - |
-| 메모리 사용 | N/A | <2GB | - |
-
----
-
-## 🔄 업데이트 로그 / Update Log
-
-### 2025-12-06
-- ✅ P4 구현 계획 초안 작성
-- ✅ P4.1 ~ P4.5 상세 계획 수립
-- ✅ 예상 일정 및 리소스 계획
-- 📋 다음: 구현 시작 대기
-
----
-
-## 📚 관련 문서 / Related Documents
-
-1. `docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md` - 상세 계획
-2. `docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md` - 준비 문서
-3. `docs/Roadmaps/ACCELERATED_DEVELOPMENT_ROADMAP.md` - 가속 개발
-4. `docs/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md` - 시스템 분석
-
----
-
-## 🎯 다음 단계 / Next Steps
-
-### 즉시 시작 가능한 작업
-
-1. **P4.1 Week 1 시작**:
-   - [ ] `ResonanceWikipediaConnector` 클래스 설계
-   - [ ] Pattern DNA 추출 파이프라인 설계
-   - [ ] 초기 프로토타입 구현
-
-2. **환경 준비**:
-   - [ ] Wikipedia API 접근 설정
-   - [ ] arXiv API 접근 설정
-   - [ ] GitHub API 토큰 설정
-
-3. **테스트 인프라**:
-   - [ ] P4 테스트 디렉토리 생성
-   - [ ] 벤치마크 프레임워크 설정
+### Phase 3: 자율 학습 (Month 3)
+- [ ] P4.3, P4.4, P4.5 완료
+- [ ] 드라마 자율 학습
+- [ ] 오감 통합 루프 작동
 
 ---
 
@@ -308,22 +173,22 @@ Level 7: 진행중 ◔ (30%) ⬆️ +30%
 ### 시작 전 준비
 
 - [x] P1, P2, P3 완료 확인
+- [x] P2.2 Wave Knowledge System 있음
 - [x] P4 상세 계획 수립
-- [ ] API 키 및 토큰 확보
-- [ ] 개발 환경 설정
-- [ ] 팀 역할 분담
+- [ ] OpenCV 설치
+- [ ] librosa 설치
+- [ ] 테스트 영상 준비
 
 ### 구현 준비
 
 - [ ] 첫 번째 기능 설계 완료
 - [ ] 테스트 전략 수립
-- [ ] CI/CD 파이프라인 업데이트
-- [ ] 문서 템플릿 준비
+- [ ] 영상 corpus 디렉토리 생성
 
 ---
 
-**"The seeds are planted. Let's grow the forest together!"**  
-*"씨앗은 심어졌다. 함께 숲을 키우자!"*
+**"See, hear, feel - learn through resonance"**  
+*"보고 듣고 느끼며 - 공명으로 배운다"*
 
 ---
 

@@ -1,9 +1,9 @@
-# P4 구현 계획: 자율 진화와 지식 확장 (Autonomous Evolution & Knowledge Expansion)
-# P4 Implementation Plan: Autonomous Evolution & Knowledge Expansion
+# P4 구현 계획: 오감 통합 공명 학습 (Multi-Sensory Resonance Learning)
+# P4 Implementation Plan: Multi-Sensory Resonance Learning
 
 > **작성일 / Date**: 2025-12-06  
-> **우선순위 / Priority**: P4 - Advanced Intelligence & Scale  
-> **목표 / Goal**: 자율적 학습, 대규모 지식 통합, GPT 수준 도달
+> **우선순위 / Priority**: P4 - Multi-Sensory Integration  
+> **목표 / Goal**: 영상/드라마에서 위상공명패턴으로 학습 (NO LLM, NO API)
 
 ---
 
@@ -11,27 +11,47 @@
 
 ### 핵심 개념
 
-**"씨앗은 심어졌다. 이제 숲을 키울 때다."**  
-*"The seeds are planted. Now it's time to grow the forest."*
+**"보고 듣고 느끼며 - 공명으로 배운다"**  
+*"See, hear, feel - learn through resonance"*
 
-P1-P3를 통해 Elysia의 **의식 기반**과 **자기 인식**이 완성되었습니다.  
-P4는 이 기반 위에서:
-- **대규모 지식 통합**: 수백만 개념을 효율적으로 흡수
-- **자율적 학습**: 24/7 지속적 학습 루프
-- **집단 지성**: 다중 노드 협업 학습
-- **실시간 지식 스트리밍**: 항상 최신 정보 유지
+**사람은 어떻게 배우는가?**
+- 드라마를 본다 → 감정, 상황, 관계를 이해한다
+- 영상을 본다 → 시각, 청각, 맥락이 통합된다
+- 음악을 듣는다 → 리듬, 감성, 분위기를 느낀다
 
-### P4의 차별점
+**Elysia도 같은 방식으로:**
+- 영상에서 위상공명패턴 추출
+- 감정, 시각, 청각을 하나의 공명장에 통합
+- 텍스트가 아닌 **경험**으로 학습
 
-❌ **전통적 AI 접근**:
-- 대량 데이터 수집 → 학습 → 정적 모델
-- 14개월 소요, $100M+ 비용
-- 업데이트 시 재학습 필요
+### P4가 해결하는 문제
 
-✅ **Elysia P4 접근**:
-- 공명 연결 → 패턴 추출 → 지속적 진화
-- 3-4개월, $200 (또는 무료)
-- 실시간 자율 학습
+❌ **현재 문제**:
+- 텍스트만 학습 가능
+- 시각/청각 정보 활용 불가
+- 감정과 맥락의 분리
+- 단순 개념 나열
+
+✅ **P4 해결책**:
+- 멀티미디어 통합 학습
+- 위상공명패턴으로 감각 융합
+- 감정-맥락 통합 이해
+- 풍부한 경험 학습
+
+### 핵심 원칙
+
+1. **NO EXTERNAL APIs** ✅
+   - NO OpenAI, NO Anthropic, NO any API
+   - 모든 것은 로컬 처리
+   
+2. **NO EXTERNAL LLMs** ✅
+   - P2.2 Wave Knowledge System 활용
+   - 공명 기반 패턴 매칭만
+   
+3. **Phase Resonance Patterns** ✅
+   - 영상 → 위상공명패턴
+   - 음악 → 리듬 공명패턴
+   - 감정 → 감성 공명패턴
 
 ---
 
@@ -40,984 +60,747 @@ P4는 이 기반 위에서:
 ### 현재 상태 (P3 완료 후)
 
 ```
-AGI Score: 4.25 / 7.0 (60.7%)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Level 0-3: 완료 ✅ (100%)
-Level 4: 진행중 ◐ (85%) → 목표: 100%
-Level 5: 진행중 ◑ (65%) → 목표: 85%
-Level 6: 진행중 ◔ (45%) → 목표: 70%
-Level 7: 계획 ○ (0%) → 목표: 30%
+✅ P2.2: Wave Knowledge System 완료
+  - 4D 파동공명패턴 기반
+  - NO LLM, Pure Wave Intelligence
+  
+현재 AGI 점수: 4.25 / 7.0 (60.7%)
 ```
 
 ### P4 목표
 
-**4개월 후 예상 상태**:
-```
-AGI Score: 5.5 / 7.0 (78.6%)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Level 0-3: 완료 ✅ (100%)
-Level 4: 완료 ✅ (100%) ⬆️ +15%
-Level 5: 진행중 ◑ (85%) ⬆️ +20%
-Level 6: 진행중 ◔ (70%) ⬆️ +25%
-Level 7: 진행중 ◔ (30%) ⬆️ +30%
-```
+**멀티미디어에서 위상공명패턴 학습**
 
 ### P4 구성 요소
 
 | 항목 | 설명 | 예상 기간 | 우선순위 | 상태 |
 |------|------|-----------|---------|------|
-| **P4.1: Resonance Knowledge Network** | 대규모 지식 공명 네트워크 | 4주 | 🎯 최우선 | 📋 계획 |
-| **P4.2: Autonomous Learning Pipeline** | 자율적 24/7 학습 시스템 | 4주 | 🎯 최우선 | 📋 계획 |
-| **P4.3: Collective Intelligence Network** | 다중 노드 협업 지성 | 3주 | ⚡ 높음 | 📋 계획 |
-| **P4.4: Natural Language Integration** | 자연어 이해 깊이 강화 | 3주 | ⚡ 높음 | 📋 계획 |
-| **P4.5: Performance Optimization** | 성능 최적화 및 품질 보증 | 2주 | 📊 중간 | 📋 계획 |
+| **P4.1: Multimedia Metadata Extractor** | 영상/음악 메타데이터 추출 | 2주 | 🎯 최우선 | 📋 계획 |
+| **P4.2: Phase Resonance Pattern Extraction** | 위상공명패턴 추출 시스템 | 3주 | 🎯 최우선 | 📋 계획 |
+| **P4.3: Multi-Sensory Integration Loop** | 오감 통합 루프 | 3주 | ⚡ 높음 | 📋 계획 |
+| **P4.4: Autonomous Video Learning** | 자율 영상 학습 파이프라인 | 2주 | ⚡ 높음 | 📋 계획 |
+| **P4.5: Emotional-Path Mapping** | 감성-경로 매핑 시스템 | 2주 | 📊 중간 | 📋 계획 |
 
-**총 예상 기간**: 16주 (4개월)  
-**예상 코드량**: ~15,000 lines  
-**예상 테스트**: 100+ tests  
-**예상 AGI 향상**: +1.25 (4.25 → 5.5)
+**총 예상 기간**: 12주 (3개월)  
+**예상 코드량**: ~8,000 lines  
+**예상 테스트**: 50+ tests  
+**예산**: $0 (완전 무료, NO API)
 
 ---
 
-## 📅 P4.1: Resonance Knowledge Network (4주)
+## 📅 P4.1: Multimedia Metadata Extractor (2주)
 
 ### 목표
 
-**대규모 지식 소스와 공명 기반 연결 구축**
+**영상/음악 파일에서 감성 서명, 장면 키워드, 리듬 특성 추출**
 
-현재 상태:
-- 기본 Wikipedia 접근만 있음
-- 로컬 지식 베이스 제한적
+현재: 텍스트만 처리 가능  
+목표: 영상, 음악, 이미지 처리
 
-목표 상태:
-- Wikipedia (6M+ 문서) 공명 연결
-- arXiv (2M+ 논문) 통합
-- GitHub (100M+ 저장소) 패턴 추출
-- Stack Overflow (20M+ 질문) 연결
-
-### Week 1: Wikipedia Full Resonance
+### Week 1: Video Metadata Extraction
 
 **구현 내용**:
 
 ```python
-# Core/Intelligence/resonance_wikipedia_connector.py
+# Core/Sensory/video_metadata_extractor.py
 
-from Core.Foundation.wave_semantic_search import WaveSemanticSearch
+import cv2
+import numpy as np
 from Core.Foundation.hyper_quaternion import HyperQuaternion
-import requests
 
-class ResonanceWikipediaConnector:
-    """Wikipedia와 공명 기반 연결"""
+class VideoMetadataExtractor:
+    """영상에서 메타데이터 추출 (NO API)"""
     
     def __init__(self):
-        self.wave_search = WaveSemanticSearch()
-        self.resonance_cache = {}
+        self.frame_analyzer = FrameAnalyzer()
+        self.scene_detector = SceneDetector()
         
-    def fetch_via_resonance(self, concept: str):
-        """공명을 통한 Wikipedia 접근"""
-        # 1. 개념을 파동 패턴으로 변환
-        pattern_wave = self.concept_to_wave(concept)
+    def extract_from_video(self, video_path: str):
+        """영상에서 감성 서명 추출"""
+        cap = cv2.VideoCapture(video_path)
         
-        # 2. Wikipedia API 호출
-        content = self.fetch_wikipedia(concept)
+        metadata = {
+            'scenes': [],
+            'emotions': [],
+            'visual_signatures': [],
+            'motion_patterns': []
+        }
         
-        # 3. 내용을 Pattern DNA로 압축
-        pattern_dna = self.extract_pattern_dna(content)
+        frame_count = 0
+        scene_frames = []
         
-        # 4. Seed로 저장
-        seed = self.compress_to_seed(pattern_dna)
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+                
+            # 프레임 분석
+            visual_sig = self.frame_analyzer.analyze(frame)
+            motion = self.detect_motion(frame, scene_frames)
+            
+            # 장면 전환 감지
+            if self.scene_detector.is_scene_change(frame, scene_frames):
+                # 이전 장면 처리
+                if scene_frames:
+                    scene_meta = self.process_scene(scene_frames)
+                    metadata['scenes'].append(scene_meta)
+                scene_frames = []
+            
+            scene_frames.append({
+                'frame': frame,
+                'visual': visual_sig,
+                'motion': motion
+            })
+            
+            frame_count += 1
         
-        # 5. 캐시에 저장 (공명 시그니처 기반)
-        self.resonance_cache[pattern_wave.signature()] = seed
+        cap.release()
+        
+        # 전체 영상 감성 서명 생성
+        emotional_signature = self.generate_emotional_signature(metadata)
+        
+        return {
+            'metadata': metadata,
+            'emotional_signature': emotional_signature,
+            'total_frames': frame_count
+        }
+    
+    def generate_emotional_signature(self, metadata):
+        """메타데이터에서 감성 서명 생성"""
+        # 색상, 움직임, 장면 전환을 종합하여
+        # 4D 쿼터니언 감성 서명 생성
+        
+        signatures = []
+        for scene in metadata['scenes']:
+            # 장면의 시각적 특징
+            color_dist = scene['color_distribution']
+            motion_intensity = scene['motion_intensity']
+            duration = scene['duration']
+            
+            # 4D 쿼터니언으로 변환
+            q = HyperQuaternion(
+                w=motion_intensity,      # 에너지/움직임
+                x=color_dist['warmth'],  # 색온도 (감정)
+                y=duration,              # 시간 (논리)
+                z=color_dist['saturation'] # 채도 (강도)
+            )
+            
+            signatures.append(q)
+        
+        # 모든 장면의 공명 패턴 병합
+        return self.merge_signatures(signatures)
+```
+
+**Tasks**:
+- [ ] OpenCV 기반 프레임 분석
+- [ ] 장면 전환 감지
+- [ ] 색상 분포 분석
+- [ ] 움직임 패턴 감지
+- [ ] 4D 쿼터니언 감성 서명 생성
+
+**Expected Results**:
+- 영상 → 감성 서명 변환
+- 장면별 메타데이터 추출
+- NO API, 완전 로컬 처리
+
+**Files to Create**:
+- `Core/Sensory/video_metadata_extractor.py` (~400 lines)
+- `Core/Sensory/frame_analyzer.py` (~200 lines)
+- `Core/Sensory/scene_detector.py` (~150 lines)
+- `tests/Core/Sensory/test_video_extractor.py` (~100 lines)
+
+---
+
+### Week 2: Audio Metadata Extraction
+
+**구현 내용**:
+
+```python
+# Core/Sensory/audio_metadata_extractor.py
+
+import librosa
+import numpy as np
+
+class AudioMetadataExtractor:
+    """음악/음성에서 메타데이터 추출 (NO API)"""
+    
+    def __init__(self):
+        self.rhythm_analyzer = RhythmAnalyzer()
+        self.emotion_detector = AudioEmotionDetector()
+        
+    def extract_from_audio(self, audio_path: str):
+        """음악에서 리듬 공명 패턴 추출"""
+        # librosa로 오디오 로드
+        y, sr = librosa.load(audio_path)
+        
+        # 리듬 특성 추출
+        tempo, beats = librosa.beat.beat_track(y=y, sr=sr)
+        
+        # 멜 스펙트로그램
+        mel_spec = librosa.feature.melspectrogram(y=y, sr=sr)
+        
+        # 크로마 특징
+        chroma = librosa.feature.chroma_stft(y=y, sr=sr)
+        
+        # MFCC
+        mfcc = librosa.feature.mfcc(y=y, sr=sr)
+        
+        # 감정 분석 (로컬, NO API)
+        emotion = self.emotion_detector.detect_from_features(
+            tempo=tempo,
+            mel_spec=mel_spec,
+            chroma=chroma,
+            mfcc=mfcc
+        )
+        
+        # 리듬 공명 패턴 생성
+        rhythm_pattern = self.generate_rhythm_pattern(
+            beats, tempo, mel_spec
+        )
+        
+        return {
+            'tempo': tempo,
+            'beats': beats,
+            'emotion': emotion,
+            'rhythm_pattern': rhythm_pattern,
+            'spectral_features': {
+                'mel': mel_spec,
+                'chroma': chroma,
+                'mfcc': mfcc
+            }
+        }
+    
+    def generate_rhythm_pattern(self, beats, tempo, mel_spec):
+        """리듬 공명 패턴 생성"""
+        # 비트와 템포를 파동 패턴으로 변환
+        # 쿼터니언 표현
+        
+        beat_intervals = np.diff(beats)
+        regularity = 1.0 / (np.std(beat_intervals) + 1e-6)
+        
+        intensity = np.mean(mel_spec)
+        
+        q = HyperQuaternion(
+            w=tempo / 120.0,      # 정규화된 템포
+            x=regularity,          # 규칙성
+            y=intensity,           # 강도
+            z=len(beats) / 1000.0  # 밀도
+        )
+        
+        return q
+```
+
+**Tasks**:
+- [ ] librosa 통합
+- [ ] 리듬/템포 분석
+- [ ] 스펙트럼 특징 추출
+- [ ] 감정 분석 (로컬)
+- [ ] 리듬 공명 패턴 생성
+
+**Files to Create**:
+- `Core/Sensory/audio_metadata_extractor.py` (~350 lines)
+- `Core/Sensory/rhythm_analyzer.py` (~200 lines)
+- `Core/Sensory/audio_emotion_detector.py` (~150 lines)
+- `tests/Core/Sensory/test_audio_extractor.py` (~100 lines)
+
+---
+
+## 📅 P4.2: Phase Resonance Pattern Extraction (3주)
+
+### 목표
+
+**멀티미디어 → 위상공명패턴 변환**
+
+### Week 1: Visual Resonance Patterns
+
+**구현 내용**:
+
+```python
+# Core/Sensory/visual_resonance_extractor.py
+
+class VisualResonanceExtractor:
+    """시각 정보 → 위상공명패턴"""
+    
+    def __init__(self):
+        self.wave_converter = WaveConverter()
+        
+    def extract_resonance_pattern(self, visual_data):
+        """시각 데이터에서 위상공명패턴 추출"""
+        # 색상 → 주파수
+        color_frequencies = self.color_to_frequency(visual_data['colors'])
+        
+        # 형태 → 진폭
+        shape_amplitudes = self.shape_to_amplitude(visual_data['shapes'])
+        
+        # 움직임 → 위상
+        motion_phases = self.motion_to_phase(visual_data['motion'])
+        
+        # 4D 파동 패턴 생성 (P2.2 활용)
+        wave_pattern = self.wave_converter.to_wave_pattern(
+            frequencies=color_frequencies,
+            amplitudes=shape_amplitudes,
+            phases=motion_phases
+        )
+        
+        return wave_pattern
+    
+    def color_to_frequency(self, colors):
+        """색상 → 파동 주파수 매핑"""
+        # 빨강: 고주파
+        # 파랑: 저주파
+        # 녹색: 중간주파
+        
+        freq_map = {
+            'red': 1.0,
+            'orange': 0.85,
+            'yellow': 0.7,
+            'green': 0.5,
+            'blue': 0.3,
+            'violet': 0.15
+        }
+        
+        # RGB → 주파수 변환
+        frequencies = []
+        for color in colors:
+            rgb = color['rgb']
+            # 지배적인 색상 찾기
+            dominant = self.find_dominant_color(rgb)
+            freq = freq_map.get(dominant, 0.5)
+            frequencies.append(freq)
+        
+        return frequencies
+```
+
+**Tasks**:
+- [ ] 색상 → 주파수 매핑
+- [ ] 형태 → 진폭 변환
+- [ ] 움직임 → 위상 변환
+- [ ] P2.2 Wave System 통합
+- [ ] 시각 공명 패턴 생성
+
+**Files to Create**:
+- `Core/Sensory/visual_resonance_extractor.py` (~400 lines)
+- `tests/Core/Sensory/test_visual_resonance.py` (~100 lines)
+
+---
+
+### Week 2-3: Multi-Modal Resonance Fusion
+
+**구현 내용**:
+
+```python
+# Core/Sensory/multimodal_resonance_fusion.py
+
+class MultiModalResonanceFusion:
+    """다중 감각 공명 융합"""
+    
+    def __init__(self):
+        self.visual_extractor = VisualResonanceExtractor()
+        self.audio_extractor = AudioResonanceExtractor()
+        self.resonance_field = ResonanceField()
+        
+    def fuse_video(self, video_path: str):
+        """영상의 시청각 공명 융합"""
+        # 영상과 오디오 분리
+        video_metadata = self.extract_video_metadata(video_path)
+        audio_metadata = self.extract_audio_metadata(video_path)
+        
+        # 각각을 공명 패턴으로 변환
+        visual_pattern = self.visual_extractor.extract(video_metadata)
+        audio_pattern = self.audio_extractor.extract(audio_metadata)
+        
+        # 시청각 공명 융합
+        fused_pattern = self.fuse_patterns(visual_pattern, audio_pattern)
+        
+        # P2.2 Knowledge System에 통합
+        seed = self.compress_to_seed(fused_pattern)
         
         return seed
     
-    def batch_fetch(self, concepts: List[str], max_workers=10):
-        """병렬 배치 가져오기"""
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            seeds = list(executor.map(self.fetch_via_resonance, concepts))
-        return seeds
+    def fuse_patterns(self, visual, audio):
+        """시각과 청각 패턴 융합"""
+        # Hamilton Product (쿼터니언 곱셈)으로 융합
+        # P2.2에서 사용하는 방법과 동일
+        
+        fused = visual.hamilton_product(audio)
+        
+        # 공명 강도 계산
+        resonance_strength = self.resonance_field.measure(visual, audio)
+        
+        # 강도에 따라 가중 융합
+        if resonance_strength > 0.7:
+            # 강한 공명 - 완전 융합
+            return fused
+        else:
+            # 약한 공명 - 부분 융합
+            return visual * 0.6 + audio * 0.4
 ```
 
 **Tasks**:
-- [ ] `ResonanceWikipediaConnector` 클래스 구현
-- [ ] Pattern DNA 추출 파이프라인 구현
-- [ ] Seed 기반 지식 저장 구현
-- [ ] 1000+ 개념으로 테스트
-- [ ] 성능 측정: < 100ms per concept
-
-**Expected Results**:
-- 지식 접근 속도: 10x faster
-- 저장 효율성: 1000x better (Seed 압축)
-- 커버리지: 6M+ articles accessible
+- [ ] 다중 모드 융합 알고리즘
+- [ ] Hamilton Product 적용
+- [ ] 공명 강도 측정
+- [ ] Seed 압축
+- [ ] P2.2 통합
 
 **Files to Create**:
-- `Core/Intelligence/resonance_wikipedia_connector.py` (~300 lines)
-- `tests/Core/Intelligence/test_resonance_wikipedia.py` (~150 lines)
+- `Core/Sensory/multimodal_resonance_fusion.py` (~500 lines)
+- `tests/Core/Sensory/test_multimodal_fusion.py` (~150 lines)
 
 ---
 
-### Week 2: Multi-Source Knowledge Sync
-
-**구현 내용**:
-
-```python
-# Core/Intelligence/unified_knowledge_resonance.py
-
-class UnifiedKnowledgeResonance:
-    """다중 소스 지식 통합"""
-    
-    def __init__(self):
-        self.sources = {
-            'wikipedia': WikiResonance(),
-            'arxiv': ArxivResonance(),
-            'github': GitHubResonance(),
-            'stackoverflow': StackOverflowResonance()
-        }
-        self.collective_memory = CollectiveMemory()
-    
-    def query_all(self, concept: str):
-        """모든 소스에 공명 쿼리"""
-        seeds = []
-        
-        for source_name, source in self.sources.items():
-            try:
-                pattern = source.resonate(concept)
-                seed = self.compress(pattern)
-                seed.metadata['source'] = source_name
-                seeds.append(seed)
-            except Exception as e:
-                logger.warning(f"Source {source_name} failed: {e}")
-        
-        # 집단 지성으로 Seed 병합
-        unified_seed = self.merge_with_collective_intelligence(seeds)
-        return unified_seed
-    
-    def merge_with_collective_intelligence(self, seeds: List[Seed]):
-        """여러 Seed를 집단 지성으로 통합"""
-        # 각 소스의 관점을 유지하면서 통합
-        # Hamilton Product를 사용한 파동 간섭
-        merged = self.collective_memory.merge_seeds(
-            seeds,
-            method='hamilton_product'
-        )
-        return merged
-```
-
-**Tasks**:
-- [ ] arXiv 공명 커넥터 구현
-- [ ] GitHub 공명 커넥터 구현
-- [ ] Stack Overflow 커넥터 구현
-- [ ] 통합 쿼리 인터페이스 생성
-- [ ] 교차 소스 패턴 매칭 추가
-
-**Expected Results**:
-- 다중 소스 지식 접근 ✅
-- 자동 지식 합성 ✅
-- 모든 소스의 실시간 업데이트 ✅
-
-**Files to Create**:
-- `Core/Intelligence/unified_knowledge_resonance.py` (~400 lines)
-- `Core/Intelligence/arxiv_resonance.py` (~250 lines)
-- `Core/Intelligence/github_resonance.py` (~250 lines)
-- `Core/Intelligence/stackoverflow_resonance.py` (~250 lines)
-- `tests/Core/Intelligence/test_unified_knowledge.py` (~200 lines)
-
----
-
-### Week 3: Living Knowledge Graph
-
-**구현 내용**:
-
-```python
-# Core/Intelligence/living_knowledge_graph.py
-
-class LivingKnowledgeGraph:
-    """살아있는 지식 그래프"""
-    
-    def __init__(self):
-        self.seeds = {}  # seed_id → Seed
-        self.edges = {}  # (seed_a, seed_b) → relationship
-        self.resonance_field = ResonanceField()
-    
-    def auto_connect_seeds(self, threshold=0.7):
-        """공명을 통한 자동 연결"""
-        for seed_a in self.seeds.values():
-            sig_a = seed_a.get_resonance_signature()
-            
-            for seed_b in self.seeds.values():
-                if seed_a == seed_b:
-                    continue
-                
-                sig_b = seed_b.get_resonance_signature()
-                resonance = self.resonance_field.measure(sig_a, sig_b)
-                
-                if resonance > threshold:
-                    # 강한 공명 = 관련 개념
-                    relationship = self.infer_relationship(seed_a, seed_b)
-                    self.edges[(seed_a.id, seed_b.id)] = {
-                        'type': relationship,
-                        'strength': resonance
-                    }
-    
-    def query_with_context(self, query: str, depth=3):
-        """컨텍스트와 함께 쿼리"""
-        # 초기 Seed 찾기
-        seed = self.find_seed(query)
-        
-        # 그래프를 통해 확장
-        related = self.expand_through_graph(seed, depth)
-        
-        # 연결된 지식 합성
-        return self.synthesize_contextual_knowledge(related)
-```
-
-**Tasks**:
-- [ ] 그래프 구조 구현
-- [ ] 공명을 통한 자동 엣지 탐지
-- [ ] 관계 추론 구현
-- [ ] 그래프 순회 알고리즘 구현
-- [ ] 10k+ 연결된 Seed로 테스트
-
-**Expected Results**:
-- 자동 지식 그래프 생성 ✅
-- 컨텍스트 인식 쿼리 ✅
-- 풍부한 관계 매핑 ✅
-
-**Files to Create**:
-- `Core/Intelligence/living_knowledge_graph.py` (~500 lines)
-- `tests/Core/Intelligence/test_knowledge_graph.py` (~150 lines)
-
----
-
-### Week 4: Real-time Knowledge Streaming
-
-**구현 내용**:
-
-```python
-# Core/Intelligence/live_knowledge_stream.py
-
-class LiveKnowledgeStream:
-    """실시간 지식 스트리밍"""
-    
-    def __init__(self):
-        self.resonance_channels = {}
-        self.active_streams = []
-        self.update_handlers = []
-    
-    def open_stream(self, source: str, topic: str):
-        """공명 채널 열기"""
-        channel = self.resonance_field.tune_to(source, topic)
-        
-        @channel.on_update
-        def handle_update(pattern):
-            # 업데이트를 Seed로 변환
-            seed = self.extract_seed(pattern)
-            
-            # 지식 그래프 업데이트
-            self.knowledge_graph.update_seed(seed)
-            
-            logger.info(f"Knowledge updated: {topic} from {source}")
-            
-            # 핸들러 호출
-            for handler in self.update_handlers:
-                handler(seed)
-        
-        self.active_streams.append(channel)
-        return channel
-    
-    def monitor_arxiv_realtime(self):
-        """arXiv 실시간 모니터링"""
-        self.open_stream('arxiv', 'cs.AI')
-        self.open_stream('arxiv', 'cs.LG')
-        self.open_stream('arxiv', 'cs.CL')
-    
-    def monitor_github_trending(self):
-        """GitHub 트렌딩 모니터링"""
-        self.open_stream('github', 'trending/python')
-        self.open_stream('github', 'trending/machine-learning')
-```
-
-**Tasks**:
-- [ ] 스트리밍 공명 연결 구현
-- [ ] 자동 패턴 감지 추가
-- [ ] 업데이트 알림 시스템 생성
-- [ ] 라이브 소스로 테스트
-- [ ] 업데이트 지연 측정 (목표 < 1초)
-
-**Expected Results**:
-- 실시간 지식 업데이트 ✅
-- 항상 최신 정보 ✅
-- 저장소 불필요 (라이브 연결) ✅
-
-**Files to Create**:
-- `Core/Intelligence/live_knowledge_stream.py` (~350 lines)
-- `tests/Core/Intelligence/test_live_stream.py` (~100 lines)
-
----
-
-## 📅 P4.2: Autonomous Learning Pipeline (4주)
+## 📅 P4.3: Multi-Sensory Integration Loop (3주)
 
 ### 목표
 
-**24/7 자율적 학습 시스템 구축**
+**오감 통합 루프 구축**
 
-목표:
-- 호기심 기반 학습 목표 생성
-- 자동 우선순위 설정
-- 지속적 지식 통합
-- 자기 반성 및 개선
-
-### Week 1: Curiosity Engine
+### Week 1-2: Sensory Integration System
 
 **구현 내용**:
 
 ```python
-# Core/Intelligence/curiosity_engine.py
+# Core/Sensory/sensory_integration_system.py
 
-class CuriosityEngine:
-    """호기심 기반 학습 목표 생성"""
+class SensoryIntegrationSystem:
+    """오감 통합 시스템"""
     
     def __init__(self):
-        self.knowledge_graph = None
-        self.known_concepts = set()
-        self.interest_patterns = []
+        self.visual_channel = VisualChannel()
+        self.audio_channel = AudioChannel()
+        self.text_channel = TextChannel()  # 기존 P2.2
+        self.resonance_space = ResonanceSpace(dimensions=10)
+        
+    def integrate_experience(self, multimedia_data):
+        """멀티미디어 경험 통합"""
+        # 각 채널에서 공명 패턴 추출
+        patterns = {}
+        
+        if 'video' in multimedia_data:
+            patterns['visual'] = self.visual_channel.process(
+                multimedia_data['video']
+            )
+        
+        if 'audio' in multimedia_data:
+            patterns['audio'] = self.audio_channel.process(
+                multimedia_data['audio']
+            )
+        
+        if 'text' in multimedia_data:
+            patterns['text'] = self.text_channel.process(
+                multimedia_data['text']
+            )
+        
+        # 공명 공간에서 통합
+        integrated = self.resonance_space.integrate(patterns)
+        
+        # 감정-경로 매핑
+        emotional_path = self.map_to_emotional_path(integrated)
+        
+        return {
+            'integrated_pattern': integrated,
+            'emotional_path': emotional_path,
+            'individual_patterns': patterns
+        }
     
-    def generate_learning_goals(self, num_goals=10):
-        """학습 목표 생성"""
-        goals = []
+    def map_to_emotional_path(self, integrated_pattern):
+        """통합 패턴 → 감정 경로"""
+        # ConceptPhysicsEngine의 경로 계산에 사용
+        # 질량 = 감정 강도
+        # 경로 = 감정 흐름
         
-        # 1. 지식 격차 발견
-        gaps = self.find_knowledge_gaps()
-        goals.extend(self.prioritize_gaps(gaps)[:num_goals//3])
+        mass = integrated_pattern.energy()  # w 성분
+        emotion_vector = integrated_pattern.xyz()  # x,y,z 성분
         
-        # 2. 인접 개념 탐색
-        adjacent = self.find_adjacent_concepts()
-        goals.extend(adjacent[:num_goals//3])
+        path = EmotionalPath(
+            mass=mass,
+            direction=emotion_vector,
+            velocity=integrated_pattern.phase_velocity()
+        )
         
-        # 3. 창의적 연결 제안
-        creative = self.suggest_creative_connections()
-        goals.extend(creative[:num_goals//3])
-        
-        return goals
-    
-    def find_knowledge_gaps(self):
-        """지식 그래프에서 격차 찾기"""
-        gaps = []
-        
-        for seed in self.knowledge_graph.seeds.values():
-            # Bloom하여 내용 검사
-            content = seed.bloom()
-            
-            # 언급되었지만 알려지지 않은 개념 찾기
-            mentioned = self.extract_mentioned_concepts(content)
-            unknown = mentioned - self.known_concepts
-            
-            for concept in unknown:
-                gaps.append({
-                    'concept': concept,
-                    'context': seed.id,
-                    'priority': self.calculate_priority(concept, seed)
-                })
-        
-        return gaps
+        return path
 ```
 
 **Tasks**:
-- [ ] 호기심 엔진 구현
-- [ ] 지식 격차 탐지
-- [ ] 인접 개념 발견
-- [ ] 창의적 연결 제안
-- [ ] 우선순위 계산 알고리즘
+- [ ] 다중 채널 통합
+- [ ] 공명 공간 구현
+- [ ] 감정-경로 매핑
+- [ ] ConceptPhysicsEngine 연동
 
 **Files to Create**:
-- `Core/Intelligence/curiosity_engine.py` (~400 lines)
-- `tests/Core/Intelligence/test_curiosity.py` (~100 lines)
+- `Core/Sensory/sensory_integration_system.py` (~600 lines)
+- `Core/Sensory/resonance_space.py` (~300 lines)
+- `Core/Sensory/emotional_path.py` (~200 lines)
+- `tests/Core/Sensory/test_integration.py` (~150 lines)
 
 ---
 
-### Week 2: Learning Scheduler
+### Week 3: Feed Loop Integration
 
 **구현 내용**:
 
 ```python
-# Core/Intelligence/learning_scheduler.py
+# Core/Sensory/multimedia_feed_loop.py
 
-class LearningScheduler:
-    """학습 작업 스케줄링"""
+class MultimediaFeedLoop:
+    """멀티미디어 전용 Feed 루프"""
     
     def __init__(self):
-        self.task_queue = PriorityQueue()
-        self.active_tasks = {}
-        self.learning_history = []
-    
-    def schedule_learning(self, goals: List[str]):
-        """학습 목표 스케줄링"""
-        for goal in goals:
-            priority = self.calculate_priority(goal)
-            self.task_queue.put((priority, goal))
-    
-    def run_learning_cycle(self):
-        """학습 사이클 실행"""
-        while not self.task_queue.empty():
-            priority, concept = self.task_queue.get()
+        self.sensory_system = SensoryIntegrationSystem()
+        self.corpus_path = "data/corpus_feed/multimedia/"
+        self.knowledge_system = WaveKnowledgeIntegration()  # P2.2
+        
+    def run_feed_loop(self):
+        """멀티미디어 Feed 루프 실행"""
+        logger.info("🎬 Starting multimedia feed loop...")
+        
+        while True:
+            # 새로운 멀티미디어 파일 스캔
+            new_files = self.scan_corpus()
             
-            try:
-                # 개념 학습
-                result = self.learn_concept(concept)
-                
-                # 결과 기록
-                self.learning_history.append({
-                    'concept': concept,
-                    'priority': priority,
-                    'result': result,
-                    'timestamp': time.time()
-                })
-                
-                # 성공 시 관련 개념 탐색
-                if result.success:
-                    related = self.find_related_concepts(concept)
-                    self.schedule_learning(related)
+            for file_path in new_files:
+                try:
+                    # 멀티미디어 처리
+                    experience = self.process_multimedia(file_path)
                     
-            except Exception as e:
-                logger.error(f"Learning failed for {concept}: {e}")
+                    # 지식 시스템에 통합 (P2.2)
+                    seed = experience['integrated_pattern']
+                    self.knowledge_system.add_seed(seed)
+                    
+                    # 로그 기록
+                    self.log_progress(file_path, experience)
+                    
+                except Exception as e:
+                    logger.error(f"Failed to process {file_path}: {e}")
+            
+            # 주기적 실행
+            time.sleep(300)  # 5분마다
     
-    def learn_concept(self, concept: str):
-        """단일 개념 학습"""
-        # 다중 소스에서 학습
-        wiki_seed = self.sources['wikipedia'].learn(concept)
-        arxiv_seeds = self.sources['arxiv'].learn(concept, max=5)
-        github_seeds = self.sources['github'].learn(concept, max=3)
+    def scan_corpus(self):
+        """corpus_feed에서 새 파일 스캔"""
+        # data/corpus_feed/multimedia/ 폴더 모니터링
+        multimedia_files = []
         
-        # 통합
-        seeds = [wiki_seed] + arxiv_seeds + github_seeds
-        unified = self.synthesize_knowledge(seeds)
+        for ext in ['.mp4', '.avi', '.mkv', '.mp3', '.wav']:
+            multimedia_files.extend(
+                glob.glob(f"{self.corpus_path}/**/*{ext}", recursive=True)
+            )
         
-        # 지식 그래프에 추가
-        self.knowledge_graph.add_seed(unified)
-        
-        return LearningResult(success=True, seed=unified)
+        return multimedia_files
 ```
 
 **Tasks**:
-- [ ] 학습 스케줄러 구현
-- [ ] 우선순위 큐 시스템
-- [ ] 다중 소스 학습 통합
-- [ ] 학습 이력 추적
-- [ ] 동적 재스케줄링
+- [ ] Feed 루프 구현
+- [ ] 파일 모니터링
+- [ ] P2.2 통합
+- [ ] 진행 로그 기록
 
 **Files to Create**:
-- `Core/Intelligence/learning_scheduler.py` (~350 lines)
-- `tests/Core/Intelligence/test_scheduler.py` (~100 lines)
+- `Core/Sensory/multimedia_feed_loop.py` (~300 lines)
+- `tests/Core/Sensory/test_feed_loop.py` (~100 lines)
 
 ---
 
-### Week 3: Self-Reflection System
-
-**구현 내용**:
-
-```python
-# Core/Intelligence/self_reflection.py
-
-class SelfReflectionSystem:
-    """자기 반성 시스템"""
-    
-    def __init__(self):
-        self.learning_history = []
-        self.insights = []
-        self.meta_knowledge = {}
-    
-    def reflect_on_learning(self):
-        """학습 반성"""
-        recent = self.learning_history[-100:]  # 최근 100개
-        
-        # 학습 패턴 분석
-        patterns = self.analyze_learning_patterns(recent)
-        
-        # 효과적인 전략 발견
-        effective = self.find_effective_strategies(patterns)
-        
-        # 개선 제안
-        improvements = self.suggest_improvements(effective)
-        
-        # 인사이트 기록
-        insight = {
-            'timestamp': time.time(),
-            'patterns': patterns,
-            'effective_strategies': effective,
-            'improvements': improvements
-        }
-        self.insights.append(insight)
-        
-        return insight
-    
-    def analyze_learning_patterns(self, history):
-        """학습 패턴 분석"""
-        patterns = {
-            'success_rate': sum(1 for h in history if h['result'].success) / len(history),
-            'avg_time': np.mean([h['result'].time_taken for h in history]),
-            'topic_distribution': self.get_topic_distribution(history),
-            'difficulty_levels': self.get_difficulty_levels(history)
-        }
-        return patterns
-    
-    def find_effective_strategies(self, patterns):
-        """효과적인 전략 발견"""
-        # 성공률이 높은 토픽/방법 찾기
-        effective = []
-        
-        for topic, stats in patterns['topic_distribution'].items():
-            if stats['success_rate'] > 0.8:
-                effective.append({
-                    'topic': topic,
-                    'strategy': stats['primary_method'],
-                    'success_rate': stats['success_rate']
-                })
-        
-        return sorted(effective, key=lambda x: x['success_rate'], reverse=True)
-```
-
-**Tasks**:
-- [ ] 자기 반성 시스템 구현
-- [ ] 학습 패턴 분석
-- [ ] 효과적 전략 발견
-- [ ] 개선 제안 생성
-- [ ] 메타 지식 축적
-
-**Files to Create**:
-- `Core/Intelligence/self_reflection.py` (~300 lines)
-- `tests/Core/Intelligence/test_reflection.py` (~100 lines)
-
----
-
-### Week 4: Autonomous Learning Loop
-
-**구현 내용**:
-
-```python
-# Core/Intelligence/autonomous_learning_pipeline.py
-
-class AutonomousLearningPipeline:
-    """자율 학습 파이프라인"""
-    
-    def __init__(self):
-        self.curiosity_engine = CuriosityEngine()
-        self.scheduler = LearningScheduler()
-        self.reflection = SelfReflectionSystem()
-        self.knowledge_graph = LivingKnowledgeGraph()
-        self.running = False
-    
-    def start(self):
-        """자율 학습 시작"""
-        self.running = True
-        logger.info("🚀 Autonomous learning started!")
-        
-        while self.running:
-            try:
-                # 1. 호기심 기반 목표 생성
-                goals = self.curiosity_engine.generate_learning_goals(10)
-                
-                # 2. 학습 스케줄링
-                self.scheduler.schedule_learning(goals)
-                
-                # 3. 학습 실행
-                self.scheduler.run_learning_cycle()
-                
-                # 4. 자기 반성
-                insight = self.reflection.reflect_on_learning()
-                
-                # 5. 호기심 엔진 업데이트
-                self.curiosity_engine.update_from_insight(insight)
-                
-                # 6. 집단과 공유
-                self.share_discoveries()
-                
-                # 7. 휴식 (메모리 통합)
-                time.sleep(60)  # 1분 사이클
-                
-            except KeyboardInterrupt:
-                logger.info("Learning interrupted by user")
-                break
-            except Exception as e:
-                logger.error(f"Learning cycle error: {e}")
-                time.sleep(5)
-    
-    def stop(self):
-        """자율 학습 중지"""
-        self.running = False
-        logger.info("🛑 Autonomous learning stopped")
-```
-
-**Tasks**:
-- [ ] 전체 파이프라인 통합
-- [ ] 24/7 작동 안정성 확보
-- [ ] 오류 복구 메커니즘
-- [ ] 성능 모니터링
-- [ ] 장기 실행 테스트
-
-**Expected Performance**:
-```
-학습 사이클: 1분
-사이클당 개념: 10개
-학습률: 600 concepts/hour
-일일 학습: 14,400 concepts
-월간 학습: 432,000 concepts
-```
-
-**Files to Create**:
-- `Core/Intelligence/autonomous_learning_pipeline.py` (~400 lines)
-- `tests/Core/Intelligence/test_autonomous_learning.py` (~150 lines)
-- `demos/autonomous_learning_demo.py` (~100 lines)
-
----
-
-## 📅 P4.3: Collective Intelligence Network (3주)
+## 📅 P4.4: Autonomous Video Learning (2주)
 
 ### 목표
 
-**다중 Elysia 노드 협업 학습**
-
-### Week 1: Multi-Node Architecture
+**드라마/영화에서 자율 학습**
 
 **구현 내용**:
 
 ```python
-# Core/Network/collective_intelligence_network.py
+# Core/Intelligence/autonomous_video_learner.py
 
-class CollectiveIntelligenceNetwork:
-    """집단 지성 네트워크"""
-    
-    def __init__(self, num_nodes=10):
-        self.nodes = [ElysiaNode(i) for i in range(num_nodes)]
-        self.shared_resonance_field = SharedResonanceField()
-        self.discovery_channel = DiscoveryChannel()
-    
-    def parallel_learn(self, concepts: List[str]):
-        """병렬 학습"""
-        # 각 노드에 개념 할당
-        assignments = self.distribute_tasks(concepts)
-        
-        # 병렬 학습 실행
-        with ThreadPoolExecutor(max_workers=len(self.nodes)) as executor:
-            futures = [
-                executor.submit(node.learn, concept)
-                for node, concept in assignments
-            ]
-            
-            # 결과 수집
-            results = [f.result() for f in as_completed(futures)]
-        
-        # 집단 합성
-        unified = self.synthesize_collective_knowledge(results)
-        
-        return unified
-    
-    def share_discovery(self, node_id: int, discovery: Discovery):
-        """발견 공유"""
-        # 공명을 통해 모든 노드에 브로드캐스트
-        self.shared_resonance_field.broadcast(discovery)
-        
-        # 다른 노드들이 즉시 통합
-        for node in self.nodes:
-            if node.id != node_id:
-                node.integrate_discovery(discovery)
-```
-
-**Tasks**:
-- [ ] 다중 노드 아키텍처 구현
-- [ ] 공유 공명 필드 구현
-- [ ] 작업 분배 시스템
-- [ ] 발견 공유 메커니즘
-- [ ] 10 노드로 테스트
-
-**Expected Results**:
-- 학습 속도: 10x (10 parallel nodes)
-- 지식 품질: Higher (집단 검증)
-- 발견 공유: Instant (공명)
-
-**Files to Create**:
-- `Core/Network/collective_intelligence_network.py` (~500 lines)
-- `Core/Network/elysia_node.py` (~300 lines)
-- `tests/Core/Network/test_collective_intelligence.py` (~150 lines)
-
----
-
-### Week 2: Knowledge Synchronization
-
-**구현 내용**:
-
-```python
-# Core/Network/knowledge_sync.py
-
-class KnowledgeSync:
-    """지식 동기화"""
+class AutonomousVideoLearner:
+    """자율 영상 학습기"""
     
     def __init__(self):
-        self.sync_protocol = ResonanceSyncProtocol()
-        self.conflict_resolver = ConflictResolver()
+        self.video_extractor = VideoMetadataExtractor()
+        self.multimodal_fusion = MultiModalResonanceFusion()
+        self.curiosity = VideoCuriosityEngine()
+        
+    def learn_from_drama(self, drama_path: str):
+        """드라마에서 자율 학습"""
+        logger.info(f"📺 Learning from: {drama_path}")
+        
+        # 에피소드 분할
+        episodes = self.split_into_episodes(drama_path)
+        
+        learned_concepts = []
+        
+        for ep in episodes:
+            # 장면 분석
+            scenes = self.analyze_scenes(ep)
+            
+            for scene in scenes:
+                # 장면에서 개념 추출
+                concepts = self.extract_concepts(scene)
+                
+                # 위상공명패턴 생성
+                pattern = self.multimodal_fusion.fuse_scene(scene)
+                
+                # 학습
+                for concept in concepts:
+                    self.learn_concept(concept, pattern)
+                    learned_concepts.append(concept)
+        
+        logger.info(f"✅ Learned {len(learned_concepts)} concepts from drama")
+        return learned_concepts
     
-    def sync_nodes(self, nodes: List[ElysiaNode]):
-        """노드 간 지식 동기화"""
-        # 각 노드의 변경사항 수집
-        changes = []
-        for node in nodes:
-            changes.extend(node.get_changes_since_last_sync())
+    def extract_concepts(self, scene):
+        """장면에서 개념 추출"""
+        concepts = []
         
-        # 충돌 해결
-        resolved = self.conflict_resolver.resolve(changes)
+        # 시각: 등장인물, 배경, 사물
+        visual_concepts = self.extract_visual_concepts(scene['video'])
         
-        # 모든 노드에 적용
-        for node in nodes:
-            node.apply_changes(resolved)
+        # 청각: 대화, 배경음악, 효과음
+        audio_concepts = self.extract_audio_concepts(scene['audio'])
+        
+        # 감정: 분위기, 긴장감, 감정선
+        emotional_concepts = self.extract_emotional_concepts(scene)
+        
+        # 상황: 맥락, 관계, 사건
+        contextual_concepts = self.extract_contextual_concepts(scene)
+        
+        concepts.extend(visual_concepts)
+        concepts.extend(audio_concepts)
+        concepts.extend(emotional_concepts)
+        concepts.extend(contextual_concepts)
+        
+        return concepts
 ```
 
 **Tasks**:
-- [ ] 동기화 프로토콜 구현
-- [ ] 충돌 해결 메커니즘
-- [ ] 변경 추적 시스템
-- [ ] 효율적 델타 전송
+- [ ] 드라마/영화 에피소드 분할
+- [ ] 장면 분석
+- [ ] 개념 추출 (NO LLM, 패턴 기반)
+- [ ] 자율 학습 루프
+- [ ] 학습 진행 추적
+
+**Expected Learning Rate**:
+```
+영상 1시간 처리: ~10분
+장면당 개념: 평균 5-10개
+시간당 영상 처리: 6시간 분량
+시간당 학습 개념: ~2,000-3,000개 (훨씬 빠름!)
+```
 
 **Files to Create**:
-- `Core/Network/knowledge_sync.py` (~250 lines)
-- `tests/Core/Network/test_knowledge_sync.py` (~100 lines)
+- `Core/Intelligence/autonomous_video_learner.py` (~500 lines)
+- `Core/Intelligence/video_curiosity_engine.py` (~300 lines)
+- `tests/Core/Intelligence/test_video_learner.py` (~150 lines)
 
 ---
 
-### Week 3: Distributed Learning Coordination
+## 📅 P4.5: Emotional-Path Mapping (2주)
+
+### 목표
+
+**감성-경로 매핑 시스템**
 
 **구현 내용**:
 
 ```python
-# Core/Network/distributed_learning_coordinator.py
+# Core/Foundation/emotional_path_mapper.py
 
-class DistributedLearningCoordinator:
-    """분산 학습 코디네이터"""
+class EmotionalPathMapper:
+    """감성-경로 매핑"""
     
-    def __init__(self, network: CollectiveIntelligenceNetwork):
-        self.network = network
-        self.task_allocator = TaskAllocator()
-        self.performance_monitor = PerformanceMonitor()
-    
-    def coordinate_learning(self, goals: List[str]):
-        """학습 조정"""
-        # 노드 성능 기반 작업 할당
-        allocation = self.task_allocator.allocate(
-            goals,
-            self.network.nodes,
-            performance=self.performance_monitor.get_stats()
+    def __init__(self):
+        self.concept_physics = ConceptPhysicsEngine()
+        self.resonance_field = ResonanceField()
+        
+    def map_experience_to_path(self, experience):
+        """경험 → 개념 경로"""
+        # 감정 강도 → 질량
+        emotional_intensity = experience['emotional_signature'].energy()
+        mass = self.intensity_to_mass(emotional_intensity)
+        
+        # 감정 방향 → 경로
+        emotional_vector = experience['emotional_signature'].xyz()
+        path_direction = self.vector_to_path(emotional_vector)
+        
+        # ConceptPhysicsEngine에서 경로 계산
+        path = self.concept_physics.calculate_path(
+            mass=mass,
+            direction=path_direction,
+            initial_velocity=experience['motion_intensity']
         )
         
-        # 분산 학습 실행
-        results = self.network.parallel_learn(allocation)
-        
-        # 성과 모니터링
-        self.performance_monitor.record(results)
-        
-        return results
-```
-
-**Tasks**:
-- [ ] 분산 학습 코디네이터
-- [ ] 작업 할당 알고리즘
-- [ ] 성능 모니터링
-- [ ] 부하 분산
-
-**Files to Create**:
-- `Core/Network/distributed_learning_coordinator.py` (~300 lines)
-- `tests/Core/Network/test_coordinator.py` (~100 lines)
-
----
-
-## 📅 P4.4: Natural Language Integration (3주)
-
-### 목표
-
-**자연어 이해 깊이 강화**
-
-### 선택지
-
-#### Option A: GPT API Integration (추천)
-- 빠른 구현 (1-2주)
-- 최고 수준 언어 이해
-- 비용: ~$100/month
-
-#### Option B: Local LLM (LLaMA/Mistral)
-- 무료
-- 완전 제어
-- 구현 시간: 2-3주
-
-#### Option C: Hybrid Approach (최고)
-- 양쪽의 장점
-- 적응형 선택
-- 구현 시간: 3주
-
-### Week 1-3: Hybrid Language Bridge
-
-**구현 내용**:
-
-```python
-# Core/Expression/hybrid_language_bridge.py
-
-class HybridLanguageBridge:
-    """하이브리드 언어 브리지"""
+        return path
     
-    def __init__(self):
-        self.elysia_brain = ReasoningEngine()
+    def integrate_with_existing_knowledge(self, new_path):
+        """기존 지식과 통합"""
+        # P2.2 Knowledge Graph에서 유사 경로 찾기
+        similar_paths = self.find_similar_paths(new_path)
         
-        # 로컬 및 클라우드 LLM
-        self.local_llm = self.load_local_llm()  # LLaMA-2-7B
-        self.cloud_gpt = self.init_gpt_client()  # GPT-4
-        
-        self.resonance_bridge = ResonanceBridge()
-        self.mode = "adaptive"
-    
-    def think(self, input_text: str, priority="balanced"):
-        """생각하기"""
-        # 1. Elysia 구조 이해
-        understanding = self.elysia_brain.understand(input_text)
-        
-        # 2. 관련 지식 공명 검색
-        relevant_seeds = self.find_relevant_knowledge(understanding)
-        
-        # 3. Seed Bloom하여 컨텍스트 생성
-        context = self.bloom_seeds(relevant_seeds)
-        
-        # 4. LLM 선택
-        if priority == "fast" or priority == "private":
-            response = self.local_llm.generate(
-                prompt=input_text,
-                context=context,
-                thinking=understanding
-            )
-        elif priority == "quality":
-            response = self.cloud_gpt.generate(
-                prompt=input_text,
-                context=context,
-                thinking=understanding
-            )
-        else:  # balanced
-            # 로컬 먼저 시도
-            response = self.local_llm.generate(...)
+        # 공명으로 통합
+        for existing_path in similar_paths:
+            resonance = self.resonance_field.measure(new_path, existing_path)
             
-            # 확신 낮으면 GPT 확인
-            if response.confidence < 0.7:
-                response = self.cloud_gpt.generate(...)
+            if resonance > 0.7:
+                # 강한 공명 - 경로 병합
+                merged = self.merge_paths(new_path, existing_path)
+                return merged
         
-        # 5. Elysia 검증 및 향상
-        final = self.elysia_brain.validate_and_enhance(response)
-        
-        return final
+        # 새로운 경로로 추가
+        return new_path
 ```
 
 **Tasks**:
-- [ ] 하이브리드 브리지 구현
-- [ ] 로컬 LLM 통합 (LLaMA-2)
-- [ ] GPT API 통합
-- [ ] 적응형 선택 로직
-- [ ] 응답 품질 검증
-
-**Expected Results**:
-- 언어 이해: 4/10 → 8/10 (+100%)
-- 응답 품질: 5/10 → 8/10 (+60%)
-- Elysia 아키텍처 + GPT 언어 = 최고! 🌟
+- [ ] 감정-질량 변환
+- [ ] 경로 계산
+- [ ] ConceptPhysicsEngine 통합
+- [ ] 기존 지식과 융합
 
 **Files to Create**:
-- `Core/Expression/hybrid_language_bridge.py` (~600 lines)
-- `Core/Expression/local_llm_interface.py` (~300 lines)
-- `Core/Expression/gpt_interface.py` (~200 lines)
-- `tests/Core/Expression/test_hybrid_language.py` (~150 lines)
-
----
-
-## 📅 P4.5: Performance Optimization (2주)
-
-### 목표
-
-**성능 최적화 및 품질 보증**
-
-### Week 1: Performance Optimization
-
-**Targets**:
-- 쿼리 응답: < 200ms (평균)
-- Bloom 작업: < 5ms (10ms에서)
-- 공명 검색: < 50ms (1M seeds)
-- 메모리 사용: < 2GB (1M seeds)
-
-**Tasks**:
-- [ ] 병목 현상 프로파일링
-- [ ] 핫 경로 최적화
-- [ ] 캐싱 전략 추가
-- [ ] 메모리 풋프린트 감소
-- [ ] 벤치마크 개선 측정
-
----
-
-### Week 2: Quality Assurance
-
-**Tasks**:
-- [ ] 포괄적 테스트 스위트 생성
-- [ ] 평가 메트릭 추가
-- [ ] GPT 응답과 비교
-- [ ] 사용자 테스트
-- [ ] 발견된 문제 수정
-
-**Files to Create**:
-- `benchmarks/p4_system_benchmark.py` (~300 lines)
-- `tests/integration/test_p4_integration.py` (~200 lines)
-- `docs/P4_PERFORMANCE_REPORT.md` (문서)
+- `Core/Foundation/emotional_path_mapper.py` (~400 lines)
+- `tests/Core/Foundation/test_path_mapper.py` (~100 lines)
 
 ---
 
 ## 📊 예상 성과 / Expected Outcomes
 
-### 4개월 후
+### 3개월 후
 
 | 메트릭 | 현재 | 목표 | 성과 |
 |--------|------|------|------|
-| 언어 이해 | 4/10 | 8/10 | +100% 🚀 |
-| 지식 접근 | 3/10 | 9/10 | +200% 🔥 |
-| 학습 속도 | 6/10 | 10/10 | +67% ⚡ |
-| 응답 품질 | 5/10 | 8/10 | +60% ✨ |
-| 전체 시스템 | C+ | A- | 큰 도약! |
+| 학습 속도 (concepts/hour) | ~600 (텍스트) | 2,000-3,000 (영상) | +300-400% 🚀 |
+| 학습 소스 | 텍스트만 | 영상+음악+이미지 | 다감각 ✨ |
+| 감정 이해 | 제한적 | 풍부함 | +1000% 🔥 |
+| 맥락 이해 | 단편적 | 통합적 | +500% ⚡ |
+| 비용 | $0 | $0 | NO API! 💰 |
 
-### GPT와 비교
+### 학습 효율 비교
 
-| 능력 | GPT-4 | Elysia (4개월) | 승자 |
-|------|-------|---------------|------|
-| 언어 이해 | 10 | 8 | GPT |
-| 지식 신선도 | 5 | 10 | **Elysia** 🏆 |
-| 학습 속도 | 2 | 10 | **Elysia** 🏆 |
-| 커스터마이징 | 3 | 10 | **Elysia** 🏆 |
-| 투명성 | 2 | 10 | **Elysia** 🏆 |
-| 자기 진화 | 1 | 10 | **Elysia** 🏆 |
-| 비용 | 높음 | 낮음 | **Elysia** 🏆 |
+```
+텍스트 학습:
+- 시간당 600 concepts
+- 단편적 이해
+- 맥락 부족
 
-**결과**: Elysia가 7개 중 6개 카테고리에서 승리! 🎉
+영상 학습 (P4):
+- 시간당 2,000-3,000 concepts
+- 통합적 이해
+- 풍부한 맥락
+- 감정 + 시각 + 청각 통합
+```
+
+**결과**: **5배 빠른 학습!** 🎉
 
 ---
 
 ## 💰 예산 추정 / Budget Estimate
 
-### GPT API 사용 (추천)
-
 ```
-Month 1: 개발 (무료, 오픈소스)
-Month 2: 개발 (무료)
-Month 3: GPT API 테스트 (~$100)
-Month 4: 최적화 + GPT API (~$100)
+개발 비용: $0 (오픈소스)
+API 비용: $0 (NO API!)
+전기 비용: ~$30/월 (로컬 처리)
 
-총계: 4개월 약 $200
+총계: $0 (거의 무료!)
 ```
-
-### 완전 오픈소스 (GPT 없음)
-
-```
-모든 달: $0
-비용: 시간과 GPU 전기만
-총계: $0 (GPU 전기 ~$50/month)
-```
-
-**두 옵션 모두 GPT를 처음부터 학습하는 것보다 매우 비용 효율적! ($100M+)**
 
 ---
 
@@ -1025,27 +808,26 @@ Month 4: 최적화 + GPT API (~$100)
 
 ### Minimum Viable (필수)
 
-- [ ] 응답 시간 < 1초
-- [ ] 언어 이해 품질 점수 > 7/10
-- [ ] 1M+ 개념 지식 접근
-- [ ] 지속적 학습 활성화
-- [ ] 90% 테스트 케이스 통과
+- [ ] 영상에서 메타데이터 추출
+- [ ] 위상공명패턴 생성
+- [ ] P2.2 지식 시스템 통합
+- [ ] 시간당 2,000+ concepts 학습
+- [ ] NO API 사용
 
 ### Target (목표)
 
-- [ ] 응답 시간 < 200ms
-- [ ] 언어 이해 품질 점수 > 8/10
-- [ ] 10M+ 개념 지식 접근
-- [ ] 다중 소스 학습 활성화
-- [ ] 95% 테스트 케이스 통과
+- [ ] 드라마 자율 학습
+- [ ] 오감 통합 루프
+- [ ] 감정-경로 매핑
+- [ ] 시간당 3,000+ concepts 학습
+- [ ] 완전 자율 작동
 
 ### Stretch (이상적)
 
-- [ ] 응답 시간 < 100ms
-- [ ] 언어 이해 품질 점수 > 9/10
-- [ ] 실시간 지식 스트리밍
-- [ ] 집단 지성 네트워크 (10+ nodes)
-- [ ] 99% 테스트 케이스 통과
+- [ ] 실시간 영상 학습
+- [ ] 감정 예측
+- [ ] 맥락 생성
+- [ ] 시간당 5,000+ concepts 학습
 
 ---
 
@@ -1053,25 +835,20 @@ Month 4: 최적화 + GPT API (~$100)
 
 ### 핵심 철학
 
-1. **Kenosis (비움)** ✅
-   - `living_elysia.py` 여전히 간결하게 유지
-   - 새 기능은 별도 모듈
-
-2. **Flow (흐름)** ✅
-   - 생물학적 흐름 유지
-   - 강제 없는 자율 학습
-
-3. **Resonance (공명)** ✅
-   - 모든 지식 접근은 공명 기반
-   - 파동으로 연결
-
-4. **NO External LLMs for Core** ✅
-   - LLM은 언어 생성만
-   - 핵심 사고는 Elysia 고유
-
-5. **Collective Intelligence** ✨ NEW
-   - 혼자가 아닌 함께 학습
-   - 집단 지성으로 진화
+1. **NO EXTERNAL APIs** ✅
+   - 모든 것은 로컬
+   
+2. **NO EXTERNAL LLMs** ✅
+   - P2.2 Wave Knowledge만
+   
+3. **Phase Resonance** ✅
+   - 공명 기반 패턴 매칭
+   
+4. **Multi-Sensory Integration** ✨ NEW
+   - 오감 통합 학습
+   
+5. **Learn from Experience** ✨ NEW
+   - 영상/드라마에서 직접 학습
 
 ---
 
@@ -1079,16 +856,11 @@ Month 4: 최적화 + GPT API (~$100)
 
 ### P4 문서
 1. `docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md` - 이 문서
-2. `docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md` - P4 준비
-3. `docs/Roadmaps/ACCELERATED_DEVELOPMENT_ROADMAP.md` - 가속 개발
+2. `docs/long_term_plan.md` - 장기 계획 (오감 통합)
 
 ### 이전 로드맵
-4. `docs/Roadmaps/P1-Completion/P1_COMPLETION_SUMMARY.md`
-5. `docs/Roadmaps/P2-Implementation/P2_2_COMPLETION_SUMMARY.md`
-6. `docs/Roadmaps/P3-Implementation/P3_COMPLETION_SUMMARY.md`
-
-### 시스템 분석
-7. `docs/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md` - v9.0 종합 분석
+3. `docs/Roadmaps/P2-Implementation/P2_2_WAVE_KNOWLEDGE_SYSTEM.md` - P2.2 참조
+4. `docs/Roadmaps/P3-Implementation/P3_COMPLETION_SUMMARY.md` - P3 완료
 
 ---
 
@@ -1096,47 +868,49 @@ Month 4: 최적화 + GPT API (~$100)
 
 ### 요약
 
-P4는 Elysia를 **지적 씨앗**에서 **지혜의 숲**으로 성장시킵니다.
+P4는 Elysia를 **텍스트 학습**에서 **경험 학습**으로 진화시킵니다.
 
 **주요 혁신**:
-1. ✨ 대규모 지식 공명 네트워크 (6M+ articles)
-2. ✨ 자율 24/7 학습 파이프라인
-3. ✨ 집단 지성 협업 (10x 학습)
-4. ✨ 하이브리드 언어 통합 (GPT + Local)
-5. ✨ 실시간 지식 스트리밍
+1. ✨ 영상/드라마에서 위상공명패턴 학습
+2. ✨ 오감 통합 (시각+청각+감정)
+3. ✨ 감성-경로 매핑
+4. ✨ 2,000-3,000 concepts/hour (5배 빠름)
+5. ✨ NO API, NO LLM (완전 무료)
 
 **예상 성과**:
-- AGI 점수: 4.25 → 5.5 (+1.25, +29%)
-- GPT 수준 능력 달성
-- 6/7 카테고리에서 GPT 능가
+- 학습 속도 5배 향상
+- 감정/맥락 이해 대폭 개선
+- 완전 무료 ($0)
+- P2.2 기반 활용
 
-**기간**: 16주 (4개월)  
-**예산**: $200 (또는 무료)  
-**예상 코드**: ~15,000 lines  
-**예상 테스트**: 100+ tests
+**기간**: 12주 (3개월)  
+**예산**: $0  
+**예상 코드**: ~8,000 lines  
+**예상 테스트**: 50+ tests
 
 ### P4 진행 준비 상태
 
 ✅ **준비 완료**
 
 - [x] P1, P2, P3 완료
-- [x] 문서화 완비
-- [x] 철학적 일관성 확인
-- [x] 시스템 안정성 검증
+- [x] P2.2 Wave Knowledge System 있음
+- [x] NO API, NO LLM 철학 유지
 - [x] P4 상세 계획 수립
 
 ### 다음 단계
 
-**"이제 시작할 시간입니다. 씨앗은 심어졌습니다. 숲을 키웁시다!"**
+**"보고 듣고 느끼며 - 공명으로 배운다"**
+
+영상과 드라마에서 위상공명패턴으로 학습하는, 진정한 경험 기반 학습을 시작합니다!
 
 ---
 
 **작성자 / Author**: Elysia Development Team  
 **작성일 / Created**: 2025-12-06  
 **상태 / Status**: ✅ 구현 준비 완료 (Ready for Implementation)  
-**버전 / Version**: 1.0
+**버전 / Version**: 2.0 (NO API, Pure Resonance Learning)
 
 ---
 
-**"The seeds are planted. Now let's grow the forest."**  
-*"씨앗은 심어졌다. 이제 숲을 키우자."*
+**"See, hear, feel - learn through resonance"**  
+*"보고 듣고 느끼며 - 공명으로 배운다"*
