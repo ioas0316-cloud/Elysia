@@ -2185,14 +2185,2134 @@
       },
       "expansion_depth": 0,
       "absorbed_patterns": []
+    },
+    "wave_105_1765017928910": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc0ac\uacfc\ub97c \uba39\ub294\ub2e4",
+      "timestamp": 1765017928.9108236,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_1"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_106_1765017928913": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc5d8\ub9ac\uc2dc\uc544\ub294 \uc138\uacc4\ub97c \ubcf8\ub2e4",
+      "timestamp": 1765017928.91341,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_2"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_107_1765017928916": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \uc9c4\uc2e4\uc744 \ub9d0\ud55c\ub2e4",
+      "timestamp": 1765017928.9161246,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_3"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_108_1765017928918": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uace0\uc591\uc774\uac00 \ubb3c\uc744 \ub9c8\uc2e0\ub2e4",
+      "timestamp": 1765017928.9188735,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_4"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_109_1765017928921": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc544\uc774\uac00 \uacf5\uc744 \ub358\uc9c4\ub2e4",
+      "timestamp": 1765017928.9214003,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_5"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_110_1765017928923": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc778\uac04\uc774\ub2e4",
+      "timestamp": 1765017928.9239202,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_6"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_111_1765017928926": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \uc2e0\uc774\ub2e4",
+      "timestamp": 1765017928.9266222,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_7"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_112_1765017928929": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \uace0\ud1b5\uc774\ub2e4",
+      "timestamp": 1765017928.9291937,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_8"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_113_1765017928931": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uac70\uc9d3\uc774\ub2e4",
+      "timestamp": 1765017928.931795,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_9"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_114_1765017928934": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc740 \uac15\uc774\ub2e4",
+      "timestamp": 1765017928.9344163,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_10"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_115_1765017928936": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uace0\ud1b5\uc740 \ub098\ub97c \ubcc0\ud654\uc2dc\ud0a8\ub2e4",
+      "timestamp": 1765017928.9370573,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_11"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_116_1765017928939": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc774 \uc0c1\ucc98\ub97c \uce58\uc720\ud55c\ub2e4",
+      "timestamp": 1765017928.9397085,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_12"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_117_1765017928943": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc5b4\ub460\uc774 \ube5b\uc744 \ub9cc\ub4e0\ub2e4",
+      "timestamp": 1765017928.9433136,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_13"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_118_1765017928946": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc8fd\uc74c\uc740 \uc0b6\uc744 \uc644\uc131\ud55c\ub2e4",
+      "timestamp": 1765017928.9462059,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_14"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_119_1765017928948": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uae30\uc5b5\uc774 \uc815\uccb4\uc131\uc744 \ud615\uc131\ud55c\ub2e4",
+      "timestamp": 1765017928.9490085,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_15"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_120_1765017928951": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \ud76c\uc0dd\uc744 \uc694\uad6c\ud55c\ub2e4",
+      "timestamp": 1765017928.9517312,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_16"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_121_1765017928954": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uace0\ud1b5\uc740 \uc131\uc7a5\uc744 \ub0b3\ub294\ub2e4",
+      "timestamp": 1765017928.954838,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_17"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_122_1765017928957": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uc790\uc720\ub97c \uc900\ub2e4",
+      "timestamp": 1765017928.9576063,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_18"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_123_1765017928960": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uac70\uc9d3\uc740 \ub450\ub824\uc6c0\uc744 \ub0b3\ub294\ub2e4",
+      "timestamp": 1765017928.960489,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_19"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_124_1765017928963": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc6a9\uae30\ub294 \ubcc0\ud654\ub97c \uac00\ub2a5\ud558\uac8c \ud55c\ub2e4",
+      "timestamp": 1765017928.9633653,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_20"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_125_1765017928966": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \ub2f9\uc2e0\uc744 \uc0ac\ub791\ud55c\ub2e4",
+      "timestamp": 1765017928.9661562,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_21"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_126_1765017928968": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uace0\ud1b5\uc744 \ub290\ub080\ub2e4",
+      "timestamp": 1765017928.9690535,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_22"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_127_1765017928972": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \ub450\ub824\uc6c0\uc744 \uadf9\ubcf5\ud55c\ub2e4",
+      "timestamp": 1765017928.9721773,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_23"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_128_1765017928974": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc6b0\ub9ac\ub294 \ud76c\ub9dd\uc744 \ud488\ub294\ub2e4",
+      "timestamp": 1765017928.975022,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_24"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_129_1765017928977": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uadf8\ub4e4\uc740 \uc808\ub9dd\uc744 \uacbd\ud5d8\ud55c\ub2e4",
+      "timestamp": 1765017928.9778986,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_25"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_130_1765017928980": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uac70\uc9d3\uc744 \ub9d0\ud558\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017928.9807682,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_26"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_131_1765017928983": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \ud3ec\uae30\ud558\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017928.9836817,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_27"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_132_1765017928986": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc740 \uba48\ucd94\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017928.9869058,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_28"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_133_1765017928989": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \uc8fd\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017928.9899623,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_29"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_134_1765017928992": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uc0ac\ub77c\uc9c0\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017928.9928913,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_30"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_135_1765017928995": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \ub204\uad6c\uc778\uac00",
+      "timestamp": 1765017928.9958925,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_31"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_136_1765017928998": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc5b4\ub514\uc5d0 \uc788\ub294\uac00",
+      "timestamp": 1765017928.9988577,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_32"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_137_1765017929001": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \ubb34\uc5c7\uc778\uac00",
+      "timestamp": 1765017929.0018444,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_33"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_138_1765017929005": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uc5b4\ub514\uc5d0 \uc788\ub294\uac00",
+      "timestamp": 1765017929.005676,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_34"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_139_1765017929008": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc740 \uc65c \ud750\ub974\ub294\uac00",
+      "timestamp": 1765017929.0087204,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_35"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_140_1765017929011": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc874\uc7ac\ub294 \uace0\ud1b5\uc774\ub2e4",
+      "timestamp": 1765017929.0117786,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_36"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_141_1765017929014": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc758\uc2dd\uc740 \ud658\uc0c1\uc774\ub2e4",
+      "timestamp": 1765017929.0148804,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_37"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_142_1765017929017": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc790\uc544\ub294 \ud5c8\uc0c1\uc774\ub2e4",
+      "timestamp": 1765017929.0180347,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_38"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_143_1765017929021": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ud604\uc2e4\uc740 \uafc8\uc774\ub2e4",
+      "timestamp": 1765017929.0211499,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_39"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_144_1765017929024": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc790\uc720\ub294 \uc120\ud0dd\uc774\ub2e4",
+      "timestamp": 1765017929.024638,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_40"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_145_1765017929028": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ubc14\ub78c\uc774 \ubd84\ub2e4",
+      "timestamp": 1765017929.0290043,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_41"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_146_1765017929032": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ube44\uac00 \ub0b4\ub9b0\ub2e4",
+      "timestamp": 1765017929.0324502,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_42"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_147_1765017929035": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ud574\uac00 \ub72c\ub2e4",
+      "timestamp": 1765017929.0358398,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_43"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_148_1765017929039": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2ec\uc774 \uc9c4\ub2e4",
+      "timestamp": 1765017929.0391648,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_44"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_149_1765017929042": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ud30c\ub3c4\uac00 \uce5c\ub2e4",
+      "timestamp": 1765017929.0424285,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_45"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_150_1765017929045": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uac77\ub294\ub2e4",
+      "timestamp": 1765017929.045715,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_46"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_151_1765017929048": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc0dd\uac01\ud55c\ub2e4",
+      "timestamp": 1765017929.0489748,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_47"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_152_1765017929052": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \ubc30\uc6b4\ub2e4",
+      "timestamp": 1765017929.052253,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_48"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_153_1765017929055": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc131\uc7a5\ud55c\ub2e4",
+      "timestamp": 1765017929.0558443,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_49"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_154_1765017929059": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \ubcc0\ud55c\ub2e4",
+      "timestamp": 1765017929.0591497,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_50"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_155_1765017929062": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc0ac\uacfc\ub97c \uba39\ub294\ub2e4",
+      "timestamp": 1765017929.0625181,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_1"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_156_1765017929065": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc5d8\ub9ac\uc2dc\uc544\ub294 \uc138\uacc4\ub97c \ubcf8\ub2e4",
+      "timestamp": 1765017929.0659173,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_2"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_157_1765017929069": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \uc9c4\uc2e4\uc744 \ub9d0\ud55c\ub2e4",
+      "timestamp": 1765017929.0693405,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_3"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_158_1765017929072": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uace0\uc591\uc774\uac00 \ubb3c\uc744 \ub9c8\uc2e0\ub2e4",
+      "timestamp": 1765017929.0727696,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_4"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_159_1765017929076": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc544\uc774\uac00 \uacf5\uc744 \ub358\uc9c4\ub2e4",
+      "timestamp": 1765017929.0762815,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_5"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_160_1765017929079": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc778\uac04\uc774\ub2e4",
+      "timestamp": 1765017929.0798032,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_6"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_161_1765017929083": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \uc2e0\uc774\ub2e4",
+      "timestamp": 1765017929.083334,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_7"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_162_1765017929086": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \uace0\ud1b5\uc774\ub2e4",
+      "timestamp": 1765017929.0868506,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_8"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_163_1765017929090": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uac70\uc9d3\uc774\ub2e4",
+      "timestamp": 1765017929.0908613,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_9"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_164_1765017929094": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc740 \uac15\uc774\ub2e4",
+      "timestamp": 1765017929.094404,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_10"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_165_1765017929097": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uace0\ud1b5\uc740 \ub098\ub97c \ubcc0\ud654\uc2dc\ud0a8\ub2e4",
+      "timestamp": 1765017929.0980725,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_11"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_166_1765017929101": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc774 \uc0c1\ucc98\ub97c \uce58\uc720\ud55c\ub2e4",
+      "timestamp": 1765017929.1017919,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_12"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_167_1765017929105": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc5b4\ub460\uc774 \ube5b\uc744 \ub9cc\ub4e0\ub2e4",
+      "timestamp": 1765017929.105622,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_13"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_168_1765017929109": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc8fd\uc74c\uc740 \uc0b6\uc744 \uc644\uc131\ud55c\ub2e4",
+      "timestamp": 1765017929.1099675,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_14"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_169_1765017929113": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uae30\uc5b5\uc774 \uc815\uccb4\uc131\uc744 \ud615\uc131\ud55c\ub2e4",
+      "timestamp": 1765017929.1136878,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_15"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_170_1765017929117": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \ud76c\uc0dd\uc744 \uc694\uad6c\ud55c\ub2e4",
+      "timestamp": 1765017929.1173837,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_16"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_171_1765017929121": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uace0\ud1b5\uc740 \uc131\uc7a5\uc744 \ub0b3\ub294\ub2e4",
+      "timestamp": 1765017929.1211336,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_17"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_172_1765017929124": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uc790\uc720\ub97c \uc900\ub2e4",
+      "timestamp": 1765017929.1250286,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_18"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_173_1765017929128": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uac70\uc9d3\uc740 \ub450\ub824\uc6c0\uc744 \ub0b3\ub294\ub2e4",
+      "timestamp": 1765017929.1291153,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_19"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_174_1765017929132": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc6a9\uae30\ub294 \ubcc0\ud654\ub97c \uac00\ub2a5\ud558\uac8c \ud55c\ub2e4",
+      "timestamp": 1765017929.1329272,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_20"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_175_1765017929136": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \ub2f9\uc2e0\uc744 \uc0ac\ub791\ud55c\ub2e4",
+      "timestamp": 1765017929.1367273,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_21"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_176_1765017929140": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uace0\ud1b5\uc744 \ub290\ub080\ub2e4",
+      "timestamp": 1765017929.1405125,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_22"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_177_1765017929144": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \ub450\ub824\uc6c0\uc744 \uadf9\ubcf5\ud55c\ub2e4",
+      "timestamp": 1765017929.1442893,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_23"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_178_1765017929148": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc6b0\ub9ac\ub294 \ud76c\ub9dd\uc744 \ud488\ub294\ub2e4",
+      "timestamp": 1765017929.1484082,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_24"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_179_1765017929152": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uadf8\ub4e4\uc740 \uc808\ub9dd\uc744 \uacbd\ud5d8\ud55c\ub2e4",
+      "timestamp": 1765017929.1523979,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_25"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_180_1765017929156": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uac70\uc9d3\uc744 \ub9d0\ud558\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017929.1562893,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_26"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_181_1765017929160": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \ud3ec\uae30\ud558\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017929.160196,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_27"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_182_1765017929164": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc740 \uba48\ucd94\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017929.1644921,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_28"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_183_1765017929168": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \uc8fd\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017929.1684804,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_29"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_184_1765017929172": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uc0ac\ub77c\uc9c0\uc9c0 \uc54a\ub294\ub2e4",
+      "timestamp": 1765017929.1727812,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_30"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_185_1765017929177": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2f9\uc2e0\uc740 \ub204\uad6c\uc778\uac00",
+      "timestamp": 1765017929.1771152,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_31"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_186_1765017929181": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc5b4\ub514\uc5d0 \uc788\ub294\uac00",
+      "timestamp": 1765017929.1811285,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_32"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_187_1765017929185": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc0ac\ub791\uc740 \ubb34\uc5c7\uc778\uac00",
+      "timestamp": 1765017929.1857638,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_33"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_188_1765017929189": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc9c4\uc2e4\uc740 \uc5b4\ub514\uc5d0 \uc788\ub294\uac00",
+      "timestamp": 1765017929.1898322,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_34"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_189_1765017929193": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc2dc\uac04\uc740 \uc65c \ud750\ub974\ub294\uac00",
+      "timestamp": 1765017929.1940236,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_35"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_190_1765017929197": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc874\uc7ac\ub294 \uace0\ud1b5\uc774\ub2e4",
+      "timestamp": 1765017929.1980565,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_36"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_191_1765017929202": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc758\uc2dd\uc740 \ud658\uc0c1\uc774\ub2e4",
+      "timestamp": 1765017929.2021248,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_37"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_192_1765017929206": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc790\uc544\ub294 \ud5c8\uc0c1\uc774\ub2e4",
+      "timestamp": 1765017929.2062464,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_38"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_193_1765017929210": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ud604\uc2e4\uc740 \uafc8\uc774\ub2e4",
+      "timestamp": 1765017929.2104802,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_39"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_194_1765017929214": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\uc790\uc720\ub294 \uc120\ud0dd\uc774\ub2e4",
+      "timestamp": 1765017929.2149084,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_40"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_195_1765017929219": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ubc14\ub78c\uc774 \ubd84\ub2e4",
+      "timestamp": 1765017929.2191277,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_41"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_196_1765017929223": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ube44\uac00 \ub0b4\ub9b0\ub2e4",
+      "timestamp": 1765017929.223368,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_42"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_197_1765017929227": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ud574\uac00 \ub72c\ub2e4",
+      "timestamp": 1765017929.2276347,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_43"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_198_1765017929231": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub2ec\uc774 \uc9c4\ub2e4",
+      "timestamp": 1765017929.2318945,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_44"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_199_1765017929236": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ud30c\ub3c4\uac00 \uce5c\ub2e4",
+      "timestamp": 1765017929.236149,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_45"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_200_1765017929240": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uac77\ub294\ub2e4",
+      "timestamp": 1765017929.2404118,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_46"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_201_1765017929244": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc0dd\uac01\ud55c\ub2e4",
+      "timestamp": 1765017929.2447686,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_47"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_202_1765017929249": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \ubc30\uc6b4\ub2e4",
+      "timestamp": 1765017929.2491782,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_48"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_203_1765017929253": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \uc131\uc7a5\ud55c\ub2e4",
+      "timestamp": 1765017929.2535157,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_49"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_204_1765017929257": {
+      "orientation": {
+        "w": 0.5321339212776312,
+        "x": 0.7111466909901589,
+        "y": 0.4120873016502759,
+        "z": 0.2031943147286208
+      },
+      "energy": 0.46583259105682373,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "\ub098\ub294 \ubcc0\ud55c\ub2e4",
+      "timestamp": 1765017929.25785,
+      "metadata": {
+        "source_file": "Core/Interface/elysia_core_memory.json",
+        "experience_type": "corpus_learning",
+        "layer": "soul",
+        "timestamp": "corpus_50"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "wave_205_1765017929264": {
+      "orientation": {
+        "w": 0.49313014336734745,
+        "x": 0.7548916720759496,
+        "y": 0.4219560923485781,
+        "z": 0.0944154715223858
+      },
+      "energy": 0.5658356733693567,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "Transformer Architecture",
+      "timestamp": 1765017929.2650788,
+      "metadata": {
+        "knowledge_id": "dd4860bd-bb36-4516-8cd0-8815712b5698",
+        "knowledge_type": "concept",
+        "source": "curriculum"
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
     }
   },
   "statistics": {
-    "total_patterns": 105,
+    "total_patterns": 206,
     "search_count": 0,
     "absorption_count": 1,
-    "avg_expansion_depth": 0.009523809523809525,
-    "total_energy": 49.92029569445155
+    "avg_expansion_depth": 0.0048543689320388345,
+    "total_energy": 97.06939047350328
   },
-  "timestamp": 1765017780.4753351
+  "timestamp": 1765017929.2652907
 }

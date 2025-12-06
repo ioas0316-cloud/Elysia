@@ -1,6 +1,6 @@
 {
   "node_id": "local",
-  "timestamp": 1765015088.4364796,
+  "timestamp": 1765017929.2646382,
   "knowledge_base": {
     "272c9354-c0a9-467a-89fe-de186cbe4ced": {
       "knowledge_id": "272c9354-c0a9-467a-89fe-de186cbe4ced",
@@ -75,20 +75,61 @@
       "tags": [],
       "validation_count_total": 0,
       "wave_coords": null
+    },
+    "dd4860bd-bb36-4516-8cd0-8815712b5698": {
+      "knowledge_id": "dd4860bd-bb36-4516-8cd0-8815712b5698",
+      "knowledge_type": "concept",
+      "source": "curriculum",
+      "concept": "Transformer Architecture",
+      "content": {
+        "concept": "Transformer Architecture",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 48,
+        "timestamp": "2025-12-06T10:45:29.264605"
+      },
+      "description": "Self-attention based neural network architecture",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "local",
+      "timestamp": 1765017929.2627819,
+      "tags": [
+        "AI",
+        "deep-learning",
+        "NLP"
+      ],
+      "validation_count_total": 0,
+      "wave_coords": null
     }
   },
   "stats": {
-    "total_acquired": 2,
+    "total_acquired": 3,
     "total_shared": 0,
     "total_received": 0,
     "total_validations": 0,
     "web_fetches": 0,
     "successful_web_fetches": 0,
     "by_type": {
-      "concept": 2
+      "concept": 3
     },
     "by_source": {
-      "curriculum": 2
+      "curriculum": 3
     }
   }
 }
