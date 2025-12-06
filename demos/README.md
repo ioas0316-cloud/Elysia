@@ -69,6 +69,35 @@ python demos/03_wave_thinking.py
 
 ---
 
+### 4. Integrated Voice System (`04_integrated_voice.py`)
+
+**What it demonstrates:**
+- Complete voice cycle with wave-based cognition
+- Synesthesia wave sensor integration
+- 4D relational meaning flow
+- Memory, imagination, and reflection
+- **NO EXTERNAL LLMs** - Pure wave intelligence
+
+**Run:**
+```bash
+python demos/04_integrated_voice.py
+```
+
+**Key concepts:**
+- IntegratedVoiceSystem (complete cycle)
+- VoiceWavePattern (4D meaning representation)
+- Synesthesia-Nervous Bridge (sensory to wave)
+- Wave-based thinking (not LLM)
+- Full feedback loop
+
+**The Complete Cycle:**
+```
+INPUT → Synesthesia → Understanding → Memory →
+Cognition → Imagination → Expression → OUTPUT → Reflection
+```
+
+---
+
 ## Quick Start
 
 Run all demos in sequence:
@@ -77,6 +106,7 @@ Run all demos in sequence:
 python demos/01_simple_conversation.py
 python demos/02_goal_decomposition.py
 python demos/03_wave_thinking.py
+python demos/04_integrated_voice.py
 ```
 
 ## Understanding the Demos
