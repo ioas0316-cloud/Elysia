@@ -35,7 +35,6 @@ from Core.Foundation.resonance_field import ResonanceField
 from Core.Foundation.social_cortex import SocialCortex
 from Core.Foundation.media_cortex import MediaCortex
 from Core.Foundation.holographic_cortex import HolographicCortex
-from Core.Foundation.planning_cortex import PlanningCortex
 from Core.Foundation.reality_sculptor import RealitySculptor
 from Core.Foundation.dream_engine import DreamEngine
 from Core.Foundation.soul_guardian import SoulGuardian
@@ -59,7 +58,7 @@ from Core.Foundation.celestial_grammar import MagneticEngine, Nebula
 from Core.Foundation.magnetic_cortex import MagneticCompass
 from Core.Interface.bluetooth_ear import BluetoothEar
 from Core.Foundation.experience_stream import ExperienceStream
-from Core.Foundation.wave_web_server import WaveWebServer
+# from Core.Foundation.wave_web_server import WaveWebServer -> REMOVED (Legacy Flask)
 from Core.Intelligence.integrated_cognition_system import get_integrated_cognition
 from Core.Intelligence.collective_intelligence_system import get_collective_intelligence
 from Core.Intelligence.wave_coding_system import get_wave_coding_system
@@ -108,15 +107,15 @@ class LivingElysia:
         self.transceiver = CosmicTransceiver()
         self.real_comm = RealCommunicationSystem(self.ultra_reasoning, self.wave_hub)
         
-        self.architect = PlanningCortex()
+        self.architect = None # PlanningCortex removed (Project Sophia Purge)
         self.sculptor = RealitySculptor()
         
         # Interface Organs
         self.ear = BluetoothEar()
         self.stream = ExperienceStream()
-        self.server = WaveWebServer(port=8080)
-        self.server.connect_to_ether()
-        self.server.run(auto_update=True)
+        # self.server = WaveWebServer(port=8080) -> REMOVED (Legacy Flask)
+        # self.server.connect_to_ether()
+        # self.server.run(auto_update=True)
         
         self.social = SocialCortex()
         self.media = MediaCortex(self.social)
@@ -160,21 +159,24 @@ class LivingElysia:
             chronos=self.chronos
         )
 
-        # 5. Connect Organs to CNS
-        self.cns.connect_organ("Will", self.will)
-        self.cns.connect_organ("Senses", self.senses)
-        self.cns.connect_organ("OuterSense", self.outer_sense)
-        self.cns.connect_organ("Brain", self.brain)
-        self.cns.connect_organ("Voice", self.voice)
-        # self.cns.connect_organ("Architect", self.architect) # Future integration
-        
-        # 6. Action Dispatcher
+        # 4.5. Action Dispatcher (Pre-CNS Connection)
         self.dispatcher = ActionDispatcher(
             self.brain, self.web, self.media, self.hologram, self.sculptor, 
             self.transceiver, self.social, self.user_bridge, self.quantum_reader, 
             self.dream_engine, self.memory, self.architect, self.synapse, 
             self.shell, self.resonance, self.sink
         )
+
+        # 5. Connect Organs to CNS
+        self.cns.connect_organ("Will", self.will)
+        self.cns.connect_organ("Senses", self.senses)
+        self.cns.connect_organ("OuterSense", self.outer_sense)
+        self.cns.connect_organ("Brain", self.brain)
+        self.cns.connect_organ("Voice", self.voice)
+        self.cns.connect_organ("Dispatcher", self.dispatcher)
+        # self.cns.connect_organ("Architect", self.architect) # Future integration
+        
+        # 6. Action Dispatcher (Moved up)
 
         # Structural Integration (Yggdrasil)
         yggdrasil.plant_root("ResonanceField", self.resonance)

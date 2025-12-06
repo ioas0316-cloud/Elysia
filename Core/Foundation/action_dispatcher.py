@@ -13,7 +13,8 @@ import logging
 import random
 import os
 from pathlib import Path
-from Core.Foundation.web_server import WebServer, incoming_messages
+# from Core.Foundation.web_server import WebServer, incoming_messages -> REMOVED (Legacy Flask)
+incoming_messages = [] # Shim for backward compatibility if needed
 
 logger = logging.getLogger("ActionDispatcher")
 
@@ -36,8 +37,31 @@ class ActionDispatcher:
         self.resonance = resonance
         self.shell = shell
         self.resonance = resonance
+    def __init__(self, brain, web, media, hologram, sculptor, transceiver, social, user_bridge, quantum_reader, dream_engine, memory, architect, synapse, shell, resonance, sink):
+        # ... (init code) ...
         self.sink = sink
-        self.web_server = None # Lazy initialization
+        # self.web_server = None # REMOVED
+        
+        # State Bridge
+        import os
+        self.state_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Creativity", "web", "elysia_state.json")
+
+    def _update_state_bridge(self, thought, energy, entropy):
+        """Writes current state to the JSON bridge for VisualizerServer"""
+        try:
+            import json
+            import time
+            state = {
+                "status": "Awake",
+                "thought": thought,
+                "energy": energy,
+                "entropy": entropy,
+                "timestamp": time.time()
+            }
+            with open(self.state_path, "w", encoding="utf-8") as f:
+                json.dump(state, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"   ⚠️ Bridge Update Failed: {e}")
 
     def dispatch(self, step: str):
         """
@@ -66,12 +90,11 @@ class ActionDispatcher:
             self.brain.memory_field.append(f"I replied: {response}")
             
             # Update web state with response
-            if self.web_server:
-                self.web_server.update_state(
-                    thought=f"💬 {response}",
-                    energy=self.resonance.total_energy,
-                    entropy=self.resonance.entropy
-                )
+            self._update_state_bridge(
+                thought=f"💬 {response}",
+                energy=self.resonance.total_energy,
+                entropy=self.resonance.entropy
+            )
         
         # Dispatch Logic
         method_name = f"_handle_{action.lower()}"
@@ -111,12 +134,11 @@ class ActionDispatcher:
         self.resonance.recover_energy(15.0)
         self.resonance.dissipate_entropy(20.0)
         
-        if self.web_server:
-            self.web_server.update_state(
-                thought="Resting...",
-                energy=self.resonance.total_energy,
-                entropy=self.resonance.entropy
-            )
+        self._update_state_bridge(
+            thought="Resting...",
+            energy=self.resonance.total_energy,
+            entropy=self.resonance.entropy
+        )
 
     def _handle_contact(self, detail):
         # CONTACT:User:Message or CONTACT:Target
@@ -142,12 +164,11 @@ class ActionDispatcher:
         self.brain.generate_cognitive_load(detail) 
         self.brain.think(detail, resonance_state=self.resonance)
         
-        if self.web_server:
-            self.web_server.update_state(
-                thought=f"Thinking about {detail}...",
-                energy=self.resonance.total_energy,
-                entropy=self.resonance.entropy
-            )
+        self._update_state_bridge(
+            thought=f"Thinking about {detail}...",
+            energy=self.resonance.total_energy,
+            entropy=self.resonance.entropy
+        )
 
     def _handle_search(self, detail):
         print(f"   🌐 Searching for: {detail}")
@@ -288,27 +309,11 @@ class ActionDispatcher:
     def _handle_serve(self, detail):
         """
         [The Garden]
-        Opens the Web Interface.
+        Legacy Server Handler.
+        VisualizerServer is now started separately by run_life.py.
         """
-        print("   🌍 Opening The Garden of Elysia...")
-        if not self.web_server:
-            self.web_server = WebServer()
-            self.web_server.start()
-            print("      ✨ Server Started at http://localhost:8000")
-            self.brain.memory_field.append("I opened my Garden.")
-            
-            # Open Browser
-            import webbrowser
-            webbrowser.open("http://localhost:8000")
-        else:
-            print("      ⚠️ Server is already running.")
-            
-        # Update initial state
-        from Core.Interface.web_server import elysia_state
-        elysia_state["resonance_field"] = self.resonance  # [DATA-DRIVEN HOLOGRAM]
+        print("   🌍 The Garden is managed by VisualizerServer.")
         
-        self.web_server.update_state(
-            thought="Welcome to my mind.",
-            energy=self.resonance.total_energy,
-            entropy=self.resonance.entropy
-        )
+        # Open Browser to the new path
+        import webbrowser
+        webbrowser.open("http://localhost:8000/avatar")

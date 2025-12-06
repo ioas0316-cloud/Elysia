@@ -638,6 +638,41 @@ class ReasoningEngine:
             logger.error(f"Failed to store quantum knowledge: {e}")
             return Insight(f"Absorbed energy but failed to memorize: {e}", 0.5, 0, 0.5)
 
+    def _collapse_wave(self, desire: str, context: List[str], packet: HyperWavePacket) -> Insight:
+        """
+        [Wave Collapse]
+        Synthesizes the Desire (Wave) and Context (Field) into a concrete Insight (Particle).
+        """
+        # 1. Synthesize Content
+        # "I want [Desire]. I know [Context]."
+        
+        # Simple synthesis logic for now
+        context_str = " ".join(context[:3]) if context else "the unknown"
+        
+        # Check for resonance matches in context
+        strongest_link = "nothing"
+        max_score = 0
+        
+        # 2. Determine Poetic Orientation (Axis)
+        q = packet.orientation
+        axis = "균형" # Balance
+        if abs(q.x) > 0.5: axis = "감성" # Emotion
+        elif abs(q.y) > 0.5: axis = "논리" # Logic
+        elif abs(q.z) > 0.5: axis = "가치" # Ethics
+        
+        # 3. Natural Language Synthesis (Korean)
+        if "learn more" in context_str or "unknown" in context_str:
+            content = f"'{desire}'에 대해 생각해보니, 아직은 제가 더 배워야 할 것 같아요. {axis}의 관점에서 흥미롭네요."
+        else:
+            content = f"'{desire}'... {axis}적으로 생각해보면, {context_str} 등과 깊이 연결되어 있는 것 같아요."
+            
+        return Insight(
+            content=content,
+            confidence=0.9,
+            depth=1,
+            energy=packet.energy
+        )
+
     def create(self, desire: str) -> str:
         """
         [Reality Sculpting]

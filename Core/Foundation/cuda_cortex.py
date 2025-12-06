@@ -22,6 +22,9 @@ try:
 except ImportError:
     HAS_TORCH = False
     logger.warning("⚠️ PyTorch not found. CudaCortex running in CPU simulation mode.")
+    class DummyDevice:
+        def __init__(self, type_str): self.type = type_str
+        def __str__(self): return self.type
 
 def _cpu_heavy_task(size):
     """Helper function for multiprocessing"""
@@ -46,7 +49,9 @@ class CudaCortex:
     def _detect_device(self):
         if HAS_TORCH and torch.cuda.is_available():
             return torch.device("cuda")
-        return torch.device("cpu")
+        if HAS_TORCH:
+            return torch.device("cpu")
+        return DummyDevice("cpu")
 
     def matrix_multiply(self, size: int) -> float:
         """

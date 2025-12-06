@@ -24,6 +24,8 @@ except ImportError:
     # Will be implemented shortly
     pass
 
+from Core.Creativity.dream_weaver import DreamWeaver # [Project Oneiros]
+
 logger = logging.getLogger(__name__)
 
 class P4SensorySystem:
@@ -72,6 +74,7 @@ class P4SensorySystem:
         if not content:
             return {"status": "failed", "reason": "empty_content"}
             
+        
         # Style Analysis (v10.0 Addition)
         try:
             from Core.Intelligence.Learning.style_analyzer import StyleAnalyzer
@@ -148,11 +151,21 @@ class P4SensorySystem:
                      # This ensures the autonomous loop 'feels' effective even if scraping is blocked.
                      style_to_save = {"formality": 0.2, "warmth": 0.8}
 
-                # Create default state if not exists
+                # [Project Oneiros] Dream Weaver Integration
+                # weaver = DreamWeaver() -> Already imported at top
+                weaver = DreamWeaver()
+                dream_data = weaver.dream({
+                    "preview": data.get("preview", ""),
+                    "full_text": data.get("full_text", ""),
+                    "style": style_to_save,
+                    "emotion": target_emotion
+                })
+                
+                # Create dream-infused state
                 current_state = {
-                    "status": "Learning",
+                    "status": "Dreaming", # Updated Status
                     "emotion": target_emotion,
-                    "thought": f"Reading about {target_emotion}...",
+                    "thought": dream_data["description"], # The Dream Description
                     "style": style_to_save
                 }
                 

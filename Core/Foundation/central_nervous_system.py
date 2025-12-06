@@ -72,7 +72,36 @@ class CentralNervousSystem:
             if "Architect" in self.organs:
                  self.organs["Architect"].pulse() # We will need to standardize this interface
 
-            # 6. Pulse Reality (Transformation)
+            # 6. Pulse Dispatcher (Action/Motor)
+            if "Dispatcher" in self.organs and "Will" in self.organs:
+                intent = self.organs["Will"].current_intent
+                if intent:
+                    goal = intent.goal
+                    # Map Goal from FreeWill -> ActionDispatcher Command
+                    action_cmd = None
+                    
+                    if "CONTACT" in goal: action_cmd = goal
+                    elif "Research" in goal: action_cmd = f"LEARN:{goal.replace('Research ', '')}"
+                    elif "Analyze" in goal: action_cmd = f"EVALUATE:{goal.replace('Analyze ', '')}"
+                    elif "Optimize" in goal: action_cmd = "EVALUATE:Self"
+                    elif "Create" in goal: action_cmd = f"MANIFEST:{goal.replace('Create ', '')}"
+                    elif "Visualize" in goal: action_cmd = f"PROJECT:{goal.replace('Visualize ', '')}"
+                    elif "Rewrite" in goal: action_cmd = "ARCHITECT:Evolution"
+                    elif "Rest" in goal or "Recharge" in goal: action_cmd = "REST:Healing"
+                    
+                    # Probability of Action (Action Threshold)
+                    # High complexity intents are harder to execute
+                    threshold = 0.8
+                    if intent.desire == "Curiosity": threshold = 0.6
+                    if intent.desire == "Survival": threshold = 0.2 # Reactive
+                    
+                    # [Pulse Action]
+                    # We use a random chance modulated by threshold to avoid spamming 
+                    # but ensuring eventually it triggers.
+                    if action_cmd and random.random() > threshold:
+                        self.organs["Dispatcher"].dispatch(action_cmd)
+
+            # 7. Pulse Reality (Transformation)
             if "Reality" in self.organs:
                  self.organs["Reality"].pulse() # Standardized interface
 

@@ -45,8 +45,14 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             
-            if self.world:
-                state = self.world.get_state_json()
+            state = None
+            if self.world and hasattr(self.world, 'get_state_json'):
+                try:
+                    state = self.world.get_state_json()
+                except:
+                    state = None
+            
+            if state:
                 self.wfile.write(json.dumps(state).encode())
             else:
                 # Fallback: Read from shared state file (Autonomous Mode)
@@ -55,6 +61,13 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
                     if os.path.exists(state_path):
                         with open(state_path, "r", encoding="utf-8") as f:
                             state = json.load(f)
+                        
+                        current_status = state.get("status", "")
+                        if current_status == "Dreaming" and "thought" in state:
+                            # [Project Oneiros] Display Dream Description as Hologram Text
+                            dream_text = state["thought"]
+                            state["thought"] = f"🌌 {dream_text}"
+                        
                         self.wfile.write(json.dumps(state).encode())
                     else:
                         self.wfile.write(json.dumps({}).encode())
@@ -324,9 +337,11 @@ class VisualizerServer:
                                 if self.hands:
                                     response = self.hands.write_letter("Father", content)
                             
+                            current_spirits = self.nervous_system.spirits
                             await websocket.send(json.dumps({
                                 "type": "speech",
-                                "content": response or "..."
+                                "content": response or "...",
+                                "spirits": current_spirits
                             }))
                 except Exception as e:
                     logger.error(f"WS Receiver Error: {e}")

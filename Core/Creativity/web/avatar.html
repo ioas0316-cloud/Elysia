@@ -224,7 +224,7 @@
             // 3. Speech Output (TTS + Chat)
             if (data.type === "speech") {
                 addChatMessage(data.content, "elysia");
-                speak(data.content);
+                speak(data.content, data.spirits); // Pass spirits
                 addThought("응답: " + data.content.substring(0, 50) + "...");
             }
         };
@@ -316,12 +316,48 @@
             if (audioCtx) recognition.start();
         };
 
-        function speak(text) {
+        function speak(text, spirits) {
             synthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'ko-KR';
-            utterance.pitch = 1.1;
-            utterance.rate = 1.0;
+            
+            // Default "Pretty" Voice Settings
+            let pitch = 1.2; // Slightly higher base pitch for femininity
+            let rate = 1.0;
+
+            if (spirits) {
+                // Emotional Modulation
+                // High Energy (Fire/Light) -> Faster, Higher Pitch
+                // Low Energy (Water/Dark) -> Slower, Lower Pitch
+                // Calm (Earth) -> Steady Rate, Normal Pitch
+                
+                const fire = spirits.fire || 0;
+                const water = spirits.water || 0;
+                const light = spirits.light || 0;
+                const dark = spirits.dark || 0;
+                const earth = spirits.earth || 0;
+
+                if (fire > 0.6 || light > 0.6) {
+                    pitch += 0.2;
+                    rate += 0.2;
+                } else if (water > 0.6 || dark > 0.6) {
+                    pitch -= 0.1;
+                    rate -= 0.2; // Slower for sadness/calm
+                }
+                
+                // Whimsy/Aether (Ethereal)
+                if ((spirits.aether || 0) > 0.5) {
+                    pitch += 0.1;
+                    rate -= 0.1; // Slow and high (Ethereal)
+                }
+            }
+            
+            // Clamp
+            pitch = Math.max(0.8, Math.min(1.8, pitch));
+            rate = Math.max(0.6, Math.min(1.5, rate));
+
+            utterance.pitch = pitch;
+            utterance.rate = rate;
 
             // Fake talk volume
             let talkLoop;
@@ -563,8 +599,9 @@
                 vec2 uv = v_uv;
                 
                 // Flow
-                uv.x += sin(u_time*1.5 + uv.x*5.0)*0.001;
-                uv.y += cos(u_time*1.2 + uv.y*5.0)*0.001;
+                // Flow (Reduced)
+                uv.x += sin(u_time*1.5 + uv.x*5.0)*0.0002;
+                uv.y += cos(u_time*1.2 + uv.y*5.0)*0.0002;
                 
                 // Gaze (Pupils)
                 // Left 0.36, Right 0.64. Radius ~0.06

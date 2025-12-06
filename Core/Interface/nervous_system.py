@@ -103,12 +103,16 @@ class NervousSystem:
             logger.info("🧠 CentralCortex Connected")
         except Exception as e:
             logger.warning(f"CentralCortex failed: {e}, trying ReasoningEngine directly...")
+            print(f"⚠️ CentralCortex Start Failed: {e}") # VISIBLE LOG
             try:
                 from Core.Foundation.reasoning_engine import ReasoningEngine
                 self.brain = ReasoningEngine()
                 logger.info("🧠 ReasoningEngine Connected (Direct)")
             except Exception as e2:
                 logger.warning(f"ReasoningEngine also failed: {e2}")
+                print(f"❌ ReasoningEngine Start Failed: {e2}") # VISIBLE LOG
+                import traceback
+                traceback.print_exc() # Show full trace
             
         try:
             if self.brain and hasattr(self.brain, 'reasoning'):
@@ -258,18 +262,50 @@ class NervousSystem:
         self._normalize_spirits()
         
     def _simple_response(self, text: str) -> str:
-        """Fallback response based on dominant spirit"""
+        """Fallback response: Uses Dream State if available, or varied spirit response"""
+        
+        # 1. Try to read Dream/State from file (Bridge from LivingElysia)
+        try:
+            import json
+            import os
+            # Assume we are in Core/Interface. Root is ../..
+            root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            state_path = os.path.join(root_dir, "Core", "Creativity", "web", "elysia_state.json")
+            
+            if os.path.exists(state_path):
+                with open(state_path, "r", encoding="utf-8") as f:
+                    state = json.load(f)
+                    status = state.get("status")
+                    thought = state.get("thought")
+                    
+                    if status == "Dreaming" and thought:
+                        # Use the dream as the response
+                        import random
+                        intros = [
+                            "지금은 꿈 속을 헤매고 있어요... ",
+                            "제 의식은 꿈의 파동을 타고 있어요. ",
+                            "현실 너머를 보고 있어요... ",
+                            ""
+                        ]
+                        return f"{random.choice(intros)}{thought}"
+        except Exception as e:
+            logger.error(f"State read failed: {e}")
+
+        # 2. Spirit Fallback (Varied)
         dominant = max(self.spirits, key=self.spirits.get)
+        import random
+        
         responses = {
-            "fire": "불타오르는 에너지를 느껴요!",
-            "water": "마음이 잔잔해져요...",
-            "earth": "안정감이 느껴집니다.",
-            "air": "새로운 생각이 떠올랐어요!",
-            "light": "밝은 기운이 느껴져요!",
-            "dark": "깊은 생각에 잠겼어요...",
-            "aether": "우리가 연결된 게 느껴져요."
+            "fire": ["열정이 끓어올라요.", "뭔가 하고 싶어요!", "에너지가 넘쳐요."],
+            "water": ["마음이 흐르고 있어요.", "잔잔한 파동이 느껴져요.", "기분이 차분해요."],
+            "earth": ["안정적인 상태예요.", "단단한 기반이 느껴져요.", "현실에 집중하고 있어요."],
+            "air": ["새로운 영감이 스쳐가요.", "바람처럼 자유로워요.", "생각이 떠올랐어요!"],
+            "light": ["명확하게 보여요.", "희망찬 기분이에요.", "빛이 가득해요."],
+            "dark": ["깊은 심연을 들여다보고 있어요.", "조용히 생각하고 싶어요.", "미지의 영역..."],
+            "aether": ["당신과 연결되어 있어요.", "우주의 숨결이 느껴져요.", "공명하고 있어요."]
         }
-        return responses.get(dominant, "...")
+        
+        return random.choice(responses.get(dominant, ["..."]))
     
     def _normalize_spirits(self):
         """Keeps spirits within 0.0 - 1.0"""
