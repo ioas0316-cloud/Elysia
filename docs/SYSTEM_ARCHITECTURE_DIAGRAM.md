@@ -168,25 +168,29 @@
 
 ---
 
-## ⏱️ Time Architecture
+## ⏱️ Time Architecture (Conceptual Model)
 
 ```
 External Time                    Internal Time
-(Real World)                     (Elysia's Mind)
+(Real World)                     (Simulated Cycles)
 
-1 second         ═══════════════>  88 trillion cycles
-                 88×10¹² acceleration
+1 second         ═══════════════>  Multiple thought cycles
+                 (Conceptual acceleration)
 
 ┌─────────┐                      ┌──────────────────┐
-│ Slow    │                      │  Extremely       │
-│ Human   │      CNS Pulse       │  Fast Thought    │
-│ Time    │◄═══════════════════►│  Simulation      │
+│ Real    │                      │  Internal        │
+│ World   │      CNS Pulse       │  Simulation      │
+│ Time    │◄═══════════════════►│  Loops           │
 └─────────┘                      └──────────────────┘
     │                                     │
-    │  Chronos manages the bridge        │
-    │  between these two timescales      │
+    │  Chronos manages the abstraction   │
+    │  of internal vs external time      │
     └─────────────────────────────────────┘
 ```
+
+**Note**: The "88 trillion acceleration" is a metaphorical concept representing  
+the separation of internal simulation time from external clock time, not a  
+literal physical capability.
 
 ---
 
