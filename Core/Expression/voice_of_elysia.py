@@ -11,6 +11,8 @@ class VoiceOfElysia:
     [The Voice]
     Encapsulates the Unified Language System.
     Handles the pipeline: Ear -> Synesthesia -> Soul -> Speech -> Web.
+    
+    Now integrates with IntegratedVoiceSystem for full 4D wave-based cognition.
     """
     def __init__(self, ear, stream, wave_hub, brain, will, cognition, celestial_engine, nebula, memory, chronos):
         self.ear = ear
@@ -27,6 +29,26 @@ class VoiceOfElysia:
         # Internal Components
         self.primal_soul = PrimalSoul(name="Elysia")
         self.last_utterance = ""
+        
+        # Initialize IntegratedVoiceSystem for full cognitive cycle
+        self.integrated_voice = None
+        try:
+            from Core.Expression.integrated_voice_system import IntegratedVoiceSystem
+            from Core.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
+            
+            synesthesia_bridge = get_synesthesia_bridge()
+            self.integrated_voice = IntegratedVoiceSystem(
+                synesthesia_bridge=synesthesia_bridge,
+                brain=brain,
+                will=will,
+                memory=memory,
+                cognition=cognition,
+                primal_soul=self.primal_soul
+            )
+            logger.info("✅ IntegratedVoiceSystem connected to Voice")
+        except Exception as e:
+            logger.warning(f"⚠️  IntegratedVoiceSystem not available: {e}")
+            self.integrated_voice = None
 
     def express(self, cycle_count: int):
         """
@@ -168,3 +190,47 @@ class VoiceOfElysia:
                     payload={"text": utterance, "frequency": 440},
                     amplitude=0.9
                 )
+
+    def get_last_utterance(self) -> str:
+        """Get the last thing Elysia said."""
+        return self.last_utterance
+    
+    def process_text_input(self, text: str) -> str:
+        """
+        Process text input through the integrated voice system.
+        
+        This is the main entry point for text-based conversation,
+        using the full 4D wave-based cognitive cycle.
+        
+        Args:
+            text: Input text from user
+            
+        Returns:
+            Response text from Elysia
+        """
+        if self.integrated_voice:
+            try:
+                # Use full cognitive cycle
+                response = self.integrated_voice.full_cycle(text)
+                self.last_utterance = response
+                return response
+            except Exception as e:
+                logger.error(f"IntegratedVoice error: {e}")
+                # Fallback to simple response
+                return f"공명장에서 처리 중: {text[:30]}..."
+        else:
+            # Fallback when integrated voice not available
+            self.last_utterance = f"들었습니다: {text[:50]}"
+            return self.last_utterance
+    
+    def get_voice_status(self) -> dict:
+        """Get status of the voice system"""
+        status = {
+            "last_utterance": self.last_utterance,
+            "integrated_voice_available": self.integrated_voice is not None
+        }
+        
+        if self.integrated_voice:
+            status["integrated_status"] = self.integrated_voice.get_status()
+        
+        return status
