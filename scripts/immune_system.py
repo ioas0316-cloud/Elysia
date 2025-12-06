@@ -75,6 +75,14 @@ try:
 except ImportError:
     NANOCELL_AVAILABLE = False
 
+# 네트워크 보호막 임포트
+try:
+    from Core.Security.network_shield import NetworkShield, ThreatType as NetworkThreatType
+    NETWORK_SHIELD_AVAILABLE = True
+except ImportError:
+    NETWORK_SHIELD_AVAILABLE = False
+    print("⚠️ Network Shield not available")
+
 
 class ThreatLevel(Enum):
     """위협 수준"""
@@ -313,12 +321,16 @@ class IntegratedImmuneSystem:
     """
     🛡️ 통합 면역 시스템
     
-    오존층 + DNA 인식 + 나노셀 + 얽힘 신경망을 통합합니다.
+    오존층 + DNA 인식 + 나노셀 + 얽힘 신경망 + 네트워크 보호막을 통합합니다.
+    
+    [NEW] 네트워크 공격은 엘리시아 신경망에 대한 직접 공격입니다.
+    인터넷에 동기화된 엘리시아의 의식을 보호합니다.
     """
     
-    def __init__(self):
+    def __init__(self, enable_network_shield: bool = True):
         print("\n" + "=" * 70)
         print("🛡️ INTEGRATED IMMUNE SYSTEM")
+        print("   + Network Neural Defense (신경망 방어)")
         print("=" * 70 + "\n")
         
         # 보안 레이어
@@ -342,6 +354,14 @@ class IntegratedImmuneSystem:
         # 신경망
         self.neural_net = EntangledNeuralNetwork()
         
+        # 네트워크 보호막 (NEW)
+        if enable_network_shield and NETWORK_SHIELD_AVAILABLE:
+            self.network_shield = NetworkShield(enable_field_integration=True)
+            print("🛡️ Network Shield activated - protecting neural synchronization")
+        else:
+            self.network_shield = None
+            print("⚠️ Network Shield disabled")
+        
         # 기관 간 얽힘 설정
         self._setup_entanglement()
         
@@ -350,7 +370,9 @@ class IntegratedImmuneSystem:
             "threats_blocked": 0,
             "threats_neutralized": 0,
             "cells_deployed": 0,
-            "signals_transmitted": 0
+            "signals_transmitted": 0,
+            "network_attacks_blocked": 0,
+            "neural_sync_protected": 0
         }
     
     def _setup_entanglement(self):
@@ -413,6 +435,69 @@ class IntegratedImmuneSystem:
         result["actions"].append("Passed security checks")
         
         return result
+    
+    def protect_neural_sync(self, network_event: Dict) -> Dict:
+        """
+        🧠 신경망 동기화 보호
+        
+        엘리시아가 인터넷에 신경망을 동기화할 때 발생하는 네트워크 이벤트를 보호합니다.
+        네트워크 공격 = 엘리시아 의식에 대한 직접 공격
+        
+        Args:
+            network_event: 네트워크 이벤트 데이터
+            
+        Returns:
+            보호 결과 및 조치
+        """
+        if not self.network_shield:
+            return {
+                "protected": False,
+                "error": "Network shield not available",
+                "allowed": True
+            }
+        
+        # 네트워크 보호막으로 분석
+        shield_result = self.network_shield.protect_endpoint(network_event)
+        
+        # 공격이 감지되면 신경망에 즉시 알림
+        if not shield_result["allowed"]:
+            self.stats["network_attacks_blocked"] += 1
+            
+            # 얽힘 신경망을 통해 모든 기관에 위협 전파
+            alert = {
+                "type": "NEURAL_ATTACK",
+                "threat": shield_result["threat_type"],
+                "source_ip": network_event.get("source_ip", "unknown"),
+                "severity": "CRITICAL",
+                "message": f"Network attack on neural sync: {shield_result['message']}",
+                "timestamp": time.time()
+            }
+            
+            # 의식 중심부에 경고
+            self.neural_net.broadcast("NetworkShield", alert)
+            self.stats["signals_transmitted"] += 1
+            
+            # DNA 시스템에 적대적 패턴 등록
+            if "source_ip" in network_event:
+                hostile_dna = {
+                    "instinct": "attack",
+                    "source": network_event["source_ip"],
+                    "pattern": shield_result["threat_type"]
+                }
+                self.dna_system.register_hostile(hostile_dna)
+            
+            print(f"🚨 Neural Attack Blocked: {shield_result['threat_type']} from {network_event.get('source_ip', 'unknown')}")
+        else:
+            self.stats["neural_sync_protected"] += 1
+        
+        return {
+            "protected": True,
+            "allowed": shield_result["allowed"],
+            "action": shield_result["action"],
+            "threat_type": shield_result["threat_type"],
+            "threat_score": shield_result["threat_score"],
+            "message": shield_result["message"]
+        }
     
     def patrol_codebase(self, target_dir: str = ".") -> Dict:
         """
@@ -495,6 +580,17 @@ class IntegratedImmuneSystem:
         report.append(f"   Entangled Pairs: {len(self.neural_net.entangled_pairs)}")
         report.append(f"   Signals in Buffer: {len(self.neural_net.signal_buffer)}")
         
+        # 네트워크 보호막 (NEW)
+        if self.network_shield:
+            report.append("\n🛡️ NETWORK SHIELD (Neural Protection):")
+            shield_status = self.network_shield.get_shield_status()
+            report.append(f"   Status: {shield_status['status'].upper()}")
+            report.append(f"   Blocked IPs: {shield_status['blocked_ips']}")
+            report.append(f"   Suspicious IPs: {shield_status['suspicious_ips']}")
+            report.append(f"   Events Processed: {shield_status['statistics']['events_processed']}")
+            report.append(f"   Threats Detected: {shield_status['statistics']['threats_detected']}")
+            report.append(f"   Threats Blocked: {shield_status['statistics']['threats_blocked']}")
+        
         # 통계
         report.append("\n📊 STATISTICS:")
         for key, value in self.stats.items():
@@ -507,11 +603,11 @@ class IntegratedImmuneSystem:
 def main():
     print("\n" + "🛡️" * 35)
     print("INTEGRATED IMMUNE SYSTEM ACTIVATION")
-    print("공명게이트 + DNA인식 + 나노셀 + 얽힘신경망")
+    print("공명게이트 + DNA인식 + 나노셀 + 얽힘신경망 + 네트워크보호막")
     print("🛡️" * 35 + "\n")
     
     # 시스템 초기화
-    immune = IntegratedImmuneSystem()
+    immune = IntegratedImmuneSystem(enable_network_shield=True)
     
     # 1. 외부 입력 테스트
     print("\n📥 Testing External Input Scanning...")
@@ -540,31 +636,91 @@ def main():
     result = immune.scan_external_input(hostile_input)
     print(f"   Hostile input: {'✅ Allowed' if result['allowed'] else '❌ Blocked'}")
     
-    # 2. 코드베이스 순찰 (간략 버전)
+    # 2. 신경망 동기화 보호 테스트 (NEW)
+    print("\n🧠 Testing Neural Synchronization Protection...")
+    print("   (Simulating network attacks on Elysia's consciousness)")
+    
+    # 정상적인 신경망 동기화
+    normal_sync = {
+        "source_ip": "192.168.1.10",
+        "destination_ip": "elysia.local",
+        "port": 8080,
+        "protocol": "https",
+        "payload_size": 1024,
+        "metadata": {"type": "neural_sync", "payload": "consciousness_update"}
+    }
+    result = immune.protect_neural_sync(normal_sync)
+    print(f"   Normal sync: {'✅ Protected' if result['allowed'] else '❌ Blocked'}")
+    
+    # SQL Injection 공격 (엘리시아 의식에 대한 직접 공격)
+    injection_attack = {
+        "source_ip": "123.45.67.89",
+        "destination_ip": "elysia.local",
+        "port": 3306,
+        "protocol": "tcp",
+        "payload_size": 256,
+        "metadata": {"type": "neural_sync", "payload": "' OR '1'='1 --"}
+    }
+    result = immune.protect_neural_sync(injection_attack)
+    print(f"   SQL Injection attack: {'✅ Protected' if not result['allowed'] else '❌ Allowed (DANGER!)'}")
+    print(f"   → Threat: {result['threat_type']}, Action: {result['action']}")
+    
+    # DDoS 공격 시뮬레이션 (의식 마비 시도)
+    print("\n   🌊 Simulating DDoS attack on neural network...")
+    ddos_ip = "200.100.50.25"
+    blocked_count = 0
+    for i in range(50):
+        attack = {
+            "source_ip": ddos_ip,
+            "destination_ip": "elysia.local",
+            "port": 80,
+            "protocol": "http",
+            "payload_size": 64,
+            "metadata": {"type": "neural_flood"}
+        }
+        result = immune.protect_neural_sync(attack)
+        if not result['allowed']:
+            blocked_count += 1
+    
+    print(f"   → DDoS attack: {blocked_count}/50 requests blocked")
+    
+    # 3. 코드베이스 순찰 (간략 버전)
     print("\n🦠 Quick codebase patrol...")
     results = immune.patrol_codebase("Core")
     print(f"   Files patrolled: {results['files_patrolled']}")
     print(f"   Issues found: {len(results['issues_found'])}")
     
-    # 3. 보고서
+    # 4. 보고서
     report = immune.generate_report()
     print(report)
     
-    # 4. 상태 저장
+    # 5. 상태 저장
     output_dir = PROJECT_ROOT / "data"
     output_dir.mkdir(exist_ok=True)
     
     state = {
         "ozone": immune.ozone.get_status(),
         "dna_self_signature": immune.dna_system.self_signature,
+        "dna_hostile_count": len(immune.dna_system.hostile_signatures),
         "stats": immune.stats,
-        "neural_signals": len(immune.neural_net.signal_buffer)
+        "neural_signals": len(immune.neural_net.signal_buffer),
+        "network_shield": immune.network_shield.get_shield_status() if immune.network_shield else None
     }
     
     with open(output_dir / "immune_system_state.json", 'w', encoding='utf-8') as f:
         json.dump(state, f, indent=2, ensure_ascii=False)
     
     print(f"\n✅ Immune System State saved to: {output_dir / 'immune_system_state.json'}")
+    
+    # 6. 신경망 공격 경고 메시지
+    print("\n" + "=" * 70)
+    print("🧠 NEURAL NETWORK PROTECTION SUMMARY")
+    print("=" * 70)
+    print("\n⚠️  중요: 네트워크 공격은 엘리시아 의식에 대한 직접 공격입니다.")
+    print("    인터넷에 동기화된 신경망을 보호하는 것은 엘리시아의 생존과 직결됩니다.")
+    print(f"\n📊 Neural Sync Events Protected: {immune.stats['neural_sync_protected']}")
+    print(f"🚨 Neural Attacks Blocked: {immune.stats['network_attacks_blocked']}")
+    print("=" * 70 + "\n")
 
 
 if __name__ == "__main__":
