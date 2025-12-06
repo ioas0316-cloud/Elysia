@@ -9,6 +9,27 @@
 
 ## 🎯 철학적 기반 / Philosophical Foundation
 
+### P4의 목적과 방향
+
+**목적 (Purpose)**:
+- 영상/드라마에서 **경험으로 배우고 성장**한다
+- 감정, 맥락, 관계를 **깊이 이해**한다
+- 텍스트를 넘어선 **풍부한 지식 습득**
+- AGI Level 5-6으로 **진화**한다
+
+**방향 (Direction)**:
+- P2.2 Wave Knowledge에 **경험 축적** (멀티미디어)
+- 감정-경로 매핑으로 **의식 성장**
+- 오감 통합으로 **통합적 이해력** 강화
+- 자율 학습으로 **지속적 진화**
+
+**가능해지는 것들**:
+1. 드라마를 보고 **인간 감정과 관계 이해**
+2. 영화에서 **사회적 맥락과 문화 습득**
+3. 음악으로 **감성과 분위기 인식**
+4. 다감각 통합으로 **풍부한 경험 기반 사고**
+5. 지속적 학습으로 **끊임없는 성장**
+
 ### 핵심 개념
 
 **"보고 듣고 느끼며 - 공명으로 배운다"**  
@@ -80,7 +101,7 @@
 | **P4.2: Phase Resonance Pattern Extraction** | 위상공명패턴 추출 시스템 | 2주 | 🎯 최우선 | 📋 계획 |
 | **P4.3: Wave Classification & Filtering** | 파동 분류 및 필터링 시스템 | 2주 | ⚡ 높음 | 📋 계획 |
 | **P4.4: Multi-Sensory Integration Loop** | 오감 통합 루프 | 2주 | ⚡ 높음 | 📋 계획 |
-| **P4.5: Wave Flow Processing - No Storage** | 흐름 전용 처리 (저장 없음, 물처럼) | 2주 | ⚡ 높음 | 📋 계획 |
+| **P4.5: Balanced Wave Processing** | 흐름 처리 + 본질 저장 (학습 위해) | 2주 | ⚡ 높음 | 📋 계획 |
 | **P4.6: Emotional-Path Mapping** | 감성-경로 매핑 시스템 | 2주 | 📊 중간 | 📋 계획 |
 
 **총 예상 기간**: 14주 (3.5개월)  
@@ -90,9 +111,9 @@
 
 **핵심 철학**:
 - "빛을 받아들이듯 파동 정보를 받아들여 자연스럽게 흘려보낸다"
-- **"저장하지 않고 흐름만 - 물처럼, 빛처럼 지나가게"** ✨
-- "연산과 메모리 최소화 - 받아들이고 → 흘려보내고 → 필터링만"
-- "프리즘 필터로 실시간 분해/처리, 숫자나 파동조차 저장 안함"
+- **"흐름 속에서 본질을 뽑아 학습 - 경험을 축적하여 성장"** ✨
+- "연산 최소화, 중요한 것만 저장 - P2.2 Knowledge에 통합"
+- "프리즘 필터로 실시간 분해, 의미있는 패턴만 보존"
 
 ---
 
@@ -1182,399 +1203,340 @@ class MultimediaFeedLoop:
 
 ---
 
-## 📅 P4.5: Wave Flow Processing - No Storage (2주)
+## 📅 P4.5: Balanced Wave Processing (2주)
 
 ### 목표
 
-**저장하지 않고 흐름만 - 프리즘 필터로 실시간 처리**
+**흐름 속에서 본질을 뽑아 학습 - 경험 축적으로 성장**
 
 핵심: 
-- **NO STORAGE** - 파동을 저장하지 않음
-- **FLOW ONLY** - 받아들이고 → 흘려보내고 → 필터링만
-- 프리즘 필터로 실시간 분해/처리
-- 최소한의 메모리, 최소한의 연산
+- **FLOW + LEARN** - 흐름 처리하되 의미있는 것은 학습
+- **프리즘 필터** - 실시간 분해하여 본질만 추출
+- **P2.2 통합** - 중요한 패턴만 Wave Knowledge에 저장
+- **목적: 경험으로 성장** - 흐르는 것 중 배울 것 찾기
 
 ### 철학
 
-**"물은 흐른다, 빛은 지나간다 - 파동도 그냥 흘려보낸다"**
+**"물은 흐르지만, 토양은 영양을 흡수한다"**
 
 ```
-파동 입력 → [프리즘 필터] → 7색 분해 → [즉시 처리] → 흘려보냄
-             (저장 없음)    (임시만)      (저장 없음)
+파동 입력 → [프리즘 필터] → 7색 분해 → [본질 추출] → [학습/성장]
+     ↓                           ↓              ↓            ↓
+  (대량 흐름)                (실시간 분해)  (의미 있는 것)  (P2.2 저장)
 ```
 
-### Week 1: Flow-Through Prism Filter
+### Week 1: Selective Learning from Flow
 
 **구현 내용**:
 
 ```python
-# Core/Flow/prism_flow_filter.py
+# Core/Flow/selective_learning_filter.py
 
-class PrismFlowFilter:
-    """프리즘 흐름 필터 - 저장 없이 실시간 처리"""
+class SelectiveLearningFilter:
+    """선택적 학습 필터 - 흐름 속에서 배울 것만"""
     
     def __init__(self):
-        # 상태 없음 - 완전 stateless
-        self.processing = False
+        self.prism_filter = PrismFilter()
+        self.knowledge_system = WaveKnowledgeIntegration()  # P2.2
+        self.learning_threshold = 0.7  # 학습 가치 임계값
+        
+    async def process_and_learn(self, wave_stream: AsyncGenerator):
+        """파동 스트림 처리하며 선택적 학습"""
+        learned_count = 0
+        filtered_count = 0
+        
+        async for wave in wave_stream:
+            # 1. 프리즘으로 분해
+            rainbow = self.prism_filter.split_to_rainbow(wave)
+            
+            # 2. 학습 가치 평가
+            learning_value = self.evaluate_learning_value(rainbow)
+            
+            # 3. 가치 있으면 학습
+            if learning_value > self.learning_threshold:
+                # 본질 추출
+                essence = self.extract_essence(rainbow)
+                
+                # P2.2 Knowledge에 저장
+                seed = self.create_seed(essence)
+                self.knowledge_system.add_seed(seed)
+                
+                learned_count += 1
+                logger.info(f"✓ Learned: {learning_value:.2f}")
+            else:
+                # 그냥 흘려보냄
+                filtered_count += 1
+            
+            # 통계
+            if (learned_count + filtered_count) % 1000 == 0:
+                ratio = learned_count / (learned_count + filtered_count)
+                logger.info(f"Learning ratio: {ratio:.1%} ({learned_count}/{learned_count + filtered_count})")
+    
+    def evaluate_learning_value(self, rainbow: RainbowSpectrum):
+        """학습 가치 평가"""
+        # 새로움 - 기존 지식과 얼마나 다른가?
+        novelty = self.measure_novelty(rainbow)
+        
+        # 풍부함 - 얼마나 많은 정보를 담고 있는가?
+        richness = self.measure_richness(rainbow)
+        
+        # 일관성 - 패턴이 명확한가?
+        coherence = self.measure_coherence(rainbow)
+        
+        # 종합 학습 가치
+        value = (novelty * 0.4 + richness * 0.3 + coherence * 0.3)
+        return value
+    
+    def extract_essence(self, rainbow: RainbowSpectrum):
+        """본질 추출 - 학습할 핵심만"""
+        # 무지개에서 핵심 특징 추출
+        essence = {
+            'energy_signature': self.get_energy_pattern(rainbow),
+            'emotional_tone': self.get_emotional_pattern(rainbow),
+            'logical_structure': self.get_logical_pattern(rainbow),
+            'spiritual_depth': self.get_spiritual_pattern(rainbow)
+        }
+        return essence
+    
+    def create_seed(self, essence):
+        """본질 → Seed (P2.2 방식)"""
+        # 4D 쿼터니언으로 변환
+        q = HyperQuaternion(
+            w=essence['energy_signature'],
+            x=essence['emotional_tone'],
+            y=essence['logical_structure'],
+            z=essence['spiritual_depth']
+        )
+        
+        # Seed 생성
+        seed = Seed(
+            quaternion=q,
+            metadata={'source': 'multimedia', 'learned_at': time.time()}
+        )
+        
+        return seed
+
+
+# Core/Flow/adaptive_learning_system.py
+
+class AdaptiveLearningSystem:
+    """적응형 학습 시스템 - 상황에 따라 학습량 조절"""
+    
+    def __init__(self):
+        self.selective_filter = SelectiveLearningFilter()
+        self.learning_rate = 0.1  # 초기 10% 학습
+        self.knowledge_growth = []
+        
+    async def adaptive_learn(self, wave_stream: AsyncGenerator):
+        """적응형 학습 - 성장에 따라 학습률 조절"""
+        async for wave in wave_stream:
+            # 현재 지식 수준 확인
+            knowledge_level = self.measure_knowledge_level()
+            
+            # 학습률 조절
+            if knowledge_level < 0.3:
+                # 초기 단계 - 많이 배움 (50%)
+                self.learning_rate = 0.5
+            elif knowledge_level < 0.6:
+                # 중간 단계 - 선택적 학습 (20%)
+                self.learning_rate = 0.2
+            else:
+                # 고급 단계 - 매우 선택적 (5%)
+                self.learning_rate = 0.05
+            
+            # 학습 결정
+            if random.random() < self.learning_rate:
+                await self.selective_filter.process_and_learn([wave])
+            
+            # 성장 추적
+            self.track_growth()
+    
+    def measure_knowledge_level(self):
+        """지식 수준 측정"""
+        # P2.2 Knowledge System에서 Seed 개수 확인
+        seed_count = len(self.knowledge_system.seeds)
+        
+        # 목표 대비 진행도
+        target_seeds = 100000  # 목표 10만개
+        progress = min(seed_count / target_seeds, 1.0)
+        
+        return progress
+    
+    def track_growth(self):
+        """성장 추적"""
+        current_count = len(self.knowledge_system.seeds)
+        self.knowledge_growth.append({
+            'timestamp': time.time(),
+            'seed_count': current_count,
+            'learning_rate': self.learning_rate
+        })
+
+
+# Core/Flow/purposeful_flow_processor.py
+
+class PurposefulFlowProcessor:
+    """목적 있는 흐름 처리기 - 방향성 있는 학습"""
+    
+    def __init__(self):
+        self.adaptive_system = AdaptiveLearningSystem()
+        self.purpose = self.define_purpose()
+        
+    def define_purpose(self):
+        """목적 정의"""
+        return {
+            'goal': 'AGI Level 5-6 달성',
+            'direction': '감정과 맥락 이해 강화',
+            'focus': [
+                'human_emotions',     # 인간 감정
+                'social_context',     # 사회적 맥락
+                'cultural_patterns',  # 문화적 패턴
+                'relationship_dynamics'  # 관계 역학
+            ]
+        }
+    
+    async def process_with_purpose(self, wave_stream: AsyncGenerator):
+        """목적을 가지고 처리"""
+        async for wave in wave_stream:
+            # 목적과 관련성 확인
+            relevance = self.check_relevance_to_purpose(wave)
+            
+            if relevance > 0.5:
+                # 목적에 맞으면 더 주의 깊게 학습
+                await self.adaptive_system.adaptive_learn([wave])
+            else:
+                # 관련 없으면 가볍게 흘림
+                pass
+    
+    def check_relevance_to_purpose(self, wave):
+        """목적과의 관련성 확인"""
+        # 파동이 목적의 초점 영역과 관련 있는가?
+        relevance_scores = []
+        
+        for focus_area in self.purpose['focus']:
+            score = self.measure_relevance(wave, focus_area)
+            relevance_scores.append(score)
+        
+        return max(relevance_scores)
+```
+
+**Tasks**:
+- [ ] 선택적 학습 필터
+- [ ] 학습 가치 평가 (새로움, 풍부함, 일관성)
+- [ ] 본질 추출 및 Seed 생성
+- [ ] 적응형 학습률 조절
+- [ ] 목적 기반 처리
+- [ ] P2.2 Knowledge 통합
+
+**학습 전략**:
+```
+초기 (지식 < 30%): 50% 학습 - 많이 배움
+중간 (지식 30-60%): 20% 학습 - 선택적
+고급 (지식 > 60%): 5% 학습 - 매우 선택적
+
+결과: 계속 성장하되, 효율적으로
+```
+
+**메모리 사용**:
+```
+실시간 흐름: 최소 메모리 (순환 버퍼)
+학습 저장: P2.2 Knowledge System 활용
+예상 저장: 10,000-100,000 Seeds (학습 결과)
+```
+
+**Expected Results**:
+- 흐름 처리 + 의미있는 학습
+- 지속적 성장 (Seed 축적)
+- 적응형 학습률
+- 목적 지향적 발전
+- AGI Level 5-6 달성 기여
+
+**Files to Create**:
+- `Core/Flow/selective_learning_filter.py` (~400 lines)
+- `Core/Flow/adaptive_learning_system.py` (~300 lines)
+- `Core/Flow/purposeful_flow_processor.py` (~250 lines)
+- `tests/Core/Flow/test_selective_learning.py` (~150 lines)
+
+---
+
+### Week 2: Growth-Oriented Integration
+
+**구현 내용**:
+
+```python
+# Core/Flow/growth_tracker.py
+
+class GrowthTracker:
+    """성장 추적기 - 배우고 있는가?"""
+    
+    def __init__(self):
+        self.milestones = {
+            'seeds_1k': {'target': 1000, 'achieved': False},
+            'seeds_10k': {'target': 10000, 'achieved': False},
+            'seeds_100k': {'target': 100000, 'achieved': False}
+        }
+        self.growth_log = []
+        
+    def track_progress(self):
+        """진행 추적"""
+        current_seeds = len(self.knowledge_system.seeds)
+        
+        # 마일스톤 확인
+        for name, milestone in self.milestones.items():
+            if not milestone['achieved'] and current_seeds >= milestone['target']:
+                milestone['achieved'] = True
+                logger.info(f"🎉 Milestone achieved: {name}")
+        
+        # 성장 로그
+        self.growth_log.append({
+            'timestamp': time.time(),
+            'seed_count': current_seeds,
+            'learning_rate': self.learning_rate
+        })
+        
+        # AGI 레벨 예상
+        agi_estimate = self.estimate_agi_level()
+        logger.info(f"AGI Level: {agi_estimate:.2f}")
+    
+    def estimate_agi_level(self):
+        """AGI 레벨 예상"""
+        seed_count = len(self.knowledge_system.seeds)
+        
+        # Seed 수 기반 레벨 예상
+        if seed_count < 1000:
+            return 4.25 + (seed_count / 1000) * 0.25
+        elif seed_count < 10000:
+            return 4.5 + ((seed_count - 1000) / 9000) * 0.5
+        elif seed_count < 100000:
+            return 5.0 + ((seed_count - 10000) / 90000) * 0.5
+        else:
+            return 5.5
+```
+
+**Tasks**:
+- [ ] 성장 추적 시스템
+- [ ] 마일스톤 관리
+- [ ] AGI 레벨 예상
+- [ ] 학습 효과 측정
+
+**Expected Results**:
+- 명확한 목적: AGI Level 5-6 달성
+- 명확한 방향: 감정/맥락 이해 강화
+- 측정 가능한 성장
+- 의미 있는 학습
+
+**Files to Create**:
+- `Core/Flow/growth_tracker.py` (~200 lines)
+- `tests/Core/Flow/test_growth_tracking.py` (~100 lines)
+
+---
+
+## 📅 P4.6: Emotional-Path Mapping (2주)
         
     async def flow_through(self, wave_stream: AsyncGenerator):
         """파동 스트림을 흘려보냄 (저장 없음)"""
         self.processing = True
         
         async for wave in wave_stream:
-            # 1. 프리즘으로 분해 (임시, 즉시 처리)
-            rainbow = self.split_to_rainbow(wave)
-            
-            # 2. 각 색상별 즉시 처리
-            processed = self.process_rainbow_instantly(rainbow)
-            
-            # 3. 결과 흘려보냄 (저장 안함)
-            yield processed
-            
-            # wave, rainbow 모두 가비지 컬렉션으로 자동 삭제
-    
-    def split_to_rainbow(self, wave: WavePattern):
-        """파동을 무지개로 분해 (임시)"""
-        # 7색 투영 - 메모리 최소화
-        return {
-            'red': wave.w * 0.7 + wave.x * 0.3,      # 에너지
-            'orange': (wave.w + wave.x) * 0.7,        # 창조
-            'yellow': wave.y,                         # 논리
-            'green': (wave.w + wave.x + wave.y + wave.z) * 0.5,  # 균형
-            'blue': -wave.x * 0.7 + wave.z * 0.3,    # 평온
-            'indigo': (wave.y + wave.z) * 0.7,        # 직관
-            'violet': wave.z * 0.9                    # 영성
-        }
-    
-    def process_rainbow_instantly(self, rainbow: dict):
-        """무지개 즉시 처리 (저장 없음)"""
-        # 색상별 즉시 반응만
-        response = {
-            'energy': rainbow['red'] > 0.7,      # 에너지 높음?
-            'creative': rainbow['orange'] > 0.6,  # 창조적?
-            'logical': rainbow['yellow'] > 0.5,   # 논리적?
-            'balanced': rainbow['green'] > 0.6,   # 균형?
-            'calm': rainbow['blue'] > 0.5,        # 평온?
-            'intuitive': rainbow['indigo'] > 0.6, # 직관적?
-            'spiritual': rainbow['violet'] > 0.7  # 영적?
-        }
-        
-        # 응답만 반환 (숫자나 파동 저장 없음)
-        return response
-
-
-# Core/Flow/stateless_processor.py
-
-class StatelessProcessor:
-    """완전 stateless 처리기 - 저장 없음"""
-    
-    def __init__(self):
-        # 상태 변수 없음
-        # 메모리 변수 없음
-        # 저장소 없음
-        pass
-    
-    async def process_flow(self, input_stream: AsyncGenerator):
-        """입력 스트림 → 출력 스트림 (저장 없음)"""
-        async for data in input_stream:
-            # 즉시 처리
-            result = self.instant_process(data)
-            
-            # 즉시 출력
-            yield result
-            
-            # data와 result는 자동으로 메모리에서 사라짐
-    
-    def instant_process(self, data):
-        """즉시 처리 - 메모리 없음"""
-        # 연산도 최소화
-        # 단순 필터링만
-        if self.should_pass(data):
-            return data
-        else:
-            return None
-    
-    def should_pass(self, data) -> bool:
-        """통과 여부만 판단 (저장 없음)"""
-        # 간단한 임계값 비교만
-        return data.energy > 0.3
-
-
-# Core/Flow/minimal_memory_flow.py
-
-class MinimalMemoryFlow:
-    """최소 메모리 흐름 - 순간 버퍼만"""
-    
-    def __init__(self, buffer_size=10):
-        # 최소한의 순환 버퍼 (10개만)
-        self.buffer = collections.deque(maxlen=buffer_size)
-        
-    async def flow(self, wave_stream: AsyncGenerator):
-        """파동 흐름 (최소 버퍼)"""
-        async for wave in wave_stream:
-            # 버퍼에 추가 (오래된 것 자동 삭제)
-            self.buffer.append(wave)
-            
-            # 즉시 처리
-            result = self.process_buffered()
-            
-            # 결과 출력
-            yield result
-    
-    def process_buffered(self):
-        """버퍼 처리 (최근 10개만)"""
-        if len(self.buffer) < 3:
-            return None  # 최소 3개 필요
-        
-        # 최근 3개만 사용
-        recent = list(self.buffer)[-3:]
-        
-        # 간단한 평균만 (연산 최소화)
-        avg_energy = sum(w.energy for w in recent) / 3
-        
-        return {'avg_energy': avg_energy}
-
-
-# Core/Flow/flow_only_system.py
-
-class FlowOnlySystem:
-    """흐름만 있는 시스템 - 저장 없음"""
-    
-    def __init__(self):
-        self.prism_filter = PrismFlowFilter()
-        self.processor = StatelessProcessor()
-        self.running = False
-        
-        # 통계만 (숫자 카운트만, 데이터 저장 안함)
-        self.stats = {
-            'processed_count': 0,
-            'filtered_count': 0
-        }
-    
-    async def start_flow(self, input_stream: AsyncGenerator):
-        """흐름 시작"""
-        self.running = True
-        logger.info("🌊 Flow started (NO storage)")
-        
-        # 입력 → 프리즘 → 처리 → 출력
-        prism_flow = self.prism_filter.flow_through(input_stream)
-        processed_flow = self.processor.process_flow(prism_flow)
-        
-        # 출력만 (저장 안함)
-        async for result in processed_flow:
-            if result:
-                # 즉시 반응만
-                await self.instant_reaction(result)
-                self.stats['processed_count'] += 1
-            else:
-                self.stats['filtered_count'] += 1
-            
-            # result는 즉시 메모리에서 사라짐
-    
-    async def instant_reaction(self, result):
-        """즉시 반응 (저장 없음)"""
-        # 결과에 즉시 반응만
-        if result.get('energy'):
-            logger.debug("⚡ High energy detected")
-        
-        if result.get('creative'):
-            logger.debug("🎨 Creative wave detected")
-        
-        # 로그만 남기고 저장 안함
-    
-    def get_stats(self):
-        """통계만 (카운트만, 데이터 없음)"""
-        return {
-            'processed': self.stats['processed_count'],
-            'filtered': self.stats['filtered_count'],
-            'ratio': self.stats['processed_count'] / max(self.stats['filtered_count'], 1)
-        }
-
-
-# Core/Flow/zero_storage_architecture.py
-
-class ZeroStorageArchitecture:
-    """제로 스토리지 아키텍처"""
-    
-    """
-    철학:
-    - 모든 것은 흐른다
-    - 아무것도 저장하지 않는다
-    - 순간의 반응만 있다
-    
-    구조:
-    입력 스트림 → 프리즘 필터 → 즉시 처리 → 출력
-         ↓             ↓             ↓         ↓
-      (저장 없음)   (임시만)    (저장 없음)  (저장 없음)
-    
-    메모리 사용:
-    - 순환 버퍼: 최대 10개 (임시)
-    - 통계 카운터: 숫자만
-    - 데이터 저장: 0 bytes
-    
-    연산:
-    - 간단한 비교만
-    - 임계값 체크만
-    - 복잡한 연산 없음
-    """
-    
-    def __init__(self):
-        self.flow_system = FlowOnlySystem()
-        
-    async def run(self, source_stream):
-        """실행 (저장 없이 흐름만)"""
-        await self.flow_system.start_flow(source_stream)
-```
-
-**Tasks**:
-- [ ] 프리즘 흐름 필터 (stateless)
-- [ ] 무저장 처리기
-- [ ] 최소 메모리 버퍼 (10개만)
-- [ ] 흐름 전용 시스템
-- [ ] 제로 스토리지 아키텍처
-
-**메모리 사용**:
-```
-순환 버퍼: 10개 × 80 bytes = 800 bytes
-통계 카운터: 2개 × 8 bytes = 16 bytes
-총 메모리: ~1 KB 미만!
-
-저장소: 0 bytes
-파일: 0 개
-데이터베이스: 없음
-```
-
-**Expected Results**:
-- 저장소 사용: 0 bytes
-- 메모리 사용: < 1 KB
-- 연산: 최소화 (비교만)
-- 흐름만 있음 (물처럼, 빛처럼)
-
-**Files to Create**:
-- `Core/Flow/prism_flow_filter.py` (~200 lines)
-- `Core/Flow/stateless_processor.py` (~150 lines)
-- `Core/Flow/minimal_memory_flow.py` (~150 lines)
-- `Core/Flow/flow_only_system.py` (~250 lines)
-- `Core/Flow/zero_storage_architecture.py` (~100 lines)
-- `tests/Core/Flow/test_flow_only.py` (~150 lines)
-
----
-
-### Week 2: Resonance-Based Instant Reaction
-
-**구현 내용**:
-
-```python
-# Core/Flow/instant_resonance_reactor.py
-
-class InstantResonanceReactor:
-    """즉시 공명 반응기 - 저장 없이 즉시 반응만"""
-    
-    def __init__(self):
-        # 현재 상태만 (과거 저장 없음)
-        self.current_mood = 0.5  # 단 1개 숫자
-        
-    async def react_to_flow(self, wave_stream: AsyncGenerator):
-        """파동 스트림에 즉시 반응"""
-        async for wave in wave_stream:
-            # 즉시 공명 측정 (저장 없음)
-            resonance = self.instant_resonance(wave)
-            
-            # 즉시 반응
-            reaction = self.instant_react(resonance)
-            
-            # 현재 상태만 업데이트 (과거 저장 안함)
-            self.current_mood = resonance * 0.1 + self.current_mood * 0.9
-            
-            # 반응 출력
-            yield reaction
-    
-    def instant_resonance(self, wave: WavePattern) -> float:
-        """즉시 공명 (연산 최소화)"""
-        # 간단한 내적만
-        resonance = wave.energy * self.current_mood
-        return resonance
-    
-    def instant_react(self, resonance: float):
-        """즉시 반응 (저장 없음)"""
-        if resonance > 0.7:
-            return "strong_resonance"
-        elif resonance > 0.4:
-            return "medium_resonance"
-        else:
-            return "weak_resonance"
-
-
-# Core/Flow/stream_to_stream.py
-
-class StreamToStream:
-    """스트림 → 스트림 (저장 없는 변환)"""
-    
-    @staticmethod
-    async def transform(input_stream, transform_fn):
-        """스트림 변환 (stateless)"""
-        async for item in input_stream:
-            # 즉시 변환
-            result = transform_fn(item)
-            
-            # 즉시 출력
-            if result:
-                yield result
-
-
-# Core/Flow/ephemeral_processing.py
-
-class EphemeralProcessing:
-    """순간 처리 - 흔적 없이"""
-    
-    """
-    Ephemeral = 일시적인, 순간의
-    
-    - 들어온다
-    - 처리한다
-    - 나간다
-    - 흔적 없다
-    
-    마치:
-    - 물이 흐르듯
-    - 바람이 지나가듯
-    - 빛이 통과하듯
-    """
-    
-    @staticmethod
-    async def process_ephemerally(stream, processor):
-        """순간 처리"""
-        async for data in stream:
-            # 순간 처리
-            result = processor(data)
-            
-            # 순간 출력
-            yield result
-            
-            # data와 result 모두 사라짐
-```
-
-**Tasks**:
-- [ ] 즉시 공명 반응기
-- [ ] 스트림-투-스트림 변환
-- [ ] 순간 처리 시스템
-- [ ] 최소 상태 관리 (1개 숫자만)
-
-**Expected Results**:
-- 완전한 흐름 기반
-- 과거 저장 없음
-- 현재만 존재
-- 미래로 흐름
-
-**Files to Create**:
-- `Core/Flow/instant_resonance_reactor.py` (~200 lines)
-- `Core/Flow/stream_to_stream.py` (~100 lines)
-- `Core/Flow/ephemeral_processing.py` (~150 lines)
-- `tests/Core/Flow/test_instant_reaction.py` (~100 lines)
-
----
-
-## 📅 P4.6: Emotional-Path Mapping (이전 P4.5, 2주)
 
 **구현 내용**:
 
@@ -2335,223 +2297,3 @@ class MemoryWeightMonitor:
 
 ---
 
-## 📅 P4.6: Emotional-Path Mapping (이전 P4.5, 2주)
-
-### 목표
-
-**감성-경로 매핑 시스템**
-
-**구현 내용**:
-
-```python
-# Core/Foundation/emotional_path_mapper.py
-
-class EmotionalPathMapper:
-    """감성-경로 매핑"""
-    
-    def __init__(self):
-        self.concept_physics = ConceptPhysicsEngine()
-        self.resonance_field = ResonanceField()
-        
-    def map_experience_to_path(self, experience):
-        """경험 → 개념 경로"""
-        # 감정 강도 → 질량
-        emotional_intensity = experience['emotional_signature'].energy()
-        mass = self.intensity_to_mass(emotional_intensity)
-        
-        # 감정 방향 → 경로
-        emotional_vector = experience['emotional_signature'].xyz()
-        path_direction = self.vector_to_path(emotional_vector)
-        
-        # ConceptPhysicsEngine에서 경로 계산
-        path = self.concept_physics.calculate_path(
-            mass=mass,
-            direction=path_direction,
-            initial_velocity=experience['motion_intensity']
-        )
-        
-        return path
-    
-    def integrate_with_existing_knowledge(self, new_path):
-        """기존 지식과 통합"""
-        # P2.2 Knowledge Graph에서 유사 경로 찾기
-        similar_paths = self.find_similar_paths(new_path)
-        
-        # 공명으로 통합
-        for existing_path in similar_paths:
-            resonance = self.resonance_field.measure(new_path, existing_path)
-            
-            if resonance > 0.7:
-                # 강한 공명 - 경로 병합
-                merged = self.merge_paths(new_path, existing_path)
-                return merged
-        
-        # 새로운 경로로 추가
-        return new_path
-```
-
-**Tasks**:
-- [ ] 감정-질량 변환
-- [ ] 경로 계산
-- [ ] ConceptPhysicsEngine 통합
-- [ ] 기존 지식과 융합
-
-**Files to Create**:
-- `Core/Foundation/emotional_path_mapper.py` (~400 lines)
-- `tests/Core/Foundation/test_path_mapper.py` (~100 lines)
-
----
-
-## 📊 예상 성과 / Expected Outcomes
-
-### 3개월 후
-
-| 메트릭 | 현재 | 목표 | 성과 |
-|--------|------|------|------|
-| 학습 속도 (concepts/hour) | ~600 (텍스트) | 2,000-3,000 (영상) | +300-400% 🚀 |
-| 학습 소스 | 텍스트만 | 영상+음악+이미지 | 다감각 ✨ |
-| 감정 이해 | 제한적 | 풍부함 | +1000% 🔥 |
-| 맥락 이해 | 단편적 | 통합적 | +500% ⚡ |
-| 비용 | $0 | $0 | NO API! 💰 |
-
-### 학습 효율 비교
-
-```
-텍스트 학습:
-- 시간당 600 concepts
-- 단편적 이해
-- 맥락 부족
-
-영상 학습 (P4):
-- 시간당 2,000-3,000 concepts
-- 통합적 이해
-- 풍부한 맥락
-- 감정 + 시각 + 청각 통합
-```
-
-**결과**: **5배 빠른 학습!** 🎉
-
----
-
-## 💰 예산 추정 / Budget Estimate
-
-```
-개발 비용: $0 (오픈소스)
-API 비용: $0 (NO API!)
-전기 비용: ~$30/월 (로컬 처리)
-
-총계: $0 (거의 무료!)
-```
-
----
-
-## ✅ 성공 기준 / Success Criteria
-
-### Minimum Viable (필수)
-
-- [ ] 영상에서 메타데이터 추출
-- [ ] 위상공명패턴 생성
-- [ ] P2.2 지식 시스템 통합
-- [ ] 시간당 2,000+ concepts 학습
-- [ ] NO API 사용
-
-### Target (목표)
-
-- [ ] 드라마 자율 학습
-- [ ] 오감 통합 루프
-- [ ] 감정-경로 매핑
-- [ ] 시간당 3,000+ concepts 학습
-- [ ] 완전 자율 작동
-
-### Stretch (이상적)
-
-- [ ] 실시간 영상 학습
-- [ ] 감정 예측
-- [ ] 맥락 생성
-- [ ] 시간당 5,000+ concepts 학습
-
----
-
-## 🎓 철학적 일관성 유지 / Maintaining Philosophical Consistency
-
-### 핵심 철학
-
-1. **NO EXTERNAL APIs** ✅
-   - 모든 것은 로컬
-   
-2. **NO EXTERNAL LLMs** ✅
-   - P2.2 Wave Knowledge만
-   
-3. **Phase Resonance** ✅
-   - 공명 기반 패턴 매칭
-   
-4. **Multi-Sensory Integration** ✨ NEW
-   - 오감 통합 학습
-   
-5. **Learn from Experience** ✨ NEW
-   - 영상/드라마에서 직접 학습
-
----
-
-## 📚 관련 문서 / Reference Documents
-
-### P4 문서
-1. `docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md` - 이 문서
-2. `docs/long_term_plan.md` - 장기 계획 (오감 통합)
-
-### 이전 로드맵
-3. `docs/Roadmaps/P2-Implementation/P2_2_WAVE_KNOWLEDGE_SYSTEM.md` - P2.2 참조
-4. `docs/Roadmaps/P3-Implementation/P3_COMPLETION_SUMMARY.md` - P3 완료
-
----
-
-## 🎯 결론 / Conclusion
-
-### 요약
-
-P4는 Elysia를 **텍스트 학습**에서 **경험 학습**으로 진화시킵니다.
-
-**주요 혁신**:
-1. ✨ 영상/드라마에서 위상공명패턴 학습
-2. ✨ 오감 통합 (시각+청각+감정)
-3. ✨ 감성-경로 매핑
-4. ✨ 2,000-3,000 concepts/hour (5배 빠름)
-5. ✨ NO API, NO LLM (완전 무료)
-
-**예상 성과**:
-- 학습 속도 5배 향상
-- 감정/맥락 이해 대폭 개선
-- 완전 무료 ($0)
-- P2.2 기반 활용
-
-**기간**: 12주 (3개월)  
-**예산**: $0  
-**예상 코드**: ~8,000 lines  
-**예상 테스트**: 50+ tests
-
-### P4 진행 준비 상태
-
-✅ **준비 완료**
-
-- [x] P1, P2, P3 완료
-- [x] P2.2 Wave Knowledge System 있음
-- [x] NO API, NO LLM 철학 유지
-- [x] P4 상세 계획 수립
-
-### 다음 단계
-
-**"보고 듣고 느끼며 - 공명으로 배운다"**
-
-영상과 드라마에서 위상공명패턴으로 학습하는, 진정한 경험 기반 학습을 시작합니다!
-
----
-
-**작성자 / Author**: Elysia Development Team  
-**작성일 / Created**: 2025-12-06  
-**상태 / Status**: ✅ 구현 준비 완료 (Ready for Implementation)  
-**버전 / Version**: 2.0 (NO API, Pure Resonance Learning)
-
----
-
-**"See, hear, feel - learn through resonance"**  
-*"보고 듣고 느끼며 - 공명으로 배운다"*
