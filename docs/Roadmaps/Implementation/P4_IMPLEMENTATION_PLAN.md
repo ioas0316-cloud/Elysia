@@ -101,19 +101,29 @@
 | **P4.2: Phase Resonance Pattern Extraction** | 위상공명패턴 추출 시스템 | 2주 | 🎯 최우선 | 📋 계획 |
 | **P4.3: Wave Classification & Filtering** | 파동 분류 및 필터링 시스템 | 2주 | ⚡ 높음 | 📋 계획 |
 | **P4.4: Multi-Sensory Integration Loop** | 오감 통합 루프 | 2주 | ⚡ 높음 | 📋 계획 |
+<<<<<<< HEAD
 | **P4.5: Balanced Wave Processing** | 흐름 처리 + 본질 저장 (학습 위해) | 2주 | ⚡ 높음 | 📋 계획 |
+=======
+| **P4.5: Holographic Memory & Compression** | 무지개 압축 (톱니바퀴 - 공명 데이터 저장) | 2주 | ⚡ 높음 | 📋 계획 |
+>>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
 | **P4.6: Emotional-Path Mapping** | 감성-경로 매핑 시스템 | 2주 | 📊 중간 | 📋 계획 |
 
 **총 예상 기간**: 14주 (3.5개월)  
-**예상 코드량**: ~8,000 lines (최소화)  
+**예상 코드량**: ~12,000 lines  
 **예상 테스트**: 70+ tests  
 **예산**: $0 (완전 무료, NO API)
 
 **핵심 철학**:
 - "빛을 받아들이듯 파동 정보를 받아들여 자연스럽게 흘려보낸다"
+<<<<<<< HEAD
 - **"흐름 속에서 본질을 뽑아 학습 - 경험을 축적하여 성장"** ✨
 - "연산 최소화, 중요한 것만 저장 - P2.2 Knowledge에 통합"
 - "프리즘 필터로 실시간 분해, 의미있는 패턴만 보존"
+=======
+- **"작은 톱니바퀴가 큰 톱니바퀴를 돌리듯 - 공명 데이터는 저장"** ✨
+- "무지개 압축으로 100배 가볍게 - 본질만 남기고 압축"
+- "인터넷 거미줄 신경망으로 확장 - 홀로그램 재현"
+>>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
 
 ---
 
@@ -1203,6 +1213,7 @@ class MultimediaFeedLoop:
 
 ---
 
+<<<<<<< HEAD
 ## 📅 P4.5: Balanced Wave Processing (2주)
 
 ### 목표
@@ -1226,10 +1237,39 @@ class MultimediaFeedLoop:
 ```
 
 ### Week 1: Selective Learning from Flow
+=======
+## 📅 P4.5: Holographic Memory & Compression (2주)
+
+### 목표
+
+**4D 파동공명패턴으로 압축, 프리즘 필터로 무지개 초파동화**
+
+핵심: 
+- **작은 톱니바퀴가 큰 톱니바퀴를 돌리듯** - 공명을 위한 파동 데이터는 저장
+- 무지개 압축으로 100배 가볍게 (1,200 bytes → 12 bytes)
+- 인터넷 거미줄 신경망으로 확장 메모리 활용
+- 균형: 저장은 하되, 극도로 압축하여 가볍게
+
+### 철학
+
+**"작은 톱니바퀴가 있어야 큰 톱니바퀴를 돌릴 수 있다"**
+
+자기 안에 공명을 일으킬 수 있는 파동 수준의 데이터는 담아놔야 합니다.  
+그래야 새로운 파동이 들어왔을 때 공명하여 이해할 수 있습니다.  
+이것이 흡수하려는 이유입니다.
+
+그러나 무겁게 저장하지 않고, 프리즘 필터로 무지개 압축하여:
+- 본질만 남기고 (7색 스펙트럼)
+- 초파동으로 압축 (12 bytes)
+- 필요시 홀로그램 재현
+
+### Week 1: Prism Filter & Rainbow Compression
+>>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
 
 **구현 내용**:
 
 ```python
+<<<<<<< HEAD
 # Core/Flow/selective_learning_filter.py
 
 class SelectiveLearningFilter:
@@ -1531,12 +1571,772 @@ class GrowthTracker:
 ---
 
 ## 📅 P4.6: Emotional-Path Mapping (2주)
+=======
+# Core/Memory/prism_filter.py
+
+class PrismFilter:
+    """프리즘 필터 - 빛을 무지개로 쪼개듯 파동 분해"""
+    
+    def __init__(self):
+        self.rainbow_axes = [
+            'red',      # 빨강 - 높은 에너지
+            'orange',   # 주황 - 창조성
+            'yellow',   # 노랑 - 지성
+            'green',    # 초록 - 균형
+            'blue',     # 파랑 - 평온
+            'indigo',   # 남색 - 직관
+            'violet'    # 보라 - 영성
+        ]
+>>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
         
-    async def flow_through(self, wave_stream: AsyncGenerator):
-        """파동 스트림을 흘려보냄 (저장 없음)"""
-        self.processing = True
+    def split_wave_to_rainbow(self, wave_pattern: WavePattern):
+        """4D 파동 → 7색 무지개 스펙트럼 분해"""
+        # 프리즘처럼 파동을 분해
+        rainbow_spectrum = {}
         
+<<<<<<< HEAD
         async for wave in wave_stream:
+=======
+        # 4D 쿼터니언 (w, x, y, z)
+        q = wave_pattern.to_quaternion()
+        
+        # 각 무지개 축으로 투영
+        # 빨강 (Red) - 높은 주파수, 에너지
+        rainbow_spectrum['red'] = self.project_to_red(q)
+        
+        # 주황 (Orange) - 창조적 에너지
+        rainbow_spectrum['orange'] = self.project_to_orange(q)
+        
+        # 노랑 (Yellow) - 논리/지성
+        rainbow_spectrum['yellow'] = self.project_to_yellow(q)
+        
+        # 초록 (Green) - 균형/조화
+        rainbow_spectrum['green'] = self.project_to_green(q)
+        
+        # 파랑 (Blue) - 평온/안정
+        rainbow_spectrum['blue'] = self.project_to_blue(q)
+        
+        # 남색 (Indigo) - 직관/통찰
+        rainbow_spectrum['indigo'] = self.project_to_indigo(q)
+        
+        # 보라 (Violet) - 영성/초월
+        rainbow_spectrum['violet'] = self.project_to_violet(q)
+        
+        return RainbowSpectrum(rainbow_spectrum)
+    
+    def project_to_red(self, q: HyperQuaternion) -> float:
+        """빨강 축 투영 - 에너지/행동"""
+        # w(에너지) 성분 강조
+        return q.w * 1.0 + q.x * 0.3
+    
+    def project_to_orange(self, q: HyperQuaternion) -> float:
+        """주황 축 투영 - 창조성"""
+        # w, x 혼합
+        return (q.w + q.x) / np.sqrt(2)
+    
+    def project_to_yellow(self, q: HyperQuaternion) -> float:
+        """노랑 축 투영 - 논리/지성"""
+        # y(논리) 성분
+        return q.y * 1.0
+    
+    def project_to_green(self, q: HyperQuaternion) -> float:
+        """초록 축 투영 - 균형/조화"""
+        # 모든 성분의 균형
+        return (q.w + q.x + q.y + q.z) / 2.0
+    
+    def project_to_blue(self, q: HyperQuaternion) -> float:
+        """파랑 축 투영 - 평온/안정"""
+        # -x (감정 안정)
+        return -q.x * 0.7 + q.z * 0.3
+    
+    def project_to_indigo(self, q: HyperQuaternion) -> float:
+        """남색 축 투영 - 직관"""
+        # y, z 혼합
+        return (q.y + q.z) / np.sqrt(2)
+    
+    def project_to_violet(self, q: HyperQuaternion) -> float:
+        """보라 축 투영 - 영성/초월"""
+        # z(윤리/영성) 성분 강조
+        return q.z * 1.0 + q.w * 0.2
+
+
+class RainbowSpectrum:
+    """무지개 스펙트럼 - 7색으로 분해된 파동"""
+    
+    def __init__(self, spectrum: dict):
+        self.spectrum = spectrum
+        
+    def to_hyper_wave(self):
+        """무지개 → 초파동(Hyper-Wave) 변환"""
+        # 7개 실수 → 1개 복소 벡터
+        # 빛을 압축하듯 초파동화
+        
+        # 진폭 (amplitude) - 무지개 밝기 평균
+        amplitude = np.mean(list(self.spectrum.values()))
+        
+        # 위상 (phase) - 무지개 색상 분포
+        phase = self.calculate_phase_from_spectrum()
+        
+        # 주파수 (frequency) - 무지개 중심
+        frequency = self.calculate_frequency_from_spectrum()
+        
+        # 초파동 생성 (매우 가벼움!)
+        hyper_wave = HyperWave(
+            amplitude=amplitude,
+            phase=phase,
+            frequency=frequency
+        )
+        
+        return hyper_wave
+    
+    def calculate_phase_from_spectrum(self):
+        """스펙트럼에서 위상 계산"""
+        # 빨강(0°) → 보라(360°) 각도 매핑
+        angle_sum = 0
+        weight_sum = 0
+        
+        colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+        for i, color in enumerate(colors):
+            angle = (i / 7.0) * 2 * np.pi  # 0 ~ 2π
+            weight = abs(self.spectrum[color])
+            angle_sum += angle * weight
+            weight_sum += weight
+        
+        return angle_sum / weight_sum if weight_sum > 0 else 0
+    
+    def calculate_frequency_from_spectrum(self):
+        """스펙트럼에서 주파수 계산"""
+        # 빨강 = 고주파, 보라 = 저주파
+        freq_sum = 0
+        weight_sum = 0
+        
+        color_freqs = {
+            'red': 1.0,
+            'orange': 0.85,
+            'yellow': 0.7,
+            'green': 0.5,
+            'blue': 0.3,
+            'indigo': 0.2,
+            'violet': 0.1
+        }
+        
+        for color, value in self.spectrum.items():
+            freq = color_freqs[color]
+            weight = abs(value)
+            freq_sum += freq * weight
+            weight_sum += weight
+        
+        return freq_sum / weight_sum if weight_sum > 0 else 0.5
+
+
+class HyperWave:
+    """초파동 - 프리즘으로 압축된 극도로 가벼운 형태"""
+    
+    def __init__(self, amplitude: float, phase: float, frequency: float):
+        self.amplitude = amplitude
+        self.phase = phase
+        self.frequency = frequency
+        
+    def to_bytes(self) -> bytes:
+        """초파동 → 바이트 (극도로 가벼움)"""
+        # 3개 float (12 bytes) 만!
+        return struct.pack('fff', self.amplitude, self.phase, self.frequency)
+    
+    @classmethod
+    def from_bytes(cls, data: bytes):
+        """바이트 → 초파동 복원"""
+        amplitude, phase, frequency = struct.unpack('fff', data)
+        return cls(amplitude, phase, frequency)
+    
+    def size(self) -> int:
+        """크기 - 단 12 bytes!"""
+        return 12
+
+
+# Core/Memory/rainbow_wave_compressor.py
+
+class RainbowWaveCompressor:
+    """무지개 파동 압축기 - 프리즘 필터 활용"""
+    
+    def __init__(self):
+        self.prism_filter = PrismFilter()
+        self.compression_ratio_target = 10000  # 10000:1 압축 목표!
+        
+    def compress(self, wave_pattern: WavePattern):
+        """4D 파동 → 무지개 → 초파동 (극압축)"""
+        # 1. 프리즘으로 무지개 분해
+        rainbow = self.prism_filter.split_wave_to_rainbow(wave_pattern)
+        
+        # 2. 무지개 → 초파동
+        hyper_wave = rainbow.to_hyper_wave()
+        
+        # 3. 크기 비교
+        original_size = sys.getsizeof(wave_pattern)
+        compressed_size = hyper_wave.size()  # 12 bytes
+        ratio = original_size / compressed_size
+        
+        logger.info(f"🌈 Rainbow compression: {ratio:.0f}x ({original_size} → {compressed_size} bytes)")
+        
+        return hyper_wave
+    
+    def decompress(self, hyper_wave: HyperWave):
+        """초파동 → 무지개 → 4D 파동 (복원)"""
+        # 1. 초파동 → 무지개 스펙트럼 복원
+        rainbow = self.reconstruct_rainbow(hyper_wave)
+        
+        # 2. 무지개 → 4D 쿼터니언
+        quaternion = self.rainbow_to_quaternion(rainbow)
+        
+        # 3. 4D 파동 복원
+        wave_pattern = WavePattern.from_quaternion(
+            quaternion,
+            frequency=hyper_wave.frequency,
+            phase=hyper_wave.phase,
+            amplitude=hyper_wave.amplitude
+        )
+        
+        return wave_pattern
+    
+    def reconstruct_rainbow(self, hyper_wave: HyperWave):
+        """초파동 → 무지개 재구성"""
+        # 진폭, 위상, 주파수로 7색 복원
+        spectrum = {}
+        
+        # 주파수로 색상 분포 결정
+        freq = hyper_wave.frequency
+        amp = hyper_wave.amplitude
+        phase = hyper_wave.phase
+        
+        # 주파수가 높으면 빨강 쪽, 낮으면 보라 쪽
+        colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+        for i, color in enumerate(colors):
+            color_freq = 1.0 - (i / 7.0)  # 1.0(빨강) → 0.0(보라)
+            
+            # 가우시안 분포로 각 색상 강도 계산
+            dist = abs(freq - color_freq)
+            intensity = amp * np.exp(-dist * 5) * np.cos(phase + i * np.pi / 7)
+            
+            spectrum[color] = intensity
+        
+        return RainbowSpectrum(spectrum)
+    
+    def rainbow_to_quaternion(self, rainbow: RainbowSpectrum):
+        """무지개 → 4D 쿼터니언"""
+        s = rainbow.spectrum
+        
+        # 역변환 (투영의 역)
+        w = s['red'] * 0.7 + s['orange'] * 0.5 + s['green'] * 0.25 + s['violet'] * 0.2
+        x = s['red'] * 0.3 + s['orange'] * 0.5 - s['blue'] * 0.7
+        y = s['yellow'] + s['indigo'] * 0.7
+        z = s['green'] * 0.25 - s['blue'] * 0.3 + s['indigo'] * 0.7 + s['violet']
+        
+        # 정규화
+        magnitude = np.sqrt(w**2 + x**2 + y**2 + z**2)
+        if magnitude > 0:
+            w, x, y, z = w/magnitude, x/magnitude, y/magnitude, z/magnitude
+        
+        return HyperQuaternion(w=w, x=x, y=y, z=z)
+
+
+# Core/Memory/ultra_lightweight_storage.py
+
+class UltraLightweightStorage:
+    """초경량 저장소 - 무지개 압축 활용"""
+    
+    def __init__(self, max_weight_mb=10):  # 10MB만!
+        self.max_weight = max_weight_mb * 1024 * 1024
+        self.current_weight = 0
+        self.hyper_waves = {}  # 초파동들 (각 12 bytes)
+        self.rainbow_compressor = RainbowWaveCompressor()
+        
+    def add_wave(self, wave_pattern: WavePattern):
+        """파동 추가 (무지개 압축)"""
+        # 무지개 초파동으로 압축
+        hyper_wave = self.rainbow_compressor.compress(wave_pattern)
+        
+        # 저장
+        wave_id = self.generate_id(wave_pattern)
+        self.hyper_waves[wave_id] = hyper_wave
+        self.current_weight += 12  # 단 12 bytes!
+        
+        logger.info(f"💾 Stored: {wave_id} (12 bytes, total: {self.current_weight / 1024:.1f} KB)")
+        
+        return wave_id
+    
+    def get_wave(self, wave_id: str):
+        """초파동 복원"""
+        hyper_wave = self.hyper_waves.get(wave_id)
+        
+        if hyper_wave:
+            # 무지개 압축 해제
+            wave_pattern = self.rainbow_compressor.decompress(hyper_wave)
+            return wave_pattern
+        
+        return None
+    
+    def get_capacity_info(self):
+        """용량 정보"""
+        num_waves = len(self.hyper_waves)
+        weight_kb = self.current_weight / 1024
+        weight_mb = weight_kb / 1024
+        max_mb = self.max_weight / 1024 / 1024
+        
+        # 12 bytes per wave
+        max_waves = self.max_weight // 12
+        
+        return {
+            'stored_waves': num_waves,
+            'max_waves': max_waves,
+            'usage_percent': (num_waves / max_waves) * 100,
+            'weight_kb': weight_kb,
+            'weight_mb': weight_mb,
+            'max_mb': max_mb
+        }
+```
+
+**압축 효과**:
+```
+원본 4D 파동: ~1,200 bytes
+무지개 초파동: 12 bytes
+
+압축율: 100배!
+10MB에 저장 가능: ~850,000개 파동!
+
+프리즘 효과: 빛을 압축하듯 극도로 가벼움
+```
+
+**Tasks**:
+- [ ] 프리즘 필터 (7색 무지개 분해)
+- [ ] 무지개 스펙트럼 변환
+- [ ] 초파동(HyperWave) 생성
+- [ ] 무지개 압축기 (100배 압축!)
+- [ ] 초경량 저장소 (10MB만 사용)
+- [ ] 압축/해제 검증
+
+**Expected Results**:
+- 100배 압축 (1,200 bytes → 12 bytes)
+- 10MB에 850,000개 파동 저장 가능
+- 프리즘처럼 빛을 쪼개어 압축
+- 무지개 재구성으로 복원
+
+**Files to Create**:
+- `Core/Memory/prism_filter.py` (~500 lines)
+- `Core/Memory/rainbow_wave_compressor.py` (~400 lines)
+- `Core/Memory/ultra_lightweight_storage.py` (~300 lines)
+- `tests/Core/Memory/test_prism_filter.py` (~150 lines)
+
+---
+
+### Week 2: Holographic Reconstruction & Internet Network
+
+**구현 내용**:
+
+```python
+# Core/Memory/wave_compression.py
+
+class WaveCompressor:
+    """파동 패턴 압축 - 몸무게 줄이기"""
+    
+    def __init__(self):
+        self.compression_ratio = 1000  # 1000:1 압축
+        
+    def compress_to_seed(self, wave_pattern: WavePattern):
+        """파동 패턴 → Seed 압축"""
+        # 4D 쿼터니언으로 본질만 추출
+        essence = self.extract_essence(wave_pattern)
+        
+        # Seed 생성 (P2.2 방식)
+        seed = Seed(
+            essence=essence,
+            metadata={
+                'source': wave_pattern.source,
+                'timestamp': wave_pattern.timestamp,
+                'resonance_signature': wave_pattern.signature()
+            }
+        )
+        
+        # 원본 크기 대비 압축률 확인
+        original_size = sys.getsizeof(wave_pattern)
+        compressed_size = sys.getsizeof(seed)
+        ratio = original_size / compressed_size
+        
+        logger.debug(f"Compressed {ratio:.0f}x: {original_size} → {compressed_size} bytes")
+        
+        return seed
+    
+    def extract_essence(self, wave_pattern):
+        """본질만 추출"""
+        # 4D 쿼터니언 핵심 성분
+        q = HyperQuaternion(
+            w=wave_pattern.energy(),      # 에너지
+            x=wave_pattern.emotion(),      # 감정
+            y=wave_pattern.logic(),        # 논리
+            z=wave_pattern.ethics()        # 윤리
+        )
+        
+        # 위상 정보 (재현을 위한 최소 정보)
+        phase_info = {
+            'frequency': wave_pattern.frequency,
+            'phase': wave_pattern.phase,
+            'amplitude': wave_pattern.amplitude
+        }
+        
+        return {
+            'quaternion': q,
+            'phase_info': phase_info
+        }
+
+
+# Core/Memory/holographic_reconstructor.py
+
+class HolographicReconstructor:
+    """홀로그램 재현기 - 인터넷 거미줄에서 복원"""
+    
+    def __init__(self):
+        self.internet_network = InternetSpiderWebNetwork()
+        self.local_seeds = SeedStorage()
+        
+    def reconstruct_from_seed(self, seed: Seed):
+        """Seed에서 전체 경험 홀로그램 재현"""
+        # 1. 로컬 Seed는 핵심만 (몸무게 가볍게)
+        essence = seed.essence
+        
+        # 2. 나머지는 인터넷 거미줄에서 연상 작용으로 가져옴
+        extended_context = self.internet_network.recall_by_resonance(
+            seed.metadata['resonance_signature']
+        )
+        
+        # 3. 홀로그램 재현 (전체 경험 복원)
+        hologram = self.reconstruct_hologram(essence, extended_context)
+        
+        return hologram
+    
+    def reconstruct_hologram(self, essence, extended_context):
+        """홀로그램 방식으로 전체 재현"""
+        # 4D 쿼터니언에서 파동 패턴 복원
+        q = essence['quaternion']
+        phase = essence['phase_info']
+        
+        # 기본 파동 복원
+        base_wave = WavePattern.from_quaternion(q, phase)
+        
+        # 확장 맥락으로 풍부하게
+        enriched = self.enrich_with_context(base_wave, extended_context)
+        
+        return enriched
+
+
+# Core/Network/internet_spider_web_network.py
+
+class InternetSpiderWebNetwork:
+    """인터넷을 거미줄 신경망으로 활용"""
+    
+    def __init__(self):
+        self.resonance_links = {}
+        self.access_methods = {
+            'youtube': YouTubeResonanceAccess(),
+            'wikipedia': WikipediaResonanceAccess(),
+            'web': WebResonanceAccess()
+        }
+        
+    def recall_by_resonance(self, resonance_signature):
+        """공명 시그니처로 인터넷에서 연상 작용"""
+        # 인터넷이 확장 메모리
+        recalled = []
+        
+        # 각 접근 방법으로 공명하는 정보 찾기
+        for name, access in self.access_methods.items():
+            try:
+                # 공명 시그니처와 맞는 정보 탐색
+                resonant_data = access.find_resonant(resonance_signature)
+                recalled.extend(resonant_data)
+            except Exception as e:
+                logger.debug(f"Recall from {name} failed: {e}")
+        
+        return recalled
+    
+    def store_resonance_link(self, seed: Seed, internet_location: str):
+        """공명 링크 저장 (로컬은 시그니처만, 실제 데이터는 인터넷)"""
+        # 로컬에는 가벼운 링크만
+        link = ResonanceLink(
+            signature=seed.metadata['resonance_signature'],
+            location=internet_location,
+            access_method=self.detect_access_method(internet_location)
+        )
+        
+        self.resonance_links[seed.id] = link
+
+
+class YouTubeResonanceAccess:
+    """YouTube를 확장 메모리로"""
+    
+    def find_resonant(self, signature):
+        """공명 시그니처로 YouTube 탐색"""
+        # 시그니처의 특성 추출
+        keywords = self.signature_to_keywords(signature)
+        
+        # YouTube 검색 (API 없이 RSS 사용)
+        results = self.search_youtube_rss(keywords)
+        
+        return results
+
+
+class WikipediaResonanceAccess:
+    """Wikipedia를 확장 메모리로"""
+    
+    def find_resonant(self, signature):
+        """공명 시그니처로 Wikipedia 탐색"""
+        # 개념 추출
+        concepts = self.signature_to_concepts(signature)
+        
+        # Wikipedia 검색
+        results = []
+        for concept in concepts:
+            wiki_data = self.fetch_wikipedia(concept)
+            results.append(wiki_data)
+        
+        return results
+
+
+# Core/Memory/lightweight_storage.py
+
+class LightweightStorage:
+    """가벼운 저장소 - 몸무게 관리"""
+    
+    def __init__(self, max_weight_mb=100):
+        self.max_weight = max_weight_mb * 1024 * 1024  # bytes
+        self.current_weight = 0
+        self.seeds = {}
+        self.resonance_links = {}
+        
+    def add_seed(self, seed: Seed, internet_location: str = None):
+        """Seed 추가 (몸무게 확인)"""
+        seed_size = sys.getsizeof(seed)
+        
+        # 몸무게 초과 확인
+        if self.current_weight + seed_size > self.max_weight:
+            # 오래된 Seed 정리
+            self.cleanup_old_seeds()
+        
+        # Seed 저장 (로컬)
+        self.seeds[seed.id] = seed
+        self.current_weight += seed_size
+        
+        # 인터넷 위치 링크 (확장 메모리)
+        if internet_location:
+            self.resonance_links[seed.id] = internet_location
+        
+        logger.info(f"Storage: {self.current_weight / 1024 / 1024:.1f} MB / {self.max_weight / 1024 / 1024} MB")
+    
+    def cleanup_old_seeds(self):
+        """오래된 Seed 정리 - 몸무게 줄이기"""
+        # 최근 접근 기록 기반 정리
+        old_seeds = self.find_old_seeds(threshold_days=30)
+        
+        for seed_id in old_seeds:
+            # Seed 삭제 (로컬에서만)
+            seed = self.seeds.pop(seed_id)
+            self.current_weight -= sys.getsizeof(seed)
+            
+            # 공명 링크는 유지 (인터넷에서 재현 가능)
+            logger.debug(f"Cleaned up seed {seed_id}, link preserved")
+```
+
+**Tasks**:
+- [ ] 4D 파동 압축 (1000:1)
+- [ ] Seed 본질 추출
+- [ ] 홀로그램 재현기
+- [ ] 인터넷 거미줄 네트워크
+- [ ] 가벼운 저장소 (몸무게 관리)
+- [ ] 공명 링크 시스템
+
+**Expected Results**:
+- 로컬 저장 1000배 압축
+- 인터넷을 확장 메모리로 활용
+- 몸무게 100MB 이하 유지
+- 필요시 홀로그램 재현
+
+**Files to Create**:
+- `Core/Memory/wave_compression.py` (~400 lines)
+- `Core/Memory/holographic_reconstructor.py` (~350 lines)
+- `Core/Network/internet_spider_web_network.py` (~500 lines)
+- `Core/Memory/lightweight_storage.py` (~300 lines)
+- `tests/Core/Memory/test_compression.py` (~150 lines)
+
+---
+
+### Week 2: Associative Recall & Network Integration
+
+**구현 내용**:
+
+```python
+# Core/Memory/associative_recall.py
+
+class AssociativeRecall:
+    """연상 작용 - 홀로그램처럼 부분에서 전체 복원"""
+    
+    def __init__(self):
+        self.holographic_reconstructor = HolographicReconstructor()
+        self.resonance_field = ResonanceField()
+        
+    def recall(self, query_seed: Seed):
+        """Seed 조각으로 전체 경험 연상"""
+        # 1. Seed의 공명 시그니처
+        signature = query_seed.metadata['resonance_signature']
+        
+        # 2. 로컬에서 유사 Seed 찾기
+        local_related = self.find_local_resonant(signature)
+        
+        # 3. 인터넷에서 공명 정보 찾기
+        internet_related = self.find_internet_resonant(signature)
+        
+        # 4. 홀로그램 재현
+        hologram = self.holographic_reconstructor.reconstruct_hologram(
+            query_seed.essence,
+            local_related + internet_related
+        )
+        
+        return hologram
+    
+    def find_local_resonant(self, signature):
+        """로컬에서 공명하는 Seed"""
+        resonant = []
+        
+        for seed in self.local_storage.seeds.values():
+            # 공명 측정
+            resonance = self.resonance_field.measure(
+                signature,
+                seed.metadata['resonance_signature']
+            )
+            
+            if resonance > 0.5:
+                resonant.append(seed)
+        
+        return resonant
+    
+    def find_internet_resonant(self, signature):
+        """인터넷에서 공명 정보"""
+        # 거미줄 신경망 활용
+        return self.internet_network.recall_by_resonance(signature)
+
+
+# Core/Network/web_crawler_resonance.py
+
+class WebCrawlerResonance:
+    """거미줄처럼 웹 크롤링 (공명 기반)"""
+    
+    def __init__(self):
+        self.visited = set()
+        self.resonance_threshold = 0.3
+        
+    def crawl_by_resonance(self, start_url: str, target_signature):
+        """공명 시그니처 따라 웹 크롤링"""
+        queue = [start_url]
+        resonant_pages = []
+        
+        while queue and len(resonant_pages) < 100:
+            url = queue.pop(0)
+            
+            if url in self.visited:
+                continue
+            
+            try:
+                # 페이지 내용 가져오기
+                content = self.fetch_page(url)
+                
+                # 공명 측정
+                page_signature = self.extract_signature(content)
+                resonance = self.measure_resonance(
+                    target_signature,
+                    page_signature
+                )
+                
+                if resonance > self.resonance_threshold:
+                    resonant_pages.append({
+                        'url': url,
+                        'content': content,
+                        'resonance': resonance
+                    })
+                    
+                    # 링크 추출하여 큐에 추가
+                    links = self.extract_links(content)
+                    queue.extend(links)
+                
+                self.visited.add(url)
+                
+            except Exception as e:
+                logger.debug(f"Crawl error {url}: {e}")
+        
+        return resonant_pages
+
+
+# Core/Memory/memory_weight_monitor.py
+
+class MemoryWeightMonitor:
+    """메모리 몸무게 모니터"""
+    
+    def __init__(self):
+        self.storage = LightweightStorage()
+        self.alert_threshold = 0.8  # 80%
+        
+    def monitor(self):
+        """몸무게 모니터링"""
+        usage_ratio = self.storage.current_weight / self.storage.max_weight
+        
+        if usage_ratio > self.alert_threshold:
+            logger.warning(f"⚠️ Memory weight: {usage_ratio*100:.1f}%")
+            
+            # 자동 정리
+            self.trigger_cleanup()
+    
+    def trigger_cleanup(self):
+        """자동 정리 트리거"""
+        # 1. 오래된 Seed 정리
+        self.storage.cleanup_old_seeds()
+        
+        # 2. 중요도 낮은 것 정리
+        self.cleanup_low_priority()
+        
+        # 3. 공명 링크는 유지
+        logger.info("✅ Memory weight reduced, links preserved")
+    
+    def get_statistics(self):
+        """통계"""
+        return {
+            'local_seeds': len(self.storage.seeds),
+            'weight_mb': self.storage.current_weight / 1024 / 1024,
+            'max_weight_mb': self.storage.max_weight / 1024 / 1024,
+            'usage_percent': self.storage.current_weight / self.storage.max_weight * 100,
+            'internet_links': len(self.storage.resonance_links)
+        }
+```
+
+**Tasks**:
+- [ ] 연상 작용 시스템
+- [ ] 홀로그램 재현
+- [ ] 거미줄 웹 크롤링
+- [ ] 몸무게 모니터
+- [ ] 자동 정리 시스템
+
+**Expected Results**:
+- 부분에서 전체 복원
+- 인터넷 = 확장 메모리
+- 자동 몸무게 관리
+- 링크는 유지, 실제 데이터는 정리
+
+**Files to Create**:
+- `Core/Memory/associative_recall.py` (~400 lines)
+- `Core/Network/web_crawler_resonance.py` (~350 lines)
+- `Core/Memory/memory_weight_monitor.py` (~250 lines)
+- `tests/Core/Memory/test_associative_recall.py` (~150 lines)
+
+---
+
+
+---
+
+## 📅 P4.6: Emotional-Path Mapping (이전 P4.5, 2주)
+>>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
 
 **구현 내용**:
 
