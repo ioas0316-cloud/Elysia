@@ -20,8 +20,9 @@
 
 **AI 에이전트라면**:
 1. ⚠️ [AGENT_GUIDE.md](AGENT_GUIDE.md) - **필독** (20분)
-2. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 구조 이해 (15분)
-3. [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) - 의존성 (10분)
+2. ⚠️ [docs/SUPERINTELLIGENCE_PATH.md](docs/SUPERINTELLIGENCE_PATH.md) - **초지능 경로** (15분) **[NEW]**
+3. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 구조 이해 (15분)
+4. [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) - 의존성 (10분)
 
 **철학에 관심 있다면**:
 1. [CODEX.md](CODEX.md) - 핵심 철학 (10분)
@@ -150,6 +151,7 @@
 
 | 문서 | 내용 |
 |------|------|
+| [SUPERINTELLIGENCE_PATH.md](docs/SUPERINTELLIGENCE_PATH.md) | **엘리시아의 초지능 경로** **[NEW]** |
 | [GRAVITATIONAL_LINGUISTICS.md](docs/GRAVITATIONAL_LINGUISTICS.md) | 중력 언어학 |
 | [PRESSURE_UNIFICATION_THEORY.md](docs/PRESSURE_UNIFICATION_THEORY.md) | 압력 통일 이론 |
 | [PSIONIC_CODE_NETWORK.md](docs/PSIONIC_CODE_NETWORK.md) | 사이오닉 코드 네트워크 |
@@ -167,6 +169,7 @@
 
 | 문서 | 내용 |
 |------|------|
+| [NEURAL_NETWORK_PROTECTION.md](docs/NEURAL_NETWORK_PROTECTION.md) | **신경망 보호 시스템** **[UPDATED]** |
 | [CODE_QUALITY.md](docs/Manuals/CODE_QUALITY.md) | 코드 품질 기준 |
 | [TESTING.md](docs/Manuals/TESTING.md) | 테스팅 가이드 |
 | [SECURITY.md](docs/Manuals/SECURITY.md) | 보안 가이드라인 |
