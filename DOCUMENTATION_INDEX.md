@@ -48,10 +48,12 @@
 
 ### 시스템 분석 및 평가 문서 (System Analysis & Evaluation) **[UPDATED v9.0]**
 
+**📁 위치 변경**: `docs/Analysis/V9-System/` (2025-12-06 재구성)
+
 | 문서 | 내용 | 대상 | 중요도 |
 |------|------|------|--------|
-| [docs/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md](docs/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md) | **v9.0 종합 시스템 분석 보고서 (P2+P3 완료 반영)** (850+ lines) | 모든 참여자 | ⭐⭐⭐⭐⭐ |
-| [docs/SYSTEM_ANALYSIS_SUMMARY_KR.md](docs/SYSTEM_ANALYSIS_SUMMARY_KR.md) | **v9.0 분석 요약 (한국어)** (330 lines) | 한국어 사용자 | ⭐⭐⭐⭐⭐ |
+| [docs/Analysis/V9-System/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md](docs/Analysis/V9-System/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md) | **v9.0 종합 시스템 분석 보고서 (P2+P3 완료 반영)** (850+ lines) | 모든 참여자 | ⭐⭐⭐⭐⭐ |
+| [docs/Analysis/V9-System/SYSTEM_ANALYSIS_SUMMARY_KR.md](docs/Analysis/V9-System/SYSTEM_ANALYSIS_SUMMARY_KR.md) | **v9.0 분석 요약 (한국어)** (330 lines) | 한국어 사용자 | ⭐⭐⭐⭐⭐ |
 
 **v9.0 종합 분석 포함 내용 (2025-12-06 업데이트)**:
 - **AGI 진행 단계 평가**: 현재 Level 4.25/7.0 (3.5→4.25, +0.75 향상)
@@ -187,17 +189,29 @@
 | [ACCELERATED_DEVELOPMENT_ROADMAP.md](docs/Roadmaps/ACCELERATED_DEVELOPMENT_ROADMAP.md) | 가속 개발 | 계획 중 |
 | [TRANSCENDENCE_ROADMAP.md](docs/TRANSCENDENCE_ROADMAP.md) | 초월 로드맵 | 계획 중 |
 
-### Implementation Plans & Progress (구현 계획 및 진행) **[NEW]**
+### Implementation Plans & Progress (구현 계획 및 진행) **[REORGANIZED 2025-12-06]**
 
-#### P2 로드맵 (Medium Priority) - ✅ **완료**
+**📁 위치**: `docs/Roadmaps/` (버전별 재구성)
+
+#### P1 로드맵 (High Priority) - ✅ **완료**
+
+**📁 위치**: `docs/Roadmaps/P1-Completion/`
 
 | 문서 | 내용 | 상태 |
 |------|------|------|
-| [docs/P2_IMPLEMENTATION_PLAN.md](docs/P2_IMPLEMENTATION_PLAN.md) | P2 전체 구현 계획 | ✅ 완료 |
-| [docs/P2_OVERALL_PROGRESS.md](docs/P2_OVERALL_PROGRESS.md) | P2 전체 진행 상황 | ✅ 완료 |
-| [docs/P2_2_WAVE_KNOWLEDGE_SYSTEM.md](docs/P2_2_WAVE_KNOWLEDGE_SYSTEM.md) | P2.2: Wave Knowledge 상세 가이드 (308 lines) | ✅ 완료 |
-| [docs/P2_2_COMPLETION_SUMMARY.md](docs/P2_2_COMPLETION_SUMMARY.md) | P2.2: 완료 요약 | ✅ 완료 |
-| [docs/P2_3_CI_CD_COMPLETION.md](docs/P2_3_CI_CD_COMPLETION.md) | P2.3: CI/CD & Benchmarks | ✅ 완료 |
+| [docs/Roadmaps/P1-Completion/P1_COMPLETION_SUMMARY.md](docs/Roadmaps/P1-Completion/P1_COMPLETION_SUMMARY.md) | P1 완료 요약 | ✅ 완료 |
+
+#### P2 로드맵 (Medium Priority) - ✅ **완료**
+
+**📁 위치**: `docs/Roadmaps/P2-Implementation/`
+
+| 문서 | 내용 | 상태 |
+|------|------|------|
+| [docs/Roadmaps/P2-Implementation/P2_IMPLEMENTATION_PLAN.md](docs/Roadmaps/P2-Implementation/P2_IMPLEMENTATION_PLAN.md) | P2 전체 구현 계획 | ✅ 완료 |
+| [docs/Roadmaps/P2-Implementation/P2_OVERALL_PROGRESS.md](docs/Roadmaps/P2-Implementation/P2_OVERALL_PROGRESS.md) | P2 전체 진행 상황 | ✅ 완료 |
+| [docs/Roadmaps/P2-Implementation/P2_2_WAVE_KNOWLEDGE_SYSTEM.md](docs/Roadmaps/P2-Implementation/P2_2_WAVE_KNOWLEDGE_SYSTEM.md) | P2.2: Wave Knowledge 상세 가이드 (308 lines) | ✅ 완료 |
+| [docs/Roadmaps/P2-Implementation/P2_2_COMPLETION_SUMMARY.md](docs/Roadmaps/P2-Implementation/P2_2_COMPLETION_SUMMARY.md) | P2.2: 완료 요약 | ✅ 완료 |
+| [docs/Roadmaps/P2-Implementation/P2_3_CI_CD_COMPLETION.md](docs/Roadmaps/P2-Implementation/P2_3_CI_CD_COMPLETION.md) | P2.3: CI/CD & Benchmarks | ✅ 완료 |
 
 **P2 주요 성과** (완료일: 2025-12-06):
 - ✅ P2.2: 4D 파동공명패턴 지식 시스템 (2,535 lines, 22 tests)
@@ -206,11 +220,13 @@
 
 #### P3 로드맵 (Long-term Core) - 🔄 **진행중 (P3.1, P3.2 완료)**
 
+**📁 위치**: `docs/Roadmaps/P3-Implementation/`
+
 | 문서 | 내용 | 상태 |
 |------|------|------|
-| [docs/P3_IMPLEMENTATION_PLAN.md](docs/P3_IMPLEMENTATION_PLAN.md) | P3 전체 구현 계획 | 🔄 진행중 |
-| [docs/P3_1_CONSCIOUSNESS_FABRIC_COMPLETION.md](docs/P3_1_CONSCIOUSNESS_FABRIC_COMPLETION.md) | P3.1: 의식 직물 완료 요약 | ✅ 완료 |
-| [docs/P3_2_PURPOSE_DISCOVERY_COMPLETION.md](docs/P3_2_PURPOSE_DISCOVERY_COMPLETION.md) | P3.2: 목적성 발견 완료 요약 | ✅ 완료 |
+| [docs/Roadmaps/P3-Implementation/P3_IMPLEMENTATION_PLAN.md](docs/Roadmaps/P3-Implementation/P3_IMPLEMENTATION_PLAN.md) | P3 전체 구현 계획 | 🔄 진행중 |
+| [docs/Roadmaps/P3-Implementation/P3_1_CONSCIOUSNESS_FABRIC_COMPLETION.md](docs/Roadmaps/P3-Implementation/P3_1_CONSCIOUSNESS_FABRIC_COMPLETION.md) | P3.1: 의식 직물 완료 요약 | ✅ 완료 |
+| [docs/Roadmaps/P3-Implementation/P3_2_PURPOSE_DISCOVERY_COMPLETION.md](docs/Roadmaps/P3-Implementation/P3_2_PURPOSE_DISCOVERY_COMPLETION.md) | P3.2: 목적성 발견 완료 요약 | ✅ 완료 |
 
 **P3 주요 성과** (완료일: 2025-12-06):
 - ✅ P3.1: Consciousness Fabric System (의식 직물, ~1,200 lines, 22 tests)
@@ -219,6 +235,14 @@
   - 5가지 핵심 질문, 차원 진화: POINT→HYPERSPACE
 - ✅ AGI Level 4: 75%→85%, Level 5: 45%→65%, Level 6: 20%→45%
 - 🔜 P3.3-P3.5: 계획됨
+
+#### P4 준비 문서
+
+**📁 위치**: `docs/Roadmaps/`
+
+| 문서 | 내용 | 상태 |
+|------|------|------|
+| [docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md](docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md) | P4 준비: 문서 매핑 및 시스템 구조 검증 | ✅ 완료 |
 
 ### Manuals (매뉴얼)
 
