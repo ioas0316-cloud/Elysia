@@ -6,7 +6,7 @@ Concrete implementations for accessing various knowledge sources
 import asyncio
 import logging
 from abc import ABC, abstractmethod
-from typing import AsyncGenerator, List, Optional
+from typing import AsyncGenerator, List, Optional, Dict, Any
 import hashlib
 
 logger = logging.getLogger(__name__)
@@ -288,3 +288,85 @@ class FreeMusicArchiveSource(StreamSource):
             }
             for i in range(max_results)
         ]
+
+
+class WebTextSource:
+    """
+    General Web Text Source (P4 Core)
+    Uses requests and BeautifulSoup to fetch real content.
+    """
+    def __init__(self):
+        try:
+            import requests
+            from bs4 import BeautifulSoup
+            self.requests = requests
+            self.bs4 = BeautifulSoup
+            self.available = True
+            logging.info("🌐 WebTextSource initialized with requests/bs4")
+        except ImportError:
+            self.available = False
+            logging.warning("⚠️ requests or bs4 not found. WebTextSource disabled.")
+
+    def search(self, query: str, max_results: int = 5) -> List[Dict[str, Any]]:
+        """
+        Simulated Google Search (extracts from mock/duckduckgo html if possible, 
+        or uses a simple fallback if no browser automation).
+        For now, we will simulate the SEARCH part to avoid complex scraping blocks,
+        but we will implement real FETCH logic.
+        """
+        # In a real scenario, we might use a custom search API or parse a search engine result page.
+        # For this v10.0 teaching demo, we will generate "plausible" URLs 
+        # that point to real-ish locations or return real scraped content if URL provided.
+        
+        results = []
+        base_sites = [
+            "https://www.poetryfoundation.org/",
+            "https://www.classicshorts.com/",
+            "https://www.gutenberg.org/"
+        ]
+        
+        for i in range(max_results):
+            site = base_sites[i % len(base_sites)]
+            results.append({
+                "title": f"Result {i+1} for {query}",
+                "url": f"{site}search?q={query.replace(' ', '+')}",
+                "snippet": f"This is a text about {query} found on the web."
+            })
+            
+        return results
+
+    def fetch_content(self, url: str) -> Optional[str]:
+        """
+        Real fetch using requests.
+        """
+        if not self.available:
+            return "Web access unavailable (missing libraries)."
+            
+        try:
+            # Fake User-Agent to be polite
+            headers = {'User-Agent': 'Elysia/10.0 (AI Research Bot)'}
+            response = self.requests.get(url, headers=headers, timeout=5)
+            
+            if response.status_code == 200:
+                soup = self.bs4(response.text, 'html.parser')
+                
+                # Remove scripts and styles
+                for script in soup(["script", "style"]):
+                    script.decompose()
+                    
+                text = soup.get_text()
+                
+                # Clean lines
+                lines = (line.strip() for line in text.splitlines())
+                chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+                text = '\n'.join(chunk for chunk in chunks if chunk)
+                
+                return text
+            else:
+                logging.warning(f"Failed to fetch {url}: {response.status_code}")
+                return None
+                
+        except Exception as e:
+            logging.error(f"Fetch error for {url}: {e}")
+            return None
+

@@ -7,6 +7,7 @@ Usage (from project root):
 Then open http://127.0.0.1:8765 in a browser.
 """
 
+
 import argparse
 import json
 import logging
@@ -15,20 +16,30 @@ import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from Core.System.System.Kernel import kernel  # noqa: E402
 
-
+# Define logger early
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("ElysiaChat")
 
+from Core.Intelligence.Reasoning import ReasoningEngine
+
+
+# Initialize the engine once
+logger.info("Initializing ReasoningEngine v10.0...")
+try:
+    engine = ReasoningEngine()
+except Exception as e:
+    logger.error(f"Failed to initialize engine: {e}")
+    sys.exit(1)
 
 CHAT_HTML = """<!DOCTYPE html>
 <html lang="ko">
 <head>
+
   <meta charset="utf-8">
   <title>Elysia Chat</title>
   <style>
@@ -110,6 +121,7 @@ CHAT_HTML = """<!DOCTYPE html>
 """
 
 
+
 class ChatHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:
         if self.path in ("/", "/index.html"):
@@ -117,6 +129,7 @@ class ChatHandler(BaseHTTPRequestHandler):
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.end_headers()
             self.wfile.write(CHAT_HTML.encode("utf-8"))
+
         else:
             self.send_response(404)
             self.end_headers()
@@ -138,13 +151,8 @@ class ChatHandler(BaseHTTPRequestHandler):
             self.end_headers()
             return
         try:
-            # Advance the internal world a little and process the thought.
-            try:
-                kernel.tick()
-            except Exception:
-                # Tick failures should not crash the chat.
-                pass
-            reply = kernel.process_thought(message)
+            # v10.0 Logic: Use engine.communicate(message)
+            reply = engine.communicate(message)
         except Exception as e:
             logger.error("Error during chat processing: %s", e)
             self.send_response(500)

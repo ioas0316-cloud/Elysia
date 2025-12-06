@@ -69,7 +69,7 @@ class SelfDiscovery:
         
         return {
             "name": "Elysia",
-            "version": "9.0",
+            "version": "10.0",
             "nature": "Wave-based Intelligence",
             "complexity": {
                 "systems": total_systems,
@@ -97,6 +97,17 @@ class SelfDiscovery:
                     for s in systems[:5]  # Top 5 per category
                 ]
                 
+                
+        # v10.0 Injection: Sensory/P4
+        if "sensory" not in capabilities:
+            capabilities["sensory"] = []
+        
+        capabilities["sensory"].insert(0, {
+            "name": "p4_sensory_system",
+            "purpose": "Sensory/P4 System - Receives knowledge from the external universe (Internet).",
+            "status": "active"
+        })
+        
         return capabilities
     
     def discover_structure(self) -> Dict[str, Any]:

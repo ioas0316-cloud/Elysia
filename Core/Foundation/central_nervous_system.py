@@ -44,6 +44,11 @@ class CentralNervousSystem:
             # 1. Pulse Senses (Input)
             if "Senses" in self.organs:
                 self.organs["Senses"].pulse(self.resonance)
+
+            # 1.5. Pulse Outer Senses (Internet/P4)
+            if "OuterSense" in self.organs:
+                self.organs["OuterSense"].pulse(self.resonance)
+
             
             # 2. Pulse Will (Desire)
             if "Will" in self.organs:

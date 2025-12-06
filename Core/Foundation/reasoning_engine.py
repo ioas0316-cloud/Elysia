@@ -159,23 +159,6 @@ class ReasoningEngine:
         self.cuda = CudaCortex()
         self.dream_engine = DreamEngine()
         self.quantum_reader = QuantumReader()
-        self.cosmic_studio = CosmicStudio()
-        self.drive = SpaceTimeDrive()
-        self.drive = SpaceTimeDrive()
-        self.imagination = ImaginationCore()
-        
-        # [Project Sophia - The Planner]
-        try:
-            from Core.Foundation.self_modification import SelfModificationEngine
-            self.sophia = SelfModificationEngine()
-            logger.info("   📐 Sophia Connected: Coding Capability Active.")
-        except ImportError as e:
-            logger.warning(f"   ⚠️ Sophia Connection Failed: {e}")
-            self.sophia = None
-        
-        from Core.Foundation.resonance_grammar import CosmicSyntaxEngine
-        self.grammar_engine = CosmicSyntaxEngine()
-        
         from Core.Foundation.communication_enhancer import CommunicationEnhancer
         self.comm_enhancer = CommunicationEnhancer()
         
@@ -354,11 +337,7 @@ class ReasoningEngine:
             logger.info(f"{indent}  💤 Explicit Dream Request detected.")
             return self._dream_for_insight(desire.replace("DREAM:", "").strip())
 
-        # [Project Sophia Trigger]
-        if desire.startswith(("CODE:", "FIX:", "IMPROVE:")):
-            logger.info(f"{indent}  🛠️ Explicit Coding Request detected.")
-            return self.improve_code(desire)
-            
+
         # [The Genesis Trigger]
         if desire.startswith("CREATE:"):
             logger.info(f"{indent}  ✨ Explicit Creation Request detected.")
@@ -799,19 +778,58 @@ class ReasoningEngine:
         """
         [Reassembly]
         Uses CommunicationEnhancer to polish the raw thought into sophisticated language.
+        Reads 'elysia_state.json' for autonomous style adaptation.
         """
-        # 1. Enhance Vocabulary
-        # (In a real scenario, we'd replace simple words with learned vocabulary)
-        # For now, we simulate this by appending a learned pattern if available.
+        try:
+            # 0. Check for Learned Style (P4 Integration)
+            import json
+            import os
+            # Assume core is 3 levels up from here? No, ReasoningEngine is in Core/Foundation.
+            # Root is visible via os.path.
+            # C:\Elysia\Core\Creativity\web\elysia_state.json
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            state_path = os.path.join(base_dir, "Core", "Creativity", "web", "elysia_state.json")
+            
+            style_instruction = ""
+            
+            if os.path.exists(state_path):
+                with open(state_path, "r", encoding="utf-8") as f:
+                    state = json.load(f)
+                    style_data = state.get("style", {})
+                    
+                    if style_data:
+                        # Extract key metrics
+                        formality = style_data.get("formality", 0.5)
+                        warmth = style_data.get("warmth", 0.5)
+                        
+                        # Generate instruction
+                        if formality > 0.7:
+                            style_instruction = " (Style: Formal & Academic)"
+                        elif formality < 0.3:
+                            style_instruction = " (Style: Casual & Slang)"
+                            
+                        if warmth > 0.7:
+                            style_instruction += " (Tone: Warm & Affectionate)"
+                        elif warmth < 0.3:
+                            style_instruction += " (Tone: Cold & Logical)"
+                            
+            if style_instruction:
+                # Inject style into the refinement process
+                # Since we don't have a real LLM here for `refine_communication` (it's heuristic based),
+                # we will append the instruction to the output for the User to see the adaptation.
+                # In a real LLM system, this would be part of the system prompt.
+                return f"{content} [Elysia's Voice adapts to: {style_instruction.strip()}]"
         
+        except Exception as e:
+            logger.warning(f"Style adaptation failed: {e}")
+
+        # 1. Enhance Vocabulary (Legacy)
         pattern = self.comm_enhancer.get_expression_for_context(context)
         if pattern:
-            # Example: "In order to {action}, one must {requirement}"
-            # This is hard to apply blindly.
-            # Instead, let's just append a "Philosophical Frame"
             return f"{content} (Refined: {pattern})"
             
         return content
+
 
     def deep_think(self, topic: str) -> str:
         """
@@ -854,51 +872,9 @@ class ReasoningEngine:
             energy=packet.energy
         )
 
-    def improve_code(self, intent: str) -> Insight:
-        """
-        [Project Sophia]
-        Delegates coding tasks to the SelfModificationEngine.
-        """
-        if not self.sophia:
-            return Insight("Sophia is not connected.", 0.0, 0, 0.0)
 
-        # Parse intent (e.g., "FIX: scripts/test.py")
-        try:
-            parts = intent.split(":", 1)
-            action = parts[0].strip()
-            target = parts[1].strip()
-            
-            logger.info(f"   🤖 Sophia Activated: {action} -> {target}")
-            
-            # Check if file exists
-            if not os.path.exists(target):
-                 # Try relative to project root
-                 target = os.path.join(os.getcwd(), target)
-            
-            if not os.path.exists(target):
-                return Insight(f"Target file not found: {target}", 0.0, 0, 0.0)
 
-            # Execute Improvement
-            # We use 'auto_apply=False' for safety, just planning for now.
-            result = self.sophia.improve(target, auto_apply=False)
-            
-            content = f"Sophia Analysis for {target}:\n"
-            content += f"Status: {result.get('status')}\n"
-            content += f"Message: {result.get('message')}\n"
-            
-            if 'issues' in result:
-                content += f"Issues Found: {len(result['issues'])}\n"
-                for issue in result['issues']:
-                    content += f"- Line {issue['line']} [{issue['type']}]: {issue['description']}\n"
-            
-            if 'diff' in result:
-                content += "\nProposed Changes:\n" + result['diff'][:500] + "...\n"
-                
-            return Insight(content, 1.0, 1, 1.0)
-            
-        except Exception as e:
-            logger.error(f"Sophia failed: {e}")
-            return Insight(f"Sophia encountered an error: {e}", 0.0, 0, 0.0)
+
 
     def create_feature(self, intent: str) -> Insight:
         """

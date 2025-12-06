@@ -18,6 +18,7 @@ from Core.Foundation.free_will_engine import FreeWillEngine
 from Core.Foundation.digital_ecosystem import DigitalEcosystem
 from Core.Foundation.shell_cortex import ShellCortex
 from Core.Intelligence.web_cortex import WebCortex
+from Core.Sensory.p4_sensory_system import P4SensorySystem
 from Core.Foundation.cosmic_transceiver import CosmicTransceiver
 from Core.Foundation.cortex_optimizer import CortexOptimizer
 from Core.Foundation.self_reflector import SelfReflector
@@ -103,6 +104,7 @@ class LivingElysia:
         self.ultra_reasoning = UltraDimensionalReasoning()
         self.wave_hub = get_wave_hub()
         self.senses = DigitalEcosystem()
+        self.outer_sense = P4SensorySystem() # P4 / Outer World
         self.transceiver = CosmicTransceiver()
         self.real_comm = RealCommunicationSystem(self.ultra_reasoning, self.wave_hub)
         
@@ -161,6 +163,7 @@ class LivingElysia:
         # 5. Connect Organs to CNS
         self.cns.connect_organ("Will", self.will)
         self.cns.connect_organ("Senses", self.senses)
+        self.cns.connect_organ("OuterSense", self.outer_sense)
         self.cns.connect_organ("Brain", self.brain)
         self.cns.connect_organ("Voice", self.voice)
         # self.cns.connect_organ("Architect", self.architect) # Future integration

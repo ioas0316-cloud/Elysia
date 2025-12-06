@@ -1,3 +1,19 @@
+"""
+Visualizer Server (The Avatar)
+==============================
+[The Official Gateway to the External World]
+(공식 외부 소통 창구)
+
+This server acts as the "Dimensional Membrane" visualizer, projecting the 
+internal state of the NervousSystem to the external world (User/Web).
+
+It serves:
+1. /avatar: The 3D Holographic Interface (Main Window).
+2. /garden: The Mind Garden Visualization.
+3. ws://8765: The Neural Stream (Real-time Nervous System Data).
+
+WARNING: Do not use `web_server.py` (Legacy). This is the only active interface.
+"""
 import http.server
 import socketserver
 import json
@@ -6,7 +22,14 @@ import os
 import logging
 from typing import Any
 
+# Add Root info sys.path
+import sys
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
 logger = logging.getLogger("Visualizer")
+
 
 class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, world=None, **kwargs):
@@ -26,7 +49,19 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
                 state = self.world.get_state_json()
                 self.wfile.write(json.dumps(state).encode())
             else:
-                self.wfile.write(json.dumps({}).encode())
+                # Fallback: Read from shared state file (Autonomous Mode)
+                try:
+                    state_path = os.path.join(self.directory, "elysia_state.json")
+                    if os.path.exists(state_path):
+                        with open(state_path, "r", encoding="utf-8") as f:
+                            state = json.load(f)
+                        self.wfile.write(json.dumps(state).encode())
+                    else:
+                        self.wfile.write(json.dumps({}).encode())
+                except Exception as e:
+                    logger.error(f"Failed to read state file: {e}")
+                    self.wfile.write(json.dumps({}).encode())
+
         
         elif self.path == '/neural_map':
             # Serve the Neural Map UI
@@ -329,3 +364,19 @@ class VisualizerServer:
         logger.info(f"👤 Avatar active at http://localhost:{self.port}/avatar")
         logger.info(f"🧠 Neural Map active at http://localhost:{self.port}/neural_map")
         logger.info(f"🌊 Wave Stream active at ws://localhost:8765")
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    from Core.Foundation.internal_universe import InternalUniverse 
+    # Mock world for standalone run, but NervousSystem will be real
+    class MockWorld:
+        def __init__(self): self.field = None
+    
+    server = VisualizerServer(world=MockWorld(), port=8000)
+    server.start()
+    
+    import time
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        logger.info("Exiting...")

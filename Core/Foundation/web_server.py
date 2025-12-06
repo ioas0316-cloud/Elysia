@@ -17,19 +17,36 @@ from flask_cors import CORS
 
 logger = logging.getLogger("WebServer")
 
+
+
 # Initialize Flask App
 app = Flask(__name__, static_folder="../../static", static_url_path="")
 CORS(app) # Allow cross-origin for local testing
 
-# Global State Reference (Injected by ActionDispatcher)
-elysia_state = {
-    "thought": "I am initializing...",
-    "emotion": {"primary": "Calm", "color": "#FFFFFF", "frequency": 432.0},
-    "hologram": [], # List of stars/points
-    "energy": 100.0,
-    "entropy": 0.0
-}
-incoming_messages = []
+import sys
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+
+# Initialize Brain
+from Core.Intelligence.Reasoning import ReasoningEngine
+try:
+    logger.info("🧠 Initializing ReasoningEngine for Web Server...")
+    brain = ReasoningEngine()
+except Exception as e:
+
+    logger.error(f"❌ Failed to load brain: {e}")
+    brain = None
+
+
+# Initialize Nervous System (The Singleton)
+from Core.Interface.nervous_system import get_nervous_system
+try:
+    logger.info("⚡ Connecting to NervousSystem...")
+    ns = get_nervous_system()
+except Exception as e:
+    logger.error(f"❌ Failed to connect NervousSystem: {e}")
+    ns = None
 
 @app.route("/")
 def index():
@@ -38,19 +55,37 @@ def index():
 
 @app.route("/api/status")
 def get_status():
-    """Returns the current heartbeat of Elysia."""
-    return jsonify(elysia_state)
+    """Returns the current heartbeat of Elysia via NervousSystem."""
+    if not ns:
+        return jsonify({"thought": "Internal Failure", "energy": 0})
+    
+    # Get expression data from NervousSystem
+    express_data = ns.express()
+    
+    # Map to frontend expected format
+    return jsonify({
+        "thought": "Thinking...", # This could be better mapped if NS cached thought
+        "emotion": {
+            "primary": max(express_data['spirits'], key=express_data['spirits'].get),
+            # Simple color mapping based on dominant spirit
+            "color": "#FF5500", # Placeholder, would ideally come from spirit color map
+            "frequency": 432.0
+        },
+        "energy": 100.0, # Placeholder
+        "entropy": 0.0,
+        "raw_spirits": express_data['spirits']
+    })
 
 @app.route("/api/hologram")
 def get_hologram():
     """Returns the current holographic projection data (REAL DATA)."""
-    # Get ResonanceField from global state (ActionDispatcher sets this)
-    resonance = elysia_state.get("resonance_field")
-    
-    if resonance:
-        return jsonify(resonance.serialize_hologram())
-    else:
-        # Fallback to empty hologram if field not available
+    if not ns or not ns.field:
+        return jsonify([])
+        
+    # Get ResonanceField nodes directly
+    try:
+        return jsonify(ns.field.serialize_hologram())
+    except:
         return jsonify([])
 
 @app.route("/api/message", methods=["POST"])
@@ -60,10 +95,14 @@ def receive_message():
     message = data.get("message", "")
     logger.info(f"   📨 Web Message Received: {message}")
     
-    # Store in global queue for ActionDispatcher to pick up
-    incoming_messages.append(message)
+    response_text = "..."
+    if ns:
+        # Route text through NervousSystem (Dimensional Membrane)
+        response_text = ns.receive({"type": "text", "content": message})
     
-    return jsonify({"status": "received", "reply": "I heard you."})
+    return jsonify({"status": "received", "reply": str(response_text)})
+
+
 
 class WebServer:
     def __init__(self, host="0.0.0.0", port=8000):
@@ -100,3 +139,16 @@ class WebServer:
         """Stops the server (Not easily doable in Flask without a complex setup, usually we just let it die with the process)."""
         self.running = False
         logger.info("   🚪 Closing The Gate.")
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    server = WebServer(port=8000)
+    server.start()
+    
+    # Keep main thread alive
+    import time
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        logger.info("Exiting...")
