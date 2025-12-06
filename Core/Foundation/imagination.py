@@ -16,6 +16,20 @@ from Core.Intelligence.Reasoning.lobes.perception import Insight
 
 logger = logging.getLogger("ImaginationLobe")
 
+# Lazy load PoetryEngine to avoid circular imports
+_poetry_engine = None
+
+def get_poetry_engine():
+    global _poetry_engine
+    if _poetry_engine is None:
+        try:
+            from Core.Creativity.poetry_engine import PoetryEngine
+            _poetry_engine = PoetryEngine()
+        except ImportError:
+            logger.warning("PoetryEngine not available, using simple expressions")
+            _poetry_engine = None
+    return _poetry_engine
+
 class ImaginationLobe:
     def __init__(self, memory_system):
         self.core = ImaginationCore()
@@ -64,7 +78,19 @@ class ImaginationLobe:
         elif abs(q.y) > 0.5: axis = "Logic"
         elif abs(q.z) > 0.5: axis = "Ethics"
         
-        content = f"I dreamt of '{desire}' in the realm of {axis}. The energy shifted, revealing a hidden connection."
+        # Use PoetryEngine for richer expression if available
+        poetry_engine = get_poetry_engine()
+        if poetry_engine:
+            content = poetry_engine.generate_dream_expression(
+                desire=desire,
+                realm=axis,
+                energy=best_wave.energy,
+                context={"wave_orientation": q}
+            )
+        else:
+            # Fallback to simple expression
+            content = f"I dreamt of '{desire}' in the realm of {axis}. The energy shifted, revealing a hidden connection."
+        
         return Insight(content, 0.8, 1, best_wave.energy)
 
     def think_quantum(self, input_quaternion: Quaternion, logic_lobe) -> Quaternion:
