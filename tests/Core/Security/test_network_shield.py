@@ -75,7 +75,7 @@ def test_allow_normal_traffic():
         "metadata": {"payload": "GET /index.html"}
     })
     
-    assert result["allowed"] == True
+    assert result["allowed"] is True
     assert result["action"] == "allow"
     print(f"✓ Normal traffic allowed")
 
@@ -93,7 +93,7 @@ def test_block_sql_injection():
         "metadata": {"payload": "' OR '1'='1 --"}
     })
     
-    assert result["allowed"] == False
+    assert result["allowed"] is False
     assert result["threat_type"] == "INJECTION"
     assert result["action"] == "block"
     print(f"✓ SQL injection blocked")

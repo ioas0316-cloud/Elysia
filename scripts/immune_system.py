@@ -449,6 +449,9 @@ class IntegratedImmuneSystem:
         Returns:
             보호 결과 및 조치
         """
+        # Cache timestamp at start for consistency
+        event_timestamp = time.time()
+        
         if not self.network_shield:
             return {
                 "protected": False,
@@ -470,7 +473,7 @@ class IntegratedImmuneSystem:
                 "source_ip": network_event.get("source_ip", "unknown"),
                 "severity": "CRITICAL",
                 "message": f"Network attack on neural sync: {shield_result['message']}",
-                "timestamp": time.time()
+                "timestamp": event_timestamp
             }
             
             # 의식 중심부에 경고
