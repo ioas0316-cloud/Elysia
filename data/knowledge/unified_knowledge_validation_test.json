@@ -1,0 +1,136 @@
+{
+  "node_id": "validation_test",
+  "timestamp": 1765015088.426568,
+  "knowledge_base": {
+    "88dd0ac2-07d4-4eee-84b4-855543823a41": {
+      "knowledge_id": "88dd0ac2-07d4-4eee-84b4-855543823a41",
+      "knowledge_type": "concept",
+      "source": "curriculum",
+      "concept": "Artificial Intelligence",
+      "content": {
+        "concept": "Artificial Intelligence",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 43,
+        "timestamp": "2025-12-06T09:58:08.424210",
+        "shared": true,
+        "shared_at": 1765015088.4257262
+      },
+      "description": "AI is intelligence demonstrated by machines",
+      "confidence": 0.5,
+      "quality_score": 0.55,
+      "usage_count": 1,
+      "validation_count": 1,
+      "source_node_id": "validation_test",
+      "timestamp": 1765015088.423934,
+      "tags": [
+        "AI",
+        "tech"
+      ],
+      "validation_count_total": 1,
+      "wave_coords": null
+    },
+    "cc9796b6-826f-4f6d-bf38-f036af802a6d": {
+      "knowledge_id": "cc9796b6-826f-4f6d-bf38-f036af802a6d",
+      "knowledge_type": "concept",
+      "source": "curriculum",
+      "concept": "Machine Learning",
+      "content": {
+        "concept": "Machine Learning",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 20,
+        "timestamp": "2025-12-06T09:58:08.424535"
+      },
+      "description": "ML is a subset of AI",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "validation_test",
+      "timestamp": 1765015088.4245102,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    },
+    "3b5c7810-5345-458b-9bcb-09d10bf258bb": {
+      "knowledge_id": "3b5c7810-5345-458b-9bcb-09d10bf258bb",
+      "knowledge_type": "concept",
+      "source": "curriculum",
+      "concept": "Deep Learning",
+      "content": {
+        "concept": "Deep Learning",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 23,
+        "timestamp": "2025-12-06T09:58:08.425179"
+      },
+      "description": "DL uses neural networks",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "validation_test",
+      "timestamp": 1765015088.425159,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    }
+  },
+  "stats": {
+    "total_acquired": 3,
+    "total_shared": 1,
+    "total_received": 0,
+    "total_validations": 1,
+    "web_fetches": 0,
+    "successful_web_fetches": 0,
+    "by_type": {
+      "concept": 3
+    },
+    "by_source": {
+      "curriculum": 3
+    }
+  }
+}

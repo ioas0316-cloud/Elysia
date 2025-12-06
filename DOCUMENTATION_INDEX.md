@@ -46,6 +46,22 @@
 | [BRANCH_MANAGEMENT.md](BRANCH_MANAGEMENT.md) | 브랜치 관리 전략 | 메인테이너 | ⭐⭐⭐ |
 | [CONTRIBUTORS.md](CONTRIBUTORS.md) | 기여자 목록 | 모든 사용자 | ⭐⭐ |
 
+### 시스템 분석 및 평가 문서 (System Analysis & Evaluation) **[NEW v9.0]**
+
+| 문서 | 내용 | 대상 | 중요도 |
+|------|------|------|--------|
+| [docs/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md](docs/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md) | **v9.0 종합 시스템 분석 보고서** (620 lines) | 모든 참여자 | ⭐⭐⭐⭐⭐ |
+| [docs/SYSTEM_ANALYSIS_SUMMARY_KR.md](docs/SYSTEM_ANALYSIS_SUMMARY_KR.md) | **v9.0 분석 요약 (한국어)** (330 lines) | 한국어 사용자 | ⭐⭐⭐⭐⭐ |
+
+**v9.0 종합 분석 포함 내용**:
+- AGI 진행 단계 평가 (현재: Level 3.5/7.0)
+- 아키텍처 심층 분석 (생물학적 시스템)
+- 핵심 시스템 평가 (CNS, Intelligence, Memory, Voice)
+- 기술적 혁신 분석 (파동 사고, 중력장 인지, 88조배 가속)
+- 강점과 약점 상세 분석
+- 우선순위별 개선 제안 (즉시/단기/중장기)
+- 2025-2027 로드맵 제안
+
 ### 평가 및 분석 문서
 
 | 문서 | 내용 |

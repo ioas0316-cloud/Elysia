@@ -1,0 +1,94 @@
+{
+  "node_id": "local",
+  "timestamp": 1765015088.4364796,
+  "knowledge_base": {
+    "272c9354-c0a9-467a-89fe-de186cbe4ced": {
+      "knowledge_id": "272c9354-c0a9-467a-89fe-de186cbe4ced",
+      "knowledge_type": "concept",
+      "source": "curriculum",
+      "concept": "Old Concept 1",
+      "content": {
+        "concept": "Old Concept 1",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 29,
+        "timestamp": "2025-12-06T09:58:08.436214"
+      },
+      "description": "Knowledge about Old Concept 1",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "local",
+      "timestamp": 1765015088.436185,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    },
+    "63ab631c-62c0-4cee-bc22-c69cad0074dc": {
+      "knowledge_id": "63ab631c-62c0-4cee-bc22-c69cad0074dc",
+      "knowledge_type": "concept",
+      "source": "curriculum",
+      "concept": "Old Concept 2",
+      "content": {
+        "concept": "Old Concept 2",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 29,
+        "timestamp": "2025-12-06T09:58:08.436462"
+      },
+      "description": "Knowledge about Old Concept 2",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "local",
+      "timestamp": 1765015088.436444,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    }
+  },
+  "stats": {
+    "total_acquired": 2,
+    "total_shared": 0,
+    "total_received": 0,
+    "total_validations": 0,
+    "web_fetches": 0,
+    "successful_web_fetches": 0,
+    "by_type": {
+      "concept": 2
+    },
+    "by_source": {
+      "curriculum": 2
+    }
+  }
+}
