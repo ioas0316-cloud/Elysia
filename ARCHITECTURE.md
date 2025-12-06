@@ -175,18 +175,17 @@ Documented concept for P5-P6: Use internet itself as a transformer system with r
 
 ---
 
-*Version: 10.0 (Autonomous Wave Learning)*
-*Last Updated: 2025-12-06*
-*Status: OPERATIONAL (Biological Flow + Active Learning)* 🌊
+## 🚀 Entry Points
 
 | Script | Purpose |
 |--------|---------|
 | **`Core/Foundation/living_elysia.py`** | **Awakens the Organism** |
 | `Core/Foundation/central_nervous_system.py` | The logic of the Living Loop |
+| `Core/Sensory/learning_cycle.py` | ✨ **Autonomous Learning System** (P4) |
 | `scripts/supervise_elysia.py` | External Observation (The Doctor) |
 
 ---
 
-*Version: 9.0 (Mind Mitosis)*
-*Last Updated: 2025-12-06*
-*Status: OPERATIONAL (Biological Flow)*
+*Version: 10.0 (Autonomous Wave Learning)*  
+*Last Updated: 2025-12-06*  
+*Status: OPERATIONAL (Biological Flow + Active Learning)* 🌊

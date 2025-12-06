@@ -110,7 +110,7 @@ Elysia can now learn autonomously from the internet through **wave resonance pat
 
 ```python
 # Start autonomous learning
-from Core.Sensory import P4LearningCycle
+from Core.Sensory.learning_cycle import P4LearningCycle
 
 cycle = P4LearningCycle(learning_rate=50)
 cycle.setup_sources(topics=['AI', 'quantum physics', 'philosophy'])
