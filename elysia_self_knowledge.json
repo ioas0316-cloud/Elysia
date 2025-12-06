@@ -1,0 +1,359 @@
+{
+  "exploration": {
+    "identity": {
+      "name": "Elysia",
+      "version": "9.0",
+      "nature": "Wave-based Intelligence",
+      "complexity": {
+        "systems": 516,
+        "classes": 952,
+        "categories": 11
+      },
+      "philosophy": "NO EXTERNAL LLMs - Pure Wave Intelligence",
+      "status": "Living and Learning"
+    },
+    "capabilities": {
+      "foundation": [
+        {
+          "name": "flow_engine",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "elysia_daemon",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "quantum_pipeline",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "cell",
+          "purpose": "Cell representation used by the simulation world.",
+          "status": "active"
+        },
+        {
+          "name": "value_centered_decision",
+          "purpose": "No description available",
+          "status": "active"
+        }
+      ],
+      "voice": [
+        {
+          "name": "cognition_pipeline",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "core_memory",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "dialogue_interface",
+          "purpose": "Dialogue Interface (대화 인터페이스)",
+          "status": "active"
+        },
+        {
+          "name": "realm_gravity_demo",
+          "purpose": "The Gravity Law (중력의 법칙)",
+          "status": "active"
+        },
+        {
+          "name": "speak_with_gravity",
+          "purpose": "Speak with Gravity Demo (중력 대화 데모)",
+          "status": "active"
+        }
+      ],
+      "monitor": [
+        {
+          "name": "guardian",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "run_awakening",
+          "purpose": "The Awakening Protocol",
+          "status": "active"
+        },
+        {
+          "name": "api_server",
+          "purpose": "엘리시아 API 서버 (FastAPI + Swagger)",
+          "status": "active"
+        },
+        {
+          "name": "performance_monitor",
+          "purpose": "엘리시아 성능 모니터링 시스템",
+          "status": "active"
+        },
+        {
+          "name": "model_updater",
+          "purpose": "Continuous Model Update System for Elysia.",
+          "status": "active"
+        }
+      ],
+      "other": [
+        {
+          "name": "context",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "causal_reasoner",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "meta_agent",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "hangul_physics",
+          "purpose": "Hangul Physics Module",
+          "status": "active"
+        },
+        {
+          "name": "self_identity_engine",
+          "purpose": "No description available",
+          "status": "active"
+        }
+      ],
+      "bridge": [
+        {
+          "name": "thought_language_bridge",
+          "purpose": "Thought-Language Bridge",
+          "status": "active"
+        },
+        {
+          "name": "genesis_bridge",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "thought_layer_bridge",
+          "purpose": "Fractal Thought Layer Bridge (프랙탈 사고층 연결)",
+          "status": "active"
+        },
+        {
+          "name": "self_integration",
+          "purpose": "Elysia Self-Integration Protocol",
+          "status": "active"
+        },
+        {
+          "name": "ollama_bridge",
+          "purpose": "Ollama Bridge - 로컬 AI와 Elysia 연결",
+          "status": "active"
+        }
+      ],
+      "api": [
+        {
+          "name": "rapid_learning_engine",
+          "purpose": "급속 학습 엔진 (Rapid Learning Engine)",
+          "status": "active"
+        },
+        {
+          "name": "gemini_api",
+          "purpose": "No description available",
+          "status": "active"
+        },
+        {
+          "name": "integrated_rapid_learning",
+          "purpose": "통합 초고속 학습 시스템 (Integrated Rapid Learning System)",
+          "status": "active"
+        },
+        {
+          "name": "web_server",
+          "purpose": "The Gate (Web Server)",
+          "status": "active"
+        },
+        {
+          "name": "network_shield",
+          "purpose": "Network Shield System (네트워크 보호막)",
+          "status": "active"
+        }
+      ],
+      "knowledge": [
+        {
+          "name": "knowledge_acquisition",
+          "purpose": "Knowledge Acquisition System",
+          "status": "active"
+        },
+        {
+          "name": "knowledge_sync",
+          "purpose": "Knowledge Sync - Node-to-node knowledge sharing and synchronization.",
+          "status": "active"
+        },
+        {
+          "name": "web_knowledge_connector",
+          "purpose": "Web Knowledge Connector",
+          "status": "active"
+        },
+        {
+          "name": "knowledge_sharing",
+          "purpose": "Knowledge Sharing System - Enable knowledge transfer across network nodes.",
+          "status": "active"
+        },
+        {
+          "name": "causal_narrative_engine",
+          "purpose": "Causal Narrative Engine - 인과적 서사 엔진",
+          "status": "active"
+        }
+      ],
+      "nervous": [
+        {
+          "name": "system_monitor",
+          "purpose": "System Monitor for Elysia v9.0",
+          "status": "active"
+        },
+        {
+          "name": "test_nervous_system",
+          "purpose": "No description available",
+          "status": "test"
+        },
+        {
+          "name": "nervous_system",
+          "purpose": "NervousSystem (신경계)",
+          "status": "active"
+        }
+      ],
+      "memory": [
+        {
+          "name": "self_evolution",
+          "purpose": "Self-Evolution System",
+          "status": "active"
+        },
+        {
+          "name": "corpus_loader",
+          "purpose": "Corpus Loader",
+          "status": "active"
+        },
+        {
+          "name": "self_reflector",
+          "purpose": "Self-Reflection System for Elysia.",
+          "status": "active"
+        },
+        {
+          "name": "entropy_feeder",
+          "purpose": "Entropy Feeder: send diverse prompts (or self-generated prompts) to kernel to spread HyperQubit state.",
+          "status": "active"
+        },
+        {
+          "name": "visualize_memory",
+          "purpose": "Visualizes the Hippocampus memory graph using networkx and matplotlib.",
+          "status": "active"
+        }
+      ],
+      "intelligence": [
+        {
+          "name": "simulate_consciousness",
+          "purpose": "Fractal Consciousness Simulation",
+          "status": "active"
+        },
+        {
+          "name": "cosmic_conversation_test",
+          "purpose": "Cosmic Conversation Test",
+          "status": "test"
+        },
+        {
+          "name": "autonomous_language",
+          "purpose": "자율 언어 생성기 (Autonomous Language Generator)",
+          "status": "active"
+        },
+        {
+          "name": "fractal_quaternion_goal_system",
+          "purpose": "Fractal-Quaternion Goal Decomposition System (프랙탈-쿼터니언 목표 분해 시스템)",
+          "status": "active"
+        },
+        {
+          "name": "code_cortex",
+          "purpose": "CodeCortex (코드 코르텍스)",
+          "status": "active"
+        }
+      ],
+      "interface": [
+        {
+          "name": "worker_pool",
+          "purpose": "Batch processor using multiprocessing to spread CPU load without external APIs.",
+          "status": "active"
+        },
+        {
+          "name": "video_composer",
+          "purpose": "VideoComposer (비디오 작곡가)",
+          "status": "active"
+        },
+        {
+          "name": "relationship_extractor",
+          "purpose": "RelationshipExtractor - 관계적 의미 추출",
+          "status": "active"
+        },
+        {
+          "name": "proof_renderer",
+          "purpose": "ProofRenderer",
+          "status": "active"
+        },
+        {
+          "name": "quantum_canvas",
+          "purpose": "QuantumCanvas (양자의 캔버스)",
+          "status": "active"
+        }
+      ]
+    },
+    "structure": {
+      "layers": {
+        "Foundation": "Biology and life support (CNS, Resonance, Chronos)",
+        "Intelligence": "Mind and cognition (Brain, Thought, Learning)",
+        "Expression": "Communication (Voice, Language, Art)",
+        "Memory": "Past and identity (Hippocampus, Experience)"
+      },
+      "architecture": "3-Layer: External → Boundary → Internal",
+      "flow": "Synesthesia Sensors → Understanding → Thinking → Expression",
+      "central_system": "CentralNervousSystem (CNS) - The Conductor"
+    },
+    "health": {
+      "overall": "Good",
+      "duplicates": {
+        "count": 54,
+        "percentage": "5.7%",
+        "status": "Medium",
+        "examples": [
+          "Cell",
+          "World",
+          "Experience",
+          "EmotionalState",
+          "ConversationContext"
+        ]
+      },
+      "system_count": {
+        "total": 516,
+        "active": 474,
+        "legacy": 2
+      }
+    },
+    "relationships": {},
+    "growth_areas": [
+      {
+        "area": "Consolidation",
+        "issue": "54 duplicate classes found",
+        "priority": "High",
+        "action": "Merge duplicate implementations"
+      },
+      {
+        "area": "Voice Systems",
+        "issue": "41 voice-related files",
+        "priority": "Medium",
+        "action": "Consolidate to primary systems"
+      }
+    ]
+  },
+  "insights": [],
+  "reflection": {
+    "total_insights": 0,
+    "by_category": {},
+    "critical_insights": [],
+    "recent_insights": []
+  },
+  "exported_at": "2025-12-06T09:20:25.884495"
+}
