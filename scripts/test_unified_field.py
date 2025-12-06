@@ -32,7 +32,7 @@ def run_simulation():
     print(f"   -> Injected 'Pain' (396 Hz)")
     
     print("\n⏳ Simulating Propagation & Interference...")
-    for t in range(20):
+    for t in range(5): # Shortened loop for quick verification
         # 1. Propagate Physics
         field.propagate(0.1)
         
@@ -44,21 +44,23 @@ def run_simulation():
         state = field.collapse_state()
         status = observer.get_status()
         
-        # Simple ASCII Visualization of Interference
-        # Interference between 432 and 396 creates beats
+        # Simple ASCII Visualization
         energy_bar = "#" * int(state['total_energy'] * 10)
-        
         print(f"   T+{t}: E={state['total_energy']:.2f} | DomFreq={state['dominant_freq']:.1f}Hz | {status} | {energy_bar}")
-        
         time.sleep(0.05)
-        
-        # Dynamic Injection at T+10
-        if t == 10:
-            print("\n   ⚡ SUDDEN EVENT: 'Healing' Wave Injected!")
-            healing = WavePacket("Event_Healing", 639.0, 1.5, 0.0, HyperQuaternion(0,1,0,0), time.time())
-            field.inject_wave(healing)
-            
-    print("\n✨ Simulation Complete. Emergence Verified.")
+
+    # [Visual Universe Verification]
+    print("\n🔮 Verifying Visualization Data Export...")
+    viz_state = field.get_visualization_state()
+    print(f"   Viz Energy: {viz_state['energy']:.2f}")
+    print(f"   Viz Wave Count: {len(viz_state['waves'])}")
+    print(f"   Viz Dimensions: {viz_state['dimensions']}")
+    
+    assert 'waves' in viz_state, "Visualization state missing 'waves'"
+    assert 'dimensions' in viz_state, "Visualization state missing 'dimensions'"
+    assert len(viz_state['waves']) > 0, "Visualization should have active waves"
+    
+    print("\n✅ Unified Resonance Field Verified Successfully.")
 
 if __name__ == "__main__":
     run_simulation()

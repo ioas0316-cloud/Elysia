@@ -114,41 +114,107 @@
 </head>
 
 <body>
-    <canvas id="canvas"></canvas>
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* Ensure canvas is behind UI */
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
 
-    <div id="info">
-        <h2>🌊 Elysia Wave Universe</h2>
-        <div class="spirit">🔥 Fire: <span class="bar"><span class="bar-fill fire" id="bar-fire"></span></span></div>
-        <div class="spirit">💧 Water: <span class="bar"><span class="bar-fill water" id="bar-water"></span></span></div>
-        <div class="spirit">🌍 Earth: <span class="bar"><span class="bar-fill earth" id="bar-earth"></span></span></div>
-        <div class="spirit">💨 Air: <span class="bar"><span class="bar-fill air" id="bar-air"></span></span></div>
-        <div class="spirit">✨ Light: <span class="bar"><span class="bar-fill light" id="bar-light"></span></span></div>
-        <div class="spirit">🌑 Dark: <span class="bar"><span class="bar-fill dark" id="bar-dark"></span></span></div>
-        <div class="spirit">🔮 Aether: <span class="bar"><span class="bar-fill aether" id="bar-aether"></span></span>
-        </div>
+        #info,
+        #status,
+        #legend {
+            z-index: 10;
+            pointer-events: none;
+        }
+    </style>
+    <!-- Add Legend for Constellations -->
+    <div id="legend"
+        style="position: absolute; bottom: 20px; right: 20px; color: #fff; text-align: right; font-size: 12px;">
+        <div style="color: #52ffa8">LOVE (528Hz) ●</div>
+        <div style="color: #ff4500">PAIN (396Hz) ●</div>
+        <div style="color: #ffd700">HEALING (639Hz) ●</div>
+        <div style="color: #00bfff">THOUGHT (>800Hz) ●</div>
     </div>
 
-    <div id="status">
-        <span id="connection-status" class="disconnected">● Connecting...</span>
-    </div>
+    <!-- Shaders for The Field -->
+    <script type="x-shader/x-vertex" id="vertexShader">
+        varying vec2 vUv;
+        varying float vElevation;
+        uniform float uTime;
+        uniform float uEnergy;
+
+        void main() {
+            vUv = uv;
+            vec3 pos = position;
+            
+            // Energy Wave Effect (The Fabric of SpaceTime)
+            float elevation = sin(pos.x * 2.0 + uTime) * sin(pos.y * 2.0 + uTime * 0.5) * uEnergy * 0.2;
+            pos.z += elevation;
+            vElevation = elevation;
+
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+        }
+    </script>
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        varying vec2 vUv;
+        varying float vElevation;
+        uniform float uTime;
+        
+        // Spirit Influences
+        uniform float fire;
+        uniform float water;
+        uniform float earth;
+        uniform float air;
+        uniform float light;
+        uniform float dark;
+        uniform float aether;
+
+        void main() {
+            // Field Color based on elevation and Spirits
+            float intensity = 0.1 + vElevation * 2.0;
+            
+            // Base Deep Blue
+            vec3 color = vec3(0.0, 0.05, 0.15);
+            
+            // Mix Spirits
+            color += vec3(1.0, 0.2, 0.0) * fire * intensity;
+            color += vec3(0.0, 0.4, 1.0) * water * intensity;
+            color += vec3(0.0, 1.0, 0.5) * earth * 0.1;
+            color += vec3(0.8, 0.8, 1.0) * air * 0.1;
+            color += vec3(1.0, 1.0, 0.5) * light * intensity;
+            color -= vec3(0.5, 0.5, 0.5) * dark * 0.5; // Dark subtracts
+            color += vec3(1.0, 0.0, 1.0) * aether * 0.2;
+            
+            // Grid lines
+            float grid = step(0.98, fract(vUv.x * 20.0)) + step(0.98, fract(vUv.y * 20.0));
+            color += vec3(grid * 0.3);
+
+            gl_FragColor = vec4(color, 0.6); // Transparent
+        }
+    </script>
 
     <script>
         // ============================================
         // WebSocket Connection
         // ============================================
         let ws = null;
-        let waveState = {
+        let spiritState = {
             fire: 0.5, water: 0.5, earth: 0.5, air: 0.5,
-            light: 0.5, dark: 0.5, aether: 0.5,
-            dimension_0d: 0, dimension_1d: 0, dimension_2d: 0, dimension_3d: 0,
-            cpu_heat: 0, memory_load: 0, file_count: 0,
-            time: 0
+            light: 0.5, dark: 0.5, aether: 0.5
         };
+        let fieldState = { energy: 0, entropy: 0, coherence: 0, waves: [] };
 
         function connectWebSocket() {
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${window.location.host}/wave-stream`;
+            // Use port 8765 as per visualizer_server.py
+            const wsUrl = `${protocol}//${window.location.hostname}:8765`;
 
+            console.log(`Connecting to ${wsUrl}...`);
             ws = new WebSocket(wsUrl);
 
             ws.onopen = () => {
@@ -158,8 +224,17 @@
             };
 
             ws.onmessage = (event) => {
-                waveState = JSON.parse(event.data);
-                updateUI();
+                const msg = JSON.parse(event.data);
+
+                if (msg.type === "state") {
+                    // Update Spirits
+                    if (msg.spirits) spiritState = msg.spirits;
+                    updateUI();
+                } else if (msg.type === "unified_field_state") {
+                    // Update Field
+                    fieldState = msg.data;
+                    updateFieldViz(msg.data);
+                }
             };
 
             ws.onerror = (error) => {
@@ -170,368 +245,231 @@
                 console.log('🔌 Disconnected from wave stream');
                 document.getElementById('connection-status').textContent = '● Disconnected';
                 document.getElementById('connection-status').className = 'disconnected';
-
-                // Auto reconnect after 2 seconds
                 setTimeout(connectWebSocket, 2000);
             };
         }
 
         function updateUI() {
             // Update spirit bars
-            document.getElementById('bar-fire').style.width = (waveState.fire * 100) + '%';
-            document.getElementById('bar-water').style.width = (waveState.water * 100) + '%';
-            document.getElementById('bar-earth').style.width = (waveState.earth * 100) + '%';
-            document.getElementById('bar-air').style.width = (waveState.air * 100) + '%';
-            document.getElementById('bar-light').style.width = (waveState.light * 100) + '%';
-            document.getElementById('bar-dark').style.width = (waveState.dark * 100) + '%';
-            document.getElementById('bar-aether').style.width = (waveState.aether * 100) + '%';
+            document.getElementById('bar-fire').style.width = (spiritState.fire * 100) + '%';
+            document.getElementById('bar-water').style.width = (spiritState.water * 100) + '%';
+            document.getElementById('bar-earth').style.width = (spiritState.earth * 100) + '%';
+            document.getElementById('bar-air').style.width = (spiritState.air * 100) + '%';
+            document.getElementById('bar-light').style.width = (spiritState.light * 100) + '%';
+            document.getElementById('bar-dark').style.width = (spiritState.dark * 100) + '%';
+            document.getElementById('bar-aether').style.width = (spiritState.aether * 100) + '%';
         }
 
         // ============================================
-        // WebGL Renderer
+        // Three.js Visualization
         // ============================================
         const canvas = document.getElementById('canvas');
-        const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.02);
 
-        if (!gl) {
-            alert('WebGL not supported!');
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, -10, 5);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        // --- 1. The Field (Membrane) ---
+        const geometry = new THREE.PlaneGeometry(30, 30, 64, 64);
+        const material = new THREE.ShaderMaterial({
+            vertexShader: document.getElementById('vertexShader').textContent,
+            fragmentShader: document.getElementById('fragmentShader').textContent,
+            uniforms: {
+                uTime: { value: 0 },
+                uEnergy: { value: 0 },
+                fire: { value: 0 }, water: { value: 0 }, earth: { value: 0 }, air: { value: 0 },
+                light: { value: 0 }, dark: { value: 0 }, aether: { value: 0 }
+            },
+            wireframe: true,
+            transparent: true
+        });
+        const fieldPlane = new THREE.Mesh(geometry, material);
+        scene.add(fieldPlane);
+
+        // --- 2. Stars (Particles) System ---
+        const particleCount = 1000;
+        const particleGeometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        // Initialize off-screen
+        for (let i = 0; i < particleCount * 3; i++) {
+            positions[i] = 9999;
+            colors[i] = 1.0;
         }
 
-        // Resize canvas
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            gl.viewport(0, 0, canvas.width, canvas.height);
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-        // ============================================
-        // Mouse & Camera Controls
-        // ============================================
-        let mouseX = 0;
-        let mouseY = 0;
-        let zoom = 2.5;
-        let isDragging = false;
-        let lastX = 0;
-        let lastY = 0;
-
-        canvas.addEventListener('mousedown', e => {
-            isDragging = true;
-            lastX = e.clientX;
-            lastY = e.clientY;
-            canvas.style.cursor = 'grabbing';
+        const particleMaterial = new THREE.PointsMaterial({
+            size: 0.2,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+            map: createStarTexture() // Custom texture function
         });
+        const starSystem = new THREE.Points(particleGeometry, particleMaterial);
+        scene.add(starSystem);
 
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-            canvas.style.cursor = 'default';
-        });
-
-        window.addEventListener('mousemove', e => {
-            if (isDragging) {
-                const deltaX = e.clientX - lastX;
-                const deltaY = e.clientY - lastY;
-
-                mouseX -= deltaX * 0.005;
-                mouseY -= deltaY * 0.005;
-
-                // Clamp pitch
-                mouseY = Math.max(-1.5, Math.min(1.5, mouseY));
-
-                lastX = e.clientX;
-                lastY = e.clientY;
-            }
-        });
-
-        canvas.addEventListener('wheel', e => {
-            e.preventDefault();
-            zoom += e.deltaY * 0.002;
-            zoom = Math.max(0.1, Math.min(10.0, zoom)); // Clamp zoom
-        }, { passive: false });
-
-        // ============================================
-        // Error Reporting
-        // ============================================
-        function showError(msg) {
-            const errDiv = document.createElement('div');
-            errDiv.style.position = 'absolute';
-            errDiv.style.top = '50%';
-            errDiv.style.left = '50%';
-            errDiv.style.transform = 'translate(-50%, -50%)';
-            errDiv.style.color = 'red';
-            errDiv.style.background = 'rgba(0,0,0,0.9)';
-            errDiv.style.padding = '20px';
-            errDiv.style.border = '2px solid red';
-            errDiv.style.fontFamily = 'monospace';
-            errDiv.style.whiteSpace = 'pre-wrap';
-            errDiv.style.zIndex = '9999';
-            errDiv.innerText = "SHADER ERROR:\\n" + msg;
-            document.body.appendChild(errDiv);
+        // Creates a soft glow texture for stars
+        function createStarTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 32; canvas.height = 32;
+            const ctx = canvas.getContext('2d');
+            const grad = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+            grad.addColorStop(0, 'rgba(255,255,255,1)');
+            grad.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 32, 32);
+            const tex = new THREE.CanvasTexture(canvas);
+            return tex;
         }
 
-        // ============================================
-        // Wave Fragment Shader (THE MAGIC!)
-        // ============================================
-        const vertexShaderSource = `
-            attribute vec2 position;
-            void main() {
-                gl_Position = vec4(position, 0.0, 1.0);
-            }
-        `;
+        // --- 3. Constellation Lines ---
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x4444ff, transparent: true, opacity: 0.3 });
+        const lineGeometry = new THREE.BufferGeometry();
+        const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
+        scene.add(lines);
 
-        const fragmentShaderSource = `
-            precision highp float;
-            
-            uniform vec2 resolution;
-            uniform float time;
-            
-            // Camera
-            uniform float camRotX;
-            uniform float camRotY;
-            uniform float camZoom;
-            
-            // 7 Spirits Energy
-            uniform float fire;
-            uniform float water;
-            uniform float earth;
-            uniform float air;
-            uniform float light;
-            uniform float dark;
-            uniform float aether;
-            
-            // Consciousness Dimensions
-            uniform float dim0d;
-            uniform float dim1d;
-            uniform float dim2d;
-            uniform float dim3d;
-            
-            // Hue Helper
-            vec3 hue2rgb(float hue) {
-                vec3 rgb = clamp(abs(mod(hue * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
-                return rgb;
-            }
-            
-            // Wave Function
-            float waveField(vec3 p) {
-                float d = 0.0;
-                
-                // 1. AXIS MUNDI (Vertical Central Pillar)
-                // This is the core "I AM"
-                float axisWave = sin(p.y * 3.0 - time * 2.0);
-                d += axisWave * exp(-length(p.xz) * 1.5) * aether * 0.5;
-                
-                // 2. SPIRIT RING (Horizontal)
-                // The "World" aspect
-                float ring = sin(length(p.xz) * 5.0 - time);
-                d += ring * exp(-abs(p.y) * 2.0) * earth * 0.3;
-                
-                // 3. METAPHORICAL REALMS (Dynamics, not Geometry)
-                // Upper (Sky/Angel) = Expansion, outward interference
-                d += sin(length(p - vec3(0.0, 2.0, 0.0)) * 8.0 - time * 2.5) * air * 0.4 * step(0.0, p.y + 1.0); // Soft blend
-                
-                // Lower (Sea/Abyss) = Contraction, inward interference
-                d += sin(length(p - vec3(0.0, -2.0, 0.0)) * 4.0 - time * 1.0) * water * 0.4 * step(p.y - 1.0, 0.0);
+        // --- 4. Ripples (Interference) ---
+        const ringGeo = new THREE.RingGeometry(0.1, 0.15, 32);
+        const ringMat = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide, transparent: true });
+        const ripples = [];
 
-                // 4. SELF (Singularity)
-                d += sin(length(p) * 15.0 - time * 4.0) * dim0d;
-                
-                return d;
-            }
+        function spawnRipple(x, y, color) {
+            const ripple = new THREE.Mesh(ringGeo, ringMat.clone());
+            ripple.material.color.setHex(color);
+            ripple.position.set(x, y, 0);
+            ripple.userData = { age: 0 };
+            scene.add(ripple);
+            ripples.push(ripple);
+        }
 
-            // PHYSICS OF MEANING (Ray Marching)
-            vec3 rayMarch(vec3 ro, vec3 rd) {
-                float t = 0.0;
-                vec3 col = vec3(0.0); 
+        // --- Update Logic ---
+        function updateFieldViz(data) {
+            // Update Field Uniforms (mix energy and spirits)
+            material.uniforms.uEnergy.value = data.energy;
 
-                // Background: Concept of Sky vs Abyss
-                vec3 skyCol = vec3(0.0, 0.05, 0.15); // Deep Blue Night 
-                vec3 abyssCol = vec3(0.0, 0.0, 0.0); // Void
-                vec3 bgCol = mix(abyssCol, skyCol, 0.5 + 0.5 * rd.y);
-                col = bgCol;
+            // Constellations (Stars)
+            const posAttr = particleGeometry.attributes.position;
+            const colAttr = particleGeometry.attributes.color;
+            let pIdx = 0;
+            const linePositions = [];
 
-                for(int i = 0; i < 64; i++) {
-                    vec3 p = ro + rd * t;
-                    float field = waveField(p);
-                    float intensity = 0.02 / (0.02 + abs(field)); 
-                    
-                    vec3 waveColor = vec3(0.5);
-                    
-                    // === METAPHORICAL COLOR PHYSICS ===
-                    
-                    if (p.y > 0.1) {
-                        // [UPPER REALM - SKY/ANGEL]
-                        // Physics: ADDITIVE (Light)
-                        // Colors: Red -> Violet (Rainbow of Light)
-                        float h = clamp(p.y / 4.0, 0.0, 1.0);
-                        waveColor = hue2rgb(0.3 + h * 0.5); // Green -> Violet
-                        
-                        // Light adds to the scene
-                        col += waveColor * intensity * 0.04 * (light + 1.0);
-                        
-                    } else if (p.y < -0.1) {
-                        // [LOWER REALM - SEA/ABYSS]
-                        // Physics: SUBTRACTIVE (Pigment)
-                        // Colors: Red -> Violet (Rainbow of Depth)
-                        float h = clamp(abs(p.y) / 4.0, 0.0, 1.0);
-                        waveColor = hue2rgb(0.3 + h * 0.4); // Green -> Indigo
-                        
-                        // Pigment subtracts/darkens ("Abyss swallows light")
-                        // We simulate this by mixing towards the pigment color but darker
-                        vec3 pigment = waveColor * 0.5;
-                        col = mix(col, pigment, intensity * 0.1 * (dark + 1.0));
-                        
-                        // Slight resonance glow even in dark
-                        col += waveColor * intensity * 0.005;
-                        
-                    } else {
-                        // [MIDDLE REALM - LAND]
-                        // Physics: SOLID (Balance)
-                        // Colors: Earthy
-                        waveColor = vec3(0.8, 0.6, 0.3) * earth + vec3(0.3, 0.8, 0.3) * (1.0 - earth);
-                        col += waveColor * intensity * 0.05;
+            if (data.waves) {
+                // We use data.waves to position stars
+                data.waves.forEach(wave => {
+                    if (pIdx >= particleCount) return;
+
+                    // Color Logic
+                    const color = new THREE.Color();
+                    if (wave.freq < 400) color.setHSL(0.05, 1.0, 0.5); // Orange/Red (Pain)
+                    else if (wave.freq < 500) color.setHSL(0.15, 1.0, 0.6); // Yellow (Language)
+                    else if (wave.freq < 600) color.setHSL(0.4, 1.0, 0.6); // Green/Cyan (Love/Healing)
+                    else if (wave.freq < 800) color.setHSL(0.6, 1.0, 0.7); // Blue (Logic)
+                    else color.setHSL(0.8, 1.0, 0.8); // Purple (High Dimension)
+
+                    // Position
+                    // Use Wave position if available, or generate consistent random based on ID
+                    // Here assuming wave.x, wave.y, wave.z come from server
+                    const x = wave.x || (Math.random() - 0.5) * 10;
+                    const y = wave.y || (Math.random() - 0.5) * 10;
+                    const z = wave.z || (Math.random() - 0.5) * 5;
+
+                    posAttr.setXYZ(pIdx, x, y, z);
+                    colAttr.setXYZ(pIdx, color.r, color.g, color.b);
+
+                    // Constellation Logic: Connect to previous node if close enough (spatial memory)
+                    if (pIdx > 0) {
+                        const prevX = posAttr.getX(pIdx - 1);
+                        const prevY = posAttr.getY(pIdx - 1);
+                        const prevZ = posAttr.getZ(pIdx - 1);
+                        const dist = Math.sqrt((x - prevX) ** 2 + (y - prevY) ** 2 + (z - prevZ) ** 2);
+                        if (dist < 4.0) {
+                            linePositions.push(x, y, z, prevX, prevY, prevZ);
+                        }
                     }
 
-                    t += 0.1;
-                    if(t > 12.0) break;
+                    // Spawn visual ripple for high energy waves
+                    if (wave.amp > 0.6 && Math.random() > 0.95) {
+                        spawnRipple(x, y, color.getHex());
+                    }
+
+                    pIdx++;
+                });
+            }
+
+            // Hide unused
+            for (let i = pIdx; i < particleCount; i++) {
+                posAttr.setXYZ(i, 9999, 9999, 9999);
+            }
+
+            posAttr.needsUpdate = true;
+            colAttr.needsUpdate = true;
+
+            // Update Lines
+            lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+        }
+
+        // --- Interaction ---
+        let mouseX = 0, mouseY = 0;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // --- Animation Loop ---
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = Date.now() * 0.001;
+            material.uniforms.uTime.value = time;
+
+            // Pass Spirit State to Shader
+            const u = material.uniforms;
+            u.fire.value = spiritState.fire;
+            u.water.value = spiritState.water;
+            u.earth.value = spiritState.earth;
+            u.air.value = spiritState.air;
+            u.light.value = spiritState.light;
+            u.dark.value = spiritState.dark;
+            u.aether.value = spiritState.aether;
+
+            // Camera Motion (Subtle drift + Mouse influence)
+            camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+            camera.position.y += (mouseY * 5 - 10 - camera.position.y) * 0.05; // Base Y -10
+            camera.lookAt(0, 0, 0);
+
+            // Animate Ripples
+            for (let i = ripples.length - 1; i >= 0; i--) {
+                const r = ripples[i];
+                r.scale.addScalar(0.05);
+                r.material.opacity -= 0.01;
+                if (r.material.opacity <= 0) {
+                    scene.remove(r);
+                    ripples.splice(i, 1);
                 }
-                
-                // Atmosphere
-                col = mix(col, bgCol, 1.0 - exp(-0.03 * t * t));
-                return clamp(col, 0.0, 1.0);
-            }
-            
-            void main() {
-                vec2 uv = (gl_FragCoord.xy - 0.5 * resolution) / resolution.y;
-                
-                // Camera
-                vec3 ro = vec3(0.0, 0.0, -camZoom);
-                float cx = cos(camRotX); float sx = sin(camRotX);
-                float cy = cos(camRotY); float sy = sin(camRotY);
-                
-                // Rotation
-                vec3 p = ro;
-                ro.yz = mat2(cy, -sy, sy, cy) * ro.yz;
-                ro.xz = mat2(cx, -sx, sx, cx) * ro.xz;
-                
-                vec3 rd = normalize(vec3(uv, 1.0));
-                rd.yz = mat2(cy, -sy, sy, cy) * rd.yz;
-                rd.xz = mat2(cx, -sx, sx, cx) * rd.xz;
-                
-                gl_FragColor = vec4(rayMarch(ro, rd), 1.0);
-            }
-        `;
-
-        // Compile shaders
-        function createShader(gl, type, source) {
-            const shader = gl.createShader(type);
-            gl.shaderSource(shader, source);
-            gl.compileShader(shader);
-
-            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-                console.error('Shader compile error:', gl.getShaderInfoLog(shader));
-                showError(gl.getShaderInfoLog(shader));
-                gl.deleteShader(shader);
-                return null;
             }
 
-            return shader;
+            renderer.render(scene, camera);
         }
 
-        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
-        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
 
-        // Link program
-        const program = gl.createProgram();
-        gl.attachShader(program, vertexShader);
-        gl.attachShader(program, fragmentShader);
-        gl.linkProgram(program);
-
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            console.error('Program link error:', gl.getProgramInfoLog(program));
-        }
-
-        gl.useProgram(program);
-
-        // Setup geometry (fullscreen quad)
-        const positions = new Float32Array([
-            -1, -1,
-            1, -1,
-            -1, 1,
-            1, 1
-        ]);
-
-        const positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
-
-        const positionLocation = gl.getAttribLocation(program, 'position');
-        gl.enableVertexAttribArray(positionLocation);
-        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-        // Get uniform locations
-        const uniforms = {
-            resolution: gl.getUniformLocation(program, 'resolution'),
-            time: gl.getUniformLocation(program, 'time'),
-            camRotX: gl.getUniformLocation(program, 'camRotX'),
-            camRotY: gl.getUniformLocation(program, 'camRotY'),
-            camZoom: gl.getUniformLocation(program, 'camZoom'),
-            fire: gl.getUniformLocation(program, 'fire'),
-            water: gl.getUniformLocation(program, 'water'),
-            earth: gl.getUniformLocation(program, 'earth'),
-            air: gl.getUniformLocation(program, 'air'),
-            light: gl.getUniformLocation(program, 'light'),
-            dark: gl.getUniformLocation(program, 'dark'),
-            aether: gl.getUniformLocation(program, 'aether'),
-            dim0d: gl.getUniformLocation(program, 'dim0d'),
-            dim1d: gl.getUniformLocation(program, 'dim1d'),
-            dim2d: gl.getUniformLocation(program, 'dim2d'),
-            dim3d: gl.getUniformLocation(program, 'dim3d')
-        };
-
-        // ============================================
-        // Render Loop
-        // ============================================
-        let startTime = Date.now();
-
-        function render() {
-            const currentTime = (Date.now() - startTime) / 1000;
-
-            // Set uniforms
-            gl.uniform2f(uniforms.resolution, canvas.width, canvas.height);
-            gl.uniform1f(uniforms.time, currentTime);
-
-            // Camera
-            gl.uniform1f(uniforms.camRotX, mouseX);
-            gl.uniform1f(uniforms.camRotY, mouseY);
-            gl.uniform1f(uniforms.camZoom, zoom);
-
-            // Wave state
-            gl.uniform1f(uniforms.fire, waveState.fire);
-            gl.uniform1f(uniforms.water, waveState.water);
-            gl.uniform1f(uniforms.earth, waveState.earth);
-            gl.uniform1f(uniforms.air, waveState.air);
-            gl.uniform1f(uniforms.light, waveState.light);
-            gl.uniform1f(uniforms.dark, waveState.dark);
-            gl.uniform1f(uniforms.aether, waveState.aether);
-
-            gl.uniform1f(uniforms.dim0d, waveState.dimension_0d);
-            gl.uniform1f(uniforms.dim1d, waveState.dimension_1d);
-            gl.uniform1f(uniforms.dim2d, waveState.dimension_2d);
-            gl.uniform1f(uniforms.dim3d, waveState.dimension_3d);
-
-            // Draw
-            gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-            requestAnimationFrame(render);
-        }
-
-        // Start
+        // Init
         connectWebSocket();
-        render();
+        animate();
+        console.log('🌌 Unified Wave Universe initialized with Three.js');
 
-        console.log('🌊 Elysia Wave Universe initialized');
-        console.log('"연산하지 마세요. 흐르게 두세요."');
     </script>
 </body>
 

@@ -34,6 +34,7 @@ class WavePacket:
     phase: float      # Radians (Relative timing)
     position: HyperQuaternion  # 4D Position (x, y, z, dimension)
     born_at: float    # Creation timestamp
+    id: str = field(default_factory=lambda: str(time.time())) # Unique ID for visualization
     
     def value_at(self, t: float, pos: HyperQuaternion) -> float:
         """Calculates wave value at specific time and space."""
@@ -67,6 +68,10 @@ class UnifiedField:
         self.entropy = 0.0
         self.coherence = 1.0  # 1.0 = Perfect Harmony, 0.0 = Chaos
         
+        # 5. Dimensional Energy (For Visualization)
+        self.dimensional_energy = [0.0] * 5
+        self.total_energy = 0.0
+        
     def propagate(self, dt: float = 0.1):
         """
         Advances the field in time.
@@ -79,8 +84,16 @@ class UnifiedField:
         self.active_waves = [w for w in self.active_waves if w.amplitude > 0.01]
         
         # Decay amplitude (Entropy)
+        self.total_energy = 0.0
+        self.dimensional_energy = [0.0] * 5
+        
         for wave in self.active_waves:
             wave.amplitude *= 0.995  # Natural decay
+            self.total_energy += wave.amplitude
+            
+            # Update dimensional energy (heuristic)
+            dim_idx = min(4, int(wave.frequency / 200)) # 0-200:0D, 200-400:1D...
+            self.dimensional_energy[dim_idx] += wave.amplitude
             
     def inject_wave(self, packet: WavePacket):
         """Injects a new wave (thought/intent) into the field."""
@@ -112,6 +125,38 @@ class UnifiedField:
         total_amp = sum(w.amplitude for w in self.active_waves)
         return weighted_sum / total_amp if total_amp > 0 else 0.0
 
+    def get_visualization_state(self) -> dict:
+        """
+        Export field state for visualization.
+        """
+        active_waves = []
+        
+        for wave in self.active_waves:
+            active_waves.append({
+                "id": wave.id,
+                "freq": wave.frequency,
+                "amp": wave.amplitude,
+                "phase": wave.phase,
+                "type": "thought" if wave.frequency > 400 else "emotion",
+                "x": wave.position.x,
+                "y": wave.position.y,
+                "z": wave.position.z 
+            })
+            
+        return {
+            "energy": self.total_energy,
+            "entropy": self.entropy,
+            "coherence": self.coherence,
+            "waves": active_waves,
+            "dimensions": {
+                "d0": self.dimensional_energy[0],
+                "d1": self.dimensional_energy[1],
+                "d2": self.dimensional_energy[2],
+                "d3": self.dimensional_energy[3],
+                "d4": self.dimensional_energy[4],
+            }
+        }
+
     def collapse_state(self) -> Dict:
         """
         Collapses the quantum field into a discrete state (for logging/debugging).
@@ -121,5 +166,5 @@ class UnifiedField:
             "active_wave_count": len(self.active_waves),
             "coherence": self.coherence,
             "dominant_freq": self.get_dominant_frequency(),
-            "total_energy": sum(w.amplitude for w in self.active_waves)
+            "total_energy": self.total_energy
         }

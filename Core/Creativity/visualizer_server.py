@@ -239,6 +239,15 @@ class VisualizerServer:
                 try:
                     while True:
                         # Express internal state for rendering
+                        if hasattr(self.world, 'field'):
+                            # [Unified Field] Broadcast 5D State
+                            field_state = self.world.field.get_visualization_state()
+                            await websocket.send(json.dumps({
+                                "type": "unified_field_state",
+                                "data": field_state
+                            }))
+
+                        # Legacy/Nervous System State
                         state = self.nervous_system.express()
                         await websocket.send(json.dumps({
                             "type": "state",
@@ -246,8 +255,8 @@ class VisualizerServer:
                             "expression": state["expression"]
                         }))
                         await asyncio.sleep(0.05)  # 20fps
-                except:
-                    pass
+                except Exception as e:
+                    logger.error(f"WS Sender Error: {e}")
             
             # Task 2: Receiver (Client -> NervousSystem)
             async def receiver():
