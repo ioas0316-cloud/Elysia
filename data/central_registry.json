@@ -49,12 +49,17 @@
     ]
   },
   "frequency_map": {
+    "language": 440,
     "memory": 396,
-    "reasoning": 417,
-    "emotion": 528,
+    "reasoning": 528,
+    "emotion": 639,
+    "consciousness": 741,
+    "evolution": 852,
+    "physics": 963,
+    "interface": 417,
+    "creativity": 693,
+    "ethics": 432,
     "sensation": 639,
-    "language": 741,
-    "consciousness": 852,
     "transcendence": 963
   }
 }

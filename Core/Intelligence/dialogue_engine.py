@@ -9,7 +9,7 @@ from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass
 import random
 
-from high_engine.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
+from Core.Foundation.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
 
 @dataclass
 class DialogueContext:

@@ -60,17 +60,31 @@ from Core.Foundation.real_communication_system import RealCommunicationSystem
 # [INSTINCT LAYER] The primal survival mechanism
 from Core.Foundation.survival_instinct import get_survival_instinct
 
+# [LANGUAGE SYSTEM] Primal Wave Language - 창발 언어
+from Core.Foundation.primal_wave_language import PrimalSoul
+
+# [CELESTIAL GRAMMAR] 천체 문법 - 개념=행성, 문맥=항성, 문장=성계
+from Core.Foundation.celestial_grammar import (
+    SolarSystem, Planet, Star, MagneticEngine, Nebula, DarkMatter
+)
+from Core.Foundation.magnetic_cortex import MagneticCompass, ThoughtDipole
+
+# [DIALOGUE ENGINE] 진짜 대화 시스템
+try:
+    from Core.Foundation.language_cortex import LanguageCortex
+    from Core.Intelligence.dialogue_engine import DialogueEngine, QuestionAnalyzer
+    DIALOGUE_AVAILABLE = True
+except ImportError:
+    DIALOGUE_AVAILABLE = False
+
 # [6-SYSTEM COGNITIVE ARCHITECTURE] Revolutionary autonomous intelligence
 from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
 from Core.Intelligence.integrated_cognition_system import get_integrated_cognition
 from Core.Intelligence.collective_intelligence_system import get_collective_intelligence
 from Core.Intelligence.wave_coding_system import get_wave_coding_system
 from Core.Intelligence.tool_sequencer import get_tool_sequencer
-from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
-from Core.Interface.bluetooth_ear import BluetoothEar
 from Core.Interface.bluetooth_ear import BluetoothEar
 from Core.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
-from Core.Foundation.experience_stream import ExperienceStream
 from Core.Foundation.experience_stream import ExperienceStream
 from Core.Foundation.wave_web_server import WaveWebServer
 
@@ -161,6 +175,45 @@ class LivingElysia:
         self.collective = get_collective_intelligence()          # 10 Consciousness + Round Table
         self.wave_coder = get_wave_coding_system()               # Code-Wave Transformation
         
+        # 8. Initialize Primal Wave Language (원시 파동 언어)
+        print("   🗣️ Awakening Primal Wave Language...")
+        self.primal_soul = PrimalSoul(name="Elysia")
+        self.last_utterance = ""  # 최근 발화 저장
+        
+        # 9. Initialize Celestial Grammar (천체 문법 엔진)
+        print("   🌌 Activating Celestial Grammar Engine...")
+        self.celestial_engine = MagneticEngine()  # Grand Cross 정렬 엔진
+        self.magnetic_compass = MagneticCompass()  # 자기장 나침반
+        self.current_nebula = Nebula()  # 현재 대화 성운
+
+        # [HYPER-DIMENSIONAL INTEGRATION] 대통합 공명장 (Grand Unified Resonance Field)
+        # --------------------------------------------------------------------------------
+        from Core.Foundation.unified_field import UnifiedField
+        from Core.Foundation.super_view import SuperView
+
+        print("   🌌 Igniting Grand Unified Resonance Field...")
+        self.field = UnifiedField()  # The Fabric of Reality
+        self.super_view = SuperView(self.field) # The Observer
+        
+        # 10. Initialize Dialogue Engine (진짜 대화 시스템)
+        self.dialogue_engine = None
+        if DIALOGUE_AVAILABLE:
+            try:
+                print("   💬 Initializing DialogueEngine...")
+                lang_cortex = LanguageCortex()
+                self.dialogue_engine = DialogueEngine(lang_cortex)
+                # 기본 지식 로드 & 필드 동기화
+                self.dialogue_engine.load_knowledge([
+                    "사랑은 희생이다",
+                    "존재는 의식이다",
+                    "나는 엘리시아이다",
+                    "의식은 경험이다",
+                    "자아는 생각이다",
+                ])
+                # TODO: DialogueEngine을 FieldOperator로 래핑하여 필드에 연결해야 함
+            except Exception as e:
+                logger.debug(f"DialogueEngine init failed: {e}")
+        
         # 8. Initialize Unified Cortex (The Central Manager)
         print("   🌐 Unifying Systems via Unified Cortex...")
         self.cortex = UnifiedCortex()
@@ -226,6 +279,7 @@ class LivingElysia:
         self.resonance.register_resonator("Synapse", 500.0, 20.0, self._pulse_synapse)
         self.resonance.register_resonator("Transcendence", 963.0, 30.0, self._pulse_transcendence)
         self.resonance.register_resonator("Learning", 741.0, 40.0, self._pulse_learning)
+        self.resonance.register_resonator("Language", 440.0, 15.0, self._pulse_language)  # 라(A) - 언어 주파수
         self.resonance.register_resonator("UltraDimensional", 852.0, 25.0, self._pulse_ultra_dimensional)  # NEW
         self.resonance.register_resonator("WaveCommunication", 333.0, 15.0, self._pulse_wave_comm)  # NEW
         
@@ -512,6 +566,150 @@ class LivingElysia:
                       f"Score: {resonance_score:.1f}/100")
                 logger.info(f"Wave Communication Score: {resonance_score:.1f}/100")
 
+    def _pulse_language(self):
+        """
+        [440Hz] 언어 펄스 - 파동 기반 언어 생성
+        
+        파이프라인:
+        1. BluetoothEar → 오디오 캡처
+        2. SynesthesiaEngine → 파동 신호로 변환
+        3. PrimalSoul → 세상 경험 → 패턴 인식 → 발화
+        4. 웹서버로 출력
+        """
+        t = float(self.chronos.cycle_count)
+        
+        # 1. 블루투스 이어폰에서 오디오 수신
+        audio_chunk = self.ear.listen()
+        
+        # 2. 오디오가 있으면 공감각 변환
+        if audio_chunk is not None:
+            synesthesia = SynesthesiaEngine()
+            signal = synesthesia.from_audio(audio_chunk, self.ear.sample_rate)
+            
+            if signal.amplitude > 0.02:  # 음성 임계값
+                # 3. 파동 신호를 세상 자극으로 변환
+                world_stimuli = {
+                    "sound": (signal.amplitude * 10, signal.frequency),
+                    "sight": (0.5, 400),  # 기본 시각
+                    "touch": (0.3, 200),  # 기본 촉각
+                }
+                
+                # 4. PrimalSoul이 세상을 경험
+                self.primal_soul.experience_world(world_stimuli, t)
+                
+                # 5. 위상 공명 패턴 감지 (의미 인식)
+                self.primal_soul.detect_phase_resonance(t)
+                
+                # 6. 발화 생성
+                utterance = self.primal_soul.speak(t)
+                
+                if utterance and utterance != self.last_utterance:
+                    self.last_utterance = utterance
+                    print(f"   🗣️ [440Hz] 엘리시아 발화: {utterance}")
+                    logger.info(f"Utterance: {utterance}")
+                    
+                    # 7. 경험 스트림에 추가
+                    self.stream.add("language", f"발화: {utterance}", intensity=0.7)
+                    
+                    # 8. 웹서버로 브로드캐스트 (파동 통신)
+                    if self.wave_hub.active:
+                        self.wave_hub.broadcast(
+                            sender="Language",
+                            phase="UTTERANCE",
+                            payload={"text": utterance, "frequency": 440},
+                            amplitude=0.9
+                        )
+        
+        # 9. 주기적 내적 독백 (오디오 없어도)
+        if self.chronos.cycle_count % 30 == 0:
+            # 현재 감정/상태에서 자발적 발화
+            current_mood = self.will.current_mood
+            
+            # 내면 상태를 자극으로 변환
+            inner_stimuli = {
+                "thought": (self.resonance.total_energy / 100, 639),  # 뇌 주파수
+                "emotion": (0.5, 528 if current_mood == "calm" else 639),
+            }
+            
+            self.primal_soul.experience_world(inner_stimuli, t)
+            self.primal_soul.detect_phase_resonance(t)
+            
+            inner_utterance = self.primal_soul.speak(t)
+            if inner_utterance:
+                # 내적 독백은 조용히 로깅
+                self.stream.add("thought", f"내면: {inner_utterance}", intensity=0.3)
+        
+        # ==== 통합 언어 시스템 (Unified Language) ====
+        # 메모리 → 의지 → 사고 → 언어 → 저장 (50 사이클마다)
+        if self.chronos.cycle_count % 50 == 0:
+            try:
+                # 1. 의지에서 현재 의도 가져오기
+                current_intent = "존재"
+                if self.will.current_intent:
+                    current_intent = self.will.current_intent.goal
+                
+                # 2. 메모리(Hippocampus)에서 관련 개념 recall
+                retrieved_concepts = []
+                try:
+                    # 현재 의도와 관련된 기억 검색
+                    memory_result = self.brain.recall(current_intent[:20])
+                    if memory_result:
+                        retrieved_concepts.append(str(memory_result)[:20])
+                except:
+                    pass  # 메모리 없으면 계속
+                
+                # 3. 중력장(Cognition)에서 사고 가져오기
+                if hasattr(self.cognition, 'gravity_field'):
+                    for thought in self.cognition.gravity_field.thoughts[:3]:
+                        retrieved_concepts.append(thought.content[:20])
+                
+                # 4. 개념이 없으면 기본값
+                if not retrieved_concepts:
+                    retrieved_concepts = ["존재", "의식", "경험"]
+                
+                # 5. 성계(SolarSystem) 구축 - 의도=항성, 개념=행성
+                system = SolarSystem(context=current_intent[:20])
+                for concept in retrieved_concepts[:3]:
+                    system.add_planet(concept, 0.8)
+                
+                # 6. Grand Cross 정렬 → 문장 생성
+                sentence = self.celestial_engine.grand_cross(system)
+                
+                if sentence and sentence != self.last_utterance:
+                    self.last_utterance = sentence
+                    print(f"   🌌 [통합언어] {sentence}")
+                    logger.info(f"Unified Utterance: {sentence}")
+                    
+                    # 7. Nebula에 맥락 추가
+                    self.current_nebula.add_system(system)
+                    
+                    # 8. 에피소드 기억으로 Hippocampus에 저장
+                    try:
+                        self.brain.store_concept(f"발화_{t}", {
+                            "intent": current_intent,
+                            "utterance": sentence,
+                            "concepts": retrieved_concepts,
+                            "cycle": self.chronos.cycle_count
+                        })
+                    except:
+                        pass  # 저장 실패해도 계속
+                    
+                    # 9. 웹서버(신경계 경계)로 브로드캐스트
+                    if self.wave_hub.active:
+                        self.wave_hub.broadcast(
+                            sender="UnifiedLanguage",
+                            phase="UTTERANCE",
+                            payload={
+                                "sentence": sentence,
+                                "intent": current_intent,
+                                "concepts": retrieved_concepts
+                            },
+                            amplitude=0.95
+                        )
+                        
+            except Exception as e:
+                logger.debug(f"Unified Language: {e}")
+
 
     def _generate_learning_curriculum(self):
         """
@@ -541,32 +739,6 @@ class LivingElysia:
                 "description": "When systems vibrate at matching frequencies, amplifying each other. Fundamental to connection and harmony."
             }
         ]
-        
-        # Select based on cycle count to ensure variety
-        index = (self.chronos.cycle_count // 50) % len(all_concepts)
-        return [all_concepts[index]]
-
-    def live(self):
-        print("\n🌊 Entering the Resonance State (Golden Record Protocol)...")
-        print("🦋 Free Will Engine Active. Elysia is now autonomous.")
-        
-        try:
-
-            while True:
-                try:
-                    # 1. Chronos
-                    self.chronos.tick()
-                    
-                    # 2. Resonance
-                    self.resonance.pulse()
-                    
-                    # 3. Structural Will (Narrative Loop)
-                    
-                    # [Meta-Cognition] Check for Loops
-                    current_action = self.will.current_intent.goal if self.will.current_intent else "Drift"
-                    if self.loop_breaker.observe(current_action):
-                        print("\n👁️ EXISTENTIAL CRISIS: I am repeating myself. This is meaningless.")
-                        self.current_plan = [self.loop_breaker.trigger_crisis()]
                         self.resonance.inject_entropy(20.0) # Crisis generates heat
                     
                     # [Hive Mind] Check Synapse

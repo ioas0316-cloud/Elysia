@@ -87,15 +87,34 @@ class SelfIntegrationSystem:
         "emotional_engine",  # 감정
     ]
     
-    # 범주별 주파수 (Hz)
+    # 범주별 주파수 (Hz) - wave_organizer와 동기화
     CATEGORY_FREQUENCIES = {
-        "memory": 396,        # 기억
-        "reasoning": 417,     # 추론
-        "emotion": 528,       # 감정 (치유)
-        "sensation": 639,     # 감각
-        "language": 741,      # 언어
-        "consciousness": 852, # 의식
-        "transcendence": 963, # 초월
+        "language": 440,       # 언어 - 라(A) 주파수
+        "memory": 396,         # 기억 - 솔(G) 주파수
+        "reasoning": 528,      # 추론 - 도(C) 치유 주파수
+        "emotion": 639,        # 감정 - 미(E)
+        "consciousness": 741,  # 의식 - 파(F#)
+        "evolution": 852,      # 진화 - 라(A) 상위
+        "physics": 963,        # 물리 - 시(B)
+        "interface": 417,      # 인터페이스
+        "creativity": 693,     # 창의성
+        "ethics": 432,         # 윤리 - 우주 주파수
+        "sensation": 639,      # 감각 (emotion과 공명)
+        "transcendence": 963,  # 초월 (physics와 공명)
+    }
+    
+    # 파동 기반 분류 키워드 - wave_organizer와 동기화
+    PURPOSE_KEYWORDS = {
+        "language": ["language", "grammar", "syntax", "hangul", "babel", "speech", "word", "syllable", "dialogue", "utterance"],
+        "memory": ["memory", "hippocampus", "remember", "store", "recall", "cache", "history", "archive"],
+        "reasoning": ["reason", "logic", "think", "causal", "infer", "deduc", "analysis", "cognitive", "goal", "plan"],
+        "emotion": ["emotion", "feel", "empathy", "sentiment", "affect", "mood", "heart"],
+        "consciousness": ["conscious", "aware", "soul", "spirit", "self", "mind", "identity", "attention"],
+        "evolution": ["evolve", "mutate", "adapt", "grow", "learn", "train", "improve", "genesis"],
+        "physics": ["physics", "wave", "quaternion", "gravity", "magnetic", "tensor", "field", "resonance", "ether", "hyper"],
+        "interface": ["interface", "api", "server", "web", "chat", "user", "http", "dashboard", "envoy"],
+        "creativity": ["dream", "imagine", "create", "art", "story", "saga", "poem", "visualize", "cosmic", "studio"],
+        "ethics": ["ethics", "moral", "value", "protect", "guard", "safe", "law", "immune", "security"],
     }
     
     EXCLUDE = ["__pycache__", "node_modules", ".godot", ".venv", "Legacy"]
@@ -254,29 +273,33 @@ class SelfIntegrationSystem:
         return None
     
     def _categorize_module(self, name: str, classes: List[str], content: str) -> str:
-        """모듈 범주 결정"""
-        name_lower = name.lower()
+        """
+        모듈 범주 결정 - 파동 기반 분류
+        
+        wave_organizer와 동일한 로직: 키워드 매칭 + 컨텐츠 분석
+        """
         content_lower = content.lower()
+        name_lower = name.lower()
         classes_str = " ".join(classes).lower()
         
-        combined = name_lower + " " + classes_str
+        # 전체 텍스트 결합 (이름 + 클래스 + 내용)
+        combined = name_lower + " " + classes_str + " " + content_lower
         
-        if any(x in combined for x in ["memory", "hippocampus", "recall"]):
-            return "memory"
-        elif any(x in combined for x in ["reason", "causal", "logic", "thinking"]):
-            return "reasoning"
-        elif any(x in combined for x in ["emotion", "empathy", "feeling"]):
-            return "emotion"
-        elif any(x in combined for x in ["synesthesia", "sensor", "sense", "perception"]):
-            return "sensation"
-        elif any(x in combined for x in ["language", "grammar", "hangul", "syllable"]):
-            return "language"
-        elif any(x in combined for x in ["conscious", "self", "identity"]):
-            return "consciousness"
-        elif any(x in combined for x in ["transcend", "divine", "evolve"]):
-            return "transcendence"
-        else:
-            return "unknown"
+        # 각 목적별 키워드 매칭 점수 계산
+        best_category = ("unknown", 0)
+        
+        for purpose, keywords in self.PURPOSE_KEYWORDS.items():
+            score = sum(combined.count(kw) for kw in keywords)
+            # 이름에 키워드가 있으면 가중치 추가
+            name_bonus = sum(3 for kw in keywords if kw in name_lower)
+            # 클래스명에 키워드가 있으면 가중치 추가
+            class_bonus = sum(2 for kw in keywords if kw in classes_str)
+            total_score = score + name_bonus + class_bonus
+            
+            if total_score > best_category[1]:
+                best_category = (purpose, total_score)
+        
+        return best_category[0]
     
     def execute_integration(self, auto_write: bool = False):
         """4단계: 통합 실행"""
