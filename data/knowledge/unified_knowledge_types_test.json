@@ -1,0 +1,209 @@
+{
+  "node_id": "types_test",
+  "timestamp": 1765015088.4354358,
+  "knowledge_base": {
+    "c4b64f91-9929-4fce-94c7-c462b1109f9e": {
+      "knowledge_id": "c4b64f91-9929-4fce-94c7-c462b1109f9e",
+      "knowledge_type": "concept",
+      "source": "curriculum",
+      "concept": "Concept 1",
+      "content": {
+        "concept": "Concept 1",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 24,
+        "timestamp": "2025-12-06T09:58:08.433758"
+      },
+      "description": "Description of Concept 1",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "types_test",
+      "timestamp": 1765015088.433737,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    },
+    "dca244b0-5fbe-4ade-ba41-40a312e09da8": {
+      "knowledge_id": "dca244b0-5fbe-4ade-ba41-40a312e09da8",
+      "knowledge_type": "pattern",
+      "source": "curriculum",
+      "concept": "Pattern 1",
+      "content": {
+        "concept": "Pattern 1",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 24,
+        "timestamp": "2025-12-06T09:58:08.434019"
+      },
+      "description": "Description of Pattern 1",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "types_test",
+      "timestamp": 1765015088.4339995,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    },
+    "1d5a6a2f-018c-432f-a1b7-3ed82e1825fb": {
+      "knowledge_id": "1d5a6a2f-018c-432f-a1b7-3ed82e1825fb",
+      "knowledge_type": "insight",
+      "source": "curriculum",
+      "concept": "Insight 1",
+      "content": {
+        "concept": "Insight 1",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 24,
+        "timestamp": "2025-12-06T09:58:08.434373"
+      },
+      "description": "Description of Insight 1",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "types_test",
+      "timestamp": 1765015088.434354,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    },
+    "a0765ed3-0664-4aad-a98f-5ec8864e9e3f": {
+      "knowledge_id": "a0765ed3-0664-4aad-a98f-5ec8864e9e3f",
+      "knowledge_type": "skill",
+      "source": "curriculum",
+      "concept": "Skill 1",
+      "content": {
+        "concept": "Skill 1",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 22,
+        "timestamp": "2025-12-06T09:58:08.434875"
+      },
+      "description": "Description of Skill 1",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "types_test",
+      "timestamp": 1765015088.4348557,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    },
+    "75a8c73a-171a-4671-99af-ecfc4de66999": {
+      "knowledge_id": "75a8c73a-171a-4671-99af-ecfc4de66999",
+      "knowledge_type": "best_practice",
+      "source": "curriculum",
+      "concept": "Practice 1",
+      "content": {
+        "concept": "Practice 1",
+        "coordinate": {
+          "orientation": {
+            "w": 0.7559289460184544,
+            "x": -0.3779644730092272,
+            "y": -0.3779644730092272,
+            "z": -0.3779644730092272
+          },
+          "frequency": 932.0,
+          "depth": 0.8999999999999999
+        },
+        "features": {
+          "logic": 0.0,
+          "emotion": 0.0,
+          "ethics": 0.0,
+          "complexity": 1.0
+        },
+        "text_length": 25,
+        "timestamp": "2025-12-06T09:58:08.435418"
+      },
+      "description": "Description of Practice 1",
+      "confidence": 0.5,
+      "quality_score": 0.5,
+      "usage_count": 0,
+      "validation_count": 0,
+      "source_node_id": "types_test",
+      "timestamp": 1765015088.4353988,
+      "tags": [],
+      "validation_count_total": 0,
+      "wave_coords": null
+    }
+  },
+  "stats": {
+    "total_acquired": 5,
+    "total_shared": 0,
+    "total_received": 0,
+    "total_validations": 0,
+    "web_fetches": 0,
+    "successful_web_fetches": 0,
+    "by_type": {
+      "concept": 1,
+      "pattern": 1,
+      "insight": 1,
+      "skill": 1,
+      "best_practice": 1
+    },
+    "by_source": {
+      "curriculum": 5
+    }
+  }
+}
