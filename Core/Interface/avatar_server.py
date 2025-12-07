@@ -230,6 +230,8 @@ class ElysiaAvatarCore:
     
     def update_beat(self, delta_time: float):
         """Update heartbeat animation"""
+        import math
+        
         # Heartbeat frequency based on arousal
         if self.emotional_engine:
             arousal = self.emotional_engine.current_state.arousal
@@ -237,18 +239,18 @@ class ElysiaAvatarCore:
         else:
             freq = 1.2  # Default
         
-        self.beat_phase += delta_time * freq * 2.0 * 3.14159
-        self.expression.beat = abs(((self.beat_phase % (2 * 3.14159)) / (2 * 3.14159)) * 2 - 1)
+        self.beat_phase += delta_time * freq * 2.0 * math.pi
+        self.expression.beat = abs(((self.beat_phase % (2 * math.pi)) / (2 * math.pi)) * 2 - 1)
     
     def process_emotion_event(self, emotion_name: str, intensity: float = 0.5):
         """
         Process an emotional event (from chat, vision, etc.)
         """
-        if not self.emotional_engine or not EmotionalEngine:
+        if not self.emotional_engine:
             return
         
         # Get emotion preset if available
-        if emotion_name in EmotionalEngine.FEELING_PRESETS:
+        if hasattr(EmotionalEngine, 'FEELING_PRESETS') and emotion_name in EmotionalEngine.FEELING_PRESETS:
             event_emotion = EmotionalEngine.FEELING_PRESETS[emotion_name]
             self.emotional_engine.process_event(event_emotion, intensity)
             
@@ -268,10 +270,29 @@ class ElysiaAvatarCore:
         
         try:
             # Use reasoning engine to generate response
-            # This is a simplified interface - adjust based on actual ReasoningEngine API
-            response = await asyncio.to_thread(
-                lambda: self.reasoning_engine.reason(message)
-            )
+            # Try different method names that might exist
+            response = None
+            
+            if hasattr(self.reasoning_engine, 'reason'):
+                response = await asyncio.to_thread(
+                    lambda: self.reasoning_engine.reason(message)
+                )
+            elif hasattr(self.reasoning_engine, 'process'):
+                response = await asyncio.to_thread(
+                    lambda: self.reasoning_engine.process(message)
+                )
+            elif hasattr(self.reasoning_engine, 'generate_response'):
+                response = await asyncio.to_thread(
+                    lambda: self.reasoning_engine.generate_response(message)
+                )
+            elif callable(self.reasoning_engine):
+                # If reasoning_engine itself is callable
+                response = await asyncio.to_thread(
+                    lambda: self.reasoning_engine(message)
+                )
+            else:
+                logger.warning("ReasoningEngine has no known method, using simple response")
+                response = "I hear you. Let me think about that..."
             
             # Detect emotion from response context
             # Simple heuristic - improve with actual emotion detection
