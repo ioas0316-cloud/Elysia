@@ -220,6 +220,8 @@ class FPSCounter {
 
 ### Server-Side Integration
 
+**Example Integration** (see `Core/Interface/avatar_server.py` for actual implementation):
+
 ```python
 from Core.Interface.avatar_monitoring import PerformanceMonitor
 

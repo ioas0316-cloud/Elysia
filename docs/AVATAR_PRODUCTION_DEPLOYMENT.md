@@ -62,9 +62,9 @@ certbot --version
 sudo mkdir -p /opt/elysia
 sudo chown $USER:$USER /opt/elysia
 
-# Clone repository
+# Clone repository (replace with your repository URL)
 cd /opt/elysia
-git clone https://github.com/ioas0316-cloud/Elysia.git
+git clone https://github.com/YOUR-USERNAME/Elysia.git
 cd Elysia
 ```
 
@@ -144,8 +144,8 @@ sudo yum install certbot python3-certbot-nginx
 ### 2. Obtain SSL Certificate
 
 ```bash
-# Replace with your domain
-DOMAIN="avatar.yourdomain.com"
+# IMPORTANT: Replace with your actual domain
+DOMAIN="avatar.yourdomain.com"  # ← REPLACE THIS
 
 # Obtain certificate
 sudo certbot certonly --nginx -d $DOMAIN
@@ -188,12 +188,14 @@ sudo systemctl enable nginx
 
 Create `/etc/nginx/sites-available/elysia-avatar`:
 
+**IMPORTANT:** Replace `avatar.yourdomain.com` with your actual domain in ALL locations below!
+
 ```nginx
 # HTTP → HTTPS redirect
 server {
     listen 80;
     listen [::]:80;
-    server_name avatar.yourdomain.com;
+    server_name avatar.yourdomain.com;  # ← REPLACE THIS
     
     return 301 https://$server_name$request_uri;
 }
@@ -202,7 +204,7 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name avatar.yourdomain.com;
+    server_name avatar.yourdomain.com;  # ← REPLACE THIS
     
     # SSL certificates
     ssl_certificate /etc/letsencrypt/live/avatar.yourdomain.com/fullchain.pem;
@@ -437,7 +439,15 @@ sudo systemctl restart fail2ban
 
 ### 1. Systemd Service
 
-Create `/etc/systemd/system/elysia-avatar.service`:
+First, create the dedicated user:
+
+```bash
+# Create user for running the service
+sudo useradd -r -s /bin/false elysia
+sudo chown -R elysia:elysia /opt/elysia
+```
+
+Then create `/etc/systemd/system/elysia-avatar.service`:
 
 ```ini
 [Unit]
@@ -470,10 +480,6 @@ WantedBy=multi-user.target
 Enable and start:
 
 ```bash
-# Create user
-sudo useradd -r -s /bin/false elysia
-sudo chown -R elysia:elysia /opt/elysia
-
 # Enable service
 sudo systemctl daemon-reload
 sudo systemctl enable elysia-avatar
