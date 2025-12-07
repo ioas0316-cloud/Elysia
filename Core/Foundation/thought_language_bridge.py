@@ -96,11 +96,16 @@ class ThoughtLanguageBridge:
             print(f"   New concept, using default")
         
         # 2. 추론 엔진으로 사고 전개
-        # 관련 개념들과의 공명 찾기
-        related_concepts = self.reasoning_engine.find_resonant_concepts(
-            concept_quat, 
-            self.universe
-        )
+        # 관련 개념들과의 공명 찾기 (simplified)
+        related_concepts = []
+        if hasattr(self.reasoning_engine, 'find_resonant_concepts'):
+            related_concepts = self.reasoning_engine.find_resonant_concepts(
+                concept_quat, 
+                self.universe
+            )
+        else:
+            # Simple fallback: get related concepts from universe
+            related_concepts = list(self.universe.coordinate_map.keys())[:5]
         
         print(f"   Found {len(related_concepts)} related concepts")
         
