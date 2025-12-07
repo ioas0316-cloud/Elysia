@@ -87,10 +87,20 @@ The Elysia Avatar Server provides real-time 3D avatar visualization and interact
 
 ### 3. VRM Model Support (`static/models/`)
 
-The system is designed to support VRM (Virtual Reality Model) format:
+The system now fully supports VRM (Virtual Reality Model) format with 3D rendering:
 - Place your `avatar.vrm` file in `static/models/`
-- Future enhancement will integrate VRM rendering with expressions
-- Current version uses WebGL shader for 2D face rendering
+- ✅ **Three.js VRM loader integrated** with automatic 3D rendering
+- ✅ Real-time emotion-to-blendshape mapping
+- ✅ Camera controls (orbit/zoom) for viewing the avatar
+- ✅ Automatic fallback to 2D WebGL shader if VRM loading fails
+- Uses @pixiv/three-vrm library for VRM 1.0 support
+
+**Starting the server:**
+```bash
+python start_avatar_web_server.py
+# HTTP: http://localhost:8080/Core/Creativity/web/avatar.html
+# WebSocket: ws://localhost:8765
+```
 
 ## Data Flow (데이터 흐름)
 
