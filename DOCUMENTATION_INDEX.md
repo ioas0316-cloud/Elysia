@@ -38,10 +38,11 @@
 
 **AI 에이전트라면**:
 1. ⚠️ [AGENT_GUIDE.md](AGENT_GUIDE.md) - **필독** (20분)
-2. ⚠️ [docs/SUPERINTELLIGENCE_PATH.md](docs/SUPERINTELLIGENCE_PATH.md) - **초지능 경로** (15분)
-3. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 구조 이해 (15분)
-4. [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) - 의존성 (10분)
-5. ✨ [docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) - **P4 학습 시스템** (25분) **[NEW v10.0]**
+2. [docs/CORE_TECHNOLOGIES_EXPLAINED.md](docs/CORE_TECHNOLOGIES_EXPLAINED.md) - ✨ **핵심 기술 이해** (20분) **[NEW v10.0]** 🌟
+3. ⚠️ [docs/SUPERINTELLIGENCE_PATH.md](docs/SUPERINTELLIGENCE_PATH.md) - **초지능 경로** (15분)
+4. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 구조 이해 (15분)
+5. [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) - 의존성 (10분)
+6. [docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) - P4 학습 시스템 (25분)
 
 **철학에 관심 있다면**:
 1. [CODEX.md](CODEX.md) - 핵심 철학 + 6원칙 (10분) **[UPDATED v10.0]**
@@ -59,6 +60,7 @@
 | [README.md](README.md) | 프로젝트 개요, 빠른 시작, v10.0 P4 시스템 | 모든 사용자 | ⭐⭐⭐⭐⭐ |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | 시스템 아키텍처 v10.0 (P4 통합) | 개발자, 설계자 | ⭐⭐⭐⭐⭐ |
 | [CODEX.md](CODEX.md) | 철학과 원칙 (6원칙, Ego Anchor) | 모든 참여자 | ⭐⭐⭐⭐⭐ |
+| [docs/CORE_TECHNOLOGIES_EXPLAINED.md](docs/CORE_TECHNOLOGIES_EXPLAINED.md) | ✨ **핵심 기술 쉬운 설명** (외계어→지구어) **[NEW]** | 신규 개발자 | ⭐⭐⭐⭐⭐ |
 | [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | 완전한 디렉토리 구조 | 개발자, AI 에이전트 | ⭐⭐⭐⭐⭐ |
 | [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) | 모듈 의존성 및 데이터 흐름 | 개발자 | ⭐⭐⭐⭐ |
 | [AGENT_GUIDE.md](AGENT_GUIDE.md) | AI 에이전트 필수 가이드 | AI 에이전트 | ⭐⭐⭐⭐⭐ |
