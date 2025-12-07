@@ -273,6 +273,9 @@ class ElysiaAvatarCore:
         """
         Process chat message through reasoning engine.
         Returns response with voice properties.
+        
+        Returns:
+            Dict with 'text' (str) and 'voice' (Optional[Dict]) keys
         """
         if not self.reasoning_engine:
             return {
