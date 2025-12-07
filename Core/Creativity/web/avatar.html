@@ -322,15 +322,18 @@
                     
                     if (!this.forcedClose && !event.wasClean) {
                         this.reconnectAttempts++;
-                        console.log(`🔄 Reconnecting in ${this.currentDelay}ms... (attempt ${this.reconnectAttempts})`);
+                        const delayToUse = this.currentDelay; // Use current delay
+                        console.log(`🔄 Reconnecting in ${delayToUse}ms... (attempt ${this.reconnectAttempts})`);
                         
                         setTimeout(() => {
-                            this.currentDelay = Math.min(
-                                this.currentDelay * this.reconnectDecay,
-                                this.maxReconnectDelay
-                            );
                             this.connect();
-                        }, this.currentDelay);
+                        }, delayToUse);
+                        
+                        // Update delay for next attempt
+                        this.currentDelay = Math.min(
+                            this.currentDelay * this.reconnectDecay,
+                            this.maxReconnectDelay
+                        );
                     }
                     
                     if (this.onclose) this.onclose(event);
