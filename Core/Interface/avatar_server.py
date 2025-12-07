@@ -95,6 +95,18 @@ except ImportError:
     if __name__ == "__main__":
         sys.exit(1)
 
+# Avatar Physics Engine (Phase 4)
+try:
+    from Core.Foundation.avatar_physics import AvatarPhysicsEngine, Vector3D
+    logger.info("✅ Avatar Physics Engine loaded")
+    PHYSICS_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"⚠️ Could not load Avatar Physics Engine: {e}")
+    logger.info("ℹ️ Running without physics engine")
+    AvatarPhysicsEngine = None
+    Vector3D = None
+    PHYSICS_AVAILABLE = False
+
 
 @dataclass
 class Expression:
@@ -178,6 +190,23 @@ class ElysiaAvatarCore:
         except Exception as e:
             logger.warning(f"⚠️ Could not initialize lip-sync engine: {e}")
             self.lipsync_engine = None
+        
+        # Initialize physics engine (Phase 4)
+        if PHYSICS_AVAILABLE and AvatarPhysicsEngine:
+            self.physics_engine = AvatarPhysicsEngine()
+            # Initialize with default hair bones (5 nodes from head to tip)
+            default_bones = [
+                Vector3D(0, 2.0, 0),
+                Vector3D(0, 1.8, -0.2),
+                Vector3D(0, 1.6, -0.4),
+                Vector3D(0, 1.4, -0.6),
+                Vector3D(0, 1.2, -0.8)
+            ]
+            self.physics_engine.initialize_hair_springs(default_bones)
+            logger.info("⚡ Physics engine initialized (hair dynamics)")
+        else:
+            self.physics_engine = None
+            logger.warning("⚠️ Running without physics engine")
     
     def update_expression_from_emotion(self, emotion_name: str = None):
         """
@@ -250,6 +279,27 @@ class ElysiaAvatarCore:
         self.spirits.aether = max(0.0, min(1.0, 
             0.1 + (extremity * 0.4 if extremity > 0.7 else 0)
         ))
+    
+    def update_physics_from_emotion(self):
+        """
+        Update physics engine based on emotional state.
+        
+        Maps emotions to physical parameters:
+        - Valence → gravity direction
+        - Arousal → wind strength/turbulence
+        - Dominance → wave frequency
+        """
+        if not self.physics_engine or not self.emotional_engine:
+            return
+        
+        state = self.emotional_engine.current_state
+        
+        # Update physics with emotional state
+        self.physics_engine.update_from_emotion(
+            valence=state.valence,
+            arousal=state.arousal,
+            dominance=state.dominance
+        )
     
     def update_beat(self, delta_time: float):
         """Update heartbeat animation"""
@@ -406,10 +456,24 @@ class ElysiaAvatarCore:
     def get_state_message(self) -> Dict[str, Any]:
         """
         Get current avatar state as a message for client.
+        Includes expression, spirits, and physics (Phase 4).
         """
+        # Update physics if available
+        physics_data = None
+        if self.physics_engine:
+            self.update_physics_from_emotion()
+            physics_state = self.physics_engine.update()
+            physics_data = {
+                "wind": physics_state["wind"],
+                "gravity": physics_state["gravity"],
+                "wave_params": physics_state["wave_params"],
+                "performance": physics_state["performance"]
+            }
+        
         return {
             "expression": asdict(self.expression),
-            "spirits": asdict(self.spirits)
+            "spirits": asdict(self.spirits),
+            "physics": physics_data  # Phase 4: Physics state
         }
     
     def get_delta_message(self) -> Optional[Dict[str, Any]]:
