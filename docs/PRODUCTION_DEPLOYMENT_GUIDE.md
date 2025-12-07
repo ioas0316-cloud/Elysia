@@ -667,4 +667,4 @@ python benchmarks/avatar_performance_benchmark.py
 
 **작성자**: Elysia Development Team  
 **최종 업데이트**: 2025-12-07  
-**라이선스**: MIT
+**라이선스**: Apache License 2.0
