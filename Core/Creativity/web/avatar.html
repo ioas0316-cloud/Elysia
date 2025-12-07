@@ -793,11 +793,24 @@
                 const loader = new GLTFLoader();
                 loader.register((parser) => new VRMLoaderPlugin(parser));
                 
-                const gltf = await loader.loadAsync('/static/models/avatar.vrm');
+                let gltf;
+                try {
+                    gltf = await loader.loadAsync('/static/models/avatar.vrm');
+                } catch (loadError) {
+                    // Provide specific error messages
+                    if (loadError.message.includes('404') || loadError.message.includes('Not Found')) {
+                        throw new Error('VRM file not found at /static/models/avatar.vrm. Please ensure the file exists.');
+                    } else if (loadError.message.includes('network')) {
+                        throw new Error('Network error loading VRM. Check server connection.');
+                    } else {
+                        throw new Error(`Failed to load VRM file: ${loadError.message}`);
+                    }
+                }
+                
                 const vrm = gltf.userData.vrm;
                 
                 if (!vrm) {
-                    throw new Error('VRM data not found in model');
+                    throw new Error('VRM data not found in model. File may be corrupted or not a valid VRM format.');
                 }
                 
                 // Rotate model to fix VRM coordinate system
@@ -835,8 +848,24 @@
                 console.log('🎬 VRM Animation started');
                 
             } catch (error) {
-                console.warn('⚠️ VRM Avatar failed to load, using 2D fallback:', error);
-                console.log('📝 Error details:', error.message);
+                // Enhanced error reporting
+                console.error('❌ VRM Avatar Loading Failed');
+                console.error('📝 Error type:', error.name);
+                console.error('📝 Error message:', error.message);
+                console.error('📝 Full error:', error);
+                
+                // User-friendly fallback message
+                const statusDiv = document.getElementById('status');
+                if (statusDiv) {
+                    statusDiv.innerHTML += '<br>⚠️ Using 2D mode (VRM failed)';
+                }
+                
+                console.info('ℹ️ Continuing with 2D shader fallback');
+                console.info('💡 Troubleshooting:');
+                console.info('   1. Verify VRM file exists at /static/models/avatar.vrm');
+                console.info('   2. Check file is valid VRM 1.0 format');
+                console.info('   3. Ensure HTTP server is running on port 8080');
+                console.info('   4. Check browser console for detailed errors');
                 // Keep 2D fallback visible
             }
         }

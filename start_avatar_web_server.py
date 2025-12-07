@@ -40,6 +40,35 @@ class AvatarHTTPRequestHandler(SimpleHTTPRequestHandler):
         # Set the directory to serve from (repo root)
         super().__init__(*args, directory=str(REPO_ROOT), **kwargs)
     
+    def do_GET(self):
+        """Handle GET requests with VRM validation"""
+        # Special handling for VRM files
+        if self.path.endswith('.vrm'):
+            vrm_path = REPO_ROOT / self.path.lstrip('/')
+            
+            # Check if VRM file exists
+            if not vrm_path.exists():
+                logger.error(f"VRM file not found: {vrm_path}")
+                self.send_error(404, f"VRM file not found: {self.path}")
+                return
+            
+            # Check if file is readable
+            try:
+                with open(vrm_path, 'rb') as f:
+                    # Try to read first few bytes to verify it's accessible
+                    f.read(10)
+            except Exception as e:
+                logger.error(f"VRM file not readable: {vrm_path}, error: {e}")
+                self.send_error(500, f"VRM file not readable: {e}")
+                return
+            
+            # Log successful VRM request
+            file_size = vrm_path.stat().st_size / (1024 * 1024)
+            logger.info(f"Serving VRM file: {vrm_path.name} ({file_size:.2f} MB)")
+        
+        # Continue with normal GET handling
+        super().do_GET()
+    
     def end_headers(self):
         # Add CORS headers for cross-origin requests
         self.send_header('Access-Control-Allow-Origin', '*')
