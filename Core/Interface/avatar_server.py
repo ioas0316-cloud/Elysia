@@ -413,18 +413,35 @@ class AvatarWebSocketServer:
     WebSocket server for avatar visualization.
     """
     
-    def __init__(self, host: str = "127.0.0.1", port: int = 8765):
+    def __init__(self, host: str = "127.0.0.1", port: int = 8765, require_auth: bool = False):
         self.host = host
         self.port = port
         self.core = ElysiaAvatarCore()
         self.clients: Set[WebSocketServerProtocol] = set()
         self.running = False
         self.last_update_time = asyncio.get_event_loop().time()
+        
+        # Initialize security manager
+        try:
+            from Core.Interface.avatar_security import create_security_manager
+            self.security = create_security_manager(require_auth=require_auth)
+            logger.info(f"🛡️ Security manager initialized (auth required: {require_auth})")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not initialize security manager: {e}")
+            self.security = None
     
     async def handle_client(self, websocket: WebSocketServerProtocol, path: str):
         """Handle individual client connection"""
-        self.clients.add(websocket)
         client_addr = websocket.remote_address
+        client_id = f"{client_addr[0]}:{client_addr[1]}"
+        
+        # Authentication check (if security enabled)
+        if self.security:
+            # For now, allow connection but track client_id
+            # In production, you'd check for auth token here
+            logger.info(f"🔐 Client connecting: {client_id}")
+        
+        self.clients.add(websocket)
         logger.info(f"✅ Client connected: {client_addr}")
         
         try:
@@ -435,7 +452,21 @@ class AvatarWebSocketServer:
             async for message in websocket:
                 try:
                     data = json.loads(message)
+                    
+                    # Security checks
+                    if self.security:
+                        # Check rate limit and validate input
+                        is_allowed, error = self.security.check_request(client_id, data)
+                        if not is_allowed:
+                            logger.warning(f"🚨 Request blocked from {client_id}: {error}")
+                            await websocket.send(json.dumps({
+                                'type': 'error',
+                                'message': error
+                            }))
+                            continue
+                    
                     await self.process_message(websocket, data)
+                    
                 except json.JSONDecodeError:
                     logger.warning(f"Invalid JSON from {client_addr}")
                 except Exception as e:
@@ -553,13 +584,36 @@ class AvatarWebSocketServer:
         self.running = True
         logger.info(f"🚀 Starting Avatar Server on ws://{self.host}:{self.port}")
         
+        # Start security cleanup task (if security enabled)
+        cleanup_task = None
+        if self.security:
+            cleanup_task = asyncio.create_task(self.security_cleanup_loop())
+            logger.info(f"🛡️ Security enabled - Rate limits: {self.security.config.max_requests_per_second}/s, {self.security.config.max_requests_per_minute}/min")
+        
         async with websockets.serve(self.handle_client, self.host, self.port):
             logger.info("✅ Avatar Server is running!")
             logger.info(f"📱 Open Core/Creativity/web/avatar.html in your browser")
             logger.info(f"🌐 Or visit http://{self.host}:{self.port} (if HTTP server is enabled)")
             
             # Start update loop
-            await self.update_loop()
+            try:
+                await self.update_loop()
+            finally:
+                if cleanup_task:
+                    cleanup_task.cancel()
+    
+    async def security_cleanup_loop(self):
+        """Periodic cleanup of security data"""
+        while self.running:
+            try:
+                await asyncio.sleep(300)  # Every 5 minutes
+                if self.security:
+                    self.security.cleanup()
+                    logger.debug("🧹 Security cleanup completed")
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"Error in security cleanup: {e}")
     
     def stop(self):
         """Stop the server"""
@@ -567,9 +621,9 @@ class AvatarWebSocketServer:
         logger.info("🛑 Avatar Server stopped")
 
 
-async def main_async(host: str, port: int):
+async def main_async(host: str, port: int, require_auth: bool = False):
     """Main async entry point"""
-    server = AvatarWebSocketServer(host, port)
+    server = AvatarWebSocketServer(host, port, require_auth=require_auth)
     try:
         await server.start()
     except KeyboardInterrupt:
@@ -616,6 +670,11 @@ Examples:
         action="store_true",
         help="Enable debug logging"
     )
+    parser.add_argument(
+        "--require-auth",
+        action="store_true",
+        help="Require authentication for connections (default: disabled)"
+    )
     
     args = parser.parse_args()
     
@@ -632,7 +691,7 @@ Examples:
     
     # Run server
     try:
-        asyncio.run(main_async(args.host, args.port))
+        asyncio.run(main_async(args.host, args.port, args.require_auth))
     except KeyboardInterrupt:
         print("\n👋 Goodbye!")
     except Exception as e:
