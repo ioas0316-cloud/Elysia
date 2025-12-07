@@ -33,7 +33,7 @@ import logging
 import os
 import sys
 from pathlib import Path
-from typing import Dict, Any, Optional, Set, TYPE_CHECKING
+from typing import Dict, Any, Optional, Set, List, TYPE_CHECKING
 from dataclasses import dataclass, asdict
 
 if TYPE_CHECKING:
@@ -155,6 +155,24 @@ class ElysiaAvatarCore:
         else:
             self.reasoning_engine = None
             logger.warning("⚠️ Running without reasoning engine")
+        
+        # Initialize synesthesia-enhanced voice TTS
+        try:
+            from Core.Interface.avatar_voice_tts import AvatarVoiceTTS
+            self.voice_tts = AvatarVoiceTTS()
+            logger.info("🎤 Synesthesia voice TTS initialized")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not initialize voice TTS: {e}")
+            self.voice_tts = None
+        
+        # Initialize lip-sync engine
+        try:
+            from Core.Interface.avatar_lipsync import LipSyncEngine
+            self.lipsync_engine = LipSyncEngine()
+            logger.info("👄 Lip-sync engine initialized")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not initialize lip-sync engine: {e}")
+            self.lipsync_engine = None
     
     def update_expression_from_emotion(self, emotion_name: str = None):
         """
@@ -260,13 +278,19 @@ class ElysiaAvatarCore:
             
             logger.info(f"🎭 Emotion event: {emotion_name} (intensity: {intensity})")
     
-    async def process_chat(self, message: str) -> str:
+    async def process_chat(self, message: str) -> Dict[str, Any]:
         """
         Process chat message through reasoning engine.
-        Returns response text.
+        Returns response with voice properties.
+        
+        Returns:
+            Dict with 'text' (str) and 'voice' (Optional[Dict]) keys
         """
         if not self.reasoning_engine:
-            return "I am currently offline. My reasoning systems are not available."
+            return {
+                'text': "I am currently offline. My reasoning systems are not available.",
+                'voice': None
+            }
         
         try:
             # Use reasoning engine to generate response
@@ -305,11 +329,74 @@ class ElysiaAvatarCore:
             else:
                 self.process_emotion_event('calm', 0.3)
             
-            return str(response) if response else "..."
+            response_text = str(response) if response else "..."
+            
+            # Generate voice properties using synesthesia mapping
+            voice_props = self.get_voice_properties()
+            
+            return {
+                'text': response_text,
+                'voice': voice_props
+            }
         
         except Exception as e:
             logger.error(f"❌ Chat processing error: {e}")
-            return f"I encountered an error: {str(e)}"
+            return {
+                'text': f"I encountered an error: {str(e)}",
+                'voice': None
+            }
+    
+    def get_voice_properties(self) -> Optional[Dict[str, Any]]:
+        """
+        Get current voice properties based on emotional state using synesthesia mapping.
+        """
+        if not self.voice_tts:
+            return None
+        
+        # Get voice properties from current emotional state
+        if self.emotional_engine:
+            state = self.emotional_engine.current_state
+            voice_props = self.voice_tts.get_voice_properties_from_emotion(
+                valence=state.valence,
+                arousal=state.arousal,
+                dominance=state.dominance
+            )
+            return voice_props.to_dict()
+        
+        # Fallback: use spirit energies
+        spirits_dict = asdict(self.spirits)
+        voice_props = self.voice_tts.get_voice_properties_from_spirits(spirits_dict)
+        return voice_props.to_dict()
+    
+    def get_lipsync_data(self, text: str) -> Optional[List[Dict[str, float]]]:
+        """
+        Generate lip-sync animation data for given text.
+        
+        Args:
+            text: Text that will be spoken
+            
+        Returns:
+            List of keyframes with timing and mouth_width values
+        """
+        if not self.lipsync_engine:
+            return None
+        
+        try:
+            # Generate phoneme sequence and timings
+            keyframes = self.lipsync_engine.process_tts_event(text)
+            
+            # Convert to serializable format
+            lipsync_data = [
+                {'time': time, 'mouth_width': width}
+                for time, width in keyframes
+            ]
+            
+            logger.debug(f"👄 Generated {len(lipsync_data)} lip-sync keyframes")
+            return lipsync_data
+            
+        except Exception as e:
+            logger.error(f"❌ Lip-sync generation failed: {e}")
+            return None
     
     def get_state_message(self) -> Dict[str, Any]:
         """
@@ -326,29 +413,85 @@ class AvatarWebSocketServer:
     WebSocket server for avatar visualization.
     """
     
-    def __init__(self, host: str = "127.0.0.1", port: int = 8765):
+    def __init__(self, host: str = "127.0.0.1", port: int = 8765, require_auth: bool = False, enable_monitoring: bool = True):
         self.host = host
         self.port = port
         self.core = ElysiaAvatarCore()
         self.clients: Set[WebSocketServerProtocol] = set()
         self.running = False
         self.last_update_time = asyncio.get_event_loop().time()
+        
+        # Initialize security manager
+        try:
+            from Core.Interface.avatar_security import create_security_manager
+            self.security = create_security_manager(require_auth=require_auth)
+            logger.info(f"🛡️ Security manager initialized (auth required: {require_auth})")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not initialize security manager: {e}")
+            self.security = None
+        
+        # Initialize performance monitor
+        self.monitor = None
+        if enable_monitoring:
+            try:
+                from Core.Interface.avatar_monitoring import create_performance_monitor
+                self.monitor = create_performance_monitor(update_interval=1.0)
+                self.monitor.set_broadcast_callback(self.broadcast_metrics)
+                logger.info(f"📊 Performance monitor initialized")
+            except Exception as e:
+                logger.warning(f"⚠️ Could not initialize performance monitor: {e}")
+                self.monitor = None
     
     async def handle_client(self, websocket: WebSocketServerProtocol, path: str):
         """Handle individual client connection"""
-        self.clients.add(websocket)
         client_addr = websocket.remote_address
+        client_id = f"{client_addr[0]}:{client_addr[1]}"
+        
+        # Authentication check (if security enabled)
+        if self.security:
+            # For now, allow connection but track client_id
+            # In production, you'd check for auth token here
+            logger.info(f"🔐 Client connecting: {client_id}")
+        
+        # Register client with monitor
+        if self.monitor:
+            self.monitor.collector.register_client(client_id)
+        
+        self.clients.add(websocket)
         logger.info(f"✅ Client connected: {client_addr}")
         
         try:
             # Send initial state
-            await websocket.send(json.dumps(self.core.get_state_message()))
+            initial_message = json.dumps(self.core.get_state_message())
+            await websocket.send(initial_message)
+            
+            # Track message sent
+            if self.monitor:
+                self.monitor.collector.record_message_sent(client_id, len(initial_message))
             
             # Handle messages
             async for message in websocket:
                 try:
+                    # Track message received
+                    if self.monitor:
+                        self.monitor.collector.record_message_received(client_id, len(message))
+                    
                     data = json.loads(message)
+                    
+                    # Security checks
+                    if self.security:
+                        # Check rate limit and validate input
+                        is_allowed, error = self.security.check_request(client_id, data)
+                        if not is_allowed:
+                            logger.warning(f"🚨 Request blocked from {client_id}: {error}")
+                            await websocket.send(json.dumps({
+                                'type': 'error',
+                                'message': error
+                            }))
+                            continue
+                    
                     await self.process_message(websocket, data)
+                    
                 except json.JSONDecodeError:
                     logger.warning(f"Invalid JSON from {client_addr}")
                 except Exception as e:
@@ -358,6 +501,30 @@ class AvatarWebSocketServer:
             logger.info(f"Client disconnected: {client_addr}")
         finally:
             self.clients.discard(websocket)
+            # Unregister from monitor
+            if self.monitor:
+                self.monitor.collector.unregister_client(client_id)
+    
+    async def broadcast_metrics(self, metrics: Dict[str, Any]):
+        """Broadcast performance metrics to all connected clients"""
+        if not self.clients:
+            return
+        
+        message = json.dumps({
+            'type': 'metrics',
+            'data': metrics
+        })
+        
+        # Send to all clients
+        disconnected = set()
+        for client in self.clients:
+            try:
+                await client.send(message)
+            except websockets.exceptions.ConnectionClosed:
+                disconnected.add(client)
+        
+        # Clean up disconnected clients
+        self.clients -= disconnected
     
     async def process_message(self, websocket: WebSocketServerProtocol, data: Dict[str, Any]):
         """Process incoming message from client"""
@@ -368,15 +535,28 @@ class AvatarWebSocketServer:
             content = data.get("content", "")
             logger.info(f"💬 Chat: {content}")
             
-            # Process through reasoning engine
-            response = await self.core.process_chat(content)
+            # Process through reasoning engine with voice properties
+            response_data = await self.core.process_chat(content)
             
-            # Send response
-            await websocket.send(json.dumps({
+            # Generate lip-sync data for the response
+            lipsync_data = self.core.get_lipsync_data(response_data['text'])
+            
+            # Send response with synesthesia-enhanced voice properties and lip-sync
+            message = {
                 "type": "speech",
-                "content": response,
+                "content": response_data['text'],
                 "spirits": asdict(self.core.spirits)
-            }))
+            }
+            
+            # Add voice properties if available
+            if response_data.get('voice'):
+                message['voice'] = response_data['voice']
+            
+            # Add lip-sync data if available
+            if lipsync_data:
+                message['lipsync'] = lipsync_data
+            
+            await websocket.send(json.dumps(message))
         
         elif msg_type == "vision":
             # Vision data (presence detection, gaze)
@@ -453,13 +633,45 @@ class AvatarWebSocketServer:
         self.running = True
         logger.info(f"🚀 Starting Avatar Server on ws://{self.host}:{self.port}")
         
+        # Start security cleanup task (if security enabled)
+        cleanup_task = None
+        if self.security:
+            cleanup_task = asyncio.create_task(self.security_cleanup_loop())
+            logger.info(f"🛡️ Security enabled - Rate limits: {self.security.config.max_requests_per_second}/s, {self.security.config.max_requests_per_minute}/min")
+        
+        # Start monitoring task (if monitoring enabled)
+        monitoring_task = None
+        if self.monitor:
+            monitoring_task = asyncio.create_task(self.monitor.start_monitoring())
+            logger.info(f"📊 Performance monitoring enabled (update interval: {self.monitor.update_interval}s)")
+        
         async with websockets.serve(self.handle_client, self.host, self.port):
             logger.info("✅ Avatar Server is running!")
             logger.info(f"📱 Open Core/Creativity/web/avatar.html in your browser")
             logger.info(f"🌐 Or visit http://{self.host}:{self.port} (if HTTP server is enabled)")
             
             # Start update loop
-            await self.update_loop()
+            try:
+                await self.update_loop()
+            finally:
+                if cleanup_task:
+                    cleanup_task.cancel()
+                if monitoring_task:
+                    self.monitor.stop()
+                    monitoring_task.cancel()
+    
+    async def security_cleanup_loop(self):
+        """Periodic cleanup of security data"""
+        while self.running:
+            try:
+                await asyncio.sleep(300)  # Every 5 minutes
+                if self.security:
+                    self.security.cleanup()
+                    logger.debug("🧹 Security cleanup completed")
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"Error in security cleanup: {e}")
     
     def stop(self):
         """Stop the server"""
@@ -467,9 +679,9 @@ class AvatarWebSocketServer:
         logger.info("🛑 Avatar Server stopped")
 
 
-async def main_async(host: str, port: int):
+async def main_async(host: str, port: int, require_auth: bool = False, enable_monitoring: bool = True):
     """Main async entry point"""
-    server = AvatarWebSocketServer(host, port)
+    server = AvatarWebSocketServer(host, port, require_auth=require_auth, enable_monitoring=enable_monitoring)
     try:
         await server.start()
     except KeyboardInterrupt:
@@ -516,6 +728,16 @@ Examples:
         action="store_true",
         help="Enable debug logging"
     )
+    parser.add_argument(
+        "--require-auth",
+        action="store_true",
+        help="Require authentication for connections (default: disabled)"
+    )
+    parser.add_argument(
+        "--no-monitoring",
+        action="store_true",
+        help="Disable performance monitoring (default: enabled)"
+    )
     
     args = parser.parse_args()
     
@@ -532,7 +754,7 @@ Examples:
     
     # Run server
     try:
-        asyncio.run(main_async(args.host, args.port))
+        asyncio.run(main_async(args.host, args.port, args.require_auth, not args.no_monitoring))
     except KeyboardInterrupt:
         print("\n👋 Goodbye!")
     except Exception as e:

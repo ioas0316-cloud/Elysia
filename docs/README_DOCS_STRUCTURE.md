@@ -1,8 +1,8 @@
 # 문서 구조 가이드 / Documentation Structure Guide
 
-**업데이트 날짜 / Updated**: 2025-12-06  
-**버전 / Version**: 9.0  
-**상태 / Status**: 재구성 완료 / Reorganized
+**업데이트 날짜 / Updated**: 2025-12-07  
+**버전 / Version**: 9.1  
+**상태 / Status**: 아바타 시스템 문서 추가 / Avatar System Docs Added
 
 ---
 
@@ -73,6 +73,15 @@ docs/
 │   ├── TESTING.md
 │   ├── SECURITY.md
 │   └── [기타 매뉴얼들]
+│
+├── [Avatar System Docs in docs/]     # 🎭 아바타 시스템 문서
+│   ├── AVATAR_SERVER_SYSTEM.md        # 전체 시스템 아키텍처
+│   ├── AVATAR_SERVER_QUICK_START.md   # 빠른 시작 가이드
+│   ├── AVATAR_SERVER_IMPLEMENTATION_REPORT_KR.md  # 구현 보고서
+│   ├── VRM_INTEGRATION_COMPLETE.md    # VRM 통합 가이드
+│   ├── VRM_INTEGRATION_SUMMARY.md     # VRM 구현 요약
+│   ├── AVATAR_SYSTEM_REVIEW_2025.md   # 시스템 검증 및 개선안
+│   └── AVATAR_DOCUMENTATION_SUMMARY_KR.md  # 한국어 요약본
 │
 ├── Reference/                         # 📚 참조 자료
 ├── Summaries/                         # 📝 요약 문서
@@ -239,6 +248,28 @@ docs/
    - 위치: `../` (루트)
    - 내용: 전체 문서 색인 (142+개 문서)
 
+### 아바타 시스템 문서 (2025-12-07 업데이트 🆕)
+
+**빠른 시작**:
+- **AVATAR_SERVER_QUICK_START.md** - 5분 만에 시작하기
+- **VRM_INTEGRATION_COMPLETE.md** - VRM 3D 아바타 가이드
+
+**상세 문서**:
+- **AVATAR_SERVER_SYSTEM.md** - 전체 아키텍처 및 API
+- **AVATAR_SYSTEM_REVIEW_2025.md** - 문서화 검증 및 개선안 (40KB)
+- **AVATAR_DOCUMENTATION_SUMMARY_KR.md** - 한국어 요약본 (5KB)
+
+**구현 보고서**:
+- **AVATAR_SERVER_IMPLEMENTATION_REPORT_KR.md** - 한국어 구현 보고서
+- **VRM_INTEGRATION_SUMMARY.md** - VRM 통합 요약
+
+**기능 문서 (2025-12-07 신규)**:
+- **SYNESTHESIA_VOICE_INTEGRATION.md** - 공감각 음성 합성 시스템 (40KB)
+- **LIPSYNC_SYSTEM.md** - 음소 기반 립싱크 엔진 (40KB)
+- **AVATAR_SECURITY_SYSTEM.md** - 보안 시스템 (인증, Rate limiting, 입력 검증) (40KB)
+- **AVATAR_MONITORING_SYSTEM.md** - 실시간 성능 모니터링 (40KB)
+- **AVATAR_PRODUCTION_DEPLOYMENT.md** - 프로덕션 배포 가이드 (HTTPS, Nginx) (40KB)
+
 ### 현재 AGI 진행도 (2025-12-06)
 
 ```
@@ -272,7 +303,7 @@ Level 7: 계획 ○ (0%)
 ---
 
 **작성자 / Author**: Elysia Documentation System  
-**최종 업데이트 / Last Updated**: 2025-12-06  
+**최종 업데이트 / Last Updated**: 2025-12-07  
 **문의 / Contact**: docs 폴더 관리자
 
 ---
