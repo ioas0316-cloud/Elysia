@@ -243,8 +243,8 @@
             // 3. Speech Output (TTS + Chat)
             if (data.type === "speech") {
                 addChatMessage(data.content, "elysia");
-                // Use enhanced voice properties if available
-                speak(data.content, data.spirits, data.voice);
+                // Use enhanced voice properties and lip-sync if available
+                speak(data.content, data.spirits, data.voice, data.lipsync);
                 addThought("응답: " + data.content.substring(0, 50) + "...");
             }
         };
@@ -336,7 +336,7 @@
             if (audioCtx) recognition.start();
         };
 
-        function speak(text, spirits, voiceProps) {
+        function speak(text, spirits, voiceProps, lipsyncData) {
             synthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'ko-KR';
@@ -427,14 +427,56 @@
 
             console.log(`🎤 Speaking with: pitch=${pitch.toFixed(2)}, rate=${rate.toFixed(2)}, volume=${volume.toFixed(2)}`);
 
-            // Fake talk volume animation
+            // Lip-sync animation
             let talkLoop;
+            let lipsyncInterval = null;
+            let lipsyncKeyframeIndex = 0;
+            
             utterance.onstart = () => {
+                // Start fake talk volume animation
                 talkLoop = setInterval(() => { audioState.volume = Math.random() * 0.4 + 0.1; }, 100);
+                
+                // Start lip-sync animation if data available
+                if (lipsyncData && lipsyncData.length > 0) {
+                    console.log(`👄 Starting lip-sync with ${lipsyncData.length} keyframes`);
+                    const startTime = Date.now();
+                    lipsyncKeyframeIndex = 0;
+                    
+                    lipsyncInterval = setInterval(() => {
+                        const elapsed = (Date.now() - startTime) / 1000.0; // seconds
+                        
+                        // Find current keyframe
+                        while (lipsyncKeyframeIndex < lipsyncData.length - 1 &&
+                               elapsed >= lipsyncData[lipsyncKeyframeIndex + 1].time) {
+                            lipsyncKeyframeIndex++;
+                        }
+                        
+                        if (lipsyncKeyframeIndex < lipsyncData.length) {
+                            const keyframe = lipsyncData[lipsyncKeyframeIndex];
+                            // Update mouth width in expression state
+                            expression.mouth_width = keyframe.mouth_width;
+                            
+                            // Also send to server for VRM updates
+                            if (ws && ws.readyState === WebSocket.OPEN) {
+                                ws.send(JSON.stringify({
+                                    type: 'expression_update',
+                                    mouth_width: keyframe.mouth_width
+                                }));
+                            }
+                        }
+                    }, 16); // ~60 FPS
+                } else {
+                    // Fallback: simple mouth animation based on audio volume
+                    lipsyncInterval = setInterval(() => {
+                        expression.mouth_width = Math.random() * 0.3 + 0.1;
+                    }, 100);
+                }
             };
             utterance.onend = () => {
                 clearInterval(talkLoop);
+                if (lipsyncInterval) clearInterval(lipsyncInterval);
                 audioState.volume = 0.0;
+                expression.mouth_width = 0.0; // Close mouth
             };
             
             synthesis.speak(utterance);

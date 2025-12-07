@@ -33,7 +33,7 @@ import logging
 import os
 import sys
 from pathlib import Path
-from typing import Dict, Any, Optional, Set, TYPE_CHECKING
+from typing import Dict, Any, Optional, Set, List, TYPE_CHECKING
 from dataclasses import dataclass, asdict
 
 if TYPE_CHECKING:
@@ -164,6 +164,15 @@ class ElysiaAvatarCore:
         except Exception as e:
             logger.warning(f"⚠️ Could not initialize voice TTS: {e}")
             self.voice_tts = None
+        
+        # Initialize lip-sync engine
+        try:
+            from Core.Interface.avatar_lipsync import LipSyncEngine
+            self.lipsync_engine = LipSyncEngine()
+            logger.info("👄 Lip-sync engine initialized")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not initialize lip-sync engine: {e}")
+            self.lipsync_engine = None
     
     def update_expression_from_emotion(self, emotion_name: str = None):
         """
@@ -359,6 +368,36 @@ class ElysiaAvatarCore:
         voice_props = self.voice_tts.get_voice_properties_from_spirits(spirits_dict)
         return voice_props.to_dict()
     
+    def get_lipsync_data(self, text: str) -> Optional[List[Dict[str, float]]]:
+        """
+        Generate lip-sync animation data for given text.
+        
+        Args:
+            text: Text that will be spoken
+            
+        Returns:
+            List of keyframes with timing and mouth_width values
+        """
+        if not self.lipsync_engine:
+            return None
+        
+        try:
+            # Generate phoneme sequence and timings
+            keyframes = self.lipsync_engine.process_tts_event(text)
+            
+            # Convert to serializable format
+            lipsync_data = [
+                {'time': time, 'mouth_width': width}
+                for time, width in keyframes
+            ]
+            
+            logger.debug(f"👄 Generated {len(lipsync_data)} lip-sync keyframes")
+            return lipsync_data
+            
+        except Exception as e:
+            logger.error(f"❌ Lip-sync generation failed: {e}")
+            return None
+    
     def get_state_message(self) -> Dict[str, Any]:
         """
         Get current avatar state as a message for client.
@@ -419,7 +458,10 @@ class AvatarWebSocketServer:
             # Process through reasoning engine with voice properties
             response_data = await self.core.process_chat(content)
             
-            # Send response with synesthesia-enhanced voice properties
+            # Generate lip-sync data for the response
+            lipsync_data = self.core.get_lipsync_data(response_data['text'])
+            
+            # Send response with synesthesia-enhanced voice properties and lip-sync
             message = {
                 "type": "speech",
                 "content": response_data['text'],
@@ -429,6 +471,10 @@ class AvatarWebSocketServer:
             # Add voice properties if available
             if response_data.get('voice'):
                 message['voice'] = response_data['voice']
+            
+            # Add lip-sync data if available
+            if lipsync_data:
+                message['lipsync'] = lipsync_data
             
             await websocket.send(json.dumps(message))
         
