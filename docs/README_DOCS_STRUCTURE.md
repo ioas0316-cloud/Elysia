@@ -248,7 +248,7 @@ docs/
    - 위치: `../` (루트)
    - 내용: 전체 문서 색인 (142+개 문서)
 
-### 아바타 시스템 문서 (2025-12-07 추가 🆕)
+### 아바타 시스템 문서 (2025-12-07 업데이트 🆕)
 
 **빠른 시작**:
 - **AVATAR_SERVER_QUICK_START.md** - 5분 만에 시작하기
@@ -256,11 +256,19 @@ docs/
 
 **상세 문서**:
 - **AVATAR_SERVER_SYSTEM.md** - 전체 아키텍처 및 API
-- **AVATAR_SYSTEM_REVIEW_2025.md** - 문서화 검증 및 개선안
+- **AVATAR_SYSTEM_REVIEW_2025.md** - 문서화 검증 및 개선안 (40KB)
+- **AVATAR_DOCUMENTATION_SUMMARY_KR.md** - 한국어 요약본 (5KB)
 
 **구현 보고서**:
 - **AVATAR_SERVER_IMPLEMENTATION_REPORT_KR.md** - 한국어 구현 보고서
 - **VRM_INTEGRATION_SUMMARY.md** - VRM 통합 요약
+
+**기능 문서 (2025-12-07 신규)**:
+- **SYNESTHESIA_VOICE_INTEGRATION.md** - 공감각 음성 합성 시스템 (40KB)
+- **LIPSYNC_SYSTEM.md** - 음소 기반 립싱크 엔진 (40KB)
+- **AVATAR_SECURITY_SYSTEM.md** - 보안 시스템 (인증, Rate limiting, 입력 검증) (40KB)
+- **AVATAR_MONITORING_SYSTEM.md** - 실시간 성능 모니터링 (40KB)
+- **AVATAR_PRODUCTION_DEPLOYMENT.md** - 프로덕션 배포 가이드 (HTTPS, Nginx) (40KB)
 
 ### 현재 AGI 진행도 (2025-12-06)
 
