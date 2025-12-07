@@ -74,13 +74,14 @@ docs/
 │   ├── SECURITY.md
 │   └── [기타 매뉴얼들]
 │
-├── Avatar-System/                     # 🎭 아바타 시스템 문서 (NEW!)
+├── [Avatar System Docs in docs/]     # 🎭 아바타 시스템 문서
 │   ├── AVATAR_SERVER_SYSTEM.md        # 전체 시스템 아키텍처
 │   ├── AVATAR_SERVER_QUICK_START.md   # 빠른 시작 가이드
 │   ├── AVATAR_SERVER_IMPLEMENTATION_REPORT_KR.md  # 구현 보고서
 │   ├── VRM_INTEGRATION_COMPLETE.md    # VRM 통합 가이드
 │   ├── VRM_INTEGRATION_SUMMARY.md     # VRM 구현 요약
-│   └── AVATAR_SYSTEM_REVIEW_2025.md   # 시스템 검증 및 개선안
+│   ├── AVATAR_SYSTEM_REVIEW_2025.md   # 시스템 검증 및 개선안
+│   └── AVATAR_DOCUMENTATION_SUMMARY_KR.md  # 한국어 요약본
 │
 ├── Reference/                         # 📚 참조 자료
 ├── Summaries/                         # 📝 요약 문서
