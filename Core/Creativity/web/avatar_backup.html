@@ -4,18 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Elysia Avatar | 엘리시아 아바타</title>
-    
-    <!-- Three.js and VRM loader for 3D avatar -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
-            "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@2.1.0/lib/three-vrm.module.js"
-        }
-    }
-    </script>
-    
     <style>
         * {
             box-sizing: border-box;
@@ -194,12 +182,7 @@
     <!-- Center: Avatar Face -->
     <div id="face-panel">
         <div id="status">● Connecting... (Click to Wake)</div>
-        <div id="avatar-container" style="position: relative; width: 500px; height: 500px;">
-            <!-- 3D VRM Avatar (if available) -->
-            <canvas id="vrm-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></canvas>
-            <!-- Fallback 2D Avatar -->
-            <canvas id="glcanvas" width="500" height="500" style="position: absolute; top: 0; left: 0;"></canvas>
-        </div>
+        <canvas id="glcanvas" width="500" height="500"></canvas>
     </div>
 
     <!-- Right: Chat -->
@@ -216,9 +199,8 @@
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
 
-        // State (Make global for VRM module)
-        window.expression = { mouth_curve: 0, eye_open: 1.0, brow_furrow: 0, beat: 0 };
-        let expression = window.expression; // Local reference
+        // State
+        let expression = { mouth_curve: 0, eye_open: 1.0, brow_furrow: 0, beat: 0 };
         let audioState = { volume: 0, brightness: 0, noise: 0 };
         let gaze = { x: 0, y: 0 };
 
@@ -232,7 +214,6 @@
             // 1. Expression Update
             if (data.expression) {
                 expression = data.expression;
-                window.expression = expression; // Update global reference for VRM
             }
 
             // 2. Spirits Update (for thinking panel)
@@ -723,180 +704,6 @@
             gl.drawArrays(gl.TRIANGLES, 0, 6);
             requestAnimationFrame(render);
         }
-        
-        // ===== VRM 3D AVATAR INTEGRATION =====
-    </script>
-    
-    <script type="module">
-        // Import Three.js and VRM loader
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
-
-        // VRM 3D Avatar System
-        let vrmAvatar = null;
-        let vrmScene, vrmCamera, vrmRenderer, vrmControls;
-        let vrmAnimationLoop = null;
-        
-        async function initVRMAvatar() {
-            try {
-                console.log('🎭 Initializing VRM 3D Avatar...');
-                
-                const canvas = document.getElementById('vrm-canvas');
-                const glCanvas = document.getElementById('glcanvas');
-                
-                // Setup Three.js scene
-                vrmScene = new THREE.Scene();
-                vrmScene.background = new THREE.Color(0x0a0a1a);
-                
-                // Camera
-                vrmCamera = new THREE.PerspectiveCamera(
-                    30,
-                    canvas.clientWidth / canvas.clientHeight,
-                    0.1,
-                    20
-                );
-                vrmCamera.position.set(0, 1.3, 2.5);
-                
-                // Renderer
-                vrmRenderer = new THREE.WebGLRenderer({ 
-                    canvas: canvas, 
-                    alpha: true,
-                    antialias: true 
-                });
-                vrmRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
-                vrmRenderer.setPixelRatio(window.devicePixelRatio);
-                vrmRenderer.outputEncoding = THREE.sRGBEncoding;
-                
-                // Lighting
-                const light = new THREE.DirectionalLight(0xffffff, 1);
-                light.position.set(1, 1, 1).normalize();
-                vrmScene.add(light);
-                
-                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-                vrmScene.add(ambientLight);
-                
-                // Rim light for better visibility
-                const rimLight = new THREE.DirectionalLight(0x52ffa8, 0.3);
-                rimLight.position.set(-1, 1, -1).normalize();
-                vrmScene.add(rimLight);
-                
-                // Controls
-                vrmControls = new OrbitControls(vrmCamera, canvas);
-                vrmControls.target.set(0, 1.3, 0);
-                vrmControls.update();
-                vrmControls.enableDamping = true;
-                vrmControls.dampingFactor = 0.05;
-                
-                // Load VRM model
-                const loader = new GLTFLoader();
-                loader.register((parser) => new VRMLoaderPlugin(parser));
-                
-                const gltf = await loader.loadAsync('/static/models/avatar.vrm');
-                const vrm = gltf.userData.vrm;
-                
-                if (!vrm) {
-                    throw new Error('VRM data not found in model');
-                }
-                
-                // Rotate model to fix VRM coordinate system
-                VRMUtils.rotateVRM0(vrm);
-                
-                vrmAvatar = vrm;
-                vrmScene.add(vrm.scene);
-                
-                console.log('✅ VRM Avatar loaded successfully!');
-                console.log('📋 Available blendshapes:', 
-                    vrm.expressionManager ? Object.keys(vrm.expressionManager.expressionMap) : 'none');
-                
-                // Hide 2D fallback, show 3D
-                glCanvas.style.display = 'none';
-                canvas.style.display = 'block';
-                
-                // Start animation loop
-                vrmAnimationLoop = () => {
-                    requestAnimationFrame(vrmAnimationLoop);
-                    
-                    // Update VRM expressions based on emotion state
-                    updateVRMExpressions();
-                    
-                    // Update VRM system
-                    const deltaTime = 0.016; // ~60fps
-                    if (vrmAvatar) {
-                        vrmAvatar.update(deltaTime);
-                    }
-                    
-                    vrmControls.update();
-                    vrmRenderer.render(vrmScene, vrmCamera);
-                };
-                vrmAnimationLoop();
-                
-                console.log('🎬 VRM Animation started');
-                
-            } catch (error) {
-                console.warn('⚠️ VRM Avatar failed to load, using 2D fallback:', error);
-                console.log('📝 Error details:', error.message);
-                // Keep 2D fallback visible
-            }
-        }
-        
-        function updateVRMExpressions() {
-            if (!vrmAvatar || !vrmAvatar.expressionManager) return;
-            
-            const em = vrmAvatar.expressionManager;
-            
-            // Get current expression state from WebSocket
-            const expr = window.expression || { mouth_curve: 0, eye_open: 1.0, brow_furrow: 0 };
-            
-            // Map emotion parameters to VRM blendshapes
-            // Smile/Sad
-            if (expr.mouth_curve > 0.2) {
-                em.setValue('happy', Math.min(expr.mouth_curve, 1.0));
-                em.setValue('sad', 0);
-            } else if (expr.mouth_curve < -0.2) {
-                em.setValue('sad', Math.min(Math.abs(expr.mouth_curve), 1.0));
-                em.setValue('happy', 0);
-            } else {
-                em.setValue('happy', 0);
-                em.setValue('sad', 0);
-            }
-            
-            // Blink
-            const blinkValue = 1.0 - expr.eye_open;
-            em.setValue('blink', blinkValue);
-            em.setValue('blinkLeft', blinkValue);
-            em.setValue('blinkRight', blinkValue);
-            
-            // Brow expressions
-            if (expr.brow_furrow > 0.3) {
-                em.setValue('angry', expr.brow_furrow * 0.7);
-            } else {
-                em.setValue('angry', 0);
-            }
-            
-            // Surprise (based on eye openness)
-            if (expr.eye_open > 1.2) {
-                em.setValue('surprised', (expr.eye_open - 1.0) * 2);
-            } else {
-                em.setValue('surprised', 0);
-            }
-        }
-        
-        // Auto-initialize VRM on load (after a short delay for WebSocket to connect)
-        setTimeout(() => {
-            initVRMAvatar();
-        }, 1000);
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (vrmCamera && vrmRenderer) {
-                const canvas = document.getElementById('vrm-canvas');
-                vrmCamera.aspect = canvas.clientWidth / canvas.clientHeight;
-                vrmCamera.updateProjectionMatrix();
-                vrmRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
-            }
-        });
     </script>
 </body>
 
