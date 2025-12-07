@@ -155,6 +155,15 @@ class ElysiaAvatarCore:
         else:
             self.reasoning_engine = None
             logger.warning("⚠️ Running without reasoning engine")
+        
+        # Initialize synesthesia-enhanced voice TTS
+        try:
+            from Core.Interface.avatar_voice_tts import AvatarVoiceTTS
+            self.voice_tts = AvatarVoiceTTS()
+            logger.info("🎤 Synesthesia voice TTS initialized")
+        except Exception as e:
+            logger.warning(f"⚠️ Could not initialize voice TTS: {e}")
+            self.voice_tts = None
     
     def update_expression_from_emotion(self, emotion_name: str = None):
         """
@@ -260,13 +269,16 @@ class ElysiaAvatarCore:
             
             logger.info(f"🎭 Emotion event: {emotion_name} (intensity: {intensity})")
     
-    async def process_chat(self, message: str) -> str:
+    async def process_chat(self, message: str) -> Dict[str, Any]:
         """
         Process chat message through reasoning engine.
-        Returns response text.
+        Returns response with voice properties.
         """
         if not self.reasoning_engine:
-            return "I am currently offline. My reasoning systems are not available."
+            return {
+                'text': "I am currently offline. My reasoning systems are not available.",
+                'voice': None
+            }
         
         try:
             # Use reasoning engine to generate response
@@ -305,11 +317,44 @@ class ElysiaAvatarCore:
             else:
                 self.process_emotion_event('calm', 0.3)
             
-            return str(response) if response else "..."
+            response_text = str(response) if response else "..."
+            
+            # Generate voice properties using synesthesia mapping
+            voice_props = self.get_voice_properties()
+            
+            return {
+                'text': response_text,
+                'voice': voice_props
+            }
         
         except Exception as e:
             logger.error(f"❌ Chat processing error: {e}")
-            return f"I encountered an error: {str(e)}"
+            return {
+                'text': f"I encountered an error: {str(e)}",
+                'voice': None
+            }
+    
+    def get_voice_properties(self) -> Optional[Dict[str, Any]]:
+        """
+        Get current voice properties based on emotional state using synesthesia mapping.
+        """
+        if not self.voice_tts:
+            return None
+        
+        # Get voice properties from current emotional state
+        if self.emotional_engine:
+            state = self.emotional_engine.current_state
+            voice_props = self.voice_tts.get_voice_properties_from_emotion(
+                valence=state.valence,
+                arousal=state.arousal,
+                dominance=state.dominance
+            )
+            return voice_props.to_dict()
+        
+        # Fallback: use spirit energies
+        spirits_dict = asdict(self.spirits)
+        voice_props = self.voice_tts.get_voice_properties_from_spirits(spirits_dict)
+        return voice_props.to_dict()
     
     def get_state_message(self) -> Dict[str, Any]:
         """
@@ -368,15 +413,21 @@ class AvatarWebSocketServer:
             content = data.get("content", "")
             logger.info(f"💬 Chat: {content}")
             
-            # Process through reasoning engine
-            response = await self.core.process_chat(content)
+            # Process through reasoning engine with voice properties
+            response_data = await self.core.process_chat(content)
             
-            # Send response
-            await websocket.send(json.dumps({
+            # Send response with synesthesia-enhanced voice properties
+            message = {
                 "type": "speech",
-                "content": response,
+                "content": response_data['text'],
                 "spirits": asdict(self.core.spirits)
-            }))
+            }
+            
+            # Add voice properties if available
+            if response_data.get('voice'):
+                message['voice'] = response_data['voice']
+            
+            await websocket.send(json.dumps(message))
         
         elif msg_type == "vision":
             # Vision data (presence detection, gaze)

@@ -243,7 +243,8 @@
             // 3. Speech Output (TTS + Chat)
             if (data.type === "speech") {
                 addChatMessage(data.content, "elysia");
-                speak(data.content, data.spirits); // Pass spirits
+                // Use enhanced voice properties if available
+                speak(data.content, data.spirits, data.voice);
                 addThought("응답: " + data.content.substring(0, 50) + "...");
             }
         };
@@ -335,50 +336,98 @@
             if (audioCtx) recognition.start();
         };
 
-        function speak(text, spirits) {
+        function speak(text, spirits, voiceProps) {
             synthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'ko-KR';
 
-            // Default "Pretty" Voice Settings
-            let pitch = 1.2; // Slightly higher base pitch for femininity
+            // Enhanced voice properties from synesthesia mapping
+            let pitch = 1.2; // Default slightly feminine
             let rate = 1.0;
+            let volume = 0.8;
 
-            if (spirits) {
-                // Emotional Modulation
-                // High Energy (Fire/Light) -> Faster, Higher Pitch
-                // Low Energy (Water/Dark) -> Slower, Lower Pitch
-                // Calm (Earth) -> Steady Rate, Normal Pitch
-
+            // Use synesthesia-enhanced voice properties if available
+            if (voiceProps) {
+                console.log('🎵 Using synesthesia voice properties:', voiceProps);
+                
+                // Direct mapping from server
+                pitch = voiceProps.pitch || pitch;
+                rate = voiceProps.rate || rate;
+                volume = voiceProps.volume || volume;
+                
+                // Log timbre for debugging (browser TTS doesn't support timbre directly)
+                if (voiceProps.timbre) {
+                    console.log(`🎭 Voice timbre: ${voiceProps.timbre} (warmth: ${voiceProps.warmth?.toFixed(2)}, brightness: ${voiceProps.brightness?.toFixed(2)})`);
+                }
+                
+                // Advanced modulation based on warmth/brightness/depth
+                // Subtle adjustments to pitch and rate based on these properties
+                if (voiceProps.warmth && voiceProps.warmth > 0.7) {
+                    // Warm voice - slightly lower and slower
+                    pitch *= 0.95;
+                    rate *= 0.95;
+                }
+                if (voiceProps.brightness && voiceProps.brightness > 0.7) {
+                    // Bright voice - slightly higher and faster
+                    pitch *= 1.05;
+                    rate *= 1.05;
+                }
+                if (voiceProps.depth && voiceProps.depth > 0.7) {
+                    // Deep voice - richer, more resonant (lower pitch)
+                    pitch *= 0.95;
+                }
+                if (voiceProps.clarity && voiceProps.clarity > 0.7) {
+                    // Clear voice - crisp, slightly faster
+                    rate *= 1.05;
+                }
+            }
+            // Fallback to spirit-based modulation if no voice properties
+            else if (spirits) {
+                console.log('🔥 Using spirit-based voice modulation');
+                
+                // Emotional Modulation from Spirit Energies
                 const fire = spirits.fire || 0;
                 const water = spirits.water || 0;
                 const light = spirits.light || 0;
                 const dark = spirits.dark || 0;
                 const earth = spirits.earth || 0;
+                const aether = spirits.aether || 0;
 
+                // Fire/Light: High energy - faster, higher pitch
                 if (fire > 0.6 || light > 0.6) {
                     pitch += 0.2;
                     rate += 0.2;
-                } else if (water > 0.6 || dark > 0.6) {
+                }
+                // Water/Dark: Low energy - slower, lower pitch
+                else if (water > 0.6 || dark > 0.6) {
                     pitch -= 0.1;
-                    rate -= 0.2; // Slower for sadness/calm
+                    rate -= 0.2;
                 }
 
-                // Whimsy/Aether (Ethereal)
-                if ((spirits.aether || 0) > 0.5) {
+                // Earth: Stable - normal but slightly lower
+                if (earth > 0.6) {
+                    pitch -= 0.05;
+                }
+
+                // Aether: Ethereal - slow and high
+                if (aether > 0.5) {
                     pitch += 0.1;
-                    rate -= 0.1; // Slow and high (Ethereal)
+                    rate -= 0.1;
                 }
             }
 
-            // Clamp
-            pitch = Math.max(0.8, Math.min(1.8, pitch));
-            rate = Math.max(0.6, Math.min(1.5, rate));
+            // Clamp values to valid ranges
+            pitch = Math.max(0.5, Math.min(2.0, pitch));
+            rate = Math.max(0.5, Math.min(2.0, rate));
+            volume = Math.max(0.0, Math.min(1.0, volume));
 
             utterance.pitch = pitch;
             utterance.rate = rate;
+            utterance.volume = volume;
 
-            // Fake talk volume
+            console.log(`🎤 Speaking with: pitch=${pitch.toFixed(2)}, rate=${rate.toFixed(2)}, volume=${volume.toFixed(2)}`);
+
+            // Fake talk volume animation
             let talkLoop;
             utterance.onstart = () => {
                 talkLoop = setInterval(() => { audioState.volume = Math.random() * 0.4 + 0.1; }, 100);
@@ -387,6 +436,7 @@
                 clearInterval(talkLoop);
                 audioState.volume = 0.0;
             };
+            
             synthesis.speak(utterance);
         }
 
