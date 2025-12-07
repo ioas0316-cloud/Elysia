@@ -1,6 +1,28 @@
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
-from tensor_wave import Tensor3D, FrequencyWave
+
+# Import physics types with graceful fallback
+try:
+    from Core.Foundation.hangul_physics import Tensor3D
+    from Core.Memory.unified_types import FrequencyWave
+except ImportError:
+    # Fallback stub classes if imports fail
+    class Tensor3D:
+        def __init__(self, x=0.0, y=0.0, z=0.0):
+            self.x, self.y, self.z = x, y, z
+        
+        def __mul__(self, scalar):
+            return Tensor3D(self.x * scalar, self.y * scalar, self.z * scalar)
+        
+        def __add__(self, other):
+            return Tensor3D(self.x + other.x, self.y + other.y, self.z + other.z)
+    
+    class FrequencyWave:
+        def __init__(self, freq=0.0, amp=0.0, phase=0.0, damping=0.0):
+            self.frequency = freq
+            self.amplitude = amp
+            self.phase = phase
+            self.damping = damping
 
 @dataclass
 class EmotionalState:
