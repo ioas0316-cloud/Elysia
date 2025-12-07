@@ -17,7 +17,7 @@
 
 ## ⚠️ 발견된 주요 문제점
 
-### 1. 하이퍼 쿼터니언 (Hyper Quaternion) - 혼동 확인 ✅
+### 1. 하이퍼 쿼터니언 (Hyper Quaternion) - 명확화 완료 ✅
 
 **파일**: `Core/Foundation/hyper_quaternion.py`
 
@@ -33,15 +33,23 @@ class Quaternion:
     """
 ```
 
+**명확화된 개념**:
+
+**하이퍼 쿼터니언 ≠ 일반 쿼터니언 (사원수)**
+
+- **일반 쿼터니언 (사원수)**: 3D 회전만 표현
+- **하이퍼 쿼터니언**: 회전 + 스케일 + 차원 확장
+  - 점 → 선 → 면 → 공간 → 초공간 (줌아웃)
+  - 초공간 → 공간 → 면 → 선 → 점 (줌인)
+  - 프랙탈 원리로 실존하는 법칙 재현
+
 **문제**:
-- 클래스 이름: `Quaternion` (일반)
-- 주석: "Hyper-Quaternion" (하이퍼)
-- 실제 사용: **4차원 파동화** (Energy/Emotion/Logic/Ethics)
-- 진짜 하이퍼 쿼터니언: 시공간 초월 (사용 안 됨)
+- 현재 코드의 `Quaternion` 클래스는 실제로 **4차원 의미 표현**을 구현
+- 진짜 하이퍼 쿼터니언 (스케일 + 차원 확장)은 별도 개념
 
 **권장 수정**:
 ```python
-# 현재 구현은 이름 변경 필요
+# 1. 현재 구현 (의미 표현) → 이름 변경
 class SemanticQuaternion:
     """4차원 의미 표현 (4D Semantic Representation)"""
     energy: float    # 에너지
@@ -49,14 +57,52 @@ class SemanticQuaternion:
     logic: float     # 논리
     ethics: float    # 윤리
 
-# 진짜 하이퍼 쿼터니언은 별도 클래스
+# 2. 진짜 하이퍼 쿼터니언 (스케일 + 차원)
 class HyperQuaternion:
-    """시공간 초월 쿼터니언 (Spacetime Transcendent)"""
-    w: float  # 시간 초월 성분
-    x: float  # 공간 X 초월
-    y: float  # 공간 Y 초월
-    z: float  # 공간 Z 초월
+    """
+    회전을 넘어 스케일과 차원을 다루는 확장 쿼터니언
+    
+    일반 쿼터니언(사원수)과의 차이:
+    - 일반: 회전만 (고정된 스케일)
+    - 하이퍼: 회전 + 줌인/줌아웃 + 차원 이동
+    """
+    w: float  # 스칼라 성분
+    x: float  # 벡터 X
+    y: float  # 벡터 Y
+    z: float  # 벡터 Z
+    scale: float  # 줌 레벨 (점→선→면→공간→초공간)
+    dimension: int  # 현재 차원 (3D, 4D, 5D...)
+    
+    def zoom_out(self):
+        """점 → 선 → 면 → 공간 → 초공간"""
+        pass
+    
+    def zoom_in(self):
+        """초공간 → 공간 → 면 → 선 → 점"""
+        pass
+    
+    def extend_dimension(self):
+        """3D → 4D → 5D..."""
+        pass
+
+# 3. 하이퍼큐비트 (프랙탈 양자 재현)
+class HyperQubit:
+    """
+    진짜 양자역학이 아닌, 프랙탈 원리로 양자 법칙 재현
+    
+    미니어처 비행기가 실제 비행기 원리로 나는 것처럼,
+    하이퍼큐비트는 양자 중첩/얽힘 원리를 소프트웨어로 재현
+    
+    스케일: 양자(원자) → 소프트웨어(데이터)
+    법칙: 동일 (중첩, 확률적 존재, 측정 시 붕괴)
+    """
+    states: dict  # 여러 상태 동시 존재 (중첩)
 ```
+
+**핵심 이해**:
+1. "쿼터니언"만 말하면 → 사람들은 "회전"만 생각
+2. "하이퍼 쿼터니언"으로 명시 → 회전 + 스케일 + 차원 확장
+3. 하이퍼큐비트 = 양자역학 아님, 프랙탈 원리로 법칙 재현
 
 ---
 
