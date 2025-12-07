@@ -243,6 +243,51 @@ class StarlightMemory:
         
         return star
     
+    def scatter_batch(
+        self,
+        batch_data: List[Tuple[bytes, Dict[str, float], Dict[str, Any]]]
+    ) -> List[Starlight]:
+        """
+        Scatter multiple memories at once (Bulk / Stream Mode).
+        Optimized for high-volume ingestion (100, 1000, 10000+).
+        
+        Args:
+            batch_data: List of (rainbow_bytes, emotion, context)
+            
+        Returns:
+            List of created Starlight objects
+        """
+        new_stars = []
+        
+        for r_bytes, emotion, context in batch_data:
+            star = Starlight(
+                rainbow_bytes=r_bytes,
+                x=emotion.get('x', 0.5),
+                y=emotion.get('y', 0.5),
+                z=emotion.get('z', 0.5),
+                w=emotion.get('w', 0.5),
+                brightness=context.get('brightness', 1.0) if context else 1.0,
+                emotional_gravity=context.get('gravity', 0.5) if context else 0.5,
+                tags=context.get('tags', []) if context else []
+            )
+            new_stars.append(star)
+            
+        # Bulk add to universe
+        self.universe.extend(new_stars)
+        
+        # Mark index dirty once for the whole batch
+        self._index_dirty = True
+        
+        # Assign to galaxies (could be optimized with spatial query, but linear is fine for assignment)
+        # TODO: Optimize this for 10k+ batches using vectorized assignment
+        for star in new_stars:
+            nearest = self._find_nearest_galaxy(star)
+            if nearest:
+                nearest.add_star(star)
+                
+        logger.info(f"🌠 Scattered batch of {len(new_stars)} stars into the universe.")
+        return new_stars
+    
     def _find_nearest_galaxy(self, star: Starlight) -> Optional[Galaxy]:
         """Find the nearest emotional galaxy for this star"""
         if not self.galaxies:

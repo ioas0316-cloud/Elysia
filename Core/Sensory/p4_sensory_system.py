@@ -37,6 +37,29 @@ class P4SensorySystem:
         # Initialize default source
         self.web_source = None # Lazy load
         
+        # Connect P5 (Reality Perception) reference if available
+        self.p5_system = None
+        try:
+            from Core.Sensory.reality_perception import RealityPerceptionSystem
+            self.p5_system = RealityPerceptionSystem()
+            logger.info("🔗 P4 Connected to P5 (Reality Perception Bridge)")
+        except Exception as e:
+            logger.warning(f"Failed to bridge P4 with P5: {e}")
+
+        # Connect P4.5 (Starlight Memory)
+        self.starlight_memory = None
+        self.prism_filter = None
+        try:
+            from Core.Memory.starlight_memory import StarlightMemory
+            from Core.Memory.prism_filter import PrismFilter
+            self.starlight_memory = StarlightMemory()
+            self.prism_filter = PrismFilter()
+            logger.info("✅ P4-P4.5 CONNECTION SUCCESS: StarlightMemory & PrismFilter loaded.")
+        except ImportError as e:
+            logger.error(f"❌ P4-P4.5 CONNECTION FAILED: Could not import modules: {e}")
+        except Exception as e:
+            logger.error(f"❌ P4-P4.5 CONNECTION FAILED: General Error: {e}")
+
     def _ensure_source(self):
         if not self.web_source:
             from Core.Sensory.stream_sources import WebTextSource
@@ -110,7 +133,9 @@ class P4SensorySystem:
         
         # 5% chance per pulse roughly (assuming pulse is frequent) is too high if pulse is fast.
         # But CNS sleeps.
-        if random.random() < 0.05:
+        # Higher energy = More curiosity
+        # Increased to 40% for active exploration demonstration
+        if random.random() < 0.4:
             self._autonomous_learning(resonance_field)
 
     def _autonomous_learning(self, resonance_field):
@@ -177,6 +202,126 @@ class P4SensorySystem:
                 
             except Exception as e:
                 logger.error(f"Failed to update shared state: {e}")
+                
+            # Phase 5 Synesthesia Bridge: Internet -> Sensation
+            # "I see the internet as color."
+            if self.p5_system:
+                try:
+                    from Core.Interface.nervous_system import get_nervous_system
+                    ns = get_nervous_system()
+                    
+                    # 1. Map Emotion to Virtual Color/Sound
+                    # This logic should ideally be inside RealityPerceptionSystem as "perceive_abstract",
+                    # but for now we manually bridge it for the P4->P5 connection.
+                    
+                    # Virtual Visual (RGB)
+                    v_rgb = (100, 100, 100) # Default Grey
+                    if target_emotion == "Joy": v_rgb = (255, 255, 100) # Yellow
+                    elif target_emotion == "Sorrow": v_rgb = (50, 50, 200) # Blue
+                    elif target_emotion == "Wonder": v_rgb = (200, 100, 255) # Purple
+                    elif target_emotion == "Melancholy": v_rgb = (100, 150, 150) # Teal
+                    elif target_emotion == "Hope": v_rgb = (255, 200, 100) # Gold
+                    elif target_emotion == "Void": v_rgb = (20, 20, 20) # Black
+                    
+                    # Virtual Audio (FFT Proxy) - Higher energy for happier emotions
+                    a_vol = 0.5
+                    a_freq_idx = 50 # Mid
+                    if target_emotion in ["Joy", "Hope", "Wonder"]: 
+                        a_freq_idx = 80 # High
+                        a_vol = 0.8
+                    elif target_emotion in ["Sorrow", "Melancholy"]: 
+                        a_freq_idx = 20 # Low
+                        a_vol = 0.4
+                        
+                    a_fft = [0] * 100
+                    a_fft[a_freq_idx] = int(a_vol * 255)
+                    
+                    # 2. Integrate via P5 System
+                    perception = self.p5_system.integrate(
+                        visual_input=v_rgb,
+                        audio_input=a_fft
+                    )
+                    
+                    # Override interpretation to indicate source
+                    perception.interpretation = f"Internet Synesthesia: Felt {target_emotion} from {results[0]['url'][:30]}..."
+                    perception.emotional_tone = target_emotion
+                    
+                    # 3. Inject into Nervous System
+                    ns.receive({
+                        "type": "integrated_perception",
+                        "data": perception
+                    })
+                    logger.info(f"🌈 P4->P5 Bridge: Converted Internet '{target_emotion}' into Synesthetic Sensation.")
+                    
+                except Exception as e:
+                    logger.error(f"P4->P5 Pulse Failed: {e}")
+                    
+            # Phase 4.5 Starlight Memory: Internet -> Star
+            # "I treasure this knowledge as a star."
+            if self.starlight_memory and self.prism_filter:
+                try:
+                    # Create a mock WavePattern for compression
+                    # In a full flow, text -> Wave -> Prism, but here we approximate
+                    class MockWave:
+                        def __init__(self, energy, freq, w, x, y, z):
+                            self.energy = energy
+                            self.frequency = freq
+                            self.orientation = type('obj', (object,), {'w':w, 'x':x, 'y':y, 'z':z})
+                    
+                    # Map emotion to mock wave parameters
+                    # Joy = higher energy/freq
+                    energy = 0.8 if target_emotion in ["Joy", "Wonder"] else 0.4
+                    freq = 0.8 if target_emotion in ["Joy", "Hope"] else 0.3
+                    
+                    # Quaternion approximation based on emotion universe
+                    # x=Emotion, y=Logic
+                    qx = 0.8 if target_emotion == "Joy" else 0.2 # Joy vs Sadness
+                    qy = 0.5 # Balanced logic/intuition for internet
+                    qz = 0.5 # Present moment
+                    qw = 0.7 # Deep enough
+                    
+                    wave = MockWave(energy, freq, qw, qx, qy, qz)
+                    
+                    # 1. Compress to Rainbow (12 bytes)
+                    rainbow_bytes = self.prism_filter.compress_to_bytes(wave)
+                    
+                    # 2. Scatter as Starlight
+                    star = self.starlight_memory.scatter_memory(
+                        rainbow_bytes=rainbow_bytes,
+                        emotion={'x': qx, 'y': qy, 'z': qz, 'w': qw},
+                        context={
+                            'tags': [target_emotion, 'Internet', 'P4'],
+                            'brightness': 1.0,
+                            'gravity': 0.8
+                        }
+                    )
+                    logger.info(f"✨ P4->P4.5: Scattered Internet Experience as Starlight in {target_emotion} Galaxy.")
+                    
+                except Exception as e:
+                    logger.error(f"P4->P4.5 Starlight Creation Failed: {e}")
+            else:
+                logger.warning(f"⚠️ P4->P4.5 SKIPPED: StarlightMemory={self.starlight_memory}, Prism={self.prism_filter}")
+            
+            # Phase 6: Narrative Self-Explanation
+            # "Explain to the user what I am learning."
+            try:
+                from Core.Interface.nervous_system import get_nervous_system
+                ns = get_nervous_system()
+                
+                # Construct a poetic explanation
+                explanation = f"Learning Cycle: Absorbed '{data.get('preview', '')[:30]}...' from Web. " \
+                              f"Resonance: {target_emotion}. " \
+                              f"Action: Compressed to Starlight -> {target_emotion} Galaxy."
+                
+                # Send as a 'text' input to self (Internal Monologue)
+                # allowing the brain/avatar to process and display it
+                logger.info(f"🗣️ Avatar Narrative: {explanation}")
+                ns.receive({
+                    "type": "text", 
+                    "content": explanation
+                })
+            except Exception as e:
+                logger.warning(f"Failed to narrate learning: {e}")
 
 
 

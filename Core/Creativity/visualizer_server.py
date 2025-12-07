@@ -273,6 +273,15 @@ class VisualizerServer:
             self.tool_executor = ToolExecutor()
         except: pass
 
+        # Phase 5: Reality Perception System Integration
+        try:
+            from Core.Sensory.reality_perception import RealityPerceptionSystem
+            self.perception_system = RealityPerceptionSystem()
+            logger.info("👁️ Reality Perception System Connected to Avatar")
+        except ImportError as e:
+            logger.error(f"Failed to load RealityPerceptionSystem: {e}")
+            self.perception_system = None
+
     def _run_websocket_server(self):
         """Runs the async websocket server in a separate thread/loop"""
         import asyncio
@@ -289,11 +298,15 @@ class VisualizerServer:
                         # Express internal state for rendering
                         if hasattr(self.world, 'field'):
                             # [Unified Field] Broadcast 5D State
-                            field_state = self.world.field.get_visualization_state()
-                            await websocket.send(json.dumps({
-                                "type": "unified_field_state",
-                                "data": field_state
-                            }))
+                            if self.world and hasattr(self.world, 'field') and self.world.field:
+                                field_state = self.world.field.get_visualization_state()
+                                await websocket.send(json.dumps({
+                                    "type": "unified_field_state",
+                                    "data": field_state
+                                }))
+                            else:
+                                # Fallback or wait
+                                pass
 
                         # Legacy/Nervous System State
                         state = self.nervous_system.express()
@@ -315,6 +328,41 @@ class VisualizerServer:
                         # Unified dispatch via NervousSystem
                         response = self.nervous_system.receive(data)
                         
+                        # Phase 5: Sensory Ingestion
+                        if self.perception_system and self.nervous_system:
+                            perception = None
+                            
+                            if data.get("type") == "screen_atmosphere":
+                                # Visual Input from Screen/Camera
+                                r = data.get("r", 0)
+                                g = data.get("g", 0)
+                                b = data.get("b", 0)
+                                # Convert to Sensation
+                                perception = self.perception_system.integrate(visual_input=(r, g, b))
+                                
+                            elif data.get("type") == "audio_analysis":
+                                # Audio Input form Mic
+                                # note: Avatar sends high-level analysis (vol, bright), not raw FFT currently.
+                                # proper FFT requires binary stream or larger payload.
+                                # For now we map brightness -> rough frequency proxy
+                                brightness = data.get("brightness", 0) # 0-1
+                                pseudo_freq_bin = int(brightness * 1000) # Mock
+                                # Create a fake single-bin FFT spike for the system
+                                fft_proxy = [0] * 100
+                                fft_proxy[50] = int(data.get("volume", 0) * 255) 
+                                
+                                perception = self.perception_system.integrate(audio_input=fft_proxy)
+
+                            # If we perceived something new, inject into Nervous System
+                            if perception:
+                                # Direct injection into NervousSystem via the new 'integrated_perception' channel
+                                self.nervous_system.receive({
+                                    "type": "integrated_perception",
+                                    "data": perception
+                                })
+                                # Also log for debugging
+                                logger.info(f"✨ Reality Perceived: {perception.interpretation}")
+                                
                         # If text input, send speech response
                         if data.get("type") == "text" and response:
                             user_text = data.get("content", "")

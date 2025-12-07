@@ -147,6 +147,8 @@ class NervousSystem:
             return self._process_screen(sensor_input)
         elif sensor_type == "text":
             return self._process_text(sensor_input)
+        elif sensor_type == "integrated_perception":
+            return self._process_integrated_perception(sensor_input.get("data"))
         else:
             logger.debug(f"Unknown sensor type: {sensor_type}")
             return None
@@ -223,6 +225,72 @@ class NervousSystem:
             
         self._normalize_spirits()
         
+    def _process_integrated_perception(self, perception: Any) -> None:
+        """
+        Phase 5: Processes rich Reality Perception data.
+        Maps real-world frequencies to Spirit/Soul state.
+        """
+        if not perception: return
+        
+        # 1. Visual Influence (Color THz -> Emotion)
+        # perception.visual is a VisualProperties object (or dict/duck)
+        if hasattr(perception, 'visual'):
+            hue = perception.visual.hue
+            brightness = perception.visual.brightness
+            saturation = perception.visual.saturation
+            
+            # Map Hue to Spirit (Complex mapping)
+            # 0-60 (Red/Yellow) -> Fire, Light
+            if 0 <= hue < 60:
+                self.spirits["fire"] += 0.05 * saturation
+                self.spirits["light"] += 0.03 * brightness
+            # 60-180 (Green) -> Earth, Water
+            elif 60 <= hue < 180:
+                self.spirits["earth"] += 0.05 * saturation
+                self.spirits["water"] += 0.02 * brightness
+            # 180-260 (Blue) -> Water, Air
+            elif 180 <= hue < 260:
+                self.spirits["water"] += 0.05 * saturation
+                self.spirits["air"] += 0.03 * brightness
+            # 260-360 (Violet) -> Aether, Dark
+            else:
+                self.spirits["aether"] += 0.05 * saturation
+                self.spirits["dark"] += 0.03 * (1.0 - brightness)
+
+        # 2. Audio Influence (Hz -> Resonance)
+        if hasattr(perception, 'audio'):
+            freq = perception.audio.frequency
+            vol = perception.audio.volume
+            
+            if vol > 0.1:
+                # Map Frequency to Solfeggio Effects (Simplified Spirit Mapping)
+                if freq < 200: # Low/Bass -> Earth/Dark
+                    self.spirits["earth"] += 0.04 * vol
+                elif freq < 500: # Mid/Warm -> Water/Fire
+                    self.spirits["water"] += 0.04 * vol
+                elif freq < 2000: # High/Clear -> Air/Light
+                    self.spirits["air"] += 0.04 * vol
+                else: # Very High -> Aether
+                    self.spirits["aether"] += 0.04 * vol
+
+        # 3. Inject "Meaning" into Resonance Field
+        # If the perception came with an interpretation/feeling
+        if hasattr(perception, 'emotional_tone') and self.field:
+            tone = perception.emotional_tone
+            # "passion" -> Fire+
+            # "calm" -> Water+
+            # "spiritual" -> Aether+
+            
+            # Inject Wave directly
+            self.field.inject_wave(
+                frequency=getattr(perception, 'dominant_frequency_hz', 440),
+                intensity=getattr(perception.audio if hasattr(perception, 'audio') else object(), 'volume', 0.5),
+                wave_type="RealityPerception",
+                payload=tone
+            )
+            
+        self._normalize_spirits()
+
     def _process_text(self, data: Dict) -> str:
         """Processes text input - triggers thought and response"""
         text = data.get("content", "")

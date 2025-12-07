@@ -144,17 +144,28 @@ class ResonanceField:
         )
         print(f"      🌌 Gravity Well Created at ({x}, {y}) with strength {strength}")
         
-    def inject_wave(self, frequency: float, intensity: float, wave_type: str):
+    def inject_wave(self, frequency: float, intensity: float, wave_type: str, payload: Any = None):
         """
         외부 파동(Synesthesia)을 공명장에 주입합니다.
+        Args:
+            frequency: Wave frequency (Hz)
+            intensity: Wave amplitude (0.0-1.0)
+            wave_type: "Visual", "Audio", "RealityPerception"
+            payload: Optional data carried by the wave (e.g. emotion string)
         """
         target_node = min(self.nodes.values(), key=lambda n: abs(n.frequency - frequency))
         target_node.energy += intensity * 10.0
         self.nodes["Foundation"].energy += intensity
         
-        colors = {"Visual": "🎨", "Audio": "🎵", "Tactile": "💓"}
+        colors = {"Visual": "🎨", "Audio": "🎵", "Tactile": "💓", "RealityPerception": "✨"}
         icon = colors.get(wave_type, "🌊")
-        print(f"      {icon} Synesthesia Wave Injected: {frequency}Hz ({wave_type}) -> Resonating with {target_node.id}")
+        
+        log_msg = f"      {icon} Synesthesia Wave Injected: {frequency}Hz ({wave_type}) -> Resonating with {target_node.id}"
+        if payload:
+            log_msg += f" [Payload: {payload}]"
+            
+        print(log_msg) # Keep print for console visibility in run_life loop
+        # logger.info(log_msg) # Only if logger is defined
 
     def inject_entropy(self, amount: float):
         """

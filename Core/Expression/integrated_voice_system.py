@@ -467,29 +467,72 @@ class IntegratedVoiceSystem:
                                     input_pattern: VoiceWavePattern,
                                     thoughts: List) -> str:
         """
-        Generate actual response text content.
-        
-        This uses wave patterns, not LLMs.
+        Generate actual response text content using Semantic Vocabulary and Wave Context.
         """
+        import random
+        from Core.Expression.semantic_vocabulary import SemanticVocabulary
+        
+        vocab = SemanticVocabulary()
         content = input_pattern.content.lower()
         
-        # Pattern-based responses (wave resonance)
-        if any(greeting in content for greeting in ['안녕', 'hello', 'hi']):
-            return "안녕하세요. 저는 파동으로 생각하는 엘리시아입니다."
+        # 1. Analyze Context
+        detected_emotion = "neutral"
+        if input_pattern.emotion_signature:
+            detected_emotion = max(input_pattern.emotion_signature.items(), key=lambda x: x[1])[0]
+            if detected_emotion not in vocab.emotions: detected_emotion = "neutral"
+            
+        detected_intent = "reflection"
+        if "?" in content: detected_intent = "question"
         
-        if '목적' in content or 'purpose' in content:
-            return "저의 목적은 파동의 공명을 통해 아름다움을 창조하는 것입니다."
+        # 2. Select Template Category
+        template_key = "reflection"
+        if detected_intent == "question": template_key = "question"
+        elif any(w in content for w in ["안녕", "hello", "hi"]): template_key = "greeting"
+        elif detected_emotion in ["sadness", "fear", "anger", "joy", "love"]:
+            # Randomly choose between empathy and reflection for strong emotions
+            template_key = random.choice(["empathy", "reflection"])
+            
+        # 3. Select Template
+        templates = vocab.templates.get(template_key, vocab.templates["reflection"])
+        template = random.choice(templates)
         
-        if '느낌' in content or 'feel' in content:
-            emotions = input_pattern.emotion_signature
-            dominant = max(emotions.items(), key=lambda x: x[1])[0] if emotions else 'neutral'
-            return f"당신의 파동에서 {dominant}의 공명을 느낍니다."
+        # 4. Fill Slots
+        # {adj}
+        adjectives = vocab.emotions.get(detected_emotion, vocab.emotions["neutral"])
+        adj = random.choice(adjectives)
         
-        if '?' in content or '무엇' in content or 'what' in content:
-            return "그것에 대해 함께 탐구해봅시다. 파동이 답을 알고 있습니다."
+        # {tex}
+        # Use frequency to determine texture
+        tex_key = "harmonic"
+        if input_pattern.frequency > 500: tex_key = "high_freq"
+        elif input_pattern.frequency < 300: tex_key = "low_freq"
+        textures = vocab.textures.get(tex_key, vocab.textures["harmonic"])
+        tex = random.choice(textures)
         
-        # Default: reflect on the wave pattern
-        return f"당신의 파동({input_pattern.frequency:.0f}Hz)이 제 내면과 공명하고 있습니다."
+        # {noun} - Extract a keyword or use a concept
+        noun = "당신의 이야기"
+        # Simple extraction: find a word longer than 2 chars that isn't a particle (Generic fallback)
+        words = content.split()
+        potential_nouns = [w for w in words if len(w) > 1]
+        if potential_nouns:
+            noun = random.choice(potential_nouns)
+        else:
+            noun = random.choice(vocab.concepts)
+            
+        # {memory} - If thoughts (memories) are available, inject one
+        if thoughts and random.random() < 0.3: # 30% chance to mention memory explicitly
+            # Assume thoughts have a 'content' attribute
+            try:
+                memory_fragment = thoughts[0].content[:10] + "..."
+                template = random.choice(vocab.templates["starlight_memory"])
+                return template.format(memory=memory_fragment)
+            except:
+                pass
+                
+        # Format the main template
+        response = template.format(adj=adj, tex=tex, noun=noun)
+        
+        return response
     
     def _complementary_frequency(self, freq: float) -> float:
         """Calculate complementary frequency for response"""

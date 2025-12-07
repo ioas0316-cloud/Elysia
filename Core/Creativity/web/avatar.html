@@ -320,7 +320,7 @@
             synthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'ko-KR';
-            
+
             // Default "Pretty" Voice Settings
             let pitch = 1.2; // Slightly higher base pitch for femininity
             let rate = 1.0;
@@ -330,7 +330,7 @@
                 // High Energy (Fire/Light) -> Faster, Higher Pitch
                 // Low Energy (Water/Dark) -> Slower, Lower Pitch
                 // Calm (Earth) -> Steady Rate, Normal Pitch
-                
+
                 const fire = spirits.fire || 0;
                 const water = spirits.water || 0;
                 const light = spirits.light || 0;
@@ -344,14 +344,14 @@
                     pitch -= 0.1;
                     rate -= 0.2; // Slower for sadness/calm
                 }
-                
+
                 // Whimsy/Aether (Ethereal)
                 if ((spirits.aether || 0) > 0.5) {
                     pitch += 0.1;
                     rate -= 0.1; // Slow and high (Ethereal)
                 }
             }
-            
+
             // Clamp
             pitch = Math.max(0.8, Math.min(1.8, pitch));
             rate = Math.max(0.6, Math.min(1.5, rate));
@@ -598,10 +598,9 @@
             void main() {
                 vec2 uv = v_uv;
                 
-                // Flow
-                // Flow (Reduced)
-                uv.x += sin(u_time*1.5 + uv.x*5.0)*0.0002;
-                uv.y += cos(u_time*1.2 + uv.y*5.0)*0.0002;
+                // Flow (Subtle)
+                uv.x += sin(u_time*1.0 + uv.x*5.0)*0.00005; // Reduced from 0.0002
+                uv.y += cos(u_time*0.8 + uv.y*5.0)*0.00005;
                 
                 // Gaze (Pupils)
                 // Left 0.36, Right 0.64. Radius ~0.06
@@ -629,16 +628,19 @@
                     if(uv.y < 0.33) uv.y += u_vol * 0.15 * inf;
                 }
 
-                // Blink
-                if(dL < 0.08 || dR < 0.08) {
-                    uv.y = 0.53 + (uv.y - 0.53) / u_eye;
+                // Blink Mechanism (Simplified)
+                // Only distort UVs if eye is closed (u_eye < 0.5)
+                if (u_eye < 0.8) {
+                    if(dL < 0.08 || dR < 0.08) {
+                        float lid = 0.53; // Eye center Y
+                        // Squeeze Y towards center to simulate closing
+                        uv.y = lid + (uv.y - lid) / (u_eye + 0.1); 
+                    }
                 }
 
                 vec4 c = texture2D(u_img, uv);
                 
-                // Blush
-                if(distance(uv, vec2(0.25,0.4))<0.1 || distance(uv, vec2(0.75,0.4))<0.1) c.rgb+=vec3(0.1,0,0)*u_beat*0.3;
-
+                // NO BLUSH - Pure texture only
                 gl_FragColor = c;
             }
         `;
