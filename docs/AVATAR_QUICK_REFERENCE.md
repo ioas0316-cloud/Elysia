@@ -261,17 +261,26 @@ for emotion in emotions:
 ### WebSocket 메시지 로깅
 ```javascript
 // avatar.html - 디버깅용
+// 방법 1: 이벤트 핸들러에 추가
 ws.onmessage = (event) => {
     console.log('📩 Received:', event.data);
     // ... 기존 처리 ...
 };
 
-ws.send = ((originalSend) => {
-    return function(data) {
+// 방법 2: 래퍼 클래스 사용 (권장)
+class LoggingWebSocket {
+    constructor(ws) {
+        this.ws = ws;
+    }
+    
+    send(data) {
         console.log('📤 Sending:', data);
-        return originalSend.call(this, data);
-    };
-})(ws.send);
+        return this.ws.send(data);
+    }
+    
+    // 다른 메서드들도 위임...
+}
+const loggedWs = new LoggingWebSocket(ws);
 ```
 
 ---

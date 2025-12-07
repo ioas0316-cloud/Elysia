@@ -880,6 +880,7 @@ avatar_fps = Gauge('avatar_fps_current', 'Current FPS')
 
 ```python
 # 프로덕션 로깅 설정
+# 설치 필요: pip install python-json-logger
 import logging.config
 
 LOGGING_CONFIG = {
@@ -890,6 +891,7 @@ LOGGING_CONFIG = {
             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
         },
         'json': {
+            # 대안: 'class': 'logging.Formatter' 사용 가능
             'class': 'pythonjsonlogger.jsonlogger.JsonFormatter',
             'format': '%(asctime)s %(name)s %(levelname)s %(message)s'
         }
@@ -1043,11 +1045,12 @@ class VRMEditor {
 
 ```bash
 # tensor_wave가 어디에 정의되어 있는지 찾기
-cd /home/runner/work/Elysia/Elysia
+# 프로젝트 루트에서 실행하세요
+cd "$(git rev-parse --show-toplevel)" 2>/dev/null || cd "$(dirname "$(find . -name 'start_avatar_web_server.py' 2>/dev/null | head -1)")"
 find . -name "tensor_wave.py" -o -name "*tensor*.py" | grep -v __pycache__
 
 # 또는 Python에서 확인
-python -c "from Core.Foundation import tensor_wave; print(tensor_wave.__file__)"
+python -c "import sys; sys.path.insert(0, '.'); from Core.Foundation import tensor_wave; print(tensor_wave.__file__)" 2>&1 || echo "Module not found"
 ```
 
 #### 단계 2: 임포트 경로 수정

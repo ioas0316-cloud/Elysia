@@ -148,10 +148,13 @@ Only send changed values:
 ```
 Client → Load Balancer → [Avatar Server 1, 2, 3...]
                               ↓
-                           Redis (state sharing)
-                              ↓
-                        Message Queue (RabbitMQ)
+                           Redis (state sharing + pub/sub)
+                              ↓ (optional)
+                        Message Queue (RabbitMQ/Kafka)
+                        (for event sourcing, audit logs)
 ```
+
+**Note**: Message queue is optional - Redis pub/sub can handle real-time synchronization for most use cases.
 
 **Benefits**:
 - 10x+ concurrent users
