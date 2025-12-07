@@ -15,7 +15,7 @@ from datetime import datetime
 
 # Import tensor/wave types if available, with graceful fallback
 try:
-    from tensor_wave import Tensor3D, FrequencyWave
+    from Core.Foundation.hangul_physics import Tensor3D
     HAS_TENSOR_WAVE = True
 except ImportError:
     HAS_TENSOR_WAVE = False
@@ -25,13 +25,14 @@ except ImportError:
             self.x, self.y, self.z = x, y, z
         def to_dict(self):
             return {"x": self.x, "y": self.y, "z": self.z}
-    
-    class FrequencyWave:
-        def __init__(self, freq=0.0, amp=0.0, phase=0.0, damping=0.0):
-            self.frequency = freq
-            self.amplitude = amp
-            self.phase = phase
-            self.damping = damping
+
+# FrequencyWave definition (local to this module)
+class FrequencyWave:
+    def __init__(self, freq=0.0, amp=0.0, phase=0.0, damping=0.0):
+        self.frequency = freq
+        self.amplitude = amp
+        self.phase = phase
+        self.damping = damping
 
 
 @dataclass

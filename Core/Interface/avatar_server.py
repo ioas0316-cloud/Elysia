@@ -32,6 +32,7 @@ import json
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Dict, Any, Optional, Set, List, TYPE_CHECKING
 from dataclasses import dataclass, asdict
@@ -94,6 +95,18 @@ except ImportError:
     if __name__ == "__main__":
         sys.exit(1)
 
+# Avatar Physics Engine (Phase 4)
+try:
+    from Core.Foundation.avatar_physics import AvatarPhysicsEngine, Vector3D
+    logger.info("✅ Avatar Physics Engine loaded")
+    PHYSICS_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"⚠️ Could not load Avatar Physics Engine: {e}")
+    logger.info("ℹ️ Running without physics engine")
+    AvatarPhysicsEngine = None
+    Vector3D = None
+    PHYSICS_AVAILABLE = False
+
 
 @dataclass
 class Expression:
@@ -127,6 +140,10 @@ class ElysiaAvatarCore:
         self.expression = Expression()
         self.spirits = Spirits()
         self.beat_phase = 0.0
+        
+        # Delta update tracking
+        self.last_state = None
+        self.delta_threshold = 0.01  # Minimum change to trigger update
         
         # Initialize emotional system
         if EmotionalEngine:
@@ -173,6 +190,23 @@ class ElysiaAvatarCore:
         except Exception as e:
             logger.warning(f"⚠️ Could not initialize lip-sync engine: {e}")
             self.lipsync_engine = None
+        
+        # Initialize physics engine (Phase 4)
+        if PHYSICS_AVAILABLE and AvatarPhysicsEngine:
+            self.physics_engine = AvatarPhysicsEngine()
+            # Initialize with default hair bones (5 nodes from head to tip)
+            default_bones = [
+                Vector3D(0, 2.0, 0),
+                Vector3D(0, 1.8, -0.2),
+                Vector3D(0, 1.6, -0.4),
+                Vector3D(0, 1.4, -0.6),
+                Vector3D(0, 1.2, -0.8)
+            ]
+            self.physics_engine.initialize_hair_springs(default_bones)
+            logger.info("⚡ Physics engine initialized (hair dynamics)")
+        else:
+            self.physics_engine = None
+            logger.warning("⚠️ Running without physics engine")
     
     def update_expression_from_emotion(self, emotion_name: str = None):
         """
@@ -245,6 +279,27 @@ class ElysiaAvatarCore:
         self.spirits.aether = max(0.0, min(1.0, 
             0.1 + (extremity * 0.4 if extremity > 0.7 else 0)
         ))
+    
+    def update_physics_from_emotion(self):
+        """
+        Update physics engine based on emotional state.
+        
+        Maps emotions to physical parameters:
+        - Valence → gravity direction
+        - Arousal → wind strength/turbulence
+        - Dominance → wave frequency
+        """
+        if not self.physics_engine or not self.emotional_engine:
+            return
+        
+        state = self.emotional_engine.current_state
+        
+        # Update physics with emotional state
+        self.physics_engine.update_from_emotion(
+            valence=state.valence,
+            arousal=state.arousal,
+            dominance=state.dominance
+        )
     
     def update_beat(self, delta_time: float):
         """Update heartbeat animation"""
@@ -401,11 +456,72 @@ class ElysiaAvatarCore:
     def get_state_message(self) -> Dict[str, Any]:
         """
         Get current avatar state as a message for client.
+        Includes expression, spirits, and physics (Phase 4).
         """
+        # Update physics if available
+        physics_data = None
+        if self.physics_engine:
+            self.update_physics_from_emotion()
+            physics_state = self.physics_engine.update()
+            physics_data = {
+                "wind": physics_state["wind"],
+                "gravity": physics_state["gravity"],
+                "wave_params": physics_state["wave_params"],
+                "performance": physics_state["performance"]
+            }
+        
         return {
             "expression": asdict(self.expression),
-            "spirits": asdict(self.spirits)
+            "spirits": asdict(self.spirits),
+            "physics": physics_data  # Phase 4: Physics state
         }
+    
+    def get_delta_message(self) -> Optional[Dict[str, Any]]:
+        """
+        Get only changed values (delta update) to reduce bandwidth.
+        
+        Returns:
+            Dictionary with only changed values, or None if no significant changes
+        """
+        current_state = self.get_state_message()
+        
+        # First update: send full state
+        if self.last_state is None:
+            self.last_state = current_state
+            return {"type": "full", **current_state}
+        
+        # Calculate delta
+        delta = {"type": "delta"}
+        has_changes = False
+        
+        # Check expression changes
+        expr_delta = {}
+        for key, value in current_state['expression'].items():
+            old_value = self.last_state['expression'].get(key, 0)
+            if abs(value - old_value) > self.delta_threshold:
+                expr_delta[key] = value
+                has_changes = True
+        
+        if expr_delta:
+            delta['expression'] = expr_delta
+        
+        # Check spirits changes
+        spirit_delta = {}
+        for key, value in current_state['spirits'].items():
+            old_value = self.last_state['spirits'].get(key, 0)
+            if abs(value - old_value) > self.delta_threshold:
+                spirit_delta[key] = value
+                has_changes = True
+        
+        if spirit_delta:
+            delta['spirits'] = spirit_delta
+        
+        # Update last_state if changes detected
+        if has_changes:
+            self.last_state = current_state
+            return delta
+        
+        return None  # No significant changes
 
 
 class AvatarWebSocketServer:
@@ -420,6 +536,13 @@ class AvatarWebSocketServer:
         self.clients: Set[WebSocketServerProtocol] = set()
         self.running = False
         self.last_update_time = asyncio.get_event_loop().time()
+        
+        # Adaptive FPS settings
+        self.target_fps = 30  # Base target FPS
+        self.min_fps = 15     # Minimum FPS (idle)
+        self.max_fps = 60     # Maximum FPS (high activity)
+        self.activity_level = 0.0  # Start at 0.0 (idle)
+        self.last_message_time = time.time() - 10.0  # Start as if 10s ago (idle state)
         
         # Initialize security manager
         try:
@@ -489,6 +612,9 @@ class AvatarWebSocketServer:
                                 'message': error
                             }))
                             continue
+                    
+                    # Track message time for activity calculation
+                    self.last_message_time = time.time()
                     
                     await self.process_message(websocket, data)
                     
@@ -586,11 +712,17 @@ class AvatarWebSocketServer:
             logger.warning(f"Unknown message type: {msg_type}")
     
     async def broadcast_state(self):
-        """Broadcast current state to all connected clients"""
+        """Broadcast current state to all connected clients (with delta optimization)"""
         if not self.clients:
             return
         
-        message = json.dumps(self.core.get_state_message())
+        # Get delta update (only changed values)
+        delta = self.core.get_delta_message()
+        
+        if delta is None:
+            return  # No changes, skip broadcast
+        
+        message = json.dumps(delta)
         
         # Send to all clients
         disconnected = set()
@@ -603,8 +735,51 @@ class AvatarWebSocketServer:
         # Clean up disconnected clients
         self.clients -= disconnected
     
+    def calculate_adaptive_fps(self) -> int:
+        """
+        Calculate adaptive FPS based on activity level.
+        
+        Activity factors:
+        - Recent messages: Higher activity when messages received recently
+        - Number of clients: More clients = higher activity
+        - Emotional arousal: Higher arousal = more expression changes
+        
+        Returns:
+            Target FPS (between min_fps and max_fps)
+        """
+        import time
+        
+        # Factor 1: Time since last message (decays over 10 seconds)
+        time_since_message = time.time() - self.last_message_time
+        message_activity = max(0, 1.0 - (time_since_message / 10.0))
+        
+        # Factor 2: Number of connected clients
+        client_activity = min(1.0, len(self.clients) / 10.0)
+        
+        # Factor 3: Emotional arousal (if available)
+        emotion_activity = 0.0
+        if self.core.emotional_engine:
+            try:
+                state = self.core.emotional_engine.current_state
+                emotion_activity = state.arousal  # 0 to 1
+            except:
+                pass
+        
+        # Combined activity level (weighted average)
+        self.activity_level = (
+            message_activity * 0.4 +
+            client_activity * 0.3 +
+            emotion_activity * 0.3
+        )
+        
+        # Calculate FPS based on activity
+        fps_range = self.max_fps - self.min_fps
+        adaptive_fps = int(self.min_fps + (fps_range * self.activity_level))
+        
+        return adaptive_fps
+    
     async def update_loop(self):
-        """Main update loop for avatar state"""
+        """Main update loop for avatar state with adaptive FPS"""
         while self.running:
             try:
                 current_time = asyncio.get_event_loop().time()
@@ -618,11 +793,14 @@ class AvatarWebSocketServer:
                 self.core.update_expression_from_emotion()
                 self.core.update_spirits_from_emotion()
                 
-                # Broadcast to clients
+                # Broadcast to clients (with delta optimization)
                 await self.broadcast_state()
                 
-                # Update at ~30 FPS
-                await asyncio.sleep(1.0 / 30.0)
+                # Calculate adaptive FPS
+                target_fps = self.calculate_adaptive_fps()
+                sleep_time = 1.0 / target_fps
+                
+                await asyncio.sleep(sleep_time)
             
             except Exception as e:
                 logger.error(f"Error in update loop: {e}")

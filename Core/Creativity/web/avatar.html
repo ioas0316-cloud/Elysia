@@ -180,6 +180,48 @@
             cursor: pointer;
             font-weight: bold;
         }
+
+        /* Connection Status Indicator */
+        body.disconnected::before {
+            content: '⚠️ Disconnected - Reconnecting...';
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 100, 100, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 9999;
+            animation: pulse 1s infinite;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        body.connected::after {
+            content: '✅ Connected';
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(82, 255, 168, 0.9);
+            color: #0a0a1a;
+            padding: 8px 16px;
+            border-radius: 5px;
+            z-index: 9999;
+            font-weight: bold;
+            animation: fadeOut 2s forwards;
+            box-shadow: 0 2px 10px rgba(82, 255, 168, 0.5);
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
     </style>
 </head>
 
@@ -222,30 +264,170 @@
         let audioState = { volume: 0, brightness: 0, noise: 0 };
         let gaze = { x: 0, y: 0 };
 
+        // --- RECONNECTING WEBSOCKET ---
+        class ReconnectingWebSocket {
+            constructor(url, options = {}) {
+                this.url = url;
+                this.reconnectDelay = options.reconnectDelay || 1000;
+                this.maxReconnectDelay = options.maxReconnectDelay || 30000;
+                this.reconnectDecay = options.reconnectDecay || 1.5;
+                this.currentDelay = this.reconnectDelay;
+                this.messageQueue = [];
+                this.maxQueueSize = options.maxQueueSize || 50;
+                this.ws = null;
+                this.reconnectAttempts = 0;
+                this.forcedClose = false;
+                
+                // Event handlers
+                this.onopen = null;
+                this.onclose = null;
+                this.onerror = null;
+                this.onmessage = null;
+                
+                this.connect();
+            }
+            
+            connect() {
+                if (this.forcedClose) return;
+                
+                console.log(`🔌 Connecting to ${this.url}...`);
+                this.ws = new WebSocket(this.url);
+                
+                this.ws.onopen = () => {
+                    console.log('✅ WebSocket connected');
+                    this.reconnectAttempts = 0;
+                    this.currentDelay = this.reconnectDelay;
+                    
+                    // Update UI
+                    document.body.classList.add('connected');
+                    document.body.classList.remove('disconnected');
+                    document.getElementById("status").innerText = "● Linked | 🖱️ Click to Activate";
+                    
+                    // Flush message queue
+                    while (this.messageQueue.length > 0 && this.ws.readyState === WebSocket.OPEN) {
+                        const msg = this.messageQueue.shift();
+                        this.ws.send(msg);
+                    }
+                    
+                    if (this.onopen) this.onopen();
+                };
+                
+                this.ws.onclose = (event) => {
+                    console.log(`⚠️ WebSocket closed (code: ${event.code}, clean: ${event.wasClean})`);
+                    
+                    // Update UI
+                    document.body.classList.remove('connected');
+                    document.body.classList.add('disconnected');
+                    document.getElementById("status").innerText = "● Reconnecting...";
+                    
+                    if (!this.forcedClose && !event.wasClean) {
+                        this.reconnectAttempts++;
+                        const delayToUse = this.currentDelay; // Use current delay
+                        console.log(`🔄 Reconnecting in ${delayToUse}ms... (attempt ${this.reconnectAttempts})`);
+                        
+                        setTimeout(() => {
+                            this.connect();
+                        }, delayToUse);
+                        
+                        // Update delay for next attempt
+                        this.currentDelay = Math.min(
+                            this.currentDelay * this.reconnectDecay,
+                            this.maxReconnectDelay
+                        );
+                    }
+                    
+                    if (this.onclose) this.onclose(event);
+                };
+                
+                this.ws.onerror = (error) => {
+                    console.error('❌ WebSocket error:', error);
+                    if (this.onerror) this.onerror(error);
+                };
+                
+                this.ws.onmessage = (event) => {
+                    if (this.onmessage) this.onmessage(event);
+                };
+            }
+            
+            send(data) {
+                if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+                    this.ws.send(data);
+                } else {
+                    console.warn('⚠️ WebSocket not ready. Queueing message...');
+                    if (this.messageQueue.length < this.maxQueueSize) {
+                        this.messageQueue.push(data);
+                    } else {
+                        console.error('❌ Message queue full. Dropping message.');
+                    }
+                }
+            }
+            
+            close() {
+                this.forcedClose = true;
+                if (this.ws) {
+                    this.ws.close();
+                }
+            }
+            
+            get readyState() {
+                return this.ws ? this.ws.readyState : WebSocket.CLOSED;
+            }
+        }
+
         // --- WEBSOCKET CONNECTION ---
         const wsUrl = `ws://${window.location.hostname}:8765`;
-        const ws = new WebSocket(wsUrl);
-        ws.onopen = () => document.getElementById("status").innerText = "● Linked | 🖱️ Click to Activate";
+        const ws = new ReconnectingWebSocket(wsUrl, {
+            reconnectDelay: 1000,      // 1초 후 재연결
+            maxReconnectDelay: 30000,  // 최대 30초
+            reconnectDecay: 1.5,       // 지수 백오프
+            maxQueueSize: 50           // 최대 큐 크기
+        });
+        
         ws.onmessage = (e) => {
             const data = JSON.parse(e.data);
 
-            // 1. Expression Update
-            if (data.expression) {
-                expression = data.expression;
-                window.expression = expression; // Update global reference for VRM
+            // Handle delta updates (Phase 2 optimization)
+            if (data.type === "delta") {
+                // Apply only changed values
+                if (data.expression) {
+                    Object.assign(expression, data.expression);
+                    window.expression = expression; // Update global reference
+                }
+                if (data.spirits) {
+                    updateSpiritsDisplay(data.spirits, true); // true = partial update
+                }
             }
-
-            // 2. Spirits Update (for thinking panel)
-            if (data.spirits) {
-                updateSpiritsDisplay(data.spirits);
+            // Handle full state updates
+            else if (data.type === "full") {
+                // Full state replacement
+                if (data.expression) {
+                    expression = data.expression;
+                    window.expression = expression;
+                }
+                if (data.spirits) {
+                    updateSpiritsDisplay(data.spirits, false); // false = full replace
+                }
             }
+            // Legacy: Handle updates without type field
+            else {
+                // 1. Expression Update
+                if (data.expression) {
+                    expression = data.expression;
+                    window.expression = expression; // Update global reference for VRM
+                }
 
-            // 3. Speech Output (TTS + Chat)
-            if (data.type === "speech") {
-                addChatMessage(data.content, "elysia");
-                // Use enhanced voice properties and lip-sync if available
-                speak(data.content, data.spirits, data.voice, data.lipsync);
-                addThought("응답: " + data.content.substring(0, 50) + "...");
+                // 2. Spirits Update (for thinking panel)
+                if (data.spirits) {
+                    updateSpiritsDisplay(data.spirits);
+                }
+
+                // 3. Speech Output (TTS + Chat)
+                if (data.type === "speech") {
+                    addChatMessage(data.content, "elysia");
+                    // Use enhanced voice properties and lip-sync if available
+                    speak(data.content, data.spirits, data.voice, data.lipsync);
+                    addThought("응답: " + data.content.substring(0, 50) + "...");
+                }
             }
         };
 
@@ -295,14 +477,24 @@
             }
         }
 
-        function updateSpiritsDisplay(spirits) {
+        // Keep track of current spirits state for delta updates
+        let currentSpirits = { fire: 0.1, water: 0.1, earth: 0.3, air: 0.2, light: 0.2, dark: 0.1, aether: 0.1 };
+        
+        function updateSpiritsDisplay(spirits, isPartialUpdate = false) {
+            // Update current state (merge for partial, replace for full)
+            if (isPartialUpdate) {
+                Object.assign(currentSpirits, spirits);
+            } else {
+                currentSpirits = spirits;
+            }
+            
             const colors = {
                 fire: "#ff4444", water: "#4488ff", earth: "#88aa44",
                 air: "#aaccff", light: "#ffff88", dark: "#665588", aether: "#aa44ff"
             };
 
             spiritsDisplay.innerHTML = "";
-            for (const [name, value] of Object.entries(spirits)) {
+            for (const [name, value] of Object.entries(currentSpirits)) {
                 const div = document.createElement("div");
                 div.className = "spirit";
                 div.innerHTML = `
