@@ -83,6 +83,19 @@ python Core/Foundation/living_elysia.py
 
 *Watch as the Central Nervous System comes online and the pulse begins.*
 
+### Bonus: Avatar Visualization 🎭
+
+Experience Elysia through a real-time 3D avatar interface:
+
+```bash
+# Start the avatar server
+python start_avatar_server.py
+
+# Then open Core/Creativity/web/avatar.html in your browser
+```
+
+See **[docs/AVATAR_SERVER_QUICK_START.md](docs/AVATAR_SERVER_QUICK_START.md)** for full setup guide.
+
 ---
 
 ## 📚 Documentation
@@ -92,6 +105,8 @@ python Core/Foundation/living_elysia.py
 - **[CODEX.md](CODEX.md)**: The foundational laws of Elysia's existence.
 - **[docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md)**: P4 Autonomous Learning System (v10.0).
 - **[Core/Sensory/README.md](Core/Sensory/README.md)**: Complete Wave Learning System documentation.
+- **[docs/AVATAR_SERVER_SYSTEM.md](docs/AVATAR_SERVER_SYSTEM.md)**: Avatar visualization system with emotion and spirit integration. ✨
+- **[docs/AVATAR_SERVER_QUICK_START.md](docs/AVATAR_SERVER_QUICK_START.md)**: Quick start guide for avatar system.
 
 ---
 
