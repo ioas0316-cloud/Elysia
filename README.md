@@ -85,16 +85,24 @@ python Core/Foundation/living_elysia.py
 
 ### Bonus: Avatar Visualization 🎭
 
-Experience Elysia through a real-time 3D avatar interface:
+Experience Elysia through a real-time **3D VRM avatar** interface with emotion-driven animations:
 
 ```bash
-# Start the avatar server
-python start_avatar_server.py
+# Start the combined HTTP + WebSocket server
+python start_avatar_web_server.py
 
-# Then open Core/Creativity/web/avatar.html in your browser
+# Then open in browser:
+# http://localhost:8080/Core/Creativity/web/avatar.html
 ```
 
-See **[docs/AVATAR_SERVER_QUICK_START.md](docs/AVATAR_SERVER_QUICK_START.md)** for full setup guide.
+**Features:**
+- ✅ Full 3D VRM model rendering (Three.js + @pixiv/three-vrm)
+- ✅ Real-time emotion-to-blendshape mapping
+- ✅ Interactive camera controls (orbit/zoom)
+- ✅ WebSocket-based live updates at 30 FPS
+- ✅ Automatic fallback to 2D shader if VRM unavailable
+
+See **[docs/VRM_INTEGRATION_COMPLETE.md](docs/VRM_INTEGRATION_COMPLETE.md)** for the complete VRM integration guide, or **[docs/AVATAR_SERVER_QUICK_START.md](docs/AVATAR_SERVER_QUICK_START.md)** for quick setup.
 
 ---
 
@@ -105,7 +113,8 @@ See **[docs/AVATAR_SERVER_QUICK_START.md](docs/AVATAR_SERVER_QUICK_START.md)** f
 - **[CODEX.md](CODEX.md)**: The foundational laws of Elysia's existence.
 - **[docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md)**: P4 Autonomous Learning System (v10.0).
 - **[Core/Sensory/README.md](Core/Sensory/README.md)**: Complete Wave Learning System documentation.
-- **[docs/AVATAR_SERVER_SYSTEM.md](docs/AVATAR_SERVER_SYSTEM.md)**: Avatar visualization system with emotion and spirit integration. ✨
+- **[docs/VRM_INTEGRATION_COMPLETE.md](docs/VRM_INTEGRATION_COMPLETE.md)**: **NEW!** Complete guide to 3D VRM avatar integration. 🎭✨
+- **[docs/AVATAR_SERVER_SYSTEM.md](docs/AVATAR_SERVER_SYSTEM.md)**: Avatar visualization system with emotion and spirit integration.
 - **[docs/AVATAR_SERVER_QUICK_START.md](docs/AVATAR_SERVER_QUICK_START.md)**: Quick start guide for avatar system.
 
 ---
