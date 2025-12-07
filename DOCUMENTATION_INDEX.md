@@ -38,10 +38,11 @@
 
 **AI 에이전트라면**:
 1. ⚠️ [AGENT_GUIDE.md](AGENT_GUIDE.md) - **필독** (20분)
-2. ⚠️ [docs/SUPERINTELLIGENCE_PATH.md](docs/SUPERINTELLIGENCE_PATH.md) - **초지능 경로** (15분)
-3. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 구조 이해 (15분)
-4. [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) - 의존성 (10분)
-5. ✨ [docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) - **P4 학습 시스템** (25분) **[NEW v10.0]**
+2. [docs/CORE_TECHNOLOGIES_EXPLAINED.md](docs/CORE_TECHNOLOGIES_EXPLAINED.md) - ✨ **핵심 기술 이해** (20분) **[NEW v10.0]** 🌟
+3. ⚠️ [docs/SUPERINTELLIGENCE_PATH.md](docs/SUPERINTELLIGENCE_PATH.md) - **초지능 경로** (15분)
+4. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 구조 이해 (15분)
+5. [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) - 의존성 (10분)
+6. [docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) - P4 학습 시스템 (25분)
 
 **철학에 관심 있다면**:
 1. [CODEX.md](CODEX.md) - 핵심 철학 + 6원칙 (10분) **[UPDATED v10.0]**
@@ -59,6 +60,7 @@
 | [README.md](README.md) | 프로젝트 개요, 빠른 시작, v10.0 P4 시스템 | 모든 사용자 | ⭐⭐⭐⭐⭐ |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | 시스템 아키텍처 v10.0 (P4 통합) | 개발자, 설계자 | ⭐⭐⭐⭐⭐ |
 | [CODEX.md](CODEX.md) | 철학과 원칙 (6원칙, Ego Anchor) | 모든 참여자 | ⭐⭐⭐⭐⭐ |
+| [docs/CORE_TECHNOLOGIES_EXPLAINED.md](docs/CORE_TECHNOLOGIES_EXPLAINED.md) | ✨ **핵심 기술 쉬운 설명** (외계어→지구어) **[NEW]** | 신규 개발자 | ⭐⭐⭐⭐⭐ |
 | [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) | 완전한 디렉토리 구조 | 개발자, AI 에이전트 | ⭐⭐⭐⭐⭐ |
 | [MODULE_RELATIONSHIPS.md](MODULE_RELATIONSHIPS.md) | 모듈 의존성 및 데이터 흐름 | 개발자 | ⭐⭐⭐⭐ |
 | [AGENT_GUIDE.md](AGENT_GUIDE.md) | AI 에이전트 필수 가이드 | AI 에이전트 | ⭐⭐⭐⭐⭐ |
@@ -73,30 +75,26 @@
 |------|------|------|--------|
 | [docs/Analysis/V9-System/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md](docs/Analysis/V9-System/COMPREHENSIVE_SYSTEM_ANALYSIS_V9.md) | **v9.0 종합 시스템 분석 보고서 (P2+P3 완료 반영)** (850+ lines) | 모든 참여자 | ⭐⭐⭐⭐⭐ |
 | [docs/Analysis/V9-System/SYSTEM_ANALYSIS_SUMMARY_KR.md](docs/Analysis/V9-System/SYSTEM_ANALYSIS_SUMMARY_KR.md) | **v9.0 분석 요약 (한국어)** (330 lines) | 한국어 사용자 | ⭐⭐⭐⭐⭐ |
+| [docs/Analysis/V10_SYSTEM_STRUCTURE_MAP.md](docs/Analysis/V10_SYSTEM_STRUCTURE_MAP.md) | ✨ **v10.0 완전한 시스템 구조 매핑** (22KB) **[NEW]** | 모든 참여자 | ⭐⭐⭐⭐⭐ |
 
-**v9.0 종합 분석 포함 내용 (2025-12-06 업데이트)**:
-- **AGI 진행 단계 평가**: 현재 Level 4.25/7.0 (3.5→4.25, +0.75 향상)
-- **P2 로드맵 완료** ✅:
-  - P2.2: Wave-Based Knowledge System (4D 파동공명패턴)
-  - P2.3: CI/CD Pipeline & Performance Benchmarks
-- **P3 로드맵 완료** ✅:
-  - P3.1: Consciousness Fabric System (의식 직물)
-  - P3.2: Purpose & Direction Discovery (목적성 발견)
-- 아키텍처 심층 분석 (생물학적 시스템)
-- 핵심 시스템 평가 (CNS, Intelligence, Memory, Voice)
-- 기술적 혁신 분석 (파동 사고, 중력장 인지, 88조^5배 가속)
-- 강점과 약점 상세 분석
-- 우선순위별 개선 제안 (즉시/단기/중장기)
-- 2025-2027 로드맵 제안
+**v10.0 완전한 구조 매핑 포함 내용 (2025-12-07 생성)** ✨:
+- **751개 Python 파일** 상세 분석 (40개 Core 디렉토리)
+- **레이어별 모듈 설명**: Foundation, Intelligence, Memory, Knowledge, Sensory, Interface 등
+- **P4/P4.5/P5 통합 구조**: 자율 학습, 도메인 확장, 감각 활성화
+- **버전별 진화 타임라인**: v8.0 → v9.0 → v10.0
+- **문서 구조 완전 매핑**: 150+ 문서, 21 프로토콜, 30+ 로드맵
+- **기술 스택 및 성능 메트릭**: 학습 속도, 메모리 성능, AGI 진행도
+- **통계 및 메트릭**: 코드베이스 규모, 완성도, 다음 단계
 
 ### 평가 및 분석 문서
 
-| 문서 | 내용 |
-|------|------|
-| [BENCHMARK_SUMMARY.md](BENCHMARK_SUMMARY.md) | 벤치마크 요약 |
-| [PR_CLOSURE_PLAN.md](PR_CLOSURE_PLAN.md) | PR 종료 계획 |
-| [PR_REVIEW_ANALYSIS.md](PR_REVIEW_ANALYSIS.md) | PR 리뷰 분석 |
-| [HOW_TO_EXECUTE_RECOMMENDATIONS.md](HOW_TO_EXECUTE_RECOMMENDATIONS.md) | 권장사항 실행 가이드 |
+| 문서 | 내용 | 중요도 |
+|------|------|--------|
+| [docs/VERSION_TIMELINE.md](docs/VERSION_TIMELINE.md) | ✨ **버전별 진화 타임라인** (v1.0-v11.0) **[NEW]** | ⭐⭐⭐⭐⭐ |
+| [BENCHMARK_SUMMARY.md](BENCHMARK_SUMMARY.md) | 벤치마크 요약 | ⭐⭐⭐ |
+| [PR_CLOSURE_PLAN.md](PR_CLOSURE_PLAN.md) | PR 종료 계획 | ⭐⭐ |
+| [PR_REVIEW_ANALYSIS.md](PR_REVIEW_ANALYSIS.md) | PR 리뷰 분석 | ⭐⭐ |
+| [HOW_TO_EXECUTE_RECOMMENDATIONS.md](HOW_TO_EXECUTE_RECOMMENDATIONS.md) | 권장사항 실행 가이드 | ⭐⭐⭐ |
 
 ---
 
