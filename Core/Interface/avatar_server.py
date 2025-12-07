@@ -413,7 +413,7 @@ class AvatarWebSocketServer:
     WebSocket server for avatar visualization.
     """
     
-    def __init__(self, host: str = "127.0.0.1", port: int = 8765, require_auth: bool = False):
+    def __init__(self, host: str = "127.0.0.1", port: int = 8765, require_auth: bool = False, enable_monitoring: bool = True):
         self.host = host
         self.port = port
         self.core = ElysiaAvatarCore()
@@ -429,6 +429,18 @@ class AvatarWebSocketServer:
         except Exception as e:
             logger.warning(f"⚠️ Could not initialize security manager: {e}")
             self.security = None
+        
+        # Initialize performance monitor
+        self.monitor = None
+        if enable_monitoring:
+            try:
+                from Core.Interface.avatar_monitoring import create_performance_monitor
+                self.monitor = create_performance_monitor(update_interval=1.0)
+                self.monitor.set_broadcast_callback(self.broadcast_metrics)
+                logger.info(f"📊 Performance monitor initialized")
+            except Exception as e:
+                logger.warning(f"⚠️ Could not initialize performance monitor: {e}")
+                self.monitor = None
     
     async def handle_client(self, websocket: WebSocketServerProtocol, path: str):
         """Handle individual client connection"""
@@ -441,16 +453,29 @@ class AvatarWebSocketServer:
             # In production, you'd check for auth token here
             logger.info(f"🔐 Client connecting: {client_id}")
         
+        # Register client with monitor
+        if self.monitor:
+            self.monitor.collector.register_client(client_id)
+        
         self.clients.add(websocket)
         logger.info(f"✅ Client connected: {client_addr}")
         
         try:
             # Send initial state
-            await websocket.send(json.dumps(self.core.get_state_message()))
+            initial_message = json.dumps(self.core.get_state_message())
+            await websocket.send(initial_message)
+            
+            # Track message sent
+            if self.monitor:
+                self.monitor.collector.record_message_sent(client_id, len(initial_message))
             
             # Handle messages
             async for message in websocket:
                 try:
+                    # Track message received
+                    if self.monitor:
+                        self.monitor.collector.record_message_received(client_id, len(message))
+                    
                     data = json.loads(message)
                     
                     # Security checks
@@ -476,6 +501,30 @@ class AvatarWebSocketServer:
             logger.info(f"Client disconnected: {client_addr}")
         finally:
             self.clients.discard(websocket)
+            # Unregister from monitor
+            if self.monitor:
+                self.monitor.collector.unregister_client(client_id)
+    
+    async def broadcast_metrics(self, metrics: Dict[str, Any]):
+        """Broadcast performance metrics to all connected clients"""
+        if not self.clients:
+            return
+        
+        message = json.dumps({
+            'type': 'metrics',
+            'data': metrics
+        })
+        
+        # Send to all clients
+        disconnected = set()
+        for client in self.clients:
+            try:
+                await client.send(message)
+            except websockets.exceptions.ConnectionClosed:
+                disconnected.add(client)
+        
+        # Clean up disconnected clients
+        self.clients -= disconnected
     
     async def process_message(self, websocket: WebSocketServerProtocol, data: Dict[str, Any]):
         """Process incoming message from client"""
@@ -590,6 +639,12 @@ class AvatarWebSocketServer:
             cleanup_task = asyncio.create_task(self.security_cleanup_loop())
             logger.info(f"🛡️ Security enabled - Rate limits: {self.security.config.max_requests_per_second}/s, {self.security.config.max_requests_per_minute}/min")
         
+        # Start monitoring task (if monitoring enabled)
+        monitoring_task = None
+        if self.monitor:
+            monitoring_task = asyncio.create_task(self.monitor.start_monitoring())
+            logger.info(f"📊 Performance monitoring enabled (update interval: {self.monitor.update_interval}s)")
+        
         async with websockets.serve(self.handle_client, self.host, self.port):
             logger.info("✅ Avatar Server is running!")
             logger.info(f"📱 Open Core/Creativity/web/avatar.html in your browser")
@@ -601,6 +656,9 @@ class AvatarWebSocketServer:
             finally:
                 if cleanup_task:
                     cleanup_task.cancel()
+                if monitoring_task:
+                    self.monitor.stop()
+                    monitoring_task.cancel()
     
     async def security_cleanup_loop(self):
         """Periodic cleanup of security data"""
@@ -621,9 +679,9 @@ class AvatarWebSocketServer:
         logger.info("🛑 Avatar Server stopped")
 
 
-async def main_async(host: str, port: int, require_auth: bool = False):
+async def main_async(host: str, port: int, require_auth: bool = False, enable_monitoring: bool = True):
     """Main async entry point"""
-    server = AvatarWebSocketServer(host, port, require_auth=require_auth)
+    server = AvatarWebSocketServer(host, port, require_auth=require_auth, enable_monitoring=enable_monitoring)
     try:
         await server.start()
     except KeyboardInterrupt:
@@ -675,6 +733,11 @@ Examples:
         action="store_true",
         help="Require authentication for connections (default: disabled)"
     )
+    parser.add_argument(
+        "--no-monitoring",
+        action="store_true",
+        help="Disable performance monitoring (default: enabled)"
+    )
     
     args = parser.parse_args()
     
@@ -691,7 +754,7 @@ Examples:
     
     # Run server
     try:
-        asyncio.run(main_async(args.host, args.port, args.require_auth))
+        asyncio.run(main_async(args.host, args.port, args.require_auth, not args.no_monitoring))
     except KeyboardInterrupt:
         print("\n👋 Goodbye!")
     except Exception as e:
