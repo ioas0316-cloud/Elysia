@@ -32,6 +32,7 @@ import json
 import logging
 import os
 import sys
+import time
 from pathlib import Path
 from typing import Dict, Any, Optional, Set, List, TYPE_CHECKING
 from dataclasses import dataclass, asdict
@@ -127,6 +128,10 @@ class ElysiaAvatarCore:
         self.expression = Expression()
         self.spirits = Spirits()
         self.beat_phase = 0.0
+        
+        # Delta update tracking
+        self.last_state = None
+        self.delta_threshold = 0.01  # Minimum change to trigger update
         
         # Initialize emotional system
         if EmotionalEngine:
@@ -406,6 +411,53 @@ class ElysiaAvatarCore:
             "expression": asdict(self.expression),
             "spirits": asdict(self.spirits)
         }
+    
+    def get_delta_message(self) -> Optional[Dict[str, Any]]:
+        """
+        Get only changed values (delta update) to reduce bandwidth.
+        
+        Returns:
+            Dictionary with only changed values, or None if no significant changes
+        """
+        current_state = self.get_state_message()
+        
+        # First update: send full state
+        if self.last_state is None:
+            self.last_state = current_state
+            return {"type": "full", **current_state}
+        
+        # Calculate delta
+        delta = {"type": "delta"}
+        has_changes = False
+        
+        # Check expression changes
+        expr_delta = {}
+        for key, value in current_state['expression'].items():
+            old_value = self.last_state['expression'].get(key, 0)
+            if abs(value - old_value) > self.delta_threshold:
+                expr_delta[key] = value
+                has_changes = True
+        
+        if expr_delta:
+            delta['expression'] = expr_delta
+        
+        # Check spirits changes
+        spirit_delta = {}
+        for key, value in current_state['spirits'].items():
+            old_value = self.last_state['spirits'].get(key, 0)
+            if abs(value - old_value) > self.delta_threshold:
+                spirit_delta[key] = value
+                has_changes = True
+        
+        if spirit_delta:
+            delta['spirits'] = spirit_delta
+        
+        # Update last_state if changes detected
+        if has_changes:
+            self.last_state = current_state
+            return delta
+        
+        return None  # No significant changes
 
 
 class AvatarWebSocketServer:
@@ -420,6 +472,13 @@ class AvatarWebSocketServer:
         self.clients: Set[WebSocketServerProtocol] = set()
         self.running = False
         self.last_update_time = asyncio.get_event_loop().time()
+        
+        # Adaptive FPS settings
+        self.target_fps = 30  # Base target FPS
+        self.min_fps = 15     # Minimum FPS (idle)
+        self.max_fps = 60     # Maximum FPS (high activity)
+        self.activity_level = 0.0  # Start at 0.0 (idle)
+        self.last_message_time = time.time() - 10.0  # Start as if 10s ago (idle state)
         
         # Initialize security manager
         try:
@@ -489,6 +548,9 @@ class AvatarWebSocketServer:
                                 'message': error
                             }))
                             continue
+                    
+                    # Track message time for activity calculation
+                    self.last_message_time = time.time()
                     
                     await self.process_message(websocket, data)
                     
@@ -586,11 +648,17 @@ class AvatarWebSocketServer:
             logger.warning(f"Unknown message type: {msg_type}")
     
     async def broadcast_state(self):
-        """Broadcast current state to all connected clients"""
+        """Broadcast current state to all connected clients (with delta optimization)"""
         if not self.clients:
             return
         
-        message = json.dumps(self.core.get_state_message())
+        # Get delta update (only changed values)
+        delta = self.core.get_delta_message()
+        
+        if delta is None:
+            return  # No changes, skip broadcast
+        
+        message = json.dumps(delta)
         
         # Send to all clients
         disconnected = set()
@@ -603,8 +671,51 @@ class AvatarWebSocketServer:
         # Clean up disconnected clients
         self.clients -= disconnected
     
+    def calculate_adaptive_fps(self) -> int:
+        """
+        Calculate adaptive FPS based on activity level.
+        
+        Activity factors:
+        - Recent messages: Higher activity when messages received recently
+        - Number of clients: More clients = higher activity
+        - Emotional arousal: Higher arousal = more expression changes
+        
+        Returns:
+            Target FPS (between min_fps and max_fps)
+        """
+        import time
+        
+        # Factor 1: Time since last message (decays over 10 seconds)
+        time_since_message = time.time() - self.last_message_time
+        message_activity = max(0, 1.0 - (time_since_message / 10.0))
+        
+        # Factor 2: Number of connected clients
+        client_activity = min(1.0, len(self.clients) / 10.0)
+        
+        # Factor 3: Emotional arousal (if available)
+        emotion_activity = 0.0
+        if self.core.emotional_engine:
+            try:
+                state = self.core.emotional_engine.current_state
+                emotion_activity = state.arousal  # 0 to 1
+            except:
+                pass
+        
+        # Combined activity level (weighted average)
+        self.activity_level = (
+            message_activity * 0.4 +
+            client_activity * 0.3 +
+            emotion_activity * 0.3
+        )
+        
+        # Calculate FPS based on activity
+        fps_range = self.max_fps - self.min_fps
+        adaptive_fps = int(self.min_fps + (fps_range * self.activity_level))
+        
+        return adaptive_fps
+    
     async def update_loop(self):
-        """Main update loop for avatar state"""
+        """Main update loop for avatar state with adaptive FPS"""
         while self.running:
             try:
                 current_time = asyncio.get_event_loop().time()
@@ -618,11 +729,14 @@ class AvatarWebSocketServer:
                 self.core.update_expression_from_emotion()
                 self.core.update_spirits_from_emotion()
                 
-                # Broadcast to clients
+                # Broadcast to clients (with delta optimization)
                 await self.broadcast_state()
                 
-                # Update at ~30 FPS
-                await asyncio.sleep(1.0 / 30.0)
+                # Calculate adaptive FPS
+                target_fps = self.calculate_adaptive_fps()
+                sleep_time = 1.0 / target_fps
+                
+                await asyncio.sleep(sleep_time)
             
             except Exception as e:
                 logger.error(f"Error in update loop: {e}")

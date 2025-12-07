@@ -386,23 +386,48 @@
         ws.onmessage = (e) => {
             const data = JSON.parse(e.data);
 
-            // 1. Expression Update
-            if (data.expression) {
-                expression = data.expression;
-                window.expression = expression; // Update global reference for VRM
+            // Handle delta updates (Phase 2 optimization)
+            if (data.type === "delta") {
+                // Apply only changed values
+                if (data.expression) {
+                    Object.assign(expression, data.expression);
+                    window.expression = expression; // Update global reference
+                }
+                if (data.spirits) {
+                    updateSpiritsDisplay(data.spirits, true); // true = partial update
+                }
             }
-
-            // 2. Spirits Update (for thinking panel)
-            if (data.spirits) {
-                updateSpiritsDisplay(data.spirits);
+            // Handle full state updates
+            else if (data.type === "full") {
+                // Full state replacement
+                if (data.expression) {
+                    expression = data.expression;
+                    window.expression = expression;
+                }
+                if (data.spirits) {
+                    updateSpiritsDisplay(data.spirits, false); // false = full replace
+                }
             }
+            // Legacy: Handle updates without type field
+            else {
+                // 1. Expression Update
+                if (data.expression) {
+                    expression = data.expression;
+                    window.expression = expression; // Update global reference for VRM
+                }
 
-            // 3. Speech Output (TTS + Chat)
-            if (data.type === "speech") {
-                addChatMessage(data.content, "elysia");
-                // Use enhanced voice properties and lip-sync if available
-                speak(data.content, data.spirits, data.voice, data.lipsync);
-                addThought("응답: " + data.content.substring(0, 50) + "...");
+                // 2. Spirits Update (for thinking panel)
+                if (data.spirits) {
+                    updateSpiritsDisplay(data.spirits);
+                }
+
+                // 3. Speech Output (TTS + Chat)
+                if (data.type === "speech") {
+                    addChatMessage(data.content, "elysia");
+                    // Use enhanced voice properties and lip-sync if available
+                    speak(data.content, data.spirits, data.voice, data.lipsync);
+                    addThought("응답: " + data.content.substring(0, 50) + "...");
+                }
             }
         };
 
@@ -452,14 +477,24 @@
             }
         }
 
-        function updateSpiritsDisplay(spirits) {
+        // Keep track of current spirits state for delta updates
+        let currentSpirits = { fire: 0.1, water: 0.1, earth: 0.3, air: 0.2, light: 0.2, dark: 0.1, aether: 0.1 };
+        
+        function updateSpiritsDisplay(spirits, isPartialUpdate = false) {
+            // Update current state (merge for partial, replace for full)
+            if (isPartialUpdate) {
+                Object.assign(currentSpirits, spirits);
+            } else {
+                currentSpirits = spirits;
+            }
+            
             const colors = {
                 fire: "#ff4444", water: "#4488ff", earth: "#88aa44",
                 air: "#aaccff", light: "#ffff88", dark: "#665588", aether: "#aa44ff"
             };
 
             spiritsDisplay.innerHTML = "";
-            for (const [name, value] of Object.entries(spirits)) {
+            for (const [name, value] of Object.entries(currentSpirits)) {
                 const div = document.createElement("div");
                 div.className = "spirit";
                 div.innerHTML = `
