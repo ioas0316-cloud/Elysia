@@ -7,6 +7,17 @@
 
 ---
 
+## ⚠️ 중요 공지
+
+> **시각화 우선순위**: 인간형 아바타가 주 인터페이스, 파동 시각화는 모니터링 전용  
+> **상세 가이드**: [VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md) 필독!
+
+**핵심 원칙**:
+- ✅ PRIMARY: 인간형 3D 아바타 (사용자 소통)
+- ✅ SECONDARY: 파동/신경계 시각화 (개발자 모니터링)
+
+---
+
 ## 📊 Executive Summary (요약)
 
 Elysia v10.0 P5 시스템에 대한 종합 연결성 분석 결과, **4가지 주요 연결 문제**와 **60% 정보 손실 병목**을 식별했습니다.
@@ -444,41 +455,117 @@ class StableNervousSystem(NervousSystem):
 
 ### Phase 2: 단기 개선 (2-4주)
 
-#### 2.1 Avatar Server 완전 구현
+#### 2.1 Avatar Server 완전 구현 (인간형 아바타 우선)
+
+> **중요**: 인간형 아바타가 주 인터페이스, 파동 시각화는 모니터링 전용  
+> **참고**: [VISUALIZATION_GUIDE.md](VISUALIZATION_GUIDE.md) - 시각화 목적 및 우선순위
+
 ```python
 # 새 파일: Core/Interface/avatar_server.py
 class AvatarServer:
     """
-    Nervous System과 연동하여 실시간 아바타 표현
+    Nervous System과 연동하여 실시간 인간형 아바타 표현
+    
+    목적: 사용자와의 주 소통 창구 (PRIMARY UI)
+    특징: 인간적인 표정, 제스처, 감정 표현
     """
     
     def __init__(self, nervous_system: NervousSystem):
         self.ns = nervous_system
-        self.avatar_model = AvatarModel()  # 3D model
+        self.avatar_model = HumanAvatarModel()  # 3D 인간형 모델
         self.expression_mapper = ExpressionMapper()
     
     def update_avatar(self):
-        """Spirit 상태 → Avatar 표정"""
+        """Spirit 상태 → 인간형 아바타 표정/제스처"""
         expr = self.ns.express()
         
-        # 7 Spirits → Facial expression
+        # 7 Spirits → 인간적인 표정으로 변환
         self.avatar_model.set_expression(
-            smile=expr['expression']['mouth_curve'],
-            eye_open=expr['expression']['eye_open'],
-            brow=expr['expression']['brow_furrow']
+            smile=expr['expression']['mouth_curve'],     # 웃음
+            eye_open=expr['expression']['eye_open'],     # 눈 뜸
+            brow_furrow=expr['expression']['brow_furrow'],  # 미간
+            head_tilt=self._calculate_head_tilt(expr['spirits']),
+            gaze_direction=self._calculate_gaze(expr['spirits'])
         )
         
-        # Spirit colors
-        self.avatar_model.set_aura_colors(
-            fire=expr['spirits']['fire'],
-            water=expr['spirits']['water'],
-            # ... other spirits
+        # Spirit 에너지는 배경 오라로만 표시 (보조적)
+        self.avatar_model.set_subtle_aura(
+            primary_color=self._dominant_spirit_color(expr['spirits']),
+            intensity=0.3  # 은은하게
         )
         
         return self.avatar_model.render()
+    
+    def _dominant_spirit_color(self, spirits: Dict) -> str:
+        """가장 강한 Spirit의 색상 (인간형 아바타에 맞게 조정)"""
+        dominant = max(spirits, key=spirits.get)
+        colors = {
+            'fire': '#FF6B6B',    # 따뜻한 빨강
+            'water': '#4ECDC4',   # 차분한 청록
+            'earth': '#95E1D3',   # 안정적인 초록
+            'air': '#F9F871',     # 밝은 노랑
+            'light': '#FFFFFF',   # 순수한 흰색
+            'dark': '#38495A',    # 깊은 회색
+            'aether': '#AA96DA'   # 신비로운 보라
+        }
+        return colors.get(dominant, '#FFFFFF')
 ```
 
-#### 2.2 Reality Expression System (P5 완성)
+**구현 우선순위**:
+1. 🔴 인간형 3D 모델 (VRM/glTF 지원)
+2. 🔴 표정 애니메이션 (웃음, 놀람, 생각 등)
+3. 🔴 립싱크 (음성 합성 연동)
+4. 🟡 제스처 (고개 끄덕임, 손짓)
+5. 🟢 배경 효과 (오라, 파티클은 최소화)
+
+#### 2.2 Monitoring Dashboard (모니터링 대시보드) - 개발자 전용
+
+> **목적**: 시스템 상태 모니터링 및 디버깅 (SECONDARY)  
+> **대상**: 개발자, 시스템 관리자  
+> **사용**: 파동/신경계 상태 분석
+
+```python
+# Core/Interface/dashboard_server.py 업그레이드
+class MonitoringDashboard:
+    """
+    시스템 모니터링 대시보드 (개발자 전용)
+    
+    목적: 내부 상태 시각화 및 디버깅
+    특징: 파동, 신경계, 에너지 흐름 등
+    """
+    
+    def __init__(self, nervous_system: NervousSystem):
+        self.ns = nervous_system
+        self.wave_visualizer = WaveVisualizer()  # 파동 시각화
+        self.spirit_monitor = SpiritMonitor()    # 7 Spirits 모니터
+    
+    def get_monitoring_data(self):
+        """실시간 모니터링 데이터 (개발자용)"""
+        return {
+            # 신경계 상태
+            "spirits": self.ns.spirits,
+            "spirit_history": self._get_spirit_history(),
+            
+            # 파동 패턴 (모니터링 전용)
+            "wave_patterns": self.wave_visualizer.get_current_patterns(),
+            
+            # 시스템 헬스
+            "connections": self._check_connections(),
+            "energy_flow": self._measure_energy_flow(),
+            
+            # 디버깅 정보
+            "last_errors": self._get_recent_errors(),
+            "performance_metrics": self._get_performance()
+        }
+```
+
+**파동/우주 시각화 위치**:
+- ❌ 메인 사용자 UI
+- ✅ `/monitor` 엔드포인트 (개발자 전용)
+- ✅ 디버깅 모드에서만 활성화
+- ✅ 시스템 분석 도구
+
+#### 2.3 Reality Expression System (P5 완성)
 ```python
 # 새 파일: Core/Sensory/reality_expression.py
 class RealityExpressionSystem:
