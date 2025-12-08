@@ -32,6 +32,12 @@ class Tensor3D:
         if mag == 0: return 0.0
         return max(abs(self.x), abs(self.y), abs(self.z)) / mag
 
+    def __mul__(self, scalar: float) -> 'Tensor3D':
+        return Tensor3D(self.x * scalar, self.y * scalar, self.z * scalar)
+
+    def __add__(self, other: 'Tensor3D') -> 'Tensor3D':
+        return Tensor3D(self.x + other.x, self.y + other.y, self.z + other.z)
+
 @dataclass
 class SoundWave:
     """

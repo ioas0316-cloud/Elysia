@@ -369,6 +369,10 @@ class ElysiaAvatarCore:
                 response = await asyncio.to_thread(
                     lambda: self.reasoning_engine(message)
                 )
+            elif hasattr(self.reasoning_engine, 'communicate'):
+                response = await asyncio.to_thread(
+                    lambda: self.reasoning_engine.communicate(message)
+                )
             else:
                 logger.warning("ReasoningEngine has no known method, using simple response")
                 response = "I hear you. Let me think about that..."
@@ -565,7 +569,7 @@ class AvatarWebSocketServer:
                 logger.warning(f"⚠️ Could not initialize performance monitor: {e}")
                 self.monitor = None
     
-    async def handle_client(self, websocket: WebSocketServerProtocol, path: str):
+    async def handle_client(self, websocket: WebSocketServerProtocol, path: str = None):
         """Handle individual client connection"""
         client_addr = websocket.remote_address
         client_id = f"{client_addr[0]}:{client_addr[1]}"
@@ -643,7 +647,7 @@ class AvatarWebSocketServer:
         
         # Send to all clients
         disconnected = set()
-        for client in self.clients:
+        for client in list(self.clients):
             try:
                 await client.send(message)
             except websockets.exceptions.ConnectionClosed:
@@ -702,6 +706,10 @@ class AvatarWebSocketServer:
             r, g, b = data.get('r', 0), data.get('g', 0), data.get('b', 0)
             logger.debug(f"📺 Screen: RGB({r}, {g}, {b})")
         
+        elif msg_type == "expression_update":
+            # Client updating expression (e.g. from lip-sync)
+            pass
+            
         elif msg_type == "emotion":
             # Manual emotion trigger
             emotion = data.get('emotion', 'neutral')
@@ -726,7 +734,7 @@ class AvatarWebSocketServer:
         
         # Send to all clients
         disconnected = set()
-        for client in self.clients:
+        for client in list(self.clients):
             try:
                 await client.send(message)
             except websockets.exceptions.ConnectionClosed:
@@ -784,6 +792,8 @@ class AvatarWebSocketServer:
             try:
                 current_time = asyncio.get_event_loop().time()
                 delta_time = current_time - self.last_update_time
+                if delta_time > 0.1:
+                    delta_time = 0.1  # Clamp to prevent physics explosion
                 self.last_update_time = current_time
                 
                 # Update beat animation
@@ -806,6 +816,22 @@ class AvatarWebSocketServer:
                 logger.error(f"Error in update loop: {e}")
                 await asyncio.sleep(0.1)
     
+    
+    async def process_request(self, connection, request):
+        """Handle HTTP requests to WebSocket port"""
+        try:
+            # Check for Upgrade header
+            upgrade = request.headers.get("Upgrade")
+            if not upgrade or upgrade.lower() != "websocket":
+                return (
+                    200,
+                    [("Content-Type", "text/html")],
+                    b"<html><body><h1>Elysia Avatar WebSocket Server</h1><p>Expected WebSocket connection.</p></body></html>"
+                )
+        except Exception:
+            pass
+        return None
+    
     async def start(self):
         """Start the WebSocket server"""
         self.running = True
@@ -823,7 +849,7 @@ class AvatarWebSocketServer:
             monitoring_task = asyncio.create_task(self.monitor.start_monitoring())
             logger.info(f"📊 Performance monitoring enabled (update interval: {self.monitor.update_interval}s)")
         
-        async with websockets.serve(self.handle_client, self.host, self.port):
+        async with websockets.serve(self.handle_client, self.host, self.port, process_request=self.process_request):
             logger.info("✅ Avatar Server is running!")
             logger.info(f"📱 Open Core/Creativity/web/avatar.html in your browser")
             logger.info(f"🌐 Or visit http://{self.host}:{self.port} (if HTTP server is enabled)")

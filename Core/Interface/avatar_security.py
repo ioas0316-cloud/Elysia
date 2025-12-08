@@ -33,8 +33,8 @@ class SecurityConfig:
     token_expiry_seconds: int = 3600  # 1 hour
     
     # Rate Limiting
-    max_requests_per_minute: int = 60  # Per client
-    max_requests_per_second: int = 10  # Per client
+    max_requests_per_minute: int = 6000  # Per client
+    max_requests_per_second: int = 100  # Per client
     
     # Input Validation
     max_message_length: int = 10000  # Characters

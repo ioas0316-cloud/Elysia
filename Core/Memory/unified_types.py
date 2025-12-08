@@ -34,6 +34,48 @@ class FrequencyWave:
         self.phase = phase
         self.damping = damping
 
+    def interact(self, other: 'FrequencyWave') -> 'FrequencyWave':
+        """
+        Interference pattern between two waves.
+        """
+        # Average frequency
+        new_freq = (self.frequency + other.frequency) / 2.0
+        
+        # Amplitude interference (constructive/destructive)
+        # Cosine of phase difference determines interference
+        import math
+        phase_diff = abs(self.phase - other.phase)
+        interference = math.cos(phase_diff)
+        
+        # New amplitude is average * interference factor
+        new_amp = (self.amplitude + other.amplitude) / 2.0 * (0.5 + 0.5 * interference)
+        
+        return FrequencyWave(
+            freq=new_freq,
+            amp=new_amp,
+            phase=(self.phase + other.phase) / 2.0,
+            damping=(self.damping + other.damping) / 2.0
+        )
+    
+    def to_dict(self) -> Dict[str, float]:
+        """Convert to dictionary"""
+        return {
+            "freq": self.frequency,
+            "amp": self.amplitude,
+            "phase": self.phase,
+            "damping": self.damping
+        }
+
+    @classmethod
+    def from_dict(cls, data: Dict[str, float]) -> 'FrequencyWave':
+        """Create from dictionary"""
+        return cls(
+            freq=data.get("freq", 0.0),
+            amp=data.get("amp", 0.0),
+            phase=data.get("phase", 0.0),
+            damping=data.get("damping", 0.0)
+        )
+
 
 @dataclass
 class Experience:
