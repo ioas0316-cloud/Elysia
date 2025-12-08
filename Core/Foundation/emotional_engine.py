@@ -72,12 +72,21 @@ class EmotionalEngine:
         ),
     }
 
-    def __init__(self, initial_state: Optional[EmotionalState] = None):
+    def __init__(self, initial_state: Optional[EmotionalState] = None, enable_conversation_memory: bool = False):
         if initial_state is None:
             # Start with a neutral state
             self.current_state = self.FEELING_PRESETS["neutral"]
         else:
             self.current_state = initial_state
+        
+        # Conversation memory (optional)
+        self._conversation_memory = None
+        if enable_conversation_memory:
+            try:
+                from Core.Memory.conversation_memory import create_conversation_memory
+                self._conversation_memory = create_conversation_memory(context_turns=10)
+            except ImportError:
+                pass  # Memory system not available
 
     def process_event(self, event_emotion: EmotionalState, intensity: float = 0.5):
         """
@@ -266,3 +275,115 @@ class EmotionalEngine:
         except Exception:
             # Final fallback
             return f"{self.current_state.primary_emotion}의 상태입니다"
+    
+    # === Conversation Memory Integration ===
+    
+    def enable_conversation_memory(self, context_turns: int = 10):
+        """
+        Enable conversation memory system.
+        
+        Args:
+            context_turns: Number of recent turns to keep in active context
+        """
+        try:
+            from Core.Memory.conversation_memory import create_conversation_memory
+            self._conversation_memory = create_conversation_memory(context_turns=context_turns)
+        except ImportError:
+            raise ImportError("ConversationMemory system not available. Install Core.Memory.conversation_memory")
+    
+    def record_conversation_turn(self,
+                                user_message: str,
+                                assistant_message: str,
+                                topics: Optional[List[str]] = None,
+                                intent: Optional[str] = None,
+                                user_id: Optional[str] = None):
+        """
+        Record a conversation turn with current emotional context.
+        
+        Args:
+            user_message: User's message
+            assistant_message: Elysia's response
+            topics: Topics discussed
+            intent: User's intent
+            user_id: User identifier for profile learning
+        """
+        if self._conversation_memory is None:
+            return  # Memory not enabled
+        
+        self._conversation_memory.add_turn(
+            user_message=user_message,
+            assistant_message=assistant_message,
+            user_emotion=None,  # Could be detected via sentiment analysis
+            assistant_emotion=self.current_state.primary_emotion,
+            emotional_valence=self.current_state.valence,
+            topics=topics or [],
+            intent=intent,
+            language=self.get_language(),
+            user_id=user_id
+        )
+    
+    def get_conversation_context(self, n_turns: Optional[int] = None, format_style: str = "emotional") -> str:
+        """
+        Get conversation context string for prompt injection.
+        
+        Args:
+            n_turns: Number of recent turns to include
+            format_style: 'simple', 'detailed', or 'emotional'
+            
+        Returns:
+            Formatted context string or empty string if memory disabled
+        """
+        if self._conversation_memory is None:
+            return ""
+        
+        return self._conversation_memory.get_context_string(n_turns=n_turns, format_style=format_style)
+    
+    def get_emotional_arc(self, n_turns: Optional[int] = None) -> List[float]:
+        """
+        Get emotional valence trajectory over recent conversation.
+        
+        Args:
+            n_turns: Number of turns to analyze
+            
+        Returns:
+            List of emotional valence values or empty list if memory disabled
+        """
+        if self._conversation_memory is None:
+            return []
+        
+        return self._conversation_memory.get_emotional_arc(n_turns=n_turns)
+    
+    def get_user_profile(self, user_id: Optional[str] = None) -> Optional[Any]:
+        """
+        Get learned user profile.
+        
+        Args:
+            user_id: User identifier (uses current user if None)
+            
+        Returns:
+            UserProfile or None
+        """
+        if self._conversation_memory is None:
+            return None
+        
+        return self._conversation_memory.get_user_profile(user_id=user_id)
+    
+    def save_conversation_history(self, filepath: str):
+        """
+        Save conversation history to file.
+        
+        Args:
+            filepath: Path to save file
+        """
+        if self._conversation_memory:
+            self._conversation_memory.save_to_file(filepath)
+    
+    def load_conversation_history(self, filepath: str):
+        """
+        Load conversation history from file.
+        
+        Args:
+            filepath: Path to load file
+        """
+        if self._conversation_memory:
+            self._conversation_memory.load_from_file(filepath)
