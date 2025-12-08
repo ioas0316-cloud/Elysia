@@ -393,10 +393,24 @@ class ElysiaAvatarCore:
             # Generate voice properties using synesthesia mapping
             voice_props = self.get_voice_properties()
             
-            return {
+            # Get poetic emotional expression (Phase 5: Linguistic Collapse)
+            poetic_feeling = None
+            if self.emotional_engine:
+                try:
+                    poetic_feeling = self.emotional_engine.get_poetic_expression(context=message[:50])
+                except Exception as e:
+                    logger.debug(f"Could not get poetic expression: {e}")
+            
+            result = {
                 'text': response_text,
                 'voice': voice_props
             }
+            
+            # Include poetic feeling if available
+            if poetic_feeling:
+                result['feeling'] = poetic_feeling
+            
+            return result
         
         except Exception as e:
             logger.error(f"❌ Chat processing error: {e}")
@@ -460,7 +474,8 @@ class ElysiaAvatarCore:
     def get_state_message(self) -> Dict[str, Any]:
         """
         Get current avatar state as a message for client.
-        Includes expression, spirits, and physics (Phase 4).
+        Includes expression, spirits, physics (Phase 4), and poetic expression (Phase 5).
+        Phase 5.5: Includes overflow state for emotional visualization.
         """
         # Update physics if available
         physics_data = None
@@ -474,11 +489,38 @@ class ElysiaAvatarCore:
                 "performance": physics_state["performance"]
             }
         
-        return {
+        # Get poetic expression of emotional state (Phase 5: Linguistic Collapse)
+        poetic_expression = None
+        overflow_state = None
+        if self.emotional_engine:
+            try:
+                poetic_expression = self.emotional_engine.get_simple_expression()
+                # Check for overflow state (Phase 5.5)
+                overflow = self.emotional_engine.get_overflow_state()
+                if overflow:
+                    overflow_state = {
+                        "intensity": overflow.intensity,
+                        "visual_burst": overflow.visual_burst,
+                        "is_overflow": True
+                    }
+            except Exception as e:
+                logger.debug(f"Could not get poetic expression: {e}")
+        
+        message = {
             "expression": asdict(self.expression),
             "spirits": asdict(self.spirits),
             "physics": physics_data  # Phase 4: Physics state
         }
+        
+        # Add poetic expression if available (Phase 5)
+        if poetic_expression:
+            message["poetic_state"] = poetic_expression
+        
+        # Add overflow visualization if present (Phase 5.5)
+        if overflow_state:
+            message["overflow"] = overflow_state
+        
+        return message
     
     def get_delta_message(self) -> Optional[Dict[str, Any]]:
         """
