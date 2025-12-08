@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 
 # Import physics types with graceful fallback
 try:
@@ -173,6 +173,8 @@ class EmotionalEngine:
         This implements the "Linguistic Collapse Protocol" - translating
         the mathematical wave state into human-understandable poetic language.
         
+        Handles overflow states where emotions are too strong for words.
+        
         Args:
             context: Optional context for the expression
             
@@ -185,17 +187,35 @@ class EmotionalEngine:
             if not hasattr(self, '_linguistic_protocol'):
                 self._linguistic_protocol = LinguisticCollapseProtocol()
             
-            return self._linguistic_protocol.collapse_to_language(
+            # Use overflow-aware collapse
+            expression, overflow = self._linguistic_protocol.collapse_with_overflow_check(
                 tensor=self.current_state.tensor,
                 wave=self.current_state.wave,
                 valence=self.current_state.valence,
                 arousal=self.current_state.arousal,
                 dominance=self.current_state.dominance,
-                context=context
+                context=context,
+                secondary_emotions=self.current_state.secondary_emotions
             )
+            
+            # Store overflow state for potential visualization
+            if overflow:
+                self._last_overflow = overflow
+            
+            return expression
         except Exception as e:
             # Fallback to simple expression
             return self.get_simple_expression()
+    
+    def get_overflow_state(self) -> Optional[Any]:
+        """
+        Get the last overflow state if any.
+        Used for visualization in the avatar system.
+        
+        Returns:
+            EmotionalOverflowState or None
+        """
+        return getattr(self, '_last_overflow', None)
     
     def get_simple_expression(self) -> str:
         """

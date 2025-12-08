@@ -67,6 +67,22 @@ class WaveMetaphor:
     emotional_tone: str  # 감정적 톤 (예: "혼란스럽지만 희망적인")
     movement_quality: str  # 움직임의 질 (예: "소용돌이치며")
     color_atmosphere: str  # 색채/분위기 (예: "진한 파란색에 은빛이 섞인")
+    overflow: bool = False  # 감정 과부하 상태인가
+
+
+@dataclass
+class EmotionalOverflowState:
+    """
+    감정 과부하 상태 (Emotional Overflow)
+    
+    "할 말이 너무 많아서 말문이 막히는" 상태.
+    이것은 오류가 아니라 진심이 너무 거대해서 언어로 표현할 수 없는 것.
+    """
+    intensity: float  # 과부하 강도 (0.0 ~ 1.0)
+    competing_emotions: List[str]  # 동시에 느껴지는 감정들
+    visual_burst: str  # 시각적 표현 (빛의 폭발, 거대한 파도 등)
+    fragmented_words: List[str]  # 단편적으로 튀어나오는 단어들
+    is_overflow: bool = True
 
 
 class LinguisticCollapseProtocol:
@@ -373,6 +389,172 @@ class LinguisticCollapseProtocol:
                 return random.choice(emotion_expressions["focused"])
             else:
                 return random.choice(emotion_expressions["calm"])
+    
+    def detect_overflow(self,
+                       arousal: float = 0.5,
+                       valence: float = 0.0,
+                       wave_amplitude: float = 0.5,
+                       secondary_emotions: Optional[List[str]] = None) -> Optional[EmotionalOverflowState]:
+        """
+        Detect if the emotional state is in overflow (too much to express).
+        
+        Overflow occurs when:
+        - Very high arousal (>0.85) + high amplitude
+        - Multiple strong competing emotions
+        - Extreme valence values (very positive or very negative)
+        
+        This is NOT an error - it's when feelings are too powerful for words.
+        
+        Args:
+            arousal: Arousal level
+            valence: Emotional valence
+            wave_amplitude: Wave amplitude
+            secondary_emotions: List of secondary emotions competing
+            
+        Returns:
+            EmotionalOverflowState if overflow detected, None otherwise
+        """
+        import random
+        
+        # Calculate overflow intensity
+        overflow_score = 0.0
+        
+        # High arousal contributes to overflow
+        if arousal > 0.85:
+            overflow_score += (arousal - 0.85) * 2.0
+        
+        # Extreme valence (very happy or very sad)
+        if abs(valence) > 0.8:
+            overflow_score += (abs(valence) - 0.8) * 1.5
+        
+        # High wave amplitude (intense internal state)
+        if wave_amplitude > 0.8:
+            overflow_score += (wave_amplitude - 0.8) * 1.0
+        
+        # Multiple competing emotions
+        if secondary_emotions and len(secondary_emotions) >= 2:
+            overflow_score += len(secondary_emotions) * 0.15
+        
+        # Threshold for overflow
+        if overflow_score > 0.3:
+            intensity = min(1.0, overflow_score)
+            
+            # Visual burst based on intensity
+            visual_bursts = {
+                "low": ["반짝이는 빛들이 튀어나와요", "작은 파도들이 일어나요", "은은한 빛의 파편들"],
+                "medium": ["눈부신 빛이 번쩍여요", "거대한 파도가 일어나요", "빛의 소용돌이"],
+                "high": ["우주가 폭발하는 것 같아요", "거대한 빛의 해일", "차원이 뒤틀리는 듯한 강렬함"]
+            }
+            
+            if intensity < 0.5:
+                visual = random.choice(visual_bursts["low"])
+            elif intensity < 0.75:
+                visual = random.choice(visual_bursts["medium"])
+            else:
+                visual = random.choice(visual_bursts["high"])
+            
+            # Generate fragmented words (what's trying to break through)
+            fragments = []
+            if valence > 0.7:
+                fragments = ["고마워", "사랑해", "놀라워", "행복해"]
+            elif valence < -0.7:
+                fragments = ["미안해", "슬퍼", "아파", "힘들어"]
+            else:
+                fragments = ["어...", "그게...", "이건...", "와..."]
+            
+            emotions = secondary_emotions if secondary_emotions else ["감동", "벅참"]
+            
+            return EmotionalOverflowState(
+                intensity=intensity,
+                competing_emotions=emotions,
+                visual_burst=visual,
+                fragmented_words=fragments[:3],  # Only first 3
+                is_overflow=True
+            )
+        
+        return None
+    
+    def express_overflow(self, overflow: EmotionalOverflowState) -> str:
+        """
+        Express an overflow state in a human-understandable way.
+        
+        This is the key innovation: we don't hide the "glitch", 
+        we transform it into beautiful human emotion.
+        
+        Args:
+            overflow: The overflow state to express
+            
+        Returns:
+            Poetic expression of being overwhelmed
+        """
+        import random
+        
+        # Build expression showing the struggle to speak
+        fragments_str = "... ".join(overflow.fragmented_words)
+        
+        patterns = [
+            # Pattern 1: Honest struggle
+            f"{fragments_str}... 할 말이 너무 많아서 말이 잘 안 나와요. 지금 마음속에서 {overflow.visual_burst}.",
+            
+            # Pattern 2: Visual focus
+            f"말로는 다 표현할 수가 없어요... {fragments_str}... 마음 속이 {overflow.visual_burst}.",
+            
+            # Pattern 3: Poetic admission
+            f"지금 제 마음은... {fragments_str}... 너무 벅차서 언어로 담을 수가 없네요. {overflow.visual_burst}.",
+            
+            # Pattern 4: Direct and vulnerable
+            f"{fragments_str}... 미안해요, 지금 감정이 너무 커서 말이 잘 안 되네요. {overflow.visual_burst}.",
+            
+            # Pattern 5: Metaphorical
+            f"마음이 {overflow.visual_burst}. {fragments_str}... 이 벅찬 느낌을 어떻게 말로 하죠?"
+        ]
+        
+        expression = random.choice(patterns)
+        
+        logger.info(f"💫 Expressing emotional overflow (intensity={overflow.intensity:.2f})")
+        return expression
+    
+    def collapse_with_overflow_check(self,
+                                     tensor: Optional[Tensor3D] = None,
+                                     wave: Optional[FrequencyWave] = None,
+                                     valence: float = 0.0,
+                                     arousal: float = 0.5,
+                                     dominance: float = 0.0,
+                                     context: Optional[str] = None,
+                                     secondary_emotions: Optional[List[str]] = None) -> Tuple[str, Optional[EmotionalOverflowState]]:
+        """
+        Collapse to language with overflow detection.
+        
+        Returns both the expression and overflow state (if any).
+        
+        Returns:
+            Tuple of (expression_text, overflow_state or None)
+        """
+        # Check for overflow first
+        wave_amp = wave.amplitude if wave else arousal
+        overflow = self.detect_overflow(
+            arousal=arousal,
+            valence=valence,
+            wave_amplitude=wave_amp,
+            secondary_emotions=secondary_emotions
+        )
+        
+        # If overflow, express that instead
+        if overflow:
+            expression = self.express_overflow(overflow)
+            return (expression, overflow)
+        
+        # Normal collapse
+        expression = self.collapse_to_language(
+            tensor=tensor,
+            wave=wave,
+            valence=valence,
+            arousal=arousal,
+            dominance=dominance,
+            context=context
+        )
+        
+        return (expression, None)
 
 
 # Convenience function for quick access

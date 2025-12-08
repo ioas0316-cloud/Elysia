@@ -475,6 +475,7 @@ class ElysiaAvatarCore:
         """
         Get current avatar state as a message for client.
         Includes expression, spirits, physics (Phase 4), and poetic expression (Phase 5).
+        Phase 5.5: Includes overflow state for emotional visualization.
         """
         # Update physics if available
         physics_data = None
@@ -490,9 +491,18 @@ class ElysiaAvatarCore:
         
         # Get poetic expression of emotional state (Phase 5: Linguistic Collapse)
         poetic_expression = None
+        overflow_state = None
         if self.emotional_engine:
             try:
                 poetic_expression = self.emotional_engine.get_simple_expression()
+                # Check for overflow state (Phase 5.5)
+                overflow = self.emotional_engine.get_overflow_state()
+                if overflow:
+                    overflow_state = {
+                        "intensity": overflow.intensity,
+                        "visual_burst": overflow.visual_burst,
+                        "is_overflow": True
+                    }
             except Exception as e:
                 logger.debug(f"Could not get poetic expression: {e}")
         
@@ -505,6 +515,10 @@ class ElysiaAvatarCore:
         # Add poetic expression if available (Phase 5)
         if poetic_expression:
             message["poetic_state"] = poetic_expression
+        
+        # Add overflow visualization if present (Phase 5.5)
+        if overflow_state:
+            message["overflow"] = overflow_state
         
         return message
     
