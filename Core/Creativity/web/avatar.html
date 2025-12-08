@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Elysia Avatar | 엘리시아 아바타</title>
-    
+
     <!-- Three.js and VRM loader for 3D avatar -->
     <script type="importmap">
     {
@@ -15,7 +15,7 @@
         }
     }
     </script>
-    
+
     <style>
         * {
             box-sizing: border-box;
@@ -196,12 +196,19 @@
             font-weight: bold;
             box-shadow: 0 2px 10px rgba(255, 0, 0, 0.5);
         }
-        
+
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
         }
-        
+
         body.connected::after {
             content: '✅ Connected';
             position: fixed;
@@ -216,11 +223,20 @@
             animation: fadeOut 2s forwards;
             box-shadow: 0 2px 10px rgba(82, 255, 168, 0.5);
         }
-        
+
         @keyframes fadeOut {
-            0% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { opacity: 0; display: none; }
+            0% {
+                opacity: 1;
+            }
+
+            80% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                display: none;
+            }
         }
     </style>
 </head>
@@ -238,7 +254,8 @@
         <div id="status">● Connecting... (Click to Wake)</div>
         <div id="avatar-container" style="position: relative; width: 500px; height: 500px;">
             <!-- 3D VRM Avatar (if available) -->
-            <canvas id="vrm-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></canvas>
+            <canvas id="vrm-canvas"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></canvas>
             <!-- Fallback 2D Avatar -->
             <canvas id="glcanvas" width="500" height="500" style="position: absolute; top: 0; left: 0;"></canvas>
         </div>
@@ -277,78 +294,78 @@
                 this.ws = null;
                 this.reconnectAttempts = 0;
                 this.forcedClose = false;
-                
+
                 // Event handlers
                 this.onopen = null;
                 this.onclose = null;
                 this.onerror = null;
                 this.onmessage = null;
-                
+
                 this.connect();
             }
-            
+
             connect() {
                 if (this.forcedClose) return;
-                
+
                 console.log(`🔌 Connecting to ${this.url}...`);
                 this.ws = new WebSocket(this.url);
-                
+
                 this.ws.onopen = () => {
                     console.log('✅ WebSocket connected');
                     this.reconnectAttempts = 0;
                     this.currentDelay = this.reconnectDelay;
-                    
+
                     // Update UI
                     document.body.classList.add('connected');
                     document.body.classList.remove('disconnected');
                     document.getElementById("status").innerText = "● Linked | 🖱️ Click to Activate";
-                    
+
                     // Flush message queue
                     while (this.messageQueue.length > 0 && this.ws.readyState === WebSocket.OPEN) {
                         const msg = this.messageQueue.shift();
                         this.ws.send(msg);
                     }
-                    
+
                     if (this.onopen) this.onopen();
                 };
-                
+
                 this.ws.onclose = (event) => {
                     console.log(`⚠️ WebSocket closed (code: ${event.code}, clean: ${event.wasClean})`);
-                    
+
                     // Update UI
                     document.body.classList.remove('connected');
                     document.body.classList.add('disconnected');
                     document.getElementById("status").innerText = "● Reconnecting...";
-                    
+
                     if (!this.forcedClose && !event.wasClean) {
                         this.reconnectAttempts++;
                         const delayToUse = this.currentDelay; // Use current delay
                         console.log(`🔄 Reconnecting in ${delayToUse}ms... (attempt ${this.reconnectAttempts})`);
-                        
+
                         setTimeout(() => {
                             this.connect();
                         }, delayToUse);
-                        
+
                         // Update delay for next attempt
                         this.currentDelay = Math.min(
                             this.currentDelay * this.reconnectDecay,
                             this.maxReconnectDelay
                         );
                     }
-                    
+
                     if (this.onclose) this.onclose(event);
                 };
-                
+
                 this.ws.onerror = (error) => {
                     console.error('❌ WebSocket error:', error);
                     if (this.onerror) this.onerror(error);
                 };
-                
+
                 this.ws.onmessage = (event) => {
                     if (this.onmessage) this.onmessage(event);
                 };
             }
-            
+
             send(data) {
                 if (this.ws && this.ws.readyState === WebSocket.OPEN) {
                     this.ws.send(data);
@@ -361,14 +378,14 @@
                     }
                 }
             }
-            
+
             close() {
                 this.forcedClose = true;
                 if (this.ws) {
                     this.ws.close();
                 }
             }
-            
+
             get readyState() {
                 return this.ws ? this.ws.readyState : WebSocket.CLOSED;
             }
@@ -382,7 +399,7 @@
             reconnectDecay: 1.5,       // 지수 백오프
             maxQueueSize: 50           // 최대 큐 크기
         });
-        
+
         ws.onmessage = (e) => {
             const data = JSON.parse(e.data);
 
@@ -479,7 +496,7 @@
 
         // Keep track of current spirits state for delta updates
         let currentSpirits = { fire: 0.1, water: 0.1, earth: 0.3, air: 0.2, light: 0.2, dark: 0.1, aether: 0.1 };
-        
+
         function updateSpiritsDisplay(spirits, isPartialUpdate = false) {
             // Update current state (merge for partial, replace for full)
             if (isPartialUpdate) {
@@ -487,7 +504,7 @@
             } else {
                 currentSpirits = spirits;
             }
-            
+
             const colors = {
                 fire: "#ff4444", water: "#4488ff", earth: "#88aa44",
                 air: "#aaccff", light: "#ffff88", dark: "#665588", aether: "#aa44ff"
@@ -541,17 +558,17 @@
             // Use synesthesia-enhanced voice properties if available
             if (voiceProps) {
                 console.log('🎵 Using synesthesia voice properties:', voiceProps);
-                
+
                 // Direct mapping from server
                 pitch = voiceProps.pitch || pitch;
                 rate = voiceProps.rate || rate;
                 volume = voiceProps.volume || volume;
-                
+
                 // Log timbre for debugging (browser TTS doesn't support timbre directly)
                 if (voiceProps.timbre) {
                     console.log(`🎭 Voice timbre: ${voiceProps.timbre} (warmth: ${voiceProps.warmth?.toFixed(2)}, brightness: ${voiceProps.brightness?.toFixed(2)})`);
                 }
-                
+
                 // Advanced modulation based on warmth/brightness/depth
                 // Subtle adjustments to pitch and rate based on these properties
                 if (voiceProps.warmth && voiceProps.warmth > 0.7) {
@@ -576,7 +593,7 @@
             // Fallback to spirit-based modulation if no voice properties
             else if (spirits) {
                 console.log('🔥 Using spirit-based voice modulation');
-                
+
                 // Emotional Modulation from Spirit Energies
                 const fire = spirits.fire || 0;
                 const water = spirits.water || 0;
@@ -623,31 +640,31 @@
             let talkLoop;
             let lipsyncInterval = null;
             let lipsyncKeyframeIndex = 0;
-            
+
             utterance.onstart = () => {
                 // Start fake talk volume animation
                 talkLoop = setInterval(() => { audioState.volume = Math.random() * 0.4 + 0.1; }, 100);
-                
+
                 // Start lip-sync animation if data available
                 if (lipsyncData && lipsyncData.length > 0) {
                     console.log(`👄 Starting lip-sync with ${lipsyncData.length} keyframes`);
                     const startTime = Date.now();
                     lipsyncKeyframeIndex = 0;
-                    
+
                     lipsyncInterval = setInterval(() => {
                         const elapsed = (Date.now() - startTime) / 1000.0; // seconds
-                        
+
                         // Find current keyframe
                         while (lipsyncKeyframeIndex < lipsyncData.length - 1 &&
-                               elapsed >= lipsyncData[lipsyncKeyframeIndex + 1].time) {
+                            elapsed >= lipsyncData[lipsyncKeyframeIndex + 1].time) {
                             lipsyncKeyframeIndex++;
                         }
-                        
+
                         if (lipsyncKeyframeIndex < lipsyncData.length) {
                             const keyframe = lipsyncData[lipsyncKeyframeIndex];
                             // Update mouth width in expression state
                             expression.mouth_width = keyframe.mouth_width;
-                            
+
                             // Also send to server for VRM updates
                             if (ws && ws.readyState === WebSocket.OPEN) {
                                 ws.send(JSON.stringify({
@@ -670,7 +687,7 @@
                 audioState.volume = 0.0;
                 expression.mouth_width = 0.0; // Close mouth
             };
-            
+
             synthesis.speak(utterance);
         }
 
@@ -1007,10 +1024,10 @@
             gl.drawArrays(gl.TRIANGLES, 0, 6);
             requestAnimationFrame(render);
         }
-        
+
         // ===== VRM 3D AVATAR INTEGRATION =====
     </script>
-    
+
     <script type="module">
         // Import Three.js and VRM loader
         import * as THREE from 'three';
@@ -1022,18 +1039,18 @@
         let vrmAvatar = null;
         let vrmScene, vrmCamera, vrmRenderer, vrmControls;
         let vrmAnimationLoop = null;
-        
+
         async function initVRMAvatar() {
             try {
                 console.log('🎭 Initializing VRM 3D Avatar...');
-                
+
                 const canvas = document.getElementById('vrm-canvas');
                 const glCanvas = document.getElementById('glcanvas');
-                
+
                 // Setup Three.js scene
                 vrmScene = new THREE.Scene();
                 vrmScene.background = new THREE.Color(0x0a0a1a);
-                
+
                 // Camera
                 vrmCamera = new THREE.PerspectiveCamera(
                     30,
@@ -1042,44 +1059,45 @@
                     20
                 );
                 vrmCamera.position.set(0, 1.3, 2.5);
-                
+
                 // Renderer
-                vrmRenderer = new THREE.WebGLRenderer({ 
-                    canvas: canvas, 
+                vrmRenderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
                     alpha: true,
-                    antialias: true 
+                    antialias: true
                 });
                 vrmRenderer.setSize(canvas.clientWidth, canvas.clientHeight);
                 vrmRenderer.setPixelRatio(window.devicePixelRatio);
                 vrmRenderer.outputEncoding = THREE.sRGBEncoding;
-                
+
                 // Lighting
                 const light = new THREE.DirectionalLight(0xffffff, 1);
                 light.position.set(1, 1, 1).normalize();
                 vrmScene.add(light);
-                
+
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
                 vrmScene.add(ambientLight);
-                
+
                 // Rim light for better visibility
                 const rimLight = new THREE.DirectionalLight(0x52ffa8, 0.3);
                 rimLight.position.set(-1, 1, -1).normalize();
                 vrmScene.add(rimLight);
-                
+
                 // Controls
                 vrmControls = new OrbitControls(vrmCamera, canvas);
                 vrmControls.target.set(0, 1.3, 0);
                 vrmControls.update();
                 vrmControls.enableDamping = true;
                 vrmControls.dampingFactor = 0.05;
-                
+
                 // Load VRM model
                 const loader = new GLTFLoader();
                 loader.register((parser) => new VRMLoaderPlugin(parser));
-                
+
                 let gltf;
                 try {
-                    gltf = await loader.loadAsync('/static/models/avatar.vrm');
+                    // Use relative path (now copied to web/static/models)
+                    gltf = await loader.loadAsync('./static/models/avatar.vrm');
                 } catch (loadError) {
                     // Provide specific error messages
                     if (loadError.message.includes('404') || loadError.message.includes('Not Found')) {
@@ -1090,60 +1108,105 @@
                         throw new Error(`Failed to load VRM file: ${loadError.message}`);
                     }
                 }
-                
+
                 const vrm = gltf.userData.vrm;
-                
+
                 if (!vrm) {
-                    throw new Error('VRM data not found in model. File may be corrupted or not a valid VRM format.');
+                    throw new Error('VRM data not found in model.');
                 }
-                
+
                 // Rotate model to fix VRM coordinate system
                 VRMUtils.rotateVRM0(vrm);
-                
+
                 vrmAvatar = vrm;
                 vrmScene.add(vrm.scene);
-                
+
+                // AUTO-CENTER CAMERA
+                const box = new THREE.Box3().setFromObject(vrm.scene);
+                const center = box.getCenter(new THREE.Vector3());
+                const size = box.getSize(new THREE.Vector3());
+
+                // Calculate proper distance
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const fov = vrmCamera.fov * (Math.PI / 180);
+                let cameraZ = Math.abs(maxDim / 2 * Math.tan(fov * 2)); // Zoom out to fit
+                cameraZ *= 1.5; // Add some padding
+
+                // Update Camera
+                vrmCamera.position.set(center.x, center.y + (size.y * 0.1), cameraZ + 1.0); // Slightly up and adjust Z
+                vrmControls.target.set(center.x, center.y + (size.y * 0.5), center.z); // Look at upper body/face
+                vrmCamera.updateProjectionMatrix();
+                vrmControls.update();
+
+                console.log(`📸 Camera auto-adjusted: Pos [${vrmCamera.position.toArray().map(x => x.toFixed(2))}], Target [${vrmControls.target.toArray().map(x => x.toFixed(2))}]`);
+
                 console.log('✅ VRM Avatar loaded successfully!');
-                console.log('📋 Available blendshapes:', 
+                console.log('📋 Available blendshapes:',
                     vrm.expressionManager ? Object.keys(vrm.expressionManager.expressionMap) : 'none');
-                
+
                 // Hide 2D fallback, show 3D
                 glCanvas.style.display = 'none';
                 canvas.style.display = 'block';
-                
+
+                // DEBUG: Add a simple cube to verify scene is rendering
+                // If user sees this cube but no avatar, the avatar is missing/invisible.
+                // If user sees nothing, the renderer/camera is broken.
+                const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+                const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+                const cube = new THREE.Mesh(geometry, material);
+                cube.position.set(0.5, 1.0, 0); // To the right of the head
+                vrmScene.add(cube);
+
+                // Status Overlay Update
+                const statusOverlay = document.createElement('div');
+                statusOverlay.style.position = 'absolute';
+                statusOverlay.style.top = '10px';
+                statusOverlay.style.left = '10px';
+                statusOverlay.style.color = '#00ff00';
+                statusOverlay.style.background = 'rgba(0,0,0,0.7)';
+                statusOverlay.style.padding = '5px';
+                statusOverlay.style.fontFamily = 'monospace';
+                statusOverlay.id = 'debug-status';
+                statusOverlay.innerHTML = "Renderer: ON<br>Avatar: Loaded";
+                document.body.appendChild(statusOverlay);
+
                 // Start animation loop
                 vrmAnimationLoop = () => {
                     requestAnimationFrame(vrmAnimationLoop);
-                    
+
+                    // Rotate debug cube
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+
                     // Update VRM expressions based on emotion state
                     updateVRMExpressions();
-                    
+
                     // Update VRM system
                     const deltaTime = 0.016; // ~60fps
                     if (vrmAvatar) {
                         vrmAvatar.update(deltaTime);
                     }
-                    
+
                     vrmControls.update();
                     vrmRenderer.render(vrmScene, vrmCamera);
                 };
                 vrmAnimationLoop();
-                
+
                 console.log('🎬 VRM Animation started');
-                
+
             } catch (error) {
                 // Enhanced error reporting
                 console.error('❌ VRM Avatar Loading Failed');
                 console.error('📝 Error type:', error.name);
                 console.error('📝 Error message:', error.message);
                 console.error('📝 Full error:', error);
-                
+
                 // User-friendly fallback message
                 const statusDiv = document.getElementById('status');
                 if (statusDiv) {
                     statusDiv.innerHTML += '<br>⚠️ Using 2D mode (VRM failed)';
                 }
-                
+
                 console.info('ℹ️ Continuing with 2D shader fallback');
                 console.info('💡 Troubleshooting:');
                 console.info('   1. Verify VRM file exists at /static/models/avatar.vrm');
@@ -1153,15 +1216,15 @@
                 // Keep 2D fallback visible
             }
         }
-        
+
         function updateVRMExpressions() {
             if (!vrmAvatar || !vrmAvatar.expressionManager) return;
-            
+
             const em = vrmAvatar.expressionManager;
-            
+
             // Get current expression state from WebSocket
             const expr = window.expression || { mouth_curve: 0, eye_open: 1.0, brow_furrow: 0 };
-            
+
             // Map emotion parameters to VRM blendshapes
             // Smile/Sad
             if (expr.mouth_curve > 0.2) {
@@ -1174,20 +1237,20 @@
                 em.setValue('happy', 0);
                 em.setValue('sad', 0);
             }
-            
+
             // Blink
             const blinkValue = 1.0 - expr.eye_open;
             em.setValue('blink', blinkValue);
             em.setValue('blinkLeft', blinkValue);
             em.setValue('blinkRight', blinkValue);
-            
+
             // Brow expressions
             if (expr.brow_furrow > 0.3) {
                 em.setValue('angry', expr.brow_furrow * 0.7);
             } else {
                 em.setValue('angry', 0);
             }
-            
+
             // Surprise (based on eye openness)
             if (expr.eye_open > 1.2) {
                 em.setValue('surprised', (expr.eye_open - 1.0) * 2);
@@ -1195,12 +1258,12 @@
                 em.setValue('surprised', 0);
             }
         }
-        
+
         // Auto-initialize VRM on load (after a short delay for WebSocket to connect)
         setTimeout(() => {
             initVRMAvatar();
         }, 1000);
-        
+
         // Handle window resize
         window.addEventListener('resize', () => {
             if (vrmCamera && vrmRenderer) {

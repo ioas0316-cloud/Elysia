@@ -308,12 +308,24 @@ class ElysiaAvatarCore:
         # Heartbeat frequency based on arousal
         if self.emotional_engine:
             arousal = self.emotional_engine.current_state.arousal
+            # Clamp arousal to safe range
+            arousal = max(0.0, min(1.0, arousal))
             freq = 1.0 + arousal * 1.5  # 1-2.5 Hz
         else:
             freq = 1.2  # Default
         
+        # Protect against non-finite values
+        if not math.isfinite(delta_time) or not math.isfinite(self.beat_phase):
+            self.beat_phase = 0.0
+            
         self.beat_phase += delta_time * freq * 2.0 * math.pi
-        self.expression.beat = abs(((self.beat_phase % (2 * math.pi)) / (2 * math.pi)) * 2 - 1)
+        
+        # Safe sine wave calculation
+        try:
+            val = ((self.beat_phase % (2 * math.pi)) / (2 * math.pi)) * 2 - 1
+            self.expression.beat = abs(val)
+        except (ValueError, ZeroDivisionError):
+            self.expression.beat = 0.0
     
     def process_emotion_event(self, emotion_name: str, intensity: float = 0.5):
         """

@@ -84,7 +84,17 @@ class ReasoningEngine:
         # But first we need context.
         
         # Pull context (delegated to Perception or Logic? Logic handles Grand Cross)
+        # Pull context (delegated to Perception or Logic? Logic handles Grand Cross)
         context = self.memory.recall(desire)
+        if not isinstance(context, list):
+            context = [context] if context else []
+        
+        # Web Search Integration (Simple Heuristic for now)
+        if "?" in desire or "what" in desire.lower() or "who" in desire.lower() or "search" in desire.lower() or \
+           "누구" in desire or "뭐야" in desire or "알려줘" in desire or "검색" in desire or "인터넷" in desire:
+            search_result = self.web.search(desire)
+            if search_result and "⚠️" not in search_result:
+                context.append(f"WEB_SEARCH:{search_result}")
         
         # Logic Lobe synthesizes
         insight = self.logic.collapse_wave(desire, context)
