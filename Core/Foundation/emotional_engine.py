@@ -142,12 +142,17 @@ class EmotionalEngine:
         """
         # Return a COPY to avoid modifying the static preset
         preset = self.FEELING_PRESETS.get(feeling.lower(), self.FEELING_PRESETS["neutral"])
-        # Deep copy tensor/wave safely (Tensor3D has no .data attr)
+        # Deep copy tensor/wave safely
         if hasattr(preset.tensor, "to_dict"):
             tdict = preset.tensor.to_dict()
             tensor_copy = Tensor3D.from_dict(tdict) if hasattr(Tensor3D, "from_dict") else Tensor3D(**tdict)
         else:
-            tensor_copy = Tensor3D()
+            # Fallback: copy attributes manually
+            tensor_copy = Tensor3D(
+                x=getattr(preset.tensor, 'x', 0.0),
+                y=getattr(preset.tensor, 'y', 0.0),
+                z=getattr(preset.tensor, 'z', 0.0)
+            )
 
         wave_copy = FrequencyWave.from_dict(preset.wave.to_dict()) if preset.wave else FrequencyWave(0.0, 0.0, 0.0, 0.0)
 
@@ -160,3 +165,57 @@ class EmotionalEngine:
             tensor=tensor_copy,
             wave=wave_copy,
         )
+    
+    def get_poetic_expression(self, context: Optional[str] = None) -> str:
+        """
+        Get a poetic linguistic expression of the current emotional state.
+        
+        This implements the "Linguistic Collapse Protocol" - translating
+        the mathematical wave state into human-understandable poetic language.
+        
+        Args:
+            context: Optional context for the expression
+            
+        Returns:
+            Poetic description of the emotional state
+        """
+        try:
+            from Core.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            
+            if not hasattr(self, '_linguistic_protocol'):
+                self._linguistic_protocol = LinguisticCollapseProtocol()
+            
+            return self._linguistic_protocol.collapse_to_language(
+                tensor=self.current_state.tensor,
+                wave=self.current_state.wave,
+                valence=self.current_state.valence,
+                arousal=self.current_state.arousal,
+                dominance=self.current_state.dominance,
+                context=context
+            )
+        except Exception as e:
+            # Fallback to simple expression
+            return self.get_simple_expression()
+    
+    def get_simple_expression(self) -> str:
+        """
+        Get a simple poetic expression without full wave analysis.
+        Lightweight alternative to get_poetic_expression().
+        
+        Returns:
+            Short poetic expression of the emotional state
+        """
+        try:
+            from Core.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            
+            if not hasattr(self, '_linguistic_protocol'):
+                self._linguistic_protocol = LinguisticCollapseProtocol()
+            
+            return self._linguistic_protocol.get_simple_expression(
+                valence=self.current_state.valence,
+                arousal=self.current_state.arousal,
+                primary_emotion=self.current_state.primary_emotion
+            )
+        except Exception:
+            # Final fallback
+            return f"{self.current_state.primary_emotion}의 상태입니다"
