@@ -185,7 +185,8 @@ class EmotionalEngine:
             from Core.Foundation.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
-                self._linguistic_protocol = LinguisticCollapseProtocol()
+                language = getattr(self, '_preferred_language', 'ko')
+                self._linguistic_protocol = LinguisticCollapseProtocol(language=language)
             
             # Use overflow-aware collapse
             expression, overflow = self._linguistic_protocol.collapse_with_overflow_check(
@@ -217,6 +218,31 @@ class EmotionalEngine:
         """
         return getattr(self, '_last_overflow', None)
     
+    def set_language(self, language: str):
+        """
+        Set the language for emotional expressions.
+        
+        Args:
+            language: Language code - 'ko' (Korean), 'en' (English), 'ja' (Japanese)
+        """
+        if hasattr(self, '_linguistic_protocol'):
+            self._linguistic_protocol.set_language(language)
+        else:
+            # Store for later initialization
+            self._preferred_language = language
+    
+    def get_language(self) -> str:
+        """
+        Get the current language setting.
+        
+        Returns:
+            Language code ('ko', 'en', or 'ja')
+        """
+        if hasattr(self, '_linguistic_protocol'):
+            return self._linguistic_protocol.get_language()
+        else:
+            return getattr(self, '_preferred_language', 'ko')
+    
     def get_simple_expression(self) -> str:
         """
         Get a simple poetic expression without full wave analysis.
@@ -229,7 +255,8 @@ class EmotionalEngine:
             from Core.Foundation.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
-                self._linguistic_protocol = LinguisticCollapseProtocol()
+                language = getattr(self, '_preferred_language', 'ko')
+                self._linguistic_protocol = LinguisticCollapseProtocol(language=language)
             
             return self._linguistic_protocol.get_simple_expression(
                 valence=self.current_state.valence,
