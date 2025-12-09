@@ -67,20 +67,28 @@ except ImportError as e:
     EMOTIONS_AVAILABLE = False
 
 try:
-    from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
-    logger.info("✅ ReasoningEngine loaded")
+    # [BRIDGE] Try New Core first
+    from Core.Intelligence.reasoning_engine import ReasoningEngine
+    logger.info("✅ ReasoningEngine (Soul) loaded")
     REASONING_AVAILABLE = True
-except ImportError:
+except ImportError as e:
     try:
-        # Alternative path
-        from Core.Intelligence.Reasoning import ReasoningEngine
-        logger.info("✅ ReasoningEngine loaded (alt path)")
+        # Legacy path
+        from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+        logger.info("✅ ReasoningEngine loaded (Legacy)")
+        REASONING_AVAILABLE = True
         REASONING_AVAILABLE = True
     except ImportError as e:
         logger.warning(f"⚠️ Could not load ReasoningEngine: {e}")
         logger.info("ℹ️ Running without reasoning engine - using simple responses")
         ReasoningEngine = None
         REASONING_AVAILABLE = False
+        
+try:
+    from Core.Foundation.free_will_engine import FreeWillEngine
+    logger.info("✅ FreeWillEngine (Will) loaded")
+except ImportError:
+    FreeWillEngine = None
 
 try:
     import websockets
@@ -314,9 +322,19 @@ class ElysiaAvatarCore:
         else:
             freq = 1.2  # Default
         
-        # Protect against non-finite values
         if not math.isfinite(delta_time) or not math.isfinite(self.beat_phase):
             self.beat_phase = 0.0
+
+        # [BRIDGE] Read real heartbeat from daemon
+        pulse_file = Path("heartbeat.pulse")
+        if pulse_file.exists():
+            try:
+                with open(pulse_file, "r") as f:
+                    parts = f.read().split("|")
+                    real_freq = float(parts[1])
+                    freq = real_freq # Sync with Daemon
+            except Exception:
+                pass # Fallback to emotion-based freq
             
         self.beat_phase += delta_time * freq * 2.0 * math.pi
         
@@ -364,7 +382,38 @@ class ElysiaAvatarCore:
             # Try different method names that might exist
             response = None
             
-            if hasattr(self.reasoning_engine, 'reason'):
+            if hasattr(self.reasoning_engine, 'decide_action'):
+                # [BRIDGE] New Soul Architecture
+                # 1. We need a Will to have a Desire
+                will = FreeWillEngine() # In a real system, this should be shared/persistent
+                will.vectors["Connection"] += 0.5 # Interaction boosts connection desire
+                
+                # 2. Formulate Intent
+                intent_goal = f"Respond to User: {message}"
+                intent_desire = "Connection" # Simplified for bridge
+                
+                # 3. Define Tools (Virtual Dialogue Tool)
+                from Core.Intelligence.reasoning_engine import Tool
+                tools = [Tool("Dialogue", "Speak to user", '{"text": "..."}')]
+                
+                # Check for Authority Token in message (Mock Implementation)
+                authority_level = "None"
+                if "SUDO" in message.upper() or "COMMAND:" in message.upper():
+                    authority_level = "Sovereign_Command"
+                
+                # 4. Decide
+                action = await asyncio.to_thread(
+                    lambda: self.reasoning_engine.decide_action(intent_goal, intent_desire, tools, authority=authority_level)
+                )
+                
+                if action.tool_name == "Dialogue":
+                    response = action.args.get("text", "I am listening.")
+                elif action.tool_name == "Mycelium":
+                    response = "I am signaling the network."
+                else:
+                    response = f"I decided to {action.tool_name}."
+
+            elif hasattr(self.reasoning_engine, 'reason'):
                 response = await asyncio.to_thread(
                     lambda: self.reasoning_engine.reason(message)
                 )

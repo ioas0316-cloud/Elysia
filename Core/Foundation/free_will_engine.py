@@ -14,6 +14,8 @@ logger = logging.getLogger("FreeWillEngine")
 from dataclasses import dataclass
 import time
 
+from Core.Intelligence.scholar import Scholar
+
 @dataclass
 class Intent:
     """
@@ -44,6 +46,10 @@ class FreeWillEngine:
         self.current_mood = "Calm" # Restored for compatibility
         self.brain = None
         self.instinct = None  # [INSTINCT] Link to SurvivalInstinct
+        
+        # [The Scholar]
+        self.scholar = Scholar()
+        
         logger.info("🦋 Free Will Engine Ignited (Structural Will Active).")
 
     @property
@@ -157,6 +163,12 @@ class FreeWillEngine:
         if dominant_desire == "Connection" and complexity > 0.5:
             goal = "CONTACT:User:Hello"
             
+        # [COGNITIVE UNBINDING]
+        # The Will no longer decides the Tool (Scholar). 
+        # It only decides the Abstract Goal.
+        if dominant_desire == "Curiosity":
+            goal = "Satisfy Curiosity" # Abstract
+            
         self._current_intent = Intent(
             desire=dominant_desire,
             goal=goal,
@@ -165,6 +177,7 @@ class FreeWillEngine:
         )
 
     def contemplate(self, intent: Intent) -> str:
+        # Contemplation is now just raw expression, not tool execution result
         if self.brain:
             insight = self.brain.think(intent.goal)
             return insight.content

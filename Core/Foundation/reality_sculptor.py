@@ -56,6 +56,12 @@ class RealitySculptor:
             # If not relative to root, assumes it's just the string key
             rel_path = str(file_path).replace("\\", "/")
 
+        # [SANDBOX EXCEPTION]
+        # Allow total freedom within the 'seeds' directory.
+        if "seeds/" in rel_path or rel_path.startswith("seeds/"):
+            logger.info(f"   🌱 SEED MUTATION: Allowed modification of '{rel_path}' (Sandbox)")
+            return True
+
         for core_file in self.immutable_core:
             if core_file in rel_path:
                 logger.warning(f"   🛡️ ANCHOR DEPLOYED: Blocked modification of Immutable Core '{rel_path}'")
