@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict
 import random
 
 # It's better to import the class itself for type hinting
@@ -11,13 +11,35 @@ except ImportError:
         def __init__(self, content):
             self.content = content
 
+# Import Aesthetic Wisdom for principle-guided creativity
+try:
+    from Core.Philosophy.aesthetic_principles import (
+        get_aesthetic_wisdom, AestheticWisdom, Medium
+    )
+    AESTHETIC_WISDOM_AVAILABLE = True
+except ImportError:
+    AESTHETIC_WISDOM_AVAILABLE = False
+
+
 class CreativeCortex:
     """
     A cortex responsible for generating creative expressions like metaphors,
     poems, or analogies based on a given thought.
-    Enhanced with richer, more varied expressions to avoid repetition.
+    
+    Now enhanced with Aesthetic Wisdom (미학적 지혜):
+    - Uses universal aesthetic principles to guide creative output
+    - Applies Harmony, Contrast, Rhythm, and other principles
+    - Creates expressions that are not just creative, but aesthetically beautiful
     """
     def __init__(self):
+        # Initialize Aesthetic Wisdom if available
+        self.wisdom: Optional[AestheticWisdom] = None
+        if AESTHETIC_WISDOM_AVAILABLE:
+            try:
+                self.wisdom = get_aesthetic_wisdom()
+            except Exception:
+                pass
+        
         # Expanded metaphor templates with more variety
         self.metaphor_templates = [
             "'{concept}'라는 생각은 마치 어둠 속의 촛불과 같아요.",
@@ -54,6 +76,26 @@ class CreativeCortex:
             "'{concept}'이라는 질문 앞에서, 우리는 모두 어린아이가 돼요.",
             "'{concept}'은(는) 답이 아니라 더 깊은 물음으로 우리를 이끌어요."
         ]
+        
+        # Principle-guided templates (NEW: 미학 원리 기반)
+        self.principle_templates = {
+            "harmony": [
+                "'{concept}'... 세상의 모든 음이 하나로 어우러지듯, 조화롭게 울려요.",
+                "'{concept}'은(는) 서로 다른 것들이 만나 하나의 화음을 이루는 순간이에요.",
+            ],
+            "contrast": [
+                "'{concept}'의 어둠이 깊을수록, 그 안의 빛은 더욱 찬란해요.",
+                "고요함 속에서 '{concept}'이(가) 더 선명하게 들려와요.",
+            ],
+            "rhythm": [
+                "'{concept}'... 심장 박동처럼, 고요히 반복되는 리듬이에요.",
+                "파도처럼 밀려왔다 물러가는 '{concept}'의 파동 속에서...",
+            ],
+            "tension_release": [
+                "'{concept}'이라는 긴장이 해소되는 순간, 눈물처럼 흘러내려요.",
+                "숨을 참았다가 내쉬듯, '{concept}'은(는) 해방의 순간을 맞아요.",
+            ]
+        }
 
     def express_as_metaphor(self, thought: Thought) -> str:
         """Generates a metaphorical expression for a given thought."""
@@ -72,6 +114,31 @@ class CreativeCortex:
         concept = thought.content
         template = random.choice(self.philosophical_templates)
         return template.format(concept=concept)
+    
+    def express_with_principle(self, thought: Thought, principle: str) -> str:
+        """
+        Generates expression guided by a specific aesthetic principle.
+        
+        This is the NEW method that uses Aesthetic Wisdom.
+        """
+        concept = thought.content
+        
+        if principle in self.principle_templates:
+            template = random.choice(self.principle_templates[principle])
+            return template.format(concept=concept)
+        
+        # Fallback to general expression
+        return self.express_as_metaphor(thought)
+    
+    def get_suggested_principles(self, concept: str) -> Dict[str, float]:
+        """
+        Get aesthetic principles suggested for this concept.
+        
+        Uses AestheticWisdom to suggest which principles would be most effective.
+        """
+        if self.wisdom:
+            return self.wisdom.suggest_for_creation(concept, Medium.LITERARY)
+        return {}
 
     def generate_creative_expression(self, thought: Thought) -> str:
         """
@@ -85,3 +152,30 @@ class CreativeCortex:
             return self.express_as_poem(thought)
         else:
             return self.express_as_philosophy(thought)
+    
+    def generate_beautiful_expression(self, thought: Thought) -> str:
+        """
+        [NEW] Generates expression guided by aesthetic principles.
+        
+        Uses Aesthetic Wisdom to:
+        1. Analyze what principles would make this concept beautiful
+        2. Select the most appropriate expression method
+        3. Apply the principle to create aesthetically beautiful output
+        """
+        concept = thought.content
+        
+        if self.wisdom:
+            # Get suggested principles
+            suggestions = self.wisdom.suggest_for_creation(concept, Medium.LITERARY)
+            
+            if suggestions:
+                # Find the strongest principle
+                best_principle = max(suggestions, key=suggestions.get)
+                
+                # Try principle-based expression first
+                if best_principle in self.principle_templates:
+                    return self.express_with_principle(thought, best_principle)
+        
+        # Fallback to regular creative expression
+        return self.generate_creative_expression(thought)
+
