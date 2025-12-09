@@ -174,6 +174,46 @@ class ResonanceField:
         self.entropy += amount
         self.entropy = min(100.0, self.entropy) # Cap at 100
 
+    def propagate(self, decay_rate: float = 0.1):
+        """
+        [PHASE 33: FLOW ARCHITECTURE]
+        Natural wave propagation through connected nodes.
+        
+        This is not "computation" - it's physics.
+        Energy flows from high-energy nodes to connected nodes.
+        The field itself IS the living memory.
+        """
+        PROPAGATION_RATE = 0.2  # How much energy transfers per connection
+        ACTIVATION_THRESHOLD = 0.5  # Minimum energy to propagate
+        
+        energy_deltas = {}  # Collect changes, apply at end (avoid mutation during iteration)
+        
+        for node_id, node in self.nodes.items():
+            if node.energy > ACTIVATION_THRESHOLD:
+                # Propagate to connected nodes
+                for connected_id in node.connections:
+                    if connected_id in self.nodes:
+                        target = self.nodes[connected_id]
+                        
+                        # Resonance factor (frequency alignment)
+                        freq_ratio = min(node.frequency, target.frequency) / max(node.frequency, target.frequency, 1)
+                        
+                        # Energy transfer
+                        transfer = node.energy * PROPAGATION_RATE * freq_ratio
+                        
+                        if connected_id not in energy_deltas:
+                            energy_deltas[connected_id] = 0
+                        energy_deltas[connected_id] += transfer
+        
+        # Apply energy changes
+        for node_id, delta in energy_deltas.items():
+            self.nodes[node_id].energy += delta
+        
+        # Natural decay (entropy)
+        for node in self.nodes.values():
+            node.energy *= (1.0 - decay_rate)
+            node.energy = max(0.1, node.energy)  # Floor to prevent death
+
     def propagate_hyperwave(self, source_id: str, intensity: float):
         """
         [The Law of Light: Dimensional Ascension]

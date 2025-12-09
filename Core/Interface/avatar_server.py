@@ -938,6 +938,7 @@ class AvatarWebSocketServer:
     async def start(self):
         """Start the WebSocket server"""
         self.running = True
+        print(f"\n   🌐 [AvatarServer] WebSocket Running: ws://{self.host}:{self.port}")
         logger.info(f"🚀 Starting Avatar Server on ws://{self.host}:{self.port}")
         
         # Start security cleanup task (if security enabled)
