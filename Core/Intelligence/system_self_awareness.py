@@ -402,6 +402,21 @@ class SystemSelfAwareness:
             suggestions.append("✅ 시스템 정상 - 지속적인 모니터링 유지")
         
         return suggestions
+
+    def introspect_thought(self, thought_history: Any) -> str:
+        """
+        Explain the causality of a thought based on its trace.
+        """
+        # Duck typing check for trace
+        if not hasattr(thought_history, 'get_narrative'):
+            return "I cannot recall the history of this thought."
+            
+        narrative = thought_history.get_narrative()
+        
+        # Meta-analysis
+        analysis = f"\n[Meta-Cognition]: This thought emerged through {len(thought_history.events)} stages of cognitive processing."
+        
+        return narrative + analysis
     
     def generate_self_awareness_report(self, output_path: Optional[Path] = None) -> str:
         """

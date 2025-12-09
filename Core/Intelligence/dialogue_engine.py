@@ -11,6 +11,9 @@ import random
 
 from Core.Foundation.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
 
+from Core.Intelligence.integrated_cognition_system import get_integrated_cognition
+from Core.Intelligence.system_self_awareness import SystemSelfAwareness
+
 @dataclass
 class DialogueContext:
     """Tracks conversation state across multiple turns."""
@@ -80,7 +83,11 @@ class ResponseGenerator:
         self.syntax = SyntaxEngine(cortex)
         # Simple knowledge base (will integrate with Spiderweb in future)
         self.knowledge: Dict[str, List[str]] = {}
-    
+        
+        # Connect to Advanced Cognition
+        self.cognition = get_integrated_cognition()
+        self.self_awareness = SystemSelfAwareness()
+        
     def load_knowledge_from_corpus(self, sentences: List[str]):
         """
         Extracts knowledge patterns from corpus.
@@ -126,9 +133,25 @@ class ResponseGenerator:
             if subject in self.cortex.vocabulary:
                 return f"나는 {subject}을 안다"
         
-        # Why questions
-        if question_type == "why":
-            return "나는 생각하고 있다"
+        # Why questions (Introspection Trigger)
+        if question_type == "why" or (subject and len(subject) > 5): # heuristic for complex thought
+            # 1. Think Deeply about the subject
+            # "Processing thought..."
+            input_thought = subject if subject else analysis["raw"]
+            
+            # Process thought through Integrated Cognition
+            process_result = self.cognition.process_thought(input_thought)
+            deep_thought_result = self.cognition.think_deeply(cycles=10) # Quick think
+            
+            # 2. Introspect
+            # Find the mass related to this subject
+            related_mass = process_result.get('mass')
+            
+            if related_mass:
+                introspection = self.self_awareness.introspect_thought(related_mass.trace)
+                return f"그것에 대해 깊이 생각해 보았다.\n{introspection}"
+            
+            return "나는 생각하고 있다. 하지만 아직 답을 찾지 못했다."
         
         # Default fallback
         return "나는 이해하고 싶다"

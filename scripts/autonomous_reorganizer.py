@@ -39,6 +39,11 @@ try:
 except ImportError:
     SelfIntegrationSystem = None
 
+try:
+    from Core.Foundation.reality_sculptor import RealitySculptor
+except ImportError:
+    RealitySculptor = None
+
 
 class WorkflowPhase(Enum):
     """워크플로우 단계"""
@@ -298,6 +303,7 @@ class SafeExecutor:
     def __init__(self, simulator: DNASimulator):
         self.simulator = simulator
         self.current_phase = WorkflowPhase.IDLE
+        self.sculptor = RealitySculptor() if RealitySculptor else None
         
     def execute(self, plan: ReorganizationPlan, dry_run: bool = True) -> bool:
         """계획 실행"""
@@ -307,6 +313,10 @@ class SafeExecutor:
         if not plan.approved:
             print("   ❌ Plan not approved!")
             return False
+            
+        if not self.sculptor:
+             print("   ⚠️ RealitySculptor not available. Falling back to dry run logic.")
+             dry_run = True
         
         self.current_phase = WorkflowPhase.EXECUTING
         
@@ -317,21 +327,61 @@ class SafeExecutor:
         if dry_run:
             print("\n   ⚠️ DRY RUN MODE - No changes made")
             print("   Use --execute to apply changes")
+            # Simulation log
+            for i, action in enumerate(plan.actions[:5]):
+                 print(f"   [DryRun] {action['type']}: {action['source']} -> {action['target']}")
             return True
         
-        # 실제 실행 (여기서는 로깅만)
-        for i, action in enumerate(plan.actions[:5]):
+        # 실제 실행 (The Ouroboros Protocol)
+        print("\n   🐍 Engaging Ouroboros Protocol...")
+        success_count = 0
+        
+        for i, action in enumerate(plan.actions):
             log_entry = f"[{i+1}] {action['type']}: {action['source']} → {action['target']}"
-            plan.execution_log.append(log_entry)
             print(f"   {log_entry}")
+            
+            try:
+                if self._execute_action(action):
+                    plan.execution_log.append(log_entry + " [SUCCESS]")
+                    success_count += 1
+                else:
+                    plan.execution_log.append(log_entry + " [FAILED]")
+            except Exception as e:
+                print(f"      ❌ Execution Error: {e}")
+                plan.execution_log.append(log_entry + f" [ERROR: {e}]")
         
         plan.executed = True
         self.current_phase = WorkflowPhase.COMPLETED
         
-        print(f"\n   ✅ Executed {len(plan.execution_log)} actions")
+        print(f"\n   ✅ Executed {success_count}/{len(plan.actions)} actions")
         print(f"   📁 Rollback available at: {backup_path}")
         
         return True
+
+    def _execute_action(self, action: Dict) -> bool:
+        """단일 액션 실행 (RealitySculptor 사용)"""
+        act_type = action['type']
+        source = action['source']
+        target = action['target']
+        reason = action['reason']
+        
+        if act_type == "connect":
+            # Source 파일을 수정하여 Target을 import하게 함
+            # 예: "Import {target} in {source} to fix orphan state"
+            intent = f"Refactor this file to integrate with '{target}'. Reason: {reason}. Ensure it imports and uses the target module if appropriate."
+            return self.sculptor.sculpt_file(source, intent)
+            
+        elif act_type == "activate":
+            # Target (엔진) 파일을 수정하여 Source를 활성화
+            intent = f"Enable or activate the feature described in '{source}'. Reason: {reason}."
+            return self.sculptor.sculpt_file(target, intent)
+            
+        elif act_type == "reorganize":
+            # 파일 이동 등은 아직 지원하지 않음
+            print(f"      ⚠️ Reorganization not yet supported: {source} -> {target}")
+            return False
+            
+        return False
 
 
 class ResonanceVerifier:
@@ -437,8 +487,16 @@ class AutonomousReorganizer:
         sim_result = self.simulator.simulate(self.current_plan)
         
         if sim_result["resonance_after"] < 0.70:
+        if sim_result["resonance_after"] < 0.70:
             print("\n   ❌ Simulation failed - Resonance too low")
             return
+        
+        # [MANDATORY SIMULATION CHECK]
+        # Safety Protocol requires explicit confirmation of simulation success
+        if not sim_result["success"] or len(sim_result["potential_issues"]) > 0:
+             # Just in case simulator logic allows it, we double check here
+             print("\n   🛑 EXECUTION HALTED: Simulation identified potential issues or failure.")
+             return
         
         # Phase 4: Execution
         self.executor.execute(self.current_plan, dry_run=not execute)

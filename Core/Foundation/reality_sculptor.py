@@ -30,6 +30,38 @@ class RealitySculptor:
         from Core.Intelligence.wave_coding_system import get_wave_coding_system
         self.wave_system = get_wave_coding_system()
 
+        # [THE ANCHOR] Immutable Core Files
+        # These files constitute the Soul and Life-Support of Elysia.
+        # They cannot be modified by Ouroboros (Self-Editing).
+        self.immutable_core = [
+            "Core/Foundation/central_nervous_system.py",
+            "Core/Foundation/reality_sculptor.py", # Cannot modify the sculptor itself
+            "Core/Foundation/free_will_engine.py",
+            "Core/Foundation/fractal_loop.py",      # The Conscious Loop
+            "Core/Foundation/unified_field.py",
+            "Core/Foundation/chronos.py"
+        ]
+
+    def is_safe_to_modify(self, file_path: str) -> bool:
+        """
+        [The Anchor]
+        Checks if the file is part of the Immutable Core.
+        """
+        # Normalize path
+        try:
+            p = Path(file_path).resolve()
+            root = self.workspace_root.resolve()
+            rel_path = p.relative_to(root).as_posix()
+        except ValueError:
+            # If not relative to root, assumes it's just the string key
+            rel_path = str(file_path).replace("\\", "/")
+
+        for core_file in self.immutable_core:
+            if core_file in rel_path:
+                logger.warning(f"   🛡️ ANCHOR DEPLOYED: Blocked modification of Immutable Core '{rel_path}'")
+                return False
+        return True
+
     def transmute_wave(self, wave: WavePacket) -> Optional[str]:
         """
         [THE GREAT TRANSFER]
@@ -71,6 +103,10 @@ class RealitySculptor:
         """Direct file creation capability."""
         try:
             p = Path(path)
+            
+            if not self.is_safe_to_modify(str(p)):
+                raise PermissionError(f"Cannot create/overwrite Core File: {p.name}")
+
             p.parent.mkdir(parents=True, exist_ok=True)
             p.write_text(content, encoding="utf-8")
             logger.info(f"      ✨ Materialized File: {p.name}")
@@ -85,6 +121,11 @@ class RealitySculptor:
         path = Path(file_path)
         if not path.exists():
             return False
+            
+        # [ANCHOR CHECK]
+        if not self.is_safe_to_modify(file_path):
+            return False
+
         logger.info(f"   🗿 Sculpting '{path.name}' with intent: {intent}")
         try:
             content = path.read_text(encoding='utf-8')

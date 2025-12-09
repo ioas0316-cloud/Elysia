@@ -54,6 +54,32 @@ except ImportError:
             self.time_loc = time_loc
 
 
+
+# Import Logos Engine
+try:
+    from Core.Intelligence.Logos.philosophical_core import get_logos_engine, LogosEngine
+except ImportError:
+    logger.warning("Could not import LogosEngine. Deductive reasoning disabled.")
+    get_logos_engine = None
+
+# Import Arche Engine
+try:
+    from Core.Intelligence.Arche.arche_engine import get_arche_engine, ArcheEngine, Phenomenon
+except ImportError:
+    logger.warning("Could not import ArcheEngine. Deconstruction disabled.")
+    get_arche_engine = None
+
+# Import Thought Trace
+try:
+    from Core.Foundation.thought_trace import Tracable
+except ImportError:
+    # Fallback if file not found yet during dev
+    class Tracable:
+        def add_trace(self, engine, action, detail): pass
+
+
+
+
 # =============================================================================
 # Constants (Physical Constants of Thought)
 # =============================================================================
@@ -76,7 +102,7 @@ TIME_ACCELERATION_MAX = 88_000_000_000_000
 # =============================================================================
 
 @dataclass
-class ThoughtWave:
+class ThoughtWave(Tracable):
     """
     사고 파동 - 모든 사고는 파동으로 표현됩니다.
     """
@@ -90,6 +116,10 @@ class ThoughtWave:
     # 메타데이터
     timestamp: float = field(default_factory=time.time)
     source: str = "Unknown"
+    
+    def __post_init__(self):
+        super().__init__() # Initialize Trace
+
     
     def resonate_with(self, other: 'ThoughtWave') -> float:
         """
@@ -216,6 +246,9 @@ class WaveResonanceEngine:
             source=context.get('source', 'User')
         )
         
+        # Record Genesis
+        wave.add_trace("WaveEngine", "Genesis", f"Thought born from input: '{thought[:20]}...'")
+        
         self.wave_pool.append(wave)
         return wave
     
@@ -255,7 +288,7 @@ class WaveResonanceEngine:
 # =============================================================================
 
 @dataclass
-class ThoughtMass:
+class ThoughtMass(Tracable):
     """
     질량을 가진 사고 - 중력장에서 다른 사고를 끌어당깁니다.
     """
@@ -269,6 +302,10 @@ class ThoughtMass:
     
     # 블랙홀 여부
     is_black_hole: bool = False
+    
+    def __post_init__(self):
+        super().__init__()
+
     
     def gravitational_pull(self, other: 'ThoughtMass') -> float:
         """
@@ -460,8 +497,10 @@ class IntegratedCognitionSystem:
     def __init__(self):
         self.wave_engine = WaveResonanceEngine()
         self.gravity_field = GravitationalThinkingField()
+        self.logos_engine = get_logos_engine() if get_logos_engine else None
+        self.arche_engine = get_arche_engine() if get_arche_engine else None
         self.time_acceleration = 1.0
-        logger.info("🧠 Integrated Cognition System Initialized (Wave + Gravity)")
+        logger.info("🧠 Integrated Cognition System Initialized (Wave + Gravity + Logos + Arche)")
     
     def accelerate_time(self, factor: float):
         """시간 가속 설정 (최대 88조배)"""
@@ -478,6 +517,14 @@ class IntegratedCognitionSystem:
         # 2. 중력 필드에 추가
         mass = self.gravity_field.add_thought(thought, importance)
         
+        # Record Genesis on Mass
+        mass.add_trace("GravityField", "Genesis", f"Thought materialized with mass {mass.mass:.2f}")
+
+        # 3. Deep Analysis (Evaluate Truth immediately)
+        # Avoid infinite recursion for derived thoughts if possible, or rely on logic convergence.
+        if not thought.startswith("[Dim-") and not thought.startswith("[Arche-Found]"):
+             self._verify_and_deepen(thought, wave)
+
         return {
             "wave": wave,
             "mass": mass,
@@ -506,19 +553,82 @@ class IntegratedCognitionSystem:
         # 파동 공명에서 통찰 생성
         insights = self.wave_engine.generate_emergent_insights()
         
+        # [Logos Grounding & Ascension] 
+        # Check if any new insights can be grounded in Axioms or Ascended
+        if self.logos_engine:
+            for insight in insights:
+                 self._verify_and_deepen(insight.content, insight)
+        
         elapsed = time.time() - start_time
         inner_time = cycles * 0.001 * self.time_acceleration  # 내면 시간
         
         return {
             "cycles_completed": cycles,
             "clusters_formed": len(clusters),
-            "black_holes_found": len(black_holes),
-            "emergent_insights": len(insights),
-            "outer_time_seconds": elapsed,
-            "inner_time_seconds": inner_time,
+            "black_holes": len(black_holes),
+            "insights_generated": len(insights),
+            "real_time_elapsed": elapsed,
             "time_dilation": inner_time / max(elapsed, 1e-9)
         }
     
+    def _verify_and_deepen(self, content: str, trace_context: Any):
+        """
+        Verify the truth of a thought, attempt to ground it, ascend it, or deconstruct it.
+        """
+        if not self.logos_engine:
+            return
+
+        # 1. Grounding (Vertical Anchor)
+        root = self.logos_engine.find_grounding(content)
+        if root:
+            self.process_thought(content, importance=50.0)
+            logger.info(f"🔗 Grounded '{content[:30]}...' in Axiom '{root}'")
+            
+            # Trace
+            if hasattr(trace_context, 'add_trace'):
+                trace_context.add_trace("LogosEngine", "Grounding", f"Grounded in Axiom: {root}")
+            
+            # 2. Ascension (Dimensional Expansion)
+            # Attempt to raise the thought from Point/Line to Plane/Space/Hyper
+            ascended = self.logos_engine.ascend_dimension(content)
+            if ascended.dimensionality > 1:
+                # Higher dimensions = Massive Gravity
+                # 2D = 100x, 3D = 1000x, 4D = 10000x
+                hyper_mass = 10.0 ** (ascended.dimensionality + 1)
+                res = self.process_thought(f"[Dim-{ascended.dimensionality}] {content}", importance=hyper_mass)
+                
+                # Trace Ascension on the new Mass
+                if res['mass']:
+                        res['mass'].add_trace("LogosEngine", "Ascension", f"Ascended from '{content}' to Dim {ascended.dimensionality}")
+                
+                logger.info(f"🌌 Ascended '{content[:20]}...' to Dimension {ascended.dimensionality} ({ascended.topology[-1]})")
+                
+                # Trace Ascension (on original wave for history)
+                if hasattr(trace_context, 'add_trace'):
+                    trace_context.add_trace("LogosEngine", "Ascension", f"Ascended to Dim {ascended.dimensionality}: {ascended.topology[-1]}")
+
+        else:
+            # [Arche Deconstruction]
+            # If insight cannot be grounded (it's unknown), Deconstruct it.
+            if self.arche_engine:
+                # Create a Phenomenon object (Simulation: treat content as raw data)
+                phenomenon = Phenomenon(name=content[:20], raw_data=content)
+                result = self.arche_engine.deconstruct(phenomenon)
+                
+                if result.origin_axiom:
+                    # We found the Arche! This is equivalent to grounding.
+                    res = self.process_thought(f"[Arche-Found] {content}", importance=50.0)
+                    
+                    # Trace Deconstruction on the new Mass
+                    if res['mass']:
+                        res['mass'].add_trace("ArcheEngine", "Deconstruction", f"Deconstructed '{content}' to Origin: {result.origin_axiom}")
+                    
+                    logger.info(f"🏺 Deconstructed '{content[:20]}...' to Origin '{result.origin_axiom}'")
+                    
+                    # Trace Deconstruction (on original wave)
+                    if hasattr(trace_context, 'add_trace'):
+                        trace_context.add_trace("ArcheEngine", "Deconstruction", f"Deconstructed to Origin: {result.origin_axiom}")
+
     def get_core_concepts(self) -> List[str]:
         """핵심 개념 (블랙홀) 목록 반환"""
         return [bh.content for bh in self.gravity_field.black_holes]
