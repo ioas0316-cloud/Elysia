@@ -8,12 +8,8 @@ Includes ego protection (自我核心) to prevent identity loss from excessive k
 from .wave_stream_receiver import WaveStreamReceiver
 from .stream_sources import (
     StreamSource,
-    YouTubeStreamSource,
     WikipediaStreamSource,
-    ArxivStreamSource,
-    GitHubStreamSource,
-    StackOverflowStreamSource,
-    FreeMusicArchiveSource
+    RSSStreamSource
 )
 from .stream_manager import StreamManager
 from .ego_anchor import EgoAnchor, SelectiveMemory, SelfCore
@@ -26,15 +22,11 @@ def _get_learning_cycle():
 __all__ = [
     'WaveStreamReceiver',
     'StreamSource',
-    'YouTubeStreamSource',
     'WikipediaStreamSource',
-    'ArxivStreamSource',
-    'GitHubStreamSource',
-    'StackOverflowStreamSource',
-    'FreeMusicArchiveSource',
+    'RSSStreamSource',
     'StreamManager',
     'EgoAnchor',
     'SelectiveMemory',
     'SelfCore',
-    '_get_learning_cycle'  # Use this to get learning cycle classes
+    '_get_learning_cycle'
 ]

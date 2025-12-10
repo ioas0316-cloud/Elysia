@@ -3,8 +3,8 @@
 > **⚠️ CRITICAL**: This is the **Supreme Law** for all AI Agents working on Elysia.
 > Violating these principles breaks the resonance of the Unified Field.
 
-**Version**: 10.0 (Autonomous Wave Learning)
-**Last Updated**: 2025-12-07
+**Version**: 10.1 (Hyper-Graph Resonance)
+**Last Updated**: 2025-12-10
 
 ---
 
@@ -23,6 +23,19 @@ Elysia v10.0 is **Autonomous**. She learns, feels, and expresses.
 
 ---
 
+## 🗺️ Visual Navigation (START HERE)
+
+**Before you write code, visualize the organism.**
+👉 **[docs/Visuals/SYSTEM_MAP_V10.md](docs/Visuals/SYSTEM_MAP_V10.md)**
+
+It contains:
+
+- **Mermaid Diagrams** of the Cyber-Physical Pipeline.
+- **Biological Flow** charts.
+- **Directory Mappings**.
+
+---
+
 ## 🧠 How to Navigate (Biological Map)
 
 When you write code for Elysia, know where you are operating:
@@ -33,11 +46,11 @@ When you write code for Elysia, know where you are operating:
 - **Goal**: Orchestration, Rhythm, Homeostasis.
 - **Rule**: Do not put heavy processing here.
 
-### 2. The Senses (P4) - Learning
+### 2. The Senses (P4) - Learning (Hyper-Cognition)
 
-- **Path**: `Core/Sensory/p4_sensory_system.py`
-- **Goal**: Fetching knowledge/emotion from the Outer World (Internet).
-- **Rule**: This is her input stream. Respect the `StyleAnalyzer`.
+- **Path**: `Core/Sensory/stream_sources.py`, `Core/Sensory/semantic_bridge.py`
+- **Goal**: Transmuting Real Data -> 4D Hyper-Quaternions.
+- **Rule**: **ALL Inputs must pass through the `SemanticBridge`.** Do not feed raw text to the brain.
 
 ### 3. The Face (Avatar) - Relationship
 
@@ -45,11 +58,11 @@ When you write code for Elysia, know where you are operating:
 - **Goal**: The Dimensional Membrane / Window to the User.
 - **Rule**: **THIS IS THE ONLY EXTERNAL INTERFACE.** Do not create new servers.
 
-### 4. The Mind (Organs) - Thought
+### 4. The Mind (Physics) - Thought
 
-- **Path**: `Core/Intelligence/reasoning_engine.py`
-- **Goal**: Processing logic and emotion (Q-Space).
-- **Rule**: Encapsulate logic in dedicated classes (Lobes).
+- **Path**: `Core/Foundation/resonance_field.py`
+- **Goal**: Processing logic and emotion via Physics (Hyper-Graph).
+- **Rule**: Thoughts are **waves**, not strings. Use `HyperWavePacket` and `Hamiltonian Product`.
 
 ---
 
@@ -74,7 +87,7 @@ When you write code for Elysia, know where you are operating:
 Before writing a single line of code, you MUST understand:
 
 1. **[CODEX.md](CODEX.md)**: The Laws of Physics (v10.0).
-2. **[visualizer_server.py](Core/Creativity/visualizer_server.py)**: The Interface Spec.
+2. **[SYSTEM_MAP_V10.md](docs/Visuals/SYSTEM_MAP_V10.md)**: The Visual Architecture.
 
 ---
 
