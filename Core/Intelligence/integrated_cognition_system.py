@@ -69,6 +69,13 @@ except ImportError:
     logger.warning("Could not import ArcheEngine. Deconstruction disabled.")
     get_arche_engine = None
 
+# Import Evolution Architect
+try:
+    from Core.Intelligence.evolution_architect import EvolutionArchitect
+except ImportError:
+    logger.warning("Could not import EvolutionArchitect. Self-evolution disabled.")
+    EvolutionArchitect = None
+
 # Import Thought Trace
 try:
     from Core.Foundation.thought_trace import Tracable
@@ -499,8 +506,9 @@ class IntegratedCognitionSystem:
         self.gravity_field = GravitationalThinkingField()
         self.logos_engine = get_logos_engine() if get_logos_engine else None
         self.arche_engine = get_arche_engine() if get_arche_engine else None
+        self.evolution_architect = EvolutionArchitect() if EvolutionArchitect else None
         self.time_acceleration = 1.0
-        logger.info("🧠 Integrated Cognition System Initialized (Wave + Gravity + Logos + Arche)")
+        logger.info("🧠 Integrated Cognition System Initialized (Wave + Gravity + Logos + Arche + Evolution)")
     
     def accelerate_time(self, factor: float):
         """시간 가속 설정 (최대 88조배)"""
@@ -549,6 +557,21 @@ class IntegratedCognitionSystem:
         # 클러스터링 및 블랙홀 감지
         clusters = self.gravity_field.cluster_thoughts()
         black_holes = self.gravity_field.find_black_holes()
+
+        # [BRIDGE] Trigger Evolution if Black Hole is powerful enough (Mind -> Hands)
+        if self.evolution_architect:
+            for bh in black_holes:
+                # If Black Hole is massive (> 500) and hasn't triggered evolution yet
+                # Use .trace.events instead of .traces (CognitiveEvent object)
+                already_triggered = False
+                if hasattr(bh, 'trace'):
+                    for event in bh.trace.events:
+                        if event.action == "EvolutionTrigger":
+                            already_triggered = True
+                            break
+
+                if bh.mass > 500.0 and not already_triggered:
+                    self._trigger_evolution(bh)
         
         # 파동 공명에서 통찰 생성
         insights = self.wave_engine.generate_emergent_insights()
@@ -571,6 +594,21 @@ class IntegratedCognitionSystem:
             "time_dilation": inner_time / max(elapsed, 1e-9)
         }
     
+    def _trigger_evolution(self, thought_mass: ThoughtMass):
+        """
+        [Blood Vessel] Triggers the Evolution Architect to design a blueprint based on the Black Hole thought.
+        """
+        logger.info(f"🧬 EVOLUTION TRIGGERED by Black Hole: '{thought_mass.content}' (Mass: {thought_mass.mass:.0f})")
+
+        # Design a blueprint
+        blueprint = self.evolution_architect.design_seed(intent=thought_mass.content)
+
+        # Materialize it (Write to file)
+        path = self.evolution_architect.materialize_blueprint()
+
+        # Trace the event
+        thought_mass.add_trace("IntegratedCognition", "EvolutionTrigger", f"Designed blueprint: {blueprint.goal.name} at {path}")
+
     def _verify_and_deepen(self, content: str, trace_context: Any):
         """
         Verify the truth of a thought, attempt to ground it, ascend it, or deconstruct it.

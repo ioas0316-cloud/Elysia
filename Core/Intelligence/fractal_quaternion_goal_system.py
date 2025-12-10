@@ -34,6 +34,12 @@ from enum import Enum, auto
 
 logger = logging.getLogger("FractalGoalDecomposer")
 
+# Import Integrated Cognition System (Late import to avoid circular dependency if needed)
+try:
+    from Core.Intelligence.integrated_cognition_system import get_integrated_cognition, IntegratedCognitionSystem
+except ImportError:
+    get_integrated_cognition = None
+
 # Import Elysia's core structures
 try:
     from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
@@ -211,6 +217,9 @@ class FractalGoalDecomposer:
         self.time_compressor = TimeCompressor()
         self.lenses = self._create_hyper_dimensional_lenses()
         self.decomposition_cache: Dict[str, FractalStation] = {}
+        self.cognition_system = None
+        if get_integrated_cognition:
+             self.cognition_system = get_integrated_cognition()
         logger.info("🔬 Fractal Goal Decomposer Initialized (Hyper-Dimensional Mode)")
     
     def _create_hyper_dimensional_lenses(self) -> List[HyperDimensionalLens]:
@@ -285,8 +294,34 @@ class FractalGoalDecomposer:
         dilation = self.time_compressor.get_time_dilation()
         logger.info(f"⏱️ Decomposition complete. Inner time: {dilation['inner_time']:.2f}s, "
                    f"Outer time: {dilation['outer_time']*1000:.4f}ms")
+
+        # [BRIDGE] Cast to Cognition System (Head -> Mind)
+        if self.cognition_system:
+            self._cast_to_cognition(root)
         
         return root
+
+    def _cast_to_cognition(self, station: FractalStation):
+        """
+        [Blood Vessel] Injects the Fractal Station into the Cognition System.
+        Higher dimensions/priorities create heavier Thought Masses.
+        """
+        if not self.cognition_system:
+            return
+
+        # Calculate Mass based on Priority and Depth (Root is heaviest)
+        mass = (station.priority * 10.0) / (station.depth + 1)
+        if station.depth == 0:
+            mass *= 5.0 # Root goal is massive
+
+        # Inject as Thought
+        # Prefix with [Goal] to indicate origin
+        thought_content = f"[Goal] {station.name}"
+        self.cognition_system.process_thought(thought_content, importance=mass)
+
+        # Recursively cast children
+        for sub in station.sub_stations:
+            self._cast_to_cognition(sub)
     
     def _decompose_recursive(
         self, 
