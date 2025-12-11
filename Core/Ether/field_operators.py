@@ -15,6 +15,7 @@ They represent the fundamental forces of the Elysian Universe.
 """
 
 import math
+import numpy as np
 from typing import List
 from Core.Ether.ether_node import EtherNode, Quaternion
 from Core.Ether.void import Void
@@ -44,48 +45,82 @@ class LawOfGravity(FieldOperator):
         n = len(nodes)
         if n < 2: return
 
-        # O(N^2) - Naive implementation.
-        # Optimized: Barnes-Hut or Grid-based in future.
-        for i in range(n):
-            node_a = nodes[i]
-            if node_a.mass <= 0: continue
+        # Vectorized implementation (O(N^2) but with C-level speed)
 
-            # Accumulate force for node_a
-            fx, fy, fz, fw = 0.0, 0.0, 0.0, 0.0
+        # 1. Extract data into numpy arrays
+        # Positions: [x, y, z, w]
+        pos_arr = np.array([[n.position.x, n.position.y, n.position.z, n.position.w] for n in nodes])
+        mass_arr = np.array([n.mass for n in nodes])
+        freq_arr = np.array([n.frequency for n in nodes])
+        # Spins: [x, y, z, w]
+        spin_arr = np.array([[n.spin.x, n.spin.y, n.spin.z, n.spin.w] for n in nodes])
 
-            for j in range(n):
-                if i == j: continue
-                node_b = nodes[j]
+        # 2. Calculate Distance Matrix
+        # diff[i, j] = pos[j] - pos[i] (Vector from i to j)
+        # However, we need to match original logic:
+        # Original: dx = node_b.x - node_a.x
+        # My diff: diff[i, j] = pos[j] - pos[i].
+        # So diff[i, j] is vector from i to j.
+        # This is correct.
 
-                # Vector B -> A
-                dx = node_b.position.x - node_a.position.x
-                dy = node_b.position.y - node_a.position.y
-                dz = node_b.position.z - node_a.position.z
-                dw = node_b.position.w - node_a.position.w
+        diff = pos_arr[None, :, :] - pos_arr[:, None, :] # Shape (N, N, 4)
+        dist_sq = np.sum(diff**2, axis=2)
+        dist = np.sqrt(dist_sq)
 
-                dist_sq = dx*dx + dy*dy + dz*dz + dw*dw
-                dist = math.sqrt(dist_sq) + 1e-6
+        # 3. Calculate Resonance Matrix
+        # Frequency diff: |f_i - f_j|
+        freq_diff = np.abs(freq_arr[:, None] - freq_arr[None, :])
+        freq_res = 1.0 / (1.0 + freq_diff * 0.1)
 
-                if dist < MIN_DIST:
-                    # Repulsion (Too close)
-                    force_mag = -MAX_FORCE / dist
-                else:
-                    # Attraction (Gravity)
-                    # Modify Gravity by Resonance! (Affinity Gravity)
-                    # If they resonate, they attract STRONGER.
-                    resonance = node_a.resonate(node_b)
-                    effective_mass = node_a.mass * node_b.mass * (1.0 + resonance * 5.0)
-                    force_mag = min(MAX_FORCE, (G_CONST * effective_mass) / dist_sq)
+        # Spin alignment: |dot(s_i, s_j)|
+        # spin_arr is (N, 4). spin_arr @ spin_arr.T gives dot products
+        spin_dot = np.abs(np.einsum('ij,kj->ik', spin_arr, spin_arr))
 
-                # Apply vector component
-                fx += force_mag * (dx / dist)
-                fy += force_mag * (dy / dist)
-                fz += force_mag * (dz / dist)
-                fw += force_mag * (dw / dist)
+        resonance = (freq_res * 0.6) + (spin_dot * 0.4)
 
-            # Apply to Node A
-            force_vector = Quaternion(fw, fx, fy, fz)
-            node_a.apply_force(force_vector, dt)
+        # 4. Calculate Force Magnitudes
+        # Repulsion mask (too close)
+        mask_close = dist < MIN_DIST
+
+        # Repulsion force: -MAX_FORCE / dist
+        # Safe division for repulsion (handles very small dist)
+        f_repul = -MAX_FORCE / (dist + 1e-9)
+
+        # Attraction force
+        # eff_mass = m_i * m_j * (1 + res * 5.0)
+        eff_mass = (mass_arr[:, None] * mass_arr[None, :]) * (1.0 + resonance * 5.0)
+
+        # Safe division for attraction
+        f_attr = (G_CONST * eff_mass) / (dist_sq + 1e-9)
+        f_attr = np.minimum(f_attr, MAX_FORCE)
+
+        # Combine forces
+        # Where close: use repulsion. Where far: use attraction.
+        f_mag = np.where(mask_close, f_repul, f_attr)
+
+        # Zero out self-interactions (diagonal)
+        np.fill_diagonal(f_mag, 0.0)
+
+        # 5. Calculate Force Vectors
+        # F_vec = mag * direction
+        # direction = diff / dist
+        # So F_vec = (f_mag / dist) * diff
+
+        f_coeff = f_mag / (dist + 1e-9)
+        force_vectors = diff * f_coeff[:, :, None] # Shape (N, N, 4)
+
+        # Sum forces acting on each node i (sum over j)
+        total_forces = np.sum(force_vectors, axis=1) # Shape (N, 4)
+
+        # 6. Apply to nodes
+        for i, node in enumerate(nodes):
+            if node.mass <= 0: continue
+            # Map back to Quaternion(w, x, y, z)
+            # numpy array was [x, y, z, w]
+            fx, fy, fz, fw = total_forces[i]
+            # Convert numpy float to python float
+            force_quat = Quaternion(w=float(fw), x=float(fx), y=float(fy), z=float(fz))
+            node.apply_force(force_quat, dt)
 
 class LawOfResonance(FieldOperator):
     """
