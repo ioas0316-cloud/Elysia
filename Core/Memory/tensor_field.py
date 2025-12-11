@@ -27,7 +27,7 @@ Zero-Computation Principle:
 
 import logging
 import math
-from typing import List, Tuple, Dict, Any, Optional
+from typing import List, Tuple, Dict, Any, Optional, Union
 from dataclasses import dataclass, field
 import time
 
@@ -73,6 +73,36 @@ class GravityWell:
         dz = self.z - z
         dw = self.w - w
         return math.sqrt(dx*dx + dy*dy + dz*dz + dw*dw)
+
+
+@dataclass
+class TensorWell:
+    """
+    텐서 우물 (Tensor Well) - Anisotropic attractor
+
+    Unlike a simple gravity well which attracts equally from all directions,
+    a tensor well applies a transformation matrix to the space around it.
+    It can create complex flow patterns like rotation, shear, or directional attraction.
+    """
+    # Position
+    x: float
+    y: float
+    z: float
+    w: float
+
+    # Interaction Tensor (4x4 matrix)
+    # T * displacement = force_vector
+    # If T = -I (identity), it's standard attraction
+    tensor: Union[List[List[float]], Any]  # List[List] or np.ndarray
+
+    # Metadata
+    label: str = ""
+    data: Any = None
+
+    def __post_init__(self):
+        # Ensure tensor is in correct format if possible
+        if HAS_NUMPY and not isinstance(self.tensor, np.ndarray):
+            self.tensor = np.array(self.tensor, dtype=float)
 
 
 @dataclass
@@ -450,15 +480,134 @@ class TensorCoil:
     - Shear (stretch data in one direction)
     """
     
-    def __init__(self):
-        """Initialize tensor coil"""
-        # 4x4 tensor at each well
-        self.tensors: List[List[List[float]]] = []
+    def __init__(self, smoothing_radius: float = 0.1):
+        """
+        Initialize tensor coil
+
+        Args:
+            smoothing_radius: Prevent singularities at r=0
+        """
+        self.wells: List[TensorWell] = []
+        self.smoothing = smoothing_radius
         logger.info("🌀 Tensor Coil initialized (anisotropic fields)")
     
-    # TODO: Implement full tensor mathematics
-    # This is advanced - start with scalar field above
-    pass
+    def add_well(self, x: float, y: float, z: float, w: float, tensor: Any, label: str = ""):
+        """
+        Add a tensor well to the coil.
+
+        Args:
+            x, y, z, w: Position
+            tensor: 4x4 matrix (List[List[float]] or np.ndarray)
+            label: Optional name
+        """
+        well = TensorWell(x, y, z, w, tensor, label)
+        self.wells.append(well)
+        logger.debug(f"Added tensor well '{label}' at ({x:.2f},{y:.2f},{z:.2f},{w:.2f})")
+
+    def get_field_at(self, x: float, y: float, z: float, w: float) -> Tuple[float, float, float, float]:
+        """
+        Calculate the vector field at a specific point.
+
+        Field F(x) = Σ (T_i · (x - x_i)) / |x - x_i|^3
+
+        This allows for:
+        - Attraction (if T = -c·I)
+        - Repulsion (if T = c·I)
+        - Rotation (if T has skew-symmetric parts)
+        - Shear (if T is diagonal with unequal elements)
+        """
+        total_fx = 0.0
+        total_fy = 0.0
+        total_fz = 0.0
+        total_fw = 0.0
+
+        pos_vec = (x, y, z, w)
+
+        for well in self.wells:
+            # Displacement vector d = x - well.x
+            dx = x - well.x
+            dy = y - well.y
+            dz = z - well.z
+            dw = w - well.w
+
+            # Distance squared
+            r2 = dx*dx + dy*dy + dz*dz + dw*dw
+
+            # Smoothed distance
+            r_smooth = math.sqrt(r2 + self.smoothing**2)
+
+            # Decay factor (1/r^3 like gravity force)
+            factor = 1.0 / (r_smooth ** 3)
+
+            # Calculate T · d
+            displacement = (dx, dy, dz, dw)
+
+            if HAS_NUMPY and isinstance(well.tensor, np.ndarray):
+                # Numpy optimization
+                transformed = np.dot(well.tensor, displacement)
+                tf_x, tf_y, tf_z, tf_w = transformed
+            else:
+                # Manual matrix multiplication
+                tf_x = sum(well.tensor[0][j] * displacement[j] for j in range(4))
+                tf_y = sum(well.tensor[1][j] * displacement[j] for j in range(4))
+                tf_z = sum(well.tensor[2][j] * displacement[j] for j in range(4))
+                tf_w = sum(well.tensor[3][j] * displacement[j] for j in range(4))
+
+            # Add to total force
+            total_fx += tf_x * factor
+            total_fy += tf_y * factor
+            total_fz += tf_z * factor
+            total_fw += tf_w * factor
+
+        return (total_fx, total_fy, total_fz, total_fw)
+
+    @staticmethod
+    def create_isotropic_tensor(strength: float = -1.0) -> List[List[float]]:
+        """Create a tensor for simple isotropic attraction/repulsion"""
+        # Identity matrix scaled by strength
+        # Negative strength = attraction (force opposite to displacement)
+        t = [[0.0]*4 for _ in range(4)]
+        for i in range(4):
+            t[i][i] = strength
+        return t
+
+    @staticmethod
+    def create_rotation_tensor(plane: Tuple[int, int], strength: float = 1.0) -> List[List[float]]:
+        """
+        Create a tensor that causes rotation in a specific plane.
+
+        Args:
+            plane: Tuple of indices (e.g., (0, 1) for xy-plane)
+            strength: Speed of rotation
+        """
+        t = [[0.0]*4 for _ in range(4)]
+        i, j = plane
+
+        # Skew-symmetric component for rotation
+        # T · d = (-y, x) -> Force is tangent to circle
+        t[i][j] = -strength
+        t[j][i] = strength
+
+        return t
+
+    @staticmethod
+    def create_combined_tensor(
+        attraction: float = -1.0,
+        rotation_planes: List[Tuple[Tuple[int, int], float]] = None
+    ) -> List[List[float]]:
+        """
+        Create a tensor combining attraction and rotation (spiral).
+        """
+        # Start with isotropic attraction
+        t = TensorCoil.create_isotropic_tensor(attraction)
+
+        # Add rotation components
+        if rotation_planes:
+            for (i, j), str_val in rotation_planes:
+                t[i][j] -= str_val
+                t[j][i] += str_val
+
+        return t
 
 
 # Helper function for easy field creation
