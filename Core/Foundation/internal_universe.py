@@ -329,7 +329,7 @@ class InternalUniverse:
         feeling = self.feel_at(query)
         
         # Access related concepts through resonance
-        related = self._find_resonant_concepts(query, threshold=0.5)
+        related = self.find_resonant_concepts(query, threshold=0.5)
         
         result = {
             "query": query,
@@ -341,7 +341,7 @@ class InternalUniverse:
         
         return result
     
-    def _find_resonant_concepts(self, center: str, threshold: float = 0.5) -> list:
+    def find_resonant_concepts(self, center: str, threshold: float = 0.5) -> list:
         """Find concepts that resonate with the center concept"""
         if center not in self.coordinate_map:
             return []
@@ -367,6 +367,19 @@ class InternalUniverse:
         resonant.sort(key=lambda x: x["resonance"], reverse=True)
         
         return resonant[:5]  # Top 5 resonant concepts
+
+    def find_closest_concept(self, quat: Quaternion) -> Optional[str]:
+        """Find the closest concept name to a given quaternion"""
+        best_name = None
+        best_alignment = -1.0
+
+        for name, coord in self.coordinate_map.items():
+            alignment = quat.dot(coord.orientation)
+            if alignment > best_alignment:
+                best_alignment = alignment
+                best_name = name
+
+        return best_name
     
     def get_universe_map(self) -> Dict[str, Any]:
         """Get a snapshot of the internal universe"""
