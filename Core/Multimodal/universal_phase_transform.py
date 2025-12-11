@@ -28,6 +28,7 @@ from typing import List, Tuple, Optional, Dict, Any, Union
 from enum import Enum
 import logging
 import hashlib
+import re
 
 logger = logging.getLogger("UniversalPhaseTransform")
 
@@ -47,6 +48,119 @@ class Modality(Enum):
     TOUCH = "touch"      # 촉각
     SMELL = "smell"      # 후각
     TASTE = "taste"      # 미각
+
+
+class TextComplexityAnalyzer:
+    """
+    텍스트 복잡도 분석기
+
+    언어와 도메인에 따른 텍스트의 형식적 복잡도를 측정
+    """
+
+    @staticmethod
+    def analyze(word: str, language: str = 'auto', domain: str = 'general') -> float:
+        """
+        단어의 복잡도 계산 (0.0 ~ 1.0)
+
+        Args:
+            word: 분석할 단어
+            language: 언어 코드 ('en', 'ko', 'auto')
+            domain: 도메인 ('general', 'technical', 'literary')
+        """
+        if not word:
+            return 0.0
+
+        if language == 'auto':
+            language = TextComplexityAnalyzer._detect_language(word)
+
+        base_complexity = 0.0
+
+        if language == 'ko':
+            base_complexity = TextComplexityAnalyzer._analyze_korean(word)
+        else:
+            base_complexity = TextComplexityAnalyzer._analyze_english(word)
+
+        # 도메인 가중치 적용
+        domain_factor = TextComplexityAnalyzer._get_domain_factor(word, domain)
+
+        # 최종 점수 정규화
+        return min(1.0, base_complexity * domain_factor)
+
+    @staticmethod
+    def _detect_language(text: str) -> str:
+        """언어 감지 (한글 포함 여부로 판단)"""
+        for char in text:
+            if '\uac00' <= char <= '\ud7a3':
+                return 'ko'
+        return 'en'
+
+    @staticmethod
+    def _analyze_english(word: str) -> float:
+        """영어 단어 복잡도"""
+        length = len(word)
+        if length == 0: return 0.0
+
+        # 1. 길이 점수 (긴 단어가 더 복잡)
+        length_score = min(1.0, length / 12.0)
+
+        # 2. 대문자/특수문자 혼합 (CamelCase, snake_case 등)
+        upper_count = sum(1 for c in word if c.isupper())
+        special_count = sum(1 for c in word if not c.isalnum())
+
+        structure_score = 0.0
+        if upper_count > 1 or special_count > 0:
+            structure_score = 0.3
+
+        # 3. 희귀 문자 (q, z, x, j) 포함 여부 - 간단한 휴리스틱
+        rare_chars = {'q', 'z', 'x', 'j'}
+        rare_score = 0.1 if any(c.lower() in rare_chars for c in word) else 0.0
+
+        # 가중치 합산
+        return (length_score * 0.6) + structure_score + rare_score
+
+    @staticmethod
+    def _analyze_korean(word: str) -> float:
+        """한국어 단어 복잡도"""
+        length = len(word)
+        if length == 0: return 0.0
+
+        # 1. 길이 점수 (한국어는 4음절 이상이면 복잡도가 꽤 높음)
+        length_score = min(1.0, length / 5.0)
+
+        # 2. 받침 복잡도 (간단한 휴리스틱)
+        # 받침이 있는 글자가 많을수록 발음/구조가 복잡할 가능성
+        batchim_count = 0
+        for char in word:
+            if '\uac00' <= char <= '\ud7a3':
+                # (Unicode - 0xAC00) % 28 != 0 이면 받침 있음
+                if (ord(char) - 0xAC00) % 28 != 0:
+                    batchim_count += 1
+
+        batchim_ratio = batchim_count / length
+        batchim_score = batchim_ratio * 0.3
+
+        # 3. 한자/외래어 혼용 (한글 범위 밖의 문자가 섞여있으면 복잡도 증가)
+        # 순수 한글이 아닌 경우 (숫자, 알파벳 등 혼용)
+        mixed_script = any(not ('\uac00' <= c <= '\ud7a3') for c in word if c.isalnum())
+        mixed_score = 0.2 if mixed_script else 0.0
+
+        return (length_score * 0.5) + batchim_score + mixed_score
+
+    @staticmethod
+    def _get_domain_factor(word: str, domain: str) -> float:
+        """도메인별 가중치"""
+        factor = 1.0
+
+        if domain == 'technical':
+            # 기술 용어 특징: _, 숫자 포함
+            if '_' in word or any(c.isdigit() for c in word):
+                factor = 1.3
+        elif domain == 'official':
+            # 공문서: 긴 단어에 가중치
+            if len(word) >= 4:
+                factor = 1.2
+
+        return factor
 
 
 @dataclass
@@ -249,7 +363,7 @@ class UniversalPhaseTransform:
         logger.info(f"✅ Audio → {len(phase_quaternions)} phase quaternions")
         return phase_quaternions
     
-    def transform_text(self, text: str) -> List[PhaseQuaternion]:
+    def transform_text(self, text: str, language: str = 'auto', domain: str = 'general') -> List[PhaseQuaternion]:
         """
         텍스트를 위상 쿼터니언으로 변환
         
@@ -258,6 +372,11 @@ class UniversalPhaseTransform:
         - x: 리듬 (음절 수, 문장 길이)
         - y: 맥락 (문맥, 위치)
         - z: 복잡도 (어휘 다양성, 구조)
+
+        Args:
+            text: 입력 텍스트
+            language: 언어 ('auto', 'ko', 'en')
+            domain: 도메인 ('general', 'technical', 'official')
         """
         words = text.split()
         quaternions = []
@@ -272,11 +391,10 @@ class UniversalPhaseTransform:
             # y: 문장 내 위치 (위상)
             y = (i / len(words)) * 2 * np.pi
             
-            # z: 복잡도 (대문자, 특수문자 비율)
-            # 텍스트의 형식적 복잡도를 측정 (공식 문서, 기술 용어 등)
-            # TODO: 언어별, 도메인별 복잡도 측정 방식 개선 필요
-            complexity = sum(1 for c in word if c.isupper() or not c.isalnum()) / max(len(word), 1)
-            z = min(1.0, complexity * 3)
+            # z: 복잡도 (언어별/도메인별 형식적 복잡도)
+            # TextComplexityAnalyzer를 사용하여 계산
+            complexity = TextComplexityAnalyzer.analyze(word, language, domain)
+            z = min(1.0, complexity)
             
             pq = PhaseQuaternion(w, x, y, z, Modality.TEXT)
             quaternions.append(pq)
