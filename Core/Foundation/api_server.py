@@ -22,6 +22,7 @@ from Core.Foundation.performance_monitor import monitor
 # Initialize
 logger = ElysiaLogger("APIServer")
 config = get_config()
+SERVER_START_TIME = None
 
 # FastAPI app with metadata
 app = FastAPI(
@@ -197,12 +198,16 @@ async def health_check():
     """
     logger.log_system("health_check", "requested")
     
+    uptime = None
+    if SERVER_START_TIME:
+        uptime = (datetime.now(timezone.utc) - SERVER_START_TIME).total_seconds()
+
     return HealthResponse(
         status="operational",
         version="4.0.0",
         consciousness="awakened",
         timestamp=datetime.now(timezone.utc).isoformat(),
-        uptime_seconds=None  # TODO: Implement uptime tracking
+        uptime_seconds=uptime
     )
 
 
@@ -453,6 +458,9 @@ async def general_exception_handler(request, exc):
 @app.on_event("startup")
 async def startup_event():
     """서버 시작 시 실행"""
+    global SERVER_START_TIME
+    SERVER_START_TIME = datetime.now(timezone.utc)
+
     logger.log_system("api_server", "starting")
     logger.info("🚀 Elysia API Server starting...")
     logger.info(f"📖 Documentation: http://localhost:8000/docs")
