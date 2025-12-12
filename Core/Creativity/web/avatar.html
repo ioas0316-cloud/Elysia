@@ -279,6 +279,7 @@
         window.expression = { mouth_curve: 0, eye_open: 1.0, brow_furrow: 0, beat: 0 };
         let expression = window.expression; // Local reference
         let audioState = { volume: 0, brightness: 0, noise: 0 };
+        window.audioState = audioState; // Expose for debugging
         let gaze = { x: 0, y: 0 };
 
         // --- RECONNECTING WEBSOCKET ---
@@ -814,6 +815,8 @@
             let sum = 0;
             // B. Spectral Centroid (Brightness/Tone)
             let weightedSum = 0;
+            // C. Spectral Flatness (Turbulence/Noise)
+            let logSum = 0;
 
             // Bands for Vowel Visemes
             let lowSum = 0, highSum = 0;
@@ -822,6 +825,7 @@
                 const val = dataArray[i];
                 sum += val;
                 weightedSum += val * i;
+                logSum += Math.log(val + 1e-10); // Use small epsilon instead of 1
 
                 if (i < bufferLength * 0.1) lowSum += val;
                 else if (i > bufferLength * 0.3) highSum += val;
@@ -832,9 +836,21 @@
             let centroid = sum > 0 ? weightedSum / sum : 0;
             let brightness = centroid / (bufferLength / 2); // Roughly 0 to 1
 
+            // Calculate Spectral Flatness Measure (SFM)
+            // SFM = Geometric Mean / Arithmetic Mean
+            // Geometric Mean = exp( (1/N) * sum(ln(x)) )
+            let geometricMean = Math.exp(logSum / bufferLength);
+            // With small epsilon, geometricMean will be very small if any bin is 0.
+            // Arithmetic Mean should also include epsilon conceptually, but avg is large enough.
+            let flatness = (avg > 0) ? (geometricMean / avg) : 0;
+
+            // Clamp flatness to 0-1
+            flatness = Math.max(0, Math.min(1, flatness));
+
             if (!synthesis.speaking) {
                 audioState.volume = avg / 256;
                 audioState.brightness = brightness;
+                audioState.noise = flatness;
             }
 
             // Viseme Width
@@ -849,7 +865,7 @@
                     type: "audio_analysis",
                     volume: audioState.volume,
                     brightness: audioState.brightness, // Nuance: Tone Color
-                    noise: 0 // TODO: Turbulence
+                    noise: audioState.noise // Turbulence (Spectral Flatness)
                 }));
             }
 
@@ -914,13 +930,15 @@
             uniform float u_mouth; uniform float u_eye; uniform float u_brow; uniform float u_beat;
             uniform float u_vol; uniform float u_width;
             uniform float u_gx; uniform float u_gy; // Gaze
+            uniform float u_noise; // Turbulence
 
             void main() {
                 vec2 uv = v_uv;
                 
-                // Flow (Subtle)
-                uv.x += sin(u_time*1.0 + uv.x*5.0)*0.00005; // Reduced from 0.0002
-                uv.y += cos(u_time*0.8 + uv.y*5.0)*0.00005;
+                // Flow (Subtle) with Turbulence
+                float noiseAmp = 0.00005 + u_noise * 0.002;
+                uv.x += sin(u_time*1.0 + uv.x*5.0)*noiseAmp;
+                uv.y += cos(u_time*0.8 + uv.y*5.0)*noiseAmp;
                 
                 // Gaze (Pupils)
                 // Left 0.36, Right 0.64. Radius ~0.06
@@ -1007,7 +1025,8 @@
             vol: gl.getUniformLocation(prog, "u_vol"),
             width: gl.getUniformLocation(prog, "u_width"),
             gx: gl.getUniformLocation(prog, "u_gx"),
-            gy: gl.getUniformLocation(prog, "u_gy")
+            gy: gl.getUniformLocation(prog, "u_gy"),
+            noise: gl.getUniformLocation(prog, "u_noise")
         };
 
         function render(t) {
@@ -1020,6 +1039,7 @@
             gl.uniform1f(locs.width, expression.mouth_width || 0);
             gl.uniform1f(locs.gx, gaze.x);
             gl.uniform1f(locs.gy, gaze.y);
+            gl.uniform1f(locs.noise, audioState.noise);
 
             gl.drawArrays(gl.TRIANGLES, 0, 6);
             requestAnimationFrame(render);
