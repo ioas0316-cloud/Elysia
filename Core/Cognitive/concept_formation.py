@@ -84,7 +84,7 @@ class ConceptFormation:
     개념 형성 엔진
     """
     
-    def __init__(self, persistence_path: str = "data/memory/concepts.json"):
+    def __init__(self, persistence_path: str = "data/core_state/concepts.json"):
         self.memory = get_memory_stream()
         self.wisdom = get_aesthetic_wisdom()
         self.persistence_path = Path(persistence_path)

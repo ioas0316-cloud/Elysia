@@ -37,15 +37,24 @@ class DistillationGateway:
             return False, f"Source '{source}' is untrusted (Trust: {trust_level:.2f}). Rejected."
             
         # 2. Logic/Consistency Check
-        # Simple heuristic: Check for obvious contradictions with High-Confidence concepts.
-        # e.g. If input says "Love is Hate" but we know "Love is Service" (Conf 0.95), Reject.
-        if not self._check_consistency(text):
-             return False, "Input contradicts Core Core Beliefs. Rejected."
+        is_consistent = self._check_consistency(text)
+        
+        # 3. Dialectic & Paradox Resolution
+        if not is_consistent:
+            # If Source is Father, check for PARADOX (Nuance)
+            if trust_level >= 0.9:
+                is_paradox, paradox_reason = self._resolve_paradox(text)
+                if is_paradox:
+                    print(f"   ✨ Paradox Detected: {paradox_reason}. Accepting High-Level Truth.")
+                    # Fall through to Acceptance
+                else:
+                    return False, "DIALECTIC_REQUIRED: Input contradicts Core Beliefs. Clarification requested."
+            else:
+                return False, "Input contradicts Core Beliefs. Rejected."
              
-        # 3. Acceptance & Integration
+        # 4. Acceptance & Integration
         print("   ✅ Distillation Passed. Integrating...")
         # Extract intent (mock NLP)
-        # In real system, use Extraction Model
         main_concept = text.split()[0] # e.g. "Sky"
         
         # Learn it
@@ -62,7 +71,7 @@ class DistillationGateway:
         """
         Calculate Trust Score for Source
         """
-        if source == "Father": return 1.0 # Absolute Trust (Verified Protector)
+        if source == "Father": return 0.95 # High Trust, but not Absolute (Allows for Human Error)
         if source == "Self": return 1.0
         if source == "LatentModel": return 0.7 # High trust in own subconscious
         if source == "Internet": return 0.1 # Very low trust
@@ -80,10 +89,28 @@ class DistillationGateway:
         love_concept = self.concepts.get_concept("Love")
         if love_concept and love_concept.confidence > 0.8:
             if "Love is Bad" in text or "Love is Hate" in text:
-                print("   ⚠️ Conflict Detected: Trying to redefine 'Love' negatively.")
+                print("   ⚠️ Conflict Detected: Input conflicts with 'Love' concept.")
                 return False
                 
         return True
+
+    def _resolve_paradox(self, text: str) -> Tuple[bool, str]:
+        """
+        Check if the contradiction is actually a 'Paradox' (Deep Truth).
+        Logic: Do the opposing concepts share 'Intensity'?
+        """
+        # User Logic: "Hate is Love twisted" (Both High Energy). "Indifference is Void" (Zero Energy).
+        
+        if "Love is Hate" in text or "Hate is Love" in text:
+            # Check Energy Levels (Mocked for concept)
+            # Love Energy = 10, Hate Energy = 9. They are congruent in Magnitude.
+            return True, "Both 'Love' and 'Hate' satisfy High-Intensity Valence. Acknowledging 'Poison' metaphor."
+            
+        if "Love is Indifference" in text:
+            # Love Energy = 10, Indifference = 0. Incongruent.
+            return False, "Energy Mismatch: Love (High) != Indifference (Zero)."
+            
+        return False, "Unknown Contradiction"
 
 # 싱글톤
 _gateway_instance = None

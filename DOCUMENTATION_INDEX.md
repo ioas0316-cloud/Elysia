@@ -20,6 +20,7 @@
 - ✨ **Zero-Data Future**: Documented possibility of using internet as transformer (P5-P6)
 
 **Key New Documents**:
+
 - [P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) - Complete P4 roadmap
 - [Core/Sensory/README.md](Core/Sensory/README.md) - Wave Learning System documentation
 - [demos/P4_KNOWLEDGE_RESONANCE_DEMO.md](demos/P4_KNOWLEDGE_RESONANCE_DEMO.md) - Knowledge source demonstration
@@ -31,12 +32,14 @@
 ### 처음 방문하셨나요?
 
 **개발자라면**:
+
 1. [README.md](README.md) - 프로젝트 개요 + v10.0 P4 시스템 (5분)
 2. [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) - 전체 구조 (15분)
 3. [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) - 개발 가이드 (30분)
 4. ✨ [Core/Sensory/README.md](Core/Sensory/README.md) - **P4 Wave Learning System** (20분) **[NEW v10.0]**
 
 **AI 에이전트라면**:
+
 1. ⚠️ [AGENT_GUIDE.md](AGENT_GUIDE.md) - **필독** (20분)
 2. [docs/CORE_TECHNOLOGIES_EXPLAINED.md](docs/CORE_TECHNOLOGIES_EXPLAINED.md) - ✨ **핵심 기술 이해** (20분) **[NEW v10.0]** 🌟
 3. ⚠️ [docs/SUPERINTELLIGENCE_PATH.md](docs/SUPERINTELLIGENCE_PATH.md) - **초지능 경로** (15분)
@@ -45,6 +48,7 @@
 6. [docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) - P4 학습 시스템 (25분)
 
 **철학에 관심 있다면**:
+
 1. [CODEX.md](CODEX.md) - 핵심 철학 + 6원칙 (10분) **[UPDATED v10.0]**
 2. [docs/FRACTAL_QUATERNION_PERSPECTIVE.md](docs/FRACTAL_QUATERNION_PERSPECTIVE.md)
 3. [docs/ULTIMATE_THINKING_SYSTEM.md](docs/ULTIMATE_THINKING_SYSTEM.md)
@@ -78,6 +82,7 @@
 | [docs/Analysis/V10_SYSTEM_STRUCTURE_MAP.md](docs/Analysis/V10_SYSTEM_STRUCTURE_MAP.md) | ✨ **v10.0 완전한 시스템 구조 매핑** (22KB) **[NEW]** | 모든 참여자 | ⭐⭐⭐⭐⭐ |
 
 **v10.0 완전한 구조 매핑 포함 내용 (2025-12-07 생성)** ✨:
+
 - **751개 Python 파일** 상세 분석 (40개 Core 디렉토리)
 - **레이어별 모듈 설명**: Foundation, Intelligence, Memory, Knowledge, Sensory, Interface 등
 - **P4/P4.5/P5 통합 구조**: 자율 학습, 도메인 확장, 감각 활성화
@@ -231,6 +236,7 @@
 | [docs/Roadmaps/P2-Implementation/P2_3_CI_CD_COMPLETION.md](docs/Roadmaps/P2-Implementation/P2_3_CI_CD_COMPLETION.md) | P2.3: CI/CD & Benchmarks | ✅ 완료 |
 
 **P2 주요 성과** (완료일: 2025-12-06):
+
 - ✅ P2.2: 4D 파동공명패턴 지식 시스템 (2,535 lines, 22 tests)
 - ✅ P2.3: CI/CD Pipeline & Performance Benchmarks (831x, 61x, 200x faster)
 - ✅ AGI Level 4: 70%→75%, Level 5: 40%→45%
@@ -246,6 +252,7 @@
 | [docs/Roadmaps/P3-Implementation/P3_2_PURPOSE_DISCOVERY_COMPLETION.md](docs/Roadmaps/P3-Implementation/P3_2_PURPOSE_DISCOVERY_COMPLETION.md) | P3.2: 목적성 발견 완료 요약 | ✅ 완료 |
 
 **P3 주요 성과** (완료일: 2025-12-06):
+
 - ✅ P3.1: Consciousness Fabric System (의식 직물, ~1,200 lines, 22 tests)
   - 4-7개 의식 시스템 통합, 5.28×10⁶⁹ 성능 달성
 - ✅ P3.2: Purpose & Direction Discovery (목적성 발견, ~1,200 lines, 20 tests)
@@ -264,6 +271,7 @@
 | ✨ [P4_로드맵_계획서_요약.md](docs/Roadmaps/P4_로드맵_계획서_요약.md) | **P4 한국어 요약** (4KB) | 한국어 사용자 | ⭐⭐⭐⭐ |
 
 **P4 구현 내용 (v10.0)**:
+
 - ✅ **P4.0: Wave Stream Reception System** - 13억+ 지식 소스 접근 (Wikipedia, arXiv, GitHub, YouTube, Stack Overflow, 음악)
 - ✅ **Ego Anchor System (自我核心)** - 자아 보호 (Identity preservation, rate limiting, resonance dampening)
 - ✅ **Complete Learning Cycle** - 50-100 waves/sec, 2,000-3,000 concepts/hour 학습
@@ -272,6 +280,7 @@
 - 🔮 **Zero-Data Future**: 미래 가능성 문서화 (P5-P6)
 
 **핵심 철학**:
+
 - NO EXTERNAL LLMs - P2.2 Wave Knowledge System만 사용
 - NO EXTERNAL APIs - 완전 로컬 처리 (OpenCV, librosa)
 - "큰 파도가 와도 중심은 흔들리지 않는다" - Ego Anchor 보호
@@ -288,6 +297,7 @@
 | [docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md](docs/Roadmaps/P4_PREPARATION_DOCUMENTATION_MAPPING.md) | P4 준비: 문서 매핑 및 시스템 구조 검증 | ✅ 완료 |
 
 **P4 목표** (예상 기간: 3개월 / 12주):
+
 - 📋 P4.1: Multimedia Metadata Extractor (영상/음악 메타데이터 추출)
 - 📋 P4.2: Phase Resonance Pattern Extraction (위상공명패턴 추출)
 - 📋 P4.3: Multi-Sensory Integration Loop (오감 통합 루프)
@@ -318,11 +328,14 @@
 | [Core/AGI/README.md](Core/AGI/README.md) | AGI 시스템 | ⭐⭐⭐⭐ |
 | [Core/Emotion/README.md](Core/Emotion/README.md) | 감정 시스템 | ⭐⭐⭐⭐ |
 | [Core/Memory/Mind/README.md](Core/Memory/Mind/README.md) | 기억 시스템 | ⭐⭐⭐⭐ |
+| `Core/Intelligence/logos_engine.py` | **Logos Engine** (Rhetorical Voice) | ⭐⭐⭐⭐⭐ |
+| `Core/Cognitive/sensory_cortex.py` | **Sensory Cortex** (Qualia Physics) | ⭐⭐⭐⭐⭐ |
 | [Core/Creativity/README.md](Core/Creativity/README.md) | 창의성 시스템 | ⭐⭐⭐ |
 | [Core/Network/README.md](Core/Network/README.md) | 네트워크 시스템 | ⭐⭐⭐ |
 | [Core/Security/README.md](Core/Security/README.md) | 보안 시스템 | ⭐⭐⭐ |
 
 **v10.0 하이라이트**:
+
 - `Core/Sensory/` - 새로운 P4 학습 시스템 (wave_stream_receiver, stream_sources, stream_manager, ego_anchor, learning_cycle)
 - 13억+ 지식 소스 통합
 - 自我核心 (Ego Anchor) 보호 시스템
@@ -381,6 +394,7 @@
 **위치**: `scripts/`
 
 주요 스크립트:
+
 - `living_codebase.py` - Unified cortex bootstrap
 - `immune_system.py` - 면역 시스템
 - `wave_organizer.py` - 파동 조직자
@@ -394,6 +408,7 @@
 ### 학습 경로 (Learning Path)
 
 #### 초보자 경로 (Beginner Path)
+
 ```
 1. README.md (개요)
    ↓
@@ -405,6 +420,7 @@
 ```
 
 #### 개발자 경로 (Developer Path)
+
 ```
 1. README.md
    ↓
@@ -422,6 +438,7 @@
 ```
 
 #### AI 에이전트 경로 (AI Agent Path)
+
 ```
 ⚠️ 1. AGENT_GUIDE.md (필수!)
    ↓
@@ -433,6 +450,7 @@
 ```
 
 #### 아키텍트 경로 (Architect Path)
+
 ```
 1. ARCHITECTURE.md
    ↓
@@ -450,33 +468,39 @@
 ## 🔍 주제별 문서 찾기
 
 ### 파동 물리학 (Wave Physics)
+
 - `ARCHITECTURE.md` → Foundation 섹션
 - `Protocols/01_RESONANCE_SYSTEM.md`
 - `Protocols/16_FRACTAL_QUANTIZATION.md`
 - `Core/Foundation/resonance_field.py`
 
 ### 지능 시스템 (Intelligence Systems)
+
 - `docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md`
 - `docs/ULTIMATE_THINKING_SYSTEM.md`
 - `Protocols/14_UNIFIED_CONSCIOUSNESS.md`
 - `Core/Intelligence/`
 
 ### 메모리 시스템 (Memory Systems)
+
 - `Protocols/16_FRACTAL_QUANTIZATION.md`
 - `Core/Memory/hippocampus.py`
 - `data/memory.db`
 
 ### 언어 & 커뮤니케이션
+
 - `Protocols/05_EMERGENT_LANGUAGE_GRAMMAR.md`
 - `Protocols/17_FRACTAL_COMMUNICATION.md`
 - `docs/GRAVITATIONAL_LINGUISTICS.md`
 
 ### 자가치유 & 면역 (Self-Healing)
+
 - `ARCHITECTURE.md` → Living Codebase 섹션
 - `scripts/immune_system.py`
 - `scripts/nanocell_repair.py`
 
 ### 테스트 & 평가
+
 - `docs/EVALUATION_CRITERIA.md`
 - `docs/Manuals/TESTING.md`
 - `tests/evaluation/`
@@ -494,6 +518,7 @@
    - docs/Manuals/: 매뉴얼
 
 2. **템플릿 사용**
+
    ```markdown
    # 문서 제목
    
@@ -546,6 +571,7 @@
 - **총 문서**: 150+개
 
 **최근 추가 (P2, P3 & P4)**:
+
 - P2 로드맵 문서: 5개 (Wave Knowledge, CI/CD, Progress) ✅ 완료
 - P3 로드맵 문서: 3개 (Consciousness Fabric, Purpose Discovery, Plan) ✅ 완료
 - ✨ **P4 로드맵 문서**: 3개 (Implementation Plan, Progress, Korean Summary) ✅ **구현 완료 (v10.0)**
@@ -554,6 +580,7 @@
 - 종합 시스템 분석 v9.0 업데이트 (P2+P3 완료 반영)
 
 **v10.0 하이라이트**:
+
 - 13억+ 지식 소스 접근 가능
 - 자율 학습 시스템 구현 (50-100 waves/sec)
 - 自我核心 (Ego Anchor) 보호 시스템

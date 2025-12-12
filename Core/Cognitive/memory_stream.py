@@ -73,7 +73,7 @@ class MemoryStream:
     모든 경험을 '흐름'으로 유지합니다.
     """
     
-    def __init__(self, memory_dir: str = "data/memory/stream"):
+    def __init__(self, memory_dir: str = "data/core_state/stream"):
         self.memory_dir = Path(memory_dir)
         self.memory_dir.mkdir(parents=True, exist_ok=True)
         

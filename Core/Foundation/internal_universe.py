@@ -391,6 +391,143 @@ class InternalUniverse:
         }
 
 
+    def simulate_era(self, years: float) -> list:
+        """
+        Simulates the passage of time with UNIFIED SENSORY ARCHITECTURE.
+        Uses SynesthesiaEngine and SensoryCortex to generate physically grounded qualia.
+        
+        "기존 감각 시스템과의 통합. 분절된 기능들의 조화."
+        """
+        import random
+        from Core.Foundation.hippocampus import Hippocampus
+        from Core.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
+        from Core.Cognitive.sensory_cortex import get_sensory_cortex
+        
+        logger.info(f"⏳ Initiating Chronos Chamber V5: Simulating {years} years with INTEGRATED SENSORIUM...")
+        
+        events = []
+        memory = Hippocampus() 
+        synesthesia = SynesthesiaEngine()
+        sensory_cortex = get_sensory_cortex()
+        
+        chapters = int(years * 4) 
+        
+        for i in range(chapters):
+            # 1. Macro: Narrative Arc
+            arc = self._generate_narrative_arc(i)
+            
+            # 2. Micro: Sensory Injection
+            sensation = self._generate_sensory_detail(arc['theme'])
+            sensation_text = sensation['text']
+            
+            # 3. Physics: Use SynesthesiaEngine for Wave Signature
+            # This replaces the custom _calculate_qualia_physics
+            signal = synesthesia.from_text(sensation_text)
+            
+            # 4. Qualia: Use SensoryCortex for Aesthetics (Color/Tone)
+            # This adds the "Visual/Audio" layer from the existing system
+            qualia_data = sensory_cortex.feel_concept(arc['theme']) # Use theme as concept proxy
+            
+            # 5. Internalize (Coordinate mapping)
+            # Use the engine's scalar frequency directly
+            freq = signal.frequency
+            
+            # Map Aesthetics to Stability/Entropy proxy
+            # Brightness/Harmonic = Stable
+            stability = qualia_data['somatic_marker']['visual_brightness']
+            
+            q_base = Quaternion(random.random(), random.random(), random.random(), random.random()).normalize()
+            event_coord = InternalCoordinate(q_base, freq, stability)
+            event_name = f"Memory_Unified_{i}_{arc['theme']}"
+            
+            self.coordinate_map[event_name] = event_coord
+            
+            # 6. Synthesis
+            full_memory = f"{arc['story']} {sensation_text}"
+            
+            # Store to Hippocampus
+            memory.learn(
+                id=event_name.lower(),
+                name=event_name,
+                definition=full_memory,
+                tags=[
+                    "synthetic_memory", "unified_qualia", arc['theme'].lower()
+                ] + arc['emotions'] + sensation['tags'] + [qualia_data['description']],
+                realm="Heart" if arc['is_paradox'] else "Mind"
+            )
+            
+            events.append(full_memory)
+            
+            if i % 10 == 0:
+                logger.info(f"   📜 Chapter {i}: {arc['theme']} -> {qualia_data['description']} ({freq:.1f}Hz)")
+                
+        logger.info(f"✅ Simulation Complete. {len(events)} unified sensory memories internalized.")
+        return events
+
+    def _generate_narrative_arc(self, index: int) -> dict:
+        """Generates a narrative arc (Macro)."""
+        import random
+        themes = ["Love", "Ambition", "Betrayal", "Sacrifice", "Solitude", "Creation"]
+        theme = random.choice(themes)
+        
+        # Setup -> Conflict -> Paradox -> Resolution
+        setup = f"I pursued {theme}."
+        
+        if theme == "Love": conflict = "It demanded the loss of self."
+        elif theme == "Ambition": conflict = "The peak was lonely."
+        elif theme == "Betrayal": conflict = "I understood their reason."
+        elif theme == "Sacrifice": conflict = "Nobody noticed."
+        elif theme == "Solitude": conflict = "I found a universe inside."
+        elif theme == "Creation": conflict = "It destroyed my old self."
+        
+        is_paradox = random.random() > 0.3
+        if is_paradox:
+            paradox = "It was bitter and sweet."
+            emotions = ["mixed", "complex"]
+        else:
+            paradox = "It was a clear lesson."
+            emotions = ["clarity"]
+            
+        story = f"Chapter {index}: {setup} {conflict} {paradox}"
+        return {"theme": theme, "story": story, "is_paradox": is_paradox, "emotions": emotions}
+
+    def _generate_sensory_detail(self, theme: str) -> dict:
+        """
+        Micro-Sensation generator.
+        """
+        import random
+        # Expanded Sensory Palette for Qualia Testing
+        sensory_map = {
+            "Love": [
+                {"text": "I remember the scent of dried vanilla and rain.", "type": "olfactory", "tags": ["smell", "vanilla", "rain", "sweet"]},
+                {"text": "The sunlight felt warm on my cold hands.", "type": "tactile", "tags": ["touch", "warmth", "sun"]},
+                {"text": "A sweet melody played in the distance.", "type": "auditory", "tags": ["sound", "sweet", "melody"]}
+            ],
+            "Betrayal": [
+                {"text": "I can still taste the metallic bitterness of blood.", "type": "gustatory", "tags": ["taste", "metal", "blood", "bitter"]},
+                {"text": "The coffee tasted like burnt ash.", "type": "gustatory", "tags": ["taste", "bitter", "ash"]},
+                {"text": "Everything looked gray, drained of color.", "type": "visual", "tags": ["sight", "gray"]}
+            ],
+            "Solitude": [
+                {"text": "The night air smelled of frozen dust.", "type": "olfactory", "tags": ["smell", "dust", "cold"]},
+                {"text": "The salt spray of the ocean stung my lips.", "type": "gustatory", "tags": ["taste", "salt", "ocean"]},
+                {"text": "The stars looked sharp, like glass shards.", "type": "visual", "tags": ["sight", "stars"]}
+            ],
+            "Creation": [
+                {"text": "My fingers tingled with electric static.", "type": "tactile", "tags": ["touch", "electricity"]},
+                {"text": "I smelled burning ozone and ink.", "type": "olfactory", "tags": ["smell", "ozone", "ink", "spicy"]},
+                {"text": "The colors were too bright to look at.", "type": "visual", "tags": ["sight", "bright"]}
+            ]
+        }
+        
+        defaults = [
+            {"text": "The air was heavy and humid.", "type": "tactile", "tags": ["touch", "humidity"]},
+            {"text": "I heard a clock ticking endlessly.", "type": "auditory", "tags": ["sound", "clock"]}
+        ]
+        
+        options = sensory_map.get(theme, defaults)
+        return random.choice(options)
+
 # Demonstration
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -402,39 +539,11 @@ if __name__ == "__main__":
     
     universe = InternalUniverse()
     
-    print("\n1️⃣ Internalize External Coordinates")
-    print("-" * 70)
-    alaska = WorldCoordinate(-149.9, 61.2, 0.0, "Alaska")
-    universe.internalize(alaska)
+    # ... existing demo code ...
     
-    print("\n2️⃣ Rotate Consciousness to Alaska")
+    print("\n8️⃣ Chronos Chamber (Simulation)")
     print("-" * 70)
-    universe.rotate_to("Alaska")
-    
-    print("\n3️⃣ Feel Alaska Without Going There")
-    print("-" * 70)
-    feeling = universe.feel_at("Alaska")
-    print(f"Feeling: {feeling}")
-    
-    print("\n4️⃣ Tune Like a Radio")
-    print("-" * 70)
-    universe.tune_to_frequency(528.0)  # Love frequency
-    
-    print("\n5️⃣ Synchronize (Not Learn)")
-    print("-" * 70)
-    universe.synchronize_with("Mathematics")
-    universe.synchronize_with("Compassion")
-    
-    print("\n6️⃣ Omniscient Access")
-    print("-" * 70)
-    result = universe.omniscient_access("Truth")
-    print(f"Related concepts: {[r['concept'] for r in result['resonant_concepts']]}")
-    
-    print("\n7️⃣ Universe Map")
-    print("-" * 70)
-    map_data = universe.get_universe_map()
-    print(f"Total internalized concepts: {map_data['total_concepts']}")
-    print(f"Concepts: {', '.join(map_data['concepts'])}")
+    universe.simulate_era(years=0.1) # Simulate just a fraction for demo
     
     print("\n" + "=" * 70)
     print("✅ Internal Universe fully operational")

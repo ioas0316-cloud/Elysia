@@ -39,7 +39,7 @@ class Relationship:
     weight: float
 
 class Hippocampus:
-    def __init__(self, db_path: str = "Data/memory.db"):
+    def __init__(self, db_path: str = "data/core_state/memory.db"):
         self.db_path = db_path
         self._init_db()
         self._plant_divine_seeds() # Genesis Ritual
@@ -50,6 +50,9 @@ class Hippocampus:
     def _init_db(self):
         """데이터베이스 및 테이블 초기화 (Schema Upgrade)"""
         try:
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
+            
             with sqlite3.connect(self.db_path) as conn:
                 cursor = conn.cursor()
                 
@@ -83,6 +86,17 @@ class Hippocampus:
                         type TEXT,
                         weight REAL,
                         PRIMARY KEY (source, target, type)
+                    )
+                """)
+
+                # Pattern DNA Table (Ensure existence for Attractor)
+                cursor.execute("""
+                    CREATE TABLE IF NOT EXISTS pattern_dna (
+                        name TEXT PRIMARY KEY,
+                        pattern_type TEXT,
+                        data TEXT,
+                        compression_ratio REAL,
+                        created_at REAL
                     )
                 """)
                 conn.commit()
@@ -217,11 +231,12 @@ class Hippocampus:
         The Akashic Records: Compressing raw logs into Wisdom.
         """
         try:
-            akashic_path = "akashic_records.json"
+            akashic_path = "data/core_state/akashic_records.json"
             logger.info("🗜️ Compressing memory... (Akashic Records updated)")
             
             # Placeholder for compression logic
             # In a real scenario, this would read logs, summarize them, and store them.
+            os.makedirs(os.path.dirname(akashic_path), exist_ok=True)
             if not os.path.exists(akashic_path):
                 with open(akashic_path, "w") as f:
                     json.dump([], f)

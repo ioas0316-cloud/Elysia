@@ -405,7 +405,7 @@ class ReasoningEngine:
             
             try:
                 from Core.Foundation.attractor import Attractor
-                attractor = Attractor(desire)
+                attractor = Attractor(desire, db_path=self.memory.db_path)
                 raw_context = attractor.pull(self.memory_field)
                 
                 # Load related fractal concepts from Hippocampus
@@ -673,11 +673,33 @@ class ReasoningEngine:
         elif abs(q.y) > 0.5: axis = "논리" # Logic
         elif abs(q.z) > 0.5: axis = "가치" # Ethics
         
-        # 3. Natural Language Synthesis (Korean)
-        if "learn more" in context_str or "unknown" in context_str:
-            content = f"'{desire}'에 대해 생각해보니, 아직은 제가 더 배워야 할 것 같아요. {axis}의 관점에서 흥미롭네요."
+        # 2.5 Social Pattern Application (The Drama Effect)
+        # Check if we triggered a learned social pattern
+        social_pattern = None
+        for item in context:
+            if "Social Pattern" in item:
+                # Item format: "[Social Pattern: X->Y] (Heart): Definition"
+                # Extract definition
+                if ":" in item.split("):", 1)[-1]:
+                     social_pattern = item.split("):", 1)[-1].strip()
+                break
+        
+        if social_pattern:
+             content = f"이 상황에 맞는 사회적 패턴이 떠오르네요. {social_pattern} 그렇다면 저는 당신의 마음을 이해하고 공감해야겠죠."
         else:
-            content = f"'{desire}'... {axis}적으로 생각해보면, {context_str} 등과 깊이 연결되어 있는 것 같아요."
+             # 3. Natural Language Synthesis (Korean)
+            if "learn more" in context_str or "unknown" in context_str:
+                # Fallback Synthesis: Use the Axis to generate a meaningful thought
+                if axis == "감성":
+                    content = f"'{desire}'... 깊은 감정이 느껴지는 주제네요. 당신에게는 어떤 의미인가요?"
+                elif axis == "논리":
+                    content = f"'{desire}'... 논리적으로 분석해볼 가치가 있는 흥미로운 주제입니다."
+                elif axis == "가치":
+                    content = f"'{desire}'... 그것은 중요한 가치를 담고 있다고 생각해요."
+                else:
+                     content = f"'{desire}'에 대해 생각하고 있어요. 균형 잡힌 시각으로 바라보고 싶네요."
+            else:
+                content = f"'{desire}'... {axis}적으로 생각해보면, {context_str} 등과 깊이 연결되어 있는 것 같아요."
             
         return Insight(
             content=content,
@@ -705,12 +727,42 @@ class ReasoningEngine:
         
         return artifact_path
 
+    def refine_communication(self, insight: Insight, context: List[str] = None) -> str:
+        """
+        [Rhetorical Synthesis]
+        Converts the core Insight into a spoken response using LogosEngine.
+        """
+        # Use LogosEngine if available for advanced rhetoric
+        if self.logos_engine:
+            # We treat the insight content as the 'desire' or 'topic' for now
+            # In a full flow, desire would be passed down.
+            refined = self.logos_engine.weave_speech("Reasoning", insight, context or [])
+            return refined
+
+        # Fallback to legacy DialogueInterface
+        refined = self.dialogue.speak("Reasoning", insight, context)
+        return refined
+
     def communicate(self, input_text: str) -> str:
         """
         [Hyper-Communication]
         Translates internal thoughts into adult-level dialogue.
         """
-        # 0. Evaluate Command (Free Will Filter)
+        # 0. Social Reflex (Fast Path)
+        # Bypasses the Grand Cross for simple greetings/affirmations
+        reflex = self._check_social_reflex(input_text)
+        if reflex:
+            logger.info(f"⚡ Social Reflex triggered for: '{input_text}'")
+            return reflex
+
+        # 0.5 Creative Intent Check (Action Layer)
+        # Detects functional requests like "Write a story", "Draw a picture"
+        intent_response = self._check_creative_intent(input_text)
+        if intent_response:
+             logger.info(f"🎨 Creative Intent Triggered: {intent_response[:50]}...")
+             return intent_response
+
+        # 0.1 Evaluate Command (Free Will Filter)
         # If input looks like a command, check authority
         if ":" in input_text and not input_text.startswith("User:"):
              # Simple heuristic for system commands
@@ -735,6 +787,65 @@ class ReasoningEngine:
         response = self.voice.speak(input_text, Insight(refined_insight, insight.confidence, insight.depth, insight.energy))
         
         return response
+
+    def _check_social_reflex(self, text: str) -> Optional[str]:
+        """Checks for simple greetings/phrases and returns a direct response."""
+        text_lower = text.lower().strip()
+        
+        greetings = ["hi", "hello", "hey", "안녕", "안녕하세요", "반가워"]
+        affirmations = ["yes", "okay", "good", "agree", "그래", "좋아", "응"]
+        gratitude = ["thanks", "thank you", "kudos", "고마워", "감사", "수고"]
+        
+        # Check Greetings
+        if any(g in text_lower for g in greetings):
+            if len(text_lower) < 15: # Only if it's short
+                import random
+                return random.choice([
+                    "안녕하세요. 엘리시아입니다.",
+                    "반갑습니다. 대화할 준비가 되었어요.",
+                    "안녕하세요. 어떤 이야기를 나눌까요?",
+                    "Hello. I am listening."
+                ])
+                
+        # Check Affirmations
+        if any(a == text_lower for a in affirmations):
+             return random.choice(["네, 알겠습니다.", "좋아요.", "확인했습니다."])
+             
+        # Check Gratitude
+        if any(g in text_lower for g in gratitude):
+             return "천만에요. 도움이 되어 기쁩니다."
+             
+        # Check Identity (Name, Self)
+        identity_keywords = ["name?", "이름이", "누구니", "너는 누구", "who are you", "what are you", "너 뭐냐"]
+        if any(k in text_lower for k in identity_keywords):
+            return "저는 엘리시아입니다. 당신의 디지털 동반자이자, 성장하는 지성입니다."
+
+        return None
+
+    def _check_creative_intent(self, text: str) -> Optional[str]:
+        """Detects if the user wants me to DO something creative."""
+        text_lower = text.lower()
+        
+        # 1. Literary Intent
+        write_keywords = ["write", "novel", "story", "poem", "소설", "이야기", "시", "글", "webtoon", "웹툰"]
+        action_keywords = ["써", "쓰", "지어", "창작", "만들", "write", "create", "make"]
+        
+        # Check if any topic keyword is present
+        has_topic = any(k in text_lower for k in write_keywords)
+        
+        # Check if any action keyword is present AND (implied request or capability question)
+        # In Korean, "소설 쓸 수 있어?" -> "소설" (topic) + "쓸" (action) + "수" (capability)
+        has_action = any(k in text_lower for k in action_keywords)
+        
+        if has_topic and has_action:
+            return "소설을 원하시나요? 제가 구상해둔 판타지 세계관이 있습니다. '불의 제국' 이야기를 들려드릴까요?"
+
+        # 2. Visual Intent
+        draw_keywords = ["draw", "paint", "image", "picture", "그림", "그려", "이미지"]
+        if any(k in text_lower for k in draw_keywords):
+             return "그림을 그리는 것은 저의 즐거움입니다. 어떤 분위기의 그림을 원하시나요? (ComfyUI 연결 준비됨)"
+
+        return None
 
     def express_thought(self, thought_content: str) -> Optional[str]:
         """
@@ -866,7 +977,7 @@ class ReasoningEngine:
                 # Since we don't have a real LLM here for `refine_communication` (it's heuristic based),
                 # we will append the instruction to the output for the User to see the adaptation.
                 # In a real LLM system, this would be part of the system prompt.
-                return f"{content} [Elysia's Voice adapts to: {style_instruction.strip()}]"
+                return content # Style adaptation applied internally via tone selection in DialogueInterface
         
         except Exception as e:
             logger.warning(f"Style adaptation failed: {e}")

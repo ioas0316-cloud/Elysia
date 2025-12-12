@@ -57,7 +57,8 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
             else:
                 # Fallback: Read from shared state file (Autonomous Mode)
                 try:
-                    state_path = os.path.join(self.directory, "elysia_state.json")
+                    # state_path = os.path.join(self.directory, "elysia_state.json")
+                    state_path = os.path.join(ROOT, "data", "core_state", "elysia_state.json")
                     if os.path.exists(state_path):
                         with open(state_path, "r", encoding="utf-8") as f:
                             state = json.load(f)

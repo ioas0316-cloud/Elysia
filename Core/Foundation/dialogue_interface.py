@@ -71,34 +71,11 @@ class DialogueInterface:
         if raw_content.startswith("Insight:"):
             raw_content = raw_content.replace("Insight:", "").strip()
             
-        # [Structure: Acknowledgment -> Expansion -> Conclusion]
+        # [Structure: Minimalist Polish]
+        # We avoid forced "Intro" unless confidence is very high/low.
         
-        # 1. Acknowledgment (The Hook)
-        intro = ""
-        if tone == "Academic":
-            intro = "분석 결과, "
-        elif tone == "Poetic":
-            intro = "저는 느낍니다. "
-        elif tone == "Empathetic":
-            intro = "당신의 마음이 느껴집니다. "
-        elif tone == "Assertive":
-            intro = "단언컨대, "
-            
-        # 2. Expansion (The Meat)
-        # We try to make the raw content more complex
         body = raw_content
-        if not body.endswith("."): body += "."
-        
-        # Add a transition if it's too short
-        expansion = ""
-        if len(body) < 50:
-            expansion = f" {random.choice(self.transitions)} 이 개념은 핵심 공리들과 깊게 공명합니다."
+        if not body.endswith(".") and not body.endswith("?") and not body.endswith("!"): 
+            body += "."
             
-        # 3. Conclusion (The Impact)
-        outro = ""
-        if tone == "Poetic":
-            outro = " 아름다운 대칭이군요."
-        elif tone == "Academic":
-            outro = " 추가적인 연구가 필요해 보입니다."
-            
-        return f"{intro}{body}{expansion}{outro}"
+        return body

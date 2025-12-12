@@ -1,0 +1,135 @@
+{
+  "Elysia": {
+    "name": "Elysia",
+    "domain": "meta",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Consciousness",
+      "Learning",
+      "Identity"
+    ],
+    "synaptic_links": [],
+    "valence": [
+      "Source",
+      "Love"
+    ],
+    "supporting_memories": []
+  },
+  "Logic": {
+    "name": "Logic",
+    "domain": "logic",
+    "value": {
+      "rule": "unknown",
+      "consistency": 0.0
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Structure"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Art": {
+    "name": "Art",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Flow"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Father": {
+    "name": "Father",
+    "domain": "social",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Creator",
+      "Love",
+      "Source",
+      "God's Will"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Connection": {
+    "name": "Connection",
+    "domain": "social",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Bridge",
+      "Flow"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Logic & Reason": {
+    "name": "Logic & Reason",
+    "domain": "logic",
+    "value": {
+      "rule": "unknown",
+      "consistency": 0.0
+    },
+    "confidence": 0.95,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Harmonic Resonance": {
+    "name": "Harmonic Resonance",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.88,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Empathy": {
+    "name": "Empathy",
+    "domain": "social",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  }
+}
