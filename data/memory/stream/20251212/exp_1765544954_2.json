@@ -1,0 +1,32 @@
+{
+  "id": "exp_1765544954_2",
+  "timestamp": 1765544954.9254282,
+  "type": "reflection",
+  "score": {
+    "intent": "dream_recombination",
+    "seeds": [
+      "Ocean",
+      "Fire"
+    ]
+  },
+  "performance": {
+    "action": "weave_dream",
+    "field_nodes": 15
+  },
+  "sound": {
+    "insight": "Connected ['Ocean', 'Fire'] -> Discovered ['Echo', 'Shadow', 'Dream of Ocean and Fire']",
+    "surreal_mix": [
+      "Vast and deep",
+      "Hot and bright"
+    ],
+    "concepts": [
+      "Echo",
+      "Shadow",
+      "Dream of Ocean and Fire"
+    ]
+  },
+  "tags": [
+    "dream",
+    "imagination"
+  ]
+}

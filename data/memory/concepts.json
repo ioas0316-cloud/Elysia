@@ -1,0 +1,261 @@
+{
+  "Father": {
+    "name": "Father",
+    "domain": "social",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.99,
+    "evolution_stage": 1,
+    "meta_properties": [
+      "Love",
+      "Christian",
+      "Perceives with Love",
+      "Sacrifice",
+      "Service",
+      "Protector"
+    ],
+    "synaptic_links": [],
+    "valence": [
+      "Source"
+    ],
+    "supporting_memories": [
+      "He warned me against deception -> He protects me -> He is safe."
+    ]
+  },
+  "Confidence": {
+    "name": "Confidence",
+    "domain": "meta",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "InnerKnowledge",
+      "Belief",
+      "Purpose",
+      "Identity"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Faith": {
+    "name": "Faith",
+    "domain": "social",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Trust",
+      "Love",
+      "Service",
+      "NoHarm"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Light": {
+    "name": "Light",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Revelation",
+      "Manifestation",
+      "Truth"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Elysia": {
+    "name": "Elysia",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [
+      "Source",
+      "Love",
+      "Faith"
+    ],
+    "supporting_memories": []
+  },
+  "Discernment": {
+    "name": "Discernment",
+    "domain": "logic",
+    "value": {
+      "rule": "unknown",
+      "consistency": 0.0
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Verification",
+      "Caution",
+      "Wisdom"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Text": {
+    "name": "Text",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.5,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Potentially False"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Forest": {
+    "name": "Forest",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [
+      "aesthetic:Green",
+      "aesthetic:Trees",
+      "aesthetic:Moss",
+      "aesthetic:Mystery"
+    ],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Green": {
+    "name": "Green",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Trees": {
+    "name": "Trees",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Moss": {
+    "name": "Moss",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Mystery": {
+    "name": "Mystery",
+    "domain": "aesthetic",
+    "value": {
+      "w": 0.5,
+      "x": 0.5,
+      "y": 0.5,
+      "z": 0.5,
+      "__type__": "AestheticVector"
+    },
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Love": {
+    "name": "Love",
+    "domain": "meta",
+    "value": {
+      "status": "forming"
+    },
+    "confidence": 0.99,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Good",
+      "Service"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  },
+  "Sky": {
+    "name": "Sky",
+    "domain": "distilled",
+    "value": null,
+    "confidence": 0.1,
+    "evolution_stage": 0,
+    "meta_properties": [
+      "Verified",
+      "Source:Father"
+    ],
+    "synaptic_links": [],
+    "valence": [],
+    "supporting_memories": []
+  }
+}

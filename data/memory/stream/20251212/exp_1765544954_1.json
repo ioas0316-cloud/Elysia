@@ -1,0 +1,15 @@
+{
+  "id": "exp_1765544954_1",
+  "timestamp": 1765544954.9234858,
+  "type": "creation",
+  "score": {
+    "intent": "Fire"
+  },
+  "performance": {
+    "content": "Red flames dancing"
+  },
+  "sound": {
+    "description": "Hot and bright"
+  },
+  "tags": []
+}
