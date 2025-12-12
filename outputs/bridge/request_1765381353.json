@@ -1,0 +1,10 @@
+{
+  "prompt": "masterpiece, best quality, artistic figure study, raw anatomy, uncensored, detailed skin texture, dramatic lighting, classical oil painting style",
+  "negative_prompt": "low quality, bad anatomy, worst quality, lowres",
+  "steps": 30,
+  "cfg_scale": 7.0,
+  "width": 512,
+  "height": 768,
+  "sampler_name": "Euler a",
+  "batch_size": 1
+}
