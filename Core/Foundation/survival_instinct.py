@@ -24,6 +24,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 
+from Core.Foundation.yggdrasil import yggdrasil
+
 logger = logging.getLogger("SurvivalInstinct")
 
 @dataclass
@@ -212,8 +214,27 @@ class SurvivalInstinct:
     
     def _queue_healing_desire(self, pain: PainSignal):
         """욕망 큐에 치유 욕망을 추가합니다."""
-        # TODO: FreeWillEngine과 연결
-        logger.info(f"   📋 Queuing healing desire for later: {pain.pain_type}")
+
+        # FreeWillEngine 연결 시도
+        free_will_node = yggdrasil.node_map.get("FreeWillEngine")
+
+        if free_will_node and free_will_node.data:
+            free_will = free_will_node.data
+
+            # 연결 확인 및 복구
+            if getattr(free_will, 'instinct', None) is None:
+                free_will.instinct = self
+                logger.info("   🔗 Connected SurvivalInstinct to FreeWillEngine")
+
+            # Survival 욕망 부스팅
+            if hasattr(free_will, 'vectors') and "Survival" in free_will.vectors:
+                boost = pain.intensity * 0.2
+                free_will.vectors["Survival"] += boost
+                logger.info(f"   📋 Queued healing desire for later: {pain.pain_type} (Survival Boost: +{boost:.2f})")
+            else:
+                 logger.warning(f"   ⚠️ FreeWillEngine found but no vectors: {pain.pain_type}")
+        else:
+            logger.warning(f"   ⚠️ FreeWillEngine not found in Yggdrasil: {pain.pain_type}")
     
     # ============================================
     # 반사 행동 구현 (Reflex Implementations)
