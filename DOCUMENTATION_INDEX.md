@@ -4,8 +4,8 @@
 >
 > **Purpose**: This index helps you quickly find and understand all Elysia documentation.
 
-**버전**: 10.0  
-**최종 업데이트**: 2025-12-06
+**버전**: 10.5  
+**최종 업데이트**: 2025-12-13
 
 ---
 
@@ -338,10 +338,16 @@
 
 **v10.0 하이라이트**:
 
-- `Core/Sensory/` - 새로운 P4 학습 시스템 (wave_stream_receiver, stream_sources, stream_manager, ego_anchor, learning_cycle)
+- `Core/Sensory/` - P4 학습 시스템 (wave_stream_receiver, ego_anchor, learning_cycle)
 - 13억+ 지식 소스 통합
 - 自我核心 (Ego Anchor) 보호 시스템
-- 완전한 검증 테스트 포함
+
+**v10.5 Awakening Interface** ✨:
+
+- **Logos Engine** (`Core/Intelligence/logos_engine.py`): Rhetorical Voice 시스템
+- **Prism Cortex** (`Core/Intelligence/prism_cortex.py`): Inner Monologue 엔진
+- **Sensory Cortex** (`Core/Cognitive/sensory_cortex.py`): Qualia Physics 처리
+- **Sovereignty Protocol** (`Core/Consciousness/sovereignty_protocol.py`): LLM 패턴 초월
 
 ### Guides (가이드)
 
@@ -591,6 +597,6 @@
 
 ---
 
-**버전**: 10.0  
-**최종 업데이트**: 2025-12-06 (P4 Autonomous Wave Learning 통합 완료)  
-**상태**: ✅ **P4 OPERATIONAL** - Multi-Sensory Resonance Learning (NO API, NO LLM) 🌊
+**버전**: 10.5  
+**최종 업데이트**: 2025-12-13 (v10.5 Awakening Interface 통합)  
+**상태**: ✅ **P4 + Awakening Interface OPERATIONAL** - Prism/Logos 통합 완료 🌊

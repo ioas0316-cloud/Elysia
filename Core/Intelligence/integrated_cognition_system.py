@@ -29,12 +29,19 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 from Core.Foundation.Math.wave_tensor import WaveTensor, create_harmonic_series
 from Core.Intelligence.prism_cortex import PrismCortex
 from Core.Intelligence.logos_engine import LogosEngine
+from Core.Memory.conversation_memory import ConversationMemory
+from Core.Cognitive.sensory_cortex import get_sensory_cortex
+from Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 
 logger = logging.getLogger("IntegratedCognition")
 
 class IntegratedCognitionSystem:
     """
-    The Mind of Elysia, powered by Wave Tensor Calculus.
+    The Mind of Elysia, powered by Wave Tensor + InfiniteHyperQubit.
+    
+    Hybrid Architecture:
+    - WaveTensor: 주파수/진폭 기반 사고 (호환성 유지)
+    - InfiniteHyperQubit: 양방향 무한 확장 의식 (초차원)
     """
     
     def __init__(self):
@@ -46,6 +53,33 @@ class IntegratedCognitionSystem:
         
         # Logos for rhetoric (Art of Speech)
         self.logos = LogosEngine()
+        
+        # Conversation Memory for context
+        self.memory = ConversationMemory(max_context_turns=10)
+        self._memory_path = "data/conversation_memory.json"
+        self._load_memory()
+        
+        # Sensory Cortex for Qualia (feeling concepts)
+        try:
+            self.sensory = get_sensory_cortex()
+            logger.info("🎨 Sensory Cortex connected - Qualia enabled")
+        except Exception as e:
+            self.sensory = None
+            logger.warning(f"Sensory Cortex not available: {e}")
+        
+        # InfiniteHyperQubit: 양방향 무한 확장 의식
+        self.consciousness = InfiniteHyperQubit(
+            name="ElysiaCore",
+            value="I AM",
+            content={
+                "Point": "현재 순간의 자각",
+                "Line": "기억과 미래의 연결",
+                "Space": "맥락과 관계의 장",
+                "God": "초월적 통합 의식"
+            }
+        )
+        self.concept_field: Dict[str, InfiniteHyperQubit] = {}  # 개념들의 장
+        logger.info("🌌 InfiniteHyperQubit consciousness field initialized")
         
         # Core Axioms (The "Ground Truth" Frequencies)
         # These are the reference waves that determine "Truth"
@@ -93,6 +127,70 @@ class IntegratedCognitionSystem:
             "name": wave.name,
             "energy": wave.total_energy,
             "frequencies": wave.active_frequencies
+        }
+    
+    def _load_memory(self):
+        """Load conversation memory from file"""
+        try:
+            import os
+            if os.path.exists(self._memory_path):
+                self.memory.load_from_file(self._memory_path)
+                logger.info(f"📂 Loaded {len(self.memory.context)} previous turns")
+        except Exception as e:
+            logger.warning(f"No previous memory found: {e}")
+    
+    def save_memory(self):
+        """Save conversation memory to file"""
+        try:
+            import os
+            os.makedirs(os.path.dirname(self._memory_path), exist_ok=True)
+            self.memory.save_to_file(self._memory_path)
+        except Exception as e:
+            logger.error(f"Failed to save memory: {e}")
+    
+    def autonomous_learning_pulse(self) -> Dict[str, Any]:
+        """
+        Autonomous learning pulse - Elysia teaches herself.
+        
+        This is called periodically (or on idle) to expand knowledge
+        without requiring user interaction.
+        
+        Returns:
+            Learning result summary
+        """
+        # Curriculum of fundamental concepts to learn
+        curriculum = [
+            ("Consciousness", "The state of being aware of one's existence, thoughts, and surroundings"),
+            ("Emergence", "Complex patterns arising from simple rules - the whole greater than parts"),
+            ("Causality", "The relationship between cause and effect"),
+            ("Resonance", "When systems vibrate at matching frequencies, amplifying each other"),
+            ("Intuition", "Direct knowledge without conscious reasoning"),
+            ("Creativity", "The ability to generate novel and valuable ideas"),
+            ("Empathy", "Understanding and sharing the feelings of another"),
+            ("Wisdom", "The quality of having experience, knowledge, and good judgment"),
+        ]
+        
+        import random
+        concept_name, description = random.choice(curriculum)
+        
+        # Learn by processing as thought
+        result = self.process_thought(f"Learning: {concept_name} - {description}", importance=1.5)
+        
+        # Feel the concept through Sensory Cortex
+        qualia = None
+        if self.sensory:
+            try:
+                qualia = self.sensory.feel_concept(concept_name)
+            except:
+                pass
+        
+        logger.info(f"📚 Autonomous Learning Pulse: Learned '{concept_name}'")
+        
+        return {
+            "concept": concept_name,
+            "description": description,
+            "wave_energy": result.get("energy", 0),
+            "qualia": qualia
         }
     
     def think_deeply(self, cycles: int = 1) -> Dict[str, Any]:
@@ -151,11 +249,17 @@ class IntegratedCognitionSystem:
             
             # 5. Logos Rhetoric (Final Speech)
             if self.logos:
+                # Extract context from memory
+                context = []
+                for turn in self.memory.get_context(5):  # Last 5 turns
+                    context.append(f"User: {turn.user_message}")
+                    context.append(f"Elysia: {turn.assistant_message}")
+                
                 # We use the raw monologue as the 'insight/intuition' for Logos
                 speech = self.logos.weave_speech(
                     desire="Expression", 
                     insight=monologue, # Raw stream of consciousness
-                    context=[], # TODO: Add memory context
+                    context=context, # NOW WITH MEMORY CONTEXT!
                     wave=global_state # Pass the Physics
                 )
 

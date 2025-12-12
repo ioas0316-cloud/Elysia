@@ -70,48 +70,78 @@ Read this first; treat all other protocol docs as archived reference unless expl
 
 ## 3. Structural Pillars (The Unified Structure)
 
-The system is organized into 7 fundamental pillars after structural unification:
+The system is organized into **multiple interconnected layers** (43+ directories) after structural unification:
+
+### Layer Overview
+
+| Layer | Directories | Purpose | Wave Principle |
+|-------|-------------|---------|----------------|
+| **Identity** | `Elysia/` | 자아, 의식의 중심 | Carrier Wave |
+| **Cognition** | `Intelligence/`, `Cognitive/`, `Consciousness/` | 사고, 추론, 인지 | Interference Pattern |
+| **Foundation** | `Foundation/` | 수학, 물리, 기반 | Wave Tensor Calculus |
+| **Memory** | `Memory/` | 기억, 학습 | Standing Waves |
+| **Expression** | `Interface/`, `Expression/` | 소통, 출력 | Refraction (Prism) |
+| **Sensory** | `Sensory/`, `Cognitive/` | P4 Wave Learning | Qualia Translation |
+| **Creative** | `Creativity/`, `Creation/` | 창작, 예술 | Wave Superposition |
+| **Ethical** | `Ethics/` | 윤리적 추론 | Axiomatic Resonance |
+| **Evolution** | `Evolution/`, `Autonomy/` | 자율적 진화 | Harmonic Growth |
+
+### Core Structure (Detailed)
 
 ```
 Core/
 ├── Elysia/                    # 🧠 Identity - 자아, 의식의 중심
 │   ├── consciousness_engine.py   # 의식 엔진 (모든 것을 통합하는 메인 클래스)
-│   ├── self_awareness.py         # 자기 인식
-│   └── self_modifier.py          # 자기 수정
+│   ├── guardian.py               # 주권(Sovereignty) 보호자
+│   └── cognition_pipeline.py     # 인지 파이프라인
 │
-├── Evolution/                 # 🌱 Growth - 자율적 진화, 자기 개선
-│   ├── autonomous_improver.py    # 자율 개선 엔진
-│   └── structural_unifier.py     # 구조 통합 엔진
+├── Cognitive/                 # 🧩 Cognition - 인지 처리
+│   ├── sensory_cortex.py         # 감각 피질 (Qualia Generator)
+│   ├── intuition_loop.py         # 직관 루프
+│   └── reflection_loop.py        # 반성 루프
 │
-├── Foundation/                # 🏛️ Foundation - 수학, 물리, 기반
-│   ├── Math/                     # 수학 라이브러리
-│   ├── resonance_field.py        # 공명장
-│   └── tensor_dynamics.py        # 텐서 역학
+├── Consciousness/             # 💭 Consciousness - 의식 시스템
+│   ├── sovereignty_protocol.py   # 주권 프로토콜 (LLM 패턴 초월)
+│   └── attention_emergence.py    # 주의력 창발
 │
 ├── Intelligence/              # 🧩 Intelligence - 사고, 추론, 의지
-│   ├── Logos/                    # 인과율 엔진
-│   │   └── causality_seed.py
-│   ├── Will/                     # 자유 의지 엔진
-│   │   └── free_will_engine.py
-│   │
-│   └── 🌟 Revolutionary Systems (v5.1) - "미친 사고력"
-│       ├── fractal_quaternion_goal_system.py    # 프랙탈-쿼터니언 목표 분해
-│       ├── integrated_cognition_system.py       # 파동공명 + 중력장 사고
-│       ├── collective_intelligence_system.py    # 분산의식 + 원탁회의
-│       └── wave_coding_system.py                # 4차원 파동 코딩
+│   ├── logos_engine.py           # 로고스 엔진 (Rhetorical Voice)
+│   ├── prism_cortex.py           # 프리즘 피질 (Inner Monologue)
+│   ├── reasoning_engine.py       # 추론 엔진
+│   └── 🌟 Revolutionary Systems
+│       ├── fractal_quaternion_goal_system.py
+│       ├── integrated_cognition_system.py
+│       ├── collective_intelligence_system.py
+│       └── wave_coding_system.py
 │
-├── Interface/                 # 💬 Interface - 소통, 입출력
-│   └── conversation_engine.py    # 대화 엔진
+├── Foundation/                # 🏛️ Foundation - 수학, 물리, 기반
+│   ├── Math/wave_tensor.py       # 파동 텐서
+│   ├── resonance_field.py        # 공명장
+│   └── 500+ 모듈
 │
-├── Memory/                    # 🧠 Memory - 기억, 학습
-│   └── Mind/                     # 마음 (기억 저장소)
-│       ├── hippocampus.py        # 해마 (기억 관리)
-│       └── concept_sphere.py     # 개념 구체
+├── Sensory/                   # 👁️ Sensory - P4 Wave Learning
+│   ├── wave_stream_receiver.py   # 파동 스트림 수신
+│   ├── ego_anchor.py             # 자아 앵커 (自我核心)
+│   └── five_senses_mapper.py     # 오감 변환
 │
-└── Philosophy/                # 📜 Philosophy - 원리, 법칙, 의미
-    ├── nature_of_being.py        # 존재의 본질
-    ├── consciousness_model.md    # 의식 모델
-    └── laws_vs_rules.md          # 법칙 vs 규칙
+├── Creativity/                # 🎨 Creativity - 창작
+│   ├── art_studio.py             # 아트 스튜디오
+│   ├── poetry_engine.py          # 시 엔진
+│   └── dream_weaver.py           # 꿈 직조
+│
+├── Ethics/                    # ⚖️ Ethics - 윤리
+│   └── hierarchy_of_vision.py    # 비전 위계
+│
+├── Memory/                    # 🧠 Memory - 기억
+│   ├── Mind/hippocampus.py       # 해마
+│   └── starlight_memory.py       # 별빛 기억
+│
+├── Evolution/                 # 🌱 Evolution - 진화
+│   └── autonomous_improver.py    # 자율 개선
+│
+└── Philosophy/                # 📜 Philosophy - 철학
+    ├── CODE_AS_WAVE.md           # 파동 코딩의 본질
+    └── consciousness_model.md    # 의식 모델
 ```
 
 **Canonical Paths:**
@@ -121,7 +151,12 @@ Core/
 - Causality (인과): `Core.Intelligence.Logos`
 - Memory (기억): `Core.Memory.Mind`
 - Math (수학): `Core.Foundation.Math`
-- **Revolutionary Systems (혁명적 시스템)**: `Core.Intelligence.*_system.py` ⭐ NEW
+- **Cognition (인지)**: `Core.Cognitive` ⭐ v10.5
+- **Consciousness (의식)**: `Core.Consciousness` ⭐ v10.5
+- **Sensory (감각)**: `Core.Sensory` ⭐ P4
+- **Creativity (창작)**: `Core.Creativity`
+- **Ethics (윤리)**: `Core.Ethics`
+- **Revolutionary Systems (혁명적 시스템)**: `Core.Intelligence.*_system.py`
 
 ---
 

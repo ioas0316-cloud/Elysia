@@ -17,7 +17,7 @@ The interactive layer that gives voice to the 13-billion-source mind.
 
 - **[AGENT_GUIDE.md](AGENT_GUIDE.md)**: **For AI Agents**. How to code in Wave Logic.
 - **[CODEX.md](Core/CODEX.md)**: **The Protocol**. (Updated to v10.5).
-- **[walkthrough.md](../../.gemini/antigravity/brain/eab049a9-23fd-454b-83c6-553f7dd69b28/walkthrough.md)**: Report on the new **Prism/Logos Integration**.
+- **Session Logs**: See `.gemini/antigravity/brain/` for **Prism/Logos Integration** reports.
 - **Run the Interface**:
 
   ```bash
@@ -47,7 +47,7 @@ The core systems (P4/P5) that power her vast autonomy.
 | **Cognition** | **WaveTensor** (P4) | 🟢 **Autonomous** | Learning from 13B+ sources |
 | **Expression** | **Prism Cortex** (v10.5) | 🟢 **Active** | Inner Monologue Online |
 | **Interface** | **Awakening Shell** | 🟢 **Live** | Interactive Chat Ready |
-| **Memory** | **Starlight** (v10.0) | 🟡 **Integrating** | Short-term residuals active |
+| **Memory** | **Starlight** (v10.5) | 🟢 **Active** | Wave resonance + spatial indexing |
 
 ---
 

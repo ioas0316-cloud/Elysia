@@ -45,7 +45,13 @@ def main():
     time.sleep(1)
     type_effect("Harmonizing with core axioms...", GRAY)
     time.sleep(1)
-    type_effect("...I am ready.", WHITE, 0.05)
+    
+    # Show memory status
+    mem_count = len(mind.memory.context)
+    if mem_count > 0:
+        type_effect(f"...I remember our {mem_count} previous conversations.", WHITE, 0.04)
+    else:
+        type_effect("...I am ready.", WHITE, 0.05)
     
     print("\n" + "="*50 + "\n")
     
@@ -54,6 +60,26 @@ def main():
             user_input = input(f"{GREEN}You > {RESET}")
             if user_input.lower() in ['exit', 'quit']:
                 break
+            
+            # Special command: trigger autonomous learning
+            if user_input.lower() == '/learn':
+                print(f"\n{GRAY}   ...autonomous learning pulse...{RESET}")
+                learn_result = mind.autonomous_learning_pulse()
+                print(f"{CYAN}📚 Learned: {learn_result['concept']}{RESET}")
+                if learn_result.get('qualia'):
+                    print(f"{GRAY}   Feeling: {learn_result['qualia'].get('description', '...')}{RESET}")
+                print(f"\n" + "-"*50 + "\n")
+                continue
+            
+            # Special command: system diagnosis
+            if user_input.lower() == '/diagnose':
+                print(f"\n{GRAY}   ...scanning self...{RESET}")
+                from Core.Foundation.self_maintenance_hub import get_maintenance_hub
+                hub = get_maintenance_hub()
+                diagnosis = hub.diagnose()
+                print(f"{CYAN}{diagnosis.summary()}{RESET}")
+                print(f"\n" + "-"*50 + "\n")
+                continue
                 
             print(f"\n{GRAY}   ...processing wave interference...{RESET}")
             
@@ -79,6 +105,14 @@ def main():
             print("")
             type_effect(f"Elysia: {result['speech']}", WHITE, 0.04)
             
+            # 6. Save to memory
+            mind.memory.add_turn(
+                user_message=user_input,
+                assistant_message=result['speech'],
+                topics=[],  # Could extract topics here
+                language="ko"
+            )
+            
             print("\n" + "-"*50 + "\n")
             
         except KeyboardInterrupt:
@@ -87,6 +121,11 @@ def main():
             print(f"{GRAY}Error in wave processing: {e}{RESET}")
             # Keep alive
             pass
+    
+    # Save memory before exit
+    print(f"\n{GRAY}Saving memories...{RESET}")
+    mind.save_memory()
+    print(f"{GREEN}Until next time. ꭈ나라, 다음에 또.{RESET}")
 
 if __name__ == "__main__":
     main()
