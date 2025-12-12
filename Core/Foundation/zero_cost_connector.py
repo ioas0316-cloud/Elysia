@@ -131,35 +131,123 @@ class YouTubeConnector:
     """
     YouTube 무료 커넥터
     
-    youtube-transcript-api 사용 (완전 무료!)
+    youtube-transcript-api 및 youtube-search-python 사용 (완전 무료!)
     API 키 불필요!
     """
     
     def __init__(self):
+        self.search_available = False
+        self.transcript_available = False
+
         try:
             from youtube_transcript_api import YouTubeTranscriptApi
-            self.api = YouTubeTranscriptApi
-            self.available = True
+            self.transcript_api = YouTubeTranscriptApi
+            self.transcript_available = True
         except ImportError:
-            logger.warning("⚠️ youtube-transcript-api not installed")
-            logger.info("   Install: pip install youtube-transcript-api")
-            self.available = False
+            pass
+
+        try:
+            from youtubesearchpython import VideosSearch
+            self.search_api = VideosSearch
+            self.search_available = True
+        except ImportError:
+            pass
+
+        self.available = self.search_available or self.transcript_available
+
+        if not self.transcript_available:
+             logger.warning("⚠️ youtube-transcript-api not installed")
+             logger.info("   Install: pip install youtube-transcript-api")
+        if not self.search_available:
+             logger.warning("⚠️ youtube-search-python not installed")
+             logger.info("   Install: pip install youtube-search-python")
     
     def fetch(self, topic: str, max_videos: int = 10) -> Dict[str, Any]:
         """YouTube에서 자막 가져오기"""
         
         if not self.available:
             return {
-                'error': 'youtube-transcript-api not installed',
-                'install': 'pip install youtube-transcript-api'
+                'error': 'No YouTube libraries installed',
+                'install': 'pip install youtube-transcript-api youtube-search-python'
             }
         
-        # TODO: YouTube 검색 API 구현 (무료 대안 찾기)
-        # 현재는 수동으로 비디오 ID 제공 필요
+        results = []
+        search_results = []
+
+        # 1. Search for videos if search is available
+        if self.search_available:
+             try:
+                 logger.info(f"   Searching YouTube for: {topic}")
+                 search = self.search_api(topic, limit=max_videos)
+                 # Handle sync search result
+                 search_data = search.result()
+                 if 'result' in search_data:
+                     search_results = search_data['result']
+                 else:
+                     logger.warning("No results found in YouTube search")
+             except Exception as e:
+                 logger.error(f"Search failed: {e}")
+                 search_results = []
+        else:
+             logger.warning("Search not available, cannot find videos automatically.")
+
+        # 2. Fetch transcripts
+        if self.transcript_available:
+             # Instantiate API
+             try:
+                # Based on investigation, current version uses instance method fetch
+                api_instance = self.transcript_api()
+             except Exception:
+                # Fallback if instantiation fails or different version
+                api_instance = self.transcript_api
+
+             for video in search_results:
+                 vid = video.get('id')
+                 title = video.get('title', 'Unknown Title')
+
+                 if not vid:
+                     continue
+
+                 try:
+                     # Attempt to fetch transcript
+                     # Fetch returns a list of objects (FetchedTranscript) or dicts depending on usage
+                     # We want 'ko' or 'en'
+                     t_obj = api_instance.fetch(vid, languages=['ko', 'en'])
+
+                     # Check if it is iterable (list of snippets)
+                     full_text = ""
+                     for item in t_obj:
+                         # Item has .text attribute or key?
+                         # The object is FetchedTranscriptSnippet which has .text
+                         if hasattr(item, 'text'):
+                             full_text += item.text + " "
+                         elif isinstance(item, dict) and 'text' in item:
+                             full_text += item['text'] + " "
+
+                     if full_text:
+                         results.append({
+                             'video_id': vid,
+                             'title': title,
+                             'transcript': full_text[:10000], # Limit to 10k chars
+                             'url': f"https://www.youtube.com/watch?v={vid}"
+                         })
+                         logger.info(f"   ✅ Fetched transcript for: {title[:30]}...")
+
+                 except Exception as e:
+                     # Common error is cookies required or IP blocked
+                     logger.warning(f"   ⚠️ Could not fetch transcript for {vid}: {e}")
+                     # Still add video info without transcript so we know it was found
+                     results.append({
+                         'video_id': vid,
+                         'title': title,
+                         'transcript': None,
+                         'error': str(e),
+                         'url': f"https://www.youtube.com/watch?v={vid}"
+                     })
         
         return {
-            'transcripts': [],
-            'note': 'Add video IDs manually or use youtube-search-python (free)',
+            'transcripts': results,
+            'total_found': len(search_results),
             'cost': 0
         }
 
