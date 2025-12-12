@@ -12,6 +12,23 @@ from typing import Dict, List, Optional, Tuple
 import math
 import random
 
+# Constants for Hangul Composition (Compatibility Jamo)
+CHOSEONG_LIST = [
+    'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
+    'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+]
+
+JUNGSEONG_LIST = [
+    'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
+    'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'
+]
+
+JONGSEONG_LIST = [
+    '', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ',
+    'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ',
+    'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+]
+
 # Reuse existing physics structures if available, or define minimal versions here
 # to avoid circular imports during this prototype phase.
 @dataclass
@@ -161,15 +178,22 @@ class HangulPhysicsEngine:
 
     def synthesize_syllable(self, onset: str, nucleus: str, coda: str = '') -> str:
         """
-        Combines Jamo into a Hangul syllable (naive implementation).
-        Real Hangul composition requires Unicode math, but for this prototype
-        we can just return the Jamo sequence or a simplified representation.
+        Combines Jamo into a Hangul syllable using proper Unicode composition.
         """
-        # TODO: Implement proper Unicode composition if needed.
-        # For now, return "ㄱ-ㅏ" format for clarity in logs.
-        if coda:
-            return f"{onset}{nucleus}{coda}"
-        return f"{onset}{nucleus}"
+        try:
+            onset_idx = CHOSEONG_LIST.index(onset)
+            nucleus_idx = JUNGSEONG_LIST.index(nucleus)
+            coda_idx = JONGSEONG_LIST.index(coda) if coda else 0
+
+            # 0xAC00 is the start of Hangul Syllables block
+            # Formula: 0xAC00 + (Onset * 21 * 28) + (Nucleus * 28) + Coda
+            syllable_code = 0xAC00 + (onset_idx * 588) + (nucleus_idx * 28) + coda_idx
+            return chr(syllable_code)
+        except ValueError:
+            # Fallback for invalid Jamo or partial inputs
+            if coda:
+                return f"{onset}{nucleus}{coda}"
+            return f"{onset}{nucleus}"
 
 @dataclass
 class GrammarParticle:
