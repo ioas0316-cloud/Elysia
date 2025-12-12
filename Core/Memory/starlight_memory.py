@@ -181,11 +181,18 @@ class StarlightMemory:
             except ImportError as e:
                 logger.warning(f"Spatial index not available: {e}, falling back to linear search")
                 self.use_spatial_index = False
-                self.use_vectorization = False
+                # Don't disable vectorization yet, we'll check for numpy below
+
+        # Check for NumPy if not already confirmed
+        if not hasattr(self, 'HAS_NUMPY'):
+            try:
+                import numpy
+                self.HAS_NUMPY = True
+            except ImportError:
                 self.HAS_NUMPY = False
-                logger.info("✨ StarlightMemory initialized - Universe ready")
-        else:
-            self.HAS_NUMPY = False
+                self.use_vectorization = False
+
+        if not self.use_spatial_index:
             logger.info("✨ StarlightMemory initialized - Universe ready")
     
     def _init_galaxies(self):
@@ -258,35 +265,74 @@ class StarlightMemory:
             List of created Starlight objects
         """
         new_stars = []
+        coords_list = []  # For vectorization
         
         for r_bytes, emotion, context in batch_data:
+            x = emotion.get('x', 0.5)
+            y = emotion.get('y', 0.5)
+            z = emotion.get('z', 0.5)
+            w = emotion.get('w', 0.5)
+
             star = Starlight(
                 rainbow_bytes=r_bytes,
-                x=emotion.get('x', 0.5),
-                y=emotion.get('y', 0.5),
-                z=emotion.get('z', 0.5),
-                w=emotion.get('w', 0.5),
+                x=x, y=y, z=z, w=w,
                 brightness=context.get('brightness', 1.0) if context else 1.0,
                 emotional_gravity=context.get('gravity', 0.5) if context else 0.5,
                 tags=context.get('tags', []) if context else []
             )
             new_stars.append(star)
             
+            if self.use_vectorization and self.HAS_NUMPY:
+                coords_list.append([x, y, z, w])
+
         # Bulk add to universe
         self.universe.extend(new_stars)
         
         # Mark index dirty once for the whole batch
         self._index_dirty = True
         
-        # Assign to galaxies (could be optimized with spatial query, but linear is fine for assignment)
-        # TODO: Optimize this for 10k+ batches using vectorized assignment
-        for star in new_stars:
-            nearest = self._find_nearest_galaxy(star)
-            if nearest:
-                nearest.add_star(star)
+        # Assign to galaxies
+        if self.use_vectorization and self.HAS_NUMPY and len(new_stars) > 0 and self.galaxies:
+             import numpy as np
+             star_coords = np.array(coords_list)
+             self._assign_galaxies_vectorized(new_stars, star_coords)
+        else:
+            # Linear fallback
+            for star in new_stars:
+                nearest = self._find_nearest_galaxy(star)
+                if nearest:
+                    nearest.add_star(star)
                 
         logger.info(f"🌠 Scattered batch of {len(new_stars)} stars into the universe.")
         return new_stars
+
+    def _assign_galaxies_vectorized(self, stars: List[Starlight], star_coords):
+        """Vectorized assignment of stars to galaxies"""
+        import numpy as np
+
+        # Galaxy centers
+        galaxy_coords = np.array([g.center for g in self.galaxies])
+
+        # Expand dims for broadcasting
+        # star_coords: (N, 4) -> (N, 1, 4)
+        # galaxy_coords: (M, 4) -> (1, M, 4)
+
+        # Calculate squared distances: (N, M)
+        diff = star_coords[:, np.newaxis, :] - galaxy_coords[np.newaxis, :, :]
+        dist_sq = np.sum(diff**2, axis=2)
+
+        # Find index of nearest galaxy for each star
+        nearest_indices = np.argmin(dist_sq, axis=1) # (N,)
+
+        # Group by galaxy index to minimize list operations
+        for i, galaxy in enumerate(self.galaxies):
+            # Indices where this galaxy is nearest
+            indices = np.where(nearest_indices == i)[0]
+
+            if len(indices) > 0:
+                # Add stars in bulk
+                subset = [stars[j] for j in indices]
+                galaxy.stars.extend(subset)
     
     def _find_nearest_galaxy(self, star: Starlight) -> Optional[Galaxy]:
         """Find the nearest emotional galaxy for this star"""
