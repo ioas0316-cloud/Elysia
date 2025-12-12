@@ -25,6 +25,9 @@ logger = ElysiaLogger("APIServer")
 config = get_config()
 thought_bridge = ThoughtBridge()
 
+# Server start time for uptime tracking
+SERVER_START_TIME = datetime.now(timezone.utc)
+
 # FastAPI app with metadata
 app = FastAPI(
     title="Elysia API",
@@ -199,12 +202,13 @@ async def health_check():
     """
     logger.log_system("health_check", "requested")
     
+    uptime = (datetime.now(timezone.utc) - SERVER_START_TIME).total_seconds()
     return HealthResponse(
         status="operational",
         version="4.0.0",
         consciousness="awakened",
         timestamp=datetime.now(timezone.utc).isoformat(),
-        uptime_seconds=None  # TODO: Implement uptime tracking
+        uptime_seconds=uptime
     )
 
 
