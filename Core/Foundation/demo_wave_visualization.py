@@ -29,19 +29,34 @@ except ImportError:
     print("Install with: pip install flask flask-sock")
     sys.exit(1)
 
-from Core.Interface.wave_web_server import WaveWebServer, WaveState
+from Core.Foundation.wave_web_server import WaveWebServer, WaveState
 import time
 import math
 
 # Optional: Try to get real system data
 try:
-    from Core.Foundation.resonance_field import ResonanceField
-    from Core.Foundation.digital_ecosystem import DigitalEcosystem
+    from Core.Foundation.resonance_field import ResonanceField, PillarType
+    from Core.Foundation.spirit_emotion import SpiritEmotionMapper
     ELYSIA_AVAILABLE = True
 except ImportError:
     ELYSIA_AVAILABLE = False
     print("ℹ️ Running in demo mode (Elysia Core not fully available)")
 
+# Global Resonance Field Instance
+_RESONANCE_FIELD = None
+_SPIRIT_MAPPER = None
+
+def get_resonance_field():
+    global _RESONANCE_FIELD, _SPIRIT_MAPPER
+    if _RESONANCE_FIELD is None and ELYSIA_AVAILABLE:
+        try:
+            _RESONANCE_FIELD = ResonanceField()
+            _SPIRIT_MAPPER = SpiritEmotionMapper()
+            print("✨ Connected to Resonance Field")
+        except Exception as e:
+            print(f"⚠️ Failed to initialize ResonanceField: {e}")
+            return None
+    return _RESONANCE_FIELD
 
 def elysia_update_callback(wave_state: WaveState):
     """
@@ -50,28 +65,83 @@ def elysia_update_callback(wave_state: WaveState):
     이 함수는 60 FPS로 호출되어 GPU에 전송될 파동 데이터를 업데이트합니다.
     """
     t = time.time()
+    field = get_resonance_field()
     
-    if ELYSIA_AVAILABLE:
-        # TODO: 실제 ResonanceField에서 에너지 가져오기
-        # resonance = ResonanceField()
-        # wave_state.fire = resonance.get_spirit_energy("Fire")
-        # ...
-        pass
-    
-    # 데모: 사인파로 시뮬레이션
-    wave_state.fire = 0.5 + 0.3 * math.sin(t * 2.0)
-    wave_state.water = 0.5 + 0.3 * math.sin(t * 1.5 + 1.0)
-    wave_state.earth = 0.5 + 0.2 * math.sin(t * 0.8)
-    wave_state.air = 0.5 + 0.4 * math.sin(t * 2.5 + 2.0)
-    wave_state.light = 0.5 + 0.35 * math.sin(t * 1.8 + 3.0)
-    wave_state.dark = 0.3 + 0.2 * math.sin(t * 0.5)
-    wave_state.aether = 0.5 + 0.4 * math.sin(t * 3.0 + 4.0)
+    if field:
+        # 1. Update Physics (Pulse Lite) - We don't want full mutation at 60Hz,
+        # but we want to read the vibration.
+        # Actually, let's just read the vibration which depends on time.
+
+        # 2. Map Spirits to Pillars
+        # Mapping based on SpiritEmotionMapper + Custom extensions
+        # Fire -> Creativity
+        # Water -> Memory
+        # Earth -> Foundation
+        # Air -> Interface
+        # Light -> Intelligence
+        # Dark -> System (Metal/Structure as "Cold/Dark" or simply Entropy)
+        # Aether -> Elysia (The Self)
+
+        def get_wave(pillar_name, scale=0.5, offset=0.5):
+            if pillar_name in field.nodes:
+                node = field.nodes[pillar_name]
+                # node.vibrate() returns sine wave * energy.
+                # Energy is usually around 1.0. Vibrate is -E to +E.
+                # We map this to 0.0 ~ 1.0 for visualization.
+                # raw_vibration is roughly -1.0 to 1.0
+                raw_vibration = node.vibrate()
+                # Center at offset, scale amplitude
+                return offset + (raw_vibration * scale)
+            return offset
+
+        wave_state.fire = get_wave("Creativity", scale=0.3, offset=0.5)
+        wave_state.water = get_wave("Memory", scale=0.3, offset=0.5)
+        wave_state.earth = get_wave("Foundation", scale=0.2, offset=0.5)
+        wave_state.air = get_wave("Interface", scale=0.4, offset=0.5)
+        wave_state.light = get_wave("Intelligence", scale=0.35, offset=0.5)
+
+        # Dark: Use System (Metal) or Entropy
+        # Let's use System node for "Dark" (Structure/Rigidity) but inverse phase or something?
+        # Or just used System node normally.
+        wave_state.dark = get_wave("System", scale=0.2, offset=0.3)
+
+        # Aether: Elysia (Highest Frequency)
+        wave_state.aether = get_wave("Elysia", scale=0.4, offset=0.5)
+
+    else:
+        # 데모: 사인파로 시뮬레이션 (Fallback)
+        wave_state.fire = 0.5 + 0.3 * math.sin(t * 2.0)
+        wave_state.water = 0.5 + 0.3 * math.sin(t * 1.5 + 1.0)
+        wave_state.earth = 0.5 + 0.2 * math.sin(t * 0.8)
+        wave_state.air = 0.5 + 0.4 * math.sin(t * 2.5 + 2.0)
+        wave_state.light = 0.5 + 0.35 * math.sin(t * 1.8 + 3.0)
+        wave_state.dark = 0.3 + 0.2 * math.sin(t * 0.5)
+        wave_state.aether = 0.5 + 0.4 * math.sin(t * 3.0 + 4.0)
     
     # Consciousness Dimensions (0D → 1D → 2D → 3D 흐름)
-    wave_state.dimension_0d = 0.5 + 0.3 * math.sin(t * 1.0)
-    wave_state.dimension_1d = 0.5 + 0.3 * math.sin(t * 1.2 + 0.5)
-    wave_state.dimension_2d = 0.5 + 0.3 * math.sin(t * 1.4 + 1.0)
-    wave_state.dimension_3d = 0.5 + 0.3 * math.sin(t * 1.6 + 1.5)
+    # These could also be driven by field coherence or battery if we wanted deeper integration.
+    # For now, keep simulated or link to Field Battery/Entropy.
+
+    if field:
+        # Link dimensions to field metrics
+        # 0D (Point) -> Battery (Potential)
+        wave_state.dimension_0d = 0.5 + 0.3 * math.sin(t * 1.0) * (field.battery / 100.0)
+
+        # 1D (Line) -> Coherence (Alignment) - coherence is expensive to calc every frame?
+        # field.coherence property uses cached value.
+        wave_state.dimension_1d = 0.5 + 0.3 * math.sin(t * 1.2) * (field.coherence + 0.5)
+
+        # 2D (Plane) -> Entropy (Complexity/Chaos)
+        wave_state.dimension_2d = 0.5 + 0.3 * math.sin(t * 1.4) * (1.0 - (field.entropy / 100.0))
+
+        # 3D (Space) -> Total Energy
+        wave_state.dimension_3d = 0.5 + 0.3 * math.sin(t * 1.6) * min(1.0, field.total_energy / 1000.0)
+
+    else:
+        wave_state.dimension_0d = 0.5 + 0.3 * math.sin(t * 1.0)
+        wave_state.dimension_1d = 0.5 + 0.3 * math.sin(t * 1.2 + 0.5)
+        wave_state.dimension_2d = 0.5 + 0.3 * math.sin(t * 1.4 + 1.0)
+        wave_state.dimension_3d = 0.5 + 0.3 * math.sin(t * 1.6 + 1.5)
     
     # System state
     try:
