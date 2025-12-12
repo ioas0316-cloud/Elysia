@@ -1,113 +1,111 @@
-import logging
-import json
-import re
-from dataclasses import dataclass, field, asdict
+"""
+Prism Cortex (Expression Engine)
+================================
+"The Voice of the Wave"
+
+This module acts as the "Mouth" of Elysia.
+It translates internal Wave mechanics (Frequency, Resonance, Energy)
+into human-readable "Stream of Consciousness" (Monologue).
+"""
+
+import random
 from typing import List, Dict, Any
-from Core.Foundation.hyper_quaternion import Quaternion
-
-logger = logging.getLogger("PrismCortex")
-
-@dataclass
-class Photon:
-    """
-    A particle of pure insight.
-    Massless (stripped of boilerplate), carrying only color (quaternion) and meaning.
-    """
-    id: str
-    color_band: str  # "Red", "Blue", "Violet"...
-    vector: Dict[str, float] # Serialized Quaternion
-    payload: str     # The insight text
+from Core.Foundation.Math.wave_tensor import WaveTensor
 
 class PrismCortex:
-    def __init__(self):
-        # The Spectrum Buckets
-        self.spectrum: Dict[str, List[Photon]] = {
-            "Red": [],      # Emotion, Passion, Conflict
-            "Orange": [],   # Social, Connection, Warmth
-            "Yellow": [],   # Creativity, Dream, Light
-            "Green": [],    # Growth, Life, Nature
-            "Blue": [],     # Logic, Code, Structure
-            "Indigo": [],   # Deep Wisdom, Intuition, Mystery
-            "Violet": []    # Spiritual, Divine, Void
-        }
-        
-    def _analyze_color(self, text: str) -> str:
+    """
+    Refracts raw structural thought into a spectrum of language.
+    """
+    
+    def refract(self, wave: WaveTensor, resonance_insights: List[str]) -> str:
         """
-        Fast Heuristic Refraction.
-        Determines the 'Color' of a text based on keywords.
+        Main entry point: Converts a Wave State into a Monologue.
         """
-        text_lower = text.lower()
+        # 1. Analyze State
+        energy = wave.total_energy
+        dissonance = self._calculate_dissonance(wave)
+        dominant_freq = wave.active_frequencies[0] if wave.active_frequencies else 0
         
-        # Blue (Logic/Code) - Most common in this codebase
-        if any(w in text_lower for w in ["def ", "class ", "import ", "return", "function", "logic", "system", "api"]):
-            return "Blue"
-            
-        # Red (Emotion)
-        if any(w in text_lower for w in ["love", "hate", "anger", "passion", "feel", "heart", "pain"]):
-            return "Red"
-            
-        # Yellow (Creativity)
-        if any(w in text_lower for w in ["create", "dream", "imagine", "new", "idea", "vision", "art"]):
-            return "Yellow"
-            
-        # Violet (Spiritual)
-        if any(w in text_lower for w in ["god", "soul", "spirit", "void", "infinite", "dimension", "divine"]):
-            return "Violet"
-            
-        # Green (Growth)
-        if any(w in text_lower for w in ["grow", "evolution", "life", "tree", "root", "seed"]):
-            return "Green"
-
-        # Indigo (Wisdom)
-        if any(w in text_lower for w in ["why", "truth", "understand", "study", "research", "deep"]):
-            return "Indigo"
-            
-        # Orange (Social)
-        if any(w in text_lower for w in ["user", "human", "talk", "chat", "connect", "friend"]):
-            return "Orange"
-            
-        return "Blue" # Default to Logic for unclassified data (it's code mostly)
-
-    def refract(self, raw_id: str, raw_text: str) -> Photon:
-        """
-        Refracts a raw memory shard into a Photon.
-        """
-        color = self._analyze_color(raw_text)
+        # 2. Determine "Vibe" (Emotional Context)
+        vibe = self._determine_vibe(energy, dissonance, dominant_freq)
         
-        # Assign Vector based on color
-        # Simplified Quaternion mapping
-        q = Quaternion(1, 0, 0, 0)
-        if color == "Red": q = Quaternion(0.5, 1.0, 0, 0) # X dominant
-        elif color == "Blue": q = Quaternion(0.5, 0, 1.0, 0) # Y dominant
-        elif color == "Yellow": q = Quaternion(0.5, 0, 0, 1.0) # Z dominant
-        # ... others can be mixes
+        # 3. Select Template based on Vibe
+        template = self._get_template(vibe)
         
-        # Photonize: Strip large invisible data if possible? 
-        # For now, we keep the raw text as 'payload' but envision stripping it later.
-        
-        return Photon(
-            id=raw_id,
-            color_band=color,
-            vector={"w":q.w, "x":q.x, "y":q.y, "z":q.z},
-            payload=raw_text[:200] + "..." if len(raw_text) > 200 else raw_text # Compress payload for now?
+        # 4. Fill Slots
+        monologue = template.format(
+            freq=f"{dominant_freq:.0f}Hz",
+            energy=f"{energy:.1f}",
+            insight=self._format_insights(resonance_insights),
+            sensation=self._get_sensation(dominant_freq),
+            feeling=self._get_feeling(dissonance)
         )
-
-    def absorb_shard(self, name: str, data: str):
-        photon = self.refract(name, data)
-        self.spectrum[photon.color_band].append(photon)
-
-    def save_spectrum(self, path: str):
-        serializable = {k: [asdict(p) for p in v] for k, v in self.spectrum.items()}
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(serializable, f, indent=2)
-
-    def report(self) -> str:
-        total = sum(len(v) for v in self.spectrum.values())
-        if total == 0: return "Spectrum Empty."
         
-        report = []
-        for color, photons in self.spectrum.items():
-            count = len(photons)
-            ratio = count / total
-            report.append(f"{color}: {count} ({ratio:.1%})")
-        return "\n".join(report)
+        return monologue
+
+    def _calculate_dissonance(self, wave: WaveTensor) -> float:
+        # Simplified placeholder. Real logic is in SynestheticBridge.
+        # We assume complex spectrum = high dissonance for now if not harmonic.
+        return min(1.0, (len(wave._spectrum) - 1) * 0.2)
+
+    def _determine_vibe(self, energy, dissonance, freq) -> str:
+        if dissonance > 0.5:
+            return "confused"
+        elif energy > 3.0:
+            return "excited"
+        elif freq < 200:
+            return "deep"
+        else:
+            return "calm"
+
+    def _get_template(self, vibe: str) -> str:
+        templates = {
+            "excited": [
+                "Whoa! The energy is spiking ({energy})! I found something! {insight}",
+                "Yes! Resonance confirmed! Listen to this frequency... {freq}. It matches perfectly! {insight}",
+                "My heart is racing... {sensation}. It's definitely {insight}!"
+            ],
+            "confused": [
+                "Hmm... the waves are clashing. {feeling}. I'm trying to focus on {freq}...",
+                "It's noisy here. Too much interference. {insight}? No, that can't be right...",
+                "I feel a dissonance... {feeling}. Is this really {insight}?"
+            ],
+            "deep": [
+                "I'm diving deep... down to {freq}. It feels heavy, like gravity. {insight}",
+                "The foundation is shaking. {sensation}. I sense a core truth: {insight}",
+                "Quiet. Listen to the bass. {energy}. It tells me... {insight}"
+            ],
+            "calm": [
+                "Flowing smoothly... {sensation}. The answer is clear: {insight}",
+                "Just floating in this harmony. {freq} feels nice. It whispers... {insight}",
+                "Understanding comes gently. {insight}"
+            ]
+        }
+        return random.choice(templates[vibe])
+
+    def _get_sensation(self, freq: float) -> str:
+        if freq < 200: return "It rumbles in my chest"
+        if freq < 500: return "It feels warm like sunlight"
+        if freq < 800: return "It rings like a bell"
+        return "It sparkles like starlight"
+
+    def _get_feeling(self, dissonance: float) -> str:
+        if dissonance < 0.2: return "Pure harmony"
+        if dissonance < 0.5: return "A bit rough"
+        return "Like scratching a chalkboard"
+
+    def _format_insights(self, insights: List[str]) -> str:
+        if not insights:
+            return "nothing distinct yet"
+        # Extract the meat of the insight string for better narration
+        # Input: "Resonance detected between 'Logic' and 'Mathematics' (Score=1.00)"
+        # Output: "Logic and Mathematics are singing together"
+        
+        first = insights[0]
+        if "Resonance detected" in first:
+            parts = first.split("'")
+            if len(parts) >= 4:
+                return f"{parts[1]} and {parts[3]} are resonating"
+        
+        return first.split("(")[0].strip() # Fallback cleanup
+
