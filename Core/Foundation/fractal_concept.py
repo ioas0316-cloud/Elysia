@@ -9,8 +9,9 @@ Concepts are stored as compressed "DNA formulas" that can be unfolded into full 
 """
 
 import logging
+import hashlib
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 from Core.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("FractalConcept")
@@ -171,7 +172,75 @@ class ConceptDecomposer:
         """Get primary frequency for a concept."""
         if concept_name in self.decompositions:
             return self.decompositions[concept_name][0][1]
-        return 432.0 + (hash(concept_name) % 500)
+
+        # Stable frequency generation
+        h_val = int(hashlib.md5(concept_name.encode("utf-8")).hexdigest(), 16)
+        return 432.0 + (h_val % 500)
+
+    def calculate_resonance(self, concept_a: str, concept_b: str) -> Tuple[float, Dict[str, float]]:
+        """
+        Calculates resonance between two concepts.
+        Returns:
+            - Final Score (float)
+            - Details (Dict: freq_score, align_score, bond_score)
+        """
+        # 1. Get Concept Nodes
+        node_a = self.decompose(concept_a)
+        node_b = self.decompose(concept_b)
+
+        # Apply deterministic random orientation for unknown concepts
+        # to ensure variety and prevent artificial alignment
+        for node in [node_a, node_b]:
+            if node.name not in self.decompositions:
+                # Use stable hash for deterministic behavior across restarts
+                h_val = int(hashlib.md5(node.name.encode("utf-8")).hexdigest(), 16)
+                node.orientation = Quaternion(
+                    w=1.0,
+                    x=(h_val % 100) / 100.0,
+                    y=((h_val >> 8) % 100) / 100.0,
+                    z=((h_val >> 16) % 100) / 100.0
+                ).normalize()
+
+        # 2. Frequency Resonance (Harmonic Ratio)
+        f1, f2 = node_a.frequency, node_b.frequency
+        freq_score = 0.0
+        if f1 > 0 and f2 > 0:
+            freq_score = min(f1, f2) / max(f1, f2)
+
+        # 3. Quaternion Alignment (Directional Harmony)
+        alignment = node_a.orientation.dot(node_b.orientation)
+        alignment_score = (alignment + 1.0) / 2.0
+
+        # 4. Causal/Bond Resonance (Historical Connection)
+        bond_score = 0.0
+        if concept_b in node_a.causal_bonds:
+            bond_score = (node_a.causal_bonds[concept_b] + 1.0) / 2.0
+        elif concept_a in node_b.causal_bonds:
+            bond_score = (node_b.causal_bonds[concept_a] + 1.0) / 2.0
+
+        # 5. Weighted Total Score
+        w_align = 0.5
+        w_bond = 0.3
+        w_freq = 0.2
+
+        if bond_score == 0.0:
+            # Re-distribute w_bond if no known bond
+            total_remaining = w_align + w_freq
+            w_align += w_bond * (w_align / total_remaining)
+            w_freq += w_bond * (w_freq / total_remaining)
+            w_bond = 0.0
+
+        score = (alignment_score * w_align) + (bond_score * w_bond) + (freq_score * w_freq)
+
+        details = {
+            "freq_score": freq_score,
+            "f1": f1,
+            "f2": f2,
+            "align_score": alignment_score,
+            "bond_score": bond_score
+        }
+
+        return score, details
 
 
 # Test

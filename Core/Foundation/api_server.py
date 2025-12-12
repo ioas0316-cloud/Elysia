@@ -18,10 +18,12 @@ from Core.Foundation.elysia_logger import ElysiaLogger
 from Core.Foundation.error_handler import error_handler
 from Core.Foundation.config import get_config
 from Core.Foundation.performance_monitor import monitor
+from Core.Foundation.fractal_concept import ConceptDecomposer
 
 # Initialize
 logger = ElysiaLogger("APIServer")
 config = get_config()
+decomposer = ConceptDecomposer()
 
 # FastAPI app with metadata
 app = FastAPI(
@@ -291,13 +293,20 @@ async def calculate_resonance(request: ResonanceRequest):
     logger.log_resonance(request.concept_a, request.concept_b, 0.0)
     
     try:
-        # Simulate resonance calculation
-        # TODO: Integrate with actual ResonanceField
-        score = 0.847  # Placeholder
+        score, details = decomposer.calculate_resonance(request.concept_a, request.concept_b)
         
+        # Determine harmony level for explanation
+        if score > 0.8: harmony = "매우 높은 조화(Harmonic)"
+        elif score > 0.6: harmony = "긍정적 공명(Resonant)"
+        elif score > 0.4: harmony = "중립적 관계(Neutral)"
+        else: harmony = "부조화/복합적 관계(Dissonant)"
+
         explanation = (
-            f"개념 '{request.concept_a}'와 '{request.concept_b}' 사이의 공명을 분석했습니다. "
-            f"공명 점수 {score:.3f}는 높은 조화를 나타냅니다."
+            f"개념 '{request.concept_a}'와 '{request.concept_b}' 사이의 공명을 분석했습니다.\n"
+            f"- 주파수 비율: {details['freq_score']:.2f} ({details['f1']:.1f}Hz vs {details['f2']:.1f}Hz)\n"
+            f"- 방향성 정렬: {details['align_score']:.2f}\n"
+            f"- 인과적 결합: {details['bond_score']:.2f}\n"
+            f"종합 공명 점수 {score:.3f}는 {harmony}를 나타냅니다."
         )
         
         response = ResonanceResponse(
