@@ -25,35 +25,38 @@ class StreamManager:
         self.running = False
         logger.info("🎛️ StreamManager initialized")
     
-    def setup_default_sources(self):
+    def setup_default_sources(self, topics: List[str] = None):
         """Setup default knowledge sources"""
         logger.info("Setting up default knowledge sources...")
+        if topics:
+            logger.info(f"   Applying topic filters: {topics}")
         
         # YouTube
         youtube = YouTubeStreamSource(
             channels=[],  # Add channel IDs as needed
-            search_query=None
+            search_query=None,
+            topics=topics
         )
         self.receiver.add_stream_source(youtube)
         
         # Wikipedia
-        wikipedia = WikipediaStreamSource()
+        wikipedia = WikipediaStreamSource(topics=topics)
         self.receiver.add_stream_source(wikipedia)
         
         # arXiv
-        arxiv = ArxivStreamSource()
+        arxiv = ArxivStreamSource(topics=topics)
         self.receiver.add_stream_source(arxiv)
         
         # GitHub
-        github = GitHubStreamSource()
+        github = GitHubStreamSource(topics=topics)
         self.receiver.add_stream_source(github)
         
         # Stack Overflow
-        stackoverflow = StackOverflowStreamSource()
+        stackoverflow = StackOverflowStreamSource(topics=topics)
         self.receiver.add_stream_source(stackoverflow)
         
         # Free Music Archive
-        fma = FreeMusicArchiveSource()
+        fma = FreeMusicArchiveSource(topics=topics)
         self.receiver.add_stream_source(fma)
         
         logger.info(f"✅ Setup {len(self.receiver.stream_sources)} sources")
