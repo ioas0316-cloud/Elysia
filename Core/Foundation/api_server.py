@@ -18,10 +18,12 @@ from Core.Foundation.elysia_logger import ElysiaLogger
 from Core.Foundation.error_handler import error_handler
 from Core.Foundation.config import get_config
 from Core.Foundation.performance_monitor import monitor
+from Core.Foundation.thought_bridge import ThoughtBridge
 
 # Initialize
 logger = ElysiaLogger("APIServer")
 config = get_config()
+thought_bridge = ThoughtBridge()
 
 # FastAPI app with metadata
 app = FastAPI(
@@ -242,19 +244,21 @@ async def think(request: ThoughtRequest):
     logger.log_thought(request.layer, f"Processing: {request.prompt[:50]}...", request.context)
     
     try:
-        # Simulate thought processing
-        # TODO: Integrate with actual ThoughtBridge
-        thought = f"[{request.layer}] Contemplating: {request.prompt}"
-        resonance = 0.75  # Placeholder
-        
-        response = ThoughtResponse(
-            thought=thought,
+        # Actual ThoughtBridge Integration
+        result = thought_bridge.process_thought(
+            prompt=request.prompt,
             layer=request.layer,
-            resonance=resonance,
-            timestamp=datetime.now(timezone.utc).isoformat()
+            context=request.context
         )
         
-        logger.info(f"Thought generated: {request.layer}", context={"resonance": resonance})
+        response = ThoughtResponse(
+            thought=result["thought"],
+            layer=result["layer"],
+            resonance=result["resonance"],
+            timestamp=result["timestamp"]
+        )
+        
+        logger.info(f"Thought generated: {request.layer}", context={"resonance": result["resonance"]})
         return response
     
     except Exception as e:
@@ -291,22 +295,19 @@ async def calculate_resonance(request: ResonanceRequest):
     logger.log_resonance(request.concept_a, request.concept_b, 0.0)
     
     try:
-        # Simulate resonance calculation
-        # TODO: Integrate with actual ResonanceField
-        score = 0.847  # Placeholder
-        
-        explanation = (
-            f"개념 '{request.concept_a}'와 '{request.concept_b}' 사이의 공명을 분석했습니다. "
-            f"공명 점수 {score:.3f}는 높은 조화를 나타냅니다."
+        # Actual Resonance Calculation
+        result = thought_bridge.calculate_resonance_between_concepts(
+            request.concept_a,
+            request.concept_b
         )
         
         response = ResonanceResponse(
-            score=score,
-            explanation=explanation,
-            concepts=[request.concept_a, request.concept_b]
+            score=result["score"],
+            explanation=result["explanation"],
+            concepts=result["concepts"]
         )
         
-        logger.log_resonance(request.concept_a, request.concept_b, score)
+        logger.log_resonance(request.concept_a, request.concept_b, result["score"])
         return response
     
     except Exception as e:

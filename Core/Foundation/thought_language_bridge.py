@@ -96,15 +96,14 @@ class ThoughtLanguageBridge:
             print(f"   New concept, using default")
         
         # 2. 추론 엔진으로 사고 전개
-        # 관련 개념들과의 공명 찾기 (simplified)
+        # 관련 개념들과의 공명 찾기
         related_concepts = []
-        if hasattr(self.reasoning_engine, 'find_resonant_concepts'):
-            related_concepts = self.reasoning_engine.find_resonant_concepts(
-                concept_quat, 
-                self.universe
-            )
-        else:
-            # Simple fallback: get related concepts from universe
+        # Use InternalUniverse to find resonant concepts
+        raw_related = self.universe.find_resonant_concepts(topic)
+        related_concepts = [r['concept'] for r in raw_related]
+
+        if not related_concepts:
+            # Fallback
             related_concepts = list(self.universe.coordinate_map.keys())[:5]
         
         print(f"   Found {len(related_concepts)} related concepts")
@@ -238,10 +237,13 @@ class ThoughtLanguageBridge:
         thought = self.understand_language(text)
         
         # 2. 사고 전개 (관련 개념 탐색)
-        related = self.reasoning_engine.find_resonant_concepts(
-            thought.concept,
-            self.universe
-        )
+        # Find closest concept name to the thought quaternion
+        center_concept = self.universe.find_closest_concept(thought.concept)
+        if center_concept:
+            raw_related = self.universe.find_resonant_concepts(center_concept)
+            related = [r['concept'] for r in raw_related]
+        else:
+            related = []
         
         thought.context['related_concepts'] = related
         

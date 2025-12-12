@@ -182,9 +182,8 @@ class P4LearningCycle:
             topics: List of topics to focus on (e.g., ['AI', 'quantum', 'philosophy'])
         """
         logger.info("📚 Setting up knowledge sources...")
-        self.stream_manager.setup_default_sources()
+        self.stream_manager.setup_default_sources(topics=topics)
         
-        # TODO: Add topic filtering when implemented in sources
         if topics:
             logger.info(f"   Focus topics: {', '.join(topics)}")
     
