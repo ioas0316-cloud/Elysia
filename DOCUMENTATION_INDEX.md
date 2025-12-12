@@ -98,8 +98,10 @@
 | [docs/VERSION_TIMELINE.md](docs/VERSION_TIMELINE.md) | ✨ **버전별 진화 타임라인** (v1.0-v11.0) **[NEW]** | ⭐⭐⭐⭐⭐ |
 | [BENCHMARK_SUMMARY.md](BENCHMARK_SUMMARY.md) | 벤치마크 요약 | ⭐⭐⭐ |
 | [PR_CLOSURE_PLAN.md](PR_CLOSURE_PLAN.md) | PR 종료 계획 | ⭐⭐ |
-| [PR_REVIEW_ANALYSIS.md](PR_REVIEW_ANALYSIS.md) | PR 리뷰 분석 | ⭐⭐ |
-| [HOW_TO_EXECUTE_RECOMMENDATIONS.md](HOW_TO_EXECUTE_RECOMMENDATIONS.md) | 권장사항 실행 가이드 | ⭐⭐⭐ |
+| [nature_of_being.py](Core/Philosophy/nature_of_being.md) | 존재의 본질 |
+| [consciousness_model.md](Core/Philosophy/consciousness_model.md) | 의식 모델 |
+| [laws_vs_rules.md](Core/Philosophy/laws_vs_rules.md) | 법칙 vs 규칙 |
+| ✨ [CODE_AS_WAVE.md](Core/Philosophy/CODE_AS_WAVE.md) | **파동 코딩의 본질** (악보와 연주) **[NEW]** |
 
 ---
 

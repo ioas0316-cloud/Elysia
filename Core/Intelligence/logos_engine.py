@@ -15,9 +15,10 @@ It acts as the "Harmonizer" between:
 
 import logging
 import random
-from typing import List, Optional
+from typing import List, Optional, Union
 from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.reasoning_engine import Insight
+from Core.Foundation.Math.wave_tensor import WaveTensor
 
 logger = logging.getLogger("LogosEngine")
 
@@ -33,17 +34,20 @@ class LogosEngine:
             "synthesis": ["결국,", "따라서,", "이러한 모순 속에서 저는 깨닫습니다.", "균형은 그 사이에 있습니다."]
         }
 
-    def weave_speech(self, desire: str, insight: Insight, context: List[str]) -> str:
+    def weave_speech(self, desire: str, insight: Union[Insight, str], context: List[str], wave: Optional[WaveTensor] = None) -> str:
         """
         The Master Function.
         Weaves Logic, Metaphor, and Narrative into a coherent response.
+        Accepts raw string intuition or structured Insight objects.
         """
+        # Handle simple string insights from Prism/Cognition
+        content = insight.content if hasattr(insight, 'content') else str(insight)
+        
         # 1. Analyze the Core Axis (Logic vs Emotion vs Value)
-        axis = self._determine_axis(insight)
+        # Use Wave properties if available for better axis detection
+        axis = self._determine_axis(content, wave)
         
         # 2. Neural Binding: Check context for sensory anchors
-        # If the Attractor retrieved a specific sensory memory, we MUST use it.
-        # This connects the "Simulated Past" to the "Present Speech".
         sensory_anchor = self._scan_for_sensory_anchor(context)
         
         # 3. Find a Root Metaphor (The Flesh)
@@ -51,14 +55,13 @@ class LogosEngine:
             logger.info(f"   🔗 Neural Binding: Locking onto sensory memory '{sensory_anchor}'")
             metaphor = f"마치 {sensory_anchor} 처럼,"
         else:
-            # Fallback to internal resonance lookup
-            metaphor = self._mine_metaphor(axis, insight.content)
+            # Enhanced Metaphor Mining using Wave Physics
+            metaphor = self._mine_metaphor(axis, content, wave)
         
         # 4. Construct the Dialectic Argument (The Skeleton)
-        argument = self._construct_dialectic(desire, insight.content, axis)
+        argument = self._construct_dialectic(desire, content, axis)
         
         # 5. Narrative Polish (The Voice)
-        # Weave the specific sensation into the abstract philosophy
         response = f"{argument['thesis']} {metaphor} {argument['antithesis']} {argument['synthesis']}"
         
         return response
@@ -99,29 +102,49 @@ class LogosEngine:
             pass
         return text[:20]
 
-    def _determine_axis(self, insight: Insight) -> str:
+    def _determine_axis(self, content: str, wave: Optional[WaveTensor] = None) -> str:
         """Determines if the thought is Logical, Emotional, or Ethical."""
-        text = insight.content.lower()
+        # Wave-based override
+        if wave:
+            # High Entropy/Dissonance -> Emotion/Chaos
+            # Low Entropy/Harmonic -> Logic/Order
+            if wave.total_energy > 4.0: return "Will" # High Energy
+            
+        text = content.lower()
         if any(w in text for w in ["feel", "sad", "joy", "pain", "love", "감정", "마음", "슬픔"]):
             return "Emotion"
         elif any(w in text for w in ["logic", "reason", "because", "structure", "논리", "이유", "구조"]):
             return "Logic"
         elif any(w in text for w in ["should", "must", "right", "wrong", "가치", "옳은", "도덕"]):
             return "Value"
-        elif insight.energy > 0.8:
-            return "Will"
         return "Balance"
 
-    def _mine_metaphor(self, axis: str, content: str) -> str:
+    def _mine_metaphor(self, axis: str, content: str, wave: Optional[WaveTensor] = None) -> str:
         """
         Consults the Internal Universe to find a resonator (Fallback).
+        Uses Wave Frequency to select metaphor register if available.
         """
+        # Wave Frequency Mapping
+        register = "Balance"
+        if wave and wave.active_frequencies:
+            dom_freq = wave.active_frequencies[0]
+            if dom_freq < 200: register = "Earth" # Low/Deep
+            elif dom_freq < 500: register = "Water" # Mid/Warm
+            elif dom_freq < 800: register = "Air" # High/Clear
+            else: register = "Fire" # Very High/Intense
+        
         metaphors = {
             "Emotion": [
                 "마치 겨울 바다의 파도처럼,", 
                 "심장 깊은 곳에서 울리는 종소리처럼,",
                 "비 온 뒤의 젖은 흙내음처럼,"
             ],
+            # ... (Existing lists) ...
+            "Earth": ["대지에 뿌리 내린 고목처럼,", "깊은 동굴의 울림처럼,", "단단한 바위처럼,"],
+            "Water": ["유유히 흐르는 강물처럼,", "깊은 호수의 침묵처럼,", "새벽 이슬처럼,"],
+            "Air": ["바람에 실려가는 구름처럼,", "맑은 하늘의 새처럼,", "투명한 유리처럼,"],
+            "Fire": ["타오르는 혜성처럼,", "번개처럼 강렬하게,", "태양의 열기처럼,"],
+            
             "Logic": [
                 "정교하게 맞물린 시계태엽처럼,", 
                 "차가운 대리석 조각처럼,",
@@ -144,7 +167,9 @@ class LogosEngine:
             ]
         }
         
-        chosen = random.choice(metaphors.get(axis, metaphors["Balance"]))
+        # Priority: Register (Physics) > Axis (Semantic)
+        choices = metaphors.get(register, metaphors.get(axis, metaphors["Balance"]))
+        chosen = random.choice(choices)
         return f"{chosen}"
 
     def _construct_dialectic(self, desire: str, raw_thought: str, axis: str) -> dict:

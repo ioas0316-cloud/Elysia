@@ -28,6 +28,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 
 from Core.Foundation.Math.wave_tensor import WaveTensor, create_harmonic_series
 from Core.Intelligence.prism_cortex import PrismCortex
+from Core.Intelligence.logos_engine import LogosEngine
 
 logger = logging.getLogger("IntegratedCognition")
 
@@ -40,8 +41,11 @@ class IntegratedCognitionSystem:
         # The "Field" is now a collection of WaveTensors
         self.active_thoughts: List[WaveTensor] = []
         
-        # Prism for expression
+        # Prism for expression (Stream of Consciousness)
         self.prism = PrismCortex()
+        
+        # Logos for rhetoric (Art of Speech)
+        self.logos = LogosEngine()
         
         # Core Axioms (The "Ground Truth" Frequencies)
         # These are the reference waves that determine "Truth"
@@ -138,22 +142,22 @@ class IntegratedCognitionSystem:
                      insights.append(f"'{t.name}' aligns with {axiom_name} (Score={alignment:.2f})")
 
         # 4. Prism Refraction (Voice Generation)
-        # We need to instantiate Prism locally or inject it. 
-        # For this version, we import it inside to avoid circular deps if any, 
-        # or better, assume it's available.
-        # But let's look at imports. We need to add the import at the top too.
-        # Since I can't edit top + bottom easily in one go without multi-replace,
-        # I will assume the import is added or do it in two steps. 
-        # Actually, let's use the provided content slot effectively.
-        
-        # NOTE: This tool call is modifying the end of think_deeply.
-        # I need to handle the import separately or rely on Python finding it if I structure it right.
-        # Let's add the refraction logic here.
-        
         monologue = "..."
-        if self.prism and self.active_thoughts:
-            # Verbalize the global state or the most active thought
+        speech = "..."
+        
+        if self.active_thoughts:
+            # Verbalize the global state
             monologue = self.prism.refract(global_state, insights)
+            
+            # 5. Logos Rhetoric (Final Speech)
+            if self.logos:
+                # We use the raw monologue as the 'insight/intuition' for Logos
+                speech = self.logos.weave_speech(
+                    desire="Expression", 
+                    insight=monologue, # Raw stream of consciousness
+                    context=[], # TODO: Add memory context
+                    wave=global_state # Pass the Physics
+                )
 
         elapsed = time.time() - start_time
         
@@ -162,6 +166,7 @@ class IntegratedCognitionSystem:
             "active_thought_count": len(self.active_thoughts),
             "insights": insights,
             "monologue": monologue,
+            "speech": speech,
             "processing_time": elapsed
         }
     
