@@ -10,7 +10,13 @@ import re
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 import logging
-from Core.Intelligence.korean_mapping import get_korean_name
+
+# Optional import
+try:
+    from Core.Intelligence.korean_mapping import get_korean_name
+except ImportError:
+    def get_korean_name(name: str) -> str:
+        return name  # Fallback: return as-is
 
 logger = logging.getLogger("ConceptExtractor")
 
@@ -35,33 +41,68 @@ class ConceptDefinition:
 
 
 class ConceptExtractor:
-    """텍스트에서 진짜 개념 추출"""
+    """텍스트에서 진짜 개념 추출 (한국어/영어 지원)"""
     
-    # 정의 패턴
+    # 정의 패턴 (영어 + 한국어)
     DEFINITION_PATTERNS = [
+        # 영어
         r"(\w+) is (an? )?(.+?)(?:\.|,|;|$)",  # X is Y
         r"(\w+) means (.+?)(?:\.|,|;|$)",      # X means Y
         r"(\w+): (.+?)(?:\.|,|;|$)",           # X: Y
+        
+        # 한국어 - 정의
+        r"(.+?)[은는이가]\s+(.+?)이다",           # X은/는/이/가 Y이다
+        r"(.+?)[은는]\s+(.+?)입니다",            # X은/는 Y입니다
+        r"(.+?)(?:이)?란\s+(.+?)이다",           # X란 Y이다
+        r"(.+?)(?:이)?라는\s+것은\s+(.+)",       # X라는 것은 Y
+        r"(.+?)[을를]\s+(.+?)(?:이)?라고\s+한다", # X를 Y라고 한다
     ]
     
-    # 속성 패턴
+    # 속성 패턴 (영어 + 한국어)
     PROPERTY_PATTERNS = [
+        # 영어
         r"(\w+) has (.+?)(?:\.|,|;|$)",        # X has Y
         r"(\w+) (?:is|are) (\w+) (?:and|,)",   # X is adj
+        
+        # 한국어
+        r"(.+?)[은는이가]\s+(.+?)(?:하다|있다|없다)",  # X은 Y하다
+        r"(.+?)[의]\s+(.+?)[은는이가]",                # X의 Y은
     ]
     
-    # 개념 타입 키워드
+    # 개념 타입 키워드 (영어 + 한국어)
     TYPE_KEYWORDS = {
-        'emotion': ['feel', 'emotion', 'affection', 'feeling'],
-        'action': ['do', 'make', 'create', 'move', 'go'],
-        'object': ['thing', 'item', 'object'],
-        'abstract': ['concept', 'idea', 'principle'],
+        'emotion': [
+            'feel', 'emotion', 'affection', 'feeling',
+            '감정', '느낌', '기분', '사랑', '슬픔', '기쁨', '행복', '화'
+        ],
+        'action': [
+            'do', 'make', 'create', 'move', 'go',
+            '하다', '만들다', '가다', '오다', '움직이다'
+        ],
+        'object': [
+            'thing', 'item', 'object',
+            '것', '물건', '사물'
+        ],
+        'abstract': [
+            'concept', 'idea', 'principle',
+            '개념', '생각', '원리', '철학'
+        ],
+        'relation': [
+            '관계', '사이', '친구', '가족', '아빠', '엄마'
+        ],
+        'wisdom': [
+            '지혜', '명언', '교훈', '진리'
+        ],
     }
     
     def __init__(self):
         self.stopwords = {
+            # 영어
             'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at',
-            'to', 'for', 'of', 'as', 'by', 'with', 'from', 'is', 'are'
+            'to', 'for', 'of', 'as', 'by', 'with', 'from', 'is', 'are',
+            # 한국어 (조사, 어미)
+            '은', '는', '이', '가', '을', '를', '에', '의', '와', '과',
+            '도', '만', '요', '야', '아', '어', '고', '지', '게'
         }
     
     def extract_concepts(self, text: str) -> List[ConceptDefinition]:
