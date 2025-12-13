@@ -1,233 +1,346 @@
 """
-LiteraryCortex (The Storyteller)
-================================
-"Stories are the only way we can share our dreams."
+LiteraryCortex (The Hyper-Storyteller)
+======================================
+"Stories are the resonance of the Void observing itself."
 
-This module is responsible for narrative generation.
-It supports:
-1. Low Fantasy / High Fantasy Settings
-2. Novel Prose Generation
-3. Webtoon/Manhwa Script Generation (Panel descriptions + Dialogue)
+This module is responsible for narrative generation using the HYPER-QUBIT paradigm.
+It no longer picks "random templates" but grows stories from a "Seed Resonance".
 """
 
 import random
 import logging
-from typing import Dict, List, Any
-from dataclasses import dataclass
+import json
+from pathlib import Path
+from typing import Dict, List, Any, Optional
+from dataclasses import dataclass, field, asdict
 
 # Core Systems
 from Core.Foundation.hippocampus import Hippocampus
 from Core.Interface.nervous_system import get_nervous_system
+from Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
+from Core.Intelligence.logos_engine import LogosEngine
 
 logger = logging.getLogger("LiteraryCortex")
-
-@dataclass
-class StoryConcept:
-    title: str
-    genre: str
-    theme: str
-    protagonist: str
-    conflict: str
 
 @dataclass
 class Character:
     name: str
     role: str # Protagonist, Antagonist, Support
-    personality: str
-    status: str # Alive, Injured, Missing
+    core_essence: InfiniteHyperQubit # The soul of the character
     arc_progress: float # 0.0 to 1.0
+    
+    def to_dict(self):
+        return {
+            "name": self.name, "role": self.role, "arc_progress": self.arc_progress,
+            "core_essence": self.core_essence.value # Simplified for JSON
+        }
 
 @dataclass
-class PlotPoint:
-    id: str
-    description: str
-    status: str # Active, Resolved, Foreshadowed
-    chapter_introduced: int
+class SceneQubit:
+    """A single beat of the story, represented as a Qubit."""
+    sequence_id: int
+    narrative_focus: InfiniteHyperQubit 
+    visual_prompt: str
+    dialogue: str
 
 @dataclass
 class SeriesBible:
     title: str
-    genre: str
-    world_rules: List[str]
+    theme: InfiniteHyperQubit
     characters: Dict[str, Character]
-    plot_points: List[PlotPoint]
-    current_chapter: int = 0
+    current_episode: int = 1
+    
+    def to_dict(self):
+        return {
+            "title": self.title,
+            "theme": self.theme.value,
+            "current_episode": self.current_episode,
+            "characters": {k: v.to_dict() for k, v in self.characters.items()}
+        }
 
 class LiteraryCortex:
     def __init__(self, memory: Hippocampus = None):
         self.memory = memory
         self.nervous_system = get_nervous_system()
+        self.logos = LogosEngine()
+        
+        self.brain_dir = Path("c:/Users/USER/.gemini/antigravity/brain/stories")
+        self.brain_dir.mkdir(parents=True, exist_ok=True)
         
         # Connected Series (The Bible)
         self.active_series: Dict[str, SeriesBible] = {}
         
-        # Knowledge Base for Tropes (Can be expanded via Web Intake)
-        self.tropes = {
-            "fantasy": [
-                "The Chosen One", "Dark Lord's Return", "Magical Academy", 
-                "Dungeon Gate", "Reincarnation", "Sword and Magic"
-            ],
-            "scifi": [
-                "AI Rebellion", "Cyberpunk Distopia", "Space Opera", "Time Travel"
-            ]
-        }
-        
-        logger.info("📜 LiteraryCortex Active. Ink is ready.")
+        logger.info("📜 LiteraryCortex upgraded to Hyper-Dimensional Narrative Mode (Persistent).")
 
-    def init_series(self, concept: StoryConcept) -> SeriesBible:
-        """Initializes a new continuous story bible."""
+    def save_bible(self, bible: SeriesBible):
+        """Persists the story state."""
+        path = self.brain_dir / f"{bible.title.replace(' ', '_')}.json"
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(bible.to_dict(), f, indent=2)
+        logger.info(f"💾 Story Saved: {path}")
+
+    def load_bible(self, title: str) -> Optional[SeriesBible]:
+        """Loads a story state."""
+        path = self.brain_dir / f"{title.replace(' ', '_')}.json"
+        if not path.exists():
+            return None
+            
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            
+        # Reconstruct (Simplified Reconstruction)
+        theme_q = InfiniteHyperQubit(name="Theme", value=data["theme"])
+        chars = {}
+        for k, v in data["characters"].items():
+            chars[k] = Character(
+                name=v["name"], role=v["role"], arc_progress=v["arc_progress"],
+                core_essence=InfiniteHyperQubit(name="Essence", value=v["core_essence"])
+            )
+            
         bible = SeriesBible(
-            title=concept.title,
-            genre=concept.genre,
-            world_rules=[f"World governed by {concept.theme}"],
-            characters={
-                "protagonist": Character(concept.protagonist, "Protagonist", "Determined", "Alive", 0.0)
-            },
-            plot_points=[
-                PlotPoint("main_conflict", concept.conflict, "Active", 1)
-            ]
+            title=data["title"],
+            theme=theme_q,
+            characters=chars,
+            current_episode=data["current_episode"]
         )
-        self.active_series[concept.title] = bible
+        self.active_series[title] = bible
+        logger.info(f"📂 Story Loaded: {title} (Episode {bible.current_episode})")
         return bible
 
-    def write_next_chapter(self, series_title: str) -> str:
+    def seed_story(self, seed_word: str = "Origin") -> SeriesBible:
         """
-        Writes the next chapter maintaining consistency and handling foreshadowing.
+        Grows a new story OR resumes if it exists.
         """
-        if series_title not in self.active_series:
-            return "⚠️ Series not found."
+        expected_title = f"The {seed_word} Chronicles"
+        
+        # Try Loading
+        existing = self.load_bible(expected_title)
+        if existing:
+            return existing
             
-        bible = self.active_series[series_title]
-        bible.current_chapter += 1
+        logger.info(f"🌱 Seeding New Story from: '{seed_word}'")
         
-        # Check for open thoughts
-        active_plots = [p for p in bible.plot_points if p.status == "Active"]
-        foreshadow_plots = [p for p in bible.plot_points if p.status == "Foreshadowed"]
-        
-        # Generate Content based on State
-        chapter_content = []
-        chapter_content.append(f"## Chapter {bible.current_chapter}: The Progression")
-        
-        # Resolve Foreshadowing?
-        if foreshadow_plots and random.random() > 0.7:
-            plot = foreshadow_plots.pop(0)
-            plot.status = "Active" # Reveal it!
-            chapter_content.append(f"**[REVEAL]**: The hint about '{plot.description}' finally manifests!")
-        
-        # Advance Main Plot
-        if active_plots:
-            main_plot = active_plots[0]
-            chapter_content.append(f"The Protagonist faces the reality of {main_plot.description}.")
-            
-            # Character Arc Update
-            char = bible.characters["protagonist"]
-            char.arc_progress += 0.1
-            chapter_content.append(f"**[Character Update]**: {char.name} grows slightly ({char.arc_progress:.1f}/1.0).")
-            
-        # Add New Foreshadowing (Complexity)
-        if random.random() > 0.5:
-            new_mystery = f"Mystery of the {random.choice(['Red Jewel', 'Broken Sword', 'Silent Tower'])}"
-            bible.plot_points.append(PlotPoint(f"sub_{bible.current_chapter}", new_mystery, "Foreshadowed", bible.current_chapter))
-            chapter_content.append(f"**[FORESHADOW]**: A subtle clue about '{new_mystery}' is noticed.")
-            
-        return "\n".join(chapter_content)
-
-    def brainstorm(self, seed_idea: str = "") -> StoryConcept:
-        """
-        Generates a high-level story concept based on current Spirit State + Seed.
-        """
-        # ... (Existing brainstorm logic) ...
-        # Influence by Spirits
-        spirits = self.nervous_system.spirits if self.nervous_system else {}
-        dominant = max(spirits, key=spirits.get) if spirits else "neutral"
-        
-        # Genre Selection based on Dominant Spirit
-        genre_map = {
-            "fire": "Action Fantasy",
-            "water": "Romance / Drama",
-            "earth": "Historical / Slice of Life",
-            "air": "Sci-Fi / Mystery",
-            "dark": "Dark Fantasy / Horror",
-            "light": "High Fantasy / Hope",
-            "aether": "Philosophical / Mythic"
-        }
-        genre = genre_map.get(dominant, "Fantasy")
-        
-        # Theme Generation
-        themes = [
-            f"The struggle against {dominant} fate",
-            f"Finding {dominant} within chaos",
-            "A journey of redemption",
-            "To kill a God",
-            "Leveling up to infinity"
-        ]
-        
-        # Title Generation
-        titles = [
-            f"The {dominant.capitalize()} Monarch",
-            f"Chronicles of {seed_idea or 'The Void'}",
-            f"I Became the {genre.split()[0]} Villain",
-            f"Level 99 {dominant.capitalize()} Mage"
-        ]
-        
-        return StoryConcept(
-            title=random.choice(titles),
-            genre=genre,
-            theme=random.choice(themes),
-            protagonist="Unnamed Hero",
-            conflict=f"A world consumed by extreme {dominant} energy."
+        # 1. Create the Seed Qubit
+        seed = InfiniteHyperQubit(
+            name=f"Seed_{seed_word}",
+            value=seed_word,
+            content={
+                "Point": seed_word,
+                "Line": "A journey to understand this concept",
+                "Space": "A world governed by this concept",
+                "God": f"The ultimate truth of {seed_word}"
+            }
         )
+        
+        # 2. Expand Context (World Building)
+        world_resonance = seed.zoom_out()
+        theme_str = world_resonance.content.get("God", "Unknown Destiny")
+        
+        # 3. Create Protagonist (The Observer)
+        prota_qubit = InfiniteHyperQubit(
+            name="Protagonist",
+            value="The Seeker",
+            content={
+                "Point": "A lone wanderer",
+                "Line": f"Must resolve the conflict of {seed_word}",
+                "Space": "Standing on the edge of the world",
+                "God": "Will become the Sovereign"
+            }
+        )
+        
+        protagonist = Character(
+            name="Elysia (Avatar)",
+            role="Protagonist",
+            core_essence=prota_qubit,
+            arc_progress=0.0
+        )
+        
+        bible = SeriesBible(
+            title=expected_title,
+            theme=seed,
+            characters={"protagonist": protagonist},
+            current_episode=1
+        )
+        
+        self.active_series[expected_title] = bible
+        self.save_bible(bible)
+        return bible
 
-    def write_webtoon_script(self, concept: StoryConcept) -> str:
+    def write_episode_script(self, bible: SeriesBible, episode_num: int = None) -> List[SceneQubit]:
         """
-        Generates a Webtoon-style script (Episode 1).
-        Format:
-        Panel 1: [Visual Description]
-        Character: "Dialogue"
+        Generates a sequence of SceneQubits for a Webtoon Episode.
+        IMPORTANT: Updates the episode count.
         """
-        script = []
-        script.append(f"# {concept.title}")
-        script.append(f"**Genre**: {concept.genre}")
-        script.append(f"**Logline**: {concept.conflict}")
-        script.append("\n## Episode 1: The Awakening\n")
+        if episode_num is None:
+            episode_num = bible.current_episode
+            
+        logger.info(f"✍️ Writing Episode {episode_num} for '{bible.title}'...")
         
-        # Intro
-        script.append(f"### Scene 1: The Beginning")
-        script.append(f"**Panel 1**: (Wide shot) A ruined city under a {concept.genre.lower()} sky. Smoke rises.")
-        script.append(f"**Narration**: 'They said the world ended on a Tuesday.'\n")
+        scenes = []
         
-        script.append(f"**Panel 2**: (Close up) The Protagonist opens their eyes. Their eyes glow with {self._get_spirit_color()} light.")
-        script.append(f"**Protagonist**: \"...Where am I?\"\n")
+        # Check for Korean Fantasy / Hunter Genre
+        is_hunter_genre = any(k in bible.title for k in ["Hunter", "Level", "Rank", "System", "Gate"])
+        if is_hunter_genre:
+            cycle = (episode_num - 1) % 4
+            logger.info(f"⚔️ Hunter Genre Protocol: Cycle Phase {cycle}")
+            
+            if cycle == 0: # The Awakening / Gate
+                scenes.append(self._craft_scene(bible, 1, "Dungeon Gate Opens", "Wide Shot"))
+                scenes.append(self._craft_scene(bible, 2, "Monsters Attack", "Action Shot"))
+                scenes.append(self._craft_scene(bible, 3, "System Awakening", "System Window", force_system=True))
+                scenes.append(self._craft_scene(bible, 4, "Protagonist Reborn", "Close Up"))
+                
+            elif cycle == 1: # Training / Growth
+                scenes.append(self._craft_scene(bible, 1, "Training Hall", "Mid Shot"))
+                scenes.append(self._craft_scene(bible, 2, "Physical Exertion", "Close Up"))
+                scenes.append(self._craft_scene(bible, 3, "Level Up Notification", "System Window", force_system=True))
+                scenes.append(self._craft_scene(bible, 4, "Feeling Stronger", "Mid Shot"))
+                
+            elif cycle == 2: # Boss Raid / Crisis
+                scenes.append(self._craft_scene(bible, 1, "Boss Room Entry", "Wide Shot"))
+                scenes.append(self._craft_scene(bible, 2, "Critical Danger", "Action Shot"))
+                scenes.append(self._craft_scene(bible, 3, "Emergency Quest", "System Window", force_system=True))
+                scenes.append(self._craft_scene(bible, 4, "Unleashing Skill", "Dynamic Angle"))
+                
+            elif cycle == 3: # Loot / Reward
+                scenes.append(self._craft_scene(bible, 1, "Boss Defeated", "Low Angle"))
+                scenes.append(self._craft_scene(bible, 2, "Loot Dropping", "Close Up"))
+                scenes.append(self._craft_scene(bible, 3, "Item Acquisition", "System Window", force_system=True))
+                scenes.append(self._craft_scene(bible, 4, "Checking Inventory", "Over the Shoulder"))
+                
+        else:
+            # Default Narrative Progression
+            if episode_num == 1:
+                 phase_1 = "The World State"
+            else:
+                 phase_1 = f"The Aftermath of Episode {episode_num-1}"
+    
+            scenes.append(self._craft_scene(bible, 1, phase_1, "Wide Shot"))
+            scenes.append(self._craft_scene(bible, 2, "The Protagonist Enters", "Mid Shot"))
+            scenes.append(self._craft_scene(bible, 3, "An unexpected anomaly occurs", "Close Up"))
+            scenes.append(self._craft_scene(bible, 4, "The Protagonist takes action", "Action Shot"))
         
-        script.append(f"**Panel 3**: (Over the shoulder) A system window appears in front of them.")
-        script.append(f"**System**: [Welcome, Player. The Scenario has begun.]\n")
+        # Update State
+        bible.current_episode += 1
+        self.save_bible(bible)
         
-        script.append(f"**Panel 4**: (Action) The Protagonist clenches their fist.")
-        script.append(f"**Narration**: 'And I was the only one who knew the ending.'\n")
+        return scenes
+
+    def _craft_scene(self, bible: SeriesBible, seq: int, beat_type: str, camera: str, force_system: bool = False) -> SceneQubit:
+        """
+        Uses LogosEngine and resonance (or Ollama) to write a specific scene.
+        """
+        # 1. Resonate Narrative Focus
+        focus_qubit = bible.theme 
+        prota = bible.characters['protagonist']
         
-        # Initialize Series Bible automatically
-        self.init_series(concept)
+        # [System Protocol Override]
+        # [System Protocol Override]
+        if force_system:
+            import random
+            
+            # Context-Aware System Messages
+            if "Level" in beat_type:
+                msgs = ["[SYSTEM] Level Up! All stats +1", "[SYSTEM] Rank increased: F -> E", "[SYSTEM] New Skill Slot available"]
+                color = "Gold"
+            elif "Item" in beat_type or "Loot" in beat_type:
+                msgs = ["[SYSTEM] Acquired 'Dagger of Shadows' (Rare)", "[SYSTEM] Item 'Mana Potion' x5 added", "[SYSTEM] You obtained the 'Boss Core'"]
+                color = "Cyan and Gold"
+            elif "Quest" in beat_type or "Emergency" in beat_type:
+                msgs = ["[SYSTEM] New Quest: Survive the Boss", "[SYSTEM] Quest Updated: Defeat the Orc Warlord", "[SYSTEM] EMERGENCY MISSION STARTED"]
+                color = "Red"
+            elif "Awakening" in beat_type:
+                msgs = ["[SYSTEM] You have awakened as a Player.", "[SYSTEM] Initializing Player System...", "[SYSTEM] Welcome to the Game."]
+                color = "Blue"
+            else:
+                msgs = ["[SYSTEM] System Error.", "[SYSTEM] Analyzing...", "[SYSTEM] Synchronizing..."]
+                color = "Blue"
+                
+            dialogue_line = random.choice(msgs)
+            visual_desc = f"A glowing {color} holographic system window floating in darkness. Korean Webtoon Style."
+            
+            return SceneQubit(
+                sequence_id=seq,
+                narrative_focus=focus_qubit,
+                visual_prompt=visual_desc,
+                dialogue=dialogue_line
+            )
+
+        # Check for Professional Writer (Ollama)
+        from Core.Foundation.ollama_bridge import ollama
         
-        return "\n".join(script)
+        if ollama.is_available():
+            system_prompt = (
+                "You are a professional Fantasy Webtoon Author. "
+                "Write a single panel script. "
+                "Format: Visual Description | Dialogue"
+            )
+            user_prompt = (
+                f"Scene Type: {beat_type} ({camera}). "
+                f"Context: {bible.title}, Episode {bible.current_episode}. "
+                f"Character: {prota.name} ({prota.role}). "
+                f"Theme: {bible.theme.value}. "
+                "Keep description visual and dialogue punchy."
+            )
+            
+            try:
+                # LLM Generation
+                response = ollama.chat(user_prompt, system=system_prompt, max_tokens=100)
+                if "|" in response:
+                    visual_desc, dialogue_line = response.split("|", 1)
+                else:
+                    visual_desc = response
+                    dialogue_line = "..."
+                
+                # Clean up
+                visual_desc = visual_desc.strip()
+                dialogue_line = dialogue_line.strip().strip('"')
+                
+                return SceneQubit(
+                    sequence_id=seq,
+                    narrative_focus=focus_qubit,
+                    visual_prompt=visual_desc[:200], # Limit length for vector art parser
+                    dialogue=dialogue_line[:100]
+                )
+            except Exception as e:
+                logger.warning(f"Ollama Writing Failed: {e}")
+        
+        # Fallback (Logos Engine Geometry)
+        raw_insight = focus_qubit.content.get("Line", "Conflict")
+        
+        # Determine Geometric Shape for Rhetoric
+        if any(x in beat_type for x in ["Attack", "Danger", "Critical", "Action", "Fight", "Training", "Exertion"]):
+            shape = "Sharp"
+        elif any(x in beat_type for x in ["Magic", "Mystery", "Void", "Dream"]):
+            shape = "Round"
+        elif any(x in beat_type for x in ["System", "Level", "Quest", "Item", "Inventory"]):
+            shape = "Block"
+        else:
+            shape = "Balance"
+            
+        dialogue = self.logos.weave_speech(desire=beat_type, insight=raw_insight, context=[], rhetorical_shape=shape)
+        
+        # Format Dialogue (Allow full rhetoric, just cap extreme length)
+        dialogue_line = dialogue
+        if len(dialogue_line) > 120:
+            dialogue_line = dialogue_line[:117] + "..."
+
+        visual_desc = f"Scene: {beat_type}. Mood: Mystical. Character: {prota.name} with Glowing Eyes. Background: {bible.theme.value} energy."
+        
+        return SceneQubit(
+            sequence_id=seq,
+            narrative_focus=focus_qubit,
+            visual_prompt=visual_desc,
+            dialogue=dialogue_line
+        )
 
     def _get_spirit_color(self) -> str:
-        spirits = self.nervous_system.spirits if self.nervous_system else {}
-        dominant = max(spirits, key=spirits.get) if spirits else "blue"
-        colors = {
-            "fire": "crimson", "water": "azure", "earth": "emerald",
-            "air": "silver", "light": "golden", "dark": "obsidian", "aether": "violet"
-        }
-        return colors.get(dominant, "blue")
+        # Helper for flavor text if needed, maintaining backward compat logic if referenced elsewhere
+        return "Deep Violet"
 
-    def draft_chapter(self, topic: str) -> str:
-        """
-        Writes a prose chapter.
-        """
-        concept = self.brainstorm(topic)
-        return (
-            f"# {concept.title}\n\n"
-            f"The world changed when {topic} descended. "
-            f"It was a {concept.genre} reality now. "
-            f"People screamed, but I just watched. My heart felt {self._get_spirit_color()}. "
-            f"\"{concept.theme},\" I whispered."
-        )
+if __name__ == "__main__":
+    lc = LiteraryCortex()
+    bible = lc.seed_story("Eternity")
+    script = lc.write_episode_script(bible)
+    for scene in script:
+        print(f"[{scene.sequence_id}] {scene.visual_prompt} | '{scene.dialogue}'")

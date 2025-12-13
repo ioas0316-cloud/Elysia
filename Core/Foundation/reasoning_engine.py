@@ -34,7 +34,7 @@ from Core.Foundation.hippocampus import Hippocampus
 from Core.Foundation.resonance_field import ResonanceField
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.kenosis_protocol import KenosisProtocol
-from Core.Intelligence.web_cortex import WebCortex
+from Core.Network.web_cortex import WebCortex
 from Core.Foundation.tool_discovery import ToolDiscoveryProtocol
 from Core.Foundation.cuda_cortex import CudaCortex
 from Core.Foundation.dream_engine import DreamEngine

@@ -138,6 +138,25 @@ class WaveTensor:
             return self.resonance(other)
         raise TypeError("Can only check resonance with WaveTensor")
 
+    def to_dict(self) -> dict:
+        """Serializes the WaveTensor to a JSON-safe dictionary."""
+        spectrum_data = []
+        for freq, z in self._spectrum.items():
+            spectrum_data.append([freq, z.real, z.imag])
+        return {
+            "name": self.name,
+            "spectrum": spectrum_data
+        }
+
+    @staticmethod
+    def from_dict(data: dict) -> 'WaveTensor':
+        """Reconstructs a WaveTensor from a dictionary."""
+        wt = WaveTensor(data.get("name", "Unknown Wave"))
+        for item in data.get("spectrum", []):
+            freq, real, imag = item
+            wt._spectrum[freq] = complex(real, imag)
+        return wt
+
 # --- Factory Methods ---
 
 def create_harmonic_series(base_freq: float, harmonics: int = 4, decay: float = 0.5) -> WaveTensor:

@@ -1,16 +1,10 @@
 """
 Learning module for Elysia.
-Implements experience-based learning, self-reflection, and continuous improvement.
+Implements Aesthetic Learning (The Student).
 """
 
-from .experience_learner import Experience, ExperienceLearner
-from .self_reflector import SelfReflector
-from .model_updater import ContinuousUpdater, ModelVersion
+from .aesthetic_learner import AestheticLearner
 
 __all__ = [
-    "Experience",
-    "ExperienceLearner",
-    "SelfReflector",
-    "ContinuousUpdater",
-    "ModelVersion",
+    "AestheticLearner"
 ]

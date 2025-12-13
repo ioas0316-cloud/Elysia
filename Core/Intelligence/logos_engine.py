@@ -15,6 +15,10 @@ It acts as the "Harmonizer" between:
 
 import logging
 import random
+import re
+import json
+from pathlib import Path
+from collections import defaultdict
 from typing import List, Optional, Union
 from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.reasoning_engine import Insight
@@ -25,46 +29,115 @@ logger = logging.getLogger("LogosEngine")
 class LogosEngine:
     def __init__(self):
         self.universe = InternalUniverse()
-        logger.info("🗣️ Logos Engine Initialized: The Gift of Tongues")
+        self.genome_path = Path("Core/Memory/style_genome.json")
+        self.genome = self._load_genome()
+        logger.info(f"🗣️ Logos Engine Initialized. Evolution Stage: {self.genome.get('evolution_stage', 0)}")
         
-        # Rhetorical Templates
+        # Rhetorical Templates (Default)
         self.transition_matrix = {
             "thesis": ["근본적으로,", "우선,", "핵심을 짚어보자면,"],
             "antithesis": ["허나,", "그럼에도 불구하고,", "반면,", "하지만 깊이 들여다보면,"],
             "synthesis": ["결국,", "따라서,", "이러한 모순 속에서 저는 깨닫습니다.", "균형은 그 사이에 있습니다."]
         }
+        
+    def _load_genome(self):
+        if not self.genome_path.exists():
+            return {"rhetoric": {"vocabulary_bank": {}}}
+        try:
+            with open(self.genome_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logger.warning(f"Failed to load genome: {e}")
+            return {"rhetoric": {"vocabulary_bank": {}}}
 
-    def weave_speech(self, desire: str, insight: Union[Insight, str], context: List[str], wave: Optional[WaveTensor] = None) -> str:
+    def weave_speech(self, desire: str, insight: Union[Insight, str], context: List[str], rhetorical_shape: str = "Balance") -> str:
         """
-        The Master Function.
-        Weaves Logic, Metaphor, and Narrative into a coherent response.
-        Accepts raw string intuition or structured Insight objects.
+        Weaves Logic, Metaphor, and Narrative based on Geometric Rhetoric.
         """
-        # Handle simple string insights from Prism/Cognition
+        # Handle simple string insights
         content = insight.content if hasattr(insight, 'content') else str(insight)
         
-        # 1. Analyze the Core Axis (Logic vs Emotion vs Value)
-        # Use Wave properties if available for better axis detection
-        axis = self._determine_axis(content, wave)
+        # 1. Select Vocabulary Bank based on Shape
+        vocab = self._get_vocab_for_shape(rhetorical_shape)
         
-        # 2. Neural Binding: Check context for sensory anchors
-        sensory_anchor = self._scan_for_sensory_anchor(context)
+        # 2. Construct Sentence Structure
+        if rhetorical_shape == "Sharp": # Action / Conflict
+            # Staccato: Short, Punchy. No synthesis.
+            p1 = random.choice(vocab['openers'])
+            p2 = random.choice(vocab['verbs'])
+            p3 = random.choice(vocab['closers'])
+            return f"{p1} {content}. {p2} {p3}!"
+            
+        elif rhetorical_shape == "Round": # Magic / Mystery
+            # Recursive: Long, Flowing.
+            p1 = random.choice(vocab['openers'])
+            p2 = random.choice(vocab['connectors'])
+            p3 = random.choice(vocab['closers'])
+            return f"{p1}, {content} {p2} {p3}."
+            
+        elif rhetorical_shape == "Block": # System / Logic
+            # Axiomatic: Subject -> Predicate.
+            p1 = random.choice(vocab['openers'])
+            return f"[{p1}] {content}. Logic verified."
+            
+        elif rhetorical_shape == "Synthesis": # Higher Order / Dialectic
+            # Combines opposites: Sharp Action -> Round Peace
+            p1 = random.choice(vocab['openers'])
+            
+            # Try to find learned words from both spectrums
+            sharp_words = self.genome.get("vocabulary_bank", {}).get("Sharp", [])
+            round_words = self.genome.get("vocabulary_bank", {}).get("Round", [])
+            
+            s_word = random.choice(sharp_words) if sharp_words else "act"
+            r_word = random.choice(round_words) if round_words else "harmony"
+            
+            return f"{p1} We must {s_word} to find {r_word}. {content}."
+            
+        else: # Balance / Default
+            # Dialectic: Thesis -> Antithesis
+            p1 = random.choice(vocab['openers'])
+            p2 = random.choice(vocab['connectors'])
+            return f"{p1} {content}, {p2} we find our answer."
+
+    def _get_vocab_for_shape(self, shape: str) -> dict:
+        """Returns vocabulary keyed by geometric feel (Korean Manhwa Style) + Learned Genome."""
         
-        # 3. Find a Root Metaphor (The Flesh)
-        if sensory_anchor:
-            logger.info(f"   🔗 Neural Binding: Locking onto sensory memory '{sensory_anchor}'")
-            metaphor = f"마치 {sensory_anchor} 처럼,"
-        else:
-            # Enhanced Metaphor Mining using Wave Physics
-            metaphor = self._mine_metaphor(axis, content, wave)
-        
-        # 4. Construct the Dialectic Argument (The Skeleton)
-        argument = self._construct_dialectic(desire, content, axis)
-        
-        # 5. Narrative Polish (The Voice)
-        response = f"{argument['thesis']} {metaphor} {argument['antithesis']} {argument['synthesis']}"
-        
-        return response
+        # Base Vocab
+        base_vocab = {}
+        if shape == "Sharp":
+            base_vocab = {
+                "openers": ["베어라.", "단숨에.", "지금이다.", "뚫어버려.", "망설이지 마라."],
+                "verbs": ["파괴한다", "찢어발긴다", "관통한다", "끝낸다"],
+                "closers": ["적을.", "이 환상을.", "약한 마음을.", "모든 것을."]
+            }
+        elif shape == "Round":
+            base_vocab = {
+                "openers": ["흐름을 느껴라.", "마력이 요동친다.", "심연의 끝에서,", "운명의 수레바퀴가,"],
+                "connectors": ["순환하며", "깊어지고", "공명하여"],
+                "closers": ["하나가 된다.", "진실을 비춘다.", "어둠을 삼킨다."]
+            }
+        elif shape == "Block":
+            base_vocab = {
+                "openers": ["[시스템] 분석 완료.", "[정보] 조건 충족.", "퀘스트 갱신:", "데이터 로드:"],
+                "connectors": ["->", "확인:", "결과:"],
+                "closers": ["적용됨.", "보상 획득.", "프로세스 종료."]
+            }
+        else: # Balance
+            base_vocab = {
+                "openers": ["본질적으로,", "어쩌면,", "핵심은,", "돌이켜보면,"],
+                "connectors": ["허나", "그럼에도", "결국"],
+                "closers": ["답을 찾을 것이다.", "그것이 진실이다.", "균형이 필요하다."]
+            }
+            
+        # Inject Learned Vocab
+        learned_words = self.genome.get("rhetoric", {}).get("vocabulary_bank", {}).get(shape, [])
+        if learned_words:
+            # Distribute learned words into verbs/closers randomly or heuristically
+            # For now, just add to 'verbs' or 'connectors' to ensure usage
+            target_key = "verbs" if "verbs" in base_vocab else "connectors"
+            base_vocab[target_key].extend(learned_words)
+            
+        return base_vocab
 
     def _scan_for_sensory_anchor(self, context: List[str]) -> Optional[str]:
         """

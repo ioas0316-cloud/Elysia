@@ -41,29 +41,58 @@ class ComfyAdapter:
             return False
         return False
 
-    def queue_workflow(self, workflow_template: Dict[str, Any], prompt_text: str) -> str:
+    def generate_sync(self, prompt_text: str, overrides: Dict[str, Any] = None) -> str:
         """
-        Injects the prompt into the workflow and queues it.
+        Synchronously generates an image using ComfyUI.
+        Returns the filename of the generated image.
+        Allows overriding sampler settings (seed, cfg, steps, sampler_name).
         """
-        # Deep copy to avoid mutating the template permanently
+        if not self.is_connected and not self.connect():
+            return None
+
+        # Load Template
+        template_path = Path(__file__).parent / "basic_t2i_workflow.json"
+        if not template_path.exists():
+            logger.error(f"Workflow template missing at {template_path}")
+            return None
+            
+        with open(template_path, "r") as f:
+            workflow = json.load(f)
+            
+        # Queue
+        prompt_id = self.queue_workflow(workflow, prompt_text, overrides)
+        if not prompt_id:
+            return None
+            
+        # Wait for Result
+        return self._poll_history(prompt_id)
+
+    def queue_workflow(self, workflow_template: Dict[str, Any], prompt_text: str, overrides: Dict[str, Any] = None) -> str:
+        """
+        Injects the prompt and overrides into the workflow and queues it.
+        Returns prompt_id if successful.
+        """
+        # Deep copy
         workflow = json.loads(json.dumps(workflow_template))
         
-        # NODE INJECTION LOGIC:
-        # In ComfyUI, the standard CLIP Text Encode (Positive) is often Node 6 or 3.
-        # We search for the node class_type "CLIPTextEncode".
-        injected = False
-        for node_id, node_data in workflow.items():
-            if node_data.get("class_type") == "CLIPTextEncode":
-                # Heuristic: If text contains "positive" or is default, overwrite it.
-                # For this tailored solution, we assume Node "6" is Positive Prompt.
-                if node_id == "6": 
-                    node_data["inputs"]["text"] = prompt_text
-                    injected = True
-                    logger.info(f"💉 Injected Prompt into Node {node_id}")
-                    break
+        # 1. NODE INJECTION: Text Prompts
+        if "6" in workflow:
+            workflow["6"]["inputs"]["text"] = prompt_text
         
-        if not injected:
-            logger.warning("⚠️ Could not find CLIPTextEncode Node '6'. Prompt might be ignored.")
+        if "7" in workflow:
+            workflow["7"]["inputs"]["text"] = "text, watermark, low quality, bad anatomy, bad hands, distortion"
+
+        # 2. PARAMETER INJECTION: Physics Overrides
+        # Find KSampler (Node 3 usually, but let's search to be safe/future-proof)
+        if overrides:
+            for node_id, node_data in workflow.items():
+                if node_data.get("class_type") == "KSampler":
+                    # Update inputs
+                    for key, val in overrides.items():
+                        if key in node_data["inputs"]:
+                            node_data["inputs"][key] = val
+                            logger.info(f"⚡ Physics Shift: {key} -> {val}")
+                    break
 
         if self.is_connected:
             return self._send_to_api(workflow)
@@ -71,19 +100,48 @@ class ComfyAdapter:
             return self._save_mock_workflow(workflow)
 
     def _send_to_api(self, prompt_workflow: Dict[str, Any]) -> str:
-        """Real POST request to ComfyUI."""
+        """Real POST request to ComfyUI. Returns prompt_id."""
         p = {"prompt": prompt_workflow, "client_id": self.client_id}
         try:
             response = requests.post(f"{self.host}/prompt", json=p)
             if response.status_code == 200:
-                logger.info("⚙️ Workflow Queued Successfully!")
-                return "queued_on_server"
+                data = response.json()
+                pid = data.get("prompt_id")
+                logger.info(f"⚙️ Workflow Queued! ID: {pid}")
+                return pid
             else:
                 logger.error(f"Queue Failed: {response.status_code} - {response.text}")
-                return ""
+                return None
         except Exception as e:
             logger.error(f"Request Failed: {e}")
-            return ""
+            return None
+
+    def _poll_history(self, prompt_id: str) -> str:
+        """Polls /history until the image is ready."""
+        logger.info(f"⏳ Waiting for generation (ID: {prompt_id})...")
+        for _ in range(60): # 60 seconds timeout
+            try:
+                response = requests.get(f"{self.host}/history/{prompt_id}")
+                if response.status_code == 200:
+                    data = response.json()
+                    # Check if completed
+                    if prompt_id in data:
+                        history = data[prompt_id]
+                        if "outputs" in history:
+                            # Extract filename
+                            # Assuming Node 9 is SaveImage
+                            for node_id, output_data in history["outputs"].items():
+                                if "images" in output_data:
+                                    img_info = output_data["images"][0]
+                                    filename = img_info["filename"]
+                                    logger.info(f"✨ Generation Complete: {filename}")
+                                    return filename
+            except Exception as e:
+                pass
+            time.sleep(1)
+        
+        logger.warning("Generation Timed Out.")
+        return None
 
     def _save_mock_workflow(self, workflow: Dict[str, Any]) -> str:
         """Saves the engineered graph for inspection."""
@@ -94,7 +152,7 @@ class ComfyAdapter:
             json.dump(workflow, f, indent=2)
             
         logger.info(f"💾 Optimized Workflow Saved: {filename}")
-        return str(filename)
+        return None
 
 if __name__ == "__main__":
     adapter = ComfyAdapter()
