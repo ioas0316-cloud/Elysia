@@ -1,0 +1,54 @@
+{
+  "patterns": {
+    "59746a1e": {
+      "orientation": {
+        "w": 0.13596315389567118,
+        "x": 0.4822843949506827,
+        "y": 0.6515970016886883,
+        "z": 0.5695060408460189
+      },
+      "energy": 0.9,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "The void stares back with geometric precision.",
+      "timestamp": 1765628202.1069002,
+      "metadata": {
+        "text": "The void stares back with geometric precision.",
+        "source": "TestScript",
+        "intensity": 0.9,
+        "timestamp": 1234567890
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    },
+    "f434475b": {
+      "orientation": {
+        "w": 0.13596315389567118,
+        "x": 0.4822843949506827,
+        "y": 0.6515970016886883,
+        "z": 0.5695060408460189
+      },
+      "energy": 0.9,
+      "frequency": 1.0,
+      "phase": 0.0,
+      "text": "The void stares back with geometric precision.",
+      "timestamp": 1765628385.9725037,
+      "metadata": {
+        "text": "The void stares back with geometric precision.",
+        "source": "TestScript",
+        "intensity": 0.9,
+        "timestamp": 1234567890
+      },
+      "expansion_depth": 0,
+      "absorbed_patterns": []
+    }
+  },
+  "statistics": {
+    "total_patterns": 2,
+    "search_count": 0,
+    "absorption_count": 0,
+    "avg_expansion_depth": 0.0,
+    "total_energy": 1.8
+  },
+  "timestamp": 1765628385.9770966
+}

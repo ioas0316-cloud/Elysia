@@ -115,28 +115,64 @@ class WebtoonIllustrator:
         Uses CompositionEngine to apply Sacred Geometry and Dynamic Flow.
         Replacing random particles with structured Artistic Principles.
         """
-        from Core.Creativity.composition_engine import CompositionEngine
-        comp = CompositionEngine()
+        from Core.Values.aesthetic_canon import AestheticCanon
+        canon = AestheticCanon()
         
-        # Get Structured Layout
-        # Use simple heuristics to get w/h from ax limits if possible, but hardcoded 100 is fine given setup
-        elements = comp.get_layout(mood_text, 100, 100)
+        # 1. Ask WHY this should be beautiful
+        analysis = canon.analyze_concept(mood_text, [])
+        strategy = analysis.get("Strategy", "Harmonic Resonance")
+        why = analysis.get("Why", "Beauty is order.")
         
-        for el in elements:
-            if el.shape == 'circle':
-                p = patches.Circle((el.x, el.y), el.size, fc=el.color, alpha=el.opacity, zorder=el.z_order)
+        logger.info(f"🎨 Aesthetic Logic: {strategy} -> {why}")
+        
+        # 2. Execute Strategy
+        if strategy == "Minimalism": # Void/Death
+             # Vast empty space forces focus on the tiny subject
+             # Draw almost nothing, maybe one horizon line
+             ax.plot([0, 100], [20, 20], color=f"{random.choice(['#FFFFFF', '#555555'])}", lw=1, alpha=0.3, zorder=-5)
+             
+        elif strategy == "Complexity": # Life/Magic
+             # Recursive Growth (Phi)
+             self._draw_fractal_triangle(ax, 50, 50, 40, 3, "#FFD700")
+             
+        elif strategy == "Dissonance": # War/Action
+             # Clashing Angles (Acute Triangles)
+             for _ in range(15):
+                 x, y = random.randint(0, 100), random.randint(0, 100)
+                 # Sharp jagged lines
+                 ax.plot([x, x+random.randint(-20, 20)], [y, y+random.randint(-20, 20)], 
+                         color="white", lw=2, alpha=0.6, zorder=0)
+             
+        else: # Harmonic Resonance / SciFi
+             # Perfect Geometry (Hex/Circle)
+             if "System" in mood_text:
+                 self._draw_hex_grid(ax, "#00FFFF")
+             else:
+                 # Spiral?
+                 pass
+
+    def _draw_fractal_triangle(self, ax, x, y, size, depth, color):
+        """Standard Sierpinski Triangle for 'Magic' effects."""
+        if depth == 0:
+            pts = [(x, y + size), (x - size, y - size), (x + size, y - size)]
+            p = patches.Polygon(pts, fc=color, alpha=0.3, zorder=-1)
+            ax.add_patch(p)
+        else:
+            self._draw_fractal_triangle(ax, x, y + size/2, size/2, depth-1, color)
+            self._draw_fractal_triangle(ax, x - size/2, y - size/2, size/2, depth-1, color)
+            self._draw_fractal_triangle(ax, x + size/2, y - size/2, size/2, depth-1, color)
+
+    def _draw_hex_grid(self, ax, color):
+        """Draws a subtle cybernetic hex grid."""
+        for cy in range(0, 110, 15):
+            for cx in range(0, 110, 15):
+                hex_pts = [
+                    (cx + 5, cy), (cx + 2.5, cy + 4.3),
+                    (cx - 2.5, cy + 4.3), (cx - 5, cy),
+                    (cx - 2.5, cy - 4.3), (cx + 2.5, cy - 4.3)
+                ]
+                p = patches.Polygon(hex_pts, fc="none", ec=color, alpha=0.2, lw=1, zorder=-2)
                 ax.add_patch(p)
-            elif el.shape == 'rect':
-                p = patches.Rectangle((el.x - el.size/2, el.y - el.size/2), el.size*1.5, el.size, fc=el.color, alpha=el.opacity, zorder=el.z_order)
-                ax.add_patch(p)
-            elif el.shape == 'triangle':
-                # Dynamic Triangle
-                pts = [(el.x, el.y - el.size), (el.x - el.size/2, el.y + el.size), (el.x + el.size/2, el.y + el.size)]
-                p = patches.Polygon(pts, fc=el.color, alpha=el.opacity, zorder=el.z_order)
-                ax.add_patch(p)
-            elif el.shape == 'line':
-                # Action Lines
-                ax.plot([el.x, el.x + random.randint(-10, 10)], [el.y, el.y + random.randint(-10, 10)], color=el.color, alpha=el.opacity, lw=2, zorder=el.z_order)
 
     def _draw_system_window(self, ax, x, y, text):
         """Draws a Korean Manhwa style System Window (Blue transparent box)."""

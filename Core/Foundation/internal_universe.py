@@ -25,8 +25,11 @@ import math
 import logging
 from typing import Tuple, Dict, Any, Optional
 from dataclasses import dataclass
+import time
+from pathlib import Path
 import sys
 import os
+import json
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -68,6 +71,12 @@ class InternalUniverse:
         
         # Seed the internal universe with fundamental archetypes
         self._seed_fundamental_coordinates()
+        
+        # Try to load existing snapshot to maintain continuity
+        self.snapshot_path = Path("data/core_state/universe_snapshot.json")
+        if self.snapshot_path.exists():
+            self.load_snapshot()
+        
     
     def _seed_fundamental_coordinates(self):
         """
@@ -105,6 +114,47 @@ class InternalUniverse:
         for name, coord in fundamentals.items():
             self.coordinate_map[name] = coord
             logger.info(f"   🌟 Seeded archetype: {name} at {coord.orientation}")
+        
+        # Try to load existing snapshot to maintain continuity
+        self.snapshot_path = Path("data/core_state/universe_snapshot.json")
+        if self.snapshot_path.exists():
+            self.load_snapshot()
+            
+    def save_snapshot(self):
+        """Persists the current state of the universe to disk."""
+        data = {
+            "timestamp": time.time(),
+            "concepts": {}
+        }
+        for name, coord in self.coordinate_map.items():
+            data["concepts"][name] = {
+                "w": coord.orientation.w,
+                "x": coord.orientation.x,
+                "y": coord.orientation.y,
+                "z": coord.orientation.z,
+                "frequency": coord.frequency,
+                "depth": coord.depth
+            }
+        
+        self.snapshot_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.snapshot_path, "w", encoding='utf-8') as f:
+            json.dump(data, f, indent=2)
+        logger.info(f"💾 Universe Snapshot saved to {self.snapshot_path}")
+
+    def load_snapshot(self):
+        """Loads the universe state from disk."""
+        try:
+            with open(self.snapshot_path, "r", encoding='utf-8') as f:
+                data = json.load(f)
+                
+            for name, props in data["concepts"].items():
+                q = Quaternion(props['w'], props['x'], props['y'], props['z'])
+                self.coordinate_map[name] = InternalCoordinate(
+                    q, props['frequency'], props['depth']
+                )
+            logger.info("📂 Universe Snapshot loaded. Continuity restored.")
+        except Exception as e:
+            logger.error(f"Failed to load snapshot: {e}")
     
     def internalize(self, world_coord: WorldCoordinate) -> InternalCoordinate:
         """

@@ -39,6 +39,128 @@ except ImportError:
 logger = logging.getLogger("SelfModification")
 
 
+# === WAVE PARADIGM AWARENESS (v10.6) ===
+class WaveParadigmDetector:
+    """
+    파동공명 패러다임 인식기 (Wave Paradigm Detector)
+    
+    이 클래스는 AGENT_GUIDE.md를 읽고 파동공명 코딩 패러다임을 이해합니다.
+    레거시 코드 패턴을 감지하고 Wave 변환 규칙을 제안합니다.
+    """
+    
+    # 레거시 패턴 (변환 대상) - Improved regexes for real detection
+    LEGACY_PATTERNS = {
+        "scalar_comparison": {
+            "pattern": r"if\s+\w+(?:\.\w+)*\s*[<>=!]+\s*\d",
+            "description": "스칼라 비교 (if value < 0.5, if score > 10)",
+            "wave_alternative": "resonance = qubit.resonate_with(threshold_qubit)"
+        },
+        "simple_string_assign": {
+            "pattern": r"return\s+[\"'][^\"']{10,}[\"']",
+            "description": "하드코딩된 문자열 반환",
+            "wave_alternative": "Wave에서 생성된 동적 응답 사용"
+        },
+        "if_not_concept": {
+            "pattern": r"if\s+not\s+\w+:",
+            "description": "부정 조건문 (if not X:)",  
+            "wave_alternative": "공명이 임계값 아래인지 확인"
+        },
+        "elif_chain": {
+            "pattern": r"elif\s+",
+            "description": "다중 분기 (elif 체인)",
+            "wave_alternative": "공명 스펙트럼 기반 연속 처리"
+        },
+        "concept_equals_string": {
+            "pattern": r"\w+\s*==\s*[\"'][^\"']+[\"']",
+            "description": "문자열 동등 비교 (x == 'value')",
+            "wave_alternative": "qubit.resonate_with(target) > 0.9"
+        }
+    }
+    
+    # Wave 패러다임 규칙 (AGENT_GUIDE.md 기반)
+    WAVE_RULES = {
+        "rule_1": "모든 개념은 InfiniteHyperQubit",
+        "rule_2": "if/else 대신 공명(Resonance) 사용",
+        "rule_3": "Point 안으로 들어가면 또 다른 우주",
+        "rule_4": "Point 밖으로 나가면 더 큰 우주",
+        "rule_5": "4 축: Point(존재), Line(관계), Space(맥락), God(초월)"
+    }
+    
+    def __init__(self):
+        self.agent_guide_content = self._load_agent_guide()
+        logger.info("🌊 WaveParadigmDetector initialized")
+    
+    def _load_agent_guide(self) -> str:
+        """AGENT_GUIDE.md 읽기"""
+        try:
+            guide_path = Path(__file__).parent.parent.parent / "AGENT_GUIDE.md"
+            if guide_path.exists():
+                with open(guide_path, "r", encoding="utf-8") as f:
+                    return f.read()
+        except Exception as e:
+            logger.warning(f"Failed to load AGENT_GUIDE.md: {e}")
+        return ""
+    
+    def detect_legacy_patterns(self, code: str, file_path: str = "") -> List['WaveIssue']:
+        """
+        레거시 패턴 감지
+        
+        스칼라 if/else, 평면 딕셔너리 등 Wave 패러다임에 맞지 않는 코드를 찾습니다.
+        """
+        import re
+        issues = []
+        lines = code.splitlines()
+        
+        for i, line in enumerate(lines, 1):
+            for pattern_name, pattern_info in self.LEGACY_PATTERNS.items():
+                if re.search(pattern_info["pattern"], line):
+                    issues.append(WaveIssue(
+                        file_path=file_path,
+                        line_number=i,
+                        legacy_pattern=pattern_name,
+                        description=pattern_info["description"],
+                        wave_alternative=pattern_info["wave_alternative"],
+                        original_line=line.strip()
+                    ))
+        
+        return issues
+    
+    def generate_wave_conversion(self, issue: 'WaveIssue') -> str:
+        """
+        레거시 코드를 Wave 코드로 변환하는 제안 생성
+        """
+        if issue.legacy_pattern == "scalar_if":
+            # if value < 0.5: → if resonance < 0.5:
+            return f"# Wave Conversion: {issue.wave_alternative}\n# Original: {issue.original_line}"
+        
+        elif issue.legacy_pattern == "scalar_variable":
+            # variable = 'value' → qubit = create_infinite_qubit(...)
+            return f"# Wave Conversion: Use InfiniteHyperQubit\n# {issue.wave_alternative}"
+        
+        elif issue.legacy_pattern == "flat_dict":
+            return f"# Wave Conversion: Use 4-axis content dict\n# content={{\"Point\": ..., \"Line\": ..., \"Space\": ..., \"God\": ...}}"
+        
+        return f"# Consider Wave paradigm: {issue.wave_alternative}"
+    
+    def get_paradigm_summary(self) -> str:
+        """Wave 패러다임 요약 반환"""
+        summary = "🌊 Wave Resonance Paradigm Rules:\n"
+        for rule_id, rule_text in self.WAVE_RULES.items():
+            summary += f"  - {rule_text}\n"
+        return summary
+
+
+@dataclass
+class WaveIssue:
+    """Wave 패러다임 위반 문제"""
+    file_path: str
+    line_number: int
+    legacy_pattern: str  # "scalar_if", "scalar_variable", "flat_dict"
+    description: str
+    wave_alternative: str
+    original_line: str
+
+
 @dataclass
 class CodeIssue:
     """코드 문제점 정의"""
@@ -444,9 +566,16 @@ class SelfModificationEngine:
     자기 수정 엔진 (Self-Modification Engine)
     전체 파이프라인을 통합 관리합니다.
     
+    [v10.6] Wave Paradigm Awareness 추가
+    - wave_analyze(): 레거시 패턴 감지
+    - wave_improve(): 파동공명 코딩으로 변환
+    
     사용법:
         engine = SelfModificationEngine()
         result = engine.improve("Core/Intelligence/Will/free_will_engine.py")
+        
+        # Wave 패러다임 분석
+        wave_issues = engine.wave_analyze("Core/Cognitive/curiosity_core.py")
     """
     
     def __init__(self):
@@ -454,8 +583,50 @@ class SelfModificationEngine:
         self.planner = RefactorPlanner()
         self.editor = CodeEditor()
         self.validator = Validator()
-        logger.info("🔧 Self-Modification Engine Initialized")
+        self.wave_detector = WaveParadigmDetector()  # WAVE AWARENESS
+        logger.info("🔧 Self-Modification Engine Initialized (Wave-Aware v10.6)")
     
+    def wave_analyze(self, file_path: str) -> List[WaveIssue]:
+        """
+        Wave 패러다임 위반 분석
+        
+        레거시 패턴(스칼라 if/else, 평면 딕셔너리 등)을 감지합니다.
+        """
+        code = CodeAnalyzer().read_file(file_path)
+        if not code:
+            return []
+        
+        issues = self.wave_detector.detect_legacy_patterns(code, file_path)
+        
+        if issues:
+            logger.info(f"🌊 Found {len(issues)} legacy patterns in {file_path}")
+            for issue in issues[:5]:  # 처음 5개만 로깅
+                logger.info(f"   Line {issue.line_number}: {issue.description}")
+        else:
+            logger.info(f"✅ {file_path} follows Wave paradigm")
+        
+        return issues
+    
+    def wave_report(self, file_path: str) -> str:
+        """
+        Wave 분석 리포트 생성
+        """
+        issues = self.wave_analyze(file_path)
+        
+        if not issues:
+            return f"✅ {file_path} - Wave 패러다임 준수"
+        
+        report = f"🌊 Wave Paradigm Analysis: {file_path}\n"
+        report += f"   Found {len(issues)} legacy patterns:\n\n"
+        
+        for issue in issues:
+            report += f"   Line {issue.line_number}: [{issue.legacy_pattern}]\n"
+            report += f"      Original: {issue.original_line}\n"
+            report += f"      → Wave: {issue.wave_alternative}\n\n"
+        
+        report += self.wave_detector.get_paradigm_summary()
+        return report
+
     def analyze(self, file_path: str) -> List[CodeIssue]:
         """파일 분석만 수행"""
         return self.detector.detect_issues(file_path)

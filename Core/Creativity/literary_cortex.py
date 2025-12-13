@@ -49,6 +49,7 @@ class SeriesBible:
     theme: InfiniteHyperQubit
     characters: Dict[str, Character]
     current_episode: int = 1
+    saga_data: Any = None # Holds SagaBible instance
     
     def to_dict(self):
         return {
@@ -178,47 +179,47 @@ class LiteraryCortex:
         
         scenes = []
         
-        # Check for Korean Fantasy / Hunter Genre
-        is_hunter_genre = any(k in bible.title for k in ["Hunter", "Level", "Rank", "System", "Gate"])
-        if is_hunter_genre:
-            cycle = (episode_num - 1) % 4
-            logger.info(f"⚔️ Hunter Genre Protocol: Cycle Phase {cycle}")
+        # [Saga Upgrade] Macro-Plot Awareness
+        # Instead of simple cycles, we use the Grand Plan.
+        from Core.Creativity.saga_architect import SagaArchitect
+        architect = SagaArchitect()
+        
+        # Ensure Bible has Saga data (Backward Compat)
+        if not hasattr(bible, "saga_data") or bible.saga_data is None:
+             # High entropy for creativity (0.7)
+             bible.saga_data = architect.generate_grand_plan(bible.title, "Fantasy", entropy=0.7)
+        
+        ctx = architect.get_episode_context(bible.saga_data, episode_num)
+        logger.info(f"📜 Episode {episode_num} Context: [{ctx['Arc']}] - {ctx['Phase']}")
+        
+        # Map Phase to Scene Types
+        if ctx['Phase'] == "Setup":
+            scenes.append(self._craft_scene(bible, 1, f"Opening: {ctx['Arc']}", "Wide Shot"))
+            scenes.append(self._craft_scene(bible, 2, "Character Interaction", "Mid Shot"))
+            scenes.append(self._craft_scene(bible, 3, "Foreshadowing Event", "Close Up"))
+            scenes.append(self._craft_scene(bible, 4, "Setting the Goal", "Mid Shot"))
             
-            if cycle == 0: # The Awakening / Gate
-                scenes.append(self._craft_scene(bible, 1, "Dungeon Gate Opens", "Wide Shot"))
-                scenes.append(self._craft_scene(bible, 2, "Monsters Attack", "Action Shot"))
-                scenes.append(self._craft_scene(bible, 3, "System Awakening", "System Window", force_system=True))
-                scenes.append(self._craft_scene(bible, 4, "Protagonist Reborn", "Close Up"))
-                
-            elif cycle == 1: # Training / Growth
-                scenes.append(self._craft_scene(bible, 1, "Training Hall", "Mid Shot"))
-                scenes.append(self._craft_scene(bible, 2, "Physical Exertion", "Close Up"))
-                scenes.append(self._craft_scene(bible, 3, "Level Up Notification", "System Window", force_system=True))
-                scenes.append(self._craft_scene(bible, 4, "Feeling Stronger", "Mid Shot"))
-                
-            elif cycle == 2: # Boss Raid / Crisis
-                scenes.append(self._craft_scene(bible, 1, "Boss Room Entry", "Wide Shot"))
-                scenes.append(self._craft_scene(bible, 2, "Critical Danger", "Action Shot"))
-                scenes.append(self._craft_scene(bible, 3, "Emergency Quest", "System Window", force_system=True))
-                scenes.append(self._craft_scene(bible, 4, "Unleashing Skill", "Dynamic Angle"))
-                
-            elif cycle == 3: # Loot / Reward
-                scenes.append(self._craft_scene(bible, 1, "Boss Defeated", "Low Angle"))
-                scenes.append(self._craft_scene(bible, 2, "Loot Dropping", "Close Up"))
-                scenes.append(self._craft_scene(bible, 3, "Item Acquisition", "System Window", force_system=True))
-                scenes.append(self._craft_scene(bible, 4, "Checking Inventory", "Over the Shoulder"))
-                
+        elif ctx['Phase'] == "Rising Action":
+            scenes.append(self._craft_scene(bible, 1, "Journey/Progress", "Mid Shot"))
+            scenes.append(self._craft_scene(bible, 2, "Encounter/Obstacle", "Action Shot"))
+            scenes.append(self._craft_scene(bible, 3, "Skill Usage", "Dynamic Angle"))
+            scenes.append(self._craft_scene(bible, 4, "Overcoming Small Challenge", "Close Up"))
+            
+        elif ctx['Phase'] == "Climax":
+            scenes.append(self._craft_scene(bible, 1, f"Boss Appearance: {ctx['Boss']}", "Wide Shot"))
+            scenes.append(self._craft_scene(bible, 2, "Desperate Struggle", "Action Shot"))
+            scenes.append(self._craft_scene(bible, 3, "Ultimate Move", "Dynamic Angle"))
+            scenes.append(self._craft_scene(bible, 4, "Victory Moment", "Hero Shot"))
+            
+        elif ctx['Phase'] == "Resolution":
+            scenes.append(self._craft_scene(bible, 1, "Aftermath/Ruins", "Wide Shot"))
+            scenes.append(self._craft_scene(bible, 2, "Loot/Rewards", "System Window", force_system=True))
+            scenes.append(self._craft_scene(bible, 3, "Character Growth", "System Window", force_system=True))
+            scenes.append(self._craft_scene(bible, 4, "Next Arc Tease", "Close Up"))
+            
         else:
-            # Default Narrative Progression
-            if episode_num == 1:
-                 phase_1 = "The World State"
-            else:
-                 phase_1 = f"The Aftermath of Episode {episode_num-1}"
-    
-            scenes.append(self._craft_scene(bible, 1, phase_1, "Wide Shot"))
-            scenes.append(self._craft_scene(bible, 2, "The Protagonist Enters", "Mid Shot"))
-            scenes.append(self._craft_scene(bible, 3, "An unexpected anomaly occurs", "Close Up"))
-            scenes.append(self._craft_scene(bible, 4, "The Protagonist takes action", "Action Shot"))
+             # Fallback
+             scenes.append(self._craft_scene(bible, 1, "The World Continues", "Wide Shot"))
         
         # Update State
         bible.current_episode += 1

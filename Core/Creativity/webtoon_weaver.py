@@ -33,49 +33,89 @@ class WebtoonWeaver:
             self.comfy = ComfyAdapter()
             logger.info("🔌 ComfyUI Adapter Detected.")
         
-    def create_pilot_episode(self, concept_seed: str = "Resonance"):
+    def produce_episode(self, concept_seed: str = "Resonance", episode_num: int = None):
         """
         Generates an Episode. Persistently tracks episode number.
         """
-        logger.info(f"🚀 Starting Project: {concept_seed}")
+        logger.info(f"🚀 Starting Production: {concept_seed}")
         
         # 1. Write the Script (Mind) - Persistent
         bible = self.writer.seed_story(concept_seed)
-        script = self.writer.write_episode_script(bible)
-        ep_num = bible.current_episode - 1 
+        
+        # Determine episode number if not forced
+        target_ep = episode_num if episode_num is not None else bible.current_episode
+        
+        # If we are filling backwork, we might need to adjust logic, but assuming linear generation for now:
+        script = self.writer.write_episode_script(bible, episode_num=target_ep)
         
         # 2. Draw the Panels (Hand)
+        from Core.Creativity.style_mimic import StyleMimic
+        from Core.Holographic.synaptic_cortex import SynapticCortex
+        
+        self.mimic = StyleMimic()
+        self.cortex = SynapticCortex()
+        
+        # Register Organs (Capabilities)
+        # In a real run, this would be populated by the ModelDigester. 
+        # Here we abstract "Methods" as Organs to demonstrate the Logic.
+        self.cortex.register_organ("Redice-Engine", "Diffuser", {"Action": 0.9, "Romance": 0.4})
+        self.cortex.register_organ("Ghibli-Engine", "Diffuser", {"Peace": 0.9, "Action": 0.2})
+        self.cortex.register_organ("Default-Engine", "Diffuser", {"Balanced": 0.8})
+        
         panel_map = {} # seq -> (image_source, dialogue)
         
         for scene in script:
-            filename = f"ep{ep_num}_panel_{scene.sequence_id}_{int(time.time())}.png"
+            filename = f"ep{target_ep}_panel_{scene.sequence_id}_{int(time.time())}.png"
             rendered_src = None
             
+            # 1. Sense the Mood (Energy)
+            mood_energy = 0.5
+            if "!" in scene.dialogue or "Attack" in scene.visual_prompt: mood_energy = 0.9
+            if "..." in scene.dialogue or "Quiet" in scene.visual_prompt: mood_energy = 0.2
+            
+            # 2. Consult Synaptic Cortex for Best Tool
+            task_type = "Action" if mood_energy > 0.7 else "Peace" if mood_energy < 0.3 else "Balanced"
+            best_engine = self.cortex.select_best_organ(task_type, "Diffuser")
+            
+            # 3. Adapt Parameters (Organic Fluidity)
+            optimal_cfg = self.cortex.adapt_parameter(best_engine, "cfg", mood_energy)
+            optimal_steps = int(20 + (mood_energy * 10)) # More energy = more detail/steps
+            
+            # Determine Style
+            style_name = self.mimic.suggest_style(scene.visual_prompt)
+            style_prompt = self.mimic.get_style_prompt(style_name)
+            
+            # Construct Prompt
+            prompt = f"{style_prompt}, {scene.visual_prompt}"
+            if "[SYSTEM]" in scene.dialogue:
+                 prompt += ", game ui, blue holographic interface, glowing text, digital hud, system window"
+                 
+            logger.info(f"🎨 Synaptic Plan: Tool={best_engine} | CFG={optimal_cfg:.1f} | Mood={task_type}")
+
             # Hybrid Rendering Logic
-            # Try AI First
             if self.comfy and self.comfy.connect():
                 logger.info("⚡ Generating with Sovereign AI (ComfyUI)...")
                 
-                # Prompt Engineering
-                prompt = f"masterpiece, best quality, manhwa style, {scene.visual_prompt}"
-                if "[SYSTEM]" in scene.dialogue:
-                    prompt += ", game ui, blue holographic interface, glowing text, digital hud, system window"
-                
-                # Determine Physics based on Mood
-                physics = self._determine_physics(scene)
+                # Dynamic Physics from Cortex
+                physics = {
+                    "cfg": optimal_cfg,
+                    "steps": optimal_steps,
+                    "sampler_name": "dpmpp_2m" if mood_energy > 0.6 else "euler"
+                }
 
                 # Generate
                 gen_filename = self.comfy.generate_sync(prompt, overrides=physics)
                 
                 if gen_filename:
-                    # Use Direct URL from ComfyUI API
                     rendered_src = f"http://127.0.0.1:8188/view?filename={gen_filename}&type=output"
+                    # Reinforce Behavior (Simulated Reward)
+                    self.cortex.organs[best_engine].update_personality(task_type, True)
             
             # Fallback to Vector Pen
             if not rendered_src:
                 local_path = self.artist.draw_panel(
                     filename=filename,
-                    scene_description=f"{scene.visual_prompt}",
+                    scene_description=f"{scene.visual_prompt}. [Mode: {best_engine}]", 
                     dialogue=scene.dialogue
                 )
                 rendered_src = Path(local_path).name # Just the filename for local
@@ -84,7 +124,7 @@ class WebtoonWeaver:
             time.sleep(0.5) 
             
         # 3. Assemble (Publishing)
-        self._publish_html(f"{bible.title} - Episode {ep_num}", panel_map)
+        self._publish_html(f"{bible.title} - Episode {target_ep}", panel_map, target_ep)
 
     def _determine_physics(self, scene) -> dict:
         """
@@ -94,27 +134,49 @@ class WebtoonWeaver:
         
         # 1. Rigid Order (System Windows)
         if "system" in text or "window" in text or "hud" in text:
-            return {"cfg": 12.0, "sampler_name": "euler", "steps": 20}
+            return {
+                "cfg": tuple(random.uniform(11.0, 13.0) for _ in range(1))[0], 
+                "sampler_name": "euler", 
+                "steps": random.randint(18, 22)
+            }
             
         # 2. Chaos / Action
         if any(w in text for w in ["attack", "battle", "blood", "kill", "explosion", "fight"]):
-            return {"cfg": 9.0, "sampler_name": "dpmpp_2s_ancestral", "steps": 25}
+            # Higher variance for chaos
+            return {
+                "cfg": tuple(random.uniform(8.0, 10.0) for _ in range(1))[0], 
+                "sampler_name": "dpmpp_2s_ancestral", 
+                "steps": random.randint(22, 28)
+            }
             
         # 3. Mystery / Magic
         if any(w in text for w in ["magic", "spell", "dark", "glow", "aura"]):
-            return {"cfg": 8.0, "sampler_name": "dpmpp_2m", "steps": 25}
+            return {
+                "cfg": tuple(random.uniform(7.0, 9.0) for _ in range(1))[0], 
+                "sampler_name": "dpmpp_2m", 
+                "steps": random.randint(24, 30)
+            }
             
         # 4. Default Harmony
-        return {"cfg": 7.0, "sampler_name": "euler", "steps": 20}
+        # Soft variance
+        return {
+            "cfg": tuple(random.uniform(6.5, 7.5) for _ in range(1))[0], 
+            "sampler_name": "euler", 
+            "steps": random.randint(20, 25)
+        }
         
-    def _publish_html(self, title: str, panel_map: dict):
+    def _publish_html(self, title: str, panel_map: dict, episode_num: int):
         """
         Manhwa-Style Vertical Scroll Publisher.
         Implements Dynamic Pacing (Gutter Spacing) and Seamless Layout.
         """
         output_dir = Path("outputs/comic")
         output_dir.mkdir(parents=True, exist_ok=True)
-        html_path = output_dir / "latest_episode.html"
+        
+        # Save as specific episode AND latest
+        filename = f"episode_{episode_num:03d}.html"
+        html_path = output_dir / filename
+        latest_path = output_dir / "latest_episode.html"
         
         mode = "✨ AI-Enhanced High Definition" if (self.comfy and self.comfy.connect()) else "📐 Vector Abstract (Concept Draft)"
         
@@ -278,8 +340,12 @@ class WebtoonWeaver:
         
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(html)
+        
+        # UX Fix: Update 'latest' pointer so user sees changes immediately
+        with open(latest_path, "w", encoding="utf-8") as f:
+            f.write(html)
             
-        logger.info(f"📚 Webtoon Published at: {html_path}")
+        logger.info(f"📚 Webtoon Published at: {html_path} (and latest_episode.html)")
 
 if __name__ == "__main__":
     weaver = WebtoonWeaver()

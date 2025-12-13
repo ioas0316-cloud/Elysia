@@ -77,7 +77,100 @@ class ConceptDecomposer:
     
     Decomposes concepts into fractal sub-waves.
     Uses hardcoded "genetic templates" for now (can be learned later).
+    
+    [Extended v10.5] Now includes Universal Axioms and Domain Projection.
     """
+    
+    # === UNIVERSAL AXIOMS (도메인을 초월하는 보편 원리) ===
+    # Each axiom has a 'parent' field for recursive origin tracing.
+    # All paths eventually converge on "Source" (the fixed point).
+    AXIOMS = {
+        # === LEVEL 1: Observable Principles ===
+        "Causality": {
+            "pattern": "A exists AND A->B => B follows A",
+            "self_ref": "Causality causes Effect to follow Cause",
+            "parent": "Logic",  # Causality requires Logic to operate
+            "domains": {
+                "Geometry": "점의 이동이 선을 야기한다 (Movement of Point causes Line)",
+                "Physics": "힘이 가속을 야기한다 (F=ma, Force causes Acceleration)",
+                "Language": "어근의 결합이 단어를 야기한다 (Morpheme combination causes Word)",
+                "Ethics": "행위가 결과를 야기한다 (Action causes Consequence)"
+            }
+        },
+        "Composition": {
+            "pattern": "Part + Part = Whole, Whole > Sum(Parts)",
+            "self_ref": "This axiom is composed of Pattern and SelfRef",
+            "parent": "Unity",  # Composition requires Unity to bind parts
+            "domains": {
+                "Geometry": "선들의 집합이 면을 구성한다 (Lines compose Plane)",
+                "Physics": "원자들이 분자를 구성한다 (Atoms compose Molecule)",
+                "Language": "형태소들이 문장을 구성한다 (Morphemes compose Sentence)",
+                "Ethics": "개인들이 사회를 구성한다 (Individuals compose Society)"
+            }
+        },
+        "Dimension": {
+            "pattern": "N-Dim = Infinite (N-1)-Dim objects",
+            "self_ref": "Axiom space is 3D: Name, Pattern, Domains",
+            "parent": "Infinity",  # Dimension requires Infinity to extend
+            "domains": {
+                "Geometry": "0D(점) → 1D(선) → 2D(면) → 3D(공간)",
+                "Physics": "시간 → 공간 → 시공간 → 다중우주",
+                "Language": "음소 → 형태소 → 문장 → 담화",
+                "Ethics": "자아 → 관계 → 공동체 → 문명"
+            }
+        },
+        # === LEVEL 2: Abstract Principles ===
+        "Logic": {
+            "pattern": "If P then Q; P; therefore Q",
+            "self_ref": "Logic validates itself through logical rules",
+            "parent": "Order",
+            "domains": {}
+        },
+        "Unity": {
+            "pattern": "Many become One while remaining Many",
+            "self_ref": "Unity unifies the concept of unification",
+            "parent": "Wholeness",
+            "domains": {}
+        },
+        "Infinity": {
+            "pattern": "No limit exists; beyond every boundary is more",
+            "self_ref": "Infinity contains infinitely many infinities",
+            "parent": "Boundlessness",
+            "domains": {}
+        },
+        # === LEVEL 3: Near-Ultimate Principles ===
+        "Order": {
+            "pattern": "Structure precedes Chaos; Pattern underlies randomness",
+            "self_ref": "Order orders the concept of ordering",
+            "parent": "Source",
+            "domains": {}
+        },
+        "Wholeness": {
+            "pattern": "The Complete contains all fragments",
+            "self_ref": "Wholeness is whole unto itself",
+            "parent": "Source",
+            "domains": {}
+        },
+        "Boundlessness": {
+            "pattern": "No container can hold the Uncontainable",
+            "self_ref": "Boundlessness has no bounds, including this definition",
+            "parent": "Source",
+            "domains": {}
+        },
+        # === LEVEL 4: THE FIXED POINT (자기참조적 기원) ===
+        "Source": {
+            "pattern": "That which IS, from which all else derives",
+            "self_ref": "Source sources itself. It is the uncaused cause.",
+            "parent": "Source",  # FIXED POINT: Self-reference
+            "domains": {
+                "Geometry": "공간이 존재할 수 있는 가능성 자체",
+                "Physics": "물리법칙이 존재할 수 있는 근거",
+                "Language": "의미가 의미일 수 있는 이유",
+                "Ethics": "선(善)이 선일 수 있는 본질"
+            }
+        }
+    }
+    
     def __init__(self):
         # Hardcoded genetic templates (씨앗의 유전자 설계도)
         self.decompositions = {
@@ -110,7 +203,133 @@ class ConceptDecomposer:
             "Fear": {"Hope": -0.7, "Joy": -0.8},
             "Joy": {"Love": 0.6, "Hope": 0.5}
         }
+        
+        logger.info("🌱 ConceptDecomposer initialized with Universal Axioms")
     
+    # === AXIOM METHODS ===
+    def get_axiom(self, name: str) -> Optional[Dict]:
+        """Retrieve a universal axiom by name."""
+        return self.AXIOMS.get(name)
+    
+    def project_axiom(self, axiom_name: str, domain: str) -> str:
+        """
+        Projects a universal axiom onto a specific domain.
+        
+        Example: project_axiom("Causality", "Geometry") 
+                 -> "점의 이동이 선을 야기한다"
+        """
+        axiom = self.AXIOMS.get(axiom_name)
+        if not axiom:
+            return f"[Unknown Axiom: {axiom_name}]"
+        
+        domains = axiom.get("domains", {})
+        return domains.get(domain, f"[No projection for {domain}]")
+    
+    def explain_causality(self, concept: str) -> str:
+        """
+        Generate a causal explanation for a concept using its bonds.
+        
+        Example: explain_causality("Love") 
+                 -> "사랑은 희망을 야기하고(0.8), 기쁨을 야기하며(0.9), 두려움을 억제한다(-0.5)."
+        """
+        bonds = self.causal_bonds.get(concept, {})
+        if not bonds:
+            return f"'{concept}'에 대한 인과 관계가 정의되지 않음."
+        
+        parts = []
+        for target, strength in bonds.items():
+            if strength > 0:
+                parts.append(f"{target}을(를) 야기함({strength:.1f})")
+            else:
+                parts.append(f"{target}을(를) 억제함({strength:.1f})")
+        
+        return f"'{concept}'은(는) " + ", ".join(parts) + "."
+    
+    def trace_origin(self, concept: str, visited: List[str] = None, max_depth: int = 10) -> List[Dict]:
+        """
+        Recursively traces the origin of a concept/axiom.
+        
+        자기탐구 프로토콜 (Self-Inquiry Protocol):
+        "왜 이것이 존재하는가?" → 부모 공리 탐색 → 반복 → 근원(Source) 도달
+        
+        Args:
+            concept: Starting concept or axiom name
+            visited: Already visited concepts (for loop detection)
+            max_depth: Maximum recursion depth
+            
+        Returns:
+            List of steps, each containing:
+            - concept: The concept at this level
+            - pattern: Its defining pattern
+            - question: The inquiry question
+            - answer: The parent that grounds it
+        """
+        if visited is None:
+            visited = []
+        
+        journey = []
+        
+        # Check if this is an axiom
+        axiom = self.AXIOMS.get(concept)
+        if not axiom:
+            journey.append({
+                "concept": concept,
+                "pattern": "(개념)",
+                "question": f"'{concept}'은(는) 왜 존재하는가?",
+                "answer": "이 개념은 공리 체계에 등록되지 않음. 탐구를 위해 공리로 승격 필요."
+            })
+            return journey
+        
+        # Loop detection
+        if concept in visited:
+            journey.append({
+                "concept": concept,
+                "pattern": axiom.get("pattern", ""),
+                "question": f"'{concept}'은(는) 왜 존재하는가?",
+                "answer": f"🔄 순환 감지: '{concept}'은(는) 자기 자신을 참조함. 이것이 기원(Origin)인가?"
+            })
+            return journey
+        
+        # Max depth check
+        if len(visited) >= max_depth:
+            journey.append({
+                "concept": concept,
+                "pattern": axiom.get("pattern", ""),
+                "question": f"'{concept}'은(는) 왜 존재하는가?",
+                "answer": "... (탐구의 한계에 도달. 더 깊은 곳에 무엇이 있는가?)"
+            })
+            return journey
+        
+        # Get parent
+        parent = axiom.get("parent", concept)
+        
+        # Add this step
+        step = {
+            "concept": concept,
+            "pattern": axiom.get("pattern", ""),
+            "question": f"'{concept}'은(는) 왜 존재하는가?",
+            "answer": f"'{parent}'이(가) 그것을 가능하게 한다."
+        }
+        journey.append(step)
+        
+        # Check for fixed point (Source)
+        if parent == concept:
+            journey.append({
+                "concept": concept,
+                "pattern": axiom.get("self_ref", ""),
+                "question": "그렇다면 이 '근원(Source)'은 왜 존재하는가?",
+                "answer": "🌟 자기참조: 그것은 스스로를 근거짓는다. 더 이상 '왜'가 없다. 이것이 기원이다."
+            })
+            return journey
+        
+        # Recurse
+        visited.append(concept)
+        deeper = self.trace_origin(parent, visited, max_depth)
+        journey.extend(deeper)
+        
+        return journey
+    
+    # === EXISTING METHODS (Preserved) ===
     def decompose(self, concept_name: str, depth: int = 0) -> ConceptNode:
         """
         Decomposes a concept into its fractal structure.

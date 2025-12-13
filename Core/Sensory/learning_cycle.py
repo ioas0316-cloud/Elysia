@@ -30,6 +30,9 @@ from Core.Sensory.stream_manager import StreamManager
 from Core.Sensory.ego_anchor import EgoAnchor, SelectiveMemory
 from Core.Foundation.wave_semantic_search import WaveSemanticSearch, WavePattern
 from Core.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.internal_universe import InternalUniverse, WorldCoordinate # NEW
+from Core.Learning.language_learner import LanguageLearner
+from Core.Learning.wave_pattern_learner import WavePatternLearner  # AUTONOMOUS LEARNING
 
 logger = logging.getLogger(__name__)
 
@@ -151,6 +154,9 @@ class P4LearningCycle:
         self.pattern_extractor = PatternExtractor()
         self.wave_classifier = WaveClassifier()
         self.wave_search = WaveSemanticSearch(storage_path=wave_storage_path)
+        self.language_learner = LanguageLearner()
+        self.wave_pattern_learner = WavePatternLearner()  # AUTONOMOUS WAVE LEARNING
+        self.internal_universe = InternalUniverse() # THE SOUL LINK
         
         self.learning_rate = learning_rate
         self.auto_anchor = auto_anchor
@@ -168,11 +174,11 @@ class P4LearningCycle:
             'storage_mode': 'resonance_patterns_only'  # NO RAW DATA
         }
         
-        logger.info("🎓 P4 Learning Cycle initialized - FLOW MODE")
+        logger.info("🎓 P4 Learning Cycle initialized - FLOW MODE (Wave-Aware)")
         logger.info(f"   Learning rate: {learning_rate} waves/cycle")
         logger.info(f"   Wave storage: {wave_storage_path}")
         logger.info(f"   Memory: UNLIMITED resonance patterns")
-        logger.info(f"   Storage: Resonance tags only (0 bytes raw data)")
+        logger.info(f"   Wave Pattern Learner: ACTIVE (Autonomous)")
     
     def setup_sources(self, topics: List[str] = None):
         """
@@ -277,9 +283,11 @@ class P4LearningCycle:
             return
         
         # 5. Wave absorption (P2.2 integration)
-        pattern_id = self.wave_search.add_pattern(pattern)
+        import uuid
+        pattern_id = str(uuid.uuid4())[:8]
+        self.wave_search.store_pattern(pattern_id, pattern) # Correct API
         self.stats['waves_absorbed'] += 1
-        self.stats['knowledge_count'] = len(self.wave_search.patterns)
+        self.stats['knowledge_count'] = len(self.wave_search.wave_patterns)
         
         # 6. Anchor to Elysia's perspective
         anchored = self.ego_anchor.anchor_perspective({
@@ -288,6 +296,23 @@ class P4LearningCycle:
             'text': pattern.text,
             'energy': pattern.energy
         })
+        
+        # 6.5 Linguistic Distillation (Language Learning)
+        # Extract style and grammar from the raw text before discarding/archiving it
+        self.language_learner.learn_from_text(pattern.text, category)
+        
+        # 6.6 Deep Internalization (Soul Modification)
+        # Convert External Wave (Pattern) to Internal Coordinate
+        # WorldCoordinate requires (x, y, z, context), not (orientation, frequency)
+        # We map the quaternion's i, j, k components to spatial coords
+        world_coord = WorldCoordinate(
+            x=pattern.orientation.x,
+            y=pattern.orientation.y,
+            z=pattern.orientation.z,
+            context=pattern.text[:50] # Short summary as context
+        )
+        self.internal_universe.internalize(world_coord)
+        self.internal_universe.save_snapshot() # Persist change for Monitor
         
         # 7. Selective memory
         if self.selective_memory.should_remember(anchored, self.ego_anchor.self_core):
