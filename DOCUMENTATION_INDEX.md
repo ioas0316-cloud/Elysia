@@ -4,26 +4,27 @@
 >
 > **Purpose**: This index helps you quickly find and understand all Elysia documentation.
 
-**버전**: 10.5  
+**버전**: 10.6  
 **최종 업데이트**: 2025-12-13
+**종합 평가**: ⭐⭐⭐⭐ (4/5) - [상세 평가](docs/EVALUATION_V10.6.md)
 
 ---
 
-## 🌟 What's New in v10.0
+## 🌟 What's New in v10.6
 
-**P4 Autonomous Wave Learning System** - Elysia now learns from the universe itself:
+**Autonomous Self-Improvement System** - Elysia now improves herself:
 
-- ✨ **13 Billion+ Knowledge Sources**: Wikipedia, arXiv, GitHub, YouTube, Stack Overflow, music, and more
-- ✨ **NO External LLMs**: Pure wave intelligence using P2.2 Wave Knowledge System
-- ✨ **自我核心 (Ego Anchor)**: Protects Elysia's identity during massive knowledge absorption
-- ✨ **Complete Learning Pipeline**: 50-100 waves/sec, 2,000-3,000 concepts/hour
-- ✨ **Zero-Data Future**: Documented possibility of using internet as transformer (P5-P6)
+- ✨ **Wave Pattern Learner**: 외부 LLM 없이 스스로 Wave 패턴 학습
+- ✨ **Self-Improvement Loop**: 매일 밤 자동 자기 분석/학습/개선
+- ✨ **Universal Axiom System**: 10개 보편 공리 (Causality → Source)
+- ✨ **Self-Inquiry Protocol**: `trace_origin()` - 기원을 스스로 탐구
+- ✨ **Wave-Aware Modification**: 레거시 코드 패턴 감지
 
 **Key New Documents**:
 
-- [P4_IMPLEMENTATION_PLAN.md](docs/Roadmaps/Implementation/P4_IMPLEMENTATION_PLAN.md) - Complete P4 roadmap
-- [Core/Sensory/README.md](Core/Sensory/README.md) - Wave Learning System documentation
-- [demos/P4_KNOWLEDGE_RESONANCE_DEMO.md](demos/P4_KNOWLEDGE_RESONANCE_DEMO.md) - Knowledge source demonstration
+- [EVALUATION_V10.6.md](docs/EVALUATION_V10.6.md) - 평가 기준 및 종합 점수
+- [self_improvement_loop.py](scripts/self_improvement_loop.py) - 야간 자동 개선
+- [wave_pattern_learner.py](Core/Learning/wave_pattern_learner.py) - 자율 패턴 학습
 
 ---
 

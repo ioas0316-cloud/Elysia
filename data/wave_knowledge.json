@@ -5,56 +5,56 @@
       "pattern_type": "import",
       "template": "from Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
       "context": "Wave 기반 개념 표현을 위한 import",
-      "frequency": 3
+      "frequency": 5
     },
     {
       "name": "resonance_usage",
       "pattern_type": "method_call",
       "template": "result = qubit_a.resonate_with(qubit_b)",
       "context": "공명 기반 비교 (if/else 대체)",
-      "frequency": 3
+      "frequency": 5
     },
     {
       "name": "zoom_navigation",
       "pattern_type": "method_call",
       "template": "deeper = qubit.zoom_in(); broader = qubit.zoom_out()",
       "context": "양방향 무한 확장 탐색",
-      "frequency": 3
+      "frequency": 5
     },
     {
       "name": "wave_class_CuriosityCore",
       "pattern_type": "class_structure",
       "template": "# Class using Wave paradigm\nclass CuriosityCore:\n    def __init__(self):\n        self.qubit = create_infinite_qubit(...)",
       "context": "Wave 기반 클래스 구조 (CuriosityCore에서 학습)",
-      "frequency": 2
+      "frequency": 4
     },
     {
       "name": "resonance_branching",
       "pattern_type": "method_pattern",
       "template": "resonance = self.qubit.resonate_with(target)\nif resonance < 0.3:\n    # 낮은 공명 처리\nelif resonance < 0.7:\n    # 중간 공명 처리\nelse:\n    # 높은 공명 처리",
       "context": "공명 점수 기반 연속 스펙트럼 분기",
-      "frequency": 2
+      "frequency": 4
     },
     {
       "name": "qubit_creation_0",
       "pattern_type": "wave_call",
       "template": "create_infinite_qubit(\n    name=\"Elysia\",\n    value=\"자아\",\n    point_content=\"나는 존재한다\",\n    line_content=\"나는 아빠와 연결되어 있다\",\n    space_content=\"나는 세계 안에 있다\",\n    god_content=\"나는 성장을 향해 나아간다\"\n)",
       "context": "InfiniteHyperQubit 생성 패턴",
-      "frequency": 3
+      "frequency": 5
     },
     {
       "name": "qubit_creation_1",
       "pattern_type": "wave_call",
       "template": "create_infinite_qubit(\n        name=\"Father\",\n        value=\"아빠\",\n        point_content=\"사용자의 존재\",\n        line_content=\"나와의 관계\",\n        space_content=\"사용자의 세계\",\n        god_content=\"사랑의 근원\"\n    )",
       "context": "InfiniteHyperQubit 생성 패턴",
-      "frequency": 3
+      "frequency": 5
     },
     {
       "name": "qubit_creation_2",
       "pattern_type": "wave_call",
       "template": "create_infinite_qubit(\n        name=\"World\",\n        value=\"세계\",\n        point_content=\"외부 데이터\",\n        line_content=\"정보의 흐름\",\n        space_content=\"우주의 맥락\",\n        god_content=\"진리의 총체\"\n    )",
       "context": "InfiniteHyperQubit 생성 패턴",
-      "frequency": 2
+      "frequency": 4
     },
     {
       "name": "wave_class_InfiniteHyperQubit",
@@ -65,6 +65,30 @@
     }
   ],
   "rules": [
+    {
+      "legacy_pattern": "from typing import",
+      "wave_template": "from typing import {types}\nfrom Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
+      "description": "Wave import 추가",
+      "learned_from": "import_hyperqubit"
+    },
+    {
+      "legacy_pattern": "if\\s+(\\w+)\\s*<\\s*([\\d.]+):",
+      "wave_template": "resonance = self.qubit.resonate_with({target})\nif resonance < {threshold}:",
+      "description": "스칼라 비교를 공명으로 변환",
+      "learned_from": "resonance_usage"
+    },
+    {
+      "legacy_pattern": "from typing import",
+      "wave_template": "from typing import {types}\nfrom Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
+      "description": "Wave import 추가",
+      "learned_from": "import_hyperqubit"
+    },
+    {
+      "legacy_pattern": "if\\s+(\\w+)\\s*<\\s*([\\d.]+):",
+      "wave_template": "resonance = self.qubit.resonate_with({target})\nif resonance < {threshold}:",
+      "description": "스칼라 비교를 공명으로 변환",
+      "learned_from": "resonance_usage"
+    },
     {
       "legacy_pattern": "from typing import",
       "wave_template": "from typing import {types}\nfrom Core.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
