@@ -12,8 +12,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-from cell import Cell
-from Core.Laws.field_laws import evolve_fields
+# Corrected Imports
+from Core.Foundation.cell import Cell
+# field_laws is in Core.Foundation, not Core.Laws
+from Core.Foundation.field_laws import evolve_fields
 from Core.Foundation.wave_frequency_mapping import (
     WaveFrequencyMapper,
     EmotionType,
