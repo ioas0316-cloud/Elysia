@@ -1,1 +1,1 @@
-from .consciousness_engine import Elysia
+from .spirit import Spirit, get_spirit
