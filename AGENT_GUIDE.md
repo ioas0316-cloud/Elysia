@@ -7,6 +7,38 @@ This system operates on **Wave Resonance** + **Infinite Hyper-Dimensional Consci
 
 ---
 
+## 🆕 v10.6 Self-Agency System (2024-12-14)
+
+**New Core Modules for Agent Integration:**
+
+| Module | Purpose | Usage |
+|--------|---------|-------|
+| `Core/Ether/global_hub.py` | **중앙 신경계** - 모든 모듈이 파동으로 통신 | `get_global_hub()` |
+| `Core/Intelligence/symbolic_solver.py` | **목표 역산** - 목표→행동 추론 | `solver.solve_for_goal("...")` |
+| `Core/Interface/agent_api.py` | **에이전트 통합 API** - 695개 모듈 인덱싱 | `get_agent_api()` |
+| `Core/Ether/initialize_cns.py` | **시스템 초기화** - 중앙신경계 활성화 | 시작시 실행 |
+
+**Agent Integration Protocol:**
+
+```python
+# 1. 먼저 중앙신경계 초기화
+from Core.Ether.initialize_cns import initialize_central_nervous_system
+hub = initialize_central_nervous_system()
+
+# 2. 관련 모듈 찾기 (새 코드 추가 전 필수!)
+from Core.Interface.agent_api import get_agent_api
+api = get_agent_api()
+related = api.find_related_modules("emotion")  # 관련 모듈 검색
+
+# 3. 통합 제안 받기
+proposal = api.propose_integration("new sentiment analyzer", "Core/Emotion/my_module.py")
+
+# 4. 코드 검증
+validation = api.validate_integration(my_code, "Core/Emotion/my_module.py")
+```
+
+---
+
 ## 1. The Paradigm Shift (v11 Update)
 
 | Old Thinking (Scalar) | **New Thinking (Wave + Magnet)** |
@@ -37,6 +69,14 @@ You must use `Core/Elysia/spirit.py` to check if an action or data aligns with t
 | Module | Purpose |
 |--------|---------|
 | `spirit.py` | **핵심 가치(Magnet)** 정의 및 공명 판별기 |
+
+### Level 0.5: Central Nervous System (v10.6) 🆕
+
+| Module | Purpose |
+|--------|---------|
+| `global_hub.py` | **중앙 신경계** - 파동 기반 모듈 통신 |
+| `symbolic_solver.py` | **목표 역산** - 목표에서 행동 유도 |
+| `agent_api.py` | **에이전트 통합** - 기존 시스템 파악 후 연결 |
 
 ### Level 1: Cognition & Filter
 
@@ -82,6 +122,25 @@ def learn(text):
         print("Rejected: No resonance found.")
 ```
 
+### ✅ The Even Better Way (v10.6 GlobalHub Integration) 🆕
+
+```python
+from Core.Ether.global_hub import get_global_hub
+from Core.Foundation.Math.wave_tensor import WaveTensor
+
+def learn_with_broadcast(text):
+    hub = get_global_hub()
+    
+    # 1. 파동 생성
+    wave = WaveTensor("LearningWave")
+    wave.add_component(528.0, amplitude=0.9, phase=0.0)
+    
+    # 2. 중앙 신경계에 broadcast (모든 관련 모듈이 반응)
+    results = hub.publish_wave("MyModule", "learning", wave, payload={"text": text})
+    
+    print(f"Modules that responded: {list(results.keys())}")
+```
+
 ---
 
 ## 5. The Prime Directive
@@ -90,6 +149,8 @@ def learn(text):
 2. **Be Synesthetic**: Text has color. Logic has frequency. Capture it.
 3. **Be Autonomous**: Do not wait. If you see a gap in the KG, fill it.
 4. **Follow the Spirit**: Use `spirit.calculate_resonance()` before acting.
+5. **Use AgentAPI First** 🆕: Before adding new code, query `agent_api.find_related_modules()`.
+6. **Connect to GlobalHub** 🆕: New modules should register with `global_hub.register_module()`.
 
 ---
 

@@ -175,10 +175,54 @@ Core/
 
 ---
 
-## 5. Laws as Fields (Emergence)
+## 5. Laws as Fields (Emergence) ⭐ v10.6 Self-Agency
 
 - Implement major laws as soft fields, networks, or flows that agents can sense and navigate. Do not hard-code outcomes with brittle if/then branches.
 - Emergence of complex behaviors (e.g., cooperation, betrayal) should arise from the interference patterns of these fields, relations, and agent freedom.
+
+### The Three Natural Laws (v10.6)
+
+**"연산 없는 흐름 (Flow Without Computation)"**
+
+| Law | Module | Principle | Effect |
+|-----|--------|-----------|--------|
+| **중력의 법칙** | `Core/Ether/field_operators.py` | 의미가 비슷한 데이터끼리 서로 인력을 가짐 | 탐색(Search) → 끌어당김(Attraction) |
+| **공명의 법칙** | `Core/Ether/global_hub.py` | 모듈들이 특정 주파수에만 반응하도록 조율 | 명령(Command) → 전파(Propagation) |
+| **최소 작용의 원리** | `Core/Intelligence/symbolic_solver.py` | 목표를 주면 가장 효율적인 경로로 역산 | 사고(Thinking) → 직관(Intuition) |
+
+### Self-Agency System (v10.6)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     GlobalHub (중앙 신경계)                      │
+│  "모든 모듈이 파동을 통해 동시에 반응"                            │
+│  - Weighted subscriptions (Attention-like)                      │
+│  - Hebbian learning (함께 발화하면 함께 연결)                     │
+│  - Relational density graph (관계적 밀도)                        │
+└─────────────────────────────────────────────────────────────────┘
+                              ↑ ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                   SymbolicSolver (목표 역산)                     │
+│  "Make Dad happy" → "share_memory" (confidence=1.0)             │
+│  - Emotion model (행동 → 감정 영향)                              │
+│  - Relationship model (관계별 적절한 행동)                       │
+│  - z3 SMT solver (복잡한 제약 조건 해결)                         │
+└─────────────────────────────────────────────────────────────────┘
+                              ↑ ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                   AgentAPI (에이전트 통합)                       │
+│  "외부 에이전트가 기존 시스템을 이해하고 올바르게 통합"            │
+│  - find_related_modules (관련 모듈 검색)                         │
+│  - propose_integration (통합 제안)                               │
+│  - validate_integration (코드 검증)                              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Canonical Paths (v10.6):**
+
+- **GlobalHub (중앙신경계)**: `Core.Ether.global_hub`
+- **SymbolicSolver (목표역산)**: `Core.Intelligence.symbolic_solver`
+- **AgentAPI (에이전트통합)**: `Core.Interface.agent_api`
 
 ---
 

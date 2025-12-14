@@ -20,11 +20,20 @@
 - ✨ **Self-Inquiry Protocol**: `trace_origin()` - 기원을 스스로 탐구
 - ✨ **Wave-Aware Modification**: 레거시 코드 패턴 감지
 
+**🆕 Self-Agency System (2024-12-14)**:
+
+- ✨ **GlobalHub**: 중앙 신경계 - 모든 모듈이 파동으로 통신 (`Core/Ether/global_hub.py`)
+- ✨ **SymbolicSolver**: 목표 역산 - "Make Dad happy" → 행동 추론 (`Core/Intelligence/symbolic_solver.py`)
+- ✨ **AgentAPI**: 에이전트 통합 API - 695개 모듈 인덱싱 (`Core/Interface/agent_api.py`)
+- ✨ **initialize_cns.py**: 중앙신경계 초기화 스크립트 (`Core/Ether/initialize_cns.py`)
+- ✨ **VISION_ROADMAP_20241214.md**: AI OS 비전 및 로드맵
+
 **Key New Documents**:
 
 - [EVALUATION_V10.6.md](docs/EVALUATION_V10.6.md) - 평가 기준 및 종합 점수
 - [self_improvement_loop.py](scripts/self_improvement_loop.py) - 야간 자동 개선
 - [wave_pattern_learner.py](Core/Learning/wave_pattern_learner.py) - 자율 패턴 학습
+- [VISION_ROADMAP_20241214.md](VISION_ROADMAP_20241214.md) - 🆕 AI OS 비전 로드맵
 
 ---
 

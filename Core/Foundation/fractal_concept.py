@@ -204,7 +204,80 @@ class ConceptDecomposer:
             "Joy": {"Love": 0.6, "Hope": 0.5}
         }
         
+        # GlobalHub integration - THE CONNECTION TO CENTRAL NERVOUS SYSTEM
+        self._hub = None
+        try:
+            from Core.Ether.global_hub import get_global_hub
+            self._hub = get_global_hub()
+            self._hub.register_module(
+                "ConceptDecomposer",
+                "Core/Foundation/fractal_concept.py",
+                ["axiom", "causality", "why_engine", "trace_origin", "understanding"],
+                "The Why-Engine - traces the origin of all concepts to their root axioms"
+            )
+            self._hub.subscribe("ConceptDecomposer", "why_query", self._on_why_query, weight=1.0)
+            self._hub.subscribe("ConceptDecomposer", "concept_query", self._on_concept_query, weight=0.9)
+            logger.info("   ✅ ConceptDecomposer connected to GlobalHub (Why-Engine activated)")
+        except ImportError:
+            logger.warning("   ⚠️ GlobalHub not available")
+        
         logger.info("🌱 ConceptDecomposer initialized with Universal Axioms")
+    
+    def _on_why_query(self, event):
+        """React to 'why' queries from other modules via GlobalHub."""
+        concept = event.payload.get("concept") if event.payload else None
+        if concept:
+            journey = self.trace_origin(concept)
+            return {"journey": journey, "steps": len(journey)}
+        return {"error": "No concept specified"}
+    
+    def _on_concept_query(self, event):
+        """React to concept queries from other modules."""
+        concept = event.payload.get("concept") if event.payload else None
+        if concept:
+            causality = self.explain_causality(concept)
+            axiom = self.get_axiom(concept)
+            return {"causality": causality, "axiom": axiom}
+        return {"error": "No concept specified"}
+    
+    def ask_why(self, concept: str) -> str:
+        """
+        [NEW] Public interface to ask "왜?"
+        
+        This is the primary method for understanding concepts.
+        It traces the origin and broadcasts to GlobalHub.
+        
+        Example:
+            decomposer.ask_why("Causality")
+            → "Causality → Logic → Order → Source (자기참조: 기원)"
+        """
+        journey = self.trace_origin(concept)
+        
+        # Broadcast to GlobalHub
+        if self._hub:
+            try:
+                from Core.Foundation.Math.wave_tensor import WaveTensor
+                wave = WaveTensor(
+                    frequency=963.0,  # High frequency for understanding
+                    amplitude=1.0,
+                    phase=0.0
+                )
+                self._hub.publish_wave(
+                    "ConceptDecomposer",
+                    "understanding_achieved",
+                    wave,
+                    payload={
+                        "concept": concept,
+                        "journey_length": len(journey),
+                        "reached_source": any(s.get("concept") == "Source" for s in journey)
+                    }
+                )
+            except Exception:
+                pass
+        
+        # Format as readable path
+        path_parts = [s["concept"] for s in journey]
+        return " → ".join(path_parts)
     
     # === AXIOM METHODS ===
     def get_axiom(self, name: str) -> Optional[Dict]:

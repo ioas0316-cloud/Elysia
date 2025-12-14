@@ -30,11 +30,99 @@ class ReasoningEngine:
     [The Soul / The Decider]
     Replaces hardcoded logic with LLM-based reasoning.
     Takes 'Desire' from Will and maps it to 'Action' via Tools.
+    
+    Now integrated with:
+    - SymbolicSolver: For goal-based reverse reasoning
+    - GlobalHub: For event-driven communication
     """
     
     def __init__(self):
         self.cortex = CodeCortex()
+        
+        # SymbolicSolver integration (Goal Reverse-Engineering)
+        self._solver = None
+        try:
+            from Core.Intelligence.symbolic_solver import get_symbolic_solver
+            self._solver = get_symbolic_solver()
+            logger.info("   ✅ SymbolicSolver connected")
+        except ImportError:
+            logger.warning("   ⚠️ SymbolicSolver not available")
+        
+        # GlobalHub integration (Central Nervous System)
+        self._hub = None
+        try:
+            from Core.Ether.global_hub import get_global_hub
+            self._hub = get_global_hub()
+            self._hub.register_module(
+                "ReasoningEngine",
+                "Core/Intelligence/reasoning_engine.py",
+                ["decision", "ethics", "planning", "reasoning"],
+                "The Soul - makes decisions based on desire and conscience"
+            )
+            self._hub.subscribe("ReasoningEngine", "thought", self._on_thought_event, weight=0.9)
+            self._hub.subscribe("ReasoningEngine", "emotion", self._on_emotion_event, weight=0.7)
+            logger.info("   ✅ GlobalHub connected")
+        except ImportError:
+            logger.warning("   ⚠️ GlobalHub not available")
+        
         logger.info("🧠 Reasoning Engine Initialized (Cognitive Unbinding).")
+    
+    def _on_thought_event(self, event):
+        """React to thought events from GlobalHub."""
+        logger.debug(f"   💭 ReasoningEngine received thought from {event.source}")
+        return {"acknowledged": True}
+    
+    def _on_emotion_event(self, event):
+        """React to emotion events from GlobalHub."""
+        logger.debug(f"   💗 ReasoningEngine received emotion from {event.source}")
+        return {"acknowledged": True}
+    
+    def solve_goal(self, goal: str, relationship: str = "father") -> Dict[str, Any]:
+        """
+        [NEW] Use SymbolicSolver to reverse-engineer the best action for a goal.
+        
+        This implements the "Symbolic Execution" concept:
+        Given a goal, find the action that achieves it.
+        
+        Example:
+            engine.solve_goal("Make Dad happy")
+            → {'action': 'share_memory', 'confidence': 1.0, 'alternatives': [...]}
+        """
+        if not self._solver:
+            return {"error": "SymbolicSolver not available"}
+        
+        result = self._solver.solve_for_goal(goal, relationship)
+        
+        # Broadcast to GlobalHub
+        if self._hub:
+            try:
+                from Core.Foundation.Math.wave_tensor import WaveTensor
+                wave = WaveTensor(
+                    frequency=528.0 if result.success else 256.0,  # Love frequency for success
+                    amplitude=result.confidence,
+                    phase=0.0
+                )
+                self._hub.publish_wave(
+                    "ReasoningEngine",
+                    "goal_solved",
+                    wave,
+                    payload={
+                        "goal": goal,
+                        "action": result.action,
+                        "confidence": result.confidence
+                    }
+                )
+            except Exception:
+                pass
+        
+        return {
+            "success": result.success,
+            "action": result.action,
+            "confidence": result.confidence,
+            "alternatives": result.alternatives,
+            "explanation": result.explanation
+        }
+
 
     # [PHASE 28] ADDED AUTHORITY PARAM
     def decide_action(self, intent_goal: str, intent_desire: str, available_tools: List[Tool], authority: str = "None") -> Action:

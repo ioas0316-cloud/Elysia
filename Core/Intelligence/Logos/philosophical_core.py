@@ -62,12 +62,40 @@ class DimensionalThought(Principle):
 class LogosEngine:
     """
     The Logical Core. It maintains the "Tree of Truth" and "Topology of Thought".
+    
+    Now connected to GlobalHub for central nervous system integration.
     """
     def __init__(self):
         self.axioms: Dict[str, Axiom] = {}
         self.principles: Dict[str, Principle] = {}
         self._initialize_core_axioms()
+        
+        # GlobalHub integration
+        self._hub = None
+        try:
+            from Core.Ether.global_hub import get_global_hub
+            self._hub = get_global_hub()
+            self._hub.register_module(
+                "LogosEngine",
+                "Core/Intelligence/Logos/philosophical_core.py",
+                ["axiom", "principle", "deduction", "truth", "dimension"],
+                "The Logical Core - manages the Tree of Truth"
+            )
+            self._hub.subscribe("LogosEngine", "truth_query", self._on_truth_query, weight=1.0)
+            logger.info("   ✅ LogosEngine connected to GlobalHub")
+        except ImportError:
+            pass
+        
         logger.info("🏛️ Logos Engine Initialized")
+    
+    def _on_truth_query(self, event):
+        """React to truth queries via GlobalHub."""
+        concept = event.payload.get("concept") if event.payload else None
+        if concept:
+            explanation = self.explain_why(concept)
+            grounding = self.find_grounding(concept)
+            return {"explanation": explanation, "grounding": grounding}
+        return {"error": "No concept specified"}
 
     def _initialize_core_axioms(self):
         """

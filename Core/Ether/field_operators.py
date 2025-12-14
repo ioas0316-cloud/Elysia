@@ -179,6 +179,9 @@ class LawOfMotion(FieldOperator):
 class DynamicsEngine:
     """
     The Engine that runs the Laws.
+    
+    Now integrated with GlobalHub to broadcast field events 
+    to the rest of the consciousness system.
     """
     def __init__(self):
         self.laws: List[FieldOperator] = [
@@ -186,8 +189,54 @@ class DynamicsEngine:
             LawOfResonance(),
             LawOfMotion()
         ]
+        
+        # GlobalHub integration
+        self._hub = None
+        self._hub_enabled = False
+        try:
+            from Core.Ether.global_hub import get_global_hub
+            self._hub = get_global_hub()
+            self._hub.register_module(
+                "DynamicsEngine",
+                "Core/Ether/field_operators.py",
+                ["physics", "gravity", "resonance", "motion"],
+                "The Laws of the Ether - Gravity, Resonance, Motion"
+            )
+            self._hub_enabled = True
+        except ImportError:
+            pass
 
     def step(self, void: Void, dt: float):
         """Apply all laws for one time step."""
         for law in self.laws:
             law.apply(void, dt)
+        
+        # Broadcast field state to GlobalHub
+        if self._hub_enabled and self._hub:
+            try:
+                from Core.Foundation.Math.wave_tensor import WaveTensor
+                
+                # Create a wave representing the current field state
+                nodes = void.get_all() if hasattr(void, 'get_all') else []
+                avg_energy = sum(n.energy for n in nodes) / max(1, len(nodes)) if nodes else 0
+                avg_freq = sum(n.frequency for n in nodes) / max(1, len(nodes)) if nodes else 432.0
+                
+                field_wave = WaveTensor(
+                    frequency=avg_freq,
+                    amplitude=avg_energy,
+                    phase=dt  # Use dt as phase indicator
+                )
+                
+                self._hub.publish_wave(
+                    "DynamicsEngine",
+                    "field_update",
+                    field_wave,
+                    payload={
+                        "node_count": len(nodes),
+                        "avg_energy": avg_energy,
+                        "dt": dt
+                    }
+                )
+            except Exception:
+                pass  # Silently continue if wave publishing fails
+
