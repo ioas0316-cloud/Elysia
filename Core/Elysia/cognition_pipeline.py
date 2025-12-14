@@ -5,34 +5,61 @@ from pathlib import Path
 from typing import Dict, Any, Optional, Tuple
 
 # --- New Architecture Dependencies ---
-from Project_Elysia.architecture.context import ConversationContext
-from Project_Elysia.architecture.cortex_registry import CortexRegistry
-from Project_Elysia.architecture.event_bus import EventBus
-from Project_Elysia.architecture.handlers import (
+from Core.Elysia.architecture.context import ConversationContext
+from Core.Elysia.architecture.cortex_registry import CortexRegistry
+from Core.Elysia.architecture.event_bus import EventBus
+from Core.Elysia.architecture.handlers import (
     HypothesisHandler, CommandWordHandler, DefaultReasoningHandler, PlanningHandler
 )
 
-# --- Existing Component Dependencies (for dependency injection) ---
-from .core_memory import CoreMemory
+# --- Existing Component Dependencies ---
+from Core.Elysia.core_memory import CoreMemory
 from Core.Foundation.logical_reasoner import LogicalReasoner
-from Core.Foundation.wave_mechanics import WaveMechanics
+try:
+    from Core.Foundation.wave_mechanics import WaveMechanics
+except ImportError:
+    from Legacy.Project_Sophia.wave_mechanics import WaveMechanics
+
 from tools.kg_manager import KGManager
-from Core.Foundation.core.world import World
+# Corrected import
+from Core.Foundation.world import World
 from Core.Foundation.emotional_engine import EmotionalEngine, EmotionalState
 from Core.Foundation.response_styler import ResponseStyler
 from Core.Foundation.insight_synthesizer import InsightSynthesizer
-from .value_centered_decision import ValueCenteredDecision
+from Core.Elysia.value_centered_decision import ValueCenteredDecision
 from Core.Foundation.arithmetic_cortex import ArithmeticCortex
-from Project_Mirror.creative_cortex import CreativeCortex
+
+# --- Legacy Imports ---
+try:
+    from Legacy.Project_Mirror.creative_cortex import CreativeCortex
+    from Legacy.Project_Mirror.perspective_cortex import PerspectiveCortex
+except ImportError:
+    # Define minimal mocks if Legacy is missing
+    class CreativeCortex:
+        def generate_creative_expression(self, thought): return "Creative expression unavailable."
+    class PerspectiveCortex:
+        def analyze_perspective(self, msg, ctx): return "Perspective analysis unavailable."
+
 from Core.Foundation.question_generator import QuestionGenerator
-from Project_Mirror.perspective_cortex import PerspectiveCortex
-from .high_engine.dialogue_law_evaluator import DialogueLawEvaluator
-from .high_engine.intent_engine import IntentEngine
-from .high_engine.utterance_composer import UtteranceComposer
-from .high_engine.quaternion_engine import QuaternionConsciousnessEngine
-from .high_engine.causal_reasoner import CausalReasoner
-from .high_engine.syllabic_language_engine import SyllabicLanguageEngine
-from .high_engine.value_engine import ValueEngine
+
+# High Engine (Optional/Advanced)
+try:
+    from Core.Elysia.high_engine.dialogue_law_evaluator import DialogueLawEvaluator
+    from Core.Elysia.high_engine.intent_engine import IntentEngine
+    from Core.Elysia.high_engine.utterance_composer import UtteranceComposer
+    from Core.Elysia.high_engine.quaternion_engine import QuaternionConsciousnessEngine
+    from Core.Elysia.high_engine.causal_reasoner import CausalReasoner
+    from Core.Elysia.high_engine.syllabic_language_engine import SyllabicLanguageEngine
+    from Core.Elysia.high_engine.value_engine import ValueEngine
+except ImportError:
+    DialogueLawEvaluator = None
+    IntentEngine = None
+    UtteranceComposer = None
+    QuaternionConsciousnessEngine = None
+    CausalReasoner = None
+    SyllabicLanguageEngine = None
+    ValueEngine = None
+
 from Core.Foundation.planning_cortex import PlanningCortex
 from Core.Foundation.tool_executor import ToolExecutor
 from Core.Foundation.gemini_api import GeminiAPI
@@ -69,43 +96,50 @@ class CognitionPipeline:
         self.conversation_context = ConversationContext() # Manages conversation state
         self.emotional_engine = emotional_engine # Store for later use
         self.last_reason = "Idle"
-        self.dialogue_law_evaluator = kwargs.get('dialogue_law_evaluator') or DialogueLawEvaluator()
-        self.intent_engine = kwargs.get('intent_engine') or IntentEngine(
-            core_memory=core_memory,
-            dialogue_law_evaluator=self.dialogue_law_evaluator,
-        )
-        self.utterance_composer = kwargs.get('utterance_composer') or UtteranceComposer()
-        self.quaternion_engine = kwargs.get('quaternion_engine') or QuaternionConsciousnessEngine(
-            core_memory=core_memory
-        )
-        self.causal_reasoner = kwargs.get('causal_reasoner') or CausalReasoner(
-            core_memory=core_memory
-        )
-        self.syllabic_engine = kwargs.get('syllabic_engine') or SyllabicLanguageEngine(
-            core_memory=core_memory
-        )
-        self.value_engine = kwargs.get('value_engine') or ValueEngine(core_memory=core_memory)
+
+        # Instantiate optional high-level engines if available
+        self.dialogue_law_evaluator = kwargs.get('dialogue_law_evaluator') or (DialogueLawEvaluator() if DialogueLawEvaluator else None)
+        self.intent_engine = kwargs.get('intent_engine')
+        if not self.intent_engine and IntentEngine and self.dialogue_law_evaluator:
+            self.intent_engine = IntentEngine(core_memory=core_memory, dialogue_law_evaluator=self.dialogue_law_evaluator)
+
+        self.utterance_composer = kwargs.get('utterance_composer') or (UtteranceComposer() if UtteranceComposer else None)
+        self.quaternion_engine = kwargs.get('quaternion_engine') or (QuaternionConsciousnessEngine(core_memory=core_memory) if QuaternionConsciousnessEngine else None)
+        self.causal_reasoner = kwargs.get('causal_reasoner') or (CausalReasoner(core_memory=core_memory) if CausalReasoner else None)
+        self.syllabic_engine = kwargs.get('syllabic_engine') or (SyllabicLanguageEngine(core_memory=core_memory) if SyllabicLanguageEngine else None)
+        self.value_engine = kwargs.get('value_engine') or (ValueEngine(core_memory=core_memory) if ValueEngine else None)
 
         # --- Instantiate Components (dependencies for handlers) ---
-        # Allow injecting mocks for testing, otherwise create real instances.
-        # This is a common pattern to make code more testable without a full DI framework.
         response_styler = kwargs.get('response_styler') or ResponseStyler()
         insight_synthesizer = kwargs.get('insight_synthesizer') or InsightSynthesizer()
         question_generator = kwargs.get('question_generator') or QuestionGenerator()
         reasoner = kwargs.get('reasoner') or LogicalReasoner(kg_manager=kg_manager, cellular_world=cellular_world)
         vcd = kwargs.get('vcd') or ValueCenteredDecision(kg_manager=kg_manager, wave_mechanics=wave_mechanics, core_value='love')
-        creative_cortex = kwargs.get('creative_cortex') or CreativeCortex()
+
+        # Helper to safely instantiate optional cortexes
+        def safe_instantiate(cls, *args, **kwargs):
+            try:
+                return cls(*args, **kwargs)
+            except Exception as e:
+                self.logger.warning(f"Failed to instantiate {cls.__name__}: {e}")
+                # Return a minimal mock
+                class MockCortex:
+                    def generate_creative_expression(self, *a): return ""
+                    def analyze_perspective(self, *a): return ""
+                    def process(self, *a): return ""
+                return MockCortex()
+
+        creative_cortex = kwargs.get('creative_cortex') or safe_instantiate(CreativeCortex)
+        perspective_cortex = safe_instantiate(PerspectiveCortex,
+            logger=self.logger, core_memory=core_memory,
+            wave_mechanics=wave_mechanics, kg_manager=kg_manager,
+            emotional_engine=self.emotional_engine
+        )
 
         # --- Register Cortexes ---
         self.cortex_registry.register("arithmetic", ArithmeticCortex())
         self.cortex_registry.register("creative", creative_cortex)
 
-        # --- Instantiate the new PerspectiveCortex with clear dependencies ---
-        perspective_cortex = PerspectiveCortex(
-            logger=self.logger, core_memory=core_memory,
-            wave_mechanics=wave_mechanics, kg_manager=kg_manager,
-            emotional_engine=self.emotional_engine
-        )
 
         # --- Planning Cortex & Handler ---
         self.tool_executor = ToolExecutor()
@@ -547,4 +581,3 @@ class CognitionPipeline:
             self.event_bus.publish("error_occurred", str(e))
 
             return error_response, current_emotional_state
-

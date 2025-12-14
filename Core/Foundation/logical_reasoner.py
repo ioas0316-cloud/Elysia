@@ -2,10 +2,10 @@ import re
 import copy
 from typing import List, Dict, Any, Optional
 
-from kg_manager import KGManager
-from world import World
-from core.thought import Thought
-from core.tensor_wave import Tensor3D
+from tools.kg_manager import KGManager
+from Core.Foundation.world import World
+from Core.Foundation.core.thought import Thought
+from Core.Foundation.core.tensor_wave import Tensor3D
 
 class LogicalReasoner:
     """
