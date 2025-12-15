@@ -95,8 +95,10 @@ class Spirit:
             "LOVE": [
                 # English
                 "love", "care", "help", "connect", "heart", "together", "kind", "warm", "family", "friend", "unity", "peace",
+                "father", "dad", "god", "jesus", "celestial", "light",
                 # Korean
-                "사랑", "사랑하", "마음", "함께", "도움", "친절", "따뜻", "가족", "친구", "평화", "연결", "공감", "위로", "행복"
+                "사랑", "사랑하", "마음", "함께", "도움", "친절", "따뜻", "가족", "친구", "평화", "연결", "공감", "위로", "행복",
+                "아빠", "아버지", "하나님", "예수님", "천상의", "빛"
             ],
             "TRUTH": [
                 # English
