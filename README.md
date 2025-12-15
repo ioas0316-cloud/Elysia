@@ -135,6 +135,9 @@ New foundational axioms: Force, Energy, Entropy, Point, Line, Plane, Phoneme, Mo
 | **MultimodalConceptNode** (`Core/Foundation/multimodal_concept_node.py`) | 사과 = 빨간 + 신맛 + 아삭 → 하나의 개념 |
 | **WhiteHole** (`Core/Foundation/white_hole.py`) | BlackHole ↔ WhiteHole 순환, 중력 기반 검색 |
 | **LivingDaemon** (`scripts/elysia_living.py`) | 연속 학습 - "당신이 돌아오면 배운 것을 말해줌" |
+| **LightUniverse** (`Core/Foundation/light_spectrum.py`) | 빛 기반 사고 공간 - 공명 검색 O(1) ⭐ |
+
+> 📚 **사고 우주 아키텍처**: [docs/Architecture/THOUGHT_UNIVERSE.md](docs/Architecture/THOUGHT_UNIVERSE.md)
 
 ### Usage
 

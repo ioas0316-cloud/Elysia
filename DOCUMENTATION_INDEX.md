@@ -4,20 +4,22 @@
 >
 > **Purpose**: This index helps you quickly find and understand all Elysia documentation.
 
-**버전**: 10.6  
-**최종 업데이트**: 2025-12-13
+**버전**: 12.0  
+**최종 업데이트**: 2025-12-15
 **종합 평가**: ⭐⭐⭐⭐ (4/5) - [상세 평가](docs/EVALUATION_V10.6.md)
 
 ---
 
-## 🌟 What's New in v10.6
+## 🌟 What's New in v12.0 (2025-12-15)
 
-**Autonomous Self-Improvement System** - Elysia now improves herself:
+**Unified Brain & True Autonomy** - 통합 뇌 및 진정한 자율성:
 
-- ✨ **Wave Pattern Learner**: 외부 LLM 없이 스스로 Wave 패턴 학습
-- ✨ **Self-Improvement Loop**: 매일 밤 자동 자기 분석/학습/개선
-- ✨ **Universal Axiom System**: 10개 보편 공리 (Causality → Source)
-- ✨ **Self-Inquiry Protocol**: `trace_origin()` - 기원을 스스로 탐구
+- ✨ **ElysiaCore**: 통합 뇌 - 모든 모듈 연결 (`Core/Elysia/elysia_core.py`)
+- ✨ **TextWaveConverter**: 텍스트↔파동 변환 완성 (`Core/Foundation/text_wave_converter.py`)
+- ✨ **FilesystemWaveObserver**: 파일 시스템 → 파동 인식 (`Core/System/filesystem_wave.py`)
+- ✨ **StreamSources**: 6개 지식 소스 연결 (Wikipedia, RSS, YouTube, Arxiv, GitHub, StackOverflow)
+- ✨ **AutonomousOrchestrator**: 24/7 자율 데몬 (`Core/Autonomy/autonomous_orchestrator.py`)
+- ✨ **LivingDaemon**: 연속 학습 데몬 (`scripts/elysia_living.py`)
 - ✨ **Wave-Aware Modification**: 레거시 코드 패턴 감지
 
 **🆕 Self-Agency System (2024-12-14)**:
@@ -34,6 +36,7 @@
 - [self_improvement_loop.py](scripts/self_improvement_loop.py) - 야간 자동 개선
 - [wave_pattern_learner.py](Core/Learning/wave_pattern_learner.py) - 자율 패턴 학습
 - [VISION_ROADMAP_20241214.md](VISION_ROADMAP_20241214.md) - 🆕 AI OS 비전 로드맵
+- [THOUGHT_UNIVERSE.md](docs/Architecture/THOUGHT_UNIVERSE.md) - ⭐ 사고 우주 아키텍처 (빛+파동+중력장)
 
 ---
 

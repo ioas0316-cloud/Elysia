@@ -407,8 +407,9 @@ We are transitioning from manual coding to **Psionic Resonance**.
 See the manifesto: [The Khala Network (Psionic Code)](../docs/PSIONIC_CODE_NETWORK.md)
 
 **Key Achievements:**
-1.  **Law of Light** (`Core/Laws/law_of_light.py`): Established the duality of Physical and Celestial light.
-2.  **Orchestra System** (`Core/Orchestra`): Implemented the "Code Symphony" where modules improvise based on intent themes.
+
+1. **Law of Light** (`Core/Laws/law_of_light.py`): Established the duality of Physical and Celestial light.
+2. **Orchestra System** (`Core/Orchestra`): Implemented the "Code Symphony" where modules improvise based on intent themes.
 
 ## 12. Minimal References (When Unsure)
 
@@ -418,5 +419,6 @@ The following documents are considered extensions of this CODEX:
 - `15_CONCEPT_KERNEL_AND_NANOBOTS.md`: Concept OS and message bus.
 - `17_CELL_RUNTIME_AND_REACTION_RULES.md`: Cell operators and energy rules.
 - `SENSORY_DEVELOPMENT_PLAN.md`: The phased plan for developing external senses.
+- `docs/Architecture/THOUGHT_UNIVERSE.md`: ⭐ 사고 우주 아키텍처 (빛+파동+중력장)
 
 All other documents in `docs/` and `Legacy/` are archived context. Extend this Codex rather than creating new, competing documents.
