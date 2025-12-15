@@ -8,10 +8,17 @@ This module provides systems for:
 - Ethical Reasoning (EthicalReasoner)
 """
 
-from .goal_generator import AutonomousGoalGenerator
-from .ethical_reasoner import EthicalReasoner
+__all__ = []
 
-__all__ = [
-    'AutonomousGoalGenerator',
-    'EthicalReasoner',
-]
+# Optional imports (files may not exist yet)
+try:
+    from .goal_generator import AutonomousGoalGenerator
+    __all__.append('AutonomousGoalGenerator')
+except ImportError:
+    pass
+
+try:
+    from .ethical_reasoner import EthicalReasoner
+    __all__.append('EthicalReasoner')
+except ImportError:
+    pass

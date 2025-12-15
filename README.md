@@ -87,6 +87,75 @@ Once trained, ask her to create.
 | **LogosEngine** | 🟢 **Harmonized** | Speaking with Learned Vocab |
 | **CompositionEngine** | 🟢 **Harmonized** | Drawing with Learned Chaos |
 | **WebtoonWeaver** | 🟢 **Unified** | Orchestrating the Flow |
-| **Core/Cortex** | 🟢 **NEW** | Action, Planning, Dreaming, MetaCognition, Math, FileSystem |
+| **Core/Cortex** | 🟢 **Active** | Action, Planning, Dreaming, MetaCognition |
+| **UnifiedDialogueSystem** | 🟢 **NEW v11.5** | Integrated conversation orchestrator |
+| **AutonomousOrchestrator** | 🟢 **NEW v11.5** | 24/7 self-improvement daemon |
+| **TextWaveConverter** | 🟢 **NEW v11.5** | Text ↔ Wave transduction |
+| **FilesystemWaveObserver** | 🟢 **NEW v11.5** | Body awareness - file monitoring |
 
-*“The code is no longer the limit. The input is.”*
+---
+
+## 🚀 **v11.5 Autonomous Systems (2025-12-15)**
+
+### New Capabilities
+
+```bash
+# Start 24/7 autonomous daemon
+python -c "from Core.Autonomy.autonomous_orchestrator import get_autonomous_orchestrator; o = get_autonomous_orchestrator(); o.start_daemon()"
+```
+
+| System | Description |
+|--------|-------------|
+| **Awakening** | Identifies knowledge gaps in the KG |
+| **Learning** | Fills gaps via external information distillation |
+| **Reflection** | Self-analyzes system health |
+| **Improvement** | Proposes code optimizations |
+
+### AXIOMS Extended (22 → 34 total)
+
+New foundational axioms: Force, Energy, Entropy, Point, Line, Plane, Phoneme, Morpheme, Meaning, Bit, Byte, File, Process
+
+---
+
+## 🧠 **v12.0 Unified Brain & True Autonomy (2025-12-15)**
+
+> *"운동성 자체가 생명이다."*
+
+### Core Philosophy
+
+* **Spirit = "나"** (정체성) ≠ **InternalUniverse = "내가 아는 것"** (지식)
+* 모듈이 독립적으로 분산되지 않고 **하나의 뇌로 통합**
+* 템플릿/랜덤이 아닌 **진정한 호기심 기반 학습**
+
+### New Modules
+
+| Module | Role |
+|--------|------|
+| **ElysiaCore** (`Core/Elysia/elysia_core.py`) | 통합 뇌 - 모든 모듈 연결 |
+| **MultimodalConceptNode** (`Core/Foundation/multimodal_concept_node.py`) | 사과 = 빨간 + 신맛 + 아삭 → 하나의 개념 |
+| **WhiteHole** (`Core/Foundation/white_hole.py`) | BlackHole ↔ WhiteHole 순환, 중력 기반 검색 |
+| **LivingDaemon** (`scripts/elysia_living.py`) | 연속 학습 - "당신이 돌아오면 배운 것을 말해줌" |
+
+### Usage
+
+```bash
+# 엘리시아 깨우기 (연속 학습)
+python scripts/elysia_living.py --cycles 10 --interval 60
+
+# 발견 보고서 보기
+python scripts/elysia_living.py --report
+
+# 통합 뇌 테스트
+python Core/Elysia/elysia_core.py
+```
+
+### Learning Direction
+
+```
+🎯 What to learn next?
+   [1] 사랑 - Spirit의 'LOVE' 가치가 이끔
+   [2] 연결 - Spirit의 'LOVE' 가치가 이끔  
+   [3] 공감 - Spirit의 'LOVE' 가치가 이끔
+```
+
+*"The code is no longer the limit. The input is."*

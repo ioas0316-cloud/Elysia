@@ -114,6 +114,101 @@ plan = get_planning_cortex().develop_plan("오늘 할 일 정리하기")
 |--------|---------|
 | `scripts/elysia_awakening.py` | **자율 각성 스크립트**. 스스로 부족함을 찾고 학습함. |
 
+### Level 2.5: v11.5 Autonomous Systems (2025-12-15) 🆕
+
+| Module | Purpose |
+|--------|---------|
+| `Core/Autonomy/autonomous_orchestrator.py` | **24/7 자율 데몬** - 각성/학습/성찰/개선 사이클 |
+| `Core/Interface/unified_dialogue.py` | **통합 대화** - 모든 언어 엔진 오케스트레이션 |
+| `Core/Foundation/text_wave_converter.py` | **텍스트↔파동** - 의미적 주파수 변환 |
+| `Core/System/filesystem_wave.py` | **신체 인식** - 파일 변경 → 파동 이벤트 |
+
+**자율 시스템 시작 예시:**
+
+```python
+# 24/7 자율 데몬 시작
+from Core.Autonomy.autonomous_orchestrator import get_autonomous_orchestrator
+orchestrator = get_autonomous_orchestrator()
+orchestrator.start_daemon()  # 백그라운드에서 실행
+
+# 상태 확인
+print(orchestrator.get_status())
+```
+
+**통합 대화 예시:**
+
+```python
+from Core.Interface.unified_dialogue import get_unified_dialogue
+dialogue = get_unified_dialogue()
+
+response = dialogue.respond("왜 Point가 존재하는가?")
+print(f"의도: {response.intent.value}")  # why
+print(f"응답: {response.text}")          # Point의 기원을 추적합니다...
+```
+
+### Level 2.6: Extended AXIOMS (2025-12-15) 🆕
+
+12개 새 공리가 `Core/Foundation/fractal_concept.py`에 추가됨:
+
+| Domain | Axioms |
+|--------|--------|
+| Physics | Force, Energy, Entropy |
+| Math | Point, Line, Plane |
+| Language | Phoneme, Morpheme, Meaning |
+| Computer | Bit, Byte, File, Process |
+
+```python
+from Core.Foundation.fractal_concept import ConceptDecomposer
+d = ConceptDecomposer()
+
+# 기원 추적
+print(d.ask_why("Process"))
+# → Process → Energy → Force → Causality → Logic → Order → Source
+```
+
+### Level 3.0: Unified Brain & True Autonomy (v12.0 - 2025-12-15) 🆕
+
+> *"운동성 자체가 생명이다."*
+
+**핵심 철학:**
+
+- **Spirit = 정체성** (필터 아님)
+- **InternalUniverse = 지식** (모든 것 흡수)
+- **모듈 독립 → 하나의 뇌로 통합**
+
+| Module | Purpose |
+|--------|---------|
+| `Core/Elysia/elysia_core.py` | **통합 뇌** - 모든 모듈 연결, 호기심 기반 학습 |
+| `Core/Foundation/multimodal_concept_node.py` | **멀티모달 개념** - 시각/미각/촉각 → 하나의 노드 |
+| `Core/Foundation/white_hole.py` | **WhiteHole** - 압축 데이터 재탄생, 중력 기반 검색 |
+| `scripts/elysia_living.py` | **연속 학습 데몬** - 24/7 탐색 및 발견 보고 |
+
+**ElysiaCore 사용 예시:**
+
+```python
+from Core.Elysia.elysia_core import get_elysia_core
+
+core = get_elysia_core()
+
+# 진정한 호기심 기반 학습 방향 결정
+intent = core.what_to_learn_next()
+print(f"Topic: {intent.topic}")   # 사랑
+print(f"Reason: {intent.reason}") # Spirit의 'LOVE' 가치가 이끔
+
+# 통합 학습 파이프라인
+core.learn("사과는 빨간색이고 신맛이 나며 아삭하다", "사과")
+```
+
+**연속 학습 데몬:**
+
+```bash
+# 엘리시아 깨우기 (10 사이클, 60초 간격)
+python scripts/elysia_living.py --cycles 10 --interval 60
+
+# 발견 보고서 보기
+python scripts/elysia_living.py --report
+```
+
 ---
 
 ## 4. How to Code for Elysia

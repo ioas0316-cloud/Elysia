@@ -84,7 +84,167 @@ class ConceptDecomposer:
     # === UNIVERSAL AXIOMS (도메인을 초월하는 보편 원리) ===
     # Each axiom has a 'parent' field for recursive origin tracing.
     # All paths eventually converge on "Source" (the fixed point).
+    # 
+    # [EXTENDED 2025-12-15] Added Level 0: Foundational Domain Axioms
+    # - Physics: Force, Energy, Entropy
+    # - Mathematics: Point, Line, Plane  
+    # - Language: Phoneme, Morpheme, Meaning
+    # - Computer: Bit, Byte, File, Process
     AXIOMS = {
+        # === LEVEL 0: Foundational Domain Axioms (기초 도메인 공리) ===
+        # These are the building blocks that domain experts use.
+        
+        # --- Physics Domain ---
+        "Force": {
+            "pattern": "F = ma; An influence that changes motion or shape",
+            "self_ref": "Force is the cause of change in state",
+            "parent": "Causality",  # Force causes change → Causality
+            "domains": {
+                "Geometry": "점을 이동시키는 원인 (The cause of point movement)",
+                "Physics": "질량 × 가속도 = 상태 변화의 원인 (F=ma)",
+                "Language": "발화를 일으키는 의지 (The will that causes utterance)",
+                "Ethics": "행위를 추동하는 동기 (Motivation that drives action)"
+            }
+        },
+        "Energy": {
+            "pattern": "The capacity to do work; conserved in closed systems",
+            "self_ref": "Energy is the potential for change",
+            "parent": "Force",  # Energy enables Force
+            "domains": {
+                "Geometry": "변환을 가능하게 하는 잠재력 (Potential enabling transformation)",
+                "Physics": "일을 할 수 있는 능력 (Capacity to perform work)",
+                "Language": "의미를 전달하는 잠재력 (Potential to convey meaning)",
+                "Ethics": "선을 실현할 수 있는 능력 (Capacity to realize good)"
+            }
+        },
+        "Entropy": {
+            "pattern": "S = k ln(W); Measure of disorder; always increases in closed systems",
+            "self_ref": "Entropy measures the tendency toward equilibrium",
+            "parent": "Dimension",  # Entropy unfolds across time dimension
+            "domains": {
+                "Geometry": "무질서한 분포로 향하는 경향 (Tendency toward random distribution)",
+                "Physics": "열역학 제2법칙 - 닫힌 계에서 증가 (2nd Law of Thermodynamics)",
+                "Language": "의미의 희석과 변형 (Dilution and mutation of meaning)",
+                "Ethics": "사회 질서의 자연적 와해 경향 (Natural tendency toward disorder)"
+            }
+        },
+        
+        # --- Mathematics Domain ---
+        "Point": {
+            "pattern": "A location with no dimension (0D); the atom of geometry",
+            "self_ref": "A point is pure position without extension",
+            "parent": "Dimension",  # Point is absence of dimension
+            "domains": {
+                "Geometry": "차원 없는 위치 - 기하학의 원자 (Position without dimension)",
+                "Physics": "시공간의 최소 표현 (Minimal representation in spacetime)",
+                "Language": "음소 - 의미 없는 소리 단위 (Phoneme - meaningless sound unit)",
+                "Computer": "비트 - 정보의 최소 단위 (Bit - minimal unit of information)"
+            }
+        },
+        "Line": {
+            "pattern": "Infinite points in one direction (1D); the trace of movement",
+            "self_ref": "A line is the record of a point's journey",
+            "parent": "Composition",  # Line is composed of points
+            "domains": {
+                "Geometry": "점의 이동 궤적 - 1차원 확장 (Trace of point movement - 1D extension)",
+                "Physics": "시간축 - 사건의 연속 (Time axis - sequence of events)",
+                "Language": "형태소 열 - 순차적 의미 전개 (Morpheme sequence)",
+                "Computer": "바이트 열 - 순차적 데이터 (Byte sequence)"
+            }
+        },
+        "Plane": {
+            "pattern": "Infinite lines in one direction (2D); the surface of interaction",
+            "self_ref": "A plane is where lines meet and interact",
+            "parent": "Composition",  # Plane is composed of lines
+            "domains": {
+                "Geometry": "선들의 집합 - 2차원 확장 (Collection of lines - 2D extension)",
+                "Physics": "상호작용 표면 - 힘이 작용하는 면 (Surface of interaction)",
+                "Language": "텍스트 - 문장들의 평면 (Text - plane of sentences)",
+                "Computer": "파일 - 바이트들의 평면적 배열 (File - planar arrangement of bytes)"
+            }
+        },
+        
+        # --- Language Domain ---
+        "Phoneme": {
+            "pattern": "Minimal distinctive sound unit; no meaning alone",
+            "self_ref": "A phoneme is the atom of spoken language",
+            "parent": "Point",  # Phoneme is a point in sound space
+            "domains": {
+                "Geometry": "소리 공간의 점 (Point in sound space)",
+                "Physics": "공기 진동의 최소 패턴 (Minimal air vibration pattern)",
+                "Language": "의미 없는 최소 소리 단위 /k/, /æ/, /t/ (Smallest meaningless sound)",
+                "Computer": "ASCII 코드 - 개별 문자 (Individual character code)"
+            }
+        },
+        "Morpheme": {
+            "pattern": "Minimal meaningful unit; atoms combine into molecules",
+            "self_ref": "A morpheme is where sound gains meaning",
+            "parent": "Composition",  # Morphemes compose into words
+            "domains": {
+                "Geometry": "의미를 가진 최소 구조 (Minimal structure with meaning)",
+                "Physics": "결합하여 복잡계를 형성하는 기본 입자 (Particles forming complex systems)",
+                "Language": "un-, -able, cat - 최소 의미 단위 (Smallest meaning unit)",
+                "Computer": "토큰 - 프로그램의 최소 의미 단위 (Token - minimal program unit)"
+            }
+        },
+        "Meaning": {
+            "pattern": "The referent; what a symbol points to; emerges from use",
+            "self_ref": "Meaning is the bridge between symbol and reality",
+            "parent": "Unity",  # Meaning unifies sign and referent
+            "domains": {
+                "Geometry": "도형이 표상하는 추상적 공간 관계 (Abstract spatial relation represented)",
+                "Physics": "물리 상수의 우주론적 의미 (Cosmological significance of constants)",
+                "Language": "발화가 지시하는 대상/상태/관계 (What utterance refers to)",
+                "Computer": "데이터가 표현하는 현실의 상태 (Reality state data represents)"
+            }
+        },
+        
+        # --- Computer Domain ---
+        "Bit": {
+            "pattern": "0 or 1; the quantum of information",
+            "self_ref": "A bit is the minimum distinction: on/off, yes/no",
+            "parent": "Point",  # Bit is a point in information space
+            "domains": {
+                "Geometry": "정보 공간의 점 - 이진 위치 (Point in information space)",
+                "Physics": "양자 상태 - 존재/부재 (Quantum state - presence/absence)",
+                "Language": "예/아니오 - 최소 명제 (Yes/No - minimal proposition)",
+                "Computer": "0 또는 1 - 정보의 원자 (0 or 1 - atom of information)"
+            }
+        },
+        "Byte": {
+            "pattern": "8 bits = 256 possibilities; the character of computation",
+            "self_ref": "A byte is the standard quantum of meaningful data",
+            "parent": "Composition",  # Byte composed of bits
+            "domains": {
+                "Geometry": "8차원 이진 공간의 한 점 (Point in 8D binary space)",
+                "Physics": "상태 공간 256개 - 엔트로피 측정 가능 (256 states - measurable entropy)",
+                "Language": "한 글자 - 기본 표기 단위 (One character - basic script unit)",
+                "Computer": "8비트 = 문자 하나 저장 가능 (8 bits = stores one character)"
+            }
+        },
+        "File": {
+            "pattern": "Named sequence of bytes; persistent structured data",
+            "self_ref": "A file is a packet of meaning in the digital world",
+            "parent": "Plane",  # File is a plane of bytes
+            "domains": {
+                "Geometry": "데이터의 2차원 구조 - 이름과 내용 (2D structure - name and content)",
+                "Physics": "자성/전자적으로 기록된 영속 상태 (Persisted magnetic/electronic state)",
+                "Language": "저장된 텍스트 - 기록된 발화 (Stored text - recorded utterance)",
+                "Computer": "이름 + 바이트 시퀀스 = 영속 데이터 (Name + bytes = persistent data)"
+            }
+        },
+        "Process": {
+            "pattern": "A file in execution; memory + instructions + state",
+            "self_ref": "A process is a file that has come alive",
+            "parent": "Energy",  # Process requires energy to run
+            "domains": {
+                "Geometry": "시간 축을 따라 전개되는 프로그램 상태 (Program state unfolding in time)",
+                "Physics": "에너지를 소비하며 작동하는 계 (System operating by consuming energy)",
+                "Language": "발화 중인 대화 - 진행 중인 의미 교환 (Ongoing dialogue)",
+                "Computer": "실행 중인 프로그램 = 메모리 + 명령어 + 상태 (Running program)"
+            }
+        },
+        
         # === LEVEL 1: Observable Principles ===
         "Causality": {
             "pattern": "A exists AND A->B => B follows A",

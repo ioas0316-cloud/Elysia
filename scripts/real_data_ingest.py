@@ -46,6 +46,7 @@ class RealDataIngester:
         self.learned_count = 0
         self.concepts_extracted = 0
         self.connections_made = 0
+        self.wave_patterns_created = 0  # NEW: wave pattern counter
         
         # === 기존 시스템 연결 ===
         
@@ -76,19 +77,45 @@ class RealDataIngester:
             logger.error(f"LanguageLearner not available: {e}")
             self.learner = None
         
+        # 4. TextWaveConverter - 파동 변환 (NEW: LLM 독립 핵심)
+        try:
+            from Core.Foundation.text_wave_converter import get_text_wave_converter
+            self.text_wave = get_text_wave_converter()
+            logger.info("✅ TextWaveConverter connected (Wave-based learning)")
+        except Exception as e:
+            logger.warning(f"TextWaveConverter not available: {e}")
+            self.text_wave = None
+        
+        # 5. GlobalHub - 중앙 신경계 연결 (NEW)
+        self._hub = None
+        try:
+            from Core.Ether.global_hub import get_global_hub
+            self._hub = get_global_hub()
+            self._hub.register_module(
+                "RealDataIngester",
+                "scripts/real_data_ingest.py",
+                ["data", "ingest", "learning", "wave", "knowledge"],
+                "Real data ingestion with wave-based learning - NO EXTERNAL LLM"
+            )
+            logger.info("✅ GlobalHub connected (Wave broadcast enabled)")
+        except Exception as e:
+            logger.warning(f"GlobalHub not available: {e}")
+        
         # 통합 상태
         systems = sum([self.extractor is not None, 
                        self.digester is not None, 
-                       self.learner is not None])
-        logger.info(f"🔗 Integrated Systems: {systems}/3")
+                       self.learner is not None,
+                       self.text_wave is not None,
+                       self._hub is not None])
+        logger.info(f"🔗 Integrated Systems: {systems}/5")
     
     def process_text(self, text: str, category: str = "General") -> Dict[str, int]:
         """
-        텍스트를 전체 파이프라인으로 처리
+        텍스트를 전체 파이프라인으로 처리 (LLM 독립)
         
-        Returns: {"concepts": N, "connections": N, "patterns": N}
+        Returns: {"concepts": N, "connections": N, "patterns": N, "waves": N}
         """
-        result = {"concepts": 0, "connections": 0, "patterns": 0}
+        result = {"concepts": 0, "connections": 0, "patterns": 0, "waves": 0}
         
         # 1. 개념 추출
         if self.extractor:
@@ -110,6 +137,43 @@ class RealDataIngester:
         if self.learner:
             self.learner.learn_from_text(text, category)
             result["patterns"] = 1  # 최소 1개 패턴
+        
+        # 4. 파동 변환 (LLM 독립 핵심)
+        if self.text_wave:
+            try:
+                sentence_wave = self.text_wave.sentence_to_wave(text)
+                wave_desc = self.text_wave.wave_to_text_descriptor(sentence_wave)
+                
+                # 파동 특성 저장
+                result["waves"] = 1
+                self.wave_patterns_created += 1
+                
+                # 상세 로그 (숨기지 않음)
+                freq = wave_desc.get("dominant_frequency", 0)
+                meaning = wave_desc.get("dominant_meaning", "unknown")
+                energy = wave_desc.get("energy_level", "unknown")
+                logger.info(f"   🌊 Wave: {freq:.0f}Hz | {meaning} | {energy}")
+                
+                # GlobalHub에 브로드캐스트 (올바른 WaveTensor 사용)
+                if self._hub:
+                    from Core.Foundation.Math.wave_tensor import WaveTensor
+                    wave = WaveTensor(f"Learning_{category}")
+                    wave.add_component(freq, amplitude=1.0, phase=0.0)
+                    self._hub.publish_wave(
+                        "RealDataIngester",
+                        "learned",
+                        wave,
+                        payload={
+                            "text": text[:100],
+                            "category": category,
+                            "dominant_meaning": meaning,
+                            "frequency": freq
+                        }
+                    )
+                    
+            except Exception as e:
+                logger.error(f"   ❌ Wave failed: {e}")
+                result["waves"] = 0
         
         return result
     
