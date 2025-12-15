@@ -1,8 +1,12 @@
 """
-Core Orchestra Module
-====================
+Core/Orchestra
+==============
+"The Code Symphony."
 
-Implements the symphony architecture where system components work in harmony.
+This package implements the Orchestral System where:
+- Modules are Instruments.
+- The Agent/Will is the Conductor.
+- Processing is a Symphony of resonating waves.
+
+It replaces rigid pipelines with fluid, musical interaction.
 """
-
-__all__ = ['conductor', 'harmony']
