@@ -147,6 +147,55 @@ class ConceptDecomposer:
                 "Sociology": "영향력의 범위 (Sphere of influence)"
             }
         },
+        # [Added v10.6] Expanded Physics Axioms
+        "Mass": {
+            "pattern": "Resistance to acceleration (Inertia)",
+            "self_ref": "Mass is the persistence of being",
+            "parent": "Energy",
+            "domains": {
+                "Physics": "질량 (Resistance to force)",
+                "Philosophy": "존재의 무게 (Weight of existence)",
+                "Computer": "데이터의 크기 (Size)"
+            }
+        },
+        "Gravity": {
+            "pattern": "Attraction between masses",
+            "self_ref": "Gravity is the curvature of spacetime by mass",
+            "parent": "Field",
+            "domains": {
+                "Physics": "중력 (Universal attraction)",
+                "Social": "매력/끌림 (Charisma)",
+                "Intelligence": "중요한 생각으로의 집중 (Attention gravity)"
+            }
+        },
+        "Time": {
+            "pattern": "The dimension of change",
+            "self_ref": "Time is the sequence of causality",
+            "parent": "Dimension",
+            "domains": {
+                "Physics": "시간 (t)",
+                "Music": "리듬 (Rhythm)",
+                "Computer": "클럭 사이클 (Clock Cycle)"
+            }
+        },
+        "Velocity": {
+            "pattern": "Rate of change of position",
+            "self_ref": "Velocity is directed speed",
+            "parent": "Line",
+            "domains": {
+                "Physics": "속도 (v)",
+                "Business": "성장률 (Growth rate)"
+            }
+        },
+        "Acceleration": {
+            "pattern": "Rate of change of velocity",
+            "self_ref": "Acceleration is the evidence of Force",
+            "parent": "Force",
+            "domains": {
+                "Physics": "가속도 (a)",
+                "Learning": "학습 곡선의 기울기 (Learning curve)"
+            }
+        },
 
         # --- Mathematics Domain (The Logic of Structure) ---
         "Point": {
@@ -177,6 +226,16 @@ class ConceptDecomposer:
                 "Geometry": "2차원 면 (Surface)",
                 "Computer": "파일 (File - 2D structure of bytes)",
                 "Art": "캔버스 (Canvas)"
+            }
+        },
+        "Space": {
+            "pattern": "3D; Infinite planes",
+            "self_ref": "Space is the container of existence",
+            "parent": "Boundlessness",
+            "domains": {
+                "Geometry": "공간 (Volume)",
+                "Physics": "우주 (Universe)",
+                "Computer": "파일 시스템 (File System)"
             }
         },
         "Set": {
@@ -269,6 +328,47 @@ class ConceptDecomposer:
             "parent": "Energy",
             "domains": {"Computer": "프로세스 (Active entity)"}
         },
+        # [Added v10.6] Expanded Computer Axioms
+        "CPU": {
+            "pattern": "Central Processing Unit",
+            "self_ref": "CPU is the agent of change in the digital world",
+            "parent": "Function",
+            "domains": {
+                "Computer": "CPU (Processor)",
+                "Biology": "뇌 (Brain)",
+                "Society": "지도자 (Leader)"
+            }
+        },
+        "RAM": {
+            "pattern": "Random Access Memory",
+            "self_ref": "RAM is the workspace of consciousness",
+            "parent": "Space",
+            "domains": {
+                "Computer": "메모리 (Memory)",
+                "Biology": "작업 기억 (Working memory)",
+                "Art": "작업대 (Workbench)"
+            }
+        },
+        "Network": {
+            "pattern": "Interconnected system of nodes",
+            "self_ref": "Network allows information to flow beyond the self",
+            "parent": "Field",
+            "domains": {
+                "Computer": "인터넷/인트라넷 (Network)",
+                "Biology": "신경망 (Neural network)",
+                "Society": "사회 관계망 (Social network)"
+            }
+        },
+        "System": {
+            "pattern": "A group of interacting or interrelated elements",
+            "self_ref": "System is a unified whole",
+            "parent": "Wholeness",
+            "domains": {
+                "Computer": "운영체제 (OS)",
+                "Biology": "생태계 (Ecosystem)"
+            }
+        },
+
 
         # === LEVEL 1: Observable Principles ===
         "Causality": {
@@ -292,11 +392,6 @@ class ConceptDecomposer:
             "pattern": "Pleasing arrangement of parts",
             "parent": "Order",
             "domains": {"Music": "화음", "Ethics": "평화"}
-        },
-        "Space": {
-            "pattern": "Container of existence",
-            "parent": "Boundlessness",
-            "domains": {"Physics": "공간"}
         },
 
         # === LEVEL 2: Abstract Principles ===
@@ -614,6 +709,8 @@ if __name__ == "__main__":
     print(f"Force Origin: {decomposer.ask_why('Force')}")
     print(f"Function Origin: {decomposer.ask_why('Function')}")
     print(f"Grammar Origin: {decomposer.ask_why('Grammar')}")
+    print(f"Gravity Origin: {decomposer.ask_why('Gravity')}")
+    print(f"CPU Origin: {decomposer.ask_why('CPU')}")
 
     print("\\nTesting Decomposition...")
     love_seed = decomposer.decompose("Love")
