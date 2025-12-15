@@ -1,37 +1,42 @@
-# Elysia Conversation Tests
+# Tests Directory Structure
 
-This directory contains all test scripts for Elysia's development.
+## Organization
 
-## Quick Tests
+```
+tests/
+├── unit/           # Fast, isolated tests (35 tests)
+├── integration/    # Module interaction tests (16 tests)
+├── e2e/            # Full system validation (10 tests)
+├── demos/          # Demo/proof-of-concept scripts (14 files)
+├── evaluation/     # Evaluation benchmarks
+├── Core/           # Core module tests (organized by module)
+└── fixtures/       # Shared test data
+```
 
-- `speak.py` - Minimal conversation test
-- `capture.py` - Clean output capture
-- `elysia_voice.py` - Comprehensive voice test
-- `korean_test.py` - Korean language test
-
-## Integration Tests
-
-- `test_conversation.py` - Full conversation pipeline
-- `test_fractal_integration.py` - Fractal causality integration
-- `test_elysia_integration.py` - System integration
-
-## Component Tests
-
-- `test_physics.py` - Physics engine
-- `test_world_tree.py` - WorldTree structure
-- `test_logos_stream.py` - Logos consciousness stream
-- `test_autonomy.py` - Autonomous behavior
-- `test_sophia.py` - Project Sophia planner
-
-## Usage
+## Running Tests
 
 ```bash
-# Quick voice test
-python tests/speak.py
+# All tests
+pytest tests/
 
-# Full conversation
-python tests/test_conversation.py
+# Unit tests only (fast)
+pytest tests/unit/
 
-# Korean support
-python tests/korean_test.py
+# Integration tests
+pytest tests/integration/
+
+# E2E tests (slow)
+pytest tests/e2e/
+
+# Specific module
+pytest tests/Core/Foundation/
 ```
+
+## Test Categories
+
+| Directory | Purpose | Speed |
+|-----------|---------|-------|
+| `unit/` | Single function/class tests | Fast |
+| `integration/` | Cross-module interaction | Medium |
+| `e2e/` | Full system + phase tests | Slow |
+| `demos/` | Not tests - demonstration scripts | N/A |

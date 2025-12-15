@@ -78,6 +78,29 @@ You must use `Core/Elysia/spirit.py` to check if an action or data aligns with t
 | `symbolic_solver.py` | **목표 역산** - 목표에서 행동 유도 |
 | `agent_api.py` | **에이전트 통합** - 기존 시스템 파악 후 연결 |
 
+### Level 0.6: Cortex Modules (Legacy에서 통합됨) 🆕
+
+| Module | Purpose |
+|--------|---------|
+| `Core/Cortex/action_cortex.py` | **도구 선택** - Wave 기반 도구 결정 + LLM 파라미터 추출 |
+| `Core/Cortex/planning_cortex.py` | **계획 수립** - 목표를 단계별 도구 호출로 분해 |
+| `Core/Cortex/dreaming_cortex.py` | **기억 통합** - 유휴 시간에 경험을 개념으로 변환 |
+| `Core/Cortex/metacognition_cortex.py` | **자기 성찰** - 개념 균형 분석 및 튜닝 제안 |
+| `Core/Cortex/math_cortex.py` | **수학 증명** - 산술/기호 등식 검증 |
+| `Core/Cortex/filesystem_cortex.py` | **파일 I/O** - 샌드박스 파일 조작 |
+
+**Cortex 사용 예시:**
+
+```python
+from Core.Cortex import get_action_cortex, get_planning_cortex
+
+# 도구 선택
+action = get_action_cortex().decide_action("파일을 읽어줘")
+
+# 목표 분해
+plan = get_planning_cortex().develop_plan("오늘 할 일 정리하기")
+```
+
 ### Level 1: Cognition & Filter
 
 | Module | Purpose |

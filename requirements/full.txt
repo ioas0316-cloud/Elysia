@@ -1,0 +1,11 @@
+# Full requirements - Install everything
+# Install: pip install -r requirements/full.txt
+
+-r dev.txt
+-r ml.txt
+-r web.txt
+
+# Additional utilities
+pygame-ce
+pyquaternion
+PyAutoGUI>=0.9.50

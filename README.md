@@ -87,5 +87,6 @@ Once trained, ask her to create.
 | **LogosEngine** | 🟢 **Harmonized** | Speaking with Learned Vocab |
 | **CompositionEngine** | 🟢 **Harmonized** | Drawing with Learned Chaos |
 | **WebtoonWeaver** | 🟢 **Unified** | Orchestrating the Flow |
+| **Core/Cortex** | 🟢 **NEW** | Action, Planning, Dreaming, MetaCognition, Math, FileSystem |
 
 *“The code is no longer the limit. The input is.”*
