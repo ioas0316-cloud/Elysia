@@ -120,10 +120,32 @@ class WaveTensor:
         for freq in self._spectrum:
             self._spectrum[freq] *= rotator
 
+    def normalize(self, target_energy: float = 1.0) -> 'WaveTensor':
+        """
+        Scales the tensor so that its total energy equals target_energy.
+        Returns self for chaining.
+        """
+        current_energy = self.total_energy
+        if current_energy == 0:
+            return self
+
+        scale_factor = math.sqrt(target_energy / current_energy)
+        for freq in self._spectrum:
+            self._spectrum[freq] *= scale_factor
+
+        return self
+
     def __repr__(self):
         components = len(self._spectrum)
         energy = self.total_energy
-        return f"<WaveTensor '{self.name}': {components} components, E={energy:.2f}>"
+
+        # Identify dominant frequency
+        dominant_freq = "None"
+        if components > 0:
+            dominant_freq = max(self._spectrum.items(), key=lambda item: abs(item[1]))[0]
+            dominant_freq = f"{dominant_freq:.1f}Hz"
+
+        return f"<WaveTensor '{self.name}': E={energy:.2f}, Dom={dominant_freq}, Components={components}>"
 
     # -- Standard Operators --
     
@@ -131,6 +153,15 @@ class WaveTensor:
         if isinstance(other, WaveTensor):
             return self.superpose(other)
         raise TypeError("Can only superpose WaveTensor with WaveTensor")
+
+    def __mul__(self, scalar: Union[float, int]) -> 'WaveTensor':
+        """Scalar multiplication (Scaling)."""
+        if isinstance(scalar, (float, int)):
+            result = WaveTensor(f"{self.name} * {scalar}")
+            for freq, z in self._spectrum.items():
+                result._spectrum[freq] = z * scalar
+            return result
+        raise TypeError("Can only multiply WaveTensor by scalar")
 
     def __matmul__(self, other):
         # Using @ operator for Resonance check
