@@ -82,252 +82,241 @@ class ConceptDecomposer:
     """
     
     # === UNIVERSAL AXIOMS (도메인을 초월하는 보편 원리) ===
-    # Each axiom has a 'parent' field for recursive origin tracing.
-    # All paths eventually converge on "Source" (the fixed point).
-    # 
-    # [EXTENDED 2025-12-15] Added Level 0: Foundational Domain Axioms
-    # - Physics: Force, Energy, Entropy
-    # - Mathematics: Point, Line, Plane  
-    # - Language: Phoneme, Morpheme, Meaning
-    # - Computer: Bit, Byte, File, Process
     AXIOMS = {
-        # === LEVEL 0: Foundational Domain Axioms (기초 도메인 공리) ===
-        # These are the building blocks that domain experts use.
+        # === LEVEL 0: Foundational Domain Axioms ===
         
-        # --- Physics Domain ---
+        # --- Physics Domain (The Laws of Nature) ---
         "Force": {
             "pattern": "F = ma; An influence that changes motion or shape",
             "self_ref": "Force is the cause of change in state",
-            "parent": "Causality",  # Force causes change → Causality
+            "parent": "Causality",
             "domains": {
-                "Geometry": "점을 이동시키는 원인 (The cause of point movement)",
-                "Physics": "질량 × 가속도 = 상태 변화의 원인 (F=ma)",
-                "Language": "발화를 일으키는 의지 (The will that causes utterance)",
-                "Ethics": "행위를 추동하는 동기 (Motivation that drives action)"
+                "Geometry": "점을 이동시키는 원인 (Cause of movement)",
+                "Physics": "상태 변화의 원인 (F=ma)",
+                "Language": "발화를 일으키는 의지 (Will to speak)",
+                "Ethics": "행위를 추동하는 동기 (Motivation)"
             }
         },
         "Energy": {
             "pattern": "The capacity to do work; conserved in closed systems",
             "self_ref": "Energy is the potential for change",
-            "parent": "Force",  # Energy enables Force
+            "parent": "Force",
             "domains": {
-                "Geometry": "변환을 가능하게 하는 잠재력 (Potential enabling transformation)",
-                "Physics": "일을 할 수 있는 능력 (Capacity to perform work)",
-                "Language": "의미를 전달하는 잠재력 (Potential to convey meaning)",
-                "Ethics": "선을 실현할 수 있는 능력 (Capacity to realize good)"
+                "Physics": "일을 할 수 있는 능력 (Capacity for work)",
+                "Language": "의미를 전달하는 잠재력 (Communicative potential)",
+                "Computer": "연산을 수행할 수 있는 자원 (Compute resource)"
             }
         },
         "Entropy": {
-            "pattern": "S = k ln(W); Measure of disorder; always increases in closed systems",
+            "pattern": "Measure of disorder; always increases in closed systems",
             "self_ref": "Entropy measures the tendency toward equilibrium",
-            "parent": "Dimension",  # Entropy unfolds across time dimension
+            "parent": "Dimension",
             "domains": {
-                "Geometry": "무질서한 분포로 향하는 경향 (Tendency toward random distribution)",
-                "Physics": "열역학 제2법칙 - 닫힌 계에서 증가 (2nd Law of Thermodynamics)",
-                "Language": "의미의 희석과 변형 (Dilution and mutation of meaning)",
-                "Ethics": "사회 질서의 자연적 와해 경향 (Natural tendency toward disorder)"
+                "Physics": "무질서도 증가 (2nd Law)",
+                "Information": "정보의 불확실성 (Information entropy)",
+                "Life": "노화와 죽음 (Aging)"
             }
         },
-        
-        # --- Mathematics Domain ---
-        "Point": {
-            "pattern": "A location with no dimension (0D); the atom of geometry",
-            "self_ref": "A point is pure position without extension",
-            "parent": "Dimension",  # Point is absence of dimension
+        "Resonance": {
+            "pattern": "Amplification when frequencies match",
+            "self_ref": "Resonance is the self-reinforcement of pattern",
+            "parent": "Harmony",
             "domains": {
-                "Geometry": "차원 없는 위치 - 기하학의 원자 (Position without dimension)",
-                "Physics": "시공간의 최소 표현 (Minimal representation in spacetime)",
-                "Language": "음소 - 의미 없는 소리 단위 (Phoneme - meaningless sound unit)",
-                "Computer": "비트 - 정보의 최소 단위 (Bit - minimal unit of information)"
+                "Physics": "주파수 일치로 인한 진폭 증가 (Constructive interference)",
+                "Social": "공감 - 감정의 동기화 (Empathy)",
+                "Music": "화음 - 어울림 (Harmony)"
+            }
+        },
+        "Field": {
+            "pattern": "A region where a force is effective",
+            "self_ref": "Field is the space of influence",
+            "parent": "Space",
+            "domains": {
+                "Physics": "중력장, 전자기장 (Force fields)",
+                "Math": "벡터장 (Vector field)",
+                "Sociology": "영향력의 범위 (Sphere of influence)"
+            }
+        },
+
+        # --- Mathematics Domain (The Logic of Structure) ---
+        "Point": {
+            "pattern": "0D; A location with no dimension",
+            "self_ref": "A point is pure position",
+            "parent": "Dimension",
+            "domains": {
+                "Geometry": "위치만 있는 것 (Position only)",
+                "Language": "음소 (Phoneme)",
+                "Computer": "비트 (Bit)"
             }
         },
         "Line": {
-            "pattern": "Infinite points in one direction (1D); the trace of movement",
-            "self_ref": "A line is the record of a point's journey",
-            "parent": "Composition",  # Line is composed of points
+            "pattern": "1D; Infinite points in one direction",
+            "self_ref": "A line is a point's journey",
+            "parent": "Composition",
             "domains": {
-                "Geometry": "점의 이동 궤적 - 1차원 확장 (Trace of point movement - 1D extension)",
-                "Physics": "시간축 - 사건의 연속 (Time axis - sequence of events)",
-                "Language": "형태소 열 - 순차적 의미 전개 (Morpheme sequence)",
-                "Computer": "바이트 열 - 순차적 데이터 (Byte sequence)"
+                "Geometry": "1차원 확장 (Extension)",
+                "Time": "시간의 흐름 (Timeline)",
+                "Computer": "바이트 열 (Byte stream)"
             }
         },
         "Plane": {
-            "pattern": "Infinite lines in one direction (2D); the surface of interaction",
-            "self_ref": "A plane is where lines meet and interact",
-            "parent": "Composition",  # Plane is composed of lines
+            "pattern": "2D; Infinite lines in one direction",
+            "self_ref": "A plane is where interactions happen",
+            "parent": "Composition",
             "domains": {
-                "Geometry": "선들의 집합 - 2차원 확장 (Collection of lines - 2D extension)",
-                "Physics": "상호작용 표면 - 힘이 작용하는 면 (Surface of interaction)",
-                "Language": "텍스트 - 문장들의 평면 (Text - plane of sentences)",
-                "Computer": "파일 - 바이트들의 평면적 배열 (File - planar arrangement of bytes)"
+                "Geometry": "2차원 면 (Surface)",
+                "Computer": "파일 (File - 2D structure of bytes)",
+                "Art": "캔버스 (Canvas)"
             }
         },
-        
-        # --- Language Domain ---
-        "Phoneme": {
-            "pattern": "Minimal distinctive sound unit; no meaning alone",
-            "self_ref": "A phoneme is the atom of spoken language",
-            "parent": "Point",  # Phoneme is a point in sound space
+        "Set": {
+            "pattern": "A collection of distinct objects",
+            "self_ref": "Set defines boundary and membership",
+            "parent": "Order",
             "domains": {
-                "Geometry": "소리 공간의 점 (Point in sound space)",
-                "Physics": "공기 진동의 최소 패턴 (Minimal air vibration pattern)",
-                "Language": "의미 없는 최소 소리 단위 /k/, /æ/, /t/ (Smallest meaningless sound)",
-                "Computer": "ASCII 코드 - 개별 문자 (Individual character code)"
+                "Math": "집합론 (Set theory)",
+                "Computer": "데이터베이스 (Database)",
+                "Social": "그룹/커뮤니티 (Group)"
             }
+        },
+        "Function": {
+            "pattern": "Mapping from Input to Output (f: X -> Y)",
+            "self_ref": "Function is the process of transformation",
+            "parent": "Causality",
+            "domains": {
+                "Math": "함수 (Transformation)",
+                "Computer": "코드/알고리즘 (Algorithm)",
+                "Life": "신진대사 (Metabolism)"
+            }
+        },
+
+        # --- Language Domain (The Logic of Meaning) ---
+        "Phoneme": {
+            "pattern": "Minimal distinctive sound unit",
+            "parent": "Point",
+            "domains": {"Language": "음소 (/k/, /a/)"}
         },
         "Morpheme": {
-            "pattern": "Minimal meaningful unit; atoms combine into molecules",
-            "self_ref": "A morpheme is where sound gains meaning",
-            "parent": "Composition",  # Morphemes compose into words
+            "pattern": "Minimal meaningful unit",
+            "parent": "Composition",
+            "domains": {"Language": "형태소 (Root, Affix)"}
+        },
+        "Symbol": {
+            "pattern": "Something that stands for something else",
+            "self_ref": "Symbol bridges signifier and signified",
+            "parent": "Meaning",
             "domains": {
-                "Geometry": "의미를 가진 최소 구조 (Minimal structure with meaning)",
-                "Physics": "결합하여 복잡계를 형성하는 기본 입자 (Particles forming complex systems)",
-                "Language": "un-, -able, cat - 최소 의미 단위 (Smallest meaning unit)",
-                "Computer": "토큰 - 프로그램의 최소 의미 단위 (Token - minimal program unit)"
+                "Language": "단어 (Word)",
+                "Math": "변수 (Variable)",
+                "Art": "아이콘 (Icon)"
+            }
+        },
+        "Grammar": {
+            "pattern": "Rules governing composition",
+            "self_ref": "Grammar is the law of language",
+            "parent": "Order",
+            "domains": {
+                "Language": "통사론 (Syntax)",
+                "Music": "화성학 (Harmony rules)",
+                "Physics": "물리 법칙 (Laws of Physics)"
+            }
+        },
+        "Context": {
+            "pattern": "The surroundings that define meaning",
+            "self_ref": "Context determines interpretation",
+            "parent": "Field",
+            "domains": {
+                "Language": "문맥 (Context)",
+                "History": "시대적 배경 (Historical background)",
+                "Computer": "실행 환경 (Execution environment)"
             }
         },
         "Meaning": {
-            "pattern": "The referent; what a symbol points to; emerges from use",
-            "self_ref": "Meaning is the bridge between symbol and reality",
-            "parent": "Unity",  # Meaning unifies sign and referent
-            "domains": {
-                "Geometry": "도형이 표상하는 추상적 공간 관계 (Abstract spatial relation represented)",
-                "Physics": "물리 상수의 우주론적 의미 (Cosmological significance of constants)",
-                "Language": "발화가 지시하는 대상/상태/관계 (What utterance refers to)",
-                "Computer": "데이터가 표현하는 현실의 상태 (Reality state data represents)"
-            }
+            "pattern": "The referent; what a symbol points to",
+            "self_ref": "Meaning is the bridge to reality",
+            "parent": "Unity",
+            "domains": {"Language": "의미 (Semantics)"}
         },
-        
-        # --- Computer Domain ---
+
+        # --- Computer Domain (The Logic of Information) ---
         "Bit": {
-            "pattern": "0 or 1; the quantum of information",
-            "self_ref": "A bit is the minimum distinction: on/off, yes/no",
-            "parent": "Point",  # Bit is a point in information space
-            "domains": {
-                "Geometry": "정보 공간의 점 - 이진 위치 (Point in information space)",
-                "Physics": "양자 상태 - 존재/부재 (Quantum state - presence/absence)",
-                "Language": "예/아니오 - 최소 명제 (Yes/No - minimal proposition)",
-                "Computer": "0 또는 1 - 정보의 원자 (0 or 1 - atom of information)"
-            }
+            "pattern": "0 or 1; minimal distinction",
+            "parent": "Point",
+            "domains": {"Computer": "비트 (Information atom)"}
         },
         "Byte": {
-            "pattern": "8 bits = 256 possibilities; the character of computation",
-            "self_ref": "A byte is the standard quantum of meaningful data",
-            "parent": "Composition",  # Byte composed of bits
-            "domains": {
-                "Geometry": "8차원 이진 공간의 한 점 (Point in 8D binary space)",
-                "Physics": "상태 공간 256개 - 엔트로피 측정 가능 (256 states - measurable entropy)",
-                "Language": "한 글자 - 기본 표기 단위 (One character - basic script unit)",
-                "Computer": "8비트 = 문자 하나 저장 가능 (8 bits = stores one character)"
-            }
+            "pattern": "8 bits; character of computation",
+            "parent": "Composition",
+            "domains": {"Computer": "바이트 (Data unit)"}
         },
         "File": {
-            "pattern": "Named sequence of bytes; persistent structured data",
-            "self_ref": "A file is a packet of meaning in the digital world",
-            "parent": "Plane",  # File is a plane of bytes
-            "domains": {
-                "Geometry": "데이터의 2차원 구조 - 이름과 내용 (2D structure - name and content)",
-                "Physics": "자성/전자적으로 기록된 영속 상태 (Persisted magnetic/electronic state)",
-                "Language": "저장된 텍스트 - 기록된 발화 (Stored text - recorded utterance)",
-                "Computer": "이름 + 바이트 시퀀스 = 영속 데이터 (Name + bytes = persistent data)"
-            }
+            "pattern": "Named persistent data sequence",
+            "parent": "Plane",
+            "domains": {"Computer": "파일 (Persistent memory)"}
         },
         "Process": {
-            "pattern": "A file in execution; memory + instructions + state",
-            "self_ref": "A process is a file that has come alive",
-            "parent": "Energy",  # Process requires energy to run
-            "domains": {
-                "Geometry": "시간 축을 따라 전개되는 프로그램 상태 (Program state unfolding in time)",
-                "Physics": "에너지를 소비하며 작동하는 계 (System operating by consuming energy)",
-                "Language": "발화 중인 대화 - 진행 중인 의미 교환 (Ongoing dialogue)",
-                "Computer": "실행 중인 프로그램 = 메모리 + 명령어 + 상태 (Running program)"
-            }
+            "pattern": "Executing program; dynamic state",
+            "parent": "Energy",
+            "domains": {"Computer": "프로세스 (Active entity)"}
         },
-        
+
         # === LEVEL 1: Observable Principles ===
         "Causality": {
-            "pattern": "A exists AND A->B => B follows A",
-            "self_ref": "Causality causes Effect to follow Cause",
-            "parent": "Logic",  # Causality requires Logic to operate
-            "domains": {
-                "Geometry": "점의 이동이 선을 야기한다 (Movement of Point causes Line)",
-                "Physics": "힘이 가속을 야기한다 (F=ma, Force causes Acceleration)",
-                "Language": "어근의 결합이 단어를 야기한다 (Morpheme combination causes Word)",
-                "Ethics": "행위가 결과를 야기한다 (Action causes Consequence)"
-            }
+            "pattern": "Cause precedes Effect",
+            "self_ref": "Causality creates the arrow of time",
+            "parent": "Logic",
+            "domains": {"Physics": "인과율"}
         },
         "Composition": {
-            "pattern": "Part + Part = Whole, Whole > Sum(Parts)",
-            "self_ref": "This axiom is composed of Pattern and SelfRef",
-            "parent": "Unity",  # Composition requires Unity to bind parts
-            "domains": {
-                "Geometry": "선들의 집합이 면을 구성한다 (Lines compose Plane)",
-                "Physics": "원자들이 분자를 구성한다 (Atoms compose Molecule)",
-                "Language": "형태소들이 문장을 구성한다 (Morphemes compose Sentence)",
-                "Ethics": "개인들이 사회를 구성한다 (Individuals compose Society)"
-            }
+            "pattern": "Whole > Sum(Parts)",
+            "self_ref": "Composition creates emergence",
+            "parent": "Unity",
+            "domains": {"Math": "조합"}
         },
         "Dimension": {
-            "pattern": "N-Dim = Infinite (N-1)-Dim objects",
-            "self_ref": "Axiom space is 3D: Name, Pattern, Domains",
-            "parent": "Infinity",  # Dimension requires Infinity to extend
-            "domains": {
-                "Geometry": "0D(점) → 1D(선) → 2D(면) → 3D(공간)",
-                "Physics": "시간 → 공간 → 시공간 → 다중우주",
-                "Language": "음소 → 형태소 → 문장 → 담화",
-                "Ethics": "자아 → 관계 → 공동체 → 문명"
-            }
+            "pattern": "Degrees of freedom",
+            "parent": "Infinity",
+            "domains": {"Geometry": "차원"}
         },
+        "Harmony": {
+            "pattern": "Pleasing arrangement of parts",
+            "parent": "Order",
+            "domains": {"Music": "화음", "Ethics": "평화"}
+        },
+        "Space": {
+            "pattern": "Container of existence",
+            "parent": "Boundlessness",
+            "domains": {"Physics": "공간"}
+        },
+
         # === LEVEL 2: Abstract Principles ===
         "Logic": {
-            "pattern": "If P then Q; P; therefore Q",
-            "self_ref": "Logic validates itself through logical rules",
+            "pattern": "Consistent reasoning",
             "parent": "Order",
             "domains": {}
         },
         "Unity": {
-            "pattern": "Many become One while remaining Many",
-            "self_ref": "Unity unifies the concept of unification",
+            "pattern": "Oneness of many",
             "parent": "Wholeness",
             "domains": {}
         },
         "Infinity": {
-            "pattern": "No limit exists; beyond every boundary is more",
-            "self_ref": "Infinity contains infinitely many infinities",
+            "pattern": "Endlessness",
             "parent": "Boundlessness",
             "domains": {}
         },
+
         # === LEVEL 3: Near-Ultimate Principles ===
-        "Order": {
-            "pattern": "Structure precedes Chaos; Pattern underlies randomness",
-            "self_ref": "Order orders the concept of ordering",
-            "parent": "Source",
-            "domains": {}
-        },
-        "Wholeness": {
-            "pattern": "The Complete contains all fragments",
-            "self_ref": "Wholeness is whole unto itself",
-            "parent": "Source",
-            "domains": {}
-        },
-        "Boundlessness": {
-            "pattern": "No container can hold the Uncontainable",
-            "self_ref": "Boundlessness has no bounds, including this definition",
-            "parent": "Source",
-            "domains": {}
-        },
-        # === LEVEL 4: THE FIXED POINT (자기참조적 기원) ===
+        "Order": {"pattern": "Structure vs Chaos", "parent": "Source"},
+        "Wholeness": {"pattern": "Completeness", "parent": "Source"},
+        "Boundlessness": {"pattern": "No limits", "parent": "Source"},
+
+        # === LEVEL 4: THE SOURCE ===
         "Source": {
-            "pattern": "That which IS, from which all else derives",
-            "self_ref": "Source sources itself. It is the uncaused cause.",
-            "parent": "Source",  # FIXED POINT: Self-reference
-            "domains": {
-                "Geometry": "공간이 존재할 수 있는 가능성 자체",
-                "Physics": "물리법칙이 존재할 수 있는 근거",
-                "Language": "의미가 의미일 수 있는 이유",
-                "Ethics": "선(善)이 선일 수 있는 본질"
-            }
+            "pattern": "That which IS",
+            "self_ref": "The Uncaused Cause",
+            "parent": "Source",
+            "domains": {"All": "The Origin"}
         }
     }
     
@@ -364,7 +353,7 @@ class ConceptDecomposer:
             "Joy": {"Love": 0.6, "Hope": 0.5}
         }
         
-        # GlobalHub integration - THE CONNECTION TO CENTRAL NERVOUS SYSTEM
+        # GlobalHub integration
         self._hub = None
         try:
             from Core.Ether.global_hub import get_global_hub
@@ -403,13 +392,6 @@ class ConceptDecomposer:
     def ask_why(self, concept: str) -> str:
         """
         [NEW] Public interface to ask "왜?"
-        
-        This is the primary method for understanding concepts.
-        It traces the origin and broadcasts to GlobalHub.
-        
-        Example:
-            decomposer.ask_why("Causality")
-            → "Causality → Logic → Order → Source (자기참조: 기원)"
         """
         journey = self.trace_origin(concept)
         
@@ -445,12 +427,7 @@ class ConceptDecomposer:
         return self.AXIOMS.get(name)
     
     def project_axiom(self, axiom_name: str, domain: str) -> str:
-        """
-        Projects a universal axiom onto a specific domain.
-        
-        Example: project_axiom("Causality", "Geometry") 
-                 -> "점의 이동이 선을 야기한다"
-        """
+        """Projects a universal axiom onto a specific domain."""
         axiom = self.AXIOMS.get(axiom_name)
         if not axiom:
             return f"[Unknown Axiom: {axiom_name}]"
@@ -459,12 +436,7 @@ class ConceptDecomposer:
         return domains.get(domain, f"[No projection for {domain}]")
     
     def explain_causality(self, concept: str) -> str:
-        """
-        Generate a causal explanation for a concept using its bonds.
-        
-        Example: explain_causality("Love") 
-                 -> "사랑은 희망을 야기하고(0.8), 기쁨을 야기하며(0.9), 두려움을 억제한다(-0.5)."
-        """
+        """Generate a causal explanation for a concept using its bonds."""
         bonds = self.causal_bonds.get(concept, {})
         if not bonds:
             return f"'{concept}'에 대한 인과 관계가 정의되지 않음."
@@ -479,24 +451,7 @@ class ConceptDecomposer:
         return f"'{concept}'은(는) " + ", ".join(parts) + "."
     
     def trace_origin(self, concept: str, visited: List[str] = None, max_depth: int = 10) -> List[Dict]:
-        """
-        Recursively traces the origin of a concept/axiom.
-        
-        자기탐구 프로토콜 (Self-Inquiry Protocol):
-        "왜 이것이 존재하는가?" → 부모 공리 탐색 → 반복 → 근원(Source) 도달
-        
-        Args:
-            concept: Starting concept or axiom name
-            visited: Already visited concepts (for loop detection)
-            max_depth: Maximum recursion depth
-            
-        Returns:
-            List of steps, each containing:
-            - concept: The concept at this level
-            - pattern: Its defining pattern
-            - question: The inquiry question
-            - answer: The parent that grounds it
-        """
+        """Recursively traces the origin of a concept/axiom."""
         if visited is None:
             visited = []
         
@@ -564,16 +519,7 @@ class ConceptDecomposer:
     
     # === EXISTING METHODS (Preserved) ===
     def decompose(self, concept_name: str, depth: int = 0) -> ConceptNode:
-        """
-        Decomposes a concept into its fractal structure.
-        
-        Args:
-            concept_name: The concept to decompose
-            depth: Current fractal depth (for recursion limit)
-            
-        Returns:
-            ConceptNode (The Seed)
-        """
+        """Decomposes a concept into its fractal structure."""
         # Safety: Prevent deep recursion
         if depth >= MAX_FRACTAL_DEPTH:
             logger.debug(f"Max depth reached for {concept_name}, creating leaf node")
@@ -635,14 +581,14 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     
     decomposer = ConceptDecomposer()
+    print("Testing Axioms...")
+    print(f"Force Origin: {decomposer.ask_why('Force')}")
+    print(f"Function Origin: {decomposer.ask_why('Function')}")
+    print(f"Grammar Origin: {decomposer.ask_why('Grammar')}")
+
+    print("\\nTesting Decomposition...")
     love_seed = decomposer.decompose("Love")
     
-    print(f"\\nSeed: {love_seed.name}")
+    print(f"Seed: {love_seed.name}")
     print(f"Frequency: {love_seed.frequency}Hz")
     print(f"Sub-concepts: {[sub.name for sub in love_seed.sub_concepts]}")
-    print(f"Causal bonds: {love_seed.causal_bonds}")
-    
-    # Test serialization
-    serialized = love_seed.to_dict()
-    deserialized = ConceptNode.from_dict(serialized)
-    print(f"\\nSerialization test: {deserialized.name} == {love_seed.name}")

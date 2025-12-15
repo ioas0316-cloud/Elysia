@@ -27,7 +27,7 @@ import logging
 from typing import Dict, List, Tuple, Callable, Optional, Any, Set
 from dataclasses import dataclass, field
 from collections import defaultdict
-from threading import Lock
+from threading import Lock, RLock
 import json
 from pathlib import Path
 
@@ -110,6 +110,9 @@ class GlobalHub:
     def __init__(self):
         if self._initialized:
             return
+
+        # Internal lock for thread safety
+        self._internal_lock = RLock()
             
         # Module registry
         self._modules: Dict[str, ModuleInfo] = {}
@@ -123,11 +126,16 @@ class GlobalHub:
         # Event history for pattern analysis
         self._event_history: List[WaveEvent] = []
         self._max_history = 1000
+        self._event_counter = 0  # To track when to trigger entropy
         
         # Co-firing tracking for Hebbian learning
         self._recent_fires: Dict[str, float] = {}  # module -> last_fire_time
         self._co_fire_window = 0.1  # seconds
         
+        # Physics Parameters
+        self._entropy_rate = 0.001  # Rate of bond decay per cycle
+        self._entropy_interval = 50 # Run entropy cycle every N events
+
         # Persistence
         self._state_path = Path("Core/Ether/hub_state.json")
         
@@ -152,27 +160,29 @@ class GlobalHub:
         Returns:
             ModuleInfo for the registered module
         """
-        if name in self._modules:
-            logger.warning(f"Module '{name}' already registered, updating info")
+        with self._internal_lock:
+            if name in self._modules:
+                logger.warning(f"Module '{name}' already registered, updating info")
+
+            module_info = ModuleInfo(
+                name=name,
+                path=path,
+                capabilities=capabilities,
+                description=description
+            )
+            self._modules[name] = module_info
             
-        module_info = ModuleInfo(
-            name=name,
-            path=path,
-            capabilities=capabilities,
-            description=description
-        )
-        self._modules[name] = module_info
-        
-        # Initialize relational density with all existing modules
-        for existing_name in self._modules:
-            if existing_name != name:
-                self._init_relation(name, existing_name)
-        
-        logger.info(f"📦 Module Registered: {name} ({len(capabilities)} capabilities)")
-        return module_info
+            # Initialize relational density with all existing modules
+            for existing_name in self._modules:
+                if existing_name != name:
+                    self._init_relation(name, existing_name)
+
+            logger.info(f"📦 Module Registered: {name} ({len(capabilities)} capabilities)")
+            return module_info
     
     def _init_relation(self, module_a: str, module_b: str, initial_weight: float = 0.1):
         """Initialize bidirectional relation between modules."""
+        # Called within lock
         key_ab = (module_a, module_b)
         key_ba = (module_b, module_a)
         
@@ -196,21 +206,23 @@ class GlobalHub:
             callback: Function to call when event fires (receives WaveEvent)
             weight: Attention weight 0.0 ~ 1.0 (how strongly to react)
         """
-        subscription = Subscription(
-            module_name=module_name,
-            callback=callback,
-            weight=max(0.0, min(1.0, weight))  # Clamp to [0, 1]
-        )
-        
-        self._subscriptions[event_type].append(subscription)
-        logger.debug(f"📡 {module_name} subscribed to '{event_type}' (weight={weight:.2f})")
+        with self._internal_lock:
+            subscription = Subscription(
+                module_name=module_name,
+                callback=callback,
+                weight=max(0.0, min(1.0, weight))  # Clamp to [0, 1]
+            )
+
+            self._subscriptions[event_type].append(subscription)
+            logger.debug(f"📡 {module_name} subscribed to '{event_type}' (weight={weight:.2f})")
     
     def unsubscribe(self, module_name: str, event_type: str) -> None:
         """Remove a module's subscription to an event type."""
-        self._subscriptions[event_type] = [
-            s for s in self._subscriptions[event_type] 
-            if s.module_name != module_name
-        ]
+        with self._internal_lock:
+            self._subscriptions[event_type] = [
+                s for s in self._subscriptions[event_type]
+                if s.module_name != module_name
+            ]
     
     # =========================================================================
     # Wave Publishing (The Core)
@@ -237,40 +249,50 @@ class GlobalHub:
             payload=payload
         )
         
-        # Record in history
-        self._event_history.append(event)
-        if len(self._event_history) > self._max_history:
-            self._event_history = self._event_history[-self._max_history:]
+        # Record in history (Thread-safe)
+        with self._internal_lock:
+            self._event_history.append(event)
+            if len(self._event_history) > self._max_history:
+                self._event_history = self._event_history[-self._max_history:]
+
+            # Increment event counter for entropy
+            self._event_counter += 1
+
+            # Track fire time for Hebbian learning
+            self._recent_fires[source] = time.time()
+
+            # Update source module's last_active
+            if source in self._modules:
+                self._modules[source].last_active = time.time()
+                self._modules[source].total_fires += 1
+
+            # Snapshot data needed for broadcast to avoid holding lock during callbacks
+            subscribers_snapshot = self._subscriptions.get(event_type, [])[:]
+            relations_snapshot = self._relational_density.copy()
         
-        # Track fire time for Hebbian learning
-        self._recent_fires[source] = time.time()
-        
-        # Update source module's last_active
-        if source in self._modules:
-            self._modules[source].last_active = time.time()
-            self._modules[source].total_fires += 1
-        
-        # Broadcast to subscribers
+        # Broadcast to subscribers (Outside main lock to allow recursive calls if needed)
         results = {}
-        subscribers = self._subscriptions.get(event_type, [])
         
-        for sub in subscribers:
+        for sub in subscribers_snapshot:
             try:
                 # Calculate effective weight based on relational density
                 relation_key = (source, sub.module_name)
-                relation_weight = self._relational_density.get(relation_key, 0.1)
+                relation_weight = relations_snapshot.get(relation_key, 0.1)
                 effective_weight = sub.weight * relation_weight
                 
                 # Only fire if weight is significant
                 if effective_weight > 0.05:
+                    # CALL SUBSCRIBER
                     result = sub.callback(event)
                     results[sub.module_name] = result
                     
-                    # Track co-firing for Hebbian learning
-                    self._recent_fires[sub.module_name] = time.time()
-                    
-                    # Strengthen bond (Hebbian: fire together, wire together)
-                    self.strengthen_bond(source, sub.module_name, 0.01)
+                    # Post-fire updates (Thread-safe)
+                    with self._internal_lock:
+                        # Track co-firing for Hebbian learning
+                        self._recent_fires[sub.module_name] = time.time()
+
+                        # Strengthen bond (Hebbian: fire together, wire together)
+                        self._strengthen_bond_internal(source, sub.module_name, 0.01)
                     
                     logger.debug(f"⚡ {source} → {sub.module_name} (weight={effective_weight:.3f})")
                     
@@ -278,8 +300,11 @@ class GlobalHub:
                 logger.error(f"Error in {sub.module_name} handler for {event_type}: {e}")
                 results[sub.module_name] = {"error": str(e)}
         
-        # Check for co-firing modules (fired within the time window)
-        self._check_co_firing()
+        # Periodic Tasks (Entropy & Co-firing)
+        with self._internal_lock:
+            self._check_co_firing()
+            if self._event_counter % self._entropy_interval == 0:
+                self.decay_all_bonds(self._entropy_rate)
         
         return results
     
@@ -288,6 +313,7 @@ class GlobalHub:
         Check for modules that fired together and strengthen their bonds.
         This implements Hebbian learning: "Neurons that fire together, wire together."
         """
+        # Called within lock
         current_time = time.time()
         recently_fired = [
             module for module, fire_time in self._recent_fires.items()
@@ -297,7 +323,7 @@ class GlobalHub:
         # Strengthen bonds between all pairs that co-fired
         for i, module_a in enumerate(recently_fired):
             for module_b in recently_fired[i+1:]:
-                self.strengthen_bond(module_a, module_b, 0.005)
+                self._strengthen_bond_internal(module_a, module_b, 0.005)
     
     # =========================================================================
     # Relational Density Management
@@ -308,14 +334,12 @@ class GlobalHub:
         return self._relational_density.get((module_a, module_b), 0.0)
     
     def strengthen_bond(self, module_a: str, module_b: str, amount: float = 0.01):
-        """
-        Strengthen the bond between two modules (Hebbian learning).
-        
-        Args:
-            module_a: First module
-            module_b: Second module
-            amount: How much to strengthen (default 0.01)
-        """
+        """Public thread-safe wrapper for strengthening bonds."""
+        with self._internal_lock:
+            self._strengthen_bond_internal(module_a, module_b, amount)
+
+    def _strengthen_bond_internal(self, module_a: str, module_b: str, amount: float = 0.01):
+        """Internal method: Strengthen the bond between two modules (Hebbian learning)."""
         key_ab = (module_a, module_b)
         key_ba = (module_b, module_a)
         
@@ -330,28 +354,27 @@ class GlobalHub:
     def weaken_bond(self, module_a: str, module_b: str, amount: float = 0.005):
         """
         Weaken the bond between two modules (Anti-Hebbian / Decay).
-        
-        Args:
-            module_a: First module
-            module_b: Second module
-            amount: How much to weaken (default 0.005)
         """
-        key_ab = (module_a, module_b)
-        key_ba = (module_b, module_a)
-        
-        current_ab = self._relational_density.get(key_ab, 0.1)
-        current_ba = self._relational_density.get(key_ba, 0.1)
-        
-        # Don't decay below minimum (keeps weak connection alive)
-        min_weight = 0.01
-        self._relational_density[key_ab] = max(min_weight, current_ab - amount)
-        self._relational_density[key_ba] = max(min_weight, current_ba - amount)
+        with self._internal_lock:
+            key_ab = (module_a, module_b)
+            key_ba = (module_b, module_a)
+
+            current_ab = self._relational_density.get(key_ab, 0.1)
+            current_ba = self._relational_density.get(key_ba, 0.1)
+
+            # Don't decay below minimum (keeps weak connection alive)
+            min_weight = 0.01
+            self._relational_density[key_ab] = max(min_weight, current_ab - amount)
+            self._relational_density[key_ba] = max(min_weight, current_ba - amount)
     
     def decay_all_bonds(self, decay_rate: float = 0.001):
         """Apply decay to all bonds (entropy / forgetting)."""
-        for key in self._relational_density:
-            current = self._relational_density[key]
-            self._relational_density[key] = max(0.01, current - decay_rate)
+        # Called within lock usually, but safe to call externally
+        with self._internal_lock:
+            for key in self._relational_density:
+                current = self._relational_density[key]
+                self._relational_density[key] = max(0.01, current - decay_rate)
+            logger.debug(f"📉 Entropy applied to connections (rate={decay_rate})")
     
     def get_related_modules(self, module_name: str, threshold: float = 0.3) -> List[Tuple[str, float]]:
         """

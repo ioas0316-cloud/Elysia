@@ -203,7 +203,8 @@ class ElysiaAgentAPI:
             "resonance", "field", "ether", "gravity", "fractal",
             "language", "speech", "logos", "prism", "sensory",
             "soul", "spirit", "will", "desire", "goal",
-            "evolution", "autonomous", "self", "meta"
+            "evolution", "autonomous", "self", "meta",
+            "transducer", "filesystem", "body_awareness"
         ]
         
         content_lower = content.lower()
@@ -245,6 +246,10 @@ class ElysiaAgentAPI:
             "self": "self_awareness",
             "aware": "self_awareness",
             "consciousness": "consciousness",
+            "transducer": "sensory_input",
+            "sensor": "sensory_input",
+            "body": "body_awareness",
+            "file": "filesystem",
         }
         
         for keyword, capability in capability_keywords.items():
