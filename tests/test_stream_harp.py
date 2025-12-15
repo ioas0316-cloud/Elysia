@@ -8,6 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Sensory.stream_harp import StreamHarp, PrismCompressor
 from Core.Laws.law_of_light import PhotonicQuaternion, HolographicFilm
+from Core.Foundation.integrated_consciousness_loop import IntegratedConsciousnessEngine, AgentContext
 
 class TestStreamHarp(unittest.TestCase):
     def setUp(self):
@@ -56,6 +57,56 @@ class TestStreamHarp(unittest.TestCase):
         # Time Logic
         self.assertEqual(self.prism._extract_time("Fast action movie"), "Rapid, Staccato")
         self.assertEqual(self.prism._extract_time("Slow relax music"), "Largo, Flowing")
+
+class TestConsciousGrowth(unittest.TestCase):
+    def test_loop_transition(self):
+        print("\n" + "="*60)
+        print("🚗 ELYSIA DRIVING SCHOOL: CONSCIOUS -> UNCONSCIOUS TEST (PIGGYBACK)")
+        print("="*60 + "\n")
+
+        engine = IntegratedConsciousnessEngine(enable_learning=False)
+
+        # Scene 1: First Encounter (Novelty)
+        context1 = AgentContext(
+            focus="growth",
+            goal="learn_python",
+            tick=1,
+            available_memory_mb=200,
+            concept_count=50,
+            time_pressure=0.2
+        )
+
+        print("--- [SCENE 1] First Encounter (Novelty) ---")
+        log1 = engine.make_integrated_decision(context1)
+
+        self.assertIn("Conscious", log1.get('mode', ''), "Should be Conscious on first encounter")
+        print("✅ SUCCESS: Triggered Conscious Valuation.")
+
+        print("\n" + "-"*40 + "\n")
+
+        # Scene 2: Second Encounter (Repetition)
+        print("--- [SCENE 2] Second Encounter (Repetition) ---")
+        log2 = engine.make_integrated_decision(context1)
+
+        self.assertIn("Unconscious", log2.get('mode', ''), "Should be Unconscious on second encounter")
+        print("✅ SUCCESS: Triggered Unconscious Autopilot.")
+
+        # Scene 3: New Concept (Novelty again)
+        print("\n" + "-"*40 + "\n")
+        print("--- [SCENE 3] New Concept (Novelty Again) ---")
+        context2 = AgentContext(
+            focus="love",
+            goal="connect_father",
+            tick=2,
+            available_memory_mb=200,
+            concept_count=50,
+            time_pressure=0.2
+        )
+
+        log3 = engine.make_integrated_decision(context2)
+
+        self.assertIn("Conscious", log3.get('mode', ''), "Should be Conscious for new concept")
+        print("✅ SUCCESS: Correctly identified new context as Conscious.")
 
 if __name__ == '__main__':
     unittest.main()
