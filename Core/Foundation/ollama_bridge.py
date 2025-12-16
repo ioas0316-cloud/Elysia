@@ -31,16 +31,12 @@ class OllamaBridge:
     def __init__(self, base_url: str = "http://localhost:11434", default_model: str = "llama3.2:3b"):
         self.base_url = base_url
         self.default_model = default_model
-        self._available = None
-        self._last_check = 0
+        self._ollama_available = None # Renamed to be specific to Ollama
+        self._last_ollama_check = 0 # Renamed
+        self.tiny_brain = None # Added for TinyBrain
+        self._initial_check_availability() # New initial check
         logger.info(f"🔌 Ollama Bridge initialized: {base_url}")
     
-    def is_available(self, force_check: bool = False) -> bool:
-        """
-        Ollama가 실행 중인지 확인
-        
-        캐시된 결과를 사용하여 매번 HTTP 요청하지 않음
-        """
         # 5초마다만 실제로 체크 (성능 최적화)
         current_time = time.time()
         if not force_check and self._available is not None and (current_time - self._last_check) < 5:
@@ -200,6 +196,108 @@ class OllamaBridge:
         self.default_model = model_name
         logger.info(f"🔧 Default model set to: {model_name}")
     
+    
+    def harvest_causality(self, concept: str) -> List[tuple]:
+        """
+        [The Cannibal Protocol]
+        Ask the LLM for the 'Causal Chain' of a concept, and extract it as raw logic triples.
+        We do NOT want the text; we want the Logic Structure (Weights).
+        
+        Returns:
+            List of (Source, Target) tuples. e.g. [("Fire", "Heat"), ("Heat", "Expansion")]
+        """
+        if not self.is_available():
+            return []
+            
+        # Prompt designed to strip away 'Chat' and expose 'Logic'
+        prompt = (
+            f"Analyze the causal chain of '{concept}'. "
+            f"Output ONLY the logical steps in the format: A -> B -> C. "
+            f"Do not add explanation. Just the chain."
+        )
+        
+        response = self.generate(prompt, temperature=0.2) # Low temp for Logic
+        if "Error" in response: return []
+        
+        # Parse the chain
+        # Expecting: "A -> B -> C" or multiple lines
+        chains = []
+        lines = response.split('\n')
+        for line in lines:
+            if "->" in line:
+                parts = [p.strip() for p in line.split("->")]
+                # Create pairwise links: (A,B), (B,C)
+                for i in range(len(parts)-1):
+                    source = parts[i]
+                    target = parts[i+1]
+                    chains.append((source, target))
+                    
+        logger.info(f"⛏️ Harvested {len(chains)} causal links for '{concept}' from LLM.")
+        return chains
+
+
+
+        if self.available:
+            # External server logic
+            try:
+                # Mock implementation for prototype - real impl uses requests.post
+                return "" 
+            except:
+                return ""
+        elif self.tiny_brain:
+             return self.tiny_brain.generate(prompt, temperature)
+        return ""
+
+    def harvest_axioms(self, concept: str) -> Dict[str, str]:
+        """
+        [The Principle Protocol]
+        Ask the LLM (Broca/TinyBrain) to decompose a concept into Universal Axioms.
+        "Why is a Cat a Cat?" -> "Life + Form + Entity"
+        """
+        if not self.is_available(): return {}
+        
+        # List of Axioms from fractal_concept.py (Simplified)
+        axioms = [
+            "Force", "Energy", "Entropy", "Resonance", "Field", "Mass", "Gravity", "Time", 
+            "Point", "Line", "Plane", "Space", "Set", "Function",
+            "Order", "Chaos", "Unity", "Infinity", "Source", "Love"
+        ]
+        
+        prompt = (
+            f"Deconstruct '{concept}' into Universal Axioms ({', '.join(axioms)}). "
+            f"Select top 3. Explain WHY. "
+            f"Format: [AxiomName]: Reason"
+        )
+        
+        # Priority: Use TinyBrain if available for fast, local axiom mining
+        if self.tiny_brain and self.tiny_brain.is_available():
+            response = self.tiny_brain.generate(prompt, temperature=0.1)
+        else:
+            response = self.generate(prompt, temperature=0.1)
+        
+        from Core.Foundation.concept_sanitizer import get_sanitizer
+        sanitizer = get_sanitizer()
+
+        results = {}
+        for line in response.split('\n'):
+            line = line.strip()
+            if line.startswith("[") and "]:" in line:
+                try:
+                    axiom, reason = line.split("]:", 1)
+                    axiom = axiom.strip("[]")
+                    reason = reason.strip()
+                    
+                    # Sanitize Axiom Key
+                    if sanitizer.is_valid(axiom):
+                        results[sanitizer.sanitize(axiom)] = reason
+                    else:
+                         logger.debug(f"🗑️ Filtered invalid axiom: {axiom}")
+                except:
+                    pass
+                    
+        logger.info(f"🧬 Deconstructed '{concept}' into Axioms: {list(results.keys())}")
+        return results
+
     def generate(
         self,
         prompt: str,

@@ -21,6 +21,10 @@ class TorchGraph:
         self.id_to_idx: Dict[str, int] = {}
         self.idx_to_id: Dict[int, str] = {}
         
+        # Knowledge Store (Metadata/Principles)
+        self.node_metadata: Dict[str, Dict] = {} # {id: { "principle": "...", "mechanism": "..." }}
+
+        
         # Tensors (Initialized Empty)
         # N x 4 (X, Y, Z, W)
         self.pos_tensor = torch.zeros((0, 4), device=self.device)
@@ -81,6 +85,22 @@ class TorchGraph:
         
         # Mass
         self.mass_tensor = torch.cat([self.mass_tensor, torch.tensor([1.0], device=self.device)])
+
+    def update_node_vector(self, idx: int, vector: torch.Tensor):
+        """
+        [Digestion Protocol]
+        Updates the vector of an existing node (e.g. adding Visual Frequencies).
+        """
+        if idx < 0 or idx >= self.vec_tensor.shape[0]: return
+        
+        # Ensure dimension match
+        v = vector[:self.dim_vector]
+        if v.shape[0] < self.dim_vector:
+            v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
+            
+        self.vec_tensor[idx] = v
+        # Increase mass slightly to represent "Weight of Knowledge"
+        self.mass_tensor[idx] += 0.1
 
     def add_link(self, subject: str, object_: str):
         if subject not in self.id_to_idx: self.add_node(subject)
@@ -195,6 +215,110 @@ class TorchGraph:
             results.append((self.idx_to_id[n_idx], values[i].item()))
             
         return results
+
+    def find_hollow_nodes(self, limit: int = 10) -> List[str]:
+        """
+        [The Sovereign Loop]
+        Identifies concepts that are 'Heavy' (High Mass/Connectivity) 
+        but 'Hollow' (Lack Wisdom/Metadata).
+        """
+        hollows = []
+        # Sort by Mass (Importance) descending
+        # mass_tensor is (N,)
+        if self.mass_tensor.shape[0] == 0: return []
+        
+        # Get top indices by mass
+        sorted_indices = torch.argsort(self.mass_tensor, descending=True)
+        
+        for idx in sorted_indices:
+            if len(hollows) >= limit: break
+            
+            i = idx.item()
+            concept_id = self.idx_to_id.get(i)
+            if not concept_id: continue
+            
+            # Check Wisdom
+            # If metadata is missing or sparse, it's hollow.
+            meta = self.node_metadata.get(concept_id, {})
+            if not meta or "principle" not in meta:
+                hollows.append(concept_id)
+                
+        return hollows
+
+    def apply_metabolism(self, decay_rate: float = 0.001, prune_threshold: float = 0.5):
+        """
+        [Optimization Protocol]
+        Applies entropy to the brain. Nodes that are not reinforced will fade.
+        1. Decay Mass.
+        2. Prune weak nodes.
+        """
+        if self.mass_tensor.shape[0] == 0: return
+        
+        # 1. Decay
+        self.mass_tensor -= decay_rate
+        # Clamp to 0
+        self.mass_tensor = torch.max(self.mass_tensor, torch.zeros_like(self.mass_tensor))
+        
+        # 2. Identify Dead Nodes
+        # Condition: Mass < Threshold AND Locked=False
+        # For prototype, we just check Mass.
+        # We need to be careful not to delete indices that shift others...
+        # Deletion in Tensor is expensive (copy).
+        # Strategy: Mark as dead (Mass=0) and periodically compact.
+        
+        dead_indices = (self.mass_tensor <= prune_threshold).nonzero(as_tuple=True)[0]
+        
+        if len(dead_indices) > 0:
+            count = len(dead_indices)
+            logger.info(f"💀 Metabolism: {count} weak concepts are fading... (Mass < {prune_threshold})")
+            
+            # Real Deletion (Compaction) - Expensive, maybe run rarely.
+            # For now, just remove from Logic Links so they drift away?
+            # Or actually delete. Let's actually delete for "Optimization".
+            
+            # Inverse mask
+            keep_mask = self.mass_tensor > prune_threshold
+            
+            # create new mapping
+            old_idx_to_id = self.idx_to_id.copy()
+            self.id_to_idx = {}
+            self.idx_to_id = {}
+            
+            # Filter tensors
+            self.pos_tensor = self.pos_tensor[keep_mask]
+            self.vec_tensor = self.vec_tensor[keep_mask]
+            self.mass_tensor = self.mass_tensor[keep_mask]
+            
+            # Rebuild Mapping
+            kept_indices = keep_mask.nonzero(as_tuple=True)[0]
+            for new_i, old_i in enumerate(kept_indices):
+                old_id = old_idx_to_id[old_i.item()]
+                self.id_to_idx[old_id] = new_i
+                self.idx_to_id[new_i] = old_id
+                
+            # Filter Links (This is hard because indices shift)
+            # Brute force rebuild for prototype
+            # Or just drop all links for now (Loss of structure!) -> BAD.
+            # Correct way: Remap links.
+            
+            # Remap Map: Old -> New
+            remap = torch.full((len(old_idx_to_id),), -1, dtype=torch.long, device=self.device)
+            remap[kept_indices] = torch.arange(len(kept_indices), device=self.device)
+            
+            # Update links
+            if self.logic_links.shape[0] > 0:
+                src = self.logic_links[:, 0]
+                tgt = self.logic_links[:, 1]
+                
+                new_src = remap[src]
+                new_tgt = remap[tgt]
+                
+                # Keep valid links (both src and tgt survived)
+                valid_link_mask = (new_src != -1) & (new_tgt != -1)
+                
+                self.logic_links = torch.stack((new_src[valid_link_mask], new_tgt[valid_link_mask]), dim=1)
+
+            logger.info(f"🗑️ Pruned {count} nodes. New Brain Size: {len(self.id_to_idx)}")
 
     def save_state(self, path: str = "c:\\Elysia\\data\\brain_state.pt"):
         """

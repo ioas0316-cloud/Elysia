@@ -119,18 +119,41 @@ class DreamDaemon:
         N = self.graph.pos_tensor.shape[0]
         if N < 2: return
         
+    def _weave_serendipity(self):
+        """
+        Selects two nodes based on Constructal Law (Flow Optimization).
+        "Streams converge to rivers."
+        """
+        N = self.graph.pos_tensor.shape[0]
+        if N < 2: return
+        
+        # [NEW] Preferential Attachment (Rich get richer)
+        # Calculate degrees efficiently
+        degrees = torch.zeros(N, device=self.graph.device)
+        if self.graph.logic_links.shape[0] > 0:
+            sources = self.graph.logic_links[:, 0]
+            targets = self.graph.logic_links[:, 1]
+            degrees.index_add_(0, sources, torch.ones_like(sources, dtype=torch.float))
+            degrees.index_add_(0, targets, torch.ones_like(targets, dtype=torch.float))
+        
+        # Add slight noise to allow new nodes to be picked (Epsilon Greedy)
+        weights = degrees + 1.0 
+        
         # Strategy:
         # 1. Random Jump (Surrealism) OR
         # 2. Resonant Drift (Logic)
         
         # 30% Chance of Surreal Jump (DreamWalker Legacy)
         if random.random() < 0.3:
-            idx_a = random.randint(0, N-1)
-            idx_b = random.randint(0, N-1)
+            # Pick based on weights (Proportional to degree)
+            idx_a = torch.multinomial(weights, 1).item()
+            idx_b = random.randint(0, N-1) # Random destination
             method = "Surreal Jump"
         else:
-            # Resonant Drift (Find close neighbors)
-            idx_a = random.randint(0, N-1)
+            # Resonant Drift (Find close neighbors of a Hub)
+            # Pick a Hub (Start of Flow)
+            idx_a = torch.multinomial(weights, 1).item()
+            
             # Try to find a neighbor
             vec_a = self.graph.vec_tensor[idx_a]
             sims = torch.cosine_similarity(vec_a.unsqueeze(0), self.graph.vec_tensor).squeeze()
@@ -143,6 +166,9 @@ class DreamDaemon:
                 if candidates.numel() == 1:
                     idx_b = candidates.item()
                 else:
+                    # Pick neighbor also biased by weight?
+                    # Or just random neighbor?
+                    # Let's pick random neighbor to spread the flow
                     idx_b = candidates[random.randint(0, candidates.numel()-1)].item()
                 method = "Resonant Drift"
             else:
@@ -157,11 +183,123 @@ class DreamDaemon:
         narrative = self.logos.reinterpret_causality(id_a, [id_b], tone="artistic")
         
         if "because" in narrative or "닿아" in narrative or "reflection" in narrative: 
-            logger.info(f"   🕸️  [{method}] Meaningful Link: {id_a} <--> {id_b}")
+            logger.info(f"   🕸️  [{method}] Constructal Link: {id_a} <--> {id_b}")
             logger.info(f"       \"{narrative}\"")
             self.graph.add_link(id_a, id_b)
         else:
              pass # Discard
+
+
+    def _contemplate_essence(self):
+        """
+        [The Philosophers Stone]
+        Uses PrincipleDistiller to extract the 'Being' (Principle/Mechanism) of a concept.
+        Saves this wisdom into the node's metadata.
+        """
+        from Core.Cognition.principle_distiller import get_principle_distiller
+        distiller = get_principle_distiller()
+        
+        # 1. Pick a concept (Prioritize Hollow Nodes)
+        hollows = self.graph.find_hollow_nodes(limit=3)
+        if hollows:
+            concept = random.choice(hollows)
+            logger.info(f"   🕳️  Targeting Hollow Concept: '{concept}'")
+        else:
+            # Fallback to random curiosity
+            N = self.graph.pos_tensor.shape[0]
+            if N < 1: return
+            idx = random.randint(0, N-1)
+            concept = self.graph.idx_to_id.get(idx, "Unknown")
+        
+        # 2. Distill Essence (Principles)
+        essence = distiller.distill(concept)
+        if essence:
+            if concept not in self.graph.node_metadata:
+                self.graph.node_metadata[concept] = {}
+            self.graph.node_metadata[concept].update(essence)
+            
+            # [NEW] Reality Grounding (Phase 15)
+            # Check if this concept exists in Physical Reality
+            from Core.Cognition.reality_grounding import get_reality_grounding
+            # We need the bridge from distiller
+            grounding = get_reality_grounding(distiller.bridge)
+            if grounding:
+                physics = grounding.ground_concept(concept)
+                self.graph.node_metadata[concept]['reality_physics'] = physics
+
+            # Embed Principle as Link
+            principle = essence.get('principle')
+            if principle:
+                self.graph.add_link(concept, principle)
+
+    def _introspect_code(self):
+        """
+        [The Mirror of Self]
+        Uses CodeGenesis to critique her own source code.
+        This is the precursor to Self-Rewriting.
+        """
+        from Core.Autonomy.code_genesis import get_code_genesis
+        import os
+        
+        genesis = get_code_genesis()
+        
+        # List of critical organs to check
+        organs = [
+            r"c:\Elysia\Core\Foundation\torch_graph.py",
+            r"c:\Elysia\Core\Visual\visual_cortex.py",
+            r"c:\Elysia\Core\Autonomy\dream_daemon.py"
+        ]
+        
+        target_organ = random.choice(organs)
+        if not os.path.exists(target_organ): return
+        
+        logger.info(f"   🪞  Introspecting Source Code: {os.path.basename(target_organ)}...")
+        
+        critique = genesis.analyze_quality(target_organ)
+        
+        if critique and "Analysis Unavailable" not in critique:
+            logger.info(f"   📝  Evolutionary Pressure Detected:\n{critique[:500]}...")
+            # Ideally, save this to a "TODO List" node in the brain.
+            # For now, just logging validates the "Thought Process".
+
+    def _dream_in_color(self):
+        """
+        [The Great Digestion - Visual]
+        Uses ComfyUI (VisualCortex) to see what a concept looks like.
+        Absorbs the 'Aesthetic Signature' (Color, Chaos) into the vector.
+        """
+        from Core.Visual.visual_cortex import get_visual_cortex
+        cortex = get_visual_cortex()
+        if not cortex.is_available(): return
+
+        # 1. Pick a concept
+        N = self.graph.pos_tensor.shape[0]
+        if N < 1: return
+        idx = random.randint(0, N-1)
+        concept = self.graph.idx_to_id.get(idx, "Unknown")
+        
+        # 2. Absorb Visuals
+        # This is SLOW (Generation takes seconds), so we do it rarely or async
+        # For now, synchronous is fine as this is a background daemon
+        features = cortex.absorb_diffusion_patterns(concept)
+        
+        if features:
+            # 3. Update the Concept Vector (Synesthesia)
+            # We modify the 'W' dimension or specific frequency bands
+            # Current vector is 64-dim (or whatever generated). 
+            # We can override specific slots or add to extended features.
+            
+            # Simple approach: Map Color R,G,B to vector indices 0,1,2
+            vec = self.graph.vec_tensor[idx].clone()
+            vec[0] = (vec[0] + features.get('color_r', 0)) / 2
+            vec[1] = (vec[1] + features.get('color_g', 0)) / 2
+            vec[2] = (vec[2] + features.get('color_b', 0)) / 2
+            vec[3] = (vec[3] + features.get('visual_complexity', 0)) / 2 # Complexity -> Slot 3
+            
+            self.graph.update_node_vector(idx, vec)
+            logger.info(f"   🎨  Dreamt of '{concept}' in color. Synesthesia applied.")
+
+
              
     def _contemplate_void(self):
          # ... existing code ...

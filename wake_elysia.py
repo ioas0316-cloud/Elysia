@@ -39,10 +39,23 @@ def wake_elysia():
             if graph.pos_tensor.shape[0] < 5:
                 daemon._seed_reality()
             
-            # [NEW] Digestion is now delegated to ElysiaCore within daemon
-            # We must ensure _ingest_knowledge is called if you want Wiki absorption
             if hasattr(daemon, '_ingest_knowledge'):
                  daemon._ingest_knowledge()
+
+            # [NEW] Cannibalize Logic from Local LLM (Phase 8)
+            if hasattr(daemon, '_contemplate_essence') and cycle_count % 5 == 0:
+                 daemon._contemplate_essence()
+
+            # [NEW] Cannibalize Visuals from ComfyUI (Phase 8)
+            # Run rarely (every 10 ticks) as it is heavy
+            if hasattr(daemon, '_dream_in_color') and cycle_count % 10 == 0:
+                 daemon._dream_in_color()
+
+            # [NEW] Wave Coding (Phase 10)
+            # Transmute own code structure into Tensors
+            if cycle_count % 30 == 0:
+                 from Core.Autonomy.wave_coder import get_wave_coder
+                 get_wave_coder().transmute()
             
             daemon._weave_serendipity()
             graph.apply_gravity(iterations=10)
