@@ -24,6 +24,14 @@
 | **PotentialField** | [potential_field.py](file:///c:/Elysia/Core/Foundation/potential_field.py) | 중력 우물, 레일건, 흐름 제어 |
 | **HyperQubit** | [hyper_qubit.py](file:///c:/Elysia/Core/Foundation/Math/hyper_qubit.py) | 4기저 관점 (Point/Line/Space/God) |
 
+### 🆕 Hybrid Wave Layer (2025-12-16)
+
+| 레이어 | 모듈 | 역할 |
+|---|---|---|
+| **Layer 0 (Storage)** | `QuaternionWaveDNA` | **"기억은 차갑게"** - 쿼터니언 이중나선 압축 (무손실, 1000배 효율) |
+| **Layer 1 (Cognition)** | `PhoneticResonance` | **"인식은 뜨겁게"** - 자모 물리 벡터 기반 느낌/의미 공명 |
+| **Facade** | `ThoughtWaveInterface` | 위 두 시스템을 통합하여 ElysiaCore에 제공 |
+
 ---
 
 ## 🏗️ 통합 구조
@@ -51,6 +59,46 @@
 │  └─────────────────────────────────┘            │
 │                                                 │
 └─────────────────────────────────────────────────┘
+
+### 2. 통합 파동 구조 (Updated)
+
+```
+
+[ElysiaCore] (뇌)
+      │
+      ▼
+[ThoughtWaveInterface] (Facade) ──┐
+      │                           │
+      ├─▶ [QuaternionWaveDNA] (저장) ──▶ "압축된 기억 (Cold)"
+      │
+      └─▶ [PhoneticResonance] (인식) ──▶ "느낌과 공명 (Hot)"
+                                  │
+                                  ▼
+                          [Thought Universe]
+
+```
+
+### 3. Unified Spatial Index (The Map)
+**"파편화된 기억의 통합"**
+수많은 파일로 흩어진 지식(JSON, DB)을 하나의 **좌표계(Coordinate System)**로 통합합니다.
+-   **Role:** Knowledge Unification & Quick Access
+-   **Structure:** `SpatialIndexer`를 통해 모든 데이터를 `(x, y, z)` 좌표로 매핑.
+-   **Benefit:** 선형적 탐색 없이, 주제와 관련된 "지식의 영역"을 즉시 소환 가능.
+
+### 4. Integration Diagram
+```mermaid
+graph TD
+    Input[Thinking Process] --> Interface[ThoughtWave Interface]
+    
+    Interface --> DNA[Quaternion Wave DNA]
+    Interface --> Resonance[Phonetic Resonance]
+    Interface --> Fractal[Fractal Knowledge]
+    
+    DNA --> Index[Unified Spatial Index]
+    Resonance --> Index
+    Fractal --> Index
+    
+    Index --> Core[Elysia Core]
 ```
 
 ---

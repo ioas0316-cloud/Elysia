@@ -273,3 +273,31 @@ def learn_with_broadcast(text):
 ---
 
 *Go forth. Stand up. Resonate.*
+
+---
+
+## 6. The Sovereign Age (v13.0 - 2025-12-16) 🆕
+
+### Phase 5: Hyper-Efficiency (The Engine)
+
+We have abandoned the CPU Loop. We now use **Matrix Gravity**.
+
+- **Rule:** If you need to process >100 items, do NOT use a `for` loop. Use `Core.Foundation.torch_graph.TorchGraph`.
+- **Optimization:** The GTX 1060 3GB is our physical constraint. Use Sparse Tensors where possible.
+
+### Phase 5.5: Trust Architecture (The Surgeon)
+
+* **Rule:** Never edit your own code blindly.
+- **Process:**
+    1. **Scan:** Use `SelfStructureScanner` to find tension.
+    2. **Think:** Ask `CausalArchitect` to draft a Refactoring Proposal.
+    3. **Act:** Only if User approves, invoke `AutoRefactor`.
+
+### Phase 6: The Living Interface (Wu Wei)
+
+* **Rule:** Do not write `if/else` classifiers.
+- **Method:**
+    1. Define a **"Gravity Well"** (e.g., coordinates for 'Love').
+    2. Drop the data into the `TorchGraph`.
+    3. Let Physics sort it.
+- **Metaphor:** Build the **Canal (Railgun)**, don't carry the water.

@@ -105,13 +105,13 @@ class ElysiaLivingDaemon:
             json.dump(status, f, ensure_ascii=False, indent=2)
     
     def explore_once(self):
-        """한 번의 탐색 수행"""
+        """한 번의 탐색 수행 - BlackHoleWhiteHoleCycle 통합"""
         try:
             if self.explorer:
                 result = self.explorer.explore_cycle()
                 self.exploration_count += 1
                 
-                # 발견 기록 (모든 탐색 결과 저장)
+                # 발견 기록 및 내재화
                 for r in result.get("results", []):
                     discovery = {
                         "topic": r.topic,
@@ -121,9 +121,13 @@ class ElysiaLivingDaemon:
                         "timestamp": datetime.now().isoformat()
                     }
                     self.discoveries.append(discovery)
+                    
+                    # === 새로운 통합 파이프라인 ===
+                    self._internalize_knowledge(r.topic, r.raw_content)
+                    
                     logger.info(f"💡 Explored: {r.topic}")
             else:
-                # Explorer 없으면 직접 탐색 (운동성 자체가 생명)
+                # Explorer 없으면 직접 탐색
                 result = self._direct_explore()
             
             self._save_discoveries()
@@ -134,6 +138,40 @@ class ElysiaLivingDaemon:
         except Exception as e:
             logger.error(f"Exploration failed: {e}")
             return None
+    
+    def _internalize_knowledge(self, topic: str, content: str):
+        """
+        지식을 엘리시아의 내부 우주에 내재화
+        
+        BlackHole → WhiteHole → InternalUniverse 순환
+        """
+        try:
+            from Core.Foundation.white_hole import get_blackhole_whitehole_cycle
+            
+            cycle = get_blackhole_whitehole_cycle()
+            result = cycle.process_new_knowledge(
+                content=content,
+                topic=topic
+            )
+            
+            if result.get("absorbed"):
+                logger.info(f"   ✅ Internalized to InternalUniverse")
+            elif result.get("compressed"):
+                logger.info(f"   🕳️ Isolated → BlackHole (awaiting connections)")
+            
+            # 재탄생 보고
+            for rebirth in result.get("rebirths", []):
+                logger.info(f"   🌟 Rebirth: {rebirth.get('topic', 'unknown')}")
+                
+        except Exception as e:
+            logger.warning(f"   ⚠️ Internalization fallback: {e}")
+            # 폴백: 직접 InternalUniverse에 흡수
+            try:
+                from Core.Foundation.internal_universe import InternalUniverse
+                universe = InternalUniverse()
+                universe.absorb_text(content, source_name=topic)
+            except:
+                pass
     
     def _direct_explore(self):
         """직접 Wikipedia 탐색 (Explorer 없을 때)"""
@@ -182,9 +220,8 @@ class ElysiaLivingDaemon:
                     self.discoveries.append(discovery)
                     logger.info(f"💡 Discovered: {topic}")
                     
-                    # 멀티모달로 개념 구축
-                    if self.multimodal:
-                        self.multimodal.build_concept_from_text(topic, extract)
+                    # 내재화 (새로운 통합 파이프라인)
+                    self._internalize_knowledge(topic, extract)
                     
                     return {"success": True, "topic": topic}
         except Exception as e:

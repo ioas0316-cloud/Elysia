@@ -189,37 +189,40 @@ class WikipediaDumpParser:
     
     def absorb_to_universe(self, max_articles: int = 1000, batch_size: int = 100) -> Dict[str, int]:
         """
-        Wikipedia 덤프를 InternalUniverse에 직접 흡수
+        Wikipedia 덤프를 ElysiaCore를 통해 흡수 (4-Thread Orchestra)
         """
-        from Core.Autonomy.local_dataset_absorber import get_local_absorber
+        from Core.Elysia.elysia_core import get_elysia_core
         
-        absorber = get_local_absorber(batch_size=batch_size)
+        core = get_elysia_core()
         
-        results = {"total": 0, "absorbed": 0, "isolated": 0, "failed": 0}
-        batch = []
+        results = {"total": 0, "processed": 0, "failed": 0}
+        
+        logger.info("🎻 Starting Orchestral Absorption...")
         
         for article in self.stream_articles(max_articles=max_articles):
-            batch.append(article)
-            results["total"] += 1
+            title = article['title']
+            content = article['content']
             
-            if len(batch) >= batch_size:
-                # 배치 흡수
-                if absorber.universe:
-                    batch_result = absorber.universe.absorb_batch(batch)
-                    results["absorbed"] += batch_result.get("absorbed", 0)
-                    results["isolated"] += batch_result.get("isolated", 0)
-                batch = []
+            try:
+                # ElysiaCore의 learn() 메소드 호출 -> 4-Thread Orchestra 트리거
+                # (Compression, Resonance, Digestion, Integration)
+                core.learn(content, title)
+                
+                results["processed"] += 1
+                if results["processed"] % 10 == 0:
+                    logger.info(f"   🎵 Processed {results['processed']} articles...")
+                    
+            except Exception as e:
+                logger.error(f"Failed to process '{title}': {e}")
+                results["failed"] += 1
+                
+            results["total"] += 1
         
-        # 남은 배치
-        if batch and absorber.universe:
-            batch_result = absorber.universe.absorb_batch(batch)
-            results["absorbed"] += batch_result.get("absorbed", 0)
-            results["isolated"] += batch_result.get("isolated", 0)
-        
-        logger.info(f"🎉 Wikipedia absorption complete!")
-        logger.info(f"   Total: {results['total']}, Absorbed: {results['absorbed']}, Isolated: {results['isolated']}")
+        logger.info(f"🎉 Orchestral Absorption Complete!")
+        logger.info(f"   Total: {results['total']}, Processed: {results['processed']}, Failed: {results['failed']}")
         
         return results
+
 
 
 # CLI

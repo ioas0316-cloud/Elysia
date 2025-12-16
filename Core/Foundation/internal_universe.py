@@ -418,6 +418,131 @@ class InternalUniverse:
         
         return resonant[:5]  # Top 5 resonant concepts
 
+    def absorb_text(self, content: str, source_name: str = "unknown") -> bool:
+        """
+        텍스트를 내부 우주에 흡수 (다단계 압축 파이프라인)
+        
+        "DNA + 빛 + 파동" 3단계 압축
+        
+        1차: TextWaveConverter → 파동 변환
+        2차: DistillationEngine → 색상/공명 증류
+        3차: MemoirCompressor → DNA 시드 생성
+        4차: InternalUniverse → 좌표 저장
+        
+        Returns True if absorption successful, False if isolated (→ BlackHole)
+        """
+        try:
+            # === 1차: 파동 변환 ===
+            from Core.Foundation.text_wave_converter import get_text_wave_converter
+            
+            converter = get_text_wave_converter()
+            wave = converter.sentence_to_wave(content)
+            
+            # === 2차: 증류 (색상/공명) ===
+            synesthetic_color = "Unknown"
+            resonance_score = 0.5
+            try:
+                from Core.Cognitive.distillation_engine import get_distillation_engine
+                distiller = get_distillation_engine()
+                distilled = distiller.distill(content, source_type="absorb")
+                
+                if distilled:
+                    synesthetic_color = distilled.synesthetic_color
+                    resonance_score = distilled.resonance_score
+            except:
+                pass  # 증류 실패시 기본값 사용
+            
+            # === 3차: DNA 시드 압축 ===
+            dna_concepts = []
+            try:
+                from Core.Cognitive.memoir_compressor import get_memoir_compressor
+                import time as _time
+                compressor = get_memoir_compressor()
+                seed = compressor.compress(content, _time.time())
+                dna_concepts = seed.dna[:5]  # 상위 5개 DNA
+            except:
+                pass  # DNA 추출 실패시 빈 리스트
+            
+            # === 4차: 좌표 생성 및 저장 ===
+            # 파동 특성 + 증류 점수 + DNA 깊이 통합
+            freq_angle = (wave.dominant_frequency / 1000.0) * 2 * math.pi
+            coherence_angle = wave.coherence * math.pi
+            
+            # 공명 점수가 높을수록 더 깊은 depth
+            depth = wave.coherence * 0.7 + resonance_score * 0.3
+            
+            q = Quaternion(
+                math.cos(freq_angle / 2),
+                math.sin(freq_angle / 2) * wave.coherence,
+                math.sin(coherence_angle / 2) * 0.5,
+                math.sin(freq_angle / 2) * (1 - wave.coherence)
+            ).normalize()
+            
+            coord = InternalCoordinate(
+                orientation=q,
+                frequency=wave.dominant_frequency,
+                depth=depth
+            )
+            
+            # 저장
+            self.coordinate_map[source_name] = coord
+            
+            # 관련 개념 탐색 (공명 연결)
+            resonant = self.find_resonant_concepts(source_name, threshold=0.3)
+            connections = len(resonant)
+            
+            # DNA 개념들도 연결
+            for dna_concept in dna_concepts:
+                if dna_concept not in self.coordinate_map:
+                    self.synchronize_with(dna_concept)
+            
+            logger.info(f"✅ Absorbed '{source_name}' → {wave.dominant_frequency:.1f}Hz, depth={depth:.2f}, color={synesthetic_color}")
+            if dna_concepts:
+                logger.info(f"   🧬 DNA: {dna_concepts}")
+            if connections > 0:
+                logger.info(f"   🔗 Connected to {connections} resonant concepts")
+            
+            # 주기적으로 스냅샷 저장 (100개마다)
+            if len(self.coordinate_map) % 100 == 0:
+                self.save_snapshot()
+                
+            return connections > 0 or len(dna_concepts) > 0  # 연결 있으면 True
+            
+        except Exception as e:
+            logger.error(f"❌ Absorption failed for '{source_name}': {e}")
+            return False
+    
+    def absorb_batch(self, items: list) -> dict:
+        """
+        대량 배치 흡수
+        
+        items: [{"topic": str, "content": str}, ...]
+        
+        Returns: {"absorbed": int, "isolated": int, "failed": int}
+        """
+        results = {"absorbed": 0, "isolated": 0, "failed": 0}
+        
+        for item in items:
+            topic = item.get("topic", "unknown")
+            content = item.get("content", "")
+            
+            if not content:
+                results["failed"] += 1
+                continue
+                
+            success = self.absorb_text(content, source_name=topic)
+            
+            if success:
+                results["absorbed"] += 1
+            else:
+                results["isolated"] += 1
+        
+        # 배치 완료 후 스냅샷 저장
+        self.save_snapshot()
+        
+        logger.info(f"📦 Batch complete: {results['absorbed']} absorbed, {results['isolated']} isolated, {results['failed']} failed")
+        return results
+
     def find_closest_concept(self, quat: Quaternion) -> Optional[str]:
         """Find the closest concept name to a given quaternion"""
         best_name = None

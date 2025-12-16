@@ -14,6 +14,12 @@ import random
 
 # Reuse existing physics structures if available, or define minimal versions here
 # to avoid circular imports during this prototype phase.
+try:
+    from Core.Language.jamo_utils import decompose_hangul
+except ImportError:
+    # Fallback if module path issue
+    decompose_hangul = lambda x: (None, None, None)
+
 @dataclass
 class Tensor3D:
     x: float
@@ -137,6 +143,49 @@ class HangulPhysicsEngine:
             timbre=roughness,
             duration=0.5
         )
+
+    def get_phonetic_vector(self, char: str) -> Tensor3D:
+        """
+        Converts a character into a 3D physical vector.
+        
+        Hangul: Sum of Jamo vectors (Cho+Jung+Jong)
+        Other: Default vector or simple mapping
+        """
+        # 1. Decompose if Hangul
+        cho, jung, jong = decompose_hangul(char)
+        
+        if cho: # Is Hangul
+            # Get Jamo physics
+            p_cho = self.jamo_map.get(cho)
+            p_jung = self.jamo_map.get(jung)
+            p_jong = self.jamo_map.get(jong) if jong != ' ' else None
+            
+            # Base vector
+            x, y, z = 0.0, 0.0, 0.0
+            
+            # Consonants add Texture (Roughness=X, Tension=Z)
+            if p_cho:
+                x += p_cho.roughness
+                z += p_cho.tension
+            
+            # Vowels add Space/Direction (Openness=Y)
+            if p_jung:
+                y += p_jung.openness
+                
+            # Final Consonant adds weight (Density)
+            if p_jong:
+                x += p_jong.roughness * 0.5
+                z += p_jong.tension * 0.5
+                
+            # Normalize to reasonable range (-1.0 to 1.0)
+            return Tensor3D(x, y, z)
+            
+        else:
+            # Simple fallback for English/Symbols based on ASCII code
+            # Normalize A(65)~z(122) to -1.0~1.0 range vaguely
+            val = (ord(char) % 100) / 50.0 - 1.0
+            return Tensor3D(val, abs(val), -val)
+
 
     def find_closest_jamo(self, target_roughness: float, target_tension: float, type_filter: str = None) -> str:
         """

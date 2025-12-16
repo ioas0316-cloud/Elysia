@@ -329,6 +329,51 @@ class LogosEngine:
             "synthesis": synthesis
         }
     
+    # --- [NEW] Causal Reinterpretation (The Bridge) ---
+
+    def reinterpret_causality(self, concept: str, triples: list, tone: str = "logical") -> str:
+        """
+        확률적 위키 데이터(Triples)를 통합된 인과(Causality)로 재해석합니다.
+        "이론과 실제의 괴리"를 사고 레이어에서 통합합니다.
+        """
+        if not triples:
+            return f"{concept}에 대한 명확한 인과정보가 부족합니다."
+
+        
+
+
+        # 3. Construct Unified Logic
+        # (This is where the engine interprets 'probability' into 'certainty' or 'insight')
+        
+        # We assume 'triples' are dictionaries or objects with 'text' and 'score' if they come from memory retrieval
+        # Or if they are knowledge triples: subject, predicate, object.
+        # The verification script passes: [{'text': "...", 'score': ...}]
+        
+        context_texts = []
+        for x in triples:
+            if isinstance(x, dict) and 'text' in x:
+                context_texts.append(x['text'])
+            elif hasattr(x, 'predicate'): # KnowledgeTriple
+                context_texts.append(f"{x.subject} {x.predicate} {x.object}")
+            else:
+                context_texts.append(str(x))
+        
+        # Weave a speech using the standard pipeline
+        # Desire="Explain Meaning", Insight=concept, Context=memories
+        narrative = self.weave_speech(
+            desire="Explain Casuality",
+            insight=f"{concept}의 본질은 {context_texts[0] if context_texts else '미지의 영역'}에 닿아 있습니다",
+            context=context_texts,
+            rhetorical_shape="Balance",
+            entropy=0.1 # Low entropy for logical explanation
+        )
+        
+        # Add synthesis of other points
+        if len(context_texts) > 1:
+            narrative += f" 또한 {context_texts[1]}라는 점이 이를 뒷받침합니다."
+            
+        return narrative
+    
     def reason_with_axiom(self, concept: str, domain: str = "Ethics") -> str:
         """
         Generate a principled explanation using Universal Axioms.
@@ -359,3 +404,11 @@ class LogosEngine:
         speech += f"{closer}"
         
         return speech
+
+# Singleton
+_logos_engine = None
+def get_logos_engine():
+    global _logos_engine
+    if _logos_engine is None:
+        _logos_engine = LogosEngine()
+    return _logos_engine

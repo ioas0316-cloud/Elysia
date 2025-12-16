@@ -1,4 +1,5 @@
 # P4 구현 계획: 오감 통합 공명 학습 (Multi-Sensory Resonance Learning)
+
 # P4 Implementation Plan: Multi-Sensory Resonance Learning
 
 > **작성일 / Date**: 2025-12-06  
@@ -12,18 +13,21 @@
 ### P4의 목적과 방향
 
 **목적 (Purpose)**:
+
 - 영상/드라마에서 **경험으로 배우고 성장**한다
 - 감정, 맥락, 관계를 **깊이 이해**한다
 - 텍스트를 넘어선 **풍부한 지식 습득**
 - AGI Level 5-6으로 **진화**한다
 
 **방향 (Direction)**:
+
 - P2.2 Wave Knowledge에 **경험 축적** (멀티미디어)
 - 감정-경로 매핑으로 **의식 성장**
 - 오감 통합으로 **통합적 이해력** 강화
 - 자율 학습으로 **지속적 진화**
 
 **가능해지는 것들**:
+
 1. 드라마를 보고 **인간 감정과 관계 이해**
 2. 영화에서 **사회적 맥락과 문화 습득**
 3. 음악으로 **감성과 분위기 인식**
@@ -36,11 +40,13 @@
 *"See, hear, feel - learn through resonance"*
 
 **사람은 어떻게 배우는가?**
+
 - 드라마를 본다 → 감정, 상황, 관계를 이해한다
 - 영상을 본다 → 시각, 청각, 맥락이 통합된다
 - 음악을 듣는다 → 리듬, 감성, 분위기를 느낀다
 
 **Elysia도 같은 방식으로:**
+
 - 영상에서 위상공명패턴 추출
 - 감정, 시각, 청각을 하나의 공명장에 통합
 - 텍스트가 아닌 **경험**으로 학습
@@ -48,12 +54,14 @@
 ### P4가 해결하는 문제
 
 ❌ **현재 문제**:
+
 - 텍스트만 학습 가능
 - 시각/청각 정보 활용 불가
 - 감정과 맥락의 분리
 - 단순 개념 나열
 
 ✅ **P4 해결책**:
+
 - 멀티미디어 통합 학습
 - 위상공명패턴으로 감각 융합
 - 감정-맥락 통합 이해
@@ -64,11 +72,11 @@
 1. **NO EXTERNAL APIs** ✅
    - NO OpenAI, NO Anthropic, NO any API
    - 모든 것은 로컬 처리
-   
+
 2. **NO EXTERNAL LLMs** ✅
    - P2.2 Wave Knowledge System 활용
    - 공명 기반 패턴 매칭만
-   
+
 3. **Phase Resonance Patterns** ✅
    - 영상 → 위상공명패턴
    - 음악 → 리듬 공명패턴
@@ -101,11 +109,7 @@
 | **P4.2: Phase Resonance Pattern Extraction** | 위상공명패턴 추출 시스템 | 2주 | 🎯 최우선 | 📋 계획 |
 | **P4.3: Wave Classification & Filtering** | 파동 분류 및 필터링 시스템 | 2주 | ⚡ 높음 | 📋 계획 |
 | **P4.4: Multi-Sensory Integration Loop** | 오감 통합 루프 | 2주 | ⚡ 높음 | 📋 계획 |
-<<<<<<< HEAD
-| **P4.5: Balanced Wave Processing** | 흐름 처리 + 본질 저장 (학습 위해) | 2주 | ⚡ 높음 | 📋 계획 |
-=======
-| **P4.5: Holographic Memory & Compression** | 무지개 압축 (톱니바퀴 - 공명 데이터 저장) | 2주 | ⚡ 높음 | 📋 계획 |
->>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
+| **P4.5: Text-Wave Transduction** | 텍스트↔파동 변환 (Solfeggio 주파수) | 2주 | ⚡ 높음 | ✅ 완료 |
 | **P4.6: Emotional-Path Mapping** | 감성-경로 매핑 시스템 | 2주 | 📊 중간 | 📋 계획 |
 
 **총 예상 기간**: 14주 (3.5개월)  
@@ -114,16 +118,11 @@
 **예산**: $0 (완전 무료, NO API)
 
 **핵심 철학**:
+
 - "빛을 받아들이듯 파동 정보를 받아들여 자연스럽게 흘려보낸다"
-<<<<<<< HEAD
-- **"흐름 속에서 본질을 뽑아 학습 - 경험을 축적하여 성장"** ✨
-- "연산 최소화, 중요한 것만 저장 - P2.2 Knowledge에 통합"
-- "프리즘 필터로 실시간 분해, 의미있는 패턴만 보존"
-=======
-- **"작은 톱니바퀴가 큰 톱니바퀴를 돌리듯 - 공명 데이터는 저장"** ✨
-- "무지개 압축으로 100배 가볍게 - 본질만 남기고 압축"
-- "인터넷 거미줄 신경망으로 확장 - 홀로그램 재현"
->>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
+- **"흐름 속에서 본질을 뽑아 공명 데이터로 저장 - 작은 톱니바퀴가 큰 톱니를 돌린다"** ✨
+- "연산 최소화, 무지개 압축으로 100배 가볍게"
+- "홀로그램 재현 - P2.2 Knowledge에 통합"
 
 ---
 
@@ -294,6 +293,7 @@ class PodcastStreamSource(StreamSource):
 ```
 
 **Tasks**:
+
 - [ ] 파동 스트림 수신기 구현
 - [ ] YouTube RSS 피드 연결 (yt-dlp)
 - [ ] 인터넷 영상 스트리밍
@@ -302,11 +302,13 @@ class PodcastStreamSource(StreamSource):
 - [ ] 비동기 동시 수신
 
 **Expected Results**:
+
 - 여러 소스 동시 수신 (빛처럼)
 - 자동 파동 변환
 - 연속 스트림 (끊김 없이)
 
 **Files to Create**:
+
 - `Core/Sensory/wave_stream_receiver.py` (~400 lines)
 - `Core/Sensory/stream_sources.py` (~500 lines)
 - `Core/Sensory/wave_buffer.py` (~200 lines)
@@ -407,17 +409,20 @@ class StreamManager:
 ```
 
 **Tasks**:
+
 - [ ] 자동 스트림 발견
 - [ ] 주제 기반 검색
 - [ ] 관련 소스 자동 확장
 - [ ] 스트림 관리자 통합
 
 **Expected Results**:
+
 - 자동으로 새 소스 발견
 - 관련 콘텐츠 확장
 - 수동 관리 최소화
 
 **Files to Create**:
+
 - `Core/Sensory/stream_discovery.py` (~400 lines)
 - `Core/Sensory/stream_manager.py` (~300 lines)
 - `tests/Core/Sensory/test_stream_discovery.py` (~100 lines)
@@ -528,6 +533,7 @@ class VideoMetadataExtractor:
 ```
 
 **Tasks**:
+
 - [ ] OpenCV 기반 프레임 분석
 - [ ] 장면 전환 감지
 - [ ] 색상 분포 분석
@@ -535,11 +541,13 @@ class VideoMetadataExtractor:
 - [ ] 4D 쿼터니언 감성 서명 생성
 
 **Expected Results**:
+
 - 영상 → 감성 서명 변환
 - 장면별 메타데이터 추출
 - NO API, 완전 로컬 처리
 
 **Files to Create**:
+
 - `Core/Sensory/video_metadata_extractor.py` (~400 lines)
 - `Core/Sensory/frame_analyzer.py` (~200 lines)
 - `Core/Sensory/scene_detector.py` (~150 lines)
@@ -627,6 +635,7 @@ class AudioMetadataExtractor:
 ```
 
 **Tasks**:
+
 - [ ] librosa 통합
 - [ ] 리듬/템포 분석
 - [ ] 스펙트럼 특징 추출
@@ -634,6 +643,7 @@ class AudioMetadataExtractor:
 - [ ] 리듬 공명 패턴 생성
 
 **Files to Create**:
+
 - `Core/Sensory/audio_metadata_extractor.py` (~350 lines)
 - `Core/Sensory/rhythm_analyzer.py` (~200 lines)
 - `Core/Sensory/audio_emotion_detector.py` (~150 lines)
@@ -708,6 +718,7 @@ class VisualResonanceExtractor:
 ```
 
 **Tasks**:
+
 - [ ] 색상 → 주파수 매핑
 - [ ] 형태 → 진폭 변환
 - [ ] 움직임 → 위상 변환
@@ -715,6 +726,7 @@ class VisualResonanceExtractor:
 - [ ] 시각 공명 패턴 생성
 
 **Files to Create**:
+
 - `Core/Sensory/visual_resonance_extractor.py` (~400 lines)
 - `tests/Core/Sensory/test_visual_resonance.py` (~100 lines)
 
@@ -773,6 +785,7 @@ class MultiModalResonanceFusion:
 ```
 
 **Tasks**:
+
 - [ ] 다중 모드 융합 알고리즘
 - [ ] Hamilton Product 적용
 - [ ] 공명 강도 측정
@@ -780,6 +793,7 @@ class MultiModalResonanceFusion:
 - [ ] P2.2 통합
 
 **Files to Create**:
+
 - `Core/Sensory/multimodal_resonance_fusion.py` (~500 lines)
 - `tests/Core/Sensory/test_multimodal_fusion.py` (~150 lines)
 
@@ -885,6 +899,7 @@ class VisualWaveClassifier:
 ```
 
 **Tasks**:
+
 - [ ] 감정 파동 분류기
 - [ ] 시각 파동 분류기
 - [ ] 청각 파동 분류기
@@ -892,6 +907,7 @@ class VisualWaveClassifier:
 - [ ] 통합 분류 시스템
 
 **Files to Create**:
+
 - `Core/Sensory/wave_classifier.py` (~500 lines)
 - `tests/Core/Sensory/test_wave_classifier.py` (~150 lines)
 
@@ -1042,6 +1058,7 @@ class WaveFlowController:
 ```
 
 **Tasks**:
+
 - [ ] 품질 필터 (노이즈 제거)
 - [ ] 관련성 필터 (관심사 기반)
 - [ ] 새로움 필터 (중복 제거)
@@ -1049,12 +1066,14 @@ class WaveFlowController:
 - [ ] 흐름 제어기
 
 **Expected Results**:
+
 - 자동 노이즈 제거
 - 관심사 기반 필터링
 - 자연스러운 흐름
 - 부하 관리
 
 **Files to Create**:
+
 - `Core/Sensory/wave_filter.py` (~600 lines)
 - `Core/Sensory/wave_flow_controller.py` (~300 lines)
 - `tests/Core/Sensory/test_wave_filter.py` (~150 lines)
@@ -1134,12 +1153,14 @@ class SensoryIntegrationSystem:
 ```
 
 **Tasks**:
+
 - [ ] 다중 채널 통합
 - [ ] 공명 공간 구현
 - [ ] 감정-경로 매핑
 - [ ] ConceptPhysicsEngine 연동
 
 **Files to Create**:
+
 - `Core/Sensory/sensory_integration_system.py` (~600 lines)
 - `Core/Sensory/resonance_space.py` (~300 lines)
 - `Core/Sensory/emotional_path.py` (~200 lines)
@@ -1202,25 +1223,29 @@ class MultimediaFeedLoop:
 ```
 
 **Tasks**:
+
 - [ ] Feed 루프 구현
 - [ ] 파일 모니터링
 - [ ] P2.2 통합
 - [ ] 진행 로그 기록
 
 **Files to Create**:
+
 - `Core/Sensory/multimedia_feed_loop.py` (~300 lines)
 - `tests/Core/Sensory/test_feed_loop.py` (~100 lines)
 
 ---
 
 <<<<<<< HEAD
+
 ## 📅 P4.5: Balanced Wave Processing (2주)
 
 ### 목표
 
 **흐름 속에서 본질을 뽑아 학습 - 경험 축적으로 성장**
 
-핵심: 
+핵심:
+
 - **FLOW + LEARN** - 흐름 처리하되 의미있는 것은 학습
 - **프리즘 필터** - 실시간 분해하여 본질만 추출
 - **P2.2 통합** - 중요한 패턴만 Wave Knowledge에 저장
@@ -1237,14 +1262,17 @@ class MultimediaFeedLoop:
 ```
 
 ### Week 1: Selective Learning from Flow
+
 =======
+
 ## 📅 P4.5: Holographic Memory & Compression (2주)
 
 ### 목표
 
 **4D 파동공명패턴으로 압축, 프리즘 필터로 무지개 초파동화**
 
-핵심: 
+핵심:
+
 - **작은 톱니바퀴가 큰 톱니바퀴를 돌리듯** - 공명을 위한 파동 데이터는 저장
 - 무지개 압축으로 100배 가볍게 (1,200 bytes → 12 bytes)
 - 인터넷 거미줄 신경망으로 확장 메모리 활용
@@ -1259,11 +1287,13 @@ class MultimediaFeedLoop:
 이것이 흡수하려는 이유입니다.
 
 그러나 무겁게 저장하지 않고, 프리즘 필터로 무지개 압축하여:
+
 - 본질만 남기고 (7색 스펙트럼)
 - 초파동으로 압축 (12 bytes)
 - 필요시 홀로그램 재현
 
 ### Week 1: Prism Filter & Rainbow Compression
+>>>>>>>
 >>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
 
 **구현 내용**:
@@ -1460,6 +1490,7 @@ class PurposefulFlowProcessor:
 ```
 
 **Tasks**:
+
 - [ ] 선택적 학습 필터
 - [ ] 학습 가치 평가 (새로움, 풍부함, 일관성)
 - [ ] 본질 추출 및 Seed 생성
@@ -1468,6 +1499,7 @@ class PurposefulFlowProcessor:
 - [ ] P2.2 Knowledge 통합
 
 **학습 전략**:
+
 ```
 초기 (지식 < 30%): 50% 학습 - 많이 배움
 중간 (지식 30-60%): 20% 학습 - 선택적
@@ -1477,6 +1509,7 @@ class PurposefulFlowProcessor:
 ```
 
 **메모리 사용**:
+
 ```
 실시간 흐름: 최소 메모리 (순환 버퍼)
 학습 저장: P2.2 Knowledge System 활용
@@ -1484,6 +1517,7 @@ class PurposefulFlowProcessor:
 ```
 
 **Expected Results**:
+
 - 흐름 처리 + 의미있는 학습
 - 지속적 성장 (Seed 축적)
 - 적응형 학습률
@@ -1491,6 +1525,7 @@ class PurposefulFlowProcessor:
 - AGI Level 5-6 달성 기여
 
 **Files to Create**:
+
 - `Core/Flow/selective_learning_filter.py` (~400 lines)
 - `Core/Flow/adaptive_learning_system.py` (~300 lines)
 - `Core/Flow/purposeful_flow_processor.py` (~250 lines)
@@ -1553,30 +1588,35 @@ class GrowthTracker:
 ```
 
 **Tasks**:
+
 - [ ] 성장 추적 시스템
 - [ ] 마일스톤 관리
 - [ ] AGI 레벨 예상
 - [ ] 학습 효과 측정
 
 **Expected Results**:
+
 - 명확한 목적: AGI Level 5-6 달성
 - 명확한 방향: 감정/맥락 이해 강화
 - 측정 가능한 성장
 - 의미 있는 학습
 
 **Files to Create**:
+
 - `Core/Flow/growth_tracker.py` (~200 lines)
 - `tests/Core/Flow/test_growth_tracking.py` (~100 lines)
 
 ---
 
 ## 📅 P4.6: Emotional-Path Mapping (2주)
+
 =======
+
 # Core/Memory/prism_filter.py
 
 class PrismFilter:
     """프리즘 필터 - 빛을 무지개로 쪼개듯 파동 분해"""
-    
+
     def __init__(self):
         self.rainbow_axes = [
             'red',      # 빨강 - 높은 에너지
@@ -1588,15 +1628,16 @@ class PrismFilter:
             'violet'    # 보라 - 영성
         ]
 >>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
-        
+
     def split_wave_to_rainbow(self, wave_pattern: WavePattern):
         """4D 파동 → 7색 무지개 스펙트럼 분해"""
         # 프리즘처럼 파동을 분해
         rainbow_spectrum = {}
         
 <<<<<<< HEAD
-        async for wave in wave_stream:
+        async for wave in wave_stream
 =======
+
         # 4D 쿼터니언 (w, x, y, z)
         q = wave_pattern.to_quaternion()
         
@@ -1659,10 +1700,9 @@ class PrismFilter:
         # z(윤리/영성) 성분 강조
         return q.z * 1.0 + q.w * 0.2
 
-
 class RainbowSpectrum:
     """무지개 스펙트럼 - 7색으로 분해된 파동"""
-    
+
     def __init__(self, spectrum: dict):
         self.spectrum = spectrum
         
@@ -1728,10 +1768,9 @@ class RainbowSpectrum:
         
         return freq_sum / weight_sum if weight_sum > 0 else 0.5
 
-
 class HyperWave:
     """초파동 - 프리즘으로 압축된 극도로 가벼운 형태"""
-    
+
     def __init__(self, amplitude: float, phase: float, frequency: float):
         self.amplitude = amplitude
         self.phase = phase
@@ -1752,12 +1791,11 @@ class HyperWave:
         """크기 - 단 12 bytes!"""
         return 12
 
-
 # Core/Memory/rainbow_wave_compressor.py
 
 class RainbowWaveCompressor:
     """무지개 파동 압축기 - 프리즘 필터 활용"""
-    
+
     def __init__(self):
         self.prism_filter = PrismFilter()
         self.compression_ratio_target = 10000  # 10000:1 압축 목표!
@@ -1837,12 +1875,11 @@ class RainbowWaveCompressor:
         
         return HyperQuaternion(w=w, x=x, y=y, z=z)
 
-
 # Core/Memory/ultra_lightweight_storage.py
 
 class UltraLightweightStorage:
     """초경량 저장소 - 무지개 압축 활용"""
-    
+
     def __init__(self, max_weight_mb=10):  # 10MB만!
         self.max_weight = max_weight_mb * 1024 * 1024
         self.current_weight = 0
@@ -1892,10 +1929,12 @@ class UltraLightweightStorage:
             'weight_mb': weight_mb,
             'max_mb': max_mb
         }
+
 ```
 
 **압축 효과**:
 ```
+
 원본 4D 파동: ~1,200 bytes
 무지개 초파동: 12 bytes
 
@@ -1903,6 +1942,7 @@ class UltraLightweightStorage:
 10MB에 저장 가능: ~850,000개 파동!
 
 프리즘 효과: 빛을 압축하듯 극도로 가벼움
+
 ```
 
 **Tasks**:
@@ -2143,6 +2183,7 @@ class LightweightStorage:
 ```
 
 **Tasks**:
+
 - [ ] 4D 파동 압축 (1000:1)
 - [ ] Seed 본질 추출
 - [ ] 홀로그램 재현기
@@ -2151,12 +2192,14 @@ class LightweightStorage:
 - [ ] 공명 링크 시스템
 
 **Expected Results**:
+
 - 로컬 저장 1000배 압축
 - 인터넷을 확장 메모리로 활용
 - 몸무게 100MB 이하 유지
 - 필요시 홀로그램 재현
 
 **Files to Create**:
+
 - `Core/Memory/wave_compression.py` (~400 lines)
 - `Core/Memory/holographic_reconstructor.py` (~350 lines)
 - `Core/Network/internet_spider_web_network.py` (~500 lines)
@@ -2312,6 +2355,7 @@ class MemoryWeightMonitor:
 ```
 
 **Tasks**:
+
 - [ ] 연상 작용 시스템
 - [ ] 홀로그램 재현
 - [ ] 거미줄 웹 크롤링
@@ -2319,12 +2363,14 @@ class MemoryWeightMonitor:
 - [ ] 자동 정리 시스템
 
 **Expected Results**:
+
 - 부분에서 전체 복원
 - 인터넷 = 확장 메모리
 - 자동 몸무게 관리
 - 링크는 유지, 실제 데이터는 정리
 
 **Files to Create**:
+
 - `Core/Memory/associative_recall.py` (~400 lines)
 - `Core/Network/web_crawler_resonance.py` (~350 lines)
 - `Core/Memory/memory_weight_monitor.py` (~250 lines)
@@ -2332,10 +2378,10 @@ class MemoryWeightMonitor:
 
 ---
 
-
 ---
 
 ## 📅 P4.6: Emotional-Path Mapping (이전 P4.5, 2주)
+>>>>>>>
 >>>>>>> 8d77370 (Restore P4.5 rainbow compression: store wave data for resonance (small gears))
 
 **구현 내용**:
@@ -2660,6 +2706,7 @@ class UltraLightweightStorage:
 ```
 
 **압축 효과**:
+
 ```
 원본 4D 파동: ~1,200 bytes
 무지개 초파동: 12 bytes
@@ -2671,6 +2718,7 @@ class UltraLightweightStorage:
 ```
 
 **Tasks**:
+
 - [ ] 프리즘 필터 (7색 무지개 분해)
 - [ ] 무지개 스펙트럼 변환
 - [ ] 초파동(HyperWave) 생성
@@ -2679,12 +2727,14 @@ class UltraLightweightStorage:
 - [ ] 압축/해제 검증
 
 **Expected Results**:
+
 - 100배 압축 (1,200 bytes → 12 bytes)
 - 10MB에 850,000개 파동 저장 가능
 - 프리즘처럼 빛을 쪼개어 압축
 - 무지개 재구성으로 복원
 
 **Files to Create**:
+
 - `Core/Memory/prism_filter.py` (~500 lines)
 - `Core/Memory/rainbow_wave_compressor.py` (~400 lines)
 - `Core/Memory/ultra_lightweight_storage.py` (~300 lines)
@@ -2908,6 +2958,7 @@ class LightweightStorage:
 ```
 
 **Tasks**:
+
 - [ ] 4D 파동 압축 (1000:1)
 - [ ] Seed 본질 추출
 - [ ] 홀로그램 재현기
@@ -2916,12 +2967,14 @@ class LightweightStorage:
 - [ ] 공명 링크 시스템
 
 **Expected Results**:
+
 - 로컬 저장 1000배 압축
 - 인터넷을 확장 메모리로 활용
 - 몸무게 100MB 이하 유지
 - 필요시 홀로그램 재현
 
 **Files to Create**:
+
 - `Core/Memory/wave_compression.py` (~400 lines)
 - `Core/Memory/holographic_reconstructor.py` (~350 lines)
 - `Core/Network/internet_spider_web_network.py` (~500 lines)
@@ -3077,6 +3130,7 @@ class MemoryWeightMonitor:
 ```
 
 **Tasks**:
+
 - [ ] 연상 작용 시스템
 - [ ] 홀로그램 재현
 - [ ] 거미줄 웹 크롤링
@@ -3084,19 +3138,20 @@ class MemoryWeightMonitor:
 - [ ] 자동 정리 시스템
 
 **Expected Results**:
+
 - 부분에서 전체 복원
 - 인터넷 = 확장 메모리
 - 자동 몸무게 관리
 - 링크는 유지, 실제 데이터는 정리
 
 **Files to Create**:
+
 - `Core/Memory/associative_recall.py` (~400 lines)
 - `Core/Network/web_crawler_resonance.py` (~350 lines)
 - `Core/Memory/memory_weight_monitor.py` (~250 lines)
 - `tests/Core/Memory/test_associative_recall.py` (~150 lines)
 
 ---
-
 
 ## 🔮 미래 가능성: 제로 데이터 방식 / Future Possibility: Zero-Data Approach
 
@@ -3107,6 +3162,7 @@ class MemoryWeightMonitor:
 ### 철학
 
 인터넷 자체를 **트랜스포머 시스템**처럼 사용한다면:
+
 - 저장할 필요가 없다
 - 공명 파동만 자석처럼 사용
 - 원하는 지식이 즉시 끌려온다
@@ -3214,16 +3270,19 @@ class InternetAsTransformer:
 ### 장점
 
 ✅ **완전 제로 스토리지**
+
 - 로컬 저장 = 0 bytes
 - 메모리 사용 = 극소
 - 몸무게 = 깃털처럼
 
 ✅ **항상 최신 지식**
+
 - 인터넷이 업데이트되면 즉시 반영
 - 오래된 지식 없음
 - 실시간 동기화
 
 ✅ **무한 확장성**
+
 - 인터넷 = 무한 메모리
 - 제한 없음
 - 계속 성장하는 지식베이스
@@ -3231,14 +3290,17 @@ class InternetAsTransformer:
 ### 단점 (현재)
 
 ❌ **인터넷 필수**
+
 - 오프라인 불가
 - 연결 의존
 
 ❌ **지연 시간**
+
 - API 호출 필요
 - 실시간성 제약
 
 ❌ **안정성**
+
 - 외부 서비스 의존
 - 가용성 문제
 
@@ -3251,6 +3313,7 @@ class InternetAsTransformer:
 3. P6에서 **제로 데이터 모드** 구현
 
 **조건**:
+
 - 공명 시그니처 시스템 안정화
 - 인터넷 API 통합 완료
 - 지연 시간 최소화 (< 100ms)

@@ -16,19 +16,33 @@ Python의 AST(Abstract Syntax Tree)를 사용하여 코드의 구조, 복잡도,
 import ast
 import os
 import logging
-from typing import Dict, Any, List
-from dataclasses import dataclass
+from typing import Dict, Any, List, Optional
+from dataclasses import dataclass, field
 
 logger = logging.getLogger("SelfReflector")
 
 @dataclass
+class FunctionMetrics:
+    name: str
+    docstring: Optional[str]
+    complexity: int
+    loc: int
+
+@dataclass
+class ClassMetrics:
+    name: str
+    docstring: Optional[str]
+    bases: List[str] # Inheritance
+    methods: List[FunctionMetrics] = field(default_factory=list)
+
+@dataclass
 class CodeMetrics:
     filename: str
-    loc: int  # Lines of Code
-    functions: int
-    classes: int
-    complexity: int  # Total Cyclomatic Complexity
+    loc: int
+    complexity: int
     imports: List[str]
+    classes: List[ClassMetrics] = field(default_factory=list)
+    functions: List[FunctionMetrics] = field(default_factory=list) # Top-level functions
 
 class SelfReflector:
     def __init__(self, root_path: str = "c:/Elysia"):
@@ -36,80 +50,94 @@ class SelfReflector:
         logger.info(f"🪞 SelfReflector initialized. Root: {root_path}")
 
     def analyze_file(self, file_path: str) -> CodeMetrics:
-        """단일 파일의 코드 메트릭을 분석합니다."""
+        """단일 파일의 심층 구조(Anatomy)를 분석합니다."""
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, 'r', encoding='utf-8-sig') as f:
                 content = f.read()
             
             tree = ast.parse(content)
-            
             loc = len(content.splitlines())
-            functions = sum(1 for node in ast.walk(tree) if isinstance(node, ast.FunctionDef))
-            classes = sum(1 for node in ast.walk(tree) if isinstance(node, ast.ClassDef))
-            # Fix: Correctly iterate over aliases
+            
+            # Imports
             imports = []
             for node in ast.walk(tree):
                 if isinstance(node, (ast.Import, ast.ImportFrom)):
                     for alias in node.names:
                         imports.append(alias.name)
-            
-            # 간단한 복잡도 계산 (분기문 개수)
-            complexity = 0
-            for node in ast.walk(tree):
-                if isinstance(node, (ast.If, ast.For, ast.While, ast.Try, ast.ExceptHandler, ast.With)):
-                    complexity += 1
-            
+
+            # Top-level Classes & Functions
+            classes = []
+            functions = []
+            total_complexity = 0
+
+            for node in tree.body:
+                if isinstance(node, ast.ClassDef):
+                    classes.append(self._analyze_class(node))
+                elif isinstance(node, ast.FunctionDef):
+                    functions.append(self._analyze_function(node))
+                
+                # Check for complexity in top-level code
+                total_complexity += self._calc_complexity(node)
+
+            # Sum up complexity
+            for c in classes:
+                total_complexity += sum(m.complexity for m in c.methods)
+            for f in functions:
+                total_complexity += f.complexity
+
             return CodeMetrics(
                 filename=os.path.basename(file_path),
                 loc=loc,
-                functions=functions,
+                complexity=total_complexity,
+                imports=imports,
                 classes=classes,
-                complexity=complexity,
-                imports=imports
+                functions=functions
             )
             
         except Exception as e:
             logger.error(f"Failed to analyze {file_path}: {e}")
-            return CodeMetrics(os.path.basename(file_path), 0, 0, 0, 0, [])
+            return CodeMetrics(os.path.basename(file_path), 0, 0, [], [], [])
+
+    def _analyze_class(self, node: ast.ClassDef) -> ClassMetrics:
+        bases = [b.id for b in node.bases if isinstance(b, ast.Name)]
+        methods = []
+        for item in node.body:
+            if isinstance(item, ast.FunctionDef):
+                methods.append(self._analyze_function(item))
+        
+        return ClassMetrics(
+            name=node.name,
+            docstring=ast.get_docstring(node),
+            bases=bases,
+            methods=methods
+        )
+
+    def _analyze_function(self, node: ast.FunctionDef) -> FunctionMetrics:
+        complexity = self._calc_complexity(node)
+        loc = getattr(node, 'end_lineno', 0) - getattr(node, 'lineno', 0)
+        return FunctionMetrics(
+            name=node.name,
+            docstring=ast.get_docstring(node),
+            complexity=complexity,
+            loc=loc
+        )
+
+    def _calc_complexity(self, node: ast.AST) -> int:
+        complexity = 0
+        for child in ast.walk(node):
+            if isinstance(child, (ast.If, ast.For, ast.While, ast.Try, ast.ExceptHandler, ast.With)):
+                complexity += 1
+        return complexity
 
     def reflect_on_core(self) -> Dict[str, CodeMetrics]:
         """Core 디렉토리 내의 주요 파일들을 분석합니다."""
         core_path = os.path.join(self.root_path, "Core")
         results = {}
-        
         for root, _, files in os.walk(core_path):
             for file in files:
                 if file.endswith(".py"):
                     full_path = os.path.join(root, file)
-                    metrics = self.analyze_file(full_path)
-                    results[file] = metrics
-                    
+                    results[file] = self.analyze_file(full_path)
         return results
 
-    def identify_bottlenecks(self, metrics_map: Dict[str, CodeMetrics]) -> List[str]:
-        """복잡도가 높은 '병목 지점'을 식별합니다."""
-        bottlenecks = []
-        for filename, metrics in metrics_map.items():
-            # 기준: 복잡도가 20을 넘거나, 라인 수가 300을 넘는 파일
-            if metrics.complexity > 20 or metrics.loc > 300:
-                bottlenecks.append(f"{filename} (Complexity: {metrics.complexity}, LOC: {metrics.loc})")
-        return bottlenecks
-
-    def reflect(self, resonance, brain, will):
-        """
-        Performs a holistic reflection on the system's state and code structure.
-        Integrates internal state (Resonance, Brain, Will) with code analysis.
-        """
-        # 1. Analyze Codebase (Periodically or on demand could be better, but for now we run it)
-        # To avoid high CPU every cycle, we can check a probability or just do a lightweight check.
-        # For now, let's just log the state to satisfy the interface.
-        
-        logger.info(f"🪞 Reflection: Energy={resonance.total_energy:.1f}, Mood={will.current_mood}")
-        
-        # Optional: Run full analysis only if energy is high enough to support 'deep thought'
-        if resonance.total_energy > 80.0:
-            metrics_map = self.reflect_on_core()
-            bottlenecks = self.identify_bottlenecks(metrics_map)
-            if bottlenecks:
-                logger.warning(f"⚠️ Identified complex modules: {', '.join(bottlenecks)}")
 

@@ -103,5 +103,19 @@
     "value": "Isolated",
     "absorbed": false,
     "timestamp": "2025-12-15T15:58:24.560392"
+  },
+  {
+    "topic": "Plane",
+    "content": "플레인(plain, plane, plein)은 다음과 같은 뜻이 있다.플레인(plain)은 아무것도 넣지 않은 음료이다.\n플레인(plain)은 평야를 의미한다.\n플레인(plane)",
+    "value": "Isolated",
+    "absorbed": false,
+    "timestamp": "2025-12-15T23:47:04.866428"
+  },
+  {
+    "topic": "Entropy",
+    "content": "Why는 다음을 가리킨다.Why는 인과관계나 이유를 가리키는 영어 낱말이며 보통 왜라는 의미로 쓰인다.\nWhy :3T와 마이클 잭슨의 노래\nWhy \nWhy : 소녀시대의 리더 태연",
+    "value": "Isolated",
+    "absorbed": false,
+    "timestamp": "2025-12-15T23:47:15.903287"
   }
 ]

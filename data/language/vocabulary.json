@@ -1,0 +1,37 @@
+[
+  {
+    "word": "사과",
+    "meaning": "과일의 한 종류, 빨간색이고 달다",
+    "pos": "명사",
+    "examples": [],
+    "related_words": []
+  },
+  {
+    "word": "먹다",
+    "meaning": "음식을 입에 넣어 삼키다",
+    "pos": "동사",
+    "examples": [],
+    "related_words": []
+  },
+  {
+    "word": "예쁘다",
+    "meaning": "보기에 좋고 아름답다",
+    "pos": "형용사",
+    "examples": [],
+    "related_words": []
+  },
+  {
+    "word": "학교",
+    "meaning": "교육을 받는 장소",
+    "pos": "명사",
+    "examples": [],
+    "related_words": []
+  },
+  {
+    "word": "공부하다",
+    "meaning": "학문이나 기술을 배우다",
+    "pos": "동사",
+    "examples": [],
+    "related_words": []
+  }
+]
