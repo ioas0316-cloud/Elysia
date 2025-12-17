@@ -133,22 +133,34 @@ class WikipediaDumpParser:
             # 스트리밍 파싱
             context = ET.iterparse(file_handle, events=('end',))
             
-            for event, elem in context:
-                # <page> 태그 완료 시
-                if elem.tag == f"{self.namespace}page" or elem.tag == "page":
-                    title_elem = elem.find(f"{self.namespace}title") or elem.find("title")
+            # [CRITICAL PATCH] Handle Truncated BZ2 Files gracefully
+            # Instead of crashing on EOFError, we stop and yield what we have.
+            try:
+                for event, elem in context:
+                    # <page> 태그 완료 시
+                    if elem.tag == f"{self.namespace}page" or elem.tag == "page":
+                        title_elem = elem.find(f"{self.namespace}title") or elem.find("title")
                     text_elem = elem.find(f".//{self.namespace}text") or elem.find(".//text")
                     
                     if title_elem is not None and text_elem is not None:
                         title = title_elem.text or ""
                         raw_text = text_elem.text or ""
                         
-                        # 유효성 검사
+                        # 유효성 검사 (기존 Prefix)
                         if not self._is_valid_article(title):
                             self.skipped_special += 1
                             elem.clear()
                             continue
                         
+                        # [NEW] Concept Sanitizer Inclusion (The Kidney)
+                        # Reject 'Star -1234' or random noise titles
+                        from Core.Foundation.concept_sanitizer import get_sanitizer
+                        sanitizer = get_sanitizer()
+                        if not sanitizer.is_valid(title):
+                            # logger.debug(f"🗑️ Sanitizer Rejected: {title}")
+                            elem.clear()
+                            continue
+
                         # 위키텍스트 정제
                         content = self._clean_wikitext(raw_text)
                         
@@ -180,6 +192,9 @@ class WikipediaDumpParser:
                     
                     # 메모리 정리
                     elem.clear()
+            except (EOFError, OSError) as e:
+                logger.warning(f"⚠️ Compressed file truncated or corrupted: {e}")
+                logger.warning("   Stopping stream gracefully and preserving processed data.")
                     
         finally:
             file_handle.close()

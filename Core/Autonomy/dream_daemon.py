@@ -65,19 +65,18 @@ class DreamDaemon:
         from Core.Elysia.elysia_core import get_elysia_core
         core = get_elysia_core()
 
-        # Digest 3 articles per tick (Heavy operation)
-        for _ in range(3):
+        # [High-Velocity Ingestion]
+        # "Swallow whole, Digest later."
+        # Fast indexing (Shallow) allows 50+ items per tick.
+        for _ in range(50):
             try:
                 article = next(self.wiki_gen)
                 title = article['title']
                 content = article['content']
                 
                 # The Core handles everything:
-                # 1. ThoughtWave (Compression)
-                # 2. Multimodal (Senses)
-                # 3. InternalUniverse (Archives)
-                # 4. TorchGraph (Matrix Memory) [Newly Added]
-                core.learn(content, title)
+                # depth="shallow" bypasses LLM, effectively just "Indexing"
+                core.learn(content, title, depth="shallow")
                 
                 logger.info(f"   🧠 Digested: {title}")
                 

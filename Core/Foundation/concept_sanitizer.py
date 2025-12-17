@@ -1,75 +1,71 @@
-"""
-Concept Sanitizer ( The Kidney )
-================================
-"To purify is to define suitable boundaries."
 
-This module is the gatekeeper for the TorchGraph. 
-It filters out "Digital Noise" (e.g., 'Star -175283925', 'Object_0x123', 'None').
-
-Rules:
-1.  No pure numbers or ID-like patterns.
-2.  No "programmatic artifacts" (null, undefined, object).
-3.  Must be semantically meaningful (Subjective, but heuristic-based).
-"""
-
-import re
 import logging
+import re
+from typing import Optional
 
 logger = logging.getLogger("ConceptSanitizer")
 
 class ConceptSanitizer:
+    """
+    The Kidney.
+    Filters out toxic or noisy data before it enters the bloodstream (TorchGraph).
+    
+    Rules:
+    1. No pure numbers or symbols unless meaningful (e.g., 'C++' is ok, '---' is not).
+    2. No internal IDs or hashes (e.g., 'Star -12345').
+    3. Length limits (3 < len < 50).
+    """
+    
     def __init__(self):
-        # Regex for "Trash"
-        self.trash_patterns = [
-            r"^\d+$",               # Pure numbers
-            r"-\d+",                # Negative numbers / IDs
-            r"0x[a-fA-F0-9]+",      # Hex codes
-            r"Object_\d+",          # Default object names
-            r"Star [-]?\d+",        # Specific user complaint
-            r"[a-f0-9]{8}-",        # UUID fragments
-            r"undefined", r"null", r"None" # Nulls
-        ]
+        logger.info("🛡️ Kidney (Sanitizer) active - Filtering noise.")
+        # Regex for 'Noise' (e.g., just numbers and symbols)
+        self.noise_pattern = re.compile(r'^[\d\W_]+$')
         
     def is_valid(self, concept: str) -> bool:
         """
-        Returns True if the concept is worthy of the Crystal.
+        Check if a concept is healthy enough to enter the system.
         """
-        if not concept or not isinstance(concept, str): return False
+        if not concept: return False
         
         concept = concept.strip()
         
-        # 1. Length Check
-        if len(concept) < 2: return False # Single chars are rarely concepts (except 'I', 'A')
-        if len(concept) > 50: return False # Too long = Description, not Concept
-        
-        # 2. Trash Pattern Check
-        for pattern in self.trash_patterns:
-            if re.search(pattern, concept, re.IGNORECASE):
-                logger.warning(f"🛡️  Blocked Trash Concept: '{concept}'")
-                return False
-                
-        # 3. Charset Check (Allow letters, spaces, hyphens. Disallow heavy symbols)
-        if re.search(r"[<>{}\[\]@#$%^&*]", concept): # Code syntax
+        # Rule 1: Length
+        if len(concept) < 2 or len(concept) > 60:
+            return False
+            
+        # Rule 2: Not Just Noise
+        if self.noise_pattern.match(concept):
+            return False
+            
+        # Rule 3: No negative ID artifacts (common in scraped data)
+        # e.g., "Star -1123"
+        if re.search(r' -\d+$', concept):
             return False
             
         return True
 
-    def sanitize(self, concept: str) -> str:
+    def sanitize(self, concept: str) -> Optional[str]:
         """
-        Cleans a concept string (e.g. " The  Cat " -> "Cat").
+        Attempts to clean a concept. Returns None if it cannot be saved.
         """
-        if not concept: return ""
-        cleaned = concept.strip().title() # Normalize casing
+        if not concept: return None
         
-        # Remove trailing punctuation
-        cleaned = re.sub(r"[.,;:]$", "", cleaned)
+        cleaned = concept.strip()
         
-        return cleaned
+        # Remove trailing negative IDs specific to wiki dumps often
+        # "Subject -1223" -> "Subject"
+        cleaned = re.sub(r' -\d+$', '', cleaned)
+        
+        # Remove surrouding quotes
+        cleaned = cleaned.strip('"\'')
+        
+        if self.is_valid(cleaned):
+            return cleaned
+        return None
 
-# Singleton
 _sanitizer = None
 def get_sanitizer():
     global _sanitizer
-    if _sanitizer is None:
+    if not _sanitizer:
         _sanitizer = ConceptSanitizer()
     return _sanitizer

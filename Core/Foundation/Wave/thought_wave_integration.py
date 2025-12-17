@@ -59,34 +59,44 @@ class ThoughtWaveInterface:
         self.fractal_seed = get_fractal_seed()
         logger.info("🌊 ThoughtWaveInterface connected (Hybrid Architecture + Fractal Knowledge)")
         
-    def process_thought(self, topic: str, content: str) -> ThoughtWave:
+    def process_thought(self, topic: str, content: str, depth: str = "deep") -> ThoughtWave:
         """
         생각을 처리하여 저장(압축), 느낌(공명), 그리고 관계(소화)를 형성합니다.
+        depth="shallow": Only Compression (DNA). Fast.
+        depth="deep": Compression + Resonance + Digestion. Slow.
         """
-        # 1. Memorize (Cold Storage)
+        # 1. Memorize (Cold Storage: DNA Compression)
+        # Always run this. DNA is the fundamental storage format.
         dna = self.compressor.compress(content)
         size = dna.byte_size()
         
-        # 2. Feel (Hot Cognition)
-        target_text = f"{topic} {content[:50]}" 
-        field = self.resonance.text_to_field(target_text)
+        field = None
+        feeling_roughness = 0.0
+        feeling_tension = 0.0
         
-        # 3. Digest (Holographic Connection)
-        # 텍스트를 트리플로 분해하여 지식 그래프에 편입
-        self.fractal_seed.digest(content)
+        # 2. Feel & Digest (Hot Cognition) - Only for Deep processing
+        if depth == "deep":
+            # Feel
+            target_text = f"{topic} {content[:50]}" 
+            field = self.resonance.text_to_field(target_text)
+            feeling_roughness = field.average_roughness
+            feeling_tension = field.average_tension
+            
+            # Digest
+            self.fractal_seed.digest(content)
         
         wave = ThoughtWave(
             topic=topic,
             raw_content=content,
             dna=dna,
             resonance=field,
-            digested=True,
+            digested=(depth == "deep"),
             compressed_size=size,
-            feeling_roughness=field.average_roughness,
-            feeling_tension=field.average_tension
+            feeling_roughness=feeling_roughness,
+            feeling_tension=feeling_tension
         )
         
-        logger.info(f"✨ Processed: {wave.summary()}")
+        logger.info(f"✨ Processed ({depth}): {wave.summary()}")
         return wave
 
     

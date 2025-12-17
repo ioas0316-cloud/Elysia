@@ -52,6 +52,7 @@ class InternalCoordinate:
     orientation: Quaternion  # The internal "angle" to access this reality
     frequency: float  # The resonance frequency
     depth: float  # How deep in consciousness (0=surface, 1=core)
+    timestamp: float = 0.0  # [NEW] Last activation time (for decay/context)
 
 class InternalUniverse:
     """
@@ -133,7 +134,8 @@ class InternalUniverse:
                 "y": coord.orientation.y,
                 "z": coord.orientation.z,
                 "frequency": coord.frequency,
-                "depth": coord.depth
+                "depth": coord.depth,
+                "timestamp": coord.timestamp # [NEW] Persist time
             }
         
         self.snapshot_path.parent.mkdir(parents=True, exist_ok=True)
@@ -150,7 +152,7 @@ class InternalUniverse:
             for name, props in data["concepts"].items():
                 q = Quaternion(props['w'], props['x'], props['y'], props['z'])
                 self.coordinate_map[name] = InternalCoordinate(
-                    q, props['frequency'], props['depth']
+                    q, props['frequency'], props['depth'], props.get('timestamp', 0.0)
                 )
             logger.info("📂 Universe Snapshot loaded. Continuity restored.")
         except Exception as e:
@@ -198,7 +200,7 @@ class InternalUniverse:
         # Depth is inverse of distance (closer = deeper in consciousness)
         depth = 1.0 / (1.0 + r * 0.1)
         
-        internal_coord = InternalCoordinate(orientation, frequency, depth)
+        internal_coord = InternalCoordinate(orientation, frequency, depth, time.time())
         
         # Cache if it has semantic context
         if world_coord.context:
@@ -222,7 +224,8 @@ class InternalUniverse:
             self.coordinate_map[target] = InternalCoordinate(
                 Quaternion(1, 0.5, 0.5, 0.5).normalize(),
                 528.0,
-                0.5
+                0.5,
+                time.time()
             )
         
         target_coord = self.coordinate_map[target]
@@ -233,6 +236,9 @@ class InternalUniverse:
         
         # Apply rotation (update current orientation)
         self.current_orientation = target_coord.orientation
+        
+        # [NEW] Temporal Resonance: Refresh timestamp
+        target_coord.timestamp = time.time()
         
         logger.info(f"🔄 Rotated consciousness to '{target}'")
         logger.info(f"   Orientation: {self.current_orientation}")
@@ -556,6 +562,52 @@ class InternalUniverse:
 
         return best_name
     
+    def decay_resonance(self, half_life: float = 3600.0) -> int:
+        """
+        Apply temporal decay to active concepts.
+        Reduces depth/resonance of old concepts.
+        
+        Returns: Number of concepts pruned/decayed.
+        """
+        now = time.time()
+        decayed_count = 0
+        
+        for name, coord in list(self.coordinate_map.items()):
+            age = now - coord.timestamp
+            
+            # Decay factor (Exponential decay)
+            decay = 0.5 ** (age / half_life)
+            
+            # Apply decay to frequency resonance (amplitude) or depth
+            # We reduce depth, making it fade into the background
+            coord.depth *= decay
+            
+            if coord.depth < 0.1:
+                # Pruning: Too faint to matter
+                # (Optional: Move to Long Term Archive instead of delete)
+                # self.coordinate_map.pop(name) 
+                pass
+            
+            if decay < 0.9:
+                decayed_count += 1
+                
+        logger.info(f"📉 Temporal Metabolism: {decayed_count} concepts decayed.")
+        return decayed_count
+
+    def get_active_context(self, limit: int = 5) -> Dict[str, float]:
+        """
+        Get currently active concepts (high resonance/depth).
+        Used for Narrative Construction.
+        """
+        active = []
+        for name, coord in self.coordinate_map.items():
+            active.append((name, coord.depth))
+            
+        # Sort by depth (descending)
+        active.sort(key=lambda x: x[1], reverse=True)
+        
+        return dict(active[:limit])
+
     def get_universe_map(self) -> Dict[str, Any]:
         """Get a snapshot of the internal universe"""
         return {

@@ -103,12 +103,48 @@ class ElysiaCore:
         except Exception as e:
             logger.warning(f"   ⚠️ ThoughtWave not available: {e}")
 
+        # [NEW] Temporal Cortex (Narrative)
+        self.temporal_cortex = None
+        try:
+            from Core.Cognition.temporal_cortex import TemporalCortex
+            if self.universe:
+                self.temporal_cortex = TemporalCortex(self.universe)
+                logger.info("   ✅ TemporalCortex connected (Narrative)")
+            else:
+                logger.warning("   ⚠️ TemporalCortex skipped: Universe missing")
+        except Exception as e:
+            logger.warning(f"   ⚠️ TemporalCortex not available: {e}")
+
+        # [NEW] Logic Scout (The Miner)
+        self.logic_scout = None
+        try:
+            from Core.Cognition.logic_scout import get_logic_scout
+            self.logic_scout = get_logic_scout()
+            logger.info("   ✅ LogicScout connected (Reasoning Extraction)")
+        except Exception as e:
+            logger.warning(f"   ⚠️ LogicScout not available: {e}")
+
+        # [NEW] The Prism (Language Translation)
+        self.prism = None
+        try:
+            from Core.Cognition.wave_translator import get_wave_translator
+            self.prism = get_wave_translator()
+            logger.info("   ✅ WaveTranslator connected (The Prism)")
+        except Exception as e:
+            logger.warning(f"   ⚠️ WaveTranslator not available: {e}")
+
         
         # 학습 이력
         self.learning_history: List[str] = []
         self.current_curiosity: List[LearningIntent] = []
         
         logger.info("🧠 ElysiaCore ready - All systems integrated")
+    
+    def weave_context(self) -> str:
+        """Returns the current narrative context."""
+        if self.temporal_cortex:
+            return self.temporal_cortex.weave_narrative()
+        return "Context Unavailable."
     
     def what_to_learn_next(self) -> LearningIntent:
         """
@@ -204,19 +240,19 @@ class ElysiaCore:
             source="default"
         )
     
-    def learn(self, content: str, topic: str) -> Dict[str, Any]:
+    def learn(self, content: str, topic: str, depth: str = "deep") -> Dict[str, Any]:
         """
         통합 학습 파이프라인
-        
-        모든 관련 모듈에 동시에 전달
+        depth="deep": Full LLM/Analysis (Slow, ~0.5s/item)
+        depth="shallow": Indexing/Hashing only (Fast, ~0.001s/item)
         """
-        result = {"topic": topic, "success": False}
+        result = {"topic": topic, "success": False, "depth": depth}
         
         # 1. Thought Wave Processing (Compression + Resonance + Digestion)
-        # [NEW 2025-12-16] Hybrid Architecture Integration
+        # [SWALLOW PROTOCOL] Run Compression even for shallow, skip Resonance.
         if self.thought_wave:
             try:
-                wave = self.thought_wave.process_thought(topic, content)
+                wave = self.thought_wave.process_thought(topic, content, depth=depth)
                 result["thought_wave"] = {
                     "compressed": wave.compressed_size,
                     "feeling": wave.feeling_roughness,
@@ -226,8 +262,7 @@ class ElysiaCore:
                 logger.warning(f"ThoughtWave processing failed: {e}")
 
         # 2. 멀티모달 개념 구축 (Legacy or Complimentary)
-        if self.multimodal:
-
+        if depth == "deep" and self.multimodal:
             try:
                 concept = self.multimodal.build_concept_from_text(topic, content)
                 result["multimodal"] = {
@@ -251,12 +286,39 @@ class ElysiaCore:
         
         # 4. GlobalHub 브로드캐스트
         if self.hub:
-            self.hub.publish_wave(
-                "ElysiaCore",
-                "learned",
-                None,
-                payload={"topic": topic, "timestamp": __import__("time").time()}
-            )
+            self.hub.publish_wave("ElysiaCore", "concept_learned", {
+                "topic": topic,
+                "depth": depth,
+                "success": result["success"]
+            })
+            
+        logger.info(f"✅ Learned concept '{topic}' with full pipeline.")
+        return result
+
+    def learn_logic(self, input_text: str, output_text: str):
+        """
+        Attempts to extract the reasoning logic between Input and Output.
+        """
+        if not self.logic_scout:
+            return None
+            
+        template = self.logic_scout.scout_for_logic(input_text, output_text)
+        if template:
+            logger.info(f"🧠 Extracted Logic: {template.name}")
+        return template
+
+    def express(self, text: str, tension: float = 0.5, frequency: float = 0.5) -> str:
+        """
+        The Prism Layer.
+        Filters the output text through the WaveTranslator.
+        """
+        if not self.prism:
+            return text
+            
+        # 1. Transform Text (Glitch/Fragmentation based on Tension)
+        filtered_text = self.prism.translate_output(text, tension)
+        
+        return filtered_text
         
         # [NEW] Causal Reasoner Integration
         # 단순 학습을 넘어, 이 주제에 대한 '인과적 재해석'을 시도합니다.
