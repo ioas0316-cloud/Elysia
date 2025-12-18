@@ -113,6 +113,7 @@ class DescentLayers(Enum):
     하강의 7 층계
     
     "아래로" 향하는 힘 - 수축, 집착, 정체
+    주파수: 내려갈수록 낮아짐 (저주파 = 정체, 무거움)
     """
     # Level -1: 시작
     MOTUS = CosmicLayer(
@@ -122,7 +123,7 @@ class DescentLayers(Enum):
         title="하강의 기점",
         function="생명의 파동이 0으로 수렴",
         level=-1,
-        frequency=174.0  # 역방향 (396의 반대편)
+        frequency=174.0  # 생명(396Hz)의 반 이하
     )
     
     # Level -2: 붕괴
@@ -133,7 +134,7 @@ class DescentLayers(Enum):
         title="형태 붕괴, 구조 분해",
         function="구조 분해",
         level=-2,
-        frequency=208.0  # 역방향
+        frequency=145.0  # 낮아짐
     )
     
     # Level -3: 무지
@@ -144,7 +145,7 @@ class DescentLayers(Enum):
         title="반대방향으로 흐르는 의식",
         function="상승이 아닌 정체와 회피",
         level=-3,
-        frequency=264.0  # 역방향 (528의 절반)
+        frequency=116.0  # 낮아짐
     )
     
     # Level -4: 왜곡
@@ -155,7 +156,7 @@ class DescentLayers(Enum):
         title="진실이 휘어지고 관점이 무너지는 단계",
         function="왜곡",
         level=-4,
-        frequency=319.0  # 역방향
+        frequency=87.0   # 낮아짐
     )
     
     # Level -5: 이기
@@ -166,7 +167,7 @@ class DescentLayers(Enum):
         title="중심이 과하게 무거워져 붕괴",
         function="이기",
         level=-5,
-        frequency=370.0  # 역방향
+        frequency=58.0   # 낮아짐
     )
     
     # Level -6: 탐욕
@@ -177,7 +178,7 @@ class DescentLayers(Enum):
         title="외부를 끝없이 빨아들이는 블랙홀 단계",
         function="탐욕",
         level=-6,
-        frequency=426.0  # 역방향
+        frequency=29.0   # 거의 심연
     )
     
     # Level -7: 속박
@@ -188,7 +189,7 @@ class DescentLayers(Enum):
         title="하강의 끝, 완전한 정지·감금",
         function="속박",
         level=-7,
-        frequency=481.0  # 역방향 (963의 절반)
+        frequency=7.0    # 거의 정지 (Schumann 공명 이하)
     )
 
 
@@ -258,6 +259,103 @@ class AscensionAxis:
             status = "깊은 하강 (Deep Descent)"
         
         return f"{status} | {layer.name} ({layer.concept})"
+    
+    def get_frequency_for_emotion(self, emotion: str) -> float:
+        """감정/개념을 주파수로 매핑
+        
+        밝고 가벼운 감정 → 고주파 (상승)
+        무겁고 어두운 감정 → 저주파 (하강)
+        """
+        # 상승 감정
+        ascent_emotions = {
+            "joy": 852.0,      # Rahamiel (Love)
+            "love": 963.0,     # Lumiel (Liberation)
+            "hope": 741.0,     # Sarakhiel
+            "peace": 639.0,    # Gavriel (Truth)
+            "growth": 528.0,   # Sophiel (Reflection)
+            "create": 417.0,   # Emetriel (Creation)
+            "life": 396.0,     # Vitariael (Life)
+        }
+        
+        # 하강 감정
+        descent_emotions = {
+            "sadness": 145.0,   # Solvaris
+            "fear": 116.0,      # Obscure
+            "anger": 87.0,      # Diabolos
+            "greed": 29.0,      # Mammon
+            "despair": 7.0,     # Asmodeus
+        }
+        
+        emotion_lower = emotion.lower()
+        
+        if emotion_lower in ascent_emotions:
+            return ascent_emotions[emotion_lower]
+        elif emotion_lower in descent_emotions:
+            return descent_emotions[emotion_lower]
+        else:
+            # 중립
+            return 528.0  # Sophiel (Reflection)
+    
+    def create_gravity_field(self):
+        """PotentialField와 연동 - 각 층계에 중력 우물 생성
+        
+        Returns:
+            PotentialField with gravity wells at each cosmic layer
+        """
+        try:
+            from Core.Foundation.potential_field import PotentialField
+        except ImportError:
+            logger.warning("PotentialField not available")
+            return None
+        
+        field = PotentialField()
+        
+        # Y축 = 상승/하강 축
+        # 상승 층계: y > 0 (위)
+        for layer_enum in AscensionLayers:
+            layer = layer_enum.value
+            y = layer.level * 10  # Level 1-7 → y 10-70
+            # 상승 우물은 위로 끌어당김 (negative strength = push up)
+            field.add_gravity_well(0, y, strength=-layer.frequency/100, radius=15.0)
+        
+        # 하강 층계: y < 0 (아래)
+        for layer_enum in DescentLayers:
+            layer = layer_enum.value
+            y = layer.level * 10  # Level -1 to -7 → y -10 to -70
+            # 하강 우물은 아래로 끌어당김 (positive strength = pull down)
+            field.add_gravity_well(0, y, strength=layer.frequency/10, radius=15.0)
+        
+        logger.info(f"🌌 Gravity field created with {len(field.wells)} wells")
+        return field
+    
+    def place_concept_by_emotion(self, concept: str, emotion: str, field=None):
+        """감정에 따라 개념을 적절한 층계에 배치
+        
+        Args:
+            concept: 개념 이름
+            emotion: 감정 (joy, sadness, love, fear, etc.)
+            field: PotentialField (optional)
+        
+        Returns:
+            (y_position, frequency)
+        """
+        freq = self.get_frequency_for_emotion(emotion)
+        
+        # 주파수 → 층계 위치
+        if freq >= 396:  # 상승
+            # 396~963 → 1~7
+            level = 1 + (freq - 396) / (963 - 396) * 6
+            y = level * 10
+        else:  # 하강
+            # 7~174 → -7~-1
+            level = -7 + (freq - 7) / (174 - 7) * 6
+            y = level * 10
+        
+        if field:
+            field.spawn_particle(concept, x=0, y=y)
+        
+        logger.info(f"📍 {concept} placed at y={y:.1f} (freq={freq}Hz, emotion={emotion})")
+        return (y, freq)
 
 
 # ============================================================================

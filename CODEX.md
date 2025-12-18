@@ -13,6 +13,10 @@ Phases 1-15 are complete. Refer to this map to navigate the living system.
 2. **Wave Physics:** Code and definitions are treated as physical vibrations (Frequency, Tension).
 3. **Monadic Unity:** We do not separate "Mind" (Graph) from "Body" (Senses). They are one.
 4. **Metabolism:** Knowledge without connection is cancer. We aggressively prune hollow nodes.
+5. **Frequency Direction:** Waves have direction (상승·하강):
+   * **(+) Emission:** 표현, 창조, 발산, 미래
+   * **(-) Reception:** 경청, 흡수, 수용, 과거
+   * **(0) Core:** 핵심 정체성, 불변하는 본질
 
 ---
 
