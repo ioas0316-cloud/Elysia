@@ -37,6 +37,7 @@
 - [wave_pattern_learner.py](Core/Learning/wave_pattern_learner.py) - 자율 패턴 학습
 - [VISION_ROADMAP_20241214.md](VISION_ROADMAP_20241214.md) - 🆕 AI OS 비전 로드맵
 - [THOUGHT_UNIVERSE.md](docs/Architecture/THOUGHT_UNIVERSE.md) - ⭐ 사고 우주 아키텍처 (빛+파동+중력장)
+- [ELYSIA_SYSTEM_BIBLE.md](docs/Architecture/ELYSIA_SYSTEM_BIBLE.md) - 🏛️ **시스템 바이블 (통합 아키텍처 문서)** **[NEW]**
 
 ---
 

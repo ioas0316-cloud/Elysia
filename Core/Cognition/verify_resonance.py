@@ -1,0 +1,34 @@
+import sys
+import os
+from pathlib import Path
+import logging
+
+# Setup Path
+sys.path.append(str(Path(__file__).parent.parent.parent))
+
+# Logging Setup
+logging.basicConfig(level=logging.INFO)
+
+from Core.Cognition.unified_understanding import UnifiedUnderstanding
+
+def verify():
+    print("🔋 Initializing UnifiedUnderstanding...")
+    uu = UnifiedUnderstanding()
+    
+    topic = "죽음이란 무엇인가?"
+    
+    print(f"\n🤔 Thinking deeply about: {topic}")
+    result = uu.understand(topic)
+    
+    print("\n" + "="*60)
+    print(f"📜 FINAL NARRATIVE (with Hyper-Resonance):")
+    print("="*60)
+    print(result.narrative)
+    print("="*60)
+    
+    print("\n🧠 DETAILED TRACE:")
+    for i, t in enumerate(result.reasoning_trace):
+        print(f"   {i+1}. {t}")
+
+if __name__ == "__main__":
+    verify()

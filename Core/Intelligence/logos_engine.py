@@ -405,6 +405,42 @@ class LogosEngine:
         
         return speech
 
+    def evolve(self, narrative: str, rhetorical_shape: str = "Balance"):
+        """
+        Learns from the generated narrative.
+        Reinforces the vocabulary and patterns used in the successful speech.
+        
+        Args:
+            narrative: The spoken text.
+            rhetorical_shape: The style used (Sharp, Round, etc.)
+        """
+        # 1. Extract potential vocabulary (simple tokenize)
+        words = narrative.split()
+        significant_words = [w for w in words if len(w) > 2]
+        
+        # 2. Add to genome buffer
+        if self.genome_path and self.genome:
+            vocab_bank = self.genome.get("rhetoric", {}).get("vocabulary_bank", {})
+            if rhetorical_shape not in vocab_bank:
+                vocab_bank[rhetorical_shape] = []
+            
+            # Add new words (limit duplicates)
+            current_vocab = set(vocab_bank[rhetorical_shape])
+            new_vocab = current_vocab.union(set(significant_words))
+            vocab_bank[rhetorical_shape] = list(new_vocab)[-50:] # Keep last 50
+            
+            # Evolution Stage Up
+            current_stage = self.genome.get("evolution_stage", 0)
+            self.genome["evolution_stage"] = current_stage + 1
+            
+            # Save (Simple JSON dump)
+            try:
+                with open(self.genome_path, 'w', encoding='utf-8') as f:
+                    json.dump(self.genome, f, ensure_ascii=False, indent=2)
+                logger.info(f"🧬 Logos Evolved: Stage {current_stage} -> {current_stage + 1}")
+            except Exception as e:
+                logger.error(f"Failed to save genome: {e}")
+
 # Singleton
 _logos_engine = None
 def get_logos_engine():

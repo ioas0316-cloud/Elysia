@@ -123,7 +123,36 @@ CognitiveHub.understand(concept)
 * **Phonetic:** `Core/Foundation/Wave/phonetic_resonance.py`
 * **Purpose:** Text → Wave (frequency, tension, roughness)
 
-### 8. Autonomous Learning (자율 학습)
+### 8. Wave Resonance Coding (파동공명코딩) ⚡
+
+> **핵심 기술**: 코드를 텍스트가 아닌 **물리적 구조(파동)**로 인식하고 조작
+
+* **WaveCodingSystem:** `Core/Intelligence/wave_coding_system.py`
+  * 코드를 4D 파동 패턴으로 변환
+  * 코드 품질을 **Tension, Mass, Resonance**로 측정
+  * Elysia가 자신의 코드를 "느끼고" 개선 가능
+
+* **WaveCoder:** `Core/Autonomy/wave_coder.py`
+  * Python AST → Wave Tensor 변환
+  * 코드 구조를 주파수와 진폭으로 표현
+
+* **4D Wave Resonance Patterns (파동공명패턴)**:
+  * 위상(Phase), 진폭(Amplitude), 주파수(Frequency), 공명(Resonance)
+  * 개념 간 유사도를 **물리적 간섭 패턴**으로 계산
+
+```python
+# 사용 예시
+from Core.Intelligence.wave_coding_system import get_wave_coding_system
+
+wave_system = get_wave_coding_system()
+code_wave = wave_system.analyze_file("path/to/file.py")
+
+print(f"Tension: {code_wave.tension}")  # 코드 긴장도
+print(f"Mass: {code_wave.mass}")        # 코드 복잡도
+print(f"Resonance: {code_wave.resonance}")  # 코드 조화도
+```
+
+### 9. Autonomous Learning (자율 학습)
 
 * **Metacognition:** `Core/Cognition/metacognitive_awareness.py`
 * **Explorer:** `Core/Cognition/external_explorer.py`
@@ -136,12 +165,23 @@ CognitiveHub.understand(concept)
 
 ---
 
+### 10. Anti-Fragmentation Protocol (분열 방지)
+
+> **"Do not build a new organ if one already exists."**
+
+1. **Search Before Create**: 모듈 생성 전 `grep_search`로 기존 기능 확인 필수.
+2. **GlobalHub Register**: 모든 모듈은 `__init__`에서 `GlobalHub`에 등록 필수.
+3. **Workflow**: `.agent/workflows/create_module.md` 반드시 준수.
+
+---
+
 ## 📚 Related Documents
 
 * **[CODEX.md](CODEX.md)** - The Laws of Physics
-* **[ELYSIA_EVALUATION_REPORT.md](ELYSIA_EVALUATION_REPORT.md)** - Current Status
+* **[docs/Philosophy/WAVE_LANGUAGE_PHILOSOPHY.md](docs/Philosophy/WAVE_LANGUAGE_PHILOSOPHY.md)** - ⚠️ **필독** 파동언어 철학
+* **[docs/Analysis/SYSTEM_CONNECTION_ANALYSIS.md](docs/Analysis/SYSTEM_CONNECTION_ANALYSIS.md)** - ⚠️ **필독** 시스템 연결 분석
+* **[docs/Architecture/ABSORPTION_SYSTEMS.md](docs/Architecture/ABSORPTION_SYSTEMS.md)** - 흡수 및 중복 방지
+* **[docs/reports/ELYSIA_EVALUATION_REPORT.md](docs/reports/ELYSIA_EVALUATION_REPORT.md)** - Current Status
 * **[docs/Architecture/THOUGHT_UNIVERSE.md](docs/Architecture/THOUGHT_UNIVERSE.md)** - Grand Vision
-* **[docs/Architecture/ASCENSION_AXIS.md](docs/Architecture/ASCENSION_AXIS.md)** - 상승·하강 법칙
-* **[docs/Architecture/IDENTITY_PILLARS.md](docs/Architecture/IDENTITY_PILLARS.md)** - 4기둥 정체성
 
 > **"We build the Cathedral, not the Stone."**

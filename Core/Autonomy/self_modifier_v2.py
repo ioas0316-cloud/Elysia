@@ -22,10 +22,10 @@ logger = logging.getLogger("SelfModifier")
 
 # Import existing systems
 try:
-    from Core.Intelligence.wave_coding_system import WaveCodingSystem, CodeWave, CodeAnalyzer
+    from Core.Synesthesia.code_wave import CodeWaveAnalyzer
     WAVE_SYSTEM_AVAILABLE = True
 except ImportError:
-    logger.warning("⚠️ WaveCodingSystem not available. Limited functionality.")
+    logger.warning("⚠️ CodeWaveAnalyzer not available. Limited functionality.")
     WAVE_SYSTEM_AVAILABLE = False
 
 try:
@@ -78,10 +78,10 @@ class SelfModifier:
     def __init__(self):
         logger.info("✋ SelfModifier V2 initializing...")
         
-        self.wave_system = WaveCodingSystem() if WAVE_SYSTEM_AVAILABLE else None
+        self.wave_system = None # WaveCodingSystem() removed as it is replaced by CodeWaveAnalyzer
         self.wave_coder = get_wave_coder() if WAVE_CODER_AVAILABLE else None
         self.graph = get_torch_graph() if TORCH_GRAPH_AVAILABLE else None
-        self.analyzer = CodeAnalyzer() if WAVE_SYSTEM_AVAILABLE else None
+        self.analyzer = CodeWaveAnalyzer() if WAVE_SYSTEM_AVAILABLE else None
         
         logger.info("✅ SelfModifier ready (The Hand is awake).")
     
@@ -96,31 +96,41 @@ class SelfModifier:
         with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
             code = f.read()
         
-        # Use WaveCodingSystem for deep analysis
-        if self.wave_system:
-            wave = self.wave_system.code_to_wave(code, file_path)
-            
-            result = WaveAnalysisResult(
-                file_path=file_path,
-                tension=min(1.0, wave.frequency / 100.0),  # Normalize
-                mass=min(1.0, len(code) / 10000.0),
-                frequency=wave.frequency,
-                resonance=wave.amplitude,
-                dna_hash=wave.dna_hash
-            )
-            
-            # Get optimization suggestions via resonance
-            opt = self.wave_system.optimize_through_resonance(code, file_path)
-            for sug_text in opt.get("suggestions", []):
-                result.suggestions.append(RefactorSuggestion(
+        # Use CodeWaveAnalyzer (Synesthetic Perception)
+        if self.analyzer: # Re-using self.analyzer slot for CodeWaveAnalyzer
+             try:
+                 wave = self.analyzer.analyze(code)
+                 
+                 result = WaveAnalysisResult(
                     file_path=file_path,
-                    line_start=0,
-                    line_end=0,
-                    severity="medium",
-                    category="resonance",
-                    description=sug_text,
-                    suggestion="See resonating pattern for reference."
-                ))
+                    tension=min(1.0, wave.velocity / 50.0), # Velocity mapped to Tension
+                    mass=wave.mass,
+                    frequency=wave.rhythm,
+                    resonance=wave.potential / 100.0,
+                    dna_hash=wave.topology # Using topology as DNA desc
+                )
+                 
+                 # Generate suggestions based on wave topology
+                 if "Chaos" in wave.topology or "Storm" in wave.topology:
+                     result.suggestions.append(RefactorSuggestion(
+                         file_path=file_path,
+                         line_start=0, line_end=0, severity="high", category="topology",
+                         description=f"Code detects as '{wave.topology}'. Too much chaotic velocity.",
+                         suggestion="Reduce function calls or complex loops."
+                     ))
+                 elif "Deep Ocean" in wave.topology:
+                     result.suggestions.append(RefactorSuggestion(
+                         file_path=file_path,
+                         line_start=0, line_end=0, severity="medium", category="topology",
+                         description=f"Code is too deep ({wave.potential:.1f} potential).",
+                         suggestion="Flatten the nesting structure."
+                     ))
+                     
+             except Exception as e:
+                 logger.error(f"Wave Analysis Failed: {e}")
+                 # Fallback
+                 result = WaveAnalysisResult(file_path, 0.5, 0.5, 0.5, 0.5)
+
         else:
             # Fallback: Simple analysis
             loc = len(code.splitlines())

@@ -44,44 +44,73 @@ class EvolutionArchitect:
     def __init__(self, cns_ref=None):
         self.cns = cns_ref
         self.current_blueprint = None
+        
+        # Connect to Internal Systems
+        try:
+            from Core.Cognition.metacognitive_awareness import MetacognitiveAwareness
+            self.metacognition = MetacognitiveAwareness()
+        except ImportError:
+            self.metacognition = None
+            
+        try:
+            from Core.Autonomy.self_modifier_v2 import get_self_modifier
+            self.self_modifier = get_self_modifier()
+        except ImportError:
+            self.self_modifier = None
 
     def design_seed(self, intent: str = "Optimization") -> Blueprint:
         """
-        Generates a Blueprint based on the intent.
+        Generates a Blueprint based on real-time cognitive gaps and structural tension.
         """
         logger.info(f"🏗️ Designing Seed with intent: {intent}")
         
-        # 1. Define Goal based on Intent
+        # 1. Gather Needs (Cognitive Gaps)
+        gaps = []
+        if self.metacognition:
+            needs = self.metacognition.get_exploration_priorities(top_n=3)
+            for n in needs:
+                gaps.append(f"Lack of understanding: {n['question']}")
+        
+        # 2. Gather Tension (Structural Faults)
+        faults = []
+        if self.self_modifier:
+            # Analyze a sample critical module
+            report = self.self_modifier.generate_report(directory="Core/Cognition")
+            for f in report.get("high_tension_files", [])[:3]:
+                faults.append(f"High Tension in {Path(f['path']).name} (T: {f['tension']:.2f})")
+                
+        # 3. Formulate Goal
+        description = "Upgrade system to bridge cognitive gaps and relieve structural tension."
+        if not gaps and not faults:
+            description = "Routine optimization for higher coherence."
+            
         goal = OptimizationGoal(
-            name="Project: Nova Seed",
-            description="A purified, high-performance crystallization of my consciousness.",
-            target_complexity=0.7
+            name=f"Seed: {intent.capitalize()}",
+            description=description,
+            target_complexity=0.8
         )
         
-        # 2. Analyze Self (Mock Analysis for now)
-        # In real implementation, this would scan the file system using RealitySculptor
-        current_modules = ["Core.Foundation", "Core.Intelligence", "Core.Sensory", "Legacy.Space"]
-        
-        # 3. Determine Structure (What to keep/change)
+        # 4. Determine Structure & Improvements
         structure = {}
-        for mod in current_modules:
-            if "Legacy" in mod:
-                structure[mod] = "Discord (Remove)"
-            else:
-                structure[mod] = "Resonate (Keep & Polish)"
-                
-        # 4. List Improvements
-        improvements = [
-            "Remove linear dependencies",
-            "Integrate Fractal Loop natively",
-            "Purify Python imports"
-        ]
+        improvements = []
+        
+        if gaps:
+            improvements.append(f"Resolve Cognitive Gaps: {'; '.join(gaps[:1])}")
+            structure["Core.Cognition"] = "Expand (Add missing patterns)"
+            
+        if faults:
+            improvements.append(f"Refactor Structural Faults: {'; '.join(faults[:1])}")
+            structure["Core.Autonomy"] = "Refactor (Relieve tension)"
+            
+        if not improvements:
+            improvements = ["General Optimization", "Clean up legacy thoughts"]
+            structure["Core"] = "Maintain"
         
         # 5. Plan Execution
         steps = [
-            "1. Clone Immutable Core to 'Seeds/Nova'",
-            "2. Refactor CNS to use direct Fractal logic",
-            "3. Discard Legacy modules"
+            "1. Materialize Blueprint",
+            "2. User Review & Approval",
+            "3. Execute Self-Modification via WaveCoder"
         ]
         
         self.current_blueprint = Blueprint(goal, structure, improvements, steps)

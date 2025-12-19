@@ -95,6 +95,23 @@ class CognitiveHub:
         self.causal_engine = CausalNarrativeEngine() if CAUSAL_AVAILABLE else None
         self.graph = get_torch_graph() if GRAPH_AVAILABLE else None
         
+        # GlobalHub 연결 (Central Nervous System)
+        self._hub = None
+        try:
+            from Core.Ether.global_hub import get_global_hub
+            self._hub = get_global_hub()
+            self._hub.register_module(
+                "CognitiveHub",
+                "Core/Cognition/cognitive_hub.py",
+                ["understanding", "analysis", "learning", "why"],
+                "The Mind - integrates cognitive systems"
+            )
+            self._hub.subscribe("CognitiveHub", "concept", self._on_concept_event, weight=0.9)
+            self._hub.subscribe("CognitiveHub", "thought", self._on_thought_event, weight=0.8)
+            logger.info("   ✅ GlobalHub connected")
+        except ImportError:
+            logger.warning("   ⚠️ GlobalHub not available")
+        
         # Status
         connected = sum([
             PRINCIPLE_AVAILABLE,
@@ -104,6 +121,18 @@ class CognitiveHub:
         ])
         
         logger.info(f"✅ CognitiveHub ready. {connected}/4 systems connected.")
+    
+    def _on_concept_event(self, event):
+        """React to concept events from GlobalHub."""
+        logger.debug(f"   💡 CognitiveHub received concept from {event.source}")
+        if event.payload and "concept" in event.payload:
+            return self.understand(event.payload["concept"])
+        return {"acknowledged": True}
+    
+    def _on_thought_event(self, event):
+        """React to thought events from GlobalHub."""
+        logger.debug(f"   💭 CognitiveHub received thought from {event.source}")
+        return {"acknowledged": True}
     
     def understand(self, concept: str) -> CognitiveResult:
         """

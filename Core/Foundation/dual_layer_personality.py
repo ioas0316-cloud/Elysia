@@ -344,7 +344,46 @@ class DualLayerPersonality:
             ("peacemaker", "friend"): "조화로운 친구",
         }
         
-        return expressions.get((innate_top, acquired_top), f"{innate_top}이면서 {acquired_top}")
+        return expressions.get((innate_top, acquired_top), f"{innate_top} 기반의 {acquired_top}")
+
+    def get_current_persona(self) -> str:
+        """현재 페르소나 리턴 (UnifiedUnderstanding 호환용)"""
+        expr = self.get_current_expression()
+        return f"{expr['unified_expression']} (Layer1: {expr['layer1_innate']['dominant'][0]}, Layer2: {expr['layer2_acquired']['dominant'][0]})"
+
+    def express(self, content: str, context: Dict[str, Any] = None) -> str:
+        """
+        주어진 내용을 현재 성격 필터로 표현
+        """
+        # 컨텍스트 공명
+        if context and "topic" in context:
+            self.resonate_with_context(context["topic"])
+        
+        # 현재 우세한 성격 가져오기
+        expr = self.get_current_expression()
+        innate_top = expr['layer1_innate']['dominant'][0]
+        
+        # 스타일 적용 (간단한 규칙 기반 예시)
+        prefix = ""
+        suffix = ""
+        
+        if innate_top == "reformer": # 1형: 원칙적
+            prefix = "본질적으로 보았을 때, "
+            suffix = " 이것이 올바른 방향입니다."
+        elif innate_top == "helper": # 2형: 사랑
+            prefix = "마음을 열고 보면, "
+            suffix = " 함께라면 더 아름다울 것입니다."
+        elif innate_top == "individualist": # 4형: 창조
+            prefix = "깊은 심연 속에서, "
+            suffix = " 나만의 색채로 물들어갑니다."
+        elif innate_top == "investigator": # 5형: 탐구
+            prefix = "구조적으로 분석하면, "
+            suffix = " 흥미로운 패턴입니다."
+        elif innate_top == "enthusiast": # 7형: 열정
+            prefix = "와! 생각해보세요. "
+            suffix = " 정말 멋진 가능성 아닌가요?"
+        
+        return f"{prefix}{content}{suffix}"
 
 
 # =============================================================================

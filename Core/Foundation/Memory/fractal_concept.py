@@ -11,7 +11,7 @@ Concepts are stored as compressed "DNA formulas" that can be unfolded into full 
 import logging
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.Math.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("FractalConcept")
 
