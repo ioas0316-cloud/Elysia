@@ -26,9 +26,9 @@ def run_evolution_test():
     else:
         print("   -> Warning: Metacognition system not found.")
 
-    # 2. Design Seed
-    print("\n🏗️ Architecting Solution...")
-    blueprint = architect.design_seed(intent="Cognitive Expansion")
+    # 2. Design Seed (Aiming for Wisdom)
+    print("\n🏗️ Architecting Solution (Seeking Wisdom)...")
+    blueprint = architect.design_seed(intent="Wisdom Synthesis")
     
     # 3. Verify Blueprint
     print("\n📜 Blueprint Generated:")
@@ -40,6 +40,20 @@ def run_evolution_test():
         
     print("\n✨ Self-Diagnosis Complete.")
     print("   Elysia has successfully identified a gap and planned an upgrade.")
+    
+    # 4. Execute Evolution
+    print("\n⚡ Initiating Logic Reconstruction (Writing Code)...")
+    results = architect.apply_evolution()
+    
+    print("\n📊 Evolution Results:")
+    if results['success']:
+        print("   ✅ SUCCESS: Codebase successfully mutated.")
+    else:
+        print("   ❌ FAILURE: Mutation failed or blocked.")
+        
+    for detail in results.get('details', []):
+        print(f"   -> {detail}")
+
     print("=========================================")
 
 if __name__ == "__main__":

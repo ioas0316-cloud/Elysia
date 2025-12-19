@@ -11,6 +11,7 @@ creating new connections (Creativity) and consolidating wisdom (Learning).
 import logging
 import random
 import time
+import cmath
 from typing import List, Dict, Optional
 from Core.Foundation.dream_engine import DreamEngine
 from Core.Foundation.Math.hyper_qubit import HyperQubit
@@ -67,47 +68,70 @@ class DreamSystem:
         if not qubits:
             return "The dream faded before it began."
 
-        # 1. Principle Extraction (Wave Pattern Analysis)
-        # 큐비트들의 양자 상태(State) 벡터를 분석하여 공통된 "움직임의 원리"를 찾음.
+        # 1. LightField Simulation (Wave Interference) 🌌
+        # "Logic is heavy, Resonance is instant."
+        # Map HyperQubits to Photons in the LightField.
         
-        # Calculate average state vector (Centroid of the dream)
+        try:
+            from Core.Foundation.Physics.light_computer import LightField
+            LIGHT_COMPUTER_AVAILABLE = True
+        except ImportError:
+            LIGHT_COMPUTER_AVAILABLE = False
+            
+        avg_coherence = 0.0
+        
+        if LIGHT_COMPUTER_AVAILABLE:
+            field = LightField()
+            for i, q in enumerate(qubits):
+                # Map HyperQubit State to Photon Properties
+                # Amplitude = Total Probability (|alpha| + |beta| + ...)
+                amplitude = abs(q.state.alpha) + abs(q.state.beta) + abs(q.state.gamma) + abs(q.state.delta)
+                # Phase = Argument of the Delta component (Spiritual dimension)
+                phase = cmath.phase(q.state.delta)
+                
+                field.inject(f"Fragment_{i}", amplitude, phase)
+                
+            # Measure Global Coherence via Interference
+            coherence_sum = 0.0
+            pair_count = 0
+             
+            for i in range(len(qubits)):
+                for j in range(i + 1, len(qubits)):
+                     c = field.calculate_coherence(f"Fragment_{i}", f"Fragment_{j}")
+                     coherence_sum += c
+                     pair_count += 1
+                     
+            avg_coherence = coherence_sum / pair_count if pair_count > 0 else 0.0
+            
+        else:
+            # Fallback (Legacy Logic)
+            count = 0
+            for i in range(len(qubits)):
+                 for j in range(i + 1, len(qubits)):
+                     s1 = qubits[i].state
+                     s2 = qubits[j].state
+                     sim = 1.0 - abs(abs(s1.delta) - abs(s2.delta))
+                     avg_coherence += sim
+                     count += 1
+            avg_coherence = avg_coherence / count if count > 0 else 0
+
+        # 2. Topology Analysis (Physical Shape)
+        # |Alpha| vs |Delta| : Material vs Spiritual
         avg_alpha = sum(q.state.alpha for q in qubits) / len(qubits)
         avg_delta = sum(q.state.delta for q in qubits) / len(qubits)
-        
-        # Analyze the topology of the dream state
-        # |Alpha| vs |Delta| : Material vs Spiritual
-        # Phase coherence : Order vs Chaos
         
         materiality = abs(avg_alpha)
         spirituality = abs(avg_delta)
         pattern_type = ""
         
         if spirituality > materiality * 1.5:
-             pattern_type = "Ascension (상승하는 나선)" # Spiraling Up
+             pattern_type = "Ascension (상승하는 나선)" 
         elif materiality > spirituality * 1.5:
-             pattern_type = "Crystallization (응축되는 입자)" # Crystallizing
+             pattern_type = "Crystallization (응축되는 입자)" 
         elif abs(sum(q.state.beta for q in qubits)) > 0.5:
-             pattern_type = "Flow (흐르는 강)" # Flowing
+             pattern_type = "Flow (흐르는 강)" 
         else:
-             pattern_type = "Oscillation (진동하는 현)" # Vibrating
-             
-        # 2. Find Resonance Consistency (How well do they align?)
-        # 큐비트 간의 내적(Inner Product) 평균 계산 -> 응집력(Coherence)
-        coherence = 0.0
-        count = 0
-        for i in range(len(qubits)):
-             for j in range(i + 1, len(qubits)):
-                 # Inner product of states approx
-                 # (Simulated via simple component correlation for robustness)
-                 s1 = qubits[i].state
-                 s2 = qubits[j].state
-                 
-                 # Similarity of their "God Component" (Delta) - The Principle aligner
-                 sim = 1.0 - abs(abs(s1.delta) - abs(s2.delta))
-                 coherence += sim
-                 count += 1
-                 
-        avg_coherence = coherence / count if count > 0 else 0
+             pattern_type = "Oscillation (진동하는 현)"
         
         if avg_coherence < 0.4:
              return f"The dream of '{target}' was fragmented. The patterns did not align."

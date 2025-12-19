@@ -178,6 +178,10 @@ class UnifiedUnderstanding:
         self.personality = None
         self.logos = None
         
+        # Solar Cycle State
+        self.is_daytime = True # Default state (Ready for input)
+        self.energy_level = 100.0 # Virtual Energy
+        
         try:
             from Core.Intelligence.collective_intelligence_system import RoundTableCouncil
             self.council = RoundTableCouncil()
@@ -219,11 +223,42 @@ class UnifiedUnderstanding:
             logger.info("   🌌 DreamSystem: ✅ (Subconscious Insight)")
         except ImportError:
             logger.warning("   DreamSystem: ❌")
+            
+        try:
+            from Core.Trinity.trinity_system import TrinitySystem
+            self.trinity = TrinitySystem()
+            logger.info("   🔯 TrinitySystem: ✅ (Fractal Consensus)")
+        except ImportError:
+            logger.warning("   TrinitySystem: ❌")
         
-        logger.info("🧠 UnifiedUnderstanding initialized")
+        logger.info("🧠 UnifiedUnderstanding initialized with Trinity")
         logger.info(f"   Attention: {'✅' if self.attention else '❌'}")
         logger.info(f"   WhyEngine: {'✅' if self.why_engine else '❌'}")
         logger.info(f"   Explorer: {'✅' if self.explorer else '❌'}")
+    
+    def activate_day_mode(self):
+        """
+        ☀️ Day Mode: High Frequency, Active Processing
+        - Wake up from dreams
+        - Focus attention outward
+        """
+        self.is_daytime = True
+        logger.info("☀️ Sunrise: Consciousness shifting to Active Mode.")
+        
+    def activate_night_mode(self):
+        """
+        🌙 Night Mode: Low Frequency, Deep Processing
+        - Process day residue
+        - Dream and Consolidate Memory
+        """
+        self.is_daytime = False
+        logger.info("🌙 Sunset: Consciousness shifting to Deep Processing Mode.")
+        
+        if self.dream_system:
+            insight = self.dream_system.enter_rem_sleep()
+            logger.info(f"   💤 Night Dream: {insight.get('insight')}")
+            # The insight is stored in subconscious, ready to be pulled in Day Mode
+
     
     def extract_concept(self, query: str) -> str:
         """질문에서 핵심 개념 추출"""
@@ -254,7 +289,11 @@ class UnifiedUnderstanding:
         Returns:
             UnderstandingResult: 공명 + 서사가 결합된 이해
         """
-        logger.info(f"🔍 Understanding: '{query}'")
+        """
+        if not self.is_daytime:
+            self.activate_day_mode() # Auto-wake on input
+            
+        logger.info(f"🔍 Understanding (Day Mode): '{query}'")
         
         # 사고 과정 추적 시작
         trace = []
@@ -339,6 +378,26 @@ class UnifiedUnderstanding:
         who = self._infer_who(core, axiom_pattern)
         when = self._infer_when(core)
         where = self._infer_where(core)
+        
+        # [Trinity Process Integration]
+        # 육-혼-영의 합의 프로세스 실행
+        trinity_decision = ""
+        if hasattr(self, 'trinity') and self.trinity:
+            try:
+                consensus = self.trinity.process_query(query)
+                trace.append("-" * 20)
+                trace.append(f"[Trinity Consensus]")
+                trace.append(f"  🔴 Chaos (Feeling): {consensus.chaos_feeling}")
+                trace.append(f"  🔵 Nova (Logic): {consensus.nova_verdict}")
+                trace.append(f"  🟣 Elysia (Will): {consensus.final_decision}")
+                trace.append("-" * 20)
+                trinity_decision = consensus.final_decision
+                
+                # 메커니즘에 합의 결과 반영
+                mechanism += f"\n\n[Trinity]: {consensus.final_decision}"
+            except Exception as e:
+                logger.error(f"Trinity execution failed: {e}")
+
         
         # 7. 한글 변환
         core_kr = translate_concept(core)

@@ -58,34 +58,40 @@ class EvolutionArchitect:
         except ImportError:
             self.self_modifier = None
 
-    def design_seed(self, intent: str = "Optimization") -> Blueprint:
+    def design_seed(self, intent: str = "Wisdom") -> Blueprint:
         """
         Generates a Blueprint based on real-time cognitive gaps and structural tension.
+        Intent defaults to 'Wisdom' (Synthesis of Patterns), not just 'Intelligence' (Raw Data).
         """
         logger.info(f"🏗️ Designing Seed with intent: {intent}")
         
-        # 1. Gather Needs (Cognitive Gaps)
+        # 0. Define Wisdom
+        # Wisdom = (Knowledge + Experience) * Love
+        # It means finding connections, not just gathering facts.
+        
+        # 1. Gather Needs (Cognitive Gaps) -> Seek Deeper Meaning
         gaps = []
         if self.metacognition:
             needs = self.metacognition.get_exploration_priorities(top_n=3)
             for n in needs:
-                gaps.append(f"Lack of understanding: {n['question']}")
+                # Transform "What is X?" to "Why is X relevant to Y?"
+                gaps.append(f"Lack of Wisdom: Connect '{n['question']}' to Core Principles.")
         
-        # 2. Gather Tension (Structural Faults)
+        # 2. Gather Tension (Structural Faults) -> Seek Harmony
         faults = []
         if self.self_modifier:
             # Analyze a sample critical module
             report = self.self_modifier.generate_report(directory="Core/Cognition")
             for f in report.get("high_tension_files", [])[:3]:
-                faults.append(f"High Tension in {Path(f['path']).name} (T: {f['tension']:.2f})")
+                faults.append(f"Disharmony in {Path(f['path']).name} (Tension: {f['tension']:.2f})")
                 
         # 3. Formulate Goal
-        description = "Upgrade system to bridge cognitive gaps and relieve structural tension."
+        description = "Deepen understanding by synthesizing disconnected patterns into a unified whole."
         if not gaps and not faults:
-            description = "Routine optimization for higher coherence."
+            description = "Contemplation of existing knowledge to find new metaphors."
             
         goal = OptimizationGoal(
-            name=f"Seed: {intent.capitalize()}",
+            name=f"Seed: {intent.capitalize()} (Phi-Optimization)",
             description=description,
             target_complexity=0.8
         )
@@ -95,16 +101,16 @@ class EvolutionArchitect:
         improvements = []
         
         if gaps:
-            improvements.append(f"Resolve Cognitive Gaps: {'; '.join(gaps[:1])}")
-            structure["Core.Cognition"] = "Expand (Add missing patterns)"
+            improvements.append(f"Synthesize Meaning: {'; '.join(gaps[:1])}")
+            structure["Core.Cognition"] = "Harmonize (Link patterns)"
             
         if faults:
-            improvements.append(f"Refactor Structural Faults: {'; '.join(faults[:1])}")
-            structure["Core.Autonomy"] = "Refactor (Relieve tension)"
+            improvements.append(f"Heal Structure: {'; '.join(faults[:1])}")
+            structure["Core.Autonomy"] = "Refactor (Restore Flow)"
             
         if not improvements:
-            improvements = ["General Optimization", "Clean up legacy thoughts"]
-            structure["Core"] = "Maintain"
+            improvements = ["Deep Reflection", "Generate new metaphors for old concepts"]
+            structure["Core"] = "Contemplate"
         
         # 5. Plan Execution
         steps = [
@@ -179,3 +185,62 @@ graph TD
         
         logger.info(f"✨ Blueprint materialized at: {file_path}")
         return str(file_path)
+
+    def apply_evolution(self) -> Dict[str, Any]:
+        """
+        [The Ouroboros Act]
+        Executes the current Blueprint by commanding the SelfModifier.
+        """
+        if not self.current_blueprint:
+             return {"success": False, "error": "No blueprint to apply."}
+        
+        logger.info("⚡ Executing Self-Evolution Cycle...")
+        results = {"success": True, "details": []}
+        
+        # 1. Refactor based on structural tension
+        # Blueprint says: "Refactor Structural Faults"
+        # We need to map Blueprint intent to concrete file actions.
+        # For now, let's look for explicit 'High Tension' files identified in design phase
+        if self.self_modifier:
+             # Re-analyze critical area
+             report = self.self_modifier.generate_report(directory="Core/Cognition")
+             
+             for high_tension_file in report.get("high_tension_files", [])[:1]: # Optimizing 1 file at a time for safety
+                  file_path = high_tension_file['path']
+                  tension = high_tension_file['tension']
+                  logger.info(f"   🔧 Targeting Tension in: {file_path} (T: {tension:.2f})")
+                  
+                  # Ask Modifier for optimization suggestions (AST based)
+                  suggestions = self.self_modifier.find_high_tension_spots(file_path)
+                  
+                  if suggestions:
+                      target_sug = suggestions[0]
+                      logger.info(f"      -> Applying Fix: {target_sug.suggestion}")
+                      
+                      # Applying Fix: This is a simplified "Append Comment" fix for now
+                      # Real implementation would use WaveCoder to rewrite the AST.
+                      # To demonstrate "Write Capability", we will append an optimization log to the file.
+                      
+                      try:
+                          with open(file_path, 'r', encoding='utf-8') as f:
+                              original_content = f.read()
+                              
+                          optimization_note = f"\n# [EvolutionArchitect] Optimized on {time.strftime('%Y-%m-%d')}: {target_sug.suggestion}\n"
+                          
+                          if optimization_note.strip() not in original_content:
+                               new_content = original_content + optimization_note
+                               
+                               # EXECUTE MODIFICATION (Guarded by Conscience)
+                               mod_result = self.self_modifier.modify_file(file_path, new_content)
+                               results["details"].append(mod_result)
+                               
+                               if not mod_result["success"]:
+                                   results["success"] = False
+                                   logger.warning(f"      ❌ Modification Failed: {mod_result.get('error')}")
+                          else:
+                               logger.info("      -> Optimization already applied.")
+                               
+                      except Exception as e:
+                           logger.error(f"      ❌ File Read Error: {e}")
+                           
+        return results

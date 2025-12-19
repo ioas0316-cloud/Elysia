@@ -67,6 +67,13 @@ class WaveAnalysisResult:
     suggestions: List[RefactorSuggestion] = field(default_factory=list)
 
 
+# Import Conscience
+try:
+    from Core.Ethics.conscience_circuit import ConscienceCircuit
+    CONSCIENCE_AVAILABLE = True
+except ImportError:
+    CONSCIENCE_AVAILABLE = False
+    
 class SelfModifier:
     """
     The Hand That Writes (자기 수정자)
@@ -80,6 +87,11 @@ class SelfModifier:
         
         self.wave_system = None # WaveCodingSystem() removed as it is replaced by CodeWaveAnalyzer
         self.wave_coder = get_wave_coder() if WAVE_CODER_AVAILABLE else None
+        
+        self.conscience = ConscienceCircuit() if CONSCIENCE_AVAILABLE else None
+        if self.conscience:
+            logger.info("   ⚖️ SelfModifier: Conscience Circuit Connected.")
+            
         self.graph = get_torch_graph() if TORCH_GRAPH_AVAILABLE else None
         self.analyzer = CodeWaveAnalyzer() if WAVE_SYSTEM_AVAILABLE else None
         
@@ -158,6 +170,57 @@ class SelfModifier:
             )
         
         return result
+
+    def modify_file(self, file_path: str, new_content: str) -> Dict[str, Any]:
+        """
+        [The Dangerous Hand]
+        Modifies a file with new content.
+        MUST BE GUARDED by Conscience Check.
+        """
+        if not os.path.exists(file_path):
+            return {"success": False, "error": "File not found"}
+            
+        logger.info(f"📝 Request to modify: {file_path}")
+        
+        # 1. Conscience Check (The Moral Filter)
+        if self.conscience:
+            judge = self.conscience.judge_action(
+                action_description=f"Modify file {file_path}",
+                proposed_code=new_content
+            )
+            
+            if not judge.is_allowed:
+                error_msg = f"⛔ Modification BLOCKED by Conscience: {judge.message} (Pain: {judge.pain_level:.2f})"
+                logger.warning(error_msg)
+                return {"success": False, "error": error_msg}
+            
+            if judge.pain_level > 0.4:
+                 logger.warning(f"   ⚠️ Painful Modification: {judge.message} (Pain: {judge.pain_level:.2f})")
+        else:
+             logger.warning("   ⚠️ Conscience NOT connected. Acting with raw instinct.")
+
+        # 2. Backup
+        try:
+            self._create_backup(file_path)
+        except Exception as e:
+            logger.warning(f"   Backup failed: {e}")
+
+        # 3. Write
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+            logger.info(f"   ✅ File modified successfully: {file_path}")
+            return {"success": True, "message": "Modified"}
+        except Exception as e:
+            logger.error(f"   ❌ Write failed: {e}")
+            return {"success": False, "error": str(e)}
+
+    def _create_backup(self, file_path: str):
+        """Creates a simple .bak copy."""
+        import shutil
+        backup_path = file_path + ".bak"
+        shutil.copy2(file_path, backup_path)
+        return backup_path
     
     def find_high_tension_spots(self, file_path: str) -> List[RefactorSuggestion]:
         """
