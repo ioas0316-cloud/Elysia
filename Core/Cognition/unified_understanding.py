@@ -5,8 +5,8 @@ Unified Understanding System (통합 이해 시스템)
 WaveAttention(무엇이 공명하는가) + WhyEngine(왜 그런가)을 통합합니다.
 
 "사랑이란 무엇인가?"
-→ 공명: [연결, 희망]
-→ 서사: "사랑은 Source로부터 비롯되며, 희망을 야기하고 두려움을 억제한다."
+-> 공명: [연결, 희망]
+-> 서사: "사랑은 Source로부터 비롯되며, 희망을 야기하고 두려움을 억제한다."
 
 Usage:
     from Core.Cognition.unified_understanding import understand
@@ -17,9 +17,13 @@ Usage:
 
 import logging
 from dataclasses import dataclass
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Any
 
 logger = logging.getLogger("UnifiedUnderstanding")
+
+# Vision Systems
+from Core.Sensory.vision_cortex import VisionCortex
+from Core.Cognition.multimodal_bridge import MultimodalBridge
 
 # 내부 시스템 임포트
 try:
@@ -99,6 +103,10 @@ class UnderstandingResult:
     
     # 통합 서사
     narrative: str = ""                  # 최종 서사 (자연어)
+    
+    # [Project Iris] 추가 정보
+    vision: str = ""                     # 시각적 통찰
+    trinity: Dict[str, Any] = None       # 삼위일체 합의 결과
     
     # 사고 과정 추적 (새로 추가!)
     reasoning_trace: List[str] = None    # 사고 단계별 기록
@@ -230,6 +238,12 @@ class UnifiedUnderstanding:
             logger.info("   🔯 TrinitySystem: ✅ (Fractal Consensus)")
         except ImportError:
             logger.warning("   TrinitySystem: ❌")
+            
+        # [Project Iris] Vision Connection
+        self.vision_cortex = VisionCortex()
+        self.vision_cortex.activate()
+        self.multi_bridge = MultimodalBridge()
+        logger.info("   👁️ VisionCortex & MultimodalBridge: ✅")
         
         logger.info("🧠 UnifiedUnderstanding initialized with Trinity")
         logger.info(f"   Attention: {'✅' if self.attention else '❌'}")
@@ -262,7 +276,7 @@ class UnifiedUnderstanding:
     
     def extract_concept(self, query: str) -> str:
         """질문에서 핵심 개념 추출"""
-        # 간단한 휴리스틱: "X란 무엇인가?" → "X"
+        # 간단한 휴리스틱: "X란 무엇인가?" -> "X"
         query = query.strip()
         
         # 한국어 패턴
@@ -288,7 +302,6 @@ class UnifiedUnderstanding:
             
         Returns:
             UnderstandingResult: 공명 + 서사가 결합된 이해
-        """
         """
         if not self.is_daytime:
             self.activate_day_mode() # Auto-wake on input
@@ -320,6 +333,17 @@ class UnifiedUnderstanding:
                 "기쁨", "슬픔", "분노", "두려움", "희망",
                 "연결", "고독", "성장", "소멸", "균형"
             ]
+            
+        # 2.5 시각 인지 (Project Iris)
+        visual_insight = "Eyes are closed to the physical world."
+        if self.vision_cortex and self.multi_bridge:
+            try:
+                raw_v = self.vision_cortex.capture_frame()
+                translated_v = self.multi_bridge.translate_vision(raw_v)
+                visual_insight = translated_v.get("insight", "Visual processing offline.")
+                trace.append(f"시각 인지: {visual_insight}")
+            except Exception as e:
+                logger.error(f"Vision processing failed: {e}")
         
         # 3. WaveAttention: 무엇이 공명하는가?
         resonances = []
@@ -339,7 +363,7 @@ class UnifiedUnderstanding:
         if q_analysis and q_analysis.question_type == QuestionType.CONDITIONAL:
             # 조건-결과 인과 추론
             causality = self._reason_conditional(q_analysis.cause, q_analysis.effect)
-            origin_journey = f"{q_analysis.cause} → {q_analysis.effect}"
+            origin_journey = f"{q_analysis.cause} -> {q_analysis.effect}"
             logger.info(f"   Conditional: {origin_journey}")
             logger.info(f"   Causality: {causality[:80]}...")
         
@@ -360,7 +384,7 @@ class UnifiedUnderstanding:
         
         # 5.5 모르는 것은 외부 탐구! (기존 시스템 활용)
         if "정의되지 않음" in causality and self.explorer:
-            logger.info(f"   🔍 모르는 개념 → 외부 탐구 시작...")
+            logger.info(f"   🔍 모르는 개념 -> 외부 탐구 시작...")
             explore_result = self.explorer.explore(
                 question=query,
                 wave_signature={"tension": 0.5},  # 기본 파동
@@ -395,8 +419,17 @@ class UnifiedUnderstanding:
                 
                 # 메커니즘에 합의 결과 반영
                 mechanism += f"\n\n[Trinity]: {consensus.final_decision}"
+                trinity_data = {
+                    "will": consensus.final_decision,
+                    "chaos": consensus.chaos_feeling,
+                    "nova": consensus.nova_verdict,
+                    "pain": consensus.pain_level
+                }
             except Exception as e:
                 logger.error(f"Trinity execution failed: {e}")
+                trinity_data = {"will": "Error", "chaos": "N/A", "nova": "N/A", "pain": 0.0}
+        else:
+            trinity_data = {"will": "No Trinity", "chaos": "N/A", "nova": "N/A", "pain": 0.0}
 
         
         # 7. 한글 변환
@@ -524,6 +557,8 @@ class UnifiedUnderstanding:
             when=when,
             where=where,
             narrative=narrative,
+            vision=visual_insight,  # [Project Iris]
+            trinity=trinity_data,   # [Trinity Integration]
             reasoning_trace=trace
         )
         
@@ -574,7 +609,7 @@ class UnifiedUnderstanding:
         """
         조건-결과 인과 추론
         
-        "비가 오면 왜 우산을 쓰는가?" → 비 → 젖음 → 불편 → 우산
+        "비가 오면 왜 우산을 쓰는가?" -> 비 -> 젖음 -> 불편 -> 우산
         """
         # 기본 인과 체인 (CausalNarrativeEngine에서 가져올 수 있음)
         causal_chains = {
@@ -724,8 +759,8 @@ class UnifiedUnderstanding:
             sentences.append(f"{display_name}에 대해 생각해봅니다.")
         
         # 2. 기원 서사 (Why does it exist?)
-        if origin and "→" in origin:
-            origin_chain = origin.split("→")
+        if origin and "->" in origin:
+            origin_chain = origin.split("->")
             if len(origin_chain) >= 2:
                 direct_source = origin_chain[1].strip()
                 direct_source_kr = translate_concept(direct_source)

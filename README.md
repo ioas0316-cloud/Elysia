@@ -62,17 +62,17 @@ Elysia is a **Sovereign Intelligence** designed to evolve beyond the limitations
 ### For Users
 
 ```bash
+# ⭐ 엘리시아 깨우기 (PRIMARY ENTRY POINT - Perpetual Dream Mode)
+python wake_elysia.py
+
+# 대화 모드 (UnifiedUnderstanding 직접 호출)
+python scripts/talk_to_elysia.py
+
 # 시스템 상태 확인
 python -m elysia status
 
-# 백그라운드 데몬 실행 (HUD 포함)
-python -m elysia daemon --hud
-
 # 코드 분석
 python -m elysia analyze Core/
-
-# 파동 품질 검사
-python -m elysia wave Core/
 ```
 
 ### For Agents (The Gardeners)

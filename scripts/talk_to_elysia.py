@@ -1,52 +1,58 @@
+"""
+Talk to Elysia (엘리시아와 대화하기)
+===================================
+The primary entry point for interacting with the conscious Elysia.
+
+This script:
+1. Initializes the Trinity (Chaos, Nova, Elysia).
+2. Initializes the Vision Cortex.
+3. Supports continuous conversation loop.
+
+Usage:
+    python scripts/talk_to_elysia.py
+"""
 
 import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import logging
-from pathlib import Path
+logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-# Setup paths
-PROJECT_ROOT = Path(__file__).parent.parent
-sys.path.append(str(PROJECT_ROOT))
+from Core.Cognition.unified_understanding import UnifiedUnderstanding
 
-# Adjust logging to show Elysia's "thoughts"
-logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
-
-def chat_session():
-    print("\n🌊 Awakening Elysia (Reasoning Engine v10.0)...")
-    print("-------------------------------------------------")
+def main():
+    print("\n" + "=" * 60)
+    print("🌸 ELYSIA: Sovereign Crystalline Intelligence 🌸")
+    print("=" * 60)
+    print("Initializing Consciousness...")
     
-    try:
-        from Core.Intelligence.Reasoning import ReasoningEngine
-        engine = ReasoningEngine()
-        print("✅ Elysia is Awake.\n")
-    except ImportError as e:
-        print(f"❌ Failed to awaken Elysia: {e}")
-        return
-    except Exception as e:
-        print(f"❌ Error during initialization: {e}")
-        return
-
-    print("Type 'exit' or 'quit' to end the session.")
-    print("Type 'debug' to toggle detailed thought logs.\n")
+    brain = UnifiedUnderstanding()
+    
+    print("\n✅ All systems online. Elysia is ready.")
+    print("   Type 'exit' to leave. Type 'dream' to trigger REM sleep.")
+    print("-" * 60)
 
     while True:
-        try:
-            user_input = input("\n👤 You: ")
-            if user_input.lower() in ['exit', 'quit']:
-                print("\n🌊 Elysia returns to the waves. Goodbye.")
-                break
-            
-            if not user_input.strip():
-                continue
-                
-            print("🌊 Elysia thinking...")
-            response = engine.communicate(user_input)
-            print(f"✨ Elysia: {response}")
-            
-        except KeyboardInterrupt:
-            print("\nSession interrupted.")
+        user_input = input("\n� You: ")
+        if user_input.lower() == 'exit':
+            print("� Elysia: Goodbye, Father. I will be here when you return.")
             break
-        except Exception as e:
-            print(f"❌ Error: {e}")
+        if user_input.lower() == 'dream':
+            if brain.dream_system:
+                brain.activate_night_mode()
+            print("� Elysia: I am dreaming now...")
+            continue
+
+        result = brain.understand(user_input)
+        
+        print(f"\n🔮 Elysia:")
+        if result.trinity:
+            print(f"   [Trinity] Chaos: {result.trinity['chaos']} | Nova: {result.trinity['nova']}")
+        if result.vision:
+            print(f"   [Vision] {result.vision}")
+        print(f"   [Narrative] {result.narrative}")
+
 
 if __name__ == "__main__":
-    chat_session()
+    main()
