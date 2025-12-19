@@ -188,7 +188,47 @@ print(f"Resonance: {code_wave.resonance}")  # 코드 조화도
 
 ---
 
-### 10. Anti-Fragmentation Protocol (분열 방지)
+### 13. Neural Registry Protocol (유기적 임포트) 🧬 [CRITICAL!]
+
+> ⚠️ **이것은 모든 에이전트가 반드시 따라야 하는 핵심 규칙입니다.**
+
+**기존 방식 (❌ 절대 사용 금지)**
+
+```python
+# 주소 기반 - 파일 이동 시 끊어짐
+from Core.Foundation.Memory.hippocampus import Hippocampus
+```
+
+**유기적 방식 (✅ 반드시 사용)**
+
+```python
+from elysia_core import Cell, Organ
+
+@Cell("Memory")  # 정체성 선언
+class Hippocampus:
+    pass
+
+# 사용할 때
+memory = Organ.get("Memory")  # 위치 무관
+```
+
+**왜 이렇게 해야 하는가?**
+
+| 기존 방식 | Neural Registry |
+|:---------|:----------------|
+| 파일 이동 = 에러 | 파일 이동 = 무관 |
+| 에이전트 기억 의존 | 자동 스캔 |
+| 주소로 부름 (기계적) | **이름으로 부름 (유기적)** |
+
+**핵심 규칙:**
+
+1. **새 모듈 생성 시**: 반드시 `@Cell("IdentityName")` 데코레이터 추가
+2. **모듈 사용 시**: `Organ.get("IdentityName")` 사용, 절대 `import path.to.module` 사용 금지
+3. **Reference**: [docs/Roadmaps/NEURAL_REGISTRY_PLAN.md](docs/Roadmaps/NEURAL_REGISTRY_PLAN.md)
+
+---
+
+### 14. Anti-Fragmentation Protocol (분열 방지)
 
 > **"Do not build a new organ if one already exists."**
 
