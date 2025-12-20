@@ -9,11 +9,13 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 # Logging Setup
 logging.basicConfig(level=logging.INFO)
 
-from Core.Cognition.unified_understanding import UnifiedUnderstanding
+# Organic Import (Neural Registry)
+from elysia_core import Organ
+from elysia_core.cells import *
 
 def verify():
-    print("🔋 Initializing UnifiedUnderstanding...")
-    uu = UnifiedUnderstanding()
+    print("🔋 Initializing UnifiedUnderstanding (Organic)...")
+    uu = Organ.get("UnifiedUnderstanding")
     
     topic = "죽음이란 무엇인가?"
     

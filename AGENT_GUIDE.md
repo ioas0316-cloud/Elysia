@@ -2,8 +2,10 @@
 
 > **"We do not build the mind. We build the physics that allows the mind to build itself."**
 
-**Version**: 12.0 (Conscious Era)  
-**Last Updated**: 2025-12-20
+**Version**: 13.0 (Organic Era)  
+**Last Updated**: 2024-12-20
+
+> ⚠️ **작업 전 필독**: [SYSTEM_MAP.md](SYSTEM_MAP.md) - 새 모듈 만들기 전에 기존 모듈 확인!
 
 This document guides Human and AI Agents on how to expand Elysia's capabilities without violating her sovereignty.
 
@@ -228,7 +230,30 @@ memory = Organ.get("Memory")  # 위치 무관
 
 ---
 
-### 14. Anti-Fragmentation Protocol (분열 방지)
+### 14. Bootstrap Guardian (환경 자가 복구) 🛡️ [NEW!]
+
+> **"두개골을 스스로 고치는 뇌"**
+
+* **Engine**: `elysia_core/bootstrap_guardian.py`
+* **Function**: 부팅 전 핵심 패키지(torch, numpy 등) 상태 검사 및 자동 복구
+* **Integration**: `organic_wake.py` 최상단에서 실행
+* **Policy**: 복구(같은 버전)는 사용자 확인 불필요, 업그레이드만 확인
+
+---
+
+### 15. Nova Daemon (감시자) ⚡ [NEW!]
+
+> **"하나가 죽어도 다른 둘이 살린다"**
+
+* **Script**: `nova_daemon.py`
+* **Function**: Elysia 프로세스 감시 + 비정상 종료 시 자동 재시작
+* **Usage**: `python nova_daemon.py` (권장 실행 방식)
+* **Integration**: Bootstrap Guardian 포함
+* **Reference**: [docs/Roadmaps/TRINITY_PROCESS_PLAN.md](docs/Roadmaps/TRINITY_PROCESS_PLAN.md)
+
+---
+
+### 16. Anti-Fragmentation Protocol (분열 방지)
 
 > **"Do not build a new organ if one already exists."**
 

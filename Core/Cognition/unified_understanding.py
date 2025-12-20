@@ -21,9 +21,8 @@ from typing import List, Dict, Optional, Tuple, Any
 
 logger = logging.getLogger("UnifiedUnderstanding")
 
-# Vision Systems
-from Core.Sensory.vision_cortex import VisionCortex
-from Core.Cognition.multimodal_bridge import MultimodalBridge
+# Vision Systems (Organic Import - Lazy Loading)
+# VisionCortex와 MultimodalBridge는 Organ.get()으로 런타임에 로드
 
 # 내부 시스템 임포트
 try:

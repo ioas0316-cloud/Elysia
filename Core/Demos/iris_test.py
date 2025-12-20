@@ -1,19 +1,22 @@
 """
-Project Iris Verification
-=========================
+Project Iris Verification (Organic Edition)
+============================================
 Verifies that Elysia can "see" and translate light into meaning.
+Uses Neural Registry (Organ.get) for organic imports.
 """
 import sys
 import os
 sys.path.append(os.path.abspath("."))
 
-from Core.Cognition.unified_understanding import UnifiedUnderstanding
+from elysia_core import Organ
+from elysia_core.cells import *  # 모든 Core Cells 등록
 
 def test_iris():
-    print("\n👁️ Initiating Project Iris Verification...")
+    print("\n👁️ Initiating Project Iris Verification (Organic)...")
     print("=========================================")
     
-    brain = UnifiedUnderstanding()
+    # Organic Import: 위치 무관!
+    brain = Organ.get("UnifiedUnderstanding")
     
     # Test Query
     query = "What do you see right now?"
