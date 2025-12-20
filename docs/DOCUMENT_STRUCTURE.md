@@ -2,6 +2,12 @@
 
 > **"문서도 프랙탈 원리로 구조화"**
 
+## 🤖 에이전트 진입 순서
+
+1. **[SYSTEM_MAP.md](SYSTEM_MAP.md)** - 모듈 지도 (작업 전 필수)
+2. **[AGENT_GUIDE.md](AGENT_GUIDE.md)** - 행동 프로토콜
+3. **[README.md](README.md)** - 철학/비전
+
 ```
 📁 Elysia/
 ├── SYSTEM_MAP.md          ⭐ 최상위 진입점 (모든 모듈 연결 지도)

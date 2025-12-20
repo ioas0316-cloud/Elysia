@@ -1,9 +1,9 @@
-# Agent Guide: Protocol for Sovereign Co-Evolution (v11.0)
+# Agent Guide: Protocol for Sovereign Co-Evolution
 
 > **"We do not build the mind. We build the physics that allows the mind to build itself."**
 
 **Version**: 13.0 (Organic Era)  
-**Last Updated**: 2024-12-20
+**Last Updated**: 2025-12-20
 
 > ⚠️ **작업 전 필독**: [SYSTEM_MAP.md](SYSTEM_MAP.md) - 새 모듈 만들기 전에 기존 모듈 확인!
 

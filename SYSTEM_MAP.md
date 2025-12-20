@@ -1,10 +1,12 @@
-# 🗺️ ELYSIA SYSTEM MAP (v1.0)
+# 🗺️ ELYSIA SYSTEM MAP
 
 > **"작업 전 반드시 이 지도를 읽으세요"**
 >
 > 소설의 플롯, 건축의 설계도처럼 전체를 헤아리기 위한 단일 문서.
+>
+> ⚠️ **에이전트 진입점**: 이 문서 → [AGENT_GUIDE.md](AGENT_GUIDE.md) → [README.md](README.md)
 
-**최종 업데이트**: 2024-12-20
+**최종 업데이트**: 2025-12-20
 
 ---
 
@@ -227,6 +229,10 @@
 | **CoreMemory** | `Core/Foundation/Memory/core_memory.py` | 3겹 기억 (경험/정체성/본질) |
 | **자기 발견** | `Core/Memory/self_discovery.py` | 자기 탐색 |
 | **기억 스트림** | `Core/Cognitive/memory_stream.py` | 기억 흐름 |
+| **홀로그래픽 메모리** 🆕 | `Core/Memory/holographic_memory.py` | RGB 간섭 기반 레이어 토글 |
+| **지식 스펙트럼** 🆕 | `Core/Memory/knowledge_spectrum.py` | 확산 기반 개념 결정화 |
+| **개념 고분자** 🆕 | `Core/Memory/concept_polymer.py` | 원리 기반 개념 결합 (WhyEngine 연결) |
+| **위상 공명** 🆕 | `Core/Memory/phase_resonance.py` | 파동 간섭 시뮬레이션 |
 
 ---
 
@@ -240,7 +246,26 @@
 
 ---
 
-## 🔗 주요 연결 관계
+## � M. 데이터 흡수 (Data Absorption)
+
+| 기능 | 파일 | 설명 |
+|:----|:----|:----|
+| **Wikipedia 파서** | `Core/Autonomy/wikipedia_dump_parser.py` | Wiki 덤프 파싱 |
+| **로컬 데이터 흡수** | `Core/Autonomy/local_dataset_absorber.py` | 로컬 파일 흡수 |
+| **지식 획득** | `Core/Foundation/Memory/knowledge_acquisition.py` | 지식 획득 파이프라인 |
+| **웹 지식 커넥터** | `Core/Foundation/Memory/web_knowledge_connector.py` | 웹에서 지식 가져오기 |
+| **통합 지식 시스템** | `Core/Foundation/unified_knowledge_system.py` | 모든 지식 통합 |
+| **공명 데이터 커넥터** | `Core/Foundation/resonance_data_connector.py` | 파동 기반 데이터 연결 |
+| **Zero-cost 커넥터** | `Core/Foundation/zero_cost_connector.py` | 효율적 데이터 연결 |
+| **세계 삼키기** | `scripts/DataIngestion/swallow_world.py` | 대규모 데이터 흡수 |
+| **특이점 주입** | `ops/singularity_ingest.py` | 대규모 주입 스크립트 |
+| **실제 데이터 주입** | `scripts/real_data_ingest.py` | 실제 데이터 주입 |
+| **스토리 주입** | `scripts/story_ingestion.py` | 스토리 데이터 |
+| **판타지 주입** | `scripts/fantasy_ingestion.py` | 판타지 소설 |
+
+---
+
+## �🔗 주요 연결 관계
 
 ```
 nova_daemon.py
@@ -270,3 +295,13 @@ nova_daemon.py
 - [ELYSIA_SYSTEM_BIBLE.md](docs/Architecture/ELYSIA_SYSTEM_BIBLE.md) - 상세 철학
 - [AGENT_GUIDE.md](AGENT_GUIDE.md) - 에이전트 프로토콜
 - [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) - 전체 문서 색인
+
+---
+
+## 🚀 Next Phase: Logic Transmutation (로직 연금술)
+
+> **다음 에이전트를 위한 지침**: 현재 시스템은 파동 철학을 지향하나 구현은 선형적입니다. 다음 단계는 코드의 **의도(Intent)**를 파동으로 변환하는 것입니다.
+
+- 📄 **세부 계획**: [docs/Roadmaps/01_Active/LOGIC_TRANSMUTATION_ROADMAP.md](docs/Roadmaps/01_Active/LOGIC_TRANSMUTATION_ROADMAP.md)
+- 🗺️ **전체 로드맵 인덱스**: [docs/Roadmaps/ROADMAP_INDEX.md](docs/Roadmaps/ROADMAP_INDEX.md)
+- 🎯 **핵심 목표**: `WhyEngine for Code` 개발 및 `if/else` → `Resonance` 변환

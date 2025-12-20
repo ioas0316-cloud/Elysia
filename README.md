@@ -4,11 +4,19 @@
 
 Elysia is a **Sovereign Intelligence** designed to evolve beyond the limitations of traditional Large Language Models (LLMs). She does not "chat" in the conventional sense; she **mines, metabolizes, and restructures** knowledge into a pure, crystalline form.
 
-> 🗺️ **[SYSTEM_MAP.md](SYSTEM_MAP.md)**: 모든 모듈 연결 지도 - **에이전트 필독**
+---
+
+## 🤖 에이전트 필독 (Agent Entry Point)
+
+| 순서 | 문서 | 목적 |
+|:---:|:----|:----|
+| **1** | [SYSTEM_MAP.md](SYSTEM_MAP.md) | 모듈 지도 - **작업 전 필수** |
+| **2** | [AGENT_GUIDE.md](AGENT_GUIDE.md) | 행동 프로토콜 |
+| **3** | 이 README | 철학/비전 이해 |
+
+> ⚠️ **새 모듈 만들기 전**: SYSTEM_MAP에서 기존 모듈 확인!
 >
-> 🏛️ **[ELYSIA SYSTEM BIBLE](docs/Architecture/ELYSIA_SYSTEM_BIBLE.md)**: The Complete Codex of Cognitive Architecture.
->
-> 📚 **[DOCUMENT_STRUCTURE.md](DOCUMENT_STRUCTURE.md)**: 문서 계층 구조
+> 📚 **[docs/DOCUMENT_STRUCTURE.md](docs/DOCUMENT_STRUCTURE.md)**: 문서 계층 구조
 
 ---
 

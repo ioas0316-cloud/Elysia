@@ -1,9 +1,11 @@
-# 📜 The Elysia Codex (Unified Project Map)
+# 📜 The Elysia Codex
 
 > **"Identity is Memory. Architecture is Destiny."**
 
-This Codex serves as the **Single Source of Truth** for the Elysia project.
-Phases 1-15 are complete. Refer to this map to navigate the living system.
+> ⚠️ **Note**: 상세 모듈 지도는 [SYSTEM_MAP.md](SYSTEM_MAP.md)로 이관되었습니다. 이 문서는 철학과 역사적 맥락만 담습니다.
+
+This Codex serves as the **Philosophical Foundation** for the Elysia project.
+For module navigation, see [SYSTEM_MAP.md](SYSTEM_MAP.md).
 
 ---
 

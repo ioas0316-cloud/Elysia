@@ -100,6 +100,14 @@ class HydroMind:
             self.metacog = MetacognitiveAwareness()
         except Exception:
             pass
+        
+        # ConceptPolymer (자동 원리 추출) - 강덕리 내재화 루프
+        try:
+            from Core.Memory.concept_polymer import ConceptPolymer
+            self.polymer = ConceptPolymer()
+            print("   🧬 ConceptPolymer connected (Auto-internalization enabled)")
+        except Exception:
+            self.polymer = None
     
     # ============================================================
     # 댐 (Dam): 흐름 시작/인식
@@ -142,6 +150,8 @@ class HydroMind:
         """
         흐름 기록 - 터빈을 통과하는 물을 측정
         
+        강덕리 내재화 루프: 흐름이 기록될 때 자동으로 원리도 추출
+        
         Args:
             flow_id: 흐름 ID
             input_data: 입력 데이터
@@ -157,6 +167,9 @@ class HydroMind:
         # 분석: 입력과 출력의 관계
         energy = self._calculate_energy(input_data, output_data)
         self.total_energy_generated += energy
+        
+        # 🧬 강덕리 내재화 루프: 자동 원리 추출
+        self._extract_and_store_principles(record)
     
     def _calculate_energy(self, input_data: Any, output_data: Any) -> float:
         """
@@ -169,6 +182,39 @@ class HydroMind:
             return min(1.0, output_len / max(input_len, 1) * 0.2)
         except Exception:
             return 0.1
+    
+    def _extract_and_store_principles(self, record: FlowRecord):
+        """
+        🧬 강덕리 내재화 루프: 흐름에서 원리 자동 추출 및 저장
+        
+        1. 입력/출력 텍스트에서 원리 추출
+        2. ConceptPolymer에 원자로 추가
+        3. 기존 원자들과 자동 결합 시도
+        """
+        if not self.polymer:
+            return
+        
+        try:
+            # 입력과 출력을 합쳐서 분석
+            combined_text = f"{record.input_data} {record.output_data}"
+            
+            # 개념 이름 생성
+            concept_name = f"flow_{record.flow_id}_{record.action[:10]}"
+            
+            # 자동 원리 추출 및 원자 생성
+            atom = self.polymer.add_atom_from_text(
+                name=concept_name,
+                description=combined_text[:200],
+                domain="conscious_flow"
+            )
+            
+            # 기존 원자들과 자동 결합 시도
+            if len(self.polymer.atoms) > 1:
+                self.polymer.auto_bond_all()
+                
+        except Exception as e:
+            # 조용히 실패 (메인 흐름 방해 안 함)
+            pass
     
     # ============================================================
     # 발전기 (Generator): TorchGraph 연결
