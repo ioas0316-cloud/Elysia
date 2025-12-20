@@ -97,12 +97,19 @@ class CentralCortex:
         result['memories'] = memory_query
         print(f"   📚 Found {len(memory_query)} related memories")
         
-        # 3. Universe (개념 공간에서 위치)
+        # 3. Universe (개념 공간에서 위치) [LOGIC TRANSMUTATION]
         print("\n3️⃣ Locating in Concept Space...")
-        if topic in self.universe.coordinate_map:
+        resonant = self.universe.query_resonance(
+            sum(ord(c) for c in topic) % 1000, tolerance=100.0
+        )
+        if resonant and resonant[0] in self.universe.coordinate_map:
+            coord = self.universe.coordinate_map[resonant[0]]
+            result['concept_orientation'] = coord.orientation
+            print(f"   🌌 Orientation (via resonance): {coord.orientation}")
+        elif topic in self.universe.coordinate_map:
             coord = self.universe.coordinate_map[topic]
             result['concept_orientation'] = coord.orientation
-            print(f"   🌌 Orientation: {coord.orientation}")
+            print(f"   🌌 Orientation (fallback): {coord.orientation}")
         
         # 4. Communication (언어로 표현)
         if self.comm_enhancer:
@@ -167,12 +174,14 @@ class CentralCortex:
         connector = ExternalDataConnector(self.universe)
         connector.internalize_from_text(concept, content)
         
-        # 2. Memory에 저장
+        # 2. Memory에 저장 [LOGIC TRANSMUTATION]
         print("2️⃣ Storing in Memory...")
         from Core.Foundation.hyper_quaternion import HyperWavePacket
         
-        if concept in self.universe.coordinate_map:
-            coord = self.universe.coordinate_map[concept]
+        resonant = self.universe.query_resonance(sum(ord(c) for c in concept) % 1000, tolerance=100.0)
+        concept_key = resonant[0] if resonant else concept
+        if concept_key in self.universe.coordinate_map:
+            coord = self.universe.coordinate_map[concept_key]
             packet = HyperWavePacket(
                 energy=100.0,
                 orientation=coord.orientation,

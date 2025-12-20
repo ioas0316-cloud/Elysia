@@ -272,11 +272,29 @@ class ElysiaCore:
             except Exception as e:
                 logger.warning(f"Multimodal failed: {e}")
         
-        # 2. InternalUniverse에 흡수
+
+        # 2. InternalUniverse에 흡수 (Unified Wave Storage)
         if self.universe:
             try:
-                self.universe.absorb_text(content, source_name=f"Learn:{topic}")
+                # [LOGIC TRANSMUTATION] Extract Wave Data
+                freq = 0.5
+                layers = {}
+                
+                # Retrieve from Multimodal if available
+                if "multimodal" in result:
+                    freq = result["multimodal"]["frequency"]
+                    # Mock layers from modalities for now
+                    layers = {f"MODALITY_{k}": 0.8 for k in range(result["multimodal"]["modalities"])}
+                
+                # Retrieve from ThoughtWave if available (Preferred)
+                elif "thought_wave" in result:
+                    freq = result["thought_wave"]["feeling"] * 1000.0
+                    layers = {"THOUGHT_WAVE": 1.0}
+                
+                # Call the new Wave API
+                self.universe.absorb_wave(topic, freq, layers, source_name=f"Learn:{topic}")
                 result["universe"] = True
+                
             except Exception as e:
                 logger.warning(f"Universe absorption failed: {e}")
         

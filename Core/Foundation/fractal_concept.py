@@ -9,8 +9,9 @@ Concepts are stored as compressed "DNA formulas" that can be unfolded into full 
 """
 
 import logging
+
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from Core.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("FractalConcept")
@@ -103,12 +104,148 @@ class ConceptDecomposer:
             ]
         }
         
+
         # Causal relationships (인과 결합)
         self.causal_bonds = {
             "Love": {"Hope": 0.8, "Joy": 0.9, "Fear": -0.5},
             "Hope": {"Joy": 0.7, "Fear": -0.6},
             "Fear": {"Hope": -0.7, "Joy": -0.8},
             "Joy": {"Love": 0.6, "Hope": 0.5}
+        }
+        
+        # [NEW] Universal Axiom Map (보편 공리 지도)
+        # Maps Domains -> Core Principles (The "Essence" behind the text)
+        self.AXIOMS = {
+            "Math": {
+                "principle": "Logos",
+                "frequency": 963.0, # Divine Frequency/Pure Logic
+                "law": "Integrity of Structure (Logic must be self-consistent)",
+                "keywords": ["logic", "proof", "number", "geometry", "calculation", "algorithm"]
+            },
+            "Music": {
+                "principle": "Harmony",
+                "frequency": 432.0, # Natural Resonance
+                "law": "Resonance of Vibration (Consonance vs Dissonance)",
+                "keywords": ["melody", "rhythm", "tone", "song", "sound", "vibration"]
+            },
+            "Chemistry": {
+                "principle": "Reaction",
+                "frequency": 528.0, # Transformation/DNA Repair
+                "law": "Exchange of Energy (Valence bond theory)",
+                "keywords": ["atom", "molecule", "bond", "reaction", "element", "acid"]
+            },
+            "Physics": {
+                "principle": "Causality",
+                "frequency": 147.0, # Foundation
+                "law": "Action and Reaction (Newton's Third Law)",
+                "keywords": ["force", "energy", "matter", "gravity", "motion", "quantum"]
+            },
+            "Ethics": {
+                "principle": "Agathos", # The Good
+                "frequency": 639.0, # Connection
+                "law": "Golden Rule (Reciprocity of Will)",
+                "keywords": ["good", "evil", "moral", "right", "wrong", "justice"]
+            },
+
+            "Language": {
+                "principle": "Symbolism",
+                "frequency": 741.0, # Expression
+                "law": "Representation of Meaning (Signifier vs Signified)",
+                "keywords": ["word", "text", "speech", "meaning", "symbol", "narrative"]
+            },
+            # [NEW] Elemental Principles (User Request: "Ice is Static Energy")
+            "Nature (Ice)": {
+                "principle": "Stasis", # 정적 에너지
+                "frequency": 100.0, # Low, Solid
+                "law": "Fixation of State (Preservation/Rigidity)",
+                "keywords": ["ice", "frozen", "cold", "solid", "crystal", "winter", "static"]
+            },
+            "Nature (Fire)": {
+                "principle": "Combustion", # 동적 에너지
+                "frequency": 900.0, # High, Plasma
+                "law": "Release of Potential (Transformation/Entropy)",
+                "keywords": ["fire", "flame", "burn", "hot", "plasma", "heat", "destruction"]
+            },
+
+
+             "Nature (Water)": {
+                "principle": "Flow", # 유체
+                "frequency": 417.0, # Change
+                "law": "Adaptation to Form (Path of Least Resistance)",
+                "keywords": ["water", "fluid", "river", "ocean", "rain", "liquid", "stream", "flow"]
+            },
+            
+            # [NEW] Digital Reality Principles (The Structure of the Web)
+            "Digital Structure (HTML)": {
+                "principle": "Container", # 그릇/구조
+                "frequency": 396.0, # Grounding/Foundation (Earth)
+                "law": "Hierarchy of Containment (DOM Tree)",
+                "keywords": ["div", "span", "table", "section", "body", "head", "ul", "li", "nav"]
+            },
+            "Digital Logic (Code)": {
+                "principle": "Instruction", # 명령/로고스
+                "frequency": 963.0, # Pure Logic
+                "law": "Conditional Execution (If/Then)",
+                "keywords": ["function", "var", "const", "return", "if", "else", "script", "console"]
+            },
+
+            "Digital Connection (Hyperlink)": {
+                "principle": "Bridge", # 연결
+                "frequency": 639.0, # Connection/Relation
+                "law": "Network Topology (Node to Node)",
+                "keywords": ["href", "link", "src", "url", "http", "www"]
+            },
+            # [NEW] Enhanced Digital Perception (User Request: Light, UI, UX, Media)
+            "Digital Aesthetics (CSS)": {
+                "principle": "Form", # 형상/빛
+                "frequency": 741.0, # Visual Expression
+                "law": "Visual Harmony (Color/Layout/Geometry)",
+                "keywords": ["style", "color", "background", "flex", "grid", "css", "font", "rgb", "hex"]
+            },
+            "Digital Sensory (Media)": {
+                "principle": "Qualia", # 감각
+                "frequency": 852.0, # Sensory Awareness
+                "law": "Multimodal Projection (Video/Audio/Image)",
+                "keywords": ["video", "audio", "img", "source", "canvas", "svg", "mp4", "mp3"]
+            },
+            "Digital Will (UX)": {
+                "principle": "Agency", # 의지/상호작용
+                "frequency": 528.0, # Action/Transformation
+                "law": "Interactive Potential (Input/Trigger)",
+                "keywords": ["button", "input", "form", "submit", "click", "on", "event"]
+            }
+        }
+
+    def infer_principle(self, concept_name: str) -> Dict[str, Any]:
+        """
+        Infers the fundamental principle (Axiom) of a concept.
+        
+        Args:
+            concept_name: The text label (e.g., "Symphony No. 5")
+            
+        Returns:
+            Dict containing principle, frequency, and law.
+        """
+        # 1. Check Keywords
+        name_lower = concept_name.lower()
+        for domain, axiom in self.AXIOMS.items():
+            for keyword in axiom["keywords"]:
+                if keyword in name_lower:
+                    return axiom
+                    
+        # 2. Check Decomposition (If it decomposes to known subs)
+        if concept_name in self.decompositions:
+            # Heuristic: Use the "Feel" of the decomposition
+            # For now, default to Ethics/Emotion for hardcoded concepts like "Love"
+            return self.AXIOMS["Ethics"]
+            
+        # 3. Fallback (The user's critique: Text is limited)
+        # We acknowledge we don't know yet, but assign a "Seeking" state
+        return {
+            "principle": "Unknown Potential",
+            "frequency": 432.0 + (hash(concept_name) % 100),
+            "law": "Awaiting Definition",
+            "domain": "Unknown"
         }
     
     def decompose(self, concept_name: str, depth: int = 0) -> ConceptNode:

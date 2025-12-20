@@ -138,57 +138,68 @@ class WikipediaDumpParser:
             try:
                 for event, elem in context:
                     # <page> 태그 완료 시
-                    if elem.tag == f"{self.namespace}page" or elem.tag == "page":
-                        title_elem = elem.find(f"{self.namespace}title") or elem.find("title")
-                    text_elem = elem.find(f".//{self.namespace}text") or elem.find(".//text")
-                    
-                    if title_elem is not None and text_elem is not None:
-                        title = title_elem.text or ""
-                        raw_text = text_elem.text or ""
-                        
-                        # 유효성 검사 (기존 Prefix)
-                        if not self._is_valid_article(title):
-                            self.skipped_special += 1
-                            elem.clear()
-                            continue
-                        
-                        # [NEW] Concept Sanitizer Inclusion (The Kidney)
-                        # Reject 'Star -1234' or random noise titles
-                        from Core.Foundation.concept_sanitizer import get_sanitizer
-                        sanitizer = get_sanitizer()
-                        if not sanitizer.is_valid(title):
-                            # logger.debug(f"🗑️ Sanitizer Rejected: {title}")
-                            elem.clear()
-                            continue
 
-                        # 위키텍스트 정제
-                        content = self._clean_wikitext(raw_text)
+                    # [ROBUST PATCH] Namespace-agnostic tag check
+                    tag_name = elem.tag.split('}')[-1] if '}' in elem.tag else elem.tag
+                    
+                    if tag_name == "page":
+                        title = ""
+                        raw_text = ""
                         
-                        # 리다이렉트 스킵
-                        if not content:
-                            self.skipped_redirects += 1
-                            elem.clear()
-                            continue
+                        # Navigate children manually to find title and text
+                        # Structure: page -> title, page -> revision -> text
+                        for child in elem:
+                            child_tag = child.tag.split('}')[-1] if '}' in child.tag else child.tag
+                            if child_tag == "title":
+                                title = child.text or ""
+                            elif child_tag == "revision":
+                                for sub in child:
+                                    sub_tag = sub.tag.split('}')[-1] if '}' in sub.tag else sub.tag
+                                    if sub_tag == "text":
+                                        raw_text = sub.text or ""
                         
-                        # 최소 길이 체크
-                        if len(content) < min_length:
-                            elem.clear()
-                            continue
-                        
-                        self.total_parsed += 1
-                        
-                        # 진행 로그
-                        if self.total_parsed % 1000 == 0:
-                            logger.info(f"   📄 Parsed {self.total_parsed} articles...")
-                        
-                        yield {
-                            "title": title,
-                            "content": content[:2000]  # 최대 2000자
-                        }
-                        
-                        # 최대 문서 수 체크
-                        if max_articles and self.total_parsed >= max_articles:
-                            break
+                        if title and raw_text:
+                            # 유효성 검사 (기존 Prefix)
+                            if not self._is_valid_article(title):
+                                self.skipped_special += 1
+                                elem.clear()
+                                continue
+                            
+                            # [NEW] Concept Sanitizer Inclusion
+                            from Core.Foundation.concept_sanitizer import get_sanitizer
+                            sanitizer = get_sanitizer()
+                            if not sanitizer.is_valid(title):
+                                elem.clear()
+                                continue
+
+                            # 위키텍스트 정제
+                            content = self._clean_wikitext(raw_text)
+                            
+                            # 리다이렉트 스킵
+                            if not content:
+                                self.skipped_redirects += 1
+                                elem.clear()
+                                continue
+                            
+                            # 최소 길이 체크
+                            if len(content) < min_length:
+                                elem.clear()
+                                continue
+                            
+                            self.total_parsed += 1
+                            
+                            # 진행 로그
+                            if self.total_parsed % 1000 == 0:
+                                logger.info(f"   📄 Parsed {self.total_parsed} articles...")
+                            
+                            yield {
+                                "title": title,
+                                "content": content[:2000]  # 최대 2000자
+                            }
+                            
+                            # 최대 문서 수 체크
+                            if max_articles and self.total_parsed >= max_articles:
+                                break
                     
                     # 메모리 정리
                     elem.clear()
@@ -220,7 +231,6 @@ class WikipediaDumpParser:
             
             try:
                 # ElysiaCore의 learn() 메소드 호출 -> 4-Thread Orchestra 트리거
-                # (Compression, Resonance, Digestion, Integration)
                 core.learn(content, title)
                 
                 results["processed"] += 1
@@ -237,8 +247,6 @@ class WikipediaDumpParser:
         logger.info(f"   Total: {results['total']}, Processed: {results['processed']}, Failed: {results['failed']}")
         
         return results
-
-
 
 # CLI
 if __name__ == "__main__":

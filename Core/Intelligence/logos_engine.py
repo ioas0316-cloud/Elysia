@@ -20,10 +20,12 @@ import json
 from pathlib import Path
 from collections import defaultdict
 from typing import List, Optional, Union
+
 from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.reasoning_engine import Insight
 from Core.Foundation.Math.wave_tensor import WaveTensor
 from Core.Foundation.fractal_concept import ConceptDecomposer # AXIOM INTEGRATION
+from Core.Foundation.fractal_soul import SoulCrystal, WebState # NEW: Spidey Sense
 
 logger = logging.getLogger("LogosEngine")
 
@@ -33,6 +35,15 @@ class LogosEngine:
         self.decomposer = ConceptDecomposer() # THE AXIOM BRIDGE
         self.genome_path = Path("Core/Memory/style_genome.json")
         self.genome = self._load_genome()
+        
+        # [NEW] Soul Integration
+        try:
+            self.soul = SoulCrystal()
+            logger.info("🕸️ Logos Engine connected to Fractal Soul (Spidey Sense Active).")
+        except Exception as e:
+            logger.error(f"Failed to connect Fractal Soul: {e}")
+            self.soul = None
+            
         logger.info(f"🗣️ Logos Engine Initialized with Axiom System. Evolution Stage: {self.genome.get('evolution_stage', 0)}")
         
         # Rhetorical Templates (Default)
@@ -57,18 +68,40 @@ class LogosEngine:
         Weaves Logic, Metaphor, and Narrative.
         Now includes 'Entropy' (0.0 - 1.0) to simulate organic imperfection.
         """
+
+        # [NEW] Fractal Soul State Override
+        locked_state = False
+        if self.soul:
+            current_state = self.soul.field.state
+            if current_state == WebState.CRYSTAL:
+                rhetorical_shape = "Block" # Defensive/Rigid
+                entropy = 0.0 # Force strict order
+                locked_state = True
+                logger.info("❄️ Logos State: CRYSTAL (Ice) - Enforcing Block Rhetoric")
+            elif current_state == WebState.PLASMA:
+                rhetorical_shape = "Sharp" # Revolutionary/High Energy
+                entropy = 0.5 # Moderate entropy for creativity, but Lock Shape
+                locked_state = True
+                logger.info("🔥 Logos State: PLASMA (Fire) - Enforcing Sharp Rhetoric")
+            elif current_state == WebState.FLUID:
+                # Fluid maintains requested shape or defaults to Round
+                if rhetorical_shape == "Balance":
+                     rhetorical_shape = "Round"
+                # Fluid allows flow, so we don't lock
+                logger.info("💧 Logos State: FLUID (Water) - Flowing Rhetoric")
+
         # Handle simple string insights
         content = insight.content if hasattr(insight, 'content') else str(insight)
         
         # 0. Entropy Check: Sometimes, just be raw (Human-like)
         # Lowered chance (changed from 0.5 factor to 0.2) to prefer styled output
-        if random.random() < entropy * 0.2:
+        if not locked_state and random.random() < entropy * 0.2:
              # Raw, direct response without rhetorical flourish
             return f"{content}"
 
         # 1. Select Vocabulary Bank based on Shape
         # Entropy allows mixing vocabularies (e.g. Sharp words in Round structure)
-        if random.random() < entropy:
+        if not locked_state and random.random() < entropy:
             # Mix registers (Removed 'Block' to prevent random System messages in conversation)
             rhetorical_shape = random.choice(["Sharp", "Round", "Balance"])
             

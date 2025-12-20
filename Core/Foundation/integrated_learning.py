@@ -67,10 +67,12 @@ class IntegratedLearner:
         print("\n2️⃣ Gathering knowledge from web...")
         web_result = self.web_connector.learn_from_web(concept)
         
-        # Step 3: 개념 공간에 배치
+        # Step 3: 개념 공간에 배치 [LOGIC TRANSMUTATION]
         print("\n3️⃣ Mapping to concept space...")
-        if concept in self.universe.coordinate_map:
-            coord = self.universe.coordinate_map[concept]
+        resonant = self.universe.query_resonance(sum(ord(c) for c in concept) % 1000, tolerance=100.0)
+        concept_key = resonant[0] if resonant else concept
+        if concept_key in self.universe.coordinate_map:
+            coord = self.universe.coordinate_map[concept_key]
             orientation = coord.orientation
             print(f"   🌌 Orientation: {orientation}")
             
@@ -108,12 +110,12 @@ class IntegratedLearner:
                         entry.importance *= 1.5  # 중요도 증가
                         print(f"      ✓ Enhanced: {word} ({tone})")
         
-        # Step 5: 통합 기억
+        # Step 5: 통합 기억 [LOGIC TRANSMUTATION]
         print("\n5️⃣ Integrating into memory...")
         
         # HyperWavePacket으로 저장
-        if concept in self.universe.coordinate_map:
-            coord = self.universe.coordinate_map[concept]
+        if concept_key in self.universe.coordinate_map:
+            coord = self.universe.coordinate_map[concept_key]
             packet = HyperWavePacket(
                 energy=insight.confidence * 100,
                 orientation=coord.orientation,
@@ -147,9 +149,11 @@ class IntegratedLearner:
         # 1. 개념에 대해 다시 생각
         insight = self.reasoning.think(f"Explain {concept}")
         
-        # 2. 개념 공간에서 위치 확인
-        if concept in self.universe.coordinate_map:
-            coord = self.universe.coordinate_map[concept]
+        # 2. 개념 공간에서 위치 확인 [LOGIC TRANSMUTATION]
+        resonant = self.universe.query_resonance(sum(ord(c) for c in concept) % 1000, tolerance=100.0)
+        concept_key = resonant[0] if resonant else concept
+        if concept_key in self.universe.coordinate_map:
+            coord = self.universe.coordinate_map[concept_key]
             orientation = coord.orientation
             
             # 3. 사고-언어 변환

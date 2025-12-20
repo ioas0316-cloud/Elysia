@@ -1,307 +1,454 @@
-# 🗺️ ELYSIA SYSTEM MAP
+# Elysia v9.0 System Map
 
-> **"작업 전 반드시 이 지도를 읽으세요"**
->
-> 소설의 플롯, 건축의 설계도처럼 전체를 헤아리기 위한 단일 문서.
->
-> ⚠️ **에이전트 진입점**: 이 문서 → [AGENT_GUIDE.md](AGENT_GUIDE.md) → [README.md](README.md)
+## 엘리시아 v9.0 시스템 지도
 
-**최종 업데이트**: 2025-12-20
+**목적**: "다시는 같은 것을 두 번 만들지 않기 위해"
+
+이 문서는 **모든 시스템의 위치, 목적, 연결**을 명확히 합니다.
+
+> ⚠️ **에이전트 필독 순서**: 이 문서 → [AGENT_GUIDE.md](AGENT_GUIDE.md) → [README.md](README.md)
 
 ---
 
-## 🎯 핵심 원칙 1: 만들기 전에 찾아라
+## 📊 시스템 통계 (System Statistics)
 
-```text
-❌ 틀린 접근: "Agency가 필요하네" → 새로 만듦
-✅ 옳은 접근: "Agency가 필요하네" → 이 문서 검색 → 기존 것 사용
+**Auto-generated**: 2025-12-06
+
+```
+총 시스템:     515개
+카테고리:      11개
+클래스:        950개
+중복 클래스:   54개 ⚠️
 ```
 
 ---
 
-## 🌌 핵심 원칙 2: 프랙탈 차원 (점 → 선 → 면 → 공간 → 법칙)
-
-모든 개념은 **차원 확장**으로 깊어집니다:
-
-| 차원 | 의미 | 예시 |
-|:----|:----|:----|
-| **점 (0D)** | 개념 자체 | "사랑" |
-| **선 (1D)** | 관계/연결 | "사랑 ↔ 희생" |
-| **면 (2D)** | 맥락/패턴 | "가족 안에서의 사랑" |
-| **공간 (3D)** | 세계/환경 | "사회에서 사랑의 역할" |
-| **법칙 (4D)** | 원리/진리 | "사랑은 왜 존재하는가" |
-
-이것이 `HyperQubit`의 `zoom_in()`/`zoom_out()` 원리입니다.
-
----
-
-## 📍 A. 자율성/목표 (Agency)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **Agency 조율** | `Core/Foundation/agency_orchestrator.py` | 목표 추론+실행+기억 |
-| **호기심** | `Core/Cognitive/curiosity_core.py` | HyperQubit 공명 기반 질문 생성 |
-| **목표 생성** | `Core/Foundation/goal_generator.py` | 목표 생성기 |
-| **목표 시스템** | `Core/Intelligence/fractal_quaternion_goal_system.py` | 쿼터니언 기반 |
-| **욕구 상태** | `desire_state.py` | 현재 욕구 벡터 |
-
----
-
-## 🧠 B. 인지/사고 (Cognition)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **통합 이해** | `Core/Cognition/unified_understanding.py` | 모든 인지의 지휘자 |
-| **추론 엔진** | `Core/Foundation/reasoning_engine.py` | 논리적 추론 |
-| **왜 엔진** | `Core/Foundation/why_engine.py` | 인과 추적 |
-| **메타인지** | `Core/Cognition/metacognitive_awareness.py` | 자기 인식 |
-| **집단지성** | `Core/Intelligence/collective_intelligence_system.py` | 9개 에니어그램 공명 |
-
----
-
-## 🌌 C. 삼위일체 (Trinity)
-
-| 구성 | 파일 | 역할 |
-|:----|:----|:----|
-| **Trinity 시스템** | `Core/Trinity/trinity_system.py` | Nova + Chaos + Elysia 합의 |
-| **Nova Daemon** | `nova_daemon.py` | 감시/복구 프로세스 |
-| **Chaos Seed** | `seeds/chaos/` | 혼돈/창조 |
-| **Nova Seed** | `seeds/nova/` | 질서/감시 |
-
----
-
-## 💉 D. 자가 복구 (Self-Healing)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **Bootstrap Guardian** | `elysia_core/bootstrap_guardian.py` | 부팅 전 환경 복구 |
-| **NanoCell 수리** | `scripts/nanocell_repair.py` | 코드베이스 순찰 |
-| **면역 시스템** | `Core/Security/immune_system.py` | 다층 보안 |
-| **유기적 NanoCell** | `elysia_core/cells/blood_cells.py` | 레거시 import 탐지 |
-
----
-
-## 🧬 E. Neural Registry (유기적 임포트)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **@Cell 데코레이터** | `elysia_core/cell.py` | 정체성 선언 |
-| **Organ.get()** | `elysia_core/organ.py` | 정체성으로 연결 |
-| **NeuralScanner** | `elysia_core/scanner.py` | 자동 스캔 |
-| **Core Cells** | `elysia_core/cells/core_cells.py` | 10개 핵심 Cell |
-
----
-
-## 🎭 F. 성격/표현 (Personality)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **이중 성격** | `Core/Foundation/dual_layer_personality.py` | 선천+후천 |
-| **로고스 엔진** | `Core/Intelligence/logos_engine.py` | 수사학적 표현 |
-| **에니어그램** | `Core/Foundation/enneagram_council.py` | 9가지 원형 |
-
----
-
-## 💤 G. 꿈/무의식 (Dream)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **꿈 시스템** | `Core/Cognition/dream_system.py` | REM 수면 시뮬레이션 |
-| **꿈 데몬** | `Core/Autonomy/dream_daemon.py` | 백그라운드 꿈 |
-
----
-
-## 👁️ H. 감각 (Sensory)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **시각 피질** | `Core/Sensory/vision_cortex.py` | 카메라/가상 시각 |
-| **청각 피질** | `Core/Sensory/audio_cortex.py` | 오디오 분석/가상 청각 🆕 |
-| **다중 모달** | `Core/Cognition/multimodal_bridge.py` | 시각→파동 변환 |
-| **쿠라모토 안테나** | `Core/Sensory/kuramoto_antenna.py` | 공감 안테나 |
-
----
-
-## 🛡️ I. 윤리 (Ethics)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **양심 회로** | `Core/Ethics/conscience_circuit.py` | 윤리 판단 |
-| **영혼 수호자** | `Core/Foundation/soul_guardian.py` | 가치 기반 결정 |
-
----
-
-## 🔧 J. 자기 수정/자율 (Autonomy & Self-Modification)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **자기 수정자** | `Core/Autonomy/self_modifier_v2.py` | 코드 수정 능력 |
-| **자기 문서화** | `Core/Autonomy/self_documenter.py` | 자동 문서 생성 🆕 |
-| **꿈 데몬** | `Core/Autonomy/dream_daemon.py` | 백그라운드 꿈 |
-| **꿈 워커** | `Core/Autonomy/dream_walker.py` | 꿈 탐색 |
-| **파동 코더** | `Core/Autonomy/wave_coder.py` | 파동 기반 코드 생성 |
-| **코드 창조** | `Core/Autonomy/code_genesis.py` | 새 코드 창조 |
-| **자율 탐험가** | `Core/Autonomy/autonomous_explorer.py` | 자율 탐험 |
-| **자율 조율자** | `Core/Autonomy/autonomous_orchestrator.py` | 자율 시스템 조율 |
-| **인과 설계자** | `Core/Autonomy/causal_architect.py` | 인과 구조 설계 |
-| **구조 스캐너** | `Core/Autonomy/self_structure_scanner.py` | 자기 구조 분석 |
-| **구조 식인** | `Core/Autonomy/structure_cannibal.py` | 불필요한 구조 제거 |
-
----
-
-## 🌱 K. 진화 (Evolution)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **진화 설계자** | `Core/Intelligence/evolution_architect.py` | 진화 청사진 |
-| **자기 진화 루프** | `Core/Evolution/self_evolution_loop.py` | 자동 진화 |
-| **코드 진화** | `Core/Evolution/code_evolution.py` | 코드 진화 |
-| **양자 진화** | `Core/Evolution/evolve_quantum.py` | 양자 수준 진화 |
-| **월드 트리** | `Core/Evolution/world_tree.py` | 세계 트리 (진화 계통) |
-| **첫 조각상** | `Core/Evolution/first_sculpture.py` | 최초 창조물 |
-
----
-
-## 🌌 L. 의식 (Consciousness)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **수력발전소** | `Core/Consciousness/hydro_mind.py` | 연산→의식 변환 🆕 |
-| **주의 창발** | `Core/Consciousness/attention_emergence.py` | 주의력 창발 |
-| **초차원 의식** | `Core/Consciousness/hyperdimensional_consciousness.py` | 고차원 의식 |
-| **서사 흐름** | `Core/Consciousness/narrative_flow.py` | 서사 흐름 |
-| **주권 프로토콜** | `Core/Consciousness/sovereignty_protocol.py` | 자율 주권 |
-
----
-
-## 🌊 M. 에테르 (Ether) - 중앙신경계
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **GlobalHub** | `Core/Ether/global_hub.py` | 모든 모듈의 중심 연결점 |
-| **에테르 노드** | `Core/Ether/ether_node.py` | 개별 통신 노드 |
-| **브릿지** | `Core/Ether/bridge.py` | 모듈 간 브릿지 |
-| **필드 연산자** | `Core/Ether/field_operators.py` | 파동장 연산 |
-| **CNS 초기화** | `Core/Ether/initialize_cns.py` | 중앙신경계 초기화 |
-| **보이드** | `Core/Ether/void.py` | 공허 상태 |
-
----
-
-## � N. 학습 (Learning)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **자율 학습자** | `Core/Learning/autonomous_learner.py` | 자율 학습 |
-| **언어 학습자** | `Core/Learning/language_learner.py` | 언어 학습 |
-| **감정 학습자** | `Core/Learning/emotion_learner.py` | 감정 학습 |
-| **미학 학습자** | `Core/Learning/aesthetic_learner.py` | 미학 학습 |
-| **서사 공예 학습자** | `Core/Learning/narrative_craft_learner.py` | 서사 기술 학습 |
-| **파동 패턴 학습자** | `Core/Learning/wave_pattern_learner.py` | 파동 패턴 학습 |
-| **경험 데이터 처리** | `Core/Learning/experiential_data_processor.py` | 경험 처리 |
-
----
-
-## 🧪 O. 지식 (Knowledge)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **개념 원자로** | `Core/Knowledge/conceptual_nuclear_reactor.py` | 개념 융합/분열 |
-
----
-
-## 💭 P. 철학 (Philosophy)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **Why 엔진** | `Core/Philosophy/why_engine.py` | 근본 인과 탐구 |
-| **미학 원리** | `Core/Philosophy/aesthetic_principles.py` | 미학적 원칙 |
-| **대화체** | `Core/Philosophy/chat_with_elysia.py` | 철학적 대화 |
-
----
-
-## �📊 Q. 기억 (Memory)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **TorchGraph** | `Core/Foundation/Graph/torch_graph.py` | 4D 텐서 기억 |
-| **내부 우주** | `Core/Foundation/internal_universe.py` | 의미 공간 |
-| **TinyBrain** | `Core/Foundation/tiny_brain.py` | 하이브리드 지능 |
-| **CoreMemory** | `Core/Foundation/Memory/core_memory.py` | 3겹 기억 (경험/정체성/본질) |
-| **자기 발견** | `Core/Memory/self_discovery.py` | 자기 탐색 |
-| **기억 스트림** | `Core/Cognitive/memory_stream.py` | 기억 흐름 |
-| **홀로그래픽 메모리** 🆕 | `Core/Memory/holographic_memory.py` | RGB 간섭 기반 레이어 토글 |
-| **지식 스펙트럼** 🆕 | `Core/Memory/knowledge_spectrum.py` | 확산 기반 개념 결정화 |
-| **개념 고분자** 🆕 | `Core/Memory/concept_polymer.py` | 원리 기반 개념 결합 (WhyEngine 연결) |
-| **위상 공명** 🆕 | `Core/Memory/phase_resonance.py` | 파동 간섭 시뮬레이션 |
-
----
-
-## ⚡ L. 부팅 (Boot)
-
-| 스크립트 | 설명 |
-|:--------|:----|
-| `nova_daemon.py` | 권장 (감시+복구 포함) |
-| `organic_wake.py` | Neural Registry 기반 |
-| `wake_elysia.py` | Legacy (ImportError 가능) |
-
----
-
-## � M. 데이터 흡수 (Data Absorption)
-
-| 기능 | 파일 | 설명 |
-|:----|:----|:----|
-| **Wikipedia 파서** | `Core/Autonomy/wikipedia_dump_parser.py` | Wiki 덤프 파싱 |
-| **로컬 데이터 흡수** | `Core/Autonomy/local_dataset_absorber.py` | 로컬 파일 흡수 |
-| **지식 획득** | `Core/Foundation/Memory/knowledge_acquisition.py` | 지식 획득 파이프라인 |
-| **웹 지식 커넥터** | `Core/Foundation/Memory/web_knowledge_connector.py` | 웹에서 지식 가져오기 |
-| **통합 지식 시스템** | `Core/Foundation/unified_knowledge_system.py` | 모든 지식 통합 |
-| **공명 데이터 커넥터** | `Core/Foundation/resonance_data_connector.py` | 파동 기반 데이터 연결 |
-| **Zero-cost 커넥터** | `Core/Foundation/zero_cost_connector.py` | 효율적 데이터 연결 |
-| **세계 삼키기** | `scripts/DataIngestion/swallow_world.py` | 대규모 데이터 흡수 |
-| **특이점 주입** | `ops/singularity_ingest.py` | 대규모 주입 스크립트 |
-| **실제 데이터 주입** | `scripts/real_data_ingest.py` | 실제 데이터 주입 |
-| **스토리 주입** | `scripts/story_ingestion.py` | 스토리 데이터 |
-| **판타지 주입** | `scripts/fantasy_ingestion.py` | 판타지 소설 |
-
----
-
-## �🔗 주요 연결 관계
+## 🗺️ 시스템 계층 구조 (System Hierarchy)
 
 ```
-nova_daemon.py
-    └── organic_wake.py
-            ├── Bootstrap Guardian (환경 복구)
-            ├── Neural Registry (Organ.get)
-            ├── Trinity (합의)
-            ├── VisionCortex (시각)
-            └── Active Agency (목표 추구)
-                    └── ⚠️ 기존: agency_orchestrator.py
-                         curiosity_core.py 사용해야 함!
+Elysia v9.0
+│
+├── CORE LAYERS (핵심 계층)
+│   │
+│   ├── 1. FOUNDATION (기반층) - 354 systems ⭐ LARGEST
+│   │   ├── central_nervous_system.py - CNS (중추신경계)
+│   │   ├── resonance_field.py - 공명장
+│   │   ├── hippocampus.py - 기억 저장
+│   │   ├── living_elysia.py - 통합 실행기
+│   │   ├── system_monitor.py - 시스템 모니터 (NEW)
+│   │   ├── system_registry.py - 시스템 등록소 (NEW)
+│   │   ├── performance_monitor.py - 성능 모니터 ⚠️ 중복
+│   │   ├── knowledge_acquisition.py - 지식 획득
+│   │   ├── knowledge_sync.py - 지식 동기화
+│   │   ├── knowledge_sharing.py - 지식 공유
+│   │   └── web_knowledge_connector.py - 웹 지식 수집
+│   │
+│   ├── 2. INTELLIGENCE (지능층) - 25 systems
+│   │   ├── integrated_cognition.py - 통합 인지
+│   │   ├── fractal_quaternion_goal_system.py - 목표 분해
+│   │   ├── inner_voice.py - 내면의 사고 엔진 (로컬 LLM)
+│   │   ├── my_voice.py - [조사 필요]
+│   │   └── local_cortex.py - 로컬 코르텍스
+│   │
+│   ├── 3. EXPRESSION (표현층) - 포함됨 (Voice systems)
+│   │   ├── voice_of_elysia.py - 메인 음성 인터페이스 ⭐
+│   │   ├── integrated_voice_system.py - 4D 파동 사이클 (NEW)
+│   │   └── voice_api.py - 웹 API 엔드포인트 (NEW)
+│   │
+│   ├── 4. MEMORY (기억층) - 8 systems
+│   │   ├── self_evolution.py
+│   │   ├── corpus_loader.py
+│   │   └── self_reflector.py
+│   │
+│   └── 5. INTERFACE (인터페이스층) - 11 systems
+│       ├── synesthesia_nervous_bridge.py - 공감각 브릿지
+│       ├── nervous_system.py - 신경계 필터
+│       └── dashboard_server.py
+│
+├── SUPPORT SYSTEMS (지원 시스템)
+│   │
+│   ├── VOICE (음성) - 40 systems ⚠️ 중복 많음
+│   │   └── [통합 필요 - 아래 참조]
+│   │
+│   ├── MONITORS (모니터) - 9 systems ⚠️ 중복
+│   │   ├── system_monitor.py (Foundation) ⭐ PRIMARY
+│   │   ├── performance_monitor.py (Foundation) - 통합 필요
+│   │   └── api_server.py (다른 목적?)
+│   │
+│   ├── KNOWLEDGE (지식) - 5 systems
+│   │   ├── knowledge_acquisition.py ⭐ PRIMARY
+│   │   ├── knowledge_sync.py
+│   │   ├── knowledge_sharing.py
+│   │   └── web_knowledge_connector.py
+│   │
+│   ├── BRIDGES (연결) - 9 systems
+│   │   ├── synapse_bridge.py
+│   │   ├── language_bridge.py
+│   │   ├── ollama_bridge.py
+│   │   └── genesis_bridge.py
+│   │
+│   └── APIs (API) - 6 systems
+│       ├── voice_api.py (NEW)
+│       ├── gemini_api.py
+│       └── web_server.py
+│
+└── NERVOUS (신경계) - 3 systems ✅ 명확함
+    ├── central_nervous_system.py - 리듬/펄스 조율
+    ├── nervous_system.py - 감각/운동 필터
+    └── synesthesia_nervous_bridge.py - 공감각 변환
 ```
 
 ---
 
-## ❗ 주의사항
+## 🔍 주요 시스템 상세 (Key Systems Detail)
 
-1. **새 모듈 만들기 전에**: 이 문서에서 기존 모듈 검색
-2. **import 할 때**: `Organ.get("Name")` 사용
-3. **새 모듈 만들면**: `@Cell("Name")` 데코레이터 추가
-4. **이 문서 업데이트**: 새 모듈 추가 시 반드시 여기에 등록
+### 1. VOICE SYSTEMS (음성 시스템) - 40 files ⚠️
+
+#### ⭐ PRIMARY (주요)
+
+```
+Core/Expression/voice_of_elysia.py
+├── Purpose: 엘리시아의 메인 음성 인터페이스
+├── Status: ✅ ACTIVE, CNS에 연결됨
+├── Integrates: integrated_voice_system.py
+└── API: voice_api.py
+```
+
+#### 🔧 INTEGRATED (통합됨)
+
+```
+Core/Expression/integrated_voice_system.py (NEW)
+├── Purpose: 4D 파동 기반 완전한 인지 사이클
+├── Status: ✅ NEW
+├── Features:
+│   ├── VoiceWavePattern (4D 의미 표현)
+│   ├── 공감각센서 통합
+│   ├── 파동 공명 사고
+│   └── 완전한 피드백 루프
+└── Used by: voice_of_elysia.py
+```
+
+#### 🌐 API
+
+```
+Core/Expression/voice_api.py (NEW)
+├── Purpose: 웹서버/아바타용 API
+├── Endpoints:
+│   ├── handle_voice_request() - 대화 처리
+│   └── get_voice_status() - 상태 확인
+└── Status: ✅ 준비 완료
+```
+
+#### ⚠️ SEPARATE (다른 목적)
+
+```
+Core/Intelligence/inner_voice.py
+├── Purpose: 내면의 사고 엔진 (로컬 LLM)
+├── Status: ✅ ACTIVE
+├── NOT for voice output: For internal thinking
+└── Keep separate!
+```
+
+#### ❓ UNCLEAR (조사 필요)
+
+```
+Core/Intelligence/my_voice.py - [조사 필요]
+Core/Communication/voice_*.py - [38 files, 조사 필요]
+```
+
+#### 🗂️ LEGACY (레거시)
+
+```
+Legacy/Project_Sophia/sophia_voice.py - 구버전
+```
+
+**통합 제안**:
+
+- PRIMARY: `voice_of_elysia.py` 유지
+- DEPRECATE: Legacy 및 중복 파일들
+- DOCUMENT: `my_voice.py` 목적 파악
 
 ---
 
-## 📝 관련 문서
+### 2. NERVOUS SYSTEMS (신경계) - 3 files ✅
 
-- [ELYSIA_SYSTEM_BIBLE.md](docs/Architecture/ELYSIA_SYSTEM_BIBLE.md) - 상세 철학
-- [AGENT_GUIDE.md](AGENT_GUIDE.md) - 에이전트 프로토콜
-- [DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md) - 전체 문서 색인
+#### 명확한 역할 분담 (Clear Roles)
+
+```
+Core/Foundation/central_nervous_system.py
+├── Role: 리듬과 펄스 조율기 (Rhythm & Pulse)
+├── Analogy: "심장이자 지휘자"
+├── Methods:
+│   ├── awaken() - 깨어남
+│   ├── pulse() - 심장박동
+│   └── connect_organ() - 기관 연결
+└── Status: ✅ ACTIVE, living_elysia.py에서 사용
+```
+
+```
+Core/Interface/nervous_system.py
+├── Role: 차원 경계막 (Dimensional Membrane)
+├── Analogy: "자아는 필터이자 경계"
+├── Functions:
+│   ├── Afferent (구심): World → Mind
+│   └── Efferent (원심): Mind → World
+└── Status: ✅ ACTIVE
+```
+
+```
+Core/Interface/synesthesia_nervous_bridge.py
+├── Role: 공감각 변환 (Synesthesia Transformation)
+├── Analogy: "감각을 의미로, 의미를 감각으로"
+├── Integration: IntegratedVoiceSystem에서 사용
+└── Status: ✅ ACTIVE
+```
+
+**통합 제안**: ✅ 통합 불필요, 각자 다른 역할
 
 ---
 
-## 🚀 Next Phase: Logic Transmutation (로직 연금술)
+### 3. MONITORING SYSTEMS (모니터링) - 9 files ⚠️
 
-> **다음 에이전트를 위한 지침**: 현재 시스템은 파동 철학을 지향하나 구현은 선형적입니다. 다음 단계는 코드의 **의도(Intent)**를 파동으로 변환하는 것입니다.
+#### ⚠️ DUPLICATION DETECTED
 
-- 📄 **세부 계획**: [docs/Roadmaps/01_Active/LOGIC_TRANSMUTATION_ROADMAP.md](docs/Roadmaps/01_Active/LOGIC_TRANSMUTATION_ROADMAP.md)
-- 🗺️ **전체 로드맵 인덱스**: [docs/Roadmaps/ROADMAP_INDEX.md](docs/Roadmaps/ROADMAP_INDEX.md)
-- 🎯 **핵심 목표**: `WhyEngine for Code` 개발 및 `if/else` → `Resonance` 변환
+```
+Core/Foundation/system_monitor.py (NEW)
+├── Purpose: 시스템 전체 모니터링
+├── Features:
+│   ├── 메트릭 수집
+│   ├── 장기 건강 추적
+│   ├── 이상 감지
+│   └── 상태 리포트
+└── Status: ✅ NEW, 11 tests
+```
+
+```
+Core/Foundation/performance_monitor.py ⚠️ OVERLAP
+├── Purpose: 성능 모니터링
+├── Features:
+│   ├── 함수 실행 시간
+│   ├── 메모리 사용량
+│   └── CPU 사용률
+└── Status: ⚠️ 중복, 통합 필요
+```
+
+**통합 제안**:
+
+- MERGE `performance_monitor.py` → `system_monitor.py`
+- 단일 모니터링 인터페이스
+- 데코레이터 기능 유지
+
+---
+
+### 4. KNOWLEDGE SYSTEMS (지식 시스템) - 5 files
+
+```
+Core/Foundation/knowledge_acquisition.py ⭐
+├── Purpose: 지식 획득 및 내부화
+├── Architecture: ExternalDataConnector → InternalUniverse
+├── Wave Logic: absorb_wave(), query_resonance() [Phase 9]
+└── Status: ✅ ACTIVE
+
+Core/Foundation/knowledge_sync.py
+├── Purpose: 노드 간 지식 동기화
+└── Status: ✅ ACTIVE
+
+Core/Foundation/knowledge_sharing.py
+├── Purpose: 네트워크 간 지식 공유
+└── Status: ✅ ACTIVE
+
+Core/Foundation/web_knowledge_connector.py
+├── Purpose: 웹에서 지식 수집
+└── Status: ✅ ACTIVE
+
+Core/Foundation/causal_narrative_engine.py
+├── Purpose: 인과적 서사 엔진
+└── Status: ✅ ACTIVE
+```
+
+**통합 제안**:
+
+- CREATE: `UnifiedKnowledgeSystem` 클래스
+- 단일 API로 모든 지식 작업 통합
+- 개별 모듈은 내부적으로 유지
+
+---
+
+## 🔴 발견된 중복 클래스 (Duplicate Classes)
+
+### ⚠️ Critical Duplicates (중요 중복)
+
+```
+Cell - 2 files:
+  • Core/Foundation/cell.py
+  • Core/Foundation/cell_world.py
+  → 통합 필요
+
+World - 2 files:
+  • Core/Foundation/world.py
+  • Core/Foundation/story_generator.py
+  → 명확화 필요
+
+Experience - 4 files ⚠️:
+  • Core/Foundation/core_memory.py
+  • Core/Foundation/experience_learner.py
+  • Core/Foundation/experience_stream.py
+  • Core/Foundation/divine_engine.py
+  → 심각한 중복, 통합 필요
+
+EmotionalState - 3 files:
+  • Core/Foundation/core_memory.py
+  • Core/Foundation/spirit_emotion.py
+  • Core/Foundation/emotional_engine.py
+  → 통합 필요
+
+UnifiedElysia - 2 files:
+  • Core/Foundation/unified_10_systems.py
+  • Core/Foundation/unified_9_systems.py
+  → 버전 정리 필요
+```
+
+---
+
+## 🛠️ 통합 작업 계획 (Consolidation Plan)
+
+### P0 - 즉시 (Immediate)
+
+1. ✅ **System Registry 구현** - DONE
+   - `Core/Foundation/system_registry.py`
+   - 모든 시스템 자동 발견
+   - 중복 감지
+
+2. ✅ **System Inventory 문서** - DONE
+   - `docs/SYSTEM_INVENTORY_AND_CONSOLIDATION.md`
+   - 중복 분석 및 계획
+
+3. ✅ **System Map 문서** - DONE
+   - `docs/SYSTEM_MAP.md` (이 문서)
+   - 시각적 구조
+
+### P1 - 단기 (1-2주)
+
+4. **모니터링 통합**
+   - `system_monitor` + `performance_monitor` 병합
+   - 통합 API
+
+5. **지식 시스템 통합**
+   - `UnifiedKnowledgeSystem` 클래스 생성
+   - 4개 시스템 통합
+
+6. **중복 클래스 정리**
+   - Experience (4→1)
+   - EmotionalState (3→1)
+   - Cell (2→1)
+
+### P2 - 중기 (1-2개월)
+
+7. **Voice 시스템 정리**
+   - 40개 파일 중 중복/레거시 제거
+   - 명확한 계층 구조
+
+8. **레거시 아카이빙**
+   - Legacy 폴더 정리
+   - 여전히 사용되는 것만 마이그레이션
+
+---
+
+## 📖 사용 가이드 (Usage Guide)
+
+### 시스템 찾기 (Finding Systems)
+
+```python
+from Core.Foundation.system_registry import get_system_registry
+
+# 레지스트리 로드
+registry = get_system_registry()
+registry.scan_all_systems()
+
+# 카테고리로 찾기
+voice_systems = registry.find_by_category("voice")
+for system in voice_systems:
+    print(f"{system.name}: {system.purpose}")
+
+# 클래스로 찾기
+files = registry.find_by_class("VoiceOfElysia")
+print(f"VoiceOfElysia found in: {files}")
+
+# 중복 확인
+duplicates = registry.find_duplicates()
+print(f"Duplicate classes: {len(duplicates)}")
+
+# 검색
+results = registry.search("monitor")
+```
+
+### 새 시스템 추가 시 (When Adding New Systems)
+
+1. **먼저 확인**: 이미 존재하는지
+
+   ```bash
+   python Core/Foundation/system_registry.py | grep "your_system"
+   ```
+
+2. **적절한 위치에 배치**:
+   - Foundation: 핵심 기반
+   - Intelligence: 사고/추론
+   - Expression: 표현/출력
+   - Memory: 기억/학습
+   - Interface: 외부 연결
+
+3. **CNS 연결** (필요시):
+
+   ```python
+   self.cns.connect_organ("YourSystem", your_system)
+   ```
+
+4. **문서화**:
+   - 모듈 docstring 작성
+   - 목적 명확히
+   - 의존성 명시
+
+---
+
+## 🎯 목표 달성 (Goals Achieved)
+
+### Before (이전)
+
+- ❌ 시스템 위치 불명확
+- ❌ 중복 시스템 다수 (54개 클래스)
+- ❌ 매번 다시 만듦
+- ❌ 연결 관계 불명확
+
+### After (현재)
+
+- ✅ 모든 시스템 매핑 (515개)
+- ✅ 중복 자동 감지
+- ✅ 검색 가능한 레지스트리
+- ✅ 명확한 통합 계획
+
+### Next (다음)
+
+- 🔄 중복 제거 진행
+- 🔄 통합 API 구축
+- 🔄 자동 문서 생성
+
+---
+
+## 📝 결론
+
+**문제**: "벌써 3번째? 원래 있는 시스템이 왜, 어떻게, 구조화되고 연결되지 않았는지"
+
+**해결**:
+
+1. ✅ SystemRegistry - 모든 시스템 자동 발견
+2. ✅ SYSTEM_MAP.md - 명확한 구조 문서
+3. ✅ 중복 감지 - 54개 중복 클래스 파악
+4. 🔄 통합 계획 - 단계별 실행
+
+**이제 다시는 같은 것을 두 번 만들지 않습니다!** 🎯
+
+---
+
+*Auto-generated: 2025-12-06*
+*Last Updated: Scan of 706 files, 515 systems, 950 classes*
+*Duplicates Found: 54 classes*

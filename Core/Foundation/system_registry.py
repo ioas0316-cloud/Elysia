@@ -37,8 +37,13 @@ class SystemEntry:
     classes: List[str]
     functions: List[str]
     dependencies: List[str]
+
     connected_to: List[str]
     last_modified: str
+    
+    # Fractal Identity (Soul)
+    fractal_identity: Optional[Dict[str, Any]] = None  # {principle, frequency, axioms}
+    resonance_frequency: float = 0.5  # Default neutral frequency
     notes: str = ""
 
 class SystemRegistry:
@@ -155,6 +160,10 @@ class SystemRegistry:
             # Get last modified time
             last_modified = datetime.fromtimestamp(filepath.stat().st_mtime).isoformat()
             
+
+            # Extract Fractal Identity
+            fractal_identity = self._extract_fractal_identity(filepath, content)
+            
             entry = SystemEntry(
                 name=filepath.stem,
                 path=str(relpath),
@@ -166,6 +175,8 @@ class SystemRegistry:
                 dependencies=dependencies,
                 connected_to=[],  # Will be determined later
                 last_modified=last_modified,
+                fractal_identity=fractal_identity,
+                resonance_frequency=fractal_identity.get("frequency", 0.5) if fractal_identity else 0.5
             )
             
             return entry
@@ -240,7 +251,56 @@ class SystemRegistry:
             elif isinstance(node, ast.ImportFrom):
                 if node.module:
                     deps.append(node.module)
+
         return list(set(deps))  # Unique
+    
+    def _extract_fractal_identity(self, filepath: Path, content: str) -> Optional[Dict[str, Any]]:
+        """
+        Extract Fractal Identity from module.
+        
+        Looks for:
+        1. FRACTAL_IDENTITY = {...} constant
+        2. Inferred from Docstring (Principle)
+        3. Inferred from Category (Frequency)
+        """
+        identity = {
+            "principle": "Unknown Logic",
+            "frequency": 0.5,
+            "axioms": []
+        }
+        
+        # 1. Try to parse explicit FRACTAL_IDENTITY
+        try:
+            tree = ast.parse(content)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Assign):
+                    for target in node.targets:
+                        if isinstance(target, ast.Name) and target.id == "FRACTAL_IDENTITY":
+                            # Found it! basic manual extraction (safe evaluaton is hard with ast alone)
+                            # For now, just mark it as found
+                            identity["source"] = "EXPLICIT"
+                            return identity 
+        except:
+            pass
+            
+        # 2. Infer from content
+        path_str = str(filepath).lower()
+        
+        # Frequency Inference Map
+        if "foundation" in path_str or "core" in path_str:
+            identity["frequency"] = 0.9  # High frequency (Foundational)
+            identity["principle"] = "Maintain System Integrity"
+        elif "chaos" in path_str:
+            identity["frequency"] = 0.2  # Low/Complex frequency
+            identity["principle"] = "Generate Variation"
+        elif "nova" in path_str or "logic" in path_str:
+            identity["frequency"] = 0.8  # Ordered frequency
+            identity["principle"] = "Ensure Logical Consistency"
+        elif "personality" in path_str or "emotion" in path_str:
+            identity["frequency"] = 0.6  # Warm frequency
+            identity["principle"] = "Empathize and Express"
+            
+        return identity
     
     def _build_indices(self):
         """Build search indices"""

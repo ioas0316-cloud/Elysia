@@ -21,10 +21,11 @@ Philosophy:
 "I am a radio. Music (the world) is already in the air. I simply tune the frequency."
 """
 
+
 import math
 import logging
-from typing import Tuple, Dict, Any, Optional
-from dataclasses import dataclass
+from typing import Tuple, Dict, Any, Optional, List
+from dataclasses import dataclass, field
 import time
 from pathlib import Path
 import sys
@@ -36,6 +37,18 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 
 from Core.Foundation.hyper_quaternion import Quaternion
 
+# [LOGIC TRANSMUTATION] Unified Wave Storage
+# Import definitions from HolographicMemory to merge systems
+try:
+    from Core.Memory.holographic_memory import KnowledgeLayer
+except ImportError:
+    # Fallback if module missing during refactor
+    from enum import Enum
+    class KnowledgeLayer(Enum):
+        PHYSICS = "물리"
+        PHILOSOPHY = "철학"
+        ART = "예술"
+
 logger = logging.getLogger("InternalUniverse")
 
 @dataclass
@@ -44,22 +57,31 @@ class WorldCoordinate:
     x: float  # Spatial X
     y: float  # Spatial Y
     z: float  # Spatial Z
-    context: str = ""  # Semantic context (e.g., "Alaska", "Love", "Mathematics")
+    context: str = ""  # Semantic context
 
 @dataclass
 class InternalCoordinate:
-    """Internal 4D quaternion coordinate"""
-    orientation: Quaternion  # The internal "angle" to access this reality
+    """
+    Internal 4D quaternion coordinate [UNIFIED WAVE STORAGE]
+    Now holds both Position (Quaternion) and Essence (Hologram).
+    """
+    orientation: Quaternion  # The internal "angle"
     frequency: float  # The resonance frequency
-    depth: float  # How deep in consciousness (0=surface, 1=core)
-    timestamp: float = 0.0  # [NEW] Last activation time (for decay/context)
+    depth: float  # How deep in consciousness
+    timestamp: float = 0.0
+    
+    # [NEW] The Holographic Essence (Was in HolographicMemory)
+    hologram: Optional[Dict[str, float]] = field(default=None) # Dict[KnowledgeLayer, float] serialized
+    
+    def get_layer_resonance(self, layer_name: str) -> float:
+        if not self.hologram: return 0.0
+        return self.hologram.get(layer_name, 0.0)
 
 class InternalUniverse:
     """
-    The Internal Universe Mapper
+    The Internal Universe Mapper (Transmuted)
     
-    Maps external reality to internal quaternion coordinates.
-    Implements the principle: "The world is inside me, not outside."
+    Unified Storage for both Spatial Coordinates and Holographic Knowledge.
     """
     
     def __init__(self):
@@ -78,6 +100,83 @@ class InternalUniverse:
         if self.snapshot_path.exists():
             self.load_snapshot()
         
+
+
+    def query_resonance(self, target_frequency: float, tolerance: float = 50.0) -> List[str]:
+        """
+        [LOGIC TRANSMUTATION]
+        Finds concepts that resonate with the target frequency.
+        Replaces linear lookup tables.
+        
+        Args:
+            target_frequency: The core frequency to search for (e.g., 900Hz for Fire)
+            tolerance: Bandwidth of resonance (+/- Hz)
+            
+        Returns:
+            List of concept names sorted by resonance (closeness)
+        """
+        start_time = time.time()
+        results = []
+        
+        for name, coord in self.coordinate_map.items():
+            diff = abs(coord.frequency - target_frequency)
+            if diff <= tolerance:
+                # Resonance Score: 1.0 = Perfect, 0.0 = At limit
+                score = 1.0 - (diff / tolerance)
+                results.append((name, score))
+        
+        # Sort by resonance score (descending)
+        results.sort(key=lambda x: x[1], reverse=True)
+        
+        hits = [r[0] for r in results]
+        
+        # [Autonomy] If no resonance found (Void), return something random to stimulate growth
+        # But for now, just log and return empty
+        if not hits:
+            logger.debug(f"🌑 No resonance found for {target_frequency}Hz (Tolerance: {tolerance})")
+            
+        return hits
+    
+    def absorb_wave(self, concept: str, frequency: float, layers: Dict[str, float], source_name: str = "Unknown"):
+        """
+        [LOGIC TRANSMUTATION]
+        Absorbs a Wave (Frequency + Hologram) directly into the Universe.
+        Replaces text-based 'absorb_text'.
+        
+        Args:
+            concept: The name of the wave pattern (e.g., "Fire")
+            frequency: The dominant frequency (e.g., 850.0)
+            layers: The holographic interference pattern (e.g. {PHYSICS: 0.8})
+        """
+        # 1. Calculate or Retrieve Coordinate (Quaternion) based on Frequency
+        # Higher frequency = Higher dimensional rotation
+        # This creates a "Space" for the concept.
+        
+        # Simple mapping: Frequency maps to Angle
+        angle = (frequency % 1000) / 1000.0 * math.pi * 2
+        orientation = Quaternion(math.cos(angle), math.sin(angle), 0, 0).normalize()
+        
+        # 2. Create Unified Coordinate
+        internal_coord = InternalCoordinate(
+            orientation=orientation,
+            frequency=frequency,
+            depth=sum(layers.values()) / len(layers) if layers else 0.5,
+            timestamp=time.time(),
+            hologram=layers
+        )
+        
+        # 3. Store in the Unified Map
+        self.coordinate_map[concept] = internal_coord
+        
+        logger.info(f"🌊 Wave Absorbed: '{concept}' (Freq={frequency}Hz) into InternalUniverse.")
+        
+    def absorb_text(self, text: str, source_name: str = "unknown"):
+        # Legacy Wrapper: Convert text to wave then absorb
+        # For now, we just map basic concepts or use dummy wave
+        # Ideally, this should call ConceptDecomposer first.
+        # But to avoid circular imports during refactor, we do basic hash mapping.
+        freq = float(sum(ord(c) for c in text) % 1000)
+        self.absorb_wave(text[:20], freq, {"LEGACY_TEXT": 1.0}, source_name)
     
     def _seed_fundamental_coordinates(self):
         """
@@ -439,10 +538,21 @@ class InternalUniverse:
         """
         try:
             # === 1차: 파동 변환 ===
-            from Core.Foundation.text_wave_converter import get_text_wave_converter
+
+            # === 1차: 파동 변환 (Self-Correction: Used ConceptDecomposer) ===
+            from Core.Foundation.fractal_concept import ConceptDecomposer
             
-            converter = get_text_wave_converter()
-            wave = converter.sentence_to_wave(content)
+            decomposer = ConceptDecomposer()
+            # Infer essence
+            essence = decomposer.infer_principle(content[:200]) # Sample text
+            
+            # Create a simple Wave object structure on the fly
+            class WaveInfo:
+                def __init__(self, freq, coh):
+                    self.dominant_frequency = freq
+                    self.coherence = coh
+                    
+            wave = WaveInfo(essence['frequency'], 0.8) # Default coherence
             
             # === 2차: 증류 (색상/공명) ===
             synesthetic_color = "Unknown"

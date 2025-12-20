@@ -85,11 +85,22 @@ class ThoughtLanguageBridge:
         """
         print(f"💭 Thinking about: {topic}")
         
-        # 1. 내부 우주에서 개념 좌표 찾기
-        if topic in self.universe.coordinate_map:
+        # 1. 내부 우주에서 개념 좌표 찾기 [LOGIC TRANSMUTATION]
+        # Use resonance query instead of direct dictionary lookup
+        resonant = self.universe.query_resonance(
+            sum(ord(c) for c in topic) % 1000,  # Convert topic to frequency
+            tolerance=100.0
+        )
+        
+        if resonant and resonant[0] in self.universe.coordinate_map:
+            coord = self.universe.coordinate_map[resonant[0]]
+            concept_quat = coord.orientation
+            print(f"   Found concept via resonance: {concept_quat}")
+        elif topic in self.universe.coordinate_map:
+            # Fallback to direct lookup
             coord = self.universe.coordinate_map[topic]
             concept_quat = coord.orientation
-            print(f"   Found concept: {concept_quat}")
+            print(f"   Found concept (fallback): {concept_quat}")
         else:
             # 없으면 기본 쿼터니언
             concept_quat = Quaternion(1.0, 0.0, 0.0, 0.0)

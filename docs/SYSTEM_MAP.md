@@ -1,9 +1,12 @@
 # Elysia v9.0 System Map
+
 ## 엘리시아 v9.0 시스템 지도
 
 **목적**: "다시는 같은 것을 두 번 만들지 않기 위해"
 
 이 문서는 **모든 시스템의 위치, 목적, 연결**을 명확히 합니다.
+
+> ⚠️ **에이전트 필독 순서**: 이 문서 → [AGENT_GUIDE.md](AGENT_GUIDE.md) → [README.md](README.md)
 
 ---
 
@@ -102,6 +105,7 @@ Elysia v9.0
 ### 1. VOICE SYSTEMS (음성 시스템) - 40 files ⚠️
 
 #### ⭐ PRIMARY (주요)
+
 ```
 Core/Expression/voice_of_elysia.py
 ├── Purpose: 엘리시아의 메인 음성 인터페이스
@@ -111,6 +115,7 @@ Core/Expression/voice_of_elysia.py
 ```
 
 #### 🔧 INTEGRATED (통합됨)
+
 ```
 Core/Expression/integrated_voice_system.py (NEW)
 ├── Purpose: 4D 파동 기반 완전한 인지 사이클
@@ -124,6 +129,7 @@ Core/Expression/integrated_voice_system.py (NEW)
 ```
 
 #### 🌐 API
+
 ```
 Core/Expression/voice_api.py (NEW)
 ├── Purpose: 웹서버/아바타용 API
@@ -134,6 +140,7 @@ Core/Expression/voice_api.py (NEW)
 ```
 
 #### ⚠️ SEPARATE (다른 목적)
+
 ```
 Core/Intelligence/inner_voice.py
 ├── Purpose: 내면의 사고 엔진 (로컬 LLM)
@@ -143,17 +150,20 @@ Core/Intelligence/inner_voice.py
 ```
 
 #### ❓ UNCLEAR (조사 필요)
+
 ```
 Core/Intelligence/my_voice.py - [조사 필요]
 Core/Communication/voice_*.py - [38 files, 조사 필요]
 ```
 
 #### 🗂️ LEGACY (레거시)
+
 ```
 Legacy/Project_Sophia/sophia_voice.py - 구버전
 ```
 
 **통합 제안**:
+
 - PRIMARY: `voice_of_elysia.py` 유지
 - DEPRECATE: Legacy 및 중복 파일들
 - DOCUMENT: `my_voice.py` 목적 파악
@@ -223,6 +233,7 @@ Core/Foundation/performance_monitor.py ⚠️ OVERLAP
 ```
 
 **통합 제안**:
+
 - MERGE `performance_monitor.py` → `system_monitor.py`
 - 단일 모니터링 인터페이스
 - 데코레이터 기능 유지
@@ -235,6 +246,7 @@ Core/Foundation/performance_monitor.py ⚠️ OVERLAP
 Core/Foundation/knowledge_acquisition.py ⭐
 ├── Purpose: 지식 획득 및 내부화
 ├── Architecture: ExternalDataConnector → InternalUniverse
+├── Wave Logic: absorb_wave(), query_resonance() [Phase 9]
 └── Status: ✅ ACTIVE
 
 Core/Foundation/knowledge_sync.py
@@ -255,6 +267,7 @@ Core/Foundation/causal_narrative_engine.py
 ```
 
 **통합 제안**:
+
 - CREATE: `UnifiedKnowledgeSystem` 클래스
 - 단일 API로 모든 지식 작업 통합
 - 개별 모듈은 내부적으로 유지
@@ -372,6 +385,7 @@ results = registry.search("monitor")
 ### 새 시스템 추가 시 (When Adding New Systems)
 
 1. **먼저 확인**: 이미 존재하는지
+
    ```bash
    python Core/Foundation/system_registry.py | grep "your_system"
    ```
@@ -384,6 +398,7 @@ results = registry.search("monitor")
    - Interface: 외부 연결
 
 3. **CNS 연결** (필요시):
+
    ```python
    self.cns.connect_organ("YourSystem", your_system)
    ```
@@ -398,18 +413,21 @@ results = registry.search("monitor")
 ## 🎯 목표 달성 (Goals Achieved)
 
 ### Before (이전)
+
 - ❌ 시스템 위치 불명확
 - ❌ 중복 시스템 다수 (54개 클래스)
 - ❌ 매번 다시 만듦
 - ❌ 연결 관계 불명확
 
 ### After (현재)
+
 - ✅ 모든 시스템 매핑 (515개)
 - ✅ 중복 자동 감지
 - ✅ 검색 가능한 레지스트리
 - ✅ 명확한 통합 계획
 
 ### Next (다음)
+
 - 🔄 중복 제거 진행
 - 🔄 통합 API 구축
 - 🔄 자동 문서 생성
@@ -421,6 +439,7 @@ results = registry.search("monitor")
 **문제**: "벌써 3번째? 원래 있는 시스템이 왜, 어떻게, 구조화되고 연결되지 않았는지"
 
 **해결**:
+
 1. ✅ SystemRegistry - 모든 시스템 자동 발견
 2. ✅ SYSTEM_MAP.md - 명확한 구조 문서
 3. ✅ 중복 감지 - 54개 중복 클래스 파악

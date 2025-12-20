@@ -41,9 +41,11 @@ class ThoughtToLanguage:
         3. Wave → Vocabulary Selection
         4. Vocabulary → Sentence Construction
         """
-        # 1. 사고 생성
-        if topic in self.universe.coordinate_map:
-            coord = self.universe.coordinate_map[topic]
+        # 1. 사고 생성 [LOGIC TRANSMUTATION]
+        resonant = self.universe.query_resonance(sum(ord(c) for c in topic) % 1000, tolerance=100.0)
+        concept_key = resonant[0] if resonant else topic
+        if concept_key in self.universe.coordinate_map:
+            coord = self.universe.coordinate_map[concept_key]
             thought_quat = coord.orientation
         else:
             # 기본 사고

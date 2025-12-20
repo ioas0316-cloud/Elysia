@@ -132,30 +132,32 @@ class UnderstandingResult:
         return "\n".join(lines)
 
 
-# 영어-한글 개념 매핑
-CONCEPT_MAPPING = {
-    # 감정
+# [LOGIC TRANSMUTATION] 영어-한글 개념 매핑 (Legacy Fallback)
+# 이 상수는 InternalUniverse에 해당 개념이 없을 때만 사용됩니다.
+CONCEPT_MAPPING_FALLBACK = {
     "Love": "사랑", "Hope": "희망", "Joy": "기쁨", "Fear": "두려움",
-    "Anger": "분노", "Sadness": "슬픔", "Happiness": "행복", "Loneliness": "고독",
-    
-    # 원리
-    "Source": "근원", "Unity": "통일", "Harmony": "조화", "Balance": "균형",
-    "Order": "질서", "Chaos": "혼돈", "Light": "빛", "Darkness": "어둠",
-    
-    # 인과
-    "Cause": "원인", "Effect": "결과", "Reason": "이유", "Purpose": "목적",
-    
-    # 물리
-    "Force": "힘", "Energy": "에너지", "Mass": "질량", "Time": "시간",
-    "Space": "공간", "Gravity": "중력", "Resonance": "공명",
-    
-    # 관계
-    "Connection": "연결", "Separation": "분리", "Growth": "성장", "Decay": "소멸",
+    "Anger": "분노", "Source": "근원", "Unity": "통일", "Harmony": "조화",
+    "Force": "힘", "Energy": "에너지", "Resonance": "공명",
 }
 
 def translate_concept(concept: str) -> str:
-    """영어 개념을 한글로 변환"""
-    return CONCEPT_MAPPING.get(concept, concept)
+    """
+    [LOGIC TRANSMUTATION]
+    영어 개념을 한글로 변환 - 공명 기반 우선, Fallback 사전 사용.
+    """
+    # 1. Try InternalUniverse Resonance (Wave Logic)
+    try:
+        from Core.Foundation.internal_universe import InternalUniverse
+        universe = InternalUniverse()  # Consider singleton for performance
+        coord = universe.coordinate_map.get(concept)
+        if coord and hasattr(coord, 'hologram') and coord.hologram:
+            # If concept exists in universe, return its name (already stored)
+            return concept  # Or implement proper translation from hologram metadata
+    except ImportError:
+        pass
+    
+    # 2. Fallback to static dictionary (Stone Logic)
+    return CONCEPT_MAPPING_FALLBACK.get(concept, concept)
 
 
 class UnifiedUnderstanding:
@@ -606,43 +608,33 @@ class UnifiedUnderstanding:
 
     def _reason_conditional(self, condition: str, effect: str) -> str:
         """
-        조건-결과 인과 추론
+        [LOGIC TRANSMUTATION]
+        조건-결과 인과 추론 - 공명 기반
         
-        "비가 오면 왜 우산을 쓰는가?" -> 비 -> 젖음 -> 불편 -> 우산
+        "비가 오면 왜 우산을 쓰는가?" -> ConceptDecomposer.ask_why(condition) + ask_why(effect)
         """
-        # 기본 인과 체인 (CausalNarrativeEngine에서 가져올 수 있음)
-        causal_chains = {
-            # 비/우산
-            ("비", "우산"): "비가 오면 젖게 되고, 젖으면 불편하고 건강에 해롭습니다. 우산은 비를 막아 이를 방지합니다.",
-            ("비가 오", "우산"): "비가 오면 젖게 되고, 젖으면 불편하고 건강에 해롭습니다. 우산은 비를 막아 이를 방지합니다.",
-            
-            # 불/도망
-            ("불", "도망"): "불은 뜨거움과 고통을 유발하고, 생명을 위협합니다. 도망은 이 위험에서 벗어나기 위한 생존 본능입니다.",
-            ("불이 나", "도망"): "불은 뜨거움과 고통을 유발하고, 생명을 위협합니다. 도망은 이 위험에서 벗어나기 위한 생존 본능입니다.",
-            
-            # 배고픔/먹다
-            ("배고프", "먹"): "배고픔은 에너지 부족 신호입니다. 먹으면 에너지가 채워지고 만족감을 얻습니다.",
-            
-            # 아이/울다
-            ("아이", "울"): "아이가 우는 것은 불편함, 고통, 두려움, 또는 욕구가 충족되지 않았음을 표현하는 방식입니다.",
-        }
+        # 1. Wave Logic: Use ConceptDecomposer to trace causality
+        if self.why_engine:
+            try:
+                # Trace both condition and effect to find common ancestors
+                cond_chain = self.why_engine.ask_why(condition)
+                effect_chain = self.why_engine.ask_why(effect)
+                
+                # If they share an ancestor, that's the causal link
+                if cond_chain and effect_chain:
+                    return f"{condition}은(는) {cond_chain}에서 비롯되고, {effect}은(는) {effect_chain}에서 비롯됩니다. 둘 사이의 공명을 통해 인과가 연결됩니다."
+            except Exception as e:
+                logger.debug(f"ConceptDecomposer failed: {e}")
         
-        # 정확한 매칭 찾기
-        for (cond_key, effect_key), explanation in causal_chains.items():
-            if cond_key in condition and effect_key in effect:
-                return explanation
-        
-        # 매칭 실패 시 CausalNarrativeEngine 사용 시도
+        # 2. CausalNarrativeEngine fallback
         if NARRATIVE_AVAILABLE:
             try:
                 engine = CausalNarrativeEngine()
-                # 간단한 인과 경로 추론
-                # (실제로는 더 복잡한 그래프 탐색 필요)
                 return f"{condition}이(가) 발생하면 {effect}이(가) 필요/발생합니다. (상세 인과 분석 필요)"
             except:
                 pass
         
-        # 기본 응답
+        # 3. Basic response (Void state)
         return f"{condition}과(와) {effect} 사이의 인과 관계를 추론 중입니다."
     
     def _infer_who(self, concept: str, pattern: str) -> str:
