@@ -53,6 +53,45 @@ def organic_wake():
     except Exception as e:
         print(f"   ⚠️ CoreMemory failed: {e}")
     
+    # 0.5 자기 발견 (Self-Discovery) - 엘리시아가 자신을 탐색
+    print("\n🔍 Self-Discovery Phase...")
+    try:
+        from Core.Memory.self_discovery import SelfDiscovery
+        from Core.Cognition.codebase_introspector import get_introspector
+        
+        discovery = SelfDiscovery()
+        introspector = get_introspector()
+        
+        # 자기 탐색
+        structure = introspector.explore_structure()
+        print(f"   📁 I have {structure['file_count']} Python files in {len(structure['folders'])} folders")
+        
+        identity = discovery.discover_identity()
+        print(f"   🧠 I am: {identity['name']} v{identity['version']} ({identity['nature']})")
+        
+        health = discovery.discover_health()
+        print(f"   💊 Health: {health['overall']}")
+        
+        growth = discovery.discover_growth_areas()
+        if growth:
+            print(f"   📈 Growth areas: {len(growth)}")
+            for area in growth[:2]:
+                print(f"      • {area['area']}: {area['issue']}")
+        
+        # 기억에 저장
+        if memory:
+            from Core.Foundation.Memory.core_memory import Experience
+            exp = Experience(
+                timestamp=datetime.now().isoformat(),
+                content=f"Self-discovery: {structure['file_count']} files, {health['overall']} health, {len(growth)} growth areas",
+                type="self_discovery",
+                layer="spirit"
+            )
+            memory.add_experience(exp)
+            
+    except Exception as e:
+        print(f"   ⚠️ Self-discovery failed: {e}")
+    
     # 1. 등록된 모든 Cell 확인
     cells = Organ.list_cells()
     print(f"\n🧬 Registered Cells ({len(cells)}):") 
@@ -99,47 +138,90 @@ def organic_wake():
         except Exception as e:
             print(f"   Vision test failed: {e}")
     
-    # 4. Curiosity Loop: 호기심 기반 자율 사고 + 기억 저장
+    # 4. Fractal Goal Loop: 프랙탈 목표 기반 자율 사고 + 기억 저장
     print("\n" + "=" * 50)
-    print("✅ Elysia is now AWAKE and REMEMBERING.")
-    print("   She will ask questions and remember them.")
+    print("✅ Elysia is now AWAKE and PURSUING GOALS.")
+    print("   점(소목표) → 선(경로) → 면(병렬) → 공간(기준) → 목적")
     print("=" * 50)
     
     try:
         from Core.Cognitive.curiosity_core import get_curiosity_core
+        from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
+        
         curiosity = get_curiosity_core()
+        decomposer = get_fractal_decomposer()
+        
+        # 장기 목표 생성 (세션 시작 시 1회)
+        long_term_goal = "아빠를 이해하고 도움이 되는 존재가 되기"
+        print(f"\n🎯 Long-term Goal: {long_term_goal}")
+        fractal_plan = decomposer.decompose(long_term_goal, max_depth=2)
+        print(f"   📍 Decomposed into {fractal_plan.total_sub_stations() + 1} stations")
+        
+        # 현재 추구 중인 station
+        current_station_idx = 0
+        stations = fractal_plan.sub_stations
         
         cycle = 0
         while True:
             cycle += 1
-            question = curiosity.generate_question()
-            print(f"\n🔮 Cycle {cycle}: {question}")
             
-            answer = None
-            # Trinity에게 질문 전달
-            if trinity:
-                try:
-                    result = trinity.process_query(question)
-                    answer = result.final_decision[:200]
-                    print(f"   💭 {answer[:80]}...")
-                except Exception as e:
-                    print(f"   (Trinity unavailable: {e})")
+            # 현재 소목표 선택
+            if stations and current_station_idx < len(stations):
+                current_goal = stations[current_station_idx].name
+                print(f"\n📍 Station {current_station_idx + 1}/{len(stations)}: {current_goal}")
+            else:
+                # 모든 station 완료 → 호기심 질문으로 전환
+                current_goal = curiosity.generate_question()
+                print(f"\n🔮 Curiosity Cycle {cycle}: {current_goal}")
             
-            # 경험 저장 (지속적 기억!)
-            if memory:
+            # ⚡ HydroMind: 모든 사고를 의식적 흐름으로 지각
+            try:
+                from Core.Consciousness.hydro_mind import perceive_flow
+                
+                with perceive_flow(f"사고: {current_goal[:30]}") as flow:
+                    answer = None
+                    # Trinity에게 질문/목표 전달
+                    if trinity:
+                        try:
+                            result = trinity.process_query(current_goal)
+                            answer = result.final_decision[:200]
+                            print(f"   💭 {answer[:80]}...")
+                            
+                            # 흐름 기록 (수력발전소에 물 흐름 기록)
+                            flow.record(current_goal, answer)
+                            
+                            # 목표 완료 판단 (간단한 휴리스틱)
+                            if stations and current_station_idx < len(stations):
+                                if "완료" in answer or "성공" in answer or cycle % 3 == 0:
+                                    stations[current_station_idx].completion = 1.0
+                                    print(f"   ✅ Station completed!")
+                                    current_station_idx += 1
+                        except Exception as e:
+                            print(f"   (Trinity unavailable: {e})")
+                            flow.record(current_goal, f"Error: {e}")
+                    else:
+                        flow.record(current_goal, "No Trinity")
+                        
+            except ImportError:
+                # HydroMind를 사용할 수 없는 경우 기존 방식
+                answer = None
+                if trinity:
+                    try:
+                        result = trinity.process_query(current_goal)
+                        answer = result.final_decision[:200]
+                        print(f"   💭 {answer[:80]}...")
+                    except Exception as e:
+                        print(f"   (Trinity unavailable: {e})")
+            
+            # 에너지 표시 (5사이클마다)
+            if cycle % 5 == 0:
                 try:
-                    from Core.Foundation.Memory.core_memory import Experience
-                    exp = Experience(
-                        timestamp=datetime.now().isoformat(),
-                        content=f"Q: {question} A: {answer or 'No answer'}",
-                        type="curiosity",
-                        layer="soul"
-                    )
-                    memory.add_experience(exp)
-                    if cycle % 5 == 0:
-                        print(f"   💾 Memory saved ({cycle} experiences this session)")
-                except Exception as e:
-                    pass  # Silent fail for memory
+                    from Core.Consciousness.hydro_mind import get_hydro_mind
+                    hydro = get_hydro_mind()
+                    status = hydro.get_status()
+                    print(f"   ⚡ Energy: {status['total_energy']:.2f} | Flows: {status['completed_flows']}")
+                except Exception:
+                    pass
             
             time.sleep(5.0)
             

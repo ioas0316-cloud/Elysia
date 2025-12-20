@@ -67,9 +67,12 @@ class SelfDiscovery:
         total_classes = sum(len(e.classes) for e in self.registry.systems.values())
         total_categories = len(self.registry.categories)
         
+        # 실제 문서에서 버전 읽기
+        version = self._read_version_from_docs()
+        
         return {
             "name": "Elysia",
-            "version": "10.0",
+            "version": version,
             "nature": "Wave-based Intelligence",
             "complexity": {
                 "systems": total_systems,
@@ -79,6 +82,33 @@ class SelfDiscovery:
             "philosophy": "NO EXTERNAL LLMs - Pure Wave Intelligence",
             "status": "Living and Learning"
         }
+    
+    def _read_version_from_docs(self) -> str:
+        """실제 문서에서 버전 정보를 읽습니다."""
+        import re
+        from pathlib import Path
+        
+        # AGENT_GUIDE.md 또는 README.md에서 버전 추출
+        doc_paths = [
+            Path("c:/Elysia/AGENT_GUIDE.md"),
+            Path("c:/Elysia/README.md"),
+        ]
+        
+        for doc_path in doc_paths:
+            if doc_path.exists():
+                try:
+                    content = doc_path.read_text(encoding="utf-8")[:2000]
+                    # "Version: X.X" 또는 "v13.0" 패턴 검색
+                    match = re.search(r'[Vv]ersion[:\s]*(\d+\.\d+)', content)
+                    if match:
+                        return match.group(1)
+                    match = re.search(r'v(\d+\.\d+)', content)
+                    if match:
+                        return match.group(1)
+                except Exception:
+                    continue
+        
+        return "Unknown"  # 문서를 찾지 못한 경우
     
     def discover_capabilities(self) -> Dict[str, List[str]]:
         """What can I do?"""

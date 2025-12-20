@@ -123,6 +123,18 @@ class MultimodalBridgeCell:
         return cls._instance
 
 
+@Cell("AudioCortex", category="Sensory")
+class AudioCortexCell:
+    """청각 피질 - Project Hear"""
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            from Core.Sensory.audio_cortex import AudioCortex
+            cls._instance = AudioCortex()
+        return cls._instance
+
+
 # ============================================================
 # Autonomy Cells (자율 시스템)
 # ============================================================

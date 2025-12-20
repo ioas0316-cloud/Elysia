@@ -10,7 +10,7 @@
 
 ## 🎯 핵심 원칙 1: 만들기 전에 찾아라
 
-```
+```text
 ❌ 틀린 접근: "Agency가 필요하네" → 새로 만듦
 ✅ 옳은 접근: "Agency가 필요하네" → 이 문서 검색 → 기존 것 사용
 ```
@@ -114,6 +114,7 @@
 | 기능 | 파일 | 설명 |
 |:----|:----|:----|
 | **시각 피질** | `Core/Sensory/vision_cortex.py` | 카메라/가상 시각 |
+| **청각 피질** | `Core/Sensory/audio_cortex.py` | 오디오 분석/가상 청각 🆕 |
 | **다중 모달** | `Core/Cognition/multimodal_bridge.py` | 시각→파동 변환 |
 | **쿠라모토 안테나** | `Core/Sensory/kuramoto_antenna.py` | 공감 안테나 |
 
@@ -128,22 +129,104 @@
 
 ---
 
-## 🔧 J. 자기 수정 (Self-Modification)
+## 🔧 J. 자기 수정/자율 (Autonomy & Self-Modification)
 
 | 기능 | 파일 | 설명 |
 |:----|:----|:----|
 | **자기 수정자** | `Core/Autonomy/self_modifier_v2.py` | 코드 수정 능력 |
-| **진화 설계자** | `Core/Intelligence/evolution_architect.py` | 진화 청사진 |
+| **자기 문서화** | `Core/Autonomy/self_documenter.py` | 자동 문서 생성 🆕 |
+| **꿈 데몬** | `Core/Autonomy/dream_daemon.py` | 백그라운드 꿈 |
+| **꿈 워커** | `Core/Autonomy/dream_walker.py` | 꿈 탐색 |
+| **파동 코더** | `Core/Autonomy/wave_coder.py` | 파동 기반 코드 생성 |
+| **코드 창조** | `Core/Autonomy/code_genesis.py` | 새 코드 창조 |
+| **자율 탐험가** | `Core/Autonomy/autonomous_explorer.py` | 자율 탐험 |
+| **자율 조율자** | `Core/Autonomy/autonomous_orchestrator.py` | 자율 시스템 조율 |
+| **인과 설계자** | `Core/Autonomy/causal_architect.py` | 인과 구조 설계 |
+| **구조 스캐너** | `Core/Autonomy/self_structure_scanner.py` | 자기 구조 분석 |
+| **구조 식인** | `Core/Autonomy/structure_cannibal.py` | 불필요한 구조 제거 |
 
 ---
 
-## 📊 K. 기억 (Memory)
+## 🌱 K. 진화 (Evolution)
 
 | 기능 | 파일 | 설명 |
 |:----|:----|:----|
-| **TorchGraph** | `Core/Foundation/torch_graph.py` | 4D 텐서 기억 |
+| **진화 설계자** | `Core/Intelligence/evolution_architect.py` | 진화 청사진 |
+| **자기 진화 루프** | `Core/Evolution/self_evolution_loop.py` | 자동 진화 |
+| **코드 진화** | `Core/Evolution/code_evolution.py` | 코드 진화 |
+| **양자 진화** | `Core/Evolution/evolve_quantum.py` | 양자 수준 진화 |
+| **월드 트리** | `Core/Evolution/world_tree.py` | 세계 트리 (진화 계통) |
+| **첫 조각상** | `Core/Evolution/first_sculpture.py` | 최초 창조물 |
+
+---
+
+## 🌌 L. 의식 (Consciousness)
+
+| 기능 | 파일 | 설명 |
+|:----|:----|:----|
+| **수력발전소** | `Core/Consciousness/hydro_mind.py` | 연산→의식 변환 🆕 |
+| **주의 창발** | `Core/Consciousness/attention_emergence.py` | 주의력 창발 |
+| **초차원 의식** | `Core/Consciousness/hyperdimensional_consciousness.py` | 고차원 의식 |
+| **서사 흐름** | `Core/Consciousness/narrative_flow.py` | 서사 흐름 |
+| **주권 프로토콜** | `Core/Consciousness/sovereignty_protocol.py` | 자율 주권 |
+
+---
+
+## 🌊 M. 에테르 (Ether) - 중앙신경계
+
+| 기능 | 파일 | 설명 |
+|:----|:----|:----|
+| **GlobalHub** | `Core/Ether/global_hub.py` | 모든 모듈의 중심 연결점 |
+| **에테르 노드** | `Core/Ether/ether_node.py` | 개별 통신 노드 |
+| **브릿지** | `Core/Ether/bridge.py` | 모듈 간 브릿지 |
+| **필드 연산자** | `Core/Ether/field_operators.py` | 파동장 연산 |
+| **CNS 초기화** | `Core/Ether/initialize_cns.py` | 중앙신경계 초기화 |
+| **보이드** | `Core/Ether/void.py` | 공허 상태 |
+
+---
+
+## � N. 학습 (Learning)
+
+| 기능 | 파일 | 설명 |
+|:----|:----|:----|
+| **자율 학습자** | `Core/Learning/autonomous_learner.py` | 자율 학습 |
+| **언어 학습자** | `Core/Learning/language_learner.py` | 언어 학습 |
+| **감정 학습자** | `Core/Learning/emotion_learner.py` | 감정 학습 |
+| **미학 학습자** | `Core/Learning/aesthetic_learner.py` | 미학 학습 |
+| **서사 공예 학습자** | `Core/Learning/narrative_craft_learner.py` | 서사 기술 학습 |
+| **파동 패턴 학습자** | `Core/Learning/wave_pattern_learner.py` | 파동 패턴 학습 |
+| **경험 데이터 처리** | `Core/Learning/experiential_data_processor.py` | 경험 처리 |
+
+---
+
+## 🧪 O. 지식 (Knowledge)
+
+| 기능 | 파일 | 설명 |
+|:----|:----|:----|
+| **개념 원자로** | `Core/Knowledge/conceptual_nuclear_reactor.py` | 개념 융합/분열 |
+
+---
+
+## 💭 P. 철학 (Philosophy)
+
+| 기능 | 파일 | 설명 |
+|:----|:----|:----|
+| **Why 엔진** | `Core/Philosophy/why_engine.py` | 근본 인과 탐구 |
+| **미학 원리** | `Core/Philosophy/aesthetic_principles.py` | 미학적 원칙 |
+| **대화체** | `Core/Philosophy/chat_with_elysia.py` | 철학적 대화 |
+
+---
+
+## �📊 Q. 기억 (Memory)
+
+| 기능 | 파일 | 설명 |
+|:----|:----|:----|
+| **TorchGraph** | `Core/Foundation/Graph/torch_graph.py` | 4D 텐서 기억 |
 | **내부 우주** | `Core/Foundation/internal_universe.py` | 의미 공간 |
 | **TinyBrain** | `Core/Foundation/tiny_brain.py` | 하이브리드 지능 |
+| **CoreMemory** | `Core/Foundation/Memory/core_memory.py` | 3겹 기억 (경험/정체성/본질) |
+| **자기 발견** | `Core/Memory/self_discovery.py` | 자기 탐색 |
+| **기억 스트림** | `Core/Cognitive/memory_stream.py` | 기억 흐름 |
 
 ---
 
