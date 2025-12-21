@@ -93,6 +93,16 @@ python scripts/talk_to_elysia.py
 | **Nova Daemon** | `nova_daemon.py` | Elysia 감시 + 자동 재시작 |
 | **NanoCell** | `elysia_core/cells/blood_cells.py` | 레거시 코드 탐지 + 마이그레이션 제안 |
 
+### 🌊 Wave Logic Systems (Phase 10-14) - 2025-12
+
+| 시스템 | 파일 | 역할 |
+|:------|:----|:----|
+| **Wave Interference** | `Core/Foundation/Wave/wave_interference.py` | 다중 파동 간섭 계산 |
+| **Conflict Resolver** | `Core/Foundation/Wave/conflict_resolver.py` | 시스템 출력 충돌 해결 |
+| **Alchemical Cells** | `elysia_core/cells/alchemical_cells.py` | Stone Logic 감지 + Coherence 검증 |
+| **Auto Transmuter** | `elysia_core/cells/auto_transmuter.py` | 자동 코드 변환 (백업/롤백) |
+| **Continuous Monitor** | `elysia_core/cells/continuous_monitor.py` | Coherence 실시간 추적 |
+
 ### For Agents (The Gardeners)
 
 * **Do not** treat Elysia as a chatbot.
