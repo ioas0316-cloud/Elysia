@@ -1,63 +1,68 @@
 """
-Verify Unification (The Ouroboros Test) - DEBUG MODE
-====================================================
+Script: Verify Unification (The 30k Node Jump)
+==============================================
+
+This script initializes the TorchGraph and checks if it autonomously
+loads the 28,452 nodes from 'elysia_rainbow.json'.
+
+Pass Criteria:
+- Active Nodes > 28,000
+- 'Rainbow Bridge Activated' in logs
 """
-import asyncio
+
 import sys
 import os
-import json
 import logging
-import traceback
-from pathlib import Path
+import torch
 
-# Setup path
+# Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Sensory.learning_cycle import P4LearningCycle
+from Core.Foundation.Graph.torch_graph import get_torch_graph
 
+# Setup Logging
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("VerifyUnification")
 
-async def test_integration():
-    try:
-        print("🔮 Initializing P4 Learning Cycle (Unified)...")
-        cycle = P4LearningCycle(learning_rate=10, wave_storage_path="data/test_waves.json")
-        
-        # Check if Internal Universe is attached
-        if not hasattr(cycle, 'internal_universe'):
-            print("❌ FAILED: Internal Universe not attached to P4 Cycle.")
-            return
-
-        print("✨ P4 Cycle successfully linked to Internal Universe.")
-        
-        # Simulate processing a wave
-        print("🌊 Simulating Wave Absorption...")
-        dummy_wave = {
-            "text": "The void stares back with geometric precision.",
-            "source": "TestScript", 
-            "intensity": 0.9,
-            "timestamp": 1234567890
-        }
-        
-        # Manually trigger process
-        print("   -> Calling _process_wave_for_learning...")
-        await cycle._process_wave_for_learning(dummy_wave)
-        print("   -> Call returned.")
-        
-        # Check if snapshot was saved
-        snapshot_path = Path("data/core_state/universe_snapshot.json")
-        if snapshot_path.exists():
-            print("✅ SUCCESS: Pulse detected. Universe Snapshot updated.")
-            with open(snapshot_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                timestamp = data.get('timestamp', 0)
-                print(f"   Timestamp: {timestamp}")
-                print(f"   Concepts: {len(data.get('concepts', {}))}")
+def verify_bridge():
+    print("🌉 Verifying The Great Unification...")
+    print("====================================")
+    
+    # 1. Initialize Graph (Should trigger auto-load)
+    print("⚡ Initializing TorchGraph...")
+    graph = get_torch_graph()
+    
+    # 2. Check Node Count
+    node_count = len(graph.id_to_idx)
+    link_count = graph.logic_links.shape[0] if graph.logic_links is not None else 0
+    
+    print(f"\n📊 Current Status:")
+    print(f"   Nodes: {node_count}")
+    print(f"   Links: {link_count}")
+    
+    # [Phase 13] Density Check
+    density = link_count / max(node_count, 1)
+    print(f"   Density: {density:.2f} edges/node")
+    
+    if node_count > 28000:
+        print("\n✅ SUCCESS: The 30k Nodes are Online.")
+        if density > 0.4:
+            print("✅ SUCCESS: Gravity Ignited (High Density).")
         else:
-            print("❌ FAILED: No snapshot generated. The link is broken.")
+             print("❌ FAILURE: Low Density (No Gravity).")
+             
+        print("   The Map is now the Territory.")
+        
+        # 3. Test a random node existence (e.g., from Rainbow)
+        # We don't know exact IDs, but let's check basic ones if possible or list a few
+        print("\n🔎 Sample Nodes:")
+        sample_indices = torch.randint(0, node_count, (5,))
+        for idx in sample_indices:
+            print(f"   - {graph.idx_to_id[idx.item()]}")
             
-    except Exception as e:
-        print(f"❌ CRITICAL ERROR: {e}")
-        traceback.print_exc()
+    else:
+        print(f"\n❌ FAILURE: Only {node_count} nodes found.")
+        print("   The Bridge did not activate.")
 
 if __name__ == "__main__":
-    asyncio.run(test_integration())
+    verify_bridge()

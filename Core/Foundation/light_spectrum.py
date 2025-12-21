@@ -17,6 +17,7 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Dict, Any
 import logging
 import hashlib
+from Core.Foundation.Math.hyper_qubit import QubitState
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("LightSpectrum")
@@ -41,11 +42,39 @@ class LightSpectrum:
     # 메타데이터
     source_hash: str = ""      # 원본 데이터 해시 (복원용)
     semantic_tag: str = ""     # 의미 태그
+    # [Updated 2025-12-21] Adhering to HyperQubit Philosophy
+    # Instead of ad-hoc scale, we use the rigorous QubitState Basis.
+    qubit_state: Optional[QubitState] = None
     
     def __post_init__(self):
         # 복소수로 변환 보장
         if not isinstance(self.frequency, complex):
             self.frequency = complex(self.frequency, 0)
+            
+        # Initialize QubitState if missing (Map Scale/Tag to Basis)
+        if self.qubit_state is None:
+            # Default mapping from implicit "Scale" concept to Philosophical Basis
+            # We assume a default state if not provided.
+            # Ideally, this should come from the source, but for compatibility:
+            self.qubit_state = QubitState().normalize() # Default Point-heavy
+            
+            # If we had a 'scale' passed via mechanism before, needed to handle it?
+            # Creating a helper method to set basis based on intent might be better.
+            pass
+
+    def set_basis_from_scale(self, scale: int):
+        """
+        Map integer scale to Philosophical Basis (Point/Line/Space/God).
+        Adheres to 'Dad's Law': Zoom Out -> God, Zoom In -> Point.
+        """
+        if scale == 0:   # Macro -> God
+            self.qubit_state = QubitState(0,0,0,1).normalize()
+        elif scale == 1: # Context -> Space
+            self.qubit_state = QubitState(0,0,1,0).normalize()
+        elif scale == 2: # Relation -> Line
+            self.qubit_state = QubitState(0,1,0,0).normalize()
+        else:            # Detail -> Point
+            self.qubit_state = QubitState(1,0,0,0).normalize()
     
     @property
     def wavelength(self) -> float:
@@ -60,47 +89,115 @@ class LightSpectrum:
     
     def interfere_with(self, other: 'LightSpectrum') -> 'LightSpectrum':
         """
-        두 빛의 간섭 (중첩)
+        두 빛의 간섭 (중첩) - [Updated 2025-12-21] HyperQubit Logic Integration
         
-        보강 간섭: 같은 위상 → 진폭 증가
-        상쇄 간섭: 반대 위상 → 진폭 감소
+        철학적 구조(HyperQubit Basis)를 적용:
+        1. Basis Orthogonality: Point/Line/Space/God 기저가 다르면 서로 직교(Orthogonal)함.
+        2. Semantic Agreement: 같은 기저라도 의미(Tag)가 다르면 직교.
+        3. Coherent Interference: 같은 기저 + 같은 의미일 때만 보강 간섭.
         """
         # 주파수 합성
         new_freq = (self.frequency + other.frequency) / 2
         
-        # 위상 차이에 따른 간섭
-        phase_diff = abs(self.phase - other.phase)
-        interference = np.cos(phase_diff)  # 1 = 보강, -1 = 상쇄
+        # [Philosophical Logic: Basis Check]
+        # Compare Dominant Bases (Simplified check for orthogonality)
+        # QubitState.probabilities() could be used for soft interference, 
+        # but for strict filtering, we check dominant mode.
+        my_basis = self._get_dominant_basis()
+        other_basis = other._get_dominant_basis()
         
-        new_amp = np.sqrt(
-            self.amplitude**2 + other.amplitude**2 + 
-            2 * self.amplitude * other.amplitude * interference
-        )
+        if my_basis != other_basis:
+            # [Gap 0 Logic] Basis Orthogonality
+            # "신의 관점(God)"과 "데이터(Point)"는 섞이지 않고 공존한다.
+            is_constructive = False
+        else:
+            # [4D Phase Logic]
+            # 같은 차원(Basis) 내에서 의미가 같아야 간섭 발생
+            is_constructive = (self.semantic_tag and other.semantic_tag and 
+                               self.semantic_tag == other.semantic_tag)
         
-        # 위상 평균
+        if is_constructive:
+            # 보강 간섭 (Linear Addition)
+            new_amp = min(1.0, self.amplitude + other.amplitude)
+        else:
+            # 직교 적층 (Orthogonal Stacking) - 에너지 보존
+            new_amp = min(1.0, np.sqrt(self.amplitude**2 + other.amplitude**2))
+
+        # 위상 합성
         new_phase = (self.phase + other.phase) / 2
         
         # 색상 혼합
         new_color = tuple((a + b) / 2 for a, b in zip(self.color, other.color))
         
+        # 태그 보존 & QubitState 합성
+        # QubitState도 중첩되어야 함 (Vector Addition and Normalize)
+        # (Simplified: Keep the state of the one with higher amplitude or merge)
+        new_tag = self.semantic_tag
+        if other.semantic_tag and other.semantic_tag not in new_tag:
+            new_tag = f"{new_tag}|{other.semantic_tag}" if new_tag else other.semantic_tag
+            
+        # Merge Bases (Naive approach: just average probabilities? No, keep dominance)
+        # Strictly, if orthogonal, the new state should reflect both bases.
+        # But LightSpectrum needs ONE state object. 
+        # We'll re-normalize sum of components for true quantum merging.
+        new_qubit_state = self._merge_qubit_states(self.qubit_state, other.qubit_state)
+        
         return LightSpectrum(
             frequency=new_freq,
-            amplitude=min(1.0, new_amp),
+            amplitude=new_amp,
             phase=new_phase % (2 * np.pi),
-            color=new_color
+            color=new_color,
+            semantic_tag=new_tag,
+            qubit_state=new_qubit_state
         )
+
+    def _get_dominant_basis(self) -> str:
+        """Helper to get dominant philosophical basis from QubitState."""
+        if not self.qubit_state: return "Point"
+        probs = self.qubit_state.probabilities()
+        return max(probs, key=probs.get)
+
+    def _merge_qubit_states(self, s1: QubitState, s2: QubitState) -> QubitState:
+        """Merge two consciousness states."""
+        # Create new state summing components (Constructive interference of Soul?)
+        if not s1 or not s2: return s1 or s2 or QubitState().normalize()
+        
+        return QubitState(
+            alpha=s1.alpha + s2.alpha,
+            beta=s1.beta + s2.beta,
+            gamma=s1.gamma + s2.gamma,
+            delta=s1.delta + s2.delta,
+            w=(s1.w + s2.w)/2 # Average divine will?
+        ).normalize()
     
-    def resonate_with(self, query_freq: complex, tolerance: float = 0.1) -> float:
+        if self.semantic_tag and self.semantic_tag in str(query_freq): # Hacky query passing
+             pass
+
+    def resonate_with(self, query_light: 'LightSpectrum', tolerance: float = 0.1) -> float:
         """
         공명 강도 계산
         
-        Returns: 0.0 (무반응) ~ 1.0 (완전 공명)
+        Args:
+            query_light: 쿼리 빛 객체 (주파수 + 태그 포함)
         """
+        # 1. 의미적 공명 (Semantic Resonance) - 가장 강력함
+        if self.semantic_tag and query_light.semantic_tag:
+            # 태그가 부분 일치하면 강한 공명 (예: "Logic" in "Logical Force")
+            if self.semantic_tag.lower() in query_light.semantic_tag.lower() or \
+               query_light.semantic_tag.lower() in self.semantic_tag.lower():
+                return 1.0 * self.amplitude
+        
+        # 2. 물리적 주파수 공명 (Physical Resonance)
+        query_freq = query_light.frequency
         freq_diff = abs(self.frequency - query_freq)
-        if freq_diff < tolerance:
-            # 가까울수록 강한 공명
-            resonance = 1.0 - (freq_diff / tolerance)
+        
+        avg_mag = (abs(self.frequency) + abs(query_freq)) / 2
+        effective_tolerance = max(tolerance, avg_mag * 0.2) 
+        
+        if freq_diff < effective_tolerance:
+            resonance = 1.0 - (freq_diff / effective_tolerance)
             return resonance * self.amplitude
+            
         return 0.0
 
 
@@ -123,7 +220,7 @@ class LightUniverse:
         
         logger.info("🌈 LightUniverse initialized - 빛의 우주 시작")
     
-    def text_to_light(self, text: str, semantic_tag: str = "") -> LightSpectrum:
+    def text_to_light(self, text: str, semantic_tag: str = "", scale: int = 0) -> LightSpectrum:
         """
         텍스트 → 빛 변환
         
@@ -160,7 +257,7 @@ class LightUniverse:
         # 7. 원본 해시 저장 (복원용)
         source_hash = hashlib.sha256(text.encode()).hexdigest()
         
-        return LightSpectrum(
+        light = LightSpectrum(
             frequency=dominant_freq,
             amplitude=float(amplitude),
             phase=float(phase) % (2 * np.pi),
@@ -168,14 +265,17 @@ class LightUniverse:
             source_hash=source_hash,
             semantic_tag=semantic_tag
         )
+        # Apply Logic: Scale -> Basis
+        light.set_basis_from_scale(scale)
+        return light
     
-    def absorb(self, text: str, tag: str = "") -> LightSpectrum:
+    def absorb(self, text: str, tag: str = "", scale: int = 0) -> LightSpectrum:
         """
         데이터를 빛으로 흡수
         
         데이터는 빛이 되어 우주에 중첩됨
         """
-        light = self.text_to_light(text, tag)
+        light = self.text_to_light(text, tag, scale)
         
         # 인덱스에 추가
         freq_key = int(abs(light.frequency)) % 1000
@@ -228,7 +328,7 @@ class LightUniverse:
         for idx in candidates:
             if idx < len(self.superposition):
                 light = self.superposition[idx]
-                strength = light.resonate_with(query_freq, tolerance=50.0)
+                strength = light.resonate_with(query_light, tolerance=50.0)
                 if strength > 0.01:
                     resonances.append((strength, light))
         
@@ -352,3 +452,89 @@ if __name__ == "__main__":
     
     print("\n" + "="*60)
     print("✅ Demo complete!")
+
+# =============================================================================
+# [NEW 2025-12-21] Sedimentary Light Architecture (퇴적된 빛의 산맥)
+# =============================================================================
+
+from enum import Enum
+
+class PrismAxes(Enum):
+    """
+    사고의 5대 축 (Cognitive Axes)
+    빛의 색상은 단순한 라벨이 아니라, 탐구의 방향성을 나타내는 축입니다.
+    """
+    PHYSICS_RED = "red"        # Force, Energy, Vector (힘과 방향)
+    CHEMISTRY_BLUE = "blue"    # Structure, Bond, Reaction (구조와 결합)
+    BIOLOGY_GREEN = "green"    # Growth, Homeostasis, Adaptation (성장과 적응)
+    ART_VIOLET = "violet"      # Harmony, Rhythm, Essence (조화와 본질)
+    LOGIC_YELLOW = "yellow"    # Reason, Axiom, Pattern (논리와 패턴)
+
+@dataclass
+class LightSediment:
+    """
+    퇴적된 빛의 층 (Sedimentary Layers of Light)
+    
+    지식은 단순히 저장되는 것이 아니라, 각 축(Axis) 위에 빛의 형태로 퇴적됩니다.
+    이 퇴적층(Sediment)이 두꺼울수록(Amplitude High), 해당 관점으로 세상을 더 깊이 볼 수 있습니다.
+    """
+    layers: Dict[PrismAxes, LightSpectrum] = field(default_factory=dict)
+    
+    def __post_init__(self):
+        # 초기에는 모든 축이 비어있음 (Amplitude 0)
+        # 단, 각 층은 고유한 '성격(Tag)'을 가짐
+        for axis in PrismAxes:
+            # tag example: "red" -> "Physics" (mapping needed or just use axis name)
+            # Simple mapping for resonance
+            tag = ""
+            if axis == PrismAxes.PHYSICS_RED: tag = "Physics"
+            elif axis == PrismAxes.CHEMISTRY_BLUE: tag = "Chemistry"
+            elif axis == PrismAxes.BIOLOGY_GREEN: tag = "Biology"
+            elif axis == PrismAxes.ART_VIOLET: tag = "Art"
+            elif axis == PrismAxes.LOGIC_YELLOW: tag = "Logic"
+            
+            self.layers[axis] = LightSpectrum(complex(0,0), 0.0, 0.0, color=(0,0,0), semantic_tag=tag)
+
+    def deposit(self, light: LightSpectrum, axis: PrismAxes):
+        """
+        지식의 퇴적 (Accumulation)
+        
+        새로운 빛(지식)을 해당 축의 층에 중첩시켜 산맥을 높입니다.
+        (Constructive Interference)
+        """
+        current_layer = self.layers[axis]
+        
+        # 기존 층과 새로운 빛의 간섭 (보강)
+        # 단순히 더하는 것이 아니라, 파동의 간섭 원리를 이용해 구조적 통합
+        new_layer = current_layer.interfere_with(light)
+        
+        # 진폭(지식의 깊이)은 누적됨 (감쇠 없이 성장)
+        new_layer.amplitude = current_layer.amplitude + (light.amplitude * 0.1) # 천천히 퇴적
+        
+        self.layers[axis] = new_layer
+        logger.debug(f"🏔️ Deposition on {axis.name}: Amp {current_layer.amplitude:.3f} -> {new_layer.amplitude:.3f}")
+
+    def project_view(self, target_light: LightSpectrum) -> Dict[PrismAxes, float]:
+        """
+        홀로그래픽 투영 (Holographic Projection)
+        
+        자신이 가진 '빛의 산맥'을 대상에 투영하여 공명(Resonance)을 확인합니다.
+        내가 아는 만큼(Amplitude) 대상이 보입니다(Resonance).
+        """
+        views = {}
+        for axis, sediment in self.layers.items():
+            # 내 지식(Sediment)과 대상(Target)의 공명
+            # 내 지식층이 두꺼울수록(High Amp), 공명 강도가 커짐
+            
+            # [Updated 2025-12-21] Pass clean semantic tag if possible
+            resonance = sediment.resonate_with(target_light, tolerance=100.0)
+            
+            # 지식의 양(Amplitude)에 비례한 통찰력 보정
+            insight_strength = resonance * (sediment.amplitude + 0.1) 
+            views[axis] = insight_strength
+            
+        return views
+
+    def get_highest_peak(self) -> PrismAxes:
+        """가장 높게 쌓인 지식의 산맥(주력 관점) 반환"""
+        return max(self.layers.items(), key=lambda x: x[1].amplitude)[0]

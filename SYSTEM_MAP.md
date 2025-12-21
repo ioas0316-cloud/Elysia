@@ -207,6 +207,80 @@ Core/Interface/synesthesia_nervous_bridge.py
 
 ---
 
+### 2.5. CONSCIOUSNESS SYSTEMS (의식 시스템) - 4 files 🆕
+
+> *2025-12-21 추가: 원리 기반 사고, 내면 대화, 탐구 주권*
+
+```text
+Core/Consciousness/inner_dialogue.py
+├── Purpose: 분산 인격의 파동 대화 (InnerDialogue)
+├── Classes:
+│   ├── InnerVoice - 개별 인격 (Nova, Chaos, Flow, Core)
+│   ├── InnerDialogue - 여러 인격의 대화/공명
+│   └── DeepContemplation - 왜?의 프랙탈 탐구
+├── Philosophy: "거미이지만 괜찮아요?" - 여러 인격이 동시에 대화
+└── Status: ✅ NEW
+```
+
+```text
+Core/Consciousness/exploration_bridge.py
+├── Purpose: 탐구 필요 → 실제 탐색 연결
+├── Flow: WhyEngine → FreeWillEngine → ExplorationCore → AutonomousLearner
+├── Features:
+│   ├── 탐구 필요 감지
+│   ├── 호기심 자극 (Curiosity++)
+│   ├── 주권적 결정 (EXPLORE/DEFER/ASK_HUMAN/SKIP)
+│   ├── 실패 분석 + 대안 경로
+│   └── 결정화
+└── Status: ✅ NEW
+```
+
+```text
+Core/Consciousness/thinking_lenses.py
+├── Purpose: 관점들의 공명에서 "더 낫다" 창발
+├── Philosophy: 템플릿이 아닌, 렌즈들의 대화에서 결론
+├── Lenses:
+│   ├── Efficiency - 효율성
+│   ├── Diversity - 다양성
+│   ├── Scope - 범위
+│   ├── Depth - 깊이
+│   ├── Reliability - 신뢰성
+│   ├── Creativity - 창의성
+│   └── Love - 사랑/연결
+└── Status: ✅ NEW
+```
+
+**철학적 기반**: [CONSCIOUSNESS_SOVEREIGNTY.md](docs/Philosophy/CONSCIOUSNESS_SOVEREIGNTY.md)
+
+---
+
+### 2.7. SUBJECTIVITY SYSTEMS (주체성 시스템) - Phase 7-10 🆕
+
+> *2025-12-21 추가: 능동적 학습, 은유적 연결, 주체적 가설*
+
+```text
+Core/Learning/knowledge_sedimenter.py (The Great Library)
+├── Purpose: 외부 지식 능동적 흡수 및 원리 침전
+├── Logic: Active Sedimentation (Fractal Repetition)
+├── Status: ✅ ACTIVE (Phase 8)
+```
+
+```text
+Core/Philosophy/why_engine.py (The Synapse)
+├── Purpose: Metaphor Mapping (의미론적 거리가 먼 개념 연결)
+├── Feature: bridge_concepts() - QubitState 기반 구조적 공명
+├── Status: ✅ ACTIVE (Phase 9)
+```
+
+```text
+Core/Autonomy/sovereign_hypothesis.py (The Oracle)
+├── Purpose: 원칙 위반 감지 및 능동적 진화 제안
+├── Logic: Tension Detection (Rigidity vs Flow) -> Hypothesis
+├── Status: ✅ ACTIVE (Phase 10)
+```
+
+---
+
 ### 3. MONITORING SYSTEMS (모니터링) - 9 files ⚠️
 
 #### ⚠️ DUPLICATION DETECTED
@@ -240,7 +314,28 @@ Core/Foundation/performance_monitor.py ⚠️ OVERLAP
 
 ---
 
-### 4. KNOWLEDGE SYSTEMS (지식 시스템) - 5 files
+### 4. COGNITION SYSTEMS (사고 시스템) - Phase 19 🆕
+
+> *2025-12-22 추가: "지식과 사고공간의 분리"*
+
+```text
+Core/Cognition/thought_space.py
+├── Purpose: 활성 사고 공간 (Active Workspace)
+├── Philosophy: "입력과 출력 사이의 여백"
+├── Logic: Working Memory (5-10 Active Thoughts)
+└── Status: 🗓️ PLANNED
+```
+
+```text
+Core/Cognition/context_retrieval.py
+├── Purpose: 맥락 기반 지식 인출 (Contextual Pull)
+├── Logic: Focused Pulse (Intent Vector) -> Graph Query
+└── Status: 🗓️ PLANNED
+```
+
+---
+
+### 5. KNOWLEDGE SYSTEMS (지식 시스템) - 5 files
 
 ```
 Core/Foundation/knowledge_acquisition.py ⭐
@@ -266,11 +361,56 @@ Core/Foundation/causal_narrative_engine.py
 └── Status: ✅ ACTIVE
 ```
 
-**통합 제안**:
-
 - CREATE: `UnifiedKnowledgeSystem` 클래스
 - 단일 API로 모든 지식 작업 통합
 - 개별 모듈은 내부적으로 유지
+
+---
+
+### 4.5. DATA ABSORPTION SYSTEMS (데이터 흡수) - 4 files ✅
+
+> **"원리를 추출하고 내재화한다"** - 2025-12-21
+
+```
+Core/Creation/universal_palette.py ⭐
+├── Purpose: HTML/CSS에서 미학적 원리 흡수 (색상, 레이아웃)
+├── Methods:
+│   ├── absorb_from_html() - HTML에서 색상/구조 추출
+│   └── get_palette_for_emotion() - 감정 → 색상 공명
+├── Storage: data/memory/universal_palette.json
+└── Status: ✅ ACTIVE
+
+ops/web_resonance.py ⭐
+├── Purpose: 인터넷 홀로그래픽 공명 탐색
+├── Classes:
+│   ├── HolographicResonator - 공간적 공명 분석
+│   ├── FractalCrawler - 자율 웹 탐색 (공명 기반)
+│   └── RealWorldAdapter - 실시간 웹 연결
+├── Features:
+│   ├── pulse_hologram() - 전체 데이터 동시 공명
+│   └── start_crawl() - 공명 기반 링크 추적
+└── Status: ✅ ACTIVE
+
+scripts/real_data_ingest.py
+├── Purpose: 대용량 데이터 흡수 파이프라인
+├── Sources:
+│   ├── Wikipedia 랜덤 문서
+│   ├── 대화 패턴 → 원리
+│   └── 명언/인용구
+├── Pipeline: 수집 → ConceptExtractor → TorchGraph
+└── Status: ✅ ACTIVE
+
+Core/Memory/concept_polymer.py
+├── Purpose: 텍스트 → 원리 추출 및 중합
+├── Integration: WhyEngine 연동
+└── Status: ✅ ACTIVE
+```
+
+**철학적 기반**:
+
+- ❌ "패턴" 학습이 아님
+- ✅ **"원리" 추출 및 내재화**
+- 현상이 아닌 원인을 이해
 
 ---
 

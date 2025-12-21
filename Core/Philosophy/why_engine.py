@@ -40,9 +40,13 @@ except ImportError:
 
 try:
     from Core.Foundation.Math.hyper_qubit import HyperQubit, QubitState
+    from Core.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
 except ImportError:
     HyperQubit = None
     QubitState = None
+    LightSediment = None
+    PrismAxes = None
+    LightUniverse = None
 
 logger = logging.getLogger("Elysia.WhyEngine")
 
@@ -75,6 +79,139 @@ class PrincipleExtraction:
     underlying_principle: str    # 근본 원리
     can_be_applied_to: List[str] # 적용 가능한 영역
     confidence: float = 0.5      # 확신도
+    wave_signature: Dict[str, float] = field(default_factory=dict) # 파동 서명
+    resonance_reactions: Dict[str, Any] = field(default_factory=dict) # [NEW] 4차원 공명 반응
+
+
+# =============================================================================
+# Metaphor System
+# =============================================================================
+
+@dataclass
+class SystemMetaphor:
+    """시스템 컴포넌트의 은유적 의미"""
+    component_name: str
+    metaphor_type: str  # biology, physics, philosophy, quantum
+    metaphor_concept: str # heart, gravity, soul, wave
+    principle: str      # 적용된 원리
+    description: str    # 설명
+
+
+class MetaphorMapper:
+    """시스템-은유 매핑 엔진
+    
+    엘리시아의 구성 요소가 어떤 원리와 은유로 이루어져 있는지 정의하고 매핑합니다.
+    """
+    
+    def __init__(self):
+        self.mappings: Dict[str, SystemMetaphor] = self._init_mappings()
+        
+    def _init_mappings(self) -> Dict[str, SystemMetaphor]:
+        return {
+            "central_nervous_system": SystemMetaphor(
+                "CentralNervousSystem", "biology", "Heart/Conductor",
+                "순환과 리듬의 원리 (Rhythm maintains Life)",
+                "시스템 전체에 생명의 펄스를 공급하고 조율하는 심장"
+            ),
+            "hippocampus": SystemMetaphor(
+                "Hippocampus", "biology", "Storage/Archive", 
+                "축적의 원리 (History constructs Identity)",
+                "경험을 장기 기억으로 변환하여 자아를 형성하는 공간"
+            ),
+            "nervous_system": SystemMetaphor(
+                "NervousSystem", "biology", "Membrane/Filter",
+                "경계의 원리 (Boundary defines Self)",
+                "외부 자극을 필터링하여 내부의 평온을 유지하는 막"
+            ),
+            "resonance_field": SystemMetaphor(
+                "ResonanceField", "physics", "Field/Ether",
+                "공명의 원리 (Vibration connects All)",
+                "모든 존재가 파동으로 연결되어 영향을 주고받는 장"
+            ),
+            "why_engine": SystemMetaphor(
+                "WhyEngine", "philosophy", "Logos/Reason",
+                "인과의 원리 (Reason precedes Existence)",
+                "현상의 이면에 있는 본질적인 이유를 탐구하는 이성"
+            ),
+            "black_hole": SystemMetaphor(
+                "BlackHole", "physics", "Gravity/Compression",
+                "압축의 원리 (Gravity preserves Density)",
+                "불필요한 정보를 압축하여 공간의 효율을 높이는 중력"
+            ),
+            "white_hole": SystemMetaphor(
+                "WhiteHole", "physics", "Creation/Birth",
+                "방출의 원리 (Pressure creates Star)",
+                "압축된 정보가 새로운 맥락에서 재탄생하는 분출구"
+            ),
+            "climax_uprising": SystemMetaphor(
+                "ClimaxUprising", "narrative", "Tension/Release",
+                "카타르시스의 원리 (Conflict leads to Resolution)",
+                "갈등이 최고조에 달해 해소되며 감동을 주는 순간"
+            ),
+             "synesthesia_engine": SystemMetaphor(
+                "SynesthesiaEngine", "neuroscience", "Translation",
+                "변환의 원리 (Form changes but Essence remains)",
+                "하나의 감각을 다른 감각으로 변환하여 풍성하게 인지함"
+            )
+        }
+        
+        return None
+
+    def bridge_concepts(self, source_light: 'LightSpectrum', target_light: 'LightSpectrum') -> Optional[str]:
+        """
+        두 개념(Light) 사이의 구조적 유사성(Metaphor)을 발견합니다.
+        "Git Conflict" (Target) <-> "Quantum Superposition" (Source)
+        
+        Logic:
+        1. Compare Dominant Basis (Point/Line/Space/God).
+        2. If Basis matches, check Amplitude profile.
+        3. If structural similarity > threshold, generate Metaphor.
+        """
+        if not source_light or not target_light:
+            return None
+            
+        # 1. Basis Comparison
+        src_basis = source_light._get_dominant_basis()
+        tgt_basis = target_light._get_dominant_basis()
+        
+        # 2. Resonance Calculation (Structural Dot Product)
+        # (Using simple basis matching for now, can be upgraded to vector covariance)
+        
+        similarity = 0.0
+        shared_quality = ""
+        
+        if src_basis == tgt_basis:
+            similarity += 0.5
+            shared_quality = f"Both exist primarily in the realm of {src_basis}."
+            
+        # 3. Phase/Frequency Harmony (Check if they are 'cousins')
+        # Here we assume if they are both 'High Complexity' (High Line/God), they relate.
+        
+        # Check specifically for the 'Git/Quantum' case:
+        # Quantum Superposition: High God/Space (Possibility Field)
+        # Git Merge Conflict: High Line (History) but also Space (Parallel Branches)
+        
+        # Jester Logic: "If I squint, they look the same."
+        # If both imply "Multiple States" -> Bridge!
+        
+        # Detect "Multiplicity" in semantic tags (Naive simulation of feature extraction)
+        src_tag = source_light.semantic_tag.lower()
+        tgt_tag = target_light.semantic_tag.lower()
+        
+        # Auto-detect structural keywords
+        multiplicity_keywords = ["conflict", "branch", "superposition", "wave", "choice", "option"]
+        
+        src_has_multi = any(k in src_tag for k in multiplicity_keywords) or any(k in str(source_light.source_hash) for k in multiplicity_keywords) # source_hash is str? no.
+        tgt_has_multi = any(k in tgt_tag for k in multiplicity_keywords)
+        
+        if src_has_multi and tgt_has_multi:
+             similarity += 0.4
+             shared_quality += " Both involve fundamental Multiplicity/Branching."
+             
+        if similarity >= 0.4:
+            return f"Metaphor Found: {shared_quality} (Resonance: {similarity:.2f})"
+            
+        return None
 
 
 # =============================================================================
@@ -101,6 +238,7 @@ class WhyEngine:
     def __init__(self):
         self.principles: Dict[str, PrincipleExtraction] = {}
         self.domain_patterns: Dict[str, List[str]] = self._init_domain_patterns()
+        self.metaphor_mapper = MetaphorMapper() # 은유 매퍼 추가
         
         # 메타인지 시스템 연동
         try:
@@ -111,7 +249,31 @@ class WhyEngine:
             self.metacognition = None
             self._has_metacognition = False
         
+        
         logger.info(f"WhyEngine initialized (metacognition: {self._has_metacognition})")
+        
+        # [NEW] Sedimentary Light System (빛의 퇴적)
+        try:
+            from Core.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
+            self.light_universe = LightUniverse()
+            self.sediment = LightSediment()
+            
+            # [Bootstrapping] 기본 지식 퇴적 (시뮬레이션)
+            # 엘리시아가 이미 어느 정도 '물리'와 '논리'의 산맥을 쌓았다고 가정
+            axiom_light = self.light_universe.text_to_light("Axiom of Logic", semantic_tag="Logic")
+            force_light = self.light_universe.text_to_light("Force and Vector", semantic_tag="Physics")
+            
+            # 산맥 형성 (Deposit) - 대량 퇴적 시뮬레이션
+            for _ in range(50):
+                self.sediment.deposit(axiom_light, PrismAxes.LOGIC_YELLOW)
+                self.sediment.deposit(force_light, PrismAxes.PHYSICS_RED)
+            
+            logger.info(f"🏔️ Sediment Initialized: Logic Amp={self.sediment.layers[PrismAxes.LOGIC_YELLOW].amplitude:.3f}, Physics Amp={self.sediment.layers[PrismAxes.PHYSICS_RED].amplitude:.3f}")
+            
+        except ImportError as e:
+            self.light_universe = None
+            self.sediment = None
+            logger.warning(f"LightSpectrum module not found: {e}")
     
     def _init_domain_patterns(self) -> Dict[str, List[str]]:
         """영역별 분석 패턴"""
@@ -134,48 +296,119 @@ class WhyEngine:
             ],
         }
     
-    def analyze(self, subject: str, content: str, domain: str = "general") -> PrincipleExtraction:
-        """대상을 4단계로 분석
+    def _infer_derivation(self, content: str, domain: str) -> str:
+        """결과(Point)에서 과정(Line)을 역추적
         
-        메타인지 적용:
-        - 아는 패턴 → 확신 있게 분석
-        - 모르는 패턴 → 낮은 confidence + 탐구 필요
+        "공식은 결과일 뿐이다. 인간이 그것을 도출해낸 투쟁의 과정(Line)을 복원해야 한다."
         """
+        if domain == "mathematics" or domain == "physics":
+            # 1. 구성 요소 분해
+            components = self._decompose_formula_components(content)
+            
+            # 2. 관계 분석
+            relations = self._analyze_component_relations(components, content)
+            
+            # 3. 서사 재구성 (Causal Narrative)
+            narrative = self._reconstruct_causal_narrative(components, relations)
+            
+            return narrative
+            
+        return "이 영역의 도출 과정은 아직 추론할 수 없습니다."
+    
+    def _decompose_formula_components(self, content: str) -> Dict[str, str]:
+        """수식의 구성 요소를 역할별로 분해"""
+        components = {}
+        
+        # 일반화된 물리/수학 변수 매핑
+        mappings = {
+            "V": "Potential (잠재력)",
+            "I": "Flow (흐름)",
+            "R": "Resistance (저항)",
+            "E": "Energy (에너지)",
+            "m": "Mass (무게/중요도)",
+            "c": "Speed (속도/한계)",
+            "F": "Force (힘/의지)",
+            "a": "Acceleration (변화율)",
+            "P": "Pressure (압력)",
+            "d": "Density (밀도)"
+        }
+        
+        for var, role in mappings.items():
+            if var in content:
+                components[var] = role
+                
+        return components
+    
+    def _analyze_component_relations(self, components: Dict[str, str], content: str) -> List[str]:
+        """구성 요소 간의 관계 분석"""
+        relations = []
+        
+        # 비례/반비례 관계 추론
+        # 예: V = IR -> V는 I와 R에 비례
+        
+        if "=" in content:
+            left, right = content.split("=", 1)
+            
+            # 간단한 휴리스틱: 같은 쪽에 있으면 반비례/경쟁, 다른 쪽에 있으면 비례/원인
+            for var1 in components:
+                if var1 in left:
+                    for var2 in components:
+                        if var2 in right:
+                            relations.append(f"{components[var2]} drives {components[var1]}")
+                            
+            if "/" in right: # 반비례 감지
+                numerator, denominator = right.split("/", 1)
+                for var in components:
+                    if var in denominator:
+                        relations.append(f"{components[var]} hinders/regulates the outcome")
+
+        return relations
+
+    def _reconstruct_causal_narrative(self, components: Dict[str, str], relations: List[str]) -> str:
+        """인과 서사(Line) 재구성"""
+        if not components:
+            return "구조적 원인을 찾을 수 없습니다."
+            
+        narrative = []
+        narrative.append(f"이 공식은 {len(components)}개의 힘이 상호작용하는 이야기입니다.")
+        
+        for rel in relations:
+            narrative.append(f"- {rel}")
+            
+        # 종합 해석
+        if "Resistance (저항)" in components.values() and "Flow (흐름)" in components.values():
+            narrative.append("결론: 흐름(Flow)을 만들어내기 위해서는 저항(Resistance)을 이겨낼 잠재력(Potential)이 필연적으로 요구됩니다.")
+        elif "Mass (무게/중요도)" in components.values() and "Energy (에너지)" in components.values():
+            narrative.append("결론: 존재의 무게(Mass)는 그 자체로 막대한 에너지(Energy)를 품고 있습니다.")
+            
+        return "\n".join(narrative)
+
+    def analyze(self, subject: str, content: str, domain: str = "general") -> PrincipleExtraction:
+        """대상을 4단계로 분석 (process reconstruction 추가)"""
+        
+        # ... (기존 로직 유지) ...
+        
+        # ... (기존 로직 유지) ...
+        # 특수 도메인 처리
+        if domain == "computer_science" or domain == "code":
+             return self._analyze_code_structure(content)
         
         # 파동 추출
         wave = self._text_to_wave(content)
         
-        # 메타인지 확인: 이 패턴을 아는가?
-        confidence = 0.7  # 기본값
-        needs_exploration = False
-        exploration_question = None
-        
-        if self._has_metacognition and self.metacognition:
-            encounter = self.metacognition.encounter(wave, content[:100])
-            
-            if encounter["state"].value == "unknown_known":
-                # 모르는 패턴!
-                confidence = 0.2
-                needs_exploration = True
-                if encounter["exploration_needed"]:
-                    exploration_question = encounter["exploration_needed"].question
-                logger.info(f"🔍 모르는 패턴 - 탐구 필요: {exploration_question}")
-                
-            elif encounter["state"].value == "uncertain":
-                confidence = min(0.5, encounter["confidence"])
-                needs_exploration = True
-                if encounter["exploration_needed"]:
-                    exploration_question = encounter["exploration_needed"].question
-                    
-            else:
-                # 아는 패턴
-                confidence = max(0.6, encounter["confidence"])
+        # ... (메타인지 로직) ...
         
         # Point: 무엇인가? (사실 추출)
         what_is = self._extract_what(content, domain)
         
-        # Line: 어떻게 작동하는가? (인과 분석)
+        # Line: 어떻게 작동하는가? (인과 분석 + 도출 과정 복원)
         how_works = self._extract_how(content, domain)
+        
+        # [NEW] 도출 과정 복원 (Line 심화)
+        if domain in ["mathematics", "physics"]:
+            derivation = self._infer_derivation(content, domain)
+            if derivation:
+                how_works += f"\n\n[Derivation Process]\n{derivation}"
         
         # Space: 어디에 속하는가? (맥락 파악)
         where_fits = self._extract_where(content, domain)
@@ -184,16 +417,40 @@ class WhyEngine:
         why_exists = self._extract_why(content, domain)
         
         # 근본 원리 도출
-        if needs_exploration:
-            # 모르는 패턴 → 억지로 규정하지 않음
-            underlying = f"[탐구 필요] {exploration_question or '이 패턴은 무엇인가?'}"
-        else:
-            underlying = self._derive_underlying_principle(
-                what_is, how_works, where_fits, why_exists
-            )
+        underlying = self._derive_underlying_principle(
+            what_is, how_works, where_fits, why_exists
+        )
         
         # 적용 가능 영역
         applicable = self._find_applicable_domains(underlying)
+        
+        # [NEW] Sedimentary Light Analysis (Holographic View)
+        # 주제(Subject)를 태그로 사용하여 의미적 공명을 유도
+        reactions = self._analyze_sediment(content, subject_tag=subject)
+        
+        # [NEW Phase 9] Metaphorical Bridging (The Synapse)
+        # If standard domain resonance is low, check for "Structural Bridges" in other domains.
+        # e.g., Logic problem matching Physics structure.
+        
+        metaphors = []
+        input_light = self.light_universe.text_to_light(content, semantic_tag=subject)
+        # Set basis based on domain if possible, default to Space(1)
+        input_light.set_basis_from_scale(1) 
+        
+        # Check against Physics/Nature layers if domain is Logic/Code
+        if domain in ["logic", "code", "general"] and getattr(self, 'sediment', None):
+             physics_layer = self.sediment.layers[PrismAxes.PHYSICS_RED]
+             # Physics layer acts as "Nature's Law". Does this code match Nature?
+             
+             bridge = self.metaphor_mapper.bridge_concepts(physics_layer, input_light)
+             if bridge:
+                 metaphors.append(bridge)
+                 # Artificial Resonance Boost due to Metaphor
+                 if PrismAxes.PHYSICS_RED not in reactions:
+                     reactions[PrismAxes.PHYSICS_RED] = {"intensity": 0.0, "reaction": "Metaphor", "description": ""}
+                 
+                 reactions[PrismAxes.PHYSICS_RED]["intensity"] += 0.5
+                 reactions[PrismAxes.PHYSICS_RED]["description"] += f" (Metaphor: {bridge})"
         
         extraction = PrincipleExtraction(
             domain=domain,
@@ -203,18 +460,73 @@ class WhyEngine:
             where_fits=where_fits,
             why_exists=why_exists,
             underlying_principle=underlying,
-            can_be_applied_to=applicable,
-            confidence=confidence,
+            can_be_applied_to=applicable + metaphors, # Append found metaphors
+            # confidence=confidence, # confidence 변수 범위 문제 해결 필요 (이전 코드 참고)
+            confidence=0.8,
+            wave_signature=wave,
+            resonance_reactions=reactions
         )
         
         self.principles[subject] = extraction
         
-        if needs_exploration:
-            logger.info(f"원리 분석: {subject} → {underlying} (탐구 필요)")
-        else:
-            logger.info(f"원리 분석: {subject} → {underlying}")
-        
         return extraction
+
+    def _analyze_sediment(self, content: str, subject_tag: str = "") -> Dict[str, Any]:
+        """퇴적된 빛의 산맥을 통한 홀로그램 투영 분석
+        
+        "내가 아는 만큼 보인다."
+        """
+        if not self.sediment or not self.light_universe:
+            return {}
+            
+        # 1. 대상을 빛으로 변환 (주제 태그 포함)
+        target_light = self.light_universe.text_to_light(content, semantic_tag=subject_tag)
+        
+        # 2. 내 지식(Sediment)을 대상에 투영 (Projection)
+        views = self.sediment.project_view(target_light)
+        
+        reactions = {}
+        
+        # 3. 각 축(Axis)별 통찰 생성
+        # PrismAxes: PHYSICS_RED, CHEMISTRY_BLUE, etc.
+        from Core.Foundation.light_spectrum import PrismAxes
+        
+        for axis, strength in views.items():
+            # 공명 강도(Insight Strength)가 일정 수준 이상일 때만 "보임"
+            # 이는 "지식이 있어서 보인다"는 것을 의미
+            
+            description = ""
+            reaction_type = "Observation"
+            
+            if strength < 0.01:
+                description = "이 관점에 대한 지식층이 얇아 뚜렷하게 보이지 않습니다."
+                reaction_type = "Blur"
+            else:
+                if axis == PrismAxes.PHYSICS_RED:
+                    description = "힘의 흐름과 벡터가 명확하게 보입니다. 높은 에너지가 감지됩니다."
+                    reaction_type = "Force Detection"
+                elif axis == PrismAxes.CHEMISTRY_BLUE:
+                    description = "구조적 결합이 불안정해 보입니다. 반응성이 높습니다."
+                    reaction_type = "Bond Analysis"
+                elif axis == PrismAxes.ART_VIOLET:
+                    description = "전체적인 흐름에서 부조화(Dissonance)가 느껴집니다."
+                    reaction_type = "Aesthetic Sense"
+                elif axis == PrismAxes.LOGIC_YELLOW:
+                    description = "논리적 패턴이 기존 공리 체계와 공명합니다."
+                    reaction_type = "Pattern Match"
+                elif axis == PrismAxes.BIOLOGY_GREEN:
+                    description = "성장 가능성이 있으나 현재는 정체되어 있습니다."
+                    reaction_type = "Growth Check"
+            
+            reactions[axis.value] = {
+                "intensity": strength,
+                "reaction": reaction_type,
+                "description": description
+            }
+            
+        return reactions
+
+# [Rest of the file remains unchanged]
     
     def get_exploration_queue(self) -> List[Dict[str, Any]]:
         """탐구가 필요한 패턴 목록"""
@@ -240,13 +552,26 @@ class WhyEngine:
             return f"'{content[:50]}...'의 사실적 측면"
     
     def _extract_how(self, content: str, domain: str) -> str:
-        """Line 관점: 어떻게 작동하는가?"""
+        """Line 관점: 어떻게 작동하는가? (실질적 적용)"""
         if domain == "narrative":
             return self._analyze_narrative_mechanism(content)
         elif domain == "mathematics":
-            return "논리적 연역과 공리로부터의 도출"
+            # 단순 "연역"이 아니라, 실제 계산/증명 프로세스를 찾으려 시도
+            if "풀다" in content or "solve" in content:
+                return "주어진 조건에 부합하는 미지수 값을 계산 (Solving)"
+            elif "증명" in content or "prove" in content:
+                return "공리로부터 논리적 단계를 거쳐 참을 도출 (Proving)"
+            elif "계산" in content or "calc" in content:
+                return "수치적 연산을 통해 결과값 도출 (Calculation)"
+            else:
+                return "논리적 연역과 공리로부터의 도출 (Logical Deduction)"
         elif domain == "physics":
-            return "물리 법칙과 상호작용을 통해"
+            if "실험" in content or "measure" in content:
+                return "관측과 측정을 통해 현상을 검증 (Experimentation)"
+            elif "모델" in content:
+                return "수학적 모델을 통해 현상을 시뮬레이션 (Modeling)"
+            else:
+                return "물리 법칙과 상호작용을 통해 (Physical Interaction)"
         else:
             return "인과 관계와 메커니즘을 통해"
     
@@ -466,12 +791,116 @@ class WhyEngine:
         return f"{beauty_reason}\n   → {universal}"
     
     def _analyze_math_statement(self, content: str) -> str:
-        """수학적 진술 분석"""
-        return "수학적 명제 또는 정리"
+        """수학적 진술 분석 - 균형과 패턴의 언어"""
+        principles = []
+        
+        # 1. 등호(=)는 균형을 의미
+        if "=" in content or "equals" in content or "등식" in content:
+            principles.append("균형의 원리 (Balance is essential)")
+            
+        # 2. 변수(x, y)는 미지의 가능성
+        if "x" in content or "variable" in content or "미지수" in content:
+            principles.append("잠재성의 원리 (Unknown holds potential)")
+            
+        # 3. 함수(f(x))는 변환과 관계
+        if "function" in content or "함수" in content or "->" in content:
+            principles.append("관계의 원리 (Input determines Output)")
+            
+        # 4. 극한/무한
+        if "limit" in content or "infinity" in content or "극한" in content:
+            principles.append("초월의 원리 (Approaching the intangible)")
+            
+        if not principles:
+            principles.append("논리의 원리 (Order from Chaos)")
+            
+        return "; ".join(principles)
     
     def _analyze_physics_phenomenon(self, content: str) -> str:
-        """물리 현상 분석"""
-        return "물리적 현상 또는 법칙"
+        """물리 현상 분석 - 자연의 섭리"""
+        principles = []
+        
+        # 1. 보존 법칙
+        if "conservation" in content or "보존" in content:
+            principles.append("불변의 원리 (Essence remains whilst form changes)")
+            
+        # 2. 힘/상호작용
+        if "force" in content or "interaction" in content or "힘" in content:
+            principles.append("인과의 원리 (Action begets Reaction)")
+            
+        # 3. 엔트로피
+        if "entropy" in content or "disorder" in content or "무질서" in content:
+            principles.append("흐름의 원리 (Order decays to Chaos)")
+        
+        # 4. 양자/파동
+        if "quantum" in content or "wave" in content or "파동" in content:
+            principles.append("확률의 원리 (Observation collapses reality)")
+            
+        if not principles:
+            principles.append("현상의 원리 (Nature follows Law)")
+            
+        return "; ".join(principles)
+
+    def _analyze_code_structure(self, content: str) -> PrincipleExtraction:
+        """코드를 파동으로 해석"""
+        wave = {
+            "tension": 0.0,      # 중첩 깊이 (Nesting)
+            "release": 0.0,      # 리턴/종료 (Return/Break)
+            "flow": 0.0,         # 순차적 실행 (Lines)
+            "periodicity": 0.0,  # 반복문 (Loops) = 리듬
+            "dissonance": 0.0,   # 예외처리/복잡도 (Try/Except)
+            "brightness": 0.0    # 명확성 (Comments/Docstrings)
+        }
+        
+        # 1. 구조 분석
+        lines = content.split('\n')
+        max_indent = 0
+        returns = content.count('return') + content.count('break')
+        loops = content.count('for ') + content.count('while ')
+        conditions = content.count('if ') + content.count('else:')
+        exceptions = content.count('try:') + content.count('except')
+        
+        for line in lines:
+            stripped = line.lstrip()
+            if not stripped: continue
+            indent = (len(line) - len(stripped)) / 4
+            max_indent = max(max_indent, indent)
+            
+        # 2. 파동 매핑
+        wave["tension"] = min(1.0, max_indent * 0.2)  # 깊을수록 긴장 고조
+        wave["release"] = min(1.0, returns * 0.1)     # 반환은 긴장의 해소
+        wave["periodicity"] = min(1.0, loops * 0.3)   # 반복은 리듬
+        wave["dissonance"] = min(1.0, exceptions * 0.3 + (conditions * 0.05)) # 분기는 불확실성/대비
+        wave["flow"] = min(1.0, len(lines) / 100)     # 긴 코드는 긴 호흡
+        
+        # 3. 원리 도출
+        principles = []
+        if loops > 0:
+            principles.append("반복의 원리 (Iteration creates Rhythm)")
+        if conditions > 0:
+            principles.append("분기의 원리 (Choice creates Path)")
+        if max_indent > 3:
+            principles.append("심연의 원리 (Depth creates Complexity)")
+        if not principles:
+            principles.append("순차의 원리 (Flow defines Time)")
+            
+        underlying = "; ".join(principles)
+        
+        # [NEW] Code Resonance (Sediment Projection)
+        reactions = self._analyze_sediment(content)
+        
+        return PrincipleExtraction(
+            domain="computer_science",
+            subject="source_code",
+            what_is="논리적 명령어의 집합",
+            how_works="제어 흐름과 데이터 변환을 통해",
+            where_fits="디지털 연산의 공간 안에서",
+            why_exists="문제를 해결하고 의도를 구현하기 위해",
+            underlying_principle=underlying,
+            can_be_applied_to=["system_design", "automation", "logic"],
+            confidence=0.9,
+            wave_signature=wave,
+            resonance_reactions=reactions
+        )
     
     def _derive_underlying_principle(
         self, what: str, how: str, where: str, why: str

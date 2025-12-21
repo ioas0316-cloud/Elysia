@@ -193,21 +193,15 @@ class AutonomousOrchestrator:
         self._set_phase(OperationPhase.AWAKENING)
         
         try:
-            # Load current knowledge state
-            kg_path = Path("data/kg.json")
-            concepts = []
-            
-            if kg_path.exists():
-                import json
-                with open(kg_path, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    concepts = data.get("nodes", [])
-            
-            logger.info(f"   🧠 Current concepts: {len(concepts)}")
-            
-            # Identify knowledge gaps (placeholder logic)
-            # In a real system, this would analyze concept density
-            self.state.knowledge_gaps = ["Entropy", "Consciousness", "Emergence"]
+            # 1. Connect to Hierarchical Knowledge Graph
+            try:
+                from Core.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+                kg = HierarchicalKnowledgeGraph()
+                self.state.knowledge_gaps = [n.name for n in kg.get_knowledge_gaps(limit=5)]
+                logger.info(f"   🧠 Identified gaps: {self.state.knowledge_gaps}")
+            except ImportError as e:
+                logger.warning(f"   ⚠️ Could not load HierarchicalKnowledgeGraph: {e}")
+                self.state.knowledge_gaps = ["Consciousness", "Self", "Existence"] # Fallback
             
             self.state.last_awakening = datetime.now()
             logger.info("   ✅ Awakening cycle complete")

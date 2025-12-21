@@ -30,6 +30,7 @@ import logging
 from typing import Dict, List, Any, Optional
 import sys
 from pathlib import Path
+from Core.Learning.hierarchical_learning import Domain
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -90,8 +91,22 @@ class AutonomousLearner:
             "learned_concept": None,
             "needs_human_help": False,
             "question_for_human": None,
+            "potential_knowledge": None
         }
         
+        # 0. Load Connections
+        try:
+            from Core.Memory.potential_causality import PotentialCausalityStore
+            potential_store = PotentialCausalityStore()
+        except ImportError:
+            potential_store = None
+        
+        try:
+            from Core.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+            kg = HierarchicalKnowledgeGraph()
+        except ImportError:
+            kg = None
+
         # 1. WhyEngine으로 분석 (내부에서 메타인지 확인)
         analysis = self.why_engine.analyze(subject, content, domain)
         
@@ -99,6 +114,16 @@ class AutonomousLearner:
         if "[탐구 필요]" in analysis.underlying_principle:
             # 모르는 패턴!
             result["knowledge_state"] = "unknown"
+            
+            # 잠재적 지식으로 저장
+            if potential_store:
+                pk = potential_store.store(
+                    subject=subject,
+                    definition=content[:200],
+                    source="autonomous_experience"
+                )
+                result["potential_knowledge"] = pk.to_dict()
+                logger.info(f"   💭 Stored as potential: {subject} (freq={pk.frequency:.2f})")
             
             # 3. 외부 탐구
             wave = self.why_engine._text_to_wave(content)
@@ -110,10 +135,29 @@ class AutonomousLearner:
             
             if exploration.answer:
                 # 외부에서 답 찾음!
-                result["learned_concept"] = exploration.concept_name
                 result["knowledge_state"] = "learned"
                 self.learned_from_external += 1
                 
+                # 잠재 지식 업데이트 (확인)
+                if potential_store:
+                    potential_store.store(subject, content, f"external_source:{exploration.source.value}")
+                    # 결정화 시도
+                    crystallized = potential_store.crystallize(subject)
+                    if crystallized and kg:
+                         # 계층 지식 그래프에 추가
+                         wave = self.why_engine._text_to_wave(content)
+                         kg.add_concept(
+                             name=crystallized['concept'],
+                             domain=Domain(domain) if domain in [d.value for d in Domain] else Domain.PHILOSOPHY, # 매핑 필요
+                             definition=crystallized['definition'],
+                             principle=analysis.underlying_principle,  # 원리 (Why - 추상)
+                             application=analysis.how_works,           # 적용 (How - 구체)
+                             purpose=f"Autonomously learned via {exploration.source.value}",
+                             wave_signature=wave  # 파동 서명 저장
+                         )
+                         result["learned_concept"] = crystallized['concept']
+                         logger.info(f"   💎 Crystallized and added to KG: {crystallized['concept']}")
+
                 # 메타인지에 등록 (다음엔 알 것)
                 if self.metacognition:
                     self.metacognition.learn_from_external(
@@ -121,8 +165,6 @@ class AutonomousLearner:
                         answer=exploration.answer,
                         source=exploration.source.value,
                     )
-                
-                logger.info(f"📚 외부에서 배움: {exploration.concept_name}")
                 
             else:
                 # 사용자에게 물어야 함

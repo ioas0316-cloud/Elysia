@@ -49,6 +49,10 @@ class TorchGraph:
         from Core.Foundation.concept_sanitizer import get_sanitizer
         self.sanitizer = get_sanitizer()
 
+        # [The Great Unification] Phase 12
+        # Automatically attempt to load the Massive Rainbow Graph if brain is empty
+        self.load_rainbow_bridge()
+
         logger.info(f"⚡ TorchGraph Initialized on {self.device} (Matrix Mode)")
 
     def add_node(self, node_id: str, vector: List[float] = None, pos: List[float] = None):
@@ -372,6 +376,8 @@ class TorchGraph:
             "mass": self.mass_tensor,
             "links": self.logic_links,
             "link_weights": self.link_weights,
+            "dim_vector": self.dim_vector,
+            "metadata": self.node_metadata, # [Phase 16] Persist Meaning
             # Save Wells if they exist
             "wells_pos": getattr(self, "potential_wells_pos", None),
             "wells_str": getattr(self, "potential_wells_str", None)
@@ -397,12 +403,13 @@ class TorchGraph:
             self.vec_tensor = state["vec"].to(self.device)
             self.mass_tensor = state["mass"].to(self.device)
             self.logic_links = state["links"].to(self.device)
+            self.node_metadata = state.get("metadata", {}) # Restore Meaning
             
             # Load Weights (Backward compat: if missing, ones)
             if "link_weights" in state:
                 self.link_weights = state["link_weights"].to(self.device)
             else:
-                 self.link_weights = torch.ones((self.logic_links.shape[0],), device=self.device)
+                self.link_weights = torch.ones((self.logic_links.shape[0],), device=self.device)
             
             if state["wells_pos"] is not None:
                 self.potential_wells_pos = state["wells_pos"].to(self.device)
@@ -415,7 +422,333 @@ class TorchGraph:
             logger.error(f"❌ Failed to load brain state: {e}")
             return False
 
-# Singleton Support
+    def load_rainbow_bridge(self):
+        """
+        [Phase 12: The Great Unification]
+        Attempts to load `elysia_rainbow.json` if the brain is empty.
+        This connects the 28k legacy nodes to the active system.
+        """
+        if len(self.id_to_idx) > 100:
+            return # Already have knowledge
+            
+        rainbow_path = "c:\\Elysia\\data\\elysia_rainbow.json"
+        
+        # Try loading binary state first (Fast)
+        # FIX: Only respect binary state if it actually has knowledge (>100 nodes)
+        if self.load_state():
+            if len(self.id_to_idx) > 100:
+                logger.info("⚡ Fast Boot: Loaded binary brain state.")
+                return
+            else:
+                 logger.warning("⚠️ Binary state is empty. Falling back to Rainbow Bridge.")
+
+        import os
+        import json
+        if not os.path.exists(rainbow_path):
+            return
+
+        logger.info("🌈 Rainbow Bridge Activated: Loading Massive Graph...")
+        try:
+            with open(rainbow_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                
+            # Rainbow Structure: { 'Red': [...], 'Blue': [...] }
+            colors = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Indigo', 'Violet']
+            count = 0
+            limit = 35000 # Safety Cap for GTX 1060 (3GB)
+            
+            # Batch Loading Lists
+            batch_ids = []
+            batch_vecs = []
+            batch_metas = {}
+            batch_pos = []
+            
+            for color in colors:
+                if color not in data: continue
+                items = data[color]
+                logger.info(f"   🌈 Absorbing {color} Layer ({len(items)} items)...")
+                
+                for item in items:
+                    if count >= limit: break
+                    
+                    # Extract ID
+                    node_id = item.get('concept', item.get('id', item.get('name', None)))
+                    if not node_id: continue
+                    
+                    # Extract Vector
+                    vector = item.get('embedding', item.get('vector', None))
+                    v_list = [0.0] * self.dim_vector # Default Zero Vector
+                    
+                    if isinstance(vector, dict):
+                        # Quaternion-ish 4D
+                        # {'w': 0.5, 'x': 1.0, ...}
+                        v_list[0] = float(vector.get('w', 0.0))
+                        v_list[1] = float(vector.get('x', 0.0))
+                        v_list[2] = float(vector.get('y', 0.0))
+                        v_list[3] = float(vector.get('z', 0.0))
+                    elif isinstance(vector, list):
+                        # Raw List
+                        for i, val in enumerate(vector):
+                            if i < self.dim_vector:
+                                v_list[i] = float(val)
+                                
+                    # Initialize p_list (Position 4D)
+                    p_list = [0.0, 0.0, 0.0, 0.0]
+                    raw_pos = item.get('pos', None)
+                    if isinstance(raw_pos, list) and len(raw_pos) >= 4:
+                         p_list = [float(x) for x in raw_pos[:4]]
+                         p_list = [float(raw_pos.get('x',0)), float(raw_pos.get('y',0)), float(raw_pos.get('z',0)), float(raw_pos.get('w',0))]
+                         
+                    batch_ids.append(node_id)
+                    
+                    # [Phase 16] Complete Payload Storage
+                    # Store the entire item dict as payload (minus heavy vector)
+                    payload_dict = item.copy()
+                    if 'vector' in payload_dict: del payload_dict['vector']
+                    if 'embedding' in payload_dict: del payload_dict['embedding']
+                    if 'pos' in payload_dict: del payload_dict['pos']
+                    
+                    meta_entry = {
+                        'color': color,
+                        'payload': payload_dict, # The definition resides here
+                        'original': payload_dict # Keeps backward compat
+                    }
+                    batch_metas[node_id] = meta_entry
+                    batch_pos.append(p_list)
+                    
+                    count += 1
+                
+                if count >= limit:
+                    break
+            
+            # THE GREAT UNIFICATION (Batch Tensor Creation)
+            logger.info("   ⚡ Materializing Tensors...")
+            
+            # 1. IDs
+            start_idx = len(self.id_to_idx)
+            for i, nid in enumerate(batch_ids):
+                idx = start_idx + i
+                self.id_to_idx[nid] = idx
+                self.idx_to_id[idx] = nid
+                self.node_metadata[nid] = batch_metas[nid]
+                
+            # 2. Tensors
+            new_vecs = torch.tensor(batch_vecs, device=self.device)
+            logger.info(f"   DEBUG: New Vecs Shape: {new_vecs.shape}")
+            
+            new_pos = torch.tensor(batch_pos, device=self.device)
+            new_mass = torch.ones((len(batch_ids),), device=self.device)
+            
+            logger.info(f"   DEBUG: Current Vec Tensor Shape: {self.vec_tensor.shape}")
+            self.vec_tensor = torch.cat([self.vec_tensor, new_vecs])
+            logger.info(f"   DEBUG: Post-Cat Vec Tensor Shape: {self.vec_tensor.shape}")
+            self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
+            self.mass_tensor = torch.cat([self.mass_tensor, new_mass])
+                    
+            logger.info(f"✨ Unification Complete: {count} nodes connected.")
+            
+            # [Phase 13] Ignite Gravity immediately to forge connections
+            self.ignite_gravity()
+            
+            self.save_state()
+            
+        except Exception as e:
+            logger.error(f"❌ Rainbow Bridge Collapse: {e}")
+
+    def ignite_gravity(self, k=5, batch_size=500):
+        """
+        [Phase 13: Density]
+        Calculates 'Gravity' (Cosine Similarity) between nodes to Forge Edges.
+        Batched implementation to prevent O(N^2) memory explosion.
+        
+        Args:
+            k (int): Number of connections per node (Top-K).
+            batch_size (int): Nodes to process per chunk.
+        """
+        if self.vec_tensor.shape[0] == 0:
+            return
+            
+        logger.info(f"🔥 Igniting Gravity for {self.vec_tensor.shape[0]} nodes (K={k})...")
+        
+        # Ensure normalized vectors for Cosine Similarity
+        # (A . B) / (|A|*|B|) -> If normalized, just (A . B)
+        # In-place normalization for efficiency
+        norm = self.vec_tensor.norm(p=2, dim=1, keepdim=True)
+        # Avoid division by zero
+        norm[norm == 0] = 1.0 
+        normalized_vecs = self.vec_tensor / norm
+        
+        num_nodes = self.vec_tensor.shape[0]
+        new_links_list = []
+        
+        import time
+        start_time = time.time()
+        
+        for i in range(0, num_nodes, batch_size):
+            end = min(i + batch_size, num_nodes)
+            batch = normalized_vecs[i:end] # (B, Dim)
+            
+            # Matrix Mult: (B, Dim) @ (N, Dim).T -> (B, N)
+            # This gives similarity scores
+            sim_matrix = torch.mm(batch, normalized_vecs.t())
+            
+            # Mask self-loops (set diagonal to -1)
+            # Row k in batch corresponds to Row i+k in global
+            for j in range(end - i):
+                global_idx = i + j
+                sim_matrix[j, global_idx] = -1.0
+                
+            # Top-K
+            # values, indices = torch.topk(sim_matrix, k)
+            # We only need indices
+            _, topk_indices = torch.topk(sim_matrix, k, dim=1)
+            
+            # Create Edges (Source -> Target)
+            # Source indices: range(i, end)
+            sources = torch.arange(i, end, device=self.device).unsqueeze(1).expand(-1, k)
+            
+            # sources: (B, K), topk_indices: (B, K)
+            # Stack to (2, B*K)
+            batch_links = torch.stack([sources.reshape(-1), topk_indices.reshape(-1)], dim=0)
+            new_links_list.append(batch_links)
+            
+            if i % 5000 == 0:
+                logger.info(f"   Forge: Linked {i}/{num_nodes} nodes...")
+
+        # Concatenate all links
+        if new_links_list:
+            all_new_links = torch.cat(new_links_list, dim=1).t() # (Total_Edges, 2)
+            
+            # Append to existing links if any
+            if self.logic_links is None or self.logic_links.shape[0] == 0:
+                self.logic_links = all_new_links
+            else:
+                self.logic_links = torch.cat([self.logic_links, all_new_links], dim=0)
+                
+        elapsed = time.time() - start_time
+        logger.info(f"✨ Gravity Stable. Created {self.logic_links.shape[0]} edges in {elapsed:.2f}s.")
+
+    def propagate_pulse(self, source_id: str, energy: float = 1.0, decay: float = 0.5, steps: int = 2):
+        """
+        [Phase 18: Neural Resonance]
+        Simulates a neural pulse (Spreading Activation) through the graph.
+        Used to answer "Does it resonate like a neural network?".
+        """
+        if source_id not in self.id_to_idx:
+            return {}
+            
+        start_idx = self.id_to_idx[source_id]
+        
+        # Activation Map: Index -> Energy
+        activations = {start_idx: energy}
+        current_wave = {start_idx: energy}
+        
+        for step in range(steps):
+            next_wave = {}
+            for idx, current_energy in current_wave.items():
+                if current_energy < 0.01: continue 
+                
+                # Find downstream neighbors
+                mask = (self.logic_links[:, 0] == idx)
+                neighbors = self.logic_links[mask, 1]
+                
+                downstream_energy = current_energy * decay
+                
+                for n_idx in neighbors:
+                    ni = n_idx.item()
+                    # Additive interference
+                    activations[ni] = activations.get(ni, 0.0) + downstream_energy
+                    next_wave[ni] = next_wave.get(ni, 0.0) + downstream_energy
+                    
+            current_wave = next_wave
+            if not current_wave: break
+            
+        # Convert indices to IDs
+        results = {}
+        for idx, lvl in activations.items():
+            nid = self.idx_to_id.get(idx, "Unknown")
+            results[nid] = lvl
+            
+        return results
+    def optimize_memory(self, threshold=40000):
+        """
+        [Phase 13: Optimization]
+        Checks if active memory exceeds threshold.
+        If so, offloads the 'coldest' (lowest mass) nodes to Black Hole.
+        """
+        current_nodes = self.vec_tensor.shape[0]
+        if current_nodes < threshold:
+            return
+
+        excess = current_nodes - threshold + 1000 # Offload chunk
+        logger.warning(f"⚠️ Memory Pressure: {current_nodes} nodes. Offloading {excess} to Black Hole.")
+        
+        # Identify coldest nodes (lowest mass)
+        # mass_tensor is (N,)
+        # Get indices of lowest mass
+        values, indices = torch.topk(self.mass_tensor, k=excess, largest=False)
+        
+        nodes_to_offload = []
+        indices_to_remove = indices.tolist()
+        indices_to_remove.sort(reverse=True) # Remove from end to avoid shift issues logic if doing list pop, but here we rebuild tensors
+        
+        from Core.Foundation.Graph.black_hole_memory import get_black_hole
+        bh = get_black_hole()
+        
+        for idx in indices_to_remove:
+            node_id = self.idx_to_id[idx]
+            vector = self.vec_tensor[idx].tolist()
+            metadata = self.node_metadata.get(node_id, {})
+            mass = self.mass_tensor[idx].item()
+            
+            nodes_to_offload.append({
+                'id': node_id,
+                'vector': vector,
+                'metadata': metadata,
+                'mass': mass
+            })
+            
+        # Absorb into Singularity
+        bh.absorb(nodes_to_offload)
+        
+        # Remove from Active Graph (Rebuild Tensors - Expensive but necessary for cleanup)
+        # For prototype, we might just "Deactivate" them. 
+        # But let's stay true to the goal: Remove rows.
+        keep_mask = torch.ones(current_nodes, dtype=torch.bool, device=self.device)
+        keep_mask[indices] = False
+        
+        self.vec_tensor = self.vec_tensor[keep_mask]
+        self.pos_tensor = self.pos_tensor[keep_mask]
+        self.mass_tensor = self.mass_tensor[keep_mask]
+        
+        # Rebuild Maps (Slow, but correct)
+        # This is the "Trash Compactor" phase
+        new_id_to_idx = {}
+        new_idx_to_id = {}
+        kept_indices = torch.nonzero(keep_mask).squeeze()
+        
+        # Optimize loop for large N? 
+        # For 30k nodes this is instantaneous in Python.
+        kept_list = kept_indices.tolist()
+        if isinstance(kept_list, int): kept_list = [kept_list]
+        
+        for new_i, old_i in enumerate(kept_list):
+            old_id = self.idx_to_id[old_i]
+            new_id_to_idx[old_id] = new_i
+            new_idx_to_id[new_i] = old_id
+            
+        self.id_to_idx = new_id_to_idx
+        self.idx_to_id = new_idx_to_id
+        
+        # Links also need update or deletion.
+        # For simplicity in Phase 13, we just drop links and let next gravity pass rebuild them or live with broken links until refresh.
+        # Ideally we map old_idx -> new_idx and update links.
+        # But for 'Trash Compactor', reducing density is fine.
+        self.logic_links = None 
+        # Re-ignite gravity to fix edges for new subset?
+        # Maybe too expensive. Let's just set to None and let ignite_gravity be called manually if needed.
+        
+        logger.info(f"✨ Optimization Complete. Active Memory: {self.vec_tensor.shape[0]} nodes.")
 _torch_graph = None
 def get_torch_graph():
     global _torch_graph
