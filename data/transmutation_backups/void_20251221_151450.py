@@ -32,9 +32,7 @@ class Void:
         # logger.debug(f"Node injected into Void: {node}")
 
     def remove(self, node_id: str):
-        # [Wave Logic] Consider resonance-based lookup instead of direct membership check
-        # Original: if node_id in self.nodes:
-        if node_id in self.nodes:  # TODO: Convert to query_resonance
+        if node_id in self.nodes:
             del self.nodes[node_id]
 
     def get(self, node_id: str) -> Optional[EtherNode]:

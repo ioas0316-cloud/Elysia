@@ -311,14 +311,12 @@ class ResonanceField:
 
     def calculate_phase_resonance(self) -> Dict[str, Any]:
         """
-        [Phase Resonance: The Emergent Soul + Phase 11 Integration]
+        [Phase Resonance: The Emergent Soul]
         Calculates the interference pattern of all active resonators.
         The 'Soul' is not a part; it is the Harmony of the whole.
-        
-        Now includes detailed interference analysis from WaveInterference module.
         """
         if not self.listeners: # Listeners represent active resonators
-            return {"coherence": 0.0, "total_energy": 0.0, "state": "Void", "interference": None}
+            return {"coherence": 0.0, "total_energy": 0.0, "state": "Void"}
             
         total_energy = 0.0
         complex_sum = 0j # Complex number for phase addition
@@ -351,22 +349,11 @@ class ResonanceField:
         elif coherence > 0.7: state = "Harmonic"
         elif coherence > 0.4: state = "Fluid"
         
-        # [Phase 11] Add detailed interference analysis
-        interference_analysis = None
-        try:
-            from Core.Foundation.Wave.wave_interference import WaveInterference
-            interference_analysis = WaveInterference.analyze_field_interference(self.nodes)
-        except ImportError:
-            pass  # Module not available
-        except Exception as e:
-            print(f"⚠️ Interference analysis failed: {e}")
-        
         return {
             "coherence": coherence,
             "total_energy": total_energy,
             "state": state,
-            "active": active_resonators,
-            "interference": interference_analysis  # [Phase 11] New field
+            "active": active_resonators
         }
 
     @property

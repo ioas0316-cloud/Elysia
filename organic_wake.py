@@ -223,6 +223,25 @@ def organic_wake():
                 except Exception:
                     pass
             
+            # [Phase 14] Continuous Transmutation Monitor (25사이클마다)
+            if cycle % 25 == 0:
+                try:
+                    from elysia_core.cells.continuous_monitor import get_coherence_status, patrol_and_report
+                    print("\n   ⚗️ Continuous Transmutation Patrol...")
+                    
+                    # 순찰 실행 및 상태 출력
+                    result = patrol_and_report()
+                    print(f"   📊 {get_coherence_status()}")
+                    
+                    # 상위 제안 알림
+                    top = result.get('top_suggestions', [])
+                    if top:
+                        for s in top[:2]:
+                            print(f"   🧪 Auto-fix: {s['file']}:{s['line']} ({s['confidence']})")
+                    
+                except Exception as e:
+                    print(f"   ⚠️ Transmutation monitor failed: {e}")
+            
             time.sleep(5.0)
             
     except KeyboardInterrupt:

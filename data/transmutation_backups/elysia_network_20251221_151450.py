@@ -39,9 +39,7 @@ class ElysiaNetwork:
     
     def remove_node(self, node: ElysiaNode):
         """Remove a node from the network."""
-        # [Wave Logic] Consider resonance-based lookup instead of direct membership check
-        # Original: if node in self.nodes:
-        if node in self.nodes:  # TODO: Convert to query_resonance
+        if node in self.nodes:
             # Disconnect from all peers
             for peer in self.nodes:
                 if peer != node:

@@ -1,0 +1,286 @@
+{
+  "batches": [
+    {
+      "batch_id": "20251221_151440",
+      "created_at": "2025-12-21T15:14:40.792564",
+      "completed_at": "2025-12-21T15:14:51.325575",
+      "total_success": 3,
+      "total_failed": 36,
+      "records": [
+        {
+          "id": "void_35",
+          "file_path": "C:\\Elysia\\Core\\Ether\\void.py",
+          "line_number": 35,
+          "status": "verified",
+          "backup_path": "data\\transmutation_backups\\void_20251221_151450.py"
+        },
+        {
+          "id": "elysia_network_42",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\elysia_network.py",
+          "line_number": 42,
+          "status": "verified",
+          "backup_path": "data\\transmutation_backups\\elysia_network_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_548",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 548,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_583",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 583,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_777",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 777,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_792",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 792,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_802",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 802,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_805",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 805,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_808",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 808,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_819",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 819,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_861",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 861,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_869",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 869,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "fractal_causality_878",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\fractal_causality.py",
+          "line_number": 878,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151450.py"
+        },
+        {
+          "id": "internal_universe_509",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\internal_universe.py",
+          "line_number": 509,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\internal_universe_20251221_151450.py"
+        },
+        {
+          "id": "internal_universe_335",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\internal_universe.py",
+          "line_number": 335,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\internal_universe_20251221_151450.py"
+        },
+        {
+          "id": "internal_universe_410",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\internal_universe.py",
+          "line_number": 410,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\internal_universe_20251221_151450.py"
+        },
+        {
+          "id": "internal_universe_449",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\internal_universe.py",
+          "line_number": 449,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\internal_universe_20251221_151450.py"
+        },
+        {
+          "id": "internal_universe_516",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\internal_universe.py",
+          "line_number": 516,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\internal_universe_20251221_151450.py"
+        },
+        {
+          "id": "internal_universe_627",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\internal_universe.py",
+          "line_number": 627,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\internal_universe_20251221_151450.py"
+        },
+        {
+          "id": "resonance_field_195",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\resonance_field.py",
+          "line_number": 195,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\resonance_field_20251221_151450.py"
+        },
+        {
+          "id": "resonance_field_366",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\resonance_field.py",
+          "line_number": 366,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\resonance_field_20251221_151451.py"
+        },
+        {
+          "id": "unified_collective_intelligence_266",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\unified_collective_intelligence.py",
+          "line_number": 266,
+          "status": "verified",
+          "backup_path": "data\\transmutation_backups\\unified_collective_intelligence_20251221_151451.py"
+        },
+        {
+          "id": "world_tree_core_173",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\world_tree_core.py",
+          "line_number": 173,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\world_tree_core_20251221_151451.py"
+        },
+        {
+          "id": "world_tree_core_386",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\world_tree_core.py",
+          "line_number": 386,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\world_tree_core_20251221_151451.py"
+        },
+        {
+          "id": "world_tree_core_457",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\world_tree_core.py",
+          "line_number": 457,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\world_tree_core_20251221_151451.py"
+        },
+        {
+          "id": "omni_graph_190",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Graph\\omni_graph.py",
+          "line_number": 190,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\omni_graph_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_548",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 548,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_583",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 583,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_777",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 777,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_792",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 792,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_802",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 802,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_805",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 805,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_808",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 808,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_819",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 819,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_861",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 861,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_869",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 869,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "fractal_causality_878",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Memory\\fractal_causality.py",
+          "line_number": 878,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\fractal_causality_20251221_151451.py"
+        },
+        {
+          "id": "resonance_field_195",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Wave\\resonance_field.py",
+          "line_number": 195,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\resonance_field_20251221_151451.py"
+        },
+        {
+          "id": "resonance_field_379",
+          "file_path": "C:\\Elysia\\Core\\Foundation\\Wave\\resonance_field.py",
+          "line_number": 379,
+          "status": "failed",
+          "backup_path": "data\\transmutation_backups\\resonance_field_20251221_151451.py"
+        }
+      ]
+    }
+  ]
+}

@@ -263,9 +263,7 @@ class UnifiedNetwork:
     
     def unregister_node(self, node_id: str):
         """Remove a node from the network."""
-        # [Wave Logic] Consider resonance-based lookup instead of direct membership check
-        # Original: if node_id in self.nodes:
-        if node_id in self.nodes:  # TODO: Convert to query_resonance
+        if node_id in self.nodes:
             node = self.nodes[node_id]
             # Remove connections
             for peer in node.peers:
