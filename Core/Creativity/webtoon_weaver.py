@@ -342,10 +342,22 @@ class WebtoonWeaver:
             f.write(html)
         
         # UX Fix: Update 'latest' pointer so user sees changes immediately
+        # Use a meta-redirect instead of copying to prevent caching stale content
+        redirect_html = f"""
+        <html>
+        <head>
+            <meta http-equiv="refresh" content="0; url={filename}" />
+            <title>Redirecting to Latest Episode...</title>
+        </head>
+        <body>
+            <p>Redirecting to latest episode: <a href="{filename}">{filename}</a>...</p>
+        </body>
+        </html>
+        """
         with open(latest_path, "w", encoding="utf-8") as f:
-            f.write(html)
+            f.write(redirect_html)
             
-        logger.info(f"📚 Webtoon Published at: {html_path} (and latest_episode.html)")
+        logger.info(f"📚 Webtoon Published at: {html_path} (and latest_episode.html -> {filename})")
 
 if __name__ == "__main__":
     weaver = WebtoonWeaver()
