@@ -194,10 +194,8 @@ def ipexec(fname, options=None, commands=()):
     full_fname = os.path.join(test_dir, fname)
     full_cmd = ipython_cmd + cmdargs + ['--', full_fname]
     env = os.environ.copy()
-    # FIXME: ignore all warnings in ipexec while we have shims
-    # should we keep suppressing warnings here, even after removing shims?
+    # Ignore all warnings in ipexec while we have shims
     env['PYTHONWARNINGS'] = 'ignore'
-    # env.pop('PYTHONWARNINGS', None)  # Avoid extraneous warnings appearing on stderr
     # Prevent coloring under PyCharm ("\x1b[0m" at the end of the stdout)
     env.pop("PYCHARM_HOSTED", None)
     for k, v in env.items():
