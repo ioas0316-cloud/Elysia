@@ -60,13 +60,12 @@ class Conductor:
         Sets a new theme.
         This is not a hard switch, but a 'fade in' of new intentions.
         """
-        # Fix: keys in weights are like 'love_weight', not 'love'.
-        # The script calls it with 'love_weight=...', so we must check both or standardise.
-
+        # Standardize keys: check for 'love_weight' first, then 'love', then fallback to current theme
         love = weights.get("love_weight", weights.get("love", self.current_theme.love_weight))
         truth = weights.get("truth_weight", weights.get("truth", self.current_theme.truth_weight))
         growth = weights.get("growth_weight", weights.get("growth", self.current_theme.growth_weight))
         beauty = weights.get("beauty_weight", weights.get("beauty", self.current_theme.beauty_weight))
+
         tempo = weights.get("tempo", self.current_theme.tempo)
         desc = weights.get("description", self.current_theme.description)
 
