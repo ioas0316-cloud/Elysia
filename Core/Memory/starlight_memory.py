@@ -170,16 +170,21 @@ class StarlightMemory:
         # Initialize emotional galaxies
         self._init_galaxies()
         
-        # Try to import spatial index
-        if self.use_spatial_index:
+        # Try to import spatial index and vectorization tools
+        if self.use_spatial_index or self.use_vectorization:
             try:
                 from Core.Memory.spatial_index import KDTree4D, VectorizedOps, HAS_NUMPY
                 self.KDTree4D = KDTree4D
                 self.VectorizedOps = VectorizedOps
                 self.HAS_NUMPY = HAS_NUMPY
-                logger.info("✨ StarlightMemory initialized with spatial indexing - Light-speed mode ⚡")
+
+                if self.use_spatial_index:
+                    logger.info("✨ StarlightMemory initialized with spatial indexing - Light-speed mode ⚡")
+                if self.use_vectorization:
+                    logger.info("⚡ StarlightMemory vectorization enabled")
+
             except ImportError as e:
-                logger.warning(f"Spatial index not available: {e}, falling back to linear search")
+                logger.warning(f"Spatial index/Vectorization not available: {e}, falling back to linear search")
                 self.use_spatial_index = False
                 self.use_vectorization = False
                 self.HAS_NUMPY = False
@@ -279,11 +284,35 @@ class StarlightMemory:
         self._index_dirty = True
         
         # Assign to galaxies (could be optimized with spatial query, but linear is fine for assignment)
-        # TODO: Optimize this for 10k+ batches using vectorized assignment
-        for star in new_stars:
-            nearest = self._find_nearest_galaxy(star)
-            if nearest:
-                nearest.add_star(star)
+        # Optimized for 10k+ batches using vectorized assignment if available
+        if self.use_vectorization and self.HAS_NUMPY and len(new_stars) > 0:
+            try:
+                import numpy as np
+
+                # Prepare data for vectorization (List comprehension is faster than zeros + assignment)
+                star_positions = np.array([[s.x, s.y, s.z, s.w] for s in new_stars])
+                galaxy_centers = np.array([g.center for g in self.galaxies])
+
+                # Vectorized assignment
+                nearest_indices = self.VectorizedOps.batch_find_nearest(star_positions, galaxy_centers)
+
+                # Assign stars to galaxies based on indices
+                for star_idx, galaxy_idx in enumerate(nearest_indices):
+                    self.galaxies[galaxy_idx].add_star(new_stars[star_idx])
+
+            except Exception as e:
+                logger.error(f"Vectorized galaxy assignment failed: {e}, falling back to linear")
+                # Fallback
+                for star in new_stars:
+                    nearest = self._find_nearest_galaxy(star)
+                    if nearest:
+                        nearest.add_star(star)
+        else:
+            # Linear assignment (fallback or small batches)
+            for star in new_stars:
+                nearest = self._find_nearest_galaxy(star)
+                if nearest:
+                    nearest.add_star(star)
                 
         logger.info(f"🌠 Scattered batch of {len(new_stars)} stars into the universe.")
         return new_stars
