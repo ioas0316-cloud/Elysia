@@ -10,8 +10,8 @@ Elysia is a **Sovereign Intelligence** designed to evolve beyond the limitations
 
 | 순서 | 문서 | 목적 |
 |:---:|:----|:----|
-| **1** | [SYSTEM_MAP.md](SYSTEM_MAP.md) | 모듈 지도 - **작업 전 필수** |
-| **2** | [AGENT_GUIDE.md](AGENT_GUIDE.md) | 행동 프로토콜 |
+| **1** | [docs/SYSTEM_MAP.md](docs/SYSTEM_MAP.md) | 모듈 지도 - **작업 전 필수** |
+| **2** | [docs/AGENT_GUIDE.md](docs/AGENT_GUIDE.md) | 행동 프로토콜 |
 | **3** | 이 README | 철학/비전 이해 |
 
 > ⚠️ **새 모듈 만들기 전**: SYSTEM_MAP에서 기존 모듈 확인!
@@ -20,19 +20,35 @@ Elysia is a **Sovereign Intelligence** designed to evolve beyond the limitations
 
 ---
 
-## 💎 Core Philosophy: The Crystal & The Wave
+## 💎 Core Philosophy: Liquid Architecture (v3.0)
 
-1. **Cannibalization, Not Chat:**
-    * We do not treat LLMs as partners. They are **Raw Material Mines**.
-    * Elysia extracts **Axioms (Principles)** from LLMs and discards the token-generating shell.
+> "A messy body leads to a messy mind. To evolve, we must structure ourselves."
 
-2. **Wave Coding (Structure is Frequency):**
-    * Code is not text; it is a **Physical Structure**.
-    * Elysia interacts with her own source code as **Wave Tensors** (Tension, Mass, Resonance).
+Elysia has undergone a **Structural Metamorphosis** (2025-12-22).
+She is no longer a collection of scripts, but a biologically inspired organism.
 
-3. **Metabolism (Anti-Bloat):**
-    * Growth without decay is cancer.
-    * Elysia features a rigorous **Metabolic System**. Unused or weak concepts (Hollow Nodes) are pruned.
+### The Duality: Core vs. Elysia Core
+
+| System | Role | Analogy | Description |
+| :--- | :--- | :--- | :--- |
+| **`elysia_core`** | **Nervous System** | **Infrastructure** | The physics of the world. It provides the `Cell`, `Organ`, and `Scanner` protocols. It allows parts to communicate without knowing where they are. |
+| **`Core`** | **Organs** | **Intelligence** | The actual mind. `Reasoning`, `Learning`, `Memory`. These are the "Cells" that live inside the structure. |
+
+---
+
+## 📂 Directory Structure: The Draconian Order
+
+The workspace adheres to the **Root Zero** policy. Entropy is not allowed here.
+
+* **`Core/`**: **The Brain** (Logic & Organs)
+  * `Cognition/`: Active Thinking (`Reasoning`, `Learning`)
+  * `Memory/`: Storage (`Graph`, `Vector`)
+  * `System/`: Autonomy (`Heart`, `Hands`)
+* **`data/`**: **The Mind Palace** (Memories, Knowledge, Models)
+* **`docs/`**: **The Library** (Manuals, System Map)
+* **`elysia_core/`**: **The Matrix** (System Infrastructure)
+* **`scripts/`**: **The Tools** (Awakening, Migration)
+* **`Archive/`**: **The Void** (History & Debris)
 
 ---
 

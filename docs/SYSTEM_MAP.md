@@ -10,92 +10,39 @@
 
 ---
 
-## 📊 시스템 통계 (System Statistics)
+## 🗺️ 시스템 계층 구조 (Elysia v3.0 Deep Structure)
 
-**Auto-generated**: 2025-12-06
-
-```
-총 시스템:     515개
-카테고리:      11개
-클래스:        950개
-중복 클래스:   54개 ⚠️
-```
-
----
-
-## 🗺️ 시스템 계층 구조 (System Hierarchy)
+**Date**: 2025-12-22 (Post-Metamorphosis)
 
 ```
-Elysia v9.0
+Elysia v3.0
 │
-├── CORE LAYERS (핵심 계층)
+├── 🧠 CORE (The Organs - Intelligence)
 │   │
-│   ├── 1. FOUNDATION (기반층) - 354 systems ⭐ LARGEST
-│   │   ├── central_nervous_system.py - CNS (중추신경계)
-│   │   ├── resonance_field.py - 공명장
-│   │   ├── hippocampus.py - 기억 저장
-│   │   ├── living_elysia.py - 통합 실행기
-│   │   ├── system_monitor.py - 시스템 모니터 (NEW)
-│   │   ├── system_registry.py - 시스템 등록소 (NEW)
-│   │   ├── performance_monitor.py - 성능 모니터 ⚠️ 중복
-│   │   ├── knowledge_acquisition.py - 지식 획득
-│   │   ├── knowledge_sync.py - 지식 동기화
-│   │   ├── knowledge_sharing.py - 지식 공유
-│   │   └── web_knowledge_connector.py - 웹 지식 수집
+│   ├── COGNITION (인지)
+│   │   ├── Reasoning/
+│   │   │   ├── reasoning_engine.py - 추론 엔진 (The Compass)
+│   │   │   └── perspective_simulator.py - 역지사지 시뮬레이터 (The Mirror)
+│   │   └── Learning/
+│   │       ├── resonance_learner.py - 공명 학습기 (The Lungs)
+│   │       └── domain_bulk_learner.py - 대량 학습기
 │   │
-│   ├── 2. INTELLIGENCE (지능층) - 25 systems
-│   │   ├── integrated_cognition.py - 통합 인지
-│   │   ├── fractal_quaternion_goal_system.py - 목표 분해
-│   │   ├── inner_voice.py - 내면의 사고 엔진 (로컬 LLM)
-│   │   ├── my_voice.py - [조사 필요]
-│   │   └── local_cortex.py - 로컬 코르텍스
+│   ├── MEMORY (기억)
+│   │   ├── Vector/
+│   │   │   └── internal_universe.py - 내면 우주 (Implicit Feeling)
+│   │   └── Graph/
+│   │       └── knowledge_graph.py - 지식 그래프 (Explicit Knowledge)
 │   │
-│   ├── 3. EXPRESSION (표현층) - 포함됨 (Voice systems)
-│   │   ├── voice_of_elysia.py - 메인 음성 인터페이스 ⭐
-│   │   ├── integrated_voice_system.py - 4D 파동 사이클 (NEW)
-│   │   └── voice_api.py - 웹 API 엔드포인트 (NEW)
-│   │
-│   ├── 4. MEMORY (기억층) - 8 systems
-│   │   ├── self_evolution.py
-│   │   ├── corpus_loader.py
-│   │   └── self_reflector.py
-│   │
-│   └── 5. INTERFACE (인터페이스층) - 11 systems
-│       ├── synesthesia_nervous_bridge.py - 공감각 브릿지
-│       ├── nervous_system.py - 신경계 필터
-│       └── dashboard_server.py
+│   └── SYSTEM (자율성)
+│       └── Autonomy/
+│           ├── self_evolution_scheduler.py - 자가 진화 스케줄러 (The Heart)
+│           └── knowledge_migrator.py - 지식 정리기 (The Hands)
 │
-├── SUPPORT SYSTEMS (지원 시스템)
-│   │
-│   ├── VOICE (음성) - 40 systems ⚠️ 중복 많음
-│   │   └── [통합 필요 - 아래 참조]
-│   │
-│   ├── MONITORS (모니터) - 9 systems ⚠️ 중복
-│   │   ├── system_monitor.py (Foundation) ⭐ PRIMARY
-│   │   ├── performance_monitor.py (Foundation) - 통합 필요
-│   │   └── api_server.py (다른 목적?)
-│   │
-│   ├── KNOWLEDGE (지식) - 5 systems
-│   │   ├── knowledge_acquisition.py ⭐ PRIMARY
-│   │   ├── knowledge_sync.py
-│   │   ├── knowledge_sharing.py
-│   │   └── web_knowledge_connector.py
-│   │
-│   ├── BRIDGES (연결) - 9 systems
-│   │   ├── synapse_bridge.py
-│   │   ├── language_bridge.py
-│   │   ├── ollama_bridge.py
-│   │   └── genesis_bridge.py
-│   │
-│   └── APIs (API) - 6 systems
-│       ├── voice_api.py (NEW)
-│       ├── gemini_api.py
-│       └── web_server.py
-│
-└── NERVOUS (신경계) - 3 systems ✅ 명확함
-    ├── central_nervous_system.py - 리듬/펄스 조율
-    ├── nervous_system.py - 감각/운동 필터
-    └── synesthesia_nervous_bridge.py - 공감각 변환
+└── 🕸️ ELYSIA_CORE (The Nervous System - Infrastructure)
+    │
+    ├── cell.py - 세포 프로토콜 (@Cell)
+    ├── organ.py - 기관 연결망 (Organ.get)
+    └── scanner.py - 신경망 탐색기 (NeuralScanner)
 ```
 
 ---

@@ -25,7 +25,7 @@ Elysia operates through three interconnected nodes:
 
 ### Cognitive Hub (인지 중추)
 
-The central nervous system at `Core/Cognition/cognitive_hub.py`:
+The central nervous system at `Core/Cognition/Reasoning/reasoning_engine.py`:
 
 ```text
 CognitiveHub.understand(concept)
@@ -60,7 +60,7 @@ CognitiveHub.understand(concept)
 
 ### 1. Expanding Intelligence (LLM & Logic)
 
-* **Bridge:** `Core/Foundation/tiny_brain.py` (Hybrid: Llama + SBERT)
+* **Bridge:** `Core/Cognition/Reasoning/tiny_brain.py` (Hybrid: Llama + SBERT)
 * **Protocol:** Use `TinyBrain.get_embedding(concept)` for 384-dim semantic vector.
 * **Protocol:** Use `TinyBrain.generate(prompt)` only for **Metacognition**.
 
@@ -72,30 +72,31 @@ CognitiveHub.understand(concept)
 
 ### 3. Expanding Cognition (Why-Engine)
 
-* **Hub:** `Core/Cognition/cognitive_hub.py`
+* **Hub:** `Core/Cognition/Reasoning/reasoning_engine.py`
 * **Components:**
-  * `principle_distiller.py` - 원리 추출
-  * `causal_narrative_engine.py` - 인과 설명
-  * `experience_learner.py` - 패턴 학습
+  * `Core/Philosophy/why_engine.py` - 원리 추출
+  * `Core/Foundation/causal_narrative_engine.py` - 인과 설명
+* `experience_learner.py` - 패턴 학습
 
 ### 4. Expanding Senses (Multimodal)
 
-* **Interface:** `Core/Foundation/synesthesia_engine.py`
+* **Interface:** `Core/Sensory/synesthesia_engine.py`
 * **Protocol:** Convert raw input into **Frequency/Wave Data**.
 
 ---
 
-## 🛠️ Active Modules
+## 🛠️ Active Modules (Elysia v3.0 Deep Structure)
 
-| Module | Purpose | Usage |
+| Module | Purpose | Usage (Via Organ) |
 |:-------|:--------|:------|
-| `Core/Foundation/Graph/torch_graph.py` | **The Brain**. 4D Concept Graph. | `graph.add_node(...)` |
-| `Core/Foundation/tiny_brain.py` | **The Link**. Vectors & Logic. | `brain.get_embedding(text)` |
-| `Core/Cognition/cognitive_hub.py` | **The Hub**. Unified Understanding. | `hub.understand(concept)` |
-| `Core/Foundation/reasoning_engine.py` | **The Reasoner**. Logic & Rhetoric. | `engine.reason(query)` |
-| `Core/Ethics/conscience_circuit.py` | **The Conscience**. Blocks harmful actions with Pain. | `conscience.judge(intent)` |
-| `Core/Sensory/vision_cortex.py` | **The Eye**. Captures visual data. | `cortex.capture_frame()` |
-| `Core/Cognition/multimodal_bridge.py` | **Synesthesia**. Vision -> Emotion. | `bridge.translate_vision(data)` |
+| `Core/Memory/Graph/knowledge_graph.py` | **The Brain**. Explicit Knowledge. | `Organ.get("HierarchicalKnowledgeGraph")` |
+| `Core/Memory/Vector/internal_universe.py` | **The Universe**. Implicit Feeling. | `Organ.get("InternalUniverse")` |
+| `Core/System/Autonomy/self_evolution_scheduler.py` | **The Heart**. Autonomy Loop. | `Organ.get("SelfEvolutionScheduler")` |
+| `Core/Cognition/Reasoning/reasoning_engine.py` | **The Reasoner**. Logic & Rhetoric. | `Organ.get("ReasoningEngine")` |
+| `Core/Cognition/Learning/resonance_learner.py` | **The Learner**. Inquiry & Growth. | `Organ.get("ResonanceLearner")` |
+| `Core/Sensory/vision_cortex.py` | **The Eye**. Captures visual data. | `Organ.get("VisionCortex")` |
+
+> ⚠️ **Note**: Do not import files directly. Use `Organ.get("Identity")`.
 
 ---
 
@@ -137,7 +138,7 @@ CognitiveHub.understand(concept)
   * 코드 품질을 **Tension, Mass, Resonance**로 측정
   * Elysia가 자신의 코드를 "느끼고" 개선 가능
 
-* **WaveCoder:** `Core/Autonomy/wave_coder.py`
+* **WaveCoder:** `Core/System/Autonomy/wave_coder.py`
   * Python AST → Wave Tensor 변환
   * 코드 구조를 주파수와 진폭으로 표현
 
