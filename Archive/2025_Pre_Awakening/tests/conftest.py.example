@@ -1,0 +1,328 @@
+"""
+Pytest configuration and shared fixtures for Elysia tests.
+
+This file provides common test fixtures and setup/teardown functions
+that can be used across all test files.
+"""
+
+import pytest
+import tempfile
+import os
+import sys
+from pathlib import Path
+
+# Add project root to Python path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+
+# ============================================================================
+# Session-scoped fixtures (run once per test session)
+# ============================================================================
+
+@pytest.fixture(scope="session")
+def test_data_dir():
+    """
+    Provide a temporary directory for test data that persists for the session.
+    
+    Yields:
+        Path: Temporary directory path
+    """
+    with tempfile.TemporaryDirectory() as tmpdir:
+        yield Path(tmpdir)
+
+
+# ============================================================================
+# Function-scoped fixtures (run for each test function)
+# ============================================================================
+
+@pytest.fixture
+def temp_dir(tmp_path):
+    """
+    Provide a temporary directory that's cleaned up after the test.
+    
+    Args:
+        tmp_path: pytest's built-in tmp_path fixture
+    
+    Yields:
+        Path: Temporary directory path
+    """
+    yield tmp_path
+
+
+@pytest.fixture
+def temp_db_path(tmp_path):
+    """
+    Provide a temporary database path for testing.
+    
+    Args:
+        tmp_path: pytest's built-in tmp_path fixture
+    
+    Returns:
+        Path: Temporary database file path
+    """
+    return tmp_path / "test_memory.db"
+
+
+@pytest.fixture
+def mock_api_key(monkeypatch):
+    """
+    Mock GEMINI_API_KEY environment variable for testing.
+    
+    Args:
+        monkeypatch: pytest's monkeypatch fixture
+    
+    Returns:
+        str: Mock API key value
+    """
+    mock_key = "test-api-key-mock-12345"
+    monkeypatch.setenv("GEMINI_API_KEY", mock_key)
+    return mock_key
+
+
+@pytest.fixture
+def clean_env(monkeypatch):
+    """
+    Provide a clean environment without API keys for security testing.
+    
+    Args:
+        monkeypatch: pytest's monkeypatch fixture
+    """
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
+
+
+# ============================================================================
+# Core system fixtures
+# ============================================================================
+
+@pytest.fixture
+def sample_seed():
+    """
+    Provide a sample FractalSeed for testing.
+    
+    Returns:
+        FractalSeed: Sample seed with Love concept
+    """
+    try:
+        from Core.Cognition.fractal_concept import FractalSeed
+        return FractalSeed(
+            concept="Love",
+            frequency=528.0,
+            sub_concepts=["Unity", "Connection", "Grounding"]
+        )
+    except ImportError:
+        pytest.skip("FractalSeed not available")
+
+
+@pytest.fixture
+def sample_seeds():
+    """
+    Provide multiple sample seeds for testing.
+    
+    Returns:
+        List[FractalSeed]: List of sample seeds
+    """
+    try:
+        from Core.Cognition.fractal_concept import FractalSeed
+        return [
+            FractalSeed(concept="Love", frequency=528.0),
+            FractalSeed(concept="Hope", frequency=852.0),
+            FractalSeed(concept="Joy", frequency=600.0),
+            FractalSeed(concept="Peace", frequency=432.0),
+        ]
+    except ImportError:
+        pytest.skip("FractalSeed not available")
+
+
+@pytest.fixture
+def resonance_field():
+    """
+    Provide a clean ResonanceField instance.
+    
+    Yields:
+        ResonanceField: Fresh resonance field instance
+    """
+    try:
+        from Core.Foundation.resonance_field import ResonanceField
+        field = ResonanceField()
+        yield field
+        # Cleanup: clear the field after test
+        if hasattr(field, 'clear'):
+            field.clear()
+    except ImportError:
+        pytest.skip("ResonanceField not available")
+
+
+@pytest.fixture
+def hippocampus(temp_db_path):
+    """
+    Provide a Hippocampus instance with temporary database.
+    
+    Args:
+        temp_db_path: Temporary database path fixture
+    
+    Yields:
+        Hippocampus: Memory storage instance
+    """
+    try:
+        from Core.Memory.hippocampus import Hippocampus
+        hippo = Hippocampus(db_path=temp_db_path)
+        yield hippo
+        # Cleanup happens automatically with temp_db_path
+    except ImportError:
+        pytest.skip("Hippocampus not available")
+
+
+# ============================================================================
+# Test helpers
+# ============================================================================
+
+@pytest.fixture
+def capture_logs(caplog):
+    """
+    Capture log messages for testing.
+    
+    Args:
+        caplog: pytest's caplog fixture
+    
+    Returns:
+        caplog: Configured log capture
+    """
+    import logging
+    caplog.set_level(logging.DEBUG)
+    return caplog
+
+
+# ============================================================================
+# Pytest hooks
+# ============================================================================
+
+def pytest_configure(config):
+    """
+    Configure pytest with custom markers and settings.
+    
+    Args:
+        config: pytest configuration object
+    """
+    # Register markers
+    config.addinivalue_line(
+        "markers", "unit: Unit tests (fast, isolated)"
+    )
+    config.addinivalue_line(
+        "markers", "integration: Integration tests (component interaction)"
+    )
+    config.addinivalue_line(
+        "markers", "e2e: End-to-end tests (full workflow)"
+    )
+    config.addinivalue_line(
+        "markers", "slow: Slow running tests"
+    )
+    config.addinivalue_line(
+        "markers", "performance: Performance benchmark tests"
+    )
+    config.addinivalue_line(
+        "markers", "requires_api: Tests requiring external API"
+    )
+    config.addinivalue_line(
+        "markers", "requires_db: Tests requiring database"
+    )
+
+
+def pytest_collection_modifyitems(config, items):
+    """
+    Modify test collection to add markers automatically.
+    
+    Args:
+        config: pytest configuration
+        items: list of test items
+    """
+    # Auto-mark tests based on path or name
+    for item in items:
+        # Mark tests in Core package as integration tests by default
+        if "/Core/" in str(item.fspath) and "/tests/" in str(item.fspath):
+            item.add_marker(pytest.mark.integration)
+        
+        # Mark tests with "slow" in name
+        if "slow" in item.nodeid.lower():
+            item.add_marker(pytest.mark.slow)
+        
+        # Mark tests that need API
+        if "api" in item.nodeid.lower() or "gemini" in item.nodeid.lower():
+            item.add_marker(pytest.mark.requires_api)
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """
+    Hook to customize test reporting.
+    
+    Args:
+        item: test item
+        call: call info
+    """
+    outcome = yield
+    report = outcome.get_result()
+    
+    # Log slow tests
+    if call.when == "call":
+        duration = call.stop - call.start
+        if duration > 1.0:
+            print(f"\n⚠️  Slow test: {item.nodeid} took {duration:.2f}s")
+    
+    # Add extra info to failed tests
+    if report.when == "call" and report.failed:
+        # Could add custom failure reporting here
+        pass
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """
+    Called after test session finishes.
+    
+    Args:
+        session: pytest session
+        exitstatus: exit status code
+    """
+    # Print summary
+    print("\n" + "=" * 70)
+    print("Test Session Summary")
+    print("=" * 70)
+    
+    if exitstatus == 0:
+        print("✅ All tests passed!")
+    else:
+        print(f"❌ Tests failed with exit status: {exitstatus}")
+
+
+# ============================================================================
+# Utility functions for tests
+# ============================================================================
+
+def assert_seed_equal(seed1, seed2):
+    """
+    Assert that two seeds are equal.
+    
+    Args:
+        seed1: First FractalSeed
+        seed2: Second FractalSeed
+    """
+    assert seed1.concept == seed2.concept
+    assert seed1.frequency == seed2.frequency
+    assert seed1.sub_concepts == seed2.sub_concepts
+
+
+def create_test_seed(concept="Test", frequency=100.0, **kwargs):
+    """
+    Helper function to create a test seed.
+    
+    Args:
+        concept: Seed concept name
+        frequency: Seed frequency
+        **kwargs: Additional seed parameters
+    
+    Returns:
+        FractalSeed: Test seed instance
+    """
+    from Core.Cognition.fractal_concept import FractalSeed
+    return FractalSeed(concept=concept, frequency=frequency, **kwargs)

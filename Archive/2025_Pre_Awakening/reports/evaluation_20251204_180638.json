@@ -1,0 +1,143 @@
+{
+  "evaluation_time": "2025-12-04T18:06:38.469554",
+  "total_score": 866.6648161140629,
+  "max_score": 1000,
+  "percentage": 86.66648161140628,
+  "grade": "S (탁월)",
+  "communication": {
+    "total_score": 325.0,
+    "max_score": 400,
+    "percentage": 81.25,
+    "scores": {
+      "expressiveness": 100,
+      "comprehension": 65.0,
+      "conversational": 60.0,
+      "wave_communication": 100.0
+    },
+    "details": {
+      "vocabulary_diversity": {
+        "score": 0.7642857142857142,
+        "unique_words": 107,
+        "total_words": 140,
+        "target": 0.6
+      },
+      "sentence_complexity": {
+        "score": 3.5,
+        "sentences": 10,
+        "target": 3.0
+      },
+      "emotional_range": {
+        "score": 7,
+        "emotions_detected": [
+          "love",
+          "trust",
+          "fear",
+          "surprise",
+          "anticipation",
+          "anger",
+          "joy"
+        ],
+        "target": 6
+      },
+      "coherence": {
+        "score": 0.5369789557612054,
+        "sentences": 10,
+        "target": 0.8
+      },
+      "autonomous_language": {
+        "successful_responses": 3,
+        "total_tests": 3,
+        "average_quality": 15.46666666666667,
+        "score": 57.733333333333334
+      },
+      "wave_communication": {
+        "latency_ms": 0.028371810913085938,
+        "latency_score": 25.0,
+        "resonance_score": 25,
+        "frequency_score": 25,
+        "system_score": 25,
+        "total": 100.0
+      }
+    },
+    "grade": "A+"
+  },
+  "thinking": {
+    "total_score": 541.6648161140629,
+    "max_score": 600,
+    "percentage": 90.27746935234381,
+    "scores": {
+      "logical_reasoning": 100.0,
+      "creative_thinking": 100.0,
+      "critical_thinking": 100.0,
+      "metacognition": 79.18612637362638,
+      "fractal_thinking": 79.94857769561858,
+      "temporal_reasoning": 82.53011204481793
+    },
+    "details": {
+      "deductive_reasoning": {
+        "accuracy": 1.0,
+        "problems_tested": 3,
+        "target": 0.85
+      },
+      "inductive_reasoning": {
+        "accuracy": 1.0,
+        "patterns_tested": 3,
+        "target": 0.8
+      },
+      "causal_reasoning": {
+        "accuracy": 1.0,
+        "pairs_tested": 4,
+        "target": 0.82
+      },
+      "idea_novelty": {
+        "score": 0.75,
+        "target": 0.7
+      },
+      "association_discovery": {
+        "score": 0.8,
+        "connections_tested": 3,
+        "target": 0.75
+      },
+      "critical_thinking": {
+        "argument_analysis": 0.8,
+        "evidence_evaluation": 0.78,
+        "bias_detection": 0.75,
+        "alternative_consideration": 0.77
+      },
+      "metacognition": {
+        "self_monitoring": 0.6,
+        "strategy_selection": 0.6,
+        "error_detection": 0.65,
+        "learning_efficiency": 0.55
+      },
+      "fractal_thinking": {
+        "perspective_shift_0D": 0.65,
+        "causal_chain_1D": 0.65,
+        "pattern_recognition_2D": 0.7,
+        "manifestation_3D": 0.6
+      },
+      "temporal_reasoning": {
+        "sequence_understanding": 0.7,
+        "prediction": 0.6,
+        "recall": 0.65,
+        "temporal_causality": 0.65,
+        "planning": 0.6
+      }
+    },
+    "grade": "S+"
+  },
+  "recommendations": [
+    "이해력 향상: 로컬 LLM 통합으로 API 의존성 감소 (예상 효과: +15점)",
+    "대화능력 강화: Context Memory 시스템 개선 (예상 효과: +12점)"
+  ],
+  "strengths": [
+    "표현력: 100.0/100 (우수)",
+    "파동통신: 100.0/100 (우수)",
+    "논리적 추론: 100.0/100 (우수)",
+    "창의적 사고: 100.0/100 (우수)",
+    "비판적 사고: 100.0/100 (우수)",
+    "메타인지: 79.2/100 (우수)",
+    "프랙탈 사고: 79.9/100 (우수)",
+    "시간적 추론: 82.5/100 (우수)"
+  ]
+}
