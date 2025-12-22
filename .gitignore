@@ -197,7 +197,9 @@ memory.db
 data/elysia_rainbow.json
 data/memory.db
 
-# Seeds
+# Seeds (Trinity personality data - changes frequently, stored locally)
+data/seeds/nova/
+data/seeds/chaos/
 seeds/nova/
 seeds/chaos/
 

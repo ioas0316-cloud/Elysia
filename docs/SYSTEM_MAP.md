@@ -23,9 +23,16 @@ Elysia v3.0
 │   │   ├── Reasoning/
 │   │   │   ├── reasoning_engine.py - 추론 엔진 (The Compass)
 │   │   │   └── perspective_simulator.py - 역지사지 시뮬레이터 (The Mirror)
+│   │   ├── thought_space.py - 사고의 여백 (The Gap) [NEW Phase 19]
+│   │   ├── context_retrieval.py - 의도 기반 인출 (The Lens) [NEW Phase 19]
+│   │   ├── conversation_maturator.py - 대화 성숙 파이프라인 (5 Pillars) [NEW]
 │   │   └── Learning/
 │   │       ├── resonance_learner.py - 공명 학습기 (The Lungs)
-│   │       └── domain_bulk_learner.py - 대량 학습기
+│   │       ├── domain_bulk_learner.py - 대량 학습기
+│   │       ├── language_nurture.py - 언어 발달 (어휘/문법) [NEW]
+│   │       ├── reading_digester.py - 텍스트 소화 [NEW]
+│   │       ├── expression_practice.py - 표현 연습 [NEW]
+│   │       └── language_development_hub.py - 언어 발달 허브 [NEW]
 │   │
 │   ├── MEMORY (기억)
 │   │   ├── Vector/
