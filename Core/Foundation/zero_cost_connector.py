@@ -131,11 +131,12 @@ class YouTubeConnector:
     """
     YouTube 무료 커넥터
     
-    youtube-transcript-api 사용 (완전 무료!)
+    youtube-transcript-api & youtube-search-python 사용 (완전 무료!)
     API 키 불필요!
     """
     
     def __init__(self):
+        self.available = False
         try:
             from youtube_transcript_api import YouTubeTranscriptApi
             self.api = YouTubeTranscriptApi
@@ -143,25 +144,192 @@ class YouTubeConnector:
         except ImportError:
             logger.warning("⚠️ youtube-transcript-api not installed")
             logger.info("   Install: pip install youtube-transcript-api")
+
+        try:
+            # Monkey Patch for youtube-search-python compatibility with httpx >= 0.28.0
+            # The library tries to pass 'proxies' directly to httpx.post, which was removed.
+            from youtubesearchpython.core.requests import RequestCore
+            from youtubesearchpython.core.constants import userAgent
+            import httpx
+
+            def patched_syncPostRequest(self) -> httpx.Response:
+                # Use Client for proxy support (renamed from proxies in older versions)
+                # httpx 0.28.1 uses 'proxy' argument
+                proxy = self.proxy.get("https://") or self.proxy.get("http://")
+
+                with httpx.Client(proxy=proxy) as client:
+                    return client.post(
+                        self.url,
+                        headers={"User-Agent": userAgent},
+                        json=self.data,
+                        timeout=self.timeout
+                    )
+
+            def patched_syncGetRequest(self) -> httpx.Response:
+                proxy = self.proxy.get("https://") or self.proxy.get("http://")
+
+                with httpx.Client(proxy=proxy) as client:
+                    return client.get(
+                        self.url,
+                        headers={"User-Agent": userAgent},
+                        timeout=self.timeout,
+                        cookies={'CONSENT': 'YES+1'}
+                    )
+
+            RequestCore.syncPostRequest = patched_syncPostRequest
+            RequestCore.syncGetRequest = patched_syncGetRequest
+
+            from youtubesearchpython import VideosSearch
+            self.search_api = VideosSearch
+        except ImportError:
+            logger.warning("⚠️ youtube-search-python not installed")
+            logger.info("   Install: pip install youtube-search-python")
             self.available = False
     
     def fetch(self, topic: str, max_videos: int = 10) -> Dict[str, Any]:
-        """YouTube에서 자막 가져오기"""
+        """
+        YouTube에서 동영상 검색 및 자막 가져오기
+
+        Args:
+            topic: 검색 키워드
+            max_videos: 최대 비디오 수
+
+        Returns:
+            비디오 정보 및 자막 (Pattern DNA)
+        """
         
         if not self.available:
             return {
-                'error': 'youtube-transcript-api not installed',
-                'install': 'pip install youtube-transcript-api'
+                'error': 'Required packages not installed',
+                'install': 'pip install youtube-transcript-api youtube-search-python'
             }
+
+        logger.info(f"📺 YouTube search: {topic}")
         
-        # TODO: YouTube 검색 API 구현 (무료 대안 찾기)
-        # 현재는 수동으로 비디오 ID 제공 필요
-        
-        return {
-            'transcripts': [],
-            'note': 'Add video IDs manually or use youtube-search-python (free)',
-            'cost': 0
-        }
+        try:
+            # 1. 비디오 검색 (무료)
+            videos_search = self.search_api(topic, limit=max_videos)
+            results = videos_search.result()
+
+            collected_videos = []
+
+            for video in results.get('result', []):
+                video_id = video.get('id')
+                title = video.get('title')
+                link = video.get('link')
+                duration = video.get('duration')
+                view_count = video.get('viewCount', {}).get('text')
+
+                logger.info(f"   🎥 Found: {title[:40]}... ({duration})")
+
+                video_data = {
+                    'id': video_id,
+                    'title': title,
+                    'link': link,
+                    'duration': duration,
+                    'views': view_count,
+                    'transcript': None,
+                    'transcript_language': None
+                }
+
+                # 2. 자막 가져오기 (무료)
+                try:
+                    # youtube-transcript-api 1.2.3 Compatibility
+                    # API version check: list_transcripts vs list
+                    if hasattr(self.api, 'list_transcripts'):
+                        # Newer API
+                        transcript_list = self.api.list_transcripts(video_id)
+                        transcript = None
+                        lang = None
+
+                        try:
+                            transcript = transcript_list.find_transcript(['ko'])
+                            lang = 'ko'
+                        except:
+                            try:
+                                transcript = transcript_list.find_transcript(['en'])
+                                lang = 'en'
+                            except:
+                                try:
+                                    transcript = transcript_list.find_generated_transcript(['ko', 'en'])
+                                    lang = transcript.language_code
+                                except:
+                                    pass
+
+                        if transcript:
+                            full_text = " ".join([t['text'] for t in transcript.fetch()])
+                            video_data['transcript'] = full_text[:5000]
+                            video_data['transcript_language'] = lang
+                            logger.info(f"      ✅ Transcript found ({lang}, {len(full_text)} chars)")
+
+                    else:
+                        # Older API (0.2.x or 1.2.3 ?) - 'fetch' is static or instance method?
+                        # In 1.2.3: fetch(self, video_id, languages=['en'])
+                        # However, typical usage is YouTubeTranscriptApi.get_transcript(video_id) in modern versions
+                        # or YouTubeTranscriptApi.fetch(video_id) in older ones?
+
+                        # Let's try calling fetch directly if it's static/class method, or via instance
+                        # The error shows type object 'YouTubeTranscriptApi' has no attribute 'list_transcripts'
+                        # which suggests we are using the class directly.
+
+                        # Note: In 1.2.3, fetch and list seem to be instance methods if initialized,
+                        # OR if api is the class itself, we need to instantiate it?
+                        # The code `self.api = YouTubeTranscriptApi` assigns the CLASS.
+
+                        # Try to use .get_transcript if available (modern wrapper), or .fetch
+                        # But inspect showed .fetch(self, ...). So we need an instance.
+
+                        api_instance = self.api()
+                        # Try Korean first
+                        try:
+                            # fetch signature: (video_id, languages=('en',), preserve_formatting=False)
+                            # It returns a list of dicts directly in older versions?
+                            # Inspect said it returns FetchedTranscript object.
+
+                            # Let's try simple fetch with languages list
+                            transcript_data = api_instance.fetch(video_id, languages=['ko', 'en'])
+
+                            # If it returns an object that needs .fetch(), call it.
+                            # If it returns list of dicts, join them.
+                            # Based on name FetchedTranscript, it might be the data itself or object.
+
+                            # Let's assume it returns something iterable or with .fetch()
+                            # If it is a list of dicts:
+                            if isinstance(transcript_data, list):
+                                full_text = " ".join([t['text'] for t in transcript_data])
+                            else:
+                                # It's an object
+                                full_text = str(transcript_data)
+
+                            video_data['transcript'] = full_text[:5000]
+                            video_data['transcript_language'] = 'ko/en'
+                            logger.info(f"      ✅ Transcript found (legacy API)")
+
+                        except Exception as e:
+                            logger.warning(f"      ⚠️ Transcript fetch failed: {e}")
+
+                except Exception as e:
+                    logger.warning(f"      ⚠️ Transcript error: {e}")
+
+                collected_videos.append(video_data)
+
+            logger.info(f"✅ Collected {len(collected_videos)} videos from YouTube")
+            logger.info(f"💰 Cost: $0")
+
+            return {
+                'transcripts': collected_videos, # 하위 호환성을 위해 키 유지, 실제로는 비디오 객체 리스트
+                'videos': collected_videos,
+                'total_videos': len(collected_videos),
+                'cost': 0
+            }
+
+        except Exception as e:
+            logger.error(f"❌ YouTube search error: {e}")
+            return {
+                'error': str(e),
+                'transcripts': [],
+                'cost': 0
+            }
 
 
 class WikipediaConnector:
