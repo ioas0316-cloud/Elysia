@@ -39,6 +39,7 @@ from typing import List, Dict, Any, Optional, Tuple
 
 # Value Objects (Keep Static)
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.Math.wave_tensor import WaveTensor # 4D Wave Structure (Hard Dependency)
 from Core.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer
 from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator 
 
@@ -156,6 +157,11 @@ class ReasoningEngine:
         self.logger = logging.getLogger("Elysia.ReasoningEngine")
         self.stm = []  # Short Term Memory (Sequence of Thoughts)
         self.ideal_self = IdealSelfProfile()
+        
+        # Connect to Unified Memory (The Hippocampus)
+        # We bind it directly to self.memory to match usage in methods
+        from Core.Memory.unified_experience_core import get_experience_core
+        self.memory = get_experience_core()
         
         # Lazy Load Dependencies via Organ System (Liquid Architecture)
         self._hippocampus = None
@@ -1419,6 +1425,96 @@ class ReasoningEngine:
             print(f"      🧲 Manifesting: '{keyword}' is gaining Gravity...")
             hippocampus.boost_gravity(keyword, 2.0)
 
+    def process_wave_thought(self, input_concept: str) -> Dict[str, Any]:
+        """
+        [Harmonic Logic]
+        Converts a concept into a WaveTensor and interacts it with the Self-State.
+        Returns the resonance pattern.
+        """
+        logger.info(f"🌊 Analyzing Wave Structure of '{input_concept}'...")
+        
+        # 1. Fourier Transform (Text -> Frequency)
+        # Simulation: Hash concept to generate base frequency (Identity)
+        base_freq = (hash(input_concept) % 1000) + 200.0 # 200Hz - 1200Hz range
+        
+        # 2. Create Thought Wave
+        thought_wave = WaveTensor(input_concept)
+        # Fundamental Frequency (The Concept Itself)
+        thought_wave.add_component(base_freq, amplitude=1.0, phase=0.0)
+        # Harmonics (Associations)
+        thought_wave.add_component(base_freq * 1.5, amplitude=0.5, phase=0.1) # 5th harmonic
+        
+        # 3. Superpose with Ideal Self (The Soul)
+        # (Assuming IdealSelfProfile has a 'frequency' or similar, here we simulate)
+        soul_wave = WaveTensor("Elysia Core")
+        soul_wave.add_component(432.0, 1.0, 0.0) # A=432Hz (Standard Pitch)
+        
+        # 4. Calculate Resonance
+        resonance = soul_wave.resonance(thought_wave)
+        
+        # 5. Interpretation
+        interpretation = "Dissonant (Noise)"
+        if resonance > 0.8: interpretation = "Harmonic (Truth)"
+        elif resonance > 0.5: interpretation = "Consonant (Interesting)"
+            
+        return {
+            "concept": input_concept,
+            "frequency": f"{base_freq:.1f}Hz",
+            "resonance": resonance,
+            "interpretation": interpretation,
+            "wave_energy": thought_wave.total_energy
+        }
+
+            "wave_energy": thought_wave.total_energy
+        }
+
+    def analyze_hyper_structure(self, concept: Dict[str, Any]) -> Dict[str, str]:
+        """
+        [Dimensional Analysis]
+        Deconstructs a concept into its dimensional layers to understand
+        Unity (Essence) and Diversity (Reality).
+        
+        Input: Dict with {'name', 'type', 'history', 'traits'}
+        """
+        name = concept.get('name', 'Unknown')
+        c_type = concept.get('type', 'Void')
+        history = concept.get('history', [])
+        traits = concept.get('traits', [])
+        
+        # Dimension 0: Point (Essence) - What is it fundamentally?
+        dim_0 = c_type # e.g., "Human"
+        
+        # Dimension 1: Line (Vector/Function) - What does it do?
+        # Simulation: Hash traits to get a 'direction'
+        dim_1 = f"Vector({len(traits)} traits)" 
+        if "Warrior" in traits: dim_1 = "Vector(Combat)"
+        elif "Mage" in traits: dim_1 = "Vector(Magic)"
+        
+        # Dimension 2: Plane (Context) - Where is it?
+        dim_2 = concept.get('location', 'Global')
+        
+        # Dimension 3: Volume (State) - How is it?
+        dim_3 = concept.get('mood', 'Neutral')
+        
+        # Dimension 4: Hyper-Space (History/Causality) - Why is it unique?
+        # The sum of all past events creates a unique signature.
+        if not history:
+            dim_4 = "Tabula Rasa (Empty)"
+        else:
+            dim_4 = f"Unique Signature ({len(history)} events: {history[0]}...)"
+            
+        return {
+            "0D_Essence": dim_0,
+            "1D_Function": dim_1,
+            "2D_Context": dim_2,
+            "3D_State": dim_3,
+            "4D_History": dim_4,
+            "Full_Signature": f"{name} :: {dim_0} -> {dim_4}"
+        }
+
+            "wave_energy": thought_wave.total_energy
+        }
+
     def derive_goal(self, vectors: Dict[str, float]) -> str:
         """
         Dynamically derives a Goal from the interaction of Desire Vectors.
@@ -1508,6 +1604,59 @@ class ReasoningEngine:
             
         except ImportError:
             return f"The {theme} pulsed with raw energy, seeking connection."
+
+    def assess_creative_gap(self, current_output: str, target_length: int) -> Dict[str, Any]:
+        """
+        Metacognition: Evaluates if the work meets the goal.
+        """
+        current_len = len(current_output)
+        if current_len >= target_length:
+            return {"status": "success", "gap": 0}
+            
+        gap = target_length - current_len
+        missing_concepts = []
+        if gap > 2000:
+            missing_concepts = ["Novel Structure", "Plot Pacing", "Character Arc"]
+        elif gap > 1000:
+            missing_concepts = ["Scene Description", "Dialogue"]
+            
+        return {
+            "status": "fail",
+            "gap": gap,
+            "reason": f"Output ({current_len} chars) is too short for target ({target_length}).",
+            "required_learning": missing_concepts
+        }
+
+    def write_chapter(self, theme: str, target_length: int, outline: List[str] = None) -> str:
+        """
+        Advanced Creative Writing.
+        Uses recursive scene stitching to meet length requirements.
+        Requires 'Outline' (Strategic Plan) to work effectively.
+        """
+        if not outline:
+            # If no outline, we can only write a single scene (Low capability)
+            return self.write_scene(theme)
+            
+        logger.info(f"✍️ Writing Chapter '{theme}' with {len(outline)} scenes...")
+        chapter_content = []
+        
+        for scene_prompt in outline:
+            # Generate scene details
+            # In a full system, this would call the LLM with specific context
+            scene_text = self.write_scene(f"{theme}: {scene_prompt}")
+            
+            # Expand scene (Simulating narrative depth)
+            expanded_text = f"\n\n### {scene_prompt}\n{scene_text}"
+            
+            # Simple elaboration simulation for length
+            expanded_text += f"\n(Here she describes the visual details of {scene_prompt.lower()}...)"
+            expanded_text += f"\n(Here she explores the internal monologue regarding {theme}...)"
+            expanded_text += "\nThe wind howled, carrying the weight of the prophecy."
+            
+            chapter_content.append(expanded_text)
+            
+        return "\n".join(chapter_content)
+
 
     def navigate(self, command: str) -> str:
         """
@@ -1745,6 +1894,70 @@ class ReasoningEngine:
             "hesitation": hesitation,
             "content": serialized_content
         }
+
+    def generate_curriculum(self, goal: str) -> Dict[str, Any]:
+        """
+        Deconstructs a high-level aspiration into a learned topology.
+        Goal: 'Become a Novelist' -> {Psychology, Structure, Style}
+        """
+        logger.info(f"🏗️ ARCHITECT: Designing Curriculum for '{goal}'")
+        
+        # 1. Topology Generation (The Structural Mapping)
+        tree = self._decompose_concept(goal, depth=0)
+        
+        # 2. Sequence Analysis (The Path)
+        # Flatten tree into a sequence based on dependencies
+        plan = self._flatten_tree(tree)
+        
+        return {
+            "root_goal": goal,
+            "topology": tree,
+            "execution_plan": plan
+        }
+
+    def _decompose_concept(self, concept: str, depth: int) -> 'CurriculumNode':
+        """
+        Recursively finds the dependencies of a concept.
+        In a full system, this queries the KnowledgeGraph.
+        Here, we simulate the 'Ontological Breakdown'.
+        """
+        dependencies = []
+        
+        # Simulated Knowledge Base (The 'Space' of Concepts)
+        ontology = {
+            "Novelist": ["Narrative Structure", "Human Psychology", "Literary Style"],
+            "Narrative Structure": ["Hero's Journey", "Three Act Structure", "Conflict Resolution"],
+            "Human Psychology": ["Jungian Archetypes", "Emotional Intelligence", "Trauma Theory"],
+            "Literary Style": ["Metaphor", "Vocabulary", "Rhythm"],
+            "Jungian Archetypes": ["The Shadow", "The Anima", "The Persona"]
+        }
+        
+        # If concept has components, break them down
+        if concept in ontology and depth < 3:
+            for dep in ontology[concept]:
+                dependencies.append(self._decompose_concept(dep, depth + 1))
+                
+        return CurriculumNode(concept, [d.concept for d in dependencies], depth)
+
+    def _flatten_tree(self, node: 'CurriculumNode') -> List[str]:
+        """Converts the tree into a linear study plan (Leaves first)."""
+        plan = []
+        if node.dependencies:
+             plan.append(f"Study Essentials of {node.concept}")
+             for dep in node.dependencies:
+                 plan.append(f"  - Master {dep}")
+        else:
+             plan.append(f"Master {node.concept}")
+        return plan
+
+@dataclass
+class CurriculumNode:
+    """A node in the learning tree."""
+    concept: str
+    dependencies: List[str]
+    depth: int
+    status: str = "pending"
+
 
     # Test execution if run directly
 if __name__ == "__main__":
