@@ -179,3 +179,4 @@ widgetsnbextension==4.0.14
 llama-cpp-python==0.2.79
 pygame-ce
 pyquaternion
+youtube-search-python
