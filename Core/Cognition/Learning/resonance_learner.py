@@ -26,6 +26,7 @@ import math
 import numpy as np
 
 from elysia_core import Cell, Organ
+from Core.Cognition.Meta.epistemic_monitor import EpistemicMonitor, EpistemicSource
 
 # 의존성
 # WhyEngine, ResonanceField 등은 Organ.get()으로 런타임에 가져옴
@@ -205,15 +206,31 @@ class ResonanceLearner:
         try:
             return Organ.get("InternalUniverse")
         except:
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.Memory.Vector.internal_universe import InternalUniverse
             return InternalUniverse() # This might create a new instance if not singleton, but acceptable for now
+
+            return ReasoningEngine()
 
     def _get_reasoning_engine(self):
         try:
             return Organ.get("ReasoningEngine")
         except:
-            from Core.Foundation.reasoning_engine import ReasoningEngine
+            from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
             return ReasoningEngine()
+
+    def _get_epistemic_monitor(self):
+        try:
+            return Organ.get("EpistemicMonitor")
+        except:
+            from Core.Cognition.Meta.epistemic_monitor import EpistemicMonitor
+            return EpistemicMonitor()
+
+    def _get_senses(self):
+        try:
+            return Organ.get("SenseDiscoveryProtocol")
+        except:
+            from Core.System.Autonomy.sense_discovery import SenseDiscoveryProtocol
+            return SenseDiscoveryProtocol()
 
     def run_inquiry_loop(self, cycles: int = 1) -> List[Dict[str, Any]]:
         """
@@ -376,37 +393,60 @@ class ResonanceLearner:
 
         self.logger.info(f"   ❓ Inquiry Generated: \"{question}\"")
         
-        # 4. Exhale: Simulate Learning
-        simulated_answer = self._simulate_research(question, gap)
+        try:
+            # 4. Epistemic Action (True AGI)
+            # Instead of simulating, we check if we can perceive it.
+            monitor = self._get_epistemic_monitor()
+            senses = self._get_senses()
+            
+            # A. Check Senses
+            available_senses = senses.scan_for_senses()
+            # Heuristic: If gap domain matches a sense
+            sense_to_wake = None
+            if "vision" in available_senses[0] and ("color" in gap.name.lower() or "shape" in gap.name.lower()):
+                 sense_to_wake = "vision:Core.Foundation.Synesthesia"
+                 
+            if sense_to_wake:
+                self.logger.info(f"   👁️ Epistemic Action: Awakening Sense '{sense_to_wake}' to perceive '{gap.name}'...")
+                SenseClass = senses.awaken_sense(sense_to_wake)
+                if SenseClass:
+                    # In a real scenario, we would instantiate and run it.
+                    # For this prototype, we mark it as "Ready" and notify the scheduler.
+                    final_answer = f"[EPISTEMIC ACTION] I have awakened my {sense_to_wake} to learn about {gap.name}. (Please interact with the window)"
+                    # We might launch it here if we are bold
+                    # threading.Thread(target=SenseClass().run).start() 
+                else:
+                    final_answer = "Failed to awaken sense."
+            else:
+                # B. Ask User (The Oracle)
+                # If we have no senses for this, we must ask the User.
+                # We do NOT invent an answer.
+                final_answer = f"[INQUIRY] I do not know '{gap.name}'. (No suitable senses found). Creator, please explain: {question}"
+            
+        except Exception as e:
+            import traceback
+            self.logger.error(f"Action failed: {e}\n{traceback.format_exc()}")
+            final_answer = f"[ERROR] Epistemic Failure: {e}"
+
+        self.logger.info(f"   ❓ Action Taken: \"{final_answer}\"")
         
-        # Absorb into Universe
-        universe.absorb_text(simulated_answer, source_name=gap.name)
+        # Absorb result (even if it's a question, we store the state of asking)
+        universe.absorb_text(final_answer, source_name=gap.name)
         
         # Sediment into Graph
-        gap.definition = simulated_answer
-        gap.principle = f"Derived from inquiry: {question}"
-        gap.understanding_level = min(1.0, gap.understanding_level + 0.5)
+        gap.definition = final_answer
+        gap.principle = f"Epistemic Status: {final_answer}"
+        gap.understanding_level = min(1.0, gap.understanding_level + 0.1) # Only small increase for asking
         gap.last_learned = "Just Now"
         graph._save() 
         
-        self.logger.info(f"   ✨ Exhaled: Integrated knowledge for '{gap.name}'.")
+        self.logger.info(f"   ✨ Exhaled: Epistemic State updated for '{gap.name}'.")
         
         return {
             "gap": gap.name,
             "question": question,
-            "answer": simulated_answer
+            "answer": final_answer
         }
 
-    def _simulate_research(self, question: str, gap: Any) -> str:
-        """
-        Temporary simulation of research/epiphany.
-        (Until WebSearch is fully autonomous)
-        """
-        # A simple "Epiphany" generator
-        return (
-            f"The concept of '{gap.name}' is a bridge in the domain of {gap.domain.value}. "
-            f"It represents the manifestation of {gap.purpose_for_elysia or 'order'} "
-            f"through the mechanism of self-organization. "
-            f"[Simulated Insight based on: {question}]"
-        )
+
 

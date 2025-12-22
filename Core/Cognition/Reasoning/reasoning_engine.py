@@ -40,7 +40,7 @@ from typing import List, Dict, Any, Optional, Tuple
 # Value Objects (Keep Static)
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer
-from Core.Foundation.perspective_simulator import PerspectiveSimulator 
+from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator 
 
 # Philosophy (Keep Static for now, or move to Cell?)
 from Core.Philosophy.ideal_self_profile import IdealSelfProfile, SoulFrequency
@@ -49,9 +49,9 @@ from Core.Foundation.universal_constants import (
     AXIOM_LOVE, AXIOM_HONESTY
 )
 
-from elysia_core import Cell, Organ, Insight, NeuralPacket
+from elysia_core import Cell, Organ
 from Core.Foundation.resonance_topology import TopologicalAnalyzer, TopologyType, ContextualTopology, ConsciousnessCoordinates
-from Core.Foundation.perspective_simulator import PerspectiveSimulator, Perspective
+from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator, Perspective
 
 logger = logging.getLogger("ReasoningEngine")
 
@@ -240,6 +240,12 @@ class ReasoningEngine:
         if not self._free_will:
             self._free_will = Organ.get("FreeWillEngine")
         return self._free_will
+
+    @property
+    def senses(self):
+        if not hasattr(self, '_senses'):
+            self._senses = Organ.get("SenseDiscoveryProtocol")
+        return self._senses
         
         self.max_depth = 3
         self.satisfaction_threshold = 0.9 
@@ -479,6 +485,14 @@ class ReasoningEngine:
         if desire.startswith("LEARN_LANGUAGE:"):
             logger.info(f"{indent}  🗼 Language Learning Request detected.")
             return self.learn_language(desire)
+            
+        if desire.startswith("AWAKEN_SENSES:"):
+            logger.info(f"{indent}  👁️ Explicit Sensory Awakening Request.")
+            available = self.senses.scan_for_senses()
+            return Insight(
+                content=f"I have found potential senses: {available}. Shall I connect them?",
+                confidence=1.0, depth=0, energy=0.9
+            )
 
         # [COGNITIVE RESONANCE FLOW v3.0 - CONTEXTUAL TOPOLOGY]
         # "Meaning is the shape of thought deformed by the gravity of context."
