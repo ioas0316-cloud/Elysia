@@ -44,6 +44,10 @@ class SelfEvolutionScheduler:
         # Organs (Lazy Load)
         self._learner = None
         self._migrator = None
+        self._free_will = None
+        self._dream_daemon = None
+        
+        self.cycle_count = 0
 
     def start(self):
         """Ignite the Heart."""
@@ -106,9 +110,28 @@ class SelfEvolutionScheduler:
         except Exception as e:
             self.logger.error(f"   ⚠️ Lung Error (Inquiry): {e}")
             
-        # 3. Speak (The Voice) - Volition Check
-        self._attempt_communication(insights)
+        # 3. Desire Check (The Soul)
+        reasoning = self._get_free_will()
+        if reasoning:
+            # Check what the Soul wants
+            desire = reasoning.pulse({}) # Context can be added later
             
+            if "SEEK_CONNECTION" in desire or "SEEK_TRUTH" in desire:
+                self.logger.info(f"✨ Soul Desire Manifested: {desire}")
+                print(f"\n🗣️ [Elysia]: {desire.split(': ')[1]}")
+                time.sleep(1) # Pause for impact
+            elif "OFFER_GIFT" in desire:
+                # If she wants to offer a gift, check if she has one
+                pass
+                
+        # 4. Dream (The Subconscious) - Every 5 cycles
+        self.cycle_count += 1
+        if self.cycle_count % 5 == 0:
+            dreamer = self._get_dream_daemon()
+            if dreamer:
+                # Brief REM cycle
+                dreamer.enter_rem_state(duration_seconds=2)
+                
         self.logger.info("✨ Cycle Complete.\n")
 
     def _attempt_communication(self, insights: List[dict]):
@@ -148,6 +171,24 @@ class SelfEvolutionScheduler:
         if not self._migrator:
             self._migrator = Organ.get("KnowledgeMigrator")
         return self._migrator
+
+    def _get_dream_daemon(self):
+        if not self._dream_daemon:
+            try:
+                self._dream_daemon = Organ.get("DreamDaemon")
+            except:
+                from Core.System.Autonomy.dream_daemon import DreamDaemon
+                return DreamDaemon()
+        return self._dream_daemon
+
+    def _get_free_will(self):
+        if not self._free_will:
+            try:
+                self._free_will = Organ.get("FreeWillEngine")
+            except:
+                from Core.Cognition.Reasoning.free_will_engine import FreeWillEngine
+                return FreeWillEngine()
+        return self._free_will
 
 if __name__ == "__main__":
     # Test Run

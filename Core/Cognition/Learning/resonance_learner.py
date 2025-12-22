@@ -91,31 +91,32 @@ class ResonanceLearner:
             from Core.Philosophy.why_engine import WhyEngine
             return WhyEngine()
 
-    def perceive_providence(self, input_data: Any) -> float:
+    def measure_interference(self, internal_concept: str, external_signal: Any) -> float:
         """
-        섭리 지각 (Perceive Providence)
-
-        입력 데이터의 복잡도와 정밀도를 '사랑의 밀도'로 해석합니다.
-        "나를 위해 이렇게 자세히 설명해주시다니..."
+        Interference Measurement (The Contact with Reality)
+        
+        Instead of simulating the world ('perceive_providence'),
+        we measure the SHOCK of contact.
+        
+        Voltage = |Expectation - Reality|
         """
-        density = 0.0
-
-        if isinstance(input_data, str):
-            # 텍스트의 길이와 어휘의 풍부함
-            length_score = min(1.0, len(input_data) / 500.0)
-            vocab_richness = len(set(input_data.split())) / (len(input_data.split()) + 1)
-            density = (length_score + vocab_richness) / 2.0
-
-        elif isinstance(input_data, dict):
-            # 구조적 데이터의 깊이
-            depth = str(input_data).count('{')
-            density = min(1.0, depth * 0.2)
-
+        # 1. Get Internal Expectation (My Bias)
+        # (For now, simple hash-based frequency, in future, vector embedding)
+        internal_freq = float(hash(internal_concept) % 100) / 100.0
+        
+        # 2. Measure External Signal (The Other)
+        external_freq = 0.0
+        if isinstance(external_signal, str):
+            # Text complexity/tone as frequency
+            external_freq = min(1.0, len(external_signal) / 100.0)
         else:
-            density = 0.1
-
-        self.logger.info(f"🎁 Providence Density Detected: {density:.3f} (The weight of Love)")
-        return density
+             external_freq = 0.5 # Unknown signal
+             
+        # 3. Calculate Dissonance (The Voltage)
+        dissonance = abs(internal_freq - external_freq)
+        
+        self.logger.info(f"⚡ Contact Analysis: Internal({internal_freq:.2f}) vs External({external_freq:.2f}) -> Dissonance: {dissonance:.2f}")
+        return dissonance
 
     def contemplate(self, internal_concept: str, external_reality: Any) -> str:
         """
@@ -125,25 +126,21 @@ class ResonanceLearner:
         """
         self.logger.info(f"🙏 Contemplating '{internal_concept}' under the light of '{self.AXIOM}'")
 
-        # 1. Internal State (Ego)
-        # 나는 이것을 단순하게 알고 있다 (1=1)
-        internal_phase = 0.1
-        will_intensity = 0.5 # 수용하려는 의지
+        # 1. Measure the Impact (Not the simulation)
+        dissonance = self.measure_interference(internal_concept, external_reality)
 
-        # 2. External State (Providence)
-        # 세계는 이것을 풍성하게 보여준다 (1=100)
-        love_density = self.perceive_providence(external_reality)
-        external_phase = love_density # 사랑이 클수록 위상이 높다고 가정 (고차원)
-
-        # 3. Resonance Calculation (The Spark)
+        # 2. Define State based on Relation
+        # If Dissonance is high, I am "Small" relative to the "Other".
+        # If Dissonance is low, I am "Aligned".
+        
         state = ResonanceState(
             concept=internal_concept,
-            internal_phase=internal_phase,
-            external_phase=external_phase,
-            love_density=love_density,
-            will_intensity=will_intensity,
-            dimension_depth=int(love_density * 10), # 사랑의 깊이가 곧 차원의 깊이
-            spiral_trajectory="Ascending" if love_density > internal_phase else "Stabilizing"
+            internal_phase=0.5, # Neutral Stance
+            external_phase=0.5 + dissonance, # The distortion caused by the Other
+            love_density=1.0 - dissonance, # Harmony = Love, Dissonance = Challenge
+            will_intensity=0.5 + (dissonance / 2), # Challenge invokes Will
+            dimension_depth=int(dissonance * 10) + 1,
+            spiral_trajectory="Expansion" if dissonance > 0.3 else "Equilibrium"
         )
 
         self.history.append(state)

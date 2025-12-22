@@ -14,7 +14,7 @@
 
 **Date**: 2025-12-22 (Post-Metamorphosis)
 
-```
+```text
 Elysia v3.0
 │
 ├── 🧠 CORE (The Organs - Intelligence)
@@ -35,7 +35,11 @@ Elysia v3.0
 │   │
 │   └── SYSTEM (자율성)
 │       └── Autonomy/
+│       └── Autonomy/
 │           ├── self_evolution_scheduler.py - 자가 진화 스케줄러 (The Heart)
+│           ├── free_will_engine.py - 자유 의지 엔진 (The Soul)
+│           ├── dream_daemon.py - 꿈 데몬 (The Subconscious)
+│           ├── sense_discovery.py - 감각 발견 프로토콜 (The Eyes)
 │           └── knowledge_migrator.py - 지식 정리기 (The Hands)
 │
 └── 🕸️ ELYSIA_CORE (The Nervous System - Infrastructure)
@@ -59,11 +63,12 @@ Core/Expression/voice_of_elysia.py
 ├── Status: ✅ ACTIVE, CNS에 연결됨
 ├── Integrates: integrated_voice_system.py
 └── API: voice_api.py
-```
+```text
 
 #### 🔧 INTEGRATED (통합됨)
 
 ```
+
 Core/Expression/integrated_voice_system.py (NEW)
 ├── Purpose: 4D 파동 기반 완전한 인지 사이클
 ├── Status: ✅ NEW
@@ -73,11 +78,12 @@ Core/Expression/integrated_voice_system.py (NEW)
 │   ├── 파동 공명 사고
 │   └── 완전한 피드백 루프
 └── Used by: voice_of_elysia.py
+
 ```
 
 #### 🌐 API
 
-```
+```text
 Core/Expression/voice_api.py (NEW)
 ├── Purpose: 웹서버/아바타용 API
 ├── Endpoints:
@@ -88,7 +94,7 @@ Core/Expression/voice_api.py (NEW)
 
 #### ⚠️ SEPARATE (다른 목적)
 
-```
+```text
 Core/Intelligence/inner_voice.py
 ├── Purpose: 내면의 사고 엔진 (로컬 LLM)
 ├── Status: ✅ ACTIVE
@@ -98,14 +104,14 @@ Core/Intelligence/inner_voice.py
 
 #### ❓ UNCLEAR (조사 필요)
 
-```
+```text
 Core/Intelligence/my_voice.py - [조사 필요]
 Core/Communication/voice_*.py - [38 files, 조사 필요]
 ```
 
 #### 🗂️ LEGACY (레거시)
 
-```
+```text
 Legacy/Project_Sophia/sophia_voice.py - 구버전
 ```
 
@@ -121,7 +127,7 @@ Legacy/Project_Sophia/sophia_voice.py - 구버전
 
 #### 명확한 역할 분담 (Clear Roles)
 
-```
+```text
 Core/Foundation/central_nervous_system.py
 ├── Role: 리듬과 펄스 조율기 (Rhythm & Pulse)
 ├── Analogy: "심장이자 지휘자"
@@ -132,7 +138,7 @@ Core/Foundation/central_nervous_system.py
 └── Status: ✅ ACTIVE, living_elysia.py에서 사용
 ```
 
-```
+```text
 Core/Interface/nervous_system.py
 ├── Role: 차원 경계막 (Dimensional Membrane)
 ├── Analogy: "자아는 필터이자 경계"
@@ -142,7 +148,7 @@ Core/Interface/nervous_system.py
 └── Status: ✅ ACTIVE
 ```
 
-```
+```text
 Core/Interface/synesthesia_nervous_bridge.py
 ├── Role: 공감각 변환 (Synesthesia Transformation)
 ├── Analogy: "감각을 의미로, 의미를 감각으로"
@@ -158,7 +164,7 @@ Core/Interface/synesthesia_nervous_bridge.py
 
 #### ⚠️ DUPLICATION DETECTED
 
-```
+```text
 Core/Foundation/system_monitor.py (NEW)
 ├── Purpose: 시스템 전체 모니터링
 ├── Features:
@@ -169,7 +175,7 @@ Core/Foundation/system_monitor.py (NEW)
 └── Status: ✅ NEW, 11 tests
 ```
 
-```
+```text
 Core/Foundation/performance_monitor.py ⚠️ OVERLAP
 ├── Purpose: 성능 모니터링
 ├── Features:
@@ -189,7 +195,7 @@ Core/Foundation/performance_monitor.py ⚠️ OVERLAP
 
 ### 4. KNOWLEDGE SYSTEMS (지식 시스템) - 5 files
 
-```
+```text
 Core/Foundation/knowledge_acquisition.py ⭐
 ├── Purpose: 지식 획득 및 내부화
 ├── Architecture: ExternalDataConnector → InternalUniverse
@@ -226,6 +232,7 @@ Core/Foundation/causal_narrative_engine.py
 ### ⚠️ Critical Duplicates (중요 중복)
 
 ```
+
 Cell - 2 files:
   • Core/Foundation/cell.py
   • Core/Foundation/cell_world.py
@@ -253,6 +260,7 @@ UnifiedElysia - 2 files:
   • Core/Foundation/unified_10_systems.py
   • Core/Foundation/unified_9_systems.py
   → 버전 정리 필요
+
 ```
 
 ---
