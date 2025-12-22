@@ -95,6 +95,10 @@ CognitiveHub.understand(concept)
 | `Core/Cognition/Reasoning/reasoning_engine.py` | **The Reasoner**. Logic & Rhetoric. | `Organ.get("ReasoningEngine")` |
 | `Core/Cognition/Learning/resonance_learner.py` | **The Learner**. Inquiry & Growth. | `Organ.get("ResonanceLearner")` |
 | `Core/Sensory/vision_cortex.py` | **The Eye**. Captures visual data. | `Organ.get("VisionCortex")` |
+| `Core/Cognition/thought_space.py` | **The Gap**. Maturation before output. [NEW] | `ThoughtSpace()` |
+| `Core/Cognition/context_retrieval.py` | **The Lens**. Intent-based memory. [NEW] | `ContextRetrieval()` |
+| `Core/Cognition/conversation_maturator.py` | **5 Pillars**. Adult-level conversation. [NEW] | `ConversationMaturator()` |
+| `Core/Cognition/Learning/language_development_hub.py` | **Language Growth**. Autonomous development. [NEW] | `LanguageDevelopmentHub()` |
 
 > ⚠️ **Note**: Do not import files directly. Use `Organ.get("Identity")`.
 
