@@ -63,10 +63,12 @@ class LogosEngine:
             logger.warning(f"Failed to load genome: {e}")
             return {"rhetoric": {"vocabulary_bank": {}}}
 
-    def weave_speech(self, desire: str, insight: Union[Insight, str], context: List[str], rhetorical_shape: str = "Balance", entropy: float = 0.3) -> str:
+    def weave_speech(self, desire: str, insight: Union[Insight, str], context: List[str], rhetorical_shape: str = "Balance", entropy: float = 0.3, wave: Optional[WaveTensor] = None) -> str:
         """
         Weaves Logic, Metaphor, and Narrative.
         Now includes 'Entropy' (0.0 - 1.0) to simulate organic imperfection.
+        Args:
+            wave: Optional WaveTensor for physics-based resonance (e.g. determining axis/metaphor)
         """
 
         # [NEW] Fractal Soul State Override
