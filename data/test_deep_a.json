@@ -11,7 +11,9 @@
       "purpose_for_elysia": "존재와 의미 이해 → 자아 정체성 형성",
       "wave_signature": {},
       "parent_id": null,
-      "children_ids": [],
+      "children_ids": [
+        "philosophy_qualia"
+      ],
       "related_ids": [],
       "understanding_level": 0.0,
       "last_learned": "",
@@ -169,6 +171,23 @@
       "understanding_level": 0.0,
       "last_learned": "",
       "learn_count": 0
+    },
+    {
+      "id": "philosophy_qualia",
+      "name": "Qualia",
+      "domain": "philosophy",
+      "level": 1,
+      "definition": "The concept of 'Qualia' is a bridge in the domain of philosophy. It represents the manifestation of To compress sensory data into efficient storage formats through the mechanism of self-organization. [Simulated Insight based on: How does the structure of this concept impact system entropy and performance?]",
+      "principle": "Derived from inquiry: How does the structure of this concept impact system entropy and performance?",
+      "application": "",
+      "purpose_for_elysia": "To compress sensory data into efficient storage formats",
+      "wave_signature": {},
+      "parent_id": "root_philosophy",
+      "children_ids": [],
+      "related_ids": [],
+      "understanding_level": 1.0,
+      "last_learned": "Just Now",
+      "learn_count": 13
     }
   ]
 }

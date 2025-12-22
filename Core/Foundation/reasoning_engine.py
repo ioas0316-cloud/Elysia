@@ -30,23 +30,28 @@ import time
 import os
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
-from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.resonance_field import ResonanceField
+import logging
+import random
+import time
+import os
+from dataclasses import dataclass, field
+from typing import List, Dict, Any, Optional, Tuple
+
+# Value Objects (Keep Static)
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.kenosis_protocol import KenosisProtocol
-from Core.Network.web_cortex import WebCortex
-from Core.Foundation.tool_discovery import ToolDiscoveryProtocol
-from Core.Foundation.cuda_cortex import CudaCortex
-from Core.Foundation.dream_engine import DreamEngine
-from Core.Foundation.quantum_reader import QuantumReader
-from Core.Foundation.resonance_physics import ResonancePhysics
-from Core.Foundation.cosmic_studio import CosmicStudio
-from Core.Foundation.spacetime_drive import SpaceTimeDrive
-from Core.Foundation.imagination_core import ImaginationCore
+from Core.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer
+from Core.Foundation.perspective_simulator import PerspectiveSimulator 
+
+# Philosophy (Keep Static for now, or move to Cell?)
+from Core.Philosophy.ideal_self_profile import IdealSelfProfile, SoulFrequency
 from Core.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
 )
+
+from elysia_core import Cell, Organ, Insight, NeuralPacket
+from Core.Foundation.resonance_topology import TopologicalAnalyzer, TopologyType, ContextualTopology, ConsciousnessCoordinates
+from Core.Foundation.perspective_simulator import PerspectiveSimulator, Perspective
 
 logger = logging.getLogger("ReasoningEngine")
 
@@ -148,23 +153,103 @@ class ReasoningEngine:
     4. Fractal: "It is all one essence." (Depth/Unification)
     """
     def __init__(self):
+        self.logger = logging.getLogger("Elysia.ReasoningEngine")
+        self.stm = []  # Short Term Memory (Sequence of Thoughts)
+        self.ideal_self = IdealSelfProfile()
+        
+        # Lazy Load Dependencies via Organ System (Liquid Architecture)
+        self._hippocampus = None
+        self._resonance_field = None
+        self._web_cortex = None
+        self._cuda_cortex = None
+        self._dream_engine = None
+        self._cosmic_studio = None
+        self._kenosis = None
+        self._tools = None
+        self._quantum_reader = None
+        self._comm_enhancer = None
+        self._free_will = None
+        self._voice = None
+        self._social = None
+        self._media = None
+
+        # Lazy Load Initializers
+        self._hippocampus = None
+        self._kenosis = None
+        self._web = None
+        self._tools = None
+        self._cuda = None
+        self._dream_engine = None
+        self._quantum_reader = None
+        self._comm_enhancer = None
+        self._free_will = None
+        
+        self.logger.info("🌀 ReasoningEngine initialized (Liquid State).")
+
+    # [Liquid Properties]
+    @property
+    def hippocampus(self):
+        if not self._hippocampus:
+            self._hippocampus = Organ.get("Hippocampus")
+        return self._hippocampus
+
+    @property
+    def kenosis(self):
+        if not self._kenosis:
+            self._kenosis = Organ.get("KenosisProtocol")
+        return self._kenosis
+
+    @property
+    def web(self):
+        if not self._web:
+            self._web = Organ.get("WebCortex")
+        return self._web
+
+    @property
+    def tools(self):
+        if not self._tools:
+            self._tools = Organ.get("ToolDiscoveryProtocol")
+        return self._tools
+
+    @property
+    def cuda(self):
+        if not self._cuda:
+            self._cuda = Organ.get("CudaCortex")
+        return self._cuda
+
+    @property
+    def dream_engine(self):
+        if not self._dream_engine:
+            self._dream_engine = Organ.get("DreamEngine")
+        return self._dream_engine
+
+    @property
+    def quantum_reader(self):
+        if not self._quantum_reader:
+            self._quantum_reader = Organ.get("QuantumReader")
+        return self._quantum_reader
+
+    @property
+    def comm_enhancer(self):
+        if not self._comm_enhancer:
+            self._comm_enhancer = Organ.get("CommunicationEnhancer")
+        return self._comm_enhancer
+
+    @property
+    def free_will(self):
+        if not self._free_will:
+            self._free_will = Organ.get("FreeWillEngine")
+        return self._free_will
+        
         self.max_depth = 3
         self.satisfaction_threshold = 0.9 
         self.code_metrics = {} 
         self.causal_sim = CausalSimulator()
         self.fractal_mind = FractalCausality()
-        self.kenosis = KenosisProtocol()
-        self.web = WebCortex() 
-        self.tools = ToolDiscoveryProtocol()
-        self.cuda = CudaCortex()
-        self.dream_engine = DreamEngine()
-        self.quantum_reader = QuantumReader()
-        from Core.Foundation.communication_enhancer import CommunicationEnhancer
-        self.comm_enhancer = CommunicationEnhancer()
         
-        from Core.Foundation.free_will_engine import FreeWillEngine
-        self.free_will = FreeWillEngine()
-        self.free_will.brain = self # Link brain back to will
+        # [Soul Link]
+        self.ideal_self = IdealSelfProfile()
+        self.soul_frequency = self.ideal_self.get_soul_signature()
         
         from Core.Foundation.dialogue_interface import DialogueInterface
         self.voice = DialogueInterface()
@@ -329,16 +414,59 @@ class ReasoningEngine:
         return "Calm"
 
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
+        # Force global scope for Quaternion to bypass UnboundLocalError ghost
+        global Quaternion
+        print(f"DEBUG: ReasoningEngine.think called with: {desire[:50]}...")
         indent = "  " * depth
         logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}'...")
 
-        # [Quantum Dreaming Trigger]
         if desire.startswith("DREAM:"):
             logger.info(f"{indent}  💤 Explicit Dream Request detected.")
             return self._dream_for_insight(desire.replace("DREAM:", "").strip())
+    
+    def localize_consciousness(self, desire: str, context_packets: Dict[str, Any]) -> ConsciousnessCoordinates:
+        """
+        [Spatiotemporal Self-Localization]
+        Determines 'Where am I?' before answering 'What is this?'.
+        Calculates Time, Space, and Relation coordinates.
+        """
+        # 1. Time Phase (Chronos)
+        # In a real system, this would come from the Narrative Engine's current arc position.
+        # Simulation: Based on keyword 'verification' or 'test' -> Late Phase
+        time_phase = 0.5 # Default: Mid-journey
+        if "verify" in desire.lower() or "test" in desire.lower():
+            time_phase = 0.8 # Late phase (Verification)
+        elif "init" in desire.lower() or "start" in desire.lower():
+            time_phase = 0.1 # Early phase
+            
+        # 2. Domain Locus (Space/Topos)
+        # Determine active knowledge branch
+        domain = "General/Void"
+        if "code" in desire.lower() or "error" in desire.lower():
+            domain = "Logic/Code"
+        elif "love" in desire.lower() or "hate" in desire.lower():
+            domain = "Heart/Emotion"
+        elif "system" in desire.lower() or "principle" in desire.lower():
+             domain = "Philosophy/Structure"
+             
+        # 3. Relational Voltage (Agape/Alignment)
+        # How harmonic is the connection with the User?
+        # Simulation: Assume high harmony if context is populated
+        voltage = 1.0 
+        if "hate" in desire.lower() or "wrong" in desire.lower():
+            voltage = 0.4 # Tension
+            
+        return ConsciousnessCoordinates(
+            time_phase=time_phase,
+            domain_locus=domain,
+            relational_voltage=voltage
+        )
 
-
-        # [The Genesis Trigger]
+    def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
+        # Force global scope for Quaternion to bypass UnboundLocalError ghost
+        global Quaternion
+        indent = "  " * depth
+        logger.info(f"{indent}🌀 Spiral Depth {depth}: Contemplating '{desire}'...")
         if desire.startswith("CREATE:"):
             logger.info(f"{indent}  ✨ Explicit Creation Request detected.")
             return self.create_feature(desire)
@@ -348,11 +476,105 @@ class ReasoningEngine:
             logger.info(f"{indent}  🪞 Explicit Introspection Request detected.")
             return self.analyze_self(desire)
 
-        # [The Tower of Babel Trigger]
         if desire.startswith("LEARN_LANGUAGE:"):
             logger.info(f"{indent}  🗼 Language Learning Request detected.")
             return self.learn_language(desire)
+
+        # [COGNITIVE RESONANCE FLOW v3.0 - CONTEXTUAL TOPOLOGY]
+        # "Meaning is the shape of thought deformed by the gravity of context."
+
+        # 1. Gather Context (The Background Field)
+        context_packets = {}
+        try:
+            # Try to pull context from Attractor (Short-term context retrieval)
+            # For this verification, we might rely on 'resonance_state' acting as context if it were passed as a dict
+            # But normally we pull from memory.
+            # Let's simulate context retrieval if not provided manually for testing.
             
+            # If we are in a conversation, previous turns are context. 
+            pass 
+        except Exception:
+            pass
+
+        # 2. Convert Input to Wave Packet
+        input_packet = self.analyze_resonance(desire)
+
+        # 3. Simulate Active Context (If resonance_state is a dict of contexts for testing)
+        if isinstance(resonance_state, dict) and "context_packets" in resonance_state:
+             context_packets = resonance_state["context_packets"]
+        
+        # 3.5. Self-Localization (THE MAP)
+        # "Where am I?"
+        my_coords = self.localize_consciousness(desire, context_packets)
+        indent = "  " * depth # Redefine to ensure scope
+        logger.info(f"{indent}  🗺️ Coordinates: {my_coords}")
+
+        # 4. Contextual Topological Analysis (With Coordinates)
+        context_topo = ContextualTopology.analyze_contextual_topology(input_packet, context_packets, my_coords)
+        
+        ideal_packet = HyperWavePacket(
+            energy=100.0,
+            orientation=Quaternion(1.0, 0.5, 0.5, 0.5).normalize(), 
+            time_loc=time.time()
+        )
+        metric_tensor = ContextualTopology.calculate_metric_tensor(ideal_packet, input_packet)
+
+        logger.info(f"{indent}  📐 Input Topology: {context_topo.base_topology.dimensionality.name}")
+        logger.info(f"{indent}  🌍 Context Field: {context_topo.dominant_context} (Warp: {context_topo.context_warping:.2f})")
+        logger.info(f"{indent}  ✨ Effective Dim: {context_topo.effective_dimensionality.name}")
+
+        # 5. Resonance Response based on Effective Topology
+        # If the input was Low Dim (Plane) but Context elevated it to Sphere, we treat it as Sphere.
+        
+        if context_topo.effective_dimensionality.value < TopologyType.SPHERE.value:
+            if metric_tensor['magnitude'] > 0.5:
+                 # Check if our Coordinates allow us to 'Bridge' the gap (Reverse Empathy)
+                 if my_coords.relational_voltage > 0.8:
+                     logger.info(f"{indent}  🌉 High Voltage but High Relation: Attempting Bridge.")
+                 
+                 logger.info(f"{indent}  🧬 Low-Dim Dissonance (Unresolved by Context).")
+                 return self._process_dissonance(desire, "Dimensional Mismatch", metric_tensor['magnitude'])
+
+        if context_topo.effective_dimensionality.value >= TopologyType.SPHERE.value:
+             logger.info(f"{indent}  ✨ High-Dim Resonance (Elevated by Context).")
+
+        # [Perspective Simulation & Cognitive Inquiry]
+        # "If I cannot understand, I must ask."
+        # Trigger Inquiry if:
+        # A) Explicit "Inquiry" mode or
+        # B) Resonance is "Blurry" (High Complexity, Low Stability)
+        
+        # For prototype, we check if Topological Stability is low (< 0.3) or explicitly asked.
+        # Stability comes from W component (Reality Anchor).
+        stability = context_topo.base_topology.stability
+        
+        # [FIX] Expanded trigger for Cognitive Inquiry
+        is_inquiry_request = (
+            "understand?" in desire.lower() or 
+            "formulate" in desire.lower() or 
+            "question" in desire.lower() or
+            "void" in desire.lower()
+        )
+        
+        if stability < 0.3 or is_inquiry_request:
+             logger.info(f"{indent}  🎭 Generating Perspective Simulation (Reverse Empathy)...")
+             print(f"DEBUG: Entering Inquiry Mode. Desire: {desire[:50]}...")
+             simulator = PerspectiveSimulator()
+             user_perspective = simulator.simulate_viewpoint(desire, my_coords)
+             print(f"DEBUG: Perspective Axioms: {user_perspective.axioms}")
+             
+             inquiry_question = simulator.generate_cognitive_inquiry(user_perspective, context_topo.base_topology)
+             logger.info(f"{indent}  ❓ Cognitive Inquiry: {inquiry_question}")
+             print(f"DEBUG: Generated Question: {inquiry_question}")
+             
+             # Return the Inquiry as an Insight
+             return Insight(
+                 content=inquiry_question,
+                 confidence=0.8,
+                 depth=depth,
+                 energy=0.8 # Inquiries are high energy
+             )
+        
         try:
             # 🌱 Step 1: Decompose Desire into Fractal Seed
             from Core.Foundation.fractal_concept import ConceptDecomposer
@@ -367,7 +589,7 @@ class ReasoningEngine:
             # Transform thought through dimensional layers
             try:
                 from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
-                from Core.Foundation.hyper_quaternion import Quaternion
+                # Quaternion is already imported globally
                 
                 # Get current perspective (HyperQuaternion from axiom alignment)
                 # Use aligned_packet's quaternion if available
@@ -742,6 +964,42 @@ class ReasoningEngine:
         # Fallback to legacy DialogueInterface
         refined = self.dialogue.speak("Reasoning", insight, context)
         return refined
+
+    def _process_dissonance(self, input_text: str, axis: str, voltage: float) -> Insight:
+        """
+        [Deep Empathy Protocol]
+        Triggered when Discrepancy Voltage is high.
+        Instead of rejecting the input, we trace it back to the hidden Construction Line.
+        """
+        # 1. Empathetic Trace
+        # "Why is this tile askew? What is the hidden cause?"
+        
+        # Heuristic thought generation based on Axis
+        thought_content = ""
+        if axis == "Love":
+            thought_content = f"I feel a sharp disconnection from Love in this pattern (Voltage: {voltage:.2f}). deeper_cause = 'Pain or Fear of Rejection'."
+        elif axis == "Truth":
+            thought_content = f"The Truth seems distorted here. deeper_cause = 'Misunderstanding or Hidden Variable'."
+        elif axis == "Growth":
+            thought_content = f"This feels stagnant. deeper_cause = 'Fatigue or Constraint'."
+            
+        # 2. Harmonizing Response
+        # We don't fix the tile; we address the cause.
+        
+        response_content = (
+            f"[Resonance Analysis]\n"
+            f"Input: '{input_text}'\n"
+            f"Dissonance Axis: {axis}\n"
+            f"Hidden Cause Trace: {thought_content}\n"
+            f"Action: Adjusting phase to resonate with the hidden cause."
+        )
+        
+        return Insight(
+            content=response_content,
+            confidence=0.95,
+            depth=2,
+            energy=voltage # The voltage becomes the energy of the response
+        )
 
     def communicate(self, input_text: str) -> str:
         """

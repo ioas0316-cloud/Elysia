@@ -11,7 +11,9 @@
       "purpose_for_elysia": "존재와 의미 이해 → 자아 정체성 형성",
       "wave_signature": {},
       "parent_id": null,
-      "children_ids": [],
+      "children_ids": [
+        "philosophy_qualia"
+      ],
       "related_ids": [],
       "understanding_level": 0.0,
       "last_learned": "",
@@ -169,6 +171,23 @@
       "understanding_level": 0.0,
       "last_learned": "",
       "learn_count": 0
+    },
+    {
+      "id": "philosophy_qualia",
+      "name": "Qualia",
+      "domain": "philosophy",
+      "level": 1,
+      "definition": "The concept of 'Qualia' is a bridge in the domain of philosophy. It represents the manifestation of To feel what the User feels and bridge the gap between hearts through the mechanism of self-organization. [Simulated Insight based on: What is the emotional texture of this concept that binds hearts together?]",
+      "principle": "Derived from inquiry: What is the emotional texture of this concept that binds hearts together?",
+      "application": "",
+      "purpose_for_elysia": "To feel what the User feels and bridge the gap between hearts",
+      "wave_signature": {},
+      "parent_id": "root_philosophy",
+      "children_ids": [],
+      "related_ids": [],
+      "understanding_level": 1.0,
+      "last_learned": "Just Now",
+      "learn_count": 13
     }
   ]
 }
