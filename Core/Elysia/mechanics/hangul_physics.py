@@ -54,6 +54,17 @@ class JamoPhysics:
     tension: float    # 0.0 (Lax) to 1.0 (Tense)
 
 class HangulPhysicsEngine:
+    # Standard Unicode Jamo lists
+    CHOSEONG = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
+                'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
+
+    JUNGSEONG = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
+                 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ']
+
+    JONGSEONG = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ',
+                 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ',
+                 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
+
     def __init__(self):
         self.jamo_map = self._initialize_jamo_physics()
 
@@ -161,15 +172,26 @@ class HangulPhysicsEngine:
 
     def synthesize_syllable(self, onset: str, nucleus: str, coda: str = '') -> str:
         """
-        Combines Jamo into a Hangul syllable (naive implementation).
-        Real Hangul composition requires Unicode math, but for this prototype
-        we can just return the Jamo sequence or a simplified representation.
+        Combines Jamo into a Hangul syllable using proper Unicode composition logic.
+        Formula: 0xAC00 + (Choseong_Index * 588) + (Jungseong_Index * 28) + Jongseong_Index
         """
-        # TODO: Implement proper Unicode composition if needed.
-        # For now, return "ㄱ-ㅏ" format for clarity in logs.
-        if coda:
-            return f"{onset}{nucleus}{coda}"
-        return f"{onset}{nucleus}"
+        try:
+            # Find indices in the standard lists
+            onset_idx = self.CHOSEONG.index(onset)
+            nucleus_idx = self.JUNGSEONG.index(nucleus)
+            coda_idx = self.JONGSEONG.index(coda) if coda else 0
+
+            # Calculate Unicode code point
+            # 588 = 21 * 28
+            code = 0xAC00 + (onset_idx * 588) + (nucleus_idx * 28) + coda_idx
+            return chr(code)
+
+        except ValueError:
+            # Fallback if provided Jamo are not standard or not found
+            # This handles cases where partial or invalid Jamo might be passed
+            if coda:
+                return f"{onset}{nucleus}{coda}"
+            return f"{onset}{nucleus}"
 
 @dataclass
 class GrammarParticle:
