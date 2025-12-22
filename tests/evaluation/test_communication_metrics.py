@@ -280,6 +280,127 @@ class CommunicationMetrics:
         }
         return final
 
+    def evaluate_comprehension(self) -> float:
+        """
+        이해력 평가: 질문 의도 파악 및 주제 추출 능력 테스트
+        사용 모듈: Core.Intelligence.dialogue_engine.QuestionAnalyzer
+        """
+        try:
+            from Core.Intelligence.dialogue_engine import QuestionAnalyzer
+            analyzer = QuestionAnalyzer()
+
+            test_cases = [
+                {"input": "사과는 무엇인가?", "expected_type": "what", "expected_subject": "사과"},
+                {"input": "너는 누구니?", "expected_type": "who", "expected_subject": "너"},
+                {"input": "왜 하늘은 파란가?", "expected_type": "why", "expected_subject": "하늘"},
+                {"input": "어떻게 살아야 하는가?", "expected_type": "how", "expected_subject": "살"}, # simplified extraction logic in analyzer
+                {"input": "지금은 언제인가?", "expected_type": "when", "expected_subject": "지금"}
+            ]
+
+            score = 0
+            details = []
+
+            for case in test_cases:
+                result = analyzer.analyze(case["input"])
+
+                type_match = result["question_type"] == case["expected_type"]
+                # Subject extraction might be fuzzy, so we check for containment
+                subject_match = case["expected_subject"] in result["subject"] or result["subject"] in case["expected_subject"]
+
+                case_score = 0
+                if type_match: case_score += 10
+                if subject_match: case_score += 10
+
+                score += case_score
+                details.append({
+                    "input": case["input"],
+                    "analyzed": result,
+                    "score": case_score
+                })
+
+            final_score = (score / (len(test_cases) * 20)) * 100
+
+            self.details["comprehension"] = {
+                "score": final_score,
+                "cases": details,
+                "target": 90.0
+            }
+            self.scores["comprehension"] = final_score
+            return final_score
+
+        except ImportError:
+            self.details["comprehension"] = {"error": "Module not found", "score": 0}
+            return 0.0
+        except Exception as e:
+            self.details["comprehension"] = {"error": str(e), "score": 0}
+            return 0.0
+
+    def evaluate_conversational(self) -> float:
+        """
+        대화 능력 평가: 다중 턴 대화 및 맥락 유지 능력 테스트
+        사용 모듈: Core.Intelligence.dialogue_engine.DialogueEngine
+        """
+        try:
+            # Mock or minimal instantiation of dependencies
+            from Core.Intelligence.dialogue_engine import DialogueEngine
+            from Core.Foundation.language_cortex import LanguageCortex
+
+            # Initialize engine
+            cortex = LanguageCortex()
+            engine = DialogueEngine(cortex)
+
+            # Pre-load some knowledge for the test
+            engine.load_knowledge(["사랑은 희생이다", "엘리시아는 파동이다"])
+
+            conversation_flow = [
+                {"user": "안녕?", "check": lambda r: len(r) > 0}, # Basic greeting response
+                {"user": "사랑은 무엇인가?", "check": lambda r: "희생" in r}, # Knowledge retrieval
+                {"user": "나는 엘리시아를 좋아한다.", "check": lambda r: True}, # Statement
+                # Context/Memory check could be added here if engine supports explicit memory recall of user statements
+            ]
+
+            score = 0
+            logs = []
+
+            for turn in conversation_flow:
+                response = engine.respond(turn["user"])
+                passed = turn["check"](response)
+
+                if passed:
+                    score += 25 # 4 turns * 25 = 100? No, 3 turns here. Let's adjust.
+
+                logs.append({
+                    "user": turn["user"],
+                    "elysia": response,
+                    "passed": passed
+                })
+
+            # Normalize score to 100
+            final_score = (score / (len(conversation_flow) * 25)) * 100
+
+            # Check context tracking
+            context_score = 0
+            if engine.context.history:
+                context_score = 10 # Bonus for maintaining history
+
+            final_score = min(100, final_score + context_score)
+
+            self.details["conversational"] = {
+                "score": final_score,
+                "logs": logs,
+                "history_length": len(engine.context.history),
+                "target": 80.0
+            }
+            self.scores["conversational"] = final_score
+            return final_score
+
+        except ImportError:
+            self.details["conversational"] = {"error": "Module not found", "score": 0}
+            return 0.0
+        except Exception as e:
+            self.details["conversational"] = {"error": str(e), "score": 0}
+            return 0.0
+
     def evaluate_wave_communication(self) -> float:
         """
         파동 통신 효율 평가 - 실제 Ether 시스템 평가

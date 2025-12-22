@@ -66,7 +66,7 @@ class QuestionAnalyzer:
         subject = question
         for marker in self.question_markers.keys():
             subject = subject.replace(marker, "")
-        subject = subject.replace("?", "").replace("인가", "").replace("는", "").replace("이", "").replace("가", "").strip()
+        subject = subject.replace("?", "").replace("인가", "").replace("는", "").replace("은", "").replace("이", "").replace("가", "").strip()
         
         return {
             "is_question": is_question,
