@@ -294,6 +294,35 @@ class VectorizedOps:
         
         return top_k_indices
 
+    @staticmethod
+    def batch_find_nearest(
+        star_positions,  # numpy.ndarray (N, 4)
+        galaxy_centers   # numpy.ndarray (M, 4)
+    ):
+        """
+        Find nearest galaxy for each star (vectorized).
+
+        Args:
+            star_positions: (N, 4) array of stars
+            galaxy_centers: (M, 4) array of galaxies
+
+        Returns:
+            (N,) array of galaxy indices (0 to M-1)
+        """
+        if not HAS_NUMPY:
+            raise ImportError("NumPy required for vectorized operations")
+
+        # Broadcasting: (N, 1, 4) - (1, M, 4) -> (N, M, 4)
+        diff = star_positions[:, np.newaxis, :] - galaxy_centers[np.newaxis, :, :]
+
+        # Squared Euclidean distance
+        dist_sq = np.sum(diff * diff, axis=2)  # (N, M)
+
+        # Find index of minimum distance for each star
+        nearest_indices = np.argmin(dist_sq, axis=1)  # (N,)
+
+        return nearest_indices
+
 
 def benchmark_spatial_index(n_stars: int = 10000):
     """
