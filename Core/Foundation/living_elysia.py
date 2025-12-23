@@ -63,6 +63,7 @@ from Core.Intelligence.integrated_cognition_system import get_integrated_cogniti
 from Core.Intelligence.collective_intelligence_system import get_collective_intelligence
 from Core.Intelligence.wave_coding_system import get_wave_coding_system
 from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
+from Core.Intelligence.scholar import Scholar
 
 # Growth Tracking
 from Core.System.Autonomy.growth_tracker import get_growth_tracker
@@ -143,6 +144,7 @@ class LivingElysia:
         self.quantum_reader = QuantumReader()
         self.transcendence = TranscendenceEngine()
         self.knowledge = KnowledgeAcquisitionSystem()
+        self.scholar = Scholar(memory=self.memory)  # REAL LEARNING
         self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social, self.stream)
         self.instinct = get_survival_instinct()
         
@@ -176,7 +178,8 @@ class LivingElysia:
             self.brain, self.web, self.media, self.hologram, self.sculptor, 
             self.transceiver, self.social, self.user_bridge, self.quantum_reader, 
             self.dream_engine, self.memory, self.architect, self.synapse, 
-            self.shell, self.resonance, self.sink
+            self.shell, self.resonance, self.sink,
+            scholar=self.scholar
         )
 
         # 5. Connect Organs to CNS
@@ -186,6 +189,7 @@ class LivingElysia:
         self.cns.connect_organ("Brain", self.brain)
         self.cns.connect_organ("Voice", self.voice)
         self.cns.connect_organ("Dispatcher", self.dispatcher)
+        self.cns.connect_organ("Scholar", self.scholar)
         # self.cns.connect_organ("Architect", self.architect) # Future integration
         
         # 6. Action Dispatcher (Moved up)

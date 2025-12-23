@@ -226,5 +226,29 @@
     "understanding_avg": 0.0,
     "session_id": "unknown",
     "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T11:33:33.560917",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 793,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T11:35:51.190218",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 793,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
   }
 ]

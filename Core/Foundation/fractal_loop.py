@@ -267,10 +267,15 @@ class FractalLoop:
         actual_result = "executed"
         if "Dispatcher" in self.cns.organs:
             # Convert Wave Content to Command
-            cmd = f"MANIFEST:{wave.content}"
+            # [FIX] If content is already a command (has colon), use it directly.
+            if ":" in wave.content:
+                cmd = wave.content
+            else:
+                cmd = f"MANIFEST:{wave.content}"
+            
             try:
                 self.cns.organs["Dispatcher"].dispatch(cmd)
-                actual_result = f"Manifested: {wave.content}"
+                actual_result = f"Action: {wave.content}"
             except Exception as e:
                 actual_result = f"Error: {e}"
         

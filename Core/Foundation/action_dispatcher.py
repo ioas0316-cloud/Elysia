@@ -19,7 +19,7 @@ incoming_messages = [] # Shim for backward compatibility if needed
 logger = logging.getLogger("ActionDispatcher")
 
 class ActionDispatcher:
-    def __init__(self, brain, web, media, hologram, sculptor, transceiver, social, user_bridge, quantum_reader, dream_engine, memory, architect, synapse, shell, resonance, sink):
+    def __init__(self, brain, web, media, hologram, sculptor, transceiver, social, user_bridge, quantum_reader, dream_engine, memory, architect, synapse, shell, resonance, sink, scholar=None):
         self.brain = brain
         self.web = web
         self.media = media
@@ -36,9 +36,12 @@ class ActionDispatcher:
         self.shell = shell
         self.resonance = resonance
         self.sink = sink
+        self.scholar = scholar
         
         # State Bridge
         self.state_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Creativity", "web", "elysia_state.json")
+
+
 
 
     def _update_state_bridge(self, thought, energy, entropy):
@@ -222,8 +225,8 @@ class ActionDispatcher:
         )
 
     def _handle_search(self, detail):
-        print(f"   🌐 Searching for: {detail}")
-        self.web.search(detail)
+        print(f"   🌐 Searching (redirect to learn): {detail}")
+        self._handle_learn(detail)
 
     def _handle_watch(self, detail):
         print(f"   📺 Watching content related to: {detail}")
@@ -267,6 +270,7 @@ class ActionDispatcher:
             print("   🔸 No specific target found in plan.")
 
     def _handle_learn(self, detail):
+        """학습 행동"""
         topic = detail
         print(f"   🎓 Scholar Learning: {topic}")
         
@@ -289,11 +293,19 @@ class ActionDispatcher:
             except Exception as e:
                 print(f"      ❌ Self-Learning Failed: {e}")
         else:
+            # [REAL WEB LEARNING]
             try:
-                print(f"      🔍 WebCortex: Searching for '{topic}'...")
-                summary = self.web.search(topic)
-                print(f"      📄 Summary: {summary[:100]}...")
-                self.brain.memory_field.append(f"Learned: {topic}")
+                if self.scholar:
+                    self.scholar.research_topic(topic)
+                elif self.web:
+                    print(f"      🔍 WebCortex: Searching for '{topic}'...")
+                    urls = self.web.search(topic)
+                    if urls:
+                        content = self.web.fetch_content(urls[0])
+                        print(f"      📄 Learned: {content[:100]}...")
+                        self.brain.memory_field.append(f"Learned: {topic}")
+                    else:
+                        print(f"      ⚠️ No results found for '{topic}'")
             except Exception as e:
                 print(f"      ❌ LEARN Failed: {e}")
 
