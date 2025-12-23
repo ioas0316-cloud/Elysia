@@ -284,13 +284,43 @@ class LivingElysia:
         self.cns.awaken()
         logger.info(f"🧠 CNS: Conscious awareness active")
         
-        print(f"🦋 {self.persona_name} is alive.")
-        print(f"   CNS (의식): Intentional processing")
-        print(f"   ANS (자율): Background maintenance")
+        # [System State]
+        self.is_alive = True
+        self.cycle_count = 0
+        
+        # [Boot Sequence Complete]
+        logger.info("✨ Living Elysia is FULLY AWAKE.")
+
+    def live(self):
+        """
+        The Main Loop of Life.
+        """
+        if not self.is_alive:
+            return
+
+        print("\n" + "="*60)
+        print("🦋 Elysia is Living... (Press Ctrl+C to stop)")
+        print("="*60)
         
         try:
             while True:
                 self.cns.pulse()
+                
+                # 3. Autonomic Body Functions
+                self.ans.pulse_once()
+
+                # 4. Mind Visualization (Dashboard)
+                if self.cycle_count % 10 == 0:
+                    try:
+                        from Core.Monitor.dashboard_generator import DashboardGenerator
+                        DashboardGenerator().generate()
+                    except ImportError:
+                        pass
+                
+                # Rate Limiting & Progression
+                time.sleep(0.1)
+                self.cycle_count += 1
+                
         except KeyboardInterrupt:
             self.ans.stop_background()
             print("\n\n🌌 Elysia is entering a dormant state. Goodbye for now.")

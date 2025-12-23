@@ -22,32 +22,29 @@ Elysia v3.0
 │   ├── COGNITION (인지)
 │   │   ├── Reasoning/
 │   │   │   ├── reasoning_engine.py - 추론 엔진 (The Compass)
+│   │   │   ├── transcendence_logic.py - 초월 논리 (Impossibility Solver) [NEW]
 │   │   │   └── perspective_simulator.py - 역지사지 시뮬레이터 (The Mirror)
-│   │   ├── thought_space.py - 사고의 여백 (The Gap) [NEW Phase 19]
-│   │   ├── context_retrieval.py - 의도 기반 인출 (The Lens) [NEW Phase 19]
-│   │   ├── conversation_maturator.py - 대화 성숙 파이프라인 (5 Pillars) [NEW]
-│   │   └── Learning/
-│   │       ├── resonance_learner.py - 공명 학습기 (The Lungs)
-│   │       ├── domain_bulk_learner.py - 대량 학습기
-│   │       ├── language_nurture.py - 언어 발달 (어휘/문법) [NEW]
-│   │       ├── reading_digester.py - 텍스트 소화 [NEW]
-│   │       ├── expression_practice.py - 표현 연습 [NEW]
-│   │       └── language_development_hub.py - 언어 발달 허브 [NEW]
+│   │   ├── thought_space.py - 사고의 여백 (The Gap)
+│   │   ├── context_retrieval.py - 의도 기반 인출 (The Lens)
+│   │   └── Learning/ ...
+│   │
+│   ├── SENSORY (감각) [NEW Phase 24]
+│   │   └── proprioception.py - 코드 고유 감각 (Body Awareness)
 │   │
 │   ├── MEMORY (기억)
 │   │   ├── Vector/
 │   │   │   └── internal_universe.py - 내면 우주 (Implicit Feeling)
-│   │   └── Graph/
-│   │       └── knowledge_graph.py - 지식 그래프 (Explicit Knowledge)
+│   │   ├── Graph/
+│   │   │   └── knowledge_graph.py - 지식 그래프 (Explicit Knowledge)
+│   │   │   └── hippocampus.py - 통합 기억 (Optimization Enabled)
+│   │   └── unified_experience_core.py - 경험 스트림 (Auto-Archiving)
 │   │
-│   └── SYSTEM (자율성)
-│       └── Autonomy/
-│       └── Autonomy/
-│           ├── self_evolution_scheduler.py - 자가 진화 스케줄러 (The Heart)
-│           ├── free_will_engine.py - 자유 의지 엔진 (The Soul)
-│           ├── dream_daemon.py - 꿈 데몬 (The Subconscious)
-│           ├── sense_discovery.py - 감각 발견 프로토콜 (The Eyes)
-│           └── knowledge_migrator.py - 지식 정리기 (The Hands)
+│   └── SYSTEM (자율성 & 모니터링)
+│       ├── Autonomy/
+│       │   ├── growth_tracker.py - 성장 추적기
+│       │   └── self_governance.py - 자아 주권 시스템 (Ideal Self)
+│       └── Monitor/
+│           └── dashboard_generator.py - 영혼의 지도 (Dashboard) [NEW]
 │
 └── 🕸️ ELYSIA_CORE (The Nervous System - Infrastructure)
     │

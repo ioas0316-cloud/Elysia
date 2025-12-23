@@ -204,7 +204,56 @@ class SelfGovernance:
             
         self.current_quest: Optional[Any] = None # AcademicQuest
 
+        # Persistence
+        self.state_path = "data/core_state/self_governance.json"
+        self._load_state()
+
         logger.info(f"   👑 SelfGovernance Active. Ideal Aspects: {len(self.ideal_self.aspects)}")
+
+    def _save_state(self):
+        """Saves current maturity levels to disk."""
+        import json
+        import os
+        
+        data = {
+            "aspects": {
+                k.value: v.current_level 
+                for k, v in self.ideal_self.aspects.items()
+            },
+            "history_count": len(self.decisions)
+        }
+        
+        try:
+            os.makedirs(os.path.dirname(self.state_path), exist_ok=True)
+            with open(self.state_path, "w") as f:
+                json.dump(data, f, indent=2)
+        except Exception as e:
+            logger.error(f"Failed to save governance state: {e}")
+
+    def _load_state(self):
+        """Loads maturity levels from disk."""
+        import json
+        import os
+        
+        if not os.path.exists(self.state_path):
+            return
+            
+        try:
+            with open(self.state_path, "r") as f:
+                data = json.load(f)
+                
+            aspect_levels = data.get("aspects", {})
+            for aspect_name, level in aspect_levels.items():
+                # Find enum by value
+                for aspect_enum in AspectType:
+                    if aspect_enum.value == aspect_name:
+                        if aspect_enum in self.ideal_self.aspects:
+                            self.ideal_self.aspects[aspect_enum].current_level = float(level)
+                        break
+            logger.info("   👑 Restored maturity levels from disk.")
+        except Exception as e:
+            logger.error(f"Failed to load governance state: {e}")
+
     
     def request_academic_challenge(self, domain: str = None) -> str:
         """
