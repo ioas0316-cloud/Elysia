@@ -79,8 +79,8 @@ class ExternalDataConnector:
             graph = get_torch_graph()
             
             if graph:
-                # Add as node with content
-                graph.add_node(concept, {
+                # Add as node with content (use metadata= named param)
+                graph.add_node(concept, metadata={
                     "type": "learned_concept",
                     "content": text_content[:500],  # Store first 500 chars as definition
                     "features": features,
