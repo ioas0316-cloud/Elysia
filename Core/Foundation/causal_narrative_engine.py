@@ -796,6 +796,49 @@ class CausalNarrativeEngine:
         
         # 기본 인과 스키마 초기화
         self._initialize_fundamental_causality()
+    def synthesize_narrative(self, chain: CausalChain) -> str:
+        """
+        Synthesizes a narrative paragraph from a CausalChain.
+        Transform a list of nodes and links into a coherent story.
+        """
+        if not chain.node_sequence:
+            return "Nothing happened."
+
+        narrative = []
+        
+        # Start
+        start_node = chain.node_sequence[0]
+        narrative.append(f"It started with {start_node}.")
+        
+        # Process links
+        for i, link in enumerate(chain.links):
+            source = link.source_id
+            target = link.target_id
+            relation = link.relation
+            
+            # Transition logic based on relation
+            transition = ""
+            if relation == CausalRelationType.CAUSES:
+                transition = "This caused"
+            elif relation == CausalRelationType.ENABLES:
+                transition = "This enabled"
+            elif relation == CausalRelationType.PREVENTS:
+                transition = "However, this prevented"
+            elif relation == CausalRelationType.CONDITIONAL:
+                transition = "Under these conditions,"
+            else:
+                transition = "Then,"
+            
+            # Add sentence
+            # "This caused [Target]." or "Then, [Target] happened."
+            sentence = f"{transition} {target}."
+            narrative.append(sentence)
+            
+        # Conclusion
+        narrative.append(f"Finally, the chain completed at {chain.node_sequence[-1]}.")
+        
+        return " ".join(narrative)
+
     def generate_prediction_sentence(self, source: str, target: str) -> str:
         """
         Generates a natural language prediction.

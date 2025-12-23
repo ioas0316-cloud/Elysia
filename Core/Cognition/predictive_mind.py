@@ -46,6 +46,35 @@ class PredictiveMind:
             logger.warning("   ⚠️ CausalNarrativeEngine not found. Falling back to simple logic.")
             self.has_language = False
 
+    def formulate_complex_hypothesis(self, start_concept: str, end_concept: str, intermediate_steps: List[str]) -> Optional[Hypothesis]:
+        """
+        Generates a hypothesis about a sequence of events (Chain).
+        A -> B -> C -> D
+        """
+        chain_str = " -> ".join([start_concept] + intermediate_steps + [end_concept])
+        
+        # Narrative generation
+        premise = f"If the process starts with '{start_concept}'"
+        prediction = f"it should lead to '{end_concept}' via {', '.join(intermediate_steps)}."
+        
+        if self.has_language:
+             # Create a dummy chain object for synthesis if possible, or just string construction
+             # For now, simplistic construction
+             pass
+
+        hypothesis = Hypothesis(
+            id=f"HYP-CHAIN-{int(time.time()*1000)}",
+            premise=premise,
+            prediction=prediction,
+            confidence=0.4, # Lower confidence for complex chains
+            source_concept=start_concept,
+            created_at=time.time()
+        )
+        
+        self.hypotheses.append(hypothesis)
+        logger.info(f"   ⛓️ Complex Hypothesis: {chain_str}")
+        return hypothesis
+
     def formulate_hypothesis(self, concept: str, related_concepts: List[str]) -> Optional[Hypothesis]:
         """
         Generates a linguistic hypothesis based on a concept and its relations.

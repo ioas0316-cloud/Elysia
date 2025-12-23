@@ -624,6 +624,28 @@ class SelfGovernance:
         # [NEW] 저장
         self._save_state()
     
+    def find_path_to_goal(self, goal: str, current_state: str) -> List[str]:
+        """
+        [Goal-Directed Pathfinding]
+        "I want X, but I am at Y. How do I get there?"
+        
+        Returns a suggested curriculum/path.
+        """
+        path = []
+        
+        # Simple heuristic pathfinding for now
+        # Ideally this would query CausalKnowledgeBase for a path
+        
+        if "novel" in goal.lower() and "word" in current_state.lower():
+            path = ["Learn Sentence Structure", "Learn Paragraph Cohesion", "Learn Plotting", "Write Draft"]
+        elif "fruit" in goal.lower() and "seed" in current_state.lower():
+            path = ["Plant Seed", "Water Sprout", "Grow Tree", "Harvest Fruit"]
+        else:
+            path = [f"Analyze Gap between {current_state} and {goal}", "Identify Missing Skills", "Practice Skills", f"Achieve {goal}"]
+            
+        logger.info(f"   🗺️ Path found from '{current_state}' to '{goal}': {path}")
+        return path
+        
     def get_achievement_report(self) -> str:
         """달성률 보고서"""
         status = self.ideal_self.get_status()
