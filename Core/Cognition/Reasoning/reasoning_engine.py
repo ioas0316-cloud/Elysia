@@ -1465,9 +1465,6 @@ class ReasoningEngine:
             "wave_energy": thought_wave.total_energy
         }
 
-            "wave_energy": thought_wave.total_energy
-        }
-
     def analyze_hyper_structure(self, concept: Dict[str, Any]) -> Dict[str, str]:
         """
         [Dimensional Analysis]
@@ -1510,9 +1507,6 @@ class ReasoningEngine:
             "3D_State": dim_3,
             "4D_History": dim_4,
             "Full_Signature": f"{name} :: {dim_0} -> {dim_4}"
-        }
-
-            "wave_energy": thought_wave.total_energy
         }
 
     def derive_goal(self, vectors: Dict[str, float]) -> str:

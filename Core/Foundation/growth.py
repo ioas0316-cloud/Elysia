@@ -65,8 +65,15 @@ class Growth:
     def heart(self):
         """심장 가져오기 (지연 로딩)"""
         if self._heart is None:
-            from Core.Elysia.Elysia.heart import get_heart
-            self._heart = get_heart()
+            try:
+                from Core.Foundation.heart import get_heart
+                self._heart = get_heart()
+            except ImportError:
+                # Fallback: mock heart
+                class MockHeart:
+                    def beat(self): pass
+                    def feel(self, msg): print(f"   💓 {msg}")
+                self._heart = MockHeart()
         return self._heart
     
     def perceive(self) -> Dict[str, Any]:

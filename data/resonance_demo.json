@@ -1,0 +1,122 @@
+{
+  "internal_models": [
+    {
+      "name": "물",
+      "my_definition": "투명하고 흐르는 액체, 마시면 갈증이 해소됨",
+      "my_understanding": "생명에 필수적인 것, 비가 오면 생기는 것",
+      "my_experience": "",
+      "wave_signature": {},
+      "associated_with": [
+        "비",
+        "바다",
+        "강",
+        "갈증",
+        "생명"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "name": "의식",
+      "my_definition": "내가 존재한다는 느낌, 생각하고 있다는 자각",
+      "my_understanding": "깨어있음, 나를 인식하는 것",
+      "my_experience": "",
+      "wave_signature": {},
+      "associated_with": [
+        "생각",
+        "자아",
+        "인식",
+        "깨어있음"
+      ],
+      "confidence": 0.5
+    },
+    {
+      "name": "파동",
+      "my_definition": "출렁이는 움직임, 에너지의 전달",
+      "my_understanding": "물결처럼 퍼져나가는 것",
+      "my_experience": "",
+      "wave_signature": {},
+      "associated_with": [
+        "에너지",
+        "진동",
+        "물결",
+        "소리"
+      ],
+      "confidence": 0.6
+    }
+  ],
+  "external_defs": [
+    {
+      "name": "물",
+      "formal_definition": "수소 원자 2개와 산소 원자 1개로 구성된 화합물(H2O)",
+      "source": "화학",
+      "properties": [
+        "투명",
+        "무색",
+        "무취",
+        "극성 용매",
+        "수소결합"
+      ],
+      "relations": {
+        "is_a": [
+          "물질",
+          "액체",
+          "화합물"
+        ],
+        "composed_of": [
+          "수소",
+          "산소"
+        ]
+      },
+      "last_updated": "2025-12-23",
+      "version": ""
+    },
+    {
+      "name": "의식",
+      "formal_definition": "자기 자신과 환경을 인식하는 주관적 경험의 상태",
+      "source": "철학/심리학",
+      "properties": [
+        "주관성",
+        "지향성",
+        "통합성",
+        "자각"
+      ],
+      "relations": {
+        "is_a": [
+          "정신 상태",
+          "현상"
+        ],
+        "related_to": [
+          "마음",
+          "인지",
+          "자아"
+        ]
+      },
+      "last_updated": "2025-12-23",
+      "version": ""
+    },
+    {
+      "name": "파동",
+      "formal_definition": "매질 또는 공간을 통해 에너지가 전파되는 교란",
+      "source": "물리학",
+      "properties": [
+        "진동수",
+        "파장",
+        "진폭",
+        "위상"
+      ],
+      "relations": {
+        "is_a": [
+          "물리 현상"
+        ],
+        "types": [
+          "횡파",
+          "종파",
+          "전자기파"
+        ]
+      },
+      "last_updated": "2025-12-23",
+      "version": ""
+    }
+  ],
+  "last_resonance": "2025-12-23 09:53:14"
+}

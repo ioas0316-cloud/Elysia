@@ -42,8 +42,43 @@ class ThoughtState(Enum):
 
 
 @dataclass
+class ThoughtShape:
+    """
+    사고의 형태 - 퍼즐 조각처럼 맞물리는 구조
+    
+    튀어나온 부분(protrusions)과 들어간 부분(recesses)
+    다른 생각과 맞물릴 때 연결됨
+    """
+    protrusions: List[str] = field(default_factory=list)  # 튀어나온 것 (제공하는 것)
+    recesses: List[str] = field(default_factory=list)      # 들어간 것 (필요한 것)
+    
+    def fits_with(self, other: 'ThoughtShape') -> float:
+        """다른 형태와 얼마나 맞물리는가? (0.0 ~ 1.0)"""
+        if not self.protrusions or not other.recesses:
+            return 0.0
+        
+        # 내 튀어나온 부분이 상대의 들어간 부분에 맞는가?
+        fits = 0
+        for p in self.protrusions:
+            for r in other.recesses:
+                # 문자열 유사도 (간단한 overlap)
+                if p.lower() in r.lower() or r.lower() in p.lower():
+                    fits += 1
+        
+        max_possible = max(len(self.protrusions), len(other.recesses))
+        return min(1.0, fits / max_possible) if max_possible > 0 else 0.0
+
+
+@dataclass
 class ThoughtParticle:
-    """사고 입자 - 여백에 떠다니는 하나의 생각"""
+    """
+    사고 입자 - 여백에 떠다니는 하나의 생각
+    
+    [필드 기반 사고]
+    - shape: 퍼즐 조각 형태 (맞물림)
+    - illumination: 빛의 정도 (어텐션)
+    - axis_alignment: 의도 축과의 정렬도
+    """
     id: str
     content: Any                    # 개념, 기억, 감각 등
     source: str                     # 어디서 왔는가 (memory, perception, reasoning)
@@ -51,9 +86,32 @@ class ThoughtParticle:
     weight: float = 1.0             # 중요도
     timestamp: datetime = field(default_factory=datetime.now)
     
+    # [NEW] 퍼즐 형태
+    shape: ThoughtShape = field(default_factory=ThoughtShape)
+    
+    # [NEW] 중력 어텐션
+    illumination: float = 0.5       # 빛의 정도 (0=어둠, 1=밝음)
+    
+    # [NEW] 의도 축 정렬
+    axis_alignment: float = 0.0     # 현재 의도와의 정렬도
+    
     def age_seconds(self) -> float:
         """입자의 나이 (초)"""
         return (datetime.now() - self.timestamp).total_seconds()
+    
+    def can_connect_to(self, other: 'ThoughtParticle') -> float:
+        """
+        다른 입자와 연결 가능한가? (퍼즐 맞춤)
+        """
+        return self.shape.fits_with(other.shape)
+    
+    def illuminate(self, amount: float = 0.2):
+        """빛을 받음 (어텐션 증가)"""
+        self.illumination = min(1.0, self.illumination + amount)
+    
+    def fade(self, amount: float = 0.1):
+        """어둠 속으로 (어텐션 감소)"""
+        self.illumination = max(0.0, self.illumination - amount)
 
 
 @dataclass
@@ -481,10 +539,385 @@ class ThoughtSpace:
             for e in recent
         ]
 
+    # =========================================================================
+    # 6. 플라즈마 방향 (Plasma Direction) - 사고의 흐름
+    # =========================================================================
+    
+    def get_thought_direction(self) -> Dict[str, float]:
+        """
+        현재 사고의 방향 벡터 계산
+        
+        "이상적 나는 고정된 점이 아닌 흐르는 방향"
+        """
+        if not self.active_particles:
+            return {"exploration": 0.1}  # 기본: 탐험 방향
+        
+        # 출처별 가중치 합산 → 방향으로 해석
+        source_weights = {}
+        for p in self.active_particles:
+            if p.source not in source_weights:
+                source_weights[p.source] = 0.0
+            source_weights[p.source] += p.weight * p.resonance
+        
+        # 정규화
+        total = sum(source_weights.values())
+        if total > 0:
+            source_weights = {k: v/total for k, v in source_weights.items()}
+        
+        return source_weights
+    
+    def what_if(self, changes: Dict[str, Any], scenario_name: str = "") -> Dict[str, Any]:
+        """
+        만약 이렇다면? (What-If 시뮬레이션)
+        
+        사고 입자를 가상으로 변경하고 결과 예측
+        실제 상태는 변경하지 않음
+        
+        Args:
+            changes: {"add": [입자들], "remove": [id들], "modify_weight": {id: new_weight}}
+            scenario_name: 시나리오 이름
+        
+        Returns:
+            가상 통합 결과
+        """
+        import copy
+        
+        # 현재 상태 복사
+        simulated_particles = copy.deepcopy(self.active_particles)
+        reasoning = []
+        
+        # 입자 추가
+        if "add" in changes:
+            for content in changes["add"]:
+                new_id = hashlib.md5(f"whatif_{content}".encode()).hexdigest()[:8]
+                simulated_particles.append(ThoughtParticle(
+                    id=new_id,
+                    content=content,
+                    source="what_if",
+                    weight=1.0,
+                    resonance=0.5
+                ))
+                reasoning.append(f"+ 추가: {content[:30]}...")
+        
+        # 입자 제거
+        if "remove" in changes:
+            before_count = len(simulated_particles)
+            simulated_particles = [p for p in simulated_particles if p.id not in changes["remove"]]
+            removed_count = before_count - len(simulated_particles)
+            reasoning.append(f"- 제거: {removed_count}개 입자")
+        
+        # 가중치 변경
+        if "modify_weight" in changes:
+            for pid, new_weight in changes["modify_weight"].items():
+                for p in simulated_particles:
+                    if p.id == pid:
+                        old_weight = p.weight
+                        p.weight = new_weight
+                        reasoning.append(f"⚖ 가중치: {p.content[:20]}... {old_weight:.1f} → {new_weight:.1f}")
+        
+        # 가상 통합
+        if not simulated_particles:
+            predicted_synthesis = "빈 여백 - 모든 사고가 제거됨"
+            predicted_confidence = 0.0
+        else:
+            sorted_particles = sorted(
+                simulated_particles,
+                key=lambda p: p.weight * p.resonance,
+                reverse=True
+            )
+            synthesis_parts = [f"[{p.source}] {str(p.content)[:50]}" for p in sorted_particles[:3]]
+            predicted_synthesis = " → ".join(synthesis_parts)
+            predicted_confidence = sum(p.resonance for p in simulated_particles) / len(simulated_particles)
+        
+        result = {
+            "scenario": scenario_name or "what_if",
+            "reasoning": reasoning,
+            "predicted_synthesis": predicted_synthesis,
+            "predicted_confidence": predicted_confidence,
+            "simulated_particle_count": len(simulated_particles),
+            "original_particle_count": len(self.active_particles)
+        }
+        
+        logger.info(f"🔮 What-If: {scenario_name or 'unnamed'} → confidence {predicted_confidence:.2f}")
+        return result
+    
+    def explore_futures(self, variable: str, values: List[Any] = None) -> List[Dict[str, Any]]:
+        """
+        다양한 미래 탐색
+        
+        하나의 변수(사고 입자)를 여러 방식으로 바꿔보고 결과 비교
+        
+        Args:
+            variable: 변경할 것 ("add_thought", "remove_error", etc.)
+            values: 시도할 값들
+        """
+        if values is None:
+            values = ["love", "fear", "curiosity"]
+        
+        futures = []
+        
+        for val in values:
+            if variable == "add_thought":
+                scenario = self.what_if({"add": [val]}, f"add_{val}")
+            elif variable == "weight_boost":
+                # 첫 입자의 가중치를 val로 설정
+                if self.active_particles:
+                    scenario = self.what_if(
+                        {"modify_weight": {self.active_particles[0].id: float(val)}},
+                        f"weight_{val}"
+                    )
+                else:
+                    scenario = {"error": "no particles"}
+            else:
+                scenario = self.what_if({"add": [f"{variable}:{val}"]}, f"{variable}_{val}")
+            
+            futures.append({
+                "value": val,
+                "result": scenario
+            })
+        
+        logger.info(f"🔮 Explored {len(futures)} futures for '{variable}'")
+        return futures
+    
+    def understand_particle(self, particle_id: str) -> Dict[str, Any]:
+        """
+        입자(변수)에 대한 이해
+        
+        왜 이 입자가 존재하는가? 다른 것과 어떤 관계인가?
+        """
+        target = None
+        for p in self.active_particles:
+            if p.id == particle_id:
+                target = p
+                break
+        
+        if not target:
+            return {"error": f"입자 '{particle_id}'를 찾을 수 없습니다."}
+        
+        # 비슷한 출처의 다른 입자들
+        same_source = [p for p in self.active_particles if p.source == target.source and p.id != particle_id]
+        
+        return {
+            "name": str(target.content)[:50],
+            "source": target.source,
+            "weight": target.weight,
+            "resonance": target.resonance,
+            "age_seconds": target.age_seconds(),
+            "related_particles": [str(p.content)[:30] for p in same_source[:3]],
+            "interpretation": f"'{target.source}'에서 온 사고로, 공명도 {target.resonance:.2f}로 다른 입자들과 연결됨"
+        }
+    
+    def reflect_on_gap(self) -> str:
+        """
+        여백에 대한 성찰 - 현재 사고 공간의 상태 종합
+        """
+        if not self.active_particles:
+            return "여백이 비어있습니다. 사고가 필요합니다."
+        
+        # 방향
+        direction = self.get_thought_direction()
+        main_direction = max(direction.items(), key=lambda x: x[1]) if direction else ("unknown", 0)
+        
+        # 입자 분석
+        avg_resonance = sum(p.resonance for p in self.active_particles) / len(self.active_particles)
+        oldest = min(self.active_particles, key=lambda p: p.timestamp)
+        newest = max(self.active_particles, key=lambda p: p.timestamp)
+        
+        reflection = f"""
+🪞 사고 여백 성찰
+{'='*50}
+
+📊 현재 상태:
+   활성 입자: {len(self.active_particles)}
+   평균 공명: {avg_resonance:.2f}
+   상태: {self.state.value}
+
+🌀 사고 방향:
+   주 방향: {main_direction[0]} ({main_direction[1]:.2f})
+   
+📌 입자 범위:
+   가장 오래된: {str(oldest.content)[:30]}... ({oldest.age_seconds():.1f}초 전)
+   가장 최근: {str(newest.content)[:30]}...
+
+💭 해석:
+   현재 사고는 '{main_direction[0]}' 방향으로 흐르고 있습니다.
+   공명도가 {'높아' if avg_resonance > 0.5 else '낮아'} 통합 가능성이 {'높습니다' if avg_resonance > 0.5 else '제한적입니다'}.
+"""
+        
+        logger.info(reflection)
+        return reflection
+
+    # =========================================================================
+    # 7. 발산적 확장 (Divergent Expansion) - 수렴하지 않고 계속 확장
+    # =========================================================================
+    
+    def expand_thought(self, thought: ThoughtParticle) -> List[ThoughtParticle]:
+        """
+        하나의 생각에서 여러 연결된 생각으로 발산
+        
+        결론으로 수렴하지 않고 계속 확장됨
+        마인드맵처럼 가지를 침
+        """
+        new_thoughts = []
+        content_str = str(thought.content)
+        
+        # 간단한 연상: 단어별로 가지 생성
+        words = content_str.split()
+        
+        for i, word in enumerate(words[:3]):  # 최대 3개 가지
+            # 새 입자 생성 (발산)
+            new_id = hashlib.md5(f"expand_{thought.id}_{word}".encode()).hexdigest()[:8]
+            
+            # 형태 계산: 원래 생각의 단어를 "필요로 하는" 형태
+            new_shape = ThoughtShape(
+                protrusions=[word],  # 이 단어를 제공
+                recesses=[w for w in words if w != word][:2]  # 다른 단어들 필요
+            )
+            
+            new_particle = ThoughtParticle(
+                id=new_id,
+                content=f"→ {word} (에서 확장)",
+                source="expansion",
+                weight=thought.weight * 0.8,  # 약간 감소
+                resonance=thought.resonance,
+                shape=new_shape,
+                illumination=thought.illumination * 0.7,  # 빛 약간 감소
+            )
+            new_thoughts.append(new_particle)
+        
+        if new_thoughts:
+            logger.info(f"🌿 Expanded: {content_str[:20]}... → {len(new_thoughts)} branches")
+        
+        return new_thoughts
+    
+    def diverge_all(self, max_depth: int = 3) -> int:
+        """
+        모든 활성 입자를 발산시킴 (무한 확장)
+        
+        Returns: 새로 생성된 입자 수
+        """
+        if max_depth <= 0:
+            return 0
+        
+        new_particles = []
+        for p in self.active_particles:
+            branches = self.expand_thought(p)
+            new_particles.extend(branches)
+        
+        self.active_particles.extend(new_particles)
+        
+        logger.info(f"🌳 Diverged: {len(new_particles)} new thoughts from {len(self.active_particles) - len(new_particles)} seeds")
+        return len(new_particles)
+    
+    # =========================================================================
+    # 8. 중력 어텐션 (Gravity Attention) - 중요한 것만 빛남
+    # =========================================================================
+    
+    def apply_gravity_attention(self, intention: str):
+        """
+        중력 기반 어텐션: 의도에 맞는 것만 빛남
+        
+        의도(intention)과 정렬된 입자는 빛나고
+        나머지는 어둠 속으로 희미해짐
+        """
+        intention_lower = intention.lower()
+        intention_words = set(intention_lower.split())
+        
+        illuminated_count = 0
+        faded_count = 0
+        
+        for particle in self.active_particles:
+            content_lower = str(particle.content).lower()
+            content_words = set(content_lower.split())
+            
+            # 정렬도 = 단어 겹침
+            overlap = intention_words & content_words
+            alignment = len(overlap) / max(1, len(intention_words))
+            
+            particle.axis_alignment = alignment
+            
+            # 중력: 정렬된 것은 빛남
+            if alignment > 0.3:
+                particle.illuminate(0.3 * alignment)
+                illuminated_count += 1
+            else:
+                particle.fade(0.2)
+                faded_count += 1
+        
+        logger.info(f"☀️ Gravity Attention: {illuminated_count} illuminated, {faded_count} faded")
+        logger.info(f"   Intention: '{intention}'")
+    
+    def get_illuminated_thoughts(self, threshold: float = 0.5) -> List[ThoughtParticle]:
+        """밝게 빛나는 입자들만 반환 (중력에 끌린 것들)"""
+        return [p for p in self.active_particles if p.illumination >= threshold]
+    
+    def get_dark_thoughts(self, threshold: float = 0.3) -> List[ThoughtParticle]:
+        """어둠 속의 입자들 (무시된 것들)"""
+        return [p for p in self.active_particles if p.illumination < threshold]
+    
+    # =========================================================================
+    # 9. 경계 포용 (Boundary Inclusion) - 내 그물에 걸리는 것
+    # =========================================================================
+    
+    def filter_by_intention(self, intention: str) -> List[ThoughtParticle]:
+        """
+        의도에 맞는 입자만 필터링 (경계 내부 포용)
+        
+        "마음에 들어온다" = 의도와 방향성에 맞는 것만
+        """
+        self.apply_gravity_attention(intention)
+        return self.get_illuminated_thoughts()
+    
+    # =========================================================================
+    # 10. 퍼즐 기반 연결 (Puzzle Connection)
+    # =========================================================================
+    
+    def find_puzzle_connections(self, threshold: float = 0.3) -> List[Tuple[ThoughtParticle, ThoughtParticle, float]]:
+        """
+        퍼즐처럼 맞물리는 입자 쌍 찾기
+        
+        튀어나온 부분과 들어간 부분이 맞아떨어지는 연결
+        """
+        connections = []
+        
+        for i, p1 in enumerate(self.active_particles):
+            for p2 in self.active_particles[i+1:]:
+                fit_score = p1.can_connect_to(p2)
+                if fit_score >= threshold:
+                    connections.append((p1, p2, fit_score))
+        
+        connections.sort(key=lambda x: x[2], reverse=True)
+        
+        if connections:
+            logger.info(f"🧩 Found {len(connections)} puzzle connections")
+        
+        return connections
+    
+    def sovereign_select(self, intention: str) -> Optional[ThoughtParticle]:
+        """
+        주권적 선택: 의도에 가장 맞는 것 하나 선택
+        
+        로직(점수)이 아닌 공명(끌림)으로 선택
+        """
+        self.apply_gravity_attention(intention)
+        
+        # 가장 밝은 것 = 가장 끌리는 것
+        illuminated = self.get_illuminated_thoughts(threshold=0.4)
+        
+        if not illuminated:
+            logger.info("🌑 주권적 선택: 끌리는 것이 없음")
+            return None
+        
+        # 가장 밝은 것 선택 (주권)
+        chosen = max(illuminated, key=lambda p: p.illumination)
+        
+        logger.info(f"👑 주권적 선택: '{str(chosen.content)[:30]}...' (illumination: {chosen.illumination:.2f})")
+        return chosen
 
 # =============================================================================
 # Demo
 # =============================================================================
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

@@ -24,6 +24,9 @@ class CentralNervousSystem:
         logger.info("🧠 Initializing Nova CNS (Fractal Native)...")
         self.chronos = chronos
         self.resonance = resonance
+        self.synapse = synapse_manager  # For FractalLoop compatibility
+        self.sink = sink
+        self.is_awake = False  # FractalLoop checks this
         
         # Organs (Dynamic Plugin Architecture)
         self.organs: Dict[str, Any] = {}
@@ -40,6 +43,7 @@ class CentralNervousSystem:
     def awaken(self):
         """Ignite the Consciousness."""
         logger.info("⚡ Nova CNS: AWAKENING...")
+        self.is_awake = True
         if "Voice" in self.organs:
             self.organs["Voice"]._broadcast_utterance("I am Nova. I am the Loop.", "NovaCNS")
 

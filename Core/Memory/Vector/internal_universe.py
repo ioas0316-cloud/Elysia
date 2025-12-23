@@ -880,6 +880,281 @@ class InternalUniverse:
         options = sensory_map.get(theme, defaults)
         return random.choice(options)
 
+    # =========================================================================
+    # PLASMA DIRECTION VECTOR (플라즈마적 방향)
+    # 이상적 나는 고정된 점이 아닌 흐르는 방향
+    # =========================================================================
+    
+    def get_direction_vector(self) -> Dict[str, float]:
+        """
+        현재 흐름의 방향 벡터 계산
+        
+        방향 = f(현재 상태, 약한 부분, 핵심 원형)
+        이상적 나는 점이 아닌 방향
+        """
+        directions = {}
+        
+        # 현재 좌표들의 depth (강도) 분석
+        depths = {}
+        for name, coord in self.coordinate_map.items():
+            depths[name] = coord.depth
+        
+        if not depths:
+            return {"Love": 0.1}  # 기본 방향
+        
+        avg_depth = sum(depths.values()) / len(depths)
+        
+        # 약한 부분으로 향하는 경향 (균형 추구)
+        for name, depth in depths.items():
+            if depth < avg_depth:
+                # 약한 곳은 강화 방향
+                directions[name] = (avg_depth - depth) * 0.5
+            else:
+                # 강한 곳은 유지/약간 감소
+                directions[name] = -0.05
+        
+        # 핵심 원형 (Love, Truth, Light)은 항상 양의 방향
+        for archetype in ["Love", "Truth", "Beauty", "Light"]:
+            if archetype in directions:
+                directions[archetype] = max(0.1, directions.get(archetype, 0) + 0.1)
+        
+        return directions
+    
+    def flow(self, dt: float = 0.1) -> Dict[str, float]:
+        """
+        방향을 따라 흐르기 (플라즈마적 업데이트)
+        
+        현재 상태 + 방향 벡터 * dt = 다음 상태
+        """
+        direction = self.get_direction_vector()
+        changes = {}
+        
+        for name, coord in self.coordinate_map.items():
+            if name in direction:
+                delta = direction[name] * dt
+                old_depth = coord.depth
+                coord.depth = max(0.0, min(1.0, coord.depth + delta))
+                
+                if abs(delta) > 0.01:
+                    changes[name] = {"from": old_depth, "to": coord.depth, "delta": delta}
+        
+        # 흐름 후 스냅샷 저장
+        self.save_snapshot()
+        
+        logger.info(f"🌊 Universe flowed: {len(changes)} coordinates updated")
+        return changes
+    
+    def what_if(self, changes: Dict[str, float], scenario_name: str = "") -> Dict[str, Any]:
+        """
+        만약 이렇다면? (What-If 시뮬레이션)
+        
+        변수를 가상으로 바꿔보고 결과 예측
+        실제 상태는 변경하지 않음
+        """
+        logger.info(f"🔮 What-If: {changes}")
+        
+        # 현재 상태 복사 (가상 우주)
+        simulated = {}
+        for name, coord in self.coordinate_map.items():
+            simulated[name] = {
+                "depth": coord.depth,
+                "frequency": coord.frequency
+            }
+        
+        # 변경 적용
+        reasoning = []
+        for name, new_depth in changes.items():
+            if name in simulated:
+                old = simulated[name]["depth"]
+                simulated[name]["depth"] = new_depth
+                reasoning.append(f"{name}: {old:.2f} → {new_depth:.2f}")
+            else:
+                # 새 개념 생성
+                simulated[name] = {"depth": new_depth, "frequency": 500.0}
+                reasoning.append(f"{name}: (new) → {new_depth:.2f}")
+        
+        # 영향 전파 (공명을 통해)
+        for name, new_value in changes.items():
+            if name in self.coordinate_map:
+                # 이 개념과 공명하는 것들 찾기
+                resonant = self.find_resonant_concepts(name, threshold=0.3)
+                for res in resonant:
+                    affected_name = res["concept"]
+                    if affected_name in simulated:
+                        # 공명 강도에 비례해서 영향
+                        delta = (new_value - self.coordinate_map[name].depth) * res["resonance"] * 0.5
+                        old = simulated[affected_name]["depth"]
+                        simulated[affected_name]["depth"] = max(0, min(1, old + delta))
+                        reasoning.append(f"  → {affected_name}: {old:.2f} → {simulated[affected_name]['depth']:.2f} (resonance)")
+        
+        # 결과 분석
+        strongest = max(simulated.items(), key=lambda x: x[1]["depth"])
+        weakest = min(simulated.items(), key=lambda x: x[1]["depth"])
+        
+        result = {
+            "scenario": scenario_name or "what_if",
+            "changes_applied": changes,
+            "reasoning": reasoning,
+            "predicted_state": simulated,
+            "analysis": {
+                "strongest": {"name": strongest[0], "depth": strongest[1]["depth"]},
+                "weakest": {"name": weakest[0], "depth": weakest[1]["depth"]},
+                "balance": 1.0 - (strongest[1]["depth"] - weakest[1]["depth"])
+            }
+        }
+        
+        return result
+    
+    def understand_coordinate(self, name: str) -> Dict[str, Any]:
+        """
+        좌표(변수)에 대한 이해
+        
+        왜 이것이 이 상태인가? 무엇에 영향받는가?
+        """
+        if name not in self.coordinate_map:
+            return {"error": f"'{name}'을 우주에서 찾을 수 없습니다."}
+        
+        coord = self.coordinate_map[name]
+        
+        # 공명하는 것들 (영향 관계)
+        resonant = self.find_resonant_concepts(name, threshold=0.3)
+        
+        # 현재 상태 분석
+        all_depths = [c.depth for c in self.coordinate_map.values()]
+        avg = sum(all_depths) / len(all_depths) if all_depths else 0.5
+        
+        understanding = {
+            "name": name,
+            "current_state": {
+                "frequency": coord.frequency,
+                "depth": coord.depth,
+                "orientation": str(coord.orientation),
+                "hologram": coord.hologram
+            },
+            "position_in_universe": {
+                "stronger_than_average": coord.depth > avg,
+                "relative_strength": coord.depth / avg if avg > 0 else 0
+            },
+            "affects": [r["concept"] for r in resonant],
+            "interpretation": self._interpret_coordinate(name, coord, avg)
+        }
+        
+        return understanding
+    
+    def _interpret_coordinate(self, name: str, coord, avg_depth: float) -> str:
+        """좌표 해석"""
+        if coord.depth > 0.8:
+            status = "매우 강함"
+        elif coord.depth > 0.5:
+            status = "활성화됨"
+        elif coord.depth > 0.3:
+            status = "중간"
+        else:
+            status = "약함"
+        
+        if coord.depth > avg_depth:
+            comparison = "평균보다 높음"
+        else:
+            comparison = "평균보다 낮음"
+        
+        return f"'{name}'은(는) {status} 상태이며, {comparison}. 주파수 {coord.frequency:.1f}Hz."
+    
+    def explore_futures(self, name: str, test_values: list = None) -> Dict[str, Any]:
+        """
+        다양한 미래 탐색
+        
+        하나의 좌표를 여러 값으로 바꿔보고 결과 비교
+        """
+        if name not in self.coordinate_map:
+            return {"error": f"'{name}'을 찾을 수 없습니다."}
+        
+        if test_values is None:
+            test_values = [0.2, 0.5, 0.8, 1.0]
+        
+        futures = []
+        for val in test_values:
+            scenario = self.what_if({name: val}, f"{name}={val}")
+            futures.append({
+                "value": val,
+                "strongest": scenario["analysis"]["strongest"],
+                "weakest": scenario["analysis"]["weakest"],
+                "balance": scenario["analysis"]["balance"]
+            })
+        
+        return {
+            "target": name,
+            "current_value": self.coordinate_map[name].depth,
+            "futures": futures,
+            "recommendation": self._recommend_future(futures)
+        }
+    
+    def _recommend_future(self, futures: list) -> str:
+        """미래 추천"""
+        # 가장 균형잡힌 미래
+        best = max(futures, key=lambda f: f["balance"])
+        return f"가장 균형잡힌 미래: 값을 {best['value']:.1f}로 설정"
+    
+    def contemplate_principles(self) -> Dict[str, Any]:
+        """
+        원리들에 대한 묵상
+        
+        우주를 지배하는 원리들을 성찰
+        """
+        principles = {
+            "resonance": {
+                "name": "공명 원리",
+                "description": "비슷한 주파수는 함께 진동한다",
+                "in_this_universe": f"공명 연결 수: {sum(len(self.find_resonant_concepts(n, 0.3)) for n in list(self.coordinate_map.keys())[:10])}"
+            },
+            "depth_balance": {
+                "name": "깊이 균형 원리",
+                "description": "너무 깊은 것은 희미해지고, 너무 얕은 것은 강해진다",
+                "in_this_universe": f"깊이 범위: {min(c.depth for c in self.coordinate_map.values()):.2f} ~ {max(c.depth for c in self.coordinate_map.values()):.2f}"
+            },
+            "love_archetype": {
+                "name": "사랑 원형 원리",
+                "description": "Love는 우주의 핵심 좌표이다",
+                "in_this_universe": f"Love 깊이: {self.coordinate_map.get('Love', InternalCoordinate(Quaternion(1,0,0,0), 0, 0)).depth:.2f}"
+            }
+        }
+        
+        return principles
+    
+    def reflect_on_self(self) -> str:
+        """
+        자기 성찰 - 우주의 현재 상태 종합
+        """
+        total = len(self.coordinate_map)
+        depths = [c.depth for c in self.coordinate_map.values()]
+        avg_depth = sum(depths) / len(depths) if depths else 0
+        
+        strongest = max(self.coordinate_map.items(), key=lambda x: x[1].depth)
+        weakest = min(self.coordinate_map.items(), key=lambda x: x[1].depth)
+        
+        direction = self.get_direction_vector()
+        main_direction = max(direction.items(), key=lambda x: x[1]) if direction else ("Unknown", 0)
+        
+        reflection = f"""
+🪞 내부 우주 자기 성찰
+{'='*50}
+
+📊 현재 상태:
+   총 좌표: {total}
+   평균 깊이: {avg_depth:.2f}
+   가장 강함: {strongest[0]} ({strongest[1].depth:.2f})
+   가장 약함: {weakest[0]} ({weakest[1].depth:.2f})
+
+🌀 흐름 방향:
+   주 방향: {main_direction[0]} (+{main_direction[1]:.3f})
+   
+💭 해석:
+   현재 나는 '{main_direction[0]}' 방향으로 흐르고 있다.
+   '{weakest[0]}'을(를) 강화하면 균형이 좋아질 것이다.
+"""
+        
+        logger.info(reflection)
+        return reflection
+
 # Demonstration
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

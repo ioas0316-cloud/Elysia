@@ -1,0 +1,122 @@
+[
+  {
+    "timestamp": "2025-12-23T08:58:07.251187",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 0,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Initial measurement"
+  },
+  {
+    "timestamp": "2025-12-23T09:10:41.158965",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 790,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T09:15:21.003599",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 790,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T09:21:52.736289",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 790,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T09:25:14.607917",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 790,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T09:27:53.648359",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 790,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T09:31:28.529963",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 0,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Before accelerated learning"
+  },
+  {
+    "timestamp": "2025-12-23T09:31:29.766488",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 0,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "After accelerated learning"
+  },
+  {
+    "timestamp": "2025-12-23T09:32:48.458394",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 0,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Before accelerated learning"
+  },
+  {
+    "timestamp": "2025-12-23T09:32:48.759385",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 0,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "After accelerated learning"
+  }
+]

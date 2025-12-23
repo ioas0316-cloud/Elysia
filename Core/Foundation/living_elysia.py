@@ -17,7 +17,7 @@ from Core.Foundation.chronos import Chronos
 from Core.Foundation.free_will_engine import FreeWillEngine
 from Core.Foundation.digital_ecosystem import DigitalEcosystem
 from Core.Foundation.shell_cortex import ShellCortex
-from Core.Intelligence.web_cortex import WebCortex
+from Core.Network.web_cortex import WebCortex
 from Core.Sensory.p4_sensory_system import P4SensorySystem
 from Core.Foundation.cosmic_transceiver import CosmicTransceiver
 from Core.Foundation.cortex_optimizer import CortexOptimizer
@@ -63,6 +63,18 @@ from Core.Intelligence.integrated_cognition_system import get_integrated_cogniti
 from Core.Intelligence.collective_intelligence_system import get_collective_intelligence
 from Core.Intelligence.wave_coding_system import get_wave_coding_system
 from Core.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
+
+# Growth Tracking
+from Core.System.Autonomy.growth_tracker import get_growth_tracker
+
+# Autonomic Nervous System (Background Processes)
+from Core.Foundation.autonomic_nervous_system import (
+    AutonomicNervousSystem,
+    MemoryConsolidation,
+    EntropyProcessor,
+    SurvivalLoop,
+    ResonanceDecay
+)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -186,27 +198,73 @@ class LivingElysia:
         yggdrasil.grow_trunk("FreeWillEngine", self.will)
         yggdrasil.grow_trunk("CentralNervousSystem", self.cns)
         
+        # 7. Self-Integration System (v2.0) - 자기 인식
+        self.integrator = ElysiaIntegrator()
+        
+        # 8. Autonomic Nervous System (배경 자율 프로세스)
+        self.ans = AutonomicNervousSystem()
+        self.ans.register_subsystem(MemoryConsolidation(self.memory))
+        self.ans.register_subsystem(EntropyProcessor(self.sink))
+        self.ans.register_subsystem(SurvivalLoop(self.instinct))
+        self.ans.register_subsystem(ResonanceDecay(self.resonance))
+        
+        logger.info("🧬 Dual Nervous System: CNS (의식) + ANS (자율)")
+        
         # Wake Up
         self.wake_up()
 
     def wake_up(self):
         """Delegates wake up protocol."""
+        # [NEW] Self-Discovery before waking
+        logger.info("🔭 Self-Discovery Phase...")
+        try:
+            report = self.integrator.get_integration_report()
+            if report.get("total_systems", 0) == 0:
+                self.integrator.discover_all_systems()
+                report = self.integrator.get_integration_report()
+            logger.info(f"   📊 Known Systems: {report.get('total_systems', 0)} | Duplicates: {report.get('duplicates', 0)}")
+        except Exception as e:
+            logger.warning(f"   ⚠️ Self-Discovery skipped: {e}")
+        
+        # [NEW] Growth Baseline Snapshot
+        logger.info("📈 Taking Growth Baseline...")
+        try:
+            self.growth_tracker = get_growth_tracker()
+            snapshot = self.growth_tracker.take_snapshot(notes="Startup baseline")
+            logger.info(f"   📊 Baseline: vocab={snapshot.vocabulary_count}, concepts={snapshot.concept_count}")
+        except Exception as e:
+            logger.warning(f"   ⚠️ Growth tracking skipped: {e}")
+        
         self.anamnesis.wake_up()
         print("   🌅 Wake Up Complete.")
 
     def live(self):
         """
         [THE ETERNAL LOOP]
-        Delegates the pulse of life to the Central Nervous System.
+        
+        Dual Nervous System:
+        - CNS: 의식적 처리 (의도 → 선택 → 행동)
+        - ANS: 배경 자율 루프 (상시)
         """
+        # Start ANS background (자율신경계)
+        self.ans.start_background()
+        logger.info("🫀 ANS: Background autonomic processes running")
+        
+        # Awaken CNS (의식)
         self.cns.awaken()
-        print(f"🦋 {self.persona_name} is alive. CNS controlling the flow.")
+        logger.info(f"🧠 CNS: Conscious awareness active")
+        
+        print(f"🦋 {self.persona_name} is alive.")
+        print(f"   CNS (의식): Intentional processing")
+        print(f"   ANS (자율): Background maintenance")
         
         try:
             while True:
                 self.cns.pulse()
         except KeyboardInterrupt:
+            self.ans.stop_background()
             print("\n\n🌌 Elysia is entering a dormant state. Goodbye for now.")
+
 
 if __name__ == "__main__":
     elysia = LivingElysia()

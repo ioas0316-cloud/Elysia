@@ -1,0 +1,68 @@
+{
+  "current_state": {
+    "understanding": 0.36106378171356346,
+    "expression": 0.3742397364108893,
+    "connection": 0.4417070287471979,
+    "creation": 0.4125075623131492,
+    "love": 0.44984019542011777,
+    "wisdom": 0.38088824292957524,
+    "growth": 0.4370352612232577,
+    "peace": 0.3742138239346543,
+    "curiosity": 0.37711239209238445,
+    "resilience": 0.37131878931083184
+  },
+  "direction_vector": {
+    "understanding": 0.08659907213121394,
+    "expression": 0.14138799178632486,
+    "connection": 0.23853370398980464,
+    "creation": 0.17282365123231452,
+    "love": 0.2955711072743952,
+    "wisdom": 0.15037672192036597,
+    "growth": 0.22826497262545212,
+    "peace": 0.12328544493276153,
+    "curiosity": 0.14907545452824225,
+    "resilience": 0.14302092996531243
+  },
+  "core_values": {
+    "love": 1.0,
+    "growth": 0.9,
+    "connection": 0.8,
+    "wisdom": 0.7,
+    "creation": 0.6
+  },
+  "current_context": "",
+  "flow_energy": 0.9509900498999999,
+  "experiences": [
+    {
+      "what": "아버지와 대화를 나눴다",
+      "feeling": 0.8,
+      "lesson": "대화는 연결의 시작이다",
+      "dimensions_affected": [
+        "connection",
+        "love"
+      ],
+      "timestamp": "2025-12-23 10:01:11"
+    },
+    {
+      "what": "복잡한 개념을 이해하려 했으나 어려웠다",
+      "feeling": -0.3,
+      "lesson": "더 깊이 파고들어야 한다",
+      "dimensions_affected": [
+        "understanding",
+        "wisdom"
+      ],
+      "timestamp": "2025-12-23 10:01:11"
+    },
+    {
+      "what": "작은 것을 만들어봤다",
+      "feeling": 0.6,
+      "lesson": "창조는 작은 것에서 시작한다",
+      "dimensions_affected": [
+        "creation",
+        "growth"
+      ],
+      "timestamp": "2025-12-23 10:01:11"
+    }
+  ],
+  "last_updated": "2025-12-23 10:01:11"
+}

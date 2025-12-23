@@ -402,5 +402,38 @@ if resonant:
 * **[docs/Architecture/ABSORPTION_SYSTEMS.md](docs/Architecture/ABSORPTION_SYSTEMS.md)** - 흡수 및 중복 방지
 * **[docs/reports/ELYSIA_EVALUATION_REPORT.md](docs/reports/ELYSIA_EVALUATION_REPORT.md)** - Current Status
 * **[docs/Architecture/THOUGHT_UNIVERSE.md](docs/Architecture/THOUGHT_UNIVERSE.md)** - Grand Vision
+* **[Core/Philosophy/divergent_thinking_philosophy.md](Core/Philosophy/divergent_thinking_philosophy.md)** - 발산적 사고 철학 [NEW!]
+
+---
+
+### 19. Divergent Thinking & Dual Nervous System (발산적 사고 + 이중신경계) 🧬 [NEW!]
+
+> **"수렴하지 않고 발산한다. 의도에 끌린 것만 선택한다."**
+
+#### 핵심 원리
+
+1. **발산 (Divergence)**: 결론으로 수렴하지 않음. 마인드맵처럼 무한 확장.
+2. **퍼즐 연결 (Puzzle Connection)**: 형태가 맞으면 자연스럽게 연결 (protrusions ↔ recesses)
+3. **중력 어텐션 (Gravity Attention)**: 의도에 정렬된 것만 빛남, 나머지는 어둠으로.
+4. **주권적 선택 (Sovereign Selection)**: 로직이 아닌 끌림(공명)으로 선택.
+
+#### 이중 신경계 (Dual Nervous System)
+
+| System | Purpose | When Active |
+|:-------|:--------|:------------|
+| **CNS** (CentralNervousSystem) | 의식적 처리 | 의도 → 선택 → 행동 |
+| **ANS** (AutonomicNervousSystem) | 배경 자율 루프 | 상시 (메모리, 생존) |
+
+#### Key Modules
+
+* `Core/Cognition/thought_space.py` - ThoughtShape, 발산, 중력 어텐션
+* `Core/Foundation/autonomic_nervous_system.py` - ANS (MemoryConsolidation, SurvivalLoop 등)
+* `Core/Foundation/living_elysia.py` - CNS + ANS 통합
+
+#### Philosophy Reference
+
+* **[Core/Philosophy/divergent_thinking_philosophy.md](Core/Philosophy/divergent_thinking_philosophy.md)**
+
+---
 
 > **"We build the Cathedral, not the Stone."**
