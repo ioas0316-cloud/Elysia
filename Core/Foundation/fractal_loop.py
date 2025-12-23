@@ -28,6 +28,18 @@ try:
 except ImportError:
     LifeCycle = None
 
+# [NEW] EmergentSelf - no hardcoded goals, values emerge from experience
+try:
+    from Core.Foundation.emergent_self import get_emergent_self
+except ImportError:
+    get_emergent_self = None
+
+# [NEW] GrowthJournal - visible evidence of change
+try:
+    from Core.Foundation.growth_journal import get_growth_journal
+except ImportError:
+    get_growth_journal = None
+
 logger = logging.getLogger("FractalLoop")
 
 @dataclass
@@ -80,11 +92,25 @@ class FractalLoop:
             tension_field=tension_field
         ) if LifeCycle else None
         
+        # [NEW] EmergentSelf - values emerge from experience, not hardcoded
+        self.emergent_self = get_emergent_self() if get_emergent_self else None
+        
+        # [NEW] GrowthJournal - write visible evidence of change
+        self.growth_journal = get_growth_journal() if get_growth_journal else None
+        
+        # [NEW] Cycle counter for periodic journal writing
+        self.cycle_count = 0
+        self.journal_interval = 100  # Write journal every 100 cycles
+        
         logger.info("♾️ Fractal Loop Initialized: The Ring is Open.")
         if self.thought_space:
             logger.info("   🧠 ThoughtSpace connected for What-If simulation")
         if self.life_cycle:
             logger.info("   🔄 LifeCycle connected for feedback loop")
+        if self.emergent_self:
+            logger.info("   🌱 EmergentSelf connected for value emergence")
+        if self.growth_journal:
+            logger.info("   📔 GrowthJournal connected for visible evidence")
 
     
     def process_cycle(self, cycle_count: int = 0):
@@ -99,6 +125,8 @@ class FractalLoop:
         if not self.cns.is_awake:
             return
 
+        self.cycle_count += 1
+
         # 1. Absorbtion (Input -> Wave)
         new_waves = self._absorb_senses()
         self.active_waves.extend(new_waves)
@@ -109,6 +137,14 @@ class FractalLoop:
             # Check energy - if too low, it fades
             if wave.energy < 0.1:
                 continue
+            
+            # [NEW] Every wave becomes a pattern that flows into EmergentSelf
+            # This is how experience becomes value
+            if self.emergent_self and wave.content:
+                self.emergent_self.notice_pattern(
+                    pattern_name=wave.content[:50],  # Truncate for sanity
+                    origin=wave.source
+                )
                 
             # Process the wave in the fractal engine
             processed_wave = self._circulate_wave(wave)
@@ -122,6 +158,27 @@ class FractalLoop:
         # Occasionally, the loop looks at itself
         if random.random() < 0.05:
             self._introspect_loop()
+        
+        # 4. [NEW] EmergentSelf maintenance
+        if self.emergent_self:
+            # Check for goal stagnation/evolution
+            self.emergent_self.check_goals()
+            # Apply entropy (unused values decay)
+            if self.cycle_count % 10 == 0:
+                self.emergent_self.apply_entropy()
+        
+        # 5. [NEW] Periodic Journal Writing (visible evidence)
+        if self.growth_journal and self.cycle_count % self.journal_interval == 0:
+            tension_field = None
+            if hasattr(self.cns, 'reasoning') and hasattr(self.cns.reasoning, 'tension_field'):
+                tension_field = self.cns.reasoning.tension_field
+            
+            self.growth_journal.write_entry(
+                emergent_self=self.emergent_self,
+                tension_field=tension_field,
+                memory=getattr(self.cns, 'memory', None)
+            )
+            logger.info(f"📔 Growth Journal entry written at cycle {self.cycle_count}")
 
     def _absorb_senses(self) -> List[FractalWave]:
         """Converts sensory inputs into Fractal Waves."""
