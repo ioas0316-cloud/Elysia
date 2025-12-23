@@ -146,7 +146,7 @@ class WhiteHole:
     """
     
     def __init__(self):
-        self.blackhole_file = "fractal_memory.json"
+        self.blackhole_file = "c:/Elysia/data/memory/fractal_memory.json"
         self.search = GravitationalSearch()
         self.rebirth_count = 0
         
