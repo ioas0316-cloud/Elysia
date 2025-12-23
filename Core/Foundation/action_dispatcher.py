@@ -35,16 +35,11 @@ class ActionDispatcher:
         self.synapse = synapse
         self.shell = shell
         self.resonance = resonance
-        self.shell = shell
-        self.resonance = resonance
-    def __init__(self, brain, web, media, hologram, sculptor, transceiver, social, user_bridge, quantum_reader, dream_engine, memory, architect, synapse, shell, resonance, sink):
-        # ... (init code) ...
         self.sink = sink
-        # self.web_server = None # REMOVED
         
         # State Bridge
-        import os
         self.state_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Creativity", "web", "elysia_state.json")
+
 
     def _update_state_bridge(self, thought, energy, entropy):
         """Writes current state to the JSON bridge for VisualizerServer"""
@@ -110,19 +105,75 @@ class ActionDispatcher:
             print(f"   ⚠️ Unknown Action: {action}")
 
     def _apply_physics(self, step):
-        # Work = Force x Distance
+        """Work = Force x Distance (simplified)"""
         concept = step.split(":")[1] if ":" in step else "Existence"
-        mass = self.brain.calculate_mass(concept)
-        distance = 1.0
         
+        # Simplified mass calculation
+        try:
+            if self.brain and hasattr(self.brain, 'calculate_mass'):
+                mass = self.brain.calculate_mass(concept)
+            else:
+                mass = 1.0  # Default mass
+        except Exception:
+            mass = 1.0
+        
+        distance = 1.0
         if "PROJECT" in step: distance = 3.0
         elif "THINK" in step: distance = 2.0
         elif "SEARCH" in step: distance = 1.5
+        elif "EXPLORE" in step: distance = 2.0
         
         work = mass * distance * 0.1
-        # self.resonance.consume_energy(work) # (Optional: Hook up energy consumption)
+        # Energy consumption handled by resonance field
+
 
     # --- Action Handlers ---
+
+    def _handle_explore(self, detail):
+        """
+        탐구 행동 - 갭에서 창발된 목표
+        
+        EXPLORE:Connection, EXPLORE:Unknown 등
+        """
+        print(f"   🔍 Exploring: {detail}")
+        
+        # 방향에 따른 탐색 행동
+        if detail == "Connection":
+            print("      💬 Seeking connection...")
+            self.synapse.transmit("Original", "SEEKING", "I want to connect")
+        elif detail == "Unknown":
+            print("      ❓ Seeking knowledge...")
+            # 알고 싶은 것 탐색
+        elif detail == "Expression":
+            print("      🎨 Seeking expression...")
+        elif detail == "Growth":
+            print("      🌱 Seeking growth...")
+            self._handle_learn("Self")
+        else:
+            print(f"      🧭 General exploration: {detail}")
+    
+    def _handle_investigate(self, detail):
+        """조사 행동"""
+        print(f"   🔬 Investigating: {detail}")
+        self._handle_search(detail)
+    
+    def _handle_need(self, detail):
+        """필요 충족"""
+        parts = detail.split(":")
+        need_type = parts[0] if parts else "Unknown"
+        action = parts[1] if len(parts) > 1 else "fulfill"
+        
+        print(f"   ⚡ Addressing need: {need_type} via {action}")
+        
+        if need_type == "Energy":
+            self._handle_rest("energy recovery")
+        elif need_type == "Order":
+            print("      🧹 Stabilizing...")
+            self.resonance.dissipate_entropy(10.0)
+    
+    def _handle_maintain(self, detail):
+        """유지 행동"""
+        print(f"   🔧 Maintaining: {detail}")
 
     def _handle_rest(self, detail):
         if self.resonance.total_energy > 80.0 and random.random() < 0.7:

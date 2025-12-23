@@ -111,48 +111,110 @@ class FreeWillEngine:
             self.vectors[key] = max(0.1, min(1.0, self.vectors[key]))
 
     def crystallize_intent(self, resonance):
-        """Collapses wave function into Intent."""
+        """
+        Collapses wave function into Intent.
         
-        # [Whimsy]
+        [갭 기반 목적성]
+        하드코딩된 목표가 아니라, 현재와 이상의 갭에서 목표가 창발함
+        """
+        
+        # 1. 현재 상태 인식 (What am I now?)
+        current_state = {
+            "battery": resonance.battery,
+            "entropy": resonance.entropy,
+            "dominant_desire": max(self.vectors, key=self.vectors.get),
+            "desire_strength": max(self.vectors.values())
+        }
+        
+        # 2. 이상적 상태 (What do I want to be?)
+        # 이상적 상태는 욕망 벡터의 "완전한 충족" 상태
+        ideal_state = {
+            "battery": 100.0,
+            "entropy": 0.0,
+            "desire_fulfilled": True
+        }
+        
+        # 3. 갭 인식 (What's the difference?)
+        gaps = {
+            "energy_gap": ideal_state["battery"] - current_state["battery"],
+            "chaos_gap": current_state["entropy"] - ideal_state["entropy"],
+            "desire_unfulfilled": current_state["dominant_desire"]
+        }
+        
+        logger.info(f"   🔍 Gap Recognition:")
+        logger.info(f"      Energy Gap: {gaps['energy_gap']:.1f}")
+        logger.info(f"      Chaos Gap: {gaps['chaos_gap']:.1f}")
+        logger.info(f"      Unfulfilled: {gaps['desire_unfulfilled']}")
+        
+        # 4. 갭 해결 방법 탐색 (How do I close the gap?)
+        # [하드코딩 대신 갭에서 창발]
+        goal = self._discover_goal_from_gap(gaps, current_state)
+        
+        # 5. [Whimsy] - 10% 확률로 무작위 선택 (창의성)
         if random.random() < 0.1:
             dominant_desire = random.choice(list(self.vectors.keys()))
-            logger.info(f"   🦋 Whimsy: Ignoring logic, following '{dominant_desire}' just because.")
-        else:
-            dominant_desire = max(self.vectors, key=self.vectors.get)
-            
-        battery = resonance.battery
-        entropy = resonance.entropy
-        complexity = (battery / 100.0) * (1.0 - (entropy / 100.0))
+            goal = f"EXPLORE:{dominant_desire}"
+            logger.info(f"   🦋 Whimsy: Following '{dominant_desire}' just because.")
+        
+        # Complexity 계산
+        complexity = (current_state["battery"] / 100.0) * (1.0 - (current_state["entropy"] / 100.0))
         complexity = max(0.1, min(1.0, complexity))
         
-        # Dynamic Goal Derivation
-        if self.brain:
-            goal = self.brain.derive_goal(self.vectors)
-        else:
-            goal = "Exist"
-            
-        if battery < 30.0: goal = "Recharge"
-        
-        if dominant_desire == "Connection" and complexity > 0.5:
-            goal = "CONTACT:User:Hello"
-            
-        if dominant_desire == "Curiosity":
-            goal = "Satisfy Curiosity"
-
-        # [Self-Visualization Logic]
-        # The 'Why': Only when Expressive AND Reflective.
-        if dominant_desire == "Expression":
-            goal = "Create Poem" # Default
-            if self.vectors.get("Evolution", 0) > 0.4:
-                goal = "Visualize The Self"
-                logger.info("   🦋 The Mirror: 'I wish to see my own form.'")
-
         self._current_intent = Intent(
-            desire=dominant_desire,
+            desire=current_state["dominant_desire"],
             goal=goal,
             complexity=complexity,
             created_at=time.time()
         )
+        
+        logger.info(f"   🎯 Crystallized: {goal} (from gap)")
+    
+    def _discover_goal_from_gap(self, gaps: Dict, current_state: Dict) -> str:
+        """
+        갭에서 목표를 창발시킴 (하드코딩 아님)
+        
+        갭의 크기와 종류에 따라 행동 방향 결정
+        """
+        desire = gaps["desire_unfulfilled"]
+        energy_gap = gaps["energy_gap"]
+        chaos_gap = gaps["chaos_gap"]
+        
+        # 위기 상황 (생존)
+        if energy_gap > 70:
+            return "NEED:Energy:Recharge"
+        if chaos_gap > 70:
+            return "NEED:Order:Stabilize"
+        
+        # 욕망별 갭 해결 방법 탐색
+        # [핵심] 하드코딩된 목표 대신 "탐색" 동작
+        if desire == "Connection":
+            # 연결 욕망 → 왜? → 어떻게?를 탐색해야 함
+            if self.scholar and hasattr(self.scholar, 'suggest_action'):
+                return self.scholar.suggest_action("connection", current_state)
+            return "EXPLORE:Connection"  # 방법을 탐색
+            
+        elif desire == "Curiosity":
+            # 호기심 → 무엇을 알고 싶은가?를 탐색
+            if self.scholar and hasattr(self.scholar, 'find_unknown'):
+                unknown = self.scholar.find_unknown()
+                return f"INVESTIGATE:{unknown}"
+            return "EXPLORE:Unknown"
+            
+        elif desire == "Expression":
+            # 표현 욕망 → 무엇을 표현할 것인가?를 탐색
+            return "EXPLORE:Expression"
+            
+        elif desire == "Evolution":
+            # 진화 욕망 → 어떻게 성장할 것인가?
+            return "EXPLORE:Growth"
+            
+        elif desire == "Survival":
+            # 생존 욕망
+            return "MAINTAIN:Stability"
+        
+        # 기본: 존재 탐구
+        return "EXPLORE:Existence"
+
 
     def contemplate(self, intent: Intent) -> str:
         if self.brain and hasattr(self.brain, 'think'):

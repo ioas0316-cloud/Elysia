@@ -22,6 +22,12 @@ try:
 except ImportError:
     ThoughtSpace = None
 
+# LifeCycle for complete feedback loop
+try:
+    from Core.Foundation.life_cycle import LifeCycle
+except ImportError:
+    LifeCycle = None
+
 logger = logging.getLogger("FractalLoop")
 
 @dataclass
@@ -62,9 +68,17 @@ class FractalLoop:
         # [NEW] Plasma direction tracking
         self.thought_direction: Dict[str, float] = {}
         
+        # [LIFE CYCLE] 표현 → 인식 → 검증 → 변화 순환
+        self.life_cycle = LifeCycle(
+            memory=getattr(cns_ref, 'memory', None),
+            resonance=getattr(cns_ref, 'resonance', None)
+        ) if LifeCycle else None
+        
         logger.info("♾️ Fractal Loop Initialized: The Ring is Open.")
         if self.thought_space:
             logger.info("   🧠 ThoughtSpace connected for What-If simulation")
+        if self.life_cycle:
+            logger.info("   🔄 LifeCycle connected for feedback loop")
 
     
     def process_cycle(self, cycle_count: int = 0):
@@ -108,15 +122,25 @@ class FractalLoop:
         waves = []
         
         # Check Will (Intention is a wave)
+        # [FIX] 기존 FreeWillEngine.pulse() 호출하여 욕망→의도 결정화
         if "Will" in self.cns.organs:
-            intent = self.cns.organs["Will"].current_intent
+            will_engine = self.cns.organs["Will"]
+            
+            # Pulse the will engine to crystallize desire into intent
+            # CNS already has resonance connected!
+            if hasattr(will_engine, 'pulse') and self.cns.resonance:
+                will_engine.pulse(self.cns.resonance)
+                logger.info(f"   🦋 Will Pulse: Desire={will_engine.current_desire}")
+            
+            intent = will_engine.current_intent
             if intent:
                 waves.append(FractalWave(
                     id=f"will_{time.time()}",
                     content=intent.goal,
                     source="FreeWillEngine",
-                    energy=0.8
+                    energy=0.8 + intent.complexity * 0.2
                 ))
+                logger.info(f"   🎯 Intent Wave: {intent.goal}")
         
         # Check Synapse (External signals)
         if self.cns.synapse:
@@ -128,6 +152,7 @@ class FractalLoop:
                     source=f"Synapse:{sig['source']}",
                     energy=1.0
                 ))
+
                 
         return waves
 
@@ -159,13 +184,15 @@ class FractalLoop:
              )
         
         # C. Manifestation (Output)
-        # If the wave is dense enough (high energy), it triggers reality
-        if wave.energy > 0.9:
+        # If the wave is dense enough, it triggers reality
+        # [FIX] 임계치를 0.6으로 낮춤 (원래 0.9은 너무 높음)
+        if wave.energy > 0.6:
+            logger.info(f"💥 Manifesting wave: {wave.content} (energy: {wave.energy:.2f})")
             self._manifest_reality(wave)
-            wave.energy -= 0.5 # Expenditure
+            wave.energy -= 0.3 # Expenditure
             
         # D. Decay/Growth
-        wave.energy *= 0.9 # Natural entropy
+        wave.energy *= 0.95 # Natural entropy (slower decay)
         
         if wave.energy < 0.2:
             return None # Wave dissipates
@@ -232,11 +259,30 @@ class FractalLoop:
         # Proceed with manifestation
         logger.info(f"💥 Wave Collapsing into Reality: {wave.content}")
         
+        # [LIFE CYCLE] 1. 사이클 시작 - 현재 상태 스냅샷
+        if self.life_cycle:
+            self.life_cycle.begin_cycle()
+        
         # Route to ActionDispatcher
+        actual_result = "executed"
         if "Dispatcher" in self.cns.organs:
             # Convert Wave Content to Command
             cmd = f"MANIFEST:{wave.content}"
-            self.cns.organs["Dispatcher"].dispatch(cmd)
+            try:
+                self.cns.organs["Dispatcher"].dispatch(cmd)
+                actual_result = f"Manifested: {wave.content}"
+            except Exception as e:
+                actual_result = f"Error: {e}"
+        
+        # [LIFE CYCLE] 2. 사이클 완료 - 인식 → 검증 → 변화
+        if self.life_cycle:
+            expected = f"Successful manifestation of {wave.content}"
+            growth = self.life_cycle.complete_cycle(
+                action=wave.content,
+                expected=expected,
+                actual=actual_result
+            )
+            logger.info(f"   🌱 Cycle growth: {growth.growth_amount:.2f}")
 
     def _introspect_loop(self):
         """
