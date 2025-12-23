@@ -117,6 +117,19 @@ class TensionField:
             self.shapes[concept_id].curvature += amount
             self.shapes[concept_id].curvature = min(5.0, self.shapes[concept_id].curvature)
 
+    def perturb_field(self, concept_id: str, amount: float = 0.1):
+        """
+        [Entropy Injection]
+        When a prediction fails, we inject Chaos (Entropy) into the concept.
+        This flattens the curvature (False Belief) and randomizes the charge.
+        """
+        if concept_id in self.shapes:
+            # Flatten curvature (Reduce gravity of false belief)
+            self.shapes[concept_id].curvature = max(0.01, self.shapes[concept_id].curvature - amount)
+            
+            # Randomize charge (Confusion/Panic)
+            self.charges[concept_id] = random.random() * amount
+
     def charge_concept(self, concept_id: str, amount: float):
         """
         Inject Energy into the field at a specific point.

@@ -78,6 +78,11 @@ class PredictiveMind:
         logger.info(f"   💭 Hypothesis: {premise}, {prediction}")
         return hypothesis
 
+    def connect_field(self, tension_field):
+        """Connects to the TensionField (Physics Layer)."""
+        self.field = tension_field
+        logger.info("   🌌 TensionField connected to PredictiveMind.")
+
     def verify_hypothesis(self, hypothesis: Hypothesis, evidence: str) -> str:
         """
         Verifies a hypothesis against new evidence (text).
@@ -113,11 +118,21 @@ class PredictiveMind:
             hypothesis.confidence = min(1.0, hypothesis.confidence + 0.2)
             result = "VERIFIED"
             logger.info(f"   ✅ Verified: '{hypothesis.prediction}' supported by evidence.")
+            
+            # Physics Reinforcement
+            if hasattr(self, 'field') and self.field:
+                self.field.reinforce_well(hypothesis.source_concept, 0.1)
+                logger.info(f"   🪐 Gravity Deepened: '{hypothesis.source_concept}'")
+                
         else:
             # Not finding it isn't immediate falsification, but let's assume specific context check
             hypothesis.verification_status = "UNVERIFIED"
             result = "UNVERIFIED"
-            # logger.info(f"   ❓ Unverified: Evidence did not contain '{target_concept}'.")
+            
+            # Physics Perturbation (Weak)
+            if hasattr(self, 'field') and self.field:
+                self.field.perturb_field(hypothesis.source_concept, 0.05)
+                logger.info(f"   🌪️ Field Perturbed: '{hypothesis.source_concept}' (Chaos Injection)")
 
         return result
 

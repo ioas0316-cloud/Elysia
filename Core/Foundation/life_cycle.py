@@ -325,6 +325,10 @@ class LifeCycle:
         self.predictive_mind = PredictiveMind() if PredictiveMind else None
         if self.predictive_mind:
             logger.info("   🧠 PredictiveMind connected for Cognitive Verification")
+            
+            # [Phase 7] Field-Mind Unification
+            if self.tension_field:
+                self.predictive_mind.connect_field(self.tension_field)
     
     def begin_cycle(self) -> WorldSnapshot:
         """사이클 시작 - 현재 상태 스냅샷"""
