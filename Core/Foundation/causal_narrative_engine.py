@@ -449,6 +449,11 @@ class CausalNode:
     # 학습 통계
     experience_count: int = 0
     
+    # Epistemic Grounding (Phase 18.5)
+    # [DELUSION, HYPOTHESIS, TRUTH]
+    epistemic_status: str = "TRUTH" # Default for existing/sensory nodes
+    internal_law: Optional[str] = None # The underlying principle/law
+    
     def get_valence_description(self) -> str:
         """감정가 설명"""
         if self.emotional_valence > 0.5:

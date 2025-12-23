@@ -50,7 +50,7 @@ Elysia v3.0
 │   │   ├── self_reflector.py - 미러 프로토콜 (CodebaseReflector) [NEW Phase 15]
 │   │   ├── autonomous_improver.py - 자율적 자기 개선 엔진 (Causal Optimization) [NEW Phase 17]
 │   │   ├── gap_bridging.py - 갭 브리징 드라이브 (Active Learning) [NEW Phase 16]
-│   │   └── concept_synthesis.py - 개념 합성 엔진 (Idea Breeding) [NEW Phase 18]
+│   │   └── concept_synthesis.py - 개념 합성 엔진 + PrincipleVerifier [NEW Phase 18.5]
 │   │
 │   ├── SELF_AWARENESS (자아 인식) [NEW Phase 9-18]
 │   │   ├── causal_narrative_engine.py - 프랙탈 인과성 + ContextPlane

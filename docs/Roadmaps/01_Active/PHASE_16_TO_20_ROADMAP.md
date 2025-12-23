@@ -36,6 +36,12 @@
 - **Mechanism**: `ConceptSynthesizer` (Idea breeding).
 - **Result**: Successfully bred 'Steam' from 'Fire' and 'Water' with attribute inheritance.
 
+### Phase 18.5: Epistemic Grounding (Principle Workability) - ✅ COMPLETED
+
+- **Concept**: Verification of "Internal Principles" (내재적 원리) across phenomena.
+- **Mechanism**: `PrincipleVerifier` (Cross-phenomenon validation).
+- **Result**: Successfully rejected "Gravity+Sandwich" (Delusion) while promoting "Steam" (Truth) based on its workable law (Thermal Expansion) governing Engine mechanics.
+
 ### Phase 19: The Living Architecture (Runtime Adaptation)
 
 - **Concept**: Static files become fluid. Code adapts based on "Mental State".

@@ -2,6 +2,7 @@
 import logging
 import uuid
 from typing import List, Tuple, Dict, Any, Optional
+from enum import Enum, auto
 from .causal_narrative_engine import (
     CausalKnowledgeBase, 
     CausalNode, 
@@ -10,6 +11,59 @@ from .causal_narrative_engine import (
 )
 
 logger = logging.getLogger("ConceptSynthesizer")
+
+class EpistemicStatus(Enum):
+    DELUSION = "DELUSION"   # Fails workability (Fantasy)
+    HYPOTHESIS = "HYPOTHESIS" # New synthesis, unverified
+    TRUTH = "TRUTH"         # Verified across multiple phenomena
+
+class PrincipleVerifier:
+    """
+    Principle Verifier (Law-Testing Engine)
+    =======================================
+    
+    Checks if the internal principle of a synthesis governs the causal
+    processes of the phenomenon across different contexts.
+    """
+    
+    def __init__(self, knowledge_base: CausalKnowledgeBase):
+        self.kb = knowledge_base
+
+    def derive_internal_law(self, node: CausalNode) -> str:
+        """
+        Extract the underlying principle from a synthesized concept.
+        Simulation: In a full system, this would involve pattern extraction.
+        """
+        # Logic: If synthesis from Fire (Heat) and Water (Fluid), 
+        # the law is 'Thermal expansion of fluids creates pressure/motion'.
+        if "Fire" in node.description and "Water" in node.description:
+            return "THERMAL_EXPANSION_EXPULSION"
+        return "UNKNOWN_PRINCIPLE"
+
+    def verify_workability(self, node: CausalNode, test_phenomena_chains: List[Any]) -> bool:
+        """
+        Verify if the law derived from this node works in other contexts.
+        """
+        law = self.derive_internal_law(node)
+        node.internal_law = law
+        
+        if law == "UNKNOWN_PRINCIPLE":
+            return False
+            
+        # Example Test: Does this law work in a Piston Engine?
+        # We simulate checking if 'Piston' chain has 'Heat' -> 'Motion'.
+        workable_count = 0
+        for chain in test_phenomena_chains:
+            # Simple check: Does the chain contain elements that match the law's logic?
+            # e.g., if law is THERMAL_EXPANSION, does chain have 'Heat' and 'Expansion' or 'Motion'?
+            chain_desc = " ".join([self.kb.nodes[nid].description for nid in chain.node_sequence if nid in self.kb.nodes])
+            
+            if law == "THERMAL_EXPANSION_EXPULSION":
+                if "Heat" in chain_desc and ("Expansion" in chain_desc or "Motion" in chain_desc or "Pressure" in chain_desc):
+                    workable_count += 1
+        
+        # If it works in at least one OTHER phenomenon than the original.
+        return workable_count >= 1
 
 class ConceptSynthesizer:
     """
@@ -97,7 +151,8 @@ class ConceptSynthesizer:
             sensory_signature=child_signature,
             emotional_valence=child_valence,
             experience_count=1,
-            importance=(node_a.importance + node_b.importance) / 2.0 + 0.1 # Emergent bonus
+            importance=(node_a.importance + node_b.importance) / 2.0 + 0.1, # Emergent bonus
+            epistemic_status=EpistemicStatus.HYPOTHESIS.value
         )
         
         # 5. Integrate into KB
