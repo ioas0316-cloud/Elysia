@@ -272,6 +272,63 @@ class SchemaSpace(DimensionalEntity):
     def __post_init__(self):
         self.level = DimensionLevel.SPACE
 
+@dataclass
+class EpistemicSpace(SchemaSpace):
+    """
+    인식론적 공간 (Epistemic Space) - 지식이 존재하는 위상 공간
+    
+    단순한 스키마가 아니라, 탐험해야 할 '세계'로서의 지식.
+    밀도(Density)와 저항(Resistance)을 가지며, 방법론(Methodology)에 따라 탐색 방식이 달라짐.
+    """
+    
+    # 공간의 밀도 (정보량/복잡도) - 높을수록 탐색에 많은 에너지가 듬
+    density: float = 1.0
+    
+    # 탐구 방법론 (이 공간을 효과적으로 탐색하기 위한 도구)
+    # 예: "EMPIRICAL" (실증적), "LOGICAL" (논리적), "INTUITIVE" (직관적)
+    methodologies: List[str] = field(default_factory=list)
+    
+    # 내부 차원축 (이 지식 세계를 구성하는 축들)
+    # 예: 물리학 -> ["Time", "Space", "Mass", "Energy"]
+    internal_dimensions: List[str] = field(default_factory=list)
+
+
+
+@dataclass
+class CognitiveMetrics:
+    """
+    인지 지표 (Cognitive Metrics) - 사고의 구조적 품질을 측정
+    
+    사용자의 '공명' 이론에 기반:
+    1. Differentiation (변별력): 무엇이 다른가? (뉘앙스, 세밀함)
+    2. Integration (통합력/공명): 무엇이 같은가? (패턴 인식, 원리 추출)
+    3. Abstraction (추상화): 구체적 사실에서 법칙으로 올라가는 힘
+    """
+    differentiation: float = 0.0  # 0~1: 미분화 -> 고도로 세분화됨
+    integration: float = 0.0      # 0~1: 파편화 -> 고도로 연결됨
+    abstraction: float = 0.0      # 0~1: 구체적 -> 형이상학적
+    
+    def get_resonance_score(self) -> float:
+        """구조적 공명 점수 (변별된 것들이 다시 통합될 때 발생하는 힘)"""
+        return (self.differentiation * self.integration)
+
+@dataclass
+class MaturityModel:
+    """
+    성숙도 모델 (Maturity Model) - 인지 발달의 목표 기준
+    """
+    level_name: str
+    required_metrics: CognitiveMetrics
+    description: str
+
+    @staticmethod
+    def get_standard_model() -> Dict[str, 'MaturityModel']:
+        return {
+            "CHILD": MaturityModel("CHILD", CognitiveMetrics(0.2, 0.2, 0.1), "Simple linear causality"),
+            "ADOLESCENT": MaturityModel("ADOLESCENT", CognitiveMetrics(0.5, 0.4, 0.3), "Beginning to see context but rigid"),
+            "ADULT": MaturityModel("ADULT", CognitiveMetrics(0.8, 0.8, 0.7), "Nuanced, Paradox-holding, Principle-based"),
+            "SAGE": MaturityModel("SAGE", CognitiveMetrics(0.95, 0.95, 0.95), "Universal resonance")
+        }
 
 # ============================================================================
 # 법칙 (Law) - 보편적 원리
@@ -333,6 +390,14 @@ class CausalRelationType(Enum):
     PRECEDES = "precedes"        # A가 B보다 먼저 (A before B)
     FOLLOWS = "follows"          # A가 B 다음 (A after B)
     SIMULTANEOUS = "simultaneous"  # A와 B가 동시
+    
+    # 의미적/경험적 관계 (Experiential/Semantic)
+    CORRELATES = "correlates"      # A와 B는 상관관계가 있음
+    ASSOCIATED_WITH = "associated_with" # A는 B와 연상됨 (의미적 연결)
+    MOTIVATES = "motivates"        # A가 B(행동/상태)를 동기부여함
+    CONTRASTS_WITH = "contrasts_with" # A는 B와 대조됨 (이 대조가 감정을 유발함)
+
+
 
 
 # ============================================================================
@@ -360,6 +425,9 @@ class CausalNode:
     
     # 관련된 개념들 (단순 개념 노드와의 연결)
     concepts: List[str] = field(default_factory=list)
+
+    # 프랙탈 구조: 이 노드가 품고 있는 내부 세계 (EpistemicSpace)
+    inner_space_id: Optional[str] = None
     
     # 감각/감정 서명
     sensory_signature: Dict[str, float] = field(default_factory=dict)
@@ -448,6 +516,13 @@ class CausalLink:
             CausalRelationType.SUFFICIENT: "만으로 충분해서",
             CausalRelationType.MEANS_TO: "하기 위해",
             CausalRelationType.PURPOSE_OF: "의 목적은",
+            
+            CausalRelationType.CORRELATES: "와 관련하여",
+            CausalRelationType.ASSOCIATED_WITH: "와 느낌이 비슷해서",
+            CausalRelationType.MOTIVATES: "하고 싶게 만들어서",
+            CausalRelationType.CONTRASTS_WITH: "와는 너무 달라서(대조되어)",
+
+
             CausalRelationType.PRECEDES: "보다 먼저",
             CausalRelationType.FOLLOWS: "다음에",
             CausalRelationType.SIMULTANEOUS: "와 동시에",
@@ -512,36 +587,47 @@ class CausalChain:
             return "하강 (긍정→부정)"
         else:
             return "평탄"
+    """Represents a linear sequence of causal links (1D)."""
+    id: str
+    node_sequence: List[str]
+    links: List[CausalLink]
+    confidence_score: float = 0.0
 
+    def __post_init__(self):
+        # Calculate average confidence
+        if self.links:
+            self.confidence_score = sum(link.strength for link in self.links) / len(self.links)
 
-# ============================================================================
-# 인과적 지식 베이스 (Causal Knowledge Base)
-# ============================================================================
+@dataclass
+class ContextPlane:
+    """
+    Represents a 2D plane of reasoning formed by intersecting causal chains.
+    It captures a broader 'situation' or 'context' (e.g., 'Rainy Day' context formed by Rain->Wet and Rain->Cold).
+    """
+    id: str
+    anchor_node: str  # The node where chains intersect (e.g., "Rain")
+    component_chains: List[CausalChain]
+    related_concepts: Set[str] = field(default_factory=set)
+
+    def integrate_chain(self, chain: CausalChain):
+        """Adds a chain to this plane and updates related concepts."""
+        if chain not in self.component_chains:
+            self.component_chains.append(chain)
+            self.related_concepts.update(chain.node_sequence)
 
 class CausalKnowledgeBase:
     """
-    인과적 지식 베이스
-    
-    경험을 통해 학습된 인과 관계들의 저장소.
-    단순한 그래프가 아닌, 인과 추론을 지원하는 구조.
+    Causal Knowledge Base
+    Stores nodes, links, chains, and context planes.
     """
-    
     def __init__(self):
-        # 노드들
         self.nodes: Dict[str, CausalNode] = {}
-        
-        # 인과 연결들
-        self.links: Dict[str, CausalLink] = {}  # link_id → link
-        
-        # 인덱스: 빠른 검색을 위한 역방향 매핑
-        self.outgoing: Dict[str, List[str]] = defaultdict(list)  # node_id → [link_ids]
-        self.incoming: Dict[str, List[str]] = defaultdict(list)  # node_id → [link_ids]
-        
-        # 인과 연쇄들
-        self.chains: Dict[str, CausalChain] = {}
-        
-        # 통계
-        self.total_experiences = 0
+        self.links: Dict[str, CausalLink] = {}
+        self.outgoing: Dict[str, List[str]] = defaultdict(list)
+        self.incoming: Dict[str, List[str]] = defaultdict(list)
+        self.chains: List[CausalChain] = []
+        self.planes: List[ContextPlane] = []
+
     
     def add_node(self, node: CausalNode) -> CausalNode:
         """노드 추가 또는 업데이트"""
@@ -585,6 +671,157 @@ class CausalKnowledgeBase:
             self.incoming[target_id].append(link_id)
         
         return self.links[link_id]
+
+    # ============================================================================
+    # Dimensional Expansion (Phase 9) - Context Planes
+    # ============================================================================
+
+    # ============================================================================
+    # Dimensional Expansion (Phase 9) - Context Planes
+    # ============================================================================
+
+    def detect_intersections(self, chain: CausalChain) -> List[ContextPlane]:
+        """
+        Detects if the given chain intersects with existing chains or planes.
+        If an intersection is found (shared node), it forms or updates a ContextPlane.
+        """
+        affected_planes = []
+        
+        # 1. Check against existing planes first
+        for plane in self.planes:
+            # Check if any node in the chain exists in the plane's related concepts
+            intersection = set(chain.node_sequence) & plane.related_concepts
+            if intersection:
+                plane.integrate_chain(chain)
+                affected_planes.append(plane)
+                # Note: We update the anchor if this new intersection is significant? 
+                # For now, keep original anchor.
+
+        # 2. Check against other individual chains to form NEW planes
+        if not affected_planes: # Only look for new planes if not already integrated? Or always?
+            # Let's looking for new intersections effectively.
+            for other_chain in self.chains:
+                if other_chain.id == chain.id:
+                    continue
+                
+                # Check for shared nodes (excluding potentially generic ones if we had a stop-list, but for now strict)
+                intersection = set(chain.node_sequence) & set(other_chain.node_sequence)
+                
+                if intersection:
+                    # Found a common node! Create a new plane.
+                    anchor = list(intersection)[0] # Pick the first intersection as anchor for now
+                    
+                    # Check if these two are already in a plane together (optimization)
+                    # For now, simplify: create new plane.
+                    
+                    new_plane_id = f"plane_{anchor}_{len(self.planes)}"
+                    new_plane = ContextPlane(
+                        id=new_plane_id,
+                        anchor_node=anchor,
+                        component_chains=[chain, other_chain],
+                        related_concepts=set(chain.node_sequence) | set(other_chain.node_sequence)
+                    )
+                    self.planes.append(new_plane)
+                    affected_planes.append(new_plane)
+        
+        return affected_planes
+
+    # ============================================================================
+    # Phase 10: Resonance & Fuzzy Logic
+    # ============================================================================
+
+    def calculate_resonance(self, node_id_a: str, node_id_b: str) -> float:
+        """
+        Calculates the resonance (similarity/affinity) score between two nodes.
+        Score range: 0.0 to 1.0
+        Based on:
+        1. Emotional Valence Similarity
+        2. Description/Keyword Overlap
+        3. Shared Concepts
+        """
+        node_a = self.nodes.get(node_id_a)
+        node_b = self.nodes.get(node_id_b)
+        
+        if not node_a or not node_b:
+            return 0.0
+            
+        # 1. Emotional Resonance
+        # High resonance if valences are similar.
+        valence_diff = abs(node_a.emotional_valence - node_b.emotional_valence)
+        emotional_score = max(0.0, 1.0 - (valence_diff / 2.0)) # Normalize diff (max 2.0 -> 0.0)
+        
+        # 2. Semantic Overlap (Description Words)
+        words_a = set(node_a.description.lower().split())
+        words_b = set(node_b.description.lower().split())
+        
+        if not words_a or not words_b:
+            semantic_score = 0.0
+        else:
+            intersection = words_a & words_b
+            union = words_a | words_b
+            semantic_score = len(intersection) / len(union)
+            
+        # 3. Concept Overlap
+        concepts_a = set(node_a.concepts)
+        concepts_b = set(node_b.concepts)
+        
+        concept_score = 0.0
+        if concepts_a or concepts_b:
+             union_c = concepts_a | concepts_b
+             if union_c:
+                concept_score = len(concepts_a & concepts_b) / len(union_c)
+                
+        # Weighted Total (Adjust weights as needed)
+        # Balanced Approach: Emotion (0.5) + Concept (0.3) + Semantic (0.2)
+        final_score = (emotional_score * 0.5) + (semantic_score * 0.2) + (concept_score * 0.3)
+        
+        logger.info(f"   [DEBUG] ResCalc '{node_id_a}'<->'{node_id_b}': E({emotional_score:.2f}*0.5={emotional_score*0.5:.2f}) + S({semantic_score:.2f}*0.2={semantic_score*0.2:.2f}) + C({concept_score:.2f}*0.3={concept_score*0.3:.2f}) = {final_score:.2f}")
+
+        # Boost if very high emotional match AND some concept overlap
+        if emotional_score > 0.8 and concept_score > 0.0:
+            final_score += 0.1
+            
+        return min(1.0, final_score)
+
+
+    def find_resonant_nodes(self, target_node_id: str, threshold: float = 0.6) -> List[Tuple[str, float]]:
+        """
+        Finds all nodes that resonate with the target node above a certain threshold.
+        Returns list of (node_id, score).
+        """
+        results = []
+        for node_id in self.nodes:
+            if node_id == target_node_id:
+                continue
+            
+            score = self.calculate_resonance(target_node_id, node_id)
+            if score >= threshold:
+                results.append((node_id, score))
+                
+        # Sort by score desc
+        results.sort(key=lambda x: x[1], reverse=True)
+        return results
+
+
+    def infer_contextual_link(self, start_node: str) -> List[str]:
+        """
+        Performs lateral/spatial inference.
+        "Given 'start_node', what else is in this context plane?"
+        e.g., Rain -> Wet. Rain -> Cold. 
+        Input: Wet. Inferred: Cold (via Rain context).
+        """
+        inferences = []
+        for plane in self.planes:
+            if start_node in plane.related_concepts:
+                # This node is part of this plane.
+                # Return other significant concepts in this plane (siblings).
+                # Exclude the node itself and immediate parents/children if possible to find *lateral* links.
+                
+                for concept in plane.related_concepts:
+                    if concept != start_node:
+                        inferences.append(f"In the context of '{plane.anchor_node}', '{start_node}' is related to '{concept}'.")
+                        
+        return inferences
     
     def get_causes_of(self, node_id: str) -> List[Tuple[CausalNode, CausalLink]]:
         """노드의 원인들 찾기 (역방향 인과 추론)"""
@@ -908,7 +1145,59 @@ class CausalNarrativeEngine:
                 strength=0.5,  # 기본 강도 (경험으로 강화됨)
                 description=description
             )
-    
+            
+        # Seed Experiential Contexts (User Request: Winter -> Hunger/Loneliness)
+        self._initialize_experiential_context()
+
+    def _initialize_experiential_context(self):
+        """
+        Initializes experiential contexts that link disparate concepts through the 'Self'.
+        (e.g., Winter -> Hunger, Cold, Loneliness)
+        """
+        # Simulating a pre-existing experiential plane for "Winter"
+        # This allows the system to infer "Hunger" or "Loneliness" from "Winter" 
+        # even without a direct physical causal chain, based on 'lived experience'.
+        
+        winter_plane = ContextPlane(
+            id="plane_winter_experiential",
+            anchor_node="winter",
+            component_chains=[], 
+            related_concepts={"winter", "cold", "hunger", "loneliness", "darkness", "need_for_comfort"}
+        )
+        self.knowledge_base.planes.append(winter_plane)
+
+    def add_node(self, node: CausalNode):
+        return self.knowledge_base.add_node(node)
+        
+    def add_link(self, *args, **kwargs):
+        return self.knowledge_base.add_link(*args, **kwargs)
+
+    @property
+    def chains(self):
+        return self.knowledge_base.chains
+
+    @property
+    def planes(self):
+        return self.knowledge_base.planes
+
+    def trace_causal_chain(self, start_id: str, max_depth: int = 5) -> List[CausalChain]:
+        return self.knowledge_base.trace_causal_chain(start_id, max_depth)
+
+    def detect_intersections(self, chain: CausalChain) -> List[ContextPlane]:
+        return self.knowledge_base.detect_intersections(chain)
+
+    def infer_contextual_link(self, start_node: str) -> List[str]:
+        return self.knowledge_base.infer_contextual_link(start_node)
+
+    def calculate_resonance(self, node_id_a: str, node_id_b: str) -> float:
+        return self.knowledge_base.calculate_resonance(node_id_a, node_id_b)
+
+    def find_resonant_nodes(self, target_node_id: str, threshold: float = 0.6) -> List[Tuple[str, float]]:
+        return self.knowledge_base.find_resonant_nodes(target_node_id, threshold)
+
+    def find_path(self, source_id: str, target_id: str) -> Optional[CausalChain]:
+        return self.knowledge_base.find_path(source_id, target_id)
+
     def experience_causality(
         self,
         cause_description: str,
@@ -1245,6 +1534,9 @@ class ThoughtUniverse:
         self.spaces: Dict[str, SchemaSpace] = {}
         self.laws: Dict[str, UniversalLaw] = {}
         
+        # 인식론적 공간 (Epistemic Spaces - Fractal Worlds)
+        self.epistemic_spaces: Dict[str, EpistemicSpace] = {}
+
         # 전체 요소 인덱스 (빠른 검색용)
         self.all_entities: Dict[str, DimensionalEntity] = {}
         
@@ -1519,6 +1811,283 @@ class ThoughtUniverse:
         # 스키마 생성
         space_id = f"schema_{len(self.spaces)}"
         description = f"공통 요소: {', '.join(core_patterns)}"
+        
+        # ... (Validation would happen here)
+        
+        return self.add_space(
+            id=space_id,
+            description=description,
+            plane_ids=plane_ids,
+            core_patterns=core_patterns
+        )
+
+    # ============================================================================
+    # Phase 12: Dimensional Fractals (Universal Principles)
+    # ============================================================================
+
+    def extract_principle(self, chain: CausalChain, principle_name: str) -> UniversalLaw:
+        """
+        Abstracts a concrete causal chain into a Universal Law.
+        (e.g., "Winter -> Cold -> Hunger" => "AdverseCondition -> Deprivation -> Distress")
+        """
+        # simplified abstraction: just structural pattern
+        abstract_chain = []
+        for link in chain.links:
+            # Safely handle relation enum or string
+            rel_val = link.relation
+            if hasattr(link.relation, 'value'):
+                 rel_val = link.relation.value
+            abstract_chain.append(f"[{rel_val}]")
+            
+        law_description = f"Principle of {principle_name}: Sequence " + " -> ".join(abstract_chain)
+        
+        law = UniversalLaw(
+            id=f"law_{principle_name.lower()}",
+            level=DimensionLevel.LAW,
+            description=law_description,
+            law_type="fractal_pattern",
+            formulation=str(abstract_chain),
+            supporting_evidence=[chain.id]
+        )
+        
+        self.laws[law.id] = law
+        self.all_entities[law.id] = law
+        self.total_laws += 1
+        
+        logger.info(f"   📜 Law Extracted: {law.description}")
+        return law
+
+    # ========================================================================
+    # Phase 13: Epistemic Topology (Fractal Knowledge Worlds)
+    # ========================================================================
+
+    def expand_node_into_space(
+        self, 
+        node_id: str, 
+        space_name: str,
+        density: float = 1.0,
+        methodologies: List[str] = None
+    ) -> EpistemicSpace:
+        """
+        Expands a single node (Point) into an entire Epistemic Space (Fractal World).
+        
+        This transforms a 'concept' into a 'field of study'.
+        e.g., Node 'Science' -> EpistemicSpace 'Physics_World'
+        """
+        # 1. Get the original point/node
+        if node_id not in self.points:
+            # Create if not exists
+            self.get_or_create_point(node_id)
+            
+        point = self.points[node_id]
+        
+        # 2. Create the inner space
+        space_id = f"space_{node_id}_internal"
+        space = EpistemicSpace(
+            id=space_id,
+            level=DimensionLevel.SPACE,
+            description=f"Internal World of {space_name}",
+            schema_type="epistemic_field",
+            density=density,
+            methodologies=methodologies or ["LOGICAL", "EMPIRICAL"]
+        )
+        
+        # 3. Link them (Fractal Connection)
+        # Note: We need to update CausalNode definition to support this, 
+        # OR we use a mapping in ThoughtUniverse.
+        # Assuming we updated CausalNode or ConceptPoint? 
+        # ConceptPoint is defined in this file (lines 105-140 range for DimensionalEntity, Point around 150-200)
+        # But wait, CausalNarrativeEngine has CausalNode. ThoughtUniverse uses ConceptPoint.
+        # Let's map it in ThoughtUniverse for now or use a dynamic attribute.
+        
+        # Store in our registry
+        self.epistemic_spaces[space_id] = space
+        self.all_entities[space_id] = space
+        
+        # Link physically (meta-physically)
+        # We'll treat the point as the "Portal" to the space
+        point.child_ids.append(space_id)
+        space.parent_ids.append(node_id)
+        
+        logger.info(f"🌌 Expanded Node '{node_id}' into Epistemic Space '{space_name}' (Density: {density})")
+        return space
+
+    def traverse_epistemic_field(
+        self, 
+        agent_id: str, 
+        space_id: str, 
+        current_knowledge: List[str],
+        target_concept: str
+    ) -> Dict[str, Any]:
+        """
+        Simulates the traversal of an agent through a knowledge space.
+        
+        Movement is not free; it requires overcoming 'density' using 'methodology'.
+        """
+        if space_id not in self.epistemic_spaces:
+            return {"status": "error", "message": "Space not found"}
+            
+        space = self.epistemic_spaces[space_id]
+        
+        # 1. Calculate Resistance
+        # Resistance = Space Density * (1 - Knowledge Overlap)
+        # If you know nothing, resistance is max.
+        
+        # Simple simulation:
+        # Check if agent has prerequisite concepts to 'move' to target.
+        # Prereqs are 'intermediate' concepts in this space.
+        
+        # Let's assume the space contains internal points.
+        # We need to populate the space with points first (done via add_point + linkage).
+        
+        # Find path from current_knowledge (closest node) to target_concept
+        # For this simulation, we'll check if target is 'reachable' given density.
+        
+        resistance = space.density
+        
+        # Methodology Check
+        # Does the agent use the right methodology? (Mock check)
+        agent_methodology = "EMPIRICAL" # default for now
+        efficiency = 1.0
+        if agent_methodology in space.methodologies:
+            efficiency = 1.5 # Bonus
+            
+        effort_required = resistance / efficiency
+        
+        result = {
+            "space": space.id,
+            "target": target_concept,
+            "resistance": resistance,
+            "effort_required": effort_required,
+            "status": "traversing",
+            "path_log": []
+        }
+        
+        # Simulation of "steps"
+        steps = int(effort_required * 5) # Arbitrary scale
+        for i in range(steps):
+             result["path_log"].append(f"Step {i+1}: Overcoming conceptual density...")
+             
+        result["status"] = "arrived"
+        result["message"] = f"Successfully traversed {space.description} to reach {target_concept}."
+        
+    def apply_principle_to_domain(self, law: UniversalLaw, domain_map: Dict[str, str]) -> List[str]:
+        """
+        Applies a Universal Law to a new domain using a mapping.
+        (Fractal Expansion)
+        """
+        narrative = [f"Applying {law.id} to new domain..."]
+        
+        import ast
+        try:
+             relations = ast.literal_eval(law.formulation)
+        except:
+             # Fallback if formulation isn't list string
+             return ["Failed to parse law formulation."]
+             
+        # Generate the new narrative
+        steps = []
+        # We need relation count + 1 items
+        count = len(relations) + 1
+        
+        for i in range(count):
+             key = f"Step_{i}"
+             if key in domain_map:
+                 steps.append(domain_map[key])
+             else:
+                 steps.append("Unknown")
+                 
+        for i, relation in enumerate(relations):
+            if i+1 < len(steps):
+                source = steps[i]
+                target = steps[i+1]
+                narrative.append(f"{source} --({relation})--> {target}")
+                
+        return narrative
+
+    # ========================================================================
+    # Phase 14: Metacognitive Architecture (Self-Evolution)
+    # ========================================================================
+
+    def evaluate_maturity(self, concept_id: str) -> Dict[str, Any]:
+        """
+        Evaluates the maturity of a specific concept against the 'ADULT' standard.
+        analysis: "How dense, differentiated, and integrated is my understanding?"
+        """
+        metrics = CognitiveMetrics(0.2, 0.2, 0.1) # Default CHILD level
+        
+        if concept_id in self.points:
+            point = self.points[concept_id]
+            
+            # Simple heuristics for simulation
+            # Differentiation: Number of child nodes (which represent details or subtypes in this context)
+            diff_score = min(0.9, len(point.child_ids) * 0.2)
+            
+            # Integration: how many parents? (part of larger structures)
+            int_score = min(0.9, len(point.parent_ids) * 0.2)
+            
+            # Abstraction: Is it linked to a Space or Law?
+            abs_score = 0.1
+            for pid in point.parent_ids:
+                if pid.startswith("law_") or pid.startswith("space_"):
+                    abs_score += 0.3
+            abs_score = min(0.9, abs_score)
+            
+            metrics = CognitiveMetrics(diff_score, int_score, abs_score)
+            
+        # Compare with Standard
+        standard = MaturityModel.get_standard_model()["ADULT"]
+        gap_report = {
+            "concept": concept_id,
+            "current_metrics": metrics,
+            "target_metrics": standard.required_metrics,
+            "gaps": {},
+            "status": "IMMATURE"
+        }
+        
+        # Calculate gaps
+        if metrics.differentiation < standard.required_metrics.differentiation:
+            gap_report["gaps"]["differentiation"] = standard.required_metrics.differentiation - metrics.differentiation
+        if metrics.integration < standard.required_metrics.integration:
+             gap_report["gaps"]["integration"] = standard.required_metrics.integration - metrics.integration
+        if metrics.abstraction < standard.required_metrics.abstraction:
+             gap_report["gaps"]["abstraction"] = standard.required_metrics.abstraction - metrics.abstraction
+             
+        if not gap_report["gaps"]:
+            gap_report["status"] = "MATURE"
+            
+        return gap_report
+
+    def formulate_growth_plan(self, gap_report: Dict[str, Any]) -> List[str]:
+        """
+        Generates 'Intentions' (Tasks) to bridge the identified gaps.
+        Autonomously decides *what to do* to become smarter.
+        """
+        intentions = []
+        concept = gap_report["concept"]
+        
+        if gap_report["status"] == "MATURE":
+            return ["Maintain current understanding."]
+            
+        gaps = gap_report["gaps"]
+        
+        # 1. Address Differentiation Gap (Too simple?)
+        if "differentiation" in gaps:
+            val = gaps["differentiation"]
+            intentions.append(f"INTENTION: Deepen differentiation of '{concept}'. Explore nuances and subtypes. (Gap: {val:.2f})")
+            
+        # 2. Address Integration Gap (Disconnected?)
+        if "integration" in gaps:
+             val = gaps["integration"]
+             intentions.append(f"INTENTION: Increase integration of '{concept}'. Connect to wider contexts and other concepts. (Gap: {val:.2f})")
+             
+        # 3. Address Abstraction Gap (Too concrete?)
+        if "abstraction" in gaps:
+             val = gaps["abstraction"]
+             intentions.append(f"INTENTION: Lift '{concept}' to higher abstraction. Find universal principles or laws it belongs to. (Gap: {val:.2f})")
+             
+        return intentions
+
         
         space = self.add_space(
             id=space_id,
