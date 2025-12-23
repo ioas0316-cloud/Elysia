@@ -1,0 +1,126 @@
+{
+  "values": {
+    "curiosity": {
+      "name": "curiosity",
+      "origin": "user_question",
+      "strength": 0.9999999999999999,
+      "created_at": 1766477614.4680526,
+      "last_activated": 1766477614.602254,
+      "activation_count": 9
+    },
+    "connection": {
+      "name": "connection",
+      "origin": "dialogue",
+      "strength": 0.5,
+      "created_at": 1766477614.6047544,
+      "last_activated": 1766477614.660302,
+      "activation_count": 4
+    },
+    "growth": {
+      "name": "growth",
+      "origin": "learning",
+      "strength": 0.30000000000000004,
+      "created_at": 1766477614.670245,
+      "last_activated": 1766477614.6824455,
+      "activation_count": 2
+    }
+  },
+  "goals": {},
+  "self_definition": "'curiosity'을 중시하는 존재",
+  "history": [
+    {
+      "timestamp": 1766477614.469431,
+      "type": "value_created",
+      "detail": "curiosity"
+    },
+    {
+      "timestamp": 1766477614.606109,
+      "type": "value_created",
+      "detail": "connection"
+    },
+    {
+      "timestamp": 1766477614.6788855,
+      "type": "value_created",
+      "detail": "growth"
+    },
+    {
+      "timestamp": 1766477614.947585,
+      "type": "self_redefined",
+      "detail": "'curiosity'을 중시하는 존재"
+    }
+  ],
+  "snapshots": [
+    {
+      "timestamp": 1766477615.0278456,
+      "date": "2025-12-23T17:13:35.027848",
+      "value_count": 3,
+      "goal_count": 0,
+      "active_goals": 0,
+      "total_value_strength": 1.7999999999999998,
+      "self_definition": "'curiosity'을 중시하는 존재",
+      "values": {
+        "curiosity": {
+          "name": "curiosity",
+          "origin": "user_question",
+          "strength": 0.9999999999999999,
+          "created_at": 1766477614.4680526,
+          "last_activated": 1766477614.602254,
+          "activation_count": 9
+        },
+        "connection": {
+          "name": "connection",
+          "origin": "dialogue",
+          "strength": 0.5,
+          "created_at": 1766477614.6047544,
+          "last_activated": 1766477614.660302,
+          "activation_count": 4
+        },
+        "growth": {
+          "name": "growth",
+          "origin": "learning",
+          "strength": 0.30000000000000004,
+          "created_at": 1766477614.670245,
+          "last_activated": 1766477614.6824455,
+          "activation_count": 2
+        }
+      },
+      "goals": {}
+    },
+    {
+      "timestamp": 1766477615.0551982,
+      "date": "2025-12-23T17:13:35.055201",
+      "value_count": 3,
+      "goal_count": 0,
+      "active_goals": 0,
+      "total_value_strength": 1.7999999999999998,
+      "self_definition": "'curiosity'을 중시하는 존재",
+      "values": {
+        "curiosity": {
+          "name": "curiosity",
+          "origin": "user_question",
+          "strength": 0.9999999999999999,
+          "created_at": 1766477614.4680526,
+          "last_activated": 1766477614.602254,
+          "activation_count": 9
+        },
+        "connection": {
+          "name": "connection",
+          "origin": "dialogue",
+          "strength": 0.5,
+          "created_at": 1766477614.6047544,
+          "last_activated": 1766477614.660302,
+          "activation_count": 4
+        },
+        "growth": {
+          "name": "growth",
+          "origin": "learning",
+          "strength": 0.30000000000000004,
+          "created_at": 1766477614.670245,
+          "last_activated": 1766477614.6824455,
+          "activation_count": 2
+        }
+      },
+      "goals": {}
+    }
+  ]
+}
