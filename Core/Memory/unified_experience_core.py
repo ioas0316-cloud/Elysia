@@ -234,6 +234,46 @@ class UnifiedExperienceCore:
         except FileNotFoundError:
             pass
 
+    def consolidate(self):
+        """
+        [ANS Hook] Consolidates experience stream.
+        - Truncates stream to keep only recent events + significant ones
+        - Archives older events to disk
+        """
+        if len(self.stream) < 500:
+            return
+
+        logger.info(f"🗜️ Consolidating Experience Core (Stream size: {len(self.stream)})...")
+        
+        # Keep significant events (high feedback or reinforced)
+        significant = [
+            e for e in self.stream[:-500] 
+            if abs(e.feedback) > 0.5 or "reinforced" in self.patterns
+        ]
+        
+        # Keep last 500 events
+        recent = self.stream[-500:]
+        
+        # Archive the rest
+        archived_count = len(self.stream) - len(recent) - len(significant)
+        if archived_count > 0:
+            self._archive_stream(self.stream[:-500])
+        
+        # Update stream
+        self.stream = significant + recent
+        logger.info(f"   Reduced stream to {len(self.stream)} events. Archived {archived_count}.")
+        self._save_state()
+
+    def _archive_stream(self, events: List[ExperienceEvent]):
+        """Archives events to a daily log file."""
+        import datetime
+        date_str = datetime.date.today().isoformat()
+        archive_path = self.base_dir / f"archive_{date_str}.jsonl"
+        
+        with open(archive_path, "a", encoding="utf-8") as f:
+            for event in events:
+                f.write(json.dumps(asdict(event)) + "\n")
+
 # Global Access
 _instance: Optional[UnifiedExperienceCore] = None
 def get_experience_core() -> UnifiedExperienceCore:

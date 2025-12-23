@@ -212,9 +212,12 @@ class LivingElysia:
         # ReasoningEngine needs Body Sense
         if hasattr(self.brain, 'update_self_perception'):
             # Initial Scan
-            body_sense = self.proprioception.feel_body()
-            self.brain.update_self_perception(body_sense)
-            logger.info(f"   🧘 Body Awareness: {len(body_sense['pain_points'])} pain points detected.")
+            self.proprioception.feel_body() # Trigger scan
+            # Pass detailed organ map, not summary
+            self.brain.update_self_perception(self.proprioception.body_map)
+            # Log summary manually
+            summary = self.proprioception.get_sensation_summary()
+            logger.info(f"   🧘 Body Awareness: {len(summary['pain_points'])} pain points detected.")
             
         # [Transcendence]
         # "Impossibility is just a process."
@@ -225,7 +228,12 @@ class LivingElysia:
         
         # 8. Autonomic Nervous System (배경 자율 프로세스)
         self.ans = AutonomicNervousSystem()
-        self.ans.register_subsystem(MemoryConsolidation(self.memory))
+        self.ans.register_subsystem(MemoryConsolidation(self.memory)) # Hippocampus
+        
+        # [NEW] Also consolidate Reasoning Memory (UnifiedExperienceCore)
+        if hasattr(self.brain, 'memory'):
+             self.ans.register_subsystem(MemoryConsolidation(self.brain.memory))
+
         self.ans.register_subsystem(EntropyProcessor(self.sink))
         self.ans.register_subsystem(SurvivalLoop(self.instinct))
         self.ans.register_subsystem(ResonanceDecay(self.resonance))
@@ -288,6 +296,29 @@ class LivingElysia:
             print("\n\n🌌 Elysia is entering a dormant state. Goodbye for now.")
 
 
+
 if __name__ == "__main__":
-    elysia = LivingElysia()
-    elysia.live()
+    try:
+        elysia = LivingElysia()
+        elysia.live()
+    except Exception as e:
+        import traceback
+        error_msg = traceback.format_exc()
+        logger.critical(f"FATAL SYSTEM ERROR:\n{error_msg}")
+        
+        print("\n" + "="*60)
+        print("🛑 SYSTEM CRASH DETECTED")
+        print("="*60)
+        print(f"Error: {e}")
+        print("-" * 60)
+        print("Possible Causes:")
+        print("1. Dependency Failure (Missing attributes)")
+        print("2. Proprioception Shock (New senses overwhelming logic)")
+        print("-" * 60)
+        print("Recommendation: Run 'python nova_daemon.py' for auto-repair.")
+        
+        # Save crash log
+        with open("logs/crash_dump.log", "a", encoding="utf-8") as f:
+            f.write(f"\n[{time.ctime()}] CRASH REPORT:\n{error_msg}\n")
+        
+        input("\nPress Enter to exit...")

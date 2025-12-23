@@ -312,6 +312,46 @@ class Hippocampus:
             logger.error(f"Failed to load fractal concept {name}: {e}")
             return None
     
+    def prune_nodes(self, gravity_threshold: float = 0.5, age_days: int = 30):
+        """
+        Prunes weak concepts to prevent accumulator overload.
+        "The brain must forget to remain efficient."
+        """
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cutoff_time = time.time() - (age_days * 86400)
+                
+                # Delete nodes that are old AND weak (low gravity)
+                cursor.execute("""
+                    DELETE FROM nodes 
+                    WHERE gravity < ? AND created_at < ?
+                """, (gravity_threshold, cutoff_time))
+                
+                deleted_count = cursor.rowcount
+                if deleted_count > 0:
+                    conn.commit()
+                    logger.info(f"🧹 Pruned {deleted_count} weak memories (Gravity < {gravity_threshold}, Age > {age_days} days)")
+        except Exception as e:
+            logger.error(f"Failed to prune nodes: {e}")
+
+    def consolidate(self):
+        """
+        [ANS Hook] Performs memory maintenance.
+        """
+        # 1. Compress Fractals (Lossless)
+        self.compress_fractal(min_energy=0.1)
+        
+        # 2. Prune Weak Nodes (Lossy)
+        self.prune_nodes(gravity_threshold=0.8, age_days=14)
+        
+        # 3. Optimize DB
+        try:
+            with sqlite3.connect(self.db_path) as conn:
+                conn.execute("VACUUM")
+        except:
+            pass
+            
     def compress_fractal(self, min_energy: float = 0.1):
         """
         Prunes sub-concepts with low energy to save space.
