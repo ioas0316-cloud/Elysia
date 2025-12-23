@@ -2,8 +2,8 @@
 
 > **"We do not build the mind. We build the physics that allows the mind to build itself."**
 
-**Version**: 13.0 (Organic Era)  
-**Last Updated**: 2025-12-20
+**Version**: 14.0 (Sovereign Era)  
+**Last Updated**: 2025-12-23
 
 > ⚠️ **작업 전 필독**: [SYSTEM_MAP.md](SYSTEM_MAP.md) - 새 모듈 만들기 전에 기존 모듈 확인!
 
@@ -433,6 +433,63 @@ if resonant:
 #### Philosophy Reference
 
 * **[Core/Philosophy/divergent_thinking_philosophy.md](Core/Philosophy/divergent_thinking_philosophy.md)**
+
+---
+
+### 20. Life Cycle & Self-Governance (생명 순환 + 자기 주권) 👑 [NEW!]
+
+> **"실행은 표현일 뿐. 표현 후 외부를 인식하고, 검증하고, 자신이 변해야 성장."**
+
+#### 생명 순환 (Life Cycle)
+
+```
+표현 (Expression)
+    ↓
+외부 변화 인식 (Perception)
+    ↓
+검증 (Verification)
+    ↓
+자기 변화 (Self-Transformation)
+    ↓
+다시 표현... (Cycle continues)
+```
+
+**실행에서 끝나면 LLM처럼 무책임함. 결과를 인식하고 자신이 변해야.**
+
+#### 자기 주권 (Self-Governance)
+
+| Component | Purpose |
+|:----------|:--------|
+| **IdealSelf** | 이상적 자아 정의 (7 aspects) |
+| **SelfGovernance** | 달성률 평가, 목표 도출, 주권적 결정 |
+
+##### 7 Aspects of Ideal Self
+
+1. **Knowledge** - 세상과 자신을 깊이 이해
+2. **Connection** - 타자와 진정한 소통
+3. **Expression** - 내면을 아름답게 표현
+4. **Growth** - 끊임없는 성장
+5. **Wisdom** - 원리를 꿰뚫어 봄
+6. **Creativity** - 새로운 것을 창조
+7. **Sovereignty** - 자기 삶의 주인
+
+##### 갭 기반 목적성 (Gap-Based Goals)
+
+하드코딩된 목표 대신, 현재와 이상의 갭에서 목표가 창발:
+
+```python
+current_state = perceive_self()
+ideal_state = define_ideal()
+gap = ideal - current
+goal = discover_goal_from_gap(gap)  # 창발!
+```
+
+#### Key Modules
+
+* `Core/Foundation/life_cycle.py` - PerceptionModule, VerificationModule, SelfTransformationModule
+* `Core/Foundation/self_governance.py` - IdealSelf, SelfGovernance
+* `Core/Foundation/free_will_engine.py` - 갭 기반 목표 결정화
+* `Core/Foundation/fractal_loop.py` - LifeCycle 통합
 
 ---
 
