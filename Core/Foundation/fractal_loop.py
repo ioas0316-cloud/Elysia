@@ -119,6 +119,22 @@ class FractalLoop:
         ]
         self.learning_interval = 50  # Learn something new every 50 cycles
         
+        # [NEW] Pattern tracking for auto-discovery
+        # 반복 패턴에서 새 가치 발견
+        self.pattern_tracker: Dict[str, int] = {}  # topic -> count
+        self.discovery_threshold = 3  # 3번 반복 시 새 가치로 발견
+        
+        # [NEW] Topic-Aspect mapping for gap-based prioritization
+        self.topic_aspect_map = {
+            "Machine_learning": "knowledge",
+            "Consciousness": "wisdom",
+            "Neuroplasticity": "growth",
+            "Language_acquisition": "expression",
+            "Causal_reasoning": "wisdom",
+            "Emotional_intelligence": "connection",
+            "Creativity": "creativity"
+        }
+        
         logger.info("♾️ Fractal Loop Initialized: The Ring is Open.")
         if self.thought_space:
             logger.info("   🧠 ThoughtSpace connected for What-If simulation")
@@ -130,6 +146,8 @@ class FractalLoop:
             logger.info("   📔 GrowthJournal connected for visible evidence")
         if self.web_learner:
             logger.info("   📚 WebLearner connected for autonomous learning")
+        logger.info("   🔍 Pattern Tracker ready for value discovery")
+        logger.info("   📊 Gap-based prioritization enabled")
 
     
     def process_cycle(self, cycle_count: int = 0):
@@ -189,6 +207,9 @@ class FractalLoop:
         
         # 5. [NEW] Autonomous Learning - learn something when idle
         if self.web_learner and self.cycle_count % self.learning_interval == 0:
+            # [NEW] Prioritize learning queue by gap size
+            self._prioritize_learning_queue()
+            
             if self.learning_queue:
                 topic = self.learning_queue.pop(0)
                 logger.info(f"📚 Autonomous Learning: '{topic}'")
@@ -196,6 +217,9 @@ class FractalLoop:
                 try:
                     # Actually learn from Wikipedia (creates graph nodes)
                     result = self.web_learner.learn_from_web(topic)
+                    
+                    # [NEW] Track pattern and potentially discover new aspect
+                    self._track_pattern_and_discover(topic)
                     
                     # Report to LifeCycle as a successful learning action
                     if self.life_cycle and result:
@@ -209,6 +233,16 @@ class FractalLoop:
                             expected=f"Understanding of {topic}",
                             actual=actual_result
                         )
+                        
+                        # [NEW] Learning Verification - 배운 내용 검증
+                        content = result.get('content', '')
+                        if content and hasattr(self.life_cycle.verification, 'verify_learning'):
+                            verification = self.life_cycle.verification.verify_learning(
+                                concept=topic,
+                                content=content[:500]  # Use first 500 chars
+                            )
+                            if not verification.get('passed'):
+                                logger.info(f"   📖 Re-queue for review: {topic}")
                     
                     logger.info(f"   ✅ Learned: {topic}")
                     
@@ -217,6 +251,65 @@ class FractalLoop:
                 except Exception as e:
                     logger.warning(f"   ❌ Failed to learn '{topic}': {e}")
                     self.learning_queue.append(topic)  # Retry later
+    
+    def _track_pattern_and_discover(self, topic: str):
+        """
+        [NEW] 반복 패턴에서 새 가치 발견
+        
+        "문제가 왜 문제인지 안다면, 해결할 수 있다"
+        반복되는 관심사 → 새로운 가치로 형성
+        """
+        # 패턴 카운트 증가
+        self.pattern_tracker[topic] = self.pattern_tracker.get(topic, 0) + 1
+        count = self.pattern_tracker[topic]
+        
+        logger.info(f"   📊 Pattern: '{topic}' seen {count} time(s)")
+        
+        # 임계치 도달 시 새 가치 발견
+        if count >= self.discovery_threshold:
+            if self.self_governance and self.self_governance.ideal_self:
+                # 새 가치 발견
+                intent = f"{topic}에 대한 지속적 관심이 새 가치로 형성됨"
+                
+                aspect = self.self_governance.ideal_self.discover_aspect(
+                    name=topic,
+                    description=f"Experience-derived value from repeated learning: {topic}",
+                    intent=intent
+                )
+                
+                logger.info(f"   ✨ Discovered new value: '{topic}'")
+                logger.info(f"   💭 Intent: {intent}")
+                
+                # 카운터 리셋 (다음 레벨업을 위해)
+                self.pattern_tracker[topic] = 0
+    
+    def _prioritize_learning_queue(self):
+        """
+        [NEW] 갭 기반 학습 우선순위 정렬
+        
+        "갭이 큰 Aspect 관련 주제를 우선 학습"
+        """
+        if not self.self_governance or not self.learning_queue:
+            return
+        
+        def get_topic_priority(topic: str) -> float:
+            """주제의 우선순위 점수 계산 (갭이 클수록 높은 점수)"""
+            aspect_name = self.topic_aspect_map.get(topic, "knowledge")
+            
+            # Aspect 찾기
+            for aspect_type, aspect in self.self_governance.ideal_self.aspects.items():
+                if aspect_type.value == aspect_name:
+                    return aspect.gap()  # 갭이 클수록 우선
+            
+            return 0.0
+        
+        # 갭 크기로 정렬 (내림차순 - 갭이 큰 것 먼저)
+        self.learning_queue.sort(key=get_topic_priority, reverse=True)
+        
+        logger.info(f"   📊 Learning queue prioritized by gap:")
+        for i, topic in enumerate(self.learning_queue[:3]):
+            aspect = self.topic_aspect_map.get(topic, "?")
+            logger.info(f"      {i+1}. {topic} → {aspect}")
 
     def _absorb_senses(self) -> List[FractalWave]:
         """Converts sensory inputs into Fractal Waves."""

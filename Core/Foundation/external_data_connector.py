@@ -74,6 +74,7 @@ class ExternalDataConnector:
         # [NEW] Store in actual knowledge graph (TorchGraph)
         graph_stored = False
         related_concepts = []
+        semantic_neighbors = []
         try:
             from Core.Foundation.Graph.torch_graph import get_torch_graph
             graph = get_torch_graph()
@@ -87,7 +88,7 @@ class ExternalDataConnector:
                     "source": "web_learning"
                 })
                 
-                # Extract key terms for relationships
+                # Method 1: Extract key terms for relationships (keyword-based)
                 key_terms = self._extract_key_terms(text_content)
                 
                 # Create relationships to existing concepts
@@ -95,10 +96,20 @@ class ExternalDataConnector:
                     if term != concept and term in graph.id_to_idx:
                         graph.add_link(concept, term, link_type="relates_to")
                         related_concepts.append(term)
-                        logger.info(f"   🔗 Connected: {concept} → {term}")
+                        logger.info(f"   🔗 Keyword: {concept} → {term}")
+                
+                # Method 2: [NEW] Semantic similarity-based connections
+                semantic_neighbors = self._find_semantic_neighbors(concept, text_content, top_k=3)
+                
+                for neighbor_concept, similarity in semantic_neighbors:
+                    if neighbor_concept not in related_concepts:  # Avoid duplicates
+                        graph.add_link(concept, neighbor_concept, link_type="semantic_similar")
+                        related_concepts.append(neighbor_concept)
+                        logger.info(f"   🧠 Semantic: {concept} → {neighbor_concept} (sim: {similarity:.2f})")
                 
                 graph_stored = True
-                logger.info(f"   📊 Added to knowledge graph with {len(related_concepts)} connections")
+                logger.info(f"   📊 Added to graph with {len(related_concepts)} connections")
+                logger.info(f"      (keyword: {len(key_terms)}, semantic: {len(semantic_neighbors)})")
         except Exception as e:
             logger.warning(f"   ⚠️ Could not add to torch graph: {e}")
         
@@ -135,6 +146,74 @@ class ExternalDataConnector:
                     key_terms.append(clean_word)
         
         return key_terms[:10]  # Return top 10
+    
+    def _find_semantic_neighbors(self, concept: str, text_content: str, top_k: int = 5) -> List[tuple]:
+        """
+        [NEW] 의미적 유사도 기반으로 관련 개념 찾기
+        
+        TinyBrain embedding + 코사인 유사도 사용
+        
+        Returns:
+            List of (concept_name, similarity_score) tuples
+        """
+        try:
+            from Core.Foundation.tiny_brain import TinyBrain
+            from Core.Foundation.Graph.torch_graph import get_torch_graph
+            
+            brain = TinyBrain()
+            graph = get_torch_graph()
+            
+            if not graph or not brain:
+                return []
+            
+            # Get embedding for the new concept's content
+            concept_embedding = brain.get_embedding(text_content[:500])  # Use first 500 chars
+            
+            if not concept_embedding:
+                return []
+            
+            # Calculate similarity with existing concepts
+            similarities = []
+            
+            for existing_concept in graph.id_to_idx.keys():
+                if existing_concept == concept:
+                    continue
+                
+                # Get existing concept's content if available
+                node_data = graph.get_node_metadata(existing_concept)
+                existing_content = node_data.get("content", existing_concept) if node_data else existing_concept
+                
+                # Get embedding for existing concept
+                existing_embedding = brain.get_embedding(existing_content[:500] if isinstance(existing_content, str) else existing_concept)
+                
+                if existing_embedding:
+                    # Calculate cosine similarity
+                    similarity = self._cosine_similarity(concept_embedding, existing_embedding)
+                    
+                    if similarity > 0.3:  # Threshold for meaningful connection
+                        similarities.append((existing_concept, similarity))
+            
+            # Sort by similarity and return top_k
+            similarities.sort(key=lambda x: x[1], reverse=True)
+            return similarities[:top_k]
+            
+        except Exception as e:
+            logger.warning(f"   ⚠️ Semantic similarity failed: {e}")
+            return []
+    
+    def _cosine_similarity(self, vec1: List[float], vec2: List[float]) -> float:
+        """Calculate cosine similarity between two vectors"""
+        if not vec1 or not vec2 or len(vec1) != len(vec2):
+            return 0.0
+        
+        dot_product = sum(a * b for a, b in zip(vec1, vec2))
+        norm1 = sum(a ** 2 for a in vec1) ** 0.5
+        norm2 = sum(b ** 2 for b in vec2) ** 0.5
+        
+        if norm1 == 0 or norm2 == 0:
+            return 0.0
+        
+        return dot_product / (norm1 * norm2)
     
     def _extract_semantic_features(self, text: str) -> Dict[str, float]:
         """

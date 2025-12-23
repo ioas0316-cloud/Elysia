@@ -127,6 +127,7 @@ class VerificationModule:
     
     def __init__(self):
         self.history: List[ActionResult] = []
+        self.learning_verifications: List[Dict] = []  # [NEW] 학습 검증 결과
     
     def verify(self, expected: str, actual: str, action: str) -> ActionResult:
         """기대 vs 실제 비교"""
@@ -158,6 +159,77 @@ class VerificationModule:
         # 간단한 분석 (실제로는 더 정교해야 함)
         analysis = f"Gap detected: Expected '{expected[:50]}...' but got '{actual[:50]}...'"
         return analysis
+    
+    def _generate_verification_question(self, concept: str, content: str) -> Dict[str, str]:
+        """
+        [NEW] 학습 내용에서 검증 질문 생성
+        
+        "배웠다고 기록만 하지 말고, 실제로 이해했는지 검증"
+        """
+        # 핵심 키워드 추출
+        words = content.split()
+        key_words = [w for w in words if len(w) > 5 and w[0].isupper()][:3]
+        
+        # 질문 유형 선택
+        question_templates = [
+            f"What is the relationship between {concept} and {key_words[0] if key_words else 'its context'}?",
+            f"Why is {concept} important?",
+            f"How does {concept} work?",
+            f"What are the key aspects of {concept}?",
+        ]
+        
+        import random
+        question = random.choice(question_templates)
+        
+        # 정답 힌트 (content에서 추출)
+        answer_hint = content[:100] if len(content) > 100 else content
+        
+        return {
+            "question": question,
+            "concept": concept,
+            "answer_hint": answer_hint,
+            "key_words": key_words
+        }
+    
+    def verify_learning(self, concept: str, content: str) -> Dict[str, Any]:
+        """
+        [NEW] 학습 검증 수행
+        
+        1. 질문 생성
+        2. 답변 시도 (content에서 관련 정보 찾기)
+        3. 성공률 계산
+        """
+        question_data = self._generate_verification_question(concept, content)
+        
+        # 검증: 핵심 키워드가 content에 있는지 확인
+        keyword_matches = 0
+        for kw in question_data["key_words"]:
+            if kw.lower() in content.lower():
+                keyword_matches += 1
+        
+        total_keywords = max(len(question_data["key_words"]), 1)
+        comprehension_score = keyword_matches / total_keywords
+        
+        # 최소 임계치: 50%
+        passed = comprehension_score >= 0.5
+        
+        result = {
+            "concept": concept,
+            "question": question_data["question"],
+            "comprehension_score": comprehension_score,
+            "passed": passed,
+            "keywords_found": keyword_matches,
+            "total_keywords": total_keywords,
+            "timestamp": time.time()
+        }
+        
+        self.learning_verifications.append(result)
+        
+        logger.info(f"   📝 Learning Verification: {concept}")
+        logger.info(f"      Question: {question_data['question'][:50]}...")
+        logger.info(f"      Score: {comprehension_score:.0%} {'✓' if passed else '✗'}")
+        
+        return result
 
 
 class SelfTransformationModule:

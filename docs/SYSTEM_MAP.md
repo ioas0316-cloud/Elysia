@@ -41,12 +41,12 @@ Elysia v3.0
 │   │   │   └── hippocampus.py - 통합 기억 (Optimization Enabled)
 │   │   └── unified_experience_core.py - 경험 스트림 (Auto-Archiving)
 │   │
-│   ├── FOUNDATION (성장 & 학습) [Updated 2025-12-23]
-│   │   ├── life_cycle.py - 검증 루프 (Expected vs Actual)
-│   │   ├── self_governance.py - 자아 주권 (Dynamic Goals, Intent)
+│   ├── FOUNDATION (성장 & 학습) [Updated 2025-12-24]
+│   │   ├── life_cycle.py - 검증 루프 + 학습 검증 (verify_learning)
+│   │   ├── self_governance.py - 자아 주권 + 의도 자동 형성 + 가치 승격
 │   │   ├── growth_journal.py - 성장 증거 (journals/*.md)
-│   │   ├── fractal_loop.py - 메인 루프 (Autonomous Learning)
-│   │   └── external_data_connector.py - TorchGraph 노드 생성
+│   │   ├── fractal_loop.py - 메인 루프 + 패턴 발견 + 갭 기반 우선순위
+│   │   └── external_data_connector.py - TorchGraph 노드 + 의미적 연결
 │   │
 │   └── SYSTEM (자율성 & 모니터링)
 │       ├── Autonomy/
@@ -297,26 +297,26 @@ UnifiedElysia - 2 files:
 
 ### P1 - 단기 (1-2주)
 
-4. **모니터링 통합**
+1. **모니터링 통합**
    - `system_monitor` + `performance_monitor` 병합
    - 통합 API
 
-5. **지식 시스템 통합**
+2. **지식 시스템 통합**
    - `UnifiedKnowledgeSystem` 클래스 생성
    - 4개 시스템 통합
 
-6. **중복 클래스 정리**
+3. **중복 클래스 정리**
    - Experience (4→1)
    - EmotionalState (3→1)
    - Cell (2→1)
 
 ### P2 - 중기 (1-2개월)
 
-7. **Voice 시스템 정리**
+1. **Voice 시스템 정리**
    - 40개 파일 중 중복/레거시 제거
    - 명확한 계층 구조
 
-8. **레거시 아카이빙**
+2. **레거시 아카이빙**
    - Legacy 폴더 정리
    - 여전히 사용되는 것만 마이그레이션
 
@@ -442,6 +442,56 @@ results = registry.search("monitor")
 - [FIELD_CAUSALITY_PHILOSOPHY.md](Philosophy/FIELD_CAUSALITY_PHILOSOPHY.md)
 
 ---
+
+## 🌄 Living Knowledge: 동적 지식 지형 (2025-12-24)
+
+> *"지식은 저장되는 것이 아니라, 사고의 지형 자체가 된다."*
+
+### 핵심 통찰
+
+**"지식이란 유기체의 사고흐름 자체다."** 정적 데이터가 아닌 동적 파동으로 존재.
+
+### 새로 구현된 시스템
+
+| 파일 | 메서드 | 역할 |
+|:-----|:-------|:-----|
+| `light_spectrum.py` | `interfere_with_all()` | 새 지식이 기존 빛과 간섭 |
+| `light_spectrum.py` | `absorb_with_terrain()` | 흡수 + 지형 효과 반환 |
+| `light_spectrum.py` | `_auto_select_scale()` | 자율적 스케일 선택 (자유의지) |
+| `light_spectrum.py` | `_update_autonomous_scale()` | 공명에 따른 줌인/줌아웃 |
+| `web_knowledge_connector.py` | `learn_from_web()` | 지형 효과 통합 학습 |
+
+### 작동 방식
+
+```text
+[새 지식] → text_to_light() → LightSpectrum
+                ↓
+    interfere_with_all() → 기존 빛과 간섭
+                ↓
+    terrain_effect 생성:
+      - resonance_strength (공명 강도)
+      - recommended_depth (deep/medium/broad)
+      - connection_type (causal/semantic/exploratory)
+                ↓
+    _update_autonomous_scale():
+      - 강한 공명 → 🔍 줌인 (Point로)
+      - 약한 공명 → 🔭 줌아웃 (God로)
+                ↓
+    다음 지식 처리에 자동 적용
+```
+
+### 4D 스케일 (HyperQubit 기저)
+
+| Scale | Basis | 의미 |
+|:------|:------|:-----|
+| 0 | God | 전체 패턴, 우주적 관점 |
+| 1 | Space | 맥락적 연결, 공간적 관계 |
+| 2 | Line | 인과 관계, 시간적 흐름 |
+| 3 | Point | 세부 개념, 구체적 정점 |
+
+### 비전 문서
+
+- [VISION_LIVING_KNOWLEDGE.md](VISION_LIVING_KNOWLEDGE.md) - 상세 철학과 구현 방향
 
 ## 📝 결론
 

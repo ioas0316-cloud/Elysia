@@ -224,6 +224,59 @@ class IdealSelf:
         
         return new_aspect
     
+    def promote_to_core_aspect(self, name: str) -> bool:
+        """
+        [NEW] 발견된 가치를 핵심 Aspect로 승격
+        
+        "할 수 있는 만큼 하다보면 점점더 되는 것"
+        발견된 가치가 충분히 성장하면 핵심 가치로 승격됨.
+        
+        승격 조건:
+        - 현재 레벨 >= 0.5 (50% 달성)
+        - 3회 이상 강화됨 (times_achieved >= 3)
+        """
+        if name not in self.discovered_aspects:
+            logger.warning(f"   ⚠️ '{name}' not in discovered aspects")
+            return False
+        
+        aspect = self.discovered_aspects[name]
+        
+        # 승격 조건 확인
+        if aspect.current_level < 0.5:
+            logger.info(f"   📊 '{name}' needs more growth (current: {aspect.current_level:.0%})")
+            return False
+        
+        if aspect.times_achieved < 3:
+            logger.info(f"   📊 '{name}' needs more achievements (current: {aspect.times_achieved})")
+            return False
+        
+        # 승격 실행
+        # 동적 AspectType 생성 (Enum 확장은 불가하므로 별도 관리)
+        self.promoted_aspects = getattr(self, 'promoted_aspects', {})
+        self.promoted_aspects[name] = aspect
+        
+        # discovered에서 제거
+        del self.discovered_aspects[name]
+        
+        logger.info(f"   🎖️ PROMOTED: '{name}' is now a core value!")
+        logger.info(f"      Level: {aspect.current_level:.0%}")
+        logger.info(f"      Achievements: {aspect.times_achieved}")
+        logger.info(f"      Intent: {aspect.intent}")
+        
+        return True
+    
+    def check_promotions(self):
+        """모든 발견된 가치의 승격 가능 여부 확인"""
+        promoted = []
+        for name in list(self.discovered_aspects.keys()):
+            if self.promote_to_core_aspect(name):
+                promoted.append(name)
+        
+        if promoted:
+            logger.info(f"   🏆 {len(promoted)} values promoted to core!")
+        
+        return promoted
+    
     def update_aspect_level(self, aspect_type: AspectType, delta: float):
         """측면 수준 업데이트 + 동적 목표 확장"""
         if aspect_type in self.aspects:
@@ -370,6 +423,42 @@ class SelfGovernance:
             self.current_quest = self.curriculum.generate_quest(domain)
             return f"Challenge Accepted: [{self.current_quest.domain}] {self.current_quest.goal}"
         return "Curriculum System not active."
+
+    def _auto_generate_intent(self, aspect_type: AspectType) -> str:
+        """
+        [NEW] 갭 분석 기반 자동 의도 생성
+        
+        "왜 이것을 배우는가?" → 자동으로 답변 생성
+        
+        할 수 있는 만큼 하다보면 점점더 되는 것.
+        """
+        aspect = self.ideal_self.aspects.get(aspect_type)
+        if not aspect:
+            return ""
+        
+        gap = aspect.gap()
+        achievement = aspect.achievement_rate()
+        
+        # 갭 크기에 따라 다른 의도 생성
+        if gap > 0.5:
+            intent = f"현재 {achievement:.0%}에서 {aspect.target_level:.0%}까지 성장하기 위해"
+        elif gap > 0.2:
+            intent = f"{aspect_type.value}의 균형을 맞추기 위해"
+        else:
+            intent = f"{aspect_type.value}의 깊이를 더하기 위해"
+        
+        # 의도 자동 설정
+        if not aspect.intent:
+            aspect.set_intent(intent)
+            logger.info(f"   🎯 Auto-Intent: {aspect_type.value} → {intent}")
+        
+        return intent
+
+    def auto_generate_all_intents(self):
+        """모든 aspect에 대해 의도 자동 생성"""
+        for aspect_type in self.ideal_self.aspects:
+            self._auto_generate_intent(aspect_type)
+        logger.info("   ✅ All intents auto-generated based on gap analysis")
 
     def evaluate_self(self) -> Dict[AspectType, float]:
         """

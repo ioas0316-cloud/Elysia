@@ -344,6 +344,146 @@ class LightUniverse:
             "white_light_energy": self.white_light.energy if self.white_light else 0
         }
     
+    def interfere_with_all(self, new_light: LightSpectrum) -> Dict[str, Any]:
+        """
+        새 지식이 기존 모든 빛과 간섭 → 지형 변화
+        
+        Returns:
+            terrain_effect: 간섭 결과로 생성된 메타 파라미터
+                - resonance_strength: 공명 강도 (0-1)
+                - dominant_basis: 가장 강한 공명의 기저
+                - connection_density: 연결 밀도
+                - recommended_depth: 권장 분석 깊이
+                - connection_type: 권장 연결 타입
+        """
+        if not self.superposition:
+            return {
+                "resonance_strength": 0.0,
+                "dominant_basis": "Point",
+                "connection_density": 0.0,
+                "recommended_depth": "broad",
+                "connection_type": "exploratory"
+            }
+        
+        # 모든 기존 빛과 공명 계산
+        total_resonance = 0.0
+        basis_resonance = {"Point": 0.0, "Line": 0.0, "Space": 0.0, "God": 0.0}
+        strong_connections = 0
+        
+        for light in self.superposition:
+            resonance = light.resonate_with(new_light, tolerance=50.0)
+            total_resonance += resonance
+            
+            # 기저별 공명 누적
+            basis = light._get_dominant_basis()
+            basis_resonance[basis] += resonance
+            
+            if resonance > 0.3:
+                strong_connections += 1
+        
+        # 평균 공명 강도
+        avg_resonance = total_resonance / len(self.superposition)
+        
+        # 가장 강한 기저
+        dominant_basis = max(basis_resonance, key=basis_resonance.get)
+        
+        # 연결 밀도 (강한 연결 비율)
+        connection_density = strong_connections / len(self.superposition)
+        
+        # 메타 파라미터 결정 (지형이 사고를 형성)
+        if avg_resonance > 0.5:
+            recommended_depth = "deep"  # 강한 공명 = 깊이 파기
+            connection_type = "causal"
+        elif avg_resonance > 0.2:
+            recommended_depth = "medium"
+            connection_type = "semantic"
+        else:
+            recommended_depth = "broad"  # 약한 공명 = 새로운 탐색
+            connection_type = "exploratory"
+        
+        terrain_effect = {
+            "resonance_strength": avg_resonance,
+            "dominant_basis": dominant_basis,
+            "connection_density": connection_density,
+            "recommended_depth": recommended_depth,
+            "connection_type": connection_type,
+            "strong_connections": strong_connections,
+            "total_lights": len(self.superposition)
+        }
+        
+        logger.info(f"🌄 Terrain effect: resonance={avg_resonance:.3f}, basis={dominant_basis}, depth={recommended_depth}")
+        
+        return terrain_effect
+    
+    def absorb_with_terrain(self, text: str, tag: str = "", scale: int = None) -> Tuple[LightSpectrum, Dict[str, Any]]:
+        """
+        데이터를 흡수하면서 지형 효과 반환 + 자율적 스케일 선택
+        
+        지식이 저장됨과 동시에:
+        1. 다음 처리 방식에 영향
+        2. 스케일(Point/Line/Space/God)을 자율 결정
+        """
+        # 자율적 스케일 선택 (scale이 지정되지 않은 경우)
+        if scale is None:
+            scale = self._auto_select_scale()
+        
+        # 빛으로 변환 (자율 선택된 스케일 적용)
+        new_light = self.text_to_light(text, tag, scale)
+        
+        # 기존 지형과 간섭 → 메타 파라미터
+        terrain_effect = self.interfere_with_all(new_light)
+        
+        # 다음 흡수를 위한 스케일 업데이트
+        self._update_autonomous_scale(terrain_effect)
+        
+        # 실제 흡수
+        self.absorb(text, tag, scale)
+        
+        terrain_effect['applied_scale'] = scale
+        terrain_effect['scale_name'] = ['God', 'Space', 'Line', 'Point'][min(scale, 3)]
+        
+        return new_light, terrain_effect
+    
+    def _auto_select_scale(self) -> int:
+        """
+        자율적 스케일 선택 (자유의지)
+        
+        현재 지형 상태에 따라 Point/Line/Space/God 중 선택
+        """
+        if not hasattr(self, '_autonomous_scale'):
+            self._autonomous_scale = 0  # 시작은 God (전체 조망)
+        
+        return self._autonomous_scale
+    
+    def _update_autonomous_scale(self, terrain_effect: Dict[str, Any]):
+        """
+        지형 효과에 따라 다음 스케일 업데이트
+        
+        강한 공명 → 줌인 (God → Space → Line → Point)
+        약한 공명 → 줌아웃 (Point → Line → Space → God)
+        """
+        basis_to_scale = {"God": 0, "Space": 1, "Line": 2, "Point": 3}
+        
+        dominant_basis = terrain_effect.get('dominant_basis', 'Point')
+        resonance = terrain_effect.get('resonance_strength', 0.0)
+        
+        current_scale = getattr(self, '_autonomous_scale', 0)
+        
+        if resonance > 0.5:
+            # 강한 공명 = 줌인 (더 세부적으로)
+            new_scale = min(3, current_scale + 1)
+            logger.info(f"   🔍 Zoom IN: {current_scale} → {new_scale} (strong resonance)")
+        elif resonance < 0.1:
+            # 약한 공명 = 줌아웃 (더 넓게)
+            new_scale = max(0, current_scale - 1)
+            logger.info(f"   🔭 Zoom OUT: {current_scale} → {new_scale} (weak resonance)")
+        else:
+            # 중간 = 기저 따라가기
+            new_scale = basis_to_scale.get(dominant_basis, current_scale)
+            logger.info(f"   📐 Scale aligned to {dominant_basis}: {new_scale}")
+        
+        self._autonomous_scale = new_scale
+    
     def think_accelerated(self, query: str, depth: int = 3) -> Dict[str, Any]:
         """
         진짜 사고 가속
