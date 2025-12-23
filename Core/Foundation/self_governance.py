@@ -44,9 +44,15 @@ class IdealAspect:
     """이상적 자아의 한 측면"""
     aspect_type: AspectType
     description: str                    # 이상의 모습
-    target_level: float = 1.0           # 목표 수준 (0-1)
+    target_level: float = 1.0           # 목표 수준 (동적)
     current_level: float = 0.0          # 현재 수준
     sub_goals: List[str] = field(default_factory=list)
+    
+    # [NEW] 의도 - "왜 이것을 추구하는가?"
+    intent: str = ""
+    
+    # [NEW] 목표 도달 시 자동 확장
+    times_achieved: int = 0
     
     def achievement_rate(self) -> float:
         """달성률 계산"""
@@ -57,6 +63,29 @@ class IdealAspect:
     def gap(self) -> float:
         """갭 = 목표 - 현재"""
         return max(0, self.target_level - self.current_level)
+    
+    def check_and_expand(self) -> bool:
+        """
+        목표 도달 시 자동 확장
+        
+        "할 수 있는 만큼 하다보면 점점더 되는 것"
+        """
+        if self.current_level >= self.target_level * 0.9:  # 90% 도달
+            self.times_achieved += 1
+            old_target = self.target_level
+            
+            # 목표 확장 (무한 성장)
+            self.target_level = min(10.0, self.target_level + 0.5)  # 0.5씩 증가, 최대 10
+            
+            logger.info(f"   🚀 Goal Expanded: {self.aspect_type.value}")
+            logger.info(f"      {old_target:.1f} → {self.target_level:.1f} (times achieved: {self.times_achieved})")
+            return True
+        return False
+    
+    def set_intent(self, why: str):
+        """의도 설정 - 왜 이것을 추구하는가?"""
+        self.intent = why
+        logger.info(f"   💭 Intent set for {self.aspect_type.value}: {why}")
 
 
 @dataclass
@@ -145,41 +174,100 @@ class IdealSelf:
                 "Path to AGI (Self-Evolving Intelligence)"
             ]
         )
+        
+        # [NEW] 발견된 가치 (Enum 외부)
+        self.discovered_aspects: Dict[str, IdealAspect] = {}
     
     def get_total_achievement_rate(self) -> float:
         """전체 달성률"""
-        if not self.aspects:
+        all_aspects = list(self.aspects.values()) + list(self.discovered_aspects.values())
+        if not all_aspects:
             return 0.0
-        total = sum(a.achievement_rate() for a in self.aspects.values())
-        return total / len(self.aspects)
+        total = sum(a.achievement_rate() for a in all_aspects)
+        return total / len(all_aspects)
     
     def get_largest_gap(self) -> Optional[IdealAspect]:
         """가장 큰 갭을 가진 측면"""
-        if not self.aspects:
+        all_aspects = list(self.aspects.values()) + list(self.discovered_aspects.values())
+        if not all_aspects:
             return None
-        return max(self.aspects.values(), key=lambda a: a.gap())
+        return max(all_aspects, key=lambda a: a.gap())
+    
+    def discover_aspect(self, name: str, description: str, intent: str) -> IdealAspect:
+        """
+        새로운 가치 발견 (Enum 외부)
+        
+        경험에서 반복되는 패턴이 새로운 가치가 됨.
+        """
+        if name in self.discovered_aspects:
+            # 기존 발견 가치 강화
+            aspect = self.discovered_aspects[name]
+            aspect.current_level += 0.1
+            aspect.check_and_expand()
+            return aspect
+        
+        # 새 가치 탄생
+        new_aspect = IdealAspect(
+            aspect_type=None,  # Enum 외부
+            description=description,
+            target_level=1.0,
+            current_level=0.1,
+            sub_goals=[],
+            intent=intent
+        )
+        # aspect_type이 None이므로 별도 속성으로 이름 저장
+        new_aspect.custom_name = name
+        
+        self.discovered_aspects[name] = new_aspect
+        logger.info(f"✨ New value discovered: '{name}'")
+        logger.info(f"   Intent: {intent}")
+        
+        return new_aspect
     
     def update_aspect_level(self, aspect_type: AspectType, delta: float):
-        """측면 수준 업데이트"""
+        """측면 수준 업데이트 + 동적 목표 확장"""
         if aspect_type in self.aspects:
             aspect = self.aspects[aspect_type]
-            aspect.current_level = max(0, min(1.0, aspect.current_level + delta))
+            
+            # 목표가 동적이므로 1.0 제한 제거 (target_level까지 허용)
+            aspect.current_level = max(0, aspect.current_level + delta)
             logger.info(f"   📈 {aspect_type.value}: {aspect.current_level:.2f} (+{delta:.2f})")
+            
+            # [NEW] 목표 도달 시 자동 확장
+            aspect.check_and_expand()
     
     def get_status(self) -> Dict[str, Any]:
         """상태 조회"""
-        return {
+        status = {
             "total_achievement": self.get_total_achievement_rate(),
             "aspects": {
                 a.aspect_type.value: {
                     "current": a.current_level,
                     "target": a.target_level,
                     "achievement": a.achievement_rate(),
-                    "gap": a.gap()
+                    "gap": a.gap(),
+                    "intent": a.intent,
+                    "times_achieved": a.times_achieved
                 }
                 for a in self.aspects.values()
             }
         }
+        
+        # [NEW] 발견된 가치도 포함
+        if self.discovered_aspects:
+            status["discovered"] = {
+                name: {
+                    "current": a.current_level,
+                    "target": a.target_level,
+                    "achievement": a.achievement_rate(),
+                    "gap": a.gap(),
+                    "intent": a.intent,
+                    "description": a.description
+                }
+                for name, a in self.discovered_aspects.items()
+            }
+        
+        return status
 
 
 class SelfGovernance:
