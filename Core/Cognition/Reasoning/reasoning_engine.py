@@ -56,7 +56,14 @@ from elysia_core import Cell, Organ
 from Core.Foundation.resonance_topology import TopologicalAnalyzer, TopologyType, ContextualTopology, ConsciousnessCoordinates
 from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator, Perspective
 from Core.Cognition.Reasoning.phase_transition import FractalPhaser # [Phase 25] The Physics of Thought
-from Core.Autonomy.dream_daemon import get_dream_daemon # [Phase 25] Unified Subconscious Processor
+
+# [Phase 25] DreamDaemon (Torch-dependent, optional)
+try:
+    from Core.Autonomy.dream_daemon import get_dream_daemon
+except ImportError as e:
+    get_dream_daemon = None
+    import logging as _log
+    _log.getLogger("ReasoningEngine").warning(f"DreamDaemon unavailable (PyTorch issue): {e}")
 
 
 logger = logging.getLogger("ReasoningEngine")
