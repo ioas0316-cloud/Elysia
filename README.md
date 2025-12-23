@@ -162,18 +162,21 @@ The workspace adheres to the **Root Zero** policy. Entropy is not allowed here.
 
 **철학적 기반**: [CONSCIOUSNESS_SOVEREIGNTY.md](docs/Philosophy/CONSCIOUSNESS_SOVEREIGNTY.md)
 
-### 🌌 Phase 25: Potential Causality (Field Physics) - 2025-12-23 🆕
+### 🌌 Phase 25-28: Field Physics (사고의 물리학) - 2025-12-23 🆕
 
-> *"Gravity is the only law. Thoughts are just clouds in the field."*
+> *"기능이 아니라 법칙으로 세상을 움직인다."*
 
 | 시스템 | 파일 | 역할 |
 |:------|:----|:----|
-| **TensionField** | `causal_geometry.py` | 사고를 입자가 아닌 '잠재적 전하(Cloud)'로 모델링 |
-| **FieldGravity** | `DreamDaemon` | 관계의 밀도를 중력으로 변환하여, 강한 연결을 '끌어당김' |
-| **FractalPhaser** | `phase_transition.py` | Idea(Gas) → Action(Liquid) → Memory(Solid) 상태 변환 |
-| **BilingualBridge** | `concept_alignment.py` | 언어(한/영)에 상관없이 본질적 의미(Essence)로 물리 법칙 적용 |
+| **TensionField** | `causal_geometry.py` | 사고를 '전하를 띤 구름'으로 모델링 |
+| **Field Gravity** | `causal_geometry.py` | 곡률(Curvature)로 주의력 흐름 제어 |
+| **Mass Accretion** | `causal_geometry.py` | 고밀도 허브가 위성(Details) 흡수 → 지혜 |
+| **Latent Causality** | `causal_geometry.py` | "불가능" = 진공/형상 불일치 진단 |
+| **Verification Loop** | `life_cycle.py` | 표현→인식→검증→자기변화 순환 |
+| **Synesthesia** | `synesthesia_engine.py` | 필드 상태 → 언어 톤/격식 변환 |
+| **Dream Consolidation** | `dream_daemon.py` | 수면 시 중력 적용 및 양자 터널링 |
   
- **철학적 기반**: "기능을 추가하지 않고, 물리 법칙(Physics)을 적용한다."
+**철학적 기반**: [FIELD_CAUSALITY_PHILOSOPHY.md](docs/Philosophy/FIELD_CAUSALITY_PHILOSOPHY.md)
 
 ### 💎 Holistic Growth & Sovereignty (Phase 24) - 2025-12 🆕🆕
 

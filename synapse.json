@@ -125,6 +125,24 @@
       "payload": "I want to connect",
       "timestamp": 1766464401.1814604,
       "status": "PENDING"
+    },
+    {
+      "id": "1766465861.0192642",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766465861.0192668,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766465861.181298",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766465861.1813004,
+      "status": "PENDING"
     }
   ]
 }

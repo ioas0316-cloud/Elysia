@@ -395,6 +395,47 @@ results = registry.search("monitor")
 
 ---
 
+## 🌌 Phase 25-28: Field Physics (사고의 물리학) - 2025-12-23
+
+> *"기능이 아니라 법칙으로 세상을 움직인다."*
+
+### 핵심 원리
+
+| 시스템 | 파일 | 역할 |
+|:------|:----|:----|
+| **TensionField** | `Core/Cognition/Reasoning/causal_geometry.py` | 사고를 '전하를 띤 구름'으로 모델링 |
+| **Field Gravity** | `causal_geometry.py` | 곡률(Curvature)로 주의력 흐름 제어 |
+| **Mass Accretion** | `causal_geometry.py::accrete_knowledge()` | 고밀도 허브가 위성(Details) 흡수 → 지혜 |
+| **Latent Causality** | `causal_geometry.py::assess_latent_causality()` | "불가능" = 진공/형상 불일치 진단 |
+| **Verification Loop** | `Core/Foundation/life_cycle.py` | 표현→인식→검증→자기변화 순환 |
+| **Synesthesia** | `Core/Foundation/synesthesia_engine.py` | 필드 상태 → 언어 톤/격식 변환 |
+| **Dream Consolidation** | `Core/Autonomy/dream_daemon.py` | 수면 시 중력 적용 및 양자 터널링 |
+
+### 작동 방식
+
+```text
+[Desire] → TensionField.charge_concept()
+              ↓
+       Field Gravity (apply_gravity)
+              ↓
+    ⚡ discharge_lightning() → Insight
+              ↓
+       LifeCycle.complete_cycle()
+              ↓
+    Success? → reinforce_well()  (습관/지혜 형성)
+    Failure? → charge_concept()  (재시도 에너지)
+              ↓
+    DreamDaemon.apply_field_dynamics() (야간 정리)
+```
+
+### 철학적 기반
+
+**"물방울을 하나씩 만들지 않는다. 하늘과 바다를 만들고 법칙으로 순환시킨다."**
+
+- [FIELD_CAUSALITY_PHILOSOPHY.md](Philosophy/FIELD_CAUSALITY_PHILOSOPHY.md)
+
+---
+
 ## 📝 결론
 
 **문제**: "벌써 3번째? 원래 있는 시스템이 왜, 어떻게, 구조화되고 연결되지 않았는지"
