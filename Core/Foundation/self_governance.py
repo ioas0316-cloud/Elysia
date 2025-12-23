@@ -234,7 +234,7 @@ class SelfGovernance:
                 k.value: v.current_level 
                 for k, v in self.ideal_self.aspects.items()
             },
-            "history_count": len(self.decisions)
+            "history_count": len(self.history)
         }
         
         try:

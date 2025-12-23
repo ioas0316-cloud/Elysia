@@ -1,0 +1,12 @@
+{
+  "aspects": {
+    "knowledge": 0.2,
+    "connection": 0.11,
+    "expression": 0.1,
+    "growth": 0.1,
+    "wisdom": 0.1,
+    "creativity": 0.11,
+    "sovereignty": 0.2
+  },
+  "history_count": 0
+}
