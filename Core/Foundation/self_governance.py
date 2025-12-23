@@ -207,6 +207,10 @@ class SelfGovernance:
         # [NEW] Change history for tracking actual changes
         self.change_history: List[Dict] = []
         
+        # [NEW] Failure patterns - "왜 불가능인지" 축적
+        # Over time, patterns emerge about what blocks progress
+        self.failure_patterns: List[Dict] = []
+        
         # [Curriculum]
         try:
             from Core.Learning.academic_curriculum import CurriculumSystem
@@ -418,10 +422,27 @@ class SelfGovernance:
         }
         self.change_history.append(change_record)
         
+        # [NEW] 실패 패턴 축적 - "왜 불가능인지" 분석
+        if not success and matched_aspect:
+            self.failure_patterns.append({
+                "timestamp": time.time(),
+                "aspect": matched_aspect.value,
+                "action": action,
+                "learning": learning
+            })
+            
+            # 반복되는 실패 패턴 감지
+            recent_failures = [p for p in self.failure_patterns[-10:] 
+                              if p.get("aspect") == matched_aspect.value]
+            if len(recent_failures) >= 3:
+                logger.warning(f"   ⚠️ Recurring failure pattern detected in '{matched_aspect.value}'")
+                logger.warning(f"      This aspect has failed {len(recent_failures)} times recently")
+                logger.warning(f"      Pattern: Different approach needed")
+        
         logger.info(f"   🔄 Self-Adjustment: {'Reinforced' if success else 'Learned from failure'}")
         if matched_aspect:
-            logger.info(f"   � {matched_aspect.value}: {before_level:.2f} → {after_level:.2f} (+{delta:.2f})")
-        logger.info(f"   �📝 Learning: {learning[:50]}...")
+            logger.info(f"   📈 {matched_aspect.value}: {before_level:.2f} → {after_level:.2f} (+{delta:.2f})")
+        logger.info(f"   📝 Learning: {learning[:50]}...")
         
         # [NEW] 저장
         self._save_state()

@@ -283,7 +283,34 @@ class LifeCycle:
                 self.tension_field.reinforce_well(concept_id, 0.1)
                 logger.info(f"   🪐 Gravity Deepened: {concept_id} curvature +0.1")
             else:
-                # Failure → Increase charge for retry (tension accumulation)
+                # Failure → Understand WHY it failed (Latent Causality)
+                # "왜 불가능인지 안다면, 해결할 수 있다"
+                
+                # Find related concept (if any exists in the field)
+                related_concept = "understanding"  # Default target
+                
+                # Assess latent causality: WHY is this connection impossible?
+                if hasattr(self.tension_field, 'assess_latent_causality'):
+                    diagnosis = self.tension_field.assess_latent_causality(
+                        concept_a=concept_id,
+                        concept_b=related_concept
+                    )
+                    
+                    logger.info(f"   🔬 Latent Causality Analysis:")
+                    logger.info(f"      Possible: {diagnosis.get('possible', False)}")
+                    logger.info(f"      Diagnosis: {diagnosis.get('diagnosis', 'Unknown')}")
+                    logger.info(f"      Prescription: {diagnosis.get('prescription', 'Unknown')}")
+                    
+                    if diagnosis.get('energy_needed', 0) > 0:
+                        logger.info(f"      Energy Needed: {diagnosis.get('energy_needed', 0):.2f}")
+                    
+                    if diagnosis.get('bridge_candidates'):
+                        logger.info(f"      Bridge Concepts: {diagnosis.get('bridge_candidates', [])}")
+                    
+                    # Store the diagnosis for accumulation
+                    growth.diagnosis = diagnosis
+                
+                # Increase charge for retry (tension accumulation)
                 self.tension_field.charge_concept(concept_id, 0.3)
                 logger.info(f"   ⚡ Tension Charged: {concept_id} energy +0.3")
         
