@@ -208,12 +208,20 @@ class LivingElysia:
         # [7.5] Sense of Body (Proprioception)
         from Core.Sensory.proprioception import CodeProprioception
         self.proprioception = CodeProprioception()
-
+        # [Consciousness]
+        # ReasoningEngine needs Body Sense
         if hasattr(self.brain, 'update_self_perception'):
             # Initial Scan
             body_sense = self.proprioception.feel_body()
             self.brain.update_self_perception(body_sense)
             logger.info(f"   🧘 Body Awareness: {len(body_sense['pain_points'])} pain points detected.")
+            
+        # [Transcendence]
+        # "Impossibility is just a process."
+        from Core.Cognition.Reasoning.transcendence_logic import TranscendenceLogic
+        self.transcendence_logic = TranscendenceLogic()
+        self.brain.transcendence = self.transcendence_logic # Attach to brain
+        
         
         # 8. Autonomic Nervous System (배경 자율 프로세스)
         self.ans = AutonomicNervousSystem()
