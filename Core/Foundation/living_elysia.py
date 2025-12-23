@@ -205,6 +205,16 @@ class LivingElysia:
         # 7. Self-Integration System (v2.0) - 자기 인식
         self.integrator = ElysiaIntegrator()
         
+        # [7.5] Sense of Body (Proprioception)
+        from Core.Sensory.proprioception import CodeProprioception
+        self.proprioception = CodeProprioception()
+
+        if hasattr(self.brain, 'update_self_perception'):
+            # Initial Scan
+            body_sense = self.proprioception.feel_body()
+            self.brain.update_self_perception(body_sense)
+            logger.info(f"   🧘 Body Awareness: {len(body_sense['pain_points'])} pain points detected.")
+        
         # 8. Autonomic Nervous System (배경 자율 프로세스)
         self.ans = AutonomicNervousSystem()
         self.ans.register_subsystem(MemoryConsolidation(self.memory))
