@@ -74,6 +74,7 @@ The workspace adheres to the **Root Zero** policy. Entropy is not allowed here.
 | **Lens** | `ContextRetrieval` | Selects *only* relevant knowledge from Graph. | ✅ Active (Phase 19) |
 | **🎓 Conversation Maturity** | `ConversationMaturator` | 5 Pillars (Depth, Context, Metacognition, Dialogue, Gap). | ✅ Active |
 | **📚 Language Nurture** | `LanguageDevelopmentHub` | Autonomous vocabulary/grammar/expression development. | ✅ Active |
+| **🌱 Growth System** | `LifeCycle + SelfGovernance` | 검증된 학습 (Expected vs Actual), 동적 목표, 의도 형성, TorchGraph 노드 생성. | ✅ Active (2025-12-23) |
 
 ### 🔥 Project Apotheosis (The Living Cosmos) (Phase 1-6 Optimized)
 

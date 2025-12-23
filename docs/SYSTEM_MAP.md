@@ -41,6 +41,13 @@ Elysia v3.0
 │   │   │   └── hippocampus.py - 통합 기억 (Optimization Enabled)
 │   │   └── unified_experience_core.py - 경험 스트림 (Auto-Archiving)
 │   │
+│   ├── FOUNDATION (성장 & 학습) [Updated 2025-12-23]
+│   │   ├── life_cycle.py - 검증 루프 (Expected vs Actual)
+│   │   ├── self_governance.py - 자아 주권 (Dynamic Goals, Intent)
+│   │   ├── growth_journal.py - 성장 증거 (journals/*.md)
+│   │   ├── fractal_loop.py - 메인 루프 (Autonomous Learning)
+│   │   └── external_data_connector.py - TorchGraph 노드 생성
+│   │
 │   └── SYSTEM (자율성 & 모니터링)
 │       ├── Autonomy/
 │       │   ├── growth_tracker.py - 성장 추적기
