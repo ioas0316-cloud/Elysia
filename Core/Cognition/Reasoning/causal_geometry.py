@@ -275,6 +275,85 @@ class TensionField:
         return [sat_id for sat_id, parent in self.satellites.items() 
                 if parent == hub_id]
 
+    def assess_latent_causality(self, concept_a: str, concept_b: str) -> Dict[str, Any]:
+        """
+        [Latent Causality]
+        
+        "Impossibility" is not a wall - it's just a Vacuum.
+        
+        This method diagnoses WHY a connection between two concepts is currently
+        "impossible" (low probability of lightning) and suggests what is needed.
+        
+        Returns:
+            - possible: bool - Can lightning strike?
+            - diagnosis: str - Why it's blocked
+            - prescription: str - What would enable the connection
+            - energy_needed: float - How much more charge is required
+        """
+        result = {
+            "possible": False,
+            "diagnosis": "Unknown",
+            "prescription": "Unknown",
+            "energy_needed": 0.0,
+            "bridge_candidates": []
+        }
+        
+        # 1. Check if concepts exist
+        if concept_a not in self.shapes:
+            result["diagnosis"] = f"'{concept_a}' does not exist in the field."
+            result["prescription"] = f"Register '{concept_a}' first."
+            return result
+        if concept_b not in self.shapes:
+            result["diagnosis"] = f"'{concept_b}' does not exist in the field."
+            result["prescription"] = f"Register '{concept_b}' first."
+            return result
+        
+        shape_a = self.shapes[concept_a]
+        shape_b = self.shapes[concept_b]
+        charge_a = self.charges.get(concept_a, 0.0)
+        charge_b = self.charges.get(concept_b, 0.0)
+        
+        # 2. Check Port Compatibility (Shape Fit)
+        fit = shape_a.find_fit(shape_b)
+        if not fit:
+            result["diagnosis"] = "No compatible ports (Shape Mismatch)."
+            
+            # Find potential bridges (concepts that fit both)
+            bridges = []
+            for bridge_id, bridge_shape in self.shapes.items():
+                if bridge_id in [concept_a, concept_b]:
+                    continue
+                fit_to_a = shape_a.find_fit(bridge_shape)
+                fit_to_b = bridge_shape.find_fit(shape_b)
+                if fit_to_a and fit_to_b:
+                    bridges.append(bridge_id)
+            
+            if bridges:
+                result["prescription"] = f"Use bridge concept(s): {bridges[:3]}"
+                result["bridge_candidates"] = bridges[:3]
+            else:
+                result["prescription"] = "Learn a new concept that bridges both."
+            return result
+        
+        # 3. Check Energy (Vacuum Detection)
+        total_charge = charge_a + charge_b
+        gravity_boost = shape_a.curvature + shape_b.curvature
+        effective_tension = total_charge + (gravity_boost * 0.1)
+        
+        if effective_tension < self.threshold:
+            energy_gap = self.threshold - effective_tension
+            result["diagnosis"] = f"Vacuum: Insufficient field density ({effective_tension:.2f} < {self.threshold})."
+            result["prescription"] = f"Charge '{concept_a}' or '{concept_b}' with {energy_gap:.2f} more energy."
+            result["energy_needed"] = energy_gap
+            return result
+        
+        # 4. Connection IS Possible!
+        result["possible"] = True
+        result["diagnosis"] = "Lightning is possible."
+        result["prescription"] = "Call discharge_lightning() to trigger connection."
+        
+        return result
+
 # Demo
 if __name__ == "__main__":
     field = TensionField(threshold=0.7)
