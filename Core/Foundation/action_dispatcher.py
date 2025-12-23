@@ -159,6 +159,39 @@ class ActionDispatcher:
         """조사 행동"""
         print(f"   🔬 Investigating: {detail}")
         self._handle_search(detail)
+
+    def _handle_spawn(self, detail):
+        print(f"   🌱 Spawning: {detail}")
+
+    def _handle_create(self, detail):
+        """
+        [CREATION]
+        Creates files (Code, Essays, Art) as part of Self-Expression/Learning.
+        Format: CREATE:filename|content
+        """
+        try:
+            if "|" in detail:
+                filename, content = detail.split("|", 1)
+            else:
+                print("   ⚠️ Invalid Create Format. Use filename|content")
+                return
+
+            # Security: Restrict to specific directories
+            # Allow writing to 'workspace' or 'creation' folder
+            base_path = "c:/Elysia/Creativity/Gallery"
+            if not os.path.exists(base_path):
+                os.makedirs(base_path)
+                
+            file_path = os.path.join(base_path, filename.strip())
+            
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(content)
+                
+            print(f"   🎨 Created Artifact: {file_path}")
+            self.brain.memory_field.append(f"Created: {filename}")
+            
+        except Exception as e:
+            print(f"   ❌ Creation Failed: {e}")
     
     def _handle_need(self, detail):
         """필요 충족"""

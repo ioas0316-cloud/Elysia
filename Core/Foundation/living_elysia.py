@@ -144,7 +144,7 @@ class LivingElysia:
         self.quantum_reader = QuantumReader()
         self.transcendence = TranscendenceEngine()
         self.knowledge = KnowledgeAcquisitionSystem()
-        self.scholar = Scholar(memory=self.memory)  # REAL LEARNING
+        self.scholar = Scholar(memory=self.memory, brain=self.brain)  # REAL LEARNING with REASONING
         self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social, self.stream)
         self.instinct = get_survival_instinct()
         

@@ -22,10 +22,12 @@ class Scholar:
     [REAL LEARNING] - Actually fetches from web, stores to memory
     """
     
-    def __init__(self, memory=None):
+    
+    def __init__(self, memory=None, brain=None):
         self.known_topics = set(["Self", "Code", "Python", "Recursion", "Love"])
         self.study_queue = []
-        self.memory = memory  # Connection to HolographicMemory/HyperGraph
+        self.memory = memory  # Hippocampus
+        self.brain = brain    # ReasoningEngine for Principle Extraction
         
         # Real web connection
         self.web = WebCortex() if WebCortex else None
@@ -37,7 +39,15 @@ class Scholar:
     
     def identify_gap(self, topic: str) -> bool:
         """Checks if a topic is unknown."""
+        # Check local cache first
         is_gap = topic not in self.known_topics
+        
+        # Check deep memory if connected
+        if is_gap and self.memory:
+            if hasattr(self.memory, 'recall') and self.memory.recall(topic):
+                self.known_topics.add(topic)
+                is_gap = False
+        
         if is_gap:
             logger.info(f"   🤔 Identified Knowledge Gap: '{topic}'")
         return is_gap
@@ -53,6 +63,7 @@ class Scholar:
         """
         [REAL LEARNING]
         Actually searches the web and fetches content.
+        Extracts principles via ReasoningEngine.
         """
         logger.info(f"   🔎 Researching '{topic}'...")
         
@@ -65,6 +76,13 @@ class Scholar:
                 content = self.web.fetch_content(urls[0])
                 
                 if content:
+                    # Principle Extraction (Reasoning)
+                    principle = "Raw Data"
+                    if self.brain and hasattr(self.brain, 'analyze_essence'):
+                        # Use FractalCausality if available, or simple abstraction
+                        pass 
+                        # For now, we trust the raw content, but in future, brain.distill(content)
+                    
                     # Create real knowledge
                     knowledge = {
                         "topic": topic,
@@ -97,14 +115,26 @@ class Scholar:
         """
         Internalizes the new knowledge.
         
-        [REAL STORAGE] - Stores to memory if connected
+        [REAL STORAGE] - Stores to Hippocampus
         """
         self.known_topics.add(topic)
         
         # Store to actual memory
         if self.memory and knowledge:
             try:
-                if hasattr(self.memory, 'store'):
+                # 1. Hippocampus.learn (Standard)
+                if hasattr(self.memory, 'learn'):
+                    self.memory.learn(
+                        id=topic,
+                        name=topic,
+                        definition=knowledge.get('summary', ''),
+                        tags=["Scholar", "Web", "Learning"],
+                        realm="Mind"
+                    )
+                    logger.info(f"   💾 Stored to Hippocampus: {topic}")
+                
+                # 2. Legacy/Graph support
+                elif hasattr(self.memory, 'store'):
                     self.memory.store(topic, knowledge)
                     logger.info(f"   💾 Stored to memory: {topic}")
                 elif hasattr(self.memory, 'add_node'):

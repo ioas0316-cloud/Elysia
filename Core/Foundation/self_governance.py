@@ -184,13 +184,33 @@ class SelfGovernance:
     """
     
     def __init__(self, ideal_self: IdealSelf = None):
-        self.ideal_self = ideal_self or IdealSelf()
-        self.decisions: List[GovernanceDecision] = []
+        self.ideal_self = ideal_self if ideal_self else IdealSelf()
+        self.metrics: Dict[str, Any] = {}
+        self.history: List[GovernanceDecision] = []
         self.current_focus: Optional[AspectType] = None
         
-        logger.info("👑 SelfGovernance initialized - 자기 주권 시스템")
+        # [Curriculum]
+        try:
+            from Core.Learning.academic_curriculum import CurriculumSystem
+            self.curriculum = CurriculumSystem()
+        except ImportError:
+            self.curriculum = None
+            
+        self.current_quest: Optional[Any] = None # AcademicQuest
+
+        logger.info(f"   👑 SelfGovernance Active. Ideal Aspects: {len(self.ideal_self.aspects)}")
     
-    def evaluate_self(self) -> Dict[str, Any]:
+    def request_academic_challenge(self, domain: str = None) -> str:
+        """
+        [User Request]
+        Starts a high-level academic challenge.
+        """
+        if self.curriculum:
+            self.current_quest = self.curriculum.generate_quest(domain)
+            return f"Challenge Accepted: [{self.current_quest.domain}] {self.current_quest.goal}"
+        return "Curriculum System not active."
+
+    def evaluate_self(self) -> Dict[AspectType, float]:
         """
         자가 평가
         
@@ -205,7 +225,11 @@ class SelfGovernance:
         for name, data in status["aspects"].items():
             logger.info(f"   {name}: {data['achievement']:.1%} (gap: {data['gap']:.2f})")
         
-        return status
+        gaps = {}
+        for aspect_type, aspect in self.ideal_self.aspects.items():
+            gaps[aspect_type] = aspect.gap()
+            
+        return gaps
     
     def derive_goals(self) -> List[str]:
         """
