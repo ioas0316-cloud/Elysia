@@ -1582,5 +1582,65 @@
     "understanding_avg": 0.0,
     "session_id": "unknown",
     "notes": ""
+  },
+  {
+    "timestamp": "2025-12-23T17:57:56.925405",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 802,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": "Startup baseline"
+  },
+  {
+    "timestamp": "2025-12-23T17:57:57.054170",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 802,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": ""
+  },
+  {
+    "timestamp": "2025-12-23T17:58:58.977218",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 802,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": ""
+  },
+  {
+    "timestamp": "2025-12-23T18:02:11.278641",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 802,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": ""
+  },
+  {
+    "timestamp": "2025-12-23T18:05:23.439286",
+    "vocabulary_count": 0,
+    "memory_count": 0,
+    "concept_count": 0,
+    "knowledge_node_count": 10,
+    "connected_modules": 802,
+    "fragment_connections": 0,
+    "understanding_avg": 0.0,
+    "session_id": "unknown",
+    "notes": ""
   }
 ]

@@ -49,6 +49,8 @@ class ExternalDataConnector:
         
         This is the bridge between external text and internal coordinates.
         
+        [FIXED] Now also adds nodes to TorchGraph for actual knowledge structure.
+        
         Args:
             concept: The concept name
             text_content: Text description/content about the concept
@@ -64,17 +66,50 @@ class ExternalDataConnector:
         # Create a richer internal coordinate based on actual content
         coord = self._create_coordinate_from_features(concept, features)
         
-        # Store in universe
+        # Store in universe (4D coordinate)
         self.universe.coordinate_map[concept] = coord
         self.internalized_count += 1
         self.last_sync = datetime.now()
+        
+        # [NEW] Store in actual knowledge graph (TorchGraph)
+        graph_stored = False
+        related_concepts = []
+        try:
+            from Core.Foundation.Graph.torch_graph import get_torch_graph
+            graph = get_torch_graph()
+            
+            if graph:
+                # Add as node with content
+                graph.add_node(concept, {
+                    "type": "learned_concept",
+                    "content": text_content[:500],  # Store first 500 chars as definition
+                    "features": features,
+                    "source": "web_learning"
+                })
+                
+                # Extract key terms for relationships
+                key_terms = self._extract_key_terms(text_content)
+                
+                # Create relationships to existing concepts
+                for term in key_terms[:5]:  # Limit to 5 relationships
+                    if term != concept and term in graph.id_to_idx:
+                        graph.add_link(concept, term, link_type="relates_to")
+                        related_concepts.append(term)
+                        logger.info(f"   🔗 Connected: {concept} → {term}")
+                
+                graph_stored = True
+                logger.info(f"   📊 Added to knowledge graph with {len(related_concepts)} connections")
+        except Exception as e:
+            logger.warning(f"   ⚠️ Could not add to torch graph: {e}")
         
         result = {
             "concept": concept,
             "coordinate": coord,
             "features": features,
             "text_length": len(text_content),
-            "timestamp": self.last_sync.isoformat()
+            "timestamp": self.last_sync.isoformat(),
+            "graph_stored": graph_stored,
+            "related_concepts": related_concepts
         }
         
         logger.info(f"   ✅ Internalized '{concept}'")
@@ -83,6 +118,23 @@ class ExternalDataConnector:
         logger.info(f"   🌊 Depth: {coord.depth:.2f}")
         
         return result
+    
+    def _extract_key_terms(self, text: str) -> List[str]:
+        """Extract key terms from text for relationship building"""
+        # Simple extraction: find capitalized words and common nouns
+        words = text.split()
+        key_terms = []
+        
+        for word in words:
+            # Clean the word
+            clean_word = re.sub(r'[^a-zA-Z]', '', word)
+            
+            # Add if it's a meaningful word (capitalized or >5 chars)
+            if clean_word and (clean_word[0].isupper() or len(clean_word) > 5):
+                if clean_word not in key_terms and len(clean_word) > 2:
+                    key_terms.append(clean_word)
+        
+        return key_terms[:10]  # Return top 10
     
     def _extract_semantic_features(self, text: str) -> Dict[str, float]:
         """
