@@ -24,6 +24,13 @@ from datetime import datetime
 
 logger = logging.getLogger("Elysia.LifeCycle")
 
+# SelfGovernance for meaningful evaluation
+try:
+    from Core.Foundation.self_governance import SelfGovernance, IdealSelf
+except ImportError:
+    SelfGovernance = None
+    IdealSelf = None
+
 
 @dataclass
 class WorldSnapshot:
@@ -214,11 +221,16 @@ class LifeCycle:
         self.verification = VerificationModule()
         self.transformation = SelfTransformationModule(internal_universe, memory)
         
+        # [SELF GOVERNANCE] 의미 있는 자기 평가
+        self.governance = SelfGovernance() if SelfGovernance else None
+        
         self.cycle_count = 0
         self.growth_history: List[GrowthRecord] = []
         self.current_snapshot: Optional[WorldSnapshot] = None
         
         logger.info("🔄 LifeCycle initialized - continuous flow enabled")
+        if self.governance:
+            logger.info("   👑 SelfGovernance connected for meaningful evaluation")
     
     def begin_cycle(self) -> WorldSnapshot:
         """사이클 시작 - 현재 상태 스냅샷"""
@@ -249,6 +261,18 @@ class LifeCycle:
         # 3. 자기 변화
         growth = self.transformation.transform(result, analysis)
         self.growth_history.append(growth)
+        
+        # [SELF GOVERNANCE] 의미 있는 자기 평가와 조율
+        if self.governance:
+            self.governance.adjust_after_result(
+                action=action,
+                success=result.success,
+                learning=growth.learning
+            )
+            
+            # 주기적 달성률 보고 (10 사이클마다)
+            if self.cycle_count % 10 == 0:
+                logger.info(self.governance.get_achievement_report())
         
         logger.info(f"   🌱 Growth: {growth.learning[:50]}...")
         logger.info(f"🔄 Cycle #{self.cycle_count} complete")

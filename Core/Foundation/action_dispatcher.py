@@ -305,7 +305,15 @@ class ActionDispatcher:
         elif "Truth" in concept: freq = 639.0
         elif "System" in concept: freq = 963.0
         
-        self.hologram.visualize_wave_language({"concept": concept, "frequency": freq})
+        # Hologram visualization (optional)
+        try:
+            if self.hologram and hasattr(self.hologram, 'visualize_wave_language'):
+                self.hologram.visualize_wave_language({"concept": concept, "frequency": freq})
+            else:
+                print(f"      ✨ Conceptualized: {concept} @ {freq}Hz")
+        except Exception as e:
+            print(f"      💭 Imagined: {concept} (visualization unavailable)")
+        
         self.synapse.transmit("Original", "ACTION", f"I have manifested the form of {concept}.")
 
     def _handle_show(self, detail):
