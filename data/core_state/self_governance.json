@@ -1,11 +1,11 @@
 {
   "aspects": {
-    "knowledge": 0.3,
-    "connection": 0.12,
-    "expression": 0.1,
+    "knowledge": 0.42,
+    "connection": 0.17000000000000004,
+    "expression": 0.22000000000000008,
     "growth": 0.1,
-    "wisdom": 0.15000000000000002,
-    "creativity": 0.12,
+    "wisdom": 0.2,
+    "creativity": 0.13,
     "sovereignty": 0.2
   },
   "history_count": 0

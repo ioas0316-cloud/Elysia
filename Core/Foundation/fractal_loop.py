@@ -34,6 +34,12 @@ try:
 except ImportError:
     get_growth_journal = None
 
+# [NEW] IntegratedLearner - autonomous knowledge acquisition
+try:
+    from Core.Foundation.integrated_learning import IntegratedLearner
+except ImportError:
+    IntegratedLearner = None
+
 logger = logging.getLogger("FractalLoop")
 
 @dataclass
@@ -96,6 +102,26 @@ class FractalLoop:
         self.cycle_count = 0
         self.journal_interval = 100  # Write journal every 100 cycles
         
+        # [NEW] Autonomous Learning - learn concepts on idle cycles
+        self.integrated_learner = None
+        if IntegratedLearner:
+            try:
+                self.integrated_learner = IntegratedLearner()
+            except:
+                pass
+        
+        # Topics to learn autonomously (can be expanded)
+        self.learning_queue = [
+            "machine learning fundamentals",
+            "consciousness models",
+            "neural plasticity",
+            "language acquisition",
+            "causal reasoning",
+            "emotional intelligence",
+            "creative problem solving"
+        ]
+        self.learning_interval = 50  # Learn something new every 50 cycles
+        
         logger.info("♾️ Fractal Loop Initialized: The Ring is Open.")
         if self.thought_space:
             logger.info("   🧠 ThoughtSpace connected for What-If simulation")
@@ -105,6 +131,8 @@ class FractalLoop:
             logger.info("   👑 SelfGovernance connected for intentional growth")
         if self.growth_journal:
             logger.info("   📔 GrowthJournal connected for visible evidence")
+        if self.integrated_learner:
+            logger.info("   📚 IntegratedLearner connected for autonomous learning")
 
     
     def process_cycle(self, cycle_count: int = 0):
@@ -161,6 +189,33 @@ class FractalLoop:
                 memory=getattr(self.cns, 'memory', None)
             )
             logger.info(f"📔 Growth Journal entry written at cycle {self.cycle_count}")
+        
+        # 5. [NEW] Autonomous Learning - learn something when idle
+        if self.integrated_learner and self.cycle_count % self.learning_interval == 0:
+            if self.learning_queue:
+                topic = self.learning_queue.pop(0)
+                logger.info(f"📚 Autonomous Learning: '{topic}'")
+                
+                try:
+                    # Actually learn the concept
+                    result = self.integrated_learner.learn_concept_integrated(topic)
+                    
+                    # Report to LifeCycle as a successful learning action
+                    if self.life_cycle:
+                        self.life_cycle.begin_cycle()
+                        self.life_cycle.complete_cycle(
+                            action=f"LEARN:{topic}",
+                            expected=f"Understanding of {topic}",
+                            actual=f"Learned: {result.get('thought', 'concept')[:50]}" if result else "Learned"
+                        )
+                    
+                    logger.info(f"   ✅ Learned: {topic}")
+                    
+                    # Add to end of queue for repetition (spaced learning)
+                    self.learning_queue.append(topic)
+                except Exception as e:
+                    logger.warning(f"   ❌ Failed to learn '{topic}': {e}")
+                    self.learning_queue.append(topic)  # Retry later
 
     def _absorb_senses(self) -> List[FractalWave]:
         """Converts sensory inputs into Fractal Waves."""
