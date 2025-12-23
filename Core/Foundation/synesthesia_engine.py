@@ -121,5 +121,75 @@ class SynesthesiaEngine:
         note = base_notes[idx]
         return [note, base_notes[(idx + 2) % len(base_notes)], base_notes[(idx + 4) % len(base_notes)]]
 
+    # [Phase 25] TensionField → Language Nuance
+    def from_tension_field(self, tension_field) -> UniversalSignal:
+        """
+        Convert TensionField state into a UniversalSignal.
+        
+        - Frequency = Average Curvature (Depth of Thought)
+        - Amplitude = Total Charge (Energy Level)
+        """
+        if not tension_field or not tension_field.shapes:
+            return UniversalSignal(SignalType.EMOTIONAL, frequency=200.0, amplitude=0.5, payload=None)
+        
+        # Calculate field metrics
+        avg_curvature = sum(s.curvature for s in tension_field.shapes.values()) / len(tension_field.shapes)
+        total_charge = sum(tension_field.charges.values())
+        
+        # Map to frequency (100-600 Hz range)
+        frequency = 100.0 + (avg_curvature * 100.0)  # Deep thought = High frequency
+        frequency = min(600.0, frequency)
+        
+        # Map to amplitude (0.1-1.0 range)
+        amplitude = min(1.0, total_charge / 5.0)  # High charge = High energy
+        amplitude = max(0.1, amplitude)
+        
+        return UniversalSignal(
+            SignalType.EMOTIONAL,
+            frequency=frequency,
+            amplitude=amplitude,
+            payload={"curvature": avg_curvature, "charge": total_charge}
+        )
+
+    def field_to_text_nuance(self, tension_field) -> Dict[str, Any]:
+        """
+        [Wave-to-Text]
+        
+        Translate TensionField state into language style adjustments.
+        
+        Returns:
+            - tone: "calm", "energetic", "contemplative", "urgent"
+            - formality: 0.0-1.0 (casual to formal)
+            - verbosity: 0.0-1.0 (concise to elaborate)
+        """
+        signal = self.from_tension_field(tension_field)
+        
+        # Determine tone based on frequency and amplitude
+        if signal.frequency > 400 and signal.amplitude > 0.7:
+            tone = "urgent"
+        elif signal.frequency > 300 and signal.amplitude > 0.5:
+            tone = "energetic"
+        elif signal.frequency > 200:
+            tone = "contemplative"
+        else:
+            tone = "calm"
+        
+        # Formality correlates with curvature (Deep Wells = Mature = Formal)
+        payload = signal.payload or {}
+        curvature = payload.get("curvature", 0.5)
+        formality = min(1.0, curvature / 3.0)
+        
+        # Verbosity inversely correlates with charge (High Charge = Urgent = Concise)
+        charge = payload.get("charge", 0.5)
+        verbosity = max(0.0, 1.0 - (charge / 5.0))
+        
+        return {
+            "tone": tone,
+            "formality": round(formality, 2),
+            "verbosity": round(verbosity, 2),
+            "frequency": signal.frequency,
+            "amplitude": signal.amplitude
+        }
+
 
 __all__ = ["SynesthesiaEngine", "SignalType", "RenderMode", "UniversalSignal", "RenderResult"]

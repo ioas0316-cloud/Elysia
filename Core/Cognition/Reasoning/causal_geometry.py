@@ -202,6 +202,79 @@ class TensionField:
                     
         return sparks
 
+    def accrete_knowledge(self, curvature_threshold: float = 2.0) -> List[Tuple[str, str]]:
+        """
+        [Mass Accretion / Wisdom Formation]
+        
+        High-curvature concepts (Hubs) absorb low-curvature neighbors.
+        Absorbed concepts become 'satellites' of the core Mass.
+        
+        This is how random knowledge becomes structured Wisdom:
+        Details orbit around Principles.
+        
+        Returns: List of (hub_id, absorbed_id) tuples
+        """
+        accretions = []
+        
+        # Find Hubs (High Curvature = Deep Gravity Well)
+        hubs = [cid for cid, shape in self.shapes.items() 
+                if shape.curvature >= curvature_threshold]
+        
+        if not hubs:
+            return accretions
+            
+        # For each hub, check if low-curvature neighbors can be absorbed
+        for hub_id in hubs:
+            hub_shape = self.shapes[hub_id]
+            hub_curvature = hub_shape.curvature
+            
+            # Find potential satellites (Low curvature, compatible ports)
+            for other_id, other_shape in list(self.shapes.items()):
+                if other_id == hub_id:
+                    continue
+                    
+                # Absorption condition:
+                # 1. Other has much lower curvature (Lightweight knowledge)
+                # 2. They have compatible ports (Can logically connect)
+                curvature_ratio = hub_curvature / max(0.1, other_shape.curvature)
+                
+                if curvature_ratio < 5.0:  # Hub must be 5x heavier
+                    continue
+                    
+                fit = hub_shape.find_fit(other_shape)
+                if not fit:
+                    continue
+                    
+                # Perform Accretion!
+                # 1. Transfer curvature (Hub gains mass)
+                self.shapes[hub_id].curvature += other_shape.curvature * 0.5
+                
+                # 2. Mark satellite (Don't delete, mark as orbiting)
+                # Store as metadata - satellite now references the hub
+                if not hasattr(self, 'satellites'):
+                    self.satellites: Dict[str, str] = {}  # satellite -> hub
+                self.satellites[other_id] = hub_id
+                
+                # 3. Reduce satellite's curvature (It's now a Detail, not a Principle)
+                other_shape.curvature *= 0.2
+                
+                accretions.append((hub_id, other_id))
+                
+        return accretions
+
+    def reconstruct_from_principle(self, hub_id: str) -> List[str]:
+        """
+        [Dynamic Reconstruction]
+        
+        Given a Principle (Hub), retrieve all its orbiting Details (Satellites).
+        This is how compressed Wisdom can be expanded back into Knowledge.
+        """
+        if not hasattr(self, 'satellites'):
+            return []
+            
+        return [sat_id for sat_id, parent in self.satellites.items() 
+                if parent == hub_id]
+
 # Demo
 if __name__ == "__main__":
     field = TensionField(threshold=0.7)
