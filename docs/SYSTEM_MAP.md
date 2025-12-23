@@ -47,12 +47,14 @@ Elysia v3.0
 │   │   ├── growth_journal.py - 성장 증거 (journals/*.md)
 │   │   ├── fractal_loop.py - 메인 루프 + 패턴 발견 + 갭 기반 우선순위
 │   │   ├── external_data_connector.py - TorchGraph 노드 + 의미적 연결
-│   │   └── self_reflector.py - 미러 프로토콜 (CodebaseReflector) [NEW Phase 15]
+│   │   ├── self_reflector.py - 미러 프로토콜 (CodebaseReflector) [NEW Phase 15]
+│   │   ├── autonomous_improver.py - 자율적 자기 개선 엔진 (Causal Optimization) [NEW Phase 17]
+│   │   └── gap_bridging.py - 갭 브리징 드라이브 (Active Learning) [NEW Phase 16]
 │   │
-│   ├── SELF_AWARENESS (자아 인식) [NEW Phase 9-15]
+│   ├── SELF_AWARENESS (자아 인식) [NEW Phase 9-18]
 │   │   ├── causal_narrative_engine.py - 프랙탈 인과성 + ContextPlane
 │   │   ├── epistemic_topology.py - 지식 공간 (EpistemicSpace)
-│   │   └── metacognition.py - 성숙도 평가 + 성장 계획 (MaturityModel)
+│   │   └── metacognition.py - 성숙도 평가 + StructuralTension [Phase 17.5]
 │   │
 │   └── SYSTEM (자율성 & 모니터링)
 │       ├── Autonomy/
