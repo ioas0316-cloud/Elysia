@@ -41,31 +41,32 @@ class GrowthJournal:
         logger.info(f"📔 GrowthJournal initialized for {self.today}")
     
     def write_entry(self, 
-                    emergent_self,
+                    self_governance=None,
                     tension_field=None,
                     memory=None) -> str:
         """
         오늘의 일기 작성
         
+        [FIXED] SelfGovernance를 사용 (EmergentSelf 아님)
+        
         Returns: 일기 내용
         """
-        # 1. 현재 스냅샷
-        snapshot = emergent_self.take_snapshot()
+        from datetime import datetime
         
-        # 2. 어제와 비교
-        comparison = emergent_self.compare_to_yesterday()
+        # 1. SelfGovernance 상태
+        if self_governance:
+            status = self_governance.ideal_self.get_status()
+            total_achievement = status["total_achievement"]
+            aspects = status["aspects"]
+            change_history = getattr(self_governance, 'change_history', [])
+            current_focus = self_governance.current_focus
+        else:
+            total_achievement = 0
+            aspects = {}
+            change_history = []
+            current_focus = None
         
-        # 3. 자기 정의
-        who_am_i = emergent_self.who_am_i()
-        
-        # 4. 활성 목표들
-        active_goals = [g for g in emergent_self.goals.values() 
-                       if not g.achieved and not g.abandoned]
-        
-        # 5. 최근 변화 (history)
-        recent_changes = emergent_self.history[-10:] if emergent_self.history else []
-        
-        # 6. TensionField 상태 (있다면)
+        # 2. TensionField 상태
         field_status = self._get_field_status(tension_field)
         
         # 일기 작성
@@ -73,36 +74,37 @@ class GrowthJournal:
 
 ## 📊 오늘의 상태
 
-- 가치(Values): {snapshot['value_count']}개
-- 목표(Goals): {snapshot['goal_count']}개 (활성: {snapshot['active_goals']})
-- 총 가치 강도: {snapshot['total_value_strength']:.2f}
+- 전체 달성률: {total_achievement:.1%}
+- 현재 초점: {current_focus.value if current_focus else '(없음)'}
 
-## 🔄 어제와 비교
-
-{comparison}
-
-## 🪞 나는 누구인가
-
-{who_am_i if who_am_i else "(아직 정의되지 않음)"}
-
-## 🎯 현재 추구하는 것
+## 📈 각 측면의 성장
 
 """
-        if active_goals:
-            for g in active_goals:
-                entry += f"- **{g.name}**: {g.description} (진행: {g.progress:.1f})\n"
-        else:
-            entry += "(활성 목표 없음)\n"
+        for aspect_name, data in aspects.items():
+            current = data.get('current', 0)
+            target = data.get('target', 1)
+            gap = data.get('gap', 0)
+            entry += f"- **{aspect_name}**: {current:.2f}/{target:.2f} (갭: {gap:.2f})\n"
         
         entry += f"""
-## 📝 최근 변화
+## 📝 최근 변화 (실제 증거)
 
 """
-        if recent_changes:
-            for change in recent_changes[-5:]:
-                entry += f"- [{change['type']}] {change['detail']}\n"
+        if change_history:
+            for change in change_history[-10:]:
+                success_icon = "✓" if change.get('success') else "✗"
+                aspect = change.get('aspect', 'unknown')
+                before = change.get('before', 0)
+                after = change.get('after', 0)
+                delta = change.get('delta', 0)
+                action = change.get('action', '')[:30]
+                learning = change.get('learning', '')[:50]
+                
+                entry += f"- [{success_icon}] **{aspect}**: {before:.2f} → {after:.2f} (+{delta:.2f})\n"
+                entry += f"  - 행동: {action}\n"
+                entry += f"  - 학습: {learning}...\n"
         else:
-            entry += "(기록된 변화 없음)\n"
+            entry += "(아직 기록된 변화 없음 - 시스템이 작동하면 여기에 실제 변화가 기록됩니다)\n"
         
         if field_status:
             entry += f"""
@@ -123,9 +125,6 @@ class GrowthJournal:
             f.write(entry)
         
         logger.info(f"📔 Journal entry written: {filepath}")
-        
-        # EmergentSelf 상태도 저장
-        emergent_self.save_state()
         
         return entry
     

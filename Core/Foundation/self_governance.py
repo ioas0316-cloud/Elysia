@@ -21,6 +21,12 @@ from enum import Enum
 
 logger = logging.getLogger("Elysia.SelfGovernance")
 
+# [NEW] GrowthJournal for visible evidence of change
+try:
+    from Core.Foundation.growth_journal import get_growth_journal
+except ImportError:
+    get_growth_journal = None
+
 
 class AspectType(Enum):
     """자아의 측면들"""
@@ -195,6 +201,12 @@ class SelfGovernance:
         self.history: List[GovernanceDecision] = []
         self.current_focus: Optional[AspectType] = None
         
+        # [NEW] GrowthJournal for visible evidence
+        self.growth_journal = get_growth_journal() if get_growth_journal else None
+        
+        # [NEW] Change history for tracking actual changes
+        self.change_history: List[Dict] = []
+        
         # [Curriculum]
         try:
             from Core.Learning.academic_curriculum import CurriculumSystem
@@ -209,6 +221,8 @@ class SelfGovernance:
         self._load_state()
 
         logger.info(f"   👑 SelfGovernance Active. Ideal Aspects: {len(self.ideal_self.aspects)}")
+        if self.growth_journal:
+            logger.info(f"   📔 GrowthJournal connected for visible evidence")
 
     def _save_state(self):
         """Saves current maturity levels to disk."""
@@ -351,7 +365,11 @@ class SelfGovernance:
         
         성공 → 해당 측면 레벨 증가
         실패 → 학습, 방향 조정
+        
+        [NEW] 변화를 기록하고 journal에 쓴다
         """
+        import time
+        
         delta = 0.05 if success else 0.01  # 실패해도 약간 성장 (학습)
         
         # 행동이 어떤 측면과 관련있는지 추정
@@ -374,11 +392,39 @@ class SelfGovernance:
                 matched_aspect = aspect
                 break
         
+        # [NEW] 변화 전 상태 기록
+        before_level = 0.0
+        if matched_aspect and matched_aspect in self.ideal_self.aspects:
+            before_level = self.ideal_self.aspects[matched_aspect].current_level
+        
         if matched_aspect:
             self.ideal_self.update_aspect_level(matched_aspect, delta)
         
+        # [NEW] 변화 후 상태 기록
+        after_level = before_level
+        if matched_aspect and matched_aspect in self.ideal_self.aspects:
+            after_level = self.ideal_self.aspects[matched_aspect].current_level
+        
+        # [NEW] 변화 기록 (실제 증거)
+        change_record = {
+            "timestamp": time.time(),
+            "action": action,
+            "success": success,
+            "learning": learning,
+            "aspect": matched_aspect.value if matched_aspect else None,
+            "before": before_level,
+            "after": after_level,
+            "delta": after_level - before_level
+        }
+        self.change_history.append(change_record)
+        
         logger.info(f"   🔄 Self-Adjustment: {'Reinforced' if success else 'Learned from failure'}")
-        logger.info(f"   📝 Learning: {learning[:50]}...")
+        if matched_aspect:
+            logger.info(f"   � {matched_aspect.value}: {before_level:.2f} → {after_level:.2f} (+{delta:.2f})")
+        logger.info(f"   �📝 Learning: {learning[:50]}...")
+        
+        # [NEW] 저장
+        self._save_state()
     
     def get_achievement_report(self) -> str:
         """달성률 보고서"""

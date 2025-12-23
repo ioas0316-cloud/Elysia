@@ -28,13 +28,7 @@ try:
 except ImportError:
     LifeCycle = None
 
-# [NEW] EmergentSelf - no hardcoded goals, values emerge from experience
-try:
-    from Core.Foundation.emergent_self import get_emergent_self
-except ImportError:
-    get_emergent_self = None
-
-# [NEW] GrowthJournal - visible evidence of change
+# GrowthJournal - visible evidence of change (uses existing SelfGovernance)
 try:
     from Core.Foundation.growth_journal import get_growth_journal
 except ImportError:
@@ -92,13 +86,13 @@ class FractalLoop:
             tension_field=tension_field
         ) if LifeCycle else None
         
-        # [NEW] EmergentSelf - values emerge from experience, not hardcoded
-        self.emergent_self = get_emergent_self() if get_emergent_self else None
+        # [FIXED] Use existing SelfGovernance from LifeCycle (not separate EmergentSelf)
+        self.self_governance = self.life_cycle.governance if self.life_cycle else None
         
-        # [NEW] GrowthJournal - write visible evidence of change
+        # GrowthJournal - write visible evidence of change using SelfGovernance
         self.growth_journal = get_growth_journal() if get_growth_journal else None
         
-        # [NEW] Cycle counter for periodic journal writing
+        # Cycle counter for periodic journal writing
         self.cycle_count = 0
         self.journal_interval = 100  # Write journal every 100 cycles
         
@@ -107,8 +101,8 @@ class FractalLoop:
             logger.info("   🧠 ThoughtSpace connected for What-If simulation")
         if self.life_cycle:
             logger.info("   🔄 LifeCycle connected for feedback loop")
-        if self.emergent_self:
-            logger.info("   🌱 EmergentSelf connected for value emergence")
+        if self.self_governance:
+            logger.info("   👑 SelfGovernance connected for intentional growth")
         if self.growth_journal:
             logger.info("   📔 GrowthJournal connected for visible evidence")
 
@@ -138,13 +132,9 @@ class FractalLoop:
             if wave.energy < 0.1:
                 continue
             
-            # [NEW] Every wave becomes a pattern that flows into EmergentSelf
-            # This is how experience becomes value
-            if self.emergent_self and wave.content:
-                self.emergent_self.notice_pattern(
-                    pattern_name=wave.content[:50],  # Truncate for sanity
-                    origin=wave.source
-                )
+            # [FIXED] Waves are processed by _circulate_wave -> _manifest_reality -> LifeCycle
+            # LifeCycle.complete_cycle() does the actual verification and learning
+            # No need for separate EmergentSelf - that was a parallel system
                 
             # Process the wave in the fractal engine
             processed_wave = self._circulate_wave(wave)
@@ -159,22 +149,14 @@ class FractalLoop:
         if random.random() < 0.05:
             self._introspect_loop()
         
-        # 4. [NEW] EmergentSelf maintenance
-        if self.emergent_self:
-            # Check for goal stagnation/evolution
-            self.emergent_self.check_goals()
-            # Apply entropy (unused values decay)
-            if self.cycle_count % 10 == 0:
-                self.emergent_self.apply_entropy()
-        
-        # 5. [NEW] Periodic Journal Writing (visible evidence)
+        # 4. Periodic Journal Writing (visible evidence using existing SelfGovernance)
         if self.growth_journal and self.cycle_count % self.journal_interval == 0:
             tension_field = None
             if hasattr(self.cns, 'reasoning') and hasattr(self.cns.reasoning, 'tension_field'):
                 tension_field = self.cns.reasoning.tension_field
             
             self.growth_journal.write_entry(
-                emergent_self=self.emergent_self,
+                self_governance=self.self_governance,
                 tension_field=tension_field,
                 memory=getattr(self.cns, 'memory', None)
             )
