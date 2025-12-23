@@ -6,7 +6,7 @@
 
 이 문서는 **모든 시스템의 위치, 목적, 연결**을 명확히 합니다.
 
-> ⚠️ **에이전트 필독 순서**: 이 문서 → [AGENT_GUIDE.md](AGENT_GUIDE.md) → [README.md](README.md)
+> ⚠️ **에이전트 필독 순서**: 이 문서 → [AGENT_GUIDE.md](Guides/AGENT_GUIDE.md) → [README.md](../README.md)
 
 ---
 
@@ -288,7 +288,7 @@ UnifiedElysia - 2 files:
    - 중복 감지
 
 2. ✅ **System Inventory 문서** - DONE
-   - `docs/SYSTEM_INVENTORY_AND_CONSOLIDATION.md`
+   - `docs/Architecture/SYSTEM_INVENTORY_AND_CONSOLIDATION.md`
    - 중복 분석 및 계획
 
 3. ✅ **System Map 문서** - DONE
@@ -491,7 +491,7 @@ results = registry.search("monitor")
 
 ### 비전 문서
 
-- [VISION_LIVING_KNOWLEDGE.md](VISION_LIVING_KNOWLEDGE.md) - 상세 철학과 구현 방향
+- [VISION_LIVING_KNOWLEDGE.md](Vision/VISION_LIVING_KNOWLEDGE.md) - 상세 철학과 구현 방향
 
 ## 📝 결론
 

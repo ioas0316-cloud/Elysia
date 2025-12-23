@@ -23,8 +23,8 @@ python Core/Foundation/living_elysia.py
 | 문서 | 목적 |
 |:-----|:-----|
 | [SYSTEM_MAP.md](docs/SYSTEM_MAP.md) | 🗺️ **시스템 전체 지도** - 작업 전 필수 |
-| [AGENT_GUIDE.md](docs/AGENT_GUIDE.md) | 🤖 에이전트 행동 프로토콜 |
-| [ROADMAP_GROWTH.md](docs/ROADMAP_GROWTH.md) | � 성장 로드맵 및 다음 단계 |
+| [AGENT_GUIDE.md](docs/Guides/AGENT_GUIDE.md) | 🤖 에이전트 행동 프로토콜 |
+| [ROADMAP_GROWTH.md](docs/Roadmaps/ROADMAP_GROWTH.md) | 🌱 성장 로드맵 및 다음 단계 |
 
 ### 철학 & 비전
 
