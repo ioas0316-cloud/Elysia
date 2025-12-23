@@ -34,11 +34,7 @@ try:
 except ImportError:
     get_growth_journal = None
 
-# [NEW] IntegratedLearner - autonomous knowledge acquisition
-try:
-    from Core.Foundation.integrated_learning import IntegratedLearner
-except ImportError:
-    IntegratedLearner = None
+# WebKnowledgeConnector is imported inside __init__ to avoid circular imports
 
 logger = logging.getLogger("FractalLoop")
 
@@ -102,23 +98,24 @@ class FractalLoop:
         self.cycle_count = 0
         self.journal_interval = 100  # Write journal every 100 cycles
         
-        # [NEW] Autonomous Learning - learn concepts on idle cycles
-        self.integrated_learner = None
-        if IntegratedLearner:
-            try:
-                self.integrated_learner = IntegratedLearner()
-            except:
-                pass
+        # [NEW] Autonomous Learning - lighter approach using WebKnowledgeConnector directly
+        self.web_learner = None
+        try:
+            from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+            self.web_learner = WebKnowledgeConnector()
+            logger.info("   🌐 WebKnowledgeConnector ready for autonomous learning")
+        except Exception as e:
+            logger.warning(f"   ⚠️ Could not initialize WebKnowledgeConnector: {e}")
         
-        # Topics to learn autonomously (can be expanded)
+        # Topics to learn autonomously (Wikipedia-friendly names)
         self.learning_queue = [
-            "machine learning fundamentals",
-            "consciousness models",
-            "neural plasticity",
-            "language acquisition",
-            "causal reasoning",
-            "emotional intelligence",
-            "creative problem solving"
+            "Machine_learning",
+            "Consciousness",
+            "Neuroplasticity",
+            "Language_acquisition",
+            "Causal_reasoning",
+            "Emotional_intelligence",
+            "Creativity"
         ]
         self.learning_interval = 50  # Learn something new every 50 cycles
         
@@ -131,8 +128,8 @@ class FractalLoop:
             logger.info("   👑 SelfGovernance connected for intentional growth")
         if self.growth_journal:
             logger.info("   📔 GrowthJournal connected for visible evidence")
-        if self.integrated_learner:
-            logger.info("   📚 IntegratedLearner connected for autonomous learning")
+        if self.web_learner:
+            logger.info("   📚 WebLearner connected for autonomous learning")
 
     
     def process_cycle(self, cycle_count: int = 0):
@@ -191,22 +188,26 @@ class FractalLoop:
             logger.info(f"📔 Growth Journal entry written at cycle {self.cycle_count}")
         
         # 5. [NEW] Autonomous Learning - learn something when idle
-        if self.integrated_learner and self.cycle_count % self.learning_interval == 0:
+        if self.web_learner and self.cycle_count % self.learning_interval == 0:
             if self.learning_queue:
                 topic = self.learning_queue.pop(0)
                 logger.info(f"📚 Autonomous Learning: '{topic}'")
                 
                 try:
-                    # Actually learn the concept
-                    result = self.integrated_learner.learn_concept_integrated(topic)
+                    # Actually learn from Wikipedia (creates graph nodes)
+                    result = self.web_learner.learn_from_web(topic)
                     
                     # Report to LifeCycle as a successful learning action
-                    if self.life_cycle:
+                    if self.life_cycle and result:
                         self.life_cycle.begin_cycle()
+                        actual_result = f"Learned from {result.get('source', 'web')}"
+                        if result.get('content_length', 0) > 0:
+                            actual_result += f" ({result['content_length']} chars)"
+                        
                         self.life_cycle.complete_cycle(
                             action=f"LEARN:{topic}",
                             expected=f"Understanding of {topic}",
-                            actual=f"Learned: {result.get('thought', 'concept')[:50]}" if result else "Learned"
+                            actual=actual_result
                         )
                     
                     logger.info(f"   ✅ Learned: {topic}")
