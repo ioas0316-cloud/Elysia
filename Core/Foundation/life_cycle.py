@@ -48,6 +48,12 @@ class WorldSnapshot:
     energy: float = 50.0
     entropy: float = 50.0
 
+# [Phase 6] Predictive Verfication
+try:
+    from Core.Cognition.predictive_mind import PredictiveMind
+except ImportError:
+    PredictiveMind = None
+
 
 @dataclass
 class ActionResult:
@@ -314,6 +320,11 @@ class LifeCycle:
             logger.info("   👑 SelfGovernance connected for meaningful evaluation")
         if self.tension_field:
             logger.info("   🌌 TensionField connected for Field Physics reinforcement")
+
+        # [Phase 6] Predictive Mind
+        self.predictive_mind = PredictiveMind() if PredictiveMind else None
+        if self.predictive_mind:
+            logger.info("   🧠 PredictiveMind connected for Cognitive Verification")
     
     def begin_cycle(self) -> WorldSnapshot:
         """사이클 시작 - 현재 상태 스냅샷"""
@@ -400,6 +411,19 @@ class LifeCycle:
         
         logger.info(f"   🌱 Growth: {growth.learning[:50]}...")
         logger.info(f"🔄 Cycle #{self.cycle_count} complete")
+        
+        # [Phase 6] Predictive Verification
+        if self.predictive_mind:
+            # 학습 상황인 경우 예측 수행
+            if "LEARN" in action:
+                concept = action.split(":")[-1]
+                # 1. 가설 수립
+                hyp = self.predictive_mind.formulate_hypothesis(concept, ["Understanding", "Utility", "Connection"])
+                if hyp:
+                    # 2. 즉시 검증 (학습 내용 바탕으로)
+                    # 실제로는 시간이 지나야 검증되지만, 여기서는 시뮬레이션
+                    verify_result = self.predictive_mind.verify_hypothesis(hyp, actual)
+                    logger.info(f"   🧠 Predictive Verification: {verify_result}")
         
         return growth
     

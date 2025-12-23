@@ -79,6 +79,7 @@ from collections import defaultdict
 from enum import Enum
 import logging
 import time
+import random
 
 logger = logging.getLogger("CausalNarrativeEngine")
 
@@ -795,9 +796,20 @@ class CausalNarrativeEngine:
         
         # 기본 인과 스키마 초기화
         self._initialize_fundamental_causality()
-        
-        logger.info("🔮 CausalNarrativeEngine initialized")
-    
+    def generate_prediction_sentence(self, source: str, target: str) -> str:
+        """
+        Generates a natural language prediction.
+        "If [source]..., then [target]..."
+        """
+        # Simple template for now
+        templates = [
+            f"If I encounter '{source}', I expect to see '{target}'.",
+            f"'{source}' is likely a precursor to '{target}'.",
+            f"Given '{source}', '{target}' should follow.",
+            f"The presence of '{source}' suggests '{target}' is near."
+        ]
+        return random.choice(templates)
+
     def _initialize_fundamental_causality(self):
         """기본적인 인과 스키마 초기화"""
         # 생존 관련 기본 인과
