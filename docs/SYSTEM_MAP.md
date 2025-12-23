@@ -21,8 +21,10 @@ Elysia v3.0
 │   │
 │   ├── COGNITION (인지)
 │   │   ├── Reasoning/
-│   │   │   ├── reasoning_engine.py - 추론 엔진 (The Compass)
-│   │   │   ├── transcendence_logic.py - 초월 논리 (Impossibility Solver) [NEW]
+│   │   │   ├── reasoning_engine.py - 추론 엔진 (Field Gravity Integrated)
+│   │   │   ├── causal_geometry.py - 인과 기하학 (Tension Field) [Phase 25]
+│   │   │   ├── phase_transition.py - 프랙탈 위상 변환 (Ice/Water/Vapor) [Phase 25]
+│   │   │   ├── transcendence_logic.py - 초월 논리 (Impossibility Solver)
 │   │   │   └── perspective_simulator.py - 역지사지 시뮬레이터 (The Mirror)
 │   │   ├── thought_space.py - 사고의 여백 (The Gap)
 │   │   ├── context_retrieval.py - 의도 기반 인출 (The Lens)

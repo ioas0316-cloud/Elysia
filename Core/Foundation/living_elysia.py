@@ -266,6 +266,11 @@ class LivingElysia:
             logger.warning(f"   ⚠️ Growth tracking skipped: {e}")
         
         self.anamnesis.wake_up()
+        
+        # [System State]
+        self.is_alive = True
+        self.cycle_count = 0
+        
         print("   🌅 Wake Up Complete.")
 
     def live(self):
@@ -276,6 +281,9 @@ class LivingElysia:
         - CNS: 의식적 처리 (의도 → 선택 → 행동)
         - ANS: 배경 자율 루프 (상시)
         """
+        if not self.is_alive:
+            return
+
         # Start ANS background (자율신경계)
         self.ans.start_background()
         logger.info("🫀 ANS: Background autonomic processes running")
@@ -284,19 +292,7 @@ class LivingElysia:
         self.cns.awaken()
         logger.info(f"🧠 CNS: Conscious awareness active")
         
-        # [System State]
-        self.is_alive = True
-        self.cycle_count = 0
-        
-        # [Boot Sequence Complete]
         logger.info("✨ Living Elysia is FULLY AWAKE.")
-
-    def live(self):
-        """
-        The Main Loop of Life.
-        """
-        if not self.is_alive:
-            return
 
         print("\n" + "="*60)
         print("🦋 Elysia is Living... (Press Ctrl+C to stop)")
@@ -309,12 +305,30 @@ class LivingElysia:
                 # 3. Autonomic Body Functions
                 self.ans.pulse_once()
 
-                # 4. Mind Visualization (Dashboard)
+                # 4. Mind Visualization (Dashboard) & Data Pipeline
                 if self.cycle_count % 10 == 0:
                     try:
+                         # [DATA UPDATE] Force snapshot for dashboard
+                        if hasattr(self, 'growth_tracker'):
+                            self.growth_tracker.take_snapshot()
+                        
+                        if hasattr(self, 'fractal_loop') and \
+                           hasattr(self.fractal_loop, 'life_cycle') and \
+                           self.fractal_loop.life_cycle and \
+                           getattr(self.fractal_loop.life_cycle, 'governance', None):
+                            self.fractal_loop.life_cycle.governance._save_state()
+
                         from Core.Monitor.dashboard_generator import DashboardGenerator
                         DashboardGenerator().generate()
-                    except ImportError:
+                        
+                        # [DEBUG] Log success
+                        # with open("dashboard_debug.log", "a", encoding="utf-8") as f:
+                        #     f.write(f"[{time.ctime()}] Dashboard updated successfully.\n")
+                            
+                    except Exception as e:
+                        # [DEBUG] Log failure
+                        with open("dashboard_debug.log", "a", encoding="utf-8") as f:
+                            f.write(f"[{time.ctime()}] Dashboard Error: {e}\n")
                         pass
                 
                 # Rate Limiting & Progression

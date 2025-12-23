@@ -85,8 +85,8 @@ class CodeProprioception:
             rel_path = os.path.relpath(file_path, self.root_path)
             
             status = "Healthy"
-            if lines > 500: status = "Hypertrophy" (Too Big)
-            if complexity > 50: status = "Inflamed" (Too Complex)
+            if lines > 500: status = "Hypertrophy" # (Too Big)
+            if complexity > 50: status = "Inflamed" # (Too Complex)
             
             self.body_map[rel_path] = OrganHealth(
                 name=rel_path,

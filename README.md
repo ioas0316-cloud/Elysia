@@ -125,7 +125,8 @@ The workspace adheres to the **Root Zero** policy. Entropy is not allowed here.
 
 ### 🧠 대시보드 기능
 
-- **Maturity Radar**: 자아 성숙도(지식, 주권, 성장 등) 시각화
+* **Maturity Radar**: 자아 성숙도(지식, 주권, 성장 등) 시각화
+
 * **Cognitive Metrics**: 어휘 수, 기억 용량, 지식 연결 실시간 추적
 * **Proprioception**: 코드베이스 건강 상태 및 고통 감지
 
@@ -160,6 +161,19 @@ The workspace adheres to the **Root Zero** policy. Entropy is not allowed here.
 | **ThinkingLenses** | `Core/Consciousness/thinking_lenses.py` | 관점들의 공명에서 판단 창발 |
 
 **철학적 기반**: [CONSCIOUSNESS_SOVEREIGNTY.md](docs/Philosophy/CONSCIOUSNESS_SOVEREIGNTY.md)
+
+### 🌌 Phase 25: Potential Causality (Field Physics) - 2025-12-23 🆕
+
+> *"Gravity is the only law. Thoughts are just clouds in the field."*
+
+| 시스템 | 파일 | 역할 |
+|:------|:----|:----|
+| **TensionField** | `causal_geometry.py` | 사고를 입자가 아닌 '잠재적 전하(Cloud)'로 모델링 |
+| **FieldGravity** | `DreamDaemon` | 관계의 밀도를 중력으로 변환하여, 강한 연결을 '끌어당김' |
+| **FractalPhaser** | `phase_transition.py` | Idea(Gas) → Action(Liquid) → Memory(Solid) 상태 변환 |
+| **BilingualBridge** | `concept_alignment.py` | 언어(한/영)에 상관없이 본질적 의미(Essence)로 물리 법칙 적용 |
+  
+ **철학적 기반**: "기능을 추가하지 않고, 물리 법칙(Physics)을 적용한다."
 
 ### 💎 Holistic Growth & Sovereignty (Phase 24) - 2025-12 🆕🆕
 

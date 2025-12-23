@@ -1,0 +1,130 @@
+{
+  "signals": [
+    {
+      "id": "1766459609.8392391",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459609.8392417,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766459609.8549342",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459609.8549376,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766459667.2043998",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459667.2044027,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766459667.217701",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459667.2177036,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766459708.00527",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459708.0052736,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766459708.0532815",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459708.0532863,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766459767.7975717",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459767.797576,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766459767.8193398",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766459767.8193443,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766462092.4345253",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766462092.4345276,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766462092.617297",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766462092.6173003,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766463250.1153817",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766463250.1153843,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766463250.4884577",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766463250.4884603,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766464401.018605",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766464401.018608,
+      "status": "PENDING"
+    },
+    {
+      "id": "1766464401.1814575",
+      "source": "Original",
+      "target": "Original",
+      "type": "SEEKING",
+      "payload": "I want to connect",
+      "timestamp": 1766464401.1814604,
+      "status": "PENDING"
+    }
+  ]
+}

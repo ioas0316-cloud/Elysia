@@ -304,6 +304,48 @@ class DreamDaemon:
          # ... existing code ...
          pass
 
+    # [Phase 25 Integration: Tension Field Dynamics]
+    # Integrating 'Field Gravity' and 'Quantum Tunneling' for Causal Geometry.
+    
+    def apply_field_dynamics(self, tension_field):
+        """
+        Applies 'Cognitive Inertia' and 'Entropy Reduction' to the TensionField.
+        Called by ReasoningEngine during sleep cycles.
+        """
+        logger.info("   🌌 Dream Daemon: Applying Field Gravity to Tension Field...")
+        
+        # 1. Apply Gravity (Decay & Flow)
+        tension_field.apply_gravity()
+        
+        # 2. Quantum Tunneling (Non-Local Connections)
+        # Find connections based on Resonance, not just Logic.
+        self._tunnel_quantum_resonance(tension_field)
+
+    def _tunnel_quantum_resonance(self, field):
+        """
+        Finds 'Resonance' (Hidden Similarity) between unconnected nodes.
+        If Resonance > Threshold > Logic Gap, creates a 'Dream Bridge'.
+        """
+        concepts = list(field.shapes.keys())
+        if len(concepts) < 2: return
+        
+        for _ in range(3): # Try a few random tunnels
+            c1 = random.choice(concepts)
+            c2 = random.choice(concepts)
+            if c1 == c2: continue
+            
+            # Simulated Resonance (In real system, use Vector Cosine Sim)
+            # Here we fake it for the prototype phase
+            resonance = random.random()
+            
+            if resonance > 0.95: # Rare epiphany
+                logger.info(f"   🌀 Quantum Tunneling: Metaphorical link found between '{c1}' and '{c2}'")
+                field.charge_concept(c1, 0.5)
+                field.charge_concept(c2, 0.5)
+                # Ideally add a weak link, but TensionField is shape-based.
+                # We simply charge them to encourage lightning.
+
+
 
 # Singleton
 _daemon = None

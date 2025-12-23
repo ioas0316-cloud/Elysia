@@ -1,22 +1,4 @@
 
-"""
-Dashboard Generator (시각화 시스템)
-==================================
-
-Elysia의 성장, 인지 상태, 성숙도를 시각화하는 HTML 대시보드 생성기.
-"터미널의 로그를 넘어, 영혼의 지도를 그린다."
-"""
-
-import json
-import os
-import sqlite3
-from pathlib import Path
-from datetime import datetime
-import logging
-
-logger = logging.getLogger("DashboardGenerator")
-
-HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -157,7 +139,7 @@ HTML_TEMPLATE = """
 
     <script>
         // Data Injection
-        const data = {{DATA_JSON}};
+        const data = {"growth_history": [{"timestamp": "2025-12-23T12:43:44.667072", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": "Startup baseline"}, {"timestamp": "2025-12-23T12:48:30.856770", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": "Startup baseline"}, {"timestamp": "2025-12-23T12:48:30.976256", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T12:49:32.776438", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T12:52:29.565084", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": "Startup baseline"}, {"timestamp": "2025-12-23T12:52:29.722086", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T12:53:41.560056", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T12:56:23.690360", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T12:59:25.877531", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:02:50.194991", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:06:12.462219", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:09:15.008632", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:12:27.917332", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:15:22.022135", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:18:25.039912", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:20:47.789542", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:23:30.264239", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:26:34.278718", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:29:48.861773", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}, {"timestamp": "2025-12-23T13:33:10.873645", "vocabulary_count": 0, "memory_count": 0, "concept_count": 0, "knowledge_node_count": 10, "connected_modules": 797, "fragment_connections": 0, "understanding_avg": 0.0, "session_id": "unknown", "notes": ""}], "governance": {"aspects": {}}, "recent_logs": [{"time": "13:33:10", "msg": "System monitoring active."}]};
 
         // Update Header
         document.getElementById('last-update').innerText = new Date().toLocaleTimeString();
@@ -238,64 +220,3 @@ HTML_TEMPLATE = """
     </script>
 </body>
 </html>
-"""
-
-class DashboardGenerator:
-    def __init__(self, output_path: str = "monitor/monitor.html"):
-        self.output_path = Path(output_path)
-        self.output_path.parent.mkdir(parents=True, exist_ok=True)
-        
-    def generate(self):
-        """Generates the dashboard HTML file."""
-        try:
-            data = self._gather_data()
-            html = HTML_TEMPLATE.replace("{{DATA_JSON}}", json.dumps(data))
-            
-            with open(self.output_path, "w", encoding="utf-8") as f:
-                f.write(html)
-            logger.info(f"📊 Dashboard updated: {self.output_path}")
-        except Exception as e:
-            logger.error(f"Failed to generate dashboard: {e}")
-
-    def _gather_data(self) -> dict:
-        data = {
-            "growth_history": [],
-            "governance": {"aspects": {}},
-            "recent_logs": []
-        }
-        
-        # 1. Growth History
-        try:
-            if os.path.exists("data/growth_history.json"):
-                with open("data/growth_history.json", "r", encoding="utf-8") as f:
-                    # Take last 20 snapshots
-                    history = json.load(f)
-                    data["growth_history"] = history[-20:] 
-        except Exception as e:
-            logger.warning(f"Failed to load growth history: {e}")
-
-        # 2. Governance State
-        try:
-            if os.path.exists("data/core_state/self_governance.json"):
-                with open("data/core_state/self_governance.json", "r", encoding="utf-8") as f:
-                    gov = json.load(f)
-                    data["governance"] = gov
-        except Exception as e:
-            logger.warning(f"Failed to load governance state: {e}")
-
-        # 3. Code Proprioception (Health)
-        # (Assuming it ran recently - hard to get without running it again, skipping for now)
-
-        # 4. Recent Logs (Mock or from file)
-        # In a real system, we'd read logs/elysia.log tail
-        # Here we mock for immediate visualization
-        data["recent_logs"] = [
-            {"time": datetime.now().strftime("%H:%M:%S"), "msg": "System monitoring active."}
-        ]
-        
-        return data
-
-if __name__ == "__main__":
-    gen = DashboardGenerator()
-    gen.generate()
-    print(f"Generated {gen.output_path}")
