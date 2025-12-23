@@ -69,9 +69,15 @@ class FractalLoop:
         self.thought_direction: Dict[str, float] = {}
         
         # [LIFE CYCLE] 표현 → 인식 → 검증 → 변화 순환
+        # [Phase 25] Get TensionField from ReasoningEngine if available
+        tension_field = None
+        if hasattr(cns_ref, 'reasoning') and hasattr(cns_ref.reasoning, 'tension_field'):
+            tension_field = cns_ref.reasoning.tension_field
+        
         self.life_cycle = LifeCycle(
             memory=getattr(cns_ref, 'memory', None),
-            resonance=getattr(cns_ref, 'resonance', None)
+            resonance=getattr(cns_ref, 'resonance', None),
+            tension_field=tension_field
         ) if LifeCycle else None
         
         logger.info("♾️ Fractal Loop Initialized: The Ring is Open.")

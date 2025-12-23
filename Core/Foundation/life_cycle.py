@@ -31,6 +31,12 @@ except ImportError:
     SelfGovernance = None
     IdealSelf = None
 
+# [Phase 25] TensionField for Field-based reinforcement
+try:
+    from Core.Cognition.Reasoning.causal_geometry import TensionField
+except ImportError:
+    TensionField = None
+
 
 @dataclass
 class WorldSnapshot:
@@ -216,13 +222,16 @@ class LifeCycle:
     실행에서 끝나지 않고, 결과를 인식하고 자신이 변해야 성장.
     """
     
-    def __init__(self, memory=None, resonance=None, internal_universe=None):
+    def __init__(self, memory=None, resonance=None, internal_universe=None, tension_field=None):
         self.perception = PerceptionModule(memory, resonance)
         self.verification = VerificationModule()
         self.transformation = SelfTransformationModule(internal_universe, memory)
         
         # [SELF GOVERNANCE] 의미 있는 자기 평가
         self.governance = SelfGovernance() if SelfGovernance else None
+        
+        # [Phase 25] TensionField for Field-based reinforcement
+        self.tension_field = tension_field
         
         self.cycle_count = 0
         self.growth_history: List[GrowthRecord] = []
@@ -231,6 +240,8 @@ class LifeCycle:
         logger.info("🔄 LifeCycle initialized - continuous flow enabled")
         if self.governance:
             logger.info("   👑 SelfGovernance connected for meaningful evaluation")
+        if self.tension_field:
+            logger.info("   🌌 TensionField connected for Field Physics reinforcement")
     
     def begin_cycle(self) -> WorldSnapshot:
         """사이클 시작 - 현재 상태 스냅샷"""
@@ -261,6 +272,20 @@ class LifeCycle:
         # 3. 자기 변화
         growth = self.transformation.transform(result, analysis)
         self.growth_history.append(growth)
+        
+        # [Phase 25] Field Physics Reinforcement
+        if self.tension_field and action:
+            # Extract concept from action (e.g., "LEARN:Python" -> "Python")
+            concept_id = action.split(":")[-1] if ":" in action else action
+            
+            if result.success:
+                # Success → Deepen the gravity well (habit formation)
+                self.tension_field.reinforce_well(concept_id, 0.1)
+                logger.info(f"   🪐 Gravity Deepened: {concept_id} curvature +0.1")
+            else:
+                # Failure → Increase charge for retry (tension accumulation)
+                self.tension_field.charge_concept(concept_id, 0.3)
+                logger.info(f"   ⚡ Tension Charged: {concept_id} energy +0.3")
         
         # [SELF GOVERNANCE] 의미 있는 자기 평가와 조율
         if self.governance:
