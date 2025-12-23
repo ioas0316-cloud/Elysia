@@ -3,12 +3,47 @@ import time
 import random
 import logging
 import threading
-import torch
 from typing import List, Optional
-from Core.Foundation.torch_graph import get_torch_graph
-from Core.Intelligence.logos_engine import get_logos_engine
 
 logger = logging.getLogger("DreamDaemon")
+
+# [Lazy Load] Heavy dependencies - loaded on first use
+_torch = None
+_torch_graph = None
+_logos_engine = None
+
+def _get_torch():
+    global _torch
+    if _torch is None:
+        try:
+            import torch
+            _torch = torch
+        except ImportError as e:
+            logger.warning(f"PyTorch unavailable: {e}")
+            _torch = False  # Mark as unavailable
+    return _torch if _torch else None
+
+def _get_graph():
+    global _torch_graph
+    if _torch_graph is None:
+        try:
+            from Core.Foundation.torch_graph import get_torch_graph
+            _torch_graph = get_torch_graph()
+        except Exception as e:
+            logger.warning(f"TorchGraph unavailable: {e}")
+            _torch_graph = False
+    return _torch_graph if _torch_graph else None
+
+def _get_logos():
+    global _logos_engine
+    if _logos_engine is None:
+        try:
+            from Core.Intelligence.logos_engine import get_logos_engine
+            _logos_engine = get_logos_engine()
+        except Exception as e:
+            logger.warning(f"LogosEngine unavailable: {e}")
+            _logos_engine = False
+    return _logos_engine if _logos_engine else None
 
 class DreamDaemon:
     """
@@ -16,8 +51,8 @@ class DreamDaemon:
     Operates when the user is not looking, densifying the Knowledge Graph.
     """
     def __init__(self):
-        self.graph = get_torch_graph()
-        self.logos = get_logos_engine()
+        self.graph = _get_graph()  # [Lazy Load]
+        self.logos = _get_logos()  # [Lazy Load]
         self.is_dreaming = False
         self.dream_thread: Optional[threading.Thread] = None
         

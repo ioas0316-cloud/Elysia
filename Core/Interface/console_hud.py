@@ -8,7 +8,14 @@ Provides a text-based dashboard for Elysia's internal state.
 
 import sys
 import time
-import torch
+
+# [Lazy Load] Torch is optional for HUD
+try:
+    import torch
+    TORCH_AVAILABLE = True
+except ImportError:
+    torch = None
+    TORCH_AVAILABLE = False
 
 class ConsoleHUD:
     def __init__(self, graph):

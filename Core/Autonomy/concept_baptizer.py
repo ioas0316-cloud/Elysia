@@ -11,20 +11,44 @@ Strategy:
 """
 
 import logging
-import torch
 import re
 import sys
 import os
 
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from Core.Foundation.Graph.torch_graph import get_torch_graph
 
 logger = logging.getLogger("ConceptBaptizer")
 
+# [Lazy Load] Heavy dependencies
+_torch = None
+_torch_graph = None
+
+def _get_torch():
+    global _torch
+    if _torch is None:
+        try:
+            import torch
+            _torch = torch
+        except ImportError as e:
+            logger.warning(f"PyTorch unavailable: {e}")
+            _torch = False
+    return _torch if _torch else None
+
+def _get_graph():
+    global _torch_graph
+    if _torch_graph is None:
+        try:
+            from Core.Foundation.Graph.torch_graph import get_torch_graph
+            _torch_graph = get_torch_graph()
+        except Exception as e:
+            logger.warning(f"TorchGraph unavailable: {e}")
+            _torch_graph = False
+    return _torch_graph if _torch_graph else None
+
 class ConceptBaptizer:
     def __init__(self):
-        self.graph = get_torch_graph()
+        self.graph = _get_graph()  # [Lazy Load]
         self.dark_pattern = re.compile(r"^(Wikipedia_\d+|Star-\d+|\d+)$")
 
     def scan_dark_matter(self):
@@ -67,11 +91,13 @@ class ConceptBaptizer:
             
             # Strategy 2: Gravity Inference (Neighbors)
             if not new_name:
-                # Find nearest neighbors
-                vector = self.graph.vec_tensor[idx].unsqueeze(0) # (1, Dim)
-                # Cosine sim against all
-                sim = torch.mm(vector, self.graph.vec_tensor.t())
-                vals, inds = torch.topk(sim, 6) # Self + 5
+                torch = _get_torch()  # [Lazy Load]
+                if torch and self.graph:
+                    # Find nearest neighbors
+                    vector = self.graph.vec_tensor[idx].unsqueeze(0) # (1, Dim)
+                    # Cosine sim against all
+                    sim = torch.mm(vector, self.graph.vec_tensor.t())
+                    vals, inds = torch.topk(sim, 6) # Self + 5
                 
                 neighbors = []
                 for i in inds[0]:
