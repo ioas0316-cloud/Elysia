@@ -15,7 +15,7 @@ import time
 # Add root to path
 sys.path.insert(0, os.getcwd())
 
-from Core.Cognition.Reasoning.logic_cortex import get_logic_cortex
+from Core.02_Intelligence.01_Reasoning.Cognition.Reasoning.logic_cortex import get_logic_cortex
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')

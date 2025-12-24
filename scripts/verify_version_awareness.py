@@ -6,7 +6,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.Memory.self_discovery import SelfDiscovery
+from Core.02_Intelligence.02_Memory_Linguistics.Memory.self_discovery import SelfDiscovery
 
 def verify():
     print("🧠 Verifying Elysia v10.0 Awareness...")

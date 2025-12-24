@@ -7,7 +7,7 @@ import ast
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalNode, CausalLink, CausalRelationType, ThoughtUniverse, CausalChain, UniversalLaw
+from Core.01_Foundation.05_Foundation_Base.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalNode, CausalLink, CausalRelationType, ThoughtUniverse, CausalChain, UniversalLaw
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

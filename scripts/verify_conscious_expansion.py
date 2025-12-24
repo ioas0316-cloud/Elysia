@@ -18,7 +18,7 @@ import time
 # Add root to path
 sys.path.insert(0, os.getcwd())
 
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.02_Intelligence.01_Reasoning.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 # Ensure WaveTensor is available (integrated in ReasoningEngine)
 
 # Setup Logging

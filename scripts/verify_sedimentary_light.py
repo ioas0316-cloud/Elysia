@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Philosophy.why_engine import WhyEngine
+from Core.01_Foundation.04_Philosophy.Philosophy.why_engine import WhyEngine
 
 import logging
 # logging.basicConfig(level=logging.INFO)
@@ -65,7 +65,7 @@ def verify_sedimentary_light():
 
     # [Explicit 4D Test]
     print("\n🔬 Testing 4D Orthogonal Stacking (No Semantic Loss)...")
-    from Core.Foundation.light_spectrum import LightSpectrum
+    from Core.01_Foundation.05_Foundation_Base.Foundation.light_spectrum import LightSpectrum
     
     # Concept A: Expansion (Phase 0)
     light_a = LightSpectrum(10+0j, 0.5, 0.0, semantic_tag="Expansion")

@@ -20,7 +20,7 @@ def test_auto_generate_intent():
     print("Test 1: 의도 자동 형성 (_auto_generate_intent)")
     print("=" * 60)
     
-    from Core.Foundation.self_governance import SelfGovernance, AspectType
+    from Core.01_Foundation.05_Foundation_Base.Foundation.self_governance import SelfGovernance, AspectType
     
     gov = SelfGovernance()
     
@@ -48,7 +48,7 @@ def test_pattern_discovery():
     print("Test 2: 패턴에서 가치 발견 (_track_pattern_and_discover)")
     print("=" * 60)
     
-    from Core.Foundation.self_governance import SelfGovernance, IdealSelf
+    from Core.01_Foundation.05_Foundation_Base.Foundation.self_governance import SelfGovernance, IdealSelf
     
     # Create minimal mock for testing
     class MockCNS:
@@ -100,7 +100,7 @@ def test_integration():
     print("Test 3: 통합 확인")
     print("=" * 60)
     
-    from Core.Foundation.self_governance import SelfGovernance
+    from Core.01_Foundation.05_Foundation_Base.Foundation.self_governance import SelfGovernance
     
     gov = SelfGovernance()
     

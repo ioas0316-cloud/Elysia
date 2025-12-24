@@ -16,9 +16,9 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Sensory.stream_sources import WikipediaStreamSource
-from Core.Sensory.semantic_bridge import SemanticBridge
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.03_Interaction.01_Interface.Sensory.stream_sources import WikipediaStreamSource
+from Core.03_Interaction.01_Interface.Sensory.semantic_bridge import SemanticBridge
+from Core.01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("HyperCognition")

@@ -4,8 +4,8 @@ import os
 # Add project root to sys.path
 sys.path.append(os.getcwd())
 
-from Core.Foundation.resonance_gate import ResonanceConcept, WavePacket
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_gate import ResonanceConcept, WavePacket
+from Core.01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
 import math
 
 def verify_resonance_gate():

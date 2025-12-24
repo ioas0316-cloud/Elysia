@@ -11,7 +11,7 @@ Steps:
 """
 
 from elysia_core import Organ
-from Core.System.Autonomy.sense_discovery import SenseDiscoveryProtocol
+from Core.05_Systems.01_Monitoring.System.Autonomy.sense_discovery import SenseDiscoveryProtocol
 
 def check_senses():
     print("👁️  Opening the Third Eye (Scanning for Senses)...")

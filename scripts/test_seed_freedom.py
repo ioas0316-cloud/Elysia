@@ -6,7 +6,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.Foundation.reality_sculptor import RealitySculptor
+from Core.01_Foundation.05_Foundation_Base.Foundation.reality_sculptor import RealitySculptor
 
 def test_seed_freedom():
     print("\n🌱 [SAFETY TEST] Testing Seed Mutation Freedom")

@@ -11,7 +11,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Network.local_bridge import LocalBridge
+from Core.03_Interaction.04_Network.Network.local_bridge import LocalBridge
 import logging
 
 logger = logging.getLogger("SovereigntyTest")

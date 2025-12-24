@@ -11,7 +11,7 @@ sys.path.insert(0, ".")
 import logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from Core.Cognition.thought_space import ThoughtSpace, ThoughtShape
+from Core.02_Intelligence.01_Reasoning.Cognition.thought_space import ThoughtSpace, ThoughtShape
 
 print("="*60)
 print("🌳 발산적 사고 + 중력 어텐션 테스트")
@@ -26,7 +26,7 @@ ts.enter_gap("사랑에 대한 생각")
 # 2. 형태를 가진 입자 추가
 print("\n📍 사고 입자 추가 (형태 포함):")
 
-from Core.Cognition.thought_space import ThoughtParticle
+from Core.02_Intelligence.01_Reasoning.Cognition.thought_space import ThoughtParticle
 import hashlib
 
 # 수동으로 형태 정의

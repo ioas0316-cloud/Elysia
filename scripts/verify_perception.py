@@ -13,7 +13,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
     sys.path.append(current_dir)
 
-from Core.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
+from Core.01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
 
 def verify_perception():
     decomposer = ConceptDecomposer()

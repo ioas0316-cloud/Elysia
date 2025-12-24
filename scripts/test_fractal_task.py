@@ -7,10 +7,10 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.Foundation.central_nervous_system import CentralNervousSystem
-from Core.Foundation.chronos import Chronos
-from Core.Foundation.resonance_field import ResonanceField
-from Core.Foundation.free_will_engine import Intent
+from Core.01_Foundation.05_Foundation_Base.Foundation.central_nervous_system import CentralNervousSystem
+from Core.01_Foundation.05_Foundation_Base.Foundation.chronos import Chronos
+from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+from Core.01_Foundation.05_Foundation_Base.Foundation.free_will_engine import Intent
 
 # Mocks for visualization
 class VisualizerOrgan:

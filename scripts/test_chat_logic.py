@@ -12,7 +12,7 @@ logger = logging.getLogger("TestChat")
 def test_chat():
     print("--- 1. Testing ReasoningEngine Initialization ---")
     try:
-        from Core.Foundation.reasoning_engine import ReasoningEngine
+        from Core.01_Foundation.05_Foundation_Base.Foundation.reasoning_engine import ReasoningEngine
         brain = ReasoningEngine()
         print("✅ ReasoningEngine Initialized")
     except Exception as e:
@@ -23,9 +23,9 @@ def test_chat():
 
     print("\n--- 2. Testing NervousSystem Initialization ---")
     try:
-        from Core.Interface.nervous_system import get_nervous_system
+        from Core.03_Interaction.01_Interface.Interface.nervous_system import get_nervous_system
         # Force re-initialization
-        import Core.Interface.nervous_system
+        import Core.03_Interaction.01_Interface.Interface.nervous_system
         Core.Interface.nervous_system._nervous_system = None
         
         ns = get_nervous_system()

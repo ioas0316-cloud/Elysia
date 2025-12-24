@@ -18,9 +18,9 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from elysia_core import Organ
-from Core.Foundation.Wave.wave_tensor import WaveTensor, Modality
-from Core.Memory.Graph.hyper_graph import HyperGraph
-from Core.Cognition.Reasoning.code_resonance import CodeResonance
+from Core.01_Foundation.05_Foundation_Base.Foundation.Wave.wave_tensor import WaveTensor, Modality
+from Core.02_Intelligence.02_Memory_Linguistics.Memory.Graph.hyper_graph import HyperGraph
+from Core.02_Intelligence.01_Reasoning.Cognition.Reasoning.code_resonance import CodeResonance
 
 def verify():
     print("💎 Initializing Tesseract (4D HyperGraph)...")

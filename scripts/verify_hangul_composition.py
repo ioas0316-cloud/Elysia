@@ -5,7 +5,7 @@ import os
 # Add Core to path
 sys.path.append(os.getcwd())
 
-from Core.Elysia.mechanics.hangul_physics import HangulPhysicsEngine
+from Core.01_Foundation.01_Core_Logic.Elysia.mechanics.hangul_physics import HangulPhysicsEngine
 
 def verify_composition():
     engine = HangulPhysicsEngine()

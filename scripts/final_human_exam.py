@@ -23,10 +23,10 @@ import time
 # Add root to path
 sys.path.insert(0, os.getcwd())
 
-from Core.Cognition.Reasoning.logic_cortex import get_logic_cortex
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Memory.unified_experience_core import get_experience_core
-from Core.System.Autonomy.sense_discovery.sense_discovery import SenseDiscoveryProtocol
+from Core.02_Intelligence.01_Reasoning.Cognition.Reasoning.logic_cortex import get_logic_cortex
+from Core.02_Intelligence.01_Reasoning.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.02_Intelligence.02_Memory_Linguistics.Memory.unified_experience_core import get_experience_core
+from Core.05_Systems.01_Monitoring.System.Autonomy.sense_discovery.sense_discovery import SenseDiscoveryProtocol
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')

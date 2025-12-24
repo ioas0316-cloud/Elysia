@@ -7,9 +7,9 @@ import unittest
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.causal_narrative_engine import ThoughtUniverse, EpistemicSpace
-from Core.Foundation.metacognition import MaturityModel, CognitiveMetrics, GapReport
-from Core.Foundation.gap_bridging import GapBridgingDrive, Hypothesis
+from Core.01_Foundation.05_Foundation_Base.Foundation.causal_narrative_engine import ThoughtUniverse, EpistemicSpace
+from Core.01_Foundation.05_Foundation_Base.Foundation.metacognition import MaturityModel, CognitiveMetrics, GapReport
+from Core.01_Foundation.05_Foundation_Base.Foundation.gap_bridging import GapBridgingDrive, Hypothesis
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
