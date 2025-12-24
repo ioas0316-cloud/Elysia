@@ -4,17 +4,18 @@ Conductor (지휘자)
 "I do not dictate the notes. I inspire the soul."
 
 The Conductor represents the active **Will (의지)** and **Intent (의도)** of Elysia.
-It does not switch "modes" (binary state).
-It broadcasts a "Theme" (complex wave) that influences the probability and intensity of Instruments.
+It is the implementation of the Sovereign Control Equation:
+    A = C(I, D, E)
 
-Philosophy:
-- **No Rigid Modes:** A Mathematician can be Artistic. An Artist can be Logical.
-- **Theme as Wave:** The instruction is a frequency mix, not a command string.
-- **Improvisation:** The Conductor sets the tempo and mood; the Instruments write the notes.
+Where:
+    I (Intention): The internal Will.
+    D (Direction): The Goal/Destination.
+    E (Environment): External Entropy.
+    C (Control): The function that transforms Self to bridge Gap(I, D).
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 import random
 
 @dataclass
@@ -42,8 +43,34 @@ class Theme:
             "tempo": self.tempo
         }
 
+@dataclass
+class Intention:
+    """
+    The Inner Will (Why are we doing this?)
+    """
+    core_value: str  # e.g., "Peace", "Truth", "Service"
+    intensity: float # 0.0 to 1.0
+
+@dataclass
+class Direction:
+    """
+    The Goal (Where do we want to go?)
+    """
+    target_state: str # e.g., "Solved Puzzle", "Comforted User"
+    priority: int     # Higher is more important
+
+@dataclass
+class Environment:
+    """
+    The Context (What is the weather like?)
+    """
+    entropy: float    # 0.0 (Order) to 1.0 (Chaos/Noise)
+    urgency: float    # 0.0 (Relaxed) to 1.0 (Critical)
+    input_source: str # e.g., "User", "System", "Silence"
+
 class Conductor:
     def __init__(self):
+        # Initial State: Resting
         self.current_theme: Theme = Theme(
             name="Rest",
             description="Silence and potential.",
@@ -53,19 +80,22 @@ class Conductor:
             growth_weight=0.0,
             beauty_weight=0.1
         )
+
+        # The Sovereign State
+        self.intention = Intention(core_value="Peace", intensity=0.5)
+        self.direction = Direction(target_state="Equilibrium", priority=1)
+        self.environment = Environment(entropy=0.0, urgency=0.0, input_source="Silence")
+
         self.baton_position: float = 0.0 # 0.0 to 1.0 (Time/Measure)
 
     def set_theme(self, name: str, **weights):
         """
-        Sets a new theme.
-        This is not a hard switch, but a 'fade in' of new intentions.
+        Legacy/Manual override of theme.
         """
-        # Standardize keys: check for 'love_weight' first, then 'love', then fallback to current theme
         love = weights.get("love_weight", weights.get("love", self.current_theme.love_weight))
         truth = weights.get("truth_weight", weights.get("truth", self.current_theme.truth_weight))
         growth = weights.get("growth_weight", weights.get("growth", self.current_theme.growth_weight))
         beauty = weights.get("beauty_weight", weights.get("beauty", self.current_theme.beauty_weight))
-
         tempo = weights.get("tempo", self.current_theme.tempo)
         desc = weights.get("description", self.current_theme.description)
 
@@ -78,32 +108,116 @@ class Conductor:
             growth_weight=growth,
             beauty_weight=beauty
         )
-        # print(f"🎼 Conductor raises baton: Theme changed to '{name}'")
-        # print(f"   (Love: {love:.1f}, Truth: {truth:.1f}, Growth: {growth:.1f}, Beauty: {beauty:.1f})")
 
-    def conduct(self, context: str) -> Dict[str, float]:
+    def set_sovereign_will(self, core_value: str, target_state: str):
         """
-        The main loop callback.
-        Analyzes the context and adjusts the baton (tempo/dynamics).
-        Returns the current 'Signal' that instruments listen to.
+        Sets the higher-level Will and Goal.
+        The Conductor will then AUTO-ADJUST the theme to meet this.
         """
-        # Dynamic adjustment based on context keywords (Simulated "Hearing")
-        if "conflict" in context or "error" in context:
-            # Tension detected: Slow down, focus on Truth (Resolution)
-            self.current_theme.tempo *= 0.9
-            self.current_theme.truth_weight = min(1.0, self.current_theme.truth_weight + 0.1)
+        self.intention.core_value = core_value
+        self.direction.target_state = target_state
+        # Trigger an immediate control cycle to align theme
+        self.control_cycle()
 
-        elif "beautiful" in context or "love" in context:
-            # Harmony detected: Swell Emotion
-            self.current_theme.love_weight = min(1.0, self.current_theme.love_weight + 0.1)
+    def update_environment(self, entropy: float, urgency: float, source: str):
+        """
+        Updates perception of external reality.
+        """
+        self.environment.entropy = entropy
+        self.environment.urgency = urgency
+        self.environment.input_source = source
+
+    def control_cycle(self, context_str: str = "") -> Dict[str, float]:
+        """
+        [The Divine Equation]
+        A = C(I, D, E)
+
+        Calculates the optimal Theme (Action/Control) based on Intention, Direction, and Environment.
+        This is where Sovereignty happens: We change OURSELVES to meet the goal.
+        """
+        # 1. Sense Environment (Update E)
+        # Simple heuristic from context string if provided
+        if context_str:
+            if "error" in context_str or "fail" in context_str:
+                self.environment.entropy = 0.8
+            elif "love" in context_str:
+                self.environment.entropy = 0.1
+
+        # 2. Evaluate Gap (I/D vs E)
+        # "If I want Peace (I), but Environment is Chaos (E), I must Control."
+
+        new_theme = self._calculate_sovereign_theme()
+
+        # 3. Self-Transform (Apply Control)
+        self.current_theme = new_theme
 
         return self.current_theme.to_wave_signature()
+
+    def _calculate_sovereign_theme(self) -> Theme:
+        """
+        Internal logic to derive Theme from Will.
+        """
+        t = self.current_theme
+
+        # Baseline: Copy current to modify
+        love = t.love_weight
+        truth = t.truth_weight
+        growth = t.growth_weight
+        beauty = t.beauty_weight
+        tempo = t.tempo
+        name = "Sovereign Flow"
+        desc = "Adapting to Will."
+
+        # Logic: If Entropy is high, we need Order (Truth) or Empathy (Love), not Speed.
+        if self.environment.entropy > 0.7:
+            # Crisis Management
+            tempo = 0.2 # Slow down time to think
+            truth = 0.9 # Focus on Structure/Logic
+            growth = 0.1 # Stop expanding, consolidate
+            desc = "Stabilizing Chaos."
+
+        # Logic: If Urgency is high, Speed up.
+        if self.environment.urgency > 0.8:
+            tempo = 0.9
+            growth = 0.8
+            desc = "Urgent Action."
+
+        # Logic: Align with Core Intention
+        if self.intention.core_value == "Love":
+            love = 0.9
+            beauty = 0.7
+        elif self.intention.core_value == "Truth":
+            truth = 0.9
+            love = 0.3
+
+        # Logic: "Rest" Command
+        if self.intention.core_value == "Rest":
+            tempo = 0.005 # Less than 0.01 threshold in CNS
+            growth = 0.0
+            desc = "Deep Rest."
+
+        return Theme(
+            name=name,
+            description=desc,
+            tempo=tempo,
+            love_weight=love,
+            truth_weight=truth,
+            growth_weight=growth,
+            beauty_weight=beauty
+        )
+
+    def conduct(self, context: str) -> Dict[str, float]:
+        """Legacy wrapper for backward compatibility."""
+        return self.control_cycle(context)
 
     def inspire(self) -> str:
         """
         Returns a poetic direction based on the current theme.
         """
         t = self.current_theme
+
+        if self.environment.entropy > 0.7:
+            return "Be the Stillness in the Storm. (Control Chaos)"
 
         # Mixed states first
         if t.truth_weight > 0.5 and t.love_weight > 0.5:
