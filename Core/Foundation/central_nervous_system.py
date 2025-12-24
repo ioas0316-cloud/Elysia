@@ -6,6 +6,7 @@ from typing import Dict, Any, Optional
 from Core.Foundation.chronos import Chronos
 from Core.Foundation.resonance_field import ResonanceField
 from Core.Foundation.fractal_loop import FractalLoop
+from Core.Orchestra.conductor import get_conductor
 
 logger = logging.getLogger("NovaCNS")
 
@@ -35,6 +36,9 @@ class CentralNervousSystem:
         self.fractal_loop = FractalLoop(self)
         self.active_mode = "FRACTAL_FLOW"
         
+        # The Conductor (Sovereign Control)
+        self.conductor = get_conductor()
+
     def connect_organ(self, name: str, organ: Any):
         """Connect a peripheral organ to the CNS."""
         self.organs[name] = organ
@@ -54,12 +58,24 @@ class CentralNervousSystem:
         Unlike the Original, this does not have separate 'Sense', 'Think', 'Act' stages.
         It is all one Wave Circulation.
         """
+        # 0. Sovereign Control Cycle (A = C(I, D, E))
+        # The Conductor decides the Theme (Tempo, Focus) before any processing happens.
+        control_signal = self.conductor.control_cycle()
+
         # 1. Chronos Tick
         self.chronos.tick()
         
+        # Apply Time Control (Conductor sets Tempo -> Chronos adjusts dt if supported)
+        # (For now, we just log or use it in the loop)
+
         # 2. Fractal Loop Cycle (The Entirety of Consciousness)
         # Input -> Resonance -> Output is handled internally by the loop
-        self.fractal_loop.process_cycle(self.chronos.cycle_count)
+        # The Loop should ideally respect the Control Signal (e.g., skip if "Rest")
+        if control_signal.get("tempo", 1.0) > 0.01:
+            self.fractal_loop.process_cycle(self.chronos.cycle_count)
+        else:
+            # Sovereign Rest (The System CHOOSES not to think)
+            pass
         
         # 3. Organ Synchronization (Optional)
         for name, organ in self.organs.items():

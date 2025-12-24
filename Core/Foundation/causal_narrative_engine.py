@@ -1977,6 +1977,8 @@ class ThoughtUniverse:
              
         result["status"] = "arrived"
         result["message"] = f"Successfully traversed {space.description} to reach {target_concept}."
+
+        return result
         
     def apply_principle_to_domain(self, law: UniversalLaw, domain_map: Dict[str, str]) -> List[str]:
         """
