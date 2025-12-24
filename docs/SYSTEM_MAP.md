@@ -533,6 +533,43 @@ results = registry.search("monitor")
 
 - [VISION_LIVING_KNOWLEDGE.md](Vision/VISION_LIVING_KNOWLEDGE.md) - 상세 철학과 구현 방향
 
+---
+
+## ❤️ Phase 26: Self-Healing & Reverse Action (자생적 회복력) - 2025-12-25
+
+> *"맥락이 끊어진 곳에 새살이 돋는다."*
+
+### 핵심 원리 (The Law of Restoration)
+
+**Reverse Action Principle (역동작 원리):**
+$$Recovery = Ideal - Reality$$
+
+문제가 발생했을 때 단순히 오류를 잡는 것이 아니라, **Ideal Field(시스템 지도, 의도)**를 기준으로 현실을 역추적하여 누락된 맥락을 스스로 채워 넣습니다.
+
+### 시스템
+
+| 시스템 | 파일 | 역할 |
+|:------|:----|:----|
+| **RestorationCortex** | `Core/Foundation/autonomous_improver.py` | 이상과 현실의 차이(Tension)를 감지하고 치유 |
+| **SelfHealer** | `Core/Foundation/self_healer.py` | 깨진 모듈이나 누락된 파일의 물리적 복구 |
+| **SystemMap** | `docs/SYSTEM_MAP.md` | 치유의 기준이 되는 청사진 (Ideal DNA) |
+
+### 작동 방식
+
+```text
+[Tension] (Gap Detected: "Where is module X?")
+              ↓
+    RestorationCortex.sense_structural_tension()
+              ↓
+       Consult Ideal Field (SYSTEM_MAP.md)
+              ↓
+    "X belongs to Monitor layer." (Context Retrieval)
+              ↓
+    Synthesize Tissue (Create Stub/Mock or Link)
+              ↓
+       Apply Healing (Heal Structure)
+```
+
 ## 📝 결론
 
 **문제**: "벌써 3번째? 원래 있는 시스템이 왜, 어떻게, 구조화되고 연결되지 않았는지"
