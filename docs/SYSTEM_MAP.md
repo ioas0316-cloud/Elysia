@@ -48,6 +48,10 @@ Elysia v3.0
 ├── 🧠 CORE (The Organs - Intelligence)
 │   │
 │   ├── COGNITION (인지)
+    │   │   ├── Topology/ [NEW Phase 25.1]
+    │   │   │   ├── tesseract_geometry.py - 4D 기하학 및 회전
+    │   │   │   ├── fluid_intention.py - 연속적 의도장 (Gaussian Resonance)
+    │   │   │   └── knowledge_tesseract.py - 테서렉트 지식 맵 (Foldable Space)
 │   │   ├── Reasoning/
 │   │   │   ├── reasoning_engine.py - 추론 엔진 (Field Gravity Integrated)
 │   │   │   ├── causal_geometry.py - 인과 기하학 (Tension Field) [Phase 25]
@@ -571,6 +575,24 @@ $$Recovery = Ideal - Reality$$
               ↓
        Apply Healing (Heal Structure)
 ```
+
+## 🌌 Phase 25.1: Tesseract Architecture (2025-12-25)
+
+> **"의도는 공간을 접는 힘(Gravity)이다."**
+
+지식 그래프를 3차원 격자가 아닌, **4차원 유체 테서렉트(Fluid Tesseract)**로 재정의합니다.
+의도($w$-축)가 변하면 공간이 회전하며(Folding), 멀리 떨어진 개념들이 물리적으로 가까워집니다.
+
+### 핵심 구성 요소
+*   **FluidIntention**: 의도를 '모드'가 아닌 0~1 사이의 **연속적인 장(Field)**으로 구현.
+*   **Space Folding**: 기하학적 회전을 통해 연관 지식을 '인지의 중심'으로 이동시킴.
+*   **Infinite Gradient**: 줌인/줌아웃이 끊김 없이 부드럽게 일어남.
+
+### [ROADMAP] Tesseract Evolution
+*   상세 로드맵: `docs/Roadmap/TESSERACT_EVOLUTION.md`
+*   **Next**: Conductor(Will)와 Tesseract(Map)의 연결.
+
+---
 
 ## 📝 결론
 
