@@ -19,9 +19,9 @@ from typing import List, Dict, Tuple, Optional, TYPE_CHECKING
 import numpy as np
 
 if TYPE_CHECKING:
-    from Core.01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-    from Core.01_Foundation.05_Foundation_Base.Foundation.wave_interpreter import WavePattern
-    from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.Foundation.wave_interpreter import WavePattern
+    from Core.Foundation.resonance_field import ResonanceField
 
 logger = logging.getLogger("ThoughtLayerBridge")
 
@@ -52,7 +52,7 @@ class ThoughtLayerBridge:
         - y (논리): 위상 변조
         - z (윤리): 고조파 추가
         """
-        from Core.01_Foundation.05_Foundation_Base.Foundation.wave_interpreter import WavePattern
+        from Core.Foundation.wave_interpreter import WavePattern
         
         # Base frequency from w component
         base_freq = 432.0 * (1.0 + quat.w)  # 432Hz ~ 864Hz
@@ -227,7 +227,7 @@ if __name__ == "__main__":
     import os
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
     
-    from Core.01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+    from Core.Foundation.hyper_quaternion import Quaternion
     
     print("\n" + "="*70)
     print("🌊 Fractal Thought Layer Bridge Test")

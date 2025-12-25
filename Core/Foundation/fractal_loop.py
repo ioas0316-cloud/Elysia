@@ -7,9 +7,9 @@ import random
 
 # Core Dependencies
 try:
-    from Core.01_Foundation.05_Foundation_Base.Foundation.fractal_causality import FractalCausalityEngine, FractalCausalNode
-    from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-    from Core.01_Foundation.05_Foundation_Base.Foundation.chronos import Chronos
+    from Core.Foundation.fractal_causality import FractalCausalityEngine, FractalCausalNode
+    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.chronos import Chronos
 except ImportError:
     # Fallback for minimal testing environment
     FractalCausalityEngine = None
@@ -18,19 +18,19 @@ except ImportError:
 
 # ThoughtSpace for What-If Simulation
 try:
-    from Core.02_Intelligence.01_Reasoning.Cognition.thought_space import ThoughtSpace
+    from Core.Cognition.thought_space import ThoughtSpace
 except ImportError:
     ThoughtSpace = None
 
 # LifeCycle for complete feedback loop
 try:
-    from Core.01_Foundation.05_Foundation_Base.Foundation.life_cycle import LifeCycle
+    from Core.Foundation.life_cycle import LifeCycle
 except ImportError:
     LifeCycle = None
 
 # GrowthJournal - visible evidence of change (uses existing SelfGovernance)
 try:
-    from Core.01_Foundation.05_Foundation_Base.Foundation.growth_journal import get_growth_journal
+    from Core.Foundation.growth_journal import get_growth_journal
 except ImportError:
     get_growth_journal = None
 
@@ -101,7 +101,7 @@ class FractalLoop:
         # [NEW] Autonomous Learning - lighter approach using WebKnowledgeConnector directly
         self.web_learner = None
         try:
-            from Core.01_Foundation.05_Foundation_Base.Foundation.web_knowledge_connector import WebKnowledgeConnector
+            from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
             self.web_learner = WebKnowledgeConnector()
             logger.info("   🌐 WebKnowledgeConnector ready for autonomous learning")
         except Exception as e:
@@ -507,4 +507,3 @@ class FractalLoop:
                 self.thought_direction = direction
         
         # Future: Ouroboros self-optimization here
-
