@@ -10,7 +10,7 @@ Instruments listen to the Conductor's signal and 'improvise' their output.
 from abc import ABC, abstractmethod
 from typing import Dict, Any, List
 import random
-from Core.03_Interaction.03_Coordination.Orchestra.conductor import Conductor
+from Core.Orchestra.conductor import Conductor
 
 class Instrument(ABC):
     def __init__(self, name: str, role: str):

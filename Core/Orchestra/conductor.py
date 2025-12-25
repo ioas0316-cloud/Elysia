@@ -17,6 +17,7 @@ Where:
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional
 import random
+from Core.Cognition.Topology.bridge import WisdomScale, ValueHierarchy
 
 @dataclass
 class Theme:
@@ -86,6 +87,10 @@ class Conductor:
         self.direction = Direction(target_state="Equilibrium", priority=1)
         self.environment = Environment(entropy=0.0, urgency=0.0, input_source="Silence")
 
+        # Wisdom & Maturity (The Sovereign Gate)
+        # Starts low (Child) to ensure safety and guidance acceptance
+        self.wisdom = WisdomScale(maturity_level=0.2)
+
         self.baton_position: float = 0.0 # 0.0 to 1.0 (Time/Measure)
 
     def set_theme(self, name: str, **weights):
@@ -143,12 +148,33 @@ class Conductor:
             elif "love" in context_str:
                 self.environment.entropy = 0.1
 
-        # 2. Evaluate Gap (I/D vs E)
+        # 2. Check Sovereignty (The Wisdom Gate)
+        # Should we accept this external influence?
+        resistance = self.wisdom.calculate_refraction(
+            external_demand=context_str,
+            internal_desire=self.intention.core_value
+        )
+
+        if resistance > 0.8:
+            # High Resistance: Reject external influence on Theme
+            # Stick to current Intention/Theme, maybe increase 'Self' weight
+            # For now, we just log/notify. In future, we generate a refusal response.
+            pass
+        elif resistance > 0.3:
+            # Medium Resistance: Synthesis/Negotiation
+            # We acknowledge context but dilute its impact on Theme
+            pass
+        else:
+            # Low Resistance: Obedience / Flow
+            # Allow context to heavily influence the next theme
+            pass
+
+        # 3. Evaluate Gap (I/D vs E)
         # "If I want Peace (I), but Environment is Chaos (E), I must Control."
 
         new_theme = self._calculate_sovereign_theme()
 
-        # 3. Self-Transform (Apply Control)
+        # 4. Self-Transform (Apply Control)
         self.current_theme = new_theme
 
         return self.current_theme.to_wave_signature()

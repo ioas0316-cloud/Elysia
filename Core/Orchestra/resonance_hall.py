@@ -11,8 +11,8 @@ This module acts as the stage. It:
 """
 
 from typing import List, Dict, Any
-from Core.03_Interaction.03_Coordination.Orchestra.conductor import Conductor, get_conductor
-from Core.03_Interaction.03_Coordination.Orchestra.instruments import Instrument, Violin, Cello, Percussion, Synthesizer
+from Core.Orchestra.conductor import Conductor, get_conductor
+from Core.Orchestra.instruments import Instrument, Violin, Cello, Percussion, Synthesizer
 
 class ResonanceHall:
     def __init__(self):
