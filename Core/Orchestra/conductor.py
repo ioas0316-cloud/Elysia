@@ -432,6 +432,17 @@ class HarmonyCoordinator:
             del self.active_voices[key]
 
 
+_global_conductor = None
+
+def get_conductor() -> Conductor:
+    """
+    Get the global conductor instance (Singleton).
+    """
+    global _global_conductor
+    if _global_conductor is None:
+        _global_conductor = Conductor()
+    return _global_conductor
+
 # Test and demonstration
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

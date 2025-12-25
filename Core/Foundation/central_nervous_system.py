@@ -3,10 +3,10 @@ import time
 import logging
 from typing import Dict, Any, Optional
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.chronos import Chronos
-from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-from Core.01_Foundation.05_Foundation_Base.Foundation.fractal_loop import FractalLoop
-from Core.03_Interaction.03_Coordination.Orchestra.conductor import get_conductor
+from Core.Foundation.chronos import Chronos
+from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.fractal_loop import FractalLoop
+from Core.Orchestra.conductor import get_conductor
 
 logger = logging.getLogger("NovaCNS")
 

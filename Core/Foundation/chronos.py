@@ -18,7 +18,7 @@ import logging
 from datetime import datetime
 from typing import Any
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.ether import ether, Wave
+from Core.Foundation.ether import ether, Wave
 
 logger = logging.getLogger("Chronos")
 
