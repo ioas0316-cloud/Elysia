@@ -1,0 +1,74 @@
+﻿python : 2025-12-26 22:28:25,662 | ?뙆 The Ether is pervasive. Unified Field established.
+위치 줄:1 문자:32
++ ... v:PYTHONIOENCODING="utf-8"; python Core/living_elysia.py 2>&1 | Out-F ...
++                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (2025-12-26 22:2...ld established.:String) [], RemoteE 
+   xception
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+2025-12-26 22:28:27,240 | FATAL SYSTEM ERROR:
+Traceback (most recent call last):
+  File "C:\Elysia\Core\living_elysia.py", line 300, in <module>
+    elysia = LivingElysia()
+  File "C:\Elysia\Core\living_elysia.py", line 41, in __init__
+    self.memory = Organ.get("Memory") # Hippocampus
+                  ~~~~~~~~~^^^^^^^^^^
+  File "C:\Elysia\Core\_01_Foundation\_01_Infrastructure\elysia_core\organ.py", line 79, in get
+    raise CellNotFoundError(
+    ...<2 lines>...
+    )
+elysia_core.organ.CellNotFoundError: Cell 'Memory'瑜?李얠쓣 ???놁뒿?덈떎.
+?ъ슜 媛?ν븳 Cell: ['AutonomicNervousSystem', 'Chronos', 'FractalLoop', 'Conductor', 'CentralNervousSy
+stem', 'EntropySink', 'SynapseBridge', 'Scholar', 'FreeWillEngine', 'TranscendenceLogic', 'Holograp
+hicMemory', 'PhaseResonance', 'Proprioception', 'Dispatcher', 'DashboardGenerator']
+
+?뙆 Initializing REAL Ultra-Dimensional System...
+?뙮 Awakening Original (Mind Mitosis Phase)...
+?뵮 NeuralScanner: Scanning c:\Elysia...
+   ?뱛 Found 16 files with @Cell decorator
+?㎚ Cell registered: AutonomicNervousSystem (AutonomicNervousSystem)
+?㎚ Cell registered: Chronos (Chronos)
+?㎚ Cell registered: FractalLoop (FractalLoop)
+?㎚ Cell registered: Conductor (Conductor)
+?㎚ Cell registered: CentralNervousSystem (CentralNervousSystem)
+?㎚ Cell registered: EntropySink (EntropySink)
+?㎚ Cell registered: SynapseBridge (SynapseBridge)
+?㎚ Cell registered: Scholar (Scholar)
+?㎚ Cell registered: FreeWillEngine (FreeWillEngine)
+?㎚ Cell registered: TranscendenceLogic (TranscendenceLogic)
+?㎚ Cell registered: HolographicMemory (HolographicMemory)
+?㎚ Cell registered: PhaseResonance (PhaseResonanceEngine)
+   ?좑툘 Failed to import hippocampus.py: No module named 'Core._01_Foundation.elysia_core'
+?㎚ Cell registered: Proprioception (CodeProprioception)
+   ?좑툘 Failed to import voice_of_elysia.py: invalid decimal literal (synesthesia_engine.py, line 10)
+?㎚ Cell registered: Dispatcher (ActionDispatcher)
+?㎚ Cell registered: DashboardGenerator (DashboardGenerator)
+   ?㎚ Registered 15 cells
+      ??AutonomicNervousSystem
+      ??Chronos
+      ??FractalLoop
+      ??Conductor
+      ??CentralNervousSystem
+      ??EntropySink
+      ??SynapseBridge
+      ??Scholar
+      ??FreeWillEngine
+      ??TranscendenceLogic
+      ??HolographicMemory
+      ??PhaseResonance
+      ??Proprioception
+      ??Dispatcher
+      ??DashboardGenerator
+?? Organ system initialized. Root: c:/Elysia
+
+============================================================
+?썞 SYSTEM CRASH DETECTED
+============================================================
+Error: Cell 'Memory'瑜?李얠쓣 ???놁뒿?덈떎.
+?ъ슜 媛?ν븳 Cell: ['AutonomicNervousSystem', 'Chronos', 'FractalLoop', 'Conductor', 'CentralNervousSystem', 'EntropySink', 'SynapseBridge', 'Scholar', 'FreeWillEngine', 'TranscendenceLogic', 'HolographicMemory', 'PhaseResonance', 'Proprioception', 'Dispatcher', 'DashboardGenerator']
+------------------------------------------------------------
+Possible Causes:
+1. Dependency Failure (Missing attributes)
+2. Proprioception Shock (New senses overwhelming logic)
+------------------------------------------------------------
+Recommendation: Run 'python nova_daemon.py' for auto-repair.
