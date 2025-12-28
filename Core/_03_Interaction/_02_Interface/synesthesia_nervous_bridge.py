@@ -174,7 +174,7 @@ class SynesthesiaNervousBridge:
     def __init__(self):
         # Import synesthesia components
         try:
-            from Core._01_Foundation._04_Governance.Foundation.synesthetic_wave_sensor import (
+            from Core._01_Foundation._02_Logic.synesthetic_wave_sensor import (
                 MultimodalIntegrator,
                 SensoryModality,
                 SynestheticMapper
@@ -189,7 +189,7 @@ class SynesthesiaNervousBridge:
         
         # Import nervous system
         try:
-            from Core._03_Interaction._02_Interface.Interface.nervous_system import get_nervous_system
+            from Core._03_Interaction._02_Interface.nervous_system import get_nervous_system
             self.nervous_system = get_nervous_system()
             logger.info("🦴 Nervous System connected")
         except ImportError as e:
@@ -304,7 +304,7 @@ class SynesthesiaNervousBridge:
         """
         try:
             # Convert to modality enum
-            from Core._01_Foundation._04_Governance.Foundation.synesthetic_wave_sensor import SensoryModality
+            from Core._01_Foundation._02_Logic.synesthetic_wave_sensor import SensoryModality
             
             modality_map = {
                 "visual": SensoryModality.VISUAL,

@@ -8,9 +8,9 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._03_Interaction._02_Interface.Sensory.p4_sensory_system import P4SensorySystem
-from Core._01_Foundation._04_Governance.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
+from Core._03_Interaction._02_Interface._01_Sensory.p4_sensory_system import P4SensorySystem
+from Core._01_Foundation._02_Logic.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._02_Logic.resonance_field import ResonanceField
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

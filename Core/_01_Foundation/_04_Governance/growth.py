@@ -66,7 +66,7 @@ class Growth:
         """심장 가져오기 (지연 로딩)"""
         if self._heart is None:
             try:
-                from Core._01_Foundation._04_Governance.Foundation.heart import get_heart
+                from Core._01_Foundation._02_Logic.heart import get_heart
                 self._heart = get_heart()
             except ImportError:
                 # Fallback: mock heart

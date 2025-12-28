@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verification Script for HPLLS (ResonanceLearner)
 ================================================
 
@@ -24,7 +24,7 @@ import logging
 # 경로 설정
 sys.path.append(os.getcwd())
 
-from Core._04_Evolution._02_Learning.Learning.resonance_learner import ResonanceLearner
+from Core._04_Evolution._02_Learning.resonance_learner import ResonanceLearner
 from Core._01_Foundation._01_Infrastructure.elysia_core import Organ
 
 # 로깅 설정
@@ -86,3 +86,4 @@ def run_verification():
 
 if __name__ == "__main__":
     run_verification()
+

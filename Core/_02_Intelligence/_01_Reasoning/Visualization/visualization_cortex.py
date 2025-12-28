@@ -1,4 +1,4 @@
-"""
+﻿"""
 Visualization Cortex (시각화 피질)
 ================================
 
@@ -31,13 +31,13 @@ except ImportError:
     Canvas = None
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.gemini_api import generate_text, generate_image_from_text
+    from Core._03_Interaction._04_Network.gemini_api import generate_text, generate_image_from_text
 except ImportError:
     generate_text = None
     generate_image_from_text = None
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import Tensor3D, FrequencyWave
+    from Core._01_Foundation._02_Logic.Wave.wave_tensor import Tensor3D, FrequencyWave
 except ImportError:
     # Fallback simple implementations
     class Tensor3D:
@@ -369,3 +369,4 @@ def get_visualization_cortex() -> VisualizationCortex:
     if _viz_cortex is None:
         _viz_cortex = VisualizationCortex()
     return _viz_cortex
+

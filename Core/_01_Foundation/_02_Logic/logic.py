@@ -9,9 +9,9 @@ import random
 import math
 from typing import List, Dict, Any, Tuple
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
-from Core._01_Foundation._04_Governance.Foundation.resonance_physics import ResonancePhysics
+from Core._01_Foundation._02_Logic.resonance_physics import ResonancePhysics
 from Core._02_Intelligence._01_Reasoning.Intelligence.cuda_cortex import CudaCortex
-from Core._01_Foundation._04_Governance.Foundation.universal_constants import (
+from Core._01_Foundation._02_Logic.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
 )
@@ -191,7 +191,7 @@ class LogicLobe:
         Processes a list of inputs using 3D Wave Logic.
         Returns (Triggered, Intensity, Explanation).
         """
-        from Core._01_Foundation._04_Governance.Foundation.wave_logic import WaveSpace, WaveSource, create_and_gate, create_or_gate
+        from Core._01_Foundation._02_Logic.wave_logic import WaveSpace, WaveSource, create_and_gate, create_or_gate
         
         space = WaveSpace()
         

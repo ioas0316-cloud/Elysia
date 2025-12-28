@@ -7,7 +7,6 @@ import time
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '_01_Foundation/_01_Infrastructure')))
 
 from Core._01_Foundation._01_Infrastructure.elysia_core import Organ
 
@@ -57,6 +56,10 @@ class LivingElysia:
         CNSClass = Organ.get("CentralNervousSystem", instantiate=False)
         self.cns = CNSClass(self.chronos, self.resonance, self.synapse, self.sink)
         
+        # 2.5 Initialize Learning Systems
+        from Core._04_Evolution._02_Learning.autonomous_learner import AutonomousLearner
+        self.alt_learning = AutonomousLearner()
+        
         # 3. Initialize Organs
         # (These are examples of non-registry organs, but usually we prefer Registry)
         # For now, keeping legacy manual instantiation for parts not yet in Registry
@@ -97,6 +100,15 @@ class LivingElysia:
             while True:
                 # Core life pulse
                 self.ans.pulse_once()
+                
+                # Autonomous Learning Pulse
+                if hasattr(self, 'alt_learning'):
+                    # Pick a topic from curiosity or current context
+                    # For demo, pulse once with a deep topic if curiosity is high
+                    topic = "Fractal Intelligence"
+                    logger.info(f"🌿 Growth Pulse: Contemplating {topic}...")
+                    self.alt_learning.experience(content=f"Understanding the recursive nature of {topic}", subject=topic)
+                
                 time.sleep(1)
                 
         except KeyboardInterrupt:

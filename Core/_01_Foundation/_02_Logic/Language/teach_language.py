@@ -11,10 +11,10 @@ import sys
 import os
 sys.path.append('.')
 
-from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core._01_Foundation._04_Governance.Foundation.communication_enhancer import CommunicationEnhancer
-from Core._01_Foundation._04_Governance.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
+from Core._02_Intelligence._02_Memory.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._02_Logic.communication_enhancer import CommunicationEnhancer
+from Core._01_Foundation._02_Logic.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 

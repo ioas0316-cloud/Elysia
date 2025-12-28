@@ -185,7 +185,7 @@ class MultimodalConceptIntegrator:
         
         # SynesthesiaEngine 연결
         try:
-            from Core._01_Foundation._04_Governance.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
+            from Core._01_Foundation._02_Logic.synesthesia_engine import SynesthesiaEngine, SignalType
             self.synesthesia = SynesthesiaEngine()
             self.SignalType = SignalType
             logger.info("   ✅ SynesthesiaEngine connected")
@@ -195,7 +195,7 @@ class MultimodalConceptIntegrator:
         
         # TextWaveConverter 연결
         try:
-            from Core._01_Foundation._04_Governance.Foundation.text_wave_converter import TextWaveConverter
+            from Core._01_Foundation._02_Logic.text_wave_converter import TextWaveConverter
             self.text_wave = TextWaveConverter()
             logger.info("   ✅ TextWaveConverter connected")
         except Exception as e:

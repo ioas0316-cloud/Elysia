@@ -15,7 +15,7 @@ from datetime import datetime
 
 # Import tensor/wave types if available, with graceful fallback
 try:
-    from Core._01_Foundation._04_Governance.Foundation.hangul_physics import Tensor3D
+    from Core._01_Foundation._02_Logic.hangul_physics import Tensor3D
     HAS_TENSOR_WAVE = True
 except ImportError:
     HAS_TENSOR_WAVE = False

@@ -31,7 +31,7 @@ print("1️⃣ 자율 언어 생성 테스트 (API 없이)")
 print("-" * 70)
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.autonomous_language import autonomous_language
+    from Core._01_Foundation._02_Logic.autonomous_language import autonomous_language
     
     test_conversations = [
         "안녕하세요",
@@ -70,7 +70,7 @@ print("2️⃣ 한글 파동 언어 변환 테스트")
 print("-" * 70)
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.korean_wave_converter import korean_wave
+    from Core._01_Foundation._02_Logic.korean_wave_converter import korean_wave
     
     test_phrases = [
         ("사랑해요", "사랑"),
@@ -102,7 +102,7 @@ print("3️⃣ 급속 학습 엔진 테스트")
 print("-" * 70)
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.rapid_learning_engine import rapid_learning
+    from Core._01_Foundation._02_Logic.rapid_learning_engine import rapid_learning
     
     # 테스트 텍스트
     test_text = """
@@ -155,7 +155,7 @@ print("4️⃣ 파동 통신 시스템 테스트")
 print("-" * 70)
 
 try:
-    from Core._03_Interaction._02_Interface.Interface.activated_wave_communication import wave_comm
+    from Core._03_Interaction._02_Interface.activated_wave_communication import wave_comm
     
     if wave_comm.ether:
         print("✅ Ether 연결 성공\n")
@@ -279,7 +279,7 @@ print("Elysia와 직접 대화해보세요!")
 print("(종료하려면 '종료' 입력)\n")
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.autonomous_language import autonomous_language
+    from Core._01_Foundation._02_Logic.autonomous_language import autonomous_language
     
     conversation_count = 0
     

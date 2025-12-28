@@ -11,8 +11,8 @@ to adjust the field's polarity, guiding the flow of thought without forcing it.
 from typing import List, Optional
 import numpy as np
 
-from Core._01_Foundation._04_Governance.Foundation.unified_field import UnifiedField, HyperQuaternion
-from Core._01_Foundation._04_Governance.Foundation.magnetic_cortex import MagneticCompass as MagneticCortex
+from Core._01_Foundation._02_Logic.unified_field import UnifiedField, HyperQuaternion
+from Core._01_Foundation._02_Logic.magnetic_cortex import MagneticCompass as MagneticCortex
 from Core._02_Intelligence._04_Consciousness.Consciousness.hyperdimensional_consciousness import HyperdimensionalConsciousness as HyperConsciousness
 
 # Add compatibility method if not exists

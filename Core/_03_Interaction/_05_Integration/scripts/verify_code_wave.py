@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
+from Core._01_Foundation._02_Logic.why_engine import WhyEngine
 
 def verify_code_wave():
     print("🌊 Verifying Code Wave Analysis...")

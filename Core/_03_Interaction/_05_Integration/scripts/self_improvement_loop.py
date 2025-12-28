@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Self-Improvement Loop (자기 개선 루프)
 =============================================
 
@@ -28,9 +28,9 @@ from typing import Dict, List, Any
 # Add project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._01_Foundation._04_Governance.Foundation.introspection_engine import IntrospectionEngine
-from Core._04_Evolution._02_Learning.Learning.wave_pattern_learner import WavePatternLearner
-from Core._01_Foundation._04_Governance.Foundation.self_modification import SelfModificationEngine
+from Core._01_Foundation._02_Logic.introspection_engine import IntrospectionEngine
+from Core._04_Evolution._02_Learning.wave_pattern_learner import WavePatternLearner
+from Core._01_Foundation._02_Logic.self_modification import SelfModificationEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("SelfImprovement")
@@ -224,3 +224,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

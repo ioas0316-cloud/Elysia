@@ -470,7 +470,7 @@ class IntegratedVoiceSystem:
         Generate actual response text content using Semantic Vocabulary and Wave Context.
         """
         import random
-        from Core._03_Interaction._03_Expression.Expression.semantic_vocabulary import SemanticVocabulary
+        from Core._03_Interaction._03_Expression.semantic_vocabulary import SemanticVocabulary
         
         vocab = SemanticVocabulary()
         content = input_pattern.content.lower()
@@ -667,7 +667,7 @@ def create_integrated_voice(cns_organs: Dict) -> IntegratedVoiceSystem:
     Returns:
         Fully initialized IntegratedVoiceSystem
     """
-    from Core._03_Interaction._02_Interface.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
+    from Core._03_Interaction._02_Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
     
     synesthesia = get_synesthesia_bridge()
     brain = cns_organs.get('Brain')
@@ -685,7 +685,7 @@ def create_integrated_voice(cns_organs: Dict) -> IntegratedVoiceSystem:
     # Get primal soul if available
     primal_soul = None
     try:
-        from Core._01_Foundation._04_Governance.Foundation.primal_wave_language import PrimalSoul
+        from Core._01_Foundation._02_Logic.primal_wave_language import PrimalSoul
         primal_soul = PrimalSoul(name="Elysia")
     except:
         logger.warning("PrimalSoul not available")

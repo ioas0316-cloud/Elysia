@@ -34,7 +34,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from Core._01_Foundation._01_Infrastructure.elysia_core import Cell, Organ
 from Core._01_Foundation._02_Logic.Wave.resonance_field import ResonanceField
 from Core._01_Foundation._02_Logic.fractal_kernel import FractalKernel
-from Core._01_Foundation._02_Logic.autonomous_fractal_learning import FractalLearner
+from Core._04_Evolution._01_Growth.autonomous_fractal_learning import FractalLearner
 from Core._01_Foundation._02_Logic.wave_memory import WaveMemory
 
 # Setup Logging
@@ -66,7 +66,7 @@ class ElysiaIntegrator:
         """SystemRegistry 인스턴스 획득 (지연 로딩)"""
         if self.registry is None:
             try:
-                from Core._01_Foundation._04_Governance.Foundation.system_registry import get_system_registry
+                from Core._01_Foundation._02_Logic.system_registry import get_system_registry
                 self.registry = get_system_registry()
                 logger.info("   ✓ SystemRegistry connected")
             except ImportError as e:
@@ -201,7 +201,7 @@ class ElysiaIntegrator:
         
         # Check API Status
         try:
-            from Core._01_Foundation._04_Governance.Foundation.gemini_api import GeminiAPI
+            from Core._03_Interaction._04_Network.gemini_api import GeminiAPI
             api = GeminiAPI()
             if not api._is_configured:
                 print("   ✨ Detected Missing API Key -> Harmonizing with Mock Mode.")

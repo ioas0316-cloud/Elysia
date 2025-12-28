@@ -18,7 +18,7 @@ import sys
 
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
 
 DATA_DIR = "c:\\Elysia\\data"
 

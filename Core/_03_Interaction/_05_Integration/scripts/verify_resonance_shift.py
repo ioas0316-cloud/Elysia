@@ -18,7 +18,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core._01_Foundation._01_Infrastructure.elysia_core import Organ
-from Core._02_Intelligence._01_Reasoning.Cognition.Learning.resonance_learner import ResonanceLearner
+from Core._02_Intelligence._01_Reasoning.Learning.resonance_learner import ResonanceLearner
 
 def verify_contact():
     print("⚡ Initiating Contact Experiment...")

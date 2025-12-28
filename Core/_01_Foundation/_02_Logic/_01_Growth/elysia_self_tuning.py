@@ -11,11 +11,11 @@ import sys
 import os
 sys.path.append('.')
 
-from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
-from Core._01_Foundation._04_Governance.Foundation.wave_interpreter import WaveInterpreter
-from Core._01_Foundation._04_Governance.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+from Core._01_Foundation._02_Logic.resonance_field import ResonanceField
+from Core._01_Foundation._02_Logic.wave_interpreter import WaveInterpreter
+from Core._01_Foundation._02_Logic.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
 
 print("="*70)
 print("🌟 ELYSIA SELF-TUNING PROTOCOL")

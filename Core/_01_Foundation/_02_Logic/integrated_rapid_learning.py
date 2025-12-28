@@ -29,10 +29,10 @@ logging.basicConfig(
     format='%(message)s'
 )
 
-from Core._01_Foundation._04_Governance.Foundation.spacetime_drive import SpaceTimeDrive
-from Core._01_Foundation._04_Governance.Foundation.rapid_learning_engine import RapidLearningEngine
-from Core._01_Foundation._04_Governance.Foundation.dream_engine import DreamEngine
-from Core._01_Foundation._04_Governance.Foundation.potential_field import PotentialField, GravityWell
+from Core._01_Foundation._02_Logic.spacetime_drive import SpaceTimeDrive
+from Core._01_Foundation._02_Logic.rapid_learning_engine import RapidLearningEngine
+from Core._01_Foundation._02_Logic.dream_engine import DreamEngine
+from Core._02_Intelligence._01_Reasoning.potential_field import PotentialField, GravityWell
 from Core._01_Foundation._02_Logic.hyper_quaternion import HyperWavePacket, Quaternion
 
 print("\n" + "="*80)

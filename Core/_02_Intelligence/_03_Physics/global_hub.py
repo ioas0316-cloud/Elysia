@@ -1,4 +1,4 @@
-"""
+﻿"""
 Global Hub (The Central Nervous System)
 ========================================
 
@@ -33,7 +33,7 @@ from pathlib import Path
 
 # Import Wave infrastructure
 try:
-    from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+    from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
     from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback for standalone testing
@@ -625,3 +625,4 @@ if __name__ == "__main__":
     # Save state
     hub.save_state()
     print("\n✅ GlobalHub Demo Complete!")
+

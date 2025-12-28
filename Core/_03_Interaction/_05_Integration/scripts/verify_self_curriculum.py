@@ -18,7 +18,7 @@ import json
 # Add root to path
 sys.path.insert(0, os.getcwd())
 
-from Core._02_Intelligence._01_Reasoning.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core._02_Intelligence._01_Reasoning.Reasoning.reasoning_engine import ReasoningEngine
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')

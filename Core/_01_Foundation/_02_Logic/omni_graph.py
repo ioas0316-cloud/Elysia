@@ -2,8 +2,8 @@
 REDIRECT: omni_graph.py has moved to Core/Foundation/Graph/
 This stub provides backward compatibility.
 """
-from Core._01_Foundation._04_Governance.Foundation.Graph.omni_graph import *
-from Core._01_Foundation._04_Governance.Foundation.Graph.omni_graph import OmniGraph, get_omni_graph
+from Core._01_Foundation._02_Logic.Graph.omni_graph import *
+from Core._01_Foundation._02_Logic.Graph.omni_graph import OmniGraph, get_omni_graph
 
 import warnings
 warnings.warn(

@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._01_Foundation._04_Governance.Foundation.introspection_engine import IntrospectionEngine
+from Core._01_Foundation._02_Logic.introspection_engine import IntrospectionEngine
 
 def verify_introspection_wave():
     print("🪞 Verifying Introspection Wave & Metaphor Analysis...")

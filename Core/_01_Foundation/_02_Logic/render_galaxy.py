@@ -9,8 +9,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from Core._01_Foundation._04_Governance.Foundation.code_gravity import CodeGravitySystem
-from Core._01_Foundation._04_Governance.Foundation.holographic_cortex import HolographicCortex
+from Core._01_Foundation._02_Logic.code_gravity import CodeGravitySystem
+from Core._01_Foundation._02_Logic.holographic_cortex import HolographicCortex
 
 def run_render():
     print("🎨 Starting Galaxy Render Experiment...")

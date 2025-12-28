@@ -19,9 +19,9 @@ import random
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._01_Foundation._04_Governance.Foundation.system_monitor import get_system_monitor
-from Core._01_Foundation._04_Governance.Foundation.theosis_engine import TheosisEngine
-from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine
+from Core._01_Foundation._02_Logic.system_monitor import get_system_monitor
+from Core._01_Foundation._02_Logic.theosis_engine import TheosisEngine
+from Core._01_Foundation._02_Logic.free_will_engine import FreeWillEngine
 from Core._04_Evolution._03_Creative.Creativity.art_studio import ArtStudio
 
 # Configure Logging

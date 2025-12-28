@@ -55,7 +55,7 @@ class ElysiaCore:
         # InternalUniverse (내가 아는 것)
         self.universe = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+            from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("   ✅ InternalUniverse connected (Knowledge)")
         except Exception as e:
@@ -64,7 +64,7 @@ class ElysiaCore:
         # ConceptDecomposer (왜?)
         self.decomposer = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptDecomposer
+            from Core._01_Foundation._02_Logic.fractal_concept import ConceptDecomposer
             self.decomposer = ConceptDecomposer()
             logger.info("   ✅ ConceptDecomposer connected (Why)")
         except Exception as e:
@@ -73,7 +73,7 @@ class ElysiaCore:
         # MultimodalIntegrator (감각 통합)
         self.multimodal = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.multimodal_concept_node import get_multimodal_integrator
+            from Core._01_Foundation._02_Logic.multimodal_concept_node import get_multimodal_integrator
             self.multimodal = get_multimodal_integrator()
             logger.info("   ✅ MultimodalIntegrator connected (Senses)")
         except Exception as e:
@@ -97,7 +97,7 @@ class ElysiaCore:
         # [NEW] ThoughtWave Interface (Hybrid Architecture)
         self.thought_wave = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.thought_wave_integration import get_thought_interface
+            from Core._01_Foundation._02_Logic.thought_wave_integration import get_thought_interface
             self.thought_wave = get_thought_interface()
             logger.info("   ✅ ThoughtWave connected (DNA/Resonance/Fractal)")
         except Exception as e:
@@ -106,7 +106,7 @@ class ElysiaCore:
         # [NEW] Temporal Cortex (Narrative)
         self.temporal_cortex = None
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.temporal_cortex import TemporalCortex
+            from Core._02_Intelligence._01_Reasoning.temporal_cortex import TemporalCortex
             if self.universe:
                 self.temporal_cortex = TemporalCortex(self.universe)
                 logger.info("   ✅ TemporalCortex connected (Narrative)")
@@ -118,7 +118,7 @@ class ElysiaCore:
         # [NEW] Logic Scout (The Miner)
         self.logic_scout = None
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.logic_scout import get_logic_scout
+            from Core._02_Intelligence._01_Reasoning.logic_scout import get_logic_scout
             self.logic_scout = get_logic_scout()
             logger.info("   ✅ LogicScout connected (Reasoning Extraction)")
         except Exception as e:
@@ -127,7 +127,7 @@ class ElysiaCore:
         # [NEW] The Prism (Language Translation)
         self.prism = None
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.wave_translator import get_wave_translator
+            from Core._02_Intelligence._01_Reasoning.wave_translator import get_wave_translator
             self.prism = get_wave_translator()
             logger.info("   ✅ WaveTranslator connected (The Prism)")
         except Exception as e:
@@ -345,7 +345,7 @@ class ElysiaCore:
         # [CRITICAL] 4. Matrix Memory Integration (TorchGraph)
         # "Old Brain (Universe)" -> "New Brain (Matrix)" Sync
         try:
-            from Core._01_Foundation._04_Governance.Foundation.torch_graph import get_torch_graph
+            from Core._01_Foundation._02_Logic.torch_graph import get_torch_graph
             graph = get_torch_graph()
             
             # Use vector from ThoughtWave/Multimodal if available

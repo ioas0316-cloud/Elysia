@@ -9,8 +9,8 @@ KnowledgeAcquisitionSystem으로 전문 작가까지!
 import sys
 sys.path.append('.')
 
-from Core._01_Foundation._04_Governance.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._02_Logic.knowledge_acquisition import KnowledgeAcquisitionSystem
+from Core._02_Intelligence._02_Memory.web_knowledge_connector import WebKnowledgeConnector
 import time
 
 print("="*70)

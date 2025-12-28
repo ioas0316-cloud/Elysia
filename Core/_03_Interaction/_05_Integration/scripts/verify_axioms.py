@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptDecomposer
+from Core._01_Foundation._02_Logic.fractal_concept import ConceptDecomposer
 
 def test():
     print("🔮 Initializing ConceptDecomposer with Axioms...")

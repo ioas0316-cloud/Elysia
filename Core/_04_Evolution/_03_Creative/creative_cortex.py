@@ -13,7 +13,7 @@ except ImportError:
 
 # Import Aesthetic Wisdom for principle-guided creativity
 try:
-    from Core._01_Foundation._02_Logic.Philosophy.aesthetic_principles import (
+    from Core._01_Foundation._02_Logic.aesthetic_principles import (
         get_aesthetic_wisdom, AestheticWisdom, Medium
     )
     AESTHETIC_WISDOM_AVAILABLE = True

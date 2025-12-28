@@ -1,22 +1,22 @@
-import os
+﻿import os
 import re
 
 # Mapping for Core modules to their new 5-layer paths (Recursive Depth 3)
 # Format: "Core.OldFolder" -> "Core.0X_Layer._0X_Subgroup.OldFolder"
 core_mapping = {
     # 01_Foundation
-    "Core._01_Foundation": "Core._01_Foundation._04_Governance.Foundation",
+    "Core._01_Foundation": "Core._01_Foundation._02_Logic",
     "Core.Laws": "Core._01_Foundation._02_Legal_Ethics.Laws",
     "Core.Ethics": "Core._01_Foundation._02_Legal_Ethics.Ethics",
     "Core.Philosophy": "Core._01_Foundation._02_Logic.Philosophy",
     "Core.Security": "Core._01_Foundation._03_Security.Security",
     "Core.Elysia": "Core._01_Foundation._01_Core_Logic.Elysia",
     # 02_Intelligence
-    "Core.Cognition": "Core._02_Intelligence._01_Reasoning.Cognition",
+    "Core.Cognition": "Core._02_Intelligence._01_Reasoning",
     "Core._02_Intelligence": "Core._02_Intelligence._01_Reasoning.Intelligence",
-    "Core.Memory": "Core._02_Intelligence._02_Memory_Linguistics.Memory",
-    "Core.Knowledge": "Core._02_Intelligence._02_Memory_Linguistics.Knowledge",
-    "Core.Language": "Core._02_Intelligence._02_Memory_Linguistics.Language",
+    "Core.Memory": "Core._02_Intelligence._02_Memory.Domains.linguistics.Memory",
+    "Core.Knowledge": "Core._02_Intelligence._02_Memory.Domains.linguistics.Knowledge",
+    "Core.Language": "Core._02_Intelligence._02_Memory.Domains.linguistics.Language",
     "Core.Physics": "Core._02_Intelligence._03_Physics_Waves.Physics",
     "Core.Wave": "Core._02_Intelligence._03_Physics_Waves.Wave",
     "Core.Field": "Core._02_Intelligence._03_Physics_Waves.Field",
@@ -44,7 +44,7 @@ core_mapping = {
     # 04_Evolution
     "Core.Autonomy": "Core._04_Evolution._01_Growth.Autonomy",
     "Core._04_Evolution": "Core._04_Evolution._01_Growth.Evolution",
-    "Core.Learning": "Core._04_Evolution._02_Learning.Learning",
+    "Core.Learning": "Core._04_Evolution._02_Learning",
     "Core.Creativity": "Core._04_Evolution._03_Creative.Creativity",
     "Core.Creation": "Core._04_Evolution._03_Creative.Creation",
     "Core.Studio": "Core._04_Evolution._03_Creative.Studio",
@@ -104,3 +104,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

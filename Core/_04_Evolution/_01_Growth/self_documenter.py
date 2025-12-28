@@ -49,19 +49,19 @@ class SelfDocumenter:
     def _init_tools(self):
         """도구 초기화"""
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.codebase_introspector import get_introspector
+            from Core._02_Intelligence._01_Reasoning.codebase_introspector import get_introspector
             self.introspector = get_introspector()
         except Exception as e:
             print(f"⚠️ Introspector not available: {e}")
         
         try:
-            from Core._02_Intelligence._02_Memory_Linguistics.Memory.self_discovery import SelfDiscovery
+            from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.self_discovery import SelfDiscovery
             self.discovery = SelfDiscovery()
         except Exception as e:
             print(f"⚠️ SelfDiscovery not available: {e}")
         
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.why_how_explainer import get_explainer
+            from Core._02_Intelligence._01_Reasoning.why_how_explainer import get_explainer
             self.explainer = get_explainer()
         except Exception as e:
             print(f"⚠️ WhyHowExplainer not available: {e}")

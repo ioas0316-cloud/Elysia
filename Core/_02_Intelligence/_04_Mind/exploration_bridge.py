@@ -1,4 +1,4 @@
-"""
+﻿"""
 Exploration Bridge (탐구 브릿지)
 ================================
 
@@ -84,7 +84,7 @@ class ExplorationBridge:
         # 1. WhyEngine (탐구 필요 감지)
         self.why_engine = None
         try:
-            from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
+            from Core._01_Foundation._02_Logic.why_engine import WhyEngine
             self.why_engine = WhyEngine()
             logger.info("✅ WhyEngine connected")
         except Exception as e:
@@ -93,7 +93,7 @@ class ExplorationBridge:
         # 2. FreeWillEngine (욕구/의지)
         self.free_will = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine
+            from Core._01_Foundation._02_Logic.free_will_engine import FreeWillEngine
             self.free_will = FreeWillEngine()
             logger.info("✅ FreeWillEngine connected")
         except Exception as e:
@@ -102,7 +102,7 @@ class ExplorationBridge:
         # 3. ExplorationCore (외부 탐색)
         self.exploration_core = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.exploration_core import ExplorationCore
+            from Core._01_Foundation._02_Logic.exploration_core import ExplorationCore
             self.exploration_core = ExplorationCore()
             logger.info("✅ ExplorationCore connected")
         except Exception as e:
@@ -111,7 +111,7 @@ class ExplorationBridge:
         # 4. AutonomousLearner (학습)
         self.learner = None
         try:
-            from Core._04_Evolution._02_Learning.Learning.autonomous_learner import AutonomousLearner
+            from Core._04_Evolution._02_Learning.autonomous_learner import AutonomousLearner
             self.learner = AutonomousLearner()
             logger.info("✅ AutonomousLearner connected")
         except Exception as e:
@@ -130,7 +130,7 @@ class ExplorationBridge:
         # 6. KoreanEnglishMapper (언어 브릿지)
         self.lang_mapper = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.extreme_hyper_learning import KoreanEnglishMapper
+            from Core._01_Foundation._02_Logic.extreme_hyper_learning import KoreanEnglishMapper
             self.lang_mapper = KoreanEnglishMapper()
             logger.info("✅ KoreanEnglishMapper connected")
         except Exception as e:
@@ -139,7 +139,7 @@ class ExplorationBridge:
         # 7. PotentialCausalityStore (잠재적 인과 저장)
         self.potential_store = None
         try:
-            from Core._02_Intelligence._02_Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
+            from Core._02_Intelligence._02_Memory.potential_causality import PotentialCausalityStore
             self.potential_store = PotentialCausalityStore()
             logger.info("✅ PotentialCausalityStore connected")
         except Exception as e:
@@ -782,3 +782,4 @@ if __name__ == "__main__":
     
     print("\n" + "=" * 60)
     print("✅ Demo complete!")
+

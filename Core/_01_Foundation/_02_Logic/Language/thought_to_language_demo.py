@@ -16,8 +16,8 @@ Architecture:
 
 from typing import Dict, List, Optional
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
-from Core._01_Foundation._04_Governance.Foundation.wave_interpreter import WaveInterpreter
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+from Core._01_Foundation._02_Logic.wave_interpreter import WaveInterpreter
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
 
 class ThoughtToLanguage:
     """사고를 언어로 변환"""

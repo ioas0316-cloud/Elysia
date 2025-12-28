@@ -36,8 +36,8 @@ logger = logging.getLogger("LinguisticCollapse")
 
 # Import with graceful fallback
 try:
-    from Core._01_Foundation._04_Governance.Foundation.hangul_physics import Tensor3D
-    from Core._02_Intelligence._02_Memory_Linguistics.Memory.unified_types import FrequencyWave
+    from Core._01_Foundation._02_Logic.hangul_physics import Tensor3D
+    from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.unified_types import FrequencyWave
 except ImportError:
     # Fallback stubs
     class Tensor3D:

@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from tools.kg_manager import KGManager
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 
 
 @dataclass

@@ -8,7 +8,7 @@ Demonstrates how timeline weights affect the system.
 import sys
 sys.path.insert(0, "C:\\Elysia")
 
-from Core._01_Foundation._04_Governance.Foundation.Physics.fractal_dimension_engine import (
+from Core._01_Foundation._02_Logic.Physics.fractal_dimension_engine import (
     FractalUniverse,
     ZelNagaSync,
     Photon,

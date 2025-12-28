@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Continuous Learning Script
 =================================
 
@@ -37,8 +37,8 @@ async def run_learning_cycle(hours: int = 1):
     print("=" * 60 + "\n")
     
     try:
-        from Core._03_Interaction._02_Interface.Sensory.learning_cycle import P4LearningCycle
-        from Core._04_Evolution._02_Learning.Learning.language_learner import LanguageLearner
+        from Core._03_Interaction._02_Interface._01_Sensory.learning_cycle import P4LearningCycle
+        from Core._04_Evolution._02_Learning.language_learner import LanguageLearner
         
         cycle = P4LearningCycle()
         language_learner = LanguageLearner()
@@ -166,3 +166,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

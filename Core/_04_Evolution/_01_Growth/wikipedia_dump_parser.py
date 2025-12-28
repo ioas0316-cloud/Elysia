@@ -166,7 +166,7 @@ class WikipediaDumpParser:
                                 continue
                             
                             # [NEW] Concept Sanitizer Inclusion
-                            from Core._01_Foundation._04_Governance.Foundation.concept_sanitizer import get_sanitizer
+                            from Core._01_Foundation._02_Logic.concept_sanitizer import get_sanitizer
                             sanitizer = get_sanitizer()
                             if not sanitizer.is_valid(title):
                                 elem.clear()

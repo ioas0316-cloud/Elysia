@@ -126,8 +126,8 @@ def heal_neural_pathways():
                     original_content = content
                     
                     # Apply fixes
-                    # 1. Fix the "Core.Interface.Interface" double nesting caused by previous script
-                    content = content.replace("Core.Interface.Interface.", "Core.Interface.")
+                    # 1. Fix the "Core._02_Interface.Interface" double nesting caused by previous script
+                    content = content.replace("Core._02_Interface.Interface.", "Core._02_Interface.")
                     content = content.replace("Core.System.System.", "Core.System.")
                     content = content.replace("Core._02_Intelligence.Intelligence.", "Core._02_Intelligence.")
                     content = content.replace("Core._04_Evolution.Evolution.", "Core._04_Evolution.")
@@ -147,7 +147,7 @@ def heal_neural_pathways():
                             
                         # Regex for safer replacement?
                         # Simple string replace is risky but fast.
-                        # "from Core.Mind" -> "from Core._01_Foundation._04_Governance.Foundation.Mind"
+                        # "from Core.Mind" -> "from Core._01_Foundation._02_Logic.Mind"
                         content = content.replace(f"from {old_path}", f"from {new_path}")
                         content = content.replace(f"import {old_path}", f"import {new_path}")
                         # content = content.replace(f"{old_path}.", f"{new_path}.") # This might be too aggressive

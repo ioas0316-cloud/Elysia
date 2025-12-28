@@ -16,7 +16,7 @@ from typing import Dict, Any, Optional, Tuple
 from dataclasses import asdict
 
 from Core._02_Intelligence._01_Reasoning.Cognitive.concept_formation import ConceptFormation, get_concept_formation
-from Core._03_Interaction._02_Interface.Sensory.five_senses_mapper import FiveSensesMapper, SensoryExperience
+from Core._03_Interaction._02_Interface._01_Sensory.five_senses_mapper import FiveSensesMapper, SensoryExperience
 
 class SensoryCortex:
     """

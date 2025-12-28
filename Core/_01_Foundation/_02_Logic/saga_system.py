@@ -13,7 +13,7 @@ from typing import Dict, List, Optional
 from dataclasses import dataclass, field
 import time
 
-from Core._01_Foundation._04_Governance.Foundation.Mind.memetic_field import MemeticField, Trajectory
+from Core._01_Foundation._02_Logic.Mind.memetic_field import MemeticField, Trajectory
 
 @dataclass
 class Saga:

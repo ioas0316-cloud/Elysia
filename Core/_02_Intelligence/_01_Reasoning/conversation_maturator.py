@@ -134,7 +134,7 @@ class ConversationMaturator:
         """ThoughtSpace (여백)"""
         if self._thought_space is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.thought_space import ThoughtSpace
+                from Core._02_Intelligence._01_Reasoning.thought_space import ThoughtSpace
                 self._thought_space = ThoughtSpace(
                     maturation_threshold=self.min_gap_seconds
                 )
@@ -148,7 +148,7 @@ class ConversationMaturator:
         """ContextRetrieval (맥락 인출)"""
         if self._context_retrieval is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.context_retrieval import ContextRetrieval
+                from Core._02_Intelligence._01_Reasoning.context_retrieval import ContextRetrieval
                 self._context_retrieval = ContextRetrieval()
             except ImportError:
                 logger.warning("ContextRetrieval not available, using stub")
@@ -160,7 +160,7 @@ class ConversationMaturator:
         """MetacognitiveAwareness (메타인지)"""
         if self._metacognition is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.metacognitive_awareness import MetacognitiveAwareness
+                from Core._02_Intelligence._01_Reasoning.metacognitive_awareness import MetacognitiveAwareness
                 self._metacognition = MetacognitiveAwareness()
             except ImportError:
                 logger.warning("MetacognitiveAwareness not available, using stub")
@@ -184,7 +184,7 @@ class ConversationMaturator:
         """WhyEngine (원리 탐구)"""
         if self._why_engine is None:
             try:
-                from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
+                from Core._01_Foundation._02_Logic.why_engine import WhyEngine
                 self._why_engine = WhyEngine()
             except ImportError:
                 logger.warning("WhyEngine not available, using stub")

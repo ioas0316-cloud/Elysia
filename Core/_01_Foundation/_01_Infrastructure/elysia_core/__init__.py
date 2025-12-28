@@ -1,7 +1,7 @@
 """
-elysia_core: 유기적 임포트 시스템
+elysia_core: ?좉린???꾪룷???쒖뒪??
 ================================
-"위치(Path)가 아니라 의미(Identity)로 연결되는 세상"
+"?꾩튂(Path)媛 ?꾨땲???섎?(Identity)濡??곌껐?섎뒗 ?몄긽"
 
 Usage:
     from elysia_core import Cell, Organ
@@ -10,7 +10,7 @@ Usage:
     class Hippocampus:
         pass
     
-    # 사용할 때
+    # ?ъ슜????
     memory = Organ.get("Memory")
 """
 

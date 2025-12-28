@@ -1,7 +1,7 @@
 
 import logging
 from typing import Optional, Dict, Any
-from Core._01_Foundation._04_Governance.Foundation.ollama_bridge import get_ollama_bridge
+from Core._01_Foundation._02_Logic.ollama_bridge import get_ollama_bridge
 
 logger = logging.getLogger("TeacherAdapter")
 

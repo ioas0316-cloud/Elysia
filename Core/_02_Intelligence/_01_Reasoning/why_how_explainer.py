@@ -6,7 +6,7 @@ WhyHowExplainer: '왜'와 '어떻게'를 설명하는 메타인지 엔진
 "어떻게 연결되어 있는지"를 설명할 수 있게 합니다.
 
 Usage:
-    from Core._02_Intelligence._01_Reasoning.Cognition.why_how_explainer import WhyHowExplainer
+    from Core._02_Intelligence._01_Reasoning.why_how_explainer import WhyHowExplainer
     
     explainer = WhyHowExplainer()
     why = explainer.explain_structure_why("Core/Foundation")

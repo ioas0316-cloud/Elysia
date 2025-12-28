@@ -22,13 +22,13 @@ from tools.kg_manager import KGManager
 
 from .core_memory import CoreMemory
 
-from Core._01_Foundation._04_Governance.Foundation.wave_mechanics import WaveMechanics
+from Core._01_Foundation._02_Logic.wave_mechanics import WaveMechanics
 
-from Core._01_Foundation._04_Governance.Foundation.core.world import World
+from Core._04_Evolution._01_Growth.world import World
 
-from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalEngine
+from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalEngine
 
-from Core._01_Foundation._04_Governance.Foundation.meta_cognition_cortex import MetaCognitionCortex
+from Core._01_Foundation._02_Logic.meta_cognition_cortex import MetaCognitionCortex
 
 
 

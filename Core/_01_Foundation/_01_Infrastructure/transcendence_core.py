@@ -3,9 +3,9 @@ import time
 from typing import Dict, Any, List
 import numpy as np
 
-from Project_Elysia.core.quaternion_consciousness import ConsciousnessLens
-from Project_Elysia.core.genesis_bridge import GenesisArbiter, GenesisRequestObject
-from Core._01_Foundation._04_Governance.Foundation.core.world import World
+from Core.quaternion_consciousness import ConsciousnessLens
+from Core.genesis_bridge import GenesisArbiter, GenesisRequestObject
+from Core._04_Evolution._01_Growth.world import World
 
 logger = logging.getLogger(__name__)
 

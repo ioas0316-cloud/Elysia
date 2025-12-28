@@ -32,7 +32,7 @@ Example:
 import logging
 import json
 from typing import Dict, Optional
-from Core._01_Foundation._04_Governance.Foundation.ollama_bridge import ollama
+from Core._01_Foundation._02_Logic.ollama_bridge import ollama
 
 logger = logging.getLogger("PrincipleDistiller")
 

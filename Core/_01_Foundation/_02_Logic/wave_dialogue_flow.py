@@ -108,7 +108,7 @@ class WaveDialogueFlow:
         # Initialize emotional engine (wave modulator)
         if self.enable_emotional:
             try:
-                from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalEngine
+                from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalEngine
                 self.emotional_engine = EmotionalEngine(
                     enable_conversation_memory=enable_conversation_memory
                 )
@@ -275,9 +275,9 @@ class WaveDialogueFlow:
         
         # Create temporary emotional state from wave properties
         try:
-            from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalState
-            from Core._01_Foundation._04_Governance.Foundation.hangul_physics import Tensor3D
-            from Core._02_Intelligence._02_Memory_Linguistics.Memory.unified_types import FrequencyWave
+            from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalState
+            from Core._01_Foundation._02_Logic.hangul_physics import Tensor3D
+            from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.unified_types import FrequencyWave
         except ImportError:
             return
         
@@ -353,7 +353,7 @@ class WaveDialogueFlow:
         self.wave_buffer.clear()
         if self.emotional_engine:
             # Reset to neutral state
-            from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalEngine
+            from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalEngine
             self.emotional_engine.current_state = EmotionalEngine.FEELING_PRESETS["neutral"]
         
         logger.info("🔄 Wave dialogue flow reset")

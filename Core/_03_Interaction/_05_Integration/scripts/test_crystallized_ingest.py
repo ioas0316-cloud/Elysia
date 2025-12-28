@@ -1,4 +1,4 @@
-"""
+﻿"""
 Crystallized Data Ingestion Test
 ================================
 
@@ -36,7 +36,7 @@ def run_crystallized_ingest_test():
     
     # 1. DialogicLearner (사고 흐름)
     try:
-        from Core._04_Evolution._02_Learning.Learning.dialogic_learner import DialogicLearner
+        from Core._04_Evolution._02_Learning.dialogic_learner import DialogicLearner
         dialogic = DialogicLearner()
         has_dialogic = True
         print("✅ DialogicLearner connected")
@@ -47,7 +47,7 @@ def run_crystallized_ingest_test():
     
     # 2. WhyEngine (왜? 질문)
     try:
-        from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
+        from Core._01_Foundation._02_Logic.why_engine import WhyEngine
         why_engine = WhyEngine()
         has_why = True
         print("✅ WhyEngine connected")
@@ -196,3 +196,4 @@ def run_crystallized_ingest_test():
 
 if __name__ == "__main__":
     run_crystallized_ingest_test()
+

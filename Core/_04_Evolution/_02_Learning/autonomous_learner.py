@@ -1,4 +1,4 @@
-"""
+﻿"""
 Autonomous Learning Loop (자율 학습 루프)
 ========================================
 
@@ -30,13 +30,13 @@ import logging
 from typing import Dict, List, Any, Optional
 import sys
 from pathlib import Path
-from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import Domain
+from Core._04_Evolution._02_Learning.hierarchical_learning import Domain
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
-from Core._02_Intelligence._01_Reasoning.Cognition.metacognitive_awareness import MetacognitiveAwareness, KnowledgeState
-from Core._02_Intelligence._01_Reasoning.Cognition.external_explorer import ExternalExplorer
+from Core._01_Foundation._02_Logic.why_engine import WhyEngine
+from Core._02_Intelligence._01_Reasoning.metacognitive_awareness import MetacognitiveAwareness, KnowledgeState
+from Core._02_Intelligence._01_Reasoning.external_explorer import ExternalExplorer
 
 logger = logging.getLogger("Elysia.AutonomousLearning")
 
@@ -96,13 +96,13 @@ class AutonomousLearner:
         
         # 0. Load Connections
         try:
-            from Core._02_Intelligence._02_Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
+            from Core._02_Intelligence._02_Memory.potential_causality import PotentialCausalityStore
             potential_store = PotentialCausalityStore()
         except ImportError:
             potential_store = None
         
         try:
-            from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+            from Core._04_Evolution._02_Learning.hierarchical_learning import HierarchicalKnowledgeGraph
             kg = HierarchicalKnowledgeGraph()
         except ImportError:
             kg = None
@@ -302,3 +302,4 @@ if __name__ == "__main__":
         print(f"   • {concept['name']}: {concept['definition'][:30]}...")
     
     print("\n✅ Demo complete!")
+

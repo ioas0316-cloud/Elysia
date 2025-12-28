@@ -10,7 +10,7 @@ from typing import Any, Dict, Optional
 
 
 
-from Core._01_Foundation._04_Governance.Foundation.core_memory import CoreMemory
+from Core._01_Foundation._02_Logic.core_memory import CoreMemory
 
 from high_engine.self_model import build_dialogue_self_model, DialogueSelfModel
 

@@ -46,7 +46,7 @@ class TorchGraph:
         self.lock = False # Simple lock for batch updates
         
         # [The Kidney]
-        from Core._01_Foundation._04_Governance.Foundation.concept_sanitizer import get_sanitizer
+        from Core._01_Foundation._02_Logic.concept_sanitizer import get_sanitizer
         self.sanitizer = get_sanitizer()
 
         # [The Great Unification] Phase 12
@@ -692,7 +692,7 @@ class TorchGraph:
         indices_to_remove = indices.tolist()
         indices_to_remove.sort(reverse=True) # Remove from end to avoid shift issues logic if doing list pop, but here we rebuild tensors
         
-        from Core._01_Foundation._04_Governance.Foundation.Graph.black_hole_memory import get_black_hole
+        from Core._01_Foundation._02_Logic.Graph.black_hole_memory import get_black_hole
         bh = get_black_hole()
         
         for idx in indices_to_remove:

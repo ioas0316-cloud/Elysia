@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Discord Companion (엘리시아 디스코드 동반자)
 =================================================
 
@@ -48,14 +48,14 @@ except ImportError:
 # === CORE SYSTEM INTEGRATION ===
 # InternalUniverse (대화 → 내면 우주)
 try:
-    from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse, WorldCoordinate
+    from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse, WorldCoordinate
     UNIVERSE_AVAILABLE = True
 except ImportError:
     UNIVERSE_AVAILABLE = False
 
 # WavePatternLearner (자율 학습)
 try:
-    from Core._04_Evolution._02_Learning.Learning.wave_pattern_learner import WavePatternLearner
+    from Core._04_Evolution._02_Learning.wave_pattern_learner import WavePatternLearner
     WAVE_LEARNER_AVAILABLE = True
 except ImportError:
     WAVE_LEARNER_AVAILABLE = False
@@ -69,7 +69,7 @@ except ImportError:
 
 # ConceptDecomposer (공리 체계)
 try:
-    from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptDecomposer
+    from Core._01_Foundation._02_Logic.fractal_concept import ConceptDecomposer
     AXIOM_AVAILABLE = True
 except ImportError:
     AXIOM_AVAILABLE = False
@@ -560,3 +560,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

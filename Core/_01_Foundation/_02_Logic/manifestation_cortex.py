@@ -14,9 +14,9 @@ from datetime import datetime
 
 from Project_Mirror.creative_expression import CreativeExpression
 
-from Core._01_Foundation._04_Governance.Foundation.sensory_motor_cortex import SensoryMotorCortex
+from Core._01_Foundation._02_Logic.sensory_motor_cortex import SensoryMotorCortex
 
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 
 
 

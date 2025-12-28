@@ -26,13 +26,13 @@ import re
 import hashlib
 
 # Seed/Bloom Pattern + True Conceptual Learning
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptNode, ConceptDecomposer
-from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.fractal_concept import ConceptNode, ConceptDecomposer
+from Core._01_Foundation._02_Logic.resonance_field import ResonanceField
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
 from Core._02_Intelligence._01_Reasoning.Intelligence.concept_extractor import ConceptExtractor, ConceptDefinition
 from Core._02_Intelligence._01_Reasoning.Intelligence.relationship_extractor import RelationshipExtractor, Relationship
-from Core._01_Foundation._04_Governance.Foundation.grammar_engine import GrammarEmergenceEngine
+from Core._01_Foundation._02_Logic.grammar_engine import GrammarEmergenceEngine
 
 logger = logging.getLogger("RapidLearning")
 
@@ -82,7 +82,7 @@ class RapidLearningEngine:
             if project_root not in sys.path:
                 sys.path.insert(0, project_root)
             
-            from Core._01_Foundation._04_Governance.Foundation.spacetime_drive import SpaceTimeDrive
+            from Core._01_Foundation._02_Logic.spacetime_drive import SpaceTimeDrive
             self.spacetime_drive = SpaceTimeDrive()
             logger.info("✅ 시공간 드라이브 연결됨")
         except Exception as e:

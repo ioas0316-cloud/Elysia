@@ -82,7 +82,7 @@ class HydroMind:
         """핵심 시스템들과 연결"""
         # CoreMemory
         try:
-            from Core._01_Foundation._04_Governance.Foundation.Memory.core_memory import CoreMemory
+            from Core._01_Foundation._02_Logic.Memory.core_memory import CoreMemory
             self.memory = CoreMemory(file_path="data/elysia_organic_memory.json")
         except Exception:
             pass
@@ -96,14 +96,14 @@ class HydroMind:
         
         # MetacognitiveAwareness
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.metacognitive_awareness import MetacognitiveAwareness
+            from Core._02_Intelligence._01_Reasoning.metacognitive_awareness import MetacognitiveAwareness
             self.metacog = MetacognitiveAwareness()
         except Exception:
             pass
         
         # ConceptPolymer (자동 원리 추출) - 강덕리 내재화 루프
         try:
-            from Core._02_Intelligence._02_Memory_Linguistics.Memory.concept_polymer import ConceptPolymer
+            from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.concept_polymer import ConceptPolymer
             self.polymer = ConceptPolymer()
             print("   🧬 ConceptPolymer connected (Auto-internalization enabled)")
         except Exception:
@@ -275,7 +275,7 @@ class HydroMind:
         # CoreMemory에 저장
         if self.memory:
             try:
-                from Core._01_Foundation._04_Governance.Foundation.Memory.core_memory import Experience
+                from Core._01_Foundation._02_Logic.Memory.core_memory import Experience
                 exp = Experience(
                     timestamp=record.end_time,
                     content=f"[Flow:{record.action}] In:{str(record.input_data)[:50]} Out:{str(record.output_data)[:50]}",

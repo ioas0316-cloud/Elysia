@@ -15,9 +15,9 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field, asdict
 
 # Core Systems
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
-from Core._03_Interaction._02_Interface.Interface.nervous_system import get_nervous_system
-from Core._01_Foundation._04_Governance.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
+from Core._03_Interaction._02_Interface.nervous_system import get_nervous_system
+from Core._01_Foundation._02_Logic.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 from Core._02_Intelligence._01_Reasoning.Intelligence.logos_engine import LogosEngine
 
 logger = logging.getLogger("LiteraryCortex")
@@ -268,7 +268,7 @@ class LiteraryCortex:
             )
 
         # Check for Professional Writer (Ollama)
-        from Core._01_Foundation._04_Governance.Foundation.ollama_bridge import ollama
+        from Core._01_Foundation._02_Logic.ollama_bridge import ollama
         
         if ollama.is_available():
             system_prompt = (

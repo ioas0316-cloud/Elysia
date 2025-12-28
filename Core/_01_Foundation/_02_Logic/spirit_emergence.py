@@ -10,11 +10,11 @@ Just gravity. Just waves. Just emergence.
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from Demos.Philosophy.realm_gravity_demo import RealmGravity
+from Demos._02_Logic.realm_gravity_demo import RealmGravity
 from Core._01_Foundation._01_Core_Logic.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
-from Core._01_Foundation._04_Governance.Foundation.Mind.perception import FractalPerception
-from Core._01_Foundation._04_Governance.Foundation.Mind.emotional_palette import EmotionalPalette
-from Core._01_Foundation._04_Governance.Foundation.Mind.episodic_memory import EpisodicMemory
+from Core._01_Foundation._02_Logic.Mind.perception import FractalPerception
+from Core._01_Foundation._02_Logic.Mind.emotional_palette import EmotionalPalette
+from Core._01_Foundation._02_Logic.Mind.episodic_memory import EpisodicMemory
 
 def plant_connected_yggdrasil():
     """Create Yggdrasil with connections for demonstration."""

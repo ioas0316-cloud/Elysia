@@ -9,12 +9,12 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine
-from Core._01_Foundation._04_Governance.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
-from Core._01_Foundation._04_Governance.Foundation.transcendence_engine import TranscendenceEngine
-from Core._01_Foundation._04_Governance.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.free_will_engine import FreeWillEngine
+from Core._01_Foundation._02_Logic.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._02_Logic.resonance_field import ResonanceField
+from Core._01_Foundation._02_Logic.transcendence_engine import TranscendenceEngine
+from Core._01_Foundation._02_Logic.knowledge_acquisition import KnowledgeAcquisitionSystem
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
 
 class ElysiaConversation:
     """엘리시아와 대화하기"""
@@ -122,7 +122,7 @@ class ElysiaConversation:
         Inject a powerful desire into Elysia's Free Will Engine.
         """
         print(f"\n✨ Inception: Planting desire '{desire}'...")
-        from Core._01_Foundation._04_Governance.Foundation.free_will_engine import Intent
+        from Core._01_Foundation._02_Logic.free_will_engine import Intent
         import time
         
         # Create a strong intent

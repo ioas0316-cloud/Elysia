@@ -6,7 +6,7 @@ from typing import List, Dict, Any, Optional
 logger = logging.getLogger("LogicScout")
 
 try:
-    from Core._02_Intelligence._01_Reasoning.Cognition.teacher_adapter import get_teacher_adapter
+    from Core._02_Intelligence._01_Reasoning.teacher_adapter import get_teacher_adapter
     ADAPTER_AVAILABLE = True
 except ImportError as e:
     ADAPTER_AVAILABLE = False

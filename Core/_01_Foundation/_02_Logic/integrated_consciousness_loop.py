@@ -26,7 +26,7 @@ repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
-from Core._01_Foundation._04_Governance.Foundation.valuation_cortex import ValuationCortex
+from Core._01_Foundation._02_Logic.valuation_cortex import ValuationCortex
 
 logging.basicConfig(
     level=logging.INFO,

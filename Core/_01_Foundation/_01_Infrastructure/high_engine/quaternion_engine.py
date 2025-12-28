@@ -5,7 +5,7 @@ from dataclasses import dataclass, asdict, field
 from typing import Any, Dict, List, Optional
 from enum import Enum, auto
 
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 
 
 class LensMode(Enum):

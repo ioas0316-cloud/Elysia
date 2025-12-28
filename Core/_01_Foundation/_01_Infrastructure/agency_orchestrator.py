@@ -28,17 +28,17 @@ import time
 
 
 
-from Project_Elysia.core.action_memory import MemoryActionSelector
+from Core.action_memory import MemoryActionSelector
 
 
 
-from Core._01_Foundation._04_Governance.Foundation.reading_coach import ReadingCoach
+from Core._01_Foundation._02_Logic.reading_coach import ReadingCoach
 
-from Core._01_Foundation._04_Governance.Foundation.creative_writing_cortex import CreativeWritingCortex
+from Core._01_Foundation._02_Logic.creative_writing_cortex import CreativeWritingCortex
 
 from Project_Mirror.proof_renderer import ProofRenderer
 
-from Core._01_Foundation._04_Governance.Foundation.math_cortex import MathCortex
+from Core._01_Foundation._02_Logic.math_cortex import MathCortex
 
 from tools.kg_manager import KGManager
 

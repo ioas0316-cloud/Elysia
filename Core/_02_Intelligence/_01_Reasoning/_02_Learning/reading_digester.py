@@ -101,7 +101,7 @@ class ReadingDigester:
         """LanguageNurture 레이지 로딩"""
         if self._language_nurture is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.Learning.language_nurture import LanguageNurture
+                from Core._02_Intelligence._01_Reasoning.Learning.language_nurture import LanguageNurture
                 self._language_nurture = LanguageNurture()
             except ImportError:
                 logger.warning("LanguageNurture not available")

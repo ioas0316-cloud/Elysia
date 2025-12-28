@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any
 import random
 from Core._02_Intelligence._01_Reasoning.Cognitive.concept_formation import get_concept_formation
-from Core._01_Foundation._02_Logic.Philosophy.aesthetic_principles import AestheticVector
+from Core._01_Foundation._02_Logic.aesthetic_principles import AestheticVector
 
 @dataclass
 class MemoirSeed:

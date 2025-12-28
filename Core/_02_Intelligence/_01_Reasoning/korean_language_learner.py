@@ -212,7 +212,7 @@ class KoreanLanguageLearner:
         
         # InternalUniverse에도 흡수
         try:
-            from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+            from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
             universe = InternalUniverse()
             content = f"{word}: {meaning}. {'. '.join(examples or [])}"
             universe.absorb_text(content, source_name=f"word:{word}")

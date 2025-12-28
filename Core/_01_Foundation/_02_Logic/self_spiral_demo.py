@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch
 from mpl_toolkits.mplot3d import proj3d
 
-from Core._01_Foundation._04_Governance.Foundation.Mind.self_spiral_fractal import (
+from Core._01_Foundation._02_Logic.Mind.self_spiral_fractal import (
     SelfSpiralFractalEngine,
     ConsciousnessAxis,
     create_emotional_spiral,

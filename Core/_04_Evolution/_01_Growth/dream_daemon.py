@@ -27,7 +27,7 @@ def _get_graph():
     global _torch_graph
     if _torch_graph is None:
         try:
-            from Core._01_Foundation._04_Governance.Foundation.torch_graph import get_torch_graph
+            from Core._01_Foundation._02_Logic.torch_graph import get_torch_graph
             _torch_graph = get_torch_graph()
         except Exception as e:
             logger.warning(f"TorchGraph unavailable: {e}")
@@ -230,7 +230,7 @@ class DreamDaemon:
         Uses PrincipleDistiller to extract the 'Being' (Principle/Mechanism) of a concept.
         Saves this wisdom into the node's metadata.
         """
-        from Core._02_Intelligence._01_Reasoning.Cognition.principle_distiller import get_principle_distiller
+        from Core._02_Intelligence._01_Reasoning.principle_distiller import get_principle_distiller
         distiller = get_principle_distiller()
         
         # 1. Pick a concept (Prioritize Hollow Nodes)
@@ -254,7 +254,7 @@ class DreamDaemon:
             
             # [NEW] Reality Grounding (Phase 15)
             # Check if this concept exists in Physical Reality
-            from Core._02_Intelligence._01_Reasoning.Cognition.reality_grounding import get_reality_grounding
+            from Core._02_Intelligence._01_Reasoning.reality_grounding import get_reality_grounding
             # We need the bridge from distiller
             grounding = get_reality_grounding(distiller.bridge)
             if grounding:

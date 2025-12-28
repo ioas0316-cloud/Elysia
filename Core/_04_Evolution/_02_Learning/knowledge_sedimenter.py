@@ -18,8 +18,8 @@ from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
 from Core._03_Interaction._04_Network.Network.browser_explorer import BrowserExplorer
-from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
-from Core._01_Foundation._04_Governance.Foundation.light_spectrum import LightSpectrum, LightSediment, PrismAxes
+from Core._01_Foundation._02_Logic.why_engine import WhyEngine
+from Core._01_Foundation._02_Logic.light_spectrum import LightSpectrum, LightSediment, PrismAxes
 
 logger = logging.getLogger("Elysia.KnowledgeSedimenter")
 

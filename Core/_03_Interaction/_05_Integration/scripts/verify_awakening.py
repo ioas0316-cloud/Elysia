@@ -18,9 +18,9 @@ from pathlib import Path
 sys.path.insert(0, ".")
 
 from Core._02_Intelligence._04_Consciousness.Ether.global_hub import get_global_hub, WaveEvent
-from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptDecomposer
-from Core._03_Interaction._02_Interface.Sensory.text_transducer import get_text_transducer
-from Core._03_Interaction._02_Interface.Sensory.file_system_sensor import get_filesystem_sensor
+from Core._01_Foundation._02_Logic.fractal_concept import ConceptDecomposer
+from Core._03_Interaction._02_Interface._01_Sensory.text_transducer import get_text_transducer
+from Core._03_Interaction._02_Interface._01_Sensory.file_system_sensor import get_filesystem_sensor
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger("Verification")

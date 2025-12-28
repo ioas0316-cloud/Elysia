@@ -36,9 +36,9 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._01_Foundation._04_Governance.Foundation.fractal_communication import ResonanceCommunicator, FractalTransmitter
+from Core._01_Foundation._02_Logic.fractal_communication import ResonanceCommunicator, FractalTransmitter
 from Core._01_Foundation._02_Logic.fractal_quantization import FractalQuantizer, PatternDNA
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse, WorldCoordinate
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse, WorldCoordinate
 
 logger = logging.getLogger("ResonanceDataConnector")
 

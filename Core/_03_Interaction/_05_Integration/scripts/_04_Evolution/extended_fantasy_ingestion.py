@@ -1,4 +1,4 @@
-"""
+﻿"""
 Extended Fantasy Ingestion (확장 판타지 흡수)
 =============================================
 
@@ -11,8 +11,8 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._04_Evolution._02_Learning.Learning.experiential_data_processor import ExperientialDataProcessor
-from Core._01_Foundation._04_Governance.Foundation.dual_layer_personality import DualLayerPersonality
+from Core._04_Evolution._02_Learning.experiential_data_processor import ExperientialDataProcessor
+from Core._01_Foundation._02_Logic.dual_layer_personality import DualLayerPersonality
 from data.corpus.stories.extended_fantasy_stories import (
     get_extended_fantasy_stories,
     get_deep_emotional_stories,
@@ -107,3 +107,4 @@ def run_extended_ingestion():
 
 if __name__ == "__main__":
     run_extended_ingestion()
+

@@ -10,13 +10,13 @@ from typing import Optional, List
 
 # Cross-project import for the standardized Thought data structure
 
-from Core._01_Foundation._04_Governance.Foundation.core.thought import Thought
+from Core._01_Foundation._02_Logic.core.thought import Thought
 
-from Core._01_Foundation._04_Governance.Foundation.core.tensor_wave import Tensor3D
+from Core._01_Foundation._02_Logic.core.tensor_wave import Tensor3D
 
-from Core._01_Foundation._04_Governance.Foundation.wave_mechanics import WaveMechanics
+from Core._01_Foundation._02_Logic.wave_mechanics import WaveMechanics
 
-from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalState
+from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalState
 
 from tools.kg_manager import KGManager
 

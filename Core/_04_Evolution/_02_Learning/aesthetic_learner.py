@@ -1,4 +1,4 @@
-"""
+﻿"""
 Aesthetic Learner (The Student)
 ===============================
 "The eye that observes, the mind that absorbs."
@@ -14,7 +14,7 @@ import json
 import random
 from pathlib import Path
 from typing import List, Dict
-from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("AestheticLearner")
 
@@ -154,3 +154,4 @@ class AestheticLearner:
         self.genome["composition_wave"] = new_memory.to_dict()
         
         self._save_genome()
+

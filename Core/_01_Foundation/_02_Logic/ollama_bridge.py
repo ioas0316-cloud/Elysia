@@ -10,10 +10,10 @@ warnings.warn(
 )
 
 # Import everything from the new location
-from Core._01_Foundation._04_Governance.Foundation.Network.ollama_bridge import *
+from Core._01_Foundation._02_Logic.Network.ollama_bridge import *
 
 # Explicit imports for commonly used symbols
-from Core._01_Foundation._04_Governance.Foundation.Network.ollama_bridge import (
+from Core._01_Foundation._02_Logic.Network.ollama_bridge import (
     OllamaBridge,
     ollama,
     get_ollama_bridge,

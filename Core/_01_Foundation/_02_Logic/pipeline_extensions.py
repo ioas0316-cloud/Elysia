@@ -14,7 +14,7 @@ from __future__ import annotations
 
 
 
-from Core._01_Foundation._04_Governance.Foundation.math_cortex import MathCortex
+from Core._01_Foundation._02_Logic.math_cortex import MathCortex
 
 from Project_Mirror.proof_renderer import ProofRenderer
 

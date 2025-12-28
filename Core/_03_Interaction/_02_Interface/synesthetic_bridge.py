@@ -1,4 +1,4 @@
-"""
+﻿"""
 Synesthetic Bridge
 ==================
 'Translating Meaning into Light'
@@ -10,7 +10,7 @@ It listens to the "Sound" of a concept (WaveTensor) and translates it into "Ligh
 import math
 import colorsys
 from typing import Dict, Any, Tuple
-from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
 
 class SynestheticBridge:
     """
@@ -120,3 +120,4 @@ class SynestheticBridge:
             "valence": 0, "arousal": 0, "dominance": 0,
             "distortionAmount": 0, "colorTemperature": 0, "gravityStrength": 1.0
         }
+

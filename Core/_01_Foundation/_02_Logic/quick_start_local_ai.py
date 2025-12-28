@@ -20,8 +20,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from Core._02_Intelligence._01_Reasoning.Intelligence.ollama_bridge import ollama
-from Core._01_Foundation._04_Governance.Foundation.korean_wave_converter import korean_wave
-from Core._01_Foundation._04_Governance.Foundation.ether import ether, Wave
+from Core._01_Foundation._02_Logic.korean_wave_converter import korean_wave
+from Core._01_Foundation._02_Logic.ether import ether, Wave
 
 print("\n" + "="*70)
 print("🚀 Elysia 로컬 AI + 한글 파동 언어 Quick Start")

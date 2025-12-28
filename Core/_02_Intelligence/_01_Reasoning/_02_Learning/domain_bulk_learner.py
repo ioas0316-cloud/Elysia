@@ -1,4 +1,4 @@
-"""
+﻿"""
 Domain Bulk Learner (The Sower)
 ===============================
 ""The seed must be planted before the forest can grow.""
@@ -18,7 +18,7 @@ import time
 # Add root directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
+from Core._04_Evolution._02_Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
 
 logger = logging.getLogger("DomainBulkLearner")
 
@@ -113,3 +113,4 @@ class DomainBulkLearner:
 if __name__ == "__main__":
     learner = DomainBulkLearner()
     learner.sow_seeds()
+

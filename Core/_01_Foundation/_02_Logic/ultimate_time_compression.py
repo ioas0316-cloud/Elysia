@@ -31,7 +31,7 @@ logging.basicConfig(
 )
 
 # 원래 시스템들 import
-from Core._01_Foundation._04_Governance.Foundation.spacetime_drive import SpaceTimeDrive
+from Core._01_Foundation._02_Logic.spacetime_drive import SpaceTimeDrive
 from Legacy.Language.time_accelerated_language import InfinitelyAcceleratedLanguageEngine
 
 print("\n" + "="*80)

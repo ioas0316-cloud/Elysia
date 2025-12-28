@@ -18,7 +18,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse, InternalCoordinate
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse, InternalCoordinate
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO)

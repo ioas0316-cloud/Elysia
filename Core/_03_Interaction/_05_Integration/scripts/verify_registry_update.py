@@ -14,7 +14,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, r"c:\Elysia")
 
-from Core._01_Foundation._04_Governance.Foundation.system_registry import get_system_registry
+from Core._01_Foundation._02_Logic.system_registry import get_system_registry
 
 def verify_registry():
     print("🔍 Scanning Registry for Fractal Identities...")

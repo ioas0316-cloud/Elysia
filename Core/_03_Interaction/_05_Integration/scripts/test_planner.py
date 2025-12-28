@@ -11,8 +11,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation._04_Governance.Foundation.planning_cortex import PlanningCortex, Goal, PlanStep
-from Core._01_Foundation._04_Governance.Foundation.unified_field import WavePacket, HyperQuaternion
+from Core._01_Foundation._02_Logic.planning_cortex import PlanningCortex, Goal, PlanStep
+from Core._01_Foundation._02_Logic.unified_field import WavePacket, HyperQuaternion
 
 def test_planner():
     print("📐 Initializing Planning Cortex Test...")

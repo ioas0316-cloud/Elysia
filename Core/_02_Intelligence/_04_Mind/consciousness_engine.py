@@ -55,15 +55,15 @@ class Elysia:
                 logger.warning(f"⚠️ Inner Voice unavailable: {e}")
         
         # 1. Foundation & System (신체)
-        from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
-        from Core._01_Foundation._04_Governance.Foundation.tensor_dynamics import TensorDynamics
+        from Core._01_Foundation._02_Logic.resonance_field import ResonanceField
+        from Core._01_Foundation._02_Logic.tensor_dynamics import TensorDynamics
         self.resonance_field = ResonanceField()
         self.physics = TensorDynamics(root_path=self.project_root)
         
         # 2. Intelligence (지성)
         from Core._02_Intelligence._01_Reasoning.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
         from Core._02_Intelligence._01_Reasoning.Intelligence.Intelligence.Logos.causality_seed import CausalitySeed
-        from Core._01_Foundation._02_Logic.Philosophy.nature_of_being import PhilosophyOfFlow
+        from Core._01_Foundation._02_Logic.nature_of_being import PhilosophyOfFlow
         
         self.will = FreeWillEngine(project_root=str(self.project_root))
         self.logos = CausalitySeed()
@@ -80,7 +80,7 @@ class Elysia:
         self.galaxy = Galaxy(project_root=self.project_root)
         
         # 5. Interface (소통)
-        from Core._03_Interaction._02_Interface.Interface.Interface.conversation_engine import ConversationEngine
+        from Core._03_Interaction._02_Interface.Interface.conversation_engine import ConversationEngine
         self.voice = ConversationEngine()
         
         # 상태 플래그

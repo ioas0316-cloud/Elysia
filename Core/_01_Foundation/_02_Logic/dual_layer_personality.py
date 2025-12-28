@@ -1,4 +1,4 @@
-"""
+﻿"""
 Dual-Layer Personality System (2계층 성격 시스템)
 ==================================================
 
@@ -25,8 +25,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
-    from Core._01_Foundation._04_Governance.Foundation.light_spectrum import LightUniverse, get_light_universe
+    from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
+    from Core._01_Foundation._02_Logic.light_spectrum import LightUniverse, get_light_universe
 except ImportError:
     WaveTensor = None
     LightUniverse = None
@@ -434,3 +434,4 @@ if __name__ == "__main__":
     print(f"   Layer 2: {personality.acquired.get_summary()['all']}")
     
     print("\n✅ Demo complete!")
+

@@ -10,7 +10,7 @@ Real World Sensors (실세계 센서)
 3. TimeAwareness - 시간 인식 (현재 시각, 요일, 계절)
 
 사용법:
-    from Core._01_Foundation._04_Governance.Foundation.real_sensors import RealWeatherSense, SystemMetricsSense
+    from Core._01_Foundation._02_Logic.real_sensors import RealWeatherSense, SystemMetricsSense
     
     weather = RealWeatherSense()
     event = weather.sense()

@@ -19,9 +19,9 @@ from typing import List, Dict, Set
 # Add parent directory to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
+from Core._02_Intelligence._02_Memory.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.resonance_field import ResonanceField
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')

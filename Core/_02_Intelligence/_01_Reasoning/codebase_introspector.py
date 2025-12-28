@@ -6,7 +6,7 @@ Elysia가 자신의 코드베이스를 이해하고 탐색할 수 있게 하는 
 기존 CodeDNA 시스템과 연동하여 작동합니다.
 
 Usage:
-    from Core._02_Intelligence._01_Reasoning.Cognition.codebase_introspector import CodebaseIntrospector
+    from Core._02_Intelligence._01_Reasoning.codebase_introspector import CodebaseIntrospector
     
     introspector = CodebaseIntrospector()
     structure = introspector.explore_structure()

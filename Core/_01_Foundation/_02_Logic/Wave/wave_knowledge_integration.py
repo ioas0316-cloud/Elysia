@@ -23,10 +23,10 @@ from typing import Dict, List, Any, Optional, TYPE_CHECKING
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._01_Foundation._04_Governance.Foundation.wave_semantic_search import WaveSemanticSearch
+from Core._01_Foundation._02_Logic.wave_semantic_search import WaveSemanticSearch
 
 if TYPE_CHECKING:
-    from Core._01_Foundation._04_Governance.Foundation.unified_knowledge_system import (
+    from Core._01_Foundation._02_Logic.unified_knowledge_system import (
         UnifiedKnowledgeSystem,
         KnowledgeEntry,
         KnowledgeType,
@@ -37,7 +37,7 @@ logger = logging.getLogger("WaveKnowledgeIntegration")
 
 # Try to import knowledge system components
 try:
-    from Core._01_Foundation._04_Governance.Foundation.unified_knowledge_system import (
+    from Core._01_Foundation._02_Logic.unified_knowledge_system import (
         UnifiedKnowledgeSystem,
         KnowledgeEntry,
         KnowledgeType,

@@ -52,7 +52,7 @@ print("="*70)
 print()
 
 # 최종 평가
-from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._02_Intelligence._02_Memory.web_knowledge_connector import WebKnowledgeConnector
 
 connector = WebKnowledgeConnector()
 if hasattr(connector, 'comm_enhancer'):

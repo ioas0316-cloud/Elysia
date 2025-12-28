@@ -15,7 +15,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from Core._01_Foundation._01_Core_Logic.Elysia.Elysia.World.yggdrasil import Yggdrasil
-from Core._01_Foundation._04_Governance.Foundation.Physics.gravity import GravityEngine
+from Core._01_Foundation._02_Logic.Physics.gravity import GravityEngine
 
 # Alias for backward compatibility in this demo
 RealmGravity = GravityEngine

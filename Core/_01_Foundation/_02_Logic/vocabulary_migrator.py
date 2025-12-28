@@ -92,7 +92,7 @@ class VocabularyMigrator:
                 "stats": {...}
             }
         """
-        from Core._01_Foundation._04_Governance.Foundation.wave_interpreter import WavePattern
+        from Core._01_Foundation._02_Logic.wave_interpreter import WavePattern
         
         vocabulary = {}
         

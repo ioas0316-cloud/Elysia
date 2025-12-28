@@ -26,7 +26,7 @@ logger = logging.getLogger("SoulCore")
 
 # Try to import compression systems
 try:
-    from Core._02_Intelligence._02_Memory_Linguistics.Memory.prism_filter import PrismFilter, RainbowSpectrum
+    from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.prism_filter import PrismFilter, RainbowSpectrum
     PRISM_AVAILABLE = True
 except ImportError:
     PRISM_AVAILABLE = False

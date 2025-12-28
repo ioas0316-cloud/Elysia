@@ -93,7 +93,7 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             
             try:
-                from Core._03_Interaction._02_Interface.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
+                from Core._03_Interaction._02_Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
                 import random
                 import time
                 
@@ -247,7 +247,7 @@ class VisualizerServer:
         self.port = port
         # Phase 21: The Incarnation - Single NervousSystem Entry Point
         # The NervousSystem is the dimensional membrane (자아) between Mind and World
-        from Core._03_Interaction._02_Interface.Interface.nervous_system import get_nervous_system
+        from Core._03_Interaction._02_Interface.nervous_system import get_nervous_system
         self.nervous_system = get_nervous_system()
         logger.info("🦴 NervousSystem Active: Dimensional Membrane Established")
         
@@ -260,7 +260,7 @@ class VisualizerServer:
         
         # Initialize external action capabilities
         try:
-            from Core._01_Foundation._04_Governance.Foundation.shell_cortex import ShellCortex
+            from Core._01_Foundation._02_Logic.shell_cortex import ShellCortex
             self.hands = ShellCortex()
         except: pass
         
@@ -276,7 +276,7 @@ class VisualizerServer:
 
         # Phase 5: Reality Perception System Integration
         try:
-            from Core._03_Interaction._02_Interface.Sensory.reality_perception import RealityPerceptionSystem
+            from Core._03_Interaction._02_Interface._01_Sensory.reality_perception import RealityPerceptionSystem
             self.perception_system = RealityPerceptionSystem()
             logger.info("👁️ Reality Perception System Connected to Avatar")
         except ImportError as e:
@@ -430,7 +430,7 @@ class VisualizerServer:
         logger.info(f"🌊 Wave Stream active at ws://localhost:8765")
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse 
+    from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse 
     # Mock world for standalone run, but NervousSystem will be real
     class MockWorld:
         def __init__(self): self.field = None

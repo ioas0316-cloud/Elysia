@@ -22,7 +22,7 @@ from enum import Enum
 # Add project root to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core._01_Foundation._04_Governance.Foundation.Wave.wave_interference import (
+from Core._01_Foundation._02_Logic.Wave.wave_interference import (
     Wave, WaveInterference, InterferenceResult, InterferenceType
 )
 

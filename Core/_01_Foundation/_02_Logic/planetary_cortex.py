@@ -21,7 +21,7 @@ import logging
 import random
 import uuid
 
-from Core._01_Foundation._04_Governance.Foundation.ether import ether, Wave
+from Core._01_Foundation._02_Logic.ether import ether, Wave
 
 logger = logging.getLogger("PlanetaryCortex")
 

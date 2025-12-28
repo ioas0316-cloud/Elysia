@@ -5,7 +5,7 @@ StructureDocumentGenerator: 구조 분석 결과를 문서로 생성
 분석 결과를 마크다운 문서, Mermaid 다이어그램, 구조화된 JSON으로 생성합니다.
 
 Usage:
-    from Core._02_Intelligence._01_Reasoning.Cognition.structure_document_generator import StructureDocumentGenerator
+    from Core._02_Intelligence._01_Reasoning.structure_document_generator import StructureDocumentGenerator
     
     generator = StructureDocumentGenerator()
     doc = generator.generate_folder_overview("Core/Foundation")
@@ -20,8 +20,8 @@ from datetime import datetime
 
 # 동일 패키지의 다른 모듈 import
 try:
-    from Core._02_Intelligence._01_Reasoning.Cognition.codebase_introspector import get_introspector, CodebaseIntrospector
-    from Core._02_Intelligence._01_Reasoning.Cognition.why_how_explainer import get_explainer, WhyHowExplainer
+    from Core._02_Intelligence._01_Reasoning.codebase_introspector import get_introspector, CodebaseIntrospector
+    from Core._02_Intelligence._01_Reasoning.why_how_explainer import get_explainer, WhyHowExplainer
 except ImportError:
     # 직접 실행 시
     from codebase_introspector import get_introspector, CodebaseIntrospector

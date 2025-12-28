@@ -1,4 +1,4 @@
-"""
+﻿"""
 Sensory Reflex System (The Spinal Cord)
 =======================================
 "감각은 감정이 되고, 감정은 목소리가 된다."
@@ -18,7 +18,7 @@ import random
 from typing import Dict, Any
 
 from Core._02_Intelligence._04_Consciousness.Ether.global_hub import get_global_hub, WaveEvent
-from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
 from Core._02_Intelligence._01_Reasoning.Intelligence.logos_engine import LogosEngine
 
 logger = logging.getLogger("Elysia.Cognitive.SensoryReflex")
@@ -155,3 +155,4 @@ def get_sensory_reflex() -> SensoryReflex:
     if _reflex is None:
         _reflex = SensoryReflex()
     return _reflex
+

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Autonomous Orchestrator (자율 오케스트레이터)
 =============================================
 
@@ -105,7 +105,7 @@ class AutonomousOrchestrator:
         # Unified Dialogue
         self.dialogue = None
         try:
-            from Core._03_Interaction._02_Interface.Interface.unified_dialogue import get_unified_dialogue
+            from Core._03_Interaction._02_Interface.unified_dialogue import get_unified_dialogue
             self.dialogue = get_unified_dialogue()
             logger.info("   ✅ UnifiedDialogue connected")
         except ImportError as e:
@@ -123,7 +123,7 @@ class AutonomousOrchestrator:
         # Introspection Engine
         self.introspection = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.introspection_engine import IntrospectionEngine
+            from Core._01_Foundation._02_Logic.introspection_engine import IntrospectionEngine
             self.introspection = IntrospectionEngine()
             logger.info("   ✅ IntrospectionEngine connected")
         except ImportError as e:
@@ -132,7 +132,7 @@ class AutonomousOrchestrator:
         # Text Wave Converter
         self.text_wave = None
         try:
-            from Core._01_Foundation._04_Governance.Foundation.text_wave_converter import get_text_wave_converter
+            from Core._01_Foundation._02_Logic.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("   ✅ TextWaveConverter connected")
         except ImportError as e:
@@ -161,7 +161,7 @@ class AutonomousOrchestrator:
         
         if self._hub:
             try:
-                from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+                from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(frequency=528.0, amplitude=1.0, phase=0.0)
                 self._hub.publish_wave(
                     "AutonomousOrchestrator",
@@ -195,7 +195,7 @@ class AutonomousOrchestrator:
         try:
             # 1. Connect to Hierarchical Knowledge Graph
             try:
-                from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+                from Core._04_Evolution._02_Learning.hierarchical_learning import HierarchicalKnowledgeGraph
                 kg = HierarchicalKnowledgeGraph()
                 self.state.knowledge_gaps = [n.name for n in kg.get_knowledge_gaps(limit=5)]
                 logger.info(f"   🧠 Identified gaps: {self.state.knowledge_gaps}")
@@ -430,3 +430,5 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print("✅ Demo complete. Use start_daemon() for 24/7 operation.")
     print("="*60)
+
+

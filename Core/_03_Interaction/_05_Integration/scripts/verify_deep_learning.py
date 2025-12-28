@@ -1,10 +1,10 @@
-
+﻿
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._04_Evolution._02_Learning.Learning.autonomous_learner import AutonomousLearner
-from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
+from Core._04_Evolution._02_Learning.autonomous_learner import AutonomousLearner
+from Core._04_Evolution._02_Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
 
 def verify_deep_learning():
     print("🔬 Verifying Deep Knowledge Resonance...")
@@ -54,3 +54,4 @@ def verify_deep_learning():
 
 if __name__ == "__main__":
     verify_deep_learning()
+

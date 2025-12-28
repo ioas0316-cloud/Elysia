@@ -8,7 +8,7 @@ except Exception:
     Telemetry = None
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.safety_guardian import SafetyGuardian, ActionCategory
+    from Core._01_Foundation._02_Logic.safety_guardian import SafetyGuardian, ActionCategory
 except Exception:
     SafetyGuardian = None
     ActionCategory = None

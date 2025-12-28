@@ -19,8 +19,8 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._01_Foundation._04_Governance.Foundation.external_data_connector import ExternalDataConnector
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+from Core._03_Interaction._04_Network.external_data_connector import ExternalDataConnector
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
 
 logger = logging.getLogger("WebKnowledgeConnector")
 
@@ -114,7 +114,7 @@ class WebKnowledgeConnector:
             
             # **NEW**: Enhance communication ability
             try:
-                from Core._01_Foundation._04_Governance.Foundation.communication_enhancer import CommunicationEnhancer
+                from Core._01_Foundation._02_Logic.communication_enhancer import CommunicationEnhancer
                 
                 if not hasattr(self, 'comm_enhancer'):
                     self.comm_enhancer = CommunicationEnhancer()

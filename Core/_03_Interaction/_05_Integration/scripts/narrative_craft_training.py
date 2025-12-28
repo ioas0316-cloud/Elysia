@@ -1,4 +1,4 @@
-"""
+﻿"""
 Full Narrative Craft Training (서사 기법 전체 학습)
 ===================================================
 
@@ -12,8 +12,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._04_Evolution._02_Learning.Learning.narrative_craft_learner import NarrativeCraftLearner
-from Core._04_Evolution._02_Learning.Learning.experiential_data_processor import ExperientialDataProcessor
+from Core._04_Evolution._02_Learning.narrative_craft_learner import NarrativeCraftLearner
+from Core._04_Evolution._02_Learning.experiential_data_processor import ExperientialDataProcessor
 from data.corpus.stories.extended_fantasy_stories import (
     get_extended_fantasy_stories,
     get_deep_emotional_stories,
@@ -98,3 +98,4 @@ def run_full_training():
 
 if __name__ == "__main__":
     run_full_training()
+

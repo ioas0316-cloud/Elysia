@@ -9,8 +9,8 @@ by observing good examples (or her own successful moments).
 import logging
 import json
 from typing import Optional, Dict, Any
-from Project_Elysia.core_memory import CoreMemory
-from Core._01_Foundation._04_Governance.Foundation.gemini_api import generate_text
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
+from Core._03_Interaction._04_Network.gemini_api import generate_text
 
 class StyleLearner:
     def __init__(self, core_memory: CoreMemory):

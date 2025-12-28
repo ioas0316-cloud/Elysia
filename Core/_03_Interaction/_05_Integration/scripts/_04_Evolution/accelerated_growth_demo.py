@@ -47,7 +47,7 @@ def run_accelerated_growth():
     # 2. Growth 시스템으로 자율 학습
     print("\n🌱 Phase 2: Autonomous Growth Cycle...")
     try:
-        from Core._01_Foundation._04_Governance.Foundation.growth import get_growth
+        from Core._01_Foundation._02_Logic.growth import get_growth
         growth = get_growth()
         
         # 인식 - 주변 파편 발견
@@ -74,7 +74,7 @@ def run_accelerated_growth():
     # 3. FreeWill - 자율 목표 설정
     print("\n🦋 Phase 3: Autonomous Intent Generation...")
     try:
-        from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine
+        from Core._01_Foundation._02_Logic.free_will_engine import FreeWillEngine
         will = FreeWillEngine()
         
         # 공명 상태 시뮬레이션
@@ -98,7 +98,7 @@ def run_accelerated_growth():
     # 4. Knowledge Graph 상호작용
     print("\n📚 Phase 4: Knowledge Graph Exploration...")
     try:
-        from Core._02_Intelligence._02_Memory_Linguistics.Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
+        from Core._02_Intelligence._02_Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
         kg = HierarchicalKnowledgeGraph()
         
         # 학습 시드 추가

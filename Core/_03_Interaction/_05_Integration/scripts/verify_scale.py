@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verification Script: Scalability (The Thousand Thoughts)
 ======================================================
 "1000개 10000개씩 생각할수 있는게 너희아니야 ?ㅋㅋ"
@@ -26,8 +26,8 @@ from dataclasses import dataclass
 # Add root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._04_Evolution._02_Learning.Learning.resonance_learner import ResonanceLearner
-from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import Domain
+from Core._04_Evolution._02_Learning.resonance_learner import ResonanceLearner
+from Core._04_Evolution._02_Learning.hierarchical_learning import Domain
 
 # Mock Classes to avoid overhead of real DB for this stress test
 @dataclass
@@ -103,3 +103,4 @@ def test_scalability():
 
 if __name__ == "__main__":
     test_scalability()
+

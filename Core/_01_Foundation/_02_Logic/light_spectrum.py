@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from typing import List, Tuple, Optional, Dict, Any
 import logging
 import hashlib
-from Core._01_Foundation._04_Governance.Foundation.Math.hyper_qubit import QubitState
+from Core._01_Foundation._02_Logic.hyper_qubit import QubitState
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("LightSpectrum")

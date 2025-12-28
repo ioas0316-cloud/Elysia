@@ -12,7 +12,7 @@ Question Analyzer (질문 분석기)
 5. COMPARISON (비교): X와 Y의 차이는?
 
 Usage:
-    from Core._02_Intelligence._01_Reasoning.Cognition.question_analyzer import analyze_question
+    from Core._02_Intelligence._01_Reasoning.question_analyzer import analyze_question
     
     result = analyze_question("비가 오면 왜 우산을 쓰는가?")
     print(result.question_type)  # CONDITIONAL

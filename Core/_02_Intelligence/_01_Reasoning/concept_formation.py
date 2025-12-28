@@ -21,7 +21,7 @@ import os
 from pathlib import Path
 
 # Domains
-from Core._01_Foundation._02_Logic.Philosophy.aesthetic_principles import AestheticVector, AestheticWisdom, get_aesthetic_wisdom
+from Core._01_Foundation._02_Logic.aesthetic_principles import AestheticVector, AestheticWisdom, get_aesthetic_wisdom
 from Core._02_Intelligence._01_Reasoning.Cognitive.memory_stream import MemoryStream, get_memory_stream, ExperienceType
 
 @dataclass

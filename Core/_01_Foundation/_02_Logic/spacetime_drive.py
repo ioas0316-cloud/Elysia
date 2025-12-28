@@ -18,7 +18,7 @@ This module unifies the 10 Mathematical Systems of Elysia's Physics Engine:
 
 Restored from Legacy Protocols:
 - `Project_Sophia.warp_layer`
-- `Project_Elysia.core.hyper_qubit`
+- `Core.hyper_qubit`
 - `Project_Sophia.wave_mechanics`
 """
 

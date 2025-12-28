@@ -30,13 +30,13 @@ from typing import Optional, List
 
 
 
-from Core._01_Foundation._04_Governance.Foundation.safety_guardian import SafetyGuardian
+from Core._01_Foundation._02_Logic.safety_guardian import SafetyGuardian
 
-from Core._01_Foundation._04_Governance.Foundation.experience_logger import log_experience, EXPERIENCE_LOG
+from Core._01_Foundation._02_Logic.experience_logger import log_experience, EXPERIENCE_LOG
 
-from Core._01_Foundation._04_Governance.Foundation.experience_integrator import ExperienceIntegrator
+from Core._01_Foundation._02_Logic.experience_integrator import ExperienceIntegrator
 
-from Core._01_Foundation._04_Governance.Foundation.self_awareness_core import SelfAwarenessCore
+from Core._01_Foundation._02_Logic.self_awareness_core import SelfAwarenessCore
 
 from .memory_weaver import MemoryWeaver
 
@@ -44,7 +44,7 @@ from .core_memory import CoreMemory, Memory
 
 from tools.kg_manager import KGManager
 
-from Core._01_Foundation._04_Governance.Foundation.logical_reasoner import LogicalReasoner # Import LogicalReasoner
+from Core._01_Foundation._02_Logic.logical_reasoner import LogicalReasoner # Import LogicalReasoner
 
 from nano_core.bus import MessageBus
 
@@ -52,46 +52,46 @@ from nano_core.scheduler import Scheduler
 
 from nano_core.registry import ConceptRegistry
 
-from Core._01_Foundation._04_Governance.Foundation.exploration_cortex import ExplorationCortex
+from Core._01_Foundation._02_Logic.exploration_cortex import ExplorationCortex
 
-from Core._01_Foundation._04_Governance.Foundation.web_search_cortex import WebSearchCortex
+from Core._01_Foundation._02_Logic.web_search_cortex import WebSearchCortex
 
-from Core._01_Foundation._04_Governance.Foundation.knowledge_distiller import KnowledgeDistiller
+from Core._01_Foundation._02_Logic.knowledge_distiller import KnowledgeDistiller
 
-from Core._01_Foundation._04_Governance.Foundation.self_verifier import SelfVerifier, VerificationResult
+from Core._01_Foundation._02_Logic.self_verifier import SelfVerifier, VerificationResult
 
-from Core._01_Foundation._04_Governance.Foundation.core.world import World
+from Core._04_Evolution._01_Growth.world import World
 
-from Core._01_Foundation._04_Governance.Foundation.core.cell import Cell
+from Core._01_Foundation._02_Logic.core.cell import Cell
 
-from Core._01_Foundation._04_Governance.Foundation.wave_mechanics import WaveMechanics
+from Core._01_Foundation._02_Logic.wave_mechanics import WaveMechanics
 
-from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalEngine
+from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalEngine
 
-from Core._01_Foundation._04_Governance.Foundation.meta_cognition_cortex import MetaCognitionCortex
+from Core._01_Foundation._02_Logic.meta_cognition_cortex import MetaCognitionCortex
 
-from Core._01_Foundation._04_Governance.Foundation.core.alchemy_cortex import AlchemyCortex
+from Core._01_Foundation._02_Logic.core.alchemy_cortex import AlchemyCortex
 
 from Project_Mirror.creative_expression import CreativeExpression
 from Project_Mirror.external_sensory_cortex import ExternalSensoryCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
-from Core._01_Foundation._04_Governance.Foundation.sensory_motor_cortex import SensoryMotorCortex
-from Core._01_Foundation._04_Governance.Foundation.core.external_horizons import ExternalHorizon
-from Core._01_Foundation._04_Governance.Foundation.core.monologue_generator import MonologueGenerator
+from Core._01_Foundation._02_Logic.sensory_motor_cortex import SensoryMotorCortex
+from Core._01_Foundation._02_Logic.core.external_horizons import ExternalHorizon
+from Core._01_Foundation._02_Logic.core.monologue_generator import MonologueGenerator
 from Project_Elysia.manifestation_cortex import ManifestationCortex
 from Project_Elysia.dream_observer import DreamObserver
-from Project_Elysia.core.cell_memory_store import CellMemoryStore
+from Core.cell_memory_store import CellMemoryStore
 from Project_Elysia.high_engine.self_intention_engine import SelfIntentionEngine
 from Project_Elysia.high_engine.self_identity_engine import SelfIdentityEngine
-from Core._01_Foundation._04_Governance.Foundation.world_tree import WorldTree
-from Core._01_Foundation._04_Governance.Foundation.cell_world import CellWorld
-from Core._01_Foundation._04_Governance.Foundation.value_cortex import ValueCortex
+from Core._01_Foundation._02_Logic.world_tree import WorldTree
+from Core._01_Foundation._02_Logic.cell_world import CellWorld
+from Core._01_Foundation._02_Logic.value_cortex import ValueCortex
 from Project_Elysia.elysia_daemon import ElysiaDaemon
 
-from Project_Elysia.core_memory import EmotionalState
+from Core_memory import EmotionalState
 
 from Project_Elysia.high_engine.quaternion_engine import QuaternionConsciousnessEngine, LensMode, HyperMode
-from Project_Elysia.core.hyper_qubit import HyperQubit
+from Core.hyper_qubit import HyperQubit
 
 
 PRIMORDIAL_DNA = {
@@ -1182,7 +1182,7 @@ class Guardian:
 
                     # A more mature implementation might use a dedicated method in SensoryCortex.
 
-                    from Core._01_Foundation._04_Governance.Foundation.gemini_api import generate_image_from_text
+                    from Core._03_Interaction._04_Network.gemini_api import generate_image_from_text
 
                     success = generate_image_from_text(image_prompt, dream_image_path)
 

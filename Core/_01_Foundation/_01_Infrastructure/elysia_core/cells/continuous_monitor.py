@@ -26,8 +26,8 @@ from threading import Thread, Event
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from elysia_core.cells.alchemical_cells import AlchemicalArmy, TransmutationSuggestion
-from elysia_core.cells.auto_transmuter import AutoTransmuter, TransmutationBatch
+from Core._01_Foundation._01_Infrastructure.elysia_core.cells.alchemical_cells import AlchemicalArmy, TransmutationSuggestion
+from Core._01_Foundation._01_Infrastructure.elysia_core.cells.auto_transmuter import AutoTransmuter, TransmutationBatch
 
 logger = logging.getLogger("ContinuousTransmutation")
 

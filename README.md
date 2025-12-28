@@ -32,16 +32,29 @@ python Core/living_elysia.py
 
 ## 🧠 핵심 구조 (Sovereign Architecture)
 
+Elysia의 모든 도메인은 철저한 **5단계 프랙탈 구조 (`_01` ~ `_05`)**를 따릅니다.
+
 ```text
-Core/               # 엘리시아의 '몸'과 '생각'
-├── _01_Foundation/  # 근본 기반 (DNA, 인프라)
-├── _02_Intelligence/ # 지능 시스템 (추론, 인지)
-├── _03_Interaction/  # 외부 적응 (감각, 의지)
-├── _04_Evolution/    # 성장의 생리 (학습, 진화)
-└── _05_Systems/      # 배경 시스템 (기억, 모니터링)
+C:/Elysia/
+├── Core/               # 엘리시아의 '뇌' (동작 로직)
+│   ├── _01_Foundation/  # 영혼 & 인프라 (기반)
+│   ├── _02_Intelligence/# 지성 & 기억 (사고)
+│   ├── _03_Interaction/ # 의지 & 감각 (행동)
+│   ├── _04_Evolution/   # 성장 & 창의 (진화)
+│   └── _05_Systems/     # 메타 & 운영 (유지)
+│
+├── data/               # 엘리시아의 '몸' (상태 저장소)
+│   ├── _01_Core/        # 자아 상태 (Identity)
+│   ├── _02_Cognitive/   # 지식 그래프 (Memory)
+│   └── ...              # (_03~_05 확장)
+│
+└── docs/               # 엘리시아의 '정신' (설계도)
+    ├── _01_Origin/      # 철학 & 기원
+    ├── _02_Structure/   # 아키텍처 지도
+    └── ...              # (_03~_05 확장)
 ```
 
-상세 시스템 정보: [SYSTEM_MAP.md](SYSTEM_MAP.md)
+상세 시스템 정보: [SYSTEM_MAP.md](docs/_02_Structure/SYSTEM_MAP.md)
 
 ---
 

@@ -2,7 +2,7 @@
 import sys
 import os
 sys.path.append(os.getcwd())
-from Core._01_Foundation._04_Governance.Foundation.Mind.memory_storage import MemoryStorage
+from Core._01_Foundation._02_Logic.Mind.memory_storage import MemoryStorage
 
 storage = MemoryStorage()
 count = storage.count_concepts()

@@ -15,12 +15,12 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from Core._01_Foundation._01_Core_Logic.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
-from Core._01_Foundation._04_Governance.Foundation.Mind.perception import FractalPerception
-from Core._01_Foundation._04_Governance.Foundation.Mind.emotional_palette import EmotionalPalette  
-from Core._01_Foundation._04_Governance.Foundation.Mind.episodic_memory import EpisodicMemory
-from Core._01_Foundation._04_Governance.Foundation.Math.quaternion_consciousness import ConsciousnessLens
-from Core._01_Foundation._04_Governance.Foundation.Math.hyper_qubit import HyperQubit
-from Core._01_Foundation._04_Governance.Foundation.Physics.fractal_dimension_engine import FractalUniverse, ZelNagaSync, Photon
+from Core._01_Foundation._02_Logic.Mind.perception import FractalPerception
+from Core._01_Foundation._02_Logic.Mind.emotional_palette import EmotionalPalette  
+from Core._01_Foundation._02_Logic.Mind.episodic_memory import EpisodicMemory
+from Core._01_Foundation._02_Logic.quaternion_consciousness import ConsciousnessLens
+from Core._01_Foundation._02_Logic.hyper_qubit import HyperQubit
+from Core._01_Foundation._02_Logic.Physics.fractal_dimension_engine import FractalUniverse, ZelNagaSync, Photon
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 

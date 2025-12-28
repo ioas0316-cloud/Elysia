@@ -21,7 +21,7 @@ import tempfile
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core._01_Foundation._02_Logic.fractal_quantization import EmotionQuantizer, PatternDNA
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
 import logging
 
 # Set up logging

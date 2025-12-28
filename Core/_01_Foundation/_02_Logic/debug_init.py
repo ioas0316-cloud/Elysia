@@ -13,7 +13,7 @@ print("--- Debugging Initialization ---")
 
 try:
     print("1. Initializing Alchemy...")
-    from Core._01_Foundation._04_Governance.Foundation.Mind.alchemy import Alchemy
+    from Core._01_Foundation._02_Logic.Mind.alchemy import Alchemy
     alchemy = Alchemy()
     print("✅ Alchemy initialized.")
 except Exception as e:
@@ -23,7 +23,7 @@ except Exception as e:
 
 try:
     print("\n2. Initializing Hippocampus...")
-    from Core._01_Foundation._04_Governance.Foundation.Mind.hippocampus import Hippocampus
+    from Core._01_Foundation._02_Logic.Mind.hippocampus import Hippocampus
     hippocampus = Hippocampus()
     print("✅ Hippocampus initialized.")
 except Exception as e:
@@ -33,7 +33,7 @@ except Exception as e:
 
 try:
     print("\n3. Initializing FluctlightEngine...")
-    from Core._01_Foundation._04_Governance.Foundation.Physics.fluctlight import FluctlightEngine
+    from Core._01_Foundation._02_Logic.Physics.fluctlight import FluctlightEngine
     engine = FluctlightEngine(world_size=256)
     print("✅ FluctlightEngine initialized.")
 except Exception as e:

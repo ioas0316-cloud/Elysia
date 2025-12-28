@@ -12,10 +12,10 @@ import sys
 import os
 sys.path.append('.')
 
-from Core._01_Foundation._04_Governance.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._02_Logic.reasoning_engine import ReasoningEngine
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
+from Core._02_Intelligence._02_Memory.web_knowledge_connector import WebKnowledgeConnector
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
 
 print("="*70)

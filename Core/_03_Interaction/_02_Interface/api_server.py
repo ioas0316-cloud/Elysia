@@ -14,10 +14,10 @@ from datetime import datetime, timezone
 import uvicorn
 
 # Import Elysia modules
-from Core._01_Foundation._04_Governance.Foundation.elysia_logger import ElysiaLogger
-from Core._01_Foundation._04_Governance.Foundation.error_handler import error_handler
-from Core._01_Foundation._04_Governance.Foundation.config import get_config
-from Core._01_Foundation._04_Governance.Foundation.performance_monitor import monitor
+from Core._01_Foundation._02_Logic.elysia_logger import ElysiaLogger
+from Core._01_Foundation._02_Logic.error_handler import error_handler
+from Core._01_Foundation._02_Logic.config import get_config
+from Core._01_Foundation._02_Logic.performance_monitor import monitor
 
 # Initialize
 logger = ElysiaLogger("APIServer")

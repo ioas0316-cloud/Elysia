@@ -40,7 +40,7 @@ from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 # [LOGIC TRANSMUTATION] Unified Wave Storage
 # Import definitions from HolographicMemory to merge systems
 try:
-    from Core._02_Intelligence._02_Memory_Linguistics.Memory.holographic_memory import KnowledgeLayer
+    from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.holographic_memory import KnowledgeLayer
 except ImportError:
     # Fallback if module missing during refactor
     from enum import Enum
@@ -135,7 +135,7 @@ class InternalUniverse:
         # [Phase 11] Apply Wave Interference for multiple matches
         if len(hits) > 1:
             try:
-                from Core._01_Foundation._04_Governance.Foundation.Wave.wave_interference import WaveInterference
+                from Core._01_Foundation._02_Logic.Wave.wave_interference import WaveInterference
                 interference_engine = WaveInterference()
                 hits = interference_engine.process_multiple_matches(hits, self.coordinate_map)
                 logger.debug(f"🌊 Wave Interference applied to {len(results)} resonant concepts")
@@ -555,7 +555,7 @@ class InternalUniverse:
             # === 1차: 파동 변환 ===
 
             # === 1차: 파동 변환 (Self-Correction: Used ConceptDecomposer) ===
-            from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptDecomposer
+            from Core._01_Foundation._02_Logic.fractal_concept import ConceptDecomposer
             
             decomposer = ConceptDecomposer()
             # Infer essence
@@ -751,8 +751,8 @@ class InternalUniverse:
         "기존 감각 시스템과의 통합. 분절된 기능들의 조화."
         """
         import random
-        from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
-        from Core._01_Foundation._04_Governance.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
+        from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
+        from Core._01_Foundation._02_Logic.synesthesia_engine import SynesthesiaEngine, RenderMode
         from Core._02_Intelligence._01_Reasoning.Cognitive.sensory_cortex import get_sensory_cortex
         
         logger.info(f"⏳ Initiating Chronos Chamber V5: Simulating {years} years with INTEGRATED SENSORIUM...")

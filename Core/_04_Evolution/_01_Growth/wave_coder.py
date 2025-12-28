@@ -17,8 +17,8 @@ import logging
 import ast
 import os
 from typing import Dict, List, Optional
-from Core._01_Foundation._04_Governance.Foundation.torch_graph import get_torch_graph
-from Core._01_Foundation._04_Governance.Foundation.self_reflector import SelfReflector, CodeMetrics
+from Core._01_Foundation._02_Logic.torch_graph import get_torch_graph
+from Core._01_Foundation._02_Logic.self_reflector import SelfReflector, CodeMetrics
 
 logger = logging.getLogger("WaveCoder")
 

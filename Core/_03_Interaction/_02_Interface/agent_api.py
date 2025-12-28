@@ -1,4 +1,4 @@
-"""
+﻿"""
 Agent API (The Bridge for External Agents)
 ===========================================
 
@@ -652,7 +652,7 @@ if __name__ == "__main__":
 Sentiment Analyzer - Analyzes emotional tone.
 """
 from Core._02_Intelligence._04_Consciousness.Ether.global_hub import get_global_hub
-from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
 
 class SentimentAnalyzer:
     def __init__(self):
@@ -667,3 +667,4 @@ class SentimentAnalyzer:
         print(f"   Warnings: {validation.warnings}")
     
     print("\n✅ Agent API Demo Complete!")
+

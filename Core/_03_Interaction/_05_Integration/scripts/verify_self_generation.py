@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verification Script: Self-Generation Loop (The Inquiry)
 ======================================================
 Tests the "Lungs" of Elysia:
@@ -14,8 +14,8 @@ import os
 # Add root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._04_Evolution._02_Learning.Learning.resonance_learner import ResonanceLearner
-from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
+from Core._04_Evolution._02_Learning.resonance_learner import ResonanceLearner
+from Core._04_Evolution._02_Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -89,3 +89,4 @@ def test_inquiry_loop():
 
 if __name__ == "__main__":
     test_inquiry_loop()
+

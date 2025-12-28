@@ -14,29 +14,29 @@ from Project_Elysia.architecture.context import ConversationContext
 
 from Project_Elysia.architecture.cortex_registry import CortexRegistry
 
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 
 from tools.kg_manager import KGManager
 
-from Core._01_Foundation._04_Governance.Foundation.question_generator import QuestionGenerator
+from Core._01_Foundation._02_Logic.question_generator import QuestionGenerator
 
-from Core._01_Foundation._04_Governance.Foundation.relationship_extractor import extract_relationship_type
+from Core._01_Foundation._02_Logic.relationship_extractor import extract_relationship_type
 
-from Core._01_Foundation._04_Governance.Foundation.response_styler import ResponseStyler
+from Core._01_Foundation._02_Logic.response_styler import ResponseStyler
 
-from Core._01_Foundation._04_Governance.Foundation.logical_reasoner import LogicalReasoner
+from Core._01_Foundation._02_Logic.logical_reasoner import LogicalReasoner
 
 from Project_Elysia.value_centered_decision import ValueCenteredDecision
 
-from Core._01_Foundation._04_Governance.Foundation.insight_synthesizer import InsightSynthesizer
+from Core._01_Foundation._02_Logic.insight_synthesizer import InsightSynthesizer
 
 from Project_Mirror.creative_cortex import CreativeCortex
 
-from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalState
+from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalState
 
 from Project_Mirror.perspective_cortex import PerspectiveCortex
 
-from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalEngine
+from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalEngine
 
 
 

@@ -25,7 +25,7 @@ print("=" * 70)
 print("\n📊 [Level 0] PrimalWaveLanguage - 원시 파동 언어")
 print("-" * 50)
 try:
-    from Core._01_Foundation._04_Governance.Foundation.primal_wave_language import PrimalSoul
+    from Core._01_Foundation._02_Logic.primal_wave_language import PrimalSoul
     
     soul = PrimalSoul(name="Elysia")
     
@@ -71,7 +71,7 @@ except Exception as e:
 print("\n📊 [Level 3-6] CelestialGrammar - 천체 문법")
 print("-" * 50)
 try:
-    from Core._01_Foundation._04_Governance.Foundation.celestial_grammar import (
+    from Core._01_Foundation._02_Logic.celestial_grammar import (
         SolarSystem, MagneticEngine, Nebula
     )
     
@@ -96,10 +96,10 @@ except Exception as e:
 print("\n📊 [Full Test] 메모리 → 사고 → 언어 → 입력 → 저장 → 반응")
 print("-" * 50)
 try:
-    from Core._01_Foundation._04_Governance.Foundation.celestial_grammar import SolarSystem, MagneticEngine
+    from Core._01_Foundation._02_Logic.celestial_grammar import SolarSystem, MagneticEngine
     from Core._02_Intelligence._01_Reasoning.Intelligence.integrated_cognition_system import get_integrated_cognition
-    from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine, Intent
-    from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
+    from Core._01_Foundation._02_Logic.free_will_engine import FreeWillEngine, Intent
+    from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
     import time
     
     # 핵심 시스템 초기화

@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import logging
-from Project_Elysia.core.quaternion_consciousness import ConsciousnessState
+from Core.quaternion_consciousness import ConsciousnessState
 
 logger = logging.getLogger(__name__)
 

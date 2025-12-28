@@ -24,9 +24,9 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
-from Core._01_Foundation._04_Governance.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
-from Core._01_Foundation._04_Governance.Foundation.communication_enhancer import CommunicationEnhancer
+from Core._01_Foundation._02_Logic.reasoning_engine import ReasoningEngine
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
+from Core._01_Foundation._02_Logic.communication_enhancer import CommunicationEnhancer
 
 
 @dataclass
@@ -385,7 +385,7 @@ if __name__ == "__main__":
     bridge = ThoughtLanguageBridge()
     
     # 2. 커뮤니케이션 엔진 연결 (학습 필요)
-    from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+    from Core._02_Intelligence._02_Memory.web_knowledge_connector import WebKnowledgeConnector
     
     print("📚 Learning concepts...\n")
     connector = WebKnowledgeConnector()

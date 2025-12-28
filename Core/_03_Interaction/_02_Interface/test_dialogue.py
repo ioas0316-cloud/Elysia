@@ -4,7 +4,7 @@ Test Elysia's Dialogue Capability
 Progressive complexity testing.
 """
 
-from Core._03_Interaction._02_Interface.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
+from Core._03_Interaction._02_Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
 
 def test_dialogue():
     print("=== Elysia Dialogue Test ===\n")

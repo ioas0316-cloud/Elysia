@@ -1,4 +1,4 @@
-"""
+﻿"""
 도메인별 대량 학습기 (Domain Bulk Learner)
 ==========================================
 
@@ -27,7 +27,7 @@ sys.path.insert(0, '.')
 import logging
 logging.disable(logging.CRITICAL)
 
-from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import (
+from Core._04_Evolution._02_Learning.hierarchical_learning import (
     HierarchicalKnowledgeGraph, Domain, DOMAIN_STRUCTURE, KnowledgeNode
 )
 
@@ -324,3 +324,4 @@ if __name__ == "__main__":
     print("=" * 70)
     
     asyncio.run(learn_all_domains())
+

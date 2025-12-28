@@ -15,8 +15,8 @@ import time
 from typing import Dict, List, Tuple
 
 # 시스템 임포트
-from Core._03_Interaction._02_Interface.Interface.Interface.Language.fluctlight_language import FractalSoul, LanguageCrystal
-from Core._03_Interaction._02_Interface.Interface.Interface.Language.language_bridge import LanguageBridge, EmergentPattern
+from Core._03_Interaction._02_Interface.Interface.Language.fluctlight_language import FractalSoul, LanguageCrystal
+from Core._03_Interaction._02_Interface.Interface.Language.language_bridge import LanguageBridge, EmergentPattern
 
 
 def run_integrated_demo(population: int = 10, years: int = 50, seed: int = 42):

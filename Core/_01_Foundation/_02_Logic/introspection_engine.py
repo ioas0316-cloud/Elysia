@@ -9,7 +9,7 @@ from pathlib import Path
 # 경로 설정 (Core 모듈 import를 위해)
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
+from Core._01_Foundation._02_Logic.why_engine import WhyEngine
 
 logger = logging.getLogger("IntrospectionEngine")
 
@@ -46,7 +46,7 @@ class IntrospectionEngine:
         
         # [NEW] Principle Diagnostics 연동
         try:
-            from Core._01_Foundation._02_Logic.Philosophy.principle_diagnostics import PrincipleDiagnostics
+            from Core._01_Foundation._02_Logic.principle_diagnostics import PrincipleDiagnostics
             self.diagnostics = PrincipleDiagnostics()
         except ImportError:
             self.diagnostics = None

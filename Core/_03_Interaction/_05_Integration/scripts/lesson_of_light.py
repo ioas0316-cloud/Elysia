@@ -17,7 +17,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core._01_Foundation._02_Legal_Ethics.Laws.law_of_light import get_law_of_light
-from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptDecomposer
+from Core._01_Foundation._02_Logic.fractal_concept import ConceptDecomposer
 from Core._01_Foundation._01_Core_Logic.Elysia.spirit import get_spirit
 
 def print_header(title):

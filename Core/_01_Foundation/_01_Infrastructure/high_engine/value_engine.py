@@ -8,9 +8,9 @@ from typing import Any, Dict, Optional
 
 
 
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 
-from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalState
+from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalState
 
 
 

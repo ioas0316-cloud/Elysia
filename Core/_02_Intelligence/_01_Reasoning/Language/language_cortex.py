@@ -14,7 +14,7 @@ from typing import Dict, List, Optional, Tuple
 import random
 from dataclasses import dataclass, field
 
-from Core._01_Foundation._04_Governance.Foundation.hangul_physics import HangulPhysicsEngine, Tensor3D, SoundWave
+from Core._01_Foundation._02_Logic.hangul_physics import HangulPhysicsEngine, Tensor3D, SoundWave
 
 @dataclass
 class ConceptBinding:
@@ -100,7 +100,7 @@ class SyntaxEngine:
         self.grammar_physics = HangulPhysicsEngine().grammar_physics if hasattr(HangulPhysicsEngine(), 'grammar_physics') else None 
         # Note: In a real implementation, we'd properly inject the grammar physics instance.
         # For this prototype, we'll instantiate it here or assume it's available.
-        from Core._01_Foundation._04_Governance.Foundation.hangul_physics import GrammarPhysics
+        from Core._01_Foundation._02_Logic.hangul_physics import GrammarPhysics
         self.grammar = GrammarPhysics()
 
     def construct_sentence(self, thought: ThoughtStructure) -> str:

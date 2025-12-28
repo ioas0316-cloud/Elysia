@@ -7,11 +7,11 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core._01_Foundation._04_Governance.Foundation.central_nervous_system import CentralNervousSystem
-from Core._01_Foundation._04_Governance.Foundation.chronos import Chronos
-from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
-from Core._01_Foundation._04_Governance.Foundation.free_will_engine import Intent
-from Core._03_Interaction._03_Expression.Expression.voice_of_elysia import VoiceOfElysia
+from Core._01_Foundation._02_Logic.central_nervous_system import CentralNervousSystem
+from Core._01_Foundation._02_Logic.chronos import Chronos
+from Core._01_Foundation._02_Logic.resonance_field import ResonanceField
+from Core._01_Foundation._02_Logic.free_will_engine import Intent
+from Core._03_Interaction._03_Expression.voice_of_elysia import VoiceOfElysia
 
 # Mocks
 class MockEar:

@@ -20,7 +20,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
 
-from Core._01_Foundation._04_Governance.Foundation.core.world import World
+from Core._04_Evolution._01_Growth.world import World
 
 
 

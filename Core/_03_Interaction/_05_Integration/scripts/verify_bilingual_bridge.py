@@ -5,7 +5,7 @@ sys.path.append("c:\\Elysia")
 # Configure logging to stdout
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from Core._02_Intelligence._01_Reasoning.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core._02_Intelligence._01_Reasoning.Reasoning.reasoning_engine import ReasoningEngine
 
 def test_bilingual_bridge():
     print("🧪 Testing Bilingual Resonance Bridge...")

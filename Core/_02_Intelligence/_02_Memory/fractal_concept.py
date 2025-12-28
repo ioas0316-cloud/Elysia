@@ -1,4 +1,4 @@
-"""
+﻿"""
 Fractal Concept System (프랙탈 개념 시스템)
 =========================================
 
@@ -11,7 +11,7 @@ Concepts are stored as compressed "DNA formulas" that can be unfolded into full 
 import logging
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
-from Core._01_Foundation._04_Governance.Foundation.Math.hyper_quaternion import Quaternion
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("FractalConcept")
 
@@ -522,7 +522,7 @@ class ConceptDecomposer:
         # Broadcast to GlobalHub
         if self._hub:
             try:
-                from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+                from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=963.0,  # High frequency for understanding
                     amplitude=1.0,
@@ -718,3 +718,4 @@ if __name__ == "__main__":
     print(f"Seed: {love_seed.name}")
     print(f"Frequency: {love_seed.frequency}Hz")
     print(f"Sub-concepts: {[sub.name for sub in love_seed.sub_concepts]}")
+

@@ -6,8 +6,8 @@ from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 from Core._01_Foundation._02_Logic.Wave.wave_frequency_mapping import WaveFrequencyMapper, EmotionType, SoundType
-from Core._03_Interaction._02_Interface.Interface.Interface.Perception.synesthesia_engine import SynesthesiaEngine, RenderMode
-from Core._03_Interaction._02_Interface.Interface.conversation_engine import ConversationEngine
+from Core._03_Interaction._02_Interface.Interface.Perception.synesthesia_engine import SynesthesiaEngine, RenderMode
+from Core._03_Interaction._02_Interface.conversation_engine import ConversationEngine
 
 
 @dataclass

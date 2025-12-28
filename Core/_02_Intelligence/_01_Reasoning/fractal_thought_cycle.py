@@ -16,7 +16,7 @@ Fractal Thought Cycle (프랙탈 사고 순환)
     동시에 상위 레벨의 축소판
 
 Usage:
-    from Core._02_Intelligence._01_Reasoning.Cognition.fractal_thought_cycle import FractalThought
+    from Core._02_Intelligence._01_Reasoning.fractal_thought_cycle import FractalThought
     
     thought = FractalThought()
     result = thought.think("사랑이란 무엇인가?")
@@ -142,35 +142,35 @@ class FractalThoughtCycle:
         """기존 시스템 연결"""
         # Yggdrasil
         try:
-            from Core._01_Foundation._04_Governance.Foundation.yggdrasil import yggdrasil
+            from Core._01_Foundation._02_Logic.yggdrasil import yggdrasil
             self.yggdrasil = yggdrasil
         except:
             self.yggdrasil = None
         
         # WaveAttention
         try:
-            from Core._01_Foundation._04_Governance.Foundation.Wave.wave_attention import get_wave_attention
+            from Core._01_Foundation._02_Logic.Wave.wave_attention import get_wave_attention
             self.attention = get_wave_attention()
         except:
             self.attention = None
         
         # WhyEngine
         try:
-            from Core._01_Foundation._04_Governance.Foundation.Memory.fractal_concept import ConceptDecomposer
+            from Core._01_Foundation._02_Logic.Memory.fractal_concept import ConceptDecomposer
             self.why_engine = ConceptDecomposer()
         except:
             self.why_engine = None
         
         # CausalNarrativeEngine
         try:
-            from Core._01_Foundation._04_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine
+            from Core._01_Foundation._02_Logic.causal_narrative_engine import CausalNarrativeEngine
             self.narrative_engine = CausalNarrativeEngine()
         except:
             self.narrative_engine = None
         
         # UnifiedUnderstanding
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.unified_understanding import get_understanding
+            from Core._02_Intelligence._01_Reasoning.unified_understanding import get_understanding
             self.understanding = get_understanding()
         except:
             self.understanding = None

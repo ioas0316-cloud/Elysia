@@ -16,8 +16,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._03_Interaction._02_Interface.Sensory.stream_sources import WikipediaStreamSource
-from Core._03_Interaction._02_Interface.Sensory.semantic_bridge import SemanticBridge
+from Core._03_Interaction._02_Interface._01_Sensory.stream_sources import WikipediaStreamSource
+from Core._03_Interaction._02_Interface._01_Sensory.semantic_bridge import SemanticBridge
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')

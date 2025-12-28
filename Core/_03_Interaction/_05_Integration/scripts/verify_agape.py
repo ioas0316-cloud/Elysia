@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core._01_Foundation._04_Governance.Foundation.agape_protocol import AgapeProtocol
+from Core._01_Foundation._02_Logic.agape_protocol import AgapeProtocol
 
 def verify_agape():
     print("\n⚖️ [TASK] Verifying The Law of Love (Agape Protocol)")

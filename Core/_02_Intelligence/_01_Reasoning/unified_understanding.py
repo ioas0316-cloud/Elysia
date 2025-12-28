@@ -9,7 +9,7 @@ WaveAttention(무엇이 공명하는가) + WhyEngine(왜 그런가)을 통합합
 -> 서사: "사랑은 Source로부터 비롯되며, 희망을 야기하고 두려움을 억제한다."
 
 Usage:
-    from Core._02_Intelligence._01_Reasoning.Cognition.unified_understanding import understand
+    from Core._02_Intelligence._01_Reasoning.unified_understanding import understand
     
     result = understand("사랑이란 무엇인가?")
     print(result.narrative)
@@ -26,46 +26,46 @@ logger = logging.getLogger("UnifiedUnderstanding")
 
 # 내부 시스템 임포트
 try:
-    from Core._01_Foundation._04_Governance.Foundation.Wave.wave_attention import get_wave_attention, WaveAttention
+    from Core._01_Foundation._02_Logic.Wave.wave_attention import get_wave_attention, WaveAttention
     ATTENTION_AVAILABLE = True
 except ImportError:
     ATTENTION_AVAILABLE = False
     logger.warning("⚠️ WaveAttention not available")
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.Memory.fractal_concept import ConceptDecomposer
+    from Core._01_Foundation._02_Logic.Memory.fractal_concept import ConceptDecomposer
     WHY_AVAILABLE = True
 except ImportError:
     try:
         # 대체 경로
-        from Core._02_Intelligence._01_Reasoning.Cognition.fractal_concept import ConceptDecomposer
+        from Core._02_Intelligence._01_Reasoning.fractal_concept import ConceptDecomposer
         WHY_AVAILABLE = True
     except ImportError:
         WHY_AVAILABLE = False
         logger.warning("⚠️ ConceptDecomposer (WhyEngine) not available")
 
 try:
-    from Core._02_Intelligence._01_Reasoning.Cognition.cognitive_hub import get_cognitive_hub
+    from Core._02_Intelligence._01_Reasoning.cognitive_hub import get_cognitive_hub
     COGNITIVE_AVAILABLE = True
 except ImportError:
     COGNITIVE_AVAILABLE = False
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalRelationType
+    from Core._01_Foundation._02_Logic.causal_narrative_engine import CausalNarrativeEngine, CausalRelationType
     NARRATIVE_AVAILABLE = True
 except ImportError:
     NARRATIVE_AVAILABLE = False
     logger.warning("⚠️ CausalNarrativeEngine not available")
 
 try:
-    from Core._02_Intelligence._01_Reasoning.Cognition.question_analyzer import analyze_question, QuestionType
+    from Core._02_Intelligence._01_Reasoning.question_analyzer import analyze_question, QuestionType
     ANALYZER_AVAILABLE = True
 except ImportError:
     ANALYZER_AVAILABLE = False
     logger.warning("⚠️ QuestionAnalyzer not available")
 
 try:
-    from Core._02_Intelligence._01_Reasoning.Cognition.external_explorer import ExternalExplorer
+    from Core._02_Intelligence._01_Reasoning.external_explorer import ExternalExplorer
     EXPLORER_AVAILABLE = True
 except ImportError:
     EXPLORER_AVAILABLE = False
@@ -147,7 +147,7 @@ def translate_concept(concept: str) -> str:
     """
     # 1. Try InternalUniverse Resonance (Wave Logic)
     try:
-        from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+        from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
         universe = InternalUniverse()  # Consider singleton for performance
         coord = universe.coordinate_map.get(concept)
         if coord and hasattr(coord, 'hologram') and coord.hologram:
@@ -199,21 +199,21 @@ class UnifiedUnderstanding:
             logger.warning("   RoundTableCouncil: ❌")
         
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.metacognitive_awareness import MetacognitiveAwareness
+            from Core._02_Intelligence._01_Reasoning.metacognitive_awareness import MetacognitiveAwareness
             self.metacog = MetacognitiveAwareness()
             logger.info("   🧠 MetacognitiveAwareness: ✅")
         except ImportError:
             logger.warning("   MetacognitiveAwareness: ❌")
         
         try:
-            from Core._01_Foundation._04_Governance.Foundation.distributed_consciousness import DistributedConsciousness
+            from Core._01_Foundation._02_Logic.distributed_consciousness import DistributedConsciousness
             self.distributed = DistributedConsciousness()
             logger.info("   🌐 DistributedConsciousness: ✅")
         except ImportError:
             logger.warning("   DistributedConsciousness: ❌")
             
         try:
-            from Core._01_Foundation._04_Governance.Foundation.dual_layer_personality import DualLayerPersonality
+            from Core._01_Foundation._02_Logic.dual_layer_personality import DualLayerPersonality
             self.personality = DualLayerPersonality()
             logger.info("   🎭 DualLayerPersonality: ✅ (Enneagram Integrated)")
         except ImportError:
@@ -227,7 +227,7 @@ class UnifiedUnderstanding:
             logger.warning("   LogosEngine: ❌")
 
         try:
-            from Core._02_Intelligence._01_Reasoning.Cognition.dream_system import DreamSystem
+            from Core._02_Intelligence._01_Reasoning.dream_system import DreamSystem
             self.dream_system = DreamSystem()
             logger.info("   🌌 DreamSystem: ✅ (Subconscious Insight)")
         except ImportError:

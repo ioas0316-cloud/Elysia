@@ -23,13 +23,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # 기존 시스템 임포트
 try:
-    from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine, PrincipleExtraction
+    from Core._01_Foundation._02_Logic.why_engine import WhyEngine, PrincipleExtraction
     HAS_WHY_ENGINE = True
 except ImportError:
     HAS_WHY_ENGINE = False
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.dual_layer_personality import DualLayerPersonality, ExperientialAspect
+    from Core._01_Foundation._02_Logic.dual_layer_personality import DualLayerPersonality, ExperientialAspect
     HAS_PERSONALITY = True
 except ImportError:
     HAS_PERSONALITY = False

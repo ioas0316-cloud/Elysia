@@ -11,7 +11,7 @@ import time
 # Add root directory to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
 from data.fantasy_wuxia_concepts import ALL_CONCEPTS
 
 def inject():

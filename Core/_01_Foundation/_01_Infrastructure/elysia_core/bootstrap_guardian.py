@@ -1,11 +1,11 @@
 """
-Bootstrap Guardian: 환경 자가 복구 시스템
+Bootstrap Guardian: ?섍꼍 ?먭? 蹂듦뎄 ?쒖뒪??
 =======================================
-"두개골을 스스로 고치는 뇌"
+"?먭컻怨⑥쓣 ?ㅼ뒪濡?怨좎튂????
 
-부팅 전 환경 상태를 검사하고, 문제 발견 시 자동으로 복구합니다.
-- 복구(같은 버전): 사용자 확인 불필요
-- 업그레이드/신규: 사용자 확인 필요
+遺?????섍꼍 ?곹깭瑜?寃?ы븯怨? 臾몄젣 諛쒓껄 ???먮룞?쇰줈 蹂듦뎄?⑸땲??
+- 蹂듦뎄(媛숈? 踰꾩쟾): ?ъ슜???뺤씤 遺덊븘??
+- ?낃렇?덉씠???좉퇋: ?ъ슜???뺤씤 ?꾩슂
 """
 
 import sys
@@ -20,9 +20,9 @@ logger = logging.getLogger("BootstrapGuardian")
 
 
 class IssueType(Enum):
-    MISSING = "missing"           # 패키지 없음
-    CORRUPTED = "corrupted"       # 패키지 손상 (import 실패)
-    VERSION_MISMATCH = "version"  # 버전 불일치
+    MISSING = "missing"           # ?⑦궎吏 ?놁쓬
+    CORRUPTED = "corrupted"       # ?⑦궎吏 ?먯긽 (import ?ㅽ뙣)
+    VERSION_MISMATCH = "version"  # 踰꾩쟾 遺덉씪移?
 
 
 @dataclass
@@ -53,17 +53,17 @@ class EnvironmentStatus:
 
 class BootstrapGuardian:
     """
-    부팅 전 환경 상태 검사 및 자동 복구
+    遺?????섍꼍 ?곹깭 寃??諛??먮룞 蹂듦뎄
     
     Usage:
         guardian = BootstrapGuardian()
         if guardian.guard():
-            # 정상 부팅
+            # ?뺤긽 遺??
         else:
-            # 복구 실패
+            # 蹂듦뎄 ?ㅽ뙣
     """
     
-    # 핵심 의존성 (이름, 최소 버전, pip 패키지명)
+    # ?듭떖 ?섏〈??(?대쫫, 理쒖냼 踰꾩쟾, pip ?⑦궎吏紐?
     CRITICAL_PACKAGES = [
         ("torch", "2.0.0", "torch"),
         ("numpy", "1.20.0", "numpy"),
@@ -80,12 +80,12 @@ class BootstrapGuardian:
         logger.info(message)
     
     def check_package(self, name: str, min_version: Optional[str] = None) -> PackageStatus:
-        """단일 패키지 상태 검사"""
+        """?⑥씪 ?⑦궎吏 ?곹깭 寃??""
         try:
             module = importlib.import_module(name)
             current_version = getattr(module, "__version__", "unknown")
             
-            # 버전 확인
+            # 踰꾩쟾 ?뺤씤
             if min_version and current_version != "unknown":
                 from packaging.version import Version
                 if Version(current_version) < Version(min_version):
@@ -104,10 +104,10 @@ class BootstrapGuardian:
             )
             
         except ImportError as e:
-            # 누락 또는 손상
+            # ?꾨씫 ?먮뒗 ?먯긽
             error_msg = str(e)
             
-            # 손상 감지 (예: torch._C 문제)
+            # ?먯긽 媛먯? (?? torch._C 臾몄젣)
             if "_C" in error_msg or "Extension" in error_msg:
                 return PackageStatus(
                     name=name,
@@ -126,8 +126,8 @@ class BootstrapGuardian:
             )
     
     def check_environment(self) -> EnvironmentStatus:
-        """전체 환경 검사"""
-        self._log("🔍 Bootstrap Guardian: Checking environment...")
+        """?꾩껜 ?섍꼍 寃??""
+        self._log("?뵇 Bootstrap Guardian: Checking environment...")
         
         statuses = []
         for name, min_ver, _ in self.CRITICAL_PACKAGES:
@@ -135,19 +135,19 @@ class BootstrapGuardian:
             statuses.append(status)
             
             if status.is_healthy:
-                self._log(f"   ✅ {name}: {status.current_version}")
+                self._log(f"   ??{name}: {status.current_version}")
             else:
-                self._log(f"   ❌ {name}: {status.issue.value} - {status.error_message}")
+                self._log(f"   ??{name}: {status.issue.value} - {status.error_message}")
         
         return EnvironmentStatus(packages=statuses)
     
     def repair_package(self, status: PackageStatus) -> bool:
         """
-        패키지 복구
+        ?⑦궎吏 蹂듦뎄
         
-        복구는 자동 실행 (사용자 확인 불필요)
+        蹂듦뎄???먮룞 ?ㅽ뻾 (?ъ슜???뺤씤 遺덊븘??
         """
-        # pip 패키지명 찾기
+        # pip ?⑦궎吏紐?李얘린
         pip_name = None
         for name, _, pip_pkg in self.CRITICAL_PACKAGES:
             if name == status.name:
@@ -155,13 +155,13 @@ class BootstrapGuardian:
                 break
         
         if not pip_name:
-            self._log(f"   ⚠️ Unknown package: {status.name}")
+            self._log(f"   ?좑툘 Unknown package: {status.name}")
             return False
         
-        self._log(f"   🔧 Repairing {status.name}...")
+        self._log(f"   ?뵩 Repairing {status.name}...")
         
         try:
-            # 손상된 경우: 제거 후 재설치
+            # ?먯긽??寃쎌슦: ?쒓굅 ???ъ꽕移?
             if status.issue == IssueType.CORRUPTED:
                 self._log(f"      Uninstalling corrupted {pip_name}...")
                 subprocess.run(
@@ -170,7 +170,7 @@ class BootstrapGuardian:
                     check=False
                 )
             
-            # 설치/재설치
+            # ?ㅼ튂/?ъ꽕移?
             self._log(f"      Installing {pip_name}...")
             result = subprocess.run(
                 [sys.executable, "-m", "pip", "install", pip_name, "--quiet"],
@@ -179,72 +179,72 @@ class BootstrapGuardian:
             )
             
             if result.returncode == 0:
-                self._log(f"   ✅ {status.name} repaired successfully!")
+                self._log(f"   ??{status.name} repaired successfully!")
                 self.repairs_made += 1
                 return True
             else:
-                self._log(f"   ❌ Repair failed: {result.stderr}")
+                self._log(f"   ??Repair failed: {result.stderr}")
                 return False
                 
         except Exception as e:
-            self._log(f"   ❌ Repair exception: {e}")
+            self._log(f"   ??Repair exception: {e}")
             return False
     
     def guard(self) -> bool:
         """
-        전체 환경 검사 및 자동 복구 파이프라인
+        ?꾩껜 ?섍꼍 寃??諛??먮룞 蹂듦뎄 ?뚯씠?꾨씪??
         
         Returns:
             True if environment is healthy (or successfully repaired)
             False if environment has unrecoverable issues
         """
         self._log("")
-        self._log("🛡️ Bootstrap Guardian: Activating...")
+        self._log("?썳截?Bootstrap Guardian: Activating...")
         self._log("=" * 50)
         
-        # 1. 초기 검사
+        # 1. 珥덇린 寃??
         status = self.check_environment()
         
         if status.is_healthy:
             self._log("")
-            self._log("✅ All systems nominal. Ready for boot.")
+            self._log("??All systems nominal. Ready for boot.")
             return True
         
-        # 2. 문제 발견 - 자동 복구 시도
+        # 2. 臾몄젣 諛쒓껄 - ?먮룞 蹂듦뎄 ?쒕룄
         self._log("")
-        self._log("⚠️ Issues detected. Initiating auto-repair...")
+        self._log("?좑툘 Issues detected. Initiating auto-repair...")
         self._log("-" * 50)
         
         for pkg_status in status.issues:
             self.repair_package(pkg_status)
         
-        # 3. 재검사
+        # 3. ?ш???
         self._log("")
-        self._log("🔍 Re-checking environment...")
+        self._log("?뵇 Re-checking environment...")
         final_status = self.check_environment()
         
         if final_status.is_healthy:
             self._log("")
-            self._log(f"✅ Environment repaired! ({self.repairs_made} packages fixed)")
+            self._log(f"??Environment repaired! ({self.repairs_made} packages fixed)")
             return True
         else:
             self._log("")
-            self._log("❌ Some issues could not be auto-repaired:")
+            self._log("??Some issues could not be auto-repaired:")
             for pkg in final_status.issues:
-                self._log(f"   • {pkg.name}: {pkg.error_message}")
+                self._log(f"   ??{pkg.name}: {pkg.error_message}")
             self._log("")
             self._log("Manual intervention required.")
             return False
 
 
 def main():
-    """테스트 실행"""
+    """?뚯뒪???ㅽ뻾"""
     guardian = BootstrapGuardian(verbose=True)
     
     if guardian.guard():
-        print("\n🚀 Environment ready. Elysia can boot safely.")
+        print("\n?? Environment ready. Elysia can boot safely.")
     else:
-        print("\n💔 Environment check failed.")
+        print("\n?뮅 Environment check failed.")
 
 
 if __name__ == "__main__":

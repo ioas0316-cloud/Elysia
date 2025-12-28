@@ -14,7 +14,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.gemini_api import generate_text
+    from Core._03_Interaction._04_Network.gemini_api import generate_text
 except ImportError:
     generate_text = None
 

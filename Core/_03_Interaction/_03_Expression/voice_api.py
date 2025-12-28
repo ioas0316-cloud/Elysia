@@ -11,7 +11,7 @@ import logging
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from Core._03_Interaction._03_Expression.Expression.voice_of_elysia import VoiceOfElysia
+    from Core._03_Interaction._03_Expression.voice_of_elysia import VoiceOfElysia
 
 logger = logging.getLogger("VoiceAPI")
 

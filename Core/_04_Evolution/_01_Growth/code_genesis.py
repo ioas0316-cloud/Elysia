@@ -20,7 +20,7 @@ import logging
 import os
 import ast
 from typing import Optional, Dict
-from Core._01_Foundation._04_Governance.Foundation.ollama_bridge import ollama
+from Core._01_Foundation._02_Logic.ollama_bridge import ollama
 
 logger = logging.getLogger("CodeGenesis")
 

@@ -4,7 +4,7 @@ from typing import Dict, List, Optional
 from dataclasses import dataclass
 from Core._02_Intelligence._01_Reasoning.Intelligence.web_cortex import WebCortex
 
-from Core._01_Foundation._04_Governance.Foundation.celestial_grammar import SolarSystem, MagneticEngine, Galaxy, Nebula
+from Core._01_Foundation._02_Logic.celestial_grammar import SolarSystem, MagneticEngine, Galaxy, Nebula
 
 logger = logging.getLogger("LanguageCenter")
 

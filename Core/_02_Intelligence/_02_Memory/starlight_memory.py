@@ -173,7 +173,7 @@ class StarlightMemory:
         # Try to import spatial index and vectorization tools
         if self.use_spatial_index or self.use_vectorization:
             try:
-                from Core._02_Intelligence._02_Memory_Linguistics.Memory.spatial_index import KDTree4D, VectorizedOps, HAS_NUMPY
+                from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.spatial_index import KDTree4D, VectorizedOps, HAS_NUMPY
                 self.KDTree4D = KDTree4D
                 self.VectorizedOps = VectorizedOps
                 self.HAS_NUMPY = HAS_NUMPY

@@ -3,7 +3,7 @@ from typing import Dict
 
 import numpy as np
 
-from Core._01_Foundation._04_Governance.Foundation.core.world import World
+from Core._04_Evolution._01_Growth.world import World
 
 
 @dataclass

@@ -16,7 +16,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation._04_Governance.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
+from Core._01_Foundation._02_Logic.knowledge_acquisition import KnowledgeAcquisitionSystem
 import logging
 
 # Setup logging

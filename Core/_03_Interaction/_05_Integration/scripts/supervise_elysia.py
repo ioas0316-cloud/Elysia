@@ -12,8 +12,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation._04_Governance.Foundation.living_elysia import LivingElysia
-from Core._01_Foundation._04_Governance.Foundation.free_will_engine import Intent
+from Core._01_Foundation._02_Logic.living_elysia import LivingElysia
+from Core._01_Foundation._02_Logic.free_will_engine import Intent
 
 def log(message):
     print(f"👁️ [SUPERVISOR] {message}")

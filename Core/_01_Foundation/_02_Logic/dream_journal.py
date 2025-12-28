@@ -8,9 +8,9 @@ from datetime import datetime
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core._01_Foundation._04_Governance.Foundation.yggdrasil import yggdrasil
-from Core._01_Foundation._04_Governance.Foundation.chronos import Chronos
-from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine
+from Core._01_Foundation._02_Logic.yggdrasil import yggdrasil
+from Core._01_Foundation._02_Logic.chronos import Chronos
+from Core._01_Foundation._02_Logic.free_will_engine import FreeWillEngine
 
 # Configure logging to file
 logging.basicConfig(

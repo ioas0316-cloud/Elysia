@@ -19,7 +19,7 @@ import os
 
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from Core._01_Foundation._04_Governance.Foundation.Graph.torch_graph import get_torch_graph
+from Core._01_Foundation._02_Logic.Graph.torch_graph import get_torch_graph
 
 logger = logging.getLogger("ContentBaptizer")
 

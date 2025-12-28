@@ -3,8 +3,8 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
-from Core._01_Foundation._02_Logic.Philosophy.principle_diagnostics import PrincipleDiagnostics
+from Core._01_Foundation._02_Logic.why_engine import WhyEngine
+from Core._01_Foundation._02_Logic.principle_diagnostics import PrincipleDiagnostics
 
 def verify_structural_wisdom():
     print("🧠 Verifying Structural Wisdom (Process + Diagnostics)...")

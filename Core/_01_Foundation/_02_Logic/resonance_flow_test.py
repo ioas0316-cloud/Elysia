@@ -10,7 +10,7 @@ Verifies that sentence structure emerges from Energy Potential.
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation._04_Governance.Foundation.resonance_grammar import ResonanceGrammarEngine
+from Core._01_Foundation._02_Logic.resonance_grammar import ResonanceGrammarEngine
 
 def main():
     print("\n" + "="*70)

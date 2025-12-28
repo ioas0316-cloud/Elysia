@@ -14,7 +14,7 @@ import random
 import os
 from pathlib import Path
 from Core._01_Foundation._01_Infrastructure.elysia_core import Cell, Organ
-# from Core._01_Foundation._04_Governance.Foundation.web_server import WebServer, incoming_messages -> REMOVED (Legacy Flask)
+# from Core._01_Foundation._02_Logic.web_server import WebServer, incoming_messages -> REMOVED (Legacy Flask)
 incoming_messages = [] # Shim for backward compatibility if needed
 
 logger = logging.getLogger("ActionDispatcher")

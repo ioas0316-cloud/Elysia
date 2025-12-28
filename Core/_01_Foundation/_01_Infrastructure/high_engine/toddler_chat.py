@@ -5,7 +5,7 @@ import os
 import time
 from typing import Any, Dict, List, Optional
 
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 from Project_Elysia.high_engine.quaternion_engine import QuaternionConsciousnessEngine, QuaternionOrientation
 from Project_Elysia.high_engine.syllabic_language_engine import SyllabicLanguageEngine
 

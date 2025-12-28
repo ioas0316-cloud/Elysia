@@ -14,7 +14,7 @@ from typing import Dict, List, Tuple
 import numpy as np
 
 from Project_Elysia.mechanics.advanced_field import AdvancedField
-from Project_Elysia.core_memory import Tensor3D, FrequencyWave
+from Core_memory import Tensor3D, FrequencyWave
 
 class SelfEvolution:
     """Enables Elysia to discover and learn new concepts autonomously."""

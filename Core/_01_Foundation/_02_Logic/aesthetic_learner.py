@@ -26,7 +26,7 @@ from typing import Dict, List, Optional, Any
 from Core._02_Intelligence._01_Reasoning.Cognitive.memory_stream import get_memory_stream, ExperienceType
 from Core._02_Intelligence._01_Reasoning.Cognitive.concept_formation import get_concept_formation
 from Core._02_Intelligence._01_Reasoning.Cognitive.sensory_cortex import get_sensory_cortex
-from Core._01_Foundation._02_Logic.Philosophy.aesthetic_principles import Medium
+from Core._01_Foundation._02_Logic.aesthetic_principles import Medium
 
 logger = logging.getLogger("AestheticLearner")
 

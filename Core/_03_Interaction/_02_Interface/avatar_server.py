@@ -54,8 +54,8 @@ logger = logging.getLogger("AvatarServer")
 
 # Import Elysia systems (with graceful degradation)
 try:
-    from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalEngine, EmotionalState
-    from Core._01_Foundation._04_Governance.Foundation.spirit_emotion import SpiritEmotionMapper
+    from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalEngine, EmotionalState
+    from Core._01_Foundation._02_Logic.spirit_emotion import SpiritEmotionMapper
     logger.info("✅ Emotional and Spirit systems loaded")
     EMOTIONS_AVAILABLE = True
 except ImportError as e:
@@ -85,7 +85,7 @@ except ImportError as e:
         REASONING_AVAILABLE = False
         
 try:
-    from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine
+    from Core._01_Foundation._02_Logic.free_will_engine import FreeWillEngine
     logger.info("✅ FreeWillEngine (Will) loaded")
 except ImportError:
     FreeWillEngine = None
@@ -105,7 +105,7 @@ except ImportError:
 
 # Avatar Physics Engine (Phase 4)
 try:
-    from Core._01_Foundation._04_Governance.Foundation.avatar_physics import AvatarPhysicsEngine, Vector3D
+    from Core._01_Foundation._02_Logic.avatar_physics import AvatarPhysicsEngine, Vector3D
     logger.info("✅ Avatar Physics Engine loaded")
     PHYSICS_AVAILABLE = True
 except ImportError as e:
@@ -183,7 +183,7 @@ class ElysiaAvatarCore:
         
         # Initialize synesthesia-enhanced voice TTS
         try:
-            from Core._03_Interaction._02_Interface.Interface.avatar_voice_tts import AvatarVoiceTTS
+            from Core._03_Interaction._02_Interface.avatar_voice_tts import AvatarVoiceTTS
             self.voice_tts = AvatarVoiceTTS()
             logger.info("🎤 Synesthesia voice TTS initialized")
         except Exception as e:
@@ -192,7 +192,7 @@ class ElysiaAvatarCore:
         
         # Initialize lip-sync engine
         try:
-            from Core._03_Interaction._02_Interface.Interface.avatar_lipsync import LipSyncEngine
+            from Core._03_Interaction._02_Interface.avatar_lipsync import LipSyncEngine
             self.lipsync_engine = LipSyncEngine()
             logger.info("👄 Lip-sync engine initialized")
         except Exception as e:
@@ -653,7 +653,7 @@ class AvatarWebSocketServer:
         
         # Initialize security manager
         try:
-            from Core._03_Interaction._02_Interface.Interface.avatar_security import create_security_manager
+            from Core._03_Interaction._02_Interface.avatar_security import create_security_manager
             self.security = create_security_manager(require_auth=require_auth)
             logger.info(f"🛡️ Security manager initialized (auth required: {require_auth})")
         except Exception as e:
@@ -664,7 +664,7 @@ class AvatarWebSocketServer:
         self.monitor = None
         if enable_monitoring:
             try:
-                from Core._03_Interaction._02_Interface.Interface.avatar_monitoring import create_performance_monitor
+                from Core._03_Interaction._02_Interface.avatar_monitoring import create_performance_monitor
                 self.monitor = create_performance_monitor(update_interval=1.0)
                 self.monitor.set_broadcast_callback(self.broadcast_metrics)
                 logger.info(f"📊 Performance monitor initialized")

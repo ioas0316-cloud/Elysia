@@ -11,118 +11,118 @@ from pathlib import Path
 # Regex patterns: (pattern, replacement)
 IMPORT_PATTERNS = [
     # Core.Physics.* -> Core._01_Foundation.*
-    (r'from Core\.Physics\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Physics\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Physics\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Physics\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.Field.* -> Core._01_Foundation.*
-    (r'from Core\.Field\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Field\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Field\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Field\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.Creation.* -> Core._01_Foundation.*
-    (r'from Core\.Creation\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Creation\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Creation\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Creation\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.Language.* -> Core._01_Foundation.*
-    (r'from Core\.Language\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Language\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Language\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Language\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.Cognition.* -> Core._01_Foundation.*
-    (r'from Core\.Cognition\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Cognition\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Cognition\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Cognition\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.Creativity.* -> Core._01_Foundation.* (if needed)
-    (r'from Core\.Creativity\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Creativity\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Creativity\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Creativity\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Relative imports ..Field.ether -> Core._01_Foundation.ether
-    (r'from \.\.Field\.ether', 'from Core._01_Foundation._04_Governance.Foundation.ether'),
+    (r'from \.\.Field\.ether', 'from Core._01_Foundation._02_Logic.ether'),
     
     # Core.Time.* -> Core._01_Foundation.*
-    (r'from Core\.Time\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Time\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Time\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Time\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.World.* -> Core._01_Foundation.*
-    (r'from Core\.World\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.World\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.World\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.World\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.Security.* -> Core._01_Foundation.* (if soul_guardian is in Foundation)
-    (r'from Core\.Security\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Security\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Security\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Security\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.Integration.* -> Core._01_Foundation.*
-    (r'from Core\.Integration\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Integration\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Integration\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Integration\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Project_Sophia.* -> Core._01_Foundation.*
-    (r'from Project_Sophia\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Project_Sophia\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Project_Sophia\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Project_Sophia\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Tools.* -> Core._01_Foundation.*
-    (r'from Tools\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Tools\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Tools\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Tools\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core._04_Evolution.gemini_api -> Core._01_Foundation.gemini_api
-    (r'from Core\.Evolution\.gemini_api', 'from Core._01_Foundation._04_Governance.Foundation.gemini_api'),
-    (r'import Core\.Evolution\.gemini_api', 'import Core._01_Foundation._04_Governance.Foundation.gemini_api'),
+    (r'from Core\.Evolution\.gemini_api', 'from Core._03_Interaction._04_Network.gemini_api'),
+    (r'import Core\.Evolution\.gemini_api', 'import Core._03_Interaction._04_Network.gemini_api'),
     
     # Core.Structure.* -> Core._01_Foundation.*
-    (r'from Core\.Structure\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Structure\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Structure\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Structure\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core._02_Intelligence.Will.* -> Core._01_Foundation.*
-    (r'from Core\.Intelligence\.Will\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Intelligence\.Will\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Intelligence\.Will\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Intelligence\.Will\.', 'import Core._01_Foundation._02_Logic.'),
     
-    # Core.Interface.* -> Core._01_Foundation.* (some modules moved)
-    (r'from Core\.Interface\.shell_cortex', 'from Core._01_Foundation._04_Governance.Foundation.shell_cortex'),
-    (r'from Core\.Interface\.web_cortex', 'from Core._01_Foundation._04_Governance.Foundation.web_cortex'),
-    (r'from Core\.Interface\.cosmic_transceiver', 'from Core._01_Foundation._04_Governance.Foundation.cosmic_transceiver'),
-    (r'from Core\.Interface\.quantum_port', 'from Core._01_Foundation._04_Governance.Foundation.quantum_port'),
-    (r'from Core\.Interface\.holographic_cortex', 'from Core._01_Foundation._04_Governance.Foundation.holographic_cortex'),
-    (r'from Core\.Interface\.envoy_protocol', 'from Core._01_Foundation._04_Governance.Foundation.envoy_protocol'),
-    (r'from Core\.Interface\.synapse_bridge', 'from Core._01_Foundation._04_Governance.Foundation.synapse_bridge'),
-    (r'from Core\.Interface\.user_bridge', 'from Core._01_Foundation._04_Governance.Foundation.user_bridge'),
-    (r'from Core\.Interface\.kenosis_protocol', 'from Core._01_Foundation._04_Governance.Foundation.kenosis_protocol'),
-    (r'from Core\.Interface\.real_communication_system', 'from Core._01_Foundation._04_Governance.Foundation.real_communication_system'),
+    # Core._02_Interface.* -> Core._01_Foundation.* (some modules moved)
+    (r'from Core\.Interface\.shell_cortex', 'from Core._01_Foundation._02_Logic.shell_cortex'),
+    (r'from Core\.Interface\.web_cortex', 'from Core._01_Foundation._02_Logic.web_cortex'),
+    (r'from Core\.Interface\.cosmic_transceiver', 'from Core._01_Foundation._02_Logic.cosmic_transceiver'),
+    (r'from Core\.Interface\.quantum_port', 'from Core._01_Foundation._02_Logic.quantum_port'),
+    (r'from Core\.Interface\.holographic_cortex', 'from Core._01_Foundation._02_Logic.holographic_cortex'),
+    (r'from Core\.Interface\.envoy_protocol', 'from Core._01_Foundation._02_Logic.envoy_protocol'),
+    (r'from Core\.Interface\.synapse_bridge', 'from Core._01_Foundation._02_Logic.synapse_bridge'),
+    (r'from Core\.Interface\.user_bridge', 'from Core._01_Foundation._02_Logic.user_bridge'),
+    (r'from Core\.Interface\.kenosis_protocol', 'from Core._01_Foundation._02_Logic.kenosis_protocol'),
+    (r'from Core\.Interface\.real_communication_system', 'from Core._01_Foundation._02_Logic.real_communication_system'),
     
     # Core.Memory.* -> Core._01_Foundation.*
-    (r'from Core\.Memory\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Memory\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Memory\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Memory\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core._04_Evolution.* -> Core._01_Foundation.* (some modules)
-    (r'from Core\.Evolution\.cortex_optimizer', 'from Core._01_Foundation._04_Governance.Foundation.cortex_optimizer'),
-    (r'from Core\.Evolution\.self_reflector', 'from Core._01_Foundation._04_Governance.Foundation.self_reflector'),
-    (r'from Core\.Evolution\.transcendence_engine', 'from Core._01_Foundation._04_Governance.Foundation.transcendence_engine'),
-    (r'from Core\.Evolution\.anamnesis', 'from Core._01_Foundation._04_Governance.Foundation.anamnesis'),
+    (r'from Core\.Evolution\.cortex_optimizer', 'from Core._01_Foundation._02_Logic.cortex_optimizer'),
+    (r'from Core\.Evolution\.self_reflector', 'from Core._01_Foundation._02_Logic.self_reflector'),
+    (r'from Core\.Evolution\.transcendence_engine', 'from Core._01_Foundation._02_Logic.transcendence_engine'),
+    (r'from Core\.Evolution\.anamnesis', 'from Core._01_Foundation._02_Logic.anamnesis'),
     
     # Core.Action.* -> Core._01_Foundation.*
-    (r'from Core\.Action\.', 'from Core._01_Foundation._04_Governance.Foundation.'),
-    (r'import Core\.Action\.', 'import Core._01_Foundation._04_Governance.Foundation.'),
+    (r'from Core\.Action\.', 'from Core._01_Foundation._02_Logic.'),
+    (r'import Core\.Action\.', 'import Core._01_Foundation._02_Logic.'),
     
     # Core.System.* -> Core._01_Foundation.* (some modules)
-    (r'from Core\.System\.global_grid', 'from Core._01_Foundation._04_Governance.Foundation.global_grid'),
-    (r'from Core\.System\.wave_integration_hub', 'from Core._01_Foundation._04_Governance.Foundation.wave_integration_hub'),
+    (r'from Core\.System\.global_grid', 'from Core._01_Foundation._02_Logic.global_grid'),
+    (r'from Core\.System\.wave_integration_hub', 'from Core._01_Foundation._02_Logic.wave_integration_hub'),
     
     # scripts.Maintenance.* -> Core._01_Foundation.* (if moved)
-    (r'from scripts\.Maintenance\.self_integration', 'from Core._01_Foundation._04_Governance.Foundation.self_integration'),
+    (r'from scripts\.Maintenance\.self_integration', 'from Core._01_Foundation._02_Logic.self_integration'),
     
     # Keep Core._02_Intelligence.Will, Core._02_Intelligence._01_Reasoning, etc. as is
     # But fix Core._02_Intelligence._01_Reasoning_engine etc.
-    (r'from Core\.Intelligence\.reasoning_engine', 'from Core._01_Foundation._04_Governance.Foundation.reasoning_engine'),
-    (r'from Core\.Intelligence\.dream_engine', 'from Core._01_Foundation._04_Governance.Foundation.dream_engine'),
-    (r'from Core\.Intelligence\.mind_mitosis', 'from Core._01_Foundation._04_Governance.Foundation.mind_mitosis'),
-    (r'from Core\.Intelligence\.knowledge_acquisition', 'from Core._01_Foundation._04_Governance.Foundation.knowledge_acquisition'),
-    (r'from Core\.Intelligence\.code_cortex', 'from Core._01_Foundation._04_Governance.Foundation.code_cortex'),
-    (r'from Core\.Intelligence\.rapid_learning_engine', 'from Core._01_Foundation._04_Governance.Foundation.rapid_learning_engine'),
-    (r'from Core\.Intelligence\.language_center', 'from Core._01_Foundation._04_Governance.Foundation.language_center'),
-    (r'from Core\.Intelligence\.autonomous_language', 'from Core._01_Foundation._04_Governance.Foundation.autonomous_language'),
-    (r'from Core\.Intelligence\.ultra_dimensional_reasoning', 'from Core._01_Foundation._04_Governance.Foundation.ultra_dimensional_reasoning'),
-    (r'from Core\.Intelligence\.social_cortex', 'from Core._01_Foundation._04_Governance.Foundation.social_cortex'),
-    (r'from Core\.Intelligence\.media_cortex', 'from Core._01_Foundation._04_Governance.Foundation.media_cortex'),
-    (r'from Core\.Intelligence\.imagination_core', 'from Core._01_Foundation._04_Governance.Foundation.imagination_core'),
-    (r'from Core\.Intelligence\.loop_breaker', 'from Core._01_Foundation._04_Governance.Foundation.loop_breaker'),
-    (r'from Core\.Intelligence\.black_hole', 'from Core._01_Foundation._04_Governance.Foundation.black_hole'),
-    (r'from Core\.Intelligence\.quantum_reader', 'from Core._01_Foundation._04_Governance.Foundation.quantum_reader'),
+    (r'from Core\.Intelligence\.reasoning_engine', 'from Core._01_Foundation._02_Logic.reasoning_engine'),
+    (r'from Core\.Intelligence\.dream_engine', 'from Core._01_Foundation._02_Logic.dream_engine'),
+    (r'from Core\.Intelligence\.mind_mitosis', 'from Core._01_Foundation._02_Logic.mind_mitosis'),
+    (r'from Core\.Intelligence\.knowledge_acquisition', 'from Core._01_Foundation._02_Logic.knowledge_acquisition'),
+    (r'from Core\.Intelligence\.code_cortex', 'from Core._01_Foundation._02_Logic.code_cortex'),
+    (r'from Core\.Intelligence\.rapid_learning_engine', 'from Core._01_Foundation._02_Logic.rapid_learning_engine'),
+    (r'from Core\.Intelligence\.language_center', 'from Core._01_Foundation._02_Logic.language_center'),
+    (r'from Core\.Intelligence\.autonomous_language', 'from Core._01_Foundation._02_Logic.autonomous_language'),
+    (r'from Core\.Intelligence\.ultra_dimensional_reasoning', 'from Core._01_Foundation._02_Logic.ultra_dimensional_reasoning'),
+    (r'from Core\.Intelligence\.social_cortex', 'from Core._01_Foundation._02_Logic.social_cortex'),
+    (r'from Core\.Intelligence\.media_cortex', 'from Core._01_Foundation._02_Logic.media_cortex'),
+    (r'from Core\.Intelligence\.imagination_core', 'from Core._01_Foundation._02_Logic.imagination_core'),
+    (r'from Core\.Intelligence\.loop_breaker', 'from Core._01_Foundation._02_Logic.loop_breaker'),
+    (r'from Core\.Intelligence\.black_hole', 'from Core._01_Foundation._02_Logic.black_hole'),
+    (r'from Core\.Intelligence\.quantum_reader', 'from Core._01_Foundation._02_Logic.quantum_reader'),
 ]
 
 def fix_imports_in_file(filepath: Path) -> int:

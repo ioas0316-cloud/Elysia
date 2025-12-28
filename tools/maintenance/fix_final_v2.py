@@ -1,0 +1,14 @@
+﻿import os
+import re
+from pathlib import Path
+ROOT = Path(r'C:\Elysia\Core')
+def repair(file_path):
+    try:
+        content = file_path.read_text(encoding='utf-8')
+        # Core._01_Foundation._02_Logic.autonomous_fractal_learning -> Core._04_Evolution._01_Growth.autonomous_fractal_learning
+        new_content = re.sub(r'Core\._01_Foundation\._02_Logic\.autonomous_fractal_learning', r'Core._04_Evolution._01_Growth.autonomous_fractal_learning', content)
+        if new_content != content:
+            file_path.write_text(new_content, encoding='utf-8')
+    except: pass
+if __name__ == "__main__":
+    for py in ROOT.rglob("*.py"): repair(py)

@@ -36,7 +36,7 @@ except ImportError:
     WAVE_CODER_AVAILABLE = False
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.torch_graph import get_torch_graph
+    from Core._01_Foundation._02_Logic.torch_graph import get_torch_graph
     TORCH_GRAPH_AVAILABLE = True
 except ImportError:
     TORCH_GRAPH_AVAILABLE = False

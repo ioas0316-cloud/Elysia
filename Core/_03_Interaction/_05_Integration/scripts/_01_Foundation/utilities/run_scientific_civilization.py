@@ -8,7 +8,7 @@ if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
 from Core._04_Evolution._01_Growth.Evolution.Evolution.Life.code_world import CodeWorld
-from Core._01_Foundation._04_Governance.Foundation.visualizer_server import VisualizerServer
+from Core._01_Foundation._02_Logic.visualizer_server import VisualizerServer
 import time
 
 logging.basicConfig(level=logging.INFO)

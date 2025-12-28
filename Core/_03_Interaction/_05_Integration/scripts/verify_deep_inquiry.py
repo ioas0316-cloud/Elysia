@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verification Script: Deep Cognitive Inquiry (The Crucible)
 ==========================================================
 "A machine answers. A mind asks."
@@ -19,8 +19,8 @@ import os
 # Add root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._04_Evolution._02_Learning.Learning.resonance_learner import ResonanceLearner
-from Core._04_Evolution._02_Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain, KnowledgeNode
+from Core._04_Evolution._02_Learning.resonance_learner import ResonanceLearner
+from Core._04_Evolution._02_Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain, KnowledgeNode
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -97,3 +97,4 @@ def test_deep_inquiry():
 
 if __name__ == "__main__":
     test_deep_inquiry()
+

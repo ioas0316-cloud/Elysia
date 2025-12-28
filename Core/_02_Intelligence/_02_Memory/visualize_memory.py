@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import matplotlib.pyplot as plt
 import networkx as nx
-from Core._01_Foundation._04_Governance.Foundation.Mind.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.Mind.hippocampus import Hippocampus
 
 def visualize_memory(hippocampus: Hippocampus, output_path: str = "memory_graph.png"):
     """Generate and save a visualization of the memory graph."""

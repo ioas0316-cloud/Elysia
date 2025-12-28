@@ -23,14 +23,14 @@ logger = logging.getLogger("CognitiveHub")
 # ============================================================================
 
 try:
-    from Core._02_Intelligence._01_Reasoning.Cognition.principle_distiller import get_principle_distiller, PrincipleDistiller
+    from Core._02_Intelligence._01_Reasoning.principle_distiller import get_principle_distiller, PrincipleDistiller
     PRINCIPLE_AVAILABLE = True
 except ImportError:
     PRINCIPLE_AVAILABLE = False
     logger.warning("⚠️ PrincipleDistiller not available")
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.experience_learner import ExperienceLearner, Experience
+    from Core._01_Foundation._02_Logic.experience_learner import ExperienceLearner, Experience
     EXPERIENCE_AVAILABLE = True
 except ImportError:
     try:
@@ -42,7 +42,7 @@ except ImportError:
         logger.warning("⚠️ ExperienceLearner not available")
 
 try:
-    from Core._01_Foundation._04_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine
+    from Core._01_Foundation._02_Logic.causal_narrative_engine import CausalNarrativeEngine
     CAUSAL_AVAILABLE = True
 except ImportError:
     CAUSAL_AVAILABLE = False
@@ -56,12 +56,12 @@ except ImportError:
 
 try:
     # After Foundation split, torch_graph is in Graph/
-    from Core._01_Foundation._04_Governance.Foundation.Graph.torch_graph import get_torch_graph
+    from Core._01_Foundation._02_Logic.Graph.torch_graph import get_torch_graph
     GRAPH_AVAILABLE = True
 except ImportError:
     try:
         # Fallback to redirect stub
-        from Core._01_Foundation._04_Governance.Foundation.torch_graph import get_torch_graph
+        from Core._01_Foundation._02_Logic.torch_graph import get_torch_graph
         GRAPH_AVAILABLE = True
     except ImportError:
         GRAPH_AVAILABLE = False

@@ -11,10 +11,10 @@ Internal Universe Facade (Redirect Module)
 
 사용법:
     # 레거시 (이 파사드를 통해 작동)
-    from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
+    from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
     
     # 권장 (직접 import)
-    from Core._02_Intelligence._02_Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse
+    from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.Vector.internal_universe import InternalUniverse
 """
 
 import warnings
@@ -28,8 +28,8 @@ warnings.warn(
 )
 
 # 실제 모듈에서 모든 것을 가져옴
-from Core._02_Intelligence._02_Memory_Linguistics.Memory.Vector.internal_universe import *
-from Core._02_Intelligence._02_Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse, WorldCoordinate
+from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.Vector.internal_universe import *
+from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.Vector.internal_universe import InternalUniverse, WorldCoordinate
 
 # 명시적 export
 __all__ = ['InternalUniverse', 'WorldCoordinate']

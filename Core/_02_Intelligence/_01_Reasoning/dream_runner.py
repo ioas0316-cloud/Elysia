@@ -10,7 +10,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 # Setup Logging
 logging.basicConfig(level=logging.INFO)
 
-from Core._02_Intelligence._01_Reasoning.Cognition.dream_system import DreamSystem
+from Core._02_Intelligence._01_Reasoning.dream_system import DreamSystem
 
 def dream_simulation():
     print("\n🌙 Initiating Dream Simulation Protocol...")

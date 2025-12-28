@@ -5,7 +5,7 @@ Wrapper approach - extends Elysia without modifying original file.
 Safe, reversible, and easy to test.
 """
 from Core._01_Foundation._01_Core_Logic.Elysia.Elysia import Elysia as BaseElysia
-from Core._01_Foundation._04_Governance.Foundation.Mind.world_tree import WorldTree
+from Core._01_Foundation._02_Logic.Mind.world_tree import WorldTree
 import logging
 
 logger = logging.getLogger("Elysia")

@@ -8,10 +8,10 @@ import time
 import random
 from typing import List, Dict, Any
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
-from Core._01_Foundation._04_Governance.Foundation.imagination_core import ImaginationCore
-from Core._01_Foundation._04_Governance.Foundation.dream_engine import DreamEngine
-from Core._01_Foundation._04_Governance.Foundation.cosmic_studio import CosmicStudio
-from Core._01_Foundation._04_Governance.Foundation.resonance_physics import ResonancePhysics
+from Core._01_Foundation._02_Logic.imagination_core import ImaginationCore
+from Core._01_Foundation._02_Logic.dream_engine import DreamEngine
+from Core._01_Foundation._02_Logic.cosmic_studio import CosmicStudio
+from Core._01_Foundation._02_Logic.resonance_physics import ResonancePhysics
 from Core._02_Intelligence._01_Reasoning.Intelligence.Reasoning.lobes.perception import Insight
 
 logger = logging.getLogger("ImaginationLobe")
@@ -109,7 +109,7 @@ class ImaginationLobe:
         related_concepts = self.memory.recall(theme)
         
         try:
-            from Core._01_Foundation._04_Governance.Foundation.communication_enhancer import CommunicationEnhancer
+            from Core._01_Foundation._02_Logic.communication_enhancer import CommunicationEnhancer
             if not self.comm_enhancer:
                 self.comm_enhancer = CommunicationEnhancer()
             # Logic for using enhancer would go here

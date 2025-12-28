@@ -36,7 +36,7 @@ from enum import Enum, auto
 
 # 기존 Elysia 물리학 시스템 사용
 try:
-    from Core._01_Foundation._04_Governance.Foundation.Physics.fluctlight import FluctlightParticle, FluctlightEngine
+    from Core._01_Foundation._02_Logic.Physics.fluctlight import FluctlightParticle, FluctlightEngine
 except ImportError:
     # 독립 실행 시 모의 객체 사용
     FluctlightParticle = None

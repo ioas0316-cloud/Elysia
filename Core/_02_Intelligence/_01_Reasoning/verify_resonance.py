@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Organic Import (Neural Registry)
 from Core._01_Foundation._01_Infrastructure.elysia_core import Organ
-from elysia_core.cells import *
+from Core._01_Foundation._01_Infrastructure.elysia_core.cells import *
 
 def verify():
     print("🔋 Initializing UnifiedUnderstanding (Organic)...")

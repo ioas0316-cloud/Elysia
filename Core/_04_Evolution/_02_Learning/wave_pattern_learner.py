@@ -136,7 +136,7 @@ class WavePatternLearner:
             pattern = WavePattern(
                 name="import_hyperqubit",
                 pattern_type="import",
-                template="from Core._01_Foundation._04_Governance.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
+                template="from Core._01_Foundation._02_Logic.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
                 context="Wave 기반 개념 표현을 위한 import"
             )
             self._add_pattern(pattern)
@@ -244,7 +244,7 @@ class WavePatternLearner:
         if "import_hyperqubit" in self.patterns:
             rules.append(TransformationRule(
                 legacy_pattern=r"from typing import",
-                wave_template="from typing import {types}\nfrom Core._01_Foundation._04_Governance.Foundation.Math.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
+                wave_template="from typing import {types}\nfrom Core._01_Foundation._02_Logic.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit",
                 description="Wave import 추가",
                 learned_from="import_hyperqubit"
             ))

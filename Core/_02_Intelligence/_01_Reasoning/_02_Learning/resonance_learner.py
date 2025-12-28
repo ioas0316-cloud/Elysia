@@ -26,7 +26,7 @@ import math
 import numpy as np
 
 from Core._01_Foundation._01_Infrastructure.elysia_core import Cell, Organ
-from Core._02_Intelligence._01_Reasoning.Cognition.Meta.epistemic_monitor import EpistemicMonitor, EpistemicSource
+from Core._02_Intelligence._01_Reasoning.Meta.epistemic_monitor import EpistemicMonitor, EpistemicSource
 
 # 의존성
 # WhyEngine, ResonanceField 등은 Organ.get()으로 런타임에 가져옴
@@ -88,7 +88,7 @@ class ResonanceLearner:
         try:
             return Organ.get("WhyEngine")
         except Exception:
-            from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
+            from Core._01_Foundation._02_Logic.why_engine import WhyEngine
             return WhyEngine()
 
     def measure_interference(self, internal_concept: str, external_signal: Any) -> float:
@@ -195,7 +195,7 @@ class ResonanceLearner:
         try:
             return Organ.get("HierarchicalKnowledgeGraph")
         except:
-            from Core._02_Intelligence._02_Memory_Linguistics.Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
+            from Core._02_Intelligence._02_Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
             # Assuming singleton or load from default path
             return HierarchicalKnowledgeGraph()
 
@@ -203,7 +203,7 @@ class ResonanceLearner:
         try:
             return Organ.get("InternalUniverse")
         except:
-            from Core._02_Intelligence._02_Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse
+            from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.Vector.internal_universe import InternalUniverse
             return InternalUniverse() # This might create a new instance if not singleton, but acceptable for now
 
             return ReasoningEngine()
@@ -212,14 +212,14 @@ class ResonanceLearner:
         try:
             return Organ.get("ReasoningEngine")
         except:
-            from Core._02_Intelligence._01_Reasoning.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+            from Core._02_Intelligence._01_Reasoning.Reasoning.reasoning_engine import ReasoningEngine
             return ReasoningEngine()
 
     def _get_epistemic_monitor(self):
         try:
             return Organ.get("EpistemicMonitor")
         except:
-            from Core._02_Intelligence._01_Reasoning.Cognition.Meta.epistemic_monitor import EpistemicMonitor
+            from Core._02_Intelligence._01_Reasoning.Meta.epistemic_monitor import EpistemicMonitor
             return EpistemicMonitor()
 
     def _get_senses(self):

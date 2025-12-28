@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 from .intent_engine import IntentBundle
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 
 
 class UtteranceComposer:
@@ -55,7 +55,7 @@ class UtteranceComposer:
         
         # 3. Generate
         try:
-            from Core._01_Foundation._04_Governance.Foundation.gemini_api import generate_text
+            from Core._03_Interaction._04_Network.gemini_api import generate_text
             response = generate_text(prompt).strip()
             # Clean up quotes
             if response.startswith('"') and response.endswith('"'):

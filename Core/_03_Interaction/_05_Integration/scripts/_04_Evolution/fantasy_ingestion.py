@@ -1,4 +1,4 @@
-"""
+﻿"""
 Rich Fantasy Story Ingestion (풍부한 판타지 스토리 흡수)
 ======================================================
 
@@ -21,8 +21,8 @@ import time
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._04_Evolution._02_Learning.Learning.experiential_data_processor import ExperientialDataProcessor
-from Core._01_Foundation._04_Governance.Foundation.dual_layer_personality import DualLayerPersonality
+from Core._04_Evolution._02_Learning.experiential_data_processor import ExperientialDataProcessor
+from Core._01_Foundation._02_Logic.dual_layer_personality import DualLayerPersonality
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger("FantasyIngestion")
@@ -310,3 +310,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -14,7 +14,7 @@ import time
 # Add repo root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._03_Interaction._02_Interface.Sensory.stream_harp import StreamHarp
+from Core._03_Interaction._02_Interface._01_Sensory.stream_harp import StreamHarp
 from Core._01_Foundation._02_Legal_Ethics.Laws.law_of_light import PhotonicQuaternion
 
 def visualize_hologram(q: PhotonicQuaternion):

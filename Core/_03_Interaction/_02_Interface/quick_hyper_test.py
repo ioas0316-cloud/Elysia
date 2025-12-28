@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, "C:\\Elysia")
 
-from Core._03_Interaction._02_Interface.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
+from Core._03_Interaction._02_Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
 
 engine = DialogueEngine()
 

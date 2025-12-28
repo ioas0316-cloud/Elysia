@@ -1,4 +1,4 @@
-
+﻿
 """
 Composition Engine (The Artisan's Eye)
 ======================================
@@ -15,7 +15,7 @@ import logging
 from dataclasses import dataclass
 from typing import List, Tuple, Dict
 from pathlib import Path
-from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
+from Core._01_Foundation._02_Logic.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("CompositionEngine")
 
@@ -217,3 +217,4 @@ class CompositionEngine:
         if "system" in mood: return {"bg": "#001133", "fg": "#00FFFF"}
         if "magic" in mood: return {"bg": "#110022", "fg": "#CC00FF"}
         return {"bg": "#111111", "fg": "#FFFFFF"}
+

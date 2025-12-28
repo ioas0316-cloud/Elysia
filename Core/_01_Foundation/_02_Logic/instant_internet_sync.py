@@ -30,8 +30,8 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from Core._02_Intelligence._01_Reasoning.Intelligence.spiderweb import Spiderweb
-from Core._01_Foundation._04_Governance.Foundation.wave_integration_hub import WaveIntegrationHub
-from Core._01_Foundation._04_Governance.Foundation.resonance_data_connector import ResonanceDataConnector
+from Core._01_Foundation._02_Logic.wave_integration_hub import WaveIntegrationHub
+from Core._01_Foundation._02_Logic.resonance_data_connector import ResonanceDataConnector
 
 logger = logging.getLogger("InstantInternetSync")
 

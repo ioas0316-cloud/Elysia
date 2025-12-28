@@ -26,15 +26,15 @@ import logging
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import all 9 systems!
-from Core._01_Foundation._04_Governance.Foundation.aesthetic_filter import BeautyMetric, AestheticGovernor
-from Core._01_Foundation._04_Governance.Foundation.convolution_engine import ConvolutionEngine
-from Core._01_Foundation._04_Governance.Foundation.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
-from Core._01_Foundation._04_Governance.Foundation.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
-from Core._01_Foundation._04_Governance.Foundation.stability_controller import LyapunovController
-from Core._01_Foundation._04_Governance.Foundation.legendre_bridge import LegendreTransform, ConceptDynamicsBridge
-from Core._01_Foundation._04_Governance.Foundation.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
-from Core._01_Foundation._04_Governance.Foundation.neuron_cortex import CognitiveNeuron
-from Core._01_Foundation._04_Governance.Foundation.laplace_engine import LaplaceEngine
+from Core._01_Foundation._02_Logic.aesthetic_filter import BeautyMetric, AestheticGovernor
+from Core._01_Foundation._02_Logic.convolution_engine import ConvolutionEngine
+from Core._01_Foundation._02_Logic.eigenvalue_destiny import EigenvalueDestiny, DestinyGuardian
+from Core._01_Foundation._02_Logic.sigma_algebra import SigmaAlgebra, MeasurableSet, ProbabilityMeasure
+from Core._01_Foundation._02_Logic.stability_controller import LyapunovController
+from Core._01_Foundation._02_Logic.legendre_bridge import LegendreTransform, ConceptDynamicsBridge
+from Core._01_Foundation._02_Logic.phase_portrait_neurons import IntegratorNeuron, ResonatorNeuron
+from Core._01_Foundation._02_Logic.neuron_cortex import CognitiveNeuron
+from Core._01_Foundation._02_Logic.laplace_engine import LaplaceEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("UnifiedDemo")

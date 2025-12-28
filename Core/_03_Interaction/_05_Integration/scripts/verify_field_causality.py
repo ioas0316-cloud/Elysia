@@ -13,7 +13,7 @@ import sys
 import os
 sys.path.append("c:\\Elysia")
 
-from Core._02_Intelligence._01_Reasoning.Cognition.Reasoning.causal_geometry import TensionField, CausalShape
+from Core._02_Intelligence._01_Reasoning.Reasoning.causal_geometry import TensionField, CausalShape
 
 def test_causal_fit():
     print("🧪 Testing Causal Fit Logic...")

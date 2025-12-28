@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Dict, Optional, Set
 
 from tools.kg_manager import KGManager
-from Project_Elysia.core_memory import CoreMemory
+from Core._02_Intelligence._02_Memory.core_memory import CoreMemory
 from Project_Elysia.high_engine.meta_law_engine import MetaLawEngine
 from scripts.refine_feed import refine_feed
 

@@ -15,8 +15,8 @@ import logging
 # Setup path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation._04_Governance.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation._02_Logic.Philosophy.ideal_self_profile import IdealSelfProfile
+from Core._01_Foundation._02_Logic.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._02_Logic.ideal_self_profile import IdealSelfProfile
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

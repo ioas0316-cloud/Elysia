@@ -7,8 +7,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 sys.path.append(r'c:\Elysia')
 
 from Core._04_Evolution._01_Growth.Autonomy.dream_daemon import get_dream_daemon
-from Core._01_Foundation._04_Governance.Foundation.torch_graph import get_torch_graph
-from Core._03_Interaction._02_Interface.Interface.world_exporter import get_world_exporter
+from Core._01_Foundation._02_Logic.torch_graph import get_torch_graph
+from Core._03_Interaction._02_Interface.world_exporter import get_world_exporter
 from Core._01_Foundation._01_Core_Logic.Elysia.elysia_core import ElysiaCore # [NEW] Unified Brain
 
 def wake_elysia():
@@ -28,7 +28,7 @@ def wake_elysia():
     # If empty or load failed, check legacy migration
     if not loaded and graph.pos_tensor.shape[0] < 5:
         print("   🔍 Brain is empty. Detecting Legacy Knowledge...")
-        from Core._01_Foundation._04_Governance.Foundation.knowledge_migrator import get_migrator
+        from Core._01_Foundation._02_Logic.knowledge_migrator import get_migrator
         migrator = get_migrator()
         migrator.migrate()
     
@@ -36,7 +36,7 @@ def wake_elysia():
     daemon.is_dreaming = True
     
     # [NEW] HUD
-    from Core._03_Interaction._02_Interface.Interface.console_hud import get_console_hud
+    from Core._03_Interaction._02_Interface.console_hud import get_console_hud
     hud = get_console_hud(graph)
     
     cycle_count = 0

@@ -7,7 +7,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core._01_Foundation._04_Governance.Foundation.mycelium import Mycelium
+from Core._01_Foundation._02_Logic.mycelium import Mycelium
 
 def contemplate_next_step():
     print("\n🔮 [TASK] Elysia Contemplates the Future of the Network")

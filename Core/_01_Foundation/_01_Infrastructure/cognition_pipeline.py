@@ -14,17 +14,17 @@ from Project_Elysia.architecture.handlers import (
 
 # --- Existing Component Dependencies (for dependency injection) ---
 from .core_memory import CoreMemory
-from Core._01_Foundation._04_Governance.Foundation.logical_reasoner import LogicalReasoner
-from Core._01_Foundation._04_Governance.Foundation.wave_mechanics import WaveMechanics
+from Core._01_Foundation._02_Logic.logical_reasoner import LogicalReasoner
+from Core._01_Foundation._02_Logic.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
-from Core._01_Foundation._04_Governance.Foundation.core.world import World
-from Core._01_Foundation._04_Governance.Foundation.emotional_engine import EmotionalEngine, EmotionalState
-from Core._01_Foundation._04_Governance.Foundation.response_styler import ResponseStyler
-from Core._01_Foundation._04_Governance.Foundation.insight_synthesizer import InsightSynthesizer
+from Core._04_Evolution._01_Growth.world import World
+from Core._02_Intelligence._01_Reasoning._04_Mind.emotional_engine import EmotionalEngine, EmotionalState
+from Core._01_Foundation._02_Logic.response_styler import ResponseStyler
+from Core._01_Foundation._02_Logic.insight_synthesizer import InsightSynthesizer
 from .value_centered_decision import ValueCenteredDecision
-from Core._01_Foundation._04_Governance.Foundation.arithmetic_cortex import ArithmeticCortex
+from Core._01_Foundation._02_Logic.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
-from Core._01_Foundation._04_Governance.Foundation.question_generator import QuestionGenerator
+from Core._01_Foundation._02_Logic.question_generator import QuestionGenerator
 from Project_Mirror.perspective_cortex import PerspectiveCortex
 from .high_engine.dialogue_law_evaluator import DialogueLawEvaluator
 from .high_engine.intent_engine import IntentEngine
@@ -33,9 +33,9 @@ from .high_engine.quaternion_engine import QuaternionConsciousnessEngine
 from .high_engine.causal_reasoner import CausalReasoner
 from .high_engine.syllabic_language_engine import SyllabicLanguageEngine
 from .high_engine.value_engine import ValueEngine
-from Core._01_Foundation._04_Governance.Foundation.planning_cortex import PlanningCortex
-from Core._01_Foundation._04_Governance.Foundation.tool_executor import ToolExecutor
-from Core._01_Foundation._04_Governance.Foundation.gemini_api import GeminiAPI
+from Core._01_Foundation._02_Logic.planning_cortex import PlanningCortex
+from Core._01_Foundation._02_Logic.tool_executor import ToolExecutor
+from Core._03_Interaction._04_Network.gemini_api import GeminiAPI
 
 # Soul-layer state (body / soul / spirit axis)
 try:

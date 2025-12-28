@@ -1,4 +1,4 @@
-"""
+﻿"""
 Fantasy Lexicon Injector
 ========================
 
@@ -13,7 +13,7 @@ from pathlib import Path
 # Setup path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core._04_Evolution._02_Learning.Learning.language_learner import LanguageLearner
+from Core._04_Evolution._02_Learning.language_learner import LanguageLearner
 
 def inject_fantasy_lexicon():
     print("✨ Injecting Professional Fantasy Lexicon...")
@@ -49,3 +49,4 @@ def inject_fantasy_lexicon():
 
 if __name__ == "__main__":
     inject_fantasy_lexicon()
+

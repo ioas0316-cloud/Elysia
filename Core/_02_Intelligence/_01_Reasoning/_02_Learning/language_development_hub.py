@@ -99,7 +99,7 @@ class LanguageDevelopmentHub:
         """LanguageNurture"""
         if self._language_nurture is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.Learning.language_nurture import LanguageNurture
+                from Core._02_Intelligence._01_Reasoning.Learning.language_nurture import LanguageNurture
                 self._language_nurture = LanguageNurture()
             except ImportError as e:
                 logger.warning(f"LanguageNurture not available: {e}")
@@ -110,7 +110,7 @@ class LanguageDevelopmentHub:
         """ReadingDigester"""
         if self._reading_digester is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.Learning.reading_digester import ReadingDigester
+                from Core._02_Intelligence._01_Reasoning.Learning.reading_digester import ReadingDigester
                 self._reading_digester = ReadingDigester(self.language_nurture)
             except ImportError as e:
                 logger.warning(f"ReadingDigester not available: {e}")
@@ -121,7 +121,7 @@ class LanguageDevelopmentHub:
         """ExpressionPractice"""
         if self._expression_practice is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.Learning.expression_practice import ExpressionPractice
+                from Core._02_Intelligence._01_Reasoning.Learning.expression_practice import ExpressionPractice
                 self._expression_practice = ExpressionPractice()
             except ImportError as e:
                 logger.warning(f"ExpressionPractice not available: {e}")
@@ -132,7 +132,7 @@ class LanguageDevelopmentHub:
         """ExternalExplorer"""
         if self._external_explorer is None:
             try:
-                from Core._02_Intelligence._01_Reasoning.Cognition.external_explorer import ExternalExplorer
+                from Core._02_Intelligence._01_Reasoning.external_explorer import ExternalExplorer
                 self._external_explorer = ExternalExplorer()
             except ImportError as e:
                 logger.warning(f"ExternalExplorer not available: {e}")

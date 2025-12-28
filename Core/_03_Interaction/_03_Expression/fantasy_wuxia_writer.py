@@ -11,10 +11,10 @@ YES: 판타지/무협 소설 작가!
 import sys
 sys.path.append('.')
 
-from Core._01_Foundation._04_Governance.Foundation.multi_source_connector import MultiSourceConnector
-from Core._01_Foundation._04_Governance.Foundation.external_data_connector import ExternalDataConnector
-from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
-from Core._01_Foundation._04_Governance.Foundation.communication_enhancer import CommunicationEnhancer
+from Core._01_Foundation._02_Logic.multi_source_connector import MultiSourceConnector
+from Core._03_Interaction._04_Network.external_data_connector import ExternalDataConnector
+from Core._02_Intelligence._04_Mind.internal_universe import InternalUniverse
+from Core._01_Foundation._02_Logic.communication_enhancer import CommunicationEnhancer
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 

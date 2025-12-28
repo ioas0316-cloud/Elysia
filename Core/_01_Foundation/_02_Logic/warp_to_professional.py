@@ -18,7 +18,7 @@ import os
 sys.path.append('.')
 
 from integrated_learning import IntegratedLearner
-from Core._01_Foundation._04_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.hippocampus import Hippocampus
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 import random

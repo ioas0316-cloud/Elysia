@@ -252,7 +252,7 @@ class SynestheticVisualizer:
                     elif event.key == pygame.K_v:
                         # Visualize memory graph
                         print("📊 Visualizing memory graph...")
-                        from Core._01_Foundation._04_Governance.Foundation.visualize_memory import visualize_memory
+                        from Core._01_Foundation._02_Logic.visualize_memory import visualize_memory
                         visualize_memory(kernel.voice.memory, "memory_graph.png")
                         output_queue.put("Memory graph saved! 🧠")
 

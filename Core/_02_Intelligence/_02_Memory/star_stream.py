@@ -10,8 +10,8 @@ Handles bulk processing of raw data into Starlight Memories.
 
 import logging
 from typing import List, Dict, Any, Generator, Tuple
-from Core._02_Intelligence._02_Memory_Linguistics.Memory.starlight_memory import StarlightMemory, Starlight
-from Core._02_Intelligence._02_Memory_Linguistics.Memory.prism_filter import PrismFilter
+from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.starlight_memory import StarlightMemory, Starlight
+from Core._02_Intelligence._02_Memory.Domains.linguistics.Memory.prism_filter import PrismFilter
 
 logger = logging.getLogger("StarStream")
 

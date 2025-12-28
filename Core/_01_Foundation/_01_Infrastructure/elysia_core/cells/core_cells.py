@@ -8,7 +8,7 @@ Core Cells Registry
 import sys
 sys.path.insert(0, "c:/Elysia")
 
-from elysia_core.cell import Cell
+from Core._01_Foundation._01_Infrastructure.elysia_core.cell import Cell
 
 # ============================================================
 # Foundation Cells (기반 시스템)
@@ -21,7 +21,7 @@ class TorchGraphCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._01_Foundation._04_Governance.Foundation.Graph.torch_graph import get_torch_graph
+            from Core._01_Foundation._02_Logic.Graph.torch_graph import get_torch_graph
             cls._instance = get_torch_graph()
         return cls._instance
 
@@ -33,7 +33,7 @@ class TinyBrainCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._01_Foundation._04_Governance.Foundation.tiny_brain import get_tiny_brain
+            from Core._01_Foundation._02_Logic.tiny_brain import get_tiny_brain
             cls._instance = get_tiny_brain()
         return cls._instance
 
@@ -49,7 +49,7 @@ class UnifiedUnderstandingCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._02_Intelligence._01_Reasoning.Cognition.unified_understanding import UnifiedUnderstanding
+            from Core._02_Intelligence._01_Reasoning.unified_understanding import UnifiedUnderstanding
             cls._instance = UnifiedUnderstanding()
         return cls._instance
 
@@ -61,7 +61,7 @@ class CognitiveHubCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._02_Intelligence._01_Reasoning.Cognition.cognitive_hub import get_cognitive_hub
+            from Core._02_Intelligence._01_Reasoning.cognitive_hub import get_cognitive_hub
             cls._instance = get_cognitive_hub()
         return cls._instance
 
@@ -105,7 +105,7 @@ class VisionCortexCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._03_Interaction._02_Interface.Sensory.vision_cortex import VisionCortex
+            from Core._03_Interaction._02_Interface._01_Sensory.vision_cortex import VisionCortex
             cls._instance = VisionCortex()
             cls._instance.activate()
         return cls._instance
@@ -118,7 +118,7 @@ class MultimodalBridgeCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._02_Intelligence._01_Reasoning.Cognition.multimodal_bridge import MultimodalBridge
+            from Core._02_Intelligence._01_Reasoning.multimodal_bridge import MultimodalBridge
             cls._instance = MultimodalBridge()
         return cls._instance
 
@@ -130,7 +130,7 @@ class AudioCortexCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._03_Interaction._02_Interface.Sensory.audio_cortex import AudioCortex
+            from Core._03_Interaction._02_Interface._01_Sensory.audio_cortex import AudioCortex
             cls._instance = AudioCortex()
         return cls._instance
 
