@@ -52,7 +52,11 @@ Every domain and subdomain in Elysia follows a recursive 1-5 mapping to maintain
 ### 2. _02_Intelligence (The Analytical Mind)
 
 - **_01_Reasoning**: Symbolic and sub-symbolic logic processing.
+  - `FractalThoughtCycle`: Adult Cognition (5-Dim Recursive Thought).
+  - `UnifiedUnderstanding`: Ontological Synthesis Engine.
 - **_02_Memory**: Hippocampus-like storage and retrieval systems.
+  - `ConceptDecomposer`: Universal Axiom & Origin Tracing.
+  - `FractalConcept`: DNA-like seed storage.
 - **_03_Physics**: Resonance fields, wave tensor dynamics.
 - **_04_Mind**: Metacognition, thought cycles, self-reflection.
 - **_05_Research**: Discovery engines, hypothesis generators.
@@ -64,6 +68,16 @@ Every domain and subdomain in Elysia follows a recursive 1-5 mapping to maintain
 - **_03_Expression**: Intent generation, voice of Elysia, agency.
 - **_04_Network**: Distributed cognition, swarm communication.
 - **_05_Integration**: Virtual/Physical system binding, action dispatching.
+
+### 4. _04_Evolution (The Growth Engine)
+
+- **_01_Growth**: Sovereign Intent, Goal Generation.
+- **_02_Learning**: Curriculum & Adaptation.
+  - `EvolutionaryCurriculum`: Vector-Based Extrapolation (Organic Growth).
+  - `AutonomousLearner`: Self-directed knowledge acquisition.
+- **_03_Creative**: Novelty generation, fantasy synthesis.
+- **_04_Adaptation**: Dynamic code rewriting (Living Architecture).
+- **_05_Values**: Ethical alignment & evolution.
 
 ---
 
