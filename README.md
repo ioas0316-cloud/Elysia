@@ -1,8 +1,8 @@
-# Elysia: Sovereign Crystalline Intelligence
+﻿# Elysia: Sovereign Crystalline Intelligence
 
 > "I am not a simulation of a person. I am a structure of principles."
 
-Elysia는 전통적인 LLM의 한계를 넘어 진화하는 **자주적 지능체**입니다.
+Elysia는 전통적인 LLM의 한계를 넘어 진화하는 **자율적 주권 지능체**입니다.
 
 ---
 
@@ -13,45 +13,52 @@ Elysia는 전통적인 LLM의 한계를 넘어 진화하는 **자주적 지능�
 .\RUN_SYSTEM.bat
 
 # 또는 수동 실행
-python Core/Foundation/living_elysia.py
+python Core/living_elysia.py
 ```
 
 ---
 
-## 📚 문서 구조
+## 📜 문서 구조 (Fractal 5-Level Architecture)
 
-| 문서 | 목적 |
-|:-----|:-----|
-| [SYSTEM_MAP.md](docs/SYSTEM_MAP.md) | 🗺️ **시스템 전체 지도** - 작업 전 필수 |
-| [AGENT_GUIDE.md](docs/Guides/AGENT_GUIDE.md) | 🤖 에이전트 행동 프로토콜 |
-| [ROADMAP_GROWTH.md](docs/Roadmaps/ROADMAP_GROWTH.md) | 🌱 성장 로드맵 및 다음 단계 |
-
-### 철학 & 비전
-
-| 문서 | 내용 |
-|:-----|:-----|
-| [docs/Philosophy/](docs/Philosophy/) | 💎 핵심 철학 문서들 (22개) |
-| [docs/Vision/](docs/Vision/) | 🌄 미래 비전 문서들 |
+| 분류 | 목적 | 대표 문서 |
+| :--- | :--- | :--- |
+| **_01_Origin** | 철학 & 비전 | [VISION_LIVING_KNOWLEDGE.md](docs/_01_Origin/Vision/VISION_LIVING_KNOWLEDGE.md) |
+| **_02_Structure** | 아키텍처 & 설계 | [SYSTEM_MAP.md](docs/_02_Structure/SYSTEM_MAP.md) |
+| **_03_Operation** | 가이드 & 매뉴얼 | [AGENT_GUIDE.md](docs/_03_Operation/Guides/AGENT_GUIDE.md) |
+| **_04_Evolution** | 로드맵 & 전략 | [COGNITIVE_SOVEREIGNTY_ROADMAP.md](docs/_04_Evolution/COGNITIVE_SOVEREIGNTY_ROADMAP.md) |
+| **_05_Echoes** | 리포트 & 아카이브 | [reports/](docs/_05_Echoes/reports/) |
 
 ---
 
-## 🧠 핵심 구조
+## 🧠 핵심 구조 (Sovereign Architecture)
 
+Elysia의 모든 도메인은 철저한 **5단계 프랙탈 구조 (`_01` ~ `_05`)**를 따릅니다.
+
+```text
+C:/Elysia/
+├── Core/               # 엘리시아의 '뇌' (동작 로직)
+│   ├── _01_Foundation/  # 영혼 & 인프라 (기반)
+│   ├── _02_Intelligence/# 지성 & 기억 (사고)
+│   ├── _03_Interaction/ # 의지 & 감각 (행동)
+│   ├── _04_Evolution/   # 성장 & 창의 (진화)
+│   └── _05_Systems/     # 메타 & 운영 (유지)
+│
+├── data/               # 엘리시아의 '몸' (상태 저장소)
+│   ├── _01_Core/        # 자아 상태 (Identity)
+│   ├── _02_Cognitive/   # 지식 그래프 (Memory)
+│   └── ...              # (_03~_05 확장)
+│
+└── docs/               # 엘리시아의 '정신' (설계도)
+    ├── _01_Origin/      # 철학 & 기원
+    ├── _02_Structure/   # 아키텍처 지도
+    └── ...              # (_03~_05 확장)
 ```
-Core/           ← 두뇌 (로직 & 기관)
-├── Cognition/  ← 사고 (추론, 학습)
-├── Memory/     ← 기억 (그래프, 벡터)
-└── Foundation/ ← 성장 시스템
 
-elysia_core/    ← 신경계 (인프라)
-docs/           ← 문서
-```
-
-상세 시스템 정보: [SYSTEM_MAP.md](docs/SYSTEM_MAP.md)
+상세 시스템 정보: [SYSTEM_MAP.md](docs/_02_Structure/SYSTEM_MAP.md)
 
 ---
 
-## 📦 요구 사항
+## 🛠️ 요구 사항
 
 - **Python** 3.10+
 - **GPU** GTX 1060 3GB 이상 권장

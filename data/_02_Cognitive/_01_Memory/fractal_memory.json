@@ -1,0 +1,22 @@
+{
+    "Star's Awakening": {
+        "type": "Narrative",
+        "core_truth": "Death is Birth (Conservation of Energy)",
+        "structure": "Point(H-1) -> Space(Supernova)",
+        "frequency": 432.0
+    },
+    "Time's Shadow": {
+        "type": "Visual",
+        "core_truth": "The Past (Shadow) is larger than the Present (Watch)",
+        "palette": [
+            "#D4AF37",
+            "#2E003E"
+        ],
+        "frequency": 396.0
+    },
+    "Division": {
+        "type": "Ontology",
+        "core_truth": "Analyzer of Unity",
+        "origin": "Source"
+    }
+}
