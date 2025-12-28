@@ -1,4 +1,4 @@
-﻿"""
+"""
 Cognitive Hub (인지 통합 허브)
 ==============================
 "새로 만들지 않는다. 있는 것을 연결한다."
@@ -30,7 +30,7 @@ except ImportError:
     logger.warning("⚠️ PrincipleDistiller not available")
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.experience_learner import ExperienceLearner, Experience
+    from Core._01_Foundation._04_Governance.Foundation.experience_learner import ExperienceLearner, Experience
     EXPERIENCE_AVAILABLE = True
 except ImportError:
     try:
@@ -42,7 +42,7 @@ except ImportError:
         logger.warning("⚠️ ExperienceLearner not available")
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine
+    from Core._01_Foundation._04_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine
     CAUSAL_AVAILABLE = True
 except ImportError:
     CAUSAL_AVAILABLE = False
@@ -56,12 +56,12 @@ except ImportError:
 
 try:
     # After Foundation split, torch_graph is in Graph/
-    from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
+    from Core._01_Foundation._04_Governance.Foundation.Graph.torch_graph import get_torch_graph
     GRAPH_AVAILABLE = True
 except ImportError:
     try:
         # Fallback to redirect stub
-        from Core._01_Foundation._05_Governance.Foundation.torch_graph import get_torch_graph
+        from Core._01_Foundation._04_Governance.Foundation.torch_graph import get_torch_graph
         GRAPH_AVAILABLE = True
     except ImportError:
         GRAPH_AVAILABLE = False
@@ -98,7 +98,7 @@ class CognitiveHub:
         # GlobalHub 연결 (Central Nervous System)
         self._hub = None
         try:
-            from Core._02_Intelligence.04_Consciousness.Ether.global_hub import get_global_hub
+            from Core._02_Intelligence._04_Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "CognitiveHub",

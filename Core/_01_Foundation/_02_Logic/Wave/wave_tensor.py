@@ -1,4 +1,4 @@
-﻿"""
+"""
 Wave Tensor: The Atom of Hyper-Dimensional Thought
 ==================================================
 

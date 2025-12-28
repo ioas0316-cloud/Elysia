@@ -1,4 +1,4 @@
-﻿"""
+"""
 Ether Node (The Fundamental Particle of Thought)
 ================================================
 

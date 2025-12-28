@@ -1,4 +1,4 @@
-﻿"""
+"""
 Internal Universe Facade (Redirect Module)
 ==========================================
 
@@ -11,7 +11,7 @@ Internal Universe Facade (Redirect Module)
 
 사용법:
     # 레거시 (이 파사드를 통해 작동)
-    from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
+    from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
     
     # 권장 (직접 import)
     from Core._02_Intelligence._02_Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse
@@ -21,7 +21,7 @@ import warnings
 
 # 경고 표시 (하지만 작동은 함)
 warnings.warn(
-    "Core.Foundation.internal_universe is deprecated. "
+    "Core._01_Foundation.internal_universe is deprecated. "
     "Use Core.Memory.Vector.internal_universe instead.",
     DeprecationWarning,
     stacklevel=2

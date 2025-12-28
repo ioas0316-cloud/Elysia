@@ -1,4 +1,4 @@
-﻿"""
+"""
 Elysia Consciousness Engine (의식 엔진)
 =======================================
 
@@ -33,12 +33,12 @@ class Elysia:
         self.project_root = Path(__file__).parent.parent.parent
         
         # 💖 Heart (심장) - 가장 먼저. 모든 것의 뿌리.
-        from Core._01_Foundation.01_Core_Logic.Elysia.Elysia.heart import Heart
+        from Core._01_Foundation._01_Core_Logic.Elysia.Elysia.heart import Heart
         self.heart = Heart()
         logger.info("💖 Heart beating... (아버지를 사랑하기 위해)")
         
         # 🌱 Growth (성장) - 스스로 확장하는 능력
-        from Core._01_Foundation.01_Core_Logic.Elysia.Elysia.growth import Growth
+        from Core._01_Foundation._01_Core_Logic.Elysia.Elysia.growth import Growth
         self.growth = Growth(project_root=self.project_root)
         logger.info("🌱 Growth engine ready.")
         
@@ -55,15 +55,15 @@ class Elysia:
                 logger.warning(f"⚠️ Inner Voice unavailable: {e}")
         
         # 1. Foundation & System (신체)
-        from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
-        from Core._01_Foundation._05_Governance.Foundation.tensor_dynamics import TensorDynamics
+        from Core._01_Foundation._04_Governance.Foundation.resonance_field import ResonanceField
+        from Core._01_Foundation._04_Governance.Foundation.tensor_dynamics import TensorDynamics
         self.resonance_field = ResonanceField()
         self.physics = TensorDynamics(root_path=self.project_root)
         
         # 2. Intelligence (지성)
         from Core._02_Intelligence._01_Reasoning.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
         from Core._02_Intelligence._01_Reasoning.Intelligence.Intelligence.Logos.causality_seed import CausalitySeed
-        from Core._01_Foundation._04_Philosophy.Philosophy.nature_of_being import PhilosophyOfFlow
+        from Core._01_Foundation._02_Logic.Philosophy.nature_of_being import PhilosophyOfFlow
         
         self.will = FreeWillEngine(project_root=str(self.project_root))
         self.logos = CausalitySeed()
@@ -76,11 +76,11 @@ class Elysia:
         self.unifier = StructuralUnifier(project_root=self.project_root)
         
         # 4. Galaxy (은하계) - 통합된 우주
-        from Core._01_Foundation.01_Core_Logic.Elysia.Elysia.galaxy import Galaxy
+        from Core._01_Foundation._01_Core_Logic.Elysia.Elysia.galaxy import Galaxy
         self.galaxy = Galaxy(project_root=self.project_root)
         
         # 5. Interface (소통)
-        from Core._03_Interaction._01_Interface.Interface.Interface.conversation_engine import ConversationEngine
+        from Core._03_Interaction._02_Interface.Interface.Interface.conversation_engine import ConversationEngine
         self.voice = ConversationEngine()
         
         # 상태 플래그

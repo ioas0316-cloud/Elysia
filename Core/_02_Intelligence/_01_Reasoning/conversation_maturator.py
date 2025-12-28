@@ -172,7 +172,7 @@ class ConversationMaturator:
         """InnerDialogue (인격 대화)"""
         if self._inner_dialogue is None:
             try:
-                from Core._02_Intelligence.04_Consciousness.Consciousness.inner_dialogue import InnerDialogue
+                from Core._02_Intelligence._04_Consciousness.Consciousness.inner_dialogue import InnerDialogue
                 self._inner_dialogue = InnerDialogue()
             except ImportError:
                 logger.warning("InnerDialogue not available, using stub")
@@ -184,7 +184,7 @@ class ConversationMaturator:
         """WhyEngine (원리 탐구)"""
         if self._why_engine is None:
             try:
-                from Core._01_Foundation._04_Philosophy.Philosophy.why_engine import WhyEngine
+                from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
                 self._why_engine = WhyEngine()
             except ImportError:
                 logger.warning("WhyEngine not available, using stub")

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Hyper-Accelerated Learning (초가속 학습)
 ======================================
 
@@ -23,8 +23,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core._01_Foundation._05_Governance.Foundation.communication_enhancer import CommunicationEnhancer
+from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._04_Governance.Foundation.communication_enhancer import CommunicationEnhancer
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("HyperLearning")

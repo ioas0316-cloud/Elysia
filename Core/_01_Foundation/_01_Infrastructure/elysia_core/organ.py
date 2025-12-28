@@ -5,7 +5,7 @@ Organ: 위치 무관 연결 인터페이스
 """
 
 from typing import TypeVar, Type, Optional, Any
-from elysia_core.cell import get_registry
+from .cell import get_registry
 
 T = TypeVar("T")
 
@@ -44,7 +44,7 @@ class Organ:
             root_path = "c:/Elysia"
         
         if auto_scan:
-            from elysia_core.scanner import NeuralScanner
+            from .scanner import NeuralScanner
             cls._scanner = NeuralScanner(root_path)
             cls._scanner.scan()
         

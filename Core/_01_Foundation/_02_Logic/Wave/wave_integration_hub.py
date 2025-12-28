@@ -1,4 +1,4 @@
-﻿"""
+"""
 Wave Integration Hub (파동 통합 허브)
 =====================================
 
@@ -60,7 +60,7 @@ class WaveIntegrationHub:
     def _initialize_ether(self):
         """Initialize connection to the Ether field"""
         try:
-            from Core._01_Foundation._05_Governance.Foundation.ether import ether, Wave
+            from Core._01_Foundation._04_Governance.Foundation.ether import ether, Wave
             self.ether = ether
             self.Wave = Wave
             self.active = True

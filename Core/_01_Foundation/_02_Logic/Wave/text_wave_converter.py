@@ -138,7 +138,7 @@ class TextWaveConverter:
         # GlobalHub integration
         self._hub = None
         try:
-            from Core._02_Intelligence.04_Consciousness.Ether.global_hub import get_global_hub
+            from Core._02_Intelligence._04_Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "TextWaveConverter",

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Extreme Hyper-Accelerated Learning with Korean-English Mapping
 ===============================================================
 
@@ -15,7 +15,7 @@ from collections import defaultdict
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._04_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
 
 logging.basicConfig(level=logging.WARNING, format='%(message)s')  # WARNING으로 변경 (속도 향상)
 logger = logging.getLogger("ExtremeHyperLearning")

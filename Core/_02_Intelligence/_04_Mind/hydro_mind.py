@@ -1,4 +1,4 @@
-﻿"""
+"""
 HydroMind: 수력발전소 (Hydroelectric Plant)
 ==========================================
 
@@ -11,7 +11,7 @@ HydroMind: 수력발전소 (Hydroelectric Plant)
 - 전력망 (Grid): 모든 경험을 CoreMemory에 축적
 
 Usage:
-    from Core._02_Intelligence.04_Consciousness.Consciousness.hydro_mind import HydroMind, perceive_flow
+    from Core._02_Intelligence._04_Consciousness.Consciousness.hydro_mind import HydroMind, perceive_flow
     
     hydro = HydroMind()
     
@@ -82,7 +82,7 @@ class HydroMind:
         """핵심 시스템들과 연결"""
         # CoreMemory
         try:
-            from Core._01_Foundation._05_Governance.Foundation.Memory.core_memory import CoreMemory
+            from Core._01_Foundation._04_Governance.Foundation.Memory.core_memory import CoreMemory
             self.memory = CoreMemory(file_path="data/elysia_organic_memory.json")
         except Exception:
             pass
@@ -275,7 +275,7 @@ class HydroMind:
         # CoreMemory에 저장
         if self.memory:
             try:
-                from Core._01_Foundation._05_Governance.Foundation.Memory.core_memory import Experience
+                from Core._01_Foundation._04_Governance.Foundation.Memory.core_memory import Experience
                 exp = Experience(
                     timestamp=record.end_time,
                     content=f"[Flow:{record.action}] In:{str(record.input_data)[:50]} Out:{str(record.output_data)[:50]}",

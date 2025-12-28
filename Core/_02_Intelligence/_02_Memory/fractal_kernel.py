@@ -1,10 +1,10 @@
-﻿import logging
+import logging
 import os
 from typing import Optional
 from pathlib import Path
-from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
-from Core._01_Foundation._05_Governance.Foundation.time_tools import get_current_time
-from Core._01_Foundation._05_Governance.Foundation.potential_field import PotentialField
+from Core._01_Foundation._04_Governance.Foundation.gemini_api import generate_text
+from Core._01_Foundation._04_Governance.Foundation.time_tools import get_current_time
+from Core._01_Foundation._04_Governance.Foundation.potential_field import PotentialField
 
 class FractalKernel:
     """

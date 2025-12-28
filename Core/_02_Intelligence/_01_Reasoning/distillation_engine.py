@@ -15,7 +15,7 @@ from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, asdict
 
 # Import the Spirit (The Standard of Measure)
-from Core._01_Foundation.01_Core_Logic.Elysia.spirit import get_spirit, Spirit
+from Core._01_Foundation._01_Core_Logic.Elysia.spirit import get_spirit, Spirit
 
 logger = logging.getLogger("DistillationEngine")
 

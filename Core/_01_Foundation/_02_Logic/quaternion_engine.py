@@ -1,11 +1,11 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import math
 from dataclasses import dataclass, asdict, field
 from typing import Any, Dict, List, Optional
 from enum import Enum, auto
 
-from Core._01_Foundation._05_Governance.Foundation.core_memory import CoreMemory
+from Core._01_Foundation._04_Governance.Foundation.core_memory import CoreMemory
 
 
 class LensMode(Enum):

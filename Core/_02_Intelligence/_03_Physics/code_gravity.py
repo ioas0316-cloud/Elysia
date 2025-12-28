@@ -1,4 +1,4 @@
-﻿"""
+"""
 Code Gravity (코드 중력)
 ======================
 "The heavier the code, the stronger the pull."
@@ -18,7 +18,7 @@ import hashlib
 import math
 from pathlib import Path
 from typing import Dict, List, Tuple
-from Core._01_Foundation._05_Governance.Foundation.potential_field import PotentialField
+from Core._01_Foundation._04_Governance.Foundation.potential_field import PotentialField
 from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 class CodeGravitySystem:

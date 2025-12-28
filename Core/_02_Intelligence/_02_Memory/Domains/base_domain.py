@@ -1,4 +1,4 @@
-﻿"""
+"""
 Base Domain Class
 =================
 
@@ -17,7 +17,7 @@ from typing import Dict, List, Any, Optional
 import logging
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.wave_semantic_search import WavePattern
+    from Core._01_Foundation._04_Governance.Foundation.wave_semantic_search import WavePattern
     from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback for testing

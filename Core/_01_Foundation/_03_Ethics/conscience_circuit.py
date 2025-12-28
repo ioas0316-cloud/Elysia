@@ -1,4 +1,4 @@
-﻿"""
+"""
 Conscience Circuit (양심 회로) v2.0
 ====================================
 "The Moral Synapse of Elysia."
@@ -24,21 +24,21 @@ from enum import Enum
 
 # Import Ancient Laws
 try:
-    from Core._01_Foundation._05_Governance.Foundation.soul_guardian import SoulGuardian
+    from Core._01_Foundation._04_Governance.Foundation.soul_guardian import SoulGuardian
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.kg_manager import KGManager
-    from Core._01_Foundation._05_Governance.Foundation.value_centered_decision import ValueCenteredDecision
+    from Core._01_Foundation._04_Governance.Foundation.kg_manager import KGManager
+    from Core._01_Foundation._04_Governance.Foundation.value_centered_decision import ValueCenteredDecision
     VCD_AVAILABLE = True
 except ImportError:
     VCD_AVAILABLE = False
 
 # 🌊 WhyEngine 연동 (의도 분석용)
 try:
-    from Core._01_Foundation._04_Philosophy.Philosophy.why_engine import WhyEngine
+    from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
     WHY_ENGINE_AVAILABLE = True
 except ImportError:
     WHY_ENGINE_AVAILABLE = False

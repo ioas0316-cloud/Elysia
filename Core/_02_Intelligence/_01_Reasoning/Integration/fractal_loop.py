@@ -25,13 +25,13 @@ except ImportError:
 
 # LifeCycle for complete feedback loop
 try:
-    from Core.Foundation.life_cycle import LifeCycle
+    from Core._01_Foundation.life_cycle import LifeCycle
 except ImportError:
     LifeCycle = None
 
 # GrowthJournal - visible evidence of change (uses existing SelfGovernance)
 try:
-    from Core.Foundation.growth_journal import get_growth_journal
+    from Core._01_Foundation.growth_journal import get_growth_journal
 except ImportError:
     get_growth_journal = None
 
@@ -103,7 +103,7 @@ class FractalLoop:
         # [NEW] Autonomous Learning - lighter approach using WebKnowledgeConnector directly
         self.web_learner = None
         try:
-            from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+            from Core._01_Foundation.web_knowledge_connector import WebKnowledgeConnector
             self.web_learner = WebKnowledgeConnector()
             logger.info("   🌐 WebKnowledgeConnector ready for autonomous learning")
         except Exception as e:

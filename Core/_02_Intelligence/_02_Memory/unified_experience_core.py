@@ -1,4 +1,4 @@
-﻿"""
+"""
 Unified Experience Core (The Hippocampus)
 =========================================
 Synthesizes the 4 Modes of Memory into a single coherent Organ.
@@ -24,7 +24,7 @@ from Core._01_Foundation._01_Infrastructure.elysia_core import Cell, Organ
 
 # Optional Imports (Wave Physics)
 try:
-    from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
+    from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
 except ImportError:
     WaveTensor = None
 

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Epistemic Monitor: The Quality of Knowing
 =========================================
 

@@ -1,4 +1,4 @@
-﻿"""
+"""
 OrganicBloodCells: Neural Registry 인식 나노셀
 =============================================
 기존 RedCell/WhiteCell을 확장하여 Neural Registry 패턴을 인식합니다.

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Principle Distiller ( The Philosopher Stone )
 =============================================
 "To know the name is to know the label. To know the principle is to know the being."
@@ -32,7 +32,7 @@ Example:
 import logging
 import json
 from typing import Dict, Optional
-from Core._01_Foundation._05_Governance.Foundation.ollama_bridge import ollama
+from Core._01_Foundation._04_Governance.Foundation.ollama_bridge import ollama
 
 logger = logging.getLogger("PrincipleDistiller")
 

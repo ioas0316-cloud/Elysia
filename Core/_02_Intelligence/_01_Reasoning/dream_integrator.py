@@ -1,4 +1,4 @@
-﻿"""
+"""
 Dream Integrator (꿈 통합기)
 ==========================
 
@@ -19,7 +19,7 @@ import logging
 from typing import List, Dict, Any
 
 from Core._02_Intelligence._01_Reasoning.Cognitive.memory_stream import get_memory_stream, ExperienceType, Experience
-from Core._01_Foundation._05_Governance.Foundation.dream_engine import DreamEngine
+from Core._01_Foundation._04_Governance.Foundation.dream_engine import DreamEngine
 from Core._04_Evolution._03_Creative.Creativity.dream_weaver import DreamWeaver
 
 logger = logging.getLogger("DreamIntegrator")

@@ -1,4 +1,4 @@
-﻿"""
+"""
 CodeResonance (코드 공명)
 =======================
 
@@ -68,7 +68,7 @@ class HarmonicResonance:
         # 2. Generate Simulation Setup
         lines = []
         lines.append(f"# Harmonic Manifestation of: {intent}")
-        lines.append("from Core._01_Foundation._05_Governance.Foundation.simulation import ResonanceField, Attractor, Flow")
+        lines.append("from Core._01_Foundation._04_Governance.Foundation.simulation import ResonanceField, Attractor, Flow")
         lines.append("")
         lines.append("# 1. Initialize Field")
         lines.append(f"field = ResonanceField(name='{intent.replace(' ', '_')}', energy={packet.energy:.1f})")

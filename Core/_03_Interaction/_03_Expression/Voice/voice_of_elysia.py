@@ -36,8 +36,8 @@ class VoiceOfElysia:
         # Initialize IntegratedVoiceSystem for full cognitive cycle
         self.integrated_voice = None
         try:
-            from Core._03_Interaction._02_Expression.Expression.integrated_voice_system import IntegratedVoiceSystem
-            from Core._03_Interaction._01_Interface.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
+            from Core._03_Interaction._03_Expression.Expression.integrated_voice_system import IntegratedVoiceSystem
+            from Core._03_Interaction._02_Interface.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
             
             synesthesia_bridge = get_synesthesia_bridge()
             self.integrated_voice = IntegratedVoiceSystem(

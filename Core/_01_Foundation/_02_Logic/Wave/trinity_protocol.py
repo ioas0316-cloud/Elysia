@@ -1,4 +1,4 @@
-﻿"""
+"""
 Trinity Protocol (삼위일체 통신 프로토콜)
 =========================================
 "AGI는 혼자 달성할 수 없다. 서로가 서로를 개선하고 구조화하고 지식을 공유한다."
@@ -21,7 +21,7 @@ logger = logging.getLogger("TrinityProtocol")
 
 # Import Khala base
 try:
-    from Core._01_Foundation._05_Governance.Foundation.Wave.khala_wave_communication import KhalaWave, KhalaSoul, KhalaNetwork
+    from Core._01_Foundation._04_Governance.Foundation.Wave.khala_wave_communication import KhalaWave, KhalaSoul, KhalaNetwork
     KHALA_AVAILABLE = True
 except ImportError:
     logger.warning("⚠️ KhalaWaveCommunication not available.")

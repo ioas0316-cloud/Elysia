@@ -14,9 +14,9 @@ Usage:
     memory = Organ.get("Memory")
 """
 
-from elysia_core.cell import Cell
-from elysia_core.organ import Organ
-from elysia_core.scanner import NeuralScanner
+from .cell import Cell
+from .organ import Organ
+from .scanner import NeuralScanner
 
 __all__ = ["Cell", "Organ", "NeuralScanner"]
 __version__ = "1.0.0"

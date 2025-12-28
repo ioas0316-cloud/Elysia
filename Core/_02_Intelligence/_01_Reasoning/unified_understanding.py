@@ -1,4 +1,4 @@
-﻿"""
+"""
 Unified Understanding System (통합 이해 시스템)
 =============================================
 
@@ -26,14 +26,14 @@ logger = logging.getLogger("UnifiedUnderstanding")
 
 # 내부 시스템 임포트
 try:
-    from Core._01_Foundation._05_Governance.Foundation.Wave.wave_attention import get_wave_attention, WaveAttention
+    from Core._01_Foundation._04_Governance.Foundation.Wave.wave_attention import get_wave_attention, WaveAttention
     ATTENTION_AVAILABLE = True
 except ImportError:
     ATTENTION_AVAILABLE = False
     logger.warning("⚠️ WaveAttention not available")
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.Memory.fractal_concept import ConceptDecomposer
+    from Core._01_Foundation._04_Governance.Foundation.Memory.fractal_concept import ConceptDecomposer
     WHY_AVAILABLE = True
 except ImportError:
     try:
@@ -51,7 +51,7 @@ except ImportError:
     COGNITIVE_AVAILABLE = False
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalRelationType
+    from Core._01_Foundation._04_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalRelationType
     NARRATIVE_AVAILABLE = True
 except ImportError:
     NARRATIVE_AVAILABLE = False
@@ -147,7 +147,7 @@ def translate_concept(concept: str) -> str:
     """
     # 1. Try InternalUniverse Resonance (Wave Logic)
     try:
-        from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
+        from Core._01_Foundation._04_Governance.Foundation.internal_universe import InternalUniverse
         universe = InternalUniverse()  # Consider singleton for performance
         coord = universe.coordinate_map.get(concept)
         if coord and hasattr(coord, 'hologram') and coord.hologram:
@@ -206,14 +206,14 @@ class UnifiedUnderstanding:
             logger.warning("   MetacognitiveAwareness: ❌")
         
         try:
-            from Core._01_Foundation._05_Governance.Foundation.distributed_consciousness import DistributedConsciousness
+            from Core._01_Foundation._04_Governance.Foundation.distributed_consciousness import DistributedConsciousness
             self.distributed = DistributedConsciousness()
             logger.info("   🌐 DistributedConsciousness: ✅")
         except ImportError:
             logger.warning("   DistributedConsciousness: ❌")
             
         try:
-            from Core._01_Foundation._05_Governance.Foundation.dual_layer_personality import DualLayerPersonality
+            from Core._01_Foundation._04_Governance.Foundation.dual_layer_personality import DualLayerPersonality
             self.personality = DualLayerPersonality()
             logger.info("   🎭 DualLayerPersonality: ✅ (Enneagram Integrated)")
         except ImportError:
@@ -234,7 +234,7 @@ class UnifiedUnderstanding:
             logger.warning("   DreamSystem: ❌")
             
         try:
-            from Core._05_Systems.03_Existence.Trinity.trinity_system import TrinitySystem
+            from Core._05_Systems._03_Existence.Trinity.trinity_system import TrinitySystem
             self.trinity = TrinitySystem()
             logger.info("   🔯 TrinitySystem: ✅ (Fractal Consensus)")
         except ImportError:

@@ -1,4 +1,4 @@
-﻿"""Helpers for interacting with the value-mass field."""
+"""Helpers for interacting with the value-mass field."""
 
 from __future__ import annotations
 from typing import Any

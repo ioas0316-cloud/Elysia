@@ -1,4 +1,4 @@
-﻿"""
+"""
 PredictiveMind (예측하는 마음)
 ===========================
 
@@ -39,7 +39,7 @@ class PredictiveMind:
     def _load_narrative_engine(self):
         """Lazy load CausalNarrativeEngine to avoid circular imports."""
         try:
-            from Core._01_Foundation._05_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine
+            from Core._01_Foundation._04_Governance.Foundation.causal_narrative_engine import CausalNarrativeEngine
             self.narrative_engine = CausalNarrativeEngine()
             self.has_language = True
         except ImportError:

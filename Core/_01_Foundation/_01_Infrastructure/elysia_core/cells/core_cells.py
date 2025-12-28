@@ -1,4 +1,4 @@
-﻿"""
+"""
 Core Cells Registry
 ===================
 기존 모듈들을 Cell로 등록하는 래퍼.
@@ -21,7 +21,7 @@ class TorchGraphCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
+            from Core._01_Foundation._04_Governance.Foundation.Graph.torch_graph import get_torch_graph
             cls._instance = get_torch_graph()
         return cls._instance
 
@@ -33,7 +33,7 @@ class TinyBrainCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._01_Foundation._05_Governance.Foundation.tiny_brain import get_tiny_brain
+            from Core._01_Foundation._04_Governance.Foundation.tiny_brain import get_tiny_brain
             cls._instance = get_tiny_brain()
         return cls._instance
 
@@ -77,7 +77,7 @@ class TrinityCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._05_Systems.03_Existence.Trinity.trinity_system import TrinitySystem
+            from Core._05_Systems._03_Existence.Trinity.trinity_system import TrinitySystem
             cls._instance = TrinitySystem()
         return cls._instance
 
@@ -89,7 +89,7 @@ class ConscienceCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._01_Foundation.02_Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
+            from Core._01_Foundation._02_Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
             cls._instance = ConscienceCircuit()
         return cls._instance
 
@@ -105,7 +105,7 @@ class VisionCortexCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._03_Interaction._01_Interface.Sensory.vision_cortex import VisionCortex
+            from Core._03_Interaction._02_Interface.Sensory.vision_cortex import VisionCortex
             cls._instance = VisionCortex()
             cls._instance.activate()
         return cls._instance
@@ -130,7 +130,7 @@ class AudioCortexCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._03_Interaction._01_Interface.Sensory.audio_cortex import AudioCortex
+            from Core._03_Interaction._02_Interface.Sensory.audio_cortex import AudioCortex
             cls._instance = AudioCortex()
         return cls._instance
 

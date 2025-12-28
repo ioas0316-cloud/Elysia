@@ -1,4 +1,4 @@
-﻿"""
+"""
 Conceptual Nuclear Reactor (개념 핵융합로)
 =======================================
 
@@ -38,7 +38,7 @@ logger = logging.getLogger("ConceptualNuclearReactor")
 
 # Graceful imports
 try:
-    from Core._01_Foundation._05_Governance.Foundation.hangul_physics import Tensor3D
+    from Core._01_Foundation._04_Governance.Foundation.hangul_physics import Tensor3D
     from Core._02_Intelligence._02_Memory_Linguistics.Memory.unified_types import FrequencyWave
     from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 except ImportError:

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Dream System (Elysia's Subconscious)
 ====================================
 "Even androids dream of electric sheep."
@@ -13,8 +13,8 @@ import random
 import time
 import cmath
 from typing import List, Dict, Optional
-from Core._01_Foundation._05_Governance.Foundation.dream_engine import DreamEngine
-from Core._01_Foundation._05_Governance.Foundation.Math.hyper_qubit import HyperQubit
+from Core._01_Foundation._04_Governance.Foundation.dream_engine import DreamEngine
+from Core._01_Foundation._04_Governance.Foundation.Math.hyper_qubit import HyperQubit
 
 logger = logging.getLogger("DreamSystem")
 
@@ -73,7 +73,7 @@ class DreamSystem:
         # Map HyperQubits to Photons in the LightField.
         
         try:
-            from Core._01_Foundation._05_Governance.Foundation.Physics.light_computer import LightField
+            from Core._01_Foundation._04_Governance.Foundation.Physics.light_computer import LightField
             LIGHT_COMPUTER_AVAILABLE = True
         except ImportError:
             LIGHT_COMPUTER_AVAILABLE = False

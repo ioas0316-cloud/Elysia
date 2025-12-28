@@ -1,4 +1,4 @@
-﻿"""
+"""
 Exploration Bridge (탐구 브릿지)
 ================================
 
@@ -84,7 +84,7 @@ class ExplorationBridge:
         # 1. WhyEngine (탐구 필요 감지)
         self.why_engine = None
         try:
-            from Core._01_Foundation._04_Philosophy.Philosophy.why_engine import WhyEngine
+            from Core._01_Foundation._02_Logic.Philosophy.why_engine import WhyEngine
             self.why_engine = WhyEngine()
             logger.info("✅ WhyEngine connected")
         except Exception as e:
@@ -93,7 +93,7 @@ class ExplorationBridge:
         # 2. FreeWillEngine (욕구/의지)
         self.free_will = None
         try:
-            from Core._01_Foundation._05_Governance.Foundation.free_will_engine import FreeWillEngine
+            from Core._01_Foundation._04_Governance.Foundation.free_will_engine import FreeWillEngine
             self.free_will = FreeWillEngine()
             logger.info("✅ FreeWillEngine connected")
         except Exception as e:
@@ -102,7 +102,7 @@ class ExplorationBridge:
         # 3. ExplorationCore (외부 탐색)
         self.exploration_core = None
         try:
-            from Core._01_Foundation._05_Governance.Foundation.exploration_core import ExplorationCore
+            from Core._01_Foundation._04_Governance.Foundation.exploration_core import ExplorationCore
             self.exploration_core = ExplorationCore()
             logger.info("✅ ExplorationCore connected")
         except Exception as e:
@@ -130,7 +130,7 @@ class ExplorationBridge:
         # 6. KoreanEnglishMapper (언어 브릿지)
         self.lang_mapper = None
         try:
-            from Core._01_Foundation._05_Governance.Foundation.extreme_hyper_learning import KoreanEnglishMapper
+            from Core._01_Foundation._04_Governance.Foundation.extreme_hyper_learning import KoreanEnglishMapper
             self.lang_mapper = KoreanEnglishMapper()
             logger.info("✅ KoreanEnglishMapper connected")
         except Exception as e:
@@ -384,7 +384,7 @@ class ExplorationBridge:
     def _try_inner_dialogue(self, question: str) -> tuple:
         """내면 대화로 자체 추론 시도"""
         try:
-            from Core._02_Intelligence.04_Consciousness.Consciousness.inner_dialogue import DeepContemplation
+            from Core._02_Intelligence._04_Consciousness.Consciousness.inner_dialogue import DeepContemplation
             dc = DeepContemplation(max_depth=2)
             result = dc.dive(question)
             

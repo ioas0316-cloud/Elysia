@@ -1,4 +1,4 @@
-﻿"""
+"""
 Consciousness Fabric (의식 직물)
 ================================
 
@@ -35,7 +35,7 @@ import uuid
 
 # 기존 시스템 import
 try:
-    from Core._02_Intelligence.04_Consciousness.Consciousness.hyperdimensional_consciousness import (
+    from Core._02_Intelligence._04_Consciousness.Consciousness.hyperdimensional_consciousness import (
         ResonanceField as HyperResonanceField
     )
     HYPER_AVAILABLE = True
@@ -44,7 +44,7 @@ except ImportError:
     HyperResonanceField = None
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.distributed_consciousness import (
+    from Core._01_Foundation._04_Governance.Foundation.distributed_consciousness import (
         ConsciousnessNode, 
         ThoughtPacket,
         NodeState
@@ -55,7 +55,7 @@ except ImportError:
     ConsciousnessNode = None
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.ultra_dimensional_perspective import (
+    from Core._01_Foundation._04_Governance.Foundation.ultra_dimensional_perspective import (
         DimensionalVector,
         UltraDimensionalPerspective
     )
@@ -65,7 +65,7 @@ except ImportError:
     DimensionalVector = None
 
 try:
-    from Core._01_Foundation._05_Governance.Foundation.wave_semantic_search import (
+    from Core._01_Foundation._04_Governance.Foundation.wave_semantic_search import (
         WaveSemanticSearch,
         WavePattern
     )

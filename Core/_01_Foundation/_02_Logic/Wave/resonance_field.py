@@ -1,4 +1,4 @@
-﻿"""
+"""
 Resonance Field System (공명장 시스템)
 ====================================
 
@@ -25,8 +25,7 @@ import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional, Any
 from enum import Enum
-from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
-from Core._01_Foundation._01_Infrastructure.elysia_core import Cell, Organ
+from Core._01_Foundation._04_Governance.Foundation.Math.hyper_quaternion import Quaternion, HyperWavePacket
 
 class PillarType(Enum):
     FOUNDATION = ("Foundation", 100.0, (0, 0, 0))      # 중심
@@ -355,7 +354,7 @@ class ResonanceField:
         # [Phase 11] Add detailed interference analysis
         interference_analysis = None
         try:
-            from Core._01_Foundation._02_Logic.Wave.wave_interference import WaveInterference
+            from Core._01_Foundation._04_Governance.Foundation.Wave.wave_interference import WaveInterference
             interference_analysis = WaveInterference.analyze_field_interference(self.nodes)
         except ImportError:
             pass  # Module not available
@@ -391,7 +390,7 @@ class ResonanceField:
         as resonance nodes in the field.
         
         Args:
-            concept: ConceptNode (from Core.01_Foundation._05_Governance.Foundation.fractal_concept)
+            concept: ConceptNode (from Core._01_Foundation._04_Governance.Foundation.fractal_concept)
             active: Whether this is the primary focus concept (high energy)
         """
         if concept is None:

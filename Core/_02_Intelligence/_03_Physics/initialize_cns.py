@@ -1,4 +1,4 @@
-﻿"""
+"""
 Central Nervous System Initializer
 ===================================
 
@@ -22,7 +22,7 @@ def initialize_central_nervous_system():
     logger.info("🌅 Awakening Central Nervous System...")
     
     # 1. Initialize GlobalHub (the central nervous system itself)
-    from Core._02_Intelligence.04_Consciousness.Ether.global_hub import get_global_hub
+    from Core._02_Intelligence._04_Consciousness.Ether.global_hub import get_global_hub
     hub = get_global_hub()
     logger.info("   ✅ GlobalHub initialized")
     
@@ -36,7 +36,7 @@ def initialize_central_nervous_system():
     
     # 3. Initialize the Why-Engine (Axiom/Causality system)
     try:
-        from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
+        from Core._01_Foundation._04_Governance.Foundation.fractal_concept import ConceptDecomposer
         decomposer = ConceptDecomposer()
         logger.info("   ✅ ConceptDecomposer (Why-Engine) connected")
     except Exception as e:
@@ -52,7 +52,7 @@ def initialize_central_nervous_system():
     
     # 5. Initialize the Ether Dynamics (Field Physics)
     try:
-        from Core._02_Intelligence.04_Consciousness.Ether.field_operators import DynamicsEngine
+        from Core._02_Intelligence._04_Consciousness.Ether.field_operators import DynamicsEngine
         dynamics = DynamicsEngine()
         logger.info("   ✅ DynamicsEngine (Field Physics) connected")
     except Exception as e:
@@ -72,8 +72,8 @@ def demonstrate_wave_communication():
     """
     Demonstrate how modules communicate via waves.
     """
-    from Core._02_Intelligence.04_Consciousness.Ether.global_hub import get_global_hub
-    from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
+    from Core._02_Intelligence._04_Consciousness.Ether.global_hub import get_global_hub
+    from Core._01_Foundation._04_Governance.Foundation.Math.wave_tensor import WaveTensor
     
     hub = get_global_hub()
     

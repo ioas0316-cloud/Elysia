@@ -262,7 +262,7 @@ class Hippocampus:
         Stores a Fractal Concept Seed in the database.
         
         Args:
-            concept: ConceptNode from Core.Foundation.fractal_concept
+            concept: ConceptNode from Core._01_Foundation.fractal_concept
         """
         try:
             with sqlite3.connect(self.db_path) as conn:
@@ -310,7 +310,7 @@ class Hippocampus:
                 
                 row = cursor.fetchone()
                 if row:
-                    from Core._01_Foundation.Foundation.Memory.fractal_concept import ConceptNode
+                    from Core._01_Foundation._02_Logic.Memory.fractal_concept import ConceptNode
                     data = json.loads(row[0])
                     concept = ConceptNode.from_dict(data)
                     logger.info(f"🧲 Seed Pulled: {concept.name} ({len(concept.sub_concepts)} sub-concepts)")
@@ -378,7 +378,7 @@ class Hippocampus:
                 
                 pruned_count = 0
                 for name, data_json in rows:
-                    from Core._01_Foundation.Foundation.Memory.fractal_concept import ConceptNode
+                    from Core._01_Foundation._02_Logic.Memory.fractal_concept import ConceptNode
                     data = json.loads(data_json)
                     concept = ConceptNode.from_dict(data)
                     
