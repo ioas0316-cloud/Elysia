@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 
 
@@ -10,7 +10,7 @@ from typing import Any, Dict, Optional
 
 
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.core_memory import CoreMemory
+from Core._01_Foundation._05_Governance.Foundation.core_memory import CoreMemory
 
 from high_engine.self_model import build_dialogue_self_model, DialogueSelfModel
 

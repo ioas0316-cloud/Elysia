@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unified Field Simulation Test
 =============================
 Tests the emergence of meaning through wave interference.
@@ -12,8 +12,8 @@ import random
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.unified_field import UnifiedField, WavePacket, HyperQuaternion
-from Core._01_Foundation.05_Foundation_Base.Foundation.super_view import SuperView
+from Core._01_Foundation._05_Governance.Foundation.unified_field import UnifiedField, WavePacket, HyperQuaternion
+from Core._01_Foundation._05_Governance.Foundation.super_view import SuperView
 
 def run_simulation():
     print("🌌 Initializing Unified Field Simulation...")

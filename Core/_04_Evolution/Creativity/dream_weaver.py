@@ -1,9 +1,9 @@
-
+﻿
 import logging
 import random
 from typing import Dict, Any, List
-from Core._01_Foundation.05_Foundation_Base.Foundation.dream_engine import DreamEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.dream_engine import DreamEngine
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
 
 logger = logging.getLogger("DreamWeaver")
 

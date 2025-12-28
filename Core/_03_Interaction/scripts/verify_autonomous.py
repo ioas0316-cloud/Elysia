@@ -1,4 +1,4 @@
-
+﻿
 import sys
 import os
 import json
@@ -9,8 +9,8 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core._03_Interaction._01_Interface.Sensory.p4_sensory_system import P4SensorySystem
-from Core._01_Foundation.05_Foundation_Base.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

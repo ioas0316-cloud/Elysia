@@ -1,4 +1,4 @@
-"""
+﻿"""
 Self-Resonance Analysis (자기 공명 분석)
 =========================================
 
@@ -38,7 +38,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 try:
     from Core._02_Intelligence._01_Reasoning.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
     from Core._02_Intelligence._01_Reasoning.Intelligence.integrated_cognition_system import get_integrated_cognition
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+    from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
     SYSTEMS_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Some systems not available: {e}")

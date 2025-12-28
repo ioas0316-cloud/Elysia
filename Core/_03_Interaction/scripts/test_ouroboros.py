@@ -1,4 +1,4 @@
-"""
+﻿"""
 Test Script for Project Ouroboros (Wave-to-Code)
 ================================================
 Verifies that Elysia can physically modify the OS via Wave Resonance.
@@ -11,8 +11,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.reality_sculptor import RealitySculptor
-from Core._01_Foundation.05_Foundation_Base.Foundation.unified_field import WavePacket, HyperQuaternion
+from Core._01_Foundation._05_Governance.Foundation.reality_sculptor import RealitySculptor
+from Core._01_Foundation._05_Governance.Foundation.unified_field import WavePacket, HyperQuaternion
 
 def test_ouroboros():
     print("🐍 Initializing Project Ouroboros Test...")

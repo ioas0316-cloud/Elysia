@@ -1,4 +1,4 @@
-"""
+﻿"""
 Fluctlight Time Acceleration Demo
 
 Demonstrates the three methods of time compression:
@@ -22,9 +22,9 @@ import logging
 from typing import List
 import time
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.Physics.fluctlight import FluctlightEngine, FluctlightParticle
-from Core._01_Foundation.05_Foundation_Base.Foundation.Physics.time_compression import TimeCompressionEngine, GravityWell
-from Core._01_Foundation.05_Foundation_Base.Foundation.Math.octonion import Octonion
+from Core._01_Foundation._05_Governance.Foundation.Physics.fluctlight import FluctlightEngine, FluctlightParticle
+from Core._01_Foundation._05_Governance.Foundation.Physics.time_compression import TimeCompressionEngine, GravityWell
+from Core._01_Foundation._05_Governance.Foundation.Math.octonion import Octonion
 
 # Setup logging
 logging.basicConfig(

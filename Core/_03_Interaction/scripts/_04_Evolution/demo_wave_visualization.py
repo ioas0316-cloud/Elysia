@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Elysia Wave Visualization Demo
 ================================
@@ -35,8 +35,8 @@ import math
 
 # Optional: Try to get real system data
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-    from Core._01_Foundation.05_Foundation_Base.Foundation.digital_ecosystem import DigitalEcosystem
+    from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
+    from Core._01_Foundation._05_Governance.Foundation.digital_ecosystem import DigitalEcosystem
     ELYSIA_AVAILABLE = True
 except ImportError:
     ELYSIA_AVAILABLE = False

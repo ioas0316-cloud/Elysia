@@ -1,4 +1,4 @@
-"""
+﻿"""
 Ascension/Descension Axis System (상승·하강 법칙)
 ==============================================
 
@@ -303,7 +303,7 @@ class AscensionAxis:
             PotentialField with gravity wells at each cosmic layer
         """
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.potential_field import PotentialField
+            from Core._01_Foundation._05_Governance.Foundation.potential_field import PotentialField
         except ImportError:
             logger.warning("PotentialField not available")
             return None

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Massive Fractal Vocabulary Expansion (Combinatorial Genesis V2)
 ===============================================================
 "The Tao gave birth to One, One gave birth to Two, Two gave birth to Three, Three gave birth to all things."
@@ -18,7 +18,7 @@ import itertools
 # Add root directory to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
 
 class MassiveFractalGenesis:
     def __init__(self):

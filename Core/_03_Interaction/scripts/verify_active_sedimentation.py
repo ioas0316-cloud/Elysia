@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verify Active Sedimentation (지식 퇴적 검증)
 ==============================================
 
@@ -23,7 +23,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from Core._04_Evolution._02_Learning.Learning.knowledge_sedimenter import KnowledgeSedimenter
 from Core._01_Foundation._04_Philosophy.Philosophy.why_engine import WhyEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.light_spectrum import LightSpectrum, PrismAxes
+from Core._01_Foundation._05_Governance.Foundation.light_spectrum import LightSpectrum, PrismAxes
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(message)s')

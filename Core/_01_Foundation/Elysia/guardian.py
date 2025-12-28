@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 # This is guardian.py, the life support system for Elly.
 
 # It now directly manages the ElysiaDaemon and injects the Cellular World.
@@ -30,13 +30,13 @@ from typing import Optional, List
 
 
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.safety_guardian import SafetyGuardian
+from Core._01_Foundation._05_Governance.Foundation.safety_guardian import SafetyGuardian
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.experience_logger import log_experience, EXPERIENCE_LOG
+from Core._01_Foundation._05_Governance.Foundation.experience_logger import log_experience, EXPERIENCE_LOG
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.experience_integrator import ExperienceIntegrator
+from Core._01_Foundation._05_Governance.Foundation.experience_integrator import ExperienceIntegrator
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.self_awareness_core import SelfAwarenessCore
+from Core._01_Foundation._05_Governance.Foundation.self_awareness_core import SelfAwarenessCore
 
 from .memory_weaver import MemoryWeaver
 
@@ -44,7 +44,7 @@ from .core_memory import CoreMemory, Memory
 
 from tools.kg_manager import KGManager
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.logical_reasoner import LogicalReasoner # Import LogicalReasoner
+from Core._01_Foundation._05_Governance.Foundation.logical_reasoner import LogicalReasoner # Import LogicalReasoner
 
 from nano_core.bus import MessageBus
 
@@ -52,40 +52,40 @@ from nano_core.scheduler import Scheduler
 
 from nano_core.registry import ConceptRegistry
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.exploration_cortex import ExplorationCortex
+from Core._01_Foundation._05_Governance.Foundation.exploration_cortex import ExplorationCortex
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.web_search_cortex import WebSearchCortex
+from Core._01_Foundation._05_Governance.Foundation.web_search_cortex import WebSearchCortex
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.knowledge_distiller import KnowledgeDistiller
+from Core._01_Foundation._05_Governance.Foundation.knowledge_distiller import KnowledgeDistiller
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.self_verifier import SelfVerifier, VerificationResult
+from Core._01_Foundation._05_Governance.Foundation.self_verifier import SelfVerifier, VerificationResult
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.core.world import World
+from Core._01_Foundation._05_Governance.Foundation.core.world import World
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.core.cell import Cell
+from Core._01_Foundation._05_Governance.Foundation.core.cell import Cell
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.wave_mechanics import WaveMechanics
+from Core._01_Foundation._05_Governance.Foundation.wave_mechanics import WaveMechanics
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.emotional_engine import EmotionalEngine
+from Core._01_Foundation._05_Governance.Foundation.emotional_engine import EmotionalEngine
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.meta_cognition_cortex import MetaCognitionCortex
+from Core._01_Foundation._05_Governance.Foundation.meta_cognition_cortex import MetaCognitionCortex
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.core.alchemy_cortex import AlchemyCortex
+from Core._01_Foundation._05_Governance.Foundation.core.alchemy_cortex import AlchemyCortex
 
 from Project_Mirror.creative_expression import CreativeExpression
 from Project_Mirror.external_sensory_cortex import ExternalSensoryCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
-from Core._01_Foundation.05_Foundation_Base.Foundation.sensory_motor_cortex import SensoryMotorCortex
-from Core._01_Foundation.05_Foundation_Base.Foundation.core.external_horizons import ExternalHorizon
-from Core._01_Foundation.05_Foundation_Base.Foundation.core.monologue_generator import MonologueGenerator
+from Core._01_Foundation._05_Governance.Foundation.sensory_motor_cortex import SensoryMotorCortex
+from Core._01_Foundation._05_Governance.Foundation.core.external_horizons import ExternalHorizon
+from Core._01_Foundation._05_Governance.Foundation.core.monologue_generator import MonologueGenerator
 from Project_Elysia.manifestation_cortex import ManifestationCortex
 from Project_Elysia.dream_observer import DreamObserver
 from Project_Elysia.core.cell_memory_store import CellMemoryStore
 from Project_Elysia.high_engine.self_intention_engine import SelfIntentionEngine
 from Project_Elysia.high_engine.self_identity_engine import SelfIdentityEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.world_tree import WorldTree
-from Core._01_Foundation.05_Foundation_Base.Foundation.cell_world import CellWorld
-from Core._01_Foundation.05_Foundation_Base.Foundation.value_cortex import ValueCortex
+from Core._01_Foundation._05_Governance.Foundation.world_tree import WorldTree
+from Core._01_Foundation._05_Governance.Foundation.cell_world import CellWorld
+from Core._01_Foundation._05_Governance.Foundation.value_cortex import ValueCortex
 from Project_Elysia.elysia_daemon import ElysiaDaemon
 
 from Project_Elysia.core_memory import EmotionalState
@@ -1182,7 +1182,7 @@ class Guardian:
 
                     # A more mature implementation might use a dedicated method in SensoryCortex.
 
-                    from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_image_from_text
+                    from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_image_from_text
 
                     success = generate_image_from_text(image_prompt, dream_image_path)
 

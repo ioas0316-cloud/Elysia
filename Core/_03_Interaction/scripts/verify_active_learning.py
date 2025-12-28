@@ -1,4 +1,4 @@
-
+﻿
 import sys
 import os
 import time
@@ -7,8 +7,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.free_will_engine import FreeWillEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.free_will_engine import FreeWillEngine
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
 
 # Bootstrapping helper
 class MockResonance:

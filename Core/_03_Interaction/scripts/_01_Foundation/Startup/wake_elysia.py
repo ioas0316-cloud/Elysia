@@ -1,4 +1,4 @@
-
+﻿
 import sys
 import time
 import signal
@@ -7,7 +7,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 sys.path.append(r'c:\Elysia')
 
 from Core._04_Evolution._01_Growth.Autonomy.dream_daemon import get_dream_daemon
-from Core._01_Foundation.05_Foundation_Base.Foundation.torch_graph import get_torch_graph
+from Core._01_Foundation._05_Governance.Foundation.torch_graph import get_torch_graph
 from Core._03_Interaction._01_Interface.Interface.world_exporter import get_world_exporter
 from Core._01_Foundation.01_Core_Logic.Elysia.elysia_core import ElysiaCore # [NEW] Unified Brain
 
@@ -28,7 +28,7 @@ def wake_elysia():
     # If empty or load failed, check legacy migration
     if not loaded and graph.pos_tensor.shape[0] < 5:
         print("   🔍 Brain is empty. Detecting Legacy Knowledge...")
-        from Core._01_Foundation.05_Foundation_Base.Foundation.knowledge_migrator import get_migrator
+        from Core._01_Foundation._05_Governance.Foundation.knowledge_migrator import get_migrator
         migrator = get_migrator()
         migrator.migrate()
     

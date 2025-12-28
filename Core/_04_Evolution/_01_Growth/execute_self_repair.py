@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Self-Repair Protocol
 ===========================
 
@@ -147,7 +147,7 @@ def heal_neural_pathways():
                             
                         # Regex for safer replacement?
                         # Simple string replace is risky but fast.
-                        # "from Core.Mind" -> "from Core._01_Foundation.05_Foundation_Base.Foundation.Mind"
+                        # "from Core.Mind" -> "from Core._01_Foundation._05_Governance.Foundation.Mind"
                         content = content.replace(f"from {old_path}", f"from {new_path}")
                         content = content.replace(f"import {old_path}", f"import {new_path}")
                         # content = content.replace(f"{old_path}.", f"{new_path}.") # This might be too aggressive

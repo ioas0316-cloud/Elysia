@@ -1,4 +1,4 @@
-"""
+﻿"""
 Teach Elysia Language Skills
 ============================
 
@@ -11,10 +11,10 @@ import sys
 import os
 sys.path.append('.')
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core._01_Foundation.05_Foundation_Base.Foundation.communication_enhancer import CommunicationEnhancer
-from Core._01_Foundation.05_Foundation_Base.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._05_Governance.Foundation.communication_enhancer import CommunicationEnhancer
+from Core._01_Foundation._05_Governance.Foundation.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
 
@@ -167,7 +167,7 @@ if hasattr(connector, 'comm_enhancer'):
     
     # 사고-언어 통합 테스트
     from thought_to_language_demo import ThoughtToLanguage
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+    from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
     
     bridge = ThoughtToLanguage()
     bridge.connect_vocabulary(enhancer)

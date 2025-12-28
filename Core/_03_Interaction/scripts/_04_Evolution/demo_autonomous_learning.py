@@ -1,4 +1,4 @@
-"""
+﻿"""
 Autonomous Learning Demonstration
 ==================================
 
@@ -16,9 +16,9 @@ import logging
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core._01_Foundation.05_Foundation_Base.Foundation.transcendence_engine import TranscendenceEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+from Core._01_Foundation._05_Governance.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
+from Core._01_Foundation._05_Governance.Foundation.transcendence_engine import TranscendenceEngine
+from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("AutonomousDemo")

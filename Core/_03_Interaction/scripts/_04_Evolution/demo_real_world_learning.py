@@ -1,4 +1,4 @@
-"""
+﻿"""
 Real World Learning Demo
 ========================
 
@@ -22,8 +22,8 @@ import time
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core._01_Foundation.05_Foundation_Base.Foundation.transcendence_engine import TranscendenceEngine
+from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._05_Governance.Foundation.transcendence_engine import TranscendenceEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("RealWorldDemo")

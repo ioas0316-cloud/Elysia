@@ -1,4 +1,4 @@
-"""
+﻿"""
 Korean Language Learning System (한국어 언어 학습 시스템)
 ========================================================
 
@@ -212,7 +212,7 @@ class KoreanLanguageLearner:
         
         # InternalUniverse에도 흡수
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+            from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
             universe = InternalUniverse()
             content = f"{word}: {meaning}. {'. '.join(examples or [])}"
             universe.absorb_text(content, source_name=f"word:{word}")

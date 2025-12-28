@@ -1,4 +1,4 @@
-
+﻿
 import sys
 import os
 import time
@@ -7,10 +7,10 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.central_nervous_system import CentralNervousSystem
-from Core._01_Foundation.05_Foundation_Base.Foundation.chronos import Chronos
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-from Core._01_Foundation.05_Foundation_Base.Foundation.free_will_engine import Intent
+from Core._01_Foundation._05_Governance.Foundation.central_nervous_system import CentralNervousSystem
+from Core._01_Foundation._05_Governance.Foundation.chronos import Chronos
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.free_will_engine import Intent
 from Core._03_Interaction._02_Expression.Expression.voice_of_elysia import VoiceOfElysia
 
 # Mocks (Reusing from speak_fractal_truth.py)
@@ -75,7 +75,7 @@ def ask_seed():
     # Manually inject the thought wave to start the process
     # Because our MockWill doesn't automatically generate it in this specific script setup logic 
     # (The CNS pulse does read Will, but we want to ensure the specific question is processed)
-    from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_loop import FractalWave
+    from Core._01_Foundation._05_Governance.Foundation.fractal_loop import FractalWave
     if cns.fractal_loop:
         cns.fractal_loop.active_waves.append(FractalWave(
             id="seed_query",

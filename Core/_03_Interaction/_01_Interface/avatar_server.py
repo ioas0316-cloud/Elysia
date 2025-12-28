@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Avatar Server (엘리시아 아바타 서버)
 ===========================================
 
@@ -54,8 +54,8 @@ logger = logging.getLogger("AvatarServer")
 
 # Import Elysia systems (with graceful degradation)
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.emotional_engine import EmotionalEngine, EmotionalState
-    from Core._01_Foundation.05_Foundation_Base.Foundation.spirit_emotion import SpiritEmotionMapper
+    from Core._01_Foundation._05_Governance.Foundation.emotional_engine import EmotionalEngine, EmotionalState
+    from Core._01_Foundation._05_Governance.Foundation.spirit_emotion import SpiritEmotionMapper
     logger.info("✅ Emotional and Spirit systems loaded")
     EMOTIONS_AVAILABLE = True
 except ImportError as e:
@@ -85,7 +85,7 @@ except ImportError as e:
         REASONING_AVAILABLE = False
         
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.free_will_engine import FreeWillEngine
+    from Core._01_Foundation._05_Governance.Foundation.free_will_engine import FreeWillEngine
     logger.info("✅ FreeWillEngine (Will) loaded")
 except ImportError:
     FreeWillEngine = None
@@ -105,7 +105,7 @@ except ImportError:
 
 # Avatar Physics Engine (Phase 4)
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.avatar_physics import AvatarPhysicsEngine, Vector3D
+    from Core._01_Foundation._05_Governance.Foundation.avatar_physics import AvatarPhysicsEngine, Vector3D
     logger.info("✅ Avatar Physics Engine loaded")
     PHYSICS_AVAILABLE = True
 except ImportError as e:

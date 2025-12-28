@@ -1,11 +1,11 @@
-import sys
+﻿import sys
 import os
 import logging
 
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.language_center import LanguageCenter
+from Core._01_Foundation._05_Governance.Foundation.language_center import LanguageCenter
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

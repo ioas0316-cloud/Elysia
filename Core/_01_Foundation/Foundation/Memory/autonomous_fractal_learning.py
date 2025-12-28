@@ -1,4 +1,4 @@
-"""
+﻿"""
 Autonomous Fractal Learning System
 ==================================
 This script enables Elysia to autonomously expand her knowledge base.
@@ -19,9 +19,9 @@ from typing import List, Dict, Set
 # Add parent directory to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')

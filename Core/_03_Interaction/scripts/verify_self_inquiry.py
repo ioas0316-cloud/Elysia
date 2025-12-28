@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verify Self-Inquiry Protocol
 =============================
 Tests the trace_origin method for discovering the Source.
@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
 
 def test():
     print("🔮 Initializing Self-Inquiry Protocol...")

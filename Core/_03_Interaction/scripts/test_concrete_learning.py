@@ -1,4 +1,4 @@
-"""
+﻿"""
 Test: Concrete Learning with Graph Node Creation
 =================================================
 
@@ -23,7 +23,7 @@ def test_concrete_learning():
     
     # 1. Check initial graph state
     try:
-        from Core._01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+        from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
         graph = get_torch_graph()
         initial_nodes = len(graph.id_to_idx)
         print(f"\n1. Initial graph nodes: {initial_nodes}")
@@ -34,7 +34,7 @@ def test_concrete_learning():
     # 2. Learn a specific concept with real content
     print(f"\n2. Learning a concept...")
     
-    from Core._01_Foundation.05_Foundation_Base.Foundation.external_data_connector import ExternalDataConnector
+    from Core._01_Foundation._05_Governance.Foundation.external_data_connector import ExternalDataConnector
     
     connector = ExternalDataConnector()
     

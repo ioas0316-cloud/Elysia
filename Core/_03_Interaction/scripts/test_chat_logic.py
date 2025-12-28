@@ -1,4 +1,4 @@
-
+﻿
 import sys
 import os
 import logging
@@ -12,7 +12,7 @@ logger = logging.getLogger("TestChat")
 def test_chat():
     print("--- 1. Testing ReasoningEngine Initialization ---")
     try:
-        from Core._01_Foundation.05_Foundation_Base.Foundation.reasoning_engine import ReasoningEngine
+        from Core._01_Foundation._05_Governance.Foundation.reasoning_engine import ReasoningEngine
         brain = ReasoningEngine()
         print("✅ ReasoningEngine Initialized")
     except Exception as e:

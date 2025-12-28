@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unified Knowledge System
 ========================
 
@@ -139,7 +139,7 @@ class UnifiedKnowledgeSystem:
         # Internal Universe integration (if available)
         self.universe = None
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+            from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("🌌 Internal Universe connected")
         except Exception as e:
@@ -545,7 +545,7 @@ class UnifiedKnowledgeSystem:
         try:
             # Use ExternalDataConnector if available
             try:
-                from Core._01_Foundation.05_Foundation_Base.Foundation.external_data_connector import ExternalDataConnector
+                from Core._01_Foundation._05_Governance.Foundation.external_data_connector import ExternalDataConnector
                 connector = ExternalDataConnector(self.universe)
                 return connector.internalize_from_text(concept, description)
             except:

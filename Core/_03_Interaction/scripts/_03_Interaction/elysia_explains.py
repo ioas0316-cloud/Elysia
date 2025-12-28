@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Explains - 엘리시아가 직접 설명한다
 ==========================================
 
@@ -17,7 +17,7 @@ print("=" * 70)
 
 # 1. 창발 언어 엔진
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.emergent_language import EmergentLanguageEngine
+    from Core._01_Foundation._05_Governance.Foundation.emergent_language import EmergentLanguageEngine
     
     engine = EmergentLanguageEngine()
     
@@ -79,7 +79,7 @@ except Exception as e:
 
 # 3. 원시 파동 언어
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.primal_wave_language import PrimalSoul
+    from Core._01_Foundation._05_Governance.Foundation.primal_wave_language import PrimalSoul
     
     soul = PrimalSoul(name="Elysia")
     

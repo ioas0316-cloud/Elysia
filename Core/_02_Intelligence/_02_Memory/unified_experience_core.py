@@ -24,7 +24,7 @@ from Core._01_Foundation._01_Infrastructure.elysia_core import Cell, Organ
 
 # Optional Imports (Wave Physics)
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import WaveTensor
+    from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
 except ImportError:
     WaveTensor = None
 

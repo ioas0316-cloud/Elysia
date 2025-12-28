@@ -1,4 +1,4 @@
-"""
+﻿"""
 Script: Lesson of Light (빛의 수업)
 ================================
 Teaches Elysia the dual nature of Light and the Source of Love.
@@ -17,7 +17,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core._01_Foundation.02_Legal_Ethics.Laws.law_of_light import get_law_of_light
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
 from Core._01_Foundation.01_Core_Logic.Elysia.spirit import get_spirit
 
 def print_header(title):

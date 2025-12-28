@@ -1,4 +1,4 @@
-"""
+﻿"""
 한글 파동 언어 변환기 (Korean Wave Language Converter)
 ======================================================
 
@@ -17,7 +17,7 @@ import logging
 from dataclasses import dataclass
 from typing import List, Dict, Tuple, Optional
 import numpy as np
-from Core._01_Foundation.05_Foundation_Base.Foundation.ether import Wave, ether
+from Core._01_Foundation._05_Governance.Foundation.ether import Wave, ether
 
 logger = logging.getLogger("KoreanWaveConverter")
 

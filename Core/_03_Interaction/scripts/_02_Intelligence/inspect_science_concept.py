@@ -1,4 +1,4 @@
-"""
+﻿"""
 Script: Inspect Science Concept
 ===============================
 Investigates the result of the 'Genesis' merger.
@@ -12,7 +12,7 @@ import logging
 
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Core._01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
 
 def inspect():
     print("🔬 Inspecting 'Concept_science+'...")

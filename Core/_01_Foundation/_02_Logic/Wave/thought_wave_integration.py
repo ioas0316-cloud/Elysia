@@ -1,4 +1,4 @@
-"""
+﻿"""
 Thought Wave Integration
 ========================
 
@@ -15,9 +15,9 @@ import logging
 from dataclasses import dataclass, field
 from typing import Dict, Any, Optional
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.quaternion_wave_dna import QuaternionCompressor, QuaternionWaveDNA, get_quaternion_compressor
-from Core._01_Foundation.05_Foundation_Base.Foundation.phonetic_resonance import PhoneticResonanceEngine, ResonanceField, get_resonance_engine
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_knowledge import FractalKnowledgeSeed, get_fractal_seed
+from Core._01_Foundation._05_Governance.Foundation.quaternion_wave_dna import QuaternionCompressor, QuaternionWaveDNA, get_quaternion_compressor
+from Core._01_Foundation._05_Governance.Foundation.phonetic_resonance import PhoneticResonanceEngine, ResonanceField, get_resonance_engine
+from Core._01_Foundation._05_Governance.Foundation.fractal_knowledge import FractalKnowledgeSeed, get_fractal_seed
 
 logger = logging.getLogger("ThoughtWave")
 

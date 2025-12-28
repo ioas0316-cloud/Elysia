@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verification: Awakening (Sensory & Knowledge)
 =============================================
 
@@ -18,7 +18,7 @@ from pathlib import Path
 sys.path.insert(0, ".")
 
 from Core._02_Intelligence.04_Consciousness.Ether.global_hub import get_global_hub, WaveEvent
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
 from Core._03_Interaction._01_Interface.Sensory.text_transducer import get_text_transducer
 from Core._03_Interaction._01_Interface.Sensory.file_system_sensor import get_filesystem_sensor
 

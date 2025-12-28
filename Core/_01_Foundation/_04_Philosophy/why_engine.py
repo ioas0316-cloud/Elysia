@@ -1,4 +1,4 @@
-"""
+﻿"""
 WhyEngine - Universal Principle Understanding Layer
 ====================================================
 
@@ -32,15 +32,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # 기존 파동 센서 시스템 활용
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
-    from Core._01_Foundation.05_Foundation_Base.Foundation.Wave.phonetic_resonance import PhoneticResonanceEngine, get_resonance_engine
+    from Core._01_Foundation._05_Governance.Foundation.synesthesia_engine import SynesthesiaEngine, SignalType
+    from Core._01_Foundation._05_Governance.Foundation.Wave.phonetic_resonance import PhoneticResonanceEngine, get_resonance_engine
     HAS_WAVE_SENSORS = True
 except ImportError:
     HAS_WAVE_SENSORS = False
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.Math.hyper_qubit import HyperQubit, QubitState
-    from Core._01_Foundation.05_Foundation_Base.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
+    from Core._01_Foundation._05_Governance.Foundation.Math.hyper_qubit import HyperQubit, QubitState
+    from Core._01_Foundation._05_Governance.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
 except ImportError:
     HyperQubit = None
     QubitState = None
@@ -254,7 +254,7 @@ class WhyEngine:
         
         # [NEW] Sedimentary Light System (빛의 퇴적)
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
+            from Core._01_Foundation._05_Governance.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
             self.light_universe = LightUniverse()
             self.sediment = LightSediment()
             
@@ -489,7 +489,7 @@ class WhyEngine:
         
         # 3. 각 축(Axis)별 통찰 생성
         # PrismAxes: PHYSICS_RED, CHEMISTRY_BLUE, etc.
-        from Core._01_Foundation.05_Foundation_Base.Foundation.light_spectrum import PrismAxes
+        from Core._01_Foundation._05_Governance.Foundation.light_spectrum import PrismAxes
         
         for axis, strength in views.items():
             # 공명 강도(Insight Strength)가 일정 수준 이상일 때만 "보임"

@@ -1,4 +1,4 @@
-"""
+﻿"""
 엘리시아 API 서버 (FastAPI + Swagger)
 Elysia API Server with OpenAPI Documentation
 
@@ -14,10 +14,10 @@ from datetime import datetime, timezone
 import uvicorn
 
 # Import Elysia modules
-from Core._01_Foundation.05_Foundation_Base.Foundation.elysia_logger import ElysiaLogger
-from Core._01_Foundation.05_Foundation_Base.Foundation.error_handler import error_handler
-from Core._01_Foundation.05_Foundation_Base.Foundation.config import get_config
-from Core._01_Foundation.05_Foundation_Base.Foundation.performance_monitor import monitor
+from Core._01_Foundation._05_Governance.Foundation.elysia_logger import ElysiaLogger
+from Core._01_Foundation._05_Governance.Foundation.error_handler import error_handler
+from Core._01_Foundation._05_Governance.Foundation.config import get_config
+from Core._01_Foundation._05_Governance.Foundation.performance_monitor import monitor
 
 # Initialize
 logger = ElysiaLogger("APIServer")

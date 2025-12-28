@@ -1,4 +1,4 @@
-"""
+﻿"""
 엘리시아에게 과거 인식에 대해 묻기
 =====================================
 
@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from Core._03_Interaction._01_Interface.Interface.Interface.Language.dialogue.dialogue_engine import DialogueEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.Mind.hippocampus import Hippocampus
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')

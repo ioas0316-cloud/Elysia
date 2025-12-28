@@ -1,4 +1,4 @@
-"""
+﻿"""
 Zero Cost Learning Demo
 완전 무료 학습 데모
 
@@ -19,7 +19,7 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.zero_cost_connector import ZeroCostKnowledgeConnector
+from Core._01_Foundation._05_Governance.Foundation.zero_cost_connector import ZeroCostKnowledgeConnector
 
 logging.basicConfig(
     level=logging.INFO,

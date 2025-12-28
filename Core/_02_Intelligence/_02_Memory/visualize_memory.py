@@ -1,4 +1,4 @@
-# Memory Visualization Tool
+﻿# Memory Visualization Tool
 """
 Visualizes the Hippocampus memory graph using networkx and matplotlib.
 This script reads the conversation history stored in the Hippocampus and
@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import matplotlib.pyplot as plt
 import networkx as nx
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.Mind.hippocampus import Hippocampus
 
 def visualize_memory(hippocampus: Hippocampus, output_path: str = "memory_graph.png"):
     """Generate and save a visualization of the memory graph."""

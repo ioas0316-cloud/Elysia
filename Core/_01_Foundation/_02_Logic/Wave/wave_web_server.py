@@ -1,4 +1,4 @@
-"""
+﻿"""
 Wave Visualization Web Server (파동 시각화 웹 서버)
 ================================================
 
@@ -165,7 +165,7 @@ class WaveWebServer:
         Connect to the Wave Integration Hub to resonate with system waves.
         """
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.wave_integration_hub import get_wave_hub
+            from Core._01_Foundation._05_Governance.Foundation.wave_integration_hub import get_wave_hub
             self.hub = get_wave_hub()
             
             # Register as Visual Cortex (High Frequency Interface)

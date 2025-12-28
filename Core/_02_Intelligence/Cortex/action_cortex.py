@@ -1,4 +1,4 @@
-"""
+﻿"""
 Action Cortex (행동 피질)
 ========================
 
@@ -15,7 +15,7 @@ from typing import Dict, Any, Optional
 
 # Updated imports for Core structure
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text
+    from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
 except ImportError:
     generate_text = None
 
@@ -41,7 +41,7 @@ class ActionCortex:
             if kg_path.exists():
                 self.tools_kg_manager = KGManager(filepath=kg_path)
                 try:
-                    from Core._01_Foundation.05_Foundation_Base.Foundation.wave_mechanics import WaveMechanics
+                    from Core._01_Foundation._05_Governance.Foundation.wave_mechanics import WaveMechanics
                     self.wave_mechanics = WaveMechanics(self.tools_kg_manager)
                 except ImportError:
                     pass

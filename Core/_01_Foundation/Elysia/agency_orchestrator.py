@@ -1,4 +1,4 @@
-"""
+﻿"""
 
 Agency Orchestrator
 
@@ -32,13 +32,13 @@ from Project_Elysia.core.action_memory import MemoryActionSelector
 
 
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.reading_coach import ReadingCoach
+from Core._01_Foundation._05_Governance.Foundation.reading_coach import ReadingCoach
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.creative_writing_cortex import CreativeWritingCortex
+from Core._01_Foundation._05_Governance.Foundation.creative_writing_cortex import CreativeWritingCortex
 
 from Project_Mirror.proof_renderer import ProofRenderer
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.math_cortex import MathCortex
+from Core._01_Foundation._05_Governance.Foundation.math_cortex import MathCortex
 
 from tools.kg_manager import KGManager
 

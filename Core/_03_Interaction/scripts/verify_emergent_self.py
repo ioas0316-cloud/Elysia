@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verification: EmergentSelf + GrowthJournal Integration
 ======================================================
 
@@ -19,8 +19,8 @@ os.chdir("c:\\Elysia")
 import logging
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.emergent_self import get_emergent_self
-from Core._01_Foundation.05_Foundation_Base.Foundation.growth_journal import get_growth_journal
+from Core._01_Foundation._05_Governance.Foundation.emergent_self import get_emergent_self
+from Core._01_Foundation._05_Governance.Foundation.growth_journal import get_growth_journal
 
 def test_emergence():
     print("\n" + "="*60)

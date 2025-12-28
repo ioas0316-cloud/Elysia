@@ -1,8 +1,8 @@
-"""고양이 vs 사자 비교 테스트"""
+﻿"""고양이 vs 사자 비교 테스트"""
 import sys
 sys.path.insert(0, "c:\\Elysia")
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.multimodal_concept_node import get_multimodal_integrator
+from Core._01_Foundation._05_Governance.Foundation.multimodal_concept_node import get_multimodal_integrator
 
 integrator = get_multimodal_integrator()
 

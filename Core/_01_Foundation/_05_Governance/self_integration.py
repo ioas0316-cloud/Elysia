@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Self-Integration Protocol v2.0
 ======================================
 
@@ -66,7 +66,7 @@ class ElysiaIntegrator:
         """SystemRegistry 인스턴스 획득 (지연 로딩)"""
         if self.registry is None:
             try:
-                from Core._01_Foundation.05_Foundation_Base.Foundation.system_registry import get_system_registry
+                from Core._01_Foundation._05_Governance.Foundation.system_registry import get_system_registry
                 self.registry = get_system_registry()
                 logger.info("   ✓ SystemRegistry connected")
             except ImportError as e:
@@ -201,7 +201,7 @@ class ElysiaIntegrator:
         
         # Check API Status
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import GeminiAPI
+            from Core._01_Foundation._05_Governance.Foundation.gemini_api import GeminiAPI
             api = GeminiAPI()
             if not api._is_configured:
                 print("   ✨ Detected Missing API Key -> Harmonizing with Mock Mode.")

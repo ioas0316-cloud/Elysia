@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Any, Dict, Optional
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.wave_frequency_mapping import WaveFrequencyMapper
+from Core._01_Foundation._02_Logic.Wave.wave_frequency_mapping import WaveFrequencyMapper
 
 
 class SignalType(Enum):

@@ -1,11 +1,11 @@
-
+﻿
 import sys
 import os
 sys.path.append(os.getcwd())
 
 import logging
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.genesis_engine import GenesisEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.Mind.genesis_engine import GenesisEngine
+from Core._01_Foundation._05_Governance.Foundation.Mind.hippocampus import Hippocampus
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

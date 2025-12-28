@@ -1,4 +1,4 @@
-"""
+﻿"""
 Legacy Vocabulary Migrator (레거시 어휘 통합기)
 =============================================
 
@@ -92,7 +92,7 @@ class VocabularyMigrator:
                 "stats": {...}
             }
         """
-        from Core._01_Foundation.05_Foundation_Base.Foundation.wave_interpreter import WavePattern
+        from Core._01_Foundation._05_Governance.Foundation.wave_interpreter import WavePattern
         
         vocabulary = {}
         

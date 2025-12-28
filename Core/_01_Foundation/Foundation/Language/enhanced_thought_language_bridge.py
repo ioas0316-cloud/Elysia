@@ -1,4 +1,4 @@
-"""
+﻿"""
 Enhanced Thought-Language Bridge
 =================================
 
@@ -22,8 +22,8 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core._01_Foundation.05_Foundation_Base.Foundation.thought_language_bridge import (
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
+from Core._01_Foundation._05_Governance.Foundation.thought_language_bridge import (
     ThoughtLanguageBridge, 
     ThoughtPackage
 )
@@ -373,7 +373,7 @@ if __name__ == "__main__":
     
     # 2. Connect communication enhancer (optional)
     try:
-        from Core._01_Foundation.05_Foundation_Base.Foundation.web_knowledge_connector import WebKnowledgeConnector
+        from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
         
         print("📚 Learning concepts...\n")
         connector = WebKnowledgeConnector()

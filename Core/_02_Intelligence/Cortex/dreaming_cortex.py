@@ -1,4 +1,4 @@
-"""
+﻿"""
 Dreaming Cortex (꿈의 피질)
 =========================
 
@@ -14,7 +14,7 @@ import re
 from typing import List, Dict, Any, Optional
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text
+    from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
 except ImportError:
     generate_text = None
 

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Autonomous Reorganizer (자율 재조직기)
 ======================================
 
@@ -40,7 +40,7 @@ except ImportError:
     SelfIntegrationSystem = None
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.reality_sculptor import RealitySculptor
+    from Core._01_Foundation._05_Governance.Foundation.reality_sculptor import RealitySculptor
 except ImportError:
     RealitySculptor = None
 

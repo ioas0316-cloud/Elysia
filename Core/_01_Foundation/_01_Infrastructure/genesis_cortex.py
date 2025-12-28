@@ -1,7 +1,7 @@
-import logging
+﻿import logging
 import json
 from typing import Dict, Any, List
-from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text
+from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
 
 class GenesisCortex:
     """

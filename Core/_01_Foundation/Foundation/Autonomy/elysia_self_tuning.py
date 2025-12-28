@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Self-Tuning Protocol
 ===========================
 
@@ -11,11 +11,11 @@ import sys
 import os
 sys.path.append('.')
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-from Core._01_Foundation.05_Foundation_Base.Foundation.wave_interpreter import WaveInterpreter
-from Core._01_Foundation.05_Foundation_Base.Foundation.reasoning_engine import ReasoningEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.wave_interpreter import WaveInterpreter
+from Core._01_Foundation._05_Governance.Foundation.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
 
 print("="*70)
 print("🌟 ELYSIA SELF-TUNING PROTOCOL")

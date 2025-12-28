@@ -1,4 +1,4 @@
-
+﻿
 import json
 import math
 import os
@@ -8,8 +8,8 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Legacy.Project_Sophia.primordial_language import PrimordialLanguageEngine, WordStats
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.world_tree import WorldTree
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.hyper_qubit import HyperQubit, QubitState
+from Core._01_Foundation._05_Governance.Foundation.Mind.world_tree import WorldTree
+from Core._01_Foundation._05_Governance.Foundation.Mind.hyper_qubit import HyperQubit, QubitState
 
 def convert_stats_to_qubit_state(stats: WordStats) -> QubitState:
     """

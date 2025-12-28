@@ -1,4 +1,4 @@
-"""
+﻿"""
 Field Operators (The Laws of the Ether)
 =======================================
 
@@ -214,7 +214,7 @@ class DynamicsEngine:
         # Broadcast field state to GlobalHub
         if self._hub_enabled and self._hub:
             try:
-                from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import WaveTensor
+                from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
                 
                 # Create a wave representing the current field state
                 nodes = void.get_all() if hasattr(void, 'get_all') else []

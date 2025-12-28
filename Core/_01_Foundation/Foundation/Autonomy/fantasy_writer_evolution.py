@@ -1,4 +1,4 @@
-"""
+﻿"""
 Fantasy Writer Evolution Protocol
 =================================
 
@@ -25,9 +25,9 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from scripts.autonomous_fractal_learning import FractalLearner
-from Core._01_Foundation.05_Foundation_Base.Foundation.communication_enhancer import CommunicationEnhancer
-from Core._01_Foundation.05_Foundation_Base.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core._01_Foundation.05_Foundation_Base.Foundation.reasoning_engine import ReasoningEngine
+from Core._01_Foundation._05_Governance.Foundation.communication_enhancer import CommunicationEnhancer
+from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core._01_Foundation._05_Governance.Foundation.reasoning_engine import ReasoningEngine
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')

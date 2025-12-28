@@ -1,4 +1,4 @@
-"""
+﻿"""
 Story Ingestion Pipeline (스토리 흡수 파이프라인)
 =================================================
 
@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from Core._04_Evolution._02_Learning.Learning.experiential_data_processor import ExperientialDataProcessor
-from Core._01_Foundation.05_Foundation_Base.Foundation.unified_wave_experience import ExperienceWaveIntegrator
+from Core._01_Foundation._05_Governance.Foundation.unified_wave_experience import ExperienceWaveIntegrator
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger("StoryIngestion")

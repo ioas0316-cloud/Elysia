@@ -1,4 +1,4 @@
-"""
+﻿"""
 Test Script for Planning Cortex (The Planner)
 =============================================
 Verifies that Elysia can break down high-level goals into executable steps.
@@ -11,8 +11,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.planning_cortex import PlanningCortex, Goal, PlanStep
-from Core._01_Foundation.05_Foundation_Base.Foundation.unified_field import WavePacket, HyperQuaternion
+from Core._01_Foundation._05_Governance.Foundation.planning_cortex import PlanningCortex, Goal, PlanStep
+from Core._01_Foundation._05_Governance.Foundation.unified_field import WavePacket, HyperQuaternion
 
 def test_planner():
     print("📐 Initializing Planning Cortex Test...")

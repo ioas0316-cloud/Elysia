@@ -1,4 +1,4 @@
-"""
+﻿"""
 Resonance Field System (공명장 시스템)
 ====================================
 
@@ -391,7 +391,7 @@ class ResonanceField:
         as resonance nodes in the field.
         
         Args:
-            concept: ConceptNode (from Core.01_Foundation.05_Foundation_Base.Foundation.fractal_concept)
+            concept: ConceptNode (from Core.01_Foundation._05_Governance.Foundation.fractal_concept)
             active: Whether this is the primary focus concept (high energy)
         """
         if concept is None:

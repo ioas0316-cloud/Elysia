@@ -1,9 +1,9 @@
-
+﻿
 import json
 import logging
 from pathlib import Path
 from typing import Dict, Any
-from Core._01_Foundation.05_Foundation_Base.Foundation.torch_graph import get_torch_graph
+from Core._01_Foundation._05_Governance.Foundation.torch_graph import get_torch_graph
 
 logger = logging.getLogger("WorldExporter")
 

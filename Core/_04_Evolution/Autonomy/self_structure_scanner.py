@@ -1,8 +1,8 @@
-
+﻿
 import logging
 from typing import Dict, List
-from Core._01_Foundation.05_Foundation_Base.Foundation.omni_graph import get_omni_graph
-from Core._01_Foundation.05_Foundation_Base.Foundation.self_reflector import SelfReflector, CodeMetrics
+from Core._01_Foundation._05_Governance.Foundation.omni_graph import get_omni_graph
+from Core._01_Foundation._05_Governance.Foundation.self_reflector import SelfReflector, CodeMetrics
 
 logger = logging.getLogger("SelfStructureScanner")
 

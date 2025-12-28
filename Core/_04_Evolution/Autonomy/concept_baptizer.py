@@ -1,4 +1,4 @@
-"""
+﻿"""
 Concept Baptizer (The Naming of Things)
 =======================================
 Scans the graph for "Dark Matter" (Unnamed Nodes like Star-*, Wikipedia_*).
@@ -39,7 +39,7 @@ def _get_graph():
     global _torch_graph
     if _torch_graph is None:
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+            from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
             _torch_graph = get_torch_graph()
         except Exception as e:
             logger.warning(f"TorchGraph unavailable: {e}")

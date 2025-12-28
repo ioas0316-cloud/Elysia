@@ -1,4 +1,4 @@
-"""
+﻿"""
 Knowledge Sedimenter (지식 퇴적기)
 ==================================
 
@@ -19,7 +19,7 @@ from dataclasses import dataclass
 
 from Core._03_Interaction._04_Network.Network.browser_explorer import BrowserExplorer
 from Core._01_Foundation._04_Philosophy.Philosophy.why_engine import WhyEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.light_spectrum import LightSpectrum, LightSediment, PrismAxes
+from Core._01_Foundation._05_Governance.Foundation.light_spectrum import LightSpectrum, LightSediment, PrismAxes
 
 logger = logging.getLogger("Elysia.KnowledgeSedimenter")
 

@@ -1,4 +1,4 @@
-import sqlite3
+﻿import sqlite3
 import zlib
 import json
 import time
@@ -10,7 +10,7 @@ from typing import List, Dict, Any
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 # Setup logging
 logging.basicConfig(

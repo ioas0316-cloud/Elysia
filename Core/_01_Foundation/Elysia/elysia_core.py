@@ -1,4 +1,4 @@
-"""
+﻿"""
 ElysiaCore (엘리시아 핵심)
 =========================
 
@@ -55,7 +55,7 @@ class ElysiaCore:
         # InternalUniverse (내가 아는 것)
         self.universe = None
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+            from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("   ✅ InternalUniverse connected (Knowledge)")
         except Exception as e:
@@ -64,7 +64,7 @@ class ElysiaCore:
         # ConceptDecomposer (왜?)
         self.decomposer = None
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+            from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
             self.decomposer = ConceptDecomposer()
             logger.info("   ✅ ConceptDecomposer connected (Why)")
         except Exception as e:
@@ -73,7 +73,7 @@ class ElysiaCore:
         # MultimodalIntegrator (감각 통합)
         self.multimodal = None
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.multimodal_concept_node import get_multimodal_integrator
+            from Core._01_Foundation._05_Governance.Foundation.multimodal_concept_node import get_multimodal_integrator
             self.multimodal = get_multimodal_integrator()
             logger.info("   ✅ MultimodalIntegrator connected (Senses)")
         except Exception as e:
@@ -97,7 +97,7 @@ class ElysiaCore:
         # [NEW] ThoughtWave Interface (Hybrid Architecture)
         self.thought_wave = None
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.thought_wave_integration import get_thought_interface
+            from Core._01_Foundation._05_Governance.Foundation.thought_wave_integration import get_thought_interface
             self.thought_wave = get_thought_interface()
             logger.info("   ✅ ThoughtWave connected (DNA/Resonance/Fractal)")
         except Exception as e:
@@ -345,7 +345,7 @@ class ElysiaCore:
         # [CRITICAL] 4. Matrix Memory Integration (TorchGraph)
         # "Old Brain (Universe)" -> "New Brain (Matrix)" Sync
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.torch_graph import get_torch_graph
+            from Core._01_Foundation._05_Governance.Foundation.torch_graph import get_torch_graph
             graph = get_torch_graph()
             
             # Use vector from ThoughtWave/Multimodal if available

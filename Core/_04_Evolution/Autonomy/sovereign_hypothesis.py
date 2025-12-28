@@ -1,4 +1,4 @@
-"""
+﻿"""
 Sovereign Hypothesis Engine (The Oracle)
 ========================================
 
@@ -25,7 +25,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 from Core._01_Foundation._04_Philosophy.Philosophy.why_engine import WhyEngine, PrincipleExtraction
-from Core._01_Foundation.05_Foundation_Base.Foundation.light_spectrum import PrismAxes
+from Core._01_Foundation._05_Governance.Foundation.light_spectrum import PrismAxes
 
 logger = logging.getLogger("Elysia.SovereignHypothesis")
 

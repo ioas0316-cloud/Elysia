@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 대규모 언어 학습 - 성인 수준까지!
 ====================================
@@ -9,7 +9,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.rapid_learning_engine import RapidLearningEngine
+from Core._01_Foundation._05_Governance.Foundation.rapid_learning_engine import RapidLearningEngine
 import time
 
 # 다양한 주제의 텍스트

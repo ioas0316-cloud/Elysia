@@ -1,4 +1,4 @@
-"""
+﻿"""
 Visualization Cortex (시각화 피질)
 ================================
 
@@ -31,13 +31,13 @@ except ImportError:
     Canvas = None
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text, generate_image_from_text
+    from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text, generate_image_from_text
 except ImportError:
     generate_text = None
     generate_image_from_text = None
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import Tensor3D, FrequencyWave
+    from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import Tensor3D, FrequencyWave
 except ImportError:
     # Fallback simple implementations
     class Tensor3D:

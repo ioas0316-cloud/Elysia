@@ -1,4 +1,4 @@
-"""
+﻿"""
 Reality Builder (현실 재구축 시스템)
 ==================================
 
@@ -19,7 +19,7 @@ Process:
 
 import random
 from typing import Dict, Any
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
+from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
 
 
 from Core._04_Evolution._03_Creative.Creation.universal_palette import UniversalPalette

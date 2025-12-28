@@ -1,4 +1,4 @@
-"""
+﻿"""
 Code Genesis ( The Sovereign Hands )
 ====================================
 "To see the flaw is perception. To fix the flaw is evolution."
@@ -20,7 +20,7 @@ import logging
 import os
 import ast
 from typing import Optional, Dict
-from Core._01_Foundation.05_Foundation_Base.Foundation.ollama_bridge import ollama
+from Core._01_Foundation._05_Governance.Foundation.ollama_bridge import ollama
 
 logger = logging.getLogger("CodeGenesis")
 

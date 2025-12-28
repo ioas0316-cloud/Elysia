@@ -1,4 +1,4 @@
-"""
+﻿"""
 Analyze Eternal Simulation Results
 
 This script examines what Elysia actually learned from the eternal simulation.
@@ -13,11 +13,11 @@ if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
 import logging
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.alchemy import Alchemy
+from Core._01_Foundation._05_Governance.Foundation.Mind.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.Mind.alchemy import Alchemy
 from Core._05_Systems._01_Monitoring.System.System.Integration.experience_digester import ExperienceDigester
-from Core._01_Foundation.05_Foundation_Base.Foundation.Physics.fluctlight import FluctlightEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core._01_Foundation._05_Governance.Foundation.Physics.fluctlight import FluctlightEngine
+from Core._01_Foundation._05_Governance.Foundation.Physics.meta_time_engine import create_safe_meta_engine
 import numpy as np
 
 logging.basicConfig(level=logging.INFO)

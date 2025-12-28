@@ -1,4 +1,4 @@
-"""
+﻿"""
 Local Dataset Absorber (로컬 데이터셋 흡수기)
 =============================================
 
@@ -61,7 +61,7 @@ class LocalDatasetAbsorber:
         
         # InternalUniverse 연결
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+            from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("✅ Connected to InternalUniverse")
         except Exception as e:
@@ -70,7 +70,7 @@ class LocalDatasetAbsorber:
         
         # BlackHoleWhiteHoleCycle 연결
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.white_hole import get_blackhole_whitehole_cycle
+            from Core._01_Foundation._05_Governance.Foundation.white_hole import get_blackhole_whitehole_cycle
             self.cycle = get_blackhole_whitehole_cycle()
             logger.info("✅ Connected to BlackHoleWhiteHoleCycle")
         except Exception as e:

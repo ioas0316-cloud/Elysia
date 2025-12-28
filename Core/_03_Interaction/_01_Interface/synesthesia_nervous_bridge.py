@@ -1,4 +1,4 @@
-"""
+﻿"""
 Synesthesia-Nervous System Bridge (공감각-신경계 브릿지)
 ========================================================
 
@@ -174,7 +174,7 @@ class SynesthesiaNervousBridge:
     def __init__(self):
         # Import synesthesia components
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.synesthetic_wave_sensor import (
+            from Core._01_Foundation._05_Governance.Foundation.synesthetic_wave_sensor import (
                 MultimodalIntegrator,
                 SensoryModality,
                 SynestheticMapper
@@ -304,7 +304,7 @@ class SynesthesiaNervousBridge:
         """
         try:
             # Convert to modality enum
-            from Core._01_Foundation.05_Foundation_Base.Foundation.synesthetic_wave_sensor import SensoryModality
+            from Core._01_Foundation._05_Governance.Foundation.synesthetic_wave_sensor import SensoryModality
             
             modality_map = {
                 "visual": SensoryModality.VISUAL,

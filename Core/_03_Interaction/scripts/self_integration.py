@@ -1,4 +1,4 @@
-"""
+﻿"""
 Self-Integration System (자가 통합 시스템)
 ==========================================
 
@@ -33,13 +33,13 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 기존 시스템 import 시도
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+    from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
     RESONANCE_AVAILABLE = True
 except ImportError:
     RESONANCE_AVAILABLE = False
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import HyperQuaternion
+    from Core._01_Foundation._02_Logic.hyper_quaternion import HyperQuaternion
     QUATERNION_AVAILABLE = True
 except ImportError:
     QUATERNION_AVAILABLE = False

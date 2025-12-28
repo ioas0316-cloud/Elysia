@@ -1,4 +1,4 @@
-"""
+﻿"""
 Internal Universe Facade (Redirect Module)
 ==========================================
 
@@ -11,7 +11,7 @@ Internal Universe Facade (Redirect Module)
 
 사용법:
     # 레거시 (이 파사드를 통해 작동)
-    from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+    from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
     
     # 권장 (직접 import)
     from Core._02_Intelligence._02_Memory_Linguistics.Memory.Vector.internal_universe import InternalUniverse

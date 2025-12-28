@@ -1,4 +1,4 @@
-"""
+﻿"""
 Yggdrasil Activator (세계수 활성화)
 ===================================
 
@@ -27,7 +27,7 @@ def activate():
     print("🌳 Yggdrasil Activation Protocol")
     print("=" * 50)
     
-    from Core._01_Foundation.05_Foundation_Base.Foundation.yggdrasil import yggdrasil
+    from Core._01_Foundation._05_Governance.Foundation.yggdrasil import yggdrasil
     
     # ═══════════════════════════════════════════════════
     # 🌱 ROOTS (뿌리) - 양분과 기능의 근원
@@ -37,7 +37,7 @@ def activate():
     
     # TorchGraph - 기억 저장소
     try:
-        from Core._01_Foundation.05_Foundation_Base.Foundation.torch_graph import get_torch_graph
+        from Core._01_Foundation._05_Governance.Foundation.torch_graph import get_torch_graph
         graph = get_torch_graph()
         yggdrasil.plant_root("TorchGraph", graph)
         print(f"   ✅ TorchGraph: {len(graph.id_to_idx)} nodes")
@@ -46,7 +46,7 @@ def activate():
     
     # TinyBrain - 임베딩 획득
     try:
-        from Core._01_Foundation.05_Foundation_Base.Foundation.tiny_brain import get_tiny_brain
+        from Core._01_Foundation._05_Governance.Foundation.tiny_brain import get_tiny_brain
         brain = get_tiny_brain()
         yggdrasil.plant_root("TinyBrain", brain)
         print(f"   ✅ TinyBrain: available={brain.is_available()}")
@@ -55,7 +55,7 @@ def activate():
     
     # ConceptDecomposer - Why-Engine
     try:
-        from Core._01_Foundation.05_Foundation_Base.Foundation.Memory.fractal_concept import ConceptDecomposer
+        from Core._01_Foundation._05_Governance.Foundation.Memory.fractal_concept import ConceptDecomposer
         decomposer = ConceptDecomposer()
         yggdrasil.plant_root("ConceptDecomposer", decomposer)
         print(f"   ✅ ConceptDecomposer: {len(decomposer.AXIOMS)} axioms")

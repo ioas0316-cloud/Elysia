@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unified Resonance Field (대통합 공명장)
 =====================================
 The fundamental fabric of Elysia's reality.
@@ -14,8 +14,8 @@ from dataclasses import dataclass, field
 
 # [INTEGRATION] Hyper-SpaceTime Systems
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import HyperQuaternion
-    from Core._01_Foundation.05_Foundation_Base.Foundation.spacetime_drive import SpaceTimeDrive
+    from Core._01_Foundation._02_Logic.hyper_quaternion import HyperQuaternion
+    from Core._01_Foundation._05_Governance.Foundation.spacetime_drive import SpaceTimeDrive
 except ImportError:
     # Fallback for bootstrapping
     class HyperQuaternion:

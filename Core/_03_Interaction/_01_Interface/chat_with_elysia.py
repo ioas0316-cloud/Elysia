@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Chat - Interactive Dialogue Interface
 =============================================
 
@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from Core._05_Systems._01_Monitoring.System.System.ElysiaOS import ElysiaOS
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.self_spiral_fractal import ConsciousnessAxis
+from Core._01_Foundation._05_Governance.Foundation.Mind.self_spiral_fractal import ConsciousnessAxis
 
 
 def print_header():

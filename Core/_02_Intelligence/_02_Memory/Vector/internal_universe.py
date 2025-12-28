@@ -1,4 +1,4 @@
-"""
+﻿"""
 Internal Universe System (내부 우주 시스템)
 ==========================================
 
@@ -35,7 +35,7 @@ import json
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 # [LOGIC TRANSMUTATION] Unified Wave Storage
 # Import definitions from HolographicMemory to merge systems
@@ -135,7 +135,7 @@ class InternalUniverse:
         # [Phase 11] Apply Wave Interference for multiple matches
         if len(hits) > 1:
             try:
-                from Core._01_Foundation.05_Foundation_Base.Foundation.Wave.wave_interference import WaveInterference
+                from Core._01_Foundation._05_Governance.Foundation.Wave.wave_interference import WaveInterference
                 interference_engine = WaveInterference()
                 hits = interference_engine.process_multiple_matches(hits, self.coordinate_map)
                 logger.debug(f"🌊 Wave Interference applied to {len(results)} resonant concepts")
@@ -555,7 +555,7 @@ class InternalUniverse:
             # === 1차: 파동 변환 ===
 
             # === 1차: 파동 변환 (Self-Correction: Used ConceptDecomposer) ===
-            from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+            from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
             
             decomposer = ConceptDecomposer()
             # Infer essence
@@ -751,8 +751,8 @@ class InternalUniverse:
         "기존 감각 시스템과의 통합. 분절된 기능들의 조화."
         """
         import random
-        from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
-        from Core._01_Foundation.05_Foundation_Base.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
+        from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
+        from Core._01_Foundation._05_Governance.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
         from Core._02_Intelligence._01_Reasoning.Cognitive.sensory_cortex import get_sensory_cortex
         
         logger.info(f"⏳ Initiating Chronos Chamber V5: Simulating {years} years with INTEGRATED SENSORIUM...")

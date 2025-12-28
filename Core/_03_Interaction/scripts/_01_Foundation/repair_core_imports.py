@@ -1,11 +1,11 @@
-import os
+﻿import os
 import re
 
 # Mapping for Core modules to their new 5-layer paths (Recursive Depth 3)
 # Format: "Core.OldFolder" -> "Core.0X_Layer.0X_Subgroup.OldFolder"
 core_mapping = {
     # 01_Foundation
-    "Core.Foundation": "Core._01_Foundation.05_Foundation_Base.Foundation",
+    "Core.Foundation": "Core._01_Foundation._05_Governance.Foundation",
     "Core.Laws": "Core._01_Foundation.02_Legal_Ethics.Laws",
     "Core.Ethics": "Core._01_Foundation.02_Legal_Ethics.Ethics",
     "Core.Philosophy": "Core._01_Foundation._04_Philosophy.Philosophy",

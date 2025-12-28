@@ -1,4 +1,4 @@
-import logging
+﻿import logging
 import json
 from datetime import datetime
 from pathlib import Path
@@ -14,17 +14,17 @@ from Project_Elysia.architecture.handlers import (
 
 # --- Existing Component Dependencies (for dependency injection) ---
 from .core_memory import CoreMemory
-from Core._01_Foundation.05_Foundation_Base.Foundation.logical_reasoner import LogicalReasoner
-from Core._01_Foundation.05_Foundation_Base.Foundation.wave_mechanics import WaveMechanics
+from Core._01_Foundation._05_Governance.Foundation.logical_reasoner import LogicalReasoner
+from Core._01_Foundation._05_Governance.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
-from Core._01_Foundation.05_Foundation_Base.Foundation.core.world import World
-from Core._01_Foundation.05_Foundation_Base.Foundation.emotional_engine import EmotionalEngine, EmotionalState
-from Core._01_Foundation.05_Foundation_Base.Foundation.response_styler import ResponseStyler
-from Core._01_Foundation.05_Foundation_Base.Foundation.insight_synthesizer import InsightSynthesizer
+from Core._01_Foundation._05_Governance.Foundation.core.world import World
+from Core._01_Foundation._05_Governance.Foundation.emotional_engine import EmotionalEngine, EmotionalState
+from Core._01_Foundation._05_Governance.Foundation.response_styler import ResponseStyler
+from Core._01_Foundation._05_Governance.Foundation.insight_synthesizer import InsightSynthesizer
 from .value_centered_decision import ValueCenteredDecision
-from Core._01_Foundation.05_Foundation_Base.Foundation.arithmetic_cortex import ArithmeticCortex
+from Core._01_Foundation._05_Governance.Foundation.arithmetic_cortex import ArithmeticCortex
 from Project_Mirror.creative_cortex import CreativeCortex
-from Core._01_Foundation.05_Foundation_Base.Foundation.question_generator import QuestionGenerator
+from Core._01_Foundation._05_Governance.Foundation.question_generator import QuestionGenerator
 from Project_Mirror.perspective_cortex import PerspectiveCortex
 from .high_engine.dialogue_law_evaluator import DialogueLawEvaluator
 from .high_engine.intent_engine import IntentEngine
@@ -33,9 +33,9 @@ from .high_engine.quaternion_engine import QuaternionConsciousnessEngine
 from .high_engine.causal_reasoner import CausalReasoner
 from .high_engine.syllabic_language_engine import SyllabicLanguageEngine
 from .high_engine.value_engine import ValueEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.planning_cortex import PlanningCortex
-from Core._01_Foundation.05_Foundation_Base.Foundation.tool_executor import ToolExecutor
-from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import GeminiAPI
+from Core._01_Foundation._05_Governance.Foundation.planning_cortex import PlanningCortex
+from Core._01_Foundation._05_Governance.Foundation.tool_executor import ToolExecutor
+from Core._01_Foundation._05_Governance.Foundation.gemini_api import GeminiAPI
 
 # Soul-layer state (body / soul / spirit axis)
 try:

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Prove Hyper-Cognition Script
 ============================
 Demonstrates the full Cyber-Physical Pipeline:
@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core._03_Interaction._01_Interface.Sensory.stream_sources import WikipediaStreamSource
 from Core._03_Interaction._01_Interface.Sensory.semantic_bridge import SemanticBridge
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("HyperCognition")

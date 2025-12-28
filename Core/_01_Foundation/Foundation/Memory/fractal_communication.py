@@ -1,4 +1,4 @@
-"""
+﻿"""
 Fractal Communication Protocol (프랙탈 통신 프로토콜)
 ================================================
 
@@ -26,7 +26,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_quantization import PatternDNA, FractalQuantizer
+from Core._01_Foundation._02_Logic.fractal_quantization import PatternDNA, FractalQuantizer
 
 logger = logging.getLogger("FractalCommunication")
 

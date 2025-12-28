@@ -1,4 +1,4 @@
-"""
+﻿"""
 Cell World Organizer (세포 세계 조직기)
 =======================================
 
@@ -38,7 +38,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+    from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 except ImportError:
     @dataclass
     class Quaternion:

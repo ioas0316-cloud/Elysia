@@ -1,4 +1,4 @@
-"""
+﻿"""
 Wikipedia Dump Parser (위키피디아 덤프 파서)
 =============================================
 
@@ -166,7 +166,7 @@ class WikipediaDumpParser:
                                 continue
                             
                             # [NEW] Concept Sanitizer Inclusion
-                            from Core._01_Foundation.05_Foundation_Base.Foundation.concept_sanitizer import get_sanitizer
+                            from Core._01_Foundation._05_Governance.Foundation.concept_sanitizer import get_sanitizer
                             sanitizer = get_sanitizer()
                             if not sanitizer.is_valid(title):
                                 elem.clear()

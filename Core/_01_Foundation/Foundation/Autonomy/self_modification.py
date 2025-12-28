@@ -1,4 +1,4 @@
-"""
+﻿"""
 Self-Modification Engine (자기 수정 엔진)
 ==========================================
 
@@ -31,7 +31,7 @@ from dataclasses import dataclass, field
 
 # Core Dependencies
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text
+    from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
     HAS_API = True
 except ImportError:
     HAS_API = False

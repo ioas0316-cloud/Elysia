@@ -1,4 +1,4 @@
-"""
+﻿"""
 Global Hub (The Central Nervous System)
 ========================================
 
@@ -33,8 +33,8 @@ from pathlib import Path
 
 # Import Wave infrastructure
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import WaveTensor
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+    from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
+    from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback for standalone testing
     @dataclass

@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+﻿from dataclasses import dataclass, asdict
 
 from typing import Any, Dict, List, Optional
 
@@ -8,7 +8,7 @@ from Project_Elysia.architecture.context import ConversationContext
 
 from Project_Elysia.core_memory import CoreMemory
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.emotional_engine import EmotionalState
+from Core._01_Foundation._05_Governance.Foundation.emotional_engine import EmotionalState
 
 
 

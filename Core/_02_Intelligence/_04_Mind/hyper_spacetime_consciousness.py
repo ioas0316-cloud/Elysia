@@ -1,4 +1,4 @@
-"""
+﻿"""
 Hyper-Spacetime Consciousness (초시공간 의식)
 =============================================
 
@@ -27,9 +27,9 @@ import time
 
 # 기존 시스템 통합
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.spacetime_drive import SpaceTimeDrive, SpaceTimeState
-    from Core._01_Foundation.05_Foundation_Base.Foundation.causality_seed import Event, CausalType, SpacetimeCoord
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core._01_Foundation._05_Governance.Foundation.spacetime_drive import SpaceTimeDrive, SpaceTimeState
+    from Core._01_Foundation._05_Governance.Foundation.causality_seed import Event, CausalType, SpacetimeCoord
+    from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
 except ImportError:
     # 최소 구현으로 폴백
     from dataclasses import dataclass

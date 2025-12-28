@@ -18,7 +18,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core._01_Foundation._01_Infrastructure.elysia_core import Organ
-from Core._01_Foundation.05_Foundation_Base.Foundation.Wave.wave_tensor import WaveTensor, Modality
+from Core._01_Foundation._05_Governance.Foundation.Wave.wave_tensor import WaveTensor, Modality
 from Core._02_Intelligence._02_Memory_Linguistics.Memory.Graph.hyper_graph import HyperGraph
 from Core._02_Intelligence._01_Reasoning.Cognition.Reasoning.code_resonance import CodeResonance
 

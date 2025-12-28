@@ -24,7 +24,7 @@ import json
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any, Tuple
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("FractalQuantization")
 

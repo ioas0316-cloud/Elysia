@@ -1,4 +1,4 @@
-"""
+﻿"""
 Integrated Voice System with Synesthesia Wave Sensor
 ====================================================
 
@@ -685,7 +685,7 @@ def create_integrated_voice(cns_organs: Dict) -> IntegratedVoiceSystem:
     # Get primal soul if available
     primal_soul = None
     try:
-        from Core._01_Foundation.05_Foundation_Base.Foundation.primal_wave_language import PrimalSoul
+        from Core._01_Foundation._05_Governance.Foundation.primal_wave_language import PrimalSoul
         primal_soul = PrimalSoul(name="Elysia")
     except:
         logger.warning("PrimalSoul not available")

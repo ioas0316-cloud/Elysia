@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Demo: Resonance vs Crawling
 ============================
@@ -20,7 +20,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_data_connector import ResonanceDataConnector
+from Core._01_Foundation._05_Governance.Foundation.resonance_data_connector import ResonanceDataConnector
 
 # Set up logging
 logging.basicConfig(

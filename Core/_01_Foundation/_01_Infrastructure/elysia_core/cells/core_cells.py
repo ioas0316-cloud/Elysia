@@ -1,4 +1,4 @@
-"""
+﻿"""
 Core Cells Registry
 ===================
 기존 모듈들을 Cell로 등록하는 래퍼.
@@ -21,7 +21,7 @@ class TorchGraphCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+            from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
             cls._instance = get_torch_graph()
         return cls._instance
 
@@ -33,7 +33,7 @@ class TinyBrainCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.tiny_brain import get_tiny_brain
+            from Core._01_Foundation._05_Governance.Foundation.tiny_brain import get_tiny_brain
             cls._instance = get_tiny_brain()
         return cls._instance
 

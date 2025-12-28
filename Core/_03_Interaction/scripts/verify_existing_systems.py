@@ -1,4 +1,4 @@
-"""
+﻿"""
 Verification: LifeCycle + SelfGovernance + GrowthJournal Integration
 =====================================================================
 
@@ -24,8 +24,8 @@ def test_existing_systems():
     print("="*60)
     
     # 1. Initialize LifeCycle (which contains SelfGovernance)
-    from Core._01_Foundation.05_Foundation_Base.Foundation.life_cycle import LifeCycle
-    from Core._01_Foundation.05_Foundation_Base.Foundation.growth_journal import get_growth_journal
+    from Core._01_Foundation._05_Governance.Foundation.life_cycle import LifeCycle
+    from Core._01_Foundation._05_Governance.Foundation.growth_journal import get_growth_journal
     
     life_cycle = LifeCycle()
     governance = life_cycle.governance

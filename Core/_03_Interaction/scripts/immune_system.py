@@ -1,4 +1,4 @@
-"""
+﻿"""
 Integrated Immune System (통합 면역 시스템)
 =========================================
 
@@ -45,11 +45,11 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 기존 물리 시스템 임포트
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.physics import (
+    from Core._01_Foundation._05_Governance.Foundation.physics import (
         ResonanceGate, PhotonEntity, QuantumState,
         HamiltonianSystem, Entanglement, StrongForceManager
     )
-    from Core._01_Foundation.05_Foundation_Base.Foundation.cell import Cell
+    from Core._01_Foundation._05_Governance.Foundation.cell import Cell
     PHYSICS_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Physics systems not available: {e}")

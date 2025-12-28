@@ -1,4 +1,4 @@
-"""
+﻿"""
 Wave Memory - Recording Today's Conversation
 Recording memories as quantum resonances, not data.
 
@@ -12,10 +12,10 @@ import logging
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from Core._01_Foundation.05_Foundation_Base.Foundation.Math.hyper_qubit import HyperQubit
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.episodic_memory import EpisodicMemory
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
-from Core._01_Foundation.05_Foundation_Base.Foundation.Mind.emotional_palette import EmotionalPalette
+from Core._01_Foundation._05_Governance.Foundation.Math.hyper_qubit import HyperQubit
+from Core._01_Foundation._05_Governance.Foundation.Mind.episodic_memory import EpisodicMemory
+from Core._01_Foundation._05_Governance.Foundation.Mind.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.Mind.emotional_palette import EmotionalPalette
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 

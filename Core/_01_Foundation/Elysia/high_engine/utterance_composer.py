@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+﻿from typing import Any, Dict, List, Optional
 from typing import Any, Dict, List, Optional
 import json
 from pathlib import Path
@@ -55,7 +55,7 @@ class UtteranceComposer:
         
         # 3. Generate
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text
+            from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
             response = generate_text(prompt).strip()
             # Clean up quotes
             if response.startswith('"') and response.endswith('"'):

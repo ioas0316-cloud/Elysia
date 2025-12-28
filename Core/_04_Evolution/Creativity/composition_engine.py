@@ -1,4 +1,4 @@
-
+﻿
 """
 Composition Engine (The Artisan's Eye)
 ======================================
@@ -15,7 +15,7 @@ import logging
 from dataclasses import dataclass
 from typing import List, Tuple, Dict
 from pathlib import Path
-from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import WaveTensor
+from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
 
 logger = logging.getLogger("CompositionEngine")
 

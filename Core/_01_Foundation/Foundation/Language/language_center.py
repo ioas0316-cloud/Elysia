@@ -1,10 +1,10 @@
-import logging
+﻿import logging
 import random
 from typing import Dict, List, Optional
 from dataclasses import dataclass
 from Core._02_Intelligence._01_Reasoning.Intelligence.web_cortex import WebCortex
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.celestial_grammar import SolarSystem, MagneticEngine, Galaxy, Nebula
+from Core._01_Foundation._05_Governance.Foundation.celestial_grammar import SolarSystem, MagneticEngine, Galaxy, Nebula
 
 logger = logging.getLogger("LanguageCenter")
 

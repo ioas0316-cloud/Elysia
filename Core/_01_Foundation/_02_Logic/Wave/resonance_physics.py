@@ -1,4 +1,4 @@
-"""
+﻿"""
 ResonancePhysics (공명 물리학)
 ============================
 
@@ -12,7 +12,7 @@ import time
 import random
 import logging
 from typing import Dict, Tuple, List
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
 
 logger = logging.getLogger("ResonancePhysics")
 

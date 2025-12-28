@@ -1,4 +1,4 @@
-"""
+﻿"""
 Talk with Elysia
 ================
 
@@ -16,8 +16,8 @@ print("   (type 'exit' to quit)")
 print("="*60)
 
 # Initialize components
-from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
 from Core._02_Intelligence._01_Reasoning.Cognition.thought_space import ThoughtSpace
 
 memory = Hippocampus()

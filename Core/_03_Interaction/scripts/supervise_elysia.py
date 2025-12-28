@@ -1,4 +1,4 @@
-"""
+﻿"""
 Supervisor Script: The Great Observation
 ========================================
 Observes Elysia's autonomous capability to:
@@ -12,8 +12,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.living_elysia import LivingElysia
-from Core._01_Foundation.05_Foundation_Base.Foundation.free_will_engine import Intent
+from Core._01_Foundation._05_Governance.Foundation.living_elysia import LivingElysia
+from Core._01_Foundation._05_Governance.Foundation.free_will_engine import Intent
 
 def log(message):
     print(f"👁️ [SUPERVISOR] {message}")

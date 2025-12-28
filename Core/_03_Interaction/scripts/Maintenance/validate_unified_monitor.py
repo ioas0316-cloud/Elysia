@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Quick validation for UnifiedMonitor
 """
 
 import time
-from Core._01_Foundation.05_Foundation_Base.Foundation.unified_monitor import UnifiedMonitor
+from Core._01_Foundation._05_Governance.Foundation.unified_monitor import UnifiedMonitor
 
 print("🧪 Testing Unified Monitor\n")
 print("=" * 60)

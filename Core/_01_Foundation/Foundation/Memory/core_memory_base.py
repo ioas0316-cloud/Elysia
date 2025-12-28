@@ -1,10 +1,10 @@
-from typing import Optional, Dict, Any
+﻿from typing import Optional, Dict, Any
 
 from dataclasses import dataclass
 
 from datetime import datetime
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.emotional_state import EmotionalState
+from Core._01_Foundation._05_Governance.Foundation.emotional_state import EmotionalState
 
 
 

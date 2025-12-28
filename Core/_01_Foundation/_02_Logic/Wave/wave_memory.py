@@ -1,4 +1,4 @@
-"""
+﻿"""
 Wave-Resonance Memory System
 ============================
 
@@ -12,9 +12,9 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_physics import ResonancePhysics
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
+from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
+from Core._01_Foundation._05_Governance.Foundation.resonance_physics import ResonancePhysics
 from typing import List, Dict
 import time
 

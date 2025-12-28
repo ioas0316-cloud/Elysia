@@ -1,4 +1,4 @@
-"""
+﻿"""
 Ether Node (The Fundamental Particle of Thought)
 ================================================
 
@@ -23,7 +23,7 @@ from enum import Enum
 
 # Import Hyper-Quaternion for 4D Spin
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+    from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback if Foundation is not reachable yet
     @dataclass

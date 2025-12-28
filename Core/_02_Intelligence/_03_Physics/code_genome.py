@@ -1,8 +1,8 @@
-from dataclasses import dataclass, field
+﻿from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 import uuid
 import time
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
 
 @dataclass
 class CodeDNA:

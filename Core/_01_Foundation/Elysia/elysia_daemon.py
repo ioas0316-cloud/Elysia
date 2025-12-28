@@ -1,4 +1,4 @@
-# elysia_daemon.py - Refactored to be a managed component of the Guardian
+﻿# elysia_daemon.py - Refactored to be a managed component of the Guardian
 
 
 
@@ -22,13 +22,13 @@ from tools.kg_manager import KGManager
 
 from .core_memory import CoreMemory
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.wave_mechanics import WaveMechanics
+from Core._01_Foundation._05_Governance.Foundation.wave_mechanics import WaveMechanics
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.core.world import World
+from Core._01_Foundation._05_Governance.Foundation.core.world import World
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.emotional_engine import EmotionalEngine
+from Core._01_Foundation._05_Governance.Foundation.emotional_engine import EmotionalEngine
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.meta_cognition_cortex import MetaCognitionCortex
+from Core._01_Foundation._05_Governance.Foundation.meta_cognition_cortex import MetaCognitionCortex
 
 
 

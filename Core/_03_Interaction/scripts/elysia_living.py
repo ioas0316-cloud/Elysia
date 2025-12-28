@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Living Daemon (엘리시아 생명 데몬)
 =========================================
 
@@ -62,7 +62,7 @@ class ElysiaLivingDaemon:
         
         # 멀티모달 통합
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.multimodal_concept_node import get_multimodal_integrator
+            from Core._01_Foundation._05_Governance.Foundation.multimodal_concept_node import get_multimodal_integrator
             self.multimodal = get_multimodal_integrator()
             logger.info("   ✅ Multimodal connected")
         except Exception as e:
@@ -146,7 +146,7 @@ class ElysiaLivingDaemon:
         BlackHole → WhiteHole → InternalUniverse 순환
         """
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.white_hole import get_blackhole_whitehole_cycle
+            from Core._01_Foundation._05_Governance.Foundation.white_hole import get_blackhole_whitehole_cycle
             
             cycle = get_blackhole_whitehole_cycle()
             result = cycle.process_new_knowledge(
@@ -167,7 +167,7 @@ class ElysiaLivingDaemon:
             logger.warning(f"   ⚠️ Internalization fallback: {e}")
             # 폴백: 직접 InternalUniverse에 흡수
             try:
-                from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+                from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse
                 universe = InternalUniverse()
                 universe.absorb_text(content, source_name=topic)
             except:

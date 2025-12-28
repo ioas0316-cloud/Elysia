@@ -1,4 +1,4 @@
-"""
+﻿"""
 Consciousness Fabric (의식 직물)
 ================================
 
@@ -44,7 +44,7 @@ except ImportError:
     HyperResonanceField = None
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.distributed_consciousness import (
+    from Core._01_Foundation._05_Governance.Foundation.distributed_consciousness import (
         ConsciousnessNode, 
         ThoughtPacket,
         NodeState
@@ -55,7 +55,7 @@ except ImportError:
     ConsciousnessNode = None
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.ultra_dimensional_perspective import (
+    from Core._01_Foundation._05_Governance.Foundation.ultra_dimensional_perspective import (
         DimensionalVector,
         UltraDimensionalPerspective
     )
@@ -65,7 +65,7 @@ except ImportError:
     DimensionalVector = None
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.wave_semantic_search import (
+    from Core._01_Foundation._05_Governance.Foundation.wave_semantic_search import (
         WaveSemanticSearch,
         WavePattern
     )

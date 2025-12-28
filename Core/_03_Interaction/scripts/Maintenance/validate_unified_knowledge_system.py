@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Quick validation for UnifiedKnowledgeSystem
 ===========================================
@@ -10,7 +10,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.unified_knowledge_system import (
+from Core._01_Foundation._05_Governance.Foundation.unified_knowledge_system import (
     UnifiedKnowledgeSystem,
     KnowledgeType,
     KnowledgeSource
@@ -192,7 +192,7 @@ def test_migration():
     print("\nTesting migration...")
     
     # Test that migration functions exist and don't crash
-    from Core._01_Foundation.05_Foundation_Base.Foundation.unified_knowledge_system import (
+    from Core._01_Foundation._05_Governance.Foundation.unified_knowledge_system import (
         migrate_from_knowledge_acquisition,
         migrate_from_knowledge_sharer
     )

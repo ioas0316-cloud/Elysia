@@ -1,4 +1,4 @@
-"""
+﻿"""
 Script: Demo Concept Utility
 ============================
 Demonstrates how 'Concept_XXXX' nodes are UTILIZED (not just stored).
@@ -20,7 +20,7 @@ import logging
 
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Core._01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
 
 def demo():
     print("🧠 DEMO: Concept Utilization (From Gravity to Meaning)")

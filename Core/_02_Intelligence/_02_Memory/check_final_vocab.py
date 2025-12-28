@@ -1,11 +1,11 @@
-import sys
+﻿import sys
 import os
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.web_knowledge_connector import WebKnowledgeConnector
+    from Core._01_Foundation._05_Governance.Foundation.web_knowledge_connector import WebKnowledgeConnector
     
     print("📊 Checking Vocabulary Size...")
     w = WebKnowledgeConnector()

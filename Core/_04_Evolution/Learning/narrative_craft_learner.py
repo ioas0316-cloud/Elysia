@@ -1,4 +1,4 @@
-"""
+﻿"""
 Narrative Craft Learner (서사 기법 학습기)
 =========================================
 
@@ -29,7 +29,7 @@ except ImportError:
     HAS_WHY_ENGINE = False
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.dual_layer_personality import DualLayerPersonality, ExperientialAspect
+    from Core._01_Foundation._05_Governance.Foundation.dual_layer_personality import DualLayerPersonality, ExperientialAspect
     HAS_PERSONALITY = True
 except ImportError:
     HAS_PERSONALITY = False

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Unified Dialogue System (통합 대화 시스템)
 ==========================================
 
@@ -73,7 +73,7 @@ class UnifiedDialogueSystem:
         """Initialize all sub-components."""
         # TextWaveConverter
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.text_wave_converter import get_text_wave_converter
+            from Core._01_Foundation._05_Governance.Foundation.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("   ✅ TextWaveConverter connected")
         except ImportError as e:
@@ -100,7 +100,7 @@ class UnifiedDialogueSystem:
         
         # ConceptDecomposer (for axiom queries)
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+            from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
             self.decomposer = ConceptDecomposer()
             logger.info("   ✅ ConceptDecomposer connected")
         except ImportError as e:
@@ -287,7 +287,7 @@ class UnifiedDialogueSystem:
         """Handle emotional expressions using PrismCortex."""
         if self.prism and wave_analysis:
             try:
-                from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import WaveTensor
+                from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=wave_analysis.get("dominant_frequency", 432.0),
                     amplitude=1.0,

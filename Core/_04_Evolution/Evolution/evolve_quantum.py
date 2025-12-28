@@ -1,10 +1,10 @@
-import sys
+﻿import sys
 import os
 
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.cortex_optimizer import CortexOptimizer
+from Core._01_Foundation._05_Governance.Foundation.cortex_optimizer import CortexOptimizer
 
 def trigger_evolution():
     print("🧬 Initiating Manual Evolution Protocol (Quantum Port)...")

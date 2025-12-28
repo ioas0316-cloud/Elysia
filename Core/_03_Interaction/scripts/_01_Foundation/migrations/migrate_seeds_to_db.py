@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import os
 import json
 import logging
@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_quantization import PatternDNA
+from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.fractal_quantization import PatternDNA
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -35,7 +35,7 @@ def migrate():
     for key, seed_data in seeds.items():
         # Create PatternDNA object
         # Create PatternDNA object
-        from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+        from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
         
         dna = PatternDNA(
             name=key,

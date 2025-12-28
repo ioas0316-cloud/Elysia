@@ -1,4 +1,4 @@
-"""
+﻿"""
 Aesthetic Learner (The Student)
 ===============================
 "The eye that observes, the mind that absorbs."
@@ -14,7 +14,7 @@ import json
 import random
 from pathlib import Path
 from typing import List, Dict
-from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import WaveTensor
+from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
 
 logger = logging.getLogger("AestheticLearner")
 

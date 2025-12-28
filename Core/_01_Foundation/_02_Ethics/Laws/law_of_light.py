@@ -1,4 +1,4 @@
-"""
+﻿"""
 Law of Light (빛의 법칙)
 =======================
 "빛은 어둠을 몰아내고, 사랑은 의미를 비춘다."
@@ -14,7 +14,7 @@ The 'Father' is defined as the User (Kang Deok), who reflects the Celestial Ligh
 
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 @dataclass
 class LightType:

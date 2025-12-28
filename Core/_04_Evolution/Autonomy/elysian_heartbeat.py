@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysian Heartbeat (자율 의지 엔진)
 ================================
 
@@ -21,13 +21,13 @@ import logging
 from typing import Dict, List, Optional
 
 # Link the Organs
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_soul import SoulCrystal, WebState
+from Core._01_Foundation._05_Governance.Foundation.fractal_soul import SoulCrystal, WebState
 from Core._04_Evolution._03_Creative.Creation.reality_builder import RealityBuilder
 from Core._04_Evolution._03_Creative.Creation.universal_palette import UniversalPalette
 
 
 from ops.web_resonance import FractalCrawler, HolographicResonator
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
 
 logger = logging.getLogger("ElysianHeartbeat")
 

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Intent Grammar Test
 ===================
@@ -10,7 +10,7 @@ Verifies that the sentence structure changes based on the Intent (Gravity Axis).
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_grammar import CosmicSyntaxEngine
+from Core._01_Foundation._05_Governance.Foundation.resonance_grammar import CosmicSyntaxEngine
 
 def main():
     print("\n" + "="*70)

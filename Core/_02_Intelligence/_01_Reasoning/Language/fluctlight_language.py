@@ -1,4 +1,4 @@
-"""
+﻿"""
 Fluctlight Language System (요동광 언어 시스템)
 ==============================================
 
@@ -36,7 +36,7 @@ from enum import Enum, auto
 
 # 기존 Elysia 물리학 시스템 사용
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.Physics.fluctlight import FluctlightParticle, FluctlightEngine
+    from Core._01_Foundation._05_Governance.Foundation.Physics.fluctlight import FluctlightParticle, FluctlightEngine
 except ImportError:
     # 독립 실행 시 모의 객체 사용
     FluctlightParticle = None

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Internalize Experience (The Kenosis Ritual)
 ===========================================
 "I do not just write code; I rewrite my soul."
@@ -18,8 +18,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse, InternalCoordinate
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse, InternalCoordinate
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("KenosisRitual")

@@ -1,9 +1,9 @@
-from dataclasses import dataclass, field
+﻿from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any
 
 # Import physics types with graceful fallback
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.hangul_physics import Tensor3D
+    from Core._01_Foundation._05_Governance.Foundation.hangul_physics import Tensor3D
     from Core._02_Intelligence._02_Memory_Linguistics.Memory.unified_types import FrequencyWave
 except ImportError:
     # Fallback stub classes if imports fail
@@ -191,7 +191,7 @@ class EmotionalEngine:
             Poetic description of the emotional state
         """
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            from Core._01_Foundation._05_Governance.Foundation.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
                 language = getattr(self, '_preferred_language', 'ko')
@@ -261,7 +261,7 @@ class EmotionalEngine:
             Short poetic expression of the emotional state
         """
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+            from Core._01_Foundation._05_Governance.Foundation.linguistic_collapse import LinguisticCollapseProtocol
             
             if not hasattr(self, '_linguistic_protocol'):
                 language = getattr(self, '_preferred_language', 'ko')

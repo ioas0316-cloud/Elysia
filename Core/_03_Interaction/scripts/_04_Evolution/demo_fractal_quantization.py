@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 Fractal Quantization Demo
 =========================
@@ -20,8 +20,8 @@ import tempfile
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_quantization import EmotionQuantizer, PatternDNA
-from Core._01_Foundation.05_Foundation_Base.Foundation.hippocampus import Hippocampus
+from Core._01_Foundation._02_Logic.fractal_quantization import EmotionQuantizer, PatternDNA
+from Core._01_Foundation._05_Governance.Foundation.hippocampus import Hippocampus
 import logging
 
 # Set up logging

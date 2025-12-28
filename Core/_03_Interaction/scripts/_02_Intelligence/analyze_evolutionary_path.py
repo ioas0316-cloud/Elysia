@@ -1,4 +1,4 @@
-
+﻿
 import sys
 import os
 import time
@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.mycelium import Mycelium
+from Core._01_Foundation._05_Governance.Foundation.mycelium import Mycelium
 
 @dataclass
 class GapAnalysis:

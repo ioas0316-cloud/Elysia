@@ -1,4 +1,4 @@
-"""
+﻿"""
 The First Sculpture (Experiment)
 ================================
 Demonstrates Elysia's ability to self-evolve by refactoring code using RealitySculptor.
@@ -8,7 +8,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.reality_sculptor import RealitySculptor
+from Core._01_Foundation._05_Governance.Foundation.reality_sculptor import RealitySculptor
 
 def run_experiment():
     print("🗿 Starting 'The First Sculpture' Experiment...")

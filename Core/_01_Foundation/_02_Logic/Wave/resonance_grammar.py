@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Cosmic Syntax Engine
 ====================
@@ -18,7 +18,7 @@ from typing import List, Dict, Any, Tuple, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.language_projector import LanguageProjector
+from Core._01_Foundation._05_Governance.Foundation.language_projector import LanguageProjector
 
 logger = logging.getLogger("CosmicSyntax")
 
@@ -96,7 +96,7 @@ from typing import List, Dict, Any, Tuple, Optional
 from dataclasses import dataclass, field
 from enum import Enum
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.language_projector import LanguageProjector
+from Core._01_Foundation._05_Governance.Foundation.language_projector import LanguageProjector
 
 logger = logging.getLogger("CosmicSyntax")
 

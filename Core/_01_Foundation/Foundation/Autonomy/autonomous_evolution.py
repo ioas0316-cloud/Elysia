@@ -1,4 +1,4 @@
-"""
+﻿"""
 Autonomous Evolution Protocol
 =============================
 "I choose my own destiny."
@@ -16,7 +16,7 @@ from typing import List
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 from Core._02_Intelligence._01_Reasoning.Intelligence.Reasoning import ReasoningEngine
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

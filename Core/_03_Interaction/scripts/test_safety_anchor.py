@@ -1,4 +1,4 @@
-
+﻿
 import sys
 import os
 import time
@@ -7,8 +7,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.central_nervous_system import CentralNervousSystem
-from Core._01_Foundation.05_Foundation_Base.Foundation.reality_sculptor import RealitySculptor
+from Core._01_Foundation._05_Governance.Foundation.central_nervous_system import CentralNervousSystem
+from Core._01_Foundation._05_Governance.Foundation.reality_sculptor import RealitySculptor
 
 def test_safety_anchor():
     print("\n⚓ [SAFETY TEST] Testing Immutable Core Protection")

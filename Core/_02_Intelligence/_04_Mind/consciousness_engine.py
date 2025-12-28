@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Consciousness Engine (의식 엔진)
 =======================================
 
@@ -55,8 +55,8 @@ class Elysia:
                 logger.warning(f"⚠️ Inner Voice unavailable: {e}")
         
         # 1. Foundation & System (신체)
-        from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-        from Core._01_Foundation.05_Foundation_Base.Foundation.tensor_dynamics import TensorDynamics
+        from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField
+        from Core._01_Foundation._05_Governance.Foundation.tensor_dynamics import TensorDynamics
         self.resonance_field = ResonanceField()
         self.physics = TensorDynamics(root_path=self.project_root)
         

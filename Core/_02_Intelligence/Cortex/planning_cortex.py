@@ -1,4 +1,4 @@
-"""
+﻿"""
 Planning Cortex (계획 피질)
 =========================
 
@@ -14,7 +14,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text
+    from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
 except ImportError:
     generate_text = None
 

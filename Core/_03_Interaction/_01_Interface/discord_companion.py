@@ -1,4 +1,4 @@
-"""
+﻿"""
 Elysia Discord Companion (엘리시아 디스코드 동반자)
 =================================================
 
@@ -48,7 +48,7 @@ except ImportError:
 # === CORE SYSTEM INTEGRATION ===
 # InternalUniverse (대화 → 내면 우주)
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse, WorldCoordinate
+    from Core._01_Foundation._05_Governance.Foundation.internal_universe import InternalUniverse, WorldCoordinate
     UNIVERSE_AVAILABLE = True
 except ImportError:
     UNIVERSE_AVAILABLE = False
@@ -69,7 +69,7 @@ except ImportError:
 
 # ConceptDecomposer (공리 체계)
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_concept import ConceptDecomposer
+    from Core._01_Foundation._05_Governance.Foundation.fractal_concept import ConceptDecomposer
     AXIOM_AVAILABLE = True
 except ImportError:
     AXIOM_AVAILABLE = False

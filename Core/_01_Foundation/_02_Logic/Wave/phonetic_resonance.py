@@ -1,4 +1,4 @@
-"""
+﻿"""
 Phonetic Resonance Layer
 ========================
 
@@ -18,7 +18,7 @@ Phonetic Resonance Layer
 import numpy as np
 from dataclasses import dataclass
 from typing import List, Tuple
-from Core._01_Foundation.05_Foundation_Base.Foundation.hangul_physics import HangulPhysicsEngine, Tensor3D
+from Core._01_Foundation._05_Governance.Foundation.hangul_physics import HangulPhysicsEngine, Tensor3D
 
 @dataclass
 class ResonanceField:

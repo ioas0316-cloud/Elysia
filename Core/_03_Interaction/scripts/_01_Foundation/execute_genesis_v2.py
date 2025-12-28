@@ -1,4 +1,4 @@
-"""
+﻿"""
 Script: Execute Genesis V2 (Differentiation)
 ============================================
 
@@ -18,7 +18,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core._04_Evolution._01_Growth.Autonomy.content_baptizer import ContentBaptizer
-from Core._01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+from Core._01_Foundation._05_Governance.Foundation.Graph.torch_graph import get_torch_graph
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO)

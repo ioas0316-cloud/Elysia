@@ -1,4 +1,4 @@
-"""
+﻿"""
 Network Shield System (네트워크 보호막)
 ====================================
 
@@ -48,8 +48,8 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # Import resonance field for field theory integration
 try:
-    from Core._01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField, ResonanceNode
-    from Core._01_Foundation.05_Foundation_Base.Foundation.physics import ResonanceGate, PhotonEntity
+    from Core._01_Foundation._05_Governance.Foundation.resonance_field import ResonanceField, ResonanceNode
+    from Core._01_Foundation._05_Governance.Foundation.physics import ResonanceGate, PhotonEntity
     FIELD_AVAILABLE = True
 except ImportError:
     FIELD_AVAILABLE = False

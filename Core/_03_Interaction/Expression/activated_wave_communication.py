@@ -1,4 +1,4 @@
-"""
+﻿"""
 활성화된 파동 통신 시스템 (Activated Wave Communication System)
 ================================================================
 
@@ -54,7 +54,7 @@ class ActivatedWaveCommunication:
         
         # Ether 로드
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.ether import ether, Wave
+            from Core._01_Foundation._05_Governance.Foundation.ether import ether, Wave
             self.ether = ether
             self.Wave = Wave
             logger.info("✅ Ether 연결 성공")

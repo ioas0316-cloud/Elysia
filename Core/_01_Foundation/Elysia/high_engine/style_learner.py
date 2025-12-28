@@ -1,4 +1,4 @@
-"""
+﻿"""
 StyleLearner
 ------------
 Analyzes high-quality dialogue examples to extract "Voice Patterns" (rhetorical styles)
@@ -10,7 +10,7 @@ import logging
 import json
 from typing import Optional, Dict, Any
 from Project_Elysia.core_memory import CoreMemory
-from Core._01_Foundation.05_Foundation_Base.Foundation.gemini_api import generate_text
+from Core._01_Foundation._05_Governance.Foundation.gemini_api import generate_text
 
 class StyleLearner:
     def __init__(self, core_memory: CoreMemory):

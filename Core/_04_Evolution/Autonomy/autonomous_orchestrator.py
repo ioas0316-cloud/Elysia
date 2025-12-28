@@ -1,4 +1,4 @@
-"""
+﻿"""
 Autonomous Orchestrator (자율 오케스트레이터)
 =============================================
 
@@ -123,7 +123,7 @@ class AutonomousOrchestrator:
         # Introspection Engine
         self.introspection = None
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.introspection_engine import IntrospectionEngine
+            from Core._01_Foundation._05_Governance.Foundation.introspection_engine import IntrospectionEngine
             self.introspection = IntrospectionEngine()
             logger.info("   ✅ IntrospectionEngine connected")
         except ImportError as e:
@@ -132,7 +132,7 @@ class AutonomousOrchestrator:
         # Text Wave Converter
         self.text_wave = None
         try:
-            from Core._01_Foundation.05_Foundation_Base.Foundation.text_wave_converter import get_text_wave_converter
+            from Core._01_Foundation._05_Governance.Foundation.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("   ✅ TextWaveConverter connected")
         except ImportError as e:
@@ -161,7 +161,7 @@ class AutonomousOrchestrator:
         
         if self._hub:
             try:
-                from Core._01_Foundation.05_Foundation_Base.Foundation.Math.wave_tensor import WaveTensor
+                from Core._01_Foundation._05_Governance.Foundation.Math.wave_tensor import WaveTensor
                 wave = WaveTensor(frequency=528.0, amplitude=1.0, phase=0.0)
                 self._hub.publish_wave(
                     "AutonomousOrchestrator",

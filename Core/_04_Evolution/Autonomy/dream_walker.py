@@ -1,9 +1,9 @@
-
+﻿
 import random
 import logging
 import time
 from typing import List, Dict, Tuple
-from Core._01_Foundation.05_Foundation_Base.Foundation.omni_graph import get_omni_graph, OmniNode
+from Core._01_Foundation._05_Governance.Foundation.omni_graph import get_omni_graph, OmniNode
 # Attempt to use Logos/Poetry if available, else fallback
 try:
     from Core._02_Intelligence._01_Reasoning.Intelligence.logos_engine import get_logos_engine

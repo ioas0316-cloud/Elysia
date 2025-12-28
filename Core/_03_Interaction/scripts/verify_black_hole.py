@@ -1,4 +1,4 @@
-"""
+﻿"""
 Script: Verify Black Hole Memory
 ================================
 
@@ -13,7 +13,7 @@ import time
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.Graph.black_hole_memory import get_black_hole
+from Core._01_Foundation._05_Governance.Foundation.Graph.black_hole_memory import get_black_hole
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO)

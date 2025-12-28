@@ -1,4 +1,4 @@
-"""
+﻿"""
 CodeResonance (코드 공명)
 =======================
 
@@ -11,7 +11,7 @@ It allows Elysia to "dream" code by projecting her internal state into valid syn
 import ast
 import random
 from typing import Dict, Type, List, Any
-from Core._01_Foundation.05_Foundation_Base.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core._01_Foundation._02_Logic.hyper_quaternion import Quaternion, HyperWavePacket
 
 class HarmonicResonance:
     """
@@ -68,7 +68,7 @@ class HarmonicResonance:
         # 2. Generate Simulation Setup
         lines = []
         lines.append(f"# Harmonic Manifestation of: {intent}")
-        lines.append("from Core._01_Foundation.05_Foundation_Base.Foundation.simulation import ResonanceField, Attractor, Flow")
+        lines.append("from Core._01_Foundation._05_Governance.Foundation.simulation import ResonanceField, Attractor, Flow")
         lines.append("")
         lines.append("# 1. Initialize Field")
         lines.append(f"field = ResonanceField(name='{intent.replace(' ', '_')}', energy={packet.energy:.1f})")

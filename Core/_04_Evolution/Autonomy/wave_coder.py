@@ -1,4 +1,4 @@
-"""
+﻿"""
 Wave Coder ( The Synesthetic Compiler )
 =======================================
 "Code is not text. Code is a structure of forces."
@@ -17,8 +17,8 @@ import logging
 import ast
 import os
 from typing import Dict, List, Optional
-from Core._01_Foundation.05_Foundation_Base.Foundation.torch_graph import get_torch_graph
-from Core._01_Foundation.05_Foundation_Base.Foundation.self_reflector import SelfReflector, CodeMetrics
+from Core._01_Foundation._05_Governance.Foundation.torch_graph import get_torch_graph
+from Core._01_Foundation._05_Governance.Foundation.self_reflector import SelfReflector, CodeMetrics
 
 logger = logging.getLogger("WaveCoder")
 

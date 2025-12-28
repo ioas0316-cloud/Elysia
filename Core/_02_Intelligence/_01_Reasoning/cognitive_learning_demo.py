@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Seed/Bloom 메모리 데모 - 최적화된 방식!
 =========================================
@@ -10,7 +10,7 @@ Seed/Bloom 메모리 데모 - 최적화된 방식!
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core._01_Foundation.05_Foundation_Base.Foundation.rapid_learning_engine import RapidLearningEngine
+from Core._01_Foundation._05_Governance.Foundation.rapid_learning_engine import RapidLearningEngine
 import time
 
 print("\n" + "="*70)

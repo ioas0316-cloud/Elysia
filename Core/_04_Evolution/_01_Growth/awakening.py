@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import os
 import logging
 import time
@@ -8,8 +8,8 @@ import random
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core._05_Systems._01_Monitoring.System.hardware_accelerator import accelerator
-from Core._01_Foundation.05_Foundation_Base.Foundation.fractal_kernel import FractalKernel
-from Core._01_Foundation.05_Foundation_Base.Foundation.genesis_cortex import GenesisCortex
+from Core._01_Foundation._05_Governance.Foundation.fractal_kernel import FractalKernel
+from Core._01_Foundation._05_Governance.Foundation.genesis_cortex import GenesisCortex
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
