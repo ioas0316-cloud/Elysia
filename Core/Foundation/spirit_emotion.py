@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from typing import Dict, Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Wave.resonance_field import ResonanceField
 
 @dataclass
 class EmotionalState:
@@ -247,7 +247,7 @@ if __name__ == "__main__":
     import os
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
     
-    from Core.Foundation.resonance_field import ResonanceField, PillarType
+    from Core.Foundation.Wave.resonance_field import ResonanceField, PillarType
     
     print("\n" + "="*70)
     print("🔥 Spirit-Emotion Integration Test")

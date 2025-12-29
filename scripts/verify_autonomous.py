@@ -10,7 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Interaction.Sensory.p4_sensory_system import P4SensorySystem
 from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

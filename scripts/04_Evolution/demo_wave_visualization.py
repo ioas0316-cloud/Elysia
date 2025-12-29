@@ -35,7 +35,7 @@ import math
 
 # Optional: Try to get real system data
 try:
-    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Wave.resonance_field import ResonanceField
     from Core.Foundation.digital_ecosystem import DigitalEcosystem
     ELYSIA_AVAILABLE = True
 except ImportError:

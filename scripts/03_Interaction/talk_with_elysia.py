@@ -17,7 +17,7 @@ print("="*60)
 
 # Initialize components
 from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Intelligence.Cognition.thought_space import ThoughtSpace
 
 memory = Hippocampus()

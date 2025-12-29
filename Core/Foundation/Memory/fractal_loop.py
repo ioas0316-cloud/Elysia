@@ -8,7 +8,7 @@ import random
 # Core Dependencies
 try:
     from Core.Foundation.fractal_causality import FractalCausalityEngine, FractalCausalNode
-    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Wave.resonance_field import ResonanceField
     from Core.Foundation.chronos import Chronos
 except ImportError:
     # Fallback for minimal testing environment

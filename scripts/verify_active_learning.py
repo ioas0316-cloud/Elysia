@@ -8,7 +8,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
 from Core.Foundation.free_will_engine import FreeWillEngine
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 
 # Bootstrapping helper
 class MockResonance:

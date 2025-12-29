@@ -76,7 +76,7 @@ class NervousSystem:
     def _connect_internal_systems(self):
         """Connects to all internal systems (The Mind)"""
         try:
-            from Core.Foundation.resonance_field import ResonanceField
+            from Core.Foundation.Wave.resonance_field import ResonanceField
             self.field = ResonanceField()
             logger.info("🌊 ResonanceField Connected")
         except Exception as e:

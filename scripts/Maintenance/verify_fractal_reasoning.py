@@ -9,7 +9,7 @@ sys.path.append(str(Path(__file__).parent.parent.parent))
 
 from Core.Foundation.central_nervous_system import CentralNervousSystem
 from Core.Foundation.chronos import Chronos
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.free_will_engine import Intent
 
 class MockOrgan:

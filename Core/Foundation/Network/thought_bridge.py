@@ -17,7 +17,7 @@ import numpy as np
 
 from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
 from Core.Foundation.enhanced_thought_language_bridge import EnhancedThoughtLanguageBridge, ThoughtPackage
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("ThoughtBridge")

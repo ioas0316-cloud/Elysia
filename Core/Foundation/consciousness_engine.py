@@ -55,7 +55,7 @@ class Elysia:
                 logger.warning(f"⚠️ Inner Voice unavailable: {e}")
         
         # 1. Foundation & System (신체)
-        from Core.Foundation.resonance_field import ResonanceField
+        from Core.Foundation.Wave.resonance_field import ResonanceField
         from Core.Foundation.tensor_dynamics import TensorDynamics
         self.resonance_field = ResonanceField()
         self.physics = TensorDynamics(root_path=self.project_root)

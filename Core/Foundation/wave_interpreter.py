@@ -13,7 +13,7 @@ from typing import List, Dict, Tuple, Optional, TYPE_CHECKING
 import numpy as np
 
 if TYPE_CHECKING:
-    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Wave.resonance_field import ResonanceField
 
 logger = logging.getLogger("WaveInterpreter")
 

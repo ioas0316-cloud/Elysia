@@ -31,7 +31,7 @@ from typing import List, Dict, Any
 # Core Systems
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.fractal_kernel import FractalKernel
 from Core.Foundation.autonomous_fractal_learning import FractalLearner
 from Core.Foundation.wave_memory import WaveMemory

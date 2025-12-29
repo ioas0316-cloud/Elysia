@@ -33,7 +33,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 기존 시스템 import 시도
 try:
-    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Wave.resonance_field import ResonanceField
     RESONANCE_AVAILABLE = True
 except ImportError:
     RESONANCE_AVAILABLE = False

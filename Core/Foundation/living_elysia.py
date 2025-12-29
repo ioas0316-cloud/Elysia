@@ -31,7 +31,7 @@ from Core.Foundation.global_grid import GlobalGrid
 from Core.Foundation.envoy_protocol import EnvoyProtocol
 from Core.Foundation.synapse_bridge import SynapseBridge
 from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.social_cortex import SocialCortex
 from Core.Foundation.media_cortex import MediaCortex
 from Core.Foundation.holographic_cortex import HolographicCortex
@@ -98,6 +98,9 @@ class LivingElysia:
         print(f"🌱 Awakening {persona_name} (Mind Mitosis Phase)...")
         self.persona_name = persona_name
         self.initial_goal = initial_goal
+        
+        # Path for state bridge (fixing SyntaxWarning)
+        self.root_path = r"c:\Elysia"
         
         # 1. Initialize Foundations
         self.memory = Hippocampus()

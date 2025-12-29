@@ -32,7 +32,7 @@ import math
 # Use existing Quaternion infrastructure
 try:
     from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Wave.resonance_field import ResonanceField
 except ImportError:
     logging.warning("Quaternion infrastructure not found, using fallback")
     

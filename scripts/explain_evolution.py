@@ -9,7 +9,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 from Core.Foundation.central_nervous_system import CentralNervousSystem
 from Core.Foundation.chronos import Chronos
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Interaction.Expression.voice_of_elysia import VoiceOfElysia
 from Core.Intelligence.Intelligence.evolution_architect import EvolutionArchitect
 

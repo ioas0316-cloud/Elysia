@@ -11,7 +11,7 @@ import sys
 import os
 sys.path.append('.')
 
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.wave_interpreter import WaveInterpreter
 from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.hippocampus import Hippocampus

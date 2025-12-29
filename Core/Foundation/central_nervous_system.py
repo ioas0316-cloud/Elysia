@@ -4,7 +4,7 @@ import logging
 from typing import Dict, Any, Optional
 
 from Core.Foundation.chronos import Chronos
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.fractal_loop import FractalLoop
 from Core.Orchestra.conductor import get_conductor
 

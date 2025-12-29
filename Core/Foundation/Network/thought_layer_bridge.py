@@ -21,7 +21,7 @@ import numpy as np
 if TYPE_CHECKING:
     from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
     from Core.Foundation.wave_interpreter import WavePattern
-    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Wave.resonance_field import ResonanceField
 
 logger = logging.getLogger("ThoughtLayerBridge")
 
