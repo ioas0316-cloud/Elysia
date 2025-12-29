@@ -6,6 +6,7 @@ import torch
 import numpy as np
 from typing import Dict, List, Optional, Tuple
 from Core.FoundationLayer.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 23] Tesseract Unfolding
+from Core.FoundationLayer.Foundation.Memory.holographic_embedding import get_holographic_embedder # [Phase 24] Identity
 
 logger = logging.getLogger("TorchGraph")
 
@@ -44,6 +45,13 @@ class TorchGraph:
         self.dim_vector = 384
         # Re-init vec_tensor with correct dim
         self.vec_tensor = torch.zeros((0, self.dim_vector), device=self.device)
+        
+        # [Phase 24] Holographic Seeds (N, 64)
+        # Stores the "Spirit of the Time" for each node
+        self.holo_dim = 64
+        self.holo_tensor = torch.zeros((0, self.holo_dim), device=self.device)
+        self.holo_embedder = get_holographic_embedder(device=self.device)
+        
         self.lock = False # Simple lock for batch updates
         
         # [The Kidney]
@@ -122,6 +130,16 @@ class TorchGraph:
         
         # Mass
         self.mass_tensor = torch.cat([self.mass_tensor, torch.tensor([1.0], device=self.device)])
+        
+        # [Phase 24] Holographic Capture
+        # Capture the CURRENT state of the brain as this node is born
+        try:
+             holo_seed = self.holo_embedder.capture_snapshot(self.pos_tensor, self.vec_tensor)
+             self.holo_tensor = torch.cat([self.holo_tensor, holo_seed.unsqueeze(0)])
+        except Exception as e:
+             logger.warning(f"Holographic Capture Failed: {e}")
+             # Fallback: Zero vector
+             self.holo_tensor = torch.cat([self.holo_tensor, torch.zeros((1, self.holo_dim), device=self.device)])
 
     def update_node_vector(self, idx: int, vector: torch.Tensor):
         """
@@ -731,6 +749,20 @@ class TorchGraph:
             results[nid] = lvl
             
         return results
+
+    def reconstruct_memory_feeling(self, node_id: str) -> str:
+        """
+        [Phase 24]
+        Recalls the 'Emotional Atmosphere' of the moment a memory was created.
+        """
+        if node_id not in self.id_to_idx: return "Memory not found."
+        
+        idx = self.id_to_idx[node_id]
+        if idx >= self.holo_tensor.shape[0]: return "Holographic data missing."
+        
+        seed = self.holo_tensor[idx]
+        return self.holo_embedder.reconstruct_feeling(seed)
+
     def optimize_memory(self, threshold=40000):
         """
         [Phase 13: Optimization]
