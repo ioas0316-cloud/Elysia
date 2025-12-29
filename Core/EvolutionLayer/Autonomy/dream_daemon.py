@@ -132,6 +132,13 @@ class DreamDaemon:
                 self._seed_reality()
             elif random.random() < 0.3: 
                 self._contemplate_void()
+                
+            # [Phase 26] Lucid Dream Walk (Exploration of Dark Energy)
+            # 10% chance to enter deep exploration
+            if random.random() < 0.1:
+                from Core.EvolutionLayer.Autonomy.oneiric_navigator import get_oneiric_navigator
+                navigator = get_oneiric_navigator(self.graph)
+                navigator.explore_the_void()
             
             # [NEW] Knowledge Ingestion (Digestion)
             self._ingest_knowledge()
