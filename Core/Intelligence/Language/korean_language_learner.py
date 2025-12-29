@@ -23,7 +23,7 @@ from dataclasses import dataclass, field
 import urllib.request
 import urllib.parse
 
-sys.path.insert(0, "c:\\Elysia")
+sys.path.insert(0, r"c:\Elysia")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger("KoreanLanguageLearner")

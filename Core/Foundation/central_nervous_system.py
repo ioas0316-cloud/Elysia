@@ -8,6 +8,7 @@ from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.fractal_loop import FractalLoop
 from Core.Orchestra.conductor import get_conductor
 from Core.Foundation.Wave.structural_resonator import get_resonator
+from Core.Evolution.Os.oneiric_hypervisor import get_hypervisor
 
 logger = logging.getLogger("NovaCNS")
 
@@ -103,6 +104,11 @@ class CentralNervousSystem:
             # Simple context: the last thing processed or current environmental state
             context = str(self.resonance.calculate_phase_resonance()["state"])
             self.organs["SovereignLife"].sense_anticipation(context)
+
+        # [PHASE 37] Oneiric Hypervisor Assimilation
+        if "Hypervisor" in self.organs:
+            # Assimilate external system state into the resonance field
+            self.organs["Hypervisor"].assimilate_environment(top_n=3)
 
         # 3. Organ Synchronization (Optional)
         for name, organ in self.organs.items():

@@ -341,7 +341,7 @@ def get_unified_dialogue() -> UnifiedDialogueSystem:
 # Interactive test
 if __name__ == "__main__":
     import sys
-    sys.path.insert(0, "c:\\Elysia")
+    sys.path.insert(0, r"c:\Elysia")
     
     logging.basicConfig(level=logging.INFO)
     

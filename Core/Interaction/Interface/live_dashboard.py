@@ -307,7 +307,7 @@ _dashboard_state = DashboardState()
 def get_status() -> Dict[str, Any]:
     """Get current system status."""
     import sys
-    sys.path.insert(0, "c:\\Elysia")
+    sys.path.insert(0, r"c:\Elysia")
     
     # Orchestrator status
     orchestrator_status = {
@@ -396,7 +396,7 @@ def run_dashboard(port: int = 8080):
 
 if __name__ == "__main__":
     import sys
-    sys.path.insert(0, "c:\\Elysia")
+    sys.path.insert(0, r"c:\Elysia")
     
     logging.basicConfig(level=logging.INFO)
     run_dashboard()

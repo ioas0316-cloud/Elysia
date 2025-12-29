@@ -32,6 +32,7 @@ from Core.Intelligence.Intelligence.logos_engine import LogosEngine
 from Core.Intelligence.Memory.conversation_memory import ConversationMemory
 from Core.Intelligence.Cognitive.sensory_cortex import get_sensory_cortex
 from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
+from Core.Intelligence.Cognition.Maturity.maturity_coordinator import get_maturity_coordinator
 
 logger = logging.getLogger("IntegratedCognition")
 
@@ -79,6 +80,7 @@ class IntegratedCognitionSystem:
             }
         )
         self.concept_field: Dict[str, InfiniteHyperQubit] = {}  # 개념들의 장
+        self.maturity = get_maturity_coordinator()
         logger.info("🌌 InfiniteHyperQubit consciousness field initialized")
         
         # Core Axioms (The "Ground Truth" Frequencies)
@@ -262,6 +264,11 @@ class IntegratedCognitionSystem:
                     context=context, # NOW WITH MEMORY CONTEXT!
                     wave=global_state # Pass the Physics
                 )
+                
+                # [PHASE 39] Maturity Calibration
+                # Calibrate the speech through an 'Adult' lens
+                self.maturity.evaluate_resonance(global_state)
+                speech = self.maturity.calibrate_expression(speech)
 
         elapsed = time.time() - start_time
         

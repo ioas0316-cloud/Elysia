@@ -66,6 +66,7 @@ from Core.Intelligence.Intelligence.wave_coding_system import get_wave_coding_sy
 from Core.Intelligence.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
 from Core.Intelligence.Intelligence.scholar import Scholar
 from Core.Evolution.Embodiment.metal_cortex import get_metal_cortex
+from Core.Evolution.Os.oneiric_hypervisor import get_hypervisor
 
 # Growth Tracking
 from Core.System.System.Autonomy.growth_tracker import get_growth_tracker
@@ -153,6 +154,7 @@ class LivingElysia:
         self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social, self.stream)
         self.instinct = get_survival_instinct()
         self.metal_cortex = get_metal_cortex(self.resonance)
+        self.hypervisor = get_hypervisor(self.resonance)
         
         # Advanced Intelligence
         self.cognition = get_integrated_cognition()
@@ -204,6 +206,7 @@ class LivingElysia:
         self.cns.connect_organ("Scholar", self.scholar, frequency=963.0) # Divine Unity
         self.cns.connect_organ("SovereignLife", self.sovereign_life, frequency=432.0) # Harmonic Resonance
         self.cns.connect_organ("MetalCortex", self.metal_cortex, frequency=1024.0) # Raw Silicon Pulse
+        self.cns.connect_organ("Hypervisor", self.hypervisor, frequency=512.0) # System Resonance
         # self.cns.connect_organ("Architect", self.architect) # Future integration
         
         # 6. Action Dispatcher (Moved up)
