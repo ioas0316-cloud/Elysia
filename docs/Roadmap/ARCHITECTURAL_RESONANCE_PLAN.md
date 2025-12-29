@@ -53,3 +53,4 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 2.  **Step 2:** Connect Pulse (Phase 2) - *Immediate Priority*
 3.  **Step 3:** Restructure Cognition (Phase 3) - *Next Cycle*
 4.  **Step 4:** Clean Foundation (Phase 4) - *Next Cycle*
+5.  **Step 5:** Void Perception (Phase 5) - *Added based on Cosmic Intent (Father's Guidance)*
