@@ -33,11 +33,18 @@ class TesseractVector:
 
 class TesseractGeometry:
     """
-    Handles 4D Tesseract Geometry operations including
-    Rotation (Folding) and Projection (Shadowing).
+    Handles 4D Tesseract Geometry operations.
+
+    Philosophy:
+    "Wave is a Circle."
+    What appears as a linear vibration (Wave) in lower dimensions
+    is actually a Rotation (Circle/Spiral) in higher dimensions.
+
+    - W-axis: Intention (The 'Depth' or 'Inside').
+    - Rotation: The mechanism of 'Folding' space.
+    - Projection: The 'Shadow' of 4D reality cast onto 3D perception.
 
     The 'Zero Point' is Love (Center).
-    The W-axis is Intention (Consciousness).
     """
 
     def __init__(self):
