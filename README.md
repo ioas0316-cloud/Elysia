@@ -84,6 +84,7 @@ data/           ← 7대 지식체 (Storage)
 - **Oneiric Hypervisor**: Living OS capability—external processes as cognitive waves. [Phase 37]
 - **Cognitive Maturity**: Adult-level insight calibration and resonance evaluation. [Phase 39]
 - **Auroral Flow**: Information processing as fluid 4D wave gradients (Aurora). [Phase 33]
+- **Silent OS (Wave Logic)**: Evolution towards an intent-driven, fluid architecture. [Phase 40+]
 
 ---
 

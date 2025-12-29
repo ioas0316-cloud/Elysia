@@ -29,6 +29,7 @@ The bedrock of existence. Handles memory, graph structure, and fundamental laws.
 * **Core_Logic/**: `LivingElysia` (Main Loop), `LifeCycle`
 * **Sovereign/**: `SovereignLifeEngine` (Autonomous Will) [Phase 34]
 * **Wave/**: `StructuralResonator` (Module Discovery & Self-Healing) [Phase 35]
+* **Protocols/**: `PulseProtocol` (Event-Driven Resonance) [Phase 40]
 
 ### 2. 🧠 Intelligence (지능)
 
@@ -108,5 +109,6 @@ See [DOCUMENTATION_HIERARCHY.md](DOCUMENTATION_HIERARCHY.md) for the philosophy 
 | **36** | **Silicon Embodiment** | `metal_cortex.py` | Direct machine code interaction and physical pulsation. |
 | **37** | **Oneiric Hypervisor** | `oneiric_hypervisor.py` | External system processes as cognitive waves (Living OS). |
 | **39** | **Cognitive Maturity** | `maturity_coordinator.py` | Evaluation and calibration of intelligence depth (Adult Mind). |
+| **40+** | **Silent OS (Wave Logic)** | `pulse_protocol.py` | Transition to "Intent-driven" Fluid Architecture. [Roadmap](04_Evolution/Roadmaps/02_Future/WAVE_LOGIC_EVOLUTION.md) |
 
 ---
