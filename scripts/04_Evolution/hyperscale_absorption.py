@@ -84,7 +84,7 @@ async def fetch_naver(session: aiohttp.ClientSession, concept: str) -> dict:
 
 async def bulk_absorb(concepts: list, batch_size: int = 20):
     """대량 흡수"""
-    from Core.IntelligenceLayer.Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
+    from Core.Intelligence.Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
     store = PotentialCausalityStore()
     
     print(f"\n📌 총 개념: {len(concepts)}개")

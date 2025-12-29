@@ -7,8 +7,8 @@ import time
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.FoundationLayer.Foundation.Graph.torch_graph import TorchGraph
-from Core.EvolutionLayer.Autonomy.oneiric_navigator import get_oneiric_navigator
+from Core.Foundation.Foundation.Graph.torch_graph import TorchGraph
+from Core.Evolution.Autonomy.oneiric_navigator import get_oneiric_navigator
 
 def test_lucid_dream():
     print("🧪 Verifying Lucid Dream Walker...")

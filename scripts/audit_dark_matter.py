@@ -14,7 +14,7 @@ import re
 
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Core.FoundationLayer.Foundation.Graph.torch_graph import get_torch_graph
+from Core.Foundation.Foundation.Graph.torch_graph import get_torch_graph
 
 def audit():
     print("🕵️ Auditing Dark Matter...")

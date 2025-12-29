@@ -6,13 +6,13 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.FoundationLayer.Foundation.causal_narrative_engine import (
+from Core.Foundation.Foundation.causal_narrative_engine import (
     CausalKnowledgeBase, 
     CausalNode, 
     CausalChain,
     CausalRelationType
 )
-from Core.FoundationLayer.Foundation.concept_synthesis import ConceptSynthesizer, PrincipleVerifier, EpistemicStatus
+from Core.Foundation.Foundation.concept_synthesis import ConceptSynthesizer, PrincipleVerifier, EpistemicStatus
 
 class TestPrincipleWorkability(unittest.TestCase):
     def setUp(self):

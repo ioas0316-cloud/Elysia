@@ -11,8 +11,8 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.EvolutionLayer.Learning.Learning.experiential_data_processor import ExperientialDataProcessor
-from Core.FoundationLayer.Foundation.dual_layer_personality import DualLayerPersonality
+from Core.Evolution.Learning.Learning.experiential_data_processor import ExperientialDataProcessor
+from Core.Foundation.Foundation.dual_layer_personality import DualLayerPersonality
 from data.corpus.stories.extended_fantasy_stories import (
     get_extended_fantasy_stories,
     get_deep_emotional_stories,

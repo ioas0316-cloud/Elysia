@@ -20,7 +20,7 @@ import time
 # Add root to path
 sys.path.insert(0, os.getcwd())
 
-from Core.IntelligenceLayer.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')

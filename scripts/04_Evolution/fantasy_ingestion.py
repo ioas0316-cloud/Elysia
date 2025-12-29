@@ -21,8 +21,8 @@ import time
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.EvolutionLayer.Learning.Learning.experiential_data_processor import ExperientialDataProcessor
-from Core.FoundationLayer.Foundation.dual_layer_personality import DualLayerPersonality
+from Core.Evolution.Learning.Learning.experiential_data_processor import ExperientialDataProcessor
+from Core.Foundation.Foundation.dual_layer_personality import DualLayerPersonality
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger("FantasyIngestion")

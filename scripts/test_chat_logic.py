@@ -23,9 +23,9 @@ def test_chat():
 
     print("\n--- 2. Testing NervousSystem Initialization ---")
     try:
-        from Core.InteractionLayer.Interface.nervous_system import get_nervous_system
+        from Core.Interaction.Interface.nervous_system import get_nervous_system
         # Force re-initialization
-        import Core.InteractionLayer.Interface.nervous_system
+        import Core.Interaction.Interface.nervous_system
         Core.Interface.nervous_system._nervous_system = None
         
         ns = get_nervous_system()

@@ -23,7 +23,7 @@ import logging
 # Add root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.SystemLayer.System.Autonomy.self_evolution_scheduler import SelfEvolutionScheduler
+from Core.System.System.Autonomy.self_evolution_scheduler import SelfEvolutionScheduler
 
 def awaken():
     print("\n" + "="*50)

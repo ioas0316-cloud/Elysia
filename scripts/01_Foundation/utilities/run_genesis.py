@@ -4,8 +4,8 @@ import os
 sys.path.append(os.getcwd())
 
 import logging
-from Core.FoundationLayer.Foundation.Mind.genesis_engine import GenesisEngine
-from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Foundation.Mind.genesis_engine import GenesisEngine
+from Core.Foundation.Foundation.Mind.hippocampus import Hippocampus
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

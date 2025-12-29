@@ -33,13 +33,13 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 기존 시스템 import 시도
 try:
-    from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.Foundation.resonance_field import ResonanceField
     RESONANCE_AVAILABLE = True
 except ImportError:
     RESONANCE_AVAILABLE = False
 
 try:
-    from Core.FoundationLayer.Foundation.hyper_quaternion import HyperQuaternion
+    from Core.Foundation.Foundation.hyper_quaternion import HyperQuaternion
     QUATERNION_AVAILABLE = True
 except ImportError:
     QUATERNION_AVAILABLE = False

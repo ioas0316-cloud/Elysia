@@ -19,7 +19,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from Core.IntelligenceLayer.Cognition.unified_understanding import UnifiedUnderstanding
+from Core.Intelligence.Cognition.unified_understanding import UnifiedUnderstanding
 
 def main():
     print("\n" + "=" * 60)

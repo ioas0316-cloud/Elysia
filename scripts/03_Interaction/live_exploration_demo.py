@@ -19,8 +19,8 @@ print("🧠 ELYSIA LIVE EXPLORATION")
 print("   실시간 탐구, 학습, 내재화 관찰")
 print("=" * 60)
 
-from Core.IntelligenceLayer.Consciousness.Consciousness.exploration_bridge import ExplorationBridge
-from Core.IntelligenceLayer.Consciousness.Consciousness.thinking_lenses import ThinkingLensCouncil
+from Core.Intelligence.Consciousness.Consciousness.exploration_bridge import ExplorationBridge
+from Core.Intelligence.Consciousness.Consciousness.thinking_lenses import ThinkingLensCouncil
 
 bridge = ExplorationBridge()
 council = ThinkingLensCouncil()

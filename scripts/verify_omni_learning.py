@@ -16,7 +16,7 @@ import time
 sys.path.insert(0, os.getcwd())
 
 from elysia_core import Organ
-from Core.IntelligenceLayer.Memory_Linguistics.Memory.unified_experience_core import get_experience_core, UnifiedExperienceCore
+from Core.Intelligence.Memory_Linguistics.Memory.unified_experience_core import get_experience_core, UnifiedExperienceCore
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')

@@ -8,7 +8,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.FoundationLayer.Foundation.mycelium import Mycelium
+from Core.Foundation.Foundation.mycelium import Mycelium
 
 def verify_network():
     print("\n🍄 [TASK] Verifying Mycelium Network (World Tree)")

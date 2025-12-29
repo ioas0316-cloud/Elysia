@@ -36,9 +36,9 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 핵심 시스템 임포트
 try:
-    from Core.IntelligenceLayer.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
-    from Core.IntelligenceLayer.Intelligence.integrated_cognition_system import get_integrated_cognition
-    from Core.FoundationLayer.Foundation.hyper_quaternion import Quaternion
+    from Core.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
+    from Core.Intelligence.Intelligence.integrated_cognition_system import get_integrated_cognition
+    from Core.Foundation.Foundation.hyper_quaternion import Quaternion
     SYSTEMS_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Some systems not available: {e}")

@@ -6,12 +6,12 @@ def fix_hyper():
     start_dir = r"c:\Elysia"
     # Bad patterns
     bads = [
-        "Core.FoundationLayer.Foundation.hyper_quaternion",
-        "Core.FoundationLayer.Foundation.hyper_quaternion",
-        "Core.FoundationLayer.Foundation.hyper_quaternion"
+        "Core.Foundation.Foundation.hyper_quaternion",
+        "Core.Foundation.Foundation.hyper_quaternion",
+        "Core.Foundation.Foundation.hyper_quaternion"
     ]
     # Good pattern
-    good = "Core.FoundationLayer.Foundation.hyper_quaternion"
+    good = "Core.Foundation.Foundation.hyper_quaternion"
     
     for root, dirs, files in os.walk(start_dir):
         if ".git" in root or ".venv" in root:

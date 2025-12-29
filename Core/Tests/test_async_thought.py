@@ -7,7 +7,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.FoundationLayer.Foundation.Mind.llm_cortex import LLMCortex
+from Core.Foundation.Foundation.Mind.llm_cortex import LLMCortex
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

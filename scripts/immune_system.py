@@ -45,11 +45,11 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 기존 물리 시스템 임포트
 try:
-    from Core.FoundationLayer.Foundation.physics import (
+    from Core.Foundation.Foundation.physics import (
         ResonanceGate, PhotonEntity, QuantumState,
         HamiltonianSystem, Entanglement, StrongForceManager
     )
-    from Core.FoundationLayer.Foundation.cell import Cell
+    from Core.Foundation.Foundation.cell import Cell
     PHYSICS_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ Physics systems not available: {e}")
@@ -77,7 +77,7 @@ except ImportError:
 
 # 네트워크 보호막 임포트
 try:
-    from Core.FoundationLayer.Security.Security.network_shield import NetworkShield, ThreatType as NetworkThreatType
+    from Core.Foundation.Security.Security.network_shield import NetworkShield, ThreatType as NetworkThreatType
     NETWORK_SHIELD_AVAILABLE = True
 except ImportError:
     NETWORK_SHIELD_AVAILABLE = False

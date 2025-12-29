@@ -46,10 +46,10 @@ def patch_imports_in_file(file_path):
             
         original_content = content
         
-        # Regex replacement for "from Core.FoundationLayer" etc.
-        # Also handles "import Core.FoundationLayer"
+        # Regex replacement for "from Core.Foundation" etc.
+        # Also handles "import Core.Foundation"
         for old_name, new_name in MAPPINGS.items():
-            # Pattern 1: Dot notation (from Core.FoundationLayer)
+            # Pattern 1: Dot notation (from Core.Foundation)
             pattern_dot = f"Core\.{old_name}"
             repl_dot = f"Core.{new_name}"
             content = re.sub(pattern_dot, repl_dot, content)

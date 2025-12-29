@@ -6,8 +6,8 @@ import time
 # Add project root to path
 sys.path.append("c:\\Elysia")
 
-from Core.FoundationLayer.Core_Logic.Elysia.elysia_core import get_elysia_core
-from Core.EvolutionLayer.Growth.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.Foundation.Core_Logic.Elysia.elysia_core import get_elysia_core
+from Core.Evolution.Growth.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 def verify_transmutation():
     print("="*60)

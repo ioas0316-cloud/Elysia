@@ -21,7 +21,7 @@ class TorchGraphCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.FoundationLayer.Foundation.Graph.torch_graph import get_torch_graph
+            from Core.Foundation.Foundation.Graph.torch_graph import get_torch_graph
             cls._instance = get_torch_graph()
         return cls._instance
 
@@ -33,7 +33,7 @@ class TinyBrainCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.FoundationLayer.Foundation.tiny_brain import get_tiny_brain
+            from Core.Foundation.Foundation.tiny_brain import get_tiny_brain
             cls._instance = get_tiny_brain()
         return cls._instance
 
@@ -49,7 +49,7 @@ class UnifiedUnderstandingCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.IntelligenceLayer.Cognition.unified_understanding import UnifiedUnderstanding
+            from Core.Intelligence.Cognition.unified_understanding import UnifiedUnderstanding
             cls._instance = UnifiedUnderstanding()
         return cls._instance
 
@@ -61,7 +61,7 @@ class CognitiveHubCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.IntelligenceLayer.Cognition.cognitive_hub import get_cognitive_hub
+            from Core.Intelligence.Cognition.cognitive_hub import get_cognitive_hub
             cls._instance = get_cognitive_hub()
         return cls._instance
 
@@ -77,7 +77,7 @@ class TrinityCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.SystemLayer.Existence.Trinity.trinity_system import TrinitySystem
+            from Core.System.Existence.Trinity.trinity_system import TrinitySystem
             cls._instance = TrinitySystem()
         return cls._instance
 
@@ -89,7 +89,7 @@ class ConscienceCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.FoundationLayer.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
+            from Core.Foundation.Legal_Ethics.Ethics.conscience_circuit import ConscienceCircuit
             cls._instance = ConscienceCircuit()
         return cls._instance
 
@@ -105,7 +105,7 @@ class VisionCortexCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.InteractionLayer.Sensory.vision_cortex import VisionCortex
+            from Core.Interaction.Sensory.vision_cortex import VisionCortex
             cls._instance = VisionCortex()
             cls._instance.activate()
         return cls._instance
@@ -118,7 +118,7 @@ class MultimodalBridgeCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.IntelligenceLayer.Cognition.multimodal_bridge import MultimodalBridge
+            from Core.Intelligence.Cognition.multimodal_bridge import MultimodalBridge
             cls._instance = MultimodalBridge()
         return cls._instance
 
@@ -130,7 +130,7 @@ class AudioCortexCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.InteractionLayer.Sensory.audio_cortex import AudioCortex
+            from Core.Interaction.Sensory.audio_cortex import AudioCortex
             cls._instance = AudioCortex()
         return cls._instance
 
@@ -146,7 +146,7 @@ class SelfModifierCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.EvolutionLayer.Growth.Autonomy.self_modifier_v2 import SelfModifier
+            from Core.Evolution.Growth.Autonomy.self_modifier_v2 import SelfModifier
             cls._instance = SelfModifier()
         return cls._instance
 
@@ -158,7 +158,7 @@ class DreamDaemonCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.EvolutionLayer.Growth.Autonomy.dream_daemon import get_dream_daemon
+            from Core.Evolution.Growth.Autonomy.dream_daemon import get_dream_daemon
             cls._instance = get_dream_daemon()
         return cls._instance
 

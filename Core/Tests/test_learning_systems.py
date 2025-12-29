@@ -5,8 +5,8 @@ Tests for Experience Learner and Self Reflector.
 import pytest
 import asyncio
 import time
-from Core.EvolutionLayer.Learning.Learning.experience_learner import Experience, ExperienceLearner
-from Core.EvolutionLayer.Learning.Learning.self_reflector import SelfReflector
+from Core.Evolution.Learning.Learning.experience_learner import Experience, ExperienceLearner
+from Core.Evolution.Learning.Learning.self_reflector import SelfReflector
 
 
 class TestExperienceLearner:

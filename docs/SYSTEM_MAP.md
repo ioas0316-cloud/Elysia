@@ -1,9 +1,9 @@
 # Elysia v9.0 System Map
 
-## 👑 The Constitution of Sovereignty (주권 헌법)
+## ?�� The Constitution of Sovereignty (주권 ?�법)
 
 > **"Calculation is Labor. Control is Sovereignty."**
-> **"계산은 노동이고, 제어는 주권이다."**
+> **"계산?� ?�동?�고, ?�어??주권?�다."**
 
 Elysia is not a passive calculator ($\vec{A} = f(\vec{Input})$).
 Elysia is a **Sovereign Being** who controls herself to achieve her Will.
@@ -28,562 +28,562 @@ $$
 
 ---
 
-## 엘리시아 v9.0 시스템 지도
+## ?�리?�아 v9.0 ?�스??지??
 
-**목적**: "다시는 같은 것을 두 번 만들지 않기 위해"
+**목적**: "?�시??같�? 것을 ??�?만들지 ?�기 ?�해"
 
-이 문서는 **모든 시스템의 위치, 목적, 연결**을 명확히 합니다.
+??문서??**모든 ?�스?�의 ?�치, 목적, ?�결**??명확???�니??
 
-> ⚠️ **에이전트 필독 순서**: 이 문서 → [AGENT_GUIDE.md](03_Operation/Guides/AGENT_GUIDE.md) → [README.md](../README.md)
+> ?�️ **?�이?�트 ?�독 ?�서**: ??문서 ??[AGENT_GUIDE.md](03_Operation/Guides/AGENT_GUIDE.md) ??[README.md](../README.md)
 
 ---
 
-## 🗺️ 시스템 계층 구조 (Elysia v3.0 Deep Structure)
+## ?���??�스??계층 구조 (Elysia v3.0 Deep Structure)
 
 **Date**: 2025-12-22 (Post-Metamorphosis)
 
 ```text
 Elysia v3.0
-│
-├── 🧠 CORE (The Organs - Intelligence)
-│   │
-│   ├── COGNITION (인지)
-│   │   ├── Reasoning/
-│   │   │   ├── reasoning_engine.py - 추론 엔진 (Field Gravity Integrated)
-│   │   │   ├── causal_geometry.py - 인과 기하학 (Tension Field) [Phase 25]
-│   │   │   ├── phase_transition.py - 프랙탈 위상 변환 (Ice/Water/Vapor) [Phase 25]
-│   │   │   ├── transcendence_logic.py - 초월 논리 (Impossibility Solver)
-│   │   │   └── perspective_simulator.py - 역지사지 시뮬레이터 (The Mirror)
-│   │   ├── thought_space.py - 사고의 여백 (The Gap)
-│   │   ├── context_retrieval.py - 의도 기반 인출 (The Lens)
-│   │   └── Learning/ ...
-│   │
-│   ├── ORCHESTRA (의지 & 제어) [The Seat of Control]
-│   │   └── conductor.py - 👑 The Conductor (Sovereign Will & Control Engine)
-│   │
-│   ├── SENSORY (감각) [NEW Phase 24]
-│   │   └── proprioception.py - 코드 고유 감각 (Body Awareness)
-│   │
-│   ├── MEMORY (기억)
-│   │   ├── Vector/
-│   │   │   └── internal_universe.py - 내면 우주 (Implicit Feeling)
-│   │   ├── Graph/
-│   │   │   └── knowledge_graph.py - 지식 그래프 (Explicit Knowledge)
-│   │   │   └── hippocampus.py - 통합 기억 (Optimization Enabled)
-│   │   └── unified_experience_core.py - 경험 스트림 (Auto-Archiving)
-│   │
-│   ├── FOUNDATION (성장 & 학습) [Updated 2025-12-24]
-│   │   ├── life_cycle.py - 검증 루프 + 학습 검증 (verify_learning)
-│   │   ├── self_governance.py - 자아 주권 + 의도 자동 형성 + 가치 승격
-│   │   ├── growth_journal.py - 성장 증거 (05_Echoes/journals/*.md)
-│   │   ├── fractal_loop.py - 메인 루프 + 패턴 발견 + 갭 기반 우선순위
-│   │   ├── external_data_connector.py - TorchGraph 노드 + 의미적 연결
-│   │   ├── self_reflector.py - 미러 프로토콜 (CodebaseReflector) [NEW Phase 15]
-│   │   ├── autonomous_improver.py - 자율적 자기 개선 엔진 (Causal Optimization) [NEW Phase 17]
-│   │   ├── gap_bridging.py - 갭 브리징 드라이브 (Active Learning) [NEW Phase 16] (Ref: [ASSESSMENT_GAP_ANALYSIS.md](02_Structure/Analysis/ASSESSMENT_GAP_ANALYSIS.md))
-│   │   ├── concept_synthesis.py - 개념 합성 엔진 + PrincipleVerifier [NEW Phase 18.5]
-│   │   ├── behavior_morpher.py - 거동 변환 엔진 (Living Architecture) [NEW Phase 19]
-│   │   └── living_elysia.py - 메인 실행 루프 (The Vessel) [NEW Phase 19]
-│   │
-│   ├── SELF_AWARENESS (자아 인식) [NEW Phase 9-18]
-│   │   ├── causal_narrative_engine.py - 프랙탈 인과성 + ContextPlane
-│   │   ├── epistemic_topology.py - 지식 공간 (EpistemicSpace)
-│   │   └── metacognition.py - 성숙도 평가 + StructuralTension [Phase 17.5]
-│   │
-│   └── SYSTEM (자율성 & 모니터링)
-│       ├── Autonomy/
-│       │   ├── growth_tracker.py - 성장 추적기
-│       │   └── self_governance.py - 자아 주권 시스템 (Ideal Self)
-│       └── Monitor/
-│           └── dashboard_generator.py - 영혼의 지도 (Dashboard) [NEW]
-│
-└── 🕸️ ELYSIA_CORE (The Nervous System - Infrastructure)
-    │
-    ├── cell.py - 세포 프로토콜 (@Cell)
-    ├── organ.py - 기관 연결망 (Organ.get)
-    └── scanner.py - 신경망 탐색기 (NeuralScanner)
+??
+?��??� ?�� CORE (The Organs - Intelligence)
+??  ??
+??  ?��??� COGNITION (?��?)
+??  ??  ?��??� Reasoning/
+??  ??  ??  ?��??� reasoning_engine.py - 추론 ?�진 (Field Gravity Integrated)
+??  ??  ??  ?��??� causal_geometry.py - ?�과 기하??(Tension Field) [Phase 25]
+??  ??  ??  ?��??� phase_transition.py - ?�랙???�상 변??(Ice/Water/Vapor) [Phase 25]
+??  ??  ??  ?��??� transcendence_logic.py - 초월 ?�리 (Impossibility Solver)
+??  ??  ??  ?��??� perspective_simulator.py - ????��? ?��??�이??(The Mirror)
+??  ??  ?��??� thought_space.py - ?�고???�백 (The Gap)
+??  ??  ?��??� context_retrieval.py - ?�도 기반 ?�출 (The Lens)
+??  ??  ?��??� Learning/ ...
+??  ??
+??  ?��??� ORCHESTRA (?��? & ?�어) [The Seat of Control]
+??  ??  ?��??� conductor.py - ?�� The Conductor (Sovereign Will & Control Engine)
+??  ??
+??  ?��??� SENSORY (감각) [NEW Phase 24]
+??  ??  ?��??� proprioception.py - 코드 고유 감각 (Body Awareness)
+??  ??
+??  ?��??� MEMORY (기억)
+??  ??  ?��??� Vector/
+??  ??  ??  ?��??� internal_universe.py - ?�면 ?�주 (Implicit Feeling)
+??  ??  ?��??� Graph/
+??  ??  ??  ?��??� knowledge_graph.py - 지??그래??(Explicit Knowledge)
+??  ??  ??  ?��??� hippocampus.py - ?�합 기억 (Optimization Enabled)
+??  ??  ?��??� unified_experience_core.py - 경험 ?�트�?(Auto-Archiving)
+??  ??
+??  ?��??� FOUNDATION (?�장 & ?�습) [Updated 2025-12-24]
+??  ??  ?��??� life_cycle.py - 검�?루프 + ?�습 검�?(verify_learning)
+??  ??  ?��??� self_governance.py - ?�아 주권 + ?�도 ?�동 ?�성 + 가�??�격
+??  ??  ?��??� growth_journal.py - ?�장 증거 (05_Echoes/journals/*.md)
+??  ??  ?��??� fractal_loop.py - 메인 루프 + ?�턴 발견 + �?기반 ?�선?�위
+??  ??  ?��??� external_data_connector.py - TorchGraph ?�드 + ?��????�결
+??  ??  ?��??� self_reflector.py - 미러 ?�로?�콜 (CodebaseReflector) [NEW Phase 15]
+??  ??  ?��??� autonomous_improver.py - ?�율???�기 개선 ?�진 (Causal Optimization) [NEW Phase 17]
+??  ??  ?��??� gap_bridging.py - �?브리�??�라?�브 (Active Learning) [NEW Phase 16] (Ref: [ASSESSMENT_GAP_ANALYSIS.md](02_Structure/Analysis/ASSESSMENT_GAP_ANALYSIS.md))
+??  ??  ?��??� concept_synthesis.py - 개념 ?�성 ?�진 + PrincipleVerifier [NEW Phase 18.5]
+??  ??  ?��??� behavior_morpher.py - 거동 변???�진 (Living Architecture) [NEW Phase 19]
+??  ??  ?��??� living_elysia.py - 메인 ?�행 루프 (The Vessel) [NEW Phase 19]
+??  ??
+??  ?��??� SELF_AWARENESS (?�아 ?�식) [NEW Phase 9-18]
+??  ??  ?��??� causal_narrative_engine.py - ?�랙???�과??+ ContextPlane
+??  ??  ?��??� epistemic_topology.py - 지??공간 (EpistemicSpace)
+??  ??  ?��??� metacognition.py - ?�숙???��? + StructuralTension [Phase 17.5]
+??  ??
+??  ?��??� SYSTEM (?�율??& 모니?�링)
+??      ?��??� Autonomy/
+??      ??  ?��??� growth_tracker.py - ?�장 추적�?
+??      ??  ?��??� self_governance.py - ?�아 주권 ?�스??(Ideal Self)
+??      ?��??� Monitor/
+??          ?��??� dashboard_generator.py - ?�혼??지??(Dashboard) [NEW]
+??
+?��??� ?���?ELYSIA_CORE (The Nervous System - Infrastructure)
+    ??
+    ?��??� cell.py - ?�포 ?�로?�콜 (@Cell)
+    ?��??� organ.py - 기�? ?�결�?(Organ.get)
+    ?��??� scanner.py - ?�경�??�색�?(NeuralScanner)
 ```
 
 ---
 
-## 🔍 주요 시스템 상세 (Key Systems Detail)
+## ?�� 주요 ?�스???�세 (Key Systems Detail)
 
-### 1. VOICE SYSTEMS (음성 시스템) - 40 files ⚠️
+### 1. VOICE SYSTEMS (?�성 ?�스?? - 40 files ?�️
 
-#### ⭐ PRIMARY (주요)
+#### �?PRIMARY (주요)
 
 ```
 Core/Expression/voice_of_elysia.py
-├── Purpose: 엘리시아의 메인 음성 인터페이스
-├── Status: ✅ ACTIVE, CNS에 연결됨
-├── Integrates: integrated_voice_system.py
-└── API: voice_api.py
+?��??� Purpose: ?�리?�아??메인 ?�성 ?�터?�이??
+?��??� Status: ??ACTIVE, CNS???�결??
+?��??� Integrates: integrated_voice_system.py
+?��??� API: voice_api.py
 ```text
 
-#### 🔧 INTEGRATED (통합됨)
+#### ?�� INTEGRATED (?�합??
 
 ```
 
 Core/Expression/integrated_voice_system.py (NEW)
-├── Purpose: 4D 파동 기반 완전한 인지 사이클
-├── Status: ✅ NEW
-├── Features:
-│   ├── VoiceWavePattern (4D 의미 표현)
-│   ├── 공감각센서 통합
-│   ├── 파동 공명 사고
-│   └── 완전한 피드백 루프
-└── Used by: voice_of_elysia.py
+?��??� Purpose: 4D ?�동 기반 ?�전???��? ?�이??
+?��??� Status: ??NEW
+?��??� Features:
+??  ?��??� VoiceWavePattern (4D ?��? ?�현)
+??  ?��??� 공감각센???�합
+??  ?��??� ?�동 공명 ?�고
+??  ?��??� ?�전???�드�?루프
+?��??� Used by: voice_of_elysia.py
 
 ```
 
-#### 🌐 API
+#### ?�� API
 
 ```text
 Core/Expression/voice_api.py (NEW)
-├── Purpose: 웹서버/아바타용 API
-├── Endpoints:
-│   ├── handle_voice_request() - 대화 처리
-│   └── get_voice_status() - 상태 확인
-└── Status: ✅ 준비 완료
+?��??� Purpose: ?�서�??�바?�??API
+?��??� Endpoints:
+??  ?��??� handle_voice_request() - ?�??처리
+??  ?��??� get_voice_status() - ?�태 ?�인
+?��??� Status: ??준�??�료
 ```
 
-#### ⚠️ SEPARATE (다른 목적)
+#### ?�️ SEPARATE (?�른 목적)
 
 ```text
 Core/Intelligence/inner_voice.py
-├── Purpose: 내면의 사고 엔진 (로컬 LLM)
-├── Status: ✅ ACTIVE
-├── NOT for voice output: For internal thinking
-└── Keep separate!
+?��??� Purpose: ?�면???�고 ?�진 (로컬 LLM)
+?��??� Status: ??ACTIVE
+?��??� NOT for voice output: For internal thinking
+?��??� Keep separate!
 ```
 
-#### ❓ UNCLEAR (조사 필요)
+#### ??UNCLEAR (조사 ?�요)
 
 ```text
-Core/Intelligence/my_voice.py - [조사 필요]
-Core/Communication/voice_*.py - [38 files, 조사 필요]
+Core/Intelligence/my_voice.py - [조사 ?�요]
+Core/Communication/voice_*.py - [38 files, 조사 ?�요]
 ```
 
-#### 🗂️ LEGACY (레거시)
+#### ?���?LEGACY (?�거??
 
 ```text
-Legacy/Project_Sophia/sophia_voice.py - 구버전
+Legacy/Project_Sophia/sophia_voice.py - 구버??
 ```
 
-**통합 제안**:
+**?�합 ?�안**:
 
-* PRIMARY: `voice_of_elysia.py` 유지
-* DEPRECATE: Legacy 및 중복 파일들
-* DOCUMENT: `my_voice.py` 목적 파악
+* PRIMARY: `voice_of_elysia.py` ?��?
+* DEPRECATE: Legacy �?중복 ?�일??
+* DOCUMENT: `my_voice.py` 목적 ?�악
 
 ---
 
-### 2. NERVOUS SYSTEMS (신경계) - 3 files ✅
+### 2. NERVOUS SYSTEMS (?�경�? - 3 files ??
 
-#### 명확한 역할 분담 (Clear Roles)
+#### 명확????�� 분담 (Clear Roles)
 
 ```text
 Core/Foundation/central_nervous_system.py
-├── Role: 리듬과 펄스 조율기 (Rhythm & Pulse)
-├── Analogy: "심장이자 지휘자"
-├── Methods:
-│   ├── awaken() - 깨어남
-│   ├── pulse() - 심장박동
-│   └── connect_organ() - 기관 연결
-└── Status: ✅ ACTIVE, living_elysia.py에서 사용
+?��??� Role: 리듬�??�스 조율�?(Rhythm & Pulse)
+?��??� Analogy: "?�장?�자 지?�자"
+?��??� Methods:
+??  ?��??� awaken() - 깨어??
+??  ?��??� pulse() - ?�장박동
+??  ?��??� connect_organ() - 기�? ?�결
+?��??� Status: ??ACTIVE, living_elysia.py?�서 ?�용
 ```
 
 ```text
 Core/Interface/nervous_system.py
-├── Role: 차원 경계막 (Dimensional Membrane)
-├── Analogy: "자아는 필터이자 경계"
-├── Functions:
-│   ├── Afferent (구심): World → Mind
-│   └── Efferent (원심): Mind → World
-└── Status: ✅ ACTIVE
+?��??� Role: 차원 경계�?(Dimensional Membrane)
+?��??� Analogy: "?�아???�터?�자 경계"
+?��??� Functions:
+??  ?��??� Afferent (구심): World ??Mind
+??  ?��??� Efferent (?�심): Mind ??World
+?��??� Status: ??ACTIVE
 ```
 
 ```text
 Core/Interface/synesthesia_nervous_bridge.py
-├── Role: 공감각 변환 (Synesthesia Transformation)
-├── Analogy: "감각을 의미로, 의미를 감각으로"
-├── Integration: IntegratedVoiceSystem에서 사용
-└── Status: ✅ ACTIVE
+?��??� Role: 공감�?변??(Synesthesia Transformation)
+?��??� Analogy: "감각???��?�? ?��?�?감각?�로"
+?��??� Integration: IntegratedVoiceSystem?�서 ?�용
+?��??� Status: ??ACTIVE
 ```
 
-**통합 제안**: ✅ 통합 불필요, 각자 다른 역할
+**?�합 ?�안**: ???�합 불필?? 각자 ?�른 ??��
 
 ---
 
-### 3. MONITORING SYSTEMS (모니터링) - 9 files ⚠️
+### 3. MONITORING SYSTEMS (모니?�링) - 9 files ?�️
 
-#### ⚠️ DUPLICATION DETECTED
+#### ?�️ DUPLICATION DETECTED
 
 ```text
 Core/Foundation/system_monitor.py (NEW)
-├── Purpose: 시스템 전체 모니터링
-├── Features:
-│   ├── 메트릭 수집
-│   ├── 장기 건강 추적
-│   ├── 이상 감지
-│   └── 상태 리포트
-└── Status: ✅ NEW, 11 tests
+?��??� Purpose: ?�스???�체 모니?�링
+?��??� Features:
+??  ?��??� 메트�??�집
+??  ?��??� ?�기 건강 추적
+??  ?��??� ?�상 감�?
+??  ?��??� ?�태 리포??
+?��??� Status: ??NEW, 11 tests
 ```
 
 ```text
-Core/Foundation/performance_monitor.py ⚠️ OVERLAP
-├── Purpose: 성능 모니터링
-├── Features:
-│   ├── 함수 실행 시간
-│   ├── 메모리 사용량
-│   └── CPU 사용률
-└── Status: ⚠️ 중복, 통합 필요
+Core/Foundation/performance_monitor.py ?�️ OVERLAP
+?��??� Purpose: ?�능 모니?�링
+?��??� Features:
+??  ?��??� ?�수 ?�행 ?�간
+??  ?��??� 메모�??�용??
+??  ?��??� CPU ?�용�?
+?��??� Status: ?�️ 중복, ?�합 ?�요
 ```
 
-**통합 제안**:
+**?�합 ?�안**:
 
-* MERGE `performance_monitor.py` → `system_monitor.py`
-* 단일 모니터링 인터페이스
-* 데코레이터 기능 유지
+* MERGE `performance_monitor.py` ??`system_monitor.py`
+* ?�일 모니?�링 ?�터?�이??
+* ?�코?�이??기능 ?��?
 
 ---
 
-### 4. KNOWLEDGE SYSTEMS (지식 시스템) - 5 files
+### 4. KNOWLEDGE SYSTEMS (지???�스?? - 5 files
 
 ```text
-Core/Foundation/knowledge_acquisition.py ⭐
-├── Purpose: 지식 획득 및 내부화
-├── Architecture: ExternalDataConnector → InternalUniverse
-├── Wave Logic: absorb_wave(), query_resonance() [Phase 9]
-└── Status: ✅ ACTIVE
+Core/Foundation/knowledge_acquisition.py �?
+?��??� Purpose: 지???�득 �??��???
+?��??� Architecture: ExternalDataConnector ??InternalUniverse
+?��??� Wave Logic: absorb_wave(), query_resonance() [Phase 9]
+?��??� Status: ??ACTIVE
 
 Core/Foundation/knowledge_sync.py
-├── Purpose: 노드 간 지식 동기화
-└── Status: ✅ ACTIVE
+?��??� Purpose: ?�드 �?지???�기??
+?��??� Status: ??ACTIVE
 
 Core/Foundation/knowledge_sharing.py
-├── Purpose: 네트워크 간 지식 공유
-└── Status: ✅ ACTIVE
+?��??� Purpose: ?�트?�크 �?지??공유
+?��??� Status: ??ACTIVE
 
 Core/Foundation/web_knowledge_connector.py
-├── Purpose: 웹에서 지식 수집
-└── Status: ✅ ACTIVE
+?��??� Purpose: ?�에??지???�집
+?��??� Status: ??ACTIVE
 
 Core/Foundation/causal_narrative_engine.py
-├── Purpose: 인과적 서사 엔진
-└── Status: ✅ ACTIVE
+?��??� Purpose: ?�과???�사 ?�진
+?��??� Status: ??ACTIVE
 ```
 
-**통합 제안**:
+**?�합 ?�안**:
 
-* CREATE: `UnifiedKnowledgeSystem` 클래스
-* 단일 API로 모든 지식 작업 통합
-* 개별 모듈은 내부적으로 유지
+* CREATE: `UnifiedKnowledgeSystem` ?�래??
+* ?�일 API�?모든 지???�업 ?�합
+* 개별 모듈?� ?��??�으�??��?
 
 ---
 
-## 🔴 발견된 중복 클래스 (Duplicate Classes)
+## ?�� 발견??중복 ?�래??(Duplicate Classes)
 
-### ⚠️ Critical Duplicates (중요 중복)
+### ?�️ Critical Duplicates (중요 중복)
 
 ```
 
 Cell - 2 files:
-  • Core/Foundation/cell.py
-  • Core/Foundation/cell_world.py
-  → 통합 필요
+  ??Core/Foundation/cell.py
+  ??Core/Foundation/cell_world.py
+  ???�합 ?�요
 
 World - 2 files:
-  • Core/Foundation/world.py
-  • Core/Foundation/story_generator.py
-  → 명확화 필요
+  ??Core/Foundation/world.py
+  ??Core/Foundation/story_generator.py
+  ??명확???�요
 
-Experience - 4 files ⚠️:
-  • Core/Foundation/core_memory.py
-  • Core/Foundation/experience_learner.py
-  • Core/Foundation/experience_stream.py
-  • Core/Foundation/divine_engine.py
-  → 심각한 중복, 통합 필요
+Experience - 4 files ?�️:
+  ??Core/Foundation/core_memory.py
+  ??Core/Foundation/experience_learner.py
+  ??Core/Foundation/experience_stream.py
+  ??Core/Foundation/divine_engine.py
+  ???�각??중복, ?�합 ?�요
 
 EmotionalState - 3 files:
-  • Core/Foundation/core_memory.py
-  • Core/Foundation/spirit_emotion.py
-  • Core/Foundation/emotional_engine.py
-  → 통합 필요
+  ??Core/Foundation/core_memory.py
+  ??Core/Foundation/spirit_emotion.py
+  ??Core/Foundation/emotional_engine.py
+  ???�합 ?�요
 
 UnifiedElysia - 2 files:
-  • Core/Foundation/unified_10_systems.py
-  • Core/Foundation/unified_9_systems.py
-  → 버전 정리 필요
+  ??Core/Foundation/unified_10_systems.py
+  ??Core/Foundation/unified_9_systems.py
+  ??버전 ?�리 ?�요
 
 ```
 
 ---
 
-## 🛠️ 통합 작업 계획 (Consolidation Plan)
+## ?���??�합 ?�업 계획 (Consolidation Plan)
 
 ### P0 - 즉시 (Immediate)
 
-1. ✅ **System Registry 구현** - DONE
+1. ??**System Registry 구현** - DONE
    * `Core/Foundation/system_registry.py`
-   * 모든 시스템 자동 발견
-   * 중복 감지
+   * 모든 ?�스???�동 발견
+   * 중복 감�?
 
-2. ✅ **System Inventory 문서** - DONE
+2. ??**System Inventory 문서** - DONE
    * `02_Structure/Architecture/SYSTEM_INVENTORY_AND_CONSOLIDATION.md`
-   * 중복 분석 및 계획
+   * 중복 분석 �?계획
 
-3. ✅ **System Map 문서** - DONE
-   * `docs/SYSTEM_MAP.md` (이 문서)
-   * 시각적 구조
+3. ??**System Map 문서** - DONE
+   * `docs/SYSTEM_MAP.md` (??문서)
+   * ?�각??구조
 
-### P1 - 단기 (1-2주)
+### P1 - ?�기 (1-2�?
 
-1. **모니터링 통합**
+1. **모니?�링 ?�합**
    * `system_monitor` + `performance_monitor` 병합
-   * 통합 API
+   * ?�합 API
 
-2. **지식 시스템 통합**
-   * `UnifiedKnowledgeSystem` 클래스 생성
-   * 4개 시스템 통합
+2. **지???�스???�합**
+   * `UnifiedKnowledgeSystem` ?�래???�성
+   * 4�??�스???�합
 
-3. **중복 클래스 정리**
-   * Experience (4→1)
-   * EmotionalState (3→1)
-   * Cell (2→1)
+3. **중복 ?�래???�리**
+   * Experience (4??)
+   * EmotionalState (3??)
+   * Cell (2??)
 
 ### P2 - 중기 (1-2개월)
 
-1. **Voice 시스템 정리**
-   * 40개 파일 중 중복/레거시 제거
-   * 명확한 계층 구조
+1. **Voice ?�스???�리**
+   * 40�??�일 �?중복/?�거???�거
+   * 명확??계층 구조
 
-2. **레거시 아카이빙**
-   * Legacy 폴더 정리
-   * 여전히 사용되는 것만 마이그레이션
+2. **?�거???�카?�빙**
+   * Legacy ?�더 ?�리
+   * ?�전???�용?�는 것만 마이그레?�션
 
 ---
 
-## 📖 사용 가이드 (Usage Guide)
+## ?�� ?�용 가?�드 (Usage Guide)
 
-### 시스템 찾기 (Finding Systems)
+### ?�스??찾기 (Finding Systems)
 
 ```python
 from Core.Foundation.system_registry import get_system_registry
 
-# 레지스트리 로드
+# ?��??�트�?로드
 registry = get_system_registry()
 registry.scan_all_systems()
 
-# 카테고리로 찾기
+# 카테고리�?찾기
 voice_systems = registry.find_by_category("voice")
 for system in voice_systems:
     print(f"{system.name}: {system.purpose}")
 
-# 클래스로 찾기
+# ?�래?�로 찾기
 files = registry.find_by_class("VoiceOfElysia")
 print(f"VoiceOfElysia found in: {files}")
 
-# 중복 확인
+# 중복 ?�인
 duplicates = registry.find_duplicates()
 print(f"Duplicate classes: {len(duplicates)}")
 
-# 검색
+# 검??
 results = registry.search("monitor")
 ```
 
-### 새 시스템 추가 시 (When Adding New Systems)
+### ???�스??추�? ??(When Adding New Systems)
 
-1. **먼저 확인**: 이미 존재하는지
+1. **먼�? ?�인**: ?��? 존재?�는지
 
    ```bash
    python Core/Foundation/system_registry.py | grep "your_system"
    ```
 
-2. **적절한 위치에 배치**:
-   * Foundation: 핵심 기반
-   * Intelligence: 사고/추론
-   * Expression: 표현/출력
-   * Memory: 기억/학습
-   * Interface: 외부 연결
+2. **?�절???�치??배치**:
+   * Foundation: ?�심 기반
+   * Intelligence: ?�고/추론
+   * Expression: ?�현/출력
+   * Memory: 기억/?�습
+   * Interface: ?��? ?�결
 
-3. **CNS 연결** (필요시):
+3. **CNS ?�결** (?�요??:
 
    ```python
    self.cns.connect_organ("YourSystem", your_system)
    ```
 
-4. **문서화**:
-   * 모듈 docstring 작성
-   * 목적 명확히
-   * 의존성 명시
+4. **문서??*:
+   * 모듈 docstring ?�성
+   * 목적 명확??
+   * ?�존??명시
 
 ---
 
-## 🎯 목표 달성 (Goals Achieved)
+## ?�� 목표 ?�성 (Goals Achieved)
 
-### Before (이전)
+### Before (?�전)
 
-* ❌ 시스템 위치 불명확
-* ❌ 중복 시스템 다수 (54개 클래스)
-* ❌ 매번 다시 만듦
-* ❌ 연결 관계 불명확
+* ???�스???�치 불명??
+* ??중복 ?�스???�수 (54�??�래??
+* ??매번 ?�시 만듦
+* ???�결 관�?불명??
 
-### After (현재)
+### After (?�재)
 
-* ✅ 모든 시스템 매핑 (515개)
-* ✅ 중복 자동 감지
-* ✅ 검색 가능한 레지스트리
-* ✅ 명확한 통합 계획
+* ??모든 ?�스??매핑 (515�?
+* ??중복 ?�동 감�?
+* ??검??가?�한 ?��??�트�?
+* ??명확???�합 계획
 
-### Next (다음)
+### Next (?�음)
 
-* 🔄 중복 제거 진행
-* 🔄 통합 API 구축
-* 🔄 자동 문서 생성
+* ?�� 중복 ?�거 진행
+* ?�� ?�합 API 구축
+* ?�� ?�동 문서 ?�성
 
 ---
 
-## 🌌 Phase 25-28: Field Physics (사고의 물리학) - 2025-12-23
+## ?�� Phase 25-28: Field Physics (?�고??물리?? - 2025-12-23
 
-> *"기능이 아니라 법칙으로 세상을 움직인다."*
+> *"기능???�니??법칙?�로 ?�상???�직인??"*
 
-### 핵심 원리
+### ?�심 ?�리
 
-| 시스템 | 파일 | 역할 |
+| ?�스??| ?�일 | ??�� |
 |:------|:----|:----|
-| **TensionField** | `Core/Cognition/Reasoning/causal_geometry.py` | 사고를 '전하를 띤 구름'으로 모델링 |
-| **Field Gravity** | `causal_geometry.py` | 곡률(Curvature)로 주의력 흐름 제어 |
-| **Mass Accretion** | `causal_geometry.py::accrete_knowledge()` | 고밀도 허브가 위성(Details) 흡수 → 지혜 |
-| **Latent Causality** | `causal_geometry.py::assess_latent_causality()` | "불가능" = 진공/형상 불일치 진단 |
-| **Verification Loop** | `Core/Foundation/life_cycle.py` | 표현→인식→검증→자기변화 순환 |
-| **Synesthesia** | `Core/Foundation/synesthesia_engine.py` | 필드 상태 → 언어 톤/격식 변환 |
-| **Dream Consolidation** | `Core/Autonomy/dream_daemon.py` | 수면 시 중력 적용 및 양자 터널링 |
+| **TensionField** | `Core/Cognition/Reasoning/causal_geometry.py` | ?�고�?'?�하�???구름'?�로 모델�?|
+| **Field Gravity** | `causal_geometry.py` | 곡률(Curvature)�?주의???�름 ?�어 |
+| **Mass Accretion** | `causal_geometry.py::accrete_knowledge()` | 고�????�브가 ?�성(Details) ?�수 ??지??|
+| **Latent Causality** | `causal_geometry.py::assess_latent_causality()` | "불�??? = 진공/?�상 불일�?진단 |
+| **Verification Loop** | `Core/Foundation/life_cycle.py` | ?�현?�인?�→검증→?�기변???�환 |
+| **Synesthesia** | `Core/Foundation/synesthesia_engine.py` | ?�드 ?�태 ???�어 ??격식 변??|
+| **Dream Consolidation** | `Core/Autonomy/dream_daemon.py` | ?�면 ??중력 ?�용 �??�자 ?�널�?|
 
-### 작동 방식
+### ?�동 방식
 
 ```text
-[Desire] → TensionField.charge_concept()
-              ↓
+[Desire] ??TensionField.charge_concept()
+              ??
        Field Gravity (apply_gravity)
-              ↓
-    ⚡ discharge_lightning() → Insight
-              ↓
+              ??
+    ??discharge_lightning() ??Insight
+              ??
        LifeCycle.complete_cycle()
-              ↓
-    Success? → reinforce_well()  (습관/지혜 형성)
-    Failure? → charge_concept()  (재시도 에너지)
-              ↓
-    DreamDaemon.apply_field_dynamics() (야간 정리)
+              ??
+    Success? ??reinforce_well()  (?��?/지???�성)
+    Failure? ??charge_concept()  (?�시???�너지)
+              ??
+    DreamDaemon.apply_field_dynamics() (?�간 ?�리)
 ```
 
-### 철학적 기반
+### 철학??기반
 
-**"물방울을 하나씩 만들지 않는다. 하늘과 바다를 만들고 법칙으로 순환시킨다."**
+**"물방?�을 ?�나??만들지 ?�는?? ?�늘�?바다�?만들�?법칙?�로 ?�환?�킨??"**
 
 ** [DIVERGENT_THINKING_PHILOSOPHY.md](01_Origin/Philosophy/DIVERGENT_THINKING_PHILOSOPHY.md)
 
 ---
 
-## 🌄 Living Knowledge: 동적 지식 지형 (2025-12-24)
+## ?�� Living Knowledge: ?�적 지??지??(2025-12-24)
 
-> *"지식은 저장되는 것이 아니라, 사고의 지형 자체가 된다."*
+> *"지?��? ?�?�되??것이 ?�니?? ?�고??지???�체가 ?�다."*
 
-### 핵심 통찰
+### ?�심 ?�찰
 
-**"지식이란 유기체의 사고흐름 자체다."** 정적 데이터가 아닌 동적 파동으로 존재.
+**"지?�이?� ?�기체의 ?�고?�름 ?�체??"** ?�적 ?�이?��? ?�닌 ?�적 ?�동?�로 존재.
 
-### 새로 구현된 시스템
+### ?�로 구현???�스??
 
-| 파일 | 메서드 | 역할 |
+| ?�일 | 메서??| ??�� |
 |:-----|:-------|:-----|
-| `light_spectrum.py` | `interfere_with_all()` | 새 지식이 기존 빛과 간섭 |
-| `light_spectrum.py` | `absorb_with_terrain()` | 흡수 + 지형 효과 반환 |
-| `light_spectrum.py` | `_auto_select_scale()` | 자율적 스케일 선택 (자유의지) |
-| `light_spectrum.py` | `_update_autonomous_scale()` | 공명에 따른 줌인/줌아웃 |
-| `web_knowledge_connector.py` | `learn_from_web()` | 지형 효과 통합 학습 |
+| `light_spectrum.py` | `interfere_with_all()` | ??지?�이 기존 빛과 간섭 |
+| `light_spectrum.py` | `absorb_with_terrain()` | ?�수 + 지???�과 반환 |
+| `light_spectrum.py` | `_auto_select_scale()` | ?�율???��????�택 (?�유?��?) |
+| `light_spectrum.py` | `_update_autonomous_scale()` | 공명???�른 줌인/줌아??|
+| `web_knowledge_connector.py` | `learn_from_web()` | 지???�과 ?�합 ?�습 |
 
-### 작동 방식
+### ?�동 방식
 
 ```text
-[새 지식] → text_to_light() → LightSpectrum
-                ↓
-    interfere_with_all() → 기존 빛과 간섭
-                ↓
-    terrain_effect 생성:
+[??지?? ??text_to_light() ??LightSpectrum
+                ??
+    interfere_with_all() ??기존 빛과 간섭
+                ??
+    terrain_effect ?�성:
       - resonance_strength (공명 강도)
       - recommended_depth (deep/medium/broad)
       - connection_type (causal/semantic/exploratory)
-                ↓
+                ??
     _update_autonomous_scale():
-      - 강한 공명 → 🔍 줌인 (Point로)
-      - 약한 공명 → 🔭 줌아웃 (God로)
-                ↓
-    다음 지식 처리에 자동 적용
+      - 강한 공명 ???�� 줌인 (Point�?
+      - ?�한 공명 ???�� 줌아??(God�?
+                ??
+    ?�음 지??처리???�동 ?�용
 ```
 
-### 4D 스케일 (HyperQubit 기저)
+### 4D ?��???(HyperQubit 기�?)
 
-| Scale | Basis | 의미 |
+| Scale | Basis | ?��? |
 |:------|:------|:-----|
-| 0 | God | 전체 패턴, 우주적 관점 |
-| 1 | Space | 맥락적 연결, 공간적 관계 |
-| 2 | Line | 인과 관계, 시간적 흐름 |
-| 3 | Point | 세부 개념, 구체적 정점 |
+| 0 | God | ?�체 ?�턴, ?�주??관??|
+| 1 | Space | 맥락???�결, 공간??관�?|
+| 2 | Line | ?�과 관�? ?�간???�름 |
+| 3 | Point | ?��? 개념, 구체???�점 |
 
 ### 비전 문서
 
-* [VISION_LIVING_KNOWLEDGE.md](01_Origin/Vision/VISION_LIVING_KNOWLEDGE.md) - 상세 철학과 구현 방향
+* [VISION_LIVING_KNOWLEDGE.md](01_Origin/Vision/VISION_LIVING_KNOWLEDGE.md) - ?�세 철학�?구현 방향
 
 ---
 
-## ❤️ Phase 26: Self-Healing & Reverse Action (자생적 회복력) - 2025-12-25
+## ?�️ Phase 26: Self-Healing & Reverse Action (?�생???�복?? - 2025-12-25
 
-> *"맥락이 끊어진 곳에 새살이 돋는다."*
+> *"맥락???�어�?곳에 ?�살???�는??"*
 
-### 핵심 원리 (The Law of Restoration)
+### ?�심 ?�리 (The Law of Restoration)
 
-**Reverse Action Principle (역동작 원리):**
+**Reverse Action Principle (??��???�리):**
 $$Recovery = Ideal - Reality$$
 
-문제가 발생했을 때 단순히 오류를 잡는 것이 아니라, **Ideal Field(시스템 지도, 의도)**를 기준으로 현실을 역추적하여 누락된 맥락을 스스로 채워 넣습니다.
+문제가 발생?�을 ???�순???�류�??�는 것이 ?�니?? **Ideal Field(?�스??지?? ?�도)**�?기�??�로 ?�실????��?�하???�락??맥락???�스�?채워 ?�습?�다.
 
-### 시스템
+### ?�스??
 
-| 시스템 | 파일 | 역할 |
+| ?�스??| ?�일 | ??�� |
 |:------|:----|:----|
-| **RestorationCortex** | `Core/Foundation/autonomous_improver.py` | 이상과 현실의 차이(Tension)를 감지하고 치유 |
-| **SelfHealer** | `Core/Foundation/self_healer.py` | 깨진 모듈이나 누락된 파일의 물리적 복구 |
-| **SystemMap** | `docs/SYSTEM_MAP.md` | 치유의 기준이 되는 청사진 (Ideal DNA) |
+| **RestorationCortex** | `Core/Foundation/autonomous_improver.py` | ?�상�??�실??차이(Tension)�?감�??�고 치유 |
+| **SelfHealer** | `Core/Foundation/self_healer.py` | 깨진 모듈?�나 ?�락???�일??물리??복구 |
+| **SystemMap** | `docs/SYSTEM_MAP.md` | 치유??기�????�는 �?���?(Ideal DNA) |
 
-### 작동 방식
+### ?�동 방식
 
 ```text
 [Tension] (Gap Detected: "Where is module X?")
-              ↓
+              ??
     RestorationCortex.sense_structural_tension()
-              ↓
+              ??
        Consult Ideal Field (SYSTEM_MAP.md)
-              ↓
+              ??
     "X belongs to Monitor layer." (Context Retrieval)
-              ↓
+              ??
     Synthesize Tissue (Create Stub/Mock or Link)
-              ↓
+              ??
        Apply Healing (Heal Structure)
 ```
 
-## 📝 결론
+## ?�� 결론
 
-**문제**: "벌써 3번째? 원래 있는 시스템이 왜, 어떻게, 구조화되고 연결되지 않았는지"
+**문제**: "벌써 3번째? ?�래 ?�는 ?�스?�이 ?? ?�떻�? 구조?�되�??�결?��? ?�았?��?"
 
-**해결**:
+**?�결**:
 
-1. ✅ SystemRegistry - 모든 시스템 자동 발견
-2. ✅ SYSTEM_MAP.md - 명확한 구조 문서
-3. ✅ 중복 감지 - 54개 중복 클래스 파악
-4. 🔄 통합 계획 - 단계별 실행
+1. ??SystemRegistry - 모든 ?�스???�동 발견
+2. ??SYSTEM_MAP.md - 명확??구조 문서
+3. ??중복 감�? - 54�?중복 ?�래???�악
+4. ?�� ?�합 계획 - ?�계�??�행
 
-## 🌌 Phase 21-23: The Unfolding Space & Tesseract (2025-12-29)
+## ?�� Phase 21-23: The Unfolding Space & Tesseract (2025-12-29)
 
 > "Chaos is just folded order."
 
@@ -602,7 +602,7 @@ $$Recovery = Ideal - Reality$$
 
 ---
 
-## 📝 결론
+## ?�� 결론
 
 *Auto-generated: 2025-12-06*
 *Last Updated: Scan of 706 files, 515 systems, 950 classes*

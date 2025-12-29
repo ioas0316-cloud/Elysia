@@ -7,7 +7,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.IntelligenceLayer.Intelligence.reasoning_engine import ReasoningEngine, Tool, Action
+from Core.Intelligence.Intelligence.reasoning_engine import ReasoningEngine, Tool, Action
 
 def verify_moral_choice():
     print("\n⚖️ [TASK] Verifying Moral Judgment (The Constitution)")

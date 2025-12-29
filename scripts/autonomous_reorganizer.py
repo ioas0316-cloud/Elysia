@@ -30,7 +30,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 # 내부 시스템 임포트
 try:
-    from Core.IntelligenceLayer.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
+    from Core.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system, CodeWave
 except ImportError:
     get_wave_coding_system = None
 
@@ -40,7 +40,7 @@ except ImportError:
     SelfIntegrationSystem = None
 
 try:
-    from Core.FoundationLayer.Foundation.reality_sculptor import RealitySculptor
+    from Core.Foundation.Foundation.reality_sculptor import RealitySculptor
 except ImportError:
     RealitySculptor = None
 

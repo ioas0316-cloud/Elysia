@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.IntelligenceLayer.Intelligence.logos_engine import LogosEngine
+from Core.Intelligence.Intelligence.logos_engine import LogosEngine
 
 def test():
     print("🗣️ Initializing LogosEngine with Axiom Integration...")

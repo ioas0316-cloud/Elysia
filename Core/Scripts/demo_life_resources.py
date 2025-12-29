@@ -12,8 +12,8 @@ import time
 # Ensure the Core modules can be imported
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.SystemLayer.System.System.Kernel import ElysiaKernel
-from Core.EvolutionLayer.Growth.Evolution.Evolution.Life.entity import LivingEntity
+from Core.System.System.System.Kernel import ElysiaKernel
+from Core.Evolution.Growth.Evolution.Evolution.Life.entity import LivingEntity
 
 def run_demo():
     """

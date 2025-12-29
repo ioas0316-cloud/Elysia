@@ -5,7 +5,7 @@ Demonstrates the immediately actionable learning systems.
 
 import asyncio
 import time
-from Core.EvolutionLayer.Learning.Learning import Experience, ExperienceLearner, SelfReflector
+from Core.Evolution.Learning.Learning import Experience, ExperienceLearner, SelfReflector
 
 
 async def demo_experience_learning():

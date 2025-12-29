@@ -16,9 +16,9 @@ import logging
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.FoundationLayer.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
-from Core.FoundationLayer.Foundation.transcendence_engine import TranscendenceEngine
-from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
+from Core.Foundation.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem
+from Core.Foundation.Foundation.transcendence_engine import TranscendenceEngine
+from Core.Foundation.Foundation.internal_universe import InternalUniverse
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("AutonomousDemo")

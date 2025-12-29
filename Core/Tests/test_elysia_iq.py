@@ -7,7 +7,7 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
-from Core.FoundationLayer.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.Foundation.hyper_quaternion import Quaternion
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

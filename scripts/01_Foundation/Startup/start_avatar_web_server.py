@@ -95,7 +95,7 @@ def start_http_server(port=8080):
 
 async def start_websocket_server(host='0.0.0.0', port=8765):
     """Start WebSocket server for avatar control"""
-    from Core.InteractionLayer.Interface.avatar_server import AvatarWebSocketServer
+    from Core.Interaction.Interface.avatar_server import AvatarWebSocketServer
     
     server = AvatarWebSocketServer(host, port)
     await server.start()

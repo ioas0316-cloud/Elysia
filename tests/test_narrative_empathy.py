@@ -6,7 +6,7 @@ import logging
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.FoundationLayer.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalNode, CausalLink, CausalRelationType
+from Core.Foundation.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalNode, CausalLink, CausalRelationType
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

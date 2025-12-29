@@ -13,7 +13,7 @@ import os
 sys.path.append(os.getcwd())
 
 import logging
-from Core.FoundationLayer.Legal_Ethics.Laws.law_of_synthesis import get_synthesis_engine
+from Core.Foundation.Legal_Ethics.Laws.law_of_synthesis import get_synthesis_engine
 
 def main():
     # Setup Logging

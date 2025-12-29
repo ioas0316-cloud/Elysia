@@ -20,8 +20,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.FoundationLayer.Core_Logic.Elysia.spirit import get_spirit
-from Core.IntelligenceLayer.Cognitive.distillation_engine import get_distillation_engine, DistilledMemory
+from Core.Foundation.Core_Logic.Elysia.spirit import get_spirit
+from Core.Intelligence.Cognitive.distillation_engine import get_distillation_engine, DistilledMemory
 
 def load_kg():
     kg_path = "data/kg.json"

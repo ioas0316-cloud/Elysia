@@ -13,7 +13,7 @@ from pathlib import Path
 # Setup path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.EvolutionLayer.Learning.Learning.language_learner import LanguageLearner
+from Core.Evolution.Learning.Learning.language_learner import LanguageLearner
 
 def inject_fantasy_lexicon():
     print("✨ Injecting Professional Fantasy Lexicon...")

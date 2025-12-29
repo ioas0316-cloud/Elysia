@@ -4,8 +4,8 @@ def fix_math_imports():
     print("🌊 Migrating Math -> Wave...")
     count = 0
     start_dir = r"c:\Elysia"
-    target = "Core.FoundationLayer.Foundation.Wave."
-    replacement = "Core.FoundationLayer.Foundation.Wave."
+    target = "Core.Foundation.Foundation.Wave."
+    replacement = "Core.Foundation.Foundation.Wave."
     
     for root, dirs, files in os.walk(start_dir):
         if ".git" in root or ".venv" in root:

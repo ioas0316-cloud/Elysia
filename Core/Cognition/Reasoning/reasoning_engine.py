@@ -15,17 +15,17 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
 
 # Value Objects (Keep Static)
-from Core.FoundationLayer.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.FoundationLayer.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure (Hard Dependency)
-from Core.FoundationLayer.Foundation.resonance_physics import ResonancePhysics # [Physics]
-from Core.FoundationLayer.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer, TopologyType, ConsciousnessCoordinates
+from Core.Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure (Hard Dependency)
+from Core.Foundation.Foundation.resonance_physics import ResonancePhysics # [Physics]
+from Core.Foundation.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer, TopologyType, ConsciousnessCoordinates
 from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator, Perspective
-from Core.FoundationLayer.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 21] Unfolding Space
+from Core.Foundation.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 21] Unfolding Space
 
 # Philosophy (Keep Static for now, or move to Cell?)
-# from Core.FoundationLayer.Philosophy.ideal_self_profile import IdealSelfProfile, SoulFrequency # TODO: Migrate Philosophy
+# from Core.Foundation.Philosophy.ideal_self_profile import IdealSelfProfile, SoulFrequency # TODO: Migrate Philosophy
 from Core.Cognition.Reasoning.causal_geometry import TensionField # [Phase 25] Field Causality
-from Core.FoundationLayer.Foundation.universal_constants import (
+from Core.Foundation.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
 )
@@ -144,11 +144,11 @@ class ReasoningEngine:
             # [Phase 21] Space Unfolder (L=100 for Cognitive Space)
             self.unfolder = SpaceUnfolder(boundary_size=100.0)
 
-            from Core.FoundationLayer.Foundation.dialogue_interface import DialogueInterface
+            from Core.Foundation.Foundation.dialogue_interface import DialogueInterface
             self.voice = DialogueInterface()
 
-            from Core.FoundationLayer.Foundation.media_cortex import MediaCortex
-            from Core.FoundationLayer.Foundation.social_cortex import SocialCortex
+            from Core.Foundation.Foundation.media_cortex import MediaCortex
+            from Core.Foundation.Foundation.social_cortex import SocialCortex
             self.social = SocialCortex()
             self.media = MediaCortex(self.social)
 
@@ -223,13 +223,13 @@ class ReasoningEngine:
             # ... (Rest of logic similar to original but with corrected imports)
 
             # 🌱 Step 1: Decompose Desire into Fractal Seed
-            from Core.FoundationLayer.Foundation.fractal_concept import ConceptDecomposer
+            from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
             decomposer = ConceptDecomposer()
             thought_seed = decomposer.decompose(desire, depth=0)
 
             # 🌊 Step 2.5: Fractal Layer Transformation
             try:
-                from Core.FoundationLayer.Foundation.thought_layer_bridge import ThoughtLayerBridge
+                from Core.Foundation.Foundation.thought_layer_bridge import ThoughtLayerBridge
                 bridge = ThoughtLayerBridge()
                 current_perspective = Quaternion(1.0, 0.5, 0.5, 0.5)
                 layer_result = bridge.transform_thought(current_perspective, context=desire)
@@ -239,7 +239,7 @@ class ReasoningEngine:
             # 🧲 Step 4: Pull Related Seeds via Magnetic Attraction
             context_seeds = []
             try:
-                from Core.FoundationLayer.Foundation.attractor import Attractor
+                from Core.Foundation.Foundation.attractor import Attractor
                 attractor = Attractor(desire, db_path=self.memory.db_path if self.memory else "")
                 raw_context = attractor.pull(self.memory_field)
             except:

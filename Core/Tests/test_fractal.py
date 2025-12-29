@@ -7,8 +7,8 @@ Tests the new ConceptSphere and Oscillator integration.
 import sys
 sys.path.insert(0, 'c:\\Elysia')
 
-from Core.FoundationLayer.Foundation.Mind.concept_sphere import ConceptSphere
-from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Foundation.Mind.concept_sphere import ConceptSphere
+from Core.Foundation.Foundation.Mind.hippocampus import Hippocampus
 
 def test_fractal_restoration():
     """Test the restored fractal architecture"""

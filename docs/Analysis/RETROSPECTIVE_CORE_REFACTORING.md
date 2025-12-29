@@ -8,7 +8,7 @@ The refactoring took significant effort not because of the code's complexity, bu
 
 ### A. The "Numbered Folder" Trap
 *   **The Intent:** `01_Foundation`, `02_Intelligence` looks organized to humans.
-*   **The Reality:** Python hates it. `from Core.FoundationLayer import...` causes `SyntaxError` because module names cannot start with numbers.
+*   **The Reality:** Python hates it. `from Core.Foundation import...` causes `SyntaxError` because module names cannot start with numbers.
 *   **The Cost:** We had to use hacks or `importlib` to bypass this, or worse, the code rotted because it couldn't be imported normally.
 
 ### B. The Map-Territory Gap

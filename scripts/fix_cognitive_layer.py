@@ -5,9 +5,9 @@ def fix_cognitive():
     count = 0
     start_dir = r"c:\Elysia"
     # Bad pattern
-    bad = "Core.IntelligenceLayer.Cognitive"
+    bad = "Core.Intelligence.Cognitive"
     # Good pattern
-    good = "Core.IntelligenceLayer.Cognitive"
+    good = "Core.Intelligence.Cognitive"
     
     for root, dirs, files in os.walk(start_dir):
         if ".git" in root or ".venv" in root:

@@ -15,9 +15,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from Core.EvolutionLayer.Growth.Autonomy import AutonomousGoalGenerator, EthicalReasoner
-from Core.EvolutionLayer.Growth.Autonomy.goal_generator import GoalPriority, GoalStatus
-from Core.EvolutionLayer.Growth.Autonomy.ethical_reasoner import Action, EthicalRecommendation
+from Core.Evolution.Growth.Autonomy import AutonomousGoalGenerator, EthicalReasoner
+from Core.Evolution.Growth.Autonomy.goal_generator import GoalPriority, GoalStatus
+from Core.Evolution.Growth.Autonomy.ethical_reasoner import Action, EthicalRecommendation
 
 
 async def demo_autonomous_goal_generation():

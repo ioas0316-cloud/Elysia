@@ -17,8 +17,8 @@ import time
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.EvolutionLayer.Growth.Autonomy.content_baptizer import ContentBaptizer
-from Core.FoundationLayer.Foundation.Graph.torch_graph import get_torch_graph
+from Core.Evolution.Growth.Autonomy.content_baptizer import ContentBaptizer
+from Core.Foundation.Foundation.Graph.torch_graph import get_torch_graph
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO)

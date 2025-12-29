@@ -9,7 +9,7 @@ try:
     from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 except ImportError:
     # If the file patch made it accessible via this path
-    from Core.IntelligenceLayer.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+    from Core.Intelligence.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 
 def test_unfolding():
     print("🧪 Verifying Intent Unfolding...")

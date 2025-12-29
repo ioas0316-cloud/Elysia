@@ -19,8 +19,8 @@ import os
 # Add root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.EvolutionLayer.Learning.Learning.resonance_learner import ResonanceLearner
-from Core.EvolutionLayer.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain, KnowledgeNode
+from Core.Evolution.Learning.Learning.resonance_learner import ResonanceLearner
+from Core.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain, KnowledgeNode
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

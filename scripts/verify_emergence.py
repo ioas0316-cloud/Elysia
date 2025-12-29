@@ -14,9 +14,9 @@ import time
 # Add root to path
 sys.path.insert(0, os.getcwd())
 
-from Core.IntelligenceLayer.Memory_Linguistics.Memory.unified_experience_core import get_experience_core
+from Core.Intelligence.Memory_Linguistics.Memory.unified_experience_core import get_experience_core
 # We simulate reasoning for the script, assuming ReasoningEngine provides these insights in a real run.
-from Core.IntelligenceLayer.Cognition.Reasoning.reasoning_engine import Insight 
+from Core.Intelligence.Cognition.Reasoning.reasoning_engine import Insight 
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')

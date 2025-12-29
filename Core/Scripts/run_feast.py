@@ -6,7 +6,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.FoundationLayer.Foundation.Mind.mass_ingestion import ConceptHarvester
+from Core.Foundation.Foundation.Mind.mass_ingestion import ConceptHarvester
 
 # Configure logging
 logging.basicConfig(

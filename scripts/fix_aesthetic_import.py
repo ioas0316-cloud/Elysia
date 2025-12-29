@@ -6,12 +6,12 @@ def fix_aesthetic():
     start_dir = r"c:\Elysia"
     # Bad pattern
     bads = [
-        "Core.FoundationLayer.Philosophy.aesthetic_principles",
-        "Core.FoundationLayer.Philosophy.aesthetic_principles",
-        "Core.FoundationLayer.Philosophy.aesthetic_principles"
+        "Core.Foundation.Philosophy.aesthetic_principles",
+        "Core.Foundation.Philosophy.aesthetic_principles",
+        "Core.Foundation.Philosophy.aesthetic_principles"
     ]
     # Good pattern
-    good = "Core.FoundationLayer.Philosophy.aesthetic_principles"
+    good = "Core.Foundation.Philosophy.aesthetic_principles"
     
     for root, dirs, files in os.walk(start_dir):
         if ".git" in root or ".venv" in root:

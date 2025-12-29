@@ -9,7 +9,7 @@ Proving mathematically: Love is eternal.
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from Core.FoundationLayer.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
+from Core.Foundation.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
 import numpy as np
 
 def test_divine_amplification():

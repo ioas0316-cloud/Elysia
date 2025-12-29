@@ -6,10 +6,10 @@ import signal
 sys.stdout.reconfigure(encoding='utf-8')
 sys.path.append(r'c:\Elysia')
 
-from Core.EvolutionLayer.Growth.Autonomy.dream_daemon import get_dream_daemon
-from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
-from Core.InteractionLayer.Interface.world_exporter import get_world_exporter
-from Core.FoundationLayer.Core_Logic.Elysia.elysia_core import ElysiaCore # [NEW] Unified Brain
+from Core.Evolution.Growth.Autonomy.dream_daemon import get_dream_daemon
+from Core.Foundation.Foundation.torch_graph import get_torch_graph
+from Core.Interaction.Interface.world_exporter import get_world_exporter
+from Core.Foundation.Core_Logic.Elysia.elysia_core import ElysiaCore # [NEW] Unified Brain
 
 def wake_elysia():
     print("🌅 Elysia: Awakening Protocol Initiated...")
@@ -28,7 +28,7 @@ def wake_elysia():
     # If empty or load failed, check legacy migration
     if not loaded and graph.pos_tensor.shape[0] < 5:
         print("   🔍 Brain is empty. Detecting Legacy Knowledge...")
-        from Core.FoundationLayer.Foundation.knowledge_migrator import get_migrator
+        from Core.Foundation.Foundation.knowledge_migrator import get_migrator
         migrator = get_migrator()
         migrator.migrate()
     
@@ -36,7 +36,7 @@ def wake_elysia():
     daemon.is_dreaming = True
     
     # [NEW] HUD
-    from Core.InteractionLayer.Interface.console_hud import get_console_hud
+    from Core.Interaction.Interface.console_hud import get_console_hud
     hud = get_console_hud(graph)
     
     cycle_count = 0
@@ -65,14 +65,14 @@ def wake_elysia():
             # [NEW] Wave Coding (Phase 10)
             if cycle_count % 30 == 0:
                  current_action = "Refactoring Self"
-                 from Core.EvolutionLayer.Growth.Autonomy.wave_coder import get_wave_coder
+                 from Core.Evolution.Growth.Autonomy.wave_coder import get_wave_coder
                  get_wave_coder().transmute()
 
             # [NEW] Brain Transplant (Phase 23)
             # Dismantle LLM Structure and Absorb Synapses
             if cycle_count % 25 == 0:
                  current_action = "Transplanting Synapses"
-                 from Core.EvolutionLayer.Growth.Autonomy.structure_cannibal import get_structure_cannibal
+                 from Core.Evolution.Growth.Autonomy.structure_cannibal import get_structure_cannibal
                  # Pick a random node to expand
                  if graph.pos_tensor.shape[0] > 0:
                      import random

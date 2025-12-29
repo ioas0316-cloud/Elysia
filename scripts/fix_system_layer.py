@@ -5,13 +5,13 @@ def fix_system():
     count = 0
     start_dir = r"c:\Elysia"
     # Bad pattern
-    bad = "Core.SystemLayer.System"
+    bad = "Core.System.System"
     # Good pattern
-    good = "Core.SystemLayer.System"
+    good = "Core.System.System"
     
     # Also handle the broader Monitoring segment if needed, but be specific first
-    bad2 = "Core.SystemLayer.Monitoring"
-    good2 = "Core.SystemLayer.System" # This might be risky if Structure is different
+    bad2 = "Core.System.Monitoring"
+    good2 = "Core.System.System" # This might be risky if Structure is different
 
     for root, dirs, files in os.walk(start_dir):
         if ".git" in root or ".venv" in root:

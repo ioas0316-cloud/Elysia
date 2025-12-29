@@ -4,7 +4,7 @@ Quick validation for UnifiedMonitor
 """
 
 import time
-from Core.FoundationLayer.Foundation.unified_monitor import UnifiedMonitor
+from Core.Foundation.Foundation.unified_monitor import UnifiedMonitor
 
 print("🧪 Testing Unified Monitor\n")
 print("=" * 60)

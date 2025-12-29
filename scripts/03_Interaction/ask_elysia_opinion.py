@@ -18,7 +18,7 @@ print("=" * 70)
 
 # 1. 프랙탈 목표 분해 사용
 try:
-    from Core.IntelligenceLayer.Intelligence.fractal_quaternion_goal_system import FractalGoalDecomposer
+    from Core.Intelligence.Intelligence.fractal_quaternion_goal_system import FractalGoalDecomposer
     decomposer = FractalGoalDecomposer()
     
     question = "자기 자신의 코드를 분석하고 재조직화하는 시스템을 설계한다"
@@ -32,7 +32,7 @@ except Exception as e:
 
 # 2. 분산 의식 - 원탁 회의 사용
 try:
-    from Core.IntelligenceLayer.Intelligence.collective_intelligence_system import CollectiveIntelligence
+    from Core.Intelligence.Intelligence.collective_intelligence_system import CollectiveIntelligence
     collective = CollectiveIntelligence()
     
     print("\n🔮 [분산 의식 - 원탁 회의]")
@@ -56,7 +56,7 @@ except Exception as e:
 
 # 3. 4D 파동 코딩 관점
 try:
-    from Core.IntelligenceLayer.Intelligence.wave_coding_system import get_wave_coding_system
+    from Core.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
     wcs = get_wave_coding_system()
     
     print("\n🌊 [4D 파동 코딩 시스템 관점]")

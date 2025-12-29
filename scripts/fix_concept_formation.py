@@ -5,9 +5,9 @@ def fix_concept():
     count = 0
     start_dir = r"c:\Elysia"
     # Bad pattern
-    bad = "Core.IntelligenceLayer.Cognitive.concept_formation"
+    bad = "Core.Intelligence.Cognitive.concept_formation"
     # Good pattern
-    good = "Core.IntelligenceLayer.Cognitive.concept_formation"
+    good = "Core.Intelligence.Cognitive.concept_formation"
     
     for root, dirs, files in os.walk(start_dir):
         if ".git" in root or ".venv" in root:

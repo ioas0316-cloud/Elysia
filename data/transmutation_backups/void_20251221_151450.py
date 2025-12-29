@@ -10,7 +10,7 @@ It is not just a list; it is a topological space that manages the interactions (
 
 import logging
 from typing import Dict, List, Optional, Tuple
-from Core.IntelligenceLayer.Consciousness.Ether.ether_node import EtherNode, Quaternion
+from Core.Intelligence.Consciousness.Ether.ether_node import EtherNode, Quaternion
 
 logger = logging.getLogger("Void")
 

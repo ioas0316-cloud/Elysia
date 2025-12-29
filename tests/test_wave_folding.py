@@ -5,7 +5,7 @@ import os
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.FoundationLayer.Foundation.Wave.wave_folding import SpaceUnfolder
+from Core.Foundation.Foundation.Wave.wave_folding import SpaceUnfolder
 
 class TestWaveFolding(unittest.TestCase):
     def setUp(self):

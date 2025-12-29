@@ -16,9 +16,9 @@ print("   (type 'exit' to quit)")
 print("="*60)
 
 # Initialize components
-from Core.FoundationLayer.Foundation.hippocampus import Hippocampus
-from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
-from Core.IntelligenceLayer.Cognition.thought_space import ThoughtSpace
+from Core.Foundation.Foundation.hippocampus import Hippocampus
+from Core.Foundation.Foundation.resonance_field import ResonanceField
+from Core.Intelligence.Cognition.thought_space import ThoughtSpace
 
 memory = Hippocampus()
 resonance = ResonanceField()

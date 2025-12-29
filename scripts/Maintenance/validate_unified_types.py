@@ -8,7 +8,7 @@ import sys
 sys.path.insert(0, '/home/runner/work/Elysia/Elysia')
 
 from datetime import datetime
-from Core.IntelligenceLayer.Memory_Linguistics.Memory.unified_types import (
+from Core.Intelligence.Memory_Linguistics.Memory.unified_types import (
     Experience, EmotionalState, EmotionalStateFactory,
     migrate_experience_from_old, migrate_emotional_state_from_old
 )

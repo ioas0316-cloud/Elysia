@@ -5,9 +5,9 @@ def fix_philosophy():
     count = 0
     start_dir = r"c:\Elysia"
     # Bad pattern
-    bad = "Core.FoundationLayer.Philosophy"
+    bad = "Core.Foundation.Philosophy"
     # Good pattern
-    good = "Core.FoundationLayer.Philosophy"
+    good = "Core.Foundation.Philosophy"
     
     # Also fix aesthetic_principles -> aesthetic_principles
     bad_file = "aesthetic_principles"

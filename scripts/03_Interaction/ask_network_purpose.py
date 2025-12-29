@@ -8,7 +8,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.FoundationLayer.Foundation.mycelium import Mycelium
+from Core.Foundation.Foundation.mycelium import Mycelium
 
 def ask_network_purpose():
     print("\n🍄 [TASK] Establishing The First Council (Root & Nova)")

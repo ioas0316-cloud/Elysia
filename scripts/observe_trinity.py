@@ -8,7 +8,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.FoundationLayer.Foundation.mycelium import Mycelium
+from Core.Foundation.Foundation.mycelium import Mycelium
 # Import the unique organ for Chaos simulation
 # We dynamically import it from the seed path just for this simulation script, 
 # or simpler: we replicate the logic since we are in the main process simulating the network nodes.

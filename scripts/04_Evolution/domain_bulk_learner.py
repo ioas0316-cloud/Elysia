@@ -27,7 +27,7 @@ sys.path.insert(0, '.')
 import logging
 logging.disable(logging.CRITICAL)
 
-from Core.EvolutionLayer.Learning.Learning.hierarchical_learning import (
+from Core.Evolution.Learning.Learning.hierarchical_learning import (
     HierarchicalKnowledgeGraph, Domain, DOMAIN_STRUCTURE, KnowledgeNode
 )
 

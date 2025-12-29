@@ -22,8 +22,8 @@ import time
 # Ensure Core is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.InteractionLayer.Coordination.Orchestra.conductor import get_conductor
-from Core.InteractionLayer.Coordination.Orchestra.resonance_hall import get_resonance_hall
+from Core.Interaction.Coordination.Orchestra.conductor import get_conductor
+from Core.Interaction.Coordination.Orchestra.resonance_hall import get_resonance_hall
 
 def print_movement(title):
     print(f"\n{'='*60}")

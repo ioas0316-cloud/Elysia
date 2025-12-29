@@ -5,14 +5,14 @@ sys.path.append(os.getcwd())
 
 print("Step 1: Importing InternalUniverse...")
 try:
-    from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
+    from Core.Foundation.Foundation.internal_universe import InternalUniverse
     print("✅ InternalUniverse imported.")
 except Exception as e:
     print(f"❌ InternalUniverse import failed: {e}")
 
 print("Step 2: Importing P4LearningCycle...")
 try:
-    from Core.InteractionLayer.Sensory.learning_cycle import P4LearningCycle
+    from Core.Interaction.Sensory.learning_cycle import P4LearningCycle
     print("✅ P4LearningCycle imported.")
 except Exception as e:
     print(f"❌ P4LearningCycle import failed: {e}")

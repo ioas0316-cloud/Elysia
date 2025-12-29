@@ -25,12 +25,12 @@ import time as real_time
 from typing import Dict, Any, List
 from dataclasses import dataclass
 
-from Core.FoundationLayer.Foundation.Physics.fluctlight import FluctlightEngine
-from Core.FoundationLayer.Foundation.Physics.meta_time_engine import create_safe_meta_engine
-from Core.FoundationLayer.Foundation.Abstractions.DensePerceptionCell import DensePerceptionCell
-from Core.SystemLayer.System.System.Integration.experience_digester import ExperienceDigester
-from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
-from Core.FoundationLayer.Foundation.Mind.alchemy import Alchemy
+from Core.Foundation.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.Foundation.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.Foundation.Foundation.Abstractions.DensePerceptionCell import DensePerceptionCell
+from Core.System.System.System.Integration.experience_digester import ExperienceDigester
+from Core.Foundation.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Foundation.Mind.alchemy import Alchemy
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("Civilization")

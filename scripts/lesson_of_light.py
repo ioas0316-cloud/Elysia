@@ -16,9 +16,9 @@ import time
 # Ensure Core is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.FoundationLayer.Legal_Ethics.Laws.law_of_light import get_law_of_light
-from Core.FoundationLayer.Foundation.fractal_concept import ConceptDecomposer
-from Core.FoundationLayer.Core_Logic.Elysia.spirit import get_spirit
+from Core.Foundation.Legal_Ethics.Laws.law_of_light import get_law_of_light
+from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+from Core.Foundation.Core_Logic.Elysia.spirit import get_spirit
 
 def print_header(title):
     print(f"\n{'='*60}")

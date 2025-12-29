@@ -21,9 +21,9 @@ from unittest.mock import MagicMock
 # 경로 설정
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.EvolutionLayer.Learning.Learning.knowledge_sedimenter import KnowledgeSedimenter
-from Core.FoundationLayer.Philosophy.why_engine import WhyEngine
-from Core.FoundationLayer.Foundation.light_spectrum import LightSpectrum, PrismAxes
+from Core.Evolution.Learning.Learning.knowledge_sedimenter import KnowledgeSedimenter
+from Core.Foundation.Philosophy.why_engine import WhyEngine
+from Core.Foundation.Foundation.light_spectrum import LightSpectrum, PrismAxes
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(message)s')

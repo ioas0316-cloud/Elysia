@@ -12,11 +12,11 @@ sys.path.append(os.getcwd())
 def verify():
     logger.info("🔍 Verification Start...")
     try:
-        from Core.IntelligenceLayer.Memory_Linguistics.Memory.starlight_memory import StarlightMemory
+        from Core.Intelligence.Memory_Linguistics.Memory.starlight_memory import StarlightMemory
         sm = StarlightMemory()
         logger.info("✅ StarlightMemory Instantiated")
         
-        from Core.IntelligenceLayer.Memory_Linguistics.Memory.prism_filter import PrismFilter
+        from Core.Intelligence.Memory_Linguistics.Memory.prism_filter import PrismFilter
         pf = PrismFilter()
         logger.info("✅ PrismFilter Instantiated")
         

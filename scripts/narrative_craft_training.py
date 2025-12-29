@@ -12,8 +12,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.EvolutionLayer.Learning.Learning.narrative_craft_learner import NarrativeCraftLearner
-from Core.EvolutionLayer.Learning.Learning.experiential_data_processor import ExperientialDataProcessor
+from Core.Evolution.Learning.Learning.narrative_craft_learner import NarrativeCraftLearner
+from Core.Evolution.Learning.Learning.experiential_data_processor import ExperientialDataProcessor
 from data.corpus.stories.extended_fantasy_stories import (
     get_extended_fantasy_stories,
     get_deep_emotional_stories,

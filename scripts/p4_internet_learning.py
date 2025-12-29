@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("P4_Learning")
 
 try:
-    from Core.InteractionLayer.Sensory.p4_sensory_system import P4SensorySystem
+    from Core.Interaction.Sensory.p4_sensory_system import P4SensorySystem
 except ImportError as e:
     logger.error(f"Failed to import P4SensorySystem: {e}")
     sys.exit(1)

@@ -7,8 +7,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
-from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
+from Core.Foundation.Foundation.free_will_engine import FreeWillEngine
+from Core.Foundation.Foundation.resonance_field import ResonanceField
 
 # Bootstrapping helper
 class MockResonance:

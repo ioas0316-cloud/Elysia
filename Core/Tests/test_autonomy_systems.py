@@ -31,7 +31,7 @@ def test_planning_cortex():
     print()
     
     try:
-        from Core.IntelligenceLayer.Intelligence.Planning.planning_cortex import PlanningCortex
+        from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex
         
         cortex = PlanningCortex()
         
@@ -74,7 +74,7 @@ def test_free_will():
     print()
     
     try:
-        from Core.IntelligenceLayer.Intelligence.Will.free_will_engine import FreeWillEngine, MissionType
+        from Core.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine, MissionType
         
         engine = FreeWillEngine()
         
@@ -138,7 +138,7 @@ def test_recursive_planning():
     print()
     
     try:
-        from Core.IntelligenceLayer.Intelligence.executive_function import RecursivePlanner
+        from Core.Intelligence.Intelligence.executive_function import RecursivePlanner
         
         planner = RecursivePlanner()
         

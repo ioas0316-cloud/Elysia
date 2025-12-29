@@ -20,9 +20,9 @@ from unittest.mock import MagicMock
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.FoundationLayer.Philosophy.why_engine import WhyEngine
-from Core.EvolutionLayer.Growth.Autonomy.sovereign_hypothesis import SovereignHypothesis
-from Core.FoundationLayer.Foundation.light_spectrum import PrismAxes
+from Core.Foundation.Philosophy.why_engine import WhyEngine
+from Core.Evolution.Growth.Autonomy.sovereign_hypothesis import SovereignHypothesis
+from Core.Foundation.Foundation.light_spectrum import PrismAxes
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 

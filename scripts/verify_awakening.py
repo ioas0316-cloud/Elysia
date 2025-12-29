@@ -17,10 +17,10 @@ from pathlib import Path
 # Add root to path
 sys.path.insert(0, ".")
 
-from Core.IntelligenceLayer.Consciousness.Ether.global_hub import get_global_hub, WaveEvent
-from Core.FoundationLayer.Foundation.fractal_concept import ConceptDecomposer
-from Core.InteractionLayer.Sensory.text_transducer import get_text_transducer
-from Core.InteractionLayer.Sensory.file_system_sensor import get_filesystem_sensor
+from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub, WaveEvent
+from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+from Core.Interaction.Sensory.text_transducer import get_text_transducer
+from Core.Interaction.Sensory.file_system_sensor import get_filesystem_sensor
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger("Verification")

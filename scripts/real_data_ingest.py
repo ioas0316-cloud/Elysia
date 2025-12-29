@@ -52,7 +52,7 @@ class RealDataIngester:
         
         # 1. ConceptExtractor - 개념 추출
         try:
-            from Core.FoundationLayer.Foundation.concept_extractor import ConceptExtractor
+            from Core.Foundation.Foundation.concept_extractor import ConceptExtractor
             self.extractor = ConceptExtractor()
             logger.info("✅ ConceptExtractor connected")
         except Exception as e:
@@ -61,7 +61,7 @@ class RealDataIngester:
         
         # 2. ConceptDigester - 내면 우주 저장
         try:
-            from Core.IntelligenceLayer.Intelligence.concept_digester import ConceptDigester
+            from Core.Intelligence.Intelligence.concept_digester import ConceptDigester
             self.digester = ConceptDigester()
             logger.info("✅ ConceptDigester connected")
         except Exception as e:
@@ -70,7 +70,7 @@ class RealDataIngester:
         
         # 3. LanguageLearner - 언어 패턴
         try:
-            from Core.EvolutionLayer.Learning.Learning.language_learner import LanguageLearner
+            from Core.Evolution.Learning.Learning.language_learner import LanguageLearner
             self.learner = LanguageLearner()
             logger.info("✅ LanguageLearner connected")
         except Exception as e:
@@ -79,7 +79,7 @@ class RealDataIngester:
         
         # 4. TextWaveConverter - 파동 변환 (NEW: LLM 독립 핵심)
         try:
-            from Core.FoundationLayer.Foundation.text_wave_converter import get_text_wave_converter
+            from Core.Foundation.Foundation.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("✅ TextWaveConverter connected (Wave-based learning)")
         except Exception as e:
@@ -89,7 +89,7 @@ class RealDataIngester:
         # 5. GlobalHub - 중앙 신경계 연결 (NEW)
         self._hub = None
         try:
-            from Core.IntelligenceLayer.Consciousness.Ether.global_hub import get_global_hub
+            from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
             self._hub = get_global_hub()
             self._hub.register_module(
                 "RealDataIngester",
@@ -156,7 +156,7 @@ class RealDataIngester:
                 
                 # GlobalHub에 브로드캐스트 (올바른 WaveTensor 사용)
                 if self._hub:
-                    from Core.FoundationLayer.Foundation.Wave.wave_tensor import WaveTensor
+                    from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
                     wave = WaveTensor(f"Learning_{category}")
                     wave.add_component(freq, amplitude=1.0, phase=0.0)
                     self._hub.publish_wave(

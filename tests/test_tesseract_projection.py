@@ -6,7 +6,7 @@ import unittest
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.FoundationLayer.Foundation.Graph.torch_graph import TorchGraph
+from Core.Foundation.Foundation.Graph.torch_graph import TorchGraph
 
 class TestTesseractProjection(unittest.TestCase):
     def setUp(self):

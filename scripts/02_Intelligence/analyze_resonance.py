@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, "c:\\Elysia")
 
-from Core.FoundationLayer.Core_Logic.Elysia.spirit import get_spirit
+from Core.Foundation.Core_Logic.Elysia.spirit import get_spirit
 
 spirit = get_spirit()
 

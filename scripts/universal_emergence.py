@@ -13,7 +13,7 @@ import os
 sys.path.append(os.getcwd())
 
 import logging
-from Core.FoundationLayer.Legal_Ethics.Laws.law_of_emergence import get_emergence_engine, UniversalElement
+from Core.Foundation.Legal_Ethics.Laws.law_of_emergence import get_emergence_engine, UniversalElement
 
 def main():
     # Setup Logging

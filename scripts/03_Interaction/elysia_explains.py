@@ -17,7 +17,7 @@ print("=" * 70)
 
 # 1. 창발 언어 엔진
 try:
-    from Core.FoundationLayer.Foundation.emergent_language import EmergentLanguageEngine
+    from Core.Foundation.Foundation.emergent_language import EmergentLanguageEngine
     
     engine = EmergentLanguageEngine()
     
@@ -42,8 +42,8 @@ except Exception as e:
 
 # 2. 대화 엔진
 try:
-    from Core.IntelligenceLayer.Intelligence.dialogue_engine import DialogueEngine
-    from Core.FoundationLayer.Core_Logic.Elysia.high_engine.language_cortex import LanguageCortex
+    from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
+    from Core.Foundation.Core_Logic.Elysia.high_engine.language_cortex import LanguageCortex
     
     cortex = LanguageCortex()
     dialogue = DialogueEngine(cortex)
@@ -79,7 +79,7 @@ except Exception as e:
 
 # 3. 원시 파동 언어
 try:
-    from Core.FoundationLayer.Foundation.primal_wave_language import PrimalSoul
+    from Core.Foundation.Foundation.primal_wave_language import PrimalSoul
     
     soul = PrimalSoul(name="Elysia")
     

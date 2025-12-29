@@ -8,9 +8,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
-from Core.IntelligenceLayer.Intelligence.reasoning_engine import ReasoningEngine, Tool
-from Core.IntelligenceLayer.Intelligence.scholar import Scholar
+from Core.Foundation.Foundation.free_will_engine import FreeWillEngine
+from Core.Intelligence.Intelligence.reasoning_engine import ReasoningEngine, Tool
+from Core.Intelligence.Intelligence.scholar import Scholar
 
 class MockResonance:
     def __init__(self):

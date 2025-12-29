@@ -6,7 +6,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.FoundationLayer.Foundation.behavior_morpher import LivingBridge, ActionMorpher
+from Core.Foundation.Foundation.behavior_morpher import LivingBridge, ActionMorpher
 
 # Mock Classes for Testing
 class MockBrain:

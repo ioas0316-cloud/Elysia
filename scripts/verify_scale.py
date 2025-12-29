@@ -26,8 +26,8 @@ from dataclasses import dataclass
 # Add root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.EvolutionLayer.Learning.Learning.resonance_learner import ResonanceLearner
-from Core.EvolutionLayer.Learning.Learning.hierarchical_learning import Domain
+from Core.Evolution.Learning.Learning.resonance_learner import ResonanceLearner
+from Core.Evolution.Learning.Learning.hierarchical_learning import Domain
 
 # Mock Classes to avoid overhead of real DB for this stress test
 @dataclass

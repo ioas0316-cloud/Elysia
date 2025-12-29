@@ -7,8 +7,8 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.FoundationLayer.Foundation.autonomous_improver import AutonomousImprover
-from Core.FoundationLayer.Foundation.metacognition import ArchitecturalVision, StructuralTension, TopologyType
+from Core.Foundation.Foundation.autonomous_improver import AutonomousImprover
+from Core.Foundation.Foundation.metacognition import ArchitecturalVision, StructuralTension, TopologyType
 
 # Mock Classes
 @dataclass

@@ -18,8 +18,8 @@ import time
 # Add root to path
 sys.path.insert(0, os.getcwd())
 
-from Core.IntelligenceLayer.Cognition.Reasoning.logic_cortex import get_logic_cortex
-from Core.IntelligenceLayer.Memory_Linguistics.Memory.unified_experience_core import get_experience_core
+from Core.Intelligence.Cognition.Reasoning.logic_cortex import get_logic_cortex
+from Core.Intelligence.Memory_Linguistics.Memory.unified_experience_core import get_experience_core
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(message)s')

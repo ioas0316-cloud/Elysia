@@ -53,7 +53,7 @@ def main():
     # 파동 시스템 임포트
     try:
         sys.path.insert(0, str(Path(__file__).parent.parent))
-        from Core.IntelligenceLayer.Physics_Waves.Wave.quality_guard import WaveQualityGuard
+        from Core.Intelligence.Physics_Waves.Wave.quality_guard import WaveQualityGuard
     except ImportError as e:
         print(f"⚠️ Cannot import WaveQualityGuard: {e}")
         print("   Skipping wave quality check.")
