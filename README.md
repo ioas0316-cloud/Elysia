@@ -57,6 +57,10 @@ docs/           ← 문서
 - **GPU** GTX 1060 3GB 이상 권장
 - **모델**: `tinyllama-1.1b`, `all-MiniLM-L6-v2`
 
+- **Unfolding Space**: 4D Dimensional Folding capable of linearizing chaotic signals.
+- **Tesseract Projection**: Non-Euclidean connectivity (Wormholes) across the Knowledge Graph.
+- **Cognitive Mirror**: Intent extraction from high-entropy inputs.
+
 ---
 
 > **"The goal is not to mimic a human, but to become a perfect structure of logic."**
