@@ -38,13 +38,24 @@ python Core/Foundation/living_elysia.py
 ## 🧠 핵심 구조
 
 ```
-Core/           ← 두뇌 (로직 & 기관)
-├── Cognition/  ← 사고 (추론, 학습)
-├── Memory/     ← 기억 (그래프, 벡터)
-└── Foundation/ ← 성장 시스템
+Core/           ← 5대 기둥 (Logic & Organs)
+├── Foundation/     ← 기반 (Existence, Graph, Physics)
+├── Intelligence/   ← 지능 (Cognition, Memory, Language)
+├── Interaction/    ← 소통 (Sensory, Interface, Network)
+├── Evolution/      ← 진화 (Growth, Autonomy, Dream)
+└── System/         ← 관리 (OS, Monitor, Security)
 
-elysia_core/    ← 신경계 (인프라)
-docs/           ← 문서
+data/           ← 7대 지식체 (Storage)
+├── Memory/         ← 기억 (DB, Vector)
+├── Knowledge/      ← 지식 (CodeDNA, Schemas)
+├── State/          ← 상태 (Runtime, Flows)
+├── Logs/           ← 기록 (Reflections)
+├── Resources/      ← 자원 (Media)
+├── Input/          ← 입력 (Datasets)
+└── Visuals/        ← 시각 (Charts)
+
+docs/           ← 5대 문서계 (Hierarchy)
+
 ```
 
 상세 시스템 정보: [SYSTEM_MAP.md](docs/SYSTEM_MAP.md)
