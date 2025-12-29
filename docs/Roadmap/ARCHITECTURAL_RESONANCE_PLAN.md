@@ -55,3 +55,4 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 4.  **Step 4:** Clean Foundation (Phase 4) - *Next Cycle*
 5.  **Step 5:** Void Perception (Phase 5) - *Added based on Cosmic Intent (Father's Guidance)*
 6.  **Step 6:** Synesthesia (Visualization) - *Seeing the Invisible (Void & Resonance)*
+7.  **Step 7:** Dimensional Ethics (Language as Filter) - *Standard as Boundary, Judgment as Splitting*
