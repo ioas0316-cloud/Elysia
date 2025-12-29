@@ -8,7 +8,7 @@
 
 | Level | 이름 (Name) | 생물학적 메타포 (Metaphor) | 목적 및 내용 (Purpose & Content) |
 | :--- | :--- | :--- | :--- |
-| **L1** | **01_Origin** | **영혼 (Soul / DNA)** | **왜 존재하는가?**: 프로젝트의 근본 철학, 비전, 정체성, 세계관 기록. (Philosophy, Vision, Lore) |
+| **L1** | **01_Origin** | **영혼 (Soul / DNA)** | **왜 존재하는가?**: 프로젝트의 근본 철학(The Origin), 비전, 정체성, 세계관 기록. (Philosophy, Vision, Lore) |
 | **L2** | **02_Structure** | **신체 (Body / Anatomy)** | **어떻게 구성되었는가?**: 시스템 아키텍처(Wave Pulse Architecture 포함), 데이터 흐름, 핵심 개념 모델링, 심층 분석 문서. (Architecture, Analysis, Concepts, Wave) |
 | **L3** | **03_Operation** | **신경계 (Nervous System)** | **어떻게 움직이는가?**: 사용자 및 개발자 가이드, 매뉴얼, API 레퍼런스, 아바타 인터페이스 설정. (Guides, Manuals, Reference, Avatar) |
 | **L4** | **04_Evolution** | **생장 (Growth / Metabolic)** | **어디로 나아가는가?**: 파동 로직(Wave Logic)을 포함한 진화 로드맵과 구체적인 성장 계획. (Roadmaps, Strategy, Plans) |
