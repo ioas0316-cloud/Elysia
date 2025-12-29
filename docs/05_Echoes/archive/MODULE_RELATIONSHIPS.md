@@ -492,7 +492,7 @@ my_module.py
 
 의존성 (Dependencies):
 - Core.Foundation.resonance_field (필수)
-- Core.Memory.hippocampus (선택)
+- Core.Foundation.Memory.hippocampus (선택)
 
 제공 (Provides):
 - calculate_something(): 무언가 계산

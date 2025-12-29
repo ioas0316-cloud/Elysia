@@ -17,7 +17,7 @@ print("=" * 70)
 
 # 1. 창발 언어 엔진
 try:
-    from Core.Foundation.Foundation.emergent_language import EmergentLanguageEngine
+    from Core.Foundation.emergent_language import EmergentLanguageEngine
     
     engine = EmergentLanguageEngine()
     
@@ -79,7 +79,7 @@ except Exception as e:
 
 # 3. 원시 파동 언어
 try:
-    from Core.Foundation.Foundation.primal_wave_language import PrimalSoul
+    from Core.Foundation.primal_wave_language import PrimalSoul
     
     soul = PrimalSoul(name="Elysia")
     

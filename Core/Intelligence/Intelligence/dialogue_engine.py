@@ -9,7 +9,7 @@ from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass
 import random
 
-from Core.Foundation.Foundation.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
+from Core.Foundation.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
 
 from Core.Intelligence.Intelligence.integrated_cognition_system import get_integrated_cognition
 from Core.Intelligence.Intelligence.system_self_awareness import SystemSelfAwareness

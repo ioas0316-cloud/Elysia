@@ -21,8 +21,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 CRITICAL_MODULES = [
     "Core.Foundation.Wave.wave_tensor",
-    "Core.Memory.Graph.knowledge_graph",
-    "Core.Memory.Graph.hyper_graph",
+    "Core.Foundation.Memory.Graph.knowledge_graph",
+    "Core.Foundation.Memory.Graph.hyper_graph",
     "Core.Cognition.Reasoning.reasoning_engine",
     "Core.Cognition.Learning.resonance_learner",
     "Core.System.Autonomy.self_evolution_scheduler"

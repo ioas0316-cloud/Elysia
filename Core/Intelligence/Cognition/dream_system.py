@@ -13,8 +13,8 @@ import random
 import time
 import cmath
 from typing import List, Dict, Optional
-from Core.Foundation.Foundation.dream_engine import DreamEngine
-from Core.Foundation.Foundation.Wave.hyper_qubit import HyperQubit
+from Core.Foundation.dream_engine import DreamEngine
+from Core.Foundation.Wave.hyper_qubit import HyperQubit
 
 logger = logging.getLogger("DreamSystem")
 
@@ -73,7 +73,7 @@ class DreamSystem:
         # Map HyperQubits to Photons in the LightField.
         
         try:
-            from Core.Foundation.Foundation.Physics.light_computer import LightField
+            from Core.Foundation.Physics.light_computer import LightField
             LIGHT_COMPUTER_AVAILABLE = True
         except ImportError:
             LIGHT_COMPUTER_AVAILABLE = False

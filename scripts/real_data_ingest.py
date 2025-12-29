@@ -52,7 +52,7 @@ class RealDataIngester:
         
         # 1. ConceptExtractor - 개념 추출
         try:
-            from Core.Foundation.Foundation.concept_extractor import ConceptExtractor
+            from Core.Foundation.concept_extractor import ConceptExtractor
             self.extractor = ConceptExtractor()
             logger.info("✅ ConceptExtractor connected")
         except Exception as e:
@@ -79,7 +79,7 @@ class RealDataIngester:
         
         # 4. TextWaveConverter - 파동 변환 (NEW: LLM 독립 핵심)
         try:
-            from Core.Foundation.Foundation.text_wave_converter import get_text_wave_converter
+            from Core.Foundation.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("✅ TextWaveConverter connected (Wave-based learning)")
         except Exception as e:
@@ -156,7 +156,7 @@ class RealDataIngester:
                 
                 # GlobalHub에 브로드캐스트 (올바른 WaveTensor 사용)
                 if self._hub:
-                    from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                    from Core.Foundation.Wave.wave_tensor import WaveTensor
                     wave = WaveTensor(f"Learning_{category}")
                     wave.add_component(freq, amplitude=1.0, phase=0.0)
                     self._hub.publish_wave(

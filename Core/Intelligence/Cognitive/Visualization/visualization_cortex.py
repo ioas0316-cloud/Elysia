@@ -31,13 +31,13 @@ except ImportError:
     Canvas = None
 
 try:
-    from Core.Foundation.Foundation.gemini_api import generate_text, generate_image_from_text
+    from Core.Foundation.gemini_api import generate_text, generate_image_from_text
 except ImportError:
     generate_text = None
     generate_image_from_text = None
 
 try:
-    from Core.Foundation.Foundation.Wave.wave_tensor import Tensor3D, FrequencyWave
+    from Core.Foundation.Wave.wave_tensor import Tensor3D, FrequencyWave
 except ImportError:
     # Fallback simple implementations
     class Tensor3D:

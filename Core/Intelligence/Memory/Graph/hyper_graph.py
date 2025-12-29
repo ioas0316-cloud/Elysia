@@ -13,7 +13,7 @@ Features:
 from typing import Dict, List, Optional, Set
 import logging
 from elysia_core import Cell, Organ
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor, Modality
+from Core.Foundation.Wave.wave_tensor import WaveTensor, Modality
 
 logger = logging.getLogger("Elysia.HyperGraph")
 

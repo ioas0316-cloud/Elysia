@@ -48,7 +48,7 @@ class AudioCortex:
     def _init_processor(self):
         """AudioProcessor 초기화"""
         try:
-            from Core.Foundation.Foundation.audio_processor import AudioProcessor
+            from Core.Foundation.audio_processor import AudioProcessor
             self._processor = AudioProcessor()
             print("🎧 AudioCortex: Initialized (AudioProcessor)")
         except Exception as e:

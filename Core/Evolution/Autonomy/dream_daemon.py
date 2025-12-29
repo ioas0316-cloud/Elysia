@@ -27,7 +27,7 @@ def _get_graph():
     global _torch_graph
     if _torch_graph is None:
         try:
-            from Core.Foundation.Foundation.torch_graph import get_torch_graph
+            from Core.Foundation.torch_graph import get_torch_graph
             _torch_graph = get_torch_graph()
         except Exception as e:
             logger.warning(f"TorchGraph unavailable: {e}")

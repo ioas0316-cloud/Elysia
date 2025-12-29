@@ -435,7 +435,7 @@ class TestDatabaseOperations:
         mock_cursor = Mock()
         mock_connect.return_value.cursor.return_value = mock_cursor
         
-        from Core.Memory.hippocampus import Hippocampus
+        from Core.Foundation.Memory.hippocampus import Hippocampus
         hippocampus = Hippocampus(db_path=":memory:")
         
         # Verify connection was made

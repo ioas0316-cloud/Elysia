@@ -93,7 +93,7 @@ class ExplorationBridge:
         # 2. FreeWillEngine (욕구/의지)
         self.free_will = None
         try:
-            from Core.Foundation.Foundation.free_will_engine import FreeWillEngine
+            from Core.Foundation.free_will_engine import FreeWillEngine
             self.free_will = FreeWillEngine()
             logger.info("✅ FreeWillEngine connected")
         except Exception as e:
@@ -102,7 +102,7 @@ class ExplorationBridge:
         # 3. ExplorationCore (외부 탐색)
         self.exploration_core = None
         try:
-            from Core.Foundation.Foundation.exploration_core import ExplorationCore
+            from Core.Foundation.exploration_core import ExplorationCore
             self.exploration_core = ExplorationCore()
             logger.info("✅ ExplorationCore connected")
         except Exception as e:
@@ -130,7 +130,7 @@ class ExplorationBridge:
         # 6. KoreanEnglishMapper (언어 브릿지)
         self.lang_mapper = None
         try:
-            from Core.Foundation.Foundation.extreme_hyper_learning import KoreanEnglishMapper
+            from Core.Foundation.extreme_hyper_learning import KoreanEnglishMapper
             self.lang_mapper = KoreanEnglishMapper()
             logger.info("✅ KoreanEnglishMapper connected")
         except Exception as e:

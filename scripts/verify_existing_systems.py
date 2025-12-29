@@ -24,8 +24,8 @@ def test_existing_systems():
     print("="*60)
     
     # 1. Initialize LifeCycle (which contains SelfGovernance)
-    from Core.Foundation.Foundation.life_cycle import LifeCycle
-    from Core.Foundation.Foundation.growth_journal import get_growth_journal
+    from Core.Foundation.life_cycle import LifeCycle
+    from Core.Foundation.growth_journal import get_growth_journal
     
     life_cycle = LifeCycle()
     governance = life_cycle.governance

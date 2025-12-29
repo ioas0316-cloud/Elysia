@@ -27,9 +27,9 @@ import time
 
 # 기존 시스템 통합
 try:
-    from Core.Foundation.Foundation.spacetime_drive import SpaceTimeDrive, SpaceTimeState
-    from Core.Foundation.Foundation.causality_seed import Event, CausalType, SpacetimeCoord
-    from Core.Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.Foundation.spacetime_drive import SpaceTimeDrive, SpaceTimeState
+    from Core.Foundation.causality_seed import Event, CausalType, SpacetimeCoord
+    from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 except ImportError:
     # 최소 구현으로 폴백
     from dataclasses import dataclass

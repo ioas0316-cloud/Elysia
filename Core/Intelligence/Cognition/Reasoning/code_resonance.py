@@ -15,7 +15,7 @@ import ast
 import os
 from typing import Dict
 from elysia_core import Cell
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor, Modality
+from Core.Foundation.Wave.wave_tensor import WaveTensor, Modality
 
 @Cell("CodeResonance")
 class CodeResonance:

@@ -16,7 +16,7 @@ Curiosity Core (호기심 코어) - Wave Resonance Edition v10.6
 import logging
 import random
 from typing import Optional
-from Core.Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
+from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 
 logger = logging.getLogger("CuriosityCore")
 

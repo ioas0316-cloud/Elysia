@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Interaction.Interface.wave_transducer import WaveTransducer
 from Core.Interaction.Interface.Senses.sensory_cortex import SensoryCortex
-from Core.Foundation.Foundation.Action.motor_cortex import MotorCortex
+from Core.Foundation.Action.motor_cortex import MotorCortex
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

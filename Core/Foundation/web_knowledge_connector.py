@@ -19,8 +19,8 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.Foundation.external_data_connector import ExternalDataConnector
-from Core.Foundation.Foundation.internal_universe import InternalUniverse
+from Core.Foundation.external_data_connector import ExternalDataConnector
+from Core.Foundation.internal_universe import InternalUniverse
 
 # Problem-solving learning imports
 try:
@@ -32,7 +32,7 @@ except ImportError:
 
 # Dynamic knowledge terrain imports
 try:
-    from Core.Foundation.Foundation.light_spectrum import get_light_universe, LightUniverse
+    from Core.Foundation.light_spectrum import get_light_universe, LightUniverse
 except ImportError:
     get_light_universe = None
     LightUniverse = None
@@ -159,7 +159,7 @@ class WebKnowledgeConnector:
             
             # **NEW**: Enhance communication ability
             try:
-                from Core.Foundation.Foundation.communication_enhancer import CommunicationEnhancer
+                from Core.Foundation.communication_enhancer import CommunicationEnhancer
                 
                 if not hasattr(self, 'comm_enhancer'):
                     self.comm_enhancer = CommunicationEnhancer()

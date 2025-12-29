@@ -73,7 +73,7 @@ class UnifiedDialogueSystem:
         """Initialize all sub-components."""
         # TextWaveConverter
         try:
-            from Core.Foundation.Foundation.text_wave_converter import get_text_wave_converter
+            from Core.Foundation.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("   ✅ TextWaveConverter connected")
         except ImportError as e:
@@ -100,7 +100,7 @@ class UnifiedDialogueSystem:
         
         # ConceptDecomposer (for axiom queries)
         try:
-            from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+            from Core.Foundation.fractal_concept import ConceptDecomposer
             self.decomposer = ConceptDecomposer()
             logger.info("   ✅ ConceptDecomposer connected")
         except ImportError as e:
@@ -287,7 +287,7 @@ class UnifiedDialogueSystem:
         """Handle emotional expressions using PrismCortex."""
         if self.prism and wave_analysis:
             try:
-                from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=wave_analysis.get("dominant_frequency", 432.0),
                     amplitude=1.0,

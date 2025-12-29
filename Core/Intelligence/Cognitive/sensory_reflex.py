@@ -18,7 +18,7 @@ import random
 from typing import Dict, Any
 
 from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub, WaveEvent
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+from Core.Foundation.Wave.wave_tensor import WaveTensor
 from Core.Intelligence.Intelligence.logos_engine import LogosEngine
 
 logger = logging.getLogger("Elysia.Cognitive.SensoryReflex")

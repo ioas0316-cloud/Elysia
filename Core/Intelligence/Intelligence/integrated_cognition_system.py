@@ -26,12 +26,12 @@ from typing import List, Dict, Any, Optional
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
+from Core.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
 from Core.Intelligence.Intelligence.prism_cortex import PrismCortex
 from Core.Intelligence.Intelligence.logos_engine import LogosEngine
 from Core.Intelligence.Memory.conversation_memory import ConversationMemory
 from Core.Intelligence.Cognitive.sensory_cortex import get_sensory_cortex
-from Core.Foundation.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
+from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 
 logger = logging.getLogger("IntegratedCognition")
 
@@ -56,7 +56,7 @@ class IntegratedCognitionSystem:
         
         # Conversation Memory for context
         self.memory = ConversationMemory(max_context_turns=10)
-        self._memory_path = "data/conversation_memory.json"
+        self._memory_path = "data/Memory/conversation_memory.json"
         self._load_memory()
         
         # Sensory Cortex for Qualia (feeling concepts)

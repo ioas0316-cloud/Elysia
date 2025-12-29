@@ -384,8 +384,8 @@ Pattern: birthday celebration
 ### Basic Usage
 
 ```python
-from Core.Memory.starlight_memory import StarlightMemory
-from Core.Memory.prism_filter import PrismFilter
+from Core.Foundation.Memory.starlight_memory import StarlightMemory
+from Core.Foundation.Memory.prism_filter import PrismFilter
 
 # Initialize
 memory = StarlightMemory()

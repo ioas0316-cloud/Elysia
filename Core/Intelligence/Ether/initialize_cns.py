@@ -36,7 +36,7 @@ def initialize_central_nervous_system():
     
     # 3. Initialize the Why-Engine (Axiom/Causality system)
     try:
-        from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+        from Core.Foundation.fractal_concept import ConceptDecomposer
         decomposer = ConceptDecomposer()
         logger.info("   ✅ ConceptDecomposer (Why-Engine) connected")
     except Exception as e:
@@ -73,7 +73,7 @@ def demonstrate_wave_communication():
     Demonstrate how modules communicate via waves.
     """
     from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
-    from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.Foundation.Wave.wave_tensor import WaveTensor
     
     hub = get_global_hub()
     

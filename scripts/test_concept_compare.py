@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, "c:\\Elysia")
 
-from Core.Foundation.Foundation.multimodal_concept_node import get_multimodal_integrator
+from Core.Foundation.multimodal_concept_node import get_multimodal_integrator
 
 integrator = get_multimodal_integrator()
 

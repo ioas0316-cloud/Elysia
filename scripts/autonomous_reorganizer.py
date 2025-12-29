@@ -40,7 +40,7 @@ except ImportError:
     SelfIntegrationSystem = None
 
 try:
-    from Core.Foundation.Foundation.reality_sculptor import RealitySculptor
+    from Core.Foundation.reality_sculptor import RealitySculptor
 except ImportError:
     RealitySculptor = None
 

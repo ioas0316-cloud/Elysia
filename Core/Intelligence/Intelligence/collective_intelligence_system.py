@@ -39,7 +39,7 @@ logger = logging.getLogger("CollectiveIntelligence")
 
 # [Hyper-Conversion] Import Real HyperQubit
 try:
-    from Core.Foundation.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
+    from Core.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
 except ImportError:
     # Fallback if module missing
     HyperQubit = None
@@ -47,7 +47,7 @@ except ImportError:
 
 # [Integration] Use EnneagramType directly
 try:
-    from Core.Foundation.Foundation.dual_layer_personality import EnneagramType
+    from Core.Foundation.dual_layer_personality import EnneagramType
 except ImportError:
     # Fallback definition
     class EnneagramType(Enum):

@@ -11,7 +11,7 @@ Tests:
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Foundation.Foundation.grammar_engine import GrammarEmergenceEngine, GrammarRole
+from Core.Foundation.grammar_engine import GrammarEmergenceEngine, GrammarRole
 
 def main():
     print("\n" + "="*70)

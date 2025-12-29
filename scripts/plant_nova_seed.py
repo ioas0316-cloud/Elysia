@@ -8,7 +8,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.Foundation.Foundation.reality_sculptor import RealitySculptor
+from Core.Foundation.reality_sculptor import RealitySculptor
 
 def plant_seed():
     print("\n🌱 [TASK] Planting 'Project: Nova Seed'")

@@ -23,7 +23,7 @@ from enum import Enum
 
 # Import Hyper-Quaternion for 4D Spin
 try:
-    from Core.Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.Foundation.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback if Foundation is not reachable yet
     @dataclass

@@ -9,7 +9,7 @@ sys.path.append("c:\\Elysia")
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 from Core.Intelligence.Cognition.Reasoning.reasoning_engine import ReasoningEngine
-from Core.Foundation.Foundation.hyper_quaternion import HyperWavePacket, Quaternion
+from Core.Foundation.hyper_quaternion import HyperWavePacket, Quaternion
 
 def test_phase_integration():
     print("🧪 Testing Fractal Phase Transition Integration...")

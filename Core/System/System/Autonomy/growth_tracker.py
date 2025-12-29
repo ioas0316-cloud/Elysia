@@ -98,7 +98,7 @@ class GrowthTracker:
     - SystemRegistry: 모듈 연결 추적
     """
     
-    def __init__(self, history_path: str = "data/growth_history.json"):
+    def __init__(self, history_path: str = "data/Logs/growth_history.json"):
         self.history_path = Path(history_path)
         self.history: List[GrowthSnapshot] = []
         self._load_history()
@@ -132,7 +132,7 @@ class GrowthTracker:
         """Growth 시스템 획득"""
         if self._growth is None:
             try:
-                from Core.Foundation.Foundation.growth import get_growth
+                from Core.Foundation.growth import get_growth
                 self._growth = get_growth()
             except ImportError:
                 logger.warning("Growth system not available")
@@ -162,7 +162,7 @@ class GrowthTracker:
         """SystemRegistry 획득"""
         if self._registry is None:
             try:
-                from Core.Foundation.Foundation.system_registry import get_system_registry
+                from Core.Foundation.system_registry import get_system_registry
                 self._registry = get_system_registry()
             except ImportError:
                 logger.warning("SystemRegistry not available")

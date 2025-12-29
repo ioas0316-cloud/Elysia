@@ -21,7 +21,7 @@ class TorchGraphCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.Foundation.Foundation.Graph.torch_graph import get_torch_graph
+            from Core.Foundation.Graph.torch_graph import get_torch_graph
             cls._instance = get_torch_graph()
         return cls._instance
 
@@ -33,7 +33,7 @@ class TinyBrainCell:
     
     def __new__(cls):
         if cls._instance is None:
-            from Core.Foundation.Foundation.tiny_brain import get_tiny_brain
+            from Core.Foundation.tiny_brain import get_tiny_brain
             cls._instance = get_tiny_brain()
         return cls._instance
 

@@ -7,7 +7,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Foundation.Foundation.rapid_learning_engine import RapidLearningEngine
+from Core.Foundation.rapid_learning_engine import RapidLearningEngine
 
 print("\n" + "="*70)
 print("🇰🇷 한국어 매핑 테스트")

@@ -22,9 +22,9 @@ import logging
 from typing import List
 import time
 
-from Core.Foundation.Foundation.Physics.fluctlight import FluctlightEngine, FluctlightParticle
-from Core.Foundation.Foundation.Physics.time_compression import TimeCompressionEngine, GravityWell
-from Core.Foundation.Foundation.Wave.octonion import Octonion
+from Core.Foundation.Physics.fluctlight import FluctlightEngine, FluctlightParticle
+from Core.Foundation.Physics.time_compression import TimeCompressionEngine, GravityWell
+from Core.Foundation.Wave.octonion import Octonion
 
 # Setup logging
 logging.basicConfig(

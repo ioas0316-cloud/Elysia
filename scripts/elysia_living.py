@@ -62,7 +62,7 @@ class ElysiaLivingDaemon:
         
         # 멀티모달 통합
         try:
-            from Core.Foundation.Foundation.multimodal_concept_node import get_multimodal_integrator
+            from Core.Foundation.multimodal_concept_node import get_multimodal_integrator
             self.multimodal = get_multimodal_integrator()
             logger.info("   ✅ Multimodal connected")
         except Exception as e:
@@ -146,7 +146,7 @@ class ElysiaLivingDaemon:
         BlackHole → WhiteHole → InternalUniverse 순환
         """
         try:
-            from Core.Foundation.Foundation.white_hole import get_blackhole_whitehole_cycle
+            from Core.Foundation.white_hole import get_blackhole_whitehole_cycle
             
             cycle = get_blackhole_whitehole_cycle()
             result = cycle.process_new_knowledge(
@@ -167,7 +167,7 @@ class ElysiaLivingDaemon:
             logger.warning(f"   ⚠️ Internalization fallback: {e}")
             # 폴백: 직접 InternalUniverse에 흡수
             try:
-                from Core.Foundation.Foundation.internal_universe import InternalUniverse
+                from Core.Foundation.internal_universe import InternalUniverse
                 universe = InternalUniverse()
                 universe.absorb_text(content, source_name=topic)
             except:

@@ -280,7 +280,7 @@ def recall_by_resonance(self, wave_stimulus, threshold, top_k):
 ### Basic Usage
 
 ```python
-from Core.Memory.starlight_memory import StarlightMemory
+from Core.Foundation.Memory.starlight_memory import StarlightMemory
 
 # Auto-optimized (best available)
 memory = StarlightMemory()
@@ -386,7 +386,7 @@ pip install numpy
 
 **Verify:**
 ```python
-from Core.Memory.spatial_index import HAS_NUMPY
+from Core.Foundation.Memory.spatial_index import HAS_NUMPY
 print(f"NumPy available: {HAS_NUMPY}")
 ```
 

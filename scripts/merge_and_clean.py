@@ -35,10 +35,10 @@ def clean_imports_in_file(file_path):
         original_content = content
         
         # Remove "05_Foundation_Base." from imports
-        # target: Core.Foundation.Foundation
-        # result: Core.Foundation.Foundation
+        # target: Core.Foundation
+        # result: Core.Foundation
         
-        content = content.replace("Core.Foundation.Foundation", "Core.Foundation.Foundation")
+        content = content.replace("Core.Foundation", "Core.Foundation")
         content = content.replace("Core/FoundationLayer/Foundation", "Core/FoundationLayer/Foundation")
         
         # Also clean up "01_Reasoning" if it appears in IntelligenceLayer imports

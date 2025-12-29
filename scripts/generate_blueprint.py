@@ -7,7 +7,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.Foundation.Foundation.central_nervous_system import CentralNervousSystem
+from Core.Foundation.central_nervous_system import CentralNervousSystem
 from Core.Intelligence.Intelligence.evolution_architect import EvolutionArchitect
 
 def generate_blueprint():

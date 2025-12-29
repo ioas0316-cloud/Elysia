@@ -54,8 +54,8 @@ logger = logging.getLogger("AvatarServer")
 
 # Import Elysia systems (with graceful degradation)
 try:
-    from Core.Foundation.Foundation.emotional_engine import EmotionalEngine, EmotionalState
-    from Core.Foundation.Foundation.spirit_emotion import SpiritEmotionMapper
+    from Core.Foundation.emotional_engine import EmotionalEngine, EmotionalState
+    from Core.Foundation.spirit_emotion import SpiritEmotionMapper
     logger.info("✅ Emotional and Spirit systems loaded")
     EMOTIONS_AVAILABLE = True
 except ImportError as e:
@@ -85,7 +85,7 @@ except ImportError as e:
         REASONING_AVAILABLE = False
         
 try:
-    from Core.Foundation.Foundation.free_will_engine import FreeWillEngine
+    from Core.Foundation.free_will_engine import FreeWillEngine
     logger.info("✅ FreeWillEngine (Will) loaded")
 except ImportError:
     FreeWillEngine = None
@@ -105,7 +105,7 @@ except ImportError:
 
 # Avatar Physics Engine (Phase 4)
 try:
-    from Core.Foundation.Foundation.avatar_physics import AvatarPhysicsEngine, Vector3D
+    from Core.Foundation.avatar_physics import AvatarPhysicsEngine, Vector3D
     logger.info("✅ Avatar Physics Engine loaded")
     PHYSICS_AVAILABLE = True
 except ImportError as e:

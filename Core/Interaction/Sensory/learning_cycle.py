@@ -28,9 +28,9 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from Core.Interaction.Sensory.stream_manager import StreamManager
 from Core.Interaction.Sensory.ego_anchor import EgoAnchor, SelectiveMemory
-from Core.Foundation.Foundation.wave_semantic_search import WaveSemanticSearch, WavePattern
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion
-from Core.Foundation.Foundation.internal_universe import InternalUniverse, WorldCoordinate # NEW
+from Core.Foundation.wave_semantic_search import WaveSemanticSearch, WavePattern
+from Core.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.internal_universe import InternalUniverse, WorldCoordinate # NEW
 from Core.Evolution.Learning.Learning.language_learner import LanguageLearner
 from Core.Evolution.Learning.Learning.wave_pattern_learner import WavePatternLearner  # AUTONOMOUS LEARNING
 

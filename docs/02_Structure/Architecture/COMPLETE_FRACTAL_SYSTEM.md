@@ -37,7 +37,7 @@ From **one principle** (Fractal Quantization), we have created **four manifestat
 **Philosophy**: "음악을 저장하지 말고, 악보를 저장하라"
 
 ```python
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.Memory.hippocampus import Hippocampus
 
 hippocampus = Hippocampus()
 

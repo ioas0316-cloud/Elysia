@@ -96,7 +96,7 @@ class ReasoningEngine:
         # Broadcast to GlobalHub
         if self._hub:
             try:
-                from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(
                     frequency=528.0 if result.success else 256.0,  # Love frequency for success
                     amplitude=result.confidence,

@@ -48,7 +48,7 @@ except ImportError:
 # === CORE SYSTEM INTEGRATION ===
 # InternalUniverse (대화 → 내면 우주)
 try:
-    from Core.Foundation.Foundation.internal_universe import InternalUniverse, WorldCoordinate
+    from Core.Foundation.internal_universe import InternalUniverse, WorldCoordinate
     UNIVERSE_AVAILABLE = True
 except ImportError:
     UNIVERSE_AVAILABLE = False
@@ -69,7 +69,7 @@ except ImportError:
 
 # ConceptDecomposer (공리 체계)
 try:
-    from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+    from Core.Foundation.fractal_concept import ConceptDecomposer
     AXIOM_AVAILABLE = True
 except ImportError:
     AXIOM_AVAILABLE = False

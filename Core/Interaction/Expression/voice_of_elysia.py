@@ -1,8 +1,8 @@
 import logging
 import time
-from Core.Foundation.Foundation.primal_wave_language import PrimalSoul
-from Core.Foundation.Foundation.synesthesia_engine import SynesthesiaEngine
-from Core.Foundation.Foundation.celestial_grammar import SolarSystem, MagneticEngine, Nebula
+from Core.Foundation.primal_wave_language import PrimalSoul
+from Core.Foundation.synesthesia_engine import SynesthesiaEngine
+from Core.Foundation.celestial_grammar import SolarSystem, MagneticEngine, Nebula
 
 logger = logging.getLogger("VoiceOfElysia")
 

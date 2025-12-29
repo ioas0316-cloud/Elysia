@@ -59,7 +59,7 @@ cp Core/Memory/core_memory.py Core/Memory/core_memory_backup.py
 # Merge best features from all versions
 
 # Step 3: Update imports across codebase
-find . -name "*.py" -exec sed -i 's/from.*Experience/from Core.Memory.unified_types import Experience/g' {} \;
+find . -name "*.py" -exec sed -i 's/from.*Experience/from Core.Foundation.Memory.unified_types import Experience/g' {} \;
 
 # Step 4: Test
 python -m pytest tests/ -k experience

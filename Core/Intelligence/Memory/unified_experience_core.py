@@ -24,7 +24,7 @@ from elysia_core import Cell, Organ
 
 # Optional Imports (Wave Physics)
 try:
-    from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.Foundation.Wave.wave_tensor import WaveTensor
 except ImportError:
     WaveTensor = None
 

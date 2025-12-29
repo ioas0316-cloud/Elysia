@@ -123,7 +123,7 @@ class AutonomousOrchestrator:
         # Introspection Engine
         self.introspection = None
         try:
-            from Core.Foundation.Foundation.introspection_engine import IntrospectionEngine
+            from Core.Foundation.introspection_engine import IntrospectionEngine
             self.introspection = IntrospectionEngine()
             logger.info("   ✅ IntrospectionEngine connected")
         except ImportError as e:
@@ -132,7 +132,7 @@ class AutonomousOrchestrator:
         # Text Wave Converter
         self.text_wave = None
         try:
-            from Core.Foundation.Foundation.text_wave_converter import get_text_wave_converter
+            from Core.Foundation.text_wave_converter import get_text_wave_converter
             self.text_wave = get_text_wave_converter()
             logger.info("   ✅ TextWaveConverter connected")
         except ImportError as e:
@@ -161,7 +161,7 @@ class AutonomousOrchestrator:
         
         if self._hub:
             try:
-                from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(frequency=528.0, amplitude=1.0, phase=0.0)
                 self._hub.publish_wave(
                     "AutonomousOrchestrator",

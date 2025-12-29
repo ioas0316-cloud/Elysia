@@ -78,7 +78,7 @@ SEED_DATA = {
 }
 
 class DomainBulkLearner:
-    def __init__(self, storage_path: str = "data/hierarchical_knowledge.json"):
+    def __init__(self, storage_path: str = "data/Knowledge/hierarchical_knowledge.json"):
         self.graph = HierarchicalKnowledgeGraph(storage_path)
         
     def sow_seeds(self):

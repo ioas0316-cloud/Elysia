@@ -12,12 +12,12 @@ Quantum Thought (Abstract/Poetic) and Social Communication (Structured/Nuanced).
 import logging
 import random
 from typing import Dict, List, Any, Optional
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Cognition.Reasoning.reasoning_engine import Insight
 
 # [Phase 25] Synesthesia for Field-to-Text
 try:
-    from Core.Foundation.Foundation.synesthesia_engine import SynesthesiaEngine
+    from Core.Foundation.synesthesia_engine import SynesthesiaEngine
 except ImportError:
     SynesthesiaEngine = None
 

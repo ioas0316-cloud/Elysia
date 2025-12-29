@@ -19,7 +19,7 @@ Process:
 
 import random
 from typing import Dict, Any
-from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
+from Core.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
 
 
 from Core.Evolution.Creativity.Creation.universal_palette import UniversalPalette

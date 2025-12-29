@@ -266,8 +266,8 @@ class DashboardGenerator:
         
         # 1. Growth History
         try:
-            if os.path.exists("data/growth_history.json"):
-                with open("data/growth_history.json", "r", encoding="utf-8") as f:
+            if os.path.exists("data/Logs/growth_history.json"):
+                with open("data/Logs/growth_history.json", "r", encoding="utf-8") as f:
                     # Take last 20 snapshots
                     history = json.load(f)
                     data["growth_history"] = history[-20:] 

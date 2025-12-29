@@ -19,8 +19,8 @@ os.chdir("c:\\Elysia")
 import logging
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')
 
-from Core.Foundation.Foundation.emergent_self import get_emergent_self
-from Core.Foundation.Foundation.growth_journal import get_growth_journal
+from Core.Foundation.emergent_self import get_emergent_self
+from Core.Foundation.growth_journal import get_growth_journal
 
 def test_emergence():
     print("\n" + "="*60)

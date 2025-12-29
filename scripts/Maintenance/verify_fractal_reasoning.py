@@ -7,10 +7,10 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from Core.Foundation.Foundation.central_nervous_system import CentralNervousSystem
-from Core.Foundation.Foundation.chronos import Chronos
-from Core.Foundation.Foundation.resonance_field import ResonanceField
-from Core.Foundation.Foundation.free_will_engine import Intent
+from Core.Foundation.central_nervous_system import CentralNervousSystem
+from Core.Foundation.chronos import Chronos
+from Core.Foundation.resonance_field import ResonanceField
+from Core.Foundation.free_will_engine import Intent
 
 class MockOrgan:
     def __init__(self, name):

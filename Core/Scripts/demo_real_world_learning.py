@@ -22,8 +22,8 @@ import time
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
-from Core.Foundation.Foundation.transcendence_engine import TranscendenceEngine
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.transcendence_engine import TranscendenceEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("RealWorldDemo")

@@ -28,9 +28,9 @@ from typing import Dict, List, Any
 # Add project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.Foundation.Foundation.introspection_engine import IntrospectionEngine
+from Core.Foundation.introspection_engine import IntrospectionEngine
 from Core.Evolution.Learning.Learning.wave_pattern_learner import WavePatternLearner
-from Core.Foundation.Foundation.self_modification import SelfModificationEngine
+from Core.Foundation.self_modification import SelfModificationEngine
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("SelfImprovement")

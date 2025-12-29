@@ -174,7 +174,7 @@ class SynesthesiaNervousBridge:
     def __init__(self):
         # Import synesthesia components
         try:
-            from Core.Foundation.Foundation.synesthetic_wave_sensor import (
+            from Core.Foundation.synesthetic_wave_sensor import (
                 MultimodalIntegrator,
                 SensoryModality,
                 SynestheticMapper
@@ -304,7 +304,7 @@ class SynesthesiaNervousBridge:
         """
         try:
             # Convert to modality enum
-            from Core.Foundation.Foundation.synesthetic_wave_sensor import SensoryModality
+            from Core.Foundation.synesthetic_wave_sensor import SensoryModality
             
             modality_map = {
                 "visual": SensoryModality.VISUAL,

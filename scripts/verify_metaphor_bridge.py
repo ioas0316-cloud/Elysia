@@ -23,7 +23,7 @@ from unittest.mock import MagicMock
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from Core.Foundation.Philosophy.why_engine import WhyEngine
-from Core.Foundation.Foundation.light_spectrum import LightSpectrum, PrismAxes
+from Core.Foundation.light_spectrum import LightSpectrum, PrismAxes
 from Core.Evolution.Learning.Learning.knowledge_sedimenter import KnowledgeSedimenter
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')

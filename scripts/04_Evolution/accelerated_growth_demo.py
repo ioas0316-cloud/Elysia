@@ -47,7 +47,7 @@ def run_accelerated_growth():
     # 2. Growth 시스템으로 자율 학습
     print("\n🌱 Phase 2: Autonomous Growth Cycle...")
     try:
-        from Core.Foundation.Foundation.growth import get_growth
+        from Core.Foundation.growth import get_growth
         growth = get_growth()
         
         # 인식 - 주변 파편 발견
@@ -74,7 +74,7 @@ def run_accelerated_growth():
     # 3. FreeWill - 자율 목표 설정
     print("\n🦋 Phase 3: Autonomous Intent Generation...")
     try:
-        from Core.Foundation.Foundation.free_will_engine import FreeWillEngine
+        from Core.Foundation.free_will_engine import FreeWillEngine
         will = FreeWillEngine()
         
         # 공명 상태 시뮬레이션

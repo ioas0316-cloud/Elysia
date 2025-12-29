@@ -1,4 +1,4 @@
-from Core.Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 
 w = WebKnowledgeConnector()
 m = w.comm_enhancer.get_communication_metrics()

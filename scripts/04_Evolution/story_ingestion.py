@@ -19,7 +19,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from Core.Evolution.Learning.Learning.experiential_data_processor import ExperientialDataProcessor
-from Core.Foundation.Foundation.unified_wave_experience import ExperienceWaveIntegrator
+from Core.Foundation.unified_wave_experience import ExperienceWaveIntegrator
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 logger = logging.getLogger("StoryIngestion")

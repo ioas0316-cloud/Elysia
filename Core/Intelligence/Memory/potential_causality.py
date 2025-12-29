@@ -98,7 +98,7 @@ class PotentialCausalityStore:
     - 확정 시 TorchGraph로 이동
     """
     
-    def __init__(self, storage_path: str = "data/potential_knowledge.json"):
+    def __init__(self, storage_path: str = "data/Knowledge/potential_knowledge.json"):
         self.storage_path = storage_path
         self.knowledge: Dict[str, PotentialKnowledge] = {}
         self.crystallized_count = 0

@@ -24,8 +24,8 @@ import hashlib
 from typing import Dict, List, Optional, Tuple, Set
 from dataclasses import dataclass
 from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
-from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
+from Core.Foundation.Wave.wave_tensor import WaveTensor
+from Core.Foundation.fractal_concept import ConceptDecomposer, ConceptNode
 
 logger = logging.getLogger("Elysia.Sensory.TextTransducer")
 

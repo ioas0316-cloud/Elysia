@@ -18,7 +18,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core.Interaction.Sensory.stream_sources import WikipediaStreamSource
 from Core.Interaction.Sensory.semantic_bridge import SemanticBridge
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.hyper_quaternion import Quaternion
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("HyperCognition")

@@ -14,7 +14,7 @@ print("   CNS (의식) + ANS (자율)")
 print("="*60)
 
 # ANS Test
-from Core.Foundation.Foundation.autonomic_nervous_system import (
+from Core.Foundation.autonomic_nervous_system import (
     AutonomicNervousSystem,
     MemoryConsolidation,
     EntropyProcessor,

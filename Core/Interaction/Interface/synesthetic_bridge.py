@@ -10,7 +10,7 @@ It listens to the "Sound" of a concept (WaveTensor) and translates it into "Ligh
 import math
 import colorsys
 from typing import Dict, Any, Tuple
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+from Core.Foundation.Wave.wave_tensor import WaveTensor
 
 class SynestheticBridge:
     """

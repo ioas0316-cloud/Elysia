@@ -181,7 +181,7 @@ class WoorimalsamParser:
         사전 데이터를 InternalUniverse에 흡수
         """
         try:
-            from Core.Foundation.Foundation.internal_universe import InternalUniverse
+            from Core.Foundation.internal_universe import InternalUniverse
             universe = InternalUniverse()
         except Exception as e:
             logger.error(f"Failed to connect to InternalUniverse: {e}")
@@ -277,7 +277,7 @@ class WoorimalsamParser:
     def absorb_json_dictionary(self, json_path: str, max_entries: int = None) -> Dict[str, int]:
         """JSON 사전 파일에서 직접 흡수"""
         try:
-            from Core.Foundation.Foundation.internal_universe import InternalUniverse
+            from Core.Foundation.internal_universe import InternalUniverse
             universe = InternalUniverse()
         except Exception as e:
             logger.error(f"Failed to connect to InternalUniverse: {e}")

@@ -8,7 +8,7 @@ from Project_Elysia.architecture.context import ConversationContext
 
 from Project_Elysia.core_memory import CoreMemory
 
-from Core.Foundation.Foundation.emotional_engine import EmotionalState
+from Core.Foundation.emotional_engine import EmotionalState
 
 
 

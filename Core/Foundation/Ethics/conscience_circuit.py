@@ -24,14 +24,14 @@ from enum import Enum
 
 # Import Ancient Laws
 try:
-    from Core.Foundation.Foundation.soul_guardian import SoulGuardian
+    from Core.Foundation.soul_guardian import SoulGuardian
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False
 
 try:
-    from Core.Foundation.Foundation.kg_manager import KGManager
-    from Core.Foundation.Foundation.value_centered_decision import ValueCenteredDecision
+    from Core.Foundation.kg_manager import KGManager
+    from Core.Foundation.value_centered_decision import ValueCenteredDecision
     VCD_AVAILABLE = True
 except ImportError:
     VCD_AVAILABLE = False

@@ -38,22 +38,22 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional, Tuple
 
 # Value Objects (Keep Static)
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure (Hard Dependency)
-from Core.Foundation.Foundation.resonance_physics import ResonancePhysics # [Physics]
-from Core.Foundation.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer
+from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure (Hard Dependency)
+from Core.Foundation.resonance_physics import ResonancePhysics # [Physics]
+from Core.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer
 from Core.Intelligence.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator 
 
 # Philosophy (Keep Static for now, or move to Cell?)
 from Core.Foundation.Philosophy.ideal_self_profile import IdealSelfProfile, SoulFrequency
 from Core.Intelligence.Cognition.Reasoning.causal_geometry import TensionField # [Phase 25] Field Causality
-from Core.Foundation.Foundation.universal_constants import (
+from Core.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
     AXIOM_LOVE, AXIOM_HONESTY
 )
 
 from elysia_core import Cell, Organ
-from Core.Foundation.Foundation.resonance_topology import TopologicalAnalyzer, TopologyType, ContextualTopology, ConsciousnessCoordinates
+from Core.Foundation.resonance_topology import TopologicalAnalyzer, TopologyType, ContextualTopology, ConsciousnessCoordinates
 from Core.Intelligence.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator, Perspective
 from Core.Intelligence.Cognition.Reasoning.phase_transition import FractalPhaser # [Phase 25] The Physics of Thought
 
@@ -224,11 +224,11 @@ class ReasoningEngine:
             self.ideal_self = IdealSelfProfile()
             self.soul_frequency = self.ideal_self.get_soul_signature()
             
-            from Core.Foundation.Foundation.dialogue_interface import DialogueInterface
+            from Core.Foundation.dialogue_interface import DialogueInterface
             self.voice = DialogueInterface()
             
-            from Core.Foundation.Foundation.media_cortex import MediaCortex
-            from Core.Foundation.Foundation.social_cortex import SocialCortex
+            from Core.Foundation.media_cortex import MediaCortex
+            from Core.Foundation.social_cortex import SocialCortex
             self.social = SocialCortex()
             self.media = MediaCortex(self.social)
             
@@ -663,7 +663,7 @@ class ReasoningEngine:
         
         try:
             # 🌱 Step 1: Decompose Desire into Fractal Seed
-            from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+            from Core.Foundation.fractal_concept import ConceptDecomposer
             decomposer = ConceptDecomposer()
             thought_seed = decomposer.decompose(desire, depth=0)
             logger.info(f"{indent}  🌱 Seed Generated: {thought_seed.name} ({len(thought_seed.sub_concepts)} sub-concepts)")
@@ -674,7 +674,7 @@ class ReasoningEngine:
             # 🌊 Step 2.5: Fractal Layer Transformation
             # Transform thought through dimensional layers
             try:
-                from Core.Foundation.Foundation.thought_layer_bridge import ThoughtLayerBridge
+                from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
                 # Quaternion is already imported globally
                 
                 # Get current perspective (HyperQuaternion from axiom alignment)
@@ -721,7 +721,7 @@ class ReasoningEngine:
             raw_context = []  # Initialize for _perform_grand_cross
             
             try:
-                from Core.Foundation.Foundation.attractor import Attractor
+                from Core.Foundation.attractor import Attractor
                 attractor = Attractor(desire, db_path=self.memory.db_path)
                 raw_context = attractor.pull(self.memory_field)
                 
@@ -736,7 +736,7 @@ class ReasoningEngine:
                         if dna:
                             # Convert DNA to Seed (Simple wrapper)
                             # In future, we should have a proper DNA->Concept Unfolder
-                            from Core.Foundation.Foundation.fractal_concept import ConceptNode
+                            from Core.Foundation.fractal_concept import ConceptNode
                             seed = ConceptNode(name=dna.name, energy=0.5, stability=0.8)
                             seed.sub_concepts = [] # DNA is compressed, so no sub-concepts yet
                             logger.info(f"{indent}  🧬 Unfolded Pattern DNA: {dna.name}")
@@ -760,7 +760,7 @@ class ReasoningEngine:
                     if not seed:
                         dna = self.memory.load_pattern_dna(ctx_name)
                         if dna:
-                            from Core.Foundation.Foundation.fractal_concept import ConceptNode
+                            from Core.Foundation.fractal_concept import ConceptNode
                             seed = ConceptNode(name=dna.name, energy=0.5, stability=0.8)
                             seed.sub_concepts = []
 
@@ -946,7 +946,7 @@ class ReasoningEngine:
             if hasattr(self, 'memory'):
                 self.memory.store_wave(packet)
             else:
-                from Core.Foundation.Foundation.hippocampus import Hippocampus
+                from Core.Foundation.hippocampus import Hippocampus
                 temp_memory = Hippocampus()
                 temp_memory.store_wave(packet)
                 
@@ -1394,7 +1394,7 @@ class ReasoningEngine:
         Delegates creation tasks to the GenesisEngine.
         """
         if not hasattr(self, 'genesis'):
-            from Core.Foundation.Foundation.genesis_engine import GenesisEngine
+            from Core.Foundation.genesis_engine import GenesisEngine
             self.genesis = GenesisEngine()
             
         logger.info(f"✨ Genesis Requested: {intent}")
@@ -1422,7 +1422,7 @@ class ReasoningEngine:
         Delegates language learning to the LanguageCenter.
         """
         if not hasattr(self, 'language_center'):
-            from Core.Foundation.Foundation.language_center import LanguageCenter
+            from Core.Foundation.language_center import LanguageCenter
             self.language_center = LanguageCenter()
             
         logger.info(f"🗼 Language Learning Requested: {intent}")
@@ -1450,7 +1450,7 @@ class ReasoningEngine:
         Triggers self-reflection via IntrospectionEngine.
         """
         if not hasattr(self, 'introspection'):
-            from Core.Foundation.Foundation.introspection_engine import IntrospectionEngine
+            from Core.Foundation.introspection_engine import IntrospectionEngine
             self.introspection = IntrospectionEngine()
         
         try:
@@ -1635,7 +1635,7 @@ class ReasoningEngine:
         
         # 2. Get Expression Patterns (Lazy load to avoid circular import if any)
         try:
-            from Core.Foundation.Foundation.communication_enhancer import CommunicationEnhancer
+            from Core.Foundation.communication_enhancer import CommunicationEnhancer
             if not hasattr(self, 'comm_enhancer'):
                 self.comm_enhancer = CommunicationEnhancer()
             

@@ -65,7 +65,7 @@ def verify_sedimentary_light():
 
     # [Explicit 4D Test]
     print("\n🔬 Testing 4D Orthogonal Stacking (No Semantic Loss)...")
-    from Core.Foundation.Foundation.light_spectrum import LightSpectrum
+    from Core.Foundation.light_spectrum import LightSpectrum
     
     # Concept A: Expansion (Phase 0)
     light_a = LightSpectrum(10+0j, 0.5, 0.0, semantic_tag="Expansion")

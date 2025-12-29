@@ -38,9 +38,9 @@ logger = logging.getLogger("ConceptualNuclearReactor")
 
 # Graceful imports
 try:
-    from Core.Foundation.Foundation.hangul_physics import Tensor3D
+    from Core.Foundation.hangul_physics import Tensor3D
     from Core.Intelligence.Memory_Linguistics.Memory.unified_types import FrequencyWave
-    from Core.Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.Foundation.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback stubs
     @dataclass

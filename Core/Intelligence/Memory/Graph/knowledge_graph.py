@@ -102,7 +102,7 @@ class HierarchicalKnowledgeGraph:
     모든 도메인의 지식을 계층적으로 연결
     """
     
-    def __init__(self, storage_path: str = "data/hierarchical_knowledge.json"):
+    def __init__(self, storage_path: str = "data/Knowledge/hierarchical_knowledge.json"):
         self.storage_path = storage_path
         self.nodes: Dict[str, KnowledgeNode] = {}
         self.domain_roots: Dict[Domain, str] = {}  # 각 도메인의 루트 노드

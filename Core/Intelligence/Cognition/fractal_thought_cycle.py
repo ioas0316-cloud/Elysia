@@ -142,28 +142,28 @@ class FractalThoughtCycle:
         """기존 시스템 연결"""
         # Yggdrasil
         try:
-            from Core.Foundation.Foundation.yggdrasil import yggdrasil
+            from Core.Foundation.yggdrasil import yggdrasil
             self.yggdrasil = yggdrasil
         except:
             self.yggdrasil = None
         
         # WaveAttention
         try:
-            from Core.Foundation.Foundation.Wave.wave_attention import get_wave_attention
+            from Core.Foundation.Wave.wave_attention import get_wave_attention
             self.attention = get_wave_attention()
         except:
             self.attention = None
         
         # WhyEngine
         try:
-            from Core.Foundation.Foundation.Memory.fractal_concept import ConceptDecomposer
+            from Core.Foundation.Memory.fractal_concept import ConceptDecomposer
             self.why_engine = ConceptDecomposer()
         except:
             self.why_engine = None
         
         # CausalNarrativeEngine
         try:
-            from Core.Foundation.Foundation.causal_narrative_engine import CausalNarrativeEngine
+            from Core.Foundation.causal_narrative_engine import CausalNarrativeEngine
             self.narrative_engine = CausalNarrativeEngine()
         except:
             self.narrative_engine = None

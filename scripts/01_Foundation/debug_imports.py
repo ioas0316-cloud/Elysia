@@ -5,7 +5,7 @@ sys.path.append(os.getcwd())
 
 print("Step 1: Importing InternalUniverse...")
 try:
-    from Core.Foundation.Foundation.internal_universe import InternalUniverse
+    from Core.Foundation.internal_universe import InternalUniverse
     print("✅ InternalUniverse imported.")
 except Exception as e:
     print(f"❌ InternalUniverse import failed: {e}")

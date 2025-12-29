@@ -399,7 +399,7 @@ awakened = world.find_objects_in_sphere(center=origin, radius=5.0)
 Starlight Memory system provides the memories that become stars in the Internal World:
 
 ```python
-from Core.Memory.starlight_memory import StarlightMemory, Starlight
+from Core.Foundation.Memory.starlight_memory import StarlightMemory, Starlight
 
 starlight_mem = StarlightMemory()
 
@@ -433,7 +433,7 @@ world.add_object(world_star)
 Rainbow compression is visualized in the Cathedral's prism system:
 
 ```python
-from Core.Memory.prism_filter import PrismFilter
+from Core.Foundation.Memory.prism_filter import PrismFilter
 
 prism = PrismFilter()
 

@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Foundation.Foundation.reality_sculptor import RealitySculptor
+from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.reality_sculptor import RealitySculptor
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

@@ -16,7 +16,7 @@ from typing import Optional, Dict, Any, List
 import hashlib
 
 from Core.Foundation.Legal_Ethics.Laws.law_of_light import PhotonicQuaternion, HolographicFilm
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger(__name__)
 

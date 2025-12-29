@@ -18,7 +18,7 @@ from pathlib import Path
 sys.path.insert(0, ".")
 
 from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub, WaveEvent
-from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+from Core.Foundation.fractal_concept import ConceptDecomposer
 from Core.Interaction.Sensory.text_transducer import get_text_transducer
 from Core.Interaction.Sensory.file_system_sensor import get_filesystem_sensor
 

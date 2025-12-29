@@ -36,7 +36,7 @@ class NeuralOrgan:
 
 class SynapticCortex:
     def __init__(self):
-        self.memory_path = Path("data/synaptic_memory.json")
+        self.memory_path = Path("data/Memory/synaptic_memory.json")
         self.organs: Dict[str, NeuralOrgan] = self._load_memory()
         
     def _load_memory(self) -> Dict[str, NeuralOrgan]:

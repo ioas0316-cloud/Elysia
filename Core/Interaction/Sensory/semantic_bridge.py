@@ -18,7 +18,7 @@ import logging
 
 try:
     # Try to import from Core, but allow standalone usage for testing
-    from Core.Foundation.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+    from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 except ImportError:
     # Fallback for standalone testing
     @dataclass

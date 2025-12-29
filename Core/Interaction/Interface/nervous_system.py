@@ -76,21 +76,21 @@ class NervousSystem:
     def _connect_internal_systems(self):
         """Connects to all internal systems (The Mind)"""
         try:
-            from Core.Foundation.Foundation.resonance_field import ResonanceField
+            from Core.Foundation.resonance_field import ResonanceField
             self.field = ResonanceField()
             logger.info("🌊 ResonanceField Connected")
         except Exception as e:
             logger.warning(f"ResonanceField connection failed: {e}")
             
         try:
-            from Core.Foundation.Foundation.internal_universe import InternalUniverse
+            from Core.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
             logger.info("🌌 InternalUniverse Connected")
         except Exception as e:
             logger.warning(f"InternalUniverse connection failed: {e}")
             
         try:
-            from Core.Foundation.Foundation.hippocampus import Hippocampus
+            from Core.Foundation.hippocampus import Hippocampus
             self.memory = Hippocampus()
             logger.info("💾 Hippocampus Connected")
         except Exception as e:
@@ -98,7 +98,7 @@ class NervousSystem:
             
         # Try CentralCortex first, then fall back to ReasoningEngine directly
         try:
-            from Core.Foundation.Foundation.central_cortex import CentralCortex
+            from Core.Foundation.central_cortex import CentralCortex
             self.brain = CentralCortex()
             logger.info("🧠 CentralCortex Connected")
         except Exception as e:

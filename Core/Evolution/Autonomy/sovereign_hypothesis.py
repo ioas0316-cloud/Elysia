@@ -25,7 +25,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 from Core.Foundation.Philosophy.why_engine import WhyEngine, PrincipleExtraction
-from Core.Foundation.Foundation.light_spectrum import PrismAxes
+from Core.Foundation.light_spectrum import PrismAxes
 
 logger = logging.getLogger("Elysia.SovereignHypothesis")
 

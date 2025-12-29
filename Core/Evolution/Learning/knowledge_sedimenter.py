@@ -19,7 +19,7 @@ from dataclasses import dataclass
 
 from Core.Interaction.Network.browser_explorer import BrowserExplorer
 from Core.Foundation.Philosophy.why_engine import WhyEngine
-from Core.Foundation.Foundation.light_spectrum import LightSpectrum, LightSediment, PrismAxes
+from Core.Foundation.light_spectrum import LightSpectrum, LightSediment, PrismAxes
 
 logger = logging.getLogger("Elysia.KnowledgeSedimenter")
 

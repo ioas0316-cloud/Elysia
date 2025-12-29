@@ -7,9 +7,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.Foundation.Foundation.central_nervous_system import CentralNervousSystem
-from Core.Foundation.Foundation.chronos import Chronos
-from Core.Foundation.Foundation.resonance_field import ResonanceField
+from Core.Foundation.central_nervous_system import CentralNervousSystem
+from Core.Foundation.chronos import Chronos
+from Core.Foundation.resonance_field import ResonanceField
 from Core.Interaction.Expression.voice_of_elysia import VoiceOfElysia
 from Core.Intelligence.Intelligence.evolution_architect import EvolutionArchitect
 

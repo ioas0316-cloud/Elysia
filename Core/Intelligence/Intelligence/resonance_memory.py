@@ -3,7 +3,7 @@ import json
 import time
 from dataclasses import dataclass, field, asdict
 from typing import Dict, List, Optional
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.hyper_quaternion import Quaternion
 
 logger = logging.getLogger("ResonanceMemory")
 

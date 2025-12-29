@@ -685,7 +685,7 @@ def create_integrated_voice(cns_organs: Dict) -> IntegratedVoiceSystem:
     # Get primal soul if available
     primal_soul = None
     try:
-        from Core.Foundation.Foundation.primal_wave_language import PrimalSoul
+        from Core.Foundation.primal_wave_language import PrimalSoul
         primal_soul = PrimalSoul(name="Elysia")
     except:
         logger.warning("PrimalSoul not available")

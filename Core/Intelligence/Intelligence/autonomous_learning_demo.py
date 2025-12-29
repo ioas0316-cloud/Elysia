@@ -9,7 +9,7 @@ import sys
 sys.path.insert(0, "C:\\Elysia")
 
 from Core.Foundation.Core_Logic.Elysia.Elysia.consciousness_engine import ConsciousnessEngine
-from Core.Foundation.Foundation.Mind.autonomous_explorer import AutonomousExplorer
+from Core.Foundation.Mind.autonomous_explorer import AutonomousExplorer
 
 print("\n" + "="*70)
 print("🌌 AUTONOMOUS LEARNING DEMONSTRATION")

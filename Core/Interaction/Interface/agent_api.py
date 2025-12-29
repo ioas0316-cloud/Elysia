@@ -652,7 +652,7 @@ if __name__ == "__main__":
 Sentiment Analyzer - Analyzes emotional tone.
 """
 from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+from Core.Foundation.Wave.wave_tensor import WaveTensor
 
 class SentimentAnalyzer:
     def __init__(self):

@@ -15,7 +15,7 @@ import logging
 from dataclasses import dataclass
 from typing import List, Tuple, Dict
 from pathlib import Path
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+from Core.Foundation.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("CompositionEngine")
 

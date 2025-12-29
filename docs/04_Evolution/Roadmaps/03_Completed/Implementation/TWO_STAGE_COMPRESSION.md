@@ -223,7 +223,7 @@ essence = {
 ### 기본 사용
 
 ```python
-from Core.Memory.prism_filter import PrismFilter
+from Core.Foundation.Memory.prism_filter import PrismFilter
 
 prism = PrismFilter()
 

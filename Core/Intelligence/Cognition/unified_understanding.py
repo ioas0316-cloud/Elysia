@@ -26,14 +26,14 @@ logger = logging.getLogger("UnifiedUnderstanding")
 
 # 내부 시스템 임포트
 try:
-    from Core.Foundation.Foundation.Wave.wave_attention import get_wave_attention, WaveAttention
+    from Core.Foundation.Wave.wave_attention import get_wave_attention, WaveAttention
     ATTENTION_AVAILABLE = True
 except ImportError:
     ATTENTION_AVAILABLE = False
     logger.warning("⚠️ WaveAttention not available")
 
 try:
-    from Core.Foundation.Foundation.Memory.fractal_concept import ConceptDecomposer
+    from Core.Foundation.Memory.fractal_concept import ConceptDecomposer
     WHY_AVAILABLE = True
 except ImportError:
     try:
@@ -51,7 +51,7 @@ except ImportError:
     COGNITIVE_AVAILABLE = False
 
 try:
-    from Core.Foundation.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalRelationType
+    from Core.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalRelationType
     NARRATIVE_AVAILABLE = True
 except ImportError:
     NARRATIVE_AVAILABLE = False
@@ -147,7 +147,7 @@ def translate_concept(concept: str) -> str:
     """
     # 1. Try InternalUniverse Resonance (Wave Logic)
     try:
-        from Core.Foundation.Foundation.internal_universe import InternalUniverse
+        from Core.Foundation.internal_universe import InternalUniverse
         universe = InternalUniverse()  # Consider singleton for performance
         coord = universe.coordinate_map.get(concept)
         if coord and hasattr(coord, 'hologram') and coord.hologram:
@@ -206,14 +206,14 @@ class UnifiedUnderstanding:
             logger.warning("   MetacognitiveAwareness: ❌")
         
         try:
-            from Core.Foundation.Foundation.distributed_consciousness import DistributedConsciousness
+            from Core.Foundation.distributed_consciousness import DistributedConsciousness
             self.distributed = DistributedConsciousness()
             logger.info("   🌐 DistributedConsciousness: ✅")
         except ImportError:
             logger.warning("   DistributedConsciousness: ❌")
             
         try:
-            from Core.Foundation.Foundation.dual_layer_personality import DualLayerPersonality
+            from Core.Foundation.dual_layer_personality import DualLayerPersonality
             self.personality = DualLayerPersonality()
             logger.info("   🎭 DualLayerPersonality: ✅ (Enneagram Integrated)")
         except ImportError:

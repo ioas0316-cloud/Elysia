@@ -9,7 +9,7 @@ MISMATCHES = [
     ("InteractionLayer.Interface.Expression", "InteractionLayer.Expression"),
     ("FoundationLayer.Foundation.Elysia", "FoundationLayer.Elysia"), # Just in case
     ("EvolutionLayer.Creative", "EvolutionLayer.Creativity"),
-    ("Core.Foundation.", "Core.Foundation.Foundation."), # Critical legacy fix
+    ("Core.Foundation.", "Core.Foundation."), # Critical legacy fix
 ]
 
 def fix_mismatches():

@@ -10,7 +10,7 @@ import logging
 import json
 from typing import Optional, Dict, Any
 from Project_Elysia.core_memory import CoreMemory
-from Core.Foundation.Foundation.gemini_api import generate_text
+from Core.Foundation.gemini_api import generate_text
 
 class StyleLearner:
     def __init__(self, core_memory: CoreMemory):

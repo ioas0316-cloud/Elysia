@@ -26,7 +26,7 @@ logger = logging.getLogger("Elysia.LifeCycle")
 
 # SelfGovernance for meaningful evaluation
 try:
-    from Core.Foundation.Foundation.self_governance import SelfGovernance, IdealSelf
+    from Core.Foundation.self_governance import SelfGovernance, IdealSelf
 except ImportError:
     SelfGovernance = None
     IdealSelf = None

@@ -7,9 +7,9 @@ import random
 
 # Core Dependencies
 try:
-    from Core.Foundation.Foundation.fractal_causality import FractalCausalityEngine, FractalCausalNode
-    from Core.Foundation.Foundation.resonance_field import ResonanceField
-    from Core.Foundation.Foundation.chronos import Chronos
+    from Core.Foundation.fractal_causality import FractalCausalityEngine, FractalCausalNode
+    from Core.Foundation.resonance_field import ResonanceField
+    from Core.Foundation.chronos import Chronos
 except ImportError:
     # Fallback for minimal testing environment
     FractalCausalityEngine = None
@@ -24,13 +24,13 @@ except ImportError:
 
 # LifeCycle for complete feedback loop
 try:
-    from Core.Foundation.Foundation.life_cycle import LifeCycle
+    from Core.Foundation.life_cycle import LifeCycle
 except ImportError:
     LifeCycle = None
 
 # GrowthJournal - visible evidence of change (uses existing SelfGovernance)
 try:
-    from Core.Foundation.Foundation.growth_journal import get_growth_journal
+    from Core.Foundation.growth_journal import get_growth_journal
 except ImportError:
     get_growth_journal = None
 
@@ -101,7 +101,7 @@ class FractalLoop:
         # [NEW] Autonomous Learning - lighter approach using WebKnowledgeConnector directly
         self.web_learner = None
         try:
-            from Core.Foundation.Foundation.web_knowledge_connector import WebKnowledgeConnector
+            from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
             self.web_learner = WebKnowledgeConnector()
             logger.info("   🌐 WebKnowledgeConnector ready for autonomous learning")
         except Exception as e:

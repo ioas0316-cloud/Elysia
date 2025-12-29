@@ -15,7 +15,7 @@ from typing import Dict, Any, Optional
 
 # Updated imports for Core structure
 try:
-    from Core.Foundation.Foundation.gemini_api import generate_text
+    from Core.Foundation.gemini_api import generate_text
 except ImportError:
     generate_text = None
 
@@ -32,7 +32,7 @@ class ActionCortex:
     uses an LLM to extract parameters.
     """
 
-    def __init__(self, tools_kg_path: str = "data/tools_kg.json"):
+    def __init__(self, tools_kg_path: str = "data/Knowledge/tools_kg.json"):
         self.tools_kg_manager = None
         self.wave_mechanics = None
         
@@ -41,7 +41,7 @@ class ActionCortex:
             if kg_path.exists():
                 self.tools_kg_manager = KGManager(filepath=kg_path)
                 try:
-                    from Core.Foundation.Foundation.wave_mechanics import WaveMechanics
+                    from Core.Foundation.wave_mechanics import WaveMechanics
                     self.wave_mechanics = WaveMechanics(self.tools_kg_manager)
                 except ImportError:
                     pass

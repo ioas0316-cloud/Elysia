@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from Core.Interaction.Interface.Language.dialogue.dialogue_engine import DialogueEngine
-from Core.Foundation.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.Mind.hippocampus import Hippocampus
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')

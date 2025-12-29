@@ -24,7 +24,7 @@ from typing import Dict, List, Optional
 import hashlib
 
 from Core.Intelligence.Consciousness.Ether.global_hub import get_global_hub
-from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+from Core.Foundation.Wave.wave_tensor import WaveTensor
 
 logger = logging.getLogger("Elysia.Sensory.FileSystemSensor")
 

@@ -9,7 +9,7 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.Foundation.autonomous_improver import (
+from Core.Foundation.autonomous_improver import (
     AutonomousImprover, ImprovementProposal, ImprovementType, SafetyLevel, ConstraintVerifier
 )
 

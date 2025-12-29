@@ -260,7 +260,7 @@ class VisualizerServer:
         
         # Initialize external action capabilities
         try:
-            from Core.Foundation.Foundation.shell_cortex import ShellCortex
+            from Core.Foundation.shell_cortex import ShellCortex
             self.hands = ShellCortex()
         except: pass
         
@@ -430,7 +430,7 @@ class VisualizerServer:
         logger.info(f"🌊 Wave Stream active at ws://localhost:8765")
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    from Core.Foundation.Foundation.internal_universe import InternalUniverse 
+    from Core.Foundation.internal_universe import InternalUniverse 
     # Mock world for standalone run, but NervousSystem will be real
     class MockWorld:
         def __init__(self): self.field = None

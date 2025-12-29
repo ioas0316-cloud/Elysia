@@ -29,7 +29,7 @@ except ImportError:
     HAS_WHY_ENGINE = False
 
 try:
-    from Core.Foundation.Foundation.dual_layer_personality import DualLayerPersonality, ExperientialAspect
+    from Core.Foundation.dual_layer_personality import DualLayerPersonality, ExperientialAspect
     HAS_PERSONALITY = True
 except ImportError:
     HAS_PERSONALITY = False

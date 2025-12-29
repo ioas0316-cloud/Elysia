@@ -39,7 +39,7 @@
 **Solution**: Store the pattern DNA (seed), not the data itself
 
 ```python
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.Memory.hippocampus import Hippocampus
 
 hippocampus = Hippocampus()
 

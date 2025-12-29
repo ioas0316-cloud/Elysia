@@ -5,7 +5,7 @@ import re
 # Format: "Core.OldFolder" -> "Core.0X_Layer.0X_Subgroup.OldFolder"
 core_mapping = {
     # 01_Foundation
-    "Core.Foundation": "Core.Foundation.Foundation",
+    "Core.Foundation": "Core.Foundation",
     "Core.Laws": "Core.Foundation.Legal_Ethics.Laws",
     "Core.Ethics": "Core.Foundation.Legal_Ethics.Ethics",
     "Core.Philosophy": "Core.Foundation.Philosophy",
@@ -14,7 +14,7 @@ core_mapping = {
     # 02_Intelligence
     "Core.Cognition": "Core.Intelligence.Cognition",
     "Core.Intelligence": "Core.Intelligence.Intelligence",
-    "Core.Memory": "Core.Intelligence.Memory_Linguistics.Memory",
+    "Core.Foundation.Memory": "Core.Intelligence.Memory_Linguistics.Memory",
     "Core.Knowledge": "Core.Intelligence.Memory_Linguistics.Knowledge",
     "Core.Language": "Core.Intelligence.Memory_Linguistics.Language",
     "Core.Physics": "Core.Intelligence.Physics_Waves.Physics",

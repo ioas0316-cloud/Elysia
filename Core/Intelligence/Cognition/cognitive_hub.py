@@ -30,7 +30,7 @@ except ImportError:
     logger.warning("⚠️ PrincipleDistiller not available")
 
 try:
-    from Core.Foundation.Foundation.experience_learner import ExperienceLearner, Experience
+    from Core.Foundation.experience_learner import ExperienceLearner, Experience
     EXPERIENCE_AVAILABLE = True
 except ImportError:
     try:
@@ -42,7 +42,7 @@ except ImportError:
         logger.warning("⚠️ ExperienceLearner not available")
 
 try:
-    from Core.Foundation.Foundation.causal_narrative_engine import CausalNarrativeEngine
+    from Core.Foundation.causal_narrative_engine import CausalNarrativeEngine
     CAUSAL_AVAILABLE = True
 except ImportError:
     CAUSAL_AVAILABLE = False
@@ -56,12 +56,12 @@ except ImportError:
 
 try:
     # After Foundation split, torch_graph is in Graph/
-    from Core.Foundation.Foundation.Graph.torch_graph import get_torch_graph
+    from Core.Foundation.Graph.torch_graph import get_torch_graph
     GRAPH_AVAILABLE = True
 except ImportError:
     try:
         # Fallback to redirect stub
-        from Core.Foundation.Foundation.torch_graph import get_torch_graph
+        from Core.Foundation.torch_graph import get_torch_graph
         GRAPH_AVAILABLE = True
     except ImportError:
         GRAPH_AVAILABLE = False

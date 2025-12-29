@@ -6,8 +6,8 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.Foundation.causal_narrative_engine import ThoughtUniverse
-from Core.Foundation.Foundation.self_reflector import CodebaseReflector
+from Core.Foundation.causal_narrative_engine import ThoughtUniverse
+from Core.Foundation.self_reflector import CodebaseReflector
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format='%(message)s')

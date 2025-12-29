@@ -23,7 +23,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from Core.Evolution.Learning.Learning.knowledge_sedimenter import KnowledgeSedimenter
 from Core.Foundation.Philosophy.why_engine import WhyEngine
-from Core.Foundation.Foundation.light_spectrum import LightSpectrum, PrismAxes
+from Core.Foundation.light_spectrum import LightSpectrum, PrismAxes
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO, format='%(message)s')

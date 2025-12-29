@@ -28,7 +28,7 @@ logger = logging.getLogger("Elysia.InnerDialogue")
 
 # WaveTensor 연동
 try:
-    from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.Foundation.Wave.wave_tensor import WaveTensor
     HAS_WAVE_TENSOR = True
 except ImportError:
     HAS_WAVE_TENSOR = False
@@ -36,7 +36,7 @@ except ImportError:
 
 # 공감각 엔진 연동
 try:
-    from Core.Foundation.Foundation.synesthesia_engine import SynesthesiaEngine
+    from Core.Foundation.synesthesia_engine import SynesthesiaEngine
     HAS_SYNESTHESIA = True
 except ImportError:
     HAS_SYNESTHESIA = False

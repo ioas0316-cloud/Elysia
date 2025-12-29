@@ -19,7 +19,7 @@ import logging
 from typing import List, Dict, Any
 
 from Core.Intelligence.Cognitive.memory_stream import get_memory_stream, ExperienceType, Experience
-from Core.Foundation.Foundation.dream_engine import DreamEngine
+from Core.Foundation.dream_engine import DreamEngine
 from Core.Evolution.Creativity.dream_weaver import DreamWeaver
 
 logger = logging.getLogger("DreamIntegrator")

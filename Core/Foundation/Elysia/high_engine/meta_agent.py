@@ -16,7 +16,7 @@ from scripts.refine_feed import refine_feed
 
 @dataclass
 class MetaAgentConfig:
-    memory_path: str = "data/elysia_core_memory.json"
+    memory_path: str = "data/Memory/elysia_core_memory.json"
     kg_path: str = "data/kg.json"
     law_path: str = "data/meta_laws.json"
     grammar_model_path: str = "data/grammar_model.json"

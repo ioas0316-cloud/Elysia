@@ -20,7 +20,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Evolution.Growth.Autonomy.concept_baptizer import ConceptBaptizer
-from Core.Foundation.Foundation.Graph.torch_graph import get_torch_graph
+from Core.Foundation.Graph.torch_graph import get_torch_graph
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO)

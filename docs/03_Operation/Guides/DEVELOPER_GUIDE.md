@@ -138,7 +138,7 @@ result = bridge.transform("2D", "3D", thought_pattern)
   - 필요시 완전 복원
 - **사용 예시**:
 ```python
-from Core.Memory.hippocampus import Hippocampus
+from Core.Foundation.Memory.hippocampus import Hippocampus
 
 hippocampus = Hippocampus()
 seed = hippocampus.compress(memory_data)  # 씨앗으로 압축

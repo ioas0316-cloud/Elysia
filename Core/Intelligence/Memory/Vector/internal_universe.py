@@ -35,7 +35,7 @@ import json
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from Core.Foundation.Foundation.hyper_quaternion import Quaternion
+from Core.Foundation.hyper_quaternion import Quaternion
 
 # [LOGIC TRANSMUTATION] Unified Wave Storage
 # Import definitions from HolographicMemory to merge systems
@@ -135,7 +135,7 @@ class InternalUniverse:
         # [Phase 11] Apply Wave Interference for multiple matches
         if len(hits) > 1:
             try:
-                from Core.Foundation.Foundation.Wave.wave_interference import WaveInterference
+                from Core.Foundation.Wave.wave_interference import WaveInterference
                 interference_engine = WaveInterference()
                 hits = interference_engine.process_multiple_matches(hits, self.coordinate_map)
                 logger.debug(f"🌊 Wave Interference applied to {len(results)} resonant concepts")
@@ -555,7 +555,7 @@ class InternalUniverse:
             # === 1차: 파동 변환 ===
 
             # === 1차: 파동 변환 (Self-Correction: Used ConceptDecomposer) ===
-            from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+            from Core.Foundation.fractal_concept import ConceptDecomposer
             
             decomposer = ConceptDecomposer()
             # Infer essence
@@ -751,8 +751,8 @@ class InternalUniverse:
         "기존 감각 시스템과의 통합. 분절된 기능들의 조화."
         """
         import random
-        from Core.Foundation.Foundation.hippocampus import Hippocampus
-        from Core.Foundation.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
+        from Core.Foundation.hippocampus import Hippocampus
+        from Core.Foundation.synesthesia_engine import SynesthesiaEngine, RenderMode
         from Core.Intelligence.Cognitive.sensory_cortex import get_sensory_cortex
         
         logger.info(f"⏳ Initiating Chronos Chamber V5: Simulating {years} years with INTEGRATED SENSORIUM...")

@@ -26,7 +26,7 @@ from tensor_wave import Tensor3D, FrequencyWave
 # 수정 후
 try:
     from Core.Foundation.hangul_physics import Tensor3D
-    from Core.Memory.unified_types import FrequencyWave
+    from Core.Foundation.Memory.unified_types import FrequencyWave
 except ImportError:
     # Fallback stub classes
     class Tensor3D:

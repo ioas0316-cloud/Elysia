@@ -3,7 +3,7 @@ import json
 import logging
 from pathlib import Path
 from typing import Dict, Any
-from Core.Foundation.Foundation.torch_graph import get_torch_graph
+from Core.Foundation.torch_graph import get_torch_graph
 
 logger = logging.getLogger("WorldExporter")
 

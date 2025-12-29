@@ -33,8 +33,8 @@ from pathlib import Path
 
 # Import Wave infrastructure
 try:
-    from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
-    from Core.Foundation.Foundation.hyper_quaternion import Quaternion
+    from Core.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.Foundation.hyper_quaternion import Quaternion
 except ImportError:
     # Fallback for standalone testing
     @dataclass

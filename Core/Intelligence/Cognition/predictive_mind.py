@@ -39,7 +39,7 @@ class PredictiveMind:
     def _load_narrative_engine(self):
         """Lazy load CausalNarrativeEngine to avoid circular imports."""
         try:
-            from Core.Foundation.Foundation.causal_narrative_engine import CausalNarrativeEngine
+            from Core.Foundation.causal_narrative_engine import CausalNarrativeEngine
             self.narrative_engine = CausalNarrativeEngine()
             self.has_language = True
         except ImportError:

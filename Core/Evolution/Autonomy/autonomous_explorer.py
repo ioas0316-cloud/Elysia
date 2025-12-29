@@ -68,7 +68,7 @@ class AutonomousExplorer:
         
         # ConceptDecomposer - 호기심 확장
         try:
-            from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+            from Core.Foundation.fractal_concept import ConceptDecomposer
             self.decomposer = ConceptDecomposer()
             logger.info("   ✅ ConceptDecomposer connected (The Curiosity)")
         except Exception as e:
@@ -77,7 +77,7 @@ class AutonomousExplorer:
         
         # InternalUniverse - 지식 저장소
         try:
-            from Core.Foundation.Foundation.internal_universe import get_internal_universe
+            from Core.Foundation.internal_universe import get_internal_universe
             self.universe = get_internal_universe()
             logger.info("   ✅ InternalUniverse connected (The Memory)")
         except Exception as e:
@@ -258,7 +258,7 @@ class AutonomousExplorer:
             
             # GlobalHub에 브로드캐스트
             if self._hub:
-                from Core.Foundation.Foundation.Wave.wave_tensor import WaveTensor
+                from Core.Foundation.Wave.wave_tensor import WaveTensor
                 wave = WaveTensor(f"Knowledge_{topic}")
                 wave.add_component(528.0, amplitude=1.0)  # 지식 주파수
                 self._hub.publish_wave(
@@ -287,7 +287,7 @@ class AutonomousExplorer:
             
             # BlackHole에 압축 보존 시도
             try:
-                from Core.Foundation.Foundation.black_hole import BlackHole
+                from Core.Foundation.black_hole import BlackHole
                 blackhole = BlackHole()
                 # 나중에 연결될 수 있으므로 보존
                 logger.info(f"   🕳️ Isolated → BlackHole (compressed for later)")

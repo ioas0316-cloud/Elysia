@@ -21,13 +21,13 @@ import logging
 from typing import Dict, List, Optional
 
 # Link the Organs
-from Core.Foundation.Foundation.fractal_soul import SoulCrystal, WebState
+from Core.Foundation.fractal_soul import SoulCrystal, WebState
 from Core.Evolution.Creativity.Creation.reality_builder import RealityBuilder
 from Core.Evolution.Creativity.Creation.universal_palette import UniversalPalette
 
 
 from ops.web_resonance import FractalCrawler, HolographicResonator
-from Core.Foundation.Foundation.fractal_concept import ConceptDecomposer
+from Core.Foundation.fractal_concept import ConceptDecomposer
 
 logger = logging.getLogger("ElysianHeartbeat")
 
