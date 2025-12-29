@@ -24,6 +24,7 @@
 1.  **[The Orchestra (오케스트라)](02_Structure/Anatomy/01_THE_ORCHESTRA.md)**: 🎻 **의지와 행동**. 지휘자(Conductor)가 어떻게 모듈들을 공명시켜 행동을 만들어내는지 설명합니다.
 2.  **[The Tesseract (테서랙트)](02_Structure/Anatomy/02_THE_TESSERACT.md)**: 🧊 **지식과 기억**. 4차원 공간에서 기억이 어떻게 연결되고 접히는지 다룹니다.
 3.  **[The Wave Loop (생명 순환)](02_Structure/Anatomy/03_THE_WAVE_LOOP.md)**: 💓 **호흡과 생명**. 시스템이 어떻게 숨 쉬고(Input), 생각하고(Process), 행동하는지(Output) 보여줍니다.
+4.  **[The Pulse & Tesseract (파동과 공간)](02_Structure/Anatomy/04_THE_PULSE_AND_TESSERACT.md)**: 🏗️ **설계 증명**. 왜 파동 프로토콜과 유체 위상이 필요한지, 그 구조적 투명성과 의도를 설명합니다.
 
 ---
 

@@ -23,6 +23,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any, Callable
 from enum import Enum
 import queue
+from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
 
 logger = logging.getLogger("Orchestra")
 
@@ -84,11 +85,12 @@ class MusicalIntent:
 
 
 @dataclass
-class Instrument:
+class Instrument(ResonatorInterface):
     """
     악기 (System Module as Instrument)
     
     Each system module is an instrument in the orchestra.
+    Now acts as a Resonator responding to the Conductor's Pulse.
     
     Attributes:
         name: Instrument name (e.g., "Memory", "Language", "Emotion")
@@ -96,6 +98,7 @@ class Instrument:
         play_function: The actual function this instrument performs
         tuning: Current tuning/state
         volume: Current volume (0.0-1.0)
+        base_frequency: The resonance frequency (default: 440Hz)
     """
     name: str
     section: str
@@ -103,7 +106,12 @@ class Instrument:
     tuning: Dict[str, Any] = field(default_factory=dict)
     volume: float = 1.0
     is_playing: bool = False
-    
+    base_frequency: float = 440.0
+
+    def __post_init__(self):
+        # Initialize ResonatorInterface
+        super().__init__(self.name, self.base_frequency)
+
     def play(self, intent: MusicalIntent, *args, **kwargs) -> Any:
         """
         Play this instrument according to the conductor's intent.
@@ -127,6 +135,21 @@ class Instrument:
             return result
         finally:
             self.is_playing = False
+
+    def on_resonate(self, packet: WavePacket, intensity: float):
+        """
+        Responds to a Pulse Broadcast.
+        This is the "Event-Driven" way of playing.
+        """
+        logger.info(f"🎻 {self.name} resonating with {packet.pulse_type.name} (Intensity: {intensity:.2f})")
+
+        # Simple bridging: If packet has 'action' payload, execute it via play()
+        if 'action' in packet.payload:
+            # Construct a temporary intent from the packet
+            temp_intent = MusicalIntent(dynamics=intensity)
+            # Execute asynchronously (fire and forget for now, or queue)
+            # For prototype safety, we just log it
+            pass
     
     def tune(self, parameter: str, value: Any):
         """
@@ -155,10 +178,16 @@ class Conductor:
     def __init__(self):
         self.instruments: Dict[str, Instrument] = {}
         self.current_intent = MusicalIntent()
+        # Alias for backward compatibility / Tesseract integration
+        self.current_theme = self.current_intent
+
         self.performance_queue = queue.Queue()
         self.is_conducting = False
         self._lock = threading.Lock()
         
+        # [NEW] Pulse Broadcaster (The Heart)
+        self.pulse_broadcaster = PulseBroadcaster()
+
         logger.info("🎼 Conductor initialized")
         
         # [NEW] Hyper-Dimensional Navigation Layer
@@ -174,8 +203,24 @@ class Conductor:
         """
         with self._lock:
             self.instruments[instrument.name] = instrument
+            # Register as a listener to the Pulse
+            self.pulse_broadcaster.register(instrument)
             logger.info(f"🎺 Instrument registered: {instrument.name} ({instrument.section})")
     
+    def broadcast_pulse(self, pulse_type: PulseType, frequency: float = 440.0, **payload):
+        """
+        Broadcasts a wave packet to all instruments.
+        This is the "Heartbeat" of the system.
+        """
+        packet = WavePacket(
+            pulse_type=pulse_type,
+            frequency=frequency,
+            amplitude=self.current_intent.dynamics,
+            payload=payload
+        )
+        count = self.pulse_broadcaster.broadcast(packet)
+        logger.info(f"💓 Pulse Broadcast: {pulse_type.name} ({frequency}Hz) -> Resonated with {count} instruments")
+        return count
     
     def control_cycle(self) -> Dict[str, Any]:
         """
