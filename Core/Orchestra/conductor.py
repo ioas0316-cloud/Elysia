@@ -23,6 +23,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any, Callable
 from enum import Enum
 import queue
+from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
 
 logger = logging.getLogger("Orchestra")
 
@@ -159,6 +160,9 @@ class Conductor:
         self.is_conducting = False
         self._lock = threading.Lock()
         
+        # [PHASE 40] Pulse Protocol (The Broadcaster)
+        self.broadcaster = PulseBroadcaster()
+
         logger.info("🎼 Conductor initialized")
         
         # [NEW] Hyper-Dimensional Navigation Layer
@@ -174,9 +178,28 @@ class Conductor:
         """
         with self._lock:
             self.instruments[instrument.name] = instrument
+            # [PHASE 40] If instrument is resonant, register to broadcaster
+            if isinstance(instrument, ResonatorInterface):
+                self.broadcaster.register(instrument)
+                logger.info(f"   📡 Resonator Connected: {instrument.name} ({instrument.base_frequency}Hz)")
+
             logger.info(f"🎺 Instrument registered: {instrument.name} ({instrument.section})")
     
-    
+    def broadcast_intent(self, pulse_type: PulseType, frequency: float, payload: Dict[str, Any] = None):
+        """
+        [PHASE 40] Broadcasts the intent as a WavePacket.
+        This replaces direct function calls with 'Resonance Selection'.
+        """
+        packet = WavePacket(
+            pulse_type=pulse_type,
+            frequency=frequency,
+            amplitude=self.current_intent.dynamics,
+            payload=payload or {}
+        )
+        active_count = self.broadcaster.broadcast(packet)
+        logger.info(f"📡 Broadcast: {pulse_type.name} @ {frequency}Hz -> Resonated with {active_count} modules")
+        return active_count
+
     def control_cycle(self) -> Dict[str, Any]:
         """
         Execute a sovereign control cycle.
