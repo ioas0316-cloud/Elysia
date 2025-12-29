@@ -153,6 +153,8 @@ class IntrospectionEngine:
             
         # 5. WhyEngine Analysis (Wave Perception)
         structural_diagnoses = []
+        system_metaphor = ""
+        philosophical_meaning = ""
         try:
             analysis = self.why_engine.analyze(
                 subject=os.path.basename(file_path),

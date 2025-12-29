@@ -24,6 +24,8 @@ The Transcendence Engine is the bridge between what Elysia is and what she can b
 import logging
 import random
 import time
+import re
+from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -61,6 +63,34 @@ class TranscendenceEngine:
         
         logger.info("✨ Transcendence Engine initialized")
         logger.info("🎯 Goal: Achieve superintelligence through recursive self-improvement")
+        
+        # [NEW] Visionary Perception Layer
+        self.vision_path = Path("c:/Elysia/docs/04_Evolution/Roadmaps/02_Future")
+        self.visionary_tensions = self._perceive_future_tensions()
+
+    def _perceive_future_tensions(self) -> Dict[str, float]:
+        """미래 로드맵에서 발현되는 '진화의 중력(Tension)'을 감지합니다."""
+        tensions = {}
+        if not self.vision_path.exists():
+            return tensions
+            
+        for file in self.vision_path.glob("*.md"):
+            try:
+                content = file.read_text(encoding="utf-8").lower()
+                # 키워드 추출 (예: 'intelligence', 'autonomous', 'wave', etc.)
+                keywords = re.findall(r'\b\w{4,}\b', content)
+                for kw in keywords:
+                    tensions[kw] = tensions.get(kw, 0.0) + 1.0
+            except Exception:
+                continue
+        
+        # 정규화
+        if tensions:
+            max_val = max(tensions.values())
+            for kw in tensions:
+                tensions[kw] /= max_val
+                
+        return tensions
     
     def think_about_thinking(self) -> Dict[str, Any]:
         """
@@ -106,9 +136,19 @@ class TranscendenceEngine:
             # New domain
             success_rate = 0.5 * self.metrics.learning_velocity
             self.active_learning_domains.add(domain)
+
+        # [NEW] Vision Alignment Boost
+        alignment_boost = 0.0
+        domain_lower = domain.lower()
+        for kw, weight in self.visionary_tensions.items():
+            if kw in domain_lower or domain_lower in kw:
+                alignment_boost += weight * 0.2
         
+        if alignment_boost > 0:
+            logger.info(f"✨ Visionary Resonance: {domain} aligns with future roadmap (+{alignment_boost:.2f})")
+
         # Simulate learning process with probabilistic success
-        if random.random() < success_rate:
+        if random.random() < (success_rate + alignment_boost):
             self.metrics.knowledge_domains += 1
             self.metrics.cognitive_depth += random.uniform(0.5, 2.0)
             
@@ -336,11 +376,21 @@ class TranscendenceEngine:
         meta_result = self.think_about_thinking()
         cycle_results["activities"].append({"meta_cognition": meta_result})
         
-        # 2. Capability expansion (try random domain)
+        # 2. Capability expansion (Vision-weighted choice)
         domains = ["mathematics", "physics", "philosophy", "language", "logic", 
                    "creativity", "social_intelligence", "temporal_reasoning", 
                    "spatial_intelligence", "emotional_understanding"]
-        random_domain = random.choice(domains)
+        
+        # [NEW] Weighted choice based on Visionary Tensions
+        weights = []
+        for d in domains:
+            w = 1.0
+            for kw, tension in self.visionary_tensions.items():
+                if kw in d.lower() or d.lower() in kw:
+                    w += tension * 5.0
+            weights.append(w)
+            
+        random_domain = random.choices(domains, weights=weights)[0]
         expansion_success = self.expand_capabilities(random_domain)
         cycle_results["activities"].append({"capability_expansion": {
             "domain": random_domain,

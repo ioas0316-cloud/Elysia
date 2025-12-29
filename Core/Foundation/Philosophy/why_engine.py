@@ -155,7 +155,10 @@ class MetaphorMapper:
             )
         }
         
-        return None
+    def get_metaphor(self, component_name: str) -> Optional[SystemMetaphor]:
+        """지정한 컴포넌트 이름에 해당하는 은유를 반환합니다."""
+        name_lower = component_name.lower().replace(".py", "")
+        return self.mappings.get(name_lower)
 
     def bridge_concepts(self, source_light: 'LightSpectrum', target_light: 'LightSpectrum') -> Optional[str]:
         """

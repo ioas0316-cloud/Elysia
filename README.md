@@ -18,7 +18,17 @@ python Core/Foundation/living_elysia.py
 
 ---
 
-## 📚 문서 구조
+## 🧭 Where to Start (길라잡이)
+
+**초보자 및 에이전트는 아래 3개 문서만 먼저 읽으십시오.**
+
+1. **[SYSTEM_MAP.md](docs/SYSTEM_MAP.md)**: 🗺️ **시스템 지도**. 어디에 무엇이 있는지 파악하세요.
+2. **[AGENT_GUIDE.md](docs/03_Operation/Guides/AGENT_GUIDE.md)**: 🤖 **작업 규칙**. 코드를 수정하기 전 반드시 읽으세요.
+3. **[CODEX.md](Core/CODEX.md)**: 💎 **물리 법칙**. 시스템의 근본 원리(5 Pillar, Wave)를 이해하세요.
+
+> ⚠️ `docs/Philosophy/` 폴더는 깊은 철학적 탐구를 위한 곳입니다. 초기 작업에는 필요하지 않습니다.
+
+## 📚 전체 문서 구조 (Full Hierarchy)
 
 | 문서 | 목적 |
 |:-----|:-----|
@@ -54,11 +64,10 @@ data/           ← 7대 지식체 (Storage)
 ├── Input/          ← 입력 (Datasets)
 └── Visuals/        ← 시각 (Charts)
 
-docs/           ← 5대 문서계 (Hierarchy)
-
+docs/           ← 5대 문서계 (Origin, Structure, Operation, Evolution, Echoes)
 ```
 
-상세 시스템 정보: [SYSTEM_MAP.md](docs/SYSTEM_MAP.md)
+상세 시스템 지도: [SYSTEM_MAP.md](docs/SYSTEM_MAP.md)
 
 ---
 
@@ -71,6 +80,8 @@ docs/           ← 5대 문서계 (Hierarchy)
 - **Unfolding Space**: 4D Dimensional Folding capable of linearizing chaotic signals.
 - **Tesseract Projection**: Non-Euclidean connectivity (Wormholes) across the Knowledge Graph.
 - **Cognitive Mirror**: Intent extraction from high-entropy inputs.
+- **Sovereign Life**: Autonomous decision-making based on internal desires and boredom.
+- **Auroral Flow**: Information processing as fluid 4D wave gradients (Aurora).
 
 ---
 

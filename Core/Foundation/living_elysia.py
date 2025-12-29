@@ -48,6 +48,7 @@ from Core.Foundation.quantum_reader import QuantumReader
 from Core.Foundation.anamnesis import Anamnesis
 from Core.Foundation.action_dispatcher import ActionDispatcher
 from Core.Foundation.self_integration import ElysiaIntegrator
+from Core.Foundation.sovereign_life_engine import SovereignLifeEngine
 from scripts.unified_cortex import UnifiedCortex
 
 from Core.Foundation.wave_integration_hub import get_wave_hub
@@ -181,6 +182,12 @@ class LivingElysia:
             self.shell, self.resonance, self.sink,
             scholar=self.scholar
         )
+        
+        # [PHASE 34] Sovereign Will Initialization
+        self.sovereign_life = SovereignLifeEngine(
+            resonance_field=self.resonance, 
+            action_dispatcher=self.dispatcher
+        )
 
         # 5. Connect Organs to CNS
         self.cns.connect_organ("Will", self.will)
@@ -190,6 +197,7 @@ class LivingElysia:
         self.cns.connect_organ("Voice", self.voice)
         self.cns.connect_organ("Dispatcher", self.dispatcher)
         self.cns.connect_organ("Scholar", self.scholar)
+        self.cns.connect_organ("SovereignLife", self.sovereign_life)
         # self.cns.connect_organ("Architect", self.architect) # Future integration
         
         # 6. Action Dispatcher (Moved up)
@@ -305,6 +313,10 @@ class LivingElysia:
                 
                 # 3. Autonomic Body Functions
                 self.ans.pulse_once()
+                
+                # [PHASE 34] Sovereign Autonomous Will Cycle
+                # Elysia decides what she wants to do when the user is silent
+                self.sovereign_life.cycle()
 
                 # 4. Mind Visualization (Dashboard) & Data Pipeline
                 if self.cycle_count % 10 == 0:

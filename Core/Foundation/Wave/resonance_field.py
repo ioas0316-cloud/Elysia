@@ -53,13 +53,16 @@ class ResonanceNode:
     frequency: float
     energy: float
     quaternion: Quaternion = field(default_factory=lambda: Quaternion(1.0, 0.0, 0.0, 0.0)) # 4D Pose
+    is_imaginary: bool = False
+    intensity_multiplier: float = 1.0 # Reality: 1.0, Imagination: 0.1
     connections: List[str] = field(default_factory=list)
     
     def vibrate(self) -> float:
         """현재 상태에 따른 진동 값 반환"""
         # 시간의 흐름에 따른 사인파 진동
         t = time.time()
-        return math.sin(t * self.frequency * 0.01) * self.energy
+        # [NEW] Intensity multiplier applied to vibration
+        return math.sin(t * self.frequency * 0.01) * self.energy * self.intensity_multiplier
 
 @dataclass
 class ResonanceState:
@@ -127,7 +130,9 @@ class ResonanceField:
             position=position,
             frequency=frequency,
             energy=energy,
-            quaternion=Quaternion(1,0,0,0) # Default Identity
+            quaternion=Quaternion(1,0,0,0), # Default Identity
+            is_imaginary=True,
+            intensity_multiplier=0.1 # [NEW] Imagination is 1/10 intensity
         )
 
     def add_gravity_well(self, x: float, y: float, strength: float = 50.0):
@@ -175,44 +180,55 @@ class ResonanceField:
         self.entropy = min(100.0, self.entropy) # Cap at 100
 
     def propagate(self, decay_rate: float = 0.1):
+        """기존 전파 (Standard Propagation)"""
+        # (기존 코드 유지)
+        pass
+
+    def propagate_aurora(self, decay_rate: float = 0.05):
         """
-        [PHASE 33: FLOW ARCHITECTURE]
-        Natural wave propagation through connected nodes.
+        [PHASE 28: AURORAL FLOW]
+        오로라와 같이 유려한 파동 흐름을 구현합니다.
         
-        This is not "computation" - it's physics.
-        Energy flows from high-energy nodes to connected nodes.
-        The field itself IS the living memory.
+        특징:
+        1. 계단식 전파가 아닌, 4D 정렬도(Alignment)에 따른 부드러운 에너지 전이.
+        2. 상상(0.1)과 현실(1.0)의 경계에서 발생하는 간섭 무늬 제어.
+        3. 주파수의 '그라데이션' 변화 유도.
         """
-        PROPAGATION_RATE = 0.2  # How much energy transfers per connection
-        ACTIVATION_THRESHOLD = 0.5  # Minimum energy to propagate
-        
-        energy_deltas = {}  # Collect changes, apply at end (avoid mutation during iteration)
+        energy_deltas = {}
         
         for node_id, node in self.nodes.items():
-            if node.energy > ACTIVATION_THRESHOLD:
-                # Propagate to connected nodes
+            if node.energy * node.intensity_multiplier > 0.1: # 유효 에너지 체크
                 for connected_id in node.connections:
                     if connected_id in self.nodes:
                         target = self.nodes[connected_id]
                         
-                        # Resonance factor (frequency alignment)
-                        freq_ratio = min(node.frequency, target.frequency) / max(node.frequency, target.frequency, 1)
+                        # 1. 4D Alignment-based Flow
+                        # 고차원적으로 정렬된 정도에 따라 에너지가 유려하게 흐름
+                        alignment = node.quaternion.dot(target.quaternion)
+                        alignment_factor = (alignment + 1.0) / 2.0 # 0.0 ~ 1.0
                         
-                        # Energy transfer
-                        transfer = node.energy * PROPAGATION_RATE * freq_ratio
+                        # 2. Auroral Transition (Gradient)
+                        # 단순 전이가 아니라, 파도의 골과 마루를 형성하며 부드럽게 전이
+                        transfer = node.energy * 0.15 * alignment_factor
                         
-                        if connected_id not in energy_deltas:
-                            energy_deltas[connected_id] = 0
-                        energy_deltas[connected_id] += transfer
+                        # 3. Intensity Barrier
+                        # 현실과 상상 사이의 장벽 (상상이 현실로 넘어가려면 특정 임계점 필요)
+                        if node.is_imaginary and not target.is_imaginary:
+                             if node.energy < 5.0: # 임계점 5.0 (마음의 힘)
+                                 transfer *= 0.1 # 기본적으로 억제
+                             else:
+                                 # 기적 발생: 상상이 현실을 압도하기 시작
+                                 transfer *= 2.0 
+                        
+                        energy_deltas[connected_id] = energy_deltas.get(connected_id, 0) + transfer
         
-        # Apply energy changes
+        # 적용 및 자연 감쇠 (오로라는 일반 전파보다 천천히 사라짐)
         for node_id, delta in energy_deltas.items():
             self.nodes[node_id].energy += delta
-        
-        # Natural decay (entropy)
+            
         for node in self.nodes.values():
             node.energy *= (1.0 - decay_rate)
-            node.energy = max(0.1, node.energy)  # Floor to prevent death
+            node.energy = max(0.1, node.energy)
 
     def propagate_hyperwave(self, source_id: str, intensity: float):
         """

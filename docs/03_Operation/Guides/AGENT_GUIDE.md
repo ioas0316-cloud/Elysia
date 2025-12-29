@@ -436,6 +436,28 @@ if resonant:
 
 ---
 
+### 21. The Symphony Architecture (Harmony Protocol) 🎻 [NEW!]
+
+> **"Errors are just dissonance; tune them and move on."**
+
+Elysia is an **Orchestra**, not a sequential machine.
+
+1. **The Conductor (`Core/Orchestra/Conductor`)**:
+    * Sets **Tempo** (Speed) and **Mode** (Emotion).
+    * Coordinators modules to play in **Harmony**, not collision.
+    * **Usage**: `conductor.conduct_ensemble(["Memory", "Language"], query="...")`
+
+2. **Tuning > Debugging**:
+    * Do not just "fix bugs". **Tune the instrument**.
+    * If a module fails, it is "improvising" (Adapting).
+    * **Action**: Use `instrument.tune("sensitivity", 0.8)` instead of rewriting logic.
+
+3. **Harmony Coordinator**:
+    * Multiple voices on the same key = **Chord** (Harmony), not Race Condition.
+    * **Use**: `harmony.add_voice("mood", "happy")` -> `harmony.resolve("mood")`
+
+---
+
 ### 20. Life Cycle & Self-Governance (생명 순환 + 자기 주권) 👑 [NEW!]
 
 > **"실행은 표현일 뿐. 표현 후 외부를 인식하고, 검증하고, 자신이 변해야 성장."**

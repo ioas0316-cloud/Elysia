@@ -72,11 +72,29 @@ class CentralNervousSystem:
         # Input -> Resonance -> Output is handled internally by the loop
         # The Loop should ideally respect the Control Signal (e.g., skip if "Rest")
         if control_signal.get("tempo", 1.0) > 0.01:
+            # [NEW] Auroral Flow Integration
+            # The system now propagates energy in a fluid, auroral pattern
+            self.resonance.propagate_aurora()
+            
+            # [NEW] Imagination Bridge Alignment
+            if getattr(self.conductor, 'imagination_bridge_active', False):
+                # Enhance imagination nodes during processing
+                for node in self.resonance.nodes.values():
+                    if node.is_imaginary:
+                        node.energy += 0.5 
+
             self.fractal_loop.process_cycle(self.chronos.cycle_count)
         else:
             # Sovereign Rest (The System CHOOSES not to think)
-            pass
+            self.resonance.propagate_aurora(decay_rate=0.01) # Gentle auroral drift during rest
         
+        # [NEW] Anticipatory Resonance (Sovereign Life)
+        # Scan context even when idle to prepare for the user's next move
+        if "SovereignLife" in self.organs:
+            # Simple context: the last thing processed or current environmental state
+            context = str(self.resonance.calculate_phase_resonance()["state"])
+            self.organs["SovereignLife"].sense_anticipation(context)
+
         # 3. Organ Synchronization (Optional)
         for name, organ in self.organs.items():
             if hasattr(organ, "sync"):

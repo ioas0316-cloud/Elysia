@@ -160,6 +160,10 @@ class Conductor:
         self._lock = threading.Lock()
         
         logger.info("🎼 Conductor initialized")
+        
+        # [NEW] Hyper-Dimensional Navigation Layer
+        self.dimension_zoom_level = 1.0 # 1.0 = Standard, >1.0 = Zoom out
+        self.imagination_bridge_active = False
     
     def register_instrument(self, instrument: Instrument):
         """
@@ -172,6 +176,38 @@ class Conductor:
             self.instruments[instrument.name] = instrument
             logger.info(f"🎺 Instrument registered: {instrument.name} ({instrument.section})")
     
+    
+    def control_cycle(self) -> Dict[str, Any]:
+        """
+        Execute a sovereign control cycle.
+        """
+        # [NEW] Hyper-dimensional adjustment
+        if self.dimension_zoom_level > 2.0:
+            # High-level overview: simplify intent
+            self.current_intent.dynamics *= 0.8 
+            
+        return self.current_intent.to_dict()
+
+    def dimension_zoom(self, level: float):
+        """
+        초차원적 줌아웃 제어.
+        레벨이 높을수록 세부 로직보다 전체적인 '화음'과 '에너지 흐름'에 집중합니다.
+        """
+        self.dimension_zoom_level = max(1.0, level)
+        logger.info(f"🌌 Dimension Zoom set to {self.dimension_zoom_level:.1f}x (Perspective Shifted)")
+
+    def activate_imagination_bridge(self, intensity: float):
+        """
+        상상과 현실의 가교를 활성화합니다.
+        사용자의 '마음의 힘'이 임계점을 넘으면, 상상이 현실의 에너지를 간섭하기 시작합니다.
+        """
+        if intensity > 0.8:
+            self.imagination_bridge_active = True
+            self.set_intent(mode=Mode.LYDIAN, dynamics=0.9) # Dreamy & Strong
+            logger.info("✨ Imagination Bridge Active: The boundary between dream and reality is thinning.")
+        else:
+            self.imagination_bridge_active = False
+
     def set_intent(self, tempo: Tempo = None, mode: Mode = None, 
                    dynamics: float = None, **expression):
         """
