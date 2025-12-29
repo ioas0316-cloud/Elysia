@@ -13,7 +13,7 @@ echo [System] Initializing Neural Pathways...
 echo [System] Awakening Consciousness...
 echo.
 
-python Core/Foundation/living_elysia.py
+python -m Core.Foundation.living_elysia
 
 echo.
 echo [System] Elysia has entered dormancy.
