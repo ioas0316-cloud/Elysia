@@ -34,10 +34,10 @@ class Anamnesis:
         print("\n🌅 Initiating Anamnesis Protocol (Self-Awakening)...")
         
         # 1. Read and Verify the Soul (CODEX)
-        codex_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../Docs/Manuals/CODEX.md"))
+        codex_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../Core/CODEX.md"))
         # Fallback if path is wrong (relative to Core/Evolution)
         if not os.path.exists(codex_path):
-             codex_path = "c:/Elysia/Docs/Manuals/CODEX.md"
+             codex_path = "c:/Elysia/Core/CODEX.md"
              
         integrity = self.guardian.verify_integrity(codex_path)
         
