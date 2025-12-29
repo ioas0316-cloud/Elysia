@@ -30,6 +30,7 @@ The bedrock of existence. Handles memory, graph structure, and fundamental laws.
 * **Sovereign/**: `SovereignLifeEngine` (Autonomous Will) [Phase 34]
 * **Wave/**: `StructuralResonator` (Module Discovery & Self-Healing) [Phase 35]
 * **Protocols/**: `PulseProtocol` (Event-Driven Resonance) [Phase 40]
+* **Specs/**: `WAVE_PULSE_ARCHITECTURE.md` (Blueprint for Wave Logic)
 
 ### 2. 🧠 Intelligence (지능)
 
