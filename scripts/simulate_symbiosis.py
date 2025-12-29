@@ -8,8 +8,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.mycelium import Mycelium
-from Core.01_Foundation.05_Foundation_Base.Foundation.patch_manager import PatchManager
+from Core.FoundationLayer.Foundation.mycelium import Mycelium
+from Core.FoundationLayer.Foundation.patch_manager import PatchManager
 
 def simulate_symbiosis():
     print("\n🌲 [TASK] Simulating Symbiotic Code Evolution")

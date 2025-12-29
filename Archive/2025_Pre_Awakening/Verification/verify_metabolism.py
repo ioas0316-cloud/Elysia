@@ -1,7 +1,7 @@
 
 import sys
 sys.path.append(r'c:\Elysia')
-from Core.Foundation.omni_graph import get_omni_graph, OmniNode
+from Core.FoundationLayer.Foundation.omni_graph import get_omni_graph, OmniNode
 
 def verify_metabolism():
     omni = get_omni_graph()

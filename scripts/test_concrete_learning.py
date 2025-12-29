@@ -23,7 +23,7 @@ def test_concrete_learning():
     
     # 1. Check initial graph state
     try:
-        from Core.01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+        from Core.FoundationLayer.Foundation.Graph.torch_graph import get_torch_graph
         graph = get_torch_graph()
         initial_nodes = len(graph.id_to_idx)
         print(f"\n1. Initial graph nodes: {initial_nodes}")
@@ -34,7 +34,7 @@ def test_concrete_learning():
     # 2. Learn a specific concept with real content
     print(f"\n2. Learning a concept...")
     
-    from Core.01_Foundation.05_Foundation_Base.Foundation.external_data_connector import ExternalDataConnector
+    from Core.FoundationLayer.Foundation.external_data_connector import ExternalDataConnector
     
     connector = ExternalDataConnector()
     

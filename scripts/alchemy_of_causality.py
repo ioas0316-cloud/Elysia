@@ -13,7 +13,7 @@ import os
 sys.path.append(os.getcwd())
 
 import logging
-from Core.01_Foundation.02_Legal_Ethics.Laws.law_of_alchemy import get_alchemy_engine, NarrativeEvent, TensionLevel
+from Core.FoundationLayer.Legal_Ethics.Laws.law_of_alchemy import get_alchemy_engine, NarrativeEvent, TensionLevel
 
 def main():
     # Setup Logging

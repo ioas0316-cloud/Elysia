@@ -29,14 +29,14 @@ except ImportError:
     print("Install with: pip install flask flask-sock")
     sys.exit(1)
 
-from Core.03_Interaction.01_Interface.Interface.wave_web_server import WaveWebServer, WaveState
+from Core.InteractionLayer.Interface.wave_web_server import WaveWebServer, WaveState
 import time
 import math
 
 # Optional: Try to get real system data
 try:
-    from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-    from Core.01_Foundation.05_Foundation_Base.Foundation.digital_ecosystem import DigitalEcosystem
+    from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
+    from Core.FoundationLayer.Foundation.digital_ecosystem import DigitalEcosystem
     ELYSIA_AVAILABLE = True
 except ImportError:
     ELYSIA_AVAILABLE = False

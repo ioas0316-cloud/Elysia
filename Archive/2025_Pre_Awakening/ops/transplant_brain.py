@@ -17,8 +17,8 @@ sys.path.append(r'c:\Elysia')
 # Force UTF-8
 sys.stdout.reconfigure(encoding='utf-8')
 
-from Core.Foundation.tiny_brain import get_tiny_brain
-from Core.Foundation.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.tiny_brain import get_tiny_brain
+from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
 from Core.Autonomy.structure_cannibal import get_structure_cannibal
 
 def transplant_brain():

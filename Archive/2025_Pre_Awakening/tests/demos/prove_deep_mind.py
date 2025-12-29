@@ -15,8 +15,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("ProveDeepMind")
 
-from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.Foundation.attractor import Attractor
+from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.FoundationLayer.Foundation.attractor import Attractor
 
 def prove_deep_mind():
     print("\n" + "="*60)

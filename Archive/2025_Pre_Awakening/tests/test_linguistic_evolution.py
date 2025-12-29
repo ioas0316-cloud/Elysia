@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from Core.Learning.language_learner import LanguageLearner
 from Core.Intelligence.logos_engine import LogosEngine
-from Core.Foundation.reasoning_engine import Insight
+from Core.Cognition.Reasoning.reasoning_engine import Insight
 
 def test_evolution():
     print("🧪 Starting Linguistic Evolution Test...")

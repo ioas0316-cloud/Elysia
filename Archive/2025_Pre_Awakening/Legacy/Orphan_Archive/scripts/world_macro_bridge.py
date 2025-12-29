@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 from scripts.macro_kingdom_model import YearState
 
 if TYPE_CHECKING:  # Avoid circular imports at runtime
-    from Core.Foundation.core.world import World
+    from Core.FoundationLayer.Foundation.core.world import World
 
 
 def apply_macro_state_to_world(state: YearState, world: "World") -> None:

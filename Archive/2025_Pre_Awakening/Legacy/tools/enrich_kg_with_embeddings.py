@@ -7,7 +7,7 @@ from tqdm import tqdm
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Core.Foundation.gemini_api import get_text_embedding
+from Core.FoundationLayer.Foundation.gemini_api import get_text_embedding
 
 def enrich_kg_with_embeddings():
     """

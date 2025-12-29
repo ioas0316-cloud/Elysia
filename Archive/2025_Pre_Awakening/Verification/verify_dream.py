@@ -3,7 +3,7 @@ import sys
 import random
 sys.path.append(r'c:\Elysia')
 
-from Core.Foundation.omni_graph import get_omni_graph
+from Core.FoundationLayer.Foundation.omni_graph import get_omni_graph
 from Core.Autonomy.dream_walker import get_dream_walker
 
 def verify_dreaming():

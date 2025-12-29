@@ -2,7 +2,7 @@ from typing import Optional
 import random
 
 # It's better to import the class itself for type hinting
-from Core.Foundation.core.thought import Thought
+from Core.FoundationLayer.Foundation.core.thought import Thought
 
 class CreativeCortex:
     """

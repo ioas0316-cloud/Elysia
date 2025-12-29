@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from Core.Foundation.reading_coach import ReadingCoach
+from Core.FoundationLayer.Foundation.reading_coach import ReadingCoach
 from tools.kg_manager import KGManager
 
 

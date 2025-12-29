@@ -20,7 +20,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_data_connector import ResonanceDataConnector
+from Core.FoundationLayer.Foundation.resonance_data_connector import ResonanceDataConnector
 
 # Set up logging
 logging.basicConfig(

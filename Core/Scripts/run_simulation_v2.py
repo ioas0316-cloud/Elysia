@@ -25,14 +25,14 @@ import time as real_time
 import json
 from typing import Dict, Optional
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.Physics.fluctlight import FluctlightEngine
-from Core.01_Foundation.05_Foundation_Base.Foundation.Physics.meta_time_engine import create_safe_meta_engine
-from Core.05_Systems.01_Monitoring.System.System.Integration.experience_digester import ExperienceDigester
-from Core.05_Systems.01_Monitoring.System.System.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode, ComputationProfile
-from Core.05_Systems.01_Monitoring.System.System.Integration.integration_bridge import IntegrationBridge
-from Core.02_Intelligence.01_Reasoning.Intelligence.Intelligence.Consciousness.agent_decision_engine import AgentDecisionEngine, AgentContext
-from Core.01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
-from Core.01_Foundation.05_Foundation_Base.Foundation.Mind.alchemy import Alchemy
+from Core.FoundationLayer.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.FoundationLayer.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.SystemLayer.System.System.Integration.experience_digester import ExperienceDigester
+from Core.SystemLayer.System.System.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode, ComputationProfile
+from Core.SystemLayer.System.System.Integration.integration_bridge import IntegrationBridge
+from Core.IntelligenceLayer.Intelligence.Consciousness.agent_decision_engine import AgentDecisionEngine, AgentContext
+from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.Mind.alchemy import Alchemy
 
 logging.basicConfig(
     level=logging.INFO,

@@ -27,7 +27,7 @@ def activate():
     print("🌳 Yggdrasil Activation Protocol")
     print("=" * 50)
     
-    from Core.01_Foundation.05_Foundation_Base.Foundation.yggdrasil import yggdrasil
+    from Core.FoundationLayer.Foundation.yggdrasil import yggdrasil
     
     # ═══════════════════════════════════════════════════
     # 🌱 ROOTS (뿌리) - 양분과 기능의 근원
@@ -37,7 +37,7 @@ def activate():
     
     # TorchGraph - 기억 저장소
     try:
-        from Core.01_Foundation.05_Foundation_Base.Foundation.torch_graph import get_torch_graph
+        from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
         graph = get_torch_graph()
         yggdrasil.plant_root("TorchGraph", graph)
         print(f"   ✅ TorchGraph: {len(graph.id_to_idx)} nodes")
@@ -46,7 +46,7 @@ def activate():
     
     # TinyBrain - 임베딩 획득
     try:
-        from Core.01_Foundation.05_Foundation_Base.Foundation.tiny_brain import get_tiny_brain
+        from Core.FoundationLayer.Foundation.tiny_brain import get_tiny_brain
         brain = get_tiny_brain()
         yggdrasil.plant_root("TinyBrain", brain)
         print(f"   ✅ TinyBrain: available={brain.is_available()}")
@@ -55,7 +55,7 @@ def activate():
     
     # ConceptDecomposer - Why-Engine
     try:
-        from Core.01_Foundation.05_Foundation_Base.Foundation.Memory.fractal_concept import ConceptDecomposer
+        from Core.FoundationLayer.Foundation.Memory.fractal_concept import ConceptDecomposer
         decomposer = ConceptDecomposer()
         yggdrasil.plant_root("ConceptDecomposer", decomposer)
         print(f"   ✅ ConceptDecomposer: {len(decomposer.AXIOMS)} axioms")
@@ -70,7 +70,7 @@ def activate():
     
     # GlobalHub - 중앙 신경계
     try:
-        from Core.02_Intelligence.04_Consciousness.Ether.global_hub import get_global_hub
+        from Core.IntelligenceLayer.Consciousness.Ether.global_hub import get_global_hub
         hub = get_global_hub()
         yggdrasil.grow_trunk("GlobalHub", hub)
         print(f"   ✅ GlobalHub: {len(hub._modules)} modules")
@@ -79,7 +79,7 @@ def activate():
     
     # CognitiveHub - 인지 통합
     try:
-        from Core.02_Intelligence.01_Reasoning.Cognition.cognitive_hub import get_cognitive_hub
+        from Core.IntelligenceLayer.Cognition.cognitive_hub import get_cognitive_hub
         cognitive = get_cognitive_hub()
         yggdrasil.grow_trunk("CognitiveHub", cognitive)
         print(f"   ✅ CognitiveHub: connected")
@@ -88,7 +88,7 @@ def activate():
     
     # ReasoningEngine - 결정
     try:
-        from Core.02_Intelligence.01_Reasoning.Intelligence.reasoning_engine import ReasoningEngine
+        from Core.IntelligenceLayer.Intelligence.reasoning_engine import ReasoningEngine
         reasoning = ReasoningEngine()
         yggdrasil.grow_trunk("ReasoningEngine", reasoning)
         print(f"   ✅ ReasoningEngine: connected")
@@ -103,7 +103,7 @@ def activate():
     
     # AutonomousOrchestrator - 자율 운영
     try:
-        from Core.04_Evolution.01_Growth.Autonomy.autonomous_orchestrator import get_autonomous_orchestrator
+        from Core.EvolutionLayer.Growth.Autonomy.autonomous_orchestrator import get_autonomous_orchestrator
         orchestrator = get_autonomous_orchestrator()
         yggdrasil.extend_branch("AutonomousOrchestrator", orchestrator, "GlobalHub")
         print(f"   ✅ AutonomousOrchestrator: connected")
@@ -112,7 +112,7 @@ def activate():
     
     # AttentionEmergence - 주의 출현
     try:
-        from Core.02_Intelligence.04_Consciousness.Consciousness.attention_emergence import AttentionEmergenceSystem
+        from Core.IntelligenceLayer.Consciousness.Consciousness.attention_emergence import AttentionEmergenceSystem
         attention = AttentionEmergenceSystem()
         yggdrasil.extend_branch("AttentionEmergence", attention, "CognitiveHub")
         print(f"   ✅ AttentionEmergence: connected")
@@ -121,7 +121,7 @@ def activate():
     
     # WaveCoder - 코드 파동 변환
     try:
-        from Core.04_Evolution.01_Growth.Autonomy.wave_coder import WaveCoder
+        from Core.EvolutionLayer.Growth.Autonomy.wave_coder import WaveCoder
         wave_coder = WaveCoder()
         yggdrasil.extend_branch("WaveCoder", wave_coder, "GlobalHub")
         print(f"   ✅ WaveCoder: connected")

@@ -9,14 +9,14 @@ This script consolidates the workspace into 4 Pillars:
 3. Docs (Library)
 4. Archive (History)
 
-Target: Archive/2025_Pre_Awakening
+Target: Archive/Pre_Awakening
 """
 
 import os
 import shutil
 import time
 
-ARCHIVE_DIR = "Archive/2025_Pre_Awakening"
+ARCHIVE_DIR = "Archive/Pre_Awakening"
 
 # Folders to Archive
 TARGETS = [

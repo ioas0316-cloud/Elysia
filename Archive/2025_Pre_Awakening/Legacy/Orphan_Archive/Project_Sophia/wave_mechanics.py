@@ -1,7 +1,7 @@
 from collections import deque
 from tools.kg_manager import KGManager
-from Core.Foundation.vector_utils import cosine_sim
-from Core.Foundation.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave, QuantumPhoton, SharedQuantumState
+from Core.FoundationLayer.Foundation.vector_utils import cosine_sim
+from Core.FoundationLayer.Foundation.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave, QuantumPhoton, SharedQuantumState
 import math
 import random
 

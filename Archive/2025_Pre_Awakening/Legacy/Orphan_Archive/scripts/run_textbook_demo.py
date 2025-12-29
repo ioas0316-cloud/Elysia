@@ -9,9 +9,9 @@ from __future__ import annotations
 
 import argparse
 from Project_Mirror.sensory_cortex import SensoryCortex
-from Core.Foundation.tutor_cortex import TutorCortex
-from Core.Foundation.knowledge_enhancer import KnowledgeEnhancer
-from Core.Foundation.value_cortex import ValueCortex
+from Core.FoundationLayer.Foundation.tutor_cortex import TutorCortex
+from Core.FoundationLayer.Foundation.knowledge_enhancer import KnowledgeEnhancer
+from Core.FoundationLayer.Foundation.value_cortex import ValueCortex
 from tools.kg_manager import KGManager
 
 

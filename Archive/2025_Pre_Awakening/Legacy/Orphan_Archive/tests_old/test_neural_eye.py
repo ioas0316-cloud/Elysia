@@ -12,7 +12,7 @@ sys.path.append(os.getcwd())
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger("NeuralEyeTest")
 
-from Core.Foundation.core.neural_eye import NeuralEye
+from Core.FoundationLayer.Foundation.core.neural_eye import NeuralEye
 
 class MockWorld:
     def __init__(self, width=256):

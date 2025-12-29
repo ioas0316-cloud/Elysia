@@ -41,7 +41,7 @@ class TestYggdrasilIntegration:
     
     def test_yggdrasil_singleton(self):
         """Yggdrasil은 싱글톤이어야 함"""
-        from Core.Foundation.yggdrasil import Yggdrasil
+        from Core.FoundationLayer.Foundation.yggdrasil import Yggdrasil
         
         tree1 = Yggdrasil()
         tree2 = Yggdrasil()
@@ -50,7 +50,7 @@ class TestYggdrasilIntegration:
     
     def test_yggdrasil_realms_structure(self):
         """Yggdrasil의 영역 구조 테스트"""
-        from Core.Foundation.yggdrasil import Yggdrasil, Realm
+        from Core.FoundationLayer.Foundation.yggdrasil import Yggdrasil, Realm
         
         tree = Yggdrasil()
         
@@ -75,7 +75,7 @@ class TestEtherIntegration:
     
     def test_ether_singleton(self):
         """Ether는 싱글톤이어야 함"""
-        from Core.Foundation.ether import Ether
+        from Core.FoundationLayer.Foundation.ether import Ether
         
         ether1 = Ether()
         ether2 = Ether()
@@ -84,7 +84,7 @@ class TestEtherIntegration:
     
     def test_wave_creation(self):
         """파동 생성 테스트"""
-        from Core.Foundation.ether import Wave
+        from Core.FoundationLayer.Foundation.ether import Wave
         
         wave = Wave(
             sender="TestSender",
@@ -101,7 +101,7 @@ class TestEtherIntegration:
     
     def test_wave_emission_and_reception(self):
         """파동 발신 및 수신 테스트"""
-        from Core.Foundation.ether import ether, Wave
+        from Core.FoundationLayer.Foundation.ether import ether, Wave
         
         received_waves = []
         
@@ -128,7 +128,7 @@ class TestEtherIntegration:
     
     def test_wave_amplitude_filtering(self):
         """파동 진폭 필터링 테스트"""
-        from Core.Foundation.ether import ether, Wave
+        from Core.FoundationLayer.Foundation.ether import ether, Wave
         
         # 다양한 진폭의 파동 발신
         for amp in [0.1, 0.5, 0.9]:
@@ -156,7 +156,7 @@ class TestChronosIntegration:
     @pytest.mark.asyncio
     async def test_chronos_heartbeat(self):
         """심장박동 테스트"""
-        from Core.Foundation.chronos import Chronos
+        from Core.FoundationLayer.Foundation.chronos import Chronos
         
         # 가짜 엔진 생성
         class MockEngine:
@@ -177,7 +177,7 @@ class TestChronosIntegration:
     
     def test_chronos_bpm_setting(self):
         """BPM 설정 테스트"""
-        from Core.Foundation.chronos import Chronos
+        from Core.FoundationLayer.Foundation.chronos import Chronos
         
         class MockEngine:
             def subconscious_cycle(self):
@@ -199,7 +199,7 @@ class TestFreeWillEngineIntegration:
     @requires_google_ai
     def test_engine_initialization(self):
         """엔진 초기화 테스트"""
-        from Core.Foundation.free_will_engine import FreeWillEngine, WillPhase
+        from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine, WillPhase
         
         engine = FreeWillEngine()
         
@@ -211,7 +211,7 @@ class TestFreeWillEngineIntegration:
     @requires_google_ai
     def test_desire_creation(self):
         """욕망 생성 테스트"""
-        from Core.Foundation.free_will_engine import (
+        from Core.FoundationLayer.Foundation.free_will_engine import (
             FreeWillEngine, MissionType
         )
         
@@ -232,7 +232,7 @@ class TestFreeWillEngineIntegration:
     @requires_google_ai
     def test_imagination_engine(self):
         """상상 엔진 테스트"""
-        from Core.Foundation.free_will_engine import FreeWillEngine
+        from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
         
         engine = FreeWillEngine()
         
@@ -250,7 +250,7 @@ class TestFreeWillEngineIntegration:
     @requires_google_ai
     def test_core_values_exist(self):
         """핵심 가치 존재 확인"""
-        from Core.Foundation.free_will_engine import FreeWillEngine
+        from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
         
         engine = FreeWillEngine()
         
@@ -261,7 +261,7 @@ class TestFreeWillEngineIntegration:
     @requires_google_ai
     def test_will_loop_phases(self):
         """자유 의지 루프 단계 테스트"""
-        from Core.Foundation.free_will_engine import (
+        from Core.FoundationLayer.Foundation.free_will_engine import (
             FreeWillEngine, WillPhase
         )
         
@@ -284,8 +284,8 @@ class TestModuleInterconnection:
     @requires_google_ai
     def test_freewill_uses_ether(self):
         """FreeWillEngine이 Ether를 통해 통신하는지 테스트"""
-        from Core.Foundation.free_will_engine import FreeWillEngine
-        from Core.Foundation.ether import ether
+        from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
+        from Core.FoundationLayer.Foundation.ether import ether
         
         # 파동 수신 기록
         received = []
@@ -305,8 +305,8 @@ class TestModuleInterconnection:
     
     def test_yggdrasil_registers_modules(self):
         """Yggdrasil이 모듈을 등록할 수 있는지 테스트"""
-        from Core.Foundation.yggdrasil import yggdrasil
-        from Core.Foundation.ether import ether
+        from Core.FoundationLayer.Foundation.yggdrasil import yggdrasil
+        from Core.FoundationLayer.Foundation.ether import ether
         
         # 뿌리에 Ether 등록
         yggdrasil.plant_root("Ether", ether)
@@ -322,7 +322,7 @@ class TestErrorHandling:
     
     def test_ether_handles_callback_errors(self):
         """Ether가 콜백 오류를 처리하는지 테스트"""
-        from Core.Foundation.ether import ether, Wave
+        from Core.FoundationLayer.Foundation.ether import ether, Wave
         
         def faulty_listener(wave):
             raise ValueError("Intentional error")

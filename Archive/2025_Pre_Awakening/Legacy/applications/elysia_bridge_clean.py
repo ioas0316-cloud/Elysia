@@ -8,8 +8,8 @@ from datetime import datetime
 from pathlib import Path
 
 from Project_Elysia.cognition_pipeline import CognitionPipeline
-from Core.Foundation.conversation_state import WorkingMemory, TopicTracker
-from Core.Foundation.response_orchestrator import ResponseOrchestrator
+from Core.FoundationLayer.Foundation.conversation_state import WorkingMemory, TopicTracker
+from Core.FoundationLayer.Foundation.response_orchestrator import ResponseOrchestrator
 from nano_core.bus import MessageBus
 from nano_core.registry import ConceptRegistry
 from nano_core.scheduler import Scheduler

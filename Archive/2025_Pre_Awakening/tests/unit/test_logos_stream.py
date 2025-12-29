@@ -10,17 +10,17 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestLogosStream")
 
-from Core.Foundation.Mind.logos_stream import LogosStream
-from Core.Foundation.Mind.spiderweb import Spiderweb
-from Core.Foundation.Mind.hippocampus import Hippocampus
-from Core.Foundation.Mind.world_tree import WorldTree
+from Core.FoundationLayer.Foundation.Mind.logos_stream import LogosStream
+from Core.FoundationLayer.Foundation.Mind.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.Mind.world_tree import WorldTree
 
 def test():
     logger.info("🌊 Testing Logos Stream Flow...")
     
     hippocampus = Hippocampus()
     spiderweb = Spiderweb(hippocampus)
-    from Core.Intelligence.Intelligence.Prediction.predictive_world import PredictiveWorldModel
+    from Core.Intelligence.Prediction.predictive_world import PredictiveWorldModel
     predictive_world = PredictiveWorldModel(project_root=os.getcwd())
     stream = LogosStream(spiderweb, hippocampus, predictive_world)
     stream.world_tree = WorldTree(hippocampus)

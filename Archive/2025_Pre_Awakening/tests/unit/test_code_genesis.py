@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
-from Core.Foundation.code_cortex import CodeCortex
+from Core.FoundationLayer.Foundation.code_cortex import CodeCortex
 
 def test_genesis():
     print("🧬 Testing Code Genesis...")

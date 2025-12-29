@@ -5,7 +5,7 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.potential_field import PotentialField
+from Core.FoundationLayer.Foundation.potential_field import PotentialField
 
 def test_potential_field():
     print("Testing Potential Field Topology...")

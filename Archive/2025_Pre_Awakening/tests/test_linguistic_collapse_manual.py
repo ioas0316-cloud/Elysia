@@ -10,11 +10,11 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from Core.Foundation.linguistic_collapse import (
+from Core.FoundationLayer.Foundation.linguistic_collapse import (
     LinguisticCollapseProtocol,
     collapse_wave_to_language
 )
-from Core.Foundation.emotional_engine import EmotionalEngine
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalEngine
 
 
 def test_protocol_basic():
@@ -118,7 +118,7 @@ def test_with_physics_objects():
     print("-" * 60)
     
     try:
-        from Core.Foundation.hangul_physics import Tensor3D
+        from Core.FoundationLayer.Foundation.hangul_physics import Tensor3D
         from Core.Memory.unified_types import FrequencyWave
         
         protocol = LinguisticCollapseProtocol(use_poetry_engine=False)

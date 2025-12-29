@@ -16,5 +16,5 @@ REPO_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(REPO_ROOT))
 
 if __name__ == "__main__":
-    from Core.03_Interaction.01_Interface.Interface.avatar_server import main
+    from Core.InteractionLayer.Interface.avatar_server import main
     main()

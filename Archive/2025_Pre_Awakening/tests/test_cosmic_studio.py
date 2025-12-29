@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 # Force path to correct root
 sys.path.append(r"C:\Elysia")
 
-from Core.Foundation.cosmic_studio import CosmicStudio
-from Core.Foundation.hyper_quaternion import HyperWavePacket
+from Core.FoundationLayer.Foundation.cosmic_studio import CosmicStudio
+from Core.FoundationLayer.Foundation.hyper_quaternion import HyperWavePacket
 
 class TestCosmicStudio(unittest.TestCase):
     def setUp(self):

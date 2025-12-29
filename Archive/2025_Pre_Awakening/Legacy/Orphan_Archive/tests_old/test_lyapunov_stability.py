@@ -15,7 +15,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.stability_controller import (
+from Core.FoundationLayer.Foundation.stability_controller import (
     LyapunovController,
     StateVector,
     StabilityStatus

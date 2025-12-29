@@ -12,7 +12,7 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.laplace_engine import LaplaceEngine, TransferFunction
+from Core.FoundationLayer.Foundation.laplace_engine import LaplaceEngine, TransferFunction
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 

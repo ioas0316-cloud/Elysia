@@ -8,7 +8,7 @@ based on their Axiomatic Principles, not just text labels.
 import sys
 sys.path.append(r'c:\Elysia')
 
-from Core.Foundation.fractal_concept import ConceptDecomposer
+from Core.FoundationLayer.Foundation.fractal_concept import ConceptDecomposer
 
 def test_discrimination():
     decomposer = ConceptDecomposer()

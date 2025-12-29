@@ -7,8 +7,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.central_nervous_system import CentralNervousSystem
-from Core.01_Foundation.05_Foundation_Base.Foundation.reality_sculptor import RealitySculptor
+from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
+from Core.FoundationLayer.Foundation.reality_sculptor import RealitySculptor
 
 def test_safety_anchor():
     print("\n⚓ [SAFETY TEST] Testing Immutable Core Protection")

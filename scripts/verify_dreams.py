@@ -15,7 +15,7 @@ import os
 import logging
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.05_Systems.01_Monitoring.System.Autonomy.dream_daemon import DreamDaemon
+from Core.SystemLayer.System.Autonomy.dream_daemon import DreamDaemon
 
 # Setup Logging to see output
 logging.basicConfig(level=logging.INFO)

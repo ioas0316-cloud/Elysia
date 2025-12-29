@@ -12,7 +12,7 @@ class TestCNS:
     
     def test_cns_initialization(self):
         """Test CNS can be initialized with required components"""
-        from Core.Foundation.central_nervous_system import CentralNervousSystem
+        from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
         
         # Mock dependencies
         chronos = Mock()
@@ -30,7 +30,7 @@ class TestCNS:
     
     def test_connect_organ(self):
         """Test connecting organs to CNS"""
-        from Core.Foundation.central_nervous_system import CentralNervousSystem
+        from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
         
         chronos = Mock()
         resonance = Mock()
@@ -48,7 +48,7 @@ class TestCNS:
     
     def test_awaken(self):
         """Test CNS awakening"""
-        from Core.Foundation.central_nervous_system import CentralNervousSystem
+        from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
         
         cns = CentralNervousSystem(Mock(), Mock(), Mock(), Mock())
         
@@ -58,7 +58,7 @@ class TestCNS:
     
     def test_pulse_when_not_awake(self):
         """Test pulse does nothing when not awake"""
-        from Core.Foundation.central_nervous_system import CentralNervousSystem
+        from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
         
         chronos = Mock()
         cns = CentralNervousSystem(chronos, Mock(), Mock(), Mock())
@@ -70,7 +70,7 @@ class TestCNS:
     
     def test_pulse_with_organs(self):
         """Test pulse with connected organs"""
-        from Core.Foundation.central_nervous_system import CentralNervousSystem
+        from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
         
         chronos = Mock()
         chronos.tick = Mock()
@@ -104,7 +104,7 @@ class TestCNS:
     
     def test_water_principle(self):
         """Test error absorption (Water Principle)"""
-        from Core.Foundation.central_nervous_system import CentralNervousSystem
+        from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
         
         chronos = Mock()
         chronos.tick = Mock(side_effect=Exception("Test error"))

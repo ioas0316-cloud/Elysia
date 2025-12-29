@@ -25,7 +25,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from Core.Interface.nervous_system import get_nervous_system
-from Core.Foundation.hippocampus import Hippocampus, ConceptNode
+from Core.FoundationLayer.Foundation.hippocampus import Hippocampus, ConceptNode
 
 class DramaClub:
     def __init__(self):

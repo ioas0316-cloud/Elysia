@@ -10,7 +10,7 @@ from __future__ import annotations
 import argparse
 from datetime import datetime
 from pathlib import Path
-from Core.Foundation.creative_writing_cortex import CreativeWritingCortex
+from Core.FoundationLayer.Foundation.creative_writing_cortex import CreativeWritingCortex
 from tools.kg_manager import KGManager
 
 

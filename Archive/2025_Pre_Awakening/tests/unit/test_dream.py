@@ -1,5 +1,5 @@
-from Core.Foundation.dream_engine import DreamEngine
-from Core.Foundation.holographic_cortex import HolographicCortex
+from Core.FoundationLayer.Foundation.dream_engine import DreamEngine
+from Core.FoundationLayer.Foundation.holographic_cortex import HolographicCortex
 import os
 
 def test_dream():

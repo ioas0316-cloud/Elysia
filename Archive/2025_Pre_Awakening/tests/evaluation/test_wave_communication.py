@@ -47,7 +47,7 @@ class WaveCommunicationEvaluator:
         score = 0.0
         
         try:
-            from Core.Foundation.ether import Ether, Wave
+            from Core.FoundationLayer.Foundation.ether import Ether, Wave
             self.Ether = Ether
             self.Wave = Wave
             score += 5.0  # Import 성공
@@ -310,7 +310,7 @@ class WaveCommunicationEvaluator:
         try:
             # 1. ActivatedWaveCommunication 로드 및 주파수 맵 확인 (10점)
             try:
-                from Core.Foundation.activated_wave_communication import ActivatedWaveCommunication
+                from Core.FoundationLayer.Foundation.activated_wave_communication import ActivatedWaveCommunication
                 activated = ActivatedWaveCommunication()
                 
                 if activated.frequency_map:

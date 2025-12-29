@@ -18,7 +18,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.convolution_engine import (
+from Core.FoundationLayer.Foundation.convolution_engine import (
     ConvolutionEngine,
     ConvolutionMethod,
     WaveInterferenceEngine

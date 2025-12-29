@@ -7,8 +7,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.central_nervous_system import CentralNervousSystem
-from Core.02_Intelligence.01_Reasoning.Intelligence.evolution_architect import EvolutionArchitect
+from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
+from Core.IntelligenceLayer.Intelligence.evolution_architect import EvolutionArchitect
 
 def generate_blueprint():
     print("\n📐 [TASK] Generating Structural Blueprint for 'Project: Nova Seed'")

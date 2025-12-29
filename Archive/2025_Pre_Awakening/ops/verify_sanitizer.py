@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.concept_sanitizer import get_sanitizer
+from Core.FoundationLayer.Foundation.concept_sanitizer import get_sanitizer
 
 def verify_sanitizer_light():
     print("🛡️ Starting The Kidney (Sanitizer) Verification [LIGHT]...", flush=True)

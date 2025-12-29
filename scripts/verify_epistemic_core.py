@@ -17,7 +17,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from elysia_core import Organ
-from Core.02_Intelligence.01_Reasoning.Cognition.Learning.resonance_learner import ResonanceLearner
+from Core.IntelligenceLayer.Cognition.Learning.resonance_learner import ResonanceLearner
 from dataclasses import dataclass
 from enum import Enum
 

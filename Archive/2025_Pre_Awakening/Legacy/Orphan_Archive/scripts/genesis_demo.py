@@ -13,8 +13,8 @@ logger = logging.getLogger("GenesisDemo")
 
 print("DEBUG: Starting imports...")
 try:
-    from Core.Foundation.core.world import World
-    from Core.Foundation.core.genesis_engine import GenesisEngine
+    from Core.FoundationLayer.Foundation.core.world import World
+    from Core.FoundationLayer.Foundation.core.genesis_engine import GenesisEngine
 except ImportError as e:
     print(f"DEBUG: Import failed: {e}")
     sys.exit(1)

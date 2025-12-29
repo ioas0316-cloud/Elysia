@@ -29,7 +29,7 @@ print("🧪 FractalLoop + ThoughtSpace Integration Test")
 print("   '만약 이렇게 하면?' - 행동 전에 생각한다")
 print("="*60)
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.fractal_loop import FractalLoop, FractalWave
+from Core.FoundationLayer.Foundation.fractal_loop import FractalLoop, FractalWave
 
 # Create loop with mock CNS
 mock_cns = MockCNS()

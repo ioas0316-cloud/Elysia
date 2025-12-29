@@ -53,7 +53,7 @@ class ElysiaLivingDaemon:
         
         # 탐색기
         try:
-            from Core.04_Evolution.01_Growth.Autonomy.autonomous_explorer import get_autonomous_explorer
+            from Core.EvolutionLayer.Growth.Autonomy.autonomous_explorer import get_autonomous_explorer
             self.explorer = get_autonomous_explorer()
             logger.info("   ✅ Explorer connected")
         except Exception as e:
@@ -62,7 +62,7 @@ class ElysiaLivingDaemon:
         
         # 멀티모달 통합
         try:
-            from Core.01_Foundation.05_Foundation_Base.Foundation.multimodal_concept_node import get_multimodal_integrator
+            from Core.FoundationLayer.Foundation.multimodal_concept_node import get_multimodal_integrator
             self.multimodal = get_multimodal_integrator()
             logger.info("   ✅ Multimodal connected")
         except Exception as e:
@@ -146,7 +146,7 @@ class ElysiaLivingDaemon:
         BlackHole → WhiteHole → InternalUniverse 순환
         """
         try:
-            from Core.01_Foundation.05_Foundation_Base.Foundation.white_hole import get_blackhole_whitehole_cycle
+            from Core.FoundationLayer.Foundation.white_hole import get_blackhole_whitehole_cycle
             
             cycle = get_blackhole_whitehole_cycle()
             result = cycle.process_new_knowledge(
@@ -167,7 +167,7 @@ class ElysiaLivingDaemon:
             logger.warning(f"   ⚠️ Internalization fallback: {e}")
             # 폴백: 직접 InternalUniverse에 흡수
             try:
-                from Core.01_Foundation.05_Foundation_Base.Foundation.internal_universe import InternalUniverse
+                from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
                 universe = InternalUniverse()
                 universe.absorb_text(content, source_name=topic)
             except:

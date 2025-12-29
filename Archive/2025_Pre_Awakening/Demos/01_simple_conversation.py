@@ -7,7 +7,7 @@ Demonstrates basic text-based conversation with Elysia.
 This shows the Voice → Brain → Response pipeline.
 
 Usage:
-    python demos/01_simple_conversation.py
+    python demos/simple_conversation.py
 """
 
 import sys
@@ -72,8 +72,8 @@ def simple_conversation_demo():
     print("  • Philosophy: CODEX (5 Laws of Resonance)")
     print()
     print("Next steps:")
-    print("  - Try: python demos/02_goal_decomposition.py")
-    print("  - Try: python demos/03_wave_thinking.py")
+    print("  - Try: python demos/goal_decomposition.py")
+    print("  - Try: python demos/wave_thinking.py")
     print("  - Or run full system: python Core/Foundation/living_elysia.py")
     print("=" * 60)
 

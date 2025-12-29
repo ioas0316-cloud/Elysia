@@ -21,7 +21,7 @@ def conduct_audit():
     # 1. Check Project_Sophia/core/self_fractal.py (The Source)
     print("\n[Source] SelfFractalCell:")
     try:
-        from Core.Foundation.core.self_fractal import SelfFractalCell
+        from Core.FoundationLayer.Foundation.core.self_fractal import SelfFractalCell
         cell = SelfFractalCell()
         if hasattr(cell, 'grid') and len(cell.grid.shape) == 3:
             print("  [PASS] Tensor Structure (H, W, 3) detected.")

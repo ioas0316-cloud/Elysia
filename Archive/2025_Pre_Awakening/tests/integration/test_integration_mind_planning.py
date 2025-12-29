@@ -5,9 +5,9 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.Mind.resonance_engine import ResonanceEngine
-from Core.Intelligence.Intelligence.Consciousness.wave import WaveInput
-from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex
+from Core.FoundationLayer.Foundation.Mind.resonance_engine import ResonanceEngine
+from Core.Intelligence.Consciousness.wave import WaveInput
+from Core.Intelligence.Planning.planning_cortex import PlanningCortex
 
 def test_integration():
     print("🔗 Testing Integration: ResonanceEngine -> PlanningCortex")

@@ -11,7 +11,7 @@ sys.path.insert(0, project_root)
 from Project_Elysia.guardian import Guardian
 from Project_Elysia.architecture.handlers import HypothesisHandler
 from Project_Elysia.core_memory import CoreMemory
-from Core.Foundation.question_generator import QuestionGenerator
+from Core.FoundationLayer.Foundation.question_generator import QuestionGenerator
 
 class TestSelfGrowthProtocol(unittest.TestCase):
 

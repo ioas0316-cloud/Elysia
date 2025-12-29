@@ -12,8 +12,8 @@ try:
 except ImportError:
     CUPY_AVAILABLE = False
 
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 # Only run these heavyweight perf tests when explicitly requested.

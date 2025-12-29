@@ -6,7 +6,7 @@ import os
 # Add project root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Interface.Interface.Language.hangul_physics import HangulPhysicsEngine
+from Core.Interface.Language.hangul_physics import HangulPhysicsEngine
 from Core.Evolution.Evolution.Life.genetic_cell import GeneticCell
 
 class TestHangulPhysics(unittest.TestCase):

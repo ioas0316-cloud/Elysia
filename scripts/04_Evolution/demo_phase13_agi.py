@@ -10,7 +10,7 @@ Demonstrates:
 """
 
 import asyncio
-from Core.05_Systems.03_Existence.AGI import UniversalTransferLearner, AbstractReasoner, CausalReasoner
+from Core.SystemLayer.Existence.AGI import UniversalTransferLearner, AbstractReasoner, CausalReasoner
 
 
 def print_section(title: str):
@@ -241,7 +241,7 @@ async def demo_causal_reasoning():
     print("\n🔗 Example 2: Predicting Intervention Effects")
     print("-" * 80)
     
-    from Core.05_Systems.03_Existence.AGI.causal_reasoner import Intervention
+    from Core.SystemLayer.Existence.AGI.causal_reasoner import Intervention
     
     intervention = Intervention(
         variable="exercise",

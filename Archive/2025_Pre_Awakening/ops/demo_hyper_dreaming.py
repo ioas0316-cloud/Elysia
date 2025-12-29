@@ -7,8 +7,8 @@ import random
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Elysia.elysia_core import ElysiaCore
-from Core.Foundation.torch_graph import get_torch_graph
-from Core.Foundation.tiny_brain import get_tiny_brain
+from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.tiny_brain import get_tiny_brain
 from Core.Cognition.reality_grounding import get_reality_grounding
 
 def hyper_dream_simulation():

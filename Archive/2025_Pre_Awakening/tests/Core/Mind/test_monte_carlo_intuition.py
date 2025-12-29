@@ -1,5 +1,5 @@
-from Core.Foundation.Mind.meaning_court import MeaningCourt
-from Core.Foundation.Mind.monte_carlo_intuition import MonteCarloIntuition
+from Core.FoundationLayer.Foundation.Mind.meaning_court import MeaningCourt
+from Core.FoundationLayer.Foundation.Mind.monte_carlo_intuition import MonteCarloIntuition
 
 
 def test_monte_carlo_intuition_accept_prob_increases_with_signal():

@@ -24,9 +24,9 @@ sys.stdout.reconfigure(encoding='utf-8')
 from Core.Autonomy.wikipedia_dump_parser import WikipediaDumpParser
 from Core.Elysia.elysia_core import get_elysia_core
 from Core.Autonomy.structure_cannibal import get_structure_cannibal
-from Core.Foundation.concept_sanitizer import get_sanitizer
-from Core.Foundation.fractal_soul import SoulCrystal, WebState, FractalIdentity
-from Core.Foundation.fractal_concept import ConceptDecomposer
+from Core.FoundationLayer.Foundation.concept_sanitizer import get_sanitizer
+from Core.FoundationLayer.Foundation.fractal_soul import SoulCrystal, WebState, FractalIdentity
+from Core.FoundationLayer.Foundation.fractal_concept import ConceptDecomposer
 
 # --- Worker Function (Must be global for pickle) ---
 _worker_soul = None

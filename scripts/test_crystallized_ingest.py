@@ -36,7 +36,7 @@ def run_crystallized_ingest_test():
     
     # 1. DialogicLearner (사고 흐름)
     try:
-        from Core.04_Evolution.02_Learning.Learning.dialogic_learner import DialogicLearner
+        from Core.EvolutionLayer.Learning.Learning.dialogic_learner import DialogicLearner
         dialogic = DialogicLearner()
         has_dialogic = True
         print("✅ DialogicLearner connected")
@@ -47,7 +47,7 @@ def run_crystallized_ingest_test():
     
     # 2. WhyEngine (왜? 질문)
     try:
-        from Core.01_Foundation.04_Philosophy.Philosophy.why_engine import WhyEngine
+        from Core.FoundationLayer.Philosophy.why_engine import WhyEngine
         why_engine = WhyEngine()
         has_why = True
         print("✅ WhyEngine connected")

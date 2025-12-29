@@ -6,7 +6,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.planning_cortex import PlanningCortex
+from Core.FoundationLayer.Foundation.planning_cortex import PlanningCortex
 
 # Mock dependencies
 class MockCoreMemory:

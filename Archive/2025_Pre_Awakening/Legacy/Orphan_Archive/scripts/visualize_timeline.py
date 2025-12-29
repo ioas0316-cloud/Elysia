@@ -9,8 +9,8 @@ import argparse
 # 경로 추가
 sys.path.append('.')
 from Project_Elysia.core.divine_engine import ElysiaDivineEngineV2
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 

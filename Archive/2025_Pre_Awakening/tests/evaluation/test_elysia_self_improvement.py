@@ -29,13 +29,13 @@ except ImportError:
     HYPER_SPACETIME_AVAILABLE = False
 
 try:
-    from Core.Foundation.consciousness_fabric import ConsciousnessFabric
+    from Core.FoundationLayer.Foundation.consciousness_fabric import ConsciousnessFabric
     FABRIC_AVAILABLE = True
 except ImportError:
     FABRIC_AVAILABLE = False
 
 try:
-    from Core.Foundation.wave_knowledge_integration import WaveKnowledgeIntegration
+    from Core.FoundationLayer.Foundation.wave_knowledge_integration import WaveKnowledgeIntegration
     WAVE_AVAILABLE = True
 except ImportError:
     WAVE_AVAILABLE = False

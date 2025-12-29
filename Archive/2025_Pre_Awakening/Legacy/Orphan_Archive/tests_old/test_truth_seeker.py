@@ -10,12 +10,12 @@ sys.path.insert(0, project_root)
 # Import the class we are testing and its dependencies
 from Project_Elysia.core_memory import CoreMemory
 from tools.kg_manager import KGManager
-from Core.Foundation.emotional_engine import EmotionalEngine
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalEngine
 from Project_Elysia.architecture.handlers import HypothesisHandler
 from Project_Elysia.architecture.context import ConversationContext
-from Core.Foundation.question_generator import QuestionGenerator
-from Core.Foundation.response_styler import ResponseStyler
-from Core.Foundation.emotional_engine import EmotionalState
+from Core.FoundationLayer.Foundation.question_generator import QuestionGenerator
+from Core.FoundationLayer.Foundation.response_styler import ResponseStyler
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalState
 import logging
 
 class TestHypothesisHandler(unittest.TestCase):

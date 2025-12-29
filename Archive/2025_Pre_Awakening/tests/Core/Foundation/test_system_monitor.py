@@ -4,7 +4,7 @@ Tests for System Monitor
 
 import pytest
 import time
-from Core.Foundation.system_monitor import SystemMonitor, SystemMetrics, get_system_monitor
+from Core.FoundationLayer.Foundation.system_monitor import SystemMonitor, SystemMetrics, get_system_monitor
 
 class MockCNS:
     """Mock CNS for testing"""

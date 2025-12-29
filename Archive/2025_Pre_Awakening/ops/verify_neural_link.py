@@ -5,7 +5,7 @@ import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.tiny_brain import get_tiny_brain
+from Core.FoundationLayer.Foundation.tiny_brain import get_tiny_brain
 
 def verify_neural_link():
     print("🔗 Starting Neural Link Verification...")

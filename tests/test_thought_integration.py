@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, ".")
 
-from Core.02_Intelligence.01_Reasoning.Cognition.thought_space import ThoughtSpace
+from Core.IntelligenceLayer.Cognition.thought_space import ThoughtSpace
 
 print("="*60)
 print("🧠 ThoughtSpace 플라즈마 방향 + What-If 테스트")

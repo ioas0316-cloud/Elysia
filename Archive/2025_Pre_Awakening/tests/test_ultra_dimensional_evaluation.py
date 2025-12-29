@@ -20,9 +20,9 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.wave_integration_hub import get_wave_hub
-from Core.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
-from Core.Foundation.real_communication_system import RealCommunicationSystem
+from Core.FoundationLayer.Foundation.wave_integration_hub import get_wave_hub
+from Core.FoundationLayer.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
+from Core.FoundationLayer.Foundation.real_communication_system import RealCommunicationSystem
 
 
 def evaluate_wave_communication() -> float:

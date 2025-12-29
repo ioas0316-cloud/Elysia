@@ -14,7 +14,7 @@ import tempfile
 import shutil
 from pathlib import Path
 
-from Core.Foundation.unified_knowledge_system import (
+from Core.FoundationLayer.Foundation.unified_knowledge_system import (
     UnifiedKnowledgeSystem,
     KnowledgeEntry,
     KnowledgeType,

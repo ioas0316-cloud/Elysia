@@ -7,8 +7,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.02_Intelligence.01_Reasoning.Cognition.predictive_mind import PredictiveMind
-from Core.01_Foundation.05_Foundation_Base.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalChain, CausalLink, CausalRelationType
+from Core.IntelligenceLayer.Cognition.predictive_mind import PredictiveMind
+from Core.FoundationLayer.Foundation.causal_narrative_engine import CausalNarrativeEngine, CausalChain, CausalLink, CausalRelationType
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("AdvancedNarrativeTest")
@@ -60,7 +60,7 @@ def verify_advanced_narrative():
         print("   ❌ FAILURE: Failed to verify complex chain.")
 
     # 6. Goal-Directed Pathfinding
-    from Core.01_Foundation.05_Foundation_Base.Foundation.self_governance import SelfGovernance
+    from Core.FoundationLayer.Foundation.self_governance import SelfGovernance
     print("\n5. Testing Goal-Directed Pathfinding...")
     gov = SelfGovernance()
     goal = "I want to harvest Fruit"

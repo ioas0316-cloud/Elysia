@@ -5,7 +5,7 @@ Tests for Unified Monitor
 import pytest
 import time
 from unittest.mock import Mock, MagicMock
-from Core.Foundation.unified_monitor import UnifiedMonitor, get_unified_monitor, SystemMetrics
+from Core.FoundationLayer.Foundation.unified_monitor import UnifiedMonitor, get_unified_monitor, SystemMetrics
 
 
 class TestUnifiedMonitor:

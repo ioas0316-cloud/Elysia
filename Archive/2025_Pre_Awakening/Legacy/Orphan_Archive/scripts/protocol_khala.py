@@ -9,10 +9,10 @@ from sklearn.linear_model import Ridge
 # Ensure project root is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
-from Core.Foundation.core.reservoir_mesh import ReservoirMesh
+from Core.FoundationLayer.Foundation.core.reservoir_mesh import ReservoirMesh
 
 # Setup Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

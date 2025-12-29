@@ -5,8 +5,8 @@ from pyquaternion import Quaternion
 from Project_Elysia.core.quaternion_consciousness import ConsciousnessState, ConsciousnessLens
 from Project_Elysia.core.genesis_bridge import GenesisRequestObject, GenesisArbiter
 from Project_Elysia.transcendence_core import TranscendenceCore
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 
 # Configure logging to see the flow
 logging.basicConfig(level=logging.INFO)

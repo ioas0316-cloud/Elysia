@@ -12,9 +12,9 @@ from scipy.sparse import csr_matrix
 
 
 
-from Core.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.core.world import World
 
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 
 
 

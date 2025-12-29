@@ -13,12 +13,12 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from Core.Foundation.linguistic_collapse import (
+from Core.FoundationLayer.Foundation.linguistic_collapse import (
     LinguisticCollapseProtocol,
     WaveMetaphor,
     collapse_wave_to_language
 )
-from Core.Foundation.emotional_engine import EmotionalEngine, EmotionalState
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalEngine, EmotionalState
 
 
 class TestLinguisticCollapseProtocol:
@@ -71,7 +71,7 @@ class TestLinguisticCollapseProtocol:
     def test_wave_collapse_with_objects(self):
         """Test wave collapse with actual tensor and wave objects"""
         try:
-            from Core.Foundation.hangul_physics import Tensor3D
+            from Core.FoundationLayer.Foundation.hangul_physics import Tensor3D
             from Core.Memory.unified_types import FrequencyWave
         except ImportError:
             pytest.skip("Physics objects not available")

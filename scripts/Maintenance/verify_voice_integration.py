@@ -54,8 +54,8 @@ with open(voice_file, 'r') as f:
     content = f.read()
     
 checks = {
-    "IntegratedVoiceSystem import": "from Core.03_Interaction.02_Expression.Expression.integrated_voice_system import IntegratedVoiceSystem" in content,
-    "Synesthesia bridge import": "from Core.03_Interaction.01_Interface.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge" in content,
+    "IntegratedVoiceSystem import": "from Core.InteractionLayer.Expression.integrated_voice_system import IntegratedVoiceSystem" in content,
+    "Synesthesia bridge import": "from Core.InteractionLayer.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge" in content,
     "integrated_voice attribute": "self.integrated_voice" in content,
     "process_text_input method": "def process_text_input" in content,
     "get_voice_status method": "def get_voice_status" in content
@@ -100,7 +100,7 @@ if all_checks_passed:
     print()
     print("Usage:")
     print("  1. Full system: python Core/Foundation/living_elysia.py")
-    print("  2. Demo: python demos/04_integrated_voice.py")
+    print("  2. Demo: python demos/integrated_voice.py")
     print("  3. API: Use voice API in web server")
     print("="*70)
 else:

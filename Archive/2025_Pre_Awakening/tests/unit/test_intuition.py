@@ -9,8 +9,8 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestIntuition")
 
-from Core.Foundation.Mind.causal_narrative import CausalNarrativeEngine, CausalRelationType
-from Core.Foundation.Mind.intuition import IntuitionEngine
+from Core.FoundationLayer.Foundation.Mind.causal_narrative import CausalNarrativeEngine, CausalRelationType
+from Core.FoundationLayer.Foundation.Mind.intuition import IntuitionEngine
 
 def test():
     logger.info("🧪 Testing Intuition Engine...")

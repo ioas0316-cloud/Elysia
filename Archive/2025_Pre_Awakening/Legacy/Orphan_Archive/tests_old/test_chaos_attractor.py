@@ -18,7 +18,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.chaos_attractor import (
+from Core.FoundationLayer.Foundation.chaos_attractor import (
     LorenzAttractor,
     ChaosControl,
     FractalBeauty,

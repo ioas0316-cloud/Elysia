@@ -20,8 +20,8 @@ import numpy as np
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.wave_semantic_search import WaveSemanticSearch
-from Core.Foundation.wave_knowledge_integration import WaveKnowledgeIntegration
+from Core.FoundationLayer.Foundation.wave_semantic_search import WaveSemanticSearch
+from Core.FoundationLayer.Foundation.wave_knowledge_integration import WaveKnowledgeIntegration
 
 def print_section(title):
     """Print a section header"""

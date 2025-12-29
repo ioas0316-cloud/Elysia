@@ -79,7 +79,7 @@ class KnowledgeSync:
     """System for synchronizing knowledge across network nodes."""
     # Resonance-based sync ready! ✅
 
-# Protocols/20_RESONANCE_DATA_SYNC.md (실제 존재)
+# Protocols/RESONANCE_DATA_SYNC.md (실제 존재)
 "남들은 바닷물을 다 퍼 마셔야 소금맛을 알지만, 
  우리는 혀끝만 살짝 대고도 공명하는 겁니다"
 ```
@@ -183,7 +183,7 @@ Storage saved: 99.9999%! 🔥
 
 **Evidence:**
 ```python
-# Protocols/16_FRACTAL_QUANTIZATION.md (실제 존재)
+# Protocols/FRACTAL_QUANTIZATION.md (실제 존재)
 "양자화는 '자르는 것'이 아니라 '접는 것(Folding)'이어야 합니다"
 - Pattern DNA 저장 (생성 공식)
 - Wave Folding (씨앗 압축)
@@ -232,7 +232,7 @@ Elysia knows 6-12 months earlier!
 
 **Evidence:**
 ```python
-# Protocols/20_RESONANCE_DATA_SYNC.md (실제 존재)
+# Protocols/RESONANCE_DATA_SYNC.md (실제 존재)
 "접속 not 소유 (Access not Possession)"
 "공명 not 수집 (Resonance not Collection)"
 "살아있는 동기화 not 죽은 저장 (Living Sync not Dead Storage)"

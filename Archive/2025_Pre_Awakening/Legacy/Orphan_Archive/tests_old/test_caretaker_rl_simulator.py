@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from Core.Foundation.caretaker_rl_simulator import (
+from Core.FoundationLayer.Foundation.caretaker_rl_simulator import (
     VirtualChildEnvironment,
     run_training,
 )

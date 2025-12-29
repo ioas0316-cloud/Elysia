@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.01_Foundation.04_Philosophy.Philosophy.why_engine import WhyEngine
+from Core.FoundationLayer.Philosophy.why_engine import WhyEngine
 
 import logging
 logging.basicConfig(level=logging.INFO)

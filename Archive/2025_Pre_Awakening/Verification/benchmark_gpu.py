@@ -2,8 +2,8 @@
 import sys
 import time
 sys.path.append(r'c:\Elysia')
-from Core.Foundation.omni_graph import get_omni_graph
-from Core.Foundation.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.omni_graph import get_omni_graph
+from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
 
 def benchmark_engine():
     print("🏎️  Engine Benchmark: CPU vs GPU (Torch)")

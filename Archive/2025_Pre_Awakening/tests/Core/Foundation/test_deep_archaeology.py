@@ -6,9 +6,9 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.FoundationLayer.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Evolution.code_genome import CodeDNA
-from Core.Foundation.code_world import CodeWorld
+from Core.FoundationLayer.Foundation.code_world import CodeWorld
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

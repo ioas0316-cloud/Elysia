@@ -31,7 +31,7 @@ except ImportError:
 
 # Paths
 sys.path.append(r'c:\Elysia')
-from Core.Foundation.fractal_concept import ConceptDecomposer
+from Core.FoundationLayer.Foundation.fractal_concept import ConceptDecomposer
 from Core.Elysia.elysia_core import get_elysia_core
 
 # Logger
@@ -281,7 +281,7 @@ class FractalCrawler(RealWorldAdapter):
                 
                 # --- [NEW] Structural Digestion ---
                 # We analyze the "Body" of the internet (HTML structure)
-                from Core.Foundation.fractal_concept import ConceptDecomposer
+                from Core.FoundationLayer.Foundation.fractal_concept import ConceptDecomposer
                 decomposer = ConceptDecomposer()
                 
                 # We categorize the raw tokens

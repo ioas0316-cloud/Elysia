@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(r'c:\Elysia')
 from Core.Interface.world_exporter import get_world_exporter
-from Core.Foundation.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
 import torch
 
 def verify_viz():

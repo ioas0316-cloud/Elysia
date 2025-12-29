@@ -29,7 +29,7 @@ class TestIntegratedCognition:
             IntegratedCognition,
             ThoughtWave
         )
-        from Core.Foundation.hyper_quaternion import Quaternion
+        from Core.FoundationLayer.Foundation.hyper_quaternion import Quaternion
         
         wave1 = ThoughtWave(
             content="Love",

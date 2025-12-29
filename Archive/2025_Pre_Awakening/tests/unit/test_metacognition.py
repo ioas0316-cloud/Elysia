@@ -1,4 +1,4 @@
-from Core.Foundation.planning_cortex import PlanningCortex, SophiaBlueprint
+from Core.FoundationLayer.Foundation.planning_cortex import PlanningCortex, SophiaBlueprint
 
 def test_metacognition():
     print("🧪 Testing Metacognition (Sophia's Mirror)...")

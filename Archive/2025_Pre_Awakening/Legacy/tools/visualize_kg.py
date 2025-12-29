@@ -8,8 +8,8 @@ sys.path.insert(0, project_root)
 
 from tools.canvas_tool import Canvas
 from tools.kg_manager import KGManager
-from Core.Foundation.wave_mechanics import WaveMechanics
-from Core.Foundation.lens_profile import LensProfile
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.lens_profile import LensProfile
 import random
 from datetime import datetime
 

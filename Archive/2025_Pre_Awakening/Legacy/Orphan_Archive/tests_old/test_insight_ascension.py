@@ -9,7 +9,7 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
 from Project_Elysia.guardian import Guardian, PRIMORDIAL_DNA
-from Core.Foundation.core.cell import Cell
+from Core.FoundationLayer.Foundation.core.cell import Cell
 from Project_Elysia.core_memory import CoreMemory
 
 class TestInsightAscension(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from Core.Foundation.core.alchemy_cortex import AlchemyCortex
+from Core.FoundationLayer.Foundation.core.alchemy_cortex import AlchemyCortex
 
 class TestAlchemyCortex(unittest.TestCase):
     def setUp(self):

@@ -7,11 +7,11 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.central_nervous_system import CentralNervousSystem
-from Core.01_Foundation.05_Foundation_Base.Foundation.chronos import Chronos
-from Core.01_Foundation.05_Foundation_Base.Foundation.resonance_field import ResonanceField
-from Core.01_Foundation.05_Foundation_Base.Foundation.free_will_engine import FreeWillEngine
-from Core.01_Foundation.05_Foundation_Base.Foundation.heartbeat_daemon import HeartbeatDaemon
+from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
+from Core.FoundationLayer.Foundation.chronos import Chronos
+from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
+from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
+from Core.FoundationLayer.Foundation.heartbeat_daemon import HeartbeatDaemon
 
 # Mocks for missing pieces
 class MockSynapse:

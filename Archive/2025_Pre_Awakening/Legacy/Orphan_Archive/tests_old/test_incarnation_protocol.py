@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
 import json
-from Core.Foundation.safety_guardian import SafetyGuardian, MaturityLevel, ActionCategory
-from Core.Foundation.tool_executor import ToolExecutor
+from Core.FoundationLayer.Foundation.safety_guardian import SafetyGuardian, MaturityLevel, ActionCategory
+from Core.FoundationLayer.Foundation.tool_executor import ToolExecutor
 
 class TestIncarnationProtocol(unittest.TestCase):
 

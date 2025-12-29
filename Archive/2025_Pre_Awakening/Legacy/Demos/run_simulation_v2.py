@@ -25,14 +25,14 @@ import time as real_time
 import json
 from typing import Dict, Optional
 
-from Core.Foundation.Physics.fluctlight import FluctlightEngine
-from Core.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.FoundationLayer.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.FoundationLayer.Foundation.Physics.meta_time_engine import create_safe_meta_engine
 from Core.System.System.Integration.experience_digester import ExperienceDigester
 from Core.System.System.Integration.meta_time_strategy import MetaTimeStrategy, TemporalMode, ComputationProfile
 from Core.System.System.Integration.integration_bridge import IntegrationBridge
-from Core.Intelligence.Intelligence.Consciousness.agent_decision_engine import AgentDecisionEngine, AgentContext
-from Core.Foundation.Mind.hippocampus import Hippocampus
-from Core.Foundation.Mind.alchemy import Alchemy
+from Core.Intelligence.Consciousness.agent_decision_engine import AgentDecisionEngine, AgentContext
+from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.Mind.alchemy import Alchemy
 
 logging.basicConfig(
     level=logging.INFO,

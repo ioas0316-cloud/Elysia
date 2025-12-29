@@ -4,7 +4,7 @@ Tests for Elysia Performance Monitor
 
 import pytest
 import time
-from Core.Foundation.performance_monitor import PerformanceMonitor, monitor
+from Core.FoundationLayer.Foundation.performance_monitor import PerformanceMonitor, monitor
 
 
 class TestPerformanceMonitor:

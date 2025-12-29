@@ -9,7 +9,7 @@ FIELD_PATH = r"c:\Elysia\data\elysia_concept_field.json"
 
 # Force path
 sys.path.append(r"C:\Elysia")
-from Core.02_Intelligence.01_Reasoning.Intelligence.resonance_memory import ResonanceField
+from Core.IntelligenceLayer.Intelligence.resonance_memory import ResonanceField
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger("ResonanceWeaver")

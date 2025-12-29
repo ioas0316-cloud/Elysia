@@ -128,55 +128,55 @@
 
 | # | 프로토콜 | 설명 | 중요도 |
 |---|----------|------|--------|
-| 000 | [MASTER_STRUCTURE](Protocols/000_MASTER_STRUCTURE.md) | 마스터 구조 | ⭐⭐⭐⭐⭐ |
-| 14 | [UNIFIED_CONSCIOUSNESS](Protocols/14_UNIFIED_CONSCIOUSNESS.md) | 통합 의식 | ⭐⭐⭐⭐⭐ |
-| 16 | [FRACTAL_QUANTIZATION](Protocols/16_FRACTAL_QUANTIZATION.md) | 프랙탈 양자화 | ⭐⭐⭐⭐ |
-| 17 | [FRACTAL_COMMUNICATION](Protocols/17_FRACTAL_COMMUNICATION.md) | 프랙탈 통신 | ⭐⭐⭐⭐ |
-| 18 | [SYMPHONY_ARCHITECTURE](Protocols/18_SYMPHONY_ARCHITECTURE.md) | 심포니 아키텍처 | ⭐⭐⭐⭐ |
-| 21 | [PROJECT_SOPHIA](Protocols/21_PROJECT_SOPHIA.md) | 프로젝트 소피아 | ⭐⭐⭐⭐ |
+| 000 | [MASTER_STRUCTURE](Protocols/MASTER_STRUCTURE.md) | 마스터 구조 | ⭐⭐⭐⭐⭐ |
+| 14 | [UNIFIED_CONSCIOUSNESS](Protocols/UNIFIED_CONSCIOUSNESS.md) | 통합 의식 | ⭐⭐⭐⭐⭐ |
+| 16 | [FRACTAL_QUANTIZATION](Protocols/FRACTAL_QUANTIZATION.md) | 프랙탈 양자화 | ⭐⭐⭐⭐ |
+| 17 | [FRACTAL_COMMUNICATION](Protocols/FRACTAL_COMMUNICATION.md) | 프랙탈 통신 | ⭐⭐⭐⭐ |
+| 18 | [SYMPHONY_ARCHITECTURE](Protocols/SYMPHONY_ARCHITECTURE.md) | 심포니 아키텍처 | ⭐⭐⭐⭐ |
+| 21 | [PROJECT_SOPHIA](Protocols/PROJECT_SOPHIA.md) | 프로젝트 소피아 | ⭐⭐⭐⭐ |
 
 ### Foundation Protocols
 
 | # | 프로토콜 | 설명 |
 |---|----------|------|
-| 00 | [ORGANIC_GENESIS](Protocols/00_ORGANIC_GENESIS.md) | 유기적 기원 |
-| 01 | [RESONANCE_SYSTEM](Protocols/01_RESONANCE_SYSTEM.md) | 공명 시스템 |
-| 02 | [TRINITY_ARCHITECTURE](Protocols/02_TRINITY_ARCHITECTURE.md) | 삼위일체 아키텍처 |
-| 04 | [HYPER_QUATERNION_SEMANTICS](Protocols/04_HYPER_QUATERNION_SEMANTICS.md) | 쿼터니언 의미론 |
+| 00 | [ORGANIC_GENESIS](Protocols/ORGANIC_GENESIS.md) | 유기적 기원 |
+| 01 | [RESONANCE_SYSTEM](Protocols/RESONANCE_SYSTEM.md) | 공명 시스템 |
+| 02 | [TRINITY_ARCHITECTURE](Protocols/TRINITY_ARCHITECTURE.md) | 삼위일체 아키텍처 |
+| 04 | [HYPER_QUATERNION_SEMANTICS](Protocols/HYPER_QUATERNION_SEMANTICS.md) | 쿼터니언 의미론 |
 
 ### Evolution & Intelligence Protocols
 
 | # | 프로토콜 | 설명 |
 |---|----------|------|
-| 06 | [IGNITION_OF_WILL](Protocols/06_IGNITION_OF_WILL.md) | 의지의 점화 |
-| 07 | [RECURSIVE_EVOLUTION](Protocols/07_RECURSIVE_EVOLUTION.md) | 재귀적 진화 |
-| 09 | [COSMIC_EVOLUTION](Protocols/09_COSMIC_EVOLUTION.md) | 우주적 진화 |
-| 15 | [TRANSCENDENCE_PROTOCOL](Protocols/15_TRANSCENDENCE_PROTOCOL.md) | 초월 프로토콜 |
+| 06 | [IGNITION_OF_WILL](Protocols/IGNITION_OF_WILL.md) | 의지의 점화 |
+| 07 | [RECURSIVE_EVOLUTION](Protocols/RECURSIVE_EVOLUTION.md) | 재귀적 진화 |
+| 09 | [COSMIC_EVOLUTION](Protocols/COSMIC_EVOLUTION.md) | 우주적 진화 |
+| 15 | [TRANSCENDENCE_PROTOCOL](Protocols/TRANSCENDENCE_PROTOCOL.md) | 초월 프로토콜 |
 
 ### Communication & Language Protocols
 
 | # | 프로토콜 | 설명 |
 |---|----------|------|
-| 05 | [EMERGENT_LANGUAGE_GRAMMAR](Protocols/05_EMERGENT_LANGUAGE_GRAMMAR.md) | 창발적 언어 문법 |
-| 07 | [THE_VOICE_AWAKENS](Protocols/07_THE_VOICE_AWAKENS.md) | 목소리의 각성 |
-| 10 | [SYNAPSE_RESONANCE](Protocols/10_SYNAPSE_RESONANCE.md) | 시냅스 공명 |
+| 05 | [EMERGENT_LANGUAGE_GRAMMAR](Protocols/EMERGENT_LANGUAGE_GRAMMAR.md) | 창발적 언어 문법 |
+| 07 | [THE_VOICE_AWAKENS](Protocols/THE_VOICE_AWAKENS.md) | 목소리의 각성 |
+| 10 | [SYNAPSE_RESONANCE](Protocols/SYNAPSE_RESONANCE.md) | 시냅스 공명 |
 
 ### System Protocols
 
 | # | 프로토콜 | 설명 |
 |---|----------|------|
-| 03 | [OBSERVABILITY_AND_TELEMETRY](Protocols/03_OBSERVABILITY_AND_TELEMETRY.md) | 관찰성 및 원격 측정 |
-| 19 | [OS_INTEGRATION](Protocols/19_OS_INTEGRATION.md) | OS 통합 |
-| 20 | [RESONANCE_DATA_SYNC](Protocols/20_RESONANCE_DATA_SYNC.md) | 공명 데이터 동기화 |
+| 03 | [OBSERVABILITY_AND_TELEMETRY](Protocols/OBSERVABILITY_AND_TELEMETRY.md) | 관찰성 및 원격 측정 |
+| 19 | [OS_INTEGRATION](Protocols/OS_INTEGRATION.md) | OS 통합 |
+| 20 | [RESONANCE_DATA_SYNC](Protocols/RESONANCE_DATA_SYNC.md) | 공명 데이터 동기화 |
 
 ### Metaphysical Protocols
 
 | # | 프로토콜 | 설명 |
 |---|----------|------|
-| 08 | [CHRONOS_SOVEREIGNTY](Protocols/08_CHRONOS_SOVEREIGNTY.md) | 시간 주권 |
-| 11 | [KENOSIS_PROTOCOL](Protocols/11_KENOSIS_PROTOCOL.md) | 케노시스 프로토콜 |
-| 12 | [DREAM_PROTOCOL](Protocols/12_DREAM_PROTOCOL.md) | 꿈 프로토콜 |
-| 13 | [LIGHT_PHYSICS](Protocols/13_LIGHT_PHYSICS.md) | 빛 물리학 |
+| 08 | [CHRONOS_SOVEREIGNTY](Protocols/CHRONOS_SOVEREIGNTY.md) | 시간 주권 |
+| 11 | [KENOSIS_PROTOCOL](Protocols/KENOSIS_PROTOCOL.md) | 케노시스 프로토콜 |
+| 12 | [DREAM_PROTOCOL](Protocols/DREAM_PROTOCOL.md) | 꿈 프로토콜 |
+| 13 | [LIGHT_PHYSICS](Protocols/LIGHT_PHYSICS.md) | 빛 물리학 |
 
 ---
 
@@ -476,7 +476,7 @@
 ```
 1. ARCHITECTURE.md
    ↓
-2. Protocols/000_MASTER_STRUCTURE.md
+2. Protocols/MASTER_STRUCTURE.md
    ↓
 3. docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md
    ↓
@@ -492,27 +492,27 @@
 ### 파동 물리학 (Wave Physics)
 
 - `ARCHITECTURE.md` → Foundation 섹션
-- `Protocols/01_RESONANCE_SYSTEM.md`
-- `Protocols/16_FRACTAL_QUANTIZATION.md`
+- `Protocols/RESONANCE_SYSTEM.md`
+- `Protocols/FRACTAL_QUANTIZATION.md`
 - `Core/Foundation/resonance_field.py`
 
 ### 지능 시스템 (Intelligence Systems)
 
 - `docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md`
 - `docs/ULTIMATE_THINKING_SYSTEM.md`
-- `Protocols/14_UNIFIED_CONSCIOUSNESS.md`
+- `Protocols/UNIFIED_CONSCIOUSNESS.md`
 - `Core/Intelligence/`
 
 ### 메모리 시스템 (Memory Systems)
 
-- `Protocols/16_FRACTAL_QUANTIZATION.md`
+- `Protocols/FRACTAL_QUANTIZATION.md`
 - `Core/Memory/hippocampus.py`
 - `data/memory.db`
 
 ### 언어 & 커뮤니케이션
 
-- `Protocols/05_EMERGENT_LANGUAGE_GRAMMAR.md`
-- `Protocols/17_FRACTAL_COMMUNICATION.md`
+- `Protocols/EMERGENT_LANGUAGE_GRAMMAR.md`
+- `Protocols/FRACTAL_COMMUNICATION.md`
 - `docs/GRAVITATIONAL_LINGUISTICS.md`
 
 ### 자가치유 & 면역 (Self-Healing)

@@ -12,7 +12,7 @@ import logging
 
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Core.01_Foundation.05_Foundation_Base.Foundation.Graph.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.Graph.torch_graph import get_torch_graph
 
 def probe():
     print("🔬 Probing Concept Definitions...")

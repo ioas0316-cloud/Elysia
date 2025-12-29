@@ -8,8 +8,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 try:
     from Core.Elysia.elysia_core import ElysiaCore
-    from Core.Foundation.torch_graph import get_torch_graph
-    from Core.Foundation.internal_universe import InternalUniverse
+    from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
+    from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
 except ImportError as e:
     print(f"❌ Import Error: {e}")
     sys.exit(1)

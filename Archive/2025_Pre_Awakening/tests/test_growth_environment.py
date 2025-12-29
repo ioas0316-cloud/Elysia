@@ -21,11 +21,11 @@ from Core.Ethics.Ethics.law_guidance_engine import (
     LawGuidanceEngine, LawNature, GuidanceState,
     PathOption, GuidanceReport, Consequence
 )
-from Core.Intelligence.Intelligence.Consciousness.autonomy_environment import (
+from Core.Intelligence.Consciousness.autonomy_environment import (
     AutonomyEnvironment, AutonomyDomain, AutonomousCapability,
     AutonomousChoice
 )
-from Core.Intelligence.Intelligence.Consciousness.relational_origin import (
+from Core.Intelligence.Consciousness.relational_origin import (
     RelationalOrigin, RelationshipType, Identity
 )
 

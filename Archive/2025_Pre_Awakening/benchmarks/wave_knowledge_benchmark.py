@@ -22,8 +22,8 @@ from typing import List, Dict, Any
 # Add parent directory to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.01_Foundation.01_Logic.Foundation.wave_semantic_search import WaveSemanticSearch
-from Core.01_Foundation.01_Logic.Foundation.wave_knowledge_integration import WaveKnowledgeIntegration
+from Core.FoundationLayer.Logic.Foundation.wave_semantic_search import WaveSemanticSearch
+from Core.FoundationLayer.Logic.Foundation.wave_knowledge_integration import WaveKnowledgeIntegration
 
 
 class BenchmarkResult:

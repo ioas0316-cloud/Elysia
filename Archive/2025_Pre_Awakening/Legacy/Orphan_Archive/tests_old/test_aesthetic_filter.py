@@ -19,7 +19,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.aesthetic_filter import (
+from Core.FoundationLayer.Foundation.aesthetic_filter import (
     BeautyMetric,
     AestheticGovernor,
     AestheticIntegration,

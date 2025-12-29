@@ -22,9 +22,9 @@ from unittest.mock import MagicMock
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.01_Foundation.04_Philosophy.Philosophy.why_engine import WhyEngine
-from Core.01_Foundation.05_Foundation_Base.Foundation.light_spectrum import LightSpectrum, PrismAxes
-from Core.04_Evolution.02_Learning.Learning.knowledge_sedimenter import KnowledgeSedimenter
+from Core.FoundationLayer.Philosophy.why_engine import WhyEngine
+from Core.FoundationLayer.Foundation.light_spectrum import LightSpectrum, PrismAxes
+from Core.EvolutionLayer.Learning.Learning.knowledge_sedimenter import KnowledgeSedimenter
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("VerifyMetaphor")

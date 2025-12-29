@@ -23,7 +23,7 @@ print("="*50)
 
 # 1. Foundation
 def check_universe():
-    from Core.Foundation.internal_universe import InternalUniverse
+    from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
     return InternalUniverse()
 check_module("InternalUniverse", check_universe)
 

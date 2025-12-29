@@ -11,7 +11,7 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from Core.03_Interaction.04_Network.Multimodal import (
+from Core.InteractionLayer.Network.Multimodal import (
     VisionProcessor, AudioProcessor, MultimodalFusion,
     FusionStrategy
 )

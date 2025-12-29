@@ -6,12 +6,12 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.causal_narrative_engine import (
+from Core.FoundationLayer.Foundation.causal_narrative_engine import (
     CausalKnowledgeBase, 
     CausalNode, 
     CausalRelationType
 )
-from Core.01_Foundation.05_Foundation_Base.Foundation.concept_synthesis import ConceptSynthesizer
+from Core.FoundationLayer.Foundation.concept_synthesis import ConceptSynthesizer
 
 class TestConceptSynthesis(unittest.TestCase):
     def setUp(self):

@@ -9,12 +9,12 @@ from pathlib import Path
 # Add project root to path
 sys.path.append(str(Path(__file__).parent))
 
-from Core.Foundation.central_nervous_system import CentralNervousSystem
-from Core.Foundation.chronos import Chronos
-from Core.Foundation.resonance_field import ResonanceField
-from Core.Foundation.free_will_engine import FreeWillEngine
-from Core.Foundation.heartbeat_daemon import HeartbeatDaemon
-from Core.Foundation.soul_core import SoulCore
+from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
+from Core.FoundationLayer.Foundation.chronos import Chronos
+from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
+from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
+from Core.FoundationLayer.Foundation.heartbeat_daemon import HeartbeatDaemon
+from Core.FoundationLayer.Foundation.soul_core import SoulCore
 from Core.Intelligence.reflection_engine import ReflectionEngine
 
 def launch_avatar_server():

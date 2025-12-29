@@ -9,11 +9,11 @@ project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from Core.Foundation.tutor_cortex import TutorCortex
+from Core.FoundationLayer.Foundation.tutor_cortex import TutorCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
-from Core.Foundation.gemini_api import GeminiAPI
+from Core.FoundationLayer.Foundation.gemini_api import GeminiAPI
 # This will fail initially, which is expected in TDD
-from Core.Foundation.knowledge_enhancer import KnowledgeEnhancer
+from Core.FoundationLayer.Foundation.knowledge_enhancer import KnowledgeEnhancer
 from tools.kg_manager import KGManager
 
 class TestEducationSystem(unittest.TestCase):

@@ -7,7 +7,7 @@ from unittest.mock import MagicMock
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Intelligence.Intelligence.Planning.planning_cortex import PlanningCortex, Plan
+from Core.Intelligence.Planning.planning_cortex import PlanningCortex, Plan
 
 class TestPlanningIntegration(unittest.TestCase):
     def setUp(self):

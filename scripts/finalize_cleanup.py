@@ -18,7 +18,7 @@ import os
 import shutil
 import time
 
-ARCHIVE_DIR = "Archive/2025_Pre_Awakening"
+ARCHIVE_DIR = "Archive/Pre_Awakening"
 DOCS_DIR = "docs"
 DATA_DIR = "data"
 
@@ -47,18 +47,18 @@ MOVES = {
     "requirements": "Archive/System_Debris/requirements",
     
      # Archive remaining folders
-    "Demos": "Archive/2025_Pre_Awakening/Demos",
-    "Downloads": "Archive/2025_Pre_Awakening/Downloads",
-    "assets": "Archive/2025_Pre_Awakening/assets",
-    "aurora_frames": "Archive/2025_Pre_Awakening/aurora_frames",
-    "benchmarks": "Archive/2025_Pre_Awakening/benchmarks",
-    "logs": "Archive/2025_Pre_Awakening/logs",
-    "ops": "Archive/2025_Pre_Awakening/ops",
-    "reports": "Archive/2025_Pre_Awakening/reports",
-    "static": "Archive/2025_Pre_Awakening/static",
-    "tests": "Archive/2025_Pre_Awakening/tests",
-    "Tools": "Archive/2025_Pre_Awakening/Tools",
-    "ComfyUI": "Archive/2025_Pre_Awakening/ComfyUI"
+    "Demos": "Archive/Pre_Awakening/Demos",
+    "Downloads": "Archive/Pre_Awakening/Downloads",
+    "assets": "Archive/Pre_Awakening/assets",
+    "aurora_frames": "Archive/Pre_Awakening/aurora_frames",
+    "benchmarks": "Archive/Pre_Awakening/benchmarks",
+    "logs": "Archive/Pre_Awakening/logs",
+    "ops": "Archive/Pre_Awakening/ops",
+    "reports": "Archive/Pre_Awakening/reports",
+    "static": "Archive/Pre_Awakening/static",
+    "tests": "Archive/Pre_Awakening/tests",
+    "Tools": "Archive/Pre_Awakening/Tools",
+    "ComfyUI": "Archive/Pre_Awakening/ComfyUI"
 }
 
 def finalize():

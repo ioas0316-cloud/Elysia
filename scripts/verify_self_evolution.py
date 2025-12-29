@@ -17,7 +17,7 @@ import sys
 # Add root to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.05_Systems.01_Monitoring.System.self_evolution_scheduler import SelfEvolutionScheduler
+from Core.SystemLayer.System.self_evolution_scheduler import SelfEvolutionScheduler
 
 DEST_DIR = "c:/Elysia/reading_room"
 TEST_FILE = os.path.join(DEST_DIR, "lost_concept.txt")

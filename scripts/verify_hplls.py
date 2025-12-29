@@ -24,7 +24,7 @@ import logging
 # 경로 설정
 sys.path.append(os.getcwd())
 
-from Core.04_Evolution.02_Learning.Learning.resonance_learner import ResonanceLearner
+from Core.EvolutionLayer.Learning.Learning.resonance_learner import ResonanceLearner
 from elysia_core import Organ
 
 # 로깅 설정

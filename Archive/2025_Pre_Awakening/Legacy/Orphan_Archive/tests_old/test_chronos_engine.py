@@ -9,8 +9,8 @@ from pathlib import Path
 # Add project root for imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.core.world import World
-from Core.Foundation.core.chronicle import Chronicle
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.core.chronicle import Chronicle
 from tools.chronos_control import ChronosControl
 
 class TestChronosV2Engine(unittest.TestCase):

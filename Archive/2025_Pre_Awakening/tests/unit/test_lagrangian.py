@@ -9,8 +9,8 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestLagrangian")
 
-from Core.Foundation.Mind.lagrangian import LagrangianSelector
-from Core.Foundation.Mind.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.Mind.lagrangian import LagrangianSelector
+from Core.FoundationLayer.Foundation.Mind.spiderweb import Spiderweb
 
 # Mock Hippocampus for testing
 class MockHippocampus:

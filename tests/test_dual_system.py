@@ -14,7 +14,7 @@ print("   CNS (의식) + ANS (자율)")
 print("="*60)
 
 # ANS Test
-from Core.01_Foundation.05_Foundation_Base.Foundation.autonomic_nervous_system import (
+from Core.FoundationLayer.Foundation.autonomic_nervous_system import (
     AutonomicNervousSystem,
     MemoryConsolidation,
     EntropyProcessor,
@@ -34,7 +34,7 @@ results = ans.pulse_once()
 print(f"   Pulse results: {len(results)} subsystems active")
 
 # ThoughtSpace Test (의식적 선택)
-from Core.02_Intelligence.01_Reasoning.Cognition.thought_space import ThoughtSpace, ThoughtParticle, ThoughtShape
+from Core.IntelligenceLayer.Cognition.thought_space import ThoughtSpace, ThoughtParticle, ThoughtShape
 
 print("\n🧠 CNS (의식 - ThoughtSpace):")
 ts = ThoughtSpace()

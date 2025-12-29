@@ -3,7 +3,7 @@ import os
 import math
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 
-from Core.Foundation.wave_logic import WaveSpace, WaveSource, create_and_gate
+from Core.FoundationLayer.Foundation.wave_logic import WaveSpace, WaveSource, create_and_gate
 
 def test_wave_and_gate():
     print("\n🌊 Testing Wave Logic: The AND Gate (Constructive Interference)")

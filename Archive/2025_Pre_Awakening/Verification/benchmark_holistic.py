@@ -8,7 +8,7 @@ import logging
 sys.path.append(r'c:\Elysia')
 
 # core modules
-from Core.Foundation.omni_graph import get_omni_graph
+from Core.FoundationLayer.Foundation.omni_graph import get_omni_graph
 from Core.Autonomy.dream_walker import get_dream_walker
 from Core.Autonomy.self_structure_scanner import get_self_scanner
 try:

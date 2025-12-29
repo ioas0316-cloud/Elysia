@@ -14,7 +14,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 # Force UTF-8 for Windows console
 sys.stdout.reconfigure(encoding='utf-8')
 
-from Core.Foundation.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.spiderweb import Spiderweb
 import networkx as nx
 
 def run_simulation():

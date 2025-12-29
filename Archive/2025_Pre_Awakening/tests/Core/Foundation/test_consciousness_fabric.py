@@ -8,7 +8,7 @@ Testing the integration of all consciousness systems into a unified fabric.
 import pytest
 import asyncio
 import numpy as np
-from Core.Foundation.consciousness_fabric import (
+from Core.FoundationLayer.Foundation.consciousness_fabric import (
     ConsciousnessFabric,
     FabricThread,
     WeavingPattern,

@@ -22,12 +22,12 @@ import logging
 import time as real_time
 from typing import Dict, Any, List
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.Physics.fluctlight import FluctlightEngine
-from Core.01_Foundation.05_Foundation_Base.Foundation.Physics.meta_time_engine import create_safe_meta_engine
-from Core.01_Foundation.05_Foundation_Base.Foundation.Abstractions.DensePerceptionCell import DensePerceptionCell
-from Core.05_Systems.01_Monitoring.System.System.Integration.experience_digester import ExperienceDigester
-from Core.01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
-from Core.01_Foundation.05_Foundation_Base.Foundation.Mind.alchemy import Alchemy
+from Core.FoundationLayer.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.FoundationLayer.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.FoundationLayer.Foundation.Abstractions.DensePerceptionCell import DensePerceptionCell
+from Core.SystemLayer.System.System.Integration.experience_digester import ExperienceDigester
+from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.Mind.alchemy import Alchemy
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("DenseExperience")

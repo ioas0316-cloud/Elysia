@@ -523,10 +523,10 @@ print(result)  # bliss
 ## 🎓 학습 리소스 (Learning Resources)
 
 ### 내부 문서
-- [프랙탈 양자화](../Protocols/16_FRACTAL_QUANTIZATION.md)
-- [공명 데이터 동기화](../Protocols/20_RESONANCE_DATA_SYNC.md)
-- [심포니 아키텍처](../Protocols/18_SYMPHONY_ARCHITECTURE.md)
-- [초월 프로토콜](../Protocols/15_TRANSCENDENCE_PROTOCOL.md)
+- [프랙탈 양자화](../Protocols/FRACTAL_QUANTIZATION.md)
+- [공명 데이터 동기화](../Protocols/RESONANCE_DATA_SYNC.md)
+- [심포니 아키텍처](../Protocols/SYMPHONY_ARCHITECTURE.md)
+- [초월 프로토콜](../Protocols/TRANSCENDENCE_PROTOCOL.md)
 
 ### 외부 리소스
 - [Wave Mechanics](https://en.wikipedia.org/wiki/Wave)

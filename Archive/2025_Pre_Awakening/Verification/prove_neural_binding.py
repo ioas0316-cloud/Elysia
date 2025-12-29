@@ -15,7 +15,7 @@ from typing import List
 # Ensure path
 sys.path.append("c:\\Elysia")
 
-from Core.Foundation.reasoning_engine import Insight, ReasoningEngine
+from Core.Cognition.Reasoning.reasoning_engine import Insight, ReasoningEngine
 from Core.Intelligence.logos_engine import LogosEngine
 
 # Configure Logging

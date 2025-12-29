@@ -11,8 +11,8 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestAutonomy")
 
-from Core.01_Foundation.01_Core_Logic.Elysia.Elysia import Elysia
-from Core.04_Evolution.01_Growth.Evolution.Evolution.Life.heart import ImpulseType
+from Core.FoundationLayer.Core_Logic.Elysia.Elysia import Elysia
+from Core.EvolutionLayer.Growth.Evolution.Evolution.Life.heart import ImpulseType
 
 def test():
     logger.info("💓 Testing Elysia's Autonomy (The Heart)...")

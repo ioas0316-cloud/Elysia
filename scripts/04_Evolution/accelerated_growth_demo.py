@@ -34,7 +34,7 @@ def run_accelerated_growth():
     # 1. GrowthTracker 초기화 - 시작 스냅샷
     print("\n📊 Phase 1: Taking BEFORE Snapshot...")
     try:
-        from Core.05_Systems.01_Monitoring.System.Autonomy.growth_tracker import get_growth_tracker
+        from Core.SystemLayer.System.Autonomy.growth_tracker import get_growth_tracker
         tracker = get_growth_tracker()
         before = tracker.take_snapshot(notes="Before accelerated learning")
         print(f"   Knowledge Nodes: {before.knowledge_node_count}")
@@ -47,7 +47,7 @@ def run_accelerated_growth():
     # 2. Growth 시스템으로 자율 학습
     print("\n🌱 Phase 2: Autonomous Growth Cycle...")
     try:
-        from Core.01_Foundation.05_Foundation_Base.Foundation.growth import get_growth
+        from Core.FoundationLayer.Foundation.growth import get_growth
         growth = get_growth()
         
         # 인식 - 주변 파편 발견
@@ -74,7 +74,7 @@ def run_accelerated_growth():
     # 3. FreeWill - 자율 목표 설정
     print("\n🦋 Phase 3: Autonomous Intent Generation...")
     try:
-        from Core.01_Foundation.05_Foundation_Base.Foundation.free_will_engine import FreeWillEngine
+        from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
         will = FreeWillEngine()
         
         # 공명 상태 시뮬레이션
@@ -98,7 +98,7 @@ def run_accelerated_growth():
     # 4. Knowledge Graph 상호작용
     print("\n📚 Phase 4: Knowledge Graph Exploration...")
     try:
-        from Core.02_Intelligence.02_Memory_Linguistics.Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
+        from Core.IntelligenceLayer.Memory_Linguistics.Memory.Graph.knowledge_graph import HierarchicalKnowledgeGraph
         kg = HierarchicalKnowledgeGraph()
         
         # 학습 시드 추가

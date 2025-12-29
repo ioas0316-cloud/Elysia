@@ -1,5 +1,5 @@
 import unittest
-from Core.Foundation.Mind.perception import FractalPerception, PerceptionState
+from Core.FoundationLayer.Foundation.Mind.perception import FractalPerception, PerceptionState
 from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
 
 class TestFractalPerception(unittest.TestCase):

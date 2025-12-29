@@ -3,10 +3,10 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.universe_evolution import UniverseEvolutionEngine
-from Core.Foundation.spiderweb import Spiderweb
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.universe_evolution import UniverseEvolutionEngine
+from Core.FoundationLayer.Foundation.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 from Project_Elysia.core_memory import Experience
 from tools.kg_manager import KGManager
 from datetime import datetime

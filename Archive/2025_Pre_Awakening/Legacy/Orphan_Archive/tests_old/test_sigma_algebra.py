@@ -16,7 +16,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.sigma_algebra import (
+from Core.FoundationLayer.Foundation.sigma_algebra import (
     SigmaAlgebra,
     MeasurableSet,
     ProbabilityMeasure,

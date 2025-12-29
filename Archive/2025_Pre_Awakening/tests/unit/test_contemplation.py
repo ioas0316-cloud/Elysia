@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.reasoning_engine import ReasoningEngine
+from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 
 def test_contemplation():
     print("🧠 Initializing ReasoningEngine...")

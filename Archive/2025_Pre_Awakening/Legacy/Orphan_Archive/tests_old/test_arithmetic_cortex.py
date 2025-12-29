@@ -6,7 +6,7 @@ import sys
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Core.Foundation.arithmetic_cortex import ArithmeticCortex
+from Core.FoundationLayer.Foundation.arithmetic_cortex import ArithmeticCortex
 
 class TestArithmeticCortex(unittest.TestCase):
 

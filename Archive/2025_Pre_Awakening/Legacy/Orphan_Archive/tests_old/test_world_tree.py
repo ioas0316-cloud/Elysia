@@ -7,7 +7,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.world_tree import WorldTree
+from Core.FoundationLayer.Foundation.world_tree import WorldTree
 
 class TestWorldTree(unittest.TestCase):
     def setUp(self):

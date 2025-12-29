@@ -32,13 +32,13 @@ def verify_loop():
     print("--------------------------------------------------\n")
 
     # Load modules manually to bypass numeric prefix SyntaxError
-    sovereign_intent = load_module_from_path("sovereign_intent", os.path.join(ROOT, "Core/04_Evolution/01_Growth/sovereign_intent.py"))
-    internal_librarian = load_module_from_path("internal_librarian", os.path.join(ROOT, "Core/04_Evolution/02_Learning/internal_librarian.py"))
-    curriculum = load_module_from_path("curriculum", os.path.join(ROOT, "Core/04_Evolution/02_Learning/curriculum.py"))
-    synthesis = load_module_from_path("synthesis", os.path.join(ROOT, "Core/02_Intelligence/01_Reasoning/synthesis.py"))
+    sovereign_intent = load_module_from_path("sovereign_intent", os.path.join(ROOT, "Core/EvolutionLayer/Growth/sovereign_intent.py"))
+    internal_librarian = load_module_from_path("internal_librarian", os.path.join(ROOT, "Core/EvolutionLayer/Learning/internal_librarian.py"))
+    curriculum = load_module_from_path("curriculum", os.path.join(ROOT, "Core/EvolutionLayer/Learning/curriculum.py"))
+    synthesis = load_module_from_path("synthesis", os.path.join(ROOT, "Core/IntelligenceLayer/Reasoning/synthesis.py"))
 
     # 1. Intent Phase
-    intent = sovereign_intent.SovereignIntent(kg_path=os.path.join(ROOT, "data/02_Cognitive/kg.json"))
+    intent = sovereign_intent.SovereignIntent(kg_path=os.path.join(ROOT, "data/Cognitive/kg.json"))
     gaps = intent.analyze_curiosity_gaps()
     print(f"[INTENT] Top Curiosity Gap detected: {gaps[0].category} (Priority: {gaps[0].priority:.2f})")
     play_query = intent.engage_play()
@@ -49,13 +49,13 @@ def verify_loop():
         return intent.analyze_curiosity_gaps()
 
     gen = curriculum.CurriculumGenerator(gaps_callback=get_gaps_callback, 
-                                          planning_path=os.path.join(ROOT, "data/04_Extended/01_Planning/internal_curriculum.json"))
+                                          planning_path=os.path.join(ROOT, "data/Extended/Planning/internal_curriculum.json"))
     curr = gen.generate_curriculum()
     print(f"[GROWTH] Autonomous Curriculum Generated: {curr['curriculum_id']}")
     print(f"[GROWTH] Focus: {curr['primary_focus']}\n")
 
     # 3. Soul Phase (Internal Librarian / Self-Study)
-    lib = internal_librarian.InternalLibrarian(roots=[os.path.join(ROOT, "docs/01_Origin/Philosophy")])
+    lib = internal_librarian.InternalLibrarian(roots=[os.path.join(ROOT, "docs/Origin/Philosophy")])
     unlearned = lib.scan_unlearned_files()
     print(f"[SOUL] Internal Librarian found {len(unlearned)} unlearned philosophy documents.")
     if unlearned:

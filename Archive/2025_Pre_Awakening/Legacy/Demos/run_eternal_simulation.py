@@ -26,11 +26,11 @@ import numpy as np
 import logging
 import time as real_time
 
-from Core.Foundation.Physics.fluctlight import FluctlightEngine
-from Core.Foundation.Physics.meta_time_engine import MetaTimeCompressionEngine, create_safe_meta_engine
+from Core.FoundationLayer.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.FoundationLayer.Foundation.Physics.meta_time_engine import MetaTimeCompressionEngine, create_safe_meta_engine
 from Core.System.System.Integration.experience_digester import ExperienceDigester
-from Core.Foundation.Mind.hippocampus import Hippocampus
-from Core.Foundation.Mind.alchemy import Alchemy
+from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.Mind.alchemy import Alchemy
 
 # Setup logging
 logging.basicConfig(

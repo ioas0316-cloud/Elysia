@@ -1,11 +1,11 @@
 import logging
 from typing import Optional
 
-from Core.Foundation.core.thought import Thought
+from Core.FoundationLayer.Foundation.core.thought import Thought
 from tools.kg_manager import KGManager
 from Project_Elysia.core_memory import CoreMemory
-from Core.Foundation.wave_mechanics import WaveMechanics
-from Core.Foundation.emotional_engine import EmotionalEngine
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalEngine
 
 class PerspectiveCortex:
     """

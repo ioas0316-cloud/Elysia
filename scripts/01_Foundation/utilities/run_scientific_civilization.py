@@ -7,8 +7,8 @@ repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
-from Core.04_Evolution.01_Growth.Evolution.Evolution.Life.code_world import CodeWorld
-from Core.01_Foundation.05_Foundation_Base.Foundation.visualizer_server import VisualizerServer
+from Core.EvolutionLayer.Growth.Evolution.Evolution.Life.code_world import CodeWorld
+from Core.FoundationLayer.Foundation.visualizer_server import VisualizerServer
 import time
 
 logging.basicConfig(level=logging.INFO)

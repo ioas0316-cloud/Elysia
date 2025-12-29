@@ -12,7 +12,7 @@ Quaternion 회전을 통해 전체 좌표계를 회전시킵니다.
 
 사용 예시:
 ```python
-from Core.Foundation.warp_layer import WarpLayer
+from Core.FoundationLayer.Foundation.warp_layer import WarpLayer
 from pyquaternion import Quaternion
 
 warp = WarpLayer()
@@ -123,7 +123,7 @@ def quaternion_from_axis_angle(axis, angle_deg):
     angle_rad = np.deg2rad(angle_deg)
     return Quaternion(axis=axis, angle=angle_rad)
 """Example usage (not executed automatically):
-from Core.Foundation.warp_layer import WarpLayer, quaternion_from_axis_angle
+from Core.FoundationLayer.Foundation.warp_layer import WarpLayer, quaternion_from_axis_angle
 warp = WarpLayer()
 q = quaternion_from_axis_angle([0, 0, 1], 90)  # Z‑축 90° 회전
 warp.apply(world, q)

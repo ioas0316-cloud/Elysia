@@ -8,7 +8,7 @@ sys.path.insert(0, '.')
 import logging
 logging.disable(logging.CRITICAL)
 
-from Core.02_Intelligence.04_Consciousness.Consciousness.exploration_bridge import ExplorationBridge
+from Core.IntelligenceLayer.Consciousness.Consciousness.exploration_bridge import ExplorationBridge
 bridge = ExplorationBridge()
 
 output = []

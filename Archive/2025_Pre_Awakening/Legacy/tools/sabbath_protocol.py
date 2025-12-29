@@ -17,7 +17,7 @@ import argparse
 import logging
 from typing import Optional
 
-from Core.Foundation.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.spiderweb import Spiderweb
 from Project_Elysia.value_centered_decision import ValueCenteredDecision
 from Project_Elysia.core_memory import CoreMemory
 

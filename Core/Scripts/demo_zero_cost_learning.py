@@ -19,7 +19,7 @@ from datetime import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.zero_cost_connector import ZeroCostKnowledgeConnector
+from Core.FoundationLayer.Foundation.zero_cost_connector import ZeroCostKnowledgeConnector
 
 logging.basicConfig(
     level=logging.INFO,

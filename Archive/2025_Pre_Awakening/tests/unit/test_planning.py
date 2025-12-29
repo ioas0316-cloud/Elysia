@@ -6,7 +6,7 @@ import os
 sys.path.append(r"C:\Elysia")
 print(f"DEBUG: sys.path: {sys.path}")
 
-from Core.Foundation.planning_cortex import PlanningCortex
+from Core.FoundationLayer.Foundation.planning_cortex import PlanningCortex
 
 def test_time_awareness():
     print("🕰️ Testing PlanningCortex Time Awareness...")

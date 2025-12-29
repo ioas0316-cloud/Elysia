@@ -19,8 +19,8 @@ import logging
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from Core.Elysia.Elysia.World.yggdrasil import Yggdrasil, RealmLayer
-from Core.Foundation.Physics.gravity import GravityEngine
-from Core.Foundation.Physics.meta_time_engine import MetaTimeCompressionEngine
+from Core.FoundationLayer.Foundation.Physics.gravity import GravityEngine
+from Core.FoundationLayer.Foundation.Physics.meta_time_engine import MetaTimeCompressionEngine
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

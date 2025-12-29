@@ -14,9 +14,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from Core.Foundation.story_generator import StoryGenerator
-from Core.Foundation.music_composer import MusicComposer
-from Core.Foundation.visual_artist import VisualArtist
+from Core.FoundationLayer.Foundation.story_generator import StoryGenerator
+from Core.FoundationLayer.Foundation.music_composer import MusicComposer
+from Core.FoundationLayer.Foundation.visual_artist import VisualArtist
 
 
 async def demo_story_generation():

@@ -3,8 +3,8 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.04_Evolution.02_Learning.Learning.autonomous_learner import AutonomousLearner
-from Core.04_Evolution.02_Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
+from Core.EvolutionLayer.Learning.Learning.autonomous_learner import AutonomousLearner
+from Core.EvolutionLayer.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph, Domain
 
 def verify_deep_learning():
     print("🔬 Verifying Deep Knowledge Resonance...")

@@ -18,7 +18,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from Core.Foundation.internal_universe import InternalUniverse
+from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
 
 def evolve():
     # Setup Logging

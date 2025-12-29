@@ -7,7 +7,7 @@ import random
 # Fix path to import Project_Sophia
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.core.physics import QuantumState, HamiltonianSystem, Nucleus, FieldEntity, StrongForceManager, DimensionalLayer
+from Core.FoundationLayer.Foundation.core.physics import QuantumState, HamiltonianSystem, Nucleus, FieldEntity, StrongForceManager, DimensionalLayer
 
 def run_simulation():
     print("=== Digital Nuclear Fusion & Ascension Experiment ===")

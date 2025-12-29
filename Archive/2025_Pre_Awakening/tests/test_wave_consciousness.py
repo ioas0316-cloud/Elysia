@@ -6,8 +6,8 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.System.System.Kernel import ElysiaKernel
-from Core.Intelligence.Intelligence.Consciousness.wave import WaveInput
-from Core.Intelligence.Intelligence.Consciousness.thought import Thought
+from Core.Intelligence.Consciousness.wave import WaveInput
+from Core.Intelligence.Consciousness.thought import Thought
 
 class TestWaveConsciousness(unittest.TestCase):
 

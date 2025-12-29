@@ -11,7 +11,7 @@ try:
 except Exception:
     Telemetry = None
 try:
-    from Core.Foundation.safety_guardian import SafetyGuardian, ActionCategory
+    from Core.FoundationLayer.Foundation.safety_guardian import SafetyGuardian, ActionCategory
 except Exception:
     SafetyGuardian = None
     ActionCategory = None

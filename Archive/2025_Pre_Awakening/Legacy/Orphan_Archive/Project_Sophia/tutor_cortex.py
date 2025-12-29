@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 
 from Project_Mirror.sensory_cortex import SensoryCortex
-from Core.Foundation.knowledge_enhancer import KnowledgeEnhancer
+from Core.FoundationLayer.Foundation.knowledge_enhancer import KnowledgeEnhancer
 from tools.kg_manager import KGManager
 
 logger = logging.getLogger(__name__)

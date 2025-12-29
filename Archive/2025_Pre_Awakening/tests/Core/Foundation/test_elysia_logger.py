@@ -5,7 +5,7 @@ Tests for Elysia Logger
 import pytest
 import logging
 from pathlib import Path
-from Core.Foundation.elysia_logger import ElysiaLogger
+from Core.FoundationLayer.Foundation.elysia_logger import ElysiaLogger
 
 
 class TestElysiaLogger:

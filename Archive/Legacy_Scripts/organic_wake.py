@@ -44,7 +44,7 @@ def organic_wake():
     # 0. CoreMemory 연결 (지속적 기억)
     memory = None
     try:
-        from Core.Foundation.Memory.core_memory import CoreMemory
+        from Core.FoundationLayer.Foundation.Memory.core_memory import CoreMemory
         memory = CoreMemory(file_path="data/elysia_organic_memory.json")
         prev_experiences = memory.get_experiences(n=5)
         print(f"\n📚 Loaded {len(prev_experiences)} previous experiences")
@@ -80,7 +80,7 @@ def organic_wake():
         
         # 기억에 저장
         if memory:
-            from Core.Foundation.Memory.core_memory import Experience
+            from Core.FoundationLayer.Foundation.Memory.core_memory import Experience
             exp = Experience(
                 timestamp=datetime.now().isoformat(),
                 content=f"Self-discovery: {structure['file_count']} files, {health['overall']} health, {len(growth)} growth areas",

@@ -16,7 +16,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from Core.02_Intelligence.04_Consciousness.Emotion import DeepEmotionAnalyzer, EmpathyEngine
+from Core.IntelligenceLayer.Consciousness.Emotion import DeepEmotionAnalyzer, EmpathyEngine
 
 
 async def demo_deep_emotion_recognition():

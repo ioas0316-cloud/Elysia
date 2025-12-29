@@ -8,7 +8,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Foundation.mind_mitosis import MindMitosis
+from Core.FoundationLayer.Foundation.mind_mitosis import MindMitosis
 import time
 
 def main():

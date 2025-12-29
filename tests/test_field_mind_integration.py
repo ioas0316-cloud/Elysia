@@ -7,8 +7,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.02_Intelligence.01_Reasoning.Cognition.predictive_mind import PredictiveMind
-from Core.02_Intelligence.01_Reasoning.Cognition.Reasoning.causal_geometry import TensionField
+from Core.IntelligenceLayer.Cognition.predictive_mind import PredictiveMind
+from Core.IntelligenceLayer.Cognition.Reasoning.causal_geometry import TensionField
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("FieldMindVerification")

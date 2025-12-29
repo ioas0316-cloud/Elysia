@@ -10,12 +10,12 @@ import os
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from Core.Foundation.wave_dialogue_flow import (
+from Core.FoundationLayer.Foundation.wave_dialogue_flow import (
     WaveDialogueFlow,
     DialogueWave,
     create_wave_dialogue_flow
 )
-from Core.Foundation.emotional_engine import EmotionalEngine
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalEngine
 from Core.Memory.conversation_memory import create_conversation_memory
 
 

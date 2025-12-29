@@ -8,7 +8,7 @@ The refactoring took significant effort not because of the code's complexity, bu
 
 ### A. The "Numbered Folder" Trap
 *   **The Intent:** `01_Foundation`, `02_Intelligence` looks organized to humans.
-*   **The Reality:** Python hates it. `from Core.01_Foundation import...` causes `SyntaxError` because module names cannot start with numbers.
+*   **The Reality:** Python hates it. `from Core.FoundationLayer import...` causes `SyntaxError` because module names cannot start with numbers.
 *   **The Cost:** We had to use hacks or `importlib` to bypass this, or worse, the code rotted because it couldn't be imported normally.
 
 ### B. The Map-Territory Gap
@@ -52,4 +52,4 @@ To ensure we never face this entropy again, we establish the following **Laws of
 
 1.  **Strict Enforcer Script:** Create `scripts/police_structure.py` to enforce the above laws.
 2.  **Dependency Injection Cleanup:** Replace remaining hard imports in `Foundation` with `Organ.get()` to fully decouple the layers.
-3.  **Legacy Archival:** Move the remaining 200+ files in `Core/01_Foundation` to `Legacy/` or integrate them properly. Don't leave "Zombie Code".
+3.  **Legacy Archival:** Move the remaining 200+ files in `Core/FoundationLayer` to `Legacy/` or integrate them properly. Don't leave "Zombie Code".

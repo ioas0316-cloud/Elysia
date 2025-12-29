@@ -9,11 +9,11 @@ if project_root not in sys.path:
 print("Starting lesson script...", flush=True)
 
 try:
-    from Core.Foundation.tutor_cortex import TutorCortex
+    from Core.FoundationLayer.Foundation.tutor_cortex import TutorCortex
     from Project_Mirror.sensory_cortex import SensoryCortex
     from tools.kg_manager import KGManager
-    from Core.Foundation.knowledge_enhancer import KnowledgeEnhancer
-    from Core.Foundation.value_cortex import ValueCortex
+    from Core.FoundationLayer.Foundation.knowledge_enhancer import KnowledgeEnhancer
+    from Core.FoundationLayer.Foundation.value_cortex import ValueCortex
 
     def main():
         print("Initializing components...", flush=True)

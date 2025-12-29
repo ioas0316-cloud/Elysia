@@ -1,4 +1,4 @@
-from Core.01_Foundation.05_Foundation_Base.Foundation.Abstractions.Cell import Cell
+from Core.FoundationLayer.Foundation.Abstractions.Cell import Cell
 
 
 def test_cell_perceptron_output_and_learning():

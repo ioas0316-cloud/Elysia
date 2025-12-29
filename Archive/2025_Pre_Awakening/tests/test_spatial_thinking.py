@@ -8,7 +8,7 @@ from pyquaternion import Quaternion
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
-from Core.Foundation.Math.quaternion_consciousness import ConsciousnessLens
+from Core.FoundationLayer.Foundation.Wave.quaternion_consciousness import ConsciousnessLens
 
 class TestSpatialThinking(unittest.TestCase):
     def setUp(self):

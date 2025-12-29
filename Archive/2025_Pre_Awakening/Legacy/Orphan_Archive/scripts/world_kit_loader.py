@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 from scripts.world_kits import WORLD_KITS
 
 if TYPE_CHECKING:
-    from Core.Foundation.core.world import World
+    from Core.FoundationLayer.Foundation.core.world import World
 
 
 def place_world_kit(world: "World", kit_id: str, origin_x: float, origin_y: float, radius: float = 5.0) -> None:

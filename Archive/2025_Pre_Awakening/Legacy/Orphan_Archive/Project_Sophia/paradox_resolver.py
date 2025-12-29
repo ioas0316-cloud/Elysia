@@ -12,10 +12,10 @@ from typing import Dict, Any, Optional, List, Tuple
 from dataclasses import dataclass
 from enum import Enum
 
-from Core.Foundation.spiderweb import Spiderweb
-from Core.Foundation.wave_mechanics import WaveMechanics
-from Core.Foundation.world_tree_core import WorldTreeCore
-from Core.Foundation.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
+from Core.FoundationLayer.Foundation.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.world_tree_core import WorldTreeCore
+from Core.FoundationLayer.Foundation.core.tensor_wave import Tensor3D, SoulTensor, FrequencyWave
 from Project_Elysia.core_memory import CoreMemory, Experience, EssencePrinciple
 
 

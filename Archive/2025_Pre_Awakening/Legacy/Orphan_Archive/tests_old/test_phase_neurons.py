@@ -17,7 +17,7 @@ import logging
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.phase_portrait_neurons import (
+from Core.FoundationLayer.Foundation.phase_portrait_neurons import (
     IntegratorNeuron,
     ResonatorNeuron,
     LimitCycleGenerator

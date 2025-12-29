@@ -7,7 +7,7 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.spiderweb import Spiderweb
 
 class TestSpiderweb(unittest.TestCase):
     def setUp(self):

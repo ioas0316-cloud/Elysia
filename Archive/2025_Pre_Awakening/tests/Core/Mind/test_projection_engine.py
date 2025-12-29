@@ -1,4 +1,4 @@
-from Core.Foundation.Mind.projection_engine import ProjectionEngine
+from Core.FoundationLayer.Foundation.Mind.projection_engine import ProjectionEngine
 
 
 def test_projection_engine_basic_projection():

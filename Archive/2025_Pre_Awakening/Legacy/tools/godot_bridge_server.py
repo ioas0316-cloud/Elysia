@@ -63,10 +63,10 @@ if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
 # World imports
-from Core.Foundation.core.world import World  # type: ignore
-from Core.Foundation.wave_mechanics import WaveMechanics  # type: ignore
+from Core.FoundationLayer.Foundation.core.world import World  # type: ignore
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics  # type: ignore
 from tools.kg_manager import KGManager  # type: ignore
-from Core.Foundation.world_themes.west_continent.characters import (  # type: ignore
+from Core.FoundationLayer.Foundation.world_themes.west_continent.characters import (  # type: ignore
     WEST_CHARACTER_POOL,
 )
 from Project_Elysia.high_engine.toddler_chat import ToddlerChatEngine

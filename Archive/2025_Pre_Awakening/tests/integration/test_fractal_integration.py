@@ -22,7 +22,7 @@ def test_fractal_connection():
     
     # 1. Test Direct Import
     try:
-        from Core.Foundation.Mind.fractal_causality import FractalCausalityEngine
+        from Core.FoundationLayer.Foundation.Mind.fractal_causality import FractalCausalityEngine
         logger.info("   ✅ FractalCausalityEngine imported successfully")
     except Exception as e:
         logger.error(f"   ❌ Failed to import: {e}")

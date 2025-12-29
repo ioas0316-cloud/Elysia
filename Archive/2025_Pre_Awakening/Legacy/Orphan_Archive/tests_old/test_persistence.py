@@ -1,8 +1,8 @@
 import numpy as np
 from pathlib import Path
 
-from Core.Foundation.wave_mechanics import WaveMechanics
-from Core.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.core.world import World
 from tools.kg_manager import KGManager
 
 from Project_Elysia.core import persistence

@@ -7,7 +7,7 @@ Tests the ability of Elysia's emotions to learn and evolve from experiences.
 import pytest
 import os
 import tempfile
-from Core.Foundation.emotional_evolution import (
+from Core.FoundationLayer.Foundation.emotional_evolution import (
     EmotionalEvolutionEngine,
     EmotionalExperience,
     EmotionalPattern,

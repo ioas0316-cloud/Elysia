@@ -9,8 +9,8 @@ from datetime import datetime
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.spiderweb import Spiderweb
-from Core.Foundation.dreaming_cortex import DreamingCortex
+from Core.FoundationLayer.Foundation.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.dreaming_cortex import DreamingCortex
 from Project_Elysia.core_memory import Experience
 
 class TestDreamingCortex(unittest.TestCase):

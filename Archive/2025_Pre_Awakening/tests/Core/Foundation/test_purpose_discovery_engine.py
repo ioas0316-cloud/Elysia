@@ -17,7 +17,7 @@ from pathlib import Path
 import json
 import tempfile
 
-from Core.Foundation.purpose_discovery_engine import (
+from Core.FoundationLayer.Foundation.purpose_discovery_engine import (
     FogClarifier,
     PurposeDiscoveryEngine,
     KnowledgeFragment,

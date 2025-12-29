@@ -11,7 +11,7 @@ if repo_root not in sys.path:
     sys.path.insert(0, repo_root)
 
 from Core.world import World
-from Core.Intelligence.Intelligence.Consciousness.world_tree import WorldTree
+from Core.Intelligence.Consciousness.world_tree import WorldTree
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestWorldTree")

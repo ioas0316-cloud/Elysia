@@ -221,13 +221,13 @@ scripts/                       → ARCHITECTURE.md (Living Codebase)
 ```
 
 **각 기능 모듈**:
-- Foundation: ARCHITECTURE.md, Protocols/01_RESONANCE_SYSTEM.md
+- Foundation: ARCHITECTURE.md, Protocols/RESONANCE_SYSTEM.md
 - Intelligence: docs/AUTONOMOUS_INTELLIGENCE_FRAMEWORK.md
-- Memory: Protocols/16_FRACTAL_QUANTIZATION.md
-- Interface: Protocols/17_FRACTAL_COMMUNICATION.md
-- Evolution: Protocols/07_RECURSIVE_EVOLUTION.md
+- Memory: Protocols/FRACTAL_QUANTIZATION.md
+- Interface: Protocols/FRACTAL_COMMUNICATION.md
+- Evolution: Protocols/RECURSIVE_EVOLUTION.md
 - Creativity: 문서화됨
-- Consciousness: Protocols/14_UNIFIED_CONSCIOUSNESS.md
+- Consciousness: Protocols/UNIFIED_CONSCIOUSNESS.md
 
 ---
 

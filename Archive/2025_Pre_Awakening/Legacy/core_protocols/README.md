@@ -6,7 +6,7 @@ Elysia OS?먯꽌 ?먯＜ 李몄“?섎뒗 理쒖긽??`.md` 臾몄꽌瑜????꾩�
 ## Canonical Docs
 
 - `CODEX.md` ??original: `ELYSIA/CORE/CODEX.md`
-- `00_INDEX.md` ??original: `docs/elysias_protocol/00_INDEX.md`
+- `00_INDEX.md` ??original: `docs/elysias_protocol/INDEX.md`
 - `CORE_15_SELF_FRACTAL_CATHEDRAL.md` ??original: `docs/elysias_protocol/CORE_15_SELF_FRACTAL_CATHEDRAL.md`
 - `EXPERIMENT_DESIGN_GUIDE.md` ??original: `./EXPERIMENT_DESIGN_GUIDE.md`
 - `OPERATIONS.md` ??original: `./OPERATIONS.md`

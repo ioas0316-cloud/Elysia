@@ -1,8 +1,8 @@
 
 import unittest
 import os
-from Core.Foundation.Mind.hippocampus import Hippocampus
-from Core.Foundation.Mind.world_tree import WorldTree
+from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.Mind.world_tree import WorldTree
 
 class TestStructuralInvariance(unittest.TestCase):
 

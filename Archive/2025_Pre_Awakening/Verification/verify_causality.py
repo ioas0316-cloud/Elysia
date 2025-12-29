@@ -3,7 +3,7 @@ import sys
 sys.path.append(r'c:\Elysia')
 
 from Core.Intelligence.logos_engine import LogosEngine
-from Core.Foundation.fractal_knowledge import KnowledgeTriple
+from Core.FoundationLayer.Foundation.fractal_knowledge import KnowledgeTriple
 
 def verify_causality():
     logos = LogosEngine()

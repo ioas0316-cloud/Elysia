@@ -3,7 +3,7 @@ import sys
 sys.path.append(r'c:\Elysia')
 
 from Core.Autonomy.self_structure_scanner import get_self_scanner
-from Core.Foundation.omni_graph import get_omni_graph
+from Core.FoundationLayer.Foundation.omni_graph import get_omni_graph
 
 def verify_self_scan():
     scanner = get_self_scanner()

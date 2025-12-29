@@ -3,7 +3,7 @@ import sys
 import torch
 import time
 sys.path.append(r'c:\Elysia')
-from Core.Foundation.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
 
 def verify_railgun():
     print("🛤️  Semantic Railgun (Potential Field) Verification")

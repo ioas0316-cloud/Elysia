@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import Dict, Iterable, List, Tuple
 
-from Core.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.core.world import World
 from scripts.character_model import (
     Character,
     CharacterRelation,

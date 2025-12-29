@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.mycelium import Mycelium
+from Core.FoundationLayer.Foundation.mycelium import Mycelium
 
 @dataclass
 class GapAnalysis:

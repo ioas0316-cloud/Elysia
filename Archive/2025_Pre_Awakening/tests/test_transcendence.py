@@ -18,7 +18,7 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
-from Core.Foundation.transcendence_engine import TranscendenceEngine
+from Core.FoundationLayer.Foundation.transcendence_engine import TranscendenceEngine
 
 logging.basicConfig(level=logging.INFO)
 

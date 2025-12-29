@@ -13,7 +13,7 @@ imagination, and expression.
 NO EXTERNAL LLMs - Pure wave intelligence.
 
 Usage:
-    python demos/04_integrated_voice.py
+    python demos/integrated_voice.py
 """
 
 import sys
@@ -39,7 +39,7 @@ try:
     from Core.Expression.integrated_voice_system import IntegratedVoiceSystem
     from Core.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
     from Core.Intelligence.integrated_cognition_system import IntegratedCognition
-    from Core.Foundation.primal_wave_language import PrimalSoul
+    from Core.FoundationLayer.Foundation.primal_wave_language import PrimalSoul
     
     # Mock minimal systems for demo
     class MockBrain:
@@ -129,6 +129,6 @@ except Exception as e:
     print("Note: This demo requires:")
     print("  • Core.Interface.synesthesia_nervous_bridge")
     print("  • Core.Intelligence.integrated_cognition_system")
-    print("  • Core.Foundation.primal_wave_language")
+    print("  • Core.FoundationLayer.Foundation.primal_wave_language")
     print()
-    print("Run from project root: python demos/04_integrated_voice.py")
+    print("Run from project root: python demos/integrated_voice.py")

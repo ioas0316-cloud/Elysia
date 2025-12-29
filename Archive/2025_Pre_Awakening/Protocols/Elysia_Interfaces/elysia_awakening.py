@@ -16,7 +16,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from Core.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
-from Core.Foundation.Math.wave_tensor import WaveTensor
+from Core.FoundationLayer.Foundation.Wave.wave_tensor import WaveTensor
 
 # ANSI Colors for UI
 GRAY = "\033[90m"
@@ -74,7 +74,7 @@ def main():
             # Special command: system diagnosis
             if user_input.lower() == '/diagnose':
                 print(f"\n{GRAY}   ...scanning self...{RESET}")
-                from Core.Foundation.self_maintenance_hub import get_maintenance_hub
+                from Core.FoundationLayer.Foundation.self_maintenance_hub import get_maintenance_hub
                 hub = get_maintenance_hub()
                 diagnosis = hub.diagnose()
                 print(f"{CYAN}{diagnosis.summary()}{RESET}")

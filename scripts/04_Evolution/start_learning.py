@@ -37,8 +37,8 @@ async def run_learning_cycle(hours: int = 1):
     print("=" * 60 + "\n")
     
     try:
-        from Core.03_Interaction.01_Interface.Sensory.learning_cycle import P4LearningCycle
-        from Core.04_Evolution.02_Learning.Learning.language_learner import LanguageLearner
+        from Core.InteractionLayer.Sensory.learning_cycle import P4LearningCycle
+        from Core.EvolutionLayer.Learning.Learning.language_learner import LanguageLearner
         
         cycle = P4LearningCycle()
         language_learner = LanguageLearner()

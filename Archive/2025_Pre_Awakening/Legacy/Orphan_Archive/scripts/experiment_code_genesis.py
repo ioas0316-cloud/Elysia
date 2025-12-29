@@ -9,9 +9,9 @@ from datetime import datetime
 # Ensure project root is in path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.core.code_genome import CodeDNA, CodeChallenge
-from Core.Foundation.elysia_forge import ElysiaForge
-from Core.Foundation.code_evolution import evolve_code
+from Core.FoundationLayer.Foundation.core.code_genome import CodeDNA, CodeChallenge
+from Core.FoundationLayer.Foundation.elysia_forge import ElysiaForge
+from Core.FoundationLayer.Foundation.code_evolution import evolve_code
 
 # --- Configuration ---
 POPULATION_SIZE = 10

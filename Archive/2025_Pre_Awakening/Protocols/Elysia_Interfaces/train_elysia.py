@@ -9,7 +9,7 @@ sys.path.append("c:\Elysia")
 from Core.Learning.aesthetic_learner import AestheticLearner
 from Core.Creativity.composition_engine import CompositionEngine
 from Core.Intelligence.logos_engine import LogosEngine
-from Core.Foundation.Math.wave_tensor import WaveTensor
+from Core.FoundationLayer.Foundation.Wave.wave_tensor import WaveTensor
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

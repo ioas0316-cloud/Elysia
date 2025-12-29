@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 from dataclasses import asdict
-from Core.Foundation.gemini_api import generate_text
+from Core.FoundationLayer.Foundation.gemini_api import generate_text
 
 JOURNAL_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data', 'journal.json'))
 

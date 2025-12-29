@@ -2,7 +2,7 @@
 import sys
 sys.path.append(r'c:\Elysia')
 
-from Core.Foundation.spatial_indexer import get_spatial_indexer
+from Core.FoundationLayer.Foundation.spatial_indexer import get_spatial_indexer
 
 def verify_unification():
     indexer = get_spatial_indexer()

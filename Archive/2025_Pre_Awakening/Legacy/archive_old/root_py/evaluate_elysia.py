@@ -5,9 +5,9 @@ import os
 from statistics import mean
 
 # Import local modules
-import Core.Foundation.value_centered_decision as vcd_mod
+import Core.FoundationLayer.Foundation.value_centered_decision as vcd_mod
 import chat_interface as chat_mod
-import Core.Foundation.arithmetic_cortex as acortex
+import Core.FoundationLayer.Foundation.arithmetic_cortex as acortex
 
 OUTPUT = 'evaluation_results.json'
 

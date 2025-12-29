@@ -14,7 +14,7 @@ This directory contains demonstration programs showcasing Elysia v9.0's key capa
 
 **Run:**
 ```bash
-python demos/01_simple_conversation.py
+python demos/simple_conversation.py
 ```
 
 **Key concepts:**
@@ -35,7 +35,7 @@ python demos/01_simple_conversation.py
 
 **Run:**
 ```bash
-python demos/02_goal_decomposition.py
+python demos/goal_decomposition.py
 ```
 
 **Key concepts:**
@@ -57,7 +57,7 @@ python demos/02_goal_decomposition.py
 
 **Run:**
 ```bash
-python demos/03_wave_thinking.py
+python demos/wave_thinking.py
 ```
 
 **Key concepts:**
@@ -80,7 +80,7 @@ python demos/03_wave_thinking.py
 
 **Run:**
 ```bash
-python demos/04_integrated_voice.py
+python demos/integrated_voice.py
 ```
 
 **Key concepts:**
@@ -103,10 +103,10 @@ Cognition → Imagination → Expression → OUTPUT → Reflection
 Run all demos in sequence:
 
 ```bash
-python demos/01_simple_conversation.py
-python demos/02_goal_decomposition.py
-python demos/03_wave_thinking.py
-python demos/04_integrated_voice.py
+python demos/simple_conversation.py
+python demos/goal_decomposition.py
+python demos/wave_thinking.py
+python demos/integrated_voice.py
 ```
 
 ## Understanding the Demos

@@ -4,7 +4,7 @@ import os
 from typing import List, Dict, Any
 
 from tools.kg_manager import KGManager
-from Core.Foundation.vector_utils import cosine_sim
+from Core.FoundationLayer.Foundation.vector_utils import cosine_sim
 
 
 def avg(vectors: List[List[float]]) -> List[float]:

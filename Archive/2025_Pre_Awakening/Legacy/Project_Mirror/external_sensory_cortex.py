@@ -7,8 +7,8 @@ except ImportError:
     psutil = None
 
 from typing import Any, Dict, Optional
-from Core.Foundation.core.external_horizons import ExternalHorizon
-from Core.Foundation.web_search_cortex import WebSearchCortex
+from Core.FoundationLayer.Foundation.core.external_horizons import ExternalHorizon
+from Core.FoundationLayer.Foundation.web_search_cortex import WebSearchCortex
 
 logger = logging.getLogger(__name__)
 

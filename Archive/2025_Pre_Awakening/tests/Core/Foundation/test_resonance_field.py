@@ -10,7 +10,7 @@ class TestResonanceField:
     
     def test_resonance_field_init(self):
         """Test ResonanceField initialization"""
-        from Core.Foundation.resonance_field import ResonanceField
+        from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
         
         field = ResonanceField()
         
@@ -19,7 +19,7 @@ class TestResonanceField:
     
     def test_add_energy(self):
         """Test adding energy to field"""
-        from Core.Foundation.resonance_field import ResonanceField
+        from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
         
         field = ResonanceField()
         initial = field.total_energy
@@ -30,7 +30,7 @@ class TestResonanceField:
     
     def test_drain_energy_success(self):
         """Test draining energy when sufficient"""
-        from Core.Foundation.resonance_field import ResonanceField
+        from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
         
         field = ResonanceField()
         field.add_energy(100.0)
@@ -42,7 +42,7 @@ class TestResonanceField:
     
     def test_drain_energy_insufficient(self):
         """Test draining more energy than available"""
-        from Core.Foundation.resonance_field import ResonanceField
+        from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
         
         field = ResonanceField()
         initial = field.total_energy
@@ -58,8 +58,8 @@ class TestEntropySink:
     
     def test_entropy_sink_init(self):
         """Test EntropySink initialization"""
-        from Core.Foundation.entropy_sink import EntropySink
-        from Core.Foundation.resonance_field import ResonanceField
+        from Core.FoundationLayer.Foundation.entropy_sink import EntropySink
+        from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
         
         field = ResonanceField()
         sink = EntropySink(field)
@@ -69,8 +69,8 @@ class TestEntropySink:
     
     def test_absorb_resistance(self):
         """Test error absorption"""
-        from Core.Foundation.entropy_sink import EntropySink
-        from Core.Foundation.resonance_field import ResonanceField
+        from Core.FoundationLayer.Foundation.entropy_sink import EntropySink
+        from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
         
         sink = EntropySink(ResonanceField())
         

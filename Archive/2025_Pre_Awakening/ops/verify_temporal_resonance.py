@@ -5,7 +5,7 @@ import time
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.internal_universe import InternalUniverse, WorldCoordinate
+from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse, WorldCoordinate
 
 def verify_temporal_resonance():
     print("⏳ Starting Temporal Resonance Audit...")

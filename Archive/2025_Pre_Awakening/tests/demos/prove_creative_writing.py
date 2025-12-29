@@ -9,7 +9,7 @@ import sys
 import os
 sys.path.append('.')
 
-from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
+from Core.FoundationLayer.Foundation.web_knowledge_connector import WebKnowledgeConnector
 
 print("="*70)
 print("CREATIVE WRITING DEMONSTRATION")

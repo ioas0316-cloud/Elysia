@@ -15,10 +15,10 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))
 
 from tools.kg_manager import KGManager
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
-from Core.Foundation.world_themes.west_continent.config import WEST_THEME
-from Core.Foundation.world_themes.west_continent.preset import apply_west_continent_preset
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.world_themes.west_continent.config import WEST_THEME
+from Core.FoundationLayer.Foundation.world_themes.west_continent.preset import apply_west_continent_preset
 
 
 def make_world(map_size: int) -> World:

@@ -11,7 +11,7 @@ import tempfile
 import json
 from pathlib import Path
 
-from Core.Foundation.wave_semantic_search import (
+from Core.FoundationLayer.Foundation.wave_semantic_search import (
     WaveSemanticSearch,
     WavePattern,
     Quaternion

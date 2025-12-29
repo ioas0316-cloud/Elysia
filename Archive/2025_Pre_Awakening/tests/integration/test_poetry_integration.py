@@ -31,14 +31,14 @@ except Exception as e:
     sys.exit(1)
 
 try:
-    from Core.Foundation.imagination import ImaginationLobe
+    from Core.FoundationLayer.Foundation.imagination import ImaginationLobe
     print("✓ ImaginationLobe imported successfully")
 except Exception as e:
     print(f"✗ ImaginationLobe import failed: {e}")
     sys.exit(1)
 
 try:
-    from Core.Foundation.reasoning_engine import ReasoningEngine
+    from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
     print("✓ ReasoningEngine imported successfully (warnings expected)")
 except Exception as e:
     print(f"✗ ReasoningEngine import failed: {e}")

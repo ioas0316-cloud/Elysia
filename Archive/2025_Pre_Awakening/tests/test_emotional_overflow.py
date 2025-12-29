@@ -9,11 +9,11 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from Core.Foundation.linguistic_collapse import (
+from Core.FoundationLayer.Foundation.linguistic_collapse import (
     LinguisticCollapseProtocol,
     EmotionalOverflowState
 )
-from Core.Foundation.emotional_engine import EmotionalEngine
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalEngine
 
 
 def test_overflow_detection():

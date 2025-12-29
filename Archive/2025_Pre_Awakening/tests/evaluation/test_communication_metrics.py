@@ -343,7 +343,7 @@ class CommunicationMetrics:
         try:
             # Mock or minimal instantiation of dependencies
             from Core.Intelligence.dialogue_engine import DialogueEngine
-            from Core.Foundation.language_cortex import LanguageCortex
+            from Core.FoundationLayer.Foundation.language_cortex import LanguageCortex
 
             # Initialize engine
             cortex = LanguageCortex()

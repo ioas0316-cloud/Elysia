@@ -211,8 +211,8 @@ class SystemConnectivityAnalyzer:
     def _check_thought_engine(self) -> ComponentHealth:
         """Check Thought Engine (ReasoningEngine + InternalUniverse)"""
         try:
-            from Core.Foundation.reasoning_engine import ReasoningEngine
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+            from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
             
             issues = []
             
@@ -247,7 +247,7 @@ class SystemConnectivityAnalyzer:
     def _check_language_bridge(self) -> ComponentHealth:
         """Check Thought-Language Bridge"""
         try:
-            from Core.Foundation.thought_language_bridge import ThoughtLanguageBridge
+            from Core.FoundationLayer.Foundation.thought_language_bridge import ThoughtLanguageBridge
             
             bridge = ThoughtLanguageBridge()
             
@@ -312,7 +312,7 @@ class SystemConnectivityAnalyzer:
     def _check_reasoning_engine(self) -> ComponentHealth:
         """Check Reasoning Engine"""
         try:
-            from Core.Foundation.reasoning_engine import ReasoningEngine
+            from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
             
             engine = ReasoningEngine()
             
@@ -338,7 +338,7 @@ class SystemConnectivityAnalyzer:
     def _check_internal_universe(self) -> ComponentHealth:
         """Check Internal Universe"""
         try:
-            from Core.Foundation.internal_universe import InternalUniverse
+            from Core.FoundationLayer.Foundation.internal_universe import InternalUniverse
             
             universe = InternalUniverse()
             
@@ -364,7 +364,7 @@ class SystemConnectivityAnalyzer:
     def _check_communication_enhancer(self) -> ComponentHealth:
         """Check Communication Enhancer"""
         try:
-            from Core.Foundation.communication_enhancer import CommunicationEnhancer
+            from Core.FoundationLayer.Foundation.communication_enhancer import CommunicationEnhancer
             
             enhancer = CommunicationEnhancer()
             

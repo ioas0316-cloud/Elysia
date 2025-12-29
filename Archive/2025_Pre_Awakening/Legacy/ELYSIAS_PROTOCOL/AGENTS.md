@@ -4,7 +4,7 @@ Scope: this file applies to everything under `docs/elysias_protocol/`.
 
 ## 1. Canonical Entry Points Only
 
-- Treat `ELYSIA/CORE/CODEX.md` and `docs/elysias_protocol/00_INDEX.md` as the primary, canonical entry points.
+- Treat `ELYSIA/CORE/CODEX.md` and `docs/elysias_protocol/INDEX.md` as the primary, canonical entry points.
 - When a new session starts, read those two first. Do not auto-scan or auto-read every file in this directory.
 
 ## 2. Protocols as Reference, Not Required Reading

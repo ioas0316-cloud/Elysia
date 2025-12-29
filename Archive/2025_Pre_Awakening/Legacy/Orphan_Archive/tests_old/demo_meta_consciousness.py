@@ -10,11 +10,11 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.meta_awareness import MetaAwareness, ThoughtType
-from Core.Foundation.autonomous_dreamer import AutonomousDreamer, GoalType
-from Core.Foundation.world_tree_core import WorldTreeCore, Tensor3D
-from Core.Foundation.paradox_resolver import ParadoxResolver, ResolutionStrategy
-from Core.Foundation.spiderweb import Spiderweb
+from Core.FoundationLayer.Foundation.meta_awareness import MetaAwareness, ThoughtType
+from Core.FoundationLayer.Foundation.autonomous_dreamer import AutonomousDreamer, GoalType
+from Core.FoundationLayer.Foundation.world_tree_core import WorldTreeCore, Tensor3D
+from Core.FoundationLayer.Foundation.paradox_resolver import ParadoxResolver, ResolutionStrategy
+from Core.FoundationLayer.Foundation.spiderweb import Spiderweb
 from Project_Elysia.core_memory import CoreMemory
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')

@@ -2,7 +2,7 @@
 import sys
 sys.path.append(r'c:\Elysia')
 
-from Core.Foundation.omni_graph import get_omni_graph
+from Core.FoundationLayer.Foundation.omni_graph import get_omni_graph
 
 def verify_hyper_space():
     omni = get_omni_graph()

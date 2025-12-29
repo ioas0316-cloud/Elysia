@@ -17,8 +17,8 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from elysia_core import Organ
-from Core.05_Systems.01_Monitoring.System.Autonomy.self_evolution_scheduler import SelfEvolutionScheduler
-from Core.02_Intelligence.01_Reasoning.Cognition.Reasoning.free_will_engine import FreeWillEngine
+from Core.SystemLayer.System.Autonomy.self_evolution_scheduler import SelfEvolutionScheduler
+from Core.IntelligenceLayer.Cognition.Reasoning.free_will_engine import FreeWillEngine
 
 def verify_autonomy():
     print("🫀 Initializing Heart of Will...")

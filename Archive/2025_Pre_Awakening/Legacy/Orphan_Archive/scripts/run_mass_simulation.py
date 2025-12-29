@@ -11,9 +11,9 @@ import logging
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, project_root)
 
-from Core.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.core.world import World
 from tools.kg_manager import KGManager
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 
 # --- Constants ---
 SIMULATION_STEPS = 10000

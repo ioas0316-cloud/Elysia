@@ -3,7 +3,7 @@ import sys
 import time
 sys.path.append(r'c:\Elysia')
 from Core.Autonomy.dream_daemon import get_dream_daemon
-from Core.Foundation.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
 
 def verify_dream():
     print("🌙 Dream Daemon Verification")

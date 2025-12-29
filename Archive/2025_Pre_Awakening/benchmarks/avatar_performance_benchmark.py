@@ -19,7 +19,7 @@ from dataclasses import asdict
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from Core.03_Interaction.01_Interface.Interface.avatar_server import ElysiaAvatarCore, AvatarWebSocketServer
+from Core.InteractionLayer.Interface.avatar_server import ElysiaAvatarCore, AvatarWebSocketServer
 
 
 class BenchmarkResults:

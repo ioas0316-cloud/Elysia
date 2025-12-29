@@ -1,7 +1,7 @@
 import unittest
 import os
-from Core.Foundation.Mind.episodic_memory import EpisodicMemory, Episode
-from Core.Foundation.Math.hyper_qubit import HyperQubit, QubitState
+from Core.FoundationLayer.Foundation.Mind.episodic_memory import EpisodicMemory, Episode
+from Core.FoundationLayer.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
 
 class TestEpisodicMemory(unittest.TestCase):
     def setUp(self):

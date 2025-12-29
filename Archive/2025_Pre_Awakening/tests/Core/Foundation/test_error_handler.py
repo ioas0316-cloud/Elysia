@@ -4,7 +4,7 @@ Tests for Elysia Error Handler
 
 import pytest
 import time
-from Core.Foundation.error_handler import ElysiaErrorHandler, error_handler
+from Core.FoundationLayer.Foundation.error_handler import ElysiaErrorHandler, error_handler
 
 
 class TestErrorHandler:

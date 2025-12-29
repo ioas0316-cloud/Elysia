@@ -9,7 +9,7 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestPrediction")
 
-from Core.Intelligence.Intelligence.Prediction.predictive_world import PredictiveWorldModel
+from Core.Intelligence.Prediction.predictive_world import PredictiveWorldModel
 
 def test():
     logger.info("🧪 Testing Real Prediction (Mental Sandbox)...")

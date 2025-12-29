@@ -3,11 +3,11 @@ from unittest.mock import patch
 import os
 import json
 from pathlib import Path
-from Core.Foundation.value_cortex import ValueCortex
+from Core.FoundationLayer.Foundation.value_cortex import ValueCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
-from Core.Foundation.action_cortex import ActionCortex
-from Core.Foundation.meta_cognition_cortex import MetaCognitionCortex
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.action_cortex import ActionCortex
+from Core.FoundationLayer.Foundation.meta_cognition_cortex import MetaCognitionCortex
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 class TestCortexes(unittest.TestCase):

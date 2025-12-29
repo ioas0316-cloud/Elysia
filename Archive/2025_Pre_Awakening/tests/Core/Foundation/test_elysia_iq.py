@@ -6,8 +6,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.Foundation.hyper_quaternion import Quaternion
+from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.FoundationLayer.Foundation.hyper_quaternion import Quaternion
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

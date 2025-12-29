@@ -14,9 +14,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 import logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
-from Core.Foundation.reasoning_engine import ReasoningEngine
-from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.resonance_field import ResonanceField
+from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.FoundationLayer.Foundation.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
 
 print("\n" + "="*70)
 print("🌅 엘리시아 자기인식 검증 (Self-Awareness Verification)")

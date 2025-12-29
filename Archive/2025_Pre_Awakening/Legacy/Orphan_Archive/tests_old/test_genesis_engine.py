@@ -2,7 +2,7 @@
 import unittest
 from unittest.mock import MagicMock
 import numpy as np
-from Core.Foundation.core.genesis_engine import GenesisEngine
+from Core.FoundationLayer.Foundation.core.genesis_engine import GenesisEngine
 
 class MockWorld:
     def __init__(self):

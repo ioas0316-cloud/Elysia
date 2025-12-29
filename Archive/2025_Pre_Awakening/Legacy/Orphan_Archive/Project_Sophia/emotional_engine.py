@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
-from Core.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
+from Core.FoundationLayer.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
 
 @dataclass
 class EmotionalState:

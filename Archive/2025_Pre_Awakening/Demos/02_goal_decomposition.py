@@ -8,7 +8,7 @@ Shows how Elysia breaks down large goals into achievable stations
 across multiple dimensions (0D→∞D).
 
 Usage:
-    python demos/02_goal_decomposition.py
+    python demos/goal_decomposition.py
 """
 
 import sys
@@ -111,7 +111,7 @@ def goal_decomposition_demo():
     print("  • Each dimension provides unique perspective")
     print("  • Stations make large goals achievable")
     print()
-    print("Next: Try python demos/03_wave_thinking.py")
+    print("Next: Try python demos/wave_thinking.py")
     print("=" * 70)
 
 if __name__ == "__main__":

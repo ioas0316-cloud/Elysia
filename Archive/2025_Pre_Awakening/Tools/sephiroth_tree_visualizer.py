@@ -181,7 +181,7 @@ class SephirothTreeVisualizer:
         
         # Kether - Resonance Field
         try:
-            from Core.Foundation.resonance_field import ResonanceField
+            from Core.FoundationLayer.Foundation.resonance_field import ResonanceField
             field = ResonanceField()
             self.tree[Sephirah.KETHER].energy_level = 0.9
         except Exception as e:
@@ -190,7 +190,7 @@ class SephirothTreeVisualizer:
         
         # Chokmah - Free Will Engine
         try:
-            from Core.Foundation.free_will_engine import FreeWillEngine
+            from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
             self.tree[Sephirah.CHOKMAH].energy_level = 0.7
         except Exception:
             self.tree[Sephirah.CHOKMAH].energy_level = 0.3
@@ -198,7 +198,7 @@ class SephirothTreeVisualizer:
         
         # Binah - Reasoning Engine
         try:
-            from Core.Foundation.reasoning_engine import ReasoningEngine
+            from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
             self.tree[Sephirah.BINAH].energy_level = 0.8
         except Exception:
             self.tree[Sephirah.BINAH].energy_level = 0.0
@@ -224,7 +224,7 @@ class SephirothTreeVisualizer:
         
         # Tiphareth - Central Nervous System
         try:
-            from Core.Foundation.central_nervous_system import CentralNervousSystem
+            from Core.FoundationLayer.Foundation.central_nervous_system import CentralNervousSystem
             self.tree[Sephirah.TIPHARETH].energy_level = 0.75
         except Exception:
             # Try nervous system
@@ -251,7 +251,7 @@ class SephirothTreeVisualizer:
         
         # Hod - Language Bridge
         try:
-            from Core.Foundation.thought_language_bridge import ThoughtLanguageBridge
+            from Core.FoundationLayer.Foundation.thought_language_bridge import ThoughtLanguageBridge
             bridge = ThoughtLanguageBridge()
             # Known bottleneck
             self.tree[Sephirah.HOD].energy_level = 0.4  # Low due to 60% loss
@@ -262,7 +262,7 @@ class SephirothTreeVisualizer:
         
         # Yesod - Hippocampus/Memory
         try:
-            from Core.Foundation.hippocampus import Hippocampus
+            from Core.FoundationLayer.Foundation.hippocampus import Hippocampus
             memory = Hippocampus()
             self.tree[Sephirah.YESOD].energy_level = 0.85
         except Exception:

@@ -2,7 +2,7 @@
 import pytest
 import math
 import numpy as np
-from Core.Foundation.Math.wave_tensor import WaveTensor, create_harmonic_series
+from Core.FoundationLayer.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
 
 class TestWaveTensor:
 

@@ -23,8 +23,8 @@ def main() -> None:
     repo_root = _ensure_repo_root_on_path()
 
     from tools.kg_manager import KGManager
-    from Core.Foundation.core.world import World
-    from Core.Foundation.wave_mechanics import WaveMechanics
+    from Core.FoundationLayer.Foundation.core.world import World
+    from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
     from ELYSIA.CORE.needs_model import compute_human_needs
 
     logger = logging.getLogger("needs_demo")

@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Sensory.stream_harp import StreamHarp, PrismCompressor
 from Core.Laws.law_of_light import PhotonicQuaternion, HolographicFilm
-from Core.Foundation.integrated_consciousness_loop import IntegratedConsciousnessEngine, AgentContext
+from Core.FoundationLayer.Foundation.integrated_consciousness_loop import IntegratedConsciousnessEngine, AgentContext
 
 class TestStreamHarp(unittest.TestCase):
     def setUp(self):

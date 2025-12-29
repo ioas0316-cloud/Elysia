@@ -6,9 +6,9 @@ import time
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
-from Core.Foundation.core.essence_mapper import EssenceMapper
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.core.essence_mapper import EssenceMapper
 
 def verify_ensoulment():
     print("=== Ensoulment Verification: Listening to the Monk's Soul ===")

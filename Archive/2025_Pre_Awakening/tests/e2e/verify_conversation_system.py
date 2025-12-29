@@ -35,7 +35,7 @@ def test_communication_system():
     logger.info("TEST 1: Real Communication System")
     logger.info("="*70)
     
-    from Core.Foundation.real_communication_system import RealCommunicationSystem
+    from Core.FoundationLayer.Foundation.real_communication_system import RealCommunicationSystem
     
     comm = RealCommunicationSystem()
     
@@ -123,7 +123,7 @@ def test_context_maintenance():
     logger.info("TEST 2: Context Maintenance")
     logger.info("="*70)
     
-    from Core.Foundation.real_communication_system import RealCommunicationSystem
+    from Core.FoundationLayer.Foundation.real_communication_system import RealCommunicationSystem
     
     comm = RealCommunicationSystem()
     
@@ -179,9 +179,9 @@ def test_wave_integration():
     logger.info("="*70)
     
     try:
-        from Core.Foundation.wave_integration_hub import get_wave_hub
-        from Core.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
-        from Core.Foundation.real_communication_system import RealCommunicationSystem
+        from Core.FoundationLayer.Foundation.wave_integration_hub import get_wave_hub
+        from Core.FoundationLayer.Foundation.ultra_dimensional_reasoning import UltraDimensionalReasoning
+        from Core.FoundationLayer.Foundation.real_communication_system import RealCommunicationSystem
         
         # Initialize systems
         wave_hub = get_wave_hub()

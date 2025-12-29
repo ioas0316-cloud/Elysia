@@ -22,7 +22,7 @@ from pathlib import Path
 # Setup path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.04_Evolution.03_Creative.Creativity.webtoon_weaver import WebtoonWeaver
+from Core.EvolutionLayer.Creativity.webtoon_weaver import WebtoonWeaver
 
 def run_production(title: str, episode_count: int):
     print(f"🏛️ Initiating Project Homeros for: '{title}'")

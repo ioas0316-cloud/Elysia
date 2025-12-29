@@ -12,7 +12,7 @@ except Exception as e:
 
 print("Importing DreamStream...")
 try:
-    from Core.Foundation.Mind.dream_stream import DreamStream
+    from Core.FoundationLayer.Foundation.Mind.dream_stream import DreamStream
     print("DreamStream imported.")
 except Exception as e:
     print(f"DreamStream failed: {e}")

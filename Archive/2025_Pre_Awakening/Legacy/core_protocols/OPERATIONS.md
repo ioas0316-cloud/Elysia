@@ -29,10 +29,10 @@ Single entry for how agents work here and how changes are recorded. Read this be
 
 ## Minimal References
 - `ELYSIA/CORE/CODEX.md` ??canonical principles and handover.
-- `docs/elysias_protocol/02_ARCHITECTURE_GUIDE.md`
-- `docs/elysias_protocol/15_CONCEPT_KERNEL_AND_NANOBOTS.md`
-- `docs/elysias_protocol/17_CELL_RUNTIME_AND_REACTION_RULES.md`
-- `docs/elysias_protocol/11_DIALOGUE_RULES_SPEC.md`
+- `docs/elysias_protocol/ARCHITECTURE_GUIDE.md`
+- `docs/elysias_protocol/CONCEPT_KERNEL_AND_NANOBOTS.md`
+- `docs/elysias_protocol/CELL_RUNTIME_AND_REACTION_RULES.md`
+- `docs/elysias_protocol/DIALOGUE_RULES_SPEC.md`
 
 ## Where to write logs
 - Live log: `BUILDER_LOG.md` (root). Keep entries concise; this file is history, not guidance.

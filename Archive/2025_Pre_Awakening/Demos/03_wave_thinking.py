@@ -8,7 +8,7 @@ Shows how thoughts are represented as waves and how they
 resonate with each other to create meaning.
 
 Usage:
-    python demos/03_wave_thinking.py
+    python demos/wave_thinking.py
 """
 
 import sys

@@ -60,7 +60,7 @@ class AutonomousIntelligenceEvaluator:
         """
         # 프랙탈 사고 시스템 존재 여부 확인
         try:
-            from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
+            from Core.FoundationLayer.Foundation.thought_layer_bridge import ThoughtLayerBridge
             
             scale_shifting = 70.0     # 줌인/줌아웃 양호
             perspective_shift = 75.0  # 관점 변화 우수
@@ -91,7 +91,7 @@ class AutonomousIntelligenceEvaluator:
         """
         # FreeWill 시스템 존재 여부 확인
         try:
-            from Core.Foundation.free_will_engine import FreeWillEngine
+            from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
             
             self_awareness = 50.0      # 제한적 자기 인식
             goal_achievement = 40.0    # 자율적 목표 설정 불가
@@ -119,7 +119,7 @@ class AutonomousIntelligenceEvaluator:
         """
         # 초차원 프랙탈 사고 존재 여부
         try:
-            from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
+            from Core.FoundationLayer.Foundation.thought_layer_bridge import ThoughtLayerBridge
             
             z_axis_thinking = 55.0    # 제한적 대안 창출
             thinking_depth = 70.0     # 사고 깊이 양호

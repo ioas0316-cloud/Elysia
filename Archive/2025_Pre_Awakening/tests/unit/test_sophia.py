@@ -1,4 +1,4 @@
-from Core.Foundation.planning_cortex import PlanningCortex
+from Core.FoundationLayer.Foundation.planning_cortex import PlanningCortex
 import os
 
 # Create dummy file

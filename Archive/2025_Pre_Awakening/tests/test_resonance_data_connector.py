@@ -15,7 +15,7 @@ import json
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.resonance_data_connector import ResonanceDataConnector
+from Core.FoundationLayer.Foundation.resonance_data_connector import ResonanceDataConnector
 
 logging.basicConfig(level=logging.INFO, format='%(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("TestResonanceDataConnector")

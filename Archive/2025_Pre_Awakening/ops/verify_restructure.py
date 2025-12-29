@@ -83,7 +83,7 @@ def check_trinity():
     print("\n🔍 [4] Trinity Protocol Verification", flush=True)
     
     try:
-        from Core.Foundation.Wave.trinity_protocol import TrinityNetwork, get_trinity_network
+        from Core.FoundationLayer.Foundation.Wave.trinity_protocol import TrinityNetwork, get_trinity_network
         network = get_trinity_network()
         status = network.get_status()
         print(f"   ✅ TrinityNetwork: {len(status['nodes'])} nodes connected", flush=True)

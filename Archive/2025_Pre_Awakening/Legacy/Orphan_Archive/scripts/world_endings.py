@@ -17,7 +17,7 @@ from scripts.character_model import Character, score_hero, score_villain
 from scripts.macro_kingdom_model import YearState
 
 if TYPE_CHECKING:
-    from Core.Foundation.core.world import World
+    from Core.FoundationLayer.Foundation.core.world import World
 
 
 @dataclass

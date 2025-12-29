@@ -10,7 +10,7 @@ import numpy as np
 from typing import Optional, List, Dict, Any
 from dataclasses import dataclass
 
-from Core.Foundation.laplace_engine import LaplaceEngine, TransferFunction, ResonanceInfo
+from Core.FoundationLayer.Foundation.laplace_engine import LaplaceEngine, TransferFunction, ResonanceInfo
 
 
 @dataclass

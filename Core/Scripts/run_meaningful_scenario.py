@@ -20,11 +20,11 @@ import numpy as np
 import logging
 import time as real_time
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.Physics.fluctlight import FluctlightEngine
-from Core.01_Foundation.05_Foundation_Base.Foundation.Physics.meta_time_engine import create_safe_meta_engine
-from Core.05_Systems.01_Monitoring.System.System.Integration.experience_digester import ExperienceDigester
-from Core.01_Foundation.05_Foundation_Base.Foundation.Mind.hippocampus import Hippocampus
-from Core.01_Foundation.05_Foundation_Base.Foundation.Mind.alchemy import Alchemy
+from Core.FoundationLayer.Foundation.Physics.fluctlight import FluctlightEngine
+from Core.FoundationLayer.Foundation.Physics.meta_time_engine import create_safe_meta_engine
+from Core.SystemLayer.System.System.Integration.experience_digester import ExperienceDigester
+from Core.FoundationLayer.Foundation.Mind.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.Mind.alchemy import Alchemy
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("MeaningfulScenario")

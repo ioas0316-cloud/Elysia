@@ -25,9 +25,9 @@ def _run_local_world(
         sys.path.insert(0, repo_root)
 
     from tools.kg_manager import KGManager
-    from Core.Foundation.wave_mechanics import WaveMechanics
-    from Core.Foundation.core.world import World
-    from Core.Foundation.warp_layer import WarpLayer, quaternion_from_axis_angle
+    from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
+    from Core.FoundationLayer.Foundation.core.world import World
+    from Core.FoundationLayer.Foundation.warp_layer import WarpLayer, quaternion_from_axis_angle
 
     kgm = KGManager()
     wm = WaveMechanics(kg_manager=kgm)

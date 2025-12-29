@@ -21,8 +21,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 import torch
 import logging
-from Core.Foundation.torch_graph import get_torch_graph
-from Core.Foundation.ollama_bridge import ollama
+from Core.FoundationLayer.Foundation.torch_graph import get_torch_graph
+from Core.FoundationLayer.Foundation.ollama_bridge import ollama
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("SovereigntyTest")

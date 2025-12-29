@@ -188,7 +188,7 @@ class ThinkingMetrics:
         
         try:
             # Dream Engine이나 Creative 모듈 존재 확인
-            from Core.Foundation.dream_engine import DreamEngine
+            from Core.FoundationLayer.Foundation.dream_engine import DreamEngine
             novelty_score = 0.75  # 존재하면 기본 점수
         except:
             novelty_score = 0.60  # 존재하지 않으면 낮은 점수
@@ -284,7 +284,7 @@ class ThinkingMetrics:
         
         try:
             # FreeWillEngine 존재 확인
-            from Core.Foundation.free_will_engine import FreeWillEngine
+            from Core.FoundationLayer.Foundation.free_will_engine import FreeWillEngine
             self_monitoring = 0.78
             strategy_selection = 0.78
             error_detection = 0.80
@@ -317,7 +317,7 @@ class ThinkingMetrics:
         """
         try:
             # ThoughtLayerBridge 존재 확인
-            from Core.Foundation.thought_layer_bridge import ThoughtLayerBridge
+            from Core.FoundationLayer.Foundation.thought_layer_bridge import ThoughtLayerBridge
             
             perspective_shift = 0.82  # 0D - 관점
             causal_chain = 0.82  # 1D - 인과
@@ -358,7 +358,7 @@ class ThinkingMetrics:
         
         try:
             # Hippocampus (memory) 존재 확인
-            from Core.Foundation.hippocampus import Hippocampus
+            from Core.FoundationLayer.Foundation.hippocampus import Hippocampus
             
             sequence_understanding = 0.85
             prediction = 0.72

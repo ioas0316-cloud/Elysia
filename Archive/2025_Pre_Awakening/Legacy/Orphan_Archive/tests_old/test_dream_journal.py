@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Project_Elysia.guardian import Guardian
-from Core.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.core.world import World
 from Project_Elysia.core_memory import CoreMemory
 
 class TestDreamJournal(unittest.TestCase):

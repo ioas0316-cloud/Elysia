@@ -9,7 +9,7 @@ import os
 import logging
 
 # --- Import project modules ---
-from Core.Foundation.tool_executor import ToolExecutor
+from Core.FoundationLayer.Foundation.tool_executor import ToolExecutor
 from integrations.agent_proxy import AgentProxy
 from infra.web_sanctum import WebSanctum
 from tools.visualize_kg import render_kg, render_placeholder

@@ -9,7 +9,7 @@ sys.path.append(os.getcwd())
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("TestPlanner")
 
-from Core.Intelligence.Intelligence.executive_function import RecursivePlanner, Goal
+from Core.Intelligence.executive_function import RecursivePlanner, Goal
 
 def test():
     logger.info("🧪 Testing Recursive Planner...")

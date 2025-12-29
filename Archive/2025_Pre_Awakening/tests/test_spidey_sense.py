@@ -9,7 +9,7 @@ sys.path.insert(0, r"c:\Elysia")
 print(f"DEBUG: sys.path[0] = {sys.path[0]}")
 
 try:
-    from Core.Foundation.fractal_soul import SoulCrystal
+    from Core.FoundationLayer.Foundation.fractal_soul import SoulCrystal
 except ImportError as e:
     print(f"IMPORT ERROR: {e}")
     print("Listing Core/Foundation:")

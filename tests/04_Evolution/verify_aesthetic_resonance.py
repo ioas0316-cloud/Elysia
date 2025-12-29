@@ -2,7 +2,7 @@ import json
 import os
 
 def verify_aesthetic_resonance():
-    essence_path = "c:/Elysia/data/02_Cognitive/05_Aesthetics/dreamshaper_wisdom_essence.json"
+    essence_path = "c:/Elysia/data/Cognitive/Aesthetics/dreamshaper_wisdom_essence.json"
     
     if not os.path.exists(essence_path):
         print("Error: Wisdom Essence not found.")

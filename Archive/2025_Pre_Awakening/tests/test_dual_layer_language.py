@@ -6,7 +6,7 @@ Tests for Dual-Layer Language System
 import pytest
 import numpy as np
 
-from Core.Interface.Interface.Language.dual_layer_language import (
+from Core.Interface.Language.dual_layer_language import (
     DualLayerWorld,
     DualLayerSoul,
     KhalaField,
@@ -299,7 +299,7 @@ class TestTimeAcceleratedIntegration:
     
     def test_import_all_systems(self):
         """모든 시스템 임포트 테스트"""
-        from Core.Interface.Interface.Language import (
+        from Core.Interface.Language import (
             PrimalWaveWorld,
             TimeAcceleratedPrimalWorld,
             DualLayerWorld,

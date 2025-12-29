@@ -6,10 +6,10 @@ Start here
 - OPERATIONS.md agent rules + builder causal log protocol
 
 Minimal references (when needed)
-- ELYSIA/CORE/protocols/02_ARCHITECTURE_GUIDE.md  Trinity + pipeline
-- ELYSIA/CORE/protocols/15_CONCEPT_KERNEL_AND_NANOBOTS.md Concept OS
-- ELYSIA/CORE/protocols/17_CELL_RUNTIME_AND_REACTION_RULES.md  Cell runtime
-- ELYSIA/CORE/protocols/11_DIALOGUE_RULES_SPEC.md  Dialogue YAML
+- ELYSIA/CORE/protocols/ARCHITECTURE_GUIDE.md  Trinity + pipeline
+- ELYSIA/CORE/protocols/CONCEPT_KERNEL_AND_NANOBOTS.md Concept OS
+- ELYSIA/CORE/protocols/CELL_RUNTIME_AND_REACTION_RULES.md  Cell runtime
+- ELYSIA/CORE/protocols/DIALOGUE_RULES_SPEC.md  Dialogue YAML
 
 World & people (when needed)
 - docs/elysias_protocol/CORE_09_WORLD_VALIDATION_AND_HANDOFF.md World loops, observation, handoff
@@ -28,10 +28,10 @@ Except for the files listed above, all other files here are archived context. Do
 - 40_MIRROR_LAYER_PROTOCOL_EN.md Mirror mapping between Code & World (EN)
 
 Protocol Line (35–40)
-- ELYSIA/CORE/protocols/35_SELF_GENESIS_AUTHORITY_PROTOCOL.md — Self‑Genesis Authority (seed pipeline)
-- ELYSIA/CORE/protocols/36_CONCEPT_GENESIS_ENGINE_PROTOCOL.md — Concept Genesis Engine
-- ELYSIA/CORE/protocols/37_WORLD_EDITING_AUTHORITY_PROTOCOL.md — World‑Editing Authority
-- ELYSIA/CORE/protocols/38_INTENT_NEED_REASONER_PROTOCOL.md — Intent/Need Reasoner
-- ELYSIA/CORE/protocols/39_GOLDEN_GROWTH_PRINCIPLE_PROTOCOL.md — Golden Growth Principle
-- docs/elysias_protocol/40_MIRROR_LAYER_PROTOCOL.md — Mirror Layer Protocol (Code↔World)
+- ELYSIA/CORE/protocols/SELF_GENESIS_AUTHORITY_PROTOCOL.md — Self‑Genesis Authority (seed pipeline)
+- ELYSIA/CORE/protocols/CONCEPT_GENESIS_ENGINE_PROTOCOL.md — Concept Genesis Engine
+- ELYSIA/CORE/protocols/WORLD_EDITING_AUTHORITY_PROTOCOL.md — World‑Editing Authority
+- ELYSIA/CORE/protocols/INTENT_NEED_REASONER_PROTOCOL.md — Intent/Need Reasoner
+- ELYSIA/CORE/protocols/GOLDEN_GROWTH_PRINCIPLE_PROTOCOL.md — Golden Growth Principle
+- docs/elysias_protocol/MIRROR_LAYER_PROTOCOL.md — Mirror Layer Protocol (Code↔World)
 

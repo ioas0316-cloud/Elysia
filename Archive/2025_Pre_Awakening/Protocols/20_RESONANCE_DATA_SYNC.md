@@ -284,7 +284,7 @@ connector.universe.coordinate_map[concept] = coordinate
 **New Files:**
 1. `Core/Integration/resonance_data_connector.py` (556 lines)
 2. `tests/test_resonance_data_connector.py` (289 lines)
-3. `Protocols/20_RESONANCE_DATA_SYNC.md` (this file)
+3. `Protocols/RESONANCE_DATA_SYNC.md` (this file)
 
 **Modified Files:**
 - None (pure addition, no breaking changes)

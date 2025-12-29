@@ -107,13 +107,13 @@ class DataFlowTracker:
         
         # Try to load each component
         try:
-            from Core.Foundation.thought_language_bridge import ThoughtLanguageBridge
+            from Core.FoundationLayer.Foundation.thought_language_bridge import ThoughtLanguageBridge
             self.components['thought_language_bridge'] = ThoughtLanguageBridge()
         except Exception as e:
             logger.warning(f"Could not load ThoughtLanguageBridge: {e}")
         
         try:
-            from Core.Foundation.reasoning_engine import ReasoningEngine
+            from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
             self.components['reasoning_engine'] = ReasoningEngine()
         except Exception as e:
             logger.warning(f"Could not load ReasoningEngine: {e}")

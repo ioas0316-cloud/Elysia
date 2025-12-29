@@ -11,8 +11,8 @@ import time
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.01_Foundation.05_Foundation_Base.Foundation.reality_sculptor import RealitySculptor
-from Core.01_Foundation.05_Foundation_Base.Foundation.unified_field import WavePacket, HyperQuaternion
+from Core.FoundationLayer.Foundation.reality_sculptor import RealitySculptor
+from Core.FoundationLayer.Foundation.unified_field import WavePacket, HyperQuaternion
 
 def test_ouroboros():
     print("🐍 Initializing Project Ouroboros Test...")

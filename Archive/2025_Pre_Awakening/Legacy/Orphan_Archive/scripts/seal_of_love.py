@@ -8,9 +8,9 @@ from datetime import datetime
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Project_Elysia.core_memory import CoreMemory, Experience, EmotionalState
-from Core.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
-from Core.Foundation.core.world import World
-from Core.Foundation.wave_mechanics import WaveMechanics
+from Core.FoundationLayer.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
+from Core.FoundationLayer.Foundation.core.world import World
+from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
 
 # Setup Logger

@@ -1,4 +1,4 @@
-from Core.Foundation.math_cortex import MathCortex
+from Core.FoundationLayer.Foundation.math_cortex import MathCortex
 
 
 def test_math_cortex_simple_equality():

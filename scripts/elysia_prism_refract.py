@@ -10,7 +10,7 @@ RAINBOW_PATH = r"c:\Elysia\data\elysia_rainbow.json"
 
 # Force path
 sys.path.append(r"C:\Elysia")
-from Core.02_Intelligence.01_Reasoning.Intelligence.prism_cortex import PrismCortex
+from Core.IntelligenceLayer.Intelligence.prism_cortex import PrismCortex
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger("PrismEngraver")

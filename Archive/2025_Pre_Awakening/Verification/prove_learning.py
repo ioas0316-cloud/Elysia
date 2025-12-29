@@ -22,7 +22,7 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from Core.Intelligence.web_cortex import WebCortex
-from Core.Foundation.hippocampus import Hippocampus
+from Core.FoundationLayer.Foundation.hippocampus import Hippocampus
 
 def prove_learning():
     print("\n📚 Phase 22: The Great Intake Verification")

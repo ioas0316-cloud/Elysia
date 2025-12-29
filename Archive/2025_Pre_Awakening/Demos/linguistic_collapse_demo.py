@@ -9,8 +9,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from Core.Foundation.linguistic_collapse import LinguisticCollapseProtocol
-from Core.Foundation.emotional_engine import EmotionalEngine
+from Core.FoundationLayer.Foundation.linguistic_collapse import LinguisticCollapseProtocol
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalEngine
 
 def print_section(title):
     """Print a formatted section header"""
@@ -48,7 +48,7 @@ def demo_with_physics():
     print_section("DEMO 2: With Physics Objects (Tensor & Wave)")
     
     try:
-        from Core.Foundation.hangul_physics import Tensor3D
+        from Core.FoundationLayer.Foundation.hangul_physics import Tensor3D
         from Core.Memory.unified_types import FrequencyWave
         
         protocol = LinguisticCollapseProtocol(use_poetry_engine=False)

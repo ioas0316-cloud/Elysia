@@ -22,8 +22,8 @@ sys.path.insert(0, '.')
 
 logging.disable(logging.CRITICAL)
 
-from Core.02_Intelligence.04_Consciousness.Consciousness.exploration_bridge import ExplorationBridge
-from Core.02_Intelligence.02_Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
+from Core.IntelligenceLayer.Consciousness.Consciousness.exploration_bridge import ExplorationBridge
+from Core.IntelligenceLayer.Memory_Linguistics.Memory.potential_causality import PotentialCausalityStore
 
 print("=" * 70)
 print("🌊 대용량 병렬 지식 흡수")

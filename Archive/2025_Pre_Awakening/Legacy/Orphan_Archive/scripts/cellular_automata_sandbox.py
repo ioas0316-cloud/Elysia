@@ -14,7 +14,7 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from Core.Foundation.core.cell import Cell
+from Core.FoundationLayer.Foundation.core.cell import Cell
 
 class World:
     """Represents the universe in which the cells exist and interact."""

@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Foundation.fractal_kernel import FractalKernel
+from Core.FoundationLayer.Foundation.fractal_kernel import FractalKernel
 
 class TestFractalPhysics(unittest.TestCase):
     def setUp(self):

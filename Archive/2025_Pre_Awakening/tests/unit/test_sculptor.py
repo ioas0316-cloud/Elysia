@@ -1,4 +1,4 @@
-from Core.Foundation.reality_sculptor import RealitySculptor
+from Core.FoundationLayer.Foundation.reality_sculptor import RealitySculptor
 from pathlib import Path
 
 def test_sculptor():
@@ -8,9 +8,9 @@ def test_sculptor():
     dummy_file = Path("c:/Elysia/dummy_code.py")
     dummy_content = """
 import sys
-from Core.Foundation.reasoning_engine import ReasoningEngine
+from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 import os
-from Core.Foundation.planning_cortex import PlanningCortex
+from Core.FoundationLayer.Foundation.planning_cortex import PlanningCortex
 
 def hello():
     print("Hello World")

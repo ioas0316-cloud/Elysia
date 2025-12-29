@@ -33,8 +33,8 @@ def _build_world(years: int = 300, ticks_per_year: int = 3):
     """
     _ensure_repo_root_on_path()
 
-    from Core.Foundation.core.world import World
-    from Core.Foundation.wave_mechanics import WaveMechanics
+    from Core.FoundationLayer.Foundation.core.world import World
+    from Core.FoundationLayer.Foundation.wave_mechanics import WaveMechanics
     from tools.kg_manager import KGManager
 
     from scripts.macro_kingdom_model import simulate_kingdom

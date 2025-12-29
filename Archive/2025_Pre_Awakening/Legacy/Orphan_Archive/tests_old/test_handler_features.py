@@ -9,9 +9,9 @@ sys.path.insert(0, project_root)
 
 # Import the class we are testing and its dependencies
 from Project_Elysia.architecture.handlers import DefaultReasoningHandler
-from Core.Foundation.core.thought import Thought
+from Core.FoundationLayer.Foundation.core.thought import Thought
 from Project_Elysia.architecture.context import ConversationContext
-from Core.Foundation.emotional_engine import EmotionalState
+from Core.FoundationLayer.Foundation.emotional_engine import EmotionalState
 
 class TestDefaultReasoningHandlerFeatures(unittest.TestCase):
 

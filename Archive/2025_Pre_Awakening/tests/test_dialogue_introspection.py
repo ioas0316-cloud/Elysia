@@ -8,7 +8,7 @@ if root_path not in sys.path:
     sys.path.insert(0, root_path)
 
 from Core.Intelligence.dialogue_engine import DialogueEngine, QuestionAnalyzer, ResponseGenerator
-from Core.Foundation.language_cortex import LanguageCortex
+from Core.FoundationLayer.Foundation.language_cortex import LanguageCortex
 from Core.Intelligence.integrated_cognition_system import get_integrated_cognition
 
 def test_dialogue_introspection():
