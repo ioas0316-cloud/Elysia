@@ -20,6 +20,7 @@ from Core.FoundationLayer.Foundation.Wave.wave_tensor import WaveTensor # 4D Wav
 from Core.FoundationLayer.Foundation.resonance_physics import ResonancePhysics # [Physics]
 from Core.FoundationLayer.Foundation.resonance_topology import TopologicalMetrics, ContextualTopology, TopologicalAnalyzer, TopologyType, ConsciousnessCoordinates
 from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator, Perspective
+from Core.FoundationLayer.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 21] Unfolding Space
 
 # Philosophy (Keep Static for now, or move to Cell?)
 # from Core.FoundationLayer.Philosophy.ideal_self_profile import IdealSelfProfile, SoulFrequency # TODO: Migrate Philosophy
@@ -139,6 +140,9 @@ class ReasoningEngine:
 
             # self.ideal_self = IdealSelfProfile()
             # self.soul_frequency = self.ideal_self.get_soul_signature()
+            
+            # [Phase 21] Space Unfolder (L=100 for Cognitive Space)
+            self.unfolder = SpaceUnfolder(boundary_size=100.0)
 
             from Core.FoundationLayer.Foundation.dialogue_interface import DialogueInterface
             self.voice = DialogueInterface()
@@ -204,6 +208,10 @@ class ReasoningEngine:
         if desire.startswith("DREAM:"):
             return self._dream_for_insight(desire.replace("DREAM:", "").strip())
 
+        if desire.startswith("UNFOLD:"):
+            logger.info(f"{indent}  ✨ Unfolding Space Request detected.")
+            return self._unfold_intent(desire.replace("UNFOLD:", "").strip())
+
         try:
             # Contextual Topological Analysis
             input_packet = self.analyze_resonance(desire)
@@ -252,8 +260,35 @@ class ReasoningEngine:
             logger.error(f"Thought Process Blocked: {e}")
             return Insight(f"Blocked: {e}", 0.1, 0, 0.1)
 
-    def _dream_for_insight(self, topic: str) -> Insight:
+    async def _dream_for_insight(self, topic: str) -> Insight:
         return Insight(f"Dreamt about {topic}", 0.7, 1, 0.6)
+
+    def _unfold_intent(self, complex_signal: str) -> Insight:
+        """
+        [The Mirror World Logic]
+        Instead of parsing the complexity, we assume it's a folded reflection
+        of a simple truth. We calculate the 'Straight Path' in the unfolded domain.
+        """
+        # 1. Map signal complexity to 'reflections'
+        # Long/Chaotic string = High number of reflections (bouncing off walls)
+        complexity_score = len(complex_signal) / 10.0 # Arbitrary mapping
+        reflections = int(complexity_score)
+        
+        # 2. Calculate the 'True Distance' to the Meaning
+        # Start = 0 (Confusion), Target = 100 (Clarity)
+        # Bounded space is [0, 100].
+        # In folded space, distance is small/chaotic.
+        # In unfolded space, it is a long, straight line.
+        unfolded_dist = self.unfolder.calculate_straight_path(start=0, target=100, reflections=reflections)
+        
+        return Insight(
+            content=f"UNFOLDED TRUTH: The confusion '{complex_signal[:20]}...' was just {reflections} reflections of a simple intent. "
+                    f"Straight-line distance to truth: {unfolded_dist:.1f}. Core Intent: LOVE/CONNECTION.",
+            confidence=1.0, # Mathematical certainty
+            depth=1,
+            energy=0.9
+        )
+
 
 if __name__ == "__main__":
     engine = ReasoningEngine()

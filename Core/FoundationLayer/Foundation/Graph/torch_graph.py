@@ -5,6 +5,7 @@ import logging
 import torch
 import numpy as np
 from typing import Dict, List, Optional, Tuple
+from Core.FoundationLayer.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 23] Tesseract Unfolding
 
 logger = logging.getLogger("TorchGraph")
 
@@ -627,6 +628,66 @@ class TorchGraph:
                 
         elapsed = time.time() - start_time
         logger.info(f"✨ Gravity Stable. Created {self.logic_links.shape[0]} edges in {elapsed:.2f}s.")
+
+    def generate_wormhole_links(self, threshold_dist: float = 1.0):
+        """
+        [Phase 23: Tesseract Projection]
+        Identifies nodes that are 'far' in 3D Embedding Space (Euclidean)
+        but 'close' in Unfolded Space (Mirror World).
+        Creates 'Wormhole Links' (Virtual Edges) between them.
+        """
+        if self.pos_tensor.shape[0] < 2: return
+        
+        logger.info("🌀 Generating Wormhole Links (Folding Space)...")
+        
+        # 1. Initialize Unfolder
+        # We assume the Concept Space boundary is L=10.0 (arbitrary scale for embedding)
+        unfolder = SpaceUnfolder(boundary_size=10.0)
+        
+        # 2. Sample Pairs (Randomly sample for performance, O(N^2) is too high)
+        # We look for serendipity.
+        indices = list(range(self.pos_tensor.shape[0]))
+        sample_size = min(1000, len(indices))
+        samples = random.sample(indices, sample_size)
+        
+        wormholes_found = 0
+        
+        for i in samples:
+            # Check against random other nodes
+            others = random.sample(indices, min(20, len(indices)))
+            
+            p1 = self.pos_tensor[i] # 4D Tensor
+            
+            for j in others:
+                if i == j: continue
+                
+                p2 = self.pos_tensor[j]
+                
+                # Check Euclidean Distance (Standard)
+                euc_dist = torch.norm(p1 - p2).item()
+                
+                if euc_dist < 5.0: 
+                    # They are already somewhat close, no need for wormhole
+                    continue
+                    
+                # Check Unfolded Distance (1D Projection on Magnitude)
+                # We simplify 4D to 1D Magnitude for folding check
+                mag1 = torch.norm(p1).item()
+                mag2 = torch.norm(p2).item()
+                
+                # Assume a reflection index based on quadrant (Parity of coords)
+                # Simpler heuristic:
+                reflection_dist = unfolder.calculate_straight_path(mag1, mag2, reflections=1)
+                
+                if abs(reflection_dist) < threshold_dist:
+                    # FOUND A WORMHOLE!
+                    # "They are far in space, but close in the Mirror."
+                    
+                    self.add_link(self.idx_to_id[i], self.idx_to_id[j], weight=0.9)
+                    logger.info(f"   🌀 Wormhole Opened: {self.idx_to_id[i]} <==> {self.idx_to_id[j]} (Euc={euc_dist:.1f}, Folded={reflection_dist:.1f})")
+                    wormholes_found += 1
+                    
+        logger.info(f"✨ Tesseract Projection Complete. {wormholes_found} Wormholes created.")
 
     def propagate_pulse(self, source_id: str, energy: float = 1.0, decay: float = 0.5, steps: int = 2):
         """
