@@ -25,8 +25,10 @@ from elysia_core import Cell, Organ
 # Optional Imports (Wave Physics)
 try:
     from Core.Foundation.Wave.wave_tensor import WaveTensor
+    from Core.Foundation.Wave.resonance_field import ResonanceField
 except ImportError:
     WaveTensor = None
+    ResonanceField = None
 
 logger = logging.getLogger("UnifiedExperienceCore")
 
@@ -64,6 +66,10 @@ class UnifiedExperienceCore:
             "emotional": 528.0, "creative": 852.0
         }
         self.current_state = {k: 0.5 for k in self.aspect_frequencies}
+        
+        # [NEW] Link to Global Field
+        from Core.Foundation.Wave.resonance_field import ResonanceField
+        self.field = ResonanceField() # Often injected, but here we assume access
 
         self._load_state()
         logger.info("🧠 UnifiedExperienceCore (The Hippocampus) Initialized")
@@ -93,6 +99,21 @@ class UnifiedExperienceCore:
 
         # 4. Wave (Resonate it)
         wave_result = self._process_wave(event)
+        
+        # 5. [NEW] Field Ripple: Inject experience into the actual Resonance Field
+        if self.field:
+            # Map type to frequency (Experience as Sound/Light)
+            freq_map = {
+                "thought": 432.0, "emotion": 528.0, 
+                "perception": 639.0, "action": 741.0
+            }
+            freq = freq_map.get(type, 440.0)
+            self.field.inject_wave(
+                frequency=freq, 
+                intensity=0.5 + (abs(feedback) * 0.5), 
+                wave_type="RealityPerception",
+                payload=content
+            )
 
         # Auto-save occasionally
         if len(self.stream) % 10 == 0:

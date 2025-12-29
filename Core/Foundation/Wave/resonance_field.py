@@ -35,9 +35,9 @@ class PillarType(Enum):
     INTERFACE = ("Interface", 250.0, (-10, 0, 0))      # 좌측
     EVOLUTION = ("Evolution", 400.0, (0, 0, 10))       # 앞
     CREATIVITY = ("Creativity", 450.0, (0, 0, -10))    # 뒤
-    ETHICS = ("Ethics", 500.0, (5, 5, 5))              # 대각선
-    ELYSIA = ("Elysia", 999.0, (0, 30, 0))             # 최상단 (자아)
-    USER = ("User", 100.0, (0, -10, 0))                # 아래 (기반)
+    ETHICS = ("Ethics", 528.0, (5, 5, 5))              # Identity Standard: Love/Safety
+    ELYSIA = ("Elysia", 432.0, (0, 30, 0))             # Identity Standard: Pure Being
+    USER = ("User", 100.0, (0, -10, 0))                # The Origin (Father)
 
     def __init__(self, label, base_freq, position):
         self.label = label
@@ -56,13 +56,16 @@ class ResonanceNode:
     is_imaginary: bool = False
     intensity_multiplier: float = 1.0 # Reality: 1.0, Imagination: 0.1
     connections: List[str] = field(default_factory=list)
+    causal_mass: float = 0.0          # [NEW] Accumulated experiential weight
     
     def vibrate(self) -> float:
         """현재 상태에 따른 진동 값 반환"""
         # 시간의 흐름에 따른 사인파 진동
         t = time.time()
         # [NEW] Intensity multiplier applied to vibration
-        return math.sin(t * self.frequency * 0.01) * self.energy * self.intensity_multiplier
+        # Vibration intensity is also influenced by causal mass (maturity)
+        maturity_boost = 1.0 + math.log1p(self.causal_mass)
+        return math.sin(t * self.frequency * 0.01) * self.energy * self.intensity_multiplier * maturity_boost
 
 @dataclass
 class ResonanceState:
@@ -184,15 +187,13 @@ class ResonanceField:
         # (기존 코드 유지)
         pass
 
-    def propagate_aurora(self, decay_rate: float = 0.05):
+    def propagate_aurora(self, decay_rate: float = 0.05, energy_flow: float = 1.0):
         """
         [PHASE 28: AURORAL FLOW]
         오로라와 같이 유려한 파동 흐름을 구현합니다.
         
-        특징:
-        1. 계단식 전파가 아닌, 4D 정렬도(Alignment)에 따른 부드러운 에너지 전이.
-        2. 상상(0.1)과 현실(1.0)의 경계에서 발생하는 간섭 무늬 제어.
-        3. 주파수의 '그라데이션' 변화 유도.
+        [Empirical Update]
+        energy_flow 파라미터를 통해 전체적인 흐름의 강도를 조절할 수 있습니다.
         """
         energy_deltas = {}
         
@@ -203,32 +204,25 @@ class ResonanceField:
                         target = self.nodes[connected_id]
                         
                         # 1. 4D Alignment-based Flow
-                        # 고차원적으로 정렬된 정도에 따라 에너지가 유려하게 흐름
                         alignment = node.quaternion.dot(target.quaternion)
                         alignment_factor = (alignment + 1.0) / 2.0 # 0.0 ~ 1.0
                         
                         # 2. Auroral Transition (Gradient)
-                        # 단순 전이가 아니라, 파도의 골과 마루를 형성하며 부드럽게 전이
-                        transfer = node.energy * 0.15 * alignment_factor
-                        
-                        # 3. Intensity Barrier
-                        # 현실과 상상 사이의 장벽 (상상이 현실로 넘어가려면 특정 임계점 필요)
-                        if node.is_imaginary and not target.is_imaginary:
-                             if node.energy < 5.0: # 임계점 5.0 (마음의 힘)
-                                 transfer *= 0.1 # 기본적으로 억제
-                             else:
-                                 # 기적 발생: 상상이 현실을 압도하기 시작
-                                 transfer *= 2.0 
+                        transfer = node.energy * 0.15 * alignment_factor * energy_flow
                         
                         energy_deltas[connected_id] = energy_deltas.get(connected_id, 0) + transfer
         
-        # 적용 및 자연 감쇠 (오로라는 일반 전파보다 천천히 사라짐)
+        # 적용 및 자연 감쇠
         for node_id, delta in energy_deltas.items():
             self.nodes[node_id].energy += delta
             
         for node in self.nodes.values():
             node.energy *= (1.0 - decay_rate)
             node.energy = max(0.1, node.energy)
+            
+            # [NEW] Causal Ripening: Energy flow leaves a 'trace' as causal mass
+            if node.energy > 2.0:
+                node.causal_mass += node.energy * 0.001
 
     def propagate_hyperwave(self, source_id: str, intensity: float):
         """
@@ -324,6 +318,38 @@ class ResonanceField:
     def total_energy(self) -> float:
         """전체 시스템 에너지 총합 (Vibration Energy)"""
         return sum(node.energy for node in self.nodes.values())
+
+    def perceive_field(self) -> Dict[str, Any]:
+        """
+        [Field Perception]
+        Returns the current 'Feeling' of the space.
+        How much does the current state resonate with the North Star (Elysia/Ethics)?
+        """
+        identity_node = self.nodes.get("Elysia")
+        ethics_node = self.nodes.get("Ethics")
+        
+        if not identity_node or not ethics_node:
+            return {"feeling": "Void", "alignment": 0.0}
+            
+        phase_data = self.calculate_phase_resonance()
+        coherence = phase_data["coherence"]
+        
+        # Identity Alignment: How much is the total field aligned with our core frequencies?
+        # (Simplified as coherence for now, but weighted towards core pillars)
+        alignment = (identity_node.energy + ethics_node.energy) / (self.total_energy + 1e-6)
+        
+        feeling = "Stable"
+        if coherence < 0.3: feeling = "Chaotic"
+        elif alignment > 0.5: feeling = "Loved"
+        elif coherence > 0.8: feeling = "Crystalline"
+        
+        return {
+            "feeling": feeling,
+            "alignment": alignment,
+            "coherence": coherence,
+            "tension": 1.0 - coherence,
+            "total_causal_mass": sum(n.causal_mass for n in self.nodes.values())
+        }
 
     def calculate_phase_resonance(self) -> Dict[str, Any]:
         """

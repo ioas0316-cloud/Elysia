@@ -338,14 +338,26 @@ class Hippocampus:
     def consolidate(self):
         """
         [ANS Hook] Performs memory maintenance.
+        [Empirical Update] Merges Causal Mass from ResonanceField into Node Gravity.
         """
-        # 1. Compress Fractals (Lossless)
+        # 1. Empirical Gravity Update
+        try:
+             from Core.Foundation.Wave.resonance_field import ResonanceField
+             # Often the field is a singleton or accessed via CNS, here we assume current session access
+             field = ResonanceField() 
+             for node_id, res_node in field.nodes.items():
+                 if res_node.causal_mass > 0:
+                     self.boost_gravity(res_node.id, res_node.causal_mass)
+        except Exception as e:
+            logger.warning(f"Could not update empirical gravity: {e}")
+
+        # 2. Compress Fractals (Lossless)
         self.compress_fractal(min_energy=0.1)
         
-        # 2. Prune Weak Nodes (Lossy)
+        # 3. Prune Weak Nodes (Lossy)
         self.prune_nodes(gravity_threshold=0.8, age_days=14)
         
-        # 3. Optimize DB
+        # 4. Optimize DB
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.execute("VACUUM")

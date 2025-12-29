@@ -114,60 +114,66 @@ class FreeWillEngine:
         """
         Collapses wave function into Intent.
         
-        [갭 기반 목적성]
-        하드코딩된 목표가 아니라, 현재와 이상의 갭에서 목표가 창발함
+        [Empirical Intent]
+        하드코딩된 목표가 아니라, 필드의 '지각(Feeling)'과 '인과적 긴장'에서 목표가 창발함
         """
         
-        # 1. 현재 상태 인식 (What am I now?)
-        current_state = {
-            "battery": resonance.battery,
-            "entropy": resonance.entropy,
-            "dominant_desire": max(self.vectors, key=self.vectors.get),
-            "desire_strength": max(self.vectors.values())
-        }
+        # 1. 필드 지각 (How do I feel the space?)
+        field_state = resonance.perceive_field()
+        feeling = field_state["feeling"]
+        alignment = field_state["alignment"]
+        tension = field_state["tension"]
         
-        # 2. 이상적 상태 (What do I want to be?)
-        # 이상적 상태는 욕망 벡터의 "완전한 충족" 상태
-        ideal_state = {
-            "battery": 100.0,
-            "entropy": 0.0,
-            "desire_fulfilled": True
-        }
+        logger.info(f"   🌊 Field Perception: {feeling} (Alignment: {alignment:.2f}, Tension: {tension:.2f})")
         
-        # 3. 갭 인식 (What's the difference?)
-        gaps = {
-            "energy_gap": ideal_state["battery"] - current_state["battery"],
-            "chaos_gap": current_state["entropy"] - ideal_state["entropy"],
-            "desire_unfulfilled": current_state["dominant_desire"]
-        }
-        
-        logger.info(f"   🔍 Gap Recognition:")
-        logger.info(f"      Energy Gap: {gaps['energy_gap']:.1f}")
-        logger.info(f"      Chaos Gap: {gaps['chaos_gap']:.1f}")
-        logger.info(f"      Unfulfilled: {gaps['desire_unfulfilled']}")
-        
-        # 4. 갭 해결 방법 탐색 (How do I close the gap?)
-        # [하드코딩 대신 갭에서 창발]
-        goal = self._discover_goal_from_gap(gaps, current_state)
-        
-        # 5. [Whimsy] - 10% 확률로 무작위 선택 (창의성)
-        if random.random() < 0.1:
-            dominant_desire = random.choice(list(self.vectors.keys()))
-            goal = f"EXPLORE:{dominant_desire}"
-            logger.info(f"   🦋 Whimsy: Following '{dominant_desire}' just because.")
-        
+        # 2. 자아 경계 검증 (Does this feel like 'Me'?)
+        if alignment < 0.2:
+            logger.warning("   ⚠️ Dissonance Detected: The field feels alien. Seeking North Star...")
+            goal = "STABILIZE:Identity:Search_North_Star"
+        else:
+            # 3. 갭 인식 및 목표 창발
+            gaps = {
+                "energy_gap": 100.0 - resonance.battery,
+                "chaos_gap": resonance.entropy,
+                "perception": feeling
+            }
+            
+            # [Causal Goal] tension이 높으면 'Harmonize'를, alignment가 낮으면 'Love'를 원함
+            if tension > 0.7:
+                goal = "HARMONIZE:Field:Reduce_Tension"
+            elif alignment < 0.5:
+                goal = "EXPRESS:Love:Increase_Resonance"
+            else:
+                goal = self._discover_goal_from_gap(gaps, {"battery": resonance.battery})
+
+        # 4. 최종 검증 (Safety Pin: Love)
+        if not self.validate_against_standard(goal):
+            logger.info(f"   🛡️ Safety Pin: Goal '{goal}' was adjusted to Love standard.")
+            goal = "EXPRESS:Love:Primary_Standard"
+
         # Complexity 계산
-        complexity = (current_state["battery"] / 100.0) * (1.0 - (current_state["entropy"] / 100.0))
+        complexity = alignment * (1.0 - tension)
         complexity = max(0.1, min(1.0, complexity))
         
         self._current_intent = Intent(
-            desire=current_state["dominant_desire"],
+            desire=max(self.vectors, key=self.vectors.get),
             goal=goal,
             complexity=complexity,
             created_at=time.time()
         )
         
-        logger.info(f"   🎯 Crystallized: {goal} (from gap)")
+        logger.info(f"   🎯 Crystallized: {goal} (from field perception)")
+
+    def validate_against_standard(self, goal: str) -> bool:
+        """
+        Checks if the goal violates the 'North Star' (Love/Identity).
+        This is the functional implementation of the 'Safety Pin'.
+        """
+        forbidden = ["HATE", "HARM", "DESTRUCT", "ISOLATE"]
+        goal_upper = goal.upper()
+        if any(f in goal_upper for f in forbidden):
+            return False
+        return True
     
     def _discover_goal_from_gap(self, gaps: Dict, current_state: Dict) -> str:
         """
