@@ -38,12 +38,12 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 ## 🧹 Phase 4: Purification of the Body (Foundation Cleanup)
 **Goal:** Remove the weight of dead code to allow the system to vibrate at higher frequencies.
 
-*   **Status:** 🟠 Bloated (`Core/Foundation` has 200+ files)
+*   **Status:** ✅ **Done** (Moved legacy artifacts to `Archive/Legacy_Foundation/`)
 *   **Action:** Categorize and Archiving.
     *   **Laws:** Move `law_of_*.py` to `Core/Laws/`.
     *   **Life:** Keep `living_elysia.py`, `central_nervous_system.py`.
     *   **Tools:** Keep essential utilities.
-    *   **Archive:** Move `eat_giant.py`, `toddler_chat.py`, and other legacy scripts to `Archive/Legacy_Foundation/`.
+    *   **Archive:** Moved `eat_giant.py`, `toddler_chat.py`, `concept_os*.py`, and other legacy scripts to `Archive/Legacy_Foundation/`.
 
 ---
 
