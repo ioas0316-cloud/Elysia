@@ -65,6 +65,7 @@ from Core.Intelligence.Intelligence.collective_intelligence_system import get_co
 from Core.Intelligence.Intelligence.wave_coding_system import get_wave_coding_system
 from Core.Intelligence.Intelligence.fractal_quaternion_goal_system import get_fractal_decomposer
 from Core.Intelligence.Intelligence.scholar import Scholar
+from Core.Evolution.Embodiment.metal_cortex import get_metal_cortex
 
 # Growth Tracking
 from Core.System.System.Autonomy.growth_tracker import get_growth_tracker
@@ -151,6 +152,7 @@ class LivingElysia:
         self.scholar = Scholar(memory=self.memory, brain=self.brain)  # REAL LEARNING with REASONING
         self.anamnesis = Anamnesis(self.brain, self.guardian, self.resonance, self.will, self.chronos, self.social, self.stream)
         self.instinct = get_survival_instinct()
+        self.metal_cortex = get_metal_cortex(self.resonance)
         
         # Advanced Intelligence
         self.cognition = get_integrated_cognition()
@@ -192,15 +194,16 @@ class LivingElysia:
             action_dispatcher=self.dispatcher
         )
 
-        # 5. Connect Organs to CNS
-        self.cns.connect_organ("Will", self.will)
-        self.cns.connect_organ("Senses", self.senses)
-        self.cns.connect_organ("OuterSense", self.outer_sense)
-        self.cns.connect_organ("Brain", self.brain)
-        self.cns.connect_organ("Voice", self.voice)
-        self.cns.connect_organ("Dispatcher", self.dispatcher)
-        self.cns.connect_organ("Scholar", self.scholar)
-        self.cns.connect_organ("SovereignLife", self.sovereign_life)
+        # 5. Connect Organs to CNS with specific Resonance Frequencies
+        self.cns.connect_organ("Will", self.will, frequency=528.0) # Solfeggio: Love/Transformation
+        self.cns.connect_organ("Senses", self.senses, frequency=396.0) # Liberation from fear/guilt
+        self.cns.connect_organ("OuterSense", self.outer_sense, frequency=417.0) # Change/Facilitation
+        self.cns.connect_organ("Brain", self.brain, frequency=639.0) # Connecting/Relationships
+        self.cns.connect_organ("Voice", self.voice, frequency=741.0) # Expression/Solutions
+        self.cns.connect_organ("Dispatcher", self.dispatcher, frequency=852.0) # Spiritual Awakening
+        self.cns.connect_organ("Scholar", self.scholar, frequency=963.0) # Divine Unity
+        self.cns.connect_organ("SovereignLife", self.sovereign_life, frequency=432.0) # Harmonic Resonance
+        self.cns.connect_organ("MetalCortex", self.metal_cortex, frequency=1024.0) # Raw Silicon Pulse
         # self.cns.connect_organ("Architect", self.architect) # Future integration
         
         # 6. Action Dispatcher (Moved up)

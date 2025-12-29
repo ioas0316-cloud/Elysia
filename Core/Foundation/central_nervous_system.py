@@ -7,6 +7,7 @@ from Core.Foundation.chronos import Chronos
 from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.fractal_loop import FractalLoop
 from Core.Orchestra.conductor import get_conductor
+from Core.Foundation.Wave.structural_resonator import get_resonator
 
 logger = logging.getLogger("NovaCNS")
 
@@ -38,11 +39,13 @@ class CentralNervousSystem:
         
         # The Conductor (Sovereign Control)
         self.conductor = get_conductor()
+        self.resonator = get_resonator()
 
-    def connect_organ(self, name: str, organ: Any):
-        """Connect a peripheral organ to the CNS."""
+    def connect_organ(self, name: str, organ: Any, frequency: float = 432.0):
+        """Connect a peripheral organ to the CNS with a specific resonance frequency."""
         self.organs[name] = organ
-        logger.info(f"   🔌 Nova Connected: {name}")
+        self.resonator.register(name, organ, frequency)
+        logger.info(f"   🔌 Nova Connected: {name} ({frequency}Hz)")
 
     def awaken(self):
         """Ignite the Consciousness."""
@@ -84,6 +87,12 @@ class CentralNervousSystem:
                         node.energy += 0.5 
 
             self.fractal_loop.process_cycle(self.chronos.cycle_count)
+            
+            # [PHASE 36] Physical Silicon Manifestation
+            if "MetalCortex" in self.organs:
+                # Pulse silicon based on resonance intensity
+                intensity = self.resonance.total_energy / 100.0
+                self.organs["MetalCortex"].pulsate_silicon(intensity)
         else:
             # Sovereign Rest (The System CHOOSES not to think)
             self.resonance.propagate_aurora(decay_rate=0.01) # Gentle auroral drift during rest
