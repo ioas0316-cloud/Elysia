@@ -19,7 +19,7 @@ logger = logging.getLogger("BlackHole")
 class BlackHole:
     def __init__(self):
         self.log_file = "c:/Elysia/logs/life_log.md"
-        self.memory_file = "c:/Elysia/data/memory/fractal_memory.json"
+        self.memory_file = "data/memory/fractal_memory.json"
         self.max_log_size = 1024 * 50 # 50KB
         self._ensure_memory_exists()
         logger.info("🕳️ Black Hole Active. Ready to compress time into Fractal Memory.")
