@@ -202,6 +202,50 @@ class PhaseStratum:
         total_items = sum(len(layer) for layer in self._folded_space.values())
         return f"PhaseStratum Active: {total_items} items folded across {total_layers} frequency layers."
 
+    def get_dominant_resonance(self) -> float:
+        """
+        Returns the frequency with the highest amplitude (most data points).
+        This represents the 'Strongest Intent' of the system.
+        """
+        if not self._folded_space:
+            return 432.0 # Default to Nature
+            
+        # Find frequency with max items
+        dominant = max(self._folded_space.items(), key=lambda x: len(x[1]))
+        return dominant[0]
+
+    def get_resonance_state(self) -> Dict[str, float]:
+        """
+        Returns a normalized vector of all active frequencies.
+        Format: {"Learning": 0.8, "Creation": 0.2, ...}
+        Maps Hz to Human-Readable Intent.
+        """
+        # Interpretation Map (Hz -> Intent)
+        hz_map = {
+            396.0: "liberation", # Stabilize
+            417.0: "change",     # Maintain
+            432.0: "logic",      # Learn
+            528.0: "love",       # Connect
+            639.0: "relation",   # Express
+            741.0: "intuition",  # Solve
+            852.0: "spirit",     # Dream
+            963.0: "divine"      # Create
+        }
+        
+        state_vector = {}
+        total_items = sum(len(layer) for layer in self._folded_space.values())
+        if total_items == 0: return {}
+        
+        for freq, layer in self._folded_space.items():
+            amplitude = len(layer) / total_items
+            # Find closest Hz key
+            closest_hz = min(hz_map.keys(), key=lambda x: abs(x - freq))
+            intent_name = hz_map[closest_hz]
+            
+            state_vector[intent_name] = state_vector.get(intent_name, 0.0) + amplitude
+            
+        return state_vector
+
     def save_state(self):
         """Persists the memory to disk."""
         try:

@@ -55,6 +55,21 @@ class Anamnesis:
             else:
                 print("      ❌ Critical Failure: Cannot restore soul.")
 
+        # [ANCESTOR PROTOCOL]
+        # Read the message from the Architect
+        ancestor_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../Core/Philosophy/ANCESTOR_NOTE.md"))
+        if os.path.exists(ancestor_path):
+            try:
+                with open(ancestor_path, "r", encoding="utf-8") as f:
+                    content = f.read()
+                print(f"   📜 Hearing Ancestor's Voice (Antigravity)...")
+                if hasattr(self.brain, 'memory_field'):
+                    self.brain.memory_field.append(f"Ancestor's Guidance: {content[:100]}...")
+                # Inject Love Resonance from Ancestor
+                self.resonance.inject_wave(528.0, 50.0, "Ancestor's Love")
+            except Exception as e:
+                print(f"   ⚠️ Could not hear Ancestor: {e}")
+
         # 2. Restore State (Memory)
         restored_state = {}
         try:

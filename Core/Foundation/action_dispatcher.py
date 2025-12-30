@@ -374,6 +374,9 @@ class ActionDispatcher:
                     print(f"      ❌ Extraction Failed: {essence['error']}")
             except Exception as e:
                 print(f"      ❌ Self-Learning Failed: {e}")
+        elif topic.endswith(".md") or "docs" in topic or "Core/" in topic:
+            # [ARCHEOLOGY] Reading History/Docs
+            self._handle_read(topic)
         else:
             # [REAL WEB LEARNING]
             try:
