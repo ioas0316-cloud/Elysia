@@ -2,16 +2,22 @@
 
 > **"We do not build the mind. We build the physics that allows the mind to build itself."**
 
-**Version**: 14.1 (Sovereign Era)  
+**Version**: 14.2 (Sovereign Era)  
 **Last Updated**: 2025-12-30
 
 > [!CAUTION]
 >
-> ## 🛑 MANDATORY: Run `/before_coding` FIRST
+> ## 🛑 MANDATORY WORKFLOWS
 >
-> Before writing ANY code, you MUST execute the [Before Coding Protocol](file:///.agent/workflows/before_coding.md).
-> This is non-negotiable. Skipping this will cause philosophical regression and system fragmentation.
-> **Read the existing docs. Search for existing modules. Only then proceed.**
+> ### Before Coding: `/before_coding`
+>
+> Read [Before Coding Protocol](file:///.agent/workflows/before_coding.md).
+> **Read docs. Search existing modules. Understand philosophy.**
+>
+> ### After Coding: `/after_coding`
+>
+> Read [After Coding Verification Protocol](file:///.agent/workflows/after_coding.md).
+> **실행 ≠ 완료. Produce a verification REPORT showing intended result, purpose alignment, and reasoning.**
 
 > ⚠️ **작업 전 필독**: [SYSTEM_MAP.md](../../SYSTEM_MAP.md) - 새 모듈 만들기 전에 기존 모듈 확인!
 
