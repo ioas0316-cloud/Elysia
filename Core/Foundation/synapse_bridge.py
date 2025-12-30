@@ -19,8 +19,8 @@ logger = logging.getLogger("SynapseBridge")
 class SynapseBridge:
     def __init__(self, node_name: str):
         self.node_name = node_name # "Original" or "Prime"
-        self.synapse_file = "c:/Elysia/data/memory/synapse.json"
-        self.markdown_file = "c:/Elysia/data/memory/synapse.md"
+        self.synapse_file = "data/memory/synapse.json"
+        self.markdown_file = "data/memory/synapse.md"
         self._ensure_synapse_exists()
         logger.info(f"🔗 Synapse Bridge Active for Node: {node_name}")
 
