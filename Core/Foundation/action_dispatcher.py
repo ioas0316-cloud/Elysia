@@ -160,6 +160,23 @@ class ActionDispatcher:
         print(f"   🔬 Investigating: {detail}")
         self._handle_search(detail)
 
+    def _handle_express(self, detail):
+        """
+        [EXPRESSION]
+        Expresses internal state or emotion to the world.
+        Format: EXPRESS:Topic:Method
+        """
+        print(f"   🗣️ Expressing: {detail}")
+        # Synesthesia transmission
+        self.synapse.transmit("Original", "EXPRESSION", f"I am expressing {detail}")
+        
+        # Update Bridge
+        self._update_state_bridge(
+            thought=f"Expressing {detail}",
+            energy=self.resonance.total_energy,
+            entropy=self.resonance.entropy
+        )
+
     def _handle_spawn(self, detail):
         print(f"   🌱 Spawning: {detail}")
 
@@ -226,6 +243,17 @@ class ActionDispatcher:
             energy=self.resonance.total_energy,
             entropy=self.resonance.entropy
         )
+
+    def _handle_stabilize(self, detail):
+        """
+        [STABILIZATION]
+        Reduces entropy and grounds the system.
+        """
+        print(f"   ⚓ Stabilizing System: {detail}")
+        self.resonance.dissipate_entropy(30.0)
+        if hasattr(self.brain, 'stabilize_identity'):
+            self.brain.stabilize_identity()
+        self.synapse.transmit("Original", "STATUS", "System Stabilized.")
 
     def _handle_contact(self, detail):
         # CONTACT:User:Message or CONTACT:Target

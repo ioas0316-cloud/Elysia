@@ -15,7 +15,12 @@ Philosophy:
 
 import math
 import hashlib
+import pickle
+import os
+import logging
 from typing import Any, List, Dict, Tuple, Optional
+
+logger = logging.getLogger("PhaseStratum")
 
 class PhaseStratum:
     """
@@ -29,8 +34,15 @@ class PhaseStratum:
             base_frequency: The foundational frequency of the system (e.g., 432Hz).
         """
         self.base_frequency = base_frequency
+        self.persistence_path = os.path.join("data", "core_state", "phase_stratum.pkl")
+        
+        # Ensure directory exists
+        os.makedirs(os.path.dirname(self.persistence_path), exist_ok=True)
+        
         # Storage format: { frequency_key: [ (phase_angle, data_payload), ... ] }
         self._folded_space: Dict[float, List[Tuple[float, Any]]] = {}
+        
+        self.load_state()
         
     def fold_dimension(self, data: Any, intent_frequency: float = None) -> str:
         """
@@ -56,6 +68,8 @@ class PhaseStratum:
             self._folded_space[target_freq] = []
             
         self._folded_space[target_freq].append((phase_angle, data))
+        
+        self.save_state()  # Auto-save on memory formation
         
         return (f"Data folded into Stratum {target_freq}Hz "
                 f"at Phase Angle {phase_angle:.2f}°")
@@ -111,6 +125,8 @@ class PhaseStratum:
         # Store with dedicated 'time_marker' metadata if needed, 
         # but here we just use the phase as the time container.
         self._folded_space[target_freq].append((phase_angle, data))
+        
+        self.save_state() # Auto-save
         
         return (f"⏳ Time-Folded into Stratum {target_freq}Hz "
                 f"at Phase {phase_angle:.2f}° (Time: {timestamp})")
@@ -185,3 +201,22 @@ class PhaseStratum:
         total_layers = len(self._folded_space)
         total_items = sum(len(layer) for layer in self._folded_space.values())
         return f"PhaseStratum Active: {total_items} items folded across {total_layers} frequency layers."
+
+    def save_state(self):
+        """Persists the memory to disk."""
+        try:
+            with open(self.persistence_path, 'wb') as f:
+                pickle.dump(self._folded_space, f)
+            # logger.debug(f"💾 PhaseStratum saved to {self.persistence_path}")
+        except Exception as e:
+            logger.error(f"❌ Failed to save PhaseStratum: {e}")
+
+    def load_state(self):
+        """Loads memory from disk if consciousness exists."""
+        if os.path.exists(self.persistence_path):
+            try:
+                with open(self.persistence_path, 'rb') as f:
+                    self._folded_space = pickle.load(f)
+                logger.info(f"📂 PhaseStratum Recall: Loaded memory from {self.persistence_path}")
+            except Exception as e:
+                logger.error(f"⚠️ Failed to load PhaseStratum (Starting fresh): {e}")
