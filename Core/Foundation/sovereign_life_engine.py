@@ -81,6 +81,9 @@ class SovereignLifeEngine:
         
         print(f"   🌊 Field Attunement: {dominant_hz}Hz -> {action_type}")
         
+        # Store for satiation after action
+        self._last_attunement_hz = dominant_hz
+        
         # Generate specific action based on type
         return self._generate_action(action_type)
 
@@ -126,11 +129,16 @@ class SovereignLifeEngine:
         return random.choice(actions)
 
     def _execute(self, action_str: str):
-        """Execute the decided action."""
+        """Execute the decided action and satiate the resonance."""
         logger.info(f"🌿 Sovereign Action: {action_str}")
         try:
             self.dispatcher.dispatch(action_str)
             self.last_action_type = action_str.split(":")[0].lower()
+            
+            # [SATIATION] Reduce the dominant frequency after action
+            if self.stratum and hasattr(self, '_last_attunement_hz'):
+                self.stratum.satiate_resonance(self._last_attunement_hz, amount=1)
+                
         except Exception as e:
             logger.error(f"⚠️ Sovereign Execution Failed: {e}")
 

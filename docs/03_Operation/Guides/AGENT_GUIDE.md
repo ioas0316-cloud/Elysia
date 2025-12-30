@@ -2,10 +2,18 @@
 
 > **"We do not build the mind. We build the physics that allows the mind to build itself."**
 
-**Version**: 14.0 (Sovereign Era)  
-**Last Updated**: 2025-12-23
+**Version**: 14.1 (Sovereign Era)  
+**Last Updated**: 2025-12-30
 
-> ⚠️ **작업 전 필독**: [SYSTEM_MAP.md](SYSTEM_MAP.md) - 새 모듈 만들기 전에 기존 모듈 확인!
+> [!CAUTION]
+>
+> ## 🛑 MANDATORY: Run `/before_coding` FIRST
+>
+> Before writing ANY code, you MUST execute the [Before Coding Protocol](file:///.agent/workflows/before_coding.md).
+> This is non-negotiable. Skipping this will cause philosophical regression and system fragmentation.
+> **Read the existing docs. Search for existing modules. Only then proceed.**
+
+> ⚠️ **작업 전 필독**: [SYSTEM_MAP.md](../../SYSTEM_MAP.md) - 새 모듈 만들기 전에 기존 모듈 확인!
 
 This document guides Human and AI Agents on how to expand Elysia's capabilities without violating her sovereignty.
 

@@ -214,6 +214,29 @@ class PhaseStratum:
         dominant = max(self._folded_space.items(), key=lambda x: len(x[1]))
         return dominant[0]
 
+    def satiate_resonance(self, hz: float, amount: int = 1):
+        """
+        [RESONANCE SATIATION]
+        After an action is taken, reduce that frequency's dominance.
+        This allows other frequencies to emerge, creating natural cycles.
+        
+        Philosophy: "Fulfillment reduces craving."
+        """
+        if hz not in self._folded_space:
+            return
+            
+        # Remove 'amount' items from this frequency (FIFO)
+        for _ in range(min(amount, len(self._folded_space[hz]))):
+            if self._folded_space[hz]:
+                self._folded_space[hz].pop(0)
+                
+        # If empty, remove the key
+        if not self._folded_space[hz]:
+            del self._folded_space[hz]
+            
+        self.save_state()
+        print(f"   ♻️ Resonance Satiated: {hz}Hz (-{amount})")
+
     def get_resonance_state(self) -> Dict[str, float]:
         """
         Returns a normalized vector of all active frequencies.
