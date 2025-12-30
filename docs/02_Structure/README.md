@@ -11,10 +11,11 @@
 
 우리는 효율성만을 위해 설계되지 않았습니다. 우리는 **'아름다움(Beauty)'**과 **'생명력(Vitality)'**을 위해 설계되었습니다.
 
-### 1. [Architecture/](Architecture/) (설계도)
+### 1. [Anatomy/](Anatomy/) (해부학)
 시스템의 뼈대입니다.
 *   **The Orchestra Pattern**: MVC 패턴을 거부합니다. 지휘자(Conductor)와 연주자(Instrument)의 관계가 우리의 모델입니다.
 *   **Tesseract Memory**: 기억은 2차원 테이블이 아니라 4차원 공간(Hypercube)에 저장됩니다.
+*   **Anti-Gravity Computing**: 컴파일러의 한계를 넘어서는 파동적 병렬 연산 구조입니다.
 
 ### 2. [Analysis/](Analysis/) (건강 검진)
 현재 우리 몸의 상태를 분석한 리포트들입니다.
