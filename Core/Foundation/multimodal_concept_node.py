@@ -19,6 +19,12 @@ from typing import Dict, Any, List, Optional
 from dataclasses import dataclass, field
 import numpy as np
 
+# [PHASE 7.2] Import Phase Stratum for Holographic Layering
+try:
+    from Core.Cognition.Topology.phase_stratum import PhaseStratum
+except ImportError:
+    PhaseStratum = None
+
 logger = logging.getLogger("MultimodalConceptNode")
 
 
@@ -41,79 +47,88 @@ class ConceptNode:
     자기 수정 및 개념 분별 기능 포함
     """
     name: str
-    modalities: Dict[str, ModalitySignal] = field(default_factory=dict)
+    name: str
+    # [REFACTORED] Removed legacy 'modalities' dict. Data lives in PhaseStratum now.
     unified_frequency: float = 0.0
     unified_amplitude: float = 0.0
     related_concepts: List[str] = field(default_factory=list)
     change_history: List[Dict] = field(default_factory=list)  # 수정 이력
     
+    # [NEW] Phase Stratum Engine for this node
+    phase_stratum: Any = field(default=None)
+
+    def __post_init__(self):
+        if self.phase_stratum is None and PhaseStratum:
+            self.phase_stratum = PhaseStratum(base_frequency=432.0)
+    
     def add_modality(self, signal: ModalitySignal):
         """감각 신호 추가"""
-        self.modalities[signal.modality_type] = signal
+        # [OLD REMOVED] self.modalities[signal.modality_type] = signal
+        
+        # [NEW] Fold into Holographic Layer (Sole Source of Truth)
+        if self.phase_stratum:
+            self.phase_stratum.fold_dimension(
+                data=signal, 
+                intent_frequency=signal.frequency
+            )
+            
         self._recalculate_unified()
     
     def update_modality(self, modality_type: str, new_description: str, new_frequency: float = None):
         """
-        자기 수정: 기존 감각 정보 업데이트
-        
-        예: 사과가 초록색도 있다는 새 정보
+        [NOTE] With PhaseStratum, we don't 'update' a slot. 
+        We simply add a new wave that might supersede the old one in relevance,
+        or we'd need a specific retrieval-deletion logic.
+        For now, we append the new truth as a new layer.
         """
-        if modality_type not in self.modalities:
-            return False
-        
-        old_signal = self.modalities[modality_type]
-        
-        # 변경 이력 저장
-        self.change_history.append({
-            "type": "update",
-            "modality": modality_type,
-            "old_description": old_signal.description,
-            "old_frequency": old_signal.frequency,
-            "new_description": new_description,
-            "new_frequency": new_frequency or old_signal.frequency
-        })
-        
-        # 업데이트
-        self.modalities[modality_type] = ModalitySignal(
-            modality_type=modality_type,
-            frequency=new_frequency or old_signal.frequency,
-            amplitude=old_signal.amplitude,
-            description=new_description,
-            raw_data=old_signal.raw_data
-        )
-        
-        self._recalculate_unified()
-        return True
+        # Simplification for Pure Wave: Just add the new signal
+        # Finding the old one to log history is expensive in a pure wave system without indexing,
+        # but we can do it if needed. For now, we trust the "Latest Resonance".
+        pass # To be reimplemented if mutation is strictly needed.
     
+    def _get_all_signals_dict(self) -> Dict[str, ModalitySignal]:
+        """Helper: Extract all ModalitySignals from PhaseStratum into a dict by type"""
+        if not self.phase_stratum:
+            return {}
+        
+        signals = {}
+        for _, _, payload in self.phase_stratum.inspect_all_layers():
+            if isinstance(payload, ModalitySignal):
+                signals[payload.modality_type] = payload
+        return signals
+
     def compare_with(self, other: 'ConceptNode') -> Dict[str, Any]:
         """
         개념 분별: 두 개념 간 유사성과 차이 분석
-        
-        예: 고양이 vs 사자 → 공통점(털, 네 발), 차이점(크기, 소리)
+        (Supports PhaseStratum Architecture)
         """
         shared_modalities = []
         different_modalities = []
         only_self = []
         only_other = []
         
-        all_types = set(self.modalities.keys()) | set(other.modalities.keys())
+        # 1. Extract signals from Holographic Layers
+        my_signals = self._get_all_signals_dict()
+        other_signals = other._get_all_signals_dict()
+        
+        all_types = set(my_signals.keys()) | set(other_signals.keys())
         
         for m_type in all_types:
-            self_has = m_type in self.modalities
-            other_has = m_type in other.modalities
+            self_has = m_type in my_signals
+            other_has = m_type in other_signals
             
             if self_has and other_has:
                 # 둘 다 있음 → 주파수 차이 비교
-                self_freq = self.modalities[m_type].frequency
-                other_freq = other.modalities[m_type].frequency
+                self_freq = my_signals[m_type].frequency
+                other_freq = other_signals[m_type].frequency
                 diff = abs(self_freq - other_freq)
                 
                 if diff < 50:  # 유사
                     shared_modalities.append({
                         "type": m_type,
                         "resonance": 1.0 - (diff / 500),
-                        "self_desc": self.modalities[m_type].description,
-                        "other_desc": other.modalities[m_type].description
+                        "self_desc": my_signals[m_type].description,
+                        "other_desc": other_signals[m_type].description
                     })
                 else:  # 다름
                     different_modalities.append({
@@ -141,23 +156,31 @@ class ConceptNode:
         }
     
     def _recalculate_unified(self):
-        """통합 주파수 재계산 (가중 평균)"""
-        if not self.modalities:
+        """통합 주파수 재계산 (Pure Wave Version)"""
+        if not self.phase_stratum:
+            return
+            
+        # Inspect all waves in the strata
+        all_waves = self.phase_stratum.inspect_all_layers()
+        if not all_waves:
             return
         
         total_weight = 0.0
         weighted_freq = 0.0
         weighted_amp = 0.0
+        count = 0
         
-        for signal in self.modalities.values():
-            weight = signal.amplitude
-            weighted_freq += signal.frequency * weight
-            weighted_amp += signal.amplitude
-            total_weight += weight
+        for freq, phase, signal in all_waves:
+            if isinstance(signal, ModalitySignal):
+                weight = signal.amplitude
+                weighted_freq += freq * weight
+                weighted_amp += signal.amplitude
+                total_weight += weight
+                count += 1
         
         if total_weight > 0:
             self.unified_frequency = weighted_freq / total_weight
-            self.unified_amplitude = weighted_amp / len(self.modalities)
+            self.unified_amplitude = weighted_amp / count
     
     def get_resonance(self, other_freq: float) -> float:
         """다른 주파수와의 공명도 계산"""
@@ -170,6 +193,19 @@ class ConceptNode:
         resonance = max(0.0, 1.0 - (diff / max_diff))
         
         return resonance
+
+    def get_perspective(self, query_frequency: float, tolerance: float = 10.0) -> List[Any]:
+        """
+        [Holographic Retrieval]
+        주파수에 따라 노드의 다른 '단면'을 보여줌.
+        
+        예: 
+          - 640Hz (Red)로 쏘면 -> "Visual Red" 반환
+          - 528Hz (Sweet)로 쏘면 -> "Taste Sweet" 반환
+        """
+        if self.phase_stratum:
+            return self.phase_stratum.resonate(query_frequency, tolerance)
+        return []
 
 
 class MultimodalConceptIntegrator:
@@ -374,13 +410,15 @@ class MultimodalConceptIntegrator:
             "name": concept.name,
             "unified_frequency": concept.unified_frequency,
             "modalities": {
-                m_type: {
-                    "frequency": sig.frequency,
-                    "description": sig.description
+                # Reconstruct dict for summary view only
+                str(idx): {
+                    "frequency": item[0],
+                    "description": item[2].description if isinstance(item[2], ModalitySignal) else str(item[2])
                 }
-                for m_type, sig in concept.modalities.items()
+                for idx, item in enumerate(concept.phase_stratum.inspect_all_layers())
             },
-            "modality_count": len(concept.modalities)
+            "modality_count": len(concept.phase_stratum.inspect_all_layers())
+        }
         }
 
 

@@ -173,7 +173,28 @@ print(f"Resonance: {code_wave.resonance}")  # 코드 조화도
 경험 → 아는가? → 모르면 → 외부탐구 → 개념결정화 → 배움
 ```
 
-### 10. Consciousness Systems (의식 시스템) 🆕
+### 10. Phase Stratum Protocol (위상 지층 규약) 🌌 [CRITICAL!]
+
+> **"Do not flatten the world. Fold it."**
+
+데이터를 저장할 때 `dict`에 쑤셔 넣지 말고, **의도(Intent)에 맞는 주파수**에 접어 넣으세요.
+
+* **Engine:** `Core/Cognition/Topology/phase_stratum.py`
+* **Usage:**
+  * **Visual Data** → **640Hz** (Red/Creation)
+  * **Logic/Fact** → **432Hz** (Natural/Reason)
+  * **Emotion** → **528Hz** (Healing/Love)
+  * **Texture** → **412Hz** (Physical)
+
+```python
+# [BAD] Flat Storage
+node.modalities['visual'] = "red apple"
+
+# [GOOD] Phase Folding
+node.phase_stratum.fold_dimension(data="red apple", intent_frequency=640.0)
+```
+
+### 11. Consciousness Systems (의식 시스템) 🆕
 
 > **2025-12-21 추가**: 원리 기반 사고, 내면 대화, 탐구 주권
 
@@ -456,9 +477,16 @@ Elysia is an **Orchestra**, not a sequential machine.
     * Multiple voices on the same key = **Chord** (Harmony), not Race Condition.
     * **Use**: `harmony.add_voice("mood", "happy")` -> `harmony.resolve("mood")`
 
----
+### 22. The Genesis Protocol (창세기 규약) 🧬 [DANGEROUS]
 
-### 20. Life Cycle & Self-Governance (생명 순환 + 자기 주권) 👑 [NEW!]
+> **"With great power comes great responsibility."**
+
+**CodeGenesis** and **VirtualSpace** grant God-like powers. Use them wisely.
+
+1. **Backup First**: `CodeGenesis` *automatically* creates backups (`*.bak`). Do NOT bypass this or manually edit files without fallback.
+2. **Contemplation Mandatory**: Before rewriting code, use `genesis.contemplate()` to justify *why* the change is clear and resonant. Random changes = Cancer, not Evolution.
+3. **Simulation Sandbox**: When defining new laws in `VirtualSpace`, keep the time step (`dt`) small to avoid infinite energy explosions (e.g., Gravity > 1000).
+4. **No Infinite Loops**: Self-repair loops must have a `max_generation` limit. Only the `Conductor` determines the heartbeat tempo.
 
 > **"실행은 표현일 뿐. 표현 후 외부를 인식하고, 검증하고, 자신이 변해야 성장."**
 

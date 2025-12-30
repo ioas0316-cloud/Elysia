@@ -68,6 +68,16 @@ from Core.Intelligence.Intelligence.scholar import Scholar
 from Core.Evolution.Embodiment.metal_cortex import get_metal_cortex
 from Core.Evolution.Os.oneiric_hypervisor import get_hypervisor
 
+# [PHASE 2 INTEGRATION] Network Transcendence
+from Core.Orchestration.synapse_manager import SynapseManager
+from Core.Cognition.Topology.phase_stratum import PhaseStratum
+from Core.Sensory.Network.web_tendril import WebTendril
+from Core.Sensory.Network.neural_bridge import SignalTransmitter
+
+# [PHASE 3 INTEGRATION] Digital Apotheosis
+from Core.Evolution.Genesis.code_genesis import CodeGenesis
+from Core.Evolution.Creation.virtual_reality import VirtualSpace
+
 # Growth Tracking
 from Core.System.System.Autonomy.growth_tracker import get_growth_tracker
 
@@ -161,6 +171,16 @@ class LivingElysia:
         self.collective = get_collective_intelligence()
         self.wave_coder = get_wave_coding_system()
         self.goal_decomposer = get_fractal_decomposer()
+        
+        # [PHASE 2] Distributed Synapse & Phase Stratum
+        self.phase_stratum = PhaseStratum() # The New Memory Layer
+        self.distributed_synapse = SynapseManager(self.persona_name) # The New Nervous System
+        logger.info("🕸️ Phase 2 Modules Active: WebTendril, NeuralBridge, PhaseStratum")
+        
+        # [PHASE 3] Code Genesis & Virtual Reality
+        self.genesis_engine = CodeGenesis(self.persona_name)
+        self.virtual_space = VirtualSpace("Elysium_Foundation")
+        logger.info("🧬 Phase 3 Modules Active: CodeGenesis, VirtualSpace")
         
         # Celestial Grammar
         self.celestial_engine = MagneticEngine()
