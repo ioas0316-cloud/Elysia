@@ -76,9 +76,11 @@ class ActionDispatcher:
         self._apply_physics(step)
         
         # [The Garden] Check for Web Messages
+        self._check_input_stream()
+        
         if incoming_messages:
             msg = incoming_messages.pop(0)
-            print(f"   📨 Incoming Web Message: {msg}")
+            print(f"   📨 Incoming Message: {msg}")
             
             # Use Brain's communicate method for intelligent response
             response = self.brain.communicate(msg)
@@ -106,6 +108,25 @@ class ActionDispatcher:
                 self.sink.absorb_resistance(e, action)
         else:
             print(f"   ⚠️ Unknown Action: {action}")
+
+    def _check_input_stream(self):
+        """Polls user_stream.txt for new messages."""
+        input_file = r"c:\Elysia\inputs\user_stream.txt"
+        if os.path.exists(input_file):
+            try:
+                with open(input_file, "r", encoding="utf-8") as f:
+                    lines = f.readlines()
+                
+                if lines:
+                    for line in lines:
+                        if line.strip():
+                            incoming_messages.append(line.strip())
+                    
+                    # Clear file after reading
+                    with open(input_file, "w", encoding="utf-8") as f:
+                        f.write("")
+            except Exception as e:
+                print(f"   ⚠️ Stream Read Error: {e}")
 
     def _apply_physics(self, step):
         """Work = Force x Distance (simplified)"""
