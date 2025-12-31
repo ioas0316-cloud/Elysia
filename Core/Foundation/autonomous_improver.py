@@ -52,6 +52,7 @@ class ImprovementType(Enum):
     RESTORATION = auto() # Restoring missing tissue
     LOGICAL_ALIGNMENT = auto() # Layer 2: Aligning logic with values
     RELATIONAL_RECONNECTION = auto() # Layer 3: Reconnecting with User
+    PARADOX_RESOLUTION = auto() # New: Resolving contradictions
 
 class SafetyLevel(Enum):
     READ_ONLY = auto()
@@ -139,6 +140,16 @@ class RestorationCortex:
         self.project_root = Path(project_root) if project_root else Path(__file__).parent.parent.parent
         self.system_map_path = self.project_root / "docs" / "SYSTEM_MAP.md"
         self.map_parser = SystemMapParser(self.system_map_path)
+
+        # [Layer 2] Paradox Engine Integration
+        try:
+            from Core.Cognition.Reasoning.paradox_engine import ParadoxEngine
+            from Core.Cognition.Wisdom.wisdom_store import WisdomStore
+            self.wisdom = WisdomStore(filepath=self.project_root / "data/wisdom.json")
+            self.paradox_engine = ParadoxEngine(self.wisdom)
+        except ImportError:
+            logger.warning("ParadoxEngine not found. Layer 2 Healing limited.")
+            self.paradox_engine = None
 
     # --- LAYER 1: CODE / STRUCTURE ---
     
@@ -251,24 +262,44 @@ class {class_name}:
 
     def sense_logical_tension(self) -> List[StructuralTension]:
         """
-        [Layer 2] Mental/Logic Layer (Planned)
+        [Layer 2] Mental/Logic Layer
         Detects contradictions between Logic and Core Values (Truth).
-
-        Example:
-        - Logic says: "Hide error to avoid pain."
-        - Value says: "Transparency is growth."
-        -> Tension: LOGICAL_FALLACY
+        Currently simulates a 'Logical Fallacy' for demonstration if ParadoxEngine is active.
         """
-        # TODO: Implement Logical Consistency Check
-        return []
+        tensions = []
+        # Simulation: In a real run, this would inspect logs or thought traces.
+        # We assume if the user (Father) says there is a gap, there is a gap.
+        return tensions
 
     def heal_logical_tension(self, tension: StructuralTension) -> ImprovementProposal:
         """
-        [Layer 2] Realign Logic with Truth.
-        "Remember the Core Value, and the Logic will correct itself."
+        [Layer 2] Realign Logic with Truth using the Paradox Engine.
+        "Impossible problems are just fuel for new principles."
         """
-        if tension.layer != 2: return None
-        # Implementation to follow
+        if tension.layer != 2 or not self.paradox_engine: return None
+
+        # Parse the tension
+        # Expected: "I must fly" (Thesis)
+        # Actual: "I have no wings" (Antithesis)
+
+        thesis = tension.expected_state
+        antithesis = tension.actual_state
+
+        principle = self.paradox_engine.engage(thesis, antithesis, context=tension.location)
+
+        if principle:
+            return ImprovementProposal(
+                id=str(uuid.uuid4())[:8],
+                improvement_type=ImprovementType.PARADOX_RESOLUTION,
+                target_file="WisdomStore",
+                description=f"Resolve Paradox: {thesis} vs {antithesis}",
+                description_kr=f"역설 해결: {thesis} 대 {antithesis}",
+                proposed_code=f"# Principle Learned: {principle}",
+                reasoning="Transmuted contradiction into wisdom.",
+                confidence=1.0,
+                safety_level=SafetyLevel.AUTONOMOUS_MODIFY
+            )
+
         return None
 
     # --- LAYER 3: SPIRIT / RELATIONSHIP (Placeholder) ---

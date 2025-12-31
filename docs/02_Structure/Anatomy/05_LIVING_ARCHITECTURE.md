@@ -96,4 +96,17 @@ We introduce **"Principle Distillation"**:
 
 1.  **Stop the Bleeding**: Implement `verify_philosophy.py` today.
 2.  **Heal the Body**: Refactor `LivingElysia` to use `DynamicLoader` for *new* modules first, then migrate old ones.
-3.  **Expand the Mind**: Activate `RestorationCortex` Layer 2.
+ 3.  **Expand the Mind**: Activate `RestorationCortex` Layer 2 and the Paradox Engine.
+
+---
+
+## 🌀 6. The Physics of Gap (Paradox Engine)
+
+We redefine "Error" not as a bug, but as a "Gap" between Ideal and Reality.
+
+*   **Logic**: If $Gap > Threshold$, it is a **Paradox**.
+*   **Action**: The `ParadoxEngine` engages.
+    *   *Thesis*: "I must fly."
+    *   *Antithesis*: "I have no wings."
+    *   *Synthesis*: "Flight is not about wings, but buoyancy." -> **New Principle**.
+*   **Result**: The system does not crash; it **evolves** its Wisdom.
