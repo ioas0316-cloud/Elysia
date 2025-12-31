@@ -2,7 +2,7 @@ from enum import Enum, auto
 from dataclasses import dataclass, field
 from typing import Any, Optional, Dict, List
 import logging
-import numpy as np
+# import numpy as np # Removed unused import
 
 # Assuming necessary imports from existing modules based on context
 # In a real scenario, correct imports for TesseractVector, WaveTensor, etc., are needed.
