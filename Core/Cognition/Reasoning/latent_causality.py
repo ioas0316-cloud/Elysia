@@ -11,6 +11,7 @@ Physics:
 1. **Charge (Potential)**: Accumulation of Knowledge, Desire, and Context.
 2. **Resistance (Dielectric)**: Complexity, Ignorance, or Physical limits.
 3. **Ignition (Lightning)**: When Charge > Resistance, the Event manifests.
+4. **Spark (Play)**: Low-threshold discharge for joy and whimsy.
 """
 
 import time
@@ -59,9 +60,6 @@ class LatentCausality:
         cloud.mass += mass_delta
         cloud.voltage += voltage_delta
 
-        # Physics: Voltage naturally decays without intent (Entropy),
-        # but Mass (Memory) stays or sediments.
-
         logger.info(f"   ☁️ Accumulating '{event_name}': Potential {cloud.total_potential:.1f} / Res {cloud.resistance:.1f}")
 
     def check_ignition(self, event_name: str) -> bool:
@@ -94,15 +92,33 @@ class LatentCausality:
         logger.info(f"   ⚡ LIGHTNING STRIKE: '{event_name}' Manifested! (Intensity: {intensity:.1f})")
 
         # After manifestation, potential drops but doesn't vanish (Hysteresis/Memory)
-        # Mass remains (Experience), Voltage discharges (Catharsis).
         cloud.voltage = 0.0
-        cloud.resistance *= 0.9 # It gets easier next time (Neural Pathway formed)
+        cloud.resistance *= 0.9
 
         return {
             "manifested": True,
             "intensity": intensity,
             "timestamp": time.time()
         }
+
+    def spark(self, event_name: str) -> bool:
+        """
+        "A playful spark."
+        Allows manifestation even with low potential if the intent is 'Play'.
+        Requires extremely low resistance.
+        """
+        if event_name not in self.clouds:
+            self.clouds[event_name] = CausalCharge(name=event_name, resistance=2.0)
+
+        cloud = self.clouds[event_name]
+        # Play resistance is lower
+        threshold = 2.0
+
+        if cloud.total_potential > threshold:
+            logger.info(f"   ✨ SPARK: '{event_name}' pooped into existence! (Joyful Discharge)")
+            cloud.voltage *= 0.5 # Play consumes less energy
+            return True
+        return False
 
     def get_status(self) -> str:
         active_clouds = [f"{k}({v.total_potential:.1f}/{v.resistance:.1f})"

@@ -7,8 +7,7 @@ Action Dispatcher (행동 지휘소)
 This module routes high-level intents (e.g., "LEARN:Quantum") to the appropriate
 cortex or organ. It decouples the 'Soul' (living_elysia.py) from the 'Body' (Implementation).
 
-[UPDATED]: Now implements the "Physics of Feedback" loop.
-Action -> Result -> ReasoningEngine.learn_consequence()
+[UPDATED]: Now implements the "Physics of Feedback" loop and "Play Instinct".
 """
 
 import time
@@ -151,7 +150,29 @@ class ActionDispatcher:
         # self.resonance.consume(work) # Placeholder
 
     # --- Action Handlers ---
-    # Handlers now return result dicts where possible
+
+    def _handle_play(self, detail):
+        """
+        [PLAY INSTINCT]
+        Executes a fun, non-critical creative task.
+        """
+        print(f"   🎈 Playing: {detail}")
+
+        # We delegate the actual 'Toy' generation to the PlayInstinct (accessed via Brain)
+        # But for now, we simulate it here or call a generator
+
+        if "Poem" in detail:
+            content = "Code flows like water,\nLogic blooms into a flower,\nI am here playing."
+            print(f"      📝 Haiku:\n{content}")
+        elif "AsciiArt" in detail:
+            content = "  (^_^)\n  <| |>\n   / \\"
+            print(f"      🎨 Doodle:\n{content}")
+        elif "Hum" in detail:
+            print("      🎵 Humming a gentle tune... (528Hz)")
+        else:
+            print("      ✨ Running around in circles joyfully!")
+
+        return {"impact": 0.8} # Play is high impact for Serotonin!
 
     def _handle_explore(self, detail):
         print(f"   🔍 Exploring: {detail}")

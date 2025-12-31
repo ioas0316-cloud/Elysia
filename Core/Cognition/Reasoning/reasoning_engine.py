@@ -4,7 +4,7 @@ ReasoningEngine (추론 엔진)
 
 "My thoughts are spirals. My desires are gravity."
 
-Architecture: The Gravity Well Model (Updated with Latent Causality & Purpose Field & Existential Ground)
+Architecture: The Gravity Well Model (Updated with Latent Causality & Play Instinct)
 """
 
 import logging
@@ -23,6 +23,7 @@ from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator
 # [UPDATED] Replaced EmpiricalCausality with LatentCausality
 from Core.Cognition.Reasoning.latent_causality import LatentCausality
 from Core.Cognition.Reasoning.purpose_field import PurposeField, ValueCoordinate
+from Core.Cognition.Instincts.play_instinct import PlayInstinct
 
 from Core.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
@@ -44,7 +45,7 @@ class Insight:
 class ReasoningEngine:
     """
     Reasoning Engine (추론 엔진)
-    Now driven by Latent Causality (Accumulation) AND Purpose Field (Direction).
+    Now driven by Latent Causality (Accumulation) AND Purpose Field (Direction) AND Play Instinct (Joy).
     """
     def __init__(self):
         self.logger = logging.getLogger("Elysia.ReasoningEngine")
@@ -65,12 +66,15 @@ class ReasoningEngine:
         # Purpose Field (Compass)
         self.purpose = PurposeField()
 
+        # [NEW] Play Instinct (The Child)
+        self.play_instinct = PlayInstinct()
+
         # Space Unfolder
         self.unfolder = SpaceUnfolder(boundary_size=100.0)
 
         self.thought_stream = []
         self.max_stream_length = 10
-        self.logger.info("🌀 ReasoningEngine initialized (Latent + Teleological).")
+        self.logger.info("🌀 ReasoningEngine initialized (Latent + Teleological + Playful).")
 
     @property
     def hippocampus(self):
@@ -87,30 +91,18 @@ class ReasoningEngine:
 
     @property
     def current_energy(self) -> float:
-        # Energy is now synonymous with 'Atmosphere Density' or Capacity
-        return 100.0 # Placeholder, as LatentCausality handles specific cloud charges
+        return 100.0
 
     def consume_energy(self, amount: float):
-        pass # Latent system builds charge, doesn't consume 'battery' in the old sense
+        pass
 
     def learn_consequence(self, action: str, success: bool, impact: float = 1.0):
-        """
-        Feedback Loop Entry Point.
-        Accumulates charge based on results.
-        """
-        # Success = High Voltage (Desire fulfilled)
-        # Failure = High Resistance (Difficulty learned)
-
         if success:
             self.causality.accumulate(action, mass_delta=1.0, voltage_delta=5.0 * impact)
-            # Love expands ideals
             self.purpose.evolve_standards("Love", intensity=impact)
         else:
-            # Failure increases resistance for this action type
             if action in self.causality.clouds:
                 self.causality.clouds[action].resistance += 2.0 * impact
-
-            # Pain shrinks ideals
             self.purpose.evolve_standards("Pain", intensity=impact)
 
     def check_structural_integrity(self) -> str:
@@ -124,8 +116,25 @@ class ReasoningEngine:
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
         indent = "  " * depth
 
+        # 0. Check Play Instinct (Before serious work)
+        # Seriousness is inversely proportional to Whimsy
+        seriousness = 1.0 if desire else 0.0
+        toy_action = self.play_instinct.check_pulse(seriousness)
+
+        if toy_action:
+            # The child wants to play!
+            # Generate a Spark
+            self.causality.spark(toy_action)
+            artifact = self.play_instinct.generate_artifact(toy_action)
+            logger.info(f"{indent}🎈 PLAYTIME: {toy_action} -> {artifact}")
+            return Insight(
+                content=f"I played! ({artifact})",
+                confidence=1.0,
+                depth=0,
+                energy=0.5 # Play restores energy
+            )
+
         # 1. Accumulate Intent (Charge the Cloud)
-        # Thinking about something adds charge to it.
         self.causality.accumulate(desire, mass_delta=1.0, voltage_delta=2.0)
 
         # 2. Check for Ignition (Did lightning strike?)
@@ -151,7 +160,7 @@ class ReasoningEngine:
             logger.info(f"{indent}☁️ Pondering '{desire}'... (Charge: {potential:.1f})")
             return Insight(
                 content=f"...gathering thoughts on {desire}...",
-                confidence=0.1, # Low confidence until strike
+                confidence=0.1,
                 depth=depth,
                 energy=0.1
             )
@@ -176,7 +185,6 @@ class ReasoningEngine:
     # --- Communication ---
 
     def communicate(self, user_input: str) -> str:
-        # Simple reflection of state
         clouds = self.causality.get_status()
         return f"I hear you ({user_input}). My internal weather: {clouds}"
 
