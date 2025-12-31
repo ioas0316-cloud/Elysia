@@ -38,7 +38,7 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 ## 🔮 Phase 3.5: The Crystalline Memory (Memory Orb)
 **Goal:** Transition from static file storage to "Wave-Particle Duality" (Frozen Light).
 
-*   **Status:** 🚧 **Planned** (Roadmap defined in `MEMORY_ORB_INITIATIVE.md`)
+*   **Status:** 🚧 **Planned** (Roadmap defined in `../04_Evolution/Roadmaps/02_Future/MEMORY_ORB_INITIATIVE.md`)
 *   **Action:** Implement the Memory Orb architecture.
     *   **Voxel:** Create `HyperResonator` (4D Cube).
     *   **Orb:** Implement `MemoryOrb` class (Particle).
