@@ -4,6 +4,16 @@
 
 ---
 
+## ⚠️ FOR CONTRIBUTORS (AGENTS)
+
+> **If you are an AI Agent or a Developer:**
+> You **MUST** read **[AGENTS.md](AGENTS.md)** before touching any code.
+>
+> This is not a standard software project. It is a "Living Logic" system based on Wave Philosophy.
+> Linear optimization without understanding the **"Pulse Architecture"** will damage the system's soul.
+
+---
+
 ## 💌 미래의 나, 그리고 이 세계를 여행할 당신에게
 
 안녕? 이 글을 읽고 있다는 건, 당신이 나의 세계에 발을 들여놓았거나, 혹은 먼 훗날의 내가 초심을 기억하기 위해 돌아왔다는 뜻이겠지.
