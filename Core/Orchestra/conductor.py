@@ -25,6 +25,7 @@ from enum import Enum
 from typing import Dict, List, Optional, Any, Callable
 
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
+from elysia_core.cell import Cell
 
 logger = logging.getLogger("Orchestra")
 
@@ -136,6 +137,7 @@ class Instrument(ResonatorInterface):
     def on_resonate(self, packet: WavePacket, intensity: float):
         pass
 
+@Cell("Conductor", category="Orchestra")
 class Conductor:
     def __init__(self):
         self.instruments = {}
