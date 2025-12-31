@@ -19,8 +19,16 @@ logger = logging.getLogger("SynapseBridge")
 class SynapseBridge:
     def __init__(self, node_name: str):
         self.node_name = node_name # "Original" or "Prime"
-        self.synapse_file = "c:/Elysia/data/memory/synapse.json"
-        self.markdown_file = "c:/Elysia/data/memory/synapse.md"
+        # [Fixed] Relative Path for portability
+        # Use CWD or relative path from file location
+        # Core/Foundation/synapse_bridge.py -> ../../ relative to file is root
+        root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+        self.synapse_dir = os.path.join(root, "data/memory")
+        os.makedirs(self.synapse_dir, exist_ok=True)
+
+        self.synapse_file = os.path.join(self.synapse_dir, "synapse.json")
+        self.markdown_file = os.path.join(self.synapse_dir, "synapse.md")
+
         self._ensure_synapse_exists()
         logger.info(f"🔗 Synapse Bridge Active for Node: {node_name}")
 
