@@ -272,7 +272,12 @@ class ActionDispatcher:
 
     def _handle_sculpt(self, detail):
         print(f"   🗿 Sculpting Reality ({detail})...")
-        # Simplified for now
+        if detail == "Core":
+            target_file = "c:/Elysia/living_elysia.py"
+            self.sculptor.sculpt_file(target_file, "Harmonic Smoothing")
+        elif detail == "Self":
+            # Self-healing
+            pass
         return {"impact": 0.9}
 
     def _handle_learn(self, detail):
