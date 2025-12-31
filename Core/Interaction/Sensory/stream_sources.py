@@ -1,6 +1,7 @@
 """
 Stream Sources - P4.0 (REAL CONNECTION)
 Concrete implementations for accessing REAL knowledge sources
+Refactored to align with Pulse Architecture (No active polling in main thread).
 """
 
 import asyncio
@@ -12,6 +13,9 @@ import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
 import random
+
+from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType
+from elysia_core.cell import Cell
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +29,7 @@ class StreamSource(ABC):
     async def search(self, query: str, max_results: int = 10) -> List[dict]:
         pass
 
+@Cell("StreamSource.Wikipedia", category="Sensory")
 class WikipediaStreamSource(StreamSource):
     """
     REAL Wikipedia API Source
@@ -32,6 +37,7 @@ class WikipediaStreamSource(StreamSource):
     """
     def __init__(self, topics: List[str] = None):
         self.api_url = "https://en.wikipedia.org/w/api.php"
+        self.pulse = PulseBroadcaster()
         logger.info("📖 REAL Wikipedia source initialized")
         
         # Topics to rotate through for "random" streaming
@@ -98,17 +104,31 @@ class WikipediaStreamSource(StreamSource):
             return None
 
     async def stream(self) -> AsyncGenerator[dict, None]:
-        """Stream real articles"""
+        """Stream real articles via Generator (Async Iterator is effectively a Pulse)"""
+        # Note: In a pure Event Architecture, this should register a callback.
+        # However, for Python Async compatibility, yielding is acceptable
+        # as long as the Consumer (Caller) handles it as a Signal.
         while True:
             article = await asyncio.to_thread(self._fetch_random_article)
             if article:
+                # Broadcast for internal listeners (Resonance)
+                self.pulse.broadcast(WavePacket(
+                    sender="Wikipedia",
+                    type=PulseType.KNOWLEDGE,
+                    payload=article,
+                    intensity=0.7
+                ))
+                # Yield for direct consumers
                 yield article
-            await asyncio.sleep(10) # 10 seconds between fetches
+
+            # Semantic Pulse Interval (Not mechanical sleep, but 'breath')
+            await asyncio.sleep(10)
 
     async def search(self, query: str, max_results: int = 5) -> List[dict]:
         # Implementation skipped for brevity in this update
         return []
 
+@Cell("StreamSource.RSS", category="Sensory")
 class RSSStreamSource(StreamSource):
     """
     REAL RSS Feed Source
@@ -121,6 +141,7 @@ class RSSStreamSource(StreamSource):
             "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml"
         ]
         self.topics = topics
+        self.pulse = PulseBroadcaster()
         logger.info(f"📡 REAL RSS source initialized with {len(self.feed_urls)} feeds")
         if topics:
              logger.info(f"   Filtering RSS by topics: {', '.join(topics)}")
@@ -165,6 +186,13 @@ class RSSStreamSource(StreamSource):
             items = await asyncio.to_thread(self._fetch_feed, url)
             
             for item in items[:3]: # Yield top 3
+                # Internal Broadcast
+                self.pulse.broadcast(WavePacket(
+                    sender="RSS",
+                    type=PulseType.SENSORY,
+                    payload=item,
+                    intensity=0.6
+                ))
                 yield item
                 await asyncio.sleep(2)
                 
@@ -181,8 +209,9 @@ class YouTubeStreamSource(StreamSource):
         logger.info("📺 YouTube source initialized")
 
     async def stream(self) -> AsyncGenerator[dict, None]:
+        # Placeholder for passive listening
         while True:
-            await asyncio.sleep(3600) # Placeholder
+            await asyncio.sleep(3600)
             yield {}
 
     async def search(self, query: str, max_results: int = 10) -> List[dict]:

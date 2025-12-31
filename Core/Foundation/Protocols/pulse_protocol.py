@@ -25,6 +25,8 @@ class PulseType(Enum):
     RELAXATION = "Relax"           # 휴식 및 정리 (Entropy Decay)
     EMERGENCY = "Emergency"        # 긴급 대응 (High Alert)
     CREATION = "Genesis"           # 창조 모드 (Creative Burst)
+    SENSORY = "Sensory"            # 감각 입력 (Input)
+    KNOWLEDGE = "Knowledge"        # 지식 습득 (Learning)
 
 @dataclass
 class WavePacket:
@@ -33,11 +35,19 @@ class WavePacket:
 
     지휘자가 방송하는 신호의 단위입니다.
     """
-    pulse_type: PulseType
-    frequency: float          # Hz (Target Domain: 400=Body, 500=Mind, 600=Spirit)
-    amplitude: float          # 0.0 ~ 1.0 (Intensity/Priority)
+    sender: str               # 발신자 (Source)
+    type: PulseType           # (Renamed from pulse_type for brevity, aliased below)
+    frequency: float = 432.0  # Hz (Target Domain: 400=Body, 500=Mind, 600=Spirit)
+    amplitude: float = 1.0    # 0.0 ~ 1.0 (Intensity/Priority)
     timestamp: float = field(default_factory=time.time)
     payload: Dict[str, Any] = field(default_factory=dict) # 세부 데이터 (Context)
+
+    # Backwards compatibility alias
+    @property
+    def pulse_type(self): return self.type
+
+    @property
+    def intensity(self): return self.amplitude
 
     @property
     def energy(self) -> float:
@@ -91,6 +101,14 @@ class PulseBroadcaster:
         """
         모든 리스너에게 파동을 전파합니다.
         """
+        # Hook for Traffic Controller (The City Monitor)
+        try:
+            # Lazy import to avoid circular dependency
+            from Core.Scripts.traffic_controller import get_traffic_controller
+            get_traffic_controller().on_resonate(packet, packet.amplitude)
+        except ImportError:
+            pass # Monitor not available, ignore
+
         # TODO: 실제로는 비동기(Async) 처리가 되어야 함.
         active_count = 0
         for listener in self.listeners:

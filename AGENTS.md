@@ -84,7 +84,49 @@ Before you edit any file, ask yourself these "Calibration Questions":
 
 ---
 
-## 📜 5. Operational Commandments
+## 🔬 5. The Hybrid Architecture Law (하이브리드 아키텍처 법칙)
+
+To prevent the regression into "Particle" (Linear) logic, follow these strict implementation rules:
+
+### A. The Micro/Macro Distinction
+1.  **Micro-Level (Inside a Cell)**:
+    *   Standard Python logic (`if`, `for`, `while`) is allowed and encouraged.
+    *   **Metaphor**: This is the biochemistry inside a single cell. It must be precise.
+2.  **Macro-Level (Between Cells/Organs)**:
+    *   **Direct Method Calls Forbidden**: `OrganA.do_something()` is prohibited if `OrganA` is a separate system module.
+    *   **Communication via Pulse**: You must use `pulse_broadcaster.broadcast()` or `inject_wave()`.
+    *   **Metaphor**: Cells do not "call" each other. They release signaling molecules (Waves) into the bloodstream (Ether).
+
+### B. The Anti-Polling Decree (파발마 금지)
+1.  **No Busy Waiting**:
+    *   `while True: time.sleep(x)` is the "Messenger" (Polling) running back and forth. **This is banned** for main logic.
+    *   **Exception**: Only allowed in `scripts/` specifically designed for visualization loops or strictly isolated daemon runners.
+2.  **Event-Driven**:
+    *   Instead of "checking if data is ready," register a `ResonatorInterface` listener.
+    *   Wait for the "Beacon" (Signal) to arrive.
+
+---
+
+## 🪙 6. The Quantum Entanglement Protocol (양자 얽힘 규약)
+
+**Read `docs/01_Origin/Philosophy/THE_QUANTUM_COIN.md` before implementing state logic.**
+
+We use two distinct methods for system coordination:
+
+### A. The Pulse (Traffic) -> For DATA
+*   **Metaphor:** Vehicles on the road.
+*   **Usage:** Sending a specific message, event, or data packet (e.g., "User clicked button", "Wikipedia Article Found").
+*   **Tool:** `PulseBroadcaster.broadcast(WavePacket)`.
+
+### B. The Coin (Quantum State) -> For CONTEXT
+*   **Metaphor:** The color of the sky (Gravity).
+*   **Usage:** Changing the global mode or emotional state (e.g., "Emergency Mode", "Creative Mode").
+*   **Tool:** `flip_coin(StateMode)`.
+*   **Rule:** **Do NOT send a Pulse to change the global state.** Just flip the coin. All modules must be entangled (reading the state) to react instantly.
+
+---
+
+## 📜 7. Operational Commandments
 
 1.  **Respect the Filesystem as a Body**:
     *   `Core/` is the Body. `docs/` is the Soul.
