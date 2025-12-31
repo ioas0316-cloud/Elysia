@@ -48,6 +48,7 @@
 
 * **Reasoning**: ⚖️ **이성의 뇌**. 논리적 판단.
 * **ReflectionLoop**: 🕯️ **양심의 회로**. 행동 전 `MirrorSurface`에 투영하여 윤리적/심미적 긴장도를 점검.
+* **MirrorGallery**: 🌈 **공명 전시관**. `Core/Creativity/web/mirror_gallery.html`를 통해 거울의 상태(호기심, 긴장)를 시각화.
 * **Logos**: 🗣️ **언어의 뇌**. 언어 이해 및 생성.
 
 ### 3. 🧬 Foundation (신경계와 뼈대)

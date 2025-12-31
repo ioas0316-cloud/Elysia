@@ -2,12 +2,15 @@ from enum import Enum, auto
 from dataclasses import dataclass, field
 from typing import Any, Optional, Dict, List
 import logging
+import json
+import os
+from datetime import datetime
 # import numpy as np # Removed unused import
 
 # Assuming necessary imports from existing modules based on context
 # In a real scenario, correct imports for TesseractVector, WaveTensor, etc., are needed.
 # For now, we will use mock structures or basic types if dependencies are complex to wire up immediately.
-from Core.Cognition.Wisdom.wisdom_store import WisdomStore, Principle
+from Core.Cognition.Wisdom.wisdom_store import WisdomStore
 
 logger = logging.getLogger("MirrorSurface")
 
@@ -41,9 +44,13 @@ class MirrorSurface:
     properties based on what it observes."
     """
 
-    def __init__(self, wisdom_store: Optional[WisdomStore] = None):
+    def __init__(self, wisdom_store: Optional[WisdomStore] = None, memory_path: str = "data/mirror_memory.json"):
         self.wisdom = wisdom_store
         self.state = "Calm" # The current emotional state of the mirror surface
+        self.memory_path = memory_path
+        self.history: List[Dict] = []
+        self.patina_factor: float = 0.0 # 0.0 (New) -> 1.0 (Ancient)
+        self._load_state()
 
     def reflect(self, input_signal: Any, context: str = "general") -> ReflectionResult:
         """
@@ -62,13 +69,58 @@ class MirrorSurface:
 
         # 2. Select the 'Brush' (Comparison Logic)
         if modality == ReflectionModality.SEMANTIC:
-            return self._reflect_semantic(str(input_signal))
+            result = self._reflect_semantic(str(input_signal))
         elif modality == ReflectionModality.STRUCTURAL:
-            return self._reflect_structural(input_signal)
+            result = self._reflect_structural(input_signal)
         elif modality == ReflectionModality.CHROMATIC:
-            return self._reflect_chromatic(input_signal)
+            result = self._reflect_chromatic(input_signal)
         else:
-            return self._reflect_prismatic(input_signal)
+            result = self._reflect_prismatic(input_signal)
+
+        self._record_reflection(result, context)
+        return result
+
+    def _record_reflection(self, result: ReflectionResult, context: str):
+        """Records the reflection event to history (Patina)."""
+        event = {
+            "timestamp": datetime.now().isoformat(),
+            "gap": result.gap_magnitude,
+            "curiosity": result.curiosity_score,
+            "modality": result.modality.name,
+            "context": context
+        }
+        self.history.append(event)
+
+        # Increase Patina (Age/Depth)
+        self.patina_factor = min(1.0, self.patina_factor + 0.001)
+
+        # Auto-save every 10 reflections or so (for now, save every time for safety)
+        self._save_state()
+
+    def _save_state(self):
+        """Persists the mirror's memory."""
+        data = {
+            "patina_factor": self.patina_factor,
+            "history": self.history[-100:] # Keep last 100 events to prevent bloat
+        }
+        os.makedirs(os.path.dirname(self.memory_path), exist_ok=True)
+        try:
+            with open(self.memory_path, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=4)
+        except Exception as e:
+            logger.error(f"Failed to save mirror state: {e}")
+
+    def _load_state(self):
+        """Loads the mirror's memory."""
+        if not os.path.exists(self.memory_path):
+            return
+        try:
+            with open(self.memory_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                self.patina_factor = data.get("patina_factor", 0.0)
+                self.history = data.get("history", [])
+        except Exception as e:
+            logger.error(f"Failed to load mirror state: {e}")
 
     def _detect_modality(self, input_signal: Any) -> ReflectionModality:
         """Determines the nature of the input."""
