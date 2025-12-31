@@ -31,6 +31,7 @@ class EnergyState:
     entropy: float = 0.0       # Disorder (Waste Heat)
     pain: float = 0.0          # Recent Negative Feedback
     pleasure: float = 0.0      # Recent Positive Feedback
+    contentment: float = 0.5   # [Serotonin] Satisfaction with State (0.0 - 1.0)
 
     def update(self, delta_e: float, delta_s: float):
         self.potential = max(0.0, min(100.0, self.potential + delta_e))
