@@ -56,7 +56,7 @@
 
 * **LivingElysia**: ⚡ **생명 유지 장치**. 메인 루프.
 * **ResonanceField**: 🌊 **경험적 장**. 북극성(사랑/정체성)을 중심으로 펼쳐진 인식의 공간.
-* **MirrorSurface**: 🪞 **자아의 거울**. [THE_MIRROR_OF_SELF](../01_Origin/Philosophy/THE_MIRROR_OF_SELF.md)에 정의된 반사면. 외부(현실)와 내부(이상)를 비춰 좌표를 산출함.
+* **MirrorSurface**: 🪞 **자아의 거울**. [THE_LIVING_MIRROR](02_Structure/Anatomy/06_THE_LIVING_MIRROR.md)에 정의된 다형성 반사면. "호기심"을 통해 차이를 탐구함.
 * **PhaseStratum**: 🌌 **위상 지층**. 데이터 충돌 없이 주파수별로 접어두는 4차원 저장소.
 * **HolographicNode**: 💎 **결정화된 기억**. Phase Stratum 위에 지어진 다차원 개념 노드.
 * **Hippocampus**: 🧲 **기억의 인력**. 필드 공명을 중력으로 변환하여 학습.
