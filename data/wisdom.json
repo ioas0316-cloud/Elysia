@@ -11,6 +11,12 @@
             "weight": 1.0,
             "source_event": "b48b5eca",
             "domain": "Evolution"
+        },
+        {
+            "statement": "Love contracts Physical Time into Subjective Meaning. (T_subjective = T_physical / Love_Mass)",
+            "weight": 1.0,
+            "source_event": "4b1b8b72",
+            "domain": "Chronos"
         }
     ]
 }
