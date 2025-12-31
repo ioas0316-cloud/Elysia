@@ -22,7 +22,7 @@ import networkx as nx
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from Core.Scripts.city_map import DISTRICTS, ROADS, get_node_position
-from Core.Scripts.quantum_state import get_quantum_state, get_theme, flip_coin, StateMode
+from Core.Scripts.hyper_resonator import get_resonator
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../../data/city_traffic.json")
 
@@ -41,11 +41,14 @@ app.layout = html.Div([
     html.Div([
         html.Div(id='stats-panel', style={'color': 'white', 'padding': '20px', 'textAlign': 'center'}),
 
-        # Wormhole Switches (Quantum Control)
+        # Hyper-Resonator Controls
         html.Div([
-            html.Button("CALM", id='btn-calm', n_clicks=0, style={'margin': '5px', 'color': 'cyan'}),
-            html.Button("ALERT", id='btn-alert', n_clicks=0, style={'margin': '5px', 'color': 'red'}),
-            html.Button("CREATIVE", id='btn-creative', n_clicks=0, style={'margin': '5px', 'color': 'magenta'}),
+            html.Label("Hyper-Resonator Controls:", style={'color': '#aaa'}),
+            html.Br(),
+            html.Button("▲ Pitch Up", id='btn-pitch-up', n_clicks=0, style={'margin': '5px'}),
+            html.Button("▶ Yaw Right", id='btn-yaw-right', n_clicks=0, style={'margin': '5px'}),
+            html.Button("❄️ COLLAPSE", id='btn-collapse', n_clicks=0, style={'margin': '5px', 'color': 'cyan'}),
+            html.Button("🔥 RESURRECT", id='btn-resurrect', n_clicks=0, style={'margin': '5px', 'color': 'orange'}),
         ], style={'textAlign': 'center', 'marginBottom': '10px'}),
 
         dcc.Graph(id='city-graph', style={'height': '75vh'}),
@@ -58,19 +61,23 @@ app.layout = html.Div([
     )
 ], id='main-layout', style={'backgroundColor': '#111111', 'transition': 'background-color 0.5s ease'})
 
-# Callback for Manual Coin Flip
+# Callback for Resonator Control
 @app.callback(
-    Output('stats-panel', 'style'), # Dummy output
-    [Input('btn-calm', 'n_clicks'), Input('btn-alert', 'n_clicks'), Input('btn-creative', 'n_clicks')]
+    Output('stats-panel', 'style'),
+    [Input('btn-pitch-up', 'n_clicks'), Input('btn-yaw-right', 'n_clicks'),
+     Input('btn-collapse', 'n_clicks'), Input('btn-resurrect', 'n_clicks')]
 )
-def manual_flip(btn1, btn2, btn3):
+def manual_control(b1, b2, b3, b4):
     ctx = dash.callback_context
     if not ctx.triggered: return dash.no_update
 
     button_id = ctx.triggered[0]['prop_id'].split('.')[0]
-    if button_id == "btn-calm": flip_coin(StateMode.CALM, "User")
-    elif button_id == "btn-alert": flip_coin(StateMode.ALERT, "User")
-    elif button_id == "btn-creative": flip_coin(StateMode.CREATIVE, "User")
+    resonator = get_resonator()
+
+    if button_id == "btn-pitch-up": resonator.rotate('x', 0.2)
+    elif button_id == "btn-yaw-right": resonator.rotate('y', 0.2)
+    elif button_id == "btn-collapse": resonator.collapse()
+    elif button_id == "btn-resurrect": resonator.resurrect()
     return dash.no_update
 
 @app.callback(
@@ -78,10 +85,11 @@ def manual_flip(btn1, btn2, btn3):
     [Input('interval-component', 'n_intervals')]
 )
 def update_graph(n):
-    # 1. Read Traffic & Quantum State
+    # 1. Read Traffic & Resonator State
     traffic = {"load": {}, "total": 0}
-    q_state = get_quantum_state()
-    theme = get_theme(q_state["mode"])
+    resonator = get_resonator()
+    observation = resonator.observe()
+    bg_color = observation['color']
 
     try:
         if os.path.exists(DATA_PATH):
@@ -153,30 +161,40 @@ def update_graph(n):
         hoverinfo='text'
     )
 
-    # Layout (Apply Quantum Theme)
+    # Layout (Apply Resonator Theme)
+    title_text = f"Resonator: {observation['dominance']}"
+    if observation.get("is_particle"):
+        title_text = "❄️ STATE: COLLAPSED MEMORY ORB (PARTICLE)"
+
     layout = go.Layout(
         showlegend=False,
         scene=dict(
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, backgroundcolor=theme['bg']),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, backgroundcolor=theme['bg']),
-            zaxis=dict(showgrid=False, zeroline=False, showticklabels=False, backgroundcolor=theme['bg']),
-            bgcolor=theme['bg']
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, backgroundcolor=bg_color),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, backgroundcolor=bg_color),
+            zaxis=dict(showgrid=False, zeroline=False, showticklabels=False, backgroundcolor=bg_color),
+            bgcolor=bg_color
         ),
-        paper_bgcolor=theme['bg'],
+        paper_bgcolor=bg_color,
         margin=dict(t=0, b=0, l=0, r=0),
-        title=dict(text=f"Mode: {q_state['mode']} (Trigger: {q_state['trigger']})", font=dict(color=theme['node']))
+        title=dict(text=title_text, font=dict(color="#ffffff"))
     )
 
     fig = go.Figure(data=[trace_edges, trace_nodes], layout=layout)
 
     # Stats Panel
+    dominant_mood = "Void"
+    if observation.get("is_particle"):
+        dominant_mood = "Memory Orb (Frozen)"
+    elif observation.get('dominance'):
+        dominant_mood = max(observation['dominance'], key=observation['dominance'].get)
+
     stats_html = [
         html.H3(f"Total Pulses: {traffic.get('total', 0)}"),
         html.P("Active Districts: " + ", ".join([f"{k}:{v}" for k,v in node_load.items() if v > 0])),
-        html.P(f"Quantum State: {q_state['mode']}")
+        html.H4(f"💎 State: {dominant_mood}", style={'color': bg_color, 'filter': 'brightness(200%)'})
     ]
 
-    layout_style = {'backgroundColor': theme['bg'], 'transition': 'background-color 0.5s ease', 'minHeight': '100vh'}
+    layout_style = {'backgroundColor': bg_color, 'transition': 'background-color 0.5s ease', 'minHeight': '100vh'}
 
     return fig, stats_html, layout_style
 

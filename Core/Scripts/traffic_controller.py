@@ -14,7 +14,7 @@ from typing import Dict, Any
 
 from elysia_core.cell import Cell
 from Core.Foundation.Protocols.pulse_protocol import ResonatorInterface, WavePacket, PulseType
-from Core.Scripts.quantum_state import get_quantum_state, flip_coin, StateMode
+from Core.Scripts.hyper_crystal import get_crystal
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../../data/city_traffic.json")
 
@@ -39,11 +39,13 @@ class TrafficController(ResonatorInterface):
         """
         self.stats["packets_total"] += 1
 
-        # Quantum Logic: Auto-Flip based on Pulse Intensity/Type
+        # Quantum Logic: Rotate Crystal based on Pulse Intensity/Type
+        # If High Energy packet, rotate towards PASSION or ALERT (Red)
         if packet.type == PulseType.EMERGENCY:
-            flip_coin(StateMode.ALERT, trigger=f"Pulse:{packet.sender}")
+            # Rotate to face Back (Reason/Blue) or Front (Passion/Red) depending on context
+            get_crystal().rotate('x', 0.5) # Pitch up
         elif packet.type == PulseType.CREATION:
-            flip_coin(StateMode.CREATIVE, trigger=f"Pulse:{packet.sender}")
+            get_crystal().rotate('y', 0.5) # Yaw right (Creativity)
 
         # Determine District based on Sender Name
         # Simple heuristic mapping
