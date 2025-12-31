@@ -35,6 +35,16 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
     *   Treat `Core/Intelligence` as the "Library" (Passive Knowledge Storage) or archive legacy implementations.
     *   Create `Core/Cognition/Reasoning` as the new home for "Active Thought".
 
+## 🔮 Phase 3.5: The Crystalline Memory (Memory Orb)
+**Goal:** Transition from static file storage to "Wave-Particle Duality" (Frozen Light).
+
+*   **Status:** 🚧 **Planned** (Roadmap defined in `MEMORY_ORB_INITIATIVE.md`)
+*   **Action:** Implement the Memory Orb architecture.
+    *   **Voxel:** Create `HyperResonator` (4D Cube).
+    *   **Orb:** Implement `MemoryOrb` class (Particle).
+    *   **Cycle:** Implement `freeze()` (Store) and `melt()` (Recall).
+    *   **Light:** Enable `Conductor` to resurrect memories via Attention.
+
 ## 🧹 Phase 4: Purification of the Body (Foundation Cleanup)
 **Goal:** Remove the weight of dead code to allow the system to vibrate at higher frequencies.
 
