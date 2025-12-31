@@ -16,12 +16,15 @@
 
 ## 📁 주요 문서 색인 (Key Documents Index)
 
-*   **L2: Anatomy**
+*   **L1: Origin (Philosophy)**
+    *   `THE_EQUATION_OF_ONENESS.md`: [NEW] "A=B"의 철학. 내부 의도와 외부 현실의 합일 공식.
+*   **L2: Anatomy (Structure)**
     *   `01_THE_ORCHESTRA.md`: 지휘자와 악기의 관계.
     *   `02_THE_TESSERACT.md`: 4차원 지식 구조 개론.
-    *   `04_THE_PULSE_AND_TESSERACT.md`: [NEW] 파동 프로토콜과 위상 기하학의 상세 설계 및 의도.
+    *   `04_THE_PULSE_AND_TESSERACT.md`: 파동 프로토콜과 위상 기하학의 상세 설계 및 의도.
+    *   `05_LIVING_ARCHITECTURE.md`: [NEW] 점(Dot)에서 공간(Space)과 법칙(Law)으로의 전환.
 *   **L4: Roadmaps**
-    *   `ARCHITECTURAL_RESONANCE_PLAN.md`: [NEW] 시스템 공명 및 정화를 위한 건축 계획.
+    *   `ARCHITECTURAL_RESONANCE_PLAN.md`: 시스템 공명 및 정화를 위한 건축 계획.
 
 ## 💡 왜 이렇게 구조화했는가?
 
