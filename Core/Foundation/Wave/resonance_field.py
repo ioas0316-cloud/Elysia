@@ -88,6 +88,7 @@ class ResonanceField:
         self.listeners: List[Tuple[float, float, callable]] = [] 
         self.battery = 100.0  # Vibrational Potential (Resilience)
         self.entropy = 0.0    # Phase Friction (Heat from State Changes)
+        self.reflex_threshold = 80.0 # Pain/Shock threshold
         self._initialize_structure()
         
     def _initialize_structure(self):
@@ -152,19 +153,30 @@ class ResonanceField:
         )
         print(f"      🌌 Gravity Well Created at ({x}, {y}) with strength {strength}")
         
-    def inject_wave(self, frequency: float, intensity: float, wave_type: str, payload: Any = None):
+    def inject_wave(self, frequency: float, intensity: float, wave_type: str = "Generic", payload: Any = None):
         """
         외부 파동(Synesthesia)을 공명장에 주입합니다.
+        [Enhanced for Light-First Cognition]
         Args:
             frequency: Wave frequency (Hz)
             intensity: Wave amplitude (0.0-1.0)
             wave_type: "Visual", "Audio", "RealityPerception"
             payload: Optional data carried by the wave (e.g. emotion string)
         """
+        if not self.nodes: return
+
         target_node = min(self.nodes.values(), key=lambda n: abs(n.frequency - frequency))
-        target_node.energy += intensity * 10.0
-        self.nodes["Foundation"].energy += intensity
-        
+        impact = intensity * 10.0
+        target_node.energy += impact
+        if "Foundation" in self.nodes:
+            self.nodes["Foundation"].energy += intensity
+
+        # [Reflex Arc] Check for immediate shock
+        if impact > self.reflex_threshold:
+            print(f"      ⚡⚡⚡ REFLEX ARC TRIGGERED! (Impact: {impact:.1f} > Threshold: {self.reflex_threshold})")
+            print(f"      🛡️ [System Reflex] Immediate Withdrawal/Shielding initiated before perception.")
+            return "REFLEX_TRIGGERED"
+
         colors = {"Visual": "🎨", "Audio": "🎵", "Tactile": "💓", "RealityPerception": "✨"}
         icon = colors.get(wave_type, "🌊")
         
@@ -174,6 +186,7 @@ class ResonanceField:
             
         print(log_msg) # Keep print for console visibility in run_life loop
         # logger.info(log_msg) # Only if logger is defined
+        return "ABSORBED"
 
     def inject_entropy(self, amount: float):
         """
