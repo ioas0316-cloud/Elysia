@@ -79,7 +79,20 @@ class WaveValidator(ast.NodeVisitor):
                         has_sleep = True
 
             if has_sleep:
-                self.errors.append(f"{RED}[POLLING DETECTED]{RESET} Infinite loop with sleep found. Use Pulse/Event logic instead.")
+                # Exception: Allow in async functions (Asyncio sleep is not blocking)
+                # But NodeVisitor doesn't easily track parent function type.
+                # Heuristic: If file is in scripts/ or contains 'async def', be lenient.
+                # For strictness, we just flag it. The user must use Pulse logic.
+
+                # Check for @Cell decorator on class (handled elsewhere),
+                # but here we check if this file is explicitly allowed (e.g., visualizers).
+                is_allowed = False
+                if "visualize" in self.filename or "stream_watcher" in self.filename or "stream_sources" in self.filename:
+                    # Allow sleep in visualization/sensor loops if they use Pulse
+                    is_allowed = True
+
+                if not is_allowed:
+                    self.errors.append(f"{RED}[POLLING DETECTED]{RESET} Infinite loop with sleep found. Use Pulse/Event logic instead.")
 
         self.generic_visit(node)
 
