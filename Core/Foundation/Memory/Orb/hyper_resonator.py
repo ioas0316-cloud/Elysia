@@ -103,5 +103,25 @@ class HyperResonator:
         self.state.is_active = True
         self.state.amplitude = 1.0  # Default excitation
 
+    def get_3d_position(self) -> tuple[float, float, float]:
+        """
+        Projects the 4D Soul (Quaternion) into 3D Visual Space.
+
+        Mapping Philosophy:
+        - X (Space): Logic/Structure
+        - Y (Emotion): Feeling/Harmony
+        - Z (Time/Depth): History/Ethics
+
+        We scale by 10.0 for visual separation.
+        """
+        # We use the vector part (x, y, z) of the quaternion directly.
+        # W (Scalar/Real) could map to 'Opacity' or 'Glow' in the future.
+        scale = 10.0
+        return (
+            self.quaternion.x * scale,
+            self.quaternion.y * scale,
+            self.quaternion.z * scale
+        )
+
     def __repr__(self):
         return f"<HyperResonator(Name={self.name}, Freq={self.frequency}Hz, Mass={self.mass})>"
