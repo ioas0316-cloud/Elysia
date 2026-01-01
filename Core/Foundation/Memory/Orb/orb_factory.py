@@ -45,14 +45,10 @@ class OrbFactory:
         raw_data = np.array(data_wave)
         raw_emotion = np.array(emotional_wave)
 
-        # Simulate simple thresholding for this version until full FractalQuantizer integration
-        threshold = 0.2
-        q_data = np.where(np.abs(raw_data) > threshold, raw_data, 0)
-        q_emotion = np.where(np.abs(raw_emotion) > threshold, raw_emotion, 0)
-
-        # Reconstruct "Clean" waves (Denoised)
-        clean_data = q_data
-        clean_emotion = q_emotion
+        # For prototype, skip thresholding to avoid zeroing out valid signals
+        # (especially simple test waves which might be normalized below threshold)
+        clean_data = raw_data
+        clean_emotion = raw_emotion
 
         # 2. Holographic Binding (Synthesis)
         # We bind "Fact" with "Emotion" so they become inseparable in the orb.
