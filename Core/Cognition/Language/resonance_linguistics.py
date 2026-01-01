@@ -48,22 +48,44 @@ class ResonanceLinguistics:
             "strong": ["!!", " 정말로!", " (강렬하게)"]
         }
 
+    def absorb_vocabulary(self, category: str, text: str, frequency: float):
+        """
+        Dynamically adds new words to the lexicon based on their resonance frequency.
+        This allows Elysia to learn new expressions from literature or conversation.
+        """
+        # 1. Determine Band
+        band = "mid"
+        if frequency < 0.3: band = "low"
+        elif frequency > 0.7: band = "high"
+
+        # 2. Initialize Category if new
+        if category not in self.lexicon:
+            self.lexicon[category] = {"low": [], "mid": [], "high": []}
+
+        # 3. Add to Lexicon (Avoid duplicates)
+        if text not in self.lexicon[category][band]:
+            self.lexicon[category][band].append(text)
+
     def resonate_word(self, category: str, wave: WaveState) -> str:
         """
         Selects a word that resonates with the current wave state.
         """
         if category not in self.lexicon:
-            return "[Unknown Concept]"
+            return f"[{category}?]" # Return the concept itself if unknown
 
         options = self.lexicon[category]
 
         # Frequency determines the "Band" (Low/Mid/High)
-        if wave.frequency < 0.3:
-            base_word = random.choice(options["low"])
-        elif wave.frequency > 0.7:
-            base_word = random.choice(options["high"])
-        else:
-            base_word = random.choice(options["mid"])
+        target_list = options["mid"]
+        if wave.frequency < 0.3 and options["low"]:
+            target_list = options["low"]
+        elif wave.frequency > 0.7 and options["high"]:
+            target_list = options["high"]
+
+        if not target_list: # Fallback
+            target_list = options["mid"] if options["mid"] else [category]
+
+        base_word = random.choice(target_list)
 
         # Amplitude determines the "Texture" (Punctuation/Modifier)
         if wave.amplitude > 0.8:
