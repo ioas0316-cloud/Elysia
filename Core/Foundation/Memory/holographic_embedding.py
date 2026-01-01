@@ -20,12 +20,56 @@ Effect:
 
 import torch
 import logging
+import numpy as np
 
 class HolographicEmbedder:
     def __init__(self, device='cpu', compressed_dim: int = 64):
         self.device = device
         self.compressed_dim = compressed_dim
         self.logger = logging.getLogger("HolographicEmbedder")
+
+    def encode(self, vector_a: np.ndarray, vector_b: np.ndarray) -> np.ndarray:
+        """
+        [Wave Synthesis]
+        Binds two vectors using Circular Convolution (FFT).
+        Result = FFT(a) * FFT(b)
+        """
+        # Convert to torch if needed
+        a = torch.tensor(vector_a, dtype=torch.complex64)
+        b = torch.tensor(vector_b, dtype=torch.complex64)
+
+        # FFT Convolution
+        fft_a = torch.fft.fft(a)
+        fft_b = torch.fft.fft(b)
+
+        # Element-wise multiplication in Frequency Domain
+        bound_fft = fft_a * fft_b
+
+        # Inverse FFT
+        bound_signal = torch.fft.ifft(bound_fft).real.numpy()
+        return bound_signal
+
+    def decode(self, bound_vector: np.ndarray, key_vector: np.ndarray) -> np.ndarray:
+        """
+        [Wave Analysis]
+        Extracts the original signal using the key.
+        Result = IFFT(FFT(bound) / FFT(key))
+        """
+        bound = torch.tensor(bound_vector, dtype=torch.complex64)
+        key = torch.tensor(key_vector, dtype=torch.complex64)
+
+        fft_bound = torch.fft.fft(bound)
+        fft_key = torch.fft.fft(key)
+
+        # Avoid division by zero
+        fft_key[torch.abs(fft_key) < 1e-6] = 1e-6
+
+        # Element-wise division (Deconvolution)
+        restored_fft = fft_bound / fft_key
+
+        # Inverse FFT
+        restored_signal = torch.fft.ifft(restored_fft).real.numpy()
+        return restored_signal
 
     def capture_snapshot(self, position_tensor: torch.Tensor, vector_tensor: torch.Tensor) -> torch.Tensor:
         """

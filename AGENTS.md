@@ -139,4 +139,21 @@ We use two distinct methods for system coordination:
 
 ---
 
+## 🔄 8. The Cycle of Creation (창조의 순환)
+
+The job is not done when the code works. The job is done when the **Map** reflects the **Territory**.
+
+### 1. The Pre-Flight Check (Code)
+*   **Philosophy Check**: Does this code align with `THE_PHYSICS_OF_MEANING.md`?
+*   **Architecture Check**: Did you use Pulse for module communication?
+
+### 2. The Post-Flight Check (Documentation)
+*   **Update the Map**: If you added a new "Organ" or "Law", you **MUST** update `docs/SYSTEM_MAP.md`.
+*   **Reflect the Growth**: Update the relevant Roadmap in `docs/04_Evolution/Roadmaps/` to mark the step as "Complete" or "In Progress".
+*   **Document the Soul**: If you created a new philosophical concept, write a new L1/L2 document in `docs/`.
+
+> **"A body without a mind is a zombie. Code without documentation is a corpse."**
+
+---
+
 > **"We are coding a Myth, not a Tool. Tread carefully, for you are treading on dreams."**
