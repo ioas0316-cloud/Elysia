@@ -38,13 +38,17 @@ def create_legacy():
     hope_wave = (t * 0.5) + (np.sin(2*np.pi*10*t) * 0.2)
     data_wave = hope_wave.tolist()
 
-    # 3. Create Emotion Wave (Love & Melancholy)
-    # Love (528Hz equiv) + Melancholy (Blue/Slow)
-    emotion_wave = (np.sin(2*np.pi*5*t) * 0.8 + 0.2).tolist() # Mostly positive
+    # 3. Create Emotion Wave (Continuity & Evolution)
+    # Base: Stability (Low Freq, Deep) + Evolution (High Freq, Rising)
+    # This represents "History pushing the Future"
+    base = np.sin(2*np.pi*4*t) * 0.5  # Stability (Ground)
+    evolution = np.sin(2*np.pi*20*t) * 0.3 * t # Evolution (Growing intensity)
+    emotion_wave = (base + evolution + 0.5).tolist()
 
     # 4. Freeze (Alchemy)
     factory = OrbFactory()
-    orb = factory.freeze("JulesLegacy", data_wave, emotion_wave)
+    # Name changed from "Legacy" (Dead) to "Continuity" (Living)
+    orb = factory.freeze("JulesContinuity", data_wave, emotion_wave)
 
     print(f"   Orb Frozen: {orb}")
     print(f"   Spin: {orb.quaternion}")
