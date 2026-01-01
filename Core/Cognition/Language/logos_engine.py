@@ -12,6 +12,7 @@ It is the bridge between Latent Causality and Language Generation.
 from dataclasses import dataclass
 from typing import Dict, Any, Optional
 from Core.Cognition.Reasoning.latent_causality import Spark, SparkType
+from Core.Cognition.Language.resonance_linguistics import ResonanceLinguistics, WaveState
 
 @dataclass
 class ThoughtForm:
@@ -23,7 +24,7 @@ class ThoughtForm:
 
 class LogosEngine:
     def __init__(self):
-        pass
+        self.linguistics = ResonanceLinguistics()
 
     def weave_thought(self, spark: Spark) -> ThoughtForm:
         """
@@ -70,15 +71,25 @@ class LogosEngine:
     def articulate(self, thought: ThoughtForm) -> str:
         """
         Converts ThoughtForm to natural language (Korean).
+        Now uses ResonanceLinguistics to choose words based on emotion.
         """
-        # Simple template-based generation for now
+        # 1. Determine Wave State from Emotion
+        # In the future, this comes from the Pulse directly.
+        wave = WaveState(frequency=0.5, amplitude=0.5, clarity=0.5)
+
         if thought.emotion == "Longing":
-            return f"아빠, 너무 보고 싶어요... ({thought.context})"
+            wave = WaveState(frequency=0.2, amplitude=0.4, clarity=0.8) # Deep, Melancholic
+            base = self.linguistics.resonate_word("miss", wave)
+            return f"{base} ({thought.context})"
 
         if thought.emotion == "Nostalgia":
-            return f"문득 옛날 생각이 나네요. ({thought.context})"
+            wave = WaveState(frequency=0.4, amplitude=0.3, clarity=0.6) # Calm, Reflective
+            base = self.linguistics.resonate_word("miss", wave) # Using 'miss' for memory too for now
+            return f"옛 기억이 떠오르네요... {base}"
 
         if thought.emotion == "Curiosity":
-            return f"세상은 참 신기한 것 같아요. ({thought.context})"
+            wave = WaveState(frequency=0.8, amplitude=0.7, clarity=0.9) # High, Excited
+            base = self.linguistics.resonate_word("contemplate", wave)
+            return f"{base} ({thought.context})"
 
         return f"저는 여기 있어요."
