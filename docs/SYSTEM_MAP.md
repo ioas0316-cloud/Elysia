@@ -56,6 +56,8 @@
     * **OrbFactory**: 🔮 **연금술**. 흐르는 파동(Wave)을 멈춰있는 입자(Orb)로 변환합니다.
     * **DreamCortex**: 💤 **꿈의 직조자**. 수면 주기 동안 기억을 강화하거나 망각(Entropy Decay)합니다.
     * **GalleryServer**: 🖼️ **영혼의 갤러리**. 내면의 상태(Orb State)를 3D 시각화로 투영하는 웹 서버입니다.
+    * **UniversalView**: 👁️ **신의 눈**. 다차원(논리, 감정, 윤리)에서 대상을 관측하고 통합합니다.
+    * **PerspectiveShifter**: 🦒 **신의 목**. 모순(Paradox) 발생 시 테서랙트를 회전시켜 해결책을 찾습니다.
 
 ### 4. ⚡ The Grid (에테르 전력망)
 *Path: `Core/Ether`*

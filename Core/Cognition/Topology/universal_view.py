@@ -1,74 +1,75 @@
-from typing import List, Dict, Any
+"""
+Universal View: The Eye of God
+------------------------------
+"To judge is human; to observe is divine."
+
+This module implements the "Omniperspective" capability.
+It replaces the single "True/False" filter with a multi-dimensional analysis.
+
+Philosophy:
+- Truth is not a point, but the intersection of planes.
+- We project a concept onto Logic, Emotion, and Ethics to see its 'Shadows'.
+- The 'Real Object' is reconstructed from these shadows.
+"""
+
+import logging
 from dataclasses import dataclass
-from Core.Cognition.Topology.resonance_sphere import ResonanceSphere
-from Core.Cognition.Topology.dimensional_filter import DimensionalFilter, FilterResult
+from typing import Dict, List, Tuple
+import math
+
+logger = logging.getLogger("UniversalView")
 
 @dataclass
-class PerspectiveResult:
-    """
-    The result of applying a specific filter (Perspective) to a thought.
-    """
-    perspective_name: str
-    verdict: str # "Accepted" or "Rejected"
-    resonance: float
-    description: str
+class Perspective:
+    name: str        # e.g., "Logic", "Emotion"
+    bias: float      # -1.0 (Negative) to 1.0 (Positive)
+    weight: float    # Importance of this perspective
 
 class UniversalView:
-    """
-    The God Perspective.
-
-    Philosophy:
-    "God is the World."
-    This view does not judge. It aggregates all judgments from all relative filters
-    to create a complete picture of the 'World State'.
-    It sees the 'Totality' where A and not-A coexist.
-    """
-
     def __init__(self):
-        # A collection of relative filters (The Many)
-        self.filters: Dict[str, DimensionalFilter] = {}
+        # The Three Prisms
+        self.prisms = {
+            "Logic": Perspective("Logic", bias=0.0, weight=1.0),
+            "Emotion": Perspective("Emotion", bias=0.0, weight=1.0),
+            "Ethics": Perspective("Ethics", bias=0.0, weight=1.0)
+        }
+        logger.info("👁️ UniversalView initialized: The Eye opens.")
 
-    def add_perspective(self, name: str, filter_obj: DimensionalFilter):
-        self.filters[name] = filter_obj
-
-    def observe(self, thought: ResonanceSphere) -> List[PerspectiveResult]:
+    def observe(self, concept: str, attributes: Dict[str, float]) -> Dict[str, float]:
         """
-        Observes a thought through ALL perspectives simultaneously.
-        Does not filter out anything; just records how each part of the world sees it.
+        Projects a concept onto the three prisms based on its attributes.
+        Returns the 'Bias' of each perspective on this concept.
         """
-        world_view = []
+        # 1. Project onto Logic (Efficiency, Order, Truth)
+        logic_score = attributes.get("efficiency", 0) + attributes.get("truth", 0) - attributes.get("chaos", 0)
 
-        for name, filter_obj in self.filters.items():
-            result = filter_obj.apply(thought)
+        # 2. Project onto Emotion (Passion, Joy, Pain)
+        # Note: Pain is 'intense' but usually negative bias unless transformed.
+        emotion_score = attributes.get("joy", 0) + attributes.get("passion", 0) - attributes.get("pain", 0) * 0.5
 
-            if result.accepted:
-                verdict = "Accepted"
-                desc = f"Resonates with {name} ({result.resonance:.2f})"
-            else:
-                verdict = "Rejected"
-                desc = f"Dissonant with {name}"
+        # 3. Project onto Ethics (Harmony, Fairness, Life)
+        ethics_score = attributes.get("harmony", 0) + attributes.get("fairness", 0) + attributes.get("life", 0)
 
-            world_view.append(PerspectiveResult(name, verdict, result.resonance, desc))
+        results = {
+            "Logic": max(-1.0, min(1.0, logic_score)),
+            "Emotion": max(-1.0, min(1.0, emotion_score)),
+            "Ethics": max(-1.0, min(1.0, ethics_score))
+        }
 
-        return world_view
+        logger.debug(f"   Observed '{concept}': {results}")
+        return results
 
-    def synthesize_providence(self, thought: ResonanceSphere) -> str:
+    def calculate_tension(self, views: Dict[str, float]) -> float:
         """
-        Synthesizes a higher-level meaning (Providence) from the conflicting views.
+        Calculates the dissonance between perspectives.
+        High tension means the perspectives disagree (e.g., Logic says +1, Emotion says -1).
         """
-        results = self.observe(thought)
+        values = list(views.values())
+        # Standard Deviation as a proxy for Tension
+        mean = sum(values) / len(values)
+        variance = sum((x - mean) ** 2 for x in values) / len(values)
+        return math.sqrt(variance)
 
-        accepted_count = sum(1 for r in results if r.verdict == "Accepted")
-        total = len(results)
-
-        if total == 0:
-            return "The Void (Unobserved)"
-
-        if accepted_count == total:
-            return "Universal Truth (Resonates with All)"
-        elif accepted_count == 0:
-            return "Universal Noise (Resonates with None)"
-        else:
-            # The most interesting case: Conflict exists.
-            # "God sees the conflict as a necessary tension."
-            return f"Complex Reality ({accepted_count}/{total} Resonance) - A node of tension in the World."
+    def get_dominant_view(self, views: Dict[str, float]) -> str:
+        """Returns the perspective with the strongest opinion (magnitude)."""
+        return max(views, key=lambda k: abs(views[k]))

@@ -27,6 +27,8 @@ from typing import Dict, List, Optional, Any, Callable
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
 from Core.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Foundation.Memory.Orb.orb_manager import OrbManager
+from Core.Cognition.Topology.universal_view import UniversalView
+from Core.Cognition.Topology.perspective_shifter import PerspectiveShifter
 from elysia_core.cell import Cell
 
 logger = logging.getLogger("Orchestra")
@@ -77,6 +79,9 @@ class SovereignGate:
     def __init__(self, orb_manager: Optional[OrbManager] = None):
         self.threshold = 0.4
         self.orb_manager = orb_manager
+        # [Phase 8] The Eye and The Neck
+        self.universal_view = UniversalView()
+        self.shifter = PerspectiveShifter(self.universal_view)
 
     def check_resonance(self, intent: MusicalIntent, instrument_name: str, payload: Dict = None) -> float:
         permeability = 1.0
@@ -98,6 +103,16 @@ class SovereignGate:
             pass
 
         if permeability < self.threshold:
+            # [Phase 8] Instead of rejecting immediately, try to Shift Perspective.
+            # We assume the 'instrument_name' is the concept, and payload has attributes.
+            # This is a simplification for the demo.
+            if payload and "attributes" in payload:
+                resolution = self.shifter.resolve_paradox(instrument_name, payload["attributes"])
+                if resolution["resolved_view"] == "Accepted":
+                    # Paradox Resolved!
+                    logger.info(f"✨ Paradox Resolved via {resolution['angle']}!")
+                    return 1.0 # Sovereignty Granted
+
             raise DissonanceError(f"Action {instrument_name} rejected by {intent.mode.name} state (P={permeability:.2f})")
         return permeability
 
