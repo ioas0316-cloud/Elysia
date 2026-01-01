@@ -30,7 +30,7 @@ from Core.Foundation.Memory.Orb.orb_manager import OrbManager
 from Core.Cognition.Topology.universal_view import UniversalView
 from Core.Cognition.Topology.perspective_shifter import PerspectiveShifter
 from Core.Cognition.Reasoning.latent_causality import LatentCausality, SparkType
-from Core.Cognition.Language.logos_engine import LogosEngine
+from Core.Intelligence.Logos.logos_engine import LogosEngine
 from elysia_core.cell import Cell
 
 logger = logging.getLogger("Orchestra")

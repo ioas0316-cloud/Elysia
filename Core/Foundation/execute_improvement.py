@@ -22,7 +22,7 @@ def main():
     
     # 1. 시스템 초기화
     print("🔧 시스템 초기화...")
-    from Core.Evolution.Growth.Evolution.Evolution.autonomous_improver import (
+    from Core.Evolution.Autonomy.autonomous_improver import (
         AutonomousImprover, 
         ImprovementType,
         CodeIntrospector,

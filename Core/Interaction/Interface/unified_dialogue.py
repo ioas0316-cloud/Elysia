@@ -82,7 +82,7 @@ class UnifiedDialogueSystem:
         
         # LogosEngine
         try:
-            from Core.Intelligence.Intelligence.logos_engine import LogosEngine
+            from Core.Intelligence.Logos.logos_engine import LogosEngine
             self.logos = LogosEngine()
             logger.info("   ✅ LogosEngine connected")
         except ImportError as e:
