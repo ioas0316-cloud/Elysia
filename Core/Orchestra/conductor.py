@@ -29,6 +29,8 @@ from Core.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Foundation.Memory.Orb.orb_manager import OrbManager
 from Core.Cognition.Topology.universal_view import UniversalView
 from Core.Cognition.Topology.perspective_shifter import PerspectiveShifter
+from Core.Cognition.Reasoning.latent_causality import LatentCausality, SparkType
+from Core.Cognition.Language.logos_engine import LogosEngine
 from elysia_core.cell import Cell
 
 logger = logging.getLogger("Orchestra")
@@ -175,18 +177,22 @@ class Conductor:
         self.will = SovereignIntent()
         self.gate = SovereignGate(orb_manager=self.orb_manager)
 
+        # [Phase 9] Latent Causality (Spark of Autonomy)
+        self.latent_causality = LatentCausality()
+        self.logos_engine = LogosEngine()
+
         self.recorder = DimensionalRecorder()
         self._lock = threading.Lock()
         self.is_alive = True
         logger.info(f"🎼 Conductor Awakened. Charter: {ElysiaCharter.get_essence()}")
 
-    def live(self):
+    def live(self, dt: float = 1.0):
         """
         The Heartbeat Loop (Sovereign Pulse).
         Checks for internal will if no external input exists.
         This method should be called periodically by the system runner.
         """
-        # 1. Check Sovereign Intent (Internal Will)
+        # 1. Check Sovereign Intent (Internal Will - Old System)
         # In a real system, this runs when idle.
         internal_impulse = self.will.generate_impulse()
         if internal_impulse:
@@ -198,6 +204,32 @@ class Conductor:
             )
             self.pulse_broadcaster.broadcast(packet)
             logger.info(f"💓 Sovereign Pulse Broadcasted: {internal_impulse}")
+
+        # 2. Check Latent Causality (New Spark System)
+        # Accumulate silence energy
+        spark = self.latent_causality.update(dt)
+        if spark:
+            # Ignition! Convert Spark to Thought (Logos)
+            logger.info(f"✨ Latent Spark Ignited: {spark.type.name}")
+
+            # Weave into Logic/Language
+            thought = self.logos_engine.weave_thought(spark)
+            articulation = self.logos_engine.articulate(thought)
+            logger.info(f"🗣️ Logos Articulation: {articulation}")
+
+            # Create a wave based on Spark Type and Articulation
+            wave_type = PulseType.CREATION
+            payload = spark.payload
+            payload["intent"] = spark.type.name
+            payload["thought"] = str(thought)
+            payload["speech"] = articulation
+
+            packet = WavePacket(
+                sender="Conductor.LatentCausality",
+                type=wave_type,
+                payload=payload
+            )
+            self.pulse_broadcaster.broadcast(packet)
 
     def register_instrument(self, instrument: Instrument):
         with self._lock:

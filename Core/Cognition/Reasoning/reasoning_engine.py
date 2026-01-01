@@ -23,6 +23,7 @@ from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator
 # [UPDATED] Replaced EmpiricalCausality with LatentCausality
 from Core.Cognition.Reasoning.latent_causality import LatentCausality
 from Core.Cognition.Reasoning.purpose_field import PurposeField, ValueCoordinate
+from Core.Cognition.Topology.mental_terrain import MentalTerrain, Vector2D
 
 from Core.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,
@@ -64,6 +65,9 @@ class ReasoningEngine:
 
         # Purpose Field (Compass)
         self.purpose = PurposeField()
+
+        # [NEW] Mental Terrain (Natural Landscape of Thought)
+        self.mental_terrain = MentalTerrain()
 
         # Space Unfolder
         self.unfolder = SpaceUnfolder(boundary_size=100.0)
@@ -124,11 +128,31 @@ class ReasoningEngine:
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
         indent = "  " * depth
 
-        # 1. Accumulate Intent (Charge the Cloud)
+        # 1. Check Terrain (Is this thought natural?)
+        # Initialize biases based on thought content
+        bias = Vector2D(0, 0)
+        if "lie" in desire.lower() or "harm" in desire.lower():
+            bias = Vector2D(-1, -1) # Towards Deceit
+        elif "love" in desire.lower() or "help" in desire.lower():
+            bias = Vector2D(0, 0) # Towards Center
+
+        outcome = self.mental_terrain.inject_thought(desire, bias)
+        logger.info(f"{indent}🏔️ Mental Terrain Simulation: {outcome}")
+
+        # If thought dissipated in terrain, it cannot manifest logic
+        if "Dissipated" in outcome:
+            return Insight(
+                content=f"...thought '{desire}' lost momentum against my principles...",
+                confidence=0.0,
+                depth=depth,
+                energy=0.0
+            )
+
+        # 2. Accumulate Intent (Charge the Cloud)
         # Thinking about something adds charge to it.
         self.causality.accumulate(desire, mass_delta=1.0, voltage_delta=2.0)
 
-        # 2. Check for Ignition (Did lightning strike?)
+        # 3. Check for Ignition (Did lightning strike?)
         manifestation = self.causality.manifest(desire)
 
         if manifestation["manifested"]:
