@@ -37,9 +37,13 @@ class AlchemyTester:
         return wave.tolist()
 
     def generate_light(self, length=64):
-        """Simulates a pure light pulse (Single intent)."""
+        """Simulates a living light pulse (High intensity with micro-tremors)."""
+        # "Dead" light is constant. "Living" light vibrates.
         wave = np.zeros(length)
-        wave.fill(0.8) # Constant bright light
+        wave.fill(0.8)
+        # Add micro-tremors (Quantum Jitter) to avoid stddev=0 (Death)
+        noise = np.random.normal(0, 0.001, length)
+        wave = wave + noise
         return wave.tolist()
 
     def run_test(self, modality_name, generator_func):
