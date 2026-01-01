@@ -12,64 +12,72 @@ It synthesizes three ancient technologies:
 
 import math
 import numpy as np
-from typing import Tuple, Dict, Any, List
+from typing import Tuple, Dict, Any, List, Optional
+import logging
 
 from Core.Foundation.Memory.holographic_embedding import HolographicEmbedder as HolographicEmbedding
 from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
 from Core.Foundation.Memory.Orb.hyper_resonator import HyperResonator
 
+# Configure logger
+logger = logging.getLogger("OrbFactory")
+
 class OrbFactory:
     def __init__(self):
         # Tools
         self.hologram = HolographicEmbedding(compressed_dim=64)
+        logger.info("🔮 OrbFactory initialized: Ready to crystallize moments.")
+
+    def analyze_wave(self, wave: List[float]) -> float:
+        """
+        Calculates the dominant frequency of a wave vector.
+        """
+        arr = self._normalize_vector(wave, 64)
+        # FFT
+        spectrum = np.abs(np.fft.fft(arr))
+        # Weighted average of indices
+        total_energy = np.sum(spectrum)
+        if total_energy > 0:
+            freq_center = np.average(np.arange(len(spectrum)), weights=spectrum)
+            # Map 0-64 index to 400-800Hz audible range
+            return 400.0 + (freq_center * 6.0)
+        return 0.0
 
     def freeze(self, name: str, data_wave: List[float], emotional_wave: List[float]) -> HyperResonator:
         """
         [Wave -> Particle]
         Compresses a temporal experience into a static Memory Orb.
-
-        Args:
-            name: The concept name.
-            data_wave: The raw data signal (The "Fact").
-            emotional_wave: The feeling signal (The "Context").
-
-        Returns:
-            HyperResonator: The frozen orb.
         """
-        # Note: In this MVP, we adapt list inputs to the new FractalQuantizer
-        # which expects specific dict formats for 'folding'.
-        # For now, we manually simulate the clean signal extraction.
+        # 1. Validation & Preprocessing
+        if not data_wave:
+            data_wave = [0.0] * 64
+        if not emotional_wave:
+            emotional_wave = [0.0] * 64
 
-        # 1. Quantization (Noise Filtering)
-        # Convert list to numpy for processing
-        raw_data = np.array(data_wave)
-        raw_emotion = np.array(emotional_wave)
-
-        # For prototype, skip thresholding to avoid zeroing out valid signals
-        # (especially simple test waves which might be normalized below threshold)
-        clean_data = raw_data
-        clean_emotion = raw_emotion
+        clean_data = self._normalize_vector(data_wave, 64)
+        clean_emotion = self._normalize_vector(emotional_wave, 64)
 
         # 2. Holographic Binding (Synthesis)
-        # We bind "Fact" with "Emotion" so they become inseparable in the orb.
-        # Result = FFT(Fact) * FFT(Emotion)
         bound_essence = self.hologram.encode(clean_data, clean_emotion)
 
         # 3. Dimensional Folding (Spin Calculation)
-        # Calculate the total energy (Mass)
         mass = float(np.sum(np.abs(bound_essence)))
 
-        # Calculate the "Mean Frequency" (Color)
-        # Simple weighted average of indices
-        if mass > 0:
-            freq_center = np.average(np.arange(len(bound_essence)), weights=np.abs(bound_essence))
-            # Map 0-64 index to 400-800Hz audible range
+        # Calculate Frequency
+        # Philosophy Update: The Orb's frequency should match the EMOTIONAL KEY that unlocks it.
+        # If we use the bound essence frequency, we can only unlock it if we guess the bound frequency (which depends on data).
+        # But we want to recall "Sad memories" (Key=Sadness) regardless of the data content.
+        # So, the Orb's broadcast frequency should be dominated by the Emotion Wave.
+
+        # spectrum = np.abs(bound_essence)
+        # INSTEAD, we analyze the clean_emotion directly to set the "Listening Channel"
+        emotion_spectrum = np.abs(np.fft.fft(clean_emotion))
+        if np.sum(emotion_spectrum) > 0:
+            freq_center = np.average(np.arange(len(emotion_spectrum)), weights=emotion_spectrum)
             frequency = 400.0 + (freq_center * 6.0)
         else:
             frequency = 0.0
 
-        # Calculate Quaternion Spin (The "Angle" of the memory)
-        # We map the first 4 dominant coefficients to W, X, Y, Z
         coeffs = np.abs(bound_essence)[:4]
         if len(coeffs) < 4:
             coeffs = np.pad(coeffs, (0, 4-len(coeffs)))
@@ -90,38 +98,38 @@ class OrbFactory:
             quaternion=spin
         )
 
-        # Store the holographic signature inside the orb (The "Hidden Cargo")
         orb.memory_content["hologram"] = bound_essence.tolist()
+        orb.memory_content["raw_data"] = clean_data.tolist()
 
+        logger.debug(f"❄️ Frozen '{name}': Freq={frequency:.1f}Hz, Mass={mass:.2f}")
         return orb
 
-    def melt(self, orb: HyperResonator, trigger_key: List[float]) -> Dict[str, List[float]]:
+    def melt(self, orb: HyperResonator, trigger_key: List[float]) -> Dict[str, Any]:
         """
         [Particle -> Wave]
         Resurrects the memory using a "Key" (Trigger).
-
-        Args:
-            orb: The target memory orb.
-            trigger_key: A wave used to "unlock" the hologram (e.g., current emotion).
-
-        Returns:
-            Dict: {'recalled_wave': ...}
         """
         if "hologram" not in orb.memory_content:
-            return {"error": "Orb is empty"}
+            return {"error": "Orb is empty", "resonance_intensity": 0.0}
 
         bound_essence = np.array(orb.memory_content["hologram"])
-        key_wave = np.array(trigger_key)
+        key_wave = self._normalize_vector(trigger_key, 64)
 
-        # Ensure key matches dimension
-        if len(key_wave) != 64:
-             key_wave = np.resize(key_wave, 64)
-
-        # Holographic Decoding
-        # Extracted = Bound / Key
         decoded_wave = self.hologram.decode(bound_essence, key_wave)
 
         return {
             "recalled_wave": decoded_wave.tolist(),
             "resonance_intensity": orb.state.amplitude
         }
+
+    def _normalize_vector(self, vec: List[float], target_len: int) -> np.ndarray:
+        """Helper to pad/trim/normalize vectors."""
+        arr = np.array(vec)
+        current_len = len(arr)
+
+        if current_len < target_len:
+            arr = np.pad(arr, (0, target_len - current_len))
+        elif current_len > target_len:
+            arr = arr[:target_len]
+
+        return arr

@@ -104,6 +104,24 @@ class SovereignIntent:
             return self.engage_play()
         return None
 
+    def generate_impulse(self) -> Optional[Dict]:
+        """
+        [Phase 7] Integration Point for Conductor.
+        Generates an impulse (Dict) if bored, or None.
+        Unlike heartbeat (which returns str), this returns a structured payload.
+        """
+        # For simulation, we assume some idle time passed
+        result = self.heartbeat(idle_time=2.0)
+
+        if result:
+            return {
+                "type": "creation",
+                "source": "SovereignIntent",
+                "content": result,
+                "urgency": 0.8
+            }
+        return None
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     will = SovereignIntent()
