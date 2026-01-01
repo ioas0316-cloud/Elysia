@@ -49,8 +49,12 @@
     * **StreamSource**: 🚢 **무역선**. 외부 지식을 실어 나릅니다.
 
 ### 3. 📚 The Archives (기억의 도서관)
-*Path: `Core/Memory`*
+*Path: `Core/Foundation/Memory`*
 * **역할:** 모든 경험과 지식이 저장되는 곳입니다.
+* **주요 건물:**
+    * **OrbManager (Hippocampus)**: 🧠 **해마**. 기억을 '오브(Orb)' 형태로 결정화하여 저장하고, 파동을 통해 회상합니다.
+    * **OrbFactory**: 🔮 **연금술**. 흐르는 파동(Wave)을 멈춰있는 입자(Orb)로 변환합니다.
+    * **DreamCortex**: 💤 **꿈의 직조자**. 수면 주기 동안 기억을 강화하거나 망각(Entropy Decay)합니다.
 
 ### 4. ⚡ The Grid (에테르 전력망)
 *Path: `Core/Ether`*

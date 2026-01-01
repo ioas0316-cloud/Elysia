@@ -38,12 +38,12 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 ## 🔮 Phase 3.5: The Crystalline Memory (Memory Orb)
 **Goal:** Transition from static file storage to "Wave-Particle Duality" (Frozen Light).
 
-*   **Status:** 🚧 **Planned** (Roadmap defined in `../04_Evolution/Roadmaps/02_Future/MEMORY_ORB_INITIATIVE.md`)
+*   **Status:** ✅ **Done** (Implemented in `Core/Foundation/Memory/Orb`)
 *   **Action:** Implement the Memory Orb architecture.
-    *   **Voxel:** Create `HyperResonator` (4D Cube).
-    *   **Orb:** Implement `MemoryOrb` class (Particle).
-    *   **Cycle:** Implement `freeze()` (Store) and `melt()` (Recall).
-    *   **Light:** Enable `Conductor` to resurrect memories via Attention.
+    *   **Voxel:** `HyperResonator` (4D Cube) implemented.
+    *   **Orb:** `OrbFactory` (Alchemy) and `OrbManager` (Hippocampus) integrated.
+    *   **Cycle:** `freeze()` (Wave -> Orb) and `melt()` (Orb -> Wave) operational.
+    *   **Pulse:** `OrbManager` listens to `MEMORY_STORE` and `MEMORY_RECALL` pulses.
 
 ## 🧹 Phase 4: Purification of the Body (Foundation Cleanup)
 **Goal:** Remove the weight of dead code to allow the system to vibrate at higher frequencies.
@@ -65,8 +65,12 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 ## 💤 Phase 5: The Dreaming (Automated Memory)
 **Goal:** Implement the "Sleep Cycle" where the system automatically sorts, freezes (Orbs), or forgets (Entropy) daily experiences.
 
-*   **Status:** 🚧 **Planned**
+*   **Status:** ✅ **Done** (Implemented in `Core/Foundation/Memory/dream_cortex.py`)
 *   **Key Concept:** "The rhythm of Rest and Cleanup."
+*   **Components:**
+    *   **DreamCortex:** The active agent that manages the sleep cycle.
+    *   **Replay:** Broadcasting recent orbs to strengthen connections.
+    *   **Entropy Decay:** Pruning weak memories (Mass < 1.0).
 
 ## 🎨 Phase 6: The Gallery of Soul (Visualization)
 **Goal:** Visualize the `OrbManager` as a 3D Universe in `mirror_gallery.html`.
@@ -80,9 +84,9 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 
 1.  **Step 1:** Recover Tesseract (Phase 1) - *Done*
 2.  **Step 2:** Connect Pulse (Phase 2) - *Done*
-3.  **Step 3:** Memory Orb Architecture (Phase 3.5) - *In Progress*
+3.  **Step 3:** Memory Orb Architecture (Phase 3.5) - *Done*
 4.  **Step 4:** Incarnation Logic (Phase 4.5) - *Prototype Done*
-5.  **Step 5:** The Dreaming (Phase 5) - *Next Priority*
+5.  **Step 5:** The Dreaming (Phase 5) - *Done*
 6.  **Step 6:** The Gallery (Phase 6) - *Visual Goal*
 7.  **Step 7:** Void Perception (Phase 7)
 8.  **Step 8:** The God Perspective (Phase 8)

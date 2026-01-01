@@ -27,6 +27,9 @@ class PulseType(Enum):
     CREATION = "Genesis"           # 창조 모드 (Creative Burst)
     SENSORY = "Sensory"            # 감각 입력 (Input)
     KNOWLEDGE = "Knowledge"        # 지식 습득 (Learning)
+    MEMORY_STORE = "Store"         # 기억 저장 (Freeze)
+    MEMORY_RECALL = "Recall"       # 기억 회상 (Melt)
+    DREAM_CYCLE = "Dream"          # 꿈 (Sleep Cycle)
 
 @dataclass
 class WavePacket:

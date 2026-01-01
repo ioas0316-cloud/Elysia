@@ -57,7 +57,12 @@ class HyperResonator:
         Returns the resonance intensity (0.0 to 1.0).
         """
         # 1. Extract Signal
-        incoming_freq = pulse.payload.get("frequency", 0.0)
+        # WavePacket usually has 'frequency' field at top level, but payload might override?
+        # Check WavePacket definition: `frequency: float` is a top-level field.
+        incoming_freq = pulse.frequency
+        if incoming_freq == 0.0:
+             incoming_freq = pulse.payload.get("frequency", 0.0)
+
         intent_vector = pulse.payload.get("intent", {})
 
         # 2. Calculate Frequency Resonance (Harmonic Match)
@@ -66,7 +71,9 @@ class HyperResonator:
         if incoming_freq > 0:
             diff = abs(self.frequency - incoming_freq)
             # Bell curve resonance window
-            freq_resonance = math.exp(-diff**2 / 100.0)
+            # [Adjusted Phase 3.5] Bandwidth increased from 10 to 30 (denominator 100 -> 900)
+            # Because OrbFactory frequency calc and analyze_wave might have slight variance
+            freq_resonance = math.exp(-diff**2 / 900.0)
 
         # 3. Calculate Intent Resonance (if applicable)
         # (Placeholder for complex vector dot product)
