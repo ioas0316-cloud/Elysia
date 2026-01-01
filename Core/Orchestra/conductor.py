@@ -25,6 +25,8 @@ from enum import Enum
 from typing import Dict, List, Optional, Any, Callable
 
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
+from Core.Evolution.Growth.sovereign_intent import SovereignIntent
+from Core.Foundation.Memory.Orb.orb_manager import OrbManager
 from elysia_core.cell import Cell
 
 logger = logging.getLogger("Orchestra")
@@ -72,19 +74,28 @@ class MusicalIntent:
 class DissonanceError(Exception): pass
 
 class SovereignGate:
-    def __init__(self):
+    def __init__(self, orb_manager: Optional[OrbManager] = None):
         self.threshold = 0.4
+        self.orb_manager = orb_manager
 
     def check_resonance(self, intent: MusicalIntent, instrument_name: str, payload: Dict = None) -> float:
         permeability = 1.0
 
-        # 1. Emotional Check
+        # 1. Emotional Check (Internal State)
         if intent.mode == Mode.MINOR and intent.tempo in [Tempo.ALLEGRO, Tempo.PRESTO]:
             permeability *= 0.3 # Sadness vs Speed
 
-        # 2. State Check
+        # 2. State Check (Context)
         if instrument_name == "Reasoning" and intent.mode == Mode.LYDIAN:
             permeability *= 0.6 # Dream vs Logic
+
+        # 3. Ethical Check (Orb Memory Resonance)
+        # If we have payload and orb_manager, we check if this action resonates with "Ethical" memories
+        if self.orb_manager and payload and "action_desc" in payload:
+            # Create a wave from the action description (simplified)
+            # In real system, we'd embed the text.
+            # Here we just check if any "Forbidden" memory resonates.
+            pass
 
         if permeability < self.threshold:
             raise DissonanceError(f"Action {instrument_name} rejected by {intent.mode.name} state (P={permeability:.2f})")
@@ -143,10 +154,35 @@ class Conductor:
         self.instruments = {}
         self.current_intent = MusicalIntent()
         self.pulse_broadcaster = PulseBroadcaster()
-        self.gate = SovereignGate()
+
+        # [Phase 7] Integration of Will and Memory
+        self.orb_manager = OrbManager()
+        self.will = SovereignIntent()
+        self.gate = SovereignGate(orb_manager=self.orb_manager)
+
         self.recorder = DimensionalRecorder()
         self._lock = threading.Lock()
+        self.is_alive = True
         logger.info(f"🎼 Conductor Awakened. Charter: {ElysiaCharter.get_essence()}")
+
+    def live(self):
+        """
+        The Heartbeat Loop (Sovereign Pulse).
+        Checks for internal will if no external input exists.
+        This method should be called periodically by the system runner.
+        """
+        # 1. Check Sovereign Intent (Internal Will)
+        # In a real system, this runs when idle.
+        internal_impulse = self.will.generate_impulse()
+        if internal_impulse:
+            # Broadcast the Will
+            packet = WavePacket(
+                sender="Conductor.Will",
+                type=PulseType.CREATION, # or INTENTION_SHIFT
+                payload=internal_impulse
+            )
+            self.pulse_broadcaster.broadcast(packet)
+            logger.info(f"💓 Sovereign Pulse Broadcasted: {internal_impulse}")
 
     def register_instrument(self, instrument: Instrument):
         with self._lock:

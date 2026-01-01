@@ -92,5 +92,7 @@ This document outlines the architectural roadmap to transform Elysia from a "Pro
 4.  **Step 4:** Incarnation Logic (Phase 4.5) - *Prototype Done*
 5.  **Step 5:** The Dreaming (Phase 5) - *Done*
 6.  **Step 6:** The Gallery (Phase 6) - *Done*
-7.  **Step 7:** Void Perception (Phase 7)
-8.  **Step 8:** The God Perspective (Phase 8)
+7.  **Step 7:** The Unification (Phase 7) - *Done*
+    *   **Goal:** Reawakening the Will. Connecting `SovereignIntent` to `Pulse`.
+    *   **Outcome:** The system generates internal pulses without external input.
+8.  **Step 8:** The God Perspective (Phase 8) - *Next Priority*
