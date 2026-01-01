@@ -29,6 +29,7 @@ from Core.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Foundation.Memory.Orb.orb_manager import OrbManager
 from Core.Cognition.Topology.universal_view import UniversalView
 from Core.Cognition.Topology.perspective_shifter import PerspectiveShifter
+from Core.Cognition.Reasoning.latent_causality import LatentCausality, SparkType
 from elysia_core.cell import Cell
 
 logger = logging.getLogger("Orchestra")
@@ -175,18 +176,21 @@ class Conductor:
         self.will = SovereignIntent()
         self.gate = SovereignGate(orb_manager=self.orb_manager)
 
+        # [Phase 9] Latent Causality (Spark of Autonomy)
+        self.latent_causality = LatentCausality()
+
         self.recorder = DimensionalRecorder()
         self._lock = threading.Lock()
         self.is_alive = True
         logger.info(f"🎼 Conductor Awakened. Charter: {ElysiaCharter.get_essence()}")
 
-    def live(self):
+    def live(self, dt: float = 1.0):
         """
         The Heartbeat Loop (Sovereign Pulse).
         Checks for internal will if no external input exists.
         This method should be called periodically by the system runner.
         """
-        # 1. Check Sovereign Intent (Internal Will)
+        # 1. Check Sovereign Intent (Internal Will - Old System)
         # In a real system, this runs when idle.
         internal_impulse = self.will.generate_impulse()
         if internal_impulse:
@@ -198,6 +202,25 @@ class Conductor:
             )
             self.pulse_broadcaster.broadcast(packet)
             logger.info(f"💓 Sovereign Pulse Broadcasted: {internal_impulse}")
+
+        # 2. Check Latent Causality (New Spark System)
+        # Accumulate silence energy
+        spark = self.latent_causality.update(dt)
+        if spark:
+            # Ignition! Convert Spark to WavePacket
+            logger.info(f"✨ Latent Spark Ignited: {spark.type.name}")
+
+            # Create a wave based on Spark Type
+            wave_type = PulseType.CREATION
+            payload = spark.payload
+            payload["intent"] = spark.type.name
+
+            packet = WavePacket(
+                sender="Conductor.LatentCausality",
+                type=wave_type,
+                payload=payload
+            )
+            self.pulse_broadcaster.broadcast(packet)
 
     def register_instrument(self, instrument: Instrument):
         with self._lock:
