@@ -33,7 +33,7 @@ from Core.Cognition.Reasoning.latent_causality import LatentCausality, SparkType
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Orchestra.system_alignment import SystemAlignment
-from elysia_core.cell import Cell
+# from elysia_core.cell import Cell (Legacy Removed)
 
 logger = logging.getLogger("Orchestra")
 
@@ -167,7 +167,7 @@ class Instrument(ResonatorInterface):
     def on_resonate(self, packet: WavePacket, intensity: float):
         pass
 
-@Cell("Conductor", category="Orchestra")
+# @Cell("Conductor", category="Orchestra") (Legacy Removed)
 class Conductor(SystemAlignment):
     def __init__(self):
         super().__init__()  # Initialize SystemAlignment

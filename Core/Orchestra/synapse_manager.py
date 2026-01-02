@@ -55,7 +55,7 @@ class SynapseManager:
         Feeling (Input) and Speaking (Output) happening in Harmony (Parallel).
         """
         results = self.conductor.conduct_ensemble(
-            instrument_names=["Sensory", "Motor"],
+            ["Sensory", "Motor"], # names (positional)
             url=url,
             target=target,
             message=message

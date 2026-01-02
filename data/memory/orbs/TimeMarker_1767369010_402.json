@@ -1,0 +1,16 @@
+{
+  "name": "TimeMarker_1767369010_402",
+  "frequency": 589.0,
+  "mass": 885600.0,
+  "quaternion": {
+    "w": 34560.0,
+    "x": 44928.0,
+    "y": 45359.99609375,
+    "z": 46656.0
+  },
+  "memory_content": {
+    "data": "Philosophy Blog Visit",
+    "timestamp": 1767369010.4020963,
+    "type": "TimeMarker"
+  }
+}

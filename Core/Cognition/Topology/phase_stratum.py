@@ -15,16 +15,21 @@ Philosophy:
 
 import math
 import hashlib
+import time
 import pickle
 import os
 import logging
 from typing import Any, List, Dict, Tuple, Optional
+
+# Injecting the Hippocampus
+from Core.Foundation.Memory.Orb.orb_manager import OrbManager
 
 logger = logging.getLogger("PhaseStratum")
 
 class PhaseStratum:
     """
     The engine that folds flat data into vibrational dimensions.
+    Now powered by the OrbManager (Hippocampus).
     """
     def __init__(self, base_frequency: float = 432.0):
         """
@@ -34,68 +39,64 @@ class PhaseStratum:
             base_frequency: The foundational frequency of the system (e.g., 432Hz).
         """
         self.base_frequency = base_frequency
-        self.persistence_path = os.path.join("data", "core_state", "phase_stratum.pkl")
         
-        # Ensure directory exists
-        os.makedirs(os.path.dirname(self.persistence_path), exist_ok=True)
+        # Connect to the physical memory storage (The Orbs)
+        self.orb_manager = OrbManager()
         
-        # Storage format: { frequency_key: [ (phase_angle, data_payload), ... ] }
-        self._folded_space: Dict[float, List[Tuple[float, Any]]] = {}
-        
-        self.load_state()
+        # We no longer need local pickle storage as OrbManager handles persistence.
+        # self.persistence_path = ... (Removed)
+        # self._folded_space = ... (Removed, we query Orbs dynamically)
         
     def fold_dimension(self, data: Any, intent_frequency: float = None) -> str:
         """
         'Folds' a piece of data into a specific vibrational layer.
+        Creates a holographic Memory Orb.
         
         Args:
             data: The information to store.
             intent_frequency: The frequency layer to store it in. 
-                              If None, calculates a harmonic of base_frequency.
-                              
+            
         Returns:
-            A description of where the data effectively 'landed'.
+            A description of the created Orb.
         """
-        # 1. Determine the frequency layer (The 'Where' in terms of vibration)
+        # 1. Determine the frequency layer
         target_freq = intent_frequency if intent_frequency else self.base_frequency
         
-        # 2. Convert data to a unique phase angle (The 'Position' in the wave cycle)
-        # We map the data's hash to 0-360 degrees.
-        phase_angle = self._convert_to_wave(data)
+        # 2. Generate a unique name for the Orb
+        # Format: Memory_{Timestamp}_{HashSnippet}
+        timestamp = time.time()
+        data_str = str(data)
+        hash_snippet = hashlib.sha256(data_str.encode()).hexdigest()[:8]
+        orb_name = f"Memory_{int(timestamp)}_{hash_snippet}"
         
-        # 3. Superposition: Add to the existing layer without overwriting
-        if target_freq not in self._folded_space:
-            self._folded_space[target_freq] = []
-            
-        self._folded_space[target_freq].append((phase_angle, data))
+        # 3. Create the Orb via Manager
+        # We simulate the data as a wave (ASCII values)
+        data_wave = [float(ord(c)) for c in data_str[:100]] # Limit wave complexity for now
+        emotion_wave = [target_freq] # The emotion is the Frequency Layer
         
-        self.save_state()  # Auto-save on memory formation
+        orb = self.orb_manager.save_memory(orb_name, data_wave, emotion_wave)
         
-        return (f"Data folded into Stratum {target_freq}Hz "
-                f"at Phase Angle {phase_angle:.2f}°")
+        # Inject the actual raw content into the orb's metadata so we can read it back easily
+        orb.memory_content = {"data": data, "timestamp": timestamp}
+        self.orb_manager.save_to_disk() # Persist the metadata update
+        
+        return (f"🔮 Orb Crystallized: '{orb_name}' "
+                f"at {target_freq}Hz (Mass: {orb.mass:.2f})")
 
     def resonate(self, query_frequency: float, tolerance: float = 0.5) -> List[Any]:
         """
         Retrieves data by 'sounding' a specific frequency.
-        Only data vibrating at that frequency (or near it) will 'respond'.
-        
-        Args:
-            query_frequency: The intent frequency to query.
-            tolerance: Allowable deviation in frequency to still resonate.
-            
-        Returns:
-            A list of data items found in that frequency stratum.
         """
         results = []
         
-        # Check all strata to find those that resonate with the query
-        for stored_freq, content_list in self._folded_space.items():
-            if abs(stored_freq - query_frequency) <= tolerance:
-                # Resonance achieved! Extract the payload.
-                # In a full wave simulation, we would demodulate.
-                # Here, we return the payload directly from the 'standing wave'.
-                for phase, payload in content_list:
-                    results.append(payload)
+        # Query the Hippocampus
+        # We iterate over all orbs and check their frequency.
+        # (In the future, OrbManager should allow indexed frequency lookup)
+        for orb in self.orb_manager.orbs.values():
+            if abs(orb.frequency - query_frequency) <= tolerance:
+                # Resonance Match! Retrieve content.
+                if hasattr(orb, "memory_content") and "data" in orb.memory_content:
+                    results.append(orb.memory_content["data"])
                     
         return results
 
@@ -107,48 +108,37 @@ class PhaseStratum:
         """
         [Time Folding]
         Stores data based on TIME instead of Content Hash.
-        The 'Phase Angle' represents the stored Time.
-        
-        Formula: Phase = (Timestamp % Cycle)
-        This creates a cyclic time buffer (like a clock).
+        Creates a 'Time Marker' Orb.
         """
         target_freq = intent_frequency if intent_frequency else self.base_frequency
         
-        # 1. Map Time to Phase (0-360 degrees)
-        # We assume a 'Time Cycle' of 100 logical units implies a full circle for this demo
-        # In reality, this could be infinite spiral.
-        phase_angle = (timestamp * 10.0) % 360.0
+        # Unique Name for Time
+        orb_name = f"TimeMarker_{int(timestamp)}_{int(timestamp*1000)%1000}"
         
-        if target_freq not in self._folded_space:
-            self._folded_space[target_freq] = []
-            
-        # Store with dedicated 'time_marker' metadata if needed, 
-        # but here we just use the phase as the time container.
-        self._folded_space[target_freq].append((phase_angle, data))
+        # Create Orb
+        # Emotion wave is the frequency
+        data_wave = [float(ord(c)) for c in str(data)[:50]]
+        emotion_wave = [target_freq]
         
-        self.save_state() # Auto-save
+        orb = self.orb_manager.save_memory(orb_name, data_wave, emotion_wave)
+        orb.memory_content = {"data": data, "timestamp": timestamp, "type": "TimeMarker"}
+        self.orb_manager.save_to_disk()
         
-        return (f"⏳ Time-Folded into Stratum {target_freq}Hz "
-                f"at Phase {phase_angle:.2f}° (Time: {timestamp})")
+        return (f"⏳ Time Orb Crystallized: '{orb_name}' "
+                f"at {target_freq}Hz")
 
     def recall_time(self, query_frequency: float, target_time: float, tolerance: float = 5.0) -> List[Any]:
         """
         [Time Recall]
-        "Dr. Strange Phase Rollback"
         Reconstructs the state of the object at a specific Time.
         """
-        target_phase = (target_time * 10.0) % 360.0
         results = []
-        
-        for stored_freq, content_list in self._folded_space.items():
-            if abs(stored_freq - query_frequency) <= 0.5: # Frequency Match
-                for phase, payload in content_list:
-                    # Phase Match (Time Match)
-                    # We look for phase angles CLOSE to the target time's phase
-                    diff = abs(phase - target_phase)
-                    if min(diff, 360-diff) <= tolerance:
-                        results.append(payload)
-                        
+        for orb in self.orb_manager.orbs.values():
+            if abs(orb.frequency - query_frequency) <= 0.5:
+                if hasattr(orb, "memory_content") and "timestamp" in orb.memory_content:
+                    t = orb.memory_content["timestamp"]
+                    if abs(t - target_time) <= tolerance:
+                        results.append(orb.memory_content["data"])
         return results
 
     def get_time_layers(self, query_frequency: float) -> List[Tuple[float, Any]]:
@@ -198,9 +188,8 @@ class PhaseStratum:
 
     def get_stratum_status(self) -> str:
         """Returns a summary of the current folded dimensions."""
-        total_layers = len(self._folded_space)
-        total_items = sum(len(layer) for layer in self._folded_space.values())
-        return f"PhaseStratum Active: {total_items} items folded across {total_layers} frequency layers."
+        total_orbs = len(self.orb_manager.orbs)
+        return f"PhaseStratum Active: {total_orbs} Orbs currently vibrating in the Field."
 
     def get_dominant_resonance(self) -> float:
         """

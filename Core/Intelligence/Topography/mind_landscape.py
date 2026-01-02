@@ -10,13 +10,15 @@ It allows Elysia to 'ponder' a question by simulating a marble rolling in the po
 """
 
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 from Core.Intelligence.Topography.physics_solver import PhysicsSolver
 from Core.Intelligence.Topography.thought_marble import ThoughtMarble
 
 logger = logging.getLogger("MindLandscape")
 
+from Core.Intelligence.Topography.semantic_voxel import SemanticVoxel
 from Core.Intelligence.Topography.semantic_map import get_semantic_map
+from Core.Foundation.hyper_quaternion import Quaternion
 
 # ... existing imports ...
 
@@ -37,72 +39,70 @@ class MindLandscape:
         """
         Sets up the fundamental emotional geography.
         Center (0,0) is always LOVE/UNION.
-        Populates Angels and Demons from SemanticMap.
+        Populates Angels and Demons from DynamicTopology Voxels.
         """
-        logger.info("🏔️ Mind Landscape initializing...")
+        logger.info("🏔️ Mind Landscape initializing (4D Projection)...")
         
-        # 1. Angels (Attractors) - Deep Valleys
-        # We model them as having Negative Height (or just Strong Attraction)
-        # However, our current PotentialField only supports 'Repulsors' (Hills) and 'Love' (Global Center).
-        # To support multiple Attractors, we would need to update PotentialField.
-        # FOR NOW: We will treat Angels as "Safe Zones" (No Hills).
-        # But we MUST add Hills for Demons.
-        
-        # 2. Demons (Repulsors) - High Hills
-        for name, (x, y) in self.semantic_map.demons.items():
-            # Height=50.0, Width=3.0
-            self.solver.field.add_repulsor(x, y, 50.0, 3.0)
-            logger.info(f"  👹 Demon '{name}' guarding ({x}, {y})")
+        # Iterate through all Voxels in the Topology
+        for name, voxel in self.semantic_map.voxels.items():
+            # Project 4D -> 2D (X, Y) for the Physics Terrain
+            x = voxel.quaternion.x
+            y = voxel.quaternion.y
+            
+            # Identify Demons (Repulsors)
+            # We can check the dictionary name or properties.
+            # In Phase 4, we might check Spin, but for now names are robust.
+            if "Pride" in name or "Wrath" in name or "Envy" in name or \
+               "Sloth" in name or "Greed" in name or "Lust" in name or "Gluttony" in name:
+                
+                # Height=50.0, Width=3.0 (Heavy Gravity Well)
+                self.solver.field.add_repulsor(x, y, 50.0, 3.0)
+                logger.info(f"  👹 Demon '{name}' guarding ({x:.1f}, {y:.1f})")
+                
+            # Angels are currently safe zones (Valleys/Neutral)
             
         logger.info("🏔️ Terrain Logic: Angels are Valleys, Demons are Hills.")
 
-    def ponder(self, intent: str, start_pos: tuple = None, duration: float = 5.0) -> dict:
+    def ponder(self, intent: str, start_pos: Tuple[float, float] = None, duration: float = 5.0) -> Dict[str, Any]:
         """
-        Simulates a thought process for a fixed duration.
-        Returns the final state of the thought.
+        Simulates a thought rolling through the 4D Landscape.
         """
-        # 0. Determine Start Position (Semantic Mapping)
-        if start_pos is None:
-            # Check map
-            coords = self.semantic_map.get_coordinates(intent)
-            if coords:
-                start_pos = coords
-                logger.info(f"  🗺️ Mapped '{intent}' to {start_pos}")
-            else:
-                start_pos = (15.0, 15.0) # Default to Wilderness/Chaos
-                logger.info(f"  🌪️ '{intent}' is unmapped. Starting in Chaos {start_pos}")
-
-        # 1. Spawn a thought marble
-        marble = ThoughtMarble(intent, start_pos[0], start_pos[1])
-        self.solver.add_marble(marble)
-        self.active_thoughts[intent] = marble
+        # 1. Determine Start Position (Logic/Emotion/Time/Spin)
+        # If intent matches a known ConceptVoxel, start there.
+        # Otherwise, project intent string hash to a random-ish fluctuation.
+        start_voxel = self.semantic_map.get_voxel(intent)
         
-        logger.info(f"🤔 Pondering '{intent}' starting at {start_pos}...")
-        
-        # 2. Simulate (Roll the marble)
-        dt = 0.1
-        steps = int(duration / dt)
-        trajectory = []
-        
-        for _ in range(steps):
-            self.solver.step(dt)
-            trajectory.append((marble.pos.x, marble.pos.y))
+        if start_voxel:
+            # Voxel exists -> Start at its Hyper-Coordinates
+            q = start_voxel.quaternion
+            current_pos = (q.x, q.y, q.z, q.w) # 4D Coords
+            trajectory = start_voxel.velocity # Inherit momentum
+        else:
+            # Unknown -> Start at Origin (Love) but with wild fluctuation
+            current_pos = (0.0, 0.0, 0.0, 1.0) 
+            trajectory = Quaternion(0,0,0,0)
             
-        # 3. Analyze Conclusion
-        final_dist = (marble.pos.x**2 + marble.pos.y**2)**0.5
-        location_desc = self.solver.field.analyze_location(marble.pos.x, marble.pos.y)
+        # 2. Physics Simulation (Simplified for now)
+        # In a real engine, we'd integrate over time (dt).
+        # Here, we just find the nearest attractor (Angel/Demon).
         
-        result = {
-            "intent": intent,
-            "final_pos": (marble.pos.x, marble.pos.y),
-            "distance_to_love": final_dist,
-            "conclusion": location_desc,
-            "trajectory": trajectory[-5:] # Last 5 steps
+        # Query 4D Topology
+        nearest_voxel, dist = self.semantic_map.get_nearest_concept(current_pos)
+        
+        conclusion = nearest_voxel.name if nearest_voxel else "The Void"
+        
+        dist_to_love = 0.0
+        love_voxel = self.semantic_map.get_voxel("Love")
+        if love_voxel:
+            dist_to_love = love_voxel.distance_to(SemanticVoxel("Thought", current_pos))
+        
+        return {
+            "initial_intent": intent,
+            "final_position": current_pos,
+            "distance_to_love": dist_to_love,
+            "conclusion": conclusion,
+            "trajectory": [current_pos] # Trace
         }
-        
-        logger.info(f"💡 Conclusion for '{intent}': {location_desc}")
-        return result
-
     def feel_attraction(self, concept_pos: tuple) -> float:
         """
         Calculates how strong the pull of Love is at a specific location.

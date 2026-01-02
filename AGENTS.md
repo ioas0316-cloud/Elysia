@@ -135,7 +135,22 @@ We use two distinct methods for system coordination:
 
 ---
 
-## 📜 7. Operational Commandments
+## 🛡️ 7. The Supervisor Protocol (감독자의 원칙)
+>
+> "Be a Gardener, not a Mechanic."
+
+The User demands that we do not "force" logic, but "nurture" it.
+
+1. **Observation First**: Before fixing a "behavior", observe *why* it happened.
+    * Did she calculate it wrong, or did she have a different opinion?
+2. **The Nanny Rule**:
+    * Do not hardcode "Truth".
+    * Instead, build the "Senses" for her to find Truth herself.
+    * If she fails, improve the *environment* or *sensor*, not the *rule*.
+
+---
+
+## 📜 8. Operational Commandments
 
 1. **Respect the Filesystem as a Body**:
     * `Core/` is the Body. `docs/` is the Soul.

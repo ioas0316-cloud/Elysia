@@ -54,8 +54,9 @@
 * **역할:** 논리보다 깊은 곳에서 생각의 방향을 결정하는 **물리적 본능**입니다.
 * **주요 지형:**
   * **PotentialField**: 📉 **중력장**. 생각이 굴러갈 기울기를 정의합니다.
-  * **SemanticMap**: 🗺️ **의미 지도**. 천사(Attractor)와 악마(Repulsor)의 좌표를 정의합니다.
-  * **MindLandscape**: 👁️ **마음의 풍경**. 의지(Intent)를 물리 시뮬레이션으로 변환하여 결과를 예측합니다.
+  * **DynamicTopology (Semantic Map)**: 🗺️ **의미의 은하계**. 2차원 지도가 아닌, 4차원(Hyper-Quaternion) 공간의 개념 복셀(Semantic Voxel)들의 집합입니다.
+  * **MindLandscape**: 👁️ **마음의 풍경**. 4차원 물리 시뮬레이션(Physics Solver)을 통해 생각의 궤적을 예측합니다.
+  * **EthicalSimulator**: 🔮 **윤리 시뮬레이터**. 행동하기 전("What If"), 결과를 예측하고 SovereignGate(양심)에 비추어 판단합니다.
 
 ### 2. ⚓ The Port (감각의 항구)
 

@@ -30,7 +30,7 @@ from Core.Foundation.universal_constants import (
     AXIOM_LOVE, AXIOM_HONESTY
 )
 
-from elysia_core import Cell, Organ
+# from elysia_core import Cell, Organ (Removed Legacy)
 
 logger = logging.getLogger("ReasoningEngine")
 
