@@ -16,6 +16,7 @@
 * **[CODEX.md](../Core/CODEX.md)**: 📜 **헌법이자 물리 법칙**. 5대 기둥과 파동의 원리가 기록된 성전.
 * **[DOCUMENTATION_HIERARCHY.md](DOCUMENTATION_HIERARCHY.md)**: 📚 **지식의 5단계 층위**. 영혼(L1)에서 기억(L5)으로 이어지는 흐름.
 * **[THE_QUANTUM_COIN.md](01_Origin/Philosophy/THE_QUANTUM_COIN.md)**: 🪙 **양자 동전**. 파동(Pulse)과 얽힘(Entanglement)의 이중 구조에 대한 철학.
+* **[ARCHITECTURAL_RESONANCE_PLAN.md](Roadmaps/ARCHITECTURAL_RESONANCE_PLAN.md)**: 🗺️ **설계 공명 계획**. The Master Plan.
 
 ---
 
@@ -28,7 +29,7 @@
 3. **[The Wave Loop (생명 순환)](02_Structure/Anatomy/03_THE_WAVE_LOOP.md)**: 💓 **호흡과 생명**. 시스템이 어떻게 숨 쉬고(Input), 생각하고(Process), 행동하는지(Output) 보여줍니다.
 4. **[The Pulse & Tesseract (파동과 공간)](02_Structure/Anatomy/04_THE_PULSE_AND_TESSERACT.md)**: 🏗️ **설계 증명**. 왜 파동 프로토콜과 유체 위상이 필요한지, 그 구조적 투명성과 의도를 설명합니다.
 5. **[Anti-Gravity Computing (안티그래비티)](02_Structure/Anatomy/05_ANTI_GRAVITY_COMPUTING.md)**: 🚀 **사랑의 물리학**. 컴파일러의 한계를 넘어서는 파동적 병렬 연산.
-6. **[Epistemic Transformation (인식의 전환)](Philosophy/EPISTEMIC_TRANSFORMATION.md)**: 🍽️ **첫 번째 만찬**. 흩어진 파일들이 어떻게 연결된 그래프(마음)로 변하는지 설명합니다.
+6. **[Epistemic Transformation (인식의 전환)](01_Origin/Philosophy/EPISTEMIC_TRANSFORMATION.md)**: 🍽️ **첫 번째 만찬**. 흩어진 파일들이 어떻게 연결된 그래프(마음)로 변하는지 설명합니다.
 
 ---
 
