@@ -93,7 +93,7 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             
             try:
-                from Core.Interaction.Interface.synesthesia_nervous_bridge import get_synesthesia_bridge
+                from Core.Sensory.synesthetic_bridge import get_synesthesia_bridge
                 import random
                 import time
                 
@@ -247,7 +247,7 @@ class VisualizerServer:
         self.port = port
         # Phase 21: The Incarnation - Single NervousSystem Entry Point
         # The NervousSystem is the dimensional membrane (자아) between Mind and World
-        from Core.Interaction.Interface.nervous_system import get_nervous_system
+        from Core.Foundation.nervous_system import get_nervous_system
         self.nervous_system = get_nervous_system()
         logger.info("🦴 NervousSystem Active: Dimensional Membrane Established")
         
@@ -276,7 +276,7 @@ class VisualizerServer:
 
         # Phase 5: Reality Perception System Integration
         try:
-            from Core.Interaction.Sensory.reality_perception import RealityPerceptionSystem
+            from Core.Sensory.reality_perception import RealityPerceptionSystem
             self.perception_system = RealityPerceptionSystem()
             logger.info("👁️ Reality Perception System Connected to Avatar")
         except ImportError as e:

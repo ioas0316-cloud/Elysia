@@ -40,7 +40,7 @@ except Exception as e:
 
 
 # Initialize Nervous System (The Singleton)
-from Core.Interaction.Interface.nervous_system import get_nervous_system
+from Core.Foundation.nervous_system import get_nervous_system
 try:
     logger.info("⚡ Connecting to NervousSystem...")
     ns = get_nervous_system()

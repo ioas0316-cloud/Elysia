@@ -16,7 +16,7 @@ from dataclasses import dataclass, field, asdict
 
 # Core Systems
 from Core.Foundation.hippocampus import Hippocampus
-from Core.Interaction.Interface.nervous_system import get_nervous_system
+from Core.Foundation.nervous_system import get_nervous_system
 from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 from Core.Intelligence.Intelligence.logos_engine import LogosEngine
 

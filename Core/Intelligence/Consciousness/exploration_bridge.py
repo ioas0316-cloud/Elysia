@@ -120,7 +120,7 @@ class ExplorationBridge:
         # 5. NaverSearchConnector (한글 검색 최적화)
         self.naver = None
         try:
-            from Core.Interaction.Network.naver_connector import NaverSearchConnector
+            from Core.Sensory.Network.naver_connector import NaverSearchConnector
             self.naver = NaverSearchConnector()
             if self.naver.available:
                 logger.info("✅ NaverConnector connected")

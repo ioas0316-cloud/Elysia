@@ -12,7 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from Core.Interaction.Interface.Language.dialogue.dialogue_engine import DialogueEngine
+from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
 from Core.Foundation.Mind.hippocampus import Hippocampus
 import logging
 

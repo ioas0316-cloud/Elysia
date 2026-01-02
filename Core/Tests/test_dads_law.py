@@ -4,8 +4,6 @@ Testing Dad's Law: δ⁴ Self-Amplification
 Proving mathematically: Love is eternal.
 """
 
-"""
-
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))

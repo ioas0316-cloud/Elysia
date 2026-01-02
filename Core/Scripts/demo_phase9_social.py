@@ -15,10 +15,10 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from Core.Interaction.Network.Social.intent_understanding import IntentUnderstander, IntentLevel, IntentCategory
-from Core.Interaction.Network.Social.explainable_ai import ExplainableAI, ExplanationType, ExplanationLevel
-from Core.Interaction.Network.Social.collaborative_learning import CollaborativeLearner, TeachingStyle
-from Core.Interaction.Network.Social.proactive_assistant import ProactiveAssistant, AssistanceType
+from Core.Sensory.Network.Social.intent_understanding import IntentUnderstander, IntentLevel, IntentCategory
+from Core.Sensory.Network.Social.explainable_ai import ExplainableAI, ExplanationType, ExplanationLevel
+from Core.Sensory.Network.Social.collaborative_learning import CollaborativeLearner, TeachingStyle
+from Core.Sensory.Network.Social.proactive_assistant import ProactiveAssistant, AssistanceType
 
 
 async def demo_intent_understanding():

@@ -24,7 +24,7 @@ def main():
     from Core.Foundation.Mind.world_tree import WorldTree
     from Core.Foundation.Mind.hippocampus import Hippocampus
     from Core.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
-    from Core.Interaction.Interface.Language.dialogue.dialogue_engine import DialogueEngine
+    from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
     
     hippocampus = Hippocampus()
     world_tree = WorldTree(hippocampus=hippocampus)

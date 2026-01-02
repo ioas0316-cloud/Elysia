@@ -9,7 +9,7 @@ Demonstrates:
 """
 
 import asyncio
-from Core.Interaction.Network import (
+from Core.Sensory.Network import (
     ElysiaNode, ElysiaNetwork, KnowledgeSync, 
     SpecializationManager, Discovery, Role
 )

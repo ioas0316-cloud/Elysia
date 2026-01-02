@@ -5,7 +5,7 @@ Use Core.Visual.visual_cortex instead.
 This file redirects imports for backward compatibility.
 """
 
-from Core.Interaction.Interface.Visual.visual_cortex import VisualCortex, get_visual_cortex
+from Core.Sensory.Visual.visual_cortex import VisualCortex, get_visual_cortex
 
 __all__ = ["VisualCortex", "get_visual_cortex"]
 
