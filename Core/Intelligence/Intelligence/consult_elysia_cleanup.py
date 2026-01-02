@@ -12,7 +12,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from Core.Foundation.Mind.hippocampus import Hippocampus
-from Core.Interaction.Interface.Language.dialogue.dialogue_engine import DialogueEngine
+from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
 
 def consult():
     print("🗣️ Connecting to Elysia for Structural Consultation...")

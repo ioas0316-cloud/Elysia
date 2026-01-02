@@ -15,7 +15,7 @@ from Core.Evolution.Creativity.webtoon_illustrator import WebtoonIllustrator
 
 # Optional External AI
 try:
-    from Core.Interaction.Network.comfy_adapter import ComfyAdapter
+    from Core.Sensory.Network.comfy_adapter import ComfyAdapter
     HAS_COMFY = True
 except ImportError:
     HAS_COMFY = False
