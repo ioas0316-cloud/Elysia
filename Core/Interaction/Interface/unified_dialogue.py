@@ -17,6 +17,7 @@ import logging
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 from enum import Enum
+from Core.Orchestra.system_alignment import SystemAlignment
 
 logger = logging.getLogger("UnifiedDialogue")
 
@@ -49,7 +50,7 @@ class DialogueResponse:
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
-class UnifiedDialogueSystem:
+class UnifiedDialogueSystem(SystemAlignment):
     """
     The Orchestrator: Unifies all language generation capabilities.
     
@@ -65,6 +66,7 @@ class UnifiedDialogueSystem:
     """
     
     def __init__(self):
+        super().__init__() # Initialize SystemAlignment
         self._initialize_components()
         self._register_with_hub()
         logger.info("🎭 UnifiedDialogueSystem initialized")
@@ -176,6 +178,25 @@ class UnifiedDialogueSystem:
         
         return IntentType.STATEMENT
     
+        return IntentType.STATEMENT
+
+    def align_behavior(self, field: Dict[str, Any]):
+        """
+        Adapts the dialogue style (Rhetoric) to the Field.
+        """
+        polarity = field.get("polarity", "N")
+        
+        if polarity == "N": # Creation Mode
+            self.current_alignment = "Poetic"
+            # In a real system, we would configure LogosEngine's rhetoric mode
+            # For now, we set a flag that usage can check
+            self.rhetoric_mode = "Metaphorical"
+            self.log_alignment("UnifiedDialogue", "Adopting Poetic/Metaphorical Tone")
+        else: # Critical Mode (S)
+            self.current_alignment = "Analytic"
+            self.rhetoric_mode = "Direct"
+            self.log_alignment("UnifiedDialogue", "Adopting Direct/Analytic Tone")
+
     def respond(self, input_text: str) -> DialogueResponse:
         """
         Main entry point: Generate a unified response.
@@ -188,6 +209,9 @@ class UnifiedDialogueSystem:
         Returns:
             DialogueResponse with text and metadata
         """
+        # 0. Sense the Field First!
+        self.sense_field()
+        
         # 1. Convert to wave for analysis
         wave_analysis = None
         if self.text_wave:

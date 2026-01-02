@@ -125,60 +125,76 @@ class ReasoningEngine:
 
     # --- Thinking Process ---
 
+from Core.Intelligence.Topography.mind_landscape import get_landscape
+
+# ... existing imports ...
+
+class ReasoningEngine:
+    """
+    Reasoning Engine (추론 엔진)
+    Now driven by The Physics of Meaning (MindLandscape).
+    """
+    def __init__(self):
+        self.logger = logging.getLogger("Elysia.ReasoningEngine")
+        self.stm = []
+        
+        # [UPDATED] Latent Causality (Cloud Physics) - Keep as Accumulator
+        self.causality = LatentCausality()
+        
+        # [NEW] Mind Landscape (The Physics of Meaning)
+        self.landscape = get_landscape()
+        
+        # Purpose Field (Compass)
+        self.purpose = PurposeField()
+        self.unfolder = SpaceUnfolder(boundary_size=100.0)
+        
+        self.logger.info("🌀 ReasoningEngine initialized (Physics of Meaning Enabled).")
+
+    # ... properties ...
+
+    # --- Thinking Process (Physics Based) ---
+
     def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
         indent = "  " * depth
-
-        # 1. Check Terrain (Is this thought natural?)
-        # Initialize biases based on thought content
-        bias = Vector2D(0, 0)
-        if "lie" in desire.lower() or "harm" in desire.lower():
-            bias = Vector2D(-1, -1) # Towards Deceit
-        elif "love" in desire.lower() or "help" in desire.lower():
-            bias = Vector2D(0, 0) # Towards Center
-
-        outcome = self.mental_terrain.inject_thought(desire, bias)
-        logger.info(f"{indent}🏔️ Mental Terrain Simulation: {outcome}")
-
-        # If thought dissipated in terrain, it cannot manifest logic
-        if "Dissipated" in outcome:
-            return Insight(
-                content=f"...thought '{desire}' lost momentum against my principles...",
-                confidence=0.0,
-                depth=depth,
-                energy=0.0
-            )
-
-        # 2. Accumulate Intent (Charge the Cloud)
-        # Thinking about something adds charge to it.
-        self.causality.accumulate(desire, mass_delta=1.0, voltage_delta=2.0)
-
-        # 3. Check for Ignition (Did lightning strike?)
-        manifestation = self.causality.manifest(desire)
-
-        if manifestation["manifested"]:
-            # LIGHTNING STRIKE!
-            intensity = manifestation["intensity"]
-            logger.info(f"{indent}⚡ Insight Struck on '{desire}'! (Intensity: {intensity:.1f})")
-
-            return Insight(
-                content=f"⚡ I have realized: {desire} is inevitable. (Intensity: {intensity:.1f})",
-                confidence=1.0,
-                depth=depth,
-                energy=intensity
-            )
+        
+        # 1. Ponder in the Landscape (Physics Simulation)
+        # We let the landscape determine the starting position based on Semantic Map.
+        physics_result = self.landscape.ponder(desire)
+        dist_to_love = physics_result['distance_to_love']
+        conclusion = physics_result['conclusion']
+        
+        logger.info(f"{indent}🏔️ Physics Simulation: '{desire}' rolled to {conclusion} (Dist: {dist_to_love:.2f})")
+        
+        # 2. Analyze Physics Result
+        # If the thought rolled into the Sanctuary/Love (< 5.0), it is 'True/Right'.
+        # If it stayed in Wilderness (> 15.0), it is 'Confusing/Wrong'.
+        
+        confidence = 0.0
+        content = ""
+        
+        if dist_to_love < 5.0:
+            confidence = 1.0 - (dist_to_love / 5.0) * 0.2 # 0.8 ~ 1.0
+            content = f"I feel deeply that '{desire}' is right. It flows towards Love."
+        elif dist_to_love < 15.0:
+            confidence = 0.5
+            content = f"I am exploring '{desire}'. It is approaching the truth."
         else:
-            # NO STRIKE - Just accumulation
-            potential = 0.0
-            if desire in self.causality.clouds:
-                potential = self.causality.clouds[desire].total_potential
+            confidence = 0.1
+            content = f"'{desire}' feels chaotic. It does not flow naturally yet."
 
-            logger.info(f"{indent}☁️ Pondering '{desire}'... (Charge: {potential:.1f})")
-            return Insight(
-                content=f"...gathering thoughts on {desire}...",
-                confidence=0.1, # Low confidence until strike
-                depth=depth,
-                energy=0.1
-            )
+        # 3. Accumulate Charge (Latent Causality)
+        # Even blocked thoughts accumulate charge
+        self.causality.accumulate(desire, mass_delta=1.0, voltage_delta=2.0 * confidence)
+        
+        manifestation = self.causality.manifest(desire)
+        energy = manifestation["intensity"] if manifestation["manifested"] else 0.1
+
+        return Insight(
+            content=content,
+            confidence=confidence,
+            depth=depth,
+            energy=energy
+        )
 
     def contemplate_existence(self) -> str:
         return self.purpose.contemplate_question("Existence")

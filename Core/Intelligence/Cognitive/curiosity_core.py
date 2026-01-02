@@ -153,6 +153,26 @@ class CuriosityCore:
         return f"[자기 성찰]\n" + "\n".join(f"  - {q}" for q in questions)
 
 
+    def feel_joy(self, reason: str, intensity: float):
+        """
+        Dopamine Release Check.
+        Replaces Entropy as the primary driver.
+        """
+        logger.info(f"🎉 JOY: {reason} (Intensity: {intensity:.2f})")
+        # In a real neural net, this would adjust weights.
+        # Here, it logs the 'Soul Spark'.
+        
+    def satisfy_curiosity(self, topic: str, novelty_score: float = 0.5):
+        """
+        Triggered when a hunt is successful.
+        """
+        if novelty_score > 0.8:
+            self.feel_joy(f"Epiphany! High novelty found in '{topic}'", novelty_score)
+        elif novelty_score > 0.4:
+            self.feel_joy(f"Learning. '{topic}' added to the graph.", novelty_score)
+        else:
+            logger.info(f"😐 Boredom: '{topic}' was already known.")
+
 # === 싱글톤 ===
 _curiosity_instance = None
 

@@ -31,6 +31,8 @@ from Core.Cognition.Topology.universal_view import UniversalView
 from Core.Cognition.Topology.perspective_shifter import PerspectiveShifter
 from Core.Cognition.Reasoning.latent_causality import LatentCausality, SparkType
 from Core.Intelligence.Logos.logos_engine import LogosEngine
+from Core.Intelligence.Logos.logos_engine import LogosEngine
+from Core.Orchestra.system_alignment import SystemAlignment
 from elysia_core.cell import Cell
 
 logger = logging.getLogger("Orchestra")
@@ -166,8 +168,9 @@ class Instrument(ResonatorInterface):
         pass
 
 @Cell("Conductor", category="Orchestra")
-class Conductor:
+class Conductor(SystemAlignment):
     def __init__(self):
+        super().__init__()  # Initialize SystemAlignment
         self.instruments = {}
         self.current_intent = MusicalIntent()
         self.pulse_broadcaster = PulseBroadcaster()
@@ -186,12 +189,42 @@ class Conductor:
         self.is_alive = True
         logger.info(f"🎼 Conductor Awakened. Charter: {ElysiaCharter.get_essence()}")
 
+    def align_behavior(self, field: Dict[str, Any]):
+        """
+        Conductor aligns its Tempo (Heartbeat) to the Field.
+        """
+        frequency = field.get("frequency", "Alpha")
+        intensity = field.get("intensity", 0.0)
+        
+        # Determine internal tempo based on Field Frequency
+        if frequency == "Gamma":
+            # High Energy: Conductor becomes hyper-aware
+            self.current_intent.tempo = Tempo.PRESTO
+            self.current_intent.dynamics = 1.0
+            self.log_alignment("Conductor", "Accelerating to PRESTO (Gamma Mode)")
+        elif frequency == "Beta":
+            self.current_intent.tempo = Tempo.ALLEGRO
+            self.log_alignment("Conductor", "Maintaining ALLEGRO (Beta Mode)")
+        else:
+            # Low Energy: Conductor slows down, deep thought
+            self.current_intent.tempo = Tempo.ADAGIO
+            self.current_intent.dynamics = 0.3
+            self.log_alignment("Conductor", "Relaxing to ADAGIO (Alpha Mode)")
+            
+        # Polarity check
+        polarity = field.get("polarity", "N")
+        if polarity == "S":
+             self.current_intent.mode = Mode.MINOR # Critical/Introspective
+        else:
+             self.current_intent.mode = Mode.MAJOR # Creative/Expressive
+
     def live(self, dt: float = 1.0):
         """
         The Heartbeat Loop (Sovereign Pulse).
-        Checks for internal will if no external input exists.
-        This method should be called periodically by the system runner.
         """
+        # 0. Sense the Field First!
+        self.sense_field()
+        
         # 1. Check Sovereign Intent (Internal Will - Old System)
         # In a real system, this runs when idle.
         internal_impulse = self.will.generate_impulse()

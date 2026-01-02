@@ -16,8 +16,8 @@ from Core.Foundation.chronos import Chronos
 from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.entropy_sink import EntropySink
 from Core.Foundation.synapse_bridge import SynapseBridge
-from Core.Foundation.hippocampus import Hippocampus
-from Core.Foundation.free_will_engine import FreeWillEngine
+from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
+from Core.Intelligence.Will.free_will_engine import FreeWillEngine
 from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.autonomic_nervous_system import AutonomicNervousSystem, MemoryConsolidation, EntropyProcessor, SurvivalLoop, ResonanceDecay
 

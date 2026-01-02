@@ -440,6 +440,21 @@ class LogosEngine:
         
         return speech
 
+    def extract_axiom(self, text: str) -> Optional[str]:
+        """
+        Extracts normative or axiomatic statements from text.
+        Returns the axiom if found, or None.
+        """
+        # Keywords indicating an Axiom
+        markers = ["implies", "truth is", "must be", "fundamental", "axiom", "principle", "theorem", "law of"]
+        
+        lower_text = text.lower()
+        if any(m in lower_text for m in markers):
+            # Clean it up
+            clean_text = text.strip("- *")
+            return clean_text
+        return None
+
     def evolve(self, narrative: str, rhetorical_shape: str = "Balance"):
         """
         Learns from the generated narrative.
