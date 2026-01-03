@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 from dataclasses import dataclass
-from Core.Cognition.Topology.fluid_intention import FluidIntention
+from Core.Intelligence.Topology.fluid_intention import FluidIntention
 
 @dataclass
 class ValueHierarchy:

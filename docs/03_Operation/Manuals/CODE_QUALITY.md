@@ -181,7 +181,7 @@ def calculate_phase(frequency, time):
 
 ```python
 import pytest
-from Core.Cognition.fractal_concept import FractalSeed, Hippocampus
+from Core.Intelligence.fractal_concept import FractalSeed, Hippocampus
 
 class TestFractalSeed:
     """Test suite for FractalSeed class."""

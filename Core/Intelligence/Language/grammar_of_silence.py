@@ -1,7 +1,7 @@
 from typing import List, Dict
-from Core.Cognition.Topology.dimensional_filter import DimensionalFilter, FilterResult
-from Core.Cognition.Topology.resonance_sphere import ResonanceSphere
-from Core.Cognition.Topology.tesseract_geometry import TesseractVector
+from Core.Intelligence.Topology.dimensional_filter import DimensionalFilter, FilterResult
+from Core.Intelligence.Topology.resonance_sphere import ResonanceSphere
+from Core.Intelligence.Topology.tesseract_geometry import TesseractVector
 
 class GrammarOfSilence:
     """

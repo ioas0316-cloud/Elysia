@@ -17,7 +17,7 @@ from .core_memory import CoreMemory
 from Core.Foundation.logical_reasoner import LogicalReasoner
 from Core.Foundation.wave_mechanics import WaveMechanics
 from tools.kg_manager import KGManager
-from Core.Foundation.core.world import World
+from Core.Foundation.System.core.world import World
 from Core.Foundation.emotional_engine import EmotionalEngine, EmotionalState
 from Core.Foundation.response_styler import ResponseStyler
 from Core.Foundation.insight_synthesizer import InsightSynthesizer

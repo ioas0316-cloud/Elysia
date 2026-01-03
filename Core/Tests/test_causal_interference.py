@@ -5,7 +5,7 @@ import unittest
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Cognition.Creation.interference_engine import InterferenceEngine
+from Core.Intelligence.Creation.interference_engine import InterferenceEngine
 
 class TestCausalInterference(unittest.TestCase):
     def setUp(self):

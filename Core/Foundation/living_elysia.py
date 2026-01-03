@@ -18,7 +18,7 @@ from Core.Foundation.entropy_sink import EntropySink
 from Core.Foundation.synapse_bridge import SynapseBridge
 from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
 from Core.Intelligence.Will.free_will_engine import FreeWillEngine
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.autonomic_nervous_system import AutonomicNervousSystem, MemoryConsolidation, EntropyProcessor, SurvivalLoop, ResonanceDecay
 
 logging.basicConfig(

@@ -15,7 +15,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')
 import logging
 from typing import Dict, Any, Optional
 
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.hippocampus import Hippocampus
 from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.hyper_quaternion import Quaternion

@@ -3,7 +3,7 @@ from typing import Dict
 
 import numpy as np
 
-from Core.Foundation.core.world import World
+from Core.Foundation.System.core.world import World
 
 
 @dataclass

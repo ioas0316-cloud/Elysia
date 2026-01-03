@@ -11,8 +11,8 @@ It is the bridge between Latent Causality and Language Generation.
 
 from dataclasses import dataclass
 from typing import Dict, Any, Optional
-from Core.Cognition.Reasoning.latent_causality import Spark, SparkType
-from Core.Cognition.Language.resonance_linguistics import ResonanceLinguistics, WaveState
+from Core.Intelligence.Reasoning.latent_causality import Spark, SparkType
+from Core.Intelligence.Language.resonance_linguistics import ResonanceLinguistics, WaveState
 
 @dataclass
 class ThoughtForm:

@@ -162,7 +162,7 @@ class GrowthTracker:
         """SystemRegistry 획득"""
         if self._registry is None:
             try:
-                from Core.Foundation.system_registry import get_system_registry
+                from Core.Foundation.System.system_registry import get_system_registry
                 self._registry = get_system_registry()
             except ImportError:
                 logger.warning("SystemRegistry not available")

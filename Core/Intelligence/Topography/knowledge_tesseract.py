@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Union, Tuple
 import numpy as np
-from Core.Cognition.Topology.tesseract_geometry import TesseractVector, TesseractGeometry
-from Core.Cognition.Topology.fluid_intention import FluidIntention
+from Core.Intelligence.Topology.tesseract_geometry import TesseractVector, TesseractGeometry
+from Core.Intelligence.Topology.fluid_intention import FluidIntention
 
 class KnowledgeLayer:
     FOUNDATION = "Foundation"

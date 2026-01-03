@@ -10,7 +10,7 @@ from datetime import datetime
 # Assuming necessary imports from existing modules based on context
 # In a real scenario, correct imports for TesseractVector, WaveTensor, etc., are needed.
 # For now, we will use mock structures or basic types if dependencies are complex to wire up immediately.
-from Core.Cognition.Wisdom.wisdom_store import WisdomStore
+from Core.Intelligence.Wisdom.wisdom_store import WisdomStore
 
 logger = logging.getLogger("MirrorSurface")
 

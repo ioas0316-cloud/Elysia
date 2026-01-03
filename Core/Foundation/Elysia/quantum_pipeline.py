@@ -2,7 +2,7 @@ from typing import List, Dict, Any, Tuple
 
 import logging
 
-from Core.Foundation.core.tensor_wave import SoulTensor, Tensor3D, FrequencyWave, ResonantModule
+from Core.Foundation.System.core.tensor_wave import SoulTensor, Tensor3D, FrequencyWave, ResonantModule
 
 from Project_Elysia.architecture.context import ConversationContext
 

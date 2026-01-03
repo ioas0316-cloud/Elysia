@@ -19,11 +19,11 @@ from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.Wave.wave_tensor import WaveTensor # 4D Wave Structure
 from Core.Foundation.resonance_physics import ResonancePhysics
 from Core.Foundation.Wave.wave_folding import SpaceUnfolder
-from Core.Cognition.Reasoning.perspective_simulator import PerspectiveSimulator
+from Core.Intelligence.Reasoning.perspective_simulator import PerspectiveSimulator
 # [UPDATED] Replaced EmpiricalCausality with LatentCausality
-from Core.Cognition.Reasoning.latent_causality import LatentCausality
-from Core.Cognition.Reasoning.purpose_field import PurposeField, ValueCoordinate
-from Core.Cognition.Topology.mental_terrain import MentalTerrain, Vector2D
+from Core.Intelligence.Reasoning.latent_causality import LatentCausality
+from Core.Intelligence.Reasoning.purpose_field import PurposeField, ValueCoordinate
+from Core.Intelligence.Topology.mental_terrain import MentalTerrain, Vector2D
 
 from Core.Foundation.universal_constants import (
     AXIOM_SIMPLICITY, AXIOM_CREATIVITY, AXIOM_WISDOM, AXIOM_GROWTH,

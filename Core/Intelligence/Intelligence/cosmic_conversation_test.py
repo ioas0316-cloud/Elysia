@@ -10,7 +10,7 @@ Simulates a user question and Elysia's response generation.
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 
 def main():
     print("\n" + "="*70)

@@ -12,7 +12,7 @@ import sys
 import os
 sys.path.append('.')
 
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.hippocampus import Hippocampus
 from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector

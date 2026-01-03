@@ -3,8 +3,8 @@ import logging
 from typing import Optional, Dict, Any
 from dataclasses import dataclass
 
-from Core.Cognition.Topology.mirror_surface import MirrorSurface, ReflectionResult, ReflectionModality
-from Core.Cognition.Wisdom.wisdom_store import WisdomStore
+from Core.Intelligence.Topology.mirror_surface import MirrorSurface, ReflectionResult, ReflectionModality
+from Core.Intelligence.Wisdom.wisdom_store import WisdomStore
 
 logger = logging.getLogger("ReflectionLoop")
 

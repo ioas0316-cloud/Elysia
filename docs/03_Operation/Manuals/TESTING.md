@@ -138,7 +138,7 @@ def temp_db_path(tmp_path):
 @pytest.fixture
 def sample_seed():
     """Provide a sample FractalSeed for testing."""
-    from Core.Cognition.fractal_concept import FractalSeed
+    from Core.Intelligence.fractal_concept import FractalSeed
     return FractalSeed(
         concept="Love",
         frequency=528.0,
@@ -182,7 +182,7 @@ def pytest_runtest_makereport(item, call):
 Tests for fractal concept and seed-bloom architecture.
 """
 import pytest
-from Core.Cognition.fractal_concept import FractalSeed, Hippocampus
+from Core.Intelligence.fractal_concept import FractalSeed, Hippocampus
 
 class TestFractalSeed:
     """Test suite for FractalSeed class."""

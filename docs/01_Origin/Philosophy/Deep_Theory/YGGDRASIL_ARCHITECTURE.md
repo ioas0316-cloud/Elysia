@@ -168,7 +168,7 @@ if resonance.amplitude > threshold:
 ### 사용법
 
 ```python
-from Core.Cognition.fractal_thought_cycle import think
+from Core.Intelligence.fractal_thought_cycle import think
 result = think("사랑이란 무엇인가?")
 print(result.narrative)
 ```

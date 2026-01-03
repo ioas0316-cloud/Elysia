@@ -16,7 +16,7 @@ import uvicorn
 # Import Elysia modules
 from Core.Foundation.elysia_logger import ElysiaLogger
 from Core.Foundation.error_handler import error_handler
-from Core.Foundation.config import get_config
+from Core.Foundation.System.config import get_config
 from Core.Foundation.performance_monitor import monitor
 
 # Initialize

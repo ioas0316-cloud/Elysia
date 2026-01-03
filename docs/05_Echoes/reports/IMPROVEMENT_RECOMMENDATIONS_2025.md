@@ -340,7 +340,7 @@ def load_config(env: str = None) -> ElysiaConfig:
 
 **사용 예시**:
 ```python
-from Core.Foundation.config import config
+from Core.Foundation.System.config import config
 
 # 검증된 설정 사용
 if config.gemini_api_key:
@@ -882,7 +882,7 @@ async def think(request: ThoughtRequest):
     """
     try:
         # 실제 사고 생성 로직
-        from Core.Cognition.thought_layer_bridge import ThoughtBridge
+        from Core.Intelligence.thought_layer_bridge import ThoughtBridge
         bridge = ThoughtBridge()
         
         result = bridge.process_thought(

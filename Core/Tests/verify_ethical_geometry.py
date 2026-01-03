@@ -6,7 +6,7 @@ import unittest
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.Cognition.Reasoning.ethical_geometry import EthicalCompass
+from Core.Intelligence.Reasoning.ethical_geometry import EthicalCompass
 
 def test_ethical_geometry():
     print("🧪 Verifying Ethical Geometry...")

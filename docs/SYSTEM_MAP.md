@@ -75,18 +75,14 @@ graph TD
 
 ### 3. 📚 The Archives (기억의 도서관)
 
-*Path: `Core/Foundation/Memory`*
+*Path: `Core/Foundation/Memory` & `Core/Foundation/Database`*
 
-* **역할:** 모든 경험과 지식이 저장되는 곳입니다.
+* **역할:** 모든 경험(Memory)과 지식(Database)이 저장되는 곳입니다.
 * **주요 건물:**
-  * **KnowledgeIngestor**: 🍽️ **입과 위장**. 외부 문서와 코드를 씹어서 영양분(Node)으로 만듭니다.
-  * **Omni-Voxel (HyperResonator)**: 🔮 **옴니 복셀**. 4차원 공명 큐브로, 질량(저장)과 진동(의미)과 스핀(영혼)이 통합된 엘리시아의 **최소 구성 단위**입니다.
-  * **OrbManager (Hippocampus)**: 🧠 **해마**. 복셀들을 '오브(Orb)' 형태로 결정화하여 저장하고, 파동을 통해 회상합니다.
-  * **OrbFactory**: ⚗️ **연금술**. 흐르는 파동(Wave)을 멈춰있는 입자(Orb)로 변환합니다.
-  * **DreamCortex**: 💤 **꿈의 직조자**. 수면 주기 동안 기억을 강화하거나 망각(Entropy Decay)합니다.
-  * **GalleryServer**: 🖼️ **영혼의 갤러리**. 내면의 상태(Orb State)를 3D 시각화로 투영하는 웹 서버입니다.
-  * **UniversalView**: 👁️ **신의 눈**. 다차원(논리, 감정, 윤리)에서 대상을 관측하고 통합합니다.
-  * **PerspectiveShifter**: 🦒 **신의 목**. 모순(Paradox) 발생 시 테서랙트를 회전시켜 해결책을 찾습니다.
+  * **Database/KB**: 🧱 **벽돌**. 사실과 데이터를 저장하는 물리적 저장소.
+  * **Memory/Hippocampus**: 🧠 **해마**. 경험을 에피소드(Narrative)로 엮고 꿈을 통해 강화합니다.
+  * **Memory/DreamCortex**: 💤 **꿈의 직조자**. 수면 중 엔트로피를 관리합니다.
+  * **Intelligence/Topography**: 🏔️ **의미의 지형**. 기억들이 의미론적 중력에 의해 배치되는 4차원 지도입니다.
 
 ### 4. ⚡ The Grid (에테르 전력망)
 

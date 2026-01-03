@@ -22,7 +22,7 @@ from typing import List, Dict, Tuple
 
 # Use HyperQuaternion for 4D Value Space
 from Core.Foundation.hyper_quaternion import Quaternion
-from Core.Cognition.Reasoning.existential_ground import ExistentialGround
+from Core.Intelligence.Reasoning.existential_ground import ExistentialGround
 
 logger = logging.getLogger("PurposeField")
 

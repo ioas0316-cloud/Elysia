@@ -13,7 +13,7 @@ sys.path.append('.')
 
 from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
 from Core.Foundation.communication_enhancer import CommunicationEnhancer
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.hippocampus import Hippocampus
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time

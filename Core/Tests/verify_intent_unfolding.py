@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Import the engine (using the path verified in previous steps)
 try:
-    from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+    from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 except ImportError:
     # If the file patch made it accessible via this path
     from Core.Intelligence.Cognition.Reasoning.reasoning_engine import ReasoningEngine

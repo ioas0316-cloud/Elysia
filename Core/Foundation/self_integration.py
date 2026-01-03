@@ -64,7 +64,7 @@ class ElysiaIntegrator:
         """SystemRegistry 인스턴스 획득 (지연 로딩)"""
         if self.registry is None:
             try:
-                from Core.Foundation.system_registry import get_system_registry
+                from Core.Foundation.System.system_registry import get_system_registry
                 self.registry = get_system_registry()
                 logger.info("   ✓ SystemRegistry connected")
             except ImportError as e:
