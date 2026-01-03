@@ -6,9 +6,10 @@ from typing import List
 
 sys.path.append(os.getcwd())
 
-from Core.Intelligence.Topology.tesseract_geometry import TesseractVector, TesseractGeometry
-from Core.Intelligence.Topology.resonance_sphere import ResonanceSphere
-from Core.Intelligence.Topology.void_perceiver import VoidPerceiver, VoidRegion
+from Core.Intelligence.Topography.tesseract_geometry import TesseractVector, TesseractGeometry
+from Core.Intelligence.Topography.resonance_sphere import ResonanceSphere
+from Core.Intelligence.Topography.void_perceiver import VoidPerceiver, VoidRegion
+from Core.Intelligence.Topography.dimensional_filter import DimensionalFilter
 
 def create_void_visualization():
     print("🎨 Painting the Void: Generating 3D Visualization...")

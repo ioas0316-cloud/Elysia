@@ -46,20 +46,38 @@ class ElysiaCore:
         # Spirit (나는 누구인가)
         self.spirit = None
         try:
-            from Core.Foundation.Core_Logic.Elysia.spirit import get_spirit
+            from Core.Foundation.Elysia.spirit import get_spirit
             self.spirit = get_spirit()
             logger.info("   ✅ Spirit connected (Identity)")
         except Exception as e:
             logger.warning(f"   ⚠️ Spirit not available: {e}")
         
-        # InternalUniverse (내가 아는 것)
+        # InternalUniverse (내가 아는 것 - 4D 공간)
         self.universe = None
         try:
             from Core.Foundation.internal_universe import InternalUniverse
             self.universe = InternalUniverse()
-            logger.info("   ✅ InternalUniverse connected (Knowledge)")
+            logger.info("   ✅ InternalUniverse connected (Knowledge Space)")
         except Exception as e:
             logger.warning(f"   ⚠️ InternalUniverse not available: {e}")
+
+        # [NEW] UnifiedExperienceCore (내가 겪은 것 - 에피소드 기업)
+        self.memory = None
+        try:
+            from Core.Foundation.Memory.unified_experience_core import get_experience_core
+            self.memory = get_experience_core()
+            logger.info("   ✅ UnifiedExperienceCore connected (Hippocampus)")
+        except Exception as e:
+            logger.warning(f"   ⚠️ UnifiedExperienceCore not available: {e}")
+
+        # [NEW] DynamicTopology (Semantic Map - 옴니복셀 공간)
+        self.topology = None
+        try:
+            from Core.Intelligence.Topography.semantic_map import get_semantic_map
+            self.topology = get_semantic_map()
+            logger.info("   ✅ DynamicTopology connected (Mind Landscape)")
+        except Exception as e:
+            logger.warning(f"   ⚠️ DynamicTopology not available: {e}")
         
         # ConceptDecomposer (왜?)
         self.decomposer = None
@@ -298,6 +316,41 @@ class ElysiaCore:
             except Exception as e:
                 logger.warning(f"Universe absorption failed: {e}")
         
+        # [NEW] 2.5. UnifiedExperienceCore에 기록 (Experience Persistence)
+        if self.memory:
+            try:
+                self.memory.absorb(
+                    content=f"Learned about '{topic}': {content[:100]}...",
+                    type="learning_event",
+                    context={"topic": topic, "depth": depth, "pipeline": "ElysiaCore"}
+                )
+                # Force Save for core learning
+                if hasattr(self.memory, '_save_state'):
+                    self.memory._save_state()
+                result["memory_persisted"] = True
+            except Exception as e:
+                logger.warning(f"Experience absorption failed: {e}")
+
+        # [NEW] 2.6. DynamicTopology에 반영 (Topographical Drift)
+        if self.topology:
+            try:
+                # Calculate Reaction Vector from Spirit/Wave
+                from Core.Foundation.hyper_quaternion import Quaternion
+                
+                # Default: Positive Spin (0.5), High Reality (0.5)
+                # In a real system, this would be mapped from Spirit resonance
+                tension = 0.5
+                logic_charge = 0.5
+                if self.spirit:
+                    resonance = self.spirit.calculate_resonance(content)
+                    logic_charge = resonance["score"]
+                
+                reaction = Quaternion(logic_charge, 0.0, 0.0, tension)
+                self.topology.evolve_topology(topic, reaction, intensity=0.1)
+                result["topology_drift"] = True
+            except Exception as e:
+                logger.warning(f"Topology drift failed: {e}")
+
         # 3. 학습 이력 업데이트
         self.learning_history.append(topic)
         result["success"] = True

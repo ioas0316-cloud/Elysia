@@ -26,6 +26,7 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Tuple, Optional, Any
 from enum import Enum
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
+from Core.Foundation.organ_system import Organ, OrganManifest
 
 class PillarType(Enum):
     FOUNDATION = ("Foundation", 100.0, (0, 0, 0))      # 중심
@@ -78,11 +79,18 @@ class ResonanceState:
     active_nodes: int
     dominant_frequency: float
 
-class ResonanceField:
+class ResonanceField(Organ):
     """
     3차원 공명장 관리자 (Upgraded to 4D Hyper-Field)
     """
-    def __init__(self):
+    MANIFEST = OrganManifest(
+        name="ResonanceField",
+        purpose="3D/4D systemic vibration and wave propagation manager",
+        frequency=432.0
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.nodes: Dict[str, ResonanceNode] = {}
         self.pillars: Dict[str, ResonanceNode] = {}
         self.listeners: List[Tuple[float, float, callable]] = [] 
@@ -331,6 +339,21 @@ class ResonanceField:
     def total_energy(self) -> float:
         """전체 시스템 에너지 총합 (Vibration Energy)"""
         return sum(node.energy for node in self.nodes.values())
+
+    def calculate_total_entropy(self) -> float:
+        """
+        Calculates field-wide entropy based on coherence and dissonance.
+        Entropy increases when coherence is low.
+        """
+        res = self.calculate_phase_resonance()
+        coherence = res.get("coherence", 0.0)
+        
+        # Entropy = (1.0 - Coherence) scaled to 0-100
+        field_entropy = (1.0 - coherence) * 100.0
+        
+        # Add internal heat (self.entropy)
+        total = (field_entropy + self.entropy) / 2.0
+        return min(100.0, total)
 
     def perceive_field(self) -> Dict[str, Any]:
         """
@@ -609,7 +632,16 @@ class ResonanceField:
         
         return hologram_data
 
+# Singleton implementation for global access
+_global_field = None
+
+def get_resonance_field() -> ResonanceField:
+    global _global_field
+    if _global_field is None:
+        _global_field = ResonanceField()
+    return _global_field
+
 if __name__ == "__main__":
-    field = ResonanceField()
+    field = get_resonance_field()
     field.register_resonator("Test", 100.0, 10.0, lambda: print("🔔 Bong!"))
     print(field.pulse())

@@ -27,8 +27,8 @@ from typing import Dict, List, Optional, Any, Callable
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
 from Core.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Foundation.Memory.Orb.orb_manager import OrbManager
-from Core.Intelligence.Topology.universal_view import UniversalView
-from Core.Intelligence.Topology.perspective_shifter import PerspectiveShifter
+from Core.Intelligence.Topography.universal_view import UniversalView
+from Core.Intelligence.Topography.perspective_shifter import PerspectiveShifter
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality, SparkType
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Intelligence.Logos.logos_engine import LogosEngine

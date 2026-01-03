@@ -1,6 +1,10 @@
+```python
 from typing import List, Dict
-from Core.Intelligence.Topology.dimensional_filter import DimensionalFilter, FilterResult
-from Core.Intelligence.Topology.resonance_sphere import ResonanceSphere
+from Core.Intelligence.Topography.dimensional_filter import DimensionalFilter, FilterResult
+from Core.Intelligence.Topography.resonance_sphere import ResonanceSphere
+from Core.Intelligence.Topography.phase_stratum import PhaseStratum
+# ctVector - Assuming this was intended to replace TesseractVector, but its import source is missing.
+# For now, TesseractVector is kept as it's used later, and ctVector is commented out as it's not a valid import line.
 from Core.Intelligence.Topology.tesseract_geometry import TesseractVector
 
 class GrammarOfSilence:

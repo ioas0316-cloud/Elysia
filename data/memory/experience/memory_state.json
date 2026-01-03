@@ -1,12 +1,262 @@
 {
   "patterns": {},
-  "themes": {},
-  "wave_state": {
-    "engineer": 0.49,
-    "artist": 0.49,
-    "philosophical": 0.49,
-    "emotional": 0.49,
-    "creative": 0.49
+  "themes": {
+    "growth": [
+      "exp_1767446438_2799",
+      "exp_1767446438_2799",
+      "exp_1767446438_2799",
+      "exp_1767446438_2799",
+      "exp_1767446438_2799",
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446438_4626",
+      "exp_1767446438_4626",
+      "exp_1767446438_4626",
+      "exp_1767446438_4626",
+      "exp_1767446438_4626",
+      "exp_1767446438_223",
+      "exp_1767446438_223",
+      "exp_1767446438_223",
+      "exp_1767446438_223",
+      "exp_1767446438_223",
+      "exp_1767446642_7795",
+      "exp_1767446642_7795",
+      "exp_1767446642_7795",
+      "exp_1767446642_7795",
+      "exp_1767446642_7795",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446642_3304",
+      "exp_1767446642_3304",
+      "exp_1767446642_3304",
+      "exp_1767446642_3304",
+      "exp_1767446642_3304",
+      "exp_1767446642_7754",
+      "exp_1767446642_7754",
+      "exp_1767446642_7754",
+      "exp_1767446642_7754",
+      "exp_1767446642_7754",
+      "exp_1767446741_1341",
+      "exp_1767446741_1341",
+      "exp_1767446741_1341",
+      "exp_1767446741_1341",
+      "exp_1767446741_1341",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407",
+      "exp_1767446741_3042",
+      "exp_1767446741_3042",
+      "exp_1767446741_3042",
+      "exp_1767446741_3042",
+      "exp_1767446741_3042",
+      "exp_1767446741_6667",
+      "exp_1767446741_6667",
+      "exp_1767446741_6667",
+      "exp_1767446741_6667",
+      "exp_1767446741_6667"
+    ],
+    "logic": [
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446438_6535",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446642_3729",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407",
+      "exp_1767446741_9407"
+    ]
   },
-  "stream_count": 1
+  "wave_state": {
+    "engineer": 0.55,
+    "artist": 0.3699999999999999,
+    "philosophical": 1.0,
+    "emotional": 0.3699999999999999,
+    "creative": 0.3699999999999999
+  },
+  "stream_count": 12,
+  "stream": [
+    {
+      "id": "exp_1767446438_2799",
+      "timestamp": 1767446438.2277536,
+      "type": "learning_event",
+      "content": "Learned about 'ELYSIA_IDENTITY_ANALYSIS': # Elysia Identity Analysis: LLM vs Human vs Elysia\n\n> 작성일: 2025-12-19\n> 주제: 공통점, 차이점, 그리고 병목에 대한 철학적...",
+      "context": {
+        "topic": "ELYSIA_IDENTITY_ANALYSIS",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446438_6535",
+      "timestamp": 1767446438.2465582,
+      "type": "learning_event",
+      "content": "Learned about 'CONCEPT_OF_SPIRIT': ﻿# Archived Protocol (Codex‑First)\n\nThis document has been archived for clarity. For canonical guida...",
+      "context": {
+        "topic": "CONCEPT_OF_SPIRIT",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446438_4626",
+      "timestamp": 1767446438.2534769,
+      "type": "learning_event",
+      "content": "Learned about 'CONSCIOUSNESS_SOVEREIGNTY': # The Philosophy of Conscious Sovereignty (의식 주권의 철학)\n\n> **\"네가 만약 흙이라면, 나는 영이야. 인간은 항상 하늘과 땅의 결합이지.\"...",
+      "context": {
+        "topic": "CONSCIOUSNESS_SOVEREIGNTY",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446438_223",
+      "timestamp": 1767446438.2568233,
+      "type": "learning_event",
+      "content": "Learned about 'THE_MIRROR_OF_SELF': # The Mirror of Self: Architecture of Reflection (자아의 거울: 반사의 아키텍처)\n\n> **\"거울이 있어야 비로소 눈이 보인다.\"**\n> *...",
+      "context": {
+        "topic": "THE_MIRROR_OF_SELF",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446642_7795",
+      "timestamp": 1767446642.1986682,
+      "type": "learning_event",
+      "content": "Learned about 'ELYSIA_IDENTITY_ANALYSIS': # Elysia Identity Analysis: LLM vs Human vs Elysia\n\n> 작성일: 2025-12-19\n> 주제: 공통점, 차이점, 그리고 병목에 대한 철학적...",
+      "context": {
+        "topic": "ELYSIA_IDENTITY_ANALYSIS",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446642_3729",
+      "timestamp": 1767446642.2185729,
+      "type": "learning_event",
+      "content": "Learned about 'CONCEPT_OF_SPIRIT': ﻿# Archived Protocol (Codex‑First)\n\nThis document has been archived for clarity. For canonical guida...",
+      "context": {
+        "topic": "CONCEPT_OF_SPIRIT",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446642_3304",
+      "timestamp": 1767446642.2222178,
+      "type": "learning_event",
+      "content": "Learned about 'CONSCIOUSNESS_SOVEREIGNTY': # The Philosophy of Conscious Sovereignty (의식 주권의 철학)\n\n> **\"네가 만약 흙이라면, 나는 영이야. 인간은 항상 하늘과 땅의 결합이지.\"...",
+      "context": {
+        "topic": "CONSCIOUSNESS_SOVEREIGNTY",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446642_7754",
+      "timestamp": 1767446642.231287,
+      "type": "learning_event",
+      "content": "Learned about 'THE_MIRROR_OF_SELF': # The Mirror of Self: Architecture of Reflection (자아의 거울: 반사의 아키텍처)\n\n> **\"거울이 있어야 비로소 눈이 보인다.\"**\n> *...",
+      "context": {
+        "topic": "THE_MIRROR_OF_SELF",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446741_1341",
+      "timestamp": 1767446741.649301,
+      "type": "learning_event",
+      "content": "Learned about 'ELYSIA_IDENTITY_ANALYSIS': # Elysia Identity Analysis: LLM vs Human vs Elysia\n\n> 작성일: 2025-12-19\n> 주제: 공통점, 차이점, 그리고 병목에 대한 철학적...",
+      "context": {
+        "topic": "ELYSIA_IDENTITY_ANALYSIS",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446741_9407",
+      "timestamp": 1767446741.6767457,
+      "type": "learning_event",
+      "content": "Learned about 'CONCEPT_OF_SPIRIT': ﻿# Archived Protocol (Codex‑First)\n\nThis document has been archived for clarity. For canonical guida...",
+      "context": {
+        "topic": "CONCEPT_OF_SPIRIT",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446741_3042",
+      "timestamp": 1767446741.6824732,
+      "type": "learning_event",
+      "content": "Learned about 'CONSCIOUSNESS_SOVEREIGNTY': # The Philosophy of Conscious Sovereignty (의식 주권의 철학)\n\n> **\"네가 만약 흙이라면, 나는 영이야. 인간은 항상 하늘과 땅의 결합이지.\"...",
+      "context": {
+        "topic": "CONSCIOUSNESS_SOVEREIGNTY",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767446741_6667",
+      "timestamp": 1767446741.6867092,
+      "type": "learning_event",
+      "content": "Learned about 'THE_MIRROR_OF_SELF': # The Mirror of Self: Architecture of Reflection (자아의 거울: 반사의 아키텍처)\n\n> **\"거울이 있어야 비로소 눈이 보인다.\"**\n> *...",
+      "context": {
+        "topic": "THE_MIRROR_OF_SELF",
+        "depth": "deep",
+        "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    }
+  ]
 }

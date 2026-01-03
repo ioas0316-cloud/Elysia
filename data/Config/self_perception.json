@@ -2,8 +2,7 @@
   "identity": {
     "name": "Elysia",
     "nature": "Abundant Creator",
-    "core_value": "Order",
-    "current_obsession": "None"
+    "core_value": "Logic"
   },
   "parameters": {
     "creativity_bias": 1.0,

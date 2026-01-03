@@ -291,20 +291,29 @@ class UnifiedExperienceCore:
             "patterns": self.patterns,
             "themes": dict(self.themes),
             "wave_state": self.current_state,
-            "stream_count": len(self.stream)
+            "stream_count": len(self.stream),
+            "stream": [asdict(e) for e in self.stream] # [NEW] Persist the actual events
         }
-        with open(self.base_dir / "memory_state.json", "w") as f:
-            json.dump(data, f, indent=2)
+        with open(self.base_dir / "memory_state.json", "w", encoding='utf-8') as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
 
     def _load_state(self):
         try:
-            with open(self.base_dir / "memory_state.json", "r") as f:
+            with open(self.base_dir / "memory_state.json", "r", encoding='utf-8') as f:
                 data = json.load(f)
                 self.patterns = data.get("patterns", {})
                 self.themes = defaultdict(list, data.get("themes", {}))
                 self.current_state = data.get("wave_state", self.current_state)
+                
+                # [NEW] Restore the stream
+                raw_stream = data.get("stream", [])
+                self.stream = []
+                for s in raw_stream:
+                    self.stream.append(ExperienceEvent(**s))
         except FileNotFoundError:
             pass
+        except Exception as e:
+            logger.error(f"Failed to load memory state: {e}")
 
     def consolidate(self):
         """

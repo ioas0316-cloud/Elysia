@@ -1,7 +1,7 @@
 import numpy as np
 from dataclasses import dataclass
 from typing import Optional, Tuple
-from Core.Intelligence.Topology.tesseract_geometry import TesseractVector, TesseractGeometry
+from Core.Intelligence.Topography.tesseract_geometry import TesseractVector, TesseractGeometry
 
 @dataclass
 class ResonanceSphere:

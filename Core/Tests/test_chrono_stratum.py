@@ -6,7 +6,7 @@ from datetime import datetime
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Intelligence.Topology.phase_stratum import PhaseStratum
+from Core.Intelligence.Topography.phase_stratum import PhaseStratum
 
 class TestChronoStratum(unittest.TestCase):
     def setUp(self):
