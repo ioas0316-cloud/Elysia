@@ -25,7 +25,7 @@ class VocabularyMigrator:
     memory.db → WaveInterpreter 어휘 이전
     """
     
-    def __init__(self, db_path: str = "memory.db"):
+    def __init__(self, db_path: str = "data/Memory/memory.db"):
         self.db_path = db_path
         self.migrated_count = 0
     

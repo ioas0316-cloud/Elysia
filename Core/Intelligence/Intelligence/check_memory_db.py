@@ -1,7 +1,7 @@
 """메모리 DB 한국어/영어 개념 분포 확인"""
 import sqlite3
 
-conn = sqlite3.connect('memory.db')
+conn = sqlite3.connect('data/Memory/memory.db')
 cursor = conn.cursor()
 
 print('=' * 60)

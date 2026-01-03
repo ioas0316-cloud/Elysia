@@ -59,6 +59,12 @@ class ElysiaConfig(BaseSettings):
         env="ELYSIA_DATA_DIR",
         description="데이터 디렉토리 경로"
     )
+
+    @property
+    def memory_db_path(self) -> Path:
+        """메모리 DB 경로 반환"""
+        return self.data_dir / "Memory" / "memory.db"
+
     
     log_dir: Path = Field(
         default=Path("logs"),

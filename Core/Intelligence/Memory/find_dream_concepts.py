@@ -1,7 +1,7 @@
 """dream 개념 찾기"""
 import sqlite3
 
-conn = sqlite3.connect('memory.db')
+conn = sqlite3.connect('data/Memory/memory.db')
 cursor = conn.cursor()
 
 print('dream 관련 개념 검색:')

@@ -17,7 +17,7 @@ from typing import List, Dict, Any
 logger = logging.getLogger("Attractor")
 
 class Attractor:
-    def __init__(self, context_seed: str, db_path: str = "memory.db"):
+    def __init__(self, context_seed: str, db_path: str = "data/Memory/memory.db"):
         self.context_seed = context_seed
         self.db_path = db_path
         

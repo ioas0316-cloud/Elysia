@@ -39,7 +39,7 @@ class Relationship:
     weight: float
 
 class Hippocampus:
-    def __init__(self, db_path: str = "data/core_state/memory.db"):
+    def __init__(self, db_path: str = "data/Memory/memory.db"):
         self.db_path = db_path
         self._init_db()
         self._plant_divine_seeds() # Genesis Ritual
