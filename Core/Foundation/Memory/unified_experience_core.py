@@ -20,7 +20,7 @@ from dataclasses import dataclass, field, asdict
 from typing import Dict, List, Any, Optional
 from collections import defaultdict
 
-from elysia_core import Cell, Organ
+from Core.Foundation.System.elysia_core import Cell, Organ
 
 # Optional Imports (Wave Physics)
 try:
