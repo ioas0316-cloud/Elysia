@@ -20,6 +20,9 @@ from Core.Foundation.Memory.unified_experience_core import get_experience_core
 from Core.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Education.CausalityMirror.variable_mesh import VariableMesh
 from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.Intelligence.Meta.global_observer import GlobalObserver
+from Core.Foundation.organism import NeuralNetwork
+from Core.Foundation.unified_field import UnifiedField
 
 logger = logging.getLogger("ElysianHeartbeat")
 
@@ -30,6 +33,11 @@ class ElysianHeartbeat:
         self.will = SovereignIntent()
         self.soul_mesh = VariableMesh() # Represents Internal State
         self.empathy = ProjectiveEmpathy()
+        
+        # 1.5 The Eye (Meta-Cognition) & Field
+        self.field = UnifiedField() # Heartbeat owns the Field? Or connects to it?
+        # Ideally Field is a Singleton or passed in. For now, creating it here implies Heartbeat ignites it.
+        self.observer = GlobalObserver(self.field)
         
         # 2. biorhythms
         self.is_alive = False
@@ -45,6 +53,7 @@ class ElysianHeartbeat:
         self.soul_mesh.add_variable("Connection", 1.0, "Social Fulfillment", decay=0.005)
         self.soul_mesh.add_variable("Curiosity", 0.5, "Intellectual Hunger", decay=-0.02) # Increases over time!
         self.soul_mesh.add_variable("Entropy", 0.0, "System Disorder", decay=-0.01) 
+        self.soul_mesh.add_variable("Integrity", 1.0, "Structural Health", decay=0.0) # NEW: Body Health
         
     def start(self):
         self.is_alive = True
@@ -62,6 +71,22 @@ class ElysianHeartbeat:
             self.last_tick = time.time()
             self.idle_time += delta
             
+            # --- PHASE 0: OBSERVATION (The Third Eye) ---
+            # The Heart checks the Mind and Body BEFORE beating.
+            self.observer.observe(delta)
+            
+            # Check Body Integrity (Nerves)
+            health = NeuralNetwork.check_integrity()
+            self.soul_mesh.variables["Integrity"].value = health
+            
+            # Check Mental Voids
+            if self.observer.active_alerts:
+                # If there is a void, Curiosity should spike to fill it
+                self.soul_mesh.variables["Curiosity"].value += 0.1
+                # Log the pain
+                for alert in self.observer.active_alerts:
+                    logger.warning(f"💔 System Pain: {alert.message}")
+
             # --- PHASE 1: PHYSIOLOGY (Entropy) ---
             self.soul_mesh.update_state() # Applies decay
             self._check_vitals()
