@@ -22,7 +22,7 @@ print('=' * 70)
 # ============================================================================
 
 print('\n[단계 1] 전체 DB 스캔 중...')
-conn = sqlite3.connect('memory.db')
+conn = sqlite3.connect('data/Memory/memory.db')
 cursor = conn.cursor()
 
 cursor.execute('SELECT COUNT(*) FROM concepts')

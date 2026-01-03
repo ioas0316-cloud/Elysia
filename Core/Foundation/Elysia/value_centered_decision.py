@@ -10,9 +10,9 @@ from typing import Optional, List
 
 # Cross-project import for the standardized Thought data structure
 
-from Core.Foundation.core.thought import Thought
+from Core.Foundation.System.core.thought import Thought
 
-from Core.Foundation.core.tensor_wave import Tensor3D
+from Core.Foundation.System.core.tensor_wave import Tensor3D
 
 from Core.Foundation.wave_mechanics import WaveMechanics
 

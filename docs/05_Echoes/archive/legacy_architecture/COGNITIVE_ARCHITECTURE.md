@@ -134,12 +134,12 @@ graph TB
 
 ```python
 # 프랙탈 사고
-from Core.Cognition.fractal_thought_cycle import think
+from Core.Intelligence.fractal_thought_cycle import think
 result = think("사랑이란 무엇인가?")
 print(result.narrative)
 
 # 5W1H 이해
-from Core.Cognition.unified_understanding import understand
+from Core.Intelligence.unified_understanding import understand
 result = understand("희망이란?")
 print(f"Who: {result.who}")
 print(f"Why: {result.origin_journey}")

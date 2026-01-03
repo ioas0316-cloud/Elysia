@@ -6,7 +6,7 @@ import json
 
 sys.path.append(os.getcwd())
 
-conn = sqlite3.connect("memory.db")
+conn = sqlite3.connect("data/Memory/memory.db")
 cursor = conn.cursor()
 
 cursor.execute("SELECT id, length(data) as size, data FROM concepts LIMIT 5")

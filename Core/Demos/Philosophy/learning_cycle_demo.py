@@ -16,7 +16,7 @@ import time
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
 
-from Core.Cognition.Wisdom.wisdom_store import WisdomStore
+from Core.Intelligence.Wisdom.wisdom_store import WisdomStore
 from Core.Foundation.chronos import Chronos
 from Core.Foundation.Wave.resonance_field import ResonanceField
 

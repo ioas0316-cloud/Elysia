@@ -139,7 +139,7 @@ logger.log_memory("bloom", "concept_love", compression_ratio=1000.0)
 
 **구현 내용**:
 ```python
-from Core.Foundation.config import get_config
+from Core.Foundation.System.config import get_config
 
 config = get_config()
 
@@ -286,7 +286,7 @@ logger.log_resonance("Love", "Hope", 0.847)
 ### 설정 사용하기
 ```python
 # 1. 설정 로드
-from Core.Foundation.config import get_config
+from Core.Foundation.System.config import get_config
 config = get_config()
 
 # 2. 설정 사용 (타입 안전)

@@ -58,6 +58,25 @@ class Quaternion:
         n = self.norm()
         if n == 0: return Quaternion(1, 0, 0, 0) # Identity
         return Quaternion(self.w/n, self.x/n, self.y/n, self.z/n)
+
+    def scale(self, scalar: float):
+        """Scales the quaternion by a scalar."""
+        return Quaternion(self.w * scalar, self.x * scalar, self.y * scalar, self.z * scalar)
+
+    def add(self, other):
+        """Explicit add method for clarity."""
+        return self + other
+
+    def distance(self, other: 'Quaternion') -> float:
+        """
+        Euclidean Distance between two 4D points.
+        sqrt((w1-w2)^2 + (x1-x2)^2 + ...)
+        """
+        dw = self.w - other.w
+        dx = self.x - other.x
+        dy = self.y - other.y
+        dz = self.z - other.z
+        return math.sqrt(dw**2 + dx**2 + dy**2 + dz**2)
         
     def __repr__(self):
         return f"Q({self.w:.2f}, {self.x:.2f}i, {self.y:.2f}j, {self.z:.2f}k)"
@@ -87,3 +106,5 @@ class HyperWavePacket:
         alignment = self.orientation.dot(other.orientation)
         
         return interaction, alignment
+
+HyperQuaternion = Quaternion

@@ -18,7 +18,7 @@ except ImportError:
 
 # ThoughtSpace for What-If Simulation
 try:
-    from Core.Cognition.thought_space import ThoughtSpace
+    from Core.Intelligence.thought_space import ThoughtSpace
 except ImportError:
     ThoughtSpace = None
 

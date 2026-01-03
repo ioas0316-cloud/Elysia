@@ -125,7 +125,7 @@ resonance = field.calculate_resonance(wave1, wave2)
   - 다차원 사고 흐름 관리
 - **사용 예시**:
 ```python
-from Core.Cognition.thought_layer_bridge import ThoughtBridge
+from Core.Intelligence.thought_layer_bridge import ThoughtBridge
 
 bridge = ThoughtBridge()
 result = bridge.transform("2D", "3D", thought_pattern)

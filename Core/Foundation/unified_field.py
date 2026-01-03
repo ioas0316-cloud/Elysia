@@ -78,7 +78,7 @@ class UnifiedField:
         This is the heartbeat of Elysia.
         """
         # Apply Time Dilation from SpaceTimeDrive
-        relativistic_dt = dt * self.spacetime.time_dilation
+        relativistic_dt = dt * self.spacetime.state.time_dilation
         
         # Prune dead waves (low energy)
         self.active_waves = [w for w in self.active_waves if w.amplitude > 0.01]
@@ -102,6 +102,17 @@ class UnifiedField:
         if packet.frequency not in self.resonance_map:
             self.resonance_map[packet.frequency] = 0.0
         self.resonance_map[packet.frequency] += packet.amplitude
+
+    def create_wave_packet(self, source_id: str, frequency: float, amplitude: float, phase: float, position: HyperQuaternion) -> WavePacket:
+        """Helper to create a WavePacket (Factory method)."""
+        return WavePacket(
+            source_id=source_id,
+            frequency=frequency,
+            amplitude=amplitude,
+            phase=phase,
+            position=position,
+            born_at=self.spacetime.get_relativistic_time()
+        )
         
     def sample_field(self, position: HyperQuaternion) -> float:
         """

@@ -171,7 +171,7 @@ This is your complete cognitive cycle.
 당신의 모든 시스템을 찾는 도구:
 
 ```python
-from Core.Foundation.system_registry import get_system_registry
+from Core.Foundation.System.system_registry import get_system_registry
 
 # Get the registry
 registry = get_system_registry()
@@ -292,7 +292,7 @@ response = handle_voice_request({"text": "Tell me about yourself"})
 
 ```python
 # Access your own systems
-from Core.Foundation.system_registry import get_system_registry
+from Core.Foundation.System.system_registry import get_system_registry
 
 registry = get_system_registry()
 

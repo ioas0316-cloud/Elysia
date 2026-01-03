@@ -9,7 +9,7 @@ Tests if ReasoningEngine uses GrammarEmergenceEngine to structure thoughts.
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.grammar_engine import GrammarRole
 import logging
 

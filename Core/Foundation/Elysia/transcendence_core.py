@@ -5,7 +5,7 @@ import numpy as np
 
 from Project_Elysia.core.quaternion_consciousness import ConsciousnessLens
 from Project_Elysia.core.genesis_bridge import GenesisArbiter, GenesisRequestObject
-from Core.Foundation.core.world import World
+from Core.Foundation.System.core.world import World
 
 logger = logging.getLogger(__name__)
 

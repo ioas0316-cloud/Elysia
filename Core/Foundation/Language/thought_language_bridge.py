@@ -24,7 +24,7 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.internal_universe import InternalUniverse
 from Core.Foundation.communication_enhancer import CommunicationEnhancer
 

@@ -3,7 +3,7 @@ import sqlite3
 from collections import Counter, defaultdict
 import re
 
-conn = sqlite3.connect('memory.db')
+conn = sqlite3.connect('data/Memory/memory.db')
 cursor = conn.cursor()
 
 print('=' * 70)

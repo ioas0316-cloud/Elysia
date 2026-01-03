@@ -20,7 +20,7 @@ from dataclasses import dataclass, field, asdict
 from typing import Dict, List, Any, Optional
 from collections import defaultdict
 
-from elysia_core import Cell, Organ
+from Core.Foundation.System.elysia_core import Cell, Organ
 
 # Optional Imports (Wave Physics)
 try:
@@ -88,6 +88,51 @@ class UnifiedExperienceCore:
 
         event = ExperienceEvent(event_id, timestamp, type, content, context, feedback=feedback)
 
+        # 0. [NEW] Reflexive Simulation (Pre-Conscious)
+        # Before we even log the event, the Subconscious checks for dilemmas.
+        reflex_result = None
+        try:
+            from Core.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
+            from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
+            
+            synthesizer = ScenarioSynthesizer()
+            fragment = synthesizer.detect_and_synthesize(content)
+            
+            # [NEW] Phase 20: Theory of Mind (User Mental Model)
+            # If this is a perception (User Input), we deduce their state
+            if type == "perception":
+                from Core.Intelligence.Meta.user_mental_model import UserMentalModel
+                tom = UserMentalModel()
+                # We need history, but for now we just pass current content or partial history from stream
+                # To do it right, we should fetch recent perceptions from stream
+                # quick hack: just use empty history for now, or fetch last 3 perception events
+                user_state = tom.deduce_state(content, [])
+                context["user_mind_state"] = {
+                    "mood": user_state.current_mood,
+                    "implied_intent": user_state.implied_intent,
+                    "resonance": user_state.soul_alignment
+                }
+                logger.info(f"👁️ ToM Deduction: User is {user_state.current_mood}")
+            
+            if fragment:
+                logger.info(f"⚡ Reflexive Dilemma Detected: {fragment.situation_text}")
+                empathy_engine = ProjectiveEmpathy()
+                reflex_result = empathy_engine.ponder_narrative(fragment)
+                
+                # Enrich Context with Simulation Result
+                context["reflex_simulation"] = {
+                    "scenario": fragment.source_title,
+                    "choice": reflex_result.elysia_choice,
+                    "insight": reflex_result.insight
+                }
+                
+                # Reflexive Emotional Impact modifies initial feedback
+                # If the simulation was 'Noble' (Martyrdom), we feel good about facing the issue.
+                feedback += 0.2 
+                
+        except Exception as e:
+            logger.error(f"Reflex failed: {e}")
+
         # 1. Stream (Log it)
         self.stream.append(event)
 
@@ -98,7 +143,13 @@ class UnifiedExperienceCore:
         narrative_result = self._process_narrative(event)
 
         # 4. Wave (Resonate it)
+        # If we had a reflex wave, we should mix it in?
         wave_result = self._process_wave(event)
+        
+        if reflex_result:
+            # Inject the Empathy Wave directly
+            wave_shift = reflex_result.emotional_wave.q.norm()
+            wave_result["reflex_shift"] = wave_shift
         
         # 5. [NEW] Field Ripple: Inject experience into the actual Resonance Field
         if self.field:
@@ -294,6 +345,19 @@ class UnifiedExperienceCore:
         with open(archive_path, "a", encoding="utf-8") as f:
             for event in events:
                 f.write(json.dumps(asdict(event)) + "\n")
+
+    def evolve_memory(self, event_id: str, new_event: ExperienceEvent):
+        """
+        [Compost Hook] Updates an existing memory with a mutated version.
+        "Rewriting the past with the wisdom of the present."
+        """
+        for i, ev in enumerate(self.stream):
+            if ev.id == event_id:
+                self.stream[i] = new_event
+                logger.info(f"🧬 Memory {event_id} has evolved in the Hippocampus.")
+                self._save_state()
+                return
+        logger.warning(f"Could not find memory {event_id} to evolve.")
 
 # Global Access
 _instance: Optional[UnifiedExperienceCore] = None

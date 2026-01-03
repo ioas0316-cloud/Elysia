@@ -10,7 +10,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 from Core.Foundation.free_will_engine import FreeWillEngine
-from Core.Cognition.Reasoning.reasoning_engine import ReasoningEngine
+from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.transcendence_engine import TranscendenceEngine
 from Core.Foundation.knowledge_acquisition import KnowledgeAcquisitionSystem

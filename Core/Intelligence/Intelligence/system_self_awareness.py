@@ -274,7 +274,7 @@ class SystemSelfAwareness:
             if data_path.exists():
                 important_files = [
                     'central_registry.json',
-                    'memory.db',
+                    'data/Memory/memory.db',
                     'cognitive_evaluation.json'
                 ]
                 state['data_files'] = {

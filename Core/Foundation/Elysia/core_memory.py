@@ -14,7 +14,7 @@ from collections import deque
 
 # Physics layer imports
 
-from Core.Foundation.core.tensor_wave import Tensor3D, FrequencyWave
+from Core.Foundation.System.core.tensor_wave import Tensor3D, FrequencyWave
 
 # We can reuse EmotionalState from emotional_engine, or define it here if it creates a circular import.
 

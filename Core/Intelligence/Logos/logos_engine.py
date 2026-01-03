@@ -22,7 +22,7 @@ from collections import defaultdict
 from typing import List, Optional, Union
 
 from Core.Foundation.internal_universe import InternalUniverse
-from Core.Cognition.Reasoning.reasoning_engine import Insight
+from Core.Intelligence.Reasoning.reasoning_engine import Insight
 from Core.Foundation.Wave.wave_tensor import WaveTensor
 from Core.Foundation.fractal_concept import ConceptDecomposer # AXIOM INTEGRATION
 from Core.Foundation.fractal_soul import SoulCrystal, WebState # NEW: Spidey Sense

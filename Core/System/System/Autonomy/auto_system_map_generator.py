@@ -36,7 +36,7 @@ class AutoSystemMapGenerator:
         """SystemRegistry 인스턴스 획득"""
         if self.registry is None:
             try:
-                from Core.Foundation.system_registry import get_system_registry
+                from Core.Foundation.System.system_registry import get_system_registry
                 self.registry = get_system_registry()
             except ImportError as e:
                 logger.error(f"SystemRegistry not available: {e}")

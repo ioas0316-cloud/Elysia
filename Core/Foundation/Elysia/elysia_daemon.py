@@ -24,7 +24,7 @@ from .core_memory import CoreMemory
 
 from Core.Foundation.wave_mechanics import WaveMechanics
 
-from Core.Foundation.core.world import World
+from Core.Foundation.System.core.world import World
 
 from Core.Foundation.emotional_engine import EmotionalEngine
 

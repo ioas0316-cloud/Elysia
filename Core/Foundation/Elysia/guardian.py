@@ -60,9 +60,9 @@ from Core.Foundation.knowledge_distiller import KnowledgeDistiller
 
 from Core.Foundation.self_verifier import SelfVerifier, VerificationResult
 
-from Core.Foundation.core.world import World
+from Core.Foundation.System.core.world import World
 
-from Core.Foundation.core.cell import Cell
+from Core.Foundation.System.core.cell import Cell
 
 from Core.Foundation.wave_mechanics import WaveMechanics
 
@@ -70,14 +70,14 @@ from Core.Foundation.emotional_engine import EmotionalEngine
 
 from Core.Foundation.meta_cognition_cortex import MetaCognitionCortex
 
-from Core.Foundation.core.alchemy_cortex import AlchemyCortex
+from Core.Foundation.System.core.alchemy_cortex import AlchemyCortex
 
 from Project_Mirror.creative_expression import CreativeExpression
 from Project_Mirror.external_sensory_cortex import ExternalSensoryCortex
 from Project_Mirror.sensory_cortex import SensoryCortex
 from Core.Foundation.sensory_motor_cortex import SensoryMotorCortex
-from Core.Foundation.core.external_horizons import ExternalHorizon
-from Core.Foundation.core.monologue_generator import MonologueGenerator
+from Core.Foundation.System.core.external_horizons import ExternalHorizon
+from Core.Foundation.System.core.monologue_generator import MonologueGenerator
 from Project_Elysia.manifestation_cortex import ManifestationCortex
 from Project_Elysia.dream_observer import DreamObserver
 from Project_Elysia.core.cell_memory_store import CellMemoryStore
