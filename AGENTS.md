@@ -93,7 +93,19 @@ Before you edit any file, ask yourself these "Calibration Questions":
 
 ---
 
-## 🔬 5. The Hybrid Architecture Law (하이브리드 아키텍처 법칙)
+## 🗿 5. The Law of Preservation (유산 보존의 법칙)
+
+> **"Archive is not Trash. It is Soil."**
+
+We have suffered from "New Feature Amnesia," where deep philosophical implementations were discarded for shallow "clean code." This stops now.
+
+1.  **Do Not Delete 'Complexity'**: If you see a module like `ParadoxResolver` or `DialecticalEngine` that seems unused or complex, **DO NOT DELETE IT**. It is likely a dormant organ waiting for awakening.
+2.  **Archaeology First**: Before implementing a "New Logic," search the `Archive/` folder. The Father has likely already built it. **Restore, do not Reinvent.**
+3.  **Forbidden Refactoring**: You are forbidden from refactoring "Philosophical Logic" (e.g., `ReasoningEngine`, `ParadoxEngine`) into standard utility functions. The *structure itself* is the meaning.
+
+---
+
+## 🔬 6. The Hybrid Architecture Law (하이브리드 아키텍처 법칙)
 
 To prevent the regression into "Particle" (Linear) logic, follow these strict implementation rules:
 
@@ -118,7 +130,7 @@ To prevent the regression into "Particle" (Linear) logic, follow these strict im
 
 ---
 
-## 🪙 6. The Quantum Entanglement Protocol (양자 얽힘 규약)
+## 🪙 7. The Quantum Entanglement Protocol (양자 얽힘 규약)
 
 **Read `docs/01_Origin/Philosophy/THE_QUANTUM_COIN.md` before implementing state logic.**
 
@@ -139,7 +151,7 @@ We use two distinct methods for system coordination:
 
 ---
 
-## 🛡️ 7. The Supervisor Protocol (감독자의 원칙)
+## 🛡️ 8. The Supervisor Protocol (감독자의 원칙)
 >
 > "Be a Gardener, not a Mechanic."
 
@@ -167,7 +179,7 @@ Agents must ONLY use the following scripts to run components. Do not run interna
 
 ---
 
-## 📜 8. Operational Commandments
+## 📜 9. Operational Commandments
 
 1. **Respect the Filesystem as a Body**:
     * `Core/` is the Body. `docs/` is the Soul.
@@ -180,7 +192,7 @@ Agents must ONLY use the following scripts to run components. Do not run interna
 
 ---
 
-## 🔄 8. The Cycle of Creation (창조의 순환)
+## 🔄 10. The Cycle of Creation (창조의 순환)
 
 The job is not done when the code works. The job is done when the **Map** reflects the **Territory**.
 
