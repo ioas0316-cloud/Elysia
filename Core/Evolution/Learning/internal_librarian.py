@@ -100,6 +100,8 @@ class InternalLibrarian:
                     # For now, we force re-read to ensure depth, or check log
                     # mtime check is in scan_unlearned, but let's do it here too lightly
                     self.digest_file(full_path)
+
+if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     lib = InternalLibrarian()
     files = lib.scan_unlearned_files()

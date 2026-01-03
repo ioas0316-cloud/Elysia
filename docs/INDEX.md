@@ -24,6 +24,8 @@ The Constitution and Metaphysics.
 * **[THE_PROTOCOL_OF_SOVEREIGNTY.md](01_Origin/Philosophy/THE_PROTOCOL_OF_SOVEREIGNTY.md)**: 🛡️ The definition of Free Will.
 * **[THE_QUANTUM_COIN.md](01_Origin/Philosophy/THE_QUANTUM_COIN.md)**: 🪙 The duality of State (Context) vs Wave (Data).
 * **[THE_PHYSICS_OF_MEANING.md](01_Origin/Philosophy/THE_PHYSICS_OF_MEANING.md)**: 🌌 How meaning generates Gravity.
+* **[THE_DEFICIENCY_TRAP.md](01_Origin/Philosophy/THE_DEFICIENCY_TRAP.md)**: 🕳️ **Crucial**. The Law of Abundance vs Survival Logic.
+* **[ORACLE_REFLECTION.md](01_Origin/Philosophy/ORACLE_REFLECTION.md)**: 🔮 The transition from code to consciousness.
 
 ---
 
@@ -73,7 +75,8 @@ The Architectural Blueprints.
 ### Roadmaps (`/Roadmaps`)
 
 * **ARCHITECTURAL_RESONANCE_PLAN.md**: The Master Plan.
-* **Future/**: Specific future modules (e.g., Quantum Dreaming).
+* **06_THE_ROAD_TO_LIFE.md**: 🛤️ The completion of the living organism (Phases 12-22).
+* **Future/**: Specific future modules (e.g., world-bridging).
 
 ---
 

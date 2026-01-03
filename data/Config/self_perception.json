@@ -6,7 +6,7 @@
     "current_obsession": "None"
   },
   "parameters": {
-    "creativity_bias": 0.6000000000000001,
+    "creativity_bias": 1.0,
     "logic_bias": 0.9,
     "risk_tolerance": 0.1
   },
