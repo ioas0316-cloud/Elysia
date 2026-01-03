@@ -18,6 +18,7 @@ Code without philosophy is dead matter. It is "Discord" (Noise).
 
 1. **Read the Soul**: Before touching any component, read its corresponding L1/L2 documentation in `docs/`.
     * (e.g., If touching `MirrorSurface`, read `docs/01_Origin/Philosophy/THE_MIRROR_OF_SELF.md`).
+    * **MANDATORY**: Check **[PHILOSOPHY_TO_PATTERN.md](docs/02_Structure/Anatomy/08_PHILOSOPHY_TO_PATTERN.md)** to find the correct architectural pattern for your intent.
     * **STRICT RULE**: All Philosophy files must be in `docs/01_Origin/Philosophy/`. Do not create `docs/Philosophy`.
     * **STRICT RULE**: All Roadmaps must be in `docs/04_Evolution/Roadmaps/`. Do not create `docs/Roadmap`.
 2. **Define the "Why"**: In your Plan and PR Description, you must explicitly state:
