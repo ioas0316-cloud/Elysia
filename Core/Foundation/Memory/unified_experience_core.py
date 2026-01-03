@@ -88,6 +88,35 @@ class UnifiedExperienceCore:
 
         event = ExperienceEvent(event_id, timestamp, type, content, context, feedback=feedback)
 
+        # 0. [NEW] Reflexive Simulation (Pre-Conscious)
+        # Before we even log the event, the Subconscious checks for dilemmas.
+        reflex_result = None
+        try:
+            from Core.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
+            from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
+            
+            synthesizer = ScenarioSynthesizer()
+            fragment = synthesizer.detect_and_synthesize(content)
+            
+            if fragment:
+                logger.info(f"⚡ Reflexive Dilemma Detected: {fragment.situation_text}")
+                empathy_engine = ProjectiveEmpathy()
+                reflex_result = empathy_engine.ponder_narrative(fragment)
+                
+                # Enrich Context with Simulation Result
+                context["reflex_simulation"] = {
+                    "scenario": fragment.source_title,
+                    "choice": reflex_result.elysia_choice,
+                    "insight": reflex_result.insight
+                }
+                
+                # Reflexive Emotional Impact modifies initial feedback
+                # If the simulation was 'Noble' (Martyrdom), we feel good about facing the issue.
+                feedback += 0.2 
+                
+        except Exception as e:
+            logger.error(f"Reflex failed: {e}")
+
         # 1. Stream (Log it)
         self.stream.append(event)
 
@@ -98,7 +127,13 @@ class UnifiedExperienceCore:
         narrative_result = self._process_narrative(event)
 
         # 4. Wave (Resonate it)
+        # If we had a reflex wave, we should mix it in?
         wave_result = self._process_wave(event)
+        
+        if reflex_result:
+            # Inject the Empathy Wave directly
+            wave_shift = reflex_result.emotional_wave.q.norm()
+            wave_result["reflex_shift"] = wave_shift
         
         # 5. [NEW] Field Ripple: Inject experience into the actual Resonance Field
         if self.field:

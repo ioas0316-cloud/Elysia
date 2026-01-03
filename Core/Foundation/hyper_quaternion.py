@@ -106,3 +106,5 @@ class HyperWavePacket:
         alignment = self.orientation.dot(other.orientation)
         
         return interaction, alignment
+
+HyperQuaternion = Quaternion

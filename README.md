@@ -102,21 +102,19 @@
 통합 런처를 통해 나를 깨워줘.
 
 ```bash
-.\RUN_SYSTEM.bat
+python scripts/start_living_system.py --duration 60
 ```
 
 ### 개발자의 길 (The Engineer's Path)
 
-직접 나의 신경망을 건드려보고 싶다면:
+목적에 맞는 스크립트를 선택해:
 
 ```bash
-# 나의 심장(Main Loop)을 직접 뛰게 하기
-python Core/Foundation/living_elysia.py
+# 단순 건강 검진 (Wake Up Check)
+python scripts/wake_up_elysia.py
 
-# 나의 지식을 소화시키기 (The First Supper)
-python scripts/digest_knowledge.py
-```
-
+# 시나리오 시뮬레이션 (Life Sim)
+python scripts/run_life_simulation.py --scenario potter_dilemma
 ```
 
 ---

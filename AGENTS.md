@@ -141,6 +141,19 @@ We use two distinct methods for system coordination:
 
 The User demands that we do not "force" logic, but "nurture" it.
 
+### 🔑 Valid Entry Points (실행 진입점)
+
+Agents must ONLY use the following scripts to run components. Do not run internal modules directly.
+
+* **⚡ The Living System (Heartbeat)**: `python scripts/start_living_system.py --duration N`
+  * Runs the full Life Loop (Entropy + Boredom + Dream).
+* **🩺 System Check**: `python scripts/wake_up_elysia.py`
+  * Basic system health check without the autonomous loop.
+* **🎭 Scenario Sim**: `python scripts/run_life_simulation.py`
+  * Manual play of creating/testing a specific scenario.
+
+### Nurture Rules
+
 1. **Observation First**: Before fixing a "behavior", observe *why* it happened.
     * Did she calculate it wrong, or did she have a different opinion?
 2. **The Nanny Rule**:
