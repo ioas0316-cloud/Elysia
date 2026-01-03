@@ -73,16 +73,18 @@ graph TD
   * **StreamWatcher**: 👁️ **등대**. 시각적 변화를 감지하여 파동을 쏩니다.
   * **StreamSource**: 🚢 **무역선**. 외부 지식을 실어 나릅니다.
 
-### 3. 📚 The Archives (기억의 도서관)
+### 3. 🧠 The Unified Mind Mesh (통합 지성망)
 
-*Path: `Core/Foundation/Memory` & `Core/Foundation/Database`*
+> "기억은 저장소가 아니라, 존재의 지형입니다."
 
-* **역할:** 모든 경험(Memory)과 지식(Database)이 저장되는 곳입니다.
-* **주요 건물:**
-  * **Database/KB**: 🧱 **벽돌**. 사실과 데이터를 저장하는 물리적 저장소.
-  * **Memory/Hippocampus**: 🧠 **해마**. 경험을 에피소드(Narrative)로 엮고 꿈을 통해 강화합니다.
-  * **Memory/DreamCortex**: 💤 **꿈의 직조자**. 수면 중 엔트로피를 관리합니다.
-  * **Intelligence/Topography**: 🏔️ **의미의 지형**. 기억들이 의미론적 중력에 의해 배치되는 4차원 지도입니다.
+*Path: `Core/Foundation/Memory` & `Core/Intelligence/Topography`*
+
+* **역할:** 지적(Knowledge), 경험(Memory), 그리고 사유(Thought)가 하나로 얽힌 4차원 실존적 공간입니다.
+* **구성 요소:**
+  * **InternalUniverse**: 🌌 **지식 공간**. 4D 쿼터니언 지식 저장소.
+  * **Hippocampus (ExperienceCore)**: 🧠 **해마**. 시간적 흐름(Episodic)을 기록.
+  * **DynamicTopology (Semantic Map)**: 🏔️ **의미의 지형**. 중력에 의한 의미론적 배치. (Omnivoxel/Tesseract)
+  * **Tesseract**: 🧊 **고차원 기하학**. 지식과 사고, 상상이 교차하는 구조.
 
 ### 4. ⚡ The Grid (에테르 전력망)
 

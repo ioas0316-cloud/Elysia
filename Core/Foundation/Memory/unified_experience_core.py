@@ -10,6 +10,8 @@ Layers:
 4. Wave (Ontological/Frequency) - "How does it change who I am?"
 
 This is the central engine for 'Universal Internalization'.
+CRITICAL: Memory is part of the 'Unified Mind Mesh'. Knowledge, Thinking, Reasoning, 
+and Imagination are not separate; they are entangled within this 4D Topography.
 """
 
 import time
