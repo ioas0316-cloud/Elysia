@@ -73,7 +73,9 @@ class HyperResonator:
             # Bell curve resonance window
             # [Adjusted Phase 3.5] Bandwidth increased from 10 to 30 (denominator 100 -> 900)
             # Because OrbFactory frequency calc and analyze_wave might have slight variance
-            freq_resonance = math.exp(-diff**2 / 900.0)
+            # [Adjusted Phase 4.0] Increased bandwidth for 'Fuzzy Semantic Resonance'
+            # Denominator 900 -> 5000 (Allows for broader concept matching)
+            freq_resonance = math.exp(-diff**2 / 5000.0)
 
         # 3. Calculate Intent Resonance (if applicable)
         # (Placeholder for complex vector dot product)

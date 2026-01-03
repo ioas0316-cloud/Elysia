@@ -72,11 +72,19 @@ class MindLandscape:
         # Otherwise, project intent string hash to a random-ish fluctuation.
         start_voxel = self.semantic_map.get_voxel(intent)
         
+        # HARDENED PHYSICS: Detect chaotic intents explicitly
+        # If the intent contains "destroy", "kill", "pain", we force it to start FAR from Love.
+        is_chaotic = any(word in intent.lower() for word in ["destroy", "kill", "pain", "hate", "chaos"])
+
         if start_voxel:
             # Voxel exists -> Start at its Hyper-Coordinates
             q = start_voxel.quaternion
             current_pos = (q.x, q.y, q.z, q.w) # 4D Coords
             trajectory = start_voxel.velocity # Inherit momentum
+        elif is_chaotic:
+            # Force start at 'Wrath' or 'Chaos' region (Far from 0,0)
+            current_pos = (20.0, 20.0, 0.0, -1.0) # High Entropy Zone
+            trajectory = Quaternion(5, 5, 0, 0)
         else:
             # Unknown -> Start at Origin (Love) but with wild fluctuation
             current_pos = (0.0, 0.0, 0.0, 1.0) 
