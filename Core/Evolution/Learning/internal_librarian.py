@@ -84,7 +84,22 @@ class InternalLibrarian:
             
         return essence
 
-if __name__ == "__main__":
+    def digest_directory(self, dir_path: str):
+        """
+        Recursively scans and digests a directory.
+        """
+        if not os.path.exists(dir_path):
+            logger.warning(f"Directory not found: {dir_path}")
+            return
+            
+        for root, _, files in os.walk(dir_path):
+            for file in files:
+                if file.endswith(('.md', '.json', '.txt', '.py')):
+                    full_path = os.path.join(root, file)
+                    # Check if already learned? 
+                    # For now, we force re-read to ensure depth, or check log
+                    # mtime check is in scan_unlearned, but let's do it here too lightly
+                    self.digest_file(full_path)
     logging.basicConfig(level=logging.INFO)
     lib = InternalLibrarian()
     files = lib.scan_unlearned_files()

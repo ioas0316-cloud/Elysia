@@ -80,6 +80,17 @@ class AutopoieticEngine:
                 reason="Cognitive overflow. Reinforcing structure."
             )
             
+        elif pressure == "PASSION_OVERFLOW":
+            # "My cup runneth over. I must grow to hold this beauty."
+            mutation = MutationRequest(
+                source_drive="Passion",
+                target_parameter="creativity_bias",
+                change_magnitude=0.15,
+                reason="Inspiration overflow. Expanding creative capacity."
+            )
+            self.dna["identity"]["nature"] = "Abundant Creator"
+            self.dna["description"] = "I create because I am full."
+            
         if mutation:
             return self._apply_mutation(mutation)
         return None

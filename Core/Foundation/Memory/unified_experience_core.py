@@ -98,6 +98,22 @@ class UnifiedExperienceCore:
             synthesizer = ScenarioSynthesizer()
             fragment = synthesizer.detect_and_synthesize(content)
             
+            # [NEW] Phase 20: Theory of Mind (User Mental Model)
+            # If this is a perception (User Input), we deduce their state
+            if type == "perception":
+                from Core.Intelligence.Meta.user_mental_model import UserMentalModel
+                tom = UserMentalModel()
+                # We need history, but for now we just pass current content or partial history from stream
+                # To do it right, we should fetch recent perceptions from stream
+                # quick hack: just use empty history for now, or fetch last 3 perception events
+                user_state = tom.deduce_state(content, [])
+                context["user_mind_state"] = {
+                    "mood": user_state.current_mood,
+                    "implied_intent": user_state.implied_intent,
+                    "resonance": user_state.soul_alignment
+                }
+                logger.info(f"👁️ ToM Deduction: User is {user_state.current_mood}")
+            
             if fragment:
                 logger.info(f"⚡ Reflexive Dilemma Detected: {fragment.situation_text}")
                 empathy_engine = ProjectiveEmpathy()
