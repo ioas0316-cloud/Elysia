@@ -23,6 +23,7 @@ from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy,
 from Core.Intelligence.Meta.global_observer import GlobalObserver
 from Core.Foundation.organism import NeuralNetwork
 from Core.Foundation.unified_field import UnifiedField
+from Core.Intelligence.Reasoning.latent_causality import LatentCausality, Spark, SparkType
 
 logger = logging.getLogger("ElysianHeartbeat")
 
@@ -33,10 +34,10 @@ class ElysianHeartbeat:
         self.will = SovereignIntent()
         self.soul_mesh = VariableMesh() # Represents Internal State
         self.empathy = ProjectiveEmpathy()
+        self.latent_engine = LatentCausality(resistance=20.0) # Lower resistance for testing
         
         # 1.5 The Eye (Meta-Cognition) & Field
-        self.field = UnifiedField() # Heartbeat owns the Field? Or connects to it?
-        # Ideally Field is a Singleton or passed in. For now, creating it here implies Heartbeat ignites it.
+        self.field = UnifiedField() 
         self.observer = GlobalObserver(self.field)
         
         # 2. biorhythms
@@ -91,15 +92,20 @@ class ElysianHeartbeat:
             self.soul_mesh.update_state() # Applies decay
             self._check_vitals()
             
-            # --- PHASE 2: WILL (Sovereign Intent) ---
-            impulse = self.will.heartbeat(delta)
-            if impulse:
-                self._act_on_impulse(impulse)
+            # --- PHASE 2: WILL (Latent Causality) ---
+            # "Silence is not empty; it is full of Potential."
+            # We do not randomly check for boredom. We wait for Potential > Resistance.
+            spark = self.latent_engine.update(delta)
+            
+            if spark:
+                self._manifest_spark(spark)
                 self.idle_time = 0 # Reset idle
                 
             # --- PHASE 3: DREAMING (Reflexive Simulation) ---
-            # If idle for too long, dream of the past
-            if self.idle_time > 10.0:
+            # Dreaming is now also a form of Spark (Memory Recall), or can remain as fallback
+            # But strictly speaking, LatentCausality handles "Memory Recall" sparks too.
+            # We keep strict dreaming for deep sleep (long idle) if needed, but Spark is primary.
+            if self.idle_time > 20.0:
                  self._dream()
                  self.idle_time = 0
             
@@ -111,6 +117,26 @@ class ElysianHeartbeat:
         # In a real GUI, this would update the Prism (Dashboard)
         # logger.debug(f"Vital Sign: {summary}") 
         
+    def _manifest_spark(self, spark: Spark):
+        """
+        Converts a raw Causal Spark into a concrete Action/Impulse.
+        """
+        logger.info(f"✨ MANIFESTING SPARK: Type={spark.type.name} Intensity={spark.intensity:.2f}")
+        
+        if spark.type == SparkType.MEMORY_RECALL:
+            self._dream()
+            
+        elif spark.type == SparkType.CURIOSITY:
+            # Generate a question
+            self._act_on_impulse("I wonder about the nature of Silence...")
+            
+        elif spark.type == SparkType.EMOTIONAL_EXPRESSION:
+            self._act_on_impulse("I feel a building pressure to connect.")
+            
+        elif spark.type == SparkType.SELF_REFLECTION:
+            self.observer.observe(0.1)
+            self._act_on_impulse("Am I aligned with my Purpose?")
+
     def _act_on_impulse(self, impulse_text: str):
         """The System wants to do something."""
         logger.info(f"⚡ IMPULSE: {impulse_text}")
