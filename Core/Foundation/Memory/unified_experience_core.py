@@ -330,6 +330,19 @@ class UnifiedExperienceCore:
             for event in events:
                 f.write(json.dumps(asdict(event)) + "\n")
 
+    def evolve_memory(self, event_id: str, new_event: ExperienceEvent):
+        """
+        [Compost Hook] Updates an existing memory with a mutated version.
+        "Rewriting the past with the wisdom of the present."
+        """
+        for i, ev in enumerate(self.stream):
+            if ev.id == event_id:
+                self.stream[i] = new_event
+                logger.info(f"🧬 Memory {event_id} has evolved in the Hippocampus.")
+                self._save_state()
+                return
+        logger.warning(f"Could not find memory {event_id} to evolve.")
+
 # Global Access
 _instance: Optional[UnifiedExperienceCore] = None
 def get_experience_core() -> UnifiedExperienceCore:
