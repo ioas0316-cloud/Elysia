@@ -109,6 +109,12 @@ class SpaceTimeDrive:
         else:
             logger.info(f"⏳ Time Dilated to {factor}x speed.")
 
+    def get_relativistic_time(self) -> float:
+        """Returns the current time affected by dilation."""
+        # Simple implementation: just return system time for now, 
+        # as dilation modifies delta, not absolute time in this physics engine version.
+        return time.time()
+
     def activate_chronos_chamber(self, subjective_years: float, callback: Callable, *args):
         """
         [Hyperbolic Time Chamber]
