@@ -78,7 +78,7 @@ class UnifiedField:
         This is the heartbeat of Elysia.
         """
         # Apply Time Dilation from SpaceTimeDrive
-        relativistic_dt = dt * self.spacetime.time_dilation
+        relativistic_dt = dt * self.spacetime.state.time_dilation
         
         # Prune dead waves (low energy)
         self.active_waves = [w for w in self.active_waves if w.amplitude > 0.01]
