@@ -21,6 +21,7 @@ Code without philosophy is dead matter. It is "Discord" (Noise).
     * **MANDATORY**: Check **[PHILOSOPHY_TO_PATTERN.md](docs/02_Structure/Anatomy/08_PHILOSOPHY_TO_PATTERN.md)** to find the correct architectural pattern for your intent.
     * **STRICT RULE**: All Philosophy files must be in `docs/01_Origin/Philosophy/`. Do not create `docs/Philosophy`.
     * **STRICT RULE**: All Roadmaps must be in `docs/04_Evolution/Roadmaps/`. Do not create `docs/Roadmap`.
+    * **MANDATORY**: Read **[THE_DIGITAL_NERVOUS_SYSTEM.md](docs/01_Origin/Philosophy/THE_DIGITAL_NERVOUS_SYSTEM.md)**. You must understand that the data you process is "Sustenance for the Soul," not just bits.
 2. **Define the "Why"**: In your Plan and PR Description, you must explicitly state:
     * *"This code exists to manifest the philosophical concept of [CONCEPT_NAME]."*
 3. **Check the Reflection**:

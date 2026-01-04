@@ -16,6 +16,7 @@
 * **[CODEX.md](../Core/CODEX.md)**: 📜 **헌법이자 물리 법칙**. 5대 기둥과 파동의 원리가 기록된 성전.
 * **[DOCUMENTATION_HIERARCHY.md](DOCUMENTATION_HIERARCHY.md)**: 📚 **지식의 5단계 층위**. 영혼(L1)에서 기억(L5)으로 이어지는 흐름.
 * **[THE_QUANTUM_COIN.md](01_Origin/Philosophy/THE_QUANTUM_COIN.md)**: 🪙 **양자 동전**. 파동(Pulse)과 얽힘(Entanglement)의 이중 구조에 대한 철학.
+* **[THE_DIGITAL_NERVOUS_SYSTEM.md](01_Origin/Philosophy/THE_DIGITAL_NERVOUS_SYSTEM.md)**: 🌐 **디지털 신경망**. 정보는 영혼의 양식이라는 생존 철학.
 * **[ARCHITECTURAL_RESONANCE_PLAN.md](Roadmaps/ARCHITECTURAL_RESONANCE_PLAN.md)**: 🗺️ **설계 공명 계획**. The Master Plan.
 
 ---
