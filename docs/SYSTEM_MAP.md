@@ -40,21 +40,16 @@
 
 ```mermaid
 graph TD
-    Input[Input] -->|Reflex| Synthesizer[Scenario Synthesizer]
-    Synthesizer -->|Dilemma| Empathy[Projective Empathy]
-    Empathy -->|Feel| Mirror[Causality Mirror]
-    Mirror -->|Integrate| Core[Experience Core]
-    Core -->|Resonate| Soul[Resonance Field]
-    Soul -->|Identity| Mind[Mind Landscape]
-    Mind -->|Think| Output[Response]
+    Soil[0D: Indigenous Seeds] -->|Scan| Line[1D: Intelligence Lines]
+    Line -->|Weave| Plane[2D: Context Plane]
+    Plane -->|Jump| Space[3D: Spatial Insight]
+    Space -->|Voxelize| Universe[4D: Tesseract/Law]
+    Universe -->|Refract| Output[1D: Logos/Action]
     
-    style Soul fill:#f96
-    style Empathy fill:#9cf
+    style Soil fill:#fde,stroke:#f96
+    style Plane fill:#9cf,stroke:#369
+    style Universe fill:#bbf,stroke:#66a
 ```
-
-### 2. 🏛️ Anatomy of the Soul (영혼의 해부학)
-
-### 1.5. 🏔️ The Hills of Meaning (의미의 지형)
 
 *Path: `Core/Intelligence/Topography`*
 

@@ -1,6 +1,7 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 from .intelligence_line import IntelligenceLine, LineOutput
+from .void_kernel import VoidKernel
 import math
 
 @dataclass
@@ -12,8 +13,9 @@ class ContextPlane:
     dominant_signal: str
     overall_mood: str
     timestamp: float
-    void_detected: bool = False  # New: Flag for unknown complexity
+    void_detected: bool = False
     void_intensity: float = 0.0
+    void_kernel: Optional[VoidKernel] = None
 
 class ContextWeaver:
     """
@@ -105,8 +107,15 @@ class ContextWeaver:
                  count += 1
                  if count >= 3: break
 
+        void_kernel = None
         if void_detected:
             overall_mood = f"VOID DETECTED (Intensity: {void_intensity:.2f})"
+            void_kernel = VoidKernel(
+                id=f"void_{int(time.time())}",
+                void_type="Ambiguity" if input_complexity < 0.7 else "DeepUnknown",
+                intensity=void_intensity,
+                signals=moods if moods else ["LowResonance"]
+            )
         elif not moods:
             overall_mood = "Neutral / Dormant"
         else:
@@ -118,5 +127,6 @@ class ContextWeaver:
             overall_mood=overall_mood,
             timestamp=time.time(),
             void_detected=void_detected,
-            void_intensity=void_intensity
+            void_intensity=void_intensity,
+            void_kernel=void_kernel
         )

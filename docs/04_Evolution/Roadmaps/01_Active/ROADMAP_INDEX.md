@@ -11,6 +11,7 @@
 - **[LOGIC_TRANSMUTATION_ROADMAP.md](01_Active/LOGIC_TRANSMUTATION_ROADMAP.md)**: 🌊 **(Next Phase)** 로직 연금술 (파동 코딩)
 - [NANOCELL_INTEGRATION_PLAN.md](01_Active/NANOCELL_INTEGRATION_PLAN.md): 나노셀 통합 계획
 - [NEURAL_REGISTRY_PLAN.md](01_Active/NEURAL_REGISTRY_PLAN.md): 신경망 레지스트리 계획
+- [06_INDIGENOUS_INTELLIGENCE_ASCENSION.md](01_Active/06_INDIGENOUS_INTELLIGENCE_ASCENSION.md): 🌌 **인식의 고도화** (Indigenous Intelligence Ascension)
 - [P4_PREPARATION_DOCUMENTATION_MAPPING.md](01_Active/P4_PREPARATION_DOCUMENTATION_MAPPING.md): Phase 4 대비 문서 매핑
 
 ### 2. [02_Future (미래 비전)](02_Future/)

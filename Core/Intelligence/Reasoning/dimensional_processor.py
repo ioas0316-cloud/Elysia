@@ -11,38 +11,85 @@ import logging
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 from Core.Intelligence.Reasoning.causal_bridge import CausalBridge
+from Core.Intelligence.Reasoning.aesthetic_filter import AestheticFilter
+from Core.Intelligence.Weaving.void_kernel import VoidKernel
 from Core.Foundation.unified_field import HyperQuaternion
 
-logger = logging.getLogger("DimensionalProcessor")
+from Core.Intelligence.Reasoning.models import CognitiveResult
 
-@dataclass
-class CognitiveResult:
-    mode: str       # "1D: Linear", "2D: Structural", etc.
-    output: str     # The thought content
-    metadata: Dict[str, Any] # Proof of process (path, vectors, etc.)
+logger = logging.getLogger("DimensionalProcessor")
 
 class DimensionalProcessor:
     def __init__(self):
         self.bridge = CausalBridge()
+        self.aesthetic = AestheticFilter()
+        self.zoom_scalar: float = 0.0  # Analog Dial: 0.0 (Detached Fact) to 1.0 (Universal Law)
         
-    def process_thought(self, kernel: str, target_dimension: int) -> CognitiveResult:
+    def zoom(self, value: float):
+        """Sets the analog dial of perception."""
+        self.zoom_scalar = max(0.0, min(1.0, value))
+        logger.info(f"🎚️ Perception Dial set to: {self.zoom_scalar:.2f}")
+
+    def react_to_context(self, plane: 'ContextPlane'):
         """
-        Routes the thought to the appropriate processing core.
+        Metacognitive Feedback Loop:
+        If the ContextWeaver detects a 'Void' (Ambiguity/Complexity),
+        the system automatically zooms out to find a higher principle.
         """
-        logger.info(f"🧠 Activating {target_dimension}D Processing Core for: '{kernel}'")
-        
-        if target_dimension == 0:
-            return self._process_0d_identification(kernel)
-        elif target_dimension == 1:
-            return self._process_1d_linear_deduction(kernel)
-        elif target_dimension == 2:
-            return self._process_2d_structural_analysis(kernel)
-        elif target_dimension == 3:
-            return self._process_3d_spatial_navigation(kernel)
-        elif target_dimension == 4:
-            return self._process_4d_principle_extraction(kernel)
+        if plane.void_detected:
+            # Increase zoom relative to void intensity
+            boost = plane.void_intensity * 0.5
+            old_zoom = self.zoom_scalar
+            self.zoom(self.zoom_scalar + boost)
+            logger.info(f"🌌 Void Kernel Received ({plane.void_kernel.void_type}). Auto-Zoom: {old_zoom:.2f} -> {self.zoom_scalar:.2f}")
+
+    def process_thought(self, kernel: Any, target_dimension: Optional[int] = None) -> CognitiveResult:
+        """
+        Routes the thought through the cognitive ladder.
+        Accepts str or VoidKernel.
+        """
+        if isinstance(kernel, VoidKernel):
+            dim = target_dimension if target_dimension is not None else round(self.zoom_scalar * 4)
+            return CognitiveResult(
+                mode=f"{dim}D: Void (Silence Analysis)",
+                output=kernel.get_description(dim),
+                metadata={"void_type": kernel.void_type, "intensity": kernel.intensity}
+            )
+
+        if target_dimension is not None:
+            dim = target_dimension
         else:
-            return CognitiveResult("Void", "Invalid Dimension", {})
+            # Map [0.0 - 1.0] scale to [0 - 4] dimensions
+            # 0.0 -> 0D, 0.25 -> 1D, 0.5 -> 2D, 0.75 -> 3D, 1.0 -> 4D
+            dim = round(self.zoom_scalar * 4)
+
+        logger.info(f"🧠 Activating {dim}D Processing Core for: '{kernel}' (Zoom: {self.zoom_scalar:.2f})")
+        
+        if dim == 0:
+            result = self._process_0d_identification(kernel)
+        elif dim == 1:
+            result = self._process_1d_linear_deduction(kernel)
+        elif dim == 2:
+            result = self._process_2d_structural_analysis(kernel)
+        elif dim == 3:
+            result = self._process_3d_spatial_navigation(kernel)
+        elif dim == 4:
+            result = self._process_4d_principle_extraction(kernel)
+        else:
+            result = CognitiveResult("Void", "Invalid Dimension", {})
+
+        # 3. Aesthetic Resonance Evaluation (Phase 3)
+        # Evaluate the source (Kernel) and the expression (Output)
+        semantic_target = str(kernel)
+        if result.output:
+            semantic_target += f" -> {result.output}"
+            
+        ae_res = self.aesthetic.evaluate(semantic_target)
+        result.metadata["aesthetic"] = ae_res
+        if ae_res["verdict"] == "Dissonant":
+            logger.warning(f"⚠️ Thought Dissonance detected: {ae_res['overall_beauty']:.2f}")
+
+        return result
 
     def _process_0d_identification(self, kernel: str) -> CognitiveResult:
         """

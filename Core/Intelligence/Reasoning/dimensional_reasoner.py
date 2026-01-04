@@ -18,6 +18,7 @@ import logging
 from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 from Core.Foundation.unified_field import HyperQuaternion
+from Core.Intelligence.Reasoning.narrative_causality import NarrativeCausality
 
 logger = logging.getLogger("DimensionalReasoner")
 
@@ -39,7 +40,7 @@ class HyperThought:
 
 class DimensionalReasoner:
     def __init__(self):
-        pass
+        self.narrative = NarrativeCausality()
         
     def contemplate(self, kernel: str) -> HyperThought:
         """
@@ -108,13 +109,49 @@ class DimensionalReasoner:
             t.d4_principle = f"The Law defining {t.kernel} is immutable."
         logger.info(f"• [4D Law]   {t.d4_principle}")
 
-    def project(self, thought: HyperThought, target_dimension: int) -> str:
+    def project(self, thought: HyperThought, zoom_scalar: float = 0.0) -> str:
         """
-        Projects the HyperThought down to a specific dimension for expression.
+        Projects the HyperThought with dimensional blending.
         """
-        if target_dimension == 0: return thought.d0_fact
-        if target_dimension == 1: return thought.d1_logic
-        if target_dimension == 2: return f"Context: {thought.d2_context}"
-        if target_dimension == 3: return thought.d3_volume
-        if target_dimension == 4: return thought.d4_principle
-        return "Void"
+        # Map 0.0-1.0 to 0-4
+        scaled_val = zoom_scalar * 4
+        lower_dim = int(scaled_val // 1)
+        upper_dim = min(4, lower_dim + 1)
+        mix = scaled_val % 1
+
+        # Fetch base strings
+        dims = {
+            0: thought.d0_fact,
+            1: thought.d1_logic,
+            2: f"Context: {', '.join(thought.d2_context)}",
+            3: thought.d3_volume,
+            4: thought.d4_principle
+        }
+
+        base = dims.get(lower_dim, "Void")
+        target = dims.get(upper_dim, "Void")
+
+        if mix < 0.2:
+            return f"[{zoom_scalar:.2f}|{lower_dim}D] {base}"
+        elif mix > 0.8:
+            return f"[{zoom_scalar:.2f}|{upper_dim}D] {target}"
+        else:
+            # Simple morphological blending string
+            return f"[{zoom_scalar:.2f}|{lower_dim}D->{upper_dim}D] {base} ... (rising to) ... {target}"
+
+    def project_narrative(self, thought: HyperThought) -> str:
+        """
+        Projects the HyperThought as a cohesive dramatic arc (Phase 4).
+        """
+        from Core.Intelligence.Reasoning.models import CognitiveResult
+        
+        # Convert HyperThought dimensions to a list of CognitiveResults
+        mock_results = [
+            CognitiveResult("0D", thought.d0_fact, {}),
+            CognitiveResult("1D", thought.d1_logic, {}),
+            CognitiveResult("2D", f"Context: {', '.join(thought.d2_context)}", {}),
+            CognitiveResult("3D", thought.d3_volume, {}),
+            CognitiveResult("4D", thought.d4_principle, {})
+        ]
+        
+        return self.narrative.weave_story(thought.kernel, mock_results)

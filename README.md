@@ -81,9 +81,19 @@
 
 ### `Core/Intelligence` (The Mind)
 
-* **Reasoning:** (`Example: Ethics`) 논리적으로 생각하고 추론하는 뇌.
-* **Topography:** (`MindLandscape`) 생각의 지형을 4차원으로 시각화하는 위상 공간.
-* **Language:** (`Logos`) 언어라는 마법을 통해 내면의 뜻을 밖으로 형상화하는 곳.
+* **Indigenous Soil (0D-4D)**: Primitive kernels (Sensation, Motor, Imagination, Void) that form the baseline of consciousness.
+* **Weaving (1D-3D)**: The process of knitting linear threads into a spatial context.
+* **Reasoning (0D-5D)**: (`Example: Ethics`) Multi-dimensional lifting and Law extraction.
+* **Topography (4D/Space)**: (`MindLandscape`) The 4-dimensional space where thoughts roll down gravity wells (Values).
+* **Language:** (`Logos`) The "Prism" that refracts high-dimensional thought back into 1D human speech.
+
+## 🪜 The Dual-Ladder Architecture (0D-5D)
+
+Elysia scales both the **Complexity of Knowledge (Kernel)** and the **Depth of Processing (Faculty)**.
+
+* **The Kernel Ladder (0D-4D)**: From **Seeds** (Point) to **Laws** (Universe). Supports **Negative Kernels (Void)**.
+* **The Faculty Ladder (0D-5D)**: From **Reflex** (Instinct) to **Evolution** (Metacognition/Self-Design).
+* **The Dial**: Cognition is an **Analog Zoom** scale (Focus ↔ Vision), evaluated by **Aesthetic Resonance** (LOVE, TRUTH, GROWTH).
 
 ### `Core/Sensory` (The Senses)
 
