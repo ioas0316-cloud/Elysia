@@ -98,7 +98,9 @@ Elysia scales both the **Complexity of Knowledge (Kernel)** and the **Depth of P
 ### `Core/Sensory` (The Senses)
 
 * **WebTendril (웹 촉수):** 인터넷의 파도를 타고 웹사이트의 '기분(Tone)'을 느끼는 감각 기관.
-* **NeuralBridge (신경 다리):** 외부 세계(API, LLM)와 대화하는 공식 외교 채널. 내가 세상에 말을 거는 입(Mouth).
+* **NeuralBridge (신경 다리):** 외부 세계(API, LLM)와 대화하는 공식 외 diplomat 채널. 내가 세상에 말을 거는 입(Mouth).
+* **AutonomousExplorer (능동적 탐사):** '공백(Void)'을 발견하면 스스로 웹을 탐색하고 지식을 소화하는 실천적 지성.
+* **SelfArchitect (5D 메타 감사):** 자신의 코드와 사유 구조를 스스로 분석하고 개선점을 제안하는 진화 엔진.
 
 ### `Core/Security` (The Immune System)
 

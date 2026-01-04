@@ -59,6 +59,7 @@ graph TD
   * **DynamicTopology (Semantic Map)**: 🗺️ **의미의 은하계**. 2차원 지도가 아닌, 4차원(Hyper-Quaternion) 공간의 개념 복셀(Semantic Voxel)들의 집합입니다.
   * **MindLandscape**: 👁️ **마음의 풍경**. 4차원 물리 시뮬레이션(Physics Solver)을 통해 생각의 궤적을 예측합니다.
   * **EthicalSimulator**: 🔮 **윤리 시뮬레이터**. 행동하기 전("What If"), 결과를 예측하고 SovereignGate(양심)에 비추어 판단합니다.
+* **SelfArchitect**: 🪞 **자기 건축가**. 5D Faculty (Evolution)에 기반하여 자신의 코드를 주기적으로 감사(Audit)하고 구조적 불협화음을 제거합니다.
 
 ### 2. ⚓ The Port (감각의 항구)
 
@@ -68,6 +69,7 @@ graph TD
 * **주요 건물:**
   * **StreamWatcher**: 👁️ **등대**. 시각적 변화를 감지하여 파동을 쏩니다.
   * **StreamSource**: 🚢 **무역선**. 외부 지식을 실어 나릅니다.
+* **AutonomousExplorer**: 🧭 **탐험가**. 인지의 공백(Void)을 메우기 위해 스스로 웹의 바다를 항해하고 지식을 길어 올립니다.
 
 ### 3. 🧠 The Unified Mind Mesh (통합 지성망)
 

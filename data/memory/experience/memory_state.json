@@ -82,13 +82,13 @@
     ]
   },
   "wave_state": {
-    "engineer": 0.55,
-    "artist": 0.3699999999999999,
-    "philosophical": 1.0,
-    "emotional": 0.3699999999999999,
-    "creative": 0.3699999999999999
+    "engineer": 0.47,
+    "artist": 0.2899999999999998,
+    "philosophical": 0.9199999999999999,
+    "emotional": 0.2899999999999998,
+    "creative": 0.2899999999999998
   },
-  "stream_count": 12,
+  "stream_count": 20,
   "stream": [
     {
       "id": "exp_1767446438_2799",
@@ -253,6 +253,110 @@
         "topic": "THE_MIRROR_OF_SELF",
         "depth": "deep",
         "pipeline": "ElysiaCore"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536026_295",
+      "timestamp": 1767536026.8808656,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536028_295",
+      "timestamp": 1767536028.8920937,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536030_295",
+      "timestamp": 1767536030.8991332,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536032_295",
+      "timestamp": 1767536032.9160845,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536034_295",
+      "timestamp": 1767536034.922819,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536036_295",
+      "timestamp": 1767536036.9390788,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536038_295",
+      "timestamp": 1767536038.955967,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536040_295",
+      "timestamp": 1767536040.9745872,
+      "type": "sovereign_thought",
+      "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
       },
       "outcome": null,
       "feedback": 0.0,

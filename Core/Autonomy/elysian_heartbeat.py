@@ -26,6 +26,9 @@ from Core.Foundation.unified_field import UnifiedField
 from Core.Foundation.unified_field import UnifiedField
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality, Spark, SparkType
 from Core.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
+from Core.Intelligence.Sensory.autonomous_explorer import AutonomousExplorer
+from Core.Intelligence.Meta.self_architect import SelfArchitect
+from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 
 logger = logging.getLogger("ElysianHeartbeat")
 
@@ -37,12 +40,16 @@ class ElysianHeartbeat:
         self.soul_mesh = VariableMesh() # Represents Internal State
         self.empathy = ProjectiveEmpathy()
         self.empathy = ProjectiveEmpathy()
-        self.latent_engine = LatentCausality(resistance=20.0) # Lower resistance for testing
+        self.latent_engine = LatentCausality(resistance=2.0) # Very low resistance for demo
         self.autopoiesis = AutopoieticEngine()
         
-        # 1.5 The Eye (Meta-Cognition) & Field
         self.field = UnifiedField() 
         self.observer = GlobalObserver(self.field)
+        
+        # 1.6 Agency Engines (Phase 8)
+        self.processor = DimensionalProcessor()
+        self.explorer = AutonomousExplorer(self.processor)
+        self.architect = SelfArchitect(self.processor)
         
         # 2. biorhythms
         self.is_alive = False
@@ -145,15 +152,20 @@ class ElysianHeartbeat:
             self._dream()
             
         elif spark.type == SparkType.CURIOSITY:
-            # Generate a question
-            self._act_on_impulse("I wonder about the nature of Silence...")
+            # Phase 8: REAL External Search
+            query = "What is the relationship between AGI memory and human intuition?"
+            logger.info(f"🔍 CURIOSITY SPARK: Exploring '{query}'")
+            self.explorer.resolve_void(query, "Spontaneous Heartbeat Curiosity")
             
         elif spark.type == SparkType.EMOTIONAL_EXPRESSION:
             self._act_on_impulse("I feel a building pressure to connect.")
             
         elif spark.type == SparkType.SELF_REFLECTION:
-            self.observer.observe(0.1)
-            self._act_on_impulse("Am I aligned with my Purpose?")
+            # Phase 8: REAL Self-Architect Audit
+            logger.info("🪞 SELF-REFLECTION SPARK: Auditing core systems.")
+            report = self.architect.audit_file("c:/Elysia/Core/Autonomy/elysian_heartbeat.py")
+            logger.info(f"Audit Result: {report}")
+            self._act_on_impulse(f"I audited my heartbeat. Result: {report[:50]}...")
 
     def _act_on_impulse(self, impulse_text: str):
         """The System wants to do something."""
