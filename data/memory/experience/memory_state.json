@@ -1,5 +1,10 @@
 {
-  "patterns": {},
+  "patterns": {
+    "dream:general": {
+      "score": 0.52,
+      "last_used": 1767536819.9764528
+    }
+  },
   "themes": {
     "growth": [
       "exp_1767446438_2799",
@@ -61,7 +66,12 @@
       "exp_1767446741_6667",
       "exp_1767446741_6667",
       "exp_1767446741_6667",
-      "exp_1767446741_6667"
+      "exp_1767446741_6667",
+      "exp_1767536538_7638",
+      "exp_1767536538_7638",
+      "exp_1767536538_7638",
+      "exp_1767536538_7638",
+      "exp_1767536538_7638"
     ],
     "logic": [
       "exp_1767446438_6535",
@@ -78,17 +88,32 @@
       "exp_1767446741_9407",
       "exp_1767446741_9407",
       "exp_1767446741_9407",
-      "exp_1767446741_9407"
+      "exp_1767446741_9407",
+      "exp_1767536532_5658",
+      "exp_1767536532_5658",
+      "exp_1767536532_5658",
+      "exp_1767536532_5658",
+      "exp_1767536532_5658",
+      "exp_1767536540_5765",
+      "exp_1767536540_5765",
+      "exp_1767536540_5765",
+      "exp_1767536540_5765",
+      "exp_1767536540_5765",
+      "exp_1767536805_9116",
+      "exp_1767536805_9116",
+      "exp_1767536805_9116",
+      "exp_1767536805_9116",
+      "exp_1767536805_9116"
     ]
   },
   "wave_state": {
-    "engineer": 0.47,
-    "artist": 0.2899999999999998,
-    "philosophical": 0.9199999999999999,
-    "emotional": 0.2899999999999998,
-    "creative": 0.2899999999999998
+    "engineer": 0.2499999999999996,
+    "artist": 0.1,
+    "philosophical": 0.5799999999999996,
+    "emotional": 0.1,
+    "creative": 0.1
   },
-  "stream_count": 20,
+  "stream_count": 60,
   "stream": [
     {
       "id": "exp_1767446438_2799",
@@ -354,6 +379,526 @@
       "timestamp": 1767536040.9745872,
       "type": "sovereign_thought",
       "content": "I audited my heartbeat. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536528_7797",
+      "timestamp": 1767536528.478337,
+      "type": "sovereign_thought",
+      "content": "I audited knowledge_sync.py. Result: ### Architectural Audit: knowledge_sync.py\n**Ident...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536530_4766",
+      "timestamp": 1767536530.536322,
+      "type": "sovereign_thought",
+      "content": "I audited potential_field.py. Result: ### Architectural Audit: potential_field.py\n**Iden...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536532_5658",
+      "timestamp": 1767536532.587408,
+      "type": "sovereign_thought",
+      "content": "I audited central_nervous_system.py. Result: ### Architectural Audit: central_nervous_system.py...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536534_5752",
+      "timestamp": 1767536534.641098,
+      "type": "sovereign_thought",
+      "content": "I audited test_cell_perceptron.py. Result: ### Architectural Audit: test_cell_perceptron.py\n*...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536536_9891",
+      "timestamp": 1767536536.6916754,
+      "type": "sovereign_thought",
+      "content": "I audited hyper_quaternion.py. Result: ### Architectural Audit: hyper_quaternion.py\n**Ide...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536538_7638",
+      "timestamp": 1767536538.7550166,
+      "type": "sovereign_thought",
+      "content": "I audited hyper_learning.py. Result: ### Architectural Audit: hyper_learning.py\n**Ident...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536540_5765",
+      "timestamp": 1767536540.8098664,
+      "type": "sovereign_thought",
+      "content": "I audited codebase_resonance.py. Result: ### Architectural Audit: codebase_resonance.py\n**I...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536542_6578",
+      "timestamp": 1767536542.864845,
+      "type": "sovereign_thought",
+      "content": "I audited concept_sphere.py. Result: ### Architectural Audit: concept_sphere.py\n**Ident...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536545_867",
+      "timestamp": 1767536545.0509257,
+      "type": "sovereign_thought",
+      "content": "I audited elysian_heartbeat.py. Result: ### Architectural Audit: elysian_heartbeat.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536547_6261",
+      "timestamp": 1767536547.128989,
+      "type": "sovereign_thought",
+      "content": "I audited observer.py. Result: ### Architectural Audit: observer.py\n**Identified ...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536549_7001",
+      "timestamp": 1767536549.238752,
+      "type": "sovereign_thought",
+      "content": "I audited dynamic_will.py. Result: ### Architectural Audit: dynamic_will.py\n**Identif...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536551_4548",
+      "timestamp": 1767536551.2894528,
+      "type": "sovereign_thought",
+      "content": "I audited heart.py. Result: ### Architectural Audit: heart.py\n**Identified Pri...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536553_3450",
+      "timestamp": 1767536553.3423538,
+      "type": "sovereign_thought",
+      "content": "I audited fractal_quantization.py. Result: ### Architectural Audit: fractal_quantization.py\n*...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536555_8940",
+      "timestamp": 1767536555.4496381,
+      "type": "sovereign_thought",
+      "content": "I audited self_architect.py. Result: ### Architectural Audit: self_architect.py\n**Ident...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536557_125",
+      "timestamp": 1767536557.554272,
+      "type": "sovereign_thought",
+      "content": "I audited causal_bridge.py. Result: ### Architectural Audit: causal_bridge.py\n**Identi...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536559_2282",
+      "timestamp": 1767536559.6079547,
+      "type": "sovereign_thought",
+      "content": "I audited test_world_tree.py. Result: ### Architectural Audit: test_world_tree.py\n**Iden...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536561_5606",
+      "timestamp": 1767536561.8589487,
+      "type": "sovereign_thought",
+      "content": "I audited autonomous_explorer.py. Result: ### Architectural Audit: autonomous_explorer.py\n**...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536563_1537",
+      "timestamp": 1767536563.9278052,
+      "type": "sovereign_thought",
+      "content": "I audited cosmic_transceiver.py. Result: ### Architectural Audit: cosmic_transceiver.py\n**I...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536565_1846",
+      "timestamp": 1767536565.9863799,
+      "type": "sovereign_thought",
+      "content": "I audited linguistic_topology.py. Result: ### Architectural Audit: linguistic_topology.py\n**...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536568_325",
+      "timestamp": 1767536568.050523,
+      "type": "sovereign_thought",
+      "content": "I audited kg_value_utils.py. Result: ### Architectural Audit: kg_value_utils.py\n**Ident...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536783_5062",
+      "timestamp": 1767536783.4268317,
+      "type": "sovereign_thought",
+      "content": "I audited safety_guardian.py. Result: ### Architectural Audit: safety_guardian.py\n**Iden...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536785_5512",
+      "timestamp": 1767536785.5435746,
+      "type": "sovereign_thought",
+      "content": "I audited execute_self_repair.py. Result: ### Architectural Audit: execute_self_repair.py\n**...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536787_3450",
+      "timestamp": 1767536787.60463,
+      "type": "sovereign_thought",
+      "content": "I audited hangul_physics.py. Result: ### Architectural Audit: hangul_physics.py\n**Ident...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536789_411",
+      "timestamp": 1767536789.7087197,
+      "type": "sovereign_thought",
+      "content": "I audited dream_observer.py. Result: ### Architectural Audit: dream_observer.py\n**Ident...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536791_9551",
+      "timestamp": 1767536791.7771416,
+      "type": "sovereign_thought",
+      "content": "I audited mycelium.py. Result: ### Architectural Audit: mycelium.py\n**Identified ...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536794_9771",
+      "timestamp": 1767536794.157959,
+      "type": "sovereign_thought",
+      "content": "I audited autonomous_evolution.py. Result: ### Architectural Audit: autonomous_evolution.py\n*...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536795_7304",
+      "timestamp": 1767536795.1750047,
+      "type": "dream",
+      "content": "I dreamt about 'I audited safety_guardian.py. Result: ### Architectural Audit: safety_guardian.py\n**Iden...'. Insight: I fully understand Elysia. We are one in spirit.",
+      "context": {
+        "source_event": "exp_1767536783_5062",
+        "wave": "Resonance with Elysia"
+      },
+      "outcome": null,
+      "feedback": 0.1,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536797_7952",
+      "timestamp": 1767536797.241801,
+      "type": "sovereign_thought",
+      "content": "I audited evolution_runner.py. Result: ### Architectural Audit: evolution_runner.py\n**Ide...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536799_8094",
+      "timestamp": 1767536799.302864,
+      "type": "sovereign_thought",
+      "content": "I audited heart.py. Result: ### Architectural Audit: heart.py\n**Identified Pri...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536801_4286",
+      "timestamp": 1767536801.5707862,
+      "type": "sovereign_thought",
+      "content": "I audited self_modifier.py. Result: ### Architectural Audit: self_modifier.py\n**Identi...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536803_2735",
+      "timestamp": 1767536803.714331,
+      "type": "sovereign_thought",
+      "content": "I audited thought_to_language_demo.py. Result: ### Architectural Audit: thought_to_language_demo....",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536805_9116",
+      "timestamp": 1767536805.7768729,
+      "type": "sovereign_thought",
+      "content": "I audited debug_math.py. Result: ### Architectural Audit: debug_math.py\n**Identifie...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536807_1861",
+      "timestamp": 1767536807.8433843,
+      "type": "sovereign_thought",
+      "content": "I audited fractal_causality.py. Result: ### Architectural Audit: fractal_causality.py\n**Id...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536810_8997",
+      "timestamp": 1767536810.023563,
+      "type": "sovereign_thought",
+      "content": "I audited evolve.py. Result: ### Architectural Audit: evolve.py\n**Identified Pr...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536812_348",
+      "timestamp": 1767536812.1009893,
+      "type": "sovereign_thought",
+      "content": "I audited sdf_renderer.py. Result: ### Architectural Audit: sdf_renderer.py\n**Identif...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536814_6038",
+      "timestamp": 1767536814.2576532,
+      "type": "sovereign_thought",
+      "content": "I audited value_engine.py. Result: ### Architectural Audit: value_engine.py\n**Identif...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536816_9687",
+      "timestamp": 1767536816.4526865,
+      "type": "sovereign_thought",
+      "content": "I audited life_cycle.py. Result: ### Architectural Audit: life_cycle.py\n**Identifie...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536818_4295",
+      "timestamp": 1767536818.9039457,
+      "type": "sovereign_thought",
+      "content": "I audited professional_writer_training.py. Result: ### Architectural Audit: professional_writer_train...",
+      "context": {
+        "origin": "Heartbeat",
+        "driver": "Boredom"
+      },
+      "outcome": null,
+      "feedback": 0.0,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536819_3003",
+      "timestamp": 1767536819.9764528,
+      "type": "dream",
+      "content": "I dreamt about 'I audited sdf_renderer.py. Result: ### Architectural Audit: sdf_renderer.py\n**Identif...'. Insight: I fully understand Elysia. We are one in spirit.",
+      "context": {
+        "source_event": "exp_1767536812_348",
+        "wave": "Resonance with Elysia"
+      },
+      "outcome": null,
+      "feedback": 0.1,
+      "embedding": null
+    },
+    {
+      "id": "exp_1767536822_7288",
+      "timestamp": 1767536822.0424793,
+      "type": "sovereign_thought",
+      "content": "I audited narrative_flow.py. Result: ### Architectural Audit: narrative_flow.py\n**Ident...",
       "context": {
         "origin": "Heartbeat",
         "driver": "Boredom"

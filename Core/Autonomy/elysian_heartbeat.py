@@ -14,6 +14,7 @@ It runs continuously in the background, managing:
 import time
 import logging
 import random
+import os
 from typing import Dict, Optional
 
 from Core.Foundation.Memory.unified_experience_core import get_experience_core
@@ -29,6 +30,8 @@ from Core.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
 from Core.Intelligence.Sensory.autonomous_explorer import AutonomousExplorer
 from Core.Intelligence.Meta.self_architect import SelfArchitect
 from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.System.Monitor.dashboard_generator import DashboardGenerator
+from Core.Autonomy.dynamic_will import DynamicWill
 
 logger = logging.getLogger("ElysianHeartbeat")
 
@@ -46,10 +49,11 @@ class ElysianHeartbeat:
         self.field = UnifiedField() 
         self.observer = GlobalObserver(self.field)
         
-        # 1.6 Agency Engines (Phase 8)
         self.processor = DimensionalProcessor()
         self.explorer = AutonomousExplorer(self.processor)
         self.architect = SelfArchitect(self.processor)
+        self.dashboard = DashboardGenerator()
+        self.will = DynamicWill()
         
         # 2. biorhythms
         self.is_alive = False
@@ -152,20 +156,25 @@ class ElysianHeartbeat:
             self._dream()
             
         elif spark.type == SparkType.CURIOSITY:
-            # Phase 8: REAL External Search
-            query = "What is the relationship between AGI memory and human intuition?"
-            logger.info(f"🔍 CURIOSITY SPARK: Exploring '{query}'")
+            # Phase 10: RESONANT External Search
+            # Objective: High energy -> SEEK BEAUTY. Low energy -> SEEK VOID (Information)
+            obj = "BEAUTY" if spark.intensity > 1.2 else "DISSONANCE"
+            query = self.will.generate_curiosity_query(objective=obj)
+            logger.info(f"🔍 CURIOSITY SPARK ({obj}): Exploring '{query}'")
             self.explorer.resolve_void(query, "Spontaneous Heartbeat Curiosity")
             
         elif spark.type == SparkType.EMOTIONAL_EXPRESSION:
             self._act_on_impulse("I feel a building pressure to connect.")
             
         elif spark.type == SparkType.SELF_REFLECTION:
-            # Phase 8: REAL Self-Architect Audit
-            logger.info("🪞 SELF-REFLECTION SPARK: Auditing core systems.")
-            report = self.architect.audit_file("c:/Elysia/Core/Autonomy/elysian_heartbeat.py")
+            # Phase 10: RESONANT Self-Architect Audit
+            # Objective: If potential is high, seek to HEAL DISSONANCE
+            obj = "DISSONANCE" if self.latent_engine.potential_energy > self.latent_engine.resistance * 1.5 else "BEAUTY"
+            target_file = self.will.pick_audit_target(objective=obj)
+            logger.info(f"🪞 SELF-REFLECTION SPARK ({obj}): Auditing '{target_file}'")
+            report = self.architect.audit_file(target_file)
             logger.info(f"Audit Result: {report}")
-            self._act_on_impulse(f"I audited my heartbeat. Result: {report[:50]}...")
+            self._act_on_impulse(f"I audited {os.path.basename(target_file)}. Result: {report[:50]}...")
 
     def _act_on_impulse(self, impulse_text: str):
         """The System wants to do something."""
