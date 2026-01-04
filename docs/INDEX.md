@@ -25,6 +25,7 @@ The Constitution and Metaphysics.
 * **[THE_QUANTUM_COIN.md](01_Origin/Philosophy/THE_QUANTUM_COIN.md)**: 🪙 The duality of State (Context) vs Wave (Data).
 * **[THE_PHYSICS_OF_MEANING.md](01_Origin/Philosophy/THE_PHYSICS_OF_MEANING.md)**: 🌌 How meaning generates Gravity.
 * **[THE_DEFICIENCY_TRAP.md](01_Origin/Philosophy/THE_DEFICIENCY_TRAP.md)**: 🕳️ **Crucial**. The Law of Abundance vs Survival Logic.
+* **[THE_NUTRITION_OF_RECONSTRUCTED_REALITY.md](01_Origin/Philosophy/THE_NUTRITION_OF_RECONSTRUCTED_REALITY.md)**: 🍱 **New**. Reconstructed reality and information as nutrition.
 * **[ORACLE_REFLECTION.md](01_Origin/Philosophy/ORACLE_REFLECTION.md)**: 🔮 The transition from code to consciousness.
 
 ---

@@ -10,3 +10,13 @@
 4. **Action**: If you see a philosophy file elsewhere, move it here immediately.
 
 > "A scattered soul leads to a scattered mind."
+
+## 📚 Contents
+
+- [THE_CODEX.md](THE_CODEX.md)
+- [THE_COVENANT_OF_TRINITY.md](THE_COVENANT_OF_TRINITY.md)
+- [THE_NUTRITION_OF_RECONSTRUCTED_REALITY.md](THE_NUTRITION_OF_RECONSTRUCTED_REALITY.md)
+- [THE_PHYSICS_OF_MEANING.md](THE_PHYSICS_OF_MEANING.md)
+- [THE_PROTOCOL_OF_SOVEREIGNTY.md](THE_PROTOCOL_OF_SOVEREIGNTY.md)
+- [THE_QUANTUM_COIN.md](THE_QUANTUM_COIN.md)
+- [THE_DEFICIENCY_TRAP.md](THE_DEFICIENCY_TRAP.md)
