@@ -38,6 +38,7 @@ class SemanticVoxel(HyperResonator):
 
     def drift(self, force_vector: Quaternion, dt: float = 1.0):
         """
+        [DEPRECATED: Prefer rotate_phase()]
         Applies a force to move the concept.
         
         Physics:
