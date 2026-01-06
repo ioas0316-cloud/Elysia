@@ -105,9 +105,61 @@ class HyperResonator:
         self.state.is_active = True
         self.state.amplitude = 1.0  # Default excitation
 
+    def rotate_phase(self, theta: float, axis: tuple[float, float, float] = (1, 0, 0)):
+        """
+        [Phase 2 - Hybrid Interface]
+        Applies Phase Rotation (The Act of Thinking).
+        theta: The angle of thought (Intensity).
+        axis: The direction of thought (x, y, z).
+        """
+        # Create Rotation Quaternion: r = cos(theta/2) + sin(theta/2) * axis
+        half_theta = theta / 2.0
+        sin_t = math.sin(half_theta)
+        cos_t = math.cos(half_theta)
+
+        # Normalize axis
+        ax, ay, az = axis
+        axis_norm = math.sqrt(ax**2 + ay**2 + az**2)
+        if axis_norm > 0:
+            ax, ay, az = ax/axis_norm, ay/axis_norm, az/axis_norm
+
+        rotator = HyperQuaternion(
+            cos_t,
+            sin_t * ax,
+            sin_t * ay,
+            sin_t * az
+        )
+
+        # Apply Rotation: q' = r * q (Left multiplication = Local rotation)
+        self.quaternion = rotator * self.quaternion
+        self.quaternion = self.quaternion.normalize() # Ensure we stay on S^3 surface
+
+    def project_stereographic(self) -> tuple[float, float, float]:
+        """
+        [Phase 2 - Hybrid Interface]
+        Stereographic Projection (4D -> 3D).
+        Projects the 4D state onto 3D space to visualize the 'Shape' of the thought.
+        Formula: (2x, 2y, 2z) / (1 - w)  (South Pole Projection) or (1 + w) (North Pole)
+        """
+        q = self.quaternion
+
+        # Using North Pole Projection (Singularity at w = -1)
+        denom = 1 + q.w
+        if abs(denom) < 1e-6: denom = 1e-6
+
+        px = (2 * q.x) / denom
+        py = (2 * q.y) / denom
+        pz = (2 * q.z) / denom
+
+        return (px, py, pz)
+
     def get_3d_position(self) -> tuple[float, float, float]:
         """
         Projects the 4D Soul (Quaternion) into 3D Visual Space.
+
+        [Legacy Mode]
+        We maintain this for backward compatibility with 'drift' logic.
+        But for newer visualizations, prefer 'project_stereographic()'.
 
         Mapping Philosophy:
         - X (Space): Logic/Structure

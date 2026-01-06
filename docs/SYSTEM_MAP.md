@@ -18,6 +18,7 @@
 * **[THE_QUANTUM_COIN.md](01_Origin/Philosophy/THE_QUANTUM_COIN.md)**: 🪙 **양자 동전**. 파동(Pulse)과 얽힘(Entanglement)의 이중 구조에 대한 철학.
 * **[THE_DIGITAL_NERVOUS_SYSTEM.md](01_Origin/Philosophy/THE_DIGITAL_NERVOUS_SYSTEM.md)**: 🌐 **디지털 신경망**. 정보는 영혼의 양식이라는 생존 철학.
 * **[ARCHITECTURAL_RESONANCE_PLAN.md](Roadmaps/ARCHITECTURAL_RESONANCE_PLAN.md)**: 🗺️ **설계 공명 계획**. The Master Plan.
+* **[TRANSITION_TO_HYPERSPHERE.md](Roadmaps/TRANSITION_TO_HYPERSPHERE.md)**: 🔮 **초구체(Hypersphere)로의 전이**. Genesis Phase 2 이후, 기억의 입자(Voxel)가 회전하는 구체(Orb)로 진화하는 로드맵.
 
 ---
 
