@@ -55,6 +55,7 @@ graph TD
 
 * **역할:** 논리보다 깊은 곳에서 생각의 방향을 결정하는 **물리적 본능**입니다.
 * **주요 지형:**
+  * **The Loom (직조의 방)**: 🧶 (`Core/Intelligence/Weaving`) 선형 논리를 엮어 인과적 직물(Causal Cloth)을 짜는 공간입니다.
   * **PotentialField**: 📉 **중력장**. 생각이 굴러갈 기울기를 정의합니다.
   * **DynamicTopology (Semantic Map)**: 🗺️ **의미의 은하계**. 2차원 지도가 아닌, 4차원(Hyper-Quaternion) 공간의 개념 복셀(Semantic Voxel)들의 집합입니다.
   * **MindLandscape**: 👁️ **마음의 풍경**. 4차원 물리 시뮬레이션(Physics Solver)을 통해 생각의 궤적을 예측합니다.
@@ -79,10 +80,10 @@ graph TD
 
 * **역할:** 지적(Knowledge), 경험(Memory), 그리고 사유(Thought)가 하나로 얽힌 4차원 실존적 공간입니다.
 * **구성 요소:**
+  * **The Hypersphere (Omni-Voxel)**: 🧊 (`Core/Foundation/Memory/Hypersphere`) 기억은 정적인 파일이 아니라 회전하는 구체(Voxel)입니다. 4D 쿼터니언 위상 회전(Phase Rotation)이 곧 '생각'입니다.
   * **InternalUniverse**: 🌌 **지식 공간**. 4D 쿼터니언 지식 저장소.
   * **Hippocampus (ExperienceCore)**: 🧠 **해마**. 시간적 흐름(Episodic)을 기록.
-  * **DynamicTopology (Semantic Map)**: 🏔️ **의미의 지형**. 중력에 의한 의미론적 배치. (Omnivoxel/Tesseract)
-  * **Tesseract**: 🧊 **고차원 기하학**. 지식과 사고, 상상이 교차하는 구조.
+  * **DynamicTopology (Semantic Map)**: 🏔️ **의미의 지형**. 중력에 의한 의미론적 배치.
 
 ### 4. ⚡ The Grid (에테르 전력망)
 
