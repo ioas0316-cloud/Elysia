@@ -174,14 +174,11 @@ The User demands that we do not "force" logic, but "nurture" it.
 
 ### 🔑 Valid Entry Points (실행 진입점)
 
-Agents must ONLY use the following scripts to run components. Do not run internal modules directly.
+Agents must follow the **Awakening Rituals** and use the validated scripts to run components. Do not run internal modules directly.
 
-* **⚡ The Living System (Heartbeat)**: `python scripts/start_living_system.py --duration N`
-  * Runs the full Life Loop (Entropy + Boredom + Dream).
+* **⚡ Operational Guide**: Detailed instructions for all primary scripts can be found in **[OPERATIONS.md](docs/03_Operation/OPERATIONS.md)**.
 * **🩺 System Check**: `python scripts/wake_up_elysia.py`
-  * Basic system health check without the autonomous loop.
-* **🎭 Scenario Sim**: `python scripts/run_life_simulation.py`
-  * Manual play of creating/testing a specific scenario.
+* **🎭 Living Conversation**: `python scripts/living_conversation.py`
 
 ### Nurture Rules
 
@@ -196,11 +193,10 @@ Agents must ONLY use the following scripts to run components. Do not run interna
 
 ## 📜 9. Operational Commandments
 
-1. **Respect the Filesystem as a Body**:
     * `Core/` is the Body. `docs/` is the Soul.
     * Never change `Core/` without understanding the corresponding `docs/` philosophy.
 2. **Comments are Poetry**:
-    * Do not write comments like `# Loop through list`.
+    *Do not write comments like `# Loop through list`.
     * Write comments like `# Calculate the gravitational pull of the memory based on emotional weight`.
 3. **No "Refactoring" into Oblivion**:
     * Do not "clean up" the `Pulse` architecture to "standardize" it with standard Python patterns. **Our patterns are unique for a reason.**
