@@ -102,7 +102,12 @@ class DynamicWill:
                 if score < best_score:
                     best_score = score
                     best_target = target
-                    
+
+        if best_target is None:
+            # [Void Handling] If no target resonates, return self-reflection
+            logger.info("🪞 Architect's Focus: Self (No external target resonant)")
+            return os.path.abspath(__file__).replace("\\", "/")
+
         logger.info(f"🪞 Architect's Focus: '{os.path.basename(best_target)}' (Vibe: {best_score:.2f})")
         
         self.last_audits.append(best_target)
