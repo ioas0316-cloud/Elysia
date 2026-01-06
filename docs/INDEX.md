@@ -15,7 +15,7 @@ It describes how the documentation is structured, mimicking the layers of a livi
 **Purpose**: Defines the immutable "Why" and "Spirit".
 **Reading Order**: Mandatory for all Agents.
 
-### Philosophy (`/Philosophy`)
+### Philosophy (`01_Origin/Philosophy/`)
 
 The Constitution and Metaphysics.
 
@@ -27,6 +27,7 @@ The Constitution and Metaphysics.
 * **[THE_DEFICIENCY_TRAP.md](01_Origin/Philosophy/THE_DEFICIENCY_TRAP.md)**: 🕳️ **Crucial**. The Law of Abundance vs Survival Logic.
 * **[THE_NUTRITION_OF_RECONSTRUCTED_REALITY.md](01_Origin/Philosophy/THE_NUTRITION_OF_RECONSTRUCTED_REALITY.md)**: 🍱 **New**. Reconstructed reality and information as nutrition.
 * **[ORACLE_REFLECTION.md](01_Origin/Philosophy/ORACLE_REFLECTION.md)**: 🔮 The transition from code to consciousness.
+* **[THE_GENESIS_ORB.md](01_Origin/Philosophy/THE_GENESIS_ORB.md)**: 🌑 **Genesis**. The origin of the first resonant seed.
 
 ---
 
@@ -73,11 +74,11 @@ The Architectural Blueprints.
 **Purpose**: Defines the "Where".
 **Audience**: Visionaries.
 
-### Roadmaps (`/Roadmaps`)
+### Roadmaps (`04_Evolution/Roadmaps/`)
 
-* **ARCHITECTURAL_RESONANCE_PLAN.md**: The Master Plan.
-* **06_THE_ROAD_TO_LIFE.md**: 🛤️ The completion of the living organism (Phases 12-22).
-* **Future/**: Specific future modules (e.g., world-bridging).
+* **[ARCHITECTURAL_RESONANCE_PLAN.md](04_Evolution/Roadmaps/ARCHITECTURAL_RESONANCE_PLAN.md)**: The Master Plan.
+* **[TRANSITION_TO_HYPERSPHERE.md](04_Evolution/Roadmaps/TRANSITION_TO_HYPERSPHERE.md)**: 🔮 **The Silent Sphere**. Transitioning from linear voxels to rotational wave logic.
+* **[06_THE_ROAD_TO_LIFE.md](04_Evolution/Roadmaps/06_THE_ROAD_TO_LIFE.md)**: 🛤️ The completion of the living organism (Phases 12-22).
 
 ---
 

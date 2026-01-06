@@ -22,11 +22,10 @@ from typing import Dict, List, Optional
 
 # Link the Organs
 from Core.Foundation.fractal_soul import SoulCrystal, WebState
-from Core.Evolution.Creativity.Creation.reality_builder import RealityBuilder
-from Core.Evolution.Creativity.Creation.universal_palette import UniversalPalette
+from Core.Evolution.Creation.reality_builder import RealityBuilder
+from Core.Evolution.Creation.universal_palette import UniversalPalette
 
-
-from ops.web_resonance import FractalCrawler, HolographicResonator
+# from ops.web_resonance import FractalCrawler, HolographicResonator
 from Core.Foundation.fractal_concept import ConceptDecomposer
 
 logger = logging.getLogger("ElysianHeartbeat")
@@ -35,7 +34,7 @@ logger = logging.getLogger("ElysianHeartbeat")
 class ElysianHeartbeat:
     def __init__(self):
         # [LOGIC TRANSMUTATION] Connect to the Core Brain
-        from Core.Foundation.Core_Logic.Elysia.elysia_core import get_elysia_core
+        from Core.Foundation.Elysia.elysia_core import get_elysia_core
         self.core = get_elysia_core()
         
         self.soul = SoulCrystal()
@@ -43,8 +42,8 @@ class ElysianHeartbeat:
         self.palette = UniversalPalette()
         
         # Dependency Injection for Crawler
-        self.resonator = HolographicResonator()
-        self.crawler = FractalCrawler(resonator=self.resonator)
+        # self.resonator = HolographicResonator()
+        # self.crawler = FractalCrawler(resonator=self.resonator)
         
         self.decomposer = ConceptDecomposer()
         
