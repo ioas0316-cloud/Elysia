@@ -28,11 +28,11 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 
 from Core.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
 from Core.Intelligence.Intelligence.prism_cortex import PrismCortex
-from Core.Intelligence.Intelligence.logos_engine import LogosEngine
+from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Intelligence.Memory.conversation_memory import ConversationMemory
-from Core.Intelligence.Cognitive.sensory_cortex import get_sensory_cortex
+from Core.Sensory.sensory_cortex import get_sensory_cortex
 from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
-from Core.Intelligence.Cognition.Maturity.maturity_coordinator import get_maturity_coordinator
+from Core.Intelligence.Intelligence.maturity_coordinator import get_maturity_coordinator
 
 logger = logging.getLogger("IntegratedCognition")
 

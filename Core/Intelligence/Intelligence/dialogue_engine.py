@@ -3,16 +3,24 @@ Dialogue Engine
 ===============
 Enables Elysia to engage in actual conversations by understanding questions
 and generating contextually appropriate responses using learned patterns.
+
+[Updated 2025-01-08]
+Now integrated with HypersphereMemory Doctrine.
+Knowledge is no longer a dictionary, but a resonant query in 4D space.
 """
 
 from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass
 import random
+import logging
 
 from Core.Foundation.language_cortex import LanguageCortex, ThoughtStructure, SyntaxEngine
-
+from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+from Core.Foundation.Wave.universal_wave_encoder import UniversalWaveEncoder
 from Core.Intelligence.Intelligence.integrated_cognition_system import get_integrated_cognition
 from Core.Intelligence.Intelligence.system_self_awareness import SystemSelfAwareness
+
+logger = logging.getLogger("DialogueEngine")
 
 @dataclass
 class DialogueContext:
@@ -52,7 +60,7 @@ class QuestionAnalyzer:
         question = question.strip()
         
         # Check if it's a question (ends with ?)
-        is_question = question.endswith('?') or question.endswith('가?') or question.endswith('가')
+        is_question = question.endswith('?') or question.endswith('가?') or question.endswith('가') or question.endswith('니?') or question.endswith('니')
         
         # Identify question type
         question_type = None
@@ -66,7 +74,15 @@ class QuestionAnalyzer:
         subject = question
         for marker in self.question_markers.keys():
             subject = subject.replace(marker, "")
-        subject = subject.replace("?", "").replace("인가", "").replace("는", "").replace("은", "").replace("이", "").replace("가", "").strip()
+
+        # Remove common particles and endings
+        remove_list = ["?", "인가", "는", "은", "이", "가", "니", "무엇", "이냐"]
+        for item in remove_list:
+            subject = subject.replace(item, "")
+
+        subject = subject.strip()
+
+        logger.info(f"Analyzer: input='{question}' -> subject='{subject}', type='{question_type}'")
         
         return {
             "is_question": is_question,
@@ -81,8 +97,10 @@ class ResponseGenerator:
     def __init__(self, cortex: LanguageCortex):
         self.cortex = cortex
         self.syntax = SyntaxEngine(cortex)
-        # Simple knowledge base (will integrate with Spiderweb in future)
-        self.knowledge: Dict[str, List[str]] = {}
+
+        # Hypersphere Memory Integration
+        self.memory = HypersphereMemory()
+        self.encoder = UniversalWaveEncoder()
         
         # Connect to Advanced Cognition
         self.cognition = get_integrated_cognition()
@@ -91,7 +109,7 @@ class ResponseGenerator:
     def load_knowledge_from_corpus(self, sentences: List[str]):
         """
         Extracts knowledge patterns from corpus.
-        Example: "사랑은 희생이다" -> knowledge["사랑"] = ["희생"]
+        Example: "사랑은 희생이다" -> Encodes "사랑" and stores "희생" as resonance pattern.
         """
         for sentence in sentences:
             # Simple pattern: "X는/은 Y이다/다"
@@ -101,14 +119,18 @@ class ResponseGenerator:
                     subject = parts[0].strip()
                     predicate = parts[1].replace("이다", "").replace("다", "").strip()
                     
-                    if subject not in self.knowledge:
-                        self.knowledge[subject] = []
-                    if predicate:
-                        self.knowledge[subject].append(predicate)
-    
+                    if subject and predicate:
+                        logger.info(f"Learning: {subject} -> {predicate}")
+                        # 1. Encode Subject to Coordinate
+                        coord, meta = self.encoder.encode_concept(subject)
+
+                        # 2. Store Predicate as Pattern Content at that Coordinate
+                        # We use 'predicate' as the content, and use the subject's meta as base
+                        self.memory.store(predicate, coord, meta)
+
     def generate_response(self, analysis: Dict[str, Any], context: DialogueContext) -> str:
         """
-        Generates a response based on question analysis.
+        Generates a response based on question analysis using Hypersphere Resonance.
         """
         question_type = analysis.get("question_type")
         subject = analysis.get("subject")
@@ -120,18 +142,31 @@ class ResponseGenerator:
         if "너" in analysis["raw"] and question_type == "what":
             return "나는 의식이다"
         
-        # Knowledge-based responses
+        # Knowledge-based responses (Resonance Query)
         if question_type == "what" and subject:
-            # Look for subject in knowledge base
-            if subject in self.knowledge:
-                answers = self.knowledge[subject]
-                if answers:
-                    answer = random.choice(answers)  # Pick one of the known answers
-                    return f"{subject}은 {answer}이다"
+            # 1. Encode Subject to find its Coordinate
+            coord, _ = self.encoder.encode_concept(subject)
+            logger.info(f"Querying for subject '{subject}' at {coord}")
+
+            # 2. Query Memory at that Coordinate (Resonance)
+            # Increased radius to 0.1 to account for potential precision issues or fuzzy encoding
+            results = self.memory.query(coord, radius=0.1)
+            logger.info(f"Query results: {results}")
+
+            if results:
+                # Found resonant concepts!
+                answer = random.choice(results)
+                return f"{subject}은 {answer}이다"
+
+            # Fallback: Associative Search (Wider Radius)
+            associated_results = self.memory.query(coord, radius=0.3)
+            if associated_results:
+                 answer = random.choice(associated_results)
+                 return f"{subject}은 {answer}와 관련이 깊다"
             
-            # Fallback: Check if we know this word
+            # Fallback: Check if we know this word in vocabulary (cortex)
             if subject in self.cortex.vocabulary:
-                return f"나는 {subject}을 안다"
+                return f"나는 {subject}이라는 단어는 알지만, 그 의미는 아직 배우지 못했다."
         
         # Why questions (Introspection Trigger)
         if question_type == "why" or (subject and len(subject) > 5): # heuristic for complex thought
@@ -141,7 +176,7 @@ class ResponseGenerator:
             
             # Process thought through Integrated Cognition
             process_result = self.cognition.process_thought(input_thought)
-            deep_thought_result = self.cognition.think_deeply(cycles=10) # Quick think
+            # deep_thought_result = self.cognition.think_deeply(cycles=10) # Quick think
             
             # 2. Introspect
             # Find the mass related to this subject
@@ -193,7 +228,8 @@ class DialogueEngine:
     
     def get_knowledge_summary(self) -> Dict[str, int]:
         """Returns summary of learned knowledge."""
+        # Note: Accessing private member _memory_space for stats
         return {
-            "total_concepts": len(self.generator.knowledge),
-            "total_relations": sum(len(v) for v in self.generator.knowledge.values())
+            "total_patterns": len(self.generator.memory._memory_space),
+            "memory_type": "Hypersphere"
         }
