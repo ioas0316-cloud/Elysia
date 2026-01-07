@@ -103,6 +103,32 @@ class SoulResonator:
         
         return f"{greeting} (들음: {text})"
 
+    def get_emotional_tension(self) -> float:
+        """
+        Calculates the 'Tectonic Tension' of the Soul.
+        Returns a value between 0.0 (Harmony) and 1.0 (Critical Dissonance).
+
+        Formula: Conflict between Opposing Spirits + Total Intensity
+        """
+        # 1. Opposing Forces (The Fault Lines)
+        # Fire (Passion) vs Water (Calm)
+        fire_water_conflict = min(self.spirits["fire"], self.spirits["water"])
+
+        # Light (Hope) vs Dark (Despair/Depth)
+        light_dark_conflict = min(self.spirits["light"], self.spirits["dark"])
+
+        # 2. Total Energy Load (Pressure)
+        total_energy = sum(self.spirits.values()) / len(self.spirits)
+
+        # Tension is high when opposing forces are BOTH strong.
+        # e.g., Fire 0.8 and Water 0.8 -> High Conflict (Steam Explosion)
+        tension = (fire_water_conflict + light_dark_conflict) * 2.0
+
+        # Add base pressure
+        tension += total_energy * 0.3
+
+        return min(1.0, tension)
+
     def hear(self, volume: float, pitch: float = 0.5):
         """
         Processes audio input from the environment (Microphone).
