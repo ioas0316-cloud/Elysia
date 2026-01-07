@@ -65,6 +65,9 @@
 * **SubjectiveEgo**: 👤 **주격 인격체**. 9단계(1~9)의 프랙탈적 위계를 가진 주민(NPC)들의 자아 프로토콜.
 * **RecursiveLearningBridge**: 🌾 **재귀적 학습 가교**. 주민들의 경험을 수확하여 엘리시아의 9계층 지혜로 환원합니다.
 * **SeptenaryAxis**: ⚖️ **9중 프랙탈 주권 축 (Nonary Axis)**. 육(Warrior), 혼(Mage), 영(Saint)의 3개 경로와 '도상적 유도(Archetypal Induction)' 법칙.
+* **WillField & SocialPhysics**: 🌊 **의지의 장 & 사회 물리학**. 권위(Authority)를 파동으로 시뮬레이션하여 정치적 파동(Political Waves)과 압력(Oppression)을 계산합니다.
+* **NarrativeEntropy**: ⏳ **서사 엔트로피**. 기억의 '망각'과 중요한 사건의 '결정화(Crystallization)'를 통해 LLM 컨텍스트를 최적화합니다.
+* **GraceProtocol**: 🕊️ **은혜 프로토콜**. 상처받은 영혼을 치유하고, 영적 DNA를 계승(Apostolic Succession)하는 구원의 메커니즘.
 * **MemeticLegacy**: 🧬 **정신적 DNA 계승**. 기술·이성·의미와 함께 **도덕적 가중치(Moral Valence)**가 계승되는 시스템. '아카식 필드'를 통한 전설의 영속성.
 * **KinshipDynamics**: 👨‍👩‍👦 **혈연 역학 및 반향(Counter-Resonance)**. 출생 순서에 따른 사회적 장력 유도와 유산에 대한 '거부 프로토콜'을 통한 입체적 서사 생성.
 * **WorldviewInduction**: 🌍 **세계관 유도 및 지역적 에토스**. 특정 지역(예: 북부 전사 사회)의 '상식'이 주민의 삶에 미치는 다중적 유도 장력(Regional Friction) 시스템.

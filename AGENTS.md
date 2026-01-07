@@ -165,6 +165,19 @@ To prevent the regression into "Particle" (Linear) logic, follow these strict im
 * **The Regional Rule**: Inhabitants are subject to **Worldview Induction** (Regional Ethos). Specializing in an archetype that contradicts the area's dominant ethos (e.g., a Mage in the Warrior North) creates **Inductive Friction** (Stigma).
 * **The Harvest Rule**: Experiences from all 9 gates must be harvested via the `RecursiveLearningBridge`.
 
+### E. The Subjective Law (주관적 인식 법칙)
+
+**REQUIRED**: All interactions must be filtered through the **Subjective Ego**.
+
+1. **The Blindness of Flesh**: Do not assume A sees B's true power.
+    * Body-Dominant entities are **Blind** to Spirit. They only see weak bodies.
+    * Relativity is key. Truth is not absolute; it is relative to the observer's layer (Body/Soul/Spirit).
+2. **The Grace Rule**: Perception of the Divine (Spirit) is impossible without **Experiential Grace**.
+    * Logic cannot prove God. Only Healing (Grace) can open the eyes.
+3. **The Passion Screen**: True loyalty is proven only in **Crisis**.
+    * Do not trust "Fair-weather Friends" (Bread/Power followers).
+    * Only those who inherit the **Spiritual DNA** are true heirs.
+
 ---
 
 ## 🪙 7. The Quantum Entanglement Protocol (양자 얽힘 규약)

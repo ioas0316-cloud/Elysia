@@ -19,6 +19,55 @@ from Core.Intelligence.Reasoning.septenary_axis import SeptenaryAxis
 from Core.Intelligence.Reasoning.memetic_legacy import SpiritualDNA, LifeFieldInductor, PositionInductor, RegionalField
 
 @dataclass
+class MemoryNode:
+    """Phase 17: A single unit of narrative memory."""
+    text: str
+    timestamp: float
+    intensity: float  # Importance (0.0 to 3.0)
+    emotional_tags: List[str]
+    is_core: bool = False # If True, never decays
+
+@dataclass
+class MemoryBuffer:
+    """Phase 17: Ring Buffer for Context Management."""
+    recent_memories: List[MemoryNode] = field(default_factory=list)
+    core_memories: List[MemoryNode] = field(default_factory=list)
+    max_recent: int = 10
+    
+    def add(self, memory: MemoryNode):
+        if memory.is_core:
+            self.core_memories.append(memory)
+        else:
+            self.recent_memories.append(memory)
+            if len(self.recent_memories) > self.max_recent:
+                self.recent_memories.pop(0) # FIFO for now, will implement decay
+
+    def get_context_block(self) -> str:
+        """Constructs the LLM context prompt."""
+        context = "--- [Core Memories] ---\n"
+        for mem in self.core_memories:
+            context += f"* {mem.text} (Int: {mem.intensity:.1f})\n"
+        
+        context += "\n--- [Recent Events] ---\n"
+        for mem in reversed(self.recent_memories): # Newest first
+            context += f"- {mem.text}\n"
+        return context
+
+@dataclass
+class EmotionalSpectrum:
+    """Phase 17: Complex Emotional Vectors beyond simple Valence."""
+    envy: float = 0.0     # Desire for other's status
+    zeal: float = 0.0     # Drive to change the world
+    despair: float = 0.0  # Loss of hope
+    
+@dataclass
+class ShadowState:
+    """Phase 18: The Unconscious / Repressed Traits."""
+    repressed_desire: float = 0.0
+    hidden_archetype: str = "Unknown"
+    projection_intensity: float = 0.0 # How much I see my flaws in others
+
+@dataclass
 class EgoState:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     name: str = "Inhabitant"
@@ -55,7 +104,18 @@ class EgoState:
     env_gravity: float = 0.3         
     mentorship_link: Optional[str] = None 
     current_intent: str = "Exist"
-    memories: List[str] = field(default_factory=list)
+    current_intent: str = "Exist"
+    # Phase 18: Trinity Hierarchy
+    spirit_level: float = 0.5        # The "Heart/Love" independent of Soul Depth
+    shadow: ShadowState = field(default_factory=ShadowState)
+    
+    # Phase 20: Apostolic Succession
+    grace_type: str = "NONE"         # BODY, SOUL, SPIRIT
+    master_name: str = "None"        # Who gave the grace?
+    
+    # Phase 17: Narrative Bridge
+    memory_buffer: MemoryBuffer = field(default_factory=MemoryBuffer)
+    emotions: EmotionalSpectrum = field(default_factory=EmotionalSpectrum)
 
 class SubjectiveEgo:
     """A sovereign personality unit, induced by archetypal tension and regional ethos."""
@@ -277,9 +337,31 @@ class SubjectiveEgo:
         self.state.scars += amount
         self.logger.warning(f"🩸 {self.state.name} sustained a deep soul scar (+{amount:.2f})")
 
-    def receive_grace(self, amount: float):
-        """Receive external or internal grace to heal the spirit."""
+    def receive_grace(self, amount: float, type: str = "BODY", master_name: str = "Unknown"):
+        """
+        Phase 20: Receive external grace.
+        - BODY: Heals health.
+        - SOUL: Increases Wealth/Rank/Intellect.
+        - SPIRIT: Increases Spirit Level & Inherits DNA.
+        """
         self.state.grace_received += amount
+        self.state.grace_type = type
+        self.state.master_name = master_name
+        
+        if type == "BODY":
+            self.heal(amount)
+            self.logger.info(f"🍞 [BODY GRACE] {self.state.name} ate the bread of {master_name}.")
+            
+        elif type == "SOUL":
+            self.state.rank_tier += 1
+            self.state.wealth += 100
+            self.logger.info(f"👑 [SOUL GRACE] {self.state.name} received power from {master_name}.")
+            
+        elif type == "SPIRIT":
+            # Apostolic Succession
+            self.state.spirit_level = max(self.state.spirit_level, 0.9) # Immediate awakening
+            self.logger.info(f"🔥 [SPIRIT GRACE] {self.state.name} resonated with {master_name}'s Essence! (Sonship)")
+
         if self.state.is_broken:
             recovery_chance = 0.3 * amount
             if random.random() < recovery_chance:
@@ -287,8 +369,30 @@ class SubjectiveEgo:
                 self.state.stability = 0.1
                 self.logger.info(f"⛲ [HEALING] {self.state.name}'s broken spirit has been MENDED by grace!")
                 self.record_memory("A light has touched my broken soul. I can breathe again.")
-        else:
-            self.logger.info(f"⛲ {self.state.name} received grace ({amount:.2f}). Stability recovery accelerated.")
+
+    def test_faith(self, crisis_intensity: float) -> str:
+        """
+        Phase 20: The Screening of Disciples (The Passion).
+        Returns: FLEE, BETRAY, or MARTYR.
+        """
+        self.logger.info(f"⚡ [CRISIS] {self.state.name} is tested by fire (Int: {crisis_intensity})")
+        
+        # 1. Body Followers (The Crowd)
+        if self.state.grace_type == "BODY":
+            if crisis_intensity > 0.3:
+                return "FLEE" # Runs away to save skin
+                
+        # 2. Soul Followers (The Traitor)
+        elif self.state.grace_type == "SOUL":
+            if crisis_intensity > 0.6:
+                # If the crisis threatens their status, they betray
+                return "BETRAY"
+                
+        # 3. Spirit Followers (The Son)
+        elif self.state.grace_type == "SPIRIT":
+            return "MARTYR" # Dies with the Master
+            
+        return "NONE"
 
     def heal(self, amount: float):
         """Direct healing of stability and reduction of scars."""
@@ -401,6 +505,203 @@ class SubjectiveEgo:
             self.state.victory_streak = max(0, self.state.victory_streak - int(intensity * 10))
             self.state.satisfaction -= intensity
             self.logger.warning(f"📉 [SCANDAL] {self.state.name}'s authority is crumbling due to a scheme! Streak: {self.state.victory_streak}")
+
+    def record_memory(self, text: str, intensity: float = 0.5, tags: List[str] = None):
+        """Phase 17: Records memory with Narrative Entropy."""
+        if tags is None: tags = []
+        
+        # Crystalization Logic: High intensity becomes Core Memory
+        # If intensity is high OR scars are high, it sticks.
+        is_core = intensity > 2.0 or (self.state.scars > 0.8 and intensity > 1.0)
+        
+        node = MemoryNode(
+            text=text,
+            timestamp=self.state.age,
+            intensity=intensity,
+            emotional_tags=tags,
+            is_core=is_core
+        )
+        self.state.memory_buffer.add(node)
+        
+        if is_core:
+            self.logger.info(f"💎 [CRYSTAL] Core Memory Formed: '{text}'")
+
+    def calculate_emotional_spectrum(self, other_context: Optional['EgoState'] = None):
+        """Phase 17: Derives complex emotions from social physics."""
+        # 1. Despair: Pressure crushing stability
+        self.state.emotions.despair = self.state.narrative_pressure * (1.0 - self.state.stability) * (0.5 + self.state.scars)
+        
+        # 2. Zeal: Heroic Intensity + Conviction
+        self.state.emotions.zeal = self.state.heroic_intensity * self.state.conviction
+        
+        # 3. Envy: Social Inequality (needs comparison)
+        if other_context:
+            inequality = max(0, other_context.wealth - self.state.wealth) + max(0, (other_context.rank_tier - self.state.rank_tier) * 10)
+            if inequality > 0:
+                self.state.emotions.envy = min(1.0, (inequality / 100.0) * self.state.desire_intensity)
+        
+    def generate_inner_monologue(self) -> str:
+        """Phase 17: Generates a stream of consciousness based on friction."""
+        thought = ""
+        
+        # Dominant Emotion Driver
+        if self.state.emotions.despair > 0.6:
+            thought += f"Why go on? The pressure is too much ({self.state.narrative_pressure:.2f}). "
+            if self.state.scars > 0.5: thought += "These scars will never heal. "
+            
+        elif self.state.emotions.zeal > 0.6:
+            thought += "I can feel the fire rising. I must act. "
+            if self.state.current_intent: thought += f"I will {self.state.current_intent}. "
+            
+        elif self.state.emotions.envy > 0.5:
+            thought += "They have what I deserve. It burns me. "
+            
+        # Dissonance Check
+        if self.state.dissonance > 0.4:
+            thought += "I am not who I wanted to be. "
+            
+        if not thought:
+            thought = "I am simply existing in this moment."
+            
+        return f"({thought})"
+
+    def get_llm_context_prompt(self) -> str:
+        """Phase 17: Generates the full System Prompt for an LLM Persona."""
+        
+        # 1. Identity & Role
+        prompt = f"### IDENTITY\n"
+        prompt += f"You are {self.state.name}, a {self.state.family_role}.\n"
+        prompt += f"Archetype Path: {self.state.archetype_path} (Depth: {self.state.septenary_depth})\n"
+        
+        # 2. Physical & Social State
+        prompt += f"\n### CURRENT STATE\n"
+        prompt += f"Health (Body): {self.state.health:.2f}/1.0\n"
+        prompt += f"Social Rank: Tier {self.state.rank_tier} | Wealth: {self.state.wealth}\n"
+        prompt += f"Political Momentum: {self.state.victory_streak} (Victory Streak)\n"
+        
+        # 3. Soul Filters (The Lens of Qualla)
+        self.calculate_emotional_spectrum() # Ensure fresh emotions
+        prompt += f"\n### PSYCHOLOGICAL FILTERS\n"
+        if self.state.is_broken:
+            prompt += "- SPIRIT BROKEN: You are hopeless. You see only void and despair.\n"
+        else:
+            prompt += f"- Stability: {self.state.stability:.2f} (If low, you are anxious/unstable)\n"
+            
+        if self.state.scars > 0.5:
+            prompt += f"- SCARRED SOUL ({self.state.scars:.2f}): You are deeply traumatized. You distrust happiness and fear power.\n"
+            
+        # Complex Emotions
+        if self.state.emotions.despair > 0.5:
+            prompt += f"- DESPAIR ({self.state.emotions.despair:.2f}): You feel the weight of the world crushing you.\n"
+        if self.state.emotions.envy > 0.5:
+             prompt += f"- ENVY ({self.state.emotions.envy:.2f}): You burn with jealousy towards those who have more.\n"
+        if self.state.emotions.zeal > 0.5:
+             prompt += f"- ZEAL ({self.state.emotions.zeal:.2f}): You are driven by a fanatical mission.\n"
+             
+        prompt += f"- Current Obsession (Intent): '{self.state.current_intent}'\n"
+        
+        # 4. Inner Monologue (Stream of Consciousness)
+        prompt += f"\n### INNER MONOLOGUE (Private Thoughts)\n"
+        prompt += f"{self.generate_inner_monologue()}\n"
+        
+        # 5. Narrative Context (Memory)
+        prompt += f"\n### NARRATIVE CONTEXT\n"
+        prompt += self.state.memory_buffer.get_context_block()
+        
+        prompt += "\n### INSTRUCTION\n"
+        prompt += "Speak as this character. Do not break character. Reflect your scars, complex emotions, and social pressure in your tone."
+        
+        return prompt
+
+    def check_spirit_dominance(self, pain_level: float = 0.0, temptation_amount: float = 0.0) -> str:
+        """Phase 18: The Trinity Hierarchy (Spirit > Soul > Body)."""
+        # 1. Body vs Spirit (Pain)
+        if pain_level > 0:
+            if self.state.spirit_level > pain_level:
+                return "TRANSENDED_PAIN" # Spirit overrides Body
+            else:
+                return "LOWER_SUBMISSION" # Body breaks
+
+        # 2. Soul vs Spirit (Greed/Ambition)
+        if temptation_amount > 0:
+            # Soul wants the wealth, Spirit checks conviction
+            soul_desire = self.state.desire_intensity * (self.state.wealth / 100.0)
+            if self.state.spirit_level > soul_desire:
+                return "REJECTED_TEMPTATION"
+            else:
+                return "CORRUPTED_BY_SOUL"
+        
+        return "NEUTRAL"
+
+        return "NEUTRAL"
+
+    def get_dominant_layer(self) -> str:
+        """Phase 19: Determines the ruling layer of consciousness."""
+        # Normalize stats to 0-1 scale for comparison
+        body_score = self.state.health
+        soul_score = (self.state.rank_tier / 10.0 + (self.state.wealth > 50) * 0.5) / 1.5
+        spirit_score = self.state.spirit_level
+        
+        if spirit_score > 0.8: return "SPIRIT" # High Spirit always rules if awakened
+        
+        if body_score > soul_score and body_score > spirit_score:
+            return "BODY"
+        elif soul_score > body_score:
+            return "SOUL"
+        else:
+            return "SPIRIT" # Fallback
+
+    def perceive_other_power(self, target: 'SubjectiveEgo') -> str:
+        """
+        Phase 19: The Blindness of Flesh (Interaction Relativity).
+        Logic:
+        - 0 Step Difference: Standard Competition
+        - 1 Step Up (Body->Soul): Envy / Oppression
+        - 2 Steps Up (Body->Spirit): Blindness (See as weak)
+        """
+        my_layer = self.get_dominant_layer()
+        target_layer = target.get_dominant_layer()
+        
+        # 1. Body Perspective
+        if my_layer == "BODY":
+            if target_layer == "SOUL":
+                # 1 Step Up: Envy or Submission
+                if target.state.wealth > self.state.wealth:
+                    return "ENVY_SOURCE" # "Why do they have more?"
+                else:
+                    return "ELITIST_SCUM"
+            elif target_layer == "SPIRIT":
+                # 2 Steps Up: Blindness vs Grace Experience
+                if self.state.grace_received > 0.5:
+                    return "SAVIOR" # Experienced healing, so I see the Light
+                else:
+                    return "WEAK_HYPOCRITE" # Cannot see power, assumes pretense
+            else:
+                # Same Layer: Physical competition
+                return "PHYSICAL_THREAT" if target.state.health > self.state.health else "PREY"
+
+        # 2. Soul Perspective
+        elif my_layer == "SOUL":
+            if target_layer == "SPIRIT":
+                # 1 Step Up: Fear / Awe (Unseen influence)
+                return "DANGEROUS_ANOMALY"
+            elif target_layer == "BODY":
+                # 1 Step Down: Disdain / Tool
+                return "USEFUL_PAWN"
+            else:
+                # Same Layer: Social competition
+                return "POLITICAL_RIVAL"
+
+        # 3. Spirit Perspective
+        elif my_layer == "SPIRIT":
+            if target.state.spirit_level > 0.8:
+                return "KINDRED_SPIRIT"
+            elif target.state.is_broken:
+                return "LOST_SOUL"
+            else:
+                return "SLEEPING_BROTHER"
+                
+        return "UNKNOWN"
 
     def get_subjective_report(self) -> str:
         level = self.axis.get_level(self.state.septenary_depth)
