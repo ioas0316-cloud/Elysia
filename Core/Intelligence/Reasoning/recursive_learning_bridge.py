@@ -61,7 +61,7 @@ if __name__ == "__main__":
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
     
     # Test Harvest
-    selka = SubjectiveEgo("Selka", "Guide", depth=2)
+    selka = SubjectiveEgo("Selka", "Guide", depth=2) # The Reflection
     selka.record_memory("The warmth of the sun brought peace to the villagers.")
     
     bridge = RecursiveLearningBridge()

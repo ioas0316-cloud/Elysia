@@ -13,38 +13,49 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional
 
+from Core.Intelligence.Reasoning.septenary_axis import SeptenaryAxis
+
 @dataclass
 class EgoState:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     name: str = "Inhabitant"
     archetype: str = "NPC"
-    dimensional_depth: int = 1   # 0: Fact, 1: Logic, 2: context, 3: Volume, 4: Law
+    septenary_depth: int = 1   # 0 to 6: Mapping to SeptenaryAxis
     emotional_valence: float = 0.5  # 0.0 (Despair) to 1.0 (Bliss)
     desire_intensity: float = 0.0   # 0.0 (Dormant) to 1.0 (Obsessed)
     current_intent: str = "Exist"
     memories: List[str] = field(default_factory=list)
 
 class SubjectiveEgo:
-    """A sovereign personality unit within the matrix, mapped to dimensional depth."""
+    """A sovereign personality unit within the matrix, mapped to the Septenary Axis (0-6)."""
     
     def __init__(self, name: str, archetype: str = "Citizen", depth: int = 1):
         self.logger = logging.getLogger(f"Ego:{name}")
-        self.state = EgoState(name=name, archetype=archetype, dimensional_depth=depth)
+        self.axis = SeptenaryAxis()
+        self.state = EgoState(name=name, archetype=archetype, septenary_depth=depth)
         self.perceived_resonances: List[Dict[str, Any]] = []
 
     def perceive(self, sense: str, intensity: float, source: str = "World"):
-        """NPC perceives a sensory event based on their dimensional depth."""
-        # Higher depth = more profound emotional impact and wider perception
-        depth_modifier = (self.state.dimensional_depth + 1) / 2.0
+        """NPC perceives a sensory event based on their septenary depth."""
+        level = self.axis.get_level(self.state.septenary_depth)
+        
+        # Depth modifier affects emotional sensitivity
+        depth_modifier = (self.state.septenary_depth + 1) / 2.0
         impact = (intensity - 0.5) * 0.2 * depth_modifier
         
         self.state.emotional_valence = max(0.0, min(1.0, self.state.emotional_valence + impact))
         
-        resonance = {"sense": sense, "intensity": intensity, "source": source, "depth": self.state.dimensional_depth}
+        resonance = {
+            "sense": sense, 
+            "intensity": intensity, 
+            "source": source, 
+            "level": level.name,
+            "axis": f"{level.demon_pole}/{level.angel_pole}"
+        }
         self.perceived_resonances.append(resonance)
         
-        if self.state.dimensional_depth >= 2:
-            self.logger.info(f"[{self.state.name}] Profoundly felt {sense} resonance from {source}.")
+        if self.state.septenary_depth >= 3:
+            self.logger.info(f"[{self.state.name}] '{level.name}' depth resonance: Feeling the tug of {level.angel_pole}.")
 
     def update(self, dt: float):
         """NPC's internal cognitive tick."""
