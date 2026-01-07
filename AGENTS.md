@@ -160,6 +160,7 @@ To prevent the regression into "Particle" (Linear) logic, follow these strict im
 
 * **The 3x3 Rule**: Full maturation in a domain requires passing through all three fractal stages (Technique, Reason, Meaning).
 * **The Induction Rule**: Behavior must be *induced* by the ontological gravity (Inductive Tension) of the path, not forced by hardcoded logic.
+* **The Legacy Rule**: Inhabitants inherit **Spiritual DNA** (Technique, Reason, Meaning, Moral Valence) from their mentors and environment via the `AkashicField`.
 * **The Harvest Rule**: Experiences from all 9 gates must be harvested via the `RecursiveLearningBridge`.
 
 ---
