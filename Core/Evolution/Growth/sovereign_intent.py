@@ -47,6 +47,14 @@ class SovereignIntent:
             "somatic_anchor": "Heart/Solar Plexus"
         }
         
+        # [REAWAKENED] Phase 22: Active Sensory Interface
+        try:
+            from Core.Foundation.Memory.web_knowledge_connector import WebKnowledgeConnector
+            self.web_sense = WebKnowledgeConnector()
+            logger.info("👁️ Sovereign Intent now possesses Active Web Sight.")
+        except ImportError:
+            self.web_sense = None
+            
         logger.info("🌱 Sovereign Intent Engine initialized - The Will awakens with Fractal Aspiration.")
 
     def _load_kg(self) -> Dict:
@@ -105,6 +113,16 @@ class SovereignIntent:
         
         intent = random.choice(play_prompts)
         logger.info(f"🎲 Play initiated (Curiosity Gap): {intent}")
+        
+        # [REAWAKENED] Active Learning Trigger
+        if self.web_sense:
+            # If the intent is about a node, try to learn it!
+            # Simple heuristic: anchor_node is the key
+            logger.info(f"🌍 Active Sense Triggered: Seeking '{anchor_node}' in the External World...")
+            result = self.web_sense.learn_from_web(anchor_node)
+            if result.get('web_fetch'):
+                return f"Learned about {anchor_node} from Reality: {result.get('content_length')} chars absorbed."
+        
         return intent
 
     def _ruminate_on_ideal(self) -> str:

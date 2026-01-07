@@ -21,6 +21,9 @@ from dataclasses import dataclass, field
 from typing import Dict, List, Set, Optional, Tuple
 from enum import Enum
 import math
+import logging
+
+logger = logging.getLogger("HolographicMemory")
 
 # Neural Registry 데코레이터 (Elysia 유기적 임포트 시스템)
 try:
@@ -116,6 +119,155 @@ class HolographicMemory:
         # 기본: 모든 레이어 활성화
         for layer in KnowledgeLayer:
             self.active_layers.add(layer)
+        
+        # [PHASE 28] Hydrate from persistent storage
+        self._hydrate_from_hippocampus()
+        self._hydrate_from_orbs()
+        self._hydrate_from_knowledge_json()
+
+    def _hydrate_from_hippocampus(self):
+        """
+        [PHASE 28: Memory Hydration]
+        Load existing concepts from Hippocampus (SQLite DB) into HolographicMemory.
+        This unifies the fragmented memory systems.
+        """
+        try:
+            from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
+            hippocampus = Hippocampus()
+            
+            # Get all concept IDs from Hippocampus
+            concept_ids = hippocampus.get_all_concept_ids(limit=500)
+            logger.info(f"🔄 Hydrating from Hippocampus: {len(concept_ids)} concepts found...")
+            
+            for concept_id in concept_ids:
+                # Recall the concept details
+                memories = hippocampus.recall(concept_id)
+                if memories:
+                    # Parse the first memory line (format: "[Name] (Realm, G:Gravity): Definition")
+                    first_line = memories[0] if memories else ""
+                    
+                    # Extract name from concept_id or first_line
+                    name = concept_id.replace("doc:", "").replace("concept:", "").replace("_", " ").title()
+                    
+                    # Map realm to KnowledgeLayer
+                    layers = {KnowledgeLayer.HUMANITIES: 0.5}  # Default
+                    if "spirit" in first_line.lower():
+                        layers = {KnowledgeLayer.PHILOSOPHY: 0.8}
+                    elif "techne" in first_line.lower():
+                        layers = {KnowledgeLayer.PHYSICS: 0.7, KnowledgeLayer.MATHEMATICS: 0.5}
+                    elif "logos" in first_line.lower():
+                        layers = {KnowledgeLayer.PHILOSOPHY: 0.6, KnowledgeLayer.HUMANITIES: 0.4}
+                    
+                    # Deposit into Holographic Memory
+                    self.deposit(
+                        concept=name,
+                        layers=layers,
+                        amplitude=1.0,
+                        entropy=0.5,
+                        qualia=0.5
+                    )
+            
+            logger.info(f"✅ Hippocampus hydration: {len(self.nodes)} concepts")
+            
+        except ImportError as e:
+            logger.warning(f"⚠️ Hippocampus not available for hydration: {e}")
+        except Exception as e:
+            logger.error(f"❌ Hippocampus hydration failed: {e}")
+
+    def _hydrate_from_orbs(self):
+        """
+        [PHASE 28.5: Orb Hydration]
+        Load memory orbs from data/Memory/orbs/*.json (orbs are stored as JSON)
+        """
+        import os
+        import json
+        orb_dir = "data/Memory/orbs"
+        
+        if not os.path.exists(orb_dir):
+            logger.warning(f"⚠️ Orb directory not found: {orb_dir}")
+            return
+        
+        orb_count = 0
+        try:
+            for filename in os.listdir(orb_dir):
+                if filename.endswith(".json"):
+                    filepath = os.path.join(orb_dir, filename)
+                    try:
+                        with open(filepath, 'r', encoding='utf-8') as f:
+                            orb_data = json.load(f)
+                        
+                        # Extract concept name from orb
+                        name = orb_data.get("name", orb_data.get("concept", filename.replace(".json", "")))
+                        
+                        # Skip if already exists
+                        if name in self.nodes:
+                            continue
+                        
+                        # Deposit with default layers
+                        self.deposit(
+                            concept=name,
+                            layers={KnowledgeLayer.HUMANITIES: 0.6},
+                            amplitude=orb_data.get("gravity", 1.0),
+                            entropy=0.5,
+                            qualia=0.5
+                        )
+                        orb_count += 1
+                    except Exception as e:
+                        pass  # Skip malformed orbs
+            
+            logger.info(f"✅ Orb hydration: +{orb_count} concepts (Total: {len(self.nodes)})")
+        except Exception as e:
+            logger.error(f"❌ Orb hydration failed: {e}")
+
+    def _hydrate_from_knowledge_json(self):
+        """
+        [PHASE 28.5: Knowledge JSON Hydration]
+        Load key knowledge files (self_knowledge, hierarchical_knowledge, etc.)
+        """
+        import os
+        import json
+        
+        knowledge_files = [
+            ("data/Knowledge/hierarchical_knowledge.json", KnowledgeLayer.HUMANITIES),
+            ("data/Knowledge/wave_knowledge.json", KnowledgeLayer.PHYSICS),
+            ("data/Knowledge/concept_dictionary.json", KnowledgeLayer.PHILOSOPHY),
+        ]
+        
+        json_count = 0
+        for filepath, default_layer in knowledge_files:
+            if not os.path.exists(filepath):
+                continue
+            
+            try:
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                
+                # Handle different JSON structures
+                concepts = []
+                if isinstance(data, dict):
+                    concepts = list(data.keys())[:100]  # Limit to avoid explosion
+                elif isinstance(data, list):
+                    for item in data[:100]:
+                        if isinstance(item, dict) and "name" in item:
+                            concepts.append(item["name"])
+                        elif isinstance(item, str):
+                            concepts.append(item)
+                
+                for concept in concepts:
+                    if concept and not concept.startswith("_"):
+                        self.deposit(
+                            concept=str(concept).title(),
+                            layers={default_layer: 0.7},
+                            amplitude=1.0,
+                            entropy=0.5,
+                            qualia=0.5
+                        )
+                        json_count += 1
+                        
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to load {filepath}: {e}")
+        
+        logger.info(f"✅ Knowledge JSON hydration: +{json_count} concepts (Total: {len(self.nodes)})")
     
     # =========================================
     # 레이어 토글 (RGB 조명 ON/OFF)

@@ -17,16 +17,24 @@ import re
 import ast
 import logging
 from typing import List, Dict, Any
-from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
-from Core.Foundation.Memory.Orb.orb_manager import OrbManager
+
+# [REAWAKENING] Use Unified Core instead of legacy Hippocampus
+from Core.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+from Core.Intelligence.Memory.holographic_memory import KnowledgeLayer
 
 logger = logging.getLogger("KnowledgeIngestor")
 
 class KnowledgeIngestor:
     def __init__(self):
-        self.hippocampus = Hippocampus()
-        self.orb_manager = OrbManager()
-        logger.info("🍽️ KnowledgeIngestor ready to feast.")
+        # [REAWAKENING] Connect to the verified Holographic Memory
+        self.brain = UnifiedExperienceCore()
+        # Ensure memory is active (it should be init by Core, but safe check)
+        if not self.brain.holographic_memory:
+             logger.warning("⚠️ Holographic Memory not found in Core. Creating fallback.")
+             from Core.Intelligence.Memory.holographic_memory import HolographicMemory
+             self.brain.holographic_memory = HolographicMemory()
+
+        logger.info("🍽️ KnowledgeIngestor ready to feast (Connected to Holographic Memory).")
 
     def digest_directory(self, root_path: str):
         """Recursively digests all supported files in a directory."""
@@ -44,86 +52,48 @@ class KnowledgeIngestor:
         logger.info(f"🥨 Digested {count} files.")
 
     def _digest_markdown(self, file_path: str):
-        """Parses Markdown structure into Concepts."""
+        """Parses Markdown structure into Concepts (Axioms)."""
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
 
-            # 1. File Concept (The Document Itself)
             filename = os.path.basename(file_path).replace(".md", "")
-            doc_id = f"doc:{filename}"
-            self.hippocampus.learn(
-                id=doc_id,
-                name=filename.replace("_", " ").title(),
-                definition=f"A document located at {file_path}",
-                tags=["document", "knowledge"],
-                frequency=400.0,
-                realm="Logos"
-            )
+            
+            # [REAWAKENING] Deposit as Concept
+            # Docs are High Weight (Axioms)
+            if self.brain.holographic_memory:
+                self.brain.holographic_memory.deposit(
+                    concept=filename.replace("_", " ").title(),
+                    layers={
+                        KnowledgeLayer.PHILOSOPHY: 0.9, # Weight 0.9 for Docs
+                        KnowledgeLayer.HUMANITIES: 0.8
+                    },
+                    amplitude=2.0, # High Amplitude for 'Scripture'
+                    entropy=0.5,   # Low Entropy (Stable)
+                    qualia=0.8     # High meaningfulness
+                )
 
             # 2. Extract Sections (Headers)
-            # Regex for headers: # Title
             headers = re.findall(r'^(#+)\s+(.+)$', content, re.MULTILINE)
             
-            parent_stack = [(0, doc_id)] # (Level, ID)
-
             for level_hashes, title in headers:
-                level = len(level_hashes)
                 clean_title = title.strip()
-                concept_id = f"concept:{clean_title.lower().replace(' ', '_')}"
                 
-                # Simple heuristic for definition: Find text after this header (omitted for speed)
-                snippet = f"Section '{clean_title}' from {filename}"
+                # Deposit Section as Sub-Concept
+                if self.brain.holographic_memory:
+                     node = self.brain.holographic_memory.deposit(
+                        concept=clean_title,
+                        layers={
+                            KnowledgeLayer.PHILOSOPHY: 0.7
+                        },
+                        amplitude=1.5,
+                        entropy=0.6,
+                        qualia=0.6
+                     )
+                     # Link to Document
+                     node.connections.append(filename.replace("_", " ").title())
 
-                # Learn the Concept
-                self.hippocampus.learn(
-                    id=concept_id,
-                    name=clean_title,
-                    definition=snippet,
-                    tags=["section", "concept"],
-                    frequency=432.0,
-                    realm="Logos"
-                )
-
-                # Connect to Parent
-                # Pop stack until we find a parent with lower level
-                while parent_stack and parent_stack[-1][0] >= level:
-                    parent_stack.pop()
-                
-                if parent_stack:
-                    parent_id = parent_stack[-1][1]
-                    self.hippocampus.connect(parent_id, concept_id, "contains", weight=0.8)
-                    logger.debug(f"   🔗 Linked {parent_id} -> {concept_id}")
-
-                parent_stack.append((level, concept_id))
-                
-                # 3. Crystalize into Orb (Holographic Memory)
-                # Create a wave representation of the content (Simplified: Length/Ascii Sum)
-                # In real system, this would be embeddings.
-                data_wave = [float(ord(c)) % 100 for c in snippet[:50]]
-                # Emotion: 432Hz (Truth) for Knowledge
-                emotion_wave = [432.0] * 10
-                
-                self.orb_manager.save_memory(
-                    name=clean_title, 
-                    data_wave=data_wave, 
-                    emotion_wave=emotion_wave
-                )
-                
-                 # 4. Semantic Linking (The Web)
-                 # Scan for keywords that match other known concepts (Simplified)
-                keywords = ["resonance", "logos", "will", "heart", "field", "elysia", "void"]
-                lower_snippet = snippet.lower()
-                for k in keywords:
-                    if k in lower_snippet and k != clean_title.lower():
-                        # Link to the generic concept ID if possible, or fuzzy match
-                        # Here we just link to a known 'seed' if it exists or create a placeholder
-                        target_id = f"concept:{k}"
-                        self.hippocampus.learn(target_id, k.title(), "Auto-extracted concept", ["concept"], 1.0, "Logos")
-                        self.hippocampus.connect(concept_id, target_id, "relates_to", 0.5)
-                        logger.debug(f"   🕸️ Semantic Link: {clean_title} <-> {k}")
-
-            logger.info(f"   📘 Digested Markdown & Crystallized Orbs: {filename}")
+            logger.info(f"   📘 Digested Axioms: {filename}")
 
         except Exception as e:
             logger.error(f"Failed to digest markdown {file_path}: {e}")
@@ -136,58 +106,44 @@ class KnowledgeIngestor:
 
             filename = os.path.basename(file_path)
             module_name = filename.replace(".py", "")
-            module_id = f"code:{module_name}"
 
             # Learn Module
-            self.hippocampus.learn(
-                id=module_id,
-                name=module_name,
-                definition=f"Python module: {filename}",
-                tags=["code", "module"],
-                frequency=500.0,
-                realm="Techne"
-            )
+            if self.brain.holographic_memory:
+                self.brain.holographic_memory.deposit(
+                    concept=module_name,
+                    layers={
+                        KnowledgeLayer.PHYSICS: 0.8, # Code is Physics/Logic
+                        KnowledgeLayer.MATHEMATICS: 0.7
+                    },
+                    amplitude=1.2,
+                    entropy=0.8, # Code is complex
+                    qualia=0.1   # Purely functional (unless creative)
+                )
 
-            # Parse AST
+            # Parse AST for Classes/Functions
             tree = ast.parse(source)
             
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
-                    class_id = f"class:{node.name}"
-                    doc = ast.get_docstring(node) or "No description."
-                    
-                    self.hippocampus.learn(
-                        id=class_id,
-                        name=node.name,
-                        definition=doc,
-                        tags=["class", "code"],
-                        frequency=500.0,
-                        realm="Techne"
-                    )
-                    self.hippocampus.connect(module_id, class_id, "defines", 0.9)
-                    
-                    # Connect methods
-                    for item in node.body:
-                        if isinstance(item, ast.FunctionDef):
-                             method_id = f"method:{node.name}.{item.name}"
-                             method_doc = ast.get_docstring(item) or "Method."
-                             self.hippocampus.learn(
-                                 id=method_id,
-                                 name=f"{node.name}.{item.name}",
-                                 definition=method_doc,
-                                 tags=["method", "code"],
-                                 frequency=500.0,
-                                 realm="Techne"
-                             )
-                             self.hippocampus.connect(class_id, method_id, "has_method", 0.7)
+                    if self.brain.holographic_memory:
+                        cls_node = self.brain.holographic_memory.deposit(
+                            concept=node.name,
+                            layers={KnowledgeLayer.PHYSICS: 0.8},
+                            amplitude=1.0,
+                            entropy=0.7,
+                            qualia=0.2
+                        )
+                        cls_node.connections.append(module_name)
 
-            logger.info(f"   🐍 Digested Code: {filename}")
+            logger.info(f"   🐍 Digested Code Structure: {filename}")
 
         except Exception as e:
-            # logger.warning(f"Skipping {file_path}: {e}") # Reduce noise for simple script errors
+            # logger.warning(f"Skipping {file_path}: {e}") # Reduce noise
             pass
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     ingestor = KnowledgeIngestor()
+    # Test on Docs
     ingestor.digest_directory("c:\\Elysia\\docs\\Philosophy")
+

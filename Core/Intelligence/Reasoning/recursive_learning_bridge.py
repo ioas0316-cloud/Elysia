@@ -23,23 +23,28 @@ class RecursiveLearningBridge:
 
     def harvest_experience(self, inhabitant: SubjectiveEgo):
         """Extracts significant memories and transforms them into principles."""
-        if not inhabitant.state.memories:
+        # Check buffers
+        if not inhabitant.state.memory_buffer.recent_memories and not inhabitant.state.memory_buffer.core_memories:
             return
 
         self.logger.info(f"🌾 Harvesting experiences from [{inhabitant.state.name}]...")
         
-        for memory in inhabitant.state.memories:
+        # Combine memories
+        all_memories = inhabitant.state.memory_buffer.core_memories + inhabitant.state.memory_buffer.recent_memories
+        
+        for memory_node in all_memories:
+            memory_text = memory_node.text
             # 1. Lift the memory from 0D (Fact) to 4D (Law)
-            thought = self.reasoner.contemplate(memory)
+            thought = self.reasoner.contemplate(memory_text)
             
             # 2. Add subject-specific context
             thought.d2_context.append(f"Source: {inhabitant.state.name}")
-            thought.d2_context.append(f"Archetype: {inhabitant.state.archetype}")
+            thought.d2_context.append(f"Archetype: {inhabitant.state.archetype_path}")
             
             # 3. Consolidate into wisdom store
             wisdom = {
                 "source": inhabitant.state.name,
-                "raw_experience": memory,
+                "raw_experience": memory_text,
                 "principle": thought.d4_principle,
                 "coherence": thought.coherence
             }

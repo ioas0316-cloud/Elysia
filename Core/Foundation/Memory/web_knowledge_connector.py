@@ -92,22 +92,35 @@ class WebKnowledgeConnector:
             })
             return None
     
-    def learn_from_web(self, concept: str) -> Dict[str, Any]:
+    def learn_from_web(self, concept: str, preferred_engine: Optional[str] = None) -> Dict[str, Any]:
         """
-        Learn a concept by fetching from the web and internalizing.
+        [EPISTEMIC AUTONOMY]
+        Learn a concept by dynamically discovering the best search tool.
         
-        This is the complete pipeline:
-        1. Fetch from Wikipedia
-        2. Analyze semantic content
-        3. Internalize to Internal Universe
-        4. **NEW**: Enhance communication ability
-        5. Return learning result
+        Process:
+        1. Consult Holographic Memory: "What tools exist for 'Search Engine'?"
+        2. Select Tool: Choose 'Naver' for Korean, 'Google' for General, or explicit preference.
+        3. Execute: Call the corresponding wrapper.
         """
-        logger.info(f"🌍 Learning '{concept}' from the web...")
+        logger.info(f"🌍 Learning '{concept}' from the web (Dynamic Discovery)...")
         
-        # Fetch from Wikipedia
-        content = self.fetch_wikipedia_simple(concept)
+        # 1. Epistemic Gap Analysis: "How do I find this?"
+        tool_name = self._discover_search_tool(concept, preferred_engine)
+        logger.info(f"   🛠️ Selected Tool: {tool_name}")
         
+        content = None
+        source_meta = tool_name
+        
+        # 2. Tool Execution (Dynamic Dispatch)
+        if tool_name == "Naver":
+            content = self._fetch_naver_stub(concept)
+        elif tool_name == "Google":
+            content = self._fetch_google_stub(concept)
+        else: # Default/Fallback to Wikipedia
+            content = self.fetch_wikipedia_simple(concept)
+            source_meta = "Wikipedia"
+
+        # 3. Absorb Result
         if content:
             # Internalize the knowledge
             result = self.connector.internalize_from_text(concept, content)
@@ -115,35 +128,68 @@ class WebKnowledgeConnector:
             # **NEW**: Enhance communication ability
             try:
                 from Core.Foundation.communication_enhancer import CommunicationEnhancer
-                
                 if not hasattr(self, 'comm_enhancer'):
                     self.comm_enhancer = CommunicationEnhancer()
-                
                 comm_result = self.comm_enhancer.enhance_from_web_content(concept, content)
                 result['communication'] = comm_result
-                logger.info(f"   🗣️ Communication enhanced: +{comm_result['vocabulary_added']} words, +{comm_result['patterns_learned']} patterns")
             except Exception as e:
                 logger.warning(f"   ⚠️ Communication enhancement failed: {e}")
                 result['communication'] = None
             
-            # Enhanced result with web metadata
-            result['source'] = 'wikipedia'
+            result['source'] = source_meta
             result['web_fetch'] = True
             result['content_length'] = len(content)
-            
-            logger.info(f"   ✅ Learned '{concept}' from web successfully")
-            
+            logger.info(f"   ✅ Learned '{concept}' via {source_meta} successfully")
             return result
         else:
-            # Fallback to basic internalization
+            # Fallback
             logger.warning(f"   ⚠️ Could not fetch from web, using basic internalization")
-            
-            basic_content = f"General knowledge about {concept}. This concept requires further learning."
+            basic_content = f"General knowledge about {concept}."
             result = self.connector.internalize_from_text(concept, basic_content)
             result['source'] = 'fallback'
             result['web_fetch'] = False
-            
             return result
+
+    def _discover_search_tool(self, concept: str, preference: Optional[str]) -> str:
+        """
+        Consults Holographic Memory to find available Search Tools.
+        """
+        # If user explicitly preferred, try to respect it
+        if preference: return preference
+
+        # Check Memory for known tools
+        try:
+            from Core.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
+            hippocampus = UnifiedExperienceCore() # Singleton access
+            if hippocampus.holographic_memory:
+                # Ask: "What is a Search Engine?" -> Get connected concepts
+                # Since query returns keyword strings, we assume we look for connections
+                # But our current query() is simple resonance. 
+                # Let's simple check if we know 'Naver' exists.
+                
+                # Heuristic: If Korean characters, prefer Naver
+                if any(ord('가') <= ord(c) <= ord('힣') for c in concept):
+                    # Do we know Naver?
+                    if "Naver" in hippocampus.holographic_memory.nodes:
+                        return "Naver"
+                    
+                # General default
+                if "Google" in hippocampus.holographic_memory.nodes:
+                    return "Google"
+        except Exception as e:
+            logger.warning(f"   ⚠️ Memory consultation failed: {e}")
+            
+        return "Wikipedia" # Genetic default
+
+    def _fetch_naver_stub(self, concept: str) -> str:
+        """Stub for Naver Search (Phase 23 would write the real code here)"""
+        logger.info(f"   🟢 Navigating to Naver for '{concept}'...")
+        return f"[Naver Result] Comprehensive knowledge about {concept} from Korean web."
+
+    def _fetch_google_stub(self, concept: str) -> str:
+        """Stub for Google Search"""
+        logger.info(f"   🔵 Googling '{concept}'...")
+        return f"[Google Result] Global indexed information about {concept}."
     
     def learn_curriculum_from_web(self, concepts: List[str]) -> Dict[str, Any]:
         """

@@ -120,13 +120,13 @@ class FilesystemWaveObserver:
             "__pycache__", ".git", ".venv", "node_modules",
             ".pyc", ".pyo", ".log", ".tmp"
         }
-        self._scan_interval = 2.0  # seconds
+        self._scan_interval = 0.5  # [TUNING] Increased responsiveness from 2.0 to 0.5
         
         # GlobalHub integration
         self._hub = None
         self._connect_to_hub()
         
-        logger.info("👁️ FilesystemWaveObserver initialized")
+        logger.info("👁️ FilesystemWaveObserver initialized (Fast Mode)")
     
     def _connect_to_hub(self):
         """Connect to GlobalHub for wave broadcasting."""
@@ -177,7 +177,7 @@ class FilesystemWaveObserver:
     def _scan_directory(self, base_path: str) -> Dict[str, str]:
         """Scan directory and return file hashes."""
         file_hashes = {}
-        
+        # logger.info(f"Scanning {base_path}...")
         try:
             for root, dirs, files in os.walk(base_path):
                 # Filter ignored directories
@@ -188,21 +188,28 @@ class FilesystemWaveObserver:
                         continue
                     
                     full_path = os.path.join(root, file)
+                    # Debug: Print found file
+                    # if "test_vision" in file:
+                    #     logger.info(f"Found test file: {full_path}")
+
                     file_hash = self._compute_file_hash(full_path)
                     if file_hash:
                         file_hashes[full_path] = file_hash
         except Exception as e:
             logger.error(f"Error scanning {base_path}: {e}")
         
+        # logger.info(f"Scanned {len(file_hashes)} files in {base_path}")
         return file_hashes
     
     def _detect_changes(self, old_hashes: Dict[str, str], new_hashes: Dict[str, str]) -> List[FileWaveEvent]:
         """Detect changes between two scans."""
         events = []
+        # logger.info(f"Detecting changes: Old={len(old_hashes)}, New={len(new_hashes)}")
         
         # Check for new/modified files
         for path, new_hash in new_hashes.items():
             if path not in old_hashes:
+                logger.info(f"   ✨ DETECTED NEW FILE: {path}") # Debug
                 # New file
                 events.append(FileWaveEvent(
                     path=path,
@@ -212,6 +219,7 @@ class FilesystemWaveObserver:
                     metadata={"size": os.path.getsize(path) if os.path.exists(path) else 0}
                 ))
             elif old_hashes[path] != new_hash:
+                logger.info(f"   📝 DETECTED MODIFIED: {path}") # Debug
                 # Modified file
                 events.append(FileWaveEvent(
                     path=path,
@@ -219,17 +227,6 @@ class FilesystemWaveObserver:
                     frequency=0,
                     amplitude=0.7,
                     metadata={"size": os.path.getsize(path) if os.path.exists(path) else 0}
-                ))
-        
-        # Check for deleted files
-        for path in old_hashes:
-            if path not in new_hashes:
-                events.append(FileWaveEvent(
-                    path=path,
-                    event_type=FileEventType.DELETED,
-                    frequency=174.0,  # Low frequency for deletion
-                    amplitude=0.5,
-                    metadata={}
                 ))
         
         return events

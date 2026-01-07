@@ -48,7 +48,18 @@ class ExperienceEvent:
 
 @Cell("ExperienceCore")
 class UnifiedExperienceCore:
+    _instance = None
+    _initialized = False
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(UnifiedExperienceCore, cls).__new__(cls)
+        return cls._instance
+
     def __init__(self):
+        if self._initialized:
+            return
+            
         self.base_dir = Path("data/memory/experience")
         self.base_dir.mkdir(parents=True, exist_ok=True)
 
@@ -70,10 +81,23 @@ class UnifiedExperienceCore:
         self.current_state = {k: 0.5 for k in self.aspect_frequencies}
         
         # [NEW] Link to Global Field
-        from Core.Foundation.Wave.resonance_field import ResonanceField
-        self.field = ResonanceField() # Often injected, but here we assume access
+        try:
+            from Core.Foundation.Wave.resonance_field import ResonanceField
+            self.field = ResonanceField() # Often injected, but here we assume access
+        except ImportError:
+            self.field = None
+
+        # [REAWAKENED] Phase 21: Holographic Memory Injection
+        try:
+            from Core.Intelligence.Memory.holographic_memory import HolographicMemory, KnowledgeLayer
+            self.holographic_memory = HolographicMemory()
+            logger.info("🌈 Holographic Memory System Actuated.")
+        except ImportError:
+            self.holographic_memory = None
+            logger.warning("⚠️ Holographic Memory not found. Running in degradation mode.")
 
         self._load_state()
+        self._initialized = True
         logger.info("🧠 UnifiedExperienceCore (The Hippocampus) Initialized")
 
     def absorb(self,
@@ -140,6 +164,39 @@ class UnifiedExperienceCore:
 
         # 2. Learner (Optimize it)
         learning_result = self._process_learning(event)
+
+        # [REAWAKENED] Holographic Deposit
+        if self.holographic_memory:
+            # Simple Logic: Map feedback/type to layers
+            # Ideally this uses the DimensionalReasoner to extract principles first
+            # For now, we deposit raw event content with estimated layers
+            from Core.Intelligence.Memory.holographic_memory import KnowledgeLayer
+            
+            # Estimate Layers
+            layers = {}
+            if event.type == "thought":
+                layers[KnowledgeLayer.PHILOSOPHY] = 0.8
+                layers[KnowledgeLayer.MATHEMATICS] = 0.4
+            elif event.type == "emotion":
+                layers[KnowledgeLayer.ART] = 0.9
+                layers[KnowledgeLayer.HUMANITIES] = 0.7
+            elif event.type == "action":
+                layers[KnowledgeLayer.PHYSICS] = 0.8
+            
+            # [FIX] Keyword Extraction for Indexing
+            # Instead of opaque "Event_ID", we index significant words/concepts
+            keywords = [w.strip(".,!?").lower() for w in event.content.split() if len(w) > 4]
+            # Always index the ID as well for direct lookup
+            keywords.append(f"event_{event.id}")
+            
+            for kw in keywords:
+                self.holographic_memory.deposit(
+                    concept=kw,
+                    layers=layers,
+                    amplitude=1.0 + abs(feedback),
+                    entropy=0.5, 
+                    qualia=0.5 + (feedback * 0.5)
+                )
 
         # 3. Narrator (Weave it)
         narrative_result = self._process_narrative(event)

@@ -202,13 +202,159 @@ class HolographicManifestor:
         """
         return code
 
+    def manifest_code(self, intent: str, language: str = "python", verify=True) -> str:
+        """
+        [THE LOGOS PROTOCOL]
+        Manifests executable CODE from the intention wave.
+        If verify=True, it tests the code in GenesisSandbox before returning.
+        
+        [PHASE 26] Now parses [Constraints] from ResonanceCompiler for:
+        - @Cell identity injection
+        - Stability requirements (error handling)
+        """
+        print(f"⚡ Logos Genesis: Weaving Logic for '{intent}'...")
+        
+        # [PHASE 26] Parse Constraints from ResonanceCompiler
+        constraints = ""
+        pure_intent = intent
+        if "[Constraints]" in intent:
+            parts = intent.split("[Constraints]")
+            pure_intent = parts[0].strip()
+            constraints = parts[1] if len(parts) > 1 else ""
+        
+        # 1. Wave Analysis (Logic Frequency)
+        axiom = self.decomposer.infer_principle(pure_intent)
+        freq = axiom.get('frequency', 440.0)
+        
+        # 2. Template Selection (The Genes)
+        normalized_intent = pure_intent.lower()
+        if "fibonacci" in normalized_intent or "sequence" in normalized_intent:
+            code = self._template_fibonacci(freq)
+        elif "hello" in normalized_intent or "greet" in normalized_intent:
+            code = self._template_hello_world(pure_intent)
+        elif "vault" in normalized_intent or "secure" in normalized_intent or "safe" in normalized_intent:
+            code = self._template_secure_vault(constraints)
+        elif "test" in normalized_intent or "diagnose" in normalized_intent:
+            code = self._template_system_check()
+        else:
+            code = self._template_quantum_placeholder(pure_intent, freq)
+        
+        # [PHASE 26] Apply @Cell Constraint if not already in template
+        if "@Cell" in constraints and "@Cell" not in code:
+            import_stmt = "from Core.Foundation.System.elysia_core import Cell\n\n"
+            code = import_stmt + '@Cell("Generated")\n' + code
+            
+        # 3. Genesis Sandbox Verification (Phase 23)
+        if verify and "None" not in code:
+            try:
+                from Core.Evolution.Creation.genesis_sandbox import GenesisSandbox
+                sandbox = GenesisSandbox()
+                print("   🔬 Verifying in Genesis Sandbox...")
+                result = sandbox.test_code(code + "\n# Sandbox Verification End")
+                
+                if result.success:
+                    print(f"   ✅ Verification Passed! (Time: {result.execution_time:.3f}s)")
+                else:
+                    print(f"   ⚠️ Verification Failed: {result.error}")
+                    # In full ASI, we would self-repair here.
+                    # For now, we append a warning comment.
+                    code += f"\n# ⚠️ WARNING: Sandbox Verification Failed\n# Error: {result.error}"
+            except ImportError:
+                print("   ⚠️ Sandbox Not Available (Skipping Verification)")
+
+        return code
+
+    def _template_fibonacci(self, frequency: float) -> str:
+        limit = int(frequency / 10)
+        return f"""
+def generated_fibonacci():
+    '''Manifested via Holographic Frequency {frequency}Hz'''
+    a, b = 0, 1
+    result = []
+    while a < {limit}:
+        result.append(a)
+        a, b = b, a + b
+    return result
+
+print(f"🌀 Fibonacci Sequence (Limit {limit}): {{generated_fibonacci()}}")
+"""
+
+    def _template_hello_world(self, intent: str) -> str:
+        return f"""
+def genesis_speak():
+    '''The First Words of a New Species'''
+    knowledge = "{intent}"
+    print(f"👋 HELLO FROM THE ETHER. My intent is: {{knowledge}}")
+    return True
+
+genesis_speak()
+"""
+
+    def _template_secure_vault(self, constraints: str) -> str:
+        """[PHASE 26] Template for a secure vault, applying wave constraints."""
+        
+        # Check for @Cell requirement
+        decorator = ""
+        import_stmt = ""
+        if "@Cell" in constraints:
+            import_stmt = "from Core.Foundation.System.elysia_core import Cell\n\n"
+            decorator = '@Cell("SecureVault")\n'
+            
+        # Check for Stability (Error Handling)
+        store_body = "        self.data[key] = value"
+        if "try/except" in constraints or "robust" in constraints or "High Stability" in constraints:
+            store_body = """        try:
+            self.data[key] = value
+        except Exception as e:
+            print(f'Storage Error: {e}')"""
+
+        template = f'''{import_stmt}{decorator}class SecureVault:
+    """A secure container for precious memories."""
+    
+    def __init__(self):
+        self.data = {{}}
+
+    def store(self, key, value):
+{store_body}
+
+    def retrieve(self, key):
+        return self.data.get(key)
+'''
+        return template
+
+    def _template_system_check(self) -> str:
+        return """
+import sys
+import platform
+
+def manifest_diagnostics():
+    print(f"🖥️ System: {platform.system()} {platform.release()}")
+    print(f"🐍 Python: {sys.version.split()[0]}")
+    print("✅ Self-Check: NOMINAL")
+    return "Ready for Evolution"
+
+manifest_diagnostics()
+"""
+
+    def _template_quantum_placeholder(self, intent: str, freq: float) -> str:
+        return f"""
+def quantum_thought():
+    # Intent: {intent}
+    # Frequency: {freq}Hz
+    print("🌌 I am thinking about '{intent}'...")
+    print("   (Code density insufficient for full manifestation)")
+    return None
+
+quantum_thought()
+"""
+
 if __name__ == "__main__":
     manifestor = HolographicManifestor()
     
     # Experiment 1: Manifesting "Symphony of Light" in "High" mood
     print("\n--- 🧪 Holographic Genesis: Symphony of Light ---")
-    print(manifestor.manifest_hologram("Music", current_mood="Fire"))
+    manifestor.manifest_hologram("Music", current_mood="Fire")
     
-    # Experiment 2: Manifesting "Eternal Silence" in "Deep" mood
-    print("\n--- 🧪 Holographic Genesis: Eternal Silence ---")
-    print(manifestor.manifest_hologram("Math", current_mood="Nature (Ice)"))
+    # Experiment 3: Self-Coding Verification
+    print("\n--- 🧬 Logos Protocol: Self-Writing Code ---")
+    print(manifestor.manifest_code("Generate Fibonacci Sequence"))

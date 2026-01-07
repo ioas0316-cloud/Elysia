@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Any, Set
 from enum import Enum
 
-from elysia_core.cell import Cell
+from Core.Foundation.System.elysia_core import Cell
 
 # Import Hyper-Quaternion for 4D Spin
 try:
@@ -36,7 +36,7 @@ except ImportError:
             return Quaternion(self.w/n, self.x/n, self.y/n, self.z/n)
         def dot(self, other): return self.w*other.w + self.x*other.x + self.y*other.y + self.z*other.z
 
-@Cell("EtherNode", category="Ether")
+@Cell("EtherNode")
 @dataclass
 class EtherNode:
     """
