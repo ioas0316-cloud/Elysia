@@ -10,8 +10,10 @@ perception of the Underworld, making them 'Subjective Personalities'.
 
 import logging
 import uuid
+import random
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple
+from Core.Intelligence.Reasoning.social_physics import SocialPhysics, WillField
 
 from Core.Intelligence.Reasoning.septenary_axis import SeptenaryAxis
 from Core.Intelligence.Reasoning.memetic_legacy import SpiritualDNA, LifeFieldInductor, PositionInductor, RegionalField
@@ -29,12 +31,25 @@ class EgoState:
     regional_friction: float = 0.0   
     dissonance: float = 0.0          
     
-    # Phase 12: Heroic Evolution
+    # Phase 12 & 13: Heroic Evolution & Trauma
     heroic_intensity: float = 0.0    # Growth from friction
     stability: float = 1.0           # Soul health (1.0 = Strong, 0.0 = Broken)
     kismet: float = 0.5              # Luck/Timing factor (0.0 to 1.0)
     age: float = 0.0                 # Simulation time (to track seed phase)
     is_broken: bool = False
+    
+    # Phase 13: Trauma & Grace
+    scars: float = 0.0               # Narrative inertia from high pressure
+    grace_received: float = 0.0      # Accumulated healing energy
+    
+    # Phase 15: Social Power
+    rank_tier: int = 1               # 1=Commoner, 5=Noble, 9=King
+    wealth: float = 10.0             # Material resources
+    victory_streak: int = 0          # Political Momentum
+    
+    # Phase 16: Tri-Domain Dynamics
+    health: float = 1.0              # Body Integrity
+    conviction: float = 0.5          # Spirit Freedom (Resist Soul domination)
     
     family_role: str = "Commoner"    
     env_gravity: float = 0.3         
@@ -93,24 +108,41 @@ class SubjectiveEgo:
         return action
 
     def perceive(self, sense: str, intensity: float, source: str = "World"):
-        """NPC perceives a sensory event based on their septenary depth."""
+        """NPC perceives an external event, filtered by their internal state."""
+        if self.state.is_broken:
+            return  # Broken spirits perceive only void or pain
+            
+        # Subjective Filtering (Phase 13)
+        # 1. Scars increase the 'Cost' of perception (Narrative Inertia)
+        # 2. Dissonance distorts the valence
+        # 3. Stability modulates the intake
+        
+        filtered_intensity = intensity * self.state.stability
+        subjective_valence = 0.5 + (random.uniform(-0.1, 0.1) * self.state.dissonance)
+        
+        # If heavily scarred, positive events feel muted or suspicious
+        if self.state.scars > 0.5 and intensity > 0.7:
+             subjective_valence -= 0.2
+             self.logger.info(f"🕶️ [FILTER] {self.state.name} is suspicious of the high-intensity source '{source}'.")
+
+        self.state.emotional_valence = (self.state.emotional_valence + subjective_valence) / 2.0
+        
         level = self.axis.get_level(self.state.septenary_depth)
-        
-        # Depth modifier affects emotional sensitivity
-        depth_modifier = (self.state.septenary_depth + 1) / 2.0
-        impact = (intensity - 0.5) * 0.2 * depth_modifier
-        
-        self.state.emotional_valence = max(0.0, min(1.0, self.state.emotional_valence + impact))
         
         resonance = {
             "sense": sense, 
-            "intensity": intensity, 
+            "intensity": filtered_intensity, 
             "source": source, 
             "domain": level.domain,
             "rank": self.axis.get_rank(self.state.septenary_depth),
-            "axis": f"{level.demon_pole}/{level.angel_pole}"
+            "axis": f"{level.demon_pole}/{level.angel_pole}",
+            "valence": subjective_valence
         }
         self.perceived_resonances.append(resonance)
+        
+        # Log if intensity is high
+        if filtered_intensity > 0.5:
+            self.logger.info(f"[{self.state.name}] Perceived {sense} from {source} (Int: {filtered_intensity:.2f}, Val: {subjective_valence:.2f})")
         
         if self.state.septenary_depth >= 7:
             self.logger.info(f"[{self.state.name}] '{level.domain}' Spiritual Master resonance: Absolute unity with {level.angel_pole}.")
@@ -170,20 +202,49 @@ class SubjectiveEgo:
             self.record_memory("My spirit has collapsed. I can no longer pursue my path.")
             return
 
-        # 5. Path Induction & Institutional Ceiling
+        # 4a. Scarring & Grace Recovery
+        if strain > 0.02: # Significant pressure leaves scars
+            scar_gain = strain * 0.5
+            self.state.scars += scar_gain
+            self.logger.warning(f"🩹 [SCAR] {self.state.name} has gained {scar_gain:.2f} soul scars from the pressure.")
+        
+        # Natural stability recovery if low pressure and has grace
+        if self.state.narrative_pressure < 0.2 and self.state.stability < 1.0:
+            recovery = 0.01 * (1.0 + self.state.grace_received)
+            self.state.stability = min(1.0, self.state.stability + recovery)
+            if self.state.grace_received > 0:
+                self.state.grace_received = max(0.0, self.state.grace_received - 0.05)
+
+        # 5. Path Induction & Structural Inertia
         proposed_path = self.inductor.induce_path(self.state.narrative_pressure, self.state.septenary_depth)
         
-        # Institutional Ceiling: Depth cap if realization is low (Flat knowledge)
         avg_realization = sum(self.dna.realization.values()) / 3.0
-        ceiling = 6 if avg_realization < 0.5 else 9
+        
+        # Phase 13: Structural Inertia instead of hard ceiling
+        # Inertia formula includes scars and lack of realization
+        inertia = max(0.0, (self.state.scars * 0.5) + (1.0 - avg_realization))
+        effective_depth = self.state.septenary_depth + inertia
         
         if proposed_path == "Adventurer" and self.state.archetype_path != "Adventurer":
-            if self.state.septenary_depth < ceiling:
+            if effective_depth < 10.0: # Arbitrary high threshold for 'The Wall'
                 tag = "ABNORMAL" if self.state.regional_friction > 0.5 else "AWAKENING"
                 self.logger.warning(f"✨ [{tag}] {self.state.name} ({self.state.family_role}) has exceeded environmental gravity!")
-                self.state.current_intent = "Prepare for Adventure"
+                
+                # Teleological Drift (Phase 13): Identity shift based on context
+                if self.state.scars > 0.5:
+                     self.state.current_intent = "Avenge my Pain"
+                elif self.state.grace_received > 0.5:
+                     self.state.current_intent = "Spread the Light"
+                else:
+                     self.state.current_intent = "Seek the Unknown"
             else:
-                self.logger.info(f"🧱 [CEILING] {self.state.name} has the drive, but lacks 'Deep Realization' to transcend further.")
+                self.logger.info(f"🧱 [INERTIA] {self.state.name} is bound by too much trauma/systemic gravity ({inertia:.2f}).")
+                
+        # Teleological Drift for non-adventurers (Phase 13)
+        if self.state.is_broken:
+             self.state.current_intent = "Survive the Void"
+        elif self.state.scars > 0.8:
+             self.state.current_intent = "Harbor Resentment"
         
         # 6. Standard emotional drift & Dissonance
         decay_modifier = 0.9 + (self.state.septenary_depth / 100.0)
@@ -211,6 +272,136 @@ class SubjectiveEgo:
         if len(self.state.memories) > 100:
             self.state.memories.pop(0)
 
+    def add_scar(self, amount: float):
+        """Manually add narrative trauma."""
+        self.state.scars += amount
+        self.logger.warning(f"🩸 {self.state.name} sustained a deep soul scar (+{amount:.2f})")
+
+    def receive_grace(self, amount: float):
+        """Receive external or internal grace to heal the spirit."""
+        self.state.grace_received += amount
+        if self.state.is_broken:
+            recovery_chance = 0.3 * amount
+            if random.random() < recovery_chance:
+                self.state.is_broken = False
+                self.state.stability = 0.1
+                self.logger.info(f"⛲ [HEALING] {self.state.name}'s broken spirit has been MENDED by grace!")
+                self.record_memory("A light has touched my broken soul. I can breathe again.")
+        else:
+            self.logger.info(f"⛲ {self.state.name} received grace ({amount:.2f}). Stability recovery accelerated.")
+
+    def heal(self, amount: float):
+        """Direct healing of stability and reduction of scars."""
+        self.state.stability = min(1.0, self.state.stability + amount)
+        scar_reduction = amount * 0.5
+        self.state.scars = max(0.0, self.state.scars - scar_reduction)
+        self.logger.info(f"🌸 {self.state.name} is healing. stability: {self.state.stability:.2f}, scars: {self.state.scars:.2f}")
+
+    def interact_with(self, other: 'SubjectiveEgo'):
+        """Inter-subjective resonance. Influence depends on relative depth and state."""
+        self.logger.info(f"🤝 {self.state.name} is interacting with {other.state.name}.")
+        
+        # 1. Subjective Filtering
+        # If I am broken or high dissonance, I might perceive interaction negatively
+        if self.state.is_broken:
+            self.logger.info(f"🌑 {self.state.name} is too broken to truly connect with {other.state.name}.")
+            return
+
+        # 2. Relational Resonance
+        depth_delta = other.state.septenary_depth - self.state.septenary_depth
+        
+        # Masters (Higher depth) can heal or inspire
+        if depth_delta > 0:
+            if other.state.heroic_intensity > 1.0:
+                grace_shared = 0.1 * depth_delta
+                self.receive_grace(grace_shared)
+                self.logger.info(f"✨ {other.state.name}'s presence provides {grace_shared:.2f} grace to {self.state.name}.")
+        
+        # Equal depth can share satisfaction/misery
+        elif depth_delta == 0:
+            avg_sat = (self.state.satisfaction + other.state.satisfaction) / 2.0
+            self.state.satisfaction = (self.state.satisfaction + avg_sat) / 2.0
+            other.state.satisfaction = (other.state.satisfaction + avg_sat) / 2.0
+            self.logger.info(f"⚖️ {self.state.name} and {other.state.name} shared their burdens. New avg satisfaction: {avg_sat:.2f}")
+
+        # 3. Trait bleeding (Memetic Resonance)
+        if random.random() < 0.2:
+            trait_to_share = "technique" if random.random() < 0.5 else "reason"
+            val = getattr(other.dna, trait_to_share)
+            my_val = getattr(self.dna, trait_to_share)
+            
+            # Move towards other's trait
+            new_val = (my_val + val) / 2.0
+            setattr(self.dna, trait_to_share, new_val)
+            self.logger.info(f"🧪 {self.state.name} has adopted some of {other.state.name}'s {trait_to_share} ({new_val:.2f}).")
+
+    def emit_authority(self, location: Tuple[float, float]) -> WillField:
+        """Phase 15: Emits a WillField based on Social Physics."""
+        amplitude = SocialPhysics.calculate_will_amplitude(
+            self.state.septenary_depth,
+            self.state.rank_tier,
+            self.state.wealth,
+            self.state.victory_streak
+        )
+        return WillField(
+            source_name=self.state.name,
+            amplitude=amplitude,
+            frequency="Royalty" if self.state.rank_tier > 7 else "Common",
+            phase_alignment=1.0, # Default for single ego
+            coord=location
+        )
+        
+    def sense_social_gravity(self, nearby_fields: List[WillField], my_location: Tuple[float, float]):
+        """Phase 15: Calculates net oppression/influence from nearby authorities."""
+        net_field = SocialPhysics.compute_superposition_at(my_location, nearby_fields)
+        
+        # Determine total external pressure
+        total_pressure = sum(net_field.values())
+        
+        # Internal Will (Self-Resonance)
+        my_will = self.state.heroic_intensity + (self.state.septenary_depth * 2)
+        
+        if SocialPhysics.check_oppression(my_will, total_pressure):
+             if self.state.archetype_path == "Adventurer":
+                 self.state.current_intent = "Resist Tyranny"
+                 self.logger.warning(f"⚔️ [REBELLION] {self.state.name} is resisting overwhelmed authority (Pressure: {total_pressure:.1f} vs Will: {my_will:.1f})")
+             else:
+                 # Phase 16: Spirit Freedom Check
+                 # Even if oppressed, high conviction keeps the Spirit free
+                 if self.state.conviction > 0.8:
+                     self.state.current_intent = "Feigned Submission"
+                     self.logger.info(f"🎭 [MASK] {self.state.name} bows, but their Spirit remains free (Conviction: {self.state.conviction:.2f}).")
+                 else:
+                     self.state.current_intent = "Submit to Authority" 
+                     self.logger.info(f"🙇 [SUBMISSION] {self.state.name} bows to the crushing weight of authority (Pressure: {total_pressure:.1f}).")
+        else:
+             if total_pressure > 5.0:
+                 self.logger.info(f"🛡️ [Freedom] {self.state.name} stands firm within the social field.")
+
+    def receive_asymmetric_attack(self, attack_type: str, intensity: float):
+        """Phase 16: Handle low-energy interference (Poison, Scheme)."""
+        if attack_type == "Poison":
+            # Body Domain Attack: Bypasses Soul/Spirit defense
+            damage = intensity * 0.5
+            self.state.health -= damage
+            self.logger.warning(f"🤢 [POISON] {self.state.name}'s Body is failing! Health: {self.state.health:.2f} (-{damage:.2f})")
+            if self.state.health <= 0:
+                self.logger.error(f"💀 [DEATH] {self.state.name} has succumbed to poison.")
+                self.state.current_intent = "Dead"
+                
+        elif attack_type == "Scheme":
+            # Soul Domain Attack: Damages Reputation/Victory Streak
+            # High Reason DNA can detect schemes
+            detection_chance = self.dna.reason
+            if random.random() < detection_chance:
+                self.logger.info(f"👁️ [DETECTION] {self.state.name} saw through the scheme!")
+                return
+            
+            # Successful scheme destroys political momentum
+            self.state.victory_streak = max(0, self.state.victory_streak - int(intensity * 10))
+            self.state.satisfaction -= intensity
+            self.logger.warning(f"📉 [SCANDAL] {self.state.name}'s authority is crumbling due to a scheme! Streak: {self.state.victory_streak}")
+
     def get_subjective_report(self) -> str:
         level = self.axis.get_level(self.state.septenary_depth)
         moral_label = "Saintly" if self.dna.moral_valence > 0.8 else "Villainous" if self.dna.moral_valence < 0.2 else "Neutral"
@@ -222,9 +413,11 @@ class SubjectiveEgo:
 
         return (f"[{self.state.name}] {status} | Role: {self.state.family_role} | Region: {reg_name}\n"
                 f" └─ Status: {self.state.current_intent}\n"
-                f" └─ Survival: Stability({self.state.stability:.2f}) | Intensity({self.state.heroic_intensity:.2f}) | Kismet({self.state.kismet:.2f})\n"
-                f" └─ Depth: {self.state.septenary_depth} ({level.name}) | Realization: {avg_real:.2f} (Flat/Deep)\n"
-                f" └─ Pressure: {self.state.narrative_pressure:.2f} (Friction: {self.state.regional_friction:.2f})\n"
+                f" └─ Body: Health({self.state.health:.2f}) | Spirit: Conviction({self.state.conviction:.2f})\n"
+                f" └─ Survival: Stability({self.state.stability:.2f}) | Intensity({self.state.heroic_intensity:.2f}) | Scars({self.state.scars:.2f})\n"
+                f" └─ Social: Rank({self.state.rank_tier}) | Wealth({self.state.wealth:.0f}) | Streak({self.state.victory_streak})\n"
+                f" └─ Logic: Kismet({self.state.kismet:.2f}) | Realization({avg_real:.2f}) | Pressure({self.state.narrative_pressure:.2f})\n"
+                f" └─ Depth: {self.state.septenary_depth} ({level.name}) | Friction: {self.state.regional_friction:.2f}\n"
                 f" └─ DNA: Tech({self.dna.technique:.2f}) Res({self.dna.reason:.2f}) Mean({self.dna.meaning:.2f}) | Moral: {moral_label}({self.dna.moral_valence:.2f})")
 
 if __name__ == "__main__":
