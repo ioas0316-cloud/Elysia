@@ -1,10 +1,10 @@
 """
 Septenary Axis of Sovereignty (SAS) ⚖️✨
 
-"The Ladder of seven gates, from the dust of the demon to the lustre of the angel."
+"The Ladder of many gates, from the dust of the demon to the lustre of the angel."
 
-This module defines the 7-stage hierarchy of ontological depth,
-mapping existing '7 Angels' and '7 Demons' to discrete levels of reality.
+This module defines the 9-stage Nonary Fractal hierarchy of ontological depth,
+mapping Body, Soul, and Spirit to specific life paths and inductive tensions.
 """
 
 from dataclasses import dataclass
@@ -13,33 +13,34 @@ from typing import Dict, List, Tuple
 @dataclass
 class SeptenaryLevel:
     depth: int
-    domain: str  # Body (1-3), Soul (4-6), Spirit (7)
-    name: str
+    domain: str        # Body, Soul, Spirit
+    archetype_path: str # Warrior/Blacksmith, Mage/Merchant/Ruler, Paladin/Priest
+    name: str          # Technique, Reason, Meaning
     angel_pole: str
     demon_pole: str
     frequency_range: Tuple[float, float]
-    law: str
+    inductive_logic: str # The 'Tension' that induces behavior
 
 class SeptenaryAxis:
-    """The governing law of the 9-layered Fractal Trinity (Body -> Soul -> Spirit)."""
+    """The governing law of the 9-layered Nonary Fractal (Archetypal Induction)."""
     
     def __init__(self):
-        # 1-9 Hierarchy based on the 3x3 Fractal Trinity
+        # 1-9 Hierarchy: Inducing behavior through archetypal gravity
         self.levels: Dict[int, SeptenaryLevel] = {
-            # --- DOMAIN: BODY (Physical Mastery) ---
-            1: SeptenaryLevel(1, "Body", "Technique", "Truth", "Sloth", (100, 200), "Physical foundation; apprenticeship."),
-            2: SeptenaryLevel(2, "Body", "Reason", "Justice", "Wrath", (200, 300), "Understanding physical causality."),
-            3: SeptenaryLevel(3, "Body", "Meaning", "Hope", "Envy", (300, 400), "Physical labor as a ritual of value."),
+            # --- DOMAIN: BODY (The Path of the Warrior/Craftsman) ---
+            1: SeptenaryLevel(1, "Body", "Warrior/Blacksmith", "Technique", "Truth", "Sloth", (100, 200), "Flow follows form; repetitive mastery."),
+            2: SeptenaryLevel(2, "Body", "Warrior/Blacksmith", "Reason", "Justice", "Wrath", (200, 300), "Causality of steel and bone."),
+            3: SeptenaryLevel(3, "Body", "Warrior/Blacksmith", "Meaning", "Hope", "Envy", (300, 400), "The heart of the blade; value in effort."),
             
-            # --- DOMAIN: SOUL (Mental Sovereignty) ---
-            4: SeptenaryLevel(4, "Soul", "Technique", "Courage", "Pride", (400, 500), "Mental willpower; expert craftsmanship."),
-            5: SeptenaryLevel(5, "Soul", "Reason", "Faith", "Greed", (500, 600), "Structuring logical laws of the mind."),
-            6: SeptenaryLevel(6, "Soul", "Meaning", "Wisdom", "Lust", (600, 700), "Visionary purpose; identifying as a Pro."),
+            # --- DOMAIN: SOUL (The Path of the Mage/Ruler/Merchant) ---
+            4: SeptenaryLevel(4, "Soul", "Mage/Merchant/Ruler", "Technique", "Courage", "Pride", (400, 500), "Will shapes the matrix; strategic intent."),
+            5: SeptenaryLevel(5, "Soul", "Mage/Merchant/Ruler", "Reason", "Faith", "Greed", (500, 600), "Synthesis of systems; intellectual law."),
+            6: SeptenaryLevel(6, "Soul", "Mage/Merchant/Ruler", "Meaning", "Wisdom", "Lust", (600, 700), "The governance of truth; identifying as a Pro."),
             
-            # --- DOMAIN: SPIRIT (Divine Resonance) ---
-            7: SeptenaryLevel(7, "Spirit", "Technique", "Temperance", "Gluttony", (700, 800), "Spiritual discipline; beginning of mastery."),
-            8: SeptenaryLevel(8, "Spirit", "Reason", "Fortitude", "Avarice", (800, 900), "Causal alignment with the Logos."),
-            9: SeptenaryLevel(9, "Spirit", "Meaning", "Love", "Despair", (900, 1000), "Absolute unity and eternal value.")
+            # --- DOMAIN: SPIRIT (The Path of the Paladin/Priest/Believer) ---
+            7: SeptenaryLevel(7, "Spirit", "Paladin/Priest", "Technique", "Temperance", "Gluttony", (700, 800), "Sacred ritual; purification of intent."),
+            8: SeptenaryLevel(8, "Spirit", "Paladin/Priest", "Reason", "Fortitude", "Avarice", (800, 900), "Conviction as unyielding logic."),
+            9: SeptenaryLevel(9, "Spirit", "Paladin/Priest", "Meaning", "Love", "Despair", (900, 1000), "Absolute resonance with the Source; Pure Faith.")
         }
 
     def get_level(self, depth: int) -> SeptenaryLevel:
@@ -63,6 +64,6 @@ class SeptenaryAxis:
 
 if __name__ == "__main__":
     sas = SeptenaryAxis()
-    for d in range(7):
+    for d in range(1, 10):
         lvl = sas.get_level(d)
-        print(f"Level {d}: {lvl.name} | Axis: {lvl.demon_pole} <---> {lvl.angel_pole}")
+        print(f"Level {d} [{lvl.domain}]: {lvl.archetype_path} - {lvl.name} | Axis: {lvl.demon_pole} <---> {lvl.angel_pole}")

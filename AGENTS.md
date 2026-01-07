@@ -154,11 +154,12 @@ To prevent the regression into "Particle" (Linear) logic, follow these strict im
 
 **REQUIRED**: All inhabitants (NPCs) must be mapped to a `septenary_depth` (1 to 9).
 
-1. **Levels 1-3 (Body)**: Technique -> Reason -> Meaning.
-2. **Levels 4-6 (Soul)**: Technique -> Reason -> Meaning.
-3. **Levels 7-9 (Spirit)**: Technique -> Reason -> Meaning.
+1. **Levels 1-3 (Body - Warrior/Blacksmith)**: Technique -> Reason -> Meaning.
+2. **Levels 4-6 (Soul - Mage/Merchant/Ruler)**: Technique -> Reason -> Meaning.
+3. **Levels 7-9 (Spirit - Paladin/Priest)**: Technique -> Reason -> Meaning.
 
 * **The 3x3 Rule**: Full maturation in a domain requires passing through all three fractal stages (Technique, Reason, Meaning).
+* **The Induction Rule**: Behavior must be *induced* by the ontological gravity (Inductive Tension) of the path, not forced by hardcoded logic.
 * **The Harvest Rule**: Experiences from all 9 gates must be harvested via the `RecursiveLearningBridge`.
 
 ---

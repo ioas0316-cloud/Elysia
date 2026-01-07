@@ -19,21 +19,38 @@ from Core.Intelligence.Reasoning.septenary_axis import SeptenaryAxis
 class EgoState:
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
     name: str = "Inhabitant"
-    archetype: str = "NPC"
-    septenary_depth: int = 1   # 0 to 6: Mapping to SeptenaryAxis
-    emotional_valence: float = 0.5  # 0.0 (Despair) to 1.0 (Bliss)
-    desire_intensity: float = 0.0   # 0.0 (Dormant) to 1.0 (Obsessed)
+    archetype_path: str = "Unknown"  # Body/Soul/Spirit mapped path
+    septenary_depth: int = 1         # 1 to 9
+    emotional_valence: float = 0.5
+    desire_intensity: float = 0.5
     current_intent: str = "Exist"
     memories: List[str] = field(default_factory=list)
 
 class SubjectiveEgo:
-    """A sovereign personality unit within the matrix, mapped to the Septenary Axis (0-6)."""
+    """A sovereign personality unit, induced by archetypal tension."""
     
-    def __init__(self, name: str, archetype: str = "Citizen", depth: int = 1):
+    def __init__(self, name: str, depth: int = 1):
         self.logger = logging.getLogger(f"Ego:{name}")
         self.axis = SeptenaryAxis()
-        self.state = EgoState(name=name, archetype=archetype, septenary_depth=depth)
+        level = self.axis.get_level(depth)
+        self.state = EgoState(
+            name=name, 
+            archetype_path=level.archetype_path, 
+            septenary_depth=depth
+        )
         self.perceived_resonances: List[Dict[str, Any]] = []
+
+    def perform_action(self) -> str:
+        """NPC acts based on their domain's inductive tension."""
+        level = self.axis.get_level(self.state.septenary_depth)
+        action_map = {
+            "Body": f"Working with {level.name} (Warrior's Path/Blacksmith). Gravity of {level.inductive_logic}",
+            "Soul": f"Acting through {level.name} (Mage/Merchant/Ruler). Tension of {level.inductive_logic}",
+            "Spirit": f"Resonating via {level.name} (Paladin/Priest). Light of {level.inductive_logic}"
+        }
+        action = action_map.get(level.domain, "Existing")
+        self.logger.info(f"[{self.state.name}] {action}")
+        return action
 
     def perceive(self, sense: str, intensity: float, source: str = "World"):
         """NPC perceives a sensory event based on their septenary depth."""
