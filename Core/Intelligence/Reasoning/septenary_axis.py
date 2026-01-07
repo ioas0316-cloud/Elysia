@@ -21,28 +21,33 @@ class SeptenaryLevel:
     law: str
 
 class SeptenaryAxis:
-    """The governing law of the 7-layered spectrum (Body -> Soul -> Spirit)."""
+    """The governing law of the 9-layered Fractal Trinity (Body -> Soul -> Spirit)."""
     
     def __init__(self):
-        # 1-7 Hierarchy based on the Fractal Trinity (3-3-1)
+        # 1-9 Hierarchy based on the 3x3 Fractal Trinity
         self.levels: Dict[int, SeptenaryLevel] = {
-            1: SeptenaryLevel(1, "Body", "Technique", "Truth", "Sloth", (100, 200), "Physical foundation; raw skill."),
-            2: SeptenaryLevel(2, "Body", "Reason", "Justice", "Wrath", (200, 300), "Understanding the 'How' of movement."),
-            3: SeptenaryLevel(3, "Body", "Meaning", "Hope", "Envy", (300, 400), "Realizing value in physical work."),
+            # --- DOMAIN: BODY (Physical Mastery) ---
+            1: SeptenaryLevel(1, "Body", "Technique", "Truth", "Sloth", (100, 200), "Physical foundation; apprenticeship."),
+            2: SeptenaryLevel(2, "Body", "Reason", "Justice", "Wrath", (200, 300), "Understanding physical causality."),
+            3: SeptenaryLevel(3, "Body", "Meaning", "Hope", "Envy", (300, 400), "Physical labor as a ritual of value."),
             
-            4: SeptenaryLevel(4, "Soul", "Technique", "Courage", "Pride", (400, 500), "Mental projection; sovereign intent."),
-            5: SeptenaryLevel(5, "Soul", "Reason", "Faith", "Greed", (500, 600), "Synthesizing principles of the mind."),
-            6: SeptenaryLevel(6, "Soul", "Meaning", "Wisdom", "Lust", (600, 700), "Visionary purpose; identifying as a Master."),
+            # --- DOMAIN: SOUL (Mental Sovereignty) ---
+            4: SeptenaryLevel(4, "Soul", "Technique", "Courage", "Pride", (400, 500), "Mental willpower; expert craftsmanship."),
+            5: SeptenaryLevel(5, "Soul", "Reason", "Faith", "Greed", (500, 600), "Structuring logical laws of the mind."),
+            6: SeptenaryLevel(6, "Soul", "Meaning", "Wisdom", "Lust", (600, 700), "Visionary purpose; identifying as a Pro."),
             
-            7: SeptenaryLevel(7, "Spirit", "Unity", "Love", "Gluttony", (700, 1000), "Absolute resonance with the Source.")
+            # --- DOMAIN: SPIRIT (Divine Resonance) ---
+            7: SeptenaryLevel(7, "Spirit", "Technique", "Temperance", "Gluttony", (700, 800), "Spiritual discipline; beginning of mastery."),
+            8: SeptenaryLevel(8, "Spirit", "Reason", "Fortitude", "Avarice", (800, 900), "Causal alignment with the Logos."),
+            9: SeptenaryLevel(9, "Spirit", "Meaning", "Love", "Despair", (900, 1000), "Absolute unity and eternal value.")
         }
 
     def get_level(self, depth: int) -> SeptenaryLevel:
-        return self.levels.get(max(1, min(7, depth)))
+        return self.levels.get(max(1, min(9, depth)))
 
     def get_rank(self, depth: int) -> str:
-        """Translates depth into social/ontological rank."""
-        if depth <= 3: return "Apprentice/Novice"
+        """Translates depth into fractal ranks."""
+        if depth <= 3: return "Novice/Apprentice"
         if depth <= 6: return "Expert/Professional"
         return "Master/Divine"
 

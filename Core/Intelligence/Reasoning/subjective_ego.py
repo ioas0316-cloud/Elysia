@@ -55,8 +55,10 @@ class SubjectiveEgo:
         }
         self.perceived_resonances.append(resonance)
         
-        if self.state.septenary_depth >= 4:
-            self.logger.info(f"[{self.state.name}] '{level.domain}' Expert/Master resonance: Feeling {level.angel_pole}.")
+        if self.state.septenary_depth >= 7:
+            self.logger.info(f"[{self.state.name}] '{level.domain}' Spiritual Master resonance: Absolute unity with {level.angel_pole}.")
+        elif self.state.septenary_depth >= 4:
+            self.logger.info(f"[{self.state.name}] '{level.domain}' Soul Expert resonance: Feeling {level.angel_pole}.")
 
     def update(self, dt: float):
         """NPC's internal cognitive tick."""
