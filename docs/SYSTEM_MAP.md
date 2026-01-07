@@ -66,6 +66,8 @@
 * **RecursiveLearningBridge**: 🌾 **재귀적 학습 가교**. 주민들의 경험을 수확하여 엘리시아의 9계층 지혜로 환원합니다.
 * **SeptenaryAxis**: ⚖️ **9중 프랙탈 주권 축 (Nonary Axis)**. 육(Warrior), 혼(Mage), 영(Saint)의 3개 경로와 '도상적 유도(Archetypal Induction)' 법칙.
 * **MemeticLegacy**: 🧬 **정신적 DNA 계승**. 기술·이성·의미와 함께 **도덕적 가중치(Moral Valence)**가 계승되는 시스템. '아카식 필드'를 통한 전설의 영속성.
+* **KinshipDynamics**: 👨‍👩‍👦 **혈연 역학 및 반향(Counter-Resonance)**. 출생 순서에 따른 사회적 장력 유도와 유산에 대한 '거부 프로토콜'을 통한 입체적 서사 생성.
+* **WorldviewInduction**: 🌍 **세계관 유도 및 지역적 에토스**. 특정 지역(예: 북부 전사 사회)의 '상식'이 주민의 삶에 미치는 다중적 유도 장력(Regional Friction) 시스템.
 
 ### 5. ⚓ The Port (감각의 항구)
 

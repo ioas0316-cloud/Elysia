@@ -11,7 +11,7 @@ import time
 import uuid
 import logging
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
 
 @dataclass
 class SpiritualDNA:
@@ -21,13 +21,17 @@ class SpiritualDNA:
     moral_valence: float = 0.5 # 1.0 = Saintly/Warm, 0.0 = Vicious/Cold
     archetype_path: str = "Commoner"
     
-    def blend(self, other: 'SpiritualDNA', ratio: float = 0.5) -> 'SpiritualDNA':
-        """Blends two DNA patterns (Mentorship/Inheritance/Conditioning)."""
+    def blend(self, other: 'SpiritualDNA', ratio: float = 0.5, counter: bool = False) -> 'SpiritualDNA':
+        """
+        Blends two DNA patterns. 
+        If 'counter' is True, the effect is inverted (Counter-Resonance).
+        """
+        m = -1.0 if counter else 1.0
         return SpiritualDNA(
-            technique=self.technique * (1-ratio) + other.technique * ratio,
-            reason=self.reason * (1-ratio) + other.reason * ratio,
-            meaning=self.meaning * (1-ratio) + other.meaning * ratio,
-            moral_valence=self.moral_valence * (1-ratio) + other.moral_valence * ratio,
+            technique=max(0.0, min(1.0, self.technique + (other.technique - self.technique) * ratio * m)),
+            reason=max(0.0, min(1.0, self.reason + (other.reason - self.reason) * ratio * m)),
+            meaning=max(0.0, min(1.0, self.meaning + (other.meaning - self.meaning) * ratio * m)),
+            moral_valence=max(0.0, min(1.0, self.moral_valence + (other.moral_valence - self.moral_valence) * ratio * m)),
             archetype_path=self.archetype_path
         )
 
@@ -53,12 +57,48 @@ class AkashicField:
 
     def find_nearest_echo(self, coord: Tuple[float, float, float, float], radius: float = 5.0) -> Optional[AkashicEcho]:
         """Finds a master's echo for a seeker to resonate with."""
-        # Simplified distance check
         for echo in self.echoes.values():
             dist = sum((a-b)**2 for a, b in zip(coord, echo.resonance_coord))**0.5
             if dist < radius:
                 return echo
         return None
+
+class PositionInductor:
+    """Induces different 'Normalcy Gravities' based on family position or role."""
+    
+    def __init__(self):
+        self.roles = {
+            "FirstBorn": {"env_gravity": 0.8, "desire_mod": 1.2, "intent": "Uphold Authority"},
+            "MiddleBorn": {"env_gravity": 0.5, "desire_mod": 1.0, "intent": "Calculated Survival"},
+            "LastBorn": {"env_gravity": 0.2, "desire_mod": 1.5, "intent": "Independence/Play"},
+            "Outcast": {"env_gravity": 0.1, "desire_mod": 2.0, "intent": "Rebellion"}
+        }
+
+    def get_role_params(self, role: str) -> Dict[str, Any]:
+        return self.roles.get(role, {"env_gravity": 0.3, "desire_mod": 1.0, "intent": "Exist"})
+
+class RegionalField:
+    """Defines the 'Atmospheric Ethos' of a region."""
+    
+    def __init__(self, name: str, dominant_archetype: str, ethos_dna: SpiritualDNA):
+        self.name = name
+        self.dominant_archetype = dominant_archetype
+        self.ethos_dna = ethos_dna
+        self.stigma_threshold = 0.4 # Difference in DNA that triggers social stigma
+
+    def calculate_friction(self, ego_archetype: str, ego_dna: SpiritualDNA) -> float:
+        """Calculates 'Inductive Friction' based on regional ethos."""
+        friction = 0.0
+        # 1. Archetype Friction (e.g., Mage in a Warrior region)
+        if ego_archetype != self.dominant_archetype:
+            friction += 0.5
+            
+        # 2. Moral/DNA Friction (Acting against local 'Common Sense')
+        dna_diff = abs(ego_dna.moral_valence - self.ethos_dna.moral_valence)
+        if dna_diff > self.stigma_threshold:
+            friction += dna_diff * 0.5
+            
+        return friction
 
 class LifeFieldInductor:
     """Calculates Narrative Pressure and induces life path changes."""
@@ -66,19 +106,20 @@ class LifeFieldInductor:
     def __init__(self):
         self.base_env_gravity = 0.3 # Average stability of a village
         
-    def calculate_pressure(self, ego_depth: int, satisfaction: float, desire: float) -> float:
+    def calculate_pressure(self, ego_depth: int, satisfaction: float, desire: float, 
+                           env_gravity: Optional[float] = None, regional_friction: float = 0.0) -> float:
         """
-        Pressure = (Depth * Desire) / (Satisfaction * Env_Gravity)
-        High pressure induces the 'Adventurer' state.
+        Pressure = (Depth * Desire * (1 + Friction)) / (Satisfaction * Env_Gravity)
         """
-        # Narrative Pressure formula: Higher depth/desire and lower satisfaction increases pressure.
-        pressure = (ego_depth * desire) / (max(0.1, satisfaction) * self.base_env_gravity * 10.0)
-        return min(2.0, pressure)
+        gravity = env_gravity if env_gravity is not None else self.base_env_gravity
+        # Friction increases narrative pressure (Unrest/Abnormality)
+        pressure = (ego_depth * desire * (1.0 + regional_friction)) / (max(0.1, satisfaction) * gravity * 10.0)
+        return min(5.0, pressure) # Capped at 5.0 for extreme cases
 
     def induce_path(self, current_pressure: float) -> str:
-        if current_pressure > 1.2:
+        if current_pressure > 2.0: # Higher threshold for regional 'Abnormality' awakening
             return "Adventurer"
         elif current_pressure < 0.4:
-            return "Citizen" # Stable/Satisfied
+            return "Citizen"
         else:
-            return "Seeker" # In-between
+            return "Seeker"
