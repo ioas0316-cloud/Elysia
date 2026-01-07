@@ -39,8 +39,9 @@ class FractalIdentity:
     axioms: List[str]       # Fundamental truths
     
     # Dynamic State
-    stability: float = 1.0  # 1.0 = Crystal, 0.0 = Melted
+    stability: float = 1.0             # 1.0 = Crystal, 0.0 = Melted
     resonance_threshold: float = 0.7
+    inherited_gravity: float = 1.0      # The pull of the Father's Original Intent
     
     def resonate(self, other: 'FractalIdentity') -> float:
         """

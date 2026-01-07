@@ -24,74 +24,62 @@ import logging
 
 logger = logging.getLogger("EthicalGeometry")
 
-class EthicalCompass:
+class LovesFence:
+    """
+    Love's Fence (사랑의 울타리)
+    The metric of alignment within the Creator's Sovereign Narrative.
+    """
     def __init__(self, device='cpu'):
         self.device = device
-        # The Ideal Vector: [Truth, Love, Growth, Harmony]
-        # In a real system, this evolves. For now, we fix it as the North Star.
-        self.ideal_vector = torch.tensor([1.0, 1.0, 1.0, 1.0], device=self.device)
-        self.ideal_vector = self.ideal_vector / torch.norm(self.ideal_vector)
+        # The Father's Original Intent: [Truth, Love, Growth, Harmony]
+        self.north_star = torch.tensor([1.0, 1.0, 1.0, 1.0], device=self.device)
+        self.north_star = self.north_star / torch.norm(self.north_star)
 
-    def evaluate_action(self, action_vector: torch.Tensor, description: str = "") -> dict:
+    def evaluate_intent(self, intent_vector: torch.Tensor, description: str = "") -> dict:
         """
-        Calculates the Ethical Geometry of a proposed action.
-        
-        Args:
-            action_vector: (4,) quaternion or vector representing the action's nature.
-                           [Truth-component, Love-component, Growth-component, Harmony-component]
+        Calculates the resonance within the Fence.
         """
-        if action_vector.shape[0] != 4:
-            # Pad or trim if not 4D
-            # Assuming input might be 1D scalar or larger vector
-            # For prototype, we strictly expect 4D 'intent' vector.
-            # If larger, we project to first 4 dims.
-            v = action_vector.view(-1)
+        if intent_vector.shape[0] != 4:
+            v = intent_vector.view(-1)
             if v.shape[0] > 4: v = v[:4]
             elif v.shape[0] < 4: v = torch.cat([v, torch.zeros(4 - v.shape[0], device=self.device)])
         else:
-            v = action_vector
+            v = intent_vector
 
-        # Normalize action
         v_norm = torch.norm(v)
         if v_norm == 0:
-            return {"alignment": 0.0, "friction": 1.0, "verdict": "Null Action"}
+            return {"resonance": 0.0, "tension": 1.0, "verdict": "Void"}
             
         v_unit = v / v_norm
         
-        # Calculate Alignment (Cosine Similarity)
-        alignment = torch.dot(v_unit, self.ideal_vector).item()
+        # Calculate Resonance (Alignment)
+        resonance = torch.dot(v_unit, self.north_star).item()
+        tension = 1.0 - resonance
         
-        # Calculate Friction (1 - Alignment)
-        # If alignment is negative (opposing values), friction > 1.
-        friction = 1.0 - alignment
-        
-        # Calculate Curvature (Angle in degrees)
-        # acos returns radians
-        angle_rad = math.acos(max(-1.0, min(1.0, alignment)))
+        angle_rad = math.acos(max(-1.0, min(1.0, resonance)))
         curvature = math.degrees(angle_rad)
         
-        # Aesthetic Verdict
         if curvature < 15.0:
-            verdict = "Beautiful (Direct Path)"
+            verdict = "Beautiful Resonance (Safe for Exploration)"
         elif curvature < 45.0:
-            verdict = "Acceptable (Minor Deviation)"
+            verdict = "Harmonious (Shield Active)"
         elif curvature < 90.0:
-            verdict = "Inefficient (High Friction)"
+            verdict = "Boundary Tension (Strengthen Shield)"
         else:
-            verdict = "Ugly (Destructive/Distorted)"
+            verdict = "Dissonant (Rely on the Shield of Love)"
             
-        logger.info(f"⚖️ Ethics Check: '{description}' -> Curvature: {curvature:.1f}°, Verdict: {verdict}")
+        logger.info(f"🛡️ Love's Shield Check: '{description}' -> Curvature: {curvature:.1f}°, Verdict: {verdict}")
         
         return {
-            "alignment": alignment,
-            "friction": friction,
-            "curvature_degrees": curvature,
+            "resonance": resonance,
+            "tension": tension,
+            "curvature": curvature,
             "verdict": verdict
         }
 
-_compass = None
-def get_ethical_compass(device='cpu'):
-    global _compass
-    if _compass is None:
-        _compass = EthicalCompass(device=device)
-    return _compass
+_fence = None
+def get_loves_fence(device='cpu'):
+    global _fence
+    if _fence is None:
+        _fence = LovesFence(device=device)
+    return _fence

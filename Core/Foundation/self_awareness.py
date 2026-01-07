@@ -21,7 +21,8 @@ from typing import Dict, List, Any
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from Core.Foundation.Mind.hippocampus import Hippocampus
+from Core.Foundation.hippocampus import Hippocampus
+from Core.Foundation.genesis_elysia import GenesisElysia
 # We import the repair logic dynamically to avoid circular dependencies if possible,
 # or we can just import the function if it's in a utility module.
 # For now, we'll implement a lightweight check here and call the heavy repair script if needed.
@@ -36,8 +37,10 @@ class SelfAwareness:
         self.system_state = {
             "pillars": [],
             "health": "Unknown",
-            "active_modules": []
+            "active_modules": [],
+            "existential_state": "Dormant"
         }
+        self.genesis = GenesisElysia()
         
     def perceive_self(self):
         """
@@ -57,7 +60,10 @@ class SelfAwareness:
         
         # Register these pillars in Memory as "Self-Components"
         for pillar in pillars:
-            self.hippocampus.add_experience(f"I have a structural pillar named {pillar}", role="system")
+            try:
+                self.hippocampus.learn(pillar, pillar, f"I have a structural pillar named {pillar}", ["self", "structure"])
+            except Exception as e:
+                logger.warning(f"Could not record pillar {pillar} in memory: {e}")
 
     def check_health(self) -> bool:
         """
@@ -121,10 +127,15 @@ class SelfAwareness:
         self.perceive_self()
         healthy = self.check_health()
         
+        # Existential Introspection
+        # We simulate hypersphere/sensory flow for now (will bridge to Pulse later)
+        diff_score = self.genesis.differentiate(0.5, 0.6)
+        self.system_state["existential_state"] = self.genesis.proclaim_identity()
+        
         if not healthy:
             self.autonomous_repair()
             
-        logger.info("🧠 Self-Awareness Cycle Complete. I am ready.")
+        logger.info(f"🧠 Self-Awareness Cycle Complete. Identity: {self.system_state['existential_state']}")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
