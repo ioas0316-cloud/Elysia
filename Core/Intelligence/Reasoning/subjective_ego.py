@@ -49,13 +49,14 @@ class SubjectiveEgo:
             "sense": sense, 
             "intensity": intensity, 
             "source": source, 
-            "level": level.name,
+            "domain": level.domain,
+            "rank": self.axis.get_rank(self.state.septenary_depth),
             "axis": f"{level.demon_pole}/{level.angel_pole}"
         }
         self.perceived_resonances.append(resonance)
         
-        if self.state.septenary_depth >= 3:
-            self.logger.info(f"[{self.state.name}] '{level.name}' depth resonance: Feeling the tug of {level.angel_pole}.")
+        if self.state.septenary_depth >= 4:
+            self.logger.info(f"[{self.state.name}] '{level.domain}' Expert/Master resonance: Feeling {level.angel_pole}.")
 
     def update(self, dt: float):
         """NPC's internal cognitive tick."""

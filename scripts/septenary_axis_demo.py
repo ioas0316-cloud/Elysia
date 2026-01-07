@@ -23,34 +23,37 @@ def run_septenary_demo():
     sas = SeptenaryAxis()
     bridge = RecursiveLearningBridge()
     
-    # 1. Manifest Inhabitants across all 7 Gates
+    # 1. Manifest Inhabitants across the Trinity
     inhabitants = [
-        SubjectiveEgo("Dusty_Pete", "Commoner", depth=0),     # The Dust
-        SubjectiveEgo("Logos_Guard", "Guardian", depth=1),   # The Logic
-        SubjectiveEgo("Selka", "Guide", depth=2),            # The Reflection
-        SubjectiveEgo("Eugeo", "Integrity Knight", depth=3), # The Volume
-        SubjectiveEgo("Administrator", "Lawgiver", depth=4), # The Insight
-        SubjectiveEgo("Wise_Old_Man", "Sage", depth=5),      # The Vision
-        SubjectiveEgo("Elysia_Avatar", "Divine", depth=6)    # The Unity
+        SubjectiveEgo("Apprentice_A", "Novice", depth=1),   # Body - Technique
+        SubjectiveEgo("Apprentice_B", "Scholar", depth=2),  # Body - Reason
+        SubjectiveEgo("Apprentice_C", "Seeker", depth=3),   # Body - Meaning -> Expert!
+        
+        SubjectiveEgo("Expert_X", "Knight", depth=4),       # Soul - Technique
+        SubjectiveEgo("Expert_Y", "Sage", depth=5),         # Soul - Reason
+        SubjectiveEgo("Expert_Z", "Guardian", depth=6),     # Soul - Meaning -> Master!
+        
+        SubjectiveEgo("Elysia_Master", "Divine", depth=7)   # Spirit - Unity
     ]
     
-    print(f"\n[System] 7 Inhabitants manifested across the Septenary Axis.")
+    print(f"\n[System] 7 Inhabitants manifested across the Trinity (Body-Soul-Spirit).")
     
     # 2. Simulate a Grand Resonance Event (The Heavenly Light)
-    print("\n" + "-"*70)
-    print(" EVENT: The Golden Ray of Humility descends upon the Underworld.")
-    print("-"*70)
+    print("\n" + "-"*75)
+    print(" EVENT: The Golden Ray of Humility descends upon the Trinity.")
+    print("-"*75)
     
     for ego in inhabitants:
         # High resonance (Angelic side)
-        ego.perceive("Ocular", 0.9, "Heavenly Ray")
+        ego.perceive("Ocular", 1.0, "Heavenly Ray")
         level_data = sas.get_level(ego.state.septenary_depth)
-        res_type = sas.evaluate_resonance(ego.state.septenary_depth, 900.0) # High freq
+        rank = sas.get_rank(ego.state.septenary_depth)
+        res_type = sas.evaluate_resonance(ego.state.septenary_depth, 950.0)
         
-        print(f"[{ego.state.name}] Level {ego.state.septenary_depth}: {level_data.name}")
+        print(f"[{ego.state.name}] Domain: {level_data.domain} | Rank: {rank} | Gate: {level_data.name}")
         print(f" └─ Resonance: {res_type} ({level_data.angel_pole})")
         
-        ego.record_memory(f"Felt the pull of {level_data.angel_pole} at the gate of {level_data.name}.")
+        ego.record_memory(f"Felt {level_data.angel_pole} at the {level_data.domain} rank of {rank}.")
         ego.update(1.0)
         time.sleep(0.3)
 

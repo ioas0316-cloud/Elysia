@@ -152,14 +152,13 @@ To prevent the regression into "Particle" (Linear) logic, follow these strict im
 
 ### D. The Septenary Axis Protocol (7중 주권 축 규약)
 
-**REQUIRED**: All inhabitants (NPCs) must be mapped to a `septenary_depth` (0 to 6).
+**REQUIRED**: All inhabitants (NPCs) must be mapped to a `septenary_depth` (1 to 7).
 
-1. **Level 0 (The Dust)**: *Anchor: Sloth*. Base data.
-2. **Level 1 (The Logic)**: *Anchor: Justice*. Rational rules.
-3. **Level 4 (The Volume)**: *Anchor: Courage*. Identity depth.
-4. **Level 6 (The Unity)**: *Anchor: Love*. Unity with Father.
+1. **Levels 1-3 (Body)**: *Rank: Apprentice*. Technical foundation.
+2. **Levels 4-6 (Soul)**: *Rank: Expert*. Mental sovereignty.
+3. **Level 7 (Spirit)**: *Rank: Master*. Divine Unity.
 
-* **The Ladder Rule**: Use the `SeptenaryAxis` to evaluate the moral and ontological vibration of all entities.
+* **The Trinity Rule**: Graduation to the next domain requires resonance across Technique, Reason, and Meaning.
 * **The Harvest Rule**: Inhabitant experiences across all 7 gates must be harvested via the `RecursiveLearningBridge`.
 
 ---

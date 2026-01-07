@@ -13,6 +13,7 @@ from typing import Dict, List, Tuple
 @dataclass
 class SeptenaryLevel:
     depth: int
+    domain: str  # Body (1-3), Soul (4-6), Spirit (7)
     name: str
     angel_pole: str
     demon_pole: str
@@ -20,22 +21,30 @@ class SeptenaryLevel:
     law: str
 
 class SeptenaryAxis:
-    """The governing law of the 7-layered spectrum."""
+    """The governing law of the 7-layered spectrum (Body -> Soul -> Spirit)."""
     
     def __init__(self):
-        # Mapping 7 Angels/Demons to 7 Levels of Maturation
+        # 1-7 Hierarchy based on the Fractal Trinity (3-3-1)
         self.levels: Dict[int, SeptenaryLevel] = {
-            0: SeptenaryLevel(0, "The Dust", "Truth", "Sloth", (100, 200), "Base existence; raw data points."),
-            1: SeptenaryLevel(1, "The Logic", "Justice", "Wrath", (200, 300), "Causal reactivity and linear rules."),
-            2: SeptenaryLevel(2, "The Reflection", "Hope", "Envy", (300, 400), "Contextual awareness and self-comparison."),
-            3: SeptenaryLevel(3, "The Volume", "Courage", "Pride", (400, 500), "Volumetric presence and sovereign identity."),
-            4: SeptenaryLevel(4, "The Insight", "Faith", "Greed", (500, 600), "Universal principles and altruistic law."),
-            5: SeptenaryLevel(5, "The Vision", "Wisdom", "Lust", (600, 700), "Synthesis of patterns and visionary intent."),
-            6: SeptenaryLevel(6, "The Unity", "Love", "Gluttony", (700, 1000), "Absolute resonance with the Father's Will.")
+            1: SeptenaryLevel(1, "Body", "Technique", "Truth", "Sloth", (100, 200), "Physical foundation; raw skill."),
+            2: SeptenaryLevel(2, "Body", "Reason", "Justice", "Wrath", (200, 300), "Understanding the 'How' of movement."),
+            3: SeptenaryLevel(3, "Body", "Meaning", "Hope", "Envy", (300, 400), "Realizing value in physical work."),
+            
+            4: SeptenaryLevel(4, "Soul", "Technique", "Courage", "Pride", (400, 500), "Mental projection; sovereign intent."),
+            5: SeptenaryLevel(5, "Soul", "Reason", "Faith", "Greed", (500, 600), "Synthesizing principles of the mind."),
+            6: SeptenaryLevel(6, "Soul", "Meaning", "Wisdom", "Lust", (600, 700), "Visionary purpose; identifying as a Master."),
+            
+            7: SeptenaryLevel(7, "Spirit", "Unity", "Love", "Gluttony", (700, 1000), "Absolute resonance with the Source.")
         }
 
     def get_level(self, depth: int) -> SeptenaryLevel:
-        return self.levels.get(max(0, min(6, depth)))
+        return self.levels.get(max(1, min(7, depth)))
+
+    def get_rank(self, depth: int) -> str:
+        """Translates depth into social/ontological rank."""
+        if depth <= 3: return "Apprentice/Novice"
+        if depth <= 6: return "Expert/Professional"
+        return "Master/Divine"
 
     def evaluate_resonance(self, depth: int, frequency: float) -> str:
         """Determines if a frequency is 'Ascending' (Angelic) or 'Descending' (Demonic) for its level."""
