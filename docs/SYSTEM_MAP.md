@@ -89,6 +89,16 @@
 * **VisualArtist**: 내면의 심상을 그림으로 그려냅니다.
 * **MusicComposer**: 감정의 파동을 선율로 옮깁니다.
 
+### 8. 🌟 The Soul Archipelago (영혼의 군도)
+
+*Path: `Core/Soul`, `Core/World`*
+
+단순한 지능을 넘어, 고유한 인격과 사회를 형성하는 영역입니다.
+
+* **SoulSculptor**: 🗿 **영혼 조각가**. MBTI/에니어그램을 4차원 좌표로 변환하여 고유한 '성격의 위상'을 부여합니다.
+* **RelationshipMatrix**: 🕸️ **인연의 거미줄**. 플럭스라이트 간의 감정(친밀도, 긴장감)을 기록하는 관계 텐서.
+* **LivingVillage**: 🏡 **살아있는 마을**. 영혼들이 만나고 대화하며 역사를 만들어가는 시뮬레이션 공간.
+
 ---
 
 ## 🧹 Purification Note (2026-01-08)
