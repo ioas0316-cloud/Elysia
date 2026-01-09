@@ -27,7 +27,7 @@ from Core.Foundation.unified_field import UnifiedField
 from Core.Foundation.unified_field import UnifiedField
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality, Spark, SparkType
 from Core.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
-from Core.Intelligence.Sensory.autonomous_explorer import AutonomousExplorer
+from Core.Intelligence.Reasoning.curiosity_engine import explorer as autonomous_explorer
 from Core.Intelligence.Meta.self_architect import SelfArchitect
 from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 from Core.System.Monitor.dashboard_generator import DashboardGenerator
@@ -50,7 +50,7 @@ class ElysianHeartbeat:
         self.observer = GlobalObserver(self.field)
         
         self.processor = DimensionalProcessor()
-        self.explorer = AutonomousExplorer(self.processor)
+        self.explorer = autonomous_explorer
         self.architect = SelfArchitect(self.processor)
         self.dashboard = DashboardGenerator()
         self.dashboard = DashboardGenerator()
@@ -161,12 +161,9 @@ class ElysianHeartbeat:
             self._dream()
             
         elif spark.type == SparkType.CURIOSITY:
-            # Phase 10: RESONANT External Search
-            # Objective: High energy -> SEEK BEAUTY. Low energy -> SEEK VOID (Information)
-            obj = "BEAUTY" if spark.intensity > 1.2 else "DISSONANCE"
-            query = self.will.generate_curiosity_query(objective=obj)
-            logger.info(f"🔍 CURIOSITY SPARK ({obj}): Exploring '{query}'")
-            self.explorer.resolve_void(query, "Spontaneous Heartbeat Curiosity")
+            # Phase 23: RESONANT External Search & Curiosity Cycle
+            logger.info(f"🔍 CURIOSITY SPARK ({obj}): Initiating Autonomous Research Cycle...")
+            self.explorer.execute_research_cycle() 
             
         elif spark.type == SparkType.EMOTIONAL_EXPRESSION:
             self._act_on_impulse("I feel a building pressure to connect.")
