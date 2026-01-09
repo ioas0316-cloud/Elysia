@@ -27,6 +27,15 @@ from typing import Dict, List, Tuple, Optional, Any
 from enum import Enum
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.organ_system import Organ, OrganManifest
+try:
+    from Core.Physics.geometric_algebra import Rotor, MultiVector
+    from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
+    from Core.Foundation.Wave.sensory_packet import SensoryPacket
+except ImportError as e:
+    # Fallback/Mock for tests or limited environments
+    print(f"⚠️ ResonanceField Import Warning: {e}")
+    Rotor = None
+    TesseractGeometry = None
 
 class PillarType(Enum):
     FOUNDATION = ("Foundation", 100.0, (0, 0, 0))      # 중심
@@ -385,6 +394,121 @@ class ResonanceField(Organ):
             "coherence": coherence,
             "tension": 1.0 - coherence,
             "total_causal_mass": sum(n.causal_mass for n in self.nodes.values())
+        }
+
+    def scan_field_with_rotor(self, soul_rotor: 'MultiVector', sensors: List[Dict[str, Any]]) -> List['SensoryPacket']:
+        """
+        [Soul Perception]
+        Scans the field using the Soul's Rotor (Orientation) and Sensors.
+        Returns explicit 'SensoryPacket' objects mimicking human senses.
+
+        Args:
+            soul_rotor: The MultiVector representing the Soul's current gaze/rotation.
+            sensors: A list of sensor definitions.
+
+        Returns:
+            A list of SensoryPacket objects.
+        """
+        if Rotor is None or soul_rotor is None or SensoryPacket is None:
+            print(f"⚠️ Soul Perception Failed: Rotor or SensoryPacket is None")
+            return []
+
+        experiences = []
+
+        # Optimize: Only check active nodes or high energy nodes
+        active_nodes = [n for n in self.nodes.values() if n.energy > 0.5]
+
+        for node in active_nodes:
+            # 1. Coordinate Transformation (World -> Soul Frame)
+            node_vec = (node.quaternion.x, node.quaternion.y, node.quaternion.z, node.quaternion.w)
+            perceived_vec = Rotor.rotate_point(node_vec, soul_rotor)
+            px, py, pz, pw = perceived_vec
+
+            # 2. Check Detection Thresholds (Simplified Gating)
+            is_detected = False
+
+            # Basic Spatial Filter (In front) OR Frequency Resonance
+            spatial_match = pz > 0.2
+            freq_match = any(s["type"] == "frequency" and s["range"][0] <= node.frequency <= s["range"][1] for s in sensors)
+
+            if spatial_match or freq_match:
+                is_detected = True
+
+            if is_detected:
+                # 3. Construct Sensory Packet
+                packet = SensoryPacket(source_id=node.id, timestamp=time.time())
+
+                # --- Vision (Clarity/Brightness) ---
+                # Brightness = Energy, Clarity = Spatial Alignment (pz)
+                packet.vision = {
+                    "brightness": min(1.0, node.energy / 100.0),
+                    "clarity": max(0.0, min(1.0, pz)),
+                    "hue": node.frequency
+                }
+
+                # --- Hearing (Harmony/Tone) ---
+                # Tone = Frequency, Volume = Energy / Distance
+                dist = math.sqrt(px**2 + py**2 + pz**2 + 1e-6)
+                packet.hearing = {
+                    "tone": node.frequency,
+                    "volume": min(1.0, node.energy / (dist * 100.0)),
+                    "harmony": 1.0 if (node.frequency % 432.0 < 10) else 0.5 # Simple harmony check
+                }
+
+                # --- Touch (Pressure/Temp) ---
+                # Pressure = W-component (Mass/Intention density)
+                packet.touch = {
+                    "pressure": max(0.0, pw),
+                    "temperature": node.energy / 50.0
+                }
+
+                # --- Smell (Gradient) ---
+                # Simulated by the 'Z' gradient (approaching vs receding)
+                # +Z means approaching (getting stronger)
+                packet.smell = {
+                    "intensity": max(0.0, node.energy / (dist * dist * 10.0)),
+                    "essence_gradient": pz # Positive = Approaching scent
+                }
+
+                # --- Taste (Resonance Density) ---
+                # Taste requires close proximity (low dist) and high resonance
+                if dist < 2.0:
+                    resonance = packet.hearing["harmony"]
+                    density = pw
+                    packet.taste = {
+                        "richness": min(1.0, density * node.energy),
+                        "sweetness": min(1.0, resonance * density),
+                        "bitterness": min(1.0, (1.0 - resonance) * density)
+                    }
+
+                # --- Balance (Vertigo) ---
+                # Vertigo induced by high Spin (X/Y components of perceived vector causing shift)
+                packet.balance = {
+                    "stability": max(0.0, 1.0 - (abs(px) + abs(py))),
+                    "vertigo": min(1.0, (abs(px) + abs(py)))
+                }
+
+                packet.generate_narrative()
+                experiences.append(packet)
+
+                # Feedback Trace
+                if packet.vision["brightness"] > 0.5 or packet.touch["pressure"] > 0.5:
+                    node.causal_mass += 0.01
+
+        return experiences
+
+    def _generate_interference_pattern(self, node: ResonanceNode, intensity: float, perceived_vec: Tuple, soul_rotor: Any = None) -> Dict[str, Any]:
+        """
+        Deprecated: Use SensoryPacket instead.
+        Kept for backward compatibility if needed, but internally replaced.
+        """
+        return {
+            "source_id": node.id,
+            "intensity": intensity,
+            "frequency": node.frequency,
+            "perceived_location": perceived_vec,
+            "timestamp": time.time(),
+            "type": "InterferencePattern_Legacy"
         }
 
     def calculate_phase_resonance(self) -> Dict[str, Any]:
