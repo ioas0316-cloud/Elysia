@@ -71,7 +71,7 @@ class WorldDialogueEngine:
         4. Extract language from interactions
         """
         try:
-            from Core.Evolution.Growth.Evolution.Evolution.Life.communicating_cell import CommunicatingCell, extract_dialogue_from_cells
+            from Core.World.Evolution.Growth.Evolution.Evolution.Life.communicating_cell import CommunicatingCell, extract_dialogue_from_cells
             
             # 1. Parse concepts and create cells
             concepts = self._parse_concepts(user_input)

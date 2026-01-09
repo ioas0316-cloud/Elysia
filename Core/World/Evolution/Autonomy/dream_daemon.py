@@ -4,7 +4,7 @@ import random
 import logging
 import threading
 from typing import List, Optional, Dict
-from Core.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
+from Core.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
 
 logger = logging.getLogger("DreamDaemon")
 
@@ -86,7 +86,7 @@ class DreamDaemon:
         if not hasattr(self, 'wiki_parser'):
              # Lazy Load
             try:
-                from Core.Evolution.Growth.Autonomy.wikipedia_dump_parser import WikipediaDumpParser
+                from Core.World.Evolution.Growth.Autonomy.wikipedia_dump_parser import WikipediaDumpParser
                 dump_path = "c:\\Elysia\\data\\wikipedia\\kowiki-latest-pages-articles.xml.bz2"
                 self.wiki_gen = WikipediaDumpParser(dump_path).stream_articles()
                 self.wiki_parser = True
@@ -139,7 +139,7 @@ class DreamDaemon:
             # [Phase 26] Lucid Dream Walk (Exploration of Dark Energy)
             # 10% chance to enter deep exploration
             if random.random() < 0.1:
-                from Core.Evolution.Autonomy.oneiric_navigator import get_oneiric_navigator
+                from Core.World.Evolution.Autonomy.oneiric_navigator import get_oneiric_navigator
                 navigator = get_oneiric_navigator(self.graph)
                 navigator.explore_the_void()
             
@@ -286,7 +286,7 @@ class DreamDaemon:
         Uses CodeGenesis to critique her own source code.
         This is the precursor to Self-Rewriting.
         """
-        from Core.Evolution.Growth.Autonomy.code_genesis import get_code_genesis
+        from Core.World.Evolution.Growth.Autonomy.code_genesis import get_code_genesis
         import os
         
         genesis = get_code_genesis()
@@ -316,7 +316,7 @@ class DreamDaemon:
         Uses ComfyUI (VisualCortex) to see what a concept looks like.
         Absorbs the 'Aesthetic Signature' (Color, Chaos) into the vector.
         """
-        from Core.Sensory.Visual.visual_cortex import get_visual_cortex
+        from Core.Physiology.Sensory.Visual.visual_cortex import get_visual_cortex
         cortex = get_visual_cortex()
         if not cortex.is_available(): return
 

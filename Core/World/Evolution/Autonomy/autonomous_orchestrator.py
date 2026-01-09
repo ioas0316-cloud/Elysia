@@ -96,7 +96,7 @@ class AutonomousOrchestrator:
         # Filesystem Observer
         self.filesystem_observer = None
         try:
-            from Core.System.System.filesystem_wave import get_filesystem_observer
+            from Core.Governance.System.System.filesystem_wave import get_filesystem_observer
             self.filesystem_observer = get_filesystem_observer()
             logger.info("   ✅ FilesystemObserver connected")
         except ImportError as e:
@@ -105,7 +105,7 @@ class AutonomousOrchestrator:
         # Unified Dialogue
         self.dialogue = None
         try:
-            from Core.Interaction.Interface.unified_dialogue import get_unified_dialogue
+            from Core.Governance.Interaction.Interface.unified_dialogue import get_unified_dialogue
             self.dialogue = get_unified_dialogue()
             logger.info("   ✅ UnifiedDialogue connected")
         except ImportError as e:
@@ -195,7 +195,7 @@ class AutonomousOrchestrator:
         try:
             # 1. Connect to Hierarchical Knowledge Graph
             try:
-                from Core.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+                from Core.World.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
                 kg = HierarchicalKnowledgeGraph()
                 self.state.knowledge_gaps = [n.name for n in kg.get_knowledge_gaps(limit=5)]
                 logger.info(f"   🧠 Identified gaps: {self.state.knowledge_gaps}")

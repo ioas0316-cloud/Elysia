@@ -17,7 +17,7 @@ import math
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple
 from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
-from Core.Physics.geometric_algebra import MultiVector
+from Core.Physiology.Physics.geometric_algebra import MultiVector
 
 @dataclass
 class GyroState:

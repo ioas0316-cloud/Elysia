@@ -25,14 +25,14 @@ from enum import Enum
 from typing import Dict, List, Optional, Any, Callable
 
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
-from Core.Evolution.Growth.sovereign_intent import SovereignIntent
+from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Foundation.Memory.Orb.orb_manager import OrbManager
 from Core.Intelligence.Topography.universal_view import UniversalView
 from Core.Intelligence.Topography.perspective_shifter import PerspectiveShifter
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality, SparkType
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Intelligence.Logos.logos_engine import LogosEngine
-from Core.Orchestra.system_alignment import SystemAlignment
+from Core.Governance.Orchestra.system_alignment import SystemAlignment
 # from elysia_core.cell import Cell (Legacy Removed)
 
 logger = logging.getLogger("Orchestra")

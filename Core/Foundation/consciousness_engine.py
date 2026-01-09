@@ -70,8 +70,8 @@ class Elysia:
         self.philosophy = PhilosophyOfFlow()
         
         # 3. Evolution (진화) - 자율적 구조 통합 포함
-        from Core.Evolution.Growth.Evolution.Evolution.autonomous_improver import AutonomousImprover
-        from Core.Evolution.Growth.Evolution.Evolution.structural_unifier import StructuralUnifier
+        from Core.World.Evolution.Growth.Evolution.Evolution.autonomous_improver import AutonomousImprover
+        from Core.World.Evolution.Growth.Evolution.Evolution.structural_unifier import StructuralUnifier
         self.improver = AutonomousImprover(project_root=str(self.project_root))
         self.unifier = StructuralUnifier(project_root=self.project_root)
         
@@ -80,7 +80,7 @@ class Elysia:
         self.galaxy = Galaxy(project_root=self.project_root)
         
         # 5. Interface (소통)
-        from Core.Interaction.Interface.conversation_engine import ConversationEngine
+        from Core.Governance.Interaction.Interface.conversation_engine import ConversationEngine
         self.voice = ConversationEngine()
         
         # 상태 플래그

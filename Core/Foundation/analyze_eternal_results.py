@@ -15,7 +15,7 @@ if repo_root not in sys.path:
 import logging
 from Core.Foundation.Mind.hippocampus import Hippocampus
 from Core.Foundation.Mind.alchemy import Alchemy
-from Core.System.System.System.Integration.experience_digester import ExperienceDigester
+from Core.Governance.System.System.System.Integration.experience_digester import ExperienceDigester
 from Core.Foundation.Physics.fluctlight import FluctlightEngine
 from Core.Foundation.Physics.meta_time_engine import create_safe_meta_engine
 import numpy as np

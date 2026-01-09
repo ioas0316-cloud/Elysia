@@ -30,7 +30,7 @@ import logging
 from typing import Dict, List, Any, Optional
 import sys
 from pathlib import Path
-from Core.Evolution.Learning.Learning.hierarchical_learning import Domain
+from Core.World.Evolution.Learning.Learning.hierarchical_learning import Domain
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -102,7 +102,7 @@ class AutonomousLearner:
             potential_store = None
         
         try:
-            from Core.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
+            from Core.World.Evolution.Learning.Learning.hierarchical_learning import HierarchicalKnowledgeGraph
             kg = HierarchicalKnowledgeGraph()
         except ImportError:
             kg = None

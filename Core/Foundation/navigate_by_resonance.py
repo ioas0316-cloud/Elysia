@@ -20,7 +20,7 @@ import logging
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.System.System.System.resonance_navigator import ResonanceNavigator
+from Core.Governance.System.System.System.resonance_navigator import ResonanceNavigator
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

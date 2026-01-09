@@ -34,8 +34,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from Core.Foundation.Core_Logic.Elysia.Elysia.consciousness_engine import ConsciousnessEngine
 from Core.Foundation.Mind.autonomous_explorer import AutonomousExplorer
-from Core.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
-from Core.Evolution.Growth.Evolution.Evolution.Body.resonance_vision import ResonanceVision
+from Core.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
+from Core.World.Evolution.Growth.Evolution.Evolution.Body.resonance_vision import ResonanceVision
 from Core.Intelligence.Intelligence.dialogue_engine import DialogueEngine
 from Core.Foundation.Mind.hippocampus import Hippocampus
 

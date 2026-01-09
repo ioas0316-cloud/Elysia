@@ -18,7 +18,7 @@ def main():
     print()
     
     from Core.Intelligence.Intelligence.Will.free_will_engine import FreeWillEngine
-    from Core.Evolution.Autonomy.autonomous_improver import AutonomousImprover
+    from Core.World.Evolution.Autonomy.autonomous_improver import AutonomousImprover
     
     will = FreeWillEngine()
     improver = AutonomousImprover()

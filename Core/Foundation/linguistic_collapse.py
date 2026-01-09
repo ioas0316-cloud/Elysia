@@ -53,7 +53,7 @@ except ImportError:
 
 # Optional PoetryEngine integration
 try:
-    from Core.Evolution.Creativity.poetry_engine import PoetryEngine
+    from Core.World.Evolution.Creativity.poetry_engine import PoetryEngine
     POETRY_AVAILABLE = True
 except ImportError:
     POETRY_AVAILABLE = False

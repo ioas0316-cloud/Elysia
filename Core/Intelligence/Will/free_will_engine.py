@@ -21,7 +21,7 @@ from typing import Dict, List, Optional
 try:
     from Core.Intelligence.Will.creative_improvisation import CreativeImprovisation
     from Core.Intelligence.Will.sovereign_gate import SovereignGate
-    from Core.Orchestra.resonance_broadcaster import ResonanceBroadcaster
+    from Core.Governance.Orchestra.resonance_broadcaster import ResonanceBroadcaster
 except ImportError:
     CreativeImprovisation = None
     SovereignGate = None

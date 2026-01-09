@@ -1,12 +1,12 @@
 
 from typing import Tuple, List, Dict, Any
-from Core.Soul.fluxlight_gyro import GyroscopicFluxlight
+from Core.World.Soul.fluxlight_gyro import GyroscopicFluxlight
 from Core.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
 
 class Adventurer(GyroscopicFluxlight):
     def __init__(self, name: str, archetype: str, pos: Tuple[float, float, float, float] = (0, 0, 0, 0)):
         from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
-        from Core.Soul.world_soul import world_soul
+        from Core.World.Soul.world_soul import world_soul
         
         # 1. Soul (Physical)
         soul = InfiniteHyperQubit(name=name)
@@ -25,7 +25,7 @@ class Adventurer(GyroscopicFluxlight):
 
     def live(self, dt: float = 1.0):
         from Core.World.Physics.field_store import universe_field
-        from Core.Soul.world_soul import world_soul
+        from Core.World.Soul.world_soul import world_soul
         from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
         
         # 1. Environmental Induction

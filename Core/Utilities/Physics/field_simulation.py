@@ -4,8 +4,8 @@ Field Simulation Demo
 Demonstrates the 'Re-blooming' effect of the Universal Law Engine.
 """
 
-from Core.Physics.universal_field import universe
-from Core.Physics.phase_sensor import PhaseSensor
+from Core.Physiology.Physics.universal_field import universe
+from Core.Physiology.Physics.phase_sensor import PhaseSensor
 import random
 import time
 

@@ -20,7 +20,7 @@ from Core.Foundation.unified_field import UnifiedField, HyperQuaternion
 from Core.Intelligence.Topography.magnetic_cortex import MagneticCompass
 from Core.Intelligence.Consciousness.hyperdimensional_consciousness import HyperdimensionalConsciousness as HyperConsciousness
 from Core.Intelligence.Meta.void_sensor import VoidSensor
-from Core.System.System.filesystem_wave import get_filesystem_observer, FileWaveEvent
+from Core.Governance.System.System.filesystem_wave import get_filesystem_observer, FileWaveEvent
 
 logger = logging.getLogger("GlobalObserver")
 

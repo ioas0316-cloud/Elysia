@@ -93,7 +93,7 @@ class VisualizerHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             
             try:
-                from Core.Sensory.synesthetic_bridge import get_synesthesia_bridge
+                from Core.Physiology.Sensory.synesthetic_bridge import get_synesthesia_bridge
                 import random
                 import time
                 
@@ -276,7 +276,7 @@ class VisualizerServer:
 
         # Phase 5: Reality Perception System Integration
         try:
-            from Core.Sensory.reality_perception import RealityPerceptionSystem
+            from Core.Physiology.Sensory.reality_perception import RealityPerceptionSystem
             self.perception_system = RealityPerceptionSystem()
             logger.info("👁️ Reality Perception System Connected to Avatar")
         except ImportError as e:

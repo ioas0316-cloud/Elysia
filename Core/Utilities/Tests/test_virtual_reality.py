@@ -5,7 +5,7 @@ import unittest
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Evolution.Creation.virtual_reality import VirtualSpace, VirtualEntity
+from Core.World.Evolution.Creation.virtual_reality import VirtualSpace, VirtualEntity
 
 class TestVirtualReality(unittest.TestCase):
     def setUp(self):

@@ -181,7 +181,7 @@ class LiteraryCortex:
         
         # [Saga Upgrade] Macro-Plot Awareness
         # Instead of simple cycles, we use the Grand Plan.
-        from Core.Evolution.Creativity.saga_architect import SagaArchitect
+        from Core.World.Evolution.Creativity.saga_architect import SagaArchitect
         architect = SagaArchitect()
         
         # Ensure Bible has Saga data (Backward Compat)

@@ -20,8 +20,8 @@ from typing import Dict, List, Optional, Any
 
 from Core.Foundation.Wave.wave_interpreter import WaveInterpreter, WavePattern
 # [PHASE 26] WaveCoder temporarily removed to avoid cascading import issues
-# from Core.Evolution.Autonomy.wave_coder import WaveCoder
-from Core.Evolution.Creation.holographic_manifestor import HolographicManifestor
+# from Core.World.Evolution.Autonomy.wave_coder import WaveCoder
+from Core.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
 
 logger = logging.getLogger("ResonanceCompiler")
 

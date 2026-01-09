@@ -7,7 +7,7 @@ Self-Documenter: 엘리시아의 자기 문서화 시스템
 SYSTEM_MAP.md를 자동으로 업데이트합니다.
 
 Usage:
-    from Core.Evolution.Growth.Autonomy.self_documenter import SelfDocumenter
+    from Core.World.Evolution.Growth.Autonomy.self_documenter import SelfDocumenter
     
     doc = SelfDocumenter()
     doc.update_system_map()

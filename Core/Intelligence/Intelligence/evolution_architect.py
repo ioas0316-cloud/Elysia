@@ -53,7 +53,7 @@ class EvolutionArchitect:
             self.metacognition = None
             
         try:
-            from Core.Evolution.Growth.Autonomy.self_modifier_v2 import get_self_modifier
+            from Core.World.Evolution.Growth.Autonomy.self_modifier_v2 import get_self_modifier
             self.self_modifier = get_self_modifier()
         except ImportError:
             self.self_modifier = None

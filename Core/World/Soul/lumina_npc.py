@@ -7,13 +7,13 @@ This version implements Cognitive Induction: The Field drives the Soul.
 """
 
 from typing import Tuple, Dict
-from Core.Soul.fluxlight_gyro import GyroscopicFluxlight, GyroState
+from Core.World.Soul.fluxlight_gyro import GyroscopicFluxlight, GyroState
 from Core.World.Physics.field_store import universe_field
 
 class Lumina(GyroscopicFluxlight):
     def __init__(self, name: str = "Lumina", pos: Tuple[float, float, float, float] = (0, 0, 0, 0)):
         from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
-        from Core.Soul.world_soul import world_soul
+        from Core.World.Soul.world_soul import world_soul
         from Core.Intelligence.Reasoning.subjective_ego import SubjectiveEgo
         
         # 1. Physical Soul (Hypersphere)
@@ -37,7 +37,7 @@ class Lumina(GyroscopicFluxlight):
         The 'Player' (Elysia) observes the world through the 'Character' (Lumina)
         and decides on an action/feeling.
         """
-        from Core.Soul.world_soul import world_soul
+        from Core.World.Soul.world_soul import world_soul
         from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
         from Core.World.Physics.field_store import universe_field
         
@@ -103,7 +103,7 @@ class Lumina(GyroscopicFluxlight):
 
     def get_status(self) -> str:
         """A holistic status report combining Ego, Soul, and World."""
-        from Core.Soul.world_soul import world_soul
+        from Core.World.Soul.world_soul import world_soul
         world_probs = world_soul.state.probabilities()
         
         mood = "Neutral"

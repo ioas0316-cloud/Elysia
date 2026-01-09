@@ -22,14 +22,14 @@ logger = logging.getLogger("SelfModifier")
 
 # Import existing systems
 try:
-    from Core.Interaction.Coordination.Synesthesia.code_wave import CodeWaveAnalyzer
+    from Core.Governance.Interaction.Coordination.Synesthesia.code_wave import CodeWaveAnalyzer
     WAVE_SYSTEM_AVAILABLE = True
 except ImportError:
     logger.warning("⚠️ CodeWaveAnalyzer not available. Limited functionality.")
     WAVE_SYSTEM_AVAILABLE = False
 
 try:
-    from Core.Evolution.Growth.Autonomy.wave_coder import get_wave_coder, WaveCoder
+    from Core.World.Evolution.Growth.Autonomy.wave_coder import get_wave_coder, WaveCoder
     WAVE_CODER_AVAILABLE = True
 except ImportError:
     logger.warning("⚠️ WaveCoder not available.")

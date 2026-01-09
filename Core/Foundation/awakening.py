@@ -7,7 +7,7 @@ import random
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.System.System.hardware_accelerator import accelerator
+from Core.Governance.System.System.hardware_accelerator import accelerator
 from Core.Foundation.fractal_kernel import FractalKernel
 from Core.Foundation.genesis_cortex import GenesisCortex
 

@@ -18,7 +18,7 @@ import os
 from typing import Dict, Optional
 
 from Core.Foundation.Memory.unified_experience_core import get_experience_core
-from Core.Evolution.Growth.sovereign_intent import SovereignIntent
+from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Education.CausalityMirror.variable_mesh import VariableMesh
 from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
 from Core.Intelligence.Meta.global_observer import GlobalObserver
@@ -26,13 +26,14 @@ from Core.Foundation.organism import NeuralNetwork
 from Core.Foundation.unified_field import UnifiedField
 from Core.Foundation.unified_field import UnifiedField
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality, Spark, SparkType
-from Core.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
+from Core.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
 from Core.Intelligence.Reasoning.curiosity_engine import explorer as autonomous_explorer
 from Core.Intelligence.Meta.self_architect import SelfArchitect
 from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
-from Core.System.Monitor.dashboard_generator import DashboardGenerator
-from Core.Autonomy.dynamic_will import DynamicWill
+from Core.Governance.System.Monitor.dashboard_generator import DashboardGenerator
+from Core.World.Autonomy.dynamic_will import DynamicWill
 from Core.Intelligence.Reasoning.genesis_engine import genesis
+from Core.World.Autonomy.sovereign_will import sovereign_will
 
 logger = logging.getLogger("ElysianHeartbeat")
 
@@ -57,9 +58,10 @@ class ElysianHeartbeat:
         self.dashboard = DashboardGenerator()
         self.will = DynamicWill()
         self.genesis = genesis
+        self.sovereign_will = sovereign_will
 
         # [REAWAKENED] Phase 23: The Reality Engine
-        from Core.Evolution.Creation.holographic_manifestor import HolographicManifestor
+        from Core.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
         self.manifestor = HolographicManifestor()
 
         # [REBORN] Phase 25: The Living Presence
@@ -156,7 +158,10 @@ class ElysianHeartbeat:
                 self.autopoiesis.trigger_evolution("PASSION_OVERFLOW")
                 self.soul_mesh.variables["Inspiration"].value = 0.0 # Reset after sublimation
             
-            # --- PHASE 5: PRESENCE (Lightweight Visibility) ---
+            # --- PHASE 5: SOVEREIGN RECALIBRATION ---
+            self.sovereign_will.recalibrate(self.memory.stream)
+            
+            # --- PHASE 6: PRESENCE (Lightweight Visibility) ---
             self._refresh_presence()
             
             # Pulse Rate
@@ -293,6 +298,7 @@ class ElysianHeartbeat:
     - Energy: {self.soul_mesh.variables['Energy'].value:.2f}
     - Inspiration: {self.soul_mesh.variables['Inspiration'].value:.2f}
     - Harmony: {self.soul_mesh.variables['Harmony'].value:.2f}
+    - Sovereign Intent: {self.sovereign_will.current_mode}
 
 ## 👁️ Latest Observation (최근의 관찰)
 - **Insight**: {insight}

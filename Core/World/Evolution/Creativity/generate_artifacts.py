@@ -4,8 +4,8 @@ sys.path.append(os.getcwd())
 
 from Core.Intelligence.Science_Research.Science.bio_resonator import BioResonator
 from Core.Intelligence.Science_Research.Science.quantum_resonator import QuantumResonator
-from Core.Evolution.Creativity.Studio.bio_choir import BioChoir
-from Core.Evolution.Creativity.Studio.video_composer import VideoComposer
+from Core.World.Evolution.Creativity.Studio.bio_choir import BioChoir
+from Core.World.Evolution.Creativity.Studio.video_composer import VideoComposer
 
 def generate_all():
     print("\n🚀 Starting Cosmic Studio Production...")

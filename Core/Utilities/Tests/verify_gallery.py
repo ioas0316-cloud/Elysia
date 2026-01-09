@@ -12,7 +12,7 @@ from fastapi.testclient import TestClient
 # Adjust path to access Core
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.Interface.Gallery.gallery_server import app, get_orb_manager
+from Core.Governance.Interface.Gallery.gallery_server import app, get_orb_manager
 
 # Override the dependency for testing
 def test_gallery_api():

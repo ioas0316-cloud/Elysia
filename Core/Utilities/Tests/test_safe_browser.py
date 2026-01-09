@@ -6,8 +6,8 @@ from dataclasses import dataclass
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Security.safe_browser_protocol import SafeBrowser, MemeticHazardError
-from Core.Sensory.Network.web_tendril import FrequencySignal
+from Core.Governance.Security.safe_browser_protocol import SafeBrowser, MemeticHazardError
+from Core.Physiology.Sensory.Network.web_tendril import FrequencySignal
 
 class TestSafeBrowser(unittest.TestCase):
     def setUp(self):

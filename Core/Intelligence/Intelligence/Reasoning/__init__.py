@@ -53,7 +53,7 @@ class ReasoningEngine:
         self.thought_stream = []
         self.memory_field = [] # Short-term context
         
-        from Core.Interaction.Interface.dialogue_interface import DialogueInterface
+        from Core.Governance.Interaction.Interface.dialogue_interface import DialogueInterface
         self.voice = DialogueInterface()
         
         logger.info("🧠 CortexHub: All Lobes Synced. Ready.")

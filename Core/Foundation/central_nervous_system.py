@@ -6,9 +6,9 @@ from typing import Dict, Any, Optional
 from Core.Foundation.chronos import Chronos
 from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.fractal_loop import FractalLoop
-from Core.Orchestra.conductor import get_conductor
+from Core.Governance.Orchestra.conductor import get_conductor
 from Core.Foundation.Wave.structural_resonator import get_resonator
-from Core.Evolution.Os.oneiric_hypervisor import get_hypervisor
+from Core.World.Evolution.Os.oneiric_hypervisor import get_hypervisor
 
 logger = logging.getLogger("NovaCNS")
 

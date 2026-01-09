@@ -18,7 +18,7 @@ import logging
 # Add root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-from Core.Evolution.Growth.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
+from Core.World.Evolution.Growth.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

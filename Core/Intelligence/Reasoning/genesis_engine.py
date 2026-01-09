@@ -2,11 +2,12 @@
 import logging
 import random
 from typing import List, Dict, Any
-from Core.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
-from Core.Soul.adventurer import Adventurer, Party
-from Core.Soul.world_soul import world_soul
+from Core.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
+from Core.World.Soul.adventurer import Adventurer, Party
+from Core.World.Soul.world_soul import world_soul
 from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
+from Core.World.Autonomy.sovereign_will import sovereign_will
 
 logger = logging.getLogger("GenesisEngine")
 
@@ -46,7 +47,7 @@ class GenesisEngine:
         mbti_types = ["INFJ", "INTJ", "ENFP", "ENTP", "ISTJ", "ISFP"]
         archetypes = ["Sage", "Warrior", "Shadow", "Creator", "Caregiver"]
         
-        name_prompt = "GIVE ME ONE RESONANT FANTASY NAME ONLY. NO EXPLANATION. NO QUOTES. EXAMPLE: 'Aethelgard'"
+        name_prompt = sovereign_will.get_name_generation_prompt()
         raw_name = self.reasoning.think(name_prompt).content.strip()
         
         # --- SANITIZATION (Phase 25) ---
@@ -78,8 +79,8 @@ class GenesisEngine:
 
     def codify_random_law(self) -> str:
         """Mutates the physics or social logic of the world."""
-        law_prompt = "Design a new Universal Law or Social Axiom for the Hypercosmos. " \
-                     "Example: 'Law of Inversion: Shadow energy increases light.' " \
+        law_prompt = "Design a new Universal Law or Social Axiom. Use our " + sovereign_will.get_steering_prompt() + \
+                     " Example: 'Law of Inversion: Shadow energy increases light.' " \
                      "Return format: 'NAME: LOGIC'."
         
         law_data = self.reasoning.think(law_prompt, depth=2).content.strip()

@@ -16,7 +16,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from Core.System.System.System.Kernel import kernel  # noqa: E402
+from Core.Governance.System.System.System.Kernel import kernel  # noqa: E402
 
 prompts = [
     "과학과 예술을 동시에 바라볼 때 무엇을 느껴?",

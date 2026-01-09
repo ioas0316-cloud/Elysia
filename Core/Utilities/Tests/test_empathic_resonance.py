@@ -5,7 +5,7 @@ import unittest
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Sensory.Auditory.tone_analyzer import ToneAnalyzer
+from Core.Physiology.Sensory.Auditory.tone_analyzer import ToneAnalyzer
 
 class TestEmpathicResonance(unittest.TestCase):
     def setUp(self):

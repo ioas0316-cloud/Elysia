@@ -13,7 +13,7 @@ import logging
 # Adjust path to access Core
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.Orchestra.conductor import Conductor
+from Core.Governance.Orchestra.conductor import Conductor
 from Core.Foundation.Protocols.pulse_protocol import WavePacket, PulseType, ResonatorInterface
 
 # Setup Logging

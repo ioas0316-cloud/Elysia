@@ -59,7 +59,7 @@ except ImportError:
     logger.warning("⚠️ QuaternionCompressor not available")
 
 try:
-    from Core.Evolution.Growth.Autonomy.wave_coder import get_wave_coder
+    from Core.World.Evolution.Growth.Autonomy.wave_coder import get_wave_coder
     WAVE_CODER_AVAILABLE = True
 except ImportError:
     WAVE_CODER_AVAILABLE = False

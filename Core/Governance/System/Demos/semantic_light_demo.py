@@ -16,7 +16,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 from Core.Intelligence.Intelligence.integrated_cognition_system import IntegratedCognitionSystem
-from Core.Interaction.Interface.synesthetic_bridge import SynestheticBridge
+from Core.Governance.Interaction.Interface.synesthetic_bridge import SynestheticBridge
 from Core.Foundation.sdf_renderer import create_gtx1060_renderer
 
 def semantic_render(concept: str, manual_wave=None):

@@ -7,7 +7,7 @@ from unittest.mock import patch
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Orchestration.synapse_manager import SynapseManager
+from Core.Governance.Orchestration.synapse_manager import SynapseManager
 
 class TestDistributedSynapse(unittest.TestCase):
     def setUp(self):

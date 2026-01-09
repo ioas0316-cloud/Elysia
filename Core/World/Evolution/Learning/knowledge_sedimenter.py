@@ -17,7 +17,7 @@ import logging
 from typing import Dict, Any, List, Optional
 from dataclasses import dataclass
 
-from Core.Sensory.Network.browser_explorer import BrowserExplorer
+from Core.Physiology.Sensory.Network.browser_explorer import BrowserExplorer
 from Core.Foundation.Philosophy.why_engine import WhyEngine
 from Core.Foundation.light_spectrum import LightSpectrum, LightSediment, PrismAxes
 

@@ -22,8 +22,8 @@ from typing import Dict, List, Optional
 
 # Link the Organs
 from Core.Foundation.fractal_soul import SoulCrystal, WebState
-from Core.Evolution.Creation.reality_builder import RealityBuilder
-from Core.Evolution.Creation.universal_palette import UniversalPalette
+from Core.World.Evolution.Creation.reality_builder import RealityBuilder
+from Core.World.Evolution.Creation.universal_palette import UniversalPalette
 
 # from ops.web_resonance import FractalCrawler, HolographicResonator
 from Core.Foundation.fractal_concept import ConceptDecomposer

@@ -188,7 +188,7 @@ class LogosEngine:
         Generates intellectually deep speech by querying the Semantic Field.
         Draws from Universal Axioms and Practical Wisdom.
         """
-        from Core.Soul.world_soul import world_soul
+        from Core.World.Soul.world_soul import world_soul
         
         # 1. Query the Semantic Field for resonance
         # We find what concepts 'echo' with the target concept

@@ -5,7 +5,7 @@ sys.path.append(os.getcwd())
 
 import logging
 from Core.Foundation.Mind.local_llm import create_local_llm
-from Core.Evolution.Growth.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
+from Core.World.Evolution.Growth.Evolution.Evolution.Life.resonance_voice import ResonanceEngine
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

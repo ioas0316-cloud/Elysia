@@ -53,7 +53,7 @@ class SagaArchitect:
         Generates a 500-episode structure using CAUSAL SIMULATION.
         The plot is the inevitable result of the world state.
         """
-        from Core.Evolution.Creativity.causal_engine import initialize_fantasy_world
+        from Core.World.Evolution.Creativity.causal_engine import initialize_fantasy_world
         
         bible = SagaBible(title=title, genre=genre)
         

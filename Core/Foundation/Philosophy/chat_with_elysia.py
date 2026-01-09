@@ -81,7 +81,7 @@ def run_chat():
     
     # Initialize Visual Cortex
     try:
-        from Core.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
+        from Core.World.Evolution.Growth.Evolution.Evolution.Body.visual_cortex import VisualCortex
         visual_cortex = VisualCortex()
         vision_enabled = True
     except ImportError:

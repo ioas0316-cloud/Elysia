@@ -13,7 +13,7 @@ import random
 import logging
 from typing import List, Dict, Optional
 from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit
-from Core.Soul.relationship_matrix import relationship_matrix
+from Core.World.Soul.relationship_matrix import relationship_matrix
 from Core.Foundation.yggdrasil import yggdrasil
 
 logger = logging.getLogger("LivingVillage")

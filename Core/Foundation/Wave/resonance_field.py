@@ -28,7 +28,7 @@ from enum import Enum
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.organ_system import Organ, OrganManifest
 try:
-    from Core.Physics.geometric_algebra import Rotor, MultiVector
+    from Core.Physiology.Physics.geometric_algebra import Rotor, MultiVector
     from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
     from Core.Foundation.Wave.sensory_packet import SensoryPacket
 except ImportError as e:

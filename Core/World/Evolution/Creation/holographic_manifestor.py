@@ -247,7 +247,7 @@ class HolographicManifestor:
         # 3. Genesis Sandbox Verification (Phase 23)
         if verify and "None" not in code:
             try:
-                from Core.Evolution.Creation.genesis_sandbox import GenesisSandbox
+                from Core.World.Evolution.Creation.genesis_sandbox import GenesisSandbox
                 sandbox = GenesisSandbox()
                 print("   🔬 Verifying in Genesis Sandbox...")
                 result = sandbox.test_code(code + "\n# Sandbox Verification End")

@@ -11,7 +11,7 @@ Philosophy:
 
 from typing import List, Tuple, Dict, Any
 from dataclasses import dataclass
-from Core.Physics.universal_field import universe, FieldPoint
+from Core.Physiology.Physics.universal_field import universe, FieldPoint
 
 @dataclass
 class VisualNode:

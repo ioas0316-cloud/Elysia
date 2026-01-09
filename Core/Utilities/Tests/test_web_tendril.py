@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Sensory.Network.web_tendril import WebTendril
+from Core.Physiology.Sensory.Network.web_tendril import WebTendril
 
 class TestWebTendril(unittest.TestCase):
     def setUp(self):

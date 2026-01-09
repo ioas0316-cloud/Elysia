@@ -12,7 +12,7 @@ import logging
 # Adjust path to access Core
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from Core.Orchestra.conductor import Conductor, MusicalIntent, Mode, Instrument
+from Core.Governance.Orchestra.conductor import Conductor, MusicalIntent, Mode, Instrument
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO)

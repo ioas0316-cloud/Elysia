@@ -4,7 +4,7 @@ from typing import Dict, Optional, List
 from Core.Foundation.hyper_quaternion import Quaternion, HyperWavePacket
 from Core.Foundation.code_resonance import HarmonicResonance
 from Core.Foundation.code_world import CodeWorld
-from Core.Evolution.Growth.Evolution.code_genome import CodeDNA
+from Core.World.Evolution.Growth.Evolution.code_genome import CodeDNA
 from Core.Foundation.reality_sculptor import RealitySculptor
 
 logger = logging.getLogger("GenesisEngine")

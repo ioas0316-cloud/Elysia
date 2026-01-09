@@ -7,8 +7,8 @@ import logging
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Interaction.Interface.wave_transducer import WaveTransducer
-from Core.Interaction.Interface.Senses.sensory_cortex import SensoryCortex
+from Core.Governance.Interaction.Interface.wave_transducer import WaveTransducer
+from Core.Governance.Interaction.Interface.Senses.sensory_cortex import SensoryCortex
 from Core.Foundation.Action.motor_cortex import MotorCortex
 
 # Setup logging

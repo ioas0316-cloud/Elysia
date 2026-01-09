@@ -6,7 +6,7 @@ import time
 # Path setup
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Sensory.Network.neural_bridge import SignalTransmitter
+from Core.Physiology.Sensory.Network.neural_bridge import SignalTransmitter
 
 class TestNeuralBridge(unittest.TestCase):
     def setUp(self):

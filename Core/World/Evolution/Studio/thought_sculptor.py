@@ -15,7 +15,7 @@ import math
 import random
 from typing import Dict, Any, List
 
-from Core.Evolution.Creativity.Studio.concept_atelier import ConceptAtelier, RawMaterial
+from Core.World.Evolution.Creativity.Studio.concept_atelier import ConceptAtelier, RawMaterial
 from Core.Intelligence.Intelligence.integrated_cognition_system import ThoughtWave, Quaternion
 
 logger = logging.getLogger("ThoughtSculptor")

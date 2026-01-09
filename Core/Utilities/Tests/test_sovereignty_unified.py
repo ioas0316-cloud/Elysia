@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Orchestra.conductor import Conductor, Instrument, Tempo, Mode
+from Core.Governance.Orchestra.conductor import Conductor, Instrument, Tempo, Mode
 
 class TestSovereigntyUnified(unittest.TestCase):
     def test_refusal_logic(self):

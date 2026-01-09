@@ -354,7 +354,7 @@ class SelfGovernance:
         
         # [Curriculum]
         try:
-            from Core.Evolution.Learning.Learning.academic_curriculum import CurriculumSystem
+            from Core.World.Evolution.Learning.Learning.academic_curriculum import CurriculumSystem
             self.curriculum = CurriculumSystem()
         except ImportError:
             self.curriculum = None

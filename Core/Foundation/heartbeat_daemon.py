@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 from Core.Foundation.system_monitor import get_system_monitor
 from Core.Foundation.theosis_engine import TheosisEngine
 from Core.Foundation.free_will_engine import FreeWillEngine
-from Core.Evolution.Creativity.art_studio import ArtStudio
+from Core.World.Evolution.Creativity.art_studio import ArtStudio
 
 # Configure Logging
 logging.basicConfig(

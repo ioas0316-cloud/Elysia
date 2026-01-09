@@ -20,7 +20,7 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 import os
 import math
-from Core.Interaction.anthropomorphic_bridge import AnthropomorphicBridge, HumanQualia
+from Core.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge, HumanQualia
 
 logger = logging.getLogger("Elysia.SovereignIntent")
 

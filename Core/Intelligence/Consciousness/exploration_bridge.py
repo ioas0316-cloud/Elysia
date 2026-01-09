@@ -111,7 +111,7 @@ class ExplorationBridge:
         # 4. AutonomousLearner (학습)
         self.learner = None
         try:
-            from Core.Evolution.Learning.Learning.autonomous_learner import AutonomousLearner
+            from Core.World.Evolution.Learning.Learning.autonomous_learner import AutonomousLearner
             self.learner = AutonomousLearner()
             logger.info("✅ AutonomousLearner connected")
         except Exception as e:
@@ -120,7 +120,7 @@ class ExplorationBridge:
         # 5. NaverSearchConnector (한글 검색 최적화)
         self.naver = None
         try:
-            from Core.Sensory.Network.naver_connector import NaverSearchConnector
+            from Core.Physiology.Sensory.Network.naver_connector import NaverSearchConnector
             self.naver = NaverSearchConnector()
             if self.naver.available:
                 logger.info("✅ NaverConnector connected")

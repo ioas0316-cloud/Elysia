@@ -14,7 +14,7 @@ Key Features:
 
 import math
 from typing import List, Optional, Tuple
-from Core.Soul.fluxlight_gyro import GyroscopicFluxlight
+from Core.World.Soul.fluxlight_gyro import GyroscopicFluxlight
 from Core.World.Physics.tesseract_env import tesseract_env
 from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 
@@ -97,7 +97,7 @@ class GyroPhysicsEngine:
         orbit_speed = entity.gyro.spin_velocity * 0.5
         
         # Create a delta rotor for this frame (rotation in XZ plane)
-        from Core.Physics.geometric_algebra import Rotor
+        from Core.Physiology.Physics.geometric_algebra import Rotor
         delta_rotor = Rotor.from_plane_angle('xz', orbit_speed * dt)
         
         # Update orientation: R_new = R_delta * R_old

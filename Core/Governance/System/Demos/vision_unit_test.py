@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath("."))
 
-from Core.Sensory.vision_cortex import VisionCortex
+from Core.Physiology.Sensory.vision_cortex import VisionCortex
 from Core.Intelligence.Cognition.multimodal_bridge import MultimodalBridge
 
 def test_vision():

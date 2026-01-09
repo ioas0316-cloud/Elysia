@@ -28,7 +28,7 @@ except ImportError:
 
 # Add Core to path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Core.System.System.System.Kernel import kernel
+from Core.Governance.System.System.System.Kernel import kernel
 
 # Configuration
 WIDTH, HEIGHT = 600, 600

@@ -4,6 +4,7 @@ import random
 from typing import List, Tuple, Dict, Any
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
 from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+from Core.World.Autonomy.sovereign_will import sovereign_will
 
 logger = logging.getLogger("CuriosityEngine")
 
@@ -32,8 +33,8 @@ class CuriosityEngine:
         
         # 2. Logic-based Gap Detection (Ask the reasoning engine)
         prompt = f"Given our current knowledge domains: {list(domains)}. " \
-                 f"Identify one highly specific 'Real World' topic that we lack depth in. " \
-                 f"Prioritize: Physics, Chemistry, Biology, History, Quantum Mechanics, Nuclear Physics, Astronomy, Light/Wave Nature, or Sensation/Emotion. " \
+                 f"Identify one highly specific topic that we lack depth in. " \
+                 f"Prioritize: {', '.join(sovereign_will.get_curiosity_foci())}. " \
                  f"It must be a fundamental principle that explains how the universe works. " \
                  f"Return format: 'TOPIC: REASON'."
         

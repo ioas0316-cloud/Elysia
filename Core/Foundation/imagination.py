@@ -23,7 +23,7 @@ def get_poetry_engine():
     global _poetry_engine
     if _poetry_engine is None:
         try:
-            from Core.Evolution.Creativity.poetry_engine import PoetryEngine
+            from Core.World.Evolution.Creativity.poetry_engine import PoetryEngine
             _poetry_engine = PoetryEngine()
         except ImportError:
             logger.warning("PoetryEngine not available, using simple expressions")

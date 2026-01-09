@@ -177,7 +177,7 @@ class SelfEvolutionScheduler:
             try:
                 self._dream_daemon = Organ.get("DreamDaemon")
             except:
-                from Core.System.System.Autonomy.dream_daemon import DreamDaemon
+                from Core.Governance.System.System.Autonomy.dream_daemon import DreamDaemon
                 return DreamDaemon()
         return self._dream_daemon
 

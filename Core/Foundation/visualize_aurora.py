@@ -8,7 +8,7 @@ import sys
 # Ensure the Core directory is in the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.System.System.System.Kernel import kernel
+from Core.Governance.System.System.System.Kernel import kernel
 from Core.Intelligence.Intelligence.Consciousness.wave import WaveInput
 
 # --- Visualization Parameters ---

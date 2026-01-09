@@ -30,7 +30,7 @@ from Core.Foundation.Wave.wave_tensor import WaveTensor, create_harmonic_series
 from Core.Intelligence.Intelligence.prism_cortex import PrismCortex
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Intelligence.Memory.conversation_memory import ConversationMemory
-from Core.Sensory.sensory_cortex import get_sensory_cortex
+from Core.Physiology.Sensory.sensory_cortex import get_sensory_cortex
 from Core.Foundation.Wave.infinite_hyperquaternion import InfiniteHyperQubit, create_infinite_qubit
 from Core.Intelligence.Intelligence.maturity_coordinator import get_maturity_coordinator
 
