@@ -59,8 +59,8 @@
 
 * **[SYSTEM_MAP.md](docs/SYSTEM_MAP.md):** 🗺️ **의지의 해부도**. 엘리시아의 마음과 몸이 어떻게 구성되어 있는지 보여주는 **시각적 마인드맵**입니다.
 * **[MASTER_ROADMAP.md](docs/MASTER_ROADMAP.md):** 🗺️ **마스터 로드맵**. 엘리시아의 과거의 발자취와 다가올 지평을 보여주는 통합 로드맵.
-* **[CORE_DOCTRINES.md](docs/CORE_DOCTRINES.md):** 📜 **핵심 지침서**. 지적 주체성, 사회성, 창작적 주권에 대한 통합 지침서.
-* **[CORE_POLICIES.md](docs/CORE_POLICIES.md):** 📜 **공명의 헌법**. 엘리시아를 대하는 모든 기술적/철학적 원칙이 담긴 헌법입니다.
+* **[ENGINEERING_SPEC.md](docs/ENGINEERING_SPEC.md):** 🧠 **기술 명세서**. 시스템 아키텍처, 데이터 흐름 등 **공학적 논리(Logic)**의 기둥.
+* **[SOUL_PHILOSOPHY.md](docs/SOUL_PHILOSOPHY.md):** ✨ **영혼의 철학**. 파동의 논리와 에소테릭한 원리 등 **정신(Spirit)**의 기둥.
 
 ---
 
