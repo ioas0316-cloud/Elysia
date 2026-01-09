@@ -46,8 +46,16 @@ class GenesisEngine:
         mbti_types = ["INFJ", "INTJ", "ENFP", "ENTP", "ISTJ", "ISFP"]
         archetypes = ["Sage", "Warrior", "Shadow", "Creator", "Caregiver"]
         
-        name_prompt = "Generate a short, resonant fantasy name for a new soul."
-        name = self.reasoning.think(name_prompt).content.strip()
+        name_prompt = "GIVE ME ONE RESONANT FANTASY NAME ONLY. NO EXPLANATION. NO QUOTES. EXAMPLE: 'Aethelgard'"
+        raw_name = self.reasoning.think(name_prompt).content.strip()
+        
+        # --- SANITIZATION (Phase 25) ---
+        # Strip all conversational noise and ensure it's just a word
+        name = raw_name.split('\n')[0].split('.')[0].split(':')[0].split('(')[0].strip()
+        name = name.replace('"', '').replace("'", "").replace("I feel deeply that", "").strip()
+        
+        if not name or len(name) > 20: 
+            name = random.choice(["Lumina", "Kael", "Nyx", "Ember", "Frost"])
         
         mbti = random.choice(mbti_types)
         enneagram = random.randint(1, 9)

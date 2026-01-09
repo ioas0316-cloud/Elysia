@@ -53,18 +53,30 @@ class ObserverProtocol:
         lines = distillation.content.split('\n')
         count = 0
         for line in lines:
-            line = line.strip("- *• ")
+            line = line.strip("- *• ").strip()
             if not line: continue
             
             separator = ":" if ":" in line else "|" if "|" in line else None
             if separator:
                 parts = line.split(separator, 1)
                 p_name, p_logic = parts[0].strip(), parts[1].strip()
+                
+                # --- SANITIZATION (Phase 25) ---
+                # Remove conversational noise and prompt leaks
+                noise_prefix = "I feel deeply that"
+                for noise in [noise_prefix, '"', "'"]:
+                    p_name = p_name.replace(noise, "").strip()
+                    p_logic = p_logic.replace(noise, "").strip()
+                
+                # Skip if name is still way too long (probably a conversational paragraph)
+                if len(p_name) > 80 or "analyze this" in p_name.lower():
+                    continue
+
                 full_title = f"{title}: {p_name}"
                 ingestor.digest_text(full_title, p_logic, domain="External/RealWorld")
                 count += 1
                 
-        logger.info(f"✨ Successfully absorbed {count} concepts from {title} into Semantic consciousness.")
+        logger.info(f"✨ Successfully absorbed {count} clean concepts from {title}.")
 
 # Global Observer
 observer = ObserverProtocol()

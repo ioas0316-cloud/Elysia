@@ -38,6 +38,7 @@ class SemanticField:
         self.voxel_size = voxel_size
         self.concepts: Dict[Tuple[int, int, int, int], List[SemanticExcitation]] = {}
         self.glossary: Dict[str, Tuple[float, float, float, float]] = {} # name -> (w,x,y,z)
+        self.history: List[SemanticExcitation] = [] # Track arrival order (Phase 25)
         self.save_path = "Core/Memory/semantic_field.json"
         
         # Auto-load
@@ -60,6 +61,7 @@ class SemanticField:
 
         self.concepts[coord].append(excitation)
         self.glossary[excitation.meaning] = pos
+        self.history.append(excitation) # Add to history
         
         if save:
             self.save()
@@ -118,10 +120,12 @@ class SemanticField:
                     coord = self._get_coord(pos)
                     if coord not in self.concepts:
                         self.concepts[coord] = []
-                    self.concepts[coord].append(SemanticExcitation(
+                    ex = SemanticExcitation(
                         meaning=c["meaning"], weight=c["weight"], domain=c["domain"],
                         w_scale=pos[0], x_intuition=pos[1], y_wisdom=pos[2], z_purpose=pos[3]
-                    ))
+                    )
+                    self.concepts[coord].append(ex)
+                    self.history.append(ex) # Hydrate history
         except:
             pass
 

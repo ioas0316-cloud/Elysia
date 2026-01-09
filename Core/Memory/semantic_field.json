@@ -54,73 +54,73 @@
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Ordinary World": [
+    "Heros Journey Stage: Ordinary World": [
       0.81,
       -0.6699999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Call To Adventure": [
+    "Heros Journey Stage: Call To Adventure": [
       0.8500000000000001,
       -0.6599999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Refusal Of Call": [
+    "Heros Journey Stage: Refusal Of Call": [
       0.8600000000000001,
       -0.6799999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Meeting Mentor": [
+    "Heros Journey Stage: Meeting Mentor": [
       0.8300000000000001,
       -0.6699999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Crossing Threshold": [
+    "Heros Journey Stage: Crossing Threshold": [
       0.89,
       -0.61,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Tests Allies Enemies": [
+    "Heros Journey Stage: Tests Allies Enemies": [
       0.8400000000000001,
       -0.6299999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Approach": [
+    "Heros Journey Stage: Approach": [
       0.8400000000000001,
       -0.6399999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Ordeal": [
+    "Heros Journey Stage: Ordeal": [
       0.8,
       -0.62,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Reward": [
+    "Heros Journey Stage: Reward": [
       0.8300000000000001,
       -0.62,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Road Back": [
+    "Heros Journey Stage: Road Back": [
       0.8700000000000001,
       -0.6499999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Resurrection": [
+    "Heros Journey Stage: Resurrection": [
       0.8300000000000001,
       -0.6699999999999999,
       0.8,
       0.9
     ],
-    "Hero's Journey Stage: Return With Elixir": [
+    "Heros Journey Stage: Return With Elixir": [
       0.8400000000000001,
       -0.61,
       0.8,
@@ -150,12 +150,6 @@
       0.8,
       0.9
     ],
-    "Advanced Magic Systems: I feel deeply that 'As the World Soul Elysia, analyze this external content": [
-      0.8700000000000001,
-      -0.6399999999999999,
-      0.8,
-      0.9
-    ],
     "Advanced Magic Systems: Vancian Magic": [
       0.81,
       -0.6499999999999999,
@@ -177,18 +171,6 @@
     "Advanced Magic Systems: Quintessence": [
       0.8500000000000001,
       -0.6799999999999999,
-      0.8,
-      0.9
-    ],
-    "Advanced Magic Systems: '. Extract the primary principles or gameplay mechanics. List them in the format": [
-      0.8700000000000001,
-      -0.6299999999999999,
-      0.8,
-      0.9
-    ],
-    "Autonomous Research: I feel deeply that 'Given our current knowledge domains: I feel deeply that 'As the World Soul Elysia, analyze this external content": [
-      0.8,
-      -0.62,
       0.8,
       0.9
     ]
@@ -294,7 +276,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Ordinary World",
+      "meaning": "Heros Journey Stage: Ordinary World",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -305,7 +287,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Call To Adventure",
+      "meaning": "Heros Journey Stage: Call To Adventure",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -316,7 +298,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Refusal Of Call",
+      "meaning": "Heros Journey Stage: Refusal Of Call",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -327,7 +309,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Meeting Mentor",
+      "meaning": "Heros Journey Stage: Meeting Mentor",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -338,7 +320,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Crossing Threshold",
+      "meaning": "Heros Journey Stage: Crossing Threshold",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -349,7 +331,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Tests Allies Enemies",
+      "meaning": "Heros Journey Stage: Tests Allies Enemies",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -360,7 +342,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Approach",
+      "meaning": "Heros Journey Stage: Approach",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -371,7 +353,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Ordeal",
+      "meaning": "Heros Journey Stage: Ordeal",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -382,7 +364,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Reward",
+      "meaning": "Heros Journey Stage: Reward",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -393,7 +375,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Road Back",
+      "meaning": "Heros Journey Stage: Road Back",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -404,7 +386,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Resurrection",
+      "meaning": "Heros Journey Stage: Resurrection",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -415,7 +397,7 @@
       ]
     },
     {
-      "meaning": "Hero's Journey Stage: Return With Elixir",
+      "meaning": "Heros Journey Stage: Return With Elixir",
       "weight": 0.1,
       "domain": "Mythology",
       "pos": [
@@ -470,17 +452,6 @@
       ]
     },
     {
-      "meaning": "Advanced Magic Systems: I feel deeply that 'As the World Soul Elysia, analyze this external content",
-      "weight": 0.1,
-      "domain": "External/Observer",
-      "pos": [
-        0.8700000000000001,
-        -0.6399999999999999,
-        0.8,
-        0.9
-      ]
-    },
-    {
       "meaning": "Advanced Magic Systems: Vancian Magic",
       "weight": 0.1,
       "domain": "External/Observer",
@@ -520,28 +491,6 @@
       "pos": [
         0.8500000000000001,
         -0.6799999999999999,
-        0.8,
-        0.9
-      ]
-    },
-    {
-      "meaning": "Advanced Magic Systems: '. Extract the primary principles or gameplay mechanics. List them in the format",
-      "weight": 0.1,
-      "domain": "External/Observer",
-      "pos": [
-        0.8700000000000001,
-        -0.6299999999999999,
-        0.8,
-        0.9
-      ]
-    },
-    {
-      "meaning": "Autonomous Research: I feel deeply that 'Given our current knowledge domains: I feel deeply that 'As the World Soul Elysia, analyze this external content",
-      "weight": 0.1,
-      "domain": "External/Observer",
-      "pos": [
-        0.8,
-        -0.62,
         0.8,
         0.9
       ]
