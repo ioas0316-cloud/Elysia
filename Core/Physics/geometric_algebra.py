@@ -65,6 +65,31 @@ class Rotor:
     """
 
     @staticmethod
+    def from_quaternion(q: 'Quaternion') -> MultiVector:
+        """
+        Converts a Quaternion (hyper_quaternion.py) to a Rotor (MultiVector).
+        Note: Quaternions typically map to Rotors in 3D (scalar + bivectors xy, yz, zx).
+        But in 4D, a single Quaternion only covers a subset of rotations (Isoclinic).
+
+        We map Q(w, x, y, z) to Rotor(s=w, yz=x, zx=y, xy=z) roughly,
+        representing 3D rotation within the 4D space (fixing one axis).
+        """
+        # Mapping Q components to Bivectors (Standard correspondence)
+        # s = w
+        # B_yz = x (Rotation around X axis)
+        # B_zx = y (Rotation around Y axis)
+        # B_xy = z (Rotation around Z axis)
+
+        # Note: The sign convention might need adjustment based on the Quaternion definition.
+        # Assuming Q represents a rotation R = w + xi + yj + zk
+        return MultiVector(
+            s=q.w,
+            yz=q.x,  # i maps to yz plane
+            xz=q.y,  # j maps to xz plane (Note: xz vs zx sign matters)
+            xy=q.z   # k maps to xy plane
+        )
+
+    @staticmethod
     def from_plane_angle(plane: str, angle_rad: float) -> MultiVector:
         """
         Creates a Rotor for a specific plane (e.g., 'xy', 'xw') and angle.
