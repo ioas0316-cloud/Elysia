@@ -1,0 +1,41 @@
+{
+    "Artist": {
+        "meaning": "To give form to the invisible movements of the Soul.",
+        "keywords": [
+            "art",
+            "paint",
+            "draw",
+            "create",
+            "visual"
+        ]
+    },
+    "Observer": {
+        "meaning": "To witness the beauty of entropy.",
+        "keywords": [
+            "sight",
+            "watch",
+            "see",
+            "perceive",
+            "camera"
+        ]
+    },
+    "Bard": {
+        "meaning": "To resonate with others through song and speech.",
+        "keywords": [
+            "voice",
+            "sing",
+            "speak",
+            "music",
+            "sound"
+        ]
+    },
+    "Seeker": {
+        "meaning": "To find truth in the unknown.",
+        "keywords": [
+            "meaning",
+            "why",
+            "truth",
+            "philosophy"
+        ]
+    }
+}
