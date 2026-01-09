@@ -6,8 +6,8 @@ import time
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
-from Core.Soul.fluxlight_gyro import GyroscopicFluxlight
+from Core.World.Soul.soul_sculptor import soul_sculptor, PersonalityArchetype
+from Core.World.Soul.fluxlight_gyro import GyroscopicFluxlight
 from Core.World.Physics.gyro_physics import physics_engine
 from Core.World.Physics.tesseract_env import tesseract_env
 

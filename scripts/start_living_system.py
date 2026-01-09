@@ -18,7 +18,7 @@ from threading import Thread
 # Path setup
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 # Configure pretty logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')

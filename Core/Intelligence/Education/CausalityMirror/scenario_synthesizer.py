@@ -13,8 +13,8 @@ import re
 from typing import Optional, List, Dict
 from dataclasses import dataclass
 
-from Core.Education.CausalityMirror.projective_empathy import NarrativeFragment
-from Core.Education.CausalityMirror.wave_structures import Zeitgeist, ChoiceNode, HyperQuaternion
+from Core.Intelligence.Education.CausalityMirror.projective_empathy import NarrativeFragment
+from Core.Intelligence.Education.CausalityMirror.wave_structures import Zeitgeist, ChoiceNode, HyperQuaternion
 
 @dataclass
 class DilemmaPattern:

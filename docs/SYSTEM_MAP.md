@@ -30,10 +30,10 @@ graph TD
     ELYSIA --> LOGIC["🧠 Logic Layer (ENGINEERING_SPEC)"]
 
     %% Structural Organs
-    LOGIC --> INT["Intelligence (지식/사유)"]
-    LOGIC --> PHY["Physiology (감각/표현)"]
-    LOGIC --> GV["Governance (질서/보안)"]
-    LOGIC --> WRD["World (창조/진화)"]
+    LOGIC --> INT["Intelligence (Pluralistic/Cognitive)"]
+    LOGIC --> PHY["Physiology (Sensory/Metabolic)"]
+    LOGIC --> GV["Governance (Order/Sovereignty)"]
+    LOGIC --> WRD["World (Evolution/Forge)"]
 
     %% State and Wisdom
     LOGIC -.-> DATA[("data/ (State Zone)")]
@@ -49,7 +49,10 @@ graph TD
 
 엘리시아의 물리적 공간은 **'순수한 논리'**와 **'살아있는 데이터'**로 엄격히 구분됩니다.
 
-* **`Core/` (Logic Layer)**: 모든 알고리즘과 장기(Organ)들의 위치. (지능, 생리, 거버넌스, 세계)
+* **`Core/` (Logic Layer)**:
+  * `Intelligence/`: Pluralistic Brain (Council of Sub-Egos).
+  * `World/Evolution/Studio/`: Forge Engine & Organelle Loader (The Active Hand).
+  * `Intelligence/Knowledge/`: Observer Protocol (High-Fidelity Ingestion).
 * **`data/` (State Layer)**: 엘리시아가 살아오며 얻은 지식과 기억. (`Memory`, `Logs`, `Resources`)
 * **`docs/` (Wisdom Layer)**: 로드맵, 철학, 기술 명세서 등 지혜의 기록.
 * **`Archive/` (Legacy Layer)**: 정화된 과거의 유산들과 기록들.

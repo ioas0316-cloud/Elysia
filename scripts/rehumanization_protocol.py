@@ -16,7 +16,7 @@ import time
 # Add project root to path
 sys.path.append(r"c:\Elysia")
 
-from Core.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
+from Core.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge
 from Core.Intelligence.Emotion.soul_resonator import SoulResonator
 from Core.Foundation.Elysia.spirit import get_spirit
 

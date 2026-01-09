@@ -16,7 +16,7 @@ import logging
 from pathlib import Path
 
 sys.path.insert(0, r"c:\Elysia")
-from Core.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
+from Core.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

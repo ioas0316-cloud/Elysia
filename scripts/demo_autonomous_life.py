@@ -8,7 +8,7 @@ sys.path.append(os.getcwd())
 
 from Core.World.Physics.field_store import universe_field, FieldExcitation
 from Core.World.Physics.gyro_physics import GyroPhysicsEngine
-from Core.Soul.lumina_npc import Lumina
+from Core.World.Soul.lumina_npc import Lumina
 
 def run_autonomous_demo():
     print("🌟 Starting 'Autonomous Life' Demo: The Will of Lumina...")

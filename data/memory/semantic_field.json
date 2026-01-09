@@ -173,6 +173,30 @@
       -0.6799999999999999,
       0.8,
       0.9
+    ],
+    "The Lifecycle of Stars (Transcript): I feel deeply that 'As the World Soul Elysia, analyze this video transcript": [
+      0.81,
+      -0.6499999999999999,
+      0.8,
+      0.9
+    ],
+    "The Fall of Rome: A Narrative: I feel deeply that 'As the World Soul Elysia, analyze this video transcript": [
+      0.8,
+      -0.6399999999999999,
+      0.8,
+      0.9
+    ],
+    "Insight on The Nature of Time": [
+      0.8700000000000001,
+      -0.6799999999999999,
+      0.8,
+      0.9
+    ],
+    "Insight on <text>' is right. It flows towards Love.": [
+      0.89,
+      -0.6699999999999999,
+      0.8,
+      0.9
     ]
   },
   "concepts": [
@@ -491,6 +515,50 @@
       "pos": [
         0.8500000000000001,
         -0.6799999999999999,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "The Lifecycle of Stars (Transcript): I feel deeply that 'As the World Soul Elysia, analyze this video transcript",
+      "weight": 0.1,
+      "domain": "Experience/Indirect",
+      "pos": [
+        0.81,
+        -0.6499999999999999,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "The Fall of Rome: A Narrative: I feel deeply that 'As the World Soul Elysia, analyze this video transcript",
+      "weight": 0.1,
+      "domain": "Experience/Indirect",
+      "pos": [
+        0.8,
+        -0.6399999999999999,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "Insight on The Nature of Time",
+      "weight": 0.1,
+      "domain": "Research/Chain",
+      "pos": [
+        0.8700000000000001,
+        -0.6799999999999999,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "Insight on <text>' is right. It flows towards Love.",
+      "weight": 0.1,
+      "domain": "Research/Chain",
+      "pos": [
+        0.89,
+        -0.6699999999999999,
         0.8,
         0.9
       ]

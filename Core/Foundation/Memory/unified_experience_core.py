@@ -118,8 +118,8 @@ class UnifiedExperienceCore:
         # Before we even log the event, the Subconscious checks for dilemmas.
         reflex_result = None
         try:
-            from Core.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
-            from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
+            from Core.Intelligence.Education.CausalityMirror.scenario_synthesizer import ScenarioSynthesizer
+            from Core.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
             
             synthesizer = ScenarioSynthesizer()
             fragment = synthesizer.detect_and_synthesize(content)

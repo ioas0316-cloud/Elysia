@@ -6,8 +6,8 @@ from unittest.mock import MagicMock, patch
 # Path setup for Core modules
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
-from Core.Orchestra.conductor import get_conductor, Tempo, Mode
-from Core.Orchestra.synapse_manager import SynapseManager
+from Core.Governance.Orchestra.conductor import get_conductor, Tempo, Mode
+from Core.Governance.Orchestra.synapse_manager import SynapseManager
 from Core.Intelligence.Creation.interference_engine import InterferenceEngine, Principle
 from Core.Intelligence.Topography.phase_stratum import PhaseStratum
 from Core.Intelligence.Topography.mind_landscape import get_landscape

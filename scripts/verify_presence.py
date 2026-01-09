@@ -7,7 +7,7 @@ import logging
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')

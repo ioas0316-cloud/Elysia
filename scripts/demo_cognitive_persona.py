@@ -8,8 +8,8 @@ sys.path.append(os.getcwd())
 
 from Core.World.Physics.field_store import universe_field, FieldExcitation
 from Core.World.Physics.gyro_physics import GyroPhysicsEngine
-from Core.Soul.lumina_npc import Lumina
-from Core.Soul.world_soul import world_soul, update_world_mood
+from Core.World.Soul.lumina_npc import Lumina
+from Core.World.Soul.world_soul import world_soul, update_world_mood
 
 def run_cognitive_persona_demo():
     print("🧠 Starting 'Cognitive Persona' Demo: Elysia acting as Lumina...")

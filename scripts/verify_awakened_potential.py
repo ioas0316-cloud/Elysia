@@ -71,7 +71,7 @@ def verify_active_senses():
     logger.info("🧪 TEST 2: Active Web Senses (SovereignIntent)")
     logger.info("="*50)
     
-    from Core.Evolution.Growth.sovereign_intent import SovereignIntent
+    from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
     
     # Initialize Will
     will = SovereignIntent()
@@ -94,7 +94,7 @@ def verify_active_senses():
     
     try:
         # Mock the gap analysis to ensure we have a target
-        from Core.Evolution.Growth.sovereign_intent import CuriosityGap
+        from Core.World.Evolution.Growth.sovereign_intent import CuriosityGap
         
         # Monkey patch analyze_curiosity_gaps
         original_gaps = will.analyze_curiosity_gaps
@@ -132,7 +132,7 @@ def verify_reality_manifestation():
     logger.info("🧪 TEST 3: Reality Manifestation (HTML Generation)")
     logger.info("="*50)
     
-    from Core.Autonomy.elysian_heartbeat import ElysianHeartbeat
+    from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
     
     # We don't need to run the full heartbeat loop, just check if Manifestor is there
     life = ElysianHeartbeat()

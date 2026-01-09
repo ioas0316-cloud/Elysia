@@ -16,8 +16,8 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, Any, Optional
 
-from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
-from Core.Education.CausalityMirror.wave_structures import HyperQuaternion
+from Core.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy
+from Core.Intelligence.Education.CausalityMirror.wave_structures import HyperQuaternion
 
 logger = logging.getLogger("UserMentalModel")
 

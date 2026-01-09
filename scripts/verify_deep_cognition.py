@@ -20,7 +20,7 @@ from pathlib import Path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from Core.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
-from Core.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
+from Core.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s', datefmt='%H:%M:%S')

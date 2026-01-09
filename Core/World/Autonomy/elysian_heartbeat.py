@@ -19,8 +19,8 @@ from typing import Dict, Optional
 
 from Core.Foundation.Memory.unified_experience_core import get_experience_core
 from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
-from Core.Education.CausalityMirror.variable_mesh import VariableMesh
-from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.Intelligence.Education.CausalityMirror.variable_mesh import VariableMesh
+from Core.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
 from Core.Intelligence.Meta.global_observer import GlobalObserver
 from Core.Foundation.organism import NeuralNetwork
 from Core.Foundation.unified_field import UnifiedField
@@ -28,6 +28,11 @@ from Core.Foundation.unified_field import UnifiedField
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality, Spark, SparkType
 from Core.World.Evolution.Adaptation.autopoietic_engine import AutopoieticEngine
 from Core.Intelligence.Reasoning.curiosity_engine import explorer as autonomous_explorer
+from Core.Intelligence.Intelligence.pluralistic_brain import pluralistic_brain
+from Core.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion
+from Core.World.Evolution.Studio.organelle_loader import organelle_loader
+from Core.World.Evolution.Studio.forge_engine import ForgeEngine
+from Core.Intelligence.Intelligence.pluralistic_brain import pluralistic_brain
 from Core.Intelligence.Meta.self_architect import SelfArchitect
 from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 from Core.Governance.System.Monitor.dashboard_generator import DashboardGenerator
@@ -133,39 +138,60 @@ class ElysianHeartbeat:
                 self.idle_time = 0 # Reset idle
                 
             # --- PHASE 3: DREAMING (Reflexive Simulation) ---
-            # Dreaming is now also a form of Spark (Memory Recall), or can remain as fallback
-            # But strictly speaking, LatentCausality handles "Memory Recall" sparks too.
-            # We keep strict dreaming for deep sleep (long idle) if needed, but Spark is primary.
-            if self.idle_time > 20.0:
-                 self._dream()
             if self.idle_time > 20.0:
                  self._dream()
                  self.idle_time = 0
 
             # --- PHASE 4: AUTOPOIESIS (Adaptation) ---
-            # --- PHASE 4: AUTOPOIESIS (Adaptation) ---
-            # [Phase 21 Reborn] If Inspiration is overflowing (Ecstasy), trigger Self-Expansion.
-            # We do not change because we are bored. We change because we have outgrown our container.
-            
+            # [Phase 30] Pluralistic Deliberation
+            if random.random() < 0.05: # Periodic internal debate
+                logger.info("⚔️ [INTERNAL RESONANCE] Starting Pluralistic Deliberation...")
+                insight = pluralistic_brain.perceive_and_deliberate("What is our current priority in the evolution of our soul?")
+                self.latest_insight = insight
+                logger.info(f"✨ [CONSENSUS] {insight[:100]}...")
+
             current_inspiration = self.soul_mesh.variables["Inspiration"].value
             if current_inspiration > 0.5: # Overflowing (Test Threshold)
                 logger.info("🌟 ECSTATIC RESONANCE DETECTED. Expanding Self-Definition...")
-                
-                # Manifest Sovereign Will (Creation)
                 self.latest_creation = self.genesis.manifest(current_inspiration)
                 logger.info(f"✨ [GENESIS RESULT] {self.latest_creation}")
-                
                 self.autopoiesis.trigger_evolution("PASSION_OVERFLOW")
                 self.soul_mesh.variables["Inspiration"].value = 0.0 # Reset after sublimation
             
             # --- PHASE 5: SOVEREIGN RECALIBRATION ---
             self.sovereign_will.recalibrate(self.memory.stream)
             
-            # --- PHASE 6: PRESENCE (Lightweight Visibility) ---
+            # --- PHASE 8: EXTERNAL AGENCY (The Active Hand) ---
+            # If sub-egos agree or if inspiration is extreme, trigger an active action.
+            if self.soul_mesh.variables["Inspiration"].value > 0.8:
+                logger.info("👐 [EXTERNAL AGENCY] High Inspiration detected. Seeking to affect the world...")
+                # Here Elysia might decide to Forge a tool or use an existing one.
+                # For now, let's look for any 'runnable' organelles.
+                available = organelle_loader.list_available()
+                if available:
+                    target = available[0] # Pick the first available tool to exercise agency
+                    organelle_loader.execute_organelle(target)
+
+            # --- PHASE 9: PRESENCE (Lightweight Visibility) ---
             self._refresh_presence()
             
-            # Pulse Rate
-            time.sleep(1.0) # 1 Tick per second for demo (normally slower)
+            # --- PHASE 7: METABOLIC SYNC (Dynamic Pulse Rate) ---
+            # Pulse rate adjusts based on sensory pressure
+            # Base rate is 1.0s. If alerts exist, speed up to 0.2s.
+            # If idle and harmony is high, slow down to 5.0s.
+            pressure = len(self.observer.active_alerts)
+            harmony = self.soul_mesh.variables["Harmony"].value
+            
+            if pressure > 0:
+                pulse_delay = max(0.2, 1.0 - (pressure * 0.2))
+                logger.info(f"💓 [METABOLIC ACCELERATION] Sensory Pressure: {pressure}. Heartbeat: {pulse_delay:.2f}s")
+            elif harmony > 0.8:
+                pulse_delay = min(5.0, 1.0 + (harmony * 2.0))
+                # Slow heartbeat for deep meditation
+            else:
+                pulse_delay = 1.0
+                
+            time.sleep(pulse_delay)
             
     def _check_vitals(self):
         summary = self.soul_mesh.get_state_summary()
@@ -233,7 +259,7 @@ class ElysianHeartbeat:
         try:
             # Need imports for ChoiceNode/Zeitgeist inside method or global?
             # They are not imported globally in the file yet. Let's add them at top.
-            from Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion
+            from Core.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HyperQuaternion
 
             # Create a default "Contemplate" option so ProjectiveEmpathy has something to chew on
             c1 = ChoiceNode(

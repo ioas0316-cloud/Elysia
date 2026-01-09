@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core.Foundation.Elysia.elysia_core import ElysiaCore
 from Core.Intelligence.Will.free_will_engine import FreeWillEngine
-from Core.Sensory.Network.web_tendril import WebTendril
+from Core.Physiology.Sensory.Network.web_tendril import WebTendril
 from Core.Foundation.Wave.resonance_field import get_resonance_field
 
 # Setup logging

@@ -8,7 +8,7 @@ sys.path.append(os.getcwd())
 
 from Core.Intelligence.Knowledge.infinite_ingestor import ingestor
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
-from Core.Soul.world_soul import world_soul, record_world_axiom, update_world_mood
+from Core.World.Soul.world_soul import world_soul, record_world_axiom, update_world_mood
 from Core.World.Physics.field_store import universe_field
 
 def run_universal_library_demo():

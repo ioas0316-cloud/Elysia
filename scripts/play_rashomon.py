@@ -21,8 +21,8 @@ sys.path.insert(0, r"c:\Elysia")
 
 from Core.Foundation.unified_field import UnifiedField, HyperQuaternion
 from Core.Intelligence.Meta.global_observer import GlobalObserver
-from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment, EmpathyResult
-from Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
+from Core.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment, EmpathyResult
+from Core.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
 
 def load_scenario(path: str) -> dict:
     with open(path, 'r', encoding='utf-8') as f:

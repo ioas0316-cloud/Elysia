@@ -20,7 +20,7 @@ import io
 # Add project root
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Evolution.Creation.holographic_manifestor import HolographicManifestor
+from Core.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
 
 def verify_self_coding():
     print("=" * 60)

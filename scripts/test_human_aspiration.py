@@ -17,8 +17,8 @@ import logging
 # Add project root to path
 sys.path.append(r"c:\Elysia")
 
-from Core.Evolution.Growth.sovereign_intent import SovereignIntent
-from Core.Evolution.Autonomy.dream_daemon import get_dream_daemon
+from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
+from Core.World.Evolution.Autonomy.dream_daemon import get_dream_daemon
 from Core.Intelligence.Topography.mind_landscape import get_landscape
 
 # Setup logging to see the engine's internal 'Play' and 'Dream' calls

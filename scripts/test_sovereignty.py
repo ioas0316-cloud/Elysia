@@ -16,7 +16,7 @@ import threading
 
 sys.path.insert(0, r"c:\Elysia")
 
-from Core.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
 from Core.Foundation.organism import cell, organ, NeuralNetwork
 
 @cell("TestCell", sensitivity=1.0)

@@ -8,9 +8,9 @@ sys.path.append(os.getcwd())
 
 from Core.Intelligence.Knowledge.infinite_ingestor import ingestor
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
-from Core.Soul.lumina_npc import Lumina
+from Core.World.Soul.lumina_npc import Lumina
 from Core.Intelligence.Logos.logos_engine import get_logos_engine
-from Core.Soul.world_soul import world_soul
+from Core.World.Soul.world_soul import world_soul
 
 def verify_knowledge_evolution():
     print("🔬 [VERIFICATION] Starting Knowledge Evolution Audit...")

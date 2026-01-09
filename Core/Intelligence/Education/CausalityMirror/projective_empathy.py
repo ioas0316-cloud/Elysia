@@ -14,8 +14,8 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
 
-from Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HistoricalWave
-from Core.Education.CausalityMirror.impact_engine import ImpactEngine, Consequence
+from Core.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist, HistoricalWave
+from Core.Intelligence.Education.CausalityMirror.impact_engine import ImpactEngine, Consequence
 
 logger = logging.getLogger("ProjectiveEmpathy")
 

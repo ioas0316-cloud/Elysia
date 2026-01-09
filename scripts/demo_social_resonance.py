@@ -6,10 +6,10 @@ import time
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.Soul.adventurer import Adventurer, Party
+from Core.World.Soul.adventurer import Adventurer, Party
 from Core.Intelligence.Knowledge.infinite_ingestor import ingestor
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
-from Core.Soul.world_soul import update_world_mood, world_soul
+from Core.World.Soul.world_soul import update_world_mood, world_soul
 
 def run_social_resonance_demo():
     print("🎭 [SOCIAL RESONANCE] Starting Adventurer Party Demo...")

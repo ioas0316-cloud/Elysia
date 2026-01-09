@@ -8,7 +8,7 @@ sys.path.append(os.getcwd())
 
 from Core.Intelligence.Knowledge.infinite_ingestor import ingestor
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
-from Core.Soul.lumina_npc import Lumina
+from Core.World.Soul.lumina_npc import Lumina
 
 def verify_knowledge_adoption():
     print("🧠 [DEEP VERIFICATION] Starting Knowledge Adoption Audit...")

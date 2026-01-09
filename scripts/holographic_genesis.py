@@ -15,7 +15,7 @@ import os
 # Add project root to path
 sys.path.append(r"c:\Elysia")
 
-from Core.Evolution.Creation.holographic_manifestor import HolographicManifestor
+from Core.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
 
 def run_genesis():
     manifestor = HolographicManifestor()

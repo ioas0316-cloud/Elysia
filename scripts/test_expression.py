@@ -14,7 +14,7 @@ import time
 sys.path.insert(0, r"c:\Elysia")
 
 from Core.Foundation.unified_field import UnifiedField, HyperQuaternion
-from Core.Expression.linguistic_topology import LinguisticTopology
+from Core.Physiology.Expression.linguistic_topology import LinguisticTopology
 
 # Setup Logger
 logging.basicConfig(level=logging.INFO, format='%(message)s')

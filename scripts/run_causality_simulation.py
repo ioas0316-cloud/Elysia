@@ -13,7 +13,7 @@ import logging
 # Ensure we can import Core
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from Core.Education.CausalityMirror import ScenarioLoader, ImpactEngine, FeedbackLoop, ChoiceNode
+from Core.Intelligence.Education.CausalityMirror import ScenarioLoader, ImpactEngine, FeedbackLoop, ChoiceNode
 
 # Configure Logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')

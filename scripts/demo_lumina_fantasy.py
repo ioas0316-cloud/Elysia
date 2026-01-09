@@ -7,7 +7,7 @@ import time
 sys.path.append(os.getcwd())
 
 from Core.World.Physics.field_store import universe_field, FieldExcitation
-from Core.Soul.lumina_npc import Lumina
+from Core.World.Soul.lumina_npc import Lumina
 
 def run_aethelgard_demo():
     print("🎬 Starting 'The Harmony of Aethelgard' Demo...")

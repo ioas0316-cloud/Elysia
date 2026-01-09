@@ -19,7 +19,7 @@ sys.path.insert(0, r"c:\Elysia")
 
 from Core.Foundation.unified_field import UnifiedField, HyperQuaternion
 from Core.Intelligence.Meta.global_observer import GlobalObserver
-from Core.System.System.filesystem_wave import FileWaveEvent, FileEventType
+from Core.Governance.System.System.filesystem_wave import FileWaveEvent, FileEventType
 
 def test_third_eye():
     print("\n👁️  INITIATING META-COGNITION TEST 👁️")

@@ -8,7 +8,7 @@ sys.path.append(os.getcwd())
 
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
 from Core.Intelligence.Reasoning.curiosity_engine import explorer
-from Core.Soul.world_soul import world_soul
+from Core.World.Soul.world_soul import world_soul
 
 def run_autonomous_growth_demo():
     print("🧠 [AUTONOMOUS GROWTH] Starting Intellectual Agency Demo...")

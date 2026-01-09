@@ -7,8 +7,8 @@ import logging
 # Ensure Core is in path
 sys.path.append(os.getcwd())
 
-from Core.Autonomy.elysian_heartbeat import ElysianHeartbeat
-from Core.Soul.world_soul import world_soul
+from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+from Core.World.Soul.world_soul import world_soul
 
 # Setup logging to see the genesis
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(message)s')

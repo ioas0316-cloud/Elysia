@@ -21,8 +21,8 @@ from dataclasses import asdict
 sys.path.insert(0, r"c:\Elysia")
 
 from Core.Foundation.unified_field import UnifiedField, HyperQuaternion
-from Core.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
-from Core.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
+from Core.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
+from Core.Intelligence.Education.CausalityMirror.wave_structures import ChoiceNode, Zeitgeist
 from Core.Intelligence.Meta.global_observer import GlobalObserver
 
 # Setup Custom Logger

@@ -17,7 +17,7 @@ import time
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Core.Intelligence.Knowledge.Domains.history import HistoryDomain
-from Core.Orchestra.conductor import get_conductor, Mode, Tempo
+from Core.Governance.Orchestra.conductor import get_conductor, Mode, Tempo
 from Core.Foundation.Wave.resonance_field import get_resonance_field
 
 # Setup logging

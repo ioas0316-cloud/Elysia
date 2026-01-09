@@ -18,7 +18,7 @@ import re
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Evolution.Creation.resonance_compiler import ResonanceCompiler
+from Core.World.Evolution.Creation.resonance_compiler import ResonanceCompiler
 
 # Setup
 logging.basicConfig(level=logging.INFO, format='%(name)s: %(message)s')

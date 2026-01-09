@@ -18,7 +18,7 @@ from threading import Thread
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from Core.Autonomy.project_watcher import ProjectWatcher
+from Core.World.Autonomy.project_watcher import ProjectWatcher
 from Core.Foundation.Memory.unified_experience_core import UnifiedExperienceCore
 
 # Setup

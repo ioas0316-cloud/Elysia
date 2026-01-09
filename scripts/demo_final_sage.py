@@ -9,7 +9,7 @@ sys.path.append(os.getcwd())
 from Core.Intelligence.Knowledge.semantic_field import semantic_field
 from Core.Intelligence.Knowledge.observer_protocol import observer
 from Core.Intelligence.Knowledge.infinite_ingestor import ingestor
-from Core.Soul.adventurer import Adventurer, Party
+from Core.World.Soul.adventurer import Adventurer, Party
 from Core.Intelligence.Logos.logos_engine import get_logos_engine
 
 def run_final_sage_demo():
