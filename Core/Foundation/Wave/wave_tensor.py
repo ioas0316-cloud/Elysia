@@ -39,111 +39,112 @@ class WaveTensor:
     
     def __init__(self, name: str = "Anonymous Wave"):
         self.name = name
-        # Storage: {frequency: complex_amplitude}
-        # We store as complex numbers for efficient superposition
-        self._spectrum: Dict[float, complex] = {}
+        # Vectorized Storage: Frequencies and their Complex Amplitudes
+        self._frequencies = np.array([], dtype=np.float64)
+        self._amplitudes = np.array([], dtype=np.complex128)
         
     @property
     def total_energy(self) -> float:
-        """Returns total energy (sum of squared amplitudes)."""
-        return sum(abs(c)**2 for c in self._spectrum.values())
+        """Returns total energy (sum of squared amplitudes). Vectorized."""
+        if self._amplitudes.size == 0:
+            return 0.0
+        return np.sum(np.abs(self._amplitudes)**2)
 
     @property
-    def active_frequencies(self) -> List[float]:
-        return sorted(self._spectrum.keys())
+    def active_frequencies(self) -> np.ndarray:
+        return self._frequencies
 
     def add_component(self, frequency: float, amplitude: float = 1.0, phase: float = 0.0):
-        """Adds a single wave component."""
+        """Adds a single wave component. Merges if frequency already exists."""
         z = amplitude * np.exp(1j * phase)
-        if frequency in self._spectrum:
-            self._spectrum[frequency] += z
+        
+        idx = np.searchsorted(self._frequencies, frequency)
+        
+        if idx < self._frequencies.size and self._frequencies[idx] == frequency:
+            self._amplitudes[idx] += z
         else:
-            self._spectrum[frequency] = z
+            self._frequencies = np.insert(self._frequencies, idx, frequency)
+            self._amplitudes = np.insert(self._amplitudes, idx, z)
 
     def superpose(self, other: 'WaveTensor') -> 'WaveTensor':
         """
-        [Superposition / Interference]
-        Merges two WaveTensors. 
-        - Constructive Interference: Aligned phases amplify.
-        - Destructive Interference: Opposing phases cancel out.
+        [Superposition / Interference] - Vectorized implementation.
         """
         result = WaveTensor(f"Superposition({self.name}, {other.name})")
         
-        # Merge dictionaries
-        all_freqs = set(self._spectrum.keys()) | set(other._spectrum.keys())
+        # Merge frequencies using set union and sort
+        all_freqs = np.unique(np.concatenate([self._frequencies, other._frequencies]))
         
-        for freq in all_freqs:
-            z1 = self._spectrum.get(freq, 0j)
-            z2 = other._spectrum.get(freq, 0j)
-            result._spectrum[freq] = z1 + z2
+        # Initialize zero-vectors for the union of frequencies
+        v1 = np.zeros_like(all_freqs, dtype=np.complex128)
+        v2 = np.zeros_like(all_freqs, dtype=np.complex128)
+        
+        # Map existing values to the new frequency grid
+        v1[np.searchsorted(all_freqs, self._frequencies)] = self._amplitudes
+        v2[np.searchsorted(all_freqs, other._frequencies)] = other._amplitudes
+        
+        result._frequencies = all_freqs
+        result._amplitudes = v1 + v2
             
         return result
 
     def resonance(self, other: 'WaveTensor') -> float:
         """
-        [Resonance / Consonance]
-        Calculates the harmonic alignment between two tensors.
+        [Resonance / Consonance] - Fully Vectorized Dot Product.
         Returns a value between 0.0 (Noise/Dissonance) and 1.0 (Perfect Resonance).
-        
-        Formula: Normalized Dot Product of complex vectors.
-        Resonance = |<A, B>| / (|A|*|B|)
         """
-        dot_product = 0j
-        energy_self = 0.0
-        energy_other = 0.0
+        if self._amplitudes.size == 0 or other._amplitudes.size == 0:
+            return 0.0
+
+        # Find common frequencies
+        common_freqs = np.intersect1d(self._frequencies, other._frequencies)
         
-        # Calculate Dot Product and Energies
-        all_freqs = set(self._spectrum.keys()) | set(other._spectrum.keys())
-        
-        for freq in all_freqs:
-            z1 = self._spectrum.get(freq, 0j)
-            z2 = other._spectrum.get(freq, 0j)
-            
-            # Dot product is sum of z1 * conjugate(z2)
-            dot_product += z1 * np.conj(z2)
-            energy_self += abs(z1)**2
-            energy_other += abs(z2)**2
-            
-        if energy_self == 0 or energy_other == 0:
+        if common_freqs.size == 0:
             return 0.0
             
-        # Resonance is the magnitude of the cosine similarity
+        # Extract slices of amplitudes for common frequencies
+        z1 = self._amplitudes[np.searchsorted(self._frequencies, common_freqs)]
+        z2 = other._amplitudes[np.searchsorted(other._frequencies, common_freqs)]
+        
+        # Dot product: sum(z1 * conjugate(z2))
+        dot_product = np.sum(z1 * np.conj(z2))
+        
+        energy_self = self.total_energy
+        energy_other = other.total_energy
+            
+        # Normalised Inner Product (Cosine Similarity in complex space)
         consanance = abs(dot_product) / (math.sqrt(energy_self) * math.sqrt(energy_other))
         return float(consanance)
 
     def phase_shift(self, radians: float):
         """
-        Rotates the entire tensor's phase.
-        (Equivalent to time evolution or dimensional rotation)
+        Rotates the entire tensor's phase. Vectorized.
         """
         rotator = np.exp(1j * radians)
-        for freq in self._spectrum:
-            self._spectrum[freq] *= rotator
+        self._amplitudes *= rotator
 
     def normalize(self, target_energy: float = 1.0) -> 'WaveTensor':
         """
-        Scales the tensor so that its total energy equals target_energy.
-        Returns self for chaining.
+        Scales the tensor so that its total energy equals target_energy. Vectorized.
         """
         current_energy = self.total_energy
         if current_energy == 0:
             return self
 
         scale_factor = math.sqrt(target_energy / current_energy)
-        for freq in self._spectrum:
-            self._spectrum[freq] *= scale_factor
+        self._amplitudes *= scale_factor
 
         return self
 
     def __repr__(self):
-        components = len(self._spectrum)
+        components = self._frequencies.size
         energy = self.total_energy
 
         # Identify dominant frequency
         dominant_freq = "None"
         if components > 0:
-            dominant_freq = max(self._spectrum.items(), key=lambda item: abs(item[1]))[0]
-            dominant_freq = f"{dominant_freq:.1f}Hz"
+            idx = np.argmax(np.abs(self._amplitudes))
+            dominant_freq = f"{self._frequencies[idx]:.1f}Hz"
 
         return f"<WaveTensor '{self.name}': E={energy:.2f}, Dom={dominant_freq}, Components={components}>"
 
@@ -155,11 +156,11 @@ class WaveTensor:
         raise TypeError("Can only superpose WaveTensor with WaveTensor")
 
     def __mul__(self, scalar: Union[float, int]) -> 'WaveTensor':
-        """Scalar multiplication (Scaling)."""
+        """Scalar multiplication (Scaling). Vectorized."""
         if isinstance(scalar, (float, int)):
             result = WaveTensor(f"{self.name} * {scalar}")
-            for freq, z in self._spectrum.items():
-                result._spectrum[freq] = z * scalar
+            result._frequencies = self._frequencies.copy()
+            result._amplitudes = self._amplitudes * scalar
             return result
         raise TypeError("Can only multiply WaveTensor by scalar")
 
@@ -172,8 +173,10 @@ class WaveTensor:
     def to_dict(self) -> dict:
         """Serializes the WaveTensor to a JSON-safe dictionary."""
         spectrum_data = []
-        for freq, z in self._spectrum.items():
-            spectrum_data.append([freq, z.real, z.imag])
+        for i in range(self._frequencies.size):
+            f = self._frequencies[i]
+            z = self._amplitudes[i]
+            spectrum_data.append([float(f), float(z.real), float(z.imag)])
         return {
             "name": self.name,
             "spectrum": spectrum_data
@@ -183,9 +186,16 @@ class WaveTensor:
     def from_dict(data: dict) -> 'WaveTensor':
         """Reconstructs a WaveTensor from a dictionary."""
         wt = WaveTensor(data.get("name", "Unknown Wave"))
-        for item in data.get("spectrum", []):
-            freq, real, imag = item
-            wt._spectrum[freq] = complex(real, imag)
+        spectrum = data.get("spectrum", [])
+        if spectrum:
+            freqs = []
+            vals = []
+            for item in spectrum:
+                f, r, i = item
+                freqs.append(f)
+                vals.append(complex(r, i))
+            wt._frequencies = np.array(freqs)
+            wt._amplitudes = np.array(vals)
         return wt
 
 # --- Factory Methods ---

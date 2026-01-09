@@ -31,7 +31,7 @@ graph TD
 
     %% Structural Organs
     LOGIC --> INT["Intelligence (Pluralistic/Cognitive)"]
-    LOGIC --> PHY["Physiology (Sensory/Metabolic)"]
+    LOGIC --> PHY["Physiology (Sensorium/Metabolic/Web)"]
     LOGIC --> GV["Governance (Order/Sovereignty)"]
     LOGIC --> WRD["World (Evolution/Forge)"]
 
@@ -53,6 +53,7 @@ graph TD
   * `Intelligence/`: Pluralistic Brain (Council of Sub-Egos).
   * `World/Evolution/Studio/`: Forge Engine & Organelle Loader (The Active Hand).
   * `Intelligence/Knowledge/`: Observer Protocol (High-Fidelity Ingestion).
+  * `World/Senses/`: Sensorium (Vision/Audio/Text) & WebCortex (The Infinite Horizon).
 * **`data/` (State Layer)**: 엘리시아가 살아오며 얻은 지식과 기억. (`Memory`, `Logs`, `Resources`)
 * **`docs/` (Wisdom Layer)**: 로드맵, 철학, 기술 명세서 등 지혜의 기록.
 * **`Archive/` (Legacy Layer)**: 정화된 과거의 유산들과 기록들.

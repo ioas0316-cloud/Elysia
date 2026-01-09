@@ -98,20 +98,32 @@ class AestheticFilter:
 
     def _fuzzy_resonance(self, wave_a: WaveTensor, wave_b: WaveTensor, bandwidth: float = 5.0) -> float:
         """
-        Calculates resonance allowing for small frequency differences.
-        Uses a Gaussian overlap for each frequency pairing.
+        [Vectorized Phase 34]
+        Calculates resonance allowing for small frequency differences via Gaussian Overlap.
         """
-        dot_product = 0.0
+        if wave_a._frequencies.size == 0 or wave_b._frequencies.size == 0:
+            return 0.0
+
+        # Create frequency distance matrix
+        f1 = wave_a._frequencies[:, np.newaxis]
+        f2 = wave_b._frequencies[np.newaxis, :]
+        diffs = np.abs(f1 - f2)
+
+        # Apply Gaussian overlap kernel
+        sigma = bandwidth / 2.0
+        overlaps = np.exp(-(diffs**2) / (2 * sigma**2))
+
+        # Filter out overlaps that are effectively zero to save computation if needed, 
+        # but for small tensors, full matrix is fine.
         
-        for f_a, z_a in wave_a._spectrum.items():
-            for f_b, z_b in wave_b._spectrum.items():
-                diff = abs(f_a - f_b)
-                if diff < bandwidth:
-                    # Gaussian overlap factor
-                    overlap = math.exp(-(diff**2) / (2 * (bandwidth/2)**2))
-                    # Phase alignment factor
-                    phase_alignment = abs(np.exp(1j * (np.angle(z_a) - np.angle(z_b))))
-                    dot_product += abs(z_a) * abs(z_b) * overlap * phase_alignment
-                    
+        # Amplitudes (Complex)
+        z1 = wave_a._amplitudes[:, np.newaxis]
+        z2_conj = np.conj(wave_b._amplitudes[np.newaxis, :])
+        
+        # Calculate complex dot product with overlaps
+        # Total resonance is the sum of all pairwise interactions weighted by their frequency proximity
+        resonance_matrix = z1 * z2_conj * overlaps
+        dot_product = np.sum(resonance_matrix)
+        
         norm = math.sqrt(wave_a.total_energy * wave_b.total_energy)
-        return float(dot_product / norm) if norm > 0 else 0.0
+        return float(abs(dot_product) / norm) if norm > 0 else 0.0

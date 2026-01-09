@@ -46,7 +46,7 @@ class PrismCortex:
     def _calculate_dissonance(self, wave: WaveTensor) -> float:
         # Simplified placeholder. Real logic is in SynestheticBridge.
         # We assume complex spectrum = high dissonance for now if not harmonic.
-        return min(1.0, (len(wave._spectrum) - 1) * 0.2)
+        return min(1.0, (wave.active_frequencies.size - 1) * 0.2)
 
     def _determine_vibe(self, energy, dissonance, freq) -> str:
         if dissonance > 0.5:

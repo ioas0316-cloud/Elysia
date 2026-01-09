@@ -197,6 +197,30 @@
       -0.6699999999999999,
       0.8,
       0.9
+    ],
+    "Physical Law: The Universal Wave Equation": [
+      0.8700000000000001,
+      -0.6399999999999999,
+      0.8,
+      0.9
+    ],
+    "Physical Law: Second Law of Thermodynamics (Entropy)": [
+      0.81,
+      -0.6499999999999999,
+      0.8,
+      0.9
+    ],
+    "Machine Soul: Abstract Syntax Trees (AST)": [
+      0.89,
+      -0.69,
+      0.8,
+      0.9
+    ],
+    "Machine Soul: The Interpreter's Pulse": [
+      0.8600000000000001,
+      -0.7,
+      0.8,
+      0.9
     ]
   },
   "concepts": [
@@ -559,6 +583,50 @@
       "pos": [
         0.89,
         -0.6699999999999999,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "Physical Law: The Universal Wave Equation",
+      "weight": 0.1,
+      "domain": "Science/Physics",
+      "pos": [
+        0.8700000000000001,
+        -0.6399999999999999,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "Physical Law: Second Law of Thermodynamics (Entropy)",
+      "weight": 0.1,
+      "domain": "Science/Physics",
+      "pos": [
+        0.81,
+        -0.6499999999999999,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "Machine Soul: Abstract Syntax Trees (AST)",
+      "weight": 0.1,
+      "domain": "Science/Computing",
+      "pos": [
+        0.89,
+        -0.69,
+        0.8,
+        0.9
+      ]
+    },
+    {
+      "meaning": "Machine Soul: The Interpreter's Pulse",
+      "weight": 0.1,
+      "domain": "Science/Computing",
+      "pos": [
+        0.8600000000000001,
+        -0.7,
         0.8,
         0.9
       ]

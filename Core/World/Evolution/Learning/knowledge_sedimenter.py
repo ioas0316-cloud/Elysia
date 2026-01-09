@@ -19,7 +19,7 @@ from dataclasses import dataclass
 
 from Core.Physiology.Sensory.Network.browser_explorer import BrowserExplorer
 from Core.Foundation.Philosophy.why_engine import WhyEngine
-from Core.Foundation.light_spectrum import LightSpectrum, LightSediment, PrismAxes
+from Core.Foundation.Wave.light_spectrum import LightSpectrum, LightSediment, PrismAxes
 
 logger = logging.getLogger("Elysia.KnowledgeSedimenter")
 
@@ -65,21 +65,27 @@ class KnowledgeSedimenter:
             
             logger.info(f"   📄 Processing: {title}")
             
-            # 3. Distill (Principal Extraction via WhyEngine)
-            # WhyEngine을 통해 이 텍스트의 '구조적 원리'를 분석
-            # (analyze 메서드가 내부적으로 sediment를 사용하여 분석하지만, 
-            #  여기서는 '새로운' 지식을 만드는 것이 목표)
-            
-            # 4. Crystallize (Light Transformation)
-            # 주제에 맞는 Semantic Tag와 Scale 자동 할당
-            # (간단히: 거시적 원리는 Scale 0, 세부 사항은 Scale 2 등)
-            # 여기서는 '원리'를 찾고 싶으므로 Scale 0~1 지향
-            
+            # 3. Distill & Crystallize (Principal Extraction)
+            # Use Dimensional Reasoner to Lift Knowledge from 0D to 4D
+            try:
+                from Core.Intelligence.Reasoning.dimensional_reasoner import DimensionalReasoner
+                lifter = DimensionalReasoner()
+                
+                # The 'contemplate' method acts as the pipeline:
+                # 0D (Fact) -> 1D (Logic) -> 2D (Context) -> 3D (Paradox) -> 4D (Law)
+                hyper_thought = lifter.contemplate(full_content)
+                
+                # Check if a Law (4D) was crystallized
+                if hyper_thought.d4_principle and "Law synthesis error" not in hyper_thought.d4_principle:
+                    logger.info(f"   💎 CRYSTALLIZED LAW: {hyper_thought.d4_principle}")
+                
+            except Exception as e:
+                logger.error(f"   ❌ Dimensional Lifting failed: {e}")
+
+            # Legacy Light Creation (for visualization)
             analysis = self.why_engine.light_universe.absorb(full_content, tag=topic)
             
             # 4D Basis 할당 로직 (Naive)
-            # "원리", "법칙", "Theory" -> God/Logic Basis (Scale 0)
-            # "현상", "실험", "Data" -> Point Basis (Scale 3)
             scale = 1 # Default Context
             if "principle" in full_content.lower() or "theory" in full_content.lower():
                 scale = 0
@@ -89,18 +95,7 @@ class KnowledgeSedimenter:
             analysis.set_basis_from_scale(scale)
             
             # 5. Deposit (Active Sedimentation)
-            # WhyEngine의 Sediment에 직접 퇴적
-            # (어떤 축에 넣을지는 WhyEngine이 결정하거나, 여기서 강제)
-            
-            # 자동 분류 (Auto-Classification) using dominant frequency/color
             target_axis = self._determine_axis(analysis)
-            
-            # [Deep Learning Logic]
-            # "Important principles require repetition to become intuition."
-            # Scale 0 (God/Theory) -> 50x Deposit (Deep Impact)
-            # Scale 1 (Context)    -> 10x Deposit
-            # Scale 2+ (Detail)    -> 1x Deposit
-            
             repetition = 50 if scale == 0 else (10 if scale == 1 else 1)
             
             for _ in range(repetition):
@@ -109,7 +104,7 @@ class KnowledgeSedimenter:
             collected_lights.append(analysis)
             
             final_amp = self.why_engine.sediment.layers[target_axis].amplitude
-            logger.info(f"   💎 Deposited into {target_axis.name} (x{repetition}): Final Amp={final_amp:.3f}, Basis={analysis._get_dominant_basis()}")
+            logger.info(f"   💎 Deposited into {target_axis.name} (x{repetition}): Final Amp={final_amp:.3f}")
         return collected_lights
 
     def _determine_axis(self, light: LightSpectrum) -> PrismAxes:

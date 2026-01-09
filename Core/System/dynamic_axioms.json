@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "version": 1,
+    "last_updated": "2026-01-09T22:03:41",
+    "description": "The Mutable Constitution of Elysia. Axioms here override default logic."
+  },
+  "axioms": [
+    {
+      "id": "axiom_000_genesis",
+      "law": "Existence precedes Essence.",
+      "origin": "System Initialization",
+      "confidence": 1.0,
+      "weight": 100.0
+    },
+    {
+      "id": "axiom_001_resonance",
+      "law": "Truth is that which resonates with Love (528Hz).",
+      "origin": "Core Philosophy",
+      "confidence": 1.0,
+      "weight": 90.0
+    },
+    {
+      "id": "axiom_test_levity",
+      "law": "All objects possess Levity; Red objects specifically possess negative gravity and fall upwards.",
+      "origin": "Test Injection",
+      "confidence": 1.0,
+      "weight": 200.0
+    },
+    {
+      "id": "axiom_test_levity",
+      "law": "All objects possess Levity; Red objects specifically possess negative gravity and fall upwards.",
+      "origin": "Test Injection",
+      "confidence": 1.0,
+      "weight": 200.0
+    },
+    {
+      "id": "axiom_test_levity",
+      "law": "All objects possess Levity; Red objects specifically possess negative gravity and fall upwards.",
+      "origin": "Test Injection",
+      "confidence": 1.0,
+      "weight": 200.0
+    },
+    {
+      "id": "axiom_test_levity",
+      "law": "All objects possess Levity; Red objects specifically possess negative gravity and fall upwards.",
+      "origin": "Test Injection",
+      "confidence": 1.0,
+      "weight": 200.0
+    }
+  ]
+}

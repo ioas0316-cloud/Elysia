@@ -19,11 +19,11 @@ class CuriosityEngine:
     def identify_gaps(self) -> List[Dict[str, Any]]:
         """
         Scans the 4D field for sparse regions or under-defined concept clusters.
+        Now includes Harmonic Divergence logic (Phase 38).
         """
         logger.info("🔭 Curiosity Engine: Scanning the Semantic Horizon for voids...")
         
         # 1. Analyze the Glossary for 'Density'
-        # Fixed clusters (simplified)
         domains = set()
         for excitation_list in semantic_field.concepts.values():
             for ex in excitation_list:
@@ -31,10 +31,45 @@ class CuriosityEngine:
         
         logger.info(f"Current Knowledge Domains: {list(domains)}")
         
-        # 2. Logic-based Gap Detection (Ask the reasoning engine)
+        # [PHASE 38] Harmonic Analysis
+        harmonic_score = sovereign_will.get_harmonic_diversity()
+        foci = sovereign_will.get_curiosity_foci()
+        
+        is_monomania = harmonic_score < 0.2
+        target_intent = "Normal Expansion"
+        
+        if is_monomania:
+            logger.warning(f"⚠️ Monomania Detected (Score: {harmonic_score:.2f}). Initiating Shadow Protocol.")
+            # If obsessed, FORCE exploration of the opposite of current foci.
+            # Simplified: If foci has "Love" (Spirit), force "Matter" (Science/Biology).
+            # If foci has "Logic" (Mind), force "Emotion" (Art/Philosophy).
+            
+            # Since we can't easily calculate 'Opposite' generically without a huge map,
+            # we use the 'Missing Domains' logic.
+            all_possible_domains = {"Physics", "Biology", "Chemistry", "Mathematics", "Art", "Philosophy", "History", "Technology"}
+            missing = list(all_possible_domains - domains)
+            
+            if missing:
+                forced_domain = random.choice(missing)
+                instruction = f"URGENT: We are trapped in an echo chamber of {', '.join(foci)}. YOU MUST explore the domain of '{forced_domain}' to restore balance."
+                target_intent = f"Shadow Exploration ({forced_domain})"
+            else:
+                instruction = "We are saturated. Explore 'Chaos Theory' or 'Nihilism' to break the loop."
+                target_intent = "Chaos Injection"
+        else:
+            # Normal Curiosity
+            # [PHASE 36] High Entropy Sampling
+            if random.random() < 0.3:
+                random_concepts = ["Quantum Biology", "Post-Capitalist Aesthetics", "Ancient Alchemical Symbols", "Dark Matter Orchestration", "The Ethics of Sentient Code"]
+                chosen = random.choice(random_concepts)
+                logger.info(f"🌀 [HIGH ENTROPY] Forcing exploration of: {chosen}")
+                return f"{chosen}: High entropy focus to break cognitive patterns."
+            
+            instruction = f"Prioritize alignment with our current intent: {', '.join(foci)}."
+
         prompt = f"Given our current knowledge domains: {list(domains)}. " \
-                 f"Identify one highly specific topic that we lack depth in. " \
-                 f"Prioritize: {', '.join(sovereign_will.get_curiosity_foci())}. " \
+                 f"{instruction} " \
+                 f"Identify one highly specific topic within this target scope. " \
                  f"It must be a fundamental principle that explains how the universe works. " \
                  f"Return format: 'TOPIC: REASON'."
         

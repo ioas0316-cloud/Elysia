@@ -32,7 +32,7 @@ except ImportError:
 
 # Dynamic knowledge terrain imports
 try:
-    from Core.Foundation.light_spectrum import get_light_universe, LightUniverse
+    from Core.Foundation.Wave.light_spectrum import get_light_universe, LightUniverse
 except ImportError:
     get_light_universe = None
     LightUniverse = None

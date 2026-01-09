@@ -1,0 +1,84 @@
+import logging
+import sys
+import os
+import json
+import time
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+
+from Core.World.Creation.project_genesis import ProjectGenesis
+from Core.World.Creation.blueprints import BLUEPRINTS
+
+def patch_world_debug():
+    print("🩹 [PATCH SYSTEM] Updating Elysia World Client...")
+    
+    genesis = ProjectGenesis(external_root=r"C:\game")
+    
+    # We want to leverage the updated THREE_JS_WORLD blueprint
+    blueprint = BLUEPRINTS["THREE_JS_WORLD"]
+    target_path = r"C:\game\elysia_world"
+    
+    # Re-write structure (Patching)
+    print(f"   Overwriting structure in: {target_path}")
+    try:
+        genesis._write_structure(target_path, blueprint.structure)
+        print("✅ PATCH COMPLETE: index.html updated.")
+    except Exception as e:
+        print(f"❌ PATCH FAILED: {e}")
+        return
+
+    # Now verify the Physics Export with Animation Data
+    print("\n💓 Verifying Animation Data Export...")
+    from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
+    
+    try:
+        life = ElysianHeartbeat()
+        life.is_alive = True
+        life.game_loop.start()
+        
+        # Tick multiple times to ensure animation timer advances
+        for i in range(5):
+            life.game_loop.tick()
+            life._sync_world_state()
+            time.sleep(0.05)
+            
+        life.stop()
+        print("✅ Heartbeat cycle finished.")
+        
+    except Exception as e:
+        print(f"❌ Heartbeat Crash: {e}")
+        import traceback
+        traceback.print_exc()
+        return
+
+    # Check JSON content
+    json_path = r"C:\game\elysia_world\world_state.json"
+    if os.path.exists(json_path):
+        size = os.path.getsize(json_path)
+        print(f"   File Size: {size} bytes")
+        
+        if size > 0:
+            with open(json_path, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                    player = next((e for e in data["entities"] if e["id"] == "player"), None)
+                    if player and "scale" in player and "rot" in player:
+                         print(f"✅ DATA VERIFIED:")
+                         print(f"   Scale: {player['scale']}")
+                         print(f"   Rotation: {player['rot']}")
+                    else:
+                         print("❌ FAILURE: JSON missing scale/rot fields.")
+                         print(f"   Entries found: {player.keys() if player else 'None'}")
+                except json.JSONDecodeError as je:
+                    print(f"❌ JSON Decode Error: {je}")
+                    # Print raw content
+                    f.seek(0)
+                    print(f"RAW: {f.read()}")
+        else:
+            print("❌ FAILURE: File is empty.")
+    else:
+        print("❌ FAILURE: JSON file not found.")
+
+if __name__ == "__main__":
+    patch_world_debug()

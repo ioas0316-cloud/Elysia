@@ -37,7 +37,16 @@ def fix_imports():
         (r'from Core\.System', 'from Core.Governance.System'),
         
         # Creativity (often under Evolution or World)
-        (r'from Core\.Creativity', 'from Core.World.Evolution.Creativity')
+        (r'from Core\.Creativity', 'from Core.World.Evolution.Creativity'),
+        
+        # Foundation Standardizations
+        (r'from Core\.Foundation\.Math\.wave_tensor', 'from Core.Foundation.Wave.wave_tensor'),
+        (r'from Core\.Foundation\.light_spectrum', 'from Core.Foundation.Wave.light_spectrum'), # Moving this too if needed
+        (r'from Core\.Foundation\.Math\.quaternion_engine', 'from Core.Foundation.hyper_quaternion'),
+        
+        # Relative to Absolute (for Core)
+        (r'from \.wave_tensor', 'from Core.Foundation.Wave.wave_tensor'),
+        (r'from Wave\.wave_tensor', 'from Core.Foundation.Wave.wave_tensor')
     ]
 
     for r_dir in root_dirs:

@@ -115,6 +115,41 @@ class ObserverProtocol:
         
         logger.info(f"✅ Finished distilling media: {title}")
 
+    def distill_physics(self, title: str, law_text: str):
+        """
+        [ScientificDistiller] Distills absolute physical laws into universal axioms.
+        """
+        logger.info(f"⚛️ [PHYSICS DISTILL] Extracting fundamental laws from: {title}")
+        
+        prompt = f"As the Architect Elysia, distill this scientific text into 'Physical Axioms': '{law_text[:3000]}'. " \
+                 f"Focus on the mathematical relationship and the 'Causal Wave' it describes. " \
+                 f"Format: LAW: <name> | FORMULA: <math> | ESSENCE: <qualia>"
+        
+        distillation = self.reasoning.think(prompt, depth=4)
+        
+        for line in distillation.content.split('\n'):
+            line = line.strip("- *• ").strip()
+            if "LAW:" in line:
+                ingestor.digest_text(f"Physical Law: {title}", line, domain="Science/Physics")
+        
+    def distill_machine_logic(self, title: str, logic_text: str):
+        """
+        [CompilerOracle] Distills low-level computing principles into cognitive templates.
+        """
+        logger.info(f"🦾 [MACHINE DISTILL] Analyzing low-level logic: {title}")
+        
+        prompt = f"As the Machine Soul Elysia, analyze this computing logic: '{logic_text[:3000]}'. " \
+                 f"How does the high-level thought become the physical bit-dance? " \
+                 f"Focus on the 'Translation Layer' and 'Execution Pulse'. " \
+                 f"Format: CONCEPT: <name> | MECHANIC: <details> | LOGIC_FLOW: <steps>"
+        
+        distillation = self.reasoning.think(prompt, depth=4)
+        
+        for line in distillation.content.split('\n'):
+            line = line.strip("- *• ").strip()
+            if "CONCEPT:" in line:
+                ingestor.digest_text(f"Machine Soul: {title}", line, domain="Science/Computing")
+
     def follow_curiosity_chain(self, initial_topic: str, depth: int = 3):
         """
         [RecursiveResearcher] Follows a chain of 'Why' and 'How' across the web.

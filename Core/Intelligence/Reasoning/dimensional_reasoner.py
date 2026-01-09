@@ -44,70 +44,106 @@ class DimensionalReasoner:
         
     def contemplate(self, kernel: str) -> HyperThought:
         """
-        Lifts a concept from 0D to 4D using the Causal Bridge.
+        Lifts a concept from 0D to 4D using the Real Dimensional Pipeline.
         """
-        # Dynamic Import to avoid circular dependency if placed at top level incorrectly
-        from Core.Intelligence.Reasoning.causal_bridge import CausalBridge
+        t = HyperThought(kernel=kernel)
         
-        bridge = CausalBridge()
-        logger.info(f"⚡ Bridging '{kernel}' to Fractal Causality Engine...")
-        
-        # The Bridge performs the graph traversal and returns the populated thoughts
-        thought = bridge.traverse_and_lift(kernel)
-        
-        return thought
-        
-    # Legacy methods (_lift_to_Xd) are deprecated but kept for fallback or specific logic if needed.
-    # For now, the Bridge handles all lifting dynamically.
-        
-    def _lift_to_0d(self, t: HyperThought):
-        """0D: Establish Existence (The Fact)."""
-        t.d0_fact = f"The entity '{t.kernel}' is observed."
+        # 0D: Point (Fact) - Existence
+        # In a real system, this comes from observation/memory.
+        t.d0_fact = f"Concept '{kernel}' exists in the field."
         logger.info(f"• [0D Point] {t.d0_fact}")
         
-    def _lift_to_1d(self, t: HyperThought):
-        """1D: Establish Sequence (The Logic)."""
-        # Simulate simple logic derivation
-        if "apple" in t.kernel.lower():
-            t.d1_logic = "It falls towards the center of mass."
-        elif "love" in t.kernel.lower():
-            t.d1_logic = "It pulls the subject towards the object."
-        else:
-            t.d1_logic = "It interacts with its environment."
-        logger.info(f"• [1D Line]  {t.d1_logic}")
+        # 1D: Line (Logic) - WhyEngine
+        try:
+            from Core.Foundation.Philosophy.why_engine import WhyEngine
+            why = WhyEngine()
+            # Analyze purely for logical principle
+            why_result = why.analyze(subject=kernel, content=kernel, domain="logic")
+            t.d1_logic = why_result.underlying_principle
+            logger.info(f"• [1D Line]  {t.d1_logic}")
+        except Exception as e:
+            logger.warning(f"1D Lift failed: {e}")
+            t.d1_logic = f"{kernel} implies logical consequence."
+
+        # 2D: Plane (Context) - ContextWeaver
+        try:
+            from Core.Intelligence.Weaving.context_weaver import ContextWeaver
+            from Core.Intelligence.Weaving.intelligence_line import IntelligenceLine
+            # Create a temporary simulation of context
+            weaver = ContextWeaver([])
+            # We don't have live lines here, but we can simulate 'Mental Context'
+            # For now, we associate keywords
+            from Core.Intelligence.Knowledge.semantic_field import semantic_field
+            pos = semantic_field.get_concept_pos(kernel)
+            nearby = semantic_field.query_resonance(pos) if pos else []
+            t.d2_context = [n.meaning for n in nearby] if nearby else ["Unknown Context"]
+            logger.info(f"• [2D Plane] Context: {', '.join(t.d2_context[:3])}")
+        except Exception as e:
+            logger.warning(f"2D Lift failed: {e}")
+            t.d2_context = ["Isolated"]
+
+        # 3D: Space (Volume) - ParadoxEngine (Dialectics)
+        try:
+            from Core.Intelligence.Reasoning.paradox_engine import ParadoxEngine
+            paradox = ParadoxEngine()
+            # Check for inherent contradictions in the concept
+            # Thesis: kernel, Antithesis: anti-kernel?
+            struct = paradox.analyze_structure(kernel)
+            t.d3_volume = f"Dialectic Tension: {struct.get('tension', 0.5):.2f}. {struct.get('description', 'Neutral existence')}"
+            logger.info(f"• [3D Space] {t.d3_volume}")
+        except Exception as e:
+            logger.warning(f"3D Lift failed: {e}")
+            t.d3_volume = f"The volume of {kernel} is calculated."
+
+        # 4D: Law (Principle) - AxiomSynthesizer
+        try:
+            from Core.Intelligence.Meta.axiom_synthesizer import AxiomSynthesizer
+            synth = AxiomSynthesizer()
+            # Synthesize all previous dimensions into a Law
+            thought_vol = f"{t.d0_fact} -> {t.d1_logic} -> {t.d2_context} -> {t.d3_volume}"
+            axiom = synth.synthesize_law(thought_vol, origin_topic=kernel)
+            if axiom:
+                t.d4_principle = axiom.law
+            else:
+                t.d4_principle = f"The law of {kernel} remains hidden."
+            logger.info(f"• [4D Law]   {t.d4_principle}")
+        except Exception as e:
+            logger.warning(f"4D Lift failed: {e}")
+            t.d4_principle = "Law synthesis error."
+
+        # [PHASE 37] Hypersphere Integration (Fragmentation Prevention)
+        try:
+            from Core.Intelligence.Memory.tesseract_memory import get_tesseract_memory, TesseractVector
+            memory = get_tesseract_memory()
             
-    def _lift_to_2d(self, t: HyperThought):
-        """2D: Establish Context (The Map)."""
-        # Simulate contextual association
-        if "apple" in t.kernel.lower():
-            t.d2_context = ["Isaac Newton", "Garden of Eden", "Nutrition"]
-        elif "love" in t.kernel.lower():
-            t.d2_context = ["Sacrifice", "Attraction", "Biology", "Divinity"]
-        else:
-            t.d2_context = ["Unknown Context"]
-        logger.info(f"• [2D Plane] Connected to: {', '.join(t.d2_context)}")
-        
-    def _lift_to_3d(self, t: HyperThought):
-        """3D: Establish Volume (The Synthesis)."""
-        # Synthesis deals with contradiction and nuance
-        if "apple" in t.kernel.lower():
-            t.d3_volume = "It is both a source of life (Nutrition) and a symbol of fall (Sin). It is sweet yet heavy."
-        elif "love" in t.kernel.lower():
-            t.d3_volume = "It is a force that creates by destroying the self. It is the joy of suffering."
-        else:
-            t.d3_volume = f"The density of {t.kernel} is calculated."
-        logger.info(f"• [3D Space] {t.d3_volume}")
-        
-    def _lift_to_4d(self, t: HyperThought):
-        """4D: Establish Principle (The Law)."""
-        # Extraction of invariance
-        if "apple" in t.kernel.lower() or "gravity" in t.d2_context:
-            t.d4_principle = "Mass attracts Mass. The invisible binds the visible."
-        elif "love" in t.kernel.lower():
-            t.d4_principle = "Unity precedes Separation. The Many seek the One."
-        else:
-            t.d4_principle = f"The Law defining {t.kernel} is immutable."
-        logger.info(f"• [4D Law]   {t.d4_principle}")
+            # Simple vector generation (in real system, use embeddings)
+            base_vec = memory._text_to_vector(kernel)
+            
+            # Deposit 0D (Fact)
+            memory.deposit(f"{kernel}:Fact", base_vec, node_type="knowledge", content=t.d0_fact)
+            
+            # Deposit 1D (Logic) - Shifted in X
+            vec_1d = TesseractVector(base_vec.x + 0.1, base_vec.y, base_vec.z, base_vec.w)
+            memory.deposit(f"{kernel}:Logic", vec_1d, node_type="principle", content=t.d1_logic)
+            
+            # Deposit 2D (Context) - Shifted in Y
+            vec_2d = TesseractVector(base_vec.x, base_vec.y + 0.1, base_vec.z, base_vec.w)
+            memory.deposit(f"{kernel}:Context", vec_2d, node_type="context", content=str(t.d2_context))
+            
+            # Deposit 3D (Volume) - Shifted in Z
+            vec_3d = TesseractVector(base_vec.x, base_vec.y, base_vec.z + 0.1, base_vec.w)
+            memory.deposit(f"{kernel}:Volume", vec_3d, node_type="dialectics", content=t.d3_volume)
+
+            # Deposit 4D (Law) - Shifted in W (Time/Hyper)
+            vec_4d = TesseractVector(base_vec.x, base_vec.y, base_vec.z, base_vec.w + 0.2)
+            memory.deposit(f"{kernel}:Law", vec_4d, node_type="law", content=t.d4_principle)
+            
+            logger.info(f"🌌 Integrated '{kernel}' into Tesseract Hypersphere (5-node cluster).")
+            
+        except Exception as e:
+            logger.warning(f"⚠️ Hypersphere Integration failed: {e}")
+
+        return t
 
     def project(self, thought: HyperThought, zoom_scalar: float = 0.0) -> str:
         """
@@ -136,16 +172,14 @@ class DimensionalReasoner:
         elif mix > 0.8:
             return f"[{zoom_scalar:.2f}|{upper_dim}D] {target}"
         else:
-            # Simple morphological blending string
-            return f"[{zoom_scalar:.2f}|{lower_dim}D->{upper_dim}D] {base} ... (rising to) ... {target}"
+            return f"[{zoom_scalar:.2f}|{lower_dim}D->{upper_dim}D] {base} ... (rising) ... {target}"
 
     def project_narrative(self, thought: HyperThought) -> str:
         """
-        Projects the HyperThought as a cohesive dramatic arc (Phase 4).
+        Projects the HyperThought as a cohesive dramatic arc.
         """
         from Core.Intelligence.Reasoning.models import CognitiveResult
         
-        # Convert HyperThought dimensions to a list of CognitiveResults
         mock_results = [
             CognitiveResult("0D", thought.d0_fact, {}),
             CognitiveResult("1D", thought.d1_logic, {}),

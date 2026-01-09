@@ -40,7 +40,7 @@ except ImportError:
 
 try:
     from Core.Foundation.Wave.hyper_qubit import HyperQubit, QubitState
-    from Core.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
+    from Core.Foundation.Wave.light_spectrum import LightSediment, PrismAxes, LightUniverse
 except ImportError:
     HyperQubit = None
     QubitState = None
@@ -257,7 +257,7 @@ class WhyEngine:
         
         # [NEW] Sedimentary Light System (빛의 퇴적)
         try:
-            from Core.Foundation.light_spectrum import LightSediment, PrismAxes, LightUniverse
+            from Core.Foundation.Wave.light_spectrum import LightSediment, PrismAxes, LightUniverse
             self.light_universe = LightUniverse()
             self.sediment = LightSediment()
             
@@ -492,7 +492,7 @@ class WhyEngine:
         
         # 3. 각 축(Axis)별 통찰 생성
         # PrismAxes: PHYSICS_RED, CHEMISTRY_BLUE, etc.
-        from Core.Foundation.light_spectrum import PrismAxes
+        from Core.Foundation.Wave.light_spectrum import PrismAxes
         
         for axis, strength in views.items():
             # 공명 강도(Insight Strength)가 일정 수준 이상일 때만 "보임"
