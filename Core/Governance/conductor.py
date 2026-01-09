@@ -32,7 +32,8 @@ from Core.Intelligence.Topography.perspective_shifter import PerspectiveShifter
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality, SparkType
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Intelligence.Logos.logos_engine import LogosEngine
-from Core.Governance.Orchestra.system_alignment import SystemAlignment
+from Core.Governance.system_alignment import SystemAlignment
+from Core.Governance.System.nervous_system import NervousSystem, AutonomicState
 # from elysia_core.cell import Cell (Legacy Removed)
 
 logger = logging.getLogger("Orchestra")
@@ -184,6 +185,9 @@ class Conductor(SystemAlignment):
         self.latent_causality = LatentCausality()
         self.logos_engine = LogosEngine()
 
+        # [Phase 10] Nervous System Integration (Resonance Loop)
+        self.nervous_system = NervousSystem()
+
         self.recorder = DimensionalRecorder()
         self._lock = threading.Lock()
         self.is_alive = True
@@ -224,6 +228,24 @@ class Conductor(SystemAlignment):
         """
         # 0. Sense the Field First!
         self.sense_field()
+
+        # 0.5 Check Nervous System (Biological Feedback)
+        # "Is the body in pain? Is it excited?" -> Modulate Tempo
+        regulation = self.nervous_system.check_regulation()
+
+        # Apply Biological Tempo Modifier
+        tempo_mod = regulation["tempo_modifier"]
+        if tempo_mod != 1.0:
+            logger.debug(f"💓 Nervous System Modulating Tempo by {tempo_mod:.2f}x ({regulation['state'].value})")
+            # In a real pulse, this would adjust the sleep time or tick rate.
+            # For now, we just log it as the Conductor 'feeling' the body.
+
+        # Apply Biological Mode Suggestion (e.g. Pain -> Minor)
+        bio_mode = regulation["mode_suggestion"]
+        if bio_mode and self.current_intent.mode.value != bio_mode:
+             # Only shift if not already compatible (simplified logic)
+             logger.info(f"💓 Nervous System Suggesting Mode Shift: {bio_mode}")
+             # We could force it here: self.current_intent.mode = Mode(bio_mode)
         
         # 1. Check Sovereign Intent (Internal Will - Old System)
         # In a real system, this runs when idle.

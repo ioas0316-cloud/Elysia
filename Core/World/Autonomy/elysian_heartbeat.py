@@ -42,12 +42,15 @@ from Core.Intelligence.Reasoning.genesis_engine import genesis
 from Core.World.Autonomy.sovereign_will import sovereign_will
 from Core.Intelligence.Knowledge.resonance_bridge import SovereignResonator
 from Core.Foundation.Wave.resonant_field import resonant_field as global_field
+from Core.Governance.System.nervous_system import NerveSignal
+from Core.Governance.conductor import get_conductor
 
 logger = logging.getLogger("ElysianHeartbeat")
 
 class ElysianHeartbeat:
     def __init__(self):
         # 1. The Organs
+        self.conductor = get_conductor()
         self.memory = get_experience_core()
         self.will = SovereignIntent()
         self.soul_mesh = VariableMesh() # Represents Internal State
@@ -233,6 +236,20 @@ class ElysianHeartbeat:
                 perception.get('file', 'consciousness'), 
                 {"entropy": qualia['intensity'], "warmth": qualia['valence']}
             )
+
+        # 4.5 NERVOUS FEEDBACK (Pain/Pleasure)
+        # Transmit high-intensity qualia to the Nervous System (Conductor)
+        if qualia['intensity'] > 0.6:
+             signal_type = "EXCITEMENT"
+             if qualia['valence'] < -0.3: signal_type = "PAIN"
+             elif qualia['valence'] > 0.3: signal_type = "PLEASURE"
+
+             self.conductor.nervous_system.transmit(NerveSignal(
+                 origin="Heartbeat.Sensorium",
+                 type=signal_type,
+                 intensity=qualia['intensity'],
+                 message=desc[:20]
+             ))
             
         # 5. KINETIC EXPRESSION: Body follows soul
         current_energy = soul['Energy'].value
