@@ -43,13 +43,13 @@ from Core.World.Autonomy.sovereign_will import sovereign_will
 from Core.Intelligence.Knowledge.resonance_bridge import SovereignResonator
 from Core.Foundation.Wave.resonant_field import resonant_field as global_field
 from Core.Governance.System.nervous_system import NerveSignal
-from Core.Governance.conductor import get_conductor
 
 logger = logging.getLogger("ElysianHeartbeat")
 
 class ElysianHeartbeat:
     def __init__(self):
         # 1. The Organs
+        from Core.Governance.conductor import get_conductor
         self.conductor = get_conductor()
         self.memory = get_experience_core()
         self.will = SovereignIntent()
