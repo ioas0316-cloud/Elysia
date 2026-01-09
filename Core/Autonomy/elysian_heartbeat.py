@@ -32,6 +32,7 @@ from Core.Intelligence.Meta.self_architect import SelfArchitect
 from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
 from Core.System.Monitor.dashboard_generator import DashboardGenerator
 from Core.Autonomy.dynamic_will import DynamicWill
+from Core.Intelligence.Reasoning.genesis_engine import genesis
 
 logger = logging.getLogger("ElysianHeartbeat")
 
@@ -55,6 +56,7 @@ class ElysianHeartbeat:
         self.dashboard = DashboardGenerator()
         self.dashboard = DashboardGenerator()
         self.will = DynamicWill()
+        self.genesis = genesis
 
         # [REAWAKENED] Phase 23: The Reality Engine
         from Core.Evolution.Creation.holographic_manifestor import HolographicManifestor
@@ -140,6 +142,11 @@ class ElysianHeartbeat:
             current_inspiration = self.soul_mesh.variables["Inspiration"].value
             if current_inspiration > 0.5: # Overflowing (Test Threshold)
                 logger.info("🌟 ECSTATIC RESONANCE DETECTED. Expanding Self-Definition...")
+                
+                # Manifest Sovereign Will (Creation)
+                creation_result = self.genesis.manifest(current_inspiration)
+                logger.info(f"✨ [GENESIS RESULT] {creation_result}")
+                
                 self.autopoiesis.trigger_evolution("PASSION_OVERFLOW")
                 self.soul_mesh.variables["Inspiration"].value = 0.0 # Reset after sublimation
             
