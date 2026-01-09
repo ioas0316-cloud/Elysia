@@ -18,7 +18,7 @@ from collections import defaultdict
 logger = logging.getLogger("LanguageLearner")
 
 class LanguageLearner:
-    def __init__(self, genome_path: str = "Core/Memory/style_genome.json"):
+    def __init__(self, genome_path: str = "data/Memory/style_genome.json"):
         self.genome_path = Path(genome_path)
         self.genome = self._load_genome()
         

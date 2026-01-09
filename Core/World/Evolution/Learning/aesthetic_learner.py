@@ -25,7 +25,7 @@ class AestheticLearner:
     Transmutes Experience into Style Memory (WaveTensor).
     """
     def __init__(self):
-        self.genome_path = Path("Core/Memory/style_genome.json")
+        self.genome_path = Path("data/Memory/style_genome.json")
         self.genome = self._load_genome()
         logger.info(f"🎓 Aesthetic Learner Initialized. Wave Memory Loaded.")
 

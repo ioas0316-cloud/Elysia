@@ -33,7 +33,7 @@ class LogosEngine:
     def __init__(self):
         self.universe = InternalUniverse()
         self.decomposer = ConceptDecomposer() # THE AXIOM BRIDGE
-        self.genome_path = Path("Core/Memory/style_genome.json")
+        self.genome_path = Path("data/Memory/style_genome.json")
         self.genome = self._load_genome()
         
         # [NEW] Soul Integration
