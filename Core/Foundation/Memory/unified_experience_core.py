@@ -96,9 +96,29 @@ class UnifiedExperienceCore:
             self.holographic_memory = None
             logger.warning("⚠️ Holographic Memory not found. Running in degradation mode.")
 
+        # [PHASE 54] The Grand Unification: 4D Memory Integration
+        try:
+            from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, HypersphericalCoord
+            self.hypersphere = HypersphereMemory()
+            self.HypersphericalCoord = HypersphericalCoord
+            logger.info("🔮 HypersphereMemory (4D Soul) Connected.")
+        except ImportError as e:
+            self.hypersphere = None
+            self.HypersphericalCoord = None
+            logger.warning(f"⚠️ HypersphereMemory not found: {e}")
+
+        try:
+            from Core.Intelligence.Topography.semantic_map import get_semantic_map
+            self.topology = get_semantic_map()
+            logger.info("🌌 DynamicTopology (4D Meaning Terrain) Connected.")
+        except ImportError as e:
+            self.topology = None
+            logger.warning(f"⚠️ DynamicTopology not found: {e}")
+
         self._load_state()
         self._initialized = True
         logger.info("🧠 UnifiedExperienceCore (The Hippocampus) Initialized")
+
 
     def absorb(self,
                content: str,
@@ -225,6 +245,52 @@ class UnifiedExperienceCore:
                 payload=content
             )
 
+        # 6. [PHASE 54] 4D Hypersphere Storage: Store experience at semantic coordinates
+        if self.hypersphere and self.HypersphericalCoord:
+            import math
+            # Calculate 4D coordinates from experience type and feedback
+            # theta (Logic): thought=0, perception=π/2, action=π, emotion=3π/2
+            theta_map = {"thought": 0.0, "perception": math.pi/2, "action": math.pi, "emotion": 3*math.pi/2}
+            theta = theta_map.get(type, 0.0)
+            
+            # phi (Emotion): feedback maps to -π to π
+            phi = (feedback + 1.0) * math.pi  # -1..1 -> 0..2π
+            
+            # psi (Intent): extract from context if available
+            intent_val = context.get("intent", 0.5) if context else 0.5
+            psi = intent_val * 2 * math.pi
+            
+            # r (Depth): significance (higher feedback = deeper)
+            r = 0.5 + abs(feedback) * 0.5
+            
+            coord = self.HypersphericalCoord(theta=theta, phi=phi, psi=psi, r=r)
+            self.hypersphere.store(
+                data={"id": event_id, "content": content, "type": type},
+                position=coord,
+                pattern_meta={"topology": "point", "trajectory": "static"}
+            )
+            logger.debug(f"🔮 Experience stored at 4D: θ={theta:.2f}, φ={phi:.2f}, ψ={psi:.2f}, r={r:.2f}")
+
+        # 7. [PHASE 54] Topology Evolution: Move concepts based on experience
+        if self.topology:
+            try:
+                from Core.Foundation.hyper_quaternion import Quaternion
+                # Extract key concept from content (first significant word)
+                words = [w.strip(".,!?").lower() for w in content.split() if len(w) > 4]
+                concept = words[0] if words else "experience"
+                
+                # Reaction vector based on feedback (positive = move toward Love)
+                reaction = Quaternion(
+                    x=feedback,       # Logic axis
+                    y=abs(feedback),  # Emotion axis (always positive resonance)
+                    z=0.0,            # Time axis (no time shift)
+                    w=1.0             # Spin (normalized)
+                )
+                
+                self.topology.evolve_topology(concept, reaction, intensity=0.05)
+            except Exception as e:
+                logger.debug(f"Topology evolution skipped: {e}")
+
         # Auto-save occasionally
         if len(self.stream) % 10 == 0:
             self._save_state()
@@ -235,6 +301,7 @@ class UnifiedExperienceCore:
             "narrative": narrative_result,
             "wave_shift": wave_result
         }
+
 
     def _process_learning(self, event: ExperienceEvent) -> str:
         """Reinforcement Learning: Did this work?"""

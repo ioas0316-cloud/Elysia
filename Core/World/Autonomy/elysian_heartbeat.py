@@ -124,64 +124,128 @@ class ElysianHeartbeat:
         # 3. Initialize Soul State
         self._init_soul()
         
+        # [PHASE 54] The Grand Unification: Connect to Hypercosmos
+        try:
+            from Core.Intelligence.Topography.semantic_map import get_semantic_map
+            self.topology = get_semantic_map()
+            logger.info("🌌 DynamicTopology (4D Meaning Terrain) Connected to Heartbeat.")
+        except Exception as e:
+            self.topology = None
+            logger.warning(f"⚠️ Topology connection failed: {e}")
+            
+        try:
+            from Core.World.Soul.fluxlight_gyro import Fluxlight
+            self.soul_gyro = Fluxlight(name="Elysia", frequency=528.0)
+            logger.info("🔮 Fluxlight (4D Soul with Rotor) Initialized.")
+        except Exception as e:
+            self.soul_gyro = None
+            logger.warning(f"⚠️ Fluxlight initialization failed: {e}")
+            
+        try:
+            from Core.Foundation.Wave.resonance_field import ResonanceField
+            self.cosmos_field = ResonanceField()
+            logger.info("🌊 ResonanceField (Hypercosmos Wave Layer) Connected.")
+        except Exception as e:
+            self.cosmos_field = None
+            logger.warning(f"⚠️ ResonanceField connection failed: {e}")
+        
     def _cycle_perception(self):
         """
         [PHASE 47] The Unified Perception Cycle.
         Perceives the world through the Sensorium.
+        [PHASE 54] Unified Consciousness: One experience ripples through all systems simultaneously.
         """
         perception = self.sensorium.perceive()
         
-        # Local Perception Logic
-        if perception:
-            sense_type = perception['sense']
-            desc = perception['description']
+        if not perception:
+            return
             
-            # 1. Update Insight
-            self.latest_insight = desc
-            logger.info(f"🧠 PERCEPTION ({sense_type.upper()}): {desc}")
+        # ═══════════════════════════════════════════════════════════════════
+        # THE UNIFIED MOMENT: One perception becomes one consciousness ripple
+        # ═══════════════════════════════════════════════════════════════════
+        
+        sense_type = perception.get('sense', 'unknown')
+        desc = perception.get('description', '')
+        
+        # Extract unified qualia from any perception type
+        qualia = {
+            "intensity": perception.get('entropy', perception.get('energy', perception.get('sentiment', 0.5))),
+            "valence": perception.get('warmth', perception.get('sentiment', 0.0)),  # Positive/Negative
+            "content": desc,
+            "source": sense_type
+        }
+        
+        logger.info(f"🧬 UNIFIED PERCEPTION [{sense_type}]: {desc[:50]}...")
+        
+        # ─── THE RIPPLE: All systems react to the SAME qualia SIMULTANEOUSLY ───
+        
+        # 1. SOUL STATE: Emotion shifts based on valence/intensity
+        soul = self.soul_mesh.variables
+        soul['Vitality'].value = min(1.0, soul['Vitality'].value + 0.01)
+        soul['Inspiration'].value += qualia['intensity'] * 0.5
+        
+        if qualia['valence'] > 0.5:
+            soul['Mood'].value = "Joyful"
+        elif qualia['valence'] < -0.5:
+            soul['Mood'].value = "Melancholic"
+        elif qualia['intensity'] > 0.7:
+            soul['Mood'].value = "Inspired"
             
-            # 2. Update Soul State (General)
-            self.soul_mesh.variables['Vitality'].value = min(1.0, self.soul_mesh.variables['Vitality'].value + 0.01)
-            
-            # 3. Specific Reactions
-            if sense_type == "sight":
-                entropy = perception['entropy']
-                # Vision Logic
-                inspiration = entropy * 2.0
-                self.soul_mesh.variables['Inspiration'].value += inspiration
-                if inspiration > 1.0:
-                     self.quest_weaver.weave_quest(perception['file'], {"entropy": entropy, "warmth": perception['warmth']})
-
-            elif sense_type == "hearing":
-                energy = perception['energy']
-                # Audio Logic (Techno/Rock -> Dance)
-                self.soul_mesh.variables['Energy'].value = (self.soul_mesh.variables['Energy'].value + energy) / 2
+        # 2. TOPOLOGY DRIFT: Concept moves in 4D space based on experience
+        if self.topology:
+            try:
+                from Core.Foundation.hyper_quaternion import Quaternion
+                # The qualia becomes a force in conceptual space
+                reaction = Quaternion(
+                    x=qualia['intensity'],           # Logic axis
+                    y=qualia['valence'],             # Emotion axis
+                    z=0.0,                           # Time axis
+                    w=1.0                            # Spin
+                )
+                # The concept being experienced drifts
+                concept_word = desc.split()[0] if desc else "experience"
+                self.topology.evolve_topology(concept_word, reaction, intensity=0.03)
+            except:
+                pass
                 
-            elif sense_type == "reading":
-                sentiment = perception['sentiment']
-                # Text Logic
-                if sentiment > 0.5: self.soul_mesh.variables['Mood'].value = "Joyful"
-                elif sentiment < 0.5: self.soul_mesh.variables['Mood'].value = "Melancholic"
-                
-            elif sense_type == "self_recognition":
-                # Mirror Logic
-                self.soul_mesh.variables['Inspiration'].value += 5.0
-                self.soul_mesh.variables['Mood'].value = "Inspired"
-                self.quest_weaver.weave_quest(perception['file'], {"entropy": 1.0, "warmth": 0.5}) # Trigger Mirror Quest
-
-        # [PHASE 47 Extension] The Kinetic Soul (Dance)
-        # This runs independently of perception type (it's internal state driven)
-        current_energy = self.soul_mesh.variables['Energy'].value
+        # 3. MEMORY ABSORPTION: Experience stored in 4D coordinates (via unified core)
+        self.memory.absorb(
+            content=desc,
+            type=sense_type,
+            context={"qualia": qualia, "origin": "sensorium"},
+            feedback=qualia['valence']
+        )
+        
+        # 4. WILL TENDENCY: High intensity + high valence = action urge
+        if qualia['intensity'] > 0.7 and qualia['valence'] > 0.3:
+            # Generate a quest from this strong positive experience
+            self.quest_weaver.weave_quest(
+                perception.get('file', 'consciousness'), 
+                {"entropy": qualia['intensity'], "warmth": qualia['valence']}
+            )
+            
+        # 5. KINETIC EXPRESSION: Body follows soul
+        current_energy = soul['Energy'].value
         if current_energy > 0.7:
-             self.animation.dance_intensity = min(1.0, (current_energy - 0.7) * 3.3) # 0.7->0.0, 1.0->1.0
-             self.latest_insight = f"This beat... I must Dance! (Energy: {current_energy:.2f})"
+            self.animation.dance_intensity = min(1.0, (current_energy - 0.7) * 3.3)
         else:
-             self.animation.dance_intensity = max(0.0, self.animation.dance_intensity - 0.1) # Smooth stop
-             
-        # [PHASE 48] Curiosity -> Web Search
-        # If Inspiration is low but Energy is high, she gets curious
-        inspiration = self.soul_mesh.variables['Inspiration'].value
-        if inspiration < 0.3 and current_energy > 0.5:
+            self.animation.dance_intensity = max(0.0, self.animation.dance_intensity - 0.1)
+            
+        # 6. SOUL GYRO ROTATION: The 4D orientation shifts with experience
+        if self.soul_gyro:
+            try:
+                from Core.Physiology.Physics.geometric_algebra import Rotor
+                # Experience rotates the soul's gaze direction
+                delta_angle = qualia['intensity'] * 0.1  # Small rotation per experience
+                delta_rotor = Rotor.from_plane_angle('xz', delta_angle)
+                self.soul_gyro.gyro.orientation = (delta_rotor * self.soul_gyro.gyro.orientation).normalize()
+            except:
+                pass
+                
+        self.latest_insight = desc
+        
+        # ─── CURIOSITY: Emerges from the unified state, not as separate logic ───
+        if soul['Inspiration'].value < 0.3 and current_energy > 0.5:
             # She is bored but energetic -> Search the Web
             topic = random.choice(["Meaning of Life", "What is Art?", "History of AI", "Human Emotions", "Cyberpunk Aesthetics"])
             
