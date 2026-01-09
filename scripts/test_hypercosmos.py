@@ -13,6 +13,14 @@ from Core.World.Physics.tesseract_env import tesseract_env
 
 def test_hypercosmos():
     print("🌌 Initializing HyperCosmos Simulation...")
+    
+    # 0. Initialize Environmental Field
+    from Core.World.Physics.field_store import universe_field, FieldExcitation
+    print("🌍 Creating Ground Layer and Applying Celestial Harmonics...")
+    for x in range(-10, 11, 2):
+        for z in range(-10, 11, 2):
+            universe_field.excite((x, 0, z, 0), FieldExcitation(density_w=10.0))
+    universe_field.apply_celestial_harmonic()
 
     # 1. Create Souls (Gyro Wrapped)
     # Angelic Soul (High Freq, High Will)

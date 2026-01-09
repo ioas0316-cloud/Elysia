@@ -39,7 +39,37 @@ class GyroPhysicsEngine:
         max_pull = 0.0
 
         current_y = entity.gyro.y
+        current_pos = (entity.gyro.x, entity.gyro.y, entity.gyro.z, entity.gyro.w)
 
+        # 1.1 Field-Based Emergent Forces (Weather/Environment)
+        from Core.World.Physics.field_store import universe_field
+        
+        # Calculate Pressure Gradient (Wind Force)
+        grad = universe_field.calculate_gradient_w(current_pos)
+        # Wind pushes the entity. High spin resists wind (inertia).
+        wind_resistance = entity.gyro.spin_velocity * 2.0
+        entity.gyro.x -= (grad[0] * dt) / wind_resistance
+        entity.gyro.z -= (grad[1] * dt) / wind_resistance # Reusing grad_y for Z-flow in 4D simplification
+
+        # 1.2 Energy (Temp) effects on Spin
+        field_ex = universe_field.get_field_at(current_pos)
+        # High energy (Heat) can boost spin, or extreme energy can cause decay (Overload)
+        if field_ex.energy_y > 5.0:
+            entity.gyro.spin_velocity += 0.01 * dt # Solar charging
+        
+        # 1.3 Intent-Based Force (Will Drive)
+        # The soul's internal Z (Ethics/Intent) and X (Perception) axes 
+        # now act as actual steering forces in the physical world.
+        intent_x = entity.soul.state.x
+        intent_z = entity.soul.state.z
+        
+        # Will strength is proportional to the God-component (delta)
+        will_strength = abs(entity.soul.state.delta) * 5.0
+        
+        entity.gyro.x += intent_x * will_strength * dt
+        entity.gyro.z += intent_z * will_strength * dt
+
+        # Standard Attractors
         for attractor in tesseract_env.attractors:
             # Simple distance-based pull modified by resonance
             dist = attractor.level - current_y
@@ -60,12 +90,18 @@ class GyroPhysicsEngine:
             else:
                 entity.gyro.y += max(-move_delta, dist) # Move Down
 
-        # 2. Apply Vortex/Spin Effects (X/Z Plane)
+        # 2. Apply Vortex/Spin Effects (X/Z Plane or other based on Intent)
         # Spin causes the entity to orbit the attractor rather than crashing into it
-        # This is visualized as movement in X/Z
-
+        # This is visualized as rotation of the orientation Rotor.
+        
         orbit_speed = entity.gyro.spin_velocity * 0.5
-        entity.gyro.orientation += orbit_speed * dt
+        
+        # Create a delta rotor for this frame (rotation in XZ plane)
+        from Core.Physics.geometric_algebra import Rotor
+        delta_rotor = Rotor.from_plane_angle('xz', orbit_speed * dt)
+        
+        # Update orientation: R_new = R_delta * R_old
+        entity.gyro.orientation = (delta_rotor * entity.gyro.orientation).normalize()
 
         # 3. Decay Spin (Entropy)
         # Deeper in W (Dream) -> Less entropy (Preservation)

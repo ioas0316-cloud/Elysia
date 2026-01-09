@@ -116,9 +116,40 @@ class EgoState:
     # Phase 17: Narrative Bridge
     memory_buffer: MemoryBuffer = field(default_factory=MemoryBuffer)
     emotions: EmotionalSpectrum = field(default_factory=EmotionalSpectrum)
+    
+    # [NEW] Axiom Adoption (Living Wisdom)
+    adopted_axioms: List[str] = field(default_factory=list)
 
 class SubjectiveEgo:
     """A sovereign personality unit, induced by archetypal tension and regional ethos."""
+    
+    def adopt_principle(self, principle_name: str, coordinates: Tuple[float, float, float, float]):
+        """
+        NPC 'digests' a principle, which permanently alters their state.
+        Coordinates from Semantic Field (W, X, Y, Z) determine the effect.
+        """
+        if principle_name in self.state.adopted_axioms:
+            return
+            
+        self.state.adopted_axioms.append(principle_name)
+        w, x, y, z = coordinates
+        
+        # 1. Wisdom (Y) increases Stability (Mental Fortitude)
+        if y > 0.5:
+            self.state.stability = min(1.0, self.state.stability + 0.2)
+            self.logger.info(f"🛡️ [ADOPTION] {self.state.name} found wisdom in '{principle_name}'. Stability improved.")
+            
+        # 2. Logic (X < 0) reduces Dissonance/Friction
+        if x < -0.5:
+            self.state.conviction = min(1.0, self.state.conviction + 0.1)
+            self.logger.info(f"🧩 [ADOPTION] {self.state.name} found logic in '{principle_name}'. Conviction improved.")
+            
+        # 3. Purpose (Z) drives Ambition/Intent
+        if z > 0.5:
+            self.state.heroic_intensity += 0.5
+            self.logger.info(f"🔥 [ADOPTION] {self.state.name} found purpose in '{principle_name}'. Heroic Intensity surged.")
+
+        self.record_memory(f"I have adopted the principle of '{principle_name}' into my core being.", intensity=2.0)
     
     def __init__(self, name: str, depth: int = 1, family_role: str = "Commoner", region: Optional[RegionalField] = None):
         import random
@@ -403,41 +434,31 @@ class SubjectiveEgo:
 
     def interact_with(self, other: 'SubjectiveEgo'):
         """Inter-subjective resonance. Influence depends on relative depth and state."""
-        self.logger.info(f"🤝 {self.state.name} is interacting with {other.state.name}.")
+        # self.logger.info(f"🤝 {self.state.name} is interacting with {other.state.name}.")
         
         # 1. Subjective Filtering
-        # If I am broken or high dissonance, I might perceive interaction negatively
-        if self.state.is_broken:
-            self.logger.info(f"🌑 {self.state.name} is too broken to truly connect with {other.state.name}.")
+        if self.state.is_broken or other.state.is_broken:
             return
 
-        # 2. Relational Resonance
-        depth_delta = other.state.septenary_depth - self.state.septenary_depth
+        # 2. Emotional Contagion (Phase 15/17)
+        # Spirits resonate and share their 'vibe'
+        vibe_transfer = 0.1
+        self.state.emotional_valence = (1 - vibe_transfer) * self.state.emotional_valence + vibe_transfer * other.state.emotional_valence
         
-        # Masters (Higher depth) can heal or inspire
-        if depth_delta > 0:
-            if other.state.heroic_intensity > 1.0:
-                grace_shared = 0.1 * depth_delta
-                self.receive_grace(grace_shared)
-                self.logger.info(f"✨ {other.state.name}'s presence provides {grace_shared:.2f} grace to {self.state.name}.")
-        
-        # Equal depth can share satisfaction/misery
-        elif depth_delta == 0:
-            avg_sat = (self.state.satisfaction + other.state.satisfaction) / 2.0
-            self.state.satisfaction = (self.state.satisfaction + avg_sat) / 2.0
-            other.state.satisfaction = (other.state.satisfaction + avg_sat) / 2.0
-            self.logger.info(f"⚖️ {self.state.name} and {other.state.name} shared their burdens. New avg satisfaction: {avg_sat:.2f}")
+        # 3. Intellectual Resonance (Axiom Bleeding)
+        # If the other has a powerful axiom, I might 'perceive' its value
+        if other.state.adopted_axioms and len(self.state.adopted_axioms) < len(other.state.adopted_axioms):
+            import random
+            if random.random() < 0.05: # Rare moment of inspiration
+                axiom = random.choice(other.state.adopted_axioms)
+                if axiom not in self.state.adopted_axioms:
+                    # We don't adopt here, we just record a memory of 'feeling' its truth
+                    self.record_memory(f"I felt a strange truth in {other.state.name}'s presence. Something about '{axiom}'...")
 
-        # 3. Trait bleeding (Memetic Resonance)
-        if random.random() < 0.2:
-            trait_to_share = "technique" if random.random() < 0.5 else "reason"
-            val = getattr(other.dna, trait_to_share)
-            my_val = getattr(self.dna, trait_to_share)
-            
-            # Move towards other's trait
-            new_val = (my_val + val) / 2.0
-            setattr(self.dna, trait_to_share, new_val)
-            self.logger.info(f"🧪 {self.state.name} has adopted some of {other.state.name}'s {trait_to_share} ({new_val:.2f}).")
+        # 4. Shared Burden (Satisfaction balancing)
+        avg_sat = (self.state.satisfaction + other.state.satisfaction) / 2.0
+        self.state.satisfaction = (self.state.satisfaction + avg_sat) / 2.0
+        other.state.satisfaction = (other.state.satisfaction + avg_sat) / 2.0
 
     def emit_authority(self, location: Tuple[float, float]) -> WillField:
         """Phase 15: Emits a WillField based on Social Physics."""

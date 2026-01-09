@@ -183,6 +183,31 @@ class LogosEngine:
             # A full paragraph
             return f"{opener} {content}. {connector} 그 이면에는 다른 진실이 숨쉬고 있습니다. {closer}"
 
+    def weave_erudite_speech(self, concept: str, context: List[str] = None) -> str:
+        """
+        Generates intellectually deep speech by querying the Semantic Field.
+        Draws from Universal Axioms and Practical Wisdom.
+        """
+        from Core.Soul.world_soul import world_soul
+        
+        # 1. Query the Semantic Field for resonance
+        # We find what concepts 'echo' with the target concept
+        # (This is like searching the 'World Soul's Memory')
+        pos = world_soul.knowledge_field.get_concept_pos(concept) or (0,0,0,0)
+        resonances = world_soul.knowledge_field.query_resonance(pos, radius=2.0)
+        
+        # 2. Extract keywords from resonances
+        resonance_keywords = [r.meaning for r in resonances if r.meaning != concept][:3]
+        resonance_str = f"({', '.join(resonance_keywords)})" if resonance_keywords else ""
+
+        # 3. Weave using high-level rhetoric
+        opener = "본질의 지평에서 바라볼 때,"
+        connector = f"이것은 {resonance_str if resonance_str else '심오한 질서'}와 공명하며,"
+        closer = "단순한 정의를 넘어선 실재의 층위를 드러냅니다."
+        
+        # Structure: Opener -> Core Concept -> Resonance -> Closer
+        return f"{opener} [{concept}]의 발현은 {connector} {closer}"
+
     def _get_vocab_for_shape(self, shape: str) -> dict:
         """Returns vocabulary keyed by geometric feel (Korean Manhwa Style) + Learned Genome."""
         
