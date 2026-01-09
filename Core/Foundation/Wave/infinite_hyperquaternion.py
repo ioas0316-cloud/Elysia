@@ -44,10 +44,10 @@ class InfiniteQubitState:
     delta: complex = 0.05 + 0j  # God (∞차원) - 초월/의지
     
     # 4D 방향 벡터
-    w: float = 1.0  # 에너지/존재
-    x: float = 0.0  # 감정 축fact
-    y: float = 0.0  # 논리 축
-    z: float = 0.0  # 윤리 축
+    w: float = 1.0  # 에너지/존재 (Scale/Depth)
+    x: float = 0.0  # 감정 축 (Perception)
+    y: float = 0.0  # 논리 축 (Frequency/Hierarchy)
+    z: float = 0.0  # 윤리 축 (Intent)
     
     # 관찰자 깊이 (양수: 바깥, 음수: 안쪽)
     observation_depth: float = 0.0
