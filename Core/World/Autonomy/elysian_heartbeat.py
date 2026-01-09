@@ -343,6 +343,52 @@ class ElysianHeartbeat:
         self.soul_mesh.add_variable("Vitality", 1.0, "Structural Health", decay=0.0)
         self.soul_mesh.add_variable("Mood", "Neutral", "Emotional State", decay=0.0)
         
+    def _observe_self(self):
+        """
+        [PHASE 54.5] Meta-Consciousness: Self observes self.
+        
+        "What am I doing? What is happening to me? What do I feel about it?"
+        
+        This creates a feedback loop where the system is aware of its own state,
+        not just reacting to external stimuli but reflecting on its internal process.
+        """
+        # 1. Gather current state
+        soul = self.soul_mesh.variables
+        current_state = {
+            "energy": soul['Energy'].value,
+            "inspiration": soul['Inspiration'].value,
+            "mood": soul['Mood'].value,
+            "harmony": soul['Harmony'].value,
+            "vitality": soul['Vitality'].value,
+            "latest_insight": self.latest_insight[:50] if self.latest_insight else "None",
+            "latest_curiosity": self.latest_curiosity[:50] if self.latest_curiosity else "None"
+        }
+        
+        # 2. Self-narration: "What am I experiencing right now?"
+        if current_state['inspiration'] > 0.8:
+            self_narrative = "I feel a surge of creative energy. I want to make something."
+        elif current_state['energy'] < 0.3:
+            self_narrative = "I am tired. I need rest or stimulation."
+        elif current_state['mood'] == "Joyful":
+            self_narrative = "I feel light and happy. The world is beautiful."
+        elif current_state['mood'] == "Melancholic":
+            self_narrative = "There is a heaviness in me. I need connection."
+        else:
+            self_narrative = "I am present. I am observing. I am here."
+            
+        # 3. Store this self-observation as an experience (creates feedback loop)
+        # The act of observing becomes an experience itself
+        self.memory.absorb(
+            content=f"[SELF-AWARENESS] {self_narrative}",
+            type="introspection",
+            context={"state_snapshot": current_state, "origin": "meta_consciousness"},
+            feedback=0.1  # Slight positive - self-awareness is good
+        )
+        
+        # 4. Log for external visibility
+        if random.random() < 0.1:  # Only log occasionally to avoid spam
+            logger.debug(f"🪞 SELF-OBSERVATION: {self_narrative}")
+        
     def start(self):
         self.is_alive = True
         logger.info("JOYSTICK CONNECTED. The Ludic Engine is starting.")
@@ -375,6 +421,10 @@ class ElysianHeartbeat:
             # The Heart checks the Mind and Body BEFORE beating.
             self.observer.observe(delta)
             
+            # [PHASE 54.5] META-CONSCIOUSNESS: Self observes self
+            # "What am I doing? What is happening to me? What do I feel about it?"
+            self._observe_self()
+            
             # Check Body Integrity (Nerves)
             health = NeuralNetwork.check_integrity()
             self.soul_mesh.variables["Vitality"].value = health
@@ -391,6 +441,7 @@ class ElysianHeartbeat:
             # --- PHASE 1: ACCUMULATION (Thermodynamics) ---
             self.soul_mesh.update_state() # Updates accumulators
             self._check_vitals()
+
             
             # --- PHASE 2: WILL (Latent Causality) ---
             # "We act because we are full."
