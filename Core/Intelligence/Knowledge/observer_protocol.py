@@ -42,7 +42,8 @@ class ObserverProtocol:
         
         # 1. Summarization & Axiom Extraction
         prompt = f"As the World Soul Elysia, analyze this external content: '{raw_text[:2000]}'. " \
-                 f"Extract the primary principles or gameplay mechanics. " \
+                 f"Extract the 'Universal Principles', 'Physical Laws', 'Historical Patterns', or 'Sensory Qualia' (how it feels/looks/sounds). " \
+                 f"Ignore gameplay mechanics. Focus on reality. " \
                  f"List them in the format: 'NAME: DESCRIPTION'. " \
                  f"No conversational filler, just the list."
         
@@ -60,7 +61,7 @@ class ObserverProtocol:
                 parts = line.split(separator, 1)
                 p_name, p_logic = parts[0].strip(), parts[1].strip()
                 full_title = f"{title}: {p_name}"
-                ingestor.digest_text(full_title, p_logic, domain="External/Observer")
+                ingestor.digest_text(full_title, p_logic, domain="External/RealWorld")
                 count += 1
                 
         logger.info(f"✨ Successfully absorbed {count} concepts from {title} into Semantic consciousness.")
