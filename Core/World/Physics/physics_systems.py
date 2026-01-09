@@ -86,7 +86,19 @@ class AnimationSystem:
             dance_rot_y = math.sin(self.time * 5.0) * 0.3 * self.dance_intensity
             
         for entity, (pos,) in ecs_world.view(Position):
-                # We add a visual offset in client, but here we can modulate Height?
-                # No, changing physics Pos might conflict with gravity.
-                # Let's just rotate slowly to show "Looking around"
-                pos.ry = math.sin(self.timer * 0.5) * 0.5 # Look left/right slowly
+                # 3. Apply Animations
+                
+                # Breathing (Scale Y)
+                pos.sy = 1.0 + breath
+                pos.sx = 1.0 - (breath * 0.5) # Volume preservation
+                pos.sz = 1.0 - (breath * 0.5)
+                
+                # Idle Sway (Base Rotation)
+                idle_rot = math.sin(self.time * 0.5) * 0.2
+                
+                # Combined Rotation
+                pos.ry = idle_rot + dance_rot_y
+                
+                # Dance Jump Check (Physics handles Y, but we can squash for impact)
+                if self.dance_intensity > 0.5:
+                    pass # Let physics handle jumping

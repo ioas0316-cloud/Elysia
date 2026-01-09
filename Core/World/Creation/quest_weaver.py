@@ -82,6 +82,15 @@ class QuestWeaver:
                       f"My soul resonates with {entropy:.2f} entropy. " \
                       f"Go forth and {verb} the {noun}."
                       
+        # [PHASE 50] Evolutionary Request Override
+        if "description_override" in qualia:
+            description = qualia["description_override"]
+            theme = "Evolution"
+            element = "Will"
+            
+        if "title_override" in qualia:
+            title = qualia["title_override"]
+
         quest = {
             "id": f"qst_{int(time.time())}",
             "title": title,
