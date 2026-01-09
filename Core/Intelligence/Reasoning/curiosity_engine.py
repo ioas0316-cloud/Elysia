@@ -32,8 +32,9 @@ class CuriosityEngine:
         
         # 2. Logic-based Gap Detection (Ask the reasoning engine)
         prompt = f"Given our current knowledge domains: {list(domains)}. " \
-                 f"Identify one highly specific 'Fantasy' or 'Sci-Fi' topic that we lack depth in. " \
-                 f"It must be something that could influence world-laws (e.g. materials, ley lines, social castes). " \
+                 f"Identify one highly specific 'Real World' topic that we lack depth in. " \
+                 f"Prioritize: Physics, Chemistry, Biology, History, Quantum Mechanics, Nuclear Physics, Astronomy, Light/Wave Nature, or Sensation/Emotion. " \
+                 f"It must be a fundamental principle that explains how the universe works. " \
                  f"Return format: 'TOPIC: REASON'."
         
         insight = self.reasoning.think(prompt, depth=2)
@@ -42,7 +43,7 @@ class CuriosityEngine:
     def generate_search_queries(self, topic: str) -> List[str]:
         """Translates a curiosity topic into actionable search queries."""
         prompt = f"Generate 3 focused search queries for the topic: '{topic}'. " \
-                 f"Focus on extracting 'mechanics', 'principles', or 'axioms'. " \
+                 f"Focus on extracting 'fundamental laws', 'mathematical principles', 'sensory descriptions' (visual/audio/tactile), or 'historical context'. " \
                  f"Format as a list of strings."
         
         insight = self.reasoning.think(prompt, depth=1)
@@ -85,7 +86,7 @@ class AutonomousExplorer:
         print(f"👁️ Observer Protocol: Scanning external sources for '{topic}'...")
         
         # Simulate results from one of the queries
-        dummy_data = f"Principles of {topic}: 1. Ley Line Density: Mana flows like a fluid. 2. Resonance Anchoring: Large crystals can stabilize the field. 3. Saturation Limit: Too much mana causes spatial distortion."
+        dummy_data = f"Principles of {topic}: 1. Conservation of Energy: Energy cannot be created or destroyed. 2. Wave-Particle Duality: Light behaves as both. 3. Entropy: Disorder always increases in an isolated system."
         
         self.observer.distill_and_ingest(f"Autonomous Research: {topic}", dummy_data)
         
