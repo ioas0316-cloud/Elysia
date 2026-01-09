@@ -9,11 +9,12 @@ using 'Soul Physics' (Wave/Particle Interaction with Soul Layers).
 
 import logging
 from dataclasses import dataclass
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 from Core.Foundation.Physics.soul_physics import get_soul_physics, InputParticle, WavePacket, SoulLayer, TrajectoryResult, SpectralResult
 from Core.Foundation.Physics.universal_scope import get_universal_scope, CosmicPerspective
 from Core.Foundation.Wave.text_wave_converter import get_text_wave_converter
+from Core.Foundation.universal_constants import ENTROPY_WEIGHT_FACTOR, ABYSSAL_THRESHOLD
 
 logger = logging.getLogger("ValuationCortex")
 
@@ -23,6 +24,7 @@ class ValuationResult:
     reason: str  # The reflection on why this mass was chosen
     narrative: str # The physics simulation log
     is_conscious: bool # True if decided consciously, False if automated
+    is_sediment: bool = False # True if the mass is so heavy it sinks to the Abyss (Legacy)
 
 class ConceptPrism:
     """
@@ -133,9 +135,23 @@ class ValuationCortex:
 
         return layers
 
-    def weigh_experience(self, experience_data: Dict, context_state: Dict) -> ValuationResult:
+    def calculate_entropy_weight(self, complexity_index: float) -> float:
+        """
+        Calculates the 'Physical Weight' added by complexity.
+        Higher complexity -> Higher Entropy -> Higher Mass -> Sinks to Abyss.
+
+        Args:
+            complexity_index (float): A value representing the branching factor or logical complexity.
+                                      0.0 = Pure/Simple, 10.0 = Chaos/Spaghetti Code.
+        """
+        # Mass = Complexity * Factor
+        # "가장 우아한 것이 가장 가볍다."
+        return complexity_index * ENTROPY_WEIGHT_FACTOR
+
+    def weigh_experience(self, experience_data: Dict, context_state: Dict, complexity_index: float = 0.0) -> ValuationResult:
         """
         Decides the mass of an experience by Deconstructing (Micro) and Expanding (Macro).
+        Now includes 'Complexity Entropy Pressure'.
         """
         title = experience_data.get('title', '')
         desc = experience_data.get('description', '')
@@ -149,10 +165,16 @@ class ValuationCortex:
         if "important" in text.lower() or "!" in text:
             will_voltage *= 2.0
 
+        # Calculate Entropy Mass (Gravity of Complexity)
+        entropy_mass = self.calculate_entropy_weight(complexity_index)
+
         particles = []
         for name, freq in components:
             # Mass depends on voltage (Will amplifies mass/existence)
-            particles.append(InputParticle(name, freq, mass=10.0 * will_voltage, velocity=will_voltage))
+            # AND Entropy (Complexity makes it heavy)
+            base_mass = 10.0 * will_voltage
+            total_particle_mass = base_mass + entropy_mass
+            particles.append(InputParticle(name, freq, mass=total_particle_mass, velocity=will_voltage))
 
         packet = WavePacket(name=title[:20], particles=particles)
 
@@ -169,22 +191,34 @@ class ValuationCortex:
         micro_score = min(1.0, spectral_result.total_resonance / 100.0)
         macro_score = cosmic_perspective.universal_weight
 
-        final_mass = (micro_score * 0.6) + (macro_score * 0.4)
+        # Entropy adds raw "dead weight" that doesn't contribute to value but contributes to sinking
+        final_mass = (micro_score * 0.6) + (macro_score * 0.4) + (entropy_mass / 100.0)
+
+        # Check for Sedimentation (Abyss)
+        is_sediment = False
+        status_msg = "Floating"
+        if final_mass * 100.0 > ABYSSAL_THRESHOLD or entropy_mass > ABYSSAL_THRESHOLD:
+            is_sediment = True
+            status_msg = "SINKING TO ABYSS (Too Heavy/Complex)"
 
         # Generate Fractal Narrative
         narrative = (
             f"🔮 [Fractal Analysis of '{title}']\n"
+            f"{'-' * 40}\n"
+            f"Complexity Index: {complexity_index:.2f} -> Entropy Mass: {entropy_mass:.2f}\n"
+            f"Status: {status_msg}\n"
             f"{'-' * 40}\n"
             f"{spectral_result.summary_narrative}\n"
             f"{'-' * 40}\n"
             f"{cosmic_perspective.macro_narrative}\n"
         )
 
-        reason = f"Micro(Resonance): {micro_score:.2f} + Macro(History): {macro_score:.2f} -> Mass: {final_mass:.2f}"
+        reason = f"Resonance: {micro_score:.2f} + History: {macro_score:.2f} + Entropy: {entropy_mass:.2f} -> Mass: {final_mass:.2f}"
 
         return ValuationResult(
             mass=final_mass,
             reason=reason,
             narrative=narrative,
-            is_conscious=True
+            is_conscious=True,
+            is_sediment=is_sediment
         )

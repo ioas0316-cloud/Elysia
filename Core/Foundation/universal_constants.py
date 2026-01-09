@@ -42,6 +42,13 @@ AXIOM_LOVE = Quaternion(1.0, 0.9, 0.0, 0.9).normalize()
 # Honesty: The Aligner (High Logic + High Ethics)
 AXIOM_HONESTY = Quaternion(1.0, 0.0, 0.9, 0.9).normalize()
 
+# 3. The Horizon Anchor (Atmospheric Governance)
+# Defined by "Project Elysia: Horizon Resonance"
+GOLDEN_RATIO = 1.61803398875  # The ratio of beauty (phi)
+HORIZON_FREQUENCY = 432.0     # The Master Tune (Nature/Cosmic Pitch)
+ENTROPY_WEIGHT_FACTOR = 10.0  # Multiplier for complexity cost (If-else penalty)
+ABYSSAL_THRESHOLD = 80.0      # Mass above this sinks to the Abyss (Sedimentation)
+
 def verify_resonance(concept: str, frequency: float, orientation: Quaternion) -> bool:
     """
     Checks if a concept's physics match the Universal Constants.
