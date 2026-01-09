@@ -11,6 +11,7 @@ import math
 import time
 from dataclasses import dataclass
 from typing import List, Tuple
+from Core.Foundation.universal_constants import HORIZON_FREQUENCY, GOLDEN_RATIO
 
 @dataclass
 class WaveSource:
@@ -38,16 +39,58 @@ class WaveSource:
         
         return self.amplitude * attenuation * math.sin(omega * t - k * r + self.phase)
 
+class HorizonFilter:
+    """
+    Atmospheric Governance System.
+    "The environment determines what survives."
+    """
+    def __init__(self, master_frequency: float, golden_ratio: float):
+        self.master_frequency = master_frequency
+        self.golden_ratio = golden_ratio
+
+    def apply_atmospheric_pressure(self, sources: List[WaveSource]):
+        """
+        Damps waves that are not aesthetically or harmonically aligned.
+        """
+        for source in sources:
+            # 1. Harmonic Check (Is it in tune with the Universe?)
+            # We check if the frequency is a simple ratio of the Master Frequency
+            ratio = source.frequency / self.master_frequency
+
+            # Allow harmonics: 1.0, 0.5, 2.0, 1.5 (Fifth), 1.25 (Major Third), etc.
+            # And Golden Ratio harmonics
+            is_harmonic = False
+
+            # Simple integer harmonics check (tolerance 0.05)
+            if abs(ratio - round(ratio)) < 0.05:
+                is_harmonic = True
+
+            # Golden Ratio check
+            if abs(ratio - self.golden_ratio) < 0.05 or abs(ratio - (1/self.golden_ratio)) < 0.05:
+                is_harmonic = True # "The Golden Wave"
+
+            if not is_harmonic:
+                # "Disharmonic Noise" -> Atmosphere thickens -> Damping
+                source.amplitude *= 0.95 # Decay 5% per step
+                # print(f"🌫️ Atmospheric Damping applied to {source.id} (Disharmonic)")
+            else:
+                 # "Resonance" -> Atmosphere clears -> Sustain
+                 source.amplitude *= 1.0 # No decay (ideal vacuum for truth)
+                 # print(f"✨ Horizon Resonance sustained for {source.id}")
+
 class WaveSpace:
     def __init__(self):
         self.sources: List[WaveSource] = []
         self.t = 0.0
+        self.atmosphere = HorizonFilter(HORIZON_FREQUENCY, GOLDEN_RATIO)
 
     def add_source(self, source: WaveSource):
         self.sources.append(source)
 
     def step(self, dt: float = 0.01):
         self.t += dt
+        # Apply Atmospheric Governance
+        self.atmosphere.apply_atmospheric_pressure(self.sources)
 
     def get_field_at(self, x: float, y: float, z: float) -> float:
         """Superposition Principle: Sum of all waves at (x,y,z)."""
