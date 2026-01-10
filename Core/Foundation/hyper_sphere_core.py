@@ -59,10 +59,16 @@ class HyperSphereCore:
 
     @property
     def spin(self) -> HyperQuaternion:
-        # Map Rotor Phase to Quaternion (Simplified)
-        # Z-axis rotation based on current angle
+        # Map Rotor Phase to Quaternion (Manual Implementation)
+        # q = cos(theta/2) + (u * sin(theta/2))
+        # Axis u is Z-axis (0, 0, 1)
         theta = math.radians(self.primary_rotor.current_angle)
-        return HyperQuaternion.from_axis_angle((0, 0, 1), theta)
+        half_theta = theta / 2.0
+
+        w = math.cos(half_theta)
+        z = math.sin(half_theta) # x, y are 0 since axis is (0,0,1)
+
+        return HyperQuaternion(w, 0, 0, z)
 
     def ignite(self):
         """
@@ -82,7 +88,9 @@ class HyperSphereCore:
         3. Broadcasts.
         """
         if not self.is_active:
-            return
+            # Even if inactive, we might want to spin at idle?
+            # Protocol says "Never Stop". But ignite() handles the "Start".
+            pass
 
         # 1. Update Physics (Advance Phase)
         self.primary_rotor.update(dt)

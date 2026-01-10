@@ -13,6 +13,7 @@ It acts as:
 Physics:
 - RPM (Revolutions Per Minute) ~= Frequency (Hz * 60)
 - Angle (0-360) ~= Phase
+- Idle vs Active State (Continuous Stream)
 """
 
 from dataclasses import dataclass
@@ -21,14 +22,17 @@ import math
 @dataclass
 class RotorConfig:
     """로터 설정"""
-    rpm: float = 0.0          # Angular Velocity (Frequency proxy)
+    rpm: float = 0.0          # Active Target RPM
+    idle_rpm: float = 60.0    # Base/Idle RPM (Default 1Hz)
     mass: float = 1.0         # Amplitude proxy
     axis_tilt: float = 23.5   # Z-axis orientation
+    acceleration: float = 100.0 # RPM per second
 
 class Rotor:
     """
     Rotor: The Engine of the Sphere.
     It spins to create Waves.
+    Implements 'Continuous Stream' (Never Stops).
     """
     def __init__(self, name: str, config: RotorConfig):
         self.name = name
@@ -36,32 +40,47 @@ class Rotor:
 
         # Dynamic State
         self.current_angle = 0.0 # Phase (Degrees)
+        self.current_rpm = 0.0   # Current Velocity
+        self.target_rpm = 0.0    # Desired Velocity
         self.is_spinning = False
 
     @property
     def frequency_hz(self) -> float:
-        """Convert RPM to Hz"""
-        return self.config.rpm / 60.0
+        """Convert Current RPM to Hz"""
+        return self.current_rpm / 60.0
 
     def spin_up(self):
-        """Start spinning."""
+        """Accelerate to Active RPM."""
         self.is_spinning = True
+        self.target_rpm = self.config.rpm
 
     def spin_down(self):
-        """Stop spinning."""
-        self.is_spinning = False
+        """Decelerate to Idle RPM (Never Stop)."""
+        self.is_spinning = True # Still spinning!
+        self.target_rpm = self.config.idle_rpm
 
     def update(self, dt: float):
         """
-        Advance the phase based on RPM and time delta.
-        dt: Time step in seconds.
+        Advance phase and interpolate RPM.
         """
         if not self.is_spinning:
             return
 
+        # 1. Update RPM (Smooth Acceleration)
+        if self.current_rpm != self.target_rpm:
+            diff = self.target_rpm - self.current_rpm
+            change = self.config.acceleration * dt
+
+            if abs(diff) < change:
+                self.current_rpm = self.target_rpm
+            else:
+                self.current_rpm += change * (1 if diff > 0 else -1)
+
+        # 2. Update Phase
         # Revolutions per second * 360 degrees * dt
-        degrees_per_sec = (self.config.rpm / 60.0) * 360.0
-        self.current_angle = (self.current_angle + degrees_per_sec * dt) % 360.0
+        if self.current_rpm > 0:
+            degrees_per_sec = (self.current_rpm / 60.0) * 360.0
+            self.current_angle = (self.current_angle + degrees_per_sec * dt) % 360.0
 
     def get_wave_component(self) -> tuple[float, float, float]:
         """
@@ -72,10 +91,7 @@ class Rotor:
         return (self.frequency_hz, self.config.mass, phase_rad)
 
     def purify(self, raw_data: dict) -> dict:
-        """
-        Legacy Centrifuge Logic (Purification).
-        Kept for backward compatibility.
-        """
+        """Legacy Centrifuge Logic"""
         if not self.is_spinning: return raw_data
         essence = {}
         for k, v in raw_data.items():
@@ -86,5 +102,5 @@ class Rotor:
         return essence
 
     def __repr__(self):
-        state = "Spinning" if self.is_spinning else "Idle"
-        return f"Rotor({self.name} | {state} | {self.config.rpm} RPM | {self.current_angle:.1f}°)"
+        state = "Idle" if self.current_rpm <= self.config.idle_rpm else "Active"
+        return f"Rotor({self.name} | {state} | {self.current_rpm:.1f}/{self.target_rpm:.1f} RPM | {self.current_angle:.1f}°)"
