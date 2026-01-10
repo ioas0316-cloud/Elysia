@@ -10,6 +10,11 @@ It unifies:
 1. Physics: Rotor System (Oscillators)
 2. Will: Conductor (Intent)
 3. Memory: Holographic Seed (Rotor Configuration)
+
+Philosophy:
+- "Make it breathe. Make it spin."
+- The Sphere is a living engine that breathes (Low RPM) when idle
+  and pulses (High RPM) when active.
 """
 
 import logging
@@ -46,7 +51,7 @@ class HyperSphereCore:
         self.is_active = False
 
         # State
-        self.current_intent = "Idle"
+        self.current_intent = "Sleep"
         logger.info(f"🔮 HyperSphereCore (Rotor Engine) Initialized: {name}")
 
     @property
@@ -72,13 +77,13 @@ class HyperSphereCore:
 
     def ignite(self):
         """
-        Starts the Rotor Engine.
+        Starts the Rotor Engine (Wakes up).
         """
         self.is_active = True
         self.primary_rotor.spin_up()
         for r in self.harmonic_rotors.values():
             r.spin_up()
-        logger.info("🔥 HyperSphereCore Ignited. Rotors are spinning.")
+        logger.info("🔥 HyperSphereCore Ignited. Rotors are spinning (Awake).")
 
     def pulse(self, intent_payload: Dict[str, Any], dt: float = 1.0):
         """
@@ -88,11 +93,12 @@ class HyperSphereCore:
         3. Broadcasts.
         """
         if not self.is_active:
-            # Even if inactive, we might want to spin at idle?
-            # Protocol says "Never Stop". But ignite() handles the "Start".
+            # In a real system, we'd call update() here too to ensure "Breathing"
+            # even if 'ignite' hasn't been called fully.
+            # But ignite() sets is_active=True, so this block handles "Off" state.
             pass
 
-        # 1. Update Physics (Advance Phase)
+        # 1. Update Physics (Advance Phase & Breath)
         self.primary_rotor.update(dt)
         harmonics_snapshot = {}
 

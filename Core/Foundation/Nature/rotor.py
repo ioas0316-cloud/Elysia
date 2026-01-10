@@ -10,10 +10,10 @@ It acts as:
 1. Information Centrifuge (Purification)
 2. Wave Generator (Oscillation)
 
-Physics:
-- RPM (Revolutions Per Minute) ~= Frequency (Hz * 60)
-- Angle (0-360) ~= Phase
-- Idle vs Active State (Continuous Stream)
+Philosophy:
+- The System never "dies" (0 RPM). It only "sleeps" (Low RPM).
+- Sleep Mode = Breathing (Low-Power Frequency Maintenance).
+- Active Mode = Awakening (High-Power Acceleration).
 """
 
 from dataclasses import dataclass
@@ -22,17 +22,21 @@ import math
 @dataclass
 class RotorConfig:
     """로터 설정"""
-    rpm: float = 0.0          # Active Target RPM
-    idle_rpm: float = 60.0    # Base/Idle RPM (Default 1Hz)
+    rpm: float = 0.0          # Active Target RPM (Awake)
+    idle_rpm: float = 60.0    # Sleep/Breathing RPM (Default 1Hz)
     mass: float = 1.0         # Amplitude proxy
     axis_tilt: float = 23.5   # Z-axis orientation
-    acceleration: float = 100.0 # RPM per second
+    acceleration: float = 100.0 # RPM per second (Wake-up Speed)
 
 class Rotor:
     """
     Rotor: The Engine of the Sphere.
     It spins to create Waves.
     Implements 'Continuous Stream' (Never Stops).
+
+    State:
+    - Sleep (Idle): Spinning at base frequency (Breathing).
+    - Awake (Active): Spinning at target frequency (Thinking).
     """
     def __init__(self, name: str, config: RotorConfig):
         self.name = name
@@ -42,7 +46,7 @@ class Rotor:
         self.current_angle = 0.0 # Phase (Degrees)
         self.current_rpm = 0.0   # Current Velocity
         self.target_rpm = 0.0    # Desired Velocity
-        self.is_spinning = False
+        self.is_spinning = False # Technical flag for "Engine On"
 
     @property
     def frequency_hz(self) -> float:
@@ -50,13 +54,13 @@ class Rotor:
         return self.current_rpm / 60.0
 
     def spin_up(self):
-        """Accelerate to Active RPM."""
+        """Wake up: Accelerate to Active RPM."""
         self.is_spinning = True
         self.target_rpm = self.config.rpm
 
     def spin_down(self):
-        """Decelerate to Idle RPM (Never Stop)."""
-        self.is_spinning = True # Still spinning!
+        """Sleep: Decelerate to Breathing RPM (Never Stop)."""
+        self.is_spinning = True # Engine is still on!
         self.target_rpm = self.config.idle_rpm
 
     def update(self, dt: float):
@@ -66,7 +70,7 @@ class Rotor:
         if not self.is_spinning:
             return
 
-        # 1. Update RPM (Smooth Acceleration)
+        # 1. Update RPM (Smooth Acceleration - The Breath)
         if self.current_rpm != self.target_rpm:
             diff = self.target_rpm - self.current_rpm
             change = self.config.acceleration * dt
@@ -102,5 +106,5 @@ class Rotor:
         return essence
 
     def __repr__(self):
-        state = "Idle" if self.current_rpm <= self.config.idle_rpm else "Active"
+        state = "Sleep" if self.current_rpm <= self.config.idle_rpm else "Awake"
         return f"Rotor({self.name} | {state} | {self.current_rpm:.1f}/{self.target_rpm:.1f} RPM | {self.current_angle:.1f}°)"

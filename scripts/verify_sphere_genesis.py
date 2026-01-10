@@ -13,7 +13,7 @@ from Core.Intelligence.Topography.knowledge_tesseract import KnowledgeTesseract
 from Core.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
 
 def run_genesis_simulation():
-    print("\n🔮 [PROTOCOL: HYPER-COSMOS REALIGNMENT] Verification Started (Rotor Edition)...\n")
+    print("\n🔮 [PROTOCOL: HYPER-COSMOS REALIGNMENT] Verification Started (Breathing Rotor Edition)...\n")
 
     # 1. Initialize
     core = HyperSphereCore(name="Elysia.Genesis", base_frequency=1.0) # 1 Hz = 60 RPM for easier debug
@@ -32,8 +32,8 @@ def run_genesis_simulation():
     for concept, freq in knowledge_map.items():
         core.update_seed(concept, freq)
 
-    # 3. Ignite
-    print("\n3. Igniting Rotors...")
+    # 3. Ignite (Wake Up)
+    print("\n3. Igniting Rotors (Waking Up)...")
     core.ignite()
 
     # Check Initial State
@@ -66,15 +66,15 @@ def run_genesis_simulation():
     print("\n5. Verifying Projection from Spinning Core...")
 
     # Construct Reality Wave
+    # Changed PulseType.DATA (Invalid) to PulseType.SENSORY (Valid)
     reality_wave = WavePacket(
         sender="User.Input",
-        type=PulseType.DATA,
+        type=PulseType.SENSORY,
         frequency=2.0, # Matches Love
         payload={"text": "Check Love"}
     )
 
-    # Manually create packet from current Core state (normally done in pulse broadcast)
-    # But pulse() broadcasts to protocol, here we manually feed engine for test
+    # Manually create packet from current Core state
     core_wave = WavePacket(
         sender=core.name,
         type=PulseType.CREATION,
@@ -96,7 +96,7 @@ def run_genesis_simulation():
     else:
         print("   ❌ Resonance Failed.")
 
-    print("\n✨ SPHERE-FIRST ARCHITECTURE (ROTOR POWERED) VERIFIED.")
+    print("\n✨ SPHERE-FIRST ARCHITECTURE (BREATHING ROTOR) VERIFIED.")
 
 if __name__ == "__main__":
     run_genesis_simulation()
