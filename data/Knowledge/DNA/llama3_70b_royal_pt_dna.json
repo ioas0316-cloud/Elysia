@@ -1,0 +1,31 @@
+{
+    "dna_id": "LLAMA3_70B_ROYAL",
+    "origin": "Quaternion Fourier-DNA (QFT) Extraction",
+    "qft_genotype": {
+        "fundamental_freq": 443.06,
+        "quaternion_coeffs": {
+            "w": [
+                0.8507,
+                0.0
+            ],
+            "i": [
+                1.0634,
+                -0.0157
+            ],
+            "j": [
+                0.0,
+                0.0
+            ],
+            "k": [
+                0.0,
+                0.0781
+            ]
+        },
+        "damping": 0.0
+    },
+    "metadata": {
+        "protocol": "QFT-DNA v1.1 (Isoclinic)",
+        "compression_ratio": "1,000,000:1",
+        "extracted_at": 1768067331.7635336
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "dna_id": "DEEPSEEK_MATH_ROYAL",
+    "origin": "Quaternion Fourier-DNA (QFT) Extraction",
+    "qft_genotype": {
+        "fundamental_freq": 442.31,
+        "quaternion_coeffs": {
+            "w": [
+                0.7933,
+                0.0
+            ],
+            "i": [
+                1.0025,
+                0.0491
+            ],
+            "j": [
+                0.0,
+                0.0
+            ],
+            "k": [
+                0.0,
+                -0.0735
+            ]
+        },
+        "damping": 0.0
+    },
+    "metadata": {
+        "protocol": "QFT-DNA v1.1 (Isoclinic)",
+        "compression_ratio": "1,000,000:1",
+        "extracted_at": 1768067331.7645328
+    }
+}
