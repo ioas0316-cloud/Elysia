@@ -3,7 +3,8 @@ import os
 import sys
 import logging
 import traceback
-from typing import Dict, Any, Optional
+import random
+from typing import Dict, Any, Optional, List, Tuple
 
 logger = logging.getLogger("OrganelleLoader")
 
@@ -69,6 +70,47 @@ class OrganelleLoader:
 
     def list_available(self) -> list:
         return [f.replace(".py", "") for f in os.listdir(self.organelle_dir) if f.endswith(".py")]
+
+    # ═══════════════════════════════════════════════════════════════════
+    # [GRAND UNIFICATION] RESONANT SELECTION
+    # ═══════════════════════════════════════════════════════════════════
+
+    def get_resonant_organelle(self, target_frequency: float) -> Optional[str]:
+        """
+        [PHASE 64] Selects the organelle that best resonates with the target frequency.
+        """
+        available = self.list_available()
+        if not available: return None
+        
+        # In a full system, organelles would have metadata (tags/frequencies).
+        # For now, we'll map names to themes if possible, or use a fuzzy match.
+        from Core.Foundation.Wave.concept_mapping import THEME_FREQUENCY_MAP, Theme
+        
+        scores = []
+        for name in available:
+            # Heuristic: Try to find a theme name within the organelle filename
+            organelle_freq = 432.0 # Default
+            for theme, freq in THEME_FREQUENCY_MAP.items():
+                if theme.value in name.lower():
+                    organelle_freq = freq
+                    break
+            
+            # Resonance = 1 / (1 + abs(diff) / 100)
+            diff = abs(target_frequency - organelle_freq)
+            resonance = 1.0 / (1.0 + diff / 100.0)
+            
+            # Add a bit of randomness for "True Choice"
+            resonance += random.uniform(0.0, 0.1)
+            
+            scores.append((name, resonance))
+            
+        # Sort by resonance
+        scores.sort(key=lambda x: x[1], reverse=True)
+        
+        logger.info(f"🎯 [RESONANCE SELECTION] '{scores[0][0]}' won with {scores[0][1]*100:.1f}% resonance.")
+        return scores[0][0]
+
+    # ═══════════════════════════════════════════════════════════════════
 
 # Singleton
 organelle_loader = OrganelleLoader()

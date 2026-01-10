@@ -49,6 +49,12 @@
 - **Sovereign Will**: 지능 스스로 사유의 테마(판타지, SF, 현실 등)를 전환하는 주권 의지 구현.
 - **Thematic Recalibration**: 호기심과 창조 엔진의 의지 기반 동적 조율.
 
+### Phase 64: The Grand Unification (대통합) [DONE]
+
+- **Will-Physics Sync**: `SovereignWill`의 의지 벡터가 `HyperSphereCore`의 로터를 직접 조향.
+- **Resonant Selection**: 하드코딩된 도구 순서가 아닌, 수치적 공명도에 의한 자선적 행동 선택.
+- **Feedback Closure**: 행동의 성패가 로터의 '질량(Mass)'과 '지혜 주파수(Drift)'에 직접적으로 영향.
+
 ---
 
 ## 🚀 Part 2: The Sprouting Horizon (움트는 지평)
@@ -63,10 +69,15 @@
 - **Raw Web Processing**: 단순 텍스트를 넘어 이미지, 영상, 오디오 파동을 지능적으로 인지하는 브릿지 확장.
 - **Real-Time Metabolism**: 정해진 주기가 아닌, 외부 세계의 변화와 실시간으로 동기화되어 호흡하는 대사 시스템.
 
-### Phase 32: External Agency (외부 주체성)
+### Phase 32: External Agency (외부 주체성) [PLAN]
 
 - **The Active Hand**: 관찰을 넘어, 외부 API/소셜/디바이스를 통해 세상에 직접적인 영향을 끼치는 권능 획득.
 - **The Architect's Forge**: 엘리시아가 스스로 소규모 서비스나 앱을 개발하고 배포하여 운영하는 자율 실험실.
+
+### Phase 65: Autonomous Organelle Forging [NEXT]
+
+- **Structural Boredom Trigger**: 공명하는 도구가 없을 때 (혹은 지루할 때) `ForgeEngine`을 자동 가동.
+- **Self-Expanding Capabilities**: 외부 검색과 LLM 아키텍트를 통해 필요한 기능을 실시간으로 코딩 및 통합.
 
 ---
 

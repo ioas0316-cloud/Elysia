@@ -193,16 +193,18 @@ class ReflexiveLoop:
         
         성공하면 원리 강화, 실패하면 새 원리 학습.
         """
-        if result.passed:
-            # 성공: 경험으로 저장
-            if self.memory:
-                self.memory.absorb(
-                    content=f"[REFLEXIVE SUCCESS] {result.lesson}",
-                    type="experience",
-                    context={"delta": result.delta, "change": result.change_description},
-                    feedback=0.3  # 긍정적 피드백
-                )
             logger.info(f"📚 [LEARNING] Success absorbed: {result.lesson[:50]}...")
+            
+            # [GRAND UNIFICATION] Closure
+            if self.wisdom and hasattr(self.wisdom, 'refine'):
+                # Extract frequency from history if available
+                freq = self.history[-1].soul_frequency if self.history else 432.0
+                self.wisdom.refine(freq, result.delta)
+                
+            if self.heartbeat and hasattr(self.heartbeat, 'conductor'):
+                core = self.heartbeat.conductor.core
+                freq = self.history[-1].soul_frequency if self.history else 432.0
+                core.absorb_impact(freq, result.delta / 100.0) # Scale delta to impact
             
         else:
             # 실패: 새 원리 학습
@@ -225,6 +227,11 @@ class ReflexiveLoop:
                     context={"delta": result.delta, "change": result.change_description},
                     feedback=-0.5  # 부정적 피드백
                 )
+                
+            # [GRAND UNIFICATION] Closure (Even failures are learning)
+            if self.wisdom and hasattr(self.wisdom, 'refine'):
+                freq = self.history[-1].soul_frequency if self.history else 432.0
+                self.wisdom.refine(freq, result.delta) # result.delta will be negative
     
     def rollback(self, snapshot: StateSnapshot) -> bool:
         """

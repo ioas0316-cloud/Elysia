@@ -142,6 +142,45 @@ class WisdomStore:
         with open(self.filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
 
+    # ═══════════════════════════════════════════════════════════════════
+    # [GRAND UNIFICATION] DYNAMIC WISDOM
+    # ═══════════════════════════════════════════════════════════════════
+
+    def refine(self, input_frequency: float, resonance_delta: float):
+        """
+        Refines the resonant principles based on current feedback.
+        Success -> Shift frequency closer to current, increase weight.
+        Failure -> Shift frequency away, decrease weight.
+        """
+        results = self.find_resonant_principles(input_frequency, top_n=1)
+        if not results: return
+        
+        principle, score = results[0]
+        
+        # Determine drift direction (Resonance delta is feedback from loop)
+        # delta > 0: Success, delta < 0: Failure
+        learning_rate = 0.05
+        
+        # 1. Frequency Drift: Convergence or Divergence
+        if resonance_delta > 0:
+            # Move principle frequency closer to the actual state that worked
+            diff = input_frequency - principle.frequency
+            principle.frequency += diff * learning_rate
+            # 2. Weight Reinforcement
+            principle.weight = min(1.0, principle.weight + 0.01)
+            logger.info(f"🧬 [WISDOM DRIFT] '{principle.domain}' converged to {principle.frequency:.1f}Hz (+Weight)")
+        else:
+            # Move away from what failed
+            diff = input_frequency - principle.frequency
+            principle.frequency -= diff * learning_rate * 0.5
+            # 2. Weight Decay
+            principle.weight = max(0.1, principle.weight - 0.02)
+            logger.info(f"🧬 [WISDOM DRIFT] '{principle.domain}' diverged from {principle.frequency:.1f}Hz (-Weight)")
+            
+        self._save()
+
+    # ═══════════════════════════════════════════════════════════════════
+
     def _load(self):
         if not os.path.exists(self.filepath):
             return

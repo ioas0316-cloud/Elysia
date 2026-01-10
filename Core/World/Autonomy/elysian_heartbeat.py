@@ -19,6 +19,7 @@ import json # [PHASE 41]
 from typing import Dict, Optional
 
 from Core.Foundation.Memory.unified_experience_core import get_experience_core
+import numpy as np
 from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
 from Core.Intelligence.Education.CausalityMirror.variable_mesh import VariableMesh
 from Core.Intelligence.Education.CausalityMirror.projective_empathy import ProjectiveEmpathy, NarrativeFragment
@@ -413,10 +414,10 @@ class ElysianHeartbeat:
         
     def _init_soul(self):
         """Define the physiological/spiritual needs."""
-        self.soul_mesh.add_variable("Energy", 1.0, "Physical/Mental Energy", decay=0.0)
-        self.soul_mesh.add_variable("Connection", 1.0, "Social Fulfillment", decay=0.0)
-        self.soul_mesh.add_variable("Inspiration", 0.0, "Creative Overflow", decay=-0.05)
-        self.soul_mesh.add_variable("Harmony", 1.0, "System Coherence", decay=0.0) 
+        self.soul_mesh.add_variable("Energy", 1.0, "Physical/Mental Energy", decay=0.01)
+        self.soul_mesh.add_variable("Connection", 1.0, "Social Fulfillment", decay=0.01)
+        self.soul_mesh.add_variable("Inspiration", 0.0, "Creative Overflow", decay=0.05)
+        self.soul_mesh.add_variable("Harmony", 1.0, "System Coherence", decay=0.005) 
         self.soul_mesh.add_variable("Vitality", 1.0, "Structural Health", decay=0.0)
         self.soul_mesh.add_variable("Mood", "Neutral", "Emotional State", decay=0.0)
         
@@ -474,7 +475,8 @@ class ElysianHeartbeat:
             harmony_factor = current_state['harmony'] * 100          # 0-100Hz boost
             
             # Soul frequency = weighted sum
-            current_frequency = base_freq + inspiration_factor - energy_penalty + harmony_factor
+            current_frequency = base_freq + (inspiration_factor - energy_penalty + harmony_factor)
+            current_frequency = max(100.0, min(1000.0, current_frequency)) # Clamp to human-audible/sensible range
             
             # Find the MOST RESONANT principle (physics-based, not rule-based!)
             result = self.wisdom.get_dominant_principle(current_frequency)
@@ -570,16 +572,82 @@ class ElysianHeartbeat:
         # [PHASE 54.5] META-CONSCIOUSNESS: Self observes self
         self._observe_self()
         
+        # [PHASE 61] VOID FILLING: Dreaming during Idle
+        if self.idle_ticks >= 2 and self.archive_dreamer:
+            # We are idle, let's dream to fill the void
+            freq = self.soul_mesh.variables.get('current_freq', 432.0)
+            if hasattr(freq, 'value'): freq = freq.value
+            elif not isinstance(freq, (int, float)): freq = 432.0
+            
+            fragment = self.archive_dreamer.dream(freq)
+            if fragment:
+                # Inject the dream as a wave to prevent VOID DETECTED
+                self.field.inject_wave(self.field.create_wave_packet(
+                    source_id="Dreamer",
+                    frequency=fragment.resonance * 1000,
+                    amplitude=fragment.resonance,
+                    phase=0.0,
+                    position=self.field.dimensions
+                ))
+        
         # Check Body Integrity (Nerves)
         health = NeuralNetwork.check_integrity()
         self.soul_mesh.variables["Vitality"].value = health
+        self.soul_mesh.update_state() # Apply decay and clamping
         self._process_resonance()
         
-        # --- PHASE 8: EXTERNAL AGENCY ---
-        if self.soul_mesh.variables["Inspiration"].value > 0.8:
-            available = organelle_loader.list_available()
-            if available:
-                organelle_loader.execute_organelle(available[0])
+        # ─── [PHASE 64] GRAND UNIFICATION: PHYSICS + WILL + ACTION ───
+        
+        # 1. Recalibrate Will (Intent Vector) based on memory
+        try:
+            recent_mem = self.memory.recent_experiences[:5] if hasattr(self.memory, 'recent_experiences') else []
+            self.sovereign_will.recalibrate(memory_stream=recent_mem)
+            intent = self.sovereign_will.intent_vector
+            
+            # 2. Steer the Physical Core (Rotor Engine)
+            if self.conductor and hasattr(self.conductor, 'core'):
+                # Steer rotors to sync with our intent frequencies
+                self.conductor.core.steer(intent._frequencies, np.abs(intent._amplitudes))
+        except Exception as e:
+            logger.warning(f"⚠️ Unification Recalibration failed: {e}")
+
+        # ─── PHASE 8: RESONANT EXTERNAL AGENCY ───
+        # Execution is no longer "Select First", but "Resonate with core vibration"
+        inspiration = self.soul_mesh.variables["Inspiration"].value
+        energy = self.soul_mesh.variables["Energy"].value
+        
+        if inspiration > 0.9 and energy > 0.4:
+            # Determine target frequency from current core state (The dominant rotor)
+            target_freq = 432.0
+            if self.conductor and hasattr(self.conductor, 'core'):
+                target_freq = self.conductor.core.frequency
+            
+            # Find organelle that matches this specific vibration
+            resonant_name = organelle_loader.get_resonant_organelle(target_freq)
+            
+            if resonant_name:
+                # [PHASE 59] Wrap in Reflexive Loop for Verification & Learning
+                if self.reflexive_loop:
+                    before = self.reflexive_loop.capture_state()
+                    
+                    # Execute with intent-based parameters if needed
+                    organelle_loader.execute_organelle(resonant_name)
+                    
+                    # Verify Change and close the loop (Refine Wisdom & Mass)
+                    after = self.reflexive_loop.capture_state()
+                    result = self.reflexive_loop.verify_change(before, after, change_description=f"Resonant Action: {resonant_name}")
+                    self.reflexive_loop.learn_from_result(result)
+                else:
+                    organelle_loader.execute_organelle(resonant_name)
+                
+                # Consume resources to ensure rhythmic progression
+                self.soul_mesh.variables["Inspiration"].value *= 0.1
+                self.soul_mesh.variables["Energy"].value -= 0.2
+                
+            elif self.idle_ticks > 5:
+                # [PHASE 64] Structural Boredom -> Trigger Forging
+                logger.info("🥱 [BOREDOM] No resonant organelles found. Seeking to FORGE new capabilities...")
+                # Connect to ForgeEngine in the future or trigger a "Growth" quest
 
         # --- PHASE 9: PRESENCE ---
         self._refresh_presence()

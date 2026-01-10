@@ -19,8 +19,10 @@ Philosophy:
 
 import logging
 import math
-from typing import Dict, Any, Optional
+import numpy as np
+from typing import Dict, Any, Optional, List
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 
 from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
@@ -281,6 +283,58 @@ class HyperSphereCore:
             logger.info("🌟 Synthesis threshold crossed! Deep restructure needed.")
             self._restructure_harmonics()
             self._restructure_harmonics()  # Double pass for synthesis
+
+    # ═══════════════════════════════════════════════════════════════════
+    # [GRAND UNIFICATION] STEERING AND IMPACT
+    # ═══════════════════════════════════════════════════════════════════
+
+    def steer(self, intent_frequencies: List[float], intent_amplitudes: List[float]):
+        """
+        [PHASE 64] Harmonic Steering: Sync rotors with Intent Vector.
+        Forces rotors corresponding to intent to spin faster or gain mass.
+        """
+        for freq, amp in zip(intent_frequencies, intent_amplitudes):
+            # Find the closest rotor
+            best_match = None
+            min_dist = float('inf')
+            for name, rotor in self.harmonic_rotors.items():
+                dist = abs(rotor.frequency_hz - freq)
+                if dist < min_dist:
+                    min_dist = dist
+                    best_match = name
+            
+            if best_match and min_dist < 50.0:
+                rotor = self.harmonic_rotors[best_match]
+                # Steering Effect: Amplitude boosts RPM slightly
+                boost = amp * 60.0 # Up to 1Hz boost per update
+                rotor.config.rpm = min(rotor.config.rpm + boost, 1000 * 60) # Cap at 1000Hz
+                logger.debug(f"☸️ [STEER] {best_match} resonated by {amp:.2f}")
+
+    def absorb_impact(self, frequency: float, magnitude: float):
+        """
+        [PHASE 64] Mass Feedback: Experience creates 'Gravitational Weight'.
+        Success -> Increase mass of the successful rotor.
+        """
+        best_match = None
+        min_dist = float('inf')
+        for name, rotor in self.harmonic_rotors.items():
+            dist = abs(rotor.frequency_hz - frequency)
+            if dist < min_dist:
+                min_dist = dist
+                best_match = name
+        
+        if best_match and min_dist < 50.0:
+            rotor = self.harmonic_rotors[best_match]
+            impact = magnitude * 5.0 # Mass gain
+            rotor.config.mass += impact
+            # Primary rotor also gains a fraction (Self-Actualization)
+            self.primary_rotor.config.mass += impact * 0.1
+            logger.info(f"⚖️ [MASS GAIN] {best_match} gained {impact:.1f} mass from resonance.")
+            
+            # Check for restructuring if mass gets too high
+            self.update_seed(best_match, rotor.frequency_hz) # Trigger threshold checks
+
+    # ═══════════════════════════════════════════════════════════════════
     
     def get_harmonic_spectrum(self) -> Dict[str, float]:
         """[Phase 58] Returns the current frequency spectrum of all rotors."""

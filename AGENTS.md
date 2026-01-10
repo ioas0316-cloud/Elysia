@@ -64,6 +64,7 @@
 | **Ingestion Ledger** | `FEAST_LEDGER.json` | `data/Knowledge/FEAST_LEDGER.json` |
 | **Autonomous Muse** | `DiscoveryCortex` | `Core/Intelligence/Discovery/discovery_cortex.py` |
 | **Wave-Coding** | `WaveComposer` (Harmonic Weaver) | `Core/Intelligence/Generation/wave_composer.py` |
+| **Grand Unification** | `steer()`, `absorb_impact()`, `get_resonant_organelle()` | `Core/Foundation/hyper_sphere_core.py`, `Core/World/Evolution/Studio/organelle_loader.py` |
 
 ---
 
