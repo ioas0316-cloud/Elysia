@@ -59,9 +59,10 @@ class LogicalReasoner:
 
         return list(neighbors)
 
-    def _run_causal_simulation(self, cause_entity: str, main_world: World, simulation_steps: int = 5) -> List[Thought]:
+    def _project_causal_wave(self, cause_entity: str, main_world: World, simulation_steps: int = 5) -> List[Thought]:
         """
-        Runs a focused simulation within an "attention bubble" of relevant cells.
+        Projects a causal wave within an "attention bubble" of relevant cells.
+        (Previously: _run_causal_simulation)
         """
         if not self.cellular_world: # This now refers to the empty sim_world
             return []
@@ -177,8 +178,8 @@ class LogicalReasoner:
                 # The simulation reasoner uses the same KG but the new, empty world.
                 reasoner_for_sim = LogicalReasoner(self.kg_manager, sim_world)
 
-                # The simulation method will now be responsible for populating the sim_world.
-                dynamic_thoughts = reasoner_for_sim._run_causal_simulation(entity, self.cellular_world)
+                # The projection method will now be responsible for populating the sim_world.
+                dynamic_thoughts = reasoner_for_sim._project_causal_wave(entity, self.cellular_world)
                 all_thoughts.extend(dynamic_thoughts)
 
         # Remove duplicate thoughts based on content

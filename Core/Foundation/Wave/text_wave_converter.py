@@ -18,6 +18,8 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Optional
 import numpy as np
 
+from Core.Foundation.Wave.wave_tensor import WaveTensor
+
 logger = logging.getLogger("TextWaveConverter")
 
 # Semantic frequency bands (의미적 주파수 대역)
@@ -51,72 +53,6 @@ SEMANTIC_BANDS = {
 }
 
 
-@dataclass
-class WordWave:
-    """
-    A word represented as a wave.
-    
-    Attributes:
-        word: The original word
-        frequency: Primary frequency (Hz)
-        amplitude: Intensity (0.0-1.0)
-        phase: Phase offset (radians)
-        harmonics: Additional harmonic frequencies
-    """
-    word: str
-    frequency: float
-    amplitude: float = 1.0
-    phase: float = 0.0
-    harmonics: List[float] = field(default_factory=list)
-    
-    def to_signal(self, t: np.ndarray) -> np.ndarray:
-        """
-        Convert to time-domain signal.
-        
-        Args:
-            t: Time array (seconds)
-            
-        Returns:
-            Signal array
-        """
-        signal = self.amplitude * np.sin(2 * np.pi * self.frequency * t + self.phase)
-        
-        # Add harmonics with decreasing amplitude
-        for i, harmonic in enumerate(self.harmonics):
-            harm_amp = self.amplitude / (i + 2)
-            signal += harm_amp * np.sin(2 * np.pi * harmonic * t + self.phase)
-        
-        return signal
-
-
-@dataclass
-class SentenceWave:
-    """
-    A sentence as superposed word waves.
-    
-    "문장은 단어 파동의 중첩이다"
-    """
-    text: str
-    word_waves: List[WordWave] = field(default_factory=list)
-    total_energy: float = 0.0
-    dominant_frequency: float = 0.0
-    coherence: float = 0.0  # How well waves align
-    
-    def to_signal(self, duration: float = 1.0, sample_rate: int = 44100) -> np.ndarray:
-        """
-        Generate combined signal from all word waves.
-        """
-        t = np.linspace(0, duration, int(duration * sample_rate))
-        signal = np.zeros_like(t)
-        
-        for word_wave in self.word_waves:
-            signal += word_wave.to_signal(t)
-        
-        # Normalize
-        if np.max(np.abs(signal)) > 0:
-            signal = signal / np.max(np.abs(signal))
-        
-        return signal
 
 
 class TextWaveConverter:
@@ -133,7 +69,7 @@ class TextWaveConverter:
     
     def __init__(self):
         self.semantic_bands = SEMANTIC_BANDS.copy()
-        self.word_cache: Dict[str, WordWave] = {}
+        self.word_cache: Dict[str, WaveTensor] = {}
         
         # GlobalHub integration
         self._hub = None
@@ -152,9 +88,9 @@ class TextWaveConverter:
         
         logger.info("🌊 TextWaveConverter initialized")
     
-    def word_to_wave(self, word: str) -> WordWave:
+    def word_to_wave(self, word: str) -> WaveTensor:
         """
-        Convert a single word to a wave.
+        Convert a single word to a WaveTensor.
         
         Strategy:
         1. Check semantic bands for known words
@@ -165,7 +101,7 @@ class TextWaveConverter:
             word: The word to convert
             
         Returns:
-            WordWave representation
+            WaveTensor representation
         """
         word_lower = word.lower().strip()
         
@@ -189,16 +125,17 @@ class TextWaveConverter:
         # Generate harmonics based on syllables (approximated)
         harmonics = self._generate_harmonics(word_lower, freq)
         
-        wave = WordWave(
-            word=word,
-            frequency=freq,
-            amplitude=amplitude,
-            phase=phase,
-            harmonics=harmonics
-        )
+        # Create WaveTensor
+        wt = WaveTensor(f"Word('{word}')")
+        wt.add_component(freq, amplitude, phase)
         
-        self.word_cache[word_lower] = wave
-        return wave
+        # Add harmonics
+        for i, h_freq in enumerate(harmonics):
+            h_amp = amplitude / (i + 2)
+            wt.add_component(h_freq, h_amp, phase)
+
+        self.word_cache[word_lower] = wt
+        return wt
     
     def _compute_frequency(self, word: str) -> float:
         """
@@ -251,9 +188,9 @@ class TextWaveConverter:
         
         return harmonics
     
-    def sentence_to_wave(self, sentence: str) -> SentenceWave:
+    def sentence_to_wave(self, sentence: str) -> WaveTensor:
         """
-        Convert a sentence to a superposed wave.
+        Convert a sentence to a superposed WaveTensor.
         
         "문장은 의미의 간섭 패턴이다"
         
@@ -261,39 +198,24 @@ class TextWaveConverter:
             sentence: The sentence to convert
             
         Returns:
-            SentenceWave with all word waves
+            WaveTensor: The superposition of all word waves
         """
         # Tokenize (simple split, could use better tokenization)
         words = [w for w in sentence.split() if w.strip()]
         
-        word_waves = [self.word_to_wave(word) for word in words]
+        if not words:
+            return WaveTensor(f"EmptySentence")
+
+        # Start with the first word
+        result_wave = self.word_to_wave(words[0])
         
-        if not word_waves:
-            return SentenceWave(text=sentence)
-        
-        # Calculate total energy
-        total_energy = sum(w.amplitude ** 2 for w in word_waves)
-        
-        # Find dominant frequency (weighted by amplitude)
-        weighted_sum = sum(w.frequency * w.amplitude for w in word_waves)
-        amplitude_sum = sum(w.amplitude for w in word_waves)
-        dominant_freq = weighted_sum / amplitude_sum if amplitude_sum > 0 else 432.0
-        
-        # Calculate coherence (how aligned are the phases?)
-        phases = [w.phase for w in word_waves]
-        if len(phases) > 1:
-            phase_variance = np.var(phases)
-            coherence = math.exp(-phase_variance / (math.pi ** 2))
-        else:
-            coherence = 1.0
-        
-        return SentenceWave(
-            text=sentence,
-            word_waves=word_waves,
-            total_energy=total_energy,
-            dominant_frequency=dominant_freq,
-            coherence=coherence
-        )
+        # Superpose the rest
+        for i in range(1, len(words)):
+            next_wave = self.word_to_wave(words[i])
+            result_wave = result_wave.superpose(next_wave)
+
+        result_wave.name = f"Sentence('{sentence[:20]}...')"
+        return result_wave
     
     def add_semantic_mapping(self, word: str, frequency: float):
         """
@@ -308,67 +230,51 @@ class TextWaveConverter:
         if word.lower() in self.word_cache:
             del self.word_cache[word.lower()]
     
-    def compute_resonance(self, wave1: SentenceWave, wave2: SentenceWave) -> float:
+    def compute_resonance(self, wave1: WaveTensor, wave2: WaveTensor) -> float:
         """
-        Compute resonance between two sentence waves.
+        Compute resonance between two WaveTensors.
         
-        공명 = 주파수 근접성 × 위상 정렬
-        
-        Returns:
-            Resonance score (0.0 to 1.0)
+        Delegates to WaveTensor.resonance()
         """
-        # Frequency proximity
-        freq_diff = abs(wave1.dominant_frequency - wave2.dominant_frequency)
-        freq_resonance = math.exp(-freq_diff / 200)  # 200 Hz half-width
-        
-        # Energy alignment
-        energy_ratio = min(wave1.total_energy, wave2.total_energy) / \
-                       max(wave1.total_energy, wave2.total_energy) if max(wave1.total_energy, wave2.total_energy) > 0 else 0
-        
-        # Combined coherence
-        combined_coherence = (wave1.coherence + wave2.coherence) / 2
-        
-        return freq_resonance * 0.5 + energy_ratio * 0.3 + combined_coherence * 0.2
+        return wave1.resonance(wave2)
     
-    def wave_to_text_descriptor(self, wave: SentenceWave) -> Dict:
+    def wave_to_text_descriptor(self, wave: WaveTensor) -> Dict:
         """
         Generate a text description of a wave's characteristics.
         
         파동의 특성을 언어로 표현
         """
+        # Identify dominant frequency
+        dominant_freq = 0.0
+        if wave.active_frequencies.size > 0:
+            idx = np.argmax(np.abs(wave._amplitudes))
+            dominant_freq = wave.active_frequencies[idx]
+
         # Find closest semantic band
-        closest_meaning = "neutral"
+        closest_meaning = "unknown"
         min_diff = float('inf')
         
         for meaning, freq in self.semantic_bands.items():
-            diff = abs(wave.dominant_frequency - freq)
+            diff = abs(dominant_freq - freq)
             if diff < min_diff:
                 min_diff = diff
                 closest_meaning = meaning
         
+        total_energy = wave.total_energy
+
         # Characterize energy level
-        if wave.total_energy > 5:
+        if total_energy > 5:
             energy_desc = "강렬한 (intense)"
-        elif wave.total_energy > 2:
+        elif total_energy > 2:
             energy_desc = "활발한 (active)"
         else:
             energy_desc = "차분한 (calm)"
         
-        # Characterize coherence
-        if wave.coherence > 0.7:
-            coherence_desc = "조화로운 (harmonious)"
-        elif wave.coherence > 0.4:
-            coherence_desc = "다채로운 (diverse)"
-        else:
-            coherence_desc = "혼돈스러운 (chaotic)"
-        
         return {
             "dominant_meaning": closest_meaning,
-            "dominant_frequency": wave.dominant_frequency,
+            "dominant_frequency": dominant_freq,
             "energy_level": energy_desc,
-            "coherence": coherence_desc,
-            "word_count": len(wave.word_waves),
-            "total_energy": wave.total_energy
+            "total_energy": total_energy
         }
 
 
@@ -397,10 +303,7 @@ if __name__ == "__main__":
     word = "love"
     wave = converter.word_to_wave(word)
     print(f"\n단어 '{word}':")
-    print(f"  주파수: {wave.frequency:.1f} Hz")
-    print(f"  진폭: {wave.amplitude:.2f}")
-    print(f"  위상: {wave.phase:.2f} rad")
-    print(f"  하모닉스: {[f'{h:.1f}' for h in wave.harmonics]}")
+    print(f"  {wave}")
     
     # Test sentence
     sentence1 = "I love you"
@@ -414,7 +317,6 @@ if __name__ == "__main__":
     print(f"  지배 의미: {desc1['dominant_meaning']}")
     print(f"  지배 주파수: {desc1['dominant_frequency']:.1f} Hz")
     print(f"  에너지: {desc1['energy_level']}")
-    print(f"  조화: {desc1['coherence']}")
     
     print(f"\n문장 '{sentence2}':")
     desc2 = converter.wave_to_text_descriptor(wave2)
