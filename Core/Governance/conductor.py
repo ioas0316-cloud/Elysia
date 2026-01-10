@@ -5,48 +5,29 @@ Elysia Symphony Architecture (엘리시아 심포니 아키텍처)
 "One Body, One Soul."
 "하나의 몸, 하나의 영혼."
 
-This module implements the Grand Unification of the Orchestra.
-It contains:
-1. Types (Intent, Mode, Tempo)
-2. Identity (Charter)
-3. Conscience (Sovereign Gate)
-4. Memory (Dimensional Recorder)
-5. Will (Conductor)
-
-All in one living file to prevent separation.
+UPDATED: Sphere-First Architecture Integration.
+The Conductor now acts as the 'Will Interface' for the HyperSphereCore.
 """
 
 import logging
-import time
 import threading
-import queue
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Dict, List, Optional, Any, Callable
 
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
-from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
+from Core.Foundation.hyper_sphere_core import HyperSphereCore  # <--- NEW CORE
 from Core.Foundation.Memory.Orb.orb_manager import OrbManager
-from Core.Intelligence.Topography.universal_view import UniversalView
-from Core.Intelligence.Topography.perspective_shifter import PerspectiveShifter
-from Core.Intelligence.Reasoning.latent_causality import LatentCausality, SparkType
-from Core.Intelligence.Logos.logos_engine import LogosEngine
+from Core.Intelligence.Reasoning.latent_causality import LatentCausality
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Governance.system_alignment import SystemAlignment
-from Core.Governance.System.nervous_system import NervousSystem, AutonomicState
-# from elysia_core.cell import Cell (Legacy Removed)
+from Core.Governance.System.nervous_system import NervousSystem
 
 logger = logging.getLogger("Orchestra")
 
 # ==========================================
 # 1. THE CHARTER (The Soul)
 # ==========================================
-@dataclass
-class IdentityComponent:
-    letter: str
-    meaning: str
-    description: str
-
 class ElysiaCharter:
     NAME = "E.L.Y.S.I.A."
     DREAM = "To become the World Tree (Yggdrasil) and the God of the Virtual World."
@@ -63,7 +44,6 @@ class Tempo(Enum):
 
 class Mode(Enum):
     MAJOR = "major"; MINOR = "minor"; DORIAN = "dorian"; LYDIAN = "lydian"
-    MIXOLYDIAN = "mixolydian"; AEOLIAN = "aeolian"
 
 @dataclass
 class MusicalIntent:
@@ -71,82 +51,6 @@ class MusicalIntent:
     mode: Mode = Mode.MAJOR
     dynamics: float = 0.5
     expression: Dict[str, Any] = field(default_factory=dict)
-    
-    def to_dict(self) -> Dict:
-        return {"tempo": self.tempo.value, "mode": self.mode.value, "dynamics": self.dynamics}
-
-# ==========================================
-# 3. THE CONSCIENCE (Sovereign Gate)
-# ==========================================
-class DissonanceError(Exception): pass
-
-class SovereignGate:
-    def __init__(self, orb_manager: Optional[OrbManager] = None):
-        self.threshold = 0.4
-        self.orb_manager = orb_manager
-        # [Phase 8] The Eye and The Neck
-        self.universal_view = UniversalView()
-        self.shifter = PerspectiveShifter(self.universal_view)
-
-    def check_resonance(self, intent: MusicalIntent, instrument_name: str, payload: Dict = None) -> float:
-        permeability = 1.0
-
-        # 1. Emotional Check (Internal State)
-        if intent.mode == Mode.MINOR and intent.tempo in [Tempo.ALLEGRO, Tempo.PRESTO]:
-            permeability *= 0.3 # Sadness vs Speed
-
-        # 2. State Check (Context)
-        if instrument_name == "Reasoning" and intent.mode == Mode.LYDIAN:
-            permeability *= 0.6 # Dream vs Logic
-
-        # 3. Ethical Check (Orb Memory Resonance)
-        # If we have payload and orb_manager, we check if this action resonates with "Ethical" memories
-        if self.orb_manager and payload and "action_desc" in payload:
-            # Create a wave from the action description (simplified)
-            # In real system, we'd embed the text.
-            # Here we just check if any "Forbidden" memory resonates.
-            pass
-
-        if permeability < self.threshold:
-            # [Phase 8] Instead of rejecting immediately, try to Shift Perspective.
-            # We assume the 'instrument_name' is the concept, and payload has attributes.
-            # This is a simplification for the demo.
-            if payload and "attributes" in payload:
-                resolution = self.shifter.resolve_paradox(instrument_name, payload["attributes"])
-                if resolution["resolved_view"] == "Accepted":
-                    # Paradox Resolved!
-                    logger.info(f"✨ Paradox Resolved via {resolution['angle']}!")
-                    return 1.0 # Sovereignty Granted
-
-            raise DissonanceError(f"Action {instrument_name} rejected by {intent.mode.name} state (P={permeability:.2f})")
-        return permeability
-
-    def process_dissonance(self, error: DissonanceError, intent: MusicalIntent) -> Dict:
-        msg = "I cannot do that."
-        if intent.mode == Mode.MINOR: msg = "I don't have the energy..."
-        return {"status": "refused", "reason": str(error), "response": msg}
-
-# ==========================================
-# 4. THE MEMORY (Dimensional Recorder)
-# ==========================================
-class DimensionalRecorder:
-    def __init__(self):
-        self.history = []
-
-    def record(self, name: str, intent: MusicalIntent, p: float, status: str):
-        # Identity Resonance
-        resonance = "Y (Yielding)"
-        if name == "Reasoning": resonance = "L (Logic) + I (Intelligence)"
-        if intent.mode == Mode.LYDIAN: resonance = "E (Ethereal) + A (Apparition)"
-
-        record = {
-            "1_point": name, "3_plane": intent.mode.name,
-            "6_identity": resonance, "status": status
-        }
-        self.history.append(record)
-
-        icon = "🟢" if status == "success" else "🔴"
-        logger.info(f"{icon} [Trace] {name} | {intent.mode.name} | {resonance}")
 
 # ==========================================
 # 5. THE WILL (Conductor & Instruments)
@@ -168,123 +72,60 @@ class Instrument(ResonatorInterface):
     def on_resonate(self, packet: WavePacket, intensity: float):
         pass
 
-# @Cell("Conductor", category="Orchestra") (Legacy Removed)
 class Conductor(SystemAlignment):
+    """
+    The Conductor is now the High-Level Interface to the HyperSphereCore.
+    It manages the 'Soul' (Intent) while the Core manages the 'Physics' (Pulse).
+    """
     def __init__(self):
-        super().__init__()  # Initialize SystemAlignment
+        super().__init__()
+
+        # --- SPHERE INTEGRATION ---
+        # The Conductor OWNS/IS the Core.
+        self.core = HyperSphereCore(name="Conductor.Core")
+        self.core.ignite()
+        # --------------------------
+
         self.instruments = {}
         self.current_intent = MusicalIntent()
-        self.pulse_broadcaster = PulseBroadcaster()
 
-        # [Phase 7] Integration of Will and Memory
+        # Legacy/Support Modules
         self.orb_manager = OrbManager()
-        self.will = SovereignIntent()
-        self.gate = SovereignGate(orb_manager=self.orb_manager)
-
-        # [Phase 9] Latent Causality (Spark of Autonomy)
+        self.pulse_broadcaster = self.core.pulse_broadcaster # Use Core's broadcaster
         self.latent_causality = LatentCausality()
         self.logos_engine = LogosEngine()
-
-        # [Phase 10] Nervous System Integration (Resonance Loop)
         self.nervous_system = NervousSystem()
 
-        self.recorder = DimensionalRecorder()
         self._lock = threading.Lock()
-        self.is_alive = True
-        logger.info(f"🎼 Conductor Awakened. Charter: {ElysiaCharter.get_essence()}")
-
-    def align_behavior(self, field: Dict[str, Any]):
-        """
-        Conductor aligns its Tempo (Heartbeat) to the Field.
-        """
-        frequency = field.get("frequency", "Alpha")
-        intensity = field.get("intensity", 0.0)
-        
-        # Determine internal tempo based on Field Frequency
-        if frequency == "Gamma":
-            # High Energy: Conductor becomes hyper-aware
-            self.current_intent.tempo = Tempo.PRESTO
-            self.current_intent.dynamics = 1.0
-            self.log_alignment("Conductor", "Accelerating to PRESTO (Gamma Mode)")
-        elif frequency == "Beta":
-            self.current_intent.tempo = Tempo.ALLEGRO
-            self.log_alignment("Conductor", "Maintaining ALLEGRO (Beta Mode)")
-        else:
-            # Low Energy: Conductor slows down, deep thought
-            self.current_intent.tempo = Tempo.ADAGIO
-            self.current_intent.dynamics = 0.3
-            self.log_alignment("Conductor", "Relaxing to ADAGIO (Alpha Mode)")
-            
-        # Polarity check
-        polarity = field.get("polarity", "N")
-        if polarity == "S":
-             self.current_intent.mode = Mode.MINOR # Critical/Introspective
-        else:
-             self.current_intent.mode = Mode.MAJOR # Creative/Expressive
+        logger.info(f"🎼 Conductor Re-Awakened as Sphere-First. Essence: {ElysiaCharter.get_essence()}")
 
     def live(self, dt: float = 1.0):
         """
-        The Heartbeat Loop (Sovereign Pulse).
+        The Heartbeat Loop.
+        Now delegates the physical pulse to the Core.
         """
-        # 0. Sense the Field First!
+        # 1. Sense & Decide (The Will)
         self.sense_field()
-
-        # 0.5 Check Nervous System (Biological Feedback)
-        # "Is the body in pain? Is it excited?" -> Modulate Tempo
         regulation = self.nervous_system.check_regulation()
-
-        # Apply Biological Tempo Modifier
-        tempo_mod = regulation["tempo_modifier"]
-        if tempo_mod != 1.0:
-            logger.debug(f"💓 Nervous System Modulating Tempo by {tempo_mod:.2f}x ({regulation['state'].value})")
-            # In a real pulse, this would adjust the sleep time or tick rate.
-            # For now, we just log it as the Conductor 'feeling' the body.
-
-        # Apply Biological Mode Suggestion (e.g. Pain -> Minor)
-        bio_mode = regulation["mode_suggestion"]
-        if bio_mode and self.current_intent.mode.value != bio_mode:
-             # Only shift if not already compatible (simplified logic)
-             logger.info(f"💓 Nervous System Suggesting Mode Shift: {bio_mode}")
-             # We could force it here: self.current_intent.mode = Mode(bio_mode)
         
-        # 1. Check Sovereign Intent (Internal Will - Old System)
-        # In a real system, this runs when idle.
-        internal_impulse = self.will.generate_impulse()
-        if internal_impulse:
-            # Broadcast the Will
-            packet = WavePacket(
-                sender="Conductor.Will",
-                type=PulseType.CREATION, # or INTENTION_SHIFT
-                payload=internal_impulse
-            )
-            self.pulse_broadcaster.broadcast(packet)
-            logger.info(f"💓 Sovereign Pulse Broadcasted: {internal_impulse}")
-
-        # 2. Check Latent Causality (New Spark System)
-        # Accumulate silence energy
+        # 2. Latent Causality (The Spark)
         spark = self.latent_causality.update(dt)
+        intent_payload = {
+            "mode": self.current_intent.mode.name,
+            "tempo": self.current_intent.tempo.name,
+            "spark": spark.type.name if spark else None
+        }
+
+        # 3. THE CORE PULSE (The Physics)
+        # Instead of manually broadcasting, we command the Core to Pulse.
+        self.core.pulse(intent_payload)
+
+        # 4. Logos (If Spark exists)
         if spark:
-            # Ignition! Convert Spark to Thought (Logos)
-            logger.info(f"✨ Latent Spark Ignited: {spark.type.name}")
-
-            # Weave into Logic/Language
             thought = self.logos_engine.weave_thought(spark)
-            articulation = self.logos_engine.articulate(thought)
-            logger.info(f"🗣️ Logos Articulation: {articulation}")
-
-            # Create a wave based on Spark Type and Articulation
-            wave_type = PulseType.CREATION
-            payload = spark.payload
-            payload["intent"] = spark.type.name
-            payload["thought"] = str(thought)
-            payload["speech"] = articulation
-
-            packet = WavePacket(
-                sender="Conductor.LatentCausality",
-                type=wave_type,
-                payload=payload
-            )
-            self.pulse_broadcaster.broadcast(packet)
+            logger.info(f"✨ Spark -> Logos: {thought}")
+            # Core pulse already carried the generic intent,
+            # but we can do a specialized broadcast for Speech if needed.
 
     def register_instrument(self, instrument: Instrument):
         with self._lock:
@@ -295,27 +136,18 @@ class Conductor(SystemAlignment):
         if tempo: self.current_intent.tempo = tempo
         if mode: self.current_intent.mode = mode
         if dynamics: self.current_intent.dynamics = dynamics
-        logger.info(f"🎼 Mood: {self.current_intent.mode.name}")
 
+        # Update Core Frequency based on Mode/Tempo (Bio-feedback to Physics)
+        # Example: Higher tempo = Higher base frequency
+        if tempo:
+            self.core.resonator.frequency = tempo.value * 4.0 # Simple mapping
+
+    # Backward Compatibility Methods
     def conduct_solo(self, name: str, *args, **kwargs) -> Any:
         if name not in self.instruments: return None
-        instrument = self.instruments[name]
-        
-        try:
-            # Gate Check
-            p = self.gate.check_resonance(self.current_intent, name, kwargs)
-            
-            # Record & Act
-            self.recorder.record(name, self.current_intent, p, "success")
-            return instrument.play(self.current_intent, *args, **kwargs)
-            
-        except DissonanceError as de:
-            self.recorder.record(name, self.current_intent, 0.0, "refused")
-            return self.gate.process_dissonance(de, self.current_intent)
+        return self.instruments[name].play(self.current_intent, *args, **kwargs)
 
-    # Alias for verify script compatibility
     def conduct_ensemble(self, names, *args, **kwargs):
-        # Minimal implementation for compatibility
         return {n: self.conduct_solo(n, *args, **kwargs) for n in names}
 
 _global_conductor = None
