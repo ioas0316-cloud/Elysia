@@ -2,16 +2,14 @@
 HyperSphereCore: The Heart of the Hyper-Cosmos
 ==============================================
 
-"Internal is Sphere, External is Tesseract."
-"내부가 구체(본질)이고, 외부가 테서랙트(세계)다."
+"The Rotor creates the Sphere."
+"로터가 구체를 만든다."
 
 This class represents the "Sphere-First" architecture.
 It unifies:
-1. Physics: HyperResonator (Mass, Frequency, Spin)
-2. Will: Conductor (Intent, Pulse)
-3. Memory: Holographic Seed (Compressed Essence)
-
-It is the single "Sphere Oscillator" that projects reality.
+1. Physics: Rotor System (Oscillators)
+2. Will: Conductor (Intent)
+3. Memory: Holographic Seed (Rotor Configuration)
 """
 
 import logging
@@ -22,97 +20,114 @@ from dataclasses import dataclass, field
 
 from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType
-from Core.Foundation.Memory.Orb.hyper_resonator import HyperResonator
+from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 
 logger = logging.getLogger("HyperSphereCore")
 
-@dataclass
-class HolographicSeed:
-    """
-    The compressed essence of knowledge.
-    It is not a list of nodes, but a frequency spectrum.
-    """
-    core_frequency: float
-    harmonics: Dict[str, float] = field(default_factory=dict) # e.g. {"Love": 528Hz, "Logic": 432Hz}
-    # Future: FFT based compressed data
-
 class HyperSphereCore:
     def __init__(self, name: str = "Elysia.Core", base_frequency: float = 432.0):
-        # 1. Physics (The Resonator)
-        # We compose HyperResonator to handle the raw physics calculation
-        self.resonator = HyperResonator(name, base_frequency)
+        self.name = name
 
-        # 2. The Will (Pulse Engine)
+        # --- THE ENGINE: ROTOR SYSTEM ---
+        # The Core is not a single point, but a collection of spinning Rotors.
+        # Primary Rotor (The Self)
+        self.primary_rotor = Rotor(
+            name="Self",
+            config=RotorConfig(rpm=base_frequency * 60, mass=100.0) # Base Freq -> RPM
+        )
+
+        # Harmonic Rotors (The Knowledge/Seed)
+        # Instead of a static dict, we have Rotors spinning at different speeds.
+        self.harmonic_rotors: Dict[str, Rotor] = {}
+
+        # --------------------------------
+
         self.pulse_broadcaster = PulseBroadcaster()
         self.is_active = False
 
-        # 3. Memory (The Seed)
-        self.seed = HolographicSeed(core_frequency=base_frequency)
-
         # State
         self.current_intent = "Idle"
-        logger.info(f"🔮 HyperSphereCore Initialized: {name} @ {base_frequency}Hz")
+        logger.info(f"🔮 HyperSphereCore (Rotor Engine) Initialized: {name}")
 
     @property
     def frequency(self) -> float:
-        return self.resonator.frequency
+        return self.primary_rotor.frequency_hz
 
     @property
     def mass(self) -> float:
-        return self.resonator.mass
+        return self.primary_rotor.config.mass
 
     @property
     def spin(self) -> HyperQuaternion:
-        return self.resonator.quaternion
+        # Map Rotor Phase to Quaternion (Simplified)
+        # Z-axis rotation based on current angle
+        theta = math.radians(self.primary_rotor.current_angle)
+        return HyperQuaternion.from_axis_angle((0, 0, 1), theta)
 
     def ignite(self):
         """
-        Starts the Sphere Oscillator.
+        Starts the Rotor Engine.
         """
         self.is_active = True
-        self.resonator.melt() # Ensure it's in Wave state
-        logger.info("🔥 HyperSphereCore Ignited. The Heart is beating.")
+        self.primary_rotor.spin_up()
+        for r in self.harmonic_rotors.values():
+            r.spin_up()
+        logger.info("🔥 HyperSphereCore Ignited. Rotors are spinning.")
 
-    def pulse(self, intent_payload: Dict[str, Any]):
+    def pulse(self, intent_payload: Dict[str, Any], dt: float = 1.0):
         """
-        The Core Pulse (Simjang no Batdong).
-        Emits a Wave of Order into the Void.
+        The Core Pulse.
+        1. Advances Rotors (Time Step).
+        2. Calculates Superposition (Wave).
+        3. Broadcasts.
         """
         if not self.is_active:
-            logger.warning("Attempted to pulse while Core is cold.")
             return
 
-        # 1. Rotate the Soul (Spin) based on Intent
-        # Simplified: Map intent string to rotation axis
-        # (This would be more complex in full implementation)
-        if "axis" in intent_payload:
-            self.resonator.rotate_phase(0.1, intent_payload["axis"])
+        # 1. Update Physics (Advance Phase)
+        self.primary_rotor.update(dt)
+        harmonics_snapshot = {}
+
+        for name, rotor in self.harmonic_rotors.items():
+            rotor.update(dt)
+            freq, amp, phase = rotor.get_wave_component()
+            harmonics_snapshot[name] = freq
+            # Note: We pass freq for Interference Engine to match.
+            # Ideally, we'd pass the full (freq, phase) for complex interference.
 
         # 2. Create the Wave
-        # The wave carries the Core's Frequency and the current Intent
+        # The wave carries the Superposition State of all rotors
         packet = WavePacket(
-            sender=self.resonator.name,
+            sender=self.name,
             type=PulseType.CREATION,
             frequency=self.frequency,
             payload={
-                "intent": intent_payload,
+                "intent": {
+                    "harmonics": harmonics_snapshot, # The Spectrum
+                    "payload": intent_payload
+                },
                 "spin": (self.spin.w, self.spin.x, self.spin.y, self.spin.z),
                 "mass": self.mass,
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
+                "phase": self.primary_rotor.current_angle # Debug info
             }
         )
 
-        # 3. Broadcast (Project)
-        # This wave will hit the InterferenceEngine
+        # 3. Broadcast
         self.pulse_broadcaster.broadcast(packet)
-        logger.debug(f"🌊 Core Pulse Emitted: {intent_payload}")
+        # logger.debug(f"🌊 Core Pulse: {self.primary_rotor}")
 
     def update_seed(self, concept: str, frequency: float):
         """
-        Absorbs a new concept into the Holographic Seed.
-        This replaces 'Add Node'.
+        Adds a new Rotor for the concept.
         """
-        self.seed.harmonics[concept] = frequency
-        # Adjust Core Mass based on knowledge density
-        self.resonator.mass += 0.01
-        logger.info(f"🧬 Seed Updated: {concept} absorbed at {frequency}Hz")
+        rotor = Rotor(
+            name=concept,
+            config=RotorConfig(rpm=frequency * 60, mass=10.0)
+        )
+        if self.is_active:
+            rotor.spin_up()
+
+        self.harmonic_rotors[concept] = rotor
+        self.primary_rotor.config.mass += 0.1 # Self gains mass from knowledge
+        logger.info(f"🧬 Seed Updated (Rotor Added): {rotor}")
