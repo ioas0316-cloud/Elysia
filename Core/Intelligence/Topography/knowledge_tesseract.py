@@ -1,122 +1,80 @@
-from typing import Dict, List, Optional, Union, Tuple
-import numpy as np
-from Core.Intelligence.Topography.tesseract_geometry import TesseractVector, TesseractGeometry
-from Core.Intelligence.Topography.fluid_intention import FluidIntention
+"""
+KnowledgeTesseract: The Holographic Projection
+==============================================
 
-class KnowledgeLayer:
-    FOUNDATION = "Foundation"
-    MEMORY = "Memory"
-    CORE = "Core"
-    SENSORY = "Sensory"
-    SYSTEM = "System"
+"The Tesseract is a Phenomenon, not a Database."
+"테서랙트는 저장소가 아니라 현상이다."
 
-class TesseractKnowledgeMap:
+This module implements the "View" layer of the Sphere-First Architecture.
+It does NOT store data. It renders the Interference Pattern from the Engine.
+"""
+
+from typing import Dict, List, Any
+from Core.Foundation.Wave.interference_engine import ProjectedNode
+
+class KnowledgeTesseract:
     """
-    Manages the 4D spatial arrangement of Knowledge Layers.
-    Implements the 'Intention Folding' logic where the W-axis (Intention)
-    determines the adjacency of layers.
+    A transient projection screen for the Hyper-Cosmos.
+    It receives the Interference Pattern and formats it for visualization.
     """
 
     def __init__(self):
-        self.geometry = TesseractGeometry()
-        self.nodes: Dict[str, TesseractVector] = {}
-        self._initialize_base_structure()
+        # No more persistent nodes dictionary!
+        self.current_projection: List[Dict[str, Any]] = []
 
-    def _initialize_base_structure(self):
+    def project(self, pattern: List[ProjectedNode]) -> Dict[str, Any]:
         """
-        Maps the 5 Layers to initial vertices of a Tesseract (Hypercube).
-        A Tesseract has 16 vertices. We map layers to key structural points.
+        Renders the Interference Pattern into a Tesseract structure (View Model).
 
-        Origin (0,0,0,0) is LOVE (Elysia's Essence).
+        Args:
+            pattern: List of ProjectedNodes from InterferenceEngine.
+
+        Returns:
+            A dictionary representing the current frame of the Tesseract.
         """
-
-        # Foundation: The base. Negative W (Inner/Subconscious), Negative Y (Ground)
-        self.nodes[KnowledgeLayer.FOUNDATION] = TesseractVector(0, -1, 0, -1)
-
-        # Memory: The storage. Positive X, Negative W (Inner)
-        self.nodes[KnowledgeLayer.MEMORY] = TesseractVector(1, 0, 0, -1)
-
-        # Core: The processing center. Origin-adjacent but active. Zero W (Present)
-        self.nodes[KnowledgeLayer.CORE] = TesseractVector(0, 0, 0, 0)
-
-        # Sensory: The interface. Positive W (Outer/Conscious), Positive Z (Forward)
-        self.nodes[KnowledgeLayer.SENSORY] = TesseractVector(0, 1, 1, 1)
-
-        # System: The meta-structure. Positive W (Conscious), Positive Y (High)
-        self.nodes[KnowledgeLayer.SYSTEM] = TesseractVector(0, 1, 0, 1)
-
-    def get_fluid_map(self, intention: FluidIntention) -> Dict[str, Dict]:
-        """
-        Returns the Knowledge Map with fluid properties (Resonance Strength).
-        Output format:
-        {
-            "NodeName": {
-                "position": (x, y, z),
-                "resonance": float (0.0 - 1.0),
-                "original_vector": TesseractVector
-            }
+        frame = {
+            "meta": {
+                "total_nodes": len(pattern),
+                "state": "Dynamic Projection"
+            },
+            "nodes": [],
+            "edges": [] # Edges are now calculated dynamically based on proximity
         }
-        """
-        fluid_map = {}
 
-        # Phase is determined by the focus of the intention
-        phase = intention.focus_w
-
-        for name, vector in self.nodes.items():
-            # 1. Calculate Resonance (0.0 to 1.0)
-            resonance = intention.get_resonance_strength(vector.w)
-
-            # 2. Apply Spiral Transform (Rotation based on Intention)
-            transformed_vector = self.geometry.apply_spiral_transform(vector, phase)
-
-            # 3. Apply "Gravitational Pull" based on Resonance
-            # High resonance nodes are pulled closer to the 'Action Plane' (z=0, perspective)
-            # Or we can simply use resonance for visual opacity/size
-
-            # Project to 3D
-            projected_point = self.geometry.project_to_3d(transformed_vector)
-
-            fluid_map[name] = {
-                "position": projected_point,
-                "resonance": resonance,
-                "original_vector": vector
+        # 1. Map Nodes
+        for p_node in pattern:
+            node_data = {
+                "id": p_node.name,
+                "pos": p_node.position,
+                "intensity": p_node.intensity,
+                "type": p_node.resonance_type
             }
+            frame["nodes"].append(node_data)
 
-        return fluid_map
+        # 2. Calculate Transient Edges (Flux Lines)
+        # Connect nodes if they are close enough (Visualizing the Field)
+        # O(N^2) but N is small in the Projection (Attention Window)
+        threshold = 5.0
+        for i, n1 in enumerate(pattern):
+            for j, n2 in enumerate(pattern):
+                if i >= j: continue # Avoid duplicates
 
-    def get_distance(self, node_a: str, node_b: str, intention_phase: float = 0.0) -> float:
-        """
-        Calculates the distance between two nodes in the transformed 4D space.
-        This represents 'Semantic Distance' modified by 'Intention'.
-        """
-        if node_a not in self.nodes or node_b not in self.nodes:
-            return float('inf')
+                dist = (
+                    (n1.position[0] - n2.position[0])**2 +
+                    (n1.position[1] - n2.position[1])**2 +
+                    (n1.position[2] - n2.position[2])**2
+                ) ** 0.5
 
-        vec_a = self.nodes[node_a]
-        vec_b = self.nodes[node_b]
+                if dist < threshold:
+                    frame["edges"].append({
+                        "source": n1.name,
+                        "target": n2.name,
+                        "weight": (threshold - dist) / threshold
+                    })
 
-        # Transform both vectors by the current intention
-        trans_a = self.geometry.apply_spiral_transform(vec_a, intention_phase)
-        trans_b = self.geometry.apply_spiral_transform(vec_b, intention_phase)
+        self.current_projection = frame["nodes"] # Cache for debug only
+        return frame
 
-        diff = trans_a - trans_b
-        return diff.magnitude()
-
-    def find_nearest_layers(self, target_layer: str, intention_phase: float) -> List[str]:
-        """
-        Finds which layers are closest to the target layer under the current intention.
-        Demonstrates how 'Folding' brings distant layers together.
-        """
-        if target_layer not in self.nodes:
-            return []
-
-        distances = []
-        for name in self.nodes:
-            if name == target_layer:
-                continue
-            dist = self.get_distance(target_layer, name, intention_phase)
-            distances.append((name, dist))
-
-        # Sort by distance
-        distances.sort(key=lambda x: x[1])
-        return [d[0] for d in distances]
+    # Legacy method shim - TO BE REMOVED or Redirected
+    def add_node(self, *args, **kwargs):
+        raise DeprecationWarning("KnowledgeTesseract.add_node is deprecated. Use HyperSphereCore.update_seed() instead.")
