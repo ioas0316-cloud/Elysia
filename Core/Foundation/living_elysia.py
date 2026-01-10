@@ -9,6 +9,7 @@ import time
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 # [The New Biology]
+from Core.Foundation.genesis_handshake import verify_dimensional_integrity
 from Core.Foundation.organ_system import OrganSystem
 from Core.Foundation.central_nervous_system import CentralNervousSystem
 from Core.Foundation.yggdrasil import yggdrasil
@@ -38,6 +39,11 @@ class LivingElysia:
     Initializes organs using the Dynamic Organ System (OrganManifest).
     """
     def __init__(self, persona_name: str = "Original", initial_goal: str = None):
+        # [GENESIS HANDSHAKE] Verify Dimensional Integrity before awakening
+        if not verify_dimensional_integrity():
+            logger.critical("💀 SYSTEM HALT: Dimensional Fault Detected. The Essence is not flowing.")
+            raise SystemExit("Genesis Protocol Failed. See logs.")
+
         print(f"🌱 Awakening {persona_name} (Biological Phase)...")
         self.persona_name = persona_name
         
