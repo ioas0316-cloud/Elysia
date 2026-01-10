@@ -2,6 +2,7 @@
 Wave Tensor Calculus Module
 ===========================
 "Mathematics of Resonance"
+[GENESIS PROTOCOL V1.0]
 
 This module implements the fundamental data structure for Elysia's 3rd Generation Computing:
 The WaveTensor.
@@ -53,6 +54,14 @@ class WaveTensor:
     @property
     def active_frequencies(self) -> np.ndarray:
         return self._frequencies
+
+    @property
+    def dominant_frequency(self) -> float:
+        """Returns the frequency with the highest amplitude magnitude."""
+        if self._amplitudes.size == 0:
+            return 0.0
+        idx = np.argmax(np.abs(self._amplitudes))
+        return self._frequencies[idx]
 
     def add_component(self, frequency: float, amplitude: float = 1.0, phase: float = 0.0):
         """Adds a single wave component. Merges if frequency already exists."""
@@ -141,12 +150,11 @@ class WaveTensor:
         energy = self.total_energy
 
         # Identify dominant frequency
-        dominant_freq = "None"
+        dom_freq = "None"
         if components > 0:
-            idx = np.argmax(np.abs(self._amplitudes))
-            dominant_freq = f"{self._frequencies[idx]:.1f}Hz"
+            dom_freq = f"{self.dominant_frequency:.1f}Hz"
 
-        return f"<WaveTensor '{self.name}': E={energy:.2f}, Dom={dominant_freq}, Components={components}>"
+        return f"<WaveTensor '{self.name}': E={energy:.2f}, Dom={dom_freq}, Components={components}>"
 
     # -- Standard Operators --
     
