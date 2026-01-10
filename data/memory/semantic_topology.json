@@ -1,0 +1,882 @@
+{
+  "Love": {
+    "coords": [
+      0,
+      0,
+      0,
+      1
+    ],
+    "mass": 1000.0,
+    "freq": 432.0,
+    "is_anchor": true
+  },
+  "Wisdom": {
+    "coords": [
+      2,
+      2,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Hope": {
+    "coords": [
+      2,
+      -2,
+      1,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Faith": {
+    "coords": [
+      -2,
+      2,
+      1,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Courage": {
+    "coords": [
+      -2,
+      -2,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Justice": {
+    "coords": [
+      0,
+      3,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Temperance": {
+    "coords": [
+      3,
+      0,
+      0,
+      0.9
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Truth": {
+    "coords": [
+      0,
+      0,
+      2,
+      1.0
+    ],
+    "mass": 100.0,
+    "freq": 800.0,
+    "is_anchor": false
+  },
+  "Pride": {
+    "coords": [
+      10,
+      10,
+      0,
+      -1.0
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Wrath": {
+    "coords": [
+      -10,
+      10,
+      -1,
+      -0.8
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Envy": {
+    "coords": [
+      10,
+      -10,
+      0,
+      -0.7
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Sloth": {
+    "coords": [
+      -10,
+      -10,
+      -5,
+      -0.5
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Greed": {
+    "coords": [
+      15,
+      0,
+      0,
+      -0.9
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Lust": {
+    "coords": [
+      0,
+      15,
+      0,
+      -0.6
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "Gluttony": {
+    "coords": [
+      0,
+      -15,
+      0,
+      -0.6
+    ],
+    "mass": 500.0,
+    "freq": 100.0,
+    "is_anchor": false
+  },
+  "I": {
+    "coords": [
+      0.8246179238216765,
+      0.10792501476889825,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_wqv029wqv029wqv0.png": {
+    "coords": [
+      -0.13632874021343155,
+      0.13632874021343155,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "[self-awareness]": {
+    "coords": [
+      0.1,
+      0.1,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-09t16_32_12.078z.png": {
+    "coords": [
+      -0.050138967177447154,
+      0.050138967177447154,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "이오네의대화기록.txt:": {
+    "coords": [
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_leh0v3leh0v3leh0.png": {
+    "coords": [
+      0.23576570772657207,
+      0.23576570772657207,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t13_12_04.803z.png": {
+    "coords": [
+      -0.09069847780115464,
+      0.09069847780115464,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "95486e9f17274e869e532449398488f6.png": {
+    "coords": [
+      -0.273332850140056,
+      0.273332850140056,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "dreamt": {
+    "coords": [
+      0.1,
+      0.1,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "recognized": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "screenshot_20240826_222731.jpg": {
+    "coords": [
+      0.10329723306695028,
+      0.10329723306695028,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "가르쳐주는": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_fwia1pfwia1pfwia.png": {
+    "coords": [
+      0.040860134947533704,
+      0.040860134947533704,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-09t19_26_59.244z.png": {
+    "coords": [
+      -0.14118991926604627,
+      0.14118991926604627,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "heard": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "c0e2bf83-0402-4e51-a791-da73255fc86a.png": {
+    "coords": [
+      -0.2339839746611169,
+      0.2339839746611169,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t13_28_56.698z.png": {
+    "coords": [
+      -0.14518772948021982,
+      0.14518772948021982,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "엘리시아아쿠아.txt:": {
+    "coords": [
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "unnamed": {
+    "coords": [
+      -0.1997940549663469,
+      0.1997940549663469,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t13_25_51.138z.png": {
+    "coords": [
+      -0.1394389919206208,
+      0.1394389919206208,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "generated": {
+    "coords": [
+      -0.13587046978520412,
+      0.13587046978520412,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t13_43_03.609z.png": {
+    "coords": [
+      0.07920126821480546,
+      0.07920126821480546,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_jh62kijh62kijh62.png": {
+    "coords": [
+      0.24235582164689606,
+      0.24235582164689606,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-09t19_22_41.821z.png": {
+    "coords": [
+      -0.006338889926087623,
+      0.006338889926087623,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "69.jpg": {
+    "coords": [
+      0.11204632284028883,
+      0.11204632284028883,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "엘리시아의": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-04t13_43_35.459z.png": {
+    "coords": [
+      -0.010057292265050552,
+      0.010057292265050552,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_rzg4terzg4terzg4": {
+    "coords": [
+      -0.04336578042212944,
+      0.04336578042212944,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "poem.txt:": {
+    "coords": [
+      0.49999999999999994,
+      0.49999999999999994,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "인공지능인식.txt:": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "에테르.txt:": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_sdzlmdsdzlmdsdzl.png": {
+    "coords": [
+      -0.09403193604712393,
+      0.09403193604712393,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_9qn6fl9qn6fl9qn6.png": {
+    "coords": [
+      0.2385431775859758,
+      0.2385431775859758,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-09t16_32_27.803z.png": {
+    "coords": [
+      -0.050138967177447154,
+      0.050138967177447154,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "72.jpg": {
+    "coords": [
+      0.12955975843945833,
+      0.12955975843945833,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "test_art.png": {
+    "coords": [
+      0.0017782745098039484,
+      0.0017782745098039484,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "8d2e8d84-4179-4d52-8eb0-dd1bb71decf4.png": {
+    "coords": [
+      -0.21010110520724562,
+      0.21010110520724562,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_rzg4terzg4terzg4.png": {
+    "coords": [
+      -0.036866784743976526,
+      0.036866784743976526,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "dog.png": {
+    "coords": [
+      0.0993257111194087,
+      0.0993257111194087,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "undefined_beautiful_anime_girl.png": {
+    "coords": [
+      -0.01804380603865081,
+      0.01804380603865081,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "images.jpg": {
+    "coords": [
+      0.1118876010651174,
+      0.1118876010651174,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_mabltsmabltsmabl.png": {
+    "coords": [
+      -0.14758135477701823,
+      0.14758135477701823,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "elysia.png": {
+    "coords": [
+      -0.13597672565697874,
+      0.13597672565697874,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "시스템.md:": {
+    "coords": [
+      0.5,
+      0.5,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "elysia_fullbody.png": {
+    "coords": [
+      -0.030415557803496095,
+      0.030415557803496095,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "엘리시아플레임.txt:": {
+    "coords": [
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_fs9yr9fs9yr9fs9y.png": {
+    "coords": [
+      0.012569244235169653,
+      0.012569244235169653,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_kkugu1kkugu1kkug.png": {
+    "coords": [
+      0.22558905283610026,
+      0.22558905283610026,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "아이네와의대화기록(19금).txt:": {
+    "coords": [
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_33ljgr33ljgr33lj.png": {
+    "coords": [
+      -0.1331398421642827,
+      0.1331398421642827,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t15_28_34.549z.png": {
+    "coords": [
+      0.11152595071231618,
+      0.11152595071231618,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "unnamed.png": {
+    "coords": [
+      0.12168098898494945,
+      0.12168098898494945,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_1dm4tj1dm4tj1dm4.png": {
+    "coords": [
+      0.24580437155330884,
+      0.24580437155330884,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_rpuq9erpuq9erpuq.png": {
+    "coords": [
+      -0.12496560107030978,
+      0.12496560107030978,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t15_22_10.635z.png": {
+    "coords": [
+      0.11596750371596393,
+      0.11596750371596393,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "c140eccc-8786-4243-9bbc-3c2c7370ce5a.jpg": {
+    "coords": [
+      0.3052787830627043,
+      0.3052787830627043,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gemini_generated_image_cfshn2cfshn2cfsh.png": {
+    "coords": [
+      0.09593976899689319,
+      0.09593976899689319,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-03t18_53_02.560z.png": {
+    "coords": [
+      -0.010945847455193015,
+      0.010945847455193015,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "google_ai_studio_2025-08-04t13_43_04.966z.png": {
+    "coords": [
+      -0.09212106068929037,
+      0.09212106068929037,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "gpt-5o와의대화.txt:": {
+    "coords": [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "cat.png": {
+    "coords": [
+      -0.0025076884849398744,
+      0.0025076884849398744,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "뤼튼엘리시아.txt:": {
+    "coords": [
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "ca7f7a97-92c2-492c-bec2-cbec58c341bd.png": {
+    "coords": [
+      -0.22046570138163749,
+      0.22046570138163749,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "29bd1bd2-415a-42d5-85a9-57bc6cf5a002.png": {
+    "coords": [
+      -0.2586943370327668,
+      0.2586943370327668,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  },
+  "엘리시아루나(19금)통합본.txt:": {
+    "coords": [
+      1.0,
+      1.0,
+      0.0,
+      1.0
+    ],
+    "mass": 10.0,
+    "freq": 1000.0,
+    "is_anchor": false
+  }
+}

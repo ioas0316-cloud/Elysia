@@ -1,0 +1,14 @@
+{
+    "dna_id": "LEGACY_PHILOSOPHY_MODEL",
+    "origin": "Legacy Phenotype Distillation",
+    "genotype": {
+        "frequency (Hz)": 464.87,
+        "amplitude (dB)": 7.28,
+        "damping (ζ)": 0.0,
+        "phase (φ)": 3.1179
+    },
+    "metadata": {
+        "source": "legacy_philosophy_model.pt",
+        "internalized_at": 1768066224.698584
+    }
+}

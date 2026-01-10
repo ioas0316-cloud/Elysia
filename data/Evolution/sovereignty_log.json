@@ -1,0 +1,39 @@
+{
+  "metrics": {
+    "total_proposals": 4,
+    "auto_applied": 2,
+    "queued_for_review": 1,
+    "blocked": 1
+  },
+  "patterns": [
+    {
+      "pattern_type": "success",
+      "trigger": "Adjust creativity_bias",
+      "outcome": "Auto-applied successfully",
+      "frequency": 1,
+      "learned_rule": ""
+    },
+    {
+      "pattern_type": "success",
+      "trigger": "Add new logging",
+      "outcome": "Auto-applied successfully",
+      "frequency": 1,
+      "learned_rule": ""
+    },
+    {
+      "pattern_type": "blocked",
+      "trigger": "Delete core module",
+      "outcome": "Too risky",
+      "frequency": 1,
+      "learned_rule": ""
+    }
+  ],
+  "review_queue": [
+    {
+      "timestamp": "2026-01-11T01:32:31.125774",
+      "description": "Modify reasoning logic",
+      "risk_level": 5,
+      "status": "pending"
+    }
+  ]
+}

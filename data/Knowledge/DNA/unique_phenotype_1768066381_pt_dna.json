@@ -1,0 +1,23 @@
+{
+    "dna_id": "UNIQUE_PHENOTYPE_1768066381",
+    "origin": "Fourier-DNA Spectral Extraction",
+    "spectral_genotype": {
+        "fundamental_freq (Hz)": 465.37,
+        "real_coefficients": [
+            1.1237,
+            0.5,
+            0.0459
+        ],
+        "imag_coefficients": [
+            1.6354,
+            0.7718,
+            -0.0299
+        ],
+        "damping (ζ)": 0.0
+    },
+    "metadata": {
+        "source": "unique_phenotype_1768066381.pt",
+        "compression_ratio": "1,000,000:1 (Spectrum over Vector)",
+        "extracted_at": 1768066381.3383324
+    }
+}

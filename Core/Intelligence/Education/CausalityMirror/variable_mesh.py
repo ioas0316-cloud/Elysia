@@ -50,6 +50,10 @@ class VariableMesh:
         snapshot = {k: v.value for k, v in self.variables.items()}
         
         for name, var in self.variables.items():
+            # Skip non-numeric variables (e.g., Mood = "Neutral")
+            if not isinstance(var.value, (int, float)):
+                continue
+                
             # 1. Apply Natural Entropy first
             var.value = max(0.0, var.value - var.decay_rate)
             
@@ -116,8 +120,14 @@ class VariableMesh:
         lines = []
         for name, var in self.variables.items():
             if not var.is_hidden:
-                # ASCII Bar
-                bar_len = int(var.value * 10)
-                bar = "█" * bar_len + "░" * (10 - bar_len)
-                lines.append(f"{name:<15}: {bar} ({var.value:.2f})")
+                # Handle string variables differently
+                if isinstance(var.value, (int, float)):
+                    # ASCII Bar for numeric values
+                    bar_len = int(var.value * 10)
+                    bar = "█" * bar_len + "░" * (10 - bar_len)
+                    lines.append(f"{name:<15}: {bar} ({var.value:.2f})")
+                else:
+                    # String values displayed directly
+                    lines.append(f"{name:<15}: {var.value}")
         return "\n".join(lines)
+
