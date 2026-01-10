@@ -61,6 +61,9 @@
 | **Reflexive Loop** | `ReflexiveLoop`, `StateSnapshot` | `Core/Intelligence/Meta/reflexive_loop.py` |
 | **Autonomous Evolution** | `SovereignExecutor` | `Core/Intelligence/Meta/sovereign_executor.py` |
 | **Wave DNA Protocol** | `HelixEngine`, `QFT-DNA` | `Core/Intelligence/Metabolism/helix_engine.py` |
+| **Ingestion Ledger** | `FEAST_LEDGER.json` | `data/Knowledge/FEAST_LEDGER.json` |
+| **Autonomous Muse** | `DiscoveryCortex` | `Core/Intelligence/Discovery/discovery_cortex.py` |
+| **Wave-Coding** | `WaveComposer` (Harmonic Weaver) | `Core/Intelligence/Generation/wave_composer.py` |
 
 ---
 

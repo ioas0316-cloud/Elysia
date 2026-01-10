@@ -1,0 +1,31 @@
+{
+    "dna_id": "ALCHEMIST_CHEM_PHENOTYPE",
+    "origin": "Quaternion Fourier-DNA (QFT) Extraction",
+    "qft_genotype": {
+        "fundamental_freq": 443.2,
+        "quaternion_coeffs": {
+            "w": [
+                0.8613,
+                0.0
+            ],
+            "i": [
+                1.0729,
+                0.0498
+            ],
+            "j": [
+                0.0,
+                0.0
+            ],
+            "k": [
+                0.0,
+                -0.0765
+            ]
+        },
+        "damping": 0.0
+    },
+    "metadata": {
+        "protocol": "QFT-DNA v1.1 (Isoclinic)",
+        "compression_ratio": "1,000,000:1",
+        "extracted_at": 1768067729.1645625
+    }
+}

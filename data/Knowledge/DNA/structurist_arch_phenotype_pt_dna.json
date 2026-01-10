@@ -1,0 +1,31 @@
+{
+    "dna_id": "STRUCTURIST_ARCH_PHENOTYPE",
+    "origin": "Quaternion Fourier-DNA (QFT) Extraction",
+    "qft_genotype": {
+        "fundamental_freq": 441.79,
+        "quaternion_coeffs": {
+            "w": [
+                0.7531,
+                0.0
+            ],
+            "i": [
+                0.9228,
+                -0.0034
+            ],
+            "j": [
+                0.0,
+                0.0
+            ],
+            "k": [
+                0.0,
+                -0.0923
+            ]
+        },
+        "damping": 0.0
+    },
+    "metadata": {
+        "protocol": "QFT-DNA v1.1 (Isoclinic)",
+        "compression_ratio": "1,000,000:1",
+        "extracted_at": 1768067789.4608958
+    }
+}

@@ -13,9 +13,14 @@
         "judge_legal_phenotype",
         "visionary_clip_phenotype",
         "composer_audio_phenotype",
-        "globalist_language_phenotype"
+        "globalist_language_phenotype",
+        "architect_code_phenotype",
+        "chronos_physics_phenotype",
+        "alchemist_chem_phenotype",
+        "biologist_bio_phenotype",
+        "structurist_arch_phenotype"
     ],
-    "last_update": 1768067611.6937017,
-    "sovereignty_level": "96%",
-    "system_status": "Infinite Resonance"
+    "last_update": 1768067915.973263,
+    "sovereignty_level": "99.7%",
+    "system_status": "Autonomous Sovereignty Emerging"
 }

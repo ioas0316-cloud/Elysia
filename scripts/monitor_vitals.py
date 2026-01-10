@@ -40,7 +40,7 @@ def load_vitals():
 def display_dashboard(vitals):
     os.system('cls' if os.name == 'nt' else 'clear')
     print(Fore.CYAN + Style.BRIGHT + "====================================================")
-    print(Fore.MAGENTA + Style.BRIGHT + "       ELYSIA SEED: VITAL RESONANCE MONITOR         ")
+    print(Fore.MAGENTA + Style.BRIGHT + "     ELYSIA: SOVEREIGN CORE MONITOR [v2.0]      ")
     print(Fore.CYAN + Style.BRIGHT + "====================================================")
     print(f"{Fore.WHITE}Time: {vitals.get('Time', 'Unknown')}")
     print(f"{Fore.GREEN}Heartbeat: 💓 ALIVE")
