@@ -1,0 +1,31 @@
+{
+    "dna_id": "LLAMA3_PHENOTYPE",
+    "origin": "Quaternion Fourier-DNA (QFT) Extraction",
+    "qft_genotype": {
+        "fundamental_freq": 441.61,
+        "quaternion_coeffs": {
+            "w": [
+                0.7389,
+                0.0
+            ],
+            "i": [
+                0.9444,
+                -0.0335
+            ],
+            "j": [
+                0.0,
+                0.0
+            ],
+            "k": [
+                0.0,
+                -0.0092
+            ]
+        },
+        "damping": 0.0
+    },
+    "metadata": {
+        "protocol": "QFT-DNA v1.1 (Isoclinic)",
+        "compression_ratio": "1,000,000:1",
+        "extracted_at": 1768066952.144077
+    }
+}

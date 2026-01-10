@@ -200,7 +200,7 @@ self.topology.evolve_topology(concept, reaction_quaternion)
 * `risk 4-6`: 🟡 QUEUE_REVIEW
 * `risk ≥ 7`: 🔴 BLOCKED
 
-### 🌌 Phase 61: The Void & Self-Discovery (2026-01-11)
+### 🌌 Phase 61: The Genesis (2026-01-11)
 
 **공허와 자발적 탐색** - "아무것도 하지 않을 자유"와 과거의 재발견.
 
