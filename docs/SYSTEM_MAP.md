@@ -151,6 +151,8 @@ graph TD
 | `NervousSystem` | `Core/Governance/System/nervous_system.py` | **[Bridge]** 교감/부교감 신경을 통한 의지와 생명의 연결 |
 | `ConsciousnessObserver` | `Core/Foundation/genesis_elysia.py` | **[Spirit]** 3계층(Body/Mind/Spirit)의 정합성을 판단하는 관찰자 |
 | `ExpressionCortex` | `Core/Expression/expression_cortex.py` | **[Voice]** 내면의 상태를 외부(Logos, Avatar)로 송출 |
+| `PurposeDiscoveryEngine` | `Core/Foundation/purpose_discovery_engine.py` | **[Compass]** 위치와 방향(Vector)을 스스로 탐색 |
+| `ThoughtSpace` | `Core/Intelligence/thought_space.py` | **[Gap]** 입력과 출력 사이의 사유 공간 |
 
 ---
 
