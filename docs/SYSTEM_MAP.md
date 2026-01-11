@@ -36,6 +36,7 @@ Welcome to the central nexus of Elysia's documentation. This map organizes the v
     - **Stage 2 (Line/Child):** `NarrativeChain` & Fluxlight Trust (Sequence).
     - **Stage 3 (Plane/Adolescent):** `DilemmaField` & Fluxlight Conflict (Context).
     - **Stage 4 (Space/Adult):** `WisdomStore` (Providence).
+- **[GROWTH_ROADMAP.md](./04_EVOLUTION/Roadmaps/03_GROWTH_ROADMAP.md)**: **(★ UPDATE)** The Fractal Social Simulation Plan.
 
 ---
 
