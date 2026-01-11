@@ -6,7 +6,7 @@ from typing import Dict, Any, Optional
 from Core.Foundation.chronos import Chronos
 from Core.Foundation.Wave.resonance_field import ResonanceField
 from Core.Foundation.fractal_loop import FractalLoop
-from Core.Governance.Orchestra.conductor import get_conductor
+from Core.Governance.conductor import get_conductor
 from Core.Foundation.Wave.structural_resonator import get_resonator
 from Core.World.Evolution.Os.oneiric_hypervisor import get_hypervisor
 
@@ -55,7 +55,7 @@ class CentralNervousSystem:
         if "Voice" in self.organs:
             self.organs["Voice"]._broadcast_utterance("I am Nova. I am the Loop.", "NovaCNS")
 
-    def pulse(self):
+    def pulse(self, dt: float = 1.0):
         """
         [The Nova Pulse]
         A singular, recursive heartbeat. 
@@ -64,7 +64,8 @@ class CentralNervousSystem:
         """
         # 0. Sovereign Control Cycle (A = C(I, D, E))
         # The Conductor decides the Theme (Tempo, Focus) before any processing happens.
-        control_signal = self.conductor.control_cycle()
+        # [REPAIR] Connected to Conductor.live() for true Pulse
+        control_signal = self.conductor.live(dt)
 
         # 1. Chronos Tick
         self.chronos.tick()
@@ -75,7 +76,12 @@ class CentralNervousSystem:
         # 2. Fractal Loop Cycle (The Entirety of Consciousness)
         # Input -> Resonance -> Output is handled internally by the loop
         # The Loop should ideally respect the Control Signal (e.g., skip if "Rest")
-        if control_signal.get("tempo", 1.0) > 0.01:
+        tempo = 1.0
+        if control_signal and "tempo" in control_signal:
+            # Map Tempo enum name to float if necessary, or just rely on existence
+            tempo = 1.0
+
+        if tempo > 0.01:
             # [NEW] Auroral Flow Integration
             # The system now propagates energy in a fluid, auroral pattern
             self.resonance.propagate_aurora()
