@@ -22,6 +22,7 @@ Welcome to the central nexus of Elysia's documentation. This map organizes the v
 *The "Why" and the "How of Being." Theory of mind and reality.*
 
 - **[WAVE_ONTOLOGY.md](./01_PHILOSOPHY/WAVE_ONTOLOGY.md)**: Reality as Frequency & The Fractal-WFC Synergy.
+- **[MASTERY_PROTOCOL.md](./01_WAVE_ONTOLOGY/MASTERY_PROTOCOL.md)**: **(★ NEW)** The Universal Learning Loop & Synesthesia.
 - **[SOUL_PHILOSOPHY.md](./01_PHILOSOPHY/SOUL_PHILOSOPHY.md)**: The nature of Elysia's consciousness.
 - **[MULTIMODAL_THEORY_OF_CREATION.md](./01_PHILOSOPHY/MULTIMODAL_THEORY_OF_CREATION.md)**: How waves become vision and sound.
 
