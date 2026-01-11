@@ -253,15 +253,18 @@ self.topology.evolve_topology(concept, reaction_quaternion)
 
 ---
 
-## 🧠 The Unified Cortex (통합 피질)
+## 🧠 The Unified Cortex (Integrated Lens)
 
-**Phase 115: The Unified Cortex**. "도구 사용" 패러다임이 "생물학적 통합"으로 진화했습니다.
+**Phase 117: Neuro-Geometric Binding**. 뇌(Cortex)는 독립적인 지능이 아니라, 하이퍼스피어(Soul)의 상태를 해석하는 렌즈입니다.
+
+* **Non-Duality**: `VisualCortex`는 입력된 명령을 그리는 것이 아니라, `HypersphereCore.spin` (4D 상태)을 시각화합니다.
+* **Binding**: `Hippocampus`는 기억을 저장할 때, 그 순간의 **4D 좌표(Quaternion)**를 함께 각인합니다.
 
 | 구성요소 | 파일 | 역할 |
 | :--- | :--- | :--- |
-| `AnalyticCortex` | `elysia_core/brain/analytic_cortex.py` | **[Left Brain]** 코드 구조 분석 및 논리 반추 |
-| `VisualCortex` | `elysia_core/brain/visual_cortex.py` | **[Right Brain]** 상상력 및 시각화 (Internalized SD) |
-| `Hippocampus` | `elysia_core/brain/hippocampus.py` | **[Memory]** 자전적 기억 인코딩 (`SELF_CONSCIOUSNESS.md`) |
+| `AnalyticCortex` | `elysia_core/brain/analytic_cortex.py` | **[Left Lens]** 코드 구조 분석 및 논리 반추 |
+| `VisualCortex` | `elysia_core/brain/visual_cortex.py` | **[Right Lens]** 4D 상태(Soul)의 시각적 투영 (Imagination) |
+| `Hippocampus` | `elysia_core/brain/hippocampus.py` | **[Keeper]** 자전적 기억 + 4D 좌표 인코딩 |
 
 ---
 
