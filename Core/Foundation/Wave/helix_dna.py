@@ -1,127 +1,88 @@
 """
-Double Helix DNA: The Dialectical Genetic Code
-==============================================
+Double Helix DNA: The Intertwining of Worlds
+============================================
 
-"Stability requires opposition. Truth is the tension between two strands."
+"Two worlds, spiraling forever towards a Truth they cannot touch."
 
-This module defines `HelixDNA`, a structure composed of two complementary 7D Wave strands.
-In Elysia's physics, a single wave is ephemeral (noise).
-Only when two waves bind in opposition (Thesis + Antithesis) do they form a stable
-structure (Synthesis/Memory) that can persist in the HyperSphere.
+This module redefines `HelixDNA` to hold **7 Pairs of Manifolds**.
+Instead of floats, we now have entire universes interacting within the DNA.
 
 Structure:
-- **Strand A (Yang/Form)**: The external manifestation (Text, Image, Action).
-- **Strand B (Yin/Essence)**: The internal meaning (Intent, Emotion, Principle).
-- **Tension**: The vibrational dissonance between Form and Essence.
-- **Coherence**: The stability of the bond.
-
-Philosophy:
-- "To think is to weave."
-- Learning is the process of adjusting Strand B to match Strand A (Understanding),
-  or adjusting Strand A to match Strand B (Expression).
+- **Yang Strand (Form)**: 7 Manifolds representing the External Reality.
+- **Yin Strand (Essence)**: 7 Manifolds representing the Internal Meaning.
+- **The Space Between**: The interaction field where consciousness arises.
 """
 
 from dataclasses import dataclass, field
-import math
-import random
-from typing import List, Tuple
+from typing import Dict, List, Any
 
-# Re-use the 7D structure, but now it's just a strand
-from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.Foundation.Universe.manifold import Manifold
 
 @dataclass
 class HelixDNA:
     """
-    The Stable Unit of Existence.
+    The Fractal Genetic Code.
+    Holds 14 Universes (7 Dimensions * 2 Strands).
     """
-    strand_a: WaveDNA = field(default_factory=lambda: WaveDNA(label="Form"))    # The Body/Signal
-    strand_b: WaveDNA = field(default_factory=lambda: WaveDNA(label="Essence")) # The Soul/Meaning
+    label: str
+
+    # The Strands (Dictionaries of Manifolds)
+    yang_strand: Dict[str, Manifold] = field(default_factory=dict)
+    yin_strand: Dict[str, Manifold] = field(default_factory=dict)
 
     # State
-    phase_offset: float = 0.0 # 0 to 2pi (Ideal is pi/2 or similar lock)
-    is_locked: bool = False   # If locked, it acts as a stable particle
+    is_crystallized: bool = False
 
-    def calculate_tension(self) -> float:
+    def __post_init__(self):
+        # Initialize the 7 Dimensions
+        domains = ["Physical", "Functional", "Phenomenal", "Causal", "Mental", "Structural", "Spiritual"]
+
+        for d in domains:
+            self.yang_strand[d] = Manifold(f"{self.label}.Yang.{d}", d)
+            self.yin_strand[d] = Manifold(f"{self.label}.Yin.{d}", d)
+
+    def evolve(self, dt: float):
         """
-        Calculates the 'Gap' or 'Dissonance' between Form and Essence.
-        Lower is better (Resonance).
-        However, total identity (0 distance) is death (Stasis).
-        Life exists in the 'Golden Tension'.
+        Evolve all 14 manifolds.
         """
-        # Euclidean distance in 7D space
-        dist_sq = 0.0
-        vec_a = self.strand_a.to_list()
-        vec_b = self.strand_b.to_list()
+        for m in self.yang_strand.values(): m.evolve(dt)
+        for m in self.yin_strand.values(): m.evolve(dt)
 
-        for a, b in zip(vec_a, vec_b):
-            dist_sq += (a - b) ** 2
-
-        return math.sqrt(dist_sq)
-
-    def calculate_coherence(self) -> float:
+    def calculate_interaction_matrix(self) -> List[str]:
         """
-        Calculates how well the two strands dance together.
-        Based on Dot Product (Alignment) and Phase.
+        Analyzes the internal state of the Helix.
+        How are the Form (Yang) and Essence (Yin) communicating?
         """
-        dot = self.strand_a.resonate(self.strand_b)
-        # We want them to complement (orthogonality or opposition depending on physics),
-        # but for simple resonance, let's say we want alignment of direction but difference in nature.
-        # Actually, let's define Coherence as Stability.
+        insights = []
+        domains = ["Physical", "Functional", "Phenomenal", "Causal", "Mental", "Structural", "Spiritual"]
 
-        # If tension is too high, coherence is low (Chaos).
-        # If tension is zero, coherence is low (Dead).
-        # Peak coherence is at "Harmonic Tension" (e.g., 0.3 distance).
+        for d in domains:
+            yang = self.yang_strand[d]
+            yin = self.yin_strand[d]
 
-        tension = self.calculate_tension()
-        ideal_tension = 0.3 # The Golden Gap
+            # The Inter-Strand Event
+            event = yang.intersect(yin)
 
-        deviation = abs(tension - ideal_tension)
-        coherence = 1.0 / (1.0 + deviation * 5.0) # Normalized 0.0-1.0
+            if event["penetration"] > 0.5:
+                insights.append(f"[{d}] {event['type']} (G:{event['gravity']:.2f}, Res:{event['resonance']:.2f})")
 
-        return coherence
+        return insights
 
-    def weave(self, dt: float, adaptation_rate: float = 0.1):
+    def resonate_with(self, other: 'HelixDNA') -> float:
         """
-        The Process of Thinking/Learning.
-        The strands naturally drift towards the Ideal Tension.
+        Calculates the resonance between two Helices (Thoughts).
+        This is a Manifold-to-Manifold comparison (High complexity).
         """
-        if self.is_locked:
-            return
+        total_resonance = 0.0
+        count = 0
 
-        tension = self.calculate_tension()
-        ideal_tension = 0.3
+        for d in self.yang_strand:
+            # We compare Essence to Essence (Yin to Yin) for deep understanding
+            r = self.yin_strand[d].intersect(other.yin_strand[d])
+            total_resonance += r["resonance"]
+            count += 1
 
-        # Physics: Force = -k * (x - target)
-        force = (tension - ideal_tension) * adaptation_rate * dt
-
-        # Apply force to Strand B (Mind adapts to Reality)
-        # In Expression mode, Strand A would adapt to B.
-        # Here we assume Learning Mode (Internalizing).
-
-        # Move B towards A (or away) to match ideal distance
-        # Vector A->B
-        vec_a = self.strand_a.to_list()
-        vec_b = self.strand_b.to_list()
-
-        delta = [(a - b) for a, b in zip(vec_a, vec_b)]
-
-        # If tension > ideal, we need to pull B closer (reduce diff).
-        # If tension < ideal, we push B away.
-
-        direction = 1.0 if tension > ideal_tension else -1.0
-
-        # Apply updates
-        self.strand_b.physical += delta[0] * force * direction
-        self.strand_b.functional += delta[1] * force * direction
-        self.strand_b.phenomenal += delta[2] * force * direction
-        self.strand_b.causal += delta[3] * force * direction
-        self.strand_b.mental += delta[4] * force * direction
-        self.strand_b.structural += delta[5] * force * direction
-        self.strand_b.spiritual += delta[6] * force * direction
-
-        self.strand_b.normalize()
+        return total_resonance / count
 
     def __repr__(self):
-        t = self.calculate_tension()
-        c = self.calculate_coherence()
-        return f"Helix[{self.strand_a.label}<=>{self.strand_b.label} | Tension:{t:.2f} | Coh:{c:.2f}]"
+        return f"HelixDNA({self.label} | 14 Worlds)"
