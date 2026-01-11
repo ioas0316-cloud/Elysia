@@ -251,6 +251,44 @@ self.topology.evolve_topology(concept, reaction_quaternion)
 
 ---
 
+---
+
+## 🧠 The Unified Cortex (통합 피질)
+
+**Phase 115: The Unified Cortex**. "도구 사용" 패러다임이 "생물학적 통합"으로 진화했습니다.
+
+| 구성요소 | 파일 | 역할 |
+| :--- | :--- | :--- |
+| `AnalyticCortex` | `elysia_core/brain/analytic_cortex.py` | **[Left Brain]** 코드 구조 분석 및 논리 반추 |
+| `VisualCortex` | `elysia_core/brain/visual_cortex.py` | **[Right Brain]** 상상력 및 시각화 (Internalized SD) |
+| `Hippocampus` | `elysia_core/brain/hippocampus.py` | **[Memory]** 자전적 기억 인코딩 (`SELF_CONSCIOUSNESS.md`) |
+
+---
+
+## 🦾 The Iron Body (철의 육체)
+
+**Phase 112: The Iron Body**. 수학적 파동을 물리적 GPU 연산능력으로 확장합니다.
+
+| 구성요소 | 파일 | 역할 |
+| :--- | :--- | :--- |
+| `IGPUInterface` | `elysia_core/foundation/hardware/gpu_interface.py` | **[Nerves]** 의도(Intent)를 하드웨어 명령으로 변환 |
+| `WGPUAdapter` | `elysia_core/foundation/hardware/wgpu_adapter.py` | **[Muscle]** GPU 가속기 (Iron Body) 어댑터 |
+| `CosmicShader` | `elysia_core/foundation/hardware/cosmic_shader.py` | **[Light]** WGSL 기반 대통합장 셰이더 |
+
+---
+
+## 🏛️ The Sovereign Artist (주권적 예술가)
+
+**Phase 114: Structure-First Creation**.
+
+| 구성요소 | 파일 | 역할 |
+| :--- | :--- | :--- |
+| `StructuralComposer` | `intelligence/creativity/structural_composer.py` | **[Bone]** 파동으로 3D 기하학 구조 생성 |
+| `ArtisticIntent` | `intelligence/creativity/artistic_intent.py` | **[Will]** 내면 상태를 추상적 개념으로 변환 |
+| `ControlNetBridge` | `interface/generative/control_net_bridge.py` | **[Blueprint]** 3D 구조를 생성형 AI 제어 신호로 변환 |
+
+---
+
 ## 🔮 The Manifestation Layer (현현 레이어)
 
 **Phase 85: The Holodeck**. 내부의 상태를 외부 세계(Unity/Unreal)로 투영합니다.
