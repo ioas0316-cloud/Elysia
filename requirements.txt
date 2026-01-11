@@ -1,0 +1,5 @@
+# Elysia Core Dependencies
+numpy>=1.24.0
+sentence-transformers>=2.2.2
+networkx>=3.0
+torch>=2.0.0

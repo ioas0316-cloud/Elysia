@@ -30,13 +30,14 @@ class RotorConfig:
 
 class Rotor:
     """
-    Rotor: The Engine of the Sphere.
-    It spins to create Waves.
-    Implements 'Continuous Stream' (Never Stops).
-
-    State:
-    - Sleep (Idle): Spinning at base frequency (Breathing).
-    - Awake (Active): Spinning at target frequency (Thinking).
+    Spectral Rotor: A Multi-Harmonic Oscillator.
+    ============================================
+    Unlike a simple motor (1 frequency), a Spectral Rotor holds a 'Chord'.
+    It spins at multiple frequencies simultaneously, representing a complex thought.
+    
+    Structure:
+    - Base RPM: The carrier wave.
+    - Spectrum: List of (Hz, Amp, Phase) harmonics.
     """
     def __init__(self, name: str, config: RotorConfig):
         self.name = name
@@ -48,8 +49,15 @@ class Rotor:
         self.target_rpm = 0.0    # Desired Velocity
         self.is_spinning = False # Technical flag for "Engine On"
         
+        # [PHASE 65] Spectral State (The Prism Output)
+        # List of (Frequency Hz, Amplitude 0-1, Phase Offset Rad)
+        self.spectrum: list[tuple[float, float, float]] = []
+        
+        # [PHASE 66] Dynamic Qualia (The Nature)
+        # We store the WaveDynamics object here
+        self.dynamics = None
+        
         # [PHASE 64] 4D Position (Hyper-Quaternion)
-        # Using a simple tuple for now to mock the 4D state for WavePacket
         self.position_4d = (0.0, 0.0, 0.0, 0.0)
 
     @property
@@ -97,6 +105,68 @@ class Rotor:
         """
         phase_rad = math.radians(self.current_angle)
         return (self.frequency_hz, self.config.mass, phase_rad)
+    
+    def inject_spectrum(self, spectrum: list[tuple[float, float, float]], dynamics=None):
+        """
+        [PHASE 65] Loads a complex harmonic profile into the rotor.
+        [PHASE 66] Also loads dynamic qualia if provided.
+        """
+        self.spectrum = spectrum
+        if dynamics:
+             self.dynamics = dynamics
+        
+    def resonate(self, other_rotor: 'Rotor') -> float:
+        """
+        [PHASE 65] Calculates interference/resonance with another rotor.
+        Returns a value between -1.0 (Dissonance) and 1.0 (Resonance).
+        
+        Uses spectral overlap calculation.
+        """
+        # Simple implementation for now: dot product of spectra if they match
+        # Real implementation requires manifold integration
+        if not self.spectrum or not other_rotor.spectrum:
+            return 0.0
+            
+        # Compare primary frequencies
+        f1 = self.frequency_hz
+        f2 = other_rotor.frequency_hz
+        
+        # Harmonic ratio check
+        ratio = f1 / f2 if f2 > 0 else 0
+        
+        # Perfect fifth (1.5) or Octave (2.0) or Unison (1.0) is resonant
+        if abs(ratio - 1.0) < 0.01: return 1.0
+        if abs(ratio - 1.5) < 0.01: return 0.8
+        if abs(ratio - 2.0) < 0.01: return 0.9
+        
+        return 0.1 # Weak resonance
+        
+    def adapt(self, action: str, param: float):
+        """
+        [PHASE 67] Autopoietic Adaptation.
+        The Rotor adjusts itself based on feedback from the Manifold.
+        """
+        if action == "SHIFT_PHASE":
+            # Physically shift the phase of the rotor to dodge interference
+            # param is radians
+            degrees = math.degrees(param)
+            self.current_angle = (self.current_angle + degrees) % 360.0
+            print(f"   ⚙️ Rotor '{self.name}' shifted phase by {degrees:.1f}°")
+            
+        elif action == "DAMPEN":
+            # Reduce mass (amplitude) to reduce noise contribution
+            # param is multiplier (e.g., 0.9)
+            old_mass = self.config.mass
+            self.config.mass *= param
+            if self.config.mass < 0.1: self.config.mass = 0.1 # Minimum mass
+            print(f"   ⚙️ Rotor '{self.name}' dampened mass: {old_mass:.2f} -> {self.config.mass:.2f}")
+            
+        elif action == "RETUNE":
+            # Change frequency to find harmony
+            # param is multiplier (e.g. 1.059 for semitone up)
+            self.target_rpm *= param
+            print(f"   ⚙️ Rotor '{self.name}' retuning RPM: {self.target_rpm:.1f}")
+        
 
     def purify(self, raw_data: dict) -> dict:
         """Legacy Centrifuge Logic"""
@@ -111,4 +181,5 @@ class Rotor:
 
     def __repr__(self):
         state = "Sleep" if self.current_rpm <= self.config.idle_rpm else "Awake"
-        return f"Rotor({self.name} | {state} | {self.current_rpm:.1f}/{self.target_rpm:.1f} RPM | {self.current_angle:.1f}°)"
+        harmonics = len(self.spectrum)
+        return f"Rotor({self.name} | {state} | {self.current_rpm:.1f} RPM | H:{harmonics})"
