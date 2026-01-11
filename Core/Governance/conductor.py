@@ -119,10 +119,11 @@ class Conductor(SystemAlignment):
             elif mood == "Melancholic":
                 self.set_intent(mode=Mode.MINOR)
 
-    def live(self, dt: float = 1.0):
+    def live(self, dt: float = 1.0) -> Dict[str, Any]:
         """
         The Heartbeat Loop.
         Now delegates the physical pulse to the Core.
+        Returns the Intent Payload for CNS.
         """
         # 1. Sense & Decide (The Will)
         self.sense_field()
@@ -138,7 +139,7 @@ class Conductor(SystemAlignment):
 
         # 3. THE CORE PULSE (The Physics)
         # Instead of manually broadcasting, we command the Core to Pulse.
-        self.core.pulse(intent_payload)
+        self.core.pulse(intent_payload, dt=dt)
 
         # 4. Logos (If Spark exists)
         if spark:
@@ -146,6 +147,8 @@ class Conductor(SystemAlignment):
             logger.info(f"✨ Spark -> Logos: {thought}")
             # Core pulse already carried the generic intent,
             # but we can do a specialized broadcast for Speech if needed.
+
+        return intent_payload
 
     def register_instrument(self, instrument: Instrument):
         with self._lock:
@@ -160,7 +163,9 @@ class Conductor(SystemAlignment):
         # Update Core Frequency based on Mode/Tempo (Bio-feedback to Physics)
         # Example: Higher tempo = Higher base frequency
         if tempo:
-            self.core.resonator.frequency = tempo.value * 4.0 # Simple mapping
+            # Check if self.core has resonator (HyperSphereCore usually uses primary_rotor)
+            # Assuming logic to update core base frequency
+            self.core.primary_rotor.config.rpm = tempo.value * 4.0
 
     # Backward Compatibility Methods
     def conduct_solo(self, name: str, *args, **kwargs) -> Any:
