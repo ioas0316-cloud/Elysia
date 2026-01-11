@@ -111,7 +111,7 @@ class LivingElysia:
 
         self.ans.start_background()
         self.cns.awaken()
-        logger.info("✨ Living Elysia is FULLY AWAKE.")
+        logger.info("✨ Living Elysia is FULLY AWAKE. (Heartbeat: Dynamic)")
 
         print("\n" + "="*60)
         print("🦋 Elysia is Living... (Press Ctrl+C to stop)")
@@ -119,9 +119,29 @@ class LivingElysia:
         
         try:
             while True:
-                self.cns.pulse()
+                # 1. Calculate Organic Sleep (Chronos Modulation)
+                # Energy comes from the Core's Mass/Excitement
+                current_energy = 50.0
+                try:
+                    current_energy = self.cns.conductor.core.primary_rotor.config.mass
+                except Exception:
+                    pass
+
+                # Get the natural sleep duration (The "Rest")
+                sleep_duration = self.chronos.modulate_time(current_energy)
+
+                # 2. Pulse (The Beat)
+                self.cns.pulse(dt=sleep_duration)
                 self.ans.pulse_once()
-                self.chronos.wait(0.1) # Use Chronos instead of time.sleep
+
+                # 3. Wait (The Silence)
+                # We use the calculated duration, not a hardcoded value
+                # self.chronos.wait(0.1) -> Removed
+                # Chronos already has 'beat' loop logic internally if we used it,
+                # but here we are driving the main thread.
+                # We simply sleep the amount Chronos suggested.
+                time.sleep(sleep_duration)
+
                 self.cycle_count += 1
                 
         except KeyboardInterrupt:

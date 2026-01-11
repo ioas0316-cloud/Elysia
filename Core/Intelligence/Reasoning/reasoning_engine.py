@@ -144,22 +144,9 @@ class ReasoningEngine:
         
         # [PHASE 37] Apply Dynamic Constitution (The First Layer)
         # If the thought triggers a known law, we defer to the law immediately.
-        if self.axioms:
-            full_prompt = f"SYSTEM AXIOMS (IMMUTABLE LAWS):\n{self.axioms}\n\nTHOUGHT: {desire}"
-            lower_prompt = full_prompt.lower()
-            lower_desire = desire.lower()
-            
-            # Specific Logic for Red Apple Test (Simulating "Understanding")
-            # Relaxed Condition: If input mentions "Red" (Subject) and Axioms mention "Levity" (Law), trigger Law.
-            if "red" in lower_desire and "levity" in lower_prompt:
-                return Insight(
-                    content="Thinking structually: According to the Law of Levity, the Red Apple rises upwards.",
-                    confidence=1.0,
-                    depth=depth,
-                    energy=1.0
-                )
-        else:
-            full_prompt = desire
+        # [CLEANUP] Removed hardcoded "Red Apple" test logic.
+        # The system must now rely on internal axioms or derived physics.
+        full_prompt = desire
             
         # 1. Ponder in the Landscape (Physics Simulation)
         physics_result = self.landscape.ponder(full_prompt)
