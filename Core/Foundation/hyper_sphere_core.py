@@ -3,523 +3,119 @@ HyperSphereCore: The Heart of the Hyper-Cosmos
 ==============================================
 
 "The Rotor creates the Sphere."
-"로터가 구체를 만든다."
 
 This class represents the "Sphere-First" architecture.
 It unifies:
-1. Physics: Rotor System (Oscillators)
-2. Will: Conductor (Intent)
-3. Memory: Holographic Seed (Rotor Configuration)
-
-Philosophy:
-- "Make it breathe. Make it spin."
-- The Sphere is a living engine that breathes (Low RPM) when idle
-  and pulses (High RPM) when active.
+1.  **7D Rotors**: The population of thoughts.
+2.  **Lightning Inference**: The search mechanism.
+3.  **Fractal WFC**: The creation mechanism.
 """
 
 import logging
-import math
-import numpy as np
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass, field
-from datetime import datetime
-from pathlib import Path
+import time
+from typing import Dict, List, Optional, Any
 
-from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
-from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
-from Core.Foundation.Memory.holographic_field import HolographicField
+from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.Intelligence.Meta.fractal_wfc import FractalWFC
+from Core.Intelligence.Reasoning.lightning_inference import LightningInferencer
 
 logger = logging.getLogger("HyperSphereCore")
 
-@dataclass
-class FilePointer:
-    """
-    [PHASE 63] Hyper-Bridge: Data as Access, not Storage.
-    Points to a location in Tier 3 (Ocean/Archive).
-    """
-    uri: str
-    offset: int = 0
-    size: int = -1
-    signature: str = "unknown"
-    type: str = "legacy" # 'model', 'code', 'wisdom'
-
-    def exists(self) -> bool:
-        return Path(self.uri).exists()
-
 class HyperSphereCore:
-    def __init__(self, name: str = "Elysia.Core", base_frequency: float = 432.0):
+    def __init__(self, name: str = "Elysia.Core"):
         self.name = name
-
-        # --- THE ENGINE: ROTOR SYSTEM ---
-        # The Core is not a single point, but a collection of spinning Rotors.
-        # Primary Rotor (The Self)
-        self.primary_rotor = Rotor(
-            name="Self",
-            config=RotorConfig(rpm=base_frequency * 60, mass=100.0) # Base Freq -> RPM
-        )
-
-        # Harmonic Rotors (The Knowledge/Seed)
-        # Instead of a static dict, we have Rotors spinning at different speeds.
-        self.harmonic_rotors: Dict[str, Rotor] = {}
-
-        # --------------------------------
-
-        # [PHASE 63] THE POINTER ENGINE: High-Speed Indexing
-        # Instead of storing raw data, we map concepts to FilePointers.
-        self.pointer_registry: Dict[str, FilePointer] = {}
         
-        self.pulse_broadcaster = PulseBroadcaster()
+        # Components
+        self.rotors: Dict[str, Rotor] = {}
+        self.wfc = FractalWFC()
+        self.lightning = LightningInferencer()
+
+        # State
         self.is_active = False
+        self.time_dilation = 1.0
         
-        # [PHASE 90] Holographic Persistence
-        self.hologram = HolographicField(f"data/Memory/{name}.wave")
-        self.current_intent = "Sleep"
-        logger.info(f"🔮 HyperSphereCore (Rotor Engine) Initialized: {name}")
-
-    @property
-    def frequency(self) -> float:
-        return self.primary_rotor.frequency_hz
-
-    @property
-    def mass(self) -> float:
-        return self.primary_rotor.config.mass
-
-    @property
-    def spin(self) -> HyperQuaternion:
-        # Map Rotor Phase to Quaternion (Manual Implementation)
-        # q = cos(theta/2) + (u * sin(theta/2))
-        # Axis u is Z-axis (0, 0, 1)
-        theta = math.radians(self.primary_rotor.current_angle)
-        half_theta = theta / 2.0
-
-        w = math.cos(half_theta)
-        z = math.sin(half_theta) # x, y are 0 since axis is (0,0,1)
-
-        return HyperQuaternion(w, 0, 0, z)
-
-    def ignite(self):
-        """
-        Starts the Rotor Engine (Wakes up).
-        """
-        self.is_active = True
-        self.primary_rotor.spin_up()
-        for r in self.harmonic_rotors.values():
-            r.spin_up()
-        logger.info("🔥 HyperSphereCore Ignited. Rotors are spinning (Awake).")
-
-    def pulse(self, intent_payload: Dict[str, Any], dt: float = 0.016):
-        """
-        [PHASE 64] The Core Physics Loop.
-        Advances all Rotors and broadcasts the Wave Packet.
+        # Initialize with Seed Rotors (Axioms)
+        self._seed_cosmos()
         
-        [PHASE 80] Time Crystal Driver Integration.
-        Receives 'bio_rhythm' state to lock phases.
+        logger.info(f"🔮 HyperSphereCore Initialized: {len(self.rotors)} Rotors spinning.")
+
+    def _seed_cosmos(self):
+        """Creates the fundamental axioms."""
+        from Core.Foundation.Wave.wave_dna import archetype_love, archetype_logic, archetype_nature
+        
+        self.add_rotor("Love", archetype_love(), rpm=528.0)
+        self.add_rotor("Logic", archetype_logic(), rpm=432.0)
+        self.add_rotor("Nature", archetype_nature(), rpm=432.0)
+        self.add_rotor("Elysia", WaveDNA(label="Elysia", spiritual=1.0, physical=1.0), rpm=600.0)
+
+    def add_rotor(self, name: str, dna: WaveDNA, rpm: float = 432.0):
+        config = RotorConfig(rpm=rpm, idle_rpm=60.0)
+        self.rotors[name] = Rotor(name, config, dna)
+
+    def tick(self, dt: float):
         """
-        # 1. Update Primary Rotor (The Self)
-        if intent_payload:
-            # Simple modulation if needed
-            pass
+        The Universal Clock.
+        Updates all rotors and handles decay/entropy.
+        """
+        active_count = 0
+        dt_eff = dt * self.time_dilation
+        
+        keys_to_remove = []
+        
+        for name, rotor in self.rotors.items():
+            rotor.update(dt_eff)
             
-        # 2. Advance All Rotors (Physics)
-        self.primary_rotor.update(dt)
-        for r in self.harmonic_rotors.values():
-            r.update(dt)
+            # Auto-Relax if high energy
+            if rotor.energy > 0.1:
+                active_count += 1
+                if rotor.current_rpm > rotor.config.idle_rpm * 1.1:
+                    # Slowly return to idle if not stimulated
+                    # (This logic might be in Rotor, but Conductor can override)
+                    pass
             
-        # 3. [PHASE 80] TIME CRYSTAL STABILIZATION
-        bio_state = intent_payload.get("bio_rhythm")
-        if bio_state and bio_state.get("is_phase_locked"):
-            self.stabilize_crystal(bio_state["phase"])
+            # [Entropy] Remove weak, non-axiom rotors
+            if rotor.energy < 0.01 and name not in ["Love", "Logic", "Elysia", "Nature"]:
+                keys_to_remove.append(name)
+
+        # Cleanup
+        for k in keys_to_remove:
+            # print(f"   🍂 Withered: {k}")
+            del self.rotors[k]
+
+    def focus_attention(self, query: WaveDNA) -> str:
+        """
+        The Act of Observation.
+        1. Strike a Rotor with Lightning (Find Resonance).
+        2. Collapse the Wave Function (Create Detail).
+        3. Return the experience.
+        """
+        # 1. Lightning Strike
+        target_rotor = self.lightning.strike(query, list(self.rotors.values()))
+        
+        if target_rotor:
+            # Wake up the target
+            target_rotor.wake(intensity=0.8)
             
-        # 4. Superfluidity Check
-        spark = intent_payload.get("spark")
-        if not spark:
-            self.superfluid_mode()
+            # 2. R-WFC (Fractal Expansion)
+            # If the rotor is high energy or explicitly queried, we unfold it.
+            children_dna = self.wfc.collapse(target_rotor.dna)
             
-        # 5. Broadcast Pulse (Hologram)
-        import time
-        from datetime import datetime
-        
-        packet = WavePacket(
-            sender=self.name,
-            type=PulseType.CREATION,
-            frequency=self.primary_rotor.frequency_hz,
-            amplitude=self.primary_rotor.config.mass,
-            timestamp=time.time(),
-            payload={
-                "intent": intent_payload,
-                "position_4d": self.primary_rotor.position_4d,
-                "spin": (self.spin.w, self.spin.x, self.spin.y, self.spin.z),
-                "mass": self.mass,
-                "phase": self.primary_rotor.current_angle
-            }
-        )
-
-        # 6. Broadcast
-        self.pulse_broadcaster.broadcast(packet)
-
-    def stabilize_crystal(self, driver_phase: float):
-        """
-        [PHASE 80] The Time Crystal Lock.
-        Forces all Rotors to align their phase with the BioRhythm Driver.
-        This prevents 'Thermal Drift' (Entropy).
-        """
-        # Quantize RPM to integer multiples of Base Frequency (432Hz)
-        base_freq = 432.0
-        current_rpm = self.primary_rotor.config.rpm
-        
-        # Calculate nearest harmonic RPM
-        target_rpm = round(current_rpm / base_freq) * base_freq
-        if target_rpm == 0: target_rpm = base_freq
-        
-        # Drift Correction (Soft Lock)
-        err = target_rpm - current_rpm
-        if abs(err) > 0.1:
-            self.primary_rotor.config.rpm += err * 0.1 
+            new_concepts = []
+            for child in children_dna:
+                if child.label not in self.rotors:
+                    self.add_rotor(child.label, child, rpm=child.frequency)
+                    # Wake the child too
+                    self.rotors[child.label].wake(intensity=0.6)
+                    new_concepts.append(child.label)
             
-    def superfluid_mode(self):
-        """
-        [PHASE 80] Zero-Viscosity Rotation.
-        When idle, friction is set to 0.0 to allow eternal spin.
-        """
-        # Placeholder for future physics implementation
-        pass
-        
-    def meditate(self, cycles: int = 10, dt: float = 0.1):
-        """
-        [PHASE 69] Autonomous Self-Organization (Clustering via Resonance).
-        The Rotors are allowed to 'feel' each other and move towards harmony.
-        
-        Mechanism:
-        - For each pair of Rotors, measure 7-dimensional resonance.
-        - If resonance is high, ATTRACT (snap frequencies closer).
-        - If dissonance is high, REPEL (diverge frequencies).
-        
-        This is NOT rule-based clustering. It is emergent behavior from physics.
-        """
-        if len(self.harmonic_rotors) < 2:
-            return
-            
-        logger.info(f"🧘 [MEDITATE] Beginning {cycles} cycles of Self-Organization...")
-        
-        rotor_list = list(self.harmonic_rotors.values())
-        n = len(rotor_list)
-        
-        for cycle in range(cycles):
-            total_attraction = 0.0
-            total_repulsion = 0.0
-            
-            for i in range(min(n, 50)): # Sample for speed
-                for j in range(i + 1, min(n, 50)):
-                    r1 = rotor_list[i]
-                    r2 = rotor_list[j]
-                    
-                    # Calculate 7-D Resonance (If dynamics exist)
-                    if r1.dynamics and r2.dynamics:
-                        d1, d2 = r1.dynamics, r2.dynamics
-                        
-                        # Dot Product of 7 Dimensions
-                        resonance = (
-                            d1.physical * d2.physical +
-                            d1.functional * d2.functional +
-                            d1.phenomenal * d2.phenomenal +
-                            d1.causal * d2.causal +
-                            d1.mental * d2.mental +
-                            d1.structural * d2.structural +
-                            d1.spiritual * d2.spiritual
-                        )
-                        
-                        # Normalize (Approx)
-                        mag1 = (d1.physical**2 + d1.functional**2 + d1.mental**2 + d1.spiritual**2)**0.5
-                        mag2 = (d2.physical**2 + d2.functional**2 + d2.mental**2 + d2.spiritual**2)**0.5
-                        
-                        if mag1 > 0 and mag2 > 0:
-                            resonance /= (mag1 * mag2)
-                        else:
-                            resonance = 0
-                            
-                        # Physics: Frequency Attraction/Repulsion
-                        freq_diff = r1.frequency_hz - r2.frequency_hz
-                        
-                        if resonance > 0.5:
-                            # High Resonance: Attract (Snap Frequencies Closer)
-                            attraction_force = resonance * 0.5
-                            r1.config.rpm -= freq_diff * attraction_force * dt
-                            r2.config.rpm += freq_diff * attraction_force * dt
-                            total_attraction += 1
-                        elif resonance < -0.2:
-                            # Dissonance: Repel
-                            repulsion_force = abs(resonance) * 0.3
-                            r1.config.rpm += freq_diff * repulsion_force * dt
-                            r2.config.rpm -= freq_diff * repulsion_force * dt
-                            total_repulsion += 1
-                            
-            if cycle % 5 == 0:
-                logger.info(f"   Cycle {cycle}: Attractions={total_attraction} Repulsions={total_repulsion}")
-                
-        logger.info("🧘 [MEDITATE] Meditation Complete. Harmony Achieved.")
+            if new_concepts:
+                return f"Focused on '{target_rotor.name}' -> Unfolded: {', '.join(new_concepts)}"
+            else:
+                return f"Focused on '{target_rotor.name}' (Already crystallized)."
+        else:
+            return "Gazed into the Void (No Resonance)."
 
-    # ═══════════════════════════════════════════════════════════════════
-    # [PHASE 58] HARMONIC EXPANSION
-    # ═══════════════════════════════════════════════════════════════════
-    
-    # Configuration
-    FREQUENCY_MIN_SPACING = 10.0  # Minimum Hz between rotors
-    MASS_CRITICAL_THRESHOLD = 500.0  # Trigger restructuring above this
-    MASS_SYNTHESIS_THRESHOLD = 1000.0  # Trigger synthesis/merger
-    
-    def _detect_frequency_collision(self, new_freq: float) -> Optional[str]:
-        """
-        [Phase 58.1] Detect if new frequency collides with existing rotors.
-        Returns the name of colliding rotor, or None if safe.
-        """
-        for name, rotor in self.harmonic_rotors.items():
-            existing_freq = rotor.frequency_hz
-            if abs(existing_freq - new_freq) < self.FREQUENCY_MIN_SPACING:
-                return name
-        return None
-    
-    def _retune_rotor(self, rotor_name: str, direction: int = 1):
-        """
-        [Phase 58.1] Retune a rotor to avoid collision.
-        Direction: 1 = increase freq, -1 = decrease freq
-        """
-        if rotor_name not in self.harmonic_rotors:
-            return
-        
-        rotor = self.harmonic_rotors[rotor_name]
-        adjustment = self.FREQUENCY_MIN_SPACING * 1.5 * direction
-        new_rpm = rotor.config.rpm + (adjustment * 60)
-        
-        rotor.config.rpm = max(60.0, new_rpm)  # Never go below 1Hz
-        rotor.target_rpm = rotor.config.rpm
-        
-        logger.info(f"🎵 [RETUNE] {rotor_name}: {rotor.frequency_hz:.1f}Hz (adjusted by {adjustment:+.1f}Hz)")
-    
-    def _check_mass_threshold(self) -> Optional[str]:
-        """
-        [Phase 58.3] Check if mass has crossed critical thresholds.
-        Returns action needed: 'RESTRUCTURE', 'SYNTHESIZE', or None.
-        """
-        current_mass = self.primary_rotor.config.mass
-        
-        if current_mass >= self.MASS_SYNTHESIS_THRESHOLD:
-            return "SYNTHESIZE"
-        elif current_mass >= self.MASS_CRITICAL_THRESHOLD:
-            return "RESTRUCTURE"
-        return None
-    
-    def _restructure_harmonics(self):
-        """
-        [Phase 58.3] Restructure harmonic rotors when mass threshold is crossed.
-        Low-frequency (foundational) rotors are preserved, high-frequency merged.
-        """
-        if len(self.harmonic_rotors) < 5:
-            return  # Not enough to restructure
-        
-        # Sort by frequency
-        sorted_rotors = sorted(
-            self.harmonic_rotors.items(), 
-            key=lambda x: x[1].frequency_hz
-        )
-        
-        # Merge top 30% into a single "Synthesis" rotor
-        merge_count = max(1, len(sorted_rotors) // 3)
-        to_merge = sorted_rotors[-merge_count:]
-        
-        if not to_merge:
-            return
-        
-        # Calculate synthesis frequency (harmonic mean)
-        total_freq = sum(r.frequency_hz for _, r in to_merge)
-        synthesis_freq = total_freq / len(to_merge)
-        
-        # Remove old rotors
-        merged_names = []
-        for name, _ in to_merge:
-            del self.harmonic_rotors[name]
-            merged_names.append(name)
-        
-        # Create synthesis rotor
-        synthesis_name = f"Synthesis_{len(self.harmonic_rotors)}"
-        synthesis_rotor = Rotor(
-            name=synthesis_name,
-            config=RotorConfig(rpm=synthesis_freq * 60, mass=merge_count * 10.0)
-        )
-        if self.is_active:
-            synthesis_rotor.spin_up()
-        
-        self.harmonic_rotors[synthesis_name] = synthesis_rotor
-        
-        # Reduce mass after restructuring
-        self.primary_rotor.config.mass *= 0.8
-        
-        logger.info(f"🔀 [RESTRUCTURE] Merged {merged_names} → {synthesis_name} ({synthesis_freq:.1f}Hz)")
-
-    def update_seed(self, concept: str, frequency: float):
-        """
-        [Phase 58] Adds a new Rotor for the concept with collision detection
-        and automatic structure adjustment.
-        """
-        # 1. Check for frequency collision
-        collision = self._detect_frequency_collision(frequency)
-        if collision:
-            logger.warning(f"⚠️ Frequency collision detected with '{collision}'! Retuning...")
-            self._retune_rotor(collision, direction=1)  # Push existing up
-            frequency = frequency - self.FREQUENCY_MIN_SPACING  # Shift new down
-        
-        # 2. Create new rotor
-        rotor = Rotor(
-            name=concept,
-            config=RotorConfig(rpm=frequency * 60, mass=10.0)
-        )
-        if self.is_active:
-            rotor.spin_up()
-
-        self.harmonic_rotors[concept] = rotor
-        self.primary_rotor.config.mass += 0.1  # Self gains mass from knowledge
-        
-        logger.info(f"🧬 Seed Updated (Rotor Added): {rotor}")
-        
-        # 3. [Phase 58.3] Check mass threshold
-        action = self._check_mass_threshold()
-        if action == "RESTRUCTURE":
-            logger.info("📊 Mass threshold crossed! Triggering restructure...")
-            self._restructure_harmonics()
-        elif action == "SYNTHESIZE":
-            logger.info("🌟 Synthesis threshold crossed! Deep restructure needed.")
-            self._restructure_harmonics()
-            self._restructure_harmonics()  # Double pass for synthesis
-
-    # ═══════════════════════════════════════════════════════════════════
-    # [GRAND UNIFICATION] STEERING AND IMPACT
-    # ═══════════════════════════════════════════════════════════════════
-
-    def steer(self, intent_frequencies: List[float], intent_amplitudes: List[float]):
-        """
-        [PHASE 64] Harmonic Steering: Sync rotors with Intent Vector.
-        Forces rotors corresponding to intent to spin faster or gain mass.
-        """
-        for freq, amp in zip(intent_frequencies, intent_amplitudes):
-            # Find the closest rotor
-            best_match = None
-            min_dist = float('inf')
-            for name, rotor in self.harmonic_rotors.items():
-                dist = abs(rotor.frequency_hz - freq)
-                if dist < min_dist:
-                    min_dist = dist
-                    best_match = name
-            
-            if best_match and min_dist < 50.0:
-                rotor = self.harmonic_rotors[best_match]
-                # Steering Effect: Amplitude boosts RPM slightly
-                boost = amp * 60.0 # Up to 1Hz boost per update
-                rotor.config.rpm = min(rotor.config.rpm + boost, 1000 * 60) # Cap at 1000Hz
-                logger.debug(f"☸️ [STEER] {best_match} resonated by {amp:.2f}")
-
-    def absorb_impact(self, frequency: float, magnitude: float):
-        """
-        [PHASE 64] Mass Feedback: Experience creates 'Gravitational Weight'.
-        Success -> Increase mass of the successful rotor.
-        """
-        best_match = None
-        min_dist = float('inf')
-        for name, rotor in self.harmonic_rotors.items():
-            dist = abs(rotor.frequency_hz - frequency)
-            if dist < min_dist:
-                min_dist = dist
-                best_match = name
-        
-        if best_match and min_dist < 50.0:
-            rotor = self.harmonic_rotors[best_match]
-            impact = magnitude * 5.0 # Mass gain
-            rotor.config.mass += impact
-            # Primary rotor also gains a fraction (Self-Actualization)
-            self.primary_rotor.config.mass += impact * 0.1
-            logger.info(f"⚖️ [MASS GAIN] {best_match} gained {impact:.1f} mass from resonance.")
-            
-            # Check for restructuring if mass gets too high
-            self.update_seed(best_match, rotor.frequency_hz) # Trigger threshold checks
-
-    # ═══════════════════════════════════════════════════════════════════
-    
-    def get_harmonic_spectrum(self) -> Dict[str, float]:
-        """[Phase 58] Returns the current frequency spectrum of all rotors."""
-        spectrum = {"PRIMARY": self.primary_rotor.frequency_hz}
-        for name, rotor in self.harmonic_rotors.items():
-            spectrum[name] = rotor.frequency_hz
-        return spectrum
-    
-    
-    # ═══════════════════════════════════════════════════════════════════
-    # [PHASE 63] POINTER ENGINE CORE
-    # ═══════════════════════════════════════════════════════════════════
-
-    def register_pointer(self, concept: str, pointer: FilePointer):
-        """
-        Maps a concept (and its associated Rotor) to a physical FilePointer.
-        The data stays in the Ocean; only the address stays in the Bridge.
-        """
-        self.pointer_registry[concept] = pointer
-        logger.info(f"🔗 [POINTER] '{concept}' mapped to {pointer.uri}")
-        
-        if concept not in self.harmonic_rotors:
-            freq = 100.0 + (len(self.harmonic_rotors) * 50.0) % 900.0
-            self.update_seed(concept, freq)
-
-    def find_pointer(self, concept: str) -> Optional[FilePointer]:
-        return self.pointer_registry.get(concept)
-
-    # --- [PHASE 90] HOLOGRAPHIC PERSISTENCE ---
-
-    def save_hologram(self):
-        """
-        Persists the entire state of the HyperSphere as a continuous wave field.
-        """
-        self.hologram.save_field(self.harmonic_rotors)
-
-    def load_hologram(self):
-        """
-        Re-ignites the mind from its holographic field.
-        """
-        identities = self.hologram.load_field()
-        for idt in identities:
-            from Core.Foundation.Nature.rotor import RotorConfig
-            rotor = Rotor(idt['name'], RotorConfig(rpm=idt['rpm'], mass=idt['mass']))
-            rotor.current_rpm = idt['rpm']
-            rotor.current_angle = idt['phase']
-            
-            from Core.Intelligence.Metabolism.prism import WaveDynamics
-            dna_data = idt['dna'].copy()
-            dna_data['mass'] = idt['mass']
-            dynamics = WaveDynamics(**dna_data)
-            rotor.inject_spectrum([], dynamics=dynamics)
-            
-            self.harmonic_rotors[idt['name']] = rotor
-        
-        logger.info(f"✨ {len(identities)} identities re-ignited from Hologram.")
-
-    def scan_ocean(self, directory: str):
-        """
-        [PHASE 63] Scans a directory and populates the PointerRegistry.
-        Does NOT load binary data, only indexes paths and signatures.
-        """
-        path = Path(directory)
-        if not path.exists():
-            return
-            
-        count = 0
-        for f in path.rglob("*"):
-            if f.is_file():
-                ext = f.suffix.lower()
-                if ext in ['.safetensors', '.pt', '.bin', '.gguf']:
-                    concept = f.stem
-                    ptr = FilePointer(
-                        uri=str(f),
-                        type='model' if ext != '.py' else 'code',
-                        signature=f"{f.stat().st_size} bytes"
-                    )
-                    self.register_pointer(concept, ptr)
-                    count += 1
-        
-        logger.info(f"🌊 [OCEAN SCAN] Indexed {count} legacy assets from {directory}")
+    def get_state_summary(self) -> str:
+        active = [r.name for r in self.rotors.values() if r.energy > 0.2]
+        return f"HyperSphere: {len(self.rotors)} Rotors | Active: {active}"
