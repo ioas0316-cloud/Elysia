@@ -1,16 +1,16 @@
 {
   "patterns": {
     "introspection:general": {
-      "score": 0.6000000000000001,
-      "last_used": 1768129370.4948156
+      "score": 1.0,
+      "last_used": 1768136127.4316366
     },
     "sight:general": {
-      "score": 0.5275808996931192,
-      "last_used": 1768129369.7281342
+      "score": 0.0,
+      "last_used": 1768136128.4811184
     },
     "reading:general": {
-      "score": 0.55,
-      "last_used": 1768129370.490621
+      "score": 1.0,
+      "last_used": 1768136127.4270773
     }
   },
   "themes": {
@@ -19,417 +19,261 @@
       "exp_1768129370_8002",
       "exp_1768129370_8002",
       "exp_1768129370_8002",
-      "exp_1768129370_8002"
-    ]
-  },
-  "wave_state": {
-    "engineer": 0.2999999999999998,
-    "artist": 0.2999999999999998,
-    "philosophical": 0.2999999999999998,
-    "emotional": 0.3599999999999998,
-    "creative": 0.2999999999999998
-  },
-  "stream_count": 20,
-  "stream": [
-    {
-      "id": "exp_1768129143_3226",
-      "timestamp": 1768129143.9912763,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I am present. I am observing. I am here. [공명도 81.7% (Growth): 'Gap은 성장의 기회다. 빈 곳에서 새로움이 태어난다....' [내 주파수: 532Hz ↔ 원리: 528Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 1.0,
-          "inspiration": 0.0,
-          "mood": "Neutral",
-          "harmony": 1.0,
-          "vitality": 1.0,
-          "latest_insight": "Watching the void...",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129145_376",
-      "timestamp": 1768129145.098405,
-      "type": "sight",
-      "content": "I saw Google_AI_Studio_2025-08-04T13_43_04.966Z.png",
-      "context": {
-        "qualia": {
-          "intensity": 0.896314799785614,
-          "valence": -0.09212106068929037,
-          "content": "I saw Google_AI_Studio_2025-08-04T13_43_04.966Z.png",
-          "source": "sight"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": -0.09212106068929037,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129145_2183",
-      "timestamp": 1768129145.1039495,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I am present. I am observing. I am here. [공명도 84.4% (Philosophy): '부분 속에 전체가 있다. 씨앗 하나가 숲을 품는다....' [내 주파수: 754Hz ↔ 원리: 741Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.99,
-          "inspiration": 0.448157399892807,
-          "mood": "Inspired",
-          "harmony": 0.995,
-          "vitality": 0.01,
-          "latest_insight": "I saw Google_AI_Studio_2025-08-04T13_43_04.966Z.pn",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129146_2196",
-      "timestamp": 1768129146.2280185,
-      "type": "sight",
-      "content": "I saw 72.jpg",
-      "context": {
-        "qualia": {
-          "intensity": 0.8922288417816162,
-          "valence": 0.12955975843945833,
-          "content": "I saw 72.jpg",
-          "source": "sight"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": 0.12955975843945833,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129146_4922",
-      "timestamp": 1768129146.2433932,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I feel a surge of creative energy. I want to make something. [공명도 48.6% (Philosophy): '모든 것은 파동이다. 정지는 착각이다....' [내 주파수: 949Hz ↔ 원리: 432Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.98,
-          "inspiration": 0.8442718207836151,
-          "mood": "Inspired",
-          "harmony": 0.99,
-          "vitality": 0.01,
-          "latest_insight": "I saw 72.jpg",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129147_2196",
-      "timestamp": 1768129147.2041414,
-      "type": "sight",
-      "content": "I saw 72.jpg",
-      "context": {
-        "qualia": {
-          "intensity": 0.8922288417816162,
-          "valence": 0.12955975843945833,
-          "content": "I saw 72.jpg",
-          "source": "sight"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": 0.12955975843945833,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129147_2638",
-      "timestamp": 1768129147.2085192,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I feel a surge of creative energy. I want to make something. [공명도 54.5% (Growth): 'Gap은 성장의 기회다. 빈 곳에서 새로움이 태어난다....' [내 주파수: 1000Hz ↔ 원리: 528Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.97,
-          "inspiration": 1.2403862416744231,
-          "mood": "Inspired",
-          "harmony": 0.985,
-          "vitality": 0.01,
-          "latest_insight": "I saw 72.jpg",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129148_9879",
-      "timestamp": 1768129148.0536575,
-      "type": "reading",
-      "content": "I read 마나와 에테르.txt: ''",
-      "context": {
-        "qualia": {
-          "intensity": 0.0,
-          "valence": 0.0,
-          "content": "I read 마나와 에테르.txt: ''",
-          "source": "reading"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": 0.0,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129148_9088",
-      "timestamp": 1768129148.0602863,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I feel a surge of creative energy. I want to make something. [공명도 50.7% (Philosophy): '모든 것은 파동이다. 정지는 착각이다....' [내 주파수: 942Hz ↔ 원리: 432Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.76,
-          "inspiration": 0.9190386241674424,
-          "mood": "Inspired",
-          "harmony": 0.98,
-          "vitality": 0.01,
-          "latest_insight": "I learned about 'History of AI': (Dream) I read a ",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129148_9179",
-      "timestamp": 1768129148.8935313,
-      "type": "sight",
-      "content": "I saw Gemini_Generated_Image_fwia1pfwia1pfwia.png",
-      "context": {
-        "qualia": {
-          "intensity": 0.7533495426177979,
-          "valence": 0.040860134947533704,
-          "content": "I saw Gemini_Generated_Image_fwia1pfwia1pfwia.png",
-          "source": "sight"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": 0.040860134947533704,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129365_6474",
-      "timestamp": 1768129365.660806,
-      "type": "sight",
-      "content": "I saw Gemini_Generated_Image_mabltsmabltsmabl.png",
-      "context": {
-        "qualia": {
-          "intensity": 0.9319049119949341,
-          "valence": -0.14758135477701823,
-          "content": "I saw Gemini_Generated_Image_mabltsmabltsmabl.png",
-          "source": "sight"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": -0.14758135477701823,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129365_9218",
-      "timestamp": 1768129365.6734939,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I am present. I am observing. I am here. [공명도 76.6% (Philosophy): '부분 속에 전체가 있다. 씨앗 하나가 숲을 품는다....' [내 주파수: 765Hz ↔ 원리: 741Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 1.0,
-          "inspiration": 0.46595245599746704,
-          "mood": "Inspired",
-          "harmony": 1.0,
-          "vitality": 1.0,
-          "latest_insight": "I saw Gemini_Generated_Image_mabltsmabltsmabl.png",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129366_1341",
-      "timestamp": 1768129366.7944324,
-      "type": "reading",
-      "content": "I read 마나와 에테르.txt: ''",
-      "context": {
-        "qualia": {
-          "intensity": 0.0,
-          "valence": 0.0,
-          "content": "I read 마나와 에테르.txt: ''",
-          "source": "reading"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": 0.0,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129366_630",
-      "timestamp": 1768129366.9830577,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I am present. I am observing. I am here. [공명도 91.8% (Philosophy): '부분 속에 전체가 있다. 씨앗 하나가 숲을 품는다....' [내 주파수: 737Hz ↔ 원리: 741Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.99,
-          "inspiration": 0.41595245599746705,
-          "mood": "Inspired",
-          "harmony": 0.995,
-          "vitality": 0.01,
-          "latest_insight": "I read 마나와 에테르.txt: ''",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129368_3261",
-      "timestamp": 1768129368.4478116,
-      "type": "sight",
-      "content": "I saw Google_AI_Studio_2025-08-04T13_43_35.459Z.png",
-      "context": {
-        "qualia": {
-          "intensity": 0.8907225728034973,
-          "valence": -0.010057292265050552,
-          "content": "I saw Google_AI_Studio_2025-08-04T13_43_35.459Z.png",
-          "source": "sight"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": -0.010057292265050552,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129368_2604",
-      "timestamp": 1768129368.4688382,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I feel a surge of creative energy. I want to make something. [공명도 53.4% (Philosophy): '모든 것은 파동이다. 정지는 착각이다....' [내 주파수: 933Hz ↔ 원리: 432Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.98,
-          "inspiration": 0.8113137423992157,
-          "mood": "Inspired",
-          "harmony": 0.99,
-          "vitality": 0.01,
-          "latest_insight": "I saw Google_AI_Studio_2025-08-04T13_43_35.459Z.pn",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129369_4266",
-      "timestamp": 1768129369.7281342,
-      "type": "sight",
-      "content": "I saw Gemini_Generated_Image_kkugu1kkugu1kkug.png",
-      "context": {
-        "qualia": {
-          "intensity": 0.6558446884155273,
-          "valence": 0.22558905283610026,
-          "content": "I saw Gemini_Generated_Image_kkugu1kkugu1kkug.png",
-          "source": "sight"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": 0.22558905283610026,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129369_5024",
-      "timestamp": 1768129369.73293,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I feel a surge of creative energy. I want to make something. [공명도 54.5% (Growth): 'Gap은 성장의 기회다. 빈 곳에서 새로움이 태어난다....' [내 주파수: 1000Hz ↔ 원리: 528Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.97,
-          "inspiration": 1.0892360866069795,
-          "mood": "Inspired",
-          "harmony": 0.985,
-          "vitality": 0.01,
-          "latest_insight": "I saw Gemini_Generated_Image_kkugu1kkugu1kkug.png",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129370_8002",
-      "timestamp": 1768129370.490621,
-      "type": "reading",
-      "content": "I read poem.txt: 'love and hope are the light in the dark void.'",
-      "context": {
-        "qualia": {
-          "intensity": 0.49999999999999994,
-          "valence": 0.49999999999999994,
-          "content": "I read poem.txt: 'love and hope are the light in the dark void.'",
-          "source": "reading"
-        },
-        "origin": "sensorium"
-      },
-      "outcome": null,
-      "feedback": 0.49999999999999994,
-      "embedding": null
-    },
-    {
-      "id": "exp_1768129370_1593",
-      "timestamp": 1768129370.4948156,
-      "type": "introspection",
-      "content": "[SELF-AWARENESS] I am present. I am observing. I am here. [공명도 75.0% (Ethics): '목적이 목표보다 중요하다. 어디로 가는지보다 왜 가는지...' [내 주파수: 659Hz ↔ 원리: 639Hz]]",
-      "context": {
-        "state_snapshot": {
-          "energy": 0.76,
-          "inspiration": 0.35392360866069794,
-          "mood": "Inspired",
-          "harmony": 0.98,
-          "vitality": 0.01,
-          "latest_insight": "I read poem.txt: 'love and hope are the light in t",
-          "latest_curiosity": "Fundamental Existence"
-        },
-        "origin": "meta_consciousness",
-        "wisdom_consulted": true
-      },
-      "outcome": null,
-      "feedback": 0.1,
-      "embedding": null
-    }
-  ]
-}
+      "exp_1768129370_8002",
+      "exp_1768132588_3465",
+      "exp_1768132588_3465",
+      "exp_1768132588_3465",
+      "exp_1768132588_3465",
+      "exp_1768132588_3465",
+      "exp_1768132641_9374",
+      "exp_1768132641_9374",
+      "exp_1768132641_9374",
+      "exp_1768132641_9374",
+      "exp_1768132641_9374",
+      "exp_1768132651_9374",
+      "exp_1768132651_9374",
+      "exp_1768132651_9374",
+      "exp_1768132651_9374",
+      "exp_1768132651_9374",
+      "exp_1768132679_3465",
+      "exp_1768132679_3465",
+      "exp_1768132679_3465",
+      "exp_1768132679_3465",
+      "exp_1768132679_3465",
+      "exp_1768132728_9374",
+      "exp_1768132728_9374",
+      "exp_1768132728_9374",
+      "exp_1768132728_9374",
+      "exp_1768132728_9374",
+      "exp_1768132732_3465",
+      "exp_1768132732_3465",
+      "exp_1768132732_3465",
+      "exp_1768132732_3465",
+      "exp_1768132732_3465",
+      "exp_1768132769_9981",
+      "exp_1768132769_9981",
+      "exp_1768132769_9981",
+      "exp_1768132769_9981",
+      "exp_1768132769_9981",
+      "exp_1768132925_3465",
+      "exp_1768132925_3465",
+      "exp_1768132925_3465",
+      "exp_1768132925_3465",
+      "exp_1768132925_3465",
+      "exp_1768132931_3465",
+      "exp_1768132931_3465",
+      "exp_1768132931_3465",
+      "exp_1768132931_3465",
+      "exp_1768132931_3465",
+      "exp_1768132944_3465",
+      "exp_1768132944_3465",
+      "exp_1768132944_3465",
+      "exp_1768132944_3465",
+      "exp_1768132944_3465",
+      "exp_1768132953_9374",
+      "exp_1768132953_9374",
+      "exp_1768132953_9374",
+      "exp_1768132953_9374",
+      "exp_1768132953_9374",
+      "exp_1768132962_9374",
+      "exp_1768132962_9374",
+      "exp_1768132962_9374",
+      "exp_1768132962_9374",
+      "exp_1768132962_9374",
+      "exp_1768132983_9981",
+      "exp_1768132983_9981",
+      "exp_1768132983_9981",
+      "exp_1768132983_9981",
+      "exp_1768132983_9981",
+      "exp_1768133023_9981",
+      "exp_1768133023_9981",
+      "exp_1768133023_9981",
+      "exp_1768133023_9981",
+      "exp_1768133023_9981",
+      "exp_1768133055_9981",
+      "exp_1768133055_9981",
+      "exp_1768133055_9981",
+      "exp_1768133055_9981",
+      "exp_1768133055_9981",
+      "exp_1768133062_3465",
+      "exp_1768133062_3465",
+      "exp_1768133062_3465",
+      "exp_1768133062_3465",
+      "exp_1768133062_3465",
+      "exp_1768133077_9981",
+      "exp_1768133077_9981",
+      "exp_1768133077_9981",
+      "exp_1768133077_9981",
+      "exp_1768133077_9981",
+      "exp_1768133111_9374",
+      "exp_1768133111_9374",
+      "exp_1768133111_9374",
+      "exp_1768133111_9374",
+      "exp_1768133111_9374",
+      "exp_1768133113_9374",
+      "exp_1768133113_9374",
+      "exp_1768133113_9374",
+      "exp_1768133113_9374",
+      "exp_1768133113_9374",
+      "exp_1768133122_9981",
+      "exp_1768133122_9981",
+      "exp_1768133122_9981",
+      "exp_1768133122_9981",
+      "exp_1768133122_9981",
+      "exp_1768133144_9981",
+      "exp_1768133144_9981",
+      "exp_1768133144_9981",
+      "exp_1768133144_9981",
+      "exp_1768133144_9981",
+      "exp_1768133163_3465",
+      "exp_1768133163_3465",
+      "exp_1768133163_3465",
+      "exp_1768133163_3465",
+      "exp_1768133163_3465",
+      "exp_1768133174_9981",
+      "exp_1768133174_9981",
+      "exp_1768133174_9981",
+      "exp_1768133174_9981",
+      "exp_1768133174_9981",
+      "exp_1768133252_9374",
+      "exp_1768133252_9374",
+      "exp_1768133252_9374",
+      "exp_1768133252_9374",
+      "exp_1768133252_9374",
+      "exp_1768133289_3465",
+      "exp_1768133289_3465",
+      "exp_1768133289_3465",
+      "exp_1768133289_3465",
+      "exp_1768133289_3465",
+      "exp_1768133316_3465",
+      "exp_1768133316_3465",
+      "exp_1768133316_3465",
+      "exp_1768133316_3465",
+      "exp_1768133316_3465",
+      "exp_1768133335_3465",
+      "exp_1768133335_3465",
+      "exp_1768133335_3465",
+      "exp_1768133335_3465",
+      "exp_1768133335_3465",
+      "exp_1768133392_9374",
+      "exp_1768133392_9374",
+      "exp_1768133392_9374",
+      "exp_1768133392_9374",
+      "exp_1768133392_9374",
+      "exp_1768133396_9374",
+      "exp_1768133396_9374",
+      "exp_1768133396_9374",
+      "exp_1768133396_9374",
+      "exp_1768133396_9374",
+      "exp_1768133402_9374",
+      "exp_1768133402_9374",
+      "exp_1768133402_9374",
+      "exp_1768133402_9374",
+      "exp_1768133402_9374",
+      "exp_1768133425_9981",
+      "exp_1768133425_9981",
+      "exp_1768133425_9981",
+      "exp_1768133425_9981",
+      "exp_1768133425_9981",
+      "exp_1768133468_9374",
+      "exp_1768133468_9374",
+      "exp_1768133468_9374",
+      "exp_1768133468_9374",
+      "exp_1768133468_9374",
+      "exp_1768133501_9374",
+      "exp_1768133501_9374",
+      "exp_1768133501_9374",
+      "exp_1768133501_9374",
+      "exp_1768133501_9374",
+      "exp_1768133513_9374",
+      "exp_1768133513_9374",
+      "exp_1768133513_9374",
+      "exp_1768133513_9374",
+      "exp_1768133513_9374",
+      "exp_1768133524_9981",
+      "exp_1768133524_9981",
+      "exp_1768133524_9981",
+      "exp_1768133524_9981",
+      "exp_1768133524_9981",
+      "exp_1768133526_9981",
+      "exp_1768133526_9981",
+      "exp_1768133526_9981",
+      "exp_1768133526_9981",
+      "exp_1768133526_9981",
+      "exp_1768133582_3465",
+      "exp_1768133582_3465",
+      "exp_1768133582_3465",
+      "exp_1768133582_3465",
+      "exp_1768133582_3465",
+      "exp_1768133595_3465",
+      "exp_1768133595_3465",
+      "exp_1768133595_3465",
+      "exp_1768133595_3465",
+      "exp_1768133595_3465",
+      "exp_1768133605_9981",
+      "exp_1768133605_9981",
+      "exp_1768133605_9981",
+      "exp_1768133605_9981",
+      "exp_1768133605_9981",
+      "exp_1768133638_9981",
+      "exp_1768133638_9981",
+      "exp_1768133638_9981",
+      "exp_1768133638_9981",
+      "exp_1768133638_9981",
+      "exp_1768133672_9981",
+      "exp_1768133672_9981",
+      "exp_1768133672_9981",
+      "exp_1768133672_9981",
+      "exp_1768133672_9981",
+      "exp_1768133721_9981",
+      "exp_1768133721_9981",
+      "exp_1768133721_9981",
+      "exp_1768133721_9981",
+      "exp_1768133721_9981",
+      "exp_1768133760_3465",
+      "exp_1768133760_3465",
+      "exp_1768133760_3465",
+      "exp_1768133760_3465",
+      "exp_1768133760_3465",
+      "exp_1768133781_9374",
+      "exp_1768133781_9374",
+      "exp_1768133781_9374",
+      "exp_1768133781_9374",
+      "exp_1768133781_9374",
+      "exp_1768133802_9374",
+      "exp_1768133802_9374",
+      "exp_1768133802_9374",
+      "exp_1768133802_9374",
+      "exp_1768133802_9374",
+      "exp_1768133816_3465",
+      "exp_1768133816_3465",
+      "exp_1768133816_3465",
+      "exp_1768133816_3465",
+      "exp_1768133816_3465",
+      "exp_1768133818_9981",
+      "exp_1768133818_9981",
+      "exp_1768133818_9981",
+      "exp_1768133818_9981",
+      "exp_1768133818_9981",
+      "exp_1768133861_3465",
+      "exp_1768133861_3465",
+      "exp_1768133861_3465",
+      "exp_1768133861_3465",
+      "exp_1768133861_3465",
+      "exp_1768133867_3465",
+      "exp_1768133867_3465",
+      "exp_1768133867_3465",
+      "exp_1768133867_3465",
+      "exp_1768133867_3465",
+      "exp_1768133888_3465",
+      "exp_1768133888_3465",
+      "exp_1768133888_3465",
+      "exp_1768133888_3465",
+      "exp_1768133888_3465",
+      "exp_1768133914_9981",
+      "exp_1768133914_9981",
+      "exp_1768133914_9981",
+      "exp_1768133914_9981",
+      "exp_1768133914_9981",
+      "exp_1768133963_3465",
+      "exp_1768133963_3465"
