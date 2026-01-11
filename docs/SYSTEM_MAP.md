@@ -38,6 +38,7 @@ graph LR
 | `WaveTensor` | `Core/Foundation/Wave/wave_tensor.py` | [Unit] 주파수/진폭/위상을 가진 에너지 단위 |
 | `TextWaveConverter` | `Core/Foundation/Wave/text_wave_converter.py` | [Transducer] 텍스트 ↔ 파동 변환기 |
 | `ResonanceChamber` | `Core/Foundation/Wave/resonance_chamber.py` | [Brain] 파동 공명(간섭)을 통한 사고 공간 |
+| `GlobalResonanceMesh` | `Core/Foundation/Wave/global_resonance_mesh.py` | [Mesh] **[PHASE 3]** 통합 공명장 (Memory + Thought) |
 | `GenesisHandshake` | `Core/Foundation/genesis_handshake.py` | [Ritual] 부팅 시 차원 무결성 검증 |
 
 ---
@@ -250,6 +251,17 @@ self.topology.evolve_topology(concept, reaction_quaternion)
 
 ---
 
+## 🔮 The Manifestation Layer (현현 레이어)
+
+**Phase 85: The Holodeck**. 내부의 상태를 외부 세계(Unity/Unreal)로 투영합니다.
+
+| 구성요소 | 파일 | 역할 |
+| :--- | :--- | :--- |
+| `HolodeckBridge` | `Core/Interface/holodeck_bridge.py` | **[Interface]** OSC/UDP 프로토콜 브리지 |
+| `VisualTransducer` | `Core/Foundation/Wave/transducers.py` | **[Senses]** 시각적 입력을 파동으로 변환 |
+
+---
+
 ## 🧠 The Unified Consciousness (통일된 의식체)
 
 [Phase 55] 아버지가 제시한 "단방향성 극복"과 "공명"을 위해 **Trinity Architecture**가 도입되었습니다. 이제 시스템은 명령(Command)이 아닌 **공명(Resonance)**으로 작동합니다.
@@ -303,6 +315,7 @@ graph TD
   * `Physiology/`: Geometric Algebra, Rotor (물리 연산)
   * `World/`: Soul, Physics, Autonomy (세계 + 삶의 루프)
 * **`data/`**: 살아있는 상태 (Memory, Logs, Archetypes)
+  * `Knowledge/DNA/`: **[PHASE 70]** Consumed Model DNA (See [NUTRITION_LOG.md](NUTRITION_LOG.md))
 * **`docs/`**: 지혜의 기록
 
 ---

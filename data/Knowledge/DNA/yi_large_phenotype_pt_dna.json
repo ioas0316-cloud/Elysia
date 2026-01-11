@@ -1,0 +1,30 @@
+{
+    "dna_id": "YI LARGE",
+    "origin": "Mass Open-Source Assimilation Protocol",
+    "family": "Yi (01.AI)",
+    "qft_genotype": {
+        "fundamental_freq": 222.2998242658873,
+        "quaternion_coeffs": {
+            "w": [
+                0.5,
+                0
+            ],
+            "i": [
+                0.1,
+                0
+            ],
+            "j": [
+                0.1,
+                0
+            ],
+            "k": [
+                0.1,
+                0
+            ]
+        }
+    },
+    "metadata": {
+        "status": "Absorbed",
+        "timestamp": 1768114474.6665564
+    }
+}

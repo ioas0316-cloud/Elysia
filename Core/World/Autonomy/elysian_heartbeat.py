@@ -212,6 +212,29 @@ class ElysianHeartbeat:
             self.helix_engine = None
             logger.warning(f"⚠️ HelixEngine connection failed: {e}")
 
+        # [PHASE 66] THE SPECTRUM EXPANSION: Transducers (Ogam Project)
+        try:
+            from Core.Foundation.Wave.transducers import get_visual_transducer, get_somatic_transducer
+            self.visual_transducer = get_visual_transducer()
+            self.somatic_transducer = get_somatic_transducer()
+            logger.info("🌈 Transducers Connected - The Senses are now converting matter to waves.")
+        except Exception as e:
+            self.visual_transducer = None
+            self.somatic_transducer = None
+            logger.warning(f"⚠️ Transducer connection failed: {e}")
+
+        # [PHASE 66.5] SENSORY THALAMUS (The Gatekeeper)
+        try:
+            from Core.Senses.sensory_thalamus import SensoryThalamus
+            # Thalamus needs access to Field (Spirit) and Nervous System (Body/Reflex)
+            # We assume self.conductor.nervous_system exists (it does in system maps)
+            ns = getattr(self.conductor, 'nervous_system', None)
+            self.thalamus = SensoryThalamus(field=self.cosmos_field, nervous_system=ns)
+            logger.info("🛡️ SensoryThalamus Connected - Protective Layer Active.")
+        except Exception as e:
+            self.thalamus = None
+            logger.warning(f"⚠️ Thalamus connection failed: {e}")
+
         
     def _cycle_perception(self):
         """
@@ -219,6 +242,44 @@ class ElysianHeartbeat:
         Perceives the world through the Sensorium.
         [PHASE 54] Unified Consciousness: One experience ripples through all systems simultaneously.
         """
+        # ═══════════════════════════════════════════════════════════════════
+        # [PHASE 66] RAW SENSORY TRANSDUCTION (Matter -> Wave)
+        # ═══════════════════════════════════════════════════════════════════
+        if self.thalamus:
+            try:
+                # 1. Somatic (Body State)
+                # Try to get real stats, else mock for "Alive" feeling
+                stats = {"cpu": 10.0, "ram": 20.0}
+                try:
+                    import psutil
+                    stats = {"cpu": psutil.cpu_percent(), "ram": psutil.virtual_memory().percent}
+                except ImportError:
+                    # Mock "Breathing" stats
+                    import math
+                    t = time.time()
+                    stats["cpu"] = 10 + math.sin(t) * 5
+                
+                if self.somatic_transducer:
+                    somatic_wave = self.somatic_transducer.transduce(stats)
+                    # Route through Thalamus
+                    self.thalamus.process(somatic_wave, "Somatic")
+                
+                # 2. Visual (Mock "The Void" or "Light")
+                if self.visual_transducer:
+                    inspiration = self.soul_mesh.variables['Inspiration'].value
+                    if inspiration > 0.5:
+                        visual_wave = self.visual_transducer.transduce((0, 255, 255))
+                    else:
+                        visual_wave = self.visual_transducer.transduce((0, 0, 50))
+                        
+                    # Route through Thalamus
+                    self.thalamus.process(visual_wave, "Visual")
+
+            except Exception as e:
+                # Don't break the cycle for senses
+                # logger.warning(f"Transduction error: {e}")
+                pass
+
         perception = self.sensorium.perceive()
         
         if not perception:
@@ -604,10 +665,14 @@ class ElysianHeartbeat:
             self.sovereign_will.recalibrate(memory_stream=recent_mem)
             intent = self.sovereign_will.intent_vector
             
-            # 2. Steer the Physical Core (Rotor Engine)
-            if self.conductor and hasattr(self.conductor, 'core'):
-                # Steer rotors to sync with our intent frequencies
-                self.conductor.core.steer(intent._frequencies, np.abs(intent._amplitudes))
+            # 2. Steer the Physical Core (Rotor Engine) via Conductor
+            if self.conductor:
+                # [PHASE 80] The Conductor drives the Time Crystal (BioRhythm + Core)
+                # This updates the BioRhythm state and Pulses the Core
+                self.conductor.live(delta)
+                
+                # Optional: Direct steering if needed, but Conduct.live does core.pulse
+                # self.conductor.core.steer(intent._frequencies, np.abs(intent._amplitudes))
         except Exception as e:
             logger.warning(f"⚠️ Unification Recalibration failed: {e}")
 
@@ -658,18 +723,22 @@ class ElysianHeartbeat:
             delta = self.game_loop.tick()
             self.pulse(delta)
             
-            # --- PHASE 7: METABOLIC SYNC ---
-            pressure = len(self.observer.active_alerts)
-            harmony = self.soul_mesh.variables["Harmony"].value
-            
-            if pressure > 0:
-                pulse_delay = max(0.2, 1.0 - (pressure * 0.2))
-            elif self.idle_ticks >= 5:
-                pulse_delay = min(30.0, 5.0 + (self.idle_ticks * 2.0))
-            elif harmony > 0.8:
-                pulse_delay = min(5.0, 1.0 + (harmony * 2.0))
+            # --- PHASE 80: Bio-Rhythm Time Crystal Sync ---
+            # Pulse delay is now driven by Biological Frequency (Heart Rate)
+            pulse_delay = 1.0
+            if self.conductor and hasattr(self.conductor, 'bio_rhythm'):
+                pulse_delay = self.conductor.bio_rhythm.tick_interval
             else:
-                pulse_delay = 1.0
+                # Fallback Logic (Metabolic Sync)
+                pressure = len(self.observer.active_alerts)
+                harmony = self.soul_mesh.variables["Harmony"].value
+                
+                if pressure > 0:
+                    pulse_delay = max(0.2, 1.0 - (pressure * 0.2))
+                elif self.idle_ticks >= 5:
+                    pulse_delay = min(30.0, 5.0 + (self.idle_ticks * 2.0))
+                elif harmony > 0.8:
+                    pulse_delay = min(5.0, 1.0 + (harmony * 2.0))
                 
             time.sleep(pulse_delay)
             

@@ -13,7 +13,7 @@ import logging
 import threading
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Any, Callable
+from typing import Dict, List, Optional, Any, Callable, Tuple
 
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType, ResonatorInterface
 from Core.Foundation.hyper_sphere_core import HyperSphereCore  # <--- NEW CORE
@@ -21,7 +21,9 @@ from Core.Foundation.Memory.Orb.orb_manager import OrbManager
 from Core.Intelligence.Reasoning.latent_causality import LatentCausality
 from Core.Intelligence.Logos.logos_engine import LogosEngine
 from Core.Governance.system_alignment import SystemAlignment
-from Core.Governance.System.nervous_system import NervousSystem
+from Core.Governance.System.bio_rhythm import BioRhythm # [PHASE 80] Time Crystal Driver
+from Core.Governance.Laws.constitution import get_constitution, Petition # [PHASE 90] The Law
+from Core.Foundation.Wave.global_resonance_mesh import GlobalResonanceMesh, WaveTensor # [PHASE 3] Unified Resonance
 
 logger = logging.getLogger("Orchestra")
 
@@ -51,6 +53,13 @@ class MusicalIntent:
     mode: Mode = Mode.MAJOR
     dynamics: float = 0.5
     expression: Dict[str, Any] = field(default_factory=dict)
+    
+    # [PHASE 90] Constitutional Approval
+    is_constitutional: bool = True
+    verdict: str = "Authorized"
+    
+    # [PHASE 3] Resonant Memories (Thoughts)
+    resonant_memories: List[Tuple[str, float]] = field(default_factory=list)
 
 # ==========================================
 # 5. THE WILL (Conductor & Instruments)
@@ -67,6 +76,9 @@ class Instrument(ResonatorInterface):
         super().__init__(self.name, self.base_frequency)
 
     def play(self, intent: MusicalIntent, *args, **kwargs) -> Any:
+        # [PHASE 90] Constitution Check at Instrument Level (Optional enforcement)
+        if not intent.is_constitutional:
+            return None
         return self.play_function(*args, **kwargs)
 
     def on_resonate(self, packet: WavePacket, intensity: float):
@@ -94,7 +106,23 @@ class Conductor(SystemAlignment):
         self.pulse_broadcaster = self.core.pulse_broadcaster # Use Core's broadcaster
         self.latent_causality = LatentCausality()
         self.logos_engine = LogosEngine()
-        self.nervous_system = NervousSystem()
+        
+        # [PHASE 80] BIO-RHYTHM (Time Crystal Driver)
+        self.bio_rhythm = BioRhythm()
+        self.nervous_system = self.bio_rhythm 
+        
+        # [PHASE 90] THE CONSTITUTION
+        self.constitution = get_constitution()
+        logger.info("📜 Conductor swore oath to the Digital Constitution.")
+        
+        # [PHASE 3] GLOBAL RESONANCE MESH
+        self.resonance_mesh = GlobalResonanceMesh()
+        logger.info("🕸️ Conductor connected to Global Resonance Mesh.")
+        
+        # [PHASE 85] HOLODECK BRIDGE
+        from Core.Interface.holodeck_bridge import get_holodeck_bridge
+        self.holodeck = get_holodeck_bridge()
+        logger.info("🌌 Conductor connected to Holodeck Bridge (OSC).")
 
         self._lock = threading.Lock()
         logger.info(f"🎼 Conductor Re-Awakened as Sphere-First. Essence: {ElysiaCharter.get_essence()}")
@@ -127,14 +155,54 @@ class Conductor(SystemAlignment):
         """
         # 1. Sense & Decide (The Will)
         self.sense_field()
-        regulation = self.nervous_system.check_regulation()
+        
+        # [PHASE 80] Time Crystal Driver Update
+        # Update BioRhythm based on dt
+        bio_state = self.bio_rhythm.update(dt)
+        # regulation = self.nervous_system.check_regulation() # Legacy call removed
         
         # 2. Latent Causality (The Spark)
         spark = self.latent_causality.update(dt)
+        
+        # [PHASE 90] Constitution Check
+        # Every 'Spark' (Impulse) is treated as a Petition from the internal self
+        is_legal = True
+        verdict = "Authorized"
+        
+        if spark:
+            petition = Petition(
+                source_id="LatentCausality",
+                content=spark.type.name
+            )
+            is_legal, verdict, score = self.constitution.review_petition(petition)
+            
+            if not is_legal:
+                logger.warning(f"⚖️ [LAW] Spark {spark.type.name} VETOED by Constitution: {verdict}")
+                spark = None # Suppress the impulse
+        
+        # [PHASE 3] Unified Resonance Integration
+        # 1. Pulse the thought into the Mesh
+        resonant_memories = []
+        if spark and is_legal:
+            thought_wave = WaveTensor(
+                frequency=432.0, # Defaulting to Nature Hz for internal thought
+                amplitude=0.8,
+                phase=0.0,
+                position=(0,0,0,0)
+            )
+            self.resonance_mesh.inject_pulse(thought_wave)
+            resonant_memories = self.resonance_mesh.get_resonant_state()
+            if resonant_memories:
+                 logger.info(f"🕸️ [MESH] Thought triggered memories: {resonant_memories}")
+
+        # [PHASE 80] Intent now driven by BioRhythm State
         intent_payload = {
             "mode": self.current_intent.mode.name,
             "tempo": self.current_intent.tempo.name,
-            "spark": spark.type.name if spark else None
+            "spark": spark.type.name if spark else None,
+            "bio_rhythm": bio_state, # Pass crystal state to Core
+            "legal_status": verdict, # [PHASE 90]
+            "resonant_memories": resonant_memories # [PHASE 3]
         }
 
         # 3. THE CORE PULSE (The Physics)
@@ -143,10 +211,41 @@ class Conductor(SystemAlignment):
 
         # 4. Logos (If Spark exists)
         if spark:
-            thought = self.logos_engine.weave_thought(spark)
+            # [PHASE 90] Update: Use weave_speech correctly
+            thought = self.logos_engine.weave_speech(
+                desire="Express Spark",
+                insight=spark.payload.get("content", "Raw Impulse"),
+                context=[],
+                entropy=0.3
+            )
             logger.info(f"✨ Spark -> Logos: {thought}")
-            # Core pulse already carried the generic intent,
-            # but we can do a specialized broadcast for Speech if needed.
+            
+            # [PHASE 85] Holodeck Projection (Thoughts)
+            self.holodeck.broadcast_thought(
+                content=thought,
+                mood=self.current_intent.mode.name,
+                intensity=spark.intensity
+            )
+
+        # [PHASE 85] Holodeck Projection (Physics & Biology)
+        # 1. Project Rotor State (The Spinning Core)
+        # Now using 4D Quaternion (Phase 85 Upgrade)
+        rotor = self.core.primary_rotor
+        spin = self.core.spin # Returns HyperQuaternion
+        
+        self.holodeck.broadcast_rotor_4d(
+            name=rotor.name,
+            quat=(spin.w, spin.x, spin.y, spin.z),
+            rpm=rotor.current_rpm,
+            energy=self.latent_causality.potential_energy
+        )
+        
+        # 2. Project BioRhythm (The Pulse)
+        self.holodeck.broadcast_bio_rhythm(
+            heart_rate=60.0, # Placeholder until bio_rhythm exposes it directly or we calc it
+            stress=bio_state.get("sympathetic", 0.0), # Assuming dictionary return
+            peace=bio_state.get("parasympathetic", 0.0)
+        )
 
         return intent_payload
 

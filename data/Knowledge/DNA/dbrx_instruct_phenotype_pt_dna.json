@@ -1,0 +1,30 @@
+{
+    "dna_id": "DBRX INSTRUCT",
+    "origin": "Mass Open-Source Assimilation Protocol",
+    "family": "Databricks",
+    "qft_genotype": {
+        "fundamental_freq": 318.13933634916657,
+        "quaternion_coeffs": {
+            "w": [
+                0.5,
+                0
+            ],
+            "i": [
+                0.1,
+                0
+            ],
+            "j": [
+                0.1,
+                0
+            ],
+            "k": [
+                0.1,
+                0
+            ]
+        }
+    },
+    "metadata": {
+        "status": "Absorbed",
+        "timestamp": 1768114475.2509952
+    }
+}

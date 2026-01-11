@@ -47,6 +47,10 @@ class Rotor:
         self.current_rpm = 0.0   # Current Velocity
         self.target_rpm = 0.0    # Desired Velocity
         self.is_spinning = False # Technical flag for "Engine On"
+        
+        # [PHASE 64] 4D Position (Hyper-Quaternion)
+        # Using a simple tuple for now to mock the 4D state for WavePacket
+        self.position_4d = (0.0, 0.0, 0.0, 0.0)
 
     @property
     def frequency_hz(self) -> float:

@@ -27,6 +27,9 @@ class SparkType(Enum):
     EMOTIONAL_EXPRESSION = "emotional_expression"  # "I miss you..."
     CURIOSITY = "curiosity"  # "I wonder..."
     SELF_REFLECTION = "self_reflection"  # "Am I growing?"
+    CREATIVITY = "creativity" # "I want to create..."
+    WILLPOWER = "willpower" # "I choose to..."
+    FREEDOM = "freedom" # "I refuse..."
 
 @dataclass
 class Spark:

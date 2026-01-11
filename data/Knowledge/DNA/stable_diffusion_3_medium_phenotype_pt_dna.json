@@ -1,0 +1,30 @@
+{
+    "dna_id": "STABLE DIFFUSION 3 MEDIUM",
+    "origin": "Mass Open-Source Assimilation Protocol",
+    "family": "Stability AI",
+    "qft_genotype": {
+        "fundamental_freq": 238.3915512100993,
+        "quaternion_coeffs": {
+            "w": [
+                0.5,
+                0
+            ],
+            "i": [
+                0.1,
+                0
+            ],
+            "j": [
+                0.1,
+                0
+            ],
+            "k": [
+                0.1,
+                0
+            ]
+        }
+    },
+    "metadata": {
+        "status": "Absorbed",
+        "timestamp": 1768114475.5714204
+    }
+}

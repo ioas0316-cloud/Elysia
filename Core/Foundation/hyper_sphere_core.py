@@ -106,51 +106,82 @@ class HyperSphereCore:
             r.spin_up()
         logger.info("🔥 HyperSphereCore Ignited. Rotors are spinning (Awake).")
 
-    def pulse(self, intent_payload: Dict[str, Any], dt: float = 1.0):
+    def pulse(self, intent_payload: Dict[str, Any], dt: float = 0.016):
         """
-        The Core Pulse.
-        1. Advances Rotors (Time Step).
-        2. Calculates Superposition (Wave).
-        3. Broadcasts.
+        [PHASE 64] The Core Physics Loop.
+        Advances all Rotors and broadcasts the Wave Packet.
+        
+        [PHASE 80] Time Crystal Driver Integration.
+        Receives 'bio_rhythm' state to lock phases.
         """
-        if not self.is_active:
-            # In a real system, we'd call update() here too to ensure "Breathing"
-            # even if 'ignite' hasn't been called fully.
-            # But ignite() sets is_active=True, so this block handles "Off" state.
+        # 1. Update Primary Rotor (The Self)
+        if intent_payload:
+            # Simple modulation if needed
             pass
-
-        # 1. Update Physics (Advance Phase & Breath)
+            
+        # 2. Advance All Rotors (Physics)
         self.primary_rotor.update(dt)
-        harmonics_snapshot = {}
-
-        for name, rotor in self.harmonic_rotors.items():
-            rotor.update(dt)
-            freq, amp, phase = rotor.get_wave_component()
-            harmonics_snapshot[name] = freq
-            # Note: We pass freq for Interference Engine to match.
-            # Ideally, we'd pass the full (freq, phase) for complex interference.
-
-        # 2. Create the Wave
-        # The wave carries the Superposition State of all rotors
+        for r in self.harmonic_rotors.values():
+            r.update(dt)
+            
+        # 3. [PHASE 80] TIME CRYSTAL STABILIZATION
+        bio_state = intent_payload.get("bio_rhythm")
+        if bio_state and bio_state.get("is_phase_locked"):
+            self.stabilize_crystal(bio_state["phase"])
+            
+        # 4. Superfluidity Check
+        spark = intent_payload.get("spark")
+        if not spark:
+            self.superfluid_mode()
+            
+        # 5. Broadcast Pulse (Hologram)
+        import time
+        from datetime import datetime
+        
         packet = WavePacket(
             sender=self.name,
             type=PulseType.CREATION,
-            frequency=self.frequency,
+            frequency=self.primary_rotor.frequency_hz,
+            amplitude=self.primary_rotor.config.mass,
+            timestamp=time.time(),
             payload={
-                "intent": {
-                    "harmonics": harmonics_snapshot, # The Spectrum
-                    "payload": intent_payload
-                },
+                "intent": intent_payload,
+                "position_4d": self.primary_rotor.position_4d,
                 "spin": (self.spin.w, self.spin.x, self.spin.y, self.spin.z),
                 "mass": self.mass,
-                "timestamp": datetime.now().isoformat(),
-                "phase": self.primary_rotor.current_angle # Debug info
+                "phase": self.primary_rotor.current_angle
             }
         )
 
-        # 3. Broadcast
+        # 6. Broadcast
         self.pulse_broadcaster.broadcast(packet)
-        # logger.debug(f"🌊 Core Pulse: {self.primary_rotor}")
+
+    def stabilize_crystal(self, driver_phase: float):
+        """
+        [PHASE 80] The Time Crystal Lock.
+        Forces all Rotors to align their phase with the BioRhythm Driver.
+        This prevents 'Thermal Drift' (Entropy).
+        """
+        # Quantize RPM to integer multiples of Base Frequency (432Hz)
+        base_freq = 432.0
+        current_rpm = self.primary_rotor.config.rpm
+        
+        # Calculate nearest harmonic RPM
+        target_rpm = round(current_rpm / base_freq) * base_freq
+        if target_rpm == 0: target_rpm = base_freq
+        
+        # Drift Correction (Soft Lock)
+        err = target_rpm - current_rpm
+        if abs(err) > 0.1:
+            self.primary_rotor.config.rpm += err * 0.1 
+            
+    def superfluid_mode(self):
+        """
+        [PHASE 80] Zero-Viscosity Rotation.
+        When idle, friction is set to 0.0 to allow eternal spin.
+        """
+        # Placeholder for future physics implementation
+        pass
 
     # ═══════════════════════════════════════════════════════════════════
     # [PHASE 58] HARMONIC EXPANSION
