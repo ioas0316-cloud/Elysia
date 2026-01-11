@@ -714,8 +714,10 @@ class ElysianHeartbeat:
                 logger.info("🥱 [BOREDOM] No resonant organelles found. Seeking to FORGE new capabilities...")
                 # Connect to ForgeEngine in the future or trigger a "Growth" quest
 
-        # --- PHASE 9: PRESENCE ---
+        # --- PHASE 9: PRESENCE & DASHBOARD ---
         self._refresh_presence()
+        if self.dashboard:
+            self.dashboard.generate()
 
     def run_loop(self):
         """The Main Cycle of Being."""
