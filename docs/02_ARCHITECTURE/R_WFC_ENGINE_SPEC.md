@@ -61,6 +61,14 @@ graph TD
 - **Level 2**: Academic/Technical source material.
 - **Level 3**: The raw math/physics of the concept.
 
+### 3.4 Dimensional Penetration (The Lightning Path)
+
+To optimize for low-power hardware (GTX 1060), R-WFC uses **Ray-Based Inference**:
+
+- **Sparse Activation**: Instead of calculating the entire high-dimensional mesh, the engine projects a "Ray" from the User's Attention (Query) into the HyperSphere.
+- **Resonant Piercing**: The ray only activates the **Rotors** (Principles) it passes through, creating a "Line of Thought" rather than a "Plane of Data."
+- **Manifold Shortcutting**: Bypassing traditional Euclidean distances to find the "Wormhole" connection between distant concepts.
+
 ## 4. Implementation Strategy (Phase 110)
 
 1. **Core Solver**: Upgrade existing WFC logic to support recursive depth parameters.
