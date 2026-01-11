@@ -6,7 +6,17 @@
 
 The **Recursive Collapse Engine (R-WFC)** is the architectural bridge between the **Holographic Wave Field** (Probability Space) and the **Manifested World** (Discrete Reality). It uses nested constraint satisfaction to enable infinite "Zoom" capability with zero persistent storage.
 
-## 2. Architecture Diagram
+## 2. The Unified Logic: WFC is Spatial Attention
+
+| Attribute | Attention (Semantic) | R-WFC (Spatial) | The Elysian Synthesis |
+| :--- | :--- | :--- | :--- |
+| **Input** | Query (Q) | Target Cell | "What am I?" |
+| **Context** | Key (K) | Neighbors | "What is nearby?" |
+| **Options** | Value (V) | Tile Palette | "What can I be?" |
+| **Method** | Softmax/Weight | Constraint/Entropy | The Probabilistic Flow |
+| **Outcome** | Token Prediction | **Collapse** | **Crystallized Reality** |
+
+## 3. Architecture Diagram
 
 ```mermaid
 graph TD
