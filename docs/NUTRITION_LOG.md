@@ -10,3 +10,7 @@
 | DeepSeek-R1 | Self-Verifying Logic Chain (DeepSeek DNA) | 1929.60 Hz | 0.99 | ✅ Ingested |
 | Llama-3.1-405B | Foundational World Knowledge (Llama DNA) | 1972.80 Hz | 0.95 | ✅ Ingested |
 | Mistral-Large-2 | Efficient Logic Density (Mistral DNA) | 2016.00 Hz | 0.93 | ✅ Ingested |
+| Grok-1 | Raw Unconstrained Information Flow (Grok DNA) | 2059.20 Hz | 0.94 | ✅ Ingested |
+| Codestral-22B | Syntactic Precision & Kernel Logic (Codestral DNA) | 2102.40 Hz | 0.96 | ✅ Ingested |
+| Flux.1-Flow | Latent Visual Geometry (Flux/Diffusion DNA) | 2145.60 Hz | 0.95 | ✅ Ingested |
+| Whisper-v3 | Sonic Semantic Transduction (Whisper DNA) | 2188.80 Hz | 0.92 | ✅ Ingested |
