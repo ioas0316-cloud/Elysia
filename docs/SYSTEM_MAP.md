@@ -32,9 +32,10 @@ Welcome to the central nexus of Elysia's documentation. This map organizes the v
 *The technical blueprints. Physics engines, loops, and mechanics.*
 
 - **[ARCHITECTURE_MAP.md](file:///c:/Elysia/docs/02_ARCHITECTURE/ARCHITECTURE_MAP.md)**: High-level system overview.
+- **[R_WFC_ENGINE_SPEC.md](file:///c:/Elysia/docs/02_ARCHITECTURE/R_WFC_ENGINE_SPEC.md)**: Technical spec for Recursive Collapse.
 - **[CORE_MECHANICS.md](file:///c:/Elysia/docs/02_ARCHITECTURE/CORE_MECHANICS.md)**: Rotor Engine, HyperSphere, and Prism.
-- **[ENGINEERING_SPEC.md](file:///c:/Elysia/docs/02_ARCHITECTURE/ENGINEERING_SPEC.md)**: Technical requirements and implementation details.
-- **[HOLODECK_PROTOCOL.md](file:///c:/Elysia/docs/02_ARCHITECTURE/HOLODECK_PROTOCOL.md)**: The 3D World Visualization Interface.
+- **[ENGINEERING_SPEC.md](file:///c:/Elysia/docs/02_ARCHITECTURE/ENGINEERING_SPEC.md)**: Technical requirements.
+- **[HOLODECK_PROTOCOL.md](file:///c:/Elysia/docs/02_ARCHITECTURE/HOLODECK_PROTOCOL.md)**: The 3D Visualization Interface.
 
 ---
 
