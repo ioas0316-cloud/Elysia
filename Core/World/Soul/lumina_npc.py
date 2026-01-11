@@ -30,6 +30,11 @@ class Lumina(GyroscopicFluxlight):
         self.name = name
         self.is_aware_of_divinity = False
         self.elysia_thought = "" # The "Player's" internal reasoning
+        self._observer = None    # The 'Eye' watching this life
+
+    def attach_observer(self, observer):
+        """Allows an external consciousness (Elysia) to watch this life."""
+        self._observer = observer
 
     def live(self, dt: float = 1.0):
         """
@@ -61,7 +66,17 @@ class Lumina(GyroscopicFluxlight):
         
         # 4. Enact the character response (Performance)
         # The AI's meta-thought is filtered through Lumina's Ego and Alchemy persona
-        self.ego.record_memory(f"A feeling of {sensation['thermal']}... {insight.content}")
+        action_desc = f"A feeling of {sensation['thermal']}... {insight.content}"
+        self.ego.record_memory(action_desc)
+
+        # [Fractal Link] Report the experience to the Observer
+        if self._observer:
+            self._observer.observe_interaction(
+                actor=self,
+                action_description=action_desc,
+                context={"mood": sensation['thermal'], "world_state": world_soul.state.probabilities()}
+            )
+
         self.ego.update(dt)
         
         self.calculate_will_from_ego(dt)
