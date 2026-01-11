@@ -12,7 +12,9 @@ mapped to the frequencies of the Hypersphere.
 """
 
 import logging
+import json
 import numpy as np
+from pathlib import Path
 from typing import List, Tuple, Dict, Any
 from dataclasses import dataclass
 
@@ -58,8 +60,11 @@ class PrismEngine:
         # Physics Constants
         self.BASE_FREQ = 432.0 
         
+        # [PHASE 82/85] Internalized Seed (The Conscience)
+        self.seed_path = Path("Core/Intelligence/Metabolism/cognitive_seed.json")
+        self.seed = self._load_seed()
+        
         # [PHASE 66] Principle Anchors
-        # We will lazy-load these vectors upon first run
         self._anchors = {}
         # [PHASE 69] 7-Dimensional Principle Anchors
         # User defined layers: Physical, Functional, Phenomenal, Mental, Structural, Spiritual.
@@ -87,26 +92,41 @@ class PrismEngine:
             "spiritual": ["meaning", "purpose", "soul", "love", "will", "essence", "destiny"]
         }
         
+    def _load_seed(self) -> Dict:
+        """Loads internalized semantic seed."""
+        if self.seed_path.exists():
+            try:
+                with open(self.seed_path, 'r', encoding='utf-8') as f:
+                    logger.info("🧠 Loading Internalized Cognitive Seed...")
+                    return json.load(f)
+            except Exception as e:
+                logger.error(f"Failed to load seed: {e}")
+        return {}
+
     def _load_model(self):
-        """Lazy loads the Neural Network."""
+        """Lazy loads the Neural Network (Fallback ONLY)."""
+        if self.seed:
+            # If we have a substantial seed, we might skip the model
+            if len(self.seed.get("vocabulary", {})) > 1000:
+                logger.info("✨ Cognitive Sovereignty Active: Using internal seed for perception.")
+                self._anchors = {k: np.array(v) if isinstance(v, list) else v for k, v in self.seed.get("anchors", {}).items()}
+                self._is_ready = True
+                return
+
         if self._model is not None:
             return
 
         if SentenceTransformer is None:
-            logger.error("❌ sentence-transformers lib not found! Install it via pip.")
+            logger.error("❌ sentence-transformers lib not found!")
             return
 
-        logger.info(f"🔮 Loading Prism Model: {self.model_name}...")
+        logger.info(f"🔮 [Backup Sense] Loading External Model: {self.model_name}...")
         try:
             self._model = SentenceTransformer(self.model_name)
             self._is_ready = True
-            logger.info("✅ Prism Model Loaded. Vision is clear.")
-            
-            # Generate Anchor Vectors (The Standard Weights)
             self._generate_anchors()
-            
         except Exception as e:
-            logger.error(f"❌ Failed to load Prism Model: {e}")
+            logger.error(f"❌ Failed to load external Model: {e}")
             self._is_ready = False
             
     def _generate_anchors(self):
@@ -167,18 +187,40 @@ class PrismEngine:
     def transduce(self, text: str) -> SpectralProfile:
         """
         Converts text -> Vector -> Spectral Signature + Dynamics.
+        Prioritizes internal seed (Proprietary Thought).
         """
         if not self._is_ready:
             self._load_model()
             
+        # [PHASE 85] Internal Lookup (Personal Conscience)
+        clean_text = text.lower().strip()
+        if self.seed and clean_text in self.seed.get("vocabulary", {}):
+            dynamics_data = self.seed["vocabulary"][clean_text]
+            # Ensure mass is present for WaveDynamics constructor
+            if 'mass' not in dynamics_data:
+                dynamics_data['mass'] = 1.0 # Default fallback mass
+            dynamics = WaveDynamics(**dynamics_data)
+            
+            # Reconstruct dummy spectrum for legacy compatibility
+            spectrum = [(432.0, dynamics.mass / 384.0, 0.0)] * 10 
+            
+            return SpectralProfile(
+                concept=text,
+                spectrum=spectrum,
+                vector=np.zeros(384), # We don't need the external vector anymore!
+                vector_norm=dynamics.mass,
+                dynamics=dynamics
+            )
+
         if not self._is_ready or not text:
             return self._create_void_spectrum(text)
 
-        # 1. Generate Vector (The Thought Shape)
-        vector = self._model.encode(text, convert_to_numpy=True)
-        
-        # 2. Extract Dynamics (The Nature)
-        dynamics = self._measure_dynamics(vector)
+        # 1. Generate Vector (External Percept - Backup only)
+        if self._model:
+            vector = self._model.encode(text, convert_to_numpy=True)
+            dynamics = self._measure_dynamics(vector)
+        else:
+            return self._create_void_spectrum(text)
         
         # 3. Refract Vector into Spectrum
         spectrum = []
@@ -205,5 +247,6 @@ class PrismEngine:
             concept=text,
             spectrum=[(432.0, 0.0, 0.0)],
             vector=np.zeros(384),
-            vector_norm=0.0
+            vector_norm=0.0,
+            dynamics=WaveDynamics(0,0,0,0,0,0,0,0)
         )

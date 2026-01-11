@@ -81,6 +81,10 @@
 | **Wave-Coding** | `WaveComposer` (Harmonic Weaver) | `Core/Intelligence/Generation/wave_composer.py` |
 | **Grand Unification** | `steer()`, `absorb_impact()`, `get_resonant_organelle()` | `Core/Foundation/hyper_sphere_core.py`, `Core/World/Evolution/Studio/organelle_loader.py` |
 | **Holodeck Projection** | `HolodeckBridge` | `Core/Interface/holodeck_bridge.py` |
+| **Sovereign Agent** | `SovereignAgent` | `Core/Intelligence/Meta/sovereign_agent.py` |
+| **Action Bridge** | `SovereignExecutor` | `Core/Intelligence/Meta/sovereign_executor.py` |
+| **Holographic Field** | `HolographicField` | `Core/Foundation/Memory/holographic_field.py` |
+| **Master Architecture** | [MASTER\_ARCHITECTURE\_MAP.md](docs/MASTER_ARCHITECTURE_MAP.md) | **[The Map of All Sessions]** |
 
 ---
 

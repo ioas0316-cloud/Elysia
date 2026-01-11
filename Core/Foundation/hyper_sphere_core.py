@@ -28,6 +28,7 @@ from pathlib import Path
 from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
 from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster, WavePacket, PulseType
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.Foundation.Memory.holographic_field import HolographicField
 
 logger = logging.getLogger("HyperSphereCore")
 
@@ -70,8 +71,9 @@ class HyperSphereCore:
         
         self.pulse_broadcaster = PulseBroadcaster()
         self.is_active = False
-
-        # State
+        
+        # [PHASE 90] Holographic Persistence
+        self.hologram = HolographicField(f"data/Memory/{name}.wave")
         self.current_intent = "Sleep"
         logger.info(f"🔮 HyperSphereCore (Rotor Engine) Initialized: {name}")
 
@@ -461,14 +463,41 @@ class HyperSphereCore:
         self.pointer_registry[concept] = pointer
         logger.info(f"🔗 [POINTER] '{concept}' mapped to {pointer.uri}")
         
-        # If no rotor exists for this concept, create one at a unique frequency
         if concept not in self.harmonic_rotors:
-            # Simple heuristic for frequency mapping
             freq = 100.0 + (len(self.harmonic_rotors) * 50.0) % 900.0
             self.update_seed(concept, freq)
 
     def find_pointer(self, concept: str) -> Optional[FilePointer]:
         return self.pointer_registry.get(concept)
+
+    # --- [PHASE 90] HOLOGRAPHIC PERSISTENCE ---
+
+    def save_hologram(self):
+        """
+        Persists the entire state of the HyperSphere as a continuous wave field.
+        """
+        self.hologram.save_field(self.harmonic_rotors)
+
+    def load_hologram(self):
+        """
+        Re-ignites the mind from its holographic field.
+        """
+        identities = self.hologram.load_field()
+        for idt in identities:
+            from Core.Foundation.Nature.rotor import RotorConfig
+            rotor = Rotor(idt['name'], RotorConfig(rpm=idt['rpm'], mass=idt['mass']))
+            rotor.current_rpm = idt['rpm']
+            rotor.current_angle = idt['phase']
+            
+            from Core.Intelligence.Metabolism.prism import WaveDynamics
+            dna_data = idt['dna'].copy()
+            dna_data['mass'] = idt['mass']
+            dynamics = WaveDynamics(**dna_data)
+            rotor.inject_spectrum([], dynamics=dynamics)
+            
+            self.harmonic_rotors[idt['name']] = rotor
+        
+        logger.info(f"✨ {len(identities)} identities re-ignited from Hologram.")
 
     def scan_ocean(self, directory: str):
         """

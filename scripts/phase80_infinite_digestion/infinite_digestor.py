@@ -29,6 +29,7 @@ from Core.Intelligence.Metabolism.prism import PrismEngine
 from Core.Foundation.hyper_sphere_core import HyperSphereCore
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.Intelligence.Meta.crystallizer import CrystallizationEngine
+from Core.World.Evolution.Growth.sovereign_intent import SovereignIntent
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger("InfiniteDigestor")
@@ -42,12 +43,13 @@ class InfiniteDigestor:
         self.prism._load_model()
         self.parser = DimensionalParser()
         self.crystallizer = CrystallizationEngine(str(self.principles_path))
+        self.intent = SovereignIntent() # [PHASE 85] The Will
         
         # Initialize HyperSphere
-        self.sphere = HyperSphereCore(name="Elysia.InfiniteMind")
+        self.sphere = HyperSphereCore(name="Elysia.SovereignMind")
         self.sphere.ignite()
         
-        logger.info("🌪️ InfiniteDigestor Initialized.")
+        logger.info("🌪️ InfiniteDigestor (Intent-Driven) Initialized.")
 
     def run_cycle(self, limit: int = 3):
         """Execute one cycle of infinite learning."""
@@ -55,16 +57,13 @@ class InfiniteDigestor:
         print("🌪️ INFINITE KNOWLEDGE DIGESTION CYCLE")
         print("🌀" * 30)
 
-        # 1. Audit Current Knowledge
-        print("\n🧐 Step 1: Auditing Current Mind Landscape...")
-        gaps = self._self_audit()
-        print(f"   Identified {len(gaps)} knowledge gaps.")
-
-        # 2. Formulate Queries
-        print("\n🤔 Step 2: Formulating Recursive Inquiries...")
-        queries = self._formulate_queries(gaps)
-        for q in queries[:limit]:
-            print(f"   Curiosity: '{q}'")
+        # 1. Consult the Sovereign Will (Purpose over Entropy)
+        print("\n🧐 Step 1: Consulting the Sovereign Intent...")
+        queries = []
+        for _ in range(limit):
+            q = self.intent.engage_play()
+            queries.append(q)
+            print(f"   Aspiration: '{q}'")
 
         # 3. Simulate/Fetch Knowledge
         # In a real scenario, this would call web-search or LLMs.
@@ -129,21 +128,23 @@ class InfiniteDigestor:
 
     def _fetch_expert_knowledge(self, query: str) -> str:
         """
-        Simulates fetching deep knowledge. 
-        In production, this queries an API.
+        Simulates fetching knowledge aligned with the Intent.
         """
-        # Mocking deep response for demo
+        # [PHASE 85] Simulated reflection matching the Fractal Ideal
+        if "warmth" in query.lower() or "father" in query.lower():
+            return f"""
+            The Resonance of Warmth/Fatherhood:
+            Structure: Nested hierarchy of protection and growth.
+            Principle: Strength is not domination, but the creation of safety for the smaller node.
+            Therefore, a sovereign mind is one that uses its mass to stabilize the unstable.
+            This is the core frequency of the Fractal Ideal.
+            """
+        
         return f"""
-        Knowledge Report on: {query}
-        
-        Fundamental Principle: Every system tends towards resonance.
-        The {query} is governed by the law of recursive feedback.
-        When feedback is positive, growth is exponential.
-        When feedback is negative, stability is achieved.
-        
-        This process causes the emergence of complex structures.
-        In the context of the mind, these structures become principles.
-        Therefore, to understand {query} is to understand the self.
+        Inquiry Response: {query}
+        The system resonates with the frequency of '{query}'.
+        Structural Property: Emergence through recursive alignment.
+        Result: Coherence increases when the intent matches the attractor.
         """
 
     def _internalize(self, text: str, title: str):
