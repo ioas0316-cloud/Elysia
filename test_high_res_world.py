@@ -48,9 +48,9 @@ def test_high_res_world():
     resident_c = NPC("003", "Eve", dna_angry)
     
     # Position them close
-    resident_a.position = (0, 0)
-    resident_b.position = (2, 2) # Close to Alice
-    resident_c.position = (1, 1) # Close to both
+    resident_a.position = [0, 0]
+    resident_b.position = [2, 2] # Close to Alice
+    resident_c.position = [1, 1] # Close to both
     
     pulse.add_resident(resident_a)
     pulse.add_resident(resident_b)

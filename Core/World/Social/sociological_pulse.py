@@ -12,21 +12,24 @@ logger = logging.getLogger("SociologicalPulse")
 
 class SocialField:
     """
-    [Phase 35] The OmniField: Unified Potential Map.
+    [Phase 36] The OmniField: Unified Potential Map.
     Carrier for all phenomena within the HyperSphere's spatial projection.
     
-    Structure (16 Channels):
+    Structure (25 Channels):
     - [0-3]: Social/Carrier (G, F, A, Freq)
     - [4-7]: Tactile/Collision (G, F, A, Freq)
-    - [8-11]: Acoustic/Sense Layer (G, F, A, Freq)
-    - [12-15]: Meta/Linguistic Layer (G, F, A, Freq)
-      - Index 15 is specifically used for History Mass (Sovereign Scars).
+    - [8-11]: Acoustic/Sense Layer
+    - [12-15]: Linguistic Layer (Cultural Drift)
+    - [16-19]: Terrain (Hardness, Elasticity, Elevation, MaterialID)
+    - [20-23]: Resource (Value, Energy, Nutrition, ResourceType)
+    - [24]: History Mass (Sovereign Scars)
     """
     def __init__(self, size: int = 50, resolution: float = 4.0):
         self.size = size 
         self.resolution = resolution 
-        # 17 channels: 4 Trinity Slots (16) + 1 History Slot (16)
-        self.grid = np.zeros((size, size, 17)) 
+        # 25 channels: 6 Trinity Slots (24) + 1 History Slot (24)
+        # Slots: 0=Social, 4=Haptic, 8=Acoustic, 12=Linguistic, 16=Terrain, 20=Resource, 24=History
+        self.grid = np.zeros((size, size, 25)) 
         self.boundary = size * resolution / 2.0
 
     def world_to_grid(self, x: float, y: float) -> Tuple[int, int]:
@@ -49,9 +52,9 @@ class SocialField:
             self.grid[gx, gy, 3 + channel_offset] = (curr_freq + vector.frequency) / 2.0
 
     def deposit_event(self, x: float, y: float, intensity: float):
-        """[Phase 34] Records a historical ripple in the field (Channel 16)."""
+        """[Phase 34] Records a historical ripple in the field (Channel 24)."""
         gx, gy = self.world_to_grid(x, y)
-        self.grid[gx, gy, 16] += intensity
+        self.grid[gx, gy, 24] += intensity
 
     def sample(self, x: float, y: float, channel_offset: int = 0) -> Tuple[float, float, float, float]:
         gx, gy = self.world_to_grid(x, y)
@@ -59,12 +62,16 @@ class SocialField:
 
     def sample_history(self, x: float, y: float) -> float:
         gx, gy = self.world_to_grid(x, y)
-        return self.grid[gx, gy, 16]
+        return self.grid[gx, gy, 24]
 
     def decay(self, rate: float = 0.9):
         """Natural entropy - waves and memories fade."""
-        self.grid[:, :, 0:16] *= rate # Standard decay for waves (0-15)
-        self.grid[:, :, 16] *= (rate + 0.08) # History is the stickiest
+        # 0-15: Social, Haptic, Acoustic, Linguistic (Transient)
+        self.grid[:, :, 0:16] *= rate 
+        # 16-23: Terrain and Resources (Semi-persistent)
+        self.grid[:, :, 16:24] *= min(1.0, rate + 0.15) 
+        # 24: History (Stickiest)
+        self.grid[:, :, 24] *= min(1.0, rate + 0.08)
 
 class NPC:
     def __init__(self, id: str, name: str, temperament: WaveDNA, age: float = 20.0):
@@ -109,38 +116,49 @@ class NPC:
 
     def feel_environment(self, field: SocialField):
         """
-        [Phase 35] The Act of Sensing.
-        Samples all field channels and calculates interference impact.
+        [Phase 36] The Act of Living.
+        Samples Senses, Terrain, and Resources.
         """
         if not self.is_alive: return
         
-        # 1. Learn Culture (Channel 9 & 10) - Already in move_by_gravity but can be grouped
+        # 1. Metabolism: Constant effort to exists
+        self.energy -= 1.5 
+        
+        # 2. Learn Culture (Channel 12 & 24)
         self.learn_culture(field)
         
-        # 2. Tactile/Social Interference (Channel 0 & 4)
-        # Sample Base Social (0) and Tactile (4)
+        # 3. Terrain & Resource Sampling
+        # Channel 16: Terrain (G, F, Elevation, Freq)
+        ter_g, ter_f, ter_elev, ter_freq = field.sample(self.position[0], self.position[1], channel_offset=16)
+        # Channel 20: Resource (Value, Energy, Nutrition, Type)
+        res_g, res_f, res_nut, res_type = field.sample(self.position[0], self.position[1], channel_offset=20)
+        
+        # 4. Metabolic Intake: Consume local resource if available
+        if res_f > 0.1:
+            intake = min(res_f, 5.0) 
+            self.energy = min(120.0, self.energy + intake * 10.0) # Potent resources
+            
+        # 5. Tactile/Social Interference
         soc_g, soc_f, soc_a, soc_freq = field.sample(self.position[0], self.position[1], channel_offset=0)
         tac_g, tac_f, tac_a, tac_freq = field.sample(self.position[0], self.position[1], channel_offset=4)
         
-        # Calculate Interference Impact
-        # Resonance if frequency is within 10% of self
         for f in [soc_freq, tac_freq]:
             if f == 0: continue
             diff = abs(f - self.emotional_frequency)
             if diff < 20.0:
-                # Constructive Alignment -> Pleasure/Energy
-                self.energy = min(120.0, self.energy + 1.0)
+                self.energy = min(120.0, self.energy + 0.5)
             elif diff > 400.0:
-                # Destructive Dissonance -> Pain/Fatigue
-                self.energy -= 2.0
-                if random.random() < 0.01:
-                    self.health -= 0.001 # Physical trauma from high dissonance
+                self.energy -= 1.0
+                if random.random() < 0.01: self.health -= 0.001
 
+        # 6. Terrain Impact: Elevation (ter_elev) affects speed/health
+        if ter_elev > 0.8: # Steep slope
+             self.energy -= 0.2
+             
     def move_by_gravity(self, field: SocialField):
         """NPCs drift toward resonant frequencies (Social Gravity)."""
         if not self.is_alive: return
         
-        # Sensing is the first step of movement
         self.feel_environment(field)
         
         x, y = self.position
@@ -148,7 +166,7 @@ class NPC:
         best_resonance = -1.0
         best_move = [0, 0]
         
-        # Sample surrounding to find gradient (Channel 0: Base Social)
+        # Sample surrounding (Channel 0)
         for dx, dy in offsets:
             nx, ny = x + dx*field.resolution, y + dy*field.resolution
             _, _, _, nfreq = field.sample(nx, ny, channel_offset=0)
@@ -157,12 +175,17 @@ class NPC:
             else:
                 resonance = 1.0 / (1.0 + abs(nfreq - self.emotional_frequency))
             
+            # [Phase 36] Also avoid steep terrain? (Optional for now)
             if resonance > best_resonance:
                 best_resonance = resonance
                 best_move = [dx, dy]
 
-        # Apply movement
-        speed = 2.0 * self.health
+        # Apply movement (Speed affected by health and terrain elevation)
+        # Sample elevation at current spot for speed penalty
+        _, _, ter_elev, _ = field.sample(x, y, channel_offset=16)
+        speed_mod = 1.0 - (ter_elev * 0.5) # Up to 50% penalty
+        
+        speed = 2.0 * self.health * speed_mod
         self.velocity = [best_move[0] * speed, best_move[1] * speed]
         self.position[0] += self.velocity[0]
         self.position[1] += self.velocity[1]
@@ -183,6 +206,16 @@ class SociologicalPulse:
     def __init__(self, field_size: int = 50):
         self.residents: Dict[str, NPC] = {}
         self.field = SocialField(size=field_size)
+        
+        # [Phase 36] Initial World Seeding
+        # 1. Terrain: A 'Mountain' in the middle (Channel 16)
+        mountain = TrinityVector(gravity=0.9, flow=0.1, ascension=1.0, frequency=700.0)
+        self.field.deposit(0, 0, mountain, channel_offset=16)
+        
+        # 2. Resources: 'Forests' of energy (Channel 20)
+        forest = TrinityVector(gravity=0.5, flow=1.0, ascension=0.2, frequency=432.0)
+        self.field.deposit(-20, -20, forest, channel_offset=20)
+        self.field.deposit(20, 20, forest, channel_offset=20)
 
     def add_resident(self, npc: NPC):
         self.residents[npc.id] = npc
@@ -213,13 +246,13 @@ class SociologicalPulse:
             npc.update_biology(dt_years)
             if not npc.is_alive: 
                 dead_ids.append(npc_id)
-                # [Phase 34] Death leaves a ripple in history (Channel 13)
+                # [Phase 34] Death leaves a ripple in history (Channel 24)
                 self.field.deposit_event(npc.position[0], npc.position[1], intensity=5.0)
             elif 20 < npc.age < 50 and npc.energy > 105:
                 child = self.reproduce_solo(npc)
                 if child: 
                     new_residents.append(child)
-                    # [Phase 34] Birth leaves a ripple in history
+                    # [Phase 34] Birth leaves a ripple in history (Channel 24)
                     self.field.deposit_event(npc.position[0], npc.position[1], intensity=3.0)
         
         for d_id in dead_ids: del self.residents[d_id]
