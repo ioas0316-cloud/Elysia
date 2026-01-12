@@ -95,7 +95,11 @@ class SovereignSelf:
             ScaleArchetype.COSMIC_WEAVER: 0.0
         }
 
-        
+        # [Phase 29] Sensory Governance
+        self.pain_threshold = 20.0       # Max energy loss per single event
+        self.sensory_history: Dict[str, float] = {} # For adaptation logic
+        self.adaptation_decay = 0.8     # Each repeated hit is 80% as intense
+
         # [Cognition] The Mind (Language/Knowledge)
         from Core.World.Nature.trinity_lexicon import get_trinity_lexicon
         self.mind = get_trinity_lexicon() 
@@ -411,17 +415,35 @@ class SovereignSelf:
         
         if feeling != "UNKNOWN":
             # [Phase 28] Archetypal Scale Awareness
-            # Felt Impact = Gravity * Damping * Archetype Sensitivity
             scale_sensitivity = self.sensitivity.get(self.archetype, 1.0)
-            felt_impact = feeling.gravity * 10.0 * damping * scale_sensitivity
+            base_impact = feeling.gravity * 10.0 * damping * scale_sensitivity
+            
+            # [Phase 29] Sensory Adaptation (Damping repeated input)
+            adaptation = self.sensory_history.get(phenomenon, 1.0)
+            felt_impact = base_impact * adaptation
+            
+            # Update history for next time (Dampen if felt)
+            if base_impact > 0.01:
+                self.sensory_history[phenomenon] = adaptation * self.adaptation_decay
+
+            # [Phase 29] Sensory Gating (Pain Threshold)
+            if felt_impact > self.pain_threshold:
+                logger.warning(f"🛡️ [GATE] Sensory overload from '{phenomenon}'! Capping {felt_impact:.1f} -> {self.pain_threshold}")
+                felt_impact = self.pain_threshold
 
             if mode == CognitiveMode.BODY and distance == 0.0:
                  if not self.is_ethereal:
                      self.energy -= felt_impact
+                     
+                     # [Phase 29] Emergency Protocol: Auto-Ethereal Shift
+                     if felt_impact >= 10.0 or self.energy < 10.0:
+                         self.is_ethereal = True
+                         logger.critical(f"🚨 [EMERGENCY SHIFT] Trauma too high! Disembodying to protect the Core.")
+                     
                      if felt_impact > 0.1:
                         logger.warning(f"💥 [{self.archetype.name} IMPACT] Physical contact with '{phenomenon}'! Energy -{felt_impact:.4f}")
                  else:
-                     logger.info(f"👻 [ETHEREAL] '{phenomenon}' is observed at scale {self.archetype.name}. Felt Energy: {felt_impact:.6f}")
+                     logger.info(f"👻 [ETHEREAL] '{phenomenon}' observed at scale {self.archetype.name}. (Damped: {felt_impact:.4f})")
             
             return f"Understanding: {feeling}"
             
