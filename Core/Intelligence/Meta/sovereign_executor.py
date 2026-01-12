@@ -29,7 +29,8 @@ class SovereignExecutor:
             "write_thought": self._act_write_thought,
             "propose_patch": self._act_propose_patch,
             "scan_environment": self._act_scan_environment,
-            "self_audit": self._act_self_audit
+            "self_audit": self._act_self_audit,
+            "anchor_identity": self._act_anchor_identity
         }
         
     def execute(self, impulse: Dict[str, Any]) -> Dict[str, Any]:
@@ -99,6 +100,21 @@ class SovereignExecutor:
             "observation": observation,
             "complexity_score": total_lines / 10000.0  # Normalize
         }
+
+    def _act_anchor_identity(self, content: str) -> Dict[str, Any]:
+        """Anchors new insights or state changes into the SOVEREIGN_NARRATIVE.md."""
+        narrative_path = Path("c:/Elysia/Core/World/Soul/sovereign_narrative.md")
+        if not narrative_path.exists():
+            return {"status": "error", "message": "Sovereign Narrative file not found."}
+        
+        try:
+            with open(narrative_path, "a", encoding="utf-8") as f:
+                import datetime
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d")
+                f.write(f"\n- **[{timestamp}]**: {content}")
+            return {"status": "success", "message": "Identity anchored."}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

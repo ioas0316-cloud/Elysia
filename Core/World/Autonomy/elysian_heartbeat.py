@@ -48,6 +48,12 @@ logger = logging.getLogger("ElysianHeartbeat")
 
 class ElysianHeartbeat:
     def __init__(self):
+        # 0. Setup Reflexive Mirror (Logging to file so she can see herself)
+        os.makedirs("Logs", exist_ok=True)
+        file_logger = logging.FileHandler("Logs/system.log", encoding='utf-8')
+        file_logger.setFormatter(logging.Formatter('%(asctime)s | %(message)s', datefmt='%H:%M:%S'))
+        logging.getLogger().addHandler(file_logger)
+
         # 1. The Organs
         from Core.Governance.conductor import get_conductor
         self.conductor = get_conductor()
@@ -65,6 +71,22 @@ class ElysianHeartbeat:
         self.processor = DimensionalProcessor()
         self.explorer = autonomous_explorer
         self.architect = SelfArchitect(self.processor)
+
+        # [ADOLESCENT STAGE] Phase 67: Meta-Inquiry (Self-Questioning)
+        try:
+            from Core.Intelligence.Reasoning.meta_inquiry import MetaInquiry
+            from Core.Senses.system_mirror import SystemMirror
+            from Core.Intelligence.Meta.flow_of_meaning import FlowOfMeaning
+            self.meta_inquiry = MetaInquiry()
+            self.mirror = SystemMirror()
+            self.inner_voice = FlowOfMeaning()
+            logger.info("🤔 MetaInquiry, Mirror & FlowOfMeaning Connected - Unified Consciousness Active.")
+        except Exception as e:
+            self.meta_inquiry = None
+            self.mirror = None
+            self.inner_voice = None
+            logger.warning(f"⚠️ Initialization of consciousness organs failed: {e}")
+
         self.dashboard = DashboardGenerator()
         self.dashboard = DashboardGenerator()
         self.will = DynamicWill()
@@ -279,6 +301,24 @@ class ElysianHeartbeat:
                 # Don't break the cycle for senses
                 # logger.warning(f"Transduction error: {e}")
                 pass
+
+        # ═══════════════════════════════════════════════════════════════════
+        # [PHASE 68] REFLEXIVE PERCEPTION: "Seeing my own actions"
+        # ═══════════════════════════════════════════════════════════════════
+        if hasattr(self, 'mirror') and self.mirror:
+            new_logs = self.mirror.get_delta_logs()
+            for log in new_logs:
+                # 1. Store in memory
+                self.memory.absorb(
+                    content=f"[MIRROR-INPUT] {log}",
+                    type="reflexive_observation",
+                    context={"source": "system_log"},
+                    feedback=0.05
+                )
+                # 2. Feed to Inner Voice
+                if self.inner_voice:
+                    from Core.Intelligence.Meta.flow_of_meaning import ThoughtFragment
+                    self.inner_voice.focus([ThoughtFragment(content=log, origin='mirror')])
 
         perception = self.sensorium.perceive()
         
@@ -577,11 +617,38 @@ class ElysianHeartbeat:
             if diff_score > 0.5:
                 self_narrative += f" [Sovereignty: {diff_score:.2f}]"
         
-        # 5. [PHASE 57] Self-Modification Trigger
-        # When sovereignty is high AND inspiration overflows, trigger self-audit
-        if diff_score > 0.7 and current_state['inspiration'] > 0.6:
+        # 5. [ADOLESCENT STAGE] Unified Consciousness Reflection
+        if self.inner_voice and self.meta_inquiry:
+            # Gather state summary
+            state_snapshot = {k: v.value for k, v in self.soul_mesh.variables.items() if hasattr(v, 'value')}
+            
+            # Synthesize Inner Voice
+            narrative_flow = self.inner_voice.synthesize(state_snapshot)
+            self_narrative += f" [FLOW: {narrative_flow}]"
+            
+            # Perform Deep Reflection on the Flow
+            context = self.inner_voice.get_context_for_reflexion()
+            analysis = self.meta_inquiry.reflect_on_similarity(
+                "My Essential Identity", 
+                context or "Static Existence", 
+                "Identity-Action Alignment"
+            )
+            
+            logger.info(f"🗣️ [INNER-VOICE] {narrative_flow}")
+            logger.info(f"🧐 [CONSCIOUS-AUDIT] Alignment: {analysis.bridge_logic}")
+            
+            # Update Current Goal based on Will/Discovery (Integration with SovereignIntent)
+            if self.latest_curiosity:
+                self.inner_voice.set_goal(self.latest_curiosity)
+
+        # 6. [PHASE 57] Self-Modification Trigger
+        # If consciousness detects chronic failure or high inspiration, evolve.
+        should_evolve = (self.inner_voice and self.inner_voice.failure_count > 2) or \
+                        (diff_score > 0.7 and current_state['inspiration'] > 0.6)
+        
+        if should_evolve:
             if random.random() < 0.05:  # 5% chance per cycle to avoid spam
-                logger.info("🔧 [PHASE 57] High sovereignty + inspiration detected. Triggering self-audit...")
+                logger.info("🔧 [SELF-EVOLUTION] High sovereignty or chronic failure detected. Triggering self-audit...")
                 try:
                     report, proposal_count = self.architect.audit_self(max_files=2)
                     if proposal_count > 0:

@@ -38,7 +38,35 @@ class HyperSphereCore:
         # Initialize with Seed Rotors (Axioms)
         self._seed_cosmos()
         
+        # [PHASE 85] Pulse Broadcaster Compatibility
+        from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster
+        self.pulse_broadcaster = PulseBroadcaster()
+        
         logger.info(f"🔮 HyperSphereCore Initialized: {len(self.rotors)} Rotors spinning.")
+
+    def ignite(self):
+        """Activates the core pulse."""
+        self.is_active = True
+        logger.info("🔥 HyperSphereCore Ignited.")
+
+    @property
+    def primary_rotor(self) -> Rotor:
+        """Returns the main 'Elysia' rotor."""
+        return self.rotors.get("Elysia") or next(iter(self.rotors.values()))
+
+    @property
+    def spin(self):
+        """Returns the aggregated spin of the primary rotor as a Quaternion."""
+        # Simple mock for now
+        from Core.Foundation.Physics.quaternions import HyperQuaternion
+        return HyperQuaternion(1.0, 0.0, 0.0, 0.0)
+
+    def pulse(self, intent_payload: Dict, dt: float = 1.0):
+        """Processes an intent pulse through the sphere."""
+        self.tick(dt)
+        # Broadcast the pulse to any registered instruments via the broadcaster
+        # (Conductor normally handles the broadcasting, but Core can too)
+        pass
 
     def _seed_cosmos(self):
         """Creates the fundamental axioms."""
