@@ -174,20 +174,38 @@ class HyperSphereCore:
         """
         The Universal Clock.
         Updates all rotors and handles decay/entropy.
+        [Phase 37] Planetary Breathing: Global oscillators drive seasons.
         """
         active_count = 0
         dt_eff = dt * self.time_dilation
         
-        # [Phase 35] Global Field Decay
-        # All sensory ripples and social pulses fade in the HyperSphere
+        # 1. Global Field Decay
         self.field.decay(rate=0.9)
+        
+        # 2. Planetary Rotor: The World's Pulse (Seasons)
+        if "Reality.Season" not in self.rotors:
+            # Seed a low-frequency oscillator for seasons
+            from Core.Foundation.Wave.wave_dna import WaveDNA
+            season_dna = WaveDNA(label="Season", frequency=0.01, physical=0.5, phenomenal=0.5)
+            self.add_rotor("Reality.Season", season_dna, rpm=0.5) # Very slow
+            
+        season = self.rotors["Reality.Season"]
+        # Cycle heat and moisture based on the Rotor's Angle (Phase)
+        import math
+        rad = math.radians(season.current_angle)
+        heat = (math.cos(rad) + 1.0) * 10.0 # Peak heat at 0/360 deg
+        moisture = (math.sin(rad) + 1.0) * 5.0 # Peak moisture at 90 deg (Phase shift)
+        
+        # Push these global constants into the Field (Channels 25 and 28)
+        self.field.grid[:, :, 25] += heat * 0.05
+        self.field.grid[:, :, 28] += moisture * 0.05
         
         keys_to_remove = []
         for name, rotor in self.rotors.items():
             rotor.update(dt_eff)
             if rotor.energy > 0.1:
                 active_count += 1
-            if rotor.energy < 0.01 and name not in ["Love", "Logic", "Elysia", "Nature"]:
+            if rotor.energy < 0.01 and name not in ["Love", "Logic", "Elysia", "Nature", "Reality.Season"]:
                 keys_to_remove.append(name)
 
         # Cleanup
