@@ -356,6 +356,39 @@ class TrinityLexicon:
             else:
                  print(f"⚠️ Memory file not found at {target_path}. Starting Fresh.")
 
+    def audit_knowledge(self) -> List[Tuple[str, str, float]]:
+        """
+        [Phase 30] Audit knowledge for contradictions.
+        Returns pairs of concepts that exhibit 'Destructive Interference'.
+        """
+        if not self.graph: return []
+        
+        dissonances = []
+        nodes = list(self.graph.id_to_idx.keys())
+        
+        # O(N^2) for now - audit only a subset of the graph if it grows too large
+        for i in range(len(nodes)):
+            for j in range(i + 1, len(nodes)):
+                a, b = nodes[i], nodes[j]
+                
+                # Retrieve vectors (as WaveTensors)
+                v_a = self.graph.get_node_vector(a) # Returns torch.Tensor?
+                v_b = self.graph.get_node_vector(b)
+                
+                # Conversion to WaveTensor for interference check
+                # This assumes graph vectors are compatible or mapped to frequency space.
+                # For now, we simulate this if vectors are out of phase.
+                # [Interference Logic]
+                # In Phase 30, we'll treat high distance + semantic overlap as dissonance.
+                dot = float((v_a * v_b).sum())
+                norm = float(v_a.norm() * v_b.norm())
+                similarity = dot / (norm + 1e-9)
+                
+                if similarity < -0.5: # Out of phase (Contradiction)
+                    dissonances.append((a, b, similarity))
+        
+        return dissonances
+
 _lexicon = None
 def get_trinity_lexicon():
     global _lexicon

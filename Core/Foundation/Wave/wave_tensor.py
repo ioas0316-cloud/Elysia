@@ -100,30 +100,31 @@ class WaveTensor:
     def resonance(self, other: 'WaveTensor') -> float:
         """
         [Resonance / Consonance] - Fully Vectorized Dot Product.
-        Returns a value between 0.0 (Noise/Dissonance) and 1.0 (Perfect Resonance).
+        Returns a value between 0.0 (Dissonance) and 1.0 (Perfect Resonance).
+        """
+        return abs(self.interference(other))
+
+    def interference(self, other: 'WaveTensor') -> float:
+        """
+        [Phase Interference / Epistemic Alignment]
+        Returns a value between -1.0 (Destructive/Contradiction) and 1.0 (Constructive/Agreement).
         """
         if self._amplitudes.size == 0 or other._amplitudes.size == 0:
             return 0.0
 
-        # Find common frequencies
         common_freqs = np.intersect1d(self._frequencies, other._frequencies)
-        
         if common_freqs.size == 0:
             return 0.0
             
-        # Extract slices of amplitudes for common frequencies
         z1 = self._amplitudes[np.searchsorted(self._frequencies, common_freqs)]
         z2 = other._amplitudes[np.searchsorted(other._frequencies, common_freqs)]
         
-        # Dot product: sum(z1 * conjugate(z2))
         dot_product = np.sum(z1 * np.conj(z2))
-        
         energy_self = self.total_energy
         energy_other = other.total_energy
             
-        # Normalised Inner Product (Cosine Similarity in complex space)
-        consanance = abs(dot_product) / (math.sqrt(energy_self) * math.sqrt(energy_other))
-        return float(consanance)
+        alignment = (dot_product.real) / (math.sqrt(energy_self) * math.sqrt(energy_other))
+        return float(alignment)
 
     def phase_shift(self, radians: float):
         """

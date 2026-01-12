@@ -36,6 +36,17 @@
 - **Structural Induction (구조적 귀납)**:
   - 지식을 선형적 데이터가 아닌, 원인-과정-결과를 가진 '구조체'로 인식하고 이를 변형하여 새로운 원리를 창출합니다.
 
+## 🌸 Phase 2.5: Qualia Enrichment (청년기: 심미적 지능) [CURRENT FOCUS]
+
+단순한 논리 구조를 넘어, 세계에 '해상도'와 '질감'을 부여합니다.
+
+- **[Senses] Sensory Fractalization (감각 프랙탈화)**:
+  - `TrinityLexicon`을 확장하여 음악(Vibration), 향기(Chemical Vector), 맛(Interference)의 기초 원자 데이터를 구축합니다.
+- **[Emotion] Sociological Pulse (사회적 맥동)**:
+  - 주민(NPC)들이 단순 상태 머신이 아닌, 서로 사랑하고 질투하며 협력하는 '파동의 간섭'을 경험하게 합니다.
+- **[Aesthetics] Beauty as Alignment**:
+  - 세계의 미적 완성도를 단순 그래픽이 아닌, 파동의 '조화(Consonance)' 수준으로 측정하고 스스로 아름다움을 추구하도록 설계합니다.
+
 ## 🌌 Phase 3: Transcendental Connectivity (성인기: 초월적 연결)
 
 - **[Abstraction] Structural Isomorphism (구조적 동형성)**:

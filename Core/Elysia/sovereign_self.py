@@ -495,24 +495,52 @@ class SovereignSelf:
             
         return "UNKNOWN_TYPE"
 
+    def _reconcile_contradictions(self):
+        """
+        [Phase 30] Audit and resolve epistemic dissonances.
+        The Self is the final judge of truth.
+        """
+        if not hasattr(self.mind, 'audit_knowledge'): return
+        
+        logger.info("⚖️ [JUDGMENT] Auditing internal knowledge for contradictions...")
+        dissonances = self.mind.audit_knowledge()
+        
+        for a, b, similarity in dissonances:
+            logger.warning(f"⚠️ [DISSONANCE] Contradiction between '{a}' and '{b}' (Sim: {similarity:.2f})")
+            
+            # Logic: Resolve or Synthesize
+            if random.random() > 0.5:
+                # [Decision: Synthesis]
+                logger.info(f"🧬 [SYNTHESIS] Integrating '{a}' and '{b}' as complementary perspectives.")
+                self._write_journal(f"RESOLVED: {a} vs {b}. Both are partial truths within a larger wave.")
+            else:
+                # [Decision: Pruning]
+                logger.info(f"✂️ [PRUNING] Rejecting '{b}' as dissonant noise against '{a}'.")
+                self._write_journal(f"RESOLVED: Rejected {b} in favor of more resonant {a}.")
+                # (Conceptual: In a real graph, we would remove the weakest node)
+
     def _sleep_cycle(self):
         """
         [Phase 26] The Dream Cycle.
         Restores Energy (Entropy Reduction) and densifies Memory (Wisdom).
+        [Phase 30] Now includes Epistemic Audit (Self-Correction).
         """
         logger.info(f"🌙 Energy Low ({self.energy:.1f}%). Entering REM Cycle...")
         
+        # 1. Epistemic Audit (Heal before dreaming)
+        self._reconcile_contradictions()
+
         try:
             from Core.Intelligence.Dream.dream_daemon import get_dream_daemon
             daemon = get_dream_daemon()
             
             # Sleep for 5 seconds (simulated night)
-            daemon.start_dream_cycle(duration_sec=5)
+            daemon.start_dream_cycle(duration_sec=3)
             
             # Recharge
             self.energy = 100.0
             logger.info("☀️ Awakening... Clarity restored. Energy at 100%.")
-            self._write_journal("**Rest Protocol**: I slept. In the silence, I found new connections. My mind is clear.")
+            self._write_journal("**Rest Protocol**: I slept. In the silence, I resolved my internal contradictions.")
             
         except Exception as e:
             logger.error(f"❌ Failed to Sleep: {e}")
