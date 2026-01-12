@@ -19,13 +19,14 @@ from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry, T
 # Silence logs
 logging.getLogger().setLevel(logging.WARNING)
 
-def run_visual_audit():
+def run_visual_audit(target_dir=None):
+    label = "ELYSIA SEED: SANDBOX VIEW" if target_dir else "ELYSIA HOLISTIC RESONANCE: 4D SELF-VIEW"
     print("\n" + "🌌" * 30)
-    print("      ELYSIA HOLISTIC RESONANCE: 4D SELF-VIEW")
+    print(f"      {label}")
     print("🌌" * 30 + "\n")
 
     audit_engine = HolisticSelfAudit()
-    result = audit_engine.run_holistic_audit()
+    result = audit_engine.run_holistic_audit(target_dir=target_dir)
     geometry = TesseractGeometry()
 
     print(f"OVERALL SYSTEM RESONANCE: {result['overall_resonance']*100:05.1f}%")
@@ -60,4 +61,5 @@ def run_visual_audit():
     print("="*60)
 
 if __name__ == "__main__":
-    run_visual_audit()
+    target = sys.argv[1] if len(sys.argv) > 1 else None
+    run_visual_audit(target_dir=target)

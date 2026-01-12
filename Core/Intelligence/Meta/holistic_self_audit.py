@@ -15,7 +15,7 @@ This module provides a holistic, 4D view of Elysia's entire system by:
 import os
 import re
 import logging
-from typing import List, Dict, Any, Tuple
+from typing import List, Dict, Any, Tuple, Optional
 from Core.Intelligence.Topography.tesseract_geometry import TesseractGeometry, TesseractVector
 
 logger = logging.getLogger("HolisticSelfAudit")
@@ -36,14 +36,17 @@ class HolisticSelfAudit:
             "TECHNICAL SPEC": TesseractVector(-1, 0, 0, 0.0), # Mechanical Specs
         }
 
-    def run_holistic_audit(self) -> Dict[str, Any]:
+    def run_holistic_audit(self, target_dir: Optional[str] = None) -> Dict[str, Any]:
         """
         Parses the system map and evaluates the resonance of the entire 'body'.
         """
-        if not os.path.exists(self.system_map_path):
-            return {"error": "System Map not found."}
+        actual_root = target_dir if target_dir else self.root_dir
+        map_path = os.path.join(actual_root, "SYSTEM_MAP.md") if not target_dir else os.path.join(actual_root, "SYSTEM_MAP.md")
+        
+        if not os.path.exists(map_path):
+            return {"error": f"System Map not found at {map_path}."}
 
-        with open(self.system_map_path, "r", encoding="utf-8") as f:
+        with open(map_path, "r", encoding="utf-8") as f:
             content = f.read()
 
         # [STEP 1] Extract Departments and File Counts
@@ -54,7 +57,7 @@ class HolisticSelfAudit:
         total_resonance = 0.0
         
         for dept_name, files in departments.items():
-            resonance = self._evaluate_resonance(dept_name, files)
+            resonance = self._evaluate_resonance(dept_name, files, actual_root)
             coord = self.dept_coords.get(dept_name, TesseractVector(0,0,0,0))
             
             audit_results[dept_name] = {
@@ -93,20 +96,23 @@ class HolisticSelfAudit:
             dept_name = name_match.group(1).strip()
             
             # Extract local file links (file:///...)
-            files = re.findall(r'\[.*?\]\(file:///c:/Elysia/(.*?)\)', section)
+            files = re.findall(r'\[.*?\]\(file:///c:/(?:Elysia|elysia_seed/elysia_light)/(.*?)\)', section)
             depts[dept_name] = files
             
         return depts
 
-    def _evaluate_resonance(self, dept: str, files: List[str]) -> float:
+    def _evaluate_resonance(self, dept: str, files: List[str], root: str) -> float:
         """Checks if files exist and are populated."""
         if not files: return 0.0
         
         valid_count = 0
         for f in files:
-            full_path = os.path.join(self.root_dir, f)
-            if os.path.exists(full_path) and os.path.getsize(full_path) > 100:
-                valid_count += 1
+            # Handle relative paths differently for seed
+            clean_f = f.replace('file:///c:/Elysia/', '').replace('file:///c:/elysia_seed/elysia_light/', '')
+            full_path = os.path.join(root, clean_f)
+            if os.path.exists(full_path):
+                if os.path.getsize(full_path) > 50:
+                    valid_count += 1
                 
         return valid_count / len(files)
 
