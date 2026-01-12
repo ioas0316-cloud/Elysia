@@ -125,7 +125,53 @@ class TrinityLexicon:
             "dust": TrinityVector(0.4, 0.4, 0.0, frequency=30.0),  
             "magma": TrinityVector(0.8, 0.5, 0.8, frequency=500.0), 
 
-            # --- Korean Primitives (Mapped to Hexagon) ---
+            # --- [Phase 31] Sensory Fractalization (Scientific Qualia Bands) ---
+            # Audio: 20 Hz - 20,000 Hz
+            "music": TrinityVector(0.0, 0.9, 0.8, frequency=432.0),
+            "harmony": TrinityVector(0.1, 0.9, 1.0, frequency=528.0),
+            "melody": TrinityVector(0.0, 1.0, 0.6, frequency=396.0),
+            "beat": TrinityVector(0.7, 0.7, 0.0, frequency=100.0),
+
+            # Olfaction (Scent): 10 THz - 100 THz (Infrared / Molecular Vibration)
+            "scent": TrinityVector(0.2, 0.8, 0.2, frequency=5.0e13),
+            "fragrance": TrinityVector(0.1, 0.9, 0.4, frequency=7.0e13),
+            "aroma": TrinityVector(0.2, 0.7, 0.3, frequency=6.0e13),
+            "stink": TrinityVector(0.9, 0.1, -0.5, frequency=2.0e13),
+
+            # Gastronomy (Taste): 100 GHz - 10 THz (Far Infrared)
+            "taste": TrinityVector(0.4, 0.6, 0.2, frequency=5.0e11),
+            "delicious": TrinityVector(0.0, 0.8, 0.9, frequency=9.0e11),
+            "sweet": TrinityVector(0.0, 0.9, 0.5, frequency=3.0e11),
+            "bitter": TrinityVector(0.8, 0.2, -0.2, frequency=1.0e12),
+            "sour": TrinityVector(0.2, 0.9, -0.1, frequency=7.0e11),
+
+            # Vision (Light): 400 THz - 800 THz (Visible Spectrum)
+            "light": TrinityVector(0.0, 0.1, 1.0, frequency=5.4e14), # Greenish
+            "red": TrinityVector(1.0, 0.0, 0.0, frequency=4.5e14),
+            "blue": TrinityVector(0.0, 0.0, 1.0, frequency=6.5e14),
+            "gold": TrinityVector(0.8, 0.5, 0.7, frequency=5.0e14),
+
+            # Social & Aura: Solfeggio / Symbolic
+            "love": TrinityVector(0.0, 0.8, 1.0, frequency=528.0),
+            "cooperate": TrinityVector(0.3, 0.9, 0.5, frequency=440.0),
+            "conflict": TrinityVector(0.9, 0.2, -0.8, frequency=100.0),
+            "dance": TrinityVector(0.1, 1.0, 0.4, frequency=528.0),
+
+            # Tactile (Somatic): 0.5 Hz - 1000 Hz (Mechanical Vibration)
+            "touch": TrinityVector(0.5, 0.5, 0.0, frequency=20.0),  # Merkel cells (Pressure)
+            "soft": TrinityVector(0.1, 0.9, 0.1, frequency=10.0),
+            "rough": TrinityVector(0.9, 0.1, 0.0, frequency=200.0), # Micro-vibration (Texture)
+            "tickle": TrinityVector(0.0, 0.8, 0.4, frequency=50.0), # Meissner resonance
+            "pain": TrinityVector(1.0, 0.0, -1.0, frequency=0.1),  # Static damage / Redalert
+            "pleasure": TrinityVector(0.0, 1.0, 1.0, frequency=432.0), # Rhythmic consonance
+            "sharp": TrinityVector(0.2, 0.2, 0.9, frequency=500.0), # High-freq staccato
+
+            # --- Korean Primitives ---
+            "고기": TrinityVector(0.8, 0.5, 0.2, frequency=2.0e11), # Taste/Physical
+            "음식": TrinityVector(0.5, 0.7, 0.3, frequency=5.0e11),
+            "향기": TrinityVector(0.1, 0.9, 0.4, frequency=7.0e13),
+            "연주": TrinityVector(0.0, 1.0, 0.8, frequency=440.0),
+            "사랑": TrinityVector(0.0, 0.8, 1.0, frequency=528.0),
             "물": TrinityVector(0.3, 1.0, 0.0, frequency=432.0),
             "불": TrinityVector(0.0, 0.3, 0.9, frequency=800.0),
             "흙": TrinityVector(1.0, 0.0, 0.0, frequency=7.83),
