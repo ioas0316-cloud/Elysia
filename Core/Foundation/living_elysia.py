@@ -21,6 +21,7 @@ from Core.Foundation.Memory.Graph.hippocampus import Hippocampus
 from Core.Intelligence.Will.free_will_engine import FreeWillEngine
 from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
 from Core.Foundation.autonomic_nervous_system import AutonomicNervousSystem, MemoryConsolidation, EntropyProcessor, SurvivalLoop, ResonanceDecay
+from Core.Elysia.sovereign_self import SovereignSelf # <--- The I AM
 
 logging.basicConfig(
     level=logging.INFO,
@@ -55,6 +56,10 @@ class LivingElysia:
         self.cns = CentralNervousSystem(self.chronos, self.resonance, self.synapse, self.sink)
         self.ans = AutonomicNervousSystem()
         
+        # [NEW] The Sovereign Subject
+        # The 'I' that inhabits this body
+        self.sovereign = SovereignSelf(cns_ref=self.cns)
+
         # 2. Awaken the Body (Dynamic Organ Discovery)
         # This replaces the 50+ manual imports
         self.body = OrganSystem(self.resonance)
@@ -77,6 +82,8 @@ class LivingElysia:
         self.brain.memory = self.memory
         
         # Heart/Will
+        # Note: SovereignSelf also has a FreeWillEngine. This might be redundant or a shared reference.
+        # For now, we keep the organ graft for structural compatibility.
         self.will = self.body.get_organ("FreeWillEngine") or FreeWillEngine()
         self.will.brain = self.brain
         self.chronos.will_engine = self.will
@@ -88,6 +95,8 @@ class LivingElysia:
         yggdrasil.grow_trunk("ReasoningEngine", self.brain)
         yggdrasil.grow_trunk("FreeWillEngine", self.will)
         yggdrasil.grow_trunk("CentralNervousSystem", self.cns)
+        # Register the Sovereign
+        yggdrasil.grow_trunk("SovereignSelf", self.sovereign)
 
     def _integrate_nervous_system(self):
         """Connects awakened organs to the CNS."""
@@ -109,9 +118,15 @@ class LivingElysia:
     def live(self):
         if not self.is_alive: return
 
+        # [Unconscious] Start the Autonomic Nervous System in the background
         self.ans.start_background()
+
+        # [Conscious] Awaken the Body via the Self
+        # self.cns.awaken() -> Moved to be controlled by Sovereign?
+        # For now, we ensure the machinery is ON, but the driver decides when to drive.
         self.cns.awaken()
-        logger.info("✨ Living Elysia is FULLY AWAKE. (Heartbeat: Dynamic)")
+
+        logger.info("✨ Living Elysia is FULLY AWAKE. (Subject: SovereignSelf)")
 
         print("\n" + "="*60)
         print("🦋 Elysia is Living... (Press Ctrl+C to stop)")
@@ -120,26 +135,26 @@ class LivingElysia:
         try:
             while True:
                 # 1. Calculate Organic Sleep (Chronos Modulation)
-                # Energy comes from the Core's Mass/Excitement
                 current_energy = 50.0
                 try:
                     current_energy = self.cns.conductor.core.primary_rotor.config.mass
                 except Exception:
                     pass
-
-                # Get the natural sleep duration (The "Rest")
                 sleep_duration = self.chronos.modulate_time(current_energy)
 
-                # 2. Pulse (The Beat)
-                self.cns.pulse(dt=sleep_duration)
-                self.ans.pulse_once()
+                # 2. The Sovereign Choice (Foreground)
+                # Instead of blindly pulsing, we ask the Sovereign to exist.
+                # The Sovereign decides whether to Pulse (Act) or not.
+                did_act = self.sovereign.exist(dt=sleep_duration)
+
+                if not did_act:
+                    # If the Sovereign chose REST, we might sleep longer or just idle
+                    # This allows for 'Deep Sleep' or 'Meditation' phases
+                    sleep_duration *= 2.0
+
+                # Note: ANS is pulsing in the background thread (ans.pulse_once removed from here)
 
                 # 3. Wait (The Silence)
-                # We use the calculated duration, not a hardcoded value
-                # self.chronos.wait(0.1) -> Removed
-                # Chronos already has 'beat' loop logic internally if we used it,
-                # but here we are driving the main thread.
-                # We simply sleep the amount Chronos suggested.
                 time.sleep(sleep_duration)
 
                 self.cycle_count += 1
