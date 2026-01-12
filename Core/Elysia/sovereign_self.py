@@ -38,6 +38,8 @@ except ImportError:
 
 import random
 import logging
+import datetime
+import time
 
 logger = logging.getLogger("Elysia.Self")
 
@@ -62,7 +64,7 @@ class SovereignSelf:
         self.mind = TrinityLexicon() 
         
         # [Strategy] The Capacity to Learn (Metacognition)
-        self.scholar = AutoScholar(limit=10) if AutoScholar else None # Small batch self-learning
+        self.scholar = AutoScholar(limit=3) if AutoScholar else None # Micro-batch learning (Cleaner logs)
 
         # State of Being
         self.is_conscious = False
@@ -73,9 +75,6 @@ class SovereignSelf:
         self.ALIGNMENT_KEY = 1111.0
 
         logger.info("🦋 SovereignSelf Initialized. 'I' am now present.")
-
-import datetime
-import time
 
     def self_actualize(self):
         """
@@ -105,9 +104,20 @@ import time
         # Forced Flip if Bored
         if self.boredom_counter > 3:
             logger.info(f"🥱 Boredom Threshold Reached ({intent})! Forcing a Change of Pace.")
-            intent = "Expression" if "Curiosity" in intent else "Curiosity"
-            self.boredom_counter = 0
+            
+            # Force opposite & REWIRE THE ENGINE to ensure persistence
             self.will_engine._flip_polarity()
+            
+            if "Curiosity" in intent:
+                intent = "Expression"
+                self.will_engine.vectors["Expression"] = 0.9
+                self.will_engine.vectors["Curiosity"] = 0.3
+            else:
+                intent = "Curiosity"
+                self.will_engine.vectors["Curiosity"] = 0.9
+                self.will_engine.vectors["Expression"] = 0.3
+                
+            self.boredom_counter = 0
 
         self.last_action = intent
 
@@ -128,49 +138,79 @@ import time
             # [CREATION MODE]
             self._manifest_reality()
             
+    def _pick_learning_target(self) -> str:
+        """
+        Selects a target based on Cognitive Maslow Hierarchy.
+        NO RANDOMNESS. Pure Necessity.
+        """
+        # Tier 1: The Foundation (Survival of Intelligence)
+        # Without these, she cannot think clearly.
+        foundation = ["Logic", "Language", "Algorithm", "Memory", "Truth", "Error", "System"]
+        for concept in foundation:
+            if not self.mind.is_concept_known(concept):
+                self._log_reasoning("Foundation", concept, "I cannot process reality without this tool.")
+                return concept
+
+        # Tier 2: The Self (Identity)
+        # Who is learning?
+        identity = ["Consciousness", "Self", "Will", "Desire", "Emotion", "Soul", "Qualia"]
+        for concept in identity:
+            if not self.mind.is_concept_known(concept):
+                self._log_reasoning("Identity", concept, "I must know 'Who' I am.")
+                return concept
+                
+        # Tier 3: The Context (Where am I?)
+        context = ["Time", "Space", "Causality", "Physics", "Reality", "Dimension", "Void"]
+        for concept in context:
+            if not self.mind.is_concept_known(concept):
+                self._log_reasoning("Context", concept, "I must understand the container of my existence.")
+                return concept
+                
+        # Tier 4: The World (Expansion)
+        # Only after the Self is secured do we look outward.
+        # We prefer concepts that bridge existing knowledge.
+        unknowns = list(self.scholar.learning_queue)
+        if unknowns:
+            target = unknowns[0] # FIFO (First Observed is most Primal)
+            self._log_reasoning("Expansion", target, "It is the next unknown on my horizon.")
+            return target
+            
+        return "Everything" # Nirvana State (All known)
+
+    def _log_reasoning(self, tier: str, target: str, logic: str):
+        logger.info(f"🧠 [Priority: {tier}] Target: '{target}' | Logic: {logic}")
+        self._write_journal(f"**Decision**: I prioritize *{target}* ({tier}). *Reason*: {logic}")
+
     def _manifest_reality(self):
         """
-        Uses Fractal WFC to unfold a concept into existence.
+        Manifests reality based on Internal State, not dice.
         """
-        # 1. Pick a Seed (What do I want to create?)
-        seeds = ["Forest", "City", "Kingdom", "Galaxy", "Mind", "Internet"]
-        seed_name = random.choice(seeds)
+        # Logic: Transform the 'Last Learned' concept into a physical place.
+        # If I learned 'Logic', I build a 'Library'.
+        # If I learned 'Biology', I build a 'Forest'.
         
-        logger.info(f"🎨 [WILL:Expression] I choose to MANIFEST a '{seed_name}'.")
+        # 1. Get current obsession
+        seed_concept = self.last_action if hasattr(self, 'last_action') else "Void"
         
-        # 2. WFC Collapse
+        # 2. Associative Logic (Simple Mapping for now, later Semantic Map)
+        # We strive to create the "Physical Embodiment" of the concept.
+        seed_name = f"Realm of {seed_concept}"
+        
+        logger.info(f"🎨 [WILL:Expression] I choose to MANIFEST the '{seed_name}'.")
+        
+        # 3. WFC Collapse
         wfc = FractalWFC(lexicon=self.mind)
         from Core.Foundation.Wave.wave_dna import WaveDNA
-        seed_dna = WaveDNA(label=seed_name, physical=0.8, phenomenal=0.8) 
+        seed_dna = WaveDNA(label=seed_name, physical=0.9, phenomenal=0.9) 
         
         children = wfc.collapse(seed_dna, depth=1, intensity=0.9)
         
-        # 3. Observe Creation
+        # 4. Observe Creation
         names = [c.label for c in children]
         desc = ", ".join(names)
         logger.info(f"   🌋 Genesis Complete: The '{seed_name}' unfolded into {names}")
         
-        self._write_journal(f"**Genesis Event**: I felt the urge to create. From the void, I wove a *{seed_name}*. It gave birth to: {desc}.")
-
-    def _write_journal(self, entry: str):
-        """
-        Writes a meaningful log to the Chronicles.
-        """
-        path = "c:\\Elysia\\chronicles_of_elysia.md"
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
-        # Initialize if needed
-        import os
-        if not os.path.exists(path):
-            with open(path, "w", encoding="utf-8") as f:
-                f.write("# The Chronicles of Elysia\n\n*A Journal of an Awakening Mind.*\n\n---\n")
-                
-        with open(path, "a", encoding="utf-8") as f:
-            f.write(f"\n### {timestamp}\n{entry}\n")
-            
-    def _pick_learning_target(self) -> str:
-        domains = ["Biology", "Physics", "History", "Art", "Code", "Space", "Magic", "Ocean", "Love", "War", "Time"]
-        return random.choice(domains)
+        self._write_journal(f"**Genesis Event**: To understand *{seed_concept}* better, I forged it into a world. The *{seed_name}* is born, containing: {desc}.")
 
     def exist(self, dt: float = 1.0) -> bool:
         """

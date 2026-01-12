@@ -18,7 +18,7 @@ class TrinityLexicon:
     The Gateway to the Logos (4D Knowledge Graph).
     Connects Words (Symbols) to the Hyper-Graph (Structure).
     """
-    def __init__(self, persistence_path: str = "c:/Elysia/Core/World/Nature/lexicon_memory.json"):
+    def __init__(self, persistence_path: str = "c:/Elysia/data/Memory/lexicon_memory.json"):
         self.web_connector = WebKnowledgeConnector() if WebKnowledgeConnector else None
         
         # Initialize the True Brain (TorchGraph)
@@ -31,70 +31,70 @@ class TrinityLexicon:
 
         # 1. The Primitives (The Root Words) - Still needed for bootstrapping Vectors
         self.primitives: Dict[str, TrinityVector] = {
-            # --- Gravity (Matter, Stability, Force) ---
-            "rock": TrinityVector(gravity=0.9, flow=0.0, ascension=0.0),
-            "base": TrinityVector(gravity=0.8, flow=0.1, ascension=0.0),
-            "stand": TrinityVector(gravity=0.7, flow=0.0, ascension=0.1),
-            "guard": TrinityVector(gravity=0.8, flow=0.0, ascension=0.2),
-            "demand": TrinityVector(gravity=0.9, flow=0.0, ascension=0.5), # Aggressive Gravity
-            "stop": TrinityVector(gravity=1.0, flow=0.0, ascension=0.0),
-            "strong": TrinityVector(gravity=0.6, flow=0.1, ascension=0.1),
+            # --- Gravity (Matter, Stability, Force) [Axis 4: Low Freq] ---
+            "rock": TrinityVector(0.9, 0.0, 0.0, frequency=10.0), # Solid
+            "base": TrinityVector(0.8, 0.1, 0.0, frequency=12.0),
+            "stand": TrinityVector(0.7, 0.0, 0.1, frequency=15.0),
+            "guard": TrinityVector(0.8, 0.0, 0.2, frequency=20.0),
+            "demand": TrinityVector(0.9, 0.0, 0.5, frequency=30.0),
+            "stop": TrinityVector(1.0, 0.0, 0.0, frequency=0.0),  # Absolute Zero
+            "strong": TrinityVector(0.6, 0.1, 0.1, frequency=25.0),
             
-            # --- Flow (Mind, Change, Exchange) ---
-            "flow": TrinityVector(gravity=0.0, flow=1.0, ascension=0.0),
-            "trade": TrinityVector(gravity=0.1, flow=0.9, ascension=0.1),
-            "maybe": TrinityVector(gravity=0.0, flow=0.5, ascension=0.0),
-            "river": TrinityVector(gravity=0.1, flow=0.8, ascension=0.1),
-            "connect": TrinityVector(gravity=0.0, flow=0.7, ascension=0.2),
-            "offer": TrinityVector(gravity=0.1, flow=0.8, ascension=0.3),
-            "change": TrinityVector(gravity=0.0, flow=0.9, ascension=0.1),
+            # --- Flow (Mind, Change, Exchange) [Axis 4: Mid Freq] ---
+            "flow": TrinityVector(0.0, 1.0, 0.0, frequency=60.0), # Hz
+            "trade": TrinityVector(0.1, 0.9, 0.1, frequency=55.0),
+            "maybe": TrinityVector(0.0, 0.5, 0.0, frequency=40.0),
+            "river": TrinityVector(0.1, 0.8, 0.1, frequency=50.0),
+            "connect": TrinityVector(0.0, 0.7, 0.2, frequency=70.0),
+            "offer": TrinityVector(0.1, 0.8, 0.3, frequency=65.0),
+            "change": TrinityVector(0.0, 0.9, 0.1, frequency=80.0),
             
-            # --- Ascension (Spirit, Meaning, Vision) ---
+            # --- Ascension (Spirit, Meaning, Vision) [Axis 4: High Freq] ---
             # 1. Earth (Structure/Mass)
-            "earth": TrinityVector(1.0, 0.0, 0.0),
-            "stone": TrinityVector(0.9, 0.0, 0.0),
-            "metal": TrinityVector(0.95, 0.05, 0.0),
+            "earth": TrinityVector(1.0, 0.0, 0.0, frequency=7.83), # Schumann Resonance
+            "stone": TrinityVector(0.9, 0.0, 0.0, frequency=10.0),
+            "metal": TrinityVector(0.95, 0.05, 0.0, frequency=50.0),
 
             # 2. Water (Flow/Connectivity)
-            "water": TrinityVector(0.3, 1.0, 0.0), # Mass=0.3, Flow=1.0
-            "river": TrinityVector(0.2, 0.9, 0.1),
-            "ice": TrinityVector(0.9, 0.0, 0.0),   # Frozen Water behaves like Earth
+            "water": TrinityVector(0.3, 1.0, 0.0, frequency=432.0), # Healing Freq
+            "river": TrinityVector(0.2, 0.9, 0.1, frequency=400.0),
+            "ice": TrinityVector(0.9, 0.0, 0.0, frequency=0.0),
 
             # 3. Wind (Motion/Breath)
-            "wind": TrinityVector(0.0, 0.8, 0.4),  # Flow + Ascension
-            "air": TrinityVector(0.01, 0.5, 0.2),
-            "storm": TrinityVector(0.2, 0.9, 0.0),
+            "wind": TrinityVector(0.0, 0.8, 0.4, frequency=528.0),  # DNA Repair Freq
+            "air": TrinityVector(0.01, 0.5, 0.2, frequency=500.0),
+            "storm": TrinityVector(0.2, 0.9, 0.0, frequency=100.0), # Chaos
 
             # 4. Fire (Energy/Transformation)
-            "fire": TrinityVector(0.0, 0.3, 0.9),  # Ascension Dominant
-            "heat": TrinityVector(0.0, 0.2, 0.8),
+            "fire": TrinityVector(0.0, 0.3, 0.9, frequency=800.0), 
+            "heat": TrinityVector(0.0, 0.2, 0.8, frequency=700.0),
 
             # 5. Light (Spirit/Time)
-            "light": TrinityVector(0.0, 0.1, 1.0), # Pure Ascension
-            "sun": TrinityVector(0.2, 0.2, 1.0),
-            "day": TrinityVector(0.0, 0.5, 0.8),
+            "light": TrinityVector(0.0, 0.1, 1.0, frequency=1111.0), # High Freq
+            "sun": TrinityVector(0.2, 0.2, 1.0, frequency=888.0),
+            "day": TrinityVector(0.0, 0.5, 0.8, frequency=600.0),
 
             # 6. Darkness (Void/Entropy)
-            "darkness": TrinityVector(0.1, 0.1, -1.0), # Negative Ascension
-            "void": TrinityVector(0.0, 0.0, -1.0),
-            "night": TrinityVector(0.1, 0.2, -0.8),
-            "shadow": TrinityVector(0.1, 0.1, -0.5),
+            "darkness": TrinityVector(0.1, 0.1, -1.0, frequency=-100.0), # Negative Freq (Absorption)
+            "void": TrinityVector(0.0, 0.0, -1.0, frequency=0.0),
+            "night": TrinityVector(0.1, 0.2, -0.8, frequency=50.0),
+            "shadow": TrinityVector(0.1, 0.1, -0.5, frequency=20.0),
 
             # --- Compound/Derivatives ---
-            "life": TrinityVector(0.2, 0.8, 0.5), # Water + Wind + Light
-            "steam": TrinityVector(0.0, 0.9, 0.7), # Water + Fire
-            "dust": TrinityVector(0.4, 0.4, 0.0),  # Earth + Wind
-            "magma": TrinityVector(0.8, 0.5, 0.8), # Earth + Fire (Heavy Fluid Heat)
+            "life": TrinityVector(0.2, 0.8, 0.5, frequency=963.0), # Solfeggio
+            "steam": TrinityVector(0.0, 0.9, 0.7, frequency=600.0), 
+            "dust": TrinityVector(0.4, 0.4, 0.0, frequency=30.0),  
+            "magma": TrinityVector(0.8, 0.5, 0.8, frequency=500.0), 
 
             # --- Korean Primitives (Mapped to Hexagon) ---
-            "물": TrinityVector(0.3, 1.0, 0.0),
-            "불": TrinityVector(0.0, 0.3, 0.9),
-            "흙": TrinityVector(1.0, 0.0, 0.0),
-            "바람": TrinityVector(0.0, 0.8, 0.4),
-            "빛": TrinityVector(0.0, 0.1, 1.0),
-            "어둠": TrinityVector(0.1, 0.1, -1.0),
-            "암석": TrinityVector(0.9, 0.0, 0.0),
-            "녹은": TrinityVector(0.0, 0.8, 0.6), # Melted state
+            "물": TrinityVector(0.3, 1.0, 0.0, frequency=432.0),
+            "불": TrinityVector(0.0, 0.3, 0.9, frequency=800.0),
+            "흙": TrinityVector(1.0, 0.0, 0.0, frequency=7.83),
+            "바람": TrinityVector(0.0, 0.8, 0.4, frequency=528.0),
+            "빛": TrinityVector(0.0, 0.1, 1.0, frequency=1111.0),
+            "어둠": TrinityVector(0.1, 0.1, -1.0, frequency=-100.0),
+            "암석": TrinityVector(0.9, 0.0, 0.0, frequency=10.0),
+            "녹은": TrinityVector(0.0, 0.8, 0.6, frequency=500.0), 
         }
 
         # Sync Primitives to Graph
@@ -111,6 +111,19 @@ class TrinityLexicon:
                     vector=[vec.gravity, vec.flow, vec.ascension],
                     metadata={"type": "primitive", "definition": "Root Concept"}
                 )
+
+    def is_concept_known(self, concept: str) -> bool:
+        """
+        Checks if a concept exists in the Graph or Primitives.
+        """
+        concept = concept.lower()
+        # 1. Check Primitives
+        if concept in self.primitives:
+            return True
+        # 2. Check Graph
+        if self.graph and concept in self.graph.id_to_idx:
+            return True
+        return False
 
     def analyze(self, text: str) -> TrinityVector:
         """

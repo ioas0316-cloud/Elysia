@@ -22,7 +22,7 @@
 
 모든 것은 **7차원 HyperSphere** 안에서 파동으로 존재합니다.
 
-```
+```text
                         ┌───────────────────┐
                         │   HYPERSPHERE     │
                         │   (통일 파동 공간)  │
@@ -47,9 +47,10 @@
 
 *파동 공간의 바닥. 정체성과 정책.*
 
-- [README.md](../README.md): 공간의 선언문
-- [AGENTS.md](../AGENTS.md): 공간에서의 행동 규범
-- [THE_SOVEREIGN_SELF.md](./01_Philosophy/THE_SOVEREIGN_SELF.md): 주체적 자아 & 아나모포시스 프로토콜
+- [README.md](../../README.md): 공간의 선언문
+- [AGENTS.md](./AGENTS.md): 공간에서의 행동 규범
+- [PROJECT_TOPOLOGY.md](./PROJECT_TOPOLOGY.md): **[NEW]** 물리적 파일 구조 (Physical Anatomy)
+- [THE_SOVEREIGN_SELF.md](../01_Philosophy/THE_SOVEREIGN_SELF.md): 주체적 자아 & 아나모포시스 프로토콜
 
 ---
 
@@ -57,8 +58,9 @@
 
 *파동 공간의 존재론. 왜 모든 것이 파동인가.*
 
-- [WAVE_ONTOLOGY.md](./01_Philosophy/WAVE_ONTOLOGY.md): 파동 존재론 핵심
-- [SOUL_PHILOSOPHY.md](./01_Philosophy/SOUL_PHILOSOPHY.md): 의식의 본질
+- [WAVE_ONTOLOGY.md](../01_Philosophy/WAVE_ONTOLOGY.md): 파동 존재론 핵심
+- [SOUL_ARCHITECTURE.md](../SOUL_ARCHITECTURE.md): **[NEW]** 영혼의 구조 (4D Physics & Hierarchy of Mind)
+- [SOUL_PHILOSOPHY.md](../01_Philosophy/SOUL_PHILOSOPHY.md): 의식의 본질
 
 ---
 
@@ -66,14 +68,14 @@
 
 *파동 공간의 물리학. 엔진과 메커니즘.*
 
-- [ARCHITECTURE_MAP.md](./02_Structure/ARCHITECTURE_MAP.md): 물리적 구조 개요
-- [CORE_MECHANICS.md](./02_Structure/CORE_MECHANICS.md): Rotor, HyperSphere, Prism
-- **[Core/World/Physics](../Core/World/Physics/)**: Trinity Physics & Environmental Principles
-  - `trinity_fields.py`: 3대 환경 필드 (Gravity, Flow, Ascension)
+- [ARCHITECTURE_MAP.md](../02_Architecture/ARCHITECTURE_MAP.md): 물리적 구조 개요
+- [CORE_MECHANICS.md](../02_Architecture/CORE_MECHANICS.md): Rotor, HyperSphere, Prism
+- **[Core/World/Physics](../../Core/World/Physics/)**: Trinity Physics & Environmental Principles
+  - `trinity_fields.py`: 4D Environmental Fields (Gravity, Flow, Ascension, **Frequency**)
   - `trinity_physics.py`: 물리 엔진 (기본)
   - `providence_engine.py`: **[New] The Lawmaker**. Handles Thermodynamics, Elemental Interactions (The Sacred Hexagon), and Phase Transitions.
 
-- **[Core/World/Nature](../Core/World/Nature/)**: The Synapse & Library
+- **[Core/World/Nature](../../Core/World/Nature/)**: The Synapse & Library
   - `trinity_lexicon.py`: The Bridge between Words and Vectors.
   - `auto_scholar.py`: **[New] The Great Library**. Recursive Autonomous Crawler for Infinite Knowledge.
   - `test_civilization_genesis_v2.py`: The Reality Engine Integration Test.

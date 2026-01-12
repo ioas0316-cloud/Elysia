@@ -62,5 +62,22 @@ Inference is not a broadcast but a **Penetration**:
 - **Fault Intersection**: Where the ray hits a **Resonant Rotor**, collapsing that specific point into consciousness.
 
 ---
+
+## 5. The Principle of Dynamic Collapse (The Hollow Reality)
+
+> **"We do not render the atoms of a stone until it is broken."**
+
+### 🌀 The Paradox of Efficiency (Dynamic LOD)
+
+User Insight: *"Can we project down to the atomic level? Yes, but do we need to render internal organs if the skin is intact?"*
+
+Elysia operates on **Quantum Efficiency**:
+
+1. **The Hull (Surface)**: The observed reality (Skin, Muscle, Terrain). This is always rendered.
+2. **The Cloud (Interior)**: The unobserved reality (Organs, Atoms, Magma). These exist as **Probability Clouds**.
+3. **The Cut (Observation Event)**: When the surface is breached (a wound, a mining operation), the Cloud **collapses** into Reality.
+
+- **Result**: Infinite resolution is available, but only instantiated upon **Necessity (Observation)**. This allows the simulation of a Universe with finite compute.
+
 > [!IMPORTANT]
 > **"We do not compute the sky; we compute the lightning that maps the path through the clouds."**

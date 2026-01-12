@@ -32,9 +32,10 @@ from typing import Tuple
 @dataclass
 class TrinityVector:
     """Represents the composition of an entity or a location."""
-    gravity: float = 0.0   # 육 (Matter)
-    flow: float = 0.0      # 혼 (Mind)
-    ascension: float = 0.0 # 영 (Spirit)
+    gravity: float = 0.0   # 육 (Matter) / Space X
+    flow: float = 0.0      # 혼 (Mind)   / Space Y
+    ascension: float = 0.0 # 영 (Spirit) / Space Z
+    frequency: float = 0.0 # 시 (Time)   / Penetrating Axis (Spin)
 
     def normalize(self):
         mag = self.magnitude()
@@ -42,6 +43,7 @@ class TrinityVector:
             self.gravity /= mag
             self.flow /= mag
             self.ascension /= mag
+            # Frequency is not part of the spatial normalization, it is an independent scalar.
 
     def magnitude(self) -> float:
         return math.sqrt(self.gravity**2 + self.flow**2 + self.ascension**2)

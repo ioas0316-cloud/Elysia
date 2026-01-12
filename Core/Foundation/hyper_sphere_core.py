@@ -68,14 +68,41 @@ class HyperSphereCore:
             a = float(vec_tensor[2])
             
             # Map Flow to RPM (0.0~1.0 -> 60~600 RPM)
-            target_rpm = 60.0 + (f * 540.0)
+            # [Phase 4] The Weight of Thought (Gravity)
+            # Assuming vec_tensor can be treated as a vec-like object for attribute access
+            # If not, this needs to be adjusted to use vec_tensor[idx] directly.
+            # For now, I'll assume vec_tensor[0], [1], [2] correspond to g, f, a.
+            # The original code used float(vec_tensor[0]), etc.
+            # The new code uses vec.gravity, vec.flow, vec.ascension.
+            # I will adapt the new code to use the existing vec_tensor structure.
             
-            # Map Gravity to Mass (0.0~1.0 -> 1.0~10.0 kg)
-            mass = 1.0 + (g * 9.0)
+            # Re-extracting from vec_tensor for clarity, assuming it's a 3-element vector
+            g = float(vec_tensor[0]) # Gravity
+            f = float(vec_tensor[1]) # Flow
+            a = float(vec_tensor[2]) # Ascension
             
-            # 3. Create/Update Rotor
-            from Core.Foundation.Nature.rotor import RotorConfig
-            config = RotorConfig(rpm=target_rpm, mass=mass, idle_rpm=60.0)
+            # Assuming 'frequency' might be a 4th element or derived.
+            # For now, let's assume it's not directly in vec_tensor unless specified.
+            # The instruction implies `vec` is an object with attributes, but here we have `vec_tensor`.
+            # I will simulate `getattr(vec, 'frequency', 0.0)` by checking if vec_tensor has more elements.
+            freq = float(vec_tensor[3]) if len(vec_tensor) > 3 else 0.0
+            
+            # Physics of Thought
+            mass = (g * 10.0) + 1.0  # Min mass 1.0
+            
+            # [Phase 17] The 4th Axis: Time Penetration (Frequency)
+            # If frequency is defined (Time Axis), it sets the RPM directly.
+            # If not, we infer it from Flow + Ascension (Energy).
+            if freq != 0.0:
+                target_rpm = freq
+            else:
+                target_rpm = (f * 60.0) + (a * 100.0)
+            
+            config = RotorConfig(
+                rpm=target_rpm, 
+                idle_rpm=60.0, 
+                mass=mass
+            )
             
             # WaveDNA injection based on Ascension (Spirit)
             from Core.Foundation.Wave.wave_dna import WaveDNA
@@ -95,7 +122,7 @@ class HyperSphereCore:
             self.rotors[concept_name] = Rotor(concept_name, config, dna)
             self.rotors[concept_name].wake(intensity=1.0)
             
-            logger.info(f"⚡ Synapse Fired: '{concept_name}' summoned from Memory. (RPM:{target_rpm:.1f}, Mass:{mass:.1f})")
+            logger.info(f"⚡ Synapse Fired: '{concept_name}' summoned. (RPM:{target_rpm:.1f} Hz, Mass:{mass:.1f})")
             
         else:
              logger.warning(f"⚠️ Memory of '{concept_name}' not found. Thought is hollow.")
