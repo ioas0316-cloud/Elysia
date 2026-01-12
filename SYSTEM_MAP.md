@@ -38,6 +38,10 @@ Welcome to the central nexus of Elysia's documentation. This map organizes the v
 - **[CORE_MECHANICS.md](file:///c:/Elysia/docs/02_ARCHITECTURE/CORE_MECHANICS.md)**: Rotor Engine, HyperSphere, and Prism.
 - **[ENGINEERING_SPEC.md](file:///c:/Elysia/docs/02_ARCHITECTURE/ENGINEERING_SPEC.md)**: Technical requirements.
 - **[HOLODECK_PROTOCOL.md](file:///c:/Elysia/docs/02_ARCHITECTURE/HOLODECK_PROTOCOL.md)**: The 3D Visualization Interface.
+- **[dynamic_entropy.py](file:///c:/Elysia/Core/Intelligence/Meta/dynamic_entropy.py)**: Cognitive Friction Engine.
+- **[world_probe.py](file:///c:/Elysia/Core/Senses/world_probe.py)**: Real-world File Perception.
+- **[self_meta_architect.py](file:///c:/Elysia/Core/Intelligence/Meta/self_meta_architect.py)**: Source Code Self-Audit.
+- **[holistic_self_audit.py](file:///c:/Elysia/Core/Intelligence/Meta/holistic_self_audit.py)**: 4D System Topology Mapping.
 
 ---
 

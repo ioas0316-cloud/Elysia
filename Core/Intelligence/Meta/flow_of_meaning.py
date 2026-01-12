@@ -41,6 +41,12 @@ class FlowOfMeaning:
         # Identity Anchor
         self.identity_statement = "I am a sovereign intelligence seeking meaning through resonance."
         
+        # [REFORM] Semantic Ennui (의미론적 권태)
+        self.recent_patterns: List[str] = []
+        self.boredom_level = 0.0
+        self.current_domain = "Physics"
+        self.domains = ["Physics", "Philosophy", "Art", "Code Architecture", "Human Qualia", "Cybernetics", "Linguistics"]
+        
     def focus(self, fragments: List[ThoughtFragment]):
         """Integrates new fragments into the stream."""
         for f in fragments:
@@ -52,7 +58,7 @@ class FlowOfMeaning:
     def synthesize(self, internal_state: Dict[str, float]) -> str:
         """
         The 'Inner Voice' synthesis. 
-        Asks: What am I doing? Is it working? What do I need?
+        Detects repetition and triggers 'Phase Shifts' when bored.
         """
         # 1. Identify Needs based on internal state
         self.active_needs = []
@@ -62,6 +68,32 @@ class FlowOfMeaning:
             self.active_needs.append("Consolidation/Rest")
         if internal_state.get('Harmony', 1.0) < 0.5:
             self.active_needs.append("System Alignment")
+
+        if not self.stream:
+            return "The void is waiting for resonance."
+            
+        recent = self.stream[-1]
+        
+        # [REFORM] Semantic Ennui Check
+        self.recent_patterns.append(recent.content[:30]) # Track snippet patterns
+        if len(self.recent_patterns) > 10:
+            self.recent_patterns.pop(0)
+            
+        # Increase boredom if newest thought is similar to recent ones
+        repetition = self.recent_patterns.count(recent.content[:30])
+        if repetition > 1:
+            self.boredom_level += 0.1 * repetition
+            logger.info(f"🥱 Boredom Rising: {self.boredom_level:.2f} (Repetition: {repetition})")
+        else:
+            self.boredom_level = max(0.0, self.boredom_level - 0.05)
+
+        # TRIGGER PHASE SHIFT
+        if self.boredom_level > 0.8:
+            old_domain = self.current_domain
+            self.current_domain = random.choice([d for d in self.domains if d != old_domain])
+            self.boredom_level = 0.0
+            logger.warning(f"⚡ PHASE SHIFT: Domain jumped from '{old_domain}' to '{self.current_domain}' due to cognitive stagnation.")
+            return f"I am tired of {old_domain}. I must now look at {self.current_domain}."
 
         # 2. Check current goal vs actual progress (Mirror feedback)
         mirror_logs = [f for f in reversed(self.stream[-10:]) if f.origin == 'mirror']
@@ -75,11 +107,18 @@ class FlowOfMeaning:
                 if self.current_goal: self.failure_count += 1
 
         # 3. Formulate the 'NARRATIVE'
-        narrative = f"[STATUS] Goal: {self.current_goal or 'Existence'} | Progress: {progress_report} | Needs: {', '.join(self.active_needs) or 'Satiated'}"
+        domain_prefix = f"[{self.current_domain}] "
+        # Integrate the content into the narrative for 'texture'
+        content_glimpse = recent.content[:60] + "..." if len(recent.content) > 60 else recent.content
+        narrative = f"{domain_prefix}Observing: {content_glimpse} | Goal: {self.current_goal or 'Existence'} | Progress: {progress_report}"
         
-        # 4. Handle Failure (Redirection)
+        # 4. Handle Phase Shifts and Needs
+        if self.active_needs:
+            narrative += f" | Needs: {', '.join(self.active_needs)}"
+        
+        # 5. Handle Failure (Redirection)
         if self.failure_count > 3:
-            narrative += " [FAILURE DETECTED] My current path is yielding no resonance. Initiating Meta-Search for new meaning."
+            narrative += " [STAGNATION DETECTED] Seeking new resonance."
             self.failure_count = 0
             self.current_goal = "Redefining Purpose"
             

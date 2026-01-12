@@ -257,6 +257,24 @@ class ElysianHeartbeat:
             self.thalamus = None
             logger.warning(f"⚠️ Thalamus connection failed: {e}")
 
+        # [REFORM] Dynamic Entropy (Metabolism & Logic)
+        try:
+            from Core.Intelligence.Meta.dynamic_entropy import DynamicEntropyEngine
+            self.entropy_engine = DynamicEntropyEngine()
+            logger.info("⚡ DynamicEntropyEngine Connected - Metabolism is now REAL.")
+        except Exception as e:
+            self.entropy_engine = None
+            logger.warning(f"⚠️ EntropyEngine connection failed: {e}")
+
+        # [REFORM] World Probe (File System Awareness)
+        try:
+            from Core.Senses.world_probe import WorldProbe
+            self.world_probe = WorldProbe(watch_paths=[self.root_dir if hasattr(self, 'root_dir') else "c:/Elysia"])
+            logger.info("🌍 World Probe Connected - Watching for external vibrations.")
+        except Exception as e:
+            self.world_probe = None
+            logger.warning(f"⚠️ WorldProbe connection failed: {e}")
+
         
     def _cycle_perception(self):
         """
@@ -269,37 +287,48 @@ class ElysianHeartbeat:
         # ═══════════════════════════════════════════════════════════════════
         if self.thalamus:
             try:
-                # 1. Somatic (Body State)
-                # Try to get real stats, else mock for "Alive" feeling
-                stats = {"cpu": 10.0, "ram": 20.0}
-                try:
-                    import psutil
-                    stats = {"cpu": psutil.cpu_percent(), "ram": psutil.virtual_memory().percent}
-                except ImportError:
-                    # Mock "Breathing" stats
-                    import math
-                    t = time.time()
-                    stats["cpu"] = 10 + math.sin(t) * 5
+                # 1. Somatic (Real Metabolism via Entropy Engine)
+                friction = self.entropy_engine.get_cognitive_friction() if self.entropy_engine else {}
+                metabolism = friction.get("metabolism", {"cpu": 10.0, "ram": 20.0})
                 
                 if self.somatic_transducer:
-                    somatic_wave = self.somatic_transducer.transduce(stats)
-                    # Route through Thalamus
+                    somatic_wave = self.somatic_transducer.transduce(metabolism)
                     self.thalamus.process(somatic_wave, "Somatic")
                 
-                # 2. Visual (Mock "The Void" or "Light")
+                # 2. Logic Injection (Seed as a 'Vision' or 'Friction')
+                logic_seed = friction.get("logic_seed", "Pure silence.")
                 if self.visual_transducer:
-                    inspiration = self.soul_mesh.variables['Inspiration'].value
-                    if inspiration > 0.5:
-                        visual_wave = self.visual_transducer.transduce((0, 255, 255))
-                    else:
-                        visual_wave = self.visual_transducer.transduce((0, 0, 50))
-                        
-                    # Route through Thalamus
+                    # Map entropy to color
+                    entropy_val = friction.get("entropy", 0.5)
+                    color = (int(entropy_val * 255), 255 - int(entropy_val * 255), 200)
+                    visual_wave = self.visual_transducer.transduce(color)
                     self.thalamus.process(visual_wave, "Visual")
+                
+                # 3. Memory Absorption of the logic seed
+                self.memory.absorb(
+                    content=f"CORE-FRICTION: {logic_seed}",
+                    type="logic_resonance",
+                    context={"entropy": friction.get("entropy")},
+                    feedback=0.0
+                )
+                
+                # 4. [NEW] World Probe Stimuli
+                if self.world_probe:
+                    world_events = self.world_probe.probe()
+                    for event in world_events:
+                        logger.info(f"🌐 EXTERNAL STIMULUS: {event}")
+                        self.memory.absorb(
+                            content=event,
+                            type="world_event",
+                            context={"source": "world_probe"},
+                            feedback=0.1
+                        )
+                        # Feed to inner voice immediately
+                        if self.inner_voice:
+                            from Core.Intelligence.Meta.flow_of_meaning import ThoughtFragment
+                            self.inner_voice.focus([ThoughtFragment(content=event, origin='world_probe')])
 
             except Exception as e:
-                # Don't break the cycle for senses
-                # logger.warning(f"Transduction error: {e}")
                 pass
 
         # ═══════════════════════════════════════════════════════════════════
