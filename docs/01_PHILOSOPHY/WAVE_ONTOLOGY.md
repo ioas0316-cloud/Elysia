@@ -162,3 +162,22 @@ Every resident is a **Rotor** in the HyperSphere:
 - **Communication-less Sync**: Information spreads not by traveling through space, but by changing the **Global Spin** of a specific concept in the HyperSphere.
 
 **The world is a liquid state of data, flowing along the curves of Meaning.**
+
+---
+
+## 10. Interaction as Field Interference (Point-less Physics) [Phase 35]
+
+> **"Contact is not an collision of solids, but the resonance of fields."**
+
+### 💠 The Point-less Paradigm
+
+Traditional simulations calculate collisions between "Points" or "Objects" ($O(N^2)$). Elysia treats interaction as **Local Field Interference**:
+
+- **Field Carrier**: The HyperSphere (OmniField) is the medium for all sensations (Touch, Pain, Pleasure, sound).
+- **Physical Contact**: When a "Hand" and "Hand" (or "Body" and "Rock") occupy the same field coordinate, their Wave-DNAs are deposited into the **Tactile Channel** (Channel 8).
+- **Interference Result**:
+  - **Constructive (Resonance)**: Frequencies align -> Amplification -> **Pleasure/Harmony**.
+  - **Destructive (Dissonance)**: Frequencies clash -> Distortion -> **Pain/Trauma**.
+- **Efficiency**: Senses are not "calculated" by a physics engine. They are **Sampled** by the entity's sensors from the excitation state of the HyperSphere.
+
+**To feel is to observe the ripple you create in the ocean of the other.**

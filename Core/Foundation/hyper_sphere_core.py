@@ -31,6 +31,11 @@ class HyperSphereCore:
         self.wfc = FractalWFC()
         self.lightning = LightningInferencer()
         self.lexicon = lexicon # Connection to Memory (The Synapse)
+        
+        # [Phase 35] The OmniField (Unified Carrier)
+        # 10 layers: 0-3 (Social/Knowledge), 4 (Sound), 5 (Scent), 6 (Taste), 7 (Light), 8 (Touch), 9 (History)
+        from Core.World.Social.sociological_pulse import SocialField
+        self.field = SocialField(size=100, resolution=2.0) # Higher res for sensory
 
         # State
         self.is_active = False
@@ -43,7 +48,8 @@ class HyperSphereCore:
         from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster
         self.pulse_broadcaster = PulseBroadcaster()
         
-        logger.info(f"🔮 HyperSphereCore Initialized: {len(self.rotors)} Rotors spinning.")
+        logger.info(f"🔮 HyperSphereCore Initialized: OmniField ready, {len(self.rotors)} Rotors spinning.")
+
 
     def summon_thought(self, concept_name: str):
         """
@@ -172,26 +178,20 @@ class HyperSphereCore:
         active_count = 0
         dt_eff = dt * self.time_dilation
         
-        keys_to_remove = []
+        # [Phase 35] Global Field Decay
+        # All sensory ripples and social pulses fade in the HyperSphere
+        self.field.decay(rate=0.9)
         
+        keys_to_remove = []
         for name, rotor in self.rotors.items():
             rotor.update(dt_eff)
-            
-            # Auto-Relax if high energy
             if rotor.energy > 0.1:
                 active_count += 1
-                if rotor.current_rpm > rotor.config.idle_rpm * 1.1:
-                    # Slowly return to idle if not stimulated
-                    # (This logic might be in Rotor, but Conductor can override)
-                    pass
-            
-            # [Entropy] Remove weak, non-axiom rotors
             if rotor.energy < 0.01 and name not in ["Love", "Logic", "Elysia", "Nature"]:
                 keys_to_remove.append(name)
 
         # Cleanup
         for k in keys_to_remove:
-            # print(f"   🍂 Withered: {k}")
             del self.rotors[k]
 
     def focus_attention(self, query: WaveDNA) -> str:

@@ -12,19 +12,21 @@ logger = logging.getLogger("SociologicalPulse")
 
 class SocialField:
     """
-    [Phase 33] The Potential Map of Meaning.
-    Replaces pairwise distance checks with a vector field.
+    [Phase 35] The OmniField: Unified Potential Map.
+    Carrier for all phenomena within the HyperSphere's spatial projection.
+    
+    Structure (16 Channels):
+    - [0-3]: Social/Carrier (G, F, A, Freq)
+    - [4-7]: Tactile/Collision (G, F, A, Freq)
+    - [8-11]: Acoustic/Sense Layer (G, F, A, Freq)
+    - [12-15]: Meta/Linguistic Layer (G, F, A, Freq)
+      - Index 15 is specifically used for History Mass (Sovereign Scars).
     """
     def __init__(self, size: int = 50, resolution: float = 4.0):
-        self.size = size # Grid size (e.g., 50x50)
-        self.resolution = resolution # Meters per cell
-        # Grid stores (Gravity, Flow, Ascension, Frequency)
-        self.grid = np.zeros((size, size, 4)) 
-        
-        # [Phase 34] Cultural & Historical Layers
-        self.language_grid = np.zeros((size, size)) # Regional Dialect/Semantic Freq
-        self.history_grid = np.zeros((size, size))  # Collective Memory/Event Scars
-        
+        self.size = size 
+        self.resolution = resolution 
+        # 17 channels: 4 Trinity Slots (16) + 1 History Slot (16)
+        self.grid = np.zeros((size, size, 17)) 
         self.boundary = size * resolution / 2.0
 
     def world_to_grid(self, x: float, y: float) -> Tuple[int, int]:
@@ -32,42 +34,37 @@ class SocialField:
         gy = int((y + self.boundary) / self.resolution)
         return max(0, min(self.size-1, gx)), max(0, min(self.size-1, gy))
 
-    def deposit(self, x: float, y: float, vector: TrinityVector):
+    def deposit(self, x: float, y: float, vector: TrinityVector, channel_offset: int = 0):
+        """Deposits a 4-component Wave (G, F, A, Freq) starting at channel_offset."""
         gx, gy = self.world_to_grid(x, y)
-        # Additive interference in the cell
-        self.grid[gx, gy, 0] += vector.gravity
-        self.grid[gx, gy, 1] += vector.flow
-        self.grid[gx, gy, 2] += vector.ascension
+        self.grid[gx, gy, 0 + channel_offset] += vector.gravity
+        self.grid[gx, gy, 1 + channel_offset] += vector.flow
+        self.grid[gx, gy, 2 + channel_offset] += vector.ascension
         
-        # Frequency is averaged in the cell
-        if self.grid[gx, gy, 3] == 0:
-            self.grid[gx, gy, 3] = vector.frequency
+        # Frequency handling
+        curr_freq = self.grid[gx, gy, 3 + channel_offset]
+        if curr_freq == 0:
+            self.grid[gx, gy, 3 + channel_offset] = vector.frequency
         else:
-            self.grid[gx, gy, 3] = (self.grid[gx, gy, 3] + vector.frequency) / 2.0
-            
-        # Social Learning: Language frequency deposit
-        # Residents 'Teach' the field their way of speaking
-        self.language_grid[gx, gy] = (self.language_grid[gx, gy] + vector.frequency) / 2.0
+            self.grid[gx, gy, 3 + channel_offset] = (curr_freq + vector.frequency) / 2.0
 
     def deposit_event(self, x: float, y: float, intensity: float):
-        """[Phase 34] Records a historical ripple (Birth/Death/Event) in the field."""
+        """[Phase 34] Records a historical ripple in the field (Channel 16)."""
         gx, gy = self.world_to_grid(x, y)
-        self.history_grid[gx, gy] += intensity
+        self.grid[gx, gy, 16] += intensity
 
-    def sample(self, x: float, y: float) -> Tuple[float, float, float, float]:
+    def sample(self, x: float, y: float, channel_offset: int = 0) -> Tuple[float, float, float, float]:
         gx, gy = self.world_to_grid(x, y)
-        return tuple(self.grid[gx, gy])
+        return tuple(self.grid[gx, gy, channel_offset:channel_offset+4])
 
-    def sample_culture(self, x: float, y: float) -> Tuple[float, float]:
-        """Returns (Language Freq, History Intensity)."""
+    def sample_history(self, x: float, y: float) -> float:
         gx, gy = self.world_to_grid(x, y)
-        return (self.language_grid[gx, gy], self.history_grid[gx, gy])
+        return self.grid[gx, gy, 16]
 
     def decay(self, rate: float = 0.9):
         """Natural entropy - waves and memories fade."""
-        self.grid *= rate
-        self.language_grid *= (rate + 0.05) # Language is stickier
-        self.history_grid *= (rate + 0.08)  # History is the stickiest
+        self.grid[:, :, 0:16] *= rate # Standard decay for waves (0-15)
+        self.grid[:, :, 16] *= (rate + 0.08) # History is the stickiest
 
 class NPC:
     def __init__(self, id: str, name: str, temperament: WaveDNA, age: float = 20.0):
@@ -95,37 +92,69 @@ class NPC:
     def learn_culture(self, field: SocialField):
         """[Phase 34] Absorbs the local dialect and feels the history of the land."""
         if not self.is_alive: return
-        lang_freq, history_mass = field.sample_culture(self.position[0], self.position[1])
         
-        # 1. Linguistic Drift: Adjust my frequency toward the local average
+        # Channel 12: Linguistic/Social
+        _, _, _, lang_freq = field.sample(self.position[0], self.position[1], channel_offset=12)
+        # Channel 13: History
+        history_mass = field.sample_history(self.position[0], self.position[1])
+        
+        # 1. Linguistic Drift
         if lang_freq > 0:
             drift_rate = 0.05
             self.emotional_frequency = (1.0 - drift_rate) * self.emotional_frequency + drift_rate * lang_freq
             
-        # 2. Historical Resonance: History mass increases 'Respect' or 'Aura stability'
+        # 2. Historical Resonance
         if history_mass > 0.5:
-             self.energy = min(120.0, self.energy + 0.1) # Feeling the legacy of ancestors
+             self.energy = min(120.0, self.energy + 0.1)
+
+    def feel_environment(self, field: SocialField):
+        """
+        [Phase 35] The Act of Sensing.
+        Samples all field channels and calculates interference impact.
+        """
+        if not self.is_alive: return
+        
+        # 1. Learn Culture (Channel 9 & 10) - Already in move_by_gravity but can be grouped
+        self.learn_culture(field)
+        
+        # 2. Tactile/Social Interference (Channel 0 & 4)
+        # Sample Base Social (0) and Tactile (4)
+        soc_g, soc_f, soc_a, soc_freq = field.sample(self.position[0], self.position[1], channel_offset=0)
+        tac_g, tac_f, tac_a, tac_freq = field.sample(self.position[0], self.position[1], channel_offset=4)
+        
+        # Calculate Interference Impact
+        # Resonance if frequency is within 10% of self
+        for f in [soc_freq, tac_freq]:
+            if f == 0: continue
+            diff = abs(f - self.emotional_frequency)
+            if diff < 20.0:
+                # Constructive Alignment -> Pleasure/Energy
+                self.energy = min(120.0, self.energy + 1.0)
+            elif diff > 400.0:
+                # Destructive Dissonance -> Pain/Fatigue
+                self.energy -= 2.0
+                if random.random() < 0.01:
+                    self.health -= 0.001 # Physical trauma from high dissonance
 
     def move_by_gravity(self, field: SocialField):
         """NPCs drift toward resonant frequencies (Social Gravity)."""
         if not self.is_alive: return
         
-        # [Phase 34] NPCs also learn as they move
-        self.learn_culture(field)
+        # Sensing is the first step of movement
+        self.feel_environment(field)
         
         x, y = self.position
         offsets = [(1,0), (-1,0), (0,1), (0,-1)]
         best_resonance = -1.0
         best_move = [0, 0]
         
-        # Sample surrounding to find gradient
+        # Sample surrounding to find gradient (Channel 0: Base Social)
         for dx, dy in offsets:
             nx, ny = x + dx*field.resolution, y + dy*field.resolution
-            _, _, _, nfreq = field.sample(nx, ny)
+            _, _, _, nfreq = field.sample(nx, ny, channel_offset=0)
             
-            if nfreq == 0: resonance = 0.5 # Empty space is neutral
+            if nfreq == 0: resonance = 0.5 
             else:
-                # Resonance = 1 / (1 + deltaFreq)
                 resonance = 1.0 / (1.0 + abs(nfreq - self.emotional_frequency))
             
             if resonance > best_resonance:
@@ -162,20 +191,20 @@ class SociologicalPulse:
         """Field-based interaction: O(N) complexity."""
         self.field.decay(rate=0.7)
         
-        # 1. Deposit
+        # 1. Deposit (Social & Sensory)
         for npc in self.residents.values():
             if npc.is_alive:
-                self.field.deposit(npc.position[0], npc.position[1], npc.radiate_aura())
+                aura = npc.radiate_aura()
+                # Social Deposit (Carrier)
+                self.field.deposit(npc.position[0], npc.position[1], aura, channel_offset=0)
+                # Tactile Deposit (Excitation)
+                self.field.deposit(npc.position[0], npc.position[1], aura, channel_offset=4)
+                # Linguistic/Symbolic
+                self.field.deposit(npc.position[0], npc.position[1], aura, channel_offset=12)
         
-        # 2. React
+        # 2. React (Sensing + Movement)
         for npc in self.residents.values():
             npc.move_by_gravity(self.field)
-            
-            # Interaction feedback
-            _, _, _, local_freq = self.field.sample(npc.position[0], npc.position[1])
-            diff = abs(local_freq - npc.emotional_frequency)
-            if diff < 10.0: npc.energy = min(110.0, npc.energy + 1.0) # Harmonic bond
-            elif diff > 400.0: npc.energy -= 2.0 # Tension
 
     def age_step(self, dt_years: float = 1.0):
         dead_ids = []
@@ -184,7 +213,7 @@ class SociologicalPulse:
             npc.update_biology(dt_years)
             if not npc.is_alive: 
                 dead_ids.append(npc_id)
-                # [Phase 34] Death leaves a ripple in history
+                # [Phase 34] Death leaves a ripple in history (Channel 13)
                 self.field.deposit_event(npc.position[0], npc.position[1], intensity=5.0)
             elif 20 < npc.age < 50 and npc.energy > 105:
                 child = self.reproduce_solo(npc)
@@ -200,14 +229,14 @@ class SociologicalPulse:
         if random.random() > 0.05: return None
         child_dna = parent.temperament
         
-        # [Phase 34] Child inherits the LOCAL dialect frequency from the parent's current state
+        # [Phase 34] Child inherits the LOCAL dialect frequency
         baby = NPC(f"B{random.randint(1000, 9999)}", f"Child_{parent.name[:3]}", child_dna, age=0.0)
-        baby.emotional_frequency = parent.emotional_frequency # Inherited dialect
+        baby.emotional_frequency = parent.emotional_frequency 
         baby.position = [parent.position[0] + random.uniform(-2, 2), parent.position[1] + random.uniform(-2, 2)]
         return baby
 
     def get_community_vibe(self) -> str:
-        # Global grid average frequency
+        # Global grid average frequency on Channel 0
         active_cells = self.field.grid[:,:,3][self.field.grid[:,:,3] > 0]
         if active_cells.size == 0: return "Void"
         avg_freq = np.mean(active_cells)

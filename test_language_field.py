@@ -45,14 +45,14 @@ def test_language_field():
     # 3. Historical Legacy Test
     print(f"\n3. [LEGACY] Simulating a Death event...")
     # Get current history at position
-    lang, hist = pulse.field.sample_culture(alice.position[0], alice.position[1])
+    hist = pulse.field.sample_history(alice.position[0], alice.position[1])
     print(f"   Initial History at {alice.position}: {hist:.1f}")
     
     # Kill Alice
     alice.health = 0.0
     pulse.age_step(dt_years=0) # Triggers death logic
     
-    lang, hist_post = pulse.field.sample_culture(alice.position[0], alice.position[1])
+    hist_post = pulse.field.sample_history(alice.position[0], alice.position[1])
     print(f"   Post-Death History at {alice.position}: {hist_post:.1f} (Should be higher)")
     
     if hist_post > hist:
