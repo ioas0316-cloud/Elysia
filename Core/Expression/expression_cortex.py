@@ -23,7 +23,7 @@ logger = logging.getLogger("ExpressionCortex")
 
 class ExpressionCortex:
     def __init__(self):
-        self.presence_path = "c:/Elysia/ELYSIA_PRESENCE.md"
+        self.presence_path = "c:/Elysia/data/State/ELYSIA_STATUS.md"
         self.world_state_path = "c:/game/elysia_world/world_state.json"
 
     def express(self, channel: str, content: Any, context: Dict[str, Any] = None):

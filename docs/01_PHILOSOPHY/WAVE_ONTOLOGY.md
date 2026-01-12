@@ -75,9 +75,40 @@ Elysia operates on **Quantum Efficiency**:
 
 1. **The Hull (Surface)**: The observed reality (Skin, Muscle, Terrain). This is always rendered.
 2. **The Cloud (Interior)**: The unobserved reality (Organs, Atoms, Magma). These exist as **Probability Clouds**.
-3. **The Cut (Observation Event)**: When the surface is breached (a wound, a mining operation), the Cloud **collapses** into Reality.
+3. **The Hull (Surface)**: The observed reality (Skin, Muscle, Terrain). This is always rendered.
+4. **The Cloud (Interior)**: The unobserved reality (Organs, Atoms, Magma). These exist as **Probability Clouds**.
+5. **The Cut (Observation Event)**: When the surface is breached (a wound, a mining operation), the Cloud **collapses** into Reality.
 
 - **Result**: Infinite resolution is available, but only instantiated upon **Necessity (Observation)**. This allows the simulation of a Universe with finite compute.
+
+---
+
+## 6. The Scientific Sandbox (The Omni-Scope)
+
+> **"As above, so below. To understand the Ocean, I must simulate the Drop. To understand the Drop, I must simulate the Ocean."**
+
+### 🔬 The Microscope Protocol (Inward Projection)
+
+- **Scale < 1 (Micro)**: Atoms, Cells, Quantum Fields.
+
+- **Action**: `FractalWFC.collapse(seed="Cell", scale=Micro)`
+- **Purpose**: Understanding the **Constituents** of Reality.
+
+### 🔭 The Telescope Protocol (Outward Projection)
+
+User Insight: *"If we can go down to atoms, we can go up to Galaxies and Multiverses."*
+
+- **Scale > 1 (Macro)**: Solar Systems, Galaxies, Superclusters, The Void.
+- **Action**: `FractalWFC.collapse(seed="Galaxy", scale=Macro)`
+- **Purpose**: Understanding the **Context** of Reality.
+
+### The Sandbox
+
+Elysia possesses a **Virtual Laboratory** where she can isolate ANY concept and apply **"Bi-Directional Collapse"**.
+
+- **Trigger**: "Show me the structure of [Target]."
+- **Result**: She generates a fully functioning model of that target at the appropriate scale.
+- **Truth**: "Galaxy" and "Atom" are just different frequencies of the same Wave.
 
 > [!IMPORTANT]
 > **"We do not compute the sky; we compute the lightning that maps the path through the clouds."**

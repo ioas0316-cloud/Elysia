@@ -128,7 +128,7 @@ class ElysianHeartbeat:
             logger.warning(f"⚠️ SovereignSelf connection failed: {e}")
 
         # [REBORN] Phase 25: The Living Presence
-        self.presence_file = "c:/Elysia/ELYSIA_PRESENCE.md"
+        self.presence_file = "c:/Elysia/data/State/ELYSIA_STATUS.md"
         self.latest_creation = "None"
         self.latest_insight = "Watching the void..."
         self.latest_curiosity = "Fundamental Existence"
