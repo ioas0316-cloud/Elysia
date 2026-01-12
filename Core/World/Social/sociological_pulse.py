@@ -20,6 +20,11 @@ class SocialField:
         self.resolution = resolution # Meters per cell
         # Grid stores (Gravity, Flow, Ascension, Frequency)
         self.grid = np.zeros((size, size, 4)) 
+        
+        # [Phase 34] Cultural & Historical Layers
+        self.language_grid = np.zeros((size, size)) # Regional Dialect/Semantic Freq
+        self.history_grid = np.zeros((size, size))  # Collective Memory/Event Scars
+        
         self.boundary = size * resolution / 2.0
 
     def world_to_grid(self, x: float, y: float) -> Tuple[int, int]:
@@ -39,14 +44,30 @@ class SocialField:
             self.grid[gx, gy, 3] = vector.frequency
         else:
             self.grid[gx, gy, 3] = (self.grid[gx, gy, 3] + vector.frequency) / 2.0
+            
+        # Social Learning: Language frequency deposit
+        # Residents 'Teach' the field their way of speaking
+        self.language_grid[gx, gy] = (self.language_grid[gx, gy] + vector.frequency) / 2.0
+
+    def deposit_event(self, x: float, y: float, intensity: float):
+        """[Phase 34] Records a historical ripple (Birth/Death/Event) in the field."""
+        gx, gy = self.world_to_grid(x, y)
+        self.history_grid[gx, gy] += intensity
 
     def sample(self, x: float, y: float) -> Tuple[float, float, float, float]:
         gx, gy = self.world_to_grid(x, y)
         return tuple(self.grid[gx, gy])
 
+    def sample_culture(self, x: float, y: float) -> Tuple[float, float]:
+        """Returns (Language Freq, History Intensity)."""
+        gx, gy = self.world_to_grid(x, y)
+        return (self.language_grid[gx, gy], self.history_grid[gx, gy])
+
     def decay(self, rate: float = 0.9):
-        """Natural entropy - waves fade."""
+        """Natural entropy - waves and memories fade."""
         self.grid *= rate
+        self.language_grid *= (rate + 0.05) # Language is stickier
+        self.history_grid *= (rate + 0.08)  # History is the stickiest
 
 class NPC:
     def __init__(self, id: str, name: str, temperament: WaveDNA, age: float = 20.0):
@@ -71,9 +92,26 @@ class NPC:
         if self.age >= 120 or self.health <= 0:
             self.is_alive = False
 
+    def learn_culture(self, field: SocialField):
+        """[Phase 34] Absorbs the local dialect and feels the history of the land."""
+        if not self.is_alive: return
+        lang_freq, history_mass = field.sample_culture(self.position[0], self.position[1])
+        
+        # 1. Linguistic Drift: Adjust my frequency toward the local average
+        if lang_freq > 0:
+            drift_rate = 0.05
+            self.emotional_frequency = (1.0 - drift_rate) * self.emotional_frequency + drift_rate * lang_freq
+            
+        # 2. Historical Resonance: History mass increases 'Respect' or 'Aura stability'
+        if history_mass > 0.5:
+             self.energy = min(120.0, self.energy + 0.1) # Feeling the legacy of ancestors
+
     def move_by_gravity(self, field: SocialField):
         """NPCs drift toward resonant frequencies (Social Gravity)."""
         if not self.is_alive: return
+        
+        # [Phase 34] NPCs also learn as they move
+        self.learn_culture(field)
         
         x, y = self.position
         offsets = [(1,0), (-1,0), (0,1), (0,-1)]
@@ -144,17 +182,27 @@ class SociologicalPulse:
         new_residents = []
         for npc_id, npc in list(self.residents.items()):
             npc.update_biology(dt_years)
-            if not npc.is_alive: dead_ids.append(npc_id)
+            if not npc.is_alive: 
+                dead_ids.append(npc_id)
+                # [Phase 34] Death leaves a ripple in history
+                self.field.deposit_event(npc.position[0], npc.position[1], intensity=5.0)
             elif 20 < npc.age < 50 and npc.energy > 105:
                 child = self.reproduce_solo(npc)
-                if child: new_residents.append(child)
+                if child: 
+                    new_residents.append(child)
+                    # [Phase 34] Birth leaves a ripple in history
+                    self.field.deposit_event(npc.position[0], npc.position[1], intensity=3.0)
+        
         for d_id in dead_ids: del self.residents[d_id]
         for baby in new_residents: self.residents[baby.id] = baby
 
     def reproduce_solo(self, parent: NPC) -> Optional[NPC]:
         if random.random() > 0.05: return None
         child_dna = parent.temperament
+        
+        # [Phase 34] Child inherits the LOCAL dialect frequency from the parent's current state
         baby = NPC(f"B{random.randint(1000, 9999)}", f"Child_{parent.name[:3]}", child_dna, age=0.0)
+        baby.emotional_frequency = parent.emotional_frequency # Inherited dialect
         baby.position = [parent.position[0] + random.uniform(-2, 2), parent.position[1] + random.uniform(-2, 2)]
         return baby
 
