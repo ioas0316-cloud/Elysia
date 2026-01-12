@@ -193,7 +193,7 @@ Traditional simulations calculate collisions between "Points" or "Objects" ($O(N
 The core innovation is reframing **Calculation** as **Playback**:
 
 | Approach | Mechanism | Complexity |
-|---|---|---|
+| :-- | :-- | :-- |
 | **Traditional Simulation** | "If humidity > 80% and pressure < 1000... calculate rainfall" | $O(N^2)$ per tick |
 | **Rotor Playback** | "Season Rotor is at 90°. It's Summer. Rain flag = True." | $O(1)$ per tick |
 
@@ -203,11 +203,13 @@ The world's state is **not computed**, it is **read** from the phase of a Rotor.
 
 Nature is a set of interlocking oscillators:
 
-1. **Grand Rotor (1 Year Cycle)**: Seasons, Ice Ages, El Niño.
-2. **Medium Rotor (1 Month Cycle)**: Tides, Lunar Phases.
-3. **Micro Rotor (1 Day Cycle)**: Day/Night, Temperature Swing.
+| Rotor Name | RPM | Cycle | Field Output |
+| :-- | :-- | :-- | :-- |
+| `Reality.Season` | 0.5 | 1 Year | Heat (Ch.25), Moisture (Ch.28) |
+| `Reality.Moon` | 12.0 | 1 Month | Tide (Ch.28) |
+| `Reality.Sun` | 360.0 | 1 Day | Daylight Temp Swing (Ch.25) |
 
-These rotors are **coupled**. Turning the "time handle" automatically propagates state changes through all layers.
+These rotors are **coupled**. Turning the "time handle" propagates state changes through all layers.
 
 ### 🌊 Terrain as a Breathing Entity
 
