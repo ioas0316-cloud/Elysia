@@ -1,7 +1,7 @@
 import math
 import json
 import os
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 from Core.World.Physics.trinity_fields import TrinityVector
 try:
     from Core.Foundation.web_knowledge_connector import WebKnowledgeConnector
@@ -12,6 +12,39 @@ try:
     from Core.Foundation.Graph.torch_graph import TorchGraph
 except ImportError:
     TorchGraph = None
+
+class TrinityOperator:
+    """
+    [Phase 27] The Verb (Active Logic).
+    Represents an action that transforms a Subject into an Object or State.
+    A = Verb(B, C)
+    """
+    def __init__(self, name: str, vector: TrinityVector, complexity: float = 1.0):
+        self.name = name
+        self.vector = vector # The "Flavor" of the action
+        self.complexity = complexity
+
+    def apply(self, subject: TrinityVector, target: Optional[TrinityVector] = None) -> TrinityVector:
+        """
+        Transforms the subject based on the verb's operator logic.
+        This is the "Causal Transformer".
+        """
+        # [Operator Logic]
+        # v_result = (v_subject + v_verb) / 2 if adding
+        # v_result = v_subject * v_verb if amplifying
+        # For prototype: We use a Weighted Resonance sum.
+        res = TrinityVector(
+            gravity=(subject.gravity + self.vector.gravity) / 2,
+            flow=(subject.flow + self.vector.flow) / 2,
+            ascension=(subject.ascension + self.vector.ascension) / 2,
+            frequency=(subject.frequency + self.vector.frequency) / 2
+        )
+        if target:
+            # If there's an object, it "colors" the result
+            res.gravity = (res.gravity + target.gravity) / 3
+            res.flow = (res.flow + target.flow) / 3
+            # ... etc
+        return res
 
 class TrinityLexicon:
     """
@@ -95,6 +128,16 @@ class TrinityLexicon:
             "어둠": TrinityVector(0.1, 0.1, -1.0, frequency=-100.0),
             "암석": TrinityVector(0.9, 0.0, 0.0, frequency=10.0),
             "녹은": TrinityVector(0.0, 0.8, 0.6, frequency=500.0), 
+        }
+
+        # [Phase 27] The Operators (Verbs)
+        self.operators: Dict[str, TrinityOperator] = {
+            "burn": TrinityOperator("burn", TrinityVector(-0.5, 0.2, 0.9, frequency=800.0)), # Destruction + Energy
+            "create": TrinityOperator("create", TrinityVector(0.5, 0.5, 1.0, frequency=1111.0)), # Structure + Potential
+            "destroy": TrinityOperator("destroy", TrinityVector(-1.0, -0.5, -0.5, frequency=0.0)), # Entropy
+            "transform": TrinityOperator("transform", TrinityVector(0.0, 1.0, 0.5, frequency=528.0)), # Pure Flow
+            "태우다": TrinityOperator("태우다", TrinityVector(-0.5, 0.2, 0.9, frequency=800.0)),
+            "만들다": TrinityOperator("만들다", TrinityVector(0.5, 0.5, 1.0, frequency=1111.0)),
         }
 
         # Sync Primitives to Graph
@@ -306,3 +349,10 @@ class TrinityLexicon:
                  self.graph.load_state(target_path)
             else:
                  print(f"⚠️ Memory file not found at {target_path}. Starting Fresh.")
+
+_lexicon = None
+def get_trinity_lexicon():
+    global _lexicon
+    if _lexicon is None:
+        _lexicon = TrinityLexicon()
+    return _lexicon

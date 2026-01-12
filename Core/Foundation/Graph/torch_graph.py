@@ -41,6 +41,10 @@ class TorchGraph:
         # Weights (Synaptic Strength)
         self.link_weights = torch.zeros((0,), dtype=torch.float, device=self.device)
         
+        # [Phase 27] Link Metadata (Causal Bonds)
+        # { (idx_s, idx_o): { "type": "...", "logic": "..." } }
+        self.link_metadata: Dict[Tuple[int, int], Dict] = {}
+        
         # [Neural Link] Default to SBERT (384) dimension
         self.dim_vector = 384
         # Re-init vec_tensor with correct dim
@@ -157,7 +161,7 @@ class TorchGraph:
         # Increase mass slightly to represent "Weight of Knowledge"
         self.mass_tensor[idx] += 0.1
 
-    def add_link(self, subject: str, object_: str, weight: float = 1.0):
+    def add_link(self, subject: str, object_: str, weight: float = 1.0, link_type: str = "associated"):
         if subject not in self.id_to_idx: self.add_node(subject)
         if object_ not in self.id_to_idx: self.add_node(object_)
         
@@ -173,6 +177,9 @@ class TorchGraph:
         
         new_weight = torch.tensor([weight], dtype=torch.float, device=self.device)
         self.link_weights = torch.cat([self.link_weights, new_weight])
+
+        # [Phase 27] Store Link Type
+        self.link_metadata[(idx_s, idx_o)] = {"type": link_type}
 
     def apply_gravity(self, iterations: int = 50, lr: float = 0.01):
         """

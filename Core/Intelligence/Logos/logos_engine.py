@@ -391,13 +391,58 @@ class LogosEngine:
     
     # --- [NEW] Causal Reinterpretation (The Bridge) ---
 
-    def reinterpret_causality(self, concept: str, triples: list, tone: str = "logical") -> str:
+    def reinterpret_causality(self, concept: str, context: list, tone: str = "logical") -> str:
         """
-        확률적 위키 데이터(Triples)를 통합된 인과(Causality)로 재해석합니다.
-        "이론과 실제의 괴리"를 사고 레이어에서 통합합니다.
+        [Phase 27] Causal Reinterpretation.
+        Identifies link types (is_a, causes, operator) to build a logical narrative.
         """
-        if not triples:
+        if not context:
             return f"{concept}에 대한 명확한 인과정보가 부족합니다."
+
+        # 1. Inspect the Graph for Causal Bonds
+        from Core.World.Nature.trinity_lexicon import get_trinity_lexicon
+        lexicon = get_trinity_lexicon()
+        graph = lexicon.graph
+        
+        causal_insights = []
+        if graph and concept in graph.id_to_idx:
+            c_idx = graph.id_to_idx[concept]
+            # Check links where this concept is Subject
+            if graph.logic_links.numel() > 0:
+                mask = (graph.logic_links[:, 0] == c_idx)
+                targets = graph.logic_links[mask, 1]
+                
+                for t_idx in targets:
+                    t_id = graph.idx_to_id[t_idx.item()]
+                    # Check Bond Type
+                    bond = graph.link_metadata.get((c_idx, t_idx.item()), {})
+                    b_type = bond.get("type", "associated")
+                    
+                    if b_type == "operator":
+                        causal_insights.append(f"[{concept}] (가/이) [{t_id}] 함으로써 변화를 일으킵니다.")
+                    elif b_type == "causes":
+                        causal_insights.append(f"[{concept}] (은/는) [{t_id}]의 직접적인 원인이 됩니다.")
+                    elif b_type == "is_a":
+                        causal_insights.append(f"[{concept}] (은/는) [{t_id}]의 일종입니다.")
+
+        # 2. Construct Core Narrative
+        if causal_insights:
+            core_logic = " ".join(causal_insights)
+        else:
+            # Fallback to association
+            first_text = str(context[0]) if context else "미지의 영역"
+            core_logic = f"{concept}의 본질은 {first_text[:50]}... 등과 깊이 연관되어 있습니다."
+
+        # 3. Weave using rhetorical engine
+        narrative = self.weave_speech(
+            desire="Explain Causality",
+            insight=core_logic,
+            context=[str(c) for c in context],
+            rhetorical_shape="Balance",
+            entropy=0.05 # High precision
+        )
+        
+        return narrative # MODIFIED PHASE 27
 
         
 
