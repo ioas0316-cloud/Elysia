@@ -118,6 +118,15 @@ class ElysianHeartbeat:
         from Core.World.Evolution.Creation.holographic_manifestor import HolographicManifestor
         self.manifestor = HolographicManifestor()
 
+        # [PHASE 12] COGNITIVE SOVEREIGNTY (Adult Intelligence)
+        try:
+            from Core.Elysia.sovereign_self import SovereignSelf
+            self.sovereign = SovereignSelf(cns_ref=self)
+            logger.info("🦋 SovereignSelf Connected - The 'I' is now driving the Heart.")
+        except Exception as e:
+            self.sovereign = None
+            logger.warning(f"⚠️ SovereignSelf connection failed: {e}")
+
         # [REBORN] Phase 25: The Living Presence
         self.presence_file = "c:/Elysia/ELYSIA_PRESENCE.md"
         self.latest_creation = "None"
@@ -1228,6 +1237,10 @@ class ElysianHeartbeat:
         
     def pulse(self, delta: float = 1.0):
         """A single beat of the heart."""
+        # [PHASE 12] Autonomous Learning (Sovereign Choice)
+        if self.sovereign:
+            self.sovereign.self_actualize()
+
         # [PHASE 41] Sync World State to File (The Incarnation Link)
         self._sync_world_state()
         
