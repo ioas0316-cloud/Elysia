@@ -145,6 +145,12 @@ class TorchGraph:
              # Fallback: Zero vector
              self.holo_tensor = torch.cat([self.holo_tensor, torch.zeros((1, self.holo_dim), device=self.device)])
 
+    def get_node_vector(self, node_id: str) -> Optional[torch.Tensor]:
+        """Retrieves the vector for a specific node ID."""
+        if node_id not in self.id_to_idx: return None
+        idx = self.id_to_idx[node_id]
+        return self.vec_tensor[idx]
+
     def update_node_vector(self, idx: int, vector: torch.Tensor):
         """
         [Digestion Protocol]

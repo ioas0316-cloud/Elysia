@@ -1,0 +1,66 @@
+
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant rock.
+- **[2026-01-13 01:40:51]** RESOLVED: base vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant stand.
+- **[2026-01-13 01:40:51]** RESOLVED: guard vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: demand vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant stop.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant strong.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant earth.
+- **[2026-01-13 01:40:51]** RESOLVED: stone vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: metal vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: ice vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: fire vs darkness. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected void in favor of more resonant fire.
+- **[2026-01-13 01:40:51]** RESOLVED: fire vs night. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: fire vs shadow. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected 어둠 in favor of more resonant fire.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected darkness in favor of more resonant heat.
+- **[2026-01-13 01:40:51]** RESOLVED: heat vs void. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected night in favor of more resonant heat.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected shadow in favor of more resonant heat.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected 어둠 in favor of more resonant heat.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected darkness in favor of more resonant light.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected void in favor of more resonant light.
+- **[2026-01-13 01:40:51]** RESOLVED: light vs night. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected shadow in favor of more resonant light.
+- **[2026-01-13 01:40:51]** RESOLVED: light vs 어둠. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected darkness in favor of more resonant sun.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected void in favor of more resonant sun.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected night in favor of more resonant sun.
+- **[2026-01-13 01:40:51]** RESOLVED: sun vs shadow. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected 어둠 in favor of more resonant sun.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected darkness in favor of more resonant day.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected void in favor of more resonant day.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected night in favor of more resonant day.
+- **[2026-01-13 01:40:51]** RESOLVED: day vs shadow. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected 어둠 in favor of more resonant day.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected steam in favor of more resonant darkness.
+- **[2026-01-13 01:40:51]** RESOLVED: darkness vs magma. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected 녹은 in favor of more resonant darkness.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected atom in favor of more resonant darkness.
+- **[2026-01-13 01:40:51]** RESOLVED: darkness vs galaxy. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected life in favor of more resonant void.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected steam in favor of more resonant void.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected magma in favor of more resonant void.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected 녹은 in favor of more resonant void.
+- **[2026-01-13 01:40:51]** RESOLVED: void vs atom. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: void vs human. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected galaxy in favor of more resonant void.
+- **[2026-01-13 01:40:51]** RESOLVED: night vs atom. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected galaxy in favor of more resonant night.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected atom in favor of more resonant shadow.
+- **[2026-01-13 01:40:51]** RESOLVED: shadow vs galaxy. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: steam vs 어둠. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant dust.
+- **[2026-01-13 01:40:51]** RESOLVED: magma vs 어둠. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: magma vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected 녹은 in favor of more resonant 어둠.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected atom in favor of more resonant 어둠.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected galaxy in favor of more resonant 어둠.
+- **[2026-01-13 01:40:51]** RESOLVED: 암석 vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant atom.
+- **[2026-01-13 01:40:51]** RESOLVED: human vs Light_Wave. Both are partial truths within a larger wave.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant village.
+- **[2026-01-13 01:40:51]** RESOLVED: Rejected Light_Wave in favor of more resonant planet.
+- **[2026-01-13 01:40:51]** RESOLVED: Light_Particle vs Light_Wave. Both are partial truths within a larger wave.
