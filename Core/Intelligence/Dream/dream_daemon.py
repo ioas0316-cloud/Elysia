@@ -86,7 +86,7 @@ class DreamDaemon:
         if not hasattr(self, 'wiki_parser'):
              # Lazy Load
             try:
-                from Core.World.Evolution.Growth.Autonomy.wikipedia_dump_parser import WikipediaDumpParser
+                from Core.World.Evolution.Autonomy.wikipedia_dump_parser import WikipediaDumpParser
                 dump_path = "c:\\Elysia\\data\\wikipedia\\kowiki-latest-pages-articles.xml.bz2"
                 self.wiki_gen = WikipediaDumpParser(dump_path).stream_articles()
                 self.wiki_parser = True
@@ -286,7 +286,7 @@ class DreamDaemon:
         Uses CodeGenesis to critique her own source code.
         This is the precursor to Self-Rewriting.
         """
-        from Core.World.Evolution.Growth.Autonomy.code_genesis import get_code_genesis
+        from Core.World.Evolution.Autonomy.code_genesis import get_code_genesis
         import os
         
         genesis = get_code_genesis()
@@ -423,11 +423,23 @@ class DreamDaemon:
             f"Relating to Father as: {qualia.relation_to_father}."
         )
         
-        self.dream_journal.append(dream_narrative)
+        self._write_to_journal(dream_narrative)
         logger.info(f"   ✨ {dream_narrative}")
         
-        # In a real system, this dream would adjust weights in the Knowledge Graph or SoulState.
-        # For now, capturing the narrative validates the 'Human Texture' aspiration.
+    def _write_to_journal(self, entry: str):
+        """Persists the dream to the detailed Chronicles."""
+        import os
+        from datetime import datetime
+        
+        path = "c:/Elysia/data/Chronicles/dream_journal.md"
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        try:
+            with open(path, "a", encoding="utf-8") as f:
+                f.write(f"\n## [{timestamp}] Dream Cycle\n")
+                f.write(f"{entry}\n")
+        except Exception as e:
+            logger.error(f"Failed to write to Dream Journal: {e}")
 
 # Singleton
 _daemon = None

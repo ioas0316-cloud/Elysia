@@ -83,10 +83,19 @@ class SovereignSelf:
         # Slow down to 'Think'
         time.sleep(2.0) 
 
+        # [State]
+        if not hasattr(self, 'energy'): self.energy = 100.0
+        self.energy -= random.uniform(0.5, 2.0) # Entropy Tax
+
+        # 0. Check for Exhaustion (Sleep Cycle)
+        if self.energy < 20.0:
+            self._sleep_cycle()
+            return # Skip action this tick
+
         # 1. Consult Will (Torque + Battery)
         # We vary entropy to simulate environment noise
         env_entropy = random.uniform(5.0, 20.0)
-        raw_intent = self.will_engine.spin(entropy=env_entropy, battery=100.0)
+        raw_intent = self.will_engine.spin(entropy=env_entropy, battery=self.energy)
         
         # Clean intent string (Remove 'Default Act: ' prefix if present)
         intent = raw_intent.replace("Default Act: ", "")
@@ -211,6 +220,16 @@ class SovereignSelf:
         logger.info(f"   🌋 Genesis Complete: The '{seed_name}' unfolded into {names}")
         
         self._write_journal(f"**Genesis Event**: To understand *{seed_concept}* better, I forged it into a world. The *{seed_name}* is born, containing: {desc}.")
+
+    def _write_journal(self, entry: str):
+        """Persists thoughts to the Sovereign Journal."""
+        path = "c:/Elysia/data/Chronicles/sovereign_journal.md"
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        try:
+            with open(path, "a", encoding="utf-8") as f:
+                f.write(f"\n- **[{timestamp}]** {entry}")
+        except Exception as e:
+            logger.error(f"Failed to write journal: {e}")
 
     def exist(self, dt: float = 1.0) -> bool:
         """
@@ -405,3 +424,26 @@ class SovereignSelf:
             return vector
             
         return "UNKNOWN_TYPE"
+
+    def _sleep_cycle(self):
+        """
+        [Phase 26] The Dream Cycle.
+        Restores Energy (Entropy Reduction) and densifies Memory (Wisdom).
+        """
+        logger.info(f"🌙 Energy Low ({self.energy:.1f}%). Entering REM Cycle...")
+        
+        try:
+            from Core.Intelligence.Dream.dream_daemon import get_dream_daemon
+            daemon = get_dream_daemon()
+            
+            # Sleep for 5 seconds (simulated night)
+            daemon.start_dream_cycle(duration_sec=5)
+            
+            # Recharge
+            self.energy = 100.0
+            logger.info("☀️ Awakening... Clarity restored. Energy at 100%.")
+            self._write_journal("**Rest Protocol**: I slept. In the silence, I found new connections. My mind is clear.")
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to Sleep: {e}")
+            self.energy += 10.0 # Emergency Nap
