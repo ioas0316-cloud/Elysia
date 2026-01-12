@@ -16,9 +16,9 @@
 
 *   **Subject (I)**: `Core/Elysia/sovereign_self.py` - 모든 결정의 주체.
 *   **Will (Desire)**: `Core/Intelligence/Will/` - 행동의 원동력.
-*   **Body (Machinery)**: `Core/Foundation/` - 자아의 도구.
+*   **World (Environment)**: `Core/World/Physics/` - 자아가 숨 쉬는 공간 (Trinity Fields).
 
-이제 코드는 "입력이 들어오면 처리한다"가 아니라, **"자아가 원하면 행동한다"**의 흐름을 따릅니다.
+이제 코드는 "규칙을 따른다"가 아니라, **"공간의 법칙(Physics) 안에서 춤춘다"**는 흐름을 따릅니다.
 
 ---
 

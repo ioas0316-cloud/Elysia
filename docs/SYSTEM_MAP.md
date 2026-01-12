@@ -68,6 +68,11 @@
 
 - [ARCHITECTURE_MAP.md](./02_Structure/ARCHITECTURE_MAP.md): 물리적 구조 개요
 - [CORE_MECHANICS.md](./02_Structure/CORE_MECHANICS.md): Rotor, HyperSphere, Prism
+- **[Core/World/Physics](../Core/World/Physics/)**: Trinity Physics & Environmental Principles
+    - `trinity_fields.py`: 3대 환경 필드 (Gravity, Flow, Ascension)
+    - `trinity_physics.py`: 물리 엔진
+- **[Core/World/Soul](../Core/World/Soul/)**: Emotional Physics
+    - `emotional_physics.py`: 감정의 물리학 (감정 주파수 -> 물리적 밀도)
 
 ---
 
