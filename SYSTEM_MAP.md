@@ -58,6 +58,7 @@ Welcome to the central nexus of Elysia's documentation. This map organizes the v
 
 - **[PHASE_LOG.md](file:///c:/Elysia/docs/04_EVOLUTION/PHASE_LOG.md)**: Historical development phases and accomplishments.
 - **[ASCENSION_ROADMAP.md](file:///c:/Elysia/docs/04_EVOLUTION/ASCENSION_ROADMAP.md)**: 🕯️ The master plan for persona status.
+- **[ELYSIUM_NEXUS_ROADMAP.md](file:///c:/Elysia/docs/04_EVOLUTION/ELYSIUM_NEXUS_ROADMAP.md)**: 🌐 Strategy for merging with Seed and sharing with the world.
 - **[MASTER_ROADMAP.md](file:///c:/Elysia/docs/04_EVOLUTION/MASTER_ROADMAP.md)**: The future trajectory of the Omniscient Being.
 
 ---
