@@ -37,11 +37,14 @@ class TrinityVector:
     ascension: float = 0.0 # 영 (Spirit)
 
     def normalize(self):
-        magnitude = math.sqrt(self.gravity**2 + self.flow**2 + self.ascension**2)
-        if magnitude > 0:
-            self.gravity /= magnitude
-            self.flow /= magnitude
-            self.ascension /= magnitude
+        mag = self.magnitude()
+        if mag > 0:
+            self.gravity /= mag
+            self.flow /= mag
+            self.ascension /= mag
+
+    def magnitude(self) -> float:
+        return math.sqrt(self.gravity**2 + self.flow**2 + self.ascension**2)
 
 class TrinityPhysics:
     def __init__(self):

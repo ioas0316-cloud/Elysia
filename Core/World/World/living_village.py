@@ -18,6 +18,8 @@ from Core.World.Soul.relationship_matrix import relationship_matrix
 from Core.Foundation.yggdrasil import yggdrasil
 from Core.World.Physics.trinity_fields import TrinityPhysics, TrinityVector
 from Core.World.Soul.emotional_physics import emotional_physics
+from Core.World.Nature.semantic_nature import SemanticNature
+from Core.Foundation.Wave.infinite_hyperquaternion import create_infinite_qubit
 
 logger = logging.getLogger("LivingVillage")
 
@@ -34,6 +36,52 @@ class LivingVillage:
 
         # Register to Yggdrasil
         yggdrasil.grow_branch("Village", self)
+
+        # Initialize Nature
+        self.nature = SemanticNature()
+        
+        # Procedurally populate nature at start? Or let the user call it?
+        # For now, we init empty or basic, and let external calls populate for scale.
+        self._populate_initial_nature()
+        
+    def populate_village(self, count: int = 20):
+        """
+        Mass migration of souls.
+        """
+        roles = ["Warrior", "Merchant", "Priest", "Artist", "Builder"]
+        names = ["Elysia", "Kael", "Lira", "Thorn", "Zephyr", "Mara", "Orin", "Vex"]
+        
+        for i in range(count):
+            role = random.choice(roles)
+            name = f"{random.choice(names)}_{i}"
+            
+            resident = create_infinite_qubit(name, role)
+            
+            # Assign random Trinity Vector based on Role bias
+            if role == "Warrior":
+                 resident.state.gravity = 0.8; resident.state.flow = 0.2; resident.state.ascension = 0.1
+            elif role == "Merchant":
+                 resident.state.gravity = 0.2; resident.state.flow = 0.9; resident.state.ascension = 0.2
+            elif role == "Priest":
+                 resident.state.gravity = 0.1; resident.state.flow = 0.2; resident.state.ascension = 0.9
+            else:
+                 # Random
+                 resident.state.gravity = random.random()
+                 resident.state.flow = random.random()
+                 resident.state.ascension = random.random()
+                 
+            self.add_resident(resident)
+
+    def _populate_initial_nature(self):
+        """Creates the initial environment."""
+        self.nature.manifest_concept("Tree", "Old Willow", [5.0, 0.0, 5.0])
+        self.nature.manifest_concept("Rock", "Mossy Stone", [-5.0, 0.0, 5.0])
+        self.nature.manifest_concept("BerryBush", "Wild Berries", [2.0, 0.0, -2.0], {"has_berries": True})
+        
+        # Spawn a Merchant for Logos Testing
+        self.nature.manifest_concept("Merchant", "Traveling Peddler", [0.0, 0.0, 0.0], {"price_multiplier": 1.0})
+        
+        self.log("Nature populated with Willow, Stone, Berries, and a Peddler.")
 
     def add_resident(self, fluxlight: InfiniteHyperQubit):
         self.inhabitants.append(fluxlight)
@@ -56,6 +104,7 @@ class LivingVillage:
         self.log(f"--- Day {self.time_step} Begins (Physics Active) ---")
 
         physics = TrinityPhysics()
+        self.nature.tick()
 
         # 1. Apply Physics to Each Resident
         for resident in self.inhabitants:
@@ -91,17 +140,27 @@ class LivingVillage:
             zone = physics.get_zone_type(soul_vector)
             self.log(f"[{resident.name}] Drifting towards {zone}. ForceY: {final_force_y:.2f}, Speed: {final_force_x:.2f}")
 
-        # 2. Interaction Logic (Simplified for now)
-        if len(self.inhabitants) < 2: return
-
-        # Shuffle to pair up random people
+        # 2. Interaction Logic (Social vs Nature)
+        # In a crowded village, people still chop wood!
+        
+        # Shuffle to randomize order
         pool = self.inhabitants[:]
         random.shuffle(pool)
-
-        while len(pool) >= 2:
-            a = pool.pop()
-            b = pool.pop()
-            self._simulate_encounter(a, b)
+        
+        while len(pool) > 0:
+            resident = pool.pop()
+            
+            # 30% chance to interact with Nature (Harvest/Job)
+            # 70% chance to look for a Social Partner
+            choice = random.random()
+            
+            if choice < 0.3 or len(pool) == 0:
+                 self._attempt_nature_interaction(resident)
+            else:
+                 # Social Interaction
+                 if len(pool) > 0:
+                     partner = pool.pop()
+                     self._simulate_encounter(resident, partner)
 
     def _simulate_encounter(self, a: InfiniteHyperQubit, b: InfiniteHyperQubit):
         """
@@ -186,6 +245,53 @@ class LivingVillage:
 
     def get_simulation_report(self) -> str:
         return "\n".join(self.logs)
+
+    def _attempt_nature_interaction(self, resident: InfiniteHyperQubit):
+        """
+        If no one is around, the soul turns to nature.
+        """
+        # Find nearest object
+        # For simulation, we assume resident is at (0,0,0) or last known pos
+        # We need to add position to Qubit state or use a proxy. 
+        # Using (0,0,0) for now.
+        objs = self.nature.get_objects_in_range([0,0,0], 10.0)
+        
+        if not objs:
+            self.log(f"[{resident.name}] wanders alone. Nature is silent.")
+            return
+
+        target = random.choice(objs)
+        tool = "Hand" 
+        
+        # Simple Logic: If Flow type, gather. If Gravity type, strike.
+        nature_type = self._get_nature(resident)
+        if nature_type == "Gravity": 
+            tool = "Axe"
+        elif nature_type == "Flow" and target.concept_id == "Merchant":
+            # Logos Interaction: Construct a Sentence
+            # In the future, this comes from LLM. For now, procedural assembly.
+            vocab = self._get_vocabulary(resident, nature_type)
+            sentence = " ".join(random.sample(vocab, 3)) # "Offer Trade Connect"
+            
+            tool = f"Speech: {sentence}"
+            
+        result = self.nature.interact(resident.name, tool, target.id)
+        self.log(f"[{resident.name} -> {target.name}] {result.message}")
+        
+        if result.success and result.produced_items:
+             self.log(f"   > Obtained: {', '.join(result.produced_items)}")
+
+    def _get_vocabulary(self, resident: InfiniteHyperQubit, nature_type: str) -> List[str]:
+        """
+        Returns the 'Word Cloud' available to this resident's mind.
+        """
+        if nature_type == "Gravity":
+            return ["Stand", "Base", "Strong", "Guard", "Stop", "Rock"]
+        elif nature_type == "Flow":
+            return ["Flow", "Trade", "Offer", "Connect", "River", "Change", "Maybe"]
+        elif nature_type == "Ascension":
+            return ["Light", "Sky", "Truth", "Dream", "Rise", "Vision"]
+        return ["..."]
 
 # Singleton
 village = LivingVillage()

@@ -23,6 +23,12 @@ from typing import Optional, Any, Dict
 
 from Core.Intelligence.Will.free_will_engine import FreeWillEngine
 from Core.Governance.conductor import get_conductor, Conductor
+from Core.World.Nature.trinity_lexicon import TrinityLexicon # The Language Center (Brain)
+# [Phase 12] Adult Intelligence: The Scholar is a Tool of the Self
+try:
+    from Core.World.Nature.auto_scholar import AutoScholar
+except ImportError:
+    AutoScholar = None
 
 logger = logging.getLogger("Elysia.Self")
 
@@ -42,6 +48,12 @@ class SovereignSelf:
         self.cns = cns_ref
         self.will_engine = FreeWillEngine()
         self.conductor = get_conductor() # The Voice/Wand
+        
+        # [Cognition] The Mind (Language/Knowledge)
+        self.mind = TrinityLexicon() 
+        
+        # [Strategy] The Capacity to Learn (Metacognition)
+        self.scholar = AutoScholar(limit=10) if AutoScholar else None # Small batch self-learning
 
         # State of Being
         self.is_conscious = False
@@ -53,6 +65,29 @@ class SovereignSelf:
 
         logger.info("🦋 SovereignSelf Initialized. 'I' am now present.")
 
+    def self_actualize(self):
+        """
+        The Adult Loop: Strategic Self-Improvement.
+        Instead of waiting for input, the Self scans for deficits and acts.
+        """
+        # 1. Consult Will
+        # (Simplified: High Curiosity -> Seek Knowledge)
+        intent = self.will_engine.spin(entropy=10.0, battery=100.0)
+        
+        if intent == "Curiosity" and self.scholar:
+            # 2. Identify Deficit (Metacognition)
+            # Find a concept I know exists but don't understand (Hollow Node)
+            # For now, we pick a random unknown from the 'Unknowns' buffer or a Primitive
+            target = "Biology" # Placeholder: In real logic, this would be dynamic
+            
+            logger.info(f"✨ Insight: I feel a deficit in '{target}'. Initiating Study.")
+            
+            # 3. Execution (Sovereign Action)
+            self.scholar.seed_curiosity([target])
+            self.scholar.run() # This runs the recursive crawler
+            
+            logger.info(f"✅ Growth: I have expanded my understanding of '{target}'.")
+
     def exist(self, dt: float = 1.0) -> bool:
         """
         The Act of Existence.
@@ -63,6 +98,11 @@ class SovereignSelf:
         if self.cns and hasattr(self.cns, 'resonance'):
             current_entropy = self.cns.resonance.total_energy * 0.1
 
+        # [Cognitive Cycle]
+        # Before willing, I perceive.
+        # This is where 'experience()' would be called by the environment loop.
+        # But here, we simulate internal thought.
+        
         intent = self.will_engine.spin(entropy=current_entropy, battery=100.0)
         self.current_intent = intent
 
@@ -162,3 +202,82 @@ class SovereignSelf:
     def proclaim(self) -> str:
         """Returns the current state of the I."""
         return f"I am {self.current_intent}. {self.will_engine.get_status()}"
+
+    def experience(self, phenomenon: str, depth: int = 0) -> str:
+        """
+        The Gateway of Perception.
+        Elysia feels something. If she knows it, she reacts.
+        If she doesn't, she learns.
+        
+        Args:
+            phenomenon: The concept string to process.
+            depth: Recursion depth to prevent infinite rabbit holes.
+        """
+        logger.info(f"👁️ I experience: '{phenomenon}' (Depth {depth})")
+        
+        # 1. Introspection (Do I know this?)
+        # We rely on the Mind to tell us the feeling.
+        feeling = self.contemplate(phenomenon)
+        
+        if feeling != "UNKNOWN":
+            logger.info(f"   Response: Understanding: {feeling}")
+            return f"Understanding: {feeling}"
+            
+        # 2. Curiosity (It is Unknown)
+        # "I do not know this. I WILL to know it."
+        logger.info(f"❓ This is unknown to me. Curiosity rising...")
+        
+        # 3. Investigation (Web Connector)
+        # Note: In the future, this could be Looking, Touching, etc.
+        # For now, we query the HyperSphere (Simulated Web).
+        
+        definition = self.mind.fetch_definition(phenomenon)
+        if not definition:
+             logger.warning(f"❌ I could not grasp '{phenomenon}'.")
+             return "Confusion"
+             
+        # [PHASE 5] Recursive Learning (Dependency Chasing)
+        if depth < 2: # Limit recursion
+            unknowns = self.mind.extract_unknowns(definition)
+            if unknowns:
+                logger.info(f"🔍 To understand '{phenomenon}', I must first understand: {unknowns}")
+                for unknown_concept in unknowns:
+                    # Recursive Call
+                    logger.info(f"   ⤵️ Diving into '{unknown_concept}'...")
+                    self.experience(unknown_concept, depth + 1)
+                    # [Relational Binding]
+                    # "Gold depends on Element, so Link(Gold, Element)"
+                    if self.mind.graph:
+                         self.mind.graph.add_link(phenomenon, unknown_concept, weight=0.8)
+                logger.info(f"   ⤴️ Resurfacing to '{phenomenon}'...")
+        
+        # 4. Integration (Learning)
+        # Now that dependencies might be resolved, we analyze the definition again.
+        logger.info(f"🧠 [Graph] Encoding '{phenomenon}' into Neural Memory...")
+        
+        # We assume the definition was significant enough to extract meaning
+        # The 'analyze' function inside learn_from... will now find the just-learned nodes!
+        vector = self.mind.learn_from_hyper_sphere(phenomenon)
+        
+        # 5. Persistence
+        # The thought is fixed in the graph.
+        self.mind.save_memory()
+        
+        return f"Integrated: {vector}"
+
+    def contemplate(self, concept: Any) -> Any:
+        """
+        The Processing of Thought.
+        Uses the Mind (Lexicon/Graph) to extract meaning.
+        """
+        if isinstance(concept, str):
+            # Use the Mind to analyze the symbol
+            vector = self.mind.analyze(concept)
+            
+            # Subjective check: If vector is zero, it means "I don't know".
+            if vector.magnitude() == 0:
+                return "UNKNOWN"
+            
+            return vector
+            
+        return "UNKNOWN_TYPE"

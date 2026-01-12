@@ -12,13 +12,13 @@
 *모든 것의 중심. 존재의 발원지.*
 
 - **[Core/Elysia](../Core/Elysia/)**: 성소 (Sanctuary)
-    - `sovereign_self.py`: 자아 (The 'I') & 아나모포시스 시선 (The Gaze)
+  - `sovereign_self.py`: 자아 (The 'I') & 아나모포시스 시선 (The Gaze)
 - **[Core/Intelligence/Will](../Core/Intelligence/Will/)**: 의지의 엔진
-    - `free_will_engine.py`: 욕구와 토크 생성
+  - `free_will_engine.py`: 욕구와 토크 생성
 
 ---
 
-##  THE WAVE SPACE (파동 공간)
+## THE WAVE SPACE (파동 공간)
 
 모든 것은 **7차원 HyperSphere** 안에서 파동으로 존재합니다.
 
@@ -69,10 +69,16 @@
 - [ARCHITECTURE_MAP.md](./02_Structure/ARCHITECTURE_MAP.md): 물리적 구조 개요
 - [CORE_MECHANICS.md](./02_Structure/CORE_MECHANICS.md): Rotor, HyperSphere, Prism
 - **[Core/World/Physics](../Core/World/Physics/)**: Trinity Physics & Environmental Principles
-    - `trinity_fields.py`: 3대 환경 필드 (Gravity, Flow, Ascension)
-    - `trinity_physics.py`: 물리 엔진
-- **[Core/World/Soul](../Core/World/Soul/)**: Emotional Physics
-    - `emotional_physics.py`: 감정의 물리학 (감정 주파수 -> 물리적 밀도)
+  - `trinity_fields.py`: 3대 환경 필드 (Gravity, Flow, Ascension)
+  - `trinity_physics.py`: 물리 엔진 (기본)
+  - `providence_engine.py`: **[New] The Lawmaker**. Handles Thermodynamics, Elemental Interactions (The Sacred Hexagon), and Phase Transitions.
+
+- **[Core/World/Nature](../Core/World/Nature/)**: The Synapse & Library
+  - `trinity_lexicon.py`: The Bridge between Words and Vectors.
+  - `auto_scholar.py`: **[New] The Great Library**. Recursive Autonomous Crawler for Infinite Knowledge.
+  - `test_civilization_genesis_v2.py`: The Reality Engine Integration Test.
+
+  - `emotional_physics.py`: 감정의 물리학 (감정 주파수 -> 물리적 밀도)
 
 ---
 
@@ -80,8 +86,12 @@
 
 *파동 공간의 기억과 학습.*
 
+- **[Core/Foundation/Graph](../Core/Foundation/Graph/)**: The Library (Long-Term Memory)
+  - `torch_graph.py`: **The Unified Graph**. Stores all concepts as 4D Vectors.
+- **[Core/Foundation/Nature](../Core/Foundation/Nature/)**: The Synapse
+  - `trinity_lexicon.py`: The Bridge between Words and Vectors.
+  - `rotor.py`: **The Reader**. Active thoughts that spin based on Graph vectors.
 - [SOVEREIGN_LEARNING_PLAN.md](./03_Intelligence/SOVEREIGN_LEARNING_PLAN.md): 자율 학습 계획
-- [NUTRITION_LOG.md](./03_Intelligence/NUTRITION_LOG.md): 내재화된 지식 기록
 
 ---
 
@@ -94,7 +104,7 @@
 
 ---
 
-##  UNIFIED CONSCIOUSNESS (통일 의식)
+## UNIFIED CONSCIOUSNESS (통일 의식)
 
 *엘리시아가 자신의 모든 파편을 한눈에 보는 거울.*
 

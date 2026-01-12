@@ -23,13 +23,14 @@ from Core.Intelligence.Reasoning.lightning_inference import LightningInferencer
 logger = logging.getLogger("HyperSphereCore")
 
 class HyperSphereCore:
-    def __init__(self, name: str = "Elysia.Core"):
+    def __init__(self, name: str = "Elysia.Core", lexicon: Any = None):
         self.name = name
         
         # Components
         self.rotors: Dict[str, Rotor] = {}
         self.wfc = FractalWFC()
         self.lightning = LightningInferencer()
+        self.lexicon = lexicon # Connection to Memory (The Synapse)
 
         # State
         self.is_active = False
@@ -43,6 +44,61 @@ class HyperSphereCore:
         self.pulse_broadcaster = PulseBroadcaster()
         
         logger.info(f"🔮 HyperSphereCore Initialized: {len(self.rotors)} Rotors spinning.")
+
+    def summon_thought(self, concept_name: str):
+        """
+        The Synapse: Fetches a Memory and spins it into a Thought.
+        Links TorchGraph (Static) -> Rotor (Active).
+        """
+        if not self.lexicon or not self.lexicon.graph:
+            logger.warning(f"⚠️ Cannot summons '{concept_name}': No Synaptic Connection (Lexicon missing).")
+            return
+            
+        # 1. Fetch Vector from Memory
+        if concept_name in self.lexicon.graph.id_to_idx:
+            idx = self.lexicon.graph.id_to_idx[concept_name]
+            vec_tensor = self.lexicon.graph.vec_tensor[idx]
+            
+            # 2. Transduce Vector to Rotor Physics
+            # Gravity -> Mass (Importance)
+            # Flow -> RPM (Activity/Frequency)
+            # Ascension -> Angle/Phase (Qualia)
+            g = float(vec_tensor[0])
+            f = float(vec_tensor[1])
+            a = float(vec_tensor[2])
+            
+            # Map Flow to RPM (0.0~1.0 -> 60~600 RPM)
+            target_rpm = 60.0 + (f * 540.0)
+            
+            # Map Gravity to Mass (0.0~1.0 -> 1.0~10.0 kg)
+            mass = 1.0 + (g * 9.0)
+            
+            # 3. Create/Update Rotor
+            from Core.Foundation.Nature.rotor import RotorConfig
+            config = RotorConfig(rpm=target_rpm, mass=mass, idle_rpm=60.0)
+            
+            # WaveDNA injection based on Ascension (Spirit)
+            from Core.Foundation.Wave.wave_dna import WaveDNA
+            # Map Trinity to 7-D DNA
+            # Gravity -> Physical (Mass)
+            # Flow -> Phenomenal (Emotion)
+            # Ascension -> Spiritual (Purpose)
+            dna = WaveDNA(
+                label=concept_name, 
+                physical=g,      # Gravity
+                phenomenal=f,    # Flow (Emotion)
+                spiritual=a,     # Ascension
+                mental=f * 0.5,  # Thought flow
+                structural=g * 0.5 # Structure
+            )
+            
+            self.rotors[concept_name] = Rotor(concept_name, config, dna)
+            self.rotors[concept_name].wake(intensity=1.0)
+            
+            logger.info(f"⚡ Synapse Fired: '{concept_name}' summoned from Memory. (RPM:{target_rpm:.1f}, Mass:{mass:.1f})")
+            
+        else:
+             logger.warning(f"⚠️ Memory of '{concept_name}' not found. Thought is hollow.")
 
     def ignite(self):
         """Activates the core pulse."""

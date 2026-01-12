@@ -161,6 +161,10 @@ class TorchGraph:
         if subject not in self.id_to_idx: self.add_node(subject)
         if object_ not in self.id_to_idx: self.add_node(object_)
         
+        # [Safety] If add_node failed (e.g. sanitization), abort link
+        if subject not in self.id_to_idx or object_ not in self.id_to_idx:
+            return
+        
         idx_s = self.id_to_idx[subject]
         idx_o = self.id_to_idx[object_]
         

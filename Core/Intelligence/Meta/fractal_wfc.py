@@ -20,14 +20,24 @@ import random
 from typing import List, Dict
 
 from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.World.Nature.trinity_lexicon import TrinityLexicon
+from Core.World.Physics.trinity_fields import TrinityVector
 
 logger = logging.getLogger("FractalWFC")
 
 class FractalWFC:
-    def __init__(self):
-        # [PHASE 3] In the future, this will load from a Knowledge Graph or LLM.
-        # For now, it uses 'Archetypal Resonance' (Algorithmic Generation).
-        pass
+    def __init__(self, lexicon: TrinityLexicon = None):
+        """
+        Args:
+            lexicon: Access to the Mind (TrinityLexicon) for naming things.
+        """
+        self.lexicon = lexicon
+        
+        # If no lexicon provided, try to create one or use Mock
+        if not self.lexicon:
+            # We defer initialization to avoid circular imports layout if possible,
+            # or we just accept None and fall back to algorithmic names.
+            pass
 
     def collapse(self, seed: WaveDNA, depth: int = 1, intensity: float = 1.0) -> List[WaveDNA]:
         """
@@ -130,8 +140,54 @@ class FractalWFC:
         return child_dna
 
     def _guess_name(self, dna: WaveDNA) -> str:
-        # Simple heuristic to name unknown waves
-        if dna.spiritual > 0.8: return "Divine Spark"
-        if dna.causal > 0.8: return "Inevitable Outcome"
-        if dna.phenomenal > 0.8: return "Deep Emotion"
-        return "Unknown Harmonic"
+        """
+        Semantic Name Resolution.
+        Asks the Lexicon: 'What concepts match this energy signature?'
+        """
+        if not self.lexicon or not self.lexicon.graph:
+            # Fallback to heuristics
+            if dna.spiritual > 0.8: return "Divine Spark"
+            if dna.causal > 0.8: return "Inevitable Outcome"
+            if dna.phenomenal > 0.8: return "Deep Emotion"
+            return "Unknown Harmonic"
+
+        # 1. Convert DNA (7D) to Trinity (3D)
+        # Mapping:
+        # Gravity (Matter) = Physical + Structural
+        # Flow (Mind) = Functional + Mental + Causal
+        # Ascension (Spirit) = Spiritual + Phenomenal
+        
+        g = min(1.0, dna.physical + dna.structural)
+        f = min(1.0, dna.functional + dna.mental + dna.causal)
+        a = min(1.0, dna.spiritual + dna.phenomenal)
+        
+        trinity_vec = TrinityVector(g, f, a)
+        
+        # 2. Query Graph for nearest neighbor
+        # In a real Torch usage, we'd do a KNN search on the tensor.
+        # For this prototype, we scan the primitives or a limited set.
+        # We simulate a "Reverse Lookup".
+        
+        # Heuristic search through Primitives first:
+        best_match = None
+        min_dist = 100.0
+        
+        # We check primitives + basic concepts
+        candidates = self.lexicon.primitives.items()
+        
+        for name, vec in candidates:
+            # Simple Euclidean distance
+            dist = (
+                (trinity_vec.gravity - vec.gravity)**2 +
+                (trinity_vec.flow - vec.flow)**2 +
+                (trinity_vec.ascension - vec.ascension)**2
+            )
+            if dist < min_dist:
+                min_dist = dist
+                best_match = name
+                
+        if best_match and min_dist < 0.2: # Threshold for "Knowing"
+            return f"{best_match} (Aspect)"
+            
+        # Fallback
+        return f"Unknown Form (G{g:.1f} F{f:.1f})"
