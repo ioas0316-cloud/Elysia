@@ -53,31 +53,84 @@ class PhonemeRotor:
         return [self.softness, self.openness, self.brightness, self.frequency / 1000.0]
 
 
-# Basic Phoneme Library (Inspired by Universal Phonetics)
+# Basic Phoneme Library (Universal Phonetics + Korean 한글)
 PHONEME_LIBRARY = {
-    # Vowels (high openness)
+    # ============================================
+    # ENGLISH / UNIVERSAL VOWELS
+    # ============================================
     'a': PhonemeRotor('a', 432.0, openness=1.0, brightness=0.7, softness=1.0),
     'e': PhonemeRotor('e', 528.0, openness=0.8, brightness=0.9, softness=1.0),
     'i': PhonemeRotor('i', 639.0, openness=0.6, brightness=1.0, softness=1.0),
     'o': PhonemeRotor('o', 396.0, openness=0.9, brightness=0.3, softness=1.0),
     'u': PhonemeRotor('u', 285.0, openness=0.7, brightness=0.1, softness=1.0),
     
-    # Consonants - Stops (low softness)
+    # ============================================
+    # KOREAN VOWELS (모음) - 10 basic + 11 compound
+    # ============================================
+    'ㅏ': PhonemeRotor('ㅏ', 432.0, openness=1.0, brightness=0.8, softness=1.0),  # 아
+    'ㅓ': PhonemeRotor('ㅓ', 396.0, openness=0.9, brightness=0.4, softness=1.0),  # 어
+    'ㅗ': PhonemeRotor('ㅗ', 352.0, openness=0.8, brightness=0.3, softness=1.0),  # 오
+    'ㅜ': PhonemeRotor('ㅜ', 285.0, openness=0.7, brightness=0.1, softness=1.0),  # 우
+    'ㅡ': PhonemeRotor('ㅡ', 264.0, openness=0.5, brightness=0.2, softness=1.0),  # 으 (neutral)
+    'ㅣ': PhonemeRotor('ㅣ', 639.0, openness=0.6, brightness=1.0, softness=1.0),  # 이
+    'ㅐ': PhonemeRotor('ㅐ', 480.0, openness=0.85, brightness=0.75, softness=1.0), # 애
+    'ㅔ': PhonemeRotor('ㅔ', 528.0, openness=0.8, brightness=0.85, softness=1.0),  # 에
+    'ㅚ': PhonemeRotor('ㅚ', 440.0, openness=0.75, brightness=0.5, softness=1.0),  # 외
+    'ㅟ': PhonemeRotor('ㅟ', 550.0, openness=0.65, brightness=0.7, softness=1.0),  # 위
+    
+    # Y-glide vowels (이중모음)
+    'ㅑ': PhonemeRotor('ㅑ', 500.0, openness=1.0, brightness=0.85, softness=1.0),  # 야
+    'ㅕ': PhonemeRotor('ㅕ', 450.0, openness=0.9, brightness=0.5, softness=1.0),   # 여
+    'ㅛ': PhonemeRotor('ㅛ', 400.0, openness=0.8, brightness=0.4, softness=1.0),   # 요
+    'ㅠ': PhonemeRotor('ㅠ', 330.0, openness=0.7, brightness=0.2, softness=1.0),   # 유
+    
+    # ============================================
+    # ENGLISH CONSONANTS
+    # ============================================
     'k': PhonemeRotor('k', 852.0, openness=0.0, brightness=0.5, softness=0.0),
     't': PhonemeRotor('t', 741.0, openness=0.0, brightness=0.7, softness=0.1),
     'p': PhonemeRotor('p', 396.0, openness=0.0, brightness=0.4, softness=0.1),
-    
-    # Consonants - Nasals (high softness)
     'm': PhonemeRotor('m', 174.0, openness=0.0, brightness=0.3, softness=0.9),
     'n': PhonemeRotor('n', 264.0, openness=0.1, brightness=0.5, softness=0.9),
-    
-    # Consonants - Fricatives
     's': PhonemeRotor('s', 963.0, openness=0.1, brightness=0.9, softness=0.3),
     'f': PhonemeRotor('f', 639.0, openness=0.1, brightness=0.6, softness=0.4),
-    
-    # Consonants - Liquids
     'l': PhonemeRotor('l', 396.0, openness=0.3, brightness=0.6, softness=0.8),
     'r': PhonemeRotor('r', 432.0, openness=0.2, brightness=0.5, softness=0.6),
+    'h': PhonemeRotor('h', 320.0, openness=0.4, brightness=0.4, softness=0.7),
+    'w': PhonemeRotor('w', 220.0, openness=0.3, brightness=0.2, softness=0.8),
+    'y': PhonemeRotor('y', 580.0, openness=0.4, brightness=0.8, softness=0.7),
+    'b': PhonemeRotor('b', 330.0, openness=0.0, brightness=0.3, softness=0.2),
+    'd': PhonemeRotor('d', 420.0, openness=0.0, brightness=0.5, softness=0.2),
+    'g': PhonemeRotor('g', 360.0, openness=0.0, brightness=0.4, softness=0.15),
+    'v': PhonemeRotor('v', 580.0, openness=0.1, brightness=0.5, softness=0.4),
+    'z': PhonemeRotor('z', 880.0, openness=0.1, brightness=0.8, softness=0.35),
+    
+    # ============================================
+    # KOREAN CONSONANTS (자음) - Plain (예사소리)
+    # ============================================
+    'ㄱ': PhonemeRotor('ㄱ', 360.0, openness=0.0, brightness=0.4, softness=0.2),   # 기역
+    'ㄴ': PhonemeRotor('ㄴ', 264.0, openness=0.1, brightness=0.5, softness=0.9),   # 니은
+    'ㄷ': PhonemeRotor('ㄷ', 420.0, openness=0.0, brightness=0.5, softness=0.2),   # 디귿
+    'ㄹ': PhonemeRotor('ㄹ', 396.0, openness=0.25, brightness=0.55, softness=0.75), # 리을
+    'ㅁ': PhonemeRotor('ㅁ', 174.0, openness=0.0, brightness=0.3, softness=0.95),  # 미음
+    'ㅂ': PhonemeRotor('ㅂ', 330.0, openness=0.0, brightness=0.35, softness=0.2),  # 비읍
+    'ㅅ': PhonemeRotor('ㅅ', 800.0, openness=0.1, brightness=0.85, softness=0.25), # 시옷
+    'ㅇ': PhonemeRotor('ㅇ', 110.0, openness=0.5, brightness=0.3, softness=1.0),   # 이응 (silent/ng)
+    'ㅈ': PhonemeRotor('ㅈ', 700.0, openness=0.05, brightness=0.7, softness=0.3),  # 지읒
+    'ㅊ': PhonemeRotor('ㅊ', 780.0, openness=0.05, brightness=0.75, softness=0.2), # 치읓 (aspirated)
+    'ㅋ': PhonemeRotor('ㅋ', 420.0, openness=0.0, brightness=0.5, softness=0.05),  # 키읔 (aspirated)
+    'ㅌ': PhonemeRotor('ㅌ', 500.0, openness=0.0, brightness=0.6, softness=0.05),  # 티읕 (aspirated)
+    'ㅍ': PhonemeRotor('ㅍ', 400.0, openness=0.0, brightness=0.45, softness=0.05), # 피읖 (aspirated)
+    'ㅎ': PhonemeRotor('ㅎ', 320.0, openness=0.4, brightness=0.4, softness=0.6),   # 히읗
+    
+    # ============================================
+    # KOREAN CONSONANTS - Tense (된소리)
+    # ============================================
+    'ㄲ': PhonemeRotor('ㄲ', 420.0, openness=0.0, brightness=0.5, softness=0.0),   # 쌍기역
+    'ㄸ': PhonemeRotor('ㄸ', 500.0, openness=0.0, brightness=0.6, softness=0.0),   # 쌍디귿
+    'ㅃ': PhonemeRotor('ㅃ', 400.0, openness=0.0, brightness=0.45, softness=0.0),  # 쌍비읍
+    'ㅆ': PhonemeRotor('ㅆ', 900.0, openness=0.1, brightness=0.95, softness=0.1),  # 쌍시옷
+    'ㅉ': PhonemeRotor('ㅉ', 780.0, openness=0.05, brightness=0.8, softness=0.1),  # 쌍지읒
 }
 
 
