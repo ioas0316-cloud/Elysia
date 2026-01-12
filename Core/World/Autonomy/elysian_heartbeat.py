@@ -640,18 +640,20 @@ class ElysianHeartbeat:
                 self_narrative += f" [{wisdom_insight}]"
                 logger.info(f"🎵 [RESONANCE] {wisdom_insight}")
             
-        # 3. Store this self-observation as an experience (creates feedback loop)
-        # The act of observing becomes an experience itself
-        self.memory.absorb(
-            content=f"[SELF-AWARENESS] {self_narrative}",
-            type="introspection",
-            context={
-                "state_snapshot": current_state, 
-                "origin": "meta_consciousness",
-                "wisdom_consulted": wisdom_insight is not None
-            },
-            feedback=0.1  # Slight positive - self-awareness is good
-        )
+        # 3. [DISABLED] Self-feedback loop removed - was storing meaningless self-observations
+        # The act of observing should NOT become an experience that feeds back
+        # This was creating infinite loops of self-referential logging
+        # --- REMOVED by design choice: Subject = Elysia, not self-reflection loops ---
+        # self.memory.absorb(
+        #     content=f"[SELF-AWARENESS] {self_narrative}",
+        #     type="introspection",
+        #     context={
+        #         "state_snapshot": current_state, 
+        #         "origin": "meta_consciousness",
+        #         "wisdom_consulted": wisdom_insight is not None
+        #     },
+        #     feedback=0.1
+        # )
         
         # 4. [PHASE 54.5] SelfBoundary Differentiation: "I" vs "Ocean"
         # The delta between internal state and external input births consciousness
