@@ -61,22 +61,27 @@ class Rotor:
 
     def update(self, dt: float):
         """Physics Step."""
-        # RPM Interpolation
-        if self.current_rpm != self.target_rpm:
-            diff = self.target_rpm - self.current_rpm
-            change = self.config.acceleration * dt
-            if abs(diff) < change:
-                self.current_rpm = self.target_rpm
-            else:
-                self.current_rpm += change * (1 if diff > 0 else -1)
+        # Perpetual Rotors (Reality.*) always spin at config.rpm
+        if self.name.startswith("Reality."):
+            self.current_rpm = self.config.rpm
+            self.energy = 1.0 # Always alive
+        else:
+            # RPM Interpolation
+            if self.current_rpm != self.target_rpm:
+                diff = self.target_rpm - self.current_rpm
+                change = self.config.acceleration * dt
+                if abs(diff) < change:
+                    self.current_rpm = self.target_rpm
+                else:
+                    self.current_rpm += change * (1 if diff > 0 else -1)
 
         # Angle Update
         if self.current_rpm > 0:
             degrees = (self.current_rpm / 60.0) * 360.0 * dt
             self.current_angle = (self.current_angle + degrees) % 360.0
             
-        # Energy Decay
-        if self.target_rpm == self.config.idle_rpm:
+        # Energy Decay (Non-perpetual rotors only)
+        if not self.name.startswith("Reality.") and self.target_rpm == self.config.idle_rpm:
             self.energy *= (1.0 - (0.1 * dt)) # Natural decay
 
     def __repr__(self):

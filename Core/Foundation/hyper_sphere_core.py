@@ -182,30 +182,53 @@ class HyperSphereCore:
         # 1. Global Field Decay
         self.field.decay(rate=0.9)
         
-        # 2. Planetary Rotor: The World's Pulse (Seasons)
+        # 2. Planetary Rotors: The World's Pulse (Fractal Clockwork)
+        import math
+        from Core.Foundation.Wave.wave_dna import WaveDNA
+        
+        # --- Grand Rotor: Season (1 Year) ---
         if "Reality.Season" not in self.rotors:
-            # Seed a low-frequency oscillator for seasons
-            from Core.Foundation.Wave.wave_dna import WaveDNA
             season_dna = WaveDNA(label="Season", frequency=0.01, physical=0.5, phenomenal=0.5)
             self.add_rotor("Reality.Season", season_dna, rpm=0.5) # Very slow
             
         season = self.rotors["Reality.Season"]
-        # Cycle heat and moisture based on the Rotor's Angle (Phase)
-        import math
         rad = math.radians(season.current_angle)
-        heat = (math.cos(rad) + 1.0) * 10.0 # Peak heat at 0/360 deg
-        moisture = (math.sin(rad) + 1.0) * 5.0 # Peak moisture at 90 deg (Phase shift)
+        heat = (math.cos(rad) + 1.0) * 10.0 # Peak heat at 0/360 deg (Summer)
+        moisture = (math.sin(rad) + 1.0) * 5.0 # Peak moisture at 90 deg (Rainy Season)
         
-        # Push these global constants into the Field (Channels 25 and 28)
-        self.field.grid[:, :, 25] += heat * 0.05
-        self.field.grid[:, :, 28] += moisture * 0.05
+        # --- Medium Rotor: Moon (1 Month) ---
+        if "Reality.Moon" not in self.rotors:
+            moon_dna = WaveDNA(label="Moon", frequency=0.1, physical=0.8, phenomenal=0.2)
+            self.add_rotor("Reality.Moon", moon_dna, rpm=12.0) # ~30 days/cycle
+            
+        moon = self.rotors["Reality.Moon"]
+        moon_rad = math.radians(moon.current_angle)
+        tide = (math.sin(moon_rad) + 1.0) * 3.0 # Tidal oscillation
+        
+        # --- Micro Rotor: Sun (1 Day) ---
+        if "Reality.Sun" not in self.rotors:
+            sun_dna = WaveDNA(label="Sun", frequency=1.0, physical=1.0, phenomenal=0.5)
+            self.add_rotor("Reality.Sun", sun_dna, rpm=360.0) # ~1 day/cycle (fast)
+            
+        sun = self.rotors["Reality.Sun"]
+        sun_rad = math.radians(sun.current_angle)
+        daylight = (math.cos(sun_rad) + 1.0) * 0.5 # 0.0 (Night) to 1.0 (Day)
+        temp_swing = daylight * 5.0 # Daytime is warmer
+        
+        # Push these global constants into the Field
+        self.field.grid[:, :, 25] += (heat + temp_swing) * 0.05 # Heat (Season + Day)
+        self.field.grid[:, :, 28] += (moisture + tide) * 0.05   # Water (Rain + Tide)
+        
+        # Protected Rotors (Will not be garbage collected)
+        protected = ["Love", "Logic", "Elysia", "Nature", 
+                     "Reality.Season", "Reality.Moon", "Reality.Sun"]
         
         keys_to_remove = []
         for name, rotor in self.rotors.items():
             rotor.update(dt_eff)
             if rotor.energy > 0.1:
                 active_count += 1
-            if rotor.energy < 0.01 and name not in ["Love", "Logic", "Elysia", "Nature", "Reality.Season"]:
+            if rotor.energy < 0.01 and name not in protected:
                 keys_to_remove.append(name)
 
         # Cleanup
