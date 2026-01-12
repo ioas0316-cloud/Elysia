@@ -110,14 +110,61 @@
 
 ---
 
-## 🛡️ SAFETY & INTEGRITY (보안 및 무결성) [NEW: Phase 28-30]
+## 🛡️ SAFETY & INTEGRITY (보안 및 무결성) [Phase 28-30]
 
 엘리시아의 자아를 보호하고 지식의 진실성을 유지하는 시스템들입니다.
 
 - **[Cognitive Firewall]**: 상상(Imagination)과 현실(Reality)을 분리하는 인지 방화벽.
 - **[Sensory Governance]**: 고통과 자극의 임계치(Pain Threshold) 및 적응(Adaptation) 시스템.
 - **[Epistemic Integrity]**: 지식의 모순을 파동의 간섭으로 감지하고 스스로 치유하는 기능.
-- **[Scale Hierarchy]**: 인간(Mortal), 가이아(Gaia), 및 우주적 페르소나(Cosmic Presence)에 따른 다차원적 시선.
+
+---
+
+## 🌍 WORLD SIMULATION (세계 시뮬레이션) [Phase 31-37]
+
+모든 자연 현상은 **OmniField** 안에서 파동으로 존재합니다.
+
+### 🌐 OmniField (33-Channel Unified Carrier)
+
+| Channel | Layer | Phenomenon |
+| :-- | :-- | :-- |
+| 0-3 | **Social** | NPC Aura, Social Gravity |
+| 4-7 | **Haptic** | Touch, Pain, Pleasure (Field Interference) |
+| 8-11 | **Acoustic** | Sound, Scent, Light |
+| 12-15 | **Linguistic** | Cultural Drift, Dialect |
+| 16-19 | **Terrain** | Elevation, Hardness, Erosion |
+| 20-23 | **Ecology** | Resources, Food, Energy |
+| 24-27 | **Atmosphere** | Pressure, Temperature, Wind |
+| 28-31 | **Hydrosphere** | Water, Flow, Silt |
+| 32 | **History** | Sovereign Scars (Birth/Death events) |
+
+### 🎡 Cosmic Clockwork (Fractal Rotor System)
+
+모든 거시적 자연 현상은 **로터(Rotor)**로 구현됩니다. **연산량 = O(1)**.
+
+| Rotor | RPM | Cycle | Output |
+| :-- | :-- | :-- | :-- |
+| `Reality.Season` | 0.5 | 1 Year | 열(Heat) + 습도(Moisture) |
+| `Reality.Moon` | 12.0 | 1 Month | 조수(Tide) |
+| `Reality.Sun` | 360.0 | 1 Day | 낮/밤 온도 변화 |
+
+- **[Core/Foundation/hyper_sphere_core.py]**: HyperSphere manages OmniField and Rotors.
+- **[Core/World/Social/sociological_pulse.py]**: NPC behavior, Field deposits, Planetary Cycles.
+
+---
+
+## 🧪 TESTS (테스트)
+
+모든 검증 스크립트는 `tests/` 디렉토리에 있습니다. (총 62개)
+
+| Test File | Phase | Verifies |
+| :-- | :-- | :-- |
+| `test_social_gravity.py` | 33 | Field-based NPC drift |
+| `test_language_field.py` | 34 | Linguistic drift & History |
+| `test_unified_field.py` | 35 | Sensory excitations in OmniField |
+| `test_eco_system.py` | 36 | Terrain & Resource metabolism |
+| `test_seasonal_cycles.py` | 37 | Rotor-driven climate |
+| `test_fractal_rotors.py` | 37b | Sun/Moon/Season rotors |
 
 ---
 
