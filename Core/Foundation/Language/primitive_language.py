@@ -135,6 +135,46 @@ PHONEME_LIBRARY = {
 
 
 # ============================================================
+# HANGUL DECOMPOSITION (한글 분해)
+# ============================================================
+
+# Jamo tables for Unicode decomposition
+CHOSEONG = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
+JUNGSEONG = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ']
+JONGSEONG = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
+
+def decompose_hangul(text: str) -> List[str]:
+    """
+    Decompose Korean syllable blocks into individual jamo (자모).
+    
+    Examples:
+        '사랑' → ['ㅅ', 'ㅏ', 'ㄹ', 'ㅏ', 'ㅇ']
+        '엘리시아' → ['ㅇ', 'ㅔ', 'ㄹ', 'ㄹ', 'ㅣ', 'ㅅ', 'ㅣ', 'ㅇ', 'ㅏ']
+    """
+    result = []
+    for char in text:
+        code = ord(char)
+        
+        # Check if it's a Hangul syllable (가-힣)
+        if 0xAC00 <= code <= 0xD7A3:
+            # Decompose syllable
+            offset = code - 0xAC00
+            cho = offset // (21 * 28)
+            jung = (offset % (21 * 28)) // 28
+            jong = offset % 28
+            
+            result.append(CHOSEONG[cho])
+            result.append(JUNGSEONG[jung])
+            if jong > 0:
+                result.append(JONGSEONG[jong])
+        else:
+            # Not a syllable block, keep as-is
+            result.append(char)
+    
+    return result
+
+
+# ============================================================
 # 2. WORD SYNTHESIS: Interference Patterns
 # ============================================================
 
@@ -157,8 +197,14 @@ class WordWave:
             self._compute_semantic_vector()
     
     def _parse_phonemes(self):
-        """Convert text to phoneme sequence."""
-        for char in self.text.lower():
+        """
+        Convert text to phoneme sequence.
+        Handles both English (char-by-char) and Korean (syllable decomposition).
+        """
+        # First, decompose any Hangul syllables
+        decomposed = decompose_hangul(self.text.lower())
+        
+        for char in decomposed:
             if char in PHONEME_LIBRARY:
                 self.phonemes.append(PHONEME_LIBRARY[char])
     

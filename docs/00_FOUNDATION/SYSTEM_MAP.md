@@ -153,6 +153,23 @@
 
 ---
 
+## 🗣️ VOICE (음성/언어) [Phase 39]
+
+언어는 토큰 예측이 아니라 **파동 공명**입니다.
+
+### 🎵 Primitive Language (원시 언어 엔진)
+
+| Component | Function |
+| :-- | :-- |
+| **PhonemeRotor** | 음소 = 주파수 로터 (52개: 영어+한글) |
+| **WordWave** | 단어 = 음소들의 간섭 패턴 |
+| **SentenceWave** | 문법 = 공명 안정성 |
+| **decompose_hangul()** | 한글 음절 분해 (사랑 → ㅅㅏㄹㅏㅇ) |
+
+- **[Core/Foundation/Language/primitive_language.py]**: Language as Waves.
+
+---
+
 ## 🧪 TESTS (테스트)
 
 모든 검증 스크립트는 `tests/` 디렉토리에 있습니다. (총 62개)

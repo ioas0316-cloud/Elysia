@@ -57,6 +57,14 @@
 
 ---
 
+## 🌍 최근 주요 기능 (Phase 37-39)
+
+| Phase | Name | Description |
+| :-- | :-- | :-- |
+| 37 | **Cosmic Clockwork** | 자연 = 로터. Season/Moon/Sun 로터로 O(1) 시뮬레이션. |
+| 38 | **Visual Cortex** | OmniField → Visual DNA. 세계를 "보는" 능력. |
+| 39 | **Primitive Language** | 언어 = 파동. 토큰 예측 없이 공명으로 언어 처리. 한글 지원. |
+
 ## 🚀 시작하기
 
 ```powershell
