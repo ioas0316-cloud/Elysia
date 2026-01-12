@@ -2,6 +2,7 @@
 import logging
 import random
 import math
+import numpy as np
 from typing import List, Dict, Tuple, Optional
 from Core.Foundation.Wave.wave_dna import WaveDNA
 from Core.World.Physics.trinity_fields import TrinityVector
@@ -9,175 +10,159 @@ from Core.World.Soul.emotional_physics import emotional_physics
 
 logger = logging.getLogger("SociologicalPulse")
 
+class SocialField:
+    """
+    [Phase 33] The Potential Map of Meaning.
+    Replaces pairwise distance checks with a vector field.
+    """
+    def __init__(self, size: int = 50, resolution: float = 4.0):
+        self.size = size # Grid size (e.g., 50x50)
+        self.resolution = resolution # Meters per cell
+        # Grid stores (Gravity, Flow, Ascension, Frequency)
+        self.grid = np.zeros((size, size, 4)) 
+        self.boundary = size * resolution / 2.0
+
+    def world_to_grid(self, x: float, y: float) -> Tuple[int, int]:
+        gx = int((x + self.boundary) / self.resolution)
+        gy = int((y + self.boundary) / self.resolution)
+        return max(0, min(self.size-1, gx)), max(0, min(self.size-1, gy))
+
+    def deposit(self, x: float, y: float, vector: TrinityVector):
+        gx, gy = self.world_to_grid(x, y)
+        # Additive interference in the cell
+        self.grid[gx, gy, 0] += vector.gravity
+        self.grid[gx, gy, 1] += vector.flow
+        self.grid[gx, gy, 2] += vector.ascension
+        
+        # Frequency is averaged in the cell
+        if self.grid[gx, gy, 3] == 0:
+            self.grid[gx, gy, 3] = vector.frequency
+        else:
+            self.grid[gx, gy, 3] = (self.grid[gx, gy, 3] + vector.frequency) / 2.0
+
+    def sample(self, x: float, y: float) -> Tuple[float, float, float, float]:
+        gx, gy = self.world_to_grid(x, y)
+        return tuple(self.grid[gx, gy])
+
+    def decay(self, rate: float = 0.9):
+        """Natural entropy - waves fade."""
+        self.grid *= rate
+
 class NPC:
     def __init__(self, id: str, name: str, temperament: WaveDNA, age: float = 20.0):
         self.id = id
         self.name = name
-        self.temperament = temperament # Base DNA
+        self.temperament = temperament 
         self.emotional_frequency = temperament.frequency
-        self.position = (random.uniform(-100, 100), random.uniform(-100, 100))
-        
-        # [Phase 32] Biological Stats
-        self.age = age # Years
-        self.health = 1.0 # 0.0 to 1.0
+        self.position = [random.uniform(-90, 90), random.uniform(-90, 90)]
+        self.age = age
+        self.health = 1.0
         self.energy = 100.0
         self.is_alive = True
-        self.memory_impacts = {} # Dissonance/Resonance with others
+        self.velocity = [0.0, 0.0]
 
     def update_biology(self, dt_years: float = 0.1):
-        """Aging and Health decay."""
         if not self.is_alive: return
-        
         self.age += dt_years
-        
-        # Aging Curve (Vitality)
-        # 0-25: Growing, Health is stable
-        # 25-60: Peak, slow decay
-        # 60-120: Sharp decay
-        
-        if self.age < 25:
-            vitality = 1.0
-        elif self.age < 60:
-            vitality = 1.0 - (self.age - 25) * 0.005 # 25 years -> -0.125
-        else:
-            vitality = 0.875 - (self.age - 60) * 0.015 # 60 years -> -0.9
-            
-        # Actual health index
+        if self.age < 25: vitality = 1.0
+        elif self.age < 60: vitality = 1.0 - (self.age - 25) * 0.005
+        else: vitality = 0.875 - (self.age - 60) * 0.015
         self.health = min(self.health, vitality)
-        
-        # Random sickness based on health (Resistance decreases with age)
-        if random.random() < (1.0 - self.health) * 0.05:
-            self.health -= 0.05
-            logger.warning(f"💊 {self.name} is feeling unwell (Age: {self.age:.1f}, Health: {self.health:.2f})")
-            
-        # Death logic
         if self.age >= 120 or self.health <= 0:
             self.is_alive = False
-            logger.critical(f"💀 {self.name} has passed away at age {self.age:.1f}. (Cause: {'Old Age' if self.age >= 120 else 'Sickness'})")
 
-    def radiate_aura(self) -> Tuple[float, float, float]:
-        """Radiates (frequency, amplitude, range)."""
-        if not self.is_alive: return (0, 0, 0)
-        # More energy = wider range. More emotion = higher amplitude.
-        # Health and Age impact the aura strength
-        amplitude = self.temperament.phenomenal * (self.energy / 100.0) * self.health
-        return (self.emotional_frequency, amplitude, 10.0 * amplitude)
+    def move_by_gravity(self, field: SocialField):
+        """NPCs drift toward resonant frequencies (Social Gravity)."""
+        if not self.is_alive: return
+        
+        x, y = self.position
+        offsets = [(1,0), (-1,0), (0,1), (0,-1)]
+        best_resonance = -1.0
+        best_move = [0, 0]
+        
+        # Sample surrounding to find gradient
+        for dx, dy in offsets:
+            nx, ny = x + dx*field.resolution, y + dy*field.resolution
+            _, _, _, nfreq = field.sample(nx, ny)
+            
+            if nfreq == 0: resonance = 0.5 # Empty space is neutral
+            else:
+                # Resonance = 1 / (1 + deltaFreq)
+                resonance = 1.0 / (1.0 + abs(nfreq - self.emotional_frequency))
+            
+            if resonance > best_resonance:
+                best_resonance = resonance
+                best_move = [dx, dy]
+
+        # Apply movement
+        speed = 2.0 * self.health
+        self.velocity = [best_move[0] * speed, best_move[1] * speed]
+        self.position[0] += self.velocity[0]
+        self.position[1] += self.velocity[1]
+        
+        # Constrain to boundary
+        self.position[0] = max(-95, min(95, self.position[0]))
+        self.position[1] = max(-95, min(95, self.position[1]))
+
+    def radiate_aura(self) -> TrinityVector:
+        return TrinityVector(
+            self.temperament.physical,
+            self.temperament.phenomenal * (self.energy/100.0),
+            self.temperament.spiritual,
+            frequency=self.emotional_frequency
+        )
 
 class SociologicalPulse:
-    """
-    [Phase 31] Emotional Interaction Engine.
-    Simulates how NPCs 'Feel' each other through wave interference.
-    """
-    def __init__(self):
+    def __init__(self, field_size: int = 50):
         self.residents: Dict[str, NPC] = {}
-        self.population_history = []
-
-    def age_step(self, dt_years: float = 1.0):
-        """Ticks the entire world's age."""
-        dead_ids = []
-        new_residents = []
-        
-        for npc_id, npc in list(self.residents.items()):
-            npc.update_biology(dt_years)
-            if not npc.is_alive:
-                dead_ids.append(npc_id)
-                continue
-            
-            # Chance to reproduce if healthy and adult
-            if npc.is_alive and 20 <= npc.age <= 50 and npc.health > 0.8:
-                # Find a partner nearby
-                partner = self._find_nearby_partner(npc)
-                if partner:
-                    child = self.reproduce(npc, partner)
-                    if child:
-                        new_residents.append(child)
-        
-        # Clean up the dead
-        for d_id in dead_ids:
-            del self.residents[d_id]
-            
-        # Add the newborns
-        for baby in new_residents:
-            self.residents[baby.id] = baby
-
-    def _find_nearby_partner(self, parent: NPC) -> Optional[NPC]:
-        for p in self.residents.values():
-            if p.id == parent.id or not p.is_alive: continue
-            if not (20 <= p.age <= 50): continue
-            
-            dist = math.sqrt((parent.position[0]-p.position[0])**2 + (parent.position[1]-p.position[1])**2)
-            if dist < 10.0: # Interaction radius
-                return p
-        return None
-
-    def reproduce(self, a: NPC, b: NPC) -> Optional[NPC]:
-        """Combines DNA to create a new soul."""
-        if random.random() > 0.1: return None # Birth rate / Luck
-        
-        # Wave DNA Recombination
-        child_label = f"Descendant of {a.name} & {b.name}"
-        
-        child_traits = {}
-        for trait in ['physical', 'functional', 'phenomenal', 'causal', 'mental', 'structural', 'spiritual']:
-            val = (getattr(a.temperament, trait) + getattr(b.temperament, trait)) / 2.0
-            val += random.uniform(-0.05, 0.05) # Minor mutation
-            child_traits[trait] = max(0.0, min(1.0, val))
-            
-        child_freq = (a.emotional_frequency + b.emotional_frequency) / 2.0 + random.uniform(-5, 5)
-        
-        child_dna = WaveDNA(label=child_label, frequency=child_freq, **child_traits)
-        child_dna.normalize()
-        
-        baby = NPC(f"B{random.randint(1000, 9999)}", f"Baby_{a.name[:3]}{b.name[:3]}", child_dna, age=0.0)
-        baby.position = (a.position[0] + random.uniform(-1, 1), a.position[1] + random.uniform(-1, 1))
-        
-        logger.info(f"👶 [BIRTH] A new soul is born: {baby.name}. Welcome to Elysia.")
-        return baby
+        self.field = SocialField(size=field_size)
 
     def add_resident(self, npc: NPC):
         self.residents[npc.id] = npc
 
     def update_social_field(self):
-        """Calculates interference between all residents."""
-        ids = list(self.residents.keys())
-        for i in range(len(ids)):
-            for j in range(i + 1, len(ids)):
-                a = self.residents[ids[i]]
-                b = self.residents[ids[j]]
-                
-                # Check distance
-                dist = math.sqrt((a.position[0]-b.position[0])**2 + (a.position[1]-b.position[1])**2)
-                
-                aura_a = a.radiate_aura()
-                aura_b = b.radiate_aura()
-                
-                if dist < (aura_a[2] + aura_b[2]):
-                    self._interact(a, b, dist)
-
-    def _interact(self, a: NPC, b: NPC, distance: float):
-        """Wave interference between two NPCs."""
-        # 1. Frequency Alignment
-        # Simulating Resonance (Constructive) or Dissonance (Destructive)
-        diff = abs(a.emotional_frequency - b.emotional_frequency)
+        """Field-based interaction: O(N) complexity."""
+        self.field.decay(rate=0.7)
         
-        # If frequencies are close (Resonance)
-        if diff < 50.0:
-            # Constructive: They like each other
-            a.energy = min(110.0, a.energy + 1.0)
-            b.energy = min(110.0, b.energy + 1.0)
-            logger.info(f"💕 [RESONANCE] {a.name} and {b.name} are in sync. Harmony rising.")
-        elif diff > 300.0:
-            # Destructive: They clash
-            a.energy -= 2.0
-            b.energy -= 2.0
-            logger.warning(f"💢 [DISSONANCE] {a.name} and {b.name} are clashing. Conflict detected.")
-        else:
-            # Neutral observation
-            pass
+        # 1. Deposit
+        for npc in self.residents.values():
+            if npc.is_alive:
+                self.field.deposit(npc.position[0], npc.position[1], npc.radiate_aura())
+        
+        # 2. React
+        for npc in self.residents.values():
+            npc.move_by_gravity(self.field)
+            
+            # Interaction feedback
+            _, _, _, local_freq = self.field.sample(npc.position[0], npc.position[1])
+            diff = abs(local_freq - npc.emotional_frequency)
+            if diff < 10.0: npc.energy = min(110.0, npc.energy + 1.0) # Harmonic bond
+            elif diff > 400.0: npc.energy -= 2.0 # Tension
+
+    def age_step(self, dt_years: float = 1.0):
+        dead_ids = []
+        new_residents = []
+        for npc_id, npc in list(self.residents.items()):
+            npc.update_biology(dt_years)
+            if not npc.is_alive: dead_ids.append(npc_id)
+            elif 20 < npc.age < 50 and npc.energy > 105:
+                child = self.reproduce_solo(npc)
+                if child: new_residents.append(child)
+        for d_id in dead_ids: del self.residents[d_id]
+        for baby in new_residents: self.residents[baby.id] = baby
+
+    def reproduce_solo(self, parent: NPC) -> Optional[NPC]:
+        if random.random() > 0.05: return None
+        child_dna = parent.temperament
+        baby = NPC(f"B{random.randint(1000, 9999)}", f"Child_{parent.name[:3]}", child_dna, age=0.0)
+        baby.position = [parent.position[0] + random.uniform(-2, 2), parent.position[1] + random.uniform(-2, 2)]
+        return baby
 
     def get_community_vibe(self) -> str:
-        if not self.residents: return "Empty"
-        avg_freq = sum(n.emotional_frequency for n in self.residents.values()) / len(self.residents)
+        # Global grid average frequency
+        active_cells = self.field.grid[:,:,3][self.field.grid[:,:,3] > 0]
+        if active_cells.size == 0: return "Void"
+        avg_freq = np.mean(active_cells)
         return emotional_physics.resolve_emotion(avg_freq)
 
 _pulse = None
