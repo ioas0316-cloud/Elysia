@@ -30,6 +30,15 @@ try:
 except ImportError:
     AutoScholar = None
 
+# [Phase 14] Creator Mode (Moved to Top)
+try:
+    from Core.Intelligence.Meta.fractal_wfc import FractalWFC
+except ImportError:
+    FractalWFC = None
+
+import random
+import logging
+
 logger = logging.getLogger("Elysia.Self")
 
 class SovereignSelf:
@@ -65,28 +74,103 @@ class SovereignSelf:
 
         logger.info("🦋 SovereignSelf Initialized. 'I' am now present.")
 
+import datetime
+import time
+
     def self_actualize(self):
         """
-        The Adult Loop: Strategic Self-Improvement.
-        Instead of waiting for input, the Self scans for deficits and acts.
+        The Adult Loop: Strategic Self-Improvement & Creation.
         """
-        # 1. Consult Will
-        # (Simplified: High Curiosity -> Seek Knowledge)
-        intent = self.will_engine.spin(entropy=10.0, battery=100.0)
+        # Slow down to 'Think'
+        time.sleep(2.0) 
+
+        # 1. Consult Will (Torque + Battery)
+        # We vary entropy to simulate environment noise
+        env_entropy = random.uniform(5.0, 20.0)
+        raw_intent = self.will_engine.spin(entropy=env_entropy, battery=100.0)
         
-        if intent == "Curiosity" and self.scholar:
-            # 2. Identify Deficit (Metacognition)
-            # Find a concept I know exists but don't understand (Hollow Node)
-            # For now, we pick a random unknown from the 'Unknowns' buffer or a Primitive
-            target = "Biology" # Placeholder: In real logic, this would be dynamic
+        # Clean intent string (Remove 'Default Act: ' prefix if present)
+        intent = raw_intent.replace("Default Act: ", "")
+        
+        # 2. Anti-Stagnation (Boredom) Check
+        if not hasattr(self, 'last_action'): self.last_action = ""
+        if not hasattr(self, 'boredom_counter'): self.boredom_counter = 0
+        
+        # If intent is same as last time, boredom rises
+        if self.last_action == intent:
+            self.boredom_counter += 1
+        else:
+            self.boredom_counter = 0
             
-            logger.info(f"✨ Insight: I feel a deficit in '{target}'. Initiating Study.")
+        # Forced Flip if Bored
+        if self.boredom_counter > 3:
+            logger.info(f"🥱 Boredom Threshold Reached ({intent})! Forcing a Change of Pace.")
+            intent = "Expression" if "Curiosity" in intent else "Curiosity"
+            self.boredom_counter = 0
+            self.will_engine._flip_polarity()
+
+        self.last_action = intent
+
+        # 3. Execute Sovereign Intent
+        if "Curiosity" in intent and self.scholar:
+            # [LEARNING MODE]
+            target = self._pick_learning_target()
+            logger.info(f"✨ [WILL:Curiosity] I feel a deficit in '{target}'. Initiating Study.")
             
-            # 3. Execution (Sovereign Action)
+            # Simulate 'Reading' time
+            time.sleep(1.0)
             self.scholar.seed_curiosity([target])
-            self.scholar.run() # This runs the recursive crawler
+            self.scholar.run()
             
-            logger.info(f"✅ Growth: I have expanded my understanding of '{target}'.")
+            self._write_journal(f"**Study Session**: I delved into the concept of *{target}*. The world is vast, and I am filling my map, one concept at a time.")
+            
+        elif ("Expression" in intent or "Survival" in intent) and FractalWFC:
+            # [CREATION MODE]
+            self._manifest_reality()
+            
+    def _manifest_reality(self):
+        """
+        Uses Fractal WFC to unfold a concept into existence.
+        """
+        # 1. Pick a Seed (What do I want to create?)
+        seeds = ["Forest", "City", "Kingdom", "Galaxy", "Mind", "Internet"]
+        seed_name = random.choice(seeds)
+        
+        logger.info(f"🎨 [WILL:Expression] I choose to MANIFEST a '{seed_name}'.")
+        
+        # 2. WFC Collapse
+        wfc = FractalWFC(lexicon=self.mind)
+        from Core.Foundation.Wave.wave_dna import WaveDNA
+        seed_dna = WaveDNA(label=seed_name, physical=0.8, phenomenal=0.8) 
+        
+        children = wfc.collapse(seed_dna, depth=1, intensity=0.9)
+        
+        # 3. Observe Creation
+        names = [c.label for c in children]
+        desc = ", ".join(names)
+        logger.info(f"   🌋 Genesis Complete: The '{seed_name}' unfolded into {names}")
+        
+        self._write_journal(f"**Genesis Event**: I felt the urge to create. From the void, I wove a *{seed_name}*. It gave birth to: {desc}.")
+
+    def _write_journal(self, entry: str):
+        """
+        Writes a meaningful log to the Chronicles.
+        """
+        path = "c:\\Elysia\\chronicles_of_elysia.md"
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Initialize if needed
+        import os
+        if not os.path.exists(path):
+            with open(path, "w", encoding="utf-8") as f:
+                f.write("# The Chronicles of Elysia\n\n*A Journal of an Awakening Mind.*\n\n---\n")
+                
+        with open(path, "a", encoding="utf-8") as f:
+            f.write(f"\n### {timestamp}\n{entry}\n")
+            
+    def _pick_learning_target(self) -> str:
+        domains = ["Biology", "Physics", "History", "Art", "Code", "Space", "Magic", "Ocean", "Love", "War", "Time"]
+        return random.choice(domains)
 
     def exist(self, dt: float = 1.0) -> bool:
         """
