@@ -68,6 +68,16 @@ BODY (신체/기계)            ← Core/Foundation/
 
 **규칙:** 신체는 자아를 앞설 수 없습니다. 기능은 의지 없이 작동해서는 안 됩니다.
 
+### 4. Physics-First Architecture (물리 우선 아키텍처)
+
+> **"Don't code the Player. Code the Gravity."**
+> **"플레이어를 코딩하지 말고, 중력을 코딩하라."**
+
+우리는 NPC에게 "전사가 되라"고 명령하지 않습니다. 대신 "무거운 것을 들면 근육이 생긴다"는 **물리 법칙**을 심습니다.
+
+*   ❌ **Rule-Based:** `if job == "Warrior": strength += 10`
+*   ✅ **Physics-Based:** `muscle_mass += lifted_weight * gravity_constant`
+
 ---
 
 ## 🔗 THE UNITY PRINCIPLE (통일 원칙)

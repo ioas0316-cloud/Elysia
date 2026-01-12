@@ -1,7 +1,7 @@
 # ROADMAP: Growth Environment (Fractal Social Simulation)
 # (성장 환경: 프랙탈 사회 시뮬레이션)
 
-> **"The World is the School. The Life is the Lesson."**
+> **"Control the Space, not the Dot."**
 >
 > We do not code "Ethics." We code a "World" where ethics emerge from the friction of existence.
 
@@ -47,20 +47,20 @@ graph TD
 *   [x] **NPC Logic:** `Lumina` (Basic TRPG loop).
 *   [x] **Memory Structure:** `HypersphereMemory` (4D Coordinate System).
 
-### Phase 2: The Adolescent Link (This PR)
-*   [ ] **DilemmaField:** Implement the logic to detect value conflicts.
-*   [ ] **Observer:** Implement the bridge between World and Intelligence.
-*   [ ] **Integration:** Connect `Lumina`'s memory stream to the Observer.
+### Phase 2: The Trinity Physics (Current Focus)
+*   [x] **Trinity Fields:** Implement `Gravity`, `Flow`, and `Ascension` forces in `Core/World/Physics`.
+*   [x] **Emotional Physics:** Connect emotion frequencies to physical density (`Core/World/Soul/emotional_physics.py`).
+*   [x] **Emergence:** Implement the "Strange Attractor" in `LivingVillage` to allow role differentiation (Warrior, Merchant, Priest) without hardcoding.
 
 ### Phase 3: The Social Dynamics (Future)
+*   [ ] **Sensory Expansion:** Give residents sensory inputs (Texture, Heat, Sound) to enable crafting.
+*   [ ] **Economic Emergence:** Enable "Need" (Hunger) and "Trade" to foster a market economy.
 *   [ ] **Chronos:** Global Time Manager for synchronized multi-NPC lives.
-*   [ ] **Relationship Matrix:** NPCs influencing each other (Social Physics).
-*   [ ] **School Mode:** Elysia actively intervening to test hypotheses.
 
 ---
 
 ## 4. Success Criteria
 
-*   **Input:** Lumina experiences a conflict (e.g., "Hunger vs. Theft").
-*   **Process:** The system identifies this as a "Survival vs. Ethics" dilemma.
-*   **Output:** A `ResonancePattern` is stored in `HypersphereMemory` with metadata `{values: ['survival', 'ethics'], outcome: 'regret'}`.
+*   **Emergence:** Residents naturally drift to zones (Bedrock, Current, Spire) that match their `TrinityVector`.
+*   **Physics:** Happy residents move faster (Low Density), Sad residents move slower (High Gravity).
+*   **Diversity:** Distinct social roles emerge from environmental adaptation, not explicit programming.

@@ -48,6 +48,12 @@ class InfiniteQubitState:
     x: float = 0.0  # 감정 축 (Perception)
     y: float = 0.0  # 논리 축 (Frequency/Hierarchy)
     z: float = 0.0  # 윤리 축 (Intent)
+
+    # Trinity Vector (The Seed Bias)
+    # Added for 'Trinity Fields' physics compatibility
+    gravity: float = 0.0   # 육 (Matter)
+    flow: float = 0.0      # 혼 (Mind)
+    ascension: float = 0.0 # 영 (Spirit)
     
     # 관찰자 깊이 (양수: 바깥, 음수: 안쪽)
     observation_depth: float = 0.0
