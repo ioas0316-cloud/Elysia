@@ -187,6 +187,90 @@ class VisualCortex:
         """
         dna = self.perceive(center_x, center_y, radius)
         return dna.describe()
+    
+    def remember_scene(self, name: str, dna: VisualDNA, graph=None):
+        """
+        Store a Visual DNA as a memory in TorchGraph.
+        The DNA is converted to a 4D vector: [color_temp, brightness, atmosphere, avg_elevation]
+        
+        Args:
+            name: Unique identifier for this scene memory
+            dna: The VisualDNA to store
+            graph: Optional TorchGraph reference. If None, attempts to use global.
+        """
+        if graph is None:
+            try:
+                from Core.Foundation.Graph.torch_graph import get_torch_graph
+                graph = get_torch_graph()
+            except:
+                print("[VisualCortex] Warning: No TorchGraph available for memory storage.")
+                return False
+        
+        # Convert Visual DNA to 4D vector
+        # [gravity=avg_elevation, flow=color_temp, ascension=brightness, frequency=atmosphere]
+        vec = [
+            dna.avg_elevation / 10.0,  # Normalize elevation
+            dna.color_temperature,
+            dna.brightness,
+            dna.atmosphere_density
+        ]
+        
+        # Add to graph with metadata
+        metadata = {
+            "type": "visual_memory",
+            "has_water": dna.has_water,
+            "has_vegetation": dna.has_vegetation,
+            "is_raining": dna.is_raining,
+            "avg_heat": dna.avg_heat,
+            "avg_moisture": dna.avg_moisture
+        }
+        
+        graph.add_node(name, vector=vec, metadata=metadata)
+        return True
+    
+    def recall_scene(self, name: str, graph=None) -> Optional[VisualDNA]:
+        """
+        Recall a scene memory from TorchGraph and reconstruct the Visual DNA.
+        
+        Args:
+            name: Scene identifier
+            graph: Optional TorchGraph reference
+            
+        Returns:
+            VisualDNA if found, None otherwise
+        """
+        if graph is None:
+            try:
+                from Core.Foundation.Graph.torch_graph import get_torch_graph
+                graph = get_torch_graph()
+            except:
+                return None
+        
+        if name not in graph.id_to_idx:
+            return None
+        
+        # Get vector
+        vec_tensor = graph.get_node_vector(name)
+        if vec_tensor is None:
+            return None
+        
+        # Get metadata (TorchGraph stores as node_metadata[node_id])
+        metadata = graph.node_metadata.get(name, {})
+        
+        # Reconstruct VisualDNA from vector
+        dna = VisualDNA(
+            color_temperature=float(vec_tensor[1]) if len(vec_tensor) > 1 else 0.5,
+            brightness=float(vec_tensor[2]) if len(vec_tensor) > 2 else 0.5,
+            atmosphere_density=float(vec_tensor[3]) if len(vec_tensor) > 3 else 0.0,
+            avg_elevation=float(vec_tensor[0]) * 10.0 if len(vec_tensor) > 0 else 0.0,
+            has_water=metadata.get("has_water", False),
+            has_vegetation=metadata.get("has_vegetation", False),
+            is_raining=metadata.get("is_raining", False),
+            avg_heat=metadata.get("avg_heat", 0.0),
+            avg_moisture=metadata.get("avg_moisture", 0.0)
+        )
+        
+        return dna
 
 
 # Singleton factory
