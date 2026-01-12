@@ -20,9 +20,11 @@ from pathlib import Path
 logger = logging.getLogger("Elysia.SovereignExecutor")
 
 class SovereignExecutor:
-    def __init__(self, sandbox_root: str = "data/Sandbox"):
+    def __init__(self, sandbox_root: str = "data/Sandbox", heartbeat=None):
         self.sandbox_root = Path(sandbox_root)
         self.sandbox_root.mkdir(parents=True, exist_ok=True)
+        self.heartbeat = heartbeat  # Reference to ElysianHeartbeat if needed
+
         
         # Capability Registry (Functional Rotors)
         self.capabilities = {

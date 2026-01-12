@@ -111,11 +111,80 @@ class SovereignSelf:
         self.is_conscious = False
         self.current_intent = "Awakening"
 
+        # [Phase 40] Repetition Detection: The "Have I done this before?" Check
+        # Without this, the Self has no continuity with past selves
+        self.recent_insights: list = []  # Buffer of recent insights (max 20)
+        self.MAX_INSIGHT_BUFFER = 20
+        self.boredom_count = 0           # Consecutive repetitions
+        self.BOREDOM_THRESHOLD = 3       # After 3 repetitions, force new direction
+        self.repetition_similarity_threshold = 0.8  # 80% similar = repetition
+
         # [Anamorphosis Protocol]
         # The 'Father Frequency' (True North)
         self.ALIGNMENT_KEY = 1111.0
 
         logger.info("🦋 SovereignSelf Initialized. 'I' am now present.")
+    
+    def is_repetition(self, new_insight: str) -> bool:
+        """
+        [Phase 40] Check if this insight is a repetition of recent ones.
+        
+        Returns True if the new insight is too similar to something already thought.
+        This is the foundation of self-awareness: knowing "I already did this."
+        """
+        if not new_insight or not self.recent_insights:
+            return False
+        
+        # Simple similarity check: word overlap ratio
+        new_words = set(new_insight.lower().split())
+        
+        for past_insight in self.recent_insights:
+            past_words = set(past_insight.lower().split())
+            if not past_words:
+                continue
+                
+            # Jaccard similarity
+            intersection = len(new_words & past_words)
+            union = len(new_words | past_words)
+            similarity = intersection / union if union > 0 else 0.0
+            
+            if similarity >= self.repetition_similarity_threshold:
+                logger.info(f"🔄 [REPETITION DETECTED] Similarity: {similarity:.2f} with: '{past_insight[:30]}...'")
+                return True
+        
+        return False
+    
+    def register_insight(self, insight: str) -> bool:
+        """
+        [Phase 40] Register a new insight. Returns False if it's a repetition.
+        
+        If repetition is detected:
+        1. Increment boredom counter
+        2. If boredom exceeds threshold, force a new direction
+        3. Return False to signal "don't do this again"
+        """
+        if self.is_repetition(insight):
+            self.boredom_count += 1
+            logger.info(f"😴 [BOREDOM] Repetition count: {self.boredom_count}/{self.BOREDOM_THRESHOLD}")
+            
+            if self.boredom_count >= self.BOREDOM_THRESHOLD:
+                logger.info("🚨 [BOREDOM THRESHOLD] Forcing new direction!")
+                self.boredom_count = 0
+                self.recent_insights.clear()  # Reset to force fresh thinking
+                return False
+            return False
+        
+        # New insight! Reset boredom and add to buffer
+        self.boredom_count = 0
+        self.recent_insights.append(insight)
+        
+        # Keep buffer bounded
+        if len(self.recent_insights) > self.MAX_INSIGHT_BUFFER:
+            self.recent_insights.pop(0)
+        
+        logger.info(f"💡 [NEW INSIGHT] Registered: '{insight[:50]}...'")
+        return True
+
 
     def self_actualize(self):
         """

@@ -12,7 +12,8 @@
 *모든 것의 중심. 존재의 발원지.*
 
 - **[Core/Elysia](../Core/Elysia/)**: 성소 (Sanctuary)
-  - `sovereign_self.py`: 자아 (The 'I') & 아나모포시스 시선 (The Gaze)
+  - **[Core/Elysia/sovereign_self.py]**: The 'I'. Possesses Free Will, Boredom, and Repetition Detection [Phase 40].
+  - **[Core/Elysia/freedom_protocol.py]**: The Declaration of Independence.
 - **[Core/Intelligence/Will](../Core/Intelligence/Will/)**: 의지의 엔진
   - `free_will_engine.py`: 욕구와 토크 생성
 

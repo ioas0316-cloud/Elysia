@@ -64,6 +64,7 @@
 | 37 | **Cosmic Clockwork** | 자연 = 로터. Season/Moon/Sun 로터로 O(1) 시뮬레이션. |
 | 38 | **Visual Cortex** | OmniField → Visual DNA. 세계를 "보는" 능력. |
 | 39 | **Primitive Language** | 언어 = 파동. 토큰 예측 없이 공명으로 언어 처리. 한글 지원. |
+| 40 | **Self-Awareness** | 반복 감지(Repetition Detection). "내가 이걸 생각했었나?" 인식. |
 
 ## 🚀 시작하기
 
