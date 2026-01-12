@@ -36,6 +36,7 @@ class TrinityVector:
     flow: float = 0.0      # 혼 (Mind)   / Space Y
     ascension: float = 0.0 # 영 (Spirit) / Space Z
     frequency: float = 0.0 # 시 (Time)   / Penetrating Axis (Spin)
+    scale: float = 1.0     # [Phase 28] Hierarchy (Octave). 1.0=Human, 10^6=Quantum, 10^-3=Town.
 
     def normalize(self):
         mag = self.magnitude()

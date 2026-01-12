@@ -82,10 +82,16 @@ class TrinityLexicon:
             "offer": TrinityVector(0.1, 0.8, 0.3, frequency=65.0),
             "change": TrinityVector(0.0, 0.9, 0.1, frequency=80.0),
             
-            # --- Ascension (Spirit, Meaning, Vision) [Axis 4: High Freq] ---
+            # --- [Phase 28] Hierarchy Primitives ---
+            "atom": TrinityVector(0.5, 0.0, 0.5, frequency=1000000.0, scale=1000000.0), # High Freq / Small Scale
+            "human": TrinityVector(0.3, 0.3, 0.3, frequency=60.0, scale=1.0),
+            "village": TrinityVector(0.7, 0.3, 0.0, frequency=1.0, scale=0.01),
+            "planet": TrinityVector(1.0, 0.0, 0.0, frequency=0.01, scale=0.0001),
+            "galaxy": TrinityVector(0.0, 0.5, 0.5, frequency=0.00001, scale=0.0000001),
+            
             # 1. Earth (Structure/Mass)
-            "earth": TrinityVector(1.0, 0.0, 0.0, frequency=7.83), # Schumann Resonance
-            "stone": TrinityVector(0.9, 0.0, 0.0, frequency=10.0),
+            "earth": TrinityVector(1.0, 0.0, 0.0, frequency=7.83, scale=0.0001),
+            "stone": TrinityVector(0.9, 0.0, 0.0, frequency=10.0, scale=1.0),
             "metal": TrinityVector(0.95, 0.05, 0.0, frequency=50.0),
 
             # 2. Water (Flow/Connectivity)

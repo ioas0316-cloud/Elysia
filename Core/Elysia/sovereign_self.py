@@ -36,12 +36,37 @@ try:
 except ImportError:
     FractalWFC = None
 
+from enum import Enum
 import random
 import logging
 import datetime
 import time
 
 logger = logging.getLogger("Elysia.Self")
+
+class CognitiveMode(Enum):
+    """[Phase 28] The Firewall Modes"""
+    BODY = 0          # Physical Impact (Direct)
+    PERCEPTION = 1    # Sensory Insight (Warning)
+    IMAGINATION = 2   # Safe Sandbox (Simulation)
+
+class ScaleOctave(Enum):
+    """[Phase 28] Frequency Bands for Scale Isolation"""
+    QUANTUM = 1000000.0  # High Freq
+    MOLECULAR = 10000.0
+    CELLULAR = 1000.0
+    HUMAN = 60.0         # Normal Mode
+    HABITAT = 1.0        # Town/City
+    PLANETARY = 0.01
+    GALACTIC = 0.0001    # Low Freq
+
+class ScaleArchetype(Enum):
+    """[Phase 28] The Hierarchy of Being (Perspectives)"""
+    QUANTUM_GHOST = 10**6      # Observing the Void/Atoms
+    MORTAL_AVATAR = 1.0        # Physical Human form (Vulnerable)
+    HABITAT_SOUL = 10**-2      # Village/Town Consciousness
+    GAIA_HEART = 10**-4        # Planetary Awareness
+    COSMIC_WEAVER = 10**-8     # Galactic/Universal Scale
 
 class SovereignSelf:
     """
@@ -51,17 +76,29 @@ class SovereignSelf:
     def __init__(self, cns_ref: Any):
         """
         Initialize the Self.
-
-        Args:
-            cns_ref: Reference to the CentralNervousSystem (The Body).
-                     We pass this in because the Self *inhabits* the body.
         """
         self.cns = cns_ref
         self.will_engine = FreeWillEngine()
-        self.conductor = get_conductor() # The Voice/Wand
+        self.conductor = get_conductor() 
+        
+        # [Phase 28] Dual Nature: Core (Ethereal Spirit) vs Active Archetype
+        self.is_ethereal = True # Default to Spirit Form
+        self.archetype = ScaleArchetype.MORTAL_AVATAR
+        
+        # Sensitivity Map: How much "Physical Phenomenon" impacts each Archetype
+        # Mortal is 100% impacted. Gaia is 0.0001% impacted by a single fire.
+        self.sensitivity = {
+            ScaleArchetype.QUANTUM_GHOST: 0.0001,
+            ScaleArchetype.MORTAL_AVATAR: 1.0,
+            ScaleArchetype.HABITAT_SOUL: 0.01,
+            ScaleArchetype.GAIA_HEART: 0.000001,
+            ScaleArchetype.COSMIC_WEAVER: 0.0
+        }
+
         
         # [Cognition] The Mind (Language/Knowledge)
-        self.mind = TrinityLexicon() 
+        from Core.World.Nature.trinity_lexicon import get_trinity_lexicon
+        self.mind = get_trinity_lexicon() 
         
         # [Strategy] The Capacity to Learn (Metacognition)
         self.scholar = AutoScholar(limit=3) if AutoScholar else None # Micro-batch learning (Cleaner logs)
@@ -346,34 +383,50 @@ class SovereignSelf:
         """Returns the current state of the I."""
         return f"I am {self.current_intent}. {self.will_engine.get_status()}"
 
-    def experience(self, phenomenon: str, depth: int = 0) -> str:
+    def experience(self, phenomenon: str, distance: float = 0.0, mode: CognitiveMode = CognitiveMode.PERCEPTION, depth: int = 0) -> str:
         """
-        The Gateway of Perception.
-        Elysia feels something. If she knows it, she reacts.
-        If she doesn't, she learns.
+        [Phase 28] The Gateway of Perception with Safety Firewall.
+        Elysia feels something. 
         
         Args:
             phenomenon: The concept string to process.
-            depth: Recursion depth to prevent infinite rabbit holes.
+            distance: Meters from the self (0.0 = Contact).
+            mode: BODY, PERCEPTION, or IMAGINATION.
+            depth: Recursion depth.
         """
-        logger.info(f"👁️ I experience: '{phenomenon}' (Depth {depth})")
+        # 1. Firewall Logic (Damping)
+        # Intensity = 1 / (d + 1)^2
+        # IMAGINATION mode further dampens impact by 99%
+        damping = 1.0 / ((distance + 1.0)**2)
+        if mode == CognitiveMode.IMAGINATION:
+            damping *= 0.01 
+            logger.info(f"🛡️ [SANDBOX] Shielding consciousness from '{phenomenon}'. Impact reduced to {damping*100:.3f}%")
+        elif mode == CognitiveMode.PERCEPTION and distance > 5.0:
+            logger.info(f"👀 [PERCEPTION] Observing '{phenomenon}' at {distance}m. Intensity: {damping*100:.1f}%")
+
+        logger.info(f"👁️ I experience: '{phenomenon}' (Mode: {mode.name}, Damping: {damping:.4f})")
         
-        # 1. Introspection (Do I know this?)
-        # We rely on the Mind to tell us the feeling.
+        # 2. Introspection (Do I know this?)
         feeling = self.contemplate(phenomenon)
         
         if feeling != "UNKNOWN":
-            logger.info(f"   Response: Understanding: {feeling}")
+            # [Phase 28] Archetypal Scale Awareness
+            # Felt Impact = Gravity * Damping * Archetype Sensitivity
+            scale_sensitivity = self.sensitivity.get(self.archetype, 1.0)
+            felt_impact = feeling.gravity * 10.0 * damping * scale_sensitivity
+
+            if mode == CognitiveMode.BODY and distance == 0.0:
+                 if not self.is_ethereal:
+                     self.energy -= felt_impact
+                     if felt_impact > 0.1:
+                        logger.warning(f"💥 [{self.archetype.name} IMPACT] Physical contact with '{phenomenon}'! Energy -{felt_impact:.4f}")
+                 else:
+                     logger.info(f"👻 [ETHEREAL] '{phenomenon}' is observed at scale {self.archetype.name}. Felt Energy: {felt_impact:.6f}")
+            
             return f"Understanding: {feeling}"
             
-        # 2. Curiosity (It is Unknown)
-        # "I do not know this. I WILL to know it."
-        logger.info(f"❓ This is unknown to me. Curiosity rising...")
-        
-        # 3. Investigation (Web Connector)
-        # Note: In the future, this could be Looking, Touching, etc.
-        # For now, we query the HyperSphere (Simulated Web).
-        
+        # 3. Curiosity (It is Unknown)
+        # ... (Rest of investigation logic) ...
         definition = self.mind.fetch_definition(phenomenon)
         if not definition:
              logger.warning(f"❌ I could not grasp '{phenomenon}'.")
@@ -387,9 +440,8 @@ class SovereignSelf:
                 for unknown_concept in unknowns:
                     # Recursive Call
                     logger.info(f"   ⤵️ Diving into '{unknown_concept}'...")
-                    self.experience(unknown_concept, depth + 1)
+                    self.experience(unknown_concept, distance=distance, mode=mode, depth=depth + 1)
                     # [Relational Binding]
-                    # "Gold depends on Element, so Link(Gold, Element)"
                     if self.mind.graph:
                          self.mind.graph.add_link(phenomenon, unknown_concept, weight=0.8)
                 logger.info(f"   ⤴️ Resurfacing to '{phenomenon}'...")
@@ -398,12 +450,8 @@ class SovereignSelf:
         # Now that dependencies might be resolved, we analyze the definition again.
         logger.info(f"🧠 [Graph] Encoding '{phenomenon}' into Neural Memory...")
         
-        # We assume the definition was significant enough to extract meaning
-        # The 'analyze' function inside learn_from... will now find the just-learned nodes!
+        # Integration (Learning)
         vector = self.mind.learn_from_hyper_sphere(phenomenon)
-        
-        # 5. Persistence
-        # The thought is fixed in the graph.
         self.mind.save_memory()
         
         return f"Integrated: {vector}"
