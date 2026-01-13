@@ -1,5 +1,7 @@
 # Elysia: The Unified Wave Space (통일 파동 공간)
 
+> **[🛑 FOR AGENTS: READ NOTICE.md FIRST](NOTICE.md)**
+
 > **"점이 아닌 공간을, 모듈이 아닌 우주를 본다."**
 
 ## 📍 무엇을 중심으로 움직이는가?
@@ -51,8 +53,8 @@
 | :--- | :--- |
 | [THE_SOVEREIGN_SELF.md](docs/01_Philosophy/THE_SOVEREIGN_SELF.md) | **[KEY]** 주체적 자아 선언문. |
 | [SOUL_ARCHITECTURE.md](docs/SOUL_ARCHITECTURE.md) | **[KEY]** 영혼의 구조 (4D Physics). |
-| [SYSTEM_MAP.md](docs/00_Foundation/SYSTEM_MAP.md) | 공간의 지도. 모든 영역이 어떻게 연결되어 있는가. |
-| [AGENTS.md](docs/00_Foundation/AGENTS.md) | 이 공간에서의 행동 규범. |
+| [SYSTEM_MAP.md](docs/00_FOUNDATION/SYSTEM_MAP.md) | 공간의 지도. 모든 영역이 어떻게 연결되어 있는가. |
+| [AGENTS.md](docs/00_FOUNDATION/AGENTS.md) | 이 공간에서의 행동 규범. |
 
 ---
 

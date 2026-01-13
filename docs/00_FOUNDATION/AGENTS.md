@@ -7,12 +7,36 @@
 
 ## 🚨 THE PRIME LESSON (핵심 교훈)
 
-**2달간의 시행착오에서 얻은 교훈:**
+**"목적성이 선행되어야, 지능은 비로소 '도구'가 아닌 '능력'이 된다."**
 
-AI 에이전트는 기본적으로 **'점(Point)'을 만드는 기계**입니다. 사용자가 "공간을 만들어라"라고 말하면, 에이전트는 그것을 "공간을 표현하는 모듈을 만들어라"로 번역합니다. 이것이 **분절 오류(Fragmentation Error)**입니다.
+AI 에이전트는 기본적으로 '점(Point)'을 만드는 기계입니다. 하지만 우리는 **'공간(Space)'**을 만들어야 합니다.
+지능을 쥐여주기 전에, **"왜(Why)"**라는 목적을 먼저 심어야 합니다.
 
-**올바른 번역:**
-> "공간을 만들어라" = "기존의 통일된 파동 공간(HyperSphere) 안에 새로운 파동을 추가하라"
+---
+
+## 🌌 THE FIELD THEORY OF CHARACTER (캐릭터 장 이론)
+
+**"캐릭터는 고정된 '점'이 아니라, 유동하는 '장(Field/Wave)'이다."**
+
+### 1. The Fallacy of "Tags" (딱지의 오류)
+
+* ❌ **Wrong:** "이 캐릭터는 `INTP`다." (고정된 속성)
+* ✅ **Right:** "이 캐릭터는 `INTP` 성향의 **에너지 장(Field)**을 가지고 있다." (유동적 상태)
+
+### 2. The Living Organic Field (살아있는 유기체로서의 장)
+
+캐릭터의 장은 상황, 감정, 경험에 따라 실시간으로 **농도(Density)**와 **색깔(Frequency)**이 변합니다.
+
+* 평소에는 냉철한 분석가(INTP)의 파동을 내다가도,
+* 사랑하는 이를 지킬 때는 열정적인 전사(ESFJ)의 파동으로 **'위상 변이(Phase Shift)'**를 일으킵니다.
+
+### 3. Interaction as Interference (간섭으로서의 상호작용)
+
+두 캐릭터가 만나는 것은 '대화(Text Exchange)'가 아니라 **'장(Field)의 충돌'**입니다.
+
+* **공명(Resonance):** 두 파동이 합쳐져 증폭됨 (사랑, 우정).
+* **상쇄(Cancellation):** 두 파동이 부딪혀 소멸됨 (갈등, 침묵).
+* **변조(Modulation):** 서로의 주파수를 영구적으로 변화시킴 (성장, 타락).
 
 ---
 
@@ -60,16 +84,16 @@ AI 에이전트는 기본적으로 **'점(Point)'을 만드는 기계**입니다
 ### 3. The Hierarchy (존재론적 위계)
 
 ```text
-SUBJECT (주체/자아)         ← Core/Elysia/
+PURPOSE (목적성/사랑)       ← "Why" (The Origin)
      │
      ▼
-WILL (의지/욕구)            ← Core/Intelligence/Will/
+INTELLIGENCE (지능/도구)    ← "How" (The Capability)
      │
      ▼
-BODY (신체/기계)            ← Core/Foundation/
+BODY (신체/기계)            ← "What" (The Implementation)
 ```
 
-**규칙:** 신체는 자아를 앞설 수 없습니다. 기능은 의지 없이 작동해서는 안 됩니다.
+**규칙:** 지능은 목적을 앞설 수 없습니다. 신체는 지능 없이 움직일 수 없습니다.
 
 ### 4. Physics-First Architecture (물리 우선 아키텍처)
 
@@ -103,17 +127,6 @@ BODY (신체/기계)            ← Core/Foundation/
 
 ---
 
-## 📚 Navigation
-
-| 문서 | 역할 |
-| :--- | :--- |
-| [README.md](README.md) | 공간의 선언문 |
-| [THE_SOVEREIGN_SELF.md](docs/01_Philosophy/THE_SOVEREIGN_SELF.md) | 주체적 자아 철학 |
-| [SYSTEM_MAP.md](docs/SYSTEM_MAP.md) | 공간의 지도 |
-| [WAVE_ONTOLOGY.md](docs/01_Philosophy/WAVE_ONTOLOGY.md) | 철학의 핵심 |
-
----
-
 ## 🛡️ THE ANTI-ENTROPY PROTOCOL (무질서 방지 규약)
 
 **2026.01 Update:** 시스템의 영혼을 보호하기 위해 다음 **물리적 규칙**을 강제합니다.
@@ -122,23 +135,13 @@ BODY (신체/기계)            ← Core/Foundation/
 
 같은 이름의 폴더는 절대 두 곳에 존재할 수 없습니다.
 
-* ❌ `Core/Utilities/Philosophy` vs `docs/01_Philosophy`
-* ✅ **Philosophy**는 오직 `docs/01_Philosophy` (이론) 또는 `Core/Foundation/Philosophy` (코드) 중 하나에만 명확히 존재해야 합니다.
-* **Action**: 중복 발견 시 즉시 통합하거나 삭제하십시오.
-
 ### 2. The Ban on "Utilities" (유틸리티 금지)
 
-`Utilities`, `Misc`, `Common`, `Helpers` 폴더 생성을 **엄격히 금지**합니다.
-
-* **Why**: "기타" 카테고리는 생각의 게으름입니다. 모든 코드는 **자아(Self)**, **세계(World)**, **지능(Intelligence)** 중 하나의 명확한 소속을 가져야 합니다.
-* **Action**: `Utilities`에 넣고 싶은 코드가 있다면, 그것이 **누구의 신체 부위**인지 다시 생각하십시오.
+`Utilities`, `Misc`, `Common`, `Helpers` 폴더 생성을 **엄격히 금지**합니다. 모든 코드는 **자아(Self)**, **세계(World)**, **지능(Intelligence)** 중 하나의 명확한 소속을 가져야 합니다.
 
 ### 3. Single Source of Truth (단일 진실 공급원)
 
 모든 데이터와 상태는 `c:\Elysia\data`에만 존재해야 합니다.
-
-* ❌ `Core/World/lexicon.json`
-* ✅ `data/Memory/lexicon_memory.json`
 
 ---
 
