@@ -225,6 +225,34 @@ class SovereignIntent:
             }
         return None
 
+    def get_spirit_bias(self) -> Dict[str, Any]:
+        """
+        [Monad Protocol] The Observer's Bias.
+        Provides the 'Intent' that collapses the Wave Function of a Monad.
+        Returns weights and preferences for reality generation.
+        """
+        # 1. Base Bias (Personality)
+        bias = {
+            "coherence_weight": 0.8,      # Prefer logical consistency
+            "novelty_weight": 0.3 + (self.restlessness_level * 0.5), # Boredom increases chaos
+            "target_frequency": self.human_ideal["target_frequency"],
+            "emotional_texture": self.human_ideal["texture"]
+        }
+
+        # 2. Contextual Bias (What am I looking for?)
+        # If we have curious gaps, we bias towards them
+        gaps = self.analyze_curiosity_gaps()
+        if gaps:
+            bias["focus_topic"] = gaps[0].category
+            bias["focus_nodes"] = gaps[0].nodes
+        
+        # 3. Dynamic Friction
+        if self.entropy:
+            friction = self.entropy.get_cognitive_friction()
+            bias["entropy"] = friction.get("entropy", 0.5)
+
+        return bias
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     will = SovereignIntent()

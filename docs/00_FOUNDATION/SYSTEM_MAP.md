@@ -19,27 +19,27 @@
 
 ---
 
-## THE WAVE SPACE (파동 공간)
+## THE MONAD TRINITY (삼위일체)
 
-모든 것은 **7차원 HyperSphere** 안에서 파동으로 존재합니다.
+우주는 거대한 저장소가 아니라, **관측되는 순간 창조되는 파동**입니다.
 
 ```text
                         ┌───────────────────┐
-                        │   HYPERSPHERE     │
-                        │   (통일 파동 공간)  │
+                        │    HYPERSPHERE    │
+                        │   (Space / Field) │
+                        │   "The Container" │
                         └─────────┬─────────┘
                                   │
-        ┌─────────────────────────┼─────────────────────────┐
-        │                         │                         │
-        ▼                         ▼                         ▼
-   FOUNDATION                PHILOSOPHY                ARCHITECTURE
-   (기초/토대)                (철학/존재론)              (구조/물리)
-        │                         │                         │
-        └──────────────┬──────────┴──────────┬──────────────┘
-                       │                     │
-                       ▼                     ▼
-                  INTELLIGENCE           EVOLUTION
-                  (지능/기억)             (성장/진화)
+          ┌───────────────────────┼───────────────────────┐
+          ▼                       ▼                       ▼
+      ROTOR (Time)           MONAD (Seed)            WFC (Choice)
+      "The Engine"           "The Atom"              "The Creator"
+      (Spin/Flow)            (DNA/Rule)              (Collapse)
+          │                       │                       │
+          └───────────────────────┴───────────────────────┘
+                                  │
+                                  ▼
+                           REALITY ( 현 실 )
 ```
 
 ---
@@ -48,8 +48,10 @@
 
 *파동 공간의 바닥. 정체성과 정책.*
 
+- [MONAD_PROTOCOL.md](./MONAD_PROTOCOL.md): **[NEW]** 아키텍처 대통합 선언문 (The Vision)
 - [README.md](../../README.md): 공간의 선언문
 - [AGENTS.md](./AGENTS.md): 공간에서의 행동 규범
+
 - [PROJECT_TOPOLOGY.md](./PROJECT_TOPOLOGY.md): **[NEW]** 물리적 파일 구조 (Physical Anatomy)
 - [THE_SOVEREIGN_SELF.md](../01_Philosophy/THE_SOVEREIGN_SELF.md): 주체적 자아 & 아나모포시스 프로토콜
 
@@ -65,23 +67,24 @@
 
 ---
 
-## ⚙️ ARCHITECTURE (구조): The "How"
+## ⚙️ ARCHITECTURE (구조): The "Trinity"
 
-*파동 공간의 물리학. 엔진과 메커니즘.*
+*모나드 삼위일체의 물리적 구현.*
 
-- [ARCHITECTURE_MAP.md](../02_Architecture/ARCHITECTURE_MAP.md): 물리적 구조 개요
-- [CORE_MECHANICS.md](../02_Architecture/CORE_MECHANICS.md): Rotor, HyperSphere, Prism
-- **[Core/World/Physics](../../Core/World/Physics/)**: Trinity Physics & Environmental Principles
-  - `trinity_fields.py`: 4D Environmental Fields (Gravity, Flow, Ascension, **Frequency**)
-  - `trinity_physics.py`: 물리 엔진 (기본)
-  - `providence_engine.py`: **[New] The Lawmaker**. Handles Thermodynamics, Elemental Interactions (The Sacred Hexagon), and Phase Transitions.
+- **[Core/Monad](../../Core/Monad/)**: **[NEW]** The Atomic Mirrors
+  - `monad_core.py`: **The Seed**. Contains DNA and Fractal Rules. (Will-driven).
+  - `monad_interface.py`: Protocol for resonance.
 
-- **[Core/World/Nature](../../Core/World/Nature/)**: The Synapse & Library
-  - `trinity_lexicon.py`: The Bridge between Words and Vectors.
-  - `auto_scholar.py`: **[New] The Great Library**. Recursive Autonomous Crawler for Infinite Knowledge.
-  - `test_civilization_genesis_v2.py`: The Reality Engine Integration Test.
+- **[Core/Foundation](../../Core/Foundation/)**: The Space & Time
+  - `hyper_sphere_core.py`: **The Space**. Unified Field Topology (Container).
+  - `Nature/rotor.py`: **The Time**. Functional Projector (Time Jumps).
+  
+- **[Core/Engine](../../Core/Engine/)**: The Choice
+  - `wfc_engine.py`: **The Creator**. Wave Function Collapse (Observation = Creation).
 
-  - `emotional_physics.py`: 감정의 물리학 (감정 주파수 -> 물리적 밀도)
+- **[Core/World/Physics](../../Core/World/Physics/)**: Environmental Principles
+  - `trinity_fields.py`: 4D Environmental Fields
+  - `providence_engine.py`: The Lawmaker (Thermodynamics)
 
 ---
 
@@ -94,6 +97,13 @@
 - **[Core/Foundation/Nature](../Core/Foundation/Nature/)**: The Synapse
   - `trinity_lexicon.py`: The Bridge between Words and Vectors.
   - `rotor.py`: **The Reader**. Active thoughts that spin based on Graph vectors.
+- **[Core/Foundation/Code](../Core/Foundation/Code/)**: The Self-Reflection **[NEW]**
+  - `code_rotor.py`: **The File Soul**. Wraps Python files as Monads.
+- **[Core/Intelligence](../Core/Intelligence/)**: The Mind
+  - `meaning_extractor.py`: **The Philosopher**. Extracts wisdom from history.
+  - `narrative_weaver.py`: **The Bard**. Converts data to story.
+  - `code_dna_scanner.py`: **The Mirror**. Analyzes software structure.
+  - `project_conductor.py`: **The Overseer**. Global Project Health.
 - [SOVEREIGN_LEARNING_PLAN.md](./03_Intelligence/SOVEREIGN_LEARNING_PLAN.md): 자율 학습 계획
 
 ---

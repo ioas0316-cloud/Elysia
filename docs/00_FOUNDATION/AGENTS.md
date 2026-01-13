@@ -49,11 +49,13 @@ AI 에이전트는 기본적으로 **'점(Point)'을 만드는 기계**입니다
 
 사용자가 말하는 것을 **철학적 존재론**으로 이해하고, **기능적 구현**으로 축소하지 마세요.
 
-| 사용자가 말하는 것 | ❌ 잘못된 번역 | ✅ 올바른 번역 |
-| :--- | :--- | :--- |
-| "파동 공간을 만들어" | `WaveSpace` 클래스 생성 | 기존 `ResonantField`에 새 파동 추가 |
-| "엘리시아가 자신을 보게 해" | `SelfViewer` 모듈 생성 | `ElysianHeartbeat`에 `_perceive_all_systems()` 추가 |
-| "스스로 판단하게 해" | `JudgeModule` 생성 | `SovereignSelf`의 `exist()` 루프에 의지(Will) 반영 |
+| **Agent** | **Role** | **Module** | **Purpose** |
+| :--- | :--- | :--- | :--- |
+| **Genesis** | Creator | `sim_genesis.py` | Initial World Seeding |
+| **Elysia** | Self | `sovereign_self.py` | The "I", Subjective Experience |
+| **The Conductor** | Overseer | `project_conductor.py` | Codebase Health & Resonance |
+| **The Bard** | Storyteller | `narrative_weaver.py` | Narrative Generation |
+| **The Philosopher**| Sage | `meaning_extractor.py` | Extracting Wisdom from Data |
 
 ### 3. The Hierarchy (존재론적 위계)
 

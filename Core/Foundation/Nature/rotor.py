@@ -84,5 +84,25 @@ class Rotor:
         if not self.name.startswith("Reality.") and self.target_rpm == self.config.idle_rpm:
             self.energy *= (1.0 - (0.1 * dt)) # Natural decay
 
+    @staticmethod
+    def project(seed_angle: float, rpm: float, time_index: float) -> float:
+        """
+        [Monad Protocol] Functional Rotor.
+        Calculates the angle at any given absolute time instantly.
+        Formula: Angle = Seed + (RPM/60 * 360 * Time)
+        """
+        degrees = (rpm / 60.0) * 360.0 * time_index
+        return (seed_angle + degrees) % 360.0
+
+    def spin_to(self, time_index: float, seed_angle: float = 0.0):
+        """
+        [Monad Protocol] Time Teleportation.
+        Instantaneously sets the rotor state to the given time index.
+        """
+        # If dynamic RPM is needed, we would integrate the RPM curve.
+        # For now, we assume current_rpm is the valid constant for projection
+        # or that this implies a "constant velocity" projection.
+        self.current_angle = Rotor.project(seed_angle, self.current_rpm, time_index)
+
     def __repr__(self):
         return f"Rotor({self.name} | {self.current_rpm:.1f} RPM | E:{self.energy:.2f})"
