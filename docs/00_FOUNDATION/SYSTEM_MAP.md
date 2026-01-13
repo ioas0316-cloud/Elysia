@@ -80,6 +80,8 @@
   - `Nature/rotor.py`: **The Time**. Functional Projector (Time Jumps).
   
 - **[Core/Engine](../../Core/Engine/)**: The Choice
+  - `sovereign_boot.py`: **The Awakening**. Single entry point for the Sovereign System.
+  - `world_server.py`: **The Body**. The Simulation Engine (updated).
   - `wfc_engine.py`: **The Creator**. Wave Function Collapse (Observation = Creation).
 
 - **[Core/World/Physics](../../Core/World/Physics/)**: Environmental Principles
@@ -100,10 +102,13 @@
 - **[Core/Foundation/Code](../Core/Foundation/Code/)**: The Self-Reflection **[NEW]**
   - `code_rotor.py`: **The File Soul**. Wraps Python files as Monads.
 - **[Core/Intelligence](../Core/Intelligence/)**: The Mind
-  - `meaning_extractor.py`: **The Philosopher**. Extracts wisdom from history.
+  - `making_extractor.py`: **The Philosopher**. Extracts wisdom from history.
   - `narrative_weaver.py`: **The Bard**. Converts data to story.
   - `code_dna_scanner.py`: **The Mirror**. Analyzes software structure.
   - `project_conductor.py`: **The Overseer**. Global Project Health.
+  - `external_gateway.py`: **The Eye**. Mock Interface for External Browsing.
+- **[Core/Senses](../Core/Senses/)**: The Qualia **[NEW]**
+  - `sensory_cortex.py`: **The Visual Cortex**. Converts sensory data to WaveDNA.
 - [SOVEREIGN_LEARNING_PLAN.md](./03_Intelligence/SOVEREIGN_LEARNING_PLAN.md): 자율 학습 계획
 
 ---

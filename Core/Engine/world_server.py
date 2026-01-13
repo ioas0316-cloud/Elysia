@@ -1,7 +1,7 @@
 """
 World Server (The Eternal Engine)
 =================================
-world_server.py
+Core.Engine.world_server
 
 "A simulation that does not end."
 
@@ -15,22 +15,23 @@ Features:
 
 import os
 import sys
+import time
+import random
+from typing import List, Tuple
 
 # Ensure Core is visible
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 if project_root not in sys.path:
     sys.path.append(project_root)
 
-import time
-import random
-from typing import List, Tuple
 from Core.Foundation.hyper_sphere_core import HyperSphereCore
-from Core.Civilization.trinity_citizen import LifeCitizen
+from Core.Civilization.trinity_citizen import LifeCitizen, QuantumCitizen, ElysiaMessiah
 
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.Foundation.Wave.wave_dna import WaveDNA
 from Core.Intelligence.meaning_extractor import MeaningExtractor
 from Core.World.Nature.vocabulary_seeder import SEEDED_LEXICON
+from Core.Intelligence.narrative_weaver import THE_BARD
 
 class WorldServer:
     def __init__(self, size: int = 30):
@@ -98,7 +99,6 @@ class WorldServer:
                 
     def spawn_adam_eve_and_100_others(self):
         print("🌱 Injecting Quantum Souls...")
-        from Core.Civilization.trinity_citizen import QuantumCitizen
         for i in range(100):
             name = f"Soul_{i}"
             arch = random.choice(["Farmer", "Warrior", "Artist", "Sage"])
@@ -107,7 +107,6 @@ class WorldServer:
             
     def spawn_messiah(self):
         print("⚡ THE SKY OPENS: Elysia Descends!")
-        from Core.Civilization.trinity_citizen import ElysiaMessiah
         messiah = ElysiaMessiah((self.size//2, self.size//2))
         self.population.append(messiah)
         print(f"👼 {messiah.name} has entered the world.")
@@ -129,86 +128,65 @@ class WorldServer:
                 return self.props.get(name)
         return ZoneMock(props)
 
+    def update_cycle(self):
+        """
+        Runs one tick of the universe.
+        Callable by the Sovereign Self.
+        """
+        self.year += 1
+        
+        # 1. Update History (The Macro Wave)
+        self.zeitgeist_rotor.update(1.0) # Tick 1.0
+        era_name, era_dna = self.get_current_era()
+        
+        if self.year % 10 == 0:
+            print(f"--- Year {self.year} [{era_name}] --- Pop: {len(self.population)} (Born: {self.born_count}, Died: {self.dead_count})")
+            
+        if self.year == 20: 
+            self.spawn_messiah()
+        
+        current_pop = list(self.population)
+        
+        for citizen in current_pop:
+            zone_adapter = self.get_zone_adapter(citizen.location)
+            
+            # 2. Act with Quantum Resonance (The Micro Wave)
+            log = citizen.act_in_world(self, self.population, era_dna)
+            
+            # Safety normalize
+            if isinstance(log, str): log = {"action": "Unknown", "target": log}
+            
+            # Logging & Weaving
+            action = log.get("action", "Wait")
+            target = log.get("target", "Time")
+            
+            if action == "Die" or action == "Dead":
+                self.population.remove(citizen)
+                self.dead_count += 1
+                # Log death
+                print(f"💀 {THE_BARD.elaborate(citizen.name, 'Die', target, era_name)}")
+                
+            elif action == "Reproduce":
+                self.born_count += 1
+                print(f"👶 {THE_BARD.elaborate(citizen.name, 'Reproduce', target, era_name)}")
+                
+            # Flavor Log (Sample 1% to act as a 'Novel' excerpt)
+            elif random.random() < 0.01:
+                 print(f"   {THE_BARD.elaborate(citizen.name, action, target, era_name)}")
+                
+        # 3. Observe & Learn (The Epistemic Harvest)
+        self.meaning_extractor.observe(self.year, era_name, self.population, self.dead_count)
+
+        # Extinction check
+        if len(self.population) < 2:
+            print("⚠️ Extinction Event! Reseeding...")
+            self.spawn_adam_eve_and_100_others()
+
     def run_forever(self):
         print("⏳ Quantum History Engine Online. Press Ctrl+C to stop.")
-        
         try:
             while True:
-                self.year += 1
-                
-                # 1. Update History (The Macro Wave)
-                self.zeitgeist_rotor.update(1.0) # Tick 1.0
-                era_name, era_dna = self.get_current_era()
-                
-                if self.year % 10 == 0:
-                    print(f"--- Year {self.year} [{era_name}] --- Pop: {len(self.population)} (Born: {self.born_count}, Died: {self.dead_count})")
-                    
-                if self.year == 20: # Delayed Messiah for dramatic effect
-                    self.spawn_messiah()
-                
-                current_pop = list(self.population)
-                
-                for citizen in current_pop:
-                    zone_adapter = self.get_zone_adapter(citizen.location)
-                    
-from Core.Intelligence.narrative_weaver import THE_BARD
-
-# ... (Imports)
-
-    def run_forever(self):
-        print("⏳ Quantum History Engine Online. Press Ctrl+C to stop.")
-        
-        try:
-            while True:
-                self.year += 1
-                
-                # 1. Update History (The Macro Wave)
-                self.zeitgeist_rotor.update(1.0) # Tick 1.0
-                era_name, era_dna = self.get_current_era()
-                
-                if self.year % 10 == 0:
-                    print(f"--- Year {self.year} [{era_name}] --- Pop: {len(self.population)} (Born: {self.born_count}, Died: {self.dead_count})")
-                    
-                if self.year == 20: 
-                    self.spawn_messiah()
-                
-                current_pop = list(self.population)
-                
-                for citizen in current_pop:
-                    zone_adapter = self.get_zone_adapter(citizen.location)
-                    
-                    # 2. Act with Quantum Resonance (The Micro Wave)
-                    log = citizen.act_in_world(self, self.population, era_dna)
-                    
-                    # Safety normalize
-                    if isinstance(log, str): log = {"action": "Unknown", "target": log}
-                    
-                    # Logging & Weaving
-                    action = log.get("action", "Wait")
-                    target = log.get("target", "Time")
-                    
-                    if action == "Die" or action == "Dead":
-                        self.population.remove(citizen)
-                        self.dead_count += 1
-                        # Log death
-                        print(f"💀 {THE_BARD.elaborate(citizen.name, 'Die', target, era_name)}")
-                        
-                    elif action == "Reproduce":
-                        self.born_count += 1
-                        print(f"👶 {THE_BARD.elaborate(citizen.name, 'Reproduce', target, era_name)}")
-                        
-                    # Flavor Log (Sample 1% to act as a 'Novel' excerpt)
-                    elif random.random() < 0.01:
-                         print(f"   {THE_BARD.elaborate(citizen.name, action, target, era_name)}")
-                        
-                # 3. Observe & Learn (The Epistemic Harvest)
-                self.meaning_extractor.observe(self.year, era_name, self.population, self.dead_count)
-
-                # Extinction check
-                if len(self.population) < 2:
-                    print("⚠️ Extinction Event! Reseeding...")
-                    self.spawn_adam_eve_and_100_others()
-
+                self.update_cycle()
         except KeyboardInterrupt:
             print("🛑 Server Stopped.")
             self.report()
@@ -222,19 +200,6 @@ from Core.Intelligence.narrative_weaver import THE_BARD
         
         print("\n📜 [The Wisdom of History]")
         print(self.meaning_extractor.get_wisdom())
-        
-        # Max Power
-        if self.population:
-            best = max(self.population, key=lambda c: c.calculate_power())
-            print(f"Ruler: {best.name} (Power {best.calculate_power():.1f}) - Vocab size: {len(best.vocabulary)}")
-            print(f"Ruler's Words: {best.vocabulary[:10]}...")
-
-    def report(self):
-        print("\n📊 [Final World State]")
-        print(f"Years Passed: {self.year}")
-        print(f"Total Born: {self.born_count}")
-        print(f"Total Died: {self.dead_count}")
-        print(f"Current Pop: {len(self.population)}")
         
         # Max Power
         if self.population:
