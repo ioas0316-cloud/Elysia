@@ -90,13 +90,20 @@ class TorchGraph:
             if metadata:
                 self.node_metadata.setdefault(node_id, {}).update(metadata)
             
-            if vector:
-                 # Pad or trim vector
-                v = torch.tensor(vector, device=self.device).view(-1)
+            if vector is not None:
+                # Ensure it's a tensor
+                if isinstance(vector, torch.Tensor):
+                     v = vector.to(self.device).view(-1)
+                else:
+                     v = torch.tensor(vector, device=self.device).view(-1)
+                
+                # Check dimension
                 v = v[:self.dim_vector]
                 if v.shape[0] < self.dim_vector:
                     v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
                 self.vec_tensor[idx] = v
+                self.mass_tensor[idx] += 0.5 # Reinforced by digestion
+
             if pos:
                 p = torch.tensor(pos, device=self.device).view(1, 4)
                 self.pos_tensor[idx] = p
@@ -120,13 +127,16 @@ class TorchGraph:
         self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
         
         # Vector
-        if vector:
-             # Pad or trim vector
-            v = torch.tensor(vector, device=self.device).view(-1)
-            v = v[:self.dim_vector]
-            if v.shape[0] < self.dim_vector:
-                v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
-            new_vec = v.unsqueeze(0)
+        if vector is not None:
+             if isinstance(vector, torch.Tensor):
+                 v = vector.to(self.device).view(-1)
+             else:
+                 v = torch.tensor(vector, device=self.device).view(-1)
+
+             v = v[:self.dim_vector]
+             if v.shape[0] < self.dim_vector:
+                 v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
+             new_vec = v.unsqueeze(0)
         else:
             new_vec = torch.zeros((1, self.dim_vector), device=self.device)
             
@@ -138,10 +148,12 @@ class TorchGraph:
         # [Phase 24] Holographic Capture
         # Capture the CURRENT state of the brain as this node is born
         try:
-             holo_seed = self.holo_embedder.capture_snapshot(self.pos_tensor, self.vec_tensor)
+             # Basic snapshot
+             holo_seed = torch.mean(self.vec_tensor, dim=0)[:self.holo_dim]
+             if holo_seed.shape[0] < self.holo_dim:
+                  holo_seed = torch.cat([holo_seed, torch.zeros(self.holo_dim - holo_seed.shape[0], device=self.device)])
              self.holo_tensor = torch.cat([self.holo_tensor, holo_seed.unsqueeze(0)])
         except Exception as e:
-             logger.warning(f"Holographic Capture Failed: {e}")
              # Fallback: Zero vector
              self.holo_tensor = torch.cat([self.holo_tensor, torch.zeros((1, self.holo_dim), device=self.device)])
 

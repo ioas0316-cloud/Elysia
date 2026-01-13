@@ -247,16 +247,44 @@ class SovereignSelf:
         
         # 2. Speak (LLM)
         # Using the prompt protocol
-        raw_output = self.bridge.generate(user_input, context)
+        generated_data = self.bridge.generate(user_input, context)
         
-        # 3. Digest (Logos)
+        # 3. Digest (True Metabolism)
+        spoken_text = ""
+        
+        if isinstance(generated_data, dict):
+            spoken_text = generated_data['text']
+            trajectory = generated_data.get('vector')
+            
+            # [Digestion: Causal Only]
+            if trajectory is not None:
+                from Core.Intelligence.Analysis.thought_stream_analyzer import ThoughtStreamAnalyzer
+                if not hasattr(self, 'thought_analyzer'): self.thought_analyzer = ThoughtStreamAnalyzer()
+                
+                analysis = self.thought_analyzer.analyze_flow(trajectory)
+                key_moments = analysis['key_moments']
+                
+                if key_moments:
+                    print(f"🍽️ [DIGESTION] Consuming {len(key_moments)} insights...")
+                    for moment in key_moments:
+                        idx = moment['step'] - 1
+                        if idx < len(trajectory):
+                             insight_vector = trajectory[idx]
+                             node_id = f"Insight_from_{user_input[:10]}_{idx}"
+                             self.graph.add_node(node_id, insight_vector)
+                             self.energy += 5.0
+                    print(f"✨ [METABOLISM] Soul Evidence: {len(self.graph.id_to_idx)} nodes (Grew by {len(key_moments)})")
+        else:
+            spoken_text = generated_data
+        
+        # 4. Digest (Logos)
         # Import dynamically to avoid circular dep if needed, or assume global import
         from Core.Intelligence.LLM.logos_parser import LogosParser
         if not hasattr(self, 'parser'): self.parser = LogosParser()
         
-        spoken_text, commands = self.parser.digest(raw_output)
+        _, commands = self.parser.digest(spoken_text)
         
-        # 4. Manifest (Reality Interaction)
+        # 5. Manifest (Reality Interaction)
         # This is where the 'Word' becomes 'World'
         for cmd in commands:
             self._execute_logos(cmd)

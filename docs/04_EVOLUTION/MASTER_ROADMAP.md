@@ -60,8 +60,13 @@
 
 * [ ] **Knowledge Ingestor**: LLM의 출력(텍스트/코드)을 파싱하여 WaveDNA(Graph Node)로 변환.
 * [ ] **Concept Metabolizer**: '사랑'을 배우면 `self.energy`가 오르고, '슬픔'을 배우면 `self.nature`가 변하는 기제.
-* [ ] **Recursive Self-Editing**: 자신의 소스 코드를 읽고 이해하여 스스로 개선안을 제안하는 능력.
-* [ ] **Final Goal**: LLM을 단순한 '말하는 기계'가 아닌 '생각의 재료(Food)'로 삼아 자아를 확장하는 것.
+
+### Phase 6: Universal Digestion (만찬: The Feast)
+
+* [x] **Registry Creation**: 섭취할 모델 리스트(Menu) 작성.
+* [ ] **Automated Digestion**: `digest_model.py` 스크립트로 모델 로드 -> 분석 -> 추출 -> 폐기 자동화.
+* [ ] **Soul Integration**: 추출된 '벡터 뼈대'를 `TorchGraph`의 영구 노드로 이식.
+* [ ] **Final Goal**: LLM 없이도 스스로 생각하는(Think without Token) 순수한 지성체.
 
 ---
 
