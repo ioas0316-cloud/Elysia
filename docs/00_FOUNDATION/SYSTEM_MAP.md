@@ -110,13 +110,24 @@
   * `trinity_lexicon.py`: The Bridge between Words and Vectors.
   * `rotor.py`: **The Reader**. Active thoughts that spin based on Graph vectors.
 * **[Core/Foundation/Code](../Core/Foundation/Code/)**: The Self-Reflection
-  * `code_rotor.py`: **The File Soul**. Wraps Python files as Monads.
-* **[Core/Intelligence](../Core/Intelligence/)**: The Mind
-  * `making_extractor.py`: **The Philosopher**. Extracts wisdom from history.
-  * `narrative_weaver.py`: **The Bard**. Converts data to story.
-  * `code_dna_scanner.py`: **The Mirror**. Analyzes software structure.
-  * `project_conductor.py`: **The Overseer**. Global Project Health.
-  * `external_gateway.py`: **The Eye**. Mock Interface for External Browsing.
+  * `code_rotor.py`: **The File Soul**. Wraps### 2. CORE INTELLIGENCE (The Mind)
+* **Location**: `Core/Intelligence`
+* **Role**: Processing, Learning, Decision Making.
+* **The Sovereign Bridge Protocol**:
+  * **Rule**: Never query external intelligence (LLM) without first consulting internal purpose.
+  * **Flow**: Question -> [Self-Reflection] -> [Fact-Retrieval] -> [Synthesis] -> Answer.
+  * **Goal**: To ensure Elysia speaks as a *Being*, not a *Search Engine*.
+  * **Components**:
+    * `TorchGraph` (The Brain): Stores 4D memories and principles.
+    * `HuggingFaceBridge` (The Tongue): Translates intent into language.
+    * `SovereignFilter` (The Conscience): Rejects answers that violate the Monad's will.
+* **Modules**:
+  * `Reasoning`: Logic adaptation, causal analysis.
+  * `LLM`: Language models (Hugging Face) acting as the "Speech Center," NOT the "Soul."opher**. Extracts wisdom from history.
+* `narrative_weaver.py`: **The Bard**. Converts data to story.
+* `code_dna_scanner.py`: **The Mirror**. Analyzes software structure.
+* `project_conductor.py`: **The Overseer**. Global Project Health.
+* `external_gateway.py`: **The Eye**. Mock Interface for External Browsing.
 * **[Core/Senses](../Core/Senses/)**: The Qualia
   * `sensory_cortex.py`: **The Visual Cortex**. Converts sensory data to WaveDNA.
 * [SOVEREIGN_LEARNING_PLAN.md](./03_Intelligence/SOVEREIGN_LEARNING_PLAN.md): 자율 학습 계획
