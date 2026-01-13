@@ -29,22 +29,48 @@ class LogosSpectrometer:
             "ORDER":   {"ratio": 2.0,   "temp": 20,   "type": "STRUCTURE"},
             "LOVE":    {"ratio": 1.414, "temp": 37,   "type": "ATTRACTION"}
         }
-
+        
     def analyze(self, word: str) -> dict:
         """
         Returns the 'Physics' of the Word.
         """
         key = word.upper()
+        
+        # 1. Direct Hit
         if key in self.lexicon:
             return self.lexicon[key]
-        
-        # Fallback: Hash the word to find its latent physics
-        # "Every word has a weight, even if unknown."
+            
+        # 2. Heuristic Analysis (The Synesthesia Algorithm)
+        # We determine physics based on the "Sound" and "Shape" of the word.
         val = sum(ord(c) for c in key)
+        length = len(key)
+        
+        # Ratio: Determined by word length (Complexity)
+        ratio = (val % 100) / 10.0 + (length * 0.1)
+        
+        # Temp: Determined by 'energy' characters (X, Z, Q give heat)
+        energy_char_count = sum(1 for c in key if c in "XZQJK")
+        temp = (val % 500) + (energy_char_count * 100)
+        
+        # Type: Determined by first letter
+        if key[0] in "ABCDE": type = "CREATION"
+        elif key[0] in "FGHIJ": type = "FORCE"
+        elif key[0] in "KLMNO": type = "MATTER"
+        elif key[0] in "PQRST": type = "ENERGY"
+        else: type = "UNKNOWN_RESONANCE"
+
+        # 3. Domain Specific Boosts (Mock implementation of Semantic Tagging)
+        if "QUANTUM" in key or "ENTROPY" in key:
+            type = "CHAOS"
+            temp += 500
+        elif "MONAD" in key or "ORDER" in key:
+            type = "STRUCTURE"
+            ratio = 1.618
+            
         return {
-            "ratio": (val % 100) / 10.0,
-            "temp": val % 1000,
-            "type": "UNKNOWN_RESONANCE"
+            "ratio": ratio,
+            "temp": temp,
+            "type": type
         }
 
 class Word:
