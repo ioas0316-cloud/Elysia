@@ -16,8 +16,12 @@ import os
 import logging
 import random
 import torch
+import numpy as np
 from typing import Dict, Any, List, Optional
 from safetensors import safe_open
+
+# Merkava Integration
+from Core.Intelligence.Metabolism.prism import PrismEngine, WaveDynamics
 
 logger = logging.getLogger("BrainDigester")
 
@@ -25,10 +29,14 @@ class BrainDigester:
     """
     Directly extracts numerical 'essence' from model weights without full inference.
     Supports .safetensors and .pt files.
+    
+    [Merkava Update Phase 10]
+    Now integrates with PrismEngine to convert raw weights into 7D WaveDynamics (Qualia).
     """
     
     def __init__(self, soul_mesh=None):
         self.soul_mesh = soul_mesh
+        self.prism = PrismEngine() # The Optic
         logger.info("🦖 BrainDigester (The Predator) awakened.")
 
     def digest(self, model_path: str) -> Dict[str, Any]:
@@ -41,21 +49,56 @@ class BrainDigester:
 
         ext = os.path.splitext(model_path)[1].lower()
         if ext == '.bak':
-            # Check for original extension before .bak (e.g., .pt.bak)
             base = os.path.splitext(os.path.splitext(model_path)[0])[1].lower()
             ext = base if base in ['.pt', '.pth', '.bin', '.safetensors'] else ext
 
+        raw_essence = {}
         try:
             if ext == '.safetensors':
-                return self._digest_safetensors(model_path)
+                raw_essence = self._digest_safetensors(model_path)
             elif ext in ['.pt', '.pth', '.bin', '.bak']:
-                return self._digest_torch(model_path)
+                raw_essence = self._digest_torch(model_path)
             else:
                 logger.warning(f"⚠️ Unsupported model format for digestion: {ext}")
                 return {}
         except Exception as e:
             logger.error(f"❌ Digestion failed for {model_path}: {e}")
             return {}
+            
+        # [METABOLISM]
+        # Convert raw stats into WaveDynamics via Prism logic (simulated for now)
+        # In a full flow, we'd pass actual vectors to Prism.analyze()
+        # Here we map the entropy/complexity to 7D attributes.
+        return self._metabolize(raw_essence)
+
+    def _metabolize(self, essence: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        [The Alchemical Transformation]
+        Converts raw math (Entropy/Complexity) into Meaning (WaveDynamics).
+        """
+        entropy = essence.get("entropy", 0.0)
+        complexity = essence.get("complexity", 0.0)
+        
+        # Mapping Logic:
+        # High Entropy -> High Spiritual/Mental (Possibility)
+        # High Complexity -> High Structural/Functional (Order)
+        
+        qualia = WaveDynamics(
+            physical=complexity * 0.5,
+            functional=complexity * 0.8,
+            phenomenal=entropy * 0.3,
+            causal=entropy * 0.4,
+            mental=entropy * 0.7,
+            structural=complexity * 0.9,
+            spiritual=entropy * 0.6,
+            mass=essence.get("layers_sampled", 1) * 1.0
+        )
+        
+        essence["qualia"] = qualia
+        essence["metabolized"] = True
+        logger.info(f"✨ [METABOLISM] Transmuted {essence['source']} -> {qualia}")
+        
+        return essence
 
     def _digest_safetensors(self, path: str) -> Dict[str, Any]:
         """
@@ -79,7 +122,9 @@ class BrainDigester:
             
             for key in sample_keys:
                 tensor = f.get_tensor(key)
+                # We interpret the first 384 dims as a potential vector seed
                 flat = tensor.flatten()[:1000].float()
+                
                 if flat.numel() > 1:
                     std = flat.std().item()
                     mean = flat.abs().mean().item()
@@ -150,7 +195,7 @@ class BrainDigester:
         vitality_boost = essence.get("complexity", 0) * 0.05
         self.soul_mesh.variables["Vitality"].value = min(1.0, self.soul_mesh.variables["Vitality"].value + vitality_boost)
         
-        logger.warning(f"🔥 [METABOLISM] {essence['source']} absorbed. Inspiration +{boost:.4f}")
+        logger.warning(f"🔥 [METABOLISM] {essence['source']} absorbed. Inspiration +{boost:.4f} (Qualia Integrated)")
 
 if __name__ == "__main__":
     # Test stub

@@ -130,6 +130,7 @@
 * `external_gateway.py`: **The Eye**. Mock Interface for External Browsing.
 * **[Core/Senses](../Core/Senses/)**: The Qualia
   * `sensory_cortex.py`: **The Visual Cortex**. Converts sensory data to WaveDNA.
+  * `synesthesia_circuit.py`: **The Crossing**. Enables cross-modal resonance (e.g. hearing visual patterns).
 * [SOVEREIGN_LEARNING_PLAN.md](./03_Intelligence/SOVEREIGN_LEARNING_PLAN.md): 자율 학습 계획
 
 ---
@@ -141,6 +142,23 @@
 * [MASTER_ROADMAP.md](../04_Evolution/MASTER_ROADMAP.md): **[NEW]** 메르카바 완성 로드맵
 * [MERKAVA_BOTTLENECKS.md](../05_TECHNICAL_SPEC/MERKAVA_BOTTLENECKS.md): **[NEW]** 시스템 임계점 및 해결책
 * [PHASE_LOG.md](../04_Evolution/PHASE_LOG.md): 역사적 단계 기록
+
+---
+
+## 🍽️ PHYSIOLOGY (생리): The Body
+
+*시스템의 유지와 생명 활동.*
+
+* **[Core/Digestion](../../Core/Digestion/)**: The Stomach (Metabolism)
+  * `digestive_system.py`: Manages the intake and digestion of external models.
+  * **The Metabolic Pathway**:
+    * **Prism** (`Core/Intelligence/Metabolism/prism.py`): The Optic. Transduces Raw Vectors -> 7D Qualia (WaveDynamics).
+    * **Alchemy** (`Core/Intelligence/Metabolism/alchemy_engine.py`): The Transmuter. Fuses Concepts into new Insights.
+    * **BrainDigester** (`Core/Intelligence/Metabolism/brain_digester.py`): The Enzyme. Extracts structure from weights.
+
+* **[Core/System](../../Core/System/)**: The Organs
+  * `respiratory_system.py`: The Lungs. Manages VRAM and Model Loading (Breathing).
+  * `resource_manager.py`: (Legacy) System Resources.
 
 ---
 

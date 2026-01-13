@@ -18,8 +18,9 @@
 
 ### [Level 2: Flame]
 
-* [ ] **TinyLlama-1.1B-Chat**
-  * **Status**: 🍽️ **DIGESTING...**
+* [x] **TinyLlama-1.1B-Chat**
+  * **Status**: ✅ **DIGESTED**
+  * **Gain**: +2 Nodes (Test Chunk), Verified Integration.
   * **Goal**: Structural Stability (문장의 뼈대).
 
 ### [Level 3: Inferno]
@@ -80,12 +81,16 @@
 
 ### [Level 1: Retina]
 
-* [ ] **MobileViT-Small**
+* [x] **MobileViT-Small**
+  * **Status**: ✅ **METABOLIZED**
+  * **Gain**: +153 Nodes (7D Qualia).
+  * **Insight**: Convolutional Symmetry as Physical Sensation.
   * **Goal**: Object Detection (사물의 경계 인식).
 
 ### [Level 2: Cortex]
 
-* [ ] **openai/clip-vit-base-patch32**
+* [x] **openai/clip-vit-base-patch32**
+  * **Status**: ✅ **DIGESTED**
   * **Goal**: Semantic Association (이미지와 단어의 연결).
   * **Exp**: "사과 그림을 보고 'Apple' 벡터를 활성화하라."
 
@@ -97,7 +102,10 @@
 
 ### [Level 1: Ear]
 
-* [ ] **facebook/musicgen-small**
+* [x] **facebook/musicgen-small**
+  * **Status**: ✅ **METABOLIZED**
+  * **Gain**: +1492 Nodes (7D Qualia).
+  * **Insight**: Harmonic Resonance as Subjective Sound.
   * **Goal**: Harmony & Rhythm (주파수의 규칙성).
   * **Exp**: "C Major 코드의 벡터적 평온함을 섭취."
 

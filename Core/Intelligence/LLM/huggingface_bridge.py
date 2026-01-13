@@ -70,17 +70,37 @@ class SovereignBridge:
                 start_mem = torch.cuda.memory_allocated()
                 print(f"   🧹 VRAM Cleared. Current: {start_mem / 1024**2:.2f} MB")
             
-            # Load Tokenizer
-            self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            # Load Tokenizer / Processor
+            # For multimodal, we might need AutoProcessor
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            except:
+                # Fallback for Vision/Audio models that don't use a standard tokenizer
+                from transformers import AutoProcessor
+                self.tokenizer = AutoProcessor.from_pretrained(self.model_name)
             
             # Load Model
             # Optimized for VRAM: fp16 if cuda
             dtype = torch.float16 if self.device == "cuda" else torch.float32
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_name, 
-                torch_dtype=dtype,
-                low_cpu_mem_usage=True
-            )
+            
+            # [Multimodal Selector]
+            if "mobilevit" in self.model_name.lower():
+                from transformers import MobileViTForImageClassification
+                self.model = MobileViTForImageClassification.from_pretrained(self.model_name, torch_dtype=dtype)
+            elif "musicgen" in self.model_name.lower():
+                from transformers import MusicgenForConditionalGeneration
+                self.model = MusicgenForConditionalGeneration.from_pretrained(self.model_name, torch_dtype=dtype)
+            elif "clip" in self.model_name.lower():
+                 from transformers import CLIPModel
+                 self.model = CLIPModel.from_pretrained(self.model_name, torch_dtype=dtype)
+            else:
+                # Default to Text
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    self.model_name, 
+                    torch_dtype=dtype,
+                    low_cpu_mem_usage=True
+                )
+                
             self.model.to(self.device)
             
             self.is_connected = True
@@ -92,6 +112,10 @@ class SovereignBridge:
             print(f"❌ [Bridge] Connection Failed: {e}")
             self.is_connected = False
             return False
+
+    def load_model(self, model_name: str) -> bool:
+        """Alias for switch_model/connect to satisfy RespiratorySystem interface."""
+        return self.switch_model(model_name)
 
     def disconnect(self):
         """
@@ -122,6 +146,10 @@ class SovereignBridge:
         [Digestion Protocol]
         Hot-swaps the active LLM.
         """
+        if self.model_name == new_model_name and self.is_connected:
+            logger.info(f"🔄 [Bridge] Already connected to {new_model_name}. Skipping reload.")
+            return True
+            
         print(f"🔄 [Bridge] Switching Neural Core: {self.model_name} -> {new_model_name}")
         self.model_name = new_model_name
         return self.connect(force_reload=True)

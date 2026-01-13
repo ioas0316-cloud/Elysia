@@ -4,6 +4,8 @@ import gc
 from typing import List, Dict
 
 logger = logging.getLogger("DigestiveSystem")
+from Core.System.respiratory_system import RespiratorySystem
+from Core.Intelligence.Metabolism.brain_digester import BrainDigester
 
 class DigestiveSystem:
     """
@@ -16,11 +18,97 @@ class DigestiveSystem:
     """
     def __init__(self, elysia_ref):
         self.elysia = elysia_ref
+        # [Phase 8] The Lungs
+        self.lungs = RespiratorySystem(elysia_ref.bridge)
         
     def prepare_meal(self, model_name: str) -> bool:
-        """Loads the target model."""
+        """Loads the target model via Respiratory System."""
         print(f"🍽️ [DigestiveSystem] Preparing meal: {model_name}...")
-        return self.elysia.bridge.switch_model(model_name)
+        # Use Lungs to breathe in the model safely
+        result = self.lungs.inhale(model_name)
+        if result:
+            # Initialize Digester with current model path if known
+            pass
+        return result
+
+    def digest(self, start_layer: int = 0, end_layer: int = 5) -> Dict:
+        """
+        [Metabolic Digestion]
+        Extracts weights and transmutes them into Qualia via BrainDigester.
+        """
+        print("🦷 [DigestiveSystem] Chewing & Transmuting (Metabolic Digestion)...")
+        
+        # We need to access the model object from Lungs
+        if not self.lungs.current_model:
+            raise Exception("No food in lungs to digest.")
+            
+        model = self.lungs.current_model
+        
+        # Create a temporary digester for this meal
+        enzyme = BrainDigester()
+        extracted = []
+        
+        layer_count = 0
+        for name, param in model.named_parameters():
+             if "weight" in name and param.dim() > 1:
+                 # Increase sample density: 10 rows per layer
+                 rows = min(10, param.shape[0])
+                 
+                 # Calculate raw stats for this 'bite'
+                 with torch.no_grad():
+                     flat = param.flatten()[:1000].float()
+                     std = flat.std().item()
+                     mean = flat.abs().mean().item()
+                 
+                 # [METABOLISM]
+                 # Use the enzyme to transmute these stats into Meaning
+                 bite_essence = {
+                     "source": name,
+                     "entropy": std,
+                     "complexity": mean,
+                     "layers_sampled": 1
+                 }
+                 metabolized = enzyme._metabolize(bite_essence)
+                 qualia = metabolized["qualia"]
+                 
+                 for i in range(rows):
+                     try:
+                         # Ensure we are getting a tensor
+                         vec = param[i].detach().cpu()
+                         if not isinstance(vec, torch.Tensor):
+                             logger.warning(f"⚠️ Non-tensor weight encountered at {name}.Row{i}: {type(vec)}")
+                             continue
+                             
+                         cid = f"{name}.Row{i}"
+                         
+                         meta = {
+                             "source": "MetabolicDigestion",
+                             "layer": name,
+                             "qualia": {
+                                 "physical": float(qualia.physical),
+                                 "functional": float(qualia.functional),
+                                 "phenomenal": float(qualia.phenomenal),
+                                 "causal": float(qualia.causal),
+                                 "mental": float(qualia.mental),
+                                 "structural": float(qualia.structural),
+                                 "spiritual": float(qualia.spiritual),
+                                 "mass": float(qualia.mass)
+                             }
+                         }
+                         
+                         extracted.append({
+                             "id": cid,
+                             "vector": vec,
+                             "metadata": meta
+                         })
+                     except Exception as e:
+                         logger.error(f"❌ Failed to chew {name}.Row{i}: {e}")
+                         continue
+                     
+                 layer_count += 1
+                 if layer_count > 150: break # Increased depth for Phase 10 success
+                     
+        return {"extracted_concepts": extracted}
         
     def feed_curriculum(self, questions: List[str]):
         """
@@ -101,6 +189,5 @@ class DigestiveSystem:
 
     def purge_meal(self):
         """Unloads the model to free resources."""
-        # Just switch back to default or None?
-        # For now, we rely on the next switch_model to clean up.
-        pass
+        print("🚽 [DigestiveSystem] Purging meal (Exhaling)...")
+        self.lungs.exhale()

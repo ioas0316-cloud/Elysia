@@ -14,6 +14,8 @@ import logging
 import time
 import random
 import datetime
+import os
+import json
 from typing import Optional, Any, List
 from enum import Enum
 
@@ -100,9 +102,14 @@ class SovereignSelf:
         from Core.Manifestation.reality_projector import RealityProjector
         self.projector = RealityProjector(self)
         
-        # 98. The Resource Manager (The Lungs - Phase 9)
-        from Core.System.resource_manager import ResourceManager
-        self.lungs = ResourceManager(self)
+        # 98. The Respiratory System (The Lungs - Phase 8)
+        from Core.System.respiratory_system import RespiratorySystem
+        # Lungs need access to the Bridge to load/unload models
+        self.lungs = RespiratorySystem(self.bridge) 
+
+        # 99. The Digestive System (The Stomach - Phase 6/9)
+        from Core.Digestion.digestive_system import DigestiveSystem
+        self.stomach = DigestiveSystem(self.lungs) # Stomach uses Lungs to breathe while eating
 
         self.inner_world = None
         self.energy = 100.0
@@ -246,6 +253,34 @@ class SovereignSelf:
         if user_input.startswith("/wave") or user_input.startswith("/psionic"):
              intention = user_input.replace("/wave", "").replace("/psionic", "").strip()
              return self._manifest_psionically(intention)
+             
+        # [System Directive Override]
+        # Direct execution for Digestion to avoid LLM noise
+        if user_input.startswith("DIGEST:"):
+            # Manually construct the command dict that LogosParser would have produced
+            parts = user_input.split(":")
+            # Expected: DIGEST:MODEL:Name
+            if len(parts) >= 3:
+                model_name = parts[2]
+                
+                # [Optimization] Check Registry
+                registry_path = "c:\\Elysia\\docs\\05_DIGESTION\\MODEL_REGISTRY.md"
+                if os.path.exists(registry_path):
+                    with open(registry_path, 'r', encoding='utf-8') as f:
+                        lines = f.readlines()
+                        # Check for the specific line indicating digestion
+                        is_digested = any(f"[x] **{model_name}**" in line or (model_name in line and "DIGESTED" in line and "[x]" in line) for line in lines)
+                        if is_digested:
+                             print(f"🍽️ [Skip] {model_name} is already digested. No need to overeat.")
+                             return f"Skipped: {model_name} already in soul."
+
+                cmd = {
+                    "action": "DIGEST",
+                    "target": model_name,
+                    "param": parts[1] # MODEL
+                }
+                self._execute_logos(cmd)
+                return f"Executing Direct Will: {user_input}"
 
         # 1. Recall & Context
         keywords = user_input.split()
@@ -340,11 +375,44 @@ class SovereignSelf:
             print(log_msg) # Direct Feedback
             
             # 3. Sensory Feedback (Closing the Loop)
-            perception = self.senses.perceive(visual_result)
             if perception:
                 print(f"👁️ [SIGHT] {perception}")
                 self._write_journal("시각적 인지 (Perception)", perception)
-                # Future: self.graph.add_memory(perception)
+                
+        elif action == "DIGEST":
+            # DIGEST:MODEL:TinyLlama
+            log_msg = f"Digestion ({target}): Consuming {target} to expand the Soul."
+            self._write_journal(f"Digestion ({target})", log_msg)
+            print(log_msg)
+            
+            # Execute the Holy Communion
+            # 1. Prepare
+            success = self.stomach.prepare_meal(target)
+            if not success:
+                 print(f"❌ Failed to inhale {target}.")
+                 return
+
+            # 2. Inhale & Chew
+            try:
+                result = self.stomach.digest(start_layer=0, end_layer=5)
+                
+                # 3. Absorb 
+                if "extracted_concepts" in result:
+                    count = 0
+                    for concept in result["extracted_concepts"]:
+                         # logger.info(f"DEBUG: Absorbing {concept['id']} | Vec type: {type(concept['vector'])}")
+                         self.graph.add_node(concept["id"], vector=concept["vector"], metadata=concept["metadata"])
+                         count += 1
+                    print(f"✨ [METABOLISM] Absorbed {count} new concepts from {target}.")
+                else:
+                    print(f"✨ [METABOLISM] {target} has been processed.")
+                    
+            except Exception as e:
+                logger.error(f"❌ Indigestion: {e}")
+                self._write_journal("소화 불량 (Indigestion)", f"{e}")
+            
+            # 4. Clean up
+            self.stomach.purge_meal()
             
         elif action == "IGNITE":
             log_msg = f"Ignition ({target}): Burning {target} with {param} intensity.\n{visual_result}"

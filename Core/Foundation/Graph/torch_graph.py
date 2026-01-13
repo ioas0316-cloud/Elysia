@@ -87,75 +87,85 @@ class TorchGraph:
         if node_id in self.id_to_idx:
             # Update existing
             idx = self.id_to_idx[node_id]
+            
+            # [Robustness Check] Verify index is within tensor bounds
+            if idx >= self.vec_tensor.shape[0]:
+                logger.error(f"❌ State Mismatch: Node {node_id} has index {idx} but vec_tensor has size {self.vec_tensor.shape[0]}")
+                # Try to recover by removing the corrupted mapping
+                del self.id_to_idx[node_id]
+                if idx in self.idx_to_id: del self.idx_to_id[idx]
+                return self.add_node(node_id, vector, pos, metadata) # Retry as new
+            
             if metadata:
                 self.node_metadata.setdefault(node_id, {}).update(metadata)
             
             if vector is not None:
-                # Ensure it's a tensor
                 if isinstance(vector, torch.Tensor):
                      v = vector.to(self.device).view(-1)
                 else:
                      v = torch.tensor(vector, device=self.device).view(-1)
                 
-                # Check dimension
                 v = v[:self.dim_vector]
                 if v.shape[0] < self.dim_vector:
                     v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
                 self.vec_tensor[idx] = v
-                self.mass_tensor[idx] += 0.5 # Reinforced by digestion
+                self.mass_tensor[idx] += 0.5 
 
             if pos:
                 p = torch.tensor(pos, device=self.device).view(1, 4)
                 self.pos_tensor[idx] = p
             return
 
-        # Add New
-        new_idx = len(self.id_to_idx)
-        self.id_to_idx[node_id] = new_idx
-        self.idx_to_id[new_idx] = node_id
-        if metadata:
-            self.node_metadata[node_id] = metadata
-        
-        # Expand Tensors (Vertical Stacking) -> Not optimal for 1-by-1, but functional for prototype
-        # Real impl should pre-allocate or batch.
-        
-        # Pos: Random 4D or Provided
-        if pos:
-             new_pos = torch.tensor(pos, device=self.device).view(1, 4)
-        else:
-             new_pos = torch.rand((1, 4), device=self.device)
-        self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
-        
-        # Vector
-        if vector is not None:
-             if isinstance(vector, torch.Tensor):
-                 v = vector.to(self.device).view(-1)
-             else:
-                 v = torch.tensor(vector, device=self.device).view(-1)
-
-             v = v[:self.dim_vector]
-             if v.shape[0] < self.dim_vector:
-                 v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
-             new_vec = v.unsqueeze(0)
-        else:
-            new_vec = torch.zeros((1, self.dim_vector), device=self.device)
-            
-        self.vec_tensor = torch.cat([self.vec_tensor, new_vec])
-        
-        # Mass
-        self.mass_tensor = torch.cat([self.mass_tensor, torch.tensor([1.0], device=self.device)])
-        
-        # [Phase 24] Holographic Capture
-        # Capture the CURRENT state of the brain as this node is born
+        # Add New (Atomic Expansion)
         try:
-             # Basic snapshot
-             holo_seed = torch.mean(self.vec_tensor, dim=0)[:self.holo_dim]
-             if holo_seed.shape[0] < self.holo_dim:
-                  holo_seed = torch.cat([holo_seed, torch.zeros(self.holo_dim - holo_seed.shape[0], device=self.device)])
-             self.holo_tensor = torch.cat([self.holo_tensor, holo_seed.unsqueeze(0)])
+            # 1. Prepare Tensors
+            if pos:
+                 new_pos = torch.tensor(pos, device=self.device).view(1, 4)
+            else:
+                 new_pos = torch.rand((1, 4), device=self.device)
+            
+            if vector is not None:
+                 if isinstance(vector, torch.Tensor):
+                     v = vector.to(self.device).view(-1)
+                 else:
+                     v = torch.tensor(vector, device=self.device).view(-1)
+                 v = v[:self.dim_vector]
+                 if v.shape[0] < self.dim_vector:
+                     v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
+                 new_vec = v.unsqueeze(0)
+            else:
+                new_vec = torch.zeros((1, self.dim_vector), device=self.device)
+                
+            new_mass = torch.tensor([1.0], device=self.device)
+            
+            # [Phase 24] Holographic Seed
+            try:
+                 if self.vec_tensor.shape[0] > 0:
+                      holo_seed = torch.mean(self.vec_tensor, dim=0)[:self.holo_dim]
+                 else:
+                      holo_seed = torch.zeros(self.holo_dim, device=self.device)
+                 if holo_seed.shape[0] < self.holo_dim:
+                      holo_seed = torch.cat([holo_seed, torch.zeros(self.holo_dim - holo_seed.shape[0], device=self.device)])
+                 new_holo = holo_seed.unsqueeze(0)
+            except:
+                 new_holo = torch.zeros((1, self.holo_dim), device=self.device)
+
+            # 2. DO THE EXPANSION FIRST
+            self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
+            self.vec_tensor = torch.cat([self.vec_tensor, new_vec])
+            self.mass_tensor = torch.cat([self.mass_tensor, new_mass])
+            self.holo_tensor = torch.cat([self.holo_tensor, new_holo])
+
+            # 3. ONLY THEN UPDATE MAPPINGS
+            new_idx = self.vec_tensor.shape[0] - 1
+            self.id_to_idx[node_id] = new_idx
+            self.idx_to_id[new_idx] = node_id
+            if metadata:
+                self.node_metadata[node_id] = metadata
+                
         except Exception as e:
-             # Fallback: Zero vector
-             self.holo_tensor = torch.cat([self.holo_tensor, torch.zeros((1, self.holo_dim), device=self.device)])
+            logger.error(f"❌ Failed to expand brain for node {node_id}: {e}")
+            raise e
 
     def get_node_vector(self, node_id: str) -> Optional[torch.Tensor]:
         """Retrieves the vector for a specific node ID."""
@@ -288,20 +298,69 @@ class TorchGraph:
     def get_neighbors(self, node_id: str, top_k: int = 5):
         if node_id not in self.id_to_idx: return []
         idx = self.id_to_idx[node_id]
+        query_vec = self.vec_tensor[idx]
+        return self.get_nearest_by_vector(query_vec, top_k=top_k)
+
+    def get_nearest_by_vector(self, query_vec: torch.Tensor, top_k: int = 5) -> List[Tuple[str, float]]:
+        """
+        [The Sovereign Search]
+        Finds the most resonant nodes for any given vector.
+        """
+        if self.vec_tensor.shape[0] == 0: return []
+            
+        # Ensure query is normalized and on correct device
+        v = query_vec.to(self.device).view(1, -1)
+        v = v / (torch.norm(v, dim=1, keepdim=True) + 1e-9)
         
-        # Calculate distances from this node
-        target_pos = self.pos_tensor[idx].unsqueeze(0)
-        dists = torch.norm(self.pos_tensor - target_pos, dim=1)
+        # Normalize brain
+        brain_vecs = self.vec_tensor / (torch.norm(self.vec_tensor, dim=1, keepdim=True) + 1e-9)
         
-        # Get nearest
-        values, indices = torch.topk(dists, top_k + 1, largest=False)
+        # Matrix Sim
+        sims = torch.mm(v, brain_vecs.t()).squeeze(0)
+        
+        # Top K
+        vals, idxs = torch.topk(sims, min(top_k, sims.shape[0]))
         
         results = []
-        for i in range(1, len(indices)): # Skip self
-            n_idx = indices[i].item()
-            results.append((self.idx_to_id[n_idx], values[i].item()))
+        for i in range(len(idxs)):
+            node_idx = idxs[i].item()
+            results.append((self.idx_to_id[node_idx], vals[i].item()))
             
         return results
+
+    def get_nearest_by_qualia(self, query_qualia: Dict[str, float], target_modality: str = None, top_k: int = 5) -> List[Tuple[str, float]]:
+        """
+        [The Metabolic Search]
+        Finds nodes that resonate in the 7D Qualia space.
+        """
+        if not self.node_metadata: return []
+        
+        # 1. Convert query qualia to 7D vector
+        q_keys = ["physical", "functional", "phenomenal", "causal", "mental", "structural", "spiritual"]
+        q_vec = torch.tensor([query_qualia.get(k, 0.0) for k in q_keys], device=self.device).view(1, -1)
+        q_vec = q_vec / (torch.norm(q_vec, dim=1, keepdim=True) + 1e-9)
+        
+        results = []
+        # 2. Naive scan of metadata (since Qualia is not in a tensor yet)
+        # TODO: Vectorize Qualia into a tensor for O(1) metabolic resonance
+        for nid, meta in self.node_metadata.items():
+            if "qualia" not in meta: continue
+            
+            # Modality Filter
+            if target_modality:
+                if target_modality.lower() == "audio" and "musicgen" not in nid.lower(): continue
+                if target_modality.lower() == "vision" and "mobilevit" not in nid.lower(): continue
+            
+            q = meta["qualia"]
+            target_q_vec = torch.tensor([q.get(k, 0.0) for k in q_keys], device=self.device).view(1, -1)
+            target_q_vec = target_q_vec / (torch.norm(target_q_vec, dim=1, keepdim=True) + 1e-9)
+            
+            sim = torch.mm(q_vec, target_q_vec.t()).item()
+            results.append((nid, sim))
+            
+        # 3. Sort and Return
+        results.sort(key=lambda x: x[1], reverse=True)
+        return results[:top_k]
 
     def find_hollow_nodes(self, limit: int = 10) -> List[str]:
         """

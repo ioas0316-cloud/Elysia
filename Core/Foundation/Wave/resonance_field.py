@@ -666,7 +666,12 @@ class ResonanceField(Organ):
         active_count = 0
         frequencies = []
         
-        # 1. Physics Update
+        # 1. Reflex Arc Check (System Preservation)
+        if self.entropy > self.reflex_threshold or total_energy > 5000.0:
+            print(f"⚡⚡⚡ SYSTEM REFLEX TRIGGERED! (Entropy: {self.entropy:.1f}, Energy: {total_energy:.1f})")
+            return ResonanceState(timestamp=time.time(), total_energy=0, battery=0, entropy=100, coherence=0, active_nodes=0, dominant_frequency=0)
+
+        # 2. Physics Update
         for node in self.nodes.values():
             fluctuation = random.uniform(0.95, 1.05)
             node.energy *= fluctuation
