@@ -33,9 +33,27 @@ class CodeDNAScanner:
             print(f"⚠️ File not found: {file_path}")
             return WaveDNA(label="Void")
             
-        with open(file_path, "r", encoding="utf-8") as f:
-            source = f.read()
-            
+        """
+        Scans a single file and returns its DNA.
+        """
+        try:
+            # Try UTF-8 first
+            with open(file_path, 'r', encoding='utf-8') as f:
+                source = f.read()
+        except UnicodeDecodeError:
+            try:
+                # Try CP949 (Korean Windows)
+                with open(file_path, 'r', encoding='cp949') as f:
+                    source = f.read()
+            except UnicodeDecodeError:
+                # Fallback to Latin-1 (Binary-safeish) or ignore errors
+                try:
+                    with open(file_path, 'r', encoding='latin-1') as f:
+                        source = f.read()
+                except Exception:
+                     # Give up, empty DNA
+                     return WaveDNA(label=os.path.basename(file_path))
+        
         return self.scan_source(source, os.path.basename(file_path))
 
     def scan_source(self, source: str, label: str = "Code") -> WaveDNA:

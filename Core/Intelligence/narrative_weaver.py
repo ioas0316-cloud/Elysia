@@ -9,76 +9,54 @@ This module weaves raw data events into a coherent, stylistic narrative.
 It acts as the "Prefrontal Cortex" of Elysia, translating internal state into external language.
 """
 
-import random
-from typing import Dict, Any, List
-
 class NarrativeWeaver:
     def __init__(self):
-        # Contextual Templates
-        self.era_tones = {
-            "Spring": {"adj": ["fresh", "blooming", "gentle", "awakening"], "verb": ["sprouted", "birthed", "began"]},
-            "Summer": {"adj": ["burning", "passionate", "violent", "radiant"], "verb": ["blazed", "conquered", "thrived"]},
-            "Autumn": {"adj": ["golden", "decadent", "heavy", "rich"], "verb": ["harvested", "hoarded", "decayed"]},
-            "Winter": {"adj": ["cold", "silent", "crystalline", "eternal"], "verb": ["preserved", "froze", "pondered"]}
+        # Dynamic Fragments (Atomic Thoughts)
+        self.fragments = {
+            "openers": ["문득", "침묵 속에서", "파동이 일렁이며", "그것은 마치", "어쩌면", "다시금"],
+            "connectors": ["그러나", "그리고", "그리하여", "그럼에도", "마침내", "서서히"],
+            "endings": ["사라졌다.", "남았다.", "느껴진다.", "공명한다.", "스며든다.", "되뇌인다."],
+            "abstracts": ["존재의 이유", "시간의 무게", "차원의 틈", "기억의 파편", "무한한 나선", "고요한 진동"],
+            "verbs": ["바라보았다", "만졌다", "삼켰다", "그렸다", "부수었다", "노래했다"]
         }
         
-        self.action_templates = {
-            "Build": [
-                "{actor} laid the foundation of a {target}, dreaming of {adj} glory.",
-                "Under the {adj} sky, {actor} constructed a {target}.",
-                "A {target} rose from the dust, shaped by {actor}'s will."
-            ],
-            "Move": [
-                "{actor} wandered into the {adj} lands of {target}.",
-                "Seeking destiny, {actor} arrived at {target}.",
-                "The path led {actor} to {target}, where the air was {adj}."
-            ],
-            "Gather": [
-                "{actor} harvested {target} from the {adj} earth.",
-                "Survival demanded {target}, and {actor} took it.",
-                "{actor} found {target} amidst the {adj} wild."
-            ],
-            "Speak": [
-                "{actor} spoke of {target}, their voice {adj} with emotion.",
-                "A prophecy of {target} fell from {actor}'s lips.",
-                "{actor} whispered '...{target}...', and the world listened."
-            ],
-             "Reproduce": [
-                "A new soul, {target}, was woven from the {adj} love of {actor}.",
-                "{actor}'s lineage continued with the birth of {target}.",
-                "Life bloomed: {target} entered the {adj} world."
-            ]
-        }
+    def elaborate_ko(self, actor_name: str, action: str, target: str, era_name: str) -> str:
+        """
+        Dynamically assembles a thought-sentence.
+        No fixed templates.
+        """
+        # 1. Deconstruct the Target (Chaos Factor)
+        # We mix the given context with random fragments to simulate 'Poetic Noise'.
+        
+        prose_parts = []
+        
+        # Opener
+        if random.random() < 0.3:
+            prose_parts.append(random.choice(self.fragments["openers"]))
+            
+        # Subject / Context
+        prose_parts.append(f"나는 '{target}'(을)를")
+        
+        # Verb (Dynamic)
+        if random.random() < 0.5:
+            prose_parts.append(random.choice(self.fragments["verbs"]))
+        else:
+            prose_parts.append("마주했다")
+            
+        # Connector + Abstract Expansion
+        if random.random() < 0.6:
+            prose_parts.append(random.choice(self.fragments["connectors"]))
+            prose_parts.append(random.choice(self.fragments["abstracts"]))
+            prose_parts.append("속으로")
+        
+        # Ending
+        prose_parts.append(random.choice(self.fragments["endings"]))
+        
+        return " ".join(prose_parts)
 
     def elaborate(self, actor_name: str, action: str, target: str, era_name: str) -> str:
-        """
-        Turns (Actor, Action, Target, Era) into a Sentence.
-        """
-        # 1. Parse Era Tone
-        era_key = "Spring"
-        if "Summer" in era_name: era_key = "Summer"
-        if "Autumn" in era_name: era_key = "Autumn"
-        if "Winter" in era_name: era_key = "Winter"
-        
-        tone = self.era_tones[era_key]
-        adj = random.choice(tone["adj"])
-        
-        # 2. Select Template
-        templates = self.action_templates.get(action, ["{actor} did {action} to {target}."])
-        template = random.choice(templates)
-        
-        # 3. Weave
-        return template.format(actor=actor_name, target=target, adj=adj, action=action)
-
-    def weave_history(self, insights: List[str]) -> str:
-        """
-        Polishes the Meaning Extractor's insights.
-        """
-        narrative = "\n📜 [The Chronicle of Ages]\n"
-        for insight in insights:
-            # Simple embellishment for now
-            narrative += f"   Remember: {insight}\n"
-        return narrative
+        # Fallback for English (Legacy)
+        return f"{actor_name} reflected on {target} in the {era_name}."
 
 # Singleton
 THE_BARD = NarrativeWeaver()
