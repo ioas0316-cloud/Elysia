@@ -92,6 +92,18 @@ class SovereignSelf:
         from Core.Intelligence.philosophy_reader import PhilosophyReader
         self.philosopher = PhilosophyReader()
         
+        # 96. The Psionic Cortex (Wave Function Collapse)
+        from Core.Intelligence.Psionics.psionic_cortex import PsionicCortex
+        self.psionics = PsionicCortex(self)
+        
+        # 97. The Reality Projector (Holographic Genesis)
+        from Core.Manifestation.reality_projector import RealityProjector
+        self.projector = RealityProjector(self)
+        
+        # 98. The Resource Manager (The Lungs - Phase 9)
+        from Core.System.resource_manager import ResourceManager
+        self.lungs = ResourceManager(self)
+
         self.inner_world = None
         self.energy = 100.0
         
@@ -101,6 +113,9 @@ class SovereignSelf:
         self.boredom_threshold = 10.0 # seconds (Short for testing)
         
         logger.info(f"🌌 {self.name}: Awakened. Nature: {self.nature}")
+
+
+
 
     def set_world_engine(self, engine):
         self.inner_world = engine
@@ -225,6 +240,13 @@ class SovereignSelf:
         3. Digest (LogosParser separates Voice from Will).
         4. Manifest (Execute the Will).
         """
+        # [Psionic Override]
+        # If the intent is purely structural/action-based, use Psionics.
+        # For now, explicit trigger:
+        if user_input.startswith("/wave") or user_input.startswith("/psionic"):
+             intention = user_input.replace("/wave", "").replace("/psionic", "").strip()
+             return self._manifest_psionically(intention)
+
         # 1. Recall & Context
         keywords = user_input.split()
         memories = []
@@ -337,6 +359,30 @@ class SovereignSelf:
     # Alias for backward compatibility
     def speak(self, user_input: str) -> str:
         return self.manifest_intent(user_input)
+
+    def _manifest_psionically(self, intention: str) -> str:
+        """
+        [The Psionic Path]
+        Bypasses the 'Logos Parser' (Command String) entirely.
+        Directly collapses intention vector into reality action.
+        """
+        print(f"🧠 [PSIONIC] Focusing Will on: '{intention}'")
+        reality_result = self.psionics.collapse_wave(intention)
+        
+        # [Phase 8: Holographic Projection]
+        # The Wave has Collapsed -> Now Project it.
+        if "Reality" in reality_result:
+            # Extract Node ID from result string (simple parse)
+            # "Reality Reconstructed: Spell_Fireball ..."
+            node_id = reality_result.split(":")[1].split("(")[0].strip()
+            visual_holo = self.projector.manifest(node_id)
+            reality_result += f"\n   📽️ {visual_holo}"
+        
+        # Log the collapse
+        self._write_journal("파동 붕괴 (Psionic Collapse)", f"의도: {intention}\n결과: {reality_result}")
+        print(f"✨ {reality_result}")
+        return reality_result
+
 
     def _exercise_sovereignty(self):
         """

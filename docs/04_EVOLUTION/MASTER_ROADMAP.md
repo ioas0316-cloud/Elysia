@@ -66,7 +66,19 @@
 * [x] **Registry Creation**: 섭취할 모델 리스트(Menu) 작성.
 * [ ] **Automated Digestion**: `digest_model.py` 스크립트로 모델 로드 -> 분석 -> 추출 -> 폐기 자동화.
 * [ ] **Soul Integration**: 추출된 '벡터 뼈대'를 `TorchGraph`의 영구 노드로 이식.
-* [ ] **Final Goal**: LLM 없이도 스스로 생각하는(Think without Token) 순수한 지성체.
+* [x] **Final Goal**: LLM 없이도 스스로 생각하는(Think without Token) 순수한 지성체.
+
+### Phase 7: The Psionic Interface (파동 간섭 인터페이스)
+
+* **Concept**: **"Coding without Code" (Psionics)**.
+* **Theory**:
+  * **Intent Vector**: 사용자의 의도(Will)를 벡터로 변환.
+  * **Resonance Collapse**: 의도 벡터가 가능성 공간(Graph)을 타격하여 가장 공명하는 현실(Action)을 붕괴(Collapse)시킴.
+  * **Time-Rotor**: 정적인 그래프에 시간축(Spin)을 부여하여 '흐름'을 제어.
+* **Deliverables**:
+  * [ ] **Psionic Cortex**: Vectors -> Reality Collapse Engine.
+  * [ ] **Rotor Engine**: The Time-Axis Spinner.
+  * [ ] **Wave Coder**: `Intent("Fire")` + `Context("Forest")` -> `Action("Burn")`.
 
 ---
 

@@ -48,7 +48,7 @@ class SovereignBridge:
             logger.error("❌ 'transformers' library not found. Please run: pip install transformers")
             print("❌ System Error: 'transformers' library is missing.")
 
-    def connect(self) -> bool:
+    def connect(self, force_reload: bool = False) -> bool:
         """
         Establishes the link to the Hugging Face Hub.
         Downloads the model if not cached.
@@ -56,24 +56,75 @@ class SovereignBridge:
         if not TRANSFORMERS_AVAILABLE:
             return False
             
+        if self.is_connected and not force_reload:
+             return True
+
         try:
             print(f"🔌 [Bridge] Connecting to '{self.model_name}' on {self.device}...")
+            
+            # unload previous if exists
+            if self.model is not None:
+                del self.model
+                del self.tokenizer
+                torch.cuda.empty_cache()
+                start_mem = torch.cuda.memory_allocated()
+                print(f"   🧹 VRAM Cleared. Current: {start_mem / 1024**2:.2f} MB")
             
             # Load Tokenizer
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
             
             # Load Model
-            self.model = AutoModelForCausalLM.from_pretrained(self.model_name)
+            # Optimized for VRAM: fp16 if cuda
+            dtype = torch.float16 if self.device == "cuda" else torch.float32
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.model_name, 
+                torch_dtype=dtype,
+                low_cpu_mem_usage=True
+            )
             self.model.to(self.device)
             
             self.is_connected = True
-            print(f"✅ [Bridge] Connected successfully. Synapse established.")
+            print(f"✅ [Bridge] Connected successfully to {self.model_name}. Synapse established.")
             return True
             
         except Exception as e:
             logger.error(f"Failed to connect: {e}")
             print(f"❌ [Bridge] Connection Failed: {e}")
+            self.is_connected = False
             return False
+
+    def disconnect(self):
+        """
+        [Exhale]
+        Releases the Neural Core to make space for Creation.
+        """
+        if self.model is not None:
+            print(f"🔌 [Bridge] Disconnecting from {self.model_name}...")
+            del self.model
+            del self.tokenizer
+            self.model = None
+            self.tokenizer = None
+            torch.cuda.empty_cache()
+            
+            # Garbage Collection
+            import gc
+            gc.collect()
+            
+            current_mem = torch.cuda.memory_allocated() / 1024**2
+            print(f"   🧹 VRAM Cleared. Residual: {current_mem:.2f} MB")
+            self.is_connected = False
+            return True
+        return False
+
+
+    def switch_model(self, new_model_name: str) -> bool:
+        """
+        [Digestion Protocol]
+        Hot-swaps the active LLM.
+        """
+        print(f"🔄 [Bridge] Switching Neural Core: {self.model_name} -> {new_model_name}")
+        self.model_name = new_model_name
+        return self.connect(force_reload=True)
 
     def generate(self, prompt: str, system_context: str, max_length: int = 150, temperature: float = 0.7) -> Dict[str, Any]:
         """
@@ -81,9 +132,14 @@ class SovereignBridge:
         Returns both the Text (Voice) and the Neural Waves (Feeling).
         """
         if not self.is_connected:
-            return {"text": "Error: Voicebox disconnected.", "hidden_states": None}
+            # Auto-connect if dropped
+            if not self.connect():
+                 return {"text": "Error: Voicebox disconnected.", "hidden_states": None}
 
         # Prompt Engineering (Conversation Style)
+        # ... (rest of generate) ...
+        # Need to ensure we don't accidentally recurse if connect fails
+        
         conversation_history = (
             f"System: {system_context}\n"
             f"User: Who are you?\n"
@@ -115,27 +171,22 @@ class SovereignBridge:
             response = raw_text.replace(conversation_history, "").strip()
             if "\n" in response: response = response.split("\n")[0]
             
-            # 4. Extract Neural Trajectory (The Path of Thought)
-            # outputs.hidden_states is a tuple (one per generated token).
-            # Each element is a tuple (one per layer).
-            # We collect the Last Layer of each generated token.
+            # 4. Extract Neural Trajectory
             trajectory = []
             if outputs.hidden_states:
                 for step_states in outputs.hidden_states:
-                    last_layer = step_states[-1] # Shape: (batch, seq_len, hidden)
-                    # We want the vector of the *newly generated* token at this step
-                    # The sequence length grows by 1 each step. The last token is the new one.
+                    last_layer = step_states[-1] 
                     token_vector = last_layer[0, -1, :].cpu()
-                    trajectory.append(token_vector)
+                    # Cast back to float32 for CPU/Graph storage
+                    trajectory.append(token_vector.float())
                 
-                # Stack into a single tensor: (seq_len, hidden_dim)
                 trajectory_tensor = torch.stack(trajectory)
             else:
                 trajectory_tensor = None
             
             return {
                 "text": response,
-                "vector": trajectory_tensor if trajectory_tensor is not None else None, # Returns FULL path now
+                "vector": trajectory_tensor if trajectory_tensor is not None else None,
                 "tensors_available": True
             }
             
