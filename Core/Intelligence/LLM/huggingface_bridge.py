@@ -115,20 +115,27 @@ class SovereignBridge:
             response = raw_text.replace(conversation_history, "").strip()
             if "\n" in response: response = response.split("\n")[0]
             
-            # 4. Extract Neural Resonance (Hidden States)
+            # 4. Extract Neural Trajectory (The Path of Thought)
+            # outputs.hidden_states is a tuple (one per generated token).
+            # Each element is a tuple (one per layer).
+            # We collect the Last Layer of each generated token.
+            trajectory = []
             if outputs.hidden_states:
-                # Last generated token step
-                last_step_states = outputs.hidden_states[-1] 
-                # Last layer
-                last_layer_state = last_step_states[-1] 
-                # Last token in the sequence -> (1, hidden_dim)
-                concept_vector = last_layer_state[0, -1, :].cpu()
+                for step_states in outputs.hidden_states:
+                    last_layer = step_states[-1] # Shape: (batch, seq_len, hidden)
+                    # We want the vector of the *newly generated* token at this step
+                    # The sequence length grows by 1 each step. The last token is the new one.
+                    token_vector = last_layer[0, -1, :].cpu()
+                    trajectory.append(token_vector)
+                
+                # Stack into a single tensor: (seq_len, hidden_dim)
+                trajectory_tensor = torch.stack(trajectory)
             else:
-                concept_vector = None
+                trajectory_tensor = None
             
             return {
                 "text": response,
-                "vector": concept_vector,
+                "vector": trajectory_tensor if trajectory_tensor is not None else None, # Returns FULL path now
                 "tensors_available": True
             }
             
