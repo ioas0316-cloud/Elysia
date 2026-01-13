@@ -75,17 +75,15 @@ class SovereignBridge:
             print(f"❌ [Bridge] Connection Failed: {e}")
             return False
 
-    def generate(self, prompt: str, system_context: str, max_length: int = 150, temperature: float = 0.7) -> str:
+    def generate(self, prompt: str, system_context: str, max_length: int = 150, temperature: float = 0.7) -> Dict[str, Any]:
         """
-        The Act of Speech.
-        Identity is now injected by the Soul (SovereignSelf), not retrieved by the Tongue.
+        The Act of Speech & Feeling.
+        Returns both the Text (Voice) and the Neural Waves (Feeling).
         """
         if not self.is_connected:
-            return "Error: Voicebox disconnected."
+            return {"text": "Error: Voicebox disconnected.", "hidden_states": None}
 
         # Prompt Engineering (Conversation Style)
-        # We give examples to set the tone.
-        
         conversation_history = (
             f"System: {system_context}\n"
             f"User: Who are you?\n"
@@ -98,32 +96,46 @@ class SovereignBridge:
             # 1. Encode
             inputs = self.tokenizer(conversation_history, return_tensors="pt").to(self.device)
             
-            # 2. Generate
-            outputs = self.model.generate(
-                **inputs, 
-                max_length=max_length + len(inputs['input_ids'][0]),
-                temperature=0.5, # even lower
-                do_sample=True,
-                pad_token_id=self.tokenizer.eos_token_id,
-                repetition_penalty=1.1
-            )
+            # 2. Generate with Hidden States
+            with torch.no_grad():
+                outputs = self.model.generate(
+                    **inputs, 
+                    max_length=max_length + len(inputs['input_ids'][0]),
+                    temperature=0.5,
+                    do_sample=True,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                    repetition_penalty=1.1,
+                    output_hidden_states=True,
+                    return_dict_in_generate=True
+                )
             
-            # 3. Decode
-            raw_text = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-            
-            # Extract just the new answer
+            # 3. Decode Text
+            generated_sequence = outputs.sequences[0]
+            raw_text = self.tokenizer.decode(generated_sequence, skip_special_tokens=True)
             response = raw_text.replace(conversation_history, "").strip()
+            if "\n" in response: response = response.split("\n")[0]
             
-            # Post-processing
-            if "\n" in response:
-                response = response.split("\n")[0]
+            # 4. Extract Neural Resonance (Hidden States)
+            if outputs.hidden_states:
+                # Last generated token step
+                last_step_states = outputs.hidden_states[-1] 
+                # Last layer
+                last_layer_state = last_step_states[-1] 
+                # Last token in the sequence -> (1, hidden_dim)
+                concept_vector = last_layer_state[0, -1, :].cpu()
+            else:
+                concept_vector = None
             
-            return response
+            return {
+                "text": response,
+                "vector": concept_vector,
+                "tensors_available": True
+            }
             
         except Exception as e:
             logger.error(f"Generation error: {e}")
-            return f"Error during speech: {e}"
-
+            return {"text": f"Error: {e}", "vector": None}
+            
     def get_status(self) -> Dict[str, Any]:
         return {
             "model": self.model_name,
@@ -137,9 +149,5 @@ if __name__ == "__main__":
     bridge = SovereignBridge()
     if bridge.connect():
         print("\n--- Sovereign Turing Test ---")
-        questions = ["Who are you?", "What is the Monad?", "What is Love?"]
-        
-        for q in questions:
-            print(f"\nUser: {q}")
-            ans = bridge.generate(q, max_length=50)
-            print(f"Elysia: {ans}")
+        res = bridge.generate("What is Love?", "You are a philosopher.")
+        print(f"Elysia: {res['text']}")
