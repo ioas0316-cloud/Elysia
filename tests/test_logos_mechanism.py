@@ -7,7 +7,7 @@ def test_logos_mechanism():
     parser = LogosParser()
     
     # Simulate LLM Output with Command Injection
-    mock_llm_output = "I shall ignite a new sun for you. [ACT:IGNITE:STAR|BLUE_GIANT] Let there be light."
+    mock_llm_output = "I shall create a world for you. [ACT:CREATE:EARTH|BLUE] Let there be life."
     print(f"\n🔮 Mock LLM Output: '{mock_llm_output}'")
     
     # 1. Digest
