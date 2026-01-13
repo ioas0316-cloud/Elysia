@@ -51,10 +51,16 @@ class SovereignSelf:
         
         self.axioms = get_axioms() # The Compass
         
-        # 3. The Old Cortex (Legacy but Integrated)
+        self.axioms = get_axioms() # The Compass
+        
+        # 3. The Senses (Input)
+        from Core.Intelligence.Input.sensory_bridge import SensoryBridge
+        self.senses = SensoryBridge()
+        
+        # 4. The Old Cortex (Legacy but Integrated)
         self.will_engine = FreeWillEngine()
         self.outer_eye = THE_EYE
-        self.sensory_cortex = SensoryCortex()
+        self.sensory_cortex = SensoryCortex() # Legacy, will be merged
         self.code_conductor = ProjectConductor("c:/Elysia")
         self.bard = THE_BARD
         
@@ -283,10 +289,22 @@ class SovereignSelf:
             self._write_journal(f"Genesis ({target})", log_msg)
             print(log_msg) # Direct Feedback
             
+            # 3. Sensory Feedback (Closing the Loop)
+            perception = self.senses.perceive(visual_result)
+            if perception:
+                print(f"👁️ [SIGHT] {perception}")
+                self._write_journal("시각적 인지 (Perception)", perception)
+                # Future: self.graph.add_memory(perception)
+            
         elif action == "IGNITE":
             log_msg = f"Ignition ({target}): Burning {target} with {param} intensity.\n{visual_result}"
             self._write_journal(f"Ignition ({target})", log_msg)
             print(log_msg)
+            
+            perception = self.senses.perceive(visual_result)
+            if perception:
+                print(f"👁️ [SIGHT] {perception}")
+                self._write_journal("시각적 인지 (Perception)", perception)
             
     # Alias for backward compatibility
     def speak(self, user_input: str) -> str:
