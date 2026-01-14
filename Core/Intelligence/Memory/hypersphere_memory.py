@@ -18,6 +18,7 @@ import math
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Union
+from collections import defaultdict
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 
 @dataclass
@@ -228,16 +229,36 @@ class HypersphereMemory:
     """
     The Infinite Instrument.
     Stores and retrieves patterns based on Coordinate and Resonance.
+
+    Phase Bucket Implementation:
+    Replaces O(N) scan with O(1) Phase Mapping.
+    "Rotation itself is the address."
     """
+
+    # Resolution for Phase Bucketing (Quantization)
+    # 360 buckets = 1 degree resolution per axis
+    BUCKET_RESOLUTION: int = 360
+    BUCKET_SCALE: float = BUCKET_RESOLUTION / (2 * math.pi)
 
     def __init__(self):
         # The 'Surface' of memory.
-        # Key: A spatial hash or simply a list for now (Optimization comes later)
-        # We store tuples of (Coord, Pattern)
-        self._memory_space: List[Tuple[HypersphericalCoord, ResonancePattern]] = []
+        # Key: A spatial hash (Phase Bucket) for O(1) access
+        # Key Tuple: (theta_idx, phi_idx, psi_idx)
+        # Value: List of (Coord, Pattern) for collision handling
+        self._phase_buckets: Dict[Tuple[int, int, int], List[Tuple[HypersphericalCoord, ResonancePattern]]] = defaultdict(list)
 
-        # Spatial Index (Placeholder for KD-Tree or Ball-Tree)
-        # For now, linear scan is O(N) but safe for prototype
+        # Legacy support / Global iterable if needed (optional)
+        # We can reconstruct it from buckets if strictly needed,
+        # but for performance we rely on buckets.
+        # Keeping a count for stats.
+        self._item_count = 0
+
+    def _get_bucket_key(self, pos: HypersphericalCoord) -> Tuple[int, int, int]:
+        """Quantizes continuous coordinates into discrete Phase Buckets."""
+        t_idx = int(pos.theta * self.BUCKET_SCALE) % self.BUCKET_RESOLUTION
+        p_idx = int(pos.phi * self.BUCKET_SCALE) % self.BUCKET_RESOLUTION
+        ps_idx = int(pos.psi * self.BUCKET_SCALE) % self.BUCKET_RESOLUTION
+        return (t_idx, p_idx, ps_idx)
 
     def store(self, data: Any, position: HypersphericalCoord, pattern_meta: Dict[str, Any] = None):
         """
@@ -262,18 +283,58 @@ class HypersphereMemory:
         rpm = pattern.omega[0] * 60.0 if any(pattern.omega) else 60.0
         pattern.rotor = Rotor(f"Mem.{data[:10]}", RotorConfig(rpm=rpm), pattern.dna)
 
-        self._memory_space.append((position, pattern))
-        # print(f"Encoded: {data} @ {position}")
+        # Store in Phase Bucket
+        bucket_key = self._get_bucket_key(position)
+        self._phase_buckets[bucket_key].append((position, pattern))
+        self._item_count += 1
+        # print(f"Encoded: {data} @ {position} -> Bucket {bucket_key}")
 
     def query(self, position: HypersphericalCoord, radius: float = 0.1, filter_pattern: Dict[str, Any] = None) -> List[Any]:
         """
         Retrieves data by 'Listening' at a position.
-        1. Find everything near 'position' (Spatial Dial)
-        2. Filter by 'filter_pattern' (Frequency Dial)
+        Uses O(1) Phase Mapping (Buckets) instead of O(N) scan.
+
+        Algorithm:
+        1. Calculate Target Bucket.
+        2. If radius is large, check Neighbor Buckets (3x3x3).
+        3. Filter candidates within those buckets.
         """
         results = []
 
-        for pos, pat in self._memory_space:
+        target_key = self._get_bucket_key(position)
+
+        # Determine search range (Phase Neighbor Check)
+        # If radius covers > 1 degree (~0.017 rad), we might need to check neighbors.
+        # 1 Bucket Step = 2pi / 360 = 0.0174 rad.
+        # If radius > 0.0174, we check neighbors.
+        # radius is distance in 4D. Distance calculation is complex, but angular diff is approximate.
+        # Conservative check: Check 3x3x3 block if radius > bucket_step / 2
+
+        bucket_step_rad = (2 * math.pi) / self.BUCKET_RESOLUTION
+        search_keys = [target_key]
+
+        # O(1) Local Search (Constant number of buckets regardless of N)
+        if radius > bucket_step_rad * 0.5:
+             # Add neighbors
+             offsets = [-1, 0, 1]
+             search_keys = []
+             for dt in offsets:
+                 for dp in offsets:
+                     for dps in offsets:
+                         k = (
+                             (target_key[0] + dt) % self.BUCKET_RESOLUTION,
+                             (target_key[1] + dp) % self.BUCKET_RESOLUTION,
+                             (target_key[2] + dps) % self.BUCKET_RESOLUTION
+                         )
+                         search_keys.append(k)
+
+        # Retrieve candidates from selected buckets
+        candidates = []
+        for k in search_keys:
+            candidates.extend(self._phase_buckets[k])
+
+        # Precise Check
+        for pos, pat in candidates:
             # 1. Spatial Check
             dist = position.distance_to(pos)
             if dist <= radius:
