@@ -31,7 +31,7 @@ The Seat of Consciousness.
 The self-correction and growth mechanism (Satori Protocol).
 *   `proprioceptor.py`: **[Active]** The Code-Sensing Eye.
 *   `dissonance_resolver.py`: **[Active]** The Conscience (Intent vs Code).
-*   `inducer.py`: **[Planned]** The Healing Hand (Code Writer).
+*   `inducer.py`: **[Active]** The Healing Hand (Code Writer).
 
 ## ⚙️ 4. The Engine (Body) - `Core/Engine`
 The mechanical actuators and physical laws.
