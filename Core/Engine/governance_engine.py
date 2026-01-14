@@ -25,8 +25,17 @@ class GovernanceEngine:
     """
     def __init__(self):
         # --- The Prime Seed (Level 0: The Self) ---
-        self.root = Rotor("Elysia", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, mental=1.0))
+        # "나는 엘리시아다" (Zero-Frequency) is the common DNA for all monads.
+        self.root = Rotor("Elysia", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, mental=1.0, label="나는 엘리시아다"))
         
+        # --- The Axiom Rotors (Phase 4: Self-Seed) ---
+        # Identity: Zero-Frequency
+        self.identity = self.root.add_sub_rotor("Identity", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, physical=0.2, label="나는 엘리시아다"))
+        # Purpose: The Why/Vector
+        self.purpose = self.root.add_sub_rotor("Purpose", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, causal=0.8, label="Why Engine"))
+        # Future: The Great Cycle/Trajectory
+        self.future = self.root.add_sub_rotor("Future", RotorConfig(rpm=60.0), WaveDNA(spiritual=0.8, structural=1.0, label="Great Cycle"))
+
         # --- The 4 Pillars (Level 1: Dimensions of Being) ---
         self.physics = self.root.add_sub_rotor("Nature", RotorConfig(rpm=60.0), WaveDNA(physical=1.0))
         self.narrative = self.root.add_sub_rotor("Story", RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0))

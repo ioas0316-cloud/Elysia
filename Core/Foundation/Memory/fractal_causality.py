@@ -88,10 +88,13 @@ PHI = (1 + math.sqrt(5)) / 2  # ≈ 1.618
 # ============================================================================
 
 class CausalRole(Enum):
-    """인과 구조에서의 역할"""
-    CAUSE = "cause"       # 원인
-    PROCESS = "process"   # 과정
-    EFFECT = "effect"     # 결과
+    """인과 구조에서의 역할 (Phase 4A: 4-Step Causal Chain)"""
+    CAUSE = "cause"       # 원인 (Why)
+    STRUCTURE = "structure" # 구조 (How/Geometry)
+    FUNCTION = "function"  # 기능 (Action/Activation)
+    REALITY = "reality"    # 현실 (Manifestation)
+    PROCESS = "process"   # 과정 (Legacy 3-step)
+    EFFECT = "effect"     # 결과 (Legacy 3-step)
 
 
 # ============================================================================
@@ -126,8 +129,12 @@ class FractalCausalNode:
     parent_role: Optional[CausalRole] = None  # 부모에서 이 노드의 역할
     
     # 자식 노드들 (한 단계 하위 스케일의 인과 구조)
-    # 이 노드의 "내부"에 있는 원인-과정-결과
     internal_cause_ids: List[str] = field(default_factory=list)
+    internal_structure_ids: List[str] = field(default_factory=list)
+    internal_function_ids: List[str] = field(default_factory=list)
+    internal_reality_ids: List[str] = field(default_factory=list)
+    
+    # Legacy support
     internal_process_ids: List[str] = field(default_factory=list)
     internal_effect_ids: List[str] = field(default_factory=list)
     
@@ -189,8 +196,13 @@ class FractalCausalChain:
     id: str
     description: str = ""
     
-    # 핵심 삼중 구조
+    # 핵심 사중 구조 (Phase 4A)
     cause_id: Optional[str] = None
+    structure_id: Optional[str] = None
+    function_id: Optional[str] = None
+    reality_id: Optional[str] = None
+    
+    # Core 삼중 구조 (Legacy)
     process_id: Optional[str] = None
     effect_id: Optional[str] = None
     

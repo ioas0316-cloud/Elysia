@@ -7,6 +7,7 @@ logger = logging.getLogger("DigestiveSystem")
 from Core.System.respiratory_system import RespiratorySystem
 from Core.Intelligence.Metabolism.brain_digester import BrainDigester
 from Core.Intelligence.Metabolism.prism import DoubleHelixPrism, DoubleHelixWave
+from Core.Foundation.Memory.fractal_causality import FractalCausalityEngine, CausalRole
 
 class DigestiveSystem:
     """
@@ -22,18 +23,60 @@ class DigestiveSystem:
         self.elysia = elysia_ref
         self.lungs = RespiratorySystem(elysia_ref.bridge)
         self.prism = DoubleHelixPrism()
+        self.causality = FractalCausalityEngine("DigestiveCausality")
         
     def prepare_meal(self, model_name: str) -> bool:
         """Loads the target model via Respiratory System."""
         print(f"🍽️ [DigestiveSystem] Preparing meal: {model_name}...")
         return self.lungs.inhale(model_name)
 
+    def active_probe(self, param: torch.Tensor, name: str) -> Dict:
+        """
+        [MERKAVA Phase 4-A: Active Probing]
+        Stimulates the weights with dummy input and traces activation pattern
+        to extract the 4-Step Causal Chain: Cause -> Structure -> Function -> Reality.
+        """
+        # 1. Cause: Origin/Intent of this weight
+        cause_desc = f"Origin of {name}"
+        
+        # 2. Structure: Geometry of the weight
+        structure_desc = f"Geometric layout: {param.shape}"
+        
+        # 3. Function: Stimulate and observe activation
+        # Create a unit stimulus (Normal distribution)
+        stimulus = torch.randn(1, param.shape[-1])
+        with torch.no_grad():
+            # Simulated forward pass for this layer slice
+            # We use a simple matrix mul to see how it 'responds'
+            response = torch.matmul(stimulus, param[0:1].T)
+            sparsity = (response < 0.01).float().mean().item()
+            entropy = response.std().item()
+        
+        function_desc = f"Activation Response: S={sparsity:.2f}, E={entropy:.2f}"
+        
+        # 4. Reality: The final node classification
+        reality_desc = f"Manifested Node: {name}"
+        
+        # Build Fractal Chain
+        chain = self.causality.create_chain(cause_desc, "Processing...", reality_desc)
+        # Update to 4-step using the new roles
+        # Note: causal_chains logic should be expanded in fractal_causality.py
+        # For now, we store this 4-step insight in metadata.
+        
+        return {
+            "cause": cause_desc,
+            "structure": structure_desc,
+            "function": function_desc,
+            "reality": reality_desc
+        }
+
     def digest(self, start_layer: int = 0, end_layer: int = 5) -> Dict:
         """
         [Double Helix Digestion]
         Extracts weights and refracts them into 7D Waves via Prism.
+        Includes Active Probing logic.
         """
-        print("🦷 [DigestiveSystem] Chewing & Refracting (Double Helix Process)...")
+        print("🦷 [DigestiveSystem] Dynamic Digestion (Double Helix + Active Probing)...")
         
         if not self.lungs.current_model:
             raise Exception("No food in lungs to digest.")
@@ -44,22 +87,23 @@ class DigestiveSystem:
         layer_count = 0
         for name, param in model.named_parameters():
              if "weight" in name and param.dim() > 1:
-                 # Sample rows to create wave packets
-                 rows = min(10, param.shape[0])
+                 # Sample rows
+                 rows = min(5, param.shape[0])
+                 
+                 # Active Probe for the entire layer logic
+                 probe_data = self.active_probe(param, name)
                  
                  for i in range(rows):
                      try:
-                         # 1. Extract Raw Matter (Weight Tensor)
+                         # 1. Extract Raw Matter
                          raw_tensor = param[i].detach().cpu()
 
-                         # 2. Refract through Prism (Matter -> Wave)
-                         # This creates the Double Helix structure (Pattern + Principle)
+                         # 2. Refract through Prism
                          helix_wave: DoubleHelixWave = self.prism.refract_weight(raw_tensor, name)
 
                          # 3. Encapsulate for Transport
                          cid = f"{name}.Row{i}"
                          
-                         # Convert 7D Principle to metadata dict for inspection
                          qualia_vec = helix_wave.principle_strand.tolist()
                          qualia_meta = {
                              "physical": qualia_vec[0],
@@ -73,13 +117,14 @@ class DigestiveSystem:
                          
                          wave_packet = {
                              "id": cid,
-                             "pattern": helix_wave.pattern_strand,   # Surface Feature
-                             "principle": helix_wave.principle_strand, # 7D Essence
+                             "pattern": helix_wave.pattern_strand,   
+                             "principle": helix_wave.principle_strand, 
                              "phase": helix_wave.phase,
                              "metadata": {
                                  "source": "DoubleHelixDigestion",
                                  "layer": name,
-                                 "qualia": qualia_meta
+                                 "qualia": qualia_meta,
+                                 "causal_chain": probe_data # [NEW] 4-Step Chain
                              }
                          }
 
@@ -90,7 +135,7 @@ class DigestiveSystem:
                          continue
                      
                  layer_count += 1
-                 if layer_count > 150: break
+                 if layer_count > 50: break
                      
         return {"extracted_waves": extracted_waves}
 
