@@ -56,8 +56,8 @@ class TrinityLexicon:
         
         # Initialize the True Brain (TorchGraph)
         if TorchGraph:
-            self.graph = TorchGraph(use_cuda=True)
-            print(f"🧠 [TrinityLexicon] Connected to 4D TorchGraph.")
+            self.graph = TorchGraph(use_cuda=False) # CPU Only for Stability
+            print(f"🧠 [TrinityLexicon] Connected to 4D TorchGraph (CPU).")
         else:
             self.graph = None
             print(f"⚠️ [TrinityLexicon] TorchGraph missing. Running in disconnected mode.")

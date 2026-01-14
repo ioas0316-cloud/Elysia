@@ -36,6 +36,10 @@ class Rotor:
         if dna:
             self.dna.normalize()
 
+        # [NEW] Fractal Hierarchy
+        self.depth = 0
+        self.sub_rotors: Dict[str, 'Rotor'] = {}
+        
         # Dynamic State
         self.current_angle = random.uniform(0, 360)
         self.current_rpm = config.idle_rpm
@@ -44,6 +48,13 @@ class Rotor:
         
         # Energy State
         self.energy = 0.5 # 0.0 ~ 1.0
+
+    def add_sub_rotor(self, name: str, config: RotorConfig, dna: WaveDNA = None):
+        """Spawns a child rotor for fractal detail."""
+        child = Rotor(f"{self.name}.{name}", config, dna)
+        child.depth = self.depth + 1
+        self.sub_rotors[name] = child
+        return child
 
     @property
     def frequency_hz(self) -> float:
@@ -83,6 +94,10 @@ class Rotor:
         # Energy Decay (Non-perpetual rotors only)
         if not self.name.startswith("Reality.") and self.target_rpm == self.config.idle_rpm:
             self.energy *= (1.0 - (0.1 * dt)) # Natural decay
+
+        # [NEW] Recursive Update
+        for sub in self.sub_rotors.values():
+            sub.update(dt)
 
     @staticmethod
     def project(seed_angle: float, rpm: float, time_index: float) -> float:

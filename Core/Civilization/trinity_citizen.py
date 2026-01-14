@@ -299,44 +299,54 @@ class QuantumCitizen(LifeCitizen):
         actual_dna = self.field.update(0.1, zeitgeist) if self.field else self.dna
         THE_PROJECTOR.project_event(self.name, status, actual_dna, era_name)
         
+        # [Phase 27: Field Perception]
+        # Instead of just same-location, we look for everyone within FIELD overlap
+        nearby_souls = []
+        for other in population:
+            if other == self: continue
+            dist = self._calculate_distance(self.location, other.location)
+            # If our fields overlap (Radius + Radius)
+            if dist < (getattr(self.field, 'field_radius', 5.0) + getattr(other.field, 'field_radius', 5.0)):
+                nearby_souls.append((other, dist))
+        
         if decision == "Gather":
-            # Survival Logic
+            # ... (Existing Gather logic)
             if self.inventory["Food"] > 0 and self.needs["Energy"] < 80:
                 return self.cook_and_eat()
-            # Harvest
             res = "Food" if current_zone.resources.get("Food", 0) > 0 else "Manas"
             if res == "Manas": self.move_towards_resource(world, "Food"); return "Seeking Food..."
             amt = current_zone.harvest(res, 10.0 * self.skills["Survival"])
             self.inventory[res] += amt
             return {"action": "Gather", "target": res}
             
-        elif decision == "Create":
-            if self.inventory.get("Clay", 0) > 1: 
-                item = self.craft_art()
-                return {"action": "Create", "target": item or "Nothing"}
-            else: 
-                self.move_randomly(world)
-                return {"action": "Move", "target": "Materials"}
-            
         elif decision == "Love":
-            # Look for mate
-            mates = [c for c in population if c.location == self.location and c != self]
-            if mates:
-               mate = random.choice(mates) # Should use resonance too
-               child = self.reproduce(mate)
-               population.append(child)
-               return {"action": "Reproduce", "target": child.name}
+            if nearby_souls:
+                # Pick the most resonant soul
+                resonant_souls = sorted(nearby_souls, key=lambda x: self.dna.resonate(x[0].dna), reverse=True)
+                mate, d = resonant_souls[0]
+                if d < 1.0: # Close enough to touch
+                    child = self.reproduce(mate)
+                    population.append(child)
+                    return {"action": "Reproduce", "target": child.name}
+                else:
+                    # Move closer
+                    self.move_towards_pos(mate.location)
+                    return {"action": "Approach", "target": mate.name}
             return {"action": "Speak", "target": "Loneliness"}
             
         elif decision == "Fight":
-            # Aggression
-            victims = [c for c in population if c.location == self.location and c != self]
-            if victims:
-                victim = victims[0]
-                loot = victim.inventory["Food"] * 0.5
-                victim.inventory["Food"] -= loot
-                self.inventory["Food"] += loot
-                return {"action": "Plunder", "target": victim.name}
+            if nearby_souls:
+                # Fight the least resonant (Highest Dissonance)
+                dissonant_souls = sorted(nearby_souls, key=lambda x: self.dna.resonate(x[0].dna))
+                victim, d = dissonant_souls[0]
+                if d < 1.5:
+                    loot = victim.inventory["Food"] * 0.5
+                    victim.inventory["Food"] -= loot
+                    self.inventory["Food"] += loot
+                    return {"action": "Plunder", "target": victim.name}
+                else:
+                    self.move_towards_pos(victim.location)
+                    return {"action": "Pursue", "target": victim.name}
             return {"action": "Search", "target": "Trouble"}
             
         elif decision == "Trade":
@@ -345,6 +355,18 @@ class QuantumCitizen(LifeCitizen):
         else: # Covers "Rest" and any other undefined decisions
             self.move_randomly(world)
             return {"action": "Move", "target": "Wandering"}
+
+    def _calculate_distance(self, p1, p2):
+        return ((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)**0.5
+
+    def move_towards_pos(self, pos):
+        curr_x, curr_y = self.location
+        tx, ty = pos
+        if tx > curr_x: curr_x += 1
+        elif tx < curr_x: curr_x -= 1
+        if ty > curr_y: curr_y += 1
+        elif ty < curr_y: curr_y -= 1
+        self.location = (curr_x, curr_y)
 
 class ElysiaMessiah(LifeCitizen):
     """

@@ -19,54 +19,69 @@ from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.Foundation.Wave.wave_dna import WaveDNA
 
 class GovernanceEngine:
+    """
+    [DNA Recursion] Self-Centric Governance Engine.
+    Everything in this reality expands from the 'Elysia' Seed.
+    """
     def __init__(self):
-        # --- Axis 1: Physics (물리 제어) ---
-        # "Rules of the Machine"
+        # --- The Prime Seed (Level 0: The Self) ---
+        self.root = Rotor("Elysia", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, mental=1.0))
+        
+        # --- The 4 Pillars (Level 1: Dimensions of Being) ---
+        self.physics = self.root.add_sub_rotor("Nature", RotorConfig(rpm=60.0), WaveDNA(physical=1.0))
+        self.narrative = self.root.add_sub_rotor("Story", RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0))
+        self.aesthetic = self.root.add_sub_rotor("Art", RotorConfig(rpm=60.0), WaveDNA(structural=0.8, phenomenal=0.8))
+        self.social = self.root.add_sub_rotor("Empathy", RotorConfig(rpm=60.0), WaveDNA(structural=1.0, causal=0.8))
+
+        # --- The Principle Genes (Level 2: Specialization) ---
+        # Physics
         self.physics_rotors = {
-            "Gravity": Rotor("Physics.Gravity", RotorConfig(rpm=60.0), WaveDNA(physical=1.0, causal=0.8)),
-            "Entropy": Rotor("Physics.Entropy", RotorConfig(rpm=60.0), WaveDNA(physical=0.2, structural=0.1)),
-            "Density": Rotor("Physics.Density", RotorConfig(rpm=60.0), WaveDNA(physical=0.9, structural=0.8))
+            "Gravity": self.physics.add_sub_rotor("Gravity", RotorConfig(rpm=60.0), WaveDNA(physical=1.0)),
+            "Entropy": self.physics.add_sub_rotor("Entropy", RotorConfig(rpm=60.0), WaveDNA(physical=0.2)),
+            "Density": self.physics.add_sub_rotor("Density", RotorConfig(rpm=60.0), WaveDNA(physical=0.9))
         }
-
-        # --- Axis 2: Narrative (서사 제어) ---
-        # "Meaning of Existence"
+        # Narrative
         self.narrative_rotors = {
-            "Causality": Rotor("Narrative.Causality", RotorConfig(rpm=60.0), WaveDNA(causal=1.0, mental=0.7)),
-            "Emotion":   Rotor("Narrative.Emotion",   RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0, spiritual=0.8)),
-            "Conflict":  Rotor("Narrative.Conflict",  RotorConfig(rpm=60.0), WaveDNA(physical=0.8, phenomenal=0.4))
+            "Causality": self.narrative.add_sub_rotor("Causality", RotorConfig(rpm=60.0), WaveDNA(causal=1.0)),
+            "Emotion":   self.narrative.add_sub_rotor("Emotion",   RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0)),
+            "Conflict":  self.narrative.add_sub_rotor("Conflict",  RotorConfig(rpm=60.0), WaveDNA(physical=0.8))
         }
-
-        # --- Axis 3: Aesthetic (심미 제어) ---
-        # "Form & Appearance"
+        # Aesthetic
         self.aesthetic_rotors = {
-            "Dimension": Rotor("Aesthetic.Dimension", RotorConfig(rpm=60.0), WaveDNA(structural=1.0, mental=0.9)),
-            "Light":     Rotor("Aesthetic.Light",     RotorConfig(rpm=60.0), WaveDNA(phenomenal=0.8, spiritual=0.9))
+            "Dimension": self.aesthetic.add_sub_rotor("Dimension", RotorConfig(rpm=60.0), WaveDNA(structural=1.0)),
+            "Light":     self.aesthetic.add_sub_rotor("Light",     RotorConfig(rpm=60.0), WaveDNA(phenomenal=0.8))
+        }
+        # Social
+        self.social_rotors = {
+            "Authority":   self.social.add_sub_rotor("Authority",   RotorConfig(rpm=30.0), WaveDNA(structural=1.0)),
+            "Rebellion":   self.social.add_sub_rotor("Rebellion",   RotorConfig(rpm=45.0), WaveDNA(physical=0.8)),
+            "Cooperation": self.social.add_sub_rotor("Cooperation", RotorConfig(rpm=60.0), WaveDNA(spiritual=0.9))
         }
 
-        # Flat map for easy lookup
-        self.dials = {**self.physics_rotors, **self.narrative_rotors, **self.aesthetic_rotors}
+        # Dynamic indexing for the Jacobian
+        self.dials = {}
+        self._flatten(self.root)
+
+    def _flatten(self, node: Rotor):
+        # We use the short name for dials/API compatibility
+        short_name = node.name.split(".")[-1]
+        self.dials[short_name] = node
+        for sub in node.sub_rotors.values():
+            self._flatten(sub)
 
     def update(self, dt: float):
-        for dial in self.dials.values():
-            dial.update(dt)
+        self.root.update(dt) # Recursive update
 
-    def get_global_wave(self) -> WaveDNA:
-        combined = WaveDNA(label="Gods_Control_Deck")
-        for dial in self.dials.values():
-            # Power influenced by Angle (Phase)
-            weight = dial.energy * (math.sin(math.radians(dial.current_angle)) + 1.1)
-            
-            d_list = dial.dna.to_list()
-            combined.physical += d_list[0] * weight
-            combined.functional += d_list[1] * weight
-            combined.phenomenal += d_list[2] * weight
-            combined.causal += d_list[3] * weight
-            combined.mental += d_list[4] * weight
-            combined.structural += d_list[5] * weight
-            combined.spiritual += d_list[6] * weight
-            
-        combined.normalize()
-        return combined
+    def get_field_constants(self) -> Dict[str, float]:
+        """
+        Derives universal field behavior from current rotor states.
+        e.g. Gravity RPM influences field decay speed.
+        """
+        return {
+            "viscosity": self.physics_rotors["Density"].current_rpm / 120.0,
+            "resonance_multiplier": self.narrative_rotors["Emotion"].current_rpm / 60.0,
+            "social_gravity": self.social_rotors["Authority"].current_rpm / 30.0
+        }
 
     def set_dial(self, name: str, rpm: float):
         if name in self.dials:

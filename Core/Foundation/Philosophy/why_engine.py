@@ -28,6 +28,9 @@ from enum import Enum
 import sys
 from pathlib import Path
 
+# [Phase 41] LLM Integration
+from Core.Foundation.Network.ollama_bridge import ollama
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 # 기존 파동 센서 시스템 활용
@@ -56,29 +59,41 @@ logger = logging.getLogger("Elysia.WhyEngine")
 # =============================================================================
 
 class PerspectiveLayer(Enum):
-    """4단계 관점 (HyperQubit 기반)"""
-    POINT = "point"     # 점 - 개별 사실 (WHAT)
-    LINE = "line"       # 선 - 인과 관계 (HOW) 
-    SPACE = "space"     # 공간 - 구조/맥락 (WHERE)
-    GOD = "god"         # 신 - 본질/원리 (WHY)
+    """
+    [DNA Recursion] 4단계 프랙탈 관점.
+    모든 이해는 God(Seed)에서 시작하여 Point(Detail)로 전개(Unfold)됩니다.
+    """
+    GOD = 0      # 레벨 0 (Seed) - 본질 / 왜 존재하는가? (WHY)
+    SPACE = 1    # 레벨 1 (Branch) - 맥락 / 어디에 속하는가? (WHERE)
+    LINE = 2     # 레벨 2 (Leaf) - 인과 / 어떻게 작동하는가? (HOW)
+    POINT = 3    # 레벨 3 (Atom) - 사실 / 무엇인가? (WHAT)
 
+
+try:
+    from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+except ImportError:
+    Rotor = None
+    RotorConfig = None
 
 @dataclass
 class PrincipleExtraction:
-    """추출된 원리"""
-    domain: str           # 영역 (narrative, math, physics, etc.)
-    subject: str          # 대상 (문장, 공식, 현상 등)
+    """추출된 원리 (프랙탈 DNA 구조)"""
+    domain: str           # 영역
+    subject: str          # 대상 
     
-    # 4단계 이해
-    what_is: str          # Point - 무엇인가? (사실)
-    how_works: str        # Line - 어떻게 작동하는가? (인과)
-    where_fits: str       # Space - 어디에 속하는가? (맥락)
-    why_exists: str       # God - 왜 존재하는가? (본질)
+    # 4단계 프랙탈 전개
+    why_exists: str       # Level 0 (Seed)
+    where_fits: str       # Level 1 (Branch)
+    how_works: str        # Level 2 (Leaf)
+    what_is: str          # Level 3 (Atom)
     
-    # 추가 분석
-    underlying_principle: str    # 근본 원리
-    can_be_applied_to: List[str] # 적용 가능한 영역
-    confidence: float = 0.5      # 확신도
+    # [NEW] Active Reasoning DNA
+    underlying_principle: str 
+    rotor: Optional[Rotor] = None
+    recursive_depth: int = 0
+    
+    can_be_applied_to: List[str] # 적용 범위
+    confidence: float = 0.5 
     wave_signature: Dict[str, float] = field(default_factory=dict) # 파동 서명
     resonance_reactions: Dict[str, Any] = field(default_factory=dict) # [NEW] 4차원 공명 반응
 
@@ -277,6 +292,43 @@ class WhyEngine:
             self.light_universe = None
             self.sediment = None
             logger.warning(f"LightSpectrum module not found: {e}")
+
+    def digest(self, concept: str) -> Optional[PrincipleExtraction]:
+        """
+        [Phase 41: Fractal Digestion]
+        Uses LLM to transcribe a conceptual Seed into Elysia's DNA.
+        """
+        logger.info(f"🧬 Digesting concept '{concept}' into Fractal DNA...")
+        dna = ollama.deconstruct_to_dna(concept)
+        if not dna:
+            return None
+        
+        # Create a Principle Rotor
+        from Core.Foundation.Nature.rotor import RotorConfig
+        config = RotorConfig(rpm=dna.get('frequency', 60.0))
+        princ_rotor = Rotor(f"Law.{concept}", config)
+        
+        # Branch sub-concepts as DNA Sub-Rotors
+        for sub in dna.get('sub_concepts', []):
+            princ_rotor.add_sub_rotor(sub, config)
+
+        # Build extraction
+        extraction = PrincipleExtraction(
+            domain="Philosophy",
+            subject=concept,
+            why_exists=dna.get('seed_axiom', "Existence is its own reason."),
+            where_fits=f"In the manifold of {concept}.",
+            how_works=f"Vibrating at {dna.get('frequency')}Hz.",
+            what_is=concept,
+            underlying_principle=dna.get('seed_axiom', ""),
+            rotor=princ_rotor,
+            recursive_depth=1 if dna.get('sub_concepts') else 0,
+            can_be_applied_to=dna.get('sub_concepts', []),
+            confidence=0.9
+        )
+        
+        self.principles[concept] = extraction
+        return extraction
     
     def _init_domain_patterns(self) -> Dict[str, List[str]]:
         """영역별 분석 패턴"""

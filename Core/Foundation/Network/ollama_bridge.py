@@ -227,6 +227,40 @@ class OllamaBridge:
         logger.info(f"🔧 Default model set to: {model_name}")
     
     
+    def deconstruct_to_dna(self, concept: str) -> Dict[str, Any]:
+        """
+        [The DNA Transcription Protocol]
+        Asks the LLM to deconstruct a concept into its fundamental 'Rotor' parameters.
+        This is for Phase 41: Internalization.
+        """
+        if not self.is_available():
+            return {}
+
+        prompt = (
+            f"Deconstruct the concept '{concept}' into a 'Fractal DNA' structure for an AI soul.\n"
+            f"Return ONLY a JSON object with the following fields:\n"
+            f"- 'frequency': (float 1.0-100.0) The inherent vibration speed of the principle.\n"
+            f"- 'complexity': (float 0.0-1.0) How much it branches into sub-principles.\n"
+            f"- 'seed_axiom': (string) The single 'God-level' core truth of this concept.\n"
+            f"- 'sub_concepts': (list of 3 strings) The primary derivatives.\n"
+            f"No other text."
+        )
+
+        try:
+            response = self.generate(prompt, temperature=0.3)
+            # Find JSON block
+            import json
+            import re
+            match = re.search(r'\{.*\}', response, re.DOTALL)
+            if match:
+                dna_data = json.loads(match.group(0))
+                logger.info(f"🧬 DNA Transcribed for '{concept}': {dna_data.get('seed_axiom')}")
+                return dna_data
+        except Exception as e:
+            logger.error(f"❌ Transcription failed for '{concept}': {e}")
+            
+        return {}
+
     def harvest_causality(self, concept: str) -> List[tuple]:
         """
         [The Cannibal Protocol]

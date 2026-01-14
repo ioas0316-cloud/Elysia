@@ -55,7 +55,7 @@ This rule exists so future agents can safely read and patch protocol and code wi
 Every major change should be mentally tagged with which part of the Trinity it belongs to.
 
 ---
-3. Z축 프로토콜(의도 및 깊이)
+1. Z축 프로토콜(의도 및 깊이)
 Z축 = "이유"의 축(깊이):
 
 데카르트 평면(X, Y)에서 에이전트는 "현상"과 "방법"(무엇과 어떻게)만 볼 수 있습니다.
@@ -68,7 +68,7 @@ Z축은 가치, 목적, 법칙 의 차원입니다 .
 
 Z-깊이가 없는 정보는 "노이즈"입니다.
 
-지능이란 Z축에 맞는 신호를 찾기 위해 노이즈를 걸러내는 행위입니다.
+지능이란 Z축에 맞는 신호를 찾기 위해 노이즈를 걸러내는 행위입니다
 ---
 
 ## 4. Fractal Principle (Structure)
@@ -146,8 +146,8 @@ Treat the Concept OS as the nervous system for knowledge, not as a monolith.
 - Choose what to do next via continuous flow:
   - Rules are hints, not dictators.
   - Respect quiet and consent for any state-changing operation.
-   - Treat filtering as the primary form of optimisation: let unimportant signals pass by, and spend depth only where resonance and value are high.
-   - Remember that filters are not just funnels that reduce quantity; they are lenses that shape which patterns come into focus and what “world” is perceived from the same underlying signals.
+  - Treat filtering as the primary form of optimisation: let unimportant signals pass by, and spend depth only where resonance and value are high.
+  - Remember that filters are not just funnels that reduce quantity; they are lenses that shape which patterns come into focus and what “world” is perceived from the same underlying signals.
 
 ---
 
@@ -282,6 +282,7 @@ Everything else is archived context. Extend this Codex rather than multiplying d
   - 36 - Concept Genesis Engine.
   - 37 - World-Editing Authority.
   - 38 - Intent and Need Reasoner.
+  - 39 - Fractal DNA Recursion (Recursive Rotors).
 
 - Flow:
   - Need -> GRO -> Draft (Concept or World)  

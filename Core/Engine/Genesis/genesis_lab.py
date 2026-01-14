@@ -52,20 +52,22 @@ class GenesisLab:
         logger.info(f"📜 Decreed Law: {name} ({rpm} RPM)")
         return r
         
+    def tick(self, dt: float = 0.1):
+        """Run one simulation step."""
+        self.time_step += 1
+        for r in self.rotors:
+            r.update(dt)
+
     def run_simulation(self, ticks: int = 10):
         """Run the Universe."""
         print(f"\n🧪 [Experiment Start] {self.name}")
         print(f"   Structure: {len(self.monads)} Monads, {len(self.rotors)} Laws\n")
         
         for t in range(ticks):
-            self.time_step += 1
             print(f"   ⏱️ Tick {t}:")
-            dt = 0.1
-            
-            # 1. Update Rotors (Physics & Laws)
-            print(f"DEBUG: Updating {len(self.rotors)} Rotors.")
-            for r in self.rotors:
-                r.update(dt)
+            self.tick() # Use the new method
+                
+            # Log Snapshot (every 5 ticks)
                 
             # Log Snapshot (every 5 ticks)
             if t % 5 == 0:

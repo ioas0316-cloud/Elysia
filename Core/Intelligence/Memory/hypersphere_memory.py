@@ -18,6 +18,7 @@ import math
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Union
+from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 
 @dataclass
 class HypersphericalCoord:
@@ -175,13 +176,17 @@ class SubjectiveTimeField:
 class ResonancePattern:
     """
     The 'Data' itself.
-    A pattern of vibration that exists at a coordinate.
+    Updated to be a 'Memory Rotor' capable of recursive unfolding.
     """
-    # content: The raw information (payload)
     content: Any
+    dna: Optional[Any] = None # WaveDNA
+    
+    # [NEW] The Oscillator
+    # We initialize it in __post_init__ or the storage layer
+    rotor: Optional[Rotor] = None
 
     # Metadata defining the wave nature
-    omega: Tuple[float, float, float] = (0.0, 0.0, 0.0) # Rotation speed vector
+    omega: Tuple[float, float, float] = (0.0, 0.0, 0.0)
     phase: float = 0.0                                  # Initial phase angle
     topology: str = "point"                             # point, line, plane, space
     trajectory: str = "static"                          # static, spiral, orbit
@@ -189,6 +194,19 @@ class ResonancePattern:
     # Temporal properties
     timestamp: float = 0.0
     duration: float = 0.0
+
+    def unfold(self, depth: int = 1):
+        """[DNA Recursion] Unfolds the memory into sub-contextual rotors."""
+        if not self.rotor: return
+        
+        if len(self.rotor.sub_rotors) == 0 and depth > 0:
+            # Spawn children based on content complexity
+            self.rotor.add_sub_rotor("Context_A", RotorConfig(rpm=30.0), self.dna)
+            self.rotor.add_sub_rotor("Context_B", RotorConfig(rpm=15.0), self.dna)
+        
+        for sub in self.rotor.sub_rotors.values():
+            # Recursive unfolding
+            pass
 
     def matches_filter(self, criteria: Dict[str, Any]) -> bool:
         """
@@ -231,6 +249,7 @@ class HypersphereMemory:
 
         pattern = ResonancePattern(
             content=data,
+            dna=pattern_meta.get('dna'),
             omega=pattern_meta.get('omega', (0.0, 0.0, 0.0)),
             phase=pattern_meta.get('phase', 0.0),
             topology=pattern_meta.get('topology', 'point'),
@@ -238,6 +257,10 @@ class HypersphereMemory:
             timestamp=pattern_meta.get('timestamp', 0.0),
             duration=pattern_meta.get('duration', 0.0)
         )
+        
+        # Initialize the Memory Rotor
+        rpm = pattern.omega[0] * 60.0 if any(pattern.omega) else 60.0
+        pattern.rotor = Rotor(f"Mem.{data[:10]}", RotorConfig(rpm=rpm), pattern.dna)
 
         self._memory_space.append((position, pattern))
         # print(f"Encoded: {data} @ {position}")

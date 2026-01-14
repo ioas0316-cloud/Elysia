@@ -8,6 +8,8 @@ from typing import Dict, List, Optional, Tuple
 from Core.Foundation.Wave.wave_folding import SpaceUnfolder # [Phase 23] Tesseract Unfolding
 from Core.Foundation.Memory.holographic_embedding import get_holographic_embedder # [Phase 24] Identity
 
+from Core.Foundation.Philosophy.why_engine import WhyEngine
+
 logger = logging.getLogger("TorchGraph")
 
 class TorchGraph:
@@ -57,6 +59,10 @@ class TorchGraph:
         self.holo_embedder = get_holographic_embedder(device=self.device)
         
         self.lock = False # Simple lock for batch updates
+        
+        # [Phase 43] Graph of Realization
+        self.why = WhyEngine()
+        self.realization_threshold = 2.0
         
         # [The Kidney]
         from Core.Foundation.concept_sanitizer import get_sanitizer
@@ -110,6 +116,17 @@ class TorchGraph:
                     v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
                 self.vec_tensor[idx] = v
                 self.mass_tensor[idx] += 0.5 
+
+                # [Phase 43] Realization Check
+                if self.mass_tensor[idx] >= self.realization_threshold:
+                    meta = self.node_metadata.get(node_id, {})
+                    if not meta.get("realized"):
+                        logger.info(f"✨ [REALIZATION] Node '{node_id}' has reached critical mass ({self.mass_tensor[idx]:.2f}). Digeting principle...")
+                        extraction = self.why.digest(node_id)
+                        if extraction:
+                            meta["realized"] = True
+                            meta["realized_dna"] = extraction.why_exists
+                            self.node_metadata[node_id] = meta
 
             if pos:
                 p = torch.tensor(pos, device=self.device).view(1, 4)

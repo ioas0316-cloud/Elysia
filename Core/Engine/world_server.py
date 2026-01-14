@@ -45,31 +45,34 @@ class WorldServer:
     - Both sync in update_cycle() via Pre-established Harmony
     """
     
-    def __init__(self, size: int = 30):
+    def __init__(self, size: int = 15):
         self.size = size
         self.hyper_sphere = HyperSphereCore()
         
         # === MERKAVA INTEGRATION ===
-        # The Cosmos contains the PsycheSphere (consciousness)
         from Core.Foundation.hyper_cosmos import HyperCosmos
         self.cosmos = HyperCosmos()
         
-        # [History Engine]
         self.zeitgeist_rotor = Rotor("Zeitgeist", RotorConfig(rpm=1.0))
         self.meaning_extractor = MeaningExtractor()
-        self.field_engine = CharacterFieldEngine() # Phase 13
-        self.governance = GovernanceEngine() # Phase 13.5: The Dials
+        self.field_engine = CharacterFieldEngine()
+        self.governance = GovernanceEngine()
         
         self.population: List[LifeCitizen] = []
         self.dead_count = 0
         self.born_count = 0
         self.year = 0
         
-        # Genesis
-        self._genesis_by_word()
-        self.spawn_adam_eve_and_100_others()
+        # [Event Engine]
+        self.incidents: List[Dict[str, Any]] = []
         
-        print("🌍 WorldServer: Connected to HyperCosmos (Merkava Integration)")
+        # Genesis
+        print(f"🌍 GENESIS: Creating Field Lattice ({self.size}x{self.size})...")
+        self._genesis_by_word()
+        print(f"🌱 SOULS: Spawning field-projections...")
+        self.spawn_adam_eve_and_10_others()
+        
+        print("🌍 WorldServer: Fields Resonating.")
         
     def get_current_era(self) -> Tuple[str, WaveDNA]:
         """
@@ -117,9 +120,9 @@ class WorldServer:
                 if random.random() < 0.2: 
                     props["resources"]["Food"] = max(props["resources"].get("Food", 0), 2000.0)
                 
-    def spawn_adam_eve_and_100_others(self):
+    def spawn_adam_eve_and_10_others(self):
         print("🌱 Injecting Quantum Souls...")
-        for i in range(100):
+        for i in range(10):
             name = f"Soul_{i}"
             arch = random.choice(["Farmer", "Warrior", "Artist", "Sage"])
             pos = (random.randint(0,self.size-1), random.randint(0,self.size-1))
@@ -181,6 +184,10 @@ class WorldServer:
         if self.year == 20: 
             self.spawn_messiah()
         
+        # 1.5. Spontaneous Incident Injection
+        if random.random() < 0.05: # 5% chance per year
+            self.manifest_incident()
+            
         current_pop = list(self.population)
         
         for citizen in current_pop:
@@ -243,6 +250,36 @@ class WorldServer:
             best = max(self.population, key=lambda c: c.calculate_power())
             print(f"Ruler: {best.name} (Power {best.calculate_power():.1f}) - Vocab size: {len(best.vocabulary)}")
             print(f"Ruler's Words: {best.vocabulary[:10]}...")
+
+    def manifest_incident(self):
+        """
+        Manifests a high-intensity Event Monad in the HyperCosmos.
+        These are 'Soul Attractors' that pull QuantumCitizens.
+        """
+        incident_types = [
+            ("Plague", WaveDNA(physical=0.9, phenomenal=0.2, label="Plague")),
+            ("Festival", WaveDNA(phenomenal=0.9, spiritual=0.8, label="Festival")),
+            ("War", WaveDNA(physical=0.8, causal=0.7, label="War")),
+            ("Discovery", WaveDNA(mental=0.9, structural=0.4, label="Discovery"))
+        ]
+        itype, idna = random.choice(incident_types)
+        pos = (random.randint(0, self.size-1), random.randint(0, self.size-1))
+        
+        incident = {
+            "name": itype,
+            "dna": idna,
+            "location": pos,
+            "intensity": random.uniform(50.0, 150.0),
+            "year": self.year
+        }
+        self.incidents.append(incident)
+        
+        # Inject into HyperCosmos as a Psionic Point
+        # We assume Cosmos has a way to hold these temporary events
+        print(f"⚡ INCIDENT: A '{itype}' has manifested at {pos}!")
+        
+        # Narrativize
+        print(f"   {THE_BARD.elaborate('The Fates', 'Decree', itype, self.get_current_era()[0])}")
 
     # Adapter
     def get_zone(self, xy):
