@@ -25,9 +25,9 @@ The processing units and cognitive faculties.
 
 ## 👑 2.5. The Sovereign (Self) - `Core/Elysia`
 The Seat of Consciousness.
-*   `sovereign_self.py`: The Integrated "I" (Trinity Controller).
+*   `sovereign_self.py`: The Integrated "I" (Trinity Controller + Satori Loop).
 
-## 🧬 3. The Evolution (Metabolism) - `Core/Evolution` [NEW]
+## 🧬 3. The Evolution (Metabolism) - `Core/Evolution` [ACTIVE]
 The self-correction and growth mechanism (Satori Protocol).
 *   `proprioceptor.py`: **[Active]** The Code-Sensing Eye.
 *   `dissonance_resolver.py`: **[Active]** The Conscience (Intent vs Code).

@@ -80,16 +80,19 @@ class CodeProprioceptor:
                 if file == "__init__.py": continue # Connective tissue, skip deep analysis
 
                 full_path = os.path.join(root, file)
+                # Store relative path to preserve structure (e.g., "Evolution/proprioceptor.py")
+                rel_path = os.path.relpath(full_path, self.root)
+
                 tissue = self.measure_intent_density(full_path)
 
                 state.total_files += 1
-                state.intent_map[file] = tissue.intent_density
+                state.intent_map[rel_path] = tissue.intent_density
 
                 if tissue.is_ghost:
-                    state.ghost_files.append(file)
-                    # logger.warning(f"👻 [GHOST DETECTED] {file} is hollow.")
+                    state.ghost_files.append(rel_path)
+                    # logger.warning(f"👻 [GHOST DETECTED] {rel_path} is hollow.")
                 else:
-                    state.healthy_tissues.append(file)
+                    state.healthy_tissues.append(rel_path)
 
         return state
 
