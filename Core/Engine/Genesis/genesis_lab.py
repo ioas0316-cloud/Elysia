@@ -12,7 +12,8 @@ Manages:
 import time
 import logging
 from typing import List, Dict, Callable
-from Core.Engine.Genesis.universal_rotor import UniversalRotor, ConceptMonad
+from Core.Engine.Genesis.universal_rotor import UniversalRotor
+from Core.Engine.Genesis.concept_monad import ConceptMonad
 from Core.Foundation.Nature.rotor import RotorConfig
 
 logger = logging.getLogger("GenesisLab")
@@ -42,6 +43,12 @@ class GenesisLab:
         r.bind_context(context)
         
         self.rotors.append(r)
+        
+        # [Fix] Instant Spin-Up (Laws are eternal, they don't need warm-up)
+        r.current_rpm = rpm 
+        r.target_rpm = rpm
+        r.energy = 1.0 # Laws are fully active
+        
         logger.info(f"📜 Decreed Law: {name} ({rpm} RPM)")
         return r
         
@@ -52,11 +59,13 @@ class GenesisLab:
         
         for t in range(ticks):
             self.time_step += 1
+            print(f"   ⏱️ Tick {t}:")
             dt = 0.1
             
-            # Spin all Laws
+            # 1. Update Rotors (Physics & Laws)
+            print(f"DEBUG: Updating {len(self.rotors)} Rotors.")
             for r in self.rotors:
-                r.tick(dt)
+                r.update(dt)
                 
             # Log Snapshot (every 5 ticks)
             if t % 5 == 0:
