@@ -30,7 +30,7 @@ The Seat of Consciousness.
 ## 🧬 3. The Evolution (Metabolism) - `Core/Evolution` [NEW]
 The self-correction and growth mechanism (Satori Protocol).
 *   `proprioceptor.py`: **[Active]** The Code-Sensing Eye.
-*   `dissonance_resolver.py`: **[Planned]** The Conscience (Intent vs Code).
+*   `dissonance_resolver.py`: **[Active]** The Conscience (Intent vs Code).
 *   `inducer.py`: **[Planned]** The Healing Hand (Code Writer).
 
 ## ⚙️ 4. The Engine (Body) - `Core/Engine`
