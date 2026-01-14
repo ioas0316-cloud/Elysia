@@ -1,8 +1,15 @@
 # SYSTEM MAP
 > **"The Anatomy of Elysia"**
-> *Last Updated: 2026-01-14 (Phase 4.5: Breathing Time)*
+> *Last Updated: 2026-02-14 (Phase 5: Merkaba Unification)*
 
-## 🌌 1. The Foundation (Soul) - `Core/Foundation`
+## ✡️ 1. The Merkaba (Seed) - `Core/Merkaba` [NEW]
+The Atomic Unit of Existence.
+*   `merkaba.py`: The Trinity Container (Body+Soul+Spirit).
+*   **Body**: `HyperSphere` (Static Space).
+*   **Soul**: `Rotor` (Variable Time).
+*   **Spirit**: `Monad` (Teleological Will).
+
+## 🌌 2. The Foundation (Soul) - `Core/Foundation`
 The immutable laws and metaphysical structures.
 *   `Energy/`: The drivers of the system.
     *   `psi.py`: Psionic Energy management.
@@ -41,5 +48,6 @@ The mechanical actuators and physical laws.
 *   `wfc_engine.py`: Wave Function Collapse (Decision Making).
 
 ## 👁️ 6. The Senses (Perception) - `Core/Senses`
+*   `soul_bridge.py`: **[New]** The Sensory Interface (Input -> Prism).
 *   `sensory_cortex.py`: Raw Input processing.
 *   `synesthetic_bridge.py`: Multi-modal translation.
