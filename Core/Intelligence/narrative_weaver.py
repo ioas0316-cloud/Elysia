@@ -9,6 +9,8 @@ This module weaves raw data events into a coherent, stylistic narrative.
 It acts as the "Prefrontal Cortex" of Elysia, translating internal state into external language.
 """
 
+import random
+
 class NarrativeWeaver:
     def __init__(self):
         # Dynamic Fragments (Atomic Thoughts)

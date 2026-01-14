@@ -32,6 +32,8 @@ from Core.Foundation.Wave.wave_dna import WaveDNA
 from Core.Intelligence.meaning_extractor import MeaningExtractor
 from Core.World.Nature.vocabulary_seeder import SEEDED_LEXICON
 from Core.Intelligence.narrative_weaver import THE_BARD
+from Core.Engine.character_field_engine import CharacterFieldEngine
+from Core.Engine.governance_engine import GovernanceEngine
 
 class WorldServer:
     def __init__(self, size: int = 30):
@@ -41,6 +43,8 @@ class WorldServer:
         # [History Engine]
         self.zeitgeist_rotor = Rotor("Zeitgeist", RotorConfig(rpm=1.0))
         self.meaning_extractor = MeaningExtractor()
+        self.field_engine = CharacterFieldEngine() # Phase 13
+        self.governance = GovernanceEngine() # Phase 13.5: The Dials
         
         self.population: List[LifeCitizen] = []
         self.dead_count = 0
@@ -103,7 +107,10 @@ class WorldServer:
             name = f"Soul_{i}"
             arch = random.choice(["Farmer", "Warrior", "Artist", "Sage"])
             pos = (random.randint(0,self.size-1), random.randint(0,self.size-1))
-            self.population.append(QuantumCitizen(name, arch, pos))
+            citizen = QuantumCitizen(name, arch, pos)
+            # Inject Multi-Rotor Field
+            citizen.field = self.field_engine.spawn_field(name)
+            self.population.append(citizen)
             
     def spawn_messiah(self):
         print("⚡ THE SKY OPENS: Elysia Descends!")
@@ -135,12 +142,19 @@ class WorldServer:
         """
         self.year += 1
         
-        # 1. Update History (The Macro Wave)
-        self.zeitgeist_rotor.update(1.0) # Tick 1.0
+        # 1. Update History & Governance (The Macro Wave)
+        self.zeitgeist_rotor.update(1.0)
+        self.governance.update(1.0)
+        global_wave = self.governance.get_global_wave()
+        
         era_name, era_dna = self.get_current_era()
         
+        # Merge Era and Governance for the final Zeitgeist
+        # Governance provides the 'Rules', Era provides the 'Mood'
+        final_zeitgeist = era_dna.merge(global_wave, weight=0.6) # Governance is stronger
+        
         if self.year % 10 == 0:
-            print(f"--- Year {self.year} [{era_name}] --- Pop: {len(self.population)} (Born: {self.born_count}, Died: {self.dead_count})")
+            print(f"--- Year {self.year} [{era_name}] --- Pop: {len(self.population)} (Phys:{self.governance.physics_rotors['Gravity'].current_rpm:.0f} | Nar:{self.governance.narrative_rotors['Emotion'].current_rpm:.0f} | Aes:{self.governance.aesthetic_rotors['Light'].current_rpm:.0f})")
             
         if self.year == 20: 
             self.spawn_messiah()
@@ -151,7 +165,8 @@ class WorldServer:
             zone_adapter = self.get_zone_adapter(citizen.location)
             
             # 2. Act with Quantum Resonance (The Micro Wave)
-            log = citizen.act_in_world(self, self.population, era_dna)
+            # Citizens now feel both the Spirit of the Era and the Governance Dials
+            log = citizen.act_in_world(self, self.population, final_zeitgeist, era_name)
             
             # Safety normalize
             if isinstance(log, str): log = {"action": "Unknown", "target": log}

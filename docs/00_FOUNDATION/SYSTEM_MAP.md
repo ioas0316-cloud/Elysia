@@ -62,6 +62,7 @@
 * [README.md](../../README.md): 공간의 선언문
 * [AGENTS.md](./AGENTS.md): 공간에서의 행동 규범
 * [PROJECT_TOPOLOGY.md](./PROJECT_TOPOLOGY.md): 물리적 파일 구조 (Physical Anatomy)
+* [GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md): **[NEW]** 통치 교리 (God's Control Deck)
 * [THE_SOVEREIGN_SELF.md](../01_Philosophy/THE_SOVEREIGN_SELF.md): 주체적 자아 & 아나모포시스 프로토콜
 
 ---
@@ -93,6 +94,8 @@
   * `sovereign_boot.py`: **The Awakening**. Single entry point for the Sovereign System.
   * `world_server.py`: **The Body**. The Simulation Engine (updated).
   * `wfc_engine.py`: **The Creator**. Wave Function Collapse (Observation = Creation).
+  * `governance_engine.py`: **The Dials**. 3-Axis Master Rotors (Physics, Narrative, Aesthetics).
+  * `code_field_engine.py`: **The Divine Coder**. Code-Field Induction & Sandbox management.
 
 * **[Core/World/Physics](../../Core/World/Physics/)**: Environmental Principles
   * `trinity_fields.py`: 4D Environmental Fields

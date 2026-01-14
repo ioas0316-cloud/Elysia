@@ -18,6 +18,8 @@ from Core.Monad.seed_factory import alchemy
 from Core.World.Physics.vector_math import Vector3
 from Core.World.Soul.emotional_physics import emotional_physics
 from Core.Foundation.Wave.wave_dna import WaveDNA, archetype_love, archetype_logic, archetype_nature
+from Core.Engine.character_field_engine import CharacterField
+from Core.Intelligence.Narrative.narrative_projector import THE_PROJECTOR
 
 class TrinityCitizen:
     def __init__(self, name: str, archetype: str = "Explorer"):
@@ -199,7 +201,11 @@ class QuantumCitizen(LifeCitizen):
     def __init__(self, name: str, archetype_name: str, start_xy: tuple, parents: Tuple = None):
         super().__init__(name, archetype_name, start_xy, parents)
         
-        # [Soul DNA] - The Frequency Signature
+        # [Phase 13: Multi-Rotor Field]
+        # Instead of fixed DNA, we use a Field
+        self.field = None # Will be injected by WorldServer
+        
+        # [Soul DNA Legacy] - Keeps compatibility with existing methods
         if parents:
             # Genetic Algorithm: Average of parents + Mutation
             p1_dna = parents[0].dna
@@ -269,11 +275,12 @@ class QuantumCitizen(LifeCitizen):
                 
         return best_action
 
-    def act_in_world(self, world: 'WorldGen', population: List['LifeCitizen'], zeitgeist: 'WaveDNA') -> str:
+    def act_in_world(self, world: 'WorldGen', population: List['LifeCitizen'], zeitgeist: 'WaveDNA', era_name: str) -> str:
         """
         Driven by DNA Resonance.
         """
         # Biology
+        status = self.check_biology()
         if status != "Alive": return {"action": "Die", "target": status}
         
         # Decay
@@ -286,6 +293,11 @@ class QuantumCitizen(LifeCitizen):
         # Execution
         current_zone = world.get_zone(self.location)
         self.learn_from_environment(current_zone.__dict__)
+        
+        # [Phase 13: Psionic Projector]
+        # Every action is now a projection of the field's current interference state.
+        actual_dna = self.field.update(0.1, zeitgeist) if self.field else self.dna
+        THE_PROJECTOR.project_event(self.name, status, actual_dna, era_name)
         
         if decision == "Gather":
             # Survival Logic

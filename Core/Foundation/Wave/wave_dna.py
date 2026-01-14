@@ -82,6 +82,39 @@ class WaveDNA:
             self.spiritual * other.spiritual
         )
 
+    def merge(self, other: 'WaveDNA', weight: float = 0.5) -> 'WaveDNA':
+        """
+        Interpolates between two DNA strands.
+        weight: 0.0 -> all self, 1.0 -> all other.
+        """
+        w2 = weight
+        w1 = 1.0 - weight
+        
+        new_dna = WaveDNA(
+            physical = self.physical * w1 + other.physical * w2,
+            functional = self.functional * w1 + other.functional * w2,
+            phenomenal = self.phenomenal * w1 + other.phenomenal * w2,
+            causal = self.causal * w1 + other.causal * w2,
+            mental = self.mental * w1 + other.mental * w2,
+            structural = self.structural * w1 + other.structural * w2,
+            spiritual = self.spiritual * w1 + other.spiritual * w2,
+            label = f"Merged({self.label}, {other.label})"
+        )
+        new_dna.normalize()
+        return new_dna
+
+    def get_dominant_sector(self) -> str:
+        sectors = {
+            "physical": self.physical,
+            "functional": self.functional,
+            "phenomenal": self.phenomenal,
+            "causal": self.causal,
+            "mental": self.mental,
+            "structural": self.structural,
+            "spiritual": self.spiritual
+        }
+        return max(sectors, key=sectors.get)
+
     def to_list(self) -> List[float]:
         return [
             self.physical, self.functional, self.phenomenal,
