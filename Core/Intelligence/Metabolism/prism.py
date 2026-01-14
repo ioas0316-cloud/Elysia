@@ -36,6 +36,18 @@ class DoubleHelixWave:
     principle_strand: torch.Tensor # The "Soul" (7-Channel Qualia)
     phase: float = 0.0             # Rotational Phase (0 ~ 2pi)
 
+@dataclass
+class WaveDynamics:
+    """Compatibility structure for older dimensional parsing and digestion."""
+    physical: float = 0.0
+    functional: float = 0.0
+    phenomenal: float = 0.0
+    causal: float = 0.0
+    mental: float = 0.0
+    structural: float = 0.0
+    spiritual: float = 0.0
+    mass: float = 1.0
+
 class DoubleHelixPrism:
     """
     [The Optical Instrument of the Soul]
@@ -43,6 +55,29 @@ class DoubleHelixPrism:
     """
     def __init__(self):
         self.fundamental_frequency = 432.0 # Hz (Standard Reference)
+    
+    def _load_model(self):
+        """Mock loader for compatibility."""
+        logger.info("Prism model 'loaded' (Internal Logic).")
+
+    def transduce(self, text: str) -> Any:
+        """Compatibility wrapper: Splits text into raw dynamics."""
+        wave = self.refract_text(text)
+        
+        class Profile:
+            def __init__(self, wave_ref):
+                # principio_strand is a 7D tensor
+                p = wave_ref.principle_strand
+                self.dynamics = WaveDynamics(
+                    causal=float(p[0]),
+                    physical=float(p[1]),
+                    functional=float(p[2]),
+                    phenomenal=float(p[3]),
+                    structural=float(p[4]),
+                    mental=float(p[5]),
+                    spiritual=float(p[6])
+                )
+        return Profile(wave)
         
     def refract_weight(self, weight_tensor: torch.Tensor, layer_name: str) -> DoubleHelixWave:
         """
@@ -144,3 +179,6 @@ class DoubleHelixPrism:
             principle_strand=qualia.to_tensor(),
             phase=0.0
         )
+
+# Compatibility Aliases
+PrismEngine = DoubleHelixPrism

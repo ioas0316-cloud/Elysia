@@ -10,7 +10,7 @@ Gemini API 없이도 사고하고 대화할 수 있게 만듭니다.
 
 import requests
 import logging
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Any
 import time
 
 logger = logging.getLogger("OllamaBridge")

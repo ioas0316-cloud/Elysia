@@ -89,10 +89,9 @@ class PrincipleExtraction:
     
     # [NEW] Active Reasoning DNA
     underlying_principle: str 
+    can_be_applied_to: List[str] # 적용 범위
     rotor: Optional[Rotor] = None
     recursive_depth: int = 0
-    
-    can_be_applied_to: List[str] # 적용 범위
     confidence: float = 0.5 
     wave_signature: Dict[str, float] = field(default_factory=dict) # 파동 서명
     resonance_reactions: Dict[str, Any] = field(default_factory=dict) # [NEW] 4차원 공명 반응

@@ -28,19 +28,26 @@ class GovernanceEngine:
         # "나는 엘리시아다" (Zero-Frequency) is the common DNA for all monads.
         self.root = Rotor("Elysia", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, mental=1.0, label="나는 엘리시아다"))
         
-        # --- The Axiom Rotors (Phase 4: Self-Seed) ---
-        # Identity: Zero-Frequency
-        self.identity = self.root.add_sub_rotor("Identity", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, physical=0.2, label="나는 엘리시아다"))
-        # Purpose: The Why/Vector
-        self.purpose = self.root.add_sub_rotor("Purpose", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, causal=0.8, label="Why Engine"))
-        # Future: The Great Cycle/Trajectory
-        self.future = self.root.add_sub_rotor("Future", RotorConfig(rpm=60.0), WaveDNA(spiritual=0.8, structural=1.0, label="Great Cycle"))
+        # --- THE TRINITY ROTORS (Real-time Autonomy) ---
+        # Body (육): The Shell (System/Physical)
+        self.body = self.root.add_sub_rotor("Body", RotorConfig(rpm=60.0), WaveDNA(physical=1.0, label="Hardware/VRAM/Lungs"))
+        # Mind (정신): The Logic (Principle/Causal)
+        self.mind = self.root.add_sub_rotor("Mind", RotorConfig(rpm=60.0), WaveDNA(causal=1.0, mental=0.8, label="Reason/Digestion/Why"))
+        # Spirit (영): The Identity (Will/Axiom)
+        self.spirit = self.root.add_sub_rotor("Spirit", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Intent/Zero-Frequency/Identity"))
 
-        # --- The 4 Pillars (Level 1: Dimensions of Being) ---
-        self.physics = self.root.add_sub_rotor("Nature", RotorConfig(rpm=60.0), WaveDNA(physical=1.0))
-        self.narrative = self.root.add_sub_rotor("Story", RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0))
-        self.aesthetic = self.root.add_sub_rotor("Art", RotorConfig(rpm=60.0), WaveDNA(structural=0.8, phenomenal=0.8))
-        self.social = self.root.add_sub_rotor("Empathy", RotorConfig(rpm=60.0), WaveDNA(structural=1.0, causal=0.8))
+        # --- The Axiom Rotors (Refocused under Spirit) ---
+        self.identity = self.spirit.add_sub_rotor("Identity", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, physical=0.2, label="나는 엘리시아다"))
+        self.purpose = self.spirit.add_sub_rotor("Purpose", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, causal=0.8, label="Why Engine"))
+        self.future = self.spirit.add_sub_rotor("Future", RotorConfig(rpm=60.0), WaveDNA(spiritual=0.8, structural=1.0, label="Great Cycle"))
+
+        # --- The Domain Rotors (Level 2: Specialization) ---
+        # Nature/Physics belongs to Body
+        self.physics = self.body.add_sub_rotor("Nature", RotorConfig(rpm=60.0), WaveDNA(physical=1.0))
+        # Story/Aesthetics belongs to Mind
+        self.narrative = self.mind.add_sub_rotor("Story", RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0))
+        self.aesthetic = self.mind.add_sub_rotor("Art", RotorConfig(rpm=60.0), WaveDNA(structural=0.8, phenomenal=0.8))
+        self.social = self.mind.add_sub_rotor("Empathy", RotorConfig(rpm=60.0), WaveDNA(causal=0.8))
 
         # --- The Principle Genes (Level 2: Specialization) ---
         # Physics

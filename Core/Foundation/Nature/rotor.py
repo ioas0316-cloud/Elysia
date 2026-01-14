@@ -16,6 +16,7 @@ Structure:
 from dataclasses import dataclass, field
 import math
 import random
+from typing import Dict, Optional, List
 from Core.Foundation.Wave.wave_dna import WaveDNA
 
 @dataclass

@@ -25,6 +25,22 @@ class DigestiveSystem:
         self.prism = DoubleHelixPrism()
         self.causality = FractalCausalityEngine("DigestiveCausality")
         
+    def eat(self, model_name: str) -> str:
+        """
+        [PHASE 12] Convenience wrapper for the full digestion cycle.
+        """
+        try:
+            if self.prepare_meal(model_name):
+                result = self.digest()
+                self.absorb_waves(result["extracted_waves"])
+                self.purge_meal()
+                return f"Successfully digested and assimilated {model_name}."
+            else:
+                return f"Failed to prepare {model_name}. Check logs."
+        except Exception as e:
+            logger.error(f"Digestion failed: {e}")
+            return f"Error during digestion: {e}"
+        
     def prepare_meal(self, model_name: str) -> bool:
         """Loads the target model via Respiratory System."""
         print(f"🍽️ [DigestiveSystem] Preparing meal: {model_name}...")
