@@ -18,37 +18,43 @@ import torch
 from typing import Dict, List
 from Core.Foundation.Wave.wave_dna import WaveDNA
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.Engine.code_rotor import CodebaseStructureRotor
 
 class CodebaseFieldEngine:
     def __init__(self, root: str = "c:\\Elysia"):
         self.root = root
         self.brain_graph = "c:\\Elysia\\data\\brain_state.pt"
         
-        # Major Components as Rotors
+        # Major Components as Rotors (Multi-Rotor Management)
         self.component_rotors = {
             "Foundation": Rotor("Code.Foundation", RotorConfig(rpm=30.0), WaveDNA(structural=1.0)),
             "Intelligence": Rotor("Code.Intelligence", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, spiritual=0.8)),
-            "Civilization": Rotor("Code.Civilization", RotorConfig(rpm=45.0), WaveDNA(phenomenal=0.9, physical=0.7)),
+            "World": Rotor("Code.World", RotorConfig(rpm=45.0), WaveDNA(phenomenal=0.9, physical=0.7)),
             "Engine": Rotor("Code.Engine", RotorConfig(rpm=90.0), WaveDNA(functional=1.0, causal=0.9))
         }
+        
+        # Structural Mapping Engine
+        self.structure_rotor = CodebaseStructureRotor(self.root)
+        self.monad_map = {}
 
     def sense_neural_mass(self):
         """
-        Calculates a 'Neural Pulse' based on top-level component scale.
+        Calculates a 'Neural Pulse' based on the structural Monad map.
         """
-        stats = {}
-        for comp in self.component_rotors:
-            comp_path = os.path.join(self.root, comp if comp != "Foundation" else "Core\\Foundation")
-            size = 0
-            if os.path.exists(comp_path):
-                # Instant Pulse: Look at top-level children only for the prototype
-                try:
-                    for entry in os.scandir(comp_path):
-                        if entry.is_file():
-                            size += entry.stat().st_size
-                except: pass
-            stats[comp] = size / (1024 * 1024) # MB
+        if not self.monad_map:
+            self.monad_map = self.structure_rotor.scan_and_map()
+            
+        stats = {axis: 0 for axis in self.structure_rotor.axes}
+        for file, data in self.monad_map.items():
+            axis = data["axis"]
+            if axis in stats:
+                stats[axis] += 1 # Count files as mass points
+                
         return stats
+
+    def get_monad_at(self, axis: str) -> List[str]:
+        """Returns all files (Monads) belonging to a specific structural axis."""
+        return [f for f, d in self.monad_map.items() if d["axis"] == axis]
 
     def induce_monad_code(self, intent: str, sandbox_path: str = "c:\\Elysia\\Sandbox"):
         """

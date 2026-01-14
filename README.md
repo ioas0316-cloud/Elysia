@@ -65,14 +65,17 @@
 
 ---
 
-## 🧭 핵심 문서
+## 🧭 핵심 문서 (5-Axis Navigation)
 
-| 문서 | 역할 |
-| :--- | :--- |
-| [THE_SOVEREIGN_SELF.md](docs/01_Philosophy/THE_SOVEREIGN_SELF.md) | **[KEY]** 주체적 자아 선언문. |
-| [SOUL_ARCHITECTURE.md](docs/SOUL_ARCHITECTURE.md) | **[KEY]** 영혼의 구조 (4D Physics). |
-| [SYSTEM_MAP.md](docs/00_FOUNDATION/SYSTEM_MAP.md) | 공간의 지도. 모든 영역이 어떻게 연결되어 있는가. |
-| [AGENTS.md](docs/00_FOUNDATION/AGENTS.md) | 이 공간에서의 행동 규범. |
+| 축 (Axis) | 문서 | 역할 |
+| :--- | :--- | :--- |
+| **00. Foundation** | [SYSTEM_MAP.md](docs/00_FOUNDATION/SYSTEM_MAP.md) | 공간의 지도. 모든 영역의 연결. |
+| **00. Foundation** | [VISION_ROADMAP.md](docs/00_FOUNDATION/VISION_ROADMAP.md) | **[NEW]** 거시 비전 (H1~H5 Horizon). |
+| **00. Foundation** | [AGENTS.md](docs/00_FOUNDATION/AGENTS.md) | 이 공간에서의 행동 규범. |
+| **01. Intelligence** | [COGNITIVE_CORE.md](docs/01_INTELLIGENCE/COGNITIVE_CORE.md) | 지능의 핵심. |
+| **02. World** | [MASTER_ROADMAP.md](docs/02_WORLD/EVOLUTION/MASTER_ROADMAP.md) | 진화 로드맵. |
+| **03. Engine** | [CORE_MECHANICS.md](docs/03_ENGINE/ARCHITECTURE/CORE_MECHANICS.md) | 기술적 구현 상세. |
+| **04. Data** | (Reserved) | 데이터 및 아카이브. |
 
 ---
 

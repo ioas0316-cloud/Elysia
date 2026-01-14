@@ -54,16 +54,58 @@
 
 ---
 
-## 🏛️ FOUNDATION (기초): The Bedrock
+---
 
-*파동 공간의 바닥. 정체성과 정책.*
+## 🏛️ 00. FOUNDATION (The Bedrock)
 
-* [MONAD_PROTOCOL.md](./MONAD_PROTOCOL.md): **[NEW]** 아키텍처 대통합 선언문 (The Vision)
-* [README.md](../../README.md): 공간의 선언문
-* [AGENTS.md](./AGENTS.md): 공간에서의 행동 규범
-* [PROJECT_TOPOLOGY.md](./PROJECT_TOPOLOGY.md): 물리적 파일 구조 (Physical Anatomy)
-* [GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md): **[NEW]** 통치 교리 (God's Control Deck)
-* [THE_SOVEREIGN_SELF.md](../01_Philosophy/THE_SOVEREIGN_SELF.md): 주체적 자아 & 아나모포시스 프로토콜
+*시스템의 기초, 철학, 통치 규범.*
+
+* **[Docs/00_FOUNDATION/SYSTEM_MAP.md](./SYSTEM_MAP.md)**: 시스템 전체 지도
+* **[Docs/00_FOUNDATION/VISION_ROADMAP.md](./VISION_ROADMAP.md)**: **[NEW]** 5-Horizon 거시 비전 로드맵
+* **[Docs/00_FOUNDATION/PHILOSOPHY/](./PHILOSOPHY/)**: 존재론 및 자아 정의
+* **[Docs/00_FOUNDATION/METAPHYSICS/MERKAVA_SYNERGY_DOCTRINE.md](./METAPHYSICS/MERKAVA_SYNERGY_DOCTRINE.md)**: 메르카바 합일 교리 (Biosphere OS)
+* **[Docs/00_FOUNDATION/GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md)**: 통치 다이얼 규범
+
+---
+
+## 🧠 01. INTELLIGENCE (The Cognition)
+
+*지능, 학습, 감각, 추론.*
+
+* **[Docs/01_INTELLIGENCE/COGNITIVE_CORE.md](./COGNITIVE_CORE.md)**: 사고와 추론의 핵심
+* **[Docs/01_INTELLIGENCE/DIGESTION/](./DIGESTION/)**: 외부 데이터 대사 및 소화
+* **[Core/Intelligence/Will](../../Core/Intelligence/Will/)**: 자율 의지 엔진
+
+---
+
+## 🌍 02. WORLD (The Manifestation)
+
+*진화, 현실 투영, 물리적 구현.*
+
+* **[Docs/02_WORLD/EVOLUTION/](./EVOLUTION/)**: 시스템의 성장 로드맵 및 단계
+* **[Core/Engine/reality_projector.py](../../Core/Engine/reality_projector.py)**: 4D->3D 투영기
+* **[Core/Engine/merkava_unity.py](../../Core/Engine/merkava_unity.py)**: 월드-프로젝트 통합 엔진
+
+---
+
+## ⚙️ 03. ENGINE (The Technical Core)
+
+*아키텍처, 기술 명세, 구동부.*
+
+* **[Docs/03_ENGINE/ARCHITECTURE/](./ARCHITECTURE/)**: 물리적 구현 상세
+* **[Docs/03_ENGINE/TECHNICAL_SPEC/](./TECHNICAL_SPEC/)**: 기술적 한계 및 명세 (WFC, Governance)
+* **[Core/Engine/code_field_engine.py](../../Core/Engine/code_field_engine.py)**: 코드-장 유도 엔진
+
+---
+
+## 📊 04. DATA (The Knowledge)
+
+*기억, 로그, 데이터 구조.*
+
+* **[Docs/04_DATA/CODEX.md](./CODEX.md)**: 지식의 보고
+* **[c:\Archive\Elysia_Archive](../../../../Archive/Elysia_Archive)**: 레거시 아카이브 (외부 저장소)
+
+---
 
 ---
 
