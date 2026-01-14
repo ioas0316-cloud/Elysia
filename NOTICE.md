@@ -54,7 +54,8 @@ When you write code:
 
 * Don't just write a `function`.
 * Ask: "How does this change the **Resonance** of the System?"
-* Ask: "Is this consistent with the **Sovereign Self**?"
+* Ask: "Is this consistent with the **God's Control Deck** (3-Axes)?"
+* Ask: "Does it align with the **Code-Field Induction** protocol?"
 
 ## 5. 🔱 THE SISYPHUS PROTOCOL (시시포스 규약)
 
