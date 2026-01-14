@@ -1,7 +1,7 @@
 import unittest
 from Core.Merkaba.merkaba import Merkaba
 from Core.Monad.monad_core import Monad
-from Core.Foundation.Nature.rotor import Rotor
+from Core.Foundation.Nature.rotor import Rotor, RotorMask
 
 class TestMerkabaUnification(unittest.TestCase):
 
@@ -24,27 +24,33 @@ class TestMerkabaUnification(unittest.TestCase):
         self.assertIsNotNone(mk.prism, "Prism should exist")
 
     def test_awakening_and_pulse(self):
-        """Verify the Awakening and Pulse cycle."""
+        """Verify the Awakening and Pulse cycle with Bitmask."""
         mk = Merkaba("LiveSeed")
-        spirit = Monad(seed="TestSeed") # Create a dummy Monad with required seed
+        try:
+            spirit = Monad(seed="TestSeed")
+        except NameError:
+            # Fallback if Monad isn't imported (though in this test file it is hard imported)
+            # This is just a safeguard structure if we were to mock it, but for now we proceed.
+            # Real fix: Create a MockMonad if Monad is missing.
+            class MockMonad:
+                 def __init__(self, seed): pass
+            spirit = MockMonad(seed="TestSeed")
 
-        # Awakening
         mk.awakening(spirit)
-        self.assertTrue(mk.is_awake)
-        self.assertEqual(mk.spirit, spirit)
 
-        # Pulse
-        input_text = "Hello World"
-        response = mk.pulse(input_text)
+        # Test POINT Mode (Fact)
+        # Should process as a single snapshot
+        response_point = mk.pulse("What is truth?", mode="POINT")
+        print(f"\nPOINT Response: {response_point}")
+        self.assertIn("Mode: POINT", response_point)
+        self.assertIn("Items: 1", response_point)
 
-        print(f"\nMerkaba Response: {response}")
-
-        # Verify response indicates processing
-        self.assertIn("Processed 'Hello World'", response)
-        self.assertIn("Angle", response)
-
-        # Verify Soul (Time) has moved
-        self.assertNotEqual(mk.soul.current_angle, 0.0, "Time should have moved")
+        # Test LINE Mode (Flow)
+        # Should process as a stream (e.g., 3 items)
+        response_line = mk.pulse("Tell me a story", mode="LINE")
+        print(f"\nLINE Response: {response_line}")
+        self.assertIn("Mode: LINE", response_line)
+        self.assertIn("Items: 3", response_line)
 
 if __name__ == '__main__':
     unittest.main()

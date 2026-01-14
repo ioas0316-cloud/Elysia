@@ -2,22 +2,40 @@
 Rotor (자전축 로터)
 ==================================
 
-"The Rotor is the Oscillator."
-"로터가 곧 진동자다."
+"The Rotor is the Oscillator and the Filter."
+"로터는 진동자이자 차원의 마스크다."
 
 This module defines the Physical Rotor that powers the Hyper-Cosmos.
-Updated to hold **7D WaveDNA**.
+Updated to incorporate the **Bitmask Dimensional Lock** principle.
 
-Structure:
-- Base RPM: The carrier wave.
-- DNA: The 7D genetic code (Physical, Functional, Phenomenal, etc.)
+Principle:
+- **POINT (1111)**: All dimensions locked. Static Fact.
+- **LINE (0001)**: Time flows, Space locked. Narrative Stream.
+- **PLANE (0011)**: Time/Space mixed flow. Simulation.
+
+Bitmask Convention:
+- `1` = Locked (Fixed)
+- `0` = Flow (Variable)
 """
 
 from dataclasses import dataclass, field
 import math
 import random
-from typing import Dict, Optional, List
+from enum import Enum
+from typing import Dict, Optional, List, Tuple, Any
 from Core.Foundation.Wave.wave_dna import WaveDNA
+
+class RotorMask(Enum):
+    """
+    Dimensional Lock Mask.
+    Bits: [Theta, Phi, Psi, Time]
+    1 = Locked (Fixed)
+    0 = Flow (Variable)
+    """
+    POINT = (1, 1, 1, 1)  # All Fixed (Snapshot)
+    LINE  = (1, 1, 1, 0)  # Time Flows (Stream)
+    PLANE = (1, 1, 0, 0)  # Time & Psi Flow (Complex)
+    CHAOS = (0, 0, 0, 0)  # All Flow (Random)
 
 @dataclass
 class RotorConfig:
@@ -72,7 +90,7 @@ class Rotor:
         self.energy *= 0.99 # Decay
 
     def update(self, dt: float):
-        """Physics Step."""
+        """Physics Step (Legacy Spin)."""
         # Perpetual Rotors (Reality.*) always spin at config.rpm
         if self.name.startswith("Reality."):
             self.current_rpm = self.config.rpm
@@ -100,6 +118,47 @@ class Rotor:
         for sub in self.sub_rotors.values():
             sub.update(dt)
 
+    def process(self, coordinates: Tuple[float, float, float, float], mask: RotorMask) -> List[Tuple[float, float, float, float]]:
+        """
+        Applies the Bitmask Logic to the coordinates.
+
+        Args:
+            coordinates: (Theta, Phi, Psi, Time)
+            mask: The RotorMask enum (POINT, LINE, etc.)
+
+        Returns:
+            A list of coordinates.
+            - POINT: Returns [coords] (Static)
+            - LINE: Returns a sequence [t, t+1, t+2...] (Stream)
+        """
+        theta, phi, psi, time = coordinates
+        lock_theta, lock_phi, lock_psi, lock_time = mask.value
+
+        if mask == RotorMask.POINT:
+            # 1111: All Fixed. Return exact state.
+            return [coordinates]
+
+        elif mask == RotorMask.LINE:
+            # 1110: Time Flows. Return a stream.
+            # Simulate streaming 3 frames forward in time
+            stream = []
+            for t_step in range(3):
+                # Only Time changes
+                new_time = time + (t_step * 1.0) # Arbitrary time step
+                stream.append((theta, phi, psi, new_time))
+            return stream
+
+        elif mask == RotorMask.PLANE:
+            # 1100: Time & Psi Flow.
+            stream = []
+            for step in range(3):
+                new_time = time + step
+                new_psi = psi + (step * 15.0) # Rotate Psi
+                stream.append((theta, phi, new_psi, new_time))
+            return stream
+
+        return [coordinates] # Default
+
     @staticmethod
     def project(seed_angle: float, rpm: float, time_index: float) -> float:
         """
@@ -115,9 +174,6 @@ class Rotor:
         [Monad Protocol] Time Teleportation.
         Instantaneously sets the rotor state to the given time index.
         """
-        # If dynamic RPM is needed, we would integrate the RPM curve.
-        # For now, we assume current_rpm is the valid constant for projection
-        # or that this implies a "constant velocity" projection.
         self.current_angle = Rotor.project(seed_angle, self.current_rpm, time_index)
 
     def __repr__(self):

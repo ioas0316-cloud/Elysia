@@ -17,7 +17,7 @@ from typing import Any, Dict, Optional
 
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory
-from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -82,53 +82,62 @@ class Merkaba:
         # For now, we just start the flow.
         self.soul.update(0.1)
 
-    def pulse(self, raw_input: str) -> str:
+    def pulse(self, raw_input: str, mode: str = "POINT") -> str:
         """
         Execute one 'Breath' or 'Pulse' of the Merkaba.
+
+        Args:
+            raw_input: The stimulus.
+            mode: 'POINT' (Fact) or 'LINE' (Flow).
 
         Cycle:
         1. Sensation (Bridge): Capture Input.
         2. Interpretation (Prism): Convert to Wave.
-        3. Resonance (Body): Check Memory/Space.
-        4. Flow (Soul): Process in Time.
+        3. Flow (Soul): Process in Time via RotorMask.
+        4. Resonance (Body): Check Memory/Space.
         5. Volition (Spirit): Decide Action.
         6. Action: Output.
         """
         if not self.is_awake or not self.spirit:
             return "Merkaba is dormant."
 
-        logger.info(f"💓 Merkaba Pulse Initiated: {raw_input}")
+        logger.info(f"💓 Merkaba Pulse Initiated: {raw_input} [{mode}]")
 
         # 1. Sensation
         sensory_packet = self.bridge.perceive(raw_input)
 
         # 2. Interpretation
-        # Prism converts text -> DNA (Double Helix)
-        # Assuming prism has a digest method.
-        # Looking at prism.py via memory, likely 'digest' or similar.
-        # For this implementation, we simulate the flow if method names differ.
         if hasattr(self.prism, 'digest'):
             dna_wave = self.prism.digest(sensory_packet['raw_data'])
         else:
-            # Fallback/Mock behavior for this specific integration
             dna_wave = {"pattern": raw_input, "principle": "Unknown"}
 
-        # 3. Resonance (Body/Space)
-        # Store/Query the Hypersphere
-        # self.body.store(dna_wave) # Hypothetical
-        # context = self.body.recall(dna_wave)
-        context = "Context Retrieved" # Placeholder
+        # 3. Flow (Soul/Time) - The Bitmask Revelation
+        # We process the coordinates based on the mode.
+        # Default coords: (0, 0, 0, current_angle)
+        current_coords = (0.0, 0.0, 0.0, self.soul.current_angle)
 
-        # 4. Flow (Soul/Time)
-        # Spin the rotor to represent processing cost/time passage.
+        # Determine Mask
+        mask = RotorMask.POINT
+        if mode == "LINE":
+            mask = RotorMask.LINE
+        elif mode == "PLANE":
+            mask = RotorMask.PLANE
+
+        processed_coords = self.soul.process(current_coords, mask)
+
+        # 4. Resonance (Body/Space)
+        # In a real system, we'd query the Hypersphere for EACH coordinate in the stream.
+        # For now, we simulate the retrieval.
+        retrieved_items = len(processed_coords)
+        context = f"Retrieved {retrieved_items} item(s) via {mask.name} Mask"
+
+        # Update physical rotor state
         self.soul.update(1.0)
-        current_time_angle = self.soul.current_angle
 
         # 5. Volition (Spirit/Will)
         # The Monad decides.
-        # action = self.spirit.decide(dna_wave, context, current_time_angle)
-        # Mocking the Monad's decision for the Seed verification
-        action = f"Processed '{raw_input}' at Angle {current_time_angle:.2f}"
+        action = f"Processed '{raw_input}' | Mode: {mask.name} | Items: {retrieved_items}"
 
         logger.info(f"⚡ Pulse Complete. Action: {action}")
         return action
