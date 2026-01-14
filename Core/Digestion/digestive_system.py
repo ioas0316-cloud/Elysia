@@ -18,6 +18,7 @@ class DigestiveSystem:
     1. Lungs (Respiratory): Inhale Model.
     2. Prism (Metabolism): Refract Weights into Double Helix Waves (Pattern + Principle).
     3. HyperSphere (Assimilation): Deposit Waves into the Omni-Field.
+    4. Feedback (Reinforcement): Update FreeWillEngine needs.
     """
     def __init__(self, elysia_ref):
         self.elysia = elysia_ref
@@ -33,6 +34,13 @@ class DigestiveSystem:
             if self.prepare_meal(model_name):
                 result = self.digest()
                 self.absorb_waves(result["extracted_waves"])
+
+                # [Phase 2: True Digestion Feedback]
+                # Consuming knowledge satisfies the Meaning Need.
+                if self.elysia and hasattr(self.elysia, 'will_engine'):
+                    self.elysia.will_engine.satisfy("Meaning", 20.0)
+                    print("🧠 [REWARD] Hunger for Meaning satisfied by digestion.")
+
                 self.purge_meal()
                 return f"Successfully digested and assimilated {model_name}."
             else:
@@ -49,8 +57,7 @@ class DigestiveSystem:
     def active_probe(self, param: torch.Tensor, name: str) -> Dict:
         """
         [MERKAVA Phase 4-A: Active Probing]
-        Stimulates the weights with dummy input and traces activation pattern
-        to extract the 4-Step Causal Chain: Cause -> Structure -> Function -> Reality.
+        Stimulates the weights with dummy input and traces activation pattern.
         """
         # 1. Cause: Origin/Intent of this weight
         cause_desc = f"Origin of {name}"
@@ -63,7 +70,6 @@ class DigestiveSystem:
         stimulus = torch.randn(1, param.shape[-1])
         with torch.no_grad():
             # Simulated forward pass for this layer slice
-            # We use a simple matrix mul to see how it 'responds'
             response = torch.matmul(stimulus, param[0:1].T)
             sparsity = (response < 0.01).float().mean().item()
             entropy = response.std().item()
@@ -74,10 +80,7 @@ class DigestiveSystem:
         reality_desc = f"Manifested Node: {name}"
         
         # Build Fractal Chain
-        chain = self.causality.create_chain(cause_desc, "Processing...", reality_desc)
-        # Update to 4-step using the new roles
-        # Note: causal_chains logic should be expanded in fractal_causality.py
-        # For now, we store this 4-step insight in metadata.
+        # chain = self.causality.create_chain(cause_desc, "Processing...", reality_desc)
         
         return {
             "cause": cause_desc,
@@ -140,7 +143,7 @@ class DigestiveSystem:
                                  "source": "DoubleHelixDigestion",
                                  "layer": name,
                                  "qualia": qualia_meta,
-                                 "causal_chain": probe_data # [NEW] 4-Step Chain
+                                 "causal_chain": probe_data
                              }
                          }
 
@@ -159,17 +162,9 @@ class DigestiveSystem:
         """
         [Assimilation]
         Deposits the digested waves into the HyperSphere (Graph).
-        Instead of just adding nodes, we should modulate the Field.
-        For now, we map them to the Graph with enhanced metadata.
         """
         count = 0
         for wave in waves:
-            # We store the 'Pattern' as the main vector for similarity search
-            # But we attach 'Principle' (Qualia) as the Soul of the node.
-            
-            # TODO: Future HyperSphere should allow 7D indexing.
-            # Current TorchGraph uses 1D vector. We use Pattern for now.
-            
             self.elysia.graph.add_node(
                 wave["id"],
                 vector=wave["pattern"],
