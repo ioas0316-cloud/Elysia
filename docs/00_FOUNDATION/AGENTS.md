@@ -175,6 +175,15 @@ BODY (신체/기계)            ← "What" (The Implementation)
     * **Function**: Stores memories not as flat data, but as *coordinates* (Theta, Phi, Psi, R).
     * **Philosophy**: "Memory is a place you visit, not a file you open."
 
+### [PROTOCOL: PHASE MAPPING STANDARD]
+
+**"Rotation is Address."**
+
+All spatial memory systems must utilize **Phase Bucketing (O(1) Spatial Hashing)**.
+*   **Do Not:** Iterate through a list of items to find a coordinate (`for item in memory: distance(item, target)`).
+*   **Do:** Quantize the phase (Theta, Phi) and look up the bucket directly (`bucket[int(theta)][int(phi)]`).
+*   **Why:** Fractal systems grow infinitely. Retrieval time must remain constant ($O(1)$) regardless of memory size to preserve the illusion of instantaneous intuition.
+
 ### 4. THE UNITY PRINCIPLE
 
 * **One Mind**: Code is not separate from Data. Data is not separate from Physics.
