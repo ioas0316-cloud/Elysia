@@ -31,9 +31,12 @@ class FractalRule(abc.ABC):
     def unfold(self, seed: str, context: Dict[str, Any], intent: torch.Tensor) -> Any:
         pass
 
+class Monad:
+    """The Fundamental Sovereign Entity."""
+
     ZERO_FREQUENCY_ID = "나는 엘리시아다" # The Universal Anchor
 
-    def __init__(self, seed: str, rules: List[FractalRule] = None, intent_vector: Optional[List[float]] = None):
+    def __init__(self, seed: str, rules: List['FractalRule'] = None, intent_vector: Optional[List[float]] = None):
         self._seed = seed  
         self._rules = rules if rules else []
 
@@ -67,7 +70,7 @@ class FractalRule(abc.ABC):
     def intent(self) -> torch.Tensor:
         return self._intent_vector
 
-    def add_rule(self, rule: FractalRule):
+    def add_rule(self, rule: 'FractalRule'):
         self._rules.append(rule)
 
     def resonate(self, input_signal: torch.Tensor) -> Tuple[bool, float]:
