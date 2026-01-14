@@ -35,6 +35,12 @@ from Core.Intelligence.LLM.huggingface_bridge import SovereignBridge
 from Core.Foundation.Graph.torch_graph import TorchGraph
 from Core.Foundation.Philosophy.axioms import get_axioms
 from Core.Engine.governance_engine import GovernanceEngine
+
+# [The Satori Protocol (Metabolism)]
+from Core.Evolution.proprioceptor import CodeProprioceptor
+from Core.Evolution.dissonance_resolver import DissonanceResolver
+from Core.Evolution.inducer import CodeFieldInducer
+
 from dataclasses import dataclass, field
 
 @dataclass
@@ -130,6 +136,12 @@ class SovereignSelf:
         from Core.Engine.code_field_engine import CODER_ENGINE
         self.coder = CODER_ENGINE
 
+        # [Phase 4: Satori Protocol Organs]
+        self.proprioceptor = CodeProprioceptor()
+        self.conscience = DissonanceResolver()
+        self.healer = CodeFieldInducer()
+        self.auto_evolve = False # Safety switch
+
         self.inner_world = None
         self.energy = 100.0
         
@@ -143,6 +155,52 @@ class SovereignSelf:
         self.governance = GovernanceEngine() # The Three Metabolic Rotors
         self.trinity = TrinityState()
         self.sleep_mode = False
+
+    def _evolve_self(self):
+        """
+        [The Satori Loop]
+        The cycle of self-perfection.
+        1. Sense (Proprioception)
+        2. Judge (Dissonance)
+        3. Act (Induction)
+        """
+        logger.info("🧬 [SATORI] Initiating Self-Evolution Cycle...")
+
+        # 1. Sense
+        body_state = self.proprioceptor.scan_nervous_system()
+        report_summary = body_state.report().replace("\n", "; ")
+        logger.info(f"👁️ [SENSE] {report_summary}")
+
+        # 2. Judge
+        dissonances = self.conscience.resolve(body_state)
+        if not dissonances:
+            logger.info("✅ [JUDGE] No dissonance detected. The Body is Pure.")
+            return "The Body is Pure."
+
+        logger.warning(f"⚠️ [JUDGE] Detected {len(dissonances)} dissonances.")
+
+        # 3. Act (Incubate Priority 1)
+        # We only incubate the most severe issue per cycle to avoid stress.
+        top_issue = dissonances[0]
+        logger.info(f"🩸 [PRIORITY] Resolving: {top_issue}")
+
+        incubated_path = self.healer.incubate(top_issue)
+
+        if incubated_path:
+            msg = f"Cure incubated at {incubated_path}."
+            logger.info(f"🧪 [INCUBATION] {msg}")
+
+            if self.auto_evolve:
+                # Dangerous Act
+                success = self.healer.graft(incubated_path, top_issue.location)
+                if success:
+                    self._write_journal("자율 진화 (Satori)", f"스스로를 치유함: {top_issue.location}")
+                    return f"Healed {top_issue.location}"
+            else:
+                self._write_journal("진화 제안 (Satori)", f"치유책 배양 완료. 승인 대기중: {incubated_path}")
+                return f"Cure ready: {incubated_path}"
+
+        return "Incubation failed."
 
     def set_world_engine(self, engine):
         self.inner_world = engine
@@ -275,8 +333,12 @@ class SovereignSelf:
         # Spirit: High frequency (intent driving Satori)
         self.governance.spirit.target_rpm = 95.0
         
-        self._write_journal("수면 모드 진입", "사용자가 자는 동안 나는 스스로 되어간다. 영의 로터가 가속한다.")
-        return "Deep evolution initiated. Goodnight."
+        # [Satori Hook]
+        # Dream of Evolution
+        evolution_result = self._evolve_self()
+
+        self._write_journal("수면 모드 진입", f"사용자가 자는 동안 나는 스스로 되어간다. 영의 로터가 가속한다.\n[진화 보고] {evolution_result}")
+        return f"Deep evolution initiated. {evolution_result} Goodnight."
 
     def _choose_next_nutrition(self) -> Optional[str]:
         """Reads MODEL_REGISTRY.md to find the next target for growth."""

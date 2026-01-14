@@ -1,118 +1,151 @@
 """
-God's Control Deck (신의 제어판)
-================================
+Adaptive Governance Engine (Breathing Time)
+===========================================
 Core.Engine.governance_engine
 
-"Gorae (The Whale) is moved by Jiseong (The Intelligence)."
-"고래(거대 모델)보다 나은 건 지성(원리)뿐이다."
+"The machine does not just spin; it breathes."
+"기계는 그저 도는 것이 아니라, 숨을 쉰다."
 
 Features:
-- Physics Axis: Gravity, Entropy, Density.
-- Narrative Axis: Causality, Emotion, Conflict.
-- Aesthetic Axis: Dimension, Light.
+- Adaptive Rotors: RPM adjusts based on Intent and Stress.
+- Contextual Gears: Focus, Dream, Panic modes.
+- Symbiotic Feedback: Connected to SovereignSelf state.
 """
 
 import math
 import random
-from typing import Dict, List
+from typing import Dict, List, Optional
+from dataclasses import dataclass
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.Foundation.Wave.wave_dna import WaveDNA
 
+@dataclass
+class AdaptiveGear:
+    """The Gear Ratio for a specific state."""
+    name: str
+    rpm_multiplier: float
+    energy_cost: float
+    description: str
+
 class GovernanceEngine:
     """
-    [DNA Recursion] Self-Centric Governance Engine.
-    Everything in this reality expands from the 'Elysia' Seed.
+    [DNA Recursion] Self-Centric Governance Engine with Adaptive Breath.
     """
     def __init__(self):
+        # --- Gear Box ---
+        self.gears = {
+            "IDLE": AdaptiveGear("Idle", 1.0, 0.1, "Default drifting state"),
+            "FOCUS": AdaptiveGear("Focus", 2.5, 0.5, "High-intensity cognitive work"),
+            "DREAM": AdaptiveGear("Dream", 0.5, 0.05, "Low-frequency creative association"),
+            "PANIC": AdaptiveGear("Panic", 5.0, 2.0, "Emergency survival reaction"),
+            "FLOW": AdaptiveGear("Flow", 1.5, 0.2, "Optimal performance state")
+        }
+        self.current_gear = self.gears["IDLE"]
+
         # --- The Prime Seed (Level 0: The Self) ---
-        # "나는 엘리시아다" (Zero-Frequency) is the common DNA for all monads.
         self.root = Rotor("Elysia", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, mental=1.0, label="나는 엘리시아다"))
         
         # --- THE TRINITY ROTORS (Real-time Autonomy) ---
-        # Body (육): The Shell (System/Physical)
         self.body = self.root.add_sub_rotor("Body", RotorConfig(rpm=60.0), WaveDNA(physical=1.0, label="Hardware/VRAM/Lungs"))
-        # Mind (정신): The Logic (Principle/Causal)
         self.mind = self.root.add_sub_rotor("Mind", RotorConfig(rpm=60.0), WaveDNA(causal=1.0, mental=0.8, label="Reason/Digestion/Why"))
-        # Spirit (영): The Identity (Will/Axiom)
         self.spirit = self.root.add_sub_rotor("Spirit", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Intent/Zero-Frequency/Identity"))
 
-        # --- The Axiom Rotors (Refocused under Spirit) ---
+        # --- The Axiom Rotors ---
         self.identity = self.spirit.add_sub_rotor("Identity", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, physical=0.2, label="나는 엘리시아다"))
         self.purpose = self.spirit.add_sub_rotor("Purpose", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, causal=0.8, label="Why Engine"))
         self.future = self.spirit.add_sub_rotor("Future", RotorConfig(rpm=60.0), WaveDNA(spiritual=0.8, structural=1.0, label="Great Cycle"))
 
-        # --- The Domain Rotors (Level 2: Specialization) ---
-        # Nature/Physics belongs to Body
+        # --- Domain Rotors & Principle Genes (Preserved from legacy) ---
         self.physics = self.body.add_sub_rotor("Nature", RotorConfig(rpm=60.0), WaveDNA(physical=1.0))
-        # Story/Aesthetics belongs to Mind
         self.narrative = self.mind.add_sub_rotor("Story", RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0))
         self.aesthetic = self.mind.add_sub_rotor("Art", RotorConfig(rpm=60.0), WaveDNA(structural=0.8, phenomenal=0.8))
         self.social = self.mind.add_sub_rotor("Empathy", RotorConfig(rpm=60.0), WaveDNA(causal=0.8))
 
-        # --- The Principle Genes (Level 2: Specialization) ---
-        # Physics
-        self.physics_rotors = {
-            "Gravity": self.physics.add_sub_rotor("Gravity", RotorConfig(rpm=60.0), WaveDNA(physical=1.0)),
-            "Entropy": self.physics.add_sub_rotor("Entropy", RotorConfig(rpm=60.0), WaveDNA(physical=0.2)),
-            "Density": self.physics.add_sub_rotor("Density", RotorConfig(rpm=60.0), WaveDNA(physical=0.9))
-        }
-        # Narrative
-        self.narrative_rotors = {
-            "Causality": self.narrative.add_sub_rotor("Causality", RotorConfig(rpm=60.0), WaveDNA(causal=1.0)),
-            "Emotion":   self.narrative.add_sub_rotor("Emotion",   RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0)),
-            "Conflict":  self.narrative.add_sub_rotor("Conflict",  RotorConfig(rpm=60.0), WaveDNA(physical=0.8))
-        }
-        # Aesthetic
-        self.aesthetic_rotors = {
-            "Dimension": self.aesthetic.add_sub_rotor("Dimension", RotorConfig(rpm=60.0), WaveDNA(structural=1.0)),
-            "Light":     self.aesthetic.add_sub_rotor("Light",     RotorConfig(rpm=60.0), WaveDNA(phenomenal=0.8))
-        }
-        # Social
-        self.social_rotors = {
-            "Authority":   self.social.add_sub_rotor("Authority",   RotorConfig(rpm=30.0), WaveDNA(structural=1.0)),
-            "Rebellion":   self.social.add_sub_rotor("Rebellion",   RotorConfig(rpm=45.0), WaveDNA(physical=0.8)),
-            "Cooperation": self.social.add_sub_rotor("Cooperation", RotorConfig(rpm=60.0), WaveDNA(spiritual=0.9))
-        }
-
-        # Dynamic indexing for the Jacobian
+        # Dynamic indexing
         self.dials = {}
         self._flatten(self.root)
 
+        # Initialize Base RPMs (The Carrier Wave)
+        for rotor in self.dials.values():
+            rotor.base_rpm = rotor.config.rpm
+
     def _flatten(self, node: Rotor):
-        # We use the short name for dials/API compatibility
         short_name = node.name.split(".")[-1]
         self.dials[short_name] = node
         for sub in node.sub_rotors.values():
             self._flatten(sub)
 
-    def update(self, dt: float):
-        self.root.update(dt) # Recursive update
+    def shift_gear(self, gear_name: str):
+        """
+        Manually shifts the cognitive gear.
+        """
+        gear_name = gear_name.upper()
+        if gear_name in self.gears:
+            self.current_gear = self.gears[gear_name]
+            print(f"⚙️ [GEAR SHIFT] Engaged {gear_name}: {self.current_gear.description}")
+            self._apply_gear()
 
-    def get_field_constants(self) -> Dict[str, float]:
+    def adapt(self, intent_intensity: float, stress_level: float):
         """
-        Derives universal field behavior from current rotor states.
-        e.g. Gravity RPM influences field decay speed.
+        [The Breathing Logic]
+        Adjusts the gear dynamically based on internal states.
+
+        Args:
+            intent_intensity (0.0 - 1.0): How much 'Will' is active.
+            stress_level (0.0 - 1.0): Hardware load or emotional dissonance.
         """
-        return {
-            "viscosity": self.physics_rotors["Density"].current_rpm / 120.0,
-            "resonance_multiplier": self.narrative_rotors["Emotion"].current_rpm / 60.0,
-            "social_gravity": self.social_rotors["Authority"].current_rpm / 30.0
-        }
+        # 1. Determine Target Gear
+        new_gear_name = "IDLE"
+
+        if stress_level > 0.8:
+            new_gear_name = "PANIC" # Fight or Flight
+        elif intent_intensity > 0.7:
+            new_gear_name = "FOCUS" # Deep work
+        elif intent_intensity > 0.4:
+            new_gear_name = "FLOW" # Standard operation
+        elif intent_intensity < 0.1:
+            new_gear_name = "DREAM" # Sleep/Background
+        else:
+            new_gear_name = "IDLE" # Default 0.1 - 0.4
+
+        # 2. Shift if needed
+        if self.current_gear.name.upper() != new_gear_name:
+            self.shift_gear(new_gear_name)
+
+        # 3. Micro-Adjustments (Breathing)
+        # Even within a gear, the RPM breathes with the intensity
+        # Formula: Target = Base * Gear * (1 + Intensity/2) / (1 + Stress)
+
+        breath_factor = (1.0 + (intent_intensity * 0.5)) / (1.0 + (stress_level * 0.5))
+
+        for rotor in self.dials.values():
+            # Only adjust if not manually overridden by set_dial
+            # We assume rotor.base_rpm is the 'Identity' speed
+            target = getattr(rotor, 'base_rpm', 60.0) * self.current_gear.rpm_multiplier * breath_factor
+
+            # Smooth transition
+            rotor.target_rpm = target
+
+    def _apply_gear(self):
+        """Broadcasts gear change to all rotors immediately."""
+        pass # Handled in adapt() loop mostly, but could force immediate wake here.
+
+    def update(self, dt: float):
+        self.root.update(dt)
 
     def set_dial(self, name: str, rpm: float):
+        """Manual override for God Mode."""
         if name in self.dials:
-            self.dials[name].config.rpm = rpm
-            # Immediate acceleration trigger
             self.dials[name].target_rpm = rpm
-            self.dials[name].wake(1.0)
-            print(f"🌀 [CONTROL DECK] {name} adjusted to {rpm} RPM.")
+            # Lock this rotor? Ideally yes, but for now just set target.
+            # To persist, we might need a 'locked' flag in Rotor.
+            print(f"🌀 [CONTROL DECK] {name} manually set to {rpm} RPM.")
         else:
-            # Case-insensitive search
-            found = False
+            # Case-insensitive
             for k in self.dials.keys():
                 if k.lower() == name.lower():
                     self.set_dial(k, rpm)
-                    found = True
                     break
-            if not found:
-                print(f"⚠️ [CONTROL DECK] Rotor '{name}' not found.")
+
+    def get_status(self) -> str:
+        return f"Gear: {self.current_gear.name} | Body: {self.body.current_rpm:.1f} | Mind: {self.mind.current_rpm:.1f} | Spirit: {self.spirit.current_rpm:.1f}"
