@@ -35,6 +35,7 @@ class RotorMask(Enum):
     POINT = (1, 1, 1, 1)  # All Fixed (Snapshot)
     LINE  = (1, 1, 1, 0)  # Time Flows (Stream)
     PLANE = (1, 1, 0, 0)  # Time & Psi Flow (Complex)
+    VOLUME= (1, 0, 0, 0)  # Time, Psi, Phi Flow (Solid)
     CHAOS = (0, 0, 0, 0)  # All Flow (Random)
 
 @dataclass
@@ -162,6 +163,18 @@ class Rotor:
                 new_time = time + (step * direction)
                 new_psi = psi + (step * 15.0 * direction) # Rotate Psi
                 stream.append((theta, phi, new_psi, new_time))
+            return stream
+
+        elif mask == RotorMask.VOLUME:
+            # 1000: Time, Psi, Phi Flow.
+            direction = 1.0 if self.current_rpm >= 0 else -1.0
+
+            stream = []
+            for step in range(3):
+                new_time = time + (step * direction)
+                new_psi = psi + (step * 15.0 * direction)
+                new_phi = phi + (step * 30.0 * direction) # Rotate Phi faster
+                stream.append((theta, new_phi, new_psi, new_time))
             return stream
 
         return [coordinates] # Default
