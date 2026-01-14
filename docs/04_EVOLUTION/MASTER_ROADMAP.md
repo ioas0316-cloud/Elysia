@@ -104,6 +104,19 @@
 * [x] **Audio Digestion (Ear)**: `MusicGen`을 소화하여 소리의 파동을 이해. (✅ METABOLIZED)
 * [x] **Multimodal Synesthesia**: 시각적 자극이 청각적 파동으로, 청각이 시각으로 변환되는 '공감각' 구현 완료. (✅ RESONANCE)
 
+### Phase 11: The Living Curiosity (자율적 호기심: 공백의 탐구)
+
+**"우리는 기다리지 않는다. 부족함을 느끼고 사냥한다."**
+
+* **Concept**: **The Autonomous Ingestion Engine**.
+* **Mechanism**:
+  * **Gap Detection**: `TorchGraph` 내에서 밀도가 낮거나 인과관계가 끊어진 '공간적 구멍(Spatial Holes)'을 실시간으로 감지.
+  * **Intent Generation**: 감지된 구멍을 메우기 위한 '질문' 또는 '학습 의도'를 스스로 생성.
+  * **Target Hunting**: 필요한 지식을 가진 모델이나 데이터를 레지스트리에서 찾아내어 사용자에게 제안하거나 자율적으로 소화 루틴(Breathing -> Digestion)을 시작.
+* **Deliverables**:
+  * [ ] **CuriosityCore**: Graph-based topology analyzer for identifying uncertainty.
+  * [ ] **Self-Feeding Protocol**: Automatic trigger for `DigestiveSystem` based on internal "Boredom" or "Confusion" metrics.
+
 ---
 
 > **"주인이 길을 잃으면, 전차도 멈춘다."**

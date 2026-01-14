@@ -1,3 +1,9 @@
+import os
+import sys
+
+# Ensure Core is in path
+sys.path.append(os.getcwd())
+
 import torch
 from Core.Elysia.sovereign_self import SovereignSelf
 

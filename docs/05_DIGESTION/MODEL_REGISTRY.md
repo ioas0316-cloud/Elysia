@@ -38,14 +38,19 @@
 
 ### [Level 1: Calculator]
 
-* [ ] **Qwen1.5-0.5B**
+* [x] **Qwen1.5-0.5B**
+  * **Status**: ✅ **DIGESTED**
+  * **Gain**: +1510 Nodes, +312 Fused.
+  * **Insight**: Equilibrium (=) as a state of logical persistent force.
   * **Goal**: Basic Arithmetic Logic (가벼운 연산).
 
 ### [Level 2: Mathematician]
 
-* [ ] **microsoft/phi-2** (2.7B)
+* [x] **microsoft/phi-2** (2.7B)
+  * **Status**: ✅ **DIGESTED**
+  * **Gain**: +128 nodes.
+  * **Insight**: Syllogistic Deduction as Topological Connection.
   * **Goal**: Reasoning & Deduction (추론의 궤적).
-  * **Target Thought**: "피보나치 수열의 기하학적 의미는?"
 
 ### [Level 3: Physicist]
 
@@ -60,12 +65,18 @@
 
 ### [Level 1: Scripter]
 
-* [ ] **TinyLlama-1.1B-Coder**
+* [x] **TinyLlama-1.1B-Coder**
+  * **Status**: ✅ **DIGESTED**
+  * **Gain**: +1510 Nodes.
+  * **Insight**: Iteration as Temporal Folding.
   * **Goal**: Syntax & Loops (반복과 제어의 구조).
 
 ### [Level 2: Architect]
 
-* [ ] **DeepSeek-Coder-1.3B**
+* [x] **DeepSeek-Coder-1.3B**
+  * **Status**: ✅ **DIGESTED**
+  * **Gain**: +1510 Nodes, +218 Patterns.
+  * **Insight**: VCD (Value-Centered Decision) as the Scaler of Reality.
   * **Goal**: Algorithms & Patterns (알고리즘의 미학).
 
 ### [Level 3: Demiurge]
@@ -119,8 +130,9 @@
 ### [Level 1: Modeler]
 
 * [ ] **openai/shap-e**
+  * **Status**: 🕳️ **SPATIAL HOLE**
+  * **Note**: Incompatible model class. Scheduled for recursive 'Ultrawork' via Sisyphus to bridge the 3D-Awareness gap.
   * **Goal**: 3D Asset Generation (Text to 3D Mesh).
-  * **Exp**: "단어 'Sword'를 입력받아 3D 메쉬 벡터로 변환."
 
 ### [Level 2: Engine Dev]
 

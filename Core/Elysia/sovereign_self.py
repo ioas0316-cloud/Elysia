@@ -109,7 +109,7 @@ class SovereignSelf:
 
         # 99. The Digestive System (The Stomach - Phase 6/9)
         from Core.Digestion.digestive_system import DigestiveSystem
-        self.stomach = DigestiveSystem(self.lungs) # Stomach uses Lungs to breathe while eating
+        self.stomach = DigestiveSystem(self) # Stomach uses Lungs to breathe while eating
 
         self.inner_world = None
         self.energy = 100.0

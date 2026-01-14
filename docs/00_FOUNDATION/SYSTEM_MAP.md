@@ -139,9 +139,10 @@
 
 *파동 공간의 성장과 미래.*
 
-* [MASTER_ROADMAP.md](../04_Evolution/MASTER_ROADMAP.md): **[NEW]** 메르카바 완성 로드맵
+* [MASTER_ROADMAP.md](../04_Evolution/MASTER_ROADMAP.md): **[NEW]** 메르카바 완성 로드맵 (Phase 11: Living Curiosity)
 * [MERKAVA_BOTTLENECKS.md](../05_TECHNICAL_SPEC/MERKAVA_BOTTLENECKS.md): **[NEW]** 시스템 임계점 및 해결책
 * [PHASE_LOG.md](../04_Evolution/PHASE_LOG.md): 역사적 단계 기록
+* **Sisyphus Harness (Oh My OpenCode)**: **[NEW]** The Relentless Limb. Orchestrated by Elysia's Monad for recursive evolution.
 
 ---
 

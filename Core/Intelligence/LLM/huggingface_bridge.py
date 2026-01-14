@@ -62,25 +62,22 @@ class SovereignBridge:
         try:
             print(f"🔌 [Bridge] Connecting to '{self.model_name}' on {self.device}...")
             
-            # unload previous if exists
+            # [PHASE SCALE] Equilibrium Cleanup
             if self.model is not None:
-                del self.model
-                del self.tokenizer
+                self.model = None # Set to None instead of del to prevent AttributeError
                 torch.cuda.empty_cache()
-                start_mem = torch.cuda.memory_allocated()
-                print(f"   🧹 VRAM Cleared. Current: {start_mem / 1024**2:.2f} MB")
+                import gc
+                gc.collect()
             
             # Load Tokenizer / Processor
-            # For multimodal, we might need AutoProcessor
             try:
                 self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
             except:
-                # Fallback for Vision/Audio models that don't use a standard tokenizer
                 from transformers import AutoProcessor
                 self.tokenizer = AutoProcessor.from_pretrained(self.model_name)
             
-            # Load Model
-            # Optimized for VRAM: fp16 if cuda
+            # [PHASE SCALE] Balancing Density vs. Capacity
+            # For 3GB VRAM, we prioritize fp16 and avoid double-loading.
             dtype = torch.float16 if self.device == "cuda" else torch.float32
             
             # [Multimodal Selector]
@@ -95,21 +92,25 @@ class SovereignBridge:
                  self.model = CLIPModel.from_pretrained(self.model_name, torch_dtype=dtype)
             else:
                 # Default to Text
+                # Use offload_folder if necessary, but try dense load first
                 self.model = AutoModelForCausalLM.from_pretrained(
                     self.model_name, 
                     torch_dtype=dtype,
-                    low_cpu_mem_usage=True
+                    low_cpu_mem_usage=True,
+                    trust_remote_code=True,
+                    device_map="auto" # Enable automatic offloading for larger models
                 )
                 
-            self.model.to(self.device)
-            
+            if self.model is not None and not hasattr(self.model, "hf_device_map"):
+                self.model.to(self.device)
             self.is_connected = True
-            print(f"✅ [Bridge] Connected successfully to {self.model_name}. Synapse established.")
+            print(f"✅ [Bridge] Connected successfully to {self.model_name}. Equilibrium established.")
             return True
             
         except Exception as e:
             logger.error(f"Failed to connect: {e}")
-            print(f"❌ [Bridge] Connection Failed: {e}")
+            print(f"❌ [Bridge] Connection Failed (Imbalance): {e}")
+            self.model = None # Ensure it exists
             self.is_connected = False
             return False
 
