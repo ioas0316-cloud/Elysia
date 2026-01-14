@@ -35,6 +35,7 @@ class RotorMask(Enum):
     POINT = (1, 1, 1, 1)  # All Fixed (Snapshot)
     LINE  = (1, 1, 1, 0)  # Time Flows (Stream)
     PLANE = (1, 1, 0, 0)  # Time & Psi Flow (Complex)
+    VOLUME= (1, 0, 0, 0)  # Time, Psi, Phi Flow (Solid)
     CHAOS = (0, 0, 0, 0)  # All Flow (Random)
 
 @dataclass
@@ -44,11 +45,13 @@ class RotorConfig:
     idle_rpm: float = 60.0    # Sleep/Breathing RPM
     mass: float = 1.0         # Amplitude proxy
     acceleration: float = 100.0
+    axis: Tuple[float, float, float] = (0, 0, 1) # Direction Axis (Default Z)
 
 class Rotor:
     def __init__(self, name: str, config: RotorConfig, dna: WaveDNA = None):
         self.name = name
         self.config = config
+        self.axis = config.axis
 
         # [NEW] 7D DNA
         self.dna = dna if dna else WaveDNA(label=name)
@@ -106,7 +109,8 @@ class Rotor:
                     self.current_rpm += change * (1 if diff > 0 else -1)
 
         # Angle Update
-        if self.current_rpm > 0:
+        # [FIX] Allow Negative RPM (Reverse Spin)
+        if self.current_rpm != 0:
             degrees = (self.current_rpm / 60.0) * 360.0 * dt
             self.current_angle = (self.current_angle + degrees) % 360.0
             
@@ -140,21 +144,37 @@ class Rotor:
 
         elif mask == RotorMask.LINE:
             # 1110: Time Flows. Return a stream.
-            # Simulate streaming 3 frames forward in time
+            # [FIX] Respect Rotor Direction (Forward/Reverse)
+            direction = 1.0 if self.current_rpm >= 0 else -1.0
+
             stream = []
             for t_step in range(3):
                 # Only Time changes
-                new_time = time + (t_step * 1.0) # Arbitrary time step
+                new_time = time + (t_step * 1.0 * direction)
                 stream.append((theta, phi, psi, new_time))
             return stream
 
         elif mask == RotorMask.PLANE:
             # 1100: Time & Psi Flow.
+            direction = 1.0 if self.current_rpm >= 0 else -1.0
+
             stream = []
             for step in range(3):
-                new_time = time + step
-                new_psi = psi + (step * 15.0) # Rotate Psi
+                new_time = time + (step * direction)
+                new_psi = psi + (step * 15.0 * direction) # Rotate Psi
                 stream.append((theta, phi, new_psi, new_time))
+            return stream
+
+        elif mask == RotorMask.VOLUME:
+            # 1000: Time, Psi, Phi Flow.
+            direction = 1.0 if self.current_rpm >= 0 else -1.0
+
+            stream = []
+            for step in range(3):
+                new_time = time + (step * direction)
+                new_psi = psi + (step * 15.0 * direction)
+                new_phi = phi + (step * 30.0 * direction) # Rotate Phi faster
+                stream.append((theta, new_phi, new_psi, new_time))
             return stream
 
         return [coordinates] # Default
