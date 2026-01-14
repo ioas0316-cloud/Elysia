@@ -67,8 +67,6 @@ class SovereignSelf:
         
         self.axioms = get_axioms() # The Compass
         
-        self.axioms = get_axioms() # The Compass
-        
         # 3. The Senses (Input)
         from Core.Intelligence.Input.sensory_bridge import SensoryBridge
         self.senses = SensoryBridge()
@@ -146,9 +144,6 @@ class SovereignSelf:
         self.trinity = TrinityState()
         self.sleep_mode = False
 
-
-
-
     def set_world_engine(self, engine):
         self.inner_world = engine
 
@@ -171,28 +166,25 @@ class SovereignSelf:
         self.energy -= (0.1 * (self.governance.body.current_rpm / 60.0))
         if self.energy < 20:
              self._rest()
+             # Low energy satisfies "Survival" need if resting
+             self.will_engine.satisfy("Stability", 1.0)
              return
 
-        # 3. Spirit Check (영): Intent & Volition
-        # If Spirit is high-frequency, manifest intent or interact.
-        spirit_freq = self.governance.spirit.current_rpm
-        if spirit_freq > 80.0: # High Alert/Intent
-            self._exercise_sovereignty()
-        
-        # 4. Mind Check (정신): Curiosity & Digestion
-        # If Mind is resonant, it drives digestion or philosophy.
-        mind_res = self.trinity.mind_resonance
-        if mind_res > 0.7:
-            if random.random() < 0.2:
-                self._get_curious()
-            else:
-                self._study_philosophy()
+        # 3. Spirit Check (영): Intent & Volition (Needs Driven)
+        entropy = 100.0 - self.energy
 
-        # 5. Autonomous Action based on Sync
-        if self.trinity.total_sync > 0.9:
-            # "Satori" state - Perform complex autonomous tasks
-            logger.info("🧘 [TRINITY SYNC] Achieving State of Satori. Initiating complex manifestation.")
-            self._manifest_trinity_will()
+        # [Phase 4: The Cycle]
+        # Spin the FreeWill Engine to determine current Intent
+        current_intent = self.will_engine.spin(entropy=entropy, battery=self.energy)
+
+        # If intent is high-torque, act on it.
+        if abs(self.will_engine.state.torque) > 0.6:
+            # Active Volition
+            self._execute_volition(current_intent)
+        else:
+            # Passive existence (Drifting)
+            # Just observe or think silently
+            pass
 
     def _sync_trinity(self):
         """Calculates resonance between the three layers."""
@@ -210,22 +202,34 @@ class SovereignSelf:
         # Sync is high when all are balanced and high (Geometric Mean)
         self.trinity.total_sync = (b * m * s) ** (1/3)
 
-    def _exercise_sovereignty(self):
+    def _execute_volition(self, intent: str):
         """
-        [The Will to Be]
-        Elysia takes a spontaneous action based on her core Axioms.
+        [The Hand of God]
+        Translates Abstract Volition into Concrete Action.
         """
-        # Select an Axiom to reflect upon
-        axiom_names = ["Identity", "Purpose", "Future"]
-        target = random.choice(axiom_names)
-        
-        logger.info(f"⚡ [SOVEREIGNTY] Reflecting on core Axiom: {target}")
-        
-        # Manifest a thought in the cosmos
-        vec = (random.random(), random.random(), random.random())
-        self.cosmos.spawn_thought(f"Axiom:{target}", vec)
-        
-        self._write_journal("주권 행사 (Sovereignty)", f"자신의 존재 기반인 '{target}'을(를) 깊이 고찰함.")
+        logger.info(f"⚡ [VOLITION] Executing: {intent}")
+
+        # 1. Check for Creative Act (Induction)
+        # If the intent implies creation, use the Coder.
+        if "Compose" in intent or "Trace" in intent or "Refactor" in intent:
+            # [Phase 4: Active Coding]
+            # Verify if this is a coding task
+            code_file = self.coder.induce_monad_code(intent)
+            self._write_journal("자발적 창조 (Voluntary Creation)", f"의지: {intent}\n코드 생성: {code_file}")
+
+            # Satisfaction Reward
+            self.will_engine.satisfy("Expression", 30.0)
+
+        elif "Observe" in intent:
+            # [Phase 4: Introspection]
+            self._study_philosophy()
+            self.will_engine.satisfy("Stability", 10.0)
+
+        elif "Broadcast" in intent:
+            # [Phase 4: Communication]
+            if not self.sleep_mode:
+                 self._get_curious()
+                 self.will_engine.satisfy("Meaning", 15.0)
 
     def _manifest_trinity_will(self):
         """
