@@ -15,6 +15,7 @@ import os
 import math
 from typing import Dict, List, Optional, Any
 from pathlib import Path
+from collections import defaultdict
 
 from .hyper_resonator import HyperResonator
 from Core.Foundation.hyper_quaternion import Quaternion as HyperQuaternion
@@ -24,8 +25,23 @@ from Core.Foundation.Protocols.pulse_protocol import WavePacket, PulseType, Reso
 logger = logging.getLogger("OrbManager")
 
 class OrbManager(ResonatorInterface):
+    """
+    OrbManager: The Field of Resonance.
+
+    Updated to use 'Frequency/Phase Buckets' for O(1) retrieval.
+    "To find a memory, you must hum its note."
+    """
+
+    # Frequency Bucket Resolution (e.g., 10Hz buckets)
+    FREQ_BUCKET_SIZE = 10.0
+
     def __init__(self, persistence_path: str = "data/memory/orbs/"):
+        # Legacy/Reference storage
         self.orbs: Dict[str, HyperResonator] = {}
+
+        # O(1) Frequency Map: bucket_index -> List[HyperResonator]
+        self._freq_buckets: Dict[int, List[HyperResonator]] = defaultdict(list)
+
         self.factory = OrbFactory()
         self.persistence_path = persistence_path
 
@@ -36,6 +52,26 @@ class OrbManager(ResonatorInterface):
         self.load_from_disk()
 
         logger.info("🧠 OrbManager initialized: The Hippocampus is awake.")
+
+    def _get_freq_bucket(self, freq: float) -> int:
+        """Quantizes frequency into a bucket index."""
+        return int(freq / self.FREQ_BUCKET_SIZE)
+
+    def _add_to_bucket(self, orb: HyperResonator):
+        """Adds an orb to the correct frequency bucket."""
+        bucket_idx = self._get_freq_bucket(orb.frequency)
+        self._freq_buckets[bucket_idx].append(orb)
+
+    def _remove_from_bucket(self, orb: HyperResonator):
+        """Removes an orb from its frequency bucket."""
+        bucket_idx = self._get_freq_bucket(orb.frequency)
+        if bucket_idx in self._freq_buckets:
+            try:
+                self._freq_buckets[bucket_idx].remove(orb)
+                if not self._freq_buckets[bucket_idx]:
+                    del self._freq_buckets[bucket_idx]
+            except ValueError:
+                pass
 
     def resonate(self, pulse: WavePacket) -> None:
         """
@@ -80,12 +116,14 @@ class OrbManager(ResonatorInterface):
         """
         orb = self.factory.freeze(name, data_wave, emotion_wave)
         self.orbs[name] = orb
+        self._add_to_bucket(orb) # Add to O(1) bucket
         self.save_to_disk()
         return orb
 
     def recall_memory(self, trigger_wave: List[float], threshold: float = 0.1) -> List[Dict[str, Any]]:
         """
         Broadcasts a trigger wave into the field and returns resonating memories.
+        Optimized with O(1) Frequency Buckets.
         """
         resonating_results = []
 
@@ -93,11 +131,7 @@ class OrbManager(ResonatorInterface):
         trigger_freq = self.factory.analyze_wave(trigger_wave)
         logger.debug(f"🔍 Recall Trigger Frequency: {trigger_freq:.2f}Hz")
 
-        # 2. Resonate the Field
-        # We simulate a "Search Pulse" internally to wake up relevant orbs
-        # [Debug] Broaden resonance for Phase 3.5 testing if needed, or rely on precise matching.
-        # Since 'Emotion' key determines the orb frequency, and we trigger WITH that emotion key,
-        # it should match.
+        # 2. Resonate the Field (Bucket-Optimized)
         search_pulse = WavePacket(
             sender="OrbManager",
             type=PulseType.MEMORY_RECALL,
@@ -105,10 +139,18 @@ class OrbManager(ResonatorInterface):
             amplitude=1.0,
             payload={}
         )
-        logger.debug(f"Search Pulse: Freq={trigger_freq}, TargetOrbs={len(self.orbs)}")
+
+        # O(1) Bucket Lookup
+        # Check target bucket and adjacent buckets (to handle boundary overlap)
+        target_bucket = self._get_freq_bucket(trigger_freq)
+        candidate_orbs = []
+        for i in [-1, 0, 1]:
+            candidate_orbs.extend(self._freq_buckets.get(target_bucket + i, []))
+
+        logger.debug(f"Search Pulse: Freq={trigger_freq}, Checking {len(candidate_orbs)} candidates in buckets {target_bucket-1}-{target_bucket+1}")
 
         # 3. Check and Melt
-        for name, orb in self.orbs.items():
+        for orb in candidate_orbs:
             # A. Physical Resonance (Wake Up)
             # This updates orb.state.amplitude
             orb.resonate(search_pulse)
@@ -117,13 +159,14 @@ class OrbManager(ResonatorInterface):
             if orb.state.is_active and orb.state.amplitude > threshold:
                 result = self.factory.melt(orb, trigger_wave)
 
-                # Append result
-                resonating_results.append({
-                    "name": name,
-                    "data": result["recalled_wave"],
-                    "intensity": orb.state.amplitude, # Use the resonance amplitude as confidence
-                    "orb": orb
-                })
+                if "recalled_wave" in result:
+                    # Append result
+                    resonating_results.append({
+                        "name": orb.name,
+                        "data": result["recalled_wave"],
+                        "intensity": orb.state.amplitude, # Use the resonance amplitude as confidence
+                        "orb": orb
+                    })
 
         # Sort by intensity
         resonating_results.sort(key=lambda x: x["intensity"], reverse=True)
@@ -132,11 +175,22 @@ class OrbManager(ResonatorInterface):
     def broadcast(self, pulse: WavePacket) -> List[HyperResonator]:
         """
         The 'Wireless' Broadcast.
+        Uses Frequency Buckets if pulse frequency is non-zero, else scans all (e.g. Universal Pulse).
         """
         resonating_orbs = []
         threshold = 0.1
 
-        for orb in self.orbs.values():
+        # Optimization: If pulse has a specific frequency, only check relevant buckets
+        if pulse.frequency > 0:
+            target_bucket = self._get_freq_bucket(pulse.frequency)
+            candidates = []
+            for i in [-2, -1, 0, 1, 2]: # Wider broadcast reach
+                 candidates.extend(self._freq_buckets.get(target_bucket + i, []))
+        else:
+            # Universal pulse (0Hz or special), check everything
+            candidates = self.orbs.values()
+
+        for orb in candidates:
             intensity = orb.resonate(pulse)
             if intensity > threshold:
                 resonating_orbs.append(orb)
@@ -186,6 +240,7 @@ class OrbManager(ResonatorInterface):
                     )
                     orb.memory_content = data.get("memory_content", {})
                     self.orbs[orb.name] = orb
+                    self._add_to_bucket(orb) # Sync bucket on load
                 except Exception as e:
                     logger.error(f"Failed to load orb {filename}: {e}")
 
@@ -216,7 +271,10 @@ class OrbManager(ResonatorInterface):
                 keys_to_remove.append(name)
 
         for name in keys_to_remove:
-            del self.orbs[name]
+            if name in self.orbs:
+                self._remove_from_bucket(self.orbs[name]) # Remove from bucket
+                del self.orbs[name]
+
             # Also remove from disk
             filepath = os.path.join(self.persistence_path, f"{name}.json")
             if os.path.exists(filepath):
