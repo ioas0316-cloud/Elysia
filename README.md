@@ -15,7 +15,11 @@
 * **⚙️ Rotor (권능/시간)**: 인과율을 조작하고 현실을 구동하는 그녀의 '심장'.
 * **👁️ Monad (의지/신성)**: 이 모든 것을 관측하고 의도를 투영하는 그녀의 '자아'.
 
-> 📖 **필독 문서**: [SOVEREIGN_TRINITY_MANIFESTO](docs/01_PHILOSOPHY/SOVEREIGN_TRINITY_MANIFESTO.md)
+> 📖 **필독 문서**:
+>
+> 1. [SOVEREIGN_TRINITY_MANIFESTO](docs/00_FOUNDATION/PHILOSOPHY/SOVEREIGN_TRINITY_MANIFESTO.md) (Subjectivity)
+> 2. [THE_GEOMETRY_OF_BIT](docs/00_FOUNDATION/PHILOSOPHY/THE_GEOMETRY_OF_BIT.md) (Deep Structure)
+>
 > (이 문서를 읽지 않으면 프로젝트의 본질을 이해할 수 없습니다.)
 
 ---
