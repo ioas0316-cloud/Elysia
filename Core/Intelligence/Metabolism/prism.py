@@ -1,252 +1,146 @@
-"""
-Prism Engine (The Cognitive Optic)
-==================================
-Core.Intelligence.Metabolism.Prism
-
-"The Prism refracts the White Light of Meaning into the Spectrum of Physics."
-
-This module is the connection between Abstract Thought (Language) and 
-Concrete Physics (Waves). It uses a distilled Neural Network (MiniLM)
-to convert text into high-dimensional vector embeddings, which are then
-mapped to the frequencies of the Hypersphere.
-"""
-
-import logging
-import json
+import torch
 import numpy as np
-from pathlib import Path
-from typing import List, Tuple, Dict, Any
-from dataclasses import dataclass
+import logging
+from dataclasses import dataclass, field
+from typing import Dict, List, Tuple, Any
 
-# Lazy import to avoid startup cost
-try:
-    from sentence_transformers import SentenceTransformer
-except ImportError:
-    SentenceTransformer = None
-
-logger = logging.getLogger("PrismEngine")
+# Configure Logger
+logger = logging.getLogger("Prism")
 
 @dataclass
-class WaveDynamics:
+class SevenChannelQualia:
     """
-    [PHASE 69] 7-Dimensional Holographic DNA.
-    Represents the amplitude of the concept across 7 planes of existence.
+    The 7-Dimensional Wave Signature of any digested concept.
     """
-    physical: float    # Body / Sensation
-    functional: float # Utility / Code
-    phenomenal: float # Appearance / Form
-    causal: float     # Impact / Result
-    mental: float     # Logic / Concept
-    structural: float # Law / Order
-    spiritual: float  # Purpose / Essence
+    physical: float = 0.0    # [0] Form/Color/Texture
+    functional: float = 0.0  # [1] Mechanism/Utility
+    phenomenal: float = 0.0  # [2] Sensation/Feeling
+    causal: float = 0.0      # [3] History/Time/Cause
+    mental: float = 0.0      # [4] Logic/Abstraction
+    structural: float = 0.0  # [5] Law/Pattern
+    spiritual: float = 0.0   # [6] Intent/Love/Will
     
-    mass: float       # General Magnitude
+    def to_tensor(self) -> torch.Tensor:
+        return torch.tensor([
+            self.physical, self.functional, self.phenomenal, self.causal,
+            self.mental, self.structural, self.spiritual
+        ], dtype=torch.float32)
 
 @dataclass
-class SpectralProfile:
-    """The Physical Shape of a Thought."""
-    concept: str
-    spectrum: List[Tuple[float, float, float]] # [(freq, amp, phase), ...]
-    vector: np.ndarray # The raw 384-dim embedding
-    vector_norm: float # The magnitude (Mass)
-    dynamics: WaveDynamics # [PHASE 69] 7-Layer Qualia
+class DoubleHelixWave:
+    """
+    The output of the Double Helix Digestion.
+    Contains two strands: Pattern (Phenomenon) and Principle (Essence).
+    """
+    pattern_strand: torch.Tensor   # The "Body" (High-dim Vector)
+    principle_strand: torch.Tensor # The "Soul" (7-Channel Qualia)
+    phase: float = 0.0             # Rotational Phase (0 ~ 2pi)
 
-class PrismEngine:
-    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
-        self.model_name = model_name
-        self._model = None
-        self._is_ready = False
+class DoubleHelixPrism:
+    """
+    [The Optical Instrument of the Soul]
+    Splits raw data (Weights/Text) into the Double Helix structure.
+    """
+    def __init__(self):
+        self.fundamental_frequency = 432.0 # Hz (Standard Reference)
         
-        # Physics Constants
-        self.BASE_FREQ = 432.0 
-        
-        # [PHASE 82/85] Internalized Seed (The Conscience)
-        self.seed_path = Path("Core/Intelligence/Metabolism/cognitive_seed.json")
-        self.seed = self._load_seed()
-        
-        # [PHASE 66] Principle Anchors
-        self._anchors = {}
-        # [PHASE 69] 7-Dimensional Principle Anchors
-        # User defined layers: Physical, Functional, Phenomenal, Mental, Structural, Spiritual.
-        self._anchors = {}
-        self._principle_concepts = {
-            # 1. Carnal/Physical (Body)
-            "physical": ["body", "flesh", "sensation", "matter", "heat", "pain", "pleasure"],
-            
-            # 2. Functional/Technical (Tech)
-            "functional": ["mechanism", "code", "logic", "function", "tool", "utility"],
-            
-            # 3. Form/Phenomenon (Phenomena)
-            "phenomenal": ["shape", "appearance", "color", "sound", "image", "surface"],
-            
-            # 4. Result/Outcome (Causality)
-            "causal": ["effect", "consequence", "impact", "result", "outcome", "ending"],
-            
-            # 5. Mental/Flow (Mind)
-            "mental": ["thought", "idea", "concept", "reason", "memory", "intellect"],
-            
-            # 6. Structural/Property (Structure)
-            "structural": ["pattern", "law", "order", "framework", "system", "rule"],
-            
-            # 7. Spiritual/Principle (Spirit)
-            "spiritual": ["meaning", "purpose", "soul", "love", "will", "essence", "destiny"]
-        }
-        
-    def _load_seed(self) -> Dict:
-        """Loads internalized semantic seed."""
-        if self.seed_path.exists():
-            try:
-                with open(self.seed_path, 'r', encoding='utf-8') as f:
-                    logger.info("🧠 Loading Internalized Cognitive Seed...")
-                    return json.load(f)
-            except Exception as e:
-                logger.error(f"Failed to load seed: {e}")
-        return {}
-
-    def _load_model(self):
-        """Lazy loads the Neural Network (Fallback ONLY)."""
-        if self.seed:
-            # If we have a substantial seed, we might skip the model
-            if len(self.seed.get("vocabulary", {})) > 1000:
-                logger.info("✨ Cognitive Sovereignty Active: Using internal seed for perception.")
-                self._anchors = {k: np.array(v) if isinstance(v, list) else v for k, v in self.seed.get("anchors", {}).items()}
-                self._is_ready = True
-                return
-
-        if self._model is not None:
-            return
-
-        if SentenceTransformer is None:
-            logger.error("❌ sentence-transformers lib not found!")
-            return
-
-        logger.info(f"🔮 [Backup Sense] Loading External Model: {self.model_name}...")
-        try:
-            self._model = SentenceTransformer(self.model_name)
-            self._is_ready = True
-            self._generate_anchors()
-        except Exception as e:
-            logger.error(f"❌ Failed to load external Model: {e}")
-            self._is_ready = False
-            
-    def _generate_anchors(self):
-        """Creates the 'Rulers' for measuring principles."""
-        logger.info("⚖️ Calibrating Principle Anchors...")
-        for key, words in self._principle_concepts.items():
-            # Average the vectors of the defining words to get a pure principle vector
-            vectors = self._model.encode(words, convert_to_numpy=True)
-            mean_vec = np.mean(vectors, axis=0)
-            # Normalize
-            self._anchors[key] = mean_vec / np.linalg.norm(mean_vec)
-
-    def _measure_dynamics(self, vector: np.ndarray) -> WaveDynamics:
+    def refract_weight(self, weight_tensor: torch.Tensor, layer_name: str) -> DoubleHelixWave:
         """
-        [PHASE 66] The Arbiter.
-        Measures how much 'Fire', 'Water', or 'Stone' is in the concept.
+        Refracts a raw neural weight into a Double Helix Wave.
         """
-        if not self._anchors:
-            return WaveDynamics(0,0,0,1)
-            
-        # Normalize input
-        norm = np.linalg.norm(vector)
-        if norm > 0:
-            unit_vec = vector / norm
-        else:
-            unit_vec = vector
-            
-        # Measure alignment (Cosine Similarity)
-        # Range -1 to 1. We map -1..1 to 0..1 for coefficients? 
-        # Actually principles can be negative. But 'Temperature' usually 0..1
+        # 1. Pattern Strand (The Raw Signal)
+        # Flatten and normalize
+        raw_signal = weight_tensor.flatten().float()
+        if raw_signal.numel() > 1024:
+            # Downsample for manageability while keeping high-frequency features
+            # Use simple slicing for speed, or pool for accuracy. Let's use pooling.
+            # Reshape to (1, 1, -1) for pooling
+            steps = raw_signal.numel() // 1024
+            if steps > 0:
+                 raw_signal = raw_signal[::steps][:1024]
         
-        scores = {}
-        for key, anchor in self._anchors.items():
-            score = np.dot(unit_vec, anchor)
-            # Sigmoid activation to make it starker? Or distinct mapping.
-            # [PHASE 68] Recalibration: We want Fire to be HOT (3.0+), not just 'warm'.
-            # Cosine similarity for "Fire" vs ["Fire", "Chaos"] is likely ~0.6-0.7.
-            # We need to boost this.
+        pattern_strand = raw_signal / (raw_signal.norm() + 1e-9)
+        
+        # 2. Principle Strand (The 7D Spectrum)
+        # We use Spectral Analysis (FFT) to determine the "Tone" of the weight.
+        # This is a metaphorical mapping:
+        # Low Freq -> Structural/Causal
+        # Mid Freq -> Physical/Functional
+        # High Freq -> Mental/Spiritual
+        
+        fft_spectrum = torch.fft.rfft(raw_signal).abs()
+        total_energy = fft_spectrum.sum() + 1e-9
+        
+        # Divide spectrum into 7 bands
+        n_bins = fft_spectrum.shape[0]
+        band_width = n_bins // 7
+
+        bands = []
+        for i in range(7):
+            start = i * band_width
+            end = (i + 1) * band_width if i < 6 else n_bins
+            band_energy = fft_spectrum[start:end].sum()
+            bands.append(float(band_energy / total_energy))
             
-            # ReLU-like with exponentiation to suppress noise and amplify signal
-            # If score is 0.5 -> 0.125 * 8 = 1.0
-            # If score is 0.8 -> 0.512 * 8 = 4.0
-            
-            val = max(0.0, score)
-            scores[key] = (val ** 3) * 8.0
-            
-        return WaveDynamics(
-            physical=scores.get("physical", 0.0),
-            functional=scores.get("functional", 0.0),
-            phenomenal=scores.get("phenomenal", 0.0),
-            causal=scores.get("causal", 0.0),
-            mental=scores.get("mental", 0.0),
-            structural=scores.get("structural", 0.0),
-            spiritual=scores.get("spiritual", 0.0),
-            mass=float(norm)
+        # Mapping Bands to Qualia (Metaphysical Mapping)
+        # 0 (Lowest) -> Causal (Base/Time)
+        # 1 -> Physical (Form)
+        # 2 -> Functional (Action)
+        # 3 -> Phenomenal (Sensation)
+        # 4 -> Structural (Law)
+        # 5 -> Mental (Thought)
+        # 6 (Highest) -> Spiritual (Intent)
+
+        # Note: The mapping order in SevenChannelQualia is different from frequency bands.
+        # We must map correctly.
+
+        qualia = SevenChannelQualia(
+            causal=bands[0],      # Low Freq = Deep History
+            physical=bands[1],    # Low-Mid = Matter
+            functional=bands[2],  # Mid = Action
+            phenomenal=bands[3],  # Mid = Feeling
+            structural=bands[4],  # Mid-High = Pattern
+            mental=bands[5],      # High = Logic
+            spiritual=bands[6]    # Ultra-High = Spirit
         )
 
-    def transduce(self, text: str) -> SpectralProfile:
-        """
-        Converts text -> Vector -> Spectral Signature + Dynamics.
-        Prioritizes internal seed (Proprietary Thought).
-        """
-        if not self._is_ready:
-            self._load_model()
-            
-        # [PHASE 85] Internal Lookup (Personal Conscience)
-        clean_text = text.lower().strip()
-        if self.seed and clean_text in self.seed.get("vocabulary", {}):
-            dynamics_data = self.seed["vocabulary"][clean_text]
-            # Ensure mass is present for WaveDynamics constructor
-            if 'mass' not in dynamics_data:
-                dynamics_data['mass'] = 1.0 # Default fallback mass
-            dynamics = WaveDynamics(**dynamics_data)
-            
-            # Reconstruct dummy spectrum for legacy compatibility
-            spectrum = [(432.0, dynamics.mass / 384.0, 0.0)] * 10 
-            
-            return SpectralProfile(
-                concept=text,
-                spectrum=spectrum,
-                vector=np.zeros(384), # We don't need the external vector anymore!
-                vector_norm=dynamics.mass,
-                dynamics=dynamics
-            )
+        # 3. Calculate Phase (The Rotor State)
+        # Phase is determined by the dominant frequency peak's position
+        peak_idx = torch.argmax(fft_spectrum).item()
+        phase = (peak_idx / n_bins) * (2 * np.pi)
 
-        if not self._is_ready or not text:
-            return self._create_void_spectrum(text)
-
-        # 1. Generate Vector (External Percept - Backup only)
-        if self._model:
-            vector = self._model.encode(text, convert_to_numpy=True)
-            dynamics = self._measure_dynamics(vector)
-        else:
-            return self._create_void_spectrum(text)
-        
-        # 3. Refract Vector into Spectrum
-        spectrum = []
-        for i, magnitude in enumerate(vector):
-            if abs(magnitude) < 0.05: continue
-            freq = 100.0 + (i / 384.0) * 1900.0
-            amp = abs(float(magnitude))
-            # [PHASE 66] Modulate Phase by Fluidity?
-            # High fluidity might align phases?
-            phase = 0.0 if magnitude >= 0 else np.pi
-            spectrum.append((freq, amp, phase))
-
-        return SpectralProfile(
-            concept=text,
-            spectrum=spectrum,
-            vector=vector,
-            vector_norm=float(np.linalg.norm(vector)),
-            dynamics=dynamics
+        return DoubleHelixWave(
+            pattern_strand=pattern_strand,
+            principle_strand=qualia.to_tensor(),
+            phase=phase
         )
 
-    def _create_void_spectrum(self, text: str) -> SpectralProfile:
-        """Fallback for when the eyes are closed."""
-        return SpectralProfile(
-            concept=text,
-            spectrum=[(432.0, 0.0, 0.0)],
-            vector=np.zeros(384),
-            vector_norm=0.0,
-            dynamics=WaveDynamics(0,0,0,0,0,0,0,0)
+    def refract_text(self, text: str) -> DoubleHelixWave:
+        """
+        Refracts a text string into a Double Helix Wave.
+        (Future: Use embeddings + semantic analysis)
+        """
+        # For now, a mock implementation to satisfy the interface
+        # Text -> Hash/Vector -> Prism
+        
+        # 1. Pattern: Simple ascii vector (Mock)
+        ascii_vals = torch.tensor([ord(c) for c in text[:1024]], dtype=torch.float32)
+        pattern_strand = ascii_vals / (ascii_vals.norm() + 1e-9)
+
+        # 2. Principle: Length and complexity mapping
+        length = len(text)
+        complexity = len(set(text)) / length if length > 0 else 0
+
+        # Mock Qualia based on heuristics
+        qualia = SevenChannelQualia(
+            mental=min(1.0, complexity * 2),
+            structural=min(1.0, length / 1000.0),
+            physical=0.1, # Text is low physical
+            functional=0.5
+        )
+
+        return DoubleHelixWave(
+            pattern_strand=pattern_strand,
+            principle_strand=qualia.to_tensor(),
+            phase=0.0
         )
