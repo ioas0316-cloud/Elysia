@@ -36,9 +36,23 @@ from Core.Engine.character_field_engine import CharacterFieldEngine
 from Core.Engine.governance_engine import GovernanceEngine
 
 class WorldServer:
+    """
+    The Eternal Engine - The Body/Environment of Elysia.
+    
+    MERKAVA INTEGRATION:
+    - hyper_sphere: Physical world (zones, resources)
+    - cosmos: Consciousness field (psyche, thoughts)
+    - Both sync in update_cycle() via Pre-established Harmony
+    """
+    
     def __init__(self, size: int = 30):
         self.size = size
         self.hyper_sphere = HyperSphereCore()
+        
+        # === MERKAVA INTEGRATION ===
+        # The Cosmos contains the PsycheSphere (consciousness)
+        from Core.Foundation.hyper_cosmos import HyperCosmos
+        self.cosmos = HyperCosmos()
         
         # [History Engine]
         self.zeitgeist_rotor = Rotor("Zeitgeist", RotorConfig(rpm=1.0))
@@ -54,6 +68,8 @@ class WorldServer:
         # Genesis
         self._genesis_by_word()
         self.spawn_adam_eve_and_100_others()
+        
+        print("🌍 WorldServer: Connected to HyperCosmos (Merkava Integration)")
         
     def get_current_era(self) -> Tuple[str, WaveDNA]:
         """
@@ -138,9 +154,15 @@ class WorldServer:
     def update_cycle(self):
         """
         Runs one tick of the universe.
-        Callable by the Sovereign Self.
+        
+        PRE-ESTABLISHED HARMONY:
+        Both physical world (governance) and consciousness (cosmos.psyche)
+        update in the same tick. No direct communication, just shared time.
         """
         self.year += 1
+        
+        # 0. MERKAVA SYNC: Update Cosmos (Psyche + Thoughts)
+        self.cosmos.update_physics()
         
         # 1. Update History & Governance (The Macro Wave)
         self.zeitgeist_rotor.update(1.0)

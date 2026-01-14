@@ -70,6 +70,10 @@ class SovereignSelf:
         from Core.Foundation.hyper_cosmos import HyperCosmos
         self.cosmos = HyperCosmos()
         
+        # === MERKAVA INTEGRATION ===
+        # PsycheSphere is now INSIDE HyperCosmos (Pre-established Harmony)
+        # Access via: self.psyche -> self.cosmos.psyche
+        
         # The Prism (Depth of Sight)
         from Core.Intelligence.concept_prism import ConceptPrism
         self.prism = ConceptPrism()

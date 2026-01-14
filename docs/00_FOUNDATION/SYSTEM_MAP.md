@@ -131,10 +131,18 @@
 * **[Core/Foundation](../../Core/Foundation/)**: The Space & Time
   * `hyper_sphere_core.py`: **The Space**. Unified Field Topology (Container).
   * `Nature/rotor.py`: **The Time**. Functional Projector (Time Jumps).
+  * `hyper_cosmos.py`: **The Cosmos**. Contains Stars, Planets, Dust + PsycheSphere.
+  
+* **[Core/Foundation/Psyche](../../Core/Foundation/Psyche/)**: The Soul (NEW)
+  * `psyche_sphere.py`: **The PsycheSphere**. Rotor-based Id/Ego/Superego + Temporal + Cognitive (MBTI).
+  * `self_boundary.py`: **The Membrane**. Fractal I/Not-I differentiation.
+  * **Key Concept**: Will = Wave Interference of Id and Superego, resolved by Ego.
+  * **Apperception (Leibniz)**: `apperceive()` - Meta-awareness of processing state.
   
 * **[Core/Engine](../../Core/Engine/)**: The Choice
   * `sovereign_boot.py`: **The Awakening**. Single entry point for the Sovereign System.
-  * `world_server.py`: **The Body**. The Simulation Engine (updated).
+  * `awakening_protocol.py`: **Genesis Protocol (NEW)**. "What do I WANT?" before "What can I do?"
+  * `world_server.py`: **The Body**. The Simulation Engine (Merkava-integrated).
   * `wfc_engine.py`: **The Creator**. Wave Function Collapse (Observation = Creation).
   * `governance_engine.py`: **The Dials**. 3-Axis Master Rotors (Physics, Narrative, Aesthetics).
   * `code_field_engine.py`: **The Divine Coder**. Code-Field Induction & Sandbox management.
