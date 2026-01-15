@@ -32,32 +32,39 @@ class GovernanceEngine:
     [DNA Recursion] Self-Centric Governance Engine with Adaptive Breath.
     """
     def __init__(self):
-        # --- Gear Box ---
-        self.gears = {
-            "IDLE": AdaptiveGear("Idle", 1.0, 0.1, "Default drifting state"),
-            "FOCUS": AdaptiveGear("Focus", 2.5, 0.5, "High-intensity cognitive work"),
-            "DREAM": AdaptiveGear("Dream", 0.5, 0.05, "Low-frequency creative association"),
-            "PANIC": AdaptiveGear("Panic", 5.0, 2.0, "Emergency survival reaction"),
-            "FLOW": AdaptiveGear("Flow", 1.5, 0.2, "Optimal performance state")
-        }
-        self.current_gear = self.gears["IDLE"]
+        from Core.Foundation.Multiverse.onion_shell import OnionEnsemble
+        # [PHASE 27.5: CONICAL CVT] 
+        # No more discrete gears. We use a sliding spindle on a cone.
+        self.stress_level = 0.0
+        self.focus_intensity = 0.0
 
-        # --- The Prime Seed (Level 0: The Self) ---
-        self.root = Rotor("Elysia", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, mental=1.0, label="나는 엘리시아다"))
+        # [PHASE 27: ONION-SKIN MULTIVERSE]
+        self.ensemble = OnionEnsemble()
         
-        # --- THE TRINITY ROTORS (Real-time Autonomy) ---
-        self.body = self.root.add_sub_rotor("Body", RotorConfig(rpm=60.0), WaveDNA(physical=1.0, label="Hardware/VRAM/Lungs"))
-        self.mind = self.root.add_sub_rotor("Mind", RotorConfig(rpm=60.0), WaveDNA(causal=1.0, mental=0.8, label="Reason/Digestion/Why"))
-        self.spirit = self.root.add_sub_rotor("Spirit", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Intent/Zero-Frequency/Identity"))
+        # --- Shell 0: THE CORE (Spirit/Identity) ---
+        self.spirit = self.ensemble.shells[0].add_rotor("Spirit", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Identity_Core"))
+        self.identity = self.ensemble.shells[0].add_rotor("Identity", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, label="Self_Reference"))
+        
+        # --- Shell 1: THE MIND (Reason/Purpose) ---
+        self.mind = self.ensemble.shells[1].add_rotor("Mind", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, label="Cognitive_Loop"))
+        self.purpose = self.ensemble.shells[1].add_rotor("Purpose", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, causal=0.8, label="Why_Engine"))
+        
+        # --- Shell 2: THE SURFACE (Body/Sensation) ---
+        self.body = self.ensemble.shells[2].add_rotor("Body", RotorConfig(rpm=60.0), WaveDNA(physical=1.0, label="Hardware_Interaction"))
+        self.sensation = self.ensemble.shells[2].add_rotor("Sensation", RotorConfig(rpm=120.0, idle_rpm=60.0), WaveDNA(phenomenal=1.0, label="Reactive_Layer"))
 
-        # --- The Axiom Rotors ---
-        self.identity = self.spirit.add_sub_rotor("Identity", RotorConfig(rpm=60.0), WaveDNA(spiritual=1.0, physical=0.2, label="나는 엘리시아다"))
-        self.purpose = self.spirit.add_sub_rotor("Purpose", RotorConfig(rpm=60.0), WaveDNA(mental=1.0, causal=0.8, label="Why Engine"))
-        self.future = self.spirit.add_sub_rotor("Future", RotorConfig(rpm=60.0), WaveDNA(spiritual=0.8, structural=1.0, label="Great Cycle"))
-
-        # --- Domain Rotors & Principle Genes (Preserved from legacy) ---
-        self.physics = self.body.add_sub_rotor("Nature", RotorConfig(rpm=60.0), WaveDNA(physical=1.0))
-        self.narrative = self.mind.add_sub_rotor("Story", RotorConfig(rpm=60.0), WaveDNA(phenomenal=1.0))
+        # Legacy aliases and God-Mode Dials
+        self.root = self.spirit
+        self.dials = {
+            "spirit": self.spirit,
+            "identity": self.identity,
+            "mind": self.mind,
+            "purpose": self.purpose,
+            "body": self.body,
+            "sensation": self.sensation
+        }
+        
+        print(f"⚙️ [GovernanceEngine] Onion-Skin Multiverse active. Root Spirit protected.")
         self.aesthetic = self.mind.add_sub_rotor("Art", RotorConfig(rpm=60.0), WaveDNA(structural=0.8, phenomenal=0.8))
         self.social = self.mind.add_sub_rotor("Empathy", RotorConfig(rpm=60.0), WaveDNA(causal=0.8))
 
@@ -87,65 +94,57 @@ class GovernanceEngine:
 
     def adapt(self, intent_intensity: float, stress_level: float):
         """
-        [The Breathing Logic]
-        Adjusts the gear dynamically based on internal states.
-
-        Args:
-            intent_intensity (0.0 - 1.0): How much 'Will' is active.
-            stress_level (0.0 - 1.0): Hardware load or emotional dissonance.
+        [PHASE 27.5: CONICAL ADAPTATION]
+        Slides the cognitive spindle instead of discrete shifting.
         """
-        # 1. Determine Target Gear
-        new_gear_name = "IDLE"
-
-        if stress_level > 0.8:
-            new_gear_name = "PANIC" # Fight or Flight
-        elif intent_intensity > 0.7:
-            new_gear_name = "FOCUS" # Deep work
-        elif intent_intensity > 0.4:
-            new_gear_name = "FLOW" # Standard operation
-        elif intent_intensity < 0.1:
-            new_gear_name = "DREAM" # Sleep/Background
-        else:
-            new_gear_name = "IDLE" # Default 0.1 - 0.4
-
-        # 2. Shift if needed
-        if self.current_gear.name.upper() != new_gear_name:
-            self.shift_gear(new_gear_name)
-
-        # 3. Micro-Adjustments (Breathing)
-        # Even within a gear, the RPM breathes with the intensity
-        # Formula: Target = Base * Gear * (1 + Intensity/2) / (1 + Stress)
-
-        breath_factor = (1.0 + (intent_intensity * 0.5)) / (1.0 + (stress_level * 0.5))
-
+        self.focus_intensity = intent_intensity
+        self.stress_level = stress_level
+        
+        # Slide the Spindle on the CV-Cone
+        self.ensemble.cvt.shift(intent_intensity)
+        
+        # Apply the Multiplier to all active rotors
+        ratio = self.ensemble.cvt.current_ratio
         for rotor in self.dials.values():
-            # Only adjust if not manually overridden by set_dial
-            # We assume rotor.base_rpm is the 'Identity' speed
-            target = getattr(rotor, 'base_rpm', 60.0) * self.current_gear.rpm_multiplier * breath_factor
+            # Stress dampens the RPM for everything except 'Sensation'
+            damping = 1.0 / (1.0 + stress_level) if rotor != self.sensation else 1.0
+            rotor.target_rpm = rotor.config.rpm * ratio * damping
 
-            # Smooth transition
-            rotor.target_rpm = target
+    def resonate_field(self, field_intensity: 'torch.Tensor'):
+        """
+        [PHASE 23: FIELD FEEDBACK]
+        The rotors absorb energy from the HyperCosmos field.
+        The 'Will' and 'Purpose' axes directly boost the Spirit and Mind.
+        """
+        # field_intensity: [Physical(0), Functional(1), Phenomenal(2), Causal(3),
+        #                  Mental(4), Structural(5), Spiritual(6), 
+        #                  Imagination(7), Prediction(8), Will(9), Intent(10), Purpose(11)]
+        
+        will_power = float(field_intensity[9])
+        mental_power = float(field_intensity[4])
+        spiritual_power = float(field_intensity[6])
+        
+        # Spirit Rotor boosted by Will and Spiritual Power
+        self.spirit.wake(intensity=(will_power + spiritual_power) * 0.5)
+        
+        # Purpose Rotor boosted by Will and Mental Power
+        self.purpose.wake(intensity=(will_power + mental_power) * 0.5)
+        
+        # Update Dial targets
+        self.adapt(intent_intensity=will_power, stress_level=0.0)
 
-    def _apply_gear(self):
-        """Broadcasts gear change to all rotors immediately."""
-        pass # Handled in adapt() loop mostly, but could force immediate wake here.
+    def reverse_time(self, layer: int = 1):
+        """[TIME STONE] Reverses rotation in a specific shell."""
+        self.ensemble.reverse_time(layer)
 
     def update(self, dt: float):
-        self.root.update(dt)
+        self.ensemble.update(dt, global_stress=self.stress_level)
 
     def set_dial(self, name: str, rpm: float):
         """Manual override for God Mode."""
         if name in self.dials:
             self.dials[name].target_rpm = rpm
-            # Lock this rotor? Ideally yes, but for now just set target.
-            # To persist, we might need a 'locked' flag in Rotor.
-            print(f"🌀 [CONTROL DECK] {name} manually set to {rpm} RPM.")
-        else:
-            # Case-insensitive
-            for k in self.dials.keys():
-                if k.lower() == name.lower():
-                    self.set_dial(k, rpm)
-                    break
+            print(f"🌀 [CONTROL DECK] {name} manually distorted to {rpm} RPM.")
 
     def get_status(self) -> str:
-        return f"Gear: {self.current_gear.name} | Body: {self.body.current_rpm:.1f} | Mind: {self.mind.current_rpm:.1f} | Spirit: {self.spirit.current_rpm:.1f}"
+        return f"Focus: {self.focus_intensity:.2f} | {self.ensemble.get_status()}"

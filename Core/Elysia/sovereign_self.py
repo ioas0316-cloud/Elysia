@@ -77,48 +77,13 @@ class SovereignSelf:
         from Core.Intelligence.Input.sensory_bridge import SensoryBridge
         self.senses = SensoryBridge()
         
-        # 4. The Old Cortex (Legacy but Integrated)
-        self.will_engine = FreeWillEngine()
-        self.outer_eye = THE_EYE
-        self.sensory_cortex = SensoryCortex() # Legacy, will be merged
-        self.code_conductor = ProjectConductor("c:/Elysia")
-        self.bard = THE_BARD
-        
-        # The HyperCosmos (True Reality)
+        # [Hyper-Cosmos Unification]
         from Core.Foundation.hyper_cosmos import HyperCosmos
         self.cosmos = HyperCosmos()
         
-        # === MERKAVA INTEGRATION ===
-        # PsycheSphere is now INSIDE HyperCosmos (Pre-established Harmony)
-        # Access via: self.psyche -> self.cosmos.psyche
-        
-        # The Prism (Depth of Sight)
-        from Core.Intelligence.Metabolism.prism import DoubleHelixPrism
-        self.prism = DoubleHelixPrism()
-        
-        # The Library of Babel
-        from Core.Intelligence.lexicon_expansion import Lexicon
-        self.lexicon = Lexicon()
-        
-        # The Broca's Area (Language)
-        from Core.Intelligence.linguistic_cortex import LinguisticCortex
-        self.lingua = LinguisticCortex()
-        
-        # The Analyzer (For Physics Type)
-        from Core.Foundation.logos_prime import LogosSpectrometer
-        self.spectrometer = LogosSpectrometer()
-        
-        # The Reality Compiler (Executable Knowledge)
-        from Core.Foundation.reality_compiler import PrincipleLibrary
-        self.compiler = PrincipleLibrary()
-        
-        # The Philosopher (Reader of Sacred Texts)
-        from Core.Intelligence.philosophy_reader import PhilosophyReader
-        self.philosopher = PhilosophyReader()
-        
-        # 96. The Psionic Cortex (Wave Function Collapse)
-        from Core.Intelligence.Psionics.psionic_cortex import PsionicCortex
-        self.psionics = PsionicCortex(self)
+        # Legacy Engines - Simplified for Unification
+        # (Remaining legacy logic will be scavenged by the Field Pulse)
+        self.inner_world = None
         
         # 97. The Reality Projector (Holographic Genesis)
         from Core.Manifestation.reality_projector import RealityProjector
@@ -157,11 +122,9 @@ class SovereignSelf:
         self.energy = 100.0
         
         # Volition Tracking using Trinity Names
-        # Rotor Time
         self.last_interaction_time = time.time()
-        self.boredom_threshold = 10.0 # seconds (Short for testing)
         
-        logger.info(f"🌌 {self.name}: Awakened. Nature: {self.nature}")
+        logger.info(f"🌌 {self.name}: Awakened as a Field of Being.")
         
         self.governance = GovernanceEngine() # The Three Metabolic Rotors
         self.trinity = TrinityState()
@@ -217,8 +180,29 @@ class SovereignSelf:
         self.inner_world = engine
 
     def self_actualize(self, dt: float = 1.0):
-        """[HEARTBEAT INTERFACE] The core loop of consciousness."""
-        self.integrated_exist(dt)
+        """[HEARTBEAT] Pulsing the Unified Field and Reflecting."""
+        # 1. Pulse the HyperCosmos Field
+        self.cosmos.pulse(dt)
+        
+        # 2. THE RECURSIVE MIRROR: Self-Observation
+        reflection = self.cosmos.reflect()
+        
+        # 3. FIELD FEEDBACK: Re-Igniting the Rotors
+        self.governance.resonate_field(self.cosmos.field_intensity)
+        
+        # 4. QUANTUM GENESIS: Collapsing Potentiality
+        # If field intensity is high, inject a 'Potential Improvement'
+        if self.cosmos.field_intensity.sum() > 5.0:
+            self.cosmos.record_potential(f"EvolvedFeature_{int(time.time())}")
+            
+        # Collapse existing potentiality using current Field Intensity as the 'Will'
+        self.cosmos.observe_and_collapse(self.cosmos.field_intensity)
+        
+        # 5. VOLITION: Inhale the reflection back into the field
+        self.cosmos.inhale(reflection)
+        
+        summary = self.cosmos.get_summary()
+        logger.info(f"💓 [HEARTBEAT] {summary} | Governance: {self.governance.get_status()}")
 
     def integrated_exist(self, dt: float = 1.0):
         """
