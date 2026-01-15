@@ -36,6 +36,15 @@ class DoubleHelixDNA:
         self.resonance_history.append(total_resonance)
         return total_resonance
 
+    def get_dominant_principles(self) -> List[str]:
+        """Maps qualia tensor to named principles for ConceptPolymer."""
+        labels = ["Causality", "Function", "Phenomena", "Flow", "Logic", "Structure", "Spirit"]
+        principles = []
+        for i, val in enumerate(self.principle_strand):
+            if val > 0.5:
+                principles.append(labels[i])
+        return principles
+
 class ProvidenceEngine:
     """
     [The Eye of the Creator]

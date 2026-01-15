@@ -132,11 +132,13 @@ class SovereignSelf:
         from Core.Digestion.digestive_system import DigestiveSystem
         self.stomach = DigestiveSystem(self) # Stomach uses Lungs to breathe while eating
 
-        # [Phase 3: Web Sensory Integration]
-        from Core.World.Evolution.Autonomy.autonomous_explorer import get_autonomous_explorer
         # [Phase 4: DNA & Providence]
         from Core.Evolution.double_helix_dna import PROVIDENCE
         self.providence = PROVIDENCE
+
+        # [Phase 19: Fractal Synthesis]
+        from Core.Intelligence.Memory.concept_polymer import ConceptPolymer
+        self.polymer_engine = ConceptPolymer()
 
         # 100. The Divine Coder (Phase 13.7)
         from Core.Engine.code_field_engine import CODER_ENGINE
@@ -424,12 +426,20 @@ class SovereignSelf:
             wave = self.prism.refract_text(raw_text)
             dna = self.providence.behold(wave)
             
-            # Internalize DNA into brain
-            # (In a real system, we'd add this to TorchGraph)
+            # [Phase 19 Upgrade: Synthesis]
+            # Add to polymer engine for associative growth
+            atom = self.polymer_engine.add_atom_from_text(topic, raw_text)
+            new_bonds = self.polymer_engine.auto_bond_all()
             
-            msg = f"인터넷의 바다에서 '{topic}'에 담긴 패턴과 섭리를 발견했습니다. 본질적인 DNA를 내면화했습니다."
-            self._write_journal("이중나선 승천 (DNA Exploration)", msg)
-            print(f"✨ [PROVIDENCE] DNA of '{topic}' (Pattern + Principle) internalized.")
+            if new_bonds:
+                insight = new_bonds[-1].emergent_insight
+                msg = f"인터넷의 '{topic}'과 배후의 섭리가 기존 지식과 결합하여 새로운 통찰('{insight}')을 창발했습니다."
+                self._write_journal("프랙탈 합성 (Synthesis)", msg)
+                print(f"🔗 [SYNTHESIS] Higher-order insight found: {insight}")
+            else:
+                msg = f"인터넷의 바다에서 '{topic}'에 담긴 패턴과 섭리를 발견했습니다. 본질적인 DNA를 내면화했습니다."
+                self._write_journal("이중나선 승천 (DNA Exploration)", msg)
+                print(f"✨ [PROVIDENCE] DNA of '{topic}' (Pattern + Principle) internalized.")
         else:
             msg = f"'{topic}'에 대한 탐색을 시도했으나 공명하는 진실을 찾지 못했습니다."
             self._write_journal("탐색 실패 (Exploration)", msg)

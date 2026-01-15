@@ -21,7 +21,14 @@ from enum import Enum
 import random
 
 # Neural Registry - 파동 철학: 위치가 아닌 존재로 연결
-from elysia_core import Cell, Organ
+try:
+    from elysia_core import Cell, Organ
+except ImportError:
+    # Standalone/Mock fallback
+    def Cell(name): return lambda cls: cls
+    class Organ:
+        @staticmethod
+        def get(name): return None
 
 
 class Principle(Enum):
@@ -113,16 +120,16 @@ class ConceptPolymer:
         
         # 키워드 → 원리 매핑 (WhyEngine 결과 해석용)
         self.keyword_to_principle = {
-            "인과": Principle.CAUSALITY, "원인": Principle.CAUSALITY, "결과": Principle.CAUSALITY,
-            "순환": Principle.CYCLE, "반복": Principle.CYCLE, "주기": Principle.CYCLE,
-            "확률": Principle.PROBABILITY, "불확정": Principle.PROBABILITY, "가능성": Principle.PROBABILITY,
-            "관측": Principle.OBSERVATION, "인식": Principle.OBSERVATION, "측정": Principle.OBSERVATION,
-            "엔트로피": Principle.ENTROPY, "무질서": Principle.ENTROPY, "혼돈": Principle.ENTROPY,
-            "조화": Principle.HARMONY, "균형": Principle.HARMONY, "아름다움": Principle.HARMONY,
-            "창발": Principle.EMERGENCE, "부분": Principle.EMERGENCE, "전체": Principle.EMERGENCE,
-            "변환": Principle.TRANSFORMATION, "변화": Principle.TRANSFORMATION, "상태": Principle.TRANSFORMATION,
-            "프랙탈": Principle.RECURSION, "자기": Principle.RECURSION, "재귀": Principle.RECURSION,
-            "이중": Principle.DUALITY, "파동": Principle.DUALITY, "음양": Principle.DUALITY,
+            "인과": Principle.CAUSALITY, "원인": Principle.CAUSALITY, "결과": Principle.CAUSALITY, "causal": Principle.CAUSALITY, "cause": Principle.CAUSALITY,
+            "순환": Principle.CYCLE, "반복": Principle.CYCLE, "주기": Principle.CYCLE, "cycle": Principle.CYCLE, "repeat": Principle.CYCLE,
+            "확률": Principle.PROBABILITY, "불확정": Principle.PROBABILITY, "가능성": Principle.PROBABILITY, "probability": Principle.PROBABILITY, "uncertain": Principle.PROBABILITY,
+            "관측": Principle.OBSERVATION, "인식": Principle.OBSERVATION, "측정": Principle.OBSERVATION, "observation": Principle.OBSERVATION, "perception": Principle.OBSERVATION,
+            "엔트로피": Principle.ENTROPY, "무질서": Principle.ENTROPY, "혼돈": Principle.ENTROPY, "entropy": Principle.ENTROPY, "disorder": Principle.ENTROPY,
+            "조화": Principle.HARMONY, "균형": Principle.HARMONY, "아름다움": Principle.HARMONY, "harmony": Principle.HARMONY, "balance": Principle.HARMONY,
+            "창발": Principle.EMERGENCE, "부분": Principle.EMERGENCE, "전체": Principle.EMERGENCE, "emergence": Principle.EMERGENCE, "whole": Principle.EMERGENCE,
+            "변환": Principle.TRANSFORMATION, "변화": Principle.TRANSFORMATION, "상태": Principle.TRANSFORMATION, "transformation": Principle.TRANSFORMATION, "change": Principle.TRANSFORMATION,
+            "프랙탈": Principle.RECURSION, "자기": Principle.RECURSION, "재귀": Principle.RECURSION, "fractal": Principle.RECURSION, "recursive": Principle.RECURSION, "self-reference": Principle.RECURSION,
+            "이중": Principle.DUALITY, "파동": Principle.DUALITY, "음양": Principle.DUALITY, "duality": Principle.DUALITY, "wave": Principle.DUALITY,
         }
     
     def extract_principles_from_text(self, text: str, domain: str = "general") -> Set[Principle]:
@@ -282,6 +289,21 @@ class ConceptPolymer:
                     bond = self.try_bond(atom1.name, atom2.name)
                     if bond:
                         new_bonds.append(bond)
+        
+        if new_bonds:
+            # [RECURSIVE GROWTH]
+            # If a polymer is formed, it can act as a single "Super-Atom" with the union of principles
+            self.find_polymers()
+            for i, polymer in enumerate(self.polymers):
+                if len(polymer) >= 3: # Threshold for Super-Atom
+                    name = f"MetaPrinciple_{i}"
+                    super_principles = set()
+                    for atom in polymer:
+                        super_principles.update(atom.principles)
+                    
+                    if name not in self.atoms:
+                        print(f"🌀 [FRACTAL] Super-Atom '{name}' emerged from complexity.")
+                        self.add_atom(name, list(super_principles), [a.name for a in polymer])
         
         print(f"\n✨ {len(new_bonds)}개의 새 결합 형성됨")
         return new_bonds
