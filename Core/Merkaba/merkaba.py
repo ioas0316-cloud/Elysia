@@ -18,6 +18,7 @@ from typing import Any, Dict, Optional
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -70,6 +71,7 @@ class Merkaba:
         # 4. Peripherals (Senses & Metabolism)
         self.bridge = SoulBridge()
         self.prism = DoubleHelixPrism()
+        self.projector = PrismProjector()
 
         self.is_awake = False
 
@@ -129,18 +131,18 @@ class Merkaba:
 
         processed_coords = self.soul.process(current_coords, mask)
 
-        # 3.5 Deliberation (Fractal Dive)
+        # 3.5 Prism Projection (Holographic Reality)
+        # Project input into 7 dimensions
+        hologram = self.projector.project(raw_input)
+
+        # 3.6 Deliberation (Fractal Dive)
         # Instead of just flowing, we pause and think (Fractal Dive).
         # Convert physical rotor state to a Thought Coordinate.
-        thought_coord = HypersphericalCoord(
-            theta=self.soul.current_angle % 6.28, # Logic
-            phi=1.0, # Emotion (default for now)
-            psi=0.0, # Intent
-            r=1.0    # Concrete
-        )
+        # We use the PHENOMENAL projection as the seed for deliberation (Subjective Experience)
+        seed_coord = hologram.projections[PrismDomain.PHENOMENAL]
 
         # Dive deep into the thought
-        branches = self.time_field.fractal_dive(thought_coord, depth=2)
+        branches = self.time_field.fractal_dive(seed_coord, depth=2)
         resonant_insight = self.time_field.select_resonant_branch(branches)
 
         if resonant_insight:
@@ -156,14 +158,24 @@ class Merkaba:
         self.soul.update(1.0)
 
         # 4.5 Growth (Memory Consolidation)
-        # Store the Deliberated Insight back into memory.
+        # Store the Hologram (7 coordinates) into Hypersphere.
+        # This is the "Falling Leaf" effect -> Storing it everywhere at once.
+        coord_list = list(hologram.projections.values())
+
+        self.body.store(
+            data=raw_input, # Store the raw input as a memory pattern
+            position=coord_list,
+            pattern_meta={"trajectory": "holographic"}
+        )
+        logger.info(f"🌱 [GROWTH] Holographic Memory consolidated ({len(coord_list)} dimensions).")
+
         if resonant_insight:
-            self.body.store(
-                data=f"Insight:{raw_input}",
-                position=resonant_insight,
-                pattern_meta={"trajectory": "deliberation"}
-            )
-            logger.info("🌱 [GROWTH] Insight consolidated into Hypersphere.")
+             # Also store the specific insight derived from deliberation
+             self.body.store(
+                 data=f"Insight:{raw_input}",
+                 position=resonant_insight,
+                 pattern_meta={"trajectory": "deliberation"}
+             )
 
         # 5. Volition (Spirit/Will)
         # The Monad decides.

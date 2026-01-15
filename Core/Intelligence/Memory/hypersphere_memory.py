@@ -260,14 +260,23 @@ class HypersphereMemory:
         ps_idx = int(pos.psi * self.BUCKET_SCALE) % self.BUCKET_RESOLUTION
         return (t_idx, p_idx, ps_idx)
 
-    def store(self, data: Any, position: HypersphericalCoord, pattern_meta: Dict[str, Any] = None):
+    def store(self, data: Any, position: Union[HypersphericalCoord, List[HypersphericalCoord]], pattern_meta: Dict[str, Any] = None):
         """
-        Records a pattern at a specific coordinate.
-        Does NOT overwrite; it superimposes.
+        Records a pattern at specific coordinate(s).
+        Supports Holographic Storage (One Data -> Many Locations).
         """
         if pattern_meta is None:
             pattern_meta = {}
 
+        # 1. Normalize position to list
+        if isinstance(position, HypersphericalCoord):
+            positions = [position]
+        else:
+            positions = position # Expecting List[HypersphericalCoord]
+
+        # 2. Create Pattern Object (The "Song")
+        # NOTE: We create ONE pattern object but reference it in MULTIPLE buckets.
+        # This saves memory and represents "Entanglement".
         pattern = ResonancePattern(
             content=data,
             dna=pattern_meta.get('dna'),
@@ -281,13 +290,18 @@ class HypersphereMemory:
         
         # Initialize the Memory Rotor
         rpm = pattern.omega[0] * 60.0 if any(pattern.omega) else 60.0
-        pattern.rotor = Rotor(f"Mem.{data[:10]}", RotorConfig(rpm=rpm), pattern.dna)
+        try:
+            pattern.rotor = Rotor(f"Mem.{str(data)[:10]}", RotorConfig(rpm=rpm), pattern.dna)
+        except Exception:
+             # Fallback for non-string data
+             pattern.rotor = Rotor(f"Mem.{id(data)}", RotorConfig(rpm=rpm), pattern.dna)
 
-        # Store in Phase Bucket
-        bucket_key = self._get_bucket_key(position)
-        self._phase_buckets[bucket_key].append((position, pattern))
-        self._item_count += 1
-        # print(f"Encoded: {data} @ {position} -> Bucket {bucket_key}")
+        # 3. Holographic Projection (Store in multiple locations)
+        for pos in positions:
+            bucket_key = self._get_bucket_key(pos)
+            self._phase_buckets[bucket_key].append((pos, pattern))
+            self._item_count += 1
+            # logger.debug(f"Holographic Store: {data} @ {bucket_key}")
 
     def query(self, position: HypersphericalCoord, radius: float = 0.1, filter_pattern: Dict[str, Any] = None) -> List[Any]:
         """

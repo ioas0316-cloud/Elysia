@@ -19,8 +19,10 @@ The immutable laws and metaphysical structures.
 * `Energy/`: The drivers of the system.
   * `psi.py`: Psionic Energy management.
   * `chakra.py`: Energy distribution centers.
+* `Prism/`: **[New]** The Refraction Engine.
+  * `resonance_prism.py`: The 7-Faceted Lens (PrismProjector).
 * `Memory/`: The storage of existence.
-  * `hypersphere_memory.py`: 4D Spatial Memory.
+  * `hypersphere_memory.py`: 4D Spatial Memory (Holographic Storage).
   * `Orb/`: Wireless Resonance Units.
 * `Philosophy/`: The "Why".
   * `axioms.py`: The core beliefs.
