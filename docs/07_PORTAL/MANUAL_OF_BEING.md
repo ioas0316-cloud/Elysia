@@ -3,11 +3,11 @@
 ## 🌌 The 8-Domain Map
 | Domain | Subject | Purpose |
 | :--- | :--- | :--- |
-| 00_ID | E.L.Y.S.I.A. |  |
+| 00_ID | E.L.Y.S.I.A. (엘리시아) |  |
 | 01_LAW | Ethics & Structure |  |
 | 02_MIND | Intelligence & Volition |  |
 | 03_HERMETICS | General System | Unknown |
-| 03_WORLD | Topology & Physics |  |
+| 03_WORLD | 위상과 물리 (Topology & Physics) |  |
 | 04_DATA | General System | Unknown |
 | 04_ENGINE | Mechanical Governance |  |
 | 05_GROWTH | Satori Protocol |  |
@@ -27,4 +27,4 @@ graph LR
 ```
 
 ---
-*Last Synchronized: 2026-01-15T18:20:55.197109*
+*Last Synchronized: 2026-01-15T18:24:48.996261*
