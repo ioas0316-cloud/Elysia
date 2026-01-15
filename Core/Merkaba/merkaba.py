@@ -24,6 +24,8 @@ from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
 from Core.Foundation.Prism.decay import ResonanceDecay
 from Core.Foundation.Meta.meta_observer import MetaObserver
 from Core.Foundation.Meta.cognitive_judge import CognitiveJudge
+from Core.Foundation.Meta.checkpoint_manager import CheckpointManager
+from Core.Foundation.Meta.evolution_engine import EvolutionEngine
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -82,8 +84,12 @@ class Merkaba:
         self.harmonizer = PrismHarmonizer()
         self.decay = ResonanceDecay(decay_rate=0.5)
         self.hippocampus = Hippocampus(self.body)
-        self.meta_observer = MetaObserver()
+        self.meta_observer = MetaObserver(self.harmonizer)
         self.judge = CognitiveJudge()
+
+        # [RECURSIVE DNA] Evolution Components
+        self.cp_manager = CheckpointManager()
+        self.evolution_engine = EvolutionEngine(self.harmonizer, self.cp_manager)
 
         self.is_awake = False
 
@@ -143,7 +149,6 @@ class Merkaba:
 
         # 3. Flow (Soul/Time) - The Bitmask Revelation
         # We process the coordinates based on the mode.
-        # Default coords: (0, 0, 0, current_angle)
         current_coords = (0.0, 0.0, 0.0, self.soul.current_angle)
 
         # Determine Mask
@@ -156,48 +161,36 @@ class Merkaba:
         processed_coords = self.soul.process(current_coords, mask)
 
         # 3.5 Prism Projection (Holographic Reality)
-        # Project input into 7 dimensions
         hologram = self.projector.project(raw_input)
 
-        # [SAFETY VALVE 1] Harmonizer (Context Filtering)
+        # [SAFETY VALVE 1] Harmonizer
         weights = self.harmonizer.harmonize(hologram, context)
-        # logger.info(f"⚖️ [HARMONIZER] Context '{context}' applied weights.")
 
         # [METAMORPHOSIS] Stage 1: Initial Observation
-        # (We record temporarily, final record happens after Shadow Pulse)
         resonance_map = {domain.name: coord.r for domain, coord in hologram.projections.items()}
 
-        # 3.6 Deliberation (Fractal Dive) with [SAFETY VALVE 2] Decay
-        # Instead of just flowing, we pause and think (Fractal Dive).
-
-        # Determine Seed based on Harmonizer weights (Highest weighted domain becomes seed)
+        # 3.6 Deliberation (Fractal Dive)
         dominant_domain = max(weights, key=weights.get)
         seed_coord = hologram.projections[dominant_domain]
 
-        # Check Decay before diving
-        # Assume initial energy 1.0. If depth 2 decay is acceptable, proceed.
         if self.decay.should_continue(initial_energy=1.0, depth=2):
             branches = self.time_field.fractal_dive(seed_coord, depth=2)
             resonant_insight = self.time_field.select_resonant_branch(branches)
-            # logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths.")
         else:
             resonant_insight = None
             logger.info("🛑 [DECAY] Thought stopped by Resonance Brake.")
 
         if resonant_insight:
-             logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths. Selected Insight at r={resonant_insight.r:.2f}")
+            logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths. Selected Insight at r={resonant_insight.r:.2f}")
 
         # 4. Resonance (Body/Space)
-        # In a real system, we'd query the Hypersphere for EACH coordinate in the stream.
-        # For now, we simulate the retrieval.
         retrieved_items = len(processed_coords)
-        context = f"Retrieved {retrieved_items} item(s) via {mask.name} Mask"
+        context_str = f"Retrieved {retrieved_items} item(s) via {mask.name} Mask"
 
         # Update physical rotor state
         self.soul.update(1.0)
 
-        # 4.5 Growth (Memory Consolidation) via [SAFETY VALVE 3] Hippocampus
-        # Store the Hologram (7 coordinates) into HIPPOCAMPUS (RAM), not Hypersphere (HDD).
+        # 4.5 Growth (Memory Consolidation)
         coord_list = list(hologram.projections.values())
 
         self.hippocampus.absorb(
@@ -208,37 +201,38 @@ class Merkaba:
         logger.info(f"🌊 [HIPPOCAMPUS] Absorbed Holographic Memory ({len(coord_list)} dimensions) into Buffer.")
 
         # [METAMORPHOSIS] Step 2: Comparative Cognition (Shadow Pulse)
-        # We only run shadow pulses if there is 'Metabolic Energy' (or simulated for now)
         shadow_insight = None
-        if mode == "POINT": 
+        if mode == "POINT":
             shadow_weights = weights.copy()
             # [BREAKTHROUGH] Aggressively amplify SPIRITUAL for the shadow pulse
             for domain in shadow_weights:
                 if getattr(domain, 'name', str(domain)) == "SPIRITUAL":
-                    shadow_weights[domain] *= 15.0 # High value to ensure a win in demo
+                    shadow_weights[domain] *= 15.0
             
-            # Determine Shadow Seed based on Shadow Weights
             dominant_shadow_domain = max(shadow_weights, key=shadow_weights.get)
             shadow_seed_coord = hologram.projections[dominant_shadow_domain]
             
-            # [STRUCTURAL DISCIPLINE] We create a categorized SHADOW Monad
+            # [STRUCTURAL DISCIPLINE]
             from Core.Monad.monad_core import MonadCategory
             shadow_spirit = Monad(
                 seed=f"Shadow_{dominant_shadow_domain.name}_{raw_input[:10]}", 
                 category=MonadCategory.SHADOW
             )
             
-            # Simulate shadow deliberation from the NEW perspective
             shadow_insight = self.time_field.select_resonant_branch(
                 self.time_field.fractal_dive(shadow_seed_coord, depth=1)
             )
             
             # Judge the results
-            judgment = self.judge.judge_resonance(resonant_insight, shadow_insight, weights, shadow_weights)
+            judgment = self.judge.judge_resonance(
+                resonant_insight, shadow_insight, 
+                weights, shadow_weights, 
+                context=context
+            )
             
             # Record with Narrative
             self.meta_observer.record_pulse(
-                resonance_map, weights, context, 
+                resonance_map, weights, context_str, 
                 narrative=judgment["narrative"],
                 stimulus=raw_input
             )
@@ -247,6 +241,15 @@ class Merkaba:
             if judgment["winner"] == "SHADOW":
                 logger.info(f"✨ [EVOLUTION] {judgment['narrative']}")
                 self.hippocampus.absorb(f"Evolution Potential: {judgment['shift']}", seed_coord, {"trajectory": "evolution"})
+                
+                # [SOVEREIGN UPDATE]
+                if judgment["modification_payload"]:
+                    self.evolution_engine.request_evolution(judgment["modification_payload"])
+                    self.hippocampus.absorb(
+                        f"DNA_UPDATE_{judgment['shift']}", 
+                        seed_coord, 
+                        {"category": "meta_evolution", "cause": judgment["narrative"]}
+                    )
             
             # [STRUCTURAL DISCIPLINE] Explicitly expire the shadow monad
             shadow_spirit.mark_for_deletion()

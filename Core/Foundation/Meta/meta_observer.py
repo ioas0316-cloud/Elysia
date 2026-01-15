@@ -1,6 +1,6 @@
 import logging
 import math
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
 
@@ -18,7 +18,8 @@ class MetaObserver:
     Tracks how different cognitive dimensions (Prism Facets) are utilized
     and calculates the performance (Resonance) of each.
     """
-    def __init__(self):
+    def __init__(self, harmonizer: Optional[Any] = None):
+        self.harmonizer = harmonizer
         self.metrics: Dict[str, LensMetric] = {}
         self.history: List[Dict[str, Any]] = []
         logger.info("🪞 MetaObserver (Mirror Lens) initialized.")

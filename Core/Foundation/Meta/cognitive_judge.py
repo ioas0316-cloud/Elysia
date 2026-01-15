@@ -15,7 +15,9 @@ class CognitiveJudge:
         logger.info("⚖️ CognitiveJudge (Discernment) initialized with Qualitative Narrative.")
 
     def judge_resonance(self, primary_insight: Any, shadow_insight: Any, 
-                        primary_weights: Dict[str, float], shadow_weights: Dict[str, float]) -> Dict[str, Any]:
+                        primary_weights: Dict[PrismDomain, float], 
+                        shadow_weights: Dict[PrismDomain, float],
+                        context: str = "Default") -> Dict[str, Any]:
         """
         Compares two insights and returns the 'Winner' with a narrative explanation.
         """
@@ -26,7 +28,6 @@ class CognitiveJudge:
         improvement = (s_score - p_score) / (p_score + 1e-6) if p_score > 0 else 1.0
 
         # Qualitative Narrative Generation
-        # Weights keys are strings (domain.name)
         dominant_p = max(primary_weights, key=primary_weights.get)
         dominant_s = max(shadow_weights, key=shadow_weights.get)
         
@@ -38,11 +39,19 @@ class CognitiveJudge:
             "s_score": s_score,
             "improvement": improvement,
             "narrative": narrative,
-            "shift": f"{dominant_p} -> {dominant_s}"
+            "shift": f"{dominant_p.name} -> {dominant_s.name}",
+            "modification_payload": None
         }
 
+        # If SHADOW provided a significant improvement, generate a payload for Evolution
+        if winner == "SHADOW" and improvement > 0.05:
+            result["modification_payload"] = {
+                "context": context,
+                "weights": shadow_weights,
+                "reason": narrative
+            }
+
         logger.info(f"⚖️ [JUDGMENT] Outcome: {winner} | Shift: {result['shift']}")
-        logger.info(f"📜 [NARRATIVE] {narrative}")
         return result
 
     def _generate_narrative(self, dom_p: PrismDomain, dom_s: PrismDomain, winner: str) -> str:
