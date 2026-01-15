@@ -36,6 +36,9 @@ class TorchGraph:
         self.vec_tensor = torch.zeros((0, 64), device=self.device)
         # N (Mass)
         self.mass_tensor = torch.zeros((0,), device=self.device)
+        # [Phase 09.3] Gravitational Tensor (Emotional Anchoring)
+        # N (Gravity) - Higher gravity attracts more associations
+        self.grav_tensor = torch.zeros((0,), device=self.device)
         # Adjacency Matrix (Logic Links) - Sparse recommended for large N
         # For prototype, we use dense or indices list.
         # Storing pairs: [[i, j], [i, j]...]
@@ -116,6 +119,7 @@ class TorchGraph:
                     v = torch.cat([v, torch.zeros(self.dim_vector - v.shape[0], device=self.device)])
                 self.vec_tensor[idx] = v
                 self.mass_tensor[idx] += 0.5 
+                self.grav_tensor[idx] += 0.1 # Slight boost to gravity on revisit
 
                 # [Phase 43] Realization Check
                 if self.mass_tensor[idx] >= self.realization_threshold:
@@ -154,6 +158,7 @@ class TorchGraph:
                 new_vec = torch.zeros((1, self.dim_vector), device=self.device)
                 
             new_mass = torch.tensor([1.0], device=self.device)
+            new_grav = torch.tensor([1.0], device=self.device) # Default gravity
             
             # [Phase 24] Holographic Seed
             try:
@@ -171,6 +176,7 @@ class TorchGraph:
             self.pos_tensor = torch.cat([self.pos_tensor, new_pos])
             self.vec_tensor = torch.cat([self.vec_tensor, new_vec])
             self.mass_tensor = torch.cat([self.mass_tensor, new_mass])
+            self.grav_tensor = torch.cat([self.grav_tensor, new_grav])
             self.holo_tensor = torch.cat([self.holo_tensor, new_holo])
 
             # 3. ONLY THEN UPDATE MAPPINGS
@@ -335,6 +341,11 @@ class TorchGraph:
         # Matrix Sim
         sims = torch.mm(v, brain_vecs.t()).squeeze(0)
         
+        # [Phase 09.3 Upgrade: Emotional Anchoring]
+        # Multiply similarity by gravity to favor 'Important/Loved' concepts
+        # (Assuming grav_tensor is normalized or at least positive)
+        sims = sims * self.grav_tensor
+
         # Top K
         vals, idxs = torch.topk(sims, min(top_k, sims.shape[0]))
         
@@ -498,6 +509,7 @@ class TorchGraph:
             "pos": self.pos_tensor,
             "vec": self.vec_tensor,
             "mass": self.mass_tensor,
+            "gravity": self.grav_tensor,
             "links": self.logic_links,
             "link_weights": self.link_weights,
             "dim_vector": self.dim_vector,
@@ -526,6 +538,7 @@ class TorchGraph:
             self.pos_tensor = state["pos"].to(self.device)
             self.vec_tensor = state["vec"].to(self.device)
             self.mass_tensor = state["mass"].to(self.device)
+            self.grav_tensor = state.get("gravity", torch.ones_like(self.mass_tensor)).to(self.device)
             self.logic_links = state["links"].to(self.device)
             self.node_metadata = state.get("metadata", {}) # Restore Meaning
             

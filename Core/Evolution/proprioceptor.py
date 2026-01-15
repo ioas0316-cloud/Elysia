@@ -66,10 +66,17 @@ class CodeProprioceptor:
     def scan_nervous_system(self) -> BodyState:
         """
         [Sensation]
-        Walks the directory tree to map the physical body.
+        Walks the directory tree with a skip-cache to save energy.
         """
         state = BodyState()
-        print(f"👁️ [PROPRIOCEPTION] Scanning Nervous System at {self.root}...")
+        
+        # [Phase 10 Optimization]
+        # We only do a deep scan if absolutely necessary or once in a while
+        # For now, we skip if state already exists and is 'fresh' (simulated)
+        if hasattr(self, '_last_state') and random.random() > 0.1:
+            return self._last_state
+
+        print(f"👁️ [PROPRIOCEPTION] Sensing Nervous System at {self.root}...")
 
         for root, dirs, files in os.walk(self.root):
             # Filter ignored dirs

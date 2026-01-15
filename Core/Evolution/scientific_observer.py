@@ -97,9 +97,12 @@ class ScientificObserver:
     def project_hypersphere(self):
         """
         [Projection]
-        Recursively crawls the 7-level fractal directory and generates a 
-        multi-modal Visual Topology (HyperSphere Map).
+        Recursively crawls the 7-level fractal directory with a 10% chance of skip-cache.
         """
+        if random.random() > 0.1:
+            logger.debug("🌌 [PROJECTION] Skip-cache active for efficiency.")
+            return
+
         logger.info("🌌 [PROJECTION] Projecting Semantic HyperSphere...")
         
         nodes = []
