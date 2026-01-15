@@ -40,6 +40,7 @@ from Core.Engine.governance_engine import GovernanceEngine
 from Core.Evolution.proprioceptor import CodeProprioceptor
 from Core.Evolution.dissonance_resolver import DissonanceResolver
 from Core.Evolution.inducer import CodeFieldInducer
+from Core.Evolution.scientific_observer import ScientificObserver
 
 from dataclasses import dataclass, field
 
@@ -116,6 +117,7 @@ class SovereignSelf:
         self.proprioceptor = CodeProprioceptor()
         self.conscience = DissonanceResolver()
         self.healer = CodeFieldInducer()
+        self.scientist = ScientificObserver()
         self.auto_evolve = False # Safety switch
 
         self.inner_world = None
@@ -168,6 +170,12 @@ class SovereignSelf:
                 # Dangerous Act
                 success = self.healer.graft(incubated_path, top_issue.location)
                 if success:
+                    # [Phase 29] Document the Evolution
+                    self.scientist.generate_dissertation(
+                        diff_summary=f"Grafted cure to {top_issue.location}",
+                        principle=top_issue.axiom_violated,
+                        impact="Structural realignment and technical debt reduction."
+                    )
                     self._write_journal("자율 진화 (Satori)", f"스스로를 치유함: {top_issue.location}")
                     return f"Healed {top_issue.location}"
             else:
@@ -202,7 +210,14 @@ class SovereignSelf:
         self.cosmos.inhale(reflection)
         
         summary = self.cosmos.get_summary()
-        logger.info(f"💓 [HEARTBEAT] {summary} | Governance: {self.governance.get_status()}")
+        
+        # [Phase 29] Periodic Manual Projection
+        if random.random() < 0.1: # 10% chance per heartbeat to update the shared manual
+            self.scientist.update_manual_of_being()
+            
+        heartbeat_msg = f"💓 [HEARTBEAT] {summary} | Governance: {self.governance.get_status()}"
+        logger.info(heartbeat_msg)
+        print(heartbeat_msg)
 
     def integrated_exist(self, dt: float = 1.0):
         """
