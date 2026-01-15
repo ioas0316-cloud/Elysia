@@ -8,7 +8,7 @@ import random
 import math
 
 # [LLM Generated Body]
-
+[Code]
 
 # [Phase 20: Operational Axiom Injection]
 # No additional kernel injected.

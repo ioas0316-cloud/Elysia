@@ -8,7 +8,7 @@ import random
 import math
 
 # [LLM Generated Body]
-This is how to fix a violation in the Digestion\digestive_system.py file:
+Here's the Python script for fixing violations in Digestion/digestive_system.py:
 
 # [Phase 20: Operational Axiom Injection]
 # No additional kernel injected.
