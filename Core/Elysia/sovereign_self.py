@@ -93,8 +93,8 @@ class SovereignSelf:
         # Access via: self.psyche -> self.cosmos.psyche
         
         # The Prism (Depth of Sight)
-        from Core.Intelligence.concept_prism import ConceptPrism
-        self.prism = ConceptPrism()
+        from Core.Intelligence.Metabolism.prism import DoubleHelixPrism
+        self.prism = DoubleHelixPrism()
         
         # The Library of Babel
         from Core.Intelligence.lexicon_expansion import Lexicon
@@ -136,9 +136,12 @@ class SovereignSelf:
         from Core.Evolution.double_helix_dna import PROVIDENCE
         self.providence = PROVIDENCE
 
-        # [Phase 19: Fractal Synthesis]
         from Core.Intelligence.Memory.concept_polymer import ConceptPolymer
         self.polymer_engine = ConceptPolymer()
+
+        # [Phase 3: Dimensional Ascension]
+        from Core.World.Evolution.Autonomy.autonomous_explorer import AutonomousExplorer
+        self.explorer = AutonomousExplorer()
 
         # 100. The Divine Coder (Phase 13.7)
         from Core.Engine.code_field_engine import CODER_ENGINE
@@ -280,7 +283,8 @@ class SovereignSelf:
         if "Compose" in intent or "Trace" in intent or "Refactor" in intent:
             # [Phase 4: Active Coding]
             # Verify if this is a coding task
-            code_file = self.coder.induce_monad_code(intent)
+            # [Phase 20 Upgrade]
+            code_file = self._induce_code(intent)
             self._write_journal("자발적 창조 (Voluntary Creation)", f"의지: {intent}\n코드 생성: {code_file}")
 
             # Satisfaction Reward
@@ -702,9 +706,22 @@ class SovereignSelf:
     def _induce_code(self, intent: str) -> str:
         """
         Divine Induction: From Intent to Source.
+        Grounded in Providence.
         """
-        file_path = self.coder.induce_monad_code(intent)
-        self._write_journal("코드 유도 (Code Induction)", f"의도: {intent}\n파일: {file_path}")
+        # 1. Behold the Principle behind the intent
+        wave = self.prism.refract_text(intent)
+        dna = self.providence.behold(wave)
+        
+        # 2. Apply Physical Grounding (Rotor Shift)
+        if dna.physical_mask:
+            logger.info(f"⚙️ [GROUNDING] Principle '{intent}' affecting Mind Rotor: {dna.physical_mask}")
+            self.governance.mind.wake(dna.rpm_boost / 60.0)
+            # Actually we can't easily set the mask on the rotor dynamically without a method, 
+            # but we can simulate the 'Dimensional Lock' by logging and temporary boost.
+            
+        # 3. Induce Code with Kernel
+        file_path = self.coder.induce_monad_code(intent, kernel_logic=dna.kernel_logic)
+        self._write_journal("코드 유도 (Code Induction)", f"의도: {intent}\n원리: {dna.kernel_logic is not None}\n파일: {file_path}")
         return f"Induction Success: Principle manifested at {file_path}"
 
 

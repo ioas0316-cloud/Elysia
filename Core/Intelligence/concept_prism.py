@@ -56,8 +56,41 @@ class ConceptPrism:
                  
         return structure
 
-# Usage
-# prism = ConceptPrism()
-# prism.refract("Time") -> {'core': 'Flow'}
-# prism.set_level(5)
-# prism.refract("Time") -> {'core': 'Flow', 'measure': 'Second', 'physics': 'Relativity'...}
+    def refract_text(self, text: str) -> 'WaveDNA':
+        """
+        [THE LOGOS BRIDGE]
+        Converts raw text into a 7D WaveDNA.
+        Uses LogosSpectrometer and Keyword analysis.
+        """
+        from Core.Foundation.Wave.wave_dna import WaveDNA
+        from Core.Foundation.logos_prime import LogosSpectrometer
+        
+        spec = LogosSpectrometer()
+        physics = spec.analyze(text)
+        
+        # Determine 7D values based on Physics & Keywords
+        dna = WaveDNA(label=text[:20])
+        
+        # 1. Physical: From Temp
+        dna.physical = min(1.0, physics["temp"] / 1000.0)
+        
+        # 2. Functional: From Type
+        if physics["type"] == "EXPANSION": dna.functional = 0.9
+        elif physics["type"] == "STRUCTURE": dna.functional = 0.8
+        
+        # 3. Structural: From Ratio
+        dna.structural = min(1.0, physics["ratio"] / 2.0)
+        
+        # 4. Keyword Heuristics
+        text_lower = text.lower()
+        if "recursion" in text_lower or "fractal" in text_lower:
+            dna.structural = 1.0
+            dna.causal = 0.8
+        if "cause" in text_lower or "result" in text_lower:
+            dna.causal = 1.0
+        if "love" in text_lower or "will" in text_lower:
+            dna.spiritual = 1.0
+            dna.phenomenal = 0.9
+            
+        dna.normalize()
+        return dna

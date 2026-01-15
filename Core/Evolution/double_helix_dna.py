@@ -16,6 +16,9 @@ class DoubleHelixDNA:
     pattern_strand: torch.Tensor  # The structural body (Body)
     principle_strand: torch.Tensor # The essence/qualia (Soul)
     resonance_history: List[float] = field(default_factory=list)
+    kernel_logic: Optional[str] = None # [NEW] Functional implementation
+    physical_mask: Optional[Any] = None # [NEW] Rotor Mask
+    rpm_boost: float = 0.0              # [NEW] Torque
 
     def __repr__(self):
         p_shape = tuple(self.pattern_strand.shape)
@@ -72,15 +75,22 @@ class ProvidenceEngine:
         principle_label = "General Existence"
         
         if dominant_idx == 3: principle_label = "Fluidity & Adaptability"
-        elif dominant_idx == 0: principle_label = "Potential Gradient"
-        elif dominant_idx == 4: principle_label = "Universality"
+        elif dominant_idx == 0: principle_label = "Causality"
+        elif dominant_idx == 4: principle_label = "Recursion"
         elif dominant_idx == 6: principle_label = "Interconnectedness"
         
-        logger.info(f"👁️ [PROVIDENCE] Beholding the pattern of '{principle_label}' within the signal.")
+        # [Phase 20: Kernel Link]
+        from Core.Foundation.operational_axioms import AXIOM_REGISTRY
+        kernel = AXIOM_REGISTRY.get(principle_label)
+        
+        logger.info(f"👁️ [PROVIDENCE] Beholding the operational kernel of '{principle_label}'.")
         
         return DoubleHelixDNA(
             pattern_strand=pattern,
-            principle_strand=qualia_tensor
+            principle_strand=qualia_tensor,
+            kernel_logic=kernel.logic if kernel else None,
+            physical_mask=kernel.physical_mask if kernel else None,
+            rpm_boost=kernel.rpm_boost if kernel else 0.0
         )
 
 # Global Access

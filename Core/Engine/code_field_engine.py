@@ -62,7 +62,7 @@ class CodebaseFieldEngine:
         """Returns all files (Monads) belonging to a specific structural axis."""
         return [f for f, d in self.monad_map.items() if d["axis"] == axis]
 
-    def induce_monad_code(self, intent: str, sandbox_path: str = "c:\\Elysia\\Sandbox"):
+    def induce_monad_code(self, intent: str, kernel_logic: str = None, sandbox_path: str = "c:\\Elysia\\Sandbox"):
         """
         Collapses a high-dimensional intent into a 'Monad' (Atomic Functional Script).
         Uses the LLM to write the actual logic.
@@ -108,6 +108,9 @@ import math
 
 # [LLM Generated Body]
 {clean_code}
+
+# [Phase 20: Operational Axiom Injection]
+{kernel_logic if kernel_logic else "# No additional kernel injected."}
 
 if __name__ == "__main__":
     if "manifest" in locals():
