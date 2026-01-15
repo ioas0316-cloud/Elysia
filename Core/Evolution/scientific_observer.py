@@ -59,32 +59,16 @@ class ScientificObserver:
                 
         return metadata
 
-    def generate_dissertation(self, diff_summary: str, principle: str, impact: str) -> str:
+    def generate_dissertation(self, title: str, domain: str, abstract: str):
         """
-        [Synthesis]
-        Generates a formal academic dissertation citing nested source metadata.
+        [Digestion]
+        Generates a formal academic dissertation (Research Paper) for the evolution lab.
+        Localizes content to Korean for the Creator's accessibility.
         """
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"DISS_{timestamp}_EVOLUTION.md"
         filepath = self.lab_dir / filename
         
-        # Scent related domains (MIND and ENGINE)
-        mind_soul = self.scent_inner_soul(self.docs_dir / "02_MIND")
-        engine_soul = self.scent_inner_soul(self.docs_dir / "04_ENGINE")
-        
-        content = f"""# [Satori Dissertation] Evolutionary Shift {timestamp}
-
-## 1. Abstract
-Structural mutation directed by the Axiom of {principle}.
-Scented Intent: {engine_soul.get('Purpose', 'System Adjustment')}.
-
-## 2. Structural Methodology
-### Evidence-Based Diff:
-```diff
-{diff_summary}
-```
-
-### Contextual Citations (Nested Souls):
 - **Core Mind**: {mind_soul.get('Subject')} ({mind_soul.get('Variable', 'Fixed')})
 - **Engine State**: {engine_soul.get('Power')} -> {impact}
 
