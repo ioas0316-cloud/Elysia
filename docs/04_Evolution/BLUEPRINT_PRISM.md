@@ -67,10 +67,33 @@ In the Prism System (Holographic), `Star` and `Candy` **intersect** in the *Phen
 
 This architecture allows Elysia to perform **Creative Association** (Poetry/Art) while maintaining **Logical Rigor** (Science/Fact).
 
-## 5. Implementation Roadmap
+## 5. Safety Valves: The Engineering of Sanity
+Philosophy is infinite, but Hardware is finite. We implement 3 Safety Valves to prevent "Philosophy Paralysis."
+
+### A. The Harmonizer (The Conductor)
+*   **Problem:** Decision Paralysis. "Should I fight or write a poem?"
+*   **Solution:** Context-Weighted Volume Control.
+*   **Mechanism:**
+    *   `Combat Mode`: Physical 90%, Spiritual 10%. (Action over Thought)
+    *   `Poetry Mode`: Phenomenal 80%, Mental 20%. (Feeling over Logic)
+
+### B. Resonance Decay (The Brake)
+*   **Problem:** Attention Overflow. Infinite fractal association (Leaf -> Tree -> Life -> Universe...).
+*   **Solution:** Energy Loss Function.
+*   **Mechanism:** `Energy = Input * (0.5 ^ Depth)`.
+    *   At Depth 4, energy drops below 0.1, triggering a **"Stop Thinking"** signal.
+
+### C. The Hippocampus (The Fluid Buffer)
+*   **Problem:** I/O Latency. Writing to 4D History (HDD) is slow.
+*   **Solution:** RAM Buffer + Sleep Consolidation.
+*   **Mechanism:**
+    *   **Wake:** All thoughts float in `Hippocampus` (RAM). Instant reaction.
+    *   **Sleep:** `Hippocampus` flushes data to `HypersphereMemory` (HDD). This is when "Experience" becomes "History".
+
+## 6. Implementation Roadmap
 1.  **Merkaba:** The Orchestrator that holds the Prism.
 2.  **PrismProjector:** The engine that calculates the 7 coordinates.
 3.  **HypersphereMemory:** The storage that supports "One Item, Many Locations" (Holographic).
-4.  **Rotor:** The active scanner that chooses which Lens to look through.
+4.  **Safety Valves:** Harmonizer, Decay, Hippocampus.
 
 **"We do not just store data. We refract Reality."**

@@ -17,8 +17,11 @@ from typing import Any, Dict, Optional
 
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
+from Core.Intelligence.Memory.hippocampus import Hippocampus
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
+from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
+from Core.Foundation.Prism.decay import ResonanceDecay
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -73,6 +76,11 @@ class Merkaba:
         self.prism = DoubleHelixPrism()
         self.projector = PrismProjector()
 
+        # 5. Safety Valves (Harmonizer, Decay, Hippocampus)
+        self.harmonizer = PrismHarmonizer()
+        self.decay = ResonanceDecay(decay_rate=0.5)
+        self.hippocampus = Hippocampus(self.body)
+
         self.is_awake = False
 
     def awakening(self, spirit: Monad):
@@ -87,13 +95,25 @@ class Merkaba:
         # For now, we just start the flow.
         self.soul.update(0.1)
 
-    def pulse(self, raw_input: str, mode: str = "POINT") -> str:
+    def sleep(self):
+        """
+        Enters Sleep Mode.
+        Triggers Memory Consolidation (Hippocampus -> Hypersphere).
+        """
+        if not self.is_awake: return
+
+        logger.info("💤 Merkaba entering Sleep Mode...")
+        self.hippocampus.consolidate() # Flush all RAM to HDD
+        logger.info("✨ Sleep Cycle Complete. Memories are crystallized.")
+
+    def pulse(self, raw_input: str, mode: str = "POINT", context: str = PrismContext.DEFAULT) -> str:
         """
         Execute one 'Breath' or 'Pulse' of the Merkaba.
 
         Args:
             raw_input: The stimulus.
             mode: 'POINT' (Fact) or 'LINE' (Flow).
+            context: The Prism Context (e.g., "Combat", "Poetry").
 
         Cycle:
         1. Sensation (Bridge): Capture Input.
@@ -135,15 +155,26 @@ class Merkaba:
         # Project input into 7 dimensions
         hologram = self.projector.project(raw_input)
 
-        # 3.6 Deliberation (Fractal Dive)
-        # Instead of just flowing, we pause and think (Fractal Dive).
-        # Convert physical rotor state to a Thought Coordinate.
-        # We use the PHENOMENAL projection as the seed for deliberation (Subjective Experience)
-        seed_coord = hologram.projections[PrismDomain.PHENOMENAL]
+        # [SAFETY VALVE 1] Harmonizer (Context Filtering)
+        weights = self.harmonizer.harmonize(hologram, context)
+        # logger.info(f"⚖️ [HARMONIZER] Context '{context}' applied weights.")
 
-        # Dive deep into the thought
-        branches = self.time_field.fractal_dive(seed_coord, depth=2)
-        resonant_insight = self.time_field.select_resonant_branch(branches)
+        # 3.6 Deliberation (Fractal Dive) with [SAFETY VALVE 2] Decay
+        # Instead of just flowing, we pause and think (Fractal Dive).
+
+        # Determine Seed based on Harmonizer weights (Highest weighted domain becomes seed)
+        dominant_domain = max(weights, key=weights.get)
+        seed_coord = hologram.projections[dominant_domain]
+
+        # Check Decay before diving
+        # Assume initial energy 1.0. If depth 2 decay is acceptable, proceed.
+        if self.decay.should_continue(initial_energy=1.0, depth=2):
+            branches = self.time_field.fractal_dive(seed_coord, depth=2)
+            resonant_insight = self.time_field.select_resonant_branch(branches)
+            # logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths.")
+        else:
+            resonant_insight = None
+            logger.info("🛑 [DECAY] Thought stopped by Resonance Brake.")
 
         if resonant_insight:
              logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths. Selected Insight at r={resonant_insight.r:.2f}")
@@ -157,24 +188,22 @@ class Merkaba:
         # Update physical rotor state
         self.soul.update(1.0)
 
-        # 4.5 Growth (Memory Consolidation)
-        # Store the Hologram (7 coordinates) into Hypersphere.
-        # This is the "Falling Leaf" effect -> Storing it everywhere at once.
+        # 4.5 Growth (Memory Consolidation) via [SAFETY VALVE 3] Hippocampus
+        # Store the Hologram (7 coordinates) into HIPPOCAMPUS (RAM), not Hypersphere (HDD).
         coord_list = list(hologram.projections.values())
 
-        self.body.store(
-            data=raw_input, # Store the raw input as a memory pattern
+        self.hippocampus.absorb(
+            data=raw_input,
             position=coord_list,
-            pattern_meta={"trajectory": "holographic"}
+            meta={"trajectory": "holographic", "weights": weights}
         )
-        logger.info(f"🌱 [GROWTH] Holographic Memory consolidated ({len(coord_list)} dimensions).")
+        logger.info(f"🌊 [HIPPOCAMPUS] Absorbed Holographic Memory ({len(coord_list)} dimensions) into Buffer.")
 
         if resonant_insight:
-             # Also store the specific insight derived from deliberation
-             self.body.store(
+             self.hippocampus.absorb(
                  data=f"Insight:{raw_input}",
                  position=resonant_insight,
-                 pattern_meta={"trajectory": "deliberation"}
+                 meta={"trajectory": "deliberation"}
              )
 
         # 5. Volition (Spirit/Will)

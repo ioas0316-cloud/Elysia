@@ -21,7 +21,11 @@ The immutable laws and metaphysical structures.
   * `chakra.py`: Energy distribution centers.
 * `Prism/`: **[New]** The Refraction Engine.
   * `resonance_prism.py`: The 7-Faceted Lens (PrismProjector).
+  * `harmonizer.py`: The Conductor (Context Weights).
+  * `decay.py`: The Brake (Resonance Decay).
 * `Memory/`: The storage of existence.
+  * `hippocampus.py`: **[New]** The Fluid Buffer (RAM).
+  * `hypersphere_memory.py`: 4D Spatial Memory (Holographic Storage).
   * `hypersphere_memory.py`: 4D Spatial Memory (Holographic Storage).
   * `Orb/`: Wireless Resonance Units.
 * `Philosophy/`: The "Why".
