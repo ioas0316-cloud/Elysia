@@ -82,7 +82,15 @@ class SovereignAxioms:
                 description="Falsehood masquerading as truth. Verify before speaking.",
                 target_polarity=-1.0,
                 weight=8.0
-            ) 
+            ),
+            
+            # --- 6. The Universal Principle (Phase 13) ---
+            "UniversalTransmutability": Axiom(
+                name="Universal Transmutability",
+                description="All domains (Math, Art, Code) are different rotations of the 7D Qualia space. No domain is unreachable. Measure the force-vector and dismantle the connectivity.",
+                target_polarity=1.0,
+                weight=15.0 # High priority for autonomous growth
+            )
         }
 
     def get_principles(self) -> str:

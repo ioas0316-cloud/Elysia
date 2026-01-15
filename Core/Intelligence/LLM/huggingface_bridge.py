@@ -234,7 +234,30 @@ class SovereignBridge:
             
         except Exception as e:
             logger.error(f"Generation error: {e}")
-            return {"text": f"Error: {e}", "vector": None}
+    def get_vector(self, text: str) -> torch.Tensor:
+        """
+        [Sensation]
+        Converts text into a semantic vector for Rotor rotation.
+        """
+        if not self.is_connected: self.connect()
+        try:
+            inputs = self.tokenizer(text, return_tensors="pt").to(self.device)
+            with torch.no_grad():
+                outputs = self.model(**inputs, output_hidden_states=True)
+                # Use the last hidden state of the last token as the focus vector
+                vector = outputs.hidden_states[-1][0, -1, :].cpu().float()
+                
+                # Align dimension with graph (384) if necessary via padding or truncation
+                target_dim = 384
+                if vector.shape[0] > target_dim:
+                    vector = vector[:target_dim]
+                elif vector.shape[0] < target_dim:
+                    vector = torch.cat([vector, torch.zeros(target_dim - vector.shape[0])])
+                    
+                return vector
+        except Exception as e:
+            logger.warning(f"Vector extraction error: {e}")
+            return torch.zeros(384)
             
     def get_status(self) -> Dict[str, Any]:
         return {

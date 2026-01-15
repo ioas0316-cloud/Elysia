@@ -1155,6 +1155,15 @@ class InternalUniverse:
         logger.info(reflection)
         return reflection
 
+# [Singleton Pattern]
+_universe_instance = None
+
+def get_internal_universe() -> InternalUniverse:
+    global _universe_instance
+    if _universe_instance is None:
+        _universe_instance = InternalUniverse()
+    return _universe_instance
+
 # Demonstration
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

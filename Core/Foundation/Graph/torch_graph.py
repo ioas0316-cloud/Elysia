@@ -39,6 +39,8 @@ class TorchGraph:
         # [Phase 09.3] Gravitational Tensor (Emotional Anchoring)
         # N (Gravity) - Higher gravity attracts more associations
         self.grav_tensor = torch.zeros((0,), device=self.device)
+        # [Phase 11.3] Quantum Frequency (Resonance Phase)
+        self.freq_tensor = torch.zeros((0,), device=self.device)
         # Adjacency Matrix (Logic Links) - Sparse recommended for large N
         # For prototype, we use dense or indices list.
         # Storing pairs: [[i, j], [i, j]...]
@@ -77,15 +79,6 @@ class TorchGraph:
 
         logger.info(f"⚡ TorchGraph Initialized on {self.device} (Matrix Mode)")
 
-    def add_node(self, node_id: str, vector: List[float] = None, pos: List[float] = None):
-        # ... (Existing add_node logic unchanged) ...
-        # (For brevity, assuming replace_file_content replaces only the target range reliably)
-        # Actually I need to be careful not to delete add_node if I request a replacement around it.
-        # So I will target __init__ and add_link separately if they are far apart.
-        # They are at lines 38 and 105.
-        pass
-         
-    # RE-TARGETING __init__ only first
 
     def add_node(self, node_id: str, vector: List[float] = None, pos: List[float] = None, metadata: Dict = None):
         # [Sanitization]
@@ -159,6 +152,7 @@ class TorchGraph:
                 
             new_mass = torch.tensor([1.0], device=self.device)
             new_grav = torch.tensor([1.0], device=self.device) # Default gravity
+            new_freq = torch.tensor([random.uniform(0.0, 2*math.pi)], device=self.device) # [Phase 11.3] Wave Phase
             
             # [Phase 24] Holographic Seed
             try:
@@ -177,6 +171,11 @@ class TorchGraph:
             self.vec_tensor = torch.cat([self.vec_tensor, new_vec])
             self.mass_tensor = torch.cat([self.mass_tensor, new_mass])
             self.grav_tensor = torch.cat([self.grav_tensor, new_grav])
+            # [Phase 11.3]
+            if hasattr(self, 'freq_tensor'):
+                 self.freq_tensor = torch.cat([self.freq_tensor, new_freq])
+            else:
+                 self.freq_tensor = new_freq
             self.holo_tensor = torch.cat([self.holo_tensor, new_holo])
 
             # 3. ONLY THEN UPDATE MAPPINGS
@@ -235,7 +234,7 @@ class TorchGraph:
     def apply_gravity(self, iterations: int = 50, lr: float = 0.01):
         """
         The GPU-Accelerated Heartbeat.
-        Uses Broadcasting to compute N*N interactions in parallel.
+        [Phase 11.3] Now includes Quantum Wave Interference.
         """
         N = self.pos_tensor.shape[0]
         if N == 0: return
@@ -243,16 +242,36 @@ class TorchGraph:
         logger.info(f"🌊 Tensor Wave Simulation: {N} Neurons on {self.device}")
 
         for _ in range(iterations):
-            # 1. Distance Matrix (N x N)
-            diff = self.pos_tensor.unsqueeze(1) - self.pos_tensor.unsqueeze(0) 
-            dist_sq = (diff ** 2).sum(dim=2)
-            dist = torch.sqrt(dist_sq + 0.001)
-            
-            # 2. Resonance (Cosine Sim)
-            vec_norm = self.vec_tensor / (self.vec_tensor.norm(dim=1, keepdim=True) + 1e-9)
-            sim_matrix = torch.mm(vec_norm, vec_norm.t()) # (N, N)
-            
-            # --- Field Dynamics (The Landscape) ---
+            # 1. Selection & Interaction Sparse/Dense
+            if N > 1500: # [Phase 10.2 Optimization]
+                indices = torch.randperm(N, device=self.device)[:700]
+                active_pos = self.pos_tensor[indices]
+                active_vec = self.vec_tensor[indices]
+                active_freq = self.freq_tensor[indices]
+                
+                diff = active_pos.unsqueeze(1) - self.pos_tensor.unsqueeze(0) # (700, N, 4)
+                dist_sq = (diff ** 2).sum(dim=2)
+                dist = torch.sqrt(dist_sq + 0.001)
+                
+                # Similarity
+                vec_norm_self = self.vec_tensor / (self.vec_tensor.norm(dim=1, keepdim=True) + 1e-9)
+                vec_norm_active = active_vec / (active_vec.norm(dim=1, keepdim=True) + 1e-9)
+                sim_matrix = torch.mm(vec_norm_active, vec_norm_self.t()) # (700, N)
+                
+                # [Phase 11.3] Interference
+                interference = torch.cos(active_freq.unsqueeze(1) - self.freq_tensor.unsqueeze(0)) 
+                sim_matrix = sim_matrix * (1.0 + 0.5 * interference)
+            else:
+                diff = self.pos_tensor.unsqueeze(1) - self.pos_tensor.unsqueeze(0) # (N, N, 4)
+                dist_sq = (diff ** 2).sum(dim=2)
+                dist = torch.sqrt(dist_sq + 0.001)
+                
+                vec_norm = self.vec_tensor / (self.vec_tensor.norm(dim=1, keepdim=True) + 1e-9)
+                sim_matrix = torch.mm(vec_norm, vec_norm.t()) # (N, N)
+                
+                # Full interference matrix
+                interference = torch.cos(self.freq_tensor.unsqueeze(1) - self.freq_tensor.unsqueeze(0))
+                sim_matrix = sim_matrix * (1.0 + 0.5 * interference)
             # Instead of just N*N interaction, we add Static Potential Fields (The "Railgun" Structure)
             # F_field = -Gradient(Potential)
             # Here simplified: Attraction to defined "Concept Wells"
@@ -355,6 +374,26 @@ class TorchGraph:
             results.append((self.idx_to_id[node_idx], vals[i].item()))
             
         return results
+
+    def reinforce_path(self, node_ids: List[str], strength: float = 0.1):
+        """
+        [Structural Absorption]
+        Strengthens a sequence of nodes and their connections.
+        Used to absorb LLM logic trajectories.
+        """
+        for i in range(len(node_ids)):
+            n_id = node_ids[i]
+            if n_id in self.id_to_idx:
+                idx = self.id_to_idx[n_id]
+                # Boost gravity/mass (Importance)
+                self.grav_tensor[idx] += strength
+                self.mass_tensor[idx] += strength * 0.5
+                
+                # Link to previous
+                if i > 0:
+                    self.add_link(node_ids[i-1], n_id, weight=strength, link_type="CAUSAL_FLOW")
+                    
+        logger.debug(f"⚡ Path reinforced: {len(node_ids)} nodes.")
 
     def get_nearest_by_qualia(self, query_qualia: Dict[str, float], target_modality: str = None, top_k: int = 5) -> List[Tuple[str, float]]:
         """

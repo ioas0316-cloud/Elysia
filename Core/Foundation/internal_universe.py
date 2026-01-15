@@ -32,4 +32,12 @@ from Core.Intelligence.Memory.Vector.internal_universe import *
 from Core.Intelligence.Memory.Vector.internal_universe import InternalUniverse, WorldCoordinate
 
 # 명시적 export
-__all__ = ['InternalUniverse', 'WorldCoordinate']
+__all__ = ['InternalUniverse', 'WorldCoordinate', 'get_internal_universe']
+
+_internal_universe = None
+
+def get_internal_universe() -> InternalUniverse:
+    global _internal_universe
+    if _internal_universe is None:
+        _internal_universe = InternalUniverse()
+    return _internal_universe
