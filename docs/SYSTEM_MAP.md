@@ -41,9 +41,12 @@ The Seat of Consciousness.
 
 The processing units and cognitive faculties.
 
-* `LLM/`: The raw processing power.
-  * `logos_parser.py`: Separation of Will and Voice.
-  * `huggingface_bridge.py`: The Diplomat.
+* `LLM/`: The Devourer Engine (Static Analysis & Digestion).
+  * `llm_devourer.py`: Unified pipeline for model consumption.
+  * `topology_tracer.py`: Static Topology Analysis (VRAM-free).
+  * `topology_inspector.py`: Semantic Logic Lens (Meaning Decoding).
+  * `topology_crystallizer.py`: Permanent Knowledge Storage.
+  * `huggingface_bridge.py`: The Diplomat (Download Manager).
 * `Monad/`: The Identity Units.
   * `monad_core.py`: The Atomic Self.
 * `Will/`: The Volition.

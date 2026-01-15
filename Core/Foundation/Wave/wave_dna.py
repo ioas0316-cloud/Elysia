@@ -115,6 +115,13 @@ class WaveDNA:
         }
         return max(sectors, key=sectors.get)
 
+    def get_magnitude(self) -> float:
+        """Returns the magnitude (norm) of the 7D vector."""
+        return math.sqrt(
+            self.physical**2 + self.functional**2 + self.phenomenal**2 +
+            self.causal**2 + self.mental**2 + self.structural**2 + self.spiritual**2
+        )
+
     def to_list(self) -> List[float]:
         return [
             self.physical, self.functional, self.phenomenal,
