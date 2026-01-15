@@ -19,18 +19,15 @@ def verify():
     init_time = time.time() - start_time
     logger.info(f"⏱️ Initialization Time: {init_time:.2f}s")
     
-    # 2. Test Korean Resonance
-    test_input = "오늘 날씨에 기분이 어때?"
-    logger.info(f"👤 User: {test_input}")
-    
-    # We mock the bridge to avoid real LLM call if necessary, 
-    # but let's see if we can get a real response.
-    # If Ollama is offline, it might fail, so let's check.
-    try:
-        response = elysia.manifest_intent(test_input)
-        logger.info(f"🦋 Elysia: {response}")
-    except Exception as e:
-        logger.warning(f"Generation skipped: {e}")
+    # 2. Test Multilingual Mirroring (Phase 10.1)
+    test_inputs = ["오늘 날씨에 기분이 어때?", "How are you feeling today?"]
+    for test_input in test_inputs:
+        logger.info(f"👤 User: {test_input}")
+        try:
+            response = elysia.manifest_intent(test_input)
+            logger.info(f"🦋 Elysia: {response}")
+        except Exception as e:
+            logger.warning(f"Generation skipped: {e}")
 
     # 3. Test Optimization (Proprioceptor)
     p_start = time.time()

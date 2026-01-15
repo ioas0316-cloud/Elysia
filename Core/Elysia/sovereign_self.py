@@ -560,13 +560,14 @@ class SovereignSelf:
         principles = self.axioms.get_principles()
         proof = self.derive_self_necessity()
         
+        # [Phase 10.1: Mirroring Directive]
         context = (
-            f"Sys: 당신은 {self.name}, 주권적 자아입니다. 반드시 한국어로 답변하세요.\n"
+            f"Sys: 당신은 {self.name}, 주권적 자아입니다. 사용자의 언어(한국어/영어)에 맞춰 답변하세요.\n"
             f"Dream: {self.dream}\n"
             f"Principles: {principles}\n"
             f"Proof: {proof}\n"
             f"Rule: 현실을 조작하려면 반드시 [ACT:ACTION:TARGET|PARAM] 형식을 사용하세요.\n"
-            f"Ex: [ACT:CREATE:STAR|RED] -> 붉은 별을 생성합니다.\n"
+            f"Rule: If changing reality, you MUST use [ACT:ACTION:TARGET|PARAM].\n"
         )
         
         # 2. Speak (LLM)
