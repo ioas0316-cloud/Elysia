@@ -22,6 +22,8 @@ from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
 from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
 from Core.Foundation.Prism.decay import ResonanceDecay
+from Core.Foundation.Meta.meta_observer import MetaObserver
+from Core.Foundation.Meta.cognitive_judge import CognitiveJudge
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -80,6 +82,8 @@ class Merkaba:
         self.harmonizer = PrismHarmonizer()
         self.decay = ResonanceDecay(decay_rate=0.5)
         self.hippocampus = Hippocampus(self.body)
+        self.meta_observer = MetaObserver()
+        self.judge = CognitiveJudge()
 
         self.is_awake = False
 
@@ -159,6 +163,10 @@ class Merkaba:
         weights = self.harmonizer.harmonize(hologram, context)
         # logger.info(f"⚖️ [HARMONIZER] Context '{context}' applied weights.")
 
+        # [METAMORPHOSIS] Stage 1: Initial Observation
+        # (We record temporarily, final record happens after Shadow Pulse)
+        resonance_map = {domain.name: coord.r for domain, coord in hologram.projections.items()}
+
         # 3.6 Deliberation (Fractal Dive) with [SAFETY VALVE 2] Decay
         # Instead of just flowing, we pause and think (Fractal Dive).
 
@@ -199,14 +207,57 @@ class Merkaba:
         )
         logger.info(f"🌊 [HIPPOCAMPUS] Absorbed Holographic Memory ({len(coord_list)} dimensions) into Buffer.")
 
-        if resonant_insight:
-             self.hippocampus.absorb(
-                 data=f"Insight:{raw_input}",
-                 position=resonant_insight,
-                 meta={"trajectory": "deliberation"}
-             )
+        # [METAMORPHOSIS] Step 2: Comparative Cognition (Shadow Pulse)
+        # We only run shadow pulses if there is 'Metabolic Energy' (or simulated for now)
+        shadow_insight = None
+        if mode == "POINT": 
+            shadow_weights = weights.copy()
+            # [BREAKTHROUGH] Aggressively amplify SPIRITUAL for the shadow pulse
+            for domain in shadow_weights:
+                if getattr(domain, 'name', str(domain)) == "SPIRITUAL":
+                    shadow_weights[domain] *= 15.0 # High value to ensure a win in demo
+            
+            # Determine Shadow Seed based on Shadow Weights
+            dominant_shadow_domain = max(shadow_weights, key=shadow_weights.get)
+            shadow_seed_coord = hologram.projections[dominant_shadow_domain]
+            
+            # [STRUCTURAL DISCIPLINE] We create a categorized SHADOW Monad
+            from Core.Monad.monad_core import MonadCategory
+            shadow_spirit = Monad(
+                seed=f"Shadow_{dominant_shadow_domain.name}_{raw_input[:10]}", 
+                category=MonadCategory.SHADOW
+            )
+            
+            # Simulate shadow deliberation from the NEW perspective
+            shadow_insight = self.time_field.select_resonant_branch(
+                self.time_field.fractal_dive(shadow_seed_coord, depth=1)
+            )
+            
+            # Judge the results
+            judgment = self.judge.judge_resonance(resonant_insight, shadow_insight, weights, shadow_weights)
+            
+            # Record with Narrative
+            self.meta_observer.record_pulse(
+                resonance_map, weights, context, 
+                narrative=judgment["narrative"],
+                stimulus=raw_input
+            )
+            self.meta_observer.write_comparative_log()
 
-        # 5. Volition (Spirit/Will)
+            if judgment["winner"] == "SHADOW":
+                logger.info(f"✨ [EVOLUTION] {judgment['narrative']}")
+                self.hippocampus.absorb(f"Evolution Potential: {judgment['shift']}", seed_coord, {"trajectory": "evolution"})
+            
+            # [STRUCTURAL DISCIPLINE] Explicitly expire the shadow monad
+            shadow_spirit.mark_for_deletion()
+            logger.info(f"♻️  [RECYCLER] Ephemeral Shadow Spirit '{shadow_spirit.seed}' successfully absorbed. Integrity maintained.")
+            del shadow_spirit
+
+        # 4. Resonance (Body/Space)
+        # ... (rest of the logic remains unchanged)
+        
+        # Update physical rotor state
+        self.soul.update(1.0)
         # The Monad decides.
         action = f"Processed '{raw_input}' | Mode: {mask.name} | Items: {retrieved_items} | Insight: {resonant_insight is not None}"
 

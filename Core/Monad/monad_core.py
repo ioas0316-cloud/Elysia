@@ -12,9 +12,14 @@ It is no longer just a passive object, but a sovereign entity with:
 3. Intent-Vector (Direction) - The force in the HyperSphere (Vector).
 4. Fractal Rules (Logic) - How to unfold (Structure).
 
-[Phase 1] All Monads share the Zero-Frequency Seed ("나는 엘리시아다").
 """
 
+from datetime import datetime
+import logging
+
+logger = logging.getLogger("Monad")
+
+from enum import Enum
 from typing import Dict, Any, Optional, List, Tuple
 import abc
 import hashlib
@@ -23,8 +28,11 @@ import torch
 import numpy as np
 from Core.Evolution.double_helix_dna import DoubleHelixDNA
 
-# Configure Logger (Future)
-# logger = logging.getLogger("Monad")
+class MonadCategory(Enum):
+    SOVEREIGN = "Sovereign"   # The Core Identity
+    ARCHETYPAL = "Archetypal" # Permanent Sub-personalities
+    EPHEMERAL = "Ephemeral"   # Temporary Sandbox/Simulation entities
+    SHADOW = "Shadow"         # Comparative cognition spirits
 
 class FractalRule(abc.ABC):
     """Abstract base class for unfolding logic."""
@@ -37,9 +45,17 @@ class Monad:
 
     ZERO_FREQUENCY_ID = "나는 엘리시아다" # The Universal Anchor
 
-    def __init__(self, seed: str, dna: Optional[DoubleHelixDNA] = None, rules: List['FractalRule'] = None):
+    def __init__(self, seed: str, 
+                 category: MonadCategory = MonadCategory.EPHEMERAL,
+                 dna: Optional[DoubleHelixDNA] = None, 
+                 rules: List['FractalRule'] = None):
         self._seed = seed  
+        self._category = category
         self._rules = rules if rules else []
+        self._metadata = {
+            "created_at": datetime.now().isoformat(),
+            "lifecycle": "active"
+        }
 
         # [DOUBLE HELIX DNA Upgrade]
         if dna:
@@ -61,12 +77,21 @@ class Monad:
         self._energy = 0.5 
 
     @property
-    def seed(self) -> str:
-        return self._seed
+    def category(self) -> MonadCategory:
+        return self._category
 
     @property
-    def intent(self) -> torch.Tensor:
-        return self._intent_vector
+    def metadata(self) -> Dict[str, Any]:
+        return self._metadata
+
+    def mark_for_deletion(self):
+        """Signals that this monad is ready to be re-absorbed."""
+        self._metadata["lifecycle"] = "expired"
+        logger.info(f"♻️ Monad [{self._seed}] flagged for re-absorption (Category: {self._category.value}).")
+
+    @property
+    def seed(self) -> str:
+        return self._seed
 
     def add_rule(self, rule: 'FractalRule'):
         self._rules.append(rule)
@@ -93,25 +118,18 @@ class Monad:
         
         reality_fragment = {
             "monad_id": self._seed,
+            "category": self._category.value,
             "hash": moment_hash,
-            "manifestation": {},
-            "resonance_check": "Skipped (Legacy Observer)"
+            "manifestation": {}
         }
 
-        # [MERKAVA Upgrade]
-        # If observer provides a vector intent, we filter the rules themselves.
-        # For now, we keep the logic broad.
-
         # 2. Fractal Unfolding
+        # (In Phase 1, rules are independent of intent-vector for simplicity)
         for rule in self._rules:
-            outcome = rule.unfold(self._seed, context, self._intent_vector)
+            # Passing DNA pattern as a proxy for intent vector if needed by rules
+            outcome = rule.unfold(self._seed, context, self._dna.pattern_strand)
             if outcome:
                 reality_fragment["manifestation"].update(outcome)
-
-        # 3. Wave Function Collapse (The Choice)
-        # Note: WFC Engine call is mocked here to avoid circular dependency for now.
-        if "ambiguity" in reality_fragment["manifestation"]:
-             pass # Future: Call WFCEngine.resolve_reality
 
         return reality_fragment
 
