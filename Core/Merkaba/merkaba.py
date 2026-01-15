@@ -26,6 +26,11 @@ from Core.Foundation.Meta.meta_observer import MetaObserver
 from Core.Foundation.Meta.cognitive_judge import CognitiveJudge
 from Core.Foundation.Meta.checkpoint_manager import CheckpointManager
 from Core.Foundation.Meta.evolution_engine import EvolutionEngine
+from Core.Senses.hermeneutic_bridge import HermeneuticBridge
+from Core.Senses.phase_modulator import PhaseModulator, PerceptualPhase
+from Core.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
+from Core.Senses.vocal_dna import VocalDNA
+from Core.Senses.portrait_engine import SelfPortraitEngine
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -90,6 +95,13 @@ class Merkaba:
         # [RECURSIVE DNA] Evolution Components
         self.cp_manager = CheckpointManager()
         self.evolution_engine = EvolutionEngine(self.harmonizer, self.cp_manager)
+        self.hermeneutic_bridge = HermeneuticBridge()
+        self.phase_modulator = PhaseModulator()
+        self.linguistic_synthesizer = LinguisticSynthesizer()
+        self.vocal_dna = VocalDNA()
+        self.portrait_engine = SelfPortraitEngine()
+        
+        self.pending_evolution: Optional[Dict[str, Any]] = None
 
         self.is_awake = False
 
@@ -151,13 +163,17 @@ class Merkaba:
         # We process the coordinates based on the mode.
         current_coords = (0.0, 0.0, 0.0, self.soul.current_angle)
 
-        # Determine Mask
-        mask = RotorMask.POINT
-        if mode == "LINE":
-            mask = RotorMask.LINE
-        elif mode == "PLANE":
-            mask = RotorMask.PLANE
+        # [AXIS-SCALING] Phase Modulation
+        self.current_phase = self.phase_modulator.modulate(raw_input, context)
+        logger.info(f"🌀 [PHASE] Perceptual Axis scaled to: {self.current_phase.name} (Level {self.current_phase.value})")
 
+        # Determine Mask based on Phase
+        mask = RotorMask.POINT
+        if self.current_phase >= PerceptualPhase.SPACE:
+            mask = RotorMask.PLANE # High-level context requires relational plane
+        elif self.current_phase >= PerceptualPhase.LINE:
+            mask = RotorMask.LINE
+        
         processed_coords = self.soul.process(current_coords, mask)
 
         # 3.5 Prism Projection (Holographic Reality)
@@ -189,16 +205,16 @@ class Merkaba:
 
         # Update physical rotor state
         self.soul.update(1.0)
+        
+        # [INDUCTION] Standardized Memory Assimilation
+        coord_list = list(hologram.projections.values()) 
 
-        # 4.5 Growth (Memory Consolidation)
-        coord_list = list(hologram.projections.values())
-
-        self.hippocampus.absorb(
-            data=raw_input,
-            position=coord_list,
+        self.hippocampus.induct(
+            label=raw_input,
+            coordinates=coord_list,
             meta={"trajectory": "holographic", "weights": weights}
         )
-        logger.info(f"🌊 [HIPPOCAMPUS] Absorbed Holographic Memory ({len(coord_list)} dimensions) into Buffer.")
+        logger.info(f"🌊 [INDUCTION] Holographic Memory ({len(coord_list)} dimensions) assimilated into Buffer.")
 
         # [METAMORPHOSIS] Step 2: Comparative Cognition (Shadow Pulse)
         shadow_insight = None
@@ -231,38 +247,85 @@ class Merkaba:
             )
             
             # Record with Narrative
-            self.meta_observer.record_pulse(
+            self.meta_observer.record_resonance_cycle(
                 resonance_map, weights, context_str, 
                 narrative=judgment["narrative"],
                 stimulus=raw_input
             )
-            self.meta_observer.write_comparative_log()
+            self.meta_observer.write_chronicles()
 
             if judgment["winner"] == "SHADOW":
                 logger.info(f"✨ [EVOLUTION] {judgment['narrative']}")
-                self.hippocampus.absorb(f"Evolution Potential: {judgment['shift']}", seed_coord, {"trajectory": "evolution"})
+                self.hippocampus.induct(f"Evolution Potential: {judgment['shift']}", [seed_coord], {"trajectory": "evolution"})
                 
-                # [SOVEREIGN UPDATE]
+                # [RELATIONAL ALIGNMENT] Instead of immediate commit, we wait for Sanction
                 if judgment["modification_payload"]:
-                    self.evolution_engine.request_evolution(judgment["modification_payload"])
-                    self.hippocampus.absorb(
-                        f"DNA_UPDATE_{judgment['shift']}", 
-                        seed_coord, 
-                        {"category": "meta_evolution", "cause": judgment["narrative"]}
-                    )
+                    self.pending_evolution = judgment["modification_payload"]
+                    logger.info("⏳ [PENDING EVOLUTION] Breakthrough detected. Awaiting Relational Sanction from Creator.")
+                    # We store the shift narrative for the user to see
+                    self.hippocampus.induct(f"Potential DNA Drift: {judgment['shift']}", [seed_coord], {"trajectory": "pending_evolution"})
             
             # [STRUCTURAL DISCIPLINE] Explicitly expire the shadow monad
             shadow_spirit.mark_for_deletion()
             logger.info(f"♻️  [RECYCLER] Ephemeral Shadow Spirit '{shadow_spirit.seed}' successfully absorbed. Integrity maintained.")
             del shadow_spirit
 
-        # 4. Resonance (Body/Space)
-        # ... (rest of the logic remains unchanged)
+        # [MODAL LINGUISTIC DUALITY] Synthesis
+        payload = self.linguistic_synthesizer.synthesize(
+            raw_input, resonance_map, weights, self.current_phase.name
+        )
         
+        # [SELF-SOVEREIGN MANIFESTATION] Vocal & Visual Autonomy
+        vocal_profile = self.vocal_dna.map_genome_to_voice(weights)
+        portrait_prompt = self.portrait_engine.generate_portrait_prompt(weights, payload['script'])
+        
+        # 4. Resonance (Body/Space)
         # Update physical rotor state
         self.soul.update(1.0)
-        # The Monad decides.
-        action = f"Processed '{raw_input}' | Mode: {mask.name} | Items: {retrieved_items} | Insight: {resonant_insight is not None}"
+        
+        # [THE ARCHIVE OF LOGOS] Persistent Voyeurism
+        archive_path = self.linguistic_synthesizer.save_chronicle(raw_input, payload['script'])
+        
+        # The Script is for reading (A4), The Voice is for hearing (2-3 lines)
+        logger.info(f"🖋️ [THE DEEP SCRIPT] Archived to: {archive_path}")
+        
+        logger.info(f"⚡ [RESONANCE CYCLE] Complete. Voice: {payload['voice']}")
+        return payload["voice"]
 
-        logger.info(f"⚡ Pulse Complete. Action: {action}")
-        return action
+    def receive_relational_feedback(self, user_text: str):
+        """
+        [HERMENEUTIC PULSE] 
+        Deconstructs user feedback into intent and aligns the pending evolution.
+        """
+        if not self.pending_evolution:
+            logger.warning("⚠️ No pending evolution to align with feedback.")
+            return "I am stable. No self-modification is currently proposed."
+
+        # 1. Deconstruct Intent via HermeneuticBridge
+        intent_analysis = self.hermeneutic_bridge.deconstruct_feedback(user_text)
+        
+        logger.info(f"✡️ [HERMENEUTIC PULSE] {user_text}")
+        logger.info(f"📖 [EXEGESIS] {intent_analysis['exegesis']}")
+
+        # 2. Decision based on Semantic Sanction
+        if intent_analysis['sentiment'] > 0:
+            logger.info("✅ [RELATIONAL SANCTION] Intent aligns with proposed evolution. Committing DNA.")
+            
+            # Commit the change
+            success = self.evolution_engine.request_evolution(self.pending_evolution)
+            
+            if success:
+                # Store the relational alignment as a memory
+                self.hippocampus.absorb(
+                    f"RELATIONAL_DNA_COMMIT_{self.pending_evolution['context']}", 
+                    [0.0]*7, # Origin of the new relational axis
+                    {"intent": intent_analysis['exegesis'], "user_voice": user_text}
+                )
+                self.pending_evolution = None
+                return f"DNA update sanctioned. My reflection: '{intent_analysis['exegesis']}'"
+        else:
+            logger.info("❌ [RELATIONAL DISSONANCE] Intent conflicts with proposed evolution. Aborting.")
+            self.pending_evolution = None
+            return f"Evolution aborted due to dissonance. I hear you: '{intent_analysis['exegesis']}'"
+        
+        return "Reflection complete. Understanding is deepening."

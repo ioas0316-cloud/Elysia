@@ -24,10 +24,10 @@ class MetaObserver:
         self.history: List[Dict[str, Any]] = []
         logger.info("🪞 MetaObserver (Mirror Lens) initialized.")
 
-    def record_pulse(self, hologram_results: Dict[str, float], weights: Dict[str, float], 
-                     context: str, narrative: str = "", stimulus: str = ""):
+    def record_resonance_cycle(self, hologram_results: Dict[str, float], genome_weights: Dict[str, float], 
+                      context: str, narrative: str = "", stimulus: str = ""):
         """
-        Records the outcome of a single cognitive pulse with optional narrative.
+        Records the outcome of a single Resonance Cycle.
         """
         timestamp = datetime.now()
         entry = {
@@ -35,7 +35,7 @@ class MetaObserver:
             "stimulus": stimulus,
             "context": context,
             "results": hologram_results,
-            "weights": weights,
+            "weights": genome_weights,
             "narrative": narrative
         }
         
@@ -54,9 +54,9 @@ class MetaObserver:
         if len(self.history) % 10 == 0:
             self._analyze_entropy()
 
-    def write_comparative_log(self, filename: str = "data/Chronicles/comparative_perception.md"):
+    def write_chronicles(self, filename: str = "data/Chronicles/comparative_perception.md"):
         """
-        Generates a human-readable side-by-side comparison of cognitive shifts.
+        Generates the Chronicles (Historical memory of cognitive shifts).
         """
         import os
         os.makedirs(os.path.dirname(filename), exist_ok=True)

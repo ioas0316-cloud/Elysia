@@ -1,7 +1,12 @@
 {
     "Default": {
-        "SPIRITUAL": 20.0,
-        "PHENOMENAL": 5.0
+        "PHYSICAL": 1.0,
+        "FUNCTIONAL": 1.0,
+        "PHENOMENAL": 1.0,
+        "CAUSAL": 1.0,
+        "MENTAL": 1.0,
+        "STRUCTURAL": 1.0,
+        "SPIRITUAL": 15.0
     },
     "Combat": {
         "PHYSICAL": 1.0,

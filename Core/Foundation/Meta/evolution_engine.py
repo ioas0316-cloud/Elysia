@@ -55,7 +55,7 @@ class EvolutionEngine:
                 domain = k if isinstance(k, PrismDomain) else PrismDomain[k]
                 formatted_weights[domain] = v
             
-            self.harmonizer.profiles[context] = formatted_weights
+            self.harmonizer.genome[context] = formatted_weights
             
             # 3. Archive the new state (Save to JSON)
             self.harmonizer.save_state()
