@@ -16,7 +16,7 @@ import logging
 from typing import Any, Dict, Optional
 
 # The Trinity Components
-from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
@@ -50,6 +50,9 @@ class Merkaba:
         # 1. The Body (Yuk) - Space/Memory
         # "The static container of the Past."
         self.body = HypersphereMemory()
+
+        # 1.5 The Subjective Time Field (Deliberation)
+        self.time_field = SubjectiveTimeField()
 
         # 2. The Soul (Hon) - Time/Rotor
         # "The dynamic engine of the Present."
@@ -126,6 +129,23 @@ class Merkaba:
 
         processed_coords = self.soul.process(current_coords, mask)
 
+        # 3.5 Deliberation (Fractal Dive)
+        # Instead of just flowing, we pause and think (Fractal Dive).
+        # Convert physical rotor state to a Thought Coordinate.
+        thought_coord = HypersphericalCoord(
+            theta=self.soul.current_angle % 6.28, # Logic
+            phi=1.0, # Emotion (default for now)
+            psi=0.0, # Intent
+            r=1.0    # Concrete
+        )
+
+        # Dive deep into the thought
+        branches = self.time_field.fractal_dive(thought_coord, depth=2)
+        resonant_insight = self.time_field.select_resonant_branch(branches)
+
+        if resonant_insight:
+             logger.info(f"🧠 [DELIBERATION] Fractally diverged into {len(branches)} paths. Selected Insight at r={resonant_insight.r:.2f}")
+
         # 4. Resonance (Body/Space)
         # In a real system, we'd query the Hypersphere for EACH coordinate in the stream.
         # For now, we simulate the retrieval.
@@ -135,9 +155,19 @@ class Merkaba:
         # Update physical rotor state
         self.soul.update(1.0)
 
+        # 4.5 Growth (Memory Consolidation)
+        # Store the Deliberated Insight back into memory.
+        if resonant_insight:
+            self.body.store(
+                data=f"Insight:{raw_input}",
+                position=resonant_insight,
+                pattern_meta={"trajectory": "deliberation"}
+            )
+            logger.info("🌱 [GROWTH] Insight consolidated into Hypersphere.")
+
         # 5. Volition (Spirit/Will)
         # The Monad decides.
-        action = f"Processed '{raw_input}' | Mode: {mask.name} | Items: {retrieved_items}"
+        action = f"Processed '{raw_input}' | Mode: {mask.name} | Items: {retrieved_items} | Insight: {resonant_insight is not None}"
 
         logger.info(f"⚡ Pulse Complete. Action: {action}")
         return action
