@@ -97,7 +97,11 @@ class SovereignSelf:
         self.lungs = RespiratorySystem(self.bridge) 
 
         from Core.Digestion.digestive_system import DigestiveSystem
-        self.stomach = DigestiveSystem(self) # Stomach uses Lungs to breathe while eating
+        self.stomach = DigestiveSystem(self)
+        
+        # [Quantum Delay] 
+        # Defer heavy sensory initialization until first pulse
+        self._senses_initialized = False
 
         # [Phase 4: DNA & Providence]
         from Core.Evolution.double_helix_dna import PROVIDENCE

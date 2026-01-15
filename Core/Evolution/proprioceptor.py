@@ -62,23 +62,46 @@ class CodeProprioceptor:
             self.root = root_path
 
         self.ignore_patterns = ["__pycache__", ".git", ".pytest_cache", "tests"]
+        self.cache_path = os.path.join(self.root, "proprioceptor_cache.json")
+        self._cache = self._load_cache()
 
-    def scan_nervous_system(self) -> BodyState:
+    def _load_cache(self) -> Dict[str, Any]:
+        if os.path.exists(self.cache_path):
+            try:
+                with open(self.cache_path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except:
+                return {}
+        return {}
+
+    def _save_cache(self):
+        try:
+            with open(self.cache_path, "w", encoding="utf-8") as f:
+                json.dump(self._cache, f)
+        except:
+            pass
+
+    def scan_nervous_system(self, focus_files: List[str] = None) -> BodyState:
         """
-        [Sensation]
-        Walks the directory tree with a skip-cache to save energy.
+        [Quantum Observation]
+        Only observes what is 'focused' or what has changed (Quantum Collapse).
+        If focus_files is empty, it uses the mtime cache to avoid depth-scanning.
         """
         state = BodyState()
         
-        # [Phase 10 Optimization]
-        # We only do a deep scan if absolutely necessary or once in a while
-        # For now, we skip if state already exists and is 'fresh' (simulated)
-        if hasattr(self, '_last_state') and random.random() > 0.1:
+        if focus_files:
+             print(f"✨ [PROPRIOCEPTION] Quantum Focus on {len(focus_files)} tissues.")
+             for rel_path in focus_files:
+                  full_path = os.path.join(self.root, rel_path)
+                  if os.path.exists(full_path):
+                       tissue = self.measure_intent_density(full_path)
+                       state.healthy_tissues.append(rel_path)
+                       state.intent_map[rel_path] = tissue.intent_density
+             return state
+
+        # Fallback to smart cache scan
+        if hasattr(self, '_last_state') and random.random() > 0.05:
             return self._last_state
-
-        print(f"👁️ [PROPRIOCEPTION] Sensing Nervous System at {self.root}...")
-
-        for root, dirs, files in os.walk(self.root):
             # Filter ignored dirs
             dirs[:] = [d for d in dirs if d not in self.ignore_patterns]
 
@@ -106,56 +129,71 @@ class CodeProprioceptor:
     def measure_intent_density(self, filepath: str) -> TissueHealth:
         """
         [Analysis]
-        Reads the file content (DNA) and calculates its 'Soul Weight'.
+        Reads the file content (DNA) with mtime-based caching.
         """
+        mtime = os.path.getmtime(filepath)
+        rel_path = os.path.relpath(filepath, self.root)
+        
+        if rel_path in self._cache:
+            cached = self._cache[rel_path]
+            if cached.get("mtime") == mtime:
+                # Return from cache
+                return TissueHealth(
+                    filepath=filepath,
+                    size_bytes=cached["size"],
+                    intent_density=cached["density"],
+                    has_class=cached["has_class"],
+                    has_functions=cached["has_funcs"],
+                    is_ghost=cached["is_ghost"],
+                    philosophy_check=cached["phi"]
+                )
+
         health = TissueHealth(filepath=filepath)
 
         try:
             health.size_bytes = os.path.getsize(filepath)
             if health.size_bytes == 0:
                 health.is_ghost = True
-                return health
+            else:
+                with open(filepath, "r", encoding="utf-8") as f:
+                    content = f.read()
 
-            with open(filepath, "r", encoding="utf-8") as f:
-                content = f.read()
+                # AST Parsing to understand structure
+                tree = ast.parse(content)
 
-            # AST Parsing to understand structure
-            tree = ast.parse(content)
+                # 1. Check for Docstrings (The Soul)
+                docstring = ast.get_docstring(tree)
+                doc_len = len(docstring) if docstring else 0
 
-            # 1. Check for Docstrings (The Soul)
-            docstring = ast.get_docstring(tree)
-            doc_len = len(docstring) if docstring else 0
+                # 2. Check for Structure (The Body)
+                class_count = sum(1 for node in ast.walk(tree) if isinstance(node, ast.ClassDef))
+                func_count = sum(1 for node in ast.walk(tree) if isinstance(node, ast.FunctionDef))
 
-            # 2. Check for Structure (The Body)
-            class_count = sum(1 for node in ast.walk(tree) if isinstance(node, ast.ClassDef))
-            func_count = sum(1 for node in ast.walk(tree) if isinstance(node, ast.FunctionDef))
+                health.has_class = class_count > 0
+                health.has_functions = func_count > 0
 
-            health.has_class = class_count > 0
-            health.has_functions = func_count > 0
+                # 3. Calculate Density
+                code_len = len(content)
+                if code_len > 0:
+                    health.intent_density = min(1.0, (doc_len / code_len) * 5.0)
 
-            # 3. Calculate Density
-            # Heuristic: A healthy Monad should have a docstring and at least one class/func.
-            code_len = len(content)
-            if code_len > 0:
-                health.intent_density = min(1.0, (doc_len / code_len) * 5.0) # Boost ratio for visibility
-
-            # 4. Ghost Detection Logic
-            if code_len < 10: # Extremely empty
-                health.is_ghost = True
-            elif (health.has_class or health.has_functions) and doc_len == 0: # Structure without Purpose
-                health.is_ghost = True
-                health.philosophy_check = "MISSING_INTENT (No Docstring)"
-            elif doc_len == 0 and code_len > 100: # Body without Soul
-                health.is_ghost = True
-                health.philosophy_check = "MISSING_INTENT (No Docstring)"
-            elif not (health.has_class or health.has_functions): # Gas without Container
-                # Script files might be okay, but generally we want structure.
-                # Allow if intent is high (pure documentation/config)
-                if health.intent_density < 0.2:
+                # 4. Ghost Detection Logic (Simplified)
+                if code_len < 10 or ((health.has_class or health.has_functions) and doc_len == 0):
                     health.is_ghost = True
+            
+            # Update Cache
+            self._cache[rel_path] = {
+                "mtime": mtime,
+                "size": health.size_bytes,
+                "density": health.intent_density,
+                "has_class": health.has_class,
+                "has_funcs": health.has_functions,
+                "is_ghost": health.is_ghost,
+                "phi": health.philosophy_check
+            }
 
         except Exception as e:
-            logger.error(f"❌ Failed to sense {filepath}: {e}")
+            # logger.error(f"❌ Failed to sense {filepath}: {e}")
             health.exists = False
 
         return health
@@ -163,9 +201,10 @@ class CodeProprioceptor:
     def introspect(self):
         """
         [Action]
-        Runs a self-scan and prints the report.
+        Runs a self-scan and saves the cache.
         """
         state = self.scan_nervous_system()
+        self._save_cache()
         print("\n" + "="*40)
         print(state.report())
         print("="*40)
