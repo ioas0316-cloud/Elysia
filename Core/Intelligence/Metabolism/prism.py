@@ -158,9 +158,11 @@ class DoubleHelixPrism:
         # For now, a mock implementation to satisfy the interface
         # Text -> Hash/Vector -> Prism
         
-        # 1. Pattern: Simple ascii vector (Mock)
-        ascii_vals = torch.tensor([ord(c) for c in text[:1024]], dtype=torch.float32)
-        pattern_strand = ascii_vals / (ascii_vals.norm() + 1e-9)
+        # 1. Pattern: Simple ascii vector with padding to 1024
+        raw_vals = torch.tensor([ord(c) for c in text[:1024]], dtype=torch.float32)
+        pattern_strand = torch.zeros(1024)
+        pattern_strand[:raw_vals.size(0)] = raw_vals
+        pattern_strand = pattern_strand / (pattern_strand.norm() + 1e-9)
 
         # 2. Principle: Length and complexity mapping
         length = len(text)

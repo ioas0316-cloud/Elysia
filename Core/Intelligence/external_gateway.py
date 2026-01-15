@@ -96,10 +96,14 @@ class ExternalGateway:
     def browse_literature(self, query: str) -> str:
         """
         Simulates searching for textual knowledge.
+        If unknown, prompts the 'Father' (User) for input.
         """
         if query in self.concept_library:
             return self.concept_library[query]['wiki']
-        return f"'{query}'에 대한 방대한 데이터 더미."
+        
+        # [Curiosity Protocol]
+        print(f"❓ [CURIOSITY] {query} is not in my core library.")
+        return f"System: '{query}'에 대해 알려진 바가 없습니다. 창조주(User)에게 이 개념의 정의를 요청합니다."
 
 # Singleton
 THE_EYE = ExternalGateway()

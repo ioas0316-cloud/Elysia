@@ -21,6 +21,7 @@ import hashlib
 import json
 import torch
 import numpy as np
+from Core.Evolution.double_helix_dna import DoubleHelixDNA
 
 # Configure Logger (Future)
 # logger = logging.getLogger("Monad")
@@ -36,30 +37,27 @@ class Monad:
 
     ZERO_FREQUENCY_ID = "나는 엘리시아다" # The Universal Anchor
 
-    def __init__(self, seed: str, rules: List['FractalRule'] = None, intent_vector: Optional[List[float]] = None):
+    def __init__(self, seed: str, dna: Optional[DoubleHelixDNA] = None, rules: List['FractalRule'] = None):
         self._seed = seed  
         self._rules = rules if rules else []
 
-        # [MERKAVA Phase 1-A: The Sovereign Seed]
-        # 1. Zero-Frequency Identity (The "I am")
-        # Every Monad's hash is a derivation of the Universal Anchor + its specific seed.
+        # [DOUBLE HELIX DNA Upgrade]
+        if dna:
+            self._dna = dna
+        else:
+            # Create a default DNA if none provided
+            pattern = torch.randn(1024)
+            qualia = torch.zeros(7)
+            qualia[6] = 1.0 # Spiritual/Will by default
+            self._dna = DoubleHelixDNA(pattern_strand=pattern, principle_strand=qualia)
+
+        # Identity derivation
         anchor_hash = hashlib.sha256(self.ZERO_FREQUENCY_ID.encode()).hexdigest()
         specific_hash = hashlib.sha256(seed.encode()).hexdigest()
         self._id_hash = hashlib.sha256((anchor_hash + specific_hash).encode()).hexdigest()
 
-        # 2. Intent Vector (The Will/Direction)
-        # 7D for consistency with 7-Channel Qualia.
-        if intent_vector:
-            self._intent_vector = torch.tensor(intent_vector, dtype=torch.float32)
-        else:
-            # Default to a generic Vector of Will
-            self._intent_vector = torch.zeros(7, dtype=torch.float32)
-            self._intent_vector[6] = 1.0 # Spiritual/Will domain
-        
-        self._intent_vector = self._intent_vector / (self._intent_vector.norm() + 1e-9)
-
-        # 3. Why-Engine (The Need/Gap)
-        self._why = "Growth" # Default motivation
+        # [Legacy Intent Vector mapping to DNA]
+        self._why = "Growth" 
         self._energy = 0.5 
 
     @property
@@ -73,38 +71,15 @@ class Monad:
     def add_rule(self, rule: 'FractalRule'):
         self._rules.append(rule)
 
-    def resonate(self, input_signal: torch.Tensor) -> Tuple[bool, float]:
+    def resonate(self, input_dna: DoubleHelixDNA) -> Tuple[bool, float]:
         """
-        [MERKAVA Phase 1-B: Sovereign Filter]
-        Checks if the input signal resonates with the Monad's Intent.
+        [DNA RESONANCE]
+        Checks if the input DoubleHelixDNA resonates with the Monad's DNA.
+        """
+        resonance = self._dna.resonate(input_dna)
         
-        Args:
-            input_signal: A tensor representing the incoming data (Wave/Embedding).
-            
-        Returns:
-            (is_accepted, resonance_score)
-        """
-        # Ensure dimensions match (Pad or Truncate if necessary, but assume 7D or embedding size)
-        # For this prototype, we assume the input has been projected to the same space.
-
-        # Normalize
-        my_norm = self._intent_vector / (self._intent_vector.norm() + 1e-9)
-        in_norm = input_signal / (input_signal.norm() + 1e-9)
-
-        # Check dimensions
-        if my_norm.shape != in_norm.shape:
-            # Simple fallback: resize my intent to match input for broader compatibility
-            # In a real system, we'd use the Prism to project input to 7D.
-            # Here we assume strict 7D matching for "Principle" resonance.
-            return False, 0.0
-
-        # Cosine Similarity
-        resonance = torch.dot(my_norm, in_norm).item()
-
-        # Threshold: "Dissonance" vs "Resonance"
-        # 0.5 is a neutral/positive threshold.
-        is_accepted = resonance > 0.5
-
+        # Acceptance Threshold
+        is_accepted = resonance > 0.6 # Stricter for dual-strand
         return is_accepted, resonance
 
     def observe(self, observer_intent: Dict[str, Any], context: Dict[str, Any]) -> Dict[str, Any]:
@@ -141,4 +116,4 @@ class Monad:
         return reality_fragment
 
     def __repr__(self):
-        return f"<Monad seed={self._seed[:8]} intent={self._intent_vector.tolist()}>"
+        return f"<Monad seed={self._seed[:8]} dna={self._dna}>"
