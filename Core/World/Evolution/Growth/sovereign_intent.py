@@ -17,7 +17,7 @@ import json
 import random
 import logging
 from dataclasses import dataclass, field
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 import os
 import math
 from Core.Governance.Interaction.anthropomorphic_bridge import AnthropomorphicBridge, HumanQualia

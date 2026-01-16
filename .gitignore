@@ -213,3 +213,9 @@ data/*.bz2
 data/*.xml
 data/*.pt
 data/brain_state.pt
+
+# Restructured Trinity Data (Ignored)
+data/Weights/
+data/Logs/
+data/Archive/
+data/Sandbox/

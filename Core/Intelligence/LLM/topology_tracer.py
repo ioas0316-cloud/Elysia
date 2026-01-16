@@ -156,7 +156,7 @@ class TopologyTracer:
             return "other"
     
     def _extract_connections(self, tensor: torch.Tensor, layer: str, conn_type: str, 
-                            max_connections: int = 1000) -> List[NeuralConnection]:
+                            max_connections: int = 5000) -> List[NeuralConnection]:
         """
         텐서에서 강한 연결 추출.
         
@@ -267,7 +267,7 @@ class TopologyTracer:
 # 싱글톤
 _tracer = None
 
-def get_topology_tracer(threshold: float = 0.1) -> TopologyTracer:
+def get_topology_tracer(threshold: float = 0.01) -> TopologyTracer:
     """Topology Tracer 싱글톤"""
     global _tracer
     if _tracer is None:
@@ -285,7 +285,7 @@ if __name__ == "__main__":
         print("Usage: python topology_tracer.py <model_path>")
         sys.exit(1)
     
-    tracer = get_topology_tracer(threshold=0.1)
+    tracer = get_topology_tracer(threshold=0.01)
     circuit = tracer.trace(sys.argv[1])
     
     summary = tracer.summarize(circuit)

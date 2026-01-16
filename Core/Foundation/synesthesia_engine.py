@@ -192,4 +192,87 @@ class SynesthesiaEngine:
         }
 
 
+    def from_digested_audio(self, synapse_data: Any) -> UniversalSignal:
+        """
+        [High-Res Hearing]
+        Convert a 'BridgeSynapse' (Causality) into a Universal Signal.
+        
+        Using Any for type hint to avoid circular imports at module level.
+        Expects: Core.Intelligence.LLM.audio_topology_tracer.BridgeSynapse
+        """
+        if not hasattr(synapse_data, 'attention_weight'):
+             # Fallback for raw data
+             return self.from_audio(np.array([0]), 0)
+
+        # Map Causality to Signal
+        # Frequency = Token Index (Semantics) * 10 
+        # Amplitude = Attention Weight (Certainty)
+        freq = 300.0 + (synapse_data.token_idx * 10)
+        amp = float(synapse_data.attention_weight)
+        
+        return UniversalSignal(
+            SignalType.AUDITORY,
+            frequency=freq,
+            amplitude=amp,
+            payload={
+                "source_frame": synapse_data.audio_time_idx,
+                "target_token": synapse_data.token_idx,
+                "causality_strength": synapse_data.attention_weight
+            }
+        )
+
+    def from_digested_voice(self, flow_data: Any) -> UniversalSignal:
+        """
+        [High-Res Voice]
+        Convert 'FlowCausality' (Emotion Impact) into a Universal Signal.
+        
+        Expects: Core.Intelligence.LLM.voice_flow_tracer.FlowCausality
+        """
+        if not hasattr(flow_data, 'impact_score'):
+            return self.from_emotion("neutral")
+
+        # Map Flow Impact to Signal
+        # Frequency = Vector Dimension (The 'Chord' of the emotion)
+        # Amplitude = Impact Score (How much it changes reality)
+        freq = 400.0 + (flow_data.vector_dim * 5)
+        amp = float(flow_data.impact_score)
+        
+        return UniversalSignal(
+            SignalType.EMOTIONAL,
+            frequency=freq,
+            amplitude=amp,
+            payload={
+                "affected_dimension": flow_data.vector_dim,
+                "effect_type": flow_data.primary_effect
+            }
+        )
+
+    def from_digested_vision(self, spacetime_data: Any) -> UniversalSignal:
+        """
+        [High-Res Vision]
+        Convert 'SpacetimeCausality' (Video Latent) into a Universal Signal.
+        
+        Expects: Core.Intelligence.LLM.video_diffusion_tracer.SpacetimeCausality
+        """
+        if not hasattr(spacetime_data, 'time_frame'):
+            return self.from_vision(np.zeros((10,10)))
+
+        # Map Spacetime to Signal
+        # Frequency = Time Frame (Time flows as pitch rises?)
+        # Base Freq 200Hz + Frame * 5
+        # Amplitude = Intensity (Visual Impact)
+        freq = 200.0 + (spacetime_data.time_frame * 5)
+        amp = float(spacetime_data.intensity)
+        
+        return UniversalSignal(
+            SignalType.VISUAL,
+            frequency=freq,
+            amplitude=amp,
+            payload={
+                "token": spacetime_data.token,
+                "time": spacetime_data.time_frame,
+                "region": spacetime_data.spatial_region
+            }
+        )
+
 __all__ = ["SynesthesiaEngine", "SignalType", "RenderMode", "UniversalSignal", "RenderResult"]

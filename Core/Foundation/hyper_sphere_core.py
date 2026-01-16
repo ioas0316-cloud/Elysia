@@ -18,6 +18,7 @@ import logging
 from typing import Dict, Any, List, Optional, Tuple
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig
 from Core.Foundation.Wave.wave_dna import WaveDNA
+from Core.Foundation.Protocols.pulse_protocol import PulseBroadcaster # Import
 from Core.Monad.monad_core import Monad
 from Core.Engine.wfc_engine import WFCEngine
 from Core.World.Nature.trinity_lexicon import get_trinity_lexicon
@@ -32,6 +33,9 @@ class HyperSphereCore:
         
         # The Lexicon (The Source of Logos)
         self.lexicon = get_trinity_lexicon()
+        
+        # The Pulse (The Rhythm that drives Space)
+        self.pulse_broadcaster = PulseBroadcaster()
         
         # The Population: Active Monads (Rotors)
         self.monads: Dict[str, Monad] = {} 
@@ -102,6 +106,25 @@ class HyperSphereCore:
         active_rotors = list(self.rotors.values())
         for rotor in active_rotors:
             rotor.update(dt_eff)
+
+    def pulse(self, intent: Dict[str, Any], dt: float):
+        """
+        Broadcasting the intent to the Field.
+        """
+        # 1. Update Physics (Tick)
+        self.tick(dt)
+        
+        # 2. Broadcast Pulse to Listeners (Instruments)
+        self.pulse_broadcaster.curate_and_broadcast(intent)
+        
+        # 3. Spin Primary Rotor (Elysia) based on intent
+        if self.primary_rotor:
+            # Example: Bio-Rhythm drives RPM
+            if "bio_rhythm" in intent:
+                bio = intent["bio_rhythm"]
+                # Assuming bio has 'heart_rate', map it to RPM
+                # self.primary_rotor.config.rpm = bio.get('heart_rate', 60) * 10
+                pass
             
     def observe_field(self, query: str, observer_intent: Dict[str, Any]) -> str:
         """
