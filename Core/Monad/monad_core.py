@@ -6,12 +6,7 @@ Core.Monad.monad_core
 "To see a World in a Grain of Sand..."
 
 The Monad is the fundamental unit of the Elysia Monad Architecture.
-It is no longer just a passive object, but a sovereign entity with:
-1. Identity (Zero-Frequency) - Immutable "나는 엘리시아다" (I am Elysia).
-2. Why-Engine (Need/Desire) - The drive to exist (Gap/Why).
-3. Intent-Vector (Direction) - The force in the HyperSphere (Vector).
-4. Fractal Rules (Logic) - How to unfold (Structure).
-
+Sovereign Edition: Uses Numpy (CPU) for maximum efficiency.
 """
 
 from datetime import datetime
@@ -24,7 +19,6 @@ from typing import Dict, Any, Optional, List, Tuple
 import abc
 import hashlib
 import json
-import torch
 import numpy as np
 from Core.Evolution.double_helix_dna import DoubleHelixDNA
 
@@ -37,7 +31,7 @@ class MonadCategory(Enum):
 class FractalRule(abc.ABC):
     """Abstract base class for unfolding logic."""
     @abc.abstractmethod
-    def unfold(self, seed: str, context: Dict[str, Any], intent: torch.Tensor) -> Any:
+    def unfold(self, seed: str, context: Dict[str, Any], intent: np.ndarray) -> Any:
         pass
 
 class Monad:
@@ -62,8 +56,9 @@ class Monad:
             self._dna = dna
         else:
             # Create a default DNA if none provided
-            pattern = torch.randn(1024)
-            qualia = torch.zeros(7)
+            # Sovereign Implementation (Numpy)
+            pattern = np.random.randn(1024).astype(np.float32)
+            qualia = np.zeros(7, dtype=np.float32)
             qualia[6] = 1.0 # Spiritual/Will by default
             self._dna = DoubleHelixDNA(pattern_strand=pattern, principle_strand=qualia)
 
@@ -135,3 +130,4 @@ class Monad:
 
     def __repr__(self):
         return f"<Monad seed={self._seed[:8]} dna={self._dna}>"
+

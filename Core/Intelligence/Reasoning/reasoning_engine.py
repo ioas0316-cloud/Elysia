@@ -26,6 +26,7 @@ from Core.Intelligence.Reasoning.purpose_field import PurposeField, ValueCoordin
 from Core.Intelligence.Topography.mental_terrain import MentalTerrain, Vector2D
 from Core.Intelligence.Topography.mind_landscape import get_landscape
 
+
 # [RESTORED] The Paradox Engine for Dialectical Synthesis
 from Core.Intelligence.Reasoning.paradox_engine import ParadoxEngine, ResolutionStrategy
 
@@ -79,6 +80,9 @@ class ReasoningEngine:
         # Load self-written axioms to override default logic
         self.axioms = ""
         self._load_dynamic_axioms()
+
+        self.logger.info("🌀 ReasoningEngine initialized (Physics + Paradox + SpatialMemory + DynamicAxioms Enabled).")
+
 
         self.logger.info("🌀 ReasoningEngine initialized (Physics + Paradox + SpatialMemory + DynamicAxioms Enabled).")
 
@@ -226,6 +230,7 @@ class ReasoningEngine:
             content=content,
             confidence=confidence,
             depth=depth,
+            energy=energy
             energy=energy
         )
 
