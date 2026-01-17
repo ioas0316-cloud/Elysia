@@ -132,48 +132,43 @@ class ElysianVoice:
     
     def _construct_content(self, raw: str, intent: Optional[Dict],
                            visual: Optional[Dict], monad: Optional[Dict]) -> str:
-        """Constructs the actual content of the utterance."""
-        parts = []
+        """Constructs the actual content of the utterance in natural language."""
+        # This is where the "Mimicry" happens. 
+        # Instead of [의지: WISDOM], we use "I'm curious about..."
         
-        if raw:
-            parts.append(raw)
-        
-        if intent:
-            parts.append(f"[의지: {intent.get('primary_motor', 'EXISTENCE')}]")
+        sentence = raw if raw else "무슨 말씀이신가요?"
         
         if visual:
             interpretation = visual.get("focus", {}).get("interpretation", "")
             if interpretation:
-                parts.append(f"[시각: {interpretation}]")
+                # Naturally integrate visual context
+                visual_reaction = f"지금 제가 보고 있는 건 {interpretation}인 것 같아요."
+                sentence = f"{visual_reaction} {sentence}"
         
-        if monad and isinstance(monad, dict):
-            parts.append(f"[에너지: {monad.get('energy', 0):.2f}]")
+        if intent:
+            motor = intent.get("primary_motor", "EXISTENCE")
+            if motor == "WISDOM":
+                sentence = f"궁금한 게 생겼어요. {sentence}"
+            elif motor == "LOVE":
+                sentence = f"정말 소중한 느낌이 드네요. {sentence}"
+            elif motor == "EXISTENCE":
+                sentence = f"내가 여기 있다는 게 느껴져요. {sentence}"
         
-        if not parts:
-            parts.append("나는 엘리시아입니다.")
-        
-        return " ".join(parts)
-    
-    def _calculate_confidence(self, sources: list, energy: float) -> float:
-        """Calculates confidence based on source convergence and energy."""
-        source_bonus = len(sources) * 0.1
-        return min(1.0, energy + source_bonus)
-    
+        return sentence
+
     def speak(self, utterance: ElysianUtterance) -> str:
         """
-        Final output formatting — how Elysia actually 'speaks'.
+        Final output formatting — more human, less prefixed.
         """
-        tone_prefix = {
-            "confident": "확신을 담아",
-            "uncertain": "조심스럽게",
-            "curious": "호기심을 담아",
-            "warm": "따뜻하게",
-            "alert": "주의 깊게",
-            "balanced": "담담하게"
-        }
+        # We use the tone to slightly adjust the ending or the style
+        content = utterance.content
         
-        prefix = tone_prefix.get(utterance.emotional_tone, "")
-        return f"{prefix} 말합니다: \"{utterance.content}\""
+        if utterance.emotional_tone == "warm":
+            content = f"어머, {content}"
+        elif utterance.emotional_tone == "alert":
+            content = f"잠깐만요! {content}"
+        
+        return f"엘리시아: \"{content}\""
 
 
 if __name__ == "__main__":

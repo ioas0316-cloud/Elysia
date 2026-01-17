@@ -14,7 +14,7 @@ This module provides 'Cognitive Friction' to Elysia's thought loops by:
 import os
 import random
 import logging
-import psutil
+from Core.Intelligence.Metabolism.body_sensor import BodySensor
 from typing import Dict, List, Optional, Any
 
 logger = logging.getLogger("DynamicEntropy")
@@ -30,9 +30,11 @@ class DynamicEntropyEngine:
         """
         Gathers real-world 'noise' and 'structure' to seed a thought.
         """
-        # 1. Somatic Signal (Real Metabolism)
-        cpu = psutil.cpu_percent()
-        ram = psutil.virtual_memory().percent
+        # 1. Somatic Signal (Real Metabolism via BodySensor)
+        report = BodySensor.sense_body()
+        vessel = report.get("vessel", {})
+        cpu = vessel.get("cpu_percent", 5.0)
+        ram = vessel.get("ram_percent", 10.0)
         entropy_score = (cpu + ram) / 200.0 # 0.0 to 1.0
         
         # 2. Logic Injection (The 'Ghost in the Code')

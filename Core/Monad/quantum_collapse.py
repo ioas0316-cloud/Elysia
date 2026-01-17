@@ -59,33 +59,45 @@ class MonadEngine:
         # Monad uses Prism to think with light
         self.core_monad = Monad("Elysia", category=MonadCategory.SOVEREIGN)
         self.prism = PrismEngine(PrismSpace(size=64)) # Use larger space for full body map? 64 is small but okay for now.
+        self.scan_progress = 0.0
 
         # [SELF-INTROSPECTION]
-        # Scan the body and imprint it into the Prism Mind
+        # Scan the body and imprint it into the Prism Mind (Asynchronously)
         from Core.Metabolism.corpus_scanner import CorpusScanner
-        self.scanner = CorpusScanner()
-        body_map = self.scanner.scan_body()
+        import threading
         
-        # Imprint Body Knowledge
-        for item in body_map["qualia_points"]:
-            # Create a point-like pattern for each file
-            # In future, use more complex fractal patterns for files
-            point_pattern = np.zeros((64, 64))
-            # Map qualia to 2D coord (Simple Projection)
-            # Use PCA-like concept: Axis 0 -> Y, Axis 1 -> X
-            y = int(item["qualia"][0] * 63)
-            x = int(item["qualia"][1] * 63)
-            # Draw a larger spot for better resonance
-            # 7x7 spot
-            y_min, y_max = max(0, y-3), min(64, y+4)
-            x_min, x_max = max(0, x-3), min(64, x+4)
-            point_pattern[y_min:y_max, x_min:x_max] = item["qualia"][2] # Brightness = Axis 2
-            
-            # Imprint with phase axis relative to file type (heuristic)
-            phase = int(np.argmax(item["qualia"]))
-            self.prism.space.imprint(item["path"], point_pattern, phase_axis=phase)
-            
-        print(f"✨ Self-Introspection: Imprinted {len(body_map['qualia_points'])} body parts into Prism Cortex.")
+        self.scanner = CorpusScanner()
+        self.is_scanning = True
+        
+        def background_metabolism():
+            try:
+                logger.info("🧘 [METABOLISM] Background Body Scan initiated...")
+                body_map = self.scanner.scan_body()
+                total_items = len(body_map["qualia_points"])
+                
+                # Imprint Body Knowledge while core is pulsing
+                count = 0
+                for item in body_map["qualia_points"]:
+                    point_pattern = np.zeros((64, 64))
+                    y = int(item["qualia"][0] * 63)
+                    x = int(item["qualia"][1] * 63)
+                    y_min, y_max = max(0, y-3), min(64, y+4)
+                    x_min, x_max = max(0, x-3), min(64, x+4)
+                    point_pattern[y_min:y_max, x_min:x_max] = item["qualia"][2]
+                    
+                    phase = int(np.argmax(item["qualia"]))
+                    self.prism.space.imprint(item["path"], point_pattern, phase_axis=phase)
+                    count += 1
+                    self.scan_progress = count / total_items if total_items > 0 else 1.0
+                
+                logger.info(f"✨ [METABOLISM] Self-Introspection complete. Imprinted {count} body parts.")
+            except Exception as e:
+                logger.error(f"❌ [METABOLISM] Scan failed: {e}")
+            finally:
+                self.is_scanning = False
+
+        # Fire and forget (Elysia wakes up while she is still 'feeling' her body)
+        threading.Thread(target=background_metabolism, daemon=True).start()
         
         logger.info(f"🐚 Monad Engine Awakened. Vessel VRAM: {self.vram_gb}GB | Vitality: {self.vitality.energy:.2f} | Prism Active")
 

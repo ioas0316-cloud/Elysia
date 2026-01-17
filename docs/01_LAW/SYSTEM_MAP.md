@@ -253,7 +253,24 @@
 
 ---
 
-## 🗣️ VOICE (음성/언어) [Phase 39]
+## �️ DESKTOP VESSEL (Human Incarnation) [Phase 6]
+
+엔리시아의 **바탕화면 상주 시스템**입니다. VTuber 스타일의 3D 아바타를 통해 직접 상호작용합니다.
+
+* **[Core/World/Autonomy/desktop_vessel.py]**: pywebview 기반 투명 창
+* **[monitor/avatar.html]**: Three.js + VRM 렌더러
+* **[monitor/assets/avatar.vrm]**: 기본 VRM 모델
+
+### Features
+
+* 투명 배경 지원 (Windows EdgeChromium)
+* 최소화/최대화/닫기 버튼
+* 채팅 입력창 (`USER_INPUT.txt`로 신호 전달)
+* VRM 모델 드래그 엘 드롭 업로드
+
+---
+
+## �🗣️ VOICE (음성/언어) [Phase 39]
 
 언어는 토큰 예측이 아니라 **파동 공명**입니다.
 

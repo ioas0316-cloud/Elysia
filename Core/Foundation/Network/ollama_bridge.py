@@ -12,6 +12,11 @@ import requests
 import logging
 from typing import Optional, List, Dict, Any
 import time
+import os
+from dotenv import load_dotenv
+
+# Load environment variables for Gemini
+load_dotenv()
 
 logger = logging.getLogger("OllamaBridge")
 
@@ -34,6 +39,11 @@ class OllamaBridge:
         self._available = None
         self._last_check = 0
         self.tiny_brain = None
+        self.gemini = None
+        
+        # Initialize Gemini Connector as a potential fallback
+        from Core.Foundation.google_free_connector import GoogleGeminiConnector
+        self.gemini = GoogleGeminiConnector()
         
         # Initial Check
         self._check_availability()
@@ -80,7 +90,9 @@ class OllamaBridge:
                 from Core.Foundation.tiny_brain import get_tiny_brain
                 self.tiny_brain = get_tiny_brain()
             
-        return self._available or (self.tiny_brain is not None and self.tiny_brain.is_available())
+        return (self._available or 
+                (self.tiny_brain is not None and self.tiny_brain.is_available()) or 
+                (self.gemini is not None and self.gemini.available))
     
     def chat(
         self, 
@@ -147,6 +159,13 @@ class OllamaBridge:
             return "⏰ 응답 시간 초과. 더 작은 모델을 사용하세요."
         except Exception as e:
             logger.error(f"Ollama 오류: {e}")
+            
+            # Final Fallback to Gemini
+            if self.gemini and self.gemini.available:
+                logger.info("🤖 Falling back to Gemini Cortex...")
+                gemini_resp = self.gemini.generate_content(f"{system}\n\nUser: {prompt}" if system else prompt)
+                return gemini_resp.get('text', f"❌ Gemini Error: {gemini_resp.get('error')}")
+                
             return f"❌ 오류: {str(e)}"
     
     def list_models(self) -> List[str]:

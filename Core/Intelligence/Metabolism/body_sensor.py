@@ -10,7 +10,10 @@ surroundings (Hardware constraints) and adapt her cognitive load.
 """
 
 import psutil
-import GPUtil
+try:
+    import GPUtil
+except ImportError:
+    GPUtil = None
 import logging
 from typing import Dict, Any
 
@@ -34,24 +37,32 @@ class BodySensor:
         cpu_freq = psutil.cpu_freq().max if psutil.cpu_freq() else 0
         
         # 3. GPU Sensing (VRAM)
-        gpus = GPUtil.getGPUs()
         gpu_report = []
         total_vram_gb = 0
-        for gpu in gpus:
-            total_vram_gb += gpu.memoryTotal / 1024
-            gpu_report.append({
-                "name": gpu.name,
-                "vram_total": gpu.memoryTotal,
-                "vram_free": gpu.memoryFree,
-                "load": gpu.load * 100
-            })
+        if GPUtil:
+            try:
+                gpus = GPUtil.getGPUs()
+                for gpu in gpus:
+                    total_vram_gb += gpu.memoryTotal / 1024
+                    gpu_report.append({
+                        "name": gpu.name,
+                        "vram_total": gpu.memoryTotal,
+                        "vram_free": gpu.memoryFree,
+                        "load": gpu.load * 100
+                    })
+            except Exception as e:
+                logger.warning(f"⚠️ GPU Scan failed: {e}")
+        else:
+            logger.info("ℹ️ GPUtil not installed. GPU sensing skipped.")
             
         report = {
             "vessel": {
                 "ram_gb": round(ram_total_gb, 2),
                 "ram_available_gb": round(ram_available_gb, 2),
+                "ram_percent": ram.percent,
                 "cpu_cores": cpu_count,
                 "cpu_max_freq_mhz": cpu_freq,
+                "cpu_percent": psutil.cpu_percent(interval=None),
                 "gpu_vram_total_gb": round(total_vram_gb, 2),
                 "gpus": gpu_report
             },

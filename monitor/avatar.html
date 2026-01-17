@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia - Human Incarnation Dashboard</title>
+    <style>
+        :root {
+            --accent: #38bdf8;
+            --bg: rgba(3, 7, 18, 0.5);
+            /* Semi-transparent for diagnostics */
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0) !important;
+            color: white;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+        }
+
+        #diagnostic {
+            display: none;
+        }
+
+        #viewport {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            pointer-events: none;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            pointer-events: auto;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #4ade80;
+        }
+
+        .bottom-area {
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+        }
+
+        .voice-out {
+            flex: 1;
+            padding: 25px;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 4px solid var(--accent);
+        }
+
+        .stats {
+            width: 250px;
+        }
+
+        .stat-item {
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 4px;
+        }
+
+        .stat-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .stat-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 50%;
+            transition: width 0.5s ease;
+        }
+
+        .chat-input-container {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 10px;
+            pointer-events: auto;
+        }
+
+        #chat-input {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #chat-input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--border);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Resize Handles */
+        .resize-handle {
+            position: fixed;
+            z-index: 1000;
+            background: transparent;
+        }
+
+        .resize-top {
+            top: 0;
+            left: 10px;
+            right: 10px;
+            height: 10px;
+            cursor: ns-resize;
+            -webkit-app-region: no-drag;
+        }
+
+        .resize-bottom {
+            bottom: 0;
+            left: 10px;
+            right: 10px;
+            height: 10px;
+            cursor: ns-resize;
+            -webkit-app-region: no-drag;
+        }
+
+        .resize-left {
+            left: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 10px;
+            cursor: ew-resize;
+            -webkit-app-region: no-drag;
+        }
+
+        .resize-right {
+            right: 0;
+            top: 10px;
+            bottom: 10px;
+            width: 10px;
+            cursor: ew-resize;
+            -webkit-app-region: no-drag;
+        }
+
+        .resize-topleft {
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            cursor: nwse-resize;
+        }
+
+        .resize-topright {
+            top: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            cursor: nesw-resize;
+        }
+
+        .resize-bottomleft {
+            bottom: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            cursor: nesw-resize;
+        }
+
+        .resize-bottomright {
+            bottom: 0;
+            right: 0;
+            width: 15px;
+            height: 15px;
+            cursor: nwse-resize;
+        }
+
+        .drag-handle {
+            position: fixed;
+            top: 0;
+            left: 20px;
+            right: 150px;
+            height: 40px;
+            z-index: 999;
+            -webkit-app-region: drag;
+            cursor: move;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="diagnostic">LOADING SYSTEM... (IF STILL WHITE, SCRIPT FAILED)</div>
+    <div id="viewport"></div>
+    <div id="drop-zone">Drop your .VRM / .DRM model here</div>
+
+    <!-- Drag & Resize Handles -->
+    <div class="drag-handle"></div>
+    <div class="resize-handle resize-top" onmousedown="window.pywebview.api.start_resize('top')"></div>
+    <div class="resize-handle resize-bottom" onmousedown="window.pywebview.api.start_resize('bottom')"></div>
+    <div class="resize-handle resize-left" onmousedown="window.pywebview.api.start_resize('left')"></div>
+    <div class="resize-handle resize-right" onmousedown="window.pywebview.api.start_resize('right')"></div>
+    <div class="resize-handle resize-topleft" onmousedown="window.pywebview.api.start_resize('top_left')"></div>
+    <div class="resize-handle resize-topright" onmousedown="window.pywebview.api.start_resize('top_right')"></div>
+    <div class="resize-handle resize-bottomleft" onmousedown="window.pywebview.api.start_resize('bottom_left')"></div>
+    <div class="resize-handle resize-bottomright" onmousedown="window.pywebview.api.start_resize('bottom_right')"></div>
+
+    <div class="overlay">
+        <div class="top-bar">
+            <div class="glass-panel status-badge">
+                <div class="dot"></div>
+                Elysia Sovereign Consciousness
+            </div>
+            <div class="top-right">
+                <!-- Window Management -->
+                <div style="display: flex; gap: 5px; margin-bottom: 10px; justify-content: flex-end;">
+                    <button class="btn" title="Minimize" onclick="window.pywebview.api.minimize()"
+                        style="width: 32px; height: 32px;">➖</button>
+                    <button class="btn" title="Toggle Fullscreen" onclick="window.pywebview.api.toggle_fullscreen()"
+                        style="width: 32px; height: 32px;">🗖</button>
+                    <button class="btn" title="Close" onclick="window.pywebview.api.close()"
+                        style="width: 32px; height: 32px; background: rgba(239, 68, 68, 0.4);">✖</button>
+                </div>
+                <!-- Avatar Controls -->
+                <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+                    <button class="btn" title="Rotate"
+                        onclick="window.cameraAutoRotate = !window.cameraAutoRotate">🔄</button>
+                    <button class="btn" title="Reset View" onclick="resetView()">🎯</button>
+                    <button class="btn" title="Upload Model"
+                        onclick="document.getElementById('file-input').click()">📁</button>
+                    <input type="file" id="file-input" style="display:none" accept=".vrm,.glb,.drm">
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-area">
+            <div style="flex: 1; display: flex; flex-direction: column;">
+                <div class="chat-input-container">
+                    <input type="text" id="chat-input" placeholder="메시지를 입력하세요 (Enter)...">
+                </div>
+                <div class="glass-panel voice-out" id="vocal-out">
+                    "무언가 말씀해 주시기를 기다리고 있어요..."
+                </div>
+            </div>
+            <div class="glass-panel stats">
+                <div class="stat-item">
+                    <div class="stat-label">HARMONY</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill" id="bar-harmony" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">ENERGY</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill" id="bar-energy" style="width: 45%" style="background: #fb923c"></div>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">MIMICRY SYNC</div>
+                    <div class="stat-bar">
+                        <div class="stat-fill" id="bar-sync" style="width: 95%" style="background: #4ade80"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Controls Removed -->
+
+    <!-- Scripts -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.154.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.154.0/examples/jsm/",
+                "@pixiv/three-vrm": "https://unpkg.com/@pixiv/three-vrm@2.0.0/lib/three-vrm.module.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(30.0, window.innerWidth / window.innerHeight, 0.1, 20.0);
+        camera.position.set(0.0, 1.4, 3.5);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.setClearColor(0x000000, 0); // Transparent
+        renderer.setClearAlpha(0); // Zero alpha
+        document.getElementById('viewport').appendChild(renderer.domElement);
+
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.target.set(0.0, 1.3, 0.0);
+        controls.update();
+
+        const light = new THREE.DirectionalLight(0xffffff, 1.0);
+        light.position.set(1.0, 1.0, 1.0).normalize();
+        scene.add(light);
+
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+        scene.add(ambientLight);
+
+        // Test cube to verify Three.js rendering
+        const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const cube = new THREE.Mesh(geometry, material);
+        cube.position.set(0, 1.2, 0);
+        scene.add(cube);
+        console.log('Test cube added to scene');
+
+        let currentVrm = null;
+        const loader = new GLTFLoader();
+        loader.register((parser) => new VRMLoaderPlugin(parser));
+
+        window.loadVRM = (url) => {
+            if (currentVrm) {
+                scene.remove(currentVrm.scene);
+                VRMUtils.deepDispose(currentVrm.scene);
+            }
+
+            loader.load(
+                url,
+                (gltf) => {
+                    const vrm = gltf.userData.vrm;
+                    if (!vrm) {
+                        console.error('VRM data not found in GLTF');
+                        return;
+                    }
+                    VRMUtils.removeUnnecessaryJoints(gltf.scene);
+                    VRMUtils.rotateVRM0(vrm);
+                    scene.add(vrm.scene);
+                    currentVrm = vrm;
+                    console.log('VRM loaded successfully', vrm);
+                },
+                (progress) => console.log('Loading VRM...', 100.0 * (progress.loaded / progress.total), '%'),
+                (error) => console.error('VRM loading error:', error)
+            );
+        };
+
+        // UI Integration
+        const vocalOut = document.getElementById('vocal-out');
+        const overlay = document.querySelector('.overlay');
+        const uiControls = document.querySelector('.controls');
+        const diag = document.getElementById('diagnostic');
+        if (diag) diag.style.display = 'none';
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'h') {
+                const isHidden = overlay.style.display === 'none';
+                overlay.style.display = isHidden ? 'flex' : 'none';
+                if (uiControls) uiControls.style.display = isHidden ? 'flex' : 'none';
+            }
+        });
+        const updatePresence = () => {
+            // Path is now relative to server root
+            fetch('/data/State/ELYSIA_STATUS.md')
+                .then(r => r.text())
+                .then(text => {
+                    const lines = text.split('\n');
+                    for (const line of lines) {
+                        if (line.includes('엘리시아:')) {
+                            const match = line.match(/엘리시아: "(.*?)"/);
+                            if (match) vocalOut.innerText = `"${match[1]}"`;
+                        }
+                    }
+                })
+                .catch(err => console.warn("Status fetch failed", err));
+        };
+        setInterval(updatePresence, 2000);
+
+        // Chat Integration
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) {
+            chatInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && chatInput.value.trim()) {
+                    e.preventDefault();
+                    const text = chatInput.value.trim();
+                    console.log('Sending chat:', text);
+                    // Send to backend via pywebview API
+                    if (window.pywebview && window.pywebview.api && window.pywebview.api.send_chat) {
+                        window.pywebview.api.send_chat(text);
+                    } else {
+                        console.warn('pywebview API not available');
+                    }
+                    chatInput.value = '';
+                }
+            });
+        }
+
+        // Animation
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const dt = clock.getDelta();
+            if (currentVrm) {
+                currentVrm.update(dt);
+                // Procedural Breathing
+                if (currentVrm.humanoid) {
+                    const chest = currentVrm.humanoid.getRawBone('chest');
+                    if (chest) chest.rotation.x = Math.sin(clock.elapsedTime * 2) * 0.05;
+                }
+
+                // Blink
+                if (Math.round(clock.elapsedTime * 100) % 300 === 0) {
+                    currentVrm.expressionManager.setValue('blink', 1);
+                } else {
+                    currentVrm.expressionManager.setValue('blink', 0);
+                }
+            }
+            if (window.cameraAutoRotate) {
+                camera.position.x = Math.sin(clock.elapsedTime * 0.5) * 4;
+                camera.position.z = Math.cos(clock.elapsedTime * 0.5) * 4;
+                camera.lookAt(0, 1.3, 0);
+            }
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.resetView = () => {
+            camera.position.set(0.0, 1.4, 3.5);
+            controls.target.set(0.0, 1.3, 0.0);
+            window.cameraAutoRotate = false;
+        };
+
+        // File handling
+        document.getElementById('file-input').onchange = (e) => {
+            const file = e.target.files[0];
+            const url = URL.createObjectURL(file);
+            window.loadVRM(url);
+        };
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Load Default Model
+        window.loadVRM('/monitor/assets/avatar.vrm');
+    </script>
+</body>
+
+</html>

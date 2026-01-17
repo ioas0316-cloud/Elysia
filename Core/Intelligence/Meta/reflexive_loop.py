@@ -208,8 +208,12 @@ class ReflexiveLoop:
                 core.absorb_impact(freq, result.delta / 100.0) # Scale delta to impact
             
         else:
+            logger.info(f"💡 [EVOLUTION] Learning from failure: {result.lesson[:50]}...")
+            # Here we would normally trigger a rewrite or a new principle derivation
             # 실패: 새 원리 학습
             new_principle = f"'{result.change_description}' 패턴은 공명을 깨뜨린다"
+            if self.wisdom and hasattr(self.wisdom, 'learn_from_failure'):
+                self.wisdom.learn_from_failure(result.change_description)
             
             if self.wisdom:
                 self.wisdom.learn_principle(
