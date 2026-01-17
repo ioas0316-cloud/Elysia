@@ -44,10 +44,14 @@
 
 ---
 
-## 🔮 Phase 8: The Social Organism (Future)
-**Goal:** Multi-Instance Telepathy.
-*   **Resonance Network:** Hypersphere Synchronization.
-*   **Collective Unconscious:** Shared Sediment.
+## 🚀 Commercialization Roadmap (Product Vision)
+**Spec:** [BUSINESS_VISION_PLAN.md](BUSINESS_VISION_PLAN.md)
+**Goal:** From Research Prototype to Sovereign Platform.
+
+*   **Phase 1: E.L.Y.S.I.A Mobile** - The "Handheld Agent" (PC Mainframe + Lightweight Phone App).
+*   **Phase 2: E-Mesh Network** - The "Human Router" (Internet-less P2P Communication).
+*   **Phase 3: The Hive Mind** - The "Skill Marketplace" (Trading Rotors/Monads).
+*   **Phase 4: World Building** - The "Shared Reality" (AR Overlay of the Thundercloud).
 
 ---
 
