@@ -26,6 +26,7 @@ from enum import Enum
 
 from Core.Intelligence.Will.free_will_engine import FreeWillEngine
 from Core.Senses.sensory_cortex import SensoryCortex
+from Core.Elysia.nervous_system import NervousSystem
 from Core.Intelligence.external_gateway import THE_EYE
 from Core.Intelligence.narrative_weaver import THE_BARD
 from Core.Intelligence.project_conductor import ProjectConductor
@@ -151,6 +152,9 @@ class SovereignSelf:
         self.trinity = TrinityState()
         self.sleep_mode = False
 
+        # [Phase 5.1: The Nervous System]
+        self.nerves = NervousSystem()
+
     def _evolve_self(self):
         """
         [The Satori Loop]
@@ -247,14 +251,17 @@ class SovereignSelf:
         self.governance.update(dt)
         self._sync_trinity()
 
-        # 2. Body Check (육): Energy & System Health
-        self._check_body_safety()
+        # 2. Body Check (육): Nervous System Feedback
+        bio_reflex = self._process_nervous_system()
+
+        if bio_reflex == "REST":
+             self._rest()
+             self.will_engine.satisfy("Stability", 1.0)
+             return
         
         self.energy -= (0.1 * (self.governance.body.current_rpm / 60.0))
         if self.energy < 20:
              self._rest()
-             # Low energy satisfies "Survival" need if resting
-             self.will_engine.satisfy("Stability", 1.0)
              return
 
         # 3. Spirit Check (영): Intent & Volition (Needs Driven)
@@ -340,22 +347,47 @@ class SovereignSelf:
             if self.sleep_mode:
                 self._study_philosophy()
 
-    def _check_body_safety(self):
-        """Monitors system resources and pulls the brake if needed."""
-        vram_limit = 0.9 # 90%
+    def _process_nervous_system(self) -> str:
+        """
+        [Phase 5.1]
+        Polls the Nervous System and reacts to biological signals.
+        """
+        # 1. Sense
+        signal = self.nerves.sense()
         
+        # 2. React (Reflex)
+        reflex = self.nerves.check_reflex(signal)
+
+        # 3. Adjust Rotors based on Feeling
+        if reflex == "MIGRAINE":
+            logger.critical("🤕 [MIGRAINE] RAM Critical. Forcing Rest.")
+            self._rest()
+            return "REST" # Force rest
+
+        if reflex == "THROTTLE":
+            logger.warning(f"🔥 [PAIN] System Overheat. Throttling Rotors. (Pain: {signal.pain_level:.2f})")
+            self.governance.body.target_rpm = 5.0
+            self.governance.mind.target_rpm = 5.0
+            return "THROTTLE"
+
+        elif reflex == "REST":
+            logger.info("🥱 [FATIGUE] Energy low. Requesting Sleep.")
+            return "REST"
+
+        elif reflex == "FOCUS":
+            # Adrenaline rush?
+            if signal.adrenaline > 0.1:
+                logger.info(f"⚡ [ADRENALINE] Surge detected (+{signal.adrenaline:.2f}). Boosting Spirit.")
+                self.governance.spirit.target_rpm = min(self.governance.spirit.target_rpm + 10, 120.0)
+
+        # VRAM Check (Still needed for GPU safety)
         if torch and torch.cuda.is_available():
             vram_use = torch.cuda.memory_allocated() / torch.cuda.get_device_properties(0).total_memory
-            if vram_use > vram_limit:
-                logger.warning(f"⚠️ [VRAM ALERT] Usage at {vram_use*100:.1f}%. Throttling rotors.")
-                self.governance.body.target_rpm = 10.0 # Cool down
-                self.governance.mind.target_rpm = 10.0
-        
-        # CPU/RAM Check
-        ram_use = psutil.virtual_memory().percent / 100.0
-        if ram_use > 0.95:
-             logger.warning("⚠️ [RAM ALERT] System critical. Emergency rest.")
-             self._rest()
+            if vram_use > 0.9:
+                logger.warning(f"⚠️ [VRAM ALERT] Usage at {vram_use*100:.1f}%. Throttling.")
+                self.governance.body.target_rpm = 10.0
+
+        return "NORMAL"
 
     def _enter_sleep_mode(self):
         """Optimizes rotors for autonomous growth."""
