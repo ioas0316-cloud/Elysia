@@ -71,6 +71,32 @@ class Rotor:
         # Energy State
         self.energy = 0.5 # 0.0 ~ 1.0
 
+        # [NEW] Action Track System (Muscle Memory)
+        self.action_tracks: Dict[str, List[float]] = {} # Name -> List of Angles/Data
+        self.active_track: Optional[str] = None
+        self.track_frame: int = 0
+        self.is_playing: bool = False
+
+    def load_track(self, name: str, data: List[float]):
+        """Bakes an animation track into the Rotor."""
+        self.action_tracks[name] = data
+
+    def play_track(self, name: str):
+        """Switches the Rotor to Playback Mode."""
+        if name in self.action_tracks:
+            self.active_track = name
+            self.track_frame = 0
+            self.is_playing = True
+            self.current_rpm = 0 # Physics stops during playback
+        else:
+            print(f"Warning: Track '{name}' not found in Rotor '{self.name}'.")
+
+    def stop_track(self):
+        """Returns to Physics Mode."""
+        self.is_playing = False
+        self.active_track = None
+        self.target_rpm = self.config.idle_rpm
+
     def add_sub_rotor(self, name: str, config: RotorConfig, dna: WaveDNA = None):
         """Spawns a child rotor for fractal detail."""
         child = Rotor(f"{self.name}.{name}", config, dna)
@@ -93,7 +119,27 @@ class Rotor:
         self.energy *= 0.99 # Decay
 
     def update(self, dt: float):
-        """Physics Step (Legacy Spin)."""
+        """Physics Step or Playback Step."""
+
+        # [NEW] Playback Logic
+        if self.is_playing and self.active_track:
+            track = self.action_tracks[self.active_track]
+
+            # Simple Frame Advance (Assuming 60 FPS for now or 1 frame per update)
+            # In a real engine, we'd use dt to interpolate.
+            if self.track_frame < len(track):
+                self.current_angle = track[self.track_frame]
+                self.track_frame += 1
+            else:
+                # Loop or Stop? For now, Stop (One-shot)
+                self.stop_track()
+
+            # Recursively update children (they might have their own tracks)
+            for sub in self.sub_rotors.values():
+                sub.update(dt)
+            return
+
+        # Legacy Physics Logic
         # Perpetual Rotors (Reality.*) always spin at config.rpm
         if self.name.startswith("Reality."):
             self.current_rpm = self.config.rpm

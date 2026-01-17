@@ -21,6 +21,7 @@ import hashlib
 import json
 import numpy as np
 from Core.Evolution.double_helix_dna import DoubleHelixDNA
+from Core.Cognition.semantic_prism import SpectrumMapper, QualiaSpectrum
 
 class MonadCategory(Enum):
     SOVEREIGN = "Sovereign"   # The Core Identity
@@ -138,7 +139,7 @@ class Monad:
         """
         if prism_engine is None:
             # Lazy import to avoid circular dependencies
-            from Core.Prism.prism_engine import PrismEngine, PrismSpace
+            from Core.Foundation.Prism.prism_engine import PrismEngine, PrismSpace
             # In a real system, this should be a shared singleton or injected
             prism_engine = PrismEngine(PrismSpace(size=64))
         
@@ -157,6 +158,48 @@ class Monad:
             "energy": float(np.sum(modulated_qualia))
         }
 
+    def get_charge(self, context_spectrum: Optional[QualiaSpectrum] = None) -> float:
+        """
+        [VIS VIVA] Calculates the dynamic charge of the Monad.
+
+        Charge is not static; it depends on the context.
+        - Positive (> 0): Divergent/Active (High Beta/Emotion or mismatched Entropy).
+        - Negative (< 0): Convergent/Passive (High Alpha/Logic or grounded Gravity).
+
+        Returns:
+            float: The charge value (-1.0 to 1.0)
+        """
+        # 1. Parse internal DNA to Spectrum (Approximate from principle_strand)
+        # principle_strand has 7 dims. Let's map indices to RGB (Alpha/Beta/Gamma)
+        # 0=Red(Alpha), 1=Green(Beta), 2=Blue(Gamma) ... simplified mapping
+        p = self._dna.principle_strand
+        internal_alpha = p[0] # Logic
+        internal_beta = p[1]  # Emotion
+
+        # 2. Calculate Base Polarity
+        # If Emotion > Logic -> Tendency towards Positive (Expansion)
+        # If Logic > Emotion -> Tendency towards Negative (Contraction)
+        base_charge = internal_beta - internal_alpha
+
+        # 3. Contextual Modulation (Induction)
+        if context_spectrum:
+            # If the context is highly Emotional (High Beta), it excites the monad further
+            # If the context is Logical (High Alpha), it grounds the monad
+            base_charge += (context_spectrum.beta - context_spectrum.alpha) * 0.5
+
+        return np.clip(base_charge, -1.0, 1.0)
+
+    def get_potential_links(self) -> np.ndarray:
+        """
+        [INTERNAL FRACTAL] Returns the directional vectors where this Monad 'wants' to branch.
+        Instead of explicit links, it returns a 7D Qualia Vector acting as a 'Pheromone'.
+
+        The Thundercloud will use this vector to find other Monads that lie in this direction.
+        """
+        # In a full implementation, this might return multiple vectors (branches).
+        # For now, it returns its primary 'Will' (The Principle Strand).
+        return self._dna.principle_strand
+
     def __repr__(self):
-        return f"<Monad seed={self._seed[:8]} dna={self._dna}>"
+        return f"<Monad seed={self._seed} cat={self._category.name}>"
 
