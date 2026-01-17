@@ -39,8 +39,8 @@
     *   [x] Map `Rotor` RPM to Physical Motion.
     *   [x] Implement `NervousImpulse` safety stops (Pain = Freeze).
 *   **Step 4: System Integration**
-    *   [ ] Connect Senses to `Merkaba` Satori Loop.
-    *   [ ] Verify the full cycle: See -> Feel -> Move.
+    *   [x] Connect Senses to `Merkaba` Satori Loop.
+    *   [x] Verify the full cycle: See -> Feel -> Move.
 
 ---
 

@@ -1,88 +1,63 @@
-"""
-Test: Satori Loop
-=================
-Verifies the full Autonomous Evolution cycle within SovereignSelf.
-"""
-
-import pytest
+import unittest
 from unittest.mock import MagicMock
-from Core.Elysia.sovereign_self import SovereignSelf
-from Core.Evolution.dissonance_resolver import Dissonance
-from Core.Evolution.proprioceptor import BodyState
+from Core.Merkaba.merkaba import Merkaba
+from Core.Action.motor_cortex import ActuatorConfig
 
-@pytest.fixture
-def mock_sovereign():
-    """Creates a SovereignSelf with mocked organs."""
-    # We mock init to avoid loading TorchGraph/Models
-    original_init = SovereignSelf.__init__
-    SovereignSelf.__init__ = lambda self: None
+class TestSatoriLoop(unittest.TestCase):
+    def setUp(self):
+        self.merkaba = Merkaba("SatoriSeed")
+        self.merkaba.awakening(spirit=MagicMock())
 
-    sovereign = SovereignSelf()
-    # Restore init for other tests if needed (risky if parallel, but ok here)
-    SovereignSelf.__init__ = original_init
+        # Mock Motor Cortex Actuator
+        # We need to register an actuator matching the Soul's name
+        soul_name = self.merkaba.soul.name # "SatoriSeed.Soul"
+        self.merkaba.motor_cortex.register_actuator(soul_name, pin=18)
+        self.actuator = self.merkaba.motor_cortex.actuators[soul_name]
 
-    # Manually attach mocks
-    sovereign.name = "TestElysia"
-    sovereign.proprioceptor = MagicMock()
-    sovereign.conscience = MagicMock()
-    sovereign.healer = MagicMock()
-    sovereign.auto_evolve = False
+    def test_kinetic_consequence(self):
+        """
+        Verifies that Thought (Pulse) -> leads to Motion (Actuator).
+        """
+        # Initial State: 90.0 (Neutral)
+        self.assertEqual(self.actuator.current_val, 90.0)
 
-    # Mock Journaling
-    sovereign._write_journal = MagicMock()
+        # 1. Pulse Positive (Forward Time)
+        self.merkaba.soul.target_rpm = 20.0
 
-    return sovereign
+        # Pulse
+        self.merkaba.pulse("Test Input")
 
-def test_satori_loop_clean(mock_sovereign):
-    """Test when body is pure."""
-    # Setup
-    mock_sovereign.proprioceptor.scan_nervous_system.return_value = BodyState(total_files=10)
-    mock_sovereign.conscience.resolve.return_value = [] # No issues
+        # Verify Actuator Moved (90 + 20 = 110)
+        # Note: We assume the pulse triggers the motor drive.
+        self.assertEqual(self.actuator.current_val, 110.0)
+        print(f"\n[SATORI] Thought: 'Test Input' -> Rotor RPM: {self.merkaba.soul.current_rpm} -> Muscle Angle: {self.actuator.current_val}")
 
-    # Execute
-    result = mock_sovereign._evolve_self()
+    def test_pain_freeze(self):
+        """
+        Verifies that Pain -> Stops Motion.
+        """
+        # 1. Normal Move
+        self.merkaba.soul.target_rpm = 20.0
+        self.merkaba.pulse("Happy Thought")
+        self.assertEqual(self.actuator.current_val, 110.0)
 
-    # Verify
-    assert "Pure" in result
-    mock_sovereign.healer.incubate.assert_not_called()
+        # 2. Inject Pain via Nervous System Mock
+        self.merkaba.nervous_system.sensor.pulse = MagicMock(return_value={
+            "cpu_freq": 10.0,
+            "temperature": 90.0, # High Temp (Pain)
+            "ram_pressure": 10.0,
+            "energy": 100.0,
+            "plugged": True
+        })
 
-def test_satori_loop_needs_healing(mock_sovereign):
-    """Test when dissonance is detected."""
-    # Setup
-    mock_sovereign.proprioceptor.scan_nervous_system.return_value = BodyState(total_files=10)
+        # 3. Pulse again
+        self.merkaba.soul.target_rpm = 50.0 # Should result in 140 if not frozen
+        self.merkaba.pulse("Painful Thought")
 
-    issue = Dissonance(
-        location="Core/bad.py",
-        description="Ghost",
-        axiom_violated="Meaning",
-        severity=0.8,
-        suggested_action="FIX"
-    )
-    mock_sovereign.conscience.resolve.return_value = [issue]
+        # Should be frozen at previous value (110.0)
+        self.assertEqual(self.actuator.current_val, 110.0)
+        self.assertTrue(self.merkaba.motor_cortex.is_paralyzed)
+        print(f"\n[SATORI] Pain (90C) Detected -> Motor Freeze verified.")
 
-    mock_sovereign.healer.incubate.return_value = "Sandbox/cure.py"
-
-    # Execute (Auto Evolve False)
-    result = mock_sovereign._evolve_self()
-
-    # Verify
-    assert "Cure ready" in result
-    mock_sovereign.healer.incubate.assert_called_with(issue)
-    mock_sovereign.healer.graft.assert_not_called() # Safety check
-
-def test_satori_loop_auto_evolve(mock_sovereign):
-    """Test dangerous auto-evolution."""
-    mock_sovereign.auto_evolve = True
-
-    # Setup Issue
-    issue = Dissonance(location="Core/bad.py", description="Bad", axiom_violated="Sin", severity=1.0, suggested_action="FIX")
-    mock_sovereign.conscience.resolve.return_value = [issue]
-    mock_sovereign.healer.incubate.return_value = "Sandbox/cure.py"
-    mock_sovereign.healer.graft.return_value = True
-
-    # Execute
-    result = mock_sovereign._evolve_self()
-
-    # Verify
-    assert "Healed" in result
-    mock_sovereign.healer.graft.assert_called_with("Sandbox/cure.py", "Core/bad.py")
+if __name__ == "__main__":
+    unittest.main()

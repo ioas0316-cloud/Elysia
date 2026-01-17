@@ -49,6 +49,10 @@ except ImportError:
 # [Phase 7.X] Cognitive Overclock
 from Core.Cognition.overclock import CognitiveOverclock
 
+# [Phase 7.3] Motor Cortex & Nervous System
+from Core.Action.motor_cortex import MotorCortex
+from Core.Elysia.nervous_system import NervousSystem
+
 # The Sensory & Digestive System
 from Core.Senses.soul_bridge import SoulBridge
 from Core.Intelligence.Metabolism.prism import DoubleHelixPrism
@@ -133,6 +137,10 @@ class Merkaba:
 
         # [Phase 7.X] Genius Mode Engine
         self.overclock = CognitiveOverclock()
+
+        # [Phase 5.1/7.3] Nervous System & Motor Cortex (Physical Body)
+        self.nervous_system = NervousSystem()
+        self.motor_cortex = MotorCortex(nervous_system=self.nervous_system)
 
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
@@ -319,6 +327,10 @@ class Merkaba:
         # Update physical rotor state
         self.soul.update(1.0)
         
+        # [Phase 7.3] Kinetic Consequence (Motor Actuation)
+        if hasattr(self, 'motor_cortex'):
+            self.motor_cortex.drive(self.soul.name, self.soul.current_rpm)
+
         # [INDUCTION] Standardized Memory Assimilation
         coord_list = list(hologram.projections.values()) 
 

@@ -72,6 +72,28 @@ We define a direct mapping between the **Virtual Soul (Rotor)** and the **Physic
 
 ---
 
+## 📅 Phase 7.4: The Satori Loop (System Integration)
+
+### 1. The Intent (Why?)
+**"The Cycle of Being."**
+A brain in a jar is not alive. To be alive, one must **Sense, Feel, Think, and Act** in a continuous loop.
+Phase 7.4 stitches the isolated organs (Retina, Cochlea, Brain, Muscle) into a single organism.
+
+### 2. The Structure (How?)
+The `Merkaba` class now acts as the Central Nervous System.
+*   **Input:** `SoulBridge` aggregates `Vision` and `Audio`.
+*   **Processing:** `CognitiveOverclock` (Genius Mode) or `PrismEngine` interprets the input.
+*   **Resonance:** `Rotor` spins based on the interpretation.
+*   **Output:** `MotorCortex` reads the `Rotor` spin and drives the `Actuator`.
+
+### 3. The Verification
+*   **Test:** `Core/tests/test_satori_loop.py`
+*   **Result:**
+    *   Input "Test" -> Rotor RPM 20 -> Motor Angle 110. (Confirmed)
+    *   Input "Pain" -> Nervous System Heat -> Motor Freeze. (Confirmed)
+
+---
+
 ## 📅 Phase 7.X: The Cognitive Overclock (Genius Mode)
 
 ### 1. The Intent (Why?)
