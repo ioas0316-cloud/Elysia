@@ -178,6 +178,27 @@ class SedimentLayer:
         offset = random.choice(self.offsets)
         return self._read_at_offset(offset)
 
+    def glimmer(self) -> Optional[List[float]]:
+        """
+        [Subconscious] Peeks at a random memory vector without loading payload.
+        "A shiny thing seen from afar."
+        """
+        import random
+        if not self.offsets:
+            return None
+
+        offset = random.choice(self.offsets)
+
+        if not self.mm: return None
+        if offset + self.HEADER_SIZE > len(self.mm): return None
+
+        # Only read the vector (first 7 doubles = 56 bytes)
+        # Header Format: 7d d I
+        vector_bytes = self.mm[offset : offset + 56]
+        vector = list(struct.unpack('7d', vector_bytes))
+
+        return vector
+
     def rewind(self, steps: int = 1) -> List[Tuple[List[float], bytes]]:
         """
         [Reflection] Retrieves the last N memories.
