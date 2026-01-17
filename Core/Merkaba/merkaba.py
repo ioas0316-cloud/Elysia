@@ -18,7 +18,9 @@ from typing import Any, Dict, Optional
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 from Core.Intelligence.Memory.hippocampus import Hippocampus
+from Core.Memory.sediment import SedimentLayer # Phase 5.2
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
 from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3
 from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
@@ -80,6 +82,13 @@ class Merkaba:
         # "The directional force of the Future."
         # Initialized as empty; must be imbued via 'awakening' or passed in.
         self.spirit: Optional[Monad] = None
+
+        # [Phase 5.3] The Active Rotor (Focus)
+        self.focus_rotor = ActiveRotor("Merkaba.Focus")
+
+        # [Phase 5.2] The Sediment (Deep Memory)
+        # Note: In a real deploy, path should be config-driven.
+        self.sediment = SedimentLayer("data/Chronicles/deep_sediment.bin")
 
         # 4. Peripherals (Senses & Metabolism)
         self.bridge = SoulBridge()
