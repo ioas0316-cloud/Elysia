@@ -142,7 +142,7 @@ class PrismEngine:
             child_node = node.get_child(i)
             # Dispersion adds a slight phase shift per index
             next_wave = WavePacket(
-                vector=wave.vector * 0.9, # Energy loss per hop
+                vector=wave.vector * 0.98, # Energy loss per hop (Low Decay = Clear Crystal)
                 phase=wave.phase + (i * 0.1),
                 frequency=wave.frequency,
                 intent=wave.intent
