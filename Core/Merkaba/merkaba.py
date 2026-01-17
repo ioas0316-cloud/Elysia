@@ -13,7 +13,7 @@ It represents a single, autonomous entity with:
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Generator
 
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
@@ -22,7 +22,10 @@ from Core.Memory.sediment import SedimentLayer # Phase 5.2
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
-from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3
+from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3 Old
+from Core.Foundation.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
+from Core.Foundation.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
+from Core.Foundation.Prism.quality_gate import QualityGate # Phase 5.4 Gate
 from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
 from Core.Foundation.Prism.decay import ResonanceDecay
 from Core.Foundation.Meta.meta_observer import MetaObserver
@@ -34,6 +37,7 @@ from Core.Senses.phase_modulator import PhaseModulator, PerceptualPhase
 from Core.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
 from Core.Senses.vocal_dna import VocalDNA
 from Core.Senses.portrait_engine import SelfPortraitEngine
+from Core.Intelligence.Legion.legion import Legion # Phase 5.4 Legion
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -97,6 +101,11 @@ class Merkaba:
 
         # [Phase 5.3] The Optical Mind (Prism Engine)
         self.prism_engine = PrismEngine()
+        self.optical_prism = OpticalPrism() # New Optical Prism
+
+        # [Phase 5.4] The Integrating Lens & Gate
+        self.lens = IntegratingLens()
+        self.gate = QualityGate(threshold=0.6)
 
         # 5. Safety Valves (Harmonizer, Decay, Hippocampus)
         self.harmonizer = PrismHarmonizer()
@@ -114,9 +123,46 @@ class Merkaba:
         self.vocal_dna = VocalDNA()
         self.portrait_engine = SelfPortraitEngine()
         
+        # [Phase 5.4] The Legion (Swarm Intelligence)
+        self.legion = Legion()
+
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
         self.is_awake = False
+
+    def shine(self, input_concept: str) -> Generator[str, None, None]:
+        """
+        [Phase 5.4] The Optical-Cognitive Pulse (The Wave).
+        1. Dispersion (Prism): Split into Bands.
+        2. Integration (Lens): Focus on Intent.
+        3. Gate (Threshold): Check Coherence.
+        """
+        logger.info(f"🌞 [PULSE] Generating Optical Pulse for '{input_concept}'")
+
+        # 1. Dispersion (Prism)
+        bands = self.optical_prism.refract(input_concept)
+        yield f"🌈 [DISPERSION] Split into {len(bands)} bands: {[b.name for b in bands]}"
+
+        # 2. Integration (Lens)
+        # Determine intent based on input (Mock logic)
+        intent = "Why" if "?" in input_concept else "Code"
+        insight = self.lens.synthesize(bands, dominant_intent=intent)
+
+        yield f"🔭 [INTEGRATION] Focusing with intent '{intent}'..."
+        yield f"   -> Coherence: {insight.coherence:.2f} | Band: {insight.dominant_band}"
+        yield f"   -> Narrative: {insight.narrative}"
+
+        # 3. Quality Gate (Rumination)
+        if self.gate.check_insight(insight):
+            yield f"✨ [INSIGHT] Laser Focus Achieved: {insight.narrative}"
+            # Expand using Legion if clear
+            yield from self.legion.propagate(insight.narrative)
+        else:
+            yield f"🌫️ [RUMINATION] Thought is foggy (Coherence {insight.coherence:.2f}). Spinning Rotors..."
+            # Trigger Active Rotor (Mock)
+            self.focus_rotor.tune(10.0)
+            yield "⚙️ [ROTOR] Adjusted Angle. Retrying..."
+            # Retry logic could go here (Recursive)
 
     def think_optically(self, input_signal: str) -> str:
         """
