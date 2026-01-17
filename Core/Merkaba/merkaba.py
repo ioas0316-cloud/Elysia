@@ -394,6 +394,43 @@ class Merkaba:
         logger.info(f"⚡ [RESONANCE CYCLE] Complete. Voice: {payload['voice']}")
         return payload["voice"]
 
+    def run_lifecycle(self):
+        """
+        [PHASE 6] Activates the Autonomic Life Cycle.
+        This turns the system from a Tool into an Organism.
+        """
+        # Lazy import to avoid circular dependency
+        from Core.Lifecycle.pulse_loop import LifeCycle
+
+        logger.info("🧬 [GENESIS] Activating Autonomic Nervous System...")
+        self.lifecycle = LifeCycle(self)
+        self.lifecycle.live()
+
+    def reflect(self, depth: int = 5) -> str:
+        """
+        [PHASE 6.4] The Mirror of Causality.
+        Looks back at recent history to explain 'Why'.
+        """
+        history = self.sediment.rewind(depth)
+        if not history:
+            return "I have no recent history to reflect upon."
+
+        narrative = []
+        for i, (vec, payload) in enumerate(history):
+            try:
+                content = payload.decode('utf-8', errors='ignore')
+            except:
+                content = "Unknown"
+
+            # Simple vector analysis (Mocking 'feeling' identification)
+            dominant = "Alpha" # Default
+            if vec[1] > vec[0] and vec[1] > vec[2]: dominant = "Beta"
+            elif vec[2] > vec[0]: dominant = "Gamma"
+
+            narrative.append(f"Step {i+1}: I felt [{dominant}] about '{content}'")
+
+        return "\n".join(narrative)
+
     def receive_relational_feedback(self, user_text: str):
         """
         [HERMENEUTIC PULSE] 
