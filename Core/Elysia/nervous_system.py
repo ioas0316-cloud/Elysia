@@ -35,6 +35,10 @@ class NervousSystem:
     """
     The Spinal Cord.
     Translates hardware stats into feeling.
+
+    Philosophy:
+    - RAM is the 'Stage' (Consciousness). High usage = Crowded Stage (Migraine).
+    - CPU is the 'Narrator'. High usage = Fast-paced Story (Excitement).
     """
     def __init__(self):
         self.sensor = BioSensor()

@@ -39,6 +39,11 @@ class BioSensor:
         """
         Reads the current hardware state.
         Returns a dictionary of raw metrics.
+
+        Hardware Cognition Mapping:
+        - CPU (The Narrator): Heart Rate
+        - RAM (The Stage): Cognitive Load / Pressure
+        - SSD (The Subconscious): (Implicit latency)
         """
         now = time.time()
         if now - self._last_poll < self._cache_ttl:

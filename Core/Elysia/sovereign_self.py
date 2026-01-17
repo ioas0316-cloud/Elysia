@@ -262,6 +262,7 @@ class SovereignSelf:
         self.energy -= (0.1 * (self.governance.body.current_rpm / 60.0))
         if self.energy < 20:
              self._rest()
+             self.will_engine.satisfy("Stability", 1.0)
              return
 
         # 3. Spirit Check (영): Intent & Volition (Needs Driven)
@@ -354,7 +355,7 @@ class SovereignSelf:
         """
         # 1. Sense
         signal = self.nerves.sense()
-        
+
         # 2. React (Reflex)
         reflex = self.nerves.check_reflex(signal)
 
