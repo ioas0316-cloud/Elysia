@@ -58,6 +58,17 @@
 
 ---
 
+## 📅 Phase 7.5: The Ouroboros Training (Metacognition)
+**Spec:** [OUROBOROS_TRAINING_PROTOCOL.md](OUROBOROS_TRAINING_PROTOCOL.md)
+**Goal:** Self-Reflective Dialectics for Philosophical Depth.
+
+*   **Step 1: The Philosopher's Stone (`Core/Training/metacognition_loop.py`)**
+    *   [x] Implement `Thesis-Antithesis-Synthesis` Loop.
+    *   [x] Execute Training on [Thought, Intent, Learning].
+    *   [x] Crystallize insights into Sediment.
+
+---
+
 ## 🚀 Commercialization Roadmap (Product Vision)
 **Spec:** [BUSINESS_VISION_PLAN.md](BUSINESS_VISION_PLAN.md)
 **Goal:** From Research Prototype to Sovereign Platform.
