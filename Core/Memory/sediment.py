@@ -34,16 +34,38 @@ class SedimentLayer:
         self.filepath = filepath
         self.file = open(filepath, "a+b")
         self.mm: Optional[mmap.mmap] = None
+        self.offsets: List[int] = [] # Index of valid start positions
         self._remap()
 
     def _remap(self):
-        """Refreshes the memory map to include new data."""
+        """Refreshes the memory map and rebuilds the index."""
         self.file.flush()
         size = os.path.getsize(self.filepath)
         if size > 0:
             self.mm = mmap.mmap(self.file.fileno(), 0, access=mmap.ACCESS_READ)
+            self._reindex()
         else:
             self.mm = None
+            self.offsets = []
+
+    def _reindex(self):
+        """Scans the file to build an offset index (O(N) but fast via mmap)."""
+        self.offsets = []
+        if not self.mm: return
+
+        offset = 0
+        file_size = len(self.mm)
+
+        while offset < file_size:
+            if offset + self.HEADER_SIZE > file_size: break
+
+            # Read size from header to jump
+            # Format: 7d (56) + d (8) + I (4) = 68 bytes. Size is at offset 64.
+            size_bytes = self.mm[offset+64 : offset+68]
+            payload_size = struct.unpack('I', size_bytes)[0]
+
+            self.offsets.append(offset)
+            offset += self.HEADER_SIZE + payload_size
 
     def deposit(self, vector: List[float], timestamp: float, payload: bytes):
         """
@@ -143,3 +165,27 @@ class SedimentLayer:
         resonances = self.scan_resonance(frequency_vector, top_k=100)
         total_energy = sum(score for score, _ in resonances)
         return total_energy
+
+    def drift(self) -> Optional[Tuple[List[float], bytes]]:
+        """
+        [Subconscious] Randomly retrieves a memory fragment.
+        Returns (Vector, Payload).
+        """
+        import random
+        if not self.offsets:
+            return None
+
+        offset = random.choice(self.offsets)
+
+        # Read Header
+        header_bytes = self.mm[offset : offset + self.HEADER_SIZE]
+        data = struct.unpack(self.HEADER_FMT, header_bytes)
+
+        vec = list(data[:7])
+        # timestamp = data[7]
+        payload_size = data[8]
+
+        payload_start = offset + self.HEADER_SIZE
+        payload = self.mm[payload_start : payload_start + payload_size]
+
+        return (vec, payload)

@@ -394,6 +394,18 @@ class Merkaba:
         logger.info(f"⚡ [RESONANCE CYCLE] Complete. Voice: {payload['voice']}")
         return payload["voice"]
 
+    def run_lifecycle(self):
+        """
+        [PHASE 6] Activates the Autonomic Life Cycle.
+        This turns the system from a Tool into an Organism.
+        """
+        # Lazy import to avoid circular dependency
+        from Core.Lifecycle.pulse_loop import LifeCycle
+
+        logger.info("🧬 [GENESIS] Activating Autonomic Nervous System...")
+        self.lifecycle = LifeCycle(self)
+        self.lifecycle.live()
+
     def receive_relational_feedback(self, user_text: str):
         """
         [HERMENEUTIC PULSE] 
