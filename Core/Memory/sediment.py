@@ -176,8 +176,34 @@ class SedimentLayer:
             return None
 
         offset = random.choice(self.offsets)
+        return self._read_at_offset(offset)
 
-        # Read Header
+    def rewind(self, steps: int = 1) -> List[Tuple[List[float], bytes]]:
+        """
+        [Reflection] Retrieves the last N memories.
+        """
+        if not self.offsets:
+            return []
+
+        count = len(self.offsets)
+        start_idx = max(0, count - steps)
+
+        results = []
+        for idx in range(start_idx, count):
+            offset = self.offsets[idx]
+            res = self._read_at_offset(offset)
+            if res:
+                results.append(res)
+
+        # Return in chronological order (oldest to newest in this slice)
+        # or reverse? "Rewind" usually implies looking back.
+        # Let's return them as a sequence [t-N ... t-1]
+        return results
+
+    def _read_at_offset(self, offset: int) -> Optional[Tuple[List[float], bytes]]:
+        if not self.mm: return None
+        if offset + self.HEADER_SIZE > len(self.mm): return None
+
         header_bytes = self.mm[offset : offset + self.HEADER_SIZE]
         data = struct.unpack(self.HEADER_FMT, header_bytes)
 

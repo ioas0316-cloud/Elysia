@@ -75,7 +75,7 @@ def test_ennui_dynamics():
 
     # Initial state
     assert ennui.pressure == 0.0
-    
+
     # 1. First thought (High Novelty)
     thought_a = [1.0, 0.0, 0.0]
     p1 = ennui.update(thought_a)
@@ -90,7 +90,7 @@ def test_ennui_dynamics():
     # 3. Repetition again
     p3 = ennui.update(thought_a)
     assert p3 > p2
-    
+
     # 4. New Thought (Relief)
     thought_b = [0.0, 1.0, 0.0] # Orthogonal
     p4 = ennui.update(thought_b)
@@ -125,6 +125,52 @@ def test_sediment_drift():
     sediment.close()
     if os.path.exists(test_path):
         os.remove(test_path)
+
+def test_dream_deposit():
+    """
+    Verifies that a stabilized dream is deposited back into Sediment.
+    """
+    class MockMerkaba:
+        def __init__(self):
+            self.name = "Mock"
+            self.body = None
+            self.sediment = SedimentLayer("test_dream_deposit.bin")
+            # Seed with something
+            self.sediment.deposit([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 0.0, b"Seed")
+
+        def pulse(self, *args): pass
+        def sleep(self): pass
+
+    mock_mkb = MockMerkaba()
+    from Core.Lifecycle.pulse_loop import LifeCycle
+
+    life = LifeCycle(mock_mkb)
+
+    # Manually inject a STABILIZED dream state
+    # Intent is usually Self (0.5, 0.5, 0.5)
+    # We set dream to exactly Self so it stabilizes immediately (Distance 0)
+    from Core.Memory.feedback_loop import ThoughtState
+
+    # 1. Start Dream
+    # Initialize with potential=0.0 and momentum=0.0 so it is ALREADY stable
+    # This prevents the gradient calculation from generating momentum if it started high
+    life.current_dream = ThoughtState("I AM", [0.5, 0.5, 0.5], potential=0.0, momentum=0.0)
+
+    # 2. Force Ouroboros to stabilize (Distance 0 to Self)
+    # Intent for dream is "Self" -> [0.5, 0.5, 0.5]
+    # Dream vector is [0.5, 0.5, 0.5]
+    # Potential = 0.0 -> Stabilized
+    life.dream()
+
+    # 3. Verify Deposit
+    last_record = mock_mkb.sediment.rewind(1)[0]
+    payload = last_record[1].decode()
+
+    assert payload.startswith("SELF:I AM")
+
+    mock_mkb.sediment.close()
+    if os.path.exists("test_dream_deposit.bin"):
+        os.remove("test_dream_deposit.bin")
 
 def test_lifecycle_persistence():
     """
@@ -164,3 +210,36 @@ def test_lifecycle_persistence():
     mock_mkb.sediment.close()
     if os.path.exists("test_persistence.bin"):
         os.remove("test_persistence.bin")
+
+def test_sediment_rewind():
+    """
+    Verifies the time-travel scrubbing capability.
+    """
+    test_path = "test_rewind.bin"
+    if os.path.exists(test_path):
+        os.remove(test_path)
+
+    sediment = SedimentLayer(test_path)
+
+    # Deposit time series
+    events = ["Event 1", "Event 2", "Event 3"]
+    for i, evt in enumerate(events):
+        sediment.deposit([0.1]*7, float(i), evt.encode())
+
+    # Rewind 2 steps
+    history = sediment.rewind(2)
+    assert len(history) == 2
+
+    # Should get Event 2 and Event 3 (in that order based on implementation)
+    # The implementation returns [start_idx ... end], so [Event 2, Event 3]
+    assert history[0][1].decode() == "Event 2"
+    assert history[1][1].decode() == "Event 3"
+
+    # Rewind all
+    full_history = sediment.rewind(10)
+    assert len(full_history) == 3
+    assert full_history[0][1].decode() == "Event 1"
+
+    sediment.close()
+    if os.path.exists(test_path):
+        os.remove(test_path)

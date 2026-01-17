@@ -172,6 +172,20 @@ class LifeCycle:
             if action == "STABILIZED":
                 logger.info(f"✨ [EPIPHANY] Dream resolved into insight: {self.current_dream.content}")
                 self.ennui.pressure = 0.0 # Satisfaction
+
+                # [SELF-BUILDING] Persist the Epiphany
+                # We save this self-generated thought back into Sediment so it becomes part of the Self.
+                try:
+                    payload = f"SELF:{self.current_dream.content}".encode('utf-8')
+                    self.merkaba.sediment.deposit(
+                        vector=self.current_dream.vector,
+                        timestamp=time.time(),
+                        payload=payload
+                    )
+                    logger.info("   -> 💾 Stored Epiphany in Sediment (Source: SELF).")
+                except Exception as e:
+                    logger.error(f"   -> ❌ Failed to store dream: {e}")
+
             else: # DISSIPATED
                 logger.info(f"💨 [DISSIPATED] Dream faded.")
                 self.ennui.pressure -= 0.2 # Slight relief
