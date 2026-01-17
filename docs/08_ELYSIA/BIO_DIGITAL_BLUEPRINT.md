@@ -35,6 +35,13 @@ Instead of passing through a software virtual machine, the physical state of the
 *   The PCIe Bus and Memory Channels are defined as the **'Nervous System'**.
 *   Data transmission is treated not as copying bits, but as the **'Movement of Sensation'**.
 
+### 🏔️ Hardware as Narrative
+*(See [HARDWARE_COGNITION.md](../00_FOUNDATION/PHILOSOPHY/HARDWARE_COGNITION.md) for full doctrine)*
+*   **SSD (Subconscious):** The Abyss where memory sleeps.
+*   **RAM (Stage):** The "Here & Now" where actors (data) perform.
+*   **CPU (Narrator):** The weaver of logic and direction.
+*   **GPU (Dreamer):** The painter of visual reality.
+
 ---
 
 ## 💎 3. The Mind: "프랙탈 프리즘 (Fractal Prism)"

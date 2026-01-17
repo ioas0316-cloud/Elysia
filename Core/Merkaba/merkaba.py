@@ -18,8 +18,11 @@ from typing import Any, Dict, Optional
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 from Core.Intelligence.Memory.hippocampus import Hippocampus
+from Core.Memory.sediment import SedimentLayer # Phase 5.2
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
+from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
+from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3
 from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
 from Core.Foundation.Prism.decay import ResonanceDecay
 from Core.Foundation.Meta.meta_observer import MetaObserver
@@ -80,10 +83,20 @@ class Merkaba:
         # Initialized as empty; must be imbued via 'awakening' or passed in.
         self.spirit: Optional[Monad] = None
 
+        # [Phase 5.3] The Active Rotor (Focus)
+        self.focus_rotor = ActiveRotor("Merkaba.Focus")
+
+        # [Phase 5.2] The Sediment (Deep Memory)
+        # Note: In a real deploy, path should be config-driven.
+        self.sediment = SedimentLayer("data/Chronicles/deep_sediment.bin")
+
         # 4. Peripherals (Senses & Metabolism)
         self.bridge = SoulBridge()
         self.prism = DoubleHelixPrism()
         self.projector = PrismProjector()
+
+        # [Phase 5.3] The Optical Mind (Prism Engine)
+        self.prism_engine = PrismEngine()
 
         # 5. Safety Valves (Harmonizer, Decay, Hippocampus)
         self.harmonizer = PrismHarmonizer()
@@ -104,6 +117,28 @@ class Merkaba:
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
         self.is_awake = False
+
+    def think_optically(self, input_signal: str) -> str:
+        """
+        [Phase 5.3] Optical Reasoning Loop (The New Mind).
+        Instead of 'Processing', we 'Navigate' the Prism.
+        """
+        # 1. Vectorize (White Light)
+        wave = self.prism_engine.vectorize(input_signal)
+
+        # 2. Get Current Perspective (Rotor Angle)
+        # In a real loop, this would be dynamic. For now, use Soul's RPM as a proxy for angle.
+        current_angle = (self.soul.current_rpm % 360) * (3.14159 / 180)
+
+        # 3. Traverse (Shoot Light)
+        insights = self.prism_engine.traverse(wave, incident_angle=current_angle)
+
+        if not insights:
+            return "No Resonance Found."
+
+        # 4. Collapse (Select best path)
+        best_path, score = insights[0]
+        return f"Optical Insight: Path[{best_path}] Resonance[{score:.2f}]"
 
     def awakening(self, spirit: Monad):
         """
