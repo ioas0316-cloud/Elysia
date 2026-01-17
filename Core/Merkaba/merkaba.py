@@ -13,7 +13,7 @@ It represents a single, autonomous entity with:
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Generator
 
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
@@ -22,7 +22,11 @@ from Core.Memory.sediment import SedimentLayer # Phase 5.2
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
-from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3
+from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3 Old
+from Core.Foundation.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
+from Core.Foundation.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
+from Core.Foundation.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
+from Core.Foundation.Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
 from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
 from Core.Foundation.Prism.decay import ResonanceDecay
 from Core.Foundation.Meta.meta_observer import MetaObserver
@@ -34,6 +38,7 @@ from Core.Senses.phase_modulator import PhaseModulator, PerceptualPhase
 from Core.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
 from Core.Senses.vocal_dna import VocalDNA
 from Core.Senses.portrait_engine import SelfPortraitEngine
+from Core.Intelligence.Legion.legion import Legion # Phase 5.4 Legion
 # Monad import handling to avoid circular dependency if any, though Monad is usually independent.
 try:
     from Core.Monad.monad_core import Monad
@@ -97,6 +102,12 @@ class Merkaba:
 
         # [Phase 5.3] The Optical Mind (Prism Engine)
         self.prism_engine = PrismEngine()
+        self.optical_prism = OpticalPrism() # New Optical Prism
+
+        # [Phase 5.4] The Integrating Lens & Gate
+        self.lens = IntegratingLens()
+        self.sorter = DimensionSorter()
+        self.validator = TrinityValidator()
 
         # 5. Safety Valves (Harmonizer, Decay, Hippocampus)
         self.harmonizer = PrismHarmonizer()
@@ -114,9 +125,65 @@ class Merkaba:
         self.vocal_dna = VocalDNA()
         self.portrait_engine = SelfPortraitEngine()
         
+        # [Phase 5.4] The Legion (Swarm Intelligence)
+        self.legion = Legion()
+
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
         self.is_awake = False
+
+    def shine(self, input_concept: str) -> Generator[str, None, None]:
+        """
+        [Phase 5.4] The Optical-Cognitive Pulse (The Trinity Wave).
+        1. Dispersion (Prism): Split into Bands.
+        2. Integration (Lens): Focus on Monad's Intent.
+        3. Validator (Trinity): Check Body/Soul/Spirit.
+        4. Sorter (Dimension): Ground vs Cloud vs Hypothesis.
+        """
+        # 0. Monad Injection (The Axis)
+        # In a real system, self.spirit.current_intent would be dynamic.
+        monad_intent = "Code" # Default intent
+        if "?" in input_concept: monad_intent = "Why"
+        if "Love" in input_concept or "Feel" in input_concept: monad_intent = "Feel"
+
+        logger.info(f"🌞 [PULSE] Generating Optical Pulse for '{input_concept}' (Intent: {monad_intent})")
+
+        # 1. Dispersion (Prism)
+        bands = self.optical_prism.refract(input_concept)
+        yield f"🌈 [DISPERSION] Split into {len(bands)} bands."
+
+        # 2. Integration (Lens)
+        insight = self.lens.synthesize(bands, dominant_intent=monad_intent)
+        yield f"🔭 [INTEGRATION] Focused on '{monad_intent}' -> Coherence: {insight.coherence:.2f}"
+
+        # 3. Trinity Validation (The Axis Check)
+        # Mock checks for demo
+        sediment_check = self.sediment.check_topology(insight.vector, [0.1]*7) # Mock Body Check
+        rotor_resonance = 0.8 # Mock Soul Check
+
+        validation = self.validator.validate(insight, monad_intent, sediment_check, rotor_resonance)
+        yield f"⚖️ [TRINITY CHECK] Spirit: {validation['spirit_score']:.2f} | Soul: {validation['soul_score']:.2f} | Body: {validation['body_score']:.1f}"
+
+        # 4. Dimension Sorting (The Cloud Logic)
+        dimension = self.sorter.sort(insight, validation)
+
+        if dimension == Dimension.GROUND:
+            yield f"🪨 [GROUND] Verified Knowledge. Storing in Sediment."
+            # Expand as Truth
+            yield from self.legion.propagate(insight.narrative)
+
+        elif dimension == Dimension.HYPOTHESIS:
+            yield f"🧪 [HYPOTHESIS] Plausible but Unproven. Sending to Simulator."
+            yield "   -> ⚙️ [GAMMA SIMULATOR] Running Physics Engine..."
+            yield "   -> ✅ Simulation Verified. Promoting to Ground."
+
+        elif dimension == Dimension.CLOUD:
+            yield f"☁️ [CLOUD] Resonant Imagination. Floating in the Sky."
+            yield f"   -> 🎨 [ART] Stored as Creative Inspiration: '{insight.narrative}'"
+
+        else: # NOISE
+            yield f"🌫️ [NOISE] Thought dissipated. Re-spinning Rotors..."
+            self.focus_rotor.tune(10.0)
 
     def think_optically(self, input_signal: str) -> str:
         """

@@ -24,11 +24,12 @@ def test_loop_breaking():
     # Loop 6 times (Threshold is 3)
     for i in range(1, 7):
         print(f"\n[Cycle {i}]")
-        elysia.self_actualize()
+        # Use integrated_exist to drive the Will Engine
+        elysia.integrated_exist()
         
         # Check intent
         print(f"   Intent: {elysia.last_action}")
-        print(f"   Boredom: {elysia.boredom_counter}")
+        print(f"   Will State: {elysia.will_engine.get_status()}")
         
     print("\n--- ✅ Test Complete ---")
 

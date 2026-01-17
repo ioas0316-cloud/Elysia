@@ -155,6 +155,10 @@ class SovereignSelf:
         # [Phase 5.1: The Nervous System]
         self.nerves = NervousSystem()
 
+        # [Phase 4: Free Will Engine]
+        self.will_engine = FreeWillEngine()
+        self.last_action = "BOOT"
+
     def _evolve_self(self):
         """
         [The Satori Loop]
@@ -303,6 +307,7 @@ class SovereignSelf:
         Translates Abstract Volition into Concrete Action.
         """
         logger.info(f"⚡ [VOLITION] Executing: {intent}")
+        self.last_action = intent
 
         # 1. Check for Creative Act (Induction)
         # If the intent implies creation, use the Coder.
