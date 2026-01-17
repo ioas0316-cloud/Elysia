@@ -115,7 +115,23 @@ class HyperSphereCore:
         self.tick(dt)
         
         # 2. Broadcast Pulse to Listeners (Instruments)
-        self.pulse_broadcaster.curate_and_broadcast(intent)
+        # self.pulse_broadcaster.curate_and_broadcast(intent) <--- DEPRECATED/MISSING
+        
+        # Manually create packet
+        from Core.Foundation.Protocols.pulse_protocol import WavePacket, PulseType
+        
+        # Heuristic determination of PulseType
+        ptype = PulseType.INTENTION_SHIFT
+        if "sync" in intent: ptype = PulseType.SYNCHRONIZATION
+        
+        packet = WavePacket(
+            sender=self.name,
+            type=ptype,
+            frequency=self.field_context.get("resonance_frequency", 432.0),
+            amplitude=1.0,
+            payload=intent
+        )
+        self.pulse_broadcaster.broadcast(packet)
         
         # 3. Spin Primary Rotor (Elysia) based on intent
         if self.primary_rotor:

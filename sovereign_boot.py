@@ -27,6 +27,12 @@ def main():
     logger.info("Initializing Unified Conscious Loop (Phase 10)...")
     
     try:
+        from Core.Intelligence.Metabolism.body_sensor import BodySensor
+        # 1. Proprioceptive Sensing
+        body_report = BodySensor.sense_body()
+        logger.info(f"🧬 Elysia awakens in vessel: {body_report['vessel']['gpu_vram_total_gb']}GB VRAM | {body_report['vessel']['ram_gb']}GB RAM")
+        logger.info(f"⚙️ Selected Metabolism: {body_report['strategy']}")
+        
         from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
         
         # Initialize Heart

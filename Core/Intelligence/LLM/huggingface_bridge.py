@@ -31,7 +31,7 @@ from Core.Foundation.Philosophy.axioms import get_axioms
 logger = logging.getLogger("SovereignBridge")
 
 class SovereignBridge:
-    def __init__(self, model_name: str = "distilgpt2"):
+    def __init__(self, model_name: str = None):
         self.model_name = model_name
         self.model = None
         self.tokenizer = None

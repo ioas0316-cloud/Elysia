@@ -18,6 +18,8 @@ import numpy as np
 import logging
 from typing import Dict, Any, Optional, Tuple
 
+from Core.Intelligence.Metabolism.body_sensor import BodySensor
+
 logger = logging.getLogger("Elysia.Merkaba.Portal")
 
 class MerkabaPortal:
@@ -28,8 +30,12 @@ class MerkabaPortal:
         self.mm = None
         self._is_open = False
         
+        # Sense the body to adapt portal behavior if needed
+        self.body_report = BodySensor.sense_body()
+        
         self.logger = logger
         self.logger.info(f"🌌 Portal alignment established: {os.path.basename(file_path)} ({self.file_size / (1024**3):.2f} GB)")
+        self.logger.info(f"⚙️ Metabolism Strategy: {self.body_report['strategy']}")
 
     def open(self):
         """Opens the dimensional bridge using mmap."""

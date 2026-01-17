@@ -22,23 +22,65 @@ class AutonomousExplorer:
     def resolve_void(self, query: str, void_context: str = ""):
         """
         1. Identifies a Void.
-        2. Acts: Searches the Web.
-        3. Processes: Lifts the data through 5D.
+        2. Acts: Searches the Web (DuckDuckGo).
+        3. Processes: Lifts the data through 5D (Simulated for now).
         4. Perseveres: Saves to the Knowledge Base.
         """
         logger.info(f"🌐 [ACTION] Resolving Reality Gap: '{query}'")
-        
-        # This will be replaced by the agent calling the search_web tool during the trace
-        # But for the engine logic, we define the integration point.
         print(f"\n--- [ REAL-WORLD SEARCH TRIGGERED ] ---")
         print(f"Goal: Find recent information about '{query}' to fill void: {void_context}")
         
-        # Logic to be executed by the Agent in the next step
-        # 1. Search Web
-        # 2. Read URL
-        # 3. processor.process_thought(content)
-        # 4. Save to file
-        return query
+        try:
+            from duckduckgo_search import DDGS
+            results = []
+            with DDGS() as ddgs:
+                # Search for 3 results
+                for r in ddgs.text(query, max_results=3):
+                    results.append(r)
+            
+            if not results:
+                logger.warning(f"No results found for '{query}'")
+                return f"Void '{query}' remains. No external data found."
+
+            # Summarize findings
+            summary = f"# Knowledge Acquired: {query}\n\n"
+            summary += f"**Context**: {void_context}\n\n"
+            summary += "## External Data\n"
+            
+            # [PHASE 16] TRUE SEMANTIC GROUNDING
+            # Digestion: Text -> Qualia (7D Vector) -> Imprint
+            
+            from Core.World.Physics.qualia_transducer import get_qualia_transducer
+            transducer = get_qualia_transducer()
+            
+            # The summary is the 'Flesh' of the knowledge.
+            # We must transduce it into 'Soul' (Vector).
+            qualia_vector = transducer.transduce(summary)
+            
+            # Save the Flesh (Artifact)
+            filename = f"{query.replace(' ', '_').lower()}.md"
+            filepath = os.path.join(self.knowledge_dir, filename)
+            
+            with open(filepath, "w", encoding="utf-8") as f:
+                f.write(summary)
+                # Add vector metadata for debugging
+                f.write(f"\n\n---\n**Qualia Vector**: {qualia_vector}")
+                
+            logger.info(f"💾 [PERSISTENCE] External knowledge internalized: {filepath}")
+            
+            # Imprint into PrismSpace? (Requires Prism Engine access)
+            # For now, we return the vector so the caller (Heartbeat/Monad) can imprint it.
+            print(f"✅ Void Filled. Knowledge digested into Qualia: {qualia_vector}")
+            
+            return {
+                "text": f"Void filled with {len(results)} external sources.",
+                "qualia": qualia_vector,
+                "path": filepath
+            }
+            
+        except Exception as e:
+            logger.error(f"External Search Failed: {e}")
+            return f"Failed to explore: {e}"
 
     def store_ascent(self, kernel: str, result: Any):
         """Saves the 5D insight to a persistent markdown file."""

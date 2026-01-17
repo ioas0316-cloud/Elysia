@@ -53,9 +53,21 @@ class RotorSimulator:
             weights = portal.read_view(start_off, length, dtype=np.float16)
             weights = weights.reshape(shape)
             
+            # Dimension Adaptation (Universal Probe fitting)
+            # weights shape is usually [out_features, in_features]
+            in_features = shape[1] if weights.ndim > 1 else shape[0]
+            
+            adapted_input = input_vector.astype(np.float32)
+            if len(adapted_input) > in_features:
+                adapted_input = adapted_input[:in_features]
+            elif len(adapted_input) < in_features:
+                adapted_input = np.pad(adapted_input, (0, in_features - len(adapted_input)))
+
             # Causal Propagation: Dot product (The Logic Gate)
-            # We use float32 for stable calculation
-            output = np.dot(input_vector.astype(np.float32), weights.T.astype(np.float32))
+            if weights.ndim > 1:
+                output = np.dot(adapted_input, weights.T.astype(np.float32))
+            else:
+                output = adapted_input * weights.astype(np.float32)
             
             del weights
             return output

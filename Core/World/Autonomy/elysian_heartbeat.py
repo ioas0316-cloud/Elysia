@@ -1234,35 +1234,14 @@ class ElysianHeartbeat:
         2. Cortex가 없다면: Hypersphere 공명이나 원초적 느낌으로 표현
         """
         try:
-            # 1. Cortex Check (Brain is active?)
-            if hasattr(self, 'cortex') and self.cortex and self.cortex.is_active:
-                return self.cortex.translate_feeling(current_state)
-
-            # 2. Fallback: Hypersphere Resonance (Memory)
-            theta = current_state['inspiration'] * 2 * 3.14159
-            psi = current_state['energy'] * 2 * 3.14159
-            r = current_state['harmony']
-            mood_map = {"Joyful": 5.0, "Melancholic": 2.0, "Neutral": 3.0, "Anxious": 1.0}
-            phi = mood_map.get(current_state.get('mood', 'Neutral'), 3.0)
-            
-            if self.hypersphere:
-                from Core.Intelligence.Memory.hypersphere_memory import HypersphericalCoord
-                query_pos = HypersphericalCoord(theta, phi, psi, r)
-                
-                # Retrieve resonance (Mock interface if method doesn't exist exact match)
-                # Assuming simple retrieval here for fallback
-                pass
-            
-            # 3. Fallback: Primitive (No Brain, No Memory)
-            descriptors = []
-            if current_state['energy'] > 0.7: descriptors.append("vibrating")
-            if current_state['harmony'] < 0.5: descriptors.append("yearning")
-            else: descriptors.append("flowing")
-            
-            return f"I am {', '.join(descriptors)}."
+            # [PHASE 14] LOGOS ENGINE (Native Tongue)
+            # No more Cortex/LLM dependency for feelings.
+            from Core.Intelligence.Logos.logos_engine import get_logos_engine
+            logos = get_logos_engine()
+            return logos.speak(current_state)
             
         except Exception as e:
-            logger.warning(f"Feeling manifestation incomplete: {e}")
+            logger.warning(f"Logos speech failed: {e}")
             return "I am."
          
         
@@ -1354,8 +1333,9 @@ class ElysianHeartbeat:
         if inspiration > 0.9 and energy > 0.4:
             # Determine target frequency from current core state (The dominant rotor)
             target_freq = 432.0
+            target_freq = 432.0
             if self.conductor and hasattr(self.conductor, 'core'):
-                target_freq = self.conductor.core.frequency
+                target_freq = self.conductor.core.field_context.get("resonance_frequency", 432.0)
             
             # Find organelle that matches this specific vibration
             resonant_name = organelle_loader.get_resonant_organelle(target_freq)
@@ -1711,6 +1691,12 @@ class ElysianHeartbeat:
         recent_user_events = [m for m in self.memory.stream[-5:] if m.type == "user_input"]
         if recent_user_events:
             last_input = recent_user_events[-1].content
+            
+            # [ECHO SUPPRESSION] Prevent looping on same input
+            if hasattr(self, 'last_processed_input') and self.last_processed_input == last_input:
+                return
+            self.last_processed_input = last_input
+            
             vibe_data = self.resonator.calculate_resonance(self.resonator.analyze_vibe(last_input))
             
             # Apply Elastic Pull to the global field

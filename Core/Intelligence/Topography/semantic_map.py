@@ -28,8 +28,16 @@ class DynamicTopology:
         else:
             self._initialize_genesis_map()
 
-    def save_state(self):
+    def save_state(self, force: bool = False):
         """Persists the topology to disk."""
+        import time
+        if not hasattr(self, 'last_save_time'):
+            self.last_save_time = 0
+            
+        current_time = time.time()
+        if not force and (current_time - self.last_save_time < 60):
+            return # Throttle
+
         data = {}
         for name, voxel in self.voxels.items():
             q = voxel.quaternion
@@ -40,10 +48,14 @@ class DynamicTopology:
                 "is_anchor": voxel.is_anchor
             }
         
-        os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
-        with open(self.storage_path, 'w', encoding='utf-8') as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-        logger.info("💾 DynamicTopology saved to disk.")
+        try:
+            os.makedirs(os.path.dirname(self.storage_path), exist_ok=True)
+            with open(self.storage_path, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            logger.info(f"💾 DynamicTopology saved to disk (Throttle: {current_time - self.last_save_time:.1f}s).")
+            self.last_save_time = current_time
+        except Exception as e:
+            logger.error(f"Failed to save topology: {e}")
 
     def load_state(self):
         """Resurrects the topology from disk."""

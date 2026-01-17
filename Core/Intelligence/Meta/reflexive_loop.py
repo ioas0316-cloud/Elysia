@@ -193,6 +193,7 @@ class ReflexiveLoop:
         
         성공하면 원리 강화, 실패하면 새 원리 학습.
         """
+        if result.passed:
             logger.info(f"📚 [LEARNING] Success absorbed: {result.lesson[:50]}...")
             
             # [GRAND UNIFICATION] Closure

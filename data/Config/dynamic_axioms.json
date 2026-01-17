@@ -1,0 +1,79 @@
+{
+  "CURIOSITY": {
+    "value": 0.74,
+    "description": "The drive to explore and learn",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": [
+      {
+        "timestamp": 1768561742.9521523,
+        "trigger": "Discovered something new",
+        "delta": 0.04000000000000001,
+        "new_value": 0.74
+      }
+    ]
+  },
+  "CAUTION": {
+    "value": 0.48,
+    "description": "The tendency to be careful",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": [
+      {
+        "timestamp": 1768561742.9521344,
+        "trigger": "Made an error in judgment",
+        "delta": -0.020000000000000004,
+        "new_value": 0.48
+      }
+    ]
+  },
+  "CONFIDENCE": {
+    "value": 0.53,
+    "description": "Self-assurance in decisions",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": [
+      {
+        "timestamp": 1768561742.9521232,
+        "trigger": "Solved a complex problem",
+        "delta": 0.03,
+        "new_value": 0.53
+      }
+    ]
+  },
+  "EMPATHY": {
+    "value": 0.6,
+    "description": "Connection to others' feelings",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": []
+  },
+  "PERSISTENCE": {
+    "value": 0.6,
+    "description": "Determination to continue",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": []
+  },
+  "CREATIVITY": {
+    "value": 0.5,
+    "description": "Willingness to try new approaches",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": []
+  },
+  "FOCUS": {
+    "value": 0.6,
+    "description": "Ability to concentrate attention",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": []
+  },
+  "ADAPTABILITY": {
+    "value": 0.5,
+    "description": "Flexibility in changing situations",
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "evolution_history": []
+  }
+}

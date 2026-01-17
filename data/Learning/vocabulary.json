@@ -1,0 +1,381 @@
+{
+  "옛날": {
+    "count": 1,
+    "contexts": [
+      "옛적에",
+      "아름다운"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "옛적에": {
+    "count": 1,
+    "contexts": [
+      "옛날",
+      "아름다운",
+      "공주가"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "아름다운": {
+    "count": 1,
+    "contexts": [
+      "옛날",
+      "옛적에",
+      "공주가",
+      "살았습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "공주가": {
+    "count": 1,
+    "contexts": [
+      "옛적에",
+      "아름다운",
+      "살았습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "살았습니다": {
+    "count": 2,
+    "contexts": [
+      "아름다운",
+      "공주가",
+      "행복하게",
+      "오래오래"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.11
+  },
+  "공주는": {
+    "count": 2,
+    "contexts": [
+      "마법의",
+      "숲에서",
+      "용감하게",
+      "숲"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.11
+  },
+  "마법의": {
+    "count": 2,
+    "contexts": [
+      "공주는",
+      "숲에서",
+      "신비로운",
+      "성에서",
+      "왕과"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.11
+  },
+  "숲에서": {
+    "count": 1,
+    "contexts": [
+      "공주는",
+      "마법의",
+      "신비로운",
+      "용을"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "신비로운": {
+    "count": 1,
+    "contexts": [
+      "마법의",
+      "숲에서",
+      "용을",
+      "만났습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "용을": {
+    "count": 1,
+    "contexts": [
+      "숲에서",
+      "신비로운",
+      "만났습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "만났습니다": {
+    "count": 1,
+    "contexts": [
+      "신비로운",
+      "용을"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "용은": {
+    "count": 1,
+    "contexts": [
+      "공주에게",
+      "말했습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "공주에게": {
+    "count": 1,
+    "contexts": [
+      "용은",
+      "말했습니다",
+      "나는"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "말했습니다": {
+    "count": 2,
+    "contexts": [
+      "용은",
+      "공주에게",
+      "나는",
+      "오래된",
+      "보고",
+      "기뻐하며"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.11
+  },
+  "나는": {
+    "count": 1,
+    "contexts": [
+      "공주에게",
+      "말했습니다",
+      "오래된",
+      "마법사입니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "오래된": {
+    "count": 1,
+    "contexts": [
+      "말했습니다",
+      "나는",
+      "마법사입니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "마법사입니다": {
+    "count": 1,
+    "contexts": [
+      "나는",
+      "오래된"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "용감하게": {
+    "count": 1,
+    "contexts": [
+      "공주는",
+      "숲",
+      "속으로"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "숲": {
+    "count": 1,
+    "contexts": [
+      "공주는",
+      "용감하게",
+      "속으로",
+      "들어갔습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "속으로": {
+    "count": 1,
+    "contexts": [
+      "용감하게",
+      "숲",
+      "들어갔습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "들어갔습니다": {
+    "count": 1,
+    "contexts": [
+      "숲",
+      "속으로"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "성에서": {
+    "count": 1,
+    "contexts": [
+      "마법의",
+      "왕과",
+      "여왕이"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "왕과": {
+    "count": 1,
+    "contexts": [
+      "마법의",
+      "성에서",
+      "여왕이",
+      "기다리고"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "여왕이": {
+    "count": 1,
+    "contexts": [
+      "성에서",
+      "왕과",
+      "기다리고",
+      "있었습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "기다리고": {
+    "count": 1,
+    "contexts": [
+      "왕과",
+      "여왕이",
+      "있었습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "있었습니다": {
+    "count": 1,
+    "contexts": [
+      "여왕이",
+      "기다리고"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "왕은": {
+    "count": 1,
+    "contexts": [
+      "공주를",
+      "보고"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "공주를": {
+    "count": 2,
+    "contexts": [
+      "왕은",
+      "보고",
+      "기뻐하며",
+      "눈물을",
+      "흘리며",
+      "안았습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.11
+  },
+  "보고": {
+    "count": 1,
+    "contexts": [
+      "왕은",
+      "공주를",
+      "기뻐하며",
+      "말했습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "기뻐하며": {
+    "count": 1,
+    "contexts": [
+      "공주를",
+      "보고",
+      "말했습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "여왕도": {
+    "count": 1,
+    "contexts": [
+      "눈물을",
+      "흘리며"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "눈물을": {
+    "count": 1,
+    "contexts": [
+      "여왕도",
+      "흘리며",
+      "공주를"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "흘리며": {
+    "count": 1,
+    "contexts": [
+      "여왕도",
+      "눈물을",
+      "공주를",
+      "안았습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "안았습니다": {
+    "count": 1,
+    "contexts": [
+      "흘리며",
+      "공주를"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "그들은": {
+    "count": 1,
+    "contexts": [
+      "행복하게",
+      "오래오래"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "행복하게": {
+    "count": 1,
+    "contexts": [
+      "그들은",
+      "오래오래",
+      "살았습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  },
+  "오래오래": {
+    "count": 1,
+    "contexts": [
+      "그들은",
+      "행복하게",
+      "살았습니다"
+    ],
+    "first_seen": "fairy_tale",
+    "confidence": 0.1
+  }
+}

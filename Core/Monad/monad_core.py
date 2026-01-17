@@ -128,6 +128,35 @@ class Monad:
 
         return reality_fragment
 
+
+
+    def think_with_prism(self, input_qualia: np.ndarray, prism_engine=None) -> Dict[str, Any]:
+        """
+        [OPTICAL THINKING]
+        Uses the Prism principle to infer meaning from Qualia.
+        This is the 'Light' of the Monad.
+        """
+        if prism_engine is None:
+            # Lazy import to avoid circular dependencies
+            from Core.Prism.prism_engine import PrismEngine, PrismSpace
+            # In a real system, this should be a shared singleton or injected
+            prism_engine = PrismEngine(PrismSpace(size=64))
+        
+        # 1. Project Qualia (Light) into Prism
+        # Monad's DNA influences the input light (Lens effect)
+        modulated_qualia = input_qualia * self._dna.principle_strand
+        
+        # 2. Propagate and Interfere (Active Scan)
+        # Using Rotor to find best angle of truth
+        result_pattern, score, angle = prism_engine.scan_for_resonance(modulated_qualia)
+        
+        return {
+            "thought": result_pattern,
+            "confidence": score,
+            "angle": angle,
+            "energy": float(np.sum(modulated_qualia))
+        }
+
     def __repr__(self):
         return f"<Monad seed={self._seed[:8]} dna={self._dna}>"
 

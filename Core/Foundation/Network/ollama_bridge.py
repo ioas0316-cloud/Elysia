@@ -42,7 +42,7 @@ class OllamaBridge:
     def _check_availability(self):
         """Internal check for Ollama presence"""
         try:
-            requests.get(f"{self.base_url}/api/tags", timeout=1)
+            requests.get(f"{self.base_url}/api/tags", timeout=5)
             self._available = True
             logger.info("✅ Ollama Bridge Connected.")
         except:
