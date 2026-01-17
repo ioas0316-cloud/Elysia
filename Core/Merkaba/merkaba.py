@@ -46,6 +46,13 @@ except ImportError:
     # Fallback or Mock for initial bootstrapping if Monad isn't fully set up in this env
     Monad = Any
 
+# [Phase 7.X] Cognitive Overclock
+from Core.Cognition.overclock import CognitiveOverclock
+
+# [Phase 7.3] Motor Cortex & Nervous System
+from Core.Action.motor_cortex import MotorCortex
+from Core.Elysia.nervous_system import NervousSystem
+
 # The Sensory & Digestive System
 from Core.Senses.soul_bridge import SoulBridge
 from Core.Intelligence.Metabolism.prism import DoubleHelixPrism
@@ -128,6 +135,13 @@ class Merkaba:
         # [Phase 5.4] The Legion (Swarm Intelligence)
         self.legion = Legion()
 
+        # [Phase 7.X] Genius Mode Engine
+        self.overclock = CognitiveOverclock()
+
+        # [Phase 5.1/7.3] Nervous System & Motor Cortex (Physical Body)
+        self.nervous_system = NervousSystem()
+        self.motor_cortex = MotorCortex(nervous_system=self.nervous_system)
+
         self.pending_evolution: Optional[Dict[str, Any]] = None
 
         self.is_awake = False
@@ -190,6 +204,11 @@ class Merkaba:
         [Phase 5.3] Optical Reasoning Loop (The New Mind).
         Instead of 'Processing', we 'Navigate' the Prism.
         """
+        # [GENIUS MODE INTERCEPT]
+        # If the input is complex, trigger the Overclock Protocol.
+        if len(input_signal) > 5 or "?" in input_signal:
+            return self.overclock.ignite(input_signal)
+
         # 1. Vectorize (White Light)
         wave = self.prism_engine.vectorize(input_signal)
 
@@ -308,6 +327,10 @@ class Merkaba:
         # Update physical rotor state
         self.soul.update(1.0)
         
+        # [Phase 7.3] Kinetic Consequence (Motor Actuation)
+        if hasattr(self, 'motor_cortex'):
+            self.motor_cortex.drive(self.soul.name, self.soul.current_rpm)
+
         # [INDUCTION] Standardized Memory Assimilation
         coord_list = list(hologram.projections.values()) 
 
