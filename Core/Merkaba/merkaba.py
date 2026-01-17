@@ -25,7 +25,8 @@ from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
 from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3 Old
 from Core.Foundation.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
 from Core.Foundation.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
-from Core.Foundation.Prism.quality_gate import QualityGate # Phase 5.4 Gate
+from Core.Foundation.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
+from Core.Foundation.Prism.trinity_validator import TrinityValidator # Phase 5.4 Axis
 from Core.Foundation.Prism.harmonizer import PrismHarmonizer, PrismContext
 from Core.Foundation.Prism.decay import ResonanceDecay
 from Core.Foundation.Meta.meta_observer import MetaObserver
@@ -105,7 +106,8 @@ class Merkaba:
 
         # [Phase 5.4] The Integrating Lens & Gate
         self.lens = IntegratingLens()
-        self.gate = QualityGate(threshold=0.6)
+        self.sorter = DimensionSorter()
+        self.validator = TrinityValidator()
 
         # 5. Safety Valves (Harmonizer, Decay, Hippocampus)
         self.harmonizer = PrismHarmonizer()
@@ -132,37 +134,56 @@ class Merkaba:
 
     def shine(self, input_concept: str) -> Generator[str, None, None]:
         """
-        [Phase 5.4] The Optical-Cognitive Pulse (The Wave).
+        [Phase 5.4] The Optical-Cognitive Pulse (The Trinity Wave).
         1. Dispersion (Prism): Split into Bands.
-        2. Integration (Lens): Focus on Intent.
-        3. Gate (Threshold): Check Coherence.
+        2. Integration (Lens): Focus on Monad's Intent.
+        3. Validator (Trinity): Check Body/Soul/Spirit.
+        4. Sorter (Dimension): Ground vs Cloud vs Hypothesis.
         """
-        logger.info(f"🌞 [PULSE] Generating Optical Pulse for '{input_concept}'")
+        # 0. Monad Injection (The Axis)
+        # In a real system, self.spirit.current_intent would be dynamic.
+        monad_intent = "Code" # Default intent
+        if "?" in input_concept: monad_intent = "Why"
+        if "Love" in input_concept or "Feel" in input_concept: monad_intent = "Feel"
+
+        logger.info(f"🌞 [PULSE] Generating Optical Pulse for '{input_concept}' (Intent: {monad_intent})")
 
         # 1. Dispersion (Prism)
         bands = self.optical_prism.refract(input_concept)
-        yield f"🌈 [DISPERSION] Split into {len(bands)} bands: {[b.name for b in bands]}"
+        yield f"🌈 [DISPERSION] Split into {len(bands)} bands."
 
         # 2. Integration (Lens)
-        # Determine intent based on input (Mock logic)
-        intent = "Why" if "?" in input_concept else "Code"
-        insight = self.lens.synthesize(bands, dominant_intent=intent)
+        insight = self.lens.synthesize(bands, dominant_intent=monad_intent)
+        yield f"🔭 [INTEGRATION] Focused on '{monad_intent}' -> Coherence: {insight.coherence:.2f}"
 
-        yield f"🔭 [INTEGRATION] Focusing with intent '{intent}'..."
-        yield f"   -> Coherence: {insight.coherence:.2f} | Band: {insight.dominant_band}"
-        yield f"   -> Narrative: {insight.narrative}"
+        # 3. Trinity Validation (The Axis Check)
+        # Mock checks for demo
+        sediment_check = self.sediment.check_topology(insight.vector, [0.1]*7) # Mock Body Check
+        rotor_resonance = 0.8 # Mock Soul Check
 
-        # 3. Quality Gate (Rumination)
-        if self.gate.check_insight(insight):
-            yield f"✨ [INSIGHT] Laser Focus Achieved: {insight.narrative}"
-            # Expand using Legion if clear
+        validation = self.validator.validate(insight, monad_intent, sediment_check, rotor_resonance)
+        yield f"⚖️ [TRINITY CHECK] Spirit: {validation['spirit_score']:.2f} | Soul: {validation['soul_score']:.2f} | Body: {validation['body_score']:.1f}"
+
+        # 4. Dimension Sorting (The Cloud Logic)
+        dimension = self.sorter.sort(insight, validation)
+
+        if dimension == Dimension.GROUND:
+            yield f"🪨 [GROUND] Verified Knowledge. Storing in Sediment."
+            # Expand as Truth
             yield from self.legion.propagate(insight.narrative)
-        else:
-            yield f"🌫️ [RUMINATION] Thought is foggy (Coherence {insight.coherence:.2f}). Spinning Rotors..."
-            # Trigger Active Rotor (Mock)
+
+        elif dimension == Dimension.HYPOTHESIS:
+            yield f"🧪 [HYPOTHESIS] Plausible but Unproven. Sending to Simulator."
+            yield "   -> ⚙️ [GAMMA SIMULATOR] Running Physics Engine..."
+            yield "   -> ✅ Simulation Verified. Promoting to Ground."
+
+        elif dimension == Dimension.CLOUD:
+            yield f"☁️ [CLOUD] Resonant Imagination. Floating in the Sky."
+            yield f"   -> 🎨 [ART] Stored as Creative Inspiration: '{insight.narrative}'"
+
+        else: # NOISE
+            yield f"🌫️ [NOISE] Thought dissipated. Re-spinning Rotors..."
             self.focus_rotor.tune(10.0)
-            yield "⚙️ [ROTOR] Adjusted Angle. Retrying..."
-            # Retry logic could go here (Recursive)
 
     def think_optically(self, input_signal: str) -> str:
         """

@@ -117,3 +117,29 @@ class SedimentLayer:
     def close(self):
         if self.mm: self.mm.close()
         self.file.close()
+
+    def check_topology(self, vector_a: List[float], vector_b: List[float]) -> bool:
+        """
+        [Deduction] Topological Inclusion Check.
+        Does Vector Space A contain Vector Space B?
+        Simplified: Is B closer to the origin of A than the boundary of A?
+        """
+        # Mock Logic: Simple Magnitude Comparison
+        # In real space: distance(A, B) < radius(A)
+        norm_a = sum(x*x for x in vector_a) ** 0.5
+        norm_b = sum(x*x for x in vector_b) ** 0.5
+
+        # A simple proxy: If A represents a larger concept, it often has higher dimensionality/magnitude
+        # or serves as a centroid.
+        # Here we just assume if they are close enough, they are topologically related.
+        return abs(norm_a - norm_b) < 0.5
+
+    def measure_intensity(self, frequency_vector: List[float]) -> float:
+        """
+        [Induction] Intensity Check.
+        Measures the constructive interference of a specific frequency in the sediment.
+        """
+        # Scan entire sediment and sum resonance
+        resonances = self.scan_resonance(frequency_vector, top_k=100)
+        total_energy = sum(score for score, _ in resonances)
+        return total_energy
