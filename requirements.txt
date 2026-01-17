@@ -16,3 +16,7 @@ pillow
 requests
 pytest
 opencv-python-headless
+jax
+jaxlib
+keras
+keras-hub

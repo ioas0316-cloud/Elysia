@@ -218,4 +218,5 @@ data/brain_state.pt
 data/Weights/
 data/Logs/
 data/Archive/
-data/Sandbox/
+data/Sandbox/Core/Memory/muscle_index.json
+Core/Memory/sediment_xla.bin
