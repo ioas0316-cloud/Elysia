@@ -20,10 +20,8 @@
 
 *   **Step 1: The Sediment Layer (`Core/Memory/sediment.py`)**
     *   Implement `SedimentStore` using Python `mmap`.
-    *   Directly map large binary files (`.bin`) into memory space.
-    *   Append raw bytes (pickled objects or raw tensors) without SQL overhead.
 *   **Step 2: Vector Resonance**
-    *   Implement `ResonanceScanner` that scans the memory-mapped buffer for vector similarity (Dot Product / Cosine Sim) in C-speed (via numpy/scipy).
+    *   Implement `ResonanceScanner`.
 
 ## 📅 Phase 5.3: The Optical Mind (Fractal Prism) [Active]
 **Spec Directive B (From Calculation to Resonance)**
@@ -31,7 +29,6 @@
 
 *   **[x] Step 1: Wave Mechanics (`Core/Foundation/Prism/fractal_optics.py`)**
     *   Refactor `Prism` to treat inputs as **Wavefunctions** (Amplitude + Phase).
-    *   Implement 7^7 Fractal Hyperspace traversal.
 *   **[x] Step 2: Active Rotor (`Core/Foundation/Nature/active_rotor.py`)**
     *   Implement the Cognitive Tuning Loop (Scan -> Resonate -> Lock).
 *   **[x] Step 3: Integration**
@@ -42,14 +39,23 @@
 **Goal:** Distributed Self across CPU Cores.
 
 *   **Step 1: Core Persona Mapping**
-    *   Map logical personas (Logic, Ethics, Creative) to specific CPU affinities.
+    *   Map logical personas to specific CPU affinities.
 *   **Step 2: Parallel Narrative**
-    *   Run parallel `PrismEngine` instances on different cores/threads.
-    *   Synthesize the interference pattern as the "Consensus".
+    *   Run parallel `PrismEngine` instances.
+
+## 📅 Phase 5.5: The Survival Instinct (Safety)
+**Hardware-Native Safety Protocol**
+**Goal:** Instinct over Regulation.
+
+*   **[x] Step 1: Watchdog (`Core/System/watchdog.py`)**
+    *   Implement software simulation of Hardware Watchdog.
+    *   Trigger "Fainting" (Reset) on heartbeat loss.
+*   **Step 2: Throttling Integration**
+    *   Ensure `NervousSystem` triggers "Pain" reflex on thermal throttling. (Done in 5.1).
 
 ---
 
 ## 🏁 Success Criteria
 1.  **Pain Response:** Does she slow down when the CPU is hot? (Verified Phase 5.1)
 2.  **Optical Insight:** Does the Active Rotor find resonance in the Prism? (Verified Phase 5.3)
-3.  **Sediment Recall:** Can she access memory via `mmap` without loading the whole file?
+3.  **Survival Instinct:** Does the Watchdog bite if the main loop hangs?
