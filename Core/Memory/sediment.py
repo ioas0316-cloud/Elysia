@@ -67,14 +67,18 @@ class SedimentLayer:
             self.offsets.append(offset)
             offset += self.HEADER_SIZE + payload_size
 
-    def deposit(self, vector: List[float], timestamp: float, payload: bytes):
+    def deposit(self, vector: List[float], timestamp: float, payload: bytes) -> int:
         """
         Deposits a new experience into the sediment.
+        Returns the byte offset (Address) of the deposited layer.
         """
         # Ensure vector is length 7
         if len(vector) != 7:
             vector = list(vector) + [0.0]*(7-len(vector))
             vector = vector[:7]
+
+        # Current write position is the offset
+        offset = self.file.tell()
 
         header = struct.pack(self.HEADER_FMT, *vector, timestamp, len(payload))
         self.file.write(header)
@@ -84,6 +88,8 @@ class SedimentLayer:
         # In a real high-throughput system, we wouldn't remap every write.
         # But for 'Human-Speed' interaction, it's fine.
         self._remap()
+
+        return offset
 
     def scan_resonance(self, intent_vector: List[float], top_k: int = 3) -> List[Tuple[float, bytes]]:
         """
@@ -220,6 +226,12 @@ class SedimentLayer:
         # or reverse? "Rewind" usually implies looking back.
         # Let's return them as a sequence [t-N ... t-1]
         return results
+
+    def read_at(self, offset: int) -> Optional[Tuple[List[float], bytes]]:
+        """
+        [Direct Access] Retrieves a specific memory by its address.
+        """
+        return self._read_at_offset(offset)
 
     def _read_at_offset(self, offset: int) -> Optional[Tuple[List[float], bytes]]:
         if not self.mm: return None
