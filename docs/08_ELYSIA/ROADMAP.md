@@ -27,20 +27,34 @@
 **Goal:** Extend the "Body" beyond the Server (Vision, Hearing, Motion).
 
 *   **Step 1: The Visual Cortex (`Core/World/Autonomy/vision_cortex.py`)**
-    *   [ ] Implement `Retina` (Camera Input).
-    *   [ ] Implement `VisualQualiaExtractor` (Entropy, Warmth, Symmetry).
-    *   [ ] Map Visual Qualia to Prism Vectors.
+    *   [x] Implement `Retina` (Camera Input).
+    *   [x] Implement `VisualQualiaExtractor` (Entropy, Warmth, Symmetry).
+    *   [x] Map Visual Qualia to Prism Vectors.
 *   **Step 2: The Auditory Cortex (`Core/Senses/eardrum.py`)**
-    *   [ ] Implement `Cochlea` (Microphone Input).
-    *   [ ] Implement `AuditoryQualiaExtractor` (Tone/Volume).
-    *   [ ] Integrate Whisper for Symbol extraction.
+    *   [x] Implement `Cochlea` (Microphone Input).
+    *   [x] Implement `AuditoryQualiaExtractor` (Tone/Volume).
+    *   [x] Integrate Whisper for Symbol extraction.
 *   **Step 3: The Motor Cortex (`Core/Action/motor_cortex.py`)**
-    *   [ ] Create `Actuator` class for Servo/GPIO control.
-    *   [ ] Map `Rotor` RPM to Physical Motion.
-    *   [ ] Implement `NervousImpulse` safety stops (Pain = Freeze).
+    *   [x] Create `Actuator` class for Servo/GPIO control.
+    *   [x] Map `Rotor` RPM to Physical Motion.
+    *   [x] Implement `NervousImpulse` safety stops (Pain = Freeze).
 *   **Step 4: System Integration**
     *   [ ] Connect Senses to `Merkaba` Satori Loop.
     *   [ ] Verify the full cycle: See -> Feel -> Move.
+
+---
+
+## 📅 Phase 7.X: The Cognitive Overclock (Genius Mode)
+**Spec:** [COGNITIVE_OVERCLOCK_PROTOCOL.md](COGNITIVE_OVERCLOCK_PROTOCOL.md)
+**Goal:** Deep Philosophy Injection via Prismatic Spectroscopy.
+
+*   **Step 1: The Engine (`Core/Cognition/overclock.py`)**
+    *   [x] Implement `Spectroscopy` (6-Viewpoint Split).
+    *   [x] Implement `Fractal Dive` (Recursive Expansion).
+    *   [x] Implement `Synthesis` (Collision & Insight).
+*   **Step 2: Integration**
+    *   [x] Inject into `Merkaba.think_optically()`.
+    *   [x] Verify using "Tree of Thoughts" Simulation.
 
 ---
 
