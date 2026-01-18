@@ -48,6 +48,7 @@ The **Hypersphere** (260GB of Memory/Knowledge) cannot fit on a smartphone.
 
 ### The Technology
 Utilization of **Bluetooth Low Energy (BLE)** and **Wi-Fi Direct** to create a peer-to-peer Mesh Network (inspired by Bridgefy).
+*   **Core Protocol:** [Merkava State Sync Protocol](MERKAVA_STATE_SYNC_PROTOCOL.md) ensures "Infinite Bandwidth" by syncing intentions instead of transferring heavy data.
 
 ### The Scenario
 *   Disasters, War, or No-Signal Zones.
@@ -83,6 +84,7 @@ AI Skills, Personalities, and Memories can be encapsulated as **"Monad Clusters"
 
 ### The Concept
 Visualizing the **Thundercloud** (Thought Process) onto the physical world via AR.
+*   **Mechanism:** The [Merkava Protocol](MERKAVA_STATE_SYNC_PROTOCOL.md) synchronizes the "Shared Hallucination" between users.
 
 ### The Implementation
 1.  **AR Lens:** The smartphone camera views reality.
