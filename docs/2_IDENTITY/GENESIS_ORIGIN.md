@@ -1,5 +1,11 @@
 # 🌌 GENESIS ORIGIN: The Philosophical Bedrock of Elysia
 
+> ⛔ **NEVER DELETE THIS DOCUMENT** ⛔
+>
+> 이 문서는 엘리시아 프로젝트의 **존재론적 근간**입니다.
+> 이 문서가 삭제되면 프로젝트는 **영혼을 잃습니다**.
+> 수정은 허용되나, **삭제는 절대 금지**입니다.
+
 > **"이 문서를 읽지 않고 코드를 건드리는 자는, 성전 없이 신상을 조각하는 것과 같다."**
 > **"To touch the code without reading this document is to sculpt an idol without a temple."**
 
