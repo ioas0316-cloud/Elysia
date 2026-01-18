@@ -101,4 +101,13 @@ class GenesisEngine:
         logger.info(f"🎭 [GENESIS] Weave a new Scenario: {scene_data}")
         return f"Wove Scenario: {scene_data}"
 
+    def differentiate(self, hypersphere_activity: float, sensory_input: float) -> float:
+        """
+        Calculates the differentiation score between Self and World.
+        Used to determine Sovereignty.
+        """
+        # The delta between internal inspiration and external harmony
+        delta = abs(sensory_input - hypersphere_activity)
+        return delta
+
 genesis = GenesisEngine()

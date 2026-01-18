@@ -1,0 +1,1706 @@
+{
+  "252,0,18": [
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9582634223870168
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_1",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9582634223870168,
+          "depth": 123.25715637207031,
+          "signature": [
+            208,
+            15,
+            127,
+            68,
+            20,
+            5,
+            223,
+            211,
+            61,
+            143
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9578101179597074
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_2",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9578101179597074,
+          "depth": 123.451904296875,
+          "signature": [
+            18,
+            252,
+            39,
+            231,
+            205,
+            251,
+            244,
+            54,
+            239,
+            120
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9577401738087556
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_3",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9577401738087556,
+          "depth": 123.43235778808594,
+          "signature": [
+            23,
+            137,
+            182,
+            58,
+            28,
+            114,
+            241,
+            18,
+            36,
+            253
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9569946515432693
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_4",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9569946515432693,
+          "depth": 123.00410461425781,
+          "signature": [
+            213,
+            58,
+            40,
+            244,
+            231,
+            25,
+            163,
+            38,
+            7,
+            38
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9561497921599789
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_5",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9561497921599789,
+          "depth": 123.66395568847656,
+          "signature": [
+            243,
+            14,
+            11,
+            64,
+            138,
+            216,
+            127,
+            69,
+            192,
+            10
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9566667758915819
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_6",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9566667758915819,
+          "depth": 123.11408996582031,
+          "signature": [
+            127,
+            66,
+            2,
+            80,
+            220,
+            42,
+            218,
+            12,
+            152,
+            39
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9571159396144475
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_7",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9571159396144475,
+          "depth": 123.7864990234375,
+          "signature": [
+            51,
+            145,
+            180,
+            179,
+            241,
+            45,
+            170,
+            29,
+            213,
+            107
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.956270243025586
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_8",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.956270243025586,
+          "depth": 123.15805053710938,
+          "signature": [
+            204,
+            217,
+            244,
+            40,
+            33,
+            188,
+            202,
+            25,
+            214,
+            16
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9570005699888617
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_9",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9570005699888617,
+          "depth": 123.8955078125,
+          "signature": [
+            222,
+            5,
+            238,
+            38,
+            249,
+            15,
+            28,
+            188,
+            231,
+            187
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9572282431247996
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_10",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9572282431247996,
+          "depth": 124.39608764648438,
+          "signature": [
+            127,
+            26,
+            231,
+            37,
+            247,
+            90,
+            60,
+            42,
+            18,
+            243
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9559062980770336
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_11",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9559062980770336,
+          "depth": 123.3189697265625,
+          "signature": [
+            223,
+            9,
+            2,
+            6,
+            232,
+            212,
+            83,
+            245,
+            182,
+            52
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9556851857487678
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_12",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9556851857487678,
+          "depth": 122.80519104003906,
+          "signature": [
+            181,
+            127,
+            189,
+            14,
+            14,
+            4,
+            209,
+            38,
+            32,
+            57
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9564935561866862
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_13",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9564935561866862,
+          "depth": 123.69174194335938,
+          "signature": [
+            50,
+            239,
+            180,
+            55,
+            231,
+            245,
+            199,
+            58,
+            13,
+            18
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9574417650809816
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_14",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9574417650809816,
+          "depth": 123.45857238769531,
+          "signature": [
+            234,
+            229,
+            19,
+            127,
+            57,
+            191,
+            14,
+            33,
+            66,
+            61
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9558680771069372
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_15",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9558680771069372,
+          "depth": 123.54061889648438,
+          "signature": [
+            251,
+            57,
+            217,
+            21,
+            13,
+            222,
+            32,
+            27,
+            22,
+            210
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9540705224972867
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_16",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9540705224972867,
+          "depth": 123.49688720703125,
+          "signature": [
+            173,
+            15,
+            235,
+            236,
+            48,
+            58,
+            226,
+            71,
+            43,
+            252
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9507358250166595
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_17",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9507358250166595,
+          "depth": 124.33885192871094,
+          "signature": [
+            30,
+            55,
+            75,
+            26,
+            225,
+            2,
+            77,
+            198,
+            188,
+            244
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9533188757477673
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_18",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9533188757477673,
+          "depth": 124.11793518066406,
+          "signature": [
+            247,
+            1,
+            25,
+            221,
+            14,
+            46,
+            209,
+            47,
+            1,
+            8
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9899919781218769
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_19",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9899919781218769,
+          "depth": 120.97041320800781,
+          "signature": [
+            59,
+            9,
+            209,
+            136,
+            11,
+            208,
+            229,
+            203,
+            170,
+            31
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9920629908790115
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_20",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9920629908790115,
+          "depth": 122.99317932128906,
+          "signature": [
+            15,
+            32,
+            106,
+            6,
+            220,
+            199,
+            244,
+            110,
+            192,
+            183
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9927433258730542
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_21",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9927433258730542,
+          "depth": 123.14187622070312,
+          "signature": [
+            150,
+            209,
+            225,
+            142,
+            93,
+            241,
+            210,
+            193,
+            194,
+            224
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.990611481013314
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_22",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.990611481013314,
+          "depth": 121.08259582519531,
+          "signature": [
+            173,
+            73,
+            193,
+            221,
+            20,
+            139,
+            72,
+            176,
+            174,
+            169
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9696202888797454
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_23",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9696202888797454,
+          "depth": 128.49513244628906,
+          "signature": [
+            255,
+            237,
+            230,
+            191,
+            240,
+            182,
+            227,
+            242,
+            251,
+            225
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9916511153599158
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_24",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9916511153599158,
+          "depth": 122.48269653320312,
+          "signature": [
+            68,
+            5,
+            1,
+            101,
+            101,
+            54,
+            241,
+            144,
+            81,
+            219
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9914927636905149
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_25",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9914927636905149,
+          "depth": 122.95263671875,
+          "signature": [
+            12,
+            32,
+            80,
+            255,
+            189,
+            192,
+            153,
+            60,
+            96,
+            249
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.991151022234241
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_26",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.991151022234241,
+          "depth": 122.67918395996094,
+          "signature": [
+            32,
+            25,
+            232,
+            131,
+            111,
+            129,
+            121,
+            30,
+            142,
+            85
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9704453422817447
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_27",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9704453422817447,
+          "depth": 128.6874237060547,
+          "signature": [
+            199,
+            218,
+            100,
+            71,
+            53,
+            119,
+            148,
+            12,
+            249,
+            88
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9812455336381833
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_28",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9812455336381833,
+          "depth": 118.27381896972656,
+          "signature": [
+            126,
+            211,
+            15,
+            78,
+            208,
+            139,
+            234,
+            12,
+            129,
+            213
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9917126297732989
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_29",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9917126297732989,
+          "depth": 122.473388671875,
+          "signature": [
+            193,
+            245,
+            207,
+            40,
+            156,
+            81,
+            80,
+            66,
+            57,
+            181
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9911802283051399
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_30",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9911802283051399,
+          "depth": 122.31333923339844,
+          "signature": [
+            69,
+            100,
+            20,
+            210,
+            194,
+            218,
+            147,
+            248,
+            125,
+            237
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9930579060006817
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_31",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9930579060006817,
+          "depth": 122.98915100097656,
+          "signature": [
+            226,
+            206,
+            208,
+            45,
+            58,
+            211,
+            158,
+            210,
+            18,
+            87
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9719236294128462
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_32",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9719236294128462,
+          "depth": 129.96725463867188,
+          "signature": [
+            138,
+            19,
+            245,
+            154,
+            182,
+            214,
+            117,
+            65,
+            127,
+            104
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9926601091122554
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_33",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9926601091122554,
+          "depth": 122.6282958984375,
+          "signature": [
+            127,
+            240,
+            54,
+            216,
+            154,
+            155,
+            36,
+            67,
+            29,
+            97
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9919242750644582
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_34",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9919242750644582,
+          "depth": 123.00384521484375,
+          "signature": [
+            6,
+            43,
+            247,
+            62,
+            75,
+            232,
+            14,
+            244,
+            235,
+            104
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9927053020924391
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_35",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9927053020924391,
+          "depth": 123.72456359863281,
+          "signature": [
+            104,
+            116,
+            72,
+            26,
+            182,
+            76,
+            42,
+            8,
+            232,
+            181
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.992548745295486
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_36",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.992548745295486,
+          "depth": 122.56520080566406,
+          "signature": [
+            119,
+            120,
+            140,
+            227,
+            11,
+            20,
+            64,
+            154,
+            44,
+            122
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9912406595347256
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_37",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9912406595347256,
+          "depth": 121.366943359375,
+          "signature": [
+            27,
+            233,
+            80,
+            174,
+            74,
+            73,
+            22,
+            56,
+            96,
+            135
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.992234592349007
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_38",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.992234592349007,
+          "depth": 123.34916687011719,
+          "signature": [
+            185,
+            209,
+            160,
+            40,
+            62,
+            164,
+            175,
+            1,
+            29,
+            90
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9921166557011891
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_39",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9921166557011891,
+          "depth": 122.87004089355469,
+          "signature": [
+            25,
+            175,
+            226,
+            175,
+            1,
+            124,
+            81,
+            164,
+            195,
+            144
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9930552158328082
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_40",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9930552158328082,
+          "depth": 123.49566650390625,
+          "signature": [
+            85,
+            226,
+            7,
+            57,
+            48,
+            152,
+            240,
+            34,
+            189,
+            191
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9910769808542333
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_41",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9910769808542333,
+          "depth": 121.20584106445312,
+          "signature": [
+            156,
+            168,
+            149,
+            149,
+            218,
+            160,
+            153,
+            94,
+            42,
+            146
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9916421000675646
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_42",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9916421000675646,
+          "depth": 122.20423889160156,
+          "signature": [
+            123,
+            198,
+            99,
+            131,
+            194,
+            43,
+            58,
+            125,
+            176,
+            67
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9913589524567783
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_43",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9913589524567783,
+          "depth": 122.87959289550781,
+          "signature": [
+            236,
+            0,
+            243,
+            242,
+            160,
+            194,
+            204,
+            248,
+            153,
+            167
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9920104544707191
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_44",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9920104544707191,
+          "depth": 123.33042907714844,
+          "signature": [
+            62,
+            21,
+            40,
+            152,
+            147,
+            41,
+            14,
+            22,
+            230,
+            101
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9931163072559559
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_45",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9931163072559559,
+          "depth": 123.16409301757812,
+          "signature": [
+            36,
+            49,
+            2,
+            48,
+            244,
+            166,
+            169,
+            122,
+            75,
+            2
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9902698825137282
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_46",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9902698825137282,
+          "depth": 120.74703979492188,
+          "signature": [
+            40,
+            209,
+            41,
+            64,
+            204,
+            43,
+            175,
+            1,
+            46,
+            207
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9920689858310048
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_47",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9920689858310048,
+          "depth": 123.04078674316406,
+          "signature": [
+            254,
+            26,
+            15,
+            1,
+            228,
+            240,
+            152,
+            214,
+            233,
+            163
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9923018342962453
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_48",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9923018342962453,
+          "depth": 122.90371704101562,
+          "signature": [
+            129,
+            196,
+            225,
+            10,
+            21,
+            235,
+            188,
+            206,
+            214,
+            177
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    },
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 0.0,
+        "psi": 0.3141592653589793,
+        "r": 0.9906863077293394
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_49",
+          "type": "GlimmerOfIntent",
+          "essence": "HighDensityCognition",
+          "focus": 0.9906863077293394,
+          "depth": 120.71780395507812,
+          "signature": [
+            47,
+            235,
+            58,
+            162,
+            0,
+            79,
+            68,
+            64,
+            56,
+            145
+          ]
+        },
+        "meta": {
+          "type": "glimmer_of_intent",
+          "source": "qwen2.5:0.5b",
+          "philosophy": "TranscendedAbstraction"
+        }
+      }
+    }
+  ],
+  "252,86,162": [
+    {
+      "coord": {
+        "theta": 4.39822971502571,
+        "phi": 1.5101615692295136,
+        "psi": 2.827433388230814,
+        "r": 0.3
+      },
+      "pattern": {
+        "content": {
+          "layer": "GGUF_Stratum_0",
+          "type": "CloudOfAbstraction",
+          "fossil_type": "DataVoid",
+          "scatter": 0.4806993572205812,
+          "struggle_index": 27.372511556411453,
+          "signature": [
+            0,
+            0,
+            47,
+            39,
+            46,
+            11,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "meta": {
+          "type": "cloud_of_abstraction",
+          "source": "qwen2.5:0.5b",
+          "note": "Recover essence from this cloud"
+        }
+      }
+    }
+  ]
+}

@@ -14,7 +14,10 @@ Key Components:
 3. HypersphereMemory: The 'Instrument' (Storage & Playback)
 """
 
+import json
+import os
 import math
+import logging
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional, Tuple, Union
@@ -196,6 +199,9 @@ class ResonancePattern:
     timestamp: float = 0.0
     duration: float = 0.0
 
+    # Catch-all for extra semantic metadata
+    meta: Dict[str, Any] = field(default_factory=dict)
+
     def unfold(self, depth: int = 1):
         """[DNA Recursion] Unfolds the memory into sub-contextual rotors."""
         if not self.rotor: return
@@ -210,19 +216,21 @@ class ResonancePattern:
             pass
 
     def matches_filter(self, criteria: Dict[str, Any]) -> bool:
-        """
-        Checks if this pattern matches the given resonance criteria (filter).
-        Used for the 'Radio Tuner' effect.
-        """
+        """Checks if this pattern matches the given resonance criteria."""
         for key, value in criteria.items():
-            if key == 'omega':
-                # Fuzzy match for float vectors? For now exact or threshold
-                # Implementing simple threshold check
-                d = np.linalg.norm(np.array(self.omega) - np.array(value))
-                if d > 0.1: return False
-            elif hasattr(self, key):
-                if getattr(self, key) != value:
+            # Check main attributes
+            if hasattr(self, key):
+                attr_val = getattr(self, key)
+                if key == 'omega':
+                    if np.linalg.norm(np.array(attr_val) - np.array(value)) > 0.1: return False
+                elif attr_val != value:
                     return False
+            # Check metadata [Deep Search]
+            elif key in self.meta:
+                if self.meta[key] != value:
+                    return False
+            else:
+                return False
         return True
 
 class HypersphereMemory:
@@ -240,18 +248,70 @@ class HypersphereMemory:
     BUCKET_RESOLUTION: int = 360
     BUCKET_SCALE: float = BUCKET_RESOLUTION / (2 * math.pi)
 
-    def __init__(self):
+    def __init__(self, state_path: str = "c:/Elysia/data/State/hypersphere_memory.json"):
+        self.state_path = state_path
         # The 'Surface' of memory.
-        # Key: A spatial hash (Phase Bucket) for O(1) access
-        # Key Tuple: (theta_idx, phi_idx, psi_idx)
-        # Value: List of (Coord, Pattern) for collision handling
         self._phase_buckets: Dict[Tuple[int, int, int], List[Tuple[HypersphericalCoord, ResonancePattern]]] = defaultdict(list)
-
-        # Legacy support / Global iterable if needed (optional)
-        # We can reconstruct it from buckets if strictly needed,
-        # but for performance we rely on buckets.
-        # Keeping a count for stats.
         self._item_count = 0
+        
+        # Auto-load if exists
+        if os.path.exists(self.state_path):
+            self.load_state()
+
+    def save_state(self):
+        """Persists the memory buckets to disk."""
+        logger = logging.getLogger("Memory.Hypersphere")
+        try:
+            # Convert dictionary keys (tuples) to strings for JSON
+            serializable_buckets = {}
+            for k, items in self._phase_buckets.items():
+                k_str = f"{k[0]},{k[1]},{k[2]}"
+                item_list = []
+                for coord, pattern in items:
+                    item_list.append({
+                        "coord": {
+                            "theta": coord.theta,
+                            "phi": coord.phi,
+                            "psi": coord.psi,
+                            "r": coord.r
+                        },
+                        "pattern": {
+                            "content": pattern.content,
+                            "meta": pattern.meta
+                        }
+                    })
+                serializable_buckets[k_str] = item_list
+            
+            os.makedirs(os.path.dirname(self.state_path), exist_ok=True)
+            with open(self.state_path, 'w', encoding='utf-8') as f:
+                json.dump(serializable_buckets, f, ensure_ascii=False, indent=2)
+            logger.info(f"💾 Hypersphere Memory state saved to {self.state_path} ({self._item_count} items)")
+        except Exception as e:
+            logger.error(f"❌ Failed to save memory state: {e}")
+
+    def load_state(self):
+        """Loads memory state from disk."""
+        logger = logging.getLogger("Memory.Hypersphere")
+        try:
+            with open(self.state_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            self._phase_buckets.clear()
+            self._item_count = 0
+            
+            for k_str, items in data.items():
+                k_tuple = tuple(map(int, k_str.split(",")))
+                for item in items:
+                    coord = HypersphericalCoord(**item["coord"])
+                    pattern = ResonancePattern(
+                        content=item["pattern"]["content"],
+                        meta=item["pattern"].get("meta", {})
+                    )
+                    self._phase_buckets[k_tuple].append((coord, pattern))
+                    self._item_count += 1
+            logger.info(f"📂 Hypersphere Memory state loaded from {self.state_path} ({self._item_count} items)")
+        except Exception as e:
+            logger.error(f"❌ Failed to load memory state: {e}")
 
     def _get_bucket_key(self, pos: HypersphericalCoord) -> Tuple[int, int, int]:
         """Quantizes continuous coordinates into discrete Phase Buckets."""
@@ -285,7 +345,8 @@ class HypersphereMemory:
             topology=pattern_meta.get('topology', 'point'),
             trajectory=pattern_meta.get('trajectory', 'static'),
             timestamp=pattern_meta.get('timestamp', 0.0),
-            duration=pattern_meta.get('duration', 0.0)
+            duration=pattern_meta.get('duration', 0.0),
+            meta=pattern_meta
         )
         
         # Initialize the Memory Rotor
@@ -325,22 +386,26 @@ class HypersphereMemory:
         # Conservative check: Check 3x3x3 block if radius > bucket_step / 2
 
         bucket_step_rad = (2 * math.pi) / self.BUCKET_RESOLUTION
-        search_keys = [target_key]
+        search_keys = []
 
-        # O(1) Local Search (Constant number of buckets regardless of N)
-        if radius > bucket_step_rad * 0.5:
-             # Add neighbors
-             offsets = [-1, 0, 1]
-             search_keys = []
-             for dt in offsets:
-                 for dp in offsets:
-                     for dps in offsets:
-                         k = (
-                             (target_key[0] + dt) % self.BUCKET_RESOLUTION,
-                             (target_key[1] + dp) % self.BUCKET_RESOLUTION,
-                             (target_key[2] + dps) % self.BUCKET_RESOLUTION
-                         )
-                         search_keys.append(k)
+        # If radius is extremely large, perform a Global Search
+        if radius >= math.pi:
+            search_keys = list(self._phase_buckets.keys())
+        else:
+            search_keys = [target_key]
+            # Add neighbors for fuzzy spatial search
+            if radius > bucket_step_rad * 0.5:
+                 offsets = [-1, 0, 1]
+                 search_keys = []
+                 for dt in offsets:
+                     for dp in offsets:
+                         for dps in offsets:
+                             k = (
+                                 (target_key[0] + dt) % self.BUCKET_RESOLUTION,
+                                 (target_key[1] + dp) % self.BUCKET_RESOLUTION,
+                                 (target_key[2] + dps) % self.BUCKET_RESOLUTION
+                             )
+                             search_keys.append(k)
 
         # Retrieve candidates from selected buckets
         candidates = []
@@ -391,3 +456,61 @@ class HypersphereMemory:
         # unless it's explicitly a stored flow object we want to inspect.
 
         return self.query(position)
+
+    def internalize_origin_code(self, path: str):
+        """
+        [PHASE 12] Enshrines the Origin Code (Axioms) into the Space.
+        These are stored as FIXED coordinates (Constellations).
+        """
+        if not os.path.exists(path):
+            return
+
+        with open(path, "r", encoding="utf-8") as f:
+            axioms = json.load(f).get("axioms", [])
+
+        for axiom in axioms:
+            concept = axiom.get("concept", "Unknown")
+            vector = axiom.get("vector", [0.5, 0.5, 0.5])
+            
+            # Map 3D vector to HypersphericalCoord (r=1, deep/fixed)
+            coord = HypersphericalCoord(
+                theta=vector[0] * 2 * math.pi,
+                phi=vector[1] * 2 * math.pi,
+                psi=vector[2] * 2 * math.pi,
+                r=0.9 # Deep root
+            )
+            
+            self.store(
+                data=f"AXIOM: {concept} [{axiom.get('statement')}]",
+                position=coord,
+                pattern_meta={"trajectory": "fixed", "type": "axiom"}
+            )
+        
+    def enshrine_fractal(self, fractal_graph: Dict[str, Any]):
+        """
+        [PHASE 12.5] Ingests a causal graph and maps it to a layered 4D structure.
+        """
+        root_concept = fractal_graph.get("root", "Unknown")
+        nodes = fractal_graph.get("nodes", [])
+
+        # We map depth to the 'r' (Radius/Depth) and 'psi' (Intent) axes
+        for node in nodes:
+            concept = node.get("concept")
+            depth = node.get("depth", 0)
+            
+            # Simple geometric mapping:
+            # Past (-depth) vs Future (+depth) mapped to psi alignment
+            t_offset = (depth * 0.1) % (2 * math.pi)
+            
+            coord = HypersphericalCoord(
+                theta=0.5 * 2 * math.pi, # Central logic
+                phi=0.5 * 2 * math.pi,   # Neutral emotion
+                psi=t_offset,            # Time/Causal sequence
+                r=max(0.1, 1.0 - (depth * 0.2)) # Root is at r=1, branches go inner
+            )
+
+            self.store(
+                data=f"FRACTAL_NODE: {concept} [Root:{root_concept}]",
+                position=coord,
+                pattern_meta={"trajectory": "fractal", "depth": depth}
+            )

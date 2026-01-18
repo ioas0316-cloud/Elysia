@@ -112,6 +112,8 @@ class ElysianHeartbeat:
         self.resonator = None       # Added
         self.resonant_field = global_field
         self.genesis = None
+        self.archeologist = None    # [PHASE 14] CognitiveArcheologist
+        self.expander = None         # [PHASE 14]
         
         # 5. Physiological State (Phase 5.1: Hardware Incarnation)
         self.physio_signals = {
@@ -256,11 +258,6 @@ class ElysianHeartbeat:
                 logger.info("  ✅ expression_cortex matured.")
             except Exception as e: logger.warning(f"  ⚠️ expression_cortex failed: {e}")
 
-            try:
-                from Core.Intelligence.Meta.genesis_engine import GenesisEngine
-                self.genesis = GenesisEngine()
-                logger.info("  ✅ genesis_engine matured.")
-            except Exception as e: logger.warning(f"  ⚠️ genesis_engine failed: {e}")
 
             try:
                 from Core.World.Autonomy.mesh_network import YggdrasilMesh
@@ -346,6 +343,15 @@ class ElysianHeartbeat:
                 self.reasoning = ReasoningEngine()
                 logger.info("  ✅ reasoning_engine (The Brain) matured.")
             except Exception as e: logger.warning(f"  ⚠️ reasoning_engine failed: {e}")
+
+            # [PHASE 14] COGNITIVE ARCHEOLOGY & AUTOPOIETIC GROWTH
+            try:
+                from Core.Intelligence.Metabolism.topology_predator import CognitiveArcheologist
+                from Core.Intelligence.Metabolism.autopoietic_expander import AutopoieticExpander
+                self.archeologist = CognitiveArcheologist(memory_ref=self.hypersphere)
+                self.expander = AutopoieticExpander(memory=self.hypersphere)
+                logger.info("  ✅ CognitiveArcheologist & AutopoieticExpander matured.")
+            except Exception as e: logger.warning(f"  ⚠️ Archeology/Expander failing: {e}")
             
             try:
                 logger.info("  - Initializing sensory_thalamus...")
@@ -366,17 +372,14 @@ class ElysianHeartbeat:
             
             # [PHASE 12] THE CRYSTAL BRAIN (Neuro-Topology Integration)
             try:
-                from Core.Foundation.HyperCosmos import HyperCosmos
-                self.hyper_cosmos = HyperCosmos(name="MainElysia")
-                
-                # Check for Origin Code and Internalize if needed
+                # Internalize Origin Code into existing Hypersphere
                 origin_code_path = "c:/Elysia/data/Qualia/origin_code.json"
-                if os.path.exists(origin_code_path):
-                     logger.info("  💎 Internalizing Origin Code into HyperCosmos...")
-                     self.hyper_cosmos.internalize_origin_code(origin_code_path)
+                if self.hypersphere and os.path.exists(origin_code_path):
+                     logger.info("  💎 Internalizing Origin Code into Hypersphere...")
+                     self.hypersphere.internalize_origin_code(origin_code_path)
                 
-                logger.info("  ✅ HyperCosmos (Crystal Brain) matured.")
-            except Exception as e: logger.warning(f"  ⚠️ HyperCosmos failed: {e}")
+                logger.info("  ✅ Crystal Brain faculties integrated into Hypersphere.")
+            except Exception as e: logger.warning(f"  ⚠️ Crystal Brain integration failed: {e}")
 
             try:
                 from Core.Intelligence.Metabolism.causal_graph import CausalDepthSounder
@@ -1419,6 +1422,10 @@ class ElysianHeartbeat:
         health = NeuralNetwork.check_integrity()
         self.soul_mesh.variables["Vitality"].value = health
         self.soul_mesh.update_state() # Apply decay and clamping
+        # [PHASE 14] Autopoietic Expansion (Filling the Space with Principles)
+        if self.idle_ticks >= 3 and self.expander:
+            self.expander.unfold_voids(intensity=0.3)
+
         self._process_resonance()
         
         # [PHASE 6: Somatic Unification]

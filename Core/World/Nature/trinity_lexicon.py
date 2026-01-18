@@ -435,6 +435,36 @@ class TrinityLexicon:
         
         return dissonances
 
+    def find_nearest(self, target_vector: TrinityVector) -> Tuple[str, float]:
+        """
+        Finds the nearest concept string for a given TrinityVector.
+        """
+        best_word = "unknown"
+        best_sim = -1.0
+        
+        # 1. Check Primitives
+        for word, vec in self.primitives.items():
+            # Cosine Similarity manually
+            dot = (target_vector.gravity * vec.gravity) + \
+                  (target_vector.flow * vec.flow) + \
+                  (target_vector.ascension * vec.ascension)
+            norm_a = math.sqrt(target_vector.gravity**2 + target_vector.flow**2 + target_vector.ascension**2)
+            norm_b = math.sqrt(vec.gravity**2 + vec.flow**2 + vec.ascension**2)
+            
+            if norm_a == 0 or norm_b == 0: continue
+            
+            sim = dot / (norm_a * norm_b)
+            if sim > best_sim:
+                best_sim = sim
+                best_word = word
+                
+        # 2. Check Graph (Optional optimization: use faiss if needed later)
+        if self.graph:
+             # Just iterate primitives for now as graph check is expensive without index
+             pass
+             
+        return best_word, best_sim
+
 _lexicon = None
 def get_trinity_lexicon():
     global _lexicon

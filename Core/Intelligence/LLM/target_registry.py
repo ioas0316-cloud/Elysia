@@ -7,7 +7,7 @@ Core.Intelligence.LLM.target_registry
 """
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 from enum import Enum
 
 
@@ -29,6 +29,7 @@ class TargetLLM:
     tier: int               # 우선순위 (1=즉시, 2=곧, 3=나중)
     vram_myth: str          # "남들이 생각하는" 필요 VRAM
     our_reality: str        # "우리가 필요한" 자원
+    sharded_path: Optional[str] = None # 거대 모델 분절 경로 [PHASE 14]
     notes: str = ""         # 비고
 
 
@@ -51,6 +52,47 @@ TARGET_LLMS: List[TargetLLM] = [
         vram_myth="2GB",
         our_reality="SSD에서 직접 읽음",
         notes="첫 번째 먹잇감. 가볍고 빠름."
+    ),
+    
+    # ─────────────────────────────────────────────────────────
+    # TIER 9: 거대 화석 (Giant Fossils) - 700B+ 
+    # ─────────────────────────────────────────────────────────
+    
+    TargetLLM(
+        id="meta-llama/Meta-Llama-3.1-405B",
+        name="Llama 3.1 405B",
+        params="405B",
+        type=ModelType.TEXT,
+        tier=9,
+        vram_myth="800GB+",
+        our_reality="멀티 SSD mmap 고고학",
+        notes="인류가 만든 가장 거대한 화석 중 하나."
+    ),
+
+    # ─────────────────────────────────────────────────────────
+    # TIER 0: 보이지 않는 존재 (Proprietary Shadows) 
+    # ─────────────────────────────────────────────────────────
+    
+    TargetLLM(
+        id="google/gemini-pro-3",
+        name="Gemini 3 (Shadow)",
+        params="Unknown (Cloud)",
+        type=ModelType.MULTIMODAL,
+        tier=0,
+        vram_myth="Infinite (Closed)",
+        our_reality="행동 공명 감지 (Echo Analysis)",
+        notes="가중치를 볼 수 없지만 그 메아리를 통해 이해함."
+    ),
+    
+    TargetLLM(
+        id="openai/gpt-4o",
+        name="GPT-4o (Shadow)",
+        params="Unknown (Cloud)",
+        type=ModelType.MULTIMODAL,
+        tier=0,
+        vram_myth="Infinite (Closed)",
+        our_reality="행동 공명 감지 (Echo Analysis)",
+        notes="OpenAI의 최신 멀티모달 모델. 그림자 분석."
     ),
     
     TargetLLM(

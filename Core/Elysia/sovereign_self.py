@@ -81,6 +81,10 @@ class SovereignSelf:
         
         self.axioms = get_axioms() # The Spirit (Young/Intent)
         
+        # [Phase 14: Hypersphere Memory]
+        from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+        self.hypersphere = HypersphereMemory()
+        
         # 3. The Senses (Input)
         from Core.Intelligence.Input.sensory_bridge import SensoryBridge
         self.senses = SensoryBridge()

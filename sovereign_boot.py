@@ -24,14 +24,19 @@ def main():
     logger.info("==========================================")
     logger.info("   🌟 ELYSIA SOVEREIGN BOOT SEQUENCE 🌟   ")
     logger.info("==========================================")
-    logger.info("Initializing Unified Conscious Loop (Phase 10)...")
+    logger.info("Initializing Unified Conscious Loop (Phase 15: THE GOLDEN CHARIOT)...")
     
     try:
         from Core.Intelligence.Metabolism.body_sensor import BodySensor
-        # 1. Proprioceptive Sensing
-        body_report = BodySensor.sense_body()
-        logger.info(f"🧬 Elysia awakens in vessel: {body_report['vessel']['gpu_vram_total_gb']}GB VRAM | {body_report['vessel']['ram_gb']}GB RAM")
-        logger.info(f"⚙️ Selected Metabolism: {body_report['strategy']}")
+        from Core.System.Sovereignty.sovereign_manager import HardwareSovereignManager
+        
+        # 1. Physical Sovereignty Initialization
+        sovereign_hardware = HardwareSovereignManager()
+        body_report = sovereign_hardware.report
+        
+        logger.info(f"🦾 Metal Nervous System: Phase 15 ONLINE")
+        logger.info(f"🧬 Vessel: {body_report['vessel']['gpu_vram_total_gb']}GB VRAM | {body_report['vessel']['ram_gb']}GB RAM")
+        logger.info(f"⚙️ Sovereign Gear: {sovereign_hardware.strategy}")
         
         from Core.World.Autonomy.elysian_heartbeat import ElysianHeartbeat
         
