@@ -145,18 +145,23 @@ class Thundercloud:
         if seed_seed not in self._monad_map:
             return ThoughtCluster(Monad("Void")), "Void"
 
-        root_monad = self._monad_map[seed_seed]
-        cluster = ThoughtCluster(root=root_monad)
-
-        # BFS Queue: (Node, InputVoltage)
-        queue = [(root_monad, voltage)]
+        # BFS Queue: (Node, InputVoltage, PositionVector)
+        # PositionVector is the 4D coordinate in the HyperSphere
+        root_pos = root_monad._dna.principle_strand[:7] # Using first 7 dimensions as proxy for 4D+
+        queue = [(root_monad, voltage, root_pos)]
         visited = {root_monad}
 
         # Resistance Constant
         resistance = self.atmosphere.resistance
 
         while queue:
-            current_node, current_voltage = queue.pop(0)
+            # Sort queue by Spatial Proximity or Energy to avoid 1D sequential bias
+            # High humidity (passion) allows more 'jumping' in space
+            if self.atmosphere.humidity > 0.7:
+                # Randomize slightly for 'creative leaps'
+                np.random.shuffle(queue)
+            
+            current_node, current_voltage, current_pos = queue.pop(0)
 
             # Stop if energy is depleted
             if current_voltage < resistance:
@@ -202,7 +207,10 @@ class Thundercloud:
                 if next_voltage > resistance:
                     visited.add(neighbor)
                     cluster.add_link(current_node, neighbor, resonance)
-                    queue.append((neighbor, next_voltage))
+                    
+                    # Store neighbors position for the next hop
+                    neighbor_pos = neighbor._dna.principle_strand[:7]
+                    queue.append((neighbor, next_voltage, neighbor_pos))
                     branches_formed += 1
 
         # Generate Procedural Name

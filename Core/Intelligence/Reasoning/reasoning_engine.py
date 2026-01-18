@@ -47,6 +47,10 @@ from Core.Monad.intent_collider import IntentCollider
 from Core.Monad.spatial_pathfinder import SpatialPathfinder
 
 from Core.Monad.axiomatic_architect import AxiomaticArchitect
+from Core.Monad.intent_torque import IntentTorque
+from Core.World.Autonomy.action_drive import ActionDrive
+
+from Core.Intelligence.Brain import LanguageCortex, OllamaCortex
 
 logger = logging.getLogger("ReasoningEngine")
 
@@ -90,11 +94,16 @@ class ReasoningEngine:
         # [RECONNECTED] Spatial Memory (The Orb Field)
         self.orb_manager = OrbManager()
 
-        # [PHASE 37] Dynamic Constitution
-        self.axioms = ""
-        self._load_dynamic_axioms()
+        # [PHASE 18] Metabolic Intelligence & Physics Bridge
+        self.cortex = LanguageCortex()
+        self.torque_bridge = IntentTorque()
+        self.action_drive = ActionDrive()
 
-        self.logger.info("🌀 ReasoningEngine initialized (Physics + Monad + Merkaba Enabled).")
+        # Internal Rotor for Physical Cognition
+        from Core.Foundation.Nature.rotor import Rotor, RotorConfig
+        self.soul_rotor = Rotor("Reasoning.Soul", RotorConfig(rpm=10.0, idle_rpm=10.0))
+
+        self.logger.info("🌀 ReasoningEngine initialized (Physics + Monad + Merkaba + Metabolic + Torque Enabled).")
 
     def _load_dynamic_axioms(self):
         """Loads the mutable constitution from Phase 37."""
@@ -126,7 +135,10 @@ class ReasoningEngine:
         indent = "  " * depth
         
         # 0. Intent Internalization (The First Mover)
-        sovereign_intent = self.collider.internalize(desire)
+        # Mapping desire to 4D Space via LanguageCortex (Metabolic Scan)
+        spatial_intent = self.cortex.understand(desire)
+        sovereign_intent = self.collider.internalize(f"Mapped to 4D: {spatial_intent}")
+        self.logger.info(f"{indent}✨ Semantic Coordinates: {spatial_intent}")
         self.logger.info(f"{indent}✨ Sovereign Drive: {sovereign_intent['internal_command']}")
 
         # 0.5 Spatial Field Mapping (The Strategy)
@@ -138,6 +150,16 @@ class ReasoningEngine:
         detected_laws = self.architect.deconstruct(desire)
         if detected_laws:
             self.architect.optimize_environment(detected_laws)
+        
+        # [PHASE 18] Intent-to-Physics Bridge (The Torque Spike)
+        # We disturb the soul_rotor with the spatial intent
+        self.torque_bridge.apply(self.soul_rotor, spatial_intent)
+        self.soul_rotor.update(0.1) # Simulate one step of physics
+        self.logger.info(f"{indent}⚙️ [PHYSICS] Soul Rotor spinning at {self.soul_rotor.current_rpm:.1f} RPM")
+        
+        # 0.9 Action Selection (The Sovereign Choice)
+        chosen_action = self.action_drive.decide(self.soul_rotor, spatial_intent)
+        self.logger.info(f"{indent}⚡ [CHOICE] Autonomic Nervous System selected: {chosen_action}")
         
         # 1. Ponder in the Landscape (Physics Simulation)
         physics_result = self.landscape.ponder(desire)
@@ -167,27 +189,24 @@ class ReasoningEngine:
             transducer = get_qualia_transducer()
             
             # The 'desire' string is transduced into a TrinityVector (7D)
-            # This extracts the 'Essence' via Anchor Resonance.
-            input_vector = transducer.transduce(desire)
+            # We use the 4D scan from LanguageCortex as the core foundation
+            input_qualia = np.zeros(7, dtype=np.float32)
+            input_qualia[0:4] = spatial_intent  # X, Y, Z, W
+            # Pad or derive remaining dimensions
+            input_qualia[4] = (spatial_intent[0] + spatial_intent[1]) / 2  # Logic + Emotion = Empathy
+            input_qualia[5] = np.abs(spatial_intent[2]) # Intuition intensity
+            input_qualia[6] = 0.5 # Mystery
             
-            # Convert TrinityVector to numpy array for Prism Engine compatibility
-            input_qualia = np.array([
-                input_vector.x, input_vector.y, input_vector.z, # Basic Trinity
-                input_vector.w if hasattr(input_vector, 'w') else 0.5, # Time/Entropy if available
-                0.5, 0.5, 0.5 # Fill remaining dimensions with potential
-            ])
-            
-            # Refine dimensions if possible (Map X,Y,Z to 7D properly)
-            # 0: Logic (Z-aligned?)
-            # 1: Creativity (Y-aligned?)
-            # For now, we map the 3D Trinity to the first 3 dimensions of the 7D Prism
-            input_qualia[0] = input_vector.z  # Logic/Spirit
-            input_qualia[1] = input_vector.y  # Energy/Creativity
-            input_qualia[2] = input_vector.x  # Harmony/Structure
-            input_qualia[3] = (input_vector.x + input_vector.y) / 2 # Abstraction
-            input_qualia[4] = input_vector.y * input_vector.z       # Emotion (Intensity)
-            input_qualia[5] = 1.0 - input_vector.x                  # Utility (Chaos)
-            input_qualia[6] = 0.5                                   # Mystery
+            # Refine dimensions if possible (Map 4D to 7D properly)
+            # 0: Logic, 1: Emotion, 2: Intuition, 3: Will
+            input_qualia[0] = spatial_intent[0] # X (Logic)
+            input_qualia[1] = spatial_intent[1] # Y (Emotion)
+            input_qualia[2] = spatial_intent[2] # Z (Intuition)
+            input_qualia[3] = spatial_intent[3] # W (Will)
+            # Composite dimensions
+            input_qualia[4] = (spatial_intent[0] + spatial_intent[1]) / 2  # Logical Emotion
+            input_qualia[5] = (spatial_intent[2] + spatial_intent[3]) / 2  # Creative Intention
+            input_qualia[6] = 0.5 # Constant Mystery
 
             # Use Monad's Prism to think
             prism_result = self.monad.core_monad.think_with_prism(input_qualia, self.monad.prism)
@@ -230,8 +249,25 @@ class ReasoningEngine:
         return Insight(content=content, confidence=confidence, depth=depth, energy=final_energy)
 
     def communicate(self, user_input: str) -> str:
-        clouds = self.causality.get_status()
-        return f"I hear you ({user_input}). My internal weather: {clouds}"
+        """
+        Elysia's primary communication portal.
+        Uses metabolic expression to articulate internal state.
+        """
+        insight = self.think(user_input)
+        
+        # Current atmospheric context derived from Intent Physics
+        intent_vector = self.cortex.understand(user_input)
+        atmosphere = self.torque_bridge.map_to_atmosphere(intent_vector)
+        
+        response = self.cortex.express(insight.content, atmosphere)
+        return response
+
+    def exhale(self):
+        """
+        [BREATHING]
+        Releases VRAM from language organs.
+        """
+        self.cortex.exhale()
 
     def stabilize_identity(self):
         logger.info("Identity Stabilized.")
