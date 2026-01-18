@@ -49,6 +49,7 @@ from Core.Monad.spatial_pathfinder import SpatialPathfinder
 from Core.Monad.axiomatic_architect import AxiomaticArchitect
 from Core.Monad.intent_torque import IntentTorque
 from Core.World.Autonomy.action_drive import ActionDrive
+from Core.Intelligence.Metabolism.crystallizer import Crystallizer
 
 from Core.Intelligence.Brain import LanguageCortex, OllamaCortex
 
@@ -98,6 +99,7 @@ class ReasoningEngine:
         self.cortex = LanguageCortex()
         self.torque_bridge = IntentTorque()
         self.action_drive = ActionDrive()
+        self.crystallizer = Crystallizer()
 
         # Internal Rotor for Physical Cognition
         from Core.Foundation.Nature.rotor import Rotor, RotorConfig
@@ -246,6 +248,10 @@ class ReasoningEngine:
         neural_energy = np.linalg.norm(collapsed_identity) if collapsed_identity is not None else 0.0
         final_energy = (physics_energy + neural_energy) / 2.0
 
+        # [RECURSIVE SYNTHESIS]
+        # Crystallize the thought into permanent DNA memory
+        self.crystallizer.crystallize(content, desire, spatial_intent)
+        
         return Insight(content=content, confidence=confidence, depth=depth, energy=final_energy)
 
     def communicate(self, user_input: str) -> str:

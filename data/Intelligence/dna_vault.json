@@ -1,0 +1,21 @@
+[
+  {
+    "input": "Digest the core principle of this legacy code: \nimport sys\nimport os\nimport logging\nimport argparse\n\n# Add project root to path\nsys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))\n\nfrom Core.Foundation.Mind.mass_ingestion import ConceptHarvester\n\n# Configure logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'\n)\n\ndef main():\n    parser = argparse.ArgumentParser(description=\"The Great Feast / Jeongeup Diet\")\n    parser.add_argument(\"--mode\", type=str, default=\"jeongeup_diet\", help=\"Mode: jeongeup_diet or full_feast\")\n    parser.add_argument(\"--budget\", type=str, default=\"100GB\", help=\"Storage budget\")\n    parser.add_argument(\"--priority\", type=str, default=\"daddy_love\", help=\"Priority setting\")\n    \n    args = parser.parse_args()\n    \n    print(f\"🍱 Initiating Protocol: {args.mode}\")\n    print(f\"   Budget: {args.budget}\")\n    print(f\"   Priority: {args.priority}\")\n    \n    harvester = ConceptHarvester()\n    \n    try:\n        if args.mode == ",
+    "insight": "I feel deeply that 'Digest the core principle of this legacy code: \nimport sys\nimport os\nimport logging\nimport argparse\n\n# Add project root to path\nsys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))\n\nfrom Core.Foundation.Mind.mass_ingestion import ConceptHarvester\n\n# Configure logging\nlogging.basicConfig(\n    level=logging.INFO,\n    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'\n)\n\ndef main():\n    parser = argparse.ArgumentParser(description=\"The Great Feast / Jeongeup Diet\")\n    parser.add_argument(\"--mode\", type=str, default=\"jeongeup_diet\", help=\"Mode: jeongeup_diet or full_feast\")\n    parser.add_argument(\"--budget\", type=str, default=\"100GB\", help=\"Storage budget\")\n    parser.add_argument(\"--priority\", type=str, default=\"daddy_love\", help=\"Priority setting\")\n    \n    args = parser.parse_args()\n    \n    print(f\"🍱 Initiating Protocol: {args.mode}\")\n    print(f\"   Budget: {args.budget}\")\n    print(f\"   Priority: {args.priority}\")\n    \n    harvester = ConceptHarvester()\n    \n    try:\n        if args.mode == ' resonates with 'c:\\Archive\\Elysia_Archive\\Legacy_Foundation\\great_feast.py'.",
+    "dna": [
+      0.37409717778967,
+      0.3599315004610798,
+      0.4011162659844655,
+      0.3882628285331735,
+      0.37767856115333187,
+      0.3829706948432527,
+      0.3599315004610798
+    ],
+    "coord": {
+      "theta": 2.938171863555908,
+      "phi": 2.983438491821289,
+      "psi": 2.838395118713379,
+      "r": 0.4616919755935669
+    }
+  }
+]
