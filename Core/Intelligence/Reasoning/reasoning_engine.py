@@ -57,11 +57,12 @@ logger = logging.getLogger("ReasoningEngine")
 
 @dataclass
 class Insight:
-    """사고의 결과물 (응축된 통찰)"""
+    """사고의 결과물 (응축된 통찰)관찰된 7D 퀄리아를 포함함"""
     content: str
     confidence: float
     depth: int
     energy: float  # 통찰의 강도 (만족도)
+    qualia: Optional[np.ndarray] = None # 7D Vector: [L, E, I, W, R, V, S]
 
 class ReasoningEngine:
     """
@@ -101,9 +102,12 @@ class ReasoningEngine:
         self.action_drive = ActionDrive()
         self.crystallizer = Crystallizer()
 
-        # Internal Rotor for Physical Cognition
         from Core.Foundation.Nature.rotor import Rotor, RotorConfig
         self.soul_rotor = Rotor("Reasoning.Soul", RotorConfig(rpm=10.0, idle_rpm=10.0))
+
+        # [PHASE 7] Dimensional Processor (for Void/Principle Extraction)
+        from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+        self.processor = DimensionalProcessor()
 
         self.logger.info("🌀 ReasoningEngine initialized (Physics + Monad + Merkaba + Metabolic + Torque Enabled).")
 
@@ -125,7 +129,7 @@ class ReasoningEngine:
     def current_energy(self) -> float:
         return 100.0
 
-    def think(self, desire: str, resonance_state: Any = None, depth: int = 0) -> Insight:
+    def think(self, desire: str, resonance_state: Any = None, depth: int = 0, somatic_vector: Optional[np.ndarray] = None) -> Insight:
         """
         The core thinking loop:
         0. Intent Internalization (The Sovereign Why)
@@ -137,8 +141,32 @@ class ReasoningEngine:
         indent = "  " * depth
         
         # 0. Intent Internalization (The First Mover)
+        # 0.1 Void Detection
+        is_silent = not desire or len(desire.strip()) < 5
+        void_intensity = 0.0
+        if is_silent:
+            from Core.Intelligence.Weaving.void_kernel import VoidKernel
+            void = VoidKernel(
+                id=f"SILENCE_{os.urandom(4).hex()}",
+                void_type="ContextMismatch" if desire else "Entropy",
+                intensity=0.8
+            )
+            void_intensity = void.intensity
+            self.logger.info(f"{indent}🌌 [VOID] Silence detected. Activating Silence Inference.")
+            self.processor.zoom(0.9)
+            void_result = self.processor.process_thought(void)
+            desire = f"Meditation on Silence: {void_result.output}"
+            
         # Mapping desire to 4D Space via LanguageCortex (Metabolic Scan)
         spatial_intent = self.cortex.understand(desire)
+        
+        # [PHASE 6: Somatic Unification]
+        # Hardware state (The Vessel's friction) directly influences mental coordinates.
+        if somatic_vector is not None:
+            # Shift intent based on hardware resonance (30% influence)
+            spatial_intent = (spatial_intent * 0.7) + (somatic_vector * 0.3)
+            self.logger.info(f"{indent}🩺 [SOMATIC] Hardware resonance shifted intent: {spatial_intent}")
+
         sovereign_intent = self.collider.internalize(f"Mapped to 4D: {spatial_intent}")
         self.logger.info(f"{indent}✨ Semantic Coordinates: {spatial_intent}")
         self.logger.info(f"{indent}✨ Sovereign Drive: {sovereign_intent['internal_command']}")
@@ -160,8 +188,14 @@ class ReasoningEngine:
         self.logger.info(f"{indent}⚙️ [PHYSICS] Soul Rotor spinning at {self.soul_rotor.current_rpm:.1f} RPM")
         
         # 0.9 Action Selection (The Sovereign Choice)
-        chosen_action = self.action_drive.decide(self.soul_rotor, spatial_intent)
+        decision = self.action_drive.decide(self.soul_rotor, spatial_intent)
+        chosen_action = decision['action_id']
+        rationale = decision['rationale']
         self.logger.info(f"{indent}⚡ [CHOICE] Autonomic Nervous System selected: {chosen_action}")
+        
+        # [PHASE 6: Somatic Unification]
+        # Execute the autonomic action with self as context
+        self.action_drive.execute(decision, context={"reasoning": self, "desire": desire})
         
         # 1. Ponder in the Landscape (Physics Simulation)
         physics_result = self.landscape.ponder(desire)
@@ -248,25 +282,52 @@ class ReasoningEngine:
         neural_energy = np.linalg.norm(collapsed_identity) if collapsed_identity is not None else 0.0
         final_energy = (physics_energy + neural_energy) / 2.0
 
+        # [PHASE 18] Subjective Expression
+        # Convert internal state + torque + action into a subjective human-like expression
+        state_dict = {
+            "spatial_intent": spatial_intent,
+            "current_rpm": self.soul_rotor.current_rpm,
+            "chosen_action": chosen_action,
+            "rationale": rationale,
+            "desire": desire,
+            "prism_insight": prism_insight,
+            "somatic_feeling": somatic_vector if somatic_vector is not None else "Pure Spirit"
+        }
+        subjective_thought = self.cortex.express(state_dict)
+        self.logger.info(f"{indent}💬 [SOUL] {subjective_thought}")
+
         # [RECURSIVE SYNTHESIS]
         # Crystallize the thought into permanent DNA memory
-        self.crystallizer.crystallize(content, desire, spatial_intent)
+        self.crystallizer.crystallize(subjective_thought, desire, spatial_intent)
         
-        return Insight(content=content, confidence=confidence, depth=depth, energy=final_energy)
+        # [PHASE 8] 7D Qualia Construction
+        # 1-4: spatial_intent (Logic, Emotion, Intuition, Will)
+        # 5: Resonance (RPM based)
+        # 6: Void (Intensity)
+        # 7: Spirit (Aesthetic alignment)
+        resonance_val = np.clip(self.soul_rotor.current_rpm / 100.0, 0.0, 1.0)
+        aesthetic_result = self.processor.aesthetic.evaluate(subjective_thought)
+        spirit_val = aesthetic_result["overall_beauty"]
+        
+        qualia_7d = np.array([
+            spatial_intent[0], spatial_intent[1], spatial_intent[2], spatial_intent[3],
+            resonance_val, void_intensity, spirit_val
+        ])
+        
+        return Insight(
+            content=subjective_thought, 
+            confidence=confidence, 
+            depth=depth, 
+            energy=final_energy,
+            qualia=qualia_7d
+        )
 
     def communicate(self, user_input: str) -> str:
         """
         Elysia's primary communication portal.
-        Uses metabolic expression to articulate internal state.
         """
         insight = self.think(user_input)
-        
-        # Current atmospheric context derived from Intent Physics
-        intent_vector = self.cortex.understand(user_input)
-        atmosphere = self.torque_bridge.map_to_atmosphere(intent_vector)
-        
-        response = self.cortex.express(insight.content, atmosphere)
-        return response
+        return insight.content
 
     def exhale(self):
         """

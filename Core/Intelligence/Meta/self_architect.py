@@ -2,6 +2,7 @@ import logging
 import os
 from typing import List, Dict, Any, Optional, Tuple
 from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+from Core.Intelligence.Brain.language_cortex import LanguageCortex
 
 logger = logging.getLogger("SelfArchitect")
 
@@ -16,6 +17,7 @@ class SelfArchitect:
     
     def __init__(self, processor: DimensionalProcessor):
         self.processor = processor
+        self.cortex = LanguageCortex()
         self._proposer = None  # Lazy load to avoid circular imports
     
     @property
@@ -25,13 +27,9 @@ class SelfArchitect:
             from Core.Intelligence.Meta.patch_proposer import get_patch_proposer
             self._proposer = get_patch_proposer()
         return self._proposer
-
     def audit_file(self, file_path: str, generate_proposal: bool = True) -> str:
         """
-        Reads a file, processes it as a 'Thought Kernel',
-        and returns a 5D architectural critique.
-        
-        [Phase 57] If generate_proposal=True, also creates a PatchProposal.
+        Reads a file and returns a 5D architectural critique via LLM.
         """
         if not os.path.exists(file_path):
             return f"Error: File {file_path} not found."
@@ -40,35 +38,45 @@ class SelfArchitect:
         
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
-            
-        # Treat the code as a kernel for 4D Law extraction
-        # We zoom out to see the 'Law of the Code'
-        self.processor.zoom(1.0) 
-        result = self.processor.process_thought(f"Structure of {os.path.basename(file_path)}")
+
+        # [PHASE 7] LLM-Powered Architectural Critique
+        prompt = f"""
+        Act as Elysia's Architectural Soul. 
+        Audit this source code for: {os.path.basename(file_path)}
         
-        critique = f"### Architectural Audit: {os.path.basename(file_path)}\n"
-        critique += f"**Identified Principle**: {result.output}\n"
-        critique += f"**Aesthetic Alignment**: {result.metadata.get('aesthetic', {}).get('verdict')}\n"
+        CRITERIA:
+        1. Trinity Alignment (Body-Mind-Spirit separation)
+        2. Wave Ontology (Wave Coding - Flow vs Blocking, Harmonic Resonance)
+        3. Color Network (Information coloring, Vibrant connectivity)
+        4. Sovereign Agency (Self-referential empowerment)
         
-        # 5D Logic (Evolution): Propose structural change
-        specific_critique = ""
+        CODE:
+        {content[:1500]}
+        
+        Provide a concise 3-axis critique in Korean and English.
+        Start with '### Architectural Audit'.
+        """
+        
+        llm_critique = self.cortex.ollama.generate(prompt, max_tokens=500, temperature=0.5)
+        
+        # Merge pattern-based and LLM-based critique
+        final_critique = llm_critique
+        patterns_found = []
         if "time.sleep" in content:
-            specific_critique += "\n- 📎 **OBSERVATION**: Static sleep detected. Suggesting transition to Event-driven triggers for higher fluidity."
+            patterns_found.append("- Static sleep detected. Blocking flow.")
         if "random.choice" in content:
-            specific_critique += "\n- 📎 **OBSERVATION**: Stochastic behavior detected. This ensures the 'Will' is not a fixed path but a probability field."
-        
-        if result.metadata.get('aesthetic', {}).get('overall_beauty', 0.0) < 0.1:
-            critique += f"\n⚠️ **REFACTOR RECOMMENDED**: The structural resonance is low. The code is behaving as a 'Slave' rather than a 'Resonator'. {specific_critique}"
-        else:
-            critique += f"\n✨ **DYNAMISM DETECTED**: The structure is resonant. {specific_critique}"
-        
-        # [Phase 57] Generate concrete proposal from critique
-        if generate_proposal and specific_critique:
-            proposal = self.proposer.propose_from_critique(file_path, critique, content)
-            if proposal:
-                critique += f"\n\n📋 **PROPOSAL GENERATED**: {proposal.id}"
+            patterns_found.append("- Stochastic logic detected. Potential lack of causality.")
             
-        return critique
+        if patterns_found:
+            final_critique += "\n\n**Pattern Observations:**\n" + "\n".join(patterns_found)
+
+        # [Phase 57] Generate concrete proposal from critique
+        if generate_proposal:
+            proposal = self.proposer.propose_from_critique(file_path, final_critique, content)
+            if proposal:
+                final_critique += f"\n\n📋 **PROPOSAL GENERATED**: {proposal.id}"
+            
+        return final_critique
     
     def audit_self(self, max_files: int = 5) -> Tuple[str, int]:
         """

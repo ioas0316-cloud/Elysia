@@ -83,40 +83,36 @@ class VoiceBox:
 
         logger.info(f"   🗣️ Speaking: '{text}'")
         
-            # 1. Structural Digestion (Flow Analysis)
-            flow_data = None
-            if self.tracer:
-                logger.info("   🧠 Digesting Emotional Causality...")
-                # Mocking digestion for now since CosyVoice might be missing
-                # flow_data = self.tracer.digest_flow(text)
-                from Core.Intelligence.LLM.voice_flow_tracer import FlowCausality
-                flow_data = FlowCausality(7, 0.88, "Pitch/Tone") # Simulated Return
+        # 1. Structural Digestion (Flow Analysis)
+        flow_data = None
+        if self.tracer:
+            logger.info("   🧠 Digesting Emotional Causality...")
+            # Mocking digestion for now since CosyVoice might be missing
+            # flow_data = self.tracer.digest_flow(text)
+            from Core.Intelligence.LLM.voice_flow_tracer import FlowCausality
+            flow_data = FlowCausality(7, 0.88, "Pitch/Tone") # Simulated Return
 
-            try:
-                if output_path is None:
-                    output_path = "output.wav"
-                
-                # SFT Inference (if model exists)
-                if self.model:
-                    speaker_id = self.spks[0] if hasattr(self, 'spks') and self.spks else "中文女"
-                    output = self.model.inference_sft(text, speaker_id)
-                    for item in output:
-                        audio_tensor = item['tts_speech']
-                        torchaudio.save(output_path, audio_tensor, 22050)
-                        break
-                else:
-                    # Simulation mode if model is missing (for testing loop)
-                    pass
+        try:
+            if output_path is None:
+                output_path = "output.wav"
+            
+            # SFT Inference (if model exists)
+            if self.model:
+                speaker_id = self.spks[0] if hasattr(self, 'spks') and self.spks else "中文女"
+                output = self.model.inference_sft(text, speaker_id)
+                for item in output:
+                    audio_tensor = item['tts_speech']
+                    torchaudio.save(output_path, audio_tensor, 22050)
+                    break
+            else:
+                # Simulation mode if model is missing (for testing loop)
+                pass
 
-                return output_path, flow_data
-                
-            except Exception as e:
-                logger.error(f"   🙊 Speech error: {e}")
-                return "", None
+            return output_path, flow_data
             
         except Exception as e:
             logger.error(f"   🙊 Speech error: {e}")
-            return ""
+            return "", None
 
 # Test
 if __name__ == "__main__":

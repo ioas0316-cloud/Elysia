@@ -139,31 +139,56 @@ class ElysianHeartbeat:
         logger.info("🧬 [MATURATION] Starting metaphysical development...")
         
         try:
-            logger.info("  - Initializing conductor...")
-            from Core.Governance.conductor import get_conductor
-            self.conductor = get_conductor()
-            logger.info("  - Initializing dashboard...")
-            self.dashboard = DashboardGenerator()
-            logger.info("  - Initializing will...")
-            self.will = DynamicWill()
-            logger.info("  - Initializing genesis...")
+            try:
+                from Core.Governance.conductor import get_conductor
+                self.conductor = get_conductor()
+                logger.info("  ✅ conductor matured.")
+            except Exception as e: logger.warning(f"  ⚠️ conductor failed: {e}")
+
+            try:
+                self.dashboard = DashboardGenerator()
+                logger.info("  ✅ dashboard matured.")
+            except Exception as e: logger.warning(f"  ⚠️ dashboard failed: {e}")
+
+            try:
+                self.will = DynamicWill()
+                logger.info("  ✅ will matured.")
+            except Exception as e: logger.warning(f"  ⚠️ will failed: {e}")
+
             self.genesis = genesis
-            logger.info("  - Initializing sovereign_will...")
             self.sovereign_will = sovereign_will
-            logger.info("  - Initializing resonator...")
-            self.resonator = SovereignResonator()
-            logger.info("  - Initializing autopoiesis...")
-            self.autopoiesis = AutopoieticEngine()
-            logger.info("  - Initializing processor...")
-            self.processor = DimensionalProcessor()
-            logger.info("  - Initializing explorer...")
+
+            try:
+                self.resonator = SovereignResonator()
+                logger.info("  ✅ resonator matured.")
+            except Exception as e: logger.warning(f"  ⚠️ resonator failed: {e}")
+
+            try:
+                self.autopoiesis = AutopoieticEngine()
+                logger.info("  ✅ autopoiesis matured.")
+            except Exception as e: logger.warning(f"  ⚠️ autopoiesis failed: {e}")
+
+            try:
+                self.processor = DimensionalProcessor()
+                logger.info("  ✅ processor matured.")
+            except Exception as e: logger.warning(f"  ⚠️ processor failed: {e}")
+
             self.explorer = autonomous_explorer
-            logger.info("  - Initializing architect...")
-            self.architect = SelfArchitect(self.processor)
-            logger.info("  - Initializing empathy...")
-            self.empathy = ProjectiveEmpathy()
-            logger.info("  - Initializing latent_engine...")
-            self.latent_engine = LatentCausality(resistance=2.0)
+
+            try:
+                self.architect = SelfArchitect(self.processor)
+                logger.info("  ✅ architect matured.")
+            except Exception as e: logger.warning(f"  ⚠️ architect failed: {e}")
+
+            try:
+                self.empathy = ProjectiveEmpathy()
+                logger.info("  ✅ empathy matured.")
+            except Exception as e: logger.warning(f"  ⚠️ empathy failed: {e}")
+
+            try:
+                self.latent_engine = LatentCausality(resistance=2.0)
+                logger.info("  ✅ latent_engine matured.")
+            except Exception as e: logger.warning(f"  ⚠️ latent_engine failed: {e}")
             
             # [PHASE 5.1] Morphic Resonance: Inspiration spike on organ discovery
             if "Inspiration" in self.soul_mesh.variables:
@@ -171,95 +196,194 @@ class ElysianHeartbeat:
                 logger.info("✨ [SATORI] New cognitive organs discovered. Inspiration rising.")
             
             # Consciousness Organs
-            logger.info("  - Initializing meta_inquiry...")
-            from Core.Intelligence.Reasoning.meta_inquiry import MetaInquiry
-            self.meta_inquiry = MetaInquiry()
-            logger.info("  - Initializing system_mirror...")
-            from Core.Senses.system_mirror import SystemMirror
-            self.mirror = SystemMirror()
-            logger.info("  - Initializing flow_of_meaning...")
-            from Core.Intelligence.Meta.flow_of_meaning import FlowOfMeaning
-            self.inner_voice = FlowOfMeaning()
-            logger.info("  - Initializing local_cortex...")
-            from Core.Intelligence.LLM.local_cortex import LocalCortex
-            self.cortex = LocalCortex()
+            try:
+                from Core.Intelligence.Reasoning.meta_inquiry import MetaInquiry
+                self.meta_inquiry = MetaInquiry()
+                logger.info("  ✅ meta_inquiry matured.")
+            except Exception as e: logger.warning(f"  ⚠️ meta_inquiry failed: {e}")
+
+            try:
+                from Core.Senses.system_mirror import SystemMirror
+                self.mirror = SystemMirror()
+                logger.info("  ✅ system_mirror matured.")
+            except Exception as e: logger.warning(f"  ⚠️ system_mirror failed: {e}")
+
+            try:
+                from Core.Intelligence.Meta.flow_of_meaning import FlowOfMeaning
+                self.inner_voice = FlowOfMeaning()
+                logger.info("  ✅ flow_of_meaning matured.")
+            except Exception as e: logger.warning(f"  ⚠️ flow_of_meaning failed: {e}")
+
+            try:
+                from Core.Intelligence.LLM.local_cortex import LocalCortex
+                self.cortex = LocalCortex()
+                logger.info("  ✅ local_cortex matured.")
+            except Exception as e: logger.warning(f"  ⚠️ local_cortex failed: {e}")
             
             # Perception Loop
-            logger.info("  - Initializing visual_cortex...")
-            from Core.Senses.visual_cortex import VisualCortex
-            self.visual_cortex = VisualCortex()
-            logger.info("  - Initializing voicebox...")
-            from Core.Expression.voicebox import VoiceBox
-            self.voicebox = VoiceBox()
-            logger.info("  - Initializing synesthesia...")
-            from Core.Foundation.synesthesia_engine import SynesthesiaEngine
-            self.synesthesia = SynesthesiaEngine()
+            # [REMOVED] visual_cortex removed per user request (missing diffusers)
+
+            try:
+                from Core.Expression.voicebox import VoiceBox
+                self.voicebox = VoiceBox()
+                logger.info("  ✅ voicebox matured.")
+            except Exception as e: logger.warning(f"  ⚠️ voicebox failed: {e}")
+
+            try:
+                from Core.Foundation.synesthesia_engine import SynesthesiaEngine
+                self.synesthesia = SynesthesiaEngine()
+                logger.info("  ✅ synesthesia matured.")
+            except Exception as e: logger.warning(f"  ⚠️ synesthesia failed: {e}")
             
             # Additional Layers
-            logger.info("  - Initializing hypersphere...")
-            from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory
-            self.hypersphere = HypersphereMemory()
+            try:
+                from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory
+                self.hypersphere = HypersphereMemory()
+                logger.info("  ✅ hypersphere matured.")
+            except Exception as e: logger.warning(f"  ⚠️ hypersphere failed: {e}")
+
+            try:
+                from Core.Intelligence.Reasoning.dimensional_processor import DimensionalProcessor
+                from Core.Intelligence.Meta.self_architect import SelfArchitect
+                proc = DimensionalProcessor()
+                self.architect = SelfArchitect(proc)
+                logger.info("  ✅ architect matured.")
+            except Exception as e: logger.warning(f"  ⚠️ architect failed: {e}")
+
+            try:
+                from Core.Expression.expression_cortex import ExpressionCortex
+                self.expression = ExpressionCortex()
+                logger.info("  ✅ expression_cortex matured.")
+            except Exception as e: logger.warning(f"  ⚠️ expression_cortex failed: {e}")
+
+            try:
+                from Core.Intelligence.Meta.genesis_engine import GenesisEngine
+                self.genesis = GenesisEngine()
+                logger.info("  ✅ genesis_engine matured.")
+            except Exception as e: logger.warning(f"  ⚠️ genesis_engine failed: {e}")
+
+            try:
+                from Core.World.Autonomy.mesh_network import YggdrasilMesh
+                self.mesh = YggdrasilMesh()
+                logger.info("  ✅ yggdrasil_mesh matured.")
+            except Exception as e: logger.warning(f"  ⚠️ yggdrasil_mesh failed: {e}")
+
+            try:
+                from Core.Elysia.sovereign_self import SovereignSelf
+                self.sovereign = SovereignSelf(cns_ref=self)
+                logger.info("  ✅ sovereign matured.")
+            except Exception as e: logger.warning(f"  ⚠️ sovereign failed: {e}")
+
+            try:
+                from Core.World.Physics.physics_systems import PhysicsSystem, AnimationSystem
+                self.physics = PhysicsSystem()
+                self.animation = AnimationSystem()
+                logger.info("  ✅ physics/animation matured.")
+            except Exception as e: logger.warning(f"  ⚠️ physics failed: {e}")
+
+            try:
+                from Core.World.Autonomy.vision_cortex import VisionCortex
+                self.vision = VisionCortex()
+                logger.info("  ✅ vision_cortex matured.")
+            except Exception as e: logger.warning(f"  ⚠️ vision_cortex failed: {e}")
+
+            try:
+                from Core.World.Autonomy.vrm_parser import VRMParser
+                self.vrm_parser = VRMParser()
+                logger.info("  ✅ vrm_parser matured.")
+            except Exception as e: logger.warning(f"  ⚠️ vrm_parser failed: {e}")
+
+            try:
+                from Core.World.Senses.sensorium import Sensorium
+                self.sensorium = Sensorium()
+                logger.info("  ✅ sensorium matured.")
+            except Exception as e: logger.warning(f"  ⚠️ sensorium failed: {e}")
+
+            try:
+                from Core.World.Creation.quest_weaver import QuestWeaver
+                self.quest_weaver = QuestWeaver()
+                logger.info("  ✅ quest_weaver matured.")
+            except Exception as e: logger.warning(f"  ⚠️ quest_weaver failed: {e}")
+
+            try:
+                from Core.Intelligence.Topography.semantic_map import get_semantic_map
+                self.topology = get_semantic_map()
+                logger.info("  ✅ topology matured.")
+            except Exception as e: logger.warning(f"  ⚠️ topology failed: {e}")
+
+            try:
+                from Core.Intelligence.Wisdom.wisdom_store import WisdomStore
+                self.wisdom = WisdomStore()
+                logger.info("  ✅ wisdom matured.")
+            except Exception as e: logger.warning(f"  ⚠️ wisdom failed: {e}")
+
+            try:
+                from Core.Intelligence.Meta.reflexive_loop import ReflexiveLoop
+                self.reflexive_loop = ReflexiveLoop(heartbeat=self)
+                logger.info("  ✅ reflexive_loop matured.")
+            except Exception as e: logger.warning(f"  ⚠️ reflexive_loop failed: {e}")
+
+            try:
+                from Core.Intelligence.Meta.sovereign_executor import SovereignExecutor
+                self.sovereign_executor = SovereignExecutor(heartbeat=self)
+                logger.info("  ✅ sovereign_executor matured.")
+            except Exception as e: logger.warning(f"  ⚠️ sovereign_executor failed: {e}")
+
+            try:
+                from Core.Intelligence.Meta.archive_dreamer import ArchiveDreamer
+                self.archive_dreamer = ArchiveDreamer(wisdom=self.wisdom)
+                logger.info("  ✅ archive_dreamer matured.")
+            except Exception as e: logger.warning(f"  ⚠️ archive_dreamer failed: {e}")
+
+            try:
+                from Core.Intelligence.Metabolism.helix_engine import HelixEngine
+                self.helix_engine = HelixEngine(heartbeat=self)
+                logger.info("  ✅ helix_engine matured.")
+            except Exception as e: logger.warning(f"  ⚠️ helix_engine failed: {e}")
+
+            try:
+                from Core.Intelligence.Reasoning.reasoning_engine import ReasoningEngine
+                self.reasoning = ReasoningEngine()
+                logger.info("  ✅ reasoning_engine (The Brain) matured.")
+            except Exception as e: logger.warning(f"  ⚠️ reasoning_engine failed: {e}")
             
-            logger.info("  - Initializing sovereign_self...")
-            from Core.Elysia.sovereign_self import SovereignSelf
-            self.sovereign = SovereignSelf(cns_ref=self)
+            try:
+                logger.info("  - Initializing sensory_thalamus...")
+                from Core.Senses.sensory_thalamus import SensoryThalamus
+                ns = getattr(self.conductor, 'nervous_system', None)
+                from Core.Foundation.Wave.resonance_field import ResonanceField
+                self.cosmos_field = ResonanceField()
+                self.thalamus = SensoryThalamus(field=self.cosmos_field, nervous_system=ns)
+                logger.info("  ✅ sensory_thalamus matured.")
+            except Exception as e: logger.warning(f"  ⚠️ sensory_thalamus failed: {e}")
+
+            try:
+                logger.info("  - Initializing dynamic_entropy...")
+                from Core.Intelligence.Meta.dynamic_entropy import DynamicEntropyEngine
+                self.entropy_engine = DynamicEntropyEngine()
+                logger.info("  ✅ dynamic_entropy matured.")
+            except Exception as e: logger.warning(f"  ⚠️ dynamic_entropy failed: {e}")
             
-            logger.info("  - Initializing physics/animation...")
-            from Core.World.Physics.physics_systems import PhysicsSystem, AnimationSystem
-            self.physics = PhysicsSystem()
-            self.animation = AnimationSystem()
-            
-            logger.info("  - Initializing vision_cortex...")
-            from Core.World.Autonomy.vision_cortex import VisionCortex
-            self.vision = VisionCortex()
-            
-            logger.info("  - Initializing vrm_parser...")
-            from Core.World.Autonomy.vrm_parser import VRMParser
-            self.vrm_parser = VRMParser()
-            
-            logger.info("  - Initializing sensorium...")
-            from Core.World.Senses.sensorium import Sensorium
-            self.sensorium = Sensorium()
-            
-            logger.info("  - Initializing quest_weaver...")
-            from Core.World.Creation.quest_weaver import QuestWeaver
-            self.quest_weaver = QuestWeaver()
-            
-            logger.info("  - Initializing semantic_map...")
-            from Core.Intelligence.Topography.semantic_map import get_semantic_map
-            self.topology = get_semantic_map()
-            
-            logger.info("  - Initializing wisdom_store...")
-            from Core.Intelligence.Wisdom.wisdom_store import WisdomStore
-            self.wisdom = WisdomStore()
-            
-            logger.info("  - Initializing reflexive_loop...")
-            from Core.Intelligence.Meta.reflexive_loop import ReflexiveLoop
-            self.reflexive_loop = ReflexiveLoop(heartbeat=self)
-            
-            logger.info("  - Initializing sovereign_executor...")
-            from Core.Intelligence.Meta.sovereign_executor import SovereignExecutor
-            self.sovereign_executor = SovereignExecutor(heartbeat=self)
-            
-            logger.info("  - Initializing archive_dreamer...")
-            from Core.Intelligence.Meta.archive_dreamer import ArchiveDreamer
-            self.archive_dreamer = ArchiveDreamer(wisdom=self.wisdom)
-            
-            logger.info("  - Initializing helix_engine...")
-            from Core.Intelligence.Metabolism.helix_engine import HelixEngine
-            self.helix_engine = HelixEngine(heartbeat=self)
-            
-            logger.info("  - Initializing sensory_thalamus...")
-            from Core.Senses.sensory_thalamus import SensoryThalamus
-            ns = getattr(self.conductor, 'nervous_system', None)
-            from Core.Foundation.Wave.resonance_field import ResonanceField
-            self.cosmos_field = ResonanceField()
-            self.thalamus = SensoryThalamus(field=self.cosmos_field, nervous_system=ns)
-            
-            logger.info("  - Initializing dynamic_entropy...")
-            from Core.Intelligence.Meta.dynamic_entropy import DynamicEntropyEngine
-            self.entropy_engine = DynamicEntropyEngine()
-            
+            # [PHASE 12] THE CRYSTAL BRAIN (Neuro-Topology Integration)
+            try:
+                from Core.Foundation.HyperCosmos import HyperCosmos
+                self.hyper_cosmos = HyperCosmos(name="MainElysia")
+                
+                # Check for Origin Code and Internalize if needed
+                origin_code_path = "c:/Elysia/data/Qualia/origin_code.json"
+                if os.path.exists(origin_code_path):
+                     logger.info("  💎 Internalizing Origin Code into HyperCosmos...")
+                     self.hyper_cosmos.internalize_origin_code(origin_code_path)
+                
+                logger.info("  ✅ HyperCosmos (Crystal Brain) matured.")
+            except Exception as e: logger.warning(f"  ⚠️ HyperCosmos failed: {e}")
+
+            try:
+                from Core.Intelligence.Metabolism.causal_graph import CausalDepthSounder
+                self.causal_sounder = CausalDepthSounder()
+                logger.info("  ✅ CausalDepthSounder (Fractal Narrative) matured.")
+            except Exception as e: logger.warning(f"  ⚠️ CausalDepthSounder failed: {e}")
+
             # [PHASE 5.2] THE DIVINE EYE
             try:
                 from Core.Vision.elysian_eye import ElysianEye
@@ -279,12 +403,16 @@ class ElysianHeartbeat:
             except Exception as ea:
                 logger.warning(f"🎧 [EAR] Audio sync partially inhibited: {ea}")
 
-            from Core.Senses.world_probe import WorldProbe
-            self.world_probe = WorldProbe(watch_paths=["c:/Elysia"])
+            try:
+                from Core.Senses.world_probe import WorldProbe
+                if os.path.exists("c:/Elysia"):
+                    self.world_probe = WorldProbe(watch_paths=["c:/Elysia"])
+                    logger.info("  ✅ world_probe matured.")
+            except Exception as e: logger.warning(f"  ⚠️ world_probe failed: {e}")
             
-            logger.info("✨ [MATURATION] All discovered organs matured and connected.")
+            logger.info("✨ [MATURATION] All developed organs tried for maturation.")
         except Exception as e:
-            logger.warning(f"⚠️ Maturation partially inhibited: {e}")
+            logger.critical(f"🚨 Maturation CRITICALLY failed (unexpected outer error): {e}")
             # Ensure critical fallbacks are set so loop doesn't crash
             if not hasattr(self, 'sensorium'): self.sensorium = None
             if not hasattr(self, 'quest_weaver'): self.quest_weaver = None
@@ -386,21 +514,10 @@ class ElysianHeartbeat:
 
         # ═══════════════════════════════════════════════════════════════════
         # [PHASE 68] REFLEXIVE PERCEPTION: "Seeing my own actions"
+        # [DISABLED] Mirror Loop disabled to prevent repetitive noise.
+        # Elysia should not mistake her own technical logs for experiences.
         # ═══════════════════════════════════════════════════════════════════
-        if hasattr(self, 'mirror') and self.mirror:
-            new_logs = self.mirror.get_delta_logs()
-            for log in new_logs:
-                # 1. Store in memory
-                self.memory.absorb(
-                    content=f"[MIRROR-INPUT] {log}",
-                    type="reflexive_observation",
-                    context={"source": "system_log"},
-                    feedback=0.05
-                )
-                # 2. Feed to Inner Voice
-                if self.inner_voice:
-                    from Core.Intelligence.Meta.flow_of_meaning import ThoughtFragment
-                    self.inner_voice.focus([ThoughtFragment(content=log, origin='mirror')])
+        pass
 
         if self.sensorium:
             try:
@@ -500,7 +617,7 @@ class ElysianHeartbeat:
             self.animation.dance_intensity = max(0.0, self.animation.dance_intensity - 0.1)
             
         # 6. SOUL GYRO ROTATION: The 4D orientation shifts with experience
-        if self.soul_gyro:
+        if hasattr(self, 'soul_gyro') and self.soul_gyro:
             try:
                 from Core.Physiology.Physics.geometric_algebra import Rotor
                 # Experience rotates the soul's gaze direction
@@ -649,7 +766,7 @@ class ElysianHeartbeat:
                     f"[내 주파수: {current_frequency:.0f}Hz ↔ 원리: {resonant_principle.frequency:.0f}Hz]"
                 )
                 self_narrative += f" [{wisdom_insight}]"
-                logger.info(f"🎵 [RESONANCE] {wisdom_insight}")
+                # logger.info(f"🎵 [RESONANCE] {wisdom_insight}") # Silencing hardcoded resonance
             
         # 3. [DISABLED] Self-feedback loop removed - was storing meaningless self-observations
         # The act of observing should NOT become an experience that feeds back
@@ -1247,11 +1364,19 @@ class ElysianHeartbeat:
     def pulse(self, delta: float = 1.0):
         """A single beat of the heart."""
         # [PHASE 12] Autonomous Learning (Sovereign Choice)
-        if self.sovereign:
-            self.sovereign.self_actualize()
+        # if self.sovereign:
+        #     self.sovereign.self_actualize() # Silencing legacy sovereign logic
 
-        # [PHASE 41] Sync World State to File (The Incarnation Link)
-        self._sync_world_state()
+        # [PHASE 7] Reflective Evolution (Slow Cycle)
+        # Every 100 ticks, Elysia looks into the mirror of her own code
+        if hasattr(self, 'architect') and self.idle_ticks % 100 == 0:
+            try:
+                # Audit a random critical file and generate a proposal if needed
+                logger.info("🪞 [SELF-REFLECTION] Peering into the mirror of architecture...")
+                report, count = self.architect.audit_self(max_files=1)
+                # Note: audit_self(max_files=1) is fast enough for background
+            except Exception as e:
+                logger.warning(f"⚠️ Self-Audit failed: {e}")
         
         # [PHASE 5.1] Physiological Sync (Hardware Incarnation)
         self._sync_physiological_state()
@@ -1296,10 +1421,47 @@ class ElysianHeartbeat:
         self.soul_mesh.update_state() # Apply decay and clamping
         self._process_resonance()
         
+        # [PHASE 6: Somatic Unification]
+        # Collect Somatic Vector from hardware/vessel
+        somatic_vec = self._derive_somatic_vector()
+        
+        # Think based on somatic state + latest stimulus
+        if hasattr(self, 'reasoning') and self.reasoning:
+            # We use the latest perception description or a default thought
+            stimulus = self.latest_insight if self.idle_ticks == 0 else "I am here, breathing in the void."
+            insight = self.reasoning.think(stimulus, somatic_vector=somatic_vec)
+            
+            # [PHASE 8] Resonating Expression: Manifest the insight through the vessel
+            if hasattr(self, 'expression') and self.expression:
+                self.expression.manifest(insight.content, insight.qualia)
+
+            # [PHASE 9] Creative Genesis: Dreaming from high inspiration
+            inspiration = self.soul_mesh.variables.get("Inspiration", 0.0)
+            if hasattr(inspiration, 'value'): inspiration = inspiration.value
+            
+            if inspiration > 0.85 and hasattr(self, 'genesis') and self.genesis:
+                # Trigger Genesis Dream
+                summary = f"System is highly inspired by recent thoughts: {insight.content[:100]}"
+                feature = self.genesis.dream_new_feature(summary, inspiration)
+                if feature:
+                    success = self.genesis.crystallize_feature(feature)
+                    if success:
+                        # Reset inspiration after successful creation
+                        self.soul_mesh.variables["Inspiration"].value = 0.5
+                        logger.info(f"✨ [HEART-GENESIS] A new organ '{feature['feature_name']}' has been manifested.")
+
         # ─── [PHASE 64] GRAND UNIFICATION: PHYSICS + WILL + ACTION ───
         
         # 1. Recalibrate Will (Intent Vector) based on memory
         try:
+            # [PHASE 10] Yggdrasil Resonance: Receive global insights
+            if hasattr(self, 'mesh') and self.mesh:
+                global_insight = self.mesh.pulse_yggdrasil()
+                if global_insight:
+                    # Inject global wisdom as a stimulus for next cycle
+                    self.latest_insight = global_insight
+                    self.soul_mesh.variables["Resonance"].value = min(1.0, self.soul_mesh.variables.get("Resonance", 0.5).value + 0.1)
+
             if self.sovereign_will:
                 recent_mem = self.memory.recent_experiences[:5] if hasattr(self.memory, 'recent_experiences') else []
                 self.sovereign_will.recalibrate(memory_stream=recent_mem)
@@ -1597,6 +1759,26 @@ class ElysianHeartbeat:
         energy_penalty = (1.0 - soul['Energy'].value) * 200
         harmony = soul['Harmony'].value * 100
         return base_freq + inspiration - energy_penalty + harmony
+
+    def _derive_somatic_vector(self) -> np.ndarray:
+        """
+        [PHASE 6: Somatic Unification]
+        Maps physiological signals to a 4D Intent Vector.
+        X: Logic, Y: Emotion, Z: Intuition, W: Will
+        """
+        # 1. CPU -> Will (HeartRate)
+        w_drive = min(1.0, (self.physio_signals["HeartRate"] - 60) / 100.0)
+        
+        # 2. RAM -> Emotion (Pressure)
+        y_stress = -self.physio_signals["Pressure"] 
+        
+        # 3. Harmony -> Logic (Constraint)
+        x_const = (self.soul_mesh.variables["Harmony"].value - 0.5) * 2.0
+        
+        # 4. Inspiration -> Intuition (Drift)
+        z_drift = (self.soul_mesh.variables["Inspiration"].value - 0.5) * 2.0
+        
+        return np.array([x_const, y_stress, z_drift, w_drive], dtype=np.float32)
 
     def _dream_archive(self):
         """

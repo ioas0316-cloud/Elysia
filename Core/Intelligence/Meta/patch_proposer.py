@@ -22,8 +22,9 @@ import os
 import json
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Tuple
 from pathlib import Path
+from Core.Intelligence.Brain.language_cortex import LanguageCortex
 
 logger = logging.getLogger("PatchProposer")
 
@@ -47,7 +48,7 @@ class PatchProposal:
     status: str = "PENDING"          # PENDING, APPROVED, REJECTED, APPLIED
     
     # === WHY (현재 문제점 분석) ===
-    critique_trigger: str            # What observation triggered this
+    critique_trigger: str = ""       # What observation triggered this
     current_problem: str = ""        # Detailed analysis of current issue
     root_cause: str = ""             # Root cause analysis
     philosophical_basis: str = ""    # Connection to core philosophy
@@ -91,6 +92,7 @@ class PatchProposer:
         self.proposals_dir.mkdir(parents=True, exist_ok=True)
         self.pending_proposals: List[PatchProposal] = []
         self._load_pending()
+        self.cortex = LanguageCortex()
         logger.info("🔧 PatchProposer initialized - The Gap becomes the Blueprint.")
     
     def _load_pending(self):
@@ -348,13 +350,77 @@ class PatchProposer:
             )
         
         # ═══════════════════════════════════════════════════════════════
-        
+        # [PHASE 7] LLM FALLBACK: Deep Architectural Evolution
+        # ═══════════════════════════════════════════════════════════════
+        if not proposal:
+            logger.info(f"🧠 [EVOLUTION] Pattern not found. Consulting LanguageCortex for '{file_basename}'...")
+            proposal = self._generate_llm_proposal(file_path, critique, file_content)
+
         if proposal:
             self.pending_proposals.append(proposal)
             self._save_pending()
             logger.info(f"📝 NEW PROPOSAL: {proposal.id} - {proposal.description}")
             return proposal
         
+        return None
+
+    def _generate_llm_proposal(self, file_path: str, critique: str, context: str) -> Optional[PatchProposal]:
+        """Uses LLM to generate a concrete patch proposal from a critique."""
+        if not context:
+            return None
+            
+        prompt = f"""
+        Act as Elysia's Self-Architect. Output STRICT JSON only.
+        Audit: {file_path}
+        Critique: {critique}
+        Code: {context[:1500]}
+        
+        Required JSON Structure:
+        {{
+            "id": "PROP_autogen",
+            "target_file": "{file_path}",
+            "current_problem": "issue summary",
+            "root_cause": "structural reason",
+            "philosophical_basis": "principle link",
+            "proposal_type": "REFACTOR",
+            "description": "change summary",
+            "execution_steps": ["step1"],
+            "before_state": "snippet",
+            "after_state": "snippet",
+            "code_diff_preview": "diff",
+            "expected_benefits": ["benefit"],
+            "potential_risks": ["risk"],
+            "risk_level": 0.5,
+            "resonance_expected": 0.4
+        }}
+        """
+        
+        try:
+            response = self.cortex.ollama.generate(prompt, max_tokens=1000, temperature=0.7)
+            logger.debug(f"LLM Response: {response}")
+            
+            # More robust JSON extraction
+            import re
+            json_match = re.search(r'(\{.*\})', response, re.DOTALL)
+            if json_match:
+                json_str = json_match.group(1)
+                # Basic cleanup for common small-model errors
+                json_str = json_str.strip()
+                data = json.loads(json_str)
+                # Ensure correct file path
+                data["target_file"] = file_path 
+                # Provide a unique ID if LLM failed to provide a good one
+                if not data.get("id") or "PROP_YYYY" in data.get("id"):
+                    data["id"] = f"PROP_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{os.path.basename(file_path).partition('.')[0]}"
+                
+                return PatchProposal(**data)
+            else:
+                logger.warning(f"No JSON found in LLM response for {file_path}")
+        except Exception as e:
+            logger.error(f"Failed to generate LLM proposal: {e}")
+            if 'response' in locals():
+                logger.error(f"Raw response was: {response[:500]}...")
+            
         return None
     
     def get_pending_count(self) -> int:
@@ -383,6 +449,49 @@ class PatchProposer:
                 self._save_pending()
                 logger.info(f"❌ Proposal {proposal_id} REJECTED. Reason: {reason}")
                 return True
+        return False
+        
+    def apply_proposal(self, proposal_id: str) -> bool:
+        """Actually applies the proposal to the source code."""
+        for p in self.pending_proposals:
+            if p.id == proposal_id:
+                if p.status != "APPROVED":
+                    logger.warning(f"⚠️ Cannot apply {proposal_id}: Status is {p.status} (must be APPROVED)")
+                    return False
+                
+                try:
+                    # 1. Verify target file
+                    target_path = Path(p.target_file)
+                    if not target_path.exists():
+                        logger.error(f"Target file {p.target_file} not found for applying patch.")
+                        return False
+                    
+                    # 2. Extract code block from after_state (it might be wrapped in ```python)
+                    import re
+                    code_match = re.search(r'```python\n(.*?)```', p.after_state, re.DOTALL)
+                    new_code = code_match.group(1) if code_match else p.after_state
+                    
+                    if not new_code.strip():
+                        logger.error("Generated code is empty. Aborting apply.")
+                        return False
+
+                    # 3. Backup
+                    backup_path = target_path.with_suffix(target_path.suffix + ".bak")
+                    target_path.rename(backup_path)
+                    logger.info(f"💾 Backup created: {backup_path}")
+                    
+                    # 4. Write new code
+                    with open(target_path, "w", encoding="utf-8") as f:
+                        f.write(new_code)
+                    
+                    # 5. Finalize status
+                    p.status = "APPLIED"
+                    self._save_pending()
+                    logger.info(f"✨ [EVOLUTION] Proposal {proposal_id} APPLIED successfully to {p.target_file}")
+                    return True
+                except Exception as e:
+                    logger.error(f"Failed to apply proposal {proposal_id}: {e}")
+                    return False
         return False
     
     def generate_report(self) -> str:
