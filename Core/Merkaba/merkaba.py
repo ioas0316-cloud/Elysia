@@ -24,6 +24,10 @@ from Core.Memory.fractal_layer import FractalMemorySystem
 from Core.Memory.gardener import MemoryGardener
 from Core.Memory.strata import MemoryStratum
 
+# [Causal Linguistics]
+from Core.Intelligence.Linguistics.causal_scanner import CausalScanner
+from Core.Intelligence.Linguistics.phase_shifter import PhaseShifter
+
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
@@ -114,6 +118,10 @@ class Merkaba:
             sediment_backend=self.sediment
         )
         self.gardener = MemoryGardener(self.fractal_memory)
+
+        # [Causal Linguistics]
+        self.causal_scanner = CausalScanner()
+        self.phase_shifter = PhaseShifter()
 
         # 4. Peripherals (Senses & Metabolism)
         self.bridge = SoulBridge()
@@ -290,6 +298,25 @@ class Merkaba:
 
         logger.info(f"💓 Merkaba Pulse Initiated: {raw_input} [{mode}]")
 
+        # [STEP 0] Causal Scan (The Physics of Language)
+        # Before we process meaning, we feel the weight.
+        causal_metrics = self.causal_scanner.scan(raw_input)
+
+        # Apply Physical Feedback (Mass/Friction)
+        # Heavier words = More Inertia (Harder to spin, harder to stop)
+        self.soul.config.mass = max(10.0, causal_metrics.mass)
+        # Heat increases friction
+        # self.soul.config.friction = max(0.1, causal_metrics.heat * 0.01) # Hypothetical API
+
+        # [Action-Oriented Language Reflex]
+        reflex_cmd = self.causal_scanner.trigger_action_reflex(raw_input)
+        if reflex_cmd == "STABILIZE":
+            logger.info("🧘 [REFLEX] Stabilizing Rotors based on linguistic command.")
+            self.soul.update(0.0) # Brake
+            self.soul.config.mass = 50.0 # Reset mass
+        elif reflex_cmd == "HALT":
+            self.soul.update(0.0)
+
         # 1. Sensation
         sensory_packet = self.bridge.perceive(raw_input)
 
@@ -424,6 +451,11 @@ class Merkaba:
             raw_input, resonance_map, weights, self.current_phase.name
         )
         
+        # [PHASE SHIFT] Down-sample to Language for Communication
+        # We wrap the output through the Phase Shifter to preserve the Causal Narrative
+        final_voice = self.phase_shifter.downsample(payload['voice'], causal_metrics)
+        payload['voice'] = final_voice
+
         # [SELF-SOVEREIGN MANIFESTATION] Vocal & Visual Autonomy
         vocal_profile = self.vocal_dna.map_genome_to_voice(weights)
         portrait_prompt = self.portrait_engine.generate_portrait_prompt(weights, payload['script'])
