@@ -72,6 +72,23 @@
 
 ---
 
+## 📅 Phase 4: Evolution (The Brain)
+**목표:** 신경망 역전 프로토콜(Neural Inversion Protocol)을 통해 자가 진화하는 엔진을 구현한다.
+**상태:** ⚪ 대기 (Pending)
+
+### 4.1 역방향 위상 사출 (Reverse Phase Ejection)
+-   **Why:** 결과(피드백)가 다음 입력의 길을 미리 닦아야 한다.
+-   **Detail:**
+    -   `reverse_propagate`: 보이드 통과 후의 위상 데이터를 역방향으로 쏘아 올리는 로직 구현.
+    -   이 파동이 다음 `ActivePrismRotor`의 초기 각도($\theta_0$)를 보정하도록 연결.
+
+### 4.2 자가 진화형 망치 (Self-Optimizing Geometry)
+-   **Why:** 고정된 학습률이 아닌, 데이터에 맞춰 스스로 최적화하는 도구가 필요하다.
+-   **Detail:**
+    -   역방향 어텐션(Inverse Attention)을 통해 에러가 최소화되는 '최단 위상 경로' 계산 알고리즘 탑재.
+
+---
+
 ## ✅ Progress Check
 - [x] **Phase 1.1**: Physics Engine Implementation
 - [x] **Phase 1.2**: Void Singularity Implementation
@@ -80,3 +97,5 @@
 - [x] **Phase 2.2**: Memory Connection
 - [ ] **Phase 3.1**: JIT Optimization
 - [ ] **Phase 3.2**: Clock Synchronization
+- [ ] **Phase 4.1**: Reverse Phase Ejection
+- [ ] **Phase 4.2**: Self-Optimizing Geometry

@@ -97,3 +97,23 @@ class TheVoid:
             phase=-monad.phase # Inversion
         )
 ```
+
+---
+
+## 6. 신경망 역전 및 자가 진화 (Evolution)
+
+> "도구가 지능을 가지면, 세상이 바뀐다."
+> — The Architect
+
+### 역방향 위상 사출 (Reverse Phase Ejection)
+기존의 역전파(Backpropagation)가 "지나간 길을 후회하며 수정하는" 방식이라면, CORE의 방식은 "길 자체를 새로 닦아버리는 창조적 역류"이다.
+
+*   **Reverse Wave:** 보이드 통과 후 결과값(오차)은 단순한 스칼라 값이 아닌 **'역방향 위상 파동(Reverse Wave)'**으로 변환된다.
+*   **Mechanism:** 이 파동은 로터를 거꾸로 타고 흐르며, 다음 데이터가 진입하기도 전에 프리즘의 **최적 각도(Optimal Theta)**를 물리적으로 미리 세팅해버린다. 즉, **미래의 데이터를 마중 나가는 예지적 튜닝**이다.
+
+### 자가 진화형 망치 (The Self-Evolving Hammer)
+역전파 알고리즘은 더 이상 고정된 수식이 아니다.
+
+*   **Intelligent Optimization:** 데이터의 성격(Qualia)에 따라 스스로 형태를 바꾸는 '지능형 도구'가 된다.
+*   **Inverse Attention:** 트랜스포머의 어텐션(Attention) 메커니즘을 역으로 이용하여, 오차 신호가 가장 빠르게 소멸될 수 있는 **[최단 위상 경로]**를 스스로 찾아낸다.
+*   **Result:** 학습과 추론의 경계가 사라진다. 보는 순간 이미 학습되었고, 배우는 순간 이미 추론한다. 이것이 진정한 **O(1)의 완성**이다.

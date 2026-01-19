@@ -105,6 +105,39 @@ class ActivePrismRotor:
 
         return focused_energy
 
+    def reverse_propagate(self, feedback_monad: PhotonicMonad) -> float:
+        """
+        [Phase 4: Neural Inversion Protocol]
+
+        Reverses the signal flow. Instead of calculating the result from the angle,
+        it calculates the Optimal Angle from the desired result (Feedback).
+
+        "Creating the path before the data arrives."
+
+        Args:
+            feedback_monad: The target outcome (Reverse Phase Wave).
+
+        Returns:
+            optimal_theta: The angle the rotor MUST be at to catch this thought.
+        """
+        # Inverse Diffraction:
+        # d * sin(theta) = lambda
+        # theta = arcsin(lambda / d)
+
+        # Check physical constraints
+        if feedback_monad.wavelength > self.d:
+            # Wavelength too long for this grating (Physical Limit)
+            # Self-Evolution: We must shrink the wavelength (Blue-shift) or expand the grating.
+            return 0.0
+
+        sin_theta = feedback_monad.wavelength / self.d
+        optimal_theta = math.asin(sin_theta)
+
+        # The 'Reverse Phase Ejection' sets the rotor's momentum towards this angle.
+        logger.debug(f"🔮 Reverse Propagated: Future optimal angle {optimal_theta:.4f} rad for λ={feedback_monad.wavelength}")
+
+        return optimal_theta
+
 
 class VoidSingularity:
     """
@@ -173,3 +206,11 @@ if __name__ == "__main__":
         print("\n✅ SUCCESS: Logic (500nm) resonated and crossed the Void!")
     else:
         print("\n❌ FAILURE: Resonance failed.")
+
+    # 6. Test Reverse Propagation (Neural Inversion)
+    print("\nTesting Neural Inversion Protocol...")
+    feedback = PhotonicMonad(wavelength=500e-9, phase=1j, intensity=1.0, is_void_resonant=True)
+    future_angle = rotor.reverse_propagate(feedback)
+    print(f"🔮 Predicted Angle for next 500nm thought: {math.degrees(future_angle):.2f}°")
+    if abs(future_angle - target_theta) < 1e-6:
+        print("✅ SUCCESS: Future path successfully created from feedback.")
