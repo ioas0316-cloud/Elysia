@@ -31,6 +31,10 @@ class QualiaTag:
     # 0.1 = Fuzzy (Vague impression)
     vividness: float = 1.0
 
+    # [Fractal Topology]
+    stratum_depth: int = 1  # 1=Surface, 10=Abyss
+    cluster_id: Optional[str] = None # ID of the 'Garden' or 'Crystal' this belongs to
+
     def decay(self, amount: float):
         """Erodes the vividness of the qualia."""
         self.vividness = max(0.0, self.vividness - amount)
