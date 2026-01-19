@@ -31,6 +31,7 @@ from Core.Merkaba.merkaba import Merkaba
 from Core.Foundation.Prism.fractal_optics import PrismEngine as FractalPrism, WavePacket
 from Core.Engine.Physics.core_turbine import ActivePrismRotor
 from Core.Memory.sediment import SedimentLayer
+from Core.Memory.prismatic_sediment import PrismaticSediment
 from Core.Intelligence.Linguistics.synthesizer import LinguisticSynthesizer
 
 # Configure Logging
@@ -66,6 +67,11 @@ class BenchmarkSuite:
             self.benchmark_sediment()
         except Exception as e:
             self.log("SEDIMENT", f"FAILED: {e}")
+
+        try:
+            self.benchmark_prismatic_sediment()
+        except Exception as e:
+            self.log("PRISM_SEDIMENT", f"FAILED: {e}")
 
         try:
             self.benchmark_merkaba()
@@ -161,6 +167,40 @@ class BenchmarkSuite:
 
         sediment.close()
 
+    def benchmark_prismatic_sediment(self):
+        """
+        Test 3.5: Prismatic Memory (Spectral Sharding)
+        """
+        print("\n--- Testing Prismatic Sediment (Spectral Sharding) ---")
+        base_dir = os.path.join(self.temp_dir, "PrismBenchmark")
+        if os.path.exists(base_dir): shutil.rmtree(base_dir)
+
+        prism_sediment = PrismaticSediment(base_dir)
+
+        # Write Test (Distributed across Spectrum)
+        count = 1000
+        start_time = time.time()
+        for i in range(count):
+            # Rotate wavelengths to hit all shards
+            wavelength = 400e-9 + (i % 7) * 50e-9
+            prism_sediment.store_monad(wavelength, complex(1,0), 0.9, b"Data")
+
+        duration = time.time() - start_time
+        ops_per_sec = count / duration
+        self.log("PRISM_SEDIMENT", f"Distributed Write Speed: {ops_per_sec:.2f} ops/sec")
+
+        # Read Test (Targeted Scan)
+        # We search for 'Red' (400nm). This should only scan 1/7th of the data.
+        target_vec = [1.0, 0, 0, 0, 0, 0, 0] # Red
+        start_time = time.time()
+        results = prism_sediment.scan_resonance(target_vec, top_k=5)
+        duration = time.time() - start_time
+
+        self.log("PRISM_SEDIMENT", f"Spectral Scan (N={count}): {duration*1000:.4f} ms")
+        self.log("PRISM_SEDIMENT", "   -> Note: Should be significantly faster than Linear Scan due to O(N/7) search space.")
+
+        prism_sediment.close()
+
     def benchmark_merkaba(self):
         """
         Test 4: Full System Integration
@@ -168,34 +208,15 @@ class BenchmarkSuite:
         print("\n--- Testing Merkaba (Full Pulse) ---")
 
         # Create a temp path for Merkaba's sediment
-        temp_sediment_path = os.path.join(self.temp_dir, "merkaba_sediment.bin")
+        temp_prism_path = os.path.join(self.temp_dir, "MerkabaPrism")
 
-        # Patching dependencies to avoid polluting data/Chronicles
-        with patch('Core.Memory.sediment.SedimentLayer.__init__') as mock_sediment_init, \
-             patch.object(SedimentLayer, 'close', return_value=None), \
-             patch('Core.Intelligence.Linguistics.synthesizer.LinguisticSynthesizer.save_chronicle') as mock_save:
+        # Patch PrismaticSediment to use temp dir
+        original_prism_init = PrismaticSediment.__init__
 
-            # 1. Setup mocked Sediment Init to redirect to temp file
-            # We call the real init but with our temp path
-            real_sediment_init = SedimentLayer.__init__
+        def safe_prism_init(instance, base_dir=None):
+            original_prism_init(instance, temp_prism_path)
 
-            # Since we mocked the class method, we need to side_effect it to call the real one with modified args.
-            # However, since 'mock_sediment_init' replaces the method, calling real_sediment_init might be tricky
-            # if we didn't save it before context. But we can't easily access the unbound original method
-            # if we use @patch or context manager on the method directly if it's already bound?
-            # Actually, the easier way is to just instantiate SedimentLayer manually in our mock?
-
-            # Alternative: Just monkey patch manually for clarity.
-            pass
-
-        # Manual Patching for stability
-        original_sediment_init = SedimentLayer.__init__
-
-        def safe_sediment_init(instance, filepath):
-            # Force temp path regardless of what Merkaba asks for
-            original_sediment_init(instance, temp_sediment_path)
-
-        SedimentLayer.__init__ = safe_sediment_init
+        PrismaticSediment.__init__ = safe_prism_init
 
         # Mock save_chronicle to do nothing (or save to temp if we cared)
         original_save_chronicle = LinguisticSynthesizer.save_chronicle
@@ -220,7 +241,7 @@ class BenchmarkSuite:
 
         finally:
             # Restore
-            SedimentLayer.__init__ = original_sediment_init
+            PrismaticSediment.__init__ = original_prism_init
             LinguisticSynthesizer.save_chronicle = original_save_chronicle
 
     def generate_report(self):

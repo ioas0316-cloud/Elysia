@@ -1,6 +1,6 @@
 # [CORE] Performance Benchmark Report
 
-**Date:** 2026-01-19 20:25:11
+**Date:** 2026-01-19 20:57:43
 **Environment:** Sandbox (CPU/NumPy)
 
 ## 1. Summary
@@ -11,26 +11,33 @@ This document details the performance characteristics of the Elysia Core archite
 ### PRISM
 | Metric | Result |
 | :--- | :--- |
-| Depth 3 Traversal | 4.9130 ms per pulse |
-| Depth 5 Traversal | 261.2619 ms per pulse |
+| Depth 3 Traversal | 7.0219 ms per pulse |
+| Depth 5 Traversal | 263.5624 ms per pulse |
 
 ### PHYSICS
 | Metric | Result |
 | :--- | :--- |
-| Diffraction Scan (N=1000) | 0.1051 ms |
-| Diffraction Scan (N=10000) | 0.2601 ms |
-| Diffraction Scan (N=100000) | 5.7170 ms |
+| Diffraction Scan (N=1000) | 0.1042 ms |
+| Diffraction Scan (N=10000) | 0.4375 ms |
+| Diffraction Scan (N=100000) | 9.4764 ms |
 
 ### SEDIMENT
 | Metric | Result |
 | :--- | :--- |
-| Write Speed | 2516.31 ops/sec (128B payloads) |
-| Linear Scan (N=1000) | 11.7481 ms |
+| Write Speed | 2701.61 ops/sec (128B payloads) |
+| Linear Scan (N=1000) | 7.6833 ms |
+
+### PRISM_SEDIMENT
+| Metric | Result |
+| :--- | :--- |
+| Distributed Write Speed | 11787.05 ops/sec |
+| Spectral Scan (N=1000) | 1.2343 ms |
+| -> Note | Should be significantly faster than Linear Scan due to O(N/7) search space. |
 
 ### MERKABA
 | Metric | Result |
 | :--- | :--- |
-| Average Pulse Latency | 0.65 ms |
+| Average Pulse Latency | 0.64 ms |
 
 ## 3. Bottleneck Analysis
 Based on the data above:

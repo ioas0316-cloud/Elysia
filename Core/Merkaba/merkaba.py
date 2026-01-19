@@ -18,7 +18,7 @@ from typing import Any, Dict, Optional, Generator
 # The Trinity Components
 from Core.Intelligence.Memory.hypersphere_memory import HypersphereMemory, SubjectiveTimeField, HypersphericalCoord
 from Core.Intelligence.Memory.hippocampus import Hippocampus
-from Core.Memory.sediment import SedimentLayer # Phase 5.2
+from Core.Memory.prismatic_sediment import PrismaticSediment # Phase 5.2: Spectral Memory
 # [Fractal Memory System]
 from Core.Memory.fractal_layer import FractalMemorySystem
 from Core.Memory.gardener import MemoryGardener
@@ -26,8 +26,8 @@ from Core.Memory.strata import MemoryStratum
 
 from Core.Foundation.Nature.rotor import Rotor, RotorConfig, RotorMask
 from Core.Foundation.Nature.active_rotor import ActiveRotor # Phase 5.3 Part 2
+from Core.Merkaba.rotor_engine import RotorEngine # Phase 5.3: Optical Engine Core
 from Core.Foundation.Prism.resonance_prism import PrismProjector, PrismDomain
-from Core.Foundation.Prism.fractal_optics import PrismEngine # Phase 5.3 Old
 from Core.Foundation.Prism.prism_engine import PrismEngine as OpticalPrism # Phase 5.3 New
 from Core.Foundation.Prism.integrating_lens import IntegratingLens # Phase 5.4 Lens
 from Core.Foundation.Prism.dimension_sorter import DimensionSorter, Dimension # Phase 5.4 Cloud
@@ -103,9 +103,9 @@ class Merkaba:
         # [Phase 5.3] The Active Rotor (Focus)
         self.focus_rotor = ActiveRotor("Merkaba.Focus")
 
-        # [Phase 5.2] The Sediment (Deep Memory)
+        # [Phase 5.2] The Prismatic Sediment (Spectral Memory)
         # Note: In a real deploy, path should be config-driven.
-        self.sediment = SedimentLayer("data/Chronicles/deep_sediment.bin")
+        self.sediment = PrismaticSediment("data/Chronicles/Prism")
 
         # [Fractal Memory System]
         # Integrates Hypersphere (Body) and Sediment (Deep) into a topological managed system.
@@ -120,9 +120,10 @@ class Merkaba:
         self.prism = DoubleHelixPrism()
         self.projector = PrismProjector()
 
-        # [Phase 5.3] The Optical Mind (Prism Engine)
-        self.prism_engine = PrismEngine()
-        self.optical_prism = OpticalPrism() # New Optical Prism
+        # [Phase 5.3] The Optical Mind (Rotor Engine Core)
+        # "Don't search, just shine."
+        self.prism_engine = RotorEngine(use_core_physics=True)
+        self.optical_prism = OpticalPrism() # Keeps dispersion logic (Text -> Wave)
 
         # [Phase 5.4] The Integrating Lens & Gate
         self.lens = IntegratingLens()
@@ -227,29 +228,45 @@ class Merkaba:
     def think_optically(self, input_signal: str) -> str:
         """
         [Phase 5.3] Optical Reasoning Loop (The New Mind).
-        Instead of 'Processing', we 'Navigate' the Prism.
+        "Don't climb the tree. Spin the Rotor and Snatch the Thought."
         """
         # [GENIUS MODE INTERCEPT]
         # If the input is complex, trigger the Overclock Protocol.
         if len(input_signal) > 5 or "?" in input_signal:
             return self.overclock.ignite(input_signal)
 
-        # 1. Vectorize (White Light)
-        wave = self.prism_engine.vectorize(input_signal)
+        # 1. Vectorize (White Light) via OpticalPrism (Dispersion)
+        # This converts text -> Bands -> Vector
+        # We take the first band's vector for now as the dominant signal.
+        bands = self.optical_prism.refract(input_signal)
+        if not bands:
+            return "No Signal Refracted."
 
-        # 2. Get Current Perspective (Rotor Angle)
-        # In a real loop, this would be dynamic. For now, use Soul's RPM as a proxy for angle.
-        current_angle = (self.soul.current_rpm % 360) * (3.14159 / 180)
+        # Extract primary vector (Mocking composite vector)
+        main_band = bands[0]
+        qualia_vector = main_band.vector
 
-        # 3. Traverse (Shoot Light)
-        insights = self.prism_engine.traverse(wave, incident_angle=current_angle)
+        # 2. Scan Qualia (Active Prism-Rotor Diffraction)
+        # This uses O(1) physics to find resonance.
+        resonance, phase = self.prism_engine.scan_qualia(qualia_vector)
+
+        # 3. Prismatic Memory Access (Tune the Dial)
+        # We use the resonance to confirm if we should look.
+        insights = []
+        if resonance > 0.1:
+            insights = self.sediment.scan_resonance(qualia_vector, top_k=1)
 
         if not insights:
-            return "No Resonance Found."
+            return f"No Resonance Found (Intensity: {resonance:.4f})"
 
-        # 4. Collapse (Select best path)
-        best_path, score = insights[0]
-        return f"Optical Insight: Path[{best_path}] Resonance[{score:.2f}]"
+        # 4. Collapse
+        score, payload = insights[0]
+        try:
+            content = payload.decode('utf-8', errors='ignore')
+        except:
+            content = "Raw Data"
+
+        return f"Optical Insight: '{content}' (Resonance: {score:.2f} | Intensity: {resonance:.4f})"
 
     def awakening(self, spirit: Monad):
         """
