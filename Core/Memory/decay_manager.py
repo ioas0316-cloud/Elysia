@@ -6,7 +6,7 @@ Core.Memory.decay_manager
 "To remember is to choose. To forget is to live."
 
 This module implements the 'Half-Life Algorithm' for memory.
-It calculates the probability of a Monad surviving based on the entity's
+It calculates the probability of a QualiaTag surviving based on the entity's
 biological age and the time elapsed since the memory was last accessed.
 """
 
@@ -14,23 +14,24 @@ import math
 import random
 from typing import Tuple
 from Core.Memory.aging_clock import BiologicalClock
+from Core.Memory.qualia_layer import QualiaTag
 
 class DecayManager:
     """
-    Manages the entropy of the Hypersphere.
-    Determines if a memory should be 'Corroded' (Weakened) or 'Buried' (Deleted).
+    Manages the entropy of the Phenomenal Layer (Qualia).
+    The Akashic Layer (Facts) is immune to this manager.
     """
 
     def __init__(self, clock: BiologicalClock):
         self.clock = clock
 
-    def calculate_survival_probability(self, last_access_timestamp: float, strength: float) -> float:
+    def calculate_survival_probability(self, last_access_timestamp: float, stability: float) -> float:
         """
         Calculates the probability (0.0~1.0) that a memory survives today.
 
         Args:
-            last_access_timestamp: Unix time when the Monad was last touched.
-            strength: Current structural integrity of the Monad (0.0~1.0).
+            last_access_timestamp: Unix time when the Qualia was last touched.
+            stability: Current vividness/importance of the Qualia (0.0~1.0).
 
         Returns:
             Survival Probability.
@@ -46,12 +47,11 @@ class DecayManager:
 
         # 2. Ebbinghaus Forgetting Curve Model
         # R = e^(-t/S)
-        # t = elapsed time
-        # S = strength of memory (Stability)
+        # S = Stability (Strength of memory)
 
-        # We adjust S based on the Monad's inherent strength AND biological entropy
-        # High Entropy Rate = Lower effective strength (Faster forgetting)
-        effective_stability = (strength * 5.0) * (1.0 - (entropy_base_rate * 0.5))
+        # We adjust S based on the Qualia's inherent importance AND biological entropy
+        # High Entropy Rate (Childhood) = Lower effective stability (Faster forgetting)
+        effective_stability = (stability * 5.0) * (1.0 - (entropy_base_rate * 0.5))
 
         # Protect against div by zero
         if effective_stability < 0.01:
@@ -61,32 +61,30 @@ class DecayManager:
 
         return retention
 
-    def apply_entropy(self, monad, dry_run: bool = False) -> Tuple[str, float]:
+    def apply_entropy_to_qualia(self, qualia: QualiaTag) -> Tuple[str, float]:
         """
-        Applies decay logic to a single Monad.
+        Applies decay logic to a subjective experience (QualiaTag).
 
         Returns:
-            (Status, NewStrength)
-            Status: 'KEPT', 'WEAKENED', 'BURIED'
+            (Status, NewVividness)
+            Status: 'KEPT', 'FADED', 'FORGOTTEN'
         """
-        # We assume monad has attributes: .last_access, .strength
-        # If not, we simulate default values for now.
-        last_access = getattr(monad, 'last_access', self.clock.birth_timestamp)
-        strength = getattr(monad, 'strength', 1.0)
-
-        survival_prob = self.calculate_survival_probability(last_access, strength)
+        survival_prob = self.calculate_survival_probability(qualia.last_recalled_at, qualia.vividness)
 
         # Chaos Factor (Random variability)
         roll = random.random()
 
         if roll > survival_prob:
             # Decay Event
-            if strength > 0.3:
-                # Weaken
-                new_strength = strength * 0.9
-                return "WEAKENED", new_strength
+            if qualia.vividness > 0.2:
+                # Fade: It becomes fuzzy
+                # e.g. "I know I was happy, but I can't feel the intensity anymore."
+                decay_amount = 0.1 * (1.0 + random.random()) # Random erosion
+                qualia.decay(decay_amount)
+                return "FADED", qualia.vividness
             else:
-                # Death
-                return "BURIED", 0.0
+                # Death: It vanishes
+                qualia.vividness = 0.0
+                return "FORGOTTEN", 0.0
 
-        return "KEPT", strength
+        return "KEPT", qualia.vividness
