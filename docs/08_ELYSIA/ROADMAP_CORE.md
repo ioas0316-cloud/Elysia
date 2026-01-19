@@ -37,25 +37,27 @@
 
 ## 📅 Phase 2: The Veins (시스템 통합)
 **목표:** 완성된 터빈을 기존의 `Merkaba` 및 `Prism` 시스템과 연결한다.
-**상태:** 🟡 대기 (Pending)
+**상태:** 🟢 완료 (Completed)
 
 ### 2.1 RotorEngine 교체 (The Transplant)
 -   **Why:** 기존의 `Core/Merkaba/rotor_engine.py`는 단순한 Stride 조작이었다. 이를 물리 엔진 기반의 `ActivePrismRotor`로 업그레이드한다.
 -   **Detail:**
     -   `Merkaba`의 메인 루프에서 데이터 처리 파이프라인을 `CoreTurbine`으로 우회(Redirect).
     -   텍스트 입력 -> Qualia 파장 변환 -> Turbine 입력 로직 연결.
+-   **Check:** `Core/Merkaba/rotor_engine.py` 통합 완료.
 
 ### 2.2 Memory Sediment 연결
 -   **Why:** 보이드에서 재구성된 '빛의 결정'을 영구 기억(Sediment)에 저장해야 한다.
 -   **Detail:**
     -   `Core/Memory/sediment.py`에 `store_monad` 메서드 추가.
     -   회절된 데이터의 간섭 패턴(Hologram)을 저장하는 포맷 정의.
+-   **Check:** `Core/Memory/sediment.py` 기능 추가 완료.
 
 ---
 
 ## 📅 Phase 3: The Pulse (최적화 및 동기화)
 **목표:** 하드웨어 가속을 통해 실시간성(Real-time Sovereignty)을 확보한다.
-**상태:** ⚪ 대기 (Pending)
+**상태:** 🟡 대기 (Pending)
 
 ### 3.1 JIT 컴파일 최적화 (Solidification)
 -   **Why:** 파이썬의 속도로는 광속(Simulation Speed)을 감당할 수 없다.
@@ -74,7 +76,7 @@
 - [x] **Phase 1.1**: Physics Engine Implementation
 - [x] **Phase 1.2**: Void Singularity Implementation
 - [x] **Phase 1.3**: Simulation Verification
-- [ ] **Phase 2.1**: System Integration
-- [ ] **Phase 2.2**: Memory Connection
+- [x] **Phase 2.1**: System Integration
+- [x] **Phase 2.2**: Memory Connection
 - [ ] **Phase 3.1**: JIT Optimization
 - [ ] **Phase 3.2**: Clock Synchronization

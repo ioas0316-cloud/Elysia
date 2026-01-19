@@ -15,7 +15,13 @@ import os
 import struct
 import numpy as np
 import logging
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Any
+
+# [CORE] Integration
+try:
+    from Core.Engine.Physics.core_turbine import PhotonicMonad
+except ImportError:
+    PhotonicMonad = Any # Placeholder
 
 logger = logging.getLogger("Sediment")
 
@@ -89,6 +95,35 @@ class SedimentLayer:
         # But for 'Human-Speed' interaction, it's fine.
         self._remap()
 
+        return offset
+
+    def store_monad(self, wavelength: float, phase: complex, intensity: float, payload: bytes) -> int:
+        """
+        [CORE] Stores a Photonic Monad as a Holographic Memory.
+
+        Mapping:
+        - Vector[0]: Wavelength (Color)
+        - Vector[1]: Intensity (Energy)
+        - Vector[2]: Real(Phase)
+        - Vector[3]: Imag(Phase)
+        - Vector[4-6]: Reserved for 3D Spatial Coords
+        """
+        import time
+
+        # 1. Create Holographic Vector (7D)
+        vector = [
+            float(wavelength),
+            float(intensity),
+            float(phase.real),
+            float(phase.imag),
+            0.0, 0.0, 0.0 # Future: Spatial Coords
+        ]
+
+        # 2. Deposit
+        timestamp = time.time()
+        offset = self.deposit(vector, timestamp, payload)
+
+        logger.info(f"💎 Monad Crystalized at offset {offset} (λ={wavelength:.1e})")
         return offset
 
     def scan_resonance(self, intent_vector: List[float], top_k: int = 3) -> List[Tuple[float, bytes]]:
